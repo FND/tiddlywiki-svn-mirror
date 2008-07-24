@@ -53,8 +53,12 @@ describe('TTReportBuilder : paramStringGetter', {
 	'it should return the paramString text from a tiddler when give the macro name' : function() {
 		var expected, actual;
 		for (var t=0; t < resultStings.length; t++) {
+			test_mock.before('Story.prototype.getTiddlerText',function(tiddler){
+				return tiddlerText[tiddler];
+			});
 			expected = resultStings[t];
-			actual = config.macros.TTReportBuilder.paramStringGetter(tiddlerText[t],"dummyMacro");	
+			actual = config.macros.TTReportBuilder.paramStringGetter(t,"dummyMacro");
+			test_mock.after();
 			value_of(expected).should_be(actual);
 		};
 	}
