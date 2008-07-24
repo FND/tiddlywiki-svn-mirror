@@ -1,7 +1,7 @@
 <div title="Welcome" modifier="PhilWhitehouse" created="200711291952">
 <pre><<browser is IE>><<tiddler LoginToConfabb>>
 >>
-Welcome to the Confabb ~NoteShare! When you open this document for the first time, the agenda will be downloaded from the server automatically, followed by any notes which your fellow attendees have already shared. Add notes of your own, and these will be shared automatically. The document will check the server occasionally to see if any new notes have been added.
+Welcome to the [[Confabb]] NoteShare! When you open this document for the first time, the agenda will be downloaded from the server automatically, followed by any notes which your fellow attendees have already shared. Add notes of your own, and these will be shared automatically. The document will check the server occasionally to see if any new notes have been added.
 
 To add a note, simply click on the agenda item on the left hand side, and then click on 'make note'. When you're finished, click on done, and the document will save automatically.
 
@@ -12,5 +12,4 @@ To add a note, simply click on the agenda item on the left hand side, and then c
 >><<browser is Opera>>''Note:'' We see you're using Opera. We need you to download one more file, and keep it in the same directory as this file, then everything will be tickety-boo. You can download this file from [[here|http://www.tiddlywiki.com/TiddlySaver.jar]].
 
 >><<browser is Safari>>''Note:'' We see you're using Safari. We need you to download one more file, and keep it in the same directory as this file. Then everything will be tickety-boo. You can download this file from [[here|http://www.tiddlywiki.com/TiddlySaver.jar]].
->></pre>
-</div>
+>>If you are having problems then [[Help]] is at hand, and if you have any further questions, they may be answered by our [[FAQ]].</pre></div>

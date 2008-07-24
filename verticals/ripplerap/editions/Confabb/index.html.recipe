@@ -16,11 +16,16 @@ tiddler: Edition.js
 #  Confabb edition content
 #
 tiddler: DefaultTiddlers.tiddler
+tiddler: MainMenu.tiddler
 tiddler: Welcome.tiddler
 tiddler: Help.tiddler
 tiddler: FAQs.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: Sharing_settings.tiddler
+tiddler: Confabb.tiddler
+tiddler: NoteShare.tiddler
+tiddler: NoteShareDevelopers.tiddler
+tiddler: NoteSharePlugins.tiddler
 
 #
 #  Setup Confabb specific configuation based on the conference URI

@@ -40,15 +40,16 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: BackstageMod.tiddler
 
 # Documentation
-tiddler: Help.tiddler
-tiddler: Setup_Instructions.tiddler
-tiddler: FAQs.tiddler
-tiddler: CamelCase.tiddler
 tiddler: Double_square_brackets.tiddler
-tiddler: Formatting_TiddlyWikis.tiddler
 tiddler: Safari_and_Opera_configuration.tiddler
 tiddler: Sharing_settings.tiddler
+tiddler: Formatting_TiddlyWikis.tiddler
+tiddler: CamelCase.tiddler
 tiddler: TiddlyWiki.tiddler
+tiddler: Osmosoft.tiddler
+tiddler: RippleRap.tiddler
+tiddler: RippleRapPlugins.tiddler
+tiddler: License.tiddler
 
 # empty tiddler for tags, automatically brings in tagging macro
 tiddler: speaker.tiddler

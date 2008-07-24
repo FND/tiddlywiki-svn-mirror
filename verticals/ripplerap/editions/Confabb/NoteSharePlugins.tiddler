@@ -1,0 +1,6 @@
+<div title="NoteSharePlugins" modifier="PaulDowney" created="200711291952">
+<pre>NoteShare is a TiddlyWiki bundled with the [[RippleRapPlugins]] and the following [[Confabb]] specific plugins:
+*RippleRapConfabbPlugin initialises RippleRap to use [[Confabb]] conference specific configuation. 
+*ConfabbAgendaAdaptorPlugin downloads and parses the conference agenda from [[confabb.com|http://confabb.com]].
+*ConfabbNotesAdaptorPlugin is used to post notes back to [[confabb.com|http://confabb.com]].
+Confabb protects the Agenda and notes using cookie/session based authentication. If authentication fails, then the LoginToConfabb tiddler is displayed. Username and passwords are exchanged using the ConfabbLoginPlugin.</pre></div>

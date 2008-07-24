@@ -1,1 +1,3 @@
-cd ../editions/confabb-pdf && cook && ff index.html
+#cd ../editions/confabb-16074 && cook && ff index.html
+#cd ../editions/confabb-pdf && cook && ff index.html
+cd ../editions/sample && cook && ff index.html

@@ -1,0 +1,18 @@
+<div title="RippleRapPlugins" modifier="PaulDowney" created="200711291952">
+<pre>[[RippleRap]] is a TiddlyWiki bundled with the following plugins:
+*RippleRapPlugin contains RippleRap specific code.
+*AgendaTrackPlugin manages the agenda tracks.
+*SharedNotesPlugin manages the sharing of notes.
+*TickerPlugin periodically runs tasks in the background, controlled by TickerGetAgenda, TickerGetNotes, TickerPopulateNotes and TickerPutNotes.
+*TiddlerDisplayGroupsPlugin groups note tiddlers to an agenda session tiddler. The groupings are defined in the hidden settings.js section.
+*ListRelatedPlugin inserts links to notes into the agenda.
+*LinkMakerPlugin creates links to "notes by UserName" tiddlers from the agenda.
+*BackstageTiddlersPlugin adds access options such as creating a new agenda item to the backstage.
+*BrowserPlugin enables browser specific content in tiddlers.
+*RawViewMacroPlugin includes raw HTML content in a view template.
+*SingleMessagePlugin changes displayMessage to first clear existing messages.
+*PasswordOptionPlugin provides password option support.
+*TaggedTemplateTweak applies a view or edit template by tag.
+*[[_LogMessagePlugin]] optionally sends log messages to the browser console, separate window, or message area.
+*DevHelpPlugin provides options, possibly useful during testing.
+</pre></div>

@@ -7,6 +7,9 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4|
+
+http://ripplerap.com/edition?conferenceName=Personal+Democracy+Forum+2008&username=psd&type=confabb&conferenceURI=http%3A%2F%2Fconfabb.com%2Fconferences%2F60420
+
 ***/
 
 //{{{
