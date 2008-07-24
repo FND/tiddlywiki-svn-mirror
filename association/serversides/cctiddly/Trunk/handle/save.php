@@ -45,7 +45,7 @@ $tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
 		
 if(isset($tiddler['title']))
 {
-	// Tiddler with the same name already exisits.
+	// Tiddler with the same 	name already exisits.
 	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);
 	if( strcmp($tiddler['modified'],$_POST['omodified'])!=0 && $_POST['omodified']==0 ) {		//ask to reload if modified date differs
 //		echo "page reload required"; 

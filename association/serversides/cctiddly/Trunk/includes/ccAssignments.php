@@ -8,6 +8,8 @@ window.url = "<?php echo getURL();?>";
 window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 
+config.defaultCustomFields = {"server.host":window.url, "server.type":"ccTiddly", "server.workspace":window.workspace};
+
 
 <?php
 if($theme == "simple")
@@ -126,8 +128,11 @@ var serverside={
 	fn:{}		//server-side function
 };
 
-config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};
+// TODO : which to use? neither seem to work. 
 
+config.defaultCustomFields = {"server.host":window.url, "server.type":"ccTiddly", "server.workspace":window.workspace};
+
+config.defaultAdaptor = 'cctiddly';
 
 merge(config.optionsDesc,{
 	txtUserName: "",

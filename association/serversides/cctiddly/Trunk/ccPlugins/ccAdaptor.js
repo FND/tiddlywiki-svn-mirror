@@ -195,12 +195,11 @@ ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 	context = this.setContext(context,userParams,callback);
 	if(title)
 		context.title = title;
-	var uriTemplate = '%0handle/getTiddler.php?title=%2&workspace=%1';
-	//   if(context.revision) {
-	//           var uriTemplate = '%0recipes/%1/tiddlers/%2/revisions/%3';
-	//  } else {
-	//           uriTemplate = '%0recipes/%1/tiddlers/%2';
-	//  }
+	   if(context.revision) {
+	         var uriTemplate = '%0handle/revisionDisplay.php?title=%2&workspace=%1&revision=%3';
+	  } else {
+			var uriTemplate = '%0handle/getTiddler.php?title=%2&workspace=%1';
+	  }
 	
 	uri = uriTemplate.format([context.host,context.workspace,ccTiddlyAdaptor.normalizedTitle(title),context.revision]);
 	context.tiddler = new Tiddler(title);
@@ -216,6 +215,7 @@ ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 ccTiddlyAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
         context.status = false;
+console.log(responseText);
         context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
         if(status) {
                 var info=[]
@@ -343,7 +343,6 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
 
-	displayMessage("asd");
         if(status) {
                 context.status = true;
         } else {

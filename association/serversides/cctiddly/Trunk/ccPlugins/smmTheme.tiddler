@@ -12,10 +12,12 @@
 |''~StyleSheet:''|##StyleSheet|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
 ***/
 
 !PageTemplate
-<!--{{{--><div class='header' macro='gradient vert #F00 #E00'>
+<!--{{{--><div class='header' macro='gradient vert '>
 <div class='headerShadow'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
@@ -53,13 +55,21 @@ background: #111;
 	background-color:red;
 }
 
+#messageArea {
+	background-color:#333;
+}
+
+#messageArea .button {
+	background:none;
+}
+
 
 h1 {
 color:white;
 }
 #contentWrapper{
 margin: 2.5em auto;
-width:759px;
+width:850px;
 line-height: 1.6em;
 border:1px solid #111;
 font-size: 11px;
@@ -116,6 +126,11 @@ color:#999;
 }
 
 
+.tiddlerDisplay .editor input {
+	background-color:red;
+}
+
+
 /*{{{*/
 #sidebar, #sidebarTabs	 {position:relative;float:right; line-height: 1.4em; border-left:0px solid#000; display:inline; background:#1; right:0; 
 width: 16em;}
@@ -148,7 +163,7 @@ margin:0.5em 0em;
 padding:0.3em 0.6em;
 }
 
-#tiddlerDisplay .toolbar a.button, #sidebarOptions a{
+#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a{
 	background-color:#111111;
 	color:#999;
 	border:1px solid #111;
@@ -191,8 +206,9 @@ SidebarTabs
 
 
 .tiddler .button {
+	
 	padding:0.4em 0.9em 0.4em 0.9em;
-	margin:3px;
+	margin:0px 0px 0px 7px;
 }
 
 
@@ -308,53 +324,10 @@ border: 1px solid #111;
 border: none; background:transparent; text-decoration:underline; color:#333;
 }
 
-.popup {
-background: #999;
-border: 1px solid #999;
-}
-
-.popup li.disabled {
-color: #000;
-}
-
-.popup li a, .popup li a:visited {
-color: #eee;
-border: none;
-}
-
-.popup li a:hover {
-background: #6F6A68;
-color: #fff;
-border: none;
-}
-
-a:hover {
-	background-color:transparent;
-}
 
 .tiddler {
 padding-bottom: 40px;
 /*border-bottom: 1px solid #999; */
-}
-
-#messageArea {
-border: 4px solid #999;
-background: #f5f5f5;
-color: #999;
-font-size:90%;
-}
-
-#messageArea a:hover {background:#f5f5f5; border:none;}
-
-#messageArea .button{
-color: #666;
-border: 1px solid #CC6714;
-}
-
-#messageArea .button:hover {
-color: #fff;
-background: #1111;
-border-color: #999;
 }
 
 .viewer blockquote {
@@ -366,10 +339,20 @@ border: 2px solid #888;
 }
 
 .viewer th, thead td {
-background: #888;
-border: 1px solid #888;
+background: #333;
+border:none;	
 color: #fff;
 }
+
+.viewer table {
+border:1px dotted #333;
+}
+
+table.twtable {
+border-collapse:seperate;
+}
+
+
 .viewer pre {
 border: 1px solid #999;
 background: #f5f5f5;
@@ -420,8 +403,13 @@ background-color:transparent;
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {border:0px solid #666666;}
 .wizardFooter { padding : 0em 0em 1em 2em; background:#222; font-size:10px; font-weight:bold;}   
 .wizardStep {border:none; background-color:none; } 
-.wizard { padding:0px border:1px solid #EBE6F5; background:white;}
-.wizard  th{background:#EEEEEE; color:#888888;};
+.wizard { border:1px solid #EBE6F5;}
+.wizard  th{
+	background:#333;
+	color:#888;
+	padding:3px;
+	margin:40px;
+};
 .wizard, listView twtable {border:0px; };
 
 
@@ -441,7 +429,7 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {border:0px solid #66666
 	background:#222;
 	margin:2em;
 	border:0px;
-	border:1px dotted #999;
+	border:1px dotted #333;
 	color:#999999;
 }
 .wizard h1{
@@ -497,6 +485,10 @@ left:0px;
 display:none;	
 }
 
+.title {
+color:#C0C0C0;
+padding:10px;
+}
 
 
 /*}}}*/
@@ -530,7 +522,7 @@ display:none;
 	<table>
 	<tr>
 		<td class='taskbody' width=100% height=100%><div class='viewer edit' macro='edit text wikified'></div></div></td>
-		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+		<td class='taskControls' valign=top><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
 	</tr>
 	</table>
 </div>
@@ -539,6 +531,27 @@ display:none;
 <div class='tagClear'></div>
 </div>
 <!--}}}-->
+
+
+
+!EditTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagClear'></div>
+<!--}}}-->
+
 
 
 </pre>

@@ -30,9 +30,8 @@
 		//returnResult("013");
 		sendHeader(204,$ccT_msg['error']['revision_not_found'],"",1);
 	}
-	
-	$title = formatParametersGET($_GET['title']);
-	$revision = formatParametersGET($_GET['revision']);
+	$title = formatParametersGET($_REQUEST['title']);
+	$revision = formatParametersGET($_REQUEST['revision']);
 	
 //////////////////////////////////////////////////////////start of code//////////////////////////////////////////////////////////////
 
@@ -50,15 +49,8 @@
 	foreach( $tiddler_list as $t ) {
 		if( $revision == $t['revision'] ) {		//if revision equals, check privilege
 			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) ) {	//if read privilege ok, output
-				$output = $title."\n";
-				$output .= $t['title']."\n";
-				$output .= $t['body']."\n";
-				$output .= $t['modifier']."\n";
-				$output .= $t['modified']."\n";
-				$output .= $tiddler['created']."\n";
-				$output .= $t['tags']."\n";
-				$output .= $t['revision']."\n";
-				$output .= $t['fields'];
+			
+				echo '{"created":"'.$t['created'].'", "text":"'.htmlspecialchars($t['body']).'", "tags":"'.$t['tags'].'", "modified":"'.$t['modified'].'", "bag":"", "title":"METITLE", "modifier":"'.$t['modifier'].'", "revision":'.$t['revision'].'}';
 				sendHeader(200,"", $output,1);
 				//returnResult("007");
 			}else{		//if no read privilege, stop

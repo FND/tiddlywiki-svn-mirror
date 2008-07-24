@@ -516,7 +516,7 @@ merge(config.macros.importTiddlers,{
 	readOnlyWarning: "You cannot import into a read-only TiddlyWiki file. Try opening it from a file:// URL",
 	wizardTitle: "Import tiddlers from a server",
 	step1Title: "Step 1: Locate the server or TiddlyWiki file",
-	step1Html: "Server Type: <select name='selTypes'><option value=''>Choose...</option></select><br /><br />URL or pathname: <input type='text' size=50 name='txtPath'><input type='hidden' size=50 name='txtBrowse'><br /><br />...or select a pre-defined feed: <select name='selFeeds'><option value=''>Choose...</option></select>",
+	step1Html: "Server Type: <select name='selTypes'><option value=''>Choose...</option></select><br /><br />URL: <input type='text' size=50 name='txtPath'><input type='hidden' size=50 name='txtBrowse'><br /><br />...or select a feed: <select name='selFeeds'><option value=''>Choose...</option></select>",
 	openLabel: "open",
 	openPrompt: "Open the connection to this file or server",
 	openError: "There were problems fetching the tiddlywiki file",
