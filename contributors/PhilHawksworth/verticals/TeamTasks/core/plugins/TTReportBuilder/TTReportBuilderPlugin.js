@@ -41,6 +41,8 @@ config.macros.TTReportBuilder.doAddColumn = function (ev) {
 };
 
 
+
+
 // Manipulate a paramString.
 // paramStringBuilder(string,name,value,"add"|"replace"|"delete")
 config.macros.TTReportBuilder.paramStringBuilder = function(paramString,name,value,action) {

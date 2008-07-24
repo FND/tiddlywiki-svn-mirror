@@ -15,11 +15,51 @@ function __teardownStore() {
 describe('TTReportBuilder : Handler', {
 
 	'it should create a container div.' : function() {
-		
+		var container;
+		value_of(typeof container).should_be("object");
 	}
 
 });
 
+
+describe('TTReportBuilder : paramStringGetter', {
+
+	before_each: function(){
+		__setupStore();
+		tiddlerText = [
+			"",
+			"<<dummyMacro foo:bar baz:bop>>",
+			"<<dummyMacro foo:'bar' baz:'bop'>>",
+			"wibble wobble <<dummyMacro foo:bar baz:bop>>",
+			"wibble wobble <<dummyMacro foo:bar baz:bop>> wobble wibble ",
+			"<<dummyMacro foo:bar baz:bop>> wobble wibble ",
+			"<<notTheMacroYouAreLookingFor foo:bar baz:bop>>",
+		];
+		resultStings = [
+			"",
+			"foo:bar baz:bop",
+			"foo:bar baz:bop",
+			"foo:bar baz:bop",
+			"foo:bar baz:bop",
+			""
+		];
+
+		// assuming the use of store/story getTiddlerText. Mocked.
+		// getTiddlerText = function(tiddler) {
+		// 		return tiddlerText[tiddler];
+		// 	};	
+	},
+
+	'it should return the paramString text from a tiddler when give the macro name' : function() {
+		var expected, actual;
+		for (var t=0; t < resultStings.length; t++) {
+			expected = resultStings[t];
+			actual = config.macros.TTReportBuilder.paramStringGetter(tiddlerText[t],"dummyMacro");	
+			value_of(expected).should_be(actual);
+		};
+	}
+
+});
 
 describe('TTReportBuilder : paramStringBuilder', {
 	
@@ -117,7 +157,7 @@ describe('TTReportBuilder : Results limit', {
 	},
 	
 	'it should return no more results than specified' : function() {
-		var actual = ""
+		var actual = "";
 		for(var i=0;i<limits.length;i++) {
 			actual = config.macros.TTReportBuilder.limitResults(limits[i]);
 			// assuming implementation like: paramStringBuilder(paramString,name,limits[i],"replace");
