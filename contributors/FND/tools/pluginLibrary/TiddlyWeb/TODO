@@ -1,0 +1,50 @@
+==  Aggregator ==
+
+* 404 handling
+* revision handling (don't create revision if nothing has changed => SHA-1 comparison?)
+* handling of removed plugins (e.g. don't delete, but tag with "disabled"?)
+* SVN handling
+* efficiency enhancements (e.g. caching, deferred processing)
+* blacklisting(?)
+* logging
+
+==  Serializers ==
+
+* pure-store format
+* skinny tiddlers
+
+== Search ==
+
+* parse query string
+** components: repository, tags, fields, slices, documentation, code, full-text
+* RegEx support
+* indexing
+** index contents on change (aggregator), rather than using live search?
+** free-text indexing system?
+** SQL store?
+* reuse TiddlyWeb's filtering mechanism (for tags and fields, at least)
+
+== Front-End ==
+
+* interface elements
+** search (using file adaptor to pull in results)
+** navigation menu
+** tag cloud (list loaded from server)
+** recent changes
+* save selection (=> story to store)
+* on-demand loading
+* community features
+** user tagging
+** commenting
+** rating
+** views counter
+* admin interface
+** list of repositories
+** annotations
+** switch for authors to instantly add/update a specific plugin
+
+== Unit Testing ==
+
+* aggregator
+* serializers
+* search

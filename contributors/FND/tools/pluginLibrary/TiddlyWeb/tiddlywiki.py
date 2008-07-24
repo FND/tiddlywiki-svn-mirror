@@ -72,7 +72,7 @@ class TiddlyWiki:
 		repo = normalizeURL(repo)
 		for plugin in self.store.findChildren("div", title=True):
 			slices = self.getSlices(plugin.pre.renderContents())
-			if slices.has_key("Source"): # N.B.: plugin accepted if Source slice not present
+			if slices.has_key("Source"): # N.B.: plugin accepted if Source slice not present -- harmful? (e.g. includes simple config tweaks)
 				source = normalizeURL(slices["Source"])
 				if source != repo:
 					plugin.extract()

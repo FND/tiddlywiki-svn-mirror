@@ -27,7 +27,7 @@ def getRepositories(filepath):
 	file structure:
 	* one repository per line
 	* three components per line (pipe-delimited):
-	  URI|type|name
+	  URI | type | name
 
 	@param filepath: full path to source file
 	@return: repository objects
@@ -78,7 +78,7 @@ def getPlugins(repo):
 		from tiddlyweb.importer import import_wiki
 		try:
 			html = urlopen(repo["URI"]).read() # DEBUG: caching, deferred processing?!
-		except IOError:  # DEBUG: doesn't include 404!?
+		except IOError: # DEBUG: doesn't include 404!?
 			return False # DEBUG: log error
 		bagName = repo["name"] # DEBUG: escape invalid path chars
 		# delete existing bag -- DEBUG: temporary(?) hack to circumvent excessive revision creation
