@@ -24,11 +24,13 @@ version.extensions.TeamTasksCLI = {
 	separator: "||"
 };
 
-// hijack story.saveTiddler() to extract commands
-Story.prototype.saveTiddler_TTCLI = Story.prototype.saveTiddler;
-Story.prototype.saveTiddler = function(title, minorUpdate) {
-	title = version.extensions.TeamTasksCLI.extractCommands(title);
-	return Story.prototype.saveTiddler_TTCLI.apply(this, arguments);
+// hijack story.gatherSaveFields() to extract commands from title -- DEBUG: highly inefficient (function is recursive)
+Story.prototype.gatherSaveFields_TTCLI = Story.prototype.gatherSaveFields;
+Story.prototype.gatherSaveFields = function(e, fields) {
+	Story.prototype.gatherSaveFields_TTCLI.apply(this, arguments);
+	if(fields && fields.title) {
+		fields.title = version.extensions.TeamTasksCLI.extractCommands(fields.title);
+	}
 };
 
 // hijack store.saveTiddler() to modify fields
@@ -53,7 +55,6 @@ version.extensions.TeamTasksCLI.extractCommands = function(title) {
 
 // apply commands to tiddler fields
 version.extensions.TeamTasksCLI.applyCommands = function(tiddler) {
-	console.log(tiddler.fields); // DEBUG
 	this.commands = { // DEBUG: for testing purposes only
 		tt_priority: "High",
 		tt_scope: "Work",
@@ -63,7 +64,6 @@ version.extensions.TeamTasksCLI.applyCommands = function(tiddler) {
 	for(cmd in this.commands) {
     	store.setValue(tiddler, cmd, this.commands[cmd]); // DEBUG: doesn't trigger AutoSave!?
 	}
-	console.log(tiddler.fields); // DEBUG
 };
 
 } //# end of "install only once"
