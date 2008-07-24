@@ -99,52 +99,38 @@ describe('TTReportBuilder : Results limit', {
 
 	before_each: function(){
 		__setupStore();
+		name = "limit";
+		limits = [0,1,2,3,null];
+		limitStrings = [
+			"limit:0",
+			"limit:1",
+			"limit:2",
+			"limit:3"
+		];
 	},
 
 	after_each: function(){
 		__teardownStore();
+		delete name;
+		delete limits;
+		delete limitStrings;
 	},
 	
 	'it should return no more results than specified' : function() {
-		var resultsBefore = ["1","2","3"];
-		var limit = 2;
-		var results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
-		value_of(results).should_have_at_most(limit, "items");
-		
-		limit = 8;
-		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
-		value_of(results).should_have_at_most(limit, "items");
-		
-		limit = 0;
-		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
-		value_of(results).should_have_at_most(limit, "items");
-		
-		limit = 3;
-		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
-		value_of(results).should_have_at_most(limit, "items");
-		
-		limit = null;
-		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
-		value_of(results).should_have_at_most(resultsBefore.length, "items");
-		
-		limit = undefined;
-		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
-		value_of(results).should_have_at_most(resultsBefore.length, "items");
+		var actual = ""
+		for(var i=0;i<limits.length;i++) {
+			actual = config.macros.TTReportBuilder.limitResults(limits[i]);
+			// assuming implementation like: paramStringBuilder(paramString,name,limits[i],"replace");
+			actual = actual.indexOf(limitStrings[i]);
+			value_of(actual).should_be_true();
+		}
 	},
 	
 	'it should not limit results if no value is specified' : function() {
-		var resultsBefore = ["1","2","3"];
-		limit = null;
-		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
-		value_of(results).should_have_at_most(resultsBefore.length, "items");
-		
-		limit = undefined;
-		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
-		value_of(results).should_have_at_most(resultsBefore.length, "items");
-		
-		limit = '';
-		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
-		value_of(results).should_have_at_most(resultsBefore.length, "items");
+		var actual = config.macros.TTReportBuilder.limitResults(limits[4]);
+		// assuming implementation like: paramStringBuilder(paramString,name,limits[4]);
+		actual = actual.indexOf(name+":");
+		value_of(actual).should_be_false();
 	}	
 
 });
