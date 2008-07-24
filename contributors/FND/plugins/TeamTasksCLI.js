@@ -27,7 +27,7 @@ version.extensions.TeamTasksCLI = {
 // hijack story.gatherSaveFields() to extract commands from title -- DEBUG: highly inefficient (function is recursive)
 Story.prototype.gatherSaveFields_TTCLI = Story.prototype.gatherSaveFields;
 Story.prototype.gatherSaveFields = function(e, fields) {
-	Story.prototype.gatherSaveFields_TTCLI.apply(this, arguments);
+	this.gatherSaveFields_TTCLI.apply(this, arguments);
 	if(fields && fields.title) {
 		fields.title = version.extensions.TeamTasksCLI.extractCommands(fields.title);
 	}
@@ -37,7 +37,7 @@ Story.prototype.gatherSaveFields = function(e, fields) {
 TiddlyWiki.prototype.saveTiddler_TTCLI = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title, newTitle, newBody, modifier,
 	modified, tags, fields, clearChangeCount, created) {
-	var tiddler = TiddlyWiki.prototype.saveTiddler_TTCLI.apply(this, arguments);
+	var tiddler = this.saveTiddler_TTCLI.apply(this, arguments);
 	version.extensions.TeamTasksCLI.applyCommands(tiddler);
 	return tiddler;
 };
