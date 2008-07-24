@@ -2,7 +2,7 @@
 |''Name:''|TTReportBuilderPlugin|
 |''Description:''|Provide a view of the ColorPalette that allows the user to see the color that they are specifying|
 |''Author:''|PhilHawksworth, Jon Lister|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/cores/plugins/TTReportBuilder/TTReportBuilderPlugin.js |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/TTReportBuilder/TTReportBuilderPlugin.js |
 |''Version:''|0.1|
 |''Date:''|July 18, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -34,6 +34,15 @@ config.macros.TTReportBuilder.limitResults = function(results,limit) {
 	return results.slice(0,limit);
 };
 
+
+// handle the add column button click event to add a column to this report.
+config.macros.TTReportBuilder.doAddColumn = function (ev) {
+	
+};
+
+
+// Manipulate a paramString.
+// paramStringBuilder(string,name,value,"add"|"replace"|"delete")
 config.macros.TTReportBuilder.paramStringBuilder = function(paramString,name,value,action) {
 	var params = paramString.parseParams("anon",null,false);
 	var param = [];

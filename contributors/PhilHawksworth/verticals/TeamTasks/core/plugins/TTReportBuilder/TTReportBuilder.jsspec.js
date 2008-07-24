@@ -1,11 +1,30 @@
 // <![CDATA[
 
+
+function __setupStore() {
+	store = new TiddlyWiki();
+	store.loadFromDiv("storeArea","store",true);
+	loadPlugins();
+}
+
+function __teardownStore() {
+	delete store;
+}
+
+
+describe('TTReportBuilder : Handler', {
+
+	'it should create a container div.' : function() {
+		
+	}
+
+});
+
+
 describe('TTReportBuilder : paramStringBuilder', {
 	
 	before_each: function() {
-		store = new TiddlyWiki();
-		store.loadFromDiv("storeArea","store",true);
-		loadPlugins();
+		__setupStore();
 		paramStrings = [
 			"foo:bar",
 			"",
@@ -19,7 +38,7 @@ describe('TTReportBuilder : paramStringBuilder', {
 	},
 	
 	after_each: function() {
-		delete store;
+		__teardownStore();
 		delete paramStrings;
 		delete name;
 		delete value;
@@ -79,11 +98,13 @@ describe('TTReportBuilder : paramStringBuilder', {
 describe('TTReportBuilder : Results limit', {
 
 	before_each: function(){
-		store = new TiddlyWiki();
-		store.loadFromDiv("storeArea","store",true);
-		loadPlugins();
+		__setupStore();
 	},
 
+	after_each: function(){
+		__teardownStore();
+	},
+	
 	'it should return no more results than specified' : function() {
 		var resultsBefore = ["1","2","3"];
 		var limit = 2;
@@ -124,19 +145,24 @@ describe('TTReportBuilder : Results limit', {
 		limit = '';
 		results = config.macros.TTReportBuilder.limitResults(resultsBefore, limit);
 		value_of(results).should_have_at_most(resultsBefore.length, "items");
-	},
-	
-	after_each: function(){
-		delete store;
-	}
+	}	
 
 });
 
 describe('TTReportBuilder : Add column button', {
 
+	before_each: function(){
+		__setupStore();
+	},
+	
+	after_each: function(){
+		__teardownStore();
+	},
+
 	'it should create a new column when clicked' : function() {
 		var columnsBefore = [];
 		var columnsAfter = [];
+		
 		// do stuff
 		value_of(columnsAfter.length).should_be(columnsBefore.length + 1);
 	},
