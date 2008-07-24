@@ -54,7 +54,9 @@ window.loggedIn ="1";
 }
 else{
 ?>
-config.options.txtTheme = 'simpleTheme';	
+
+setStylesheet("#sidebarOptions{display:none}#sidebar{display:none}#mainMenu {display:none}#sidebar, #sidebarTabs{display:none}", config.refreshers.styleSheet);
+//config.options.txtTheme = 'simpleTheme';	
 <?php
 }
 ?>
@@ -141,7 +143,8 @@ merge(config.optionsDesc,{
 	chkIncrementalSearch: "Incremental key-by-key searching",
 	chkAnimate: "Enable animations",
 	chkSaveBackups: "",
-	chkAutoSave: "aa",
+	chkAutoSave: "",
+	txtTheme: "Change the TiddlyWiki theme being used",
 	chkGenerateAnRssFeed: "",
 	chkSaveEmptyTemplate: "",
 	chkOpenInNewWindow: "Open external links in a new window",

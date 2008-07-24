@@ -48,15 +48,16 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 		
 		var btn = createTiddlyElement(wrapper,"input",null,"button", null, {
 			type: "button",
-			value: "Logout"
-		});
+			value: "Logout" });
 		btn.onclick = function() { alert("foo"); };
-		wrapper.appendChild(btn);
+		
 		//btn.setAttribute("type", "button");
-		//btn.onclick=function() {
-		//	alert("oh boy");
-		//	window.location = window.location+"?&amp;logout=1&amp;workspace="+window.workspace;
-		//};
+		btn.onclick=function() {
+			alert("oh boy");
+//			window.location = window.location+"?&logout=1&workspace="+window.workspace;
+		};
+		wrapper.appendChild(btn);
+
 		//btn.value="Logout";   
 		//wrapper.appendChild(btn);	
 		if (workspacePermission.owner==1)

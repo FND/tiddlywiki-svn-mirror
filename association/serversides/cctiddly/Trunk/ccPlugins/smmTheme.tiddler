@@ -94,7 +94,7 @@ Header
 font-family: 'Trebuchet MS' sans-serif;
 font-weight: bold;
 font-size: 32px;
-color:#EF680E;
+color:#DDD;
 }
 
 .siteSubtitle {
@@ -132,7 +132,7 @@ color:#999;
 
 
 /*{{{*/
-#sidebar, #sidebarTabs	 {position:relative;float:right; line-height: 1.4em; border-left:0px solid#000; display:inline; background:#1; right:0; 
+#sidebar, #sidebarTabs	 {position:relative;float:right; line-height: 1.4em; border-left:0px solid#000;  background:#1; right:0; 
 width: 16em;}
 /*}}}*/
 
