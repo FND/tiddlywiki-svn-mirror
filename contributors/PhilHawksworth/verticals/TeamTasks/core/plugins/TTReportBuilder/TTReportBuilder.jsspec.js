@@ -35,9 +35,10 @@ describe('TTReportBuilder : paramStringGetter', {
 			"<<dummyMacro foo:bar baz:bop>> wobble wibble ",
 			"<<notTheMacroYouAreLookingFor foo:bar baz:bop>>",
 		];
-		resultStings = [
+		resultStrings = [
 			"",
 			"foo:bar baz:bop",
+			"foo:'bar' baz:'bop'",
 			"foo:bar baz:bop",
 			"foo:bar baz:bop",
 			"foo:bar baz:bop",
@@ -52,14 +53,15 @@ describe('TTReportBuilder : paramStringGetter', {
 
 	'it should return the paramString text from a tiddler when give the macro name' : function() {
 		var expected, actual;
-		for (var t=0; t < resultStings.length; t++) {
-			test_mock.before('Story.prototype.getTiddlerText',function(tiddler){
+		for (var t=0; t < resultStrings.length; t++) {
+			var funcToMock = 'TiddlyWiki.prototype.getTiddlerText';
+			tests_mock.before(funcToMock,function(tiddler){
 				return tiddlerText[tiddler];
 			});
-			expected = resultStings[t];
-			actual = config.macros.TTReportBuilder.paramStringGetter(t,"dummyMacro");
-			test_mock.after();
-			value_of(expected).should_be(actual);
+			expected = resultStrings[t];
+			actual = config.macros.TTReportBuilder.paramStringGetter(""+t,"dummyMacro");
+			tests_mock.after(funcToMock);
+			value_of(actual).should_be(expected);
 		};
 	}
 

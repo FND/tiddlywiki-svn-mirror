@@ -40,7 +40,21 @@ config.macros.TTReportBuilder.doAddColumn = function (ev) {
 	
 };
 
-
+// return the paramString for a given macro in tiddler
+config.macros.TTReportBuilder.paramStringGetter = function(title,macroName) {
+	if(typeof title === 'string' && macroName) {
+		var toMatch = '<<'+macroName;
+		var text = store.getTiddlerText(title);
+		var subtext = text.substr(text.indexOf(toMatch));
+		// we just use the first suitable macro matched
+		var i = subtext.indexOf('>>');
+		var j = subtext.indexOf('\n');
+		if(i!==-1 && j<i) {
+			return subtext.substring(toMatch.length,i).trim();
+		}
+	}
+	return "";
+};
 
 
 // Manipulate a paramString.
