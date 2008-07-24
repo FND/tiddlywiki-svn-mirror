@@ -5,6 +5,8 @@ Welcome to the [[Confabb]] NoteShare! When you open this document for the first 
 
 To add a note, simply click on the agenda item on the left hand side, and then click on 'make note'. When you're finished, click on done, and the document will save automatically.
 
+If you are having problems then [[Help]] is at hand, and if you have any further questions, they may be answered by our [[FAQ]].
+
 <<browser is Gecko>>You may find when you run the Confabb ~NoteShare for the first time, warning messages appear - don't worry, this is normal! You'll need to grant permission for the document to save changes locally, and then you're ready to go. You can select the //Remember this decision// option to avoid seeing the dialogs in future.
 
 >><<browser is IE>>You may find when you run the Confabb ~NoteShare for the first time, warning messages appear - don't worry, this is normal! You'll need to grant permission for the document to save changes locally, and then you're ready to go.
@@ -12,4 +14,4 @@ To add a note, simply click on the agenda item on the left hand side, and then c
 >><<browser is Opera>>''Note:'' We see you're using Opera. We need you to download one more file, and keep it in the same directory as this file, then everything will be tickety-boo. You can download this file from [[here|http://www.tiddlywiki.com/TiddlySaver.jar]].
 
 >><<browser is Safari>>''Note:'' We see you're using Safari. We need you to download one more file, and keep it in the same directory as this file. Then everything will be tickety-boo. You can download this file from [[here|http://www.tiddlywiki.com/TiddlySaver.jar]].
->>If you are having problems then [[Help]] is at hand, and if you have any further questions, they may be answered by our [[FAQ]].</pre></div>
+>></pre></div>
