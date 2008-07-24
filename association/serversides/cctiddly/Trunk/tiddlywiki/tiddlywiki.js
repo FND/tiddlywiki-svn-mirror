@@ -41,7 +41,6 @@ config.tasks = {};
 config.annotations = {};
 
 // Custom fields to be automatically added to new tiddlers
-config.defaultCustomFields = {};
 
 // Messages
 config.messages = {
@@ -5572,7 +5571,9 @@ function refreshPageTemplate(title)
 		return store.tiddlerExists(title) || store.isShadowTiddler(title);
 	};
 	if(!title || !isAvailable(title))
+	{
 		title = config.refresherData.pageTemplate;
+	}
 	if(!isAvailable(title))
 		title = config.refresherData.defaultPageTemplate; //# this one is always avaialable
 	html = store.getRecursiveTiddlerText(title,null,10);

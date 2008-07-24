@@ -10,11 +10,12 @@
 |''~CoreVersion:''|2.3.0|
 |''~PageTemplate:''|##PageTemplate|
 |''~StyleSheet:''|##StyleSheet|
-
+|''~taskViewTemplate:''|##taskViewTemplate|
+|''~taskEditTemplate:''|##taskEditTemplate|
 ***/
 
 !PageTemplate
-<!--{{{--><div class='header' macro='gradient vert #111 #222 '>
+<!--{{{--><div class='header' macro='gradient vert #F00 #E00'>
 <div class='headerShadow'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
@@ -169,6 +170,9 @@ padding:3px;
 margin:3px;
 }
 
+textarea {
+	height:20em;
+}
 
 
 #sidebarOptions input {border:1px solid #999; background-color:#00000; width:10em;}
@@ -180,19 +184,16 @@ SidebarTabs
 ***/
 /*{{{*/
 #sidebarTabs {margin:0px; padding:0px}
-#sidebarTabs .tabContents {background:#111111;}
+#sidebarTabs .tabContents {
+	color:#eee;
+	background:#111111;
+	}
 
 
 .tiddler .button {
 	padding:0.4em 0.9em 0.4em 0.9em;
 	margin:3px;
-	background-color:#111111;
 }
-
-.tiddler .button:active{
-	color:#999999;
-	background-color:#999999;}
-
 
 
 #sideBarOptions .searchButton{
@@ -223,77 +224,82 @@ display:none;
 
 
 * html .viewer pre {
-margin-left: 0em;
+	margin-left: 0em;
 }
 
 * html .editor textarea, * html .editor input {
-width: 98%;
+	width: 98%;
 }
 
 a,#sidebarOptions .sliderPanel a {
-color:#EF680E;
-
-text-decoration: none;
+	color:#EF680E;
+	background-color:transparent;
 }
 
-a:hover,#sidebarOptions .sliderPanel a:hover {
-color:#EF680E;
-background-color: #fff; 
-border-bottom:1px dotted #EF680E;
+#sidebarOptions .sliderPanel a:hover {
+	color:white;
+		background-color:transparent;
 }
+
 
 .viewer .button, .editorFooter .button {
 color: #555;
 border: 1px solid #EF680E;
 }
 
-.viewer .button:hover, 
-.editorFooter .button:hover{
-	color: #fff;
-	background: #EF680E;
-	border-color: #EF680E;
+
+.button:hover {
+color: #555;
+border: 1px solid #111;
 }
 
-.viewer .button:active, .viewer .highlight,.editorFooter .button:active, .editorFooter .highlight{color:#fff; background:#DF691B;border-color:#DF691B;}
+
+.viewer .button:active, .viewer .highlight,.editorFooter .button:active, .editorFooter .highlight{
+	color:#fff; 
+	background:#DF691B;
+	border-color:#DF691B;
+}
 
 #topMenu a, #topMenu .button {
-padding: 20px 10px; border:none; font-weight:bold;
+	padding: 20px 10px;
+	border:none;
+	font-weight:bold;
 }
 
 #topMenu a:link {
-text-decoration: none;
+	text-decoration: none;
 }
 
 #topMenu a:hover, #topMenu .button:hover {
-background-color: #fff;
-color:#EF680E;
-border:none;
+	//background-color: #fff;
+	color:#EF680E;
+	border:none;
 }
 
 .tagging, .tagged {
-border: 1px solid #eee;
-background-color: #F7F7F7;
+	border: 1px solid #eee;
+	background-color: #F7F7F7;
 }
 
 .selected .tagging, .selected .tagged {
-background-color: #eee;
-border: 1px solid #BFBAB3;
+	background-color: #eee;
+	border: 1px solid #BFBAB3;
 }
 
 .tagging .listTitle, .tagged .listTitle {
-color: #bbb;
+	color: #bbb;
 }
 
 .selected .tagging .listTitle, .selected .tagged .listTitle {
-color: #666; 
+	color: #666; 
 }
 
 .tagging .button, .tagged .button {
-color:#aaa;
+	color:#aaa;
 }
 
 .selected .tagging .button, .selected .tagged .button {
-color:#BFBAB3;
+	color:#BFBAB3;
 }
 
 .highlight, .marked {background:transparent; color:#111; border:none; text-decoration:underline;}
@@ -320,6 +326,10 @@ border: none;
 background: #6F6A68;
 color: #fff;
 border: none;
+}
+
+a:hover {
+	background-color:transparent;
 }
 
 .tiddler {
@@ -381,6 +391,7 @@ border-top: dashed 1px #999;
 background:#111 none repeat scroll 0%;
 border:1px solid #111;
 border-bottom:1px solid black;
+color:#999;
 }
 
 
@@ -404,15 +415,14 @@ color: #FFFFFF;
 background-color:transparent;
 }	
 
-input { border: 1px solid #CCCCCC;}
-.wizard .button {	border:1px solid #999999; padding:3px 9px; margin:3px 9px;  background:#111111; color:#999999; }
+#sidebarOptions input { border: 1px solid #333;}
+ .button, .wizard .button {	border:1px solid #999999; padding:3px 9px; margin:3px 9px;  background:#111111; color:#999999; }
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {border:0px solid #666666;}
 .wizardFooter { padding : 0em 0em 1em 2em; background:#222; font-size:10px; font-weight:bold;}   
 .wizardStep {border:none; background-color:none; } 
 .wizard { padding:0px border:1px solid #EBE6F5; background:white;}
 .wizard  th{background:#EEEEEE; color:#888888;};
 .wizard, listView twtable {border:0px; };
-
 
 
 
@@ -434,11 +444,14 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {border:0px solid #66666
 	border:1px dotted #999;
 	color:#999999;
 }
-
-
-.viewer .wizard h1{
-	color:#999999;
+.wizard h1{
+	color:#999;
 }
+
+.wizard h2{
+	color:white;
+}
+
 body .wizardStep{
 	color:#999999;
 	border:0px;
@@ -447,8 +460,22 @@ body .wizardStep{
 	
 }
 
+body select {
+	background-color:#333;
+	border:0px;
+	padding:3px;
+	margin:4px;
+	color:white;
+}
+
 #backstagePanel {
 background:#222;
+}
+
+
+#sidebar .sliderPanel {
+	background-color:#222;
+	font-size:1em;
 }
 
 .viewer .wizardStep table {
@@ -471,7 +498,48 @@ display:none;
 }
 
 
+
 /*}}}*/
+
+!taskViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='task'>
+	<table>
+	<tr>
+		<td class='taskbody' width=100%><div class='viewer' macro='view text wikified'></div></td>
+		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+</div>
+
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!taskEditTemplate
+<!--{{{-->
+<div class="editor">
+<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='title edit' macro='edit title'></div>
+<div class='task'>
+
+	<table>
+	<tr>
+		<td class='taskbody' width=100% height=100%><div class='viewer edit' macro='edit text wikified'></div></div></td>
+		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+</div>
+<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
 
 </pre>
 </div>

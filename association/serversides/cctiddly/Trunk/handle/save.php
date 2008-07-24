@@ -36,20 +36,25 @@ $ntiddler['tags'] = formatParametersPOST($_POST['tags']);
 $ntiddler['body'] =  htmlspecialchars(utf8RawUrlDecode(formatParametersPOST($_POST['body'])));
 $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
+$oldModified = formatParametersPOST($_POST['omodified']);
 
 $tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
 
+		debug("AAAA".$_POST['modified'], 'params');
+		
+		
 if(isset($tiddler['title']))
 {
 	// Tiddler with the same name already exisits.
 	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);
-	if( strcmp($otiddler['modified'],$oldModified)!=0 ) {		//ask to reload if modified date differs
+	if( strcmp($tiddler['modified'],$_POST['omodified'])!=0 && $_POST['omodified']==0 ) {		//ask to reload if modified date differs
 //		echo "page reload required"; 
-		returnResult("012");
+//		returnResult("012");
 	}
 			//require edit privilege on new and old tags
 	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
 	{
+		$ntiddler['modified'] = $ntiddler['modified']; 
 		$ntiddler['creator'] = $otiddler['creator'];
 		$ntiddler['created'] = $otiddler['created'];
 		$ntiddler['revision'] = $otiddler['revision']+1;
@@ -61,8 +66,9 @@ if(isset($tiddler['title']))
 }else{
 	//This Tiddler does not exist in the database.
 	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) {
+
 		$ntiddler['creator'] = $ntiddler['modifier'];
-		$ntiddler['created'] = $tiddler['modified'];
+		$ntiddler['created'] = $ntiddler['modified'];
 		debug($ntiddler['modified']."MOD");
 		$ntiddler['revision'] = 1;
 		tiddler_insert_new($ntiddler);

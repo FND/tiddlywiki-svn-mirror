@@ -122,74 +122,8 @@
 	function tiddler_outputDIV($tiddler)
 	{	
 		global $tiddlyCfg;
-		echo  "<div tiddler='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision=".$tiddler["revision"]."  server.omodified='".$tiddler["modified"]."' server.host='".getURL()."' server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">".$tiddler['body']."</div>\n\r";	
+		echo  "<div tiddler='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision=".$tiddler["revision"]."  server.omodified='".$tiddler["modified"]."' server.host='".getURL()."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">".$tiddler['body']."</div>\n\r";	
 		return;	
-	}
-	
-	
-	//!	@fn array tiddler_htmlToArray($html)
-	//!	@brief convert html codes into tiddler array to use with upload
-	//!	@param $html html code of storeArea, assume already strip slashes
-	function tiddler_htmlToArray($html)
-	{	
-		debug("HTML".$html);
-		$tiddlers=preg_grep("!<div.+tiddler=!",explode("</div>",$html));		//only ones with "<div tiddler=" is accepted
-		$result = array();
-		
-		foreach($tiddlers as $tid)		//for each line of tiddler
-		{	
-			$t = $tid;
-			//first take body out
-			$r['body'] = trim(preg_replace("!(<div[^>]*>|</div>)!","",$t));
-			$t = preg_replace("!(<div |>.*</div>)!","",$t);		//take away body and begining <div tag
-		debug("r body value is ".$r['body'], "params");
-			//define useful regex
-			$reg_remove = "!([^=]*=\"|\")!";		//reg ex for removing something=" and "
-
-			//take out the rest of the info
-			$reg = "!tiddler=\"[^\"]*\"!";
-			preg_match($reg, $t, $tmp);				//obtain string from tiddler
-		 	$t = preg_replace($reg, "", $t);		//remove data from div string
-			$r['tiddler'] =trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
-			
-			$reg = "!modifier=\"[^\"]*\"!";
-			preg_match($reg, $t, $tmp);				//obtain string from tiddler
-		 	$t = preg_replace($reg, "", $t);		//remove data from div string
-			$r['modifier'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
-			
-			$reg = "!modified=\"[^\"]*\"!";
-			preg_match($reg, $t, $tmp);				//obtain string from tiddler
-			$t = preg_replace($reg, "", $t);		//remove data from div string
-			$r['modified'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
-
-			$reg = "!created=\"[^\"]*\"!";
-			preg_match($reg, $t, $tmp);				//obtain string from tiddler
-			$t = preg_replace($reg, "", $t);		//remove data from div string
-			$r['created'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
-			
-			$reg = "!tags=\"[^\"]*\"!";
-			preg_match($reg, $t, $tmp);				//obtain string from tiddler
-			$t = preg_replace($reg, "", $t);		//remove data from div string
-			$r['tags'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
-
-			$reg = "!server.page.revision=\"[^\"]*\"!";
-			preg_match($reg, $t, $tmp);				//obtain string from tiddler
-			$t = preg_replace($reg, "", $t);		//remove data from div string
-		 	$r['revision'] = trim(preg_replace($reg_remove,"",$tmp[0]));		//remove unwanted string and add to array
-			
-			//remove "temp." fields as they are temporary
-			$t = preg_replace("!temp[.][^\"]*=\"[^\"]*\"!", "", $t);
-			$t = str_replace("  ", " ", $t);		//remove double-space
-			
-			//trim and put everything into fields
-			$r['fields'] = trim($t);
-			
-			//$r = tiddler_create($r['title'], $r['body'], $r['modifier'], $r['modified'], $r['tags'], "", "", $r['created'], $r['fields'])
-			
-			//add to result array
-			$result[] = $r;
-		}
-		return $result;
 	}
 	
 	//!	@fn array tiddler_bodyEncode($body)

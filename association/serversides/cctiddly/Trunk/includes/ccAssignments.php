@@ -8,8 +8,6 @@ window.url = "<?php echo getURL();?>";
 window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 
-config.defaultCustomFields = {"server.host":window.url, "server.type":"ccTiddly", "server.workspace":window.workspace};
-
 
 <?php
 if($theme == "simple")
@@ -128,6 +126,7 @@ var serverside={
 	fn:{}		//server-side function
 };
 
+config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};
 
 
 merge(config.optionsDesc,{
@@ -137,7 +136,7 @@ merge(config.optionsDesc,{
 	chkIncrementalSearch: "Incremental key-by-key searching",
 	chkAnimate: "Enable animations",
 	chkSaveBackups: "",
-	chkAutoSave: "",
+	chkAutoSave: "aa",
 	chkGenerateAnRssFeed: "",
 	chkSaveEmptyTemplate: "",
 	chkOpenInNewWindow: "Open external links in a new window",
@@ -151,9 +150,7 @@ merge(config.optionsDesc,{
 	txtFileSystemCharSet: "Default character set for saving changes (Firefox/Mozilla only)"});
 
 
-
-
-setStylesheet(store.getRecursiveTiddlerText("ccStyleSheet",10),"ccStyleSheet");
+//setStylesheet(store.getRecursiveTiddlerText("ccStyleSheet",10),"ccStyleSheet");
 
 /*}}}*/
 </pre>
