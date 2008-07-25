@@ -25,9 +25,8 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 Crypto.strToLe32s = function(str)
 {
 	var le=[];
-	var mask = 255;
 	for(var i=0; i<str.length*8; i+=8) {
-    	le[i>>5] |= (str.charCodeAt(i/8) & mask) << (i%32);
+    	le[i>>5] |= (str.charCodeAt(i/8)&0xff)<<(i%32);
     }
 	return le;
 };
@@ -36,9 +35,8 @@ Crypto.strToLe32s = function(str)
 Crypto.le32sToStr = function(le)
 {
 	var str='';
-	var mask = 255;
 	for(var i=0; i<le.length*32; i+=8) {
-    	str += String.fromCharCode((le[i>>5] >>> (i% 2)) & mask);
+    	str += String.fromCharCode((le[i>>5]>>>(i%2))&0xff);
     }
 	return str;
 };
@@ -49,7 +47,7 @@ Crypto.le32sToHex = function(le)
 	var hex='0123456789ABCDEF';
 	var str='';
 	for(var i=0; i< le.length*4; i++) {
-		str += hex.charAt((le[i>>2] >> ((i%4)*8+4)) & 0xF) + hex.charAt((le[i>>2] >> ((i%4)*8  )) & 0xF);
+		str += hex.charAt((le[i>>2]>>((i%4)*8+4))&0xf) + hex.charAt((le[i>>2]>>((i%4)*8))&0xf);
 	}
 	return str;
 };
