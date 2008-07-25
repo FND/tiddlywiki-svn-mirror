@@ -66,6 +66,9 @@ if ((0 != strlen($conferenceURI)) && (0 != strlen($type)) && (0 != strlen($confe
 	    <label for="conferenceName">conferenceName:</label>
 	    <input type="text" id="conferenceName" name="conferenceName" value="<? echo htmlentities($conferenceName) ?>"/>
 
+	    <label for="username">username:</label>
+	    <input type="text" id="username" name="username" value="<? echo htmlentities($username) ?>"/>
+
 	    <input id="submit" type="submit" value="Download ma RippleRap"/>
 	</form>
     </body>
