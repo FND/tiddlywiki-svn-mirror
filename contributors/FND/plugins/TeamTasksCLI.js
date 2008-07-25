@@ -1,17 +1,22 @@
 /***
 |''Name''|TeamTasksCLI|
-|''Description''|command-line interface for TeamTasks|
+|''Description''|command-line interface for [[TeamTasks|http://getteamtasks.com]]|
 |''Author''|FND|
 |''Version''|0.1|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#TeamTasksCLI|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+!Usage
+When enetering a task title, use nanoformats defined in [[TTCommands]] to define task fields.
+!!Examples
+{{{
+My Task >> +High @Work #Pending u:PhilHawksworth
+}}}
 !Revision History
 !!v0.1 (2008-07-25)
 * initial release
 !To Do
-* documentation
 * efficiency enhancements
 * check for valid field values
 * seamless integration (no separation between title and markers)?
@@ -22,14 +27,15 @@ if(!version.extensions.TeamTasksCLI) {
 version.extensions.TeamTasksCLI = {
 	installed: true,
 	cfgTiddler: "TTCommands",
-	separator: "||",
+	separator: ">>",
 
 	// extract commands from tiddler title
 	extractCommands: function(title) {
-		var components = title.split(this.separator);
+		var separator = store.getTiddlerSlice(this.cfgTiddler, "Separator") || this.separator;
+		var components = title.split(separator);
 		if(components.length > 1) {
 			this.commandString = components.pop().trim();
-			title = components.join(this.separator).trim();
+			title = components.join(separator).trim();
 		}
 		return title;
 	},
@@ -50,7 +56,7 @@ version.extensions.TeamTasksCLI = {
 			var components = this.commandString.split(" "); // DEBUG: too simplistic? (does not allow multi-word commands)
 			for(var i = 0; i < components.length; i++) {
 				for(key in slices) {
-					var field = "tt_" + key.toLowerCase().substr(0, key.length-11); // DEBUG: use generic function (TeamTasks refactoring required)
+					var field = "tt_" + key.toLowerCase().substr(0, key.length - 11); // DEBUG: use generic function (requires minor refactoring in TeamTasks core)
 					var marker = slices[key];
 					var re = new RegExp(marker.escapeRE() + "(.*)"); // DEBUG: use split()?
 					var match = components[i].match(re);
@@ -64,6 +70,12 @@ version.extensions.TeamTasksCLI = {
 		}
 	}
 };
+
+config.shadowTiddlers.TTCommands = "|Separator|>>|\n"
+	+ "|ScopeDefinitions|@|\n"
+	+ "|PriorityDefinitions|+|\n"
+	+ "|StatusDefinitions|#|\n"
+	+ "|UserDefinitions|u:|";
 
 // hijack story.gatherSaveFields() to extract commands from title -- DEBUG: highly inefficient (function is recursive)
 Story.prototype.gatherSaveFields_TTCLI = Story.prototype.gatherSaveFields;
