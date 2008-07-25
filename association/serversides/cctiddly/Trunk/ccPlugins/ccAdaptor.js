@@ -315,11 +315,19 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	var d = new Date();
 	d.setTime(Date.parse(tiddler['modified']));
 	d = d.convertToYYYYMMDDHHMM();
+	
+	var fieldString = ""; 
+	for (var name in tiddler.fields) { 
+		if (String(tiddler.fields[name])) 
+			fieldString += name +"="+tiddler.fields[name]+" "; 
+	}
+
+	
 	if(tiddler.fields['server.page.revision']==1)
 		tiddler.fields['server.page.revision'] = 10000;
 	else
 		tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'])+1;
-	var payload="workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title)+"&omodified="+d+"&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier+"&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision'])+"&fields="+encodeURIComponent(tiddler.getInheritedFields())+"&body="+encodeURIComponent(tiddler.text.htmlDecode())+"";
+	var payload="workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title)+"&omodified="+d+"&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier+"&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision'])+"&fields="+encodeURIComponent(fieldString)+"&body="+encodeURIComponent(tiddler.text.htmlDecode())+"";
 		var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 	return typeof req == 'string' ? req : true;
 };

@@ -118,6 +118,7 @@ function isLoggedIn(){
 	};
 
 config.macros.ccLogin.refresh=function(place,errorMsg){
+	console.log("CHECKCHECKL");
 	var loginDivRef=document.getElementById("LoginDiv");
 	removeChildren(loginDivRef);
 	var wrapper=createTiddlyElement(place,"div");

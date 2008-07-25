@@ -55,7 +55,7 @@ window.loggedIn ="1";
 else{
 ?>
 
-setStylesheet("#sidebarOptions{display:none}#sidebar{display:none}#mainMenu {display:none}#sidebar, #sidebarTabs{display:none}", config.refreshers.styleSheet);
+//setStylesheet("#sidebarOptions{display:none}#sidebar{display:none}#mainMenu {display:none}#sidebar, #sidebarTabs{display:none}", config.refreshers.styleSheet);
 //config.options.txtTheme = 'simpleTheme';	
 <?php
 }

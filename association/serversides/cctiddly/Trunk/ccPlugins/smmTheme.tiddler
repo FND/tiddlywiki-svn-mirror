@@ -10,7 +10,10 @@
 |''~CoreVersion:''|2.3.0|
 |''~PageTemplate:''|##PageTemplate|
 |''~OptionsPanel:''|##OptionsPanel|
-|''~SideBarOptions:''|##SideBarOptions|
+
+|''~tabs:''|##tabs|
+|''~OptionsPanel:''|##OptionsPanel|
+|''~SideBarTabs:''|##SideBarTabs|
 |''~StyleSheet:''|##StyleSheet|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
@@ -19,16 +22,13 @@
 ***/
 
 !PageTemplate
-<!--{{{--><div class='header' macro='gradient vert [[ColorPalette::smmDark1]] [[ColorPalette::smmDark2]]'>
-<div class='headerShadow'>
+<!--{{{-->
+	
+<div class='header' macro='gradient vert [[ColorPalette::smmDark1]] [[ColorPalette::smmDark2]]'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 </div>
-<div class='headerForeground'>
-<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
-<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-</div>
-</div>
+
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 <div id='sidebar'>
 <div id='sidebarOptions' refresh='content' tiddler='smmTheme##SideBarOptions'></div>
@@ -38,19 +38,29 @@
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
 </div>
+
+<div id='contentFooter'  macro='gradient vert [[ColorPalette::smmDark2]] [[ColorPalette::smmDark1]]'></div>
 <!--}}}-->
 
 !OptionsPanel
 [[Help]]<br />[[Manage Users]]<br />[[Upload]]<br />
 
+!tabs
+<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
+
+!SideBarTabs
+hi
+
 !SideBarOptions
-<<search "search...">><<closeAll>><<newTiddler>><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  Login Status »' 'Login to make changes'>>
+<<search "search...">><<closeAll>><<newTiddler>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'browser »' 'View TiddlyWiki Tabs'>>
 
 !StyleSheet
 /***
 General
 ***/
 /*{{{*/
+	
+	#sidebarTabs{display:none}
 
 body {
 	background: [[ColorPalette::smmDark1]];
@@ -64,6 +74,11 @@ body {
 	background:none;
 }
 
+
+#topMenu br {display:none;}
+#topMenu {
+	
+}
 h1 {	
 	color:[[ColorPalette::smmLight2]];
 }
@@ -82,27 +97,25 @@ h1 {
 .tagClear {clear:none;}
 /*}}}*/
 
-/***
-Header
-***/
 /*{{{*/
-#header {background:[[ColorPalette::smmDark1]]; border-bottom:1px padding: 2.5em 2em 1.6em 2em; height:1%;}
 
 .siteTitle {
 font-family: 'Trebuchet MS' sans-serif;
 font-weight: bold;
+position:relative;
+top:20px;
+left :20px;
 font-size: 32px;
 color:[[ColorPalette::smmLight1]];
 }
 
 .siteSubtitle {
+padding-top:15px;
 font-size: 1.0em;
 display:block; 
 color: [[ColorPalette::smmLight3]]; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
 }
 
-
-div #mainMenu{display:none;}
 
 /*}}}*/
 
@@ -146,9 +159,26 @@ color:[[ColorPalette::smmLight3]];
 	float:none;
 }
 
-#sidebarTabs .tabsetWrapper  .tabContents {
+.sliderPanel .tabsetWrapper  .tabContents {
 	border-right:none;
 	border-color:[[ColorPalette::smmLight3]];
+	background-color:[[ColorPalette::smmDark1]];
+}
+
+
+#sidebarOptions .sliderPanel a {
+	padding:3px;
+	margin:0px;
+	border:2px;
+	background-color:[[ColorPalette::smmDark1]];
+}
+
+	
+
+
+.tabsetWrapper{	
+	left :10px;
+	position :relative;
 }
 
 
@@ -177,7 +207,7 @@ SidebarOptions
 	color:[[ColorPalette::smmLight2]];
 }
 
-.editor textarea, .editor input, input {
+.editor textarea, .editor input, input, body select {
 	border:1px solid [[ColorPalette::smmDark2]];
 	background-color:[[ColorPalette::smmDark3]];
 	color:[[ColorPalette::smmLight3]];
@@ -252,29 +282,33 @@ SidebarTabs
 	width: 98%;
 }
 
-a,#sidebarOptions .sliderPanel a {
+a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 	color:[[ColorPalette::smmHigh]];
 	background-color:transparent;
 }
 
-#sidebarOptions .sliderPanel a:hover {
+#sidebarOptions .sliderPanel a:hover, #topMenu a, #topMenu .button:hover {
 	color:[[ColorPalette::smmLight2]];
 	background-color:transparent;
 }
 
 #topMenu a, #topMenu .button {
-	padding: 20px 10px;
-	border:none;
+	padding: 5px 15px;
+	margin:9px;
+	border:1px dotted [[ColorPalette::smmLight3]];
 	font-weight:bold;
+	line-height:40px;
+	top:1em;
+	
+	color:[[ColorPalette::smmLight1]];
+	background-color:[[ColorPalette::smmDark2]];
 }
 
-#topMenu a:link {
-	text-decoration: none;
-}
+#topMenu br {display:none;}
+
 
 #topMenu a:hover, #topMenu .button:hover {
-	color:[[ColorPalette::smmHigh]];
-	border:none;
+	background-color:[[ColorPalette::smmDark2]];
 }
 
 .tagging, .tagged {
@@ -416,11 +450,9 @@ body .wizardStep{
 }
 
 body select {
-	background-color:[[ColorPalette::smmDark2]];
 	border:0px;
 	padding:3px;
 	margin:4px;
-	color:[[ColorPalette::smmLight2]];
 }
 
 #backstagePanel {
@@ -442,33 +474,38 @@ background:[[ColorPalette::smmDark2]];
 	margin:12px;
 }
 
-.header .headerForeground .headerShadow {
-dislay:none;
-}
-
-
-div .headerForeground{
-left:0px;
-display:none;	
-}
 
 .title {
 color:#C0C0C0;
 padding:10px;
 }
 
+.viewer table, table.twtable {
+border-collapse:seperated;
+border:0px;
+}
+
+.viewer th, .viewer thead td, .twtable th, .twtable thead td {
+	border:0px;
+	color:white;
+}
+
+
+table.sortable td.sortedCol {
+	background-color:[[ColorPalette::smmDark3]];
+}
 
 /*}}}*/
 
 !taskViewTemplate
 <!--{{{-->
 <div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
-<div class='title' macro='view title'>TASK ::::</div>
+<div class='title' macro='view title'>Task : </div>
 <div class='task'>
 	<table>
 	<tr>
 		<td class='taskbody' width=100%><div class='viewer' macro='view text wikified'></div></td>
-		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+		<td class='taskControls' valign='top'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
 	</tr>
 	</table>
 </div>
