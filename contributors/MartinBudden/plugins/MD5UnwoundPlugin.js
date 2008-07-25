@@ -3,7 +3,7 @@
 |''Description:''|Faster wersion of MD5 with unwound loops|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/MD5UnwoundPlugin.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Jul 25,2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -17,7 +17,7 @@ MD5UnwoundPlugin is a faster (but larger) MD5 hash algorithm with unwound loops.
 // Ensure that the MD5UnwoundPlugin is only installed once.
 if(!version.extensions.MD5UnwoundPlugin) {
 version.extensions.MD5UnwoundPlugin = {installed:true};
-
+console.log('hello');
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	{alertAndThrow("MD5UnwoundPlugin requires TiddlyWiki 2.1 or newer.");}
 
@@ -70,18 +70,21 @@ Crypto.md5 = function(x,blen)
 	if(blen==null)
 		return null;
 
-	// Add 32-bit integers,wrapping at 32 bits
+	// Add 32-bit integers, wrapping at 32 bits
 	//# Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
 	function a32(a,b)
-	,
-	//# Cryptographic round helper function. Add fout 32-bit integers,wrapping at 32 bits,then rotate left r bits
-	function AA(a,b,c,d,r)
 	{
-		b=(b>>>(32-27)|(b<<5);
-		var lsw=(a&0xFFFF)+(b&0xFFFF)+(c&0xFFFF)+(d&0xFFFF);
-		var msw=(a>>16)+(b>>16)+(c>>16)+(d>>16)+(e>>16)+(lsw>>16);
+		var lsw = (a&0xFFFF)+(b&0xFFFF);
+		var msw = (a>>16)+(b>>16)+(lsw>>16);
+		return (msw<<16)|(lsw&0xFFFF);
+	}
+	//# Cryptographic round helper function. Add fout 32-bit integers,wrapping at 32 bits,then rotate left r bits
+	function AA(q,a,b,x,k,r)
+	{
+		var lsw=(a&0xFFFF)+(q&0xFFFF)+(x&0xFFFF)+(k&0xFFFF);
+		var msw=(a>>16)+(q>>16)+(x>>16)+(k>>16)+(lsw>>16);
 		var t = (msw<<16)|(lsw&0xFFFF);
-		return (t>>>(32-r))|(t<<r);
+		return a32((t>>>(32-r))|(t<<r),b);
 	}
 	function ff(a,b,c,d,x,r,k)
 	{
