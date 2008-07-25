@@ -48,13 +48,13 @@ describe('TTReportBuilder : paramStringGetter', {
 		// assuming the use of store/story getTiddlerText. Mocked.
 		// getTiddlerText = function(tiddler) {
 		// 		return tiddlerText[tiddler];
-		// 	};	
+		// 	};
 	},
 
-	'it should return the paramString text from a tiddler when give the macro name' : function() {
-		var expected, actual;
+	'it should return the paramString text from a tiddler when given the macro name' : function() {
+		var expected, actual, funcToMock;
 		for (var t=0; t < resultStrings.length; t++) {
-			var funcToMock = 'TiddlyWiki.prototype.getTiddlerText';
+			funcToMock = 'TiddlyWiki.prototype.getTiddlerText';
 			tests_mock.before(funcToMock,function(tiddler){
 				return tiddlerText[tiddler];
 			});
@@ -63,8 +63,102 @@ describe('TTReportBuilder : paramStringGetter', {
 			tests_mock.after(funcToMock);
 			value_of(actual).should_be(expected);
 		};
+	},
+	
+	'it should return false if a macro name is not provided': function() {
+		var actual = config.macros.TTReportBuilder.paramStringGetter("");
+		value_of(actual).should_be_false();
+	},
+	
+	'it should return false if a tiddler title is not provided': function() {
+		var actual = config.macros.TTReportBuilder.paramStringGetter(null,"");
+		value_of(actual).should_be_false();
 	}
 
+});
+
+describe('TTReportBuilder : macroCallSetter', {
+	
+	before_each: function() {
+		__setupStore();
+		tiddlerText = [
+			"",
+			"<<dummyMacro foo:bar baz:bop>>",
+			"wibble wobble <<dummyMacro foo:bar baz:bop>> wobble wibble ",
+			"<<notTheMacroYouAreLookingFor foo:bar baz:bop>>",
+		];
+		newParamStrings = [
+			"",
+			"foo:blah baz:bop",
+			"foo:'blah' baz:'bop'"
+		];
+		expectedTiddlerText = [
+			[ // for tiddlerText ""
+				"<<dummyMacro>>",
+				"<<dummyMacro foo:blah baz:bop>>",
+				"<<dummyMacro foo:'blah' baz:'bop'>>"
+			],
+			[ // for tiddlerText "<<dummyMacro foo:bar baz:bop>>"
+				"<<dummyMacro>>",
+				"<<dummyMacro foo:blah baz:bop>>",
+				"<<dummyMacro foo:'blah' baz:'bop'>>"
+			],
+			[ // for tiddlerText "wibble wobble <<dummyMacro foo:bar baz:bop>> wobble wibble "
+				"wibble wobble <<dummyMacro>> wobble wibble ",
+				"wibble wobble <<dummyMacro foo:blah baz:bop>> wobble wibble ",
+				"wibble wobble <<dummyMacro foo:'blah' baz:'bop'>> wobble wibble "
+			],
+			[ // for tiddlerText "<<notTheMacroYouAreLookingFor foo:bar baz:bop>>"
+				"<<notTheMacroYouAreLookingFor foo:bar baz:bop>>",
+				"<<notTheMacroYouAreLookingFor foo:bar baz:bop>>",
+				"<<notTheMacroYouAreLookingFor foo:bar baz:bop>>"
+			]
+		];
+	},
+	
+	after_each: function() {
+		__teardownStore();
+		delete tiddlerText;
+		delete newParamStrings;
+		delete expectedTiddlerText;
+	},
+
+	'it should change the paramString of the first macro call in a tiddler matching the supplied macro name': function() {
+		var expected, actual, funcToMock, paramString, title, resultTiddlerText;
+		var macroName = "dummyMacro";
+		// assumes the use of store.saveTiddler when setting the macro call
+		funcToMock = 'TiddlyWiki.prototype.saveTiddler';
+		tests_mock.before(funcToMock,function(oldTitle,newTitle,body){
+			resultTiddlerText = body;
+		});
+		for(var i=0;i<tiddlerText.length;i++) {
+			title = ""+i;
+			for(var j=0;j<newParamStrings.length;j++) {
+				resultTiddlerText = null;
+				config.macros.TTReportBuilder.macroCallSetter(title,macroName,newParamStrings[j]);
+				actual = resultTiddlerText;
+				expected = expectedTiddlerText[i][j];
+				value_of(actual).should_be(expected);
+			}
+		}
+		tests_mock.after(funcToMock);
+	},
+	
+	'it should return false if a macro name is not provided': function() {
+		var actual = config.macros.TTReportBuilder.macroCallSetter("",null,"");
+		value_of(actual).should_be_false();
+	},
+	
+	'it should return false if a tiddler name is not provided': function() {
+		var actual = config.macros.TTReportBuilder.macroCallSetter(null,"","");
+		value_of(actual).should_be_false();
+	},
+	
+	'it should return false if a paramString is not provided': function() {
+		var actual = config.macros.TTReportBuilder.macroCallSetter("","");
+		value_of(actual).should_be_false();
+	},
+	
 });
 
 describe('TTReportBuilder : paramStringBuilder', {

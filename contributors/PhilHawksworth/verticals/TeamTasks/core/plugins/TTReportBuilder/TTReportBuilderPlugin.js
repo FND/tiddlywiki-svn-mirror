@@ -51,11 +51,17 @@ config.macros.TTReportBuilder.paramStringGetter = function(title,macroName) {
 		var j = subtext.indexOf('\n');
 		if(i!==-1 && j<i) {
 			return subtext.substring(toMatch.length,i).trim();
+		} else {
+			return "";
 		}
+	} else {
+		return false;
 	}
-	return "";
 };
 
+config.macros.TTReportBuilder.macroCallSetter = function() {
+
+};
 
 // Manipulate a paramString.
 // paramStringBuilder(string,name,value,"add"|"replace"|"delete")
