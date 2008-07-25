@@ -54,6 +54,14 @@ if ((0 != strlen($conferenceURI)) && (0 != strlen($type)) && (0 != strlen($confe
 <html>
 <head>
 <title>RippleRap Bakery</title>
+<style>
+body { background-color: #eee; font: 16px/1.5em "Lucida Grande", Geneva, Arial, Verdana, sans-serif; text-align: center; }
+form { width: 500px; text-align: left; margin: 5em auto; }
+form * { display: block; }
+input { margin: 3px 0px 20px 0px; font-size: 2em; width: 500px; }
+#submit { border-top: 1px solid white; background-color: #444; color: #fff; display: block; padding: 0.5em; }
+#submit:hover { background-color: #666; }
+</style>
 </head>
 <body>
 	<form method="GET" action="<? echo $_SERVER['REQUEST_URI']  ?>">
