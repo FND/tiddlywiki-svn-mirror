@@ -8,8 +8,20 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |''~CoreVersion:''|2.4.0|
-***/
+!Notes
+A TiddlyWiki adaptor to fetch and parse a [[Confabb]] agenda available from http://confabb.com for an example see the [[sessionlist|http://confabb.com/conferences/60420-personal-democracy-forum-2008/sessionlist]]  for [[The Personal Democracy Forum|http://confabb.com/conferences/60420-personal-democracy-forum-2008]].
 
+The XML is fetched using HTTP GET and parsed using the [[TextToXMLDOMPlugin]] and [[GetFirstElementValuePlugin]] resulting in tiddlers being created:
+*a tiddler for each agenda track, tagged "track" and the [[AgendaTrackPlugin]] AgendaTrackSessions macro.
+*a tiddler for each agenda session, tagged "session", containing session information.
+*a tiddler for each speaker, tagged "speaker"
+Fields on each tiddler are used to hold data such as the session start and finish times as well as the session and track Ids used to connect session tiddlers to tracks and vice versa.
+
+Failing to retrieve a session XML results in the LoginToConfabb tiddler being displayed, which uses the ConfabbLoginPlugin to authenticate with [[confabb.com|http://confabb.com]].
+!Options: 
+|<<option txtConfabbSessionCookie>>|session cookie set by ConfabbLoginPlugin|
+!Code
+***/
 //{{{
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.ConfabbAgendaAdaptorPlugin) {
@@ -288,11 +300,6 @@ ConfabbAgendaAdaptor.getTiddlerListComplete = function(context,userParams)
 			context.tiddlers = [];
 			context.adaptor.store.forEachTiddler(function(title,tiddler) {context.tiddlers.push(tiddler);});
 		}
-		for(var i=0; i<context.tiddlers.length; i++) {
-			//#context.tiddlers[i].fields['server.type'] = ConfabbAgendaAdaptor.serverType;
-			//#context.tiddlers[i].fields['server.host'] = ConfabbAgendaAdaptor.minHostName(context.host);
-			//#context.tiddlers[i].fields['server.page.revision'] = context.tiddlers[i].modified.convertToYYYYMMDDHHMM();
-		}
 		context.status = true;
 	}
 	if(context.callback) {
@@ -321,9 +328,6 @@ ConfabbAgendaAdaptor.prototype.getTiddler = function(title,context,userParams,ca
 ConfabbAgendaAdaptor.getTiddlerComplete = function(context,userParams)
 {
 	var t = context.adaptor.store.fetchTiddler(context.title);
-	//#t.fields['server.type'] = ConfabbAgendaAdaptor.serverType;
-	//#t.fields['server.host'] = ConfabbAgendaAdaptor.minHostName(context.host);
-	//#t.fields['server.page.revision'] = t.modified.convertToYYYYMMDDHHMM();
 	context.tiddler = t;
 	context.status = true;
 	if(context.allowSynchronous) {
