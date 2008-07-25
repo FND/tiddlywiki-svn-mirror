@@ -31,7 +31,7 @@ version.extensions.WikispacesSoapAdaptorPlugin = {installed:true};
 
 fnLog = function(text)
 {
-//	if(window.console) console.log(text.substr(0,80)); else displayMessage(text.substr(0,80));
+//	if(window.console) console.log(text); else displayMessage(text.substr(0,80));
 };
 
 function WikispacesSoapAdaptor()
