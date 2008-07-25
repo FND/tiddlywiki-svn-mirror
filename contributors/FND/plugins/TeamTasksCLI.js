@@ -8,11 +8,11 @@
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 !Revision History
-!!v0.1 (2008-07-24)
+!!v0.1 (2008-07-25)
 * initial release
 !To Do
-* parse commands
-* mapping nanoformats<->fields
+* documentation
+* efficiency enhancements
 * check for valid field values
 * seamless integration (no separation between title and markers)?
 !Code
@@ -26,10 +26,9 @@ version.extensions.TeamTasksCLI = {
 
 	// extract commands from tiddler title
 	extractCommands: function(title) {
-		this.commandString = "";
 		var components = title.split(this.separator);
 		if(components.length > 1) {
-			this.commandString = components.pop().trim().split(" "); // DEBUG: too simplistic? (does not allow multi-word commands)
+			this.commandString = components.pop().trim();
 			title = components.join(this.separator).trim();
 		}
 		return title;
@@ -39,25 +38,30 @@ version.extensions.TeamTasksCLI = {
 	applyCommands: function(tiddler) {
 		var commands = this.parseCommands();
 		for(cmd in commands) {
-			store.setValue(tiddler, cmd, commands[cmd]); // DEBUG: doesn't trigger AutoSave!?
+			store.setValue(tiddler, cmd, commands[cmd]);
 		}
 	},
 
 	// parse commands
 	parseCommands: function() {
-		var slices = store.calcAllSlices(this.cfgTiddler);
-		var commands = {};
-		this.commandString = "+High @Work #Pending u:PhilHawksworth"; // DEBUG: for testing purposes only
-		for(key in slices) {
-			var field = "tt_" + key.toLowerCase().substr(0, key.length-11); // DEBUG: use generic function (TeamTasks refactoring required)
-			var marker = slices[key];
-			var re = new RegExp(marker.escapeRE() + "(\\S+?)\\b");
-			var match = this.commandString.match(re);
-			console.log(this.commandString, re, match); // DEBUG
-			commands[field] = match ? match[1] : "";
+		if(this.commandString) {
+			var commands = {};
+			var slices = store.calcAllSlices(this.cfgTiddler);
+			var components = this.commandString.split(" "); // DEBUG: too simplistic? (does not allow multi-word commands)
+			for(var i = 0; i < components.length; i++) {
+				for(key in slices) {
+					var field = "tt_" + key.toLowerCase().substr(0, key.length-11); // DEBUG: use generic function (TeamTasks refactoring required)
+					var marker = slices[key];
+					var re = new RegExp(marker.escapeRE() + "(.*)"); // DEBUG: use split()?
+					var match = components[i].match(re);
+					if(match) {
+						commands[field] = match[1];
+					}
+				}
+			}
+			this.commandString = null;
+			return commands;
 		}
-		console.log(commands); // DEBUG
-		return commands;
 	}
 };
 
@@ -86,9 +90,7 @@ String.prototype.escapeRE = function() {
 			"/", ".", "*", "+", "?", "|",
 			"(", ")", "[", "]", "{", "}", "\\"
 		];
-		arguments.callee.sRE = new RegExp(
-			"(\\" + specials.join("|\\") + ")", "g"
-		);
+		arguments.callee.sRE = new RegExp("(\\" + specials.join("|\\") + ")", "g");
 	}
 	return this.replace(arguments.callee.sRE, "\\$1");
 };
