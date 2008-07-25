@@ -8,7 +8,7 @@
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 !Usage
-When enetering a task title, use nanoformats defined in [[TTCommands]] to define task fields.
+When entering a task title, use nanoformats defined in [[TTCommands]] to populate task fields.
 !!Examples
 {{{
 My Task >> +High @Work #Pending u:PhilHawksworth
@@ -19,7 +19,6 @@ My Task >> +High @Work #Pending u:PhilHawksworth
 !To Do
 * efficiency enhancements
 * check for valid field values
-* seamless integration (no separation between title and markers)?
 !Code
 ***/
 //{{{
