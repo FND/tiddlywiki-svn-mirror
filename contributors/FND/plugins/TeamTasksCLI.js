@@ -51,7 +51,7 @@ version.extensions.TeamTasksCLI = {
 		for(key in slices) {
 			var field = "tt_" + key.toLowerCase().substr(0, key.length-11); // DEBUG: use generic function (TeamTasks refactoring required)
 			var marker = slices[key];
-			var re = new RegExp(marker.escapeRE() + "(\S+?)\b");
+			var re = new RegExp(marker.escapeRE() + "(\\S+?)\\b");
 			var match = this.commandString.match(re);
 			console.log(this.commandString, re, match); // DEBUG
 			commands[field] = match ? match[1] : "";
