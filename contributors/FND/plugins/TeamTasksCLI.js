@@ -21,7 +21,44 @@
 if(!version.extensions.TeamTasksCLI) {
 version.extensions.TeamTasksCLI = {
 	installed: true,
-	separator: "||"
+	cfgTiddler: "TTCommands",
+	separator: "||",
+
+	// extract commands from tiddler title
+	extractCommands: function(title) {
+		this.commandString = "";
+		var components = title.split(this.separator);
+		if(components.length > 1) {
+			this.commandString = components.pop().trim().split(" "); // DEBUG: too simplistic? (does not allow multi-word commands)
+			title = components.join(this.separator).trim();
+		}
+		return title;
+	},
+
+	// apply commands to tiddler fields
+	applyCommands: function(tiddler) {
+		var commands = this.parseCommands();
+		for(cmd in commands) {
+			store.setValue(tiddler, cmd, commands[cmd]); // DEBUG: doesn't trigger AutoSave!?
+		}
+	},
+
+	// parse commands
+	parseCommands: function() {
+		var slices = store.calcAllSlices(this.cfgTiddler);
+		var commands = {};
+		this.commandString = "+High @Work #Pending u:PhilHawksworth"; // DEBUG: for testing purposes only
+		for(key in slices) {
+			var field = "tt_" + key.toLowerCase().substr(0, key.length-11); // DEBUG: use generic function (TeamTasks refactoring required)
+			var marker = slices[key];
+			var re = new RegExp(marker.escapeRE() + "(\S+?)\b");
+			var match = this.commandString.match(re);
+			console.log(this.commandString, re, match); // DEBUG
+			commands[field] = match ? match[1] : "";
+		}
+		console.log(commands); // DEBUG
+		return commands;
+	}
 };
 
 // hijack story.gatherSaveFields() to extract commands from title -- DEBUG: highly inefficient (function is recursive)
@@ -42,28 +79,18 @@ TiddlyWiki.prototype.saveTiddler = function(title, newTitle, newBody, modifier,
 	return tiddler;
 };
 
-// extract commands from tiddler title
-version.extensions.TeamTasksCLI.extractCommands = function(title) {
-	this.commands = null;
-	var components = title.split(this.separator);
-	if(components.length > 1) {
-		this.commands = components.pop().trim().split(" "); // DEBUG: too simplistic? (does not allow multi-word commands)
-		title = components.join(this.separator).trim();
+// adapted from Simon Willison (http://simonwillison.net/2006/Jan/20/escape/)
+String.prototype.escapeRE = function() {
+	if(!arguments.callee.sRE) {
+		var specials = [
+			"/", ".", "*", "+", "?", "|",
+			"(", ")", "[", "]", "{", "}", "\\"
+		];
+		arguments.callee.sRE = new RegExp(
+			"(\\" + specials.join("|\\") + ")", "g"
+		);
 	}
-	return title;
-};
-
-// apply commands to tiddler fields
-version.extensions.TeamTasksCLI.applyCommands = function(tiddler) {
-	this.commands = { // DEBUG: for testing purposes only
-		tt_priority: "High",
-		tt_scope: "Work",
-		tt_status: "Pending",
-		tt_user: "PhilHawksworth"
-	};
-	for(cmd in this.commands) {
-    	store.setValue(tiddler, cmd, this.commands[cmd]); // DEBUG: doesn't trigger AutoSave!?
-	}
+	return this.replace(arguments.callee.sRE, "\\$1");
 };
 
 } //# end of "install only once"
