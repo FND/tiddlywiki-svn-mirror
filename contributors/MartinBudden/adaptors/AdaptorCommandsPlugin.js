@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.11|
+|''Version:''|0.5.12|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -257,7 +257,9 @@ config.commands.revisions.getTiddlerRevisionCallback = function(context,userPara
 //#console.log("config.commands.getTiddlerRevisionCallback:"+context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+		//store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+		store.addTiddler(tiddler);
+		store.notify(tiddler.title,true);
 		story.refreshTiddler(tiddler.title,1,true);
 		displayMessage(config.commands.revisions.done);
 	} else {
