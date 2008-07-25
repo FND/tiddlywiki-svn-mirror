@@ -122,7 +122,7 @@
 	function tiddler_outputDIV($tiddler)
 	{	
 		global $tiddlyCfg;
-		echo  "<div tiddler='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision=".$tiddler["revision"]."  server.omodified='".$tiddler["modified"]."' server.host='".getURL()."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">\n".tiddler_bodyEncode($tiddler['body'])."\n</div>\n\r";	
+		echo  "<div tiddler='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision=".$tiddler["revision"]."  server.omodified='".$tiddler["modified"]."' server.host='".getURL()."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">".tiddler_bodyEncode($tiddler['body'])."</div>\n\r";	
 		return;	
 	}
 	

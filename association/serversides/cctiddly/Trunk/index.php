@@ -231,7 +231,7 @@ Also see AdvancedOptions</pre>
 </div>
 <div title="PageTemplate">
 <pre>&lt;!--{{{--&gt;
-&lt;div class='header' macro='gradient vert #111 #222'&gt;
+&lt;div class='header' macro='gradient vert #eee #ddd'&gt;
 &lt;div class='headerShadow'&gt;
 &lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
 &lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;

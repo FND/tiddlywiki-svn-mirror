@@ -267,7 +267,9 @@ config.commands.revisions.getTiddlerRevisionCallback = function(context,userPara
 //#console.log("config.commands.getTiddlerRevisionCallback:"+context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+		//store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+		store.addTiddler(tiddler);
+		store.notify(tiddler.title, true);
 		story.refreshTiddler(tiddler.title,1,true);
 		displayMessage(config.commands.revisions.done);
 	} else {

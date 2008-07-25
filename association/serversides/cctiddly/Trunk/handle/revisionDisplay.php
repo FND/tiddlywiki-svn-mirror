@@ -50,7 +50,7 @@
 		if( $revision == $t['revision'] ) {		//if revision equals, check privilege
 			if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) ) {	//if read privilege ok, output
 			
-				echo '{"created":"'.$t['created'].'", "text":"'.htmlspecialchars($t['body']).'", "tags":"'.$t['tags'].'", "modified":"'.$t['modified'].'", "bag":"", "title":"METITLE", "modifier":"'.$t['modifier'].'", "revision":'.$t['revision'].'}';
+				echo '{"created":"'.$t['created'].'", "text":"'.tiddler_bodyEncode($t['body']).'", "tags":"'.$t['tags'].'", "modified":"'.$t['modified'].'", "bag":"", "title":"METITLE", "modifier":"'.$t['modifier'].'", "revision":'.$t['revision'].'}';
 				sendHeader(200,"", $output,1);
 				//returnResult("007");
 			}else{		//if no read privilege, stop

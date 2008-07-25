@@ -19,8 +19,7 @@ window.cct_main = window.main
 window.main = function()
 {
 	window.cct_main();
-	window.cct_tweak();
-	refreshPageTemplate('PageTemplate');
+	//window.cct_tweak();
 	story.forEachTiddler(function(title){story.refreshTiddler(title,DEFAULT_VIEW_TEMPLATE,true);});
 	//document.title=(wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle")).htmlEncode();
 	document.title=(wikifyPlain("SiteTitle") + " - " + wikifyPlain("SiteSubtitle"));

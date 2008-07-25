@@ -228,7 +228,7 @@ console.log(responseText);
                         return;
                 }
                 context.tiddler.text = info['text'];
-                context.tiddler.tags = info['tags'];
+                context.tiddler.tags = info['tags'].split(" ");
                 context.tiddler.fields['server.page.revision'] = info['revision'];
 
                 context.tiddler.fields['omodified'] = info['modified'];
@@ -282,7 +282,7 @@ console.log('rt:'+responseText.substr(0,100));
 				var parts = revs[i].split(' ');
 				if(parts.length>1) {
 					var tiddler = new Tiddler(context.title);
-					//tiddler.modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
+					tiddler.modified = Date.convertFromYYYYMMDDHHMM(parts[0]);
 					tiddler.fields['server.page.revision'] = String(parts[1]);
 					tiddler.modifier = String(parts[2]);
 					tiddler.fields['server.host'] = ccTiddlyAdaptor.minHostName(context.host);
@@ -291,6 +291,9 @@ console.log('rt:'+responseText.substr(0,100));
 				}
 			}
 		}
+		//var s = 'server.page.revision';
+		//list.sort(function(a,b) {return a.fields[s] < b.fields[s] ? +1 : (a.fields[s] == b.fields[s] ? 0 : -1);});
+		list.sort(function(a,b) {return a.modified<b.modified?+1:-1;});
 		context.revisions = list;
 		context.status = true;
 	} else {
@@ -308,20 +311,7 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	context.title = tiddler.title;
 	var recipeuriTemplate = '%0handle/save.php';
 	var host = context.host ? context.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
-	var uri;
-	uri = recipeuriTemplate.format([host,context.workspace,tiddler.title]);
-	var fieldString = "";
-	for (var name in tiddler.fields) {
-		if (String(tiddler.fields[name]))
-			fieldString += name +"="+tiddler.fields[name]+" ";
-	}
-	var index = 0;
-	var tagString ="";
-	while ((index < tiddler.tags.length))
-	{
-		tagString+=tiddler.tags[index]+" ";
-		index ++;
-    }
+	var uri = recipeuriTemplate.format([host,context.workspace,tiddler.title]);
 	var d = new Date();
 	d.setTime(Date.parse(tiddler['modified']));
 	d = d.convertToYYYYMMDDHHMM();
@@ -329,7 +319,7 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 		tiddler.fields['server.page.revision'] = 10000;
 	else
 		tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'])+1;
-	var payload="workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title)+"&omodified="+d+"&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier+"&tags="+tagString+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision'])+"&fields="+encodeURIComponent(fieldString)+"&body="+encodeURIComponent(tiddler.text.htmlDecode())+"";
+	var payload="workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title)+"&omodified="+d+"&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier+"&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision'])+"&fields="+encodeURIComponent(tiddler.getInheritedFields())+"&body="+encodeURIComponent(tiddler.text.htmlDecode())+"";
 		var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 	return typeof req == 'string' ? req : true;
 };

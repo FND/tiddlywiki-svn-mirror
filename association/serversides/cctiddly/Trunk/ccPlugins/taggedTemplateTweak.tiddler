@@ -5,7 +5,7 @@
 |Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
 |Version|1.2.0|
 |Author|Eric Shulman - ELS Design Studios|
-|License|http://www.TiddlyTools.com/#LegalStatements <br> and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
 |Type|plugin|
 |Requires||
@@ -38,14 +38,26 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 	// look for template whose prefix matches a tag on this tiddler
 	for (i=0; i<tiddler.tags.length; i++) {
 		var t=tiddler.tags[i]+template; // add tag prefix
+	//	displayMessage(t);
 		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
 		var s=config.options.txtTheme+"##"; // systemTheme section prefix
-		if (store.tiddlerExists(t)) { template=t; break; }
-		if (store.tiddlerExists(c)) { template=c; break; }
-		if (store.getTiddlerText(s+t)) { template=s+t; break; }
+
+		var parts = template.split("##")
+		var tagged = parts[0]+"##"+tiddler.tags[i]+parts[1];	
+		var d = tiddler.tags[i]+parts[1];	
+
+		var x = store.getTiddlerText(s+d);
+		
+		if (store.tiddlerExists(parts[0])) { template=tagged; displayMessage("sdsds"); break; }
+
+		if (store.tiddlerExists(t)) { template=t;  break; }
+		if (store.tiddlerExists(c)) { template=c;  break; }
+		if (store.getTiddlerText(s+t)) { template=s+t;  break; }
 		if (store.getTiddlerText(s+c)) { template=s+c; break; }
+		if (store.getTiddlerText(s+d)) { template=s+d;  break; }
 	}
 	return template;
 }
-//}}}</pre>
+//}}}
+</pre>
 </div>
