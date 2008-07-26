@@ -64,7 +64,6 @@ merge(TiddlyWiki.prototype,{
 		var result = [];
 
 		var expr = tagExpr.parseTagExpr();
-		alert(expr);
 
 		store.forEachTiddler(function(title,tiddler) {
 			// if we have a tiddler with ! or && etc in it's name
