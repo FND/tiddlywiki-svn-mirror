@@ -1,7 +1,7 @@
 /***
 |Name:|TagglyTaggingPlugin|
 |Description:|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
-|Version:|3.1 ($Rev$)|
+|Version:|3.2 ($Rev$)|
 |Date:|$Date$|
 |Source:|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
@@ -10,6 +10,66 @@
 See http://mptw.tiddlyspot.com/#TagglyTagging
 ***/
 //{{{
+
+merge(String.prototype,{
+
+	parseTagExpr: function(debug) {
+
+		if (this.trim() == "")
+			return "(true)";
+
+		var logicOps = /(!|&&|\|\||\(|\))/g;
+
+		var spaced = this.
+ 			// because square brackets in templates are no good
+			// this means you can use [(With Spaces)] instead of [[With Spaces]]
+			replace(/\[\(/g," [[").
+			replace(/\)\]/g,"]] "). 
+			// space things out so we can use readBracketedList. tricky eh?
+			replace(logicOps," $1 ");
+
+		var expr = "";
+
+		var tokens = spaced.readBracketedList(false); // false means don't uniq the list. nice one JR!
+
+		for (var i=0;i<tokens.length;i++) {
+
+			if (tokens[i].match(logicOps)) {
+				expr += tokens[i];
+			}
+			else {
+				expr += "tiddler.tags.contains('%0')".format([tokens[i].replace(/'/,"\\'")]); // fix single quote bug. still have round bracket bug i think
+			}
+		};
+
+		if (debug)
+			alert(expr);
+
+		return '('+expr+')';
+	}
+
+});
+
+merge(TiddlyWiki.prototype,{
+	getTiddlersByTagExpr: function(tagExpr,sortField) {
+
+		var result = [];
+
+		store.forEachTiddler(function(title,tiddler) {
+			if (eval(tagExpr.parseTagExpr())) {
+				result.push(tiddler);
+			}
+		});
+
+		if(!sortField)
+			sortField = "title";
+
+		result.sort(function(a,b) {return a[sortField] < b[sortField] ? -1 : (a[sortField] == b[sortField] ? 0 : +1);});
+		
+		return result;
+	}
+});
+
 config.taggly = {
 
 	// for translations
@@ -95,7 +155,7 @@ config.taggly = {
 		var current = this.getTagglyOpt(title,opt);
 		var pos = this.config.listOpts[opt].indexOf(current);
 		// a little usability enhancement. actually it doesn't work right for grouped or sitemap
-		var limit = (opt == "numCols" ? store.getTaggedTiddlers(title).length : this.config.listOpts[opt].length);
+		var limit = (opt == "numCols" ? store.getTiddlersByTagExpr(title).length : this.config.listOpts[opt].length);
 		var newPos = (pos + 1) % limit;
 		return this.config.listOpts[opt][newPos];
 	},
@@ -199,7 +259,7 @@ config.taggly = {
 	getTaggingCount: function(title) {
 		// thanks to Doug Edmunds
 		if (this.config.showTaggingCounts) {
-			var tagCount = store.getTaggedTiddlers(title).length;
+			var tagCount = store.getTiddlersByTagExpr(title).length;
 			if (tagCount > 0)
 				return " ("+tagCount+")";
 		}
@@ -256,7 +316,7 @@ config.taggly = {
 	// this is for normal and commas mode
 	createTagglyListNormal: function(place,title,useCommas) {
 
-		var list = store.getTaggedTiddlers(title,this.getTagglyOpt(title,"sortBy"));
+		var list = store.getTiddlersByTagExpr(title,this.getTagglyOpt(title,"sortBy"));
 
 		if (this.getTagglyOpt(title,"sortOrder") == "desc")
 			list = list.reverse();
@@ -286,7 +346,7 @@ config.taggly = {
 		var sortBy = this.getTagglyOpt(title,"sortBy");
 		var sortOrder = this.getTagglyOpt(title,"sortOrder");
 
-		var list = store.getTaggedTiddlers(title,sortBy);
+		var list = store.getTiddlersByTagExpr(title,sortBy);
 
 		if (sortOrder == "desc")
 			list = list.reverse();
@@ -368,7 +428,7 @@ config.taggly = {
 	// used to build site map
 	treeTraverse: function(title,depth,sortBy,sortOrder) {
 
-		var list = store.getTaggedTiddlers(title,sortBy);
+		var list = store.getTiddlersByTagExpr(title,sortBy);
 		if (sortOrder == "desc")
 			list.reverse();
 
@@ -421,7 +481,7 @@ config.taggly = {
 				var title = place.getAttribute("title");
 				removeChildren(place);
 				addClass(place,"tagglyTagging");
-				if (store.getTaggedTiddlers(title).length > 0) {
+				if (store.getTiddlersByTagExpr(title).length > 0) {
 					var lingo = config.taggly.lingo;
 					config.taggly.createListControl(place,title,"hideState");
 					if (config.taggly.getTagglyOpt(title,"hideState") == "show") {
