@@ -1,7 +1,7 @@
 /***
 |Name:|TagglyTaggingPlugin|
 |Description:|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
-|Version:|3.2.1 ($Rev$)|
+|Version:|3.3 ($Rev$)|
 |Date:|$Date$|
 |Source:|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
@@ -18,37 +18,26 @@ merge(String.prototype,{
 		if (this.trim() == "")
 			return "(true)";
 
-		var logicOps = /(!|&&|\|\||\(|\))/g;
-		var singleLogicOp = /^(!|&&|\|\||\(|\)$)/;
+		var anyLogicOp = /(!|&&|\|\||\(|\))/g;
+		var singleLogicOp = /^(!|&&|\|\||\(|\))$/;
 
-		if (this.match(/^\[\[.*\]\]$/)) {// && !this.matches(/\[\[.*\[\[/)) {
-			// hack to handle rare case when a tiddler title looks like a valid tag expression...
-			// hard to explain by see line 491
-			var spaced = this;
-		}
-		else {
-			var spaced = this.
-				// because square brackets in templates are no good
-				// this means you can use [(With Spaces)] instead of [[With Spaces]]
-				replace(/\[\(/g," [[").
-				replace(/\)\]/g,"]] "). 
-				// space things out so we can use readBracketedList. tricky eh?
-				replace(logicOps," $1 ");
-		}
+		var spaced = this.
+			// because square brackets in templates are no good
+			// this means you can use [(With Spaces)] instead of [[With Spaces]]
+			replace(/\[\(/g," [[").
+			replace(/\)\]/g,"]] "). 
+			// space things out so we can use readBracketedList. tricky eh?
+			replace(anyLogicOp," $1 ");
 
 		var expr = "";
 
 		var tokens = spaced.readBracketedList(false); // false means don't uniq the list. nice one JR!
 
-		for (var i=0;i<tokens.length;i++) {
-
-			if (tokens[i].match(singleLogicOp)) {
+		for (var i=0;i<tokens.length;i++)
+			if (tokens[i].match(singleLogicOp))
 				expr += tokens[i];
-			}
-			else {
+			else
 				expr += "tiddler.tags.contains('%0')".format([tokens[i].replace(/'/,"\\'")]); // fix single quote bug. still have round bracket bug i think
-			}
-		};
 
 		if (debug)
 			alert(expr);
@@ -66,21 +55,8 @@ merge(TiddlyWiki.prototype,{
 		var expr = tagExpr.parseTagExpr();
 
 		store.forEachTiddler(function(title,tiddler) {
-			// if we have a tiddler with ! or && etc in it's name
-			// hopefully it will not be a valid expression and revert
-			// to the standard behaviour where it's just a tag name.
-			// hopefully... this is a little dodgey
-			// perhaps a better solution is to use a named param in the
-			// tagglyTagging macro
-			try {
-				var test = eval(expr);
-			}
-			catch(ex) {
-				var test = tiddler.tags.contains(tagExpr);
-			}
-			if (test) {
+			if (eval(expr))
 				result.push(tiddler);
-			}
 		});
 
 		if(!sortField)
@@ -110,12 +86,14 @@ config.taggly = {
 			sitemap:    "sitemap",
 			numCols:    "cols\u00b1", // plus minus sign
 			label:      "Tagged as '%0':",
+			exprLabel:  "Matching tag expression '%0':",
 			excerpts:   "excerpts",
 			descr:      "descr",
 			slices:     "slices",
 			contents:   "contents",
 			sliders:    "sliders",
-			noexcerpts: "title only"
+			noexcerpts: "title only",
+			noneFound:  "(none)"
 		},
 
 		tooltips: {
@@ -269,12 +247,12 @@ config.taggly = {
 		return newTable;
 	},
 
-	createTagglyList: function(place,title) {
+	createTagglyList: function(place,title,isTagExpr) {
 		switch(this.getTagglyOpt(title,"listMode")) {
-			case "group":  return this.createTagglyListGrouped(place,title); break;
-			case "normal": return this.createTagglyListNormal(place,title,false); break;
-			case "commas": return this.createTagglyListNormal(place,title,true); break;
-			case "sitemap":return this.createTagglyListSiteMap(place,title); break;
+			case "group":  return this.createTagglyListGrouped(place,title,isTagExpr); break;
+			case "normal": return this.createTagglyListNormal(place,title,false,isTagExpr); break;
+			case "commas": return this.createTagglyListNormal(place,title,true,isTagExpr); break;
+			case "sitemap":return this.createTagglyListSiteMap(place,title,isTagExpr); break;
 		}
 	},
 
@@ -286,6 +264,10 @@ config.taggly = {
 				return " ("+tagCount+")";
 		}
 		return "";
+	},
+
+	getTiddlers: function(titleOrExpr,sortBy,isTagExpr) {
+		return isTagExpr ? store.getTiddlersByTagExpr(titleOrExpr,sortBy) : store.getTaggedTiddlers(titleOrExpr,sortBy);
 	},
 
 	getExcerpt: function(inTiddlerTitle,title,indent) {
@@ -336,9 +318,9 @@ config.taggly = {
 	},
 
 	// this is for normal and commas mode
-	createTagglyListNormal: function(place,title,useCommas) {
+	createTagglyListNormal: function(place,title,useCommas,isTagExpr) {
 
-		var list = store.getTiddlersByTagExpr(title,this.getTagglyOpt(title,"sortBy"));
+		var list = config.taggly.getTiddlers(title,this.getTagglyOpt(title,"sortBy"),isTagExpr);
 
 		if (this.getTagglyOpt(title,"sortOrder") == "desc")
 			list = list.reverse();
@@ -364,11 +346,11 @@ config.taggly = {
 	},
 
 	// this is for the "grouped" mode
-	createTagglyListGrouped: function(place,title) {
+	createTagglyListGrouped: function(place,title,isTagExpr) {
 		var sortBy = this.getTagglyOpt(title,"sortBy");
 		var sortOrder = this.getTagglyOpt(title,"sortOrder");
 
-		var list = store.getTiddlersByTagExpr(title,sortBy);
+		var list = config.taggly.getTiddlers(title,sortBy,isTagExpr);
 
 		if (sortOrder == "desc")
 			list = list.reverse();
@@ -448,9 +430,10 @@ config.taggly = {
 	},
 
 	// used to build site map
-	treeTraverse: function(title,depth,sortBy,sortOrder) {
+	treeTraverse: function(title,depth,sortBy,sortOrder,isTagExpr) {
 
-		var list = store.getTiddlersByTagExpr(title,sortBy);
+		var list = config.taggly.getTiddlers(title,sortBy,isTagExpr);
+
 		if (sortOrder == "desc")
 			list.reverse();
 
@@ -466,7 +449,7 @@ config.taggly = {
 			for (var i=0;i<list.length;i++)
 				if (list[i].title != title)
 					if (this.notHidden(list[i].title,this.config.inTiddler))
-						childOutput += this.treeTraverse(list[i].title,depth+1,sortBy,sortOrder);
+						childOutput += this.treeTraverse(list[i].title,depth+1,sortBy,sortOrder,false);
 
 		if (depth == 0)
 			return childOutput;
@@ -475,9 +458,9 @@ config.taggly = {
 	},
 
 	// this if for the site map mode
-	createTagglyListSiteMap: function(place,title) {
+	createTagglyListSiteMap: function(place,title,isTagExpr) {
 		this.config.inTiddler = title; // nasty. should pass it in to traverse probably
-		var output = this.treeTraverse(title,0,this.getTagglyOpt(title,"sortBy"),this.getTagglyOpt(title,"sortOrder"));
+		var output = this.treeTraverse(title,0,this.getTagglyOpt(title,"sortBy"),this.getTagglyOpt(title,"sortOrder"),isTagExpr);
 		return this.drawTable(place,
 				this.makeColumns(output.split(/(?=^\*\[)/m),parseInt(this.getTagglyOpt(title,"numCols"))), // regexp magic
 				"sitemap"
@@ -487,34 +470,57 @@ config.taggly = {
 	macros: {
 		tagglyTagging: {
 			handler: function (place,macroName,params,wikifier,paramString,tiddler) {
+				var parsedParams = paramString.parseParams("tag",null,true);
 				var refreshContainer = createTiddlyElement(place,"div");
+
 				// do some refresh magic to make it keep the list fresh - thanks Saq
 				refreshContainer.setAttribute("refresh","macro");
 				refreshContainer.setAttribute("macroName",macroName);
-				if (params[0])
-					refreshContainer.setAttribute("title",params[0]);
+
+				var tag = getParam(parsedParams,"tag");
+				var expr = getParam(parsedParams,"expr");
+
+				if (expr) {
+					refreshContainer.setAttribute("isTagExpr","true");
+					refreshContainer.setAttribute("title",expr);
+					refreshContainer.setAttribute("showEmpty","true");
+				}
 				else {
-        			refreshContainer.setAttribute("title","[["+tiddler.title+"]]"); // the square brackets make parseTagExpr treat it like a single title. mostly..
+					refreshContainer.setAttribute("isTagExpr","false");
+					if (tag) {
+        				refreshContainer.setAttribute("title",tag);
+						refreshContainer.setAttribute("showEmpty","true");
+					}
+					else {
+        				refreshContainer.setAttribute("title",tiddler.title);
+						refreshContainer.setAttribute("showEmpty","false");
+					}
 				}
 				this.refresh(refreshContainer);
 			},
 
 			refresh: function(place) {
 				var title = place.getAttribute("title");
+				var isTagExpr = place.getAttribute("isTagExpr") == "true";
+				var showEmpty = place.getAttribute("showEmpty") == "true";
 				removeChildren(place);
 				addClass(place,"tagglyTagging");
-				if (store.getTiddlersByTagExpr(title).length > 0) {
+				var countFound = config.taggly.getTiddlers(title,'title',isTagExpr).length
+				if (countFound > 0 || showEmpty) {
 					var lingo = config.taggly.lingo;
 					config.taggly.createListControl(place,title,"hideState");
 					if (config.taggly.getTagglyOpt(title,"hideState") == "show") {
-						createTiddlyElement(place,"span",null,"tagglyLabel",lingo.labels.label.format([title]));
+						createTiddlyElement(place,"span",null,"tagglyLabel",
+								isTagExpr ? lingo.labels.exprLabel.format([title]) : lingo.labels.label.format([title]));
 						config.taggly.createListControl(place,title,"title");
 						config.taggly.createListControl(place,title,"modified");
 						config.taggly.createListControl(place,title,"created");
 						config.taggly.createListControl(place,title,"listMode");
 						config.taggly.createListControl(place,title,"excerpts");
 						config.taggly.createListControl(place,title,"numCols");
-						config.taggly.createTagglyList(place,title);
+						config.taggly.createTagglyList(place,title,isTagExpr);
+						if (countFound == 0 && showEmpty)
+							createTiddlyElement(place,"div",null,"tagglyNoneFound",lingo.labels.noneFound);
 					}
 				}
 			}
@@ -573,6 +579,7 @@ config.taggly = {
 ".tagglyTagging .indent8  { margin-left:10em; }",
 ".tagglyTagging .indent9  { margin-left:11em; }",
 ".tagglyTagging .indent10 { margin-left:12em; }",
+".tagglyNoneFound { margin-left:2em; color:[[ColorPalette::TertiaryMid]]; font-size:90%; font-style:italic; }",
 "/*}}}*/",
 		""].join("\n"),
 
