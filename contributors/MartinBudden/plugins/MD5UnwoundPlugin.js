@@ -3,12 +3,11 @@
 |''Description:''|Faster wersion of MD5 with unwound loops|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/MD5UnwoundPlugin.js |
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Jul 25,2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.1.0|
-|''Status:''|under development|
 
 MD5UnwoundPlugin is a faster (but larger) MD5 hash algorithm with unwound loops.
 ***/
@@ -17,7 +16,6 @@ MD5UnwoundPlugin is a faster (but larger) MD5 hash algorithm with unwound loops.
 // Ensure that the MD5UnwoundPlugin is only installed once.
 if(!version.extensions.MD5UnwoundPlugin) {
 version.extensions.MD5UnwoundPlugin = {installed:true};
-console.log('hello');
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	{alertAndThrow("MD5UnwoundPlugin requires TiddlyWiki 2.1 or newer.");}
 
@@ -26,8 +24,8 @@ Crypto.strToLe32s = function(str)
 {
 	var le=[];
 	for(var i=0; i<str.length*8; i+=8) {
-    	le[i>>5] |= (str.charCodeAt(i/8)&0xff)<<(i%32);
-    }
+		le[i>>5] |= (str.charCodeAt(i/8)&0xff)<<(i%32);
+	}
 	return le;
 };
 
@@ -36,8 +34,8 @@ Crypto.le32sToStr = function(le)
 {
 	var str='';
 	for(var i=0; i<le.length*32; i+=8) {
-    	str += String.fromCharCode((le[i>>5]>>>(i%2))&0xff);
-    }
+		str += String.fromCharCode((le[i>>5]>>>(i%32))&0xff);
+	}
 	return str;
 };
 
@@ -61,151 +59,118 @@ Crypto.hexMd5Str = function(str)
 // Return the MD5 hash of a string
 Crypto.md5Str = function(str)
 {
-	return Crypto.sha1(Crypto.strToLe32s(str),str.length);
+	return Crypto.md5(Crypto.strToLe32s(str),str.length);
 };
 
-// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
-Crypto.md5 = function(x,blen)
-{
-	if(blen==null)
-		return null;
+Crypto.md5 = function(x,blen){
+	var len = blen*8;
+	function a32(a,b){var lsw = (a&0xFFFF)+(b&0xFFFF);var msw = (a>>16)+(b>>16)+(lsw>>16);return (msw<<16)|(lsw&0xFFFF);}
+	function add4(a,b,c,d){var lsw=(a&0xFFFF)+(b&0xFFFF)+(c&0xFFFF)+(d&0xFFFF);var msw=(a>>16)+(b>>16)+(c>>16)+(d>>16)+(lsw>>16);return (msw<<16)|(lsw&0xFFFF);}
+	function R(n,c){ return (n<<c)|(n>>>(32-c)); }
+	function FF(a,b,c,d,x,s,t){return a32(R(add4(a,(b&c)|((~b)&d),x,t),s),b);}
+	function GG(a,b,c,d,x,s,t){return a32(R(add4(a,(b&d)|(c&(~d)),x,t),s),b);}
+	function HH(a,b,c,d,x,s,t){return a32(R(add4(a,b^c^d,x,t),s),b);}
+	function II(a,b,c,d,x,s,t){return a32(R(add4(a,c^(b|(~d)),x,t),s),b);}
 
-	// Add 32-bit integers, wrapping at 32 bits
-	//# Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
-	function a32(a,b)
-	{
-		var lsw = (a&0xFFFF)+(b&0xFFFF);
-		var msw = (a>>16)+(b>>16)+(lsw>>16);
-		return (msw<<16)|(lsw&0xFFFF);
-	}
-	//# Cryptographic round helper function. Add fout 32-bit integers,wrapping at 32 bits,then rotate left r bits
-	function AA(q,a,b,x,k,r)
-	{
-		var lsw=(a&0xFFFF)+(q&0xFFFF)+(x&0xFFFF)+(k&0xFFFF);
-		var msw=(a>>16)+(q>>16)+(x>>16)+(k>>16)+(lsw>>16);
-		var t = (msw<<16)|(lsw&0xFFFF);
-		return a32((t>>>(32-r))|(t<<r),b);
-	}
-	function ff(a,b,c,d,x,r,k)
-	{
-		return AA((b&c)|((~b)&d),a,b,x,k,r);
-	}
-	function gg(a,b,c,d,x,r,k)
-	{
-		return AA((b&d)|(c&(~d)),a,b,x,k,r);
-	}
-	function hh(a,b,c,d,x,r,k)
-	{
-		return AA(b^c^d,a,b,x,k,r);
-	}
-	function ii(a,b,c,d,x,r,k)
-	{
-		return AA(c^(b|(~d)),a,b,x,k,r);
-	}
-	var len=blen*8;
-	//# Append padding so length in bits is 448 mod 512
-	x[len>>5] |= 0x80<<(24-len%32);
-	//# Append length
-	x[((len+64>>9)<<4)+15] = len;
-
+	x[len>>5]|=0x80<<((len)%32);
+	x[(((len+64)>>>9)<<4)+14]=len;
 
 	var h0 = 0x67452301;
-	var h1 = 0xEFCDAB89;
-	var h2 = 0x98BADCFE;
+	var h1 = 0xefcdab89;
+	var h2 = 0x98badcfe;
 	var h3 = 0x10325476;
 
-
-	var w0,w1,w2,w3,w4,w5,w6,w7,w8,w9,wA,wB,wC,wD,wE,wF;
-	for(var i=0;i<x.length;i+=16) {
+	var x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE,xF;
+	for(var i=0; i<x.length; i+=16){
 		var a=h0;
 		var b=h1;
 		var c=h2;
 		var d=h3;
 
-		w0=x[i];
-		w1=x[i+1];
-		w2=x[i+2];
-		w3=x[i+3];
-		w4=x[i+4];
-		w5=x[i+5];
-		w6=x[i+6];
-		w7=x[i+7];
-		w8=x[i+8];
-		w9=x[i+9];
-		wA=x[i+10];
-		wB=x[i+11];
-		wC=x[i+12];
-		wD=x[i+13];
-		wE=x[i+14];
-		wF=x[i+15];
-		
-		a = ff(a,b,c,d,w0,7 ,-680876936);
-	    d = ff(d,a,b,c,w1,12,-389564586);
-    	c = ff(c,d,a,b,w2,17, 606105819);
-		b = ff(b,c,d,a,w3,22,-1044525330);
-		a = ff(a,b,c,d,w4,7 ,-176418897);
-		d = ff(d,a,b,c,w5,12, 1200080426);
-		c = ff(c,d,a,b,w6,17,-1473231341);
-		b = ff(b,c,d,a,w7,22,-45705983);
-		a = ff(a,b,c,d,w8,7 , 1770035416);
-		d = ff(d,a,b,c,w9,12,-1958414417);
-		c = ff(c,d,a,b,wA,17,-42063);
-		b = ff(b,c,d,a,wB,22,-1990404162);
-		a = ff(a,b,c,d,wC,7 , 1804603682);
-		d = ff(d,a,b,c,wD,12,-40341101);
-		c = ff(c,d,a,b,wE,17,-1502002290);
-		b = ff(b,c,d,a,wF,22, 1236535329);
+		x0=x[i];
+		x1=x[i+1];
+		x2=x[i+2];
+		x3=x[i+3];
+		x4=x[i+4];
+		x5=x[i+5];
+		x6=x[i+6];
+		x7=x[i+7];
+		x8=x[i+8];
+		x9=x[i+9];
+		xA=x[i+10];
+		xB=x[i+11];
+		xC=x[i+12];
+		xD=x[i+13];
+		xE=x[i+14];
+		xF=x[i+15];
 
-		a = gg(a,b,c,d,w1,5 ,-165796510);
-		d = gg(d,a,b,c,w6,9 ,-1069501632);
-		c = gg(c,d,a,b,wB,14, 643717713);
-		b = gg(b,c,d,a,w0,20,-373897302);
-		a = gg(a,b,c,d,w5,5 ,-701558691);
-		d = gg(d,a,b,c,wA,9 , 38016083);
-		c = gg(c,d,a,b,wF,14,-660478335);
-		b = gg(b,c,d,a,w4,20,-405537848);
-		a = gg(a,b,c,d,w9,5 , 568446438);
-		d = gg(d,a,b,c,wE,9 ,-1019803690);
-		c = gg(c,d,a,b,w3,14,-187363961);
-		b = gg(b,c,d,a,w8,20, 1163531501);
-		a = gg(a,b,c,d,wD,5 ,-1444681467);
-		d = gg(d,a,b,c,w2,9 ,-51403784);
-		c = gg(c,d,a,b,w7,14, 1735328473);
-		b = gg(b,c,d,a,wC,20,-1926607734);
-	
-		a = hh(a,b,c,d,w5,4 ,-378558);
-		d = hh(d,a,b,c,w8,11,-2022574463);
-		c = hh(c,d,a,b,wB,16, 1839030562);
-		b = hh(b,c,d,a,wE,23,-35309556);
-		a = hh(a,b,c,d,w1,4 ,-1530992060);
-		d = hh(d,a,b,c,w4,11, 1272893353);
-		c = hh(c,d,a,b,w7,16,-155497632);
-		b = hh(b,c,d,a,wA,23,-1094730640);
-		a = hh(a,b,c,d,wD,4 , 681279174);
-		d = hh(d,a,b,c,w0,11,-358537222);
-		c = hh(c,d,a,b,w3,16,-722521979);
-		b = hh(b,c,d,a,w6,23, 76029189);
-		a = hh(a,b,c,d,w9,4 ,-640364487);
-		d = hh(d,a,b,c,wC,11,-421815835);
-		c = hh(c,d,a,b,wF,16, 530742520);
-		b = hh(b,c,d,a,w2,23,-995338651);
-	
-		a = ii(a,b,c,d,w0,6 ,-198630844);
-		d = ii(d,a,b,c,w7,10, 1126891415);
-		c = ii(c,d,a,b,wE,15,-1416354905);
-		b = ii(b,c,d,a,w5,21,-57434055);
-		a = ii(a,b,c,d,wC,6 , 1700485571);
-		d = ii(d,a,b,c,w3,10,-1894986606);
-		c = ii(c,d,a,b,wA,15,-1051523);
-		b = ii(b,c,d,a,w1,21,-2054922799);
-		a = ii(a,b,c,d,w8,6 , 1873313359);
-		d = ii(d,a,b,c,wF,10,-30611744);
-		c = ii(c,d,a,b,w6,15,-1560198380);
-		b = ii(b,c,d,a,wD,21, 1309151649);
-		a = ii(a,b,c,d,w4,6 ,-145523070);
-		d = ii(d,a,b,c,wB,10,-1120210379);
-		c = ii(c,d,a,b,w2,15, 718787259);
-		b = ii(b,c,d,a,w9,21,-343485551);
+		a=FF(a,b,c,d,x0,7 ,0xd76aa478);
+		d=FF(d,a,b,c,x1,12,0xe8c7b756);
+		c=FF(c,d,a,b,x2,17,0x242070db);
+		b=FF(b,c,d,a,x3,22,0xc1bdceee);
+		a=FF(a,b,c,d,x4,7 ,0xf57c0faf);
+		d=FF(d,a,b,c,x5,12,0x4787c62a);
+		c=FF(c,d,a,b,x6,17,0xa8304613);
+		b=FF(b,c,d,a,x7,22,0xfd469501);
+		a=FF(a,b,c,d,x8,7 ,0x698098d8);
+		d=FF(d,a,b,c,x9,12,0x8b44f7af);
+		c=FF(c,d,a,b,xA,17,0xffff5bb1);
+		b=FF(b,c,d,a,xB,22,0x895cd7be);
+		a=FF(a,b,c,d,xC,7 ,0x6b901122);
+		d=FF(d,a,b,c,xD,12,0xfd987193);
+		c=FF(c,d,a,b,xE,17,0xa679438e);
+		b=FF(b,c,d,a,xF,22,0x49b40821);
+
+		a=GG(a,b,c,d,x1,5 ,0xf61e2562);
+		d=GG(d,a,b,c,x6,9 ,0xc040b340);
+		c=GG(c,d,a,b,xB,14,0x265e5a51);
+		b=GG(b,c,d,a,x0,20,0xe9b6c7aa);
+		a=GG(a,b,c,d,x5,5 ,0xd62f105d);
+		d=GG(d,a,b,c,xA,9 ,0x2441453);
+		c=GG(c,d,a,b,xF,14,0xd8a1e681);
+		b=GG(b,c,d,a,x4,20,0xe7d3fbc8);
+		a=GG(a,b,c,d,x9,5 ,0x21e1cde6);
+		d=GG(d,a,b,c,xE,9 ,0xc33707d6);
+		c=GG(c,d,a,b,x3,14,0xf4d50d87);
+		b=GG(b,c,d,a,x8,20,0x455a14ed);
+		a=GG(a,b,c,d,xD,5 ,0xa9e3e905);
+		d=GG(d,a,b,c,x2,9 ,0xfcefa3f8);
+		c=GG(c,d,a,b,x7,14,0x676f02d9);
+		b=GG(b,c,d,a,xC,20,0x8d2a4c8a);
+
+		a=HH(a,b,c,d,x5,4 ,0xfffa3942);
+		d=HH(d,a,b,c,x8,11,0x8771f681);
+		c=HH(c,d,a,b,xB,16,0x6d9d6122);
+		b=HH(b,c,d,a,xE,23,0xfde5380c);
+		a=HH(a,b,c,d,x1,4 ,0xa4beea44);
+		d=HH(d,a,b,c,x4,11,0x4bdecfa9);
+		c=HH(c,d,a,b,x7,16,0xf6bb4b60);
+		b=HH(b,c,d,a,xA,23,0xbebfbc70);
+		a=HH(a,b,c,d,xD,4 ,0x289b7ec6);
+		d=HH(d,a,b,c,x0,11,0xeaa127fa);
+		c=HH(c,d,a,b,x3,16,0xd4ef3085);
+		b=HH(b,c,d,a,x6,23,0x4881d05);
+		a=HH(a,b,c,d,x9,4 ,0xd9d4d039);
+		d=HH(d,a,b,c,xC,11,0xe6db99e5);
+		c=HH(c,d,a,b,xF,16,0x1fa27cf8);
+		b=HH(b,c,d,a,x2,23,0xc4ac5665);
+
+		a=II(a,b,c,d,x0,6 ,0xf4292244);
+		d=II(d,a,b,c,x7,10,0x432aff97);
+		c=II(c,d,a,b,xE,15,0xab9423a7);
+		b=II(b,c,d,a,x5,21,0xfc93a039);
+		a=II(a,b,c,d,xC,6 ,0x655b59c3);
+		d=II(d,a,b,c,x3,10,0x8f0ccc92);
+		c=II(c,d,a,b,xA,15,0xffeff47d);
+		b=II(b,c,d,a,x1,21,0x85845dd1);
+		a=II(a,b,c,d,x8,6 ,0x6fa87e4f);
+		d=II(d,a,b,c,xF,10,0xfe2ce6e0);
+		c=II(c,d,a,b,x6,15,0xa3014314);
+		b=II(b,c,d,a,xD,21,0x4e0811a1);
+		a=II(a,b,c,d,x4,6 ,0xf7537e82);
+		d=II(d,a,b,c,xB,10,0xbd3af235);
+		c=II(c,d,a,b,x2,15,0x2ad7d2bb);
+		b=II(b,c,d,a,x9,21,0xeb86d391);
 
 		h0=a32(h0,a);
 		h1=a32(h1,b);

@@ -22,6 +22,7 @@ merge(config.defaultCustomFields,{
 
 config.options.chkSinglePageMode = false;
 config.options.chkTopOfPageMode = false;
+config.options.chkUseHostImages = true;
 
 //#config.displayInstrumentation = true;
 /*}}}*/

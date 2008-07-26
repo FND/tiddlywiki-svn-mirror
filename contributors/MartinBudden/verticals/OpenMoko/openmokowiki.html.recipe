@@ -18,6 +18,7 @@ tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
 tiddler: ../../feeds/OpenMokoFeed.tiddler
 tiddler: ../../feeds/OpenMokoTemplateFeed.tiddler
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
+tiddler: ../../plugins/MD5UnwoundPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
 tiddler: ../../styles/wikipediaStyle.js

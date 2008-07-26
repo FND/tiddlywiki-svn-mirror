@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.4.7|
+|''Version:''|0.4.8|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -929,16 +929,15 @@ config.mediawiki.formatters = [
 				a.title = ptitle;
 				var img = createTiddlyElement2(a,'img');
 				img.src = 'images/' + psrc;
-/*				if(config.options.chkUseHostImages && Crypto.hexMd5Str) {
+				if(config.options.chkUseHostImages && Crypto.hexMd5Str) {
 //md5('Freerunner02.gif')='b9c7d001492123675aee092f14757d58'
 //url is http://wiki.openmoko.org/images/thumb/b/b9/Freerunner02.gif/150px-Freerunner02.gif
 					var md5 = Crypto.hexMd5Str(src);
-					var imgdir = md5.substr(0,1) + '/' + md5.substr(0,2);
-					img.src = MediaWikiFormatter.fullHostName(w.tiddler.fields['server.host']);
+					var imgdir = (md5.substr(0,1) + '/' + md5.substr(0,2)).toLowerCase();
+					img.src = MediaWikiFormatter.fullHostName(w.tiddler.fields['server.host']||config.defaultCustomFields['server.host']);
 					img.src += 'images/thumb/' + imgdir + '/' + src + '/' + psrc;
 					//console.log('image uri',img.src);
 				}
-*/
 
 //#mwDebug(w.output,'s1:'+img.src);
 				img.width = px;

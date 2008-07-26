@@ -1,4 +1,28 @@
 // <![CDATA[
+describe('SHA-1Unwound: big-endian functions', {
+
+	'hex string value of big-endian array': function() {
+		var actual = Crypto.be32sToHex([0xb1c2d3e4,0x1a2b3c4d]);
+		var expected = "B1C2D3E41A2B3C4D";
+		value_of(actual).should_be(expected);
+	},
+	'string value of big-endian array': function() {
+		var actual = Crypto.be32sToStr([0x2a2b3c4d]);
+		var expected = "*+<M";
+		value_of(actual).should_be(expected);
+	},
+	'big-endian array value of string': function() {
+		var actual = Crypto.strToBe32s("*+<M");
+		var expected = [0x2a2b3c4d];
+		value_of(actual).should_be(expected);
+	},
+	'big-endian array round trip': function() {
+		var actual = Crypto.strToBe32s(Crypto.be32sToStr([0x71c2d3e4,0x1a2b3c4d]));
+		var expected = [0x71c2d3e4,0x1a2b3c4d];
+		value_of(actual).should_be(expected);
+	}
+});
+
 describe('SHA-1Unwound: hexSha1Str()', {
 
 	'SHA-1 hash of empty string should be correct': function() {
