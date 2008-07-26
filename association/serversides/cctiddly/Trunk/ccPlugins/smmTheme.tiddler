@@ -19,6 +19,7 @@
 |''~taskEditTemplate:''|##taskEditTemplate|
 |''~EditTemplate:''|##EditTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
+|''~simpleViewTemplate:''|##simpleViewTemplate|
 ***/
 
 !PageTemplate
@@ -26,13 +27,12 @@
 	
 <div class='header' macro='gradient vert [[ColorPalette::smmDark1]] [[ColorPalette::smmDark2]]'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
-<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-</div>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 
-<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+</div>
 <div id='sidebar'>
 <div id='sidebarOptions' refresh='content' tiddler='smmTheme##SideBarOptions'></div>
-<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+
 </div>
 <div id='displayArea'>
 <div id='messageArea'></div>
@@ -43,13 +43,11 @@
 <!--}}}-->
 
 !OptionsPanel
-[[Help]]<br />[[Manage Users]]<br />[[Upload]]<br />
+[[help|Help]]<br />[[manage|Manage Users]]<br />[[upload|Upload]]<br />[[create|CreateWorkspace]]
 
 !tabs
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
 
-!SideBarTabs
-hi
 
 !SideBarOptions
 <<search "search...">><<closeAll>><<newTiddler>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'browser »' 'View TiddlyWiki Tabs'>>
@@ -60,9 +58,9 @@ General
 ***/
 /*{{{*/
 	
-	#sidebarTabs{display:none}
 
-body {
+
+body{
 	background: [[ColorPalette::smmDark1]];
 }
 
@@ -70,21 +68,20 @@ body {
 	background-color:[[ColorPalette::smmDark2]];
 }
 
-#messageArea .button {
+#messageArea .button{
 	background:none;
 }
 
-
-#topMenu br {display:none;}
-#topMenu {
-	
+#mainMenu br {
+	display:none;
 }
+
 h1 {	
 	color:[[ColorPalette::smmLight2]];
 }
 #contentWrapper{
 	margin: 2.5em auto;
-	width:850px;
+	width:780px;
 	line-height: 1.6em;
 	border:1px solid [[ColorPalette::smmDark1]];
 	font-size: 11px;
@@ -93,118 +90,121 @@ h1 {
 	background-color:[[ColorPalette::smmDark2]];
 }
 
-.clearAll {clear:both;}
-.tagClear {clear:none;}
+.clearAll{
+	clear:both;
+}
+
+.tagClear{
+	clear:none;
+}
 /*}}}*/
 
 /*{{{*/
 
 .siteTitle {
-font-family: 'Trebuchet MS' sans-serif;
-font-weight: bold;
-position:relative;
-top:20px;
-left :20px;
-font-size: 32px;
-color:[[ColorPalette::smmLight1]];
+	font-family: 'Trebuchet MS' sans-serif;
+	font-weight: bold;
+	position:relative;
+	top:20px;
+	left :20px;
+	font-size: 32px;
+	color:[[ColorPalette::smmLight1]];
 }
 
 .siteSubtitle {
-padding-top:15px;
-font-size: 1.0em;
-display:block; 
-color: [[ColorPalette::smmLight3]]; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
+	padding-top:15px;
+	font-size: 1.0em;
+	display:block; 
+	color: [[ColorPalette::smmLight3]]; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
 }
 
-
-/*}}}*/
-
-/***
-displayArea
-***/
-
-/*{{{*/
-#displayArea {margin-left:1.35em; margin-right:16.3em; margin-top:0; padding-top:1em; padding-bottom:10px;}
-/*}}}*/
-
-/***
-Sidebar
-***/
+#displayArea {
+	margin-left:1.35em;
+	margin-right:16.3em;
+	margin-top:0;
+	padding-top:1em;
+	padding-bottom:10px;
+}
 
 .tabUnselected {
-background:[[ColorPalette::smmDark2]] none repeat scroll 0%;
-color:[[ColorPalette::smmLight3]];
+	background:[[ColorPalette::smmDark2]] none repeat scroll 0%;
+	color:[[ColorPalette::smmLight3]];
 }
 
-
-.tiddlerDisplay .editor input {
+.tiddlerDisplay .editor input{
 	background-color:red;
 }
 
 
-/*{{{*/
-#sidebar, #sidebarTabs	 {
+
+#sidebar, #sidebarTabs{
 	position:relative;
 	float:right; 
 	line-height: 1.4em;
 	border-left:0px solid#000;  
 	background:#1; 
 	right:0; 
-	width: 16em;}
-/*}}}*/
+	width: 16em;
+}
 
-#tiddlerDisplay .tagging, #tiddlerDisplay .tagged {
+#tiddlerDisplay .tagging, #tiddlerDisplay .tagged{
 	background-color:[[ColorPalette::smmDark2]];
 	border:none;
 	float:none;
 }
 
-.sliderPanel .tabsetWrapper  .tabContents {
+.sliderPanel .tabsetWrapper .tabContents{
 	border-right:none;
 	border-color:[[ColorPalette::smmLight3]];
 	background-color:[[ColorPalette::smmDark1]];
 }
 
-
-#sidebarOptions .sliderPanel a {
+#sidebarOptions .sliderPanel a{
 	padding:3px;
 	margin:0px;
 	border:2px;
 	background-color:[[ColorPalette::smmDark1]];
 }
 
-	
-
-
 .tabsetWrapper{	
 	left :10px;
 	position :relative;
 }
 
+#sidebar{
+	padding-left:0.5em;  
+	background-color:[[ColorPalette::smmDark2]];
+	padding-top:1em;
+}
 
-/***
-SidebarOptions
-***/
-/*{{{*/
-#sidebar  {padding-left:0.5em;  background-color:[[ColorPalette::smmDark2]];padding-top:1em; }
-
-#sidebarOptions a {
+#sidebarOptions a{
 	margin:17px;
 	display:block;
 	margin:0.5em 0em;
 	padding:0.3em 0.6em;
 }
 
-#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a{
+#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a{
 	background-color:[[ColorPalette::smmDark1]];
 	color:[[ColorPalette::smmLight3]];
 	border:1px solid [[ColorPalette::smmDark1]];
 }
 
-#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover{
+#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover{
 	border:1px dotted #000;
 	background-color:[[ColorPalette::smmDark2]];
 	color:[[ColorPalette::smmLight2]];
+}
+
+#mainMenu a{
+	padding:4px;
+	margin:4px;
+	border:1px dotted [[ColorPalette::smmLight2]];
+}
+
+#contentWrapper #mainMenu{ 
+	left:290px;
+	position:static;
 }
 
 .editor textarea, .editor input, input, body select {
@@ -224,13 +224,7 @@ textarea {
 	background-color:#00000;
 	width:10em;
 }
-/*}}}*/
 
-
-/***
-SidebarTabs
-***/
-/*{{{*/
 #sidebarTabs {
 	margin:0px;
 	padding:0px
@@ -260,18 +254,26 @@ SidebarTabs
 #sidebarOptions .searchButton {
 	display:none;
 }
-/*}}}*/
 
-/*{{{*/
-.title {color:#C0C0C0;}
+.title {
+	color:#C0C0C0;
+}
+
 .subtitle, .subtitle a {
 	color: [[ColorPalette::smmLight3]];
 	font-size: 1em;margin:0.2em;
 	font-variant: small-caps;
 }
 
-.selected .toolbar a {color:[[ColorPalette::smmLight3]];}
-.selected .toolbar a:hover {color:[[ColorPalette::smmDark2]]; background:transparent;border:1px solid #fff;}
+.selected .toolbar a {
+	color:[[ColorPalette::smmLight3]];
+}
+
+.selected .toolbar a:hover {
+	color:[[ColorPalette::smmDark2]]; 
+	background:transparent;
+	border:1px solid #fff;
+}
 
 
 * html .viewer pre {
@@ -299,13 +301,13 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 	font-weight:bold;
 	line-height:40px;
 	top:1em;
-	
 	color:[[ColorPalette::smmLight1]];
 	background-color:[[ColorPalette::smmDark2]];
 }
 
-#topMenu br {display:none;}
-
+#topMenu br {
+	display:none;
+}
 
 #topMenu a:hover, #topMenu .button:hover {
 	background-color:[[ColorPalette::smmDark2]];
@@ -394,27 +396,51 @@ h3 {
 	padding: 0.5em 1em;
 }
 
-
+.wizard input {
+	border:1px solid #333;
+}
 #sidebarOptions input { 
 	border: 1px solid [[ColorPalette::smmDark2]];
 }
 
- .button, .wizard .button {
-	border:1px solid [[ColorPalette::smmLight3]]; padding:3px 9px; margin:3px 9px;  background:[[ColorPalette::smmDark1]]; color:; }
-table, .viewer td, .viewer tr, .twtable td, .twtable tr {border:0px solid #666666;}
-.wizardFooter { padding : 0em 0em 1em 2em; background:[[ColorPalette::smmDark2]]; font-size:10px; font-weight:bold;}   
-.wizardStep {border:none; background-color:none; } 
-.wizard { border:1px solid #EBE6F5;}
+.button, .wizard .button {
+	border:1px solid [[ColorPalette::smmLight3]];
+	padding:3px 9px;
+	margin:3px 9px; 
+	background:[[ColorPalette::smmDark1]]; 
+}
+
+table, .viewer td, .viewer tr, .twtable td, .twtable tr {
+	border:0px solid #666666;
+}
+
+.wizardFooter { 
+	padding : 0em 0em 1em 2em; 
+	background:[[ColorPalette::smmDark2]]; 
+	font-size:10px; 
+	font-weight:bold;}   
+
+.wizardStep {
+	border:none; 
+	background-color:none; 
+} 
+
+body .wizard {
+	width:80%;
+	padding:10px; 
+	border:1px solid #EBE6F5;
+}
+
 .wizard  th{
 	background:[[ColorPalette::smmDark2]];
 	color:#888;
 	padding:3px;
 	margin:40px;
 };
-.wizard, listView twtable {border:0px; };
 
-
-
+.wizard, listView twtable {
+	border:0px; 
+};
 
 .wizard  {
 	padding : 4px 14px 4px 14px;
@@ -423,14 +449,13 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {border:0px solid #66666
 	border:solid 1px #292929; 
 	font-size:2.9em;
 	margin-top:1px;
-
 }
 
 .viewer .wizard, body .wizard{
 	background:[[ColorPalette::smmDark2]];
 	margin:2em;
 	border:0px;
-	border:1px dotted [[ColorPalette::smmDark2]];
+	border:1px dotted [[ColorPalette::smmHigh]];
 	color:[[ColorPalette::smmLight3]];
 }
 .wizard h1{
@@ -444,9 +469,8 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {border:0px solid #66666
 body .wizardStep{
 	color:[[ColorPalette::smmLight3]];
 	border:0px;
-		margin:1.4em;
-	background:[[ColorPalette::smmDark2]];
-	
+	margin:1.4em;
+	background:[[ColorPalette::smmDark2]];	
 }
 
 body select {
@@ -456,9 +480,8 @@ body select {
 }
 
 #backstagePanel {
-background:[[ColorPalette::smmDark2]];
+	background:[[ColorPalette::smmDark2]];
 }
-
 
 #sidebar .sliderPanel {
 	background-color:[[ColorPalette::smmDark2]];
@@ -468,16 +491,16 @@ background:[[ColorPalette::smmDark2]];
 .viewer .wizardStep table {
 	border:0px;
 }
+
 .viewer th, .viewer td, .viewer tr, .viewer caption, .twtable th, .twtable td, .twtable tr, .twtable caption   {
 	border:0px;
 	padding:12px;
 	margin:12px;
 }
 
-
 .title {
-color:#C0C0C0;
-padding:10px;
+	color:#C0C0C0;
+	padding:10px;
 }
 
 .viewer table, table.twtable {
@@ -489,7 +512,6 @@ border:0px;
 	border:0px;
 	color:white;
 }
-
 
 table.sortable td.sortedCol {
 	background-color:[[ColorPalette::smmDark3]];
@@ -536,8 +558,6 @@ table.sortable td.sortedCol {
 </div>
 <!--}}}-->
 
-
-
 !EditTemplate
 <!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
@@ -553,10 +573,17 @@ table.sortable td.sortedCol {
 <div class='title' macro='view title'></div>
 <div class='viewer' macro='view text wikified'></div>
 <div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
 <div class='tagClear'></div>
 <!--}}}-->
 
-
+!simpleViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}-->
 
 </pre>
 </div>

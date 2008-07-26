@@ -21,29 +21,5 @@ You can import and export data to and from all sorts of places. There's a more d
 <<slider cctHelpccTiddlyMacros [[ccTiddly Macros]] "ccTiddly Macros" "A Guide to all the ccTiddly Macros">>
 <<slider cctHelpTiddlyWikiMacros [[TiddlyWiki Macros]] "TiddlyWiki Macros" "A Guide to all the TiddlyWiki Macros">>
 
-
-
-
-+++++
-TiddlyWiki is a single html file containing all the characteristics of a wiki - all the content, all the functionality (including editing, saving, tagging and searching) and the style sheet. Because it's a single file, it's very portable - you can email it, put it on a web server or share it via a USB stick.
-
-ccTiddly provides a serverside backend to TiddlyWiki so you can store you Tiddlers on the web and access them from anywhere. 
-
-But it's not just a wiki! It has very powerful plugin capabilities, so it can also be used as a platform for building new tools. You have full control over how it looks and behaves. For example,TiddlyWiki is already being used as:
-
-    * A personal notebook
-    * A GTD ("Getting Things Done") productivity tool
-    * A collaboration tool
-    * For building websites (this site is a TiddlyWiki file!)
-    * For rapid prototyping
-    * ...and much more!
-
-You can import and export data to and from all sorts of places. There's a more detailed list of features here.
-
-<<slider cctHelpIntro [[ccTiddly Introduction]] "ccTiddly Introduction" "A introduction to the basics of TiddlyWiki.">>
-<<slider cctHelpFormatting [[TiddlyWiki Formatting Guide]] "Tiddly Wiki Formatting Guide" "A basic guide to TiddlyWiki formatting.">>
-<<slider cctHelpccTiddlyMacros [[ccTiddly Macros]] "ccTiddly Macros" "A Guide to all the ccTiddly Macros">>
-<<slider cctHelpTiddlyWikiMacros [[TiddlyWiki Macros]] "TiddlyWiki Macros" "A Guide to all the TiddlyWiki Macros">>
-
 </pre>
 </div>

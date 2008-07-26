@@ -1,3 +1,103 @@
+//{{{
+
+config.macros.login={};	
+merge(config.macros.login,{
+	WizardTitleText:"Please Login",
+	usernameRequest:"Username",
+	passwordRequest:"Password",
+	
+	stepLoginTitle:null,
+	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=username id=username tabindex='1'></td></tr><tr><td>password</td><td><input type=password id='password' tabindex='2' name=password></td></tr></table>",
+	stepDoLoginTitle:"Logging you in",
+	stepDoLoginIntroText:"we are currently trying to log you in.... ",
+	stepForgotPasswordTitle:"Password Request",
+	stepForgotPasswordIntroText:"please email admin@admin.com",
+	buttonLogin:"Login",
+	buttonLoginToolTip:"click to login ",	
+	buttonCancel:"Cancel",
+	buttonCancelToolTip:"Cancel transaction ",
+	buttonForgottenPassword:"Forgotten Password",	
+	buttonForgottenPasswordToolTip:"Click to be reminded of your password",
+
+	configURL:url+"/handle/login.php", 
+	configUsernameInputName:"cctuser",
+	configPasswordInputName:"cctpass",
+	configPasswordCookieName:"cctPass"
+});
+	
+config.macros.login.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	config.macros.login.refresh(place);
+};
+
+config.macros.login.refresh=function(place){
+	removeChildren(place);
+	var w = new Wizard();
+	w.createWizard(place,this.WizardTitleText);
+	var me=config.macros.login;
+	var oldForm = w.formElem.innerHTML;
+	var form = w.formElem;
+
+	
+	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
+	var footer = findRelated(form,"wizardFooter","className");
+	createTiddlyButton(w.footer,this.buttonLogin,this.buttonLoginToolTip,function() {
+		if (w.formElem["username"].value==""){
+			displayMessage("No username was entered");
+			return false;
+		}
+		if (w.formElem["password"].value==""){
+			displayMessage("No password was entered");
+			return false;
+		}
+		config.macros.login.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
+	});
+	if(config.macros.register!==undefined){		
+		createTiddlyButton(w.footElem,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
+				config.macros.register.displayRegister(place, this);
+		});
+	}
+
+	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
+		config.macros.login.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
+	});
+	createTiddlyButton(w.footElem,this.buttonForgottenPassword,this.buttonForgottenPasswordToolTip,function() {
+		config.macros.login.displayForgottenPassword(this, place);
+	});
+};
+
+config.macros.login.doLogin=function(username, password, item, place){
+	var w = new Wizard(item);
+	var me = config.macros.login;
+	var urlLogin=me.configURL+"?"+me.configUsernameInputName+"="+username+"&"+me.configPasswordInputName+"="+Crypto.hexSha1Str(password)+"";
+	doHttp('GET',urlLogin,null,null,null,null,me.loginCallback,null);
+	var html = me.stepDoLoginIntroText+urlLogin; 
+	w.addStep(me.stepDoLoginTitle,html);
+	w.setButtons([
+		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {config.macros.login.refresh(place);}
+	}]);
+}
+
+config.macros.login.loginCallback=function(status,params,responseText,uri,xhr){
+	displayMessage(responseText);
+	if(xhr.status==401)
+		displayMessage("Login Failed");
+	else{
+		displayMessage(xhr.status);
+		window.location=window.url+"/"+window.workspace;
+	} 
+};
+
+config.macros.login.displayForgottenPassword=function(item, place){	
+	var w = new Wizard(item);
+	var me = config.macros.login;
+	w.addStep(me.stepForgotPasswordTitle,me.stepForgotPasswordIntroText);
+	w.setButtons([
+		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {me.refresh(place);}
+	}]);
+}
+
+
+
 /***
 |''Name''|ccLogin|
 |''Description''|Allows users to login to ccTiddly, In future, this will include the ccRegister and  ccLoginStatus Status Macro|

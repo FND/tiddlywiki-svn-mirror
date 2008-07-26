@@ -64,7 +64,7 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 			wrapper.innerHTML += "<p>You are an admin of this workspace.</p>";
 
 	}else{
-		wikify("[[Login]]",wrapper);
+		wikify("Hi Guest\r\n\r\n Please click [[here to login|Login]] ",wrapper);
 	}
 };
 

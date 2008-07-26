@@ -228,10 +228,9 @@ console.log(responseText);
                         return;
                 }
                 context.tiddler.text = info['text'];
-                context.tiddler.tags = info['tags'].split(" ");
+				context.tiddler.tags = info['tags'].split(" ");
                 context.tiddler.fields['server.page.revision'] = info['revision'];
-
-                context.tiddler.fields['omodified'] = info['modified'];
+				context.tiddler.fields['omodified'] = info['modified'];
 
                 context.tiddler.modifier = info['modifier'];
                 context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(info['modified']);

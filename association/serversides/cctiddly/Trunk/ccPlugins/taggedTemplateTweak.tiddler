@@ -45,16 +45,14 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 		var parts = template.split("##")
 		var tagged = parts[0]+"##"+tiddler.tags[i]+parts[1];	
 		var d = tiddler.tags[i]+parts[1];	
-
 		var x = store.getTiddlerText(s+d);
 		
-		if (store.tiddlerExists(parts[0])) { template=tagged; break; }
-
-		if (store.tiddlerExists(t)) { template=t;  break; }
-		if (store.tiddlerExists(c)) { template=c;  break; }
-		if (store.getTiddlerText(s+t)) { template=s+t;  break; }
+	//	if (store.tiddlerExists(parts[0])) { template=tagged; console.log(parts[0]+"all"+tagged); break;}
+		if (store.tiddlerExists(t)) { template=t; break; }
+		if (store.tiddlerExists(c)) { template=c; break; }
+		if (store.getTiddlerText(s+t)) { template=s+t; break; }
 		if (store.getTiddlerText(s+c)) { template=s+c; break; }
-		if (store.getTiddlerText(s+d)) { template=s+d;  break; }
+		if (store.getTiddlerText(s+d)) { template=s+d; break; }
 	}
 	return template;
 }
