@@ -1,7 +1,7 @@
 /***
 |Name:|TagglyTaggingPlugin|
 |Description:|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
-|Version:|3.3 ($Rev$)|
+|Version:|3.3.1 ($Rev$)|
 |Date:|$Date$|
 |Source:|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
@@ -256,10 +256,10 @@ config.taggly = {
 		}
 	},
 
-	getTaggingCount: function(title) {
+	getTaggingCount: function(title,isTagExpr) {
 		// thanks to Doug Edmunds
 		if (this.config.showTaggingCounts) {
-			var tagCount = store.getTiddlersByTagExpr(title).length;
+			var tagCount = config.taggly.getTiddlers(title,'title',isTagExpr).length;
 			if (tagCount > 0)
 				return " ("+tagCount+")";
 		}
