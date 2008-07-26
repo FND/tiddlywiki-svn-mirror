@@ -1,7 +1,7 @@
 /***
 |Name:|TagglyTaggingPlugin|
 |Description:|tagglyTagging macro is a replacement for the builtin tagging macro in your ViewTemplate|
-|Version:|3.2 ($Rev$)|
+|Version:|3.2.1 ($Rev$)|
 |Date:|$Date$|
 |Source:|http://mptw.tiddlyspot.com/#TagglyTaggingPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
@@ -19,14 +19,22 @@ merge(String.prototype,{
 			return "(true)";
 
 		var logicOps = /(!|&&|\|\||\(|\))/g;
+		var singleLogicOp = /^(!|&&|\|\||\(|\)$)/;
 
-		var spaced = this.
- 			// because square brackets in templates are no good
-			// this means you can use [(With Spaces)] instead of [[With Spaces]]
-			replace(/\[\(/g," [[").
-			replace(/\)\]/g,"]] "). 
-			// space things out so we can use readBracketedList. tricky eh?
-			replace(logicOps," $1 ");
+		if (this.match(/^\[\[.*\]\]$/)) {// && !this.matches(/\[\[.*\[\[/)) {
+			// hack to handle rare case when a tiddler title looks like a valid tag expression...
+			// hard to explain by see line 491
+			var spaced = this;
+		}
+		else {
+			var spaced = this.
+				// because square brackets in templates are no good
+				// this means you can use [(With Spaces)] instead of [[With Spaces]]
+				replace(/\[\(/g," [[").
+				replace(/\)\]/g,"]] "). 
+				// space things out so we can use readBracketedList. tricky eh?
+				replace(logicOps," $1 ");
+		}
 
 		var expr = "";
 
@@ -34,7 +42,7 @@ merge(String.prototype,{
 
 		for (var i=0;i<tokens.length;i++) {
 
-			if (tokens[i].match(logicOps)) {
+			if (tokens[i].match(singleLogicOp)) {
 				expr += tokens[i];
 			}
 			else {
@@ -55,8 +63,23 @@ merge(TiddlyWiki.prototype,{
 
 		var result = [];
 
+		var expr = tagExpr.parseTagExpr();
+		alert(expr);
+
 		store.forEachTiddler(function(title,tiddler) {
-			if (eval(tagExpr.parseTagExpr())) {
+			// if we have a tiddler with ! or && etc in it's name
+			// hopefully it will not be a valid expression and revert
+			// to the standard behaviour where it's just a tag name.
+			// hopefully... this is a little dodgey
+			// perhaps a better solution is to use a named param in the
+			// tagglyTagging macro
+			try {
+				var test = eval(expr);
+			}
+			catch(ex) {
+				var test = tiddler.tags.contains(tagExpr);
+			}
+			if (test) {
 				result.push(tiddler);
 			}
 		});
@@ -472,7 +495,7 @@ config.taggly = {
 				if (params[0])
 					refreshContainer.setAttribute("title",params[0]);
 				else {
-        			refreshContainer.setAttribute("title",tiddler.title);
+        			refreshContainer.setAttribute("title","[["+tiddler.title+"]]"); // the square brackets make parseTagExpr treat it like a single title. mostly..
 				}
 				this.refresh(refreshContainer);
 			},
