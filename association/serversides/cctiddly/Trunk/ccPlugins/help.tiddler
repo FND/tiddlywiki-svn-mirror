@@ -16,10 +16,10 @@ But it's not just a wiki! It has very powerful plugin capabilities, so it can al
 
 You can import and export data to and from all sorts of places. There's a more detailed list of features here.
 
-<<slider cctHelpIntro [[ccTiddly Introduction]] "ccTiddly Introduction" "A introduction to the basics of TiddlyWiki.">>
-<<slider cctHelpFormatting [[TiddlyWiki Formatting Guide]] "Tiddly Wiki Formatting Guide" "A basic guide to TiddlyWiki formatting.">>
-<<slider cctHelpccTiddlyMacros [[ccTiddly Macros]] "ccTiddly Macros" "A Guide to all the ccTiddly Macros">>
-<<slider cctHelpTiddlyWikiMacros [[TiddlyWiki Macros]] "TiddlyWiki Macros" "A Guide to all the TiddlyWiki Macros">>
+<<slider cctHelpIntro [[ccTiddly Introduction]] "ccTiddly Introduction »" "A introduction to the basics of TiddlyWiki.">>
+<<slider cctHelpFormatting [[TiddlyWiki Formatting Guide]] "Tiddly Wiki Formatting Guide »" "A basic guide to TiddlyWiki formatting.">>
+<<slider cctHelpccTiddlyMacros [[ccTiddly Macros]] "ccTiddly Macros »" "A Guide to all the ccTiddly Macros">>
+<<slider cctHelpTiddlyWikiMacros [[TiddlyWiki Macros]] "TiddlyWiki Macros »" "A Guide to all the TiddlyWiki Macros">>
 
 </pre>
 </div>

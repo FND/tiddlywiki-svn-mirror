@@ -37,7 +37,9 @@ config.macros.ccLoginStatus.handler=function(place,macroName,params,wikifier,par
 config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 	var loginDivRef=document.getElementById ("LoginDiv");
 	removeChildren(loginDivRef);
-	var wrapper=createTiddlyElement(place,"div");
+	
+displayMessage("s1");
+var wrapper=createTiddlyElement(place,"div");
 	if (isLoggedIn()){
 		createTiddlyElement(wrapper,"br");
 		name = cookieString(document.cookie).txtUserName;
@@ -51,13 +53,15 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 			value: "Logout" });
 		btn.onclick = function() { alert("foo"); };
 		
-		//btn.setAttribute("type", "button");
+	displayMessage("s2");
+		btn.setAttribute("type", "button");
 		btn.onclick=function() {
 			alert("oh boy");
 //			window.location = window.location+"?&logout=1&workspace="+window.workspace;
 		};
 		wrapper.appendChild(btn);
 
+	displayMessage("s3"+workspace);
 		//btn.value="Logout";   
 		//wrapper.appendChild(btn);	
 		if (workspacePermission.owner==1)

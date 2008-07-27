@@ -43,7 +43,7 @@
 <!--}}}-->
 
 !OptionsPanel
-[[help|Help]]<br />[[manage|Manage Users]]<br />[[upload|Upload]]<br />[[create|CreateWorkspace]]
+[[help|Help]] <br />[[settings|AdvancedOptions]]<br /><<ccOptions>>
 
 !tabs
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
@@ -58,10 +58,32 @@ General
 ***/
 /*{{{*/
 	
+	.tiddler .button {
+	line-height:4;
+	margin:5px;
+	padding:8px;
+	}
 
+
+
+#contentWrapper .chkOptionInput {
+width:auto;
+	float:right;
+}
+
+
+ #contentWrapper .wizard .txtOptionInput {
+	width:7em;
+}
 
 body{
 	background: [[ColorPalette::smmDark1]];
+//	background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
+//background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
+
+
+
+
 }
 
 #messageArea {
@@ -353,11 +375,7 @@ table.twtable {
 	border: 1px solid [[ColorPalette::smmLight3]];
 }
 
-.viewer code {
-	color: [[ColorPalette::smmDark1]]; 
-	background:#f5f5f5;
-}
-
+ 
 .viewer hr {
 	border-top: dashed 1px [[ColorPalette::smmLight3]];
 }
@@ -374,8 +392,14 @@ table.twtable {
 	border:0px;
 }
 
+.viewer code {
+background:#[[ColorPalette::smmDark2]] none repeat scroll 0%;
+color:[[ColorPalette::smmLight3]];
+}
+
+
 h1,h2,h3,h4,h5 {
-	 color: #555; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;
+	 color: #555; border-color:[[ColorPalette::smmDark3]]; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
@@ -414,8 +438,8 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 	border:0px solid #666666;
 }
 
-.wizardFooter { 
-	padding : 0em 0em 1em 2em; 
+body .wizardFooter { 
+	padding : 0em 0px 0px 5px; 
 	background:[[ColorPalette::smmDark2]]; 
 	font-size:10px; 
 	font-weight:bold;}   
@@ -469,7 +493,7 @@ body .wizard {
 body .wizardStep{
 	color:[[ColorPalette::smmLight3]];
 	border:0px;
-	margin:1.4em;
+	margin:0m;
 	background:[[ColorPalette::smmDark2]];	
 }
 
@@ -494,9 +518,16 @@ body select {
 
 .viewer th, .viewer td, .viewer tr, .viewer caption, .twtable th, .twtable td, .twtable tr, .twtable caption   {
 	border:0px;
-	padding:12px;
-	margin:12px;
+	padding:0px;
+	margin:0px;
 }
+
+
+.viewer .sortable td  {
+	padding:12px;
+	margin:21px;
+}
+
 
 .title {
 	color:#C0C0C0;

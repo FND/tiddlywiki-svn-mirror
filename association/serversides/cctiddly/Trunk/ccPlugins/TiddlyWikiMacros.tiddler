@@ -1,16 +1,17 @@
 <div title="TiddlyWiki Macros" modifier="ccTiddly" tags="ccTiddly excludeSearch excludeLists ">
 <pre>
-
-
-
 !!!{{{<<today>>}}}
 Shows current date.
+
 !!!{{{<<version>>}}} 
 This macro shows the version number of the current TiddlyWiki document.
+
 !!!{{{<<Alltags>>}}}
 Lists all tags. Clicking on a tag lists all the tiddlers assigned that tag. 
+
 !!!{{{<<List [type]>>}}} 
 Parameters : (all (default), missing, orphans, shadowed, touched, filter)
+
 !!!{{{<<Timeline [date] [length] [format]>>}}} 
  The timeline macro creates a list of tiddlers sorted by a date specified.
 
@@ -18,7 +19,6 @@ Example :
 {{{<<timeline "modified" "0" "ddd, YYYY-0MM-0DD">>}}}
 
 Produces : 
-
 <<timeline "modified" "0" "ddd, YYYY-0MM-0DD">>
 !!!{{{<<Slider cookie tiddler label tooltip>>}}}
 The slider macro allows embedding tiddlers within another tiddler, with the option to toggle the visibility of the transcluded contents.
@@ -32,7 +32,6 @@ The slider macro allows embedding tiddlers within another tiddler, with the opti
 {{{<<slider chkTestSlider [[OptionsPanel]] "Options" "Open advanced options">>}}}
 
 Produces : 
-
 <<slider chkTestSlider [[OptionsPanel]] "Options" "Open advanced options">>
 !!!{{{<<Tabs>>}}}
 The tabs macro creates an area where it displays one of several tiddlers alternately, as the user clicks on the tab labels at the top.

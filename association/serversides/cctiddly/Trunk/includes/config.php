@@ -7,6 +7,7 @@ $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
 $tiddlyCfg['db']['name'] = "DATABASE";		//db name
+$tiddlyCfg['db']['port'] = "3306"; // db port 
 
 // Debugging Information 
 
@@ -46,7 +47,7 @@ $tiddlyCfg['pref']['deligate_session_url'] = "http://uvoke.com/sys/uvokecheckses
 $tiddlyCfg['deligate_session_management'] = 0; 	
 	
 // Upload Values 
-	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'google.com', 'visualtw.ouvaton.org', 'en.wikipedia.org', 'martinswiki.com', 'tiddly-twab.com', 'tiddlythemes.com', 'tiddlytools.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost');
+	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'google.com', 'visualtw.ouvaton.org', 'en.wikipedia.org', 'martinswiki.com', 'tiddly-twab.com', 'tiddlythemes.com', 'tiddlytools.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost', 'getteamtasks.com');
 	
 	
 $tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf", "application/octet-stream");
@@ -72,7 +73,7 @@ $tiddlyCfg['table']['workspace_skin'] = 'none'; // allows a workspace to be incl
 $tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 $tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
 $tiddlyCfg['extract_admin_from_url']=0;// The admin user for each workspace when create will be taken from the URL.  If turned on it means the user SimonMcManus owns the workspace SimonMcManus.
-$tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
+$tiddlyCfg['use_mod_rewrite'] = 0;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 
 //Workspace Default Values
 
@@ -88,7 +89,7 @@ $tiddlyCfg['default_user_perm'] = "AADD";
 
 //////////////////////// ::::: ADVANCED ::::: /////////////////////////
 
-$tiddlyCfg['on_the_fly_workspace_creation'] = 1;
+$tiddlyCfg['on_the_fly_workspace_creation'] = 0;
 
 $tiddlyCfg['rss_group'] = "";
 $tiddlyCfg['markup_group'] = "";

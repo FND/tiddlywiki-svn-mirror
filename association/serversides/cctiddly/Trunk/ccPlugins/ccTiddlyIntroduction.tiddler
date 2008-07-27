@@ -4,11 +4,11 @@
 !!!ccTiddly Tiddlers 
 
 [[anonDefaultTiddlers]]
-[[ccVariables]]
+[[ccAssignments]]
 
 
 
-!! Predefined ccTiddly Tags 
+!!! Predefined ccTiddly Tags 
 
 !!!!simple
 Displays the tiddler without showing the date editor and tags. 

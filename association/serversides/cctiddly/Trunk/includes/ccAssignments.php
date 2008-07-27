@@ -136,6 +136,22 @@ config.defaultCustomFields = {"server.host":window.url, "server.type":"ccTiddly"
 
 config.defaultAdaptor = 'cctiddly';
 
+
+merge(config.macros.options,{
+	wizardTitle:"Advanced settings",
+	step1Title:null,
+		unknownDescription: "//(unknown)//",
+	listViewTemplate: {
+		columns: [
+			{name: 'Option', field: 'option', title: "", type: 'String'},
+			{name: 'Description', field: 'description', title: "", type: 'WikiText'}
+			],
+			rowClasses: [
+						{className: 'lowlight', field: 'lowlight'}
+						]
+}
+	});
+	
 merge(config.optionsDesc,{
 	txtUserName: "",
 	chkRegExpSearch: "Enable regular expressions for searches",

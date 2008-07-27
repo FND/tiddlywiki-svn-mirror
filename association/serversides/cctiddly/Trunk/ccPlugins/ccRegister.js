@@ -1,3 +1,83 @@
+config.macros.register={};	
+
+merge(config.macros.register,{
+	usernameRequest:"username",
+	passwordRequest:"password",
+	passwordConfirmationRequest:"confirm password",
+	emailRequest:"email",
+	stepRegisterTitle:"Register for an account.",
+	stepRegisterIntroText:"Hi, please register below.... ",
+	stepRegisterHtml:"<table><tr><td style='text-align: right;'>username</td><td><input class='input' id='reg_username' name='reg_username' tabindex='1'/></td><td class='inlineError' id='username_error'/></tr><tr><td style='text-align: right;'>email</td><td><input class='input' name=reg_mail id='reg_mail' tabindex='2'/></td><td class='inlineError' id='mail_error'/></tr><tr><td style='text-align: right;'>password</td><td><input type='password' class='input' id='password1' name='reg_password1' tabindex='3'/></td><td class='inlineError' id='pass1_error'/></tr><tr><td style='text-align: right;'>confirm password</td><td><input type='password' class='input' id='password2' 'reg_password2' tabindex='4'/></td><td class='inlineError' id='pass2_error'/></tr></table>",
+	buttonCancel:"Cancel",
+	buttonCancelToolTip:"Cancel transaction ",
+	buttonRegister:"Register",	
+	buttonRegisterToolTip:"click to register",	
+	step2Title:"",
+	step2Html:"Please wait while we create you an account..."
+
+});
+
+
+config.macros.register.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	//config.macros.login.refresh(place);
+};
+
+config.macros.login.displayRegister=function(place, w, item){
+	var me = config.macros.register;
+//	var w = new Wizard(item);
+	w.addStep(me.stepRegisterTitle, me.stepRegisterHtml);
+	w.setButtons([
+		{caption: me.buttonRegister, tooltip: me.buttonRegisterToolTip, onClick:function() { config.macros.login.doRegister(place, w)}},
+		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() { config.macros.login.refresh(place)}}
+	]);
+
+}
+
+
+config.macros.login.doRegister=function(place, w){
+	var me = config.macros.register;
+	w.addStep(me.step2Title,me.step2Html);
+	console.log(w.getValue("reg_username"));
+	w.setButtons([
+		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {config.macros.login.refresh(place);}
+	}]);
+}
+
+
+
+
+config.macros.register.isUsernameAvailable=function(){
+	alert('s');
+	//doHttp('POST',url+'/handle/register.php',"username="+document.getElementById("username").value+"&free=1",null,null,null,config.macros.login.isUsernameAvailabeCallback,null);
+	return false;
+};
+
+
+
+config.macros.register.isUsernameAvailabeCallback=function(status,params,responseText,uri,xhr){
+	var field = "";
+	if(responseText > 0){
+		var error=document.getElementById('username_error');
+		field=document.getElementById('username');
+		error.innerHTML='The username has already been taken. ';
+		error.setAttribute("class","inlineError");
+		// For IE 
+		error.setAttribute("className", "inlineError");
+		field.setAttribute("class","inputError");
+	}else{
+		var a = document.getElementById('username_error');
+		field = document.getElementById('username');
+		a.innerHTML='The username is available ';
+		// For IE
+		a.setAttribute("className", "inlineOk");
+		a.setAttribute("class","inlineOk");
+		field.setAttribute("class","input");
+	}
+};
+
+
+
+
 /***
 |''Name''|ccRegister|
 |''Description''|Allows users to Register for a user account. If the user is logged in there are informed of their username This Macro will later be added to ccLogin Status|
