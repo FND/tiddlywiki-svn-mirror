@@ -151,6 +151,10 @@ merge(String.prototype,{
 		var t1 = store.getTiddler(this);
 		var t2 = store.getTiddler(otherTiddler);
 
+		if (method.substring(0,1) == "-") {
+			desc = true;
+		}
+
 		if (t1 && t2)
 			return t1.sorterUtil(t2,method);
 		// this part is a little flakey but I'm aiming to
@@ -159,8 +163,15 @@ merge(String.prototype,{
 			return +1;
 		else if (t1)
 			return -1;
-		else
-			return 0;
+		else {
+			// neither exist as tiddlers might as well compare strings
+			if (this < otherTiddler)
+				return (desc ? +1 : -1);
+			else if (this > otherTiddler)
+				return (desc ? -1 : +1);
+			else
+				return 0;
+		}
 	}
 });
 

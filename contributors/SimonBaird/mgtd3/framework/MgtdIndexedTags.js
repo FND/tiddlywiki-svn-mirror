@@ -154,6 +154,11 @@ config.indexedTags = {
 			return children.length > 0;
 		},
 
+		hasTickler: function() {
+			var children = fastTagged(this.title).filterByTagExpr('Tickler && !Actioned');
+			return children.length > 0;
+		},
+
 		hasSubProject: function() {
 			var children = fastTagged(this.title).filterByTagExpr('Project && !Complete && Active');
 			return children.length > 0;
@@ -161,6 +166,10 @@ config.indexedTags = {
 
 		hasNextActionOrSubProject: function() {
 			return (this.hasSubProject() || this.hasNextAction());
+		},
+
+		hasNextActionOrSubProjectOrTickler: function() {
+			return (this.hasSubProject() || this.hasNextAction() || this.hasTickler());
 		}
 	},
 

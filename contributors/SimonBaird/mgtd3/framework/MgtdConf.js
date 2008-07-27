@@ -7,7 +7,7 @@ config.mGTD.specialTags = [
 		"Action",
 		"Project",
 		"Area",
-		"Realm",
+		//"Realm",
 		"Context",
 		"View",
         "Tickler",

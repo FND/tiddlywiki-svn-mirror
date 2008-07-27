@@ -12,7 +12,7 @@
 	where:tiddler.getByIndex("Contact").length > 0'
 	group:Contact
 	gView:bold
-	newButtonTags:'Action && [(Waiting For)]'
+	newButtonTags:'Action [(Waiting For)]'
 	>>
 
 }}}
@@ -23,7 +23,7 @@
 	where:tiddler.getByIndex('Contact').length>0
 	group:Contact
 	gView:bold
-	newButtonTags:'Action && Done && [(Waiting For)]'
+	newButtonTags:'Action Done [(Waiting For)]'
 	>>
 
 }}}

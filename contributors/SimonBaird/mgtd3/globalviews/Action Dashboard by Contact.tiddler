@@ -16,7 +16,7 @@
 	group:Contact
 	gView:bold
 	where:tiddler.hasActiveProject()
-	newButton:'Action [(Waiting For)]'
+	newButtonTags:'Action [(Waiting For)]'
 	>>
 
 }}}
