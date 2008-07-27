@@ -7,5 +7,12 @@ This implementation of ProjectCecily exploits several features of recent version
 * [[CSS Gradients|http://webkit.org/blog/175/introducing-css-gradients/]]
 * [[CSS Animation|http://webkit.org/blog/138/css-animation/]]
 
+WebKit is an awesome piece of work, as evidenced by the way that this embedded video plays smoothly even with lots of zooming and scaling going on:
+{{{
+<html>
+<video src="jumps.mov" autoplay playcount="999">
+</video>
+</html>
+}}}
 <html><video src="jumps.mov" autoplay playcount="999"></video></html></pre>
 </div>

@@ -1,10 +1,12 @@
 <div title="ToDo" modifier="JeremyRuston" created="200806152349" changecount="1">
 <pre>Things to do:
 * Smoother
-* Check whether we're running on a capable version of WebKit
 * Bug: Dragging sometimes judders
 * Improve the background canvas
 * Bug: Jerkiness of two distinct scrollTo phases
-* Style the message area
-* Bug: Some tiddlers don't like being opened in edit mode</pre>
+* Bug: Some tiddlers don't like being opened in edit mode (I think that this is a WebKit problem)
+* Slim the overlay menu
+* Better keyboard shortcuts
+* Support for multiple named maps
+* Disable snap-zoom after a drag</pre>
 </div>

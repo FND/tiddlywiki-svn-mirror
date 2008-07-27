@@ -651,48 +651,105 @@ Cecily.backgrounds.fractal = {
 			var w = canvas.width;
 			var h = canvas.height;
 			var scale = w/view.w;
-			var t = ((Math.log(scale)+6)/12);
-			t = Math.max(t,0);
-			t = Math.min(t,1);
 			var ctx = canvas.getContext('2d');
-			ctx.fillStyle = "#cccc88";
+			ctx.fillStyle = "#cc8888";
 			ctx.fillRect(0, 0, w, h);
 			var drawCircle = function(x,y,r,c) {
-				ctx.fillStyle = c ? c : '#bbbb66';
+				var radgrad = ctx.createRadialGradient(x,y,r,x-r/3,y-r/3,1);
+				radgrad.addColorStop(0, '#8888cc');
+				radgrad.addColorStop(0.9, '#f0f0ff');
+				radgrad.addColorStop(1, '#ffffff');
+				ctx.fillStyle = radgrad;
 				ctx.beginPath();
 				ctx.arc(x,y,r,0,2*Math.PI,0);
 				ctx.fill();
 			}
-			var modulo = function(num,denom) {
-				return num-Math.floor(num/denom)*denom;
+			var drawLeg = function(p1,p2) {
+				
+				// Work out the angle and scale to convert (0,0)-(1,1) to (p1)-(p2)
+				var s = Math.sqrt(Math.pow(p2.x-p1.x,2)+Math.pow(p2.y-p1.y,2));
+				var a = Math.atan2(p2.y-p1.y,p2.x-p1.x);
+				ctx.strokeStyle = "#F00";
+				ctx.lineWidth = 3;
+				ctx.beginPath();
+				ctx.moveTo(p1.x,p1.y);
+				ctx.lineTo(p2.x,p2.y);
+				ctx.stroke();
+				
+				var s2 = s * 1.0;
+				var a2 = a - Math.PI*1.0;
+				var x = p1.x + Math.sin(a2) * s2;
+				var y = p1.y + Math.cos(a2) * s2;
+				ctx.strokeStyle = "#00f";
+				ctx.beginPath();
+				ctx.moveTo(p1.x,p1.y);
+				ctx.lineTo(x,y);
+				ctx.stroke();
+				
+				var s2 = s * 0.3;
+				var a2 = a - Math.PI*0.25;
+				var x = p1.x + Math.sin(a2) * s2;
+				var y = p1.y + Math.cos(a2) * s2;
+				ctx.strokeStyle = "#f0f";
+				ctx.beginPath();
+				ctx.moveTo(p1.x,p1.y);
+				ctx.lineTo(x,y);
+				ctx.stroke();
+				
+				s2 = s * 2.0;
+				a2 = a + Math.PI*0.5;
+				x = p1.x + Math.sin(a2) * s2;
+				y = p1.y + Math.cos(a2) * s2;
+				ctx.strokeStyle = "#08f";
+				ctx.beginPath();
+				ctx.moveTo(p1.x,p1.y);
+				ctx.lineTo(x,y);
+				ctx.stroke();
+				
+				s2 = s * 0.5;
+				a2 = a + Math.PI*1.5;
+				x = p1.x + Math.sin(a2) * s2;
+				y = p1.y + Math.cos(a2) * s2;
+				ctx.strokeStyle = "#ff8";
+				ctx.beginPath();
+				ctx.moveTo(p1.x,p1.y);
+				ctx.lineTo(x,y);
+				ctx.stroke();
+				
 			}
-			var gapX = 2000 * scale;
-			var yscale = Math.sin(Math.PI/3)*2;
-			var gapY = gapX * yscale;
-			var radius = 600 * scale;
-			if(gapX < 15) {
-				gapX = 15;
-				gapY = 15;
-			}
-			if(radius < 7) {
-				radius = 7;
-			}
+			var scale = w/view.w;
+			// Get the position of the canvas on the plane
+			var px = view.x + view.w/2 - (w/2) / scale;
+			var py = view.y + view.h/2 - (h/2) / scale;
+			var pw = w / scale;
+			var ph = h / scale;
+			// Map coordinates
+			var p1 = new Point(100,100);
+			var p2 = new Point(100,340);
+			var x = 100;
+			var y = 100;
+			var r = 500;
+			// To 0..1,0..1 for viewport
+			p1.x = (p1.x - px)/pw;
+			p1.y = (p1.y - py)/ph;
+			p2.x = (p2.x - px)/pw;
+			p2.y = (p2.y - py)/ph;
 			
-			for(var y = -modulo(view.y * scale,gapY) - gapY; y < h + gapY; y += gapY) {
-				for(var x = -modulo(view.x * scale,gapX) - gapX; x < w + gapX; x += gapX) {
-					drawCircle(x,y,radius);
-					drawCircle(x + gapX/2,y + gapY/2,radius);
-					drawCircle(x,y,radius/2,"#555577");
-					drawCircle(x + gapX/4,y + gapY/4,radius/2,"#555577");
-					drawCircle(x + gapX/2,y,radius/2,"#555577");
-					drawCircle(x + gapX/4,y - gapY/4,radius/2,"#555577");
-					drawCircle(x - gapX/4,y - gapY/4,radius/2,"#555577");
-					drawCircle(x - gapX/4,y + gapY/4,radius/2,"#555577");
-					drawCircle(x - gapX/2,y,radius/2,"#555577");
-					drawCircle(x + gapX/2,y + gapY/2,radius/2,"#555577");
-					drawCircle(x + gapX,y + gapY/2,radius/2,"#555577");
-				}
-			}
+			x = (x - px)/pw;
+			y = (y - py)/ph;
+			r = r / pw;
+			// To x,y for canvas
+			x = x * w;
+			y = y * h;
+			r = r * w;
+			drawCircle(x,y,r);
+			
+			p1.x = p1.x * w;
+			p1.y = p1.y * h;
+			p2.x = p2.x * w;
+			p2.y = p2.y * h;
+			
+			drawLeg(p1,p2);
 		}
 };
 
@@ -801,16 +858,38 @@ function overrideMethod(instance,method,override)
 }
 
 //-----------------------------------------------------------------------------------
+// Browser detection gubbins
+//-----------------------------------------------------------------------------------
+
+function getWebKitVersion()
+{
+	// Get the version number in x.y.z format
+    var fields = /( AppleWebKit\/)(\S+)/.exec(navigator.userAgent);
+    if (!fields || fields.length < 3)
+        return null;
+    var version = fields[2];
+    // Remove extraneous characters like '+'
+//    var invalidCharacter = RegExp("[^\\.0-9]").exec(versionString);
+//    if (invalidCharacter)
+//       versionString = versionString.slice(0, invalidCharacter.index);
+    
+    return version.split(".");
+}
+
+//-----------------------------------------------------------------------------------
 // Initialisation code (executed during loading of plugin)
 //-----------------------------------------------------------------------------------
 
-setStylesheet(store.getRecursiveTiddlerText(tiddler.title + "##StyleSheet"),"cecily");
-
-var cecily = new Cecily();
-
-overrideMethod(story,"displayTiddler",function(superFunction,arguments) {cecily.displayTiddler(superFunction,arguments);});
-
-store.addNotification("PageTemplate",function () {cecily.createDisplay();});
+var webKitVersion = getWebKitVersion();
+var isGoodWebKit = webKitVersion && webKitVersion[0] >= 525;
+if(isGoodWebKit) {
+	setStylesheet(store.getRecursiveTiddlerText(tiddler.title + "##StyleSheet"),"cecily");
+	var cecily = new Cecily();
+	overrideMethod(story,"displayTiddler",function(superFunction,arguments) {cecily.displayTiddler(superFunction,arguments);});
+	store.addNotification("PageTemplate",function () {cecily.createDisplay();});
+} else {
+	alert("ProjectCecily currently only works on Safari 3.1 and above. Use the nightly build from http://webkit.org/ for the best experience");
+}
 
 }
 
@@ -828,11 +907,16 @@ store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 }
 
 div#messageArea {
+	-webkit-transition: opacity 0.3s ease-in-out;
 	-webkit-border-radius: 7px;
 	border: 1px solid #222;
 	background-color: [[ColorPalette::SecondaryLight]];
-	background-image: -webkit-gradient(linear, left top, left bottom, from([[ColorPalette::SecondaryPale]]), to([[ColorPalette::SecondaryDark]]), color-stop(0.1,[[ColorPalette::SecondaryLight]]));
-	opacity: 0.7;
+	background-image: -webkit-gradient(linear, left top, left bottom, from([[ColorPalette::SecondaryPale]]), to([[ColorPalette::SecondaryDark]]), color-stop(0.1,[[ColorPalette::SecondaryLight]]), color-stop(0.6,[[ColorPalette::SecondaryMid]]));
+	opacity: 0.8;
+}
+
+div#messageArea:hover {
+	opacity: 1.0;
 }
 
 div#messageArea .button {
@@ -856,7 +940,7 @@ div#messageArea:hover .button:active {
 }
 
 #overlayMenu {
-	-webkit-transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+	-webkit-transition: opacity 0.3s ease-in-out;
 	z-index: 100;
 	bottom: 3em;
 	right: 1em;
@@ -875,6 +959,7 @@ div#messageArea:hover .button:active {
 }
 
 #overlayMenu a {
+	-webkit-transition: color 0.3s ease-in-out;
 	text-decoration: none;
 	font-weight: bold;
 	font-style: normal;
