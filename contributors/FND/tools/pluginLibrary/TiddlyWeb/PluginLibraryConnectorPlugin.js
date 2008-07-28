@@ -29,7 +29,7 @@ config.macros.ImportPlugins = {
 	btnTooltip: "connect to TiddlyWiki Plugin Library",
 	btnClass: null,
 	prompt: "Enter search query:",
-	host: "http://burningchrome.com:8090/search.wiki?q=",
+	host: "http://burningchrome.com:8090/search.store?q=",
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		createTiddlyButton(place, this.btnLabel,
