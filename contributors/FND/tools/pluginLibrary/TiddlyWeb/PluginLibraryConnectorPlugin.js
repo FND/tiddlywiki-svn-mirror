@@ -39,12 +39,15 @@ config.macros.ImportPlugins = {
 
 	onclick: function() {
 		var query = prompt(config.macros.ImportPlugins.prompt);
+		config.macros.ImportPlugins.requestPlugins(query);
+	},
+
+	requestPlugins: function(query) { // DEBUG: rename?
 		var adaptor = new FileAdaptor();
 		var context = {
 			host: config.macros.ImportPlugins.host + query
 		}
-		var success = adaptor.getTiddlerList(context, null,
-			config.macros.ImportPlugins.processPlugins);
+		var success = adaptor.getTiddlerList(context, null, this.processPlugins);
 		console.log(success, new Date(), context.host); // DEBUG
 	},
 
@@ -59,6 +62,15 @@ config.macros.ImportPlugins = {
 				plugin.created);
 			console.log("after", plugin); // DEBUG
 		}
+	}
+};
+
+// override search macro
+config.macros.search.doSearch = function(txt)
+{
+	if(txt.value.length > 0) {
+		config.macros.ImportPlugins.requestPlugins(txt.value);
+		txt.setAttribute("lastSearchText", txt.value);
 	}
 };
 
