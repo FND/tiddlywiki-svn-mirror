@@ -26,7 +26,6 @@ function workspace_create_new($anonPerm="AUUU",$hash=null)
 	$data1['modifier'] = 'ccTiddly';
 	$data1['modified'] = epochToTiddlyTime(mktime());
 	$data1['created'] = epochToTiddlyTime(mktime());
-	$data1['fields'] = "changecount='1'";
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
 		
 	header('HTTP/1.0 201 Created');
@@ -77,7 +76,7 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 	$data1['modifier'] = 'ccTiddly';
 	$data1['modified'] = epochToTiddlyTime(mktime());
 	$data1['created'] = epochToTiddlyTime(mktime());
-	$data1['fields'] = "changecount='1'";
+	//$data1['fields'] = "changecount='1'";
 	db_record_insert($tiddlyCfg['table']['main'],$data1);
 		
 		

@@ -8,8 +8,9 @@ config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramSt
 	if (isLoggedIn())
 		wikify("[[upload|Upload]]<br />", place);
 	if (workspacePermission.create==1)
-		wikify("[[create|CreateWorkspace]]", place);
-
+		wikify("[[create|CreateWorkspace]]<br />", place);
+		if (isLoggedIn())
+			wikify("[[offline|"+url+"/handle/standalone.php?workspace="+workspace+"]]<br />", place);
 };
 
 
@@ -30,7 +31,6 @@ merge(config.macros.login,{
 	buttonCancelToolTip:"Cancel transaction ",
 	buttonForgottenPassword:"Forgotten Password",	
 	buttonForgottenPasswordToolTip:"Click to be reminded of your password",
-
 	configURL:url+"/handle/login.php", 
 	configUsernameInputName:"cctuser",
 	configPasswordInputName:"cctpass",

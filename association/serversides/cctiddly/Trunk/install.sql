@@ -128,8 +128,8 @@ CREATE TABLE `tiddler` (
 
 INSERT INTO `tiddler` (`id`, `workspace_name`, `title`, `body`, `fields`, `tags`, `modifier`, `creator`, `modified`, `created`, `revision`) VALUES 
 (6, '', 'GettingStarted', 'Welcome to ccTiddly 1.6.  \\n\\n', '', '', 'ccTiddly', 'ccTiddly', '200802151654', '200712281715', 11),
-(40, '', 'SiteTitle', 'ccTiddly', 'changecount=''1''', '', 'ccTiddly', 'ccTiddly', '200802151311', '200802151311', 0),
-(42, '', 'SiteSubtitle', 'Provided by [[Osmosoft]] using TiddlyWiki - The Wiki with a silly name', 'changecount=''1''', '', 'ccTiddly', 'ccTiddly', '200802151311', '200802151311', 0);
+(40, '', 'SiteTitle', 'ccTiddly', '', '', 'ccTiddly', 'ccTiddly', '200802151311', '200802151311', 0),
+(42, '', 'SiteSubtitle', 'Provided by [[Osmosoft]] using TiddlyWiki - The Wiki with a silly name', '', '', 'ccTiddly', 'ccTiddly', '200802151311', '200802151311', 0);
 
 
 -- --------------------------------------------------------

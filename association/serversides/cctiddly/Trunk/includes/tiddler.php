@@ -119,6 +119,17 @@
 		return $return;
 	}
 	
+	function tiddler_outputJsFile($file, $cct_base)
+	{
+			$file  =str_replace($cct_base, "", $file);
+			$tiddler_name = str_replace('.js', '', $file);
+			echo "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch ccTiddly\">\n<pre>";
+        	//include_once($cct_base."ccPlugins/".$file);
+			$file = file_get_contents($cct_base."ccPlugins/".$file);
+			echo tiddler_bodyEncode($file);
+			echo "</pre>\n</div>\n";
+	}
+	
 	function tiddler_outputDIV($tiddler)
 	{	
 		global $tiddlyCfg;
