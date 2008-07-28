@@ -30,6 +30,7 @@ config.macros.ImportPlugins = {
 	btnClass: null,
 	prompt: "Enter search query:",
 	host: "http://burningchrome.com:8090/search.store?q=",
+	pluginTemplate: "ViewTemplateCompact",
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		createTiddlyButton(place, this.btnLabel,
@@ -55,12 +56,11 @@ config.macros.ImportPlugins = {
 		console.log("processing... ", new Date()); // DEBUG
 		for(var i = 0; i < context.tiddlers.length; i++) {
 			plugin = context.tiddlers[i];
-			console.log("before", plugin); // DEBUG
 			plugin.fields.doNotSave = true;
 			plugin = store.saveTiddler(plugin.title, plugin.title, plugin.text,
 				plugin.modifier, plugin.modified, plugin.tags, plugin.fields, true,
 				plugin.created);
-			console.log("after", plugin); // DEBUG
+			story.displayTiddler(null, plugin, config.macros.ImportPlugins.pluginTemplate); // DEBUG: can't use this to reference config.macros.ImportPlugins!?
 		}
 	}
 };
