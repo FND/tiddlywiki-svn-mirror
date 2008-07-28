@@ -6,5 +6,5 @@
 |''CodeRepository''|http://svn.tiddlywiki.org|
 ***/
 //{{{
-config.macros.upgrade.source = "http://www.tiddlywiki.com/beta/empty.html";
+config.macros.upgrade.source = "http://www.tiddlywiki.com/beta/upgrade.html";
 //}}}
