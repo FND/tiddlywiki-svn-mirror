@@ -1,0 +1,22 @@
+<div title="StyleSheet" modifier="FND" created="200807281701" modified="200807281706" tags="meta" changecount="5">
+<pre>[[StyleSheetReset]]
+/*{{{*/
+.header {
+	padding: 0.5em 1em;
+	background-color: #000;
+}
+
+.header,
+.header a {
+	color: #fff;
+}
+
+#searchBox {
+	text-align: center;
+}
+
+#mainMenu {
+	padding-top: 0.5em;
+}
+/*}}}*/</pre>
+</div>

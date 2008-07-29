@@ -1,0 +1,39 @@
+<div title="StyleSheetReset" modifier="FND" created="200807281553" modified="200807281620" tags="meta" changecount="4">
+<pre>/***
+[[Clean Layout|http://cleanlayout.tiddlyspot.com]]
+***/
+/*{{{*/
+#mainMenu {
+	position: static;
+	float: left;
+	width: auto;
+	padding: 1.5em 0.5em 0.5em 0.5em;
+	font-size:1.1em;
+	line-height: 1.6em;
+	text-align: right;
+}
+
+#sidebar {
+	position: static;
+	float: right;
+	margin-right: 3px;
+	width: 16em;
+	font-size: 0.9em;
+}
+
+#displayArea {
+	overflow: hidden;
+	margin: 1em 1em 0;
+}
+
+/* Internet Explorer fixes */
+
+/* hasLayout */
+#displayArea {
+	display: inline-block;
+}
+#displayArea {
+	display: block;
+}
+/*}}}*/</pre>
+</div>
