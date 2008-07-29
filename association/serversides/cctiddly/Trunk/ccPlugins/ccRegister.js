@@ -22,9 +22,9 @@ config.macros.register.handler=function(place,macroName,params,wikifier,paramStr
 	//config.macros.login.refresh(place);
 };
 
-config.macros.login.displayRegister=function(place, w, item){
+config.macros.register.displayRegister=function(place, w, item){
 	var me = config.macros.register;
-//	var w = new Wizard(item);
+	var w = new Wizard(item);
 	w.addStep(me.stepRegisterTitle, me.stepRegisterHtml);
 	w.setButtons([
 		{caption: me.buttonRegister, tooltip: me.buttonRegisterToolTip, onClick:function() { config.macros.login.doRegister(place, w)}},
@@ -36,8 +36,11 @@ config.macros.login.displayRegister=function(place, w, item){
 
 config.macros.login.doRegister=function(place, w){
 	var me = config.macros.register;
-	w.addStep(me.step2Title,me.step2Html);
-	console.log(w.getValue("reg_username"));
+	
+//	console.log(w.getValue("reg_username"));
+	displayMessage("AA:"+w.formElem['reg_username'].value);
+	
+	w.addStep(me.step2Title,"blh blhasdf sdf ") ;
 	w.setButtons([
 		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {config.macros.login.refresh(place);}
 	}]);

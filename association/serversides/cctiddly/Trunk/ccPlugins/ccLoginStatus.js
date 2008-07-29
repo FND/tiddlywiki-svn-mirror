@@ -37,6 +37,11 @@ config.macros.ccLoginStatus.handler=function(place,macroName,params,wikifier,par
 config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 	var loginDivRef=document.getElementById ("LoginDiv");
 	removeChildren(loginDivRef);
+	var btn = createTiddlyElement(place,"input",null,"button", null, {
+		type: "button",
+		value: "Logout" });
+	btn.onclick = function() { alert("foo"); };
+displayMessage("s1");
 var wrapper=createTiddlyElement(place,"div");
 	if (isLoggedIn()){
 		createTiddlyElement(wrapper,"br");
@@ -48,23 +53,25 @@ var wrapper=createTiddlyElement(place,"div");
 		
 		var btn = createTiddlyElement(wrapper,"input",null,"button", null, {
 			type: "button",
-			value: "Logout",
-			onclick:function() {alert("sd");}
-			});
+			value: "Logout" });
 		btn.onclick = function() { alert("foo"); };
+		
+	displayMessage("s2");
 		btn.setAttribute("type", "button");
 		btn.onclick=function() {
 			alert("oh boy");
 //			window.location = window.location+"?&logout=1&workspace="+window.workspace;
 		};
 		wrapper.appendChild(btn);
+
+	displayMessage("s3"+workspace);
 		//btn.value="Logout";   
 		//wrapper.appendChild(btn);	
 		if (workspacePermission.owner==1)
-			wrapper.innerHTML += "<p>You are an admin of this workspace.</p>";
+			createTiddlyText(wrapper,"You are an admin of this workspace");
 
 	}else{
-		wikify("Hi Guest\r\n\r\n [[Please click here to login|Login]] ",wrapper);
+		wikify("Hi Guest\r\n\r\n Please click [[here to login|Login]] ",wrapper);
 	}
 };
 

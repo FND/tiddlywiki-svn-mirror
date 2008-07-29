@@ -20,7 +20,7 @@ merge(config.macros.login,{
 	usernameRequest:"Username",
 	passwordRequest:"Password",
 	stepLoginTitle:null,
-	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=username id=username tabindex='1'></td></tr><tr><td>password</td><td><input type=password id='password' tabindex='2' name=password></td></tr></table>",
+	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=AAusername id=username tabindex='1'></td></tr><tr><td>password</td><td><input type=password id='password' tabindex='2' name=password></td></tr></table>",
 	stepDoLoginTitle:"Logging you in",
 	stepDoLoginIntroText:"we are currently trying to log you in.... ",
 	stepForgotPasswordTitle:"Password Request",
@@ -77,7 +77,7 @@ config.macros.login.refresh=function(place){
 	});
 	if(config.macros.register!==undefined){		
 		createTiddlyButton(w.footElem,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
-				config.macros.login.displayRegister(place, w, this);
+				config.macros.register.displayRegister(place, w, this);
 		});
 	}
 
@@ -240,7 +240,7 @@ function isLoggedIn(){
 	};
 
 config.macros.ccLogin.refresh=function(place,errorMsg){
-	console.log("CHECKCHECKL");
+	//console.log("CHECKCHECKL");
 	var loginDivRef=document.getElementById("LoginDiv");
 	removeChildren(loginDivRef);
 	var wrapper=createTiddlyElement(place,"div");
