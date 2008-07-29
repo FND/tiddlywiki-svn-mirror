@@ -1,0 +1,14 @@
+
+A TiddlyWiki plugin that provides a URI based library
+for accessing a TiddlyWeb server. Designed to be used
+by other plugins that would like to perform some accessing
+of TiddlyWeb.
+
+The rationale for such at thing is that at certain points
+in a wiki's interaction with a TiddlyWeb, the goal is
+to browse and potentially select resources that exist in
+the TiddlyWeb server and _not_ simply GET and PUT tiddlers.
+
+This plugin provides the tools that allow such browsing 
+but provides no specific interface for the browsing.
+
