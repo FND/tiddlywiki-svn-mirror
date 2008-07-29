@@ -858,38 +858,23 @@ function overrideMethod(instance,method,override)
 }
 
 //-----------------------------------------------------------------------------------
-// Browser detection gubbins
-//-----------------------------------------------------------------------------------
-
-function getWebKitVersion()
-{
-	// Get the version number in x.y.z format
-    var fields = /( AppleWebKit\/)(\S+)/.exec(navigator.userAgent);
-    if (!fields || fields.length < 3)
-        return null;
-    var version = fields[2];
-    // Remove extraneous characters like '+'
-//    var invalidCharacter = RegExp("[^\\.0-9]").exec(versionString);
-//    if (invalidCharacter)
-//       versionString = versionString.slice(0, invalidCharacter.index);
-    
-    return version.split(".");
-}
-
-//-----------------------------------------------------------------------------------
 // Initialisation code (executed during loading of plugin)
 //-----------------------------------------------------------------------------------
 
-var webKitVersion = getWebKitVersion();
-var isGoodWebKit = webKitVersion && webKitVersion[0] >= 525;
-if(isGoodWebKit) {
+function runCecily()
+{
 	setStylesheet(store.getRecursiveTiddlerText(tiddler.title + "##StyleSheet"),"cecily");
-	var cecily = new Cecily();
+	window.cecily = new Cecily();
 	overrideMethod(story,"displayTiddler",function(superFunction,arguments) {cecily.displayTiddler(superFunction,arguments);});
 	store.addNotification("PageTemplate",function () {cecily.createDisplay();});
-} else {
-	alert("ProjectCecily currently only works on Safari 3.1 and above. Use the nightly build from http://webkit.org/ for the best experience");
 }
+
+if(config.browser.isSafari && 
+	(document.body.style['-webkit-transform'] !== undefined)) {
+		runCecily();
+	} else {
+		alert("ProjectCecily currently only works on Safari 3.1 and above. Use the nightly build from http://webkit.org/ for the best experience");
+	}
 
 }
 

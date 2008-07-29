@@ -8,5 +8,6 @@
 * Slim the overlay menu
 * Better keyboard shortcuts
 * Support for multiple named maps
-* Disable snap-zoom after a drag</pre>
+* Disable snap-zoom after a drag
+* Do semantic zooming in CSS by progressively adding classNames like "lessThan20px", "lessThan10px"</pre>
 </div>
