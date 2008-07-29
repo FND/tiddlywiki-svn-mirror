@@ -8,18 +8,13 @@ window.url = "<?php echo getURL();?>";
 window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 
-<?php
-
-if($tiddlyCfg['use_mod_rewrite']==0)
-{
-?>	fullUrl = window.url+"?workspace="+window.workspace; <?php
-}else {
-?>	fullUrl = window.url+"/"+window.workspace; <?php
-	
-}
+config.defaultCustomFields = {"server.host":window.url, "server.type":"ccTiddly", "server.workspace":window.workspace};
 
 
-?>
+
+if (config.options.txtTheme == "")
+config.options.txtTheme = 'ccTheme';
+
 
 <?php
 if($theme == "simple")
@@ -142,7 +137,7 @@ var serverside={
 
 // TODO : which to use? neither seem to work. 
 
-config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};
+config.defaultCustomFields = {"server.host":window.url, "server.type":"ccTiddly", "server.workspace":window.workspace};
 
 config.defaultAdaptor = 'cctiddly';
 

@@ -37,12 +37,7 @@ config.macros.ccLoginStatus.handler=function(place,macroName,params,wikifier,par
 config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 	var loginDivRef=document.getElementById ("LoginDiv");
 	removeChildren(loginDivRef);
-	var btn = createTiddlyElement(place,"input",null,"button", null, {
-		type: "button",
-		value: "Logout" });
-	btn.onclick = function() { alert("foo"); };
-displayMessage("s1");
-var wrapper=createTiddlyElement(place,"div");
+	var wrapper=createTiddlyElement(place,"div");
 	if (isLoggedIn()){
 		createTiddlyElement(wrapper,"br");
 		name = cookieString(document.cookie).txtUserName;
@@ -50,26 +45,19 @@ var wrapper=createTiddlyElement(place,"div");
 			var str = wikify("You are viewing the default workspace and  are logged in as "+decodeURIComponent(name)+"\r\n\r\n",wrapper);
 		else
 			var str = wikify("You are viewing the workspace "+workspace+" and  are logged in as "+decodeURIComponent(name)+"\r\n\r\n",wrapper);
-		
 		var btn = createTiddlyElement(wrapper,"input",null,"button", null, {
 			type: "button",
 			value: "Logout" });
-		btn.onclick = function() { alert("foo"); };
-		
-	displayMessage("s2");
 		btn.setAttribute("type", "button");
 		btn.onclick=function() {
-			alert("oh boy");
-//			window.location = window.location+"?&logout=1&workspace="+window.workspace;
+			window.location = window.location+"?&logout=1&workspace="+window.workspace;
 		};
 		wrapper.appendChild(btn);
-
-	displayMessage("s3"+workspace);
-		//btn.value="Logout";   
-		//wrapper.appendChild(btn);	
-		if (workspacePermission.owner==1)
+		if (workspacePermission.owner==1){
+			createTiddlyElement(wrapper, "br");
+			createTiddlyElement(wrapper, "br");
 			createTiddlyText(wrapper,"You are an admin of this workspace");
-
+		}
 	}else{
 		wikify("Hi Guest\r\n\r\n Please click [[here to login|Login]] ",wrapper);
 	}

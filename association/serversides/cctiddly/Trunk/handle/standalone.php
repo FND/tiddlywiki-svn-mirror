@@ -579,11 +579,17 @@ echo "<div title='ccAdaptor' modifier='ccTiddly' tags='systemConfig excludeLists
 $file = file_get_contents($cct_base."ccPlugins/ccAdaptor.js");
 echo htmlspecialchars($file);
 echo "</pre>\n</div>\n";
+
+
+
+
+
 ?>
 
 
 <div title='ccAdaptorSaveLocal' modifier='cctiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
 <pre>
+config.options.chkAutoSave = true;
 config.defaultCustomFields = {"server.host":"http://127.0.0.1/association/serversides/cctiddly/Trunk/handle", "server.type":"cctiddly", "server.workspace":"<?php echo $_REQUEST['workspace']?>"};
 </pre>
 </div>
