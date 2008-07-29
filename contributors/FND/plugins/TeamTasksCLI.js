@@ -76,13 +76,23 @@ config.shadowTiddlers.TTCommands = "|Separator|>>|\n"
 	+ "|StatusDefinitions|#|\n"
 	+ "|UserDefinitions|u:|";
 
-// hijack story.gatherSaveFields() to extract commands from title -- DEBUG: highly inefficient (function is recursive)
-Story.prototype.gatherSaveFields_TTCLI = Story.prototype.gatherSaveFields;
-Story.prototype.gatherSaveFields = function(e, fields) {
-	this.gatherSaveFields_TTCLI.apply(this, arguments);
-	if(fields && fields.title) {
-		fields.title = version.extensions.TeamTasksCLI.extractCommands(fields.title);
+// hijack saveTiddler handler to extract commands from title
+config.commands.saveTiddler.handler_TTCLI = config.commands.saveTiddler.handler;
+config.commands.saveTiddler.handler = function(event, src, title) {
+	// get title edit field
+	var t = story.findContainingTiddler(src);
+	var els = t.getElementsByTagName("input");
+	for(var i = 0; i < els.length; i++) {
+		if(els[i].getAttribute("edit") == "title") {
+			var el = els[i];
+			break;
+		}
 	}
+	// modify field
+	if(el) {
+		el.value = version.extensions.TeamTasksCLI.extractCommands(el.value);
+	}
+	return this.handler_TTCLI.apply(this, arguments);
 };
 
 // hijack store.saveTiddler() to modify fields
