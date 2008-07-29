@@ -6,14 +6,14 @@ $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "db165";		//db name
+$tiddlyCfg['db']['name'] = "DATABASE";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 // Debugging Information 
 
 $tiddlyCfg['developing'] = 1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
-$tiddlyCfg['debug']['mysql'] = 1;	 // if set to 1 will output every sql query into the logfile 
-$tiddlyCfg['debug']['login'] = 1;
+$tiddlyCfg['debug']['mysql'] = 0;	 // if set to 1 will output every sql query into the logfile 
+$tiddlyCfg['debug']['login'] = 0;
 $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;
 $tiddlyCfg['debug']['params'] = 1;

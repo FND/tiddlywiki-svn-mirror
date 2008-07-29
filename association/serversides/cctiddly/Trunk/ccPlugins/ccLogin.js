@@ -105,7 +105,7 @@ config.macros.login.loginCallback=function(status,params,responseText,uri,xhr){
 		displayMessage("Login Failed");
 	else{
 		displayMessage(xhr.status);
-		window.location=window.url+"/"+window.workspace;
+		window.location=window.fullUrl;
 	} 
 };
 
@@ -257,7 +257,7 @@ config.macros.ccLogin.refresh=function(place,errorMsg){
 		w.createWizard(place,"Hello "+cookieString(document.cookie).txtUserName);
 		w.addStep(null,msg.innerHTML);
 		w.setButtons([
-			{caption: 'Logout', tooltip: 'Logout', onClick:function() { window.location=url+"/"+workspace+"?&logout=1";} }
+			{caption: 'Logout', tooltip: 'Logout', onClick:function() {window.location=fullUrl+"?&logout=1";} }
 		]);
 		
 	}else{

@@ -326,7 +326,7 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 		tiddler.fields['server.page.revision'] = 10000;
 	else
 		tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'])+1;
-	var payload="workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title)+"&omodified="+d+"&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier+"&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision'])+"&fields="+encodeURIComponent(fieldString)+"&body="+encodeURIComponent(tiddler.text.htmlDecode())+"";
+	var payload="workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title)+"&omodified="+tiddler.fields['server.omodified']+"&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier+"&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision'])+"&fields="+encodeURIComponent(fieldString)+"&body="+encodeURIComponent(tiddler.text.htmlDecode())+"";
 		var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 	return typeof req == 'string' ? req : true;
 };
@@ -337,10 +337,13 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
 
+		if(xhr.status==403) {
+			displayMessage("Your changes were not saved.  This page requires reloading.");
+		}
         if(status) {
                 context.status = true;
         } else {
-                displayMessage('putTiddler xhr status is' + xhr.status);
+                displayMessage('  xhr status is' + xhr.status);
                 displayMessage('putTiddler xhr status text is' + xhr.statusText);
                 context.status = false;
                 context.statusText = xhr.statusText;

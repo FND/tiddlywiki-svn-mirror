@@ -39,17 +39,17 @@ $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
 $oldModified = formatParametersPOST($_POST['omodified']);
 
 $tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
-
-		debug("AAAA".$_POST['modified'], 'params');
-		
 		
 if(isset($tiddler['title']))
 {
 	// Tiddler with the same 	name already exisits.
 	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);
-	if( strcmp($tiddler['modified'],$_POST['omodified'])!=0 && $_POST['omodified']==0 ) {		//ask to reload if modified date differs
-//		echo "page reload required"; 
-//		returnResult("012");
+	
+	debug("POST omod : ".$_POST['omodified'], "params");
+	debug("db mod : ".$tiddler['modified'], "params");
+	if($tiddler['modified'] !== $_POST['omodified'] ) {		//ask to reload if modified date differs
+		debug("RELOAD REQUIRED", "params");
+		returnResult("012");
 	}
 			//require edit privilege on new and old tags
 	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
@@ -61,7 +61,7 @@ if(isset($tiddler['title']))
 		tiddler_update_new($otiddler['id'], $ntiddler);
 		returnResult( "002" );
 	}else{
-		returnResult( "020" );
+		returnResult( "020" );	
 	}
 }else{
 	//This Tiddler does not exist in the database.

@@ -8,9 +8,9 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.3.0|
+|''~ColorPalette:''|##ColorPalette|
 |''~PageTemplate:''|##PageTemplate|
 |''~OptionsPanel:''|##OptionsPanel|
-
 |''~tabs:''|##tabs|
 |''~OptionsPanel:''|##OptionsPanel|
 |''~SideBarTabs:''|##SideBarTabs|
@@ -21,6 +21,34 @@
 |''~ViewTemplate:''|##ViewTemplate|
 |''~simpleViewTemplate:''|##simpleViewTemplate|
 ***/
+
+
+!ColorPalette 
+<!--{{{-->
+Background:#111
+Foreground: #CECECE
+PrimaryPale: #222
+PrimaryLight: pink
+PrimaryMid: #eee
+PrimaryDark: #CECECE
+SecondaryPale: #222
+SecondaryLight: #222
+SecondaryMid: #333
+SecondaryDark: red
+TertiaryPale: #333
+TertiaryLight: white
+TertiaryMid: #222
+TertiaryDark: #eee
+Error: #f88
+smmDark1:#111
+smmHigh:green
+smmDark2:#222
+smmDark3:#333
+smmLight1:#eee
+smmLight2:white
+smmLight3:#999;
+<!---}}}-->
+
 
 !PageTemplate
 <!--{{{-->
