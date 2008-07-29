@@ -30,7 +30,7 @@ config.macros.ImportPlugins = {
 	btnClass: null,
 	prompt: "Enter search query:",
 	host: "http://burningchrome.com:8090/search.store?q=",
-	pluginTemplate: "ViewTemplateCompact",
+	pluginTemplate: "PluginInfoTemplate",
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		createTiddlyButton(place, this.btnLabel,
@@ -43,8 +43,8 @@ config.macros.ImportPlugins = {
 		config.macros.ImportPlugins.requestPlugins(query);
 	},
 
-	requestPlugins: function(query) { // DEBUG: rename?
-		var adaptor = new FileAdaptor();
+	requestPlugins: function(query) { // XXX: rename?
+		var adaptor = new FileAdaptor(); // XXX: use TiddlyWeb's JSON adaptor
 		var context = {
 			host: config.macros.ImportPlugins.host + query
 		}
@@ -52,7 +52,7 @@ config.macros.ImportPlugins = {
 		console.log(success, new Date(), context.host); // DEBUG
 	},
 
-	processPlugins: function(context) { // DEBUG: rename?
+	processPlugins: function(context) { // XXX: rename?
 		console.log("processing... ", new Date()); // DEBUG
 		for(var i = 0; i < context.tiddlers.length; i++) {
 			plugin = context.tiddlers[i];
@@ -60,10 +60,16 @@ config.macros.ImportPlugins = {
 			plugin = store.saveTiddler(plugin.title, plugin.title, plugin.text,
 				plugin.modifier, plugin.modified, plugin.tags, plugin.fields, true,
 				plugin.created);
-			story.displayTiddler(null, plugin, config.macros.ImportPlugins.pluginTemplate); // DEBUG: can't use this to reference config.macros.ImportPlugins!?
+			story.displayTiddler(null, plugin, config.macros.ImportPlugins.pluginTemplate);
 		}
 	}
 };
+
+config.shadowTiddlers.PluginInfoTemplate = "<!--{{{-->\n"
+	+ "<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>\n"
+	+ "<div class='title' macro='view title'></div>\n"
+	+ "<div class='viewer' macro='pluginInfo'></div>\n"
+	+ "<!--}}}-->";
 
 // override search macro
 config.macros.search.doSearch = function(txt)
