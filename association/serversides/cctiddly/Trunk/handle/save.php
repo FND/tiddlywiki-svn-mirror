@@ -2,6 +2,7 @@
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
+		debug("AAASAVE", "steps");	
 
 //return result/message
 function returnResult($str)
@@ -25,7 +26,7 @@ function returnResult($str)
 			sendHeader(400,$ccT_msg['warning']['save_error'].": ".$str,"",1);
 	}
 }
-	
+
 // TODO set workspace name 
 $ntiddler['title'] = formatParametersPOST($_POST['title']);
 $oldTitle = formatParametersPOST($_POST['otitle']);
@@ -39,12 +40,14 @@ $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
 $oldModified = formatParametersPOST($_POST['omodified']);
 
 $tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
-		
+	debug("Fetch Original Tiddler  ", "steps");	
+	
+	debug("return : ".isset($tiddler['title'])." val = ".$tiddler['title']);
 if(isset($tiddler['title']))
 {
 	// Tiddler with the same 	name already exisits.
+	debug("Save : Title is set ", "steps");
 	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);
-	
 	debug("POST omod : ".$_POST['omodified'], "params");
 	debug("db mod : ".$tiddler['modified'], "params");
 	if($tiddler['modified'] !== $_POST['omodified'] ) {		//ask to reload if modified date differs

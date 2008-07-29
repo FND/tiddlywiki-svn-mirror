@@ -615,7 +615,7 @@ if ($tiddlyCfg['developing'] == 2 || $tiddlyCfg['debug']['display_logs'] == 1 ||
 {
 	?>
 	<div style="width:100%; position:fixed; bottom:0px;">
-	<iframe width=100%  src="http://127.0.0.1/association/serversides/cctiddly/Trunk/includes/debug.php">
+	<iframe width=100%  src="https://127.0.0.1/165/includes/debug.php">
 	</div>
 	<?php
 }
