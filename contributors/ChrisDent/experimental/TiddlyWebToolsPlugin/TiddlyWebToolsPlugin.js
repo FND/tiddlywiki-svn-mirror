@@ -21,7 +21,6 @@ tags: systemConfig
 // Ensure the plugin is installed only once.
 if(!version.extensions.TiddlyWebAutoSavePlugin) {
     version.extensions.TiddlyWebAutoSavePlugin = {installed:true};
-}
 
 var TiddlyWebTools = {};
 
@@ -44,9 +43,9 @@ TiddlyWebTools.Resource.prototype.route = function() {
     return this.server + this.route_map;
 }
 
-TiddlyWebTools.Resource.prototype.getRepresentation = function(callback) {
+TiddlyWebTools.Resource.prototype.getRepresentation = function(callback, context) {
     alert('get ' + this.route());
-    return doHttp('GET', this.route(), null, null, null, null, callback, null, {"Accept":"application/json"}, 1);
+    return doHttp('GET', this.route(), null, null, null, null, callback, context, {"Accept":"application/json"}, 1);
 }
 // END Resources base class
 
@@ -146,6 +145,7 @@ TiddlyWebTools.addTiddlers = function(host, tiddlers) {
 }
 
 // simple test
+/*
 var tw = new TiddlyWebTools.Tiddlers('', 'recipes', 'long');
 tw_func = function(status, params, responseText, url, x) {
     if (status) {
@@ -163,6 +163,7 @@ tw_func = function(status, params, responseText, url, x) {
         alert(x.status);
     }
 }
-tw.getRepresentation(tw_func);
-
+tw.getRepresentation(tw_func, {});
+*/
+}
 //}}}
