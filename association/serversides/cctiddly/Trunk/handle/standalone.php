@@ -575,6 +575,9 @@ if( sizeof($tiddlers)>0 )
 	}
 }
 
+
+
+
 foreach ($tiddlyCfg['pref']['offline']['tiddler']  as $tf)
 {
 	echo tiddler_outputTiddlerFile("ccPlugins/".$tf.".tiddler", $cct_base);
@@ -589,7 +592,17 @@ foreach ($tiddlyCfg['pref']['offline']['js']  as $tf)
 <div title='ccAdaptorSaveLocal' modifier='cctiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
 <pre>
 config.options.chkAutoSave = true;
-config.defaultCustomFields = {"server.host":"http://127.0.0.1/association/serversides/cctiddly/Trunk/handle", "server.type":"cctiddly", "server.workspace":"<?php echo $_REQUEST['workspace']?>"};
+window.offline = true;
+config.defaultCustomFields = {"server.host":"<?php echo dirname(getUrl());?>", "server.type":"cctiddly", "server.workspace":"<?php echo $_REQUEST['workspace']?>"};
+config.macros.ccOptions={};	
+config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
+</pre>
+</div>
+<div title="LoginStatus">
+<pre>
+You are viewing the file on offline mode.
+
+To update your changes please log into ccTiddly in a seperate window and then press the sync button. 
 </pre>
 </div>
 	

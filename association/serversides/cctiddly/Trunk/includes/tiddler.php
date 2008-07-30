@@ -120,10 +120,8 @@
 	{
 			$file_parts=explode("/", $file);
 			$tiddler_name = str_replace('.js', '', $file_parts[count($file_parts)-1]);
-			echo "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch ccTiddly\">\n<pre>";
 			$file = file_get_contents($cct_base.$file);
-			echo tiddler_bodyEncode($file);
-			echo "</pre>\n</div>\n";
+			return  "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch ccTiddly\">\n<pre>".htmlspecialchars($file)."</pre>\n</div>\n";
 	}
 	
 	function tiddler_outputTiddlerFile($file, $cct_base)

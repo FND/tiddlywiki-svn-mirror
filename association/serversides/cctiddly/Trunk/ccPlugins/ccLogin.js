@@ -60,6 +60,19 @@ config.macros.toolbar.isCommandEnabled=function(command,tiddler){
 	return (!ro || (ro && !command.hideReadOnly)) && !(shadow && command.hideShadow);
 };
 
+config.macros.ccOptions={};	
+config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	if(workspacePermission.owner==1)
+		wikify("[[manage|Manage Users]]<br />", place);
+	if (isLoggedIn())
+		wikify("[[upload|Upload]]<br />", place);
+	if (workspacePermission.create==1)
+		wikify("[[create|CreateWorkspace]]<br />", place);
+		if (isLoggedIn())
+			wikify("[[offline|"+url+"/handle/standalone.php?workspace="+workspace+"]]<br />", place);
+};
+
+
 // Returns output var with output.txtUsername and output.sessionToken
 function findToken(cookieStash){
 	var output={};
@@ -106,13 +119,7 @@ function cookieString(str){
 	return output;
 }
 
-function isLoggedIn(){
-	if(window.loggedIn == '1'){
-		return true;
-	}else{
-		return false;
-	}
-}
+
 
 Story.prototype.displayDefaultTiddlers = function()
 {
@@ -137,18 +144,6 @@ window.restart = function (){
 		window.scrollTo(0,0); 
 }
 
-config.macros.ccOptions={};	
-config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	if(workspacePermission.owner==1)
-		wikify("[[manage|Manage Users]]<br />", place);
-	if (isLoggedIn())
-		wikify("[[upload|Upload]]<br />", place);
-	if (workspacePermission.create==1)
-		wikify("[[create|CreateWorkspace]]<br />", place);
-		if (isLoggedIn())
-			wikify("[[offline|"+url+"/handle/standalone.php?workspace="+workspace+"]]<br />", place);
-};
-
 
 config.macros.login={};	
 merge(config.macros.login,{
@@ -156,7 +151,7 @@ merge(config.macros.login,{
 	usernameRequest:"Username",
 	passwordRequest:"Password",
 	stepLoginTitle:null,
-	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=AAusername id=username tabindex='1'></td></tr><tr><td>password</td><td><input type=password id='password' tabindex='2' name=password></td></tr></table>",
+	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=username id=username tabindex='1'></td></tr><tr><td>password</td><td><input type=password id='password' tabindex='2' name=password></td></tr></table>",
 	stepDoLoginTitle:"Logging you in",
 	stepDoLoginIntroText:"we are currently trying to log you in.... ",
 	stepForgotPasswordTitle:"Password Request",
@@ -177,25 +172,21 @@ config.macros.login.handler=function(place,macroName,params,wikifier,paramString
 	config.macros.login.refresh(place);
 };
 
-config.macros.login.refresh=function(place){
+config.macros.login.refresh=function(place, error){
 	removeChildren(place);
 	var w = new Wizard();
 	w.createWizard(place,this.WizardTitleText);
 	var me=config.macros.login;
 	var oldForm = w.formElem.innerHTML;
 	var form = w.formElem;
-
-	
+	if (error!==undefined)
+		this.stepLoginTitle=error;
 	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
 	var cookieValues=findToken(document.cookie);
-	
 	if (cookieValues.txtUserName!==undefined){
 		w.formElem["username"].value=cookieValues.txtUserName ;
 	}
-	
 	var footer = findRelated(form,"wizardFooter","className");
-	
-	
 	createTiddlyButton(w.footer,this.buttonLogin,this.buttonLoginToolTip,function() {
 		if (w.formElem["username"].value==""){
 			displayMessage("No username was entered");
@@ -210,24 +201,24 @@ config.macros.login.refresh=function(place){
 
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.login.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
-	});
+	},null, null, null,  {tabindex:3});
 	if(config.macros.register!==undefined){		
 		createTiddlyButton(w.footElem,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
 				config.macros.register.displayRegister(place, w, this);
-		});
+		},null, null, null,  {tabindex:4});
 	}
-
-
 	createTiddlyButton(w.footElem,this.buttonForgottenPassword,this.buttonForgottenPasswordToolTip,function() {
 		config.macros.login.displayForgottenPassword(this, place);
-	});
+	},null, null, null,  {tabindex:5});
 };
 
 config.macros.login.doLogin=function(username, password, item, place){
 	var w = new Wizard(item);
 	var me = config.macros.login;
+	var params = {};
+	params.place = place;
 	var urlLogin=me.configURL+"?"+me.configUsernameInputName+"="+username+"&"+me.configPasswordInputName+"="+Crypto.hexSha1Str(password)+"";
-	doHttp('GET',urlLogin,null,null,null,null,me.loginCallback,null);
+	doHttp('GET',urlLogin,null,null,null,null,me.loginCallback,params);
 	var html = me.stepDoLoginIntroText; 
 	w.addStep(me.stepDoLoginTitle,html);
 	w.setButtons([
@@ -236,10 +227,9 @@ config.macros.login.doLogin=function(username, password, item, place){
 }
 
 config.macros.login.loginCallback=function(status,params,responseText,uri,xhr){
-	displayMessage(responseText);
-	if(xhr.status==401)
-		displayMessage("Login Failed");
-	else{
+	if(xhr.status==401){
+		config.macros.login.refresh(params.place, 'Login Failed. Please try again');
+	}else{
 		displayMessage(xhr.status);
 		window.location=window.fullUrl;
 	} 
@@ -253,9 +243,5 @@ config.macros.login.displayForgottenPassword=function(item, place){
 		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {me.refresh(place);}
 	}]);
 }
-
-
-
-
 
 //}}}

@@ -1,10 +1,22 @@
 
+
+function isLoggedIn(){
+	if(window.loggedIn == '1'){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+
 function ccTiddlyAdaptor()
 {
         this.host = null;
         this.workspace = null;
         return this;
 }
+
+
 
 // !!TODO set the variables below
 ccTiddlyAdaptor.mimeType = 'application/json';
