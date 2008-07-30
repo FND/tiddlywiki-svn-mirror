@@ -29,7 +29,7 @@ config.macros.ImportPlugins = {
 	btnTooltip: "connect to TiddlyWiki Plugin Library",
 	btnClass: null,
 	prompt: "Enter search query:",
-	host: "http://burningchrome.com:8090/search.store?q=",
+	host: "http://burningchrome.com:8090",
 	pluginTemplate: "PluginInfoTemplate",
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
@@ -40,28 +40,39 @@ config.macros.ImportPlugins = {
 
 	onclick: function() {
 		var query = prompt(config.macros.ImportPlugins.prompt);
-		config.macros.ImportPlugins.requestPlugins(query);
+		config.macros.ImportPlugins.findPlugins(query);
 	},
 
-	requestPlugins: function(query) { // XXX: rename?
-		var adaptor = new FileAdaptor(); // XXX: use TiddlyWeb's JSON adaptor
+	findPlugins: function(query) { // XXX: rename?
+		var adaptor = new TiddlyWebAdaptor();
 		var context = {
-			host: config.macros.ImportPlugins.host + query
-		}
-		var success = adaptor.getTiddlerList(context, null, this.processPlugins);
-		console.log(success, new Date(), context.host); // DEBUG
+			host: this.host,
+			query: query 
+		};
+		return adaptor.getSearchResults(context, null, this.getPlugins);
 	},
 
-	processPlugins: function(context) { // XXX: rename?
-		console.log("processing... ", new Date()); // DEBUG
-		for(var i = 0; i < context.tiddlers.length; i++) {
-			plugin = context.tiddlers[i];
-			plugin.fields.doNotSave = true;
-			plugin = store.saveTiddler(plugin.title, plugin.title, plugin.text,
-				plugin.modifier, plugin.modified, plugin.tags, plugin.fields, true,
-				plugin.created);
-			story.displayTiddler(null, plugin, config.macros.ImportPlugins.pluginTemplate);
+	getPlugins: function(context, userParams) { // XXX: rename?
+		var plugins = context.tiddlers;
+		if(plugins) {
+			for(var i = 0; i < plugins.length; i++) {
+				var subContext = {
+					host: context.host,
+					workspace: plugins[i].fields['server.workspace']
+				};
+				context.adaptor.getTiddler(plugins[i].title, subContext,
+					userParams, config.macros.ImportPlugins.displayPlugin);
+			}
 		}
+	},
+
+	displayPlugin: function(context, userParams) { // XXX: rename?
+		plugin = context.tiddler;
+		plugin.fields.doNotSave = true;
+		plugin = store.saveTiddler(plugin.title, plugin.title, plugin.text,
+			plugin.modifier, plugin.modified, plugin.tags, plugin.fields, true,
+			plugin.created);
+		story.displayTiddler(null, plugin, config.macros.ImportPlugins.pluginTemplate);
 	}
 };
 
@@ -75,7 +86,7 @@ config.shadowTiddlers.PluginInfoTemplate = "<!--{{{-->\n"
 config.macros.search.doSearch = function(txt)
 {
 	if(txt.value.length > 0) {
-		config.macros.ImportPlugins.requestPlugins(txt.value);
+		config.macros.ImportPlugins.findPlugins(txt.value);
 		txt.setAttribute("lastSearchText", txt.value);
 	}
 };
