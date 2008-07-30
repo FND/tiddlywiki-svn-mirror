@@ -1,6 +1,6 @@
 <?php
 
-header("Content-Disposition: attachment; filename=\"standalone.html\";\r\n");
+//header("Content-Disposition: attachment; filename=\"standalone.html\";\r\n");
 
 
 $cct_base = "../";
@@ -575,18 +575,17 @@ if( sizeof($tiddlers)>0 )
 	}
 }
 
-echo "<div title='ccAdaptor' modifier='ccTiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>\n<pre>";
-$file = file_get_contents($cct_base."ccPlugins/ccAdaptor.js");
-echo htmlspecialchars($file);
-echo "</pre>\n</div>\n";
+foreach ($tiddlyCfg['pref']['offline']['tiddler']  as $tf)
+{
+	echo tiddler_outputTiddlerFile("ccPlugins/".$tf.".tiddler", $cct_base);
+}
 
-
-
-
+foreach ($tiddlyCfg['pref']['offline']['js']  as $tf)
+{
+	echo tiddler_outputJsFile("ccPlugins/".$tf.".js", $cct_base);
+}
 
 ?>
-
-
 <div title='ccAdaptorSaveLocal' modifier='cctiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
 <pre>
 config.options.chkAutoSave = true;

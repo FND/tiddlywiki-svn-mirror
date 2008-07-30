@@ -30,6 +30,7 @@ ccTiddlyAutoSave.putCallback = function(context, userParams)
     if (context.status) {
         displayMessage('Saved ' + tiddler.title);
         tiddler.clearChangeCount();
+		tiddler.fields['server.omodified'] = tiddler.modified.convertToYYYYMMDDHHMM();
     } else {
         displayMessage('Error Saving ' + tiddler.title + ' ' + context.statusText);
         tiddler.incChangeCount();

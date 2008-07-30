@@ -1,6 +1,4 @@
 <?php
-
-
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
@@ -23,10 +21,9 @@ $res = db_record_insert($tiddlyCfg['table']['user'],$data);
 
 if ($res !=1)
 {
-	echo 'User not crated, please try again with a different username.';
+	echo 'User not created, please try again with a different username.';
 }else
 {
-	sendHeader("201");
-	echo "created";
+	user_login($data['username'],$data['password']);
 }
 ?> 

@@ -40,18 +40,19 @@ config.macros.ccAdmin.addAdminDisplay = function(e, params) {
 };
 
 config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,xhr) {
-	
+		displayMessage("sss8");	
 	var frm = createTiddlyElement(null,'form',null,null);
-	frm.onsubmit = this.addAdminSubmit;
+	frm.onsubmit = config.macros.ccAdmin.addAdminSubmit;
+			displayMessage("sss9");	
 	var step = createTiddlyElement(frm,'div',null, "null");
 	var workspace_label = createTiddlyElement(step, "label", null, "label", "Workspace");
 	workspace_label.setAttribute("for","workspaceName");
-
+		displayMessage("sss0");	
 	var s = createTiddlyElement(null,"select",null,null,"a");
 	s.name = 'workspaceName';
-	
+		displayMessage("sss1");		
 	var workspaces = eval('[ '+responseText+' ]');
-	
+		displayMessage("sss2");	
 	for(var d=0; d < workspaces.length; d++){
 		var i = createTiddlyElement(s,"option",null,null,workspaces[d]);
 		i.value = workspaces[d];
@@ -73,10 +74,10 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 	params.w.addStep("Add a new Workspace Administrator",frm.innerHTML);
 	params.w.setButtons([
 		{caption: 'Cancel', tooltip: 'Cancel adding new user', onClick: function(w){ config.macros.ccAdmin.refresh(params.w) } },
-		{caption: 'Make User Admin', tooltip: 'Make User Admin of Workspace', onClick: function(w){ config.macros.ccAdmin.addAdminSubmit(null, params) } }	
+		{caption: 'Make User Admin', tooltip: 'Make User Admin of Workspace', onClick: function(){ displayMessage("FORM : "+params.w.formElem.workspaceName); config.macros.ccAdmin.addAdminSubmit(null, params) } }	
 	]);
 	createTiddlyElement(params.step,'input','workspaceName', 'input')				
-}
+};
 
 function addOption(selectbox,text,value )
 {
@@ -84,7 +85,7 @@ function addOption(selectbox,text,value )
 	optn.text = text;
 	optn.value = value;
 	selectbox.options.add(optn);
-}
+};
 
 config.macros.ccAdmin.addAdminSubmit = function(e, params) {
 	//	var listView = params.w.getValue("listView");
@@ -108,16 +109,10 @@ config.macros.ccAdmin.listAllCallback = function(status,params,responseText,uri,
 	}
 	var a = eval(responseText);
 	for(var e=0; e < a.length; e++){ 		
-	//	createTiddlyElement(params.place, 'b', null, null,  a[e].username);
-	//	createTiddlyElement(params.place, 'i', null, null,  ' last visited '+a[e].lastVisit);
-	//	var link=createExternalLink(params.place,url+'/handle/WorkspaceAdmin.php?action=DELETEADMIN&username='+a[e]+'&workspace_name='+workspace);
-	//	link.textContent='(x)';
-	//	createTiddlyElement(params.place, "br");
-	out += a[e].username;
+		out += a[e].username;
 		adminUsers.push({
 			name: a[e].username,
-			lastVisit:a[e].lastVisit,
-		});
+			lastVisit:a[e].lastVisit});
 	}
 	//listedTiddlers.sort(function(a,b) {return a.title < b.title ? -1 : (a.title == b.title ? 0 : +1);});
 	// Display the listview"
@@ -130,7 +125,6 @@ config.macros.ccAdmin.listAllCallback = function(status,params,responseText,uri,
 	//params.w.setValue("listAdminView",listAdminView);
 	params.w.setValue("listView",listView);
 };
-
 
 merge(config.macros.ccAdmin,{
 	listAdminTemplate: {
@@ -154,7 +148,7 @@ createTiddlyElement(params.place, 'h2', null, null,  "Existing Files ");
 		link.textContent=a[e];
 		createTiddlyElement(params.place, "br");
 	}
-}
+};
 
 config.macros.ccAdmin.addAdminCallback = function(status,params,responseText,uri,xhr) {	
 	config.macros.ccAdmin.refresh(params.w);

@@ -150,7 +150,7 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 			fileSize:a[e].fileSize,
 			downloads:a[e].downloads,
 			bandwidth:a[e].bandwidth,
-			cost:a[e].cost,
+			cost:a[e].cost
 		});
 	}
 	

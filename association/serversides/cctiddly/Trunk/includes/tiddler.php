@@ -69,9 +69,6 @@
 	//!	@fn tiddler_outputDIV($tiddler)
 	//!	@brief output tiddler in div form for TW
 	//!	@param $tiddler tiddler array
-	
-	
-	
 	/*
 	
 	
@@ -121,13 +118,40 @@
 	
 	function tiddler_outputJsFile($file, $cct_base)
 	{
-			$file  =str_replace($cct_base, "", $file);
-			$tiddler_name = str_replace('.js', '', $file);
+			$file_parts=explode("/", $file);
+			$tiddler_name = str_replace('.js', '', $file_parts[count($file_parts)-1]);
 			echo "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch ccTiddly\">\n<pre>";
-        	//include_once($cct_base."ccPlugins/".$file);
-			$file = file_get_contents($cct_base."ccPlugins/".$file);
+			$file = file_get_contents($cct_base.$file);
 			echo tiddler_bodyEncode($file);
 			echo "</pre>\n</div>\n";
+	}
+	
+	function tiddler_outputTiddlerFile($file, $cct_base)
+	{
+		$tiddler = file_get_contents($cct_base.$file);
+		// now we have to pull out the tiddler content and encode it. 
+		if ($pos1 = stripos($tiddler, "<pre>"))
+		{
+			// find the first pre tag and remove everything before it. 
+			$top = substr($tiddler,  0, $pos1+5);
+			$content = substr($tiddler,  $pos1+5); 
+
+			// get the last </pre> tag
+			$pos2 = strrpos($content, "</pre>");
+			$bottom = substr($content,  $pos2); 
+			$content = substr($content,0,$pos2);
+		}else
+		{
+			// look for first closing tag
+			$pos1 = stripos($tiddler, ">");
+			$top = substr($tiddler,  0, $pos1+1);
+			$content = substr($tiddler,  $pos1+1); 
+			// look for the final closing div tag
+			$pos2 = strrpos($content, "</div>");
+			$bottom = substr($content,  $pos2); 
+			$content = substr($content,0,$pos2);
+		}
+		return "\n\r".$top.htmlspecialchars($content).$bottom;
 	}
 	
 	function tiddler_outputDIV($tiddler)

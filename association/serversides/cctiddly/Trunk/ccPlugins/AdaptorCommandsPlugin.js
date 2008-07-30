@@ -132,7 +132,6 @@ config.commands.putTiddler.isEnabled = function(tiddler)
 
 config.commands.putTiddler.handler = function(event,src,title)
 {
-	displayMessage("PUT Tiddle");
 //#console.log("config.commands.putTiddler.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
@@ -142,7 +141,7 @@ config.commands.putTiddler.handler = function(event,src,title)
 
 config.commands.putTiddler.callback = function(context,userParams)
 {
-//#console.log("config.commands.putTiddler.callback:"+context.tiddler.title);
+	//#console.log("config.commands.putTiddler.callback:"+context.tiddler.title);
 	if(context.status) {
 		store.fetchTiddler(context.title).clearChangeCount();
 		displayMessage(config.commands.putTiddler.done);

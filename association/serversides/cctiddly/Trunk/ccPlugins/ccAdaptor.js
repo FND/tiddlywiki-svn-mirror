@@ -302,8 +302,6 @@ console.log('rt:'+responseText.substr(0,100));
 		context.callback(context,context.userParams);
 };
 
-
-
 ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
@@ -331,25 +329,23 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	return typeof req == 'string' ? req : true;
 };
 
-
-
-
 ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
-
-		if(xhr.status==403) {
-			displayMessage("Your changes were not saved.  This page requires reloading.");
+	if(xhr.status==403) {
+		displayMessage("Your changes were not saved.  This page requires reloading.");
+	}
+       if(status) {
+               context.status = true;
+       } else {
+               displayMessage('  xhr status is' + xhr.status);
+               displayMessage('putTiddler xhr status text is' + xhr.statusText);
+               context.status = false;
+               context.statusText = xhr.statusText;
+       }
+       	if(context.callback){
+			context.callback(context,context.userParams);
 		}
-        if(status) {
-                context.status = true;
-        } else {
-                displayMessage('  xhr status is' + xhr.status);
-                displayMessage('putTiddler xhr status text is' + xhr.statusText);
-                context.status = false;
-                context.statusText = xhr.statusText;
-        }
-        if(context.callback)
-                context.callback(context,context.userParams);
+               
 };
 
 ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,callback)
@@ -383,17 +379,12 @@ ccTiddlyAdaptor.deleteTiddlerCallback = function(status,context,responseText,uri
 		context.callback(context,context.userParams);
 };
 
-
-
 ccTiddlyAdaptor.prototype.close = function()
 {
         return true;
 };
 
-
 config.adaptors[ccTiddlyAdaptor.serverType] = ccTiddlyAdaptor;
-
-
 
 /***
 !JSON Code, used to serialize the data

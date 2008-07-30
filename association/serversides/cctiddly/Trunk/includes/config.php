@@ -6,7 +6,7 @@ $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "165";		//db name
+$tiddlyCfg['db']['name'] = "db165";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 // Debugging Information 
@@ -41,6 +41,12 @@ $tiddlyCfg['pref']['ldap_connection_string'] = "";
 
 $tiddlyCfg['pref']['openid_enabled'] = 0;  // openid not fully implented yet. 
 
+
+// Offline Mode 
+// .tiddler and .js files to be loaded from the ccPlugins directory when the user is takes ccTiddly in offline mode. 
+$tiddlyCfg['pref']['offline']['tiddler'] = array("ccTheme", "smmTheme");
+$tiddlyCfg['pref']['offline']['js'] = array("ccAdaptor");
+
 //Deligated Session Managment 
  
 $tiddlyCfg['pref']['deligate_session_url'] = "http://uvoke.com/sys/uvokechecksess.wcgp?s=";
@@ -68,7 +74,7 @@ $tiddlyCfg['table']['admin'] = "admin_of_workspace";	//admin of workspace	admin 
 $tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
 $tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each viewing of a workspace
 $tiddlyCfg['table']['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
-
+$tiddlyCfg['txtTheme'] = 'smmTheme';  // The default TiddlyWiki theme to use, ccTheme is the default, you can also try smmTheme.
 //ccT core settings, do not affect by DB settings
 $tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 $tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 

@@ -7,13 +7,30 @@ window.workspacePermission= {};
 window.url = "<?php echo getURL();?>";
 window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
+<?php 
+
+
+if ($tiddlyCfg['workspace_name'] == ""){
+	?>
+		window.fullUrl = window.url;	
+	<?php
+} elseif ($tiddlyCfg['use_mod_rewrite'] == 1){ ?>
+	window.fullUrl = window.url+"?workspace="window.workspace;
+		<?php
+}else{
+	?>
+	window.fullUrl = window.url+"/"+window.workspace;
+	<?php
+}
+
+?>
 
 config.defaultCustomFields = {"server.host":window.url, "server.type":"ccTiddly", "server.workspace":window.workspace};
 
 
 
 if (config.options.txtTheme == "")
-config.options.txtTheme = 'ccTheme';
+config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
 
 
 <?php

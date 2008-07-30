@@ -58,6 +58,7 @@ smmLight3:#999;
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 
 </div>
+<div id='bodywrapper'>
 <div id='sidebar'>
 <div id='sidebarOptions' refresh='content' tiddler='smmTheme##SideBarOptions'></div>
 
@@ -68,6 +69,7 @@ smmLight3:#999;
 </div>
 
 <div id='contentFooter'  macro='gradient vert [[ColorPalette::smmDark2]] [[ColorPalette::smmDark1]]'></div>
+</div>
 <!--}}}-->
 
 !OptionsPanel
@@ -129,7 +131,10 @@ body{
 h1 {	
 	color:[[ColorPalette::smmLight2]];
 }
+
+
 #contentWrapper{
+	position:relative;
 	margin: 2.5em auto;
 	width:780px;
 	line-height: 1.6em;
@@ -181,20 +186,10 @@ h1 {
 	color:[[ColorPalette::smmLight3]];
 }
 
-.tiddlerDisplay .editor input{
-	background-color:red;
-}
-
-
-
-#sidebar, #sidebarTabs{
-	position:relative;
+#sidebar{
+	position:inherit;
 	float:right; 
-	line-height: 1.4em;
-	border-left:0px solid#000;  
-	background:#1; 
-	right:0; 
-	width: 16em;
+	display:inline;
 }
 
 #tiddlerDisplay .tagging, #tiddlerDisplay .tagged{
@@ -251,6 +246,7 @@ h1 {
 	margin:4px;
 	border:1px dotted [[ColorPalette::smmLight2]];
 }
+
 
 #contentWrapper #mainMenu{ 
 	left:290px;
@@ -469,7 +465,6 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 body .wizardFooter { 
 	padding : 0em 0px 0px 5px; 
 	background:[[ColorPalette::smmDark2]]; 
-	font-size:10px; 
 	font-weight:bold;}   
 
 .wizardStep {
@@ -499,7 +494,6 @@ body .wizard {
 	font-weight:bold;
 	color:#292929;
 	border:solid 1px #292929; 
-	font-size:2.9em;
 	margin-top:1px;
 }
 
