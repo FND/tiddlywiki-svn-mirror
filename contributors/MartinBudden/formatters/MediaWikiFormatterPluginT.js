@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.1|
+|''Version:''|0.5.2|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -625,7 +625,7 @@ config.mediawiki.formatters = [
 					}
 				} else if(lookaheadMatch[6]) {
 					//# Piped link
-					if(link.charAt(0)==':')
+					while(link.charAt(0)==':')
 						link = link.substring(1);
 					//#if(config.formatterHelpers.isExternalLink(link)) {
 					//#	e = createExternalLink(w.output,link);
@@ -1221,10 +1221,11 @@ MediaWikiTemplate.findDBP = function(text,start)
 	}
 	if(c==3) {
 		//# it's a triple brace, so skip over it
-		tb = MediaWikiTemplate.findTBP(text,s);
+		//tb = MediaWikiTemplate.findTBP(text,s);
 //#console.log('s:'+s+' t:'+text);
 //#console.log('tb:'+tb.start+' ,'+tb.end);
-		return tb.end==-1 ? ret : MediaWikiTemplate.findDBP(text,tb.end+3);
+		//return tb.end==-1 ? ret : MediaWikiTemplate.findDBP(text,tb.end+3);
+		return MediaWikiTemplate.findDBP(text,s+3)
 	} else if(c==4) {
 		//# it's a quadrupal brace, so see if it is matched (eg {{{{x}}}} ) or not (eg {{{{x}} }} )
 		db = MediaWikiTemplate.findDBP(text,s+2);
@@ -1371,7 +1372,7 @@ MediaWikiTemplate.findTableBracePair = function(text,start)
 
 MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 {
-console.log('wikifyTable');
+//#console.log('wikifyTable');
 //#console.log(w);
 //#console.log(w.source);
 	function lineEnd(w) {
