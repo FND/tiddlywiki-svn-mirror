@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.0|
+|''Version:''|0.1.1|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -185,6 +185,17 @@ MediaWikiTemplate.prototype._expandVariable = function(text)
 		return false;
 	var ret = false;
 	switch(text) {
+	case 'BASEPAGENAME':
+		ret = this.tiddler.title;
+		var i = ret.indexOf(':');
+		if(i!=-1)
+			ret = ret.substr(i+1);
+		break;
+	case 'NAMESPACE':
+		ret = this.tiddler.title;
+		i = ret.indexOf(':');
+		ret = i==-1 ? '' : ret.substr(0,i);
+		break;
 	case 'PAGENAME':
 		ret = this.tiddler.title;
 		break;
