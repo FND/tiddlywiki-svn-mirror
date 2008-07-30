@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.12|
+|''Version:''|0.5.13|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -140,39 +140,6 @@ config.commands.putTiddler.callback = function(context,userParams)
 	if(context.status) {
 		store.fetchTiddler(context.title).clearChangeCount();
 		displayMessage(config.commands.putTiddler.done);
-	} else {
-		displayMessage(context.statusText);
-	}
-};
-
-config.commands.putTiddlerRevision = {};
-merge(config.commands.putTiddlerRevision,{
-	text: "putRevision",
-	tooltip: "Upload this tiddler as revision",
-	hideReadOnly: true,
-	done: "Tiddler revision uploaded"
-	});
-
-config.commands.putTiddlerRevision.isEnabled = function(tiddler)
-{
-	return tiddler && tiddler.isTouched() && isAdaptorFunctionSupported('putTiddlerRevision',tiddler.fields);
-};
-
-config.commands.putTiddlerRevision.handler = function(event,src,title)
-{
-//#displayMessage("config.commands.putTiddler.handler:"+title);
-	var tiddler = store.fetchTiddler(title);
-	if(!tiddler)
-		return false;
-	return invokeAdaptor('putTiddlerRevision',tiddler,null,null,null,config.commands.putTiddlerRevision.callback,tiddler.fields);
-};
-
-config.commands.putTiddlerRevision.callback = function(context,userParams)
-{
-//#displayMessage("config.commands.putTiddler.callback:"+context.tiddler.title);
-	if(context.status) {
-		store.fetchTiddler(context.title).clearChangeCount();
-		displayMessage(config.commands.putTiddlerRevision.done);
 	} else {
 		displayMessage(context.statusText);
 	}
