@@ -1,4 +1,4 @@
-Welcome to ccTiddly 1.6
+Welcome to ccTiddly 1.7
 
 
 For the most up to date file and to see known issues with the latest releases please see the URL : 
@@ -11,11 +11,11 @@ we have taken out some features from the original ccTiddly version to get this v
 
 http://groups.google.com/group/ccTiddly
 
-We have not written the install script for this version yet so you will need to create the database manually.
+We have not written the install script yet so you will need to create the database manually.
 
 STEPS FOR INSTALLATION : 
 
-1 .. Copy contents into folder on your web server 
+1 .. Copy files into folder on your web server 
 2 .. create database and run the install.sql file to create the tables.
 3 .. edit /includes/config.php  to reflect your settings : 
 

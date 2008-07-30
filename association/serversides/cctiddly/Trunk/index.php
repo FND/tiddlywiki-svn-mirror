@@ -23,7 +23,6 @@ recordTime_float("Start");
 //includes
 $cct_base = "";
 include_once($cct_base."includes/header.php");
-include_once($cct_base."includes/print.php");
 include_once($cct_base."includes/login.php");
 
 recordTime_float("includes");
@@ -132,9 +131,19 @@ TiddlyWiki - a reusable non-linear personal web notebook
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
-<?php print cct_print_includes($standalone);/*cct*/ ?>
+<?php
+$tw = $tiddlyCfg['tiddlywiki_type'];
+echo "<script type='text/javascript' >".file_get_contents($tw)."</script>";
+?>
+
 <!--script below are ccT plugins-->
-<?php print cct_print_plugins($standalone);/*cct*/ ?>
+
+<script type='text/javascript' >
+	config.options.chkHttpReadOnly = false;		//make it HTTP writable by default
+	config.options.chkSaveBackups = false;		//disable save backup
+	config.options.chkAutoSave = true;			//disable autosave
+	config.options.chkUsePreForStorage = false;
+</script>
 <!--End of ccT plugins-->
 
 <?php

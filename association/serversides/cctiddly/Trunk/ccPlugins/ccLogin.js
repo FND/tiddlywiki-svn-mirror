@@ -41,110 +41,6 @@ config.macros.saveChanges.handler=function(place,macroName,params,wikifier,param
 var loginState=null;
 var registerState=null;
 
-config.macros.toolbar.isCommandEnabled=function(command,tiddler){	
-	var title=tiddler.title;
-	if (workspace_delete=="D"){
-		// REMOVE OPTION TO DELETE TIDDLERS 
-		if (command.text=='delete'){
-			return false;
-		}
-	}
-	if (workspace_udate=="D"){
-		// REMOVE EDIT LINK FROM TIDDLERS 
-		if (command.text=='edit'){
-			return false;
-		}
-	}
-	var ro=tiddler.isReadOnly();
-	var shadow=store.isShadowTiddler(title) && !store.tiddlerExists(title);
-	return (!ro || (ro && !command.hideReadOnly)) && !(shadow && command.hideShadow);
-};
-
-config.macros.ccOptions={};	
-config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	if(workspacePermission.owner==1)
-		wikify("[[manage|Manage Users]]<br />", place);
-	if (isLoggedIn())
-		wikify("[[upload|Upload]]<br />", place);
-	if (workspacePermission.create==1)
-		wikify("[[create|CreateWorkspace]]<br />", place);
-		if (isLoggedIn())
-			wikify("[[offline|"+url+"/handle/standalone.php?workspace="+workspace+"]]<br />", place);
-};
-
-
-// Returns output var with output.txtUsername and output.sessionToken
-function findToken(cookieStash){
-	var output={};
-	if (!cookieStash){
-		return false;
-	}	
-	//  THIS IS VERY HACKY AND SHOULD BE REFACTORED WHEN TESTS ARE IN PLACE
-	var cookies=cookieStash.split('path=/');
-	for(var c=0; c < cookies.length ; c++){
-		var cl =cookies[c].split(";");
-		for(var e=0; e < cl.length; e++){ 
-			var p=cl[e].indexOf("=");
-			if(p!=-1){
-				var name=cl[e].substr(0,p).trim();
-				var value=cl[e].substr(p+1).trim();       
-				if (name=='txtUserName'){
-					output.txtUserName=value;
-				}
-				if (name=='sessionToken'){
-					output.sessionToken=value;
-				}
-			}
-		}
-	}	
-	return output;
-}
-
-function cookieString(str){
-	var cookies = str.split(";");
-	var output = {};
-	for(var c=0; c < cookies.length; c++){
-		var p = cookies[c].indexOf("=");
-		if(p != -1) {
-			var name = cookies[c].substr(0,p).trim();
-			var value = cookies[c].substr(p+1).trim();
-			if (name=='txtUserName'){
-				output.txtUserName=value;
-			}
-			if (name=='sessionToken'){
-				output.sessionToken=value;
-			}
-		}
-	}
-	return output;
-}
-
-
-
-Story.prototype.displayDefaultTiddlers = function()
-{
-    var tiddlers="";
-    if (isLoggedIn()) {        
-		var url = window.location;        
-		url = url.toString();        
-		var bits = url.split('#');        
-		if (bits.length == 1) {            
-			tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));            
-			story.displayTiddlers(null, tiddlers);
-		}
-	} else {        
-		tiddlers=store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));        
-		story.displayTiddlers(null, tiddlers);   
-	}    
-};
-
-window.restart = function (){
-		story.displayDefaultTiddlers();
-		invokeParamifier(params,"onstart");
-		window.scrollTo(0,0); 
-}
-
-
 config.macros.login={};	
 merge(config.macros.login,{
 	WizardTitleText:"Please Login",
@@ -242,5 +138,105 @@ config.macros.login.displayForgottenPassword=function(item, place){
 		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {me.refresh(place);}
 	}]);
 }
+config.macros.toolbar.isCommandEnabled=function(command,tiddler){	
+	var title=tiddler.title;
+	if (workspace_delete=="D"){
+		// REMOVE OPTION TO DELETE TIDDLERS 
+		if (command.text=='delete'){
+			return false;
+		}
+	}
+	if (workspace_udate=="D"){
+		// REMOVE EDIT LINK FROM TIDDLERS 
+		if (command.text=='edit'){
+			return false;
+		}
+	}
+	var ro=tiddler.isReadOnly();
+	var shadow=store.isShadowTiddler(title) && !store.tiddlerExists(title);
+	return (!ro || (ro && !command.hideReadOnly)) && !(shadow && command.hideShadow);
+};
+
+config.macros.ccOptions={};	
+config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	if(workspacePermission.owner==1)
+		wikify("[[manage|Manage Users]]<br />", place);
+	if (isLoggedIn())
+		wikify("[[upload|Upload]]<br />", place);
+	if (workspacePermission.create==1)
+		wikify("[[create|CreateWorkspace]]<br />", place);
+		if (isLoggedIn())
+			wikify("[[offline|"+url+"/handle/standalone.php?workspace="+workspace+"]]<br />", place);
+};
+
+// Returns output var with output.txtUsername and output.sessionToken
+function findToken(cookieStash){
+	var output={};
+	if (!cookieStash){
+		return false;
+	}	
+	//  THIS IS VERY HACKY AND SHOULD BE REFACTORED WHEN TESTS ARE IN PLACE
+	var cookies=cookieStash.split('path=/');
+	for(var c=0; c < cookies.length ; c++){
+		var cl =cookies[c].split(";");
+		for(var e=0; e < cl.length; e++){ 
+			var p=cl[e].indexOf("=");
+			if(p!=-1){
+				var name=cl[e].substr(0,p).trim();
+				var value=cl[e].substr(p+1).trim();       
+				if (name=='txtUserName'){
+					output.txtUserName=value;
+				}
+				if (name=='sessionToken'){
+					output.sessionToken=value;
+				}
+			}
+		}
+	}	
+	return output;
+}
+
+function cookieString(str){
+	var cookies = str.split(";");
+	var output = {};
+	for(var c=0; c < cookies.length; c++){
+		var p = cookies[c].indexOf("=");
+		if(p != -1) {
+			var name = cookies[c].substr(0,p).trim();
+			var value = cookies[c].substr(p+1).trim();
+			if (name=='txtUserName'){
+				output.txtUserName=value;
+			}
+			if (name=='sessionToken'){
+				output.sessionToken=value;
+			}
+		}
+	}
+	return output;
+}
+
+Story.prototype.displayDefaultTiddlers = function()
+{
+    var tiddlers="";
+    if (isLoggedIn()) {        
+		var url = window.location;        
+		url = url.toString();        
+		var bits = url.split('#');        
+		if (bits.length == 1) {            
+			tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));            
+			story.displayTiddlers(null, tiddlers);
+		}
+	} else {        
+		tiddlers=store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));        
+		story.displayTiddlers(null, tiddlers);   
+	}    
+};
+
+window.restart = function (){
+		story.displayDefaultTiddlers();
+		invokeParamifier(params,"onstart");
+		window.scrollTo(0,0); 
+}
+
 
 //}}}

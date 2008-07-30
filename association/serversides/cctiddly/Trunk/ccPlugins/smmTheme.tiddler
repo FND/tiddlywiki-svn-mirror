@@ -56,18 +56,15 @@ smmLight3:#999;
 <div class='header' macro='gradient vert [[ColorPalette::smmDark1]] [[ColorPalette::smmDark2]]'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
-
 </div>
 <div id='bodywrapper'>
 <div id='sidebar'>
 <div id='sidebarOptions' refresh='content' tiddler='smmTheme##SideBarOptions'></div>
-
 </div>
 <div id='displayArea'>
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
 </div>
-
 <div id='contentFooter'  macro='gradient vert [[ColorPalette::smmDark2]] [[ColorPalette::smmDark1]]'></div>
 </div>
 <!--}}}-->
@@ -78,7 +75,6 @@ smmLight3:#999;
 !tabs
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
 
-
 !SideBarOptions
 <<search "search...">><<closeAll>><<newTiddler>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'browser »' 'View TiddlyWiki Tabs'>>
 
@@ -87,33 +83,25 @@ smmLight3:#999;
 General
 ***/
 /*{{{*/
-	
-	.tiddler .button {
+.tiddler .button {
 	line-height:4;
 	margin:5px;
 	padding:8px;
-	}
-
-
+}
 
 #contentWrapper .chkOptionInput {
 width:auto;
 	float:right;
 }
 
-
- #contentWrapper .wizard .txtOptionInput {
+#contentWrapper .wizard .txtOptionInput {
 	width:7em;
 }
 
 body{
 	background: [[ColorPalette::smmDark1]];
-//	background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
-//background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
-
-
-
-
+	// background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
+	// background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
 }
 
 #messageArea {

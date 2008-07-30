@@ -1,7 +1,15 @@
-<?php print cct_print_includes($standalone);/*cct*/ ?>
-<!--script below are ccT plugins-->
-<?php print cct_print_plugins($standalone);/*cct*/ ?>
-<!--End of ccT plugins-->
+<?php
+$tw = $tiddlyCfg['tiddlywiki_type'];
+echo "<script type='text/javascript' >".file_get_contents($tw)."</script>";
+?>
+<!--set vars for cctiddly-->
+	<script type='text/javascript' >
+		config.options.chkHttpReadOnly = false;		//make it HTTP writable by default
+		config.options.chkSaveBackups = false;		//disable save backup
+		config.options.chkAutoSave = false;			//disable autosave
+		config.options.chkUsePreForStorage = false;
+	</script>
+<!--End of ccT vars-->
 
 <?php
 	if( isset( $tiddlers['MarkupPostHead'] ) )
