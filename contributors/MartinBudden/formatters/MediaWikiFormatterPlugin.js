@@ -1119,7 +1119,7 @@ config.mediawiki.formatters = [
 {
 	name: 'mediaWikiExplicitLineBreakWithParams',
 	match: "<br(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?\\s*/?>",
-	lookaheadRegExp: /<br((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*\/?>/mg,
+	lookaheadRegExp: /<br((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*\/?>/mg, //'
 	handler: function(w)
 	{
 		//# copes with erroneous <br clear='right'>
@@ -1219,7 +1219,7 @@ config.mediawiki.formatters = [
 	name: 'mediaWikiInsertReference',
 	match: '<ref[^/]*>',
 	lookaheadRegExp: /<ref(\s+(?:.*?)=["']?(?:.*?)["']?)?>([^<]*?)<\/ref>/mg,
-	//#lookaheadRegExp: /<ref(\s+(?:.*?)=["']?(?:.*?)["']?)?>([.\n]*?)<\/ref>/mg,
+	//#lookaheadRegExp: /<ref(\s+(?:.*?)=["']?(?:.*?)["']?)?>([.\n]*?)<\/ref>/mg, "
 	handler: function(w)
 	{
 		if(config.browser.isIE) {
