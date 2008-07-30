@@ -339,10 +339,12 @@ Cecily.draggers.tiddlerDragger = {
 	},
 	dragMove: function(cecily,target,ev) {
 		var dragThis = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
-		var s = cecily.frame.offsetWidth/cecily.view.w;
-		cecily.drag.tiddler.style.left = (cecily.drag.tiddler.offsetLeft + (dragThis.x - cecily.drag.lastPoint.x) / s) + "px";
-		cecily.drag.tiddler.style.top = (cecily.drag.tiddler.offsetTop + (dragThis.y - cecily.drag.lastPoint.y) / s) + "px";
-		cecily.drag.lastPoint = dragThis;
+		if(dragThis) {
+			var s = cecily.frame.offsetWidth/cecily.view.w;
+			cecily.drag.tiddler.style.left = (cecily.drag.tiddler.offsetLeft + (dragThis.x - cecily.drag.lastPoint.x) / s) + "px";
+			cecily.drag.tiddler.style.top = (cecily.drag.tiddler.offsetTop + (dragThis.y - cecily.drag.lastPoint.y) / s) + "px";
+			cecily.drag.lastPoint = dragThis;
+		}
 	},
 	dragUp: function(cecily,target,ev) {
 		removeClass(cecily.drag.tiddler,"drag");
@@ -366,11 +368,13 @@ Cecily.draggers.tiddlerResizer = {
 	dragMove: function(cecily,target,ev) {
 		var s = cecily.frame.offsetWidth/cecily.view.w;
 		var dragThis = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
-		var newWidth = cecily.drag.startWidth + (dragThis.x - cecily.drag.startPoint.x) / s;
-		if(newWidth < 0.01)
-			newWidth = 0.01;
-		cecily.drag.tiddler.scaledWidth = newWidth;
-		cecily.transformTiddler(cecily.drag.tiddler);
+		if(dragThis) {
+			var newWidth = cecily.drag.startWidth + (dragThis.x - cecily.drag.startPoint.x) / s;
+			if(newWidth < 0.01)
+				newWidth = 0.01;
+			cecily.drag.tiddler.scaledWidth = newWidth;
+			cecily.transformTiddler(cecily.drag.tiddler);
+		}
 	},
 	dragUp: function(cecily,target,ev) {
 		removeClass(cecily.drag.tiddler,"drag");
@@ -497,6 +501,10 @@ Cecily.prototype.transformTiddler = function(tiddlerElem) {
 	var r = tiddlerElem.rotate;
 	var e = tiddlerElem.enlarge;
 	tiddlerElem.style['-webkit-transform'] = "translate(-50%,-50%) scale(" + s + "," + s + ") translate(50%,50%) rotate(" + r + "rad) scale(" + e + ")";
+	// Experimental beginnings of support for semantic zooming
+	var w = tiddlerElem.scaledWidth * (this.frame.offsetWidth)/(this.view.w);
+	var f = w < 60 ? addClass : removeClass;
+	f(tiddlerElem,"tooSmallToRead");
 };
 
 // Moves the viewport to accommodate the specified rectangle
