@@ -30,12 +30,13 @@ config.macros.pluginInfo = {
 		var slices = store.calcAllSlices(title);
 		var info = "";
 		var name = slices.Name || title;
+		info += "{{title{\n";
 		if(slices.Source) {
 			info += "[[" + name + "|" + slices.Source + "]]";
 		} else {
 			info += String.encodeTiddlyLink(name);
 		}
-		info += (slices.Author ? " (" + slices.Author + ")\n" : "\n")
+		info += "}}}\n"
 			+ (slices.Description || "");
 		wikify(info, place);
 	}

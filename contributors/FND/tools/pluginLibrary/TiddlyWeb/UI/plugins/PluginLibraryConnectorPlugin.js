@@ -78,7 +78,6 @@ config.macros.ImportPlugins = {
 
 config.shadowTiddlers.PluginInfoTemplate = "<!--{{{-->\n"
 	+ "<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>\n"
-	+ "<div class='title' macro='view title'></div>\n"
 	+ "<div class='viewer' macro='pluginInfo'></div>\n"
 	+ "<!--}}}-->";
 

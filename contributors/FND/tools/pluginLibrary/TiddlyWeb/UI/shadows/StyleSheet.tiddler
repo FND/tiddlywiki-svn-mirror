@@ -18,5 +18,9 @@
 #mainMenu {
 	padding-top: 0.5em;
 }
+
+.tiddler .toolbar {
+	float: right;
+}
 /*}}}*/</pre>
 </div>
