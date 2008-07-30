@@ -44,7 +44,7 @@ $tiddlyCfg['pref']['openid_enabled'] = 0;  // openid not fully implented yet.
 
 // Offline Mode 
 // .tiddler and .js files to be loaded from the ccPlugins directory when the user is takes ccTiddly in offline mode. 
-$tiddlyCfg['pref']['offline']['tiddler'] = array("ccTheme", "smmTheme");
+$tiddlyCfg['pref']['offline']['tiddler'] = array("ccTheme", "smmTheme", "taggedTemplateTweak", "ValueSwitcherPlugin");
 $tiddlyCfg['pref']['offline']['js'] = array("ccAdaptor");
 
 //Deligated Session Managment 

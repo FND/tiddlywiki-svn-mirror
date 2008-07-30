@@ -48,9 +48,10 @@ if(isset($tiddler['title']))
 	// Tiddler with the same 	name already exisits.
 	debug("Save : Title is set ", "steps");
 	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);
-	debug("POST omod : ".$_POST['omodified'], "params");
-	debug("db mod : ".$tiddler['modified'], "params");
-	if($tiddler['modified'] !== $_POST['omodified'] ) {		//ask to reload if modified date differs
+	debug("POST orev: ".$_POST['revision'], "params");
+	debug("db rev : ".$tiddler['revision'], "params");
+	
+	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
 		debug("RELOAD REQUIRED", "params");
 		returnResult("012");
 	}

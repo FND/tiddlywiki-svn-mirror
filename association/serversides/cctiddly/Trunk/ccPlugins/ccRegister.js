@@ -7,16 +7,14 @@ merge(config.macros.register,{
 	emailRequest:"email",
 	stepRegisterTitle:"Register for an account.",
 	stepRegisterIntroText:"Hi, please register below.... ",
-	stepRegisterHtml:"<table><tr><td style='text-align: right;'>username</td><td><input class='input' id='reg_username' name='reg_username' tabindex='1'/></td><td class='inlineError' id='username_error'/></tr><tr><td style='text-align: right;'>email</td><td><input class='input' name=reg_mail id='reg_mail' tabindex='2'/></td><td class='inlineError' id='mail_error'/></tr><tr><td style='text-align: right;'>password</td><td><input type='password' class='input' id='password1' name='reg_password1' tabindex='3'/></td><td class='inlineError' id='pass1_error'/></tr><tr><td style='text-align: right;'>confirm password</td><td><input type='password' class='input' id='password2' name='reg_password2' tabindex='4'/></td><td class='inlineError' id='pass2_error'/></tr></table>",
+	stepRegisterHtml:"<table><tr><td style='text-align: right;'>username</td><td><input class='input' id='reg_username' name='reg_username' tabindex='1'/></td><td class='usernameInlineError' id='username_error'><input type='hidden' name='username_error'></input></td></tr><tr><td style='text-align: right;'>email</td><td><input class='input' name=reg_mail id='reg_mail' tabindex='2'/></td><td class='inlineError' id='mail_error'/></tr><tr><td style='text-align: right;'>password</td><td><input type='password' class='input' id='password1' name='reg_password1' tabindex='3'/></td><td class='inlineError' id='pass1_error'/></tr><tr><td style='text-align: right;'>confirm password</td><td><input type='password' class='input' id='password2' name='reg_password2' tabindex='4'/></td><td class='inlineError' id='pass2_error'/></tr></table>",
 	buttonCancel:"Cancel",
 	buttonCancelToolTip:"Cancel transaction ",
 	buttonRegister:"Register",	
 	buttonRegisterToolTip:"click to register",	
 	step2Title:"",
 	step2Html:"Please wait while we create you an account..."
-
 });
-
 
 config.macros.register.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	//config.macros.login.refresh(place);
@@ -33,7 +31,6 @@ config.macros.register.displayRegister=function(place, w, item){
 	]);
 
 }
-
 
 config.macros.register.doRegister=function(place, w){
 	var me = config.macros.register;
@@ -61,30 +58,18 @@ config.macros.register.isUsernameAvailable=function(w){
 };
 
 config.macros.register.isUsernameAvailabeCallback=function(status,params,responseText,uri,xhr){
-	var field = "";
-	displayMessage(params.w);
+	var username_error = params.w.getElement("username_error");
+	var wrapper = document.createElement("div");
+//	removeChildren(username_error.parentNode);
+	
 	if(responseText > 0){
-		displayMessage("taken");
-		var error=document.getElementById('username_error');
-		field=document.getElementById('username');
-		error.innerHTML='The username has already been taken. ';
-		error.setAttribute("class","inlineError");
-		// For IE 
-		error.setAttribute("className", "inlineError");
-		field.setAttribute("class","inputError");
+		wrapper.innerHTML='The username has already been taken. ';
 	}else{
-		var a = document.getElementById('username_error');
-		field = document.getElementById('username');
-		a.innerHTML='The username is available ';
-		// For IE
-		a.setAttribute("className", "inlineOk");
-		a.setAttribute("class","inlineOk");
-		field.setAttribute("class","input");
+		wrapper.innerHTML='The username is available ';
 	}
+	username_error.parentNode.insertBefore(wrapper, username_error);
+//	username_error.appendChild(wrapper);
 };
-
-
-
 
 /***
 |''Name''|ccRegister|

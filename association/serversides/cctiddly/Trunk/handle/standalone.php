@@ -1,6 +1,6 @@
 <?php
 
-//header("Content-Disposition: attachment; filename=\"standalone.html\";\r\n");
+header("Content-Disposition: attachment; filename=\"standalone.html\";\r\n");
 
 
 $cct_base = "../";
@@ -591,6 +591,8 @@ foreach ($tiddlyCfg['pref']['offline']['js']  as $tf)
 ?>
 <div title='ccAdaptorSaveLocal' modifier='cctiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
 <pre>
+if (config.options.txtTheme == "")
+config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
 config.options.chkAutoSave = true;
 window.offline = true;
 config.defaultCustomFields = {"server.host":"<?php echo dirname(getUrl());?>", "server.type":"cctiddly", "server.workspace":"<?php echo $_REQUEST['workspace']?>"};

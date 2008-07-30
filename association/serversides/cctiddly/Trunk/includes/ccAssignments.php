@@ -56,7 +56,7 @@ if ($workspace_create == "A" &&  $tiddlyCfg['allow_workspace_creation'] ==1)
 {
 	echo "workspacePermission.create = 1;\n";
 }
-if (user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
+if ($user['verified'] && user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
 {
 	echo "workspacePermission.upload = 1;";
 	echo "workspacePermission.owner = 1;";

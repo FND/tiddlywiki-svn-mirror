@@ -230,7 +230,6 @@ config.macros.login.loginCallback=function(status,params,responseText,uri,xhr){
 	if(xhr.status==401){
 		config.macros.login.refresh(params.place, 'Login Failed. Please try again');
 	}else{
-		displayMessage(xhr.status);
 		window.location=window.fullUrl;
 	} 
 };
