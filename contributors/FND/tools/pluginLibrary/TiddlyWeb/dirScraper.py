@@ -41,7 +41,7 @@ def addTrailingSlash(path): # XXX: rename?
 	return path
 
 # DEBUG
-tw = httpReadDir("http://svn.tiddlywiki.org")
-tw.getPlugins("Trunk/association/plugins")
-print tw.results
+repo = dirScraper("http://svn.tiddlywiki.org")
+repo.getPlugins("Trunk/association/plugins")
+print repo.results
 

@@ -12,7 +12,7 @@ def normalizeURL(URL):
 	@rtype : str
 	"""
 	URL = URL.split("#", 1)[0]
-	URL = URL.rstrip("/")
+	URL = URL.rstrip("/").lower()
 	return URL
 
 def unescapeLineBreaks(text):
