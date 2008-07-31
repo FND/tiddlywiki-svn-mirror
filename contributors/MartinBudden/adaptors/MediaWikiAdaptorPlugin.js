@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.6.2|
+|''Version:''|0.6.3|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -780,7 +780,7 @@ MediaWikiAdaptor.putTiddlerComplete = function(context,userParams)
 {
 //#console.log('putTiddlerComplete');
 	var host = MediaWikiAdaptor.fullHostName(context.host);
-	var uriTemplate = '%0api.php?action=edit&title=%1&token=%2&text=%3';
+	var uriTemplate = '%0/api.php?action=edit&title=%1&token=%2&text=%3';
 	var uri = uriTemplate.format([host,escape(MediaWikiAdaptor.normalizedTitle(context.tiddler.title)),context.token,escape(context.tiddler.text)]);
 //#console.log('uri:'+uri);
 
@@ -794,6 +794,46 @@ MediaWikiAdaptor.putTiddlerCallback = function(status,context,responseText,uri,x
 //#console.log('putTiddlerCallback:'+status);
 //#console.log(xhr);
 //#console.log(responseText);
+	if(status) {
+		context.status = true;
+	} else {
+		context.status = false;
+		context.statusText = xhr.statusText;
+	}
+	if(context.callback)
+		context.callback(context,context.userParams);
+};
+
+//# placeholder, not complete
+/*MediaWikiAdaptor.prototype.deleteTiddler = function(tiddler,context,userParams,callback)
+{
+console.log('deleteTiddler:'+tiddler.title);
+	context = this.setContext(context,userParams,callback);
+	context.title = tiddler.title;
+	context.complete = MediaWikiAdaptor.deleteTiddlerComplete;
+	return context.token ?
+		context.complete(context,context.userParams) :
+		this.login(context);
+};*/
+
+MediaWikiAdaptor.deleteTiddlerComplete = function(context,userParams)
+{
+//#fnLog('deleteTiddlerComplete:'+title);
+	var host = MediaWikiAdaptor.fullHostName(context.host);
+	var uriTemplate = '%0/api.php?action=delete&title=%1&token=%2';
+	var uri = uriTemplate.format([host,context.workspace,escape(MediaWikiAdaptor.normalizedTitle(context.title)),context.token]);
+//#fnLog('uri: '+uri);
+
+	var req = ccTiddlyAdaptor.doHttpPOST(uri,MediaWikiAdaptor.deleteTiddlerCallback,context,{"Content-Length":"1"}," ");
+//#fnLog("req:"+req);
+	return typeof req == 'string' ? req : true;
+};
+
+MediaWikiAdaptor.deleteTiddlerCallback = function(status,context,responseText,uri,xhr)
+{
+//#fnLog('deleteTiddlerCallback:'+status);
+//#fnLog('rt:'+responseText.substr(0,50));
+//#fnLog('xhr:'+xhr);
 	if(status) {
 		context.status = true;
 	} else {
