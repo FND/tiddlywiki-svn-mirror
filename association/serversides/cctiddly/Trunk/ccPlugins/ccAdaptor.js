@@ -316,7 +316,7 @@ console.log('rt:'+responseText.substr(0,100));
 
 ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
-		console.log("put tiddler"+tiddler.title);
+//#	console.log("put tiddler"+tiddler.title);
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
 	var recipeuriTemplate = '%0handle/save.php';
@@ -325,23 +325,18 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	var d = new Date();
 	d.setTime(Date.parse(tiddler['modified']));
 	d = d.convertToYYYYMMDDHHMM();
-	console.log("ada3");
 	var fieldString = ""; 
 	for (var name in tiddler.fields) { 
 		if (String(tiddler.fields[name])) 
 			fieldString += name +"="+tiddler.fields[name]+" "; 
 	}
-console.log("ada2");
 	
 	if(tiddler.fields['server.page.revision']==1)
 		tiddler.fields['server.page.revision'] = 10000;
 	else
-		tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'])+1;
-		console.log("ada1");
-	var payload="workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title)+"&omodified="+tiddler.fields['server.omodified']+"&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier+"&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision'])+"&fields="+encodeURIComponent(fieldString)+"&body="+encodeURIComponent(tiddler.text.htmlDecode())+"";
-	console.log("ada0");
+		tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10)+1;
+	var payload = "workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+"&body="+encodeURIComponent(tiddler.text.htmlDecode())+"";
 		var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
-	console.log("ada-1");
 	return typeof req == 'string' ? req : true;
 };
 
@@ -408,7 +403,7 @@ ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,call
 	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
 	var uriTemplate = '%0handle/delete.php?workspace=%1&title=%2';
 	var uri = uriTemplate.format([host,context.workspace,title]);
-//#fnLog('uri: '+uri);
+//#console.log('uri: '+uri);
 
 	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.deleteTiddlerCallback,title);
 //#fnLog("req:"+req);

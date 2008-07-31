@@ -575,7 +575,7 @@ table.sortable td.sortedCol {
 
 !taskViewTemplate
 <!--{{{-->
-<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 <div class='title' macro='view title'>Task : </div>
 <div class='task'>
 	<table>
@@ -595,7 +595,7 @@ table.sortable td.sortedCol {
 !taskEditTemplate
 <!--{{{-->
 <div class="editor">
-<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 <div class='title edit' macro='edit title'></div>
 <div class='task'>
 
@@ -634,7 +634,7 @@ table.sortable td.sortedCol {
 
 !simpleViewTemplate
 <!--{{{-->
-<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 <div class='viewer' macro='view text wikified'></div>
 <div class='tagClear'></div>
 <!--}}}-->

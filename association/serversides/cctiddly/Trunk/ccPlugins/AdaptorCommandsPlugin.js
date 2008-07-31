@@ -291,7 +291,7 @@ merge(config.commands.deleteTiddlerHosted,{
 	
 config.commands.deleteTiddlerHosted.handler = function(event,src,title)
 {
-console.log("config.commands.deleteTiddlerHosted.handler:"+title);
+//#console.log("config.commands.deleteTiddlerHosted.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
