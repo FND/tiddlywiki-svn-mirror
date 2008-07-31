@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for moving and converting data to and from ccTiddly wikis|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ccTiddlyAdaptorPlugin.js |
-|''Version:''|0.5.9|
+|''Version:''|0.5.10|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -155,11 +155,11 @@ fnLog('rt:'+responseText.substr(0,80));
 	if(status) {
 		try {
 			list = [];
-			/*var titles = responseText.split('\n');
+			var titles = responseText.split('\n');
 			for(var i=0; i<titles.length; i++) {
 				var tiddler = new Tiddler(titles[i]);
 				list.push(tiddler);
-			}*/
+			}
 			if(list.length==0) {
 				list.push(new Tiddler('About')); //kludge until get support for listTiddlers in ccTiddly
 			}
@@ -214,6 +214,7 @@ fnLog('uriR: '+uri);
 	} else {
 		// first get the revision list
 		uriTemplate = '%0handle/revisionList.php?workspace=%1&title=%2';
+		//uriTemplate = '%0handle/tiddlerList.php?workspace=%1&title=%2';
 		uri = uriTemplate.format([host,workspace,encodedTitle]);
 fnLog('uri: '+uri);
 		req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerCallback1,context);
@@ -401,7 +402,7 @@ ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,call
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
-	title = encodeURIComponent(tiddler.title);
+	title = encodeURIComponent(title);
 //#fnLog('deleteTiddler:'+title);
 	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
 	var uriTemplate = '%0handle/delete.php?workspace=%1&title=%2';
