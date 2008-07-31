@@ -6,7 +6,7 @@ $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "DATABASE";		//db name
+$tiddlyCfg['db']['name'] = "165";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 // Debugging Information 
@@ -155,7 +155,7 @@ if(@file($file_location))
 
 //include_once($cct_base."includes/url.php");
 include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
-include($cct_base."lang/".$tiddlyCfg['twLanguage'].".php");
+
 
 //////////////////////////////////////////////////////////////////////// manupulate values////////////////////////////////////////////////////.
 

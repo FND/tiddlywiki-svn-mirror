@@ -17,7 +17,6 @@ include_once($cct_base."includes/functions.php");
 include_once($cct_base."includes/config.php");
 
 //include is used because language file is included once in config.php file
-include($cct_base."lang/".$tiddlyCfg['twLanguage'].".php");
 include_once($cct_base."includes/tiddler.php");
 include_once($cct_base."includes/user.php");
 

@@ -43,16 +43,21 @@ TiddlyWiki.prototype.orig_saveTiddler = TiddlyWiki.prototype.saveTiddler;       
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created)
 {
     var tiddler = this.fetchTiddler(title);
-
+console.log("savetidder:"+title);
     tiddler = store.orig_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,false,created);
 
     var adaptor = new config.adaptors['cctiddly'];
 
     // put the tiddler and deal with callback
-    context = {};
     tiddler.fields = fields;
+	tiddler.fields['server.host'] = window.url;
+	tiddler.fields['server.type'] = 'cctiddly';
+	tiddler.fields['server.workspace'] = window.workspace;
+    context = {};
     context.tiddler = tiddler;
-    context.workspace = fields['server.workspace'];
+    //context.workspace = fields['server.workspace'];
+    context.workspace = window.workspace;
+	context.host = window.url;
     req = adaptor.putTiddler(tiddler, context, {}, ccTiddlyAutoSave.putCallback);
     return req ? tiddler : false;
 };
