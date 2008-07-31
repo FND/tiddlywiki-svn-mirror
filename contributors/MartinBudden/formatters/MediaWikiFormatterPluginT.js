@@ -1174,7 +1174,7 @@ In this example, {{{{TEx1}} }} results in Template:Hello world!, as the Hello wo
 MediaWikiTemplate.findDBP = function(text,start,end)
 // findDoubleBracePair
 {
-console.log('findDBP:'+start+' t:'+text);
+//#console.log('findDBP:'+start+' t:'+text);
 	var ret = {start:-1,end:-1};
 	var s = text.indexOf('{{',start);
 	if(s==-1) {
