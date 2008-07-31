@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.2|
+|''Version:''|0.5.3|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -627,6 +627,7 @@ config.mediawiki.formatters = [
 					//# Piped link
 					while(link.charAt(0)==':')
 						link = link.substring(1);
+					link = MediaWikiTemplate.normalizeTitle(link);
 					//#if(config.formatterHelpers.isExternalLink(link)) {
 					//#	e = createExternalLink(w.output,link);
 					//#} else {
@@ -1170,13 +1171,16 @@ In this example, {{{{TEx1}} }} results in Template:Hello world!, as the Hello wo
 	which in this case is equivalent to {{{Hello world!}}}.
 */
 //	dbrTest('{{ {{{a}}} b }} {{c}}',0,0,13);
-MediaWikiTemplate.findDBP = function(text,start)
+MediaWikiTemplate.findDBP = function(text,start,end)
 // findDoubleBracePair
 {
-//#fnLog('findDBP:'+start+' t:'+text);
+console.log('findDBP:'+start+' t:'+text);
 	var ret = {start:-1,end:-1};
 	var s = text.indexOf('{{',start);
-	if(s==-1)
+	if(s==-1) {
+		return ret;
+	}
+	if(end && s>end)
 		return ret;
 	if(text.substr(s+2,1)!='{') {
 		//# only two braces
@@ -1189,28 +1193,26 @@ MediaWikiTemplate.findDBP = function(text,start)
 		var s2 = text.indexOf('{{',s+2);
 		if(s2==-1 || s2 > e)
 			return {start:s,end:e};
-		var db = MediaWikiTemplate.findDBP(text,s+2);
-		var tb = MediaWikiTemplate.findTBP(text,s+2);
+		var si = s+2;
+		var db = MediaWikiTemplate.findDBP(text,si,e);
+		var tb = MediaWikiTemplate.findTBP(text,si,e);
 		while((db.end!=-1 && e>db.start && e<=db.end) || (tb.end!=-1 && e>tb.start && e<=tb.end)) {
 			//# intervening double or triple brace pair, so skip over
 			if(db.end!=-1 && e>db.start && e<=db.end) {
-				var e2 = db.end+2;
+				var si = db.end+2;
 				if(tb.end!=-1 && e>tb.start && e<=tb.end) {
 					if(tb.end>db.end)
-						e2 = tb.end+3;
+						si = tb.end+3;
 				}
-				e = e2;
 			} else {
-				e = tb.end+3;
-			}
-			db = MediaWikiTemplate.findDBP(text,e);
-			tb = MediaWikiTemplate.findTBP(text,e);
-			e = text.indexOf('}}',e);
-//#console.log('db:'+db.start+' ,'+db.end);
-//#console.log('tb:'+tb.start+' ,'+tb.end);
-//#console.log('e:'+e);
-			if(e==-1)
+				si = tb.end+3;
+			}			
+			e = text.indexOf('}}',si);
+			db = MediaWikiTemplate.findDBP(text,si,e);
+			tb = MediaWikiTemplate.findTBP(text,si,e);
+			if(e==-1) {
 				return ret;
+			}
 		}
 		return {start:s,end:e};
 	}
@@ -1265,7 +1267,7 @@ MediaWikiTemplate.findDBP = function(text,start)
 	}
 };
 
-MediaWikiTemplate.findTBP = function(text,start)
+MediaWikiTemplate.findTBP = function(text,start,end)
 // findTripleBracePair
 {
 //#fnLog('findTBP:'+start+' t:'+text);
@@ -1273,31 +1275,34 @@ MediaWikiTemplate.findTBP = function(text,start)
 	var s = text.indexOf('{{{',start);
 	if(s==-1)
 		return ret;
+	if(end && s>end)
+		return ret;
 	if(text.substr(s+3,1)!='{' || text.substr(s+3,3)=='{{{') {
 		//# only three braces, or 6 braces
-		var e = text.indexOf('}}}',s+3);
+		var si = s+3;
+		var e = text.indexOf('}}}',si);
 		if(e==-1)
 			return ret;
-		var s2 = text.indexOf('{{',s+2);
+		var s2 = text.indexOf('{{',si);
 		if(s2==-1 || s2 > e)
 			return {start:s,end:e};
-		var db = MediaWikiTemplate.findDBP(text,s+3);
-		var tb = MediaWikiTemplate.findTBP(text,s+3);
-		while((db.end!=-1 && e>db.start && e<=db.end) || (tb.end!=-1 && e>tb.start && e<=tb.end)) {
+		var db = MediaWikiTemplate.findDBP(text,si,e);
+		var tb = MediaWikiTemplate.findTBP(text,si,e);
+//	console.log('t:'+text.substr(s,100));
+		while((db.end!=-1 && e>=db.end) || (tb.end!=-1 && e>=tb.end)) {
 			//# intervening double or triple brace pair, so skip over
-			if(db.end!=-1 && e>db.start && e<=db.end) {
-				var e2 = db.end+2;
-				if(tb.end!=-1 && e>tb.start && e<=tb.end) {
-					if(tb.end>db.end)
-						e2 = tb.end+3;
+			if(db.end!=-1 && e>=db.end) {
+				si = db.end+2;
+				if(tb.end!=-1 && e>=tb.end) {
+					if(tb.end>=db.end)
+						si = tb.end+3;
 				}
-				e = e2;
 			} else {
-				e = tb.end+3;
+				si = tb.end+3;
 			}
-			db = MediaWikiTemplate.findDBP(text,e);
-			tb = MediaWikiTemplate.findTBP(text,e);
-			e = text.indexOf('}}}',e);
+			db = MediaWikiTemplate.findDBP(text,si,e);
+			tb = MediaWikiTemplate.findTBP(text,si,e);
+			e = text.indexOf('}}}',si);
 			if(e==-1)
 				return ret;
 		}
