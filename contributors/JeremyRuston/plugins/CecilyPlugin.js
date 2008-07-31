@@ -662,7 +662,49 @@ Cecily.backgrounds.fractal = {
 			var ctx = canvas.getContext('2d');
 			ctx.fillStyle = "#cc8888";
 			ctx.fillRect(0, 0, w, h);
-			var drawCircle = function(x,y,r,c) {
+			var Turtle = function Turtle(x,y,direction) {
+				this.x = x ? x : 0;
+				this.y = y ? y : 0;
+				this.direction = direction ? direction : 0;
+			};
+			Turtle.prototype.line = function(d) {
+					this.x += Math.sin(this.direction) * d;
+					this.y -= Math.cos(this.direction) * d;
+				};
+			Turtle.prototype.turn = function(a) {
+					this.direction += a;
+				};
+			// Gosper curve as a series of angles to turn (in degrees anti clockwise, for humans)
+			var fractalPath =  [0,300,240,60,120,0,60]; // [0,-60,60,-240,240];
+			// Work out the overall angle and length of the curve
+			var turtle = new Turtle(0,0,0);
+			for(var t=0; t<fractalPath.length; t++) {
+				turtle.turn(fractalPath[t] / 180 * Math.PI);
+				turtle.line(1);
+			}
+			var fractalAngle = Math.atan2(turtle.y,turtle.x);
+			var fractalLength = Math.sqrt(Math.pow(turtle.x,2)+Math.pow(turtle.y,2));
+			// Recursive function to draw a generation of the curve
+			var drawLeg = function drawLeg(p1,p2,depth) {
+				// Work out the angle and length required
+				var legLength = Math.sqrt(Math.pow(p2.x-p1.x,2)+Math.pow(p2.y-p1.y,2));
+				var legAngle = Math.atan2(p2.y-p1.y,p2.x-p1.x);
+				// Initialise the turtle
+				var legScale = legLength / fractalLength;
+				var turtle = new Turtle(p1.x,p1.y,legAngle);
+				turtle.turn(-fractalAngle);
+				// Step through the curve
+				for(var t=0; t<fractalPath.length; t++) {
+					var prevX = turtle.x;
+					var prevY = turtle.y;
+					turtle.turn(fractalPath[t] / 180 * Math.PI);
+					turtle.line(legScale);
+					if(depth > 0)
+						drawLeg(new Point(prevX,prevY),new Point(turtle.x,turtle.y),depth - 1);
+					ctx.lineTo(turtle.x,turtle.y);
+				}
+			}
+			var drawCircle = function(x,y,r) {
 				var radgrad = ctx.createRadialGradient(x,y,r,x-r/3,y-r/3,1);
 				radgrad.addColorStop(0, '#8888cc');
 				radgrad.addColorStop(0.9, '#f0f0ff');
@@ -672,59 +714,6 @@ Cecily.backgrounds.fractal = {
 				ctx.arc(x,y,r,0,2*Math.PI,0);
 				ctx.fill();
 			}
-			var drawLeg = function(p1,p2) {
-				
-				// Work out the angle and scale to convert (0,0)-(1,1) to (p1)-(p2)
-				var s = Math.sqrt(Math.pow(p2.x-p1.x,2)+Math.pow(p2.y-p1.y,2));
-				var a = Math.atan2(p2.y-p1.y,p2.x-p1.x);
-				ctx.strokeStyle = "#F00";
-				ctx.lineWidth = 3;
-				ctx.beginPath();
-				ctx.moveTo(p1.x,p1.y);
-				ctx.lineTo(p2.x,p2.y);
-				ctx.stroke();
-				
-				var s2 = s * 1.0;
-				var a2 = a - Math.PI*1.0;
-				var x = p1.x + Math.sin(a2) * s2;
-				var y = p1.y + Math.cos(a2) * s2;
-				ctx.strokeStyle = "#00f";
-				ctx.beginPath();
-				ctx.moveTo(p1.x,p1.y);
-				ctx.lineTo(x,y);
-				ctx.stroke();
-				
-				var s2 = s * 0.3;
-				var a2 = a - Math.PI*0.25;
-				var x = p1.x + Math.sin(a2) * s2;
-				var y = p1.y + Math.cos(a2) * s2;
-				ctx.strokeStyle = "#f0f";
-				ctx.beginPath();
-				ctx.moveTo(p1.x,p1.y);
-				ctx.lineTo(x,y);
-				ctx.stroke();
-				
-				s2 = s * 2.0;
-				a2 = a + Math.PI*0.5;
-				x = p1.x + Math.sin(a2) * s2;
-				y = p1.y + Math.cos(a2) * s2;
-				ctx.strokeStyle = "#08f";
-				ctx.beginPath();
-				ctx.moveTo(p1.x,p1.y);
-				ctx.lineTo(x,y);
-				ctx.stroke();
-				
-				s2 = s * 0.5;
-				a2 = a + Math.PI*1.5;
-				x = p1.x + Math.sin(a2) * s2;
-				y = p1.y + Math.cos(a2) * s2;
-				ctx.strokeStyle = "#ff8";
-				ctx.beginPath();
-				ctx.moveTo(p1.x,p1.y);
-				ctx.lineTo(x,y);
-				ctx.stroke();
-				
-			}
 			var scale = w/view.w;
 			// Get the position of the canvas on the plane
 			var px = view.x + view.w/2 - (w/2) / scale;
@@ -732,8 +721,8 @@ Cecily.backgrounds.fractal = {
 			var pw = w / scale;
 			var ph = h / scale;
 			// Map coordinates
-			var p1 = new Point(100,100);
-			var p2 = new Point(100,340);
+			var p1 = new Point(-430,11);
+			var p2 = new Point(1530,674);
 			var x = 100;
 			var y = 100;
 			var r = 500;
@@ -750,14 +739,35 @@ Cecily.backgrounds.fractal = {
 			x = x * w;
 			y = y * h;
 			r = r * w;
-			drawCircle(x,y,r);
 			
 			p1.x = p1.x * w;
 			p1.y = p1.y * h;
 			p2.x = p2.x * w;
 			p2.y = p2.y * h;
 			
-			drawLeg(p1,p2);
+			// Draw the circle
+			drawCircle(x,y,r);
+			// Draw the curve
+			ctx.strokeStyle = "#F00";
+			ctx.lineWidth = 3;
+			ctx.beginPath();
+			ctx.moveTo(p1.x,p1.y);
+			drawLeg(p1,p2,2);
+			ctx.stroke();
+			// Draw the curve
+			ctx.strokeStyle = "#Ff0";
+			ctx.lineWidth = 3;
+			ctx.beginPath();
+			ctx.moveTo(p1.x,p1.y);
+			drawLeg(p1,p2,1);
+			ctx.stroke();
+			// Draw the curve
+			ctx.strokeStyle = "#F0f";
+			ctx.lineWidth = 3;
+			ctx.beginPath();
+			ctx.moveTo(p1.x,p1.y);
+			drawLeg(p1,p2,0);
+			ctx.stroke();
 		}
 };
 
@@ -877,16 +887,13 @@ function runCecily()
 	store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 }
 
-if(config.browser.isSafari && 
-	(document.body.style['-webkit-transform'] !== undefined)) {
-		runCecily();
-	} else {
-		alert("ProjectCecily currently only works on Safari 3.1 and above. Use the nightly build from http://webkit.org/ for the best experience");
-	}
-
+if(config.browser.isSafari && (document.body.style['-webkit-transform'] !== undefined)) {
+	runCecily();
+} else {
+	alert("ProjectCecily currently only works on Safari 3.1 and above. Use the nightly build from http://webkit.org/ for the best experience");
 }
 
-//}}}
+} // if(!version.extensions.CecilyPlugin)
 
 /***
 !StyleSheet
