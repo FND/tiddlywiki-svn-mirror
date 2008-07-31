@@ -1,6 +1,5 @@
 //{{{
 
-
 /***
 |''Name''|ccLogin|
 |''Description''|Allows users to login to ccTiddly, In future, this will include the ccRegister and  ccLoginStatus Status Macro|

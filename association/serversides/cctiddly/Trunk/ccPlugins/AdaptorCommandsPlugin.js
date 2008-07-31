@@ -126,10 +126,6 @@ config.commands.putTiddler.isEnabled = function(tiddler)
 	return tiddler && tiddler.isTouched() && isAdaptorFunctionSupported('putTiddler',tiddler.fields);
 };
 
-
-
-
-
 config.commands.putTiddler.handler = function(event,src,title)
 {
 //#console.log("config.commands.putTiddler.handler:"+title);
@@ -145,43 +141,6 @@ config.commands.putTiddler.callback = function(context,userParams)
 	if(context.status) {
 		store.fetchTiddler(context.title).clearChangeCount();
 		displayMessage(config.commands.putTiddler.done);
-	} else {
-		displayMessage(context.statusText);
-	}
-};
-
-
-
-
-
-config.commands.putTiddlerRevision = {};
-merge(config.commands.putTiddlerRevision,{
-	text: "putRevision",
-	tooltip: "Upload this tiddler as revision",
-	hideReadOnly: true,
-	done: "Tiddler revision uploaded"
-	});
-
-config.commands.putTiddlerRevision.isEnabled = function(tiddler)
-{
-	return tiddler && tiddler.isTouched() && isAdaptorFunctionSupported('putTiddlerRevision',tiddler.fields);
-};
-
-config.commands.putTiddlerRevision.handler = function(event,src,title)
-{
-//#displayMessage("config.commands.putTiddler.handler:"+title);
-	var tiddler = store.fetchTiddler(title);
-	if(!tiddler)
-		return false;
-	return invokeAdaptor('putTiddlerRevision',tiddler,null,null,null,config.commands.putTiddlerRevision.callback,tiddler.fields);
-};
-
-config.commands.putTiddlerRevision.callback = function(context,userParams)
-{
-//#displayMessage("config.commands.putTiddler.callback:"+context.tiddler.title);
-	if(context.status) {
-		store.fetchTiddler(context.title).clearChangeCount();
-		displayMessage(config.commands.putTiddlerRevision.done);
 	} else {
 		displayMessage(context.statusText);
 	}
@@ -332,11 +291,12 @@ merge(config.commands.deleteTiddlerHosted,{
 	
 config.commands.deleteTiddlerHosted.handler = function(event,src,title)
 {
-//#displayMessage("config.commands.deleteTiddlerHosted.handler:"+title);
+console.log("config.commands.deleteTiddlerHosted.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
-	return invokeAdaptor('deleteTiddler',title,null,null,null,config.commands.deleteTiddlerHosted.callback,tiddler);
+	invokeAdaptor('deleteTiddler',title,null,null,null,config.commands.deleteTiddlerHosted.callback,tiddler.fields);
+	config.commands.deleteTiddler.handler(event,src,title);
 };
 
 config.commands.deleteTiddlerHosted.callback = function(context,userParams)

@@ -18,7 +18,6 @@ recordTime_float("Start");
 //includes
 $cct_base = "";
 include_once($cct_base."includes/header.php");
-include_once($cct_base."includes/print.php");
 include_once($cct_base."includes/login.php");
 
 recordTime_float("includes");

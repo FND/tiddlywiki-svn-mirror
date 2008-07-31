@@ -5,7 +5,6 @@ header("Content-Disposition: attachment; filename=\"standalone.html\";\r\n");
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-include_once($cct_base."includes/print.php");
 include_once($cct_base."includes/login.php");
 
 

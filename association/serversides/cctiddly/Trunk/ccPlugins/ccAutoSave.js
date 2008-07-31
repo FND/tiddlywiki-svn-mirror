@@ -53,6 +53,7 @@ console.log("savetidder:"+title);
 	tiddler.fields['server.host'] = window.url;
 	tiddler.fields['server.type'] = 'cctiddly';
 	tiddler.fields['server.workspace'] = window.workspace;
+	tiddler.clearChangeCount();
     context = {};
     context.tiddler = tiddler;
     //context.workspace = fields['server.workspace'];

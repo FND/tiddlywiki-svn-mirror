@@ -403,8 +403,8 @@ ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,call
 {	
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
-	title = encodeURIComponent(tiddler.title);
-//#fnLog('deleteTiddler:'+title);
+	title = encodeURIComponent(title);
+//#console.log('deleteTiddler:'+title);
 	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
 	var uriTemplate = '%0handle/delete.php?workspace=%1&title=%2';
 	var uri = uriTemplate.format([host,context.workspace,title]);
@@ -417,8 +417,8 @@ ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,call
 
 ccTiddlyAdaptor.deleteTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
-//#fnLog('deleteTiddlerCallback:'+status);
-//#fnLog('rt:'+responseText.substr(0,50));
+//#console.log('deleteTiddlerCallback:'+status);
+//#console.log('rt:'+responseText.substr(0,50));
 //#fnLog('xhr:'+xhr);
 	if(status) {
 		context.status = true;

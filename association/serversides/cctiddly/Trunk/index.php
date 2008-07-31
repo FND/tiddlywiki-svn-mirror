@@ -133,6 +133,7 @@ TiddlyWiki - a reusable non-linear personal web notebook
 <!--POST-HEAD-START-->
 <?php
 $tw = $tiddlyCfg['tiddlywiki_type'];
+// include TiddlyWiki.js file
 echo "<script type='text/javascript' >".file_get_contents($tw)."</script>";
 ?>
 
