@@ -19,8 +19,10 @@ version.extensions.SkinnyTiddlersPlugin = {installed:true};
 
 config.skinnyTiddlers = {}; // Hashmap of {title,modifier,created,modified,tags[]}
 
+// Just an example, let's you test this plugin by creating a link to a tiddler called "SkinnyTiddler"
+// and watching how it doesn't get treated like an ordinary missing tiddler link
 config.skinnyTiddlers.SkinnyTiddler = {
-	title: "SkinnyTiddler", // Also should to initialise modifier,created,modified,tags[]
+	title: "SkinnyTiddler", // Also should initialise modifier,created,modified,tags[],fields{}
 };
 
 var old_getTiddlyLinkInfo = window.getTiddlyLinkInfo;
