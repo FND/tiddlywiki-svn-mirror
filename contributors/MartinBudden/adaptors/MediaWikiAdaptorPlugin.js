@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.6.1|
+|''Version:''|0.6.2|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -368,7 +368,7 @@ MediaWikiAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 	context.uri = null;
 	var host = MediaWikiAdaptor.fullHostName(this.host);
 	if(!context.tiddlerLimit)
-		context.tiddlerLimit = config.options.txtMediaAdaptorLimit==0 ? config.maxTiddlerImportCount : config.options.txtMediaAdaptorLimit;
+		context.tiddlerLimit = !config.options.txtMediaAdaptorLimit ? config.maxTiddlerImportCount : config.options.txtMediaAdaptorLimit;
 	var limit = context.tiddlerLimit;
 	if(limit>500)
 		limit = 500;
