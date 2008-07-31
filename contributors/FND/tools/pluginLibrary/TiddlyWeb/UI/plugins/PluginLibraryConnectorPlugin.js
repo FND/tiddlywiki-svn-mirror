@@ -56,12 +56,14 @@ config.macros.ImportPlugins = {
 		var plugins = context.tiddlers;
 		if(plugins) {
 			for(var i = 0; i < plugins.length; i++) {
-				var subContext = {
-					host: context.host,
-					workspace: plugins[i].fields['server.workspace']
-				};
-				context.adaptor.getTiddler(plugins[i].title, subContext,
-					userParams, config.macros.ImportPlugins.displayPlugin);
+				if(!store.tiddlerExists(plugins[i].title)) {
+					var subContext = {
+						host: context.host,
+						workspace: plugins[i].fields['server.workspace']
+					};
+					context.adaptor.getTiddler(plugins[i].title, subContext,
+						userParams, config.macros.ImportPlugins.displayPlugin);
+				}
 			}
 		}
 	},
