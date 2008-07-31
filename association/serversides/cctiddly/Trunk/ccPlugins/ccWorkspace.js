@@ -193,7 +193,7 @@ config.macros.ccEditWorkspace.handler = function(place,macroName,params,wikifier
 	createTiddlyElement(frm,"br");
 	var body = createTiddlyElement(frm,'div',null,"wizardBody");
 	var step = createTiddlyElement(body,'div',null,"wizardStep");
-	createTiddlyElement(step,'h5	',null,null,'Anonymous Users Can :  ');
+	createTiddlyElement(step,'h5',null,null,'Anonymous Users Can :  ');
 	
 	var span = createTiddlyElement(step,'span',null,"checkContainer")
 	var anC = createTiddlyCheckbox(span,null,workspacePermission.anonC);

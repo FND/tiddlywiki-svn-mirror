@@ -89,7 +89,7 @@ General
 	padding:8px;
 }
 
-#contentWrapper .chkOptionInput {
+body .chkOptionInput {
 width:auto;
 	float:right;
 }
@@ -216,13 +216,19 @@ h1 {
 	margin:0.5em 0em;
 	padding:0.3em 0.6em;
 }
-
+.popup li a {
+	padding:12px;
+}
 #tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a{
 	background-color:[[ColorPalette::smmDark1]];
 	color:[[ColorPalette::smmLight3]];
 	border:1px solid [[ColorPalette::smmDark1]];
 }
 
+a:hover {
+	background-color:[[ColorPalette::smmDark2]];
+	color:[[ColorPalette::smmLight1]]
+}
 #tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover{
 	border:1px dotted #000;
 	background-color:[[ColorPalette::smmDark2]];
@@ -234,7 +240,6 @@ h1 {
 	margin:4px;
 	border:1px dotted [[ColorPalette::smmLight2]];
 }
-
 
 #contentWrapper #mainMenu{ 
 	left:290px;
@@ -308,7 +313,6 @@ textarea {
 	background:transparent;
 	border:1px solid #fff;
 }
-
 
 * html .viewer pre {
 	margin-left: 0em;
@@ -515,6 +519,7 @@ body select {
 
 #backstagePanel {
 	background:[[ColorPalette::smmDark2]];
+	width:60%;
 }
 
 #sidebar .sliderPanel {
@@ -552,6 +557,12 @@ border:0px;
 .viewer th, .viewer thead td, .twtable th, .twtable thead td {
 	border:0px;
 	color:white;
+}
+
+.twtable th{
+	background-color:[[ColorPalette::smmDark3]];
+	padding:15px;
+	margin:15px;
 }
 
 table.sortable td.sortedCol {

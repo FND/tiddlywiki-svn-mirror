@@ -141,7 +141,7 @@ echo "<script type='text/javascript' >".file_get_contents($tw)."</script>";
 <script type='text/javascript' >
 	config.options.chkHttpReadOnly = false;		//make it HTTP writable by default
 	config.options.chkSaveBackups = false;		//disable save backup
-	config.options.chkAutoSave = true;			//disable autosave
+	config.options.chkAutoSave = false;			//disable autosave
 	config.options.chkUsePreForStorage = false;
 </script>
 <!--End of ccT plugins-->
