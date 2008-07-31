@@ -6,12 +6,11 @@ from BeautifulSoup import BeautifulSoup
 class dirScraper:
 	def __init__(self, url):
 		self.url = addTrailingSlash(url)
-		self.results = []
 
 	def getPlugins(self, dir):
+		results = []
 		print "processing " + self.url + dir # DEBUG
 		dir = addTrailingSlash(dir)
-		print "processing " + self.url + dir # DEBUG
 		content = self._get(self.url + dir)
 		soup = BeautifulSoup(content)
 		list = soup.find("ul")
@@ -22,13 +21,14 @@ class dirScraper:
 			if href == "../":
 				continue
 			if href.endswith(".js"): # directory
-				self.results.append({
-					"source": posixpath.basename(href[:-3]),
-					"name": dir + href,
+				results.append({
+					"name": posixpath.basename(href[:-3]),
+					"source": self.url + dir + href,
 					"content": self._get(self.url + dir + href)
 				})
 			elif href.endswith("/"): # plugin
-				self.getPlugins(dir + href)
+				results.extend(self.getPlugins(dir + href))
+		return results
 
 	def _get(self, url):
 		http = httplib2.Http()
@@ -42,6 +42,8 @@ def addTrailingSlash(path): # XXX: rename?
 
 # DEBUG
 repo = dirScraper("http://svn.tiddlywiki.org")
-repo.getPlugins("Trunk/association/plugins")
-print repo.results
+plugins = repo.getPlugins("Trunk/association/plugins")
+for plugin in plugins:
+	print plugin["name"], plugin["source"]
+	#print plugin["content"]
 

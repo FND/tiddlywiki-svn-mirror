@@ -74,30 +74,42 @@ def getPlugins(repo):
 	@rtype : bool
 	"""
 	if repo["type"] == "TiddlyWiki":
-		from tiddlyweb.bag import Bag
 		from tiddlyweb.importer import import_wiki
 		try:
 			html = urlopen(repo["URI"]).read() # DEBUG: caching, deferred processing?!
 		except IOError: # DEBUG: doesn't include 404!?
 			return False # DEBUG: log error
-		bagName = repo["name"] # DEBUG: escape invalid path chars
-		# delete existing bag -- DEBUG: temporary(?) hack to circumvent excessive revision creation
-		bagPath = "store" + os.sep + "bags" + os.sep + bagName # DEBUG: hardcoded root - evil!?
-		if(os.path.exists(bagPath)):
-			shutil.rmtree(bagPath)
-		# create bag
-		bag = Bag(bagName)
-		store = Store("text")
-		store.put(bag)
+		createBag(repo["name"]) # DEBUG: escape invalid path chars
 		# import plugins
 		tw = TiddlyWiki(html)
 		tw.convertStoreFormat() # DEBUG: extract plugins first?
 		import_wiki(tw.getPluginTiddlers(repo), repo["name"]) # DEBUG: creates a new revision per cycle (see above)
 		return True
 	elif repo["type"] == "SVN":
-		pass # DEBUG: to be implemented
+		from dirScraper import dirScraper
+		repo = dirScraper(repo["URI"])
+		print repo.getPlugins("./")
+		return True
 	else:
 		pass # DEBUG: TBD
+
+def createBag(name):
+	"""
+	create bag for repository
+
+	@param name: bag name
+	@type  repo: str
+	@return: None
+	"""
+	from tiddlyweb.bag import Bag
+	# delete existing bag -- DEBUG: temporary(?) hack to circumvent excessive revision creation
+	path = "store" + os.sep + "bags" + os.sep + name # DEBUG: hardcoded root - evil!?
+	if(os.path.exists(path)):
+		shutil.rmtree(path)
+	# create bag
+	bag = Bag(name)
+	store = Store("text")
+	store.put(bag)
 
 # startup
 
