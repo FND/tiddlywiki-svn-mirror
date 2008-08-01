@@ -80,22 +80,27 @@ def getPlugins(repo):
 		except IOError: # DEBUG: doesn't include 404!?
 			return False # DEBUG: log error
 		createBag(repo["name"]) # DEBUG: escape invalid path chars
-		# import plugins
 		tw = TiddlyWiki(html)
 		tw.convertStoreFormat() # DEBUG: extract plugins first?
 		import_wiki(tw.getPluginTiddlers(repo), repo["name"]) # DEBUG: creates a new revision per cycle (see above)
 		return True
 	elif repo["type"] == "SVN":
 		from dirScraper import dirScraper
-		repo = dirScraper(repo["URI"])
-		print repo.getPlugins("./")
-		return True
+		svn = dirScraper(repo["URI"])
+		plugins = svn.getPlugins("./", True)
+		createBag(repo["name"])
+		for plugin in plugins:
+			plugin.bag = repo["name"]
+			#tiddler.tags = _tag_string_to_list(tiddler["tags"]) # DEBUG'd; function not available in this context
+			store = Store("text")
+			store.put(plugin)
+		return True #tiddler.tags = _tag_string_to_list(tiddler["tags"]) # DEBUG'd; function not available in this context
 	else:
 		pass # DEBUG: TBD
 
 def createBag(name):
 	"""
-	create bag for repository
+	create bag in store
 
 	@param name: bag name
 	@type  repo: str

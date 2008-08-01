@@ -37,7 +37,7 @@ class TiddlyWiki:
 		"""
 		tag = "systemConfig" # includes "systemConfigDisable" -- DEBUG: include systemTheme tiddlers?
 		# remove non-plugin tiddlers
-		[tiddler.extract() for tiddler in self.store.findChildren("div", title=True) \
+		[tiddler.extract() for tiddler in self.store.findChildren("div", title=True)
 			if (not tiddler.has_key("tags")) or (tag not in tiddler["tags"])]
 		# disable plugins -- DEBUG: move into separate function
 		pattern = re.compile(r"\b(systemConfig|excludeLists|excludeSearch)\b\s?")
