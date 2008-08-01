@@ -1,0 +1,10 @@
+<div title="Let's play" modifier="JonLister" created="200803252140" modified="200804011401" changecount="8">
+<pre>Put a url in the box below:
+<<option txtRemoteURL>>
+Change this word:
+<<option txtChangeFrom>>
+To this word:
+<<option txtChangeTo>>
+
+[[Go!|IFrameHackery]]</pre>
+</div>

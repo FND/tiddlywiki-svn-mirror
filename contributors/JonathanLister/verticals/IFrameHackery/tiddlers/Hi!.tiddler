@@ -1,0 +1,8 @@
+<div title="Hi!" modifier="JonLister" created="200803271204" modified="200804011055" changecount="4">
+<pre>This demo lets you modify remote web pages before displaying them.
+
+If you want to try this out, <html><a href=http://tiddlyhome.bidix.info/ipwnursite/download.php class='button'>download</a></html> this web page first and run it locally, then you will be able to access sites from anywhere on the web.
+* [[Let's play]]
+I made this to test-drive a cross-browser ~JavaScript ~IFrame library.
+* [[Show me the code]]</pre>
+</div>

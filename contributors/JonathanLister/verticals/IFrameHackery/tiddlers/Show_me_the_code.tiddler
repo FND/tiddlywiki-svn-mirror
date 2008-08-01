@@ -1,0 +1,9 @@
+<div title="Show me the code" modifier="JonLister" created="200804011055" modified="200804011107" changecount="3">
+<pre>The [[IFrame library|IFramePlugin]] lets you create and modify the content of ~IFrames. It is cross-browser and is released under the BSD open-source licence.
+
+The [[IFrameHackery macro|IFrameHackeryMacro]] uses the above library to let you mess around with the content of external websites before displaying in this one. This site is a [[TiddlyWiki|http://tiddlywiki.com/#GettingStarted]] and the macro is a ~TiddlyWiki macro. 
+
+!! Code
+*[[IFrame library|IFramePlugin]]
+*[[IFrame macro|IFrameHackeryMacro]]</pre>
+</div>

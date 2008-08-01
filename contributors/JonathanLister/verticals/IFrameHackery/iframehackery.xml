@@ -1,0 +1,1033 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+<channel>
+<title>IFrameHackery</title>
+<link>http://tiddlyhome.bidix.info/ipwnursite/</link>
+<description>I pwn ur website</description>
+<language>en-us</language>
+<copyright>Copyright 2008 YourName</copyright>
+<pubDate>Mon, 07 Apr 2008 16:32:28 GMT</pubDate>
+<lastBuildDate>Mon, 07 Apr 2008 16:32:28 GMT</lastBuildDate>
+<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+<generator>TiddlyWiki 2.3.0</generator>
+<item>
+<title>writeCode</title>
+<description>&lt;pre&gt;// Creates a sub-tree under a given element
+// based on writeCode() from O'Reilly Javascript Library
+// deals with tags that should but don't self-close
+// s - the source text
+// pointer - the target DOM element to be written into
+// 'limit' - optional; if an integer, limits the TEXT characters output
+// 'textOnly' - optional; if true, only outputs text
+// returns the original pointer
+function writeCode(s,pointer,limit,textOnly) {
+	var tag, j;
+	limit = (limit &amp;amp;&amp;amp; limit &amp;lt; s.length ? limit : s.length);
+	var count = 0;
+	for ( var i = 0; count &amp;lt; limit; i++) {
+		var c = s.charAt(i);
+		if (c == &quot;&amp;lt;&quot;) {
+			var j = s.indexOf(&quot;&amp;gt;&quot;, i + 1);
+			if(!textOnly) {
+				tag = s.substring(i, j + 1);
+				if (tag.charAt(tag.length - 2) == &quot;/&quot;|| tag.substr(1,2) == &quot;br&quot; || tag.substr(1,3) == &quot;img&quot; || tag.substr(1,2) == &quot;hr&quot;) {
+					if (pointer != null &amp;amp;&amp;amp; pointer.nodeType == 3) {
+						pointer = pointer.parentNode;
+					}
+					pointer.appendChild(createElementFromString(tag));
+				} else if (tag.charAt(1) != &quot;/&quot;) {
+					if (pointer != null &amp;amp;&amp;amp; pointer.nodeType == 3) {
+						pointer = pointer.parentNode;
+					}
+					pointer = pointer.appendChild(createElementFromString(tag));
+				} else {
+					if(pointer.parentNode != null) {
+						pointer = pointer.parentNode;
+					}
+				}
+			}
+			i = j;
+		} else {
+			n = s.indexOf(&quot;&amp;lt;&quot;, i + 1);
+			if (n == -1) {
+				pointer.innerHTML += s.substr(i,limit-count);
+				count = limit;
+			} else {
+				var extratext;
+				if(n-i &amp;gt; limit-count) {
+					extratext = s.substring(i,i+(limit-count));
+				} else {
+					extratext = s.substring(i,n);
+				}
+				pointer.innerHTML += extratext;
+				count+=extratext.length;
+				i = n - 1;
+			}
+		}
+	}
+	return pointer;
+}
+
+// parse a string and create an element from it
+// based on O'Reilly Javascript Library code
+function createElementFromString(str) {
+	var node, a = str.match(/&amp;lt;(\w+)(\s+)?([^&amp;gt;]+)?&amp;gt;/);
+	if (a != null) {
+		node = document.createElement(a[1]);
+		if (a[3] != null) {
+			var attrs = a[3].split(&quot; &quot;);
+			if (attrs.length &amp;gt; 0) {
+				for ( var i = 0; i &amp;lt; attrs.length; i++) {
+					var att = attrs[i].split(&quot;=&quot;);
+					if (att[0].length &amp;gt; 0 &amp;amp;&amp;amp; att[0] != &quot;/&quot; &amp;amp;&amp;amp; att[1] &amp;amp;&amp;amp; att[1].length != 2) {
+						var a_n = document.createAttribute(att[0]);
+						a_n.value = att[1].replace(/^['&quot;](.+)['&quot;]$/, &quot;$1&quot;);
+						node.setAttributeNode(a_n);
+					}
+				}
+			}
+		}
+	}
+	return node;
+}
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#writeCode</link>
+<pubDate>Mon, 07 Apr 2008 16:32:23 GMT</pubDate>
+</item>
+<item>
+<title>forceRefreshPlugin</title>
+<description>&lt;em&gt; override core displayTiddler function to force refresh even if already open&lt;br&gt;Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle)&lt;br&gt;{&lt;br&gt;	var title = (tiddler instanceof Tiddler)? tiddler.title : tiddler;&lt;br&gt;	var tiddlerElem = this.getTiddler(title);&lt;br&gt;	if(tiddlerElem) {&lt;br&gt;		if(toggle)&lt;br&gt;			this.closeTiddler(title,true);&lt;br&gt;		else&lt;br&gt;			this.refreshTiddler(title,template,true,customFields);&lt;br&gt;	} else {&lt;br&gt;		var place = this.getContainer();&lt;br&gt;		var before = this.positionTiddler(srcElement);&lt;br&gt;		tiddlerElem = this.createTiddler(place,before,title,template,customFields);&lt;br&gt;	}&lt;br&gt;	if(srcElement &amp;amp;&amp;amp; typeof srcElement !== &quot;string&quot;) {&lt;br&gt;		if(config.options.chkAnimate &amp;amp;&amp;amp; (animate == undefined || animate == true) &amp;amp;&amp;amp; anim &amp;amp;&amp;amp; typeof Zoomer == &quot;function&quot; &amp;amp;&amp;amp; typeof Scroller == &quot;function&quot;)&lt;br&gt;			anim.startAnimating(new Zoomer(title,srcElement,tiddlerElem),new Scroller(tiddlerElem));&lt;br&gt;		else&lt;br&gt;			window.scrollTo(0,ensureVisible(tiddlerElem));&lt;br&gt;	}&lt;br&gt;};&lt;/em&gt;</description>
+<category>systemConfig</category>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#forceRefreshPlugin</link>
+<pubDate>Tue, 01 Apr 2008 17:45:00 GMT</pubDate>
+</item>
+<item>
+<title>Let's play</title>
+<description>Put a url in the box below:&lt;br&gt;&lt;input class=&quot;txtOptionInput&quot; option=&quot;txtRemoteURL&quot;&gt;&lt;br&gt;Change this word:&lt;br&gt;&lt;input class=&quot;txtOptionInput&quot; option=&quot;txtChangeFrom&quot;&gt;&lt;br&gt;To this word:&lt;br&gt;&lt;input class=&quot;txtOptionInput&quot; option=&quot;txtChangeTo&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;a tiddlylink=&quot;IFrameHackery&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#IFrameHackery&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#IFrameHackery&quot; class=&quot;externalLink&quot;&gt;Go!&lt;/a&gt;</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#%5B%5BLet's%20play%5D%5D</link>
+<pubDate>Tue, 01 Apr 2008 14:01:00 GMT</pubDate>
+</item>
+<item>
+<title>IFrameHackery</title>
+<description>&lt;iframe style=&quot;border: 0px none ; width: 0px; height: 0px;&quot;&gt;&lt;/iframe&gt;</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#IFrameHackery</link>
+<pubDate>Tue, 01 Apr 2008 11:08:00 GMT</pubDate>
+</item>
+<item>
+<title>Show me the code</title>
+<description>The &lt;a tiddlylink=&quot;IFramePlugin&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#IFramePlugin&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#IFramePlugin&quot; class=&quot;externalLink&quot;&gt;IFrame library&lt;/a&gt; lets you create and modify the content of IFrames. It is cross-browser and is released under the BSD open-source licence.&lt;br&gt;&lt;br&gt;The &lt;a tiddlylink=&quot;IFrameHackeryMacro&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#IFrameHackeryMacro&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#IFrameHackeryMacro&quot; class=&quot;externalLink&quot;&gt;IFrameHackery macro&lt;/a&gt; uses the above library to let you mess around with the content of external websites before displaying in this one. This site is a &lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlywiki.com/#GettingStarted&quot; href=&quot;http://tiddlywiki.com/#GettingStarted&quot; class=&quot;externalLink&quot;&gt;TiddlyWiki&lt;/a&gt; and the macro is a TiddlyWiki macro. &lt;br&gt;&lt;br&gt;&lt;h2&gt; Code&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;&lt;a tiddlylink=&quot;IFramePlugin&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#IFramePlugin&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#IFramePlugin&quot; class=&quot;externalLink&quot;&gt;IFrame library&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a tiddlylink=&quot;IFrameHackeryMacro&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#IFrameHackeryMacro&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#IFrameHackeryMacro&quot; class=&quot;externalLink&quot;&gt;IFrame macro&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#%5B%5BShow%20me%20the%20code%5D%5D</link>
+<pubDate>Tue, 01 Apr 2008 11:07:00 GMT</pubDate>
+</item>
+<item>
+<title>IFrameHackeryMacro</title>
+<description>&lt;pre&gt;config.macros.IFrameHackery = {
+   defaultURL: &quot;http://www.google.com&quot;,
+   defaultFrom: &quot;Lucky&quot;,
+   defaultTo: &quot;Unlucky&quot;
+};
+
+config.macros.IFrameHackery.init = function()
+{
+   if(config.options.txtRemoteURL === undefined)
+      config.options.txtRemoteURL = this.defaultURL;
+   if(config.options.txtChangeFrom === undefined)
+      config.options.txtChangeFrom = this.defaultFrom;
+   if(config.options.txtChangeTo === undefined)
+      config.options.txtChangeTo = this.defaultTo;
+};
+
+config.macros.IFrameHackery.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+   // get the remote page URL
+   var url = config.options.txtRemoteURL;
+   // get the word to change
+   var from = config.options.txtChangeFrom;
+   // get the word to change the target into
+   var to = config.options.txtChangeTo;
+   // create an iframe in place
+   var ifr = new IFrame(place);
+   var p = [url,from,to,ifr];
+   // load the remote page and extract its HTML
+   var x = doHttp(&quot;GET&quot;,url,null,null,null,null,config.macros.IFrameHackery.callback,p,null,true);
+};
+
+config.macros.IFrameHackery.callback = function(status,params,responseText,url,xhr)
+{
+   if(!responseText) {
+	   displayMessage(&quot;Looks like there's nothing at that URL!&quot;);
+	   return false;
+   }
+   var from = new RegExp(params[1],&quot;img&quot;);
+   var to = params[2];
+   var ifr = params[3];
+   var newHTML = responseText.replace(from,to);
+   // have a go at fixing relative links
+   newHTML = newHTML.replace(/(href|src|action)(=['\&quot;])(?!http:\/\/)(\/)*/mg,function(match,m1,m2,m3) {
+      if(!m3)
+         m3 = &quot;/&quot;;
+      return m1+m2+url+m3;
+   });
+   // supplement this with support for @import &quot;/blah&quot;
+   newHTML = newHTML.replace(/(@import ['\&quot;])(\/)*/mg,function(match,m1,m2) {
+      if(!m2)
+         m2 = &quot;/&quot;;
+      return m1+url+m2;
+   });
+   // add a BASE tag to the HEAD to help with relative linking - perhaps not necessary...
+   newHTML = newHTML.replace(/&amp;lt;head[^&amp;gt;]*?&amp;gt;/,function(match) {
+      return match+&quot;&amp;lt;&quot;+&quot;base href=\&quot;&quot;+url+&quot;\&quot; /&amp;gt;&quot;;
+   });
+   ifr.modify(newHTML);
+};
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#IFrameHackeryMacro</link>
+<pubDate>Tue, 01 Apr 2008 11:05:00 GMT</pubDate>
+</item>
+<item>
+<title>Hi!</title>
+<description>This demo lets you modify remote web pages before displaying them.&lt;br&gt;&lt;br&gt;If you want to try this out, &lt;span&gt;&lt;a href=&quot;http://tiddlyhome.bidix.info/ipwnursite/download.php&quot; class=&quot;button&quot;&gt;download&lt;/a&gt;&lt;/span&gt; this web page first and run it locally, then you will be able to access sites from anywhere on the web.&lt;br&gt;&lt;ul&gt;&lt;li&gt; &lt;a tiddlylink=&quot;Let's play&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#Let's play&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#Let%27s%20play&quot; class=&quot;externalLink&quot;&gt;Let's play&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;I made this to test-drive a cross-browser JavaScript IFrame library.&lt;br&gt;&lt;ul&gt;&lt;li&gt; &lt;a tiddlylink=&quot;Show me the code&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#Show me the code&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#Show%20me%20the%20code&quot; class=&quot;externalLink&quot;&gt;Show me the code&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#Hi!</link>
+<pubDate>Tue, 01 Apr 2008 10:55:00 GMT</pubDate>
+</item>
+<item>
+<title>IFramePlugin</title>
+<description>&lt;h1&gt;IFrame library&lt;/h1&gt;&lt;br&gt;&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;strong&gt;Summary:&lt;/strong&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;Provides cross-browser methods for working with iframes&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;left&quot;&gt;&lt;strong&gt;Author:&lt;/strong&gt;&lt;/td&gt;&lt;td align=&quot;left&quot;&gt;JonLister&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;&lt;h1&gt;Usage:&lt;/h1&gt;var ifr = new IFrame(parentElem);&lt;br&gt;&lt;br&gt;where &quot;parentElem&quot; is an optional DOM element to add the iframe as a child to; parentElem defaults to document.body.&lt;br&gt;&lt;br&gt;This adds an iframe to the page body and sets a doc property to allow DOM operations such as:&lt;br&gt;ifr.doc.documentElement.innerHTML = &quot;...&quot;;&lt;br&gt;ifr.doc.documentElement.getElementsByTagName(&quot;body&quot;)[0].appendChild(textNode);&lt;br&gt;&lt;br&gt;NB: appending the iframe to document.body leaves the iframe without a provided way to close it&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;pre&gt;function IFrame(parentElem,name) {
+
+	addDoc = function(f) {
+		if (f.contentDocument)
+			f.doc = f.contentDocument; // For NS6
+		else if (f.contentWindow)
+			f.doc = f.contentWindow.document; // For IE5.5 and IE6
+		return f.doc;
+	};
+	var f = document.createElement(&quot;iframe&quot;);
+	this.f = f;
+	this.style = f.style;
+	f.style.border = &quot;0px&quot;;
+	f.style.width = &quot;0px&quot;;
+	f.style.height = &quot;0px&quot;;
+	// have to append the iframe before the content document gets loaded
+	if(parentElem)
+		parentElem.appendChild(f);
+	else
+		document.body.appendChild(f);
+	this.doc = addDoc(f);
+	// opening and closing the document allows appendChild operations
+	this.doc.open();
+	this.doc.close();
+	if(name)
+		f.name = name;
+}
+
+IFrame.prototype.modify = function(html)
+{
+	var htmlHead = html.substring(0,html.indexOf(&quot;&amp;lt;/head&amp;gt;&quot;));
+	var htmlBody = html.substring(html.indexOf(&quot;&amp;lt;body&quot;),html.indexOf(&quot;&amp;lt;/body&amp;gt;&quot;));
+	if(config.browser.isIE) {
+		this.doc.open();
+		// NOTE: Windows incorrectly renders the page if you don't include the DOCTYPE tag; e.g. in one case, the omission of this tag caused the content to be aligned left instead of center:
+		// &amp;lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&amp;gt;
+		// NOTE: Windows won't let you modify the innerHTML property of the iFrame head
+		// NOTE: Windows crashes if you write to the iframe more than once
+		// NOTE: Windows doesn't run external scripts, which causes errors if scripts in the page refer to externally defined objects
+		// TO-DO: sort this out, maybe by removing any external script calls. Worth looking into
+		// NOTE: Firefox runs all scripts, so any calls in those scripts to document.write cancel this one
+		htmlHead += &quot;&amp;lt;/head&amp;gt;&quot;;
+		htmlBody += &quot;&amp;lt;/body&amp;gt;&quot;;
+		this.doc.write(htmlHead+htmlBody+&quot;&amp;lt;/html&amp;gt;&quot;);
+		this.doc.close();
+	} else {
+		htmlHead = htmlHead.substring(htmlHead.indexOf(&quot;&amp;lt;head&quot;));
+		htmlHead = htmlHead.replace(/&amp;lt;head[^&amp;gt;]*?&amp;gt;/,&quot;&quot;);
+                // whilst the base tag only affects relative links, it's worth setting?
+                // BUG: any attributes on the head element e.g. xmlns get lost
+		this.doc.documentElement.getElementsByTagName(&quot;head&quot;)[0].innerHTML = htmlHead;
+		htmlBody = htmlBody.replace(/&amp;lt;body[^&amp;gt;]*?&amp;gt;/,&quot;&quot;);
+                // BUG: any attributes on the body element e.g. onload get lost
+		this.doc.documentElement.getElementsByTagName(&quot;body&quot;)[0].innerHTML = htmlBody;
+	}
+	this.style.width = &quot;100%&quot;;
+	this.style.height = &quot;800px&quot;;
+	//ifr.doc.body.offsetHeight+&quot;px&quot;;
+};
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#IFramePlugin</link>
+<pubDate>Tue, 01 Apr 2008 10:40:00 GMT</pubDate>
+</item>
+<item>
+<title>allowedsites.txt</title>
+<description>uk.yahoo.com&lt;br&gt;www.yahoo.com&lt;br&gt;www.yahoo.co.uk&lt;br&gt;google.com&lt;br&gt;google.de&lt;br&gt;www.google.com&lt;br&gt;www.google.de&lt;br&gt;www.google.co.uk&lt;br&gt;del.icio.us&lt;br&gt;tiddlyspot.com&lt;br&gt;www.socialtext.net&lt;br&gt;tiddlystyles.com&lt;br&gt;www.tiddlytools.com&lt;br&gt;www.wikipedia.org&lt;br&gt;demo.zimbra.com&lt;br&gt;news.com.com&lt;br&gt;www.nytimes.com&lt;br&gt;tiddlywiki.abego-software.de&lt;br&gt;tiddlywiki.bidix.info</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#allowedsites.txt</link>
+<pubDate>Thu, 27 Mar 2008 12:27:00 GMT</pubDate>
+</item>
+<item>
+<title>UploadLog</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;th align=&quot;center&quot;&gt;date&lt;/th&gt;&lt;th align=&quot;center&quot;&gt;user&lt;/th&gt;&lt;th align=&quot;center&quot;&gt;location&lt;/th&gt;&lt;th align=&quot;center&quot;&gt;storeUrl&lt;/th&gt;&lt;th align=&quot;center&quot;&gt;uploadDir&lt;/th&gt;&lt;th align=&quot;center&quot;&gt;toFilename&lt;/th&gt;&lt;th align=&quot;center&quot;&gt;backupdir&lt;/th&gt;&lt;th align=&quot;center&quot;&gt;origin&lt;/th&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;27/03/2008 12:01:47&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; class=&quot;externalLink&quot;&gt;iframehackery.html&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; class=&quot;externalLink&quot;&gt;store.php&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;.&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to  http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; href=&quot;%20http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; class=&quot;externalLink&quot;&gt;index.html &lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;backup&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;ok&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;27/03/2008 12:05:08&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; class=&quot;externalLink&quot;&gt;iframehackery.html&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; class=&quot;externalLink&quot;&gt;store.php&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;.&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to  http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; href=&quot;%20http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; class=&quot;externalLink&quot;&gt;index.html &lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;backup&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;27/03/2008 12:05:10&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; class=&quot;externalLink&quot;&gt;iframehackery.html&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; class=&quot;externalLink&quot;&gt;store.php&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;.&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to  http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; href=&quot;%20http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; class=&quot;externalLink&quot;&gt;index.html &lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;backup&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;ok&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;ok&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;27/03/2008 12:07:00&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; class=&quot;externalLink&quot;&gt;iframehackery.html&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; class=&quot;externalLink&quot;&gt;store.php&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;.&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to  http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; href=&quot;%20http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; class=&quot;externalLink&quot;&gt;index.html &lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;backup&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;ok&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;27/03/2008 12:09:34&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; class=&quot;externalLink&quot;&gt;iframehackery.html&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; class=&quot;externalLink&quot;&gt;store.php&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;.&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to  http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; href=&quot;%20http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; class=&quot;externalLink&quot;&gt;index.html &lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;backup&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;ok&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;27/03/2008 12:15:05&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; class=&quot;externalLink&quot;&gt;iframehackery.html&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; class=&quot;externalLink&quot;&gt;store.php&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;.&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to  http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; href=&quot;%20http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; class=&quot;externalLink&quot;&gt;index.html &lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;backup&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;ok&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;27/03/2008 12:16:35&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; class=&quot;externalLink&quot;&gt;iframehackery.html&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; class=&quot;externalLink&quot;&gt;store.php&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;.&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to  http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; href=&quot;%20http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; class=&quot;externalLink&quot;&gt;index.html &lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;backup&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;ok&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;27/03/2008 12:18:25&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; class=&quot;externalLink&quot;&gt;iframehackery.html&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; class=&quot;externalLink&quot;&gt;store.php&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;.&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to  http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; href=&quot;%20http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; class=&quot;externalLink&quot;&gt;index.html &lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;backup&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;ok&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;27/03/2008 12:19:15&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; class=&quot;externalLink&quot;&gt;iframehackery.html&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; class=&quot;externalLink&quot;&gt;store.php&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;.&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to  http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; href=&quot;%20http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; class=&quot;externalLink&quot;&gt;index.html &lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;backup&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;ok&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td align=&quot;center&quot;&gt;27/03/2008 12:23:34&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a tiddlylink=&quot;JonLister&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#JonLister&quot; class=&quot;externalLink&quot;&gt;JonLister&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; href=&quot;file:///Users/jonathanlister/Documents/osmosoft/twsource/contributors/JonathanLister/verticals/iframehackery.html&quot; class=&quot;externalLink&quot;&gt;iframehackery.html&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/store.php&quot; class=&quot;externalLink&quot;&gt;store.php&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;.&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to  http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; href=&quot;%20http://tiddlyhome.bidix.info/ipwnursite/index.html&quot; class=&quot;externalLink&quot;&gt;index.html &lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;backup&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;ok&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#UploadLog</link>
+<pubDate>Thu, 27 Mar 2008 12:23:00 GMT</pubDate>
+</item>
+<item>
+<title>MainMenu</title>
+<description>&lt;a tiddlylink=&quot;Hi!&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#Hi!&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#Hi%21&quot; class=&quot;externalLink&quot;&gt;Hi!&lt;/a&gt;&lt;br&gt;&lt;a tiddlylink=&quot;Let's play&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#Let's play&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#Let%27s%20play&quot; class=&quot;externalLink&quot;&gt;The demo&lt;/a&gt;&lt;br&gt;&lt;a tiddlylink=&quot;Show me the code&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#Show me the code&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#Show%20me%20the%20code&quot; class=&quot;externalLink&quot;&gt;The code&lt;/a&gt;</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#MainMenu</link>
+<pubDate>Thu, 27 Mar 2008 12:04:00 GMT</pubDate>
+</item>
+<item>
+<title>DefaultTiddlers</title>
+<description>&lt;a tiddlylink=&quot;Hi!&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#Hi!&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#Hi%21&quot; class=&quot;externalLink&quot;&gt;Hi!&lt;/a&gt;</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#DefaultTiddlers</link>
+<pubDate>Thu, 27 Mar 2008 12:02:00 GMT</pubDate>
+</item>
+<item>
+<title>Update allowedsites.txt</title>
+<description>&lt;a class=&quot;button&quot; title=&quot;upload tiddler 'allowedsites.txt' to file 'allowedsites.txt' &quot; href=&quot;javascript:;&quot;&gt;upload allowedsites.txt to file allowedsites.txt&lt;/a&gt;</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#%5B%5BUpdate%20allowedsites.txt%5D%5D</link>
+<pubDate>Thu, 27 Mar 2008 11:56:00 GMT</pubDate>
+</item>
+<item>
+<title>doHttp override</title>
+<description>&lt;pre&gt;function doHttp(type,url,data,contentType,username,password,callback,params,headers,allowCache)
+{
+        if ((document.location.toString().substr(0,4) == &quot;http&quot;) &amp;amp;&amp;amp; (url.substr(0,4) == &quot;http&quot;))
+           url = store.getTiddlerText(&quot;SiteProxy&quot;, &quot;/proxy/&quot;) + url;
+	var x = getXMLHttpRequest();
+	if(!x)
+		return &quot;Can't create XMLHttpRequest object&quot;;
+	x.onreadystatechange = function() {
+		try {
+			var status = x.status;
+		} catch(ex) {
+			status = false;
+		}
+		if (x.readyState == 4 &amp;amp;&amp;amp; callback &amp;amp;&amp;amp; (status !== undefined)) {
+			if([0, httpStatus.OK, httpStatus.ContentCreated, httpStatus.NoContent, httpStatus.MultiStatus].contains(status))
+				callback(true,params,x.responseText,url,x);
+			else
+				callback(false,params,null,url,x);
+			x.onreadystatechange = function(){};
+			x = null;
+		}
+	};
+	if(window.Components &amp;amp;&amp;amp; window.netscape &amp;amp;&amp;amp; window.netscape.security &amp;amp;&amp;amp; document.location.protocol.indexOf(&quot;http&quot;) == -1)
+		window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
+	try {
+		if(!allowCache)
+			url = url + (url.indexOf(&quot;?&quot;) &amp;lt; 0 ? &quot;?&quot; : &quot;&amp;amp;&quot;) + &quot;nocache=&quot; + Math.random();
+		x.open(type,url,true,username,password);
+		if(data)
+			x.setRequestHeader(&quot;Content-Type&quot;, contentType ? contentType : &quot;application/x-www-form-urlencoded&quot;);
+		if(x.overrideMimeType)
+			x.setRequestHeader(&quot;Connection&quot;, &quot;close&quot;);
+		if(headers) {
+			for(var n in headers)
+				x.setRequestHeader(n,headers[n]);
+		}
+		x.setRequestHeader(&quot;X-Requested-With&quot;, &quot;TiddlyWiki &quot; + version.major + &quot;.&quot; + version.minor + &quot;.&quot; + version.revision + (version.beta ? &quot; (beta &quot; + version.beta + &quot;)&quot; : &quot;&quot;));
+		x.send(data);
+	} catch(ex) {
+		return exceptionText(ex);
+	}
+	return x;
+}
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#%5B%5BdoHttp%20override%5D%5D</link>
+<pubDate>Thu, 27 Mar 2008 11:54:00 GMT</pubDate>
+</item>
+<item>
+<title>SiteTitle</title>
+<description>&lt;a tiddlylink=&quot;IFrameHackery&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#IFrameHackery&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#IFrameHackery&quot; class=&quot;externalLink&quot;&gt;IFrameHackery&lt;/a&gt;</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#SiteTitle</link>
+<pubDate>Wed, 26 Mar 2008 10:24:00 GMT</pubDate>
+</item>
+<item>
+<title>PluginManager</title>
+<description>&lt;form class=&quot;wizard&quot;&gt;&lt;h1&gt;Manage plugins&lt;/h1&gt;&lt;div class=&quot;wizardBody&quot;&gt;&lt;div&gt;&lt;h2&gt;Currently loaded plugins&lt;/h2&gt;&lt;div class=&quot;wizardStep&quot;&gt;&lt;div params=&quot;&quot; macroname=&quot;plugins&quot; refresh=&quot;macro&quot;&gt;&lt;table class=&quot;listView twtable&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;input class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/th&gt;&lt;th&gt;Tiddler&lt;/th&gt;&lt;th&gt;Size&lt;/th&gt;&lt;th&gt;Forced&lt;/th&gt;&lt;th&gt;Disabled&lt;/th&gt;&lt;th&gt;Loaded&lt;/th&gt;&lt;th&gt;Startup Time&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;Log&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;CryptoFunctionsPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;CryptoFunctionsPlugin&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;CryptoFunctionsPlugin - (unknown), Fri Mar 28 07:03:00 2008&quot; href=&quot;javascript:;&quot;&gt;CryptoFunctionsPlugin&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;3&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;CryptoFunctionsPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;CryptoFunctionsPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;DeprecatedFunctionsPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;DeprecatedFunctionsPlugin&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;DeprecatedFunctionsPlugin - (unknown), Tue Oct 16 20:32:00 2007&quot; href=&quot;javascript:;&quot;&gt;DeprecatedFunctionsPlugin&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;3&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;DeprecatedFunctionsPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;DeprecatedFunctionsPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;IFrameHackeryMacro&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;IFrameHackeryMacro&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;IFrameHackeryMacro - JonLister, Tue Apr  1 12:05:00 2008&quot; href=&quot;javascript:;&quot;&gt;IFrameHackeryMacro&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;2&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;IFrameHackeryMacro&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;IFrameHackeryMacro&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;IFramePlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;IFramePlugin&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;IFramePlugin - JonLister, Tue Apr  1 11:40:00 2008&quot; href=&quot;javascript:;&quot;&gt;IFramePlugin&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;3&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;IFramePlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;IFramePlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;PasswordOptionPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;PasswordOptionPlugin&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;PasswordOptionPlugin - BidiX, Sat Apr 21 09:34:00 2007&quot; href=&quot;javascript:;&quot;&gt;PasswordOptionPlugin&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;2&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;PasswordOptionPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;PasswordOptionPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;SparklinePlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;SparklinePlugin&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;SparklinePlugin - (unknown), Tue Oct 16 20:32:00 2007&quot; href=&quot;javascript:;&quot;&gt;SparklinePlugin&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;1&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;SparklinePlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;SparklinePlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;TiddlyHomeSetupPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;TiddlyHomeSetupPlugin&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;TiddlyHomeSetupPlugin - BidiX, Sat Aug  4 21:27:00 2007&quot; href=&quot;javascript:;&quot;&gt;TiddlyHomeSetupPlugin&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;5&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;TiddlyHomeSetupPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;TiddlyHomeSetupPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;UploadPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;UploadPlugin&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;UploadPlugin - BidiX, Sat Feb 23 10:00:00 2008&quot; href=&quot;javascript:;&quot;&gt;UploadPlugin&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;19&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;UploadPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;UploadPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;4ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;UploadToFileMacro&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;UploadToFileMacro&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;UploadToFileMacro - BidiX, Sat Apr 21 23:08:00 2007&quot; href=&quot;javascript:;&quot;&gt;UploadToFileMacro&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;4&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;UploadToFileMacro&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;UploadToFileMacro&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;UploadToHomeMacro&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;UploadToHomeMacro&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;UploadToHomeMacro - BidiX, Mon May 28 11:44:00 2007&quot; href=&quot;javascript:;&quot;&gt;UploadToHomeMacro&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;4&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;UploadToHomeMacro&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;UploadToHomeMacro&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;doHttp override&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;doHttp override&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;doHttp override - JonLister, Thu Mar 27 11:54:00 2008&quot; href=&quot;javascript:;&quot;&gt;doHttp override&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;2&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;doHttp override&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;doHttp override&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;0ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;forceRefreshPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;forceRefreshPlugin&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;forceRefreshPlugin - JonLister, Tue Apr  1 18:45:00 2008&quot; href=&quot;javascript:;&quot;&gt;forceRefreshPlugin&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;959&amp;nbsp;B&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;forceRefreshPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;forceRefreshPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;stickyOptionsPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;stickyOptionsPlugin&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;stickyOptionsPlugin - Jon Lister, Tue Oct 16 18:37:00 2007&quot; href=&quot;javascript:;&quot;&gt;stickyOptionsPlugin&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;5&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;stickyOptionsPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;stickyOptionsPlugin&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1ms&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input rowname=&quot;writeCode&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;a tiddlylink=&quot;writeCode&quot; refresh=&quot;link&quot; class=&quot;tiddlyLink tiddlyLinkExisting&quot; title=&quot;writeCode - YourName, Mon Apr  7 17:32:23 2008&quot; href=&quot;javascript:;&quot;&gt;writeCode&lt;/a&gt;&lt;a class=&quot;tiddlerPopupButton&quot; title=&quot;Click for the full text of this tiddler&quot; href=&quot;javascript:;&quot;&gt;↓&lt;/a&gt;&lt;/td&gt;&lt;td&gt;2&amp;nbsp;KB&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigForce&quot; tiddler=&quot;writeCode&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;input tag=&quot;systemConfigDisable&quot; tiddler=&quot;writeCode&quot; class=&quot;chkOptionInput&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(This plugin has not been executed because it was added since startup)&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;input name=&quot;markList&quot; type=&quot;hidden&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;wizardFooter&quot;&gt;&lt;a class=&quot;button&quot; title=&quot;Remove systemConfig tag&quot; href=&quot;javascript:;&quot;&gt;remove systemConfig tag&lt;/a&gt;&amp;nbsp;&lt;a class=&quot;button&quot; title=&quot;Delete these tiddlers forever&quot; href=&quot;javascript:;&quot;&gt;delete&lt;/a&gt;&amp;nbsp;&lt;/div&gt;&lt;/form&gt;</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#PluginManager</link>
+<pubDate>Tue, 25 Mar 2008 22:05:00 GMT</pubDate>
+</item>
+<item>
+<title>SiteSubtitle</title>
+<description>I pwn ur website</description>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#SiteSubtitle</link>
+<pubDate>Tue, 25 Mar 2008 21:38:00 GMT</pubDate>
+</item>
+<item>
+<title>UploadPlugin</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Name:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;UploadPlugin&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Description:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Save to web a TiddlyWiki&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Version:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;4.1.3&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Date:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Feb 24, 2008&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Source:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlywiki.bidix.info/#UploadPlugin&quot; href=&quot;http://tiddlywiki.bidix.info/#UploadPlugin&quot; class=&quot;externalLink&quot;&gt;http://tiddlywiki.bidix.info/#UploadPlugin&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Documentation:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlywiki.bidix.info/#UploadPluginDoc&quot; href=&quot;http://tiddlywiki.bidix.info/#UploadPluginDoc&quot; class=&quot;externalLink&quot;&gt;http://tiddlywiki.bidix.info/#UploadPluginDoc&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Author:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;BidiX (BidiX (at) bidix (dot) info)&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;License:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D &quot; href=&quot;http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D%20&quot; class=&quot;externalLink&quot;&gt;BSD open source license&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;CoreVersion:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;2.2.0&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Requires:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;PasswordOptionPlugin&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;pre&gt;version.extensions.UploadPlugin = {
+	major: 4, minor: 1, revision: 3,
+	date: new Date(&quot;Feb 24, 2008&quot;),
+	source: 'http://tiddlywiki.bidix.info/#UploadPlugin',
+	author: 'BidiX (BidiX (at) bidix (dot) info',
+	coreVersion: '2.2.0'
+};
+
+//
+// Environment
+//
+
+if (!window.bidix) window.bidix = {}; // bidix namespace
+bidix.debugMode = false;	// true to activate both in Plugin and UploadService
+	
+//
+// Upload Macro
+//
+
+config.macros.upload = {
+// default values
+	defaultBackupDir: '',	//no backup
+	defaultStoreScript: &quot;store.php&quot;,
+	defaultToFilename: &quot;index.html&quot;,
+	defaultUploadDir: &quot;.&quot;,
+	authenticateUser: true	// UploadService Authenticate User
+};
+	
+config.macros.upload.label = {
+	promptOption: &quot;Save and Upload this TiddlyWiki with UploadOptions&quot;,
+	promptParamMacro: &quot;Save and Upload this TiddlyWiki in %0&quot;,
+	saveLabel: &quot;save to web&quot;, 
+	saveToDisk: &quot;save to disk&quot;,
+	uploadLabel: &quot;upload&quot;	
+};
+
+config.macros.upload.messages = {
+	noStoreUrl: &quot;No store URL in parmeters or options&quot;,
+	usernameOrPasswordMissing: &quot;Username or password missing&quot;
+};
+
+config.macros.upload.handler = function(place,macroName,params) {
+	if (readOnly)
+		return;
+	var label;
+	if (document.location.toString().substr(0,4) == &quot;http&quot;) 
+		label = this.label.saveLabel;
+	else
+		label = this.label.uploadLabel;
+	var prompt;
+	if (params[0]) {
+		prompt = this.label.promptParamMacro.toString().format([this.destFile(params[0], 
+			(params[1] ? params[1]:bidix.basename(window.location.toString())), params[3])]);
+	} else {
+		prompt = this.label.promptOption;
+	}
+	createTiddlyButton(place, label, prompt, function() {config.macros.upload.action(params);}, null, null, this.accessKey);
+};
+
+config.macros.upload.action = function(params)
+{
+		// for missing macro parameter set value from options
+		if (!params) params = {};
+		var storeUrl = params[0] ? params[0] : config.options.txtUploadStoreUrl;
+		var toFilename = params[1] ? params[1] : config.options.txtUploadFilename;
+		var backupDir = params[2] ? params[2] : config.options.txtUploadBackupDir;
+		var uploadDir = params[3] ? params[3] : config.options.txtUploadDir;
+		var username = params[4] ? params[4] : config.options.txtUploadUserName;
+		var password = config.options.pasUploadPassword; // for security reason no password as macro parameter	
+		// for still missing parameter set default value
+		if ((!storeUrl) &amp;amp;&amp;amp; (document.location.toString().substr(0,4) == &quot;http&quot;)) 
+			storeUrl = bidix.dirname(document.location.toString())+'/'+config.macros.upload.defaultStoreScript;
+		if (storeUrl.substr(0,4) != &quot;http&quot;)
+			storeUrl = bidix.dirname(document.location.toString()) +'/'+ storeUrl;
+		if (!toFilename)
+			toFilename = bidix.basename(window.location.toString());
+		if (!toFilename)
+			toFilename = config.macros.upload.defaultToFilename;
+		if (!uploadDir)
+			uploadDir = config.macros.upload.defaultUploadDir;
+		if (!backupDir)
+			backupDir = config.macros.upload.defaultBackupDir;
+		// report error if still missing
+		if (!storeUrl) {
+			alert(config.macros.upload.messages.noStoreUrl);
+			clearMessage();
+			return false;
+		}
+		if (config.macros.upload.authenticateUser &amp;amp;&amp;amp; (!username || !password)) {
+			alert(config.macros.upload.messages.usernameOrPasswordMissing);
+			clearMessage();
+			return false;
+		}
+		bidix.upload.uploadChanges(false,null,storeUrl, toFilename, uploadDir, backupDir, username, password); 
+		return false; 
+};
+
+config.macros.upload.destFile = function(storeUrl, toFilename, uploadDir) 
+{
+	if (!storeUrl)
+		return null;
+		var dest = bidix.dirname(storeUrl);
+		if (uploadDir &amp;amp;&amp;amp; uploadDir != '.')
+			dest = dest + '/' + uploadDir;
+		dest = dest + '/' + toFilename;
+	return dest;
+};
+
+//
+// uploadOptions Macro
+//
+
+config.macros.uploadOptions = {
+	handler: function(place,macroName,params) {
+		var wizard = new Wizard();
+		wizard.createWizard(place,this.wizardTitle);
+		wizard.addStep(this.step1Title,this.step1Html);
+		var markList = wizard.getElement(&quot;markList&quot;);
+		var listWrapper = document.createElement(&quot;div&quot;);
+		markList.parentNode.insertBefore(listWrapper,markList);
+		wizard.setValue(&quot;listWrapper&quot;,listWrapper);
+		this.refreshOptions(listWrapper,false);
+		var uploadCaption;
+		if (document.location.toString().substr(0,4) == &quot;http&quot;) 
+			uploadCaption = config.macros.upload.label.saveLabel;
+		else
+			uploadCaption = config.macros.upload.label.uploadLabel;
+		
+		wizard.setButtons([
+				{caption: uploadCaption, tooltip: config.macros.upload.label.promptOption, 
+					onClick: config.macros.upload.action},
+				{caption: this.cancelButton, tooltip: this.cancelButtonPrompt, onClick: this.onCancel}
+				
+			]);
+	},
+	options: [
+		&quot;txtUploadUserName&quot;,
+		&quot;pasUploadPassword&quot;,
+		&quot;txtUploadStoreUrl&quot;,
+		&quot;txtUploadDir&quot;,
+		&quot;txtUploadFilename&quot;,
+		&quot;txtUploadBackupDir&quot;,
+		&quot;chkUploadLog&quot;,
+		&quot;txtUploadLogMaxLine&quot;		
+	],
+	refreshOptions: function(listWrapper) {
+		var opts = [];
+		for(i=0; i&amp;lt;this.options.length; i++) {
+			var opt = {};
+			opts.push();
+			opt.option = &quot;&quot;;
+			n = this.options[i];
+			opt.name = n;
+			opt.lowlight = !config.optionsDesc[n];
+			opt.description = opt.lowlight ? this.unknownDescription : config.optionsDesc[n];
+			opts.push(opt);
+		}
+		var listview = ListView.create(listWrapper,opts,this.listViewTemplate);
+		for(n=0; n&amp;lt;opts.length; n++) {
+			var type = opts[n].name.substr(0,3);
+			var h = config.macros.option.types[type];
+			if (h &amp;amp;&amp;amp; h.create) {
+				h.create(opts[n].colElements['option'],type,opts[n].name,opts[n].name,&quot;no&quot;);
+			}
+		}
+		
+	},
+	onCancel: function(e)
+	{
+		backstage.switchTab(null);
+		return false;
+	},
+	
+	wizardTitle: &quot;Upload with options&quot;,
+	step1Title: &quot;These options are saved in cookies in your browser&quot;,
+	step1Html: &quot;&amp;lt;input type='hidden' name='markList'&amp;gt;&amp;lt;/input&amp;gt;&amp;lt;br&amp;gt;&quot;,
+	cancelButton: &quot;Cancel&quot;,
+	cancelButtonPrompt: &quot;Cancel prompt&quot;,
+	listViewTemplate: {
+		columns: [
+			{name: 'Description', field: 'description', title: &quot;Description&quot;, type: 'WikiText'},
+			{name: 'Option', field: 'option', title: &quot;Option&quot;, type: 'String'},
+			{name: 'Name', field: 'name', title: &quot;Name&quot;, type: 'String'}
+			],
+		rowClasses: [
+			{className: 'lowlight', field: 'lowlight'} 
+			]}
+};
+
+//
+// upload functions
+//
+
+if (!bidix.upload) bidix.upload = {};
+
+if (!bidix.upload.messages) bidix.upload.messages = {
+	//from saving
+	invalidFileError: &quot;The original file '%0' does not appear to be a valid TiddlyWiki&quot;,
+	backupSaved: &quot;Backup saved&quot;,
+	backupFailed: &quot;Failed to upload backup file&quot;,
+	rssSaved: &quot;RSS feed uploaded&quot;,
+	rssFailed: &quot;Failed to upload RSS feed file&quot;,
+	emptySaved: &quot;Empty template uploaded&quot;,
+	emptyFailed: &quot;Failed to upload empty template file&quot;,
+	mainSaved: &quot;Main TiddlyWiki file uploaded&quot;,
+	mainFailed: &quot;Failed to upload main TiddlyWiki file. Your changes have not been saved&quot;,
+	//specific upload
+	loadOriginalHttpPostError: &quot;Can't get original file&quot;,
+	aboutToSaveOnHttpPost: 'About to upload on %0 ...',
+	storePhpNotFound: &quot;The store script '%0' was not found.&quot;
+};
+
+bidix.upload.uploadChanges = function(onlyIfDirty,tiddlers,storeUrl,toFilename,uploadDir,backupDir,username,password)
+{
+	var callback = function(status,uploadParams,original,url,xhr) {
+		if (!status) {
+			displayMessage(bidix.upload.messages.loadOriginalHttpPostError);
+			return;
+		}
+		if (bidix.debugMode) 
+			alert(original.substr(0,500)+&quot;\n...&quot;);
+		// Locate the storeArea div's 
+		var posDiv = locateStoreArea(original);
+		if((posDiv[0] == -1) || (posDiv[1] == -1)) {
+			alert(config.messages.invalidFileError.format([localPath]));
+			return;
+		}
+		bidix.upload.uploadRss(uploadParams,original,posDiv);
+	};
+	
+	if(onlyIfDirty &amp;amp;&amp;amp; !store.isDirty())
+		return;
+	clearMessage();
+	// save on localdisk ?
+	if (document.location.toString().substr(0,4) == &quot;file&quot;) {
+		var path = document.location.toString();
+		var localPath = getLocalPath(path);
+		saveChanges();
+	}
+	// get original
+	var uploadParams = new Array(storeUrl,toFilename,uploadDir,backupDir,username,password);
+	var originalPath = document.location.toString();
+	// If url is a directory : add index.html
+	if (originalPath.charAt(originalPath.length-1) == &quot;/&quot;)
+		originalPath = originalPath + &quot;index.html&quot;;
+	var dest = config.macros.upload.destFile(storeUrl,toFilename,uploadDir);
+	var log = new bidix.UploadLog();
+	log.startUpload(storeUrl, dest, uploadDir,  backupDir);
+	displayMessage(bidix.upload.messages.aboutToSaveOnHttpPost.format([dest]));
+	if (bidix.debugMode) 
+		alert(&quot;about to execute Http - GET on &quot;+originalPath);
+	var r = doHttp(&quot;GET&quot;,originalPath,null,null,username,password,callback,uploadParams,null);
+	if (typeof r == &quot;string&quot;)
+		displayMessage(r);
+	return r;
+};
+
+bidix.upload.uploadRss = function(uploadParams,original,posDiv) 
+{
+	var callback = function(status,params,responseText,url,xhr) {
+		if(status) {
+			var destfile = responseText.substring(responseText.indexOf(&quot;destfile:&quot;)+9,responseText.indexOf(&quot;\n&quot;, responseText.indexOf(&quot;destfile:&quot;)));
+			displayMessage(bidix.upload.messages.rssSaved,bidix.dirname(url)+'/'+destfile);
+			bidix.upload.uploadMain(params[0],params[1],params[2]);
+		} else {
+			displayMessage(bidix.upload.messages.rssFailed);			
+		}
+	};
+	// do uploadRss
+	if(config.options.chkGenerateAnRssFeed) {
+		var rssPath = uploadParams[1].substr(0,uploadParams[1].lastIndexOf(&quot;.&quot;)) + &quot;.xml&quot;;
+		var rssUploadParams = new Array(uploadParams[0],rssPath,uploadParams[2],'',uploadParams[4],uploadParams[5]);
+		var rssString = generateRss();
+		// no UnicodeToUTF8 conversion needed when location is &quot;file&quot; !!!
+		if (document.location.toString().substr(0,4) != &quot;file&quot;)
+			rssString = convertUnicodeToUTF8(rssString);	
+		bidix.upload.httpUpload(rssUploadParams,rssString,callback,Array(uploadParams,original,posDiv));
+	} else {
+		bidix.upload.uploadMain(uploadParams,original,posDiv);
+	}
+};
+
+bidix.upload.uploadMain = function(uploadParams,original,posDiv) 
+{
+	var callback = function(status,params,responseText,url,xhr) {
+		var log = new bidix.UploadLog();
+		if(status) {
+			// if backupDir specified
+			if ((params[3]) &amp;amp;&amp;amp; (responseText.indexOf(&quot;backupfile:&quot;) &amp;gt; -1))  {
+				var backupfile = responseText.substring(responseText.indexOf(&quot;backupfile:&quot;)+11,responseText.indexOf(&quot;\n&quot;, responseText.indexOf(&quot;backupfile:&quot;)));
+				displayMessage(bidix.upload.messages.backupSaved,bidix.dirname(url)+'/'+backupfile);
+			}
+			var destfile = responseText.substring(responseText.indexOf(&quot;destfile:&quot;)+9,responseText.indexOf(&quot;\n&quot;, responseText.indexOf(&quot;destfile:&quot;)));
+			displayMessage(bidix.upload.messages.mainSaved,bidix.dirname(url)+'/'+destfile);
+			store.setDirty(false);
+			log.endUpload(&quot;ok&quot;);
+		} else {
+			alert(bidix.upload.messages.mainFailed);
+			displayMessage(bidix.upload.messages.mainFailed);
+			log.endUpload(&quot;failed&quot;);			
+		}
+	};
+	// do uploadMain
+	var revised = bidix.upload.updateOriginal(original,posDiv);
+	bidix.upload.httpUpload(uploadParams,revised,callback,uploadParams);
+};
+
+bidix.upload.httpUpload = function(uploadParams,data,callback,params)
+{
+	var localCallback = function(status,params,responseText,url,xhr) {
+		url = (url.indexOf(&quot;nocache=&quot;) &amp;lt; 0 ? url : url.substring(0,url.indexOf(&quot;nocache=&quot;)-1));
+		if (xhr.status == httpStatus.NotFound)
+			alert(bidix.upload.messages.storePhpNotFound.format([url]));
+		if ((bidix.debugMode) || (responseText.indexOf(&quot;Debug mode&quot;) &amp;gt;= 0 )) {
+			alert(responseText);
+			if (responseText.indexOf(&quot;Debug mode&quot;) &amp;gt;= 0 )
+				responseText = responseText.substring(responseText.indexOf(&quot;\n\n&quot;)+2);
+		} else if (responseText.charAt(0) != '0') 
+			alert(responseText);
+		if (responseText.charAt(0) != '0')
+			status = null;
+		callback(status,params,responseText,url,xhr);
+	};
+	// do httpUpload
+	var boundary = &quot;---------------------------&quot;+&quot;AaB03x&quot;;	
+	var uploadFormName = &quot;UploadPlugin&quot;;
+	// compose headers data
+	var sheader = &quot;&quot;;
+	sheader += &quot;--&quot; + boundary + &quot;\r\nContent-disposition: form-data; name=\&quot;&quot;;
+	sheader += uploadFormName +&quot;\&quot;\r\n\r\n&quot;;
+	sheader += &quot;backupDir=&quot;+uploadParams[3] +
+				&quot;;user=&quot; + uploadParams[4] +
+				&quot;;password=&quot; + uploadParams[5] +
+				&quot;;uploaddir=&quot; + uploadParams[2];
+	if (bidix.debugMode)
+		sheader += &quot;;debug=1&quot;;
+	sheader += &quot;;;\r\n&quot;; 
+	sheader += &quot;\r\n&quot; + &quot;--&quot; + boundary + &quot;\r\n&quot;;
+	sheader += &quot;Content-disposition: form-data; name=\&quot;userfile\&quot;; filename=\&quot;&quot;+uploadParams[1]+&quot;\&quot;\r\n&quot;;
+	sheader += &quot;Content-Type: text/html;charset=UTF-8&quot; + &quot;\r\n&quot;;
+	sheader += &quot;Content-Length: &quot; + data.length + &quot;\r\n\r\n&quot;;
+	// compose trailer data
+	var strailer = new String();
+	strailer = &quot;\r\n--&quot; + boundary + &quot;--\r\n&quot;;
+	data = sheader + data + strailer;
+	if (bidix.debugMode) alert(&quot;about to execute Http - POST on &quot;+uploadParams[0]+&quot;\n with \n&quot;+data.substr(0,500)+ &quot; ... &quot;);
+	var r = doHttp(&quot;POST&quot;,uploadParams[0],data,&quot;multipart/form-data; ;charset=UTF-8; boundary=&quot;+boundary,uploadParams[4],uploadParams[5],localCallback,params,null);
+	if (typeof r == &quot;string&quot;)
+		displayMessage(r);
+	return r;
+};
+
+// same as Saving's updateOriginal but without convertUnicodeToUTF8 calls
+bidix.upload.updateOriginal = function(original, posDiv)
+{
+	if (!posDiv)
+		posDiv = locateStoreArea(original);
+	if((posDiv[0] == -1) || (posDiv[1] == -1)) {
+		alert(config.messages.invalidFileError.format([localPath]));
+		return;
+	}
+	var revised = original.substr(0,posDiv[0] + startSaveArea.length) + &quot;\n&quot; +
+				store.allTiddlersAsHtml() + &quot;\n&quot; +
+				original.substr(posDiv[1]);
+	var newSiteTitle = getPageTitle().htmlEncode();
+	revised = revised.replaceChunk(&quot;&amp;lt;title&quot;+&quot;&amp;gt;&quot;,&quot;&amp;lt;/title&quot;+&quot;&amp;gt;&quot;,&quot; &quot; + newSiteTitle + &quot; &quot;);
+	revised = updateMarkupBlock(revised,&quot;PRE-HEAD&quot;,&quot;MarkupPreHead&quot;);
+	revised = updateMarkupBlock(revised,&quot;POST-HEAD&quot;,&quot;MarkupPostHead&quot;);
+	revised = updateMarkupBlock(revised,&quot;PRE-BODY&quot;,&quot;MarkupPreBody&quot;);
+	revised = updateMarkupBlock(revised,&quot;POST-SCRIPT&quot;,&quot;MarkupPostBody&quot;);
+	return revised;
+};
+
+//
+// UploadLog
+// 
+// config.options.chkUploadLog :
+//		false : no logging
+//		true : logging
+// config.options.txtUploadLogMaxLine :
+//		-1 : no limit
+//      0 :  no Log lines but UploadLog is still in place
+//		n :  the last n lines are only kept
+//		NaN : no limit (-1)
+
+bidix.UploadLog = function() {
+	if (!config.options.chkUploadLog) 
+		return; // this.tiddler = null
+	this.tiddler = store.getTiddler(&quot;UploadLog&quot;);
+	if (!this.tiddler) {
+		this.tiddler = new Tiddler();
+		this.tiddler.title = &quot;UploadLog&quot;;
+		this.tiddler.text = &quot;| !date | !user | !location | !storeUrl | !uploadDir | !toFilename | !backupdir | !origin |&quot;;
+		this.tiddler.created = new Date();
+		this.tiddler.modifier = config.options.txtUserName;
+		this.tiddler.modified = new Date();
+		store.addTiddler(this.tiddler);
+	}
+	return this;
+};
+
+bidix.UploadLog.prototype.addText = function(text) {
+	if (!this.tiddler)
+		return;
+	// retrieve maxLine when we need it
+	var maxLine = parseInt(config.options.txtUploadLogMaxLine,10);
+	if (isNaN(maxLine))
+		maxLine = -1;
+	// add text
+	if (maxLine != 0) 
+		this.tiddler.text = this.tiddler.text + text;
+	// Trunck to maxLine
+	if (maxLine &amp;gt;= 0) {
+		var textArray = this.tiddler.text.split('\n');
+		if (textArray.length &amp;gt; maxLine + 1)
+			textArray.splice(1,textArray.length-1-maxLine);
+			this.tiddler.text = textArray.join('\n');		
+	}
+	// update tiddler fields
+	this.tiddler.modifier = config.options.txtUserName;
+	this.tiddler.modified = new Date();
+	store.addTiddler(this.tiddler);
+	// refresh and notifiy for immediate update
+	story.refreshTiddler(this.tiddler.title);
+	store.notify(this.tiddler.title, true);
+};
+
+bidix.UploadLog.prototype.startUpload = function(storeUrl, toFilename, uploadDir,  backupDir) {
+	if (!this.tiddler)
+		return;
+	var now = new Date();
+	var text = &quot;\n| &quot;;
+	var filename = bidix.basename(document.location.toString());
+	if (!filename) filename = '/';
+	text += now.formatString(&quot;0DD/0MM/YYYY 0hh:0mm:0ss&quot;) +&quot; | &quot;;
+	text += config.options.txtUserName + &quot; | &quot;;
+	text += &quot;[[&quot;+filename+&quot;|&quot;+location + &quot;]] |&quot;;
+	text += &quot; [[&quot; + bidix.basename(storeUrl) + &quot;|&quot; + storeUrl + &quot;]] | &quot;;
+	text += uploadDir + &quot; | &quot;;
+	text += &quot;[[&quot; + bidix.basename(toFilename) + &quot; | &quot; +toFilename + &quot;]] | &quot;;
+	text += backupDir + &quot; |&quot;;
+	this.addText(text);
+};
+
+bidix.UploadLog.prototype.endUpload = function(status) {
+	if (!this.tiddler)
+		return;
+	this.addText(&quot; &quot;+status+&quot; |&quot;);
+};
+
+//
+// Utilities
+// 
+
+bidix.checkPlugin = function(plugin, major, minor, revision) {
+	var ext = version.extensions[plugin];
+	if (!
+		(ext  &amp;amp;&amp;amp; 
+			((ext.major &amp;gt; major) || 
+			((ext.major == major) &amp;amp;&amp;amp; (ext.minor &amp;gt; minor))  ||
+			((ext.major == major) &amp;amp;&amp;amp; (ext.minor == minor) &amp;amp;&amp;amp; (ext.revision &amp;gt;= revision))))) {
+			// write error in PluginManager
+			if (pluginInfo)
+				pluginInfo.log.push(&quot;Requires &quot; + plugin + &quot; &quot; + major + &quot;.&quot; + minor + &quot;.&quot; + revision);
+			eval(plugin); // generate an error : &quot;Error: ReferenceError: xxxx is not defined&quot;
+	}
+};
+
+bidix.dirname = function(filePath) {
+	if (!filePath) 
+		return;
+	var lastpos;
+	if ((lastpos = filePath.lastIndexOf(&quot;/&quot;)) != -1) {
+		return filePath.substring(0, lastpos);
+	} else {
+		return filePath.substring(0, filePath.lastIndexOf(&quot;\\&quot;));
+	}
+};
+
+bidix.basename = function(filePath) {
+	if (!filePath) 
+		return;
+	var lastpos;
+	if ((lastpos = filePath.lastIndexOf(&quot;#&quot;)) != -1) 
+		filePath = filePath.substring(0, lastpos);
+	if ((lastpos = filePath.lastIndexOf(&quot;/&quot;)) != -1) {
+		return filePath.substring(lastpos + 1);
+	} else
+		return filePath.substring(filePath.lastIndexOf(&quot;\\&quot;)+1);
+};
+
+bidix.initOption = function(name,value) {
+	if (!config.options[name])
+		config.options[name] = value;
+};
+
+//
+// Initializations
+//
+
+// require PasswordOptionPlugin 1.0.1 or better
+bidix.checkPlugin(&quot;PasswordOptionPlugin&quot;, 1, 0, 1);
+
+// styleSheet
+setStylesheet('.txtUploadStoreUrl, .txtUploadBackupDir, .txtUploadDir {width: 22em;}',&quot;uploadPluginStyles&quot;);
+
+//optionsDesc
+merge(config.optionsDesc,{
+	txtUploadStoreUrl: &quot;Url of the UploadService script (default: store.php)&quot;,
+	txtUploadFilename: &quot;Filename of the uploaded file (default: in index.html)&quot;,
+	txtUploadDir: &quot;Relative Directory where to store the file (default: . (downloadService directory))&quot;,
+	txtUploadBackupDir: &quot;Relative Directory where to backup the file. If empty no backup. (default: ''(empty))&quot;,
+	txtUploadUserName: &quot;Upload Username&quot;,
+	pasUploadPassword: &quot;Upload Password&quot;,
+	chkUploadLog: &quot;do Logging in UploadLog (default: true)&quot;,
+	txtUploadLogMaxLine: &quot;Maximum of lines in UploadLog (default: 10)&quot;
+});
+
+// Options Initializations
+bidix.initOption('txtUploadStoreUrl','');
+bidix.initOption('txtUploadFilename','');
+bidix.initOption('txtUploadDir','');
+bidix.initOption('txtUploadBackupDir','');
+bidix.initOption('txtUploadUserName','');
+bidix.initOption('pasUploadPassword','');
+bidix.initOption('chkUploadLog',true);
+bidix.initOption('txtUploadLogMaxLine','10');
+
+
+// Backstage
+merge(config.tasks,{
+	uploadOptions: {text: &quot;upload&quot;, tooltip: &quot;Change UploadOptions and Upload&quot;, content: '&amp;lt;&amp;lt;uploadOptions&amp;gt;&amp;gt;'}
+});
+config.backstageTasks.push(&quot;uploadOptions&quot;);
+&lt;/pre&gt;</description>
+<category>systemConfig</category>
+<category>Upload</category>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#UploadPlugin</link>
+<pubDate>Sat, 23 Feb 2008 10:00:00 GMT</pubDate>
+</item>
+<item>
+<title>stickyOptionsPlugin</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Name:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;StickyOptionsPlugin&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Description:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Author:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Saq Imtiaz ( lewcid@gmail.com )&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Source:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tw.lewcid.org/#StickyOptionsPlugin&quot; href=&quot;http://tw.lewcid.org/#StickyOptionsPlugin&quot; class=&quot;externalLink&quot;&gt;http://tw.lewcid.org/#StickyOptionsPlugin&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Code Repository:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tw.lewcid.org/svn/plugins&quot; href=&quot;http://tw.lewcid.org/svn/plugins&quot; class=&quot;externalLink&quot;&gt;http://tw.lewcid.org/svn/plugins&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Version:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;2.0 pre-release&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Date:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;License:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://creativecommons.org/licenses/by-sa/3.0/&quot; href=&quot;http://creativecommons.org/licenses/by-sa/3.0/&quot; class=&quot;externalLink&quot;&gt;Creative Commons Attribution-ShareAlike 3.0 License&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;CoreVersion:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;2.2&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;h2&gt;Usage:&lt;/h2&gt;&lt;ul&gt;&lt;li&gt; Sticky options are saved in the file rather than in cookies. &lt;/li&gt;&lt;li&gt; To make an option sticky, check the 'sticky' checkbox for it in &lt;a tiddlylink=&quot;AdvancedOptions&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#AdvancedOptions&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#AdvancedOptions&quot; class=&quot;externalLink&quot;&gt;AdvancedOptions&lt;/a&gt;&lt;/li&gt;&lt;li&gt; To force all options to be sticky, check the 'Options always sticky' checkbox at the bottom of the &lt;a tiddlylink=&quot;AdvancedOptions&quot; refresh=&quot;link&quot; target=&quot;_blank&quot; title=&quot;External link to http://tiddlyhome.bidix.info/ipwnursite/#AdvancedOptions&quot; href=&quot;http://tiddlyhome.bidix.info/ipwnursite/#AdvancedOptions&quot; class=&quot;externalLink&quot;&gt;AdvancedOptions&lt;/a&gt; screen.&lt;/li&gt;&lt;li&gt; Please remember that the file needs to be saved after each option is saved, for the setting to be remembered.&lt;/li&gt;&lt;li&gt; Enable the 'autosave' option below, to trigger an autosave when an option is saved&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;Trigger autosave when an option is saved: &lt;input title=&quot;Trigger autosave when an option is saved&quot; class=&quot;chkOptionInput&quot; option=&quot;chkStickyOptionsAutoSave&quot; type=&quot;checkbox&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;em&gt; &lt;/em&gt;</description>
+<category>systemConfig</category>
+<category>TiddlyChatterPackage</category>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#stickyOptionsPlugin</link>
+<pubDate>Tue, 16 Oct 2007 17:37:00 GMT</pubDate>
+</item>
+<item>
+<title>TiddlyHomeSetupPlugin</title>
+<description>&lt;table class=&quot;twtable&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Name:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;TiddlyHomeSetupPlugin&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Description:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Check and setup all components&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Version:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;1.1.0&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Date:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Aug 04, 2007&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Source:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlywiki.bidix.info/#TiddlyHomeSetupPlugin&quot; href=&quot;http://tiddlywiki.bidix.info/#TiddlyHomeSetupPlugin&quot; class=&quot;externalLink&quot;&gt;http://tiddlywiki.bidix.info/#TiddlyHomeSetupPlugin&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Author:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;BidiX (BidiX (at) bidix (dot) info)&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;License:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;a target=&quot;_blank&quot; title=&quot;External link to http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D &quot; href=&quot;http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D%20&quot; class=&quot;externalLink&quot;&gt;BSD open source license&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;oddRow&quot;&gt;&lt;td&gt;&lt;strong&gt;CoreVersion:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;2.2.0&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;evenRow&quot;&gt;&lt;td&gt;&lt;strong&gt;Requires:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;UploadToHomeMacro&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;pre&gt;version.extensions.TiddlyHomeSetupPlugin = {
+	major: 1, minor: 1, revision: 0,
+	date: new Date(&quot;Aug 04, 2007&quot;),
+	source: 'http://tiddlywiki.bidix.info/#TiddlyHomeSetupPlugin',
+	author: 'BidiX (BidiX (at) bidix (dot) info)',
+	coreVersion: '2.2.0'
+};
+
+if (!window.bidix) window.bidix = {}; // bidix namespace
+
+bidix.checkPlugin = function(plugin, major, minor, revision) {
+	var ext = version.extensions[plugin];
+	if (!
+		(ext  &amp;amp;&amp;amp; 
+			((ext.major &amp;gt; major) || 
+			((ext.major == major) &amp;amp;&amp;amp; (ext.minor &amp;gt; minor))  ||
+			((ext.major == major) &amp;amp;&amp;amp; (ext.minor == minor) &amp;amp;&amp;amp; (ext.revision &amp;gt;= revision))))) {
+			// write error in PluginManager
+			if (pluginInfo)
+				pluginInfo.log.push(&quot;Requires &quot; + plugin + &quot; &quot; + major + &quot;.&quot; + minor + &quot;.&quot; + revision);
+			eval(plugin); // generate an error : &quot;Error: ReferenceError: xxxx is not defined&quot;
+	}
+};
+
+bidix.getParamsFromTiddler = function(tiddlerTitle, sliceNames) {
+	tiddlerTitle = (tiddlerTitle ? tiddlerTitle:this.messages.homeParamsTiddler);
+	if (!store.tiddlerExists(tiddlerTitle) &amp;amp;&amp;amp; !store.isShadowTiddler(tiddlerTitle)) {
+		throw(config.macros.uploadToHome.messages.tiddlerNotFound.toString().format([tiddlerTitle]));
+	}
+	return sliceValues = store.getTiddlerSlices(tiddlerTitle,sliceNames);
+};
+
+
+bidix.initOption = function(name,value) {
+	if (!config.options[name])
+		config.options[name] = value;
+};
+
+bidix.checkPlugin('UploadPlugin',4,1,0);
+config.macros.upload.authenticateUser = false; // authentication check by .htaccess
+
+// default TiddlyHomeParameters in shadows
+// user can overide this
+merge(config.shadowTiddlers,{
+	'TiddlyHomeParameters':[
+	&quot;|owner:|jayfresh|&quot;,
+	&quot;|site:|ipwnursite|&quot;,
+	&quot;|url:|http://tiddlyhome.bidix.info/ipwnursite/|&quot;,
+	&quot;|rootUrl:|http://tiddlyhome.bidix.info/|&quot;
+	].join(&quot;\n&quot;)});
+// get config from TiddlyHomeParameters
+config.tiddlyHome = {};
+merge(config.tiddlyHome, bidix.getParamsFromTiddler('TiddlyHomeParameters',['user','site','url','rootUrl']));
+config.shadowTiddlers.TiddlyHomeParameters += [
+	&quot;\n!Usefull url for your site&quot;,
+	&quot;* &quot; + config.tiddlyHome.url + &quot;backup: List of backup files&quot;,
+	&quot;* &quot; + config.tiddlyHome.url + &quot;download.php : to download thisTiddlyWiki&quot;,
+	&quot;* &quot; + config.tiddlyHome.url + &quot;index.xml : your RSSFeed&quot;,
+	&quot;* &quot; + config.tiddlyHome.url + &quot;news.php : to display your RSSFeed&quot;,
+	&quot;!Access and change data&quot;,
+	&quot;* &quot; + config.tiddlyHome.rootUrl + &quot;Site : Site properties&quot;,
+	&quot;* &quot; + config.tiddlyHome.rootUrl + &quot;#User : User properties&quot;,
+	&quot;!More Information on TiddlyHome&quot;,
+	&quot;* &quot; + config.tiddlyHome.rootUrl + &quot; for your hosting service&quot;,
+	&quot;*http://TiddlyHome.bidix.info/ for BidiX's TiddlyHome Package&quot;
+	].join(&quot;\n&quot;);
+
+// add TiddlyHomeSidebar in SideBarOptions
+config.shadowTiddlers.SideBarOptions = config.shadowTiddlers.SideBarOptions.replace(/(&amp;lt;&amp;lt;saveChanges&amp;gt;&amp;gt;)/,
+	&quot;$1&amp;lt;&amp;lt;tiddler TiddlyHomeSidebar&amp;gt;&amp;gt;&quot;);
+
+merge(config.shadowTiddlers,{
+	// link to favicon.ico
+	'MarkupPreHead':	[
+		&quot;&amp;lt;!--{{{--&amp;gt;&quot;,
+		&quot;&amp;lt;link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/&amp;gt;&quot;,
+		&quot;&amp;lt;link rel=\&quot;shortcut icon\&quot;href=\&quot;&quot; + 
+			config.tiddlyHome.rootUrl + 
+			&quot;_th/images/favicon.ico\&quot; type=\&quot;image/vnd.microsoft.icon\&quot; /&amp;gt;&quot;,
+		&quot;&amp;lt;link rel=\&quot;icon\&quot; href=\&quot;&quot; + 
+			config.tiddlyHome.rootUrl + 
+			&quot;_th/images/favicon.ico\&quot; type=\&quot;image/vnd.microsoft.icon\&quot; /&amp;gt; &quot;,
+		&quot;&amp;lt;!--}}}--&amp;gt;&quot;
+	].join(&quot;\n&quot;),
+	'SiteProxy':	[
+		&quot;proxy.php?url=&quot;
+	].join(&quot;\n&quot;),
+	'SiteUrl':	config.tiddlyHome.url,
+
+	// tweaks to UploadToHomeMacro parameters
+	'HomeParameters': [
+&quot;|UploadUserName:||&quot;,
+&quot;|UploadStoreUrl:|&quot; + config.tiddlyHome.url + &quot;store.php|&quot;,
+&quot;|UploadDir:|.|&quot;,
+&quot;|UploadFilename:|index.html|&quot;,
+&quot;|UploadBackupDir:|backup|&quot;
+	].join(&quot;\n&quot;),
+	'TiddlyHomeSidebar':[
+ 		&quot;&amp;lt;&amp;lt;uploadToHome&amp;gt;&amp;gt;&amp;lt;html&amp;gt;&amp;lt;a href=&quot; + 
+			config.tiddlyHome.url + &quot;download.php class='button'&amp;gt;download&amp;lt;/a&amp;gt;&amp;lt;/html&amp;gt;&quot;
+			].join(&quot;\n&quot;)
+});
+
+// Options tweaks
+//config.options.txtUserName = config.tiddlyHome.user;
+config.options.pasUploadPassword = '';
+config.options.txtBackupFolder = &quot;backup&quot;;
+config.options.chkSaveBackups = true;
+config.options.chkAutoSave = false;
+config.options.chkRegExpSearch = false;
+config.options.chkCaseSensitiveSearch = false;
+config.options.chkAnimate = false;
+config.options.chkGenerateAnRssFeed = true;
+config.options.chkSaveEmptyTemplate = false;
+&lt;/pre&gt;</description>
+<category>admin</category>
+<category>systemConfig</category>
+<category>TiddlyHomeSystem</category>
+<link>http://tiddlyhome.bidix.info/ipwnursite/#TiddlyHomeSetupPlugin</link>
+<pubDate>Sat, 04 Aug 2007 20:27:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
