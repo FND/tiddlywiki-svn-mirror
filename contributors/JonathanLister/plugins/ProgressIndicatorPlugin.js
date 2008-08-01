@@ -32,18 +32,24 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 	if(!x)
 		return "Can't create XMLHttpRequest object";
 	x.updateProgressIndicator = function(position,totalSize,direction) {
+		console.log(arguments);
 		if(!direction) {
 			direction = "downloading";
 		}
 		var percentComplete = 0;
-		if(totalSize!==0) {
+		var goodData = true;
+		if(totalSize===4294967295) { // bug in event reporting totalSize
+			goodData = false;
+		} else if(totalSize!==0) {
 			percentComplete = Math.floor((position / totalSize)*100);
 			percentComplete = percentComplete > 100 ? 100 : percentComplete;
 		}
 		clearMessage();
 		displayMessage(url);
-		displayMessage(direction+"... "+percentComplete+"%");
-		displayMessage('('+position+' of '+totalSize+' bytes)');
+		if(goodData) {
+			displayMessage(direction+"... "+percentComplete+"%");
+		}
+		displayMessage('('+position+' of '+(goodData ? totalSize : 'unknown')+' bytes)');
 		if(percentComplete=='100') {
 			window.setTimeout(function(){
 				clearMessage();
@@ -52,6 +58,7 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 	};
 	//# Install progress indicator
 	x.onprogress = function(e) {
+		console.log(e);
 		var local = url.indexOf('file://')!=-1;
 		var direction = (type=='GET') ? "downloading" : "uploading";
 		var position = e.position;
@@ -73,13 +80,12 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 			var local = url.indexOf('file://')!=-1;
 			if(!local) { // haven't figured out how to make this work for local files yet - no response headers!
 				var totalSize = x.getResponseHeader('Content-Length');
-				console.log(x.getAllResponseHeaders());
 				var responseText = x.responseText;
 				var position = responseText ? responseText.length : 0;
 				x.updateProgressIndicator(position,totalSize);
 			} else {
 				clearMessage();
-				displayMessage('no support yet for local file progress indicator');
+				displayMessage('no support yet for local file progress indicator in Safari');
 				if(x.readyState == 4){
 					window.setTimeout(function(){
 						clearMessage();
