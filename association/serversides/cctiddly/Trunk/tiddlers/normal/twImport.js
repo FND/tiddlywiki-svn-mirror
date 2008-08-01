@@ -11,14 +11,14 @@ config.macros.packageImporter = {
 			createTiddlyElement(s,"option" ,null,tagged[t].title, tagged[t].title);
 		place.appendChild(s);
 		
-		var html = "<form>";
+		var html = "<form><h2>Install Package</h2><br />";
 		for(var t=0; t<tagged.length; t++){
 			html += "<input type=radio name='package' value='"+tagged[t].title+"' >"+tagged[t].title+"<br />";
+			html +=  store.getTiddlerSlice(tagged[t].title,'Description')+"<br /><br /";
 //			createTiddlyElement(place,"input" ,null,tagged[t].title, tagged[t].title, {type:'radio'});
 //			createTiddlyText(place, tagged[t].title);
 		}
 		place.innerHTML = html+"<input type=button value='add package'  onclick='config.macros.packageImporter.click(this)'/></form>";
-		createTiddlyButton(place, "h1", null, null, "Import TiddlyWiki Package");
 	},
 	
 	fetchFile : function(location){
