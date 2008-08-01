@@ -44,7 +44,6 @@ TiddlyWebTools.Resource.prototype.route = function() {
 }
 
 TiddlyWebTools.Resource.prototype.getRepresentation = function(callback, context) {
-    alert('get ' + this.route());
     return doHttp('GET', this.route(), null, null, null, null, callback, context, {"Accept":"application/json"}, 1);
 }
 // END Resources base class
@@ -104,7 +103,7 @@ TiddlyWebTools.extend(TiddlyWebTools.Search, TiddlyWebTools.Tiddlers);
 // START bag entity
 TiddlyWebTools.Bag = function(server, name) {
     TiddlyWebTools.Bag.baseConstructor.call(this, server);
-    this.route_map = '/' + bags + '/' + encodeURIComponent(name);
+    this.route_map = '/bags/' + encodeURIComponent(name);
 }
 
 TiddlyWebTools.extend(TiddlyWebTools.Bag, TiddlyWebTools.Entity);
@@ -113,7 +112,7 @@ TiddlyWebTools.extend(TiddlyWebTools.Bag, TiddlyWebTools.Entity);
 // START recipe entity
 TiddlyWebTools.Recipe = function(server, name) {
     TiddlyWebTools.Recipe.baseConstructor.call(this, server);
-    this.route_map = '/' + recipes + '/' + encodeURIComponent(name);
+    this.route_map = '/recipes/' + encodeURIComponent(name);
 }
 
 TiddlyWebTools.extend(TiddlyWebTools.Recipe, TiddlyWebTools.Entity);
