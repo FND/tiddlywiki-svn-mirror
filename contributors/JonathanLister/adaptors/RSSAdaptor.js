@@ -67,7 +67,7 @@ RSSAdaptor.loadRssCallback = function(status,context,responseText,url,xhr)
 		context.statusText = "Error reading RSS file:" + context.host;// + xhr.statusText;
 	} else {
 		try {
-			context.tiddlers = RSSAdaptor.rssToTiddlers(responseText,context.rssUseRawDescription);
+			context.tiddlers = RSSAdaptor.rssToTiddlers(responseText,context.textDescription);
 			/*if(context.filter) {
 				var tw = new TiddlyWiki();
 				tw.tiddlers = tiddlers;
@@ -185,7 +185,7 @@ RSSAdaptor.prototype.close = function()
 {
 };
 
-RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
+RSSAdaptor.rssToTiddlers = function(rss,textDescription)
 {
 //#displayMessage("rssToTiddlers:"+rss.substr(0,500));
 	var tiddlers = [];
@@ -256,7 +256,7 @@ RSSAdaptor.rssToTiddlers = function(rss,useRawDescription)
 			item.text = item.text.htmlDecode();
 			//#displayMessage("content htmlDecode-d");
 			//#console.log("in item text");
-			item.text = useRawDescription ? item.text.renderHtmlText() : "<html>" + item.text.renderHtmlText() + "</html>";
+			item.text = textDescription ? item.text.renderHtmlText() : "<html>" + item.text.stripCData() + "</html>";
 			//#displayMessage("content rendered or not");
 		} else {
 			//#displayMessage("content doesn't exist");
@@ -329,6 +329,21 @@ config.adaptors[RSSAdaptor.serverType] = RSSAdaptor;
 // to selectively catch the ASCII-encoded characters without losing the rest of the html
 String.prototype.renderHtmlText = function() {
 	//displayMessage("in renderHtmlText");
+	var text = this.stripCData().toString();
+	var e = createTiddlyElement(document.body,"div");
+	e.innerHTML = text;
+	text = getPlainText(e);
+	text = text.replace(/&#[\w]+?;/g,function(word) {
+		var ee = createTiddlyElement(e,"div");
+		ee.innerHTML = word;
+		return getPlainText(ee);
+	});
+	removeNode(e);
+	//displayMessage("leaving renderHtmlText");
+	return text;
+};
+
+String.prototype.stripCData = function() {
 	var text = this.toString();
 	var regex_cdata = /<!\[CDATA\[((?:.|\n)*?)\]\]>/mg;
 	//console.log(regex_cdata.lastIndex);
@@ -343,18 +358,8 @@ String.prototype.renderHtmlText = function() {
 	} else {
 		//#console.log("no cdata to remove");
 	}
-	var e = createTiddlyElement(document.body,"div");
-	e.innerHTML = text;
-	text = getPlainText(e);
-	text = text.replace(/&#[\w]+?;/g,function(word) {
-		var ee = createTiddlyElement(e,"div");
-		ee.innerHTML = word;
-		return getPlainText(ee);
-	});
-	removeNode(e);
-	//displayMessage("leaving renderHtmlText");
 	return text;
-};
+}
 
 } //# end of 'install only once'
 //}}}
