@@ -59,7 +59,7 @@ config.macros.ImportPlugins = {
 				if(!store.tiddlerExists(plugins[i].title)) {
 					var subContext = {
 						host: context.host,
-						workspace: plugins[i].fields['server.workspace']
+						workspace: plugins[i].fields["server.workspace"]
 					};
 					context.adaptor.getTiddler(plugins[i].title, subContext,
 						userParams, config.macros.ImportPlugins.displayPlugin);
@@ -78,19 +78,35 @@ config.macros.ImportPlugins = {
 	}
 };
 
+config.macros.SearchPlugins = {
+	btnLabel: "Search Plugins",
+	btnTooltip: "search the TiddlyWiki Plugin Library",
+	btnClass: null,
+
+	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+		var wrapper = createTiddlyElement(place, "div", null, "searchBox");
+		var input = createTiddlyElement(wrapper, "input");
+		input.onchange = this.onclick;
+		createTiddlyButton(wrapper, this.btnLabel, this.btnTooltip, this.onclick, this.btnClass);
+	},
+
+	onclick: function() {
+		var input = this.parentNode.getElementsByTagName("input")[0];
+		config.macros.SearchPlugins.doSearch(input);
+	},
+
+	doSearch: function(txt) {
+		if(txt.value.length > 0) {
+			config.macros.ImportPlugins.findPlugins(txt.value);
+			txt.setAttribute("lastSearchText", txt.value);
+		}
+	}
+};
+
 config.shadowTiddlers.PluginInfoTemplate = "<!--{{{-->\n"
 	+ "<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>\n"
 	+ "<div class='viewer' macro='pluginInfo'></div>\n"
 	+ "<!--}}}-->";
-
-// override search macro
-config.macros.search.doSearch = function(txt)
-{
-	if(txt.value.length > 0) {
-		config.macros.ImportPlugins.findPlugins(txt.value);
-		txt.setAttribute("lastSearchText", txt.value);
-	}
-};
 
 } //# end of "install only once"
 //}}}
