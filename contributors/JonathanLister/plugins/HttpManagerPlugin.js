@@ -109,12 +109,11 @@ HttpManager.makeReq = function(slot) {
 HttpManager.showStats = function() {
 	this.stats.stats();
 };
-/*
-var __httpReq = window.httpReq;
-window.httpReq = function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
+
+var __httpReq = window.httpReq.intercept(function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
 	HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
 	HttpManager.showStats();
-};
-*/
+});
+
 } //# end of 'install only once'
 //}}}

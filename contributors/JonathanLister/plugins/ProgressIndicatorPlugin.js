@@ -17,7 +17,6 @@ version.extensions.ProgressIndicatorPlugin = {installed:true};
 
 window.httpReq.extend({
 	updateProgressIndicator: function(position,totalSize,direction) {
-		console.log(arguments);
 		if(!direction) {
 			direction = "downloading";
 		}
@@ -43,7 +42,6 @@ window.httpReq.extend({
 	},
 	
 	onprogress: function(e) {
-		console.log(e);
 		var local = url.indexOf('file://')!=-1;
 		var direction = (type=='GET') ? "downloading" : "uploading";
 		var position = e.position;

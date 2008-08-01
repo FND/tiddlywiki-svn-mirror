@@ -43,7 +43,7 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 			x = null;
 		}
 	};
-	var ext = arguments.callee.extensions;
+	var ext = window.httpReq.extensions;
 	if(ext) {
 		for(var n in ext) {
 			x[n] = eval(ext[n].toString());
@@ -80,7 +80,18 @@ window.httpReq.extend = function(extensions) {
 	for(var i in extensions) {
 		ext[i] = extensions[i];
 	}
-	return ext;
+};
+
+window.httpReq.intercept = function(func) {
+	var orig = eval(window.httpReq.toString());
+	var tempObj = function() {
+		func.apply(this,arguments);
+	};
+	for(var i in window.httpReq) {
+		tempObj[i] = window.httpReq[i];
+	}
+	window.httpReq = tempObj;
+	return orig;
 };
 
 } //# end of 'install only once'
