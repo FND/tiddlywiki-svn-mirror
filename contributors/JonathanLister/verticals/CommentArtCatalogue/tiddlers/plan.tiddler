@@ -1,0 +1,10 @@
+<div title="plan" modifier="JayFresh" created="200807311435">
+<pre>The plan:
+* first bit
+** get the file downloaded
+** pull the bits out into a list saved in a tiddler
+* second bit
+** for each slice, get the image and save to file in the same dir
+** when each one is done, write a tiddler with a reference to it
+</pre>
+</div>
