@@ -1,15 +1,27 @@
 config.macros.packageImporter = {
 	
 	handler: function(place,macroName,params,wikifier,paramString,tiddler){
-		var onClick = function(){config.macros.packageImporter.fetchFile(); return false;};
-		createTiddlyButton(place,'bang','bang',onClick);
-		var s = createTiddlyElement(place,"select" ,null,null);
+		createTiddlyElement(place, "h1", null, null, "Import TiddlyWiki Package");
+		var s = createTiddlyElement(null,"select" ,null,null);
+		s.onchange = function() {config.macros.packageImporter.click(this)};
+		var tagged = store.getTaggedTiddlers("systemPackage");
+		createTiddlyElement(s,"option" ,null,'please select', 'please select');
+
+		for(var t=0; t<tagged.length; t++)
+			createTiddlyElement(s,"option" ,null,tagged[t].title, tagged[t].title);
+		place.appendChild(s);
 		
-		createTiddlyElement(s,"option" ,null,"TeamTasks", "TeamTasks", {onSelect:function(){alert("ssss");}});
+		var html = "<form>";
+		for(var t=0; t<tagged.length; t++){
+			html += "<input type=radio name='package' value='"+tagged[t].title+"' >"+tagged[t].title+"<br />";
+//			createTiddlyElement(place,"input" ,null,tagged[t].title, tagged[t].title, {type:'radio'});
+//			createTiddlyText(place, tagged[t].title);
+		}
+		place.innerHTML = html+"<input type=button value='add package'  onclick='config.macros.packageImporter.click(this)'/></form>";
+		createTiddlyButton(place, "h1", null, null, "Import TiddlyWiki Package");
 	},
 	
 	fetchFile : function(location){
-		var location = 'http://getteamtasks.com/teamtasks.html';
 		loadRemoteFile(location,config.macros.packageImporter.callback);
 	},
 	
@@ -30,6 +42,28 @@ config.macros.packageImporter = {
 		});
 		store.resumeNotifications();
 		refreshDisplay();
+		window.location=window.location;
+	}, 
+	click : function(btn)
+	{
+		var tiddler = story.findContainingTiddler(btn);
+		var radios = tiddler.getElementsByTagName('form')[0]['package'];
+		var packageTiddler;
+		for(var z=0;z<radios.length;z++){
+			if (radios[z].checked){
+				packageTiddler = radios[z].value;
+				break;
+			}
+		}
+		//console.log(package);
+		var url = store.getTiddlerSlice(packageTiddler,'URL');
+		//console.log(url)
+		//console.log(a);
+		//console.log(this);
+		//alert(a.previousSibling.value);
+		this.fetchFile(url);
+		//displayMessage(store.getTiddlerSlice(a.value,"URL"));
+		//this.fetchFile(store.getTiddlerSlice(a.value,"URL"));
 	}
 	
 }

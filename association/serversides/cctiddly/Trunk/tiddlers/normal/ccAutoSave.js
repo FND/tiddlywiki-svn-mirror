@@ -59,6 +59,8 @@ console.log("savetidder:"+title);
     context.workspace = window.workspace;
 	context.host = window.url;
     req = adaptor.putTiddler(tiddler, context, {}, ccTiddlyAutoSave.putCallback);
+    if(req)
+		store.setDirty(false);
     return req ? tiddler : false;
 };
 
