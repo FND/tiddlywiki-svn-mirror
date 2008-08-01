@@ -106,6 +106,54 @@ ccTiddlyAdaptor.prototype.openWorkspace = function(workspace,context,userParams,
 	return true;
 };
 
+ccTiddlyAdaptor.prototype.login = function(context,userParams,callback)
+{
+//#console.log('login:'+context.username);
+       context = this.setContext(context,userParams,callback);
+       var uriTemplate = '%0handle/login.php?cctuser=%1&cctpass=%2';
+       var uri = uriTemplate.format([context.host,context.username,Crypto.hexSha1Str(context.password)]);
+//#console.log('uri:'+uri);
+       var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.loginCallback,context);
+       return typeof req == 'string' ? req : true;
+};
+
+ccTiddlyAdaptor.loginCallback = function(status,context,responseText,uri,xhr)
+{
+//#console.log('loginCallback:'+status);
+       if(xhr.status==401) {
+               context.status = false;
+       } else {
+               context.status = true;
+       }
+       if(context.callback)
+               context.callback(context,context.userParams);
+};
+
+ccTiddlyAdaptor.prototype.register = function(context,userParams,callback)
+{
+//#console.log('register:'+context.username);
+       context = this.setContext(context,userParams,callback);
+       var uriTemplate = '%0handle/register.php';
+       var uri = uriTemplate.format([context.host,context.username,Crypto.hexSha1Str(context.password)]);
+//#console.log('uri:'+uri);
+       var dataTemplate = 'username=&0&reg_mail=%1&password=%2&password2=%3';
+       var data = dataTemplate.format([context.username,context.password1,context.password2]);
+       var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.registerCallback,context,null,data);
+       return typeof req == 'string' ? req : true;
+};
+
+ccTiddlyAdaptor.registerCallback = function(status,context,responseText,uri,xhr)
+{
+//#console.log('registerCallback:'+status);
+       if(status) {
+               context.status = true;
+       } else {
+               context.status = false;
+       }
+       if(context.callback)
+               context.callback(context,context.userParams);
+};
+
 ccTiddlyAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
  	context = this.setContext(context,userParams,callback);
@@ -242,9 +290,7 @@ console.log(responseText);
                 context.tiddler.text = info['text'];
 				context.tiddler.tags = info['tags'].split(" ");
                 context.tiddler.fields['server.page.revision'] = info['revision'];
-				context.tiddler.fields['omodified'] = info['modified'];
-
-                context.tiddler.modifier = info['modifier'];
+			    context.tiddler.modifier = info['modifier'];
                 context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(info['modified']);
                 context.tiddler.created = Date.convertFromYYYYMMDDHHMM(info['created']);
                 context.status = true;
@@ -328,14 +374,14 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	var fieldString = ""; 
 	for (var name in tiddler.fields) { 
 		if (String(tiddler.fields[name])) 
-			fieldString += name +"="+tiddler.fields[name]+" "; 
+			fieldString += name +"='"+tiddler.fields[name]+"' "; 
 	}
 	
 	if(tiddler.fields['server.page.revision']==1)
 		tiddler.fields['server.page.revision'] = 10000;
 	else
 		tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10)+1;
-	var payload = "workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+"&body="+encodeURIComponent(tiddler.text.htmlDecode())+"";
+	var payload = "workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+"&body="+encodeURIComponent(tiddler.text)+"";
 		var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 	return typeof req == 'string' ? req : true;
 };

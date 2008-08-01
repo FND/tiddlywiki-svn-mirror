@@ -59,7 +59,7 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 			createTiddlyText(wrapper,"You are an admin of this workspace");
 		}
 	}else{
-		wikify("Hi Guest\r\n\r\n Please click [[here to login|Login]] ",wrapper);
+		wikify("Hi Guest\r\n\r\n Please [[login|Login]] ",wrapper);
 	}
 };
 

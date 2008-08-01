@@ -110,10 +110,14 @@ config.macros.login.refresh=function(place, error){
 config.macros.login.doLogin=function(username, password, item, place){
 	var w = new Wizard(item);
 	var me = config.macros.login;
-	var params = {};
-	params.place = place;
-	var urlLogin=me.configURL+"?"+me.configUsernameInputName+"="+username+"&"+me.configPasswordInputName+"="+Crypto.hexSha1Str(password)+"";
-	doHttp('GET',urlLogin,null,null,null,null,me.loginCallback,params);
+	var userParams = {};
+	userParams.place = place;
+	var adaptor = new config.adaptors[config.defaultCustomFields['server.type']];
+	var context = {};
+	context.host = window.url;
+	context.username = username;
+	context.password = password;
+	adaptor.login(context,userParams,config.macros.login.loginCallback)
 	var html = me.stepDoLoginIntroText; 
 	w.addStep(me.stepDoLoginTitle,html);
 	w.setButtons([
@@ -121,11 +125,11 @@ config.macros.login.doLogin=function(username, password, item, place){
 	}]);
 }
 
-config.macros.login.loginCallback=function(status,params,responseText,uri,xhr){
-	if(xhr.status==401){
-		config.macros.login.refresh(params.place, 'Login Failed. Please try again');
-	}else{
+config.macros.login.loginCallback=function(context,userParams){
+	if(context.status){
 		window.location=window.fullUrl;
+	}else{
+		config.macros.login.refresh(userParams.place, 'Login Failed. Please try again');
 	} 
 };
 

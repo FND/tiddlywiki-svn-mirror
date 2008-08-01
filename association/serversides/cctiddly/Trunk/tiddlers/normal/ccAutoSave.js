@@ -30,8 +30,7 @@ ccTiddlyAutoSave.putCallback = function(context, userParams)
     if (context.status) {
         displayMessage('Saved ' + tiddler.title);
         tiddler.clearChangeCount();
-		tiddler.fields['server.omodified'] = tiddler.modified.convertToYYYYMMDDHHMM();
-    } else {
+	} else {
         displayMessage('Error Saving ' + tiddler.title + ' ' + context.statusText);
         tiddler.incChangeCount();
     }
@@ -51,7 +50,7 @@ console.log("savetidder:"+title);
     // put the tiddler and deal with callback
     tiddler.fields = fields;
 	tiddler.fields['server.host'] = window.url;
-	tiddler.fields['server.type'] = 'cctiddly';
+	tiddler.fields['server.type'] = config.defaultCustomFields['server.host'];
 	tiddler.fields['server.workspace'] = window.workspace;
 	tiddler.clearChangeCount();
     context = {};
