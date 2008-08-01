@@ -104,9 +104,14 @@ config.macros.SearchPlugins = {
 };
 
 config.shadowTiddlers.PluginInfoTemplate = "<!--{{{-->\n"
-	+ "<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>\n"
-	+ "<div class='viewer' macro='pluginInfo'></div>\n"
+	+ "<div class='pluginInfoTiddler'>"
+	+ "<div class='toolbar pluginToolbar' macro='toolbar [[PluginInfoToolbar::ViewToolbar]]'></div>\n"
+	+ "<div class='viewer pluginViewer' macro='pluginInfo'></div>\n"
+	+ "</div>"
 	+ "<!--}}}-->";
+
+config.shadowTiddlers.PluginInfoToolbar = ""
+	+ "|~ViewToolbar|closeTiddler closeOthers +editTiddler|";
 
 } //# end of "install only once"
 //}}}

@@ -37,7 +37,9 @@ config.macros.pluginInfo = {
 			info += String.encodeTiddlyLink(name);
 		}
 		info += "}}}\n"
-			+ (slices.Description || "");
+			+ (slices.Description || "")
+			+ "<<slider chk" + tiddler.title.replace(" ", "_") + "Slider "
+			+ "[[" + tiddler.title + "]]" + "'More...' 'full info'>>";
 		wikify(info, place);
 	}
 };

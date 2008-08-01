@@ -1,6 +1,18 @@
 <div title="StyleSheet" modifier="FND" created="200807281701" modified="200807281706" tags="meta" changecount="5">
 <pre>[[StyleSheetReset]]
 /*{{{*/
+body {
+	background-color: #333;
+}
+
+#contentWrapper {
+	width: 50%;
+	overflow: auto;
+	margin: 0 auto;
+	padding-bottom: 2em;
+	background-color: #FFF;
+}
+
 .header {
 	padding: 0.5em 1em;
 	background-color: #000;
@@ -11,16 +23,61 @@
 	color: #fff;
 }
 
-#searchBox {
-	text-align: center;
-}
-
 #mainMenu {
+	margin-right: 1em;
 	padding-top: 0.5em;
 }
 
-.tiddler .toolbar {
+#searchBox {
+	overflow: hidden;
+	padding: 1em;
+	text-align: center;
+}
+
+#searchBox a,
+#searchBox input {
+	font-size: 2em;
+}
+
+#searchBox a {
+	margin: 0 0.5em;
+}
+
+#searchBox input {
+	border: 2px solid #000;
+	padding: 0.2em;
+	color: #000;
+	background-color: #aaa;
+}
+
+.pluginInfoTiddler {
+	overflow: auto;
+	margin-bottom: 1em;
+	border: 1px solid #aaa;
+	padding: 0 0 1em 1em;
+	background-color: #eee;
+}
+
+.pluginToolbar {
 	float: right;
+}
+
+.pluginToolbar .button {
+	display: block;
+	background: [[ColorPalette::SecondaryLight]];
+	border-color: [[ColorPalette::SecondaryMid]];
+}
+
+.pluginToolbar .button:hover {
+	display: block;
+	color: [[ColorPalette::Foreground]];
+	background: [[ColorPalette::SecondaryLight]];
+	border-color: [[ColorPalette::SecondaryMid]];
+}
+
+.pluginViewer {
+	overflow: auto;
+	padding-top: 1em;
 }
 /*}}}*/</pre>
 </div>
