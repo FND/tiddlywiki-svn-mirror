@@ -228,8 +228,7 @@ config.macros.CommentArtCatalogueSave = {
 
 };
 
-window.httpReqBin = function(type,url,callback,params,headers,data,contentType,username,password,allowCache)
-{
+window.httpReqBin = function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
 	//# Get an xhr object
 	var x = null;
 	try {
@@ -242,61 +241,8 @@ window.httpReqBin = function(type,url,callback,params,headers,data,contentType,u
 	}
 	if(!x)
 		return "Can't create XMLHttpRequest object";
-	x.updateProgressIndicator = function(position,totalSize,direction) {
-		if(!direction) {
-			direction = "downloading";
-		}
-		var percentComplete = 0;
-		if(totalSize!==0) {
-			percentComplete = Math.floor((position / totalSize)*100);
-			percentComplete = percentComplete > 100 ? 100 : percentComplete;
-		}
-		clearMessage();
-		displayMessage(url);
-		displayMessage(direction+"... "+percentComplete+"%");
-		displayMessage('('+position+' of '+totalSize+' bytes)');
-		if(percentComplete=='100') {
-			window.setTimeout(function(){
-				clearMessage();
-			},2000);
-		}
-	};
-	//# Install progress indicator
-	x.onprogress = function(e) {
-		var local = url.indexOf('file://')!=-1;
-		var direction = (type=='GET') ? "downloading" : "uploading";
-		var position = e.position;
-		var totalSize = e.totalSize;
-		if(local) {
-			try {
-				netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-				totalSize = x.channel.contentLength;
-			} catch(ex) {
-				// do nothing
-			}
-		}
-		x.updateProgressIndicator(position,totalSize,direction);
-	};
 	//# Install callback
 	x.onreadystatechange = function() {
-		//# add Safari progress indicator
-		if(x.readyState >= 3 && config.browser.isSafari && type=='GET') {
-			var local = url.indexOf('file://')!=-1;
-			if(!local) { // haven't figured out how to make this work for local files yet - no response headers!
-				var totalSize = x.getResponseHeader('Content-Length');
-				var responseText = x.responseText;
-				var position = responseText ? responseText.length : 0;
-				x.updateProgressIndicator(position,totalSize);
-			} else {
-				clearMessage();
-				displayMessage('no support yet for local file progress indicator');
-				if(x.readyState == 4){
-					window.setTimeout(function(){
-						clearMessage();
-					},2000);
-				}
-			}
-		}
 		try {
 			var status = x.status;
 		} catch(ex) {
@@ -311,6 +257,12 @@ window.httpReqBin = function(type,url,callback,params,headers,data,contentType,u
 			x = null;
 		}
 	};
+	var ext = window.httpReq.extensions;
+	if(ext) {
+		for(var n in ext) {
+			x[n] = eval(ext[n].toString());
+		}
+	}
 	//# Send request
 	if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
 		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
@@ -323,7 +275,7 @@ window.httpReqBin = function(type,url,callback,params,headers,data,contentType,u
 		if(x.overrideMimeType)
 			x.setRequestHeader("Connection", "close");
 		if(headers) {
-			for(var n in headers)
+			for(n in headers)
 				x.setRequestHeader(n,headers[n]);
 		}
 		x.setRequestHeader("X-Requested-With", "TiddlyWiki " + formatVersion());
@@ -332,7 +284,7 @@ window.httpReqBin = function(type,url,callback,params,headers,data,contentType,u
 	} catch(ex) {
 		return exceptionText(ex);
 	}
-	return x;
+	return x;	
 };
 
 } //# end of 'install only once'
