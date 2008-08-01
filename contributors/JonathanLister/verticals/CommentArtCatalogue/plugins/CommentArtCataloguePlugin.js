@@ -221,7 +221,8 @@ config.macros.CommentArtCatalogueSave = {
 			displayMessage("saved... click here to load","file://"+savePath);
 			console.log("saved... click here to load","file://"+savePath);
 		} else {
-			alert(config.messages.fileFailed,"file://"+savePath);
+			//alert(config.messages.fileFailed,"file://"+savePath);
+			console.log(config.messages.fileFailed,"file://"+savePath);
 		}
 	}
 
