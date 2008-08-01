@@ -17,6 +17,52 @@
 if(!version.extensions.ProgressIndicatorPlugin) {
 version.extensions.ProgressIndicatorPlugin = {installed:true};
 
+// attempt to do this with prototype extension
+/*
+var __XMLHttpRequest = window.XMLHttpRequest;
+window.XMLHttpRequest = function() {};
+window.XMLHttpRequest.prototype = new __XMLHttpRequest();
+
+window.XMLHttpRequest.prototype.onprogress = function(e) {
+	console.log(this);
+	//var local = url.indexOf('file://')!=-1;
+	//var direction = (type=='GET') ? "downloading" : "uploading";
+	var position = e.position;
+	var totalSize = e.totalSize;
+	try {
+		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+		totalSize = this.channel.contentLength;
+	} catch(ex) {
+		// do nothing
+	}
+	this.updateProgressIndicator(position,totalSize);
+};
+
+window.XMLHttpRequest.prototype.updateProgressIndicator = function(position,totalSize,direction) {
+		if(!direction) {
+			direction = "downloading";
+		}
+		var percentComplete = 0;
+		var goodData = true;
+		if(totalSize===4294967295) { // bug in event reporting totalSize
+			goodData = false;
+		} else if(totalSize!==0) {
+			percentComplete = Math.floor((position / totalSize)*100);
+			percentComplete = percentComplete > 100 ? 100 : percentComplete;
+		}
+		clearMessage();
+		//displayMessage(url);
+		if(goodData) {
+			displayMessage(direction+"... "+percentComplete+"%");
+		}
+		displayMessage('('+position+' of '+(goodData ? totalSize : 'unknown')+' bytes)');
+		if(percentComplete=='100') {
+			window.setTimeout(function(){
+				clearMessage();
+			},2000);
+		}
+	};
+*/
 window.httpReq = function(type,url,callback,params,headers,data,contentType,username,password,allowCache)
 {
 	//# Get an xhr object
@@ -57,6 +103,7 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 		}
 	};
 	//# Install progress indicator
+	
 	x.onprogress = function(e) {
 		console.log(e);
 		var local = url.indexOf('file://')!=-1;
@@ -123,13 +170,13 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 				x.setRequestHeader(n,headers[n]);
 		}
 		x.setRequestHeader("X-Requested-With", "TiddlyWiki " + formatVersion());
+		console.log(x);
 		x.send(data);
 	} catch(ex) {
 		return exceptionText(ex);
 	}
 	return x;
 };
-
 
 } //# end of 'install only once'
 //}}}
