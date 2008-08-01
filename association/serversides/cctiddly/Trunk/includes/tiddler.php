@@ -116,6 +116,25 @@
 		return $return;
 	}
 	
+	
+	
+	function tiddler_outputFolder($dir, $cct_base) 
+	{	
+		$dir = $cct_base.$dir;
+		// Open plugins directory, and read its contents
+		if (is_dir($dir)) {
+		    if ($dh = opendir($dir)) {
+		       while (($file = readdir($dh)) !== false) {
+					$ext = substr($file, strrpos($file, '.') + 1); 
+					if ($ext == "js")			
+						echo tiddler_outputJsFile($dir."/".$file, $cct_base);
+		    		else if ($ext == "tiddler")
+						echo tiddler_outputTiddlerFile($dir."/".$file, $cct_base);
+		    	}
+		        closedir($dh);
+		    }
+		}
+	}
 	function tiddler_outputJsFile($file, $cct_base)
 	{
 			$file_parts=explode("/", $file);
@@ -159,8 +178,7 @@
 			$server = dirname(getURL());
 		else
 			$server = getURL();
-		
-		echo  "<div tiddler='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision=".$tiddler["revision"]."  server.omodified='".$tiddler["modified"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">".tiddler_bodyEncode($tiddler['body'])."</div>\n\r";	
+		echo  "<div tiddler='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision=".$tiddler["revision"]." server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">".tiddler_bodyEncode($tiddler['body'])."</div>\n\r";	
 		return;	
 	}
 	

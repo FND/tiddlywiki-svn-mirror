@@ -119,8 +119,7 @@ merge(config.macros.options,{
 	listViewTemplate: {
 		columns: [
 			{name: 'Option', field: 'option', title: "", type: 'String'},
-			{name: 'Description', field: 'description', title: "", type: 'WikiText'},
-			{name: 'Name', field: 'name', title: "", type: 'String'}
+			{name: 'Description', field: 'description', title: "", type: 'WikiText'}
 			],
 			rowClasses: [
 						{className: 'lowlight', field: 'lowlight'}

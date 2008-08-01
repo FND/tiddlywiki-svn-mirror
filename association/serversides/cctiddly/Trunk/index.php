@@ -180,6 +180,11 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div id="contentWrapper"></div>
 <div id="contentStash"></div>
 <div id="shadowArea">
+<?php
+
+echo tiddler_outputFolder("tiddlers/shadow", $cct_base);
+?>
+
 <div title="ColorPalette">
 <pre>Background: #fff
 Foreground: #000
@@ -589,6 +594,9 @@ body {font-size:0.8em;}
 noscript {display:none;}
 }
 /*}}}*/</pre>
+
+
+
 </div>
 </div>
 <!--POST-SHADOWAREA-->

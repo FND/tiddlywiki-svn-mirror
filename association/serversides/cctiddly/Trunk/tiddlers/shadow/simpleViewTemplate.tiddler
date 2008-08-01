@@ -1,0 +1,9 @@
+<div title="simpleViewTemplate" modifier="ccTiddly" tags="ccTiddly excludeSearch excludeLists">
+<pre>
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler edit'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+</pre>
+</div>
