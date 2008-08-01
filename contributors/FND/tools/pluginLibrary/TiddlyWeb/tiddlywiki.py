@@ -2,19 +2,6 @@ import re
 
 from BeautifulSoup import BeautifulSoup, Tag
 
-def normalizeURL(URL):
-	"""
-	strip non-essential trailing characters from URL
-
-	@param URL: URL
-	@type  URL: str
-	@return: uniform URL
-	@rtype : str
-	"""
-	URL = URL.split("#", 1)[0]
-	URL = URL.rstrip("/").lower()
-	return URL
-
 def unescapeLineBreaks(text):
 	"""
 	unescape line breaks
@@ -69,11 +56,12 @@ class TiddlyWiki:
 		@type  repo: str
 		@return: None
 		"""
-		repo = normalizeURL(repo)
+		from utils import normalizeURI
+		repo = normalizeURI(repo)
 		for plugin in self.store.findChildren("div", title=True):
 			slices = self.getSlices(plugin.pre.renderContents())
-			if slices.has_key("Source"): # N.B.: plugin accepted if Source slice not present -- harmful? (e.g. includes simple config tweaks)
-				source = normalizeURL(slices["Source"])
+			if slices.has_key("Source"): # N.B.: plugin accepted if Source slice not present -- XXX: harmful? (e.g. includes simple config tweaks)
+				source = normalizeURI(slices["Source"])
 				if source != repo:
 					plugin.extract()
 
