@@ -1,15 +1,13 @@
 /***
 |''Name:''|ProgressIndicatorPlugin|
-|''Description:''|Adds a Firefox-only download/upload HTTP progress indicator|
+|''Description:''|Adds a download/upload HTTP progress indicator. Only works in Firefox and Safari|
 |''Author''|JonathanLister|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/ProgressIndicatorPlugin.js |
 |''Version:''|0.4|
+|''Dependencies:''|ExtendableHttpRequestPlugin|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4|
-
-! Usage
-
 
 ***/
 
@@ -17,67 +15,8 @@
 if(!version.extensions.ProgressIndicatorPlugin) {
 version.extensions.ProgressIndicatorPlugin = {installed:true};
 
-// attempt to do this with prototype extension
-/*
-var __XMLHttpRequest = window.XMLHttpRequest;
-window.XMLHttpRequest = function() {};
-window.XMLHttpRequest.prototype = new __XMLHttpRequest();
-
-window.XMLHttpRequest.prototype.onprogress = function(e) {
-	console.log(this);
-	//var local = url.indexOf('file://')!=-1;
-	//var direction = (type=='GET') ? "downloading" : "uploading";
-	var position = e.position;
-	var totalSize = e.totalSize;
-	try {
-		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-		totalSize = this.channel.contentLength;
-	} catch(ex) {
-		// do nothing
-	}
-	this.updateProgressIndicator(position,totalSize);
-};
-
-window.XMLHttpRequest.prototype.updateProgressIndicator = function(position,totalSize,direction) {
-		if(!direction) {
-			direction = "downloading";
-		}
-		var percentComplete = 0;
-		var goodData = true;
-		if(totalSize===4294967295) { // bug in event reporting totalSize
-			goodData = false;
-		} else if(totalSize!==0) {
-			percentComplete = Math.floor((position / totalSize)*100);
-			percentComplete = percentComplete > 100 ? 100 : percentComplete;
-		}
-		clearMessage();
-		//displayMessage(url);
-		if(goodData) {
-			displayMessage(direction+"... "+percentComplete+"%");
-		}
-		displayMessage('('+position+' of '+(goodData ? totalSize : 'unknown')+' bytes)');
-		if(percentComplete=='100') {
-			window.setTimeout(function(){
-				clearMessage();
-			},2000);
-		}
-	};
-*/
-window.httpReq = function(type,url,callback,params,headers,data,contentType,username,password,allowCache)
-{
-	//# Get an xhr object
-	var x = null;
-	try {
-		x = new XMLHttpRequest(); //# Modern
-	} catch(ex) {
-		try {
-			x = new ActiveXObject("Msxml2.XMLHTTP"); //# IE 6
-		} catch(ex2) {
-		}
-	}
-	if(!x)
-		return "Can't create XMLHttpRequest object";
-	x.updateProgressIndicator = function(position,totalSize,direction) {
+window.httpReq.extend({
+	updateProgressIndicator: function(position,totalSize,direction) {
 		console.log(arguments);
 		if(!direction) {
 			direction = "downloading";
@@ -101,10 +40,9 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 				clearMessage();
 			},2000);
 		}
-	};
-	//# Install progress indicator
+	},
 	
-	x.onprogress = function(e) {
+	onprogress: function(e) {
 		console.log(e);
 		var local = url.indexOf('file://')!=-1;
 		var direction = (type=='GET') ? "downloading" : "uploading";
@@ -119,9 +57,9 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 			}
 		}
 		x.updateProgressIndicator(position,totalSize,direction);
-	};
-	//# Install callback
-	x.onreadystatechange = function() {
+	},
+
+	onreadystatechange: function() {
 		//# add Safari progress indicator
 		if(x.readyState >= 3 && config.browser.isSafari && type=='GET') {
 			var local = url.indexOf('file://')!=-1;
@@ -153,30 +91,8 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 			x.onreadystatechange = function(){};
 			x = null;
 		}
-	};
-	//# Send request
-	if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
-		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-	try {
-		if(!allowCache)
-			url = url + (url.indexOf("?") < 0 ? "?" : "&") + "nocache=" + Math.random();
-		x.open(type,url,true,username,password);
-		if(data)
-			x.setRequestHeader("Content-Type", contentType || "application/x-www-form-urlencoded");
-		if(x.overrideMimeType)
-			x.setRequestHeader("Connection", "close");
-		if(headers) {
-			for(var n in headers)
-				x.setRequestHeader(n,headers[n]);
-		}
-		x.setRequestHeader("X-Requested-With", "TiddlyWiki " + formatVersion());
-		console.log(x);
-		x.send(data);
-	} catch(ex) {
-		return exceptionText(ex);
 	}
-	return x;
-};
+});
 
 } //# end of 'install only once'
 //}}}
