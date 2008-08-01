@@ -78,6 +78,7 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 
 var HttpManager = {
 	queue: new FeedListManager(),
+	stats: new FeedListManager(),
 	slots: [
 		"empty",
 		"empty"
@@ -98,27 +99,20 @@ HttpManager.addRequest = function(type,url,callback,params,headers,data,contentT
 		allowCache:allowCache
 	};
 	this.queue.add(url,url,'rss',args); // 'rss' hard-coded to comply with FeedListManager
-	this.onAdd();
+	this.stats.add(url,url,'rss');
+	this.proceedIfClear();
 };
 
-HttpManager.onAdd = function() {
-	var i = HttpManager.getNextEmptySlot();
+HttpManager.proceedIfClear = function() {
+	var i = this.getNextEmptySlot();
 	if(i!==false) {
-		HttpManager.makeReq(i);
+		this.makeReq(i);
 	}
 };
 
 HttpManager.getNextEmptySlot = function() {
 	var i = this.slots.indexOf('empty');
 	return (i!==-1) ? i : false;
-};
-
-HttpManager.setNextEmptySlot = function() {
-	var i = this.slots.indexOf('full');
-	if(i===-1) { // this should never happen
-		displayMessage('error: no empty slots on response callback');
-	}
-	this.slots[i] = "empty";
 };
 
 HttpManager.setFullSlot = function(slot) {
@@ -128,8 +122,19 @@ HttpManager.setFullSlot = function(slot) {
 	this.slots[slot] = "full";
 };
 
+HttpManager.clearNextFullSlot = function() {
+	var i = this.slots.indexOf('full');
+	if(i===-1) { // this should never happen
+		displayMessage('error: no empty slots on response callback');
+	}
+	this.slots[i] = "empty";
+};
+
 HttpManager.makeReq = function(slot) {
-	var req = this.queue.next();
+	var req = this.queue.nextUriObj();
+	if(!req) {
+		return;
+	}
 	var args = req.params;
 	var type = args.type;
 	var url = args.url;
@@ -143,17 +148,25 @@ HttpManager.makeReq = function(slot) {
 	var allowCache = args.allowCache;
 	var that = this;
 	var callback = function(status,userParams,responseText,url,xhr) {
-		that.setNextEmptySlot();
+		that.clearNextFullSlot();
 		orig_callback.call(this,status,userParams,responseText,url,xhr);
+		that.proceedIfClear();
 	};
+	// 'move' the request from the queue to an empty slot
+	this.queue.remove(url);
 	this.setFullSlot(slot);
-	httpReq(type,url,callback,params,headers,data,contentType,username,password,allowCache);
-	this.queue.stats();
+	this.stats.logCall(url);
+	__httpReq(type,url,callback,params,headers,data,contentType,username,password,allowCache);
 };
 
-window.__httpReq = window.httpReq;
+HttpManager.showStats = function() {
+	this.stats.stats();
+};
+
+var __httpReq = window.httpReq;
 window.httpReq = function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
-	HttpManager.addRequest(arguments);
+	HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
+	HttpManager.showStats();
 };
 
 } //# end of 'install only once'
