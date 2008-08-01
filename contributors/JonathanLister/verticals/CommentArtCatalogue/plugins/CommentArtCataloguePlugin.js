@@ -147,6 +147,7 @@ config.macros.CommentArtCatalogue = {
 		store.resumeNotifications();
 		clearMessage();
 		displayMessage(macro.messages.createTiddler.format([pieces.length]));
+		wikify('[[Then download and save the images!|CommentArtCatalogueSave]]',context.place);
 	}
 };
 
@@ -156,7 +157,7 @@ config.macros.CommentArtCatalogueSave = {
 
 	handler: function(place,macroName,params) {
 		var ss = store.getTaggedTiddlers('catalogueItem');
-		var icon,normal,large,s;
+		var icon,normal,large,s,context;
 		var getHost = function(url) {
 			var i=0;
 			if(!url)
@@ -172,14 +173,14 @@ config.macros.CommentArtCatalogueSave = {
 		var host = getHost(config.options.txtCommentArtCatalogueUrl);
 		for(var i=0;i<ss.length;i++) {
 			s = ss[i];
+			context = {};
 			icon = store.getTiddlerSlice(s.title,'icon');
 			normal = store.getTiddlerSlice(s.title,'normal');
 			large = store.getTiddlerSlice(s.title,'large');
-			this.context.macro = this;
-			this.context.title = s.title;
-			this.context.icon = icon;
-			//console.log(host+icon);
-			httpReqBin("GET",host+icon,this.getIconCallback,this.context,null,null,null,null,null,true);
+			context.macro = this;
+			context.title = s.title;
+			context.icon = icon;
+			httpReqBin("GET",host+icon,this.getIconCallback,context,null,null,null,null,null,true);
 			//# debug
 			//break;
 		}
@@ -214,9 +215,11 @@ config.macros.CommentArtCatalogueSave = {
 		}
 		displayMessage("saving...");
 		//var fileSave = saveFile(savePath,convertUnicodeToUTF8(content));
+		//savePath = savePath.replace(/\//g,"_"); // not quite - don't replace the first few!
 		var fileSave = saveFile(savePath,content);
 		if(fileSave) {
 			displayMessage("saved... click here to load","file://"+savePath);
+			console.log("saved... click here to load","file://"+savePath);
 		} else {
 			alert(config.messages.fileFailed,"file://"+savePath);
 		}
