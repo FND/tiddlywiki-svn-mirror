@@ -116,8 +116,6 @@
 		return $return;
 	}
 	
-	
-	
 	function tiddler_outputFolder($dir, $cct_base) 
 	{	
 		$dir = $cct_base.$dir;
@@ -178,7 +176,7 @@
 			$server = dirname(getURL());
 		else
 			$server = getURL();
-		echo  "<div tiddler='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision=".$tiddler["revision"]." server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">".tiddler_bodyEncode($tiddler['body'])."</div>\n\r";	
+		echo  "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">\r\n<pre>".htmlspecialchars($tiddler['body'])."</pre>\r\n</div>\n\r";	
 		return;	
 	}
 	

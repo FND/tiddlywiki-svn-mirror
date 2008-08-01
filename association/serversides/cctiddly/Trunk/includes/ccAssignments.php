@@ -26,7 +26,7 @@ if ($tiddlyCfg['workspace_name'] == ""){
 
 ?>
 
-config.defaultCustomFields = {"server.host":window.url, "server.type":"ccTiddly", "server.workspace":window.workspace};
+config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};
 
 if (config.options.txtTheme == "")
 config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
@@ -108,7 +108,7 @@ var serverside={
 	loggedIn:<?php echo  $usr_val?user_session_validate():0;?>,
 };
 
-config.defaultCustomFields = {"server.host":window.url, "server.type":"ccTiddly", "server.workspace":window.workspace};
+config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};
 
 //  Change the options for advanced settings. 
 
