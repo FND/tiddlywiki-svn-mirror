@@ -4,6 +4,7 @@ import posixpath
 from BeautifulSoup import BeautifulSoup
 from tiddlyweb.tiddler import Tiddler
 from tiddlywiki import TiddlyWiki
+from utils import addTrailingSlash
 
 class dirScraper:
 	def __init__(self, host):
@@ -77,17 +78,4 @@ class dirScraper:
 		http = httplib2.Http()
 		reponse, content = http.request(url, method="GET")
 		return content
-
-def addTrailingSlash(path): # XXX: rename?
-	"""
-	add trailing slash to directory path if not present
-
-	@param path: directory path
-	@type  path: str
-	@return: directory path
-	@rtype : str
-	"""
-	if path[-1] != "/":
-		path = path + "/"
-	return path
 
