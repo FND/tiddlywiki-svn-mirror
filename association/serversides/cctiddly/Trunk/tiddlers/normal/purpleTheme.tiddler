@@ -53,11 +53,11 @@ smmLight3:#999;
 !PageTemplate
 <!--{{{-->
 	
-<div class='header'>
+	<div id='bodywrapper'>
+<div class='header' macro='gradient vert #ccc #eee'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 </div>
-<div id='bodywrapper'>
 <div id='sidebar'>
 <div id='sidebarOptions' refresh='content' tiddler='smmTheme##SideBarOptions'></div>
 </div>
@@ -97,19 +97,24 @@ width:auto;
 	width:7em;
 }
 
+#contentWrapper .sliderPanel .tabsetWrapper .tabContents {
+	border:1px dotted #999;
+	background-color:white;
+}
+
 
 .header {
 background-color:#eee;
 }
 
 body{
-	background: [[ColorPalette::smmDark1]];
+	background: #999;
 	// background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
 	// background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
 }
 
 #messageArea {
-	background-color:[[ColorPalette::smmDark2]];
+	background-color:#eee;
 }
 
 #messageArea .button{
@@ -121,7 +126,7 @@ body{
 }
 
 h1 {	
-	color:[[ColorPalette::smmLight2]];
+	color:black;
 }
 
 
@@ -130,11 +135,11 @@ h1 {
 	margin: 2.5em auto;
 	width:780px;
 	line-height: 1.6em;
-	border:1px solid black;
+	border:1px dotted black;
 	font-size: 11px;
 	font-family: Lucida Grande, Tahoma, Arial, Helvetica, sans-serif;
 	height:1%;
-	background-color:[[ColorPalette::smmDark2]];
+	background-color:#eee;
 }
 
 .clearAll{
@@ -162,7 +167,8 @@ h1 {
 	padding-top:15px;
 	font-size: 1.0em;
 	display:block; 
-	color: [[ColorPalette::smmLight3]]; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
+	color: #999; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
+	padding-top:3em;
 }
 
 #displayArea {
@@ -174,8 +180,8 @@ h1 {
 }
 
 .tabUnselected {
-	background:[[ColorPalette::smmDark2]] none repeat scroll 0%;
-	color:[[ColorPalette::smmLight3]];
+	background:#eee none repeat scroll 0%;
+	color:#999;
 }
 
 #sidebar{
@@ -185,22 +191,22 @@ h1 {
 }
 
 #tiddlerDisplay .tagging, #tiddlerDisplay .tagged{
-	background-color:[[ColorPalette::smmDark2]];
+	background-color:#eee;
 	border:none;
 	float:none;
 }
 
 .sliderPanel .tabsetWrapper .tabContents{
 	border-right:none;
-	border-color:[[ColorPalette::smmLight3]];
-	background-color:[[ColorPalette::smmDark1]];
+	border-color:#999;
+	background-color:#999;
 }
 
 #sidebarOptions .sliderPanel a{
 	padding:3px;
 	margin:0px;
 	border:2px;
-	background-color:[[ColorPalette::smmDark1]];
+	background-color:#999;
 }
 
 .tabsetWrapper{
@@ -209,7 +215,7 @@ h1 {
 
 #sidebar{
 	padding-left:0.5em;  
-	background-color:[[ColorPalette::smmDark2]];
+	background-color:#eee;
 	padding-top:1em;
 }
 
@@ -223,39 +229,38 @@ h1 {
 	padding:12px;
 }
 #tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a{
-	background-color:#eee;
-	color:[[ColorPalette::smmLight3]];
-	border:1px solid [[ColorPalette::smmDark1]];
+		border:1px dotted purple;
+	background-color:white;
+	color:purple;
 }
-
+#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover{
+	border:1px dotted black;
+}
 #sidebarOptions a {
 border-right:0px;
 }
 a:hover {
-	background-color:[[ColorPalette::smmDark2]];
+	background-color:#eee;
 	color:[[ColorPalette::smmLight1]]
 }
-#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover{
-	border:1px dotted #000;
-	background-color:[[ColorPalette::smmDark2]];
-	color:[[ColorPalette::smmLight2]];
-}
+
 
 #mainMenu a{
 	padding:4px;
 	margin:4px;
-	border:1px dotted [[ColorPalette::smmLight2]];
+	border:1px dotted black;
 }
 
 #contentWrapper #mainMenu{ 
 	left:290px;
 	position:static;
+	margin:12px 0 0 12px;
 }
 
 .editor textarea, .editor input, input, body select {
-	border:1px solid black;
-	background-color:#eee;
-	color:[[ColorPalette::smmLight3]];
+	border:1px dotted purple;
+	background-color:white;
+	color:#999;
 	padding:3px;
 	margin:3px;
 }
@@ -265,9 +270,9 @@ textarea {
 }
 
 #sidebarOptions input {
-	border:1px solid [[ColorPalette::smmLight3]];
+	border:1px dotted purple;
 	background-color:#00000;
-	width:10em;
+	width:12em;
 }
 
 #sidebarTabs {
@@ -277,7 +282,7 @@ textarea {
 
 #sidebarTabs .tabContents {
 	color:[[ColorPalette::smmLight1]];
-	background:[[ColorPalette::smmDark1]];
+	background:#999;
 }
 
 .tiddler .button {
@@ -305,19 +310,19 @@ textarea {
 }
 
 .subtitle, .subtitle a {
-	color: [[ColorPalette::smmLight3]];
+	color: #999;
 	font-size: 1em;margin:0.2em;
 	font-variant: small-caps;
 }
 
 .selected .toolbar a {
-	color:[[ColorPalette::smmLight3]];
+	color:#999;
 }
 
 .selected .toolbar a:hover {
-	color:[[ColorPalette::smmDark2]]; 
+	color:#eee; 
 	background:transparent;
-	border:1px solid #fff;
+	border:1px dotted #fff;
 }
 
 * html .viewer pre {
@@ -334,19 +339,19 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 }
 
 #sidebarOptions .sliderPanel a:hover, #topMenu a, #topMenu .button:hover {
-	color:[[ColorPalette::smmLight2]];
+	color:black;
 	background-color:transparent;
 }
 
 #topMenu a, #topMenu .button {
 	padding: 5px 15px;
 	margin:9px;
-	border:1px dotted [[ColorPalette::smmLight3]];
+	border:1px dotted #999;
 	font-weight:bold;
 	line-height:40px;
 	top:1em;
 	color:[[ColorPalette::smmLight1]];
-	background-color:[[ColorPalette::smmDark2]];
+	background-color:#eee;
 }
 
 #topMenu br {
@@ -354,16 +359,16 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 }
 
 #topMenu a:hover, #topMenu .button:hover {
-	background-color:[[ColorPalette::smmDark2]];
+	background-color:#eee;
 }
 
 .tagging, .tagged {
-	border: 1px solid [[ColorPalette::smmLight1]];
+	border: 1px dotted [[ColorPalette::smmLight1]];
 }
 
 .highlight, .marked {
 	background:transparent; 
-	color:[[ColorPalette::smmDark1]]; 
+	color:#999; 
 	border:none; 
 	text-decoration:underline;
 }
@@ -372,7 +377,7 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 	border: none; 
 	background:transparent; 
 	text-decoration:underline; 
-	color:[[ColorPalette::smmDark2]];
+	color:#eee;
 }
 
 .tiddler {
@@ -380,13 +385,13 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 }
 
 .viewer th, thead td {
-	background: [[ColorPalette::smmDark2]];
+	background: #eee;
 	border:none;	
 	color: #fff;
 }
 
 .viewer table {
-	border:1px dotted [[ColorPalette::smmDark2]];
+	border:1px dotted #eee;
 }
 
 table.twtable {
@@ -394,19 +399,31 @@ table.twtable {
 }
 
 .viewer pre {
-	border: 1px solid [[ColorPalette::smmLight3]];
+	border: 1px dotted #999;
 }
 
  
 .viewer hr {
-	border-top: dashed 1px [[ColorPalette::smmLight3]];
+	border-top: dashed 1px #999;
 }
 
-.tabSelected {
-	background:[[ColorPalette::smmDark1]] none repeat scroll 0%;
-	border:1px solid [[ColorPalette::smmDark1]];
-	border-bottom:1px solid black;
-	color:[[ColorPalette::smmLight3]];
+#sidebarOptions .sliderPanel .tabUnselected {
+	background:#eee none repeat scroll 0%;
+	border:1px dotted #999;
+	border-bottom:1px dotted black;
+	color:#999;
+	padding:2px;
+}
+
+
+#sidebarOptions .sliderPanel .tabSelected {
+	background:white none repeat scroll 0%;
+	padding:2px;
+	border:1px dotted #999;
+	border-bottom:1px dotted black;
+	color:#999;
+	border-bottom:2px dotted white;
+
 }
 
 .tabContents {
@@ -415,13 +432,13 @@ table.twtable {
 }
 
 .viewer code {
-background:#[[ColorPalette::smmDark2]] none repeat scroll 0%;
-color:[[ColorPalette::smmLight3]];
+background:##eee none repeat scroll 0%;
+color:#999;
 }
 
 
 h1,h2,h3,h4,h5 {
-	 color: #555; border-color:[[ColorPalette::smmDark3]]; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;
+	 color: #555; border-color:#333; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
@@ -437,33 +454,28 @@ h3 {
 }
 
 #contentFooter {
-	background:[[ColorPalette::smmLight3]]; 
+	background:#999; 
 	clear: both; 
 	padding: 0.5em 1em;
 }
 
-.wizard input {
-	border:1px solid #333;
-}
-#sidebarOptions input { 
-	border: 1px solid [[ColorPalette::smmDark2]];
-}
 
 .button, .wizard .button {
-	border:1px solid [[ColorPalette::smmLight3]];
+	border:1px dotted purple;
 	padding:3px 9px;
 	margin:3px 9px; 
-	background:[[ColorPalette::smmDark1]]; 
+	background:#eee; 
 }
 
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {
-	border:0px solid #666666;
+	border:0px dotted #666666;
 }
 
 body .wizardFooter { 
 	padding : 0em 0px 0px 5px; 
-	background:[[ColorPalette::smmDark2]]; 
-	font-weight:bold;}   
+	background:white; 
+	font-weight:bold;
+}
 
 .wizardStep {
 	border:none; 
@@ -473,11 +485,11 @@ body .wizardFooter {
 body .wizard {
 	width:80%;
 	padding:10px; 
-	border:1px solid #EBE6F5;
+	border:1px dotted #EBE6F5;
 }
 
 .wizard  th{
-	background:[[ColorPalette::smmDark2]];
+	background:white;
 	color:#888;
 	padding:3px;
 	margin:40px;
@@ -491,30 +503,30 @@ body .wizard {
 	padding : 4px 14px 4px 14px;
 	font-weight:bold;
 	color:#292929;
-	border:solid 1px #292929; 
+	border:dotted 1px #292929; 
 	margin-top:1px;
 }
 
 .viewer .wizard, body .wizard{
-	background:[[ColorPalette::smmDark2]];
+	background:white;
 	margin:2em;
 	border:0px;
-	border:1px dotted [[ColorPalette::purple]];
-	color:[[ColorPalette::smmLight3]];
+	border:1px dotted purple;
+	color:#999;
 }
 .wizard h1{
-	color:[[ColorPalette::smmLight3]];
+	color:#999;
 }
 
 .wizard h2{
-	color:[[ColorPalette::smmLight2]];
+	color:black;
 }
 
 body .wizardStep{
-	color:[[ColorPalette::smmLight3]];
+	color:#999;
 	border:0px;
 	margin:0m;
-	background:[[ColorPalette::smmDark2]];	
+	background:white;	
 }
 
 body select {
@@ -524,12 +536,12 @@ body select {
 }
 
 #backstagePanel {
-	background:[[ColorPalette::smmDark2]];
+	background:#eee;
 	width:60%;
 }
 
 #sidebar .sliderPanel {
-	background-color:[[ColorPalette::smmDark2]];
+	background-color:#eee;
 	font-size:1em;
 }
 
@@ -562,17 +574,18 @@ border:0px;
 
 .viewer th, .viewer thead td, .twtable th, .twtable thead td {
 	border:0px;
-	color:white;
+	background-color:white;
+	color:black;
 }
 
 .twtable th{
-	background-color:[[ColorPalette::smmDark3]];
+	background-color:#333;
 	padding:15px;
 	margin:15px;
 }
 
 table.sortable td.sortedCol {
-	background-color:[[ColorPalette::smmDark3]];
+	background-color:white;
 }
 
 /*}}}*/

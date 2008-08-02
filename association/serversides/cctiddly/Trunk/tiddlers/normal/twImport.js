@@ -1,24 +1,16 @@
 config.macros.packageImporter = {
 	
-	handler: function(place,macroName,params,wikifier,paramString,tiddler){
-		createTiddlyElement(place, "h1", null, null, "Import TiddlyWiki Package");
-		var s = createTiddlyElement(null,"select" ,null,null);
-		s.onchange = function() {config.macros.packageImporter.click(this)};
+	handler: function(place,macroName,params,wikifier,paramString,tiddler){	
 		var tagged = store.getTaggedTiddlers("systemPackage");
-		createTiddlyElement(s,"option" ,null,'please select', 'please select');
-
-		for(var t=0; t<tagged.length; t++)
-			createTiddlyElement(s,"option" ,null,tagged[t].title, tagged[t].title);
-		place.appendChild(s);
 		
-		var html = "<form><h2>Install Package</h2><br />";
+		var html = "<form>";
 		for(var t=0; t<tagged.length; t++){
 			html += "<input type=radio name='package' value='"+tagged[t].title+"' >"+tagged[t].title+"<br />";
 			html +=  store.getTiddlerSlice(tagged[t].title,'Description')+"<br /><br /";
-//			createTiddlyElement(place,"input" ,null,tagged[t].title, tagged[t].title, {type:'radio'});
-//			createTiddlyText(place, tagged[t].title);
 		}
-		place.innerHTML = html+"<input type=button value='add package'  onclick='config.macros.packageImporter.click(this)'/></form>";
+		var w = new Wizard();
+		w.createWizard(place,"Import Package");
+		w.addStep("Import Package from :", html+"<input type=button value='add package'  onclick='config.macros.packageImporter.click(this)'/></form>");
 	},
 	
 	fetchFile : function(location){
