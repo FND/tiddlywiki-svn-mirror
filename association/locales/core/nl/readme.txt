@@ -12,3 +12,6 @@ or download "TW224emptyNL.html" and create/import your own tiddlers in that empt
 Your feedback is very much welcomed at "tonsweb (at) xs4all (dot) nl".
 
 Ton van Rooijen
+
+P.S. "locale025.nl.js" is the language file for previous versions of TiddlyWiki,
+     from TW v2.2.0 up until TW v2.3.0
