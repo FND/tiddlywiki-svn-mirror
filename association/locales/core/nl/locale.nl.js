@@ -1,35 +1,42 @@
 ﻿/***
 |''Name:''|DutchTranslationPlugin|
-|''Description:''|Translation of TiddlyWiki translatable strings into Dutch|
+|''Description:''|Translation of TiddlyWiki translateable strings into Dutch|
 |''Author:''|Ton van Rooijen (tonsweb (at) xs4all (dot) nl)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/nl/locale.nl.js|
-|''Version:''|0.2.5|
-|''Date:''|July 11, 2007|
-|''Version history:''|This version is applicable to all TiddlyWikis as of version 2.2.0 until further notice.|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/nl/locale.nl.js|
+|''Version:''|0.2.6|
+|''Date:''|August 02, 2008|
+|''Version history:''|This version is applicable to all ~TiddlyWikis as of version 2.4.0 until further notice.|
 | June 20, 2007 v0.2.0: |First draft translation in Dutch based on Core-version 2.2 of "locale.en.js" (v0.3.3/v0.3.5).|
 | June 24, 2007 v0.2.1: |Workaround implemented for the translation problem as described in Ticket #217. Translations for shadow-tiddlers "GettingStarted" (HierBeginnen)  and "OptionsPanel" added for this translation.|
 | July 1, 2007 v0.2.2: |Translation of the year string YYYY in date-formats (in Dutch it should be JJJJ) doesn't work; so I had to undo that. Extra comments added with all date-strings. Several miscellaneous improvements and corrections applied.||
 | July 4, 2007 v0.2.3: |According to ISO 639-1 the language-identification code should be "nl" instead of "du". So I changed the config.locale and the filename of this file accordingly. TW version and Copyright in MainMenu. Misc. corrections.||
-| July 6, 2007 v0.2.4: |CoreVersion was mistakenly documented as "2.1.3" and so it was assumed to be applicable as of TW 2.1.3. Testing proved otherwise: applicability is only for all 2.2-versions. Synced with new "locale.en.js" (v0.3.6)||
+| July 6, 2007 v0.2.4: |~CoreVersion was mistakenly documented as "2.1.3" and so it was assumed to be applicable as of TW 2.1.3. Testing proved otherwise: applicability is only for all 2.2-versions. Synced with new "locale.en.js" (v0.3.6)||
 | July 11, 2007 v0.2.5: |The original translation of "backstage" changed from "redactiescherm" to "managementmenu" which better covers the functionality.||
+| August 02, 2008 v0.2.6: |tweak->opties; tiddler opslaan->bewaar (opslaan is alleen de complete TW); onbedoelde ~WikiWords in dit documentatieblok ge"~"ed; all 2.4.0-changes (from "locale.en.js" (v0.3.7).||
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev, or directly to the author.|
-|''Acknowledgements:''|Special thanks to "Lourens van Quadsk8.nl" who created the very first Dutch translation, back in midst 2005 for versions 2.0.n, parts of which were gratefully reused in here.|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.2|
+|''Acknowledgements:''|Special thanks to "Lourens van Quadsk8.nl" who created the very first Dutch translation, back in midst 2005 for versions 1.2 and up to 2.0, parts of which were gratefully reused in here.|
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''~CoreVersion:''|2.4|
 ***/
+
 //{{{
-//-- Translatable strings
+//--
+//-- Translateable strings
+//--
+
 //-- Strings in "double quotes" should be translated (except for "DD MMM YYYY"); strings in 'single quotes' should be left alone
+
 config.locale = "nl"; // W3C language tag
 
-if (config.options.txtUserName == 'YourName') // do not translate this line, but do translate the next line
+if (config.options.txtUserName == 'YourName') // do not translate this line, but do translate the next
         merge(config.options,{txtUserName: "JouwNaam"}); 
 
 merge(config.tasks,{
 	save: {text: "opslaan", tooltip: "Opslaan van alle wijzigingen in deze TiddlyWiki", action: saveChanges},
 	sync: {text: "sync", tooltip: "Synchroniseer wijzigingen met andere TiddlyWiki bestanden en servers", content: '<<sync>>'},
 	importTask: {text: "import", tooltip: "Importeer tiddlers en plugins uit andere TiddlyWiki bestanden en servers", content: '<<importTiddlers>>'},
-	tweak: {text: "tweak", tooltip: "Aanpassen van verschijning en gedrag van TiddlyWiki", content: '<<options>>'},
+	tweak: {text: "opties", tooltip: "Aanpassen van verschijning en gedrag van TiddlyWiki", content: '<<options>>'},
+	upgrade: {text: "upgrade", tooltip: "Bijwerken TiddlyWiki kernprogramma", content: '<<upgrade>>'},
 	plugins: {text: "plugins", tooltip: "Beheer de geïnstalleerde plugins", content: '<<plugins>>'}
 });
 
@@ -38,6 +45,7 @@ merge(config.optionsDesc,{
 	txtUserName: "Jouw naam voor het signeren van je wijzigingen",
 	chkRegExpSearch: "JavaScript expressies toestaan in zoekopdrachten",
 	chkCaseSensitiveSearch: "Hoofdlettergevoelig zoeken",
+	chkIncrementalSearch: "Zoeken per ingevoerd zoek-karakter",
 	chkAnimate: "Activeer animaties",
 	chkSaveBackups: "Bewaar een backup bij het opslaan van wijzigingen",
 	chkAutoSave: "Automatisch opslaan van wijzigingen",
@@ -86,12 +94,13 @@ merge(config.messages,{
 	confirmExit: "--------------------------------\n\nDeze TiddlyWiki bevat niet opgeslagen wijzigingen. Als je doorgaat gaan deze wijzigingen verloren\n\n--------------------------------",
 	saveInstructions: "Opslaan",
 	unsupportedTWFormat: "Niet ondersteund TiddlyWiki formaat '%0'",
-	tiddlerSaveError: "Fout bij het opslaan van tiddler '%0'",
+	tiddlerSaveError: "Fout bij het bewaren van tiddler '%0'",
 	tiddlerLoadError: "Fout bij het laden van tiddler '%0'",
 	wrongSaveFormat: "Opslaan met storage formaat '%0' kan niet. Standaard formaat wordt gebruikt.",
 	invalidFieldName: "Ongeldige veldnaam %0",
 	fieldCannotBeChanged: "Veld '%0' kan niet worden gewijzigd",
-	loadingMissingTiddler: "Bezig om tiddler '%0' op te halen van de '%1' server op:\n\n'%2' in werkruimte '%3'"});
+	loadingMissingTiddler: "Bezig om tiddler '%0' op te halen van de '%1' server op:\n\n'%2' in werkruimte '%3'",
+	upgradeDone: "Het bijwerken naar versie %0 is gelukt\n\nKlik 'OK' om de nieuwe bijgewerkte TiddlyWiki te herladen"});
 
 merge(config.messages.messageClose,{
 	text: "sluit",
@@ -174,7 +183,7 @@ merge(config.macros.tagging,{
 	tooltip: "Lijst van tiddlers gelabeld met '%0'"});
 
 merge(config.macros.timeline,{
-	dateFormat: "DD MMM YYYY"}); // use this to change the date format for your locale, eg "YYYY MMM DD", do not translate the Y, M or D
+	dateFormat: "DD MMM YYYY"});// use this to change the date format for your locale, eg "YYYY MMM DD", do not translate the Y, M or D
 
 merge(config.macros.allTags,{
 	tooltip: "Bekijk tiddlers gelabeld met '%0'",
@@ -222,7 +231,7 @@ merge(config.macros.options,{
 			{name: 'Name', field: 'name', title: "Naam", type: 'String'}
 			],
 		rowClasses: [
-			{className: 'lowlight', field: 'lowlight'} 
+			{className: 'lowlight', field: 'lowlight'}
 			]}
 	});
 
@@ -280,7 +289,8 @@ merge(config.macros.importTiddlers,{
 	cancelLabel: "annuleer",
 	cancelPrompt: "Annuleer deze import",
 	statusOpenWorkspace: "Bezig de werkruimte te openen",
-	statusGetTiddlerList: "Verkrijg de lijst van beschikbare tiddlers",
+	statusGetTiddlerList: "De lijst van beschikbare tiddlers ophalen",
+	errorGettingTiddlerList: "Fout bij het ophalen van de lijst van tiddlers, klik 'annuleer' en probeer opnieuw",
 	step3Title: "Stap 3: Kies de tiddlers die je wilt importeren",
 	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>Onthoud de link naar deze tiddlers zodat je ook toekomstige wijzigingen eenvoudig zult kunnen synchroniseren</input><br><input type='checkbox' name='chkSave'>Bewaar de details van deze server in een 'systemServer'-tiddler genaamd:</input> <input type='text' size=25 name='txtSaveTiddler'>",
 	importLabel: "import",
@@ -294,7 +304,7 @@ merge(config.macros.importTiddlers,{
 	statusDoneImport: "Alle tiddlers zijn geïmporteerd",
 	systemServerNamePattern: "%2 op %1",
 	systemServerNamePatternNoWorkspace: "%1",
-	confirmOverwriteSaveTiddler: "De tiddler '%0' bestaat al. Klik 'OK' om hem te overschrijven met de gegevens van deze server, of 'ANNULEER' om hem ongewijzigd te laten",
+	confirmOverwriteSaveTiddler: "De tiddler '%0' bestaat al. Klik 'OK' om hem te overschrijven met de gegevens van deze server, of 'annuleer' om hem ongewijzigd te laten",
 	serverSaveTemplate: "|''Typ:''|%0|\n|''URL:''|%1|\n|''Werkruimte:''|%2|\n\nDeze tiddler is automatisch aangemaakt om de gegevens van deze server vast te leggen",
 	serverSaveModifier: "(System)",
 	listViewTemplate: {
@@ -306,6 +316,34 @@ merge(config.macros.importTiddlers,{
 			],
 		rowClasses: [
 			]}
+	});
+
+merge(config.macros.upgrade,{
+	wizardTitle: "Bijwerken van het TiddlyWiki kernprogramma",
+	step1Title: "Deze TiddlyWiki bijwerken of repareren volgens de jongste versie",
+	step1Html: "Je staat op het punt om het TiddlyWiki kernprogramma bij te werken naar de jongste versie (vanaf <a href='%0' class='externalLink' target='_blank'>%1</a>). Tijdens het bijwerken zal je eigen TW-inhoud bewaard blijven.<br><br>Bedenk dat kernprogramma wijzigingen soms invloed hebben op oudere plugins. Als je problemen ondervindt met je bijgewerkte TiddlyWiki, kijk dan op <a href='http://www.tiddlywiki.org/wiki/CoreUpgrades' class='externalLink' target='_blank'>http://www.tiddlywiki.org/wiki/CoreUpgrades</a>",
+	errorCantUpgrade: "Deze TiddlyWiki kan niet worden bijgewerkt. Alleen lokaal opgeslagen TiddlyWiki bestanden kunnen worden bijgewerkt",
+	errorNotSaved: "Je moet je wijzigingen eerst opslaan voordat je het TiddlyWiki kernprogramma kunt bijwerken",
+	step2Title: "Bevestig de details van het bijwerken",
+	step2Html_downgrade: "Je staat op het punt om je TiddlyWiki versie %1 terug te zetten naar de oudere versie %0.<br><br>Terugzetten naar een oudere versie van het kernprogramma wordt ontraden",
+	step2Html_restore: "Deze TiddlyWiki maakt al gebruik van de jongste versie van het kernprogramma (%0).<br><br>Je kunt doorgaan met bijwerken om zeker te weten dat het kernprogramma niet is beschadigd",
+	step2Html_upgrade: "Je staat op het punt om je TiddlyWiki versie %1 bij te werken naar versie %0",
+	upgradeLabel: "bijwerken",
+	upgradePrompt: "Voorbereiden van het proces van bijwerken",
+	statusPreparingBackup: "Voorbereiding backup",
+	statusSavingBackup: "Backup bestand opslaan",
+	errorSavingBackup: "Er was een probleem bij het opslaan van het backup bestand",
+	statusLoadingCore: "Laden van het kernprogramma",
+	errorLoadingCore: "Fout bij het laden van het kernprogramma",
+	errorCoreFormat: "Fout in het nieuwe kernprogramma",
+	statusSavingCore: "Opslaan van het nieuwe kernprogramma",
+	statusReloadingCore: "Het nieuwe kernprogramma herladen",
+	startLabel: "start",
+	startPrompt: "Start het proces van bijwerken",
+	cancelLabel: "annuleer",
+	cancelPrompt: "Annuleer het proces van bijwerken",
+	step3Title: "Bijwerken geannuleerd",
+	step3Html: "Je hebt het proces van bijwerken geannuleerd"
 	});
 
 merge(config.macros.sync,{
@@ -332,17 +370,14 @@ merge(config.macros.sync,{
 	hasChanged: "Gewijzigd zonder verbinding",
 	hasNotChanged: "Ongewijzigd zonder verbinding",
 	syncStatusList: {
-		none: {text: "...", color: "geen"},
-		changedServer: {text: "Gewijzigd op de server", color: '#80ff80'},
-		changedLocally: {text: "Gewijzigd zonder verbinding", color: '#80ff80'},
-		changedBoth: {text: "Gewijzigd op de server zonder verbinding", color: '#ff8080'},
-		notFound: {text: "Niet gevonden op de server", color: '#ffff80'},
-		putToServer: {text: "Wijziging opgeslagen op de server", color: '#ff80ff'},
-		gotFromServer: {text: "Wijziging van de server opgehaald", color: '#80ffff'}
+		none: {text: "...", color: "transparant", display:null},
+		changedServer: {text: "Gewijzigd op de server", color: '#8080ff', display:null},
+		changedLocally: {text: "Gewijzigd zonder verbinding", color: '#80ff80', display:null},
+		changedBoth: {text: "Gewijzigd op de server zonder verbinding", color: '#ff8080', display:null},
+		notFound: {text: "Niet gevonden op de server", color: '#ffff80', display:null},
+		putToServer: {text: "Wijziging opgeslagen op de server", color: '#ff80ff', display:null},
+		gotFromServer: {text: "Wijziging van de server opgehaald", color: '#80ffff', display:null}
 		}
-	});
-
-merge(config.macros.annotations,{
 	});
 
 merge(config.commands.closeTiddler,{
@@ -360,8 +395,8 @@ merge(config.commands.editTiddler,{
 	readOnlyTooltip: "Bekijk de broncode van deze tiddler"});
 
 merge(config.commands.saveTiddler,{
-	text: "opslaan",
-	tooltip: "Sla de wijzigingen in deze tiddler op"});
+	text: "bewaar",
+	tooltip: "Bewaar de wijzigingen in deze tiddler"});
 
 merge(config.commands.cancelTiddler,{
 	text: "annuleer",
@@ -415,17 +450,15 @@ merge(config.commands.fields,{
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[HierBeginnen]]",
 	MainMenu: "[[HierBeginnen]]\n\n\n^^~TiddlyWiki versie <<version>>\n© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
+	HierBeginnen: "Om te beginnen met deze blanco TiddlyWiki, vul je hierachter je naam in, zodat vanaf dat moment al jouw wijzigingen daarmee zullen worden gesigneerd: <<option txtUserName>>\n\nVervolgens kun je de onderstaande tiddlers gaan aanpassen:\n* SiteTitle & SiteSubtitle: De naam en ondertitel van de site, zoals hierboven wordt weergegeven (na het bewaren, zullen ze ook in de titelbalk van de browser verschijnen)\n* MainMenu: Het hoofdmenu (gebruikelijk aan de linkerkant)\n* DefaultTiddlers: Bevat de namen van alle tiddlers die je wilt laten verschijnen zodra deze TiddlyWiki wordt geopend.\n\nNatuurlijk kun je bovenstaande tiddlers ook later nog steeds aanpassen.\n\nEn nu ben je klaar om je eigen inhoud aan deze website te gaan geven.\nKlik bijvoorbeeld maar eens in de rechter kolom op ''nieuwe tiddler'' en typ een eigen stukje tekst in het venster dat wordt geopend.\nKlik vervolgens op ''bewaar'' daar vlak boven, en kijk, je eerste hoofdstukje (tiddler) is gemaakt (compleet met jouw naam en de datum)!\n\nZo simpel is nou het werken met TiddlyWiki.",
 	SiteTitle: "Mijn TiddlyWiki",
 	SiteSubtitle: "een herbruikbaar niet lineair persoonlijk notitieboek voor het web",
 	SiteUrl: "http://www.tiddlywiki.com/",
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "TiddlyWiki instellingen" "Wijzig geavanceerde TiddlyWiki instellingen">>', // use this to change the date format for your locale, eg "YYYY MMM DD", do not translate the Y, M or D
-	SideBarTabs: '<<tabs txtMainTab "Op datum" "Tiddler chronologie" TabTimeline "Alle" "Alle tiddlers" TabAll "Labels" "Alle labels" TabTags "Meer" "Meer lijsten" TabMore>>',
-/***
-070624: Translations for the next 2 shadow-tiddlers were missing from the base English template. Added in here for the Dutch translation.
-***/
-	HierBeginnen: "Om te beginnen met deze blanco TiddlyWiki, vul je hierachter je naam in, zodat vanaf dat moment al jouw wijzigingen daarmee zullen worden gesigneerd: <<option txtUserName>>\n\nVervolgens kun je de onderstaande tiddlers gaan aanpassen:\n* SiteTitle & SiteSubtitle: De naam en ondertitel van de site, zoals hierboven wordt weergegeven (na het bewaren, zullen ze ook in de titelbalk van de browser verschijnen)\n* MainMenu: Het hoofdmenu (gebruikelijk aan de linkerkant)\n* DefaultTiddlers: Bevat de namen van alle tiddlers die je wilt laten verschijnen zodra deze TiddlyWiki wordt geopend.\n\nNatuurlijk kun je bovenstaande tiddlers ook later nog steeds aanpassen.\n\nEn nu ben je klaar om je eigen inhoud aan deze website te gaan geven.\nKlik bijvoorbeeld maar eens in de rechter kolom op ''nieuwe tiddler'' en typ een eigen stukje tekst in het venster dat wordt geopend.\nKlik vervolgens op ''opslaan'' daar vlak boven, en kijk, je eerste hoofdstukje (tiddler) is gemaakt (compleet met jouw naam en de datum)!\n\nZo simpel is nou het werken met TiddlyWiki.",
 	OptionsPanel: "Met deze ~TiddlyWiki Instellingen kun je je persoonlijke voorkeuren instellen, die door je browser worden onthouden in een cookie.\n\nGeef hier je gebruikersnaam op voor het signeren van jouw teksten en andere inhoud:\n<<option txtUserName>>\n<<option chkSaveBackups>> Bewaar backups\n<<option chkAutoSave>> Gebruik Autosave\n<<option chkRegExpSearch>> Zoek met ~JavaScript expressies\n<<option chkCaseSensitiveSearch>> Zoek hoofdlettergevoelig\n<<option chkAnimate>> Activeer animaties\n\nZie ook [[Geavanceerde opties|AdvancedOptions]]",
-	TabMore: '<<tabs txtMoreTab "Ontbrekend" "Ontbrekende tiddlers" TabMoreMissing "Wezen" "Tiddlers waar niets naar verwijst" TabMoreOrphans "Schaduw" "Schaduw-tiddlers" TabMoreShadowed>>'});
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY" "blog">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "TiddlyWiki instellingen \u00bb" "Wijzig geavanceerde TiddlyWiki instellingen">>', // use this to change the date format for your locale, eg "YYYY MMM DD", do not translate the Y, M or D
+	SideBarTabs: '<<tabs txtMainTab "Op datum" "Tiddler chronologie" TabTimeline "Alle" "Alle tiddlers" TabAll "Labels" "Alle labels" TabTags "Meer" "Meer lijsten" TabMore>>',
+	TabMore: '<<tabs txtMoreTab "Ontbrekend" "Ontbrekende tiddlers" TabMoreMissing "Wezen" "Tiddlers waar niets naar verwijst" TabMoreOrphans "Schaduw" "Schaduw-tiddlers" TabMoreShadowed>>'
+});
 
 merge(config.annotations,{
 	AdvancedOptions: "Deze schaduw-tiddler geeft toegang tot diverse geavanceerde TiddlyWiki opties",
@@ -438,7 +471,7 @@ merge(config.annotations,{
 	MarkupPreHead: "Deze tiddler wordt ingevoegd bovenaan de <head> sectie van het TiddlyWiki HTML bestand",
 	MarkupPostHead: "Deze tiddler wordt ingevoegd onderaan de <head> sectie van het TiddlyWiki HTML bestand",
 	MarkupPreBody: "Deze tiddler wordt ingevoegd bovenaan de <body> sectie van het TiddlyWiki HTML bestand",
-	MarkupPostBody: "Deze tiddler wordt ingevoegd onderaan de <body> sectie van het TiddlyWiki HTML bestand, onmiddellijk voor het script blok",
+	MarkupPostBody: "Deze tiddler wordt ingevoegd onderaan de <body> sectie van het TiddlyWiki HTML bestand, onmiddellijk na het script blok",
 	OptionsPanel: "Deze schaduw-tiddler wordt gebruikt voor de inhoud van het instellingen paneel in de rechter kolom op het scherm",
 	PageTemplate: "De HTML template in deze schaduw-tiddler bepaalt de algemene ~TiddlyWiki layout",
 	PluginManager: "Deze schaduw-tiddler geeft toegang tot de plugin manager",
@@ -447,10 +480,10 @@ merge(config.annotations,{
 	SiteSubtitle: "Deze schaduw-tiddler wordt gebruikt als een subdeel van de titel van je webpagina",
 	SiteTitle: "Deze schaduw-tiddler wordt gebruikt als het hoofddeel van de titel van je webpagina",
 	SiteUrl: "In deze schaduw-tiddler moet de volledige URL worden genoteerd waaronder deze TiddlyWiki wordt gepubliceerd",
-	StyleSheetColours: "Deze schaduw-tiddler bevat CSS definities met betrekking tot de kleur van pagina elementen",
-	StyleSheet: "Deze tiddler kan persoonlijke CSS definities bevatten",
-	StyleSheetLayout: "Deze schaduw-tiddler bevat CSS definities met betrekking tot de layout van pagina elementen",
-	StyleSheetLocale: "Deze schaduw-tiddler bevat CSS definities met betrekking tot localisatie",
+	StyleSheetColors: "Deze schaduw-tiddler bevat CSS definities met betrekking tot de kleur van pagina elementen. ''LAAT DEZE TIDDLER ONGEWIJZIGD'', en maak je kleuraanpassingen in de StyleSheet schaduw-tiddler.",
+	StyleSheet: "Deze tiddler kan persoonlijke CSS definities bevatten, bijv. m.b.t. kleur en layout",
+	StyleSheetLayout: "Deze schaduw-tiddler bevat CSS definities met betrekking tot de layout van pagina elementen. ''LAAT DEZE TIDDLER ONGEWIJZIGD'', en maak je layoutaanpassingen in de StyleSheet schaduw-tiddler.",
+	StyleSheetLocale: "Deze schaduw-tiddler bevat CSS definities met betrekking tot vertaling en localisatie",
 	StyleSheetPrint: "Deze schaduw-tiddler bevat CSS definities voor printen",
 	TabAll: "Deze schaduw-tiddler bevat de inhoud van de 'Alle'-tab in de rechter zijkolom",
 	TabMore: "Deze schaduw-tiddler bevat de inhoud van de 'Meer'-tab in de rechter zijkolom",
@@ -459,6 +492,7 @@ merge(config.annotations,{
 	TabMoreShadowed: "Deze schaduw-tiddler bevat de inhoud van de 'Schaduw'-tab in de rechter zijkolom",
 	TabTags: "Deze schaduw-tiddler bevat de inhoud van de 'Labels'-tab in de rechter zijkolom",
 	TabTimeline: "Deze schaduw-tiddler bevat de inhoud van de 'Op datum'-tab in de rechter zijkolom",
+	ToolbarCommands: "Deze schaduw-tiddler bepaalt welke opdrachten worden vermeld in tiddler commandoregels",
 	ViewTemplate: "De HTML template in deze schaduw-tiddler bepaalt hoe tiddlers er uit zien"
 	});
 
