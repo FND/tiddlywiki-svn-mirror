@@ -7,7 +7,7 @@ My translation plugin is self-contained, so no extra tiddlers needed.
 A complete ready to use Dutch empty TiddlyWiki v2.4.0 is provided too.
 
 So you can either download "locale.nl.js" and apply it to your own TW as a systemConfig-tagged tiddler
-or download "TW224emptyNL.html" and create/import your own tiddlers in that empty Dutch TW.
+or download "TW240emptyNL.html" and create/import your own tiddlers in that empty Dutch TW.
 
 Your feedback is very much welcomed at "tonsweb (at) xs4all (dot) nl".
 
