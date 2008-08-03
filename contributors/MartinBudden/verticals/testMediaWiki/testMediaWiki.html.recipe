@@ -8,8 +8,8 @@ tiddler: testMacro.js
 tiddler: Table.tiddler
 tiddler: TableEmpty.tiddler
 #tiddler: TestInfobox.tiddler
-tiddler: MediaWikiTemplatePlugin.js
-tiddler: MediaWikiFormatterPlugin.js
+//tiddler: MediaWikiTemplatePlugin.js
+//tiddler: MediaWikiFormatterPlugin.js
 tiddler: DownloadThisTiddlyWiki.tiddler
 tiddler: ../../testformatters/testMediaWikiBasic.tiddler
 tiddler: ../../testformatters/testMediaWikiFormat.tiddler
@@ -31,7 +31,8 @@ tiddler: ../../tiddlers/Logo.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
-#tiddler: ../../formatters/MediaWikiFormatterPlugin.js
+tiddler: ../../formatters/MediaWikiFormatterPluginT.js
+tiddler: ../../formatters/MediaWikiTemplatePlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
