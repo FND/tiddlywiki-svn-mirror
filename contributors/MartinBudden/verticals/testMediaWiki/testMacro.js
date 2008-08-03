@@ -3,7 +3,7 @@
 |''Description:''|macro to use for general testing|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/verticals\testGeneral/testMacro.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Date:''|July 31, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -263,6 +263,7 @@ config.macros.testMacro.testParserFunctions = function(title,params)
 
 };
 
+//tpTest = function(templateName,content,tag,expected)
 config.macros.testMacro.testBasic = function(title,params)
 {
 	tpTest('test','hello','{{test}}','hello');
@@ -273,6 +274,13 @@ config.macros.testMacro.testBasic = function(title,params)
 
 	tpTest('test','hello {{{1}}}','ABC{{test|world}}XYZ','ABChello worldXYZ');
 	tpTest('test','hello {{{1}}}','{{test}}','hello {{{1}}}');
+	tpTest('test','hello {{{param1|nobody}}}','{{test}}','hello nobody');
+	tpTest('test','hello {{{param1|nobody}}}','{{test|everybody}}','hello everybody');
+	tpTest('test','a:{{{param1|A}}} b:{{{param2|B}}}','{{test}}','a:A b:B');
+	tpTest('test','a:{{{param1|A}}} b:{{{param2|B}}}','{{test|param1=X}}','a:X b:B');
+	tpTest('test','a:{{{param1|A}}} b:{{{param2|B}}}','{{test|X}}','a:X b:B');
+	tpTest('test','a:{{{param1|A}}} b:{{{param2|B}}}','{{test||param2=Y}}','a: b:Y');
+	tpTest('test','a:{{{param1|A}}} b:{{{param2|B}}}','{{test||Y}}','a: b:Y');
 	tpTest('test','hello {{{param1|nobody}}}','{{test|param1=world}}','hello world');
 	tpTest('test','hello {{{param1|nobody}}}','{{test|param2=world}}','hello nobody');
 	tpTest('test','{{tc}} {{tc}}','{{test}}','in in');
@@ -299,6 +307,8 @@ config.macros.testMacro.testBasic = function(title,params)
 	var c = 'start-{{{1}}}-middle-{{{2}}}-end<noinclude>[[Category:Demo template]]</noinclude>';
 	tpTest('t2demo',c,'{{t2demo}}','start-{{{1}}}-middle-{{{2}}}-end');
 	tpTest('t2demo',c,'{{t2demo||a}}','start--middle-a-end');
+	tpTest('t2demo',c,'{{t2demo|1=|a}}','start-a-middle-{{{2}}}-end');//!! need to check this
+	tpTest('t2demo',c,'{{t2demo|1=|2=a}}','start--middle-a-end');
 	tpTest('t2demo',c,'{{t2demo|2=a}}','start-{{{1}}}-middle-a-end');
 };
 
