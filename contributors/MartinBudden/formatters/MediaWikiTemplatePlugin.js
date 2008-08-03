@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.1|
+|''Version:''|0.1.2|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -114,11 +114,12 @@ fnLog('getTemplateContent:'+name);
 
 MediaWikiTemplate.prototype.substituteParameters = function(text,params)
 {
-//#fnLog('substituteParameters:'+text);
+//#console.log('substituteParameters:'+text);
 //#console.log(params);
 	var t = '';
 	var pi = 0;
 	var bp = MediaWikiTemplate.findTBP(text,pi);
+	var paramIndex = 1;
 	while(bp.start!=-1) {
 //#console.log('bps:'+bp.start);
 		var name = text.substring(bp.start+3,bp.end);
@@ -139,6 +140,10 @@ MediaWikiTemplate.prototype.substituteParameters = function(text,params)
 		//params is [undefined,"param1=aaa"]
 		var val = params[name];
 		if(val===undefined) {
+			//# get parameter by position
+			val = params[paramIndex];
+		}
+		if(val===undefined) {
 			//# use default
 			val = def;
 		}
@@ -153,6 +158,7 @@ MediaWikiTemplate.prototype.substituteParameters = function(text,params)
 		t += text.substring(pi,bp.start) + this._transcludeTemplates(val);
 		pi = bp.end+3;
 		bp = MediaWikiTemplate.findTBP(text,pi);
+		paramIndex++;
 	}
 	t += text.substring(pi);
 //#fnLog('ret substituteParameters:'+t);
@@ -163,7 +169,7 @@ MediaWikiTemplate.prototype.expandTemplateContent = function(templateName,params
 //# Expand the template by dealing with <noinclude>, <includeonly> and substituting parameters with their values
 //# see http://meta.wikimedia.org/wiki/Help:Template
 {
-fnLog('expandTemplateContent:'+templateName);
+//#console.log('expandTemplateContent:'+templateName);
 	if(this.stack.indexOf(templateName)!=-1) {
 		this.error = true;
 		//return 'ERROR: template recursion detected';
@@ -175,7 +181,7 @@ fnLog('expandTemplateContent:'+templateName);
 //#console.log('tcontent:'+text);
 //#console.log(params);
 	text = this.substituteParameters(text,params);
-fnLog('ret expandTemplateContent'+text);
+//fnLog('ret expandTemplateContent'+text);
 	return text;
 };
 
@@ -273,7 +279,7 @@ fnLog('_splitTemplateNTag:'+ntag);
 
 MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 {
-//#fnLog('_expandTemplateNTag:'+ntag);
+//#console.log('_expandTemplateNTag:'+ntag);
 	var ret = this._expandVariable(ntag);
 	if(ret!==false) {
 		return ret;
@@ -298,17 +304,31 @@ MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 //#console.log('t:'+t);
 		var p = MediaWikiTemplate.findRawDelimiter('=',t,0);
 		if(p!=-1) {
-			var pnRegExp = /\s*([A-Za-z0-9\-]*)\s*=/mg;
+			var pnRegExp = /\s*([A-Za-z0-9\-]*)\s*=(.*)/mg;
 			pnRegExp.lastIndex = 0;
 			match = pnRegExp.exec(t);
 //#console.log(match);
 			if(match) {
 				var name = match[1];
+//#console.log('name:'+name);
+				var x = parseInt(name,10);
+				if(x!=NaN) {
+//#console.log('x:'+x);
+					n = x;
+					//t = t.substr(p+1);
+					t = match[2];
+//#console.log('t2:'+t);
+					p = -2;// do not increment parameter number
+				}
 			} else {
 				p = -1;
 			}
 		}
-		if(p==-1) {
+		if(p==-2) {
+			//# numbered parameter
+			params[String(n)] = t;
+//#console.log('params['+n+']:'+params[n]);
+		}else if(p==-1) {
 			//# numbered parameter
 			params[String(n)] = t;
 //#console.log('params['+n+']:'+params[n]);
@@ -328,7 +348,7 @@ MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 	//#if(eret!==false) {
 	//#	ret = eret;;
 	//#}
-fnLog('ret _expandTemplateNTag:'+ret);
+//#fnLog('ret _expandTemplateNTag:'+ret);
 	return ret;
 };
 
