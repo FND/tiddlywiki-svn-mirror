@@ -389,10 +389,13 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
 	
+console.log('px:'+xhr.status)	
+    context.status = false;
        if(status) {
-               context.status = true;
+			context.status = true;
        } else {
-			if(xhr.status==401)
+	   		context.status = false;
+			if(xhr.status == 401)
 			{
 					window.loggedIn = false; // we should check for other cases - revisions have changed. 
 					var a = document.getElementById('backstageCloak');
@@ -430,10 +433,10 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xh
 			}else{
                displayMessage('  xhr status is' + xhr.status);
                displayMessage('putTiddler xhr status text is' + xhr.statusText);
-               context.status = false;
                context.statusText = xhr.statusText;	
 			}
        }
+console.log('puttidlercallback:'+context.status)
        	if(context.callback){
 			context.callback(context,context.userParams);
 		}

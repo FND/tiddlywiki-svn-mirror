@@ -37,12 +37,11 @@ $ntiddler['tags'] = formatParametersPOST($_POST['tags']);
 $ntiddler['body'] =  formatParametersPOST($_POST['body']);
 $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
-$oldModified = formatParametersPOST($_POST['omodified']);
-
 $tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
-	debug("Fetch Original Tiddler  ", "steps");	
-	
-	debug("return : ".isset($tiddler['title'])." val = ".$tiddler['title']);
+
+debug("Fetch Original Tiddler  ", "steps");	
+debug("return : ".isset($tiddler['title'])." val = ".$tiddler['title']);
+
 if(isset($tiddler['title']))
 {
 	// Tiddler with the same 	name already exisits.
@@ -50,10 +49,10 @@ if(isset($tiddler['title']))
 	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);
 	debug("POST orev: ".$_POST['revision'], "params");
 	debug("db rev : ".$tiddler['revision'], "params");
-	
 	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
-		debug("RELOAD REQUIRED", "params");
-		returnResult("012");
+		debug("a reload is required", "params");
+		sendHeader(409);
+		exit;
 	}
 			//require edit privilege on new and old tags
 	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
@@ -61,9 +60,10 @@ if(isset($tiddler['title']))
 		$ntiddler['modified'] = $ntiddler['modified']; 
 		$ntiddler['creator'] = $otiddler['creator'];
 		$ntiddler['created'] = $otiddler['created'];
-		$ntiddler['revision'] = $otiddler['revision']+1;
+		if($otiddler['revision'] !==0)
+			$ntiddler['revision'] = $otiddler['revision']+1;
 		tiddler_update_new($otiddler['id'], $ntiddler);
-		returnResult( "002" );
+	//	returnResult( "002" );
 	}else{
 		returnResult( "020" );	
 	}

@@ -5849,7 +5849,8 @@ config.macros.sync.createSyncTask = function(syncItem)
 		onPutTiddler: function(context) {
 			var title = context.title;
 			var syncItem = st.syncItems.findByField("title",title);
-			if(syncItem !== null) {
+			console.log('puttidler:'+title+' st:'+context.status,syncItem);
+			if(context.status && syncItem !== null) {
 				syncItem = st.syncItems[syncItem];
 				store.resetTiddler(title);
 				syncItem.syncStatus = config.macros.sync.syncStatusList.putToServer;
