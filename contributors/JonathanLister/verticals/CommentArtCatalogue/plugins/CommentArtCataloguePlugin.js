@@ -19,6 +19,17 @@ Usage:
 if(!version.extensions.CommentArtCataloguePlugin) {
 version.extensions.CommentArtCataloguePlugin = {installed:true};
 
+config.macros.CommentArtCatalogue = {
+	init: function() {
+		//Http.register(window.httpReq,httpReqBin);
+	/* httpReqBin.intercept(function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
+	HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
+	HttpManager.showStats();
+}); */
+
+	}
+};
+
 config.macros.CommentArtCatalogueDownload = {
 
 	messages: {
@@ -281,7 +292,7 @@ config.macros.CommentArtCatalogueCompile = {
 	}
 };
 
-window.httpReqBin = function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
+var httpReqBin = function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
 	//# Get an xhr object
 	var x = null;
 	try {

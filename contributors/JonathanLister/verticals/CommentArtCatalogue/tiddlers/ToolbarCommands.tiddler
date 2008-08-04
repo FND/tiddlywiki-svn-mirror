@@ -1,0 +1,4 @@
+<div title="ToolbarCommands" modifier="JayFresh" created="200808041200">
+<pre>|~ViewToolbar|fullscreen closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|</pre>
+</div>
