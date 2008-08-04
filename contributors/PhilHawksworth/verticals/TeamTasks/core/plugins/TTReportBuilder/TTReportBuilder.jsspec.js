@@ -45,10 +45,6 @@ describe('TTReportBuilder : paramStringGetter', {
 			""
 		];
 
-		// assuming the use of store/story getTiddlerText. Mocked.
-		// getTiddlerText = function(tiddler) {
-		// 		return tiddlerText[tiddler];
-		// 	};
 	},
 
 	'it should return the paramString text from a tiddler when given the macro name' : function() {
@@ -94,9 +90,9 @@ describe('TTReportBuilder : macroCallSetter', {
 		];
 		expectedTiddlerText = [
 			[ // for tiddlerText ""
-				"<<dummyMacro>>",
-				"<<dummyMacro foo:blah baz:bop>>",
-				"<<dummyMacro foo:'blah' baz:'bop'>>"
+				"",
+				"",
+				""
 			],
 			[ // for tiddlerText "<<dummyMacro foo:bar baz:bop>>"
 				"<<dummyMacro>>",
@@ -122,6 +118,43 @@ describe('TTReportBuilder : macroCallSetter', {
 		delete newParamStrings;
 		delete expectedTiddlerText;
 	},
+	
+	
+	'it should not change the tiddler text if a macro name is not provided': function() {
+		funcToMock = 'TiddlyWiki.prototype.getTiddlerText';
+		tests_mock.before(funcToMock,function(tiddler){
+			return tiddlerText[tiddler];
+		});
+		var expected = tiddlerText[1];
+		config.macros.TTReportBuilder.macroCallSetter(1,null,newParamStrings[1]);
+		var actual = store.getTiddlerText(1);
+		value_of(actual).should_be(expected);
+		tests_mock.after(funcToMock);
+	},
+	
+	'it should not change the tiddler text if a tiddler name is not provided': function() {
+		funcToMock = 'TiddlyWiki.prototype.getTiddlerText';
+		tests_mock.before(funcToMock,function(tiddler){
+			return tiddlerText[tiddler];
+		});
+		var expected = tiddlerText[1];
+		config.macros.TTReportBuilder.macroCallSetter(null,"dummyMacro",newParamStrings[1]);
+		var actual = store.getTiddlerText(1);
+		value_of(actual).should_be(expected);
+		tests_mock.after(funcToMock);
+	},
+	
+	'it should not change the tiddler text if a new paramString is not provided': function() {
+		funcToMock = 'TiddlyWiki.prototype.getTiddlerText';
+		tests_mock.before(funcToMock,function(tiddler){
+			return tiddlerText[tiddler];
+		});
+		var expected = tiddlerText[1];
+		config.macros.TTReportBuilder.macroCallSetter(1,"dummyMacro",null);
+		var actual = store.getTiddlerText(1);
+		value_of(actual).should_be(expected);
+		tests_mock.after(funcToMock);
+	},
 
 	'it should change the paramString of the first macro call in a tiddler matching the supplied macro name': function() {
 		var expected, actual, funcToMock, paramString, title, resultTiddlerText;
@@ -131,10 +164,14 @@ describe('TTReportBuilder : macroCallSetter', {
 		tests_mock.before(funcToMock,function(oldTitle,newTitle,body){
 			resultTiddlerText = body;
 		});
+		funcToMock2 = 'TiddlyWiki.prototype.getTiddlerText';
+		tests_mock.before(funcToMock2,function(tiddler){
+			return tiddlerText[tiddler];
+		});
 		for(var i=0;i<tiddlerText.length;i++) {
 			title = ""+i;
 			for(var j=0;j<newParamStrings.length;j++) {
-				resultTiddlerText = null;
+				resultTiddlerText = tiddlerText[i];
 				config.macros.TTReportBuilder.macroCallSetter(title,macroName,newParamStrings[j]);
 				actual = resultTiddlerText;
 				expected = expectedTiddlerText[i][j];
@@ -142,22 +179,8 @@ describe('TTReportBuilder : macroCallSetter', {
 			}
 		}
 		tests_mock.after(funcToMock);
-	},
-	
-	'it should return false if a macro name is not provided': function() {
-		var actual = config.macros.TTReportBuilder.macroCallSetter("",null,"");
-		value_of(actual).should_be_false();
-	},
-	
-	'it should return false if a tiddler name is not provided': function() {
-		var actual = config.macros.TTReportBuilder.macroCallSetter(null,"","");
-		value_of(actual).should_be_false();
-	},
-	
-	'it should return false if a paramString is not provided': function() {
-		var actual = config.macros.TTReportBuilder.macroCallSetter("","");
-		value_of(actual).should_be_false();
-	},
+		tests_mock.after(funcToMock2);
+	}
 	
 });
 

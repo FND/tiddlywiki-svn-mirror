@@ -74,11 +74,11 @@ config.macros.LiveColorPalette.drawColorForm = function(place) {
 		createTiddlyElement(tr,"td",null,"label",s);
 		var td2 = createTiddlyElement(tr,"td");
 		var hex = store.getTiddlerSlice(tiddlerTitle, s);
-		var input = createTiddlyElement(td2,'input',null,null,null,{'type':'text','onClick':config.macros.LiveColorPalette.reflectColor});
-
+		var input = createTiddlyElement(td2,'input',null,null,null,{'type':'text','onKeyup':config.macros.LiveColorPalette.reflectColor});
+		
 		// var input = document.createElement("input");		
 		// input.setAttribute('type','text');
-		// input.setAttribute('onclick', config.macros.LiveColorPalette.reflectColor);	
+		// 		input.setAttribute('onclick', config.macros.LiveColorPalette.reflectColor);	
 		// input.value = hex;		
 		// td2.appendChild(input);
 		
@@ -89,7 +89,8 @@ config.macros.LiveColorPalette.drawColorForm = function(place) {
 
 
 // Show the hex value in the text bax as a color in th UI.
-config.macros.LiveColorPalette.reflectColor = function() {
+config.macros.LiveColorPalette.reflectColor = function(ev){
+	var e = ev ? ev : window.event;
 	
 	console.log("reflect");
 	
@@ -102,19 +103,28 @@ config.macros.LiveColorPalette.reflectColor = function() {
 };
 
 config.macros.LiveColorPalette.getColor = function(palette, n) {
-	
-	console.log("getColor - palette: ", palette, " slice: ",n);
-	
-	var slices = store.calcAllSlices(palette);
-	console.log("Slices: ", slices);
-	
 	var hex = store.getTiddlerSlice(palette, n);
-	console.log("hex: ", hex);
+	if(hex && hex!== undefined) {
+		return hex;
+	} else {
+		return null;
+	};
 };
 
 
-config.macros.LiveColorPalette.setColor = function(n,v) {
-	
+config.macros.LiveColorPalette.setColor = function(palette, n, v) {
+	var p = store.getTiddlerText(palette);
+	if(p){
+		// console.log(p);
+		var oldValue = config.macros.LiveColorPalette.getColor(palette,n);
+		
+		var re = /^.*(Background).*(#fff)/;
+		var newstr = p.replace(re, "$1: $2");
+		console.log(newstr);
+		
+	} else {
+		return null;
+	}
 };
 	
 } //# end of 'install only once'

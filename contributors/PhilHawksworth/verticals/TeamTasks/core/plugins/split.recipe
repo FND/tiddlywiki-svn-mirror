@@ -1,4 +1,4 @@
 tiddler: NewUserWizardPlugin.js
 tiddler: ValueSwitcherPlugin.js
-tiddler: TTReportViewPlugin.js
+tiddler: TTReportViewPlugin/TTReportViewPlugin.js
 tiddler: TTMigrateTasks0304Plugin.js
