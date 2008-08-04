@@ -29,7 +29,8 @@ var HttpManager = {
 	slots: [
 		"empty",
 		"empty"
-	]
+	],
+	count:0
 };
 
 HttpManager.addRequest = function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
@@ -53,7 +54,10 @@ HttpManager.addRequest = function(type,url,callback,params,headers,data,contentT
 HttpManager.proceedIfClear = function() {
 	var i = this.getNextEmptySlot();
 	if(i!==false) {
+		console.log('cleared to proceed! queue size: ',this.queue.count());
 		this.makeReq(i);
+	} else {
+		console.log('not clear to proceed! queue size: ',this.queue.count());
 	}
 };
 
@@ -63,48 +67,58 @@ HttpManager.getNextEmptySlot = function() {
 };
 
 HttpManager.setFullSlot = function(slot) {
-	if(this.slots[slot]!=='empty') { // this should never happen
-		displayMessage('error: slot that is empty should be full: '+slot);
+	if(this.slots[slot]!=='empty') { // this should never happen, unless maybe things have got out of order...
+		console.log('error: slot that is empty should be full: '+slot);
 	}
 	this.slots[slot] = "full";
 };
 
 HttpManager.clearNextFullSlot = function() {
 	var i = this.slots.indexOf('full');
-	if(i===-1) { // this should never happen
-		displayMessage('error: no empty slots on response callback');
+	if(i===-1) { // this should never happen, unless maybe things have got out of order...
+		console.log('error: no empty slots on response callback');
 	}
 	this.slots[i] = "empty";
 };
 
 HttpManager.makeReq = function(slot) {
-	var req = this.queue.nextUriObj();
-	if(!req) {
-		return;
+	try {
+		var req = this.queue.nextUriObj();
+		if(!req) {
+			console.log('nothing on the queue!',this.queue);
+			return;
+		} else {
+			console.log('queue position: ',this.queue.currentPosition);
+		}
+		var args = req.params;
+		var type = args.type;
+		var url = args.url;
+		var orig_callback = args.callback;
+		var params = args.params;
+		var headers = args.headers;
+		var data = args.data;
+		var contentType = args.contentType;
+		var username = args.username;
+		var password = args.password;
+		var allowCache = args.allowCache;
+		var that = this;
+		var callback = function(status,userParams,responseText,url,xhr) {
+			that.clearNextFullSlot();
+			that.stats.logResponse(url,xhr);
+			orig_callback.call(this,status,userParams,responseText,url,xhr);
+			console.log('proceeding with the next attempt, queue size: ',that.queue.count());
+			that.proceedIfClear();
+		};
+		// 'move' the request from the queue to an empty slot
+		this.queue.remove(url);
+		this.setFullSlot(slot);
+		this.stats.logCall(url);
+		this.count++;
+		console.log('making request number in makeReq: ',this.count);
+		this.origHttp(type,url,callback,params,headers,data,contentType,username,password,allowCache);
+	} catch (ex) {
+		console.log('exception in makeReq: ',ex);
 	}
-	var args = req.params;
-	var type = args.type;
-	var url = args.url;
-	var orig_callback = args.callback;
-	var params = args.params;
-	var headers = args.headers;
-	var data = args.data;
-	var contentType = args.contentType;
-	var username = args.username;
-	var password = args.password;
-	var allowCache = args.allowCache;
-	var that = this;
-	var callback = function(status,userParams,responseText,url,xhr) {
-		that.clearNextFullSlot();
-		that.stats.logResponse(url,xhr);
-		orig_callback.call(this,status,userParams,responseText,url,xhr);
-		that.proceedIfClear();
-	};
-	// 'move' the request from the queue to an empty slot
-	this.queue.remove(url);
-	this.setFullSlot(slot);
-	this.stats.logCall(url);
-	this.origHttp(type,url,callback,params,headers,data,contentType,username,password,allowCache);
 };
 
 HttpManager.showStats = function() {
@@ -118,7 +132,7 @@ HttpManager.setHttpReq = function(func) {
 
 HttpManager.setHttpReq(Http.intercept(window,'httpReq',function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
 	HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
-	//HttpManager.showStats();
+	HttpManager.showStats();
 }));
 
 FeedListManager.prototype.logResponse = function(uri,xhr) {
@@ -131,7 +145,7 @@ FeedListManager.prototype.logResponse = function(uri,xhr) {
 	now = now.convertToYYYYMMDDHHMMSSMMM();
 	u.lastResponse = now;
 	if(u.responseCount) { // done like this until responseCount made a part of FeedListManager
-		u.responseCount++
+		u.responseCount++;
 	} else {
 		u.responseCount = 1;
 	}

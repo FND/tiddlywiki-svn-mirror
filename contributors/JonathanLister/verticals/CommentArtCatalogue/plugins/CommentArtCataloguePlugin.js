@@ -137,12 +137,14 @@ config.macros.CommentArtCatalogueDownload = {
 		store.suspendNotifications();
 		for(var i=0;i<pieces.length;i++) {
 			piece = pieces[i];
-			title = piece.title;
+			title = piece.title; // BUG: tiddler titles can be the same and therefore get overwritten e.g.
+			// creating tiddler number  349 Yuki Snow,a girl,oil and acrylic,2007
+			// creating tiddler number 350 Yuki Snow,a girl,oil and acrylic,2007
 			body = "";
 			for(var j in piece.links) {
 				body+=j+": "+piece.links[j]+"\n";
 			}
-			
+			console.log('creating tiddler number ',i+1,title);
 			store.saveTiddler(title,title,body,modifier,null,tags,fields,false,created);
 		}
 		store.resumeNotifications();
@@ -166,6 +168,7 @@ config.macros.CommentArtCatalogueSaveFiles = {
 		var icon,normal,large,s,context;
 		this.context.place = place;
 		this.context.count = ss.length;
+		console.log('going to download '+ss.length+' pictures');
 		var getHost = function(url) {
 			var i=0;
 			if(!url)
@@ -182,7 +185,7 @@ config.macros.CommentArtCatalogueSaveFiles = {
 		HttpManager.setHttpReq(httpReqBin);
 		Http.intercept(window,'httpReq',function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
 			HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
-			HttpManager.showStats();
+			//HttpManager.showStats();
 		});
 		for(var i=0;i<ss.length;i++) {
 			s = ss[i];
@@ -194,6 +197,7 @@ config.macros.CommentArtCatalogueSaveFiles = {
 			params.title = s.title;
 			params.icon = icon;
 			params.tiddler = s;
+			console.log('passing request number in handler: ',i+1);
 			httpReq("GET",host+icon,this.getImageCallback,params,null,null,null,null,null,true);
 			//# debug
 			//break;
