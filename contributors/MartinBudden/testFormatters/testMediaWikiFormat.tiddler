@@ -1,14 +1,14 @@
 <div title="testMediaWikiFormatter" modifier="MartinBudden" created="200610020000" tags="test" wikiformat="mediawiki">
 <pre>'''bold'''
 ''italic''
-&lt;b&gt;bold&lt;/b&gt;
-&lt;sub&gt;subscript&lt;/sub&gt;
-&lt;sup&gt;superscript&lt;/sup&gt;
-&lt;u&gt;underline&lt;/u&gt;
-&lt;s&gt;strikethrough&lt;/s&gt;
-&lt;code&gt;code&lt;/code&gt;
+<b>bold</b>
+<sub>subscript</sub>
+<sup>superscript</sup>
+<u>underline</u>
+<s>strikethrough</s>
+<code>code</code>
 
-'''bold''' ''italic'' &lt;b&gt;bold&lt;/b&gt; &lt;sub&gt;subscript&lt;/sub&gt; &lt;sup&gt;superscript&lt;/sup&gt; &lt;u&gt;underline&lt;/u&gt; &lt;s&gt;strikethrough&lt;/s&gt; &lt;code&gt;code&lt;/code&gt;
+'''bold''' ''italic'' <b>bold</b> <sub>subscript</sub> <sup>superscript</sup> <u>underline</u> <s>strikethrough</s> <code>code</code>
 
 
 * You can even create mixed lists
@@ -22,10 +22,10 @@
 *#*:* b
 *#*:* c
 
-&lt;blockquote&gt;
+<blockquote>
 a block to
 quote
-&lt;/blockquote&gt;
+</blockquote>
 
 =H1=
 == H2==
