@@ -1,0 +1,28 @@
+
+#
+# Core tiddlywiki
+#
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+
+#
+# latest jQuery library
+#
+js: $TW_ROOT/contributors/PhilHawksworth/experimental/jigglywiki/js/jquery-1.2.6.pack.js
+
+
+#
+# replacing js content
+#
+js: js/main.js
+js: js/TiddlyWiki.js
+js: js/LoaderSaver.js
+js: js/TW21Loader.js
+js: js/TW21Saver.js
+
+
+
+#
+# tiddlers for inclusion in main content (store)
+#
+recipe: $TW_ROOT/contributors/PhilHawksworth/experimental/jigglywiki/tiddlers/tiddlers.recipe
