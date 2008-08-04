@@ -19,17 +19,6 @@ Usage:
 if(!version.extensions.CommentArtCataloguePlugin) {
 version.extensions.CommentArtCataloguePlugin = {installed:true};
 
-config.macros.CommentArtCatalogue = {
-	init: function() {
-		//Http.register(window.httpReq,httpReqBin);
-	/* httpReqBin.intercept(function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
-	HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
-	HttpManager.showStats();
-}); */
-
-	}
-};
-
 config.macros.CommentArtCatalogueDownload = {
 
 	messages: {
@@ -190,6 +179,11 @@ config.macros.CommentArtCatalogueSaveFiles = {
 			return url;
 		};
 		var host = getHost(config.options.txtCommentArtCatalogueUrl);
+		HttpManager.setHttpReq(httpReqBin);
+		Http.intercept(window,'httpReq',function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
+			HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
+			HttpManager.showStats();
+		});
 		for(var i=0;i<ss.length;i++) {
 			s = ss[i];
 			params = {};
@@ -200,7 +194,7 @@ config.macros.CommentArtCatalogueSaveFiles = {
 			params.title = s.title;
 			params.icon = icon;
 			params.tiddler = s;
-			httpReqBin("GET",host+icon,this.getImageCallback,params,null,null,null,null,null,true);
+			httpReq("GET",host+icon,this.getImageCallback,params,null,null,null,null,null,true);
 			//# debug
 			//break;
 		}
@@ -246,6 +240,8 @@ config.macros.CommentArtCatalogueSaveFiles = {
 		}
 		if(!this.context.count) {
 			this.complete();
+		} else {
+			console.log('not finished counting: ',this.context.count);
 		}
 	},
 	
@@ -292,7 +288,7 @@ config.macros.CommentArtCatalogueCompile = {
 	}
 };
 
-var httpReqBin = function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
+window.httpReqBin = function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
 	//# Get an xhr object
 	var x = null;
 	try {

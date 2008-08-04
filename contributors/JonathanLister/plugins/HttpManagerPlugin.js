@@ -96,6 +96,7 @@ HttpManager.makeReq = function(slot) {
 	var that = this;
 	var callback = function(status,userParams,responseText,url,xhr) {
 		that.clearNextFullSlot();
+		that.stats.logResponse(url,xhr);
 		orig_callback.call(this,status,userParams,responseText,url,xhr);
 		that.proceedIfClear();
 	};
@@ -103,17 +104,45 @@ HttpManager.makeReq = function(slot) {
 	this.queue.remove(url);
 	this.setFullSlot(slot);
 	this.stats.logCall(url);
-	__httpReq(type,url,callback,params,headers,data,contentType,username,password,allowCache);
+	this.origHttp(type,url,callback,params,headers,data,contentType,username,password,allowCache);
 };
 
 HttpManager.showStats = function() {
-	this.stats.stats();
+	//this.stats.stats();
+	console.log(this.stats);
 };
 
-var __httpReq = window.httpReq.intercept(function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
+HttpManager.setHttpReq = function(func) {
+	this.origHttp = func;
+};
+
+HttpManager.setHttpReq(Http.intercept(window,'httpReq',function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
 	HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
-	HttpManager.showStats();
-});
+	//HttpManager.showStats();
+}));
+
+FeedListManager.prototype.logResponse = function(uri,xhr) {
+	var p = this.registered(uri);
+	if(p == null) {
+		return;
+	}
+	var u = this.uris[p];
+	var now = new Date();
+	now = now.convertToYYYYMMDDHHMMSSMMM();
+	u.lastResponse = now;
+	if(u.responseCount) { // done like this until responseCount made a part of FeedListManager
+		u.responseCount++
+	} else {
+		u.responseCount = 1;
+	}
+	if(xhr.responseText) {
+		if(u.bytesDownloaded) {
+			u.bytesDownloaded += xhr.responseText.length;
+		} else {
+			u.bytesDownloaded = xhr.responseText.length;
+		}
+	}
+};
 
 } //# end of 'install only once'
 //}}}

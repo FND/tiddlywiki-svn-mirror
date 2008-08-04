@@ -15,7 +15,7 @@
 if(!version.extensions.ProgressIndicatorPlugin) {
 version.extensions.ProgressIndicatorPlugin = {installed:true};
 
-window.httpReq.extend({
+Http.extend(window.httpReq,{
 	updateProgressIndicator: function(position,totalSize,direction) {
 		if(!direction) {
 			direction = "downloading";

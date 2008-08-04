@@ -14,6 +14,8 @@
 if(!version.extensions.ExtendableHttpReqPlugin) {
 version.extensions.ExtendableHttpReqPlugin = {installed:true};
 
+window.Http = {};
+
 window.httpReq = function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
 	//# Get an xhr object
 	var x = null;
@@ -69,28 +71,36 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 	} catch(ex) {
 		return exceptionText(ex);
 	}
-	return x;	
+	return x;
 };
 
-window.httpReq.extend = function(extensions) {
-	var ext = window.httpReq.extensions;
+Http.extend = function(obj,extensions) {
+	var ext = obj.extensions;
 	if(!ext) {
-		ext = window.httpReq.extensions = {};
+		ext = obj.extensions = {};
 	}
 	for(var i in extensions) {
 		ext[i] = extensions[i];
 	}
 };
 
-window.httpReq.intercept = function(func) {
-	var orig = eval(window.httpReq.toString());
-	var tempObj = function() {
-		func.apply(this,arguments);
-	};
-	for(var i in window.httpReq) {
-		tempObj[i] = window.httpReq[i];
+Http.register = function(obj,func) {
+	for(var i in obj) {
+		func[i] = obj[i];
 	}
-	window.httpReq = tempObj;
+};
+
+Http.intercept = function(obj,method,preFunc) {
+	if(!obj) {
+		obj = window;
+	}
+	var old = obj[method];
+	var orig = eval(old.toString());
+	var tempObj = function() {
+		preFunc.apply(this,arguments);
+	};
+	Http.register(old,tempObj);
+	obj[method] = tempObj;
 	return orig;
 };
 
