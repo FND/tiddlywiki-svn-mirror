@@ -4,6 +4,7 @@ import posixpath
 from BeautifulSoup import BeautifulSoup
 from tiddlyweb.tiddler import Tiddler
 from tiddlywiki import TiddlyWiki
+from tiddlywiki import getSlices
 from utils import addTrailingSlash
 
 class dirScraper:
@@ -56,8 +57,8 @@ class dirScraper:
 		@rtype : bool
 		"""
 		from utils import normalizeURI
-		#slices = TiddlyWiki.getSlices(text) # XXX: does not work - needs Tiddler.getSlices()
-		if False: #slices.has_key("Source"): # DEBUG'd
+		slices = getSlices(text)
+		if slices.has_key("Source"):
 			source = normalizeURI(slices["Source"])
 			if normalizeURI(self.host) in source:
 				return True

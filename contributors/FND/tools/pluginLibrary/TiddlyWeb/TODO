@@ -31,7 +31,11 @@
 ** navigation menu
 ** tag cloud (list loaded from server)
 ** recent changes
-* save selection (=> story to store)
+* logic on retaining and re-displayng search results (tiddlers)
+* results handling (toolbar commands)
+** dismiss
+** shelve
+** save
 * on-demand loading
 * community features
 ** user tagging

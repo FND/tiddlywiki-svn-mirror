@@ -94,7 +94,7 @@ def getPlugins(repo):
 			#tiddler.tags = _tag_string_to_list(tiddler["tags"]) # DEBUG'd; function not available in this context
 			store = Store("text")
 			store.put(plugin)
-		return True #tiddler.tags = _tag_string_to_list(tiddler["tags"]) # DEBUG'd; function not available in this context
+		return True
 	else:
 		pass # DEBUG: TBD
 

@@ -13,6 +13,24 @@ def unescapeLineBreaks(text):
 	"""
 	return text.replace("\\n", "\n").replace("\\b", " ").replace("\\s", "\\").replace("\r", "")
 
+def getSlices(self, text): # XXX: should be in Tiddler class
+	"""
+	retrieve plugin meta-slices
+
+	@param text: tiddler text
+	@type  text: str
+	"""
+	pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)"; # RegEx origin: TiddlyWiki core
+	pattern = re.compile(pattern, re.M + re.I)
+	matches = re.findall(pattern, text)
+	slices = dict()
+	for match in matches:
+		if match[1]: # colon notation
+			slices[match[1].capitalize()] = match[2]
+		else: # table notation
+			slices[match[4].capitalize()] = match[5];
+	return slices
+
 class TiddlyWiki:
 	"""
 	utility functions for processing TiddlyWiki documents
@@ -59,29 +77,11 @@ class TiddlyWiki:
 		from utils import normalizeURI
 		repo = normalizeURI(repo)
 		for plugin in self.store.findChildren("div", title=True):
-			slices = self.getSlices(plugin.pre.renderContents())
+			slices = getSlices(plugin.pre.renderContents())
 			if slices.has_key("Source"): # N.B.: plugin accepted if Source slice not present -- XXX: harmful? (e.g. includes simple config tweaks)
 				source = normalizeURI(slices["Source"])
 				if source != repo:
 					plugin.extract()
-
-	def getSlices(self, text):
-		"""
-		retrieve plugin meta-slices
-
-		@param text: tiddler text
-		@type  text: str
-		"""
-		pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)"; # RegEx origin: TiddlyWiki core
-		pattern = re.compile(pattern, re.M + re.I)
-		matches = re.findall(pattern, text)
-		slices = dict()
-		for match in matches:
-			if match[1]: # colon notation
-				slices[match[1].capitalize()] = match[2]
-			else: # table notation
-				slices[match[4].capitalize()] = match[5];
-		return slices
 
 	def getVersion(self):
 		"""
