@@ -1,14 +1,9 @@
-<div title="purpleTheme" modifier="SaqImtiaz" modified="200708091500" tags="systemTheme excludeSearch">
-<pre>|''Name:''|smmTheme|
-|''Description:''|A theme with lots of white space and a clean and elegant presentation|
-|''Author:''|Saq Imtiaz|
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/BleachTheme.tiddler |
-|''Version:''|1.0|
-|''Date:''|Aug 9, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+<div title="purpleTheme" modifier="SimonMcManus" modified="200708091500" tags="systemTheme excludeSearch">
+<pre>|''Name:''|purpleTheme|
+|''Description:''|A theme with lots of white space and a clean and elegant purple presentation|
+|''Author:''|Saq Imtiaz and Simon McManus|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.3.0|
-|''~ColorPalette:''|##ColorPalette|
+|''~CoreVersion:''|2.4.1|
 |''~PageTemplate:''|##PageTemplate|
 |''~OptionsPanel:''|##OptionsPanel|
 |''~tabs:''|##tabs|
@@ -21,33 +16,6 @@
 |''~ViewTemplate:''|##ViewTemplate|
 |''~simpleViewTemplate:''|##simpleViewTemplate|
 ***/
-
-
-!ColorPalette 
-<!--{{{-->
-Background:#111
-Foreground: #CECECE
-PrimaryPale: #222
-PrimaryLight: pink
-PrimaryMid: #eee
-PrimaryDark: #CECECE
-SecondaryPale: #222
-SecondaryLight: #222
-SecondaryMid: #333
-SecondaryDark: red
-TertiaryPale: #333
-TertiaryLight: white
-TertiaryMid: #222
-TertiaryDark: #eee
-Error: #f88
-smmDark1:#111
-purple:green
-smmDark2:#222
-smmDark3:#333
-smmLight1:#eee
-smmLight2:white
-smmLight3:#999;
-<!---}}}-->
 
 
 !PageTemplate
@@ -232,7 +200,25 @@ h1 {
 }
 .popup li a {
 	padding:12px;
+color:black;
 }
+
+.popup {
+	background-color:white;
+	border:1px solid purple;
+}
+.popup li a:hover {
+background-color:white;
+color:purple;
+}
+
+.popup li {
+	background-color:#eee;
+}
+.popup li:hover {
+	background-color:white;
+}
+
 #tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a{
 		border:1px solid white;
 	background-color:white;
@@ -404,6 +390,7 @@ table.twtable {
 }
 
 .viewer pre {
+	background-color:white;
 	border: 1px dotted #999;
 }
 
@@ -480,7 +467,7 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 }
 
 body .wizardFooter { 
-	padding : 0em 0px 0px 5px; 
+	padding : 5px; 
 	background:white; 
 	font-weight:bold;
 }
@@ -571,7 +558,7 @@ body select {
 
 
 .title {
-	color:#C0C0C0;
+	color:#777;
 	padding:10px;
 }
 

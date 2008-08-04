@@ -1,14 +1,8 @@
-<div title="simpleTheme" modifier="SaqImtiaz" modified="200708091500" tags="systemTheme excludeSearch">
-<pre>|''Name:''|smmTheme|
-|''Description:''|A theme with lots of white space and a clean and elegant presentation|
-|''Author:''|Saq Imtiaz|
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/BleachTheme.tiddler |
-|''Version:''|1.0|
-|''Date:''|Aug 9, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+<div title="simpleTheme" modifier="SimonMcManus" modified="200708091500" tags="systemTheme excludeSearch">
+<pre>|''Name:''|simpleTheme|
+|''Author:''|Saq Imtiaz and Simon McManus|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.3.0|
-|''~ColorPalette:''|##ColorPalette|
+|''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
 |''~OptionsPanel:''|##OptionsPanel|
 |''~tabs:''|##tabs|
@@ -21,34 +15,6 @@
 |''~ViewTemplate:''|##ViewTemplate|
 |''~simpleViewTemplate:''|##simpleViewTemplate|
 ***/
-
-
-!ColorPalette 
-<!--{{{-->
-Background:#111
-Foreground: #CECECE
-PrimaryPale: #222
-PrimaryLight: pink
-PrimaryMid: #eee
-PrimaryDark: #CECECE
-SecondaryPale: #222
-SecondaryLight: #222
-SecondaryMid: #333
-SecondaryDark: red
-TertiaryPale: #333
-TertiaryLight: white
-TertiaryMid: #222
-TertiaryDark: #eee
-Error: #f88
-SecondaryLight:#111
-smmHigh:green
-SecondaryMid:#222
-SecondaryDark:#333
-PrimaryLight:#eee
-PrimaryMid:white
-PrimaryDark:#999;
-<!---}}}-->
-
 
 !PageTemplate
 <!--{{{-->

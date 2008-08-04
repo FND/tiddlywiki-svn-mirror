@@ -1,14 +1,9 @@
-<div title="smmTheme" modifier="SaqImtiaz" modified="200708091500" tags="systemTheme excludeSearch">
+<div title="smmTheme" modifier="Simon McManus" modified="200708091500" tags="systemTheme excludeSearch">
 <pre>|''Name:''|smmTheme|
-|''Description:''|A theme with lots of white space and a clean and elegant presentation|
-|''Author:''|Saq Imtiaz|
+|''Author:''|Saq Imtiaz and Simon McManus|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/BleachTheme.tiddler |
-|''Version:''|1.0|
-|''Date:''|Aug 9, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.3.0|
-|''~ColorPalette:''|##ColorPalette|
+|''~CoreVersion:''|2.4.1|
 |''~PageTemplate:''|##PageTemplate|
 |''~OptionsPanel:''|##OptionsPanel|
 |''~tabs:''|##tabs|
@@ -23,36 +18,9 @@
 ***/
 
 
-!ColorPalette 
-<!--{{{-->
-Background:#111
-Foreground: #CECECE
-PrimaryPale: #222
-PrimaryLight: pink
-PrimaryMid: #eee
-PrimaryDark: #CECECE
-SecondaryPale: #222
-SecondaryLight: #222
-SecondaryMid: #333
-SecondaryDark: red
-TertiaryPale: #333
-TertiaryLight: white
-TertiaryMid: #222
-TertiaryDark: #eee
-Error: #f88
-smmDark1:#111
-smmHigh:green
-smmDark2:#222
-smmDark3:#333
-smmLight1:#eee
-smmLight2:white
-smmLight3:#999;
-<!---}}}-->
-
 
 !PageTemplate
 <!--{{{-->
-	
 <div class='header' macro='gradient vert #111 #222'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
