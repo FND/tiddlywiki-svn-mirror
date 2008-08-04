@@ -13,7 +13,7 @@ def unescapeLineBreaks(text):
 	"""
 	return text.replace("\\n", "\n").replace("\\b", " ").replace("\\s", "\\").replace("\r", "")
 
-def getSlices(self, text): # XXX: should be in Tiddler class
+def getSlices(text): # XXX: should be in Tiddler class
 	"""
 	retrieve plugin meta-slices
 
