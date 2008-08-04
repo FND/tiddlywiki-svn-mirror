@@ -1,6 +1,6 @@
 /***
 |''Name:''|ExtendableHttpReqPlugin|
-|''Description:''|Adds a hook for customizing the behaviour of httpReq|
+|''Description:''|Adds hooks for customizing the behaviour of httpReq|
 |''Author''|JonathanLister|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/ExtendableHttpReqPlugin.js |
 |''Version:''|0.4|

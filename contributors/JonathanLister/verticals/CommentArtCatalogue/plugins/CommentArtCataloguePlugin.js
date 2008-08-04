@@ -19,7 +19,7 @@ Usage:
 if(!version.extensions.CommentArtCataloguePlugin) {
 version.extensions.CommentArtCataloguePlugin = {installed:true};
 
-config.macros.CommentArtCatalogue = {
+config.macros.CommentArtCatalogueDownload = {
 
 	messages: {
 		noUrl:'no url set',
@@ -118,6 +118,7 @@ config.macros.CommentArtCatalogue = {
 			description = s.replace(/^(.|\n)*?<h3 class="pthtrei">/,'<h3 class="pthtrei">');
 			result.description = description;
 			title = description;
+			title = title.renderHtmlText();
 			title = title.replace(/<.*?>/g,"");
 			title = title.replace(/\s\s+/g,",");
 			title = title.replace(/,\s*$/,"");
@@ -147,17 +148,24 @@ config.macros.CommentArtCatalogue = {
 		store.resumeNotifications();
 		clearMessage();
 		displayMessage(macro.messages.createTiddler.format([pieces.length]));
-		wikify('[[Then download and save the images!|CommentArtCatalogueSave]]',context.place);
+		this.complete();
+	},
+	
+	complete: function() {
+		wikify('[[Then download and save the images!|CommentArtCatalogueSaveFiles]]',this.context.place);
 	}
 };
 
-config.macros.CommentArtCatalogueSave = {
+config.macros.CommentArtCatalogueSaveFiles = {
 
 	context: {},
+	imageFolder: "images",
 
 	handler: function(place,macroName,params) {
 		var ss = store.getTaggedTiddlers('catalogueItem');
 		var icon,normal,large,s,context;
+		this.context.place = place;
+		this.context.count = ss.length;
 		var getHost = function(url) {
 			var i=0;
 			if(!url)
@@ -173,29 +181,31 @@ config.macros.CommentArtCatalogueSave = {
 		var host = getHost(config.options.txtCommentArtCatalogueUrl);
 		for(var i=0;i<ss.length;i++) {
 			s = ss[i];
-			context = {};
+			params = {};
 			icon = store.getTiddlerSlice(s.title,'icon');
 			normal = store.getTiddlerSlice(s.title,'normal');
 			large = store.getTiddlerSlice(s.title,'large');
-			context.macro = this;
-			context.title = s.title;
-			context.icon = icon;
-			httpReqBin("GET",host+icon,this.getIconCallback,context,null,null,null,null,null,true);
+			params.macro = this;
+			params.title = s.title;
+			params.icon = icon;
+			params.tiddler = s;
+			httpReqBin("GET",host+icon,this.getImageCallback,params,null,null,null,null,null,true);
 			//# debug
 			//break;
 		}
 		
 	},
 
-	getIconCallback: function(status,context,responseText,url,xhr) {
-		var title = "";
+	getImageCallback: function(status,params,responseText,url,xhr) {
+		var fileName, title, tiddler, newBody;
 		if(!status) {
 			return false;
 		} else {
-			//console.log(context.title);
-			//console.log(responseText);
-			title = context.title+".jpg";
-			context.macro.save(title,responseText);
+			params.macro.context.count--;
+			tiddler = params.tiddler;
+			title = params.title;
+			fileName = title.replace(/\//g,"_")+".jpg";
+			params.macro.save(fileName,responseText);
 		}
 	},
 	
@@ -205,27 +215,70 @@ config.macros.CommentArtCatalogueSave = {
 		var localPath = getLocalPath(document.location.toString());
 		var savePath;
 		if((p = localPath.lastIndexOf("/")) != -1) {
-			savePath = localPath.substr(0,p) + "/" + filename;
+			savePath = localPath.substr(0,p) + "/" + this.imageFolder + "/" + filename;
 		} else {
 			if((p = localPath.lastIndexOf("\\")) != -1) {
-				savePath = localPath.substr(0,p) + "\\" + filename;
+				savePath = localPath.substr(0,p) + "\\" + this.imageFolder + "\\" + filename;
 			} else {
 				savePath = localPath + "." + filename;
 			}
 		}
 		displayMessage("saving...");
 		//var fileSave = saveFile(savePath,convertUnicodeToUTF8(content));
-		//savePath = savePath.replace(/\//g,"_"); // not quite - don't replace the first few!
 		var fileSave = saveFile(savePath,content);
 		if(fileSave) {
 			displayMessage("saved... click here to load","file://"+savePath);
-			console.log("saved... click here to load","file://"+savePath);
+			//console.log("saved... click here to load","file://"+savePath);
 		} else {
-			//alert(config.messages.fileFailed,"file://"+savePath);
-			console.log(config.messages.fileFailed,"file://"+savePath);
+			displayMessage(config.messages.fileFailed,"file://"+savePath);
+			//console.log(config.messages.fileFailed,"file://"+savePath);
 		}
+		if(!this.context.count) {
+			this.complete();
+		}
+	},
+	
+	complete: function(place) {
+		wikify('[[Now compile your catalogue!|CommentArtCatalogueCompile]]',this.context.place);
 	}
 
+};
+
+config.macros.CommentArtCatalogueCompile = {
+
+	context: {},
+	imageFolder: "images",
+
+	handler: function(place,macroName,params) {
+		var s, newBody, fileName, title;
+		var ss = store.getTaggedTiddlers('catalogueItem');
+		this.context.place = place;
+		store.suspendNotifications();
+		for(var i=0;i<ss.length;i++) {
+			s = ss[i];
+			title = s.title;
+			fileName = this.imageFolder+"/";
+			fileName += title.replace(/\//g,"_")+".jpg";
+			newBody = s.text + "\n[img["+fileName+"]]";
+			store.saveTiddler(title,title,newBody,s.modifier,s.modified,s.tags,s.fields,false,s.created);
+		}
+		store.resumeNotifications();
+		this.createNavigationIndex(ss);
+	},
+	
+	createNavigationIndex: function(tiddlers) {
+		var title = "NavigationIndex";
+		var text = "";
+		for(var i=0;i<tiddlers.length;i++) {
+			text += String.encodeTiddlyLink(tiddlers[i].title) + "\n";
+		}
+		store.saveTiddler(title,title,text,config.options.txtUserName,null,null,null,true,new Date());
+		this.complete();
+	},
+	
+	complete: function() {
+		wikify('Finished!\n\nView the catalogue:\n<<fullscreen>>',this.context.place);
+	}
 };
 
 window.httpReqBin = function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
@@ -285,6 +338,27 @@ window.httpReqBin = function(type,url,callback,params,headers,data,contentType,u
 		return exceptionText(ex);
 	}
 	return x;	
+};
+
+// taken from RSSAdaptor.js
+// renderHtmlText puts a string through the browser render process and then extracts the text
+// useful to turn HTML entities into literals such as &apos; to '
+// this method has two passes at the string - the first to convert it to html and the second
+// to selectively catch the ASCII-encoded characters without losing the rest of the html
+String.prototype.renderHtmlText = function() {
+	//displayMessage("in renderHtmlText");
+	var text = this.stripCData().toString();
+	var e = createTiddlyElement(document.body,"div");
+	e.innerHTML = text;
+	text = getPlainText(e);
+	text = text.replace(/&#[\w]+?;/g,function(word) {
+		var ee = createTiddlyElement(e,"div");
+		ee.innerHTML = word;
+		return getPlainText(ee);
+	});
+	removeNode(e);
+	//displayMessage("leaving renderHtmlText");
+	return text;
 };
 
 } //# end of 'install only once'

@@ -2,6 +2,12 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: tiddlers/split.recipe
 recipe: plugins/split.recipe
 tiddler: ../../adaptors/RSSAdaptor.js
+tiddler: ../../plugins/ExtendableHttpReqPlugin.js
 tiddler: ../../plugins/HttpManagerPlugin.js
-#tiddler: ../../plugins/ProgressIndicatorPlugin.js
+tiddler: ../../plugins/ProgressIndicatorPlugin.js
+tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js
 tiddler: ../../../PhilHawksworth/plugins/FeedListManagerPlugin.js
+#next two replaced with custom versions
+#tiddler: ../../../SaqImtiaz/plugins/FullScreenPlugin/FullScreenPlugin.js tags="systemConfig"
+#tiddler: ../../../SaqImtiaz/plugins/NavigationMacro/NavigationMacro.js tags="systemConfig"
+tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfig"

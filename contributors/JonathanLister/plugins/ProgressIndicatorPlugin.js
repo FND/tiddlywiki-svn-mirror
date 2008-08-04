@@ -4,7 +4,7 @@
 |''Author''|JonathanLister|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/ProgressIndicatorPlugin.js |
 |''Version:''|0.4|
-|''Dependencies:''|ExtendableHttpRequestPlugin|
+|''Dependencies:''|ExtendableHttpReqPlugin|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4|
@@ -22,7 +22,7 @@ window.httpReq.extend({
 		}
 		var percentComplete = 0;
 		var goodData = true;
-		if(totalSize===4294967295) { // bug in event reporting totalSize
+		if(totalSize===4294967295) { // bug in onprogress event reporting incorrect totalSize
 			goodData = false;
 		} else if(totalSize!==0) {
 			percentComplete = Math.floor((position / totalSize)*100);
