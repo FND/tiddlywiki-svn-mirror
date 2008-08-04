@@ -51,6 +51,10 @@ merge(config.macros.login,{
 	stepDoLoginIntroText:"we are currently trying to log you in.... ",
 	stepForgotPasswordTitle:"Password Request",
 	stepForgotPasswordIntroText:"please email admin@admin.com",
+	stepLogoutTitle:"Logout",
+	stepLogoutText:"You are currently logged in as ",
+	buttonLogout:"Logout",
+	buttonLogoutToolTip:"Click here to logout",
 	buttonLogin:"Login",
 	buttonLoginToolTip:"click to login ",	
 	buttonCancel:"Cancel",
@@ -70,12 +74,23 @@ config.macros.login.handler=function(place,macroName,params,wikifier,paramString
 config.macros.login.refresh=function(place, error){
 	removeChildren(place);
 	var w = new Wizard();
+
+
+	if (isLoggedIn())	{	
+		w.createWizard(place,this.stepLogoutTitle);
+		w.addStep(null, this.stepLogoutText+cookieString(document.cookie).txtUserName+"<br /><br />");
+		w.setButtons([
+			{caption: this.buttonLogout, tooltip: this.buttonLogoutToolTip, onClick: function() {window.location=fullUrl+"?&logout=1"}
+		}]);
+		return true;
+	}
+
 	w.createWizard(place,this.WizardTitleText);
 	var me=config.macros.login;
 	var oldForm = w.formElem.innerHTML;
 	var form = w.formElem;
 	if (error!==undefined)
-		this.stepLoginTitle=error;
+		this.stepLoginTitle=error;	
 	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
 	var cookieValues=findToken(document.cookie);
 	if (cookieValues.txtUserName!==undefined){

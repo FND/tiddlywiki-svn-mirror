@@ -1,8 +1,13 @@
 <?php
-
+// TODO - decide how we want to use this code with lazy loading. 
 //This server side search has been implemented so the search functionality still exists when the entire Tiddlywiki content is not downloaded.
 
 //  This code is not currently  being used by the core
+
+// NOT BEING USED :::
+
+exit;
+
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");

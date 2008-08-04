@@ -43,6 +43,23 @@
 		return $tiddler;
 	}
 	
+	
+	function tiddler_toJson($tiddler)
+	{
+
+		$output = "{\n";
+		$output .= '"title":'.$tiddler['title']."\n";
+		$output .= '"text":'.$tiddler['body']."\n";
+		$output .= '"modifier":'.$tiddler['modifier']."\n";
+		$output .= '"created":'.$tiddler['created']."\n";
+		$output .= '"modified":'.$tiddler['modified']."\n";
+		$output .= '"tags":'.$tiddler['tags']."\n";
+		$output .= '"fields":'.$tiddler['fields'];
+		$output .= "}\n";
+		return $output;
+	}
+	
+	
 	//!	@fn array tiddler_backup_create($un)
 	//!	@brief create backup tiddler array format using tiddler array
 	//!	@param $tiddler_create tiddler array, created and verified using function tiddler_create

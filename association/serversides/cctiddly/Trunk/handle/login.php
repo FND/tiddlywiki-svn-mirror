@@ -1,9 +1,10 @@
 <?php 
+$u = (isset($_REQUEST['cctuser'])?$_REQUEST['cctuser']:$_POST['cctuser']); 
+$p = (isset($_REQUEST['cctpass'])?$_REQUEST['cctpass']:$_POST['cctpass']);
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-$u = (isset($_REQUEST['cctuser'])?$_REQUEST['cctuser']:$_POST['cctuser']); 
-$p = (isset($_REQUEST['cctpass'])?$_REQUEST['cctpass']:$_POST['cctpass']);
+
 if(isset($u) && isset($p))	
 {	
 	debug("login request u:".$u." & p : ".$p, "login");

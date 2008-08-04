@@ -11,27 +11,21 @@ $w = $_POST['workspace_name']?$_POST['workspace_name']:$_REQUEST['workspace_name
 
 if(!user_session_validate())
 {
-//	sendHeader("403");
-	echo '<b>You do not appear to be logged in. You may need to refresh the page to recieve the login prompt.</b>';
-	exit;	
+	sendHeader("403");
 }
 
 if ($a =="LISTWORKSPACES")
 {
 	$data['workspace_name']=$w;
-	
-	
 	$result = db_workspace_selectOwnedBy(user_getUsername());  
-$out = "";
-while ($r = db_fetch_assoc($result))
+	$out = "";
+	 while ($r = db_fetch_assoc($result))
 	{
 		$out .= "'".$r['workspace_name']."', ";
 	}
 	echo substr_replace($out ,"",-2)." ";	
  	exit;
 }
-
-
 
 if (!user_isAdmin(user_getUsername(), $w))
 {
@@ -56,9 +50,6 @@ if($a == "DELETEADMIN")
 	}	
 	exit;
 }
-
-
-
 
 if ($a =="LISTALL")
 {

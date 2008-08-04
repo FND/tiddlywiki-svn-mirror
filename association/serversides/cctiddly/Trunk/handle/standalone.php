@@ -579,17 +579,50 @@ if( sizeof($tiddlers)>0 )
 
 foreach ($tiddlyCfg['pref']['offline']['tiddler']  as $tf)
 {
-	echo tiddler_outputTiddlerFile("ccPlugins/".$tf.".tiddler", $cct_base);
+	echo tiddler_outputTiddlerFile("tiddlers/normal/".$tf.".tiddler", $cct_base);
 }
 
 foreach ($tiddlyCfg['pref']['offline']['js']  as $tf)
 {
-	echo tiddler_outputJsFile("ccPlugins/".$tf.".js", $cct_base);
+	echo tiddler_outputJsFile("tiddlers/normal/".$tf.".js", $cct_base);
 }
 
 ?>
 <div title='ccAdaptorSaveLocal' modifier='cctiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
 <pre>
+
+
+
+merge(config.macros.sync,{
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'selected', rowName: 'title', type: 'Selector'},
+			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
+			{name: 'Server Host', field: 'serverHost', title: "Server host", type: 'String'},
+			{name: 'Server Workspace', field: 'serverWorkspace', title: "Server workspace", type: 'String'},
+			{name: 'Status', field: 'status', title: "Synchronisation status", type: 'String'}			],
+		rowClasses: [
+			],
+		buttons: [
+			{caption: "Sync these tiddlers", name: 'sync'}
+			]},
+	wizardTitle: "Synchronize ",
+	step1Title: "Choose the tiddlers you want to synchronize",
+	syncLabel: "sync",
+	syncPrompt: "Sync these tiddlers",
+	hasChanged: "Changed while unplugged",
+	hasNotChanged: "Unchanged while unplugged",
+	syncStatusList: {
+		none: {text: "...", color: "transparent"},
+		changedServer: {text: "Changed on server", color: '#80ff80'},
+		changedLocally: {text: "Changed while unplugged", color: '#80ff80'},
+		changedBoth: {text: "Changed while unplugged and on server", color: '#ff8080'},
+		notFound: {text: "Not found on server", color: '#ffff80'},
+		putToServer: {text: "Saved update on server", color: '#ff80ff'},
+		gotFromServer: {text: "Retrieved update from server", color: '#80ffff'}
+		}
+	});
+	
 if (config.options.txtTheme == "")
 config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
 config.options.chkAutoSave = true;
@@ -603,7 +636,9 @@ config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramSt
 <pre>
 You are viewing the file on offline mode.
 
-To update your changes please log into ccTiddly in a seperate window and then press the sync button. 
+To update your changes please log into ccTiddly in a seperate window and then press the sync button.
+
+[[sync]] 
 </pre>
 </div>
 	

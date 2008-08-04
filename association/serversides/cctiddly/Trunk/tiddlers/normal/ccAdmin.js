@@ -1,8 +1,5 @@
 //{{{
 
-//window.url = 'http://127.0.0.1/association/serversides/cctiddly/Trunk';
-//window.workspace = 'testfiles';
-
 config.macros.ccAdmin = {}
 config.macros.ccAdmin.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
 	var w = new Wizard();
@@ -21,7 +18,6 @@ config.macros.ccAdmin.refresh= function(w){
 		 	return false;
 		}}, 
 	{caption: 'Add User', tooltip: 'Add User', onClick: function(w){ config.macros.ccAdmin.addAdminDisplay(null, params); return false } }]);
-
 };
 
 config.macros.ccAdmin.delAdminSubmit = function(e, params) {
@@ -99,7 +95,7 @@ config.macros.ccAdmin.listAllCallback = function(status,params,responseText,uri,
 	var me = config.macros.ccAdmin;
 	var out = "";
 	var adminUsers = [];
-	if(xhr.status == 401)
+	if(xhr.status == 403)
 	{
 		displayMessage("Permission Denied.");
 		var html ='You need to be an administrator of this workspace';

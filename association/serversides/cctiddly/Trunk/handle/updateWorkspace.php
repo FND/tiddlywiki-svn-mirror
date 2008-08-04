@@ -1,6 +1,4 @@
 <?php
-
-
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
@@ -31,7 +29,5 @@ if ($res >0 )
 {
 	echo 'Permissions Not changed';
 }
-
-
 
 ?>

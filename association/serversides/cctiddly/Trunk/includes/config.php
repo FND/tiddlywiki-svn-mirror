@@ -44,7 +44,7 @@ $tiddlyCfg['pref']['openid_enabled'] = 0;  // openid not fully implented yet.
 
 // Offline Mode 
 // .tiddler and .js files to be loaded from the ccPlugins directory when the user is takes ccTiddly in offline mode. 
-$tiddlyCfg['pref']['offline']['tiddler'] = array("ccTheme", "smmTheme", "taggedTemplateTweak", "ValueSwitcherPlugin");
+$tiddlyCfg['pref']['offline']['tiddler'] = array("ccTheme", "smmTheme", "purpleTheme", "taggedTemplateTweak", "ValueSwitcherPlugin");
 $tiddlyCfg['pref']['offline']['js'] = array("ccAdaptor");
 
 //Deligated Session Managment 
@@ -53,7 +53,7 @@ $tiddlyCfg['pref']['deligate_session_url'] = "http://uvoke.com/sys/uvokecheckses
 $tiddlyCfg['deligate_session_management'] = 0; 	
 	
 // Upload Values 
-	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'google.com', 'visualtw.ouvaton.org', 'en.wikipedia.org', 'martinswiki.com', 'tiddly-twab.com', 'tiddlythemes.com', 'tiddlytools.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost', 'getteamtasks.com', 'mptw.tiddlyspot.com');
+	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'google.com', 'visualtw.ouvaton.org', 'en.wikipedia.org', 'wikiedia.org', 'martinswiki.com', 'tiddly-twab.com', 'tiddlythemes.com', 'tiddlytools.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost', 'getteamtasks.com', 'mptw.tiddlyspot.com');
 	
 	
 $tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf", "application/octet-stream");

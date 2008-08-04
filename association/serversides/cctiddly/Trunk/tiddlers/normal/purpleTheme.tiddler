@@ -97,8 +97,12 @@ width:auto;
 	width:7em;
 }
 
+.wizard input {
+	border:1px solid #ccc;
+}
+
 #contentWrapper .sliderPanel .tabsetWrapper .tabContents {
-	border:1px dotted #999;
+	border:0px;
 	background-color:white;
 }
 
@@ -109,6 +113,7 @@ background-color:#eee;
 
 body{
 	background: #999;
+	color:#333;
 	// background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
 	// background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
 }
@@ -135,7 +140,7 @@ h1 {
 	margin: 2.5em auto;
 	width:780px;
 	line-height: 1.6em;
-	border:1px dotted black;
+	border:1px solid purple;
 	font-size: 11px;
 	font-family: Lucida Grande, Tahoma, Arial, Helvetica, sans-serif;
 	height:1%;
@@ -229,15 +234,15 @@ h1 {
 	padding:12px;
 }
 #tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a{
-		border:1px dotted purple;
+		border:1px solid white;
 	background-color:white;
 	color:purple;
 }
 #tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover{
-	border:1px dotted black;
+	border:1px solid purple;
 }
-#sidebarOptions a {
-border-right:0px;
+#sidebarOptions a:hover {
+border-right:1px solid white;
 }
 a:hover {
 	background-color:#eee;
@@ -258,7 +263,7 @@ a:hover {
 }
 
 .editor textarea, .editor input, input, body select {
-	border:1px dotted purple;
+	border:0px dotted purple;
 	background-color:white;
 	color:#999;
 	padding:3px;
@@ -270,7 +275,7 @@ textarea {
 }
 
 #sidebarOptions input {
-	border:1px dotted purple;
+	border:0px dotted purple;
 	background-color:#00000;
 	width:12em;
 }
@@ -363,7 +368,7 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 }
 
 .tagging, .tagged {
-	border: 1px dotted [[ColorPalette::smmLight1]];
+	border: 0px dotted [[ColorPalette::smmLight1]];
 }
 
 .highlight, .marked {
@@ -409,8 +414,8 @@ table.twtable {
 
 #sidebarOptions .sliderPanel .tabUnselected {
 	background:#eee none repeat scroll 0%;
-	border:1px dotted #999;
-	border-bottom:1px dotted black;
+	border:0px dotted #999;
+	//border-bottom:1px dotted black;
 	color:#999;
 	padding:2px;
 }
@@ -419,8 +424,8 @@ table.twtable {
 #sidebarOptions .sliderPanel .tabSelected {
 	background:white none repeat scroll 0%;
 	padding:2px;
-	border:1px dotted #999;
-	border-bottom:1px dotted black;
+	border:0px dotted #999;
+	//border-bottom:1px dotted black;
 	color:#999;
 	border-bottom:2px dotted white;
 
@@ -459,12 +464,15 @@ h3 {
 	padding: 0.5em 1em;
 }
 
-
+.button, .wizard .button a:hover{
+	background-color:red;
+}
 .button, .wizard .button {
-	border:1px dotted purple;
+	border:1px solid purple;
 	padding:3px 9px;
 	margin:3px 9px; 
-	background:#eee; 
+	background:#fff;
+	color:#333; 
 }
 
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {
@@ -482,8 +490,8 @@ body .wizardFooter {
 	background-color:none; 
 } 
 
-body .wizard {
-	width:80%;
+.viewer body .wizard {
+	width:95%;
 	padding:10px; 
 	border:1px dotted #EBE6F5;
 }
@@ -511,7 +519,7 @@ body .wizard {
 	background:white;
 	margin:2em;
 	border:0px;
-	border:1px dotted purple;
+	border:0px dotted purple;
 	color:#999;
 }
 .wizard h1{
@@ -579,7 +587,7 @@ border:0px;
 }
 
 .twtable th{
-	background-color:#333;
+	background-color:#eee;
 	padding:15px;
 	margin:15px;
 }
