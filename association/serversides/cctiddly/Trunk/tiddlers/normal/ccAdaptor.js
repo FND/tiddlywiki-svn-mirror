@@ -233,12 +233,8 @@ ccTiddlyAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
 	var bag = tiddler.fields['server.bag']
 	var workspace = tiddler.fields['server.workspace']
-	var baguriTemplate = '%0bags/%1/tiddlers/%2';
-	var recipeuriTemplate = '%0recipes/%1/tiddlers/%2';
-	if (bag)
-		info.uri = baguriTemplate.format([host,bag,tiddler.title]);
-	else
-		info.uri = recipeuriTemplate.format([host,workspace,tiddler.title]);
+	var uriTemplate = '%0%1/#%2';
+	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
 	return info;
 };
 
