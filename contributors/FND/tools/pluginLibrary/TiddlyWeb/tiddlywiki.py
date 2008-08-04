@@ -20,7 +20,7 @@ def getSlices(text): # XXX: should be in Tiddler class
 	@param text: tiddler text
 	@type  text: str
 	"""
-	pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)"; # RegEx origin: TiddlyWiki core
+	pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)" # RegEx origin: TiddlyWiki core
 	pattern = re.compile(pattern, re.M + re.I)
 	matches = re.findall(pattern, text)
 	slices = dict()
@@ -28,7 +28,7 @@ def getSlices(text): # XXX: should be in Tiddler class
 		if match[1]: # colon notation
 			slices[match[1].capitalize()] = match[2]
 		else: # table notation
-			slices[match[4].capitalize()] = match[5];
+			slices[match[4].capitalize()] = match[5]
 	return slices
 
 class TiddlyWiki:
@@ -92,7 +92,7 @@ class TiddlyWiki:
 		"""
 		version = self.dom.html.head.script.renderContents()
 		pattern = re.compile("major: (\d+), minor: (\d+), revision: (\d+)")
-		matches = re.search(pattern, version);
+		matches = re.search(pattern, version)
 		if matches:
 			major = int(matches.groups()[0])
 			minor = int(matches.groups()[1])

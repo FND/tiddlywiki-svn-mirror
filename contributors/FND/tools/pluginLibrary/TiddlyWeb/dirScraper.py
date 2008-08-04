@@ -41,7 +41,7 @@ class dirScraper:
 				plugin = Tiddler()
 				plugin.title = posixpath.basename(href[:-3])
 				plugin.text = self._get(self.host + dir + href)
-				if self.checkOrigin(plugin): # source = self.host + dir + href
+				if self.checkOrigin(plugin.text): # source = self.host + dir + href
 					results.append(plugin)
 			elif href.endswith("/") and recursive: # directory
 				results.extend(self.getPlugins(dir + href))
