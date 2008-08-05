@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.3|
+|''Version:''|0.5.4|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -443,7 +443,7 @@ config.mediawiki.formatters = [
 	}
 },
 
-{
+/*{
 	name: 'mediaWikiLeadingSpaces',
 	match: '^ ',
 	lookaheadRegExp: /^ /mg,
@@ -463,7 +463,7 @@ config.mediawiki.formatters = [
 			}
 		}
 	}
-},
+},*/
 
 //# [[Image:Westminstpalace.jpg|frame|none|caption text]]
 //# //http://en.wikipedia.org/wiki/Image:Westminstpalace.jpg
@@ -544,13 +544,22 @@ config.mediawiki.formatters = [
 				var img = createTiddlyElement2(a,'img');
 				img.src = 'images/' + psrc;
 				if(config.options.chkUseHostImages && Crypto.hexMd5Str) {
-//md5('Freerunner02.gif')='b9c7d001492123675aee092f14757d58'
-//url is http://wiki.openmoko.org/images/thumb/b/b9/Freerunner02.gif/150px-Freerunner02.gif
+//#http://wiki.openmoko.org/images/thumb/b/b9/Freerunner02.gif/150px-Freerunner02.gif
+//#http://upload.wikimedia.org/wikipedia/en/thumb/1/1d/KLM_Aircraft_at_Schiphol.jpg/180px-KLM_Aircraft_at_Schiphol.jpg
+//#http://upload.wikimedia.org/wikipedia/commons/thumb/3/37/KLMS.jpg/250px-KLMS.jpg
 					var md5 = Crypto.hexMd5Str(src);
 					var imgdir = (md5.substr(0,1) + '/' + md5.substr(0,2)).toLowerCase();
 					img.src = MediaWikiFormatter.fullHostName(w.tiddler.fields['server.host']||config.defaultCustomFields['server.host']);
-					img.src += 'images/thumb/' + imgdir + '/' + src + '/' + psrc;
-					//console.log('image uri',img.src);
+					var imgDir = 'images'
+					//if(img.src=='http://en.wikipedia.org/w/') {
+					if(img.src.indexOf('wikipedia.org/')!=-1) {
+						//imgDir = 'wikipedia/en';
+						imgDir = 'wikipedia/commons';
+						img.src = 'http://upload.wikimedia.org/';
+					}	
+					img.src += imgDir;
+					img.src += '/thumb/' + imgdir + '/' + src + '/' + psrc;
+					console.log('image uri',img.src);
 				}
 
 //#mwDebug(w.output,'s1:'+img.src);
