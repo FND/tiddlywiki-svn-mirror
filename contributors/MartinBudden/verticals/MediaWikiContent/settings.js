@@ -13,7 +13,7 @@ config.options.txtBackupFolder = "backup";
 config.options.txtMaxEditRows = 20;
 config.options.chkDisableWikiLinks = true;
 
-config.maxTiddlerImportCount = 10;
+config.maxTiddlerImportCount = 500;
 
 merge(config.defaultCustomFields,{
 	wikiformat:'mediawiki'

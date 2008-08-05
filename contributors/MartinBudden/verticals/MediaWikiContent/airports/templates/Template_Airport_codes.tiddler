@@ -1,0 +1,13 @@
+<div title="Template:Airport codes" server.host="en.wikipedia.org/w" server.page.revision="undefined" wikiformat="mediawiki">
+<pre><includeonly>({{#if: {{{1|}}}
+  | [[International Air Transport Association airport code|IATA]]: '''{{{1}}}'''{{#if: {{{2|}}} {{{3|}}} {{{4|}}} {{{5|}}} |,&nbsp;}}
+}}{{#if: {{{2|}}}
+  | [[International Civil Aviation Organization airport code|ICAO]]: '''{{{2}}}'''{{#if: {{{3|}}} {{{4|}}} {{{5|}}} |,&nbsp;}}
+}}{{#if: {{{3|}}}
+  | [[Federal Aviation Administration|FAA]] [[Location identifier|LID]]: '''{{{3}}}'''{{#if: {{{4|}}} {{{5|}}} |,&nbsp;}}
+}}{{#if: {{{4|}}}
+  | [[Transport Canada|TC]] [[Location identifier|LID]]: '''{{{4}}}'''{{#if: {{{5|}}} |,&nbsp;}}
+}}{{#if: {{{5|}}}
+  | [[Global Positioning System|GPS]] code: '''{{{5}}}'''
+}})</includeonly><noinclude>{{documentation}}<!-- Add categories and interwikis to the /doc subpage, not here. --></noinclude></pre>
+</div>
