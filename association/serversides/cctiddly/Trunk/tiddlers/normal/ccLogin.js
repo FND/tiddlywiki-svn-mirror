@@ -64,7 +64,8 @@ merge(config.macros.login,{
 	configURL:url+"/handle/login.php", 
 	configUsernameInputName:"cctuser",
 	configPasswordInputName:"cctpass",
-	configPasswordCookieName:"cctPass"
+	configPasswordCookieName:"cctPass",
+	sha1:false
 });
 	
 config.macros.login.handler=function(place,macroName,params,wikifier,paramString,tiddler){
@@ -131,7 +132,10 @@ config.macros.login.doLogin=function(username, password, item, place){
 	var context = {};
 	context.host = window.url;
 	context.username = username;
-	context.password = password;
+	if(me.sha1 == true)
+		context.password = Crypto.hexSha1Str(password);
+	else
+		context.password = password;
 	adaptor.login(context,userParams,config.macros.login.loginCallback)
 	var html = me.stepDoLoginIntroText; 
 	w.addStep(me.stepDoLoginTitle,html);

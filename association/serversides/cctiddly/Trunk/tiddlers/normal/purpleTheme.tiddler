@@ -108,7 +108,7 @@ h1 {
 	margin: 2.5em auto;
 	width:780px;
 	line-height: 1.6em;
-	border:1px solid purple;
+	border:1px solid #ccc;
 	font-size: 11px;
 	font-family: Lucida Grande, Tahoma, Arial, Helvetica, sans-serif;
 	height:1%;
@@ -225,7 +225,7 @@ color:purple;
 	color:purple;
 }
 #tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover{
-	border:1px solid purple;
+	border:1px solid #ccc;
 }
 #sidebarOptions a:hover {
 border-right:1px solid white;
@@ -249,7 +249,7 @@ a:hover {
 }
 
 .editor textarea, .editor input, input, body select {
-	border:0px dotted purple;
+	border:1px solid #ccc;
 	background-color:white;
 	color:#999;
 	padding:3px;
@@ -276,10 +276,11 @@ textarea {
 	background:#999;
 }
 
-.tiddler .button {
+#contentWrapper .tiddler .button {
 	padding:0.4em 0.9em 0.4em 0.9em;
 	margin:0px 0px 0px 7px;
 }
+
 
 #sideBarOptions .searchButton{
 	display:none;
@@ -372,10 +373,6 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 	color:#eee;
 }
 
-.tiddler {
-	padding-bottom: 40px;
-}
-
 .viewer th, thead td {
 	background: #eee;
 	border:none;	
@@ -396,8 +393,8 @@ table.twtable {
 }
 
  
-.viewer hr {
-	border-top: dashed 1px #999;
+hr {
+	border: dotted 1px #ccc;
 }
 
 #sidebarOptions .sliderPanel .tabUnselected {
@@ -452,15 +449,26 @@ h3 {
 	padding: 0.5em 1em;
 }
 
-.button, .wizard .button a:hover{
-	background-color:red;
-}
-.button, .wizard .button {
-	border:1px solid purple;
+
+.button, .wizard .button, .tiddler .button:hover{
+	border:1px solid #777;
 	padding:3px 9px;
 	margin:3px 9px; 
-	background:#fff;
-	color:#333; 
+	background:#eee;
+	color:#777; 
+}
+
+.button, .wizard .button:hover {
+	border:1px solid #999;
+	background:#eee;
+	color:#999; 
+}
+
+#sidebarOptions .sliderPanel input, .sliderPanel input, .tiddler .button  {
+	border:1px solid #777;
+	background-color:white;
+	color:#777;
+	
 }
 
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {
@@ -509,7 +517,7 @@ body .wizardFooter {
 	background:white;
 	margin:2em;
 	border:0px;
-	border:0px dotted purple;
+	border:0.1em solid #ccc;
 	color:#999;
 }
 .wizard h1{
@@ -562,7 +570,7 @@ body select {
 
 .title {
 	color:#777;
-	padding:10px;
+	padding:0px;
 }
 
 .viewer table, table.twtable {
@@ -587,9 +595,6 @@ table.sortable td.sortedCol {
 }
 
 
-sidebarOptions .sliderPanel a:hover {
-border:none;
-}
 
 /*}}}*/
 
@@ -616,19 +621,19 @@ border:none;
 <!--{{{-->
 <div class="editor">
 <div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
-<div class='title edit' macro='edit title'></div>
 <div class='task'>
 
 	<table>
+	<tr><td colspan=2><div class='title edit' macro='edit title'></div>
+	</td></tr>
 	<tr>
 		<td class='taskbody' width=100% height=100%><div class='viewer edit' macro='edit text wikified'></div></div></td>
 		<td class='taskControls' valign=top><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
 	</tr>
 	</table>
 </div>
-<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
-<div class='tagClear'></div>
+<div class='editor' macro='edit tags'></div>
+<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span></div>
 </div>
 <!--}}}-->
 
@@ -649,7 +654,7 @@ border:none;
 <div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 <div class='tagging' macro='tagging'></div>
 <div class='tagged' macro='tags'></div>
-<div class='tagClear'></div>
+<div class='tagClear'></div><hr />
 <!--}}}-->
 
 !wizardViewTemplate

@@ -111,7 +111,7 @@ ccTiddlyAdaptor.prototype.login = function(context,userParams,callback)
 //#console.log('login:'+context.username);
        context = this.setContext(context,userParams,callback);
        var uriTemplate = '%0handle/login.php?cctuser=%1&cctpass=%2';
-       var uri = uriTemplate.format([context.host,context.username,Crypto.hexSha1Str(context.password)]);
+       var uri = uriTemplate.format([context.host,context.username,context.password]);
 //#console.log('uri:'+uri);
        var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.loginCallback,context);
        return typeof req == 'string' ? req : true;
