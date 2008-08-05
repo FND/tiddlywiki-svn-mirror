@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.3|
+|''Version:''|0.1.4|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -66,7 +66,7 @@ MediaWikiTemplate.normalizeTitle = function(title)
 
 MediaWikiTemplate.getTemplateContent = function(name)
 {
-fnLog('getTemplateContent:'+name);
+//#fnLog('getTemplateContent:'+name);
 	var i = name.indexOf(':');
 	var namespace = 'Template:';
 	if(i==0) {
@@ -114,7 +114,7 @@ fnLog('getTemplateContent:'+name);
 
 MediaWikiTemplate.prototype.substituteParameters = function(text,params)
 {
-//#console.log('substituteParameters:'+text);
+//#console.log('substituteParameters:'+text,params);
 //#console.log(params);
 	var t = '';
 	var pi = 0;
@@ -151,7 +151,13 @@ MediaWikiTemplate.prototype.substituteParameters = function(text,params)
 			//# if no value or default, parameter evaluates to name
 			val = '{{{'+name+'}}}';
 		} else {
-			val = this.substituteParameters(val,params);
+			// remove numbered parameters before substitute nested parameters
+			var p2 = {};
+			for(var i in params) {
+				if(isNaN(parseInt(i,10)))
+					p2[i] = params[i];
+			}
+			val = this.substituteParameters(val,p2);
 		}
 //#console.log('val:'+val);
 //#console.log('s:'+text.substring(pi,bp.start));
@@ -161,7 +167,7 @@ MediaWikiTemplate.prototype.substituteParameters = function(text,params)
 		paramIndex++;
 	}
 	t += text.substring(pi);
-//#fnLog('ret substituteParameters:'+t);
+//#console.log('ret substituteParameters:'+t);
 	return t;
 };
 
@@ -262,7 +268,7 @@ MediaWikiTemplate.prototype._expandParserFunction = function(text)
 MediaWikiTemplate.prototype._splitTemplateNTag = function(ntag)
 // split naked template tag (ie without {{ and }}) at raw pipes into name and parameter definitions
 {
-fnLog('_splitTemplateNTag:'+ntag);
+//#fnLog('_splitTemplateNTag:'+ntag);
 	var pd = []; // parameters definitions array, p[0] contains template name
 	var i = 0;
 	var s = 0;
