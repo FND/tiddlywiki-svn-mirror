@@ -7,7 +7,6 @@ tiddler: DownloadThisTiddlyWiki.tiddler
 tiddler: MediaWikiWalkthrough.tiddler
 tiddler: templates/Template_!.tiddler
 recipe: airports/split.recipe
-tiddler: ../testMediaWiki/MediaWikiTemplatePlugin.js
 tiddler: ../tiddlypedia/StyleSheet.tiddler
 tiddler: ../tiddlypedia/OptionsPanel.tiddler
 tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
