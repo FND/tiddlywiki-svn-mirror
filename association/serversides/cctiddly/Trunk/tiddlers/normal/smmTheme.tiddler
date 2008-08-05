@@ -597,7 +597,7 @@ table.sortable td.sortedCol {
 <div class='tagClear'></div>
 <!--}}}-->
 
-!simpleViewTemplate
+!wizardViewTemplate
 <!--{{{-->
 <div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
 <div class='viewer' macro='view text wikified'></div>

@@ -14,7 +14,7 @@
 |''~taskEditTemplate:''|##taskEditTemplate|
 |''~EditTemplate:''|##EditTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
-|''~simpleViewTemplate:''|##simpleViewTemplate|
+|''~wizardViewTemplate:''|##wizardViewTemplate|
 ***/
 
 
@@ -329,6 +329,7 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 	background-color:transparent;
 }
 
+
 #sidebarOptions .sliderPanel a:hover, #topMenu a, #topMenu .button:hover {
 	color:black;
 	background-color:transparent;
@@ -467,19 +468,21 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 }
 
 body .wizardFooter { 
-	padding : 5px; 
+	padding :0px; 
+	margin:0px;
 	background:white; 
 	font-weight:bold;
 }
 
 .wizardStep {
+	padding:0px;
 	border:none; 
 	background-color:none; 
 } 
 
 .viewer body .wizard {
 	width:95%;
-	padding:10px; 
+	padding:4px; 
 	border:1px dotted #EBE6F5;
 }
 
@@ -583,6 +586,11 @@ table.sortable td.sortedCol {
 	background-color:white;
 }
 
+
+sidebarOptions .sliderPanel a:hover {
+border:none;
+}
+
 /*}}}*/
 
 !taskViewTemplate
@@ -644,7 +652,7 @@ table.sortable td.sortedCol {
 <div class='tagClear'></div>
 <!--}}}-->
 
-!simpleViewTemplate
+!wizardViewTemplate
 <!--{{{-->
 <div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
 <div class='viewer' macro='view text wikified'></div>

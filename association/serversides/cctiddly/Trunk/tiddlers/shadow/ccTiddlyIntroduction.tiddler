@@ -10,11 +10,11 @@
 
 !!! Predefined ccTiddly Tags 
 
-!!!!simple
-Displays the tiddler without showing the date editor and tags. 
+!!!!wizard
+Displays the tiddler without showing the date editor tags or title. 
 
 !!!!private
-Only you will be able to read the tiddlers tagged private.
+Only administrators of a workspace can read tiddlers tagged private.
 
 !!!!excludeList
 Tiddler will not be returned listed.
