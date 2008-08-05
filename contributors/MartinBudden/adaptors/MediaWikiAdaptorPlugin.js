@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.6.3|
+|''Version:''|0.6.4|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -464,6 +464,7 @@ MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 //#console.log('getTiddlerListCallback status:'+status);
 //#console.log(context.responseType);
 //#console.log(responseText.substr(0,400));
+//#console.log(context.responseType);
 	context.status = false;
 	context.statusText = MediaWikiAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
@@ -481,10 +482,12 @@ MediaWikiAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 				pages = info.pages;
 			var c = null;
 			if(info['query-continue']) {
-				c = info['query-continue'].allpages[context.urifrom];
-				context.count++;
-				if(context.count>10)
-					c = null;
+				if(info['query-continue'].allpages) {
+					c = info['query-continue'].allpages[context.urifrom];
+					context.count++;
+					if(context.count>10)
+						c = null;
+				}
 			}
 			for(i in pages) {
 				var title = pages[i].title;
@@ -583,7 +586,6 @@ MediaWikiAdaptor.prototype.getTiddler = function(title,context,userParams,callba
 //#		}
 //#	}
 //#}
-
 
 
 //# Override this to do postprocessing on tiddler after it is retrieved from the server
