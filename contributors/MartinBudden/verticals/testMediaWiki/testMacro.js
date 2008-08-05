@@ -3,7 +3,7 @@
 |''Description:''|macro to use for general testing|
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/verticals\testGeneral/testMacro.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|July 31, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -44,6 +44,7 @@ config.macros.testMacro.test = function(title,params)
 	config.macros.testMacro.testBasic(title,params);
 	config.macros.testMacro.testExamples(title,params);
 	config.macros.testMacro.testTableBraces(title,params);
+	config.macros.testMacro.testSubstituteParameters(title,params);
 	displayMessage("Testing complete");
 };
 
@@ -60,7 +61,7 @@ testLog('tpTest:'+tag);
 	text = mwt.transcludeTemplates(tag,tiddler);
 	testLog('transcluded:'+text);
 	if(expected && text!=expected) {
-		displayMessage('Error:'+tag);
+		displayMessage('Error:'+tag+' ('+expected+')');
 	}
 	testLog('RET:'+text);
 	testLog('');
@@ -82,11 +83,10 @@ testLog('tp2Tsest:'+tag);
 
 dbrTest = function(text,start,es,ee)
 {
-//testLog('content:'+content);
 testLog('dprTest:'+text+'    ('+es+','+ee+')');
 	var ret = MediaWikiTemplate.findDBP(text,start);
 	if((es && ret.start!=es)||(ee && ret.end!=ee)) {
-		displayMessage('Error:'+'('+es+','+ee+') '+text);
+		displayMessage('Error:'+'('+es+','+ee+') '+text+' act:('+ret.start+','+ret.end+')');
 	}
 	testLog('RET:'+ret.start+','+ret.end);
 	testLog('');
@@ -120,6 +120,18 @@ testLog('rpTest:'+text+'    ('+expected+')');
 	var ret = MediaWikiTemplate.findRawDelimiter('|',text,start);
 	if(expected && ret!=expected) {
 		displayMessage('ErrorT:'+text);
+	}
+	testLog('RET:'+ret);
+	testLog('');
+};
+
+spTest = function(text,params,expected)
+{
+testLog('spTest:'+text+'    ('+expected+')');
+	var mwt = new MediaWikiTemplate();
+	var ret = mwt.substituteParameters(text,params);
+	if(expected && ret!=expected) {
+		displayMessage('ErrorS:'+text+' ('+expected+')');
 	}
 	testLog('RET:'+ret);
 	testLog('');
@@ -185,6 +197,9 @@ config.macros.testMacro.testDoubleBraces = function(title,params)
 	dbrTest('{{ {{ {{{wid|}}}|w|200 }} {{c}} }}',0,0,32);
 	dbrTest('{{ i | [[img|{{ {{{wid|}}}|w|200 }}px]] {{ c |c }} }}',0,0,51	);
 
+	dbrTest('[[{{{1|:{{NAMESPACE}}:{{BASEPAGENAME}}}}}|English]]',0,8,19 );
+	dbrTest('[[{{{1|:{{NAMESPACE}}:{{BASEPAGENAME}}}}}|English]]',9,22,36 );
+	
 	dbrTest('{{{1|pqr}}} {{TEx1}} {{{2|stu}}}',3,12,18);
 	var t= '{{#if: {{{image<includeonly>|</includeonly>}}} | {{!}} colspan="4" {{!}} [[Image:{{{image}}}|{{#if:{{{image-width|}}}|{{{image-width}}}|200}}px]]{{#if: {{{caption}}} |{{{caption}}}}}</p>}}';
 	dbrTest(t,3,49,52);
@@ -211,6 +226,13 @@ config.macros.testMacro.testTripleBraces = function(title,params)
 	tbrTest('{{{1|p}}}{{{2|q}}}{{{3|r}}} ({{{x|{{{y|s}}}}}})',29,29,43);
 	tbrTest('{{{1|p}}}{{{2|q}}}{{{3|r}}} ({{{x|{{{y|s}}}}}})',32,34,40);
 	tbrTest('{{{1|p}}}{{{2|q}}}{{{3|r}}} ({{{x|{{{y|s}}}}}})',34,34,40);
+
+	tbrTest('[[{{{1|:{{NAMESPACE}} }}}|English]]',0,2,22 );
+	tbrTest('[[{{{1|:{{NAMESPACE}}}}}|English]]',0,2,21 );
+	tbrTest('[[{{{1|:{{NAMESPACE}}:{{BASEPAGENAME}} }}}|English]]',0,2,39 );
+	tbrTest('[[{{{1|:{{NAMESPACE}}:{{BASEPAGENAME}}}}}|English]]',0,2,38 );
+	//       01234567890123456789012345678901234567890123456789
+
 
 //	{{{{foo}}}} is equivalent to { {{{foo}}} }
 	tbrTest('{{{{x}}}}',0,1,5);
@@ -341,6 +363,17 @@ config.macros.testMacro.testExamples = function(title,params)
 	tpTest('TEx6','{{{1|p}}}{{{2|q}}}{{{3|r}}} ({{{x|{{{y|s}}}}}})','{{TEx6|A|x=B|y=C}}','Aqr (B)');
 	tpTest('TEx6','{{{1|p}}}{{{2|q}}}{{{3|r}}} ({{{x|{{{y|s}}}}}})','{{TEx6|A|B|y=C}}','ABr (C)');
 
+	tpTest('TEx6','{{{1|P}}} ({{{x|{{{y|Q}}}}}})','{{TEx6|A|x=B}}','A (B)');
+	tpTest('TEx6','{{{1|P}}} ({{{x|{{{y|Q}}}}}})','{{TEx6}}','P (Q)');
+	tpTest('TEx6','{{{1|P}}} ({{{x|{{{y|Q}}}}}})','{{TEx6|A|x=B|y=C}}','A (B)');
+	tpTest('TEx6','{{{1|P}}} ({{{x|{{{y|Q}}}}}})','{{TEx6||y=C}}',' (C)');
+
+	tpTest('TEx6a','{{{1|p}}} ({{{x|{{{y|s}}}}}})','{{TEx6a|A}}','A (s)');
+	tpTest('TEx6a','{{{1|p}}} ({{{y|s}}})','{{TEx6a|A}}','A (s)');
+	tpTest('TEx6a','{{{1|p}}} {{{x|{{{y|s}}}}}}','{{TEx6a|A}}','A s');
+	tpTest('TEx6b','{{{1|p}}} {{{y|s}}}','{{TEx6b|A}}','A s');
+
+
 	tpTest('TEx7','abc<noinclude>def</noinclude>ghi','{{TEx7}}','abcghi');
 	tpTest('TEx8','abc<includeonly>def</includeonly>ghi','{{TEx8}}','abcdefghi');
 	tpTest('TEx9','abc<onlyinclude>def</onlyinclude>ghi','{{TEx9}}','def');
@@ -353,7 +386,16 @@ config.macros.testMacro.testExamples = function(title,params)
 
 	//tpTest('TEx','','{{TEx}}','');
 	tpTest('Dummy','','{{Infobox Airport}}');
+};
 
+config.macros.testMacro.testSubstituteParameters = function(title,params)
+{
+	spTest('{{{1|p}}}',{},'p');
+	spTest('{{{1|p}}}',{1:'A'},'A');
+	spTest('{{{1|p}}} ({{{x|{{{y|s}}}}}})',{},'p (s)');
+	spTest('{{{w|p}}} ({{{x|{{{y|s}}}}}})',{w:'W'},'W (s)');
+	spTest('{{{1|p}}} ({{{x|{{{y|s}}}}}})',{1:'A'},'A (s)');
+	spTest('{{{1|P}}} ({{{x|{{{y|Q}}}}}})',{1:'',y:'C'},' (C)');
 };
 
 config.macros.testMacro.test2 = function(title,params)
