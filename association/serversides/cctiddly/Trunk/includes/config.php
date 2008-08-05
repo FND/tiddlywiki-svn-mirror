@@ -5,7 +5,7 @@
 $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
-$tiddlyCfg['db']['pass'] = "";		//login password
+$tiddlyCfg['db']['pass'] = "PASSWORD";		//login password
 $tiddlyCfg['db']['name'] = "DATABASE";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
@@ -32,10 +32,10 @@ $tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an ac
 //LDAP
 
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-$tiddlyCfg['pref']['ldap_enabled'] = 0;
-$tiddlyCfg['pref']['ldap_username']	= "";
-$tiddlyCfg['pref']['ldap_password'] = "";
-$tiddlyCfg['pref']['ldap_connection_string'] = "";
+$tiddlyCfg['pref']['ldap_enabled'] = 1;	
+$tiddlyCfg['pref']['ldap_username']	= "CN=blah blah blah ";
+$tiddlyCfg['pref']['ldap_password'] = "PASSWORD";
+$tiddlyCfg['pref']['ldap_connection_string'] = "ldap:/.....";
 
 // OpenID
 

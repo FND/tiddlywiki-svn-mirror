@@ -160,21 +160,54 @@
 			
 	}		
 
-	function user_ldap_login($un, $pw)
+	function user_ldap_login($username, $password)
 	{
 		global $tiddlyCfg;
-		$admin='cn='.$un.',ou=staff,dc=osmosoft,dc=com'; // TODO - check with andrew which of these bits can change.
-		$ds=ldap_connect($tiddlyCfg['pref']['ldap_server']);  // make LDAP C
-		if ($ds) 
-		{	
-			$r=ldap_bind($ds, $admin, $pw);// bind with appropriate dn to give access
-			if(!$r)                // if the username/pass is not accepted then return false 
-				return FALSE;
-			ldap_close($ds); 
-			return TRUE; 
-		} else {
-			return FALSE;
+		
+		if ($password == "")
+		{
+			return false;
 		}
+		
+		$ds = ldap_connect($tiddlyCfg['pref']['ldap_connection_string']); 
+   	    //Can't connect to LDAP. 
+	    if( !$ds ) 
+	    { 
+	      return false;
+	    } 
+     
+    //Connection made -- bind anonymously and get dn for username. 
+	
+	$bind_user =$tiddlyCfg['pref']['ldap_username'];
+	$bind_pass = $tiddlyCfg['pref']['ldap_password'];
+    $bind = @ldap_bind($ds,$bind_user,$bind_pass); 
+     
+    //Check to make sure we're bound. 
+    if( !$bind ) 
+    { 
+       return false;
+    } 
+     
+    $search = ldap_search($ds, 'OU=employee,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com' ,"samaccountname=$username"); 
+     
+    //Make sure only ONE result was returned -- if not, they might've thrown a * into the username.  Bad user! 
+	if( @ldap_count_entries($ds,$search) != 1 ) 
+    { 
+        return FALSE;
+    } else
+	{
+	}
+	
+	  $info = ldap_get_entries($ds, $search); 
+	  
+	  $user_dn = $info[0]["dn"];
+		$userBind = @ldap_bind($ds, $user_dn,$password);
+		if(!$userBind){
+			return false;
+		}else{
+		return TRUE;
+		}
+		@ldap_close($ds); 
 	}
 
 ///////////////////////////////////////////////////////////////validate and login (set cookie)//////////////////////////////////////////////////

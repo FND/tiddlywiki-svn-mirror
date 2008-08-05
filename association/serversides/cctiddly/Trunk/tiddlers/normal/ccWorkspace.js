@@ -57,7 +57,7 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 	workspaceName.size = 15;
 	workspaceName.name = 'ccWorkspaceName';
 	workspaceName.onkeyup=function() {
-		config.macros.ccRegister.workspaceNameKeyPress(this.value);
+	//	config.macros.ccRegister.workspaceNameKeyPress(this.value);
 	};
 	step.appendChild(workspaceName);
 	createTiddlyElement(step,"span",'workspaceName_error','inlineError',null);

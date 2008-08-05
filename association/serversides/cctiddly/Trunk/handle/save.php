@@ -55,6 +55,7 @@ if(isset($tiddler['title']))
 		exit;
 	}
 			//require edit privilege on new and old tags
+			
 	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
 	{
 		$ntiddler['modified'] = $ntiddler['modified']; 

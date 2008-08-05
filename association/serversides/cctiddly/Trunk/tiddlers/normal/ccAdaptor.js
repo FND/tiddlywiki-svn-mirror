@@ -271,7 +271,7 @@ ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 ccTiddlyAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
         context.status = false;
-console.log(responseText);
+//console.log(responseText);
         context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
         if(status) {
                 var info=[]
@@ -312,15 +312,15 @@ ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
 	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,encodedTitle]);
-console.log('uri: '+uri);
+//console.log('uri: '+uri);
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerRevisionListCallback,context);
 //#console.log("req:"+req);
 };
 
 ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,responseText,uri,xhr)
 {
-console.log('getTiddlerRevisionListCallback status:'+status);
-console.log('rt:'+responseText.substr(0,100));
+//console.log('getTiddlerRevisionListCallback status:'+status);
+//console.log('rt:'+responseText.substr(0,100));
 	if(responseText.indexOf('<!DOCTYPE html')==1)
 		status = false;
 //#fnLog('xhr:'+xhr);
@@ -385,7 +385,7 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
 	
-console.log('px:'+xhr.status)	
+//console.log('px:'+xhr.status)	
     context.status = false;
        if(status) {
 			context.status = true;
@@ -427,12 +427,13 @@ console.log('px:'+xhr.status)
 			{
 				displayMessage("Page Required Reloading.");
 			}else{
+				displayMessage(responseText);
                displayMessage('  xhr status is' + xhr.status);
                displayMessage('putTiddler xhr status text is' + xhr.statusText);
                context.statusText = xhr.statusText;	
 			}
        }
-console.log('puttidlercallback:'+context.status)
+//console.log('puttidlercallback:'+context.status)
        	if(context.callback){
 			context.callback(context,context.userParams);
 		}

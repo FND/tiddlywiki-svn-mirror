@@ -105,7 +105,7 @@ var serverside={
 	debug:<?php print $tiddlyCfg['developing'] ?>,		//debug mode, display alert box for each action
 	passwordTime:0,		//defines how long password variable store in cookie. 0 = indefinite
 	messageDuration:5000,				//displayMessage autoclose duration (in milliseconds), 0=leave open
-	loggedIn:<?php echo  $usr_val?user_session_validate():0;?>,
+	loggedIn:<?php echo  $usr_val?user_session_validate():0;?>
 };
 
 config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};
