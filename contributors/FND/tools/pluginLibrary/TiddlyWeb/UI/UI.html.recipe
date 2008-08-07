@@ -2,3 +2,4 @@ recipe: ../../../../../../core/tiddlywiki.html.recipe
 recipe: plugins/split.recipe
 recipe: shadows/split.recipe
 recipe: tiddlers/split.recipe
+recipe: feeds/split.recipe

@@ -44,6 +44,7 @@ config.macros.ImportPlugins = {
 	},
 
 	findPlugins: function(query) { // XXX: rename?
+		displayMessage("searching ", query);
 		var adaptor = new TiddlyWebAdaptor();
 		var context = {
 			host: this.host,
@@ -59,7 +60,8 @@ config.macros.ImportPlugins = {
 				if(!store.tiddlerExists(plugins[i].title)) { // XXX: prevents plugins from being reopened in subsequent searches
 					var subContext = {
 						host: context.host,
-						workspace: plugins[i].fields["server.workspace"]
+						bag: plugins[i].fields["server.bag"],
+						workspace: plugins[i].fields["server.bag"]
 					};
 					context.adaptor.getTiddler(plugins[i].title, subContext,
 						userParams, config.macros.ImportPlugins.displayPlugin);
@@ -86,7 +88,8 @@ config.macros.SearchPlugins = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		var wrapper = createTiddlyElement(place, "div", null, "searchBox");
 		var input = createTiddlyElement(wrapper, "input");
-		input.onkeyup = this.onclick;
+		//input.onkeyup = this.onclick; // DEBUG'd
+		input.onchange = this.onclick; // DEBUG: for testing purposes only
 		createTiddlyButton(wrapper, this.btnLabel, this.btnTooltip, this.onclick, this.btnClass);
 	},
 
