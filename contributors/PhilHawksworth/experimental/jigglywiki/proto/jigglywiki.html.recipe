@@ -1,0 +1,38 @@
+#
+# Core JigglyWiki page template
+#
+template: jigglywiki.template.html
+
+
+#
+# Core styling
+#
+style: css/default.css
+style: css/jquery.wysiwyg.css
+
+
+#
+# latest jQuery library
+#
+jquery: js/jquery-1.2.6.pack.js
+
+
+#
+# jigglywiki javascript code.
+#
+js: js/jquery-extensions.js
+js: js/jigglywiki.js
+js: js/events.js
+js: js/commands.js
+js: js/display.js
+js: js/macros.js
+
+#
+# jquery plugins
+js: js/jquery.wysiwyg.pack.js
+
+
+#
+# tiddlers for inclusion in main content (store)
+#
+recipe: tiddlers/split.recipe
