@@ -239,7 +239,7 @@ a:hover {
 #mainMenu a{
 	padding:4px;
 	margin:4px;
-	border:1px dotted black;
+	border:1px solid #eee;
 }
 
 #contentWrapper #mainMenu{ 
@@ -263,7 +263,8 @@ textarea {
 #sidebarOptions input {
 	border:0px dotted purple;
 	background-color:#00000;
-	width:12em;
+	width:96%;
+	margin-left:0px;
 }
 
 #sidebarTabs {
@@ -289,7 +290,8 @@ textarea {
 #sidebar .sliderPanel {
 	margin-left:0em;
 	border:0px;
-	padding:0.5em;
+	padding:0em;
+	border-right:1px solid #eee;
 	margin-bottom:0.8em;
 }
 
@@ -339,7 +341,7 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 #topMenu a, #topMenu .button {
 	padding: 5px 15px;
 	margin:9px;
-	border:1px dotted #999;
+	border:1px solid #999;
 	font-weight:bold;
 	line-height:40px;
 	top:1em;
@@ -488,12 +490,6 @@ body .wizardFooter {
 	background-color:none; 
 } 
 
-.viewer body .wizard {
-	width:95%;
-	padding:4px; 
-	border:1px dotted #EBE6F5;
-}
-
 .wizard  th{
 	background:white;
 	color:#888;
@@ -506,22 +502,20 @@ body .wizardFooter {
 };
 
 .wizard  {
-	padding : 4px 14px 4px 14px;
-	font-weight:bold;
 	color:#292929;
-	border:dotted 1px #292929; 
-	margin-top:1px;
 }
 
 .viewer .wizard, body .wizard{
 	background:white;
 	margin:2em;
 	border:0px;
-	border:0.1em solid #ccc;
 	color:#999;
 }
+
 .wizard h1{
 	color:#999;
+	padding-top:10px;
+	padding-bottom:10px;
 }
 
 .wizard h2{
