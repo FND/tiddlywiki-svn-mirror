@@ -1,5 +1,7 @@
 <div title="LogMessage" tags="ticker" ticker_interval="2">
 <pre>
+To experiment with the LogMessage functionality, we suggest playing with the options in LogMessagePluin, and then refreshing this tiddler to rerun the embedded logging macros.
+
 <<LogMessage "hello">>
 <<LogMessage "hello" "folks">>
 <<LogMessage "hello" "folks"  {{ new Date(); }}>>
