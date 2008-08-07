@@ -10,7 +10,7 @@
 !!Documentation
 This plugin provides a log() function with the same semantics as the [[Firebug|http://getfirebug.com/]] [[console.log|http://getfirebug.com/console.html]] function. Calling console.log() is likely to fail in browsers without Firebug installed. 
 
-Depending upon the Options, the message will be sent to the Firebug console, as well as to an external popup window, and TiddlyWiki display message. As of TiddlyWiki release 2.4.1, the core provides a <[[default log() function|http://trac.tiddlywiki.org/ticket/674]], so code containing log() calls will continue to function without generating errors, even without this plugin installed.
+Depending upon the Options, the message will be sent to the Firebug console, as well as to an external popup window, and TiddlyWiki display message. As of TiddlyWiki release 2.4.1, the core provides a [[default log() function|http://trac.tiddlywiki.org/ticket/674]], so code containing log() calls will continue to function without generating errors, even without this plugin installed.
 
 TiddlyWiki initializes plugin tiddlers in collation sequence order, so in order to make the log() function available for use in other plugins during initialization, the tiddler has been named _LogMessagePlugin.
 
