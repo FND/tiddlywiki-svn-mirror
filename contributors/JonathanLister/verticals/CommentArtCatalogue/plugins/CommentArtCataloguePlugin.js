@@ -137,7 +137,11 @@ config.macros.CommentArtCatalogueDownload = {
 		store.suspendNotifications();
 		for(var i=0;i<pieces.length;i++) {
 			piece = pieces[i];
-			title = piece.title; // BUG: tiddler titles can be the same and therefore get overwritten e.g.
+			title = piece.title;
+			if(store.getTiddler(title)) {
+				title = title.makeUniqueTiddlerName();
+			}
+			// BUG: tiddler titles can be the same and therefore get overwritten e.g.
 			// creating tiddler number  349 Yuki Snow,a girl,oil and acrylic,2007
 			// creating tiddler number 350 Yuki Snow,a girl,oil and acrylic,2007
 			body = "";
@@ -155,12 +159,29 @@ config.macros.CommentArtCatalogueDownload = {
 	
 	complete: function() {
 		wikify('[[Then download and save the images!|CommentArtCatalogueSaveFiles]]',this.context.place);
+		HttpManager.showStats();
 	}
+};
+
+String.prototype.makeUniqueTiddlerName = function() {
+	console.log(this.toString());
+	var str = this.toString();
+	var i = 0;
+	while(store.getTiddler(str+i)) {
+		i++;
+	}
+	str += i;
+	return str;
 };
 
 config.macros.CommentArtCatalogueSaveFiles = {
 
 	context: {},
+	imageSizes: [
+		'icon',
+		'normal'
+		//'large'
+	],
 	imageFolder: "images",
 
 	handler: function(place,macroName,params) {
@@ -168,7 +189,6 @@ config.macros.CommentArtCatalogueSaveFiles = {
 		var icon,normal,large,s,context;
 		this.context.place = place;
 		this.context.count = ss.length;
-		console.log('going to download '+ss.length+' pictures');
 		var getHost = function(url) {
 			var i=0;
 			if(!url)
@@ -185,24 +205,31 @@ config.macros.CommentArtCatalogueSaveFiles = {
 		HttpManager.setHttpReq(httpReqBin);
 		Http.intercept(window,'httpReq',function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
 			HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
-			//HttpManager.showStats();
 		});
-		for(var i=0;i<ss.length;i++) {
-			s = ss[i];
-			params = {};
-			icon = store.getTiddlerSlice(s.title,'icon');
-			normal = store.getTiddlerSlice(s.title,'normal');
-			large = store.getTiddlerSlice(s.title,'large');
-			params.macro = this;
-			params.title = s.title;
-			params.icon = icon;
-			params.tiddler = s;
-			console.log('passing request number in handler: ',i+1);
-			httpReq("GET",host+icon,this.getImageCallback,params,null,null,null,null,null,true);
-			//# debug
-			//break;
-		}
-		
+		var me = this;
+		var getImagesBySize = function(size) {
+			var s;
+			console.log('going to download '+ss.length+' '+size+' '+'pictures');
+			for(var i=0;i<ss.length;i++) {
+				s = ss[i];
+				imageURL = store.getTiddlerSlice(s.title,size);
+				params = {
+					macro:me,
+					title:s.title,
+					size:size,
+					tiddler:s
+				};
+				console.log('passing icon request number in handler: ',i+1);
+				httpReq("GET",host+imageURL,me.getImageCallback,params,null,null,null,null,null,true);
+				//# debug
+				//break;
+			}
+		};
+		var size = "";
+		for(var i=0;i<this.imageSizes.length;i++) {
+			size = this.imageSizes[i];
+			getImagesBySize(size);
+		}		
 	},
 
 	getImageCallback: function(status,params,responseText,url,xhr) {
@@ -210,10 +237,15 @@ config.macros.CommentArtCatalogueSaveFiles = {
 		if(!status) {
 			return false;
 		} else {
-			params.macro.context.count--;
+			if(params.macro.context) {
+				params.macro.context.count--;
+			} else {
+				console.log('no count in the context! ',url,status,params.macro.context,params);
+			}
 			tiddler = params.tiddler;
 			title = params.title;
-			fileName = title.replace(/\//g,"_")+".jpg";
+			size = params.size;
+			fileName = title.replace(/\//g,"_")+size+".jpg";
 			params.macro.save(fileName,responseText);
 		}
 	},
@@ -251,6 +283,7 @@ config.macros.CommentArtCatalogueSaveFiles = {
 	
 	complete: function(place) {
 		wikify('[[Now compile your catalogue!|CommentArtCatalogueCompile]]',this.context.place);
+		HttpManager.showStats();
 	}
 
 };
@@ -258,19 +291,29 @@ config.macros.CommentArtCatalogueSaveFiles = {
 config.macros.CommentArtCatalogueCompile = {
 
 	context: {},
+	imageSizes: [
+		'icon',
+		'normal'
+		//'large'
+	],
 	imageFolder: "images",
 
 	handler: function(place,macroName,params) {
-		var s, newBody, fileName, title;
+		var s, newBody, fileName, title, size;
 		var ss = store.getTaggedTiddlers('catalogueItem');
 		this.context.place = place;
 		store.suspendNotifications();
 		for(var i=0;i<ss.length;i++) {
 			s = ss[i];
 			title = s.title;
-			fileName = this.imageFolder+"/";
-			fileName += title.replace(/\//g,"_")+".jpg";
-			newBody = s.text + "\n[img["+fileName+"]]";
+			newBody = "";
+			for(var j=0;j<this.imageSizes.length;j++) {
+				size = this.imageSizes[j];
+				fileName = this.imageFolder+"/";
+				fileName += title.replace(/\//g,"_")+size+".jpg";
+				newBody += "\n[img["+fileName+"]]";
+			}
+			newBody = s.text + newBody;
 			store.saveTiddler(title,title,newBody,s.modifier,s.modified,s.tags,s.fields,false,s.created);
 		}
 		store.resumeNotifications();
