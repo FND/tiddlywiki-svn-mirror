@@ -2,7 +2,7 @@
 |''Name:''|LogMessagePlugin|
 |''Description:''|Browser independent message logging|
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/LogMessagePlugin.js |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/LogMessagePlugin/ |
 |''Version:''|0.2|
 |''License:''|[[BSD open source license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
