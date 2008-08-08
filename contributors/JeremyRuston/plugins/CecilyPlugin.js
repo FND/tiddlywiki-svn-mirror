@@ -197,7 +197,6 @@ config.macros.cecilyZoomAll.handler = function(place,macroName,params,wikifier,p
 }
 
 config.macros.cecilyBackground = {
-	backgroundDropdowns: []
 };
 
 config.macros.cecilyBackground.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -212,12 +211,33 @@ config.macros.cecilyBackground.handler = function(place,macroName,params,wikifie
 				cecily.drawBackground();
 			}
 		};
-		var defaultName = Cecily.backgrounds[cecily.background].title;
 		var options = [];
 		for(var t in Cecily.backgrounds) {
 			options.push({name: t, caption: Cecily.backgrounds[t].title});
 		}
 		createTiddlyDropDown(place,onchange,options,cecily.background);
+	}
+};
+
+config.macros.cecilyMap = {
+};
+
+config.macros.cecilyMap.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	if(cecily) {
+		createTiddlyElement(place,"span",null,"cecilyLabel","map ");
+		var onchange = function(ev) {
+			var sel = this.options[this.selectedIndex].value;
+			if(sel != cecily.mapTitle) {
+				cecily.setMap(sel);
+			}
+			cecily.scrollToAllTiddlers();
+		};
+		var options = [];
+		var mapTiddlers = store.getTaggedTiddlers("cecilyMap")
+		for(var t=0; t<mapTiddlers.length; t++) {
+			options.push({name: mapTiddlers[t].title, caption: mapTiddlers[t].title});
+		}
+		createTiddlyDropDown(place,onchange,options,cecily.mapTitle);
 	}
 };
 
@@ -425,7 +445,6 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 	 	return;
 	if(!tiddlerElemBefore) {
 		var pos = this.getTiddlerPosition(title,srcElement);
-		tiddlerElem.title = tiddler.title;
 		tiddlerElem.style.left = pos.x + "px";
 		tiddlerElem.style.top = pos.y + "px";
 		tiddlerElem.scaledWidth = pos.w;
@@ -442,6 +461,7 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 	this.defaultTiddler = tiddlerElem;
 };
 
+// Load the current map from a named tiddler
 Cecily.prototype.loadMap = function(title) {
 	this.map = {};
 	var mapText = store.getTiddlerText(title,"");
@@ -460,6 +480,7 @@ Cecily.prototype.loadMap = function(title) {
 	} while(match);
 }
 
+// Save the current map into a named tiddler
 Cecily.prototype.saveMap = function(title) {
 	var mapTiddler = store.getTiddler(title);
 	if((mapTiddler == null) || (mapTiddler.isTagged("cecilyMap"))) {
@@ -493,6 +514,26 @@ Cecily.prototype.updateTiddlerPosition = function(title,tiddlerElem) {
 						tiddlerElem.offsetHeight * (tiddlerElem.scaledWidth/tiddlerElem.offsetWidth));
 	this.map[title] = pos;
 	this.saveMap(this.mapTitle);
+}
+
+// Switch to a new map
+Cecily.prototype.setMap = function(title)
+{
+	this.mapTitle = title;
+	config.options.txtCecilyMap = title;
+	saveOptionCookie("txtCecilyMap");
+	this.loadMap(title);
+	var me = this;
+	story.forEachTiddler(function(tiddler,elem) {
+		var pos = me.getTiddlerPosition(tiddler);
+		elem.style.left = pos.x + "px";
+		elem.style.top = pos.y + "px";
+		elem.scaledWidth = pos.w;
+		elem.rotate = 0;
+		elem.enlarge = 1.0;
+		me.transformTiddler(elem);
+	});
+	this.drawBackground();
 }
 
 // Applies the tiddler transformation properties (rotate & enlarge) to the display
@@ -748,22 +789,29 @@ Cecily.backgrounds.fractal = {
 			// Draw the circle
 			drawCircle(x,y,r);
 			// Draw the curve
+			ctx.strokeStyle = "#0ff";
+			ctx.lineWidth = 1;
+			ctx.beginPath();
+			ctx.moveTo(p1.x,p1.y);
+			drawLeg(p1,p2,3);
+			ctx.stroke();
+			// Draw the curve
 			ctx.strokeStyle = "#F00";
-			ctx.lineWidth = 3;
+			ctx.lineWidth = 1;
 			ctx.beginPath();
 			ctx.moveTo(p1.x,p1.y);
 			drawLeg(p1,p2,2);
 			ctx.stroke();
 			// Draw the curve
 			ctx.strokeStyle = "#Ff0";
-			ctx.lineWidth = 3;
+			ctx.lineWidth = 1;
 			ctx.beginPath();
 			ctx.moveTo(p1.x,p1.y);
 			drawLeg(p1,p2,1);
 			ctx.stroke();
 			// Draw the curve
 			ctx.strokeStyle = "#F0f";
-			ctx.lineWidth = 3;
+			ctx.lineWidth = 1;
 			ctx.beginPath();
 			ctx.moveTo(p1.x,p1.y);
 			drawLeg(p1,p2,0);
