@@ -2,57 +2,42 @@
 |''Name''|HTTPSavingPlugin|
 |''Description''|<...>|
 |''Author''|Zooko|
-|''Contributors''|<...>|
-|''Version''|<...>|
-|''Date''|<...>|
+|''Contributors''|FND|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
-|''Source''|<...>|
-|''CodeRepository''|<...>|
-|''Copyright''|<...>|
+|''Source''|http://svn.tiddlywiki.org/Trunk/contributors/Zooko/HTTPSavingPlugin.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/Zooko/HTTPSavingPlugin.js|
 |''License''|<...>|
-|''CoreVersion''|<...>|
-|''Requires''|<...>|
-|''Overrides''|<...>|
-|''Feedback''|<...>|
-|''Documentation''|<...>|
 |''Keywords''|<...>|
 !Description
 <...>
 !Notes
-<...>
-!Usage
-{{{
-<<sampleMacro>>
-}}}
-!!Parameters
-<...>
-!!Examples
-<<sampleMacro>>
-!Configuration Options
-<...>
+This plugin is being developed for [[Tiddly on Tahoe|http://allmydata.org/trac/tiddly_on_tahoe]].
 !Revision History
-!!v<#.#> (<yyyy-mm-dd>)
-* <...>
+!!v0.1 (2008-08-08)
+* initial release
 !To Do
-<...>
+* optional logging (retaining link to previous versions)
 !Code
 ***/
 //{{{
+if(!version.extensions.HTTPSavingPlugin) { //# ensure that the plugin is only installed once
+version.extensions.HTTPSavingPlugin = { installed: true };
+
 readOnly = false;
 config.options.chkHttpReadOnly = false;
 showBackstage = true;
 
-function saveTest()
-{
+function saveTest() {
 	var s = document.getElementById("saveTest");
-//	if(s.hasChildNodes())
-//		alert(config.messages.savedSnapshotError);
+	/*if(s.hasChildNodes()) {
+		alert(config.messages.savedSnapshotError);
+	}*/
 	s.appendChild(document.createTextNode("savetest"));
 }
 
-// Save this tiddlywiki with the pending changes
-function saveChanges(onlyIfDirty,tiddlers)
-{
+// Save this TiddlyWiki with the pending changes
+function saveChanges(onlyIfDirty,tiddlers) {
 	if(onlyIfDirty && !store.isDirty())
 		return;
 	clearMessage();
@@ -60,7 +45,9 @@ function saveChanges(onlyIfDirty,tiddlers)
 	var originalPath = getPath(document.location.toString());
 	// Load the original file
 	var localCallback = function(status,context,original,url,xhr) {
-//		alert("whee 2 ! loaded remote file from " + originalPath + ", got callback status " + status + ", context " + context + ", url " + url + ", xhr " + xhr);
+		//log("loaded remote file from ", originalPath);
+		/*log("got callback status ", status, "\n", context: ", context, "\n",
+			URL: ", url, "\n", XHR: ", xhr);*/
 		if(original == null) {
 			alert(config.messages.cantSaveError);
 			if(store.tiddlerExists(config.messages.saveInstructions))
@@ -78,17 +65,18 @@ function saveChanges(onlyIfDirty,tiddlers)
 		saveMain(originalPath,original,posDiv);
 	}
 	var result = loadRemoteFile(originalPath, localCallback);
-//alert("whee 3 got result from loadRemoteFile, result: " + result);
-return true;
+	//log("result from loadRemoteFile: ", result);
+	return true;
 }
 
-function saveBackup(localPath,original)
-{
-	// removed
-}
+// override and disable saveBackup()
+function saveBackup(localPath,original) {}
 
-function getPath(origPath)
-{
+// override and disable getLocalPath()
+function getLocalPath(origPath) {}
+
+// override getPath()
+function getPath(origPath) {
 	var originalPath = convertUriToUTF8(origPath,config.options.txtFileSystemCharSet);
 	// Remove any location or query part of the URL
 	var argPos = originalPath.indexOf("?");
@@ -102,32 +90,30 @@ function getPath(origPath)
 		originalPath = "file://" + originalPath.substr(16);
 	// Convert to a native file format
 	var resultPath;
-	if(originalPath.indexOf("http://") == 0) // http file
-                resultPath = originalPath
-	else if(originalPath.charAt(9) == ":") // pc local file
+	if(originalPath.indexOf("http://") == 0) // HTTP file
+		resultPath = originalPath
+	} else if(originalPath.charAt(9) == ":") { // PC local file
 		resultPath = unescape(originalPath.substr(8)).replace(new RegExp("/","g"),"\\");
-	else if(originalPath.indexOf("file://///") == 0) // FireFox pc network file
+	} else if(originalPath.indexOf("file://///") == 0) { // Firefox PC network file
 		resultPath = "\\\\" + unescape(originalPath.substr(10)).replace(new RegExp("/","g"),"\\");
-	else if(originalPath.indexOf("file:///") == 0) // mac/unix local file
+	} else if(originalPath.indexOf("file:///") == 0) { // *nix local file
 		resultPath = unescape(originalPath.substr(7));
-	else if(originalPath.indexOf("file:/") == 0) // mac/unix local file
+	} else if(originalPath.indexOf("file:/") == 0) { // *nix local file
 		resultPath = unescape(originalPath.substr(5));
-	else // pc network file
+	} else { // PC local file
 		resultPath = "\\\\" + unescape(originalPath.substr(7)).replace(new RegExp("/","g"),"\\");
+	}
 	return resultPath;
 }
 
-function getLocalPath(origPath)
-{
-	// removed
-}
-
-function saveFile(fileUrl,content,callb)
-{
-//	alert("whee! about to save to " + fileUrl);
+// override saveFile()
+function saveFile(fileUrl,content,callb) {
+	//alert("whee! about to save to " + fileUrl);
 	var localCallback = function(status,params,responseText,url,xhr) {
-//		alert("whee! got callback status " + status + ", params " + params + ", url " + url + ", xhr " + xhr);
+		//alert("whee! got callback status " + status + ", params " + params + ", url " + url + ", xhr " + xhr);
 	}
 	return doHttp('PUT',fileUrl,content,"tahoe tiddly type",null,null,localCallback);
 }
+
+} //# end of "install only once"
 //}}}
