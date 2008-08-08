@@ -6,3 +6,6 @@ RECIPE=$PWD/index.$RELEASE.html.recipe
 ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
 RECIPE=$PWD/empty.$RELEASE.html.recipe
 ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
+cp empty.$RELEASE.html /tmp/empty.html
+rm empty.$RELEASE.zip
+zip -j empty.$RELEASE.zip /tmp/empty.html TiddlySaver.jar

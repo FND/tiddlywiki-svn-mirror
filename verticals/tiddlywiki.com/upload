@@ -23,7 +23,7 @@ function setPermissions() {
 echo
 echo "uploading files"
 echo
-FILES="index.$RELEASE.html empty.$RELEASE.html TiddlySaver.jar"
+FILES="index.$RELEASE.html empty.$RELEASE.html TiddlySaver.jar empty.$RELEASE.zip"
 scp $FILES "$HOST:./tmp/"
 
 # transfer files to their respective folders
@@ -43,6 +43,9 @@ setPermissions "$DIR/upgrade/index.html"
 # TiddlySaver
 COMMANDS="$COMMANDS sudo mv ./tmp/TiddlySaver.jar $DIR/TiddlySaver.jar;"
 setPermissions "$DIR/TiddlySaver.jar"
+# ZIP package
+COMMANDS="$COMMANDS sudo mv ./tmp/empty.$RELEASE.zip $DIR/empty.zip;"
+setPermissions "$DIR/empty.zip"
 # execute
 $COMMANDS
 
