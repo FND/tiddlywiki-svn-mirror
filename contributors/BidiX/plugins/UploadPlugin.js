@@ -322,7 +322,7 @@ bidix.upload.httpUpload = function(uploadParams,data,callback,params)
 {
 	var localCallback = function(status,params,responseText,url,xhr) {
 		url = (url.indexOf("nocache=") < 0 ? url : url.substring(0,url.indexOf("nocache=")-1));
-		if (xhr.status == httpStatus.NotFound)
+		if (xhr.status == 404)
 			alert(bidix.upload.messages.storePhpNotFound.format([url]));
 		if ((bidix.debugMode) || (responseText.indexOf("Debug mode") >= 0 )) {
 			alert(responseText);
