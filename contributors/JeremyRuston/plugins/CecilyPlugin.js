@@ -950,7 +950,7 @@ if(config.browser.isSafari && (document.body.style['-webkit-transform'] !== unde
 	float: none;
 	margin: 0em 0em 0em 0em;
 	position: relative;
-	background-color: #8888ff;
+	background-color: #ffff88;
 	overflow: hidden;
 }
 
@@ -1072,15 +1072,18 @@ div#backstageArea {
 	-webkit-box-shadow: 2px 2px 13px #000;
 }
 
+.cecily .tiddler .heading {
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		from(#fff), color-stop(0.5,#ccc), color-stop(0.51,#bbb), to(#aaa));
+}
+
 .cecily .tiddler .toolbar {
 	cursor: all-scroll;
-	padding: 0.5em 0.5em 0.5em 0.5em;
-	background-color: #aaa;
+	padding: 2pt 8pt 2pt 8pt;
 	color: #aaa;
 }
 
 .cecily .tiddler.selected .toolbar {
-	background-color: #aaa;
 	color: #fff;
 }
 
@@ -1114,30 +1117,27 @@ div#backstageArea {
 
 .cecily .tiddler .title {
 	cursor: all-scroll;
-	padding: 0 0.5em 0.25em 0.5em;
-	background-color: #aaa;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#ccc), color-stop(0.3,#bbb));
-	color: #fff;
+	padding: 2pt 8pt 2pt 8pt;
+	color: #000;
+	background-color: transparent;
 }
 
-
 .cecily .tiddler .subtitle {
-	padding: 0.25em 0.5em 0.25em 0.5em;
-	background-color: #ccc;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#fff), color-stop(0.9,#eee));
+	padding: 2pt 8pt 4pt 8pt;
 	color: #444;
 	font-size: 0.6em;
 }
 
 .cecily .tiddler .viewer {
-	padding: 0.5em 0.5em 0.5em 0.5em;
+	padding: 4pt 8pt 4pt 8pt;
 	background-color: #fff;
 }
 
 .cecily .tiddler .tagging, .cecily .tiddler .tagged {
 	float: none;
 	border: none;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#888), to(#fff), color-stop(0.5,#ccc));
+	padding: 2pt 8pt 2pt 8pt;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#888), to(#ccc), color-stop(0.5,#ccc), color-stop(0.95,#fff));
 	margin: auto;
 }
 
