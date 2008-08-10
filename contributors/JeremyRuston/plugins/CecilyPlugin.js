@@ -989,17 +989,42 @@ div#messageArea:hover .button:active {
 
 #overlayMenu {
 	-webkit-transition: opacity 0.3s ease-in-out;
+	font-size: 0.5em;
 	z-index: 100;
 	bottom: 3em;
 	right: 1em;
-	width: 15em;
+	width: 24em;
 	position: absolute;
-	padding: 0.5em 0.5em 0.5em 0.5em;
+	padding: 0.2em 0.2em 0.2em 0.2em;
 	-webkit-border-radius: 7px;
 	border: 1px solid #222;
 	background-color: #444;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#666), color-stop(0.3,#444));
 	opacity: 0.4;
+}
+
+#overlayMenu table.twtable {
+	border: none;
+}
+
+#overlayMenu .twtable th, #overlayMenu .twtable thead td {
+	background:[[ColorPalette::SecondaryMid]];
+	border: none;
+	color:[[ColorPalette::Background]];
+}
+
+#overlayMenu .twtable td {
+	border: none;
+}
+
+#overlayMenu .twtable tr {
+	border: none;
+	border-bottom: 1px solid white;
+}
+
+.viewer table, table.twtable {
+	border: none;
+	border-bottom: none;
 }
 
 #overlayMenu:hover {
@@ -1029,6 +1054,10 @@ div#messageArea:hover .button:active {
 	background-color: #ff0;
 	display: block;
 	border: none;
+}
+
+#overlayMenu .overlayCommand {
+	font-size: 3em;
 }
 
 div#backstageArea {
@@ -1073,6 +1102,7 @@ div#backstageArea {
 }
 
 .cecily .tiddler .heading {
+	background-color: #bbb;
 	background-image: -webkit-gradient(linear, left top, left bottom,
 		from(#fff), color-stop(0.5,#ccc), color-stop(0.51,#bbb), to(#aaa));
 }
@@ -1099,14 +1129,14 @@ div#backstageArea {
 .cecily .tiddler.selected .toolbar a {
 	opacity: 1;
 	background-color: #aaa;
-	background: -webkit-gradient(linear, left top, left bottom, from([[ColorPalette::PrimaryLight]]), to([[ColorPalette::PrimaryDark]]), color-stop(0.5,[[ColorPalette::PrimaryMid]]));
-	color: [[ColorPalette::TertiaryPale]];
+	background: -webkit-gradient(linear, left top, left bottom, from(#888), to(#ccc), color-stop(0.5,#aaa), color-stop(0.7,#bbb));
+	color: #fff;
 }
 
 .cecily .tiddler.selected .toolbar a:hover {
-	background-color: [[ColorPalette::SecondaryMid]];
-	background-image: -webkit-gradient(linear, left bottom, left top, from([[ColorPalette::SecondaryLight]]), to([[ColorPalette::SecondaryDark]]), color-stop(0.5,[[ColorPalette::SecondaryMid]]));
-	color: [[ColorPalette::Foreground]];
+	background-color: #c80;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#c80), to(#fc1), color-stop(0.5,#c80));
+	color: #000;
 }
 
 .cecily .tiddler.selected .toolbar a:active {

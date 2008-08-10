@@ -1,5 +1,6 @@
 tiddler: DefaultTiddlers.tiddler
 tiddler: MainMenu.tiddler
+tiddler: MarkupPreHead.tiddler
 tiddler: PageTemplate.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
