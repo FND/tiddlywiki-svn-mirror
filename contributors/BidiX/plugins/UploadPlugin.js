@@ -1,8 +1,8 @@
 /***
 |''Name:''|UploadPlugin|
 |''Description:''|Save to web a TiddlyWiki|
-|''Version:''|4.1.3|
-|''Date:''|Feb 24, 2008|
+|''Version:''|4.1.4|
+|''Date:''|2008-08-11|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadPlugin|
 |''Documentation:''|http://tiddlywiki.bidix.info/#UploadPluginDoc|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
@@ -12,8 +12,8 @@
 ***/
 //{{{
 version.extensions.UploadPlugin = {
-	major: 4, minor: 1, revision: 3,
-	date: new Date("Feb 24, 2008"),
+	major: 4, minor: 1, revision: 4,
+	date: new Date("2008-08-11"),
 	source: 'http://tiddlywiki.bidix.info/#UploadPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	coreVersion: '2.2.0'
