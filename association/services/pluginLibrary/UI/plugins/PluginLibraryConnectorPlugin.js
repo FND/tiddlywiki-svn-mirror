@@ -2,7 +2,7 @@
 |''Name''|PluginLibraryConnectorPlugin|
 |''Description''|imports plugins from TiddlyWiki Plugin Library|
 |''Author''|FND|
-|''Version''|0.1|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#PluginLibraryConnectorPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -54,20 +54,21 @@ config.macros.ImportPlugins = {
 	},
 
 	getPlugins: function(context, userParams) { // XXX: rename?
+		displayMessage("still searching");
 		var plugins = context.tiddlers;
 		if(plugins) {
 			for(var i = 0; i < plugins.length; i++) {
 				if(!store.tiddlerExists(plugins[i].title)) { // XXX: prevents plugins from being reopened in subsequent searches
 					var subContext = {
 						host: context.host,
-						bag: plugins[i].fields["server.bag"],
-						workspace: plugins[i].fields["server.bag"]
+						bag: plugins[i].fields["server.bag"]
 					};
 					context.adaptor.getTiddler(plugins[i].title, subContext,
 						userParams, config.macros.ImportPlugins.displayPlugin);
 				}
 			}
 		}
+		displayMessage("searched");
 	},
 
 	displayPlugin: function(context, userParams) { // XXX: rename?
