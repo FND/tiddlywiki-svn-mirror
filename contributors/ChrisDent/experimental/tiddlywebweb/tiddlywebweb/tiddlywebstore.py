@@ -73,7 +73,7 @@ class Store(StorageInterface):
         self.serializer.object = target_object
         data = self.serializer.to_string()
         response, content = self._request('PUT', url, data)
-        if not self._is_success(reponse):
+        if not self._is_success(response):
             raise TiddlyWebWebError, '%s: %s' % (response['status'], content)
 
     def doit(self, url, object, method, exception):
@@ -100,12 +100,12 @@ class Store(StorageInterface):
             for tiddler in tiddlers:
                 bag.add_tiddler(Tiddler(tiddler['title']))
 
-    def bag_put(self, recipe):
+    def bag_put(self, bag):
         url = self.bag_url % bag.name
         self.doit(url, bag, self._any_put, NoBagError)
 
     def tiddler_delete(self, tiddler):
-        url = self.tiddler_url % tiddler.title
+        url = self.tiddler_url % (tiddler. bag, tiddler.title)
         self.doit(url, tiddler, self._any_delete, NoTiddlerError)
 
     def tiddler_get(self, tiddler):
@@ -116,7 +116,7 @@ class Store(StorageInterface):
         self.doit(url, tiddler, self._any_get, NoTiddlerError)
 
     def tiddler_put(self, tiddler):
-        url = self.tiddler_url % tiddler.title
+        url = self.tiddler_url % (tiddler.bag, tiddler.title)
         self.doit(url, tiddler, self._any_put, NoTiddlerError)
 
     def user_get(self, user):
