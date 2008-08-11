@@ -3,9 +3,8 @@
 * 404 handling
 * revision handling (don't create revision if nothing has changed => SHA-1 comparison?)
 * handling of removed plugins (e.g. don't delete, but tag with "disabled"?)
-* SVN handling
+* SVN black-/whitelist handling
 * efficiency enhancements (e.g. caching, deferred processing)
-* blacklisting(?)
 * logging
 
 ==  Serializers ==
