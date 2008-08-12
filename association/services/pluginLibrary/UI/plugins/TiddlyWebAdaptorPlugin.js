@@ -4,7 +4,7 @@
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/ChrisDent/TiddlyWebAdaptorPlugin.js |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/ChrisDent/TiddlyWebAdaptorPlugin.js |
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Status:''|@@experimental@@|
 |''Date:''|Mar 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -196,7 +196,7 @@ TiddlyWebAdaptor.getTiddlerCallback = function(status,context,responseText,uri,x
 			return;
 		}
 		context.tiddler.text = info.text;
-		context.tiddler.tags = info.tags;
+		context.tiddler.tags = info.tags||[];
 		context.tiddler.fields['server.page.revision'] = info.revision;
 		context.tiddler.modifier = info.modifier;
 		context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(info.modified);
@@ -229,7 +229,7 @@ TiddlyWebAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context
 	} else {
 		uri = uriTemplate.format([context.host,'recipes',context.workspace,TiddlyWebAdaptor.normalizedTitle(title)]);
 	}
-	var req = httpReq('GET',uri,TiddlyWebAdaptor.getTiddlerRevisionListCallback,context);
+	var req = httpReq('GET',uri,TiddlyWebAdaptor.getTiddlerRevisionListCallback,context, {'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
 
@@ -257,9 +257,9 @@ TiddlyWebAdaptor.getTiddlerRevisionListCallback = function(status,context,respon
 			tiddler.created = Date.convertFromYYYYMMDDHHMM(ti.created);
 			tiddler.fields['server.page.revision'] = ti.revision;
 			if(ti.bag) {
-				context.tiddler.fields['server.bag'] = ti.bag;
+				tiddler.fields['server.bag'] = ti.bag;
 			} else {
-				context.tiddler.fields['server.workspace'] = ti.workspace;
+				tiddler.fields['server.workspace'] = ti.workspace;
 			}
 			list.push(tiddler);
 		}
