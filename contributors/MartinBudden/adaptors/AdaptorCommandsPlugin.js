@@ -166,7 +166,7 @@ config.commands.revisions.handler = function(event,src,title)
 {
 //#console.log("revisions.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
-	userParams = {};
+	var userParams = {};
 	userParams.tiddler = tiddler;
 	userParams.src = src;
 	userParams.dateFormat = 'YYYY mmm 0DD 0hh:0mm';
@@ -303,6 +303,54 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		displayMessage(config.commands.saveTiddlerHosted.done);
 	} else {
 		displayMessage(context.statusText);
+	}
+};
+
+//# revisions command definition
+config.commands.diff = {};
+merge(config.commands.diff,{
+	text: "diff",
+	tooltip: "View tiddler changes",
+	popupNone: "No changes",
+	done: "done"
+	});
+
+config.commands.diff.isEnabled = function(tiddler)
+{
+	return isAdaptorFunctionSupported('getTiddlerDiff',tiddler.fields);
+};
+
+config.commands.diff.handler = function(event,src,title)
+{
+//#console.log("diff.handler:"+title);
+	var tiddler = store.fetchTiddler(title);
+	var userParams = {};
+	userParams.tiddler = tiddler;
+	userParams.src = src;
+//#	var context = {rev1:'1',rev2:'3'};
+//#	var context = {rev1:'2'};
+	var context = {};
+	if(!invokeAdaptor('getTiddlerDiff',title,null,context,userParams,config.commands.diff.callback,tiddler.fields))
+		return false;
+	event.cancelBubble = true;
+	if(event.stopPropagation)
+		event.stopPropagation();
+	return true;
+};
+
+config.commands.diff.callback = function(context,userParams)
+// The revisions are returned as tiddlers in the context.revisions array
+{
+	//#displayMessage("config.commands.diff.callback:"+context.diff);
+	var diff = context.diff;
+	popup = Popup.create(userParams.src);
+	Popup.show(popup,false);
+	if(diff.length==0) {
+		createTiddlyText(createTiddlyElement(popup,'li',null,'disabled'),config.commands.diff.popupNone);
+	} else {
+		for(var i=0; i<diff.length; i++) {
+			createTiddlyText(createTiddlyElement(popup,'li'),diff[i]);
+		}
 	}
 };
 

@@ -1,0 +1,6 @@
+<div title="LocalFeed" modifier="FND" tags="systemServer excludeLists excludeSearch">
+<pre>|''Description:''|Local feed|
+|''Type:''|tiddlyweb|
+|''URL:''|http://0.0.0.0:8080|
+</pre>
+</div>

@@ -1,0 +1,14 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: shadows/split.recipe
+recipe: content/split.recipe
+recipe: feeds/split.recipe
+tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: settings.js
+tiddler: ../../shadows/ViewTemplateGetPutRevisionsFields.tiddler
+tiddler: ../../adaptors/AdaptorMacrosPlugin.js
+tiddler: ../../adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
+tiddler: ../../../../association/services/pluginLibrary/UI/plugins/TiddlyWebAdaptorPlugin.js 
+tiddler: ../../../../association/services/pluginLibrary/UI/plugins/PluginInfoPlugin.js 
+
+
