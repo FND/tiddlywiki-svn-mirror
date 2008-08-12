@@ -57,10 +57,6 @@ class TiddlyWiki:
 		# remove non-plugin tiddlers
 		[tiddler.extract() for tiddler in self.store.findChildren("div", title=True)
 			if (not tiddler.has_key("tags")) or (tag not in tiddler["tags"])]
-		# disable plugins -- DEBUG: move into separate function
-		pattern = re.compile(r"\b(systemConfig|excludeLists|excludeSearch)\b\s?")
-		for plugin in self.store.findChildren("div", title=True, tags=True):
-			plugin["tags"] = re.sub(pattern, "", plugin["tags"]).strip()
 		# remove non-originating plugins
 		self.removeDuplicates(repo["URI"])
 		# return pure-store format

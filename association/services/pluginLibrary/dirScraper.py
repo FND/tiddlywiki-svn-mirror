@@ -40,6 +40,7 @@ class dirScraper:
 			if href.endswith(".js"): # plugin
 				plugin = Tiddler()
 				plugin.title = posixpath.basename(href[:-3])
+				plugin.tags = ["systemConfig"]
 				plugin.text = self._get(self.host + dir + href)
 				if self.checkOrigin(plugin.text): # source = self.host + dir + href
 					results.append(plugin)
