@@ -4,7 +4,7 @@
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/ChrisDent/TiddlyWebAdaptorPlugin.js |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/ChrisDent/TiddlyWebAdaptorPlugin.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Status:''|@@experimental@@|
 |''Date:''|Mar 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -136,11 +136,16 @@ TiddlyWebAdaptor.getSearchResultsCallback = function(status,context,responseText
 TiddlyWebAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 {
 	var info = {};
-	var host = this && this.host ? this.host : this.fullHostName(tiddler.fields['server.host']);
+	var host = this && this.host ? this.host : tiddler.fields['server.host'];
+	host = this.fullHostName(host);
 	var bag = tiddler.fields['server.bag'];
-	var workspace = tiddler.fields['server.workspace'];
 	var uriTemplate = '%0/%1/%2/tiddlers/%3';
-	info.uri = uriTemplate.format([host,bag ? 'bags' : 'recipes',workspace,tiddler.title]);
+	if(bag) {
+		info.uri = uriTemplate.format([host,'bags',bag,tiddler.title]);
+	} else {
+		var workspace = tiddler.fields['server.workspace'];
+		info.uri = uriTemplate.format([host,'recipes',workspace,tiddler.title]);
+	}
 	return info;
 };
 
