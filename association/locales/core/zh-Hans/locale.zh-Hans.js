@@ -4,11 +4,11 @@
 |''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''Version:''|2.4.0|
-|''Date:''|May 10, 2008|
+|''Version:''|2.4.1|
+|''Date:''|Jul 28, 2008|
 |''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|''~CoreVersion:''|2.4.0|
+|''~CoreVersion:''|2.4.1|
 ***/
 
 //{{{
@@ -234,7 +234,7 @@ merge(config.macros.plugins,{
 	step1Html: "<input type='hidden' name='markList'></input>", // DO NOT TRANSLATE
 	skippedText: "(此插件因刚加入，故尚未执行)",
 	noPluginText: "未安装插件",
-	confirmDeleteText: "确认是否删除此文章:\n\n%0",
+	confirmDeleteText: "确认是否删除所选插件:\n\n%0",
 	removeLabel: "删除 'systemConfig' 标签",
 	removePrompt: "删除 'systemConfig' 标签",
 	deleteLabel: "删除",
@@ -362,13 +362,13 @@ merge(config.macros.sync,{
 	hasChanged: "已更动",
 	hasNotChanged: "未更动",
 	syncStatusList: {
-		none: {text: "...", color: 'transparent'},
-		changedServer: {text: "服务器资料已更动", color: '#80ff80'},
-		changedLocally: {text: "本机资料已更动", color: '#80ff80'},
-		changedBoth: {text: "已同时更新本机与服务器上的资料", color: '#ff8080'},
-		notFound: {text: "服务器无此资料", color: 'ffff80'},
-		putToServer: {text: "已储存更新资料至服务器", color: '#ff80ff'},
-		gotFromServer: {text: "已从服务器撷取更新资料", color: '#80ffff'}
+		none: {text: "...", display:null, className:'notChanged'},
+		changedServer: {text: "服务器资料已更动", display:null, className:'changedServer'},
+		changedLocally: {text: "本机资料已更动", display:null, className:'changedLocally'},
+		changedBoth: {text: "已同时更新本机与服务器上的资料", display:null, className:'changedBoth'},
+		notFound: {text: "服务器无此资料", className:'notFound'},
+		putToServer: {text: "已储存更新资料至服务器", display:null, className:'putToServer'},
+		gotFromServer: {text: "已从服务器撷取更新资料", display:null, className:'gotFromServer'}
 		}
 	});
 
