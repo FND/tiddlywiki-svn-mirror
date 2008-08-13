@@ -28,7 +28,7 @@
 	{
 		$tiddler = array();
 		$tiddler['id'] = preg_replace("![^0-9]!","",$id);		//if empty, leave it as empty. otherwise make it as int
-		//$tiddler['title'] = tiddler_bodyEncode($title);
+		//$tiddler['title'] = tiddler_bodyEncode($title);pp
 	 	$tiddler['title'] = $title;
 		//$tiddler['body'] = tiddler_bodyEncode($body);
 		$tiddler['body'] = $body;

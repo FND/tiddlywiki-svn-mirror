@@ -1,0 +1,6 @@
+<div title="Manage Users" modifier="ccTiddly"  tags="ccTiddly excludeSearch excludeLists wizard">
+<pre>
+<<ccAdmin>>
+<<ccEditWorkspace>>
+</pre>
+</div>

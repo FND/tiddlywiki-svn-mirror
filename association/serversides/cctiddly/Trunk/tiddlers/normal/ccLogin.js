@@ -31,10 +31,10 @@ To display a login prompt for your user simple type the following text into a ti
 
 if (isLoggedIn()){
 	config.backstageTasks.push("logout");
-	merge(config.tasks,{logout:{text: "logout",tooltip: "Logout from ccTiddly",content: '<<login>>'}});
+	merge(config.tasks,{logout:{text: "logout",tooltip: "Logout from ccTiddly",content: '<<ccLogin>>'}});
 }else{
 	config.backstageTasks.push("login");
-	merge(config.tasks,{login:{text: "login",tooltip: "Login to ccTiddly",content: '<<login>>'}});	
+	merge(config.tasks,{login:{text: "login",tooltip: "Login to ccTiddly",content: '<<ccLogin>>'}});	
 }
 config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
 var loginState=null;

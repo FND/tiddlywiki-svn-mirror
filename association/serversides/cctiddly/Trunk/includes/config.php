@@ -6,7 +6,7 @@ $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "DATABASE";		//db name
+$tiddlyCfg['db']['name'] = "cct17";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 // Debugging Information 
@@ -74,7 +74,7 @@ $tiddlyCfg['table']['admin'] = "admin_of_workspace";	//admin of workspace	admin 
 $tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
 $tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each viewing of a workspace
 $tiddlyCfg['table']['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
-$tiddlyCfg['txtTheme'] = 'smmTheme';  // The default TiddlyWiki theme to use, ccTheme is the default, you can also try smmTheme.
+$tiddlyCfg['txtTheme'] = 'simpleTheme';  // The default TiddlyWiki theme to use, ccTheme is the default, you can also try smmTheme.
 //ccT core settings, do not affect by DB settings
 $tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 $tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 

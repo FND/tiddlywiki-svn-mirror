@@ -112,6 +112,7 @@ h1 {
 	font-size: 11px;
 	font-family: Lucida Grande, Tahoma, Arial, Helvetica, sans-serif;
 	height:1%;
+	display:table;
 	background-color:#eee;
 }
 
@@ -261,8 +262,6 @@ textarea {
 }
 
 #sidebarOptions input {
-	border:0px dotted purple;
-	background-color:#00000;
 	width:96%;
 	margin-left:0px;
 }
@@ -307,16 +306,6 @@ textarea {
 	color: #999;
 	font-size: 1em;margin:0.2em;
 	font-variant: small-caps;
-}
-
-.selected .toolbar a {
-	color:#999;
-}
-
-.selected .toolbar a:hover {
-	color:#eee; 
-	background:transparent;
-	border:1px dotted #fff;
 }
 
 * html .viewer pre {
@@ -382,7 +371,7 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 }
 
 .viewer table {
-	border:1px dotted #eee;
+	border:1px solid #eee;
 }
 
 table.twtable {
@@ -401,8 +390,7 @@ hr {
 
 #sidebarOptions .sliderPanel .tabUnselected {
 	background:#eee none repeat scroll 0%;
-	border:0px dotted #999;
-	//border-bottom:1px dotted black;
+	border:0px solid #999;
 	color:#999;
 	padding:2px;
 }
@@ -411,10 +399,10 @@ hr {
 #sidebarOptions .sliderPanel .tabSelected {
 	background:white none repeat scroll 0%;
 	padding:2px;
-	border:0px dotted #999;
+	border:0px solid #999;
 	//border-bottom:1px dotted black;
 	color:#999;
-	border-bottom:2px dotted white;
+	border-bottom:2px solid white;
 
 }
 
@@ -474,7 +462,7 @@ h3 {
 }
 
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {
-	border:0px dotted #666666;
+	border:0px solid #666666;
 }
 
 body .wizardFooter { 
@@ -489,7 +477,7 @@ body .wizardFooter {
 	border:none; 
 	background-color:none; 
 } 
-
+	
 .wizard  th{
 	background:white;
 	color:#888;
