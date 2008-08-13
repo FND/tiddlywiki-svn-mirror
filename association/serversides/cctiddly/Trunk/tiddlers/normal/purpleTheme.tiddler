@@ -466,7 +466,7 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 }
 
 body .wizardFooter { 
-	padding :0px; 
+	padding :10; 
 	margin:0px;
 	background:white; 
 	font-weight:bold;

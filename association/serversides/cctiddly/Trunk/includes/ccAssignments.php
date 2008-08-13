@@ -153,7 +153,16 @@ merge(config.optionsDesc,{
 	txtMaxEditRows: "Maximum number of rows in edit boxes",
 	txtFileSystemCharSet: "Default character set for saving changes (Firefox/Mozilla only)"});
 	
+	merge(config.macros.options,{
+		wizardTitle: "Change Settings",
+		step1Title: "",
+		step1Html: '<input type="hidden" name="markList"></input><br><input type="hidden" checked="false" name="chkUnknown"></input>These options are saved in a cookie.'
+	});
+
+	
 // ccTiddly Macros Assignments 
+
+
 
 
 
