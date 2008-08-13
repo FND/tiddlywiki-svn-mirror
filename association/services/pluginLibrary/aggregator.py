@@ -7,16 +7,23 @@ import os
 import shutil
 
 from urllib import urlopen
+
 from tiddlyweb.store import Store
+from tiddlyweb.bag import Bag
+from tiddlyweb.recipe import Recipe
+from tiddlyweb.importer import import_wiki
+
 from tiddlywiki import TiddlyWiki
+from dirScraper import dirScraper
 
 def main(args):
+	store = Store("text")
 	repos = getRepositories("repos.lst")
 	for repo in repos:
 		print "processing " + repo["name"] + " (" + repo["URI"] + ")" # XXX: log
-		getPlugins(repo)
-	bags = [repo["name"] for repo in repos]
-	generateRecipe(bags)
+		getPlugins(store, repo)
+	bags = [repo["name"] for repo in repos] # XXX: repo["name"] not necessarily equals bag.name!?
+	generateRecipe(store, bags)
 
 def getRepositories(filepath):
 	"""
@@ -43,71 +50,54 @@ def getRepositories(filepath):
 				repos.append(repo)
 	return repos
 
-def getPlugins(repo):
+def getPlugins(repo, store):
 	"""
 	retrieve and store plugins from repository
 
-	@param repo: list of repository dictionaries
+	@param repo: repository dictionaries
 	@type  repo: list
+	@param store: TiddlyWeb store
+	@type  store: Store
 	@return: success
 	@rtype : bool
 	"""
 	if repo["type"] == "TiddlyWiki":
-		from tiddlyweb.importer import import_wiki
 		try:
 			html = urlopen(repo["URI"]).read() # XXX: caching, deferred processing?!
 		except IOError: # XXX: doesn't include 404!?
 			return False # XXX: log error
-		createBag(repo["name"]) # XXX: escape invalid path chars
+		bag = Bag(name)
+		store.put(bag)
 		tw = TiddlyWiki(html)
 		tw.convertStoreFormat() # XXX: extract plugins first?
-		import_wiki(tw.getPluginTiddlers(repo), repo["name"]) # N.B.: creates a new revision per cycle
+		import_wiki(tw.getPluginTiddlers(repo), repo["name"])
 		return True
 	elif repo["type"] == "SVN":
-		from dirScraper import dirScraper
-		createBag(repo["name"])
+		bag = Bag(name)
+		store.put(bag)
 		svn = dirScraper(repo["URI"])
 		for plugin in svn.getPlugins("./", True):
-			plugin.bag = repo["name"]
+			plugin.bag = bag.name
 			plugin.tags = tiddler["tags"] #_tag_string_to_list(tiddler["tags"]) # XXX: DEBUG'd; function not available in this context
-			store = Store("text")
 			store.put(plugin)
 		return True
 	else:
 		pass # XXX: TBD
 
-def generateRecipe(bags):
+def generateRecipe(bags, store):
 	"""
 	generate recipe from a list of bags
 
-	@param bags: list of bags
+	@param bags: bag names
 	@type  bags: list
+	@param store: TiddlyWeb store
+	@type  store: Store
 	@return: None
 	"""
-	from tiddlyweb.recipe import Recipe
 	recipe = Recipe("plugins")
-	items = [([bag, ""]) for bag in bags]
+	items = [([bag, ""]) for bag in bags] # XXX: use None instead of empty string?
 	recipe.set_recipe(items)
-	store = Store("text")
 	store.put(recipe)
-
-def createBag(name):
-	"""
-	create bag in store
-
-	@param name: bag name
-	@type  repo: str
-	@return: None
-	"""
-	from tiddlyweb.bag import Bag
-	# delete existing bag -- XXX: temporary(?) hack to circumvent excessive revision creation
-	path = "store" + os.sep + "bags" + os.sep + name # XXX: hardcoded root - evil!?
-	if(os.path.exists(path)):
-		shutil.rmtree(path)
-	# create bag
-	bag = Bag(name)
-	store = Store("text")
-	store.put(bag)
 
 # startup
 

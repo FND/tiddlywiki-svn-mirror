@@ -2,6 +2,8 @@ import re
 
 from BeautifulSoup import BeautifulSoup, Tag
 
+from utils import normalizeURI
+
 def unescapeLineBreaks(text):
 	"""
 	unescape line breaks
@@ -70,7 +72,6 @@ class TiddlyWiki:
 		@type  repo: str
 		@return: None
 		"""
-		from utils import normalizeURI
 		repo = normalizeURI(repo)
 		for plugin in self.store.findChildren("div", title=True):
 			slices = getSlices(plugin.pre.renderContents())
