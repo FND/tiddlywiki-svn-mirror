@@ -1,0 +1,19 @@
+#
+# Core JigglyWiki recipe
+#
+recipe: jigglywiki.html.recipe
+
+#
+# Test framework
+#
+js: qunit/testrunner.js
+qunithtml: qunit/qunit.html
+style: qunit/testsuite.css
+
+
+qunittitle=<h1>First test</h1>
+
+#
+# Tests
+#
+js: js/tiddlers.test.js
