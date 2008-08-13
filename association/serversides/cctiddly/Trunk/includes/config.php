@@ -37,55 +37,100 @@ $tiddlyCfg['pref']['ldap_username']	= "CN=blah blah blah ";
 $tiddlyCfg['pref']['ldap_password'] = "PASSWORD";
 $tiddlyCfg['pref']['ldap_connection_string'] = "ldap:/.....";
 
+//Deligated Session Managment 
+ 
+$tiddlyCfg['deligate_session_management'] = 0; 	
+$tiddlyCfg['pref']['deligate_session_url'] = "http://server...";	
+
 // OpenID
 
 $tiddlyCfg['pref']['openid_enabled'] = 0;  // openid not fully implented yet. 
 
-
 // Offline Mode 
-// .tiddler and .js files to be loaded from the ccPlugins directory when the user is takes ccTiddly in offline mode. 
-$tiddlyCfg['pref']['offline']['tiddler'] = array("ccTheme", "smmTheme", "purpleTheme", "taggedTemplateTweak", "ValueSwitcherPlugin");
-$tiddlyCfg['pref']['offline']['js'] = array("ccAdaptor");
+// .tiddler and .js files to be loaded from the tiddlers directory when the user is takes ccTiddly in offline mode. 
+$tiddlyCfg['pref']['offline']['tiddler'] = 
+array(	"ccTheme", 
+		"smmTheme", 
+		"purpleTheme", 
+		"taggedTemplateTweak", 
+		"ValueSwitcherPlugin"
+	);
+	
+$tiddlyCfg['pref']['offline']['js'] = 
+array(	"ccAdaptor"
+);
 
-//Deligated Session Managment 
- 
-$tiddlyCfg['pref']['deligate_session_url'] = "http://uvoke.com/sys/uvokechecksess.wcgp?s=";
-$tiddlyCfg['deligate_session_management'] = 0; 	
+//Proxy Allowed Servers
+
+$tiddlyCfg['allowed_proxy_list'] = 
+array(	'wikipedia.org', 
+		'google.com', 
+		'visualtw.ouvaton.org', 
+		'en.wikipedia.org', 
+		'wikiedia.org', 
+		'martinswiki.com', 
+		'tiddly-twab.com', 
+		'tiddlythemes.com', 
+		'tiddlytools.com', 
+		'tiddlywiki.org', 
+		'osmosoft.com', 
+		'wiki.osmosoft.com', 
+		'tiddlytools.com', 
+		'tiddlythemes.com', 
+		'wikidev.osmosoft.com', 
+		'itw.bidix.info', 
+		'127.0.0.1', 
+		'localhost', 
+		'getteamtasks.com', 
+		'mptw.tiddlyspot.com'
+);
 	
-// Upload Values 
-	$tiddlyCfg['allowed_proxy_list'] = array('wikipedia.org', 'google.com', 'visualtw.ouvaton.org', 'en.wikipedia.org', 'wikiedia.org', 'martinswiki.com', 'tiddly-twab.com', 'tiddlythemes.com', 'tiddlytools.com', 'tiddlywiki.org', 'osmosoft.com', 'wiki.osmosoft.com', 'tiddlytools.com', 'tiddlythemes.com', 'wikidev.osmosoft.com', 'itw.bidix.info', '127.0.0.1', 'localhost', 'getteamtasks.com', 'mptw.tiddlyspot.com');
-	
-	
-$tiddlyCfg['upload_allow_extensions'] = array("text/plain", "text/xml", "text/html", "application/msword", "application/mspowerpoint", "	application/excel", "application/x-visio", "application/pdf", "application/octet-stream");
+// Allowed file upload types	
+
+$tiddlyCfg['upload_allow_extensions'] = 
+array(	"text/plain", 
+	  	"text/xml", 
+		"text/html", 
+		"application/msword", 
+		"application/mspowerpoint", 
+		"application/excel", 
+		"application/x-visio", 
+		"application/pdf",
+		"application/octet-stream"
+);
+
 $tiddlyCfg['max_file_size'] = 9933300000;
 $tiddlyCfg['only_workspace_admin_can_upload'] = 0; //if enabled only the workspace owner will be able to upload files. If disabled (0) any logged in user can upload files. 
 
-// Specify the name of each tables used by ccTiddly	
+// Skins and Themes 
 
-$tiddlyCfg['table']['prefix'] = "";					//prefix			prefix of file					prefix of table name
-$tiddlyCfg['table']['suffix'] = "";					//suffix			suffix of file					suffix of table name
-$tiddlyCfg['table']['main'] = "tiddler";			//name			name of file for storing tiddlers		name of table for storing tiddlers
-$tiddlyCfg['table']['backup'] = "tiddler_revisions";	//backup	 		backup/versioned tiddlers
-$tiddlyCfg['table']['workspace'] = "workspace";		//config			settings for cct					
-$tiddlyCfg['table']['user'] = "user";				//user	 		username and password
-$tiddlyCfg['table']['group'] = "group_membership";	//group	 		group name and membership
-$tiddlyCfg['table']['privilege'] = "privileges";	//privilege 			privileges
-$tiddlyCfg['table']['admin'] = "admin_of_workspace";	//admin of workspace	admin of a particular workspace
-$tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
+$tiddlyCfg['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
+$tiddlyCfg['txtTheme'] = 'purleTheme';  // The default TiddlyWiki theme to use.
+
+// Database Tables
+
+$tiddlyCfg['table']['prefix'] = "";					//	prefix of table name
+$tiddlyCfg['table']['suffix'] = "";					//	suffix of table name
+$tiddlyCfg['table']['main'] = "tiddler";			//	name of table for storing tiddlers
+$tiddlyCfg['table']['backup'] = "tiddler_revisions";	//	backup/versioned tiddlers
+$tiddlyCfg['table']['workspace'] = "workspace";		//	settings for cct					
+$tiddlyCfg['table']['user'] = "user";				//	username and password
+$tiddlyCfg['table']['group'] = "group_membership";	//	group name and membership
+$tiddlyCfg['table']['privilege'] = "privileges";	//	privileges
+$tiddlyCfg['table']['admin'] = "admin_of_workspace";	//	admin of a particular workspace
+$tiddlyCfg['table']['session'] = "login_session";	// stores login session
 $tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each viewing of a workspace
-$tiddlyCfg['table']['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
-$tiddlyCfg['txtTheme'] = 'purleTheme';  // The default TiddlyWiki theme to use, ccTheme is the default, you can also try smmTheme.
-//ccT core settings, do not affect by DB settings
+
+// Workspaces
+
 $tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 $tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
 $tiddlyCfg['GettingStartedText'] = "To get started with this workspace, you'll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the workspace is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the worksace is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] tiddler.";
 // The text that will be displayed to users in the GettingStarted tiddler immediately after they have created a workspace.
-
-
-$tiddlyCfg['extract_admin_from_url']=0;// The admin user for each workspace when create will be taken from the URL.  If turned on it means the user SimonMcManus owns the workspace SimonMcManus.
+$tiddlyCfg['extract_admin_from_url']=0;// The admin user for each workspace when create will be taken from the URL.  If turned on it means the user SimonMcManus owns the workspace /SimonMcManus/.
 $tiddlyCfg['use_mod_rewrite'] = 0;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 
-//Workspace Default Values
+// Other 
 
 $tiddlyCfg['twLanguage'] = "en";	//predefine language
 $tiddlyCfg['keep_revision'] = 1;
@@ -96,26 +141,19 @@ $tiddlyCfg['char_set'] = "utf8";
 $tiddlyCfg['hashseed'] = "aigijgij";
 $tiddlyCfg['default_anonymous_perm'] = "AUUU";
 $tiddlyCfg['default_user_perm'] = "AADD";
-
-//////////////////////// ::::: ADVANCED ::::: /////////////////////////
-
+$tiddlyCfg['pref']['utf8'] = 0;	
 $tiddlyCfg['on_the_fly_workspace_creation'] = 0;
+
+
+// Nearly depreciated.
 
 $tiddlyCfg['rss_group'] = "";
 $tiddlyCfg['markup_group'] = "";
 $tiddlyCfg['tiddlywiki_type'] = "tiddlywiki";
 $tiddlyCfg['status'] = "";
 	
-/*
-This specify whether utf8 is required [1 = enable, 0 =disable]
-If you got one of the following error message, that may mean your database do not support utf8
-	during upgrade:
-		Query: ALTER TABLE <table name> DEFAULT CHARACTER SET utf8 COLLATE
-	during regular running:
-		Error Query: SET NAMES 'utf8'
-*/
+//  DO NOT EDIT BEYOND THIS POINT  
 
-$tiddlyCfg['pref']['utf8'] = 0;	
 	
 /////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
 
@@ -304,7 +342,7 @@ $tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to 
 
 // END OF PERMISSIONS 
 
-$tiddlyCfg['version']="1.6.4";	//set ccTiddly Version number
+$tiddlyCfg['version']="1.7";	//set ccTiddly Version number
 $tiddlyCfg['session_expire'] = ($tiddlyCfg['session_expire']==0?9999999:$tiddlyCfg['session_expire']);
 $tiddlyCfg['session_expire'] = $tiddlyCfg['session_expire'] * 60;  // Converts minutes to seconds to be added to an epoch value 
 

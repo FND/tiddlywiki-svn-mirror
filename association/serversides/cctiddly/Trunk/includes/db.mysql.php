@@ -324,9 +324,9 @@ $db_var['error']['query'] = " query: ";*/
 			//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
 			$start= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE ";
 			
-			if($tiddlyCfg['table']['workspace_skin'] !== 'none' && !$skin)
+			if($tiddlyCfg['workspace_skin'] !== 'none' && !$skin)
 			{
-				$q.= " workspace_name='".$tiddlyCfg['table']['workspace_skin']."'";
+				$q.= " workspace_name='".$tiddlyCfg['workspace_skin']."'";
 			}
 			else if($skin)
 			{
