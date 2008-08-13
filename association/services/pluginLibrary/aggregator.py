@@ -32,9 +32,8 @@ def getRepositories(filepath):
 	@rtype : list
 	"""
 	repos = list()
-	f = open(filepath, "r") # XXX: use with-statement?
 	try:
-		for line in f:
+		for line in open(filepath, "r"):
 			if line.strip() and not line.startswith("#"): # skip blank and commented lines
 				repo = dict()
 				components = line.split("|", 2)
@@ -42,8 +41,6 @@ def getRepositories(filepath):
 				repo["type"] = components[1].strip()
 				repo["name"] = components[2].strip()
 				repos.append(repo)
-	finally:
-		f.close()
 	return repos
 
 def getPlugins(repo):
