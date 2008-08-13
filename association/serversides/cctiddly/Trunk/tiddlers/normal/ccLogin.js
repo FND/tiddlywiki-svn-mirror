@@ -111,7 +111,7 @@ config.macros.ccLogin.refresh=function(place, error){
 
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
-	},null, null, null,  {tabindex:3});
+	},null, null, null,  {tabindex:'3'});
 //	if(config.macros.register!==undefined){		
 //		createTiddlyButton(w.footElem,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
 //				config.macros.register.displayRegister(place, w, this);

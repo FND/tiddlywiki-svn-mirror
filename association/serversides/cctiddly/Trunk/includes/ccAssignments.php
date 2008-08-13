@@ -23,7 +23,12 @@ if ($tiddlyCfg['workspace_name'] == ""){
 	window.fullUrl = window.url+"/"+window.workspace;
 	<?php
 }
-
+if ($tiddlyCfg['use_mod_rewrite'] == 1)
+{
+?>
+	window.useModRewrite = 1;
+<?php
+}
 ?>
 
 config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};

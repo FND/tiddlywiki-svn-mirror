@@ -43,13 +43,23 @@
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
 
 !SideBarOptions
-<<search "search...">><<closeAll>><<newTiddler>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'browser »' 'View TiddlyWiki Tabs'>>
+<<search "search...">><<closeAll>><<newTiddler>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'content »' 'View TiddlyWiki Tabs'>>
 
 !StyleSheet
 /***
 General
 ***/
 /*{{{*/
+
+body, html, {
+	background: #999999;
+	background-color: #999999;
+	color:#333;
+}
+
+
+
+
 .tiddler .button {
 	line-height:4;
 	margin:5px;
@@ -79,12 +89,6 @@ width:auto;
 background-color:#eee;
 }
 
-body{
-	background: #999;
-	color:#333;
-	// background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
-	// background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
-}
 
 #messageArea {
 	background-color:#eee;
@@ -399,8 +403,8 @@ hr {
 #sidebarOptions .sliderPanel .tabSelected {
 	background:white none repeat scroll 0%;
 	padding:2px;
-	border:0px solid #999;
-	//border-bottom:1px dotted black;
+	border:1px solid #999;
+	border-bottom:1px solid black;
 	color:#999;
 	border-bottom:2px solid white;
 
@@ -496,7 +500,7 @@ body .wizardFooter {
 .viewer .wizard, body .wizard{
 	background:white;
 	margin:2em;
-	border:0px;
+	border:1px solid #CCCCCC;
 	color:#999;
 }
 

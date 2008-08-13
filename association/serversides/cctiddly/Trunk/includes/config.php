@@ -13,7 +13,7 @@ $tiddlyCfg['db']['port'] = "3306"; // db port
 
 $tiddlyCfg['developing'] = 1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
 $tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
-$tiddlyCfg['debug']['login'] = 0;
+$tiddlyCfg['debug']['login'] = 1;
 $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;
 $tiddlyCfg['debug']['params'] = 1;
@@ -74,7 +74,7 @@ $tiddlyCfg['table']['admin'] = "admin_of_workspace";	//admin of workspace	admin 
 $tiddlyCfg['table']['session'] = "login_session";	//login session		used to create login string
 $tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each viewing of a workspace
 $tiddlyCfg['table']['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
-$tiddlyCfg['txtTheme'] = 'simpleTheme';  // The default TiddlyWiki theme to use, ccTheme is the default, you can also try smmTheme.
+$tiddlyCfg['txtTheme'] = 'purleTheme';  // The default TiddlyWiki theme to use, ccTheme is the default, you can also try smmTheme.
 //ccT core settings, do not affect by DB settings
 $tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 $tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
