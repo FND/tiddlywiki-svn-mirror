@@ -1080,7 +1080,7 @@ diff_match_patch.prototype.diff_prettyHtml = function(diffs) {
     var t = diffs[x][1]; // Text of change.
     var i = diffs[x][2]; // Index of change.
     t = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    if(config.macros.diff.displayEOL)
+    if(config.macros.diff && config.macros.diff.displayEOL)
 		t = t.replace(/\n/g, '&para;\n');
     switch (m) {
     case DIFF_INSERT:
