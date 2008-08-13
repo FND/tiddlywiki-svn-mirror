@@ -66,6 +66,7 @@ def getPlugins(repo, store):
 		except IOError:
 			return False # TODO: log error
 		bag = Bag(repo["name"])
+		store.delete(bag) # XXX: 404 handling required!
 		store.put(bag)
 		tw = TiddlyWiki(html)
 		tw.convertStoreFormat() # TODO: extract plugins first?
@@ -73,6 +74,7 @@ def getPlugins(repo, store):
 		return True
 	elif repo["type"] == "SVN":
 		bag = Bag(repo["name"])
+		store.delete(bag) # XXX: 404 handling required!
 		store.put(bag)
 		svn = dirScraper(repo["URI"])
 		for plugin in svn.getPlugins("./", True):
