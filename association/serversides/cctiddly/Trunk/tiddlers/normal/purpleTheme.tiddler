@@ -51,14 +51,10 @@ General
 ***/
 /*{{{*/
 
-body, html, {
-	background: #999999;
+body, html{
 	background-color: #999999;
 	color:#333;
 }
-
-
-
 
 .tiddler .button {
 	line-height:4;

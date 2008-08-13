@@ -4,32 +4,6 @@ include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/user.php");
 include_once($cct_base."includes/tiddler.php");
 
-function workspace_create_new($anonPerm="AUUU",$hash=null)
-{
-	global $tiddlyCfg;
-	debug("workspace_create_new: ".$tiddlyCfg['workspace_name'], "steps");
-	
-	if( $hash===null )
-	{
-		$tiddlyCfg['hashseed'] = rand();
-	}else{
-		$tiddlyCfg['hashseed'] = $hash;
-	}
-	
-	//$tiddlyCfg['tiddlywiki_type'] = 'tiddlywiki';
-	db_workspace_install();
-	
-	$data1['workspace_name'] = $workspace;
-	$data1['body'] = $workspace;
-	$data1['title'] = 'SiteTitle';
-	$data1['creator'] = 'ccTiddly';
-	$data1['modifier'] = 'ccTiddly';
-	$data1['modified'] = epochToTiddlyTime(mktime());
-	$data1['created'] = epochToTiddlyTime(mktime());
-	db_record_insert($tiddlyCfg['table']['main'],$data1);
-		
-	header('HTTP/1.0 201 Created');
-}
 
 function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 
@@ -86,7 +60,7 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 	db_record_insert($tiddlyCfg['table']['main'],$data0);
 	
 	
-	$data1['body'] = "To get started with this blank TiddlyWiki, you'll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the TiddlyWiki is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the TiddlyWiki is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] tiddler";
+	$data1['body'] = $tiddlyCfg['GettingStartedText'];
 	$data1['title'] = 'GettingStarted';
 	db_record_insert($tiddlyCfg['table']['main'], $data1);
 	
