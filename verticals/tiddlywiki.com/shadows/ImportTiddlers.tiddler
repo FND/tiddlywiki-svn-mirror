@@ -1,9 +1,9 @@
-<div title="ImportTiddlers" modifier="PhilWhitehouse" created="200610041431" modified="200807101156" changecount="10">
+<div title="ImportTiddlers" modifier="PhilWhitehouse" created="200610041431" modified="200808041547">
 <pre>To import tiddlers from another ~TiddlyWiki file, or from an external website, follow these instructions.
-#If the tiddler is on an external site, first copy the URL of the tiddler that you wish to import into your clipboard
-#Open your ~TiddlyWiki file from your computer.
+#If the tiddler is on an external site, first copy the URL of the site which includes the tiddler you'd like to download into your clipboard (eg http://www.tiddlytools.com)
+#Open your local ~TiddlyWiki file from your computer.
 #Click on the 'Backstage' link that you can see at the very top right hand side of the page.
-#In the expanded menu, click on 'Import'. You will then see a window that looks like this - and you can follow the guidance from there. Note that you may need to grant authorisation to your ~TiddlyWiki file to import tiddlers - this is fine and expected.
+#In the menu, click on 'Import'. You will then see a window that looks like this - and you can follow the guidance from there. Note that you may need to grant authorisation to your ~TiddlyWiki file to import tiddlers - this is fine and expected.
 <<importTiddlers>>
 //Note also that the popular [[Firebug|http://www.joehewitt.com/software/firebug/]] extension for Firefox interferes with ImportTiddlers if its "Show XMLHttpRequest" option is switched on//</pre>
 </div>

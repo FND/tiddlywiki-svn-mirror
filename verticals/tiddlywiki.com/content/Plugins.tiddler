@@ -1,7 +1,7 @@
-<div title="Plugins" modifier="PhilWhitehouse" created="200512170953" modified="200807101358" tags="community concepts plugins gettingstarted" changecount="24">
+<div title="Plugins" modifier="PhilWhitehouse" created="200512170953" modified="200808081017" tags="community concepts plugins gettingstarted">
 <pre>~TiddlyWiki can be extended by installing plugins that implement a wide variety of features (including new [[Macros]], themes or tweaks). Plugins are simply tidders (written in javascript) which contain the additional functionality. So, to install a plugin, you need to import the relevant tiddler(s) into your ~TiddlyWiki file.
 
-Community member Dave Gifford oversees an extensive catalogue of available plugins at [[TiddlyVault|http://tiddlyvault.tiddlyspot.com/]].
+Community member Dave Gifford oversees an extensive catalogue of available plugins at [[TiddlyVault|http://tiddlyvault.tiddlyspot.com/]], and Eric Shulman maintains his own impressive collection of plugins at [[TiddlyTools|http://www.tiddlytools.com]].
 
 When you've chosen the plugin you'd like to import, follow the directions in ImportTiddlers. 
 

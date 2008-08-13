@@ -1,16 +1,10 @@
-<div title="Download" modifier="PhilWhitehouse" created="200805221001" modified="200807101409" tags="download gettingstarted" changecount="31">
-<pre>To download an empty ~TiddlyWiki, right click [[here|http://www.tiddlywiki.com/empty.html]] and select "Save as" to save a copy to your computer. This is version <<version>> of ~TiddlyWiki; the release notes can be found [[here|http://trac.tiddlywiki.org/wiki/History]].
-
-Once you've downloaded your ~TiddlyWiki file, the following links will help you get started (we recommend you read the first two before doing anything important):
-
-{{downloadButton{
+<div title="Download" modifier="PhilWhitehouse" created="200805221001" modified="200808131416" tags="download gettingstarted">
+<pre>{{downloadButton{
 |<<download>>|
-}}}version <<version>> ([[release notes|http://trac.tiddlywiki.org/wiki/History]])
+}}} version <<version>> ([[release notes|http://trac.tiddlywiki.org/wiki/History]])
 
-[[Editing]]
-[[Saving|SaveChanges]]
-[[Formatting|ExtendedFormatting]]
-[[Tags]]
-[[Plugins]]
-[[Help and Support]]</pre>
+(when clicked, it will invoke browser specific download and [[Installation]] guidelines)
+
+To download an empty ~TiddlyWiki, click [[here|http://www.tiddlywiki.com/empty.download]].
+To download an empty ~TiddlyWiki in a zip file which also contains the TiddlySaver applet (required for Safari and Opera), click [[here|http://www.tiddlywiki.com/empty.zip]].</pre>
 </div>

@@ -1,10 +1,11 @@
-<div title="MainMenu" modifier="PhilWhitehouse" created="200510302117" modified="200807100912" changecount="11">
+<div title="MainMenu" modifier="PhilWhitehouse" created="200510302117" modified="200808111241">
 <pre>HelloThere
 [[Features]]
+[[Examples]]
 [[Download]]
+[[Getting Started|GettingStarted]]
 [[Customisation]]
 [[Help and Support]]
-[[Plugins]]
 [[RSS|RssFeed]]
 
 ^^[img[favicon.ico]] TiddlyWiki <<version>>

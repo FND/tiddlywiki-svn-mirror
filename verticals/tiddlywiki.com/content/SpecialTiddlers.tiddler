@@ -1,3 +1,6 @@
-<div title="SpecialTiddlers" modifier="JeremyRuston" created="200508181426" modified="200609291606" tags="instructions features">
-<pre>TiddlyWiki uses several special tiddlers to as [[Configuration]] used for the MainMenu, the SiteTitle and the SiteSubtitle and other features. DefaultTiddlers is used to store the titles of the tiddlers that are shown at startup. SaveChanges is automatically displayed if there's a problem with saving. Any of them can be editted with the changes taking effect immediately.</pre>
+<div title="SpecialTiddlers" modifier="PhilWhitehouse" created="200508181426" modified="200808120954" tags="instructions features">
+<pre>~TiddlyWiki uses several "special tiddlers" to perform a number of essential functions as follows:
+*[[Configuration]] tiddlers configure the layout of the page, including the MainMenu, the SiteTitle, the SiteSubtitle and other features. 
+*A tiddler called DefaultTiddlers is used to list the tiddlers that are shown at startup. 
+*A tiddler called SaveChanges is automatically displayed if there's a problem with saving. Any of them can be edited with the changes taking effect immediately.</pre>
 </div>

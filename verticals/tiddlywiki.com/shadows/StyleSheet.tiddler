@@ -4,8 +4,6 @@ This is a sample style definition to demonstrate CustomCssClass formatting
 ***/
 /*{{{*/
 .wrappingClass {color: #666; background: #bbb;}
-
 [[ChunkyButtonStyle]]
-
 /*}}}*/</pre>
 </div>

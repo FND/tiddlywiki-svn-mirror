@@ -1,6 +1,6 @@
-<div title="Safari" modifier="PhilWhitehouse" created="200511082101" modified="200805281003" tags="issues browsers" changecount="1">
+<div title="Safari" modifier="PhilWhitehouse" created="200511082101" modified="200808081342" tags="issues browsers">
 <pre>Safari can SaveChanges using the TiddlySaver Java applet.
 
 There are still some issues with Safari:
-* PermaLinks with Unicode characters in them (like [[this one|http://avm.free.fr/tidlipo.html#AdaptationFran%C3%A7aise]]) don't work properly</pre>
+* Permalinks with Unicode characters in them (like [[this one|http://avm.free.fr/tidlipo.html#AdaptationFran%C3%A7aise]]) don't work properly</pre>
 </div>

@@ -1,4 +1,4 @@
-<div title="PageTemplate" modifier="YourName" created="200806121334" changecount="1">
+<div title="PageTemplate" modifier="PhilWhitehouse" created="200806121334" modified="200808041302">
 <pre><!--{{{-->
 <div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
 <div class='headerShadow'>
@@ -13,7 +13,6 @@
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 <div id='sidebar'>
 <div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
-<div id='sidebarTabs' refresh='content' force='true' tiddler='ContentsSlider'></div>
 </div>
 <div id='displayArea'>
 <div id='messageArea'></div>

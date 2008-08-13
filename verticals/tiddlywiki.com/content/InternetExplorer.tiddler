@@ -1,7 +1,7 @@
-<div title="InternetExplorer" modifier="PhilWhitehouse" created="200509270114" modified="200805280959" tags="issues browsers" changecount="1">
-<pre>TiddlyWiki works on InternetExplorer 6.x and above under Windows. It also allows you to SaveChanges, albeit there are some annoying XP ServicePack2Problems and VistaIssues to work around.
+<div title="InternetExplorer" modifier="PhilWhitehouse" created="200509270114" modified="200808111453" tags="issues browsers">
+<pre>TiddlyWiki works on InternetExplorer 6.x and above under Windows. It also allows you to SaveChanges, albeit there are some annoying XP ServicePack2Problems and VistaIssues to work around. If you're having problems, make sure you've followed the appropriate [[installation guidelines|Installation]].
 
-Known problems with TiddlyWiki under InternetExplorer:
+Known problems with ~TiddlyWiki under InternetExplorer:
 * [[Gradient|GradientMacro]] fills sometimes appear in the wrong place until you move the mouse over the tiddler
 * Horizontal gradients don't work correctly
 * Links to tiddlers with multiple consecutive spaces in their titles is broken

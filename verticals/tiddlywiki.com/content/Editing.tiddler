@@ -1,7 +1,7 @@
-<div title="Editing" modifier="PhilWhitehouse" created="200805221018" modified="200807101358" tags="edit gettingstarted" changecount="18">
-<pre>~TiddlyWiki is made up of chunks of information called tiddlers. You're reading a tiddler called 'Editing' right now. 
+<div title="Editing" modifier="PhilWhitehouse" created="200805221018" modified="200808121108" tags="edit gettingstarted">
+<pre>~TiddlyWiki is made up of chunks of information called tiddlers. You're reading a tiddler called 'Editing' right now (a [[glossary of terms|http://www.tiddlywiki.org/wiki/TiddlyWiki_Glossary]] appears on ~TiddlyWiki.org, by the way!)
 
-When you open an empty ~TiddlyWiki file for the first time, you'll be presented with a tiddler called GettingStarted. This contains links to tiddlers containing the basic structure of your ~TiddlyWiki; the Title, Sub-title and Main Navigation. Click on the links to access these tiddlers.
+When you open an empty ~TiddlyWiki file for the first time, you'll be presented with a tiddler called "~GettingStarted". This contains links to tiddlers to help you define the main attributes of your ~TiddlyWiki; the Title, Sub-title and Main Navigation (see [[Configuration]]). Click on the links to access these tiddlers.
 
 You will notice that each tiddler has a command menu in it's top right corner (close, edit, and so on). You can use this to send the tiddler into edit mode, or if you prefer you can simply double click the tiddler when it's in read mode. When you're finished, click on done.
 

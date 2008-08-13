@@ -1,3 +1,11 @@
-<div title="GettingStarted" modifier="PhilWhitehouse" created="200508181410" modified="200807101144" tags="instructions" changecount="3">
-<pre><<tiddler Download>></pre>
+<div title="GettingStarted" modifier="PhilWhitehouse" created="200508181410" modified="200808121035" tags="instructions">
+<pre>Once you've successfully [[installed|Installation]] ~TiddlyWiki, the following links will help you get up and running.
+
+[[Editing]]
+[[Saving|SaveChanges]]
+[[SpecialTiddlers]]
+[[Formatting|ExtendedFormatting]]
+[[Tags]]
+[[Customisation]]
+[[Help and Support]]</pre>
 </div>

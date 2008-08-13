@@ -1,25 +1,33 @@
-<div title="Help and Support" modifier="PhilWhitehouse" created="200508181343" modified="200807101358" tags="community help gettingstarted" changecount="30">
+<div title="Help and Support" modifier="PhilWhitehouse" created="200508181343" modified="200808120925" tags="community help gettingstarted">
 <pre>[>img[tiddlywiki.org logo|http://trac.tiddlywiki.org/chrome/site/tworg_logo_med.jpg][http://www.tiddlywiki.org]]~TiddlyWiki today is the result of the efforts of dozens of people around the world generously contributing their time and skill, and offering considerable help and support. 
 
 If you'd like help getting your ~TiddlyWiki project off the ground, perhaps the best place to start is the community wiki at http://www.tiddlywiki.org. It contains detailed project documentation, as well as the master copy of the ~TiddlyWiki source code, and a system for tracking bugs and enhancement requests. The community welcomes [[contributions|Contribute]].
-
+!Discussion forums
 Also, there are two Google Group discussion forums for discussions about ~TiddlyWiki, whether basic entry level questions or more complex challenges! They are the best places to ask questions about ~TiddlyWiki, and to connect with other enthusiasts:
 * A ~TiddlyWiki group for general discussion, bug reports and announcements at http://groups.google.com/group/TiddlyWiki
 * A ~TiddlyWikiDev group for discussion about ~TiddlyWiki development at http://groups.google.com/group/TiddlyWikiDev
-There are also resources for non-English language speakers,
+!~Non-English resources
+There are a number of resources for non-English language speakers:
 * ~TiddlyWikiFR, in French, at http://groups.google.com/group/TiddlyWikiFR
 * ~TiddlyWiki 華語支援論壇, in Chinese, at http://groups.google.com/group/TiddlyWiki-zh
 * ~TiddlyWikiPT, in Brazilian Portuguese, at http://groups.google.com.br/group/tiddlywikipt
-Many ~TiddlyWiki hackers hang out on our IRC room, #tiddlywiki on irc.freenode.net.
-
+* A guide to [[TiddlyWiki in Japanese|http://www.geocities.jp/potto372/tiddlywiki/tiddlywikinote.html]]
+!Tutorials and guides
 The ~TiddlyWiki community have created several tutorials and guides. Here are some of the most popular ones:
-* Jeremy Wagstaff's [[The Power of Tiddly|http://www.loosewireblog.com/2007/11/the-power-of-ti.html]]
 * Dave Gifford's [[TiddlyWiki for the Rest of Us|http://www.giffmex.org/twfortherestofus.html]] and his [[slideshow introduction|http://www.giffmex.org/blog/?p=23]]
 * Morris Gray's [[TW Help - TiddlyWiki help file for beginners|http://tiddlyspot.com/twhelp/]]
 * Dmitri Popov's [[TiddlyWiki quick reference card|http://nothickmanuals.info/doku.php/cheatsheets]]
-* Screencasts from [[JimVentola|http://faculty.massasoit.mass.edu/jventola/videocasts/tidhelp2/tidhelp2.html]] and [[LeonKilat|http://max.limpag.com/2006/09/07/using-a-tiddlywiki-a-video-guide/]].
+* Julie Starr's [[Tiddler Toddler|http://tiddlertoddler.tiddlyspot.com/]], documenting the learning curve from a beginner's perspective
+* Screencasts from [[JimVentola|http://faculty.massasoit.mass.edu/jventola/videocasts/tidhelp2/tidhelp2.html]], [[LeonKilat|http://max.limpag.com/2006/09/07/using-a-tiddlywiki-a-video-guide/]] and [[Phil Whitehouse|http://www.youtube.com/watch?v=ezNScBd7_h4]]
+!Developers
+Michael Mahemoff has written a very helpful outline of the architecture of ~TiddlyWiki: [[Part 1|http://softwareas.com/tiddlywiki-internals-1-of-3-architectural-concepts]], [[Part 2|http://softwareas.com/tiddlywiki-internals-2-of-3-list-of-javascript-files]] and [[Part 3|http://softwareas.com/tiddlywiki-internals-3-of-3-key-javascript-classes-and-files]]
 
-A glossary of terms appears on [[TiddlyWiki.org|http://www.tiddlywiki.org/wiki/TiddlyWiki_Glossary]].
-
-~TiddlyWiki is owned by the not-for-profit [[UnaMesa Foundation|http://www.unamesa.org/]].</pre>
+Many ~TiddlyWiki hackers hang out on the ~TiddlyWiki IRC room at irc://irc.freenode.net/TiddlyWiki
+!Publications and articles
+~TiddlyWiki has also appeared in a number of publications and articles:
+* Pao-hsu Shih, a professor at Taipai University in Taiwan, has written an [[Introduction to TiddlyWiki|http://www.wunan.com.tw/bookdetail.asp?no=8852]] in Chinese
+* Dmitri Popov discusses ~TiddlyWiki in [[Writer for Writers and Advanced Users|http://www.lulu.com/content/221513]]
+* Jeremy Wagstaff's [[The Power of Tiddly|http://www.loosewireblog.com/2007/11/the-power-of-ti.html]]
+!Licence
+~TiddlyWiki is published under a BSD licence, and is owned by the not-for-profit [[UnaMesa Foundation|http://www.unamesa.org/]].</pre>
 </div>

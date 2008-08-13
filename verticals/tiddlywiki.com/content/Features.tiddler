@@ -1,16 +1,19 @@
-<div title="Features" modifier="PhilWhitehouse" created="200509262356" modified="200807101403" tags="features" changecount="12">
-<pre>Out of the box, ~TiddlyWiki offers:
-* Works with all major desktop [[browsers]] on Windows, Macintosh and Linux and many mobile browsers such as the Apple iPhone and the Nokia 770/N800
-** You can SaveChanges with FireFox, [[Opera]], InternetExplorer for Windows, [[Safari]], and [[Camino]]
-** ~BidiX has created an adaptation of the TiddlyWiki user interface [[specially for the iPhone|http://www.apple.com/webapps/productivity/itwatiddlywikiforiphone.html]]
-* The BackstageArea for handy access to authoring tools including [[importing|ImportTiddlers]] and [[synchronisation|http://www.tiddlywiki.org/wiki/Dev:Server_Adaptor_Mechanism]] of tiddlers with external files and servers
-* Full [[tagging|Tags]] capability
+<div title="Features" modifier="PhilWhitehouse" created="200509262356" modified="200808121052" tags="features">
+<pre>The following features are included with the standard download of ~TiddlyWiki:
+!Browsers
+* You can ''view'' ~TiddlyWiki files on all major desktop browsers on Windows, Macintosh and Linux and many mobile browsers such as the Apple iPhone and the Nokia 770/N800
+* You can ''save changes'' to local ~TiddlyWiki files with modern versions of FireFox, [[Opera]], InternetExplorer for Windows, [[Safari]], and [[Camino]] - click [[here|Browsers]] for browser version details
+* Community member ~BidiX has created an adaptation of the ~TiddlyWiki user interface [[specially for the iPhone|http://www.apple.com/webapps/productivity/itwatiddlywikiforiphone.html]]
+!Tools
+* Fully configurable navigation, tagging and searching capability, all using javascript within ~TiddlyWiki itself
+* ~TiddlyWiki contains a BackstageArea for handy access to management tools including [[importing|ImportTiddlers]] and [[synchronisation|http://www.tiddlywiki.org/wiki/Dev:Server_Adaptor_Mechanism]] of tiddlers with external files and servers. These tools can also be used to manage a wide range of [[Plugins]] which have been developed by the [[TiddlyWiki community|Help and Support]].
+!Content
 * Full text formatting including MonospacedText, ExtendedFormatting, NonWikiWordLinks, WikiWordEscape, PrettyLinks, SubHeadings, BulletPoints, NumberedBulletPoints, [[Tables]], BlockQuotes, HorizontalRules and the ability to use a CustomCssClass and  InlineHTML
-* [img[brixhamharbour.jpg][EmbeddedImages]]...EmbeddedImages
+* EmbeddedImages
 * [[Macros]] providing rich interactive features, including [[Gradients|GradientMacro]]
+!Miscellaneous
 * InterfaceOptions and AdvancedOptions, including the ability to GenerateAnRssFeed, SaveBackups and AutoSave
 * KeyboardShortcuts so you can finish editing a tiddler with ~Control-Enter or abandon it with Escape
-* Extensive StartupParameters to control the behaviour of TiddlyWiki through specially crafted ~URLs
-* There are [[translations]] of TiddlyWiki available in many languages, including Chinese, French, German, Spanish and Portuguese
-The [[Community|Help and Support]] around ~TiddlyWiki has extended this basic functionality with a wide range of [[Plugins]] and TiddlyWikiAdaptations.</pre>
+* Extensive StartupParameters to control the behaviour of ~TiddlyWiki through specially crafted ~URLs
+* There are [[translations]] of ~TiddlyWiki available in many languages, including Chinese, French, German, Spanish and Portuguese</pre>
 </div>

@@ -1,5 +1,5 @@
-<div title="InterfaceOptions" modifier="JeremyRuston" created="200508181412" modified="200609291349" tags="features options">
-<pre>InterfaceOptions are displayed when you click the 'options' button on the right. They are saved in a cookie on your browser, making them sticky between visits:
+<div title="InterfaceOptions" modifier="PhilWhitehouse" created="200508181412" modified="200808081052" tags="features options">
+<pre>InterfaceOptions are displayed when you click the 'options' button on the right in your TiddlyWiki file. They are saved in a cookie on your browser, making them sticky between visits:
 <<<
 <<tiddler OptionsPanel>>
 <<<
