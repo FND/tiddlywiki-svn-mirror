@@ -1,0 +1,43 @@
+<div title="ChunkyButtonStyle" modifier="PhilHawksworth" created="20080813000000" modified="20080813000000">
+<pre>
+/*{{{*/
+
+	span.chunkyButton {
+		display: block;
+		padding: 0;
+		margin: 0;
+		border: solid 2px [[ColorPalette::Foreground]];
+	}
+	span.chunkyButton a.button, span.chunkyButton a:active.button {
+		white-space: nowrap;
+		font-weight: bold;
+		font-size:1.8em;
+		color: [[ColorPalette::Background]];
+		background-color: [[ColorPalette::PrimaryMid]];
+		text-align: center;
+		padding: 1em 3em;
+		margin: 0;
+		border-style: none;
+		border-top: solid 1px [[ColorPalette::Background]];
+		display: block;
+	}
+	span.chunkyButton a.button:hover {
+		background-color: [[ColorPalette::PrimaryDark]];
+		border-style: none;
+		color: [[ColorPalette::Background]];
+		border-top: solid 1px [[ColorPalette::PrimaryPale]];
+	}
+	
+	.downloadButton table,
+	.downloadButton table tr,
+	.downloadButton table td  {
+		border-style:none;
+		vertical-align:bottom;
+		padding:0 0.5em 0 0;
+		margin:0 0 0.2em 0;
+	}
+
+
+/*}}}*/
+</pre>
+</div>

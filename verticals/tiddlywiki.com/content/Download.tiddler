@@ -3,6 +3,10 @@
 
 Once you've downloaded your ~TiddlyWiki file, the following links will help you get started (we recommend you read the first two before doing anything important):
 
+{{downloadButton{
+|<<download>>|
+}}}version <<version>> ([[release notes|http://trac.tiddlywiki.org/wiki/History]])
+
 [[Editing]]
 [[Saving|SaveChanges]]
 [[Formatting|ExtendedFormatting]]
