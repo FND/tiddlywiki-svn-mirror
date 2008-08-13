@@ -3,7 +3,7 @@
 |''Description:''|Adaptor for working with a tiddler revision store|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/RevisionAdaptorPlugin.js |
-|''Version:''|0.0.7|
+|''Version:''|0.0.8|
 |''Date:''|Jun 11, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -18,10 +18,9 @@ version.extensions.RevisionAdaptorPlugin = {installed:true};
 
 function RevisionAdaptor()
 {
-	this.host = null;
-	this.workspace = null;
-	return this;
 }
+
+RevisionAdaptor.prototype = new AdaptorBase();
 
 RevisionAdaptor.serverType = 'revision';
 RevisionAdaptor.isLocal = true;
@@ -29,47 +28,9 @@ RevisionAdaptor.errorInFunctionMessage = 'Error in function RevisionAdaptor.%0: 
 RevisionAdaptor.revisionSavedMessage = 'Revision %0 saved';
 RevisionAdaptor.baseRevision = 1000;
 
-RevisionAdaptor.prototype.setContext = function(context,userParams,callback)
-{
-	if(!context) context = {};
-	context.userParams = userParams;
-	if(callback) context.callback = callback;
-	context.adaptor = this;
-	if(!context.host)
-		context.host = this.host;
-	if(!context.workspace)
-		context.workspace = this.workspace;
-	return context;
-};
-
-RevisionAdaptor.fullHostName = function(host)
-{
-	if(!host)
-		return '';
-	host = host.trim();
-	if(!host.match(/:\/\//))
-		host = 'file://' + host;
-	if(host.substr(host.length-1) != '/')
-		host = host + '/';
-	return host;
-};
-
 RevisionAdaptor.minHostName = function(host)
 {
 	return host ? host.replace(/\\/,'/').host.replace(/^http:\/\//,'').replace(/\/$/,'') : ''; //'
-};
-
-RevisionAdaptor.prototype.openHost = function(host,context,userParams,callback)
-{
-//#displayMessage('openHost:'+host);
-	this.host = RevisionAdaptor.fullHostName(host);
-	context = this.setContext(context,userParams,callback);
-//#displayMessage('host:'+this.host);
-	if(context.callback) {
-		context.status = true;
-		window.setTimeout(function() {callback(context,userParams);},0);
-	}
-	return true;
 };
 
 RevisionAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
@@ -214,7 +175,28 @@ RevisionAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 	return context.status;
 };
 
-RevisionAdaptor.prototype.close = function() {return true;};
+RevisionAdaptor.prototype.getTiddlerDiff = function(title,context,userParams,callback)
+{
+//#console.log('getTiddlerDiff:'+title+' r1:'+context.rev1+' r2:'+context.rev2);
+	context = this.setContext(context,userParams,null);
+	context.revision = context.rev1;
+	this.getTiddler(title,context,userParams);
+	var tiddler1 = context.tiddler;
+	context.revision = context.rev2;
+	this.getTiddler(title,context,userParams);
+	var tiddler2 = context.tiddler;
+	context.diff = [];
+	if(Diff && Diff.diff_patch) {
+		var r1 = tiddler1.text.split('\n');
+		var r2 = tiddler1.text.split('\n');
+		var x = Diff.diff_patch(r1,r2);
+	}
+	context.status = true;
+	if(callback)
+		window.setTimeout(function() {callback(context,userParams);},0);
+	return context.status;
+};
+
 
 config.adaptors[RevisionAdaptor.serverType] = RevisionAdaptor;
 } //# end of 'install only once'
