@@ -65,12 +65,11 @@ def getPlugins(repo):
 		return True
 	elif repo["type"] == "SVN":
 		from dirScraper import dirScraper
-		svn = dirScraper(repo["URI"])
-		plugins = svn.getPlugins("./", True)
 		createBag(repo["name"])
-		for plugin in plugins:
+		svn = dirScraper(repo["URI"])
+		for plugin in svn.getPlugins("./", True):
 			plugin.bag = repo["name"]
-			#tiddler.tags = _tag_string_to_list(tiddler["tags"]) # XXX: DEBUG'd; function not available in this context
+			plugin.tags = tiddler["tags"] #_tag_string_to_list(tiddler["tags"]) # XXX: DEBUG'd; function not available in this context
 			store = Store("text")
 			store.put(plugin)
 		return True
