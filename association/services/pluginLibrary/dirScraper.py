@@ -15,6 +15,19 @@ class dirScraper:
 		"""
 		self.host = addTrailingSlash(host)
 
+	def _get(self, url):
+		"""
+		retrieve page contents
+
+		@param url: page URL
+		@type  url: str
+		@return: page contents
+		@rtype : str
+		"""
+		http = httplib2.Http()
+		reponse, content = http.request(url, method="GET")
+		return content
+
 	def getPlugins(self, dir, recursive = False):
 		"""
 		retrieve .js files from directory
@@ -42,42 +55,8 @@ class dirScraper:
 				plugin.title = posixpath.basename(href[:-3])
 				plugin.tags = ["systemConfig"]
 				plugin.text = self._get(self.host + dir + href)
-				if self.checkOrigin(plugin.text): # source = self.host + dir + href
-					results.append(plugin)
+				results.append(plugin)
 			elif href.endswith("/") and recursive: # directory
 				results.extend(self.getPlugins(dir + href))
 		return results
-	
-	def checkOrigin(self, text): # DEBUG: rename!?
-		"""
-		remove plugins whose origin is not the repository specified
-
-		@param text: tiddler contents
-		@type  text: str
-		@return: origin is source
-		@rtype : bool
-		"""
-		from utils import normalizeURI
-		slices = getSlices(text)
-		if slices.has_key("Source"):
-			source = normalizeURI(slices["Source"])
-			if normalizeURI(self.host) in source:
-				return True
-			else:
-				return False
-		else: # N.B.: plugin accepted if Source slice not present -- XXX: harmful? (e.g. includes simple config tweaks)
-			return True
-
-	def _get(self, url):
-		"""
-		retrieve page contents
-
-		@param url: page URL
-		@type  url: str
-		@return: page contents
-		@rtype : str
-		"""
-		http = httplib2.Http()
-		reponse, content = http.request(url, method="GET")
-		return content
 
