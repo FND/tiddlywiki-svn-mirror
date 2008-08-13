@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """
 retrieve TiddlyWiki plugins from authors' repositories
 """
