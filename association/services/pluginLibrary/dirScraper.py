@@ -1,3 +1,7 @@
+"""
+HTTP directory scraper
+"""
+
 import httplib2
 import posixpath
 

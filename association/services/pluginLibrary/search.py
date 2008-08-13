@@ -24,7 +24,7 @@ def parseQuery(query):
 	@return: query components
 	@rtype : dict
 	"""
-	return { "text": query } # DEBUG: to do
+	return { "text": query } # XXX: to do
 
 class Store(TextStore):
 
@@ -58,7 +58,7 @@ class Store(TextStore):
 				except OSError, e:
 					raise NoTiddlerError, "unable to list revisions in tiddler: %s" % e
 		return results
-		# DEBUG -- N.B.:
+		# XXX -- N.B.:
 		# returned Tiddler objects must have their 'bag' attribute set to the name of the
 		# bag they were found in
 		# see tiddlyweb.stores.text.search for a simple example

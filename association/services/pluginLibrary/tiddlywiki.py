@@ -44,7 +44,7 @@ class TiddlyWiki:
 		self.dom = BeautifulSoup(html)
 		self.store = self.dom.find("div", id="storeArea")
 
-	def getPluginTiddlers(self, repo): # DEBUG: universal-ize; rename to getTiddlers() and use key-value pair(s?) for matching attribute(s?)
+	def getPluginTiddlers(self, repo): # XXX: universal-ize; rename to getTiddlers() and use key-value pair(s?) for matching attribute(s?)
 		"""
 		retrieve plugin tiddlers
 
@@ -53,7 +53,7 @@ class TiddlyWiki:
 		@return: plugin tiddlers (pure-store format)
 		@rtype : str
 		"""
-		tag = "systemConfig" # includes "systemConfigDisable" -- DEBUG: include systemTheme tiddlers?
+		tag = "systemConfig" # includes "systemConfigDisable" -- XXX: include systemTheme tiddlers?
 		# remove non-plugin tiddlers
 		[tiddler.extract() for tiddler in self.store.findChildren("div", title=True)
 			if (not tiddler.has_key("tags")) or (tag not in tiddler["tags"])]
@@ -62,7 +62,7 @@ class TiddlyWiki:
 		# return pure-store format
 		return "<html><body><div id='storeArea'>" + self.store.renderContents() + "</div></body></html>"
 
-	def removeDuplicates(self, repo): # DEBUG: rename!?
+	def removeDuplicates(self, repo): # XXX: rename!?
 		"""
 		remove plugins whose origin is not the repository specified
 
@@ -93,7 +93,7 @@ class TiddlyWiki:
 			major = int(matches.groups()[0])
 			minor = int(matches.groups()[1])
 			revision = int(matches.groups()[2])
-			if major + minor + revision > 0: # DEBUG: dirty hack?
+			if major + minor + revision > 0: # XXX: dirty hack?
 				return [major, minor, revision]
 			else:
 				return None
@@ -113,7 +113,7 @@ class TiddlyWiki:
 				tiddler["title"] = tiddler["tiddler"]
 				del(tiddler["tiddler"])
 				# unescape line breaks
-				tiddler.contents[0].replaceWith(unescapeLineBreaks(tiddler.contents[0])) # DEBUG: use of contents[0] hacky?
+				tiddler.contents[0].replaceWith(unescapeLineBreaks(tiddler.contents[0])) # XXX: use of contents[0] hacky?
 				# add PRE wrapper
 				pre = Tag(self.dom, "pre")
 				pre.contents = tiddler.contents
