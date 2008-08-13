@@ -1,7 +1,7 @@
 /***
 |''Name:''|DownloadTiddlyWikiPlugin|
 |''Description:''|Download TiddlyWiki according to browser type|
-|''Version:''|0.0.2|
+|''Version:''|0.0.3|
 |''Date:''|Aug 13, 2008|
 |''Source:''|http://www.tiddlywiki.com/#DownloadTiddlyWikiPlugin|
 |''License:''|[[BSD open source license]]|
@@ -29,28 +29,28 @@ config.macros.download.handler = function(place,macroName,params,wikifier,paramS
 
 config.macros.download.onClick = function(e)
 {
-	// start the download
-	var url = config.browser.isSafari || config.browser.isOpera ? 'http://www.tiddlywiki.com/empty.zip' :'http://www.tiddlywiki.com/empty.download';
-	document.location.href = url;
-	// and display the tiddler containing the instructions
+	// display the tiddler containing the instructions
 	var title;
 	if(config.browser.isMac) {
 		if(config.browser.isSafari) {
-			title = "Safari on Mac OS X"
+			title = "Installation Guidelines: Safari on Mac OS X"
 		} else if(config.browser.isOpera) {
-			title = "Opera on Mac OS X"
+			title = "Installation Guidelines: Opera on Mac OS X"
 		} else {
-			title = "Firefox on Mac OS X"
+			title = "Installation guidelines: Firefox on Mac OS X"
 		}
 	} else if(config.browser.isWindows) {
 		if(config.browser.isIE) {
-			title = "Internet Explorer on Windows Vista"
+			title = "Installation Guidelines: Internet Explorer on Windows Vista"
 		} else {
-			title = "Firefox on Windows Vista"
+			title = "Installation Guidelines: Firefox on Windows Vista"
 		}
 	} 
 	var target = resolveTarget(e);
 	story.displayTiddler(target,title);
+	// start the download
+	var url = config.browser.isSafari || config.browser.isOpera ? 'http://www.tiddlywiki.com/empty.zip' :'http://www.tiddlywiki.com/empty.download';
+	document.location.href = url;
 	return false;
 };
 
