@@ -9,19 +9,6 @@ $tiddlyCfg['db']['pass'] = "";		//login password
 $tiddlyCfg['db']['name'] = "cct17";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
-// Debugging Information 
-
-$tiddlyCfg['developing'] = 1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
-$tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
-$tiddlyCfg['debug']['login'] = 1;
-$tiddlyCfg['debug']['handle'] = 0;
-$tiddlyCfg['debug']['config'] = 0;
-$tiddlyCfg['debug']['params'] = 1;
-$tiddlyCfg['debug']['fail'] = 0;
-$tiddlyCfg['debug']['steps'] = 0;
-$tiddlyCfg['debug']['display_logs'] = 0;
-$tiddlyCfg['debug']['secret'] = "bigsecret";
-
 // User Managment Information 
 
 $tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
@@ -106,6 +93,19 @@ $tiddlyCfg['only_workspace_admin_can_upload'] = 0; //if enabled only the workspa
 
 $tiddlyCfg['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
 $tiddlyCfg['txtTheme'] = 'purleTheme';  // The default TiddlyWiki theme to use.
+
+// Debugging Information 
+
+$tiddlyCfg['developing'] = 1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['debug']['mysql'] = 1;	 // if set to x1 will output every sql query into the logfile 
+$tiddlyCfg['debug']['login'] = 1;
+$tiddlyCfg['debug']['handle'] = 0;
+$tiddlyCfg['debug']['config'] = 0;
+$tiddlyCfg['debug']['params'] = 1;
+$tiddlyCfg['debug']['fail'] = 0;
+$tiddlyCfg['debug']['steps'] = 0;
+$tiddlyCfg['debug']['display_logs'] = 0;
+$tiddlyCfg['debug']['secret'] = "bigsecret";
 
 // Database Tables
 

@@ -8,35 +8,17 @@ function isLoggedIn(){
 	}
 }
 
-
 function ccTiddlyAdaptor()
 {
-        this.host = null;
-        this.workspace = null;
-        return this;
 }
 
-
+ccTiddlyAdaptor.prototype = new AdaptorBase();
 
 // !!TODO set the variables below
 ccTiddlyAdaptor.mimeType = 'application/json';
 ccTiddlyAdaptor.serverType = 'cctiddly'; // MUST BE LOWER CASE
 ccTiddlyAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 ccTiddlyAdaptor.errorInFunctionMessage = "Error in function ccTiddlyAdaptor.%0";
-
-ccTiddlyAdaptor.prototype.setContext = function(context,userParams,callback)
-{
-        if(!context) context = {};
-        context.userParams = userParams;
-        if(callback) context.callback = callback;
-        context.adaptor = this;
-        if(!context.host)
-                context.host = this.host;
-        context.host = ccTiddlyAdaptor.fullHostName(context.host);
-        if(!context.workspace)
-                context.workspace = this.workspace;
-        return context;
-};
 
 ccTiddlyAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
@@ -51,17 +33,6 @@ ccTiddlyAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentTy
 ccTiddlyAdaptor.doHttpPUT = function(uri,callback,params,headers,data,contentType,username,password)
 {
         return doHttp('PUT',uri,data,contentType,username,password,callback,params,headers,1);
-};
-
-ccTiddlyAdaptor.fullHostName = function(host)
-{
-        if(!host)
-                return '';
-        if(!host.match(/:\/\//))
-                host = 'http://' + host;
-        if(host.substr(host.length-1) != '/')
-                host = host + '/';
-        return host;
 };
 
 ccTiddlyAdaptor.minHostName = function(host)
@@ -82,35 +53,11 @@ ccTiddlyAdaptor.dateFromEditTime = function(editTime)
 	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
 };
 
-ccTiddlyAdaptor.prototype.openHost = function(host,context,userParams,callback)
-{
-	// displayMessage("openHost: " + host)
-	this.host = ccTiddlyAdaptor.fullHostName(host);
-	context = this.setContext(context,userParams,callback);
-	if(context.callback) {
-		context.status = true;
-		window.setTimeout(function() {callback(context,userParams);},0);
-	}
-	return true;
-};
-
-ccTiddlyAdaptor.prototype.openWorkspace = function(workspace,context,userParams,callback)
-{
-	// displayMessage("openWorkspace: " + workspace)
-	this.workspace = workspace;
-	context = this.setContext(context,userParams,callback);
-	if(context.callback) {
-		context.status = true;
-		window.setTimeout(function() {callback(context,userParams);},0);
-	}
-	return true;
-};
-
 ccTiddlyAdaptor.prototype.login = function(context,userParams,callback)
 {
 //#console.log('login:'+context.username);
        context = this.setContext(context,userParams,callback);
-       var uriTemplate = '%0handle/login.php?cctuser=%1&cctpass=%2';
+       var uriTemplate = '%0/handle/login.php?cctuser=%1&cctpass=%2';
        var uri = uriTemplate.format([context.host,context.username,context.password]);
 //#console.log('uri:'+uri);
        var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.loginCallback,context);
@@ -133,7 +80,7 @@ ccTiddlyAdaptor.prototype.register = function(context,userParams,callback)
 {
 //#console.log('register:'+context.username);
        context = this.setContext(context,userParams,callback);
-       var uriTemplate = '%0handle/register.php';
+       var uriTemplate = '%0/handle/register.php';
        var uri = uriTemplate.format([context.host,context.username,Crypto.hexSha1Str(context.password)]);
 //#console.log('uri:'+uri);
        var dataTemplate = 'username=&0&reg_mail=%1&password=%2&password2=%3';
@@ -157,15 +104,19 @@ ccTiddlyAdaptor.registerCallback = function(status,context,responseText,uri,xhr)
 ccTiddlyAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
  	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0handle/listWorkspaces.php';
+	var uriTemplate = '%0/handle/listWorkspaces.php';
 	var uri = uriTemplate.format([context.host]);
+	console.log('uri:'+uri)
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getWorkspaceListCallback,context, {'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
 
 ccTiddlyAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 {
+console.log('getWSLCB:'+status);
+console.log('rt:'+responseText);
 	context.status = false;
+	context.workspaces = [];
 	context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getWorkspaceListCallback']);
 	if(status) {
 	try {
@@ -176,11 +127,9 @@ ccTiddlyAdaptor.getWorkspaceListCallback = function(status,context,responseText,
 			context.callback(context,context.userParams);
 			return;
 		}
-		var list = [];
 		for (var i=0; i < workspaces.length; i++) {
-			list.push({title:workspaces[i]})
+			context.workspaces.push({title:workspaces[i]})
 		}
-		context.workspaces = list;
 		context.status = true;
 	} else {
 			context.statusText = xhr.statusText;
@@ -193,7 +142,7 @@ ccTiddlyAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
 	//	displayMessage("get Tiddler list");
 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0handle/listTiddlers.php?workspace=%1';
+	var uriTemplate = '%0/handle/listTiddlers.php?workspace=%1';
 	var uri = uriTemplate.format([context.host,context.workspace]);
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerListCallback,context, {'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
@@ -233,7 +182,7 @@ ccTiddlyAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
 	var bag = tiddler.fields['server.bag']
 	var workspace = tiddler.fields['server.workspace']
-	var uriTemplate = '%0%1/#%2';
+	var uriTemplate = '%0/%1/#%2';
 	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
 	return info;
 };
@@ -254,7 +203,7 @@ ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 	   if(context.revision) {
 	         var uriTemplate = '%0handle/revisionDisplay.php?title=%2&workspace=%1&revision=%3';
 	  } else {
-			var uriTemplate = '%0handle/getTiddler.php?title=%2&workspace=%1';
+			var uriTemplate = '%0/handle/getTiddler.php?title=%2&workspace=%1';
 	  }
 	
 	uri = uriTemplate.format([context.host,context.workspace,ccTiddlyAdaptor.normalizedTitle(title),context.revision]);
@@ -308,7 +257,7 @@ ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,
 	context.title = title;
 	var tiddler = store.fetchTiddler(title);
 	var encodedTitle = encodeURIComponent(title);
-	var uriTemplate = '%0handle/revisionList.php?workspace=%1&title=%2';
+	var uriTemplate = '%0/handle/revisionList.php?workspace=%1&title=%2';
 	var host = ccTiddlyAdaptor.fullHostName(this.host);
 	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,encodedTitle]);
@@ -361,7 +310,7 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 //#	console.log("put tiddler"+tiddler.title);
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
-	var recipeuriTemplate = '%0handle/save.php';
+	var recipeuriTemplate = '%0/handle/save.php';
 	var host = context.host ? context.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
 	var uri = recipeuriTemplate.format([host,context.workspace,tiddler.title]);
 	var d = new Date();
@@ -447,7 +396,7 @@ ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,call
 	title = encodeURIComponent(title);
 //#console.log('deleteTiddler:'+title);
 	var host = this && this.host ? this.host : ccTiddlyAdaptor.fullHostName(tiddler.fields['server.host']);
-	var uriTemplate = '%0handle/delete.php?workspace=%1&title=%2';
+	var uriTemplate = '%0/handle/delete.php?workspace=%1&title=%2';
 	var uri = uriTemplate.format([host,context.workspace,title]);
 //#console.log('uri: '+uri);
 
@@ -716,8 +665,3 @@ var JSON = {
         return val();
     }
 };
-
-
-
-
-

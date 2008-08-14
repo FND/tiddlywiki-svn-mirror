@@ -24,7 +24,8 @@
 	<div id='bodywrapper'>
 <div class='header' macro='gradient vert #ccc #eee'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
-<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 </div>
 <div id='sidebar'>
 <div id='sidebarOptions' refresh='content' tiddler='smmTheme##SideBarOptions'></div>
@@ -54,6 +55,8 @@ General
 body, html{
 	background-color: #999999;
 	color:#333;
+	background:url(http://www.thefabricdeli.com/assets/images/qud21112-purple.jpg);
+//	background:url(http://mr-pc.org/inc/paisleyTileSmall.png);
 }
 
 .tiddler .button {
@@ -92,10 +95,6 @@ background-color:#eee;
 
 #messageArea .button{
 	background:none;
-}
-
-#mainMenu br {
-	display:none;
 }
 
 h1 {	
@@ -238,15 +237,19 @@ a:hover {
 
 
 #mainMenu a{
-	padding:4px;
-	margin:4px;
+	padding:8px 15px 8px 15px;
+	margin:10px;
+line-height:40px;
 	border:1px solid #eee;
 }
 
 #contentWrapper #mainMenu{ 
-	left:290px;
 	position:static;
-	margin:12px 0 0 12px;
+	width:100%;
+	float:left;
+	text-align:left;
+	padding-top:20px;
+
 }
 
 .editor textarea, .editor input, input, body select {

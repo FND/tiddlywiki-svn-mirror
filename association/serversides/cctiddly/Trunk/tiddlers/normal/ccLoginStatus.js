@@ -50,7 +50,11 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 			value: "Logout" });
 		btn.setAttribute("type", "button");
 		btn.onclick=function() {
+			console.log(window.fullUrl.indexOf("?"));
+			if (window.fullUrl.indexOf("?") >0)
 				window.location = window.fullUrl+"&logout=1";
+			else
+				window.location = window.fullUrl+"?logout=1";
 			
 		};
 		wrapper.appendChild(btn);

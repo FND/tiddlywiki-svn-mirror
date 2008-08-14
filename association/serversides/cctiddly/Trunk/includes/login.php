@@ -46,7 +46,7 @@ if ($_POST['logout'] || $_REQUEST['logout'])
 {
 	user_logout('You have logged out.');
 	if($_REQUEST['workspace'])
-		$ws = "".$_REQUEST['workspace'];
+		$ws = "?workspace=".$_REQUEST['workspace'];
 	elseif($_POST['workspace'])
 		$ws = "".$_REQUEST['workspace'];
 	header("Location: ".str_replace("index.php", "", $_SERVER['PHP_SELF']).$ws);

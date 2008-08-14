@@ -99,6 +99,7 @@ saveTo.value='workspace';
 saveTo.name='saveTo';
 step.appendChild(saveTo);
 
+createTiddlyElement(step, "br");
 
 var submitDiv=createTiddlyElement(step,"div",null,'submit');
 var btn=createTiddlyElement(null,"input",null,'button');
@@ -106,6 +107,7 @@ btn.setAttribute("type","submit");
 btn.setAttribute("onClick","config.macros.ccUpload.submitiframe()");
 btn.value='Upload File';
 submitDiv.appendChild(btn);	
+createTiddlyElement(step, "br");
 
 // Create the iframe
 var iframe=document.createElement("iframe");

@@ -327,6 +327,8 @@ merge(config.messages,{
 	invalidFieldName: "Invalid field name %0",
 	fieldCannotBeChanged: "Field '%0' cannot be changed",
 	loadingMissingTiddler: "Attempting to retrieve the tiddler '%0' from the '%1' server at:\n\n'%2' in the workspace '%3'",
+	tiddlerMissing: "Failed to retrieve the tiddler '%0' from the '%1' server at:\n\n'%2' in the workspace '%3'",
+
 	upgradeDone: "The upgrade to version %0 is now complete\n\nClick 'OK' to reload the newly upgraded TiddlyWiki"});
 
 merge(config.messages.messageClose,{
@@ -3973,6 +3975,8 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
 						tiddler.modified = tiddler.created;
 					store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 					autoSaveChanges();
+				} else {
+					story.refreshTiddler(tiddler.title,null,true,null,config.messages.tiddlerMissing.format([tiddler.title, tiddler.fields['server.type'], tiddler.fields['server.host'], tiddler.fields['server.workspace']]))
 				}
 				delete this;
 				return true;

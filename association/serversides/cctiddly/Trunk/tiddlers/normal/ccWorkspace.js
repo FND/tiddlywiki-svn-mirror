@@ -43,7 +43,7 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 
 	createTiddlyElement(frm,'h1',null,null,"Create Workspace");
 	createTiddlyElement(frm, 'h2', null, null,  "Get your own TiddlyWiki workspace below");
-
+	createTiddlyElement(frm, "br");
 	var body = createTiddlyElement(frm,'div',null, "wizardBody");
 
 	//form content
@@ -109,6 +109,8 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 	var anD_label = createTiddlyElement(step, "label", null, "checkLabel", "Delete Tiddlers");
 	anD_label.setAttribute("for","anD");
 	createTiddlyElement(step,'br');
+	createTiddlyElement(step, "br");
+	
 
 	var a=createTiddlyElement(step, "div", "createWorkspaceButton", "submit")
 	var btn=createTiddlyElement(null,'input',this.prompt,'button');
@@ -116,6 +118,8 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 	btn.value="Create Workspace";
 	a.appendChild(btn);
 	createTiddlyElement(a,"span",'workspaceStatus','',null);
+	createTiddlyElement(step, "br");
+	
 	
 };
 config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
