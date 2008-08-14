@@ -1,0 +1,4 @@
+<div title="AdvancedOptions" modifier="YourName" created="200808081053" changecount="1">
+<pre><<options>>
+<<option chkUseYourSearch>> Use 'Your Search' //([[more options|YourSearch Options]]) ([[help|YourSearch Help]])// </pre>
+</div>

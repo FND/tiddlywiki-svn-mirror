@@ -1,0 +1,22 @@
+<div title="SearchResults" modifier="YourName" created="200808121437" tags="excludeLists excludeSearch temporary">
+<pre>''12 tiddlers found matching '{{{thou}}}'''
+^^//searched in:// ''titles'' ''text'' ''tags'' ''fields'' ''shadows'' ^^
+<<<
+# [[GTDTiddlyWiki]]
+# [[PlainText]]
+# [[PrettyLinks]]
+# [[Raves]]
+# [[ReferencesButton]]
+# [[ServerSide]]
+# [[Tiddler]]
+# [[TiddlyWiki]]
+# [[ToggleLinks]]
+# [[VistaIssues]]
+# [[WikiWordEscape]]
+# [[YourSearch Help]]
+<<<
+@@diplay:block;<html><input type="button" href="javascript:;" onclick="story.displayTiddlers(null,['GTDTiddlyWiki', 'PlainText', 'PrettyLinks', 'Raves', 'ReferencesButton', 'ServerSide', 'Tiddler', 'TiddlyWiki', 'ToggleLinks', 'VistaIssues', 'WikiWordEscape', 'YourSearch Help'],1);" accesskey="O" value="open all matching tiddlers"></html> <html><input type="button" href="javascript:;" onclick="discardSearchResults()" value="discard SearchResults"></html>@@
+----
+<<search "thou">>
+<<option chkSearchTitles>>titles <<option chkSearchText>>text <<option chkSearchTags>>tags<<option chkSearchFields>>fields<<option chkSearchShadows>>shadows<br><<option chkCaseSensitiveSearch>>case-sensitive <<option chkRegExpSearch>>text patterns<<option chkSearchByDate>>sort by date<br></pre>
+</div>
