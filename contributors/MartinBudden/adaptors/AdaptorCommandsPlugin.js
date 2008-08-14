@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.13|
+|''Version:''|0.5.14|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -32,7 +32,7 @@ function getServerType(fields)
 
 function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 {
-//#console.log("invokeAdaptor:"+fnName);
+//#console.log("invokeAdaptor:"+fnName,fields);
 	var serverType = getServerType(fields);
 	if(!serverType)
 		return null;
@@ -198,7 +198,7 @@ config.commands.revisions.callback = function(context,userParams)
 					config.commands.revisions.revisionTemplate.format([modified,revision,tiddler.modifier]),
 					tiddler.text||config.commands.revisions.revisionTooltip,
 					function() {
-						config.commands.revisions.getTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('tiddlerModified'),this.getAttribute('tiddlerRevision'),this);
+						config.commands.revisions.getTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('tiddlerModified'),this.getAttribute('tiddlerRevision'));
 						return false;
 						},
 					'tiddlyLinkExisting tiddlyLink');
@@ -306,13 +306,15 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	}
 };
 
-//# revisions command definition
+//# diff command definition
 config.commands.diff = {};
 merge(config.commands.diff,{
 	text: "diff",
 	tooltip: "View tiddler changes",
+	done: "done",
+	diffTooltip: "View this diff",
 	popupNone: "No changes",
-	done: "done"
+	diffTemplate: "%0 r:%1"
 	});
 
 config.commands.diff.isEnabled = function(tiddler)
@@ -322,15 +324,11 @@ config.commands.diff.isEnabled = function(tiddler)
 
 config.commands.diff.handler = function(event,src,title)
 {
-//#console.log("diff.handler:"+title);
+//#console.log("revisions.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
-	var userParams = {};
-	userParams.tiddler = tiddler;
-	userParams.src = src;
-//#	var context = {rev1:'1',rev2:'3'};
-//#	var context = {rev1:'2'};
-	var context = {};
-	if(!invokeAdaptor('getTiddlerDiff',title,null,context,userParams,config.commands.diff.callback,tiddler.fields))
+	var userParams = {tiddler:tiddler,src:src,dateFormat:'YYYY mmm 0DD 0hh:0mm'};
+	var revisionLimit = 10;
+	if(!invokeAdaptor('getTiddlerRevisionList',title,revisionLimit,null,userParams,config.commands.diff.callback,tiddler.fields))
 		return false;
 	event.cancelBubble = true;
 	if(event.stopPropagation)
@@ -341,7 +339,49 @@ config.commands.diff.handler = function(event,src,title)
 config.commands.diff.callback = function(context,userParams)
 // The revisions are returned as tiddlers in the context.revisions array
 {
-	//#displayMessage("config.commands.diff.callback:"+context.diff);
+//#console.log("config.commands.diff.callback:"+context.revisions.length,userParams.src);
+	var revisions = context.revisions;
+	popup = Popup.create(userParams.src);
+	Popup.show(popup,false);
+	if(revisions.length==0) {
+		createTiddlyText(createTiddlyElement(popup,'li',null,'disabled'),config.commands.revisions.popupNone);
+	} else {
+		revisions.sort(function(a,b) {return a.modified < b.modified ? +1 : -1;});
+		for(var i=0; i<revisions.length; i++) {
+			var tiddler = revisions[i];
+			var modified = tiddler.modified.formatString(context.dateFormat||userParams.dateFormat);
+			var revision = tiddler.fields['server.page.revision'];
+			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
+					config.commands.diff.diffTemplate.format([modified,revision,tiddler.modifier]),
+					tiddler.text||config.commands.diff.diffTooltip,
+					function() {
+						config.commands.diff.getTiddlerDiff(this.getAttribute('tiddlerTitle'),userParams.src,this.getAttribute('tiddlerRevision'),null);
+						return false;
+						},
+					'tiddlyLinkExisting tiddlyLink');
+			btn.setAttribute('tiddlerTitle',userParams.tiddler.title);
+			btn.setAttribute('tiddlerRevision',revision);
+			btn.setAttribute('tiddlerModified',tiddler.modified.convertToYYYYMMDDHHMM());
+			if(userParams.tiddler.fields['server.page.revision'] == revision || (!userParams.tiddler.fields['server.page.revision'] && i==0))
+				btn.className = 'revisionCurrent';
+		}
+	}
+};
+
+config.commands.diff.getTiddlerDiff = function(title,src,rev1,rev2)
+{
+//#console.log("config.commands.diff.getTiddlerDiff:"+title+" r1:"+rev1+" r1:"+rev1,src);
+	var tiddler = store.fetchTiddler(title);
+	var userParams = {src:src};
+	var context = {rev1:rev1,rev2:rev2};
+//#	var context = {rev1:'2'};
+//	var context = {};
+	return invokeAdaptor('getTiddlerDiff',title,null,context,userParams,config.commands.diff.getTiddlerDiffCallback,tiddler.fields);
+};
+
+config.commands.diff.getTiddlerDiffCallback = function(context,userParams)
+{
+	console.log("config.commands.diff.getTiddlerDiffCallback:"+context.diff);
 	var diff = context.diff;
 	popup = Popup.create(userParams.src);
 	Popup.show(popup,false);
