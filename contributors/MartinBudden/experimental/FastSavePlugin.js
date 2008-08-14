@@ -67,9 +67,6 @@ config.templateFormatters = [
 			}
 			if(text) {
 				createTiddlyText(w.output,text);
-			} else {
-				if(w.source.substr(w.nextMatch,1)=='\n')
-					w.nextMatch++;
 			}
 		}
 	}
