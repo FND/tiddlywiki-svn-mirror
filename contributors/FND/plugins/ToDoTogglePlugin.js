@@ -1,8 +1,8 @@
 /***
 |''Name''|TodoTogglePlugin|
-|''Description''|toggles a tiddler's tag based on contining checkboxes' status|
+|''Description''|toggles a tiddler's tag based on containing checkboxes' status|
 |''Authors''|FND, PhilHawksworth|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/ToDoTogglePlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/ToDoTogglePlugin.js|
@@ -10,16 +10,18 @@
 |''Requires''|[[CheckboxPlugin|http://www.tiddlytools.com/#CheckboxPlugin]]|
 |''Keywords''|tasks|
 !Description
-<...>
+Checkboxes within tiddlers tagged with //todo// represent tasks.
+When all checkboxes are checked, the respective tiddler's //todo// tag is changed to //done//.
 !Usage
 {{{
-[_] task
+[_] active task
+[x] closed task
 }}}
 !Revision History
 !!v0.1.0 (2008-08-14)
 * initial release
 !To Do
-* re-enable tag when unchecking task
+* restore //todo// tag when unchecking task
 * documentation
 !Code
 ***/
@@ -27,14 +29,20 @@
 if(!version.extensions.TodoTogglePlugin) { //# ensure that the plugin is only installed once
 version.extensions.TodoTogglePlugin = {
 	installed: true,
-	cueTag: "todo",
+	tags: {
+		active: "todo",
+		closed: "done"
+	},
 
 	checkStatus: function(title) {
 		var t = store.getTiddler(title);
-		var open = t.text.match(/\[[_|\s]\]/g);
-		var done = t.text.match(/\[x\]/gi);
-		if(t.tags.contains(this.cueTag) && open === null && done.length) {
-			store.setTiddlerTag(t.title, false, this.cueTag);
+		var tasks = {
+			active: t.text.match(/\[[_|\s]\]/g),
+			closed: t.text.match(/\[x\]/gi)
+		};
+		if(t.tags.contains(this.tags.active) && tasks.active === null && tasks.closed.length) {
+			store.setTiddlerTag(t.title, false, this.tags.active);
+			store.setTiddlerTag(t.title, true, this.tags.closed);
 		}
 	}
 };
@@ -47,8 +55,7 @@ config.macros.checkbox.onClickCheckbox = function(event) {
 		var title = tiddler.getAttribute("tiddler");
 		version.extensions.TodoTogglePlugin.checkStatus(title);
 	}
-	var status = config.macros.checkbox.onClickCheckbox_todoToggle.apply(this, arguments);
-	return status;
+	return config.macros.checkbox.onClickCheckbox_todoToggle.apply(this, arguments);
 };
 
 } //# end of "install only once"
