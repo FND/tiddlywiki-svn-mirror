@@ -80,13 +80,6 @@ function addOption(selectbox,text,value )
 };
 
 config.macros.ccAdmin.addAdminSubmit = function(e, params) {
-//	displayMessage(params.w.formElem.workspaceName.index);
-//	displayMessage(params.w.formElem.workspaceName.options);
-//	displayMessage(params.w.formElem.workspaceName);
-//	displayMessage(params.w.formElem.workspaceName.value);	
-//	displayMessage(params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value);
-//	displayMessage(params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex]);
-	displayMessage(params.w.formElem.workspaceName);
 		doHttp('POST',url+'/handle/workspaceAdmin.php','username='+params.w.formElem.adminUsername.value+'&workspace_name='+params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value,null,null,null,config.macros.ccAdmin.addAdminCallback,params);
 	return false; 
 };
