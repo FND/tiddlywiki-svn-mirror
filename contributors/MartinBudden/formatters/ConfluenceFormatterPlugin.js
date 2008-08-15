@@ -4,11 +4,13 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ConfluenceFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/ConfluenceFormatterPlugin.js |
-|''Version:''|0.1.4|
+|''Version:''|0.1.5|
 |''Date:''|Dec 8, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.1.0|
+
+|''Use host images''|<<option chkUseHostImages>>|
 
 This is the ConfluenceFormatterPlugin, which allows you to insert [[Confluence|http://confluence.atlassian.com/renderer/notationhelp.action?section=all]] formated
 text into a TiddlyWiki. See also http://confluence.atlassian.com/display/DOC/Confluence+Notation+Guide+Overview
@@ -30,6 +32,9 @@ version.extensions.ConfluenceFormatterPlugin = {installed:true};
 
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	{alertAndThrow('ConfluenceFormatterPlugin requires TiddlyWiki 2.1 or later.');}
+
+if(config.options.chkUseHostImages === undefined)
+	{config.options.chkUseHostImages = true;}
 
 confluenceFormatter = {}; // 'namespace' for local functions
 
@@ -375,6 +380,16 @@ config.confluenceFormatters = [
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			var img = createTiddlyElement(w.output,'img');
 			img.src = lookaheadMatch[1];
+			if(config.options.chkUseHostImages) {
+				var s = lookaheadMatch[1];
+				var i = s.indexOf('|');
+				if(i!=-1)
+					s = s.substr(0,i);
+				var uriTemplate = '%0/download/attachments/%1/%2';
+				var uri = uriTemplate.format([new AdaptorBase().fullHostName(w.tiddler.fields['server.host']),w.tiddler.fields['server.page.id'],s]);
+				//#console.log('uri:'+uri);
+				img.src = uri;
+			}
 			if(lookaheadMatch[2]) {
 				img.title = lookaheadMatch[2];
 			}
