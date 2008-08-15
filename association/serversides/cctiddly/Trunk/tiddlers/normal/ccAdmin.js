@@ -36,19 +36,15 @@ config.macros.ccAdmin.addAdminDisplay = function(e, params) {
 };
 
 config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,xhr) {
-		displayMessage("sss8");	
 	var frm = createTiddlyElement(null,'form',null,null);
 	frm.onsubmit = config.macros.ccAdmin.addAdminSubmit;
-			displayMessage("sss9");	
 	var step = createTiddlyElement(frm,'div',null, "null");
 	var workspace_label = createTiddlyElement(step, "label", null, "label", "Workspace");
 	workspace_label.setAttribute("for","workspaceName");
-		displayMessage("sss0");	
-	var s = createTiddlyElement(null,"select",null,null,"a");
+	
+	var s = createTiddlyElement(null,"select","workspaceName",null,"workspaceName");
 	s.name = 'workspaceName';
-		displayMessage("sss1");		
 	var workspaces = eval('[ '+responseText+' ]');
-		displayMessage("sss2");	
 	for(var d=0; d < workspaces.length; d++){
 		var i = createTiddlyElement(s,"option",null,null,workspaces[d]);
 		i.value = workspaces[d];
@@ -70,7 +66,7 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 	params.w.addStep("Add a new Workspace Administrator",frm.innerHTML);
 	params.w.setButtons([
 		{caption: 'Cancel', tooltip: 'Cancel adding new user', onClick: function(w){ config.macros.ccAdmin.refresh(params.w) } },
-		{caption: 'Make User Admin', tooltip: 'Make User Admin of Workspace', onClick: function(){ displayMessage("FORM : "+params.w.formElem.workspaceName); config.macros.ccAdmin.addAdminSubmit(null, params) } }	
+		{caption: 'Make User Admin', tooltip: 'Make User Admin of Workspace', onClick: function(){ config.macros.ccAdmin.addAdminSubmit(null, params) } }	
 	]);
 	createTiddlyElement(params.step,'input','workspaceName', 'input')				
 };
@@ -84,10 +80,14 @@ function addOption(selectbox,text,value )
 };
 
 config.macros.ccAdmin.addAdminSubmit = function(e, params) {
-	//	var listView = params.w.getValue("listView");
-	//	var rowNames = ListView.getSelectedRows(listView);
-	//	displayMessage(rowNames);
-	doHttp('POST',url+'/handle/workspaceAdmin.php','username='+params.w.formElem.adminUsername.value+'&workspace_name='+params.w.formElem.workspaceName.value,null,null,null,config.macros.ccAdmin.addAdminCallback,params);
+//	displayMessage(params.w.formElem.workspaceName.index);
+//	displayMessage(params.w.formElem.workspaceName.options);
+//	displayMessage(params.w.formElem.workspaceName);
+//	displayMessage(params.w.formElem.workspaceName.value);	
+//	displayMessage(params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value);
+//	displayMessage(params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex]);
+	displayMessage(params.w.formElem.workspaceName);
+		doHttp('POST',url+'/handle/workspaceAdmin.php','username='+params.w.formElem.adminUsername.value+'&workspace_name='+params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value,null,null,null,config.macros.ccAdmin.addAdminCallback,params);
 	return false; 
 };
 

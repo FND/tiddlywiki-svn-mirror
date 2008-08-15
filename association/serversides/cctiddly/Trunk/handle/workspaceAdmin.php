@@ -8,7 +8,6 @@ $a = $_POST['action']?$_POST['action']:$_REQUEST['action'];
 $u = $_POST['username']?$_POST['username']:$_REQUEST['username'];
 $w = $_POST['workspace_name']?$_POST['workspace_name']:$_REQUEST['workspace_name'];
 
-
 if(!user_session_validate())
 {
 	sendHeader("403");
@@ -59,9 +58,8 @@ if ($a =="LISTALL")
     $count = 0;
 	foreach ($r as $k=>$v)
 	{
-	//	$out .="'".$count++."':'".$v[workspace_name]."',";
-	//	$out .="'".$v[username]."',";
-	
+		//	$out .="'".$count++."':'".$v[workspace_name]."',";
+		//	$out .="'".$v[username]."',";
 		$out .="{'username':'".$v[username]."',";
 		$data1['username']=$v[username];
 		$data1['workspace']=$w;
@@ -78,7 +76,6 @@ if ($u && $w)
 	$data['workspace_name'] = $w;
 }else
 {
-	
 	echo 'Please enter a workspace name and username.';
 	exit;
 }

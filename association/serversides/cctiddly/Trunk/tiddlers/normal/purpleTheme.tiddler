@@ -55,10 +55,15 @@ General
 body, html{
 	background-color: #999999;
 	color:#333;
-	background:url(http://www.thefabricdeli.com/assets/images/qud21112-purple.jpg);
+//	background:url(http://www.thefabricdeli.com/assets/images/qud21112-purple.jpg);
 //	background:url(http://mr-pc.org/inc/paisleyTileSmall.png);
+	
 }
 
+#backstageCloak {
+opacity:0.8; filter:'alpha(opacity:70)';
+background:white;
+}
 .tiddler .button {
 	line-height:4;
 	margin:5px;
@@ -74,7 +79,8 @@ width:auto;
 	width:7em;
 }
 
-.wizard input {
+.wizard  .txtOptionInput{
+text-align:right;
 	border:1px solid #ccc;
 }
 
@@ -527,8 +533,17 @@ body select {
 }
 
 #backstagePanel {
-	background:#eee;
+	background:none;
 	width:60%;
+	position:fixed
+	padding:0px;
+	margin:0px;
+	margin-top:-36px;
+}
+
+#backstageToolbar a.backstageSelTab{
+	background-color:white;
+	border:1px solid white;
 }
 
 #sidebar .sliderPanel {

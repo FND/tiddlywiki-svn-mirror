@@ -170,6 +170,11 @@ if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
 if ($_POST['workspace'])
 	$tiddlyCfg['workspace_name'] = $_POST['workspace'];	
 	
+	
+if ($_REQUEST["standalone"]==1)
+	header("Content-Disposition: attachment; filename=\"".$tiddlyCfg['workspace_name'].".html\";\r\n");
+
+	
 debug("workspace_name : ".$tiddlyCfg['workspace_name'], "config");
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
 debug("filename : ".$_SERVER["SCRIPT_NAME"], "config");

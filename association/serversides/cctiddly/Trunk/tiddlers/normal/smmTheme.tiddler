@@ -68,8 +68,12 @@ width:auto;
 
 body{
 	background: #111;
-	// background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
-	// background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
+//	 background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
+//	 background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
+}
+#backstageCloak {
+opacity:0.8; filter:'alpha(opacity:70)';
+background:white;
 }
 
 #messageArea {
@@ -192,6 +196,11 @@ h1 {
 	border:1px solid #111;
 }
 
+
+.wizard  .txtOptionInput{
+text-align:right;
+}
+
 a:hover {
 	background-color:#222;
 	color:#eee
@@ -201,18 +210,21 @@ a:hover {
 	background-color:#222;
 	color:white;
 }
-
 #mainMenu a{
-	padding:4px;
-	margin:4px;
-	border:1px dotted white;
+	padding:8px 15px 8px 15px;
+	margin:10px;
+line-height:40px;
+	border:0px solid #eee;
 }
 
 #contentWrapper #mainMenu{ 
-	left:290px;
 	position:static;
-}
+	width:100%;
+	float:left;
+	text-align:left;
+	padding-top:20px;
 
+}
 .editor textarea, .editor input, input, body select {
 	border:1px solid #222;
 	background-color:#333;

@@ -10,7 +10,6 @@ window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 <?php 
 
-
 if ($tiddlyCfg['workspace_name'] == ""){
 	?>
 		window.fullUrl = window.url;	
@@ -73,8 +72,6 @@ window.loggedIn ="1";
 else{
 ?>
 
-//setStylesheet("#sidebarOptions{display:none}#sidebar{display:none}#mainMenu {display:none}#sidebar, #sidebarTabs{display:none}", config.refreshers.styleSheet);
-//config.options.txtTheme = 'simpleTheme';	
 <?php
 }
 ?>
@@ -161,13 +158,6 @@ merge(config.optionsDesc,{
 
 	
 // ccTiddly Macros Assignments 
-
-
-
-
-
-
-
 
 
 /*}}}*/
