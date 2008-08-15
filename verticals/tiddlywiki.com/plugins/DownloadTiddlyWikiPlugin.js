@@ -33,19 +33,21 @@ config.macros.download.onClick = function(e)
 	var title;
 	if(config.browser.isMac) {
 		if(config.browser.isSafari) {
-			title = "Installation Guidelines: Safari on Mac OS X"
+			title = "Installation guidelines: Safari on Mac OS X";
 		} else if(config.browser.isOpera) {
-			title = "Installation Guidelines: Opera on Mac OS X"
+			title = "Installation guidelines: Opera on Mac OS X";
 		} else {
-			title = "Installation guidelines: Firefox on Mac OS X"
+			title = "Installation guidelines: Firefox on Mac OS X";
 		}
 	} else if(config.browser.isWindows) {
 		if(config.browser.isIE) {
-			title = "Installation Guidelines: Internet Explorer on Windows Vista"
+			title = "Installation guidelines: Internet Explorer on Windows Vista";
 		} else {
-			title = "Installation Guidelines: Firefox on Windows Vista"
+			title = "Installation guidelines: Firefox on Windows Vista";
 		}
-	} 
+	} else {
+			title = "Installation guidelines: Firefox on Ubuntu";
+	}
 	var target = resolveTarget(e);
 	story.displayTiddler(target,title);
 	// start the download
