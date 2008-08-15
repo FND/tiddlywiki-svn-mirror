@@ -1,5 +1,5 @@
 /***
-|''Name''|TodoTogglePlugin|
+|''Name''|ToDoTogglePlugin|
 |''Description''|toggles a tiddler's tag based on containing checkboxes' status|
 |''Authors''|FND, PhilHawksworth|
 |''Version''|0.2.0|
@@ -27,8 +27,8 @@ When all checkboxes within a tiddler are checked, the respective tiddler's //tod
 !Code
 ***/
 //{{{
-if(!version.extensions.TodoTogglePlugin) { //# ensure that the plugin is only installed once
-version.extensions.TodoTogglePlugin = {
+if(!version.extensions.ToDoTogglePlugin) { //# ensure that the plugin is only installed once
+version.extensions.ToDoTogglePlugin = {
 	installed: true,
 	tags: {
 		active: "todo",
@@ -58,7 +58,7 @@ config.macros.checkbox.onClickCheckbox = function(event) {
 	var status = config.macros.checkbox.onClickCheckbox_todoToggle.apply(this, arguments);
 	if(tiddler && event != undefined) {
 		var title = tiddler.getAttribute("tiddler");
-		version.extensions.TodoTogglePlugin.toggleStatus(title);
+		version.extensions.ToDoTogglePlugin.toggleStatus(title);
 	}
 	return status;
 };
