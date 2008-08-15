@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ConfluenceAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ConfluenceAdaptorPlugin.js |
-|''Version:''|0.6.1|
+|''Version:''|0.6.2|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/ ]]|
@@ -51,10 +51,13 @@ ConfluenceAdaptor.prototype = new AdaptorBase();
 ConfluenceAdaptor.serverType = 'confluence';
 ConfluenceAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 ConfluenceAdaptor.errorInFunctionMessage = "Error in function ConfluenceAdaptor.%0";
+ConfluenceAdaptor.couldNotLogin = "Could not log in";
+ConfluenceAdaptor.fnTemplate = '<?xml version="1.0" encoding="utf-8"?><methodCall><methodName>%0</methodName><params>%1</params></methodCall>';
+
 
 ConfluenceAdaptor.doHttpPOST = function(uri,callback,params,headers,data)
 {
-	return httpReq('POST',uri,callback,params,headers,data,'text/xml',null,null,true);
+	return httpReq('POST',uri,callback,params,headers,data,'text/xml; charset="utf-8"',null,null,true);
 };
 
 ConfluenceAdaptor.minHostName = function(host)
@@ -97,7 +100,7 @@ ConfluenceAdaptor.prototype.login = function(context)
 		context.loginPromptCallback = ConfluenceAdaptor.loginPromptCallback;
 		context.loginPromptFn(context);
 	} else {
-		return false;
+		return ConfluenceAdaptor.couldNotLogin;
 	}
 	return true;
 };
@@ -116,8 +119,7 @@ ConfluenceAdaptor.loginPromptCallback = function(context)
 	var fnParamsTemplate = '<param><value><string>%0</string></value></param>';
 	fnParamsTemplate += '<param><value><string>%1</string></value></param>';
 	var fnParams = fnParamsTemplate.format([context.username,context.password]);
-	var fnTemplate = '<?xml version="1.0"?><methodCall><methodName>%0</methodName><params>%1</params></methodCall>';
-	var payload = fnTemplate.format([fn,fnParams]);
+	var payload = ConfluenceAdaptor.fnTemplate.format([fn,fnParams]);
 //#console.log('payload:'+payload);
 	var req = ConfluenceAdaptor.doHttpPOST(uri,ConfluenceAdaptor.loginCallback,context,null,payload);
 	return typeof req == 'string' ? req : true;
@@ -221,8 +223,7 @@ ConfluenceAdaptor.getWorkspaceListComplete = function(context)
 	var fn = 'confluence1.getSpaces';
 	var fnParamsTemplate = '<param><value><string>%0</string></value></param>';
 	var fnParams = fnParamsTemplate.format([context.sessionToken]);
-	var fnTemplate = '<?xml version="1.0"?><methodCall><methodName>%0</methodName><params>%1</params></methodCall>';
-	var payload = fnTemplate.format([fn,fnParams]);
+	var payload = ConfluenceAdaptor.fnTemplate.format([fn,fnParams]);
 //#console.log("payload:"+payload);
 	var req = ConfluenceAdaptor.doHttpPOST(uri,ConfluenceAdaptor.getWorkspaceListCallback,context,null,payload);
 //#console.log("req:"+req);
@@ -295,8 +296,7 @@ ConfluenceAdaptor.getTiddlerListComplete = function(context)
 	var fnParamsTemplate = '<param><value><string>%0</string></value></param>';
 	fnParamsTemplate += '<param><value><string>%1</string></value></param>';
 	var fnParams = fnParamsTemplate.format([context.sessionToken,context.workspace]);
-	var fnTemplate = '<?xml version="1.0"?><methodCall><methodName>%0</methodName><params>%1</params></methodCall>';
-	var payload = fnTemplate.format([fn,fnParams]);
+	var payload = ConfluenceAdaptor.fnTemplate.format([fn,fnParams]);
 //#console.log("payload:"+payload);
 	var req = ConfluenceAdaptor.doHttpPOST(uri,ConfluenceAdaptor.getTiddlerListCallback,context,null,payload);
 	return typeof req == 'string' ? req : true;
@@ -438,14 +438,12 @@ ConfluenceAdaptor.getTiddlerComplete = function(context)
 	var uri = uriTemplate.format([context.host]);
 //#console.log('uri:'+uri);
 
-
 	var fn = 'confluence1.getPage';
 	var fnParamsTemplate = '<param><value><string>%0</string></value></param>';
 	fnParamsTemplate += '<param><value><string>%1</string></value></param>';
 	fnParamsTemplate += '<param><value><string>%2</string></value></param>';
 	var fnParams = fnParamsTemplate.format([context.sessionToken,context.workspace,context.title]);
-	var fnTemplate = '<?xml version="1.0"?><methodCall><methodName>%0</methodName><params>%1</params></methodCall>';
-	var payload = fnTemplate.format([fn,fnParams]);
+	var payload = ConfluenceAdaptor.fnTemplate.format([fn,fnParams]);
 //#console.log("payload:"+payload);
 
 	context.tiddler = new Tiddler(context.title);
@@ -548,8 +546,7 @@ ConfluenceAdaptor.putTiddlerComplete = function(context)
 
 	var pageStruct = pageTemplate.format([context.workspace,tiddler.title,tiddler.text,tiddler.fields['server.page.id'],tiddler.fields['server.page.revision']]);
 	var fnParams = fnParamsTemplate.format([context.sessionToken,pageStruct]);
-	var fnTemplate = '<?xml version="1.0"?><methodCall><methodName>%0</methodName><params>%1</params></methodCall>';
-	var payload = fnTemplate.format([fn,fnParams]);
+	var payload = ConfluenceAdaptor.fnTemplate.format([fn,fnParams]);
 //#console.log("payload:"+payload);
 
 	var req = ConfluenceAdaptor.doHttpPOST(uri,ConfluenceAdaptor.putTiddlerCallback,context,null,payload);
@@ -611,8 +608,7 @@ ConfluenceAdaptor.deleteTiddlerComplete = function(context)
 	var fnParamsTemplate = '<param><value><string>%0</string></value></param>';
 	fnParamsTemplate += '<param><value><string>%1</string></value></param>';
 	var fnParams = fnParamsTemplate.format([context.sessionToken,context.tiddler.fields['server.page.id']]);
-	var fnTemplate = '<?xml version="1.0"?><methodCall><methodName>%0</methodName><params>%1</params></methodCall>';
-	var payload = fnTemplate.format([fn,fnParams]);
+	var payload = ConfluenceAdaptor.fnTemplate.format([fn,fnParams]);
 //#console.log("payload:"+payload);
 
 	var req = ConfluenceAdaptor.doHttpPOST(uri,ConfluenceAdaptor.deleteTiddlerCallback,context,null,payload);
