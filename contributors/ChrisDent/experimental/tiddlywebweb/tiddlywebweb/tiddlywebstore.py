@@ -148,11 +148,11 @@ class Store(StorageInterface):
             return []
 
     def list_tiddler_revisions(self, tiddler):
-        url = self.revisions_url % urllib.quote(tiddler.title)
+        url = self.revisions_url % (urllib.quote(tiddler.bag), urllib.quote(tiddler.title))
         response, content = self._request('GET', url)
         if self._is_success(response):
             revisions = simplejson.loads(content)
-            return [revision.revision for revision in revisions]
+            return [revision['revision'] for revision in revisions]
         else:
 # XXX um, so, like, some error handling would be good here
             return []

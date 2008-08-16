@@ -17,8 +17,9 @@ and receiving JSON.
 
 What we should end up with are:
 
-tiddlywebweb.py: implements StorageInterface
-server.py:       sets up config, starts server
+tiddlywebweb/tiddlywebstore.py: implements StorageInterface
+manager:                        user to start server
+tiddlywebconfig.py:             sets configuration items
 
 Likely issues include:
 
@@ -28,4 +29,5 @@ Likely issues include:
 * Does TiddlyWeb cache well enough?
 * Are the JSON repressentations robust enough?
 
-
+See this blog posting for more information:
+http://cdent.tumblr.com/post/46209623/webs-of-tiddlywebs-with-tiddlywebweb
