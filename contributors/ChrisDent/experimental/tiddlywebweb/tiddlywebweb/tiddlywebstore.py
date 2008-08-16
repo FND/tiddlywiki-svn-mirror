@@ -7,6 +7,7 @@ sys.path.append('/Users/cdent/src/osmo/TiddlyWeb')
 
 import httplib2
 import simplejson
+import urllib
 
 from tiddlyweb.bag import Bag, Policy
 from tiddlyweb.recipe import Recipe
@@ -83,15 +84,15 @@ class Store(StorageInterface):
             raise exception, e
 
     def recipe_get(self, recipe):
-        url = self.recipe_url % recipe.name
+        url = self.recipe_url % urllib.quote(recipe.name)
         self.doit(url, recipe, self._any_get, NoRecipeError)
 
     def recipe_put(self, recipe):
-        url = self.recipe_url % recipe.name
+        url = self.recipe_url % urllib.quote(recipe.name)
         self.doit(url, recipe, self._any_put, NoRecipeError)
 
     def bag_get(self, bag):
-        url = self.bag_url % bag.name
+        url = self.bag_url % urllib.quote(bag.name)
         self.doit(url, bag, self._any_get, NoBagError)
         url = self.bag_tiddlers_url % bag.name
         response, content = self._request('GET', url)
@@ -101,22 +102,22 @@ class Store(StorageInterface):
                 bag.add_tiddler(Tiddler(tiddler['title']))
 
     def bag_put(self, bag):
-        url = self.bag_url % bag.name
+        url = self.bag_url % urllib.quote(bag.name)
         self.doit(url, bag, self._any_put, NoBagError)
 
     def tiddler_delete(self, tiddler):
-        url = self.tiddler_url % (tiddler. bag, tiddler.title)
+        url = self.tiddler_url % (urllib.quote(tiddler.bag), urllib(tiddler.title))
         self.doit(url, tiddler, self._any_delete, NoTiddlerError)
 
     def tiddler_get(self, tiddler):
         if tiddler.revision:
-            url = self.revision_url % (tiddler.bag, tiddler.title, tiddler.revision)
+            url = self.revision_url % (urllib.quote(tiddler.bag), urllib.quote(tiddler.title), tiddler.revision)
         else:
-            url = self.tiddler_url % (tiddler.bag, tiddler.title)
+            url = self.tiddler_url % (urllib.quote(tiddler.bag), urllib.quote(tiddler.title))
         self.doit(url, tiddler, self._any_get, NoTiddlerError)
 
     def tiddler_put(self, tiddler):
-        url = self.tiddler_url % (tiddler.bag, tiddler.title)
+        url = self.tiddler_url % (urllib.quote(tiddler.bag), urllib.quote(tiddler.title))
         self.doit(url, tiddler, self._any_put, NoTiddlerError)
 
     def user_get(self, user):
@@ -147,7 +148,7 @@ class Store(StorageInterface):
             return []
 
     def list_tiddler_revisions(self, tiddler):
-        url = self.revisions_url % tiddler.title
+        url = self.revisions_url % urllib.quote(tiddler.title)
         response, content = self._request('GET', url)
         if self._is_success(response):
             revisions = simplejson.loads(content)
@@ -157,7 +158,7 @@ class Store(StorageInterface):
             return []
 
     def search(self, search_query):
-        url = self.search_url % search_query
+        url = self.search_url % urllib.quote(search_query)
         response, content = self._request('GET', url)
         if self._is_success(response):
             results = simplejson.loads(content)
