@@ -73,7 +73,7 @@ config.shadowTiddlers.StyleSheetEnhancedSearch = "/*{{{*/\n"
 	+ "/*}}}*/";
 store.addNotification("StyleSheetEnhancedSearch", refreshStyles);
 
-// hijack story.search()
+// hijack Story.search()
 Story.prototype.search_enhancedSearch = Story.prototype.search;
 Story.prototype.search = function(text, useCaseSensitive, useRegExp) {
 	if(config.options.chkClassicSearch) {

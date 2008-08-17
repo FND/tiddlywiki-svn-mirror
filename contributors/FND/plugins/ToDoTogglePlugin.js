@@ -51,7 +51,7 @@ version.extensions.ToDoTogglePlugin = {
 	}
 };
 
-// hijack store.saveTiddler()
+// hijack Store.saveTiddler()
 config.macros.checkbox.onClickCheckbox_todoToggle = config.macros.checkbox.onClickCheckbox;
 config.macros.checkbox.onClickCheckbox = function(event) {
 	var tiddler = story.findContainingTiddler(this);
