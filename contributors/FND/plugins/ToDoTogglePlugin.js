@@ -2,7 +2,7 @@
 |''Name''|ToDoTogglePlugin|
 |''Description''|toggles a tiddler's tag based on containing checkboxes' status|
 |''Authors''|FND, PhilHawksworth|
-|''Version''|0.2.0|
+|''Version''|0.2.1|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/ToDoTogglePlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/ToDoTogglePlugin.js|
@@ -56,7 +56,7 @@ config.macros.checkbox.onClickCheckbox_todoToggle = config.macros.checkbox.onCli
 config.macros.checkbox.onClickCheckbox = function(event) {
 	var tiddler = story.findContainingTiddler(this);
 	var status = config.macros.checkbox.onClickCheckbox_todoToggle.apply(this, arguments);
-	if(tiddler && event != undefined) {
+	if(tiddler && !this.init) {
 		var title = tiddler.getAttribute("tiddler");
 		version.extensions.ToDoTogglePlugin.toggleStatus(title);
 	}
