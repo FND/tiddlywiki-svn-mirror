@@ -2,7 +2,7 @@
 |''Name''|EnhancedSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/EnhancedSearchPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/EnhancedSearchPlugin.js|
@@ -16,6 +16,7 @@
 !To Do
 * default styling
 * animations for container creation and removal
+* when clicking on search results, do not scroll to the respective tiddler (optional)
 !Code
 ***/
 //{{{
@@ -55,12 +56,19 @@ config.optionsDesc.chkClassicSearch = "Use classic search behavior";
 
 config.shadowTiddlers.StyleSheetEnhancedSearch = "/*{{{*/\n"
 	+ "#" + version.extensions.EnhancedSearchPlugin.id + " {\n"
-	+ "\tborder: 1px solid #eee;\n"
+	+ "\tborder: 1px solid [[ColorPalette::TertiaryPale]];\n"
 	+ "\tpadding: 5px;\n"
 	+ "}\n\n"
 	+ "#" + version.extensions.EnhancedSearchPlugin.id + " .button {\n"
 	+ "\tfloat: right;\n"
-	+ "\tbackground-color: #eee;\n"
+	+ "\tmargin: -5px -5px 5px 5px;\n"
+	+ "\tborder-color: [[ColorPalette::TertiaryPale]];\n"
+	+ "\tpadding: 2px;\n"
+	+ "\tbackground-color: [[ColorPalette::TertiaryPale]];\n"
+	+ "}\n\n"
+	+ "#" + version.extensions.EnhancedSearchPlugin.id + " .button:hover {\n"
+	+ "\tborder-color: [[ColorPalette::SecondaryMid]];\n"
+	+ "\tbackground-color: [[ColorPalette::SecondaryLight]];\n"
 	+ "}\n"
 	+ "/*}}}*/";
 store.addNotification("StyleSheetEnhancedSearch", refreshStyles);
