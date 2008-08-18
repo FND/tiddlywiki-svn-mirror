@@ -50,7 +50,7 @@ merge(config.macros.ccLogin,{
 	stepDoLoginTitle:"Logging you in",
 	stepDoLoginIntroText:"we are currently trying to log you in.... ",
 	stepForgotPasswordTitle:"Password Request",
-	stepForgotPasswordIntroText:"please email admin@admin.com",
+	stepForgotPasswordIntroText:"please email admin@admin.com  <br /><input id='forgottenPassword' name='forgottenPassword'/>",
 	stepLogoutTitle:"Logout",
 	stepLogoutText:"You are currently logged in as ",
 	buttonLogout:"Logout",
@@ -60,6 +60,8 @@ merge(config.macros.ccLogin,{
 	buttonCancel:"Cancel",
 	buttonCancelToolTip:"Cancel transaction ",
 	buttonForgottenPassword:"Forgotten Password",	
+	buttonSendForgottenPassword:"Mail me a new password",
+	buttonSendForgottenPasswordToolTip:"clicking here will have a new password mailed to you.",
 	buttonForgottenPasswordToolTip:"Click to be reminded of your password",
 	configURL:url+"/handle/login.php", 
 	configUsernameInputName:"cctuser",
@@ -112,11 +114,11 @@ config.macros.ccLogin.refresh=function(place, error){
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	},null, null, null,  {tabindex:'3'});
-//	if(config.macros.register!==undefined){		
-//		createTiddlyButton(w.footElem,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
-//				config.macros.register.displayRegister(place, w, this);
-//		},null, null, null,  {tabindex:4});
-//	}
+	if(config.macros.register!==undefined){		
+		createTiddlyButton(w.footElem,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
+				config.macros.register.displayRegister(place, w, this);
+		},null, null, null,  {tabindex:4});
+	}
 	createTiddlyButton(w.footElem,this.buttonForgottenPassword,this.buttonForgottenPasswordToolTip,function() {
 		config.macros.ccLogin.displayForgottenPassword(this, place);
 	},null, null, null,  {tabindex:5});
@@ -156,9 +158,18 @@ config.macros.ccLogin.displayForgottenPassword=function(item, place){
 	var me = config.macros.ccLogin;
 	w.addStep(me.stepForgotPasswordTitle,me.stepForgotPasswordIntroText);
 	w.setButtons([
-		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {me.refresh(place);}
-	}]);
+		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {me.refresh(place);}},
+		{caption: this.buttonSendForgottenPassword, tooltip: this.buttonSendForgottenPasswordToolTip, onClick: function() {me.sendForgottenPassword(item, place);}}
+		]);
 };
+
+config.macros.ccLogin.sendForgottenPassword=function(item, place){	
+	var w = new Wizard(item);
+	var me = config.macros.ccLogin;
+	console.log(w.formElem["forgottenPassword"].value);
+}
+
+
 config.macros.toolbar.isCommandEnabled=function(command,tiddler){	
 	var title=tiddler.title;
 	if (workspace_delete=="D"){
@@ -187,7 +198,14 @@ config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramSt
 	if (workspacePermission.create==1)
 		wikify("[[create|CreateWorkspace]]<br />", place);
 		if (isLoggedIn())
-			wikify("[[offline|"+url+"/handle/standalone.php?workspace="+workspace+"]]<br />", place);
+		{
+			// append url function required 
+			if (window.fullUrl.indexOf("?") >0)
+				wikify("[[offline|"+fullUrl+"&standalone=1]]<br />", place);
+			else 
+				wikify("[[offline|"+fullUrl+"?standalone=1]]<br />", place);
+			
+		}
 };
 
 // Returns output var with output.txtUsername and output.sessionToken

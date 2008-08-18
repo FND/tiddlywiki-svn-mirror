@@ -1,11 +1,8 @@
 <?php
-$title = formatParametersGET($_GET['title']);
-
-
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-
-//////////////////////////////////////////////////////////preformat tiddler data//////////////////////////////////////////////////////////////
+$title = formatParametersGET($_GET['title']);
+/////////////////////////////////////////////////////preformat tiddler data//////////////////////////////////////////////////////////////
 if( !isset($_GET['title']) ) {
 	sendHeader(400,$ccT_msg['misc']['no_title'],"",1);
 }
@@ -15,8 +12,12 @@ if( $tiddler === FALSE ) {//not found
 	sendHeader(204,$ccT_msg['error']['revision_not_found'],"",1);
 }
 
+
 //use tiddler_id to obtain list of tiddler for revision
 $tiddler_list = db_tiddlers_backupSelectOid($tiddler['id']);
+
+
+
 
 //check privilege for each tiddler
 $tmp = array();
@@ -28,7 +29,9 @@ foreach( $tiddler_list as $t ) {
 }
 $tiddler_list = $tmp;
 if( sizeof($tiddler_list)==0 ) {		//if empty
-	sendHeader(204,$ccT_msg['error']['revision_not_found'],"",1);
+//	echo "";
+	sendHeader(204);
+	exit;
 }
 //print revision list
 $output = "";

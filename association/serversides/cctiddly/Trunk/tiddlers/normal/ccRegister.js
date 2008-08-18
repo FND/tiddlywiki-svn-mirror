@@ -308,4 +308,25 @@ config.macros.ccRegister.usernameCallback=function(status,params,responseText,ur
 		field.setAttribute("class","input");
 	}
 };
+
+
+config.macros.ccRegister.workspaceNameKeyPress=function(str){
+
+	doHttp('POST',url+'/handle/lookupWorkspaceName.php',"ccWorkspaceLookup="+str+"&amp;free=1",null,null,null,config.macros.ccRegister.workspaceNameCallback,null);
+	return false;
+};
+
+config.macros.ccRegister.workspaceNameCallback=function(status,params,responseText,uri,xhr){
+	var field = "";
+	if(responseText>0){{
+		workspaceName_space=document.getElementById('workspaceName_error');
+		workspaceName_space.innerHTML='Workspace name has already been taken';
+		workspaceName_space.setAttribute("class","inlineError");
+	}
+	}else{
+		workspaceName_space=document.getElementById('workspaceName_error');
+		workspaceName_space.innerHTML="Workspace name is available";
+		workspaceName_space.setAttribute("class","inlineOk");
+	}
+};
 //}}}

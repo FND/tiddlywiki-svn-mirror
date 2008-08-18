@@ -14,12 +14,14 @@ if ($tiddlyCfg['workspace_name'] == ""){
 	?>
 		window.fullUrl = window.url;	
 	<?php
-} elseif ($tiddlyCfg['use_mod_rewrite'] == 0){ ?>
-	window.fullUrl = window.url+"?workspace="+window.workspace;
-		<?php
-}else{
+} elseif ($tiddlyCfg['use_mod_rewrite'] == 1){ 
 	?>
 	window.fullUrl = window.url+"/"+window.workspace;
+		<?php
+
+}else{
+	?>
+	window.fullUrl = window.url+"?workspace="+window.workspace;
 	<?php
 }
 if ($tiddlyCfg['use_mod_rewrite'] == 1)
@@ -40,9 +42,11 @@ if($error404 == true)
 {
 ?>
 	var titleTiddler = store.createTiddler('SiteTitle');
-	titleTiddler.text = '404 - Workspace does not exists';
+	titleTiddler.text = "'<?php echo $tiddlyCfg['workspace_name'];?>' does not exists";
 	var subTitleTiddler = store.createTiddler('SiteSubtitle');
-	subTitleTiddler.text = '';
+	subTitleTiddler.text = 'The workspace you requested does not exist.';
+	var subTitleTiddler = store.createTiddler('MainMenu');
+	subTitleTiddler.text = '';	
 	config.shadowTiddlers.DefaultTiddlers = 'CreateWorkspace';
 	refreshDisplay();
 <?php

@@ -2,7 +2,6 @@
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
-		debug("AAASAVE", "steps");	
 
 //return result/message
 function returnResult($str)

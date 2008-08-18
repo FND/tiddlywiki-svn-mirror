@@ -45,13 +45,11 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 if ($_POST['logout'] || $_REQUEST['logout'])
 {
 	user_logout('You have logged out.');
-	if($_REQUEST['workspace'])
-		$ws = "?workspace=".$_REQUEST['workspace'];
-	elseif($_POST['workspace'])
-		$ws = "".$_REQUEST['workspace'];
-	header("Location: ".str_replace("index.php", "", $_SERVER['PHP_SELF']).$ws);
+	if($tiddlyCfg['use_mod_rewrite']==0)
+		header('Location:'.getURL().'?workspace='.$_REQUEST['workspace']);
+	else
+		header('Location:'.getURL().'/'.$_REQUEST['workspace']);
 }
-
 ///////////////////////////////CC: user variable defined in header and $user['verified'] can be used directly to check user validation
  // check to see if user is logged in or not and then assign permissions accordingly. 
 //if ($user['verified'] = user_session_validate())

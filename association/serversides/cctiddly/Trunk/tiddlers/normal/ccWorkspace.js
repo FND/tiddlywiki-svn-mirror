@@ -131,8 +131,11 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
 	anon+=(this.anU.checked?trueStr:falseStr);
 	anon+=(this.anD.checked?trueStr:falseStr);
 	var params = {}; 
-	params.url = url+'/?workspace='+this.ccWorkspaceName.value;
-	
+	if (window.useModRewrite == 1)
+		params.url = url+'/'+this.ccWorkspaceName.value;
+	else
+		params.url = url+'/?workspace='+this.ccWorkspaceName.value;
+			
 	// disable create workspace button 
 	var submit=document.getElementById('createWorkspaceButton');
 	submit.disabled=true;
@@ -159,25 +162,6 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 	}
 };
 
-config.macros.ccRegister.workspaceNameKeyPress=function(str){
-
-	doHttp('POST',url+'/handle/lookupWorkspaceName.php',"ccWorkspaceLookup="+str+"&amp;free=1",null,null,null,config.macros.ccRegister.workspaceNameCallback,null);
-	return false;
-};
-
-config.macros.ccRegister.workspaceNameCallback=function(status,params,responseText,uri,xhr){
-	var field = "";
-	if(responseText>0){{
-		workspaceName_space=document.getElementById('workspaceName_error');
-		workspaceName_space.innerHTML='Workspace name has already been taken';
-		workspaceName_space.setAttribute("class","inlineError");
-	}
-	}else{
-		workspaceName_space=document.getElementById('workspaceName_error');
-		workspaceName_space.innerHTML="Workspace name is available";
-		workspaceName_space.setAttribute("class","inlineOk");
-	}
-};
 
 
 
