@@ -1,7 +1,7 @@
 /***
 |''Name:''|DownloadTiddlyWikiPlugin|
 |''Description:''|Download TiddlyWiki according to browser type|
-|''Version:''|0.0.3|
+|''Version:''|0.0.4|
 |''Date:''|Aug 13, 2008|
 |''Source:''|http://www.tiddlywiki.com/#DownloadTiddlyWikiPlugin|
 |''License:''|[[BSD open source license]]|
@@ -24,7 +24,6 @@ config.macros.download.handler = function(place,macroName,params,wikifier,paramS
 {
 	var span = createTiddlyElement(place,"span",null,this.className);
 	createTiddlyButton(span,params[0]||this.label,params[1]||this.prompt,this.onClick);
-
 };
 
 config.macros.download.onClick = function(e)
@@ -48,11 +47,15 @@ config.macros.download.onClick = function(e)
 	} else {
 			title = "Installation guidelines: Firefox on Ubuntu";
 	}
+	// put an iframe in the target instructions tiddler to start the download
+	var url = config.browser.isSafari || config.browser.isOpera ? 'http://www.tiddlywiki.com/empty.zip' :'http://www.tiddlywiki.com/empty.download';
+	var html = '<html><iframe src="' + url + '" style="display:none"></html>';
+	var tiddler = store.getTiddler(title);
+	var oldText = tiddler.text;
+	tiddler.text = html + tiddler.text;
 	var target = resolveTarget(e);
 	story.displayTiddler(target,title);
-	// start the download
-	var url = config.browser.isSafari || config.browser.isOpera ? 'http://www.tiddlywiki.com/empty.zip' :'http://www.tiddlywiki.com/empty.download';
-	document.location.href = url;
+	tiddler.text = oldText;
 	return false;
 };
 
