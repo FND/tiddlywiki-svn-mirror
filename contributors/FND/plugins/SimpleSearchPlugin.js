@@ -1,11 +1,11 @@
 /***
-|''Name''|EnhancedSearchPlugin|
+|''Name''|SimpleSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.1.2|
-|''Status''|@@experimental@@|
-|''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/EnhancedSearchPlugin.js|
-|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/EnhancedSearchPlugin.js|
+|''Version''|0.2.0|
+|''Status''|stable|
+|''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''Keywords''|search|
 !Configuration Options
@@ -20,8 +20,8 @@
 !Code
 ***/
 //{{{
-if(!version.extensions.EnhancedSearchPlugin) { //# ensure that the plugin is only installed once
-version.extensions.EnhancedSearchPlugin = {
+if(!version.extensions.SimpleSearchPlugin) { //# ensure that the plugin is only installed once
+version.extensions.SimpleSearchPlugin = {
 	installed: true,
 	btnLabel: "close",
 	btnTooltip: "dismiss search results",
@@ -55,44 +55,44 @@ version.extensions.EnhancedSearchPlugin = {
 
 config.optionsDesc.chkClassicSearch = "Use classic search behavior";
 
-config.shadowTiddlers.StyleSheetEnhancedSearch = "/*{{{*/\n"
-	+ "#" + version.extensions.EnhancedSearchPlugin.id + " {\n"
+config.shadowTiddlers.StyleSheetSimpleSearch = "/*{{{*/\n"
+	+ "#" + version.extensions.SimpleSearchPlugin.id + " {\n"
 	+ "\tborder: 2px solid [[ColorPalette::TertiaryLight]];\n"
 	+ "\tpadding: 5px 1em;\n"
 	+ "}\n\n"
-	+ "#" + version.extensions.EnhancedSearchPlugin.id + " h1 {\n"
+	+ "#" + version.extensions.SimpleSearchPlugin.id + " h1 {\n"
 	+ "\tmargin-top: 0;\n"
 	+ "\tborder: none;\n"
 	+ "}\n\n"
-	+ "#" + version.extensions.EnhancedSearchPlugin.id + " ul {\n"
+	+ "#" + version.extensions.SimpleSearchPlugin.id + " ul {\n"
 	+ "\tmargin-top: 0.5em;\n"
 	+ "\tmargin-bottom: 0.5em;\n"
 	+ "}\n\n"
-	+ "#" + version.extensions.EnhancedSearchPlugin.id + " .button {\n"
+	+ "#" + version.extensions.SimpleSearchPlugin.id + " .button {\n"
 	+ "\tfloat: right;\n"
 	+ "\tmargin: -5px -1em 5px 5px;\n"
 	+ "\tborder-color: [[ColorPalette::TertiaryPale]];\n"
 	+ "\tpadding: 5px;\n"
 	+ "\tbackground-color: [[ColorPalette::TertiaryPale]];\n"
 	+ "}\n\n"
-	+ "#" + version.extensions.EnhancedSearchPlugin.id + " .button:hover {\n"
+	+ "#" + version.extensions.SimpleSearchPlugin.id + " .button:hover {\n"
 	+ "\tborder-color: [[ColorPalette::SecondaryMid]];\n"
 	+ "\tbackground-color: [[ColorPalette::SecondaryLight]];\n"
 	+ "}\n"
 	+ "/*}}}*/";
-store.addNotification("StyleSheetEnhancedSearch", refreshStyles);
+store.addNotification("StyleSheetSimpleSearch", refreshStyles);
 
 // hijack Story.search()
-Story.prototype.search_enhancedSearch = Story.prototype.search;
+Story.prototype.search_SimpleSearch = Story.prototype.search;
 Story.prototype.search = function(text, useCaseSensitive, useRegExp) {
 	if(config.options.chkClassicSearch) {
-		Story.prototype.search_enhancedSearch.apply(this, arguments);
+		Story.prototype.search_SimpleSearch.apply(this, arguments);
 	} else {
 		highlightHack = new RegExp(useRegExp ? text : text.escapeRegExp(), useCaseSensitive ? "mg" : "img");
 		var matches = store.search(highlightHack, "title", "excludeSearch");
 		highlightHack = null;
 		var q = useRegExp ? "/" : "'";
-		version.extensions.EnhancedSearchPlugin.displayResults(matches, q + text + q);
+		version.extensions.SimpleSearchPlugin.displayResults(matches, q + text + q);
 	}
 };
 
