@@ -5,8 +5,8 @@
 $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
-$tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "cct17";		//db name
+$tiddlyCfg['db']['pass'] = "ac630484";		//login password
+$tiddlyCfg['db']['name'] = "cctiddly17";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 // User Managment Information 
@@ -97,7 +97,7 @@ $tiddlyCfg['txtTheme'] = 'purleTheme';  // The default TiddlyWiki theme to use.
 // Debugging Information 
 
 $tiddlyCfg['developing'] = 1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
-$tiddlyCfg['debug']['mysql'] = 1;	 // if set to x1 will output every sql query into the logfile 
+$tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login'] = 1;
 $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;
@@ -128,7 +128,7 @@ $tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace
 $tiddlyCfg['GettingStartedText'] = "To get started with this workspace, you'll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the workspace is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the worksace is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] tiddler.";
 // The text that will be displayed to users in the GettingStarted tiddler immediately after they have created a workspace.
 $tiddlyCfg['extract_admin_from_url']=0;// The admin user for each workspace when create will be taken from the URL.  If turned on it means the user SimonMcManus owns the workspace /SimonMcManus/.
-$tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
+$tiddlyCfg['use_mod_rewrite'] = 0;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 
 // Other 
 
@@ -167,11 +167,11 @@ else
 	$tiddlyCfg['workspace_name'] = $a;
 if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
 	$tiddlyCfg['workspace_name'] = str_replace(stristr($tiddlyCfg['workspace_name'], "?"), "", $b);
-if ($_POST['workspace'])
+if (isset($_POST['workspace']))
 	$tiddlyCfg['workspace_name'] = $_POST['workspace'];	
 	
 	
-if ($_REQUEST["standalone"]==1)
+if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	header("Content-Disposition: attachment; filename=\"".$tiddlyCfg['workspace_name'].".html\";\r\n");
 
 	
@@ -190,6 +190,7 @@ if (isset($_SERVER['REDIRECT_URL']) )
 }	
 
 $tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'/uploads/';  // location of the file upload directory - assumes is it under the root folder 
+if (isset($redirect_url))
 $file_location  =  $tiddlyCfg['pref']['upload_dir'].str_replace('/'.$tiddlyCfg['pref']['folder'].'/', '', $redirect_url);   // create url to file 
 	
 if(@file($file_location))
@@ -349,7 +350,6 @@ $tiddlyCfg['session_expire'] = $tiddlyCfg['session_expire'] * 60;  // Converts m
 
 $tiddlyCfg['table']['main'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['main'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['backup'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['backup'].$tiddlyCfg['table']['suffix'];
-$tiddlyCfg['table']['config'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['config'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['user'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['user'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['group'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['group'].$tiddlyCfg['table']['suffix'];
 $tiddlyCfg['table']['privilege'] = $tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['privilege'].$tiddlyCfg['table']['suffix'];

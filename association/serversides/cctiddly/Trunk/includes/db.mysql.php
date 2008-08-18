@@ -27,13 +27,14 @@ $db_var['settings']['handleError'] = 1;
 //	1 = assume magic_quote ON and never add slashes
 //	2 = detect magic_quote and act accordingly
 $db_var['settings']['magic_quote'] = 0;		
-
-$db_var['error']['connect'] = $ccT_msg['db']['connect'];
-$db_var['error']['selectDB'] = $ccT_msg['db']['select'];
-$db_var['error']['queryErr'] = $ccT_msg['word']['query_failed'];
-$db_var['error']['error'] = $ccT_msg['msg']['error'];
-$db_var['error']['query'] = $ccT_msg['msg']['query'];
-
+if(isset($ccT_msg))
+{
+	$db_var['error']['connect'] = $ccT_msg['db']['connect'];
+	$db_var['error']['selectDB'] = $ccT_msg['db']['select'];
+	$db_var['error']['queryErr'] = $ccT_msg['word']['query_failed'];
+	$db_var['error']['error'] = $ccT_msg['msg']['error'];
+	$db_var['error']['query'] = $ccT_msg['msg']['query'];
+}
 
 /*$db_var['error']['connect'] = "Error connecting to db";
 $db_var['error']['selectDB'] = "Error selecting db";
@@ -672,6 +673,7 @@ $db_var['error']['query'] = " query: ";*/
 
 		while( (list($k,$v) = each($data)) )
 		{
+		$sql = "";
 			if (($v != '') || ($k=='workspace_name'))  // make sure we dont search on emtpy values unless its 
 				$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."' and ";
 		}

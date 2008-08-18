@@ -42,7 +42,7 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 }
 
 
-if ($_POST['logout'] || $_REQUEST['logout'])
+if (isset($_POST['logout']) || isset($_REQUEST['logout']))
 {
 	user_logout('You have logged out.');
 	if($tiddlyCfg['use_mod_rewrite']==0)

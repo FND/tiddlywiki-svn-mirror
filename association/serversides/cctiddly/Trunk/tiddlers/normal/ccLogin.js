@@ -145,7 +145,8 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	}]);
 }
 
-config.macros.ccLogin.loginCallback=function(context,userParams){
+config.macros.ccLogin.loginCallback=function(context,userParams, responseText){
+alert("aaaa"+responseText);
 	if(context.status){
 		window.location=window.fullUrl;
 	}else{
@@ -235,7 +236,10 @@ function findToken(cookieStash){
 	return output;
 };
 
-function cookieString(str){
+
+
+function cookieString(str){	
+
 	var cookies = str.split(";");
 	var output = {};
 	for(var c=0; c < cookies.length; c++){

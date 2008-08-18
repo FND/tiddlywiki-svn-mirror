@@ -45,10 +45,11 @@ if( isset($_GET['title']) )
 	$tiddlers = getTiddlersWithTags($yesTags, $noTags);
 }else{
 	$tiddlers = getAllTiddlers();
-
-	$skin_tiddlers = getSkinTiddlers($_REQUEST['skin']); 
-	$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
-	
+	if (isset($_REQUEST['skin']))
+	{
+		$skin_tiddlers = getSkinTiddlers($_REQUEST['skin']); 
+		$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
+	}
 }
 recordTime_float("get all tiddlers");
 	
@@ -106,7 +107,7 @@ DAMAGE.
 		print tiddler_bodyDecode($tiddlers['MarkupPreHead']['body']);
 	}else{
 		
-		if(is_file($tiddlyCfg['pref']['upload_dir'] .$tiddlyCfg['workspace_name']."/$config.xml"))
+		if(isset($config) && is_file($tiddlyCfg['pref']['upload_dir'] .$tiddlyCfg['workspace_name']."/$config.xml"))
 			print "<link rel='alternate' type='application/rss+xml' title='RSS' href='".$tiddlyCfg['workspace_name']."/$config.xml'>";
 
 	}

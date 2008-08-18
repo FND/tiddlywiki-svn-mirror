@@ -1,7 +1,7 @@
 <?php 
 include_once($cct_base."includes/ccAssignments.php");
 
-if ($_REQUEST['standalone']==1)
+if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	tiddler_outputOffline();
 else
 	echo tiddler_outputFolder("tiddlers/normal", $cct_base);
@@ -30,7 +30,7 @@ if($tiddlyCfg['developing']>0){
 }
 ///// END DEBUG TIDDLER
 
-if ($_REQUEST["standalone"]==1)
+if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 {
 ?>
 

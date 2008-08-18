@@ -118,7 +118,7 @@
 	function user_set_session($un, $pw)
 	{
 		global $tiddlyCfg;
-		
+		debug("user set session ", "login");
 		if ($tiddlyCfg['users_required_in_db']==1)
 		{
 			debug("user is required in db", "login");
@@ -165,14 +165,14 @@
 		debug("LLDAP Login", "login");
 		if ($password == "")
 		{
+			debug("LDAP login failed due to no password being present", "login");
 			return false;
 		}
-		
 		$ds = ldap_connect($tiddlyCfg['pref']['ldap_connection_string']); 
-   	    //Can't connect to LDAP. 
 	    if( !$ds ) 
 	    { 
-	      return false;
+			debug("LDAP connection could not be established (1)", "login");	
+			return false;
 	    } 
      
     //Connection made -- bind anonymously and get dn for username. 
@@ -180,10 +180,11 @@
 	$bind_user =$tiddlyCfg['pref']['ldap_username'];
 	$bind_pass = $tiddlyCfg['pref']['ldap_password'];
     $bind = @ldap_bind($ds,$bind_user,$bind_pass); 
-     
+     debug("we ok ", "login");
     //Check to make sure we're bound. 
     if( !$bind ) 
     { 
+		debug("LDAP connection could not be established (2)", "login");	
        return false;
     } 
      
@@ -192,6 +193,7 @@
     //Make sure only ONE result was returned -- if not, they might've thrown a * into the username.  Bad user! 
 	if( @ldap_count_entries($ds,$search) != 1 ) 
     { 
+		debug("Login Failed : Only one user was not returned.", "login");	
         return FALSE;
     } else
 	{
@@ -201,11 +203,11 @@
 	  $user_dn = $info[0]["dn"];
 		$userBind = @ldap_bind($ds, $user_dn,$password);
 		if(!$userBind){
+			debug("LDAP connection could not be established (3)", "login");	
 			return false;
 		}else{
-		
-	debug("LDAP making prgress - tis ok", "login");
-		return TRUE;
+			debug("LDAP making prgress - tis ok", "login");
+			return TRUE;
 		}
 		@ldap_close($ds); 
 	}
@@ -241,10 +243,10 @@
 				return TRUE;
 			}else
 			{
-			user_logout('Login Failed, please confirm username/password');
-		}		
-		return FALSE;
-	}
+				user_logout('Login Failed, please confirm username/password');
+			}		
+			return FALSE;
+		}
 	}
 	
 	
