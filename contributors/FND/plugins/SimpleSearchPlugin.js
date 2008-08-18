@@ -14,9 +14,9 @@
 !!v0.2.0 (2008-08-18)
 * initial release
 !To Do
-* do not wikify WikiWords in info message
 * animations for container creation and removal
 * when clicking on search results, do not scroll to the respective tiddler (optional)
+* use template for search results
 !Code
 ***/
 //{{{
@@ -30,6 +30,7 @@ version.extensions.SimpleSearchPlugin = {
 
 	displayResults: function(matches, query) {
 		var el = document.getElementById(this.id);
+		query = '"""' + query + '"""'; // prevent WikiLinks
 		if(el) {
 			removeChildren(el);
 		} else { //# fallback: use displayArea as parent
