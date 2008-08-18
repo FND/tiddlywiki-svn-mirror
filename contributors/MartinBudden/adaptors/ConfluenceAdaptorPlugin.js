@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ConfluenceAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ConfluenceAdaptorPlugin.js |
-|''Version:''|0.6.3|
+|''Version:''|0.6.4|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/ ]]|
@@ -13,11 +13,10 @@
 Confluence Wiki RPC documentation is at:
 http://confluence.atlassian.com/display/DOC/Remote+API+Specification
 http://confluence.atlassian.com/display/DOC/Remote+API+Specification#RemoteAPISpecification-Page
-
-The URL for XML-RPC requests is http://confluence-install/rpc/xmlrpc
-
-https://confluence.atlassian.com/confluence/rpc/xmlrpc
-http://confluence.atlassian.com/display/TEST/Home
+//#
+//#The URL for XML-RPC requests is http://confluence-install/rpc/xmlrpc
+//#https://confluence.atlassian.com/confluence/rpc/xmlrpc
+//#http://confluence.atlassian.com/display/TEST/Home
 
 ''For debug:''
 |''Default Confluence username''|<<option txtConfluenceUsername>>|
