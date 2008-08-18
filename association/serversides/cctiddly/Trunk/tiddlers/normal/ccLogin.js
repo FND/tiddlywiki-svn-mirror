@@ -158,7 +158,7 @@ config.macros.ccLogin.displayForgottenPassword=function(item, place){
 	w.setButtons([
 		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {me.refresh(place);}
 	}]);
-}
+};
 config.macros.toolbar.isCommandEnabled=function(command,tiddler){	
 	var title=tiddler.title;
 	if (workspace_delete=="D"){
@@ -215,7 +215,7 @@ function findToken(cookieStash){
 		}
 	}	
 	return output;
-}
+};
 
 function cookieString(str){
 	var cookies = str.split(";");
@@ -257,7 +257,7 @@ window.restart = function (){
 		story.displayDefaultTiddlers();
 		invokeParamifier(params,"onstart");
 		window.scrollTo(0,0); 
-}
+};
 
 
 //}}}

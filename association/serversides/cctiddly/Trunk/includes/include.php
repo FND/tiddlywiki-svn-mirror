@@ -71,7 +71,7 @@ To update your changes please log into ccTiddly in a seperate window and then pr
 &lt;&lt;sync&gt;&gt;
 </pre>
 </div>
-<?
+<?php
 }
 ?>
 
