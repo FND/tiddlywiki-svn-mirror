@@ -1,7 +1,7 @@
 /***
 |''Name:''|DownloadTiddlyWikiPlugin|
 |''Description:''|Download TiddlyWiki according to browser type|
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Date:''|Aug 13, 2008|
 |''Source:''|http://www.tiddlywiki.com/#DownloadTiddlyWikiPlugin|
 |''License:''|[[BSD open source license]]|
@@ -26,9 +26,10 @@ config.macros.download.handler = function(place,macroName,params,wikifier,paramS
 	createTiddlyButton(span,params[0]||this.label,params[1]||this.prompt,this.onClick);
 };
 
-config.macros.download.onClick = function(e)
+config.macros.download.onClick = function(ev)
 {
 	// display the tiddler containing the instructions
+	var e = ev || window.event;
 	var title;
 	if(config.browser.isMac) {
 		if(config.browser.isSafari) {
