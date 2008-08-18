@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ConfluenceAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ConfluenceAdaptorPlugin.js |
-|''Version:''|0.6.2|
+|''Version:''|0.6.3|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/ ]]|
@@ -51,6 +51,8 @@ ConfluenceAdaptor.prototype = new AdaptorBase();
 ConfluenceAdaptor.serverType = 'confluence';
 ConfluenceAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 ConfluenceAdaptor.errorInFunctionMessage = "Error in function ConfluenceAdaptor.%0";
+ConfluenceAdaptor.usernamePrompt = "Username";
+ConfluenceAdaptor.passwordPrompt = "Password";
 ConfluenceAdaptor.couldNotLogin = "Could not log in";
 ConfluenceAdaptor.fnTemplate = '<?xml version="1.0" encoding="utf-8"?><methodCall><methodName>%0</methodName><params>%1</params></methodCall>';
 
@@ -93,14 +95,19 @@ ConfluenceAdaptor.prototype.login = function(context)
 {
 //#console.log('login:'+context.host);
 	if(config.options.txtConfluenceUsername && config.options.txtConfluencePassword) {
-		context.username = config.options.txtWikispacesUsername;
-		context.password = config.options.txtWikispacesPassword;
+		context.username = config.options.txtConfluenceUsername;
+		context.password = config.options.txtConfluencePassword;
 		ConfluenceAdaptor.loginPromptCallback(context);
+	//#} else if(typeof PasswordPrompt != 'undefined') {
+	//#	PasswordPrompt.prompt(ConfluenceAdaptor.loginPromptCallback,context);
 	} else if(context.loginPromptFn) {
 		context.loginPromptCallback = ConfluenceAdaptor.loginPromptCallback;
 		context.loginPromptFn(context);
 	} else {
-		return ConfluenceAdaptor.couldNotLogin;
+		context.username = prompt(ConfluenceAdaptor.usernamePrompt,'');
+		context.password = prompt(ConfluenceAdaptor.passwordPrompt,'');
+		ConfluenceAdaptor.loginPromptCallback(context);
+		//return ConfluenceAdaptor.couldNotLogin;
 	}
 	return true;
 };
@@ -108,9 +115,6 @@ ConfluenceAdaptor.prototype.login = function(context)
 ConfluenceAdaptor.loginPromptCallback = function(context)
 {
 //#console.log('loginPromptCallback');
-	// for debug
-	context.username = config.options.txtConfluenceUsername;
-	context.password = config.options.txtConfluencePassword;
 	var uriTemplate = '%0/rpc/xmlrpc';
 	var uri = uriTemplate.format([context.host]);
 //#console.log('uri: '+uri);
@@ -134,15 +138,11 @@ ConfluenceAdaptor.loginCallback = function(status,context,responseText,url,xhr)
 	if(status) {
 		try {
 			var text = responseText;
-//<?xml version="1.0"?><methodResponse><fault><value><struct><member><name>faultString</name><value>java.lang.Exception: com.atlassian.confluence.rpc.NotPermittedException: Anonymous RPC access is disabled on this server</value></member><member><name>faultCode</name><value><int>0</int></value></member></struct></value></fault></methodResponse>
-//<?xml version="1.0"?><methodResponse><params><param><value>WsUS1CnaA4</value></param></params></methodResponse>
-//			text = text.replace('<?xml version="1.0" encoding="UTF-8"?><methodResponse>','');
-//			text = text.replace('</methodResponse>','');
 			var faultRegExp = /<member><name>faultString<\/name><value>([^<]*)<\/value>/mg;
 			faultRegExp.lastIndex = 0;
 			var match = faultRegExp.exec(text);
 			if(match) {
-				context.statusText = match[1];
+				context.statusText = match[1].replace(/&#32;/mg,' ').replace(/&#13;/mg,'');
 				if(context.callback)
 					context.callback(context,context.userParams);
 				return;
@@ -153,10 +153,9 @@ ConfluenceAdaptor.loginCallback = function(status,context,responseText,url,xhr)
 			var matchRegExp = /<value>([^<]*)<\/value>/mg;
 			matchRegExp.lastIndex = 0;
 			match = matchRegExp.exec(text);
-			if(match)
-				context.sessionToken = match[1];
-			else
-				context.sessionToken = '';
+			context.sessionToken = match ? match[1] : '';
+			config.options.txtConfluenceUsername = context.username;
+			config.options.txtConfluencePassword = context.password;
 		} catch (ex) {
 			context.statusText = exceptionText(ex,config.messages.serverParsingError);
 			if(context.callback)
@@ -199,13 +198,12 @@ ConfluenceAdaptor.prototype.getWorkspaceList = function(context,userParams,callb
 {
 //#console.log('getWorkspaceList');
 	context = this.setContext(context,userParams,callback);
+	context.workspaces = [];
 	var workspace = userParams ? userParams.getValue("feedWorkspace") : context.workspace;//!! kludge until core fixed
 	if(!workspace)
 		return this.complete(context,ConfluenceAdaptor.getWorkspaceListComplete);
-	var list = [];
-	list.push({title:workspace,name:workspace});
+	context.workspaces.push({title:workspace,name:workspace});
 	context.workspace = workspace;
-	context.workspaces = list;
 	if(context.callback)
 		context.callback(context,context.userParams);
 	return true;
@@ -239,16 +237,14 @@ ConfluenceAdaptor.getWorkspaceListCallback = function(status,context,responseTex
 	context.status = false;
 	context.statusText = ConfluenceAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	context.workspaces = [];
-/*
-<?xml version="1.0"?><methodResponse><params><param><value><array><data><value>
-<struct>
-<member><name>name</name><value>MartinTest</value></member>
-<member><name>url</name><value>http://try.atlassian.com/display/MartinTest</value></member>
-<member><name>key</name><value>MartinTest</value></member>
-<member><name>type</name><value>global</value></member>
-</struct>
-</value></data></array></value></param></params></methodResponse>
-*/
+//#<?xml version="1.0"?><methodResponse><params><param><value><array><data><value>
+//#<struct>
+//#<member><name>name</name><value>MartinTest</value></member>
+//#<member><name>url</name><value>http://try.atlassian.com/display/MartinTest</value></member>
+//#<member><name>key</name><value>MartinTest</value></member>
+//#<member><name>type</name><value>global</value></member>
+//#</struct>
+//#</value></data></array></value></param></params></methodResponse>
 	if(status) {
 		try {
 			var text = responseText;
@@ -302,22 +298,16 @@ ConfluenceAdaptor.getTiddlerListComplete = function(context)
 	return typeof req == 'string' ? req : true;
 };
 
-//*<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><array><data>
-//#<value>IdeasInstantMessagingWiki</value>
-//#...
-//#</data></array></value></param></params></methodResponse>
-
-
-/*<?xml version="1.0"?><methodResponse><params>
-<param><value><array><data><value><struct>
-<member><name>id</name><value>54694264</value></member>
-<member><name>parentId</name><value>0</value></member>
-<member><name>title</name><value>Home</value></member>
-<member><name>url</name><value>http://try.atlassian.com/display/MartinTest/Home</value></member>
-<member><name>permissions</name><value>0</value></member>
-<member><name>space</name><value>MartinTest</value></member>
-</struct></value></data></array></value></param>
-</params></methodResponse>*/
+//#<?xml version="1.0"?><methodResponse><params>
+//#<param><value><array><data><value><struct>
+//#<member><name>id</name><value>54694264</value></member>
+//#<member><name>parentId</name><value>0</value></member>
+//#<member><name>title</name><value>Home</value></member>
+//#<member><name>url</name><value>http://try.atlassian.com/display/MartinTest/Home</value></member>
+//#<member><name>permissions</name><value>0</value></member>
+//#<member><name>space</name><value>MartinTest</value></member>
+//#</struct></value></data></array></value></param>
+//#</params></methodResponse>
 
 ConfluenceAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
@@ -332,12 +322,6 @@ ConfluenceAdaptor.getTiddlerListCallback = function(status,context,responseText,
 	context.tiddlers = [];
 	if(status) {
 		try {
-//<?xml version="1.0"?><methodResponse>
-//<fault><value><struct><member><name>faultString</name>
-//<value>
-//java.lang.Exception: com.atlassian.confluence.rpc.RemoteException: You're not allowed to view that space, or it does not exist.
-//</value>
-//</member><member><name>faultCode</name><value><int>0</int></value></member></struct></value></fault></methodResponse>
 			var text = responseText;
 			text = text.replace('<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><array><data>','');
 			text = text.replace('</data></array></value></param></params></methodResponse>','');
@@ -346,7 +330,7 @@ ConfluenceAdaptor.getTiddlerListCallback = function(status,context,responseText,
 			match = matchRegExp.exec(text);
 			if(match) {
 				context.status = false;
-				context.statusText = match[1];
+				context.statusText = match[1].replace(/&#32;/mg,' ').replace(/&#13;/mg,'');
 			}
 			matchRegExp = /<name>title<\/name><value>([^<]*)<\/value>/mg;
 			matchRegExp.lastIndex = 0;
@@ -408,29 +392,7 @@ ConfluenceAdaptor.prototype.getTiddler = function(title,context,userParams,callb
 	context.title = title;
 	this.complete(context,ConfluenceAdaptor.getTiddlerComplete);
 };
-/*
-<?xml version="1.0"?><methodResponse><params><param>
-<value>
-<struct>
-<member><name>id</name><value>54694264</value></member>
-<member><name>content</name><value></value></member>
-<member><name>current</name><value>true</value></member>
-<member><name>version</name><value>1</value></member>
-<member><name>title</name><value>Home</value></member>
-<member><name>modifier</name><value>csh_admin</value></member>
-<member><name>url</name><value>http://try.atlassian.com/display/MartinTest/Home</value></member>
-<member><name>homePage</name><value>true</value></member>
-<member><name>creator</name><value>csh_admin</value></member>
-<member><name>contentStatus</name><value>current</value></member>
-<member><name>modified</name><value><dateTime.iso8601>20080815T04:30:44</dateTime.iso8601></value></member>
-<member><name>created</name><value><dateTime.iso8601>20080815T04:30:44</dateTime.iso8601></value></member>
-<member><name>space</name><value>MartinTest</value></member>
-<member><name>parentId</name><value>0</value></member>
-<member><name>permissions</name><value>0</value></member>
-</struct>
-</value>
-</param></params></methodResponse>
-*/
+
 ConfluenceAdaptor.getTiddlerComplete = function(context)
 {
 //#console.log('ConfluenceAdaptor.getTiddler:'+context.title);
@@ -464,8 +426,7 @@ ConfluenceAdaptor.getTiddlerCallback = function(status,context,responseText,uri,
 //# http://confluence.atlassian.com/display/DOC/Remote+API+Specification#RemoteAPISpecification-Page
 	if(status) {
 		var text = responseText;
-		text = text.replace(/&#32;/mg,' ');
-		text = text.replace(/&#13;/mg,'');
+		text = text.replace(/&#32;/mg,' ').replace(/&#13;/mg,'');
 		text = text.replace('<methodResponse><params><param><value>','');
 		text = text.replace('</value></param></params></methodResponse>','');
 		var matchRegExp = /<name>content<\/name><value>([^<]*)<\/value>/mg;
@@ -557,13 +518,12 @@ ConfluenceAdaptor.putTiddlerCallback = function(status,context,responseText,uri,
 {
 //#console.log('putTiddlerCallback status:'+status);
 //#console.log('rt:'+responseText);
-/*<?xml version="1.0"?><methodResponse>
-<fault><value><struct>
-<member><name>faultString</name><value>java.lang.Exception: com.atlassian.confluence.rpc.InvalidSessionException: User not authenticated or session expired. Call login() to open a new session</value></member><member>
-<name>faultCode</name><value><int>0</int></value></member>
-</struct></value></fault>
-</methodResponse>
-*/
+//#<?xml version="1.0"?><methodResponse>
+//#<fault><value><struct>
+//#<member><name>faultString</name><value>java.lang.Exception: com.atlassian.confluence.rpc.InvalidSessionException: User not authenticated or session expired. Call login() to open a new session</value></member><member>
+//#<name>faultCode</name><value><int>0</int></value></member>
+//#</struct></value></fault>
+//#</methodResponse>
 	if(status) {
 		context.status = true;
 	} else {
@@ -575,7 +535,7 @@ ConfluenceAdaptor.putTiddlerCallback = function(status,context,responseText,uri,
 	var match = faultRegExp.exec(responseText);
 	if(match) {
 		context.status = false;
-		context.statusText = match[1].replace(/&#32;/mg,' ');
+		context.statusText = match[1].replace(/&#32;/mg,' ').replace(/&#13;/mg,'');
 		//#console.log('err:'+context.statusText);
 	}
 	if(context.callback)
@@ -631,7 +591,7 @@ ConfluenceAdaptor.deleteTiddlerCallback = function(status,context,responseText,u
 	var match = faultRegExp.exec(responeseText);
 	if(match) {
 		context.status = false;
-		context.statusText = match[1].replace(/&#32;/mg,' ');
+		context.statusText = match[1].replace(/&#32;/mg,' ').replace(/&#13;/mg,'');
 	}
 	if(context.callback)
 		context.callback(context,context.userParams);
