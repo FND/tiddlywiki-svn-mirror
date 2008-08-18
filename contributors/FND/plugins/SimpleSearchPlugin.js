@@ -2,7 +2,7 @@
 |''Name''|SimpleSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.2.2|
+|''Version''|0.2.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
@@ -43,7 +43,7 @@ version.extensions.SimpleSearchPlugin = {
 		if(matches.length > 0) {
 			msg += "''" + config.macros.search.successMsg.format([matches.length.toString(), query]) + ":''\n";
 			for(var i = 0 ; i < matches.length; i++) {
-				msg += "* [[" + matches[i].title + "]]\n";
+				msg += "# [[" + matches[i].title + "]]\n";
 			}
 		} else {
 			msg += "''" + config.macros.search.failureMsg.format([query]) + "''"; // XXX: do not use bold here!?
@@ -67,7 +67,7 @@ config.shadowTiddlers.StyleSheetSimpleSearch = "/*{{{*/\n"
 	+ "\tmargin-top: 0;\n"
 	+ "\tborder: none;\n"
 	+ "}\n\n"
-	+ "#" + version.extensions.SimpleSearchPlugin.id + " ul {\n"
+	+ "#" + version.extensions.SimpleSearchPlugin.id + " ol {\n"
 	+ "\tmargin-top: 0.5em;\n"
 	+ "\tmargin-bottom: 0.5em;\n"
 	+ "}\n\n"
