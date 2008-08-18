@@ -7,7 +7,7 @@ tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 #tiddler: ../../shadows/ViewTemplateGetPutRevisionsFields.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
-tiddler: ../../adaptors/ConfluenceAdaptorPlugin.js
+tiddler: ../../adaptors/ConfluenceAdaptorPlugin.js tags="systemConfig"
 tiddler: ../../formatters/ConfluenceFormatterPlugin.js
 tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
 tiddler: ../../../SaqImtiaz/verticals/Hesperian/PasswordPromptPlugin.js
