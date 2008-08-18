@@ -106,7 +106,7 @@ ccTiddlyAdaptor.prototype.getWorkspaceList = function(context,userParams,callbac
  	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0/handle/listWorkspaces.php';
 	var uri = uriTemplate.format([context.host]);
-	console.log('uri:'+uri)
+//	console.log('uri:'+uri)
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getWorkspaceListCallback,context, {'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
