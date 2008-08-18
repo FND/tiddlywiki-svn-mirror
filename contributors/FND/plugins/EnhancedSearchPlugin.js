@@ -41,7 +41,7 @@ version.extensions.EnhancedSearchPlugin = {
 			var msg = "!Search Results\n" +
 				"''" + config.macros.search.successMsg.format([matches.length.toString(), query]) + ":''\n";
 			for(var i = 0 ; i < matches.length; i++) {
-				msg += "# [[" + matches[i].title + "]]\n";
+				msg += "* [[" + matches[i].title + "]]\n";
 			}
 		} else {
 			msg = config.macros.search.failureMsg.format([query]);
@@ -58,19 +58,19 @@ config.optionsDesc.chkClassicSearch = "Use classic search behavior";
 config.shadowTiddlers.StyleSheetEnhancedSearch = "/*{{{*/\n"
 	+ "#" + version.extensions.EnhancedSearchPlugin.id + " {\n"
 	+ "\tborder: 2px solid [[ColorPalette::TertiaryLight]];\n"
-	+ "\tpadding: 5px;\n"
+	+ "\tpadding: 5px 1em;\n"
 	+ "}\n\n"
 	+ "#" + version.extensions.EnhancedSearchPlugin.id + " h1 {\n"
 	+ "\tmargin-top: 0;\n"
 	+ "\tborder: none;\n"
 	+ "}\n\n"
-	+ "#" + version.extensions.EnhancedSearchPlugin.id + " ol {\n"
+	+ "#" + version.extensions.EnhancedSearchPlugin.id + " ul {\n"
 	+ "\tmargin-top: 0.5em;\n"
 	+ "\tmargin-bottom: 0.5em;\n"
 	+ "}\n\n"
 	+ "#" + version.extensions.EnhancedSearchPlugin.id + " .button {\n"
 	+ "\tfloat: right;\n"
-	+ "\tmargin: -5px -5px 5px 5px;\n"
+	+ "\tmargin: -5px -1em 5px 5px;\n"
 	+ "\tborder-color: [[ColorPalette::TertiaryPale]];\n"
 	+ "\tpadding: 5px;\n"
 	+ "\tbackground-color: [[ColorPalette::TertiaryPale]];\n"
