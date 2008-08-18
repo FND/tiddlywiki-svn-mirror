@@ -2,7 +2,7 @@
 |''Name''|SimpleSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.2.0|
+|''Version''|0.2.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
@@ -11,10 +11,9 @@
 !Configuration Options
 <<option chkClassicSearch>> Use classic search behavior
 !Revision History
-!!v0.1.0 (2008-08-17)
+!!v0.2.0 (2008-08-18)
 * initial release
 !To Do
-* default styling
 * animations for container creation and removal
 * when clicking on search results, do not scroll to the respective tiddler (optional)
 !Code
@@ -25,6 +24,7 @@ version.extensions.SimpleSearchPlugin = {
 	installed: true,
 	btnLabel: "close",
 	btnTooltip: "dismiss search results",
+	heading: "Search Results",
 	id: "searchResults",
 
 	displayResults: function(matches, query) {
@@ -38,7 +38,7 @@ version.extensions.SimpleSearchPlugin = {
 			el = container.insertBefore(el, container.firstChild);
 		}
 		if(matches.length > 0) {
-			var msg = "!Search Results\n" +
+			var msg = "!" + this.heading + "\n" +
 				"''" + config.macros.search.successMsg.format([matches.length.toString(), query]) + ":''\n";
 			for(var i = 0 ; i < matches.length; i++) {
 				msg += "* [[" + matches[i].title + "]]\n";
@@ -57,6 +57,7 @@ config.optionsDesc.chkClassicSearch = "Use classic search behavior";
 
 config.shadowTiddlers.StyleSheetSimpleSearch = "/*{{{*/\n"
 	+ "#" + version.extensions.SimpleSearchPlugin.id + " {\n"
+	+ "\toverflow: auto;\n"
 	+ "\tborder: 2px solid [[ColorPalette::TertiaryLight]];\n"
 	+ "\tpadding: 5px 1em;\n"
 	+ "}\n\n"
@@ -70,7 +71,7 @@ config.shadowTiddlers.StyleSheetSimpleSearch = "/*{{{*/\n"
 	+ "}\n\n"
 	+ "#" + version.extensions.SimpleSearchPlugin.id + " .button {\n"
 	+ "\tfloat: right;\n"
-	+ "\tmargin: -5px -1em 5px 5px;\n"
+	+ "\tmargin: -5px -1em -5px 5px;\n"
 	+ "\tborder-color: [[ColorPalette::TertiaryPale]];\n"
 	+ "\tpadding: 5px;\n"
 	+ "\tbackground-color: [[ColorPalette::TertiaryPale]];\n"
