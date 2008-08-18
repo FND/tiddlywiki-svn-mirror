@@ -127,7 +127,6 @@
 		
 			if (count($login_check) > 0 ) 
 			{
-				
 				debug("user exists in the database.", "login");
 				//return true;
 			}
@@ -163,7 +162,7 @@
 	function user_ldap_login($username, $password)
 	{
 		global $tiddlyCfg;
-		
+		debug("LLDAP Login", "login");
 		if ($password == "")
 		{
 			return false;
@@ -197,7 +196,6 @@
     } else
 	{
 	}
-	
 	  $info = ldap_get_entries($ds, $search); 
 	  
 	  $user_dn = $info[0]["dn"];
@@ -205,6 +203,8 @@
 		if(!$userBind){
 			return false;
 		}else{
+		
+	debug("LDAP making prgress - tis ok", "login");
 		return TRUE;
 		}
 		@ldap_close($ds); 

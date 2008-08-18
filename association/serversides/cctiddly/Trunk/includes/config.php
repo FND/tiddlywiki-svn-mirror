@@ -19,10 +19,10 @@ $tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an ac
 //LDAP
 
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-$tiddlyCfg['pref']['ldap_username']	= "CN=blah blah blah ";
-$tiddlyCfg['pref']['ldap_password'] = "PASSWORD";
-$tiddlyCfg['pref']['ldap_connection_string'] = "ldap:/.....";
+$tiddlyCfg['pref']['ldap_enabled'] = 1;	
+$tiddlyCfg['pref']['ldap_username']	= "CN=Sa063338,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
+$tiddlyCfg['pref']['ldap_password'] = "pass9431w";
+$tiddlyCfg['pref']['ldap_connection_string'] = "ldap://iuser.iroot.adidom.com:389";
 
 //Deligated Session Managment 
  
@@ -97,7 +97,7 @@ $tiddlyCfg['txtTheme'] = 'purleTheme';  // The default TiddlyWiki theme to use.
 // Debugging Information 
 
 $tiddlyCfg['developing'] = 1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
-$tiddlyCfg['debug']['mysql'] = 1;	 // if set to x1 will output every sql query into the logfile 
+$tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login'] = 1;
 $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;
@@ -316,31 +316,27 @@ Notes :
 */
 
 //default privileges
-$tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what should undefined (U) be treated as
-$tiddlyCfg['privilege_misc']['default_privilege'] = "UUUU";		//default privilege for all group and tags
-
+$tiddlyCfg['privilege_misc']['undefined_privilege'] = "A";		//defined what should undefined (U) be treated as
+$tiddlyCfg['privilege_misc']['default_privilege'] = "AAAA";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
-//Format : $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
-$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['default_anonymous_perm'];
-$tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = 'AAAA';//$tiddlyCfg['default_user_perm'];
-$tiddlyCfg['privilege_misc']['group_default_privilege']['admin'] = "AAAA";
-
-
-/*  TAG BASED PERMISSIONS 
-
-assign privilege to specific tag using groups
-
-Format : 
-$tiddlyCfg['privilege']['<put your group name here>']['<put your tag name here>'] = "<put your privilege here>";
-
-Example : 
-
-$tiddlyCfg['privilege']['anonymous']['systemConfig'] = "ADDD";
-
-this would deny anonymous users to insert/edit/delete systemConfig tags but still allow it to run  */
+//		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
+$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = "ADDD";
+ $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = "AAAA";
+  $tiddlyCfg['privilege_misc']['group_default_privilege']['admin'] = "AAAA";
+////////////////////////////////////////////////////////ADVANCE PRIVILEGE for tags//////////////////////////////////////////////////////
+/*
+	assign privilege to specific tag using groups
+	this is of the format
+		$tiddlyCfg['privilege']['<put your group name here>']['<put your tag name here>'] = "<put your privilege here>";
+	EXAMPLE: this would deny anonymous users to insert/edit/delete systemConfig tags but still allow it to run
+		$tiddlyCfg['privilege']['anonymous']['systemConfig'] = "ADDD";
+*/
 
 $tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
-$tiddlyCfg['privilege']['user']['systemConfig'] = "AAAD";
+$tiddlyCfg['privilege']['user']['task'] = "AAAA";
+$tiddlyCfg['privilege']['anonymous']['task'] = "DDDD";
+$tiddlyCfg['privilege']['admin']['task'] = "AAAA";
+//The following privilege are for blog
 
 $tiddlyCfg['privilege']['anonymous']['private'] = "DDDD";
 $tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to be post anonymously
