@@ -4,10 +4,10 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ConfluenceFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/ConfluenceFormatterPlugin.js |
-|''Version:''|0.1.5|
+|''Version:''|0.1.6|
 |''Date:''|Dec 8, 2006|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.1.0|
 
 |''Use host images''|<<option chkUseHostImages>>|
@@ -286,8 +286,8 @@ config.confluenceFormatters = [
 },
 {
 	name: 'confluenceQuote',
-	match: '^{quote}\\n',
-	termRegExp: /(^\{quote\}[\n|$])/mg,
+	match: '^{quote}',
+	termRegExp: /(\{quote\})/mg,
 	element: 'blockquote',
 	handler: config.formatterHelpers.createElementAndWikify
 },
