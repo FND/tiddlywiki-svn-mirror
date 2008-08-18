@@ -106,15 +106,12 @@ ccTiddlyAdaptor.prototype.getWorkspaceList = function(context,userParams,callbac
  	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0/handle/listWorkspaces.php';
 	var uri = uriTemplate.format([context.host]);
-//	console.log('uri:'+uri)
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getWorkspaceListCallback,context, {'accept':'application/json'});
 	return typeof req == 'string' ? req : true;
 };
 
 ccTiddlyAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 {
-console.log('getWSLCB:'+status);
-console.log('rt:'+responseText);
 	context.status = false;
 	context.workspaces = [];
 	context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getWorkspaceListCallback']);
@@ -262,7 +259,7 @@ ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,
 	var host = this.fullHostName(this.host);
 	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,encodedTitle]);
-console.log('uri: '+uri);
+//console.log('uri: '+uri);
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerRevisionListCallback,context);
 //#console.log("req:"+req);
 };
