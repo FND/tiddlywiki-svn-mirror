@@ -269,9 +269,6 @@ console.log('uri: '+uri);
 
 ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,responseText,uri,xhr)
 {
-console.log('getTiddlerRevisionListCallback status:'+status);
-console.log('rt:'+responseText);
-console.log(xhr);
 	if(responseText.indexOf('<!DOCTYPE html')==1)
 		status = false;
 	if(xhr.status=="204")
@@ -283,7 +280,6 @@ console.log(xhr);
 		if(r != '-' && r.trim() != 'revision not found') {
 			var revs = r.split('\n');
 			for(var i=0; i<revs.length; i++) {
-				console.log('parts',parts);
 				var parts = revs[i].split(' ');
 				if(parts.length>1) {
 					var tiddler = new Tiddler(context.title);
@@ -309,7 +305,6 @@ console.log(xhr);
 
 ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
-//#	console.log("put tiddler"+tiddler.title);
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
 	var recipeuriTemplate = '%0/handle/save.php';
