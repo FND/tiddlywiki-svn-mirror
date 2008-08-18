@@ -2,7 +2,7 @@
 |''Name''|SimpleSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.2.1|
+|''Version''|0.2.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
@@ -14,6 +14,7 @@
 !!v0.2.0 (2008-08-18)
 * initial release
 !To Do
+* do not wikify WikiWords in info message
 * animations for container creation and removal
 * when clicking on search results, do not scroll to the respective tiddler (optional)
 !Code
@@ -37,14 +38,14 @@ version.extensions.SimpleSearchPlugin = {
 			el.setAttribute("id", this.id);
 			el = container.insertBefore(el, container.firstChild);
 		}
+		var msg = "!" + this.heading + "\n";
 		if(matches.length > 0) {
-			var msg = "!" + this.heading + "\n" +
-				"''" + config.macros.search.successMsg.format([matches.length.toString(), query]) + ":''\n";
+			msg += "''" + config.macros.search.successMsg.format([matches.length.toString(), query]) + ":''\n";
 			for(var i = 0 ; i < matches.length; i++) {
 				msg += "* [[" + matches[i].title + "]]\n";
 			}
 		} else {
-			msg = config.macros.search.failureMsg.format([query]);
+			msg += "''" + config.macros.search.failureMsg.format([query]) + "''"; // XXX: do not use bold here!?
 		}
 		createTiddlyButton(el, this.btnLabel, this.btntooltip,
 			function() { removeNode(this.parentNode); },
@@ -71,7 +72,7 @@ config.shadowTiddlers.StyleSheetSimpleSearch = "/*{{{*/\n"
 	+ "}\n\n"
 	+ "#" + version.extensions.SimpleSearchPlugin.id + " .button {\n"
 	+ "\tfloat: right;\n"
-	+ "\tmargin: -5px -1em -5px 5px;\n"
+	+ "\tmargin: -5px -1em 5px 5px;\n"
 	+ "\tborder-color: [[ColorPalette::TertiaryPale]];\n"
 	+ "\tpadding: 5px;\n"
 	+ "\tbackground-color: [[ColorPalette::TertiaryPale]];\n"
