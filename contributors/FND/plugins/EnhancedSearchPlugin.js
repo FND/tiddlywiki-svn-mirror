@@ -2,7 +2,7 @@
 |''Name''|EnhancedSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.1.1|
+|''Version''|0.1.2|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/EnhancedSearchPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/EnhancedSearchPlugin.js|
@@ -38,7 +38,8 @@ version.extensions.EnhancedSearchPlugin = {
 			el = container.insertBefore(el, container.firstChild);
 		}
 		if(matches.length > 0) {
-			var msg = config.macros.search.successMsg.format([matches.length.toString(), query]) + "\n";
+			var msg = "!Search Results\n" +
+				"''" + config.macros.search.successMsg.format([matches.length.toString(), query]) + ":''\n";
 			for(var i = 0 ; i < matches.length; i++) {
 				msg += "# [[" + matches[i].title + "]]\n";
 			}
@@ -56,14 +57,22 @@ config.optionsDesc.chkClassicSearch = "Use classic search behavior";
 
 config.shadowTiddlers.StyleSheetEnhancedSearch = "/*{{{*/\n"
 	+ "#" + version.extensions.EnhancedSearchPlugin.id + " {\n"
-	+ "\tborder: 1px solid [[ColorPalette::TertiaryPale]];\n"
+	+ "\tborder: 2px solid [[ColorPalette::TertiaryLight]];\n"
 	+ "\tpadding: 5px;\n"
+	+ "}\n\n"
+	+ "#" + version.extensions.EnhancedSearchPlugin.id + " h1 {\n"
+	+ "\tmargin-top: 0;\n"
+	+ "\tborder: none;\n"
+	+ "}\n\n"
+	+ "#" + version.extensions.EnhancedSearchPlugin.id + " ol {\n"
+	+ "\tmargin-top: 0.5em;\n"
+	+ "\tmargin-bottom: 0.5em;\n"
 	+ "}\n\n"
 	+ "#" + version.extensions.EnhancedSearchPlugin.id + " .button {\n"
 	+ "\tfloat: right;\n"
 	+ "\tmargin: -5px -5px 5px 5px;\n"
 	+ "\tborder-color: [[ColorPalette::TertiaryPale]];\n"
-	+ "\tpadding: 2px;\n"
+	+ "\tpadding: 5px;\n"
 	+ "\tbackground-color: [[ColorPalette::TertiaryPale]];\n"
 	+ "}\n\n"
 	+ "#" + version.extensions.EnhancedSearchPlugin.id + " .button:hover {\n"
