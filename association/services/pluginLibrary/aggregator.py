@@ -66,21 +66,30 @@ def getPlugins(repo, store):
 		except IOError:
 			return False # TODO: log error
 		bag = Bag(repo["name"])
-		store.delete(bag) # XXX: 404 handling required!
-		store.put(bag)
 		tw = TiddlyWiki(html)
-		tw.convertStoreFormat() # TODO: extract plugins first?
-		import_wiki(tw.getPluginTiddlers(repo), repo["name"])
-		return True
+		tw.convertStoreFormat()
+		plugins = tw.getPluginTiddlers(repo);
+		empty = "<html><body><div id='storeArea'>\n</div></body></html>" # XXX: ugly hack; cf. tiddlywiki.TiddlyWiki.getPluginTiddlers()
+		if plugins != empty:
+			store.delete(bag) # XXX: ugly hack?
+			store.put(bag)
+			import_wiki(plugins, bag.name)
+			return True
+		else:
+			return False # TODO: log error
 	elif repo["type"] == "SVN":
 		bag = Bag(repo["name"])
-		store.delete(bag) # XXX: 404 handling required!
-		store.put(bag)
 		svn = dirScraper(repo["URI"])
-		for plugin in svn.getPlugins("./", True):
-			plugin.bag = bag.name
-			store.put(plugin)
-		return True
+		plugins = svn.getPlugins("./", True)
+		if plugins:
+			store.delete(bag) # XXX: ugly hack?
+			store.put(bag)
+			for plugin in plugins:
+				plugin.bag = bag.name
+				store.put(plugin)
+			return True
+		else:
+			return False # TODO: log error
 	else:
 		pass # XXX: TBD
 

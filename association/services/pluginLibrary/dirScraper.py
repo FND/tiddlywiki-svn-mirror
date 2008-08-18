@@ -40,10 +40,10 @@ class dirScraper:
 		@type  dir: str
 		@param recursive: process subdirectories
 		@type  recursive: bool
-		@return: plugin tiddler and source URI
-		@rtype : tuple
+		@return: plugin tiddlers
+		@rtype : list
 		"""
-		results = []
+		plugins = []
 		dir = addTrailingSlash(dir)
 		content = self._get(self.host + dir)
 		soup = BeautifulSoup(content)
@@ -59,8 +59,8 @@ class dirScraper:
 				plugin.title = posixpath.basename(href[:-3])
 				plugin.tags = "systemConfig" # XXX: should be list; cf. aggregator.getPlugins()
 				plugin.text = self._get(self.host + dir + href)
-				results.append(plugin)
+				plugins.append(plugin)
 			elif href.endswith("/") and recursive: # directory
-				results.extend(self.getPlugins(dir + href))
-		return results
+				plugins.extend(self.getPlugins(dir + href))
+		return plugins
 

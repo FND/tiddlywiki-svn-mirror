@@ -62,7 +62,7 @@ class TiddlyWiki:
 		# remove non-originating plugins
 		self.removeDuplicates(repo["URI"])
 		# return pure-store format
-		return "<html><body><div id='storeArea'>" + self.store.renderContents() + "</div></body></html>"
+		return "<html><body><div id='storeArea'>" + self.store.renderContents() + "</div></body></html>" # TODO: return list of tiddler objects
 
 	def removeDuplicates(self, repo): # XXX: rename!?
 		"""
