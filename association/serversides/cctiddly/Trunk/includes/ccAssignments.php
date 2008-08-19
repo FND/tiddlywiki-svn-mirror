@@ -77,17 +77,20 @@ else{
 
 <?php
 }
-?>
 
 $anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);
-	
+$userPerm  = stringToPerm($tiddlyCfg['default_user_perm']);	
+
+?>
+
+
+
 workspacePermission.anonC = <?php echo permToBinary($anonPerm['create']); ?> ;
 workspacePermission.anonR = <?php echo permToBinary($anonPerm['read']); ?>; 
 workspacePermission.anonU = <?php echo permToBinary($anonPerm['update']); ?>;
 workspacePermission.anonD = <?php echo permToBinary($anonPerm['delete']); ?>;
 
 
-$userPerm  = stringToPerm($tiddlyCfg['default_user_perm']);
 
 workspacePermission.userC = <?php echo permToBinary($userPerm['create']); ?> ;
 workspacePermission.userR = <?php echo permToBinary($userPerm['read']); ?>; 

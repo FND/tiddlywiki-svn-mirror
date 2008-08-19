@@ -7,7 +7,7 @@ merge(config.macros.register,{
 	emailRequest:"email",
 	stepRegisterTitle:"Register for an account.",
 	stepRegisterIntroText:"Hi, please register below.... ",
-	stepRegisterHtml:"<table><tr><td style='text-align: right;'>username</td><td><input class='input' id='reg_username' name='reg_username' tabindex='1'/></td><td><input type='hidden' name='username_error'></input></td></tr><tr><td style='text-align: right;'>email</td><td><input class='input' name=reg_mail id='reg_mail' tabindex='2'/></td><td class='inlineError' id='mail_error'/></tr><tr><td style='text-align: right;'>password</td><td><input type='password' class='input' id='password1' name='reg_password1' tabindex='3'/></td><td class='inlineError' id='pass1_error'/></tr><tr><td style='text-align: right;'>confirm password</td><td><input type='password' class='input' id='password2' name='reg_password2' tabindex='4'/></td><td class='inlineError' id='pass2_error'/></tr></table>",
+	stepRegisterHtml:"<table><tr><td style='text-align: right;'>username</td><td><input class='input' id='reg_username' name='reg_username' tabindex='1'/></td><td><span></span><input type='hidden' name='username_error'></input></td></tr><tr><td style='text-align: right;'>email</td><td><input class='input' name=reg_mail id='reg_mail' tabindex='2'/></td><td class='inlineError' id='mail_error'/></tr><tr><td style='text-align: right;'>password</td><td><input type='password' class='input' id='password1' name='reg_password1' tabindex='3'/></td><td class='inlineError' id='pass1_error'/></tr><tr><td style='text-align: right;'>confirm password</td><td><input type='password' class='input' id='password2' name='reg_password2' tabindex='4'/></td><td class='inlineError' id='pass2_error'/></tr></table>",
 	buttonCancel:"Cancel",
 	buttonCancelToolTip:"Cancel transaction ",
 	buttonRegister:"Register",	
@@ -59,18 +59,10 @@ config.macros.register.isUsernameAvailable=function(w){
 
 config.macros.register.isUsernameAvailabeCallback=function(status,params,responseText,uri,xhr){
 	var username_error = params.w.getElement("username_error");
-	var wrapper = document.createElement("div");
-//	removeChildren(username_error.parentNode);
-	
-	if(responseText > 0){
-		wrapper.innerHTML='The username has already been taken. ';
-	}else{
-		wrapper.innerHTML='The username is available ';
-	}
-	
-	wrapper.innerHTML = "wooooo";
-	username_error.parentNode.insertBefore(wrapper, "username_error");
-//	username_error.appendChild(wrapper);
+	removeChildren(username_error.previousSibling);
+	var resp = (responseText > 0) ? 'The username has already been taken' : 'The username is available';
+ 	var label = document.createTextNode(resp);
+	username_error.previousSibling.insertBefore(label,null);
 };
 
 /***
@@ -295,7 +287,7 @@ config.macros.ccRegister.usernameCallback=function(status,params,responseText,ur
 	if(responseText > 0){
 		var error=document.getElementById('username_error');
 		field=document.getElementById('username');
-		error.innerHTML='The username has already been taken. ';
+		error.innerHTML='The username has already been taken.';
 		error.setAttribute("class","inlineError");
 		// For IE 
 		error.setAttribute("className", "inlineError");
