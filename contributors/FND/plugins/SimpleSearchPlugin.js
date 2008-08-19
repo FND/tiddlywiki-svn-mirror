@@ -8,8 +8,6 @@
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''Keywords''|search|
-!Configuration Options
-<<option chkClassicSearch>> Use classic search behavior
 !Revision History
 !!v0.2.0 (2008-08-18)
 * initial release
