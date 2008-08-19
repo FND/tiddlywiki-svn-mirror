@@ -53,7 +53,7 @@ config.macros.register.registerCallback=function(status,params,responseText,uri,
 config.macros.register.isUsernameAvailable=function(w){
 	var params = {};
 	params.w = w;
-	doHttp('POST',url+'/handle/register.php',"username="+w.formElem["reg_username"].value+"&free=1",null,null,null,config.macros.register.isUsernameAvailabeCallback,params);
+	doHttp('POST',url+'/handle/register.php',"username=aaa"+w.formElem["reg_username"].value+"&free=1",null,null,null,config.macros.register.isUsernameAvailabeCallback,params);
 	return false;
 };
 
