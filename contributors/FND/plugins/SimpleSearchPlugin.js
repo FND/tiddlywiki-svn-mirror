@@ -116,9 +116,30 @@ store.addNotification("StyleSheetSimpleSearch", refreshStyles);
 // override Story.search()
 Story.prototype.search = function(text, useCaseSensitive, useRegExp) {
 	highlightHack = new RegExp(useRegExp ? text : text.escapeRegExp(), useCaseSensitive ? "mg" : "img");
-	var matches = store.search(highlightHack, "title", "excludeSearch");
+	var matches = store.search(highlightHack, null, "excludeSearch");
 	var q = useRegExp ? "/" : "'";
 	plugins.SimpleSearchPlugin.displayResults(matches, q + text + q);
+};
+
+// override TiddlyWiki.search() to sort by relevance
+TiddlyWiki.prototype.search = function(searchRegExp, sortField, excludeTag, match) {
+	var candidates = this.reverseLookup("tags", excludeTag, !!match);
+	var primary = [];
+	var secondary = [];
+	for(var t = 0; t < candidates.length; t++) {
+		if(candidates[t].title.search(searchRegExp) != -1) {
+			primary.push(candidates[t]);
+		} else if(candidates[t].text.search(searchRegExp) != -1) {
+			secondary.push(candidates[t]);
+		}
+	}
+	var results = primary.concat(secondary);
+	if(sortField) {
+		results.sort(function(a, b) {
+			return a[sortField] < b[sortField] ? -1 : (a[sortField] == b[sortField] ? 0 : +1);
+		});
+	}
+	return results;
 };
 
 } //# end of "install only once"
