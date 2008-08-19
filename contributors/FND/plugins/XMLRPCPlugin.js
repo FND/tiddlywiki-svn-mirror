@@ -2,7 +2,7 @@
 |''Name''|XMLRPCPlugin|
 |''Description''|XML-RPC library and macro|
 |''Author''|FND|
-|''Version''|0.1|
+|''Version''|0.1.0|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#XMLRPCPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|

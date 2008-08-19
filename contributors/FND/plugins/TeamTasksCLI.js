@@ -2,7 +2,7 @@
 |''Name''|TeamTasksCLI|
 |''Description''|command-line interface for [[TeamTasks|http://getteamtasks.com]]|
 |''Author''|FND|
-|''Version''|0.1|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#TeamTasksCLI|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|

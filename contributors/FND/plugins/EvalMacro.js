@@ -1,6 +1,6 @@
 /***
 |''Name''|EvalMacro|
-|''Version''|0.96|
+|''Version''|0.9.6|
 |''Status''|stable|
 |''Author''|FND|
 |''Source''|[[FND's DevPad|http://devpad.tiddlyspot.com/#EvalMacro]]|

@@ -2,7 +2,7 @@
 |''Name''|ToDoTogglePlugin|
 |''Description''|toggles a tiddler's tag based on containing checkboxes' status|
 |''Authors''|FND, PhilHawksworth|
-|''Version''|0.2.1|
+|''Version''|0.2.2|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/ToDoTogglePlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/ToDoTogglePlugin.js|

@@ -2,7 +2,7 @@
 |''Name''|ConditionalTableFormattingMacro|
 |''Description''|apply formatting based on table contents|
 |''Author''|FND|
-|''Version''|0.2|
+|''Version''|0.2.0|
 |''Status''|@@experimental@@|
 |''Source''|[[FND's DevPad|http://devpad.tiddlyspot.com/#EvalMacro]]|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|

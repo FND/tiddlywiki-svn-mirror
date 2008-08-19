@@ -2,7 +2,7 @@
 |''Name''|EditNewTiddlersPlugin|
 |''Description''|non-existing tiddlers are automatically opened in edit mode|
 |''Author''|FND|
-|''Version''|0.1|
+|''Version''|0.1.0|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#EditNewTiddlersPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
