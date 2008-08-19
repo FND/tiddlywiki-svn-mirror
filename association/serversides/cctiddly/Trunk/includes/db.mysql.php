@@ -671,23 +671,19 @@ $db_var['error']['query'] = " query: ";*/
 		}
 		$sql_start = "SELECT * FROM ".$table." WHERE ";
 
-		while( (list($k,$v) = each($data)) )
-		{
 		$sql = "";
-			debug("add var to SQL -".$k."  = ".$v, "params");
+			while( (list($k,$v) = each($data)) )
+		{
+//			debug("add var to SQL -".$k."  = ".$v, "params");
 			if (($v != '') || ($k=='workspace_name'))  // make sure we dont search on emtpy values unless its 
 				$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."' and ";
 		}
-		debug("a".$sql, "params");
 		$sql= $sql_start.substr($sql,0,(strlen($sql)-4));		//remove last "and"
-		
-		debug("b".$sql, "params");
 		if($sql == $sql_start)
 		{
 			$sql = str_replace("WHERE", "", $sql);
 		}
 		$sql .= $end;
-		debug($sql, "mysql");
 		$result = db_query($sql);
 
 		if( $result === FALSE )

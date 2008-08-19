@@ -34,6 +34,47 @@ config.macros.register.displayRegister=function(place, w, item){
 
 config.macros.register.doRegister=function(place, w){
 	var me = config.macros.register;
+	if(w.formElem["reg_username"].value==''){
+		displayMessage("no username entered");
+	}
+
+	if(config.macros.ccRegister.emailValid(w.formElem["reg_mail"].value)){
+		displayMessage("invalid email");
+//		mail_space=document.getElementById('mail_error');
+//		mail_space.innerHTML="email ok";
+//		mail_space.setAttribute("class","inlineOk");
+	}else{
+		displayMessage("working email");
+//		mail_space=document.getElementById('mail_error');
+//		mail_space.innerHTML='not a valid email address ';
+//		mail_space.setAttribute("class","inlineError");
+		return false;
+	}
+	if(w.formElem["reg_password1"].value===''){
+		displayMessage("no first password was not entered");
+//		document.getElementById('pass1_error').innerHTML='Please enter a password';
+//		this.password1.setAttribute("class","inputError");
+		return false;
+	if(w.formElem["reg_password2"].value===''){
+		displayMessage("no second password was not entered");
+//		document.getElementById('pass2_error').innerHTML='Please enter a password';
+//		this.password2.setAttribute("class","inputError");
+		return false;
+
+	if(w.formElem["reg_password1"].value != w.formElem["reg_password2"].value ){			
+		displayMessage("your passwords do not match");
+//		this.password1.setAttribute("class","inputError");
+//		document.getElementById('pass2_error').innerHTML='Please ensure both passwords match';
+//		this.password2.setAttribute("class","inputError");
+		return false;
+	}
+
+//	var submit=document.getElementById('registerAccountSubmit');
+//	submit.disabled=true;
+//	submit.setAttribute("class","buttonDisabled");
+//	document.getElementById('submitStatus').innerHTML='Please wait, your account is being created.';
+//	setTimeout(config.macros.ccRegister.registerCheckResp,3000);
+
 	var loginResp=doHttp('POST',url+'/handle/register.php',"username="+w.formElem['reg_username'].value+"&reg_mail="+w.formElem['reg_mail'].value+"&password="+w.formElem['reg_password1'].value+"&password2="+w.formElem['reg_password2'].value,null,null,null,config.macros.register.registerCallback,params);
 	w.addStep(me.step2Title,"attempting to register your account.") ;
 	dislayMessage("you are here");
@@ -47,13 +88,12 @@ config.macros.register.registerCallback=function(status,params,responseText,uri,
 	displayMessage("status = "+xhr.status);
 	window.location=window.location;
 	return true;
-
 }
 
 config.macros.register.isUsernameAvailable=function(w){
 	var params = {};
 	params.w = w;
-	doHttp('POST',url+'/handle/register.php',"username=aaa"+w.formElem["reg_username"].value+"&free=1",null,null,null,config.macros.register.isUsernameAvailabeCallback,params);
+	doHttp('POST',url+'/handle/register.php',"username="+w.formElem["reg_username"].value+"&free=1",null,null,null,config.macros.register.isUsernameAvailabeCallback,params);
 	return false;
 };
 

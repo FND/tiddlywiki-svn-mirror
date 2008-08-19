@@ -18,6 +18,7 @@ if ($tiddlyCfg['can_create_account'] !=1)
 if($_POST['free'] ==1 )
 {
 	debug("username is available ".$data['username'], "params");
+	debug("count is ".count(db_record_select($tiddlyCfg['table']['user'],$data)), "params");
 	echo count(db_record_select($tiddlyCfg['table']['user'],$data));
 	exit;
 } else {
