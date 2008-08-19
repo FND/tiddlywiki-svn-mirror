@@ -2,7 +2,7 @@
 |''Name''|SimpleSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.2.5|
+|''Version''|0.2.6|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
@@ -17,6 +17,7 @@
 * animations for container creation and removal
 * when clicking on search results, do not scroll to the respective tiddler (optional)
 * use template for search results
+* integrate button to open all search results? (would render {{{chkClassicSearch}}} obsolete)
 !Code
 ***/
 //{{{
@@ -51,7 +52,10 @@ plugins.SimpleSearchPlugin = {
 			msg += "''" + config.macros.search.failureMsg.format([query]) + "''"; // XXX: do not use bold here!?
 		}
 		createTiddlyButton(el, this.btnLabel, this.btntooltip,
-			function() { removeNode(this.parentNode); },
+			function() {
+				removeNode(this.parentNode);
+				highlightHack = null;
+			},
 			"button", null, null);
 		wikify(msg, el);
 	}
@@ -95,7 +99,6 @@ Story.prototype.search = function(text, useCaseSensitive, useRegExp) {
 	} else {
 		highlightHack = new RegExp(useRegExp ? text : text.escapeRegExp(), useCaseSensitive ? "mg" : "img");
 		var matches = store.search(highlightHack, "title", "excludeSearch");
-		highlightHack = null;
 		var q = useRegExp ? "/" : "'";
 		plugins.SimpleSearchPlugin.displayResults(matches, q + text + q);
 	}
