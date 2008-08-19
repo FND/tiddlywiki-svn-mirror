@@ -2,7 +2,7 @@
 |''Name''|SimpleSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.3.0|
+|''Version''|0.3.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
@@ -15,6 +15,7 @@
 * initial release
 !!v0.3.0 (2008-08-19)
 * added Open All button (renders Classic Search option obsolete)
+* sorting by relevance (title matches before content matches)
 !To Do
 * animations for container creation and removal
 * when clicking on search results, do not scroll to the respective tiddler (optional)
