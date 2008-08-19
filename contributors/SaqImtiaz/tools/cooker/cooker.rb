@@ -58,4 +58,7 @@ def cook(recipe,output=nil,opts={})
   #tiddlywikistring.length
 end
 
-puts cook('../../verticals/ripplerap.com/index.html.recipe','',{'ignorecopy'=>true, 'outputstring'=>false,'compress'=>'r'})
+puts cook('../../verticals/ripplerap.com/index.html.recipe','',{'ignorecopy'=>true, 'outputstring'=>false})
+
+#better error handling when file does not exist
+# better error handling where I used +=
