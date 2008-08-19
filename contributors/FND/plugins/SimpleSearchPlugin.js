@@ -78,39 +78,39 @@ plugins.SimpleSearchPlugin = {
 	}
 };
 
-config.shadowTiddlers.StyleSheetSimpleSearch = "/*{{{*/\n"
-	+ "#" + plugins.SimpleSearchPlugin.containerId + " {\n"
-	+ "\toverflow: auto;\n"
-	+ "\tpadding: 5px 1em 10px;\n"
-	+ "\tbackground-color: [[ColorPalette::TertiaryPale]];\n"
-	+ "}\n\n"
-	+ "#" + plugins.SimpleSearchPlugin.containerId + " h1 {\n"
-	+ "\tmargin-top: 0;\n"
-	+ "\tborder: none;\n"
-	+ "}\n\n"
-	+ "#" + plugins.SimpleSearchPlugin.containerId + " ul {\n"
-	+ "\tmargin: 0.5em;\n"
-	+ "\tpadding-left: 1.5em;\n"
-	+ "}\n\n"
-	+ "#" + plugins.SimpleSearchPlugin.containerId + " .button {\n"
-	+ "\tdisplay: block;\n"
-	+ "\tborder-color: [[ColorPalette::TertiaryDark]];\n"
-	+ "\tpadding: 5px;\n"
-	+ "\tbackground-color: [[ColorPalette::TertiaryLight]];\n"
-	+ "}\n\n"
-	+ "#" + plugins.SimpleSearchPlugin.containerId + " .button:hover {\n"
-	+ "\tborder-color: [[ColorPalette::SecondaryMid]];\n"
-	+ "\tbackground-color: [[ColorPalette::SecondaryLight]];\n"
-	+ "}\n\n"
-	+ "#" + plugins.SimpleSearchPlugin.btnCloseId + " {\n"
-	+ "\tfloat: right;\n"
-	+ "\tmargin: -5px -1em 5px 5px;\n"
-	+ "}\n\n"
-	+ "#" + plugins.SimpleSearchPlugin.btnOpenId + " {\n"
-	+ "\tfloat: left;\n"
-	+ "\tmargin-top: 5px;\n"
-	+ "}\n"
-	+ "/*}}}*/";
+config.shadowTiddlers.StyleSheetSimpleSearch = "/*{{{*/\n" +
+	"#" + plugins.SimpleSearchPlugin.containerId + " {\n" +
+	"\toverflow: auto;\n" +
+	"\tpadding: 5px 1em 10px;\n" +
+	"\tbackground-color: [[ColorPalette::TertiaryPale]];\n" +
+	"}\n\n" +
+	"#" + plugins.SimpleSearchPlugin.containerId + " h1 {\n" +
+	"\tmargin-top: 0;\n" +
+	"\tborder: none;\n" +
+	"}\n\n" +
+	"#" + plugins.SimpleSearchPlugin.containerId + " ul {\n" +
+	"\tmargin: 0.5em;\n" +
+	"\tpadding-left: 1.5em;\n" +
+	"}\n\n" +
+	"#" + plugins.SimpleSearchPlugin.containerId + " .button {\n" +
+	"\tdisplay: block;\n" +
+	"\tborder-color: [[ColorPalette::TertiaryDark]];\n" +
+	"\tpadding: 5px;\n" +
+	"\tbackground-color: [[ColorPalette::TertiaryLight]];\n" +
+	"}\n\n" +
+	"#" + plugins.SimpleSearchPlugin.containerId + " .button:hover {\n" +
+	"\tborder-color: [[ColorPalette::SecondaryMid]];\n" +
+	"\tbackground-color: [[ColorPalette::SecondaryLight]];\n" +
+	"}\n\n" +
+	"#" + plugins.SimpleSearchPlugin.btnCloseId + " {\n" +
+	"\tfloat: right;\n" +
+	"\tmargin: -5px -1em 5px 5px;\n" +
+	"}\n\n" +
+	"#" + plugins.SimpleSearchPlugin.btnOpenId + " {\n" +
+	"\tfloat: left;\n" +
+	"\tmargin-top: 5px;\n" +
+	"}\n" +
+	"/*}}}*/";
 store.addNotification("StyleSheetSimpleSearch", refreshStyles);
 
 // override Story.search()

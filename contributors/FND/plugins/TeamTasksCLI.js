@@ -97,7 +97,7 @@ config.commands.saveTiddler.handler = function(event, src, title) {
 	return this.handler_TTCLI.apply(this, arguments);
 };
 
-// hijack Store.saveTiddler() to modify fields
+// hijack TiddlyWiki.saveTiddler() to modify fields
 TiddlyWiki.prototype.saveTiddler_TTCLI = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title, newTitle, newBody, modifier,
 	modified, tags, fields, clearChangeCount, created) {
