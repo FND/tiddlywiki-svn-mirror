@@ -17,10 +17,12 @@ end
 
 class Ingredient
 
-	def initialize(filename, type, attributes=nil)
+	def initialize(line, type, attributes=nil, raw=false)
 		@attributes = attributes
-		@filename = filename
+		@line = line
+		@filename = line
 		@type = type
+		@raw = raw
 	end
 
 	def filename
@@ -29,6 +31,10 @@ class Ingredient
 
 	def type
 		@type
+	end
+
+	def raw
+		@raw
 	end
 
 	def Ingredient.stripcomments
@@ -60,8 +66,20 @@ class Ingredient
 		subtype = type.split('.')
 
 		if(@type == "tline")
-			return @filename
-		elsif(subtype[0] == "list")
+			return @line
+		elsif(@raw == true)
+			return @line
+		end
+			
+		dirname = File.dirname(@filename)
+		if(dirname =~ /\$TW_ROOT\//)
+			c = dirname.index('$TW_ROOT')
+			dirname = dirname[(c + 8)...dirname.length].strip
+			dirname = Recipe.root + dirname
+		end
+		@filename = File.join(dirname,File.basename(@filename))
+
+		if(subtype[0] == "list")
 		elsif(subtype[0] == "tiddler")
 			if(@filename =~ /\.tiddler/)
 				return to_s_retiddle(subtype[0])
@@ -96,10 +114,12 @@ class Ingredient
 
 protected
 	def to_s_tiddler
+		compress = false
+		compress = true if @attributes == "-c"
 		tiddler = Tiddler.new
 		tiddler.load(@filename)
 		tiddler.setAttributes(@attributes)
-		return tiddler.to_div
+		return tiddler.to_div("tiddler",true,compress)
 	end
 
 	def to_s_plugin
@@ -135,7 +155,7 @@ protected
 					out << line unless(line.strip =~ /^\/\/#/)
 				end
 			end
-			if(@@compress=="F" && subtype == "js" && @filename !~ /\/Lingo/&& @filename !~ /\/locale/)
+			if(@@compress=="f" && subtype == "js" && @filename !~ /\/Lingo/&& @filename !~ /\/locale/)
 				out = Ingredient.rhino(out)
 			end
 			return out
@@ -153,8 +173,12 @@ public
 		if(done)
 			compressed = File.read(outputfile.path)
 		else
-			STDERR.puts("Could not compress with custom_rhino.jar. Cooking failed")
-			exit
+			compressed = input
+			STDERR.puts("Could not compress with custom_rhino.jar.")
+			if(@@compress!="")
+				STDERR.puts("Cooking failed.")
+				exit
+			end
 		end
 		return compressed
 	end

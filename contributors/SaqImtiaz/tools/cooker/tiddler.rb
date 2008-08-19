@@ -5,6 +5,9 @@
 
 require 'cgi'
 require 'open-uri'
+require 'time'
+require 'date'
+require 'date/format'
 
 # Tiddler line in recipe file:
 #	tiddler:TiddlerName.[js|tiddler]
@@ -22,6 +25,15 @@ class Tiddler
 		@sliceAttributes = Hash.new
 		@standardAttributeNames = [ "tiddler", "title", "modifier", "modified", "created", "tags" ]
 		@sliceAttributeNames = ["Name","Description","Version","Requires","CoreVersion","Date","Source","Author","License","Browsers","CodeRepository"]
+		@@shadowNames = ["AdvancedOptions","ColorPalette",
+			"DefaultTiddlers","EditTemplate","GettingStarted","ImportTiddlers","MainMenu",
+			"MarkupPreBody","MarkupPreHead","MarkupPostBody","MarkupPostHead",
+			"OptionsPanel","PageTemplate","PluginManager",
+			"SideBarOptions",
+			"SiteSubtitle","SiteTitle","SiteUrl",
+			"StyleSheet","StyleSheetColors","StyleSheetLayout","StyleSheetLocale","StyleSheetPrint",
+			"TabAll","TabMoreMissing","TabMoreOrphans","TabMoreShadowed","TabTimeline","TabTags",
+			"ViewTemplate"]
 	end
 
 	def Tiddler.format
@@ -30,6 +42,21 @@ class Tiddler
 
 	def Tiddler.format=(format)
 		@@format = format
+	end
+
+	def Tiddler.ginsu=(ginsu)
+		@@ginsu = ginsu
+	end
+
+	def Tiddler.isShadow?(title)
+		return @@shadowNames.include?(title)
+	end
+
+	def Tiddler.looksLikeShadow?(filename)
+		if(filename =~ /SiteTitle.*/ || filename =~ /SiteSubtitle.*/ || filename =~ /DefaultTiddlers.*/ || filename =~ /PageTemplate.*/ || filename =~ /ViewTemplate.*/)
+			return true
+		end
+		return false
 	end
 
 	def title
@@ -148,7 +175,7 @@ class Tiddler
 		return line
 	end
 
-	def to_div(subtype="tiddler",escapeHTML=true)
+	def to_div(subtype="tiddler",escapeHTML=true,compress=false)
 		optimizeAttributeStorage = true if(subtype == "shadow")
 		@usePre = true if(subtype == "shadow" && @@format =~ /preshadow/)
 		@usePre = true if(subtype == "tiddler" && @@format =~ /pretiddler/)
@@ -169,6 +196,7 @@ class Tiddler
 		if(@usePre)
 			out << "\n<pre>"
 			lines = @contents
+			lines = Ingredient.rhino(lines) if compress
 			if(escapeHTML)
 				lines = CGI::escapeHTML(lines)
 			end
@@ -184,8 +212,15 @@ class Tiddler
 	end
 
 	def to_raw(subtype="tiddler")
+		return "" if(@contents=="")
+		contents = @contents
+		if(subtype!="tiddler" && subtype!="shadow" && subtype!="plugin")
+			pos = contents.rindex("</pre>");
+			contents = contents[0,pos] if(pos)
+			contents = contents.sub(/[\n\r]*<pre>/, "")
+		end
 		out = ""
-		@contents.each { |line| out << line.sub("\r", "") }
+		contents.each { |line| out << line.sub("\r", "") }
 		return out
 	end
 
@@ -236,6 +271,28 @@ class Tiddler
 		return out
 	end
 
+	def to_html(template)
+		contents = wikify(@contents)
+		
+		t = Time.local(@created[0,4],@created[4,2],@created[6,2])
+		created = t.strftime("created %d %B %Y")
+		t = Time.local(@modified[0,4],@modified[4,2],@modified[6,2])
+		modified = t.strftime("%d %B %Y")
+
+		out = template
+		out = out.sub(/<!--\{\{\{-->/,"");
+		out = out.sub(/<!--\}\}\}-->/,"");
+		out = out.sub(/<div class='title' macro='view title'><\/div>/,"<div class=\"title\">#{@title}</div>")
+		out = out.sub(/<span macro='view modifier link'><\/span>/,"<span>#{@modifier}</span>")
+		out = out.sub(/<span macro='view modified date(?: "[\w\-\:\/ ]*")?'><\/span>/,"<span>#{modified}</span>")
+		out = out.sub(/<span macro='view created date(?: "[\w\-\:\/ ]*")?'><\/span>/,"<span>#{created}</span>")
+		out = out.sub(/<div class='viewer' macro='view text wikified'><\/div>/,"<div class=\"viewer\">#{contents}</div>")
+		out = out.gsub(/ macro='[\w \.\[\]:]*'/,"")
+		out = out.gsub(/<div class='(\w*)'/,"<div class=\"\\1\"")
+		out = out.gsub(/<div id='(\w*)'/,"<div id=\"\\1\"")
+		return out
+	end
+
 protected
 	def from_div(divText)
 		parseAllAttributes(divText)
@@ -252,7 +309,10 @@ protected
 		else
 			@contents = divText.sub(/<div.*?>/, "").sub(/<\/div>[\n\r]*/, "").gsub("\\n", "\n").gsub("\\s", "\\")
 		end
-		@contents = CGI::unescapeHTML(@contents.gsub("\r", ""))
+		# only unescape HTML when in ginsu
+		if(@@ginsu)
+			@contents = CGI::unescapeHTML(@contents.gsub("\r", ""))
+		end
 	end
 
 	def parseAllAttributes(divText)
@@ -306,5 +366,15 @@ protected
 
 	def modifier
 		@modifier ||= ""
+	end
+private
+	def wikify(text)
+		text = text.gsub(/\n\n/,"<br /><br />")
+		text = text.gsub(/\n\*/,"<br />*")
+		text = text.gsub(/([^\|])http:\/\/([\w\.\/\?=:-]+)/,"\\1<a class=\"externalLink\" href=\"\\1http://\\2\" title=\"External link to http://\\2\" target=\"_blank\">http://\\2</a>")
+		text = text.gsub(/\[\[([\w -]+)\|http:\/\/([\w\.\/\?=:-]+)\]\]/,"<a class=\"externalLink\" href=\"http://\\2\" title=\"External link to http://\\2\" target=\"_blank\">\\1</a>")
+		
+		text = text.gsub(/\[\[([\w -]+)(?:\|[\w -]+)?\]\]/,"<a class=\"tiddlyLink tiddlyLinkExisting\" href=\"javascript:;\" title=\"\\1\">\\1</a>")
+		text = text + "<br /><br />"
 	end
 end
