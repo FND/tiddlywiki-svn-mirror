@@ -16,6 +16,7 @@ class Recipe
 		@addons = Hash.new
 		@tiddlers = Hash.new
 		@defaultTiddlersFilename = ""
+		@outputstring = ""
 		@dirname = File.dirname(filename)
 		if(@dirname =~ /\$TW_ROOT\//)
 			c = @dirname.index('$TW_ROOT')
@@ -45,57 +46,68 @@ class Recipe
 	def cook
 		puts "Creating file: " + outfilename
 		if(@ingredients.length > 0)
-			File.open(outfilename, File::CREAT|File::TRUNC|File::RDWR, 0644) do |out|
-				@ingredients.each do |ingredient|
-					if(ingredient.type == "list")
-						if(ingredient.filename=="title")
-							# write the title from the shadow tiddlers if available
-							title = ""
-							if(@tiddlers["SiteTitle"])
-								title << @tiddlers["SiteTitle"].contents
-								if(@tiddlers["SiteSubtitle"])
-									title << " - "
-								end
-							end
-							if(@tiddlers["SiteSubtitle"])
-								title << @tiddlers["SiteSubtitle"].contents
-							end
-							out << title + "\n" if title
-						end
-						if(@@splash  && ingredient.filename=="posthead")
-							writeSplashStyles(out)
-						end
-						if(@@splash  && ingredient.filename=="prebody")
-							writeSplash(out)
-						end
-						if(Ingredient.compress=~/[pr]+/ && ingredient.filename == "js")
-							block = ""
-							if(@addons.has_key?(ingredient.filename))
-								@addons.fetch(ingredient.filename).each do |ingredient| 
-									b = writeToDish(block, ingredient)
-									block += b if(b)
-								end
-							end
-							if(Ingredient.compress=~/[pr]+/)
-								block = Ingredient.rhino(block)
-								if(Ingredient.compress=~/.?p.?/)
-									block = Ingredient.packr(block)
-								end
-							end
-							out << block
-						else
-							if(@addons.has_key?(ingredient.filename))
-								@addons.fetch(ingredient.filename).each{ |ingredient| writeToDish(out, ingredient) }
-							end
-						end
-					else
-						writeToDish(out, ingredient)
-					end
+			if(!@@outputstring)
+				File.open(outfilename, File::CREAT|File::TRUNC|File::RDWR, 0644) do |out|
+					processIngredients(out)
 				end
+			else
+					processIngredients(@outputstring)      
 			end
 		end
 		@addons.fetch("copy", Array.new).each { |ingredient| copyFile(ingredient) }
+		if(@@outputstring)
+			@outputstring
+		end
 	end
+	
+def processIngredients(out)
+	@ingredients.each do |ingredient|
+		if(ingredient.type == "list")
+			if(ingredient.filename=="title")
+				# write the title from the shadow tiddlers if available
+				title = ""
+				if(@tiddlers["SiteTitle"])
+					title << @tiddlers["SiteTitle"].contents
+					if(@tiddlers["SiteSubtitle"])
+						title << " - "
+					end
+				end
+				if(@tiddlers["SiteSubtitle"])
+					title << @tiddlers["SiteSubtitle"].contents
+				end
+				out << title + "\n" if title
+			end
+			if(@@splash  && ingredient.filename=="posthead")
+				writeSplashStyles(out)
+			end
+			if(@@splash  && ingredient.filename=="prebody")
+				writeSplash(out)
+			end
+			if(Ingredient.compress=~/[pr]+/ && ingredient.filename == "js")
+				block = ""
+				if(@addons.has_key?(ingredient.filename))
+					@addons.fetch(ingredient.filename).each do |ingredient| 
+						block = writeToDish(block, ingredient)
+					end
+				end
+				if(Ingredient.compress=~/[pr]+/)
+					block = Ingredient.rhino(block)
+					if(Ingredient.compress=~/.?p.?/)
+						block = Ingredient.packr(block)
+					end
+				end
+				out << block
+			else
+				if(@addons.has_key?(ingredient.filename))
+					@addons.fetch(ingredient.filename).each{ |ingredient| writeToDish(out, ingredient) }
+				end
+			end
+		else
+			writeToDish(out, ingredient)
+		end
+	end
+	out
+end
 
 	def Recipe.quiet
 		@@quiet
@@ -135,6 +147,14 @@ class Recipe
 
 	def Recipe.section=(section)
 		@@section = section
+	end
+
+ def Recipe.outputstring
+		@@outputstring = outputstring
+ end
+
+	def Recipe.outputstring=(outputstring)
+		@@outputstring = outputstring
 	end
 
 protected
@@ -261,7 +281,7 @@ protected
 		end
 		return if(@@section!="" && @@section!=ingredient.type)
 		if(outfile.is_a? String)
-			outfile = ingredient.to_s
+			outfile << ingredient.to_s
 		else
 			puts "Writing: " + ingredient.filename if !@@quiet && ingredient.type!="tline" && ingredient.raw==false
 			outfile << ingredient
@@ -333,14 +353,14 @@ protected
 	end
 
 	def copyFile(ingredient)
-    if (!@@ignorecopy)
-      puts "Copying: " + ingredient.filename if(!@@quiet)
-      if ingredient.filename =~ /^https?/
-        downloadFile(ingredient.filename)
-      else
-        File.copy(ingredient.filename, File.join(outdir, File.basename(ingredient.filename)))
-      end
-    end
+		if (!@@ignorecopy)
+			puts "Copying: " + ingredient.filename if(!@@quiet)
+			if ingredient.filename =~ /^https?/
+				downloadFile(ingredient.filename)
+			else
+				File.copy(ingredient.filename, File.join(outdir, File.basename(ingredient.filename)))
+			end
+		end
 	end
 	
 private

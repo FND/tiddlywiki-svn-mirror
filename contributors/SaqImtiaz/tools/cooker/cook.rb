@@ -21,6 +21,8 @@ class Optparse
 		options.format = ""
 		options.quiet = false
 		options.stripcomments = false
+		options.keepallcomments = false
+		options.outputstring = false
 		options.compress = ""
 		options.root = ""
 		options.splash = false
@@ -71,7 +73,7 @@ class Optparse
 				options.keepallcomments = keepallcomments
 			end
 
-			opts.on("-i", "--[no-]ignorecopy", "Ingnore copy command in recipes") do |ignorecopy|
+			opts.on("-i", "--[no-]ignorecopy", "Ignore copy command in recipes") do |ignorecopy|
 				options.ignorecopy = ignorecopy
 			end
 
@@ -79,10 +81,14 @@ class Optparse
 				options.quiet = quiet
 			end
 
-			opts.on("-s", "--[no-]stripcommets", "Strip comments") do |stripcomments|
+			opts.on("-s", "--[no-]stripcomments", "Strip comments") do |stripcomments|
 				options.stripcomments = stripcomments
 			end
-
+      
+			opts.on("-o","--outputstring","output the TiddlyWiki as a string") do |outputstring|
+			  options.outputstring = outputstring
+			end
+      
 			options.help = opts
 			opts.on_tail("-h", "--help", "Show this message") do
 				exit 64
@@ -134,6 +140,7 @@ Recipe.section = options.section
 Recipe.root = options.root
 Recipe.splash = options.splash
 Recipe.ignorecopy = options.ignorecopy
+Recipe.outputstring = options.outputstring
 Ingredient.compress = options.compress.strip
 Ingredient.keepallcomments = options.keepallcomments
 Ingredient.stripcomments = options.stripcomments
