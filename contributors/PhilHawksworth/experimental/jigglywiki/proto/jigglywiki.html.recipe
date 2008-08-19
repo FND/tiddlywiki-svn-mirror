@@ -36,3 +36,9 @@ js: js/jquery.wysiwyg.pack.js
 # tiddlers for inclusion in main content (store)
 #
 recipe: tiddlers/split.recipe
+
+#
+# include dummy content and timer for performance testing
+#
+recipe: ../benchmarkdata/split.recipe
+js: js/speedtests.js

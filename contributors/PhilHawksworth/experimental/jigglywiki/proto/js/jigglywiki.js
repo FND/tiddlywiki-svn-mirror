@@ -30,6 +30,9 @@ function initJigglyWiki() {
 	$('div.tiddler').hide();
 	showDefaultTiddlers();
 	addEventHandlers();
+	
+	// speed tests
+	runSpeedTests();
 }
 
 // Show the default tiddlers
@@ -68,9 +71,62 @@ function getTiddler(name, container) {
 	}
 }
 
+
+// return all tiddler divs from a container
+function getAllTiddlers(container) {
+	var t = $('#'+container+' div.tiddler');
+	if(t.length !== 0) {
+		return t;
+	} else {
+		return null;
+	}	
+}
+
+
+// return tiddlers which have the specified tag
+function getTiddlersByTag(tag, container) {
+	var t = $('#'+container+' ul.tags li a[href=#tiddler:'+ tag +']').parents('div.tiddler');
+	if(t.length !== 0) {
+		return t;
+	} else {
+		return null;
+	}
+}
+
+
+// return tiddlers which have the pecified modifier
+function getTiddlersByModifier(modifier, container) {
+	return getTiddlersByField('modifier', modifier, container);
+}
+
+
+// return tiddlers with a specified field value
+function getTiddlersByField(field, value, container) {
+	var t = $('#'+container+' ul.meta li:contains("'+field+'")').find('span:contains("'+value+'")').parents('div.tiddler');
+	if(t.length !== 0) {
+		return t;
+	} else {
+		return null;
+	}
+}
+
+
+// return tiddlers which contain specified text
+function getTiddlersByText(text, container) {
+	var t = $("#"+container+" div.tiddler div.text:contains('"+text+"')").parents('div.tiddler');
+	if(t.length !== 0) {
+		return t;
+	} else {
+		return null;
+	}
+}
+
+
 function getTiddlerNameFromStory(tiddler) {
 	return $(tiddler).find('a.tiddlerName').attr('name');
 }
+
+
 
 // return an object containing jQuery objects for each piece of tiddler data.
 function getTiddlerData(name, container) {
