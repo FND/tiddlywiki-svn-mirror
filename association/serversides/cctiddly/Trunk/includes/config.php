@@ -5,8 +5,8 @@
 $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
-$tiddlyCfg['db']['pass'] = "ac630484";		//login password
-$tiddlyCfg['db']['name'] = "cctiddly17";		//db name
+$tiddlyCfg['db']['pass'] = "";		//login password
+$tiddlyCfg['db']['name'] = "cct17";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 // User Managment Information 
@@ -19,10 +19,10 @@ $tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an ac
 //LDAP
 
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-$tiddlyCfg['pref']['ldap_enabled'] = 1;	
-$tiddlyCfg['pref']['ldap_username']	= "CN=Sa063338,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
-$tiddlyCfg['pref']['ldap_password'] = "pass9431w";
-$tiddlyCfg['pref']['ldap_connection_string'] = "ldap://iuser.iroot.adidom.com:389";
+$tiddlyCfg['pref']['ldap_enabled'] = 0;	
+$tiddlyCfg['pref']['ldap_username']	= "CN=";
+$tiddlyCfg['pref']['ldap_password'] = "";
+$tiddlyCfg['pref']['ldap_connection_string'] = "ldap://";
 
 //Deligated Session Managment 
  
@@ -169,10 +169,14 @@ if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
 	$tiddlyCfg['workspace_name'] = str_replace(stristr($tiddlyCfg['workspace_name'], "?"), "", $b);
 if (isset($_POST['workspace']))
 	$tiddlyCfg['workspace_name'] = $_POST['workspace'];	
-	
+
+if($tiddlyCfg['workspace_name'] !="")
+	$offline_name = $tiddlyCfg['workspace_name'];
+else 
+	$offline_name = "default_workspace";
 	
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
-	header("Content-Disposition: attachment; filename=\"".$tiddlyCfg['workspace_name'].".html\";\r\n");
+	header("Content-Disposition: attachment; filename=\"".$offline_name.".html\";\r\n");
 
 	
 debug("workspace_name : ".$tiddlyCfg['workspace_name'], "config");
@@ -322,8 +326,8 @@ $tiddlyCfg['privilege_misc']['default_privilege'] = "AAAA";		//default privilege
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
 $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = "ADDD";
- $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = "AAAA";
-  $tiddlyCfg['privilege_misc']['group_default_privilege']['admin'] = "AAAA";
+$tiddlyCfg['privilege_misc']['group_default_privilege']['non_admin'] = "AAAA";
+$tiddlyCfg['privilege_misc']['group_default_privilege']['admin'] = "AAAA";
 ////////////////////////////////////////////////////////ADVANCE PRIVILEGE for tags//////////////////////////////////////////////////////
 /*
 	assign privilege to specific tag using groups

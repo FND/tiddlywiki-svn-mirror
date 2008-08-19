@@ -41,7 +41,6 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 	}
 }
 
-
 if (isset($_POST['logout']) || isset($_REQUEST['logout']))
 {
 	user_logout('You have logged out.');
