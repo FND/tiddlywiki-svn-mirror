@@ -65,7 +65,6 @@ if ($user['verified'] && user_isAdmin($user['username'], $tiddlyCfg['workspace_n
 	echo "workspacePermission.upload = 1;";
 }
 
-$anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);
 
 if ($user['verified'])
 {
@@ -79,11 +78,21 @@ else{
 <?php
 }
 ?>
+
+$anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);
 	
 workspacePermission.anonC = <?php echo permToBinary($anonPerm['create']); ?> ;
 workspacePermission.anonR = <?php echo permToBinary($anonPerm['read']); ?>; 
 workspacePermission.anonU = <?php echo permToBinary($anonPerm['update']); ?>;
 workspacePermission.anonD = <?php echo permToBinary($anonPerm['delete']); ?>;
+
+
+$userPerm  = stringToPerm($tiddlyCfg['default_user_perm']);
+
+workspacePermission.userC = <?php echo permToBinary($userPerm['create']); ?> ;
+workspacePermission.userR = <?php echo permToBinary($userPerm['read']); ?>; 
+workspacePermission.userU = <?php echo permToBinary($userPerm['update']); ?>;
+workspacePermission.userD = <?php echo permToBinary($userPerm['delete']); ?>;
 
 <?php 
 if ($workspace_create == "D")
