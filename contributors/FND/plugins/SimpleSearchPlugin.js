@@ -2,7 +2,7 @@
 |''Name''|SimpleSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.2.3|
+|''Version''|0.2.4|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
@@ -21,8 +21,10 @@
 ***/
 //{{{
 if(!version.extensions.SimpleSearchPlugin) { //# ensure that the plugin is only installed once
-version.extensions.SimpleSearchPlugin = {
-	installed: true,
+version.extensions.SimpleSearchPlugin = { installed: true };
+
+if(!plugins) { var plugins = {}; }
+plugins.SimpleSearchPlugin = {
 	btnLabel: "close",
 	btnTooltip: "dismiss search results",
 	heading: "Search Results",
@@ -58,27 +60,27 @@ version.extensions.SimpleSearchPlugin = {
 config.optionsDesc.chkClassicSearch = "Use classic search behavior";
 
 config.shadowTiddlers.StyleSheetSimpleSearch = "/*{{{*/\n"
-	+ "#" + version.extensions.SimpleSearchPlugin.id + " {\n"
+	+ "#" + plugins.SimpleSearchPlugin.id + " {\n"
 	+ "\toverflow: auto;\n"
 	+ "\tborder: 2px solid [[ColorPalette::TertiaryLight]];\n"
 	+ "\tpadding: 5px 1em;\n"
 	+ "}\n\n"
-	+ "#" + version.extensions.SimpleSearchPlugin.id + " h1 {\n"
+	+ "#" + plugins.SimpleSearchPlugin.id + " h1 {\n"
 	+ "\tmargin-top: 0;\n"
 	+ "\tborder: none;\n"
 	+ "}\n\n"
-	+ "#" + version.extensions.SimpleSearchPlugin.id + " ol {\n"
+	+ "#" + plugins.SimpleSearchPlugin.id + " ol {\n"
 	+ "\tmargin-top: 0.5em;\n"
 	+ "\tmargin-bottom: 0.5em;\n"
 	+ "}\n\n"
-	+ "#" + version.extensions.SimpleSearchPlugin.id + " .button {\n"
+	+ "#" + plugins.SimpleSearchPlugin.id + " .button {\n"
 	+ "\tfloat: right;\n"
 	+ "\tmargin: -5px -1em 5px 5px;\n"
 	+ "\tborder-color: [[ColorPalette::TertiaryPale]];\n"
 	+ "\tpadding: 5px;\n"
 	+ "\tbackground-color: [[ColorPalette::TertiaryPale]];\n"
 	+ "}\n\n"
-	+ "#" + version.extensions.SimpleSearchPlugin.id + " .button:hover {\n"
+	+ "#" + plugins.SimpleSearchPlugin.id + " .button:hover {\n"
 	+ "\tborder-color: [[ColorPalette::SecondaryMid]];\n"
 	+ "\tbackground-color: [[ColorPalette::SecondaryLight]];\n"
 	+ "}\n"
@@ -95,7 +97,7 @@ Story.prototype.search = function(text, useCaseSensitive, useRegExp) {
 		var matches = store.search(highlightHack, "title", "excludeSearch");
 		highlightHack = null;
 		var q = useRegExp ? "/" : "'";
-		version.extensions.SimpleSearchPlugin.displayResults(matches, q + text + q);
+		plugins.SimpleSearchPlugin.displayResults(matches, q + text + q);
 	}
 };
 

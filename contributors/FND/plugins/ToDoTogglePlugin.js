@@ -28,8 +28,10 @@ When all checkboxes within a tiddler are checked, the respective tiddler's //tod
 ***/
 //{{{
 if(!version.extensions.ToDoTogglePlugin) { //# ensure that the plugin is only installed once
-version.extensions.ToDoTogglePlugin = {
-	installed: true,
+version.extensions.ToDoTogglePlugin = { installed: true };
+
+if(!plugins) { var plugins = {}; }
+plugins.ToDoTogglePlugin = {
 	tags: {
 		active: "todo",
 		closed: "done"
@@ -58,7 +60,7 @@ config.macros.checkbox.onClickCheckbox = function(event) {
 	var status = config.macros.checkbox.onClickCheckbox_todoToggle.apply(this, arguments);
 	if(tiddler && !this.init) {
 		var title = tiddler.getAttribute("tiddler");
-		version.extensions.ToDoTogglePlugin.toggleStatus(title);
+		plugins.ToDoTogglePlugin.toggleStatus(title);
 	}
 	return status;
 };

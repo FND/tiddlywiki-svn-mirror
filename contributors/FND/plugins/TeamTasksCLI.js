@@ -23,8 +23,10 @@ My Task >> +High @Work #Pending u:PhilHawksworth
 ***/
 //{{{
 if(!version.extensions.TeamTasksCLI) {
-version.extensions.TeamTasksCLI = {
-	installed: true,
+version.extensions.TeamTasksCLI = { installed: true };
+
+if(!plugins) { var plugins = {}; }
+plugins.TeamTasksCLI = {
 	cfgTiddler: "TTCommands",
 	separator: ">>",
 
@@ -90,7 +92,7 @@ config.commands.saveTiddler.handler = function(event, src, title) {
 	}
 	// modify field
 	if(el) {
-		el.value = version.extensions.TeamTasksCLI.extractCommands(el.value);
+		el.value = plugins.TeamTasksCLI.extractCommands(el.value);
 	}
 	return this.handler_TTCLI.apply(this, arguments);
 };
@@ -100,7 +102,7 @@ TiddlyWiki.prototype.saveTiddler_TTCLI = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title, newTitle, newBody, modifier,
 	modified, tags, fields, clearChangeCount, created) {
 	var tiddler = this.saveTiddler_TTCLI.apply(this, arguments);
-	version.extensions.TeamTasksCLI.applyCommands(tiddler);
+	plugins.TeamTasksCLI.applyCommands(tiddler);
 	return tiddler;
 };
 
