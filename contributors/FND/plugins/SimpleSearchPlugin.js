@@ -37,6 +37,7 @@ plugins.SimpleSearchPlugin = {
 	btnOpenId: "search_open",
 	
 	displayResults: function(matches, query) {
+		story.refreshAllTiddlers(true); // update highlighting within story tiddlers
 		var el = document.getElementById(this.containerId);
 		query = '"""' + query + '"""'; // prevent WikiLinks
 		if(el) {
