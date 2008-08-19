@@ -13,7 +13,7 @@
 !Revision History
 !!v0.2.0 (2008-08-18)
 * initial release
-!!v0.2.0 (2008-08-18)
+!!v0.3.0 (2008-08-19)
 * added Open All button (renders Classic Search option obsolete)
 !To Do
 * animations for container creation and removal
