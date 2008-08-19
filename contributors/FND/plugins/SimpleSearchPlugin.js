@@ -4,7 +4,7 @@
 |''Authors''|FND|
 |''Version''|0.3.1|
 |''Status''|stable|
-|''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
+|''Source''|http://devpad.tiddlyspot.com/#SimpleSearchPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''Keywords''|search|
