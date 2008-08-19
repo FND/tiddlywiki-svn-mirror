@@ -3,7 +3,7 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|3.0.1|
+|Version|3.1.0|
 |~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -16,9 +16,9 @@
 * Upon save, the Tiddler will be encrypted and the tag replaced with Decrypt(prompt).
 ** Failure to encrypt (by not entering a password) will leave the tiddler unencrypted and will leave the Encrypt(prompt) tag in place. This means that the next time you save, you will be asked for the password again.
 ** To have multiple tiddlers use the same password - simply use the same 'prompt'.
-** Tiddlers that are encrypted may be tagged 'excludeSearch' as there is no point in searching encrypted d0ata - this is configurable by an option - you still may want to search the titles of encrypted tiddlers
-** Tiddlers that are encrypted may be tagged 'excludeLists', if you have them encrypted, you may also want to keep them 'hidden' - this is configurable by an option.
-** Automatic removal of excludeLists and excludeSearch tags is performed, if the above two options are set, only if these two tags are the last 2 tags for a tiddler, if they are positioned somewhere else in the tags list, they will be left in place, meaning that the decrypted tiddler will not be searchable and will not appear in lists.
+** Tiddlers that are encrypted may be automatically tagged 'excludeSearch' as there is no point in searching encrypted data - this is configurable by an option - you still may want to search the titles of encrypted tiddlers
+** Tiddlers that are encrypted may be automatically tagged 'excludeLists', if you have them encrypted, you may also want to keep them 'hidden' - this is configurable by an option.
+** Automatic removal of excludeLists and excludeSearch tags is performed, if the above two options are set, only if these two tags are the last 2 tags for a tiddler, if they are positioned somewhere else in the tags list, they will be left in place, meaning that the decrypted tiddler will not be searchable and/or will not appear in lists.
 ** Encrypted tiddlers are stored as displayable hex, to keep things visibly tidy, should you display an encrypted tiddler. There is nothing worse than seeing a pile of gobbledy gook on your screen. Additionally, the encrypted data is easily cut/paste/emailed if displayed in hex form.
 * Tiddlers are decrypted only if you click the decrypt button or the decryptAll button, not when you load the TiddlyWiki
 ** If you don't display a tiddler, you won't have the option to decrypt it (unless you use the {{{<<EncryptionDecryptAll>>}}} macro)
@@ -43,6 +43,7 @@ Useful Buttons:
 <<<
 !!!!!Revision History
 <<<
+* 3.1.0 - When creating a new Encrypt(prompt) tiddler and you have not previously decrypted a tiddler with the same prompt, on save, you will be prompted for the password to encrypt the tiddler. Prior to encrypting, an attempt to decrypt all other tiddlers with the same prompt, is performed. If any tiddler fails to decrypt, the save is aborted - this is so you don't accidentally have 2 (or more!) passwords for the same prompt. Either you enter the correct password, change the prompt string and try re-saving or you cancel (and the tiddler is saved unencrypted).
 * 3.0.1 - Allow Enter to be used for password entry, rather than having to press the OK button.
 * 3.0.0 - Major revamp internally to support entry of passwords using forms such that passwords are no longer visible on entry. Completely backward compatible with old encrypted tiddlers. No more using the javascript prompt() function.
 <<<
@@ -50,7 +51,7 @@ Useful Buttons:
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 3, minor: 0, revision: 1, date: new Date(2008,7,14)};
+version.extensions.TiddlerEncryptionPlugin = {major: 3, minor: 1, revision: 0, date: new Date(2008,8,18)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -294,6 +295,10 @@ saveChanges = function(onlyIfDirty,tiddlers) {
 
 function MySavePromptCallback_TiddlerEncryptionPlugin(context) {
     config.encryptionPasswords[context.passwordPrompt] = context.password;
+    // validate the password entered by attempting to decrypt all tiddlers
+    // with the same encryption prompt string.
+    onClickEncryptionDecryptAll(context.passwordPrompt);
+
     // restart the save process again
     saveChanges(context.onlyIfDirty, context.tiddlers);
     return;
