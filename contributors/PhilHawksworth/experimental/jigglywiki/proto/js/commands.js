@@ -1,50 +1,49 @@
-jigglywiki.controls = {
+jw.controls = {
 	'edit': {
-		handler: function(tiddler) { editTiddler(tiddler); }
+		handler: function(tiddler) { jw.editTiddler(tiddler); }
 	},
 	'save': {
 		handler: function(tiddler) { saveChanges(); }
 	},
 	'save tiddler': {
-		handler: function(tiddler) { saveTiddler(tiddler); }
+		handler: function(tiddler) { jw.saveTiddler(tiddler); }
 	},
 	'cancel': {
-		handler: function(tiddler) { cancelEditTiddler(tiddler); }
+		handler: function(tiddler) { jw.cancelEditTiddler(tiddler); }
 	},
 	'close': {
-		handler: function(tiddler) { closeTiddler(tiddler); }
+		handler: function(tiddler) { jw.closeTiddler(tiddler); }
 	},
 	'close all': {
-		handler: function() { closeAllTiddlers(); }
+		handler: function() { jw.closeAllTiddlers(); }
 	},
 	'jiggle': {
-		handler: function() { jiggleStore(); }
+		handler: function() { jw.jiggleStore(); }
 	}
 };
 
-
-function editTiddler(tiddler) {
+jw.editTiddler = function(tiddler) {
 	var container = $(tiddler).parents('div.story')[0].id;
-	var name = getTiddlerNameFromStory(tiddler);
-	displayTiddler(name, tiddler, 'replace', container, 'EditTemplate', true);
-	// getTiddler(name,container).find('div.text textarea').wysiwyg();
-}
+	var name = jw.getTiddlerNameFromStory(tiddler);
+	jw.displayTiddler(name, tiddler, 'replace', container, 'EditTemplate', true);
+	jw.getTiddler(name,container).find('div.text textarea').wysiwyg();
+};
 
-function cancelEditTiddler(tiddler) {
+jw.cancelEditTiddler = function(tiddler) {
 	var container = $(tiddler).parents('div.story')[0].id;
-	var name = getTiddlerNameFromStory(tiddler);
-	displayTiddler(name, tiddler, 'replace', container, 'ViewTemplate', true);
-}
+	var name = jw.getTiddlerNameFromStory(tiddler);
+	jw.displayTiddler(name, tiddler, 'replace', container, 'ViewTemplate', true);	
+};
 
-function saveTiddler(tiddler) {
-	
-	var n = getTiddlerNameFromStory(tiddler);
+
+jw.saveTiddler = function(tiddler) {
+	var n = jw.getTiddlerNameFromStory(tiddler);
 	
 	// name
 	
 	// text
 	var text = tiddler.find("textarea[macro='view property:text']")[0].value;
-	var t = getTiddler(n,'store');
+	var t = jw.getTiddler(n,'store');
 	storedTextDiv = t.find('div.text');
 	storedTextDiv.html(text);
 
@@ -53,17 +52,18 @@ function saveTiddler(tiddler) {
 	// meta
 	
 	// Reflect the changes in the UI.
-	cancelEditTiddler(tiddler);
-}
+	jw.cancelEditTiddler(tiddler);
+	
+};
 
-function closeTiddler(tiddler) {
+jw.closeTiddler = function(tiddler) {
 	tiddler.slideUp( function(){
 	 	tiddler.remove();
-	});
-}
+	});	
+};
 
-function closeAllTiddlers() {
+jw.closeAllTiddlers = function() {
 	$('div.tiddler').each(function(){
-		closeTiddler($(this));
-	});
-}
+		jw.closeTiddler($(this));
+	});	
+};

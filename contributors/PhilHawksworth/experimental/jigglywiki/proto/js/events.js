@@ -1,4 +1,4 @@
-function addEventHandlers() {
+jw.addEventHandlers = function() {
 	
 	//
 	// use event delgation to handle the tiddler click events.
@@ -8,14 +8,14 @@ function addEventHandlers() {
 		e.preventDefault();
 		// tiddlerLink clicks.
 		if( $(e.target).is('a.tiddlerLink') ) {
-			tiddlerLinkClick.call(e.target, e, 'story1');
+			jw.tiddlerLinkClick.call(e.target, e, 'story1');
 		}
 		// tiddler controls clicks
 		if( $(e.target).is('a.control') ) {
 			var fn = $(e.target).text();
-			var tiddler = containingTiddler(e.target);	
-			if(jigglywiki.controls[fn] !== undefined) {
-				jigglywiki.controls[fn].handler(tiddler);	
+			var tiddler = jw.containingTiddler(e.target);	
+			if(jw.controls[fn] !== undefined) {
+				jw.controls[fn].handler(tiddler);	
 			} else {
 				console.log("No handler for " + fn);
 			}
@@ -27,23 +27,24 @@ function addEventHandlers() {
 		e.preventDefault();
 		// tiddlerLink clicks.
 		if( $(e.target).is('a.tiddlerLink') ) {
-			tiddlerLinkClick.call(e.target, e, 'story1');
+			jw.tiddlerLinkClick.call(e.target, e, 'story1');
 		}
 		// tiddler controls clicks
 		if( $(e.target).is('a.control') ) {
 			var fn = $(e.target).text();
-			var tiddler = containingTiddler(e.target);
-			if(jigglywiki.controls[fn] !== undefined) {
-				jigglywiki.controls[fn].handler(tiddler);	
+			var tiddler = jw.containingTiddler(e.target);
+			if(jw.controls[fn] !== undefined) {
+				jw.controls[fn].handler(tiddler);	
 			} else {
 				console.log("No handler for " + fn);
 			}
 		}
 	 });
-}
+};
 
-function tiddlerLinkClick(link, container) {
+
+jw.tiddlerLinkClick = function(link, container) {
 	var tiddlerName = $(this).attr("href");
-	var ct = containingTiddler($(this));
+	var ct = jw.containingTiddler($(this));
 	displayTiddler(tiddlerName, ct, 'after', container, 'ViewTemplate');
-}
+};

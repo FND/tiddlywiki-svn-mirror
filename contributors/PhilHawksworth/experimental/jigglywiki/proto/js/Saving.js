@@ -54,6 +54,9 @@ function updateOriginal(original,posDiv,localPath)
 {
 	var head = $('head').html();
 	var body = $('body').html();
+	
+	console.log(body);
+	
 	var revised = head + body;
 	return revised;
 }
@@ -133,7 +136,7 @@ function saveMain(localPath,original)
 		console.log('exception ', ex);
 	}
 	if(save) {
-		// alert("Saved!");
+		alert("Saved!");
 	} else {
 		alert("Save failed");
 	}

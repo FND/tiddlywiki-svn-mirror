@@ -1,14 +1,15 @@
-jigglywiki.macros = {
+jw.macros = {
 	'view': {
-		handler: function(place, tiddler, params) { viewTiddlerProperty(place, tiddler, params); }
+		handler: function(place, tiddler, params) { jw.viewTiddlerProperty(place, tiddler, params); }
 	},
 	'edit': {
-		handler: function(place, tiddler, params) { viewTiddlerProperty(place, tiddler, params); }
+		handler: function(place, tiddler, params) { jw.viewTiddlerProperty(place, tiddler, params); }
 	}
 };
 
 
-function applyMacros(element, args, tiddler) {
+
+jw.applyMacros = function(element, args, tiddler) {
 
 	// build a params object from the parameters passed
 	var params = {};
@@ -20,16 +21,16 @@ function applyMacros(element, args, tiddler) {
 	};
 
 	// call the macro if a handler for it exists
-	if(jigglywiki.macros[macro]) {
-		jigglywiki.macros[macro].handler(element, tiddler, params);
+	if(jw.macros[macro]) {
+		jw.macros[macro].handler(element, tiddler, params);
 	} else {
 		console.log("No handler for ", macro);
 	}
-}
+};
 
 
-function viewTiddlerProperty(place, tiddler, params) {
-	var d = getTiddlerData(tiddler, 'store');
+jw.viewTiddlerProperty = function(place, tiddler, params) {
+	var d = jw.getTiddlerData(tiddler, 'store');
 	var h = '';
 	var prop = d[params['property']];
 	if(typeof prop == 'string') {
@@ -40,4 +41,4 @@ function viewTiddlerProperty(place, tiddler, params) {
 		});
 	}
 	place.html(h);
-}
+};
