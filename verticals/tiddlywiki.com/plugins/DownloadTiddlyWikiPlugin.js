@@ -1,7 +1,7 @@
 /***
 |''Name:''|DownloadTiddlyWikiPlugin|
 |''Description:''|Download TiddlyWiki according to browser type|
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|Aug 13, 2008|
 |''Source:''|http://www.tiddlywiki.com/#DownloadTiddlyWikiPlugin|
 |''License:''|[[BSD open source license]]|
@@ -46,18 +46,23 @@ config.macros.download.onClick = function(ev)
 			title = "Installation guidelines: Firefox on Windows Vista";
 		}
 	} else {
-			title = "Installation guidelines: Firefox on Ubuntu";
+		title = "Installation guidelines: Firefox on Ubuntu";
 	}
-	// put an iframe in the target instructions tiddler to start the download
 	var url = config.browser.isSafari || config.browser.isOpera ? 'http://www.tiddlywiki.com/empty.zip' :'http://www.tiddlywiki.com/empty.download';
-	var html = '<html><iframe src="' + url + '" style="display:none"></html>';
-	var tiddler = store.getTiddler(title);
-	var oldText = tiddler.text;
-	tiddler.text = html + tiddler.text;
-	var target = resolveTarget(e);
-	story.closeTiddler(title,true);
-	story.displayTiddler(target,title);
-	tiddler.text = oldText;
+	if(config.browser.isOpera) {
+		story.displayTiddler(target,title);
+		window.setTimeout(function() {document.location.href = url;},200);
+	} else {
+		// put an iframe in the target instructions tiddler to start the download
+		var html = '<html><iframe src="' + url + '" style="display:none"></html>';
+		var tiddler = store.getTiddler(title);
+		var oldText = tiddler.text;
+		tiddler.text = html + tiddler.text;
+		var target = resolveTarget(e);
+		story.closeTiddler(title,true);
+		story.displayTiddler(target,title);
+		tiddler.text = oldText;
+	}
 	return false;
 };
 
