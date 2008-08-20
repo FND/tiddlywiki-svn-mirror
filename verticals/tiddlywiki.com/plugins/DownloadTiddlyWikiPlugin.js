@@ -55,6 +55,7 @@ config.macros.download.onClick = function(ev)
 	var oldText = tiddler.text;
 	tiddler.text = html + tiddler.text;
 	var target = resolveTarget(e);
+	story.closeTiddler(title,true);
 	story.displayTiddler(target,title);
 	tiddler.text = oldText;
 	return false;
