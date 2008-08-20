@@ -146,7 +146,6 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 }
 
 config.macros.ccLogin.loginCallback=function(context,userParams, responseText){
-alert("aaaa"+responseText);
 	if(context.status){
 		window.location=window.fullUrl;
 	}else{

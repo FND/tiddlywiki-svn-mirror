@@ -376,7 +376,6 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xh
                context.statusText = xhr.statusText;	
 			}
        }
-//console.log('puttidlercallback:'+context.status)
        	if(context.callback){
 			context.callback(context,context.userParams);
 		}

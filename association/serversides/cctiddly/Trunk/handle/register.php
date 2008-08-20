@@ -21,11 +21,7 @@ if($_POST['free'] ==1 )
 	debug("count is ".count(db_record_select($tiddlyCfg['table']['user'],$data)), "params");
 	echo count(db_record_select($tiddlyCfg['table']['user'],$data));
 	exit;
-} else {
-	debug("username is not available", "params");
-	exit;	
 }
-
 $res = db_record_insert($tiddlyCfg['table']['user'],$data);
 
 if ($res !=1)
