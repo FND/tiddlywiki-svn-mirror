@@ -1,0 +1,61 @@
+<div title="ccTheme" modifier="SaqImtiaz" modified="200708091500" tags="systemTheme excludeSearch">
+<pre>|''Name:''|smmTheme|
+|''Description:''|A theme with lots of white space and a clean and elegant presentation|
+|''Author:''|Saq Imtiaz|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/BleachTheme.tiddler |
+|''Version:''|1.0|
+|''Date:''|Aug 9, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~OptionsPanel:''|##OptionsPanel|
+|''~tabs:''|##tabs|
+|''~OptionsPanel:''|##OptionsPanel|
+|''~SideBarTabs:''|##SideBarTabs|
+***/
+
+!PageTemplate
+<!--{{{-->
+	
+<div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div class='headerForeground'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='smmTheme##SideBarOptions'></div>
+
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+
+<div id='contentFooter'  macro='gradient vert [[ColorPalette::smmDark2]] [[ColorPalette::smmDark1]]'></div>
+<!--}}}-->
+
+!OptionsPanel
+[[help|Help]] <br />[[settings|AdvancedOptions]]<br /><<ccOptions>>
+
+!tabs
+<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
+
+
+!SideBarOptions
+<<search "search...">><<closeAll>><<newTiddler>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'browser »' 'View TiddlyWiki Tabs'>>
+
+!simpleViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+</pre>
+</div>
