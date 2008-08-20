@@ -23,14 +23,21 @@ div.tiddler:first-child {border-top-style:none;}
 #sidebar{background-color:#f9f9f9;width:200px;float:right;border-top:solid 1px #ccc; z-index:2;}
 #footer{clear:both;padding:1em;border-top:solid 1px #ccc;text-align:right;}
 
+
+div#header,
+#sidebar {
+	position:fixed;
+}
+
 /* =========== */
 /* = sidebar = */
 /* =========== */
 #sidebar div{ margin:0 1em; padding:1em 0; border-top:solid 1px #fff; border-bottom:solid 1px #eee;}
-
+#sidebar div:first-child{ border-top-style:none;}
+#sidebar div:last-child{ border-bottom-style:none;}
 
 div.controls{display:block; padding:1em; }
-div.controls a{display:block; color:#1e52cd;padding:2px 0.6em;margin:0 0 1px 0;text-decoration:none;font-weight:bold;border-style:none;}
+div.controls a{display:block; color:#1e52cd;padding:2px 0.6em;margin:0;text-decoration:none;font-weight:bold;border-style:none;}
 div.controls a:hover{background-color:#111;color:#fff;border-style:none;}
 
 a:link{color:#111;text-decoration:none;border-bottom:solid 1px #111;}
@@ -138,16 +145,19 @@ div.wysiwyg iframe { border: 0; margin: 5px 0 0 0; clear: left; }	</style>
 		<h3>a web-visible, jQuery-based tiddlywiki clone</h3>
 	</div>
 	<div id='sidebar'>
+		<div class='search'>
+			<input type='text' class='search' value='search' />
+		</div>
 		<div class='controls'>
 			<a class='control' href='#'>close all</a>
 			<a class='control' href='#'>save</a>
 			<a class='control' href='#'>permalink</a>
+		</div>
+
+		<div class='controls'>
 			<a class="tiddlerLink" href="#tiddler:help">help</a>
-			<a class='control' href='#'>jiggle</a>
-		</div>
-		<div class='search'>
-			<input type='text' class='search' value='search' />
-		</div>
+			<a class="tiddlerLink" href="#tiddler:JigglyWiki">JigglyWiki</a>
+		</div>		
 	</div>
 	
 	<!-- We use this div to display content via user actions -->
