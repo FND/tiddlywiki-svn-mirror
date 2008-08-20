@@ -67,7 +67,7 @@ merge(config.macros.ccLogin,{
 	configUsernameInputName:"cctuser",
 	configPasswordInputName:"cctpass",
 	configPasswordCookieName:"cctPass",
-	sha1:true
+	sha1:false
 });
 	
 config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
@@ -145,7 +145,7 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	}]);
 }
 
-config.macros.ccLogin.loginCallback=function(context,userParams, responseText){
+config.macros.ccLogin.loginCallback=function(context,userParams){	
 	if(context.status){
 		window.location=window.fullUrl;
 	}else{

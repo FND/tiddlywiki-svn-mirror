@@ -16,13 +16,14 @@ $tiddlyCfg['pref']['renew_session_on_each_request']  = 1; // if enabled will ren
 $tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
 $tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an account 
 	
+	
 //LDAP
 
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-$tiddlyCfg['pref']['ldap_username']	= "CN=";
-$tiddlyCfg['pref']['ldap_password'] = "";
-$tiddlyCfg['pref']['ldap_connection_string'] = "ldap://";
+$tiddlyCfg['pref']['ldap_enabled'] = 1;	
+$tiddlyCfg['pref']['ldap_username']	= "CN=Sa063338,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
+$tiddlyCfg['pref']['ldap_password'] = "pass9431w";
+$tiddlyCfg['pref']['ldap_connection_string'] = "ldap://iuser.iroot.adidom.com:389";
 
 //Deligated Session Managment 
  
@@ -97,7 +98,7 @@ $tiddlyCfg['txtTheme'] = 'purleTheme';  // The default TiddlyWiki theme to use.
 // Debugging Information 
 
 $tiddlyCfg['developing'] = 1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
-$tiddlyCfg['debug']['mysql'] = 1;	 // if set to x1 will output every sql query into the logfile 
+$tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login'] = 1;
 $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;

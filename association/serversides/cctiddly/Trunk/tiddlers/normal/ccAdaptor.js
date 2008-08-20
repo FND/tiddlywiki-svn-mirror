@@ -22,17 +22,17 @@ ccTiddlyAdaptor.errorInFunctionMessage = "Error in function ccTiddlyAdaptor.%0";
 
 ccTiddlyAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-        return doHttp('GET',uri,data,contentType,username,password,callback,params,headers,1);
+        return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
 ccTiddlyAdaptor.doHttpPOST = function(uri,callback,params,headers,data,contentType,username,password)
 {
-        return doHttp('POST',uri,data,contentType,username,password,callback,params,headers,1);
+        return doHttp('POST',uri,data,contentType,username,password,callback,params,headers);
 };
 
 ccTiddlyAdaptor.doHttpPUT = function(uri,callback,params,headers,data,contentType,username,password)
 {
-        return doHttp('PUT',uri,data,contentType,username,password,callback,params,headers,1);
+        return doHttp('PUT',uri,data,contentType,username,password,callback,params,headers);
 };
 
 ccTiddlyAdaptor.minHostName = function(host)
@@ -57,15 +57,17 @@ ccTiddlyAdaptor.prototype.login = function(context,userParams,callback)
 {
 //#console.log('login:'+context.username);
        context = this.setContext(context,userParams,callback);
-       var uriTemplate = '%0/handle/login.php?cctuser=%1&cctpass=%2';
+       var uriTemplate = '%0/handle/loginFile.php?cctuser=%1&cctpass=%2';
        var uri = uriTemplate.format([context.host,context.username,context.password]);
 //#console.log('uri:'+uri);
+displayMessage("uri : "+uri);
        var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.loginCallback,context);
        return typeof req == 'string' ? req : true;
 };
 
 ccTiddlyAdaptor.loginCallback = function(status,context,responseText,uri,xhr)
 {
+	displayMessage(responseText);
 //#console.log('loginCallback:'+status);
        if(xhr.status==401) {
                context.status = false;

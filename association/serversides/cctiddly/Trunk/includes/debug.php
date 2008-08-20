@@ -5,7 +5,7 @@ echo '<form action="">
 <input type="submit" value="Update Log" />
 </form>';
 
-$file = file_get_contents('/Applications/xampp/xamppfiles/logs/error_log');
+$file = file_get_contents('C:\xampp\apache\logs\error.log');
 $lines = explode("\n", $file);
 $lines = array_reverse($lines);
 $count = 0;
