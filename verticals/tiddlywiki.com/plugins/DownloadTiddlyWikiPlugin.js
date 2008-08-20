@@ -51,7 +51,7 @@ config.macros.download.onClick = function(ev)
 	var url = config.browser.isSafari || config.browser.isOpera ? 'http://www.tiddlywiki.com/empty.zip' :'http://www.tiddlywiki.com/empty.download';
 	if(config.browser.isOpera) {
 		story.displayTiddler(target,title);
-		window.setTimeout(function() {document.location.href = url;},200);
+		window.setTimeout(function() {document.location.href = url;},300);
 	} else {
 		// put an iframe in the target instructions tiddler to start the download
 		var html = '<html><iframe src="' + url + '" style="display:none"></html>';
