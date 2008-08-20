@@ -1,3 +1,4 @@
+tiddler: Advanced_download_options.tiddler
 tiddler: AlternativeColorPalette.tiddler
 tiddler: AnotherExampleStyleSheet.tiddler
 tiddler: AutoSave.tiddler
@@ -29,7 +30,6 @@ tiddler: EditTiddlerCommand.tiddler
 tiddler: Editing.tiddler
 tiddler: EmbeddedImages.tiddler
 tiddler: EnableAnimations.tiddler
-tiddler: ExampleSearchResult.tiddler
 tiddler: ExampleStyleSheet.tiddler
 tiddler: ExampleSystemConfig.tiddler
 tiddler: Examples.tiddler
@@ -56,14 +56,14 @@ tiddler: HtmlEntities.tiddler
 tiddler: IncrementalSearch.tiddler
 tiddler: InlineHTML.tiddler
 tiddler: Installation.tiddler
-tiddler: Installation_Guidelines__Firefox_on_Ubuntu.tiddler
-tiddler: Installation_Guidelines__Firefox_on_Windows_Vista.tiddler
-tiddler: Installation_Guidelines__Firefox_on_Windows_XP.tiddler
-tiddler: Installation_Guidelines__Internet_Explorer_on_Windows_Vista.tiddler
-tiddler: Installation_Guidelines__Internet_Explorer_on_Windows_XP.tiddler
-tiddler: Installation_Guidelines__Opera_on_Mac_OS_X.tiddler
-tiddler: Installation_Guidelines__Safari_on_Mac_OS_X.tiddler
 tiddler: Installation_guidelines__Firefox_on_Mac_OS_X.tiddler
+tiddler: Installation_guidelines__Firefox_on_Ubuntu.tiddler
+tiddler: Installation_guidelines__Firefox_on_Windows_Vista.tiddler
+tiddler: Installation_guidelines__Firefox_on_Windows_XP.tiddler
+tiddler: Installation_guidelines__Internet_Explorer_on_Windows_Vista.tiddler
+tiddler: Installation_guidelines__Internet_Explorer_on_Windows_XP.tiddler
+tiddler: Installation_guidelines__Opera_on_Mac_OS_X.tiddler
+tiddler: Installation_guidelines__Safari_on_Mac_OS_X.tiddler
 tiddler: InstallingPlugins.tiddler
 tiddler: InterfaceOptions.tiddler
 tiddler: InternetExplorer.tiddler

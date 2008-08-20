@@ -1,6 +1,5 @@
-<div title="ChunkyButtonStyle" modifier="PhilHawksworth" created="20080813000000" modified="20080813000000">
-<pre>
-/*{{{*/
+<div title="ChunkyButtonStyle" modifier="PhilHawksworth" created="200808130000">
+<pre>/*{{{*/
 
 	span.chunkyButton {
 		display: block;
@@ -38,6 +37,5 @@
 	}
 
 
-/*}}}*/
-</pre>
+/*}}}*/</pre>
 </div>

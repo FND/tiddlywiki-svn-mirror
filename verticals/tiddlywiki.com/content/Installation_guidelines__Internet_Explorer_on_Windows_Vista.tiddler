@@ -1,4 +1,4 @@
-<div title="Installation guidelines: Internet Explorer on Windows Vista" modifier="PhilWhitehouse" created="200808051047" modified="200808121113">
+<div title="Installation guidelines: Internet Explorer on Windows Vista" modifier="YourName" created="200808051047" modified="200808181644" changecount="6">
 <pre>Follow these steps to get started! These guidelines are for Internet Explorer 7.0 running on Microsoft Windows Vista 6.0.0. Hopefully they will be helpful for your setup too.
 
 ''If these guidelines aren't appropriate, check the [[other browser-specific guidelines|Installation]] to find some that are right for you.''
@@ -15,7 +15,7 @@ In the folder, right click on the file name and select 'Properties' from the bot
 
 [img[images/step3vista.jpg]]
 !Step 4 - Unblock file
-In order to allow saving, you need to Unblock the file. Select 'Unblock' near the bottom of the dialogue box, then click on 'OK'.
+In order to allow saving, you need to Unblock the file. Select 'Unblock' near the bottom of the dialogue box, then click on 'OK'. If the Unblock button doesn't appear, then you don't need to worry about it - click on OK and proceed to step 5.
 
 [img[images/step4vista.jpg]]
 

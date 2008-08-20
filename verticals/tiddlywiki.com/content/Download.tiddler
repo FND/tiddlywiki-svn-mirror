@@ -1,10 +1,6 @@
-<div title="Download" modifier="PhilWhitehouse" created="200805221001" modified="200808131416" tags="download gettingstarted">
+<div title="Download" modifier="YourName" created="200805221001" modified="200808191616" tags="download gettingstarted" changecount="22">
 <pre>{{downloadButton{
 |<<download>>|
-}}} version <<version>> ([[release notes|http://trac.tiddlywiki.org/wiki/History]])
 
-(when clicked, it will invoke browser specific download and [[Installation]] guidelines)
-
-To download an empty ~TiddlyWiki, click [[here|http://www.tiddlywiki.com/empty.download]].
-To download an empty ~TiddlyWiki in a zip file which also contains the TiddlySaver applet (required for Safari and Opera), click [[here|http://www.tiddlywiki.com/empty.zip]].</pre>
+[[Advanced options >>|Advanced download options]]</pre>
 </div>

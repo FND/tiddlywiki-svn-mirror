@@ -1,0 +1,10 @@
+<div title="Advanced download options" modifier="YourName" created="200808191510" modified="200808191612" changecount="27">
+<pre>When you click on the blue [[download|Download]] button, the website will detect your browser and operating system, and trigger a download for either an empty ~TiddlyWiki file or, if you're running [[Safari]] or [[Opera]], a zip file which also includes the TiddlySaver file. This is version <<version>> of ~TiddlyWiki ([[release notes|http://trac.tiddlywiki.org/wiki/History]])
+
+Advanced users may find these links helpful:
+*[[An empty TiddlyWiki file|http://www.tiddlywiki.com/empty.download]]
+*[[A zip file containing an empty TiddlyWiki file plus a TiddlySaver file|http://www.tiddlywiki.com/empty.zip]]
+*[[The TiddlySaver file on it's own|http://www.tiddlywiki.com/TiddlySaver.jar]]
+*[[Installation]] instructions for the main browsers
+*A list of supported [[Browsers]]</pre>
+</div>

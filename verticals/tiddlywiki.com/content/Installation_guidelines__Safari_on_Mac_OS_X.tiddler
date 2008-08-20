@@ -1,4 +1,4 @@
-<div title="Installation guidelines: Safari on Mac OS X" modifier="PhilWhitehouse" created="200808081309" modified="200808121117">
+<div title="Installation guidelines: Safari on Mac OS X" modifier="YourName" created="200808081309" modified="200808181530" changecount="3">
 <pre>Follow these easy steps to get started! Note that these guidelines are for Safari 3.1.2 running on Mac OS X 10.5.4, but will apply to several other configurations (other versions of [[Safari]] and [[Opera]] too)
 
 ''If these guidelines aren't appropriate, check the [[other browser-specific guidelines|Installation]] to find some that are right for you.''
@@ -6,11 +6,10 @@
 After [[Download]], check first that you have automatically received a zip file containing two files (the contents of the zip file may have been extracted automatically - if not, open the zip file):
 *empty.html (this is your ~TiddlyWiki file)
 *~TiddlySaver.jar (this is a java applet, which will make sure everything works in your chosen browser. Note a copy of this file ''must'' be kept in the same folder as any ~TiddlyWiki file you are using) 
+[img[images/step1macsafari.jpg]]
 You can download the ~TiddlySaver.jar file on it's own from [[here|http://www.tiddlywiki.com/TiddlySaver.jar]] if you need it.
 
-Open the empty.html file to get started.
-
-[img[images/step1macsafari.jpg]]
+Double click the empty.html file to get started.
 !Step 2 - Open file
 The system will check you're happy to open the ~TiddlyWiki file. Click on 'Open'.
 
