@@ -156,12 +156,12 @@
 		global $tiddlyCfg;
 		foreach ($tiddlyCfg['pref']['offline']['tiddler']  as $tf)
 		{
-			echo tiddler_outputTiddlerFile("tiddlers/normal/".$tf.".tiddler", $cct_base);
+			echo tiddler_outputTiddlerFile("tiddlers/".$tf.".tiddler", $cct_base);
 		}
 
 		foreach ($tiddlyCfg['pref']['offline']['js']  as $tf)
 		{
-			echo tiddler_outputJsFile("tiddlers/normal/".$tf.".js", $cct_base);
+			echo tiddler_outputJsFile("tiddlers/".$tf.".js", $cct_base);
 		}
 	}
 	function tiddler_outputJsFile($file, $cct_base)

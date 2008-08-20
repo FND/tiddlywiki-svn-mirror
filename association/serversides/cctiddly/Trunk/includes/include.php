@@ -4,7 +4,7 @@ include_once($cct_base."includes/ccAssignments.php");
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	tiddler_outputOffline();
 else
-	echo tiddler_outputFolder("tiddlers/normal", $cct_base);
+	echo tiddler_outputFolder("tiddlers", $cct_base);
 
 ///////  START DEBUG TIDDLER 
 
@@ -33,14 +33,9 @@ if($tiddlyCfg['developing']>0){
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 {
 ?>
-
 // OFF LINE TIDDLERS 
-
-
 <div title='ccAdaptorSaveLocal' modifier='cctiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
 <pre>
-	
-	
 config.backstageTasks.remove("upgrade");
 	
 if (config.options.txtTheme == "")
