@@ -49,5 +49,5 @@ recipe: tiddlers/split.recipe
 #
 # include dummy content and timer for performance testing
 #
-recipe: ../benchmarkdata/split.recipe
-js: js/speedtests.js
+# recipe: ../benchmarkdata/split.recipe
+# js: js/speedtests.js

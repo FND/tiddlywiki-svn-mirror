@@ -19,14 +19,20 @@
 		<h1 class='tiddlerName'>JigglyWiki</h1>
 		<h3>a web-visible, jQuery-based tiddlywiki clone</h3>
 	</div>
-	<div id='controls'>
-		<a class='control' href='#'>close all</a>
-		<a class='control' href='#'>save</a>
-		<a class='control' href='#'>permalink</a>
-		<a class="tiddlerLink" href="#tiddler:help">help</a>
-		<a class='control' href='#'>jiggle</a>
+	<div id='sidebar'>
+		<div class='controls'>
+			<a class='control' href='#'>close all</a>
+			<a class='control' href='#'>save</a>
+			<a class='control' href='#'>permalink</a>
+		</div>
+		<div class='search'>
+			<input type='text' class='search' value='search' />
+		</div>
+		<div class='controls'>
+			<a class="tiddlerLink" href="#tiddler:help">help</a>
+			<a class="tiddlerLink" href="#tiddler:JigglyWiki">JigglyWiki</a>
+		</div>		
 	</div>
-	
 	
 	<!-- We use this div to display content via user actions -->
 	<div id='story1' class='story'></div>
@@ -37,6 +43,13 @@
 	<!-- changes back here by calling jiggleStore() -->
 	<div id='store'>
 	<!--@@para@@-->
+	</div>
+	
+	<!-- Sidebar navigation and search and whatnot -->
+
+		
+	<div id="footer">
+		information and navigation helpers
 	</div>
 
 	<script type="text/javascript">

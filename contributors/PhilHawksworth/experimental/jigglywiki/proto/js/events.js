@@ -23,7 +23,7 @@ jw.addEventHandlers = function() {
 	 });
 
 	//  control bar button click handlers.	
-	$('#controls').click(function(e){
+	$('div.controls').click(function(e){
 		e.preventDefault();
 		// tiddlerLink clicks.
 		if( $(e.target).is('a.tiddlerLink') ) {
@@ -46,5 +46,5 @@ jw.addEventHandlers = function() {
 jw.tiddlerLinkClick = function(link, container) {
 	var tiddlerName = $(this).attr("href");
 	var ct = jw.containingTiddler($(this));
-	displayTiddler(tiddlerName, ct, 'after', container, 'ViewTemplate');
+	jw.displayTiddler(tiddlerName, ct, 'after', container, 'ViewTemplate');
 };

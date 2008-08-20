@@ -54,9 +54,6 @@ function updateOriginal(original,posDiv,localPath)
 {
 	var head = $('head').html();
 	var body = $('body').html();
-	
-	console.log(body);
-	
 	var revised = head + body;
 	return revised;
 }
