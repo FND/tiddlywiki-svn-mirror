@@ -1,18 +1,18 @@
 /***
 |''Name:''|UploadTiddlerPlugin|
 |''Description:''|Upload a tiddler and Update a remote TiddlyWiki |
-|''Version:''|1.1.1|
-|''Date:''|2008 03 29|
+|''Version:''|1.2.1|
+|''Date:''|2008-08-19|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadTiddlerPlugin|
-|''Usage:''|Uses {{{<<uploadOptions>>}}}<br>with those UploadTiddler Options : <br>chkUploadTiddler: <<option chkUploadTiddler>><br>txtUploadTiddlerStoreUrl: <<option txtUploadTiddlerStoreUrl>>|
+|''Usage:''|Uses {{{uploadOptions>>}}}<br>with those UploadTiddler Options : <br>chkUploadTiddler: <<option chkUploadTiddler>><br>txtUploadTiddlerStoreUrl: <<option txtUploadTiddlerStoreUrl>>|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''[[License]]:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
 |''CoreVersion:''|2.3.0|
 ***/
 //{{{
 version.extensions.UploadTiddlerPlugin = {
-	major: 1, minor: 1, revision: 1, 
-	date: new Date("2008 03 29"),
+	major: 1, minor: 2, revision: 1, 
+	date: new Date("2008-08-11"),
 	source: 'http://tiddlywiki.bidix.info/#UploadTiddlerPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	coreVersion: '2.3.0'
@@ -28,7 +28,7 @@ bidix.uploadTiddler = {
 	},
 	upload: function(title,tiddler,oldTitle) {
 		var callback = function(status,params,responseText,url,xhr) {
-			if (xhr.status == httpStatus.NotFound) {
+			if (xhr.status == 404) {
 				alert(bidix.uploadTiddler.messages.storeTiddlerNotFound.format([url]));
 				return;
 			}
@@ -42,14 +42,18 @@ bidix.uploadTiddler = {
 				displayMessage(bidix.uploadTiddler.messages.tiddlerSaved.format([params[0], params[1]]));
 				store.setDirty(false);
 			}
-		
-		if (config.options['chkUploadTiddler']) {
+
+		if ((config.options['chkUploadTiddler']) && (document.location.toString().substr(0,4) == "http")){
 			displayMessage(bidix.uploadTiddler.messages.aboutToSaveTiddler.format([title]));
 			var ExtTiddler = null;
-			if (tiddler)
+			var html = null;
+			if (tiddler) {
 				ExtTiddler = store.getSaver().externalizeTiddler(store,tiddler);
+				html = wikifyStatic(tiddler.text,null,tiddler).htmlEncode();
+			}
 			var form = "title="+encodeURIComponent(title);
-			form = form + "&tiddler="+encodeURIComponent(ExtTiddler);
+			form = form + "&tiddler="+(ExtTiddler?encodeURIComponent(ExtTiddler):'');
+			form = form + "&html="+(html?encodeURIComponent(html):'');
 			var filename = (config.options['txtUploadFilename']?config.options['txtUploadFilename']:'index.html');
 			form = form +"&oldTitle="+encodeURIComponent(oldTitle);
 			form = form +"&fileName="+encodeURIComponent(filename);
@@ -62,7 +66,6 @@ bidix.uploadTiddler = {
 								? config.options.txtUploadTiddlerStoreUrl : 'storeTiddler.php');
 			var r = doHttp("POST",storeScript,form+"\n",'application/x-www-form-urlencoded',
 				config.options['txtUploadUserName'],config.options['pasUploadPassword'],callback,Array(title,filename),null);
-		
 		}
 	}
 }
@@ -71,7 +74,7 @@ TiddlyWiki.prototype.saveTiddler = function(oldTitle,newTitle,newBody,modifier,m
 	var tiddler = TiddlyWiki.prototype.saveTiddler_bidix.apply(this,arguments);
 	var title = (newTitle?newTitle:oldTitle);
 	if (oldTitle == title)
-		oldTitle = null;
+		oldTitle = '';
 	bidix.uploadTiddler.upload(title, tiddler, oldTitle);
 }
 TiddlyWiki.prototype.removeTiddler_bidix =TiddlyWiki.prototype.removeTiddler;
@@ -110,3 +113,4 @@ if (config.macros.uploadOptions) {
 }
 
 //}}}
+
