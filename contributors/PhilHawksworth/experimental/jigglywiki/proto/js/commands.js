@@ -3,6 +3,9 @@ jigglywiki.controls = {
 		handler: function(tiddler) { editTiddler(tiddler); }
 	},
 	'save': {
+		handler: function(tiddler) { saveChanges(); }
+	},
+	'save tiddler': {
 		handler: function(tiddler) { saveTiddler(tiddler); }
 	},
 	'cancel': {
@@ -24,7 +27,7 @@ function editTiddler(tiddler) {
 	var container = $(tiddler).parents('div.story')[0].id;
 	var name = getTiddlerNameFromStory(tiddler);
 	displayTiddler(name, tiddler, 'replace', container, 'EditTemplate', true);
-	getTiddler(name,container).find('div.text textarea').wysiwyg();
+	// getTiddler(name,container).find('div.text textarea').wysiwyg();
 }
 
 function cancelEditTiddler(tiddler) {

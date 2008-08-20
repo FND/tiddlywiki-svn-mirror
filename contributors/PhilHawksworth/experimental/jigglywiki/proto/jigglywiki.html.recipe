@@ -14,7 +14,7 @@ style: css/jquery.wysiwyg.css
 #
 # latest jQuery library
 #
-jquery: js/jquery-1.2.6.pack.js
+# jquery: js/jquery-1.2.6.pack.js
 
 
 #
@@ -27,9 +27,17 @@ js: js/commands.js
 js: js/display.js
 js: js/macros.js
 
+
+#
+# include some exisiting tiddlywiki core code.
+#
+js: js/Saving.js
+js: js/FileSystem.js
+
+
 #
 # jquery plugins
-js: js/jquery.wysiwyg.pack.js
+# js: js/jquery.wysiwyg.pack.js
 
 
 #
@@ -37,8 +45,9 @@ js: js/jquery.wysiwyg.pack.js
 #
 recipe: tiddlers/split.recipe
 
+
 #
 # include dummy content and timer for performance testing
 #
-recipe: ../benchmarkdata/split.recipe
-js: js/speedtests.js
+# recipe: ../benchmarkdata/split.recipe
+# js: js/speedtests.js

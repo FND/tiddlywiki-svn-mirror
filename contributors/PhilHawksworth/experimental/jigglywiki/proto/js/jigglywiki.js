@@ -1,10 +1,15 @@
 
 var jigglywiki = {};
 
+var config = {};
+config.options = {};
+config.options.txtFileSystemCharSet = 'UTF-8';
+
+
 // We don't include the jQuery library when we server the page.
 // If it isn't here, we should get it from Google and then save 
 // it as part of the page or future sessions.
-if(typeof jQuery != 'function') {
+if(typeof jQuery !== 'function') {
 	var head = document.getElementsByTagName("head")[0];
 	script = document.createElement('script');
 	script.type = 'text/javascript';
@@ -16,13 +21,15 @@ if(typeof jQuery != 'function') {
 }
 
 function jQueryReady() {
-	if(typeof jQuery != 'function') {
+	if(typeof jQuery !== 'function') {
 		setTimeout(function() {jQueryReady();},100);
+		alert('waiting for jQuery to be available');
 	} else {
 		loadJQueryExtensions();
 		$(document).ready(function(){
 			initJigglyWiki(); 
-		});
+			saveChanges();
+		});		
 	}
 }
 
@@ -32,8 +39,9 @@ function initJigglyWiki() {
 	addEventHandlers();
 	
 	// speed tests
-	runSpeedTests();
+	// runSpeedTests();
 }
+
 
 // Show the default tiddlers
 function showDefaultTiddlers(container) {
@@ -45,6 +53,7 @@ function showDefaultTiddlers(container) {
 	});
 }
 
+
 function containingTiddler(ele) {
 	var tiddler = $(ele).parents('div.tiddler');
 	if(tiddler.length == 1) {
@@ -53,6 +62,7 @@ function containingTiddler(ele) {
 		return null;
 	}
 }
+
 
 // return a tiddler object.
 function getTiddler(name, container) {
@@ -127,7 +137,6 @@ function getTiddlerNameFromStory(tiddler) {
 }
 
 
-
 // return an object containing jQuery objects for each piece of tiddler data.
 function getTiddlerData(name, container) {
 	var t = getTiddler(name, 'store');
@@ -145,6 +154,7 @@ function getTiddlerData(name, container) {
 	}
 	return data;
 }
+
 
 // jiggle the tiddlers in the store to echo the order in which they are displayed in the story(ies).
 function jiggleStore() {
