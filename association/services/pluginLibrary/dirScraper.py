@@ -62,11 +62,12 @@ class dirScraper:
 			uris = [uri.strip() for uri in whitelisted] # XXX: do not strip whitespace!?
 		elif self.blacklist in uris:
 			blacklisted = self._get(self.host + dir + self.blacklist).split("\n")
+			blacklisted.append(self.blacklist)
 			uris = [uri.strip() for uri in uris if uri not in blacklisted] # XXX: do not strip whitespace!?
 		for uri in uris:
 			if uri == "../":
 				continue
-			if uri.endswith(".js"): # plugin
+			if uri.endswith(".js"): # plugin -- XXX: also excludes whitelisted items missing .js extension
 				plugin = Tiddler()
 				plugin.title = posixpath.basename(uri[:-3])
 				plugin.tags = "systemConfig" # XXX: should be list; cf. aggregator.getPlugins()
