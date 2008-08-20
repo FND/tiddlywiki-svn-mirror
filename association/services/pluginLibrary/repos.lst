@@ -3,4 +3,6 @@
 #http://www.martinswiki.com | TiddlyWiki | Martin's Wiki
 #http://www.tiddlytools.com | TiddlyWiki | TiddlyTools
 #http://devpad.tiddlyspot.com | TiddlyWiki | FND's DevPad
-http://svn.tiddlywiki.org/Trunk/association/plugins | SVN | Community Plugins
+#http://svn.tiddlywiki.org/Trunk/association/plugins | SVN | Community Plugins
+
+http://svn.tiddlywiki.org/Trunk/association/pluginLibrary/test | SVN | Test

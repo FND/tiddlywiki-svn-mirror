@@ -71,8 +71,7 @@ def getPlugins(repo, store):
 		plugins = tw.getPluginTiddlers(repo);
 		empty = "<html><body><div id='storeArea'>\n</div></body></html>" # XXX: ugly hack; cf. tiddlywiki.TiddlyWiki.getPluginTiddlers()
 		if plugins != empty:
-			store.delete(bag) # XXX: ugly hack?
-			store.put(bag)
+			savePlugins(store, bag)
 			import_wiki(plugins, bag.name)
 			return True
 		else:
@@ -82,8 +81,7 @@ def getPlugins(repo, store):
 		svn = dirScraper(repo["URI"])
 		plugins = svn.getPlugins("./", True)
 		if plugins:
-			store.delete(bag) # XXX: ugly hack?
-			store.put(bag)
+			savePlugins(store, bag)
 			for plugin in plugins:
 				plugin.bag = bag.name
 				store.put(plugin)
@@ -107,6 +105,22 @@ def generateRecipe(bags, store):
 	items = [([bag, ""]) for bag in bags] # TODO: use None instead of empty string?
 	recipe.set_recipe(items)
 	store.put(recipe)
+
+def savePlugins(store, bag):
+	"""
+	save repository's plugins to store
+
+	@param bags: TiddlyWeb bag
+	@type  bags: Bag
+	@param store: TiddlyWeb store
+	@type  store: Store
+	@return: None
+	"""
+	try: # XXX: don't use exception here!?
+		store.delete(bag) # XXX: ugly hack?
+	except IOError:
+		pass
+	store.put(bag)
 
 # startup
 

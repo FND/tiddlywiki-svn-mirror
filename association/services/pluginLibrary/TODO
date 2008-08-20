@@ -1,10 +1,9 @@
 == Aggregator ==
 
-* 404 handling
-* SVN black-/whitelist handling
+* SVN black-/whitelisting: wildcards support
+* logging
 * handling of removed plugins (e.g. don't delete, but tag with "disabled"?)
 * efficiency enhancements (e.g. caching, deferred processing)
-* logging
 
 == Search ==
 
@@ -46,3 +45,8 @@
 * aggregator
 * serializers
 * search
+
+== Misc. ==
+
+* code sanitizing
+* refactoring

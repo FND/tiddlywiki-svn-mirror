@@ -18,6 +18,8 @@ class dirScraper:
 		@type  host: str
 		"""
 		self.host = addTrailingSlash(host)
+		self.blacklist = "excludeLibrary.txt"
+		self.whitelist = "includeLibrary.txt"
 
 	def _get(self, url):
 		"""
@@ -36,6 +38,11 @@ class dirScraper:
 		"""
 		retrieve .js files from directory
 
+		if there is a whitelist file, only those items will be retrieved
+		if there is a blacklist file, those items will be excluded
+		whitelist and blacklist files contain one file or directory name per line
+		whitelist takes precedence over blacklist
+
 		@param dir: directory (relative path)
 		@type  dir: str
 		@param recursive: process subdirectories
@@ -49,18 +56,23 @@ class dirScraper:
 		soup = BeautifulSoup(content)
 		list = soup.find("ul")
 		items = list.findChildren("li")
-		for item in items:
-			anchor = item.findChild("a")
-			href = anchor["href"]
-			if href == "../":
+		uris = [item.findChild("a")["href"] for item in items]
+		if self.whitelist in uris:
+			whitelisted = self._get(self.host + dir + self.whitelist).split("\n")
+			uris = [uri.strip() for uri in whitelisted] # XXX: do not strip whitespace!?
+		elif self.blacklist in uris:
+			blacklisted = self._get(self.host + dir + self.blacklist).split("\n")
+			uris = [uri.strip() for uri in uris if uri not in blacklisted] # XXX: do not strip whitespace!?
+		for uri in uris:
+			if uri == "../":
 				continue
-			if href.endswith(".js"): # plugin
+			if uri.endswith(".js"): # plugin
 				plugin = Tiddler()
-				plugin.title = posixpath.basename(href[:-3])
+				plugin.title = posixpath.basename(uri[:-3])
 				plugin.tags = "systemConfig" # XXX: should be list; cf. aggregator.getPlugins()
-				plugin.text = self._get(self.host + dir + href)
+				plugin.text = self._get(self.host + dir + uri)
 				plugins.append(plugin)
-			elif href.endswith("/") and recursive: # directory
-				plugins.extend(self.getPlugins(dir + href))
+			elif uri.endswith("/") and recursive: # directory -- XXX: potential for infinite loop?
+				plugins.extend(self.getPlugins(dir + uri))
 		return plugins
 
