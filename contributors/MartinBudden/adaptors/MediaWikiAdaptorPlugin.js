@@ -187,9 +187,9 @@ MediaWikiAdaptor.loginCallback = function(status,context,responseText,uri,xhr)
 			return;
 		}
 		context.status = true;
-		context.token = info.login.lgtoken;
+		context.sessionToken = info.login.lgtoken;
 		//var page = MediaWikiAdaptor.anyChild(info.query.pages);
-		//context.token = page.edittoken;
+		//context.sessionToken = page.edittoken;
 		if(context.complete)
 			context.complete(context,context.userParams);
 	} else {
@@ -771,10 +771,7 @@ console.log('putTiddler:'+tiddler.title);
 	context = this.setContext(context,userParams,callback);
 	context.tiddler = tiddler;
 	context.title = tiddler.title;
-	context.complete = MediaWikiAdaptor.putTiddlerComplete;
-	return context.token ?
-		context.complete(context,context.userParams) :
-		this.login(context);
+	return this.complete(context,MediaWikiAdaptor.putTiddlerComplete);
 };
 */
 
@@ -783,7 +780,7 @@ MediaWikiAdaptor.putTiddlerComplete = function(context,userParams)
 //#console.log('putTiddlerComplete');
 	var host = MediaWikiAdaptor.fullHostName(context.host);
 	var uriTemplate = '%0/api.php?action=edit&title=%1&token=%2&text=%3';
-	var uri = uriTemplate.format([host,escape(MediaWikiAdaptor.normalizedTitle(context.tiddler.title)),context.token,escape(context.tiddler.text)]);
+	var uri = uriTemplate.format([host,escape(MediaWikiAdaptor.normalizedTitle(context.tiddler.title)),context.sessionToken,escape(context.tiddler.text)]);
 //#console.log('uri:'+uri);
 
 	var req = MediaWikiAdaptor.doHttpPOST(uri,MediaWikiAdaptor.putTiddlerCallback,context,{"Content-Length":"1"}," ");
@@ -812,10 +809,7 @@ MediaWikiAdaptor.putTiddlerCallback = function(status,context,responseText,uri,x
 console.log('deleteTiddler:'+tiddler.title);
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
-	context.complete = MediaWikiAdaptor.deleteTiddlerComplete;
-	return context.token ?
-		context.complete(context,context.userParams) :
-		this.login(context);
+	return this.complete(context,MediaWikiAdaptor.deleteTiddlerComplete);
 };*/
 
 MediaWikiAdaptor.deleteTiddlerComplete = function(context,userParams)
@@ -823,7 +817,7 @@ MediaWikiAdaptor.deleteTiddlerComplete = function(context,userParams)
 //#fnLog('deleteTiddlerComplete:'+title);
 	var host = MediaWikiAdaptor.fullHostName(context.host);
 	var uriTemplate = '%0/api.php?action=delete&title=%1&token=%2';
-	var uri = uriTemplate.format([host,context.workspace,escape(MediaWikiAdaptor.normalizedTitle(context.title)),context.token]);
+	var uri = uriTemplate.format([host,context.workspace,escape(MediaWikiAdaptor.normalizedTitle(context.title)),context.sessionToken]);
 //#fnLog('uri: '+uri);
 
 	var req = ccTiddlyAdaptor.doHttpPOST(uri,MediaWikiAdaptor.deleteTiddlerCallback,context,{"Content-Length":"1"}," ");
