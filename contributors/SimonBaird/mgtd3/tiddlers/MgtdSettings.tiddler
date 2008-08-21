@@ -20,3 +20,5 @@ Enter the date format for 'new journal'.
 Journal date format:<<mgtdEditField newjournaldateformat MgtdSettings>>
 (see [[Date Formats|http://tiddlywiki.org/wiki/Date_Formats]]) 
 
+Hour that ticklers should become active on their tickler date. (0 = Midnight, 12 = Midday)
+Tickler activate hour:<<mgtdEditField tickleractivatehour MgtdSettings>>

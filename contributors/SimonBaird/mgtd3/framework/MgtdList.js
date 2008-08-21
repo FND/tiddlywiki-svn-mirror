@@ -1,4 +1,16 @@
 
+merge(Tiddler.prototype,{
+	// doesn't belong here..
+	ticklerIsActive: function() {
+		var defaultHourToActivate = 5; // fixme put elsewhere
+		var hourToActivate = config.mGTD.getOptTxt('tickleractivatehour') || defaultHourToActivate;
+		var nowTime = new Date();
+		nowTime.setHours(nowTime.getHours() - hourToActivate); // i'm confused because of UTC versus local. I think mgtd_date is UTC. But has hh:mm:ss is 00:00:00 in local time
+		return (this.fields.mgtd_date && nowTime.convertToYYYYMMDDHHMM() >= this.fields.mgtd_date );
+		
+	}
+
+});
 merge(config.macros,{
 
 	ticklerAlert: {
@@ -8,7 +20,7 @@ merge(config.macros,{
 				realmFilter = ' && tiddler.tags.containsAny(config.macros.mgtdList.getActiveRealms())';
 			var theList = fastTagged('Tickler').
 						filterByTagExpr('!Actioned').
-								filterByEval('tiddler.fields.mgtd_date <= (new Date()).convertToYYYYMMDDHHMM()'+realmFilter);
+								filterByEval('tiddler.ticklerIsActive()'+realmFilter);
 			if (theList.length > 0) {
 				var blinker = createTiddlyElement(place,'blink');
 				wikify('{{ticklerAlert{[[*ticklers*|Ticklers Requiring Action]]}}}',blinker,null,tiddler);

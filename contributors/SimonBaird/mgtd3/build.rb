@@ -192,6 +192,7 @@ make_tw {
   get_tiddler('MgtdSettings').add_tags(['Work', 'Personal', 'AlertsIgnoreRealm', 'MultipleContexts']) # default both realms on..
   get_tiddler('MgtdSettings').fields['ticklerdateformat'] = 'ddd, DD-mmm-YY'; # set default tickler date format. gotcha: use lowercase only for fields please.
   get_tiddler('MgtdSettings').fields['newjournaldateformat'] = 'ddd DD-mmm-YY, 0hh:0mm'; # set default tickler date format. gotcha: use lowercase only for fields please.
+  get_tiddler('MgtdSettings').fields['tickleractivatehour'] = '5'; # set default tickler date format. gotcha: use lowercase only for fields please.
   to_file          "upload/empty3.html" unless ARGV[0] == 'fast'
 
   # load the demo and write a demo file

@@ -6,13 +6,4 @@ merge(Date.prototype,{
 	addYear:  function(n) { this.setYear(  this.getFullYear()  + n   ); }
 });
 
-// TODO. this doesn't really belong here
-merge(Tiddler.prototype,{
-	touch: function() {
-		this.changed();
-		this.modified = new Date();
-		store.setDirty(true);
-		store.notify(this.title,true);
-	}
-});
 

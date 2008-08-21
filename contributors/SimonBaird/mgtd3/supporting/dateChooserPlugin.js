@@ -30,8 +30,7 @@ if (DatePicker){
     
                 var callback = function(el,objDate){
                     el.value = objDate.formatString(dateFormat);
-                    useTiddler.fields['mgtd_date'] = objDate.convertToYYYYMMDDHHMM();
-					useTiddler.touch();	// see MgtdDateUtils
+					store.setValue(useTiddler, 'mgtd_date',objDate.convertToYYYYMMDDHHMM());
                 }
                 DatePicker.create(dateBox,startDate,callback);
             }
@@ -52,8 +51,7 @@ if (DatePicker){
 				// call the suitable date method. happens to match the macroname. see MgtdDateUtils. sorry for confusing code.
 				curDate[macroName](1);
 				createTiddlyButton(place,config.macros.addDay.label[macroName],"add a "+config.macros.addDay.tooltip[macroName],function() {
-                    useTiddler.fields['mgtd_date'] = curDate.convertToYYYYMMDDHHMM();
-					useTiddler.touch();	// see MgtdDateUtils
+					store.setValue(useTiddler, 'mgtd_date',objDate.convertToYYYYMMDDHHMM());
 					return false;
 				});
 

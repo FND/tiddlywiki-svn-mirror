@@ -254,6 +254,54 @@ merge(config.macros,{
 				return a.sorterUtil(b,"orderSlice");
 			});
 
+
+			// a few automagic filters should make life easier
+
+			var thisRealm = tiddler.getParent('Realm')[0];
+			var thisProject = tiddler.getParent('Project')[0];
+
+			var filterRealm = "";
+			var filterComplete = "";
+
+			if (thisRealm && tag != "Realm") {
+				// only want to see things in my realm
+				filterRealm += "[("+thisRealm+")]";
+			}
+
+			if (tag == "Project") {
+				// only want to see active projects
+				filterComplete += "!Complete";
+			}
+
+			var filterTagExpr = "";
+
+			if (filterRealm != "" && filterComplete != "") {
+				filterTagExpr = filterRealm + " && " + filterComplete;
+			}
+			else if (filterRealm !=  "") {
+				filterTagExpr = filterRealm;
+			}
+			else if (filterComplete !=  "") {
+				filterTagExpr = filterComplete;
+			}
+			// ...yuck
+
+			filterExpr = filterTagExpr.parseTagExpr();
+			
+			if (thisProject) {
+				// prevent weirdness if the current value isn't in the list
+				// eg an action in a completed project
+				filterExpr = "(" + filterExpr + ") || tiddler.title == '" + thisProject + "'"; // i'm confused now...
+
+			}
+			if (tag == "Project" && tiddler.hasTag('Project')) {
+				// don't let a project be a subproject of itself
+				filterExpr = "(" + filterExpr + ") && tiddler.title != '" + tiddler.title + "'";
+			}
+
+			getValues = getValues.filterByEval(filterExpr);
+
+
 			getValues.each(function(t) {
 				var useTitle = store.getTiddlerSlice(t.title,"button");
 				if (!useTitle) useTitle = t.title;

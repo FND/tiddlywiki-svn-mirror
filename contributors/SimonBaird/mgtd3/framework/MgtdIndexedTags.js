@@ -62,6 +62,8 @@ config.indexedTags = {
 	updateTagLists: function(title,oldTags,newTitle,newTags) {
 		if (oldTags)
 			oldTags.each(function(tagName) {
+				if (!config.indexedTags.tagLists[tagName])
+					config.indexedTags.tagLists[tagName] = []; // fixes TiddlerEncryption/MTS, thanks Patrick Ohly.
 				config.indexedTags.tagLists[tagName].remove(title);
 			});
 		if (newTags)

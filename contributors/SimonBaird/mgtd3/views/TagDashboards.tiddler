@@ -188,7 +188,7 @@
 <div macro="mgtdList title:'Ticklers Requiring Action' tags:'Tickler && !Actioned' view:Tickler newButtonTags:'Tickler Once'
 	ignoreRealm:yes
 	dontShowEmpty:yes
-	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date ) '
+	where:'tiddler.ticklerIsActive()'
 	sort:tickleDate
 	"></div>
 <!--}}}-->
@@ -199,7 +199,7 @@
 <!--- included by other sections --->
 <div macro="mgtdList title:'Upcoming Ticklers' tags:'Tickler && !Actioned' view:Tickler newButtonTags:'Tickler Once'
 	ignoreRealm:yes
-	where:'!tiddler.fields.mgtd_date || ((new Date()).convertToYYYYMMDDHHMM() < tiddler.fields.mgtd_date ) '
+	where:'!tiddler.ticklerIsActive()'
 	sort:tickleDate
 	"></div>
 <!--}}}-->

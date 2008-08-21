@@ -5,7 +5,7 @@
 	view:Tickler
 	mode:global
 	newButtonTags:'Tickler Enabled Once'
-	where:'tiddler.fields.mgtd_date && ((new Date()).convertToYYYYMMDDHHMM() >= tiddler.fields.mgtd_date )'
+	where:'tiddler.ticklerIsActive()'
 	sort:'tickleDate'
 	dontShowEmpty:yes
 	ignoreRealm:{{config.mGTD.getOptChk('AlertsIgnoreRealm')?'yes':''}}
