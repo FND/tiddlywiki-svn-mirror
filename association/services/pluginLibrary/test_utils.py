@@ -8,13 +8,13 @@ class TrimURITestCase(unittest.TestCase):
 		pass
 	def testRemovesTrailingSlash(self):
 		uri = "http://localhost/"
-		self.assertEquals(utils.trimURI(uri), "http://localhost")
+		self.assertEquals("http://localhost", utils.trimURI(uri))
 	def testRemovesFragment(self):
 		uri = "http://localhost/foo#bar"
-		self.assertEquals(utils.trimURI(uri), "http://localhost/foo")
+		self.assertEquals("http://localhost/foo", utils.trimURI(uri))
 	def testConvertsToLowercase(self):
 		uri = "http://LocalHost/Foo"
-		self.assertEquals(utils.trimURI(uri), "http://localhost/foo")
+		self.assertEquals("http://localhost/foo", utils.trimURI(uri))
 
 if __name__ == '__main__':
 	unittest.main()
