@@ -244,6 +244,7 @@ color:purple;
 border-right:1px solid white;
 }
 
+
 .zoomer {
 	background:none; color:#ddd; 
 	border:2px solid #ddd;
