@@ -7,12 +7,14 @@ div#header h1{display:inline;color:#1e52cd;margin-right:0.5em;}
 div#header h3{display:inline;}
 
 #store, div.story{width:100%; margin-right:-200px; background-color:#f9f9f9; z-index:1;}
-div.tiddler{background-color:#fff; margin:0 200px 0 0px;padding:1em 1.5em;border-top:solid 1px #ccc;border-right:solid 1px #ccc;}
+div.tiddler{ margin:0 200px 0 0;padding:1em 1.5em;border-top:solid 1px #ccc;border-right:solid 1px #ccc;}
 div.tiddler:first-child {border-top-style:none;}
-#sidebar{background-color:#f9f9f9;width:200px;float:right;border-top:solid 1px #ccc; z-index:2;}
+#sidebar{background-color:#f9f9f9;width:200px;float:right;}
 #footer{clear:both;padding:1em;border-top:solid 1px #ccc;text-align:right;}
 
-
+a:link{color:#111;text-decoration:none;border-bottom:solid 1px #111;}
+a:visited{color:#333;text-decoration:none;border-bottom:solid 1px #111;}
+a:hover{color:#1e52cd;border-bottom:solid 2px #1e52cd;}
 
 /* =========== */
 /* = sidebar = */
@@ -20,20 +22,21 @@ div.tiddler:first-child {border-top-style:none;}
 #sidebar div{ margin:0 1em; padding:1em 0; border-top:solid 1px #fff; border-bottom:solid 1px #eee;}
 #sidebar div:first-child{ border-top-style:none;}
 #sidebar div:last-child{ border-bottom-style:none;}
-
 div.controls{display:block; padding:1em; }
 div.controls a{display:block; color:#1e52cd;padding:2px 0.6em;margin:0;text-decoration:none;font-weight:bold;border-style:none;}
 div.controls a:hover{background-color:#111;color:#fff;border-style:none;}
 
-a:link{color:#111;text-decoration:none;border-bottom:solid 1px #111;}
-a:visited{color:#333;text-decoration:none;border-bottom:solid 1px #111;}
-a:hover{color:#1e52cd;border-bottom:solid 2px #1e52cd;}
+/* ========== */
+/* = search = */
+/* ========== */
+div.search a.tiddlerLink{display:block; color:#1e52cd;padding:2px 0.6em;margin:0;text-decoration:none;font-weight:bold;border-style:none;}
+div.search a.tiddlerLink:hover{background-color:#1e52cd;color:#fff;border-style:none;}
 
 /* =========== */
 /* = Tiddler = */
 /* =========== */
-div.tiddler{font-size:14px;line-height:1.6em;}
-div.tiddler h1.tiddlerName{letter-spacing:-3px;font-size:3.8em;line-height:1;padding:0;margin:10px 0;}
+div.tiddler{font-size:13px;line-height:1.3em;background-color:#fff;}
+div.tiddler h1.tiddlerName{letter-spacing:-3px;font-size:3em;line-height:1em;padding:0;margin:10px 0;}
 div.tiddler ul.tags{list-style:none;padding:0;}
 div.tiddler ul.tags *{display:inline;margin-right:1em;}
 div.tiddler ul.tags h3{font-weight:normal;font-size:1em;color:#777;}

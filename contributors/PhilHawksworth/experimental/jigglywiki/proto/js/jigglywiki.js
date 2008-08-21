@@ -43,6 +43,13 @@ jw.showDefaultTiddlers = function(container) {
 };
 
 
+jw.makeTiddlerLink = function(title) {
+	var safe = title.replace(/ /g,'_');
+	return '<a class=\'tiddlerLink\' href=\'#tiddler:'+safe+'\'>'+title+'</a>';
+};
+
+
+
 
 // ===================
 // = Tiddler queries =
@@ -119,7 +126,7 @@ jw.getTiddlersByField = function(field, value, container) {
 
 // return tiddlers which contain specified text
 jw.getTiddlersByText = function(text, container) {
-	var t = $("#"+container+" div.tiddler div.text:contains('"+text+"')").parents('div.tiddler');
+	var t = $("#"+container+" div.tiddler div.text:contains('"+text+"')").parents("div.tiddler");
 	if(t.length !== 0) {
 		return t;
 	} else {
@@ -135,7 +142,7 @@ jw.getTiddlerNameFromStory = function(tiddler) {
 
 // return an object containing jQuery objects for each piece of tiddler data.
 jw.getTiddlerData = function(name, container) {
-	var t = jw.getTiddler(name, 'store');
+	var t = $(jw.getTiddler(name, 'store'));
 	var data = null;
 	if(t) {
 		data = {};

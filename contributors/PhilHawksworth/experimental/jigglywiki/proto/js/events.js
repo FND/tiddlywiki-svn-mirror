@@ -40,6 +40,23 @@ jw.addEventHandlers = function() {
 			}
 		}
 	 });
+	
+	//  search click handlers.	
+	$('div.search').click(function(e){
+		e.preventDefault();
+		// tiddlerLink clicks.
+		if( $(e.target).is('a.tiddlerLink') ) {
+			jw.tiddlerLinkClick.call(e.target, e, 'story1');
+		}
+		// search box click
+		if( $(e.target).is('input') ) {
+			jw.search.focus($(e.target));
+		}
+	 });
+	//search box input.
+	$('input.search').keyup(function(e){
+		jw.search.keypress($(e.target));
+	});
 };
 
 
