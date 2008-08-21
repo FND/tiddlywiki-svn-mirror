@@ -2342,8 +2342,10 @@ config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,la
 	accessKey = getParam(params,"accessKey",accessKey);
 	newFocus = getParam(params,"focus",newFocus);
 	var customFields = getParam(params,"fields","");
+	console.log('c1:',customFields);
 	if(!customFields && !store.isShadowTiddler(title))
 		customFields = String.encodeHashMap(config.defaultCustomFields);
+	console.log('c2:',customFields);
 	var btn = createTiddlyButton(place,label,prompt,this.onClickNewTiddler,null,null,accessKey);
 	btn.setAttribute("newTitle",title);
 	btn.setAttribute("isJournal",isJournal ? "true" : "false");
@@ -2370,12 +2372,16 @@ config.macros.newTiddler.onClickNewTiddler = function()
 	var focus = this.getAttribute("newFocus");
 	var template = this.getAttribute("newTemplate");
 	var customFields = this.getAttribute("customFields");
+	console.log('d1:',customFields);
 	if(!customFields && !store.isShadowTiddler(title))
 		customFields = String.encodeHashMap(config.defaultCustomFields);
+	console.log('d2:',customFields);
 	story.displayTiddler(null,title,template,false,null,null);
 	var tiddlerElem = story.getTiddler(title);
+	console.log('e1:',tiddlerElem)
 	if(customFields)
 		story.addCustomFields(tiddlerElem,customFields);
+	console.log('e2:',tiddlerElem)
 	var text = this.getAttribute("newText");
 	if(typeof text == "string")
 		story.getTiddlerField(title,"text").value = text.format([title]);
@@ -4055,6 +4061,7 @@ Story.prototype.refreshTiddler = function(title,template,force,customFields,defa
 
 Story.prototype.addCustomFields = function(place,customFields)
 {
+console.log('acf',place,customFields);
 	var fields = customFields.decodeHashMap();
 	var w = document.createElement("div");
 	w.style.display = "none";
