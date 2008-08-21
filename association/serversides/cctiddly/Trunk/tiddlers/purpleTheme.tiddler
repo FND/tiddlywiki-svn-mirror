@@ -211,6 +211,8 @@ h1 {
 	margin:0.5em 0em;
 	padding:0.3em 0.6em;
 }
+
+
 .popup li a {
 	padding:12px;
 color:black;
@@ -232,17 +234,29 @@ color:purple;
 	background-color:white;
 }
 
-#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a{
+#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, .tiddler .button {
 		border:1px solid white;
 	background-color:white;
 	color:purple;
 }
-#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover{
+#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover, .tiddler .button 
+{
 	border:1px solid #ccc;
 }
 #sidebarOptions a:hover {
 border-right:1px solid white;
 }
+
+.tagged ul
+{
+list-style: none;
+}
+
+.tagged li
+{
+display: inline;
+}
+
 
 
 .zoomer {
@@ -487,12 +501,13 @@ h3 {
 	color:#999; 
 }
 
-#sidebarOptions .sliderPanel input, .sliderPanel input, .tiddler .button  {
+#sidebarOptions .sliderPanel input, .sliderPanel input  {
 	border:1px solid #777;
 	background-color:white;
-	color:#777;
-	
+	color:#777;	
 }
+
+
 
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 	border:0px solid #666666;
