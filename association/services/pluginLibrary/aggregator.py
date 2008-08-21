@@ -14,7 +14,7 @@ from tiddlyweb.recipe import Recipe
 from tiddlyweb.importer import import_wiki
 
 from tiddlywiki import TiddlyWiki
-from dirScraper import dirScraper
+from dirScraper import DirScraper
 
 def main(args = []):
 	store = Store("text")
@@ -78,7 +78,7 @@ def getPlugins(repo, store):
 			return False # TODO: log error
 	elif repo["type"] == "SVN":
 		bag = Bag(repo["name"])
-		svn = dirScraper(repo["URI"])
+		svn = DirScraper(repo["URI"])
 		plugins = svn.getPlugins("./", True)
 		if plugins:
 			savePlugins(store, bag)

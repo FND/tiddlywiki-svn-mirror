@@ -11,7 +11,7 @@ from tiddlywiki import TiddlyWiki
 from tiddlywiki import getSlices
 from utils import addTrailingSlash
 
-class dirScraper:
+class DirScraper:
 	def __init__(self, host):
 		"""
 		@param host: base URI
