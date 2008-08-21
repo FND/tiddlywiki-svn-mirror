@@ -59,18 +59,20 @@ class dirScraper:
 		uris = [item.findChild("a")["href"] for item in items]
 		if self.whitelist in uris:
 			whitelisted = self._get(self.host + dir + self.whitelist).split("\n")
-			uris = [uri.strip() for uri in whitelisted] # XXX: do not strip whitespace!?
+			meta = [uri.strip() for uri in uris if uri.endswith(".meta")]
+			uris = [uri.strip() for uri in whitelisted]
+			uris.extend(meta)
 		elif self.blacklist in uris:
 			blacklisted = self._get(self.host + dir + self.blacklist).split("\n")
 			blacklisted.append(self.blacklist)
-			uris = [uri.strip() for uri in uris if uri not in blacklisted] # XXX: do not strip whitespace!?
+			uris = [uri.strip() for uri in uris if uri not in blacklisted]
 		for uri in uris:
 			if uri == "../":
 				continue
 			if uri.endswith(".js"): # plugin -- XXX: also excludes whitelisted items missing .js extension
 				plugin = Tiddler()
 				plugin.title = posixpath.basename(uri[:-3])
-				plugin.tags = "systemConfig" # XXX: should be list; cf. aggregator.getPlugins()
+				plugin.tags = ["systemConfig"]
 				plugin.text = self._get(self.host + dir + uri)
 				if uri + ".meta" in uris: # retrieve metadata
 					self.retrieveMetadata(plugin, self.host + dir + uri + ".meta")
@@ -102,7 +104,7 @@ class dirScraper:
 				elif k == "tags":
 					for tag in v.split(" "): # TODO: resolve bracketed list
 					 	if tag not in plugin.tags:
-					 		plugin.tags.push(tag)
+					 		plugin.tags.append(tag)
 				else:
 					#plugin.fields[k] = v # DEBUG'd -- TODO: not yet implemented in Tiddler class
 					pass # DEBUG
