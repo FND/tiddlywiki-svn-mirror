@@ -136,7 +136,7 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
 	anon+=(this.anD.checked?trueStr:falseStr);
 	var params = {}; 
 	if (window.useModRewrite == 1)
-		params.url = url+'/'+this.ccWorkspaceName.value;
+		params.url = url+'/'+this.ccWorkspaceName.value; 
 	else
 		params.url = url+'/?workspace='+this.ccWorkspaceName.value;
 			

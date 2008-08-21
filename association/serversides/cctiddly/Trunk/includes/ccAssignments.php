@@ -24,7 +24,7 @@ if ($tiddlyCfg['workspace_name'] == ""){
 	window.fullUrl = window.url+"?workspace="+window.workspace;
 	<?php
 }
-if ($tiddlyCfg['use_mod_rewrite'] == 1)
+if($tiddlyCfg['use_mod_rewrite'] == 1)
 {
 ?>
 	window.useModRewrite = 1;

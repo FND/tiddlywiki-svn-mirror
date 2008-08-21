@@ -319,7 +319,7 @@ textarea {
 }
 
 #sidebar .sliderPanel {
-	margin-left:0em;
+	margin-left:5px;
 	border:0px;
 	padding:0em;
 	border-right:1px solid #eee;
