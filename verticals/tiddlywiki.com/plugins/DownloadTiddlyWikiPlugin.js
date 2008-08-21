@@ -41,9 +41,9 @@ config.macros.download.onClick = function(ev)
 		}
 	} else if(config.browser.isWindows) {
 		if(config.browser.isIE) {
-			title = "Installation guidelines: Internet Explorer on Windows Vista";
+			title = "Installation guidelines: Internet Explorer on Windows";
 		} else if(config.browser.isGecko) {
-			title = "Installation guidelines: Firefox on Windows Vista";
+			title = "Installation guidelines: Firefox on Windows";
 		}
 	} else if(config.browser.isLinux) {
 		if(config.browser.isGecko) {
