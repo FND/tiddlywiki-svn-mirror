@@ -51,10 +51,10 @@ config.macros.download.onClick = function(ev)
 		}
 	}
 	var url = config.browser.isSafari || config.browser.isOpera ? 'http://www.tiddlywiki.com/empty.zip' :'http://www.tiddlywiki.com/empty.download';
-	//if(config.browser.isOpera) {
+	if(config.browser.isOpera) {
 		story.displayTiddler(target,title);
 		window.setTimeout(function() {document.location.href = url;},300);
-	/*} else {
+	} else {
 		// put an iframe in the target instructions tiddler to start the download
 		var html = '<html><iframe src="' + url + '" style="display:none"></html>';
 		var tiddler = store.getTiddler(title);
@@ -64,7 +64,7 @@ config.macros.download.onClick = function(ev)
 		story.closeTiddler(title,true);
 		story.displayTiddler(target,title);
 		tiddler.text = oldText;
-	}*/
+	}
 	return false;
 };
 
