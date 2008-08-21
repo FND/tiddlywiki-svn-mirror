@@ -13,6 +13,9 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Database: `cctw_public2`
 -- 
 
+
+create database if NOT exists cctiddly17;
+use cctiddly17;
 -- --------------------------------------------------------
 
 -- 
