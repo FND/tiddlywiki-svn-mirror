@@ -8,10 +8,10 @@ class DirScraperTestCase(unittest.TestCase):
 		pass
 	def testInitRequiresHost(self):
 		self.assertRaises(TypeError, dirScraper.DirScraper)
-	def testInitSetsHost(self):
+	def testInitSetsHostURI(self):
 		d = dirScraper.DirScraper("localhost/")
 		self.assertEquals(d.host, "localhost/")
-	def testInitAddsHostSlash(self):
+	def testInitNormalizesHostURI(self):
 		d = dirScraper.DirScraper("localhost")
 		self.assertEquals(d.host, "localhost/")
 

@@ -1,4 +1,4 @@
-def normalizeURI(uri):
+def trimURI(uri):
 	"""
 	strip non-essential trailing characters from URI
 

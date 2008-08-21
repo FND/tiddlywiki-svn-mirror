@@ -2,7 +2,7 @@ import re
 
 from BeautifulSoup import BeautifulSoup, Tag
 
-from utils import normalizeURI
+from utils import trimURI
 
 def unescapeLineBreaks(text):
 	"""
@@ -72,11 +72,11 @@ class TiddlyWiki:
 		@type  repo: str
 		@return: None
 		"""
-		repo = normalizeURI(repo)
+		repo = trimURI(repo)
 		for plugin in self.store.findChildren("div", title=True):
 			slices = getSlices(plugin.pre.renderContents())
 			if slices.has_key("Source"): # N.B.: plugin accepted if Source slice not present -- XXX: harmful? (e.g. includes simple config tweaks)
-				source = normalizeURI(slices["Source"])
+				source = trimURI(slices["Source"])
 				if source != repo:
 					plugin.extract()
 
