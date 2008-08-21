@@ -1,7 +1,7 @@
 /***
 |''Name:''|DownloadTiddlyWikiPlugin|
 |''Description:''|Download TiddlyWiki according to browser type|
-|''Version:''|0.0.6|
+|''Version:''|0.0.7|
 |''Date:''|Aug 13, 2008|
 |''Source:''|http://www.tiddlywiki.com/#DownloadTiddlyWikiPlugin|
 |''License:''|[[BSD open source license]]|
@@ -51,7 +51,7 @@ config.macros.download.onClick = function(ev)
 		}
 	}
 	var url = config.browser.isSafari || config.browser.isOpera ? 'http://www.tiddlywiki.com/empty.zip' :'http://www.tiddlywiki.com/empty.download';
-	if(config.browser.isOpera) {
+	if(config.browser.isOpera || config.browser.isWindows) {
 		story.displayTiddler(target,title);
 		window.setTimeout(function() {document.location.href = url;},300);
 	} else {
