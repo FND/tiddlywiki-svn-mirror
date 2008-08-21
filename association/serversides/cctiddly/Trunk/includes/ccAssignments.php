@@ -52,7 +52,7 @@ if(isset($error404) && $error404 == true)
 <?php
 }
 
-if ($workspace_create == "A" &&  $tiddlyCfg['allow_workspace_creation'] ==1)
+if ($user['verified'] && $workspace_create == "A" &&  $tiddlyCfg['allow_workspace_creation'] ==1)
 {
 	echo "workspacePermission.create = 1;\n";
 }

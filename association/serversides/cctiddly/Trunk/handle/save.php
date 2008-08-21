@@ -2,6 +2,11 @@
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
+if(!user_session_validate())
+{
+	sendHeader("401");
+	exit;	
+}
 
 //return result/message
 function returnResult($str)

@@ -336,7 +336,7 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xh
 			context.status = true;
        } else {
 	   		context.status = false;
-			if(xhr.status == 401)
+			if(xhr.status == 401 || xhr.status==409)
 			{
 					window.loggedIn = false; // we should check for other cases - revisions have changed. 
 					var a = document.getElementById('backstageCloak');
@@ -357,10 +357,20 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xh
 					createTiddlyText(step,"Please click the button below which will open a new window.");
 					createTiddlyElement(step,"br");
 					createTiddlyElement(step,"br");
-					createTiddlyText(step,"You will need to log into the new window and then copy your changes from this window into the new window. ");
+					
+					if(xhr.status==401){
+						createTiddlyText(step,"Your session has expired.");
+						createTiddlyElement(step,"br");	
+						createTiddlyText(step,"You will need to log into the new window and then copy your changes from this window into the new window. ");
+					}else
+					{
+								createTiddlyText(step,"There was a conflict when saving.");
+								createTiddlyElement(step,"br");	
+								createTiddlyText(step,"Please open the page in a new window to see the changes.");		
+					}
 					createTiddlyElement(step,"br");
 					createTiddlyElement(step,"br");
-				createTiddlyButton(step,"Open a Window where I can log in and save my changes	.... ",null,function(e){ window.open (window.location,"mywindow");	 return false;});
+				createTiddlyButton(step,"Open a Window where I can save my changes	.... ",null,function(e){ window.open (window.location,"mywindow");	 return false;});
 					createTiddlyElement(step,"br");
 					createTiddlyElement(step,"br");
 					createTiddlyButton(step,"Hide this message",null,function(e){a.style.display = "none"; b.style.display = "none";	 return false;});
@@ -368,15 +378,13 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xh
 					createTiddlyElement(step,"br");
 					createTiddlyText(step,"Sorry for any inconvenience. ");
 				
-			}else if(xhr.status==403)
-			{
-				displayMessage("Page Required Reloading.");
 			}else{
 				displayMessage(responseText);
                displayMessage('  xhr status is' + xhr.status);
                displayMessage('putTiddler xhr status text is' + xhr.statusText);
                context.statusText = xhr.statusText;	
 			}
+		
        }
        	if(context.callback){
 			context.callback(context,context.userParams);

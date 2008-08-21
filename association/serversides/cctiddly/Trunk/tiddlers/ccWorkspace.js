@@ -23,10 +23,13 @@ Allows users to create their own workspace.
 !Code
 ***/
 //{{{
+	
+	
 
-config.backstageTasks.push('create');
-merge(config.tasks,{create: {text: 'create', tooltip: 'Create new workspace', content:'<<ccCreateWorkspace>>'}});
-
+if (isLoggedIn()){
+	config.backstageTasks.push('create');
+	merge(config.tasks,{create: {text: 'create', tooltip: 'Create new workspace', content:'<<ccCreateWorkspace>>'}});
+}
 config.macros.ccCreateWorkspace = {}
 config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
 	// When we server this tiddler it need to know the URL of the server to post back to

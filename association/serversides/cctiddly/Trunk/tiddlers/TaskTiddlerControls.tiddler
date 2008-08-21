@@ -1,0 +1,8 @@
+<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200711091528" changecount="3">
+<pre>
+
+| [[Users|UserDefinitions]]|<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions">>|
+|[[Status|StatusDefinitions]] |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">>|
+</pre>
+</div>
+
