@@ -73,13 +73,13 @@ class dirScraper:
 				plugin.tags = "systemConfig" # XXX: should be list; cf. aggregator.getPlugins()
 				plugin.text = self._get(self.host + dir + uri)
 				if uri + ".meta" in uris: # retrieve metadata
-					retrieveMetadata(plugin, self.host + dir + uri + ".meta")
+					self.retrieveMetadata(plugin, self.host + dir + uri + ".meta")
 				plugins.append(plugin)
 			elif uri.endswith("/") and recursive: # directory -- XXX: potential for infinite loop?
 				plugins.extend(self.getPlugins(dir + uri))
 		return plugins
 
-	def retrieveMetadata(plugin, uri): # TODO: rename!?
+	def retrieveMetadata(self, plugin, uri): # TODO: rename!?
 		"""
 		retrieve plugin's metadata from accompanying meta file
 
