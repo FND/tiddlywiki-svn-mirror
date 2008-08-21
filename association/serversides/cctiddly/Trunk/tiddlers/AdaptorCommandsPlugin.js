@@ -26,7 +26,6 @@ function getServerType(fields)
 		serverType = config.defaultCustomFields['server.type'];
 	if(!serverType && typeof RevisionAdaptor != 'undefined' && fields.uuid)
 		serverType = RevisionAdaptor.serverType;
-//#console.log("serverType:",serverType);
 	return serverType;
 }
 

@@ -50,7 +50,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
     // put the tiddler and deal with callback
     tiddler.fields = fields;
 	tiddler.fields['server.host'] = window.url;
-	tiddler.fields['server.type'] = config.defaultCustomFields['server.host'];
+	tiddler.fields['server.type'] = config.defaultCustomFields['server.type'];
 	tiddler.fields['server.workspace'] = window.workspace;
 	tiddler.clearChangeCount();
     context = {};
