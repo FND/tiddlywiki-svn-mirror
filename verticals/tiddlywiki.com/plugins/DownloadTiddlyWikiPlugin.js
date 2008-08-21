@@ -30,23 +30,25 @@ config.macros.download.onClick = function(ev)
 {
 	// display the tiddler containing the instructions
 	var e = ev || window.event;
-	var title;
+	var title = "Installation";
 	if(config.browser.isMac) {
 		if(config.browser.isSafari) {
 			title = "Installation guidelines: Safari on Mac OS X";
 		} else if(config.browser.isOpera) {
 			title = "Installation guidelines: Opera on Mac OS X";
-		} else {
+		} else if(config.browser.isGecko) {
 			title = "Installation guidelines: Firefox on Mac OS X";
 		}
 	} else if(config.browser.isWindows) {
 		if(config.browser.isIE) {
 			title = "Installation guidelines: Internet Explorer on Windows Vista";
-		} else {
+		} else if(config.browser.isGecko) {
 			title = "Installation guidelines: Firefox on Windows Vista";
 		}
-	} else {
-		title = "Installation guidelines: Firefox on Ubuntu";
+	} else if(config.browser.isLinux) {
+		if(config.browser.isGecko) {
+			title = "Installation guidelines: Firefox on Ubuntu";
+		}
 	}
 	var url = config.browser.isSafari || config.browser.isOpera ? 'http://www.tiddlywiki.com/empty.zip' :'http://www.tiddlywiki.com/empty.download';
 	if(config.browser.isOpera) {
