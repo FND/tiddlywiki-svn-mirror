@@ -234,12 +234,12 @@ color:purple;
 	background-color:white;
 }
 
-#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, .tiddler .button {
+#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, .tiddler .button, #sidebarOptions .sliderPanel input {
 		border:1px solid white;
 	background-color:white;
 	color:purple;
 }
-#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover, .tiddler .button 
+#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover, .tiddler .button, #sidebarOptions .sliderPanel input:hover
 {
 	border:1px solid #ccc;
 }
@@ -501,7 +501,7 @@ h3 {
 	color:#999; 
 }
 
-#sidebarOptions .sliderPanel input, .sliderPanel input  {
+.sliderPanel input  {
 	border:1px solid #777;
 	background-color:white;
 	color:#777;	
@@ -690,10 +690,11 @@ table.sortable td.sortedCol {
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 <div class='title' macro='view title'></div>
 <div class='viewer' macro='view text wikified'></div>
-<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 <div class='tagging' macro='tagging'></div>
 <div class='tagged' macro='tags'></div>
-<div class='tagClear'></div><hr />
+<div class='tagClear'></div>
+<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<hr />
 <!--}}}-->
 
 !wizardViewTemplate
