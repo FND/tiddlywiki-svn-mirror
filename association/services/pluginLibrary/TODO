@@ -1,6 +1,5 @@
 == Aggregator ==
 
-* dirScraper: support for .meta files
 * dirScraper: wildcards support for black-/whitelisting
 * logging
 * handling of removed plugins (e.g. don't delete, but tag with "disabled"?)
@@ -49,5 +48,6 @@
 
 == Misc. ==
 
+* review TODO, XXX and DEBUG markers in the code 
 * code sanitizing
 * refactoring

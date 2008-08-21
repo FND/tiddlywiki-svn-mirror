@@ -16,7 +16,7 @@ from tiddlyweb.importer import import_wiki
 from tiddlywiki import TiddlyWiki
 from dirScraper import dirScraper
 
-def main(args):
+def main(args = []):
 	store = Store("text")
 	repos = getRepositories("repos.lst")
 	for repo in repos:

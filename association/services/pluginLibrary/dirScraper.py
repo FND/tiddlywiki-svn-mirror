@@ -72,8 +72,38 @@ class dirScraper:
 				plugin.title = posixpath.basename(uri[:-3])
 				plugin.tags = "systemConfig" # XXX: should be list; cf. aggregator.getPlugins()
 				plugin.text = self._get(self.host + dir + uri)
+				if uri + ".meta" in uris: # retrieve metadata
+					retrieveMetadata(plugin, self.host + dir + uri + ".meta")
 				plugins.append(plugin)
 			elif uri.endswith("/") and recursive: # directory -- XXX: potential for infinite loop?
 				plugins.extend(self.getPlugins(dir + uri))
 		return plugins
+
+	def retrieveMetadata(plugin, uri): # TODO: rename!?
+		"""
+		retrieve plugin's metadata from accompanying meta file
+
+		meta file is named after plugin file, using .js.meta extension
+		meta file contains one field per line
+		field format is "key: value"
+
+		@param plugin: TiddlyWeb tiddler
+		@type  plugin: Tiddler
+		@param uri: path to meta file
+		@type  uri: str
+		@return: None
+		"""
+		fields = self._get(uri).split("\n")
+		for field in fields:
+			if ":" in field:
+				k, v = [c.strip() for c in field.split(":", 1)]
+				if k in ["title", "created", "modified", "modifier"]:
+					setattr(plugin, k, v)
+				elif k == "tags":
+					for tag in v.split(" "): # TODO: resolve bracketed list
+					 	if tag not in plugin.tags:
+					 		plugin.tags.push(tag)
+				else:
+					#plugin.fields[k] = v # DEBUG'd -- TODO: not yet implemented in Tiddler class
+					pass # DEBUG
 
