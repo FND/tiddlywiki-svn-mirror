@@ -263,7 +263,7 @@ merge(config.macros,{
 			var filterRealm = "";
 			var filterComplete = "";
 
-			if (thisRealm && tag != "Realm") {
+			if (thisRealm && tag != "Realm" && tag != "Context") {
 				// only want to see things in my realm
 				filterRealm += "[("+thisRealm+")]";
 			}
