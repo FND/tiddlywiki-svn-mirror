@@ -365,7 +365,7 @@ config.macros.ccRegister.usernameCallback=function(status,params,responseText,ur
 
 config.macros.ccRegister.workspaceNameKeyPress=function(str){
 
-	doHttp('POST',url+'/handle/lookupWorkspaceName.php',"ccWorkspaceLookup="+str+"&amp;free=1",null,null,null,config.macros.ccRegister.workspaceNameCallback,null);
+	doHttp('POST',url+'/handle/lookupWorkspaceName.php',"ccWorkspaceLookup="+str+"&free=1",null,null,null,config.macros.ccRegister.workspaceNameCallback,null);
 	return false;
 };
 

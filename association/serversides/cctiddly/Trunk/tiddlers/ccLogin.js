@@ -50,7 +50,7 @@ merge(config.macros.ccLogin,{
 	stepDoLoginTitle:"Logging you in",
 	stepDoLoginIntroText:"we are currently trying to log you in.... ",
 	stepForgotPasswordTitle:"Password Request",
-	stepForgotPasswordIntroText:"please email admin@admin.com  <br /><input id='forgottenPassword' name='forgottenPassword'/>",
+	stepForgotPasswordIntroText:"please email admin@admin.com  <br /><input id='forgottenPassword' type='hidden' name='forgottenPassword'/>",
 	stepLogoutTitle:"Logout",
 	stepLogoutText:"You are currently logged in as ",
 	buttonLogout:"Logout",
@@ -158,16 +158,15 @@ config.macros.ccLogin.displayForgottenPassword=function(item, place){
 	var me = config.macros.ccLogin;
 	w.addStep(me.stepForgotPasswordTitle,me.stepForgotPasswordIntroText);
 	w.setButtons([
-		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {me.refresh(place);}},
-		{caption: this.buttonSendForgottenPassword, tooltip: this.buttonSendForgottenPasswordToolTip, onClick: function() {me.sendForgottenPassword(item, place);}}
+		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {me.refresh(place);}}
 		]);
 };
 
-config.macros.ccLogin.sendForgottenPassword=function(item, place){	
-	var w = new Wizard(item);
-	var me = config.macros.ccLogin;
-	console.log(w.formElem["forgottenPassword"].value);
-}
+//config.macros.ccLogin.sendForgottenPassword=function(item, place){	
+//	var w = new Wizard(item);
+//	var me = config.macros.ccLogin;
+//	console.log(w.formElem["forgottenPassword"].value);
+//}
 
 
 config.macros.toolbar.isCommandEnabled=function(command,tiddler){	

@@ -59,16 +59,12 @@ ccTiddlyAdaptor.prototype.login = function(context,userParams,callback)
        context = this.setContext(context,userParams,callback);
        var uriTemplate = '%0/handle/loginFile.php?cctuser=%1&cctpass=%2';
        var uri = uriTemplate.format([context.host,context.username,context.password]);
-//#console.log('uri:'+uri);
-displayMessage("uri : "+uri);
        var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.loginCallback,context);
        return typeof req == 'string' ? req : true;
 };
 
 ccTiddlyAdaptor.loginCallback = function(status,context,responseText,uri,xhr)
 {
-	displayMessage(responseText);
-//#console.log('loginCallback:'+status);
        if(xhr.status==401) {
                context.status = false;
        } else {
