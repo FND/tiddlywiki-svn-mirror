@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ConfluenceAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ConfluenceAdaptorPlugin.js |
-|''Version:''|0.6.4|
+|''Version:''|0.6.5|
 |''Date:''|Feb 25, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/ ]]|
@@ -68,7 +68,7 @@ ConfluenceAdaptor.minHostName = function(host)
 
 ConfluenceAdaptor.normalizedTitle = function(title)
 {
-	return title;
+	return title.replace(/&#32;/mg,' ');
 };
 
 // Convert a ConfluenceAdaptor iso8601 DateTime in YYYYMMDDThh:mm:ss  format into a JavaScript Date object
@@ -335,9 +335,10 @@ ConfluenceAdaptor.getTiddlerListCallback = function(status,context,responseText,
 			matchRegExp.lastIndex = 0;
 			match = matchRegExp.exec(text);
 			while(match) {
-				if(!store.isShadowTiddler(match[1])) {
+				var title = ConfluenceAdaptor.normalizedTitle(match[1]);
+				if(!store.isShadowTiddler(title)) {
 					//# avoid overwriting shadow tiddlers
-					var tiddler = new Tiddler(match[1]);
+					var tiddler = new Tiddler(title);
 					tiddler.fields.wikiformat = 'confluence';
 					tiddler.fields['server.host'] = ConfluenceAdaptor.minHostName(context.host);
 					tiddler.fields['server.workspace'] = context.workspace;
@@ -385,6 +386,7 @@ ConfluenceAdaptor.prototype.getTiddler = function(title,context,userParams,callb
 		}
 	}
 	context = this.setContext(context,userParams,callback);
+	title = ConfluenceAdaptor.normalizedTitle(title);
 	var tiddler = store.getTiddler(title);
 	context.host = context.host||this.fullHostName(tiddler.fields['server.host']);
 	context.workspace = context.workspace||tiddler.fields['server.workspace'];
@@ -425,7 +427,7 @@ ConfluenceAdaptor.getTiddlerCallback = function(status,context,responseText,uri,
 //# http://confluence.atlassian.com/display/DOC/Remote+API+Specification#RemoteAPISpecification-Page
 	if(status) {
 		var text = responseText;
-		text = text.replace(/&#32;/mg,' ').replace(/&#13;/mg,'');
+		text = text.replace(/&#13;/mg,'').replace(/&#32;/mg,' ').replace(/&nbsp;/mg,' '); //!! temporary fix, move &npsp; to the formater
 		text = text.replace('<methodResponse><params><param><value>','');
 		text = text.replace('</value></param></params></methodResponse>','');
 		var matchRegExp = /<name>content<\/name><value>([^<]*)<\/value>/mg;
