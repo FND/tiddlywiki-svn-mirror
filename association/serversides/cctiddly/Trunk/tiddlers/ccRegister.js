@@ -71,7 +71,6 @@ config.macros.register.doRegister=function(place, w){
 
 	var loginResp=doHttp('POST',url+'/handle/register.php',"username="+w.formElem['reg_username'].value+"&reg_mail="+w.formElem['reg_mail'].value+"&password="+w.formElem['reg_password1'].value+"&password2="+w.formElem['reg_password2'].value,null,null,null,config.macros.register.registerCallback,params);
 	w.addStep(me.step2Title,"attempting to register your account.") ;
-	dislayMessage("you are here");
 	w.setButtons([
 		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {config.macros.login.refresh(place);}
 	}]);
@@ -94,8 +93,6 @@ config.macros.register.usernameValid=function(str){
 };
 
 config.macros.register.registerCallback=function(status,params,responseText,uri,xhr){
-	displayMessage("txt = "+responseText);
-	displayMessage("status = "+xhr.status);
 	window.location=window.location;
 	return true;
 
