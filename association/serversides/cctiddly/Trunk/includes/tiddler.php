@@ -232,8 +232,8 @@
 		//$body = htmlspecialchars_decode($body);		//replace <, >, &, " with their html code, htmlspecialchars_decode only available in PHP5
 		$body = str_replace("&quot;","\"",$body);
 		$body = str_replace("&#039;","'",$body);
-		$body = str_replace("&lt;","<",$body);
-		$body = str_replace("&gt;",">",$body);
+	//	$body = str_replace("&lt;","<",$body);
+	//	$body = str_replace("&gt;",">",$body);
 		$body = str_replace("&amp;","&",$body);
 		$body = str_replace("\\n","\n",$body);		//replace newline with '\n'
 		$body = str_replace('\\s',"\\",$body);		//replace'\' with '\s'
