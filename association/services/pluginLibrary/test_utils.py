@@ -1,7 +1,7 @@
 import unittest
 import utils
 
-class TrimURITestCase(unittest.TestCase):
+class trimURITestCase(unittest.TestCase):
 	def setUp(self):
 		pass
 	def tearDown(self):
@@ -15,6 +15,18 @@ class TrimURITestCase(unittest.TestCase):
 	def testConvertsToLowercase(self):
 		uri = "http://LocalHost/Foo"
 		self.assertEquals("http://localhost/foo", utils.trimURI(uri))
+
+class addTrailingSlashTestCase(unittest.TestCase):
+	def setUp(self):
+		pass
+	def tearDown(self):
+		pass
+	def testAddsTrailingSlash(self):
+		uri = "http://localhost"
+		self.assertEquals("http://localhost/", utils.addTrailingSlash(uri))
+	def testDoesNotDuplicateTrailingSlash(self):
+		uri = "http://localhost/"
+		self.assertEquals("http://localhost/", utils.addTrailingSlash(uri))
 
 if __name__ == '__main__':
 	unittest.main()
