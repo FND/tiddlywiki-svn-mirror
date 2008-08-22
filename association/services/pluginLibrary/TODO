@@ -43,15 +43,9 @@
 
 == Unit Testing ==
 
-* framework
-** test cases (organization/ordering)
-** test suite
-** test descriptions/documentation
-** coverage
-* components
-** aggregator
-** serializers
-** search
+* test-case grouping
+* test descriptions/documentation
+* coverage
 
 == Misc. ==
 
