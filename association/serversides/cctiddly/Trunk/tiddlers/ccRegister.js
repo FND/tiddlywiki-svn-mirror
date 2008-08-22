@@ -44,9 +44,8 @@ config.macros.register.setStatus=function(w, element, text){
 config.macros.register.doRegister=function(place, w){
 	var me = config.macros.register;
 	if(w.formElem["reg_username"].value==''){
-		displayMessage("no username entered");
+			config.macros.register.setStatus(w, "username_error", "no username entered");
 	}
-	displayMessage("reg value "+w.formElem["reg_mail"].value);
 	if(config.macros.register.emailValid(w.formElem["reg_mail"].value)){
 		config.macros.register.setStatus(w, "mail_error", "email address is ok");
 	}else{
@@ -54,7 +53,6 @@ config.macros.register.doRegister=function(place, w){
 		return false;
 	}
 	if(w.formElem["reg_password1"].value==''){
-		displayMessage("no paswo1");
 		config.macros.register.setStatus(w, "pass1_error", "no password entered");		
 		return false;
 	}else{
@@ -65,19 +63,12 @@ config.macros.register.doRegister=function(place, w){
 		return false;
 }
 	if(w.formElem["reg_password1"].value != w.formElem["reg_password2"].value ){			
-		displayMessage("your passwords do not match");
-//		this.password1.setAttribute("class","inputError");
-//		document.getElementById('pass2_error').innerHTML='Please ensure both passwords match';
-//		this.password2.setAttribute("class","inputError");
+		config.macros.register.setStatus(w, "pass1_error", "your passwords do not match");
+		config.macros.register.setStatus(w, "pass2_error", "your passwords do not match");
+
 		return false;
 	}
 
-//	var submit=document.getElementById('registerAccountSubmit');
-//	submit.disabled=true;
-//	submit.setAttribute("class","buttonDisabled");
-//	document.getElementById('submitStatus').innerHTML='Please wait, your account is being created.';
-//	setTimeout(config.macros.ccRegister.registerCheckResp,3000);
-	
 	var loginResp=doHttp('POST',url+'/handle/register.php',"username="+w.formElem['reg_username'].value+"&reg_mail="+w.formElem['reg_mail'].value+"&password="+w.formElem['reg_password1'].value+"&password2="+w.formElem['reg_password2'].value,null,null,null,config.macros.register.registerCallback,params);
 	w.addStep(me.step2Title,"attempting to register your account.") ;
 	dislayMessage("you are here");
@@ -263,7 +254,7 @@ config.macros.ccRegister.registerOnSubmit=function(){
 	}
 	var mail_space="";
 	if(this.username.value===''){
-		displayMessage('no username entered');
+			config.macros.register.setStatus(w, "username_error", "no username entered");
 	}
 	if(config.macros.ccRegister.emailValid(this.mail.value)){
 		mail_space=document.getElementById('mail_error');

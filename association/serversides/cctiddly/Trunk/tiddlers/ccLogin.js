@@ -50,7 +50,7 @@ merge(config.macros.ccLogin,{
 	stepDoLoginTitle:"Logging you in",
 	stepDoLoginIntroText:"we are currently trying to log you in.... ",
 	stepForgotPasswordTitle:"Password Request",
-	stepForgotPasswordIntroText:"please email admin@admin.com  <br /><input id='forgottenPassword' type='hidden' name='forgottenPassword'/>",
+	stepForgotPasswordIntroText:"Please contact your system administrator or register for a new account.  <br /><input id='forgottenPassword' type='hidden' name='forgottenPassword'/>",
 	stepLogoutTitle:"Logout",
 	stepLogoutText:"You are currently logged in as ",
 	buttonLogout:"Logout",
