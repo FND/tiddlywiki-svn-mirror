@@ -214,7 +214,9 @@ h1 {
 
 
 .popup li a {
-	padding:12px;
+margin:0px;
+padding:0px;
+display:inline;
 color:black;
 }
 
@@ -223,11 +225,18 @@ color:black;
 	border:1px solid purple;
 }
 .popup li a:hover {
+display:inline;
+margin:0px;
+padding:0px;
+
 background-color:white;
 color:purple;
 }
 
 .popup li {
+margin:0px;
+padding:5px;
+
 	background-color:#eee;
 }
 .popup li:hover {
@@ -374,6 +383,13 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 	border:0px;
 }
 
+#sidebarOptions .sliderPanel a.tabSelected {
+border:1px solid #ddd;
+border-bottom:1px solid white;
+}
+
+
+ 
 #topMenu a, #topMenu .button {
 	padding: 5px 15px;
 	margin:9px;
