@@ -57,11 +57,35 @@ jw.addEventHandlers = function() {
 	$('input.search').keyup(function(e){
 		jw.search.keypress($(e.target));
 	});
+	
+	
+	// experimental inline menu
+	$('a.action').click(function(e){
+		e.preventDefault();
+		jw.inlineMenu(e,'A test inline menu');
+	});
+	
+};
+
+
+jw.inlineMenu = function(e,menu) {
+	if($('#popup_div').length == 0) {
+		$('body').append('<div id=\'popup_div\'>'+ menu +'</div>');			
+	}
+	var pop = $('#popup_div');
+	x = e.pageX - (parseInt(pop.width()/2)) + "px";
+	y = e.pageY - (parseInt(pop.height()/2)) + "px";		
+	pop.css({left:x, top:y}).swooshIn().click(function(e){
+		$(this).swooshOut();
+	});	
 };
 
 
 jw.tiddlerLinkClick = function(link, container) {
-	var tiddlerName = $(this).attr("href");
-	var ct = jw.containingTiddler($(this));
-	jw.displayTiddler(tiddlerName, ct, 'after', container, 'ViewTemplate');
+	var options = { 
+		name: $(this).attr("href"),
+		relative: jw.containingTiddler($(this)), 
+		container: container
+	};
+	jw.displayTiddler(options);
 };

@@ -8,7 +8,6 @@ template: jigglywiki.template.html
 # Core styling
 #
 style: css/default.css
-style: css/jquery.wysiwyg.css
 
 
 #
@@ -38,7 +37,10 @@ js: js/FileSystem.js
 
 #
 # jquery plugins
-js: js/jquery.wysiwyg.pack.js
+js: jqueryPlugins/jwisiwyg-0.4/jquery.wysiwyg.pack.js
+style: jqueryPlugins/jwisiwyg-0.4/jquery.wysiwyg.css
+# js:jqueryPlugins/jquery.lightbox-0.5.pack
+# style: css/jquery.lightbox-0.5.css
 
 
 #
@@ -50,5 +52,5 @@ recipe: tiddlers/split.recipe
 #
 # include dummy content and timer for performance testing
 #
-recipe: ../benchmarkdata/split.recipe
+# recipe: ../benchmarkdata/split.recipe
 # js: js/speedtests.js

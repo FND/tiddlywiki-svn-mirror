@@ -1,44 +1,36 @@
+// Define the macros.
+// Additional macros can be added into the jw.macros namespace.
 jw.macros = {
 	'view': {
-		handler: function(place, tiddler, params) { jw.viewTiddlerProperty(place, tiddler, params); }
-	},
-	'edit': {
-		handler: function(place, tiddler, params) { jw.viewTiddlerProperty(place, tiddler, params); }
+		handler: function(args) { this.viewTiddlerProperty(args); },
+		viewTiddlerProperty: function(args) {
+			var defaults = {
+				tiddler: null,
+				element: 'div',
+				css: null,
+				place: null,
+				property: null
+			};
+			var opts = $.extend(defaults, args);	
+			var data = jw.getTiddlerData(opts.tiddler, 'store');
+			var val = $(data[opts.property]);
+			$('<'+opts.element+'>'+ val.html() +'</'+opts.element+'>').addClass(opts.css).insertAfter(opts.place);				
+		}
 	}
 };
 
 
+// Call the handler of the macro, passing along any arguments
+// and hide the macro code block.
+jw.callMacro = function(macro, args) {
 
-jw.applyMacros = function(element, args, tiddler) {
+	// console.log('Calling macro:', macro, args);
 
-	// build a params object from the parameters passed
-	var params = {};
-	var args = args.split(" ");
-	var macro = args[0];
-	for(var a=1; a<args.length; a++) {
-		nvp = args[a].split(":");
-		params[nvp[0]] = nvp[1];
-	};
-
-	// call the macro if a handler for it exists
 	if(jw.macros[macro]) {
-		jw.macros[macro].handler(element, tiddler, params);
+		jw.macros[macro].handler(args);
+		args.place.hide();
 	} else {
 		console.log("No handler for ", macro);
 	}
 };
 
-
-jw.viewTiddlerProperty = function(place, tiddler, params) {
-	var d = jw.getTiddlerData(tiddler, 'store');
-	var h = '';
-	var prop = d[params['property']];
-	if(typeof prop == 'string') {
-		h += prop;
-	} else {
-		$(prop).each(function(i,e){
-			h += $(e).html();
-		});
-	}
-	place.html(h);
-};

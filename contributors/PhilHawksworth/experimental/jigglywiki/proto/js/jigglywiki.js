@@ -36,9 +36,15 @@ jw.init = function() {
 jw.showDefaultTiddlers = function(container) {
 	var container = container ? container : "story1";
 	var links = jw.getTiddlerData('DefaultTiddlers', 'store').tiddlerLinks;	
-	links.each(function(){
-		var tiddlerName = $(this).attr('href');
-		jw.displayTiddler(tiddlerName, null, null, container, 'ViewTemplate', true);
+	var options;
+	links.each(function(){	
+		options = { 
+			name: $(this).attr('href'), 
+			container: container,
+			template: 'ViewTemplate',
+			overflow: true
+		};
+		jw.displayTiddler(options);	
 	});	
 };
 
@@ -148,11 +154,11 @@ jw.getTiddlerData = function(name, container) {
 		data = {};
 		data['title'] = t.find('h1.tiddlerName');
 		data['tiddlerName'] = data['title'].text().replace(/ /g,'_');
-		data['text'] = t.find('div.text').get(0);
+		data['text'] = t.find('div.text');
 		data['tiddlerLinks'] = t.find('div.text a.tiddlerLink');
 		data['tags'] = t.find('ul.tags li');
 		t.find('ul.meta li').each(function(i,m){
-			data[$(m).find('i').text()] = $(m).find('span').text();
+			data[$(m).find('i').text()] = $(m).find('span');
 		});
 	}
 	return data;	

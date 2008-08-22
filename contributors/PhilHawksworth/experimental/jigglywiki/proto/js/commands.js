@@ -25,14 +25,31 @@ jw.controls = {
 jw.editTiddler = function(tiddler) {
 	var container = $(tiddler).parents('div.story')[0].id;
 	var name = jw.getTiddlerNameFromStory(tiddler);
-	jw.displayTiddler(name, tiddler, 'replace', container, 'EditTemplate', true);
-	jw.getTiddler(name,container).find('div.text textarea').wysiwyg();
+	// jw.displayTiddler(name, tiddler, 'replace', container, 'EditTemplate', true);
+	var options = { 
+		name:name, 
+		relative:tiddler, 
+		position:'replace', 
+		container: container,
+		template: 'EditTemplate',
+		overflow: true
+	};
+	jw.displayTiddler(options);
+	// jw.getTiddler(name,container).find('div.text textarea').wysiwyg();
 };
 
 jw.cancelEditTiddler = function(tiddler) {
 	var container = $(tiddler).parents('div.story')[0].id;
 	var name = jw.getTiddlerNameFromStory(tiddler);
-	jw.displayTiddler(name, tiddler, 'replace', container, 'ViewTemplate', true);	
+	// jw.displayTiddler(name, tiddler, 'replace', container, 'ViewTemplate', true);
+	var options = { 
+		name:name, 
+		relative:tiddler, 
+		position:'replace', 
+		container: container,
+		overflow: true
+	};
+	jw.displayTiddler(options);	
 };
 
 
