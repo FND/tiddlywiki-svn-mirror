@@ -2342,10 +2342,8 @@ config.macros.newTiddler.createNewTiddlerButton = function(place,title,params,la
 	accessKey = getParam(params,"accessKey",accessKey);
 	newFocus = getParam(params,"focus",newFocus);
 	var customFields = getParam(params,"fields","");
-	console.log('c1:',customFields);
 	if(!customFields && !store.isShadowTiddler(title))
 		customFields = String.encodeHashMap(config.defaultCustomFields);
-	console.log('c2:',customFields);
 	var btn = createTiddlyButton(place,label,prompt,this.onClickNewTiddler,null,null,accessKey);
 	btn.setAttribute("newTitle",title);
 	btn.setAttribute("isJournal",isJournal ? "true" : "false");
