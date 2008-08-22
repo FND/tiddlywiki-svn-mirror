@@ -2,7 +2,9 @@
 // Additional macros can be added into the jw.macros namespace.
 jw.macros = {
 	'view': {
-		handler: function(args) { this.viewTiddlerProperty(args); },
+		handler: function(args) { 
+			this.viewTiddlerProperty(args); 
+		},
 		viewTiddlerProperty: function(args) {
 			var defaults = {
 				tiddler: null,
@@ -15,6 +17,31 @@ jw.macros = {
 			var data = jw.getTiddlerData(opts.tiddler, 'store');
 			var val = $(data[opts.property]);
 			$('<'+opts.element+'>'+ val.html() +'</'+opts.element+'>').addClass(opts.css).insertAfter(opts.place);				
+		}
+	},
+	'newTiddler' : {
+		handler: function(args) {
+			var defaults = {
+				place: null,
+				label: "new tiddler",
+				tooltip: "Create a new tiddler",
+				css: 'button'
+			};
+			var opts = $.extend(defaults, args);
+			place.append('<div class=\''+ opts.css +'\' title=\''+ opts.tooltip +'\'>'+ opts.label +'</div>').click(function(e){
+				e.preventDefault();
+				this.createNewTiddler();
+			});
+		},
+		createNewTiddler: function(args) {
+			var defaults = {
+				place: opts.place,
+				title: "New Tiddler",
+				text: null
+			};
+			var opts = $.extend(defaults, args);
+			
+			console.log('Create new tiddler ', opts);
 		}
 	}
 };

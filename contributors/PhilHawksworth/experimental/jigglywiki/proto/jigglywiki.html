@@ -378,7 +378,7 @@ macro:view, property:modified, element:span, css:meta
 <a href='#' class='control'>save tiddler</a><a href='#' class='control'>cancel</a>
 <div class='text'>
 <code class='macro'>
-	macro:view, property:text, element:textarea
+macro:view, property:text, element:textarea
 </code>
 </div>
 </div>
@@ -400,7 +400,7 @@ macro:view, property:modified, element:span, css:meta
 	<h1 class='tiddlerName'>macro mockup</h1>
 	<div class='text'>
 		<code class='macro'>
-			macro:view, property:text
+			macro:newTiddler
 		</code>
 	</div>
 	<ul class='tags'>
@@ -717,12 +717,18 @@ jw.inlineMenu = function(e,menu) {
 
 
 jw.tiddlerLinkClick = function(link, container) {
-	var options = { 
-		name: $(this).attr("href"),
-		relative: jw.containingTiddler($(this)), 
-		container: container
-	};
-	jw.displayTiddler(options);
+	var tiddlerName = $(this).attr("href");
+	var t = jw.getTiddler(tiddlerName ,container);
+	if(t) {
+		jw.ensureTiddlerVisible(t);
+	} else {
+		var options = { 
+			name: tiddlerName,
+			relative: jw.containingTiddler($(this)), 
+			container: container
+		};
+		jw.displayTiddler(options);		
+	}
 };jw.controls = {
 	'edit': {
 		handler: function(tiddler) { jw.editTiddler(tiddler); }
@@ -784,7 +790,7 @@ jw.saveTiddler = function(tiddler) {
 	// name
 	
 	// text
-	var text = tiddler.find("textarea[macro='view property:text']")[0].value;
+	var text = tiddler.find("div.text textarea")[0].value;
 	var t = jw.getTiddler(n,'store');
 	storedTextDiv = t.find('div.text');
 	storedTextDiv.html(text);
@@ -805,11 +811,10 @@ jw.closeTiddler = function(tiddler) {
 };
 
 jw.closeAllTiddlers = function() {
-	$('div.tiddler').each(function(){
+	$('div.story div.tiddler').each(function(){
 		jw.closeTiddler($(this));
 	});	
 };
-
 
 jw.displayTiddler = function(options) {
 
@@ -822,12 +827,12 @@ jw.displayTiddler = function(options) {
 		overflow: false
 	};
 	var opts = $.extend(defaults, options);
-		
-	// get the tiddler from the store
 	var t = jw.getTiddler(opts.name, 'store');
 	
-	// get the templated html of the tiddler
-	var templatedTiddler = jw.getTemplatedTiddlerNEW(t, opts.template);
+	// get a copy of the template html structure from template tiddler.
+	var templ = $(jw.getTiddlerData(opts.template,'store').text).clone();
+	templ.find(":first-child").prepend("<a class='tiddlerName' name='tiddler:"+ jw.getTiddlerData(t,'store').tiddlerName +"'></a>");
+	templatedTiddler = templ.html();
 	
 	// switching a template
 	if(opts.position == 'replace') {
@@ -849,77 +854,53 @@ jw.displayTiddler = function(options) {
 			$('#'+opts.container).append(templatedTiddler);
 		}
 	}
-
-	//ensure that it is visible.
-	var s = jw.getTiddler(opts.name, opts.container).show();	
+	
+	var displayTiddler = jw.getTiddler(opts.name, opts.container);
+	jw.findMacros(displayTiddler,t);
+	displayTiddler.show();
 	if(!opts.overflow) {
-		var y = s.offset().top; 
-		$('html,body').animate({scrollTop: y}, 500);
+		jw.ensureTiddlerVisible(displayTiddler);
 	}
 };
 
 
-// Map the tiddler values onto a given template structure.
-jw.getTemplatedTiddlerNEW = function(tiddler,template) {
-	
-	// get a copy of the template html structure from template tiddler.
-	var html = $(jw.getTiddlerData(template,'store').text).clone();
-	html.find(":first-child").prepend("<a class='tiddlerName' name='tiddler:"+ jw.getTiddlerData(tiddler,'store').tiddlerName +"'></a>");
-	
-	// // // find macros in this tiddler.
-	html.find('code.macro').each(function(n,e){
-	
-		// build an object for calling the macro handler.
-		var t = $.trim($(e).text());
-		var pairs = t.split(',');
-		var opts = {
-			tiddler:tiddler,
-			place:$(this)
-		};
-		for (var p=0; p < pairs.length; p++) {
-			nv = pairs[p].split(':');
-			opts[$.trim(nv[0])] = $.trim(nv[1]);
-		};	
-	
-		// pass the macro name directly and remove it fro the arguments passed to the macro caller.
-		var m = opts.macro;
-		delete opts.macro;
-		jw.callMacro(m, opts);
-	
-	});
-	
-	return html.html();
+//ensure that a tiddler is visible in the story.
+jw.ensureTiddlerVisible = function(t) {
+	var y = $(t).offset().top; 
+	$('html,body').animate({scrollTop: y}, 500);	
 };
 
 
 
-// Map the tiddler values onto a given template structure.
-// jw.getTemplatedTiddler = function(tiddler,template) {
-// 	
-// 	// get a copy of the template html structure from template tiddler.
-// 	var html = $(jw.getTiddlerData(template,'store').text).clone();
-// 	
-// 
-// 	// //use the macros in the templates to populate them.
-// 	html.find('*').each(function(i,n) {	
-// 		var macro = $(n).attr('macro');
-// 		if(macro !== undefined) {
-// 			jw.applyMacros($(n), macro, tiddler);
-// 		}
-// 		if(i==0){
-// 			$(n).prepend("<a class='tiddlerName' name='tiddler:"+ jw.getTiddlerData(tiddler,'store').tiddlerName +"'></a>");
-// 		}
-// 	});
-// 	
-// 	return html.html();
-// };
+// find and call macros in this tiddler.
+jw.findMacros = function(diplayTiddler, srcTiddler) {
+	diplayTiddler.find('code.macro').each(function(n,e){
+		// build an object for calling the macro handler.
+		var opts = {
+			tiddler:srcTiddler,
+			place:$(this)
+		};
+		var t = $.trim($(e).text());
+		var pairs = t.split(',');
+		for (var p=0; p < pairs.length; p++) {
+			nv = pairs[p].split(':');
+			opts[$.trim(nv[0])] = $.trim(nv[1]);
+		};	
+		// pass the macro name directly and remove it fro the arguments passed to the macro caller.
+		var m = opts.macro;
+		delete opts.macro;
+		jw.callMacro(m, opts);	
+	});	
+};
 
 
 // Define the macros.
 // Additional macros can be added into the jw.macros namespace.
 jw.macros = {
 	'view': {
-		handler: function(args) { this.viewTiddlerProperty(args); },
+		handler: function(args) { 
+			this.viewTiddlerProperty(args); 
+		},
 		viewTiddlerProperty: function(args) {
 			var defaults = {
 				tiddler: null,
@@ -932,6 +913,31 @@ jw.macros = {
 			var data = jw.getTiddlerData(opts.tiddler, 'store');
 			var val = $(data[opts.property]);
 			$('<'+opts.element+'>'+ val.html() +'</'+opts.element+'>').addClass(opts.css).insertAfter(opts.place);				
+		}
+	},
+	'newTiddler' : {
+		handler: function(args) {
+			var defaults = {
+				place: null,
+				label: "new tiddler",
+				tooltip: "Create a new tiddler",
+				css: 'button'
+			};
+			var opts = $.extend(defaults, args);
+			place.append('<div class=\''+ opts.css +'\' title=\''+ opts.tooltip +'\'>'+ opts.label +'</div>').click(function(e){
+				e.preventDefault();
+				this.createNewTiddler();
+			});
+		},
+		createNewTiddler: function(args) {
+			var defaults = {
+				place: opts.place,
+				title: "New Tiddler",
+				text: null
+			};
+			var opts = $.extend(defaults, args);
+			
+			console.log('Create new tiddler ', opts);
 		}
 	}
 };

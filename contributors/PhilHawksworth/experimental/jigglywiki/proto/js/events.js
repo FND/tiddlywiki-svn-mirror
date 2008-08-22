@@ -82,10 +82,16 @@ jw.inlineMenu = function(e,menu) {
 
 
 jw.tiddlerLinkClick = function(link, container) {
-	var options = { 
-		name: $(this).attr("href"),
-		relative: jw.containingTiddler($(this)), 
-		container: container
-	};
-	jw.displayTiddler(options);
+	var tiddlerName = $(this).attr("href");
+	var t = jw.getTiddler(tiddlerName ,container);
+	if(t) {
+		jw.ensureTiddlerVisible(t);
+	} else {
+		var options = { 
+			name: tiddlerName,
+			relative: jw.containingTiddler($(this)), 
+			container: container
+		};
+		jw.displayTiddler(options);		
+	}
 };

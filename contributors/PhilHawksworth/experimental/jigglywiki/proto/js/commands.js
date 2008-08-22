@@ -59,7 +59,7 @@ jw.saveTiddler = function(tiddler) {
 	// name
 	
 	// text
-	var text = tiddler.find("textarea[macro='view property:text']")[0].value;
+	var text = tiddler.find("div.text textarea")[0].value;
 	var t = jw.getTiddler(n,'store');
 	storedTextDiv = t.find('div.text');
 	storedTextDiv.html(text);
@@ -80,7 +80,7 @@ jw.closeTiddler = function(tiddler) {
 };
 
 jw.closeAllTiddlers = function() {
-	$('div.tiddler').each(function(){
+	$('div.story div.tiddler').each(function(){
 		jw.closeTiddler($(this));
 	});	
 };

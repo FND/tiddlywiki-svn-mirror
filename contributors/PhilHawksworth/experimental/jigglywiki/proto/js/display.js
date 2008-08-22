@@ -12,8 +12,10 @@ jw.displayTiddler = function(options) {
 	var opts = $.extend(defaults, options);
 	var t = jw.getTiddler(opts.name, 'store');
 	
-	// get the templated html of the tiddler
-	var templatedTiddler = jw.getTemplatedTiddler(t, opts.template);
+	// get a copy of the template html structure from template tiddler.
+	var templ = $(jw.getTiddlerData(opts.template,'store').text).clone();
+	templ.find(":first-child").prepend("<a class='tiddlerName' name='tiddler:"+ jw.getTiddlerData(t,'store').tiddlerName +"'></a>");
+	templatedTiddler = templ.html();
 	
 	// switching a template
 	if(opts.position == 'replace') {
@@ -35,28 +37,30 @@ jw.displayTiddler = function(options) {
 			$('#'+opts.container).append(templatedTiddler);
 		}
 	}
-
-	//ensure that it is visible.
-	var s = jw.getTiddler(opts.name, opts.container).show();	
+	
+	var displayTiddler = jw.getTiddler(opts.name, opts.container);
+	jw.findMacros(displayTiddler,t);
+	displayTiddler.show();
 	if(!opts.overflow) {
-		var y = s.offset().top; 
-		$('html,body').animate({scrollTop: y}, 500);
+		jw.ensureTiddlerVisible(displayTiddler);
 	}
 };
 
 
-// Map the tiddler values onto a given template structure.
-jw.getTemplatedTiddler = function(tiddler,template) {
-	
-	// get a copy of the template html structure from template tiddler.
-	var html = $(jw.getTiddlerData(template,'store').text).clone();
-	html.find(":first-child").prepend("<a class='tiddlerName' name='tiddler:"+ jw.getTiddlerData(tiddler,'store').tiddlerName +"'></a>");
-	
-	// find macros in this tiddler.
-	html.find('code.macro').each(function(n,e){
+//ensure that a tiddler is visible in the story.
+jw.ensureTiddlerVisible = function(t) {
+	var y = $(t).offset().top; 
+	$('html,body').animate({scrollTop: y}, 500);	
+};
+
+
+
+// find and call macros in this tiddler.
+jw.findMacros = function(diplayTiddler, srcTiddler) {
+	diplayTiddler.find('code.macro').each(function(n,e){
 		// build an object for calling the macro handler.
 		var opts = {
-			tiddler:tiddler,
+			tiddler:srcTiddler,
 			place:$(this)
 		};
 		var t = $.trim($(e).text());
@@ -69,10 +73,7 @@ jw.getTemplatedTiddler = function(tiddler,template) {
 		var m = opts.macro;
 		delete opts.macro;
 		jw.callMacro(m, opts);	
-	});
-	
-	return html.html();
+	});	
 };
-
 
 
