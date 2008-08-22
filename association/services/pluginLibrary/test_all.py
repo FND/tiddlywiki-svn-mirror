@@ -1,19 +1,16 @@
 import sys
 import unittest
 
-import test_dirScraper
-import test_tiddlywiki
-import test_utils
-
 def main(args = []):
 	modules = [
-		test_tiddlywiki, 
-		test_dirScraper, 
-		test_utils
+		"test_dirScraper",
+		"test_tiddlywiki",
+		"test_utils"
 	]
-	suites = [unittest.TestLoader().loadTestsFromModule(module) for module in modules]
-	suite = unittest.TestSuite(suites)
-	result = unittest.TextTestRunner().run(suite)
+	if len(args) > 1:
+		modules = args[1:]
+	suites = unittest.TestLoader().loadTestsFromNames(modules)
+	result = unittest.TextTestRunner().run(suites)
 	return result.wasSuccessful()
 
 if __name__ == "__main__":
