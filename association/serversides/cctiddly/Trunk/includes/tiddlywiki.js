@@ -2369,16 +2369,12 @@ config.macros.newTiddler.onClickNewTiddler = function()
 	var focus = this.getAttribute("newFocus");
 	var template = this.getAttribute("newTemplate");
 	var customFields = this.getAttribute("customFields");
-	console.log('d1:',customFields);
 	if(!customFields && !store.isShadowTiddler(title))
 		customFields = String.encodeHashMap(config.defaultCustomFields);
-	console.log('d2:',customFields);
 	story.displayTiddler(null,title,template,false,null,null);
 	var tiddlerElem = story.getTiddler(title);
-	console.log('e1:',tiddlerElem)
 	if(customFields)
 		story.addCustomFields(tiddlerElem,customFields);
-	console.log('e2:',tiddlerElem)
 	var text = this.getAttribute("newText");
 	if(typeof text == "string")
 		story.getTiddlerField(title,"text").value = text.format([title]);
@@ -4058,7 +4054,6 @@ Story.prototype.refreshTiddler = function(title,template,force,customFields,defa
 
 Story.prototype.addCustomFields = function(place,customFields)
 {
-console.log('acf',place,customFields);
 	var fields = customFields.decodeHashMap();
 	var w = document.createElement("div");
 	w.style.display = "none";
