@@ -119,9 +119,9 @@ config.macros.ccLogin.refresh=function(place, error){
 				config.macros.register.displayRegister(place, w, this);
 		},null, null, null,  {tabindex:4});
 	}
-//	createTiddlyButton(w.footElem,this.buttonForgottenPassword,this.buttonForgottenPasswordToolTip,function() {
-//		config.macros.ccLogin.displayForgottenPassword(this, place);
-//	},null, null, null,  {tabindex:5});
+	createTiddlyButton(w.footElem,this.buttonForgottenPassword,this.buttonForgottenPasswordToolTip,function() {
+		config.macros.ccLogin.displayForgottenPassword(this, place);
+	},null, null, null,  {tabindex:5});
 };
 
 config.macros.ccLogin.doLogin=function(username, password, item, place){
