@@ -15,7 +15,7 @@ def unescapeLineBreaks(text):
 	"""
 	return text.replace("\\n", "\n").replace("\\b", " ").replace("\\s", "\\").replace("\r", "")
 
-def getSlices(text): # XXX: should be in Tiddler class
+def getSlices(text): # TODO: should be in Tiddler class
 	"""
 	retrieve plugin meta-slices
 
@@ -25,12 +25,12 @@ def getSlices(text): # XXX: should be in Tiddler class
 	pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)" # RegEx origin: TiddlyWiki core
 	pattern = re.compile(pattern, re.M + re.I)
 	matches = re.findall(pattern, text)
-	slices = dict()
+	slices = {}
 	for match in matches:
 		if match[1]: # colon notation
-			slices[match[1].capitalize()] = match[2]
+			slices[match[1].capitalize()] = match[2] # XXX: shouldn't capitalize here
 		else: # table notation
-			slices[match[4].capitalize()] = match[5]
+			slices[match[4].capitalize()] = match[5] # XXX: shouldn't capitalize here
 	return slices
 
 class TiddlyWiki:

@@ -3,6 +3,7 @@
 * dirScraper: wildcards support for black-/whitelisting
 * logging
 * handling of removed plugins (e.g. don't delete, but tag with "disabled"?)
+** relevant with regards to metadata augmentation (cf. Community Features)
 * efficiency enhancements (e.g. caching, deferred processing)
 
 == Search ==
@@ -42,9 +43,15 @@
 
 == Unit Testing ==
 
-* aggregator
-* serializers
-* search
+* framework
+** test cases (organization/ordering)
+** test suite
+** test descriptions/documentation
+** coverage
+* components
+** aggregator
+** serializers
+** search
 
 == Misc. ==
 
