@@ -148,6 +148,8 @@ echo "<script type='text/javascript' >".file_get_contents('includes/tiddlywiki.j
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
+
+
 <!--PRE-BODY-START-->
 <?php
 	if( isset( $tiddlers['MarkupPreBody'] ) )
@@ -616,5 +618,9 @@ if(useJavaSaver)
 </script>
 <!--POST-SCRIPT-START-->
 <!--POST-SCRIPT-END-->
+<div style="background-color:purple;color:white;padding:10px">
+ Upgrade notice : This instance is being upgraded from ccTiddly v 1.6 to v 1.7. If you experience any problems please post a message on the ccTiddly google group.
+<a href='http://groups.google.com/group/ccTiddly' style="color:white;font-weight:bold;" target="new">http://groups.google.com/group/ccTiddly</a>
+</div>
 </body>
 </html>
