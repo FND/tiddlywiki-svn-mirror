@@ -2,7 +2,7 @@
 //{{{
 /***
  * download.php - download an html file as an attachement. 
- * version:1.1.0 - 2007/08/01 - BidiX@BidiX.info
+ * version:1.1.1 - 2008/08/22 - BidiX@BidiX.info
  * source: http://tiddlywiki.bidix.info/#download.php
  * license: BSD open source license (http://tiddlywiki.bidix.info/#[[BSD open source license]])
  *
@@ -86,7 +86,7 @@ if (!preg_match('/\.html$/',$filename )) {
 	display("The file $filename could not be found.");
 	exit;
 }
-$content = insertJSFileIn(file_get_contents ('index.html'));	
+$content = insertJSFileIn(file_get_contents ($filename));	
 
 //return the file
 header('Pragma: private');
