@@ -1,4 +1,4 @@
-<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200711091528" changecount="3">
+<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402"  tags='excludeList excludeSearch' modified="200711091528" changecount="3">
 <pre>
 
 | [[Users|UserDefinitions]]|<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions">>|

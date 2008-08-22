@@ -1,4 +1,4 @@
-<div title="ValueSwitcherPlugin" modifier="SaqImtiaz" modified="200708091500" tags="systemConfig">
+<div title="ValueSwitcherPlugin" modifier="SaqImtiaz" modified="200708091500" tags="systemConfig excludeList excludeSearch">
 <pre>/***
 |''Name:''|ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
