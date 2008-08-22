@@ -68,6 +68,7 @@ width:auto;
 
 body{
 	background: #111;
+	color:white;
 //	 background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
 //	 background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
 }
@@ -252,8 +253,13 @@ textarea {
 	color:#eee;
 	background:#111;
 }
+.tagged li
+{
+display: inline;
+}
 
 .tiddler .button {
+color:white;
 	padding:0.4em 0.9em 0.4em 0.9em;
 	margin:0px 0px 0px 7px;
 }
