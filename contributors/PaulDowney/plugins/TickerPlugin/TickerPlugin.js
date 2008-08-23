@@ -2,11 +2,15 @@
 |''Name:''|TickerPlugin|
 |''Description:''|Periodically Refresh Tiddlers tagged with 'ticker', evaluating those tagged with 'javaScript'|
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TickerPlugin.js |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TickerPlugin/ |
 |''Version:''|0.1|
 |''License:''|[[BSD open source license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
+!!Documentation
+The TickerPlugin periodically wikifies tiddlers which have been tagged with 'ticker', causing any macros to be re-run. 
+
+A tiddler tagged with 'ticker' and 'javascript' is presented to the Javascript eval function. A demonstration TiddlyWiki including the latest released version of the plugin is avalable from http://whatfettle.com/2008/07/TickerPlugin/
 
 !!!Dependencies
 This code epends upon a number of bug fixes to the Date routines supplied in the [[YYYYMMDDHHMMSSMMMPlugin]] 

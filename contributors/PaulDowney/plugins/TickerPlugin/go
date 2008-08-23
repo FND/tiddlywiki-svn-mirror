@@ -1,2 +1,2 @@
-cook testTickerPlugin
-ff2 testTickerPlugin.html
+#cook testTickerPlugin && ff testTickerPlugin.html
+cook && ff index.html
