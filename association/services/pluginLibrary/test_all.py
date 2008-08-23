@@ -14,6 +14,7 @@ def main(args = []):
 	suite = unittest.TestLoader().loadTestsFromNames(modules)
 	result = unittest.TextTestRunner().run(suite)
 	endCoverage()
+	reportCoverage(modules)
 	return result.wasSuccessful()
 
 def initCoverage():
@@ -23,9 +24,10 @@ def initCoverage():
 
 def endCoverage():
 	coverage.stop()
-	import tiddlywiki, dirScraper, utils # TODO: avoid manual listing
-	modules = [tiddlywiki, dirScraper, utils] # TODO: avoid manual listing
-	coverage.report(modules)
+
+def reportCoverage(testModules):
+	modules = [__import__(m[5:]) for m in testModules]
+	coverage.report(modules, ignore_errors=0, show_missing=0)
 
 if __name__ == "__main__":
 	status = main(sys.argv)
