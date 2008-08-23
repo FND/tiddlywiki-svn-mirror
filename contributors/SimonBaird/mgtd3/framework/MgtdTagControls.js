@@ -49,6 +49,10 @@ merge(Tiddler.prototype,{
 		return this.getByIndex(tag);
 	},
 
+	hasParent: function(tag) {
+		return this.getParent(tag).length > 0;
+	},
+
 	realmMismatchWithParent: function(tag) {
 		var myRealm = this.getParent('Realm')[0];
 
@@ -258,49 +262,48 @@ merge(config.macros,{
 			// a few automagic filters should make life easier
 
 			var thisRealm = tiddler.getParent('Realm')[0];
-			var thisProject = tiddler.getParent('Project')[0];
 
 			var filterRealm = "";
 			var filterComplete = "";
 
-			if (thisRealm && tag != "Realm" && tag != "Context") {
-				// only want to see things in my realm
-				filterRealm += "[("+thisRealm+")]";
+			//the extra || condition below should take care of contexts now. so actually you can have realm specific contexts if you want
+			if (thisRealm && tag != "Realm") { // && tag != "Context") {
+				// only want to see things in my realm (or things that don't have a realm...)
+				filterRealm += "(tiddler.tags.contains('"+thisRealm.replace(/'/,"\\'")+"') || !tiddler.hasParent('Realm'))";
 			}
 
 			if (tag == "Project") {
 				// only want to see active projects
-				filterComplete += "!Complete";
+				filterComplete += "!tiddler.tags.contains('Complete')";
 			}
 
-			var filterTagExpr = "";
+			var filterExpr = "true";
 
 			if (filterRealm != "" && filterComplete != "") {
-				filterTagExpr = filterRealm + " && " + filterComplete;
+				filterExpr = filterRealm + " && " + filterComplete;
 			}
 			else if (filterRealm !=  "") {
-				filterTagExpr = filterRealm;
+				filterExpr = filterRealm;
 			}
 			else if (filterComplete !=  "") {
-				filterTagExpr = filterComplete;
+				filterExpr = filterComplete;
 			}
 			// ...yuck
 
-			filterExpr = filterTagExpr.parseTagExpr();
-			
-			if (thisProject) {
+			var currentVal = tiddler.getParent(tag)[0];
+			if (currentVal && currentVal != '') {
 				// prevent weirdness if the current value isn't in the list
 				// eg an action in a completed project
-				filterExpr = "(" + filterExpr + ") || tiddler.title == '" + thisProject + "'"; // i'm confused now...
+				filterExpr = "(" + filterExpr + ") || tiddler.title == '" + currentVal.replace(/'/,"\\'") + "'";
 
 			}
 			if (tag == "Project" && tiddler.hasTag('Project')) {
-				// don't let a project be a subproject of itself
-				filterExpr = "(" + filterExpr + ") && tiddler.title != '" + tiddler.title + "'";
+				// special case: don't let a project be a subproject of itself
+				filterExpr = "(" + filterExpr + ") && tiddler.title != '" + tiddler.title.replace(/'/,"\\'") + "'";
 			}
 
+			// okay now do the filtering
 			getValues = getValues.filterByEval(filterExpr);
-
 
 			getValues.each(function(t) {
 				var useTitle = store.getTiddlerSlice(t.title,"button");
