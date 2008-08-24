@@ -44,7 +44,7 @@ class TiddlyWiki:
 		@return: None
 		"""
 		self.dom = BeautifulSoup(html)
-		self.store = self.dom.find("div", id="storeArea")
+		self.store = self.dom.find("div", id = "storeArea")
 
 	def getPluginTiddlers(self, repo): # XXX: universal-ize; rename to getTiddlers() and use key-value pair(s?) for matching attribute(s?)
 		"""
@@ -57,7 +57,7 @@ class TiddlyWiki:
 		"""
 		tag = "systemConfig" # includes "systemConfigDisable" -- XXX: include systemTheme tiddlers?
 		# remove non-plugin tiddlers
-		[tiddler.extract() for tiddler in self.store.findChildren("div", title=True)
+		[tiddler.extract() for tiddler in self.store.findChildren("div", title = True)
 			if (not tiddler.has_key("tags")) or (tag not in tiddler["tags"])]
 		# remove non-originating plugins
 		self.removeDuplicates(repo["URI"])
@@ -73,7 +73,7 @@ class TiddlyWiki:
 		@return: None
 		"""
 		repo = trimURI(repo)
-		for plugin in self.store.findChildren("div", title=True):
+		for plugin in self.store.findChildren("div", title = True):
 			slices = getSlices(plugin.pre.renderContents())
 			if slices.has_key("Source"): # N.B.: plugin accepted if Source slice not present -- XXX: harmful? (e.g. includes simple config tweaks)
 				source = trimURI(slices["Source"])
@@ -106,7 +106,7 @@ class TiddlyWiki:
 		"""
 		version = self.getVersion()
 		if version and (version[0] + (version[1] / 10.0) < 2.2): # N.B.: works because all pre-v2.2 releases are known
-			for tiddler in self.store.findChildren("div", tiddler=True):
+			for tiddler in self.store.findChildren("div", tiddler = True):
 				# convert tiddler attribute to title attribute
 				tiddler["title"] = tiddler["tiddler"]
 				del(tiddler["tiddler"])

@@ -31,7 +31,7 @@ class DirScraper:
 		@rtype : str
 		"""
 		http = httplib2.Http()
-		reponse, content = http.request(url, method="GET")
+		reponse, content = http.request(url, method = "GET")
 		return content
 
 	def getPlugins(self, dir, recursive = False):

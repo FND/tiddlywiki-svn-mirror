@@ -1,37 +1,45 @@
 import unittest
+import copy
 import tiddlywiki
 
 class unescapeLineBreaksTestCase(unittest.TestCase):
 	def setUp(self):
 		pass
+
 	def tearDown(self):
 		pass
+
 	def testConvertsNewLineMakers(self):
 		"""converts new-line markers"""
 		text = "foo\\nbar"
 		expected = "foo\nbar"
-		self.assertEquals(expected, tiddlywiki.unescapeLineBreaks(text))
+		self.assertEqual(expected, tiddlywiki.unescapeLineBreaks(text))
+
 	def testConvertsSpaceMarkers(self):
 		"""converts space markers"""
 		text = "foo\\bbar"
 		expected = "foo bar"
-		self.assertEquals(expected, tiddlywiki.unescapeLineBreaks(text))
+		self.assertEqual(expected, tiddlywiki.unescapeLineBreaks(text))
+
 	def testConvertsSlashMarkers(self):
 		"""converts slash markers"""
 		text = "foo\\sbar"
 		expected = "foo\\bar"
-		self.assertEquals(expected, tiddlywiki.unescapeLineBreaks(text))
+		self.assertEqual(expected, tiddlywiki.unescapeLineBreaks(text))
+
 	def testRemovesCarriageReturns(self):
 		"""removes carriage returns"""
 		text = "foo\r"
 		expected = "foo"
-		self.assertEquals(expected, tiddlywiki.unescapeLineBreaks(text))
+		self.assertEqual(expected, tiddlywiki.unescapeLineBreaks(text))
 
 class getSlicesTestCase(unittest.TestCase):
 	def setUp(self):
 		pass
+
 	def tearDown(self):
 		pass
+
 	def testSupportsColonNotation(self):
 		"""supports colon notation"""
 		text = ("Foo: lorem\n" +
@@ -40,7 +48,8 @@ class getSlicesTestCase(unittest.TestCase):
 			"Foo": "lorem",
 			"Bar": "ipsum"
 		}
-		self.assertEquals(expected, tiddlywiki.getSlices(text))
+		self.assertEqual(expected, tiddlywiki.getSlices(text))
+
 	def testSupportsTableNotation(self):
 		"""supports table notation"""
 		text = ("|Foo|lorem|\n" +
@@ -49,7 +58,8 @@ class getSlicesTestCase(unittest.TestCase):
 			"Foo": "lorem",
 			"Bar": "ipsum"
 		}
-		self.assertEquals(expected, tiddlywiki.getSlices(text))
+		self.assertEqual(expected, tiddlywiki.getSlices(text))
+
 	def testSupportsMixedNotation(self):
 		"""supports mixed notation"""
 		text = ("Foo: lorem\n" +
@@ -58,7 +68,8 @@ class getSlicesTestCase(unittest.TestCase):
 			"Foo": "lorem",
 			"Bar": "ipsum"
 		}
-		self.assertEquals(expected, tiddlywiki.getSlices(text))
+		self.assertEqual(expected, tiddlywiki.getSlices(text))
+
 	def testCapitalizesSliceNames(self): # XXX: deprecated
 		"""capitalizes slice names"""
 		text = ("foo: lorem\n" +
@@ -67,7 +78,7 @@ class getSlicesTestCase(unittest.TestCase):
 			"Foo": "lorem",
 			"Bar": "ipsum"
 		}
-		self.assertEquals(expected, tiddlywiki.getSlices(text))
+		self.assertEqual(expected, tiddlywiki.getSlices(text))
 
 class TiddlyWikiTestCase(unittest.TestCase):
 	def setUp(self):
@@ -76,8 +87,10 @@ class TiddlyWikiTestCase(unittest.TestCase):
 			"name": "SampleRepo",
 			"URI": "localhost"
 		}
+
 	def tearDown(self):
 		pass
+
 	def testInitRequiresInput(self):
 		"""__init__ requires input"""
 		expected = TypeError
@@ -85,39 +98,66 @@ class TiddlyWikiTestCase(unittest.TestCase):
 	def testInitCreatesDOM(self):
 		"""__init__ creates DOM"""
 		expected = "BeautifulSoup"
-		self.assertEquals(expected, self.tw.dom.__class__.__name__)
+		self.assertEqual(expected, self.tw.dom.__class__.__name__)
+
 	def testInitCreatesStore(self):
 		"""__init__ creates store"""
 		expected = "Tag"
-		self.assertEquals(expected, self.tw.store.__class__.__name__)
+		self.assertEqual(expected, self.tw.store.__class__.__name__)
+
 	def testGetPluginTiddlersExpectsRepository(self):
 		"""getPluginTiddlers expects repository"""
 		expected = TypeError
 		self.assertRaises(expected, self.tw.getPluginTiddlers)
+
 	def testGetPluginTiddlersReturnsPureStore(self):
 		"""getPluginTiddlers returns tiddlers in pure-store format"""
-		tiddler = """\n<div title="SamplePlugin" tags="systemConfig">\n<pre>
-					/***
-					lorem ipsum dolor sit amet
-					***/
-					//{{{
-					var foo = "bar";
-					//}}}
-				</pre>\n</div>\n"""
-		expected = "<html><body><div id='storeArea'>%s</div></body></html>" % tiddler
-		self.assertEquals(expected, self.tw.getPluginTiddlers(self.repo))
+		tiddler = """\n<div title="SampleHack" tags="systemConfig">\n<pre>
+//{{{
+var foo = "bar";
+//}}}
+				</pre>\n</div>"""
+		expected = "<html><body><div id='storeArea'>\n%s\n</div></body></html>" % tiddler
+		self.assertEqual(expected, self.tw.getPluginTiddlers(self.repo))
+
+	def testRemoveDuplicatesExpectsRepository(self):
+		"""removeDuplicates expects repository"""
+		expected = TypeError
+		self.assertRaises(expected, self.tw.removeDuplicates)
+
+	def testRemoveDuplicatesIgnoresPluginsMissingSourceSlice(self):
+		"""removeDuplicates skips plugins missing Source slice"""
+		expected = copy.deepcopy(self.tw.store)
+		expected.findChild("div", title = "SamplePlugin").extract() # ignore plugin with dummy Source slice
+		self.tw.removeDuplicates(self.repo["URI"])
+		self.assertEqual(expected, self.tw.store)
+
+	def testRemoveDuplicatesIgnoresPluginsWithMatchingSourceSlice(self):
+		"""removeDuplicates ignores plugins where Source slice does contain repository"""
+		expected = copy.deepcopy(self.tw.store)
+		self.tw.removeDuplicates("http://example.com")
+		self.assertEqual(expected, self.tw.store)
+
+	def testRemoveDuplicatesRemovesPluginsWithNonMatchingSourceSlice(self):
+		"""removeDuplicates removes plugins where Source slice does not contain repository"""
+		expected = copy.deepcopy(self.tw.store)
+		expected.findChild("div", title = "SamplePlugin").extract()
+		self.tw.removeDuplicates(self.repo["URI"])
+		self.assertEqual(expected, self.tw.store)
+
 	def testGetVersionReturnsVersionFragments(self):
 		"""getVersion returns version fragments"""
 		expected = [2, 2, 0]
-		self.assertEquals(expected, self.tw.getVersion())
+		self.assertEqual(expected, self.tw.getVersion())
 		legacyTW = tiddlywiki.TiddlyWiki(dummyTiddlyWiki("legacy"))
 		expected = [2, 1, 3]
-		self.assertEquals(expected, legacyTW.getVersion())
+		self.assertEqual(expected, legacyTW.getVersion())
+
 	def testGetVersionReturnsNoneForMissingVersion(self):
 		"""getVersion returns None if version information is missing"""
 		blankTW = tiddlywiki.TiddlyWiki(dummyTiddlyWiki("blank"))
 		expected = None
-		self.assertEquals(expected, blankTW.getVersion())
+		self.assertEqual(expected, blankTW.getVersion())
 
 def dummyTiddlyWiki(type = "canonical"):
 	"""
@@ -163,7 +203,8 @@ def dummyTiddlyWiki(type = "canonical"):
 			var version = {title: "TiddlyWiki", major: 2, minor: 1, revision: 3, date: new Date("Nov 3, 2006"), extensions: {}};"
 		"""
 		store = """
-			<div tiddler="SamplePlugin" tags="systemConfig">/***\\nlorem ipsum dolor sit amet\\n***/\\n//{{{\\nvar foo = "bar";\\n//}}}</div>
+			<div tiddler="SamplePlugin" tags="systemConfig">/***\\n|''Source''|http://example.com#SamplePlugin|\\nlorem ipsum dolor sit amet\\n***/\\n//{{{\\nvar foo = "bar";\\n//}}}</div>
+			<div tiddler="SampleHack" tags="systemConfig">//{{{\\nvar foo = "bar";\\n//}}}</div>
 		"""
 	elif type == "canonical":
 		version = """
@@ -172,12 +213,20 @@ def dummyTiddlyWiki(type = "canonical"):
 		store = """
 			<div title="SamplePlugin" tags="systemConfig">
 				<pre>
-					/***
-					lorem ipsum dolor sit amet
-					***/
-					//{{{
-					var foo = "bar";
-					//}}}
+/***
+|''Source''|http://example.com#SamplePlugin|
+lorem ipsum dolor sit amet
+***/
+//{{{
+var foo = "bar";
+//}}}
+				</pre>
+			</div>
+			<div title="SampleHack" tags="systemConfig">
+				<pre>
+//{{{
+var foo = "bar";
+//}}}
 				</pre>
 			</div>
 		"""
