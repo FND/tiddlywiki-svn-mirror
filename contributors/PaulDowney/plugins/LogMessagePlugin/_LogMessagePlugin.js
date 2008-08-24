@@ -68,19 +68,27 @@ version.extensions.LogMessagePlugin = {installed:true};
 
 		logWindow: function(message){
 			var me = config.macros.LogMessage;
-			if(!me.window_ || me.window_.closed){
-				var win = window.open("", null, "width=400,height=200,scrollbars=yes,"+
-					"resizable=yes,status=no,location=no,menubar=no,toolbar=no");
-				if(!win) 
-					return;
-				var doc = win.document;
-				doc.write("<html><head><title>Log</title></head><body></body></html>");
-				doc.close();
-				me.window_ = win;
+			try{
+				if(!me.window_ || me.window_.closed){
+					var win = window.open("", null, "width=400,height=200,scrollbars=yes,"+
+						"resizable=yes,status=no,location=no,menubar=no,toolbar=no");
+					if(!win) 
+						return;
+					var doc = win.document;
+					doc.write("<html><head><title>Log</title></head><body></body></html>");
+					doc.close();
+					me.window_ = win;
+				}
+				var line = me.window_.document.createElement("div");
+				line.appendChild(me.window_.document.createTextNode(message));
+				me.window_.document.body.appendChild(line);
+			}catch(ex){
+				me.window_ = undefined;
+				if (!me.logToWindowErrorReported){
+					alert("Error logging to window: probably another document has been loaded");
+					me.logToWindowErrorReported = true;
+				}
 			}
-			var line = me.window_.document.createElement("div");
-			line.appendChild(me.window_.document.createTextNode(message));
-			me.window_.document.body.appendChild(line);
 		},
 
 		handler: function(place,macroName,params,wikifier,paramString,tiddler){
