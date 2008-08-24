@@ -27,7 +27,7 @@ def endCoverage():
 
 def reportCoverage(testModules):
 	modules = [__import__(m[5:]) for m in testModules]
-	coverage.report(modules, ignore_errors=0, show_missing=0)
+	coverage.report(modules, ignore_errors = 0, show_missing = 1)
 
 if __name__ == "__main__":
 	status = main(sys.argv)

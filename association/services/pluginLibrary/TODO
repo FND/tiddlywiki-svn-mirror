@@ -41,14 +41,9 @@
 * rating
 * views counter
 
-== Unit Testing ==
-
-* test-case grouping
-* test descriptions/documentation
-* coverage
-
 == Misc. ==
 
+* unit testing
 * review TODO, XXX and DEBUG markers in the code 
 * code sanitizing
 * refactoring
