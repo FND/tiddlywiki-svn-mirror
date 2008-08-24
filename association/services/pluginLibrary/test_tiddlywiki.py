@@ -7,22 +7,22 @@ class unescapeLineBreaksTestCase(unittest.TestCase):
 	def tearDown(self):
 		pass
 	def testConvertsNewLineMakers(self):
-		"converts new-line markers"
+		"""converts new-line markers"""
 		text = "foo\\nbar"
 		expected = "foo\nbar"
 		self.assertEquals(expected, tiddlywiki.unescapeLineBreaks(text))
 	def testConvertsSpaceMarkers(self):
-		"converts space markers"
+		"""converts space markers"""
 		text = "foo\\bbar"
 		expected = "foo bar"
 		self.assertEquals(expected, tiddlywiki.unescapeLineBreaks(text))
 	def testConvertsSlashMarkers(self):
-		"converts slash markers"
+		"""converts slash markers"""
 		text = "foo\\sbar"
 		expected = "foo\\bar"
 		self.assertEquals(expected, tiddlywiki.unescapeLineBreaks(text))
 	def testRemovesCarriageReturns(self):
-		"removes carriage returns"
+		"""removes carriage returns"""
 		text = "foo\r"
 		expected = "foo"
 		self.assertEquals(expected, tiddlywiki.unescapeLineBreaks(text))
@@ -33,7 +33,7 @@ class getSlicesTestCase(unittest.TestCase):
 	def tearDown(self):
 		pass
 	def testSupportsColonNotation(self):
-		"supports colon notation"
+		"""supports colon notation"""
 		text = ("Foo: lorem\n" +
 			"Bar: ipsum")
 		expected = {
@@ -42,7 +42,7 @@ class getSlicesTestCase(unittest.TestCase):
 		}
 		self.assertEquals(expected, tiddlywiki.getSlices(text))
 	def testSupportsTableNotation(self):
-		"supports table notation"
+		"""supports table notation"""
 		text = ("|Foo|lorem|\n" +
 			"|Bar|ipsum|")
 		expected = {
@@ -51,7 +51,7 @@ class getSlicesTestCase(unittest.TestCase):
 		}
 		self.assertEquals(expected, tiddlywiki.getSlices(text))
 	def testSupportsMixedNotation(self):
-		"supports mixed notation"
+		"""supports mixed notation"""
 		text = ("Foo: lorem\n" +
 			"|Bar|ipsum|")
 		expected = {
@@ -60,7 +60,7 @@ class getSlicesTestCase(unittest.TestCase):
 		}
 		self.assertEquals(expected, tiddlywiki.getSlices(text))
 	def testCapitalizesSliceNames(self): # XXX: deprecated
-		"capitalizes slice names"
+		"""capitalizes slice names"""
 		text = ("foo: lorem\n" +
 			"|bar|ipsum|")
 		expected = {
@@ -79,23 +79,23 @@ class TiddlyWikiTestCase(unittest.TestCase):
 	def tearDown(self):
 		pass
 	def testInitRequiresInput(self):
-		"__init__ requires input"
+		"""__init__ requires input"""
 		expected = TypeError
 		self.assertRaises(expected, tiddlywiki.TiddlyWiki)
 	def testInitCreatesDOM(self):
-		"__init__ creates DOM"
+		"""__init__ creates DOM"""
 		expected = "BeautifulSoup"
 		self.assertEquals(expected, self.tw.dom.__class__.__name__)
 	def testInitCreatesStore(self):
-		"__init__ creates store"
+		"""__init__ creates store"""
 		expected = "Tag"
 		self.assertEquals(expected, self.tw.store.__class__.__name__)
 	def testGetPluginTiddlersExpectsRepository(self):
-		"getPluginTiddlers expects repository"
+		"""getPluginTiddlers expects repository"""
 		expected = TypeError
 		self.assertRaises(expected, self.tw.getPluginTiddlers)
 	def testGetPluginTiddlersReturnsPureStore(self):
-		"getPluginTiddlers returns tiddlers in pure-store format"
+		"""getPluginTiddlers returns tiddlers in pure-store format"""
 		tiddler = """\n<div title="SamplePlugin" tags="systemConfig">\n<pre>
 					/***
 					lorem ipsum dolor sit amet
@@ -107,14 +107,14 @@ class TiddlyWikiTestCase(unittest.TestCase):
 		expected = "<html><body><div id='storeArea'>%s</div></body></html>" % tiddler
 		self.assertEquals(expected, self.tw.getPluginTiddlers(self.repo))
 	def testGetVersionReturnsVersionFragments(self):
-		"getVersion returns version fragments"
+		"""getVersion returns version fragments"""
 		expected = [2, 2, 0]
 		self.assertEquals(expected, self.tw.getVersion())
 		legacyTW = tiddlywiki.TiddlyWiki(dummyTiddlyWiki("legacy"))
 		expected = [2, 1, 3]
 		self.assertEquals(expected, legacyTW.getVersion())
 	def testGetVersionReturnsNoneForMissingVersion(self):
-		"getVersion returns None if version information is missing"
+		"""getVersion returns None if version information is missing"""
 		blankTW = tiddlywiki.TiddlyWiki(dummyTiddlyWiki("blank"))
 		expected = None
 		self.assertEquals(expected, blankTW.getVersion())
@@ -183,6 +183,6 @@ def dummyTiddlyWiki(type = "canonical"):
 		"""
 	return template % (version, store)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	unittest.main()
 
