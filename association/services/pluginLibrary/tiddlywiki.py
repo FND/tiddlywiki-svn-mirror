@@ -94,10 +94,7 @@ class TiddlyWiki:
 			major = int(matches.groups()[0])
 			minor = int(matches.groups()[1])
 			revision = int(matches.groups()[2])
-			if major + minor + revision > 0: # XXX: dirty hack?
-				return [major, minor, revision]
-			else:
-				return None
+			return [major, minor, revision]
 		else:
 			return None
 
