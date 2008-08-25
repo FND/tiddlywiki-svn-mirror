@@ -3,7 +3,7 @@
 |''Description''|provides support for [[sparklines|http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0001OR&topic_id=1]]|
 |''Version''|1.0.0|
 |''Status''|stable|
-|''Source''|http://www.tiddlywiki.com/plugins.html#SparklinePlugin|
+|''Source''|http://www.tiddlywiki.com/coreplugins.html#SparklinePlugin|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/plugins/SparklinePlugin/SparklinePlugin.js |
 |''License''|[[BSD open source license]]|
 |''~CoreVersion''|2.3.0|

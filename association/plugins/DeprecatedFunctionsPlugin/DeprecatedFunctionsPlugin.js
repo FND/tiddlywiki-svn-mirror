@@ -3,7 +3,7 @@
 |''Description''|Provides support for functions removed from the TiddlyWiki core|
 |''Version''|1.0.0|
 |''Status''|stable|
-|''Source''|http://www.tiddlywiki.com/plugins.html#DeprecatedFunctionsPlugin|
+|''Source''|http://www.tiddlywiki.com/coreplugins.html#DeprecatedFunctionsPlugin|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/plugins/DeprecatedFunctionsPlugin/DeprecatedFunctionsPlugin.js |
 |''License''|[[BSD open source license]]|
 |''~CoreVersion''|2.3.0|
