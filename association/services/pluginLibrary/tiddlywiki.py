@@ -4,7 +4,7 @@ from BeautifulSoup import BeautifulSoup, Tag
 
 from utils import trimURI
 
-def unescapeLineBreaks(text):
+def unescapeLineBreaks(text): # TODO: rename
 	"""
 	unescape line breaks
 

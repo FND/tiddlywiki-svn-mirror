@@ -159,6 +159,34 @@ var foo = "bar";
 		expected = None
 		self.assertEqual(expected, blankTW.getVersion())
 
+	def testConvertStoreFormatConvertsTiddlerAttribute(self):
+		"""convertStoreFormat converts tiddler to title attribute"""
+		legacyTW = tiddlywiki.TiddlyWiki(dummyTiddlyWiki("legacy"))
+		legacyTW.convertStoreFormat()
+		plugins = legacyTW.store.findChildren("div")
+		result = True
+		for plugin in plugins:
+			result = result and plugin.has_key("title") and not plugin.has_key("tiddler")
+		self.assertTrue(result)
+
+	def testConvertStoreFormatAddsWrapper(self):
+		"""convertStoreFormat adds PRE wrapper to tiddler contents"""
+		legacyTW = tiddlywiki.TiddlyWiki(dummyTiddlyWiki("legacy"))
+		legacyTW.convertStoreFormat()
+		plugins = legacyTW.store.findChildren("div")
+		result = True
+		for plugin in plugins:
+			result = result and plugin.findChild("pre")
+		self.assertTrue(result)
+
+	def testConvertStoreFormatUnescapesTiddlerContents(self):
+		"""convertStoreFormat unescapes tiddler contents"""
+		legacyTW = tiddlywiki.TiddlyWiki(dummyTiddlyWiki("legacy"))
+		legacyTW.convertStoreFormat()
+		plugin = legacyTW.store.findChild("div", title = "SamplePlugin").findChild("pre").renderContents().strip() # XXX: stripping whitespace is cheating
+		expected = self.tw.store.findChild("div", title = "SamplePlugin").findChild("pre").renderContents().strip()
+		self.assertEquals(expected, plugin)
+
 def dummyTiddlyWiki(type = "canonical"):
 	"""
 	create dummy TiddlyWiki document
