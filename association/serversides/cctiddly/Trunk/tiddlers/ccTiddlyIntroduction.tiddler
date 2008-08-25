@@ -1,9 +1,13 @@
 <div title="ccTiddly Introduction" modifier="ccTiddly Introduction" tags="ccTiddly excludeSearch excludeLists ">
 <pre>
+(this content is a work in progress)
 
 !!!ccTiddly Tiddlers 
 
-[[anonDefaultTiddlers]]
+[[AnonDefaultTiddlers]]
+
+Allows you to specify a different set of tiddlers to be loaded for anonymous users. Logged in users will be shown the [[DefaultTiddlers]].
+
 [[ccAssignments]]
 
 
@@ -16,13 +20,8 @@ Displays the tiddler without showing the date editor tags or title.
 !!!!private
 Only administrators of a workspace can read tiddlers tagged private.
 
-!!!!excludeList
-Tiddler will not be returned listed.
 
-!!!!excludeSearch
-Tiddler will not be returned in search results. 
-
-
+!!! Working Offline : 
 
 </pre>
 </div>

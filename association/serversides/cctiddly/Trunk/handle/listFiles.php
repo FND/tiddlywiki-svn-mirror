@@ -29,7 +29,7 @@ if ($handle = opendir($folder)) {
         if ($file != "." && $file != "..") {
 			$loc = $folder."/".$file;
 			$file_size = array_reduce (array (" B", " KB", " MB"), create_function ('$a,$b', 'return is_numeric($a)?($a>=1024?$a/1024:number_format($a,2).$b):$a;'), filesize ($loc));
-			$out .= "{'username':'".$file."','lastVisit':'12121212','fileSize':'".$file_size."','downloads':'2','bandwidth':'4.6mb','cost':'£2.23'},";
+			$out .= "{'username':'".$file."','fileSize':'".$file_size."', 'url':'".dirname(getUrl())."/uploads/workspace/".$w."/".$file."'},";
 		}
 	}
 	echo substr_replace($out ,"",-1)."]";

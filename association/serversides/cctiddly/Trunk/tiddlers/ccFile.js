@@ -8,12 +8,9 @@ merge(config.macros.ccFile,{
 	listAdminTemplate: {
 	columns: [	
 	{name: 'Selected', field: 'Selected', rowName: 'name', type: 'Selector'},
-	{name: 'Name', field: 'name', title: "Username", type: 'String'},
-	{name: 'Last Visit', field: 'lastVisit', title: "Last Login", type: 'String'},
+	{name: 'Name', field: 'name', title: "Filename", type: 'String'},
 	{name: 'File Size', field: 'fileSize', title: "File Size", type: 'String'},
-	{name: 'Download Coun', field: 'downloads', title: "Downloads", type: 'String'},
-	{name: 'Bandwidth Used', field: 'bandwidth', title: "Badwidth Used", type: 'String'},
-	{name: 'Cost', field: 'cost', title: "Cost", type: 'String'}
+	{name: 'wiki text', field: 'wikiText', title: "Downloads", type: 'WikiText'}
 	],
 	rowClasses: [
 	{className: 'lowlight', field: 'lowlight'}
@@ -148,9 +145,7 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 			name: a[e].username,
 			lastVisit:a[e].lastVisit,
 			fileSize:a[e].fileSize,
-			downloads:a[e].downloads,
-			bandwidth:a[e].bandwidth,
-			cost:a[e].cost
+			wikiText:"[img[This is shown as a tooltip|"+a[e].url+"]]",
 		});
 	}
 	

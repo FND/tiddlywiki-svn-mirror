@@ -2,7 +2,7 @@
 <pre>
 ~TiddlyWiki is a single html file containing all the characteristics of a wiki - all the content, all the functionality (including editing, saving, tagging and searching) and the style sheet. Because it's a single file, it's very portable - you can email it, put it on a web server or share it via a USB stick. ccTiddly provides a serverside backend to ~TiddlyWiki so you can store your content on the web and access it from anywhere. 
 
-Together the two provide a powerful combination which allows you to collaborate with your colleages online, you can then tear a copy of all the work to take on a plane or train journey.  When you have found an internet connection again you can sync your changes with the online copy and you will be nofified of any conflicts. 
+Together the two provide a powerful combination which allows you to collaborate with your colleages online, you can then tear a copy of all the work to take on a plane or train journey.  When you have found an internet connection again you can sync your changes with the online copy and you will be notified of any conflicts. 
 
 Some things you could do with ccTiddly workspace include: 
 
