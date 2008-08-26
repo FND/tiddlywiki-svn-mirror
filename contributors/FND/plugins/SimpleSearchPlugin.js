@@ -2,7 +2,7 @@
 |''Name''|SimpleSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.3.1|
+|''Version''|0.4.0|
 |''Status''|stable|
 |''Source''|http://devpad.tiddlyspot.com/#SimpleSearchPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
@@ -14,7 +14,10 @@
 !!v0.3.0 (2008-08-19)
 * added Open All button (renders Classic Search option obsolete)
 * sorting by relevance (title matches before content matches)
+!!v0.4.0 (2008-08-26)
+* added tag matching
 !To Do
+* tag matching optional
 * animations for container creation and removal
 * when clicking on search results, do not scroll to the respective tiddler (optional)
 * use template for search results
@@ -126,14 +129,17 @@ TiddlyWiki.prototype.search = function(searchRegExp, sortField, excludeTag, matc
 	var candidates = this.reverseLookup("tags", excludeTag, !!match);
 	var primary = [];
 	var secondary = [];
+	var tertiary = [];
 	for(var t = 0; t < candidates.length; t++) {
 		if(candidates[t].title.search(searchRegExp) != -1) {
 			primary.push(candidates[t]);
-		} else if(candidates[t].text.search(searchRegExp) != -1) {
+		} else if(candidates[t].tags.join(" ").search(searchRegExp) != -1) {
 			secondary.push(candidates[t]);
+		} else if(candidates[t].text.search(searchRegExp) != -1) {
+			tertiary.push(candidates[t]);
 		}
 	}
-	var results = primary.concat(secondary);
+	var results = primary.concat(secondary).concat(tertiary);
 	if(sortField) {
 		results.sort(function(a, b) {
 			return a[sortField] < b[sortField] ? -1 : (a[sortField] == b[sortField] ? 0 : +1);
