@@ -14,7 +14,6 @@ function ccTiddlyAdaptor()
 
 ccTiddlyAdaptor.prototype = new AdaptorBase();
 
-// !!TODO set the variables below
 ccTiddlyAdaptor.mimeType = 'application/json';
 ccTiddlyAdaptor.serverType = 'cctiddly'; // MUST BE LOWER CASE
 ccTiddlyAdaptor.serverParsingErrorMessage = "Error parsing result from server";
@@ -55,48 +54,44 @@ ccTiddlyAdaptor.dateFromEditTime = function(editTime)
 
 ccTiddlyAdaptor.prototype.login = function(context,userParams,callback)
 {
-//#console.log('login:'+context.username);
-       context = this.setContext(context,userParams,callback);
-       var uriTemplate = '%0/handle/loginFile.php?cctuser=%1&cctpass=%2';
-       var uri = uriTemplate.format([context.host,context.username,context.password]);
-       var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.loginCallback,context);
-       return typeof req == 'string' ? req : true;
+	context = this.setContext(context,userParams,callback);
+	var uriTemplate = '%0/handle/loginFile.php?cctuser=%1&cctpass=%2';
+	var uri = uriTemplate.format([context.host,context.username,context.password]);
+	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.loginCallback,context);
+	return typeof req == 'string' ? req : true;
 };
 
 ccTiddlyAdaptor.loginCallback = function(status,context,responseText,uri,xhr)
 {
-       if(xhr.status==401) {
-               context.status = false;
-       } else {
-               context.status = true;
-       }
-       if(context.callback)
-               context.callback(context,context.userParams);
+	if(xhr.status==401) {
+		context.status = false;
+	} else {
+		context.status = true;
+	}
+	if(context.callback)
+		context.callback(context,context.userParams);
 };
 
 ccTiddlyAdaptor.prototype.register = function(context,userParams,callback)
 {
-//#console.log('register:'+context.username);
-       context = this.setContext(context,userParams,callback);
-       var uriTemplate = '%0/handle/register.php';
-       var uri = uriTemplate.format([context.host,context.username,Crypto.hexSha1Str(context.password)]);
-//#console.log('uri:'+uri);
-       var dataTemplate = 'username=&0&reg_mail=%1&password=%2&password2=%3';
-       var data = dataTemplate.format([context.username,context.password1,context.password2]);
-       var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.registerCallback,context,null,data);
-       return typeof req == 'string' ? req : true;
+	context = this.setContext(context,userParams,callback);
+	var uriTemplate = '%0/handle/register.php';
+	var uri = uriTemplate.format([context.host,context.username,Crypto.hexSha1Str(context.password)]);
+	var dataTemplate = 'username=&0&reg_mail=%1&password=%2&password2=%3';
+	var data = dataTemplate.format([context.username,context.password1,context.password2]);
+	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.registerCallback,context,null,data);
+	return typeof req == 'string' ? req : true;
 };
 
 ccTiddlyAdaptor.registerCallback = function(status,context,responseText,uri,xhr)
 {
-//#console.log('registerCallback:'+status);
-       if(status) {
-               context.status = true;
-       } else {
-               context.status = false;
-       }
-       if(context.callback)
-               context.callback(context,context.userParams);
+	if(status) {
+		context.status = true;
+	} else {
+		context.status = false;
+	}
+	if(context.callback)
+		context.callback(context,context.userParams);
 };
 
 ccTiddlyAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
@@ -210,12 +205,9 @@ ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callbac
 	return typeof req == 'string' ? req : true;
 };
 
-
-
 ccTiddlyAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
         context.status = false;
-//console.log(responseText);
         context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
         if(status) {
                 var info=[]
@@ -244,9 +236,7 @@ ccTiddlyAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xh
                 context.callback(context,context.userParams);
 };
 
-
 ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,userParams,callback)
-// get a list of the revisions for a page
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
@@ -257,9 +247,7 @@ ccTiddlyAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context,
 	var host = this.fullHostName(this.host);
 	var workspace = context.workspace ? context.workspace : tiddler.fields['server.workspace'];
 	var uri = uriTemplate.format([host,workspace,encodedTitle]);
-//console.log('uri: '+uri);
 	var req = ccTiddlyAdaptor.doHttpGET(uri,ccTiddlyAdaptor.getTiddlerRevisionListCallback,context);
-//#console.log("req:"+req);
 };
 
 ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,responseText,uri,xhr)
@@ -268,7 +256,6 @@ ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,respons
 		status = false;
 	if(xhr.status=="204")
 		status = false;
-//#fnLog('xhr:'+xhr);
 	context.status = false;
 	if(status) {
 		var r =  responseText;
@@ -318,74 +305,69 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 		tiddler.fields['server.page.revision'] = 10000;
 	else
 		tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10)+1;
-	var payload = "workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+"&body="+encodeURIComponent(tiddler.text)+"";
-		var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
+	
+	var payload = "workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
+"&body="+encodeURIComponent(tiddler.text)+"";
+	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 	return typeof req == 'string' ? req : true;
 };
 
 ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
-	
-//console.log('px:'+xhr.status)	
-    context.status = false;
-       if(status) {
-			context.status = true;
-       } else {
-	   		context.status = false;
-			if(xhr.status == 401 || xhr.status==409)
-			{
-					window.loggedIn = false; // we should check for other cases - revisions have changed. 
-					var a = document.getElementById('backstageCloak');
-					a.style.display = "block";	
-					//a.style.opacity = "0.7"; 
-					a.style.height= "100%";
-					var b = document.getElementById('backstage');
-					b.style.position="absolute";	
-					b.style.padding='40px 0px 0px 0px';
-					//b.innerHTML = wikifyStatic("<<ccLogin>>");
-				//	window.open(window.location,'login window')
-					frm=createTiddlyElement(b,"form",null,"wizard");
-					var body=createTiddlyElement(frm,"div",null,"wizardBody");
-					var step=createTiddlyElement(body,"div",null,"wizardStep");
-					createTiddlyElement(step,"h1",null,null,"Your changes were *NOT* saved");
-					createTiddlyElement(step,"br");
-					createTiddlyElement(step,"br");		
-					createTiddlyText(step,"Please click the button below which will open a new window.");
-					createTiddlyElement(step,"br");
-					createTiddlyElement(step,"br");
-					
-					if(xhr.status==401){
-						createTiddlyText(step,"Your session has expired.");
-						createTiddlyElement(step,"br");	
-						createTiddlyText(step,"You will need to log into the new window and then copy your changes from this window into the new window. ");
-					}else
-					{
-								createTiddlyText(step,"There was a conflict when saving.");
-								createTiddlyElement(step,"br");	
-								createTiddlyText(step,"Please open the page in a new window to see the changes.");		
-					}
-					createTiddlyElement(step,"br");
-					createTiddlyElement(step,"br");
-				createTiddlyButton(step,"Open a Window where I can save my changes	.... ",null,function(e){ window.open (window.location,"mywindow");	 return false;});
-					createTiddlyElement(step,"br");
-					createTiddlyElement(step,"br");
-					createTiddlyButton(step,"Hide this message",null,function(e){a.style.display = "none"; b.style.display = "none";	 return false;});
-					createTiddlyElement(step,"br");
-					createTiddlyElement(step,"br");
-					createTiddlyText(step,"Sorry for any inconvenience. ");
-				
+	context.status = false;
+	if(status) {
+		context.status = true;
+	} else {
+		context.status = false;	
+		if(xhr.status == 401 || xhr.status==409)
+		{
+			window.loggedIn = false; // we should check for other cases - revisions have changed. 
+			var a = document.getElementById('backstageCloak');
+			a.style.display = "block";	
+			//a.style.opacity = "0.7"; 
+			a.style.height= "100%";
+			var b = document.getElementById('backstage');
+			b.style.position="absolute";	
+			b.style.padding='40px 0px 0px 0px';
+			//b.innerHTML = wikifyStatic("<<ccLogin>>");
+			//window.open(window.location,'login window')
+			frm=createTiddlyElement(b,"form",null,"wizard");
+			var body=createTiddlyElement(frm,"div",null,"wizardBody");
+			var step=createTiddlyElement(body,"div",null,"wizardStep");
+			createTiddlyElement(step,"h1",null,null,"Your changes were *NOT* saved");
+			createTiddlyElement(step,"br");
+			createTiddlyElement(step,"br");		
+			createTiddlyText(step,"Please click the button below which will open a new window.");
+			createTiddlyElement(step,"br");
+			createTiddlyElement(step,"br");
+			if(xhr.status==401){
+				createTiddlyText(step,"Your session has expired.");
+				createTiddlyElement(step,"br");	
+				createTiddlyText(step,"You will need to log into the new window and then copy your changes from this window into the new window. ");
 			}else{
-				displayMessage(responseText);
-               displayMessage('  xhr status is' + xhr.status);
-               displayMessage('putTiddler xhr status text is' + xhr.statusText);
-               context.statusText = xhr.statusText;	
+				createTiddlyText(step,"There was a conflict when saving.");
+				createTiddlyElement(step,"br");	
+				createTiddlyText(step,"Please open the page in a new window to see the changes.");		
 			}
-		
-       }
-       	if(context.callback){
-			context.callback(context,context.userParams);
+			createTiddlyElement(step,"br");
+			createTiddlyElement(step,"br");
+			createTiddlyButton(step,"Open a Window where I can save my changes	.... ",null,function(e){ window.open (window.location,"mywindow");	 return false;});
+			createTiddlyElement(step,"br");
+			createTiddlyElement(step,"br");
+			createTiddlyButton(step,"Hide this message",null,function(e){a.style.display = "none"; b.style.display = "none";	 return false;});
+			createTiddlyElement(step,"br");
+			createTiddlyElement(step,"br");
+			createTiddlyText(step,"Sorry for any inconvenience. ");
+		}else{
+			displayMessage(responseText);
+			displayMessage('  xhr status is' + xhr.status);
+			displayMessage('putTiddler xhr status text is' + xhr.statusText);
+			context.statusText = xhr.statusText;	
 		}
-               
+	}
+	if(context.callback){
+		context.callback(context,context.userParams);
+	}
 };
 
 ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,callback)

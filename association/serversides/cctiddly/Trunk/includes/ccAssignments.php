@@ -32,8 +32,6 @@ if($tiddlyCfg['use_mod_rewrite'] == 1)
 }
 ?>
 
-config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};
-
 if (config.options.txtTheme == "")
 config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
 
@@ -41,6 +39,7 @@ config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
 if(isset($error404) && $error404 == true)
 {
 ?>
+	// Workspace does not exist.
 	var titleTiddler = store.createTiddler('SiteTitle');
 	titleTiddler.text = "'<?php echo $tiddlyCfg['workspace_name'];?>' does not exists";
 	var subTitleTiddler = store.createTiddler('SiteSubtitle');
@@ -55,7 +54,8 @@ if(isset($error404) && $error404 == true)
 if ($user['verified'] && $workspace_create == "A" &&  $tiddlyCfg['allow_workspace_creation'] ==1)
 {
 	echo "workspacePermission.create = 1;\n";
-}
+} 
+
 if ($user['verified'] && user_isAdmin($user['username'], $tiddlyCfg['workspace_name']))
 {
 	echo "workspacePermission.upload = 1;";
@@ -72,25 +72,15 @@ if ($user['verified'])
 window.loggedIn ="1";
 <?php
 }
-else{
-?>
-
-<?php
-}
 
 $anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);
 $userPerm  = stringToPerm($tiddlyCfg['default_user_perm']);	
-
 ?>
-
-
 
 workspacePermission.anonC = <?php echo permToBinary($anonPerm['create']); ?> ;
 workspacePermission.anonR = <?php echo permToBinary($anonPerm['read']); ?>; 
 workspacePermission.anonU = <?php echo permToBinary($anonPerm['update']); ?>;
 workspacePermission.anonD = <?php echo permToBinary($anonPerm['delete']); ?>;
-
-
 
 workspacePermission.userC = <?php echo permToBinary($userPerm['create']); ?> ;
 workspacePermission.userR = <?php echo permToBinary($userPerm['read']); ?>; 
@@ -113,8 +103,8 @@ config.macros.newTiddler.handler = function(place,macroName,params,wikifier,para
 
 window.workspace_delete = "<?php echo $workspace_delete;?>";
 window.workspace_udate = "<?php echo $workspace_udate;?>";
-window.can_create_account = "<?php echo $tiddlyCfg['can_create_account'];?>";
-window.openid_enabled = "<?php echo $tiddlyCfg['pref']['openid_enabled']; ?>";
+
+
 
 var serverside={
 	url:"<?php echo getURL();?>",		//server url, for use in local TW or TW hosted elsewhere
@@ -123,8 +113,11 @@ var serverside={
 	debug:<?php print $tiddlyCfg['developing'] ?>,		//debug mode, display alert box for each action
 	passwordTime:0,		//defines how long password variable store in cookie. 0 = indefinite
 	messageDuration:5000,				//displayMessage autoclose duration (in milliseconds), 0=leave open
-	loggedIn:<?php echo  isset($usr_val)?user_session_validate():0;?>
+	loggedIn:<?php echo  isset($usr_val)?user_session_validate():0;?>,
+	can_create_account:"<?php echo $tiddlyCfg['can_create_account'];?>",
+	openId:"<?php echo $tiddlyCfg['pref']['openid_enabled']; ?>"
 };
+
 
 config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};
 
@@ -166,15 +159,11 @@ merge(config.optionsDesc,{
 	txtMaxEditRows: "Maximum number of rows in edit boxes",
 	txtFileSystemCharSet: "Default character set for saving changes (Firefox/Mozilla only)"});
 	
-	merge(config.macros.options,{
-		wizardTitle: "Change Settings",
-		step1Title: "",
-		step1Html: '<input type="hidden" name="markList"></input><br><input type="hidden" checked="false" name="chkUnknown"></input>These options are saved in a cookie.'
-	});
-
-	
-// ccTiddly Macros Assignments 
-
+merge(config.macros.options,{
+	wizardTitle: "Change Settings",
+	step1Title: "",
+	step1Html: '<input type="hidden" name="markList"></input><br><input type="hidden" checked="false" name="chkUnknown"></input>These options are saved in a cookie.'
+});
 
 /*}}}*/
 </pre>

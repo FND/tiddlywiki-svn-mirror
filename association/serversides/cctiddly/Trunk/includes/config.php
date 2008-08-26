@@ -172,7 +172,7 @@ if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
 if (isset($_POST['workspace']))
 	$tiddlyCfg['workspace_name'] = $_POST['workspace'];	
 
-if($tiddlyCfg['workspace_name'] !="")
+if($tiddlyCfg['workspace_name'] !=="")
 	$offline_name = $tiddlyCfg['workspace_name'];
 else 
 	$offline_name = "default_workspace";

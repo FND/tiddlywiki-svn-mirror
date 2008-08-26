@@ -7,10 +7,10 @@ config.macros.ccFile = {}
 merge(config.macros.ccFile,{
 	listAdminTemplate: {
 	columns: [	
+	{name: 'wiki text', field: 'wikiText', title: "", type: 'WikiText'},
 	{name: 'Selected', field: 'Selected', rowName: 'name', type: 'Selector'},
-	{name: 'Name', field: 'name', title: "Filename", type: 'String'},
-	{name: 'File Size', field: 'fileSize', title: "File Size", type: 'String'},
-	{name: 'wiki text', field: 'wikiText', title: "Downloads", type: 'WikiText'}
+	{name: 'Name', field: 'name', title: "File", type: 'WikiText'},
+	{name: 'Size', field: 'fileSize', title: "size", type: 'String'}
 	],
 	rowClasses: [
 	{className: 'lowlight', field: 'lowlight'}
@@ -27,7 +27,7 @@ var iFrameLoad=function(){
 
 config.macros.ccFile.handler=function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
 	var w = new Wizard();
-	w.createWizard(place,"File Administration");
+	w.createWizard(place,"Manage Files");
 	config.macros.ccFile.refresh(w);
 };
 
@@ -45,14 +45,16 @@ config.macros.ccFile.refresh=function(w){
 		{caption: 'Upload File', tooltip: 'Upload File', onClick: function(w){ config.macros.ccFile.addFileDisplay(null, params); return false } }]);
 };
 
-config.macros.ccFile.delAdminSubmit=function(e, params) {
+config.macros.ccFile.delFileSubmit=function(e, params) {
 	var listView = params.w.getValue("listView");
 	var rowNames = ListView.getSelectedRows(listView);
-	var delUsers = "";
 	for(var e=0; e < rowNames.length; e++) 
-			delUsers += rowNames[e]+",";		
-	doHttp('POST',url+'/handle/workspaceAdmin.php','action=DELETEADMIN&username='+delUsers+'&workspace_name='+workspace,null,null,null,config.macros.ccFile.addAdminCallback,params);
+	doHttp('POST',url+'/handle/listFiles.php','action=DELETEFILE&file='+rowNames[e]+'&workspace_name='+workspace,null,null,null,config.macros.ccFile.delFileCallback,params);
 	return false; 
+};
+
+config.macros.ccFile.delFileCallback=function(status,params,responseText,uri,xhr) {
+	config.macros.ccFile.refresh(params.w);
 };
 
 config.macros.ccFile.addFileDisplay = function(e, params) {
@@ -142,15 +144,16 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 	for(var e=0; e < a.length; e++){ 		
 	out += a[e].username;	
 		adminUsers.push({
-			name: a[e].username,
+			htmlName: "<html><a href='"+a[e].url+"' target='new'>"+a[e].filename+"</a></html>",
+			name: a[e].filename,
+			wikiText:'<html><img onclick=alert("a"); src="'+a[e].url+'" style="width: 70px; "/></html>',
 			lastVisit:a[e].lastVisit,
-			fileSize:a[e].fileSize,
-			wikiText:"[img[This is shown as a tooltip|"+a[e].url+"]]",
+			fileSize:a[e].fileSize
 		});
 	}
 	
 	var html ='<input type="hidden" name="markList"></input>';
-	params.w.addStep("Manage administrators for workspace : "+workspace, html);
+	params.w.addStep("Manage files in workspace  '"+workspace+"'", html);
 	var markList = params.w.getElement("markList");
 	var listWrapper = document.createElement("div");
 	markList.parentNode.insertBefore(listWrapper,markList);
@@ -171,6 +174,9 @@ config.macros.ccFile.listFilesCallback = function(status,params,responseText,uri
 		}
 }
 
-config.macros.ccFile.addAdminCallback = function(status,params,responseText,uri,xhr) {	
+config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,xhr) {	
+	
+	displayMessage("add file callback");
 	config.macros.ccFile.refresh(params.w);
 };
+
