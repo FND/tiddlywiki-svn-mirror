@@ -8,4 +8,5 @@ para: shadow.html
 para: DefaultTiddlers.html
 para: ViewTemplate.html
 para: EditTemplate.html
-para: macro_mockup.html
+para: NewTiddlerMacroDev.html
+para: TiddlerTemplate.html

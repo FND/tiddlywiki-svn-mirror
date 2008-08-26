@@ -174,7 +174,7 @@ function saveMain(localPath,original)
 
 function getLocalPath(origPath)
 {
-	var originalPath = convertUriToUTF8(origPath,config.options.txtFileSystemCharSet);
+	var originalPath = convertUriToUTF8(origPath,'UTF-8');
 	// Remove any location or query part of the URL
 	var argPos = originalPath.indexOf("?");
 	if(argPos != -1)

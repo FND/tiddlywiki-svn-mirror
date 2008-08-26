@@ -39,8 +39,6 @@ js: js/FileSystem.js
 # jquery plugins
 js: jqueryPlugins/jwisiwyg-0.4/jquery.wysiwyg.pack.js
 style: jqueryPlugins/jwisiwyg-0.4/jquery.wysiwyg.css
-# js:jqueryPlugins/jquery.lightbox-0.5.pack
-# style: css/jquery.lightbox-0.5.css
 
 
 #

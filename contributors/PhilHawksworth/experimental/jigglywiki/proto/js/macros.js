@@ -16,7 +16,11 @@ jw.macros = {
 			var opts = $.extend(defaults, args);	
 			var data = jw.getTiddlerData(opts.tiddler, 'store');
 			var val = $(data[opts.property]);
-			$('<'+opts.element+'>'+ val.html() +'</'+opts.element+'>').addClass(opts.css).insertAfter(opts.place);				
+			if(opts.element == 'input') {
+				$('<input type=\'text\' value=\''+ val.html() +'\'>').addClass(opts.css).insertAfter(opts.place);		
+			} else {
+				$('<'+opts.element+'>'+ val.html() +'</'+opts.element+'>').addClass(opts.css).insertAfter(opts.place);				
+			}
 		}
 	},
 	'newTiddler' : {
@@ -28,21 +32,38 @@ jw.macros = {
 				css: 'button'
 			};
 			var opts = $.extend(defaults, args);
-			$('<div class=\''+ opts.css +'\' title=\''+ opts.tooltip +'\'>'+ opts.label +'</div>').insertAfter(opts.place).click(function(e){
+			$('<a class=\''+ opts.css +'\' title=\''+ opts.tooltip +'\' href=\'#\'>'+ opts.label +'</a>').insertAfter(opts.place).click(function(e){
 				e.preventDefault();
-				var opts = {};
-				jw.macros.newTiddler.createNewTiddler(opts);
+				var op = {
+					place: opts.place
+				};
+				jw.macros.newTiddler.createNewTiddler(op);
 			});
 		},
 		createNewTiddler: function(args) {
 			var defaults = {
-				place: opts.place,
-				title: "New Tiddler",
-				text: null
+				place: null,
+				title: "NewTiddler",
+				text: "Add your tiddler text"
 			};
 			var opts = $.extend(defaults, args);
-			
-			console.log('Create new tiddler ', opts);
+
+			// clone the template in the store and replace the placeholder values
+			var newTiddler = jw.getTiddler('TIDDLER_TEMPLATE', 'store').clone();
+			var html = newTiddler.html();
+			html = html.replace(/TIDDLER_TEMPLATE/g, opts.title);
+			html = html.replace(/TIDDLER_TEXT/g, opts.text);
+			html = html.replace(/TIDDLER_MODIFIER/g, jw.config.options.UserName);
+			newTiddler.html(html);
+			$('#store').append(newTiddler);
+						
+			//display the new tiddler in the story.			
+			var settings = {
+				name: opts.title,
+				relative: jw.containingTiddler(opts.place),
+				template: 'EditTemplate'
+			};
+			jw.displayTiddler(settings);
 		}
 	}
 };
@@ -52,7 +73,7 @@ jw.macros = {
 // and hide the macro code block.
 jw.callMacro = function(macro, args) {
 
-	console.log('Calling macro:', macro, args);
+	// console.log('Calling macro:', macro, args);
 
 	if(jw.macros[macro]) {
 		jw.macros[macro].handler(args);

@@ -25,7 +25,6 @@ jw.controls = {
 jw.editTiddler = function(tiddler) {
 	var container = $(tiddler).parents('div.story')[0].id;
 	var name = jw.getTiddlerNameFromStory(tiddler);
-	// jw.displayTiddler(name, tiddler, 'replace', container, 'EditTemplate', true);
 	var options = { 
 		name:name, 
 		relative:tiddler, 
@@ -41,8 +40,7 @@ jw.editTiddler = function(tiddler) {
 jw.cancelEditTiddler = function(tiddler) {
 	var container = $(tiddler).parents('div.story')[0].id;
 	var name = jw.getTiddlerNameFromStory(tiddler);
-	// jw.displayTiddler(name, tiddler, 'replace', container, 'ViewTemplate', true);
-	var options = { 
+		var options = { 
 		name:name, 
 		relative:tiddler, 
 		position:'replace', 
@@ -55,22 +53,34 @@ jw.cancelEditTiddler = function(tiddler) {
 
 jw.saveTiddler = function(tiddler) {
 	var n = jw.getTiddlerNameFromStory(tiddler);
-	
-	// name
-	
+	var t = jw.getTiddler(n,'store');
+
 	// text
 	var text = tiddler.find("div.text textarea")[0].value;
-	var t = jw.getTiddler(n,'store');
 	storedTextDiv = t.find('div.text');
 	storedTextDiv.html(text);
 
 	// tags
 	
 	// meta
+
+	// name
+	var name = tiddler.find("input.tiddlerName")[0].value;
+	tiddlerTitle = t.find('h1.tiddlerName');
+	tiddlerTitle.text(name);	
+	tiddlerTitleAnchor = t.find('a.tiddlerName');
+	tiddlerTitleAnchor.attr('name','tiddler:'+ name);
 	
-	// Reflect the changes in the UI.
-	jw.cancelEditTiddler(tiddler);
-	
+	//replace this tiddler in the story
+	var container = $(tiddler).parents('div.story')[0].id;
+	var options = { 
+		name:name, 
+		relative:tiddler, 
+		position:'replace', 
+		container:container,
+		overflow: true
+	};
+	jw.displayTiddler(options);	
 };
 
 jw.closeTiddler = function(tiddler) {

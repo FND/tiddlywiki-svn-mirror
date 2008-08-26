@@ -12,6 +12,11 @@ jw.displayTiddler = function(options) {
 	var opts = $.extend(defaults, options);
 	var t = jw.getTiddler(opts.name, 'store');
 	
+	if(!t) {
+		alert("Nope. Couldn't find a tiddler called " + opts.name + ".\n\nAre you sure that's what it's called?");
+		return;
+	}
+	
 	// get a copy of the template html structure from template tiddler.
 	var templ = $(jw.getTiddlerData(opts.template,'store').text).clone();
 	templ.find(":first-child").prepend("<a class='tiddlerName' name='tiddler:"+ jw.getTiddlerData(t,'store').tiddlerName +"'></a>");

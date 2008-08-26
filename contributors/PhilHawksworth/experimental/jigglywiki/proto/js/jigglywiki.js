@@ -1,18 +1,14 @@
-///////////
-// original tiddlywiki support
-var config = {};
-config.options = {};
-config.options.txtFileSystemCharSet = 'UTF-8';
-///////////
-
 
 $(document).ready(function(){
 	loadJQueryExtensions();
 	jw.init();
 });	
 
-
 var jw = {};
+jw.config = {};
+jw.config.options = {};
+jw.config.options.UserName = "PhilHawksworth";
+
 
 jw.log = function(str) {
 	if(window.console && window.console.log) {
