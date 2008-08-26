@@ -27,7 +27,7 @@
 </div>
 <div id='bodywrapper'>
 <div id='sidebar'>
-<div id='sidebarOptions' refresh='content' tiddler='smmTheme##SideBarOptions'></div>
+<div id='sidebarOptions' refresh='content' force='true' tiddler='smmTheme##SideBarOptions'></div>
 </div>
 <div id='displayArea'>
 <div id='messageArea'></div>
