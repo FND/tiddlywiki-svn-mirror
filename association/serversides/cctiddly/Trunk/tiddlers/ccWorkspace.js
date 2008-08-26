@@ -173,25 +173,25 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 
 config.macros.ccEditWorkspace={};	
 merge(config.macros.ccEditWorkspace,{
-	WizardTitleText:"Edit Notebook Permissions",
+	WizardTitleText:"Edit Workspace Permissions",
 	stepEditTitle:null,
-	stepLabelCreate:'Create Tiddlers',
-	stepLabelRead:'Read Tiddlers',
-	stepLabelUpdate:'Edit Tiddlers',
-	stepLabelDelete:'Delete Tiddlers',
+	stepLabelCreate:'Create',
+	stepLabelRead:'Read',
+	stepLabelUpdate:'Edit',
+	stepLabelDelete:'Delete',
 	stepLabelPermission:'',
-	stepLabelAnon:'  Anonymous  - ',
-	stepLabelUser:' Authenticated - ',
-	stepLabelAdmin:' Admin - ',
+	stepLabelAnon:'  Anonymous   ',
+	stepLabelUser:' Authenticated   ',
+	stepLabelAdmin:' Admin  ',
 	buttonSubmitCaption:" update ",
-	buttonSubmitToolTip:"update notebook permissions",
-	button1SubmitCaption:"back",
+	buttonSubmitToolTip:"Update workspace permissions",
+	button1SubmitCaption:"ok",
 	button1SubmitToolTip:"review permissions",
 	step2Error:"Error"
 	});
 	
 config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikifier, paramString, tiddler){
-	if (workspacePermission.owner!=1)
+	if (workspacePermission.owner !=1)
 	{
 		createTiddlyElement(place,'div', null, "annotation",  'You do not have permissions to create a workspace.  You may need to log in.');
 		return null;
@@ -227,7 +227,7 @@ config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikif
 	
 	var tableBodyBuffer = new Array();
 	// define html here
-	tableBodyBuffer.push('<table  border=1px>');
+	tableBodyBuffer.push('<table border=0px class="listView twtable">');
 	tableBodyBuffer.push('	<tr">');
 	tableBodyBuffer.push('		<th>' + this.stepLabelPermission + '</th>');
 	if (booAnon) {
@@ -239,11 +239,11 @@ config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikif
 	if (booAdmin) {
 		tableBodyBuffer.push('		<th>' + this.stepLabelAdmin + '</th>');
 	}
-	tableBodyBuffer.push('	</tr>');
-	tableBodyBuffer.push('	<tr>')
-	tableBodyBuffer.push('		<td>' + this.stepLabelRead + '</td>');
+	tableBodyBuffer.push('</tr>');
+	tableBodyBuffer.push('<tr>')
+	tableBodyBuffer.push('<th align="right">'+this.stepLabelRead+'</th>');
 	if (booAnon) {
-		tableBodyBuffer.push('		<td><input name="anR" class="checkInput" type="checkbox" ');
+		tableBodyBuffer.push('<td><input name="anR" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.anonR == 1 ? 'checked' : '');
 		tableBodyBuffer.push(' ></input></td>');
 	}
@@ -257,7 +257,7 @@ config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikif
 	}
 	tableBodyBuffer.push('	</tr>');
 	tableBodyBuffer.push('	<tr>');
-	tableBodyBuffer.push('		<td>' + this.stepLabelCreate + '</td>');
+	tableBodyBuffer.push('		<th  align="right">' + this.stepLabelCreate + '</th>');
 	if (booAnon) {
 		tableBodyBuffer.push('		<td><input name="anC" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.anonC == 1 ? 'checked' : '');
@@ -273,7 +273,7 @@ config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikif
 	}
 	tableBodyBuffer.push('	</tr>');
 	tableBodyBuffer.push('	<tr>');
-	tableBodyBuffer.push('		<td>' + this.stepLabelUpdate + '</td>');
+	tableBodyBuffer.push('<th  align="right">' + this.stepLabelUpdate + '</th>');
 	if (booAnon) {
 		tableBodyBuffer.push('		<td><input name="anU" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.anonU == 1 ? 'checked' : '');
@@ -289,7 +289,7 @@ config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikif
 	}
 	tableBodyBuffer.push('	</tr>');
 	tableBodyBuffer.push('	<tr>');
-	tableBodyBuffer.push('		<td>' + this.stepLabelDelete + '</td>');
+	tableBodyBuffer.push('		<th  align="right">' + this.stepLabelDelete + '</th>');
 	if (booAnon) {
 		tableBodyBuffer.push('		<td><input name="anD" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.anonD == 1 ? 'checked' : '');

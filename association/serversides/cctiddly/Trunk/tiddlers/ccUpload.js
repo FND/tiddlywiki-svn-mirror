@@ -75,7 +75,7 @@ if(navigator.appName=="Microsoft Internet Explorer")
 //	username.type="HIDDEN";
 	username.value=config.options.txtUserName;		
 	step.appendChild(username);
-	var label=createTiddlyElement(step,"label",null,"label","Select file to upload");
+	var label=createTiddlyElement(step,"label",null,"label","File ");
 	label.setAttribute("for","ccfile");
 	var file=createTiddlyElement(null,'input','ccfile','input');				
 	file.type="file";

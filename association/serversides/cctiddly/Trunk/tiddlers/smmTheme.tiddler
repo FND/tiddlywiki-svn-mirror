@@ -191,7 +191,7 @@ h1 {
 .popup li a {
 	padding:12px;
 }
-#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a{
+#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, #sidebarOptions .sliderPanel input{
 	background-color:#111;
 	color:#999;
 	border:1px solid #111;
@@ -206,7 +206,7 @@ a:hover {
 	background-color:#222;
 	color:#eee
 }
-#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover{
+#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover, #sidebarOptions .sliderPanel input:hover{
 	border:1px dotted #000;
 	background-color:#222;
 	color:white;
@@ -226,7 +226,7 @@ line-height:40px;
 	padding-top:20px;
 
 }
-.editor textarea, .editor input, input, body select {
+.editor textarea, .editor input,  input, body select {
 	border:1px solid #222;
 	background-color:#333;
 	color:#999;
@@ -441,7 +441,7 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 
 body .wizardFooter { 
 	padding : 0em 0px 0px 5px; 
-	background:#222; 
+	background:#111; 
 	font-weight:bold;}   
 
 .wizardStep {
@@ -475,11 +475,11 @@ body .wizard {
 }
 
 .viewer .wizard, body .wizard{
-	background:#222;
+	background:#111;
 	margin:2em;
 	border:0px;
-	border:1px dotted green;
-	color:#999;
+	border:1px solid #222;
+	color:#777;
 }
 .wizard h1{
 	color:#999;
@@ -493,7 +493,7 @@ body .wizardStep{
 	color:#999;
 	border:0px;
 	margin:0m;
-	background:#222;	
+	background:#111;	
 }
 
 body select {

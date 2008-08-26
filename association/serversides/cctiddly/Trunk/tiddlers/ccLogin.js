@@ -191,9 +191,9 @@ config.macros.toolbar.isCommandEnabled=function(command,tiddler){
 config.macros.ccOptions={};	
 config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	if(workspacePermission.owner==1)
-		wikify("[[manage|Manage Users]]<br />", place);
+		wikify("[[users|Manage Users]]<br />[[permissions|Permissions]]<br />", place);
 	if (isLoggedIn())
-		wikify("[[upload|Upload]]<br />", place);
+		wikify("[[files|files]]<br />", place);
 	if (workspacePermission.create==1)
 		wikify("[[create|CreateWorkspace]]<br />", place);
 		if (isLoggedIn())

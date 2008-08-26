@@ -42,7 +42,10 @@ config.macros.ccFile.refresh=function(w){
 			 return false;
 		}
 			 }, 
-		{caption: 'Upload File', tooltip: 'Upload File', onClick: function(w){ config.macros.ccFile.addFileDisplay(null, params); return false } }]);
+		{caption: 'Upload File', tooltip: 'Upload File', onClick: function(w){ 
+			story.displayTiddler(null,"Upload");
+			//config.macros.ccFile.addFileDisplay(null, params); return false 
+			} }]);
 };
 
 config.macros.ccFile.delFileSubmit=function(e, params) {
