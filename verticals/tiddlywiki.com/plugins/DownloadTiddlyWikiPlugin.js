@@ -1,8 +1,8 @@
 /***
 |''Name:''|DownloadTiddlyWikiPlugin|
 |''Description:''|Download TiddlyWiki according to browser type|
-|''Version:''|0.0.7|
-|''Date:''|Aug 13, 2008|
+|''Version:''|0.0.8|
+|''Date:''|Aug 26, 2008|
 |''Source:''|http://www.tiddlywiki.com/#DownloadTiddlyWikiPlugin|
 |''License:''|[[BSD open source license]]|
 |''~CoreVersion:''|2.4.1|
@@ -31,25 +31,6 @@ config.macros.download.onClick = function(ev)
 	// display the tiddler containing the instructions
 	var e = ev || window.event;
 	var title = "Installation";
-	if(config.browser.isMac) {
-		if(config.browser.isSafari) {
-			title = "Installation guidelines: Safari on Mac OS X";
-		} else if(config.browser.isOpera) {
-			title = "Installation guidelines: Opera on Mac OS X";
-		} else if(config.browser.isGecko) {
-			title = "Installation guidelines: Firefox on Mac OS X";
-		}
-	} else if(config.browser.isWindows) {
-		if(config.browser.isIE) {
-			title = "Installation guidelines: Internet Explorer on Windows";
-		} else if(config.browser.isGecko) {
-			title = "Installation guidelines: Firefox on Windows";
-		}
-	} else if(config.browser.isLinux) {
-		if(config.browser.isGecko) {
-			title = "Installation guidelines: Firefox on Ubuntu";
-		}
-	}
 	var url = config.browser.isSafari || config.browser.isOpera ? 'http://www.tiddlywiki.com/empty.zip' :'http://www.tiddlywiki.com/empty.download';
 	if(config.browser.isOpera || config.browser.isWindows) {
 		story.displayTiddler(target,title);
