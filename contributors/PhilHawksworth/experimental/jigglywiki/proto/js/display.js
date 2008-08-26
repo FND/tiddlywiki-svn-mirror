@@ -39,7 +39,15 @@ jw.displayTiddler = function(options) {
 	}
 	
 	var displayTiddler = jw.getTiddler(opts.name, opts.container);
+	
+	// apply the view macros.
 	jw.findMacros(displayTiddler,t);
+
+	// apply the macros contained in the tiddler.
+	jw.findMacros(displayTiddler,t);
+	
+	// Refactor this stuff!
+	
 	displayTiddler.show();
 	if(!opts.overflow) {
 		jw.ensureTiddlerVisible(displayTiddler);
@@ -54,25 +62,26 @@ jw.ensureTiddlerVisible = function(t) {
 };
 
 
-
 // find and call macros in this tiddler.
-jw.findMacros = function(diplayTiddler, srcTiddler) {
-	diplayTiddler.find('code.macro').each(function(n,e){
-		// build an object for calling the macro handler.
-		var opts = {
-			tiddler:srcTiddler,
-			place:$(this)
-		};
-		var t = $.trim($(e).text());
-		var pairs = t.split(',');
-		for (var p=0; p < pairs.length; p++) {
-			nv = pairs[p].split(':');
-			opts[$.trim(nv[0])] = $.trim(nv[1]);
-		};	
-		// pass the macro name directly and remove it fro the arguments passed to the macro caller.
-		var m = opts.macro;
-		delete opts.macro;
-		jw.callMacro(m, opts);	
+jw.findMacros = function(displayTiddler, storedTiddler) {	
+	displayTiddler.find('code.macro').each(function(n,e){		
+		if( $(this).css('display') == 'block') {		
+			// build an object for calling the macro handler.
+			var opts = {
+				tiddler:storedTiddler,
+				place:$(this)
+			};
+			var t = $.trim($(e).text());
+			var pairs = t.split(',');
+			for (var p=0; p < pairs.length; p++) {
+				nv = pairs[p].split(':');
+				opts[$.trim(nv[0])] = $.trim(nv[1]);
+			};	
+			// pass the macro name directly and remove it fro the arguments passed to the macro caller.
+			var m = opts.macro;
+			delete opts.macro;
+			jw.callMacro(m, opts);
+		}
 	});	
 };
 

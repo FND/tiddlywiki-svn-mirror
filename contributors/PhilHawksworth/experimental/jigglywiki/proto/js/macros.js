@@ -28,9 +28,9 @@ jw.macros = {
 				css: 'button'
 			};
 			var opts = $.extend(defaults, args);
-			place.append('<div class=\''+ opts.css +'\' title=\''+ opts.tooltip +'\'>'+ opts.label +'</div>').click(function(e){
+			$('<div class=\''+ opts.css +'\' title=\''+ opts.tooltip +'\'>'+ opts.label +'</div>').insertAfter(opts.place).click(function(e){
 				e.preventDefault();
-				this.createNewTiddler();
+				jw.macros.newTiddler.createNewTiddler();
 			});
 		},
 		createNewTiddler: function(args) {
@@ -51,7 +51,7 @@ jw.macros = {
 // and hide the macro code block.
 jw.callMacro = function(macro, args) {
 
-	// console.log('Calling macro:', macro, args);
+	console.log('Calling macro:', macro, args);
 
 	if(jw.macros[macro]) {
 		jw.macros[macro].handler(args);
