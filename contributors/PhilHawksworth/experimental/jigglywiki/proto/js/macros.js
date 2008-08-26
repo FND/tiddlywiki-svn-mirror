@@ -30,7 +30,8 @@ jw.macros = {
 			var opts = $.extend(defaults, args);
 			$('<div class=\''+ opts.css +'\' title=\''+ opts.tooltip +'\'>'+ opts.label +'</div>').insertAfter(opts.place).click(function(e){
 				e.preventDefault();
-				jw.macros.newTiddler.createNewTiddler();
+				var opts = {};
+				jw.macros.newTiddler.createNewTiddler(opts);
 			});
 		},
 		createNewTiddler: function(args) {
