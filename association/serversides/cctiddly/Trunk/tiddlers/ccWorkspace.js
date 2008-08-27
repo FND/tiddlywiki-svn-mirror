@@ -181,7 +181,7 @@ merge(config.macros.ccEditWorkspace,{
 	stepLabelAnon:'  Anonymous   ',
 	stepLabelUser:' Authenticated   ',
 	stepLabelAdmin:' Admin  ',
-	buttonSubmitCaption:" update ",
+	buttonSubmitCaption:"Update Workspace Permissions",
 	buttonSubmitToolTip:"Update workspace permissions",
 	button1SubmitCaption:"ok",
 	button1SubmitToolTip:"review permissions",
