@@ -9,6 +9,9 @@ $tiddlyCfg['db']['pass'] = "";		//login password
 $tiddlyCfg['db']['name'] = "cct17";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
+
+$tiddlyCfg['adminPassword'] = "";
+
 // User Managment Information 
 
 $tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
@@ -158,6 +161,7 @@ $tiddlyCfg['status'] = "";
 
 	
 /////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
+
 
 debug("------------------------------------------------------------------------ >> log breaker << ------------------------------------------------------------------------");
 debug("QUERY_STRING: ".$_SERVER['QUERY_STRING'], "params");

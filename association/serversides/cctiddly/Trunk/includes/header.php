@@ -5,17 +5,18 @@
 
 ///// here we are setting a null value to avoid notices in the error logs when it is not used. ////
 // cct_base is used to prefix calls to files, 
-if(!isset($cct_base)) 
-{
-	$cct_base= "";
-	debug("cct_base not exist", "params");
-}
+
 
 //////////////////////////////////////////////////////// include files  ////////////////////////////////////////////////////////
 //include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");	//include in config.php
 include_once($cct_base."includes/functions.php");
 include_once($cct_base."includes/config.php");
 
+if(!isset($cct_base)) 
+{
+	$cct_base= "";
+	debug("cct_base not exist", "params");
+}
 //include is used because language file is included once in config.php file
 include_once($cct_base."includes/tiddler.php");
 include_once($cct_base."includes/user.php");
