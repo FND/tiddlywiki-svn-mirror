@@ -90,18 +90,26 @@ config.macros.ccAdmin.listAllCallback = function(status,params,responseText,uri,
 	var adminUsers = [];
 	if(xhr.status == 403)
 	{
-		displayMessage("Permission Denied.");
 		var html ='You need to be an administrator of this workspace';
 		params.w.addStep("Permission Denied to edit workspace : "+workspace, html);
 		params.w.setButtons([]);
 		return false;
 	}
-	var a = eval(responseText);
-	for(var e=0; e < a.length; e++){ 		
-		out += a[e].username;
-		adminUsers.push({
-			name: a[e].username,
-			lastVisit:a[e].lastVisit});
+	try {
+		var a = eval(responseText);
+		for(var e=0; e < a.length; e++){ 		
+			out += a[e].username;
+			adminUsers.push({
+				name: a[e].username,
+				lastVisit:a[e].lastVisit});
+		}
+
+	} catch(ex) {
+			var html ='There are no admins of this workspace.';
+			params.w.addStep(" "+workspace, html);
+			params.w.setButtons([
+				{caption: 'Make User Admin', tooltip: 'Make User Admin of Workspace', onClick: function(){ config.macros.ccAdmin.addAdminDisplay(null, params)}}]);
+			return false;
 	}
 	//listedTiddlers.sort(function(a,b) {return a.title < b.title ? -1 : (a.title == b.title ? 0 : +1);});
 	// Display the listview"

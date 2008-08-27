@@ -428,13 +428,26 @@ h3 {
 	border: 1px solid #222;
 }
 
-.button, .wizard .button {
+.button {
 	border:1px solid #999;
 	padding:3px 9px;
 	margin:3px 9px; 
 	background:#111; 
 }
 
+.annotation {
+background-color:green;
+border:1px solid white;
+color:white;
+}
+
+.wizardFooter .button{
+background:#222;
+margin:3px;
+padding:4px;
+color:white;
+border:1px solid white;
+}
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 	border:0px solid #666666;
 }

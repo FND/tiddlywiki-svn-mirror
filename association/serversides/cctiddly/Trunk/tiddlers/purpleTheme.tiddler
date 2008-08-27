@@ -496,6 +496,12 @@ h3 {
 	font-size: 14px;
 }
 
+.annotation {
+background-color:purple;
+border:1px solid white;
+color:white;
+}
+
 #contentFooter {
 	background:#999; 
 	clear: both; 
@@ -587,6 +593,10 @@ body select {
 	margin:4px;
 }
 
+
+#backstageArea a:hover {
+background-color:white;
+}
 #backstagePanel {
 	background:none;
 	width:60%;
