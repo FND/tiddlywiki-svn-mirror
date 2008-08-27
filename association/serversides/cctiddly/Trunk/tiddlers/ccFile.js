@@ -143,18 +143,25 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 	var me = config.macros.ccFile;
 	var out = "";
 	var adminUsers = [];
-	var a = eval(responseText);
-	for(var e=0; e < a.length; e++){ 		
-	out += a[e].username;	
-		adminUsers.push({
-			htmlName: "<html><a href='"+a[e].url+"' target='new'>"+a[e].filename+"</a></html>",
-			name: a[e].filename,
-			wikiText:'<html><img onclick=alert("a"); src="'+a[e].url+'" style="width: 70px; "/></html>',
-			lastVisit:a[e].lastVisit,
-			fileSize:a[e].fileSize
-		});
-	}
 	
+	try{
+		var a = eval(responseText);
+		for(var e=0; e < a.length; e++){ 		
+		out += a[e].username;	
+			adminUsers.push({
+				htmlName: "<html><a href='"+a[e].url+"' target='new'>"+a[e].filename+"</a></html>",
+				name: a[e].filename,
+				wikiText:'<html><img onclick=alert("a"); src="'+a[e].url+'" style="width: 70px; "/></html>',
+				lastVisit:a[e].lastVisit,
+				fileSize:a[e].fileSize
+			});
+		}
+	} catch (ex)
+	{
+		params.w.setButtons([
+			{caption: 'Upload File', tooltip: 'Upload File', onClick: function(w){
+			story.displayTiddler(null,"Upload");} }]);
+	}
 	var html ='<input type="hidden" name="markList"></input>';
 	params.w.addStep("Manage files in workspace  '"+workspace+"'", html);
 	var markList = params.w.getElement("markList");

@@ -452,6 +452,11 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 	border:0px solid #666666;
 }
 
+
+.tagging .listTitle, .tagged .listTitle, .txtMainTab .tabContents li  {
+ color:white;
+}
+
 body .wizardFooter { 
 	padding : 0em 0px 0px 5px; 
 	background:#111; 

@@ -41,7 +41,8 @@ config.backstageTasks.remove("upgrade");
 if (config.options.txtTheme == "")
 config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
 
-	
+config.options.chkUsePreForStorage=true;
+displayMessage(config.options.chkUsePreForStorage);
 if (config.options.txtTheme == "")
 config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
 config.options.chkAutoSave = true;

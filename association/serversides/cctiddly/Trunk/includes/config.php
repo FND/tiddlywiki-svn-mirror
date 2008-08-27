@@ -10,7 +10,7 @@ $tiddlyCfg['db']['name'] = "cct17";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 
-$tiddlyCfg['adminPassword'] = "";
+$tiddlyCfg['adminPassword'] = "ie";
 
 // User Managment Information 
 
@@ -48,6 +48,8 @@ $tiddlyCfg['pref']['openid_enabled'] = 0;  // openid not fully implented yet.
 
 // Offline Mode 
 // .tiddler and .js files to be loaded from the tiddlers directory when the user is takes ccTiddly in offline mode. 
+
+
 $tiddlyCfg['pref']['offline']['tiddler'] = 
 array(	"ccTheme", 
 		"smmTheme", 
@@ -157,7 +159,16 @@ $tiddlyCfg['markup_group'] = "";
 $tiddlyCfg['tiddlywiki_type'] = "tiddlywiki";
 $tiddlyCfg['status'] = "";
 	
-//  DO NOT EDIT BEYOND THIS POINT  
+//  DO NOT EDIT BEYOND THIS POINT .....UNLESS YOU KNOW WHAT YOUR DOING......OR DON'T MIND BREAKING STUFF!
+
+
+
+
+
+
+
+
+
 
 	
 /////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.

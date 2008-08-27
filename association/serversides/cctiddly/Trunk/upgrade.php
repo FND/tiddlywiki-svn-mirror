@@ -17,7 +17,7 @@ if($tiddlyCfg['adminPassword']==""){
 }elseif(!$_REQUEST['adminPassword']){
 	echo "Please enter your admin password to confirm that you wish to upgrade from ccTiddly 1.6 to 1.7.</p><p>Please ensure that you have a full database backup in place before upgrading.</p>".$form;
 	exit;
-}elseif($_REQUEST['adminPassword']!=$tiddlyCfg['adminPassword']) {
+}elseif($_REQUEST['adminPassword']!=$tiddlyCfg['adminPassword']){
 	echo "incorrect password entered.".$form;
 	exit;
 }
@@ -27,33 +27,29 @@ exit;
 $cct_base = "";
 include_once($cct_base."includes/header.php");
 
-
 // automatically back up the database. 
 //echo $command = "mysqldump --opt -h ".$tiddlyCfg['db']['host']."  -u ".$tiddlyCfg['db']['login']." -p '".$tiddlyCfg['db']['pass']."'   //".$tiddlyCfg['db']['name']." > backup_".$tiddlyCfg['db']['name'];
 //echo system($command);
 //echo mysql_error();
-//exit;
-
-
-
+//exit
 
 $q = "SELECT * FROM ".$tiddlyCfg['table']['workspace'];
 $result = mysql_query($q);
 
-while ($row = db_fetch_assoc($result)) { 
+while ($row = db_fetch_assoc($result)){ 
 	if ($row['name']!=""){
-		// insert settings tiddler 
 		echo $SQL = "insert into tiddler (title, body, workspace_name, tags) values ('UpgradeConfig17', '// This tiddler has been automatically generated to configure your upgraded instance of ccTiddly to use the new theme mechanism\nconfig.options.txtTheme = &quot;simpleTheme&quot;', '".$row['name']."', 'systemConfig')";
-		mysql_query($SQL);
-		echo mysql_error();
-		
+		$rs = mysql_query($SQL);
+		if(!rs){
+			echo "FAILED TO EXECUTE : ".$SQL;
+			echo mysql_error();	
+		}
 	} 	
 }
 
-$SQL2 = "UPDATE ".$tiddlyCfg['table']['main']." SET fields=(REPLACE (fields,'changecount=','old_changecount='))";
+$SQL2 = "UPDATE ".$tiddlyCfg['table']['main']." SET fields=(REPLACE (fields,'changecount=','old_change_count='))";
 mysql_query($SQL2);
 
-
-echo "Your database has been upgraded. To start using this ccTiddly instance please delete the upgrade.php file.";
+echo "Your database has been upgraded. To start using this ccTiddly instance please delete the upgrade.php file from your server.";
 
 ?>

@@ -153,10 +153,8 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function() {
 	return false; 
 };
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {
-	//displayMessage(xhr.status);
 	if(xhr.status==201) {
 		window.location = params.url;
-		//displayMessage('workspace crated');				
 	} else if (xhr.status == 200) {
 		displayMessage("Workspace name is already in use.");
 	} else if (xhr.status == 403) {
@@ -316,9 +314,6 @@ config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikif
 };
 
 config.macros.ccEditWorkspace.ewSubmit = function(place, macroName, params2, wikifier, paramString, tiddler,w, booAnon, booUser){
-	//alert('got to here');
-	//alert(w.formElem['anC'].checked?"boing":"boink");
-	
 	var trueStr = "A";
 	var falseStr = "U";
 	// build up string with permissions values
@@ -343,10 +338,6 @@ config.macros.ccEditWorkspace.ewSubmit = function(place, macroName, params2, wik
 		userBuffer.push(w.formElem['usD'].checked ? trueStr : falseStr);
 		user = userBuffer.join('');
 	}
-
-	//doHttp('POST',url+'/handle/updateWorkspace.php','ccCreateWorkspace=' + encodeURIComponent(workspace)+'&amp;ccAnonPerm='+encodeURIComponent(anon),null,null,null,config.macros.ccEditWorkspace.editWorkspaceCallback,params);
-	//doHttp('POST',url+'/handle/updateWorkspace.php','ccCreateWorkspace=' + encodeURIComponent(workspace)+'&amp;ccUserPerm='+encodeURIComponent(user),null,null,null,config.macros.ccEditWorkspace.editWorkspaceCallback,params);
-
 	var params = new Array();
 	params.w = w;
 	params.u = user;
@@ -357,25 +348,22 @@ config.macros.ccEditWorkspace.ewSubmit = function(place, macroName, params2, wik
 	params.wi = wikifier;
 	params.ps = paramString;
 	params.t = tiddler;
-displayMessage(url + '/handle/updateWorkspace.php');
 	doHttp('POST', url + '/handle/updateWorkspace.php', 'ccCreateWorkspace=' + encodeURIComponent(workspace) + '&ccAnonPerm=' + encodeURIComponent(anon) + '&ccUserPerm=' + encodeURIComponent(user), null, null, null, config.macros.ccEditWorkspace.editWorkspaceCallback, params);
-
 	return false;
-	
 }
 config.macros.ccEditWorkspace.editWorkspaceCallback = function(status,params,responseText,uri,xhr) {
 	var w = params.w;
 	var me = config.macros.ccEditWorkspace;
 	
-	if (xhr.status == 200) {
+	if (xhr.status == 200){
 		// use the incoming parameters to set the workspace permission variables.
-		if (params.a != '') {
+		if (params.a != ''){
 			workspacePermission.anonR = (params.a.substr(0,1)=='A'?1:0);
 			workspacePermission.anonC = (params.a.substr(1,1)=='A'?1:0);
 			workspacePermission.anonU = (params.a.substr(2,1)=='A'?1:0);
 			workspacePermission.anonD = (params.a.substr(3,1)=='A'?1:0);
 		}
-		if (params.u != '') {
+		if (params.u != ''){
 			workspacePermission.userR = (params.u.substr(0,1)=='A'?1:0);
 			workspacePermission.userC = (params.u.substr(1,1)=='A'?1:0);
 			workspacePermission.userU = (params.u.substr(2,1)=='A'?1:0);
@@ -396,7 +384,4 @@ config.macros.ccEditWorkspace.refresh = function(place, macroName, params, wikif
 	removeChildren(place);
 	config.macros.ccEditWorkspace.handler(place, macroName, params, wikifier, paramString, tiddler);
 }
-
-//}}}
-
 //}}}
