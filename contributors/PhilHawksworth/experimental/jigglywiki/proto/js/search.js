@@ -1,4 +1,7 @@
 jw.search = {};
+jw.search.name = 'jw.search';
+jw.search.description = 'A simple search function for jigglywiki.';
+jw.search.version = '0.0.1';
 
 jw.search.focus = function(input) {
 	if(input.val() == 'search'){

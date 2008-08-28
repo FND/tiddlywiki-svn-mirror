@@ -1,13 +1,13 @@
+var jw = $.fn.jw = {};
+jw.config = {};
+jw.config.options = {};
+jw.config.options.UserName = "PhilHawksworth";
 
 $(document).ready(function(){
 	loadJQueryExtensions();
 	jw.init();
 });	
 
-var jw = {};
-jw.config = {};
-jw.config.options = {};
-jw.config.options.UserName = "PhilHawksworth";
 
 
 jw.log = function(str) {
@@ -21,6 +21,13 @@ jw.log = function(str) {
 
 // We are ready to prepare the jigglywiki document.
 jw.init = function() {
+	
+	// define requirements
+	$(document).require('require','0.0.2');
+	$(document).require('save','0.0.1');
+	$(document).require('search','0.0.1');
+	$(document).require.detect();
+	
 	$('div.tiddler').hide();
 	jw.showDefaultTiddlers();
 	jw.addEventHandlers();

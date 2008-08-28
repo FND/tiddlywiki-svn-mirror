@@ -2,7 +2,7 @@
 /* = page structure = */
 /* ================== */
 body{font:12px/1.7em arial;margin:0;padding:0;}
-div#header{display:block;background-color:#111;padding:1.5em 2em;color:#ddd;}
+div#header{display:block;background-color:#111;padding:1.5em 2em;color:#ddd; border-top:solid 2px #0c0c0c;}
 div#header h1{display:inline;color:#1e52cd;margin-right:0.5em;}
 div#header h3{display:inline;}
 
@@ -15,19 +15,15 @@ div.tiddler:first-child {border-top-style:none;}
 a:link{color:#111;text-decoration:none;border-bottom:solid 1px #111;}
 a:visited{color:#333;text-decoration:none;border-bottom:solid 1px #111;}
 a:hover{color:#1e52cd;border-bottom:solid 2px #1e52cd;}
-
 a.button { background-color: #1e52cd; color:#fff; line-height:2em; padding:3px 1em; border-style:none;}
-
 
 /* ========== */
 /* = banner = */
 /* ========== */
 #banner { position:relative;}
-#banner div.banner_top { border-top:dashed 1.6em #FA0; background-color:#111; margin-top:-1em;}
-#banner div.banner_bottom { border-top:dashed 1.6em #8E5E00; background-color:#000;}
-#banner p {position:absolute; color:#fff;  margin:0; padding:0 1em; right:1em;  bottom:0.2em; font-size:1em;}
-
-
+#banner div.banner_top { border-top:dashed 1.4em #273261; background-color:#1E264B; margin-top:-0.8em;}
+#banner div.banner_bottom { border-top:dashed 1.4em #222B53; background-color:#1A2140;}
+#banner p {position:absolute; color:#fff; font-style:italic;  margin:0; padding:0 1em; right:1em;  bottom:0.2em; font-size:1em;}
 
 /* =========== */
 /* = sidebar = */
@@ -67,7 +63,6 @@ div.tiddler a.control:hover{ font-size:0.8em;color:#fff;background-color:#666;bo
 
 code {display:block; padding:1em; margin:0.5em 0; border:solid 1px #ddd; background-color:#eee; font-family:"Courier New", monospace;}
 
-
 /* ================ */
 /* = Tiddler Edit = */
 /* ================ */
@@ -87,7 +82,6 @@ div.tags a.tiddlerLink:hover{margin:1px;font-size:0.9em;}
 @media only screen and (max-device-width:480px){html,body{width:320px;}
 div.tiddler h1.tiddlerName{font-size:2.8em;}
 }
-
 
 
 #popup_div { background-color:#222; color:#eee; padding:1em;position:absolute; z-index:10; display:none;}
