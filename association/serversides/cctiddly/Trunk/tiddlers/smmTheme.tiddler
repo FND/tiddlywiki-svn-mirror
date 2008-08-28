@@ -315,6 +315,7 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 #sidebarOptions .sliderPanel a:hover, #topMenu a, #topMenu .button:hover {
 	color:white;
 	background-color:transparent;
+	border:0px;
 }
 
 #topMenu a, #topMenu .button {
@@ -444,9 +445,11 @@ color:white;
 .wizardFooter .button{
 background:#222;
 margin:3px;
-padding:4px;
+padding:0.5em;
+padding-left:1.5em;
+padding-right:1.5em;
 color:white;
-border:1px solid white;
+border:1px solid #333;
 }
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 	border:0px solid #666666;
@@ -459,7 +462,7 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 
 body .wizardFooter { 
 	padding : 0em 0px 0px 5px; 
-	background:#111; 
+	background:none; 
 	font-weight:bold;}   
 
 .wizardStep {
@@ -488,7 +491,7 @@ body .wizard {
 	padding : 4px 14px 4px 14px;
 	font-weight:bold;
 	color:#292929;
-	border:solid 1px #292929; 
+	border:solid 0px #292929; 
 	margin-top:1px;
 }
 
@@ -496,7 +499,7 @@ body .wizard {
 	background:#111;
 	margin:2em;
 	border:0px;
-	border:1px solid #222;
+	border:1px solid #333;
 	color:#777;
 }
 .wizard h1{
@@ -504,6 +507,7 @@ body .wizard {
 }
 
 .wizard h2{
+	padding:4px;
 	color:white;
 }
 
@@ -511,7 +515,7 @@ body .wizardStep{
 	color:#999;
 	border:0px;
 	margin:0m;
-	background:#111;	
+	background:none;	
 }
 
 body select {
@@ -521,8 +525,13 @@ body select {
 }
 
 #backstagePanel {
-	background:#222;
+border:0px;
+	background:none;
 	width:60%;
+	position:fixed
+	padding:0px;
+	margin:0px;
+	margin-top:-36px;
 }
 
 #sidebar .sliderPanel {
@@ -570,6 +579,12 @@ border:0px;
 
 table.sortable td.sortedCol {
 	background-color:#333;
+}
+
+
+#backstageArea a:hover, #backstageArea a.backstageSelTab {
+	background-color:#111;
+	color:white;
 }
 
 /*}}}*/
