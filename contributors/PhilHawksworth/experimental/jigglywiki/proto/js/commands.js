@@ -34,7 +34,7 @@ jw.editTiddler = function(tiddler) {
 		overflow: true
 	};
 	jw.displayTiddler(options);
-	// jw.getTiddler(name,container).find('div.text textarea').wysiwyg();
+	jw.getTiddler(name,container).find('div.text textarea').wysiwyg();
 };
 
 jw.cancelEditTiddler = function(tiddler) {

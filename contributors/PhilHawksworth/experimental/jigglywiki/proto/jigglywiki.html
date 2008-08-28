@@ -29,6 +29,17 @@ a:hover{color:#1e52cd;border-bottom:solid 2px #1e52cd;}
 
 a.button { background-color: #1e52cd; color:#fff; line-height:2em; padding:3px 1em; border-style:none;}
 
+
+/* ========== */
+/* = banner = */
+/* ========== */
+#banner { position:relative;}
+#banner div.banner_top { border-top:dashed 1.6em #FA0; background-color:#111; margin-top:-1em;}
+#banner div.banner_bottom { border-top:dashed 1.6em #8E5E00; background-color:#000;}
+#banner p {position:absolute; color:#fff;  margin:0; padding:0 1em; right:1em;  bottom:0.2em; font-size:1em;}
+
+
+
 /* =========== */
 /* = sidebar = */
 /* =========== */
@@ -150,10 +161,18 @@ div.wysiwyg ul.panel li a.empty { background-position: -64px -80px; }
 div.wysiwyg iframe { border: 0; margin: 5px 0 0 0; clear: left; }	</style>
 </head>
 <body>
+	
+	<div id='banner'>
+		<p>status: pre-alpha proof of concept. version: 0.0.3</p>
+		<div class='banner_top'></div>
+		<div class='banner_bottom'></div>
+	</div>
 	<div id='header'>
 		<h1 class='tiddlerName'>JigglyWiki</h1>
 		<h3>a web-visible, jQuery-based tiddlywiki clone</h3>
 	</div>
+	
+	<!-- Sidebar navigation and search and whatnot -->
 	<div id='sidebar'>
 		<div class='search'>
 			<input type='text' class='search' value='search' />
@@ -433,8 +452,7 @@ macro:view, property:text, element:textarea
 		<li><i>modifier</i> <span>TIDDLER_MODIFIER</span></li>
 	</ul>
 </div>	</div>
-	
-	<!-- Sidebar navigation and search and whatnot -->
+
 
 		
 	<div id="footer">
