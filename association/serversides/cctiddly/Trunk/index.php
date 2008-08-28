@@ -3,9 +3,9 @@
 
 
 if (is_file("upgrade.php")) {
-	echo "<h1>ccTiddly Upgrade Required</h1>";
-	echo "<p>You have sucessfully loaded the ccTiddly 1.7 code onto your server. Now you need to run the <a href=upgrade.php >upgrade.php file</a> to complete the upgrade.</p>";
-	echo "This ccTiddly instance requires <a href=upgrade.php >upgrading</a> before it can be used, please contact your system administrator if you do not have access to the server.";
+	echo "<h1>ccTiddly Upgrade</h1>";
+	echo "<p>Your instance of ccTiddly is being upgraded. Now you need to run the <a href=upgrade.php >upgrade.php file</a> to complete the upgrade.</p>";
+	echo "If you do not have access to the server and this error message persists then please contact your system administrator.";
 	exit;
 }
 
