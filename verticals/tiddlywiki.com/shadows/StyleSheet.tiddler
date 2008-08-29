@@ -1,5 +1,15 @@
 <div title="StyleSheet" modifier="JeremyRuston" created="200603311518" modified="200612031950">
 <pre>/***
+This fixes a problem with the tabs slider
+***/
+/*{{{*/
+#sidebarTabs .button {
+	margin:0em 0.2em;
+	padding:0.2em 0.3em;
+	display:block;
+}
+/*}}}*/
+/***
 This is a sample style definition to demonstrate CustomCssClass formatting
 ***/
 /*{{{*/
