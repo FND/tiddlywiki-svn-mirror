@@ -22,10 +22,13 @@ jquery: js/jquery-1.2.6.pack.js
 js: js/jquery-extensions.js
 js: js/jquery.require.js
 js: js/jigglywiki.js
-js: js/events.js
-js: js/commands.js
 js: js/display.js
+js: js/animations.js
 js: js/macros.js
+js: js/controls.js
+js: js/console.js
+js: js/events.js
+
 js: js/search.js
 
 
@@ -38,8 +41,8 @@ js: js/FileSystem.js
 
 #
 # jquery plugins
-js: jqueryPlugins/jwisiwyg-0.4/jquery.wysiwyg.pack.js
-style: jqueryPlugins/jwisiwyg-0.4/jquery.wysiwyg.css
+# js: jqueryPlugins/jwisiwyg-0.4/jquery.wysiwyg.pack.js
+# style: jqueryPlugins/jwisiwyg-0.4/jquery.wysiwyg.css
 # js: jqueryPlugins/jquery.lightbox-0.5.pack.js
 
 

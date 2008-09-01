@@ -9,7 +9,6 @@ $(document).ready(function(){
 });	
 
 
-
 jw.log = function(str) {
 	if(window.console && window.console.log) {
 		console.log(str);
@@ -39,15 +38,13 @@ jw.init = function() {
 jw.showDefaultTiddlers = function(container) {
 	var container = container ? container : "story1";
 	var links = jw.getTiddlerData('DefaultTiddlers', 'store').tiddlerLinks;	
-	var options;
 	links.each(function(){	
-		options = { 
-			name: $(this).attr('href'), 
+		jw.displayTiddler( $(this).attr('href'), { 
 			container: container,
 			template: 'ViewTemplate',
-			overflow: true
-		};
-		jw.displayTiddler(options);	
+			overflow: true,
+			animate: false
+		});	
 	});	
 };
 
@@ -58,12 +55,9 @@ jw.makeTiddlerLink = function(title) {
 };
 
 
-
-
 // ===================
 // = Tiddler queries =
 // ===================
-
 
 // return the tiddler that this element belongs to.
 jw.containingTiddler = function(ele) {
@@ -165,17 +159,6 @@ jw.getTiddlerData = function(name, container) {
 		});
 	}
 	return data;	
-};
-
-// jiggle the tiddlers in the store to echo the order in which they are displayed in the story(ies).
-jw.jiggleStore = function() {
-	$('div.story > div.tiddler').reverse().each(function(t){
-		n = jw.getTiddlerNameFromStory(this);
-		t = jw.getTiddler(n,"store");
-		t.remove();
-		t.prependTo($('#store'));
-	});
-	jw.log('jiggled');
 };
 
 

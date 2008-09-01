@@ -31,7 +31,7 @@
 			if(n.version && v) {
 				// console.log('required version of:'+ n.name +' ', n.version);
 				if(satifactory(v, n.version)) {
-					console.log('OK! ', n.name);
+					console.log('Pesent and correct: ', n.name);
 				} else {
 					console.log('Needs updating: ', n.name);
 				}
@@ -40,7 +40,7 @@
 	};
 	
 	// Internal function to do some version maths
-	function satifactory(min, version) {
+	function satifactory(version, min) {
 		var m = min.split('.');
 		var v = version.split('.');
 		for (var i=0; i < m.length; i++) {
@@ -49,10 +49,6 @@
 		for (var i=0; i < v.length; i++) {
 			v[i] = parseInt(v[i]);
 		};
-		
-		console.log('m', m);
-		console.log('v', v);
-
 		if(v[0] > m[0]) { return true; }
 		else if (v[0] == m[0] && v[1] > m[1]) { return true; }
 		else if (v[0] == m[0] && v[1] == m[1] && v[2] >= m[2]) { return true; }

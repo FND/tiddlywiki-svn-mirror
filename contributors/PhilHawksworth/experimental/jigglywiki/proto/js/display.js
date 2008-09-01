@@ -1,19 +1,19 @@
 
-jw.displayTiddler = function(options) {
+jw.displayTiddler = function(name, options) {
 
 	var defaults = {
-		name: null,
+		animSrc: null,
 		relative: null,
 		position: 'after',
 		container: 'story1',
 		template: 'ViewTemplate',
+		animate: true,
 		overflow: false
 	};
 	var opts = $.extend(defaults, options);
-	var t = jw.getTiddler(opts.name, 'store');
-	
+	var t = jw.getTiddler(name, 'store');
 	if(!t) {
-		alert("Nope. Couldn't find a tiddler called " + opts.name + ".\n\nAre you sure that's what it's called?");
+		alert("Nope. Couldn't find a tiddler called " + name + ".\n\nAre you sure that's what it's called?");
 		return;
 	}
 	
@@ -30,7 +30,7 @@ jw.displayTiddler = function(options) {
 	} 
 
 	// if the tiddler is not in the story, then add it now.		
-	if(!jw.getTiddler(opts.name, opts.container)) {
+	if(!jw.getTiddler(name, opts.container)) {
 		if(opts.relative) {
 			var refTiddler = jw.getTiddler(opts.relative, opts.container);	
 			if(opts.position == 'before'){
@@ -39,25 +39,39 @@ jw.displayTiddler = function(options) {
 				refTiddler.after(templatedTiddler);
 			}
 		} else {
-			$('#'+opts.container).append(templatedTiddler);
+			if(opts.position == 'before'){
+				$('#'+opts.container).prepend(templatedTiddler);
+			} else {
+				$('#'+opts.container).append(templatedTiddler);
+			}
+
 		}
 	}
 	
-	var displayTiddler = jw.getTiddler(opts.name, opts.container);
-	
-	// apply the view macros.
-	jw.findMacros(displayTiddler,t);
+	var theTiddler = jw.getTiddler(name, opts.container);
 
+	// Refactor this stuff!	
+	// apply the view macros.
+	jw.findMacros(theTiddler,t);
 	// apply the macros contained in the tiddler.
-	jw.findMacros(displayTiddler,t);
+	jw.findMacros(theTiddler,t);
 	
-	// Refactor this stuff!
+	// Display the tiddler in the story.
+	if(opts.animate) {
+		theTiddler.fadeIn();
+		theTiddler.tiddlerDisplayAnim({
+			animSrc:opts.animSrc
+		});		
+	} 
+	else {
+		theTiddler.show();		
+	}
 	
-	displayTiddler.show();
 	if(!opts.overflow) {
-		jw.ensureTiddlerVisible(displayTiddler);
+		jw.ensureTiddlerVisible(theTiddler);
 	}
 };
+
 
 
 //ensure that a tiddler is visible in the story.

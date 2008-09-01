@@ -8,7 +8,7 @@ jw.addEventHandlers = function() {
 		e.preventDefault();
 		// tiddlerLink clicks.
 		if( $(e.target).is('a.tiddlerLink') ) {
-			jw.tiddlerLinkClick.call(e.target, e, 'story1');
+			jw.tiddlerLinkClick.apply(e.target, [e.target, 'story1']);
 		}
 		// tiddler controls clicks
 		if( $(e.target).is('a.control') ) {
@@ -27,7 +27,7 @@ jw.addEventHandlers = function() {
 		e.preventDefault();
 		// tiddlerLink clicks.
 		if( $(e.target).is('a.tiddlerLink') ) {
-			jw.tiddlerLinkClick.call(e.target, e, 'story1');
+			jw.tiddlerLinkClick.apply(e.target, [e.target, 'story1',{position: 'before'}]);
 		}
 		// tiddler controls clicks
 		if( $(e.target).is('a.control') ) {
@@ -46,7 +46,7 @@ jw.addEventHandlers = function() {
 		e.preventDefault();
 		// tiddlerLink clicks.
 		if( $(e.target).is('a.tiddlerLink') ) {
-			jw.tiddlerLinkClick.call(e.target, e, 'story1');
+			jw.tiddlerLinkClick.apply(e.target, [e.target, 'story1', {position: 'before'}]);
 		}
 		// search box click
 		if( $(e.target).is('input') ) {
@@ -81,17 +81,21 @@ jw.inlineMenu = function(e,menu) {
 };
 
 
-jw.tiddlerLinkClick = function(link, container) {
-	var tiddlerName = $(this).attr("href");
-	var t = jw.getTiddler(tiddlerName ,container);
+jw.tiddlerLinkClick = function(link, container, options) {
+	var name = $(this).attr("href");
+	var defaults = {
+		relative: jw.containingTiddler($(this)), 
+		container: container,
+		animSrc: $(this)
+	};
+	var opts = $.extend(defaults, options);
+	var t = jw.getTiddler(name ,container);
 	if(t) {
+		t.tiddlerDisplayAnim({
+			animSrc:$(this)
+		});		
 		jw.ensureTiddlerVisible(t);
 	} else {
-		var options = { 
-			name: tiddlerName,
-			relative: jw.containingTiddler($(this)), 
-			container: container
-		};
-		jw.displayTiddler(options);		
+		jw.displayTiddler(name, opts);		
 	}
 };

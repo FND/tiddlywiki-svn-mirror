@@ -2,6 +2,7 @@ jw.search = {};
 jw.search.name = 'jw.search';
 jw.search.description = 'A simple search function for jigglywiki.';
 jw.search.version = '0.0.1';
+jw.search.author = 'PhilHawksworth';
 
 jw.search.focus = function(input) {
 	if(input.val() == 'search'){
@@ -15,7 +16,6 @@ jw.search.keypress = function(input) {
 	if(input.val().length > 2) {
 		jw.search.lookahead(input);	
 	}
-
 };
 
 jw.search.lookahead = function(input) {

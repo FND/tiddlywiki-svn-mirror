@@ -58,12 +58,10 @@ jw.macros = {
 			$('#store').append(newTiddler);
 						
 			//display the new tiddler in the story.			
-			var settings = {
-				name: opts.title,
+			jw.displayTiddler(opts.title, {
 				relative: jw.containingTiddler(opts.place),
 				template: 'EditTemplate'
-			};
-			jw.displayTiddler(settings);
+			});
 		}
 	}
 };

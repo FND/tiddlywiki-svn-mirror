@@ -83,5 +83,14 @@ div.tags a.tiddlerLink:hover{margin:1px;font-size:0.9em;}
 div.tiddler h1.tiddlerName{font-size:2.8em;}
 }
 
-
+#ghost {background-color:#bbb; border:solid 3px #000; z-index:10; position:absolute;}
 #popup_div { background-color:#222; color:#eee; padding:1em;position:absolute; z-index:10; display:none;}
+
+
+/* =========== */
+/* = console = */
+/* =========== */
+#console {display:block; background-color:#111; color:#eee; height:100px; padding:1em;}
+#console div.display {display:block; background-color:#000; border:#FFFD00; color:#eee; height:100px;}
+#console a { background-color: #1e52cd; color:#fff; line-height:2em; padding:3px 1em; border-style:none;}
+
