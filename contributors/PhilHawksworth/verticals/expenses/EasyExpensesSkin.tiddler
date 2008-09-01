@@ -1,0 +1,41 @@
+<div title="EasyExpensesSkin" modifier="PhilHawksworth" created="200808141405" tags="systemTheme excludeSearch">
+<pre>
+/***
+|''Name:''|EasyExpensesSkin |
+|''Description:''|The basic EasyExpenses theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/EasyExpenses/EasyExpensesSkin.tiddler |
+|''Version:''|0.1|
+|''Date:''|August 14th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+***/
+
+!PageTemplate
+<!--{{{-->
+<div id='messageBar'><span id='messageArea'></span></div>
+<div class='header'>
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div id='topMenu' refresh='content' tiddler='TopMenu'></div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='displayArea'>
+	<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+
+
+!StyleSheet
+/*{{{*/
+
+
+/*}}}*/
+</pre>
+</div>

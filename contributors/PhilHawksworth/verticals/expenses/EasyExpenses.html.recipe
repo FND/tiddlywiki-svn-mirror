@@ -1,0 +1,31 @@
+#
+# Core Tiddlywiki
+#
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+
+#
+# Settings
+#
+js: settings.js
+
+#
+# Plugins
+#
+tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
+tiddler: plugins/CreateClaimItemPlugin.js
+
+
+#
+# UI elements
+#
+tiddler: EasyExpensesSkin.tiddler
+tiddler: EasyExpensesColors.tiddler
+tiddler: MainMenu.tiddler
+
+#
+# Tiddlers
+#
+tiddler: DefaultTiddlers.tiddler
+tiddler: SampleClaimHeader.tiddler
+tiddler: SampleClaimAdd.tiddler
