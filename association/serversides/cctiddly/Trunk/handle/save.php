@@ -9,29 +9,6 @@ if(!user_session_validate())
 	exit;	
 }
 
-//return result/message
-function returnResult($str)
-{
-	global $ccT_msg;
-	db_close();
-	switch($str) {
-		case "001":		//insert
-			sendHeader(201,$ccT_msg['notice']['TiddlerSaved'],"",1);
-		case "002":		//update
-			sendHeader(200,$ccT_msg['notice']['TiddlerSaved'],"",1);
-		case "004":		//update
-			sendHeader(200,$ccT_msg['notice']['TiddlerSaved'].". ".$ccT_msg['warning']['tiddler_overwritten'],"",1);
-		case "012":
-			sendHeader(403,$ccT_msg['warning']['tiddler_need_reload'],"",1);
-		case "013":		//no title passed
-			sendHeader(400,$ccT_msg['misc']['no_title'],"",1);
-		case "020":
-			sendHeader(401,$ccT_msg['warning']['not_authorized'],"",1);
-		default:
-			sendHeader(400,$ccT_msg['warning']['save_error'].": ".$str,"",1);
-	}
-}
-
 // TODO set workspace name 
 $ntiddler['title'] = formatParametersPOST($_POST['title']);
 $oldTitle = formatParametersPOST($_POST['otitle']);
@@ -64,7 +41,7 @@ if(isset($tiddler['title']))
 			$ntiddler['revision'] = $otiddler['revision']+1;
 		tiddler_update_new($otiddler['id'], $ntiddler);
 	}else{
-	returnResult( "020" );	
+		sendHeader(400);	
 	}
 }else{
 	//This Tiddler does not exist in the database.
@@ -75,9 +52,9 @@ if(isset($tiddler['title']))
 		debug($ntiddler['modified']."MOD");
 		$ntiddler['revision'] = 1;
 		tiddler_insert_new($ntiddler);
-		returnResult("001");
+		sendHeader(201);
 	}else{
-		returnResult("020");
+		sendHeader(400);
 	}
 }
 ?>
