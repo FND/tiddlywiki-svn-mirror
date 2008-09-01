@@ -24,7 +24,7 @@ def getSlices(text): # TODO: should be in Tiddler class
 	"""
 	pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)" # RegEx origin: TiddlyWiki core
 	pattern = re.compile(pattern, re.M + re.I)
-	matches = re.findall(pattern, text)
+	matches = pattern.findall(text)
 	slices = {}
 	for match in matches:
 		if match[1]: # colon notation
@@ -88,8 +88,8 @@ class TiddlyWiki:
 		@rtype : list or None
 		"""
 		version = self.dom.html.head.script.renderContents()
-		pattern = re.compile("major: (\d+), minor: (\d+), revision: (\d+)")
-		matches = re.search(pattern, version)
+		pattern = re.compile(r"major: (\d+), minor: (\d+), revision: (\d+)")
+		matches = pattern.search(version)
 		if matches:
 			major = int(matches.groups()[0])
 			minor = int(matches.groups()[1])

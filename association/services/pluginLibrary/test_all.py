@@ -4,8 +4,9 @@ import coverage
 
 def main(args = []):
 	modules = [
-		"test_dirScraper",
+		"test_aggregator",
 		"test_tiddlywiki",
+		"test_dirScraper",
 		"test_utils"
 	]
 	if len(args) > 1:
