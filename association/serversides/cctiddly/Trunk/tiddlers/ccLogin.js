@@ -36,7 +36,6 @@ if (isLoggedIn()){
 	config.backstageTasks.push("login");
 	merge(config.tasks,{login:{text: "login",tooltip: "Login to ccTiddly",content: '<<ccLogin>>'}});	
 }
-config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
 var loginState=null;
 var registerState=null;
 
@@ -146,8 +145,10 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 }
 
 config.macros.ccLogin.loginCallback=function(context,userParams){	
+
+		
 	if(context.status){
-		window.location=window.fullUrl;
+			window.location=window.location;
 	}else{
 		config.macros.ccLogin.refresh(userParams.place, 'Login Failed. Please try again');
 	} 

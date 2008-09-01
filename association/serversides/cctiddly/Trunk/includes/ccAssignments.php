@@ -66,7 +66,7 @@ if ($user['verified'] && user_isAdmin($user['username'], $tiddlyCfg['workspace_n
 }
 
 
-if ($user['verified'])
+if ($user['verified'] && $_REQUEST['standalone']!=1)
 {
 ?>
 window.loggedIn ="1";
@@ -164,6 +164,16 @@ merge(config.macros.options,{
 	step1Title: "",
 	step1Html: '<input type="hidden" name="markList"></input><br><input type="hidden" checked="false" name="chkUnknown"></input>These options are saved in a cookie.'
 });
+
+
+config.shadowTiddlers.OptionsPanel = "[[help|Help]] &lt;br /&gt;[[settings|AdvancedOptions]]&lt;br /&gt;&lt;&lt;ccOptions&gt;&gt;";
+
+readOnly =false;
+config.options.chkHttpReadOnly = false;		//make it HTTP writable by default
+config.options.chkSaveBackups = false;		//disable save backup
+config.options.chkAutoSave = false;			//disable autosave
+config.options.chkUsePreForStorage = false;
+
 
 /*}}}*/
 </pre>

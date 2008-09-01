@@ -47,7 +47,6 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 		var d = tiddler.tags[i]+parts[1];	
 		var x = store.getTiddlerText(s+d);
 		
-	//	if (store.tiddlerExists(parts[0])) { template=tagged; console.log(parts[0]+"all"+tagged); break;}
 		if (store.tiddlerExists(t)) { template=t; break; }
 		if (store.tiddlerExists(c)) { template=c; break; }
 		if (store.getTiddlerText(s+t)) { template=s+t; break; }

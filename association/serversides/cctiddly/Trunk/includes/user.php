@@ -68,10 +68,10 @@
 		global $tiddlyCfg;
 		db_connect_new();
 		$pw = cookie_get('sessionToken');
-	
+		debug("PASSWORD : ".$pw, 'params');
 		if ($tiddlyCfg['deligate_session_management'] ==1)
 		{
-			debug("delgated session managment is enabled", "login");
+			debug("deligated session management is enabled", "login");
 			$req_url = $tiddlyCfg['pref']['deligate_session_url'].$_REQUEST['sess'];
 			if($a = @file_get_contents($req_url))
 			{
@@ -86,11 +86,10 @@
 		{
 			$data_session['session_token'] = $pw;
 			$results = db_record_select('login_session', $data_session);			// get array of results		
-			//	return true;
 			if (count($results) > 0 )                   //  if the array has 1  session
 			{
 				//$user['verified'] = 1;	
-					if($results[0]['expire'] > epochToTiddlyTime(time())) 
+				if($results[0]['expire'] > epochToTiddlyTime(time())) 
 				{
 					if($tiddlyCfg['pref']['renew_session_on_each_request']==1)
 						user_reset_session($un, $pw);
@@ -154,9 +153,10 @@
 		cookie_set('txtUserName', $un);
  		cookie_set('sessionToken', $insert_data['session_token']);
 		$rs = db_record_insert('login_session',$insert_data);
-		if ($rs)
+		if ($rs){
 			debug("session has been added to the database", "login");
-			
+			return $insert_data['session_token'];
+		}	
 	}		
 
 	function user_ldap_login($username, $password)
@@ -260,9 +260,9 @@
 		global $tiddlyCfg;
 		if(user_validate($un, $pw))
 		{
-			user_set_session($un, $pw);	
+			echo user_set_session($un, $pw);	
 			debug("Login - User validated so session should have been set return true", "login");
-			echo 'login ok';
+			// output the session id
 			return TRUE;
 		}
 		else

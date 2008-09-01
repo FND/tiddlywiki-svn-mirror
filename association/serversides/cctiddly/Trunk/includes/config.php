@@ -10,7 +10,7 @@ $tiddlyCfg['db']['name'] = "upgrade";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 
-$tiddlyCfg['adminPassword'] = "ie";
+$tiddlyCfg['adminPassword'] = "";
 
 // User Managment Information 
 
@@ -59,7 +59,8 @@ array(	"ccTheme",
 	);
 	
 $tiddlyCfg['pref']['offline']['js'] = 
-array(	"ccAdaptor"
+array(	"ccAdaptor",
+		"ccLogin"
 );
 
 //Proxy Allowed Servers
@@ -111,7 +112,7 @@ $tiddlyCfg['txtTheme'] = 'purpleTheme';  // The default TiddlyWiki theme to use.
 
 // Debugging Information 
 
-$tiddlyCfg['developing'] = 0;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['developing'] = 1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
 $tiddlyCfg['debug']['mysql'] = 1;	 // if set to x1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login'] = 1;
 $tiddlyCfg['debug']['handle'] = 0;

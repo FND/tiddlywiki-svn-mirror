@@ -67,6 +67,16 @@ ccTiddlyAdaptor.loginCallback = function(status,context,responseText,uri,xhr)
 		context.status = false;
 	} else {
 		context.status = true;
+
+
+		var c='sessionToken'+"="+responseText;
+			c+="; expires=Fri, 1 Jan 2811 12:00:00 UTC; host=*";
+			document.cookie=c;
+			// Save the txtUserName in the normal tiddlywiki format
+			//	 config.options.txtUserName="aaaa";
+			//	saveOptionCookie("txtUserName");
+
+		
 	}
 	if(context.callback)
 		context.callback(context,context.userParams);
@@ -322,6 +332,9 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xh
 		if(xhr.status == 401 || xhr.status==409)
 		{
 			window.loggedIn = false; // we should check for other cases - revisions have changed. 
+			var p = document.getElementById('backstagePanel');
+			p.style.zIndex=10;
+		
 			var a = document.getElementById('backstageCloak');
 			a.style.display = "block";	
 			//a.style.opacity = "0.7"; 
@@ -329,8 +342,6 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xh
 			var b = document.getElementById('backstage');
 			b.style.position="absolute";	
 			b.style.padding='40px 0px 0px 0px';
-			//b.innerHTML = wikifyStatic("<<ccLogin>>");
-			//window.open(window.location,'login window')
 			frm=createTiddlyElement(b,"form",null,"wizard");
 			var body=createTiddlyElement(frm,"div",null,"wizardBody");
 			var step=createTiddlyElement(body,"div",null,"wizardStep");

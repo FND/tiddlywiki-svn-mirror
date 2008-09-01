@@ -229,7 +229,7 @@
 	//!	@param $body body string to be converted
 	function tiddler_bodyDecode($body)
 	{
-		//$body = htmlspecialchars_decode($body);		//replace <, >, &, " with their html code, htmlspecialchars_decode only available in PHP5
+		$body = htmlspecialchars_decode($body);		//replace <, >, &, " with their html code, htmlspecialchars_decode only available in PHP5
 		$body = str_replace("&quot;","\"",$body);
 		$body = str_replace("&#039;","'",$body);
 		$body = str_replace("&lt;","<",$body);

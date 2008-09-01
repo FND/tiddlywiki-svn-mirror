@@ -26,6 +26,12 @@ Show the current user their login status.
 ***/
 //{{{
 	
+	
+config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+		wikify("<<ccLoginStatus>>", place);
+};
+
+
 config.macros.ccLoginStatus={};
 
 

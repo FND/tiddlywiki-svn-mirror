@@ -145,7 +145,7 @@ echo "<script type='text/javascript' >".file_get_contents('includes/tiddlywiki.j
 		config.options.chkHttpReadOnly = false;		//make it HTTP writable by default
 		config.options.chkSaveBackups = false;		//disable save backup
 		config.options.chkAutoSave = false;			//disable autosave
-		config.options.chkUsePreForStorage = false;
+		config.options.chkUsePreForStorage = true;
 	</script>
 <!--End of ccT vars-->
 
@@ -628,9 +628,5 @@ if(useJavaSaver)
 </script>
 <!--POST-SCRIPT-START-->
 <!--POST-SCRIPT-END-->
-<div style="background-color:purple;color:white;padding:10px">
- Upgrade notice : This instance is being upgraded from ccTiddly v 1.6 to v 1.7. If you experience any problems please post a message on the ccTiddly google group.
-<a href='http://groups.google.com/group/ccTiddly' style="color:white;font-weight:bold;" target="new">http://groups.google.com/group/ccTiddly</a>
-</div>
 </body>
 </html>

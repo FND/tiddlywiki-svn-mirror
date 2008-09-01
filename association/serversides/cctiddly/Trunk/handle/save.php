@@ -2,6 +2,7 @@
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
+
 if(!user_session_validate())
 {
 	sendHeader("401");
@@ -38,7 +39,7 @@ $ntiddler['modifier'] = formatParametersPOST($_POST['modifier']);
 $ntiddler['modified'] = formatParametersPOST($_POST['modified']);
 $ntiddler['created'] = formatParametersPOST($_POST['created']); 
 $ntiddler['tags'] = formatParametersPOST($_POST['tags']);
-$ntiddler['body'] =  formatParametersPOST(tiddler_bodyEncode($_POST['body']));
+$ntiddler['body'] =  formatParametersPOST($_POST['body']);
 $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
 $tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
@@ -52,6 +53,7 @@ if(isset($tiddler['title']))
 		sendHeader(409);
 		exit;
 	}
+	
 	//require edit privilege on new and old tags			
 	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
 	{
@@ -62,7 +64,7 @@ if(isset($tiddler['title']))
 			$ntiddler['revision'] = $otiddler['revision']+1;
 		tiddler_update_new($otiddler['id'], $ntiddler);
 	}else{
-		returnResult( "020" );	
+	returnResult( "020" );	
 	}
 }else{
 	//This Tiddler does not exist in the database.
