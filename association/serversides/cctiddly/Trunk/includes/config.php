@@ -31,11 +31,12 @@ $tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via
 	
 //LDAP
 
+
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-$tiddlyCfg['pref']['ldap_username']	= "CN=";
-$tiddlyCfg['pref']['ldap_password'] = "";
-$tiddlyCfg['pref']['ldap_connection_string'] = "ldap://";
+$tiddlyCfg['pref']['ldap_enabled'] = 1;	
+$tiddlyCfg['pref']['ldap_username']	= "CN=Sa063338,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
+$tiddlyCfg['pref']['ldap_password'] = "pass9431w";
+$tiddlyCfg['pref']['ldap_connection_string'] = "ldap://iuser.iroot.adidom.com:389";
 
 //Deligated Session Managment 
  
