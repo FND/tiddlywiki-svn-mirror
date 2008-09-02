@@ -1,8 +1,8 @@
 /***
 |''Name:''|RSSReaderPlugin|
 |''Description:''|This plugin provides a RSSReader for TiddlyWiki|
-|''Version:''|1.1.1|
-|''Date:''|Apr 21, 2007|
+|''Version:''|1.1.2|
+|''Date:''|2008-09-02|
 |''Source:''|http://tiddlywiki.bidix.info/#RSSReaderPlugin|
 |''Documentation:''|http://tiddlywiki.bidix.info/#RSSReaderPluginDoc|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
@@ -13,8 +13,8 @@
 ***/
 //{{{
 version.extensions.RSSReaderPlugin = {
-	major: 1, minor: 1, revision: 1,
-	date: new Date("Apr 21, 2007"),
+	major: 1, minor: 1, revision: 2,
+	date: new Date("2008-09-02"),
 	source: "http://TiddlyWiki.bidix.info/#RSSReaderPlugin",
 	author: "BidiX",
 	coreVersion: '2.2.0'
@@ -60,7 +60,7 @@ config.macros.rssReader = {
 			}
 			catch (e) { displayMessage(e.description?e.description:e.toString()); }
 		}
-		if (xhr.status == httpStatus.NotFound)
+		if (xhr.status == 404)
 		 {
 			displayMessage(config.macros.rssReader.noRSSFeed.format([url]));
 			return;
