@@ -11,9 +11,12 @@ jw.macros.console.handler = function(options) {
 	var opts = $.extend(defaults, options);
 	$('<div id=\'console\'><div class=\'display\'></div><a href=\'#\' class=\'consoleControl\'>close</a><a href=\'#\' class=\'consoleControl\'>clear</a></div>').insertAfter(opts.place);};
 
-jw.macros.console.log = function() {
-	if(window.console && widow.console.log) {
-		console.log.apply(arguments);
-	}
-	$('#console div.display').append(arguments);
+jw.log = jw.macros.console.log = function(str) {
+	// if(window.console && window.console.log) {
+	// 	console.log.apply(arguments);
+	// }
+	var msg = '<div>'+ str +'</div>';
+	$('#console div.display').append(msg);
 };
+
+jw.log("Console ready");

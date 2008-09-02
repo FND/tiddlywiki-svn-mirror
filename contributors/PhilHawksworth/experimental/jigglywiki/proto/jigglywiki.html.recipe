@@ -5,6 +5,12 @@ template: jigglywiki.template.html
 
 
 #
+# License and attributions
+#
+license: license.txt
+
+
+#
 # Core styling
 #
 style: css/default.css
@@ -28,7 +34,6 @@ js: js/macros.js
 js: js/controls.js
 js: js/console.js
 js: js/events.js
-
 js: js/search.js
 
 
