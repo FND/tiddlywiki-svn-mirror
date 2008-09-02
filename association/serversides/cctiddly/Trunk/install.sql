@@ -14,8 +14,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- 
 
 
-create database if NOT exists cctiddly17;
-use cctiddly17;
+-- create database if NOT exists cctiddly17;
+-- use cctiddly17;
 -- --------------------------------------------------------
 
 -- 
