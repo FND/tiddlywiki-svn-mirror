@@ -42,13 +42,7 @@ DAMAGE.
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' />
 <!--}}}-->
 <!--PRE-HEAD-END-->
-<title>
-
-[img[images/BT_21pix_rev.gif]] //''Your''Expenses//
- - 
-trying to make it easier to get your money back
-
-</title>
+<title>  YourExpenses - trying to make it easier to get your money back </title>
 <style id="styleArea" type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -59,10 +53,12 @@ trying to make it easier to get your money back
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
+
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
 <!--PRE-BODY-START-->
+
 <!--PRE-BODY-END-->
 <div id="copyright">
 Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa Association
@@ -510,21 +506,255 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="settings" modifier="PhilHawksworth" created="200809021214" tags="systemConfig excludeLists excludeSearch">
-<pre>//{{{
+<div title="About You" modifier="PhilHawksworth" created="200809011713">
+<pre>Your name, EIN and other global settings.</pre>
+</div>
+<div title="CreateClaimItemPlugin" modifier="PhilHawksworth" created="200809011610" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|CreateClaimItemPlugin |
+|''Description:''|Creat a new claim item in the EasyExpenses system|
+|''Author:''|Phil Hawksworth|
+|''Version:''|0.2|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.1|
+***/
 
-config.options.chkAutoSave = true;
-config.options.chkAnimate = true;
-config.options.chkSaveBackups = false;
-config.options.txtTheme = &quot;EasyExpensesSkin&quot;;
+//{{{
+if(!version.extensions.CreateClaimPlugin) {
+version.extensions.CreateClaimPlugin = {installed:true};
 
-var claim_group = new TiddlerDisplayGroup();
-var claim_group_pattern = [
-	{label:'claimHeader', tag:'claimHeader', count:1, require:null, openAt:null},
-	{label:'claimItems', tag:'claimItem', count:0, require:'claimHeader', openAt:'top'}];
-claim_group.setPattern(claim_group_pattern); 
-claim_group.setGroupField('claim_id');
+config.macros.CreateClaim = {};
+config.macros.CreateClaimItem = {};
 
+config.macros.CreateClaim.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	var btn = createTiddlyButton(place,&quot;New claim&quot;,&quot;start a new claim&quot;,this.doCreate);
+};
+
+config.macros.CreateClaim.doCreate = function(ev) {
+	var dt = new Date();
+	var claim_id = 'GENERATED_CLAIM_ID_'+ dt.getTime();
+	var title = &quot;Your reference&quot;;
+	var t = store.createTiddler(title);
+	t.tags.pushUnique('claimHeader');
+	t.fields['claim_id'] = claim_id;
+	// t.text = 'this is a new claim. Its ~GENERATED_CLAIM_ID will need to be provided by the expenses system.';
+	story.displayTiddler(null,title,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);		
+};
+
+
+// Extend the commands so that we can use our own commands on tiddlers.
+config.commands.newClaimItem = {
+	text: &quot;new claim item&quot;,
+	tooltip: &quot;add another item to claim&quot;,
+	handler : function(event,src,title) {
+		var claimTiddler = store.getTiddler(title);
+		var dt = new Date();
+		var uniqueID = 'claim_' + claimTiddler.fields['claim_id'] + '_' + dt.getTime();
+		// create tiddler and associate it with this claim.
+		var t = store.createTiddler(uniqueID);
+		t.tags.pushUnique('claimItem');
+		t.fields['claim_id'] = claimTiddler.fields['claim_id'];
+		t.text = 'defined by the FORM';
+		// refelct the form elements into this claim report.		
+		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
+	}
+};
+config.commands.cloneClaimItem = {
+	text: &quot;clone&quot;,
+	tooltip: &quot;add another claim item just like this&quot;,
+	handler : function(event,src,title) {
+		var sourceTiddler = store.getTiddler(title);
+		var dt = new Date();
+		var uniqueID = 'claim_' + sourceTiddler.fields['claim_id'] + '_' + dt.getTime();
+		// create tiddler and associate it with this claim.
+		var t = store.createTiddler(uniqueID);
+		t.tags.pushUnique('claimItem');
+		t.fields = sourceTiddler.fields;
+		t.text = sourceTiddler.text;
+		// refelct the form elements into this claim report.		
+		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
+	}
+};
+
+}
+//}}}</pre>
+</div>
+<div title="DefaultTiddlers" modifier="PhilHawksworth" created="200809011642">
+<pre></pre>
+</div>
+<div title="EasyExpensesColors" modifier="PhilHawksworth" created="200808141405" tags="systemTheme excludeSearch">
+<pre>background: #fff</pre>
+</div>
+<div title="EasyExpensesSkin" modifier="PhilHawksworth" created="200808141405" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|EasyExpensesSkin |
+|''Description:''|The basic EasyExpenses theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/EasyExpenses/EasyExpensesSkin.tiddler |
+|''Version:''|0.1|
+|''Date:''|August 14th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~claimHeaderViewTemplate:''|##claimHeaderViewTemplate|
+|''~claimHeaderEditTemplate:''|##claimHeaderEditTemplate|
+|''~claimItemViewTemplate:''|##claimItemViewTemplate|
+|''~claimItemEditTemplate:''|##claimItemEditTemplate|
+|''~StyleSheet:''|##StyleSheet|
+***/
+
+!PageTemplate
+&lt;!--{{{--&gt;
+&lt;div class='header'&gt;
+&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;
+&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;div id='ribbon'&gt;
+	&lt;div id='menu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
+	&lt;div id='messageBar'&gt;&lt;span id='messageArea'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id='displayArea'&gt;
+	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+!claimHeaderViewTemplate
+&lt;!--{{{--&gt;
+&lt;div class='claimHeader'&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;Claim created on &lt;span macro='view modified date'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimViewToolbar]]'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+!claimHeaderEditTemplate
+&lt;!--{{{--&gt;
+&lt;div class='claimHeader'&gt;
+&lt;div class='title' macro='edit title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;Claim created on &lt;span macro='view modified date'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimEditToolbar]]'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+
+!claimItemViewTemplate
+&lt;!--{{{--&gt;
+&lt;div class='claimItem'&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemViewToolbar]]'&gt;&lt;/div&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+!claimItemEditTemplate
+&lt;!--{{{--&gt;
+&lt;div class='claimItem'&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemEditToolbar]]'&gt;&lt;/div&gt;
+&lt;div class='title' macro='edit title'&gt;&lt;/div&gt;
+&lt;div class='viewer' macro='edit text wikified'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+
+
+!StyleSheet
+/*{{{*/
+	
+div.header { display:block; padding:0.5em; background-color:#000531;}
+div.header span { color:#fff; }
+div.header span img { position:absolute; top:5; left:10px;}
+div.header span.siteTitle {font-size:1.8em; letter-spacing:-1px; margin-left:3em;}
+div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; font-style:italic;}
+#ribbon { background-color:#eee; margin:0; padding:0; position:relative; }
+#ribbon a { background-color:#eee; font-size:2em; font-style:none; font-weight:bold; color:#333; letter-spacing:-1px; border-style:none; line-height:3.2em; display:inline; padding:1em; border-right:solid 1px #ddd;}
+#ribbon a:hover { background-color:#ECBB29; color:#fff; }
+#messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
+#displayArea { clear:left; margin:0;}
+
+
+/* Claim Header */
+div.claimHeader { margin:2em 2em 0 2em; padding:0 0 1em 0; border-bottom:solid 2px #333;}
+div.claimHeader div.title {font-size:2.2em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold; }
+div.claimHeader div.title input {font-size:1em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold;}
+div.claimHeader div.subtitle{ font-size:0.9em; color:#bbb; }
+div.claimHeader div.toolbar {font-size:1em;}
+div.claimHeader div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
+div.claimHeader div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
+div.claimHeader div.toolbar a.defaultCommand { background-color:#D89035;}
+
+/* Claim Items */
+div.claimItem { margin:0 2em 0 2em; padding:0 0 1em 0; border-bottom:solid 1px #ccc;}
+div.claimItem div.title { font-size:1.4em; color:#333;}
+div.claimItem div.toolbar {font-size:0.8em;}
+div.claimItem div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
+div.claimItem div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
+div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
+
+/*}}}*/</pre>
+</div>
+<div title="MainMenu" modifier="PhilHawksworth" created="200809011713">
+<pre>&lt;&lt;CreateClaim&gt;&gt;[[Previous Claims]][[About You]]</pre>
+</div>
+<div title="Previous Claims" modifier="PhilHawksworth" created="200809011713">
+<pre>Listing the previous claims foer review.</pre>
+</div>
+<div title="SiteSubtitle" modifier="PhilHawksworth" created="200809011713">
+<pre>trying to make it easier to get your money back</pre>
+</div>
+<div title="SiteTitle" modifier="PhilHawksworth" created="200809011713">
+<pre>[img[images/BT_21pix_rev.gif]] //''Your''Expenses//</pre>
+</div>
+<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200804011417" tags="BookmarkPackage MediaPackage TaskPackage systemConfig IFramePackage" changecount="2">
+<pre>/***
+|Name|TaggedTemplateTweak|
+|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
+|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
+|Version|1.2.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides|Story.prototype.chooseTemplateForTiddler()|
+|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
+This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
+!!!!!Documentation
+&gt;see [[TaggedTemplateTweakInfo]]
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.04.01 [1.2.0] added support for using systemTheme section-based template definitions (requested by Phil Hawksworth)
+2008.01.22 [*.*.*] plugin size reduction - documentation moved to [[TaggedTemplateTweakInfo]]
+2007.06.23 [1.1.0] re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
+| please see [[TaggedTemplateTweakInfo]] for previous revision details |
+2007.06.11 [1.0.0] initial release
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.taggedTemplate= {major: 1, minor: 2, revision: 0, date: new Date(2008,4,1)};
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.chooseTemplateForTiddler = function(title,template)
+{
+	// get default template from core
+	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+
+	// if the tiddler to be rendered doesn't exist yet, just return core result
+	var tiddler=store.getTiddler(title); if (!tiddler) return template;
+
+	// look for template whose prefix matches a tag on this tiddler
+	for (i=0; i&lt;tiddler.tags.length; i++) {
+		var t=tiddler.tags[i]+template; // add tag prefix
+		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
+		var s=config.options.txtTheme+&quot;##&quot;; // systemTheme section prefix
+		if (store.tiddlerExists(t)) { template=t; break; }
+		if (store.tiddlerExists(c)) { template=c; break; }
+		if (store.getTiddlerText(s+t)) { template=s+t; break; }
+		if (store.getTiddlerText(s+c)) { template=s+c; break; }
+	}
+	return template;
+}
 //}}}</pre>
 </div>
 <div title="TiddlerDisplayGroupsPlugin" modifier="PhilHawksowrth" created="200804151546" tags="systemConfig excludeLists excludeSearch">
@@ -997,257 +1227,33 @@ Story.prototype.closeAllTiddlers = function(exclude)
 } //# end of 'install only once'
 //}}}</pre>
 </div>
-<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200804011417" tags="BookmarkPackage MediaPackage TaskPackage systemConfig IFramePackage" changecount="2">
-<pre>/***
-|Name|TaggedTemplateTweak|
-|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
-|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
-|Version|1.2.0|
-|Author|Eric Shulman - ELS Design Studios|
-|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|~CoreVersion|2.1|
-|Type|plugin|
-|Requires||
-|Overrides|Story.prototype.chooseTemplateForTiddler()|
-|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
-This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
-!!!!!Documentation
-&gt;see [[TaggedTemplateTweakInfo]]
-!!!!!Revisions
-&lt;&lt;&lt;
-2008.04.01 [1.2.0] added support for using systemTheme section-based template definitions (requested by Phil Hawksworth)
-2008.01.22 [*.*.*] plugin size reduction - documentation moved to [[TaggedTemplateTweakInfo]]
-2007.06.23 [1.1.0] re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
-| please see [[TaggedTemplateTweakInfo]] for previous revision details |
-2007.06.11 [1.0.0] initial release
-&lt;&lt;&lt;
-!!!!!Code
-***/
-//{{{
-version.extensions.taggedTemplate= {major: 1, minor: 2, revision: 0, date: new Date(2008,4,1)};
-Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
-Story.prototype.chooseTemplateForTiddler = function(title,template)
-{
-	// get default template from core
-	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
-
-	// if the tiddler to be rendered doesn't exist yet, just return core result
-	var tiddler=store.getTiddler(title); if (!tiddler) return template;
-
-	// look for template whose prefix matches a tag on this tiddler
-	for (i=0; i&lt;tiddler.tags.length; i++) {
-		var t=tiddler.tags[i]+template; // add tag prefix
-		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
-		var s=config.options.txtTheme+&quot;##&quot;; // systemTheme section prefix
-		if (store.tiddlerExists(t)) { template=t; break; }
-		if (store.tiddlerExists(c)) { template=c; break; }
-		if (store.getTiddlerText(s+t)) { template=s+t; break; }
-		if (store.getTiddlerText(s+c)) { template=s+c; break; }
-	}
-	return template;
-}
-//}}}</pre>
-</div>
-<div title="CreateClaimItemPlugin" modifier="PhilHawksworth" created="200809011610" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|CreateClaimItemPlugin |
-|''Description:''|Creat a new claim item in the EasyExpenses system|
-|''Author:''|Phil Hawksworth|
-|''Version:''|0.2|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.4.1|
-***/
-
-//{{{
-if(!version.extensions.CreateClaimPlugin) {
-version.extensions.CreateClaimPlugin = {installed:true};
-
-config.macros.CreateClaim = {};
-config.macros.CreateClaimItem = {};
-
-config.macros.CreateClaim.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var btn = createTiddlyButton(place,&quot;New claim&quot;,&quot;start a new claim&quot;,this.doCreate);
-};
-
-config.macros.CreateClaim.doCreate = function(ev) {
-	var dt = new Date();
-	var claim_id = 'GENERATED_CLAIM_ID_'+ dt.getTime();
-	var title = &quot;Your reference&quot;;
-	var t = store.createTiddler(title);
-	t.tags.pushUnique('claimHeader');
-	t.fields['claim_id'] = claim_id;
-	t.text = 'this is a new claim. Its ~GENERATED_CLAIM_ID will need to be provided by the expenses system  &lt;&lt;CreateClaimItem&gt;&gt;';
-	story.displayTiddler(null,title,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);		
-};
-
-
-config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var tiddler = story.findContainingTiddler(place);
-	var t = store.getTiddler(tiddler.getAttribute('tiddler'));
-	var btn = createTiddlyButton(place,&quot;new claim item&quot;,&quot;add a new claim item&quot;,this.doCreate);
-	btn.claim_id = t.fields.claim_id;
-};
-
-config.macros.CreateClaimItem.doCreate = function(ev) {
-	var e = ev ? ev : window.event;
-	var dt = new Date();
-	var uniqueID = 'claim_' + this.claim_id + '_' + dt.getTime();
-
-	// create tiddler and associate it with this claim.
-	var t = store.createTiddler(uniqueID);
-	t.tags.pushUnique('claimItem');
-	t.fields['claim_id'] = this.claim_id;
-	t.text = 'defined by the FORM';
-
-	// refelct the form elements into this claim report.		
-	story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);	
-};
-
-}
-//}}}</pre>
-</div>
-<div title="EasyExpensesSkin" modifier="PhilHawksworth" created="200808141405" tags="systemTheme excludeSearch">
-<pre>
-/***
-|''Name:''|EasyExpensesSkin |
-|''Description:''|The basic EasyExpenses theme |
-|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/EasyExpenses/EasyExpensesSkin.tiddler |
-|''Version:''|0.1|
-|''Date:''|August 14th, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.4.0|
-|''~PageTemplate:''|##PageTemplate|
-|''~claimHeaderViewTemplate:''|##claimHeaderViewTemplate|
-|''~claimHeaderEditTemplate:''|##claimHeaderEditTemplate|
-|''~claimItemViewTemplate:''|##claimItemViewTemplate|
-|''~claimItemEditTemplate:''|##claimItemEditTemplate|
-|''~StyleSheet:''|##StyleSheet|
-***/
-
-!PageTemplate
-&lt;!--{{{--&gt;
-&lt;div class='header'&gt;
-&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;
-&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;div id='ribbon'&gt;
-	&lt;div id='menu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
-	&lt;div id='messageBar'&gt;&lt;span id='messageArea'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id='displayArea'&gt;
-	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
-
-!claimHeaderViewTemplate
-&lt;!--{{{--&gt;
-&lt;div class='claimHeader'&gt;
-&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimViewToolbar]]'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='subtitle'&gt;Claim created on &lt;span macro='view modified date'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
-
-!claimHeaderEditTemplate
-&lt;!--{{{--&gt;
-&lt;div class='claimHeader'&gt;
-&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimEditToolbar]]'&gt;&lt;/div&gt;
-&lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
-&lt;div class='subtitle'&gt;Claim created on &lt;span macro='view modified date'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
-
-
-!claimItemViewTemplate
-&lt;!--{{{--&gt;
-&lt;div class='claimItem'&gt;
-&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemViewToolbar]]'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
-
-!claimItemEditTemplate
-&lt;!--{{{--&gt;
-&lt;div class='claimItem'&gt;
-&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemEditToolbar]]'&gt;&lt;/div&gt;
-&lt;div class='title' macro='edit title'&gt;&lt;/div&gt;
-&lt;div class='viewer' macro='edit text wikified'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
-
-
-
-!StyleSheet
-/*{{{*/
-	
-div.header { display:block; padding:0.5em; background-color:#000531;}
-div.header span { color:#fff; }
-div.header span img { position:absolute; top:5; left:10px;}
-div.header span.siteTitle {font-size:1.8em; letter-spacing:-1px; margin-left:3em;}
-div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; font-style:italic;}
-#ribbon { background-color:#eee; margin:0; padding:0; position:relative; }
-#ribbon a { background-color:#eee; font-size:2em; font-style:none; font-weight:bold; color:#333; letter-spacing:-1px; border-style:none; line-height:3.2em; display:inline; padding:1em; border-right:solid 1px #ddd;}
-#ribbon a:hover { background-color:#ECBB29; color:#fff; }
-#messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
-#displayArea { clear:left; margin:0;}
-
-div.viewer a.button { border-style:none; background-color:#ECBB29; color:#fff; padding:0.5em;}
-div.viewer a.button:hover { border-style:none; background-color:#333; color:#fff;}
-
-
-/* Claim Header */
-div.claimHeader { margin:2em 2em 0 2em; padding:0 0 1em 0; border-bottom:solid 2px #333;}
-div.claimHeader div.title {font-size:2.2em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold; }
-div.claimHeader div.title input {font-size:1em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold;}
-div.claimHeader div.subtitle{ font-size:0.9em; color:#bbb; }
-
-/* Claim Items */
-div.claimItem { margin:0 2em 0 2em; padding:0 0 1em 0; border-bottom:solid 1px #ccc;}
-div.claimItem div.title { font-size:1.4em; color:#333;}
-
-/*}}}*/</pre>
-</div>
-<div title="EasyExpensesColors" modifier="PhilHawksworth" created="200808141405" tags="systemTheme excludeSearch">
-<pre>
-background: #fff</pre>
-</div>
-<div title="MainMenu" modifier="PhilHawksworth" created="200809011713">
-<pre>
-&lt;&lt;CreateClaim&gt;&gt;[[Previous Claims]][[About You]]</pre>
-</div>
 <div title="ToolbarCommands" modifier="PhilHawksworth" created="200809011713">
-<pre>
-|~ViewToolbar|closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump|
+<pre>|~ViewToolbar|closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump|
 |~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
-|~ClaimViewToolbar|+editTiddler -closeTiddler deleteTiddler fields|
-|~ClaimEditToolbar|+saveTiddler -cancelTiddler deleteTiddler fields|
-|~ClaimItemViewToolbar|+editTiddler -closeTiddler deleteTiddler fields|
-|~ClaimItemEditToolbar|+saveTiddler -cancelTiddler deleteTiddler fields|</pre>
+|~ClaimViewToolbar|-newClaimItem +editTiddler -closeTiddler deleteTiddler fields|
+|~ClaimEditToolbar|-newClaimItem +saveTiddler -cancelTiddler deleteTiddler fields|
+|~ClaimItemViewToolbar|+editTiddler deleteTiddler cloneClaimItem fields|
+|~ClaimItemEditToolbar|+saveTiddler -cancelTiddler cloneClaimItem fields|</pre>
 </div>
-<div title="DefaultTiddlers" modifier="PhilHawksworth" created="200809011642">
+<div title="Your reference" created="200809031725" tags="claimHeader" claim_id="GENERATED_CLAIM_ID_1220462708300">
 <pre></pre>
 </div>
-<div title="SiteTitle" modifier="PhilHawksworth" created="200809011713">
-<pre>
-[img[images/BT_21pix_rev.gif]] //''Your''Expenses//</pre>
-</div>
-<div title="SiteSubtitle" modifier="PhilHawksworth" created="200809011713">
-<pre>
-trying to make it easier to get your money back</pre>
-</div>
-<div title="Previous Claims" modifier="PhilHawksworth" created="200809011713">
-<pre>
-Listing the previous claims foer review.</pre>
-</div>
-<div title="About You" modifier="PhilHawksworth" created="200809011713">
-<pre>
-Your name, EIN and other global settings.</pre>
+<div title="settings" modifier="PhilHawksworth" created="200809021214" tags="systemConfig excludeLists excludeSearch">
+<pre>//{{{
+
+config.options.chkAutoSave = true;
+config.options.chkAnimate = true;
+config.options.chkSaveBackups = false;
+config.options.txtTheme = &quot;EasyExpensesSkin&quot;;
+
+var claim_group = new TiddlerDisplayGroup();
+var claim_group_pattern = [
+	{label:'claimHeader', tag:'claimHeader', count:1, require:null, openAt:null},
+	{label:'claimItems', tag:'claimItem', count:0, require:'claimHeader', openAt:'top'}];
+claim_group.setPattern(claim_group_pattern); 
+claim_group.setGroupField('claim_id');
+
+//}}}</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
@@ -10079,6 +10085,7 @@ if(useJavaSaver)
 //]]>
 </script>
 <!--POST-SCRIPT-START-->
+
 <!--POST-SCRIPT-END-->
 </body>
 </html>

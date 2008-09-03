@@ -26,31 +26,43 @@ config.macros.CreateClaim.doCreate = function(ev) {
 	var t = store.createTiddler(title);
 	t.tags.pushUnique('claimHeader');
 	t.fields['claim_id'] = claim_id;
-	t.text = 'this is a new claim. Its ~GENERATED_CLAIM_ID will need to be provided by the expenses system  <<CreateClaimItem>>';
+	// t.text = 'this is a new claim. Its ~GENERATED_CLAIM_ID will need to be provided by the expenses system.';
 	story.displayTiddler(null,title,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);		
 };
 
 
-config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var tiddler = story.findContainingTiddler(place);
-	var t = store.getTiddler(tiddler.getAttribute('tiddler'));
-	var btn = createTiddlyButton(place,"new claim item","add a new claim item",this.doCreate);
-	btn.claim_id = t.fields.claim_id;
+// Extend the commands so that we can use our own commands on tiddlers.
+config.commands.newClaimItem = {
+	text: "new claim item",
+	tooltip: "add another item to claim",
+	handler : function(event,src,title) {
+		var claimTiddler = store.getTiddler(title);
+		var dt = new Date();
+		var uniqueID = 'claim_' + claimTiddler.fields['claim_id'] + '_' + dt.getTime();
+		// create tiddler and associate it with this claim.
+		var t = store.createTiddler(uniqueID);
+		t.tags.pushUnique('claimItem');
+		t.fields['claim_id'] = claimTiddler.fields['claim_id'];
+		t.text = 'defined by the FORM';
+		// refelct the form elements into this claim report.		
+		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
+	}
 };
-
-config.macros.CreateClaimItem.doCreate = function(ev) {
-	var e = ev ? ev : window.event;
-	var dt = new Date();
-	var uniqueID = 'claim_' + this.claim_id + '_' + dt.getTime();
-
-	// create tiddler and associate it with this claim.
-	var t = store.createTiddler(uniqueID);
-	t.tags.pushUnique('claimItem');
-	t.fields['claim_id'] = this.claim_id;
-	t.text = 'defined by the FORM';
-
-	// refelct the form elements into this claim report.		
-	story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);	
+config.commands.cloneClaimItem = {
+	text: "clone",
+	tooltip: "add another claim item just like this",
+	handler : function(event,src,title) {
+		var sourceTiddler = store.getTiddler(title);
+		var dt = new Date();
+		var uniqueID = 'claim_' + sourceTiddler.fields['claim_id'] + '_' + dt.getTime();
+		// create tiddler and associate it with this claim.
+		var t = store.createTiddler(uniqueID);
+		t.tags.pushUnique('claimItem');
+		t.fields = sourceTiddler.fields;
+		t.text = sourceTiddler.text;
+		// refelct the form elements into this claim report.		
+		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
+	}
 };
 
 }

@@ -36,20 +36,18 @@
 !claimHeaderViewTemplate
 <!--{{{-->
 <div class='claimHeader'>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimViewToolbar]]'></div>
 <div class='title' macro='view title'></div>
 <div class='subtitle'>Claim created on <span macro='view modified date'></span></div>
-<div class='viewer' macro='view text wikified'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimViewToolbar]]'></div>
 </div>
 <!--}}}-->
 
 !claimHeaderEditTemplate
 <!--{{{-->
 <div class='claimHeader'>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimEditToolbar]]'></div>
-<div class='title edit' macro='edit title'></div>
+<div class='title' macro='edit title'></div>
 <div class='subtitle'>Claim created on <span macro='view modified date'></span></div>
-<div class='viewer' macro='view text wikified'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimEditToolbar]]'></div>
 </div>
 <!--}}}-->
 
@@ -88,19 +86,24 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 #messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
 #displayArea { clear:left; margin:0;}
 
-div.viewer a.button { border-style:none; background-color:#ECBB29; color:#fff; padding:0.5em;}
-div.viewer a.button:hover { border-style:none; background-color:#333; color:#fff;}
-
 
 /* Claim Header */
 div.claimHeader { margin:2em 2em 0 2em; padding:0 0 1em 0; border-bottom:solid 2px #333;}
 div.claimHeader div.title {font-size:2.2em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold; }
 div.claimHeader div.title input {font-size:1em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold;}
 div.claimHeader div.subtitle{ font-size:0.9em; color:#bbb; }
+div.claimHeader div.toolbar {font-size:1em;}
+div.claimHeader div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
+div.claimHeader div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
+div.claimHeader div.toolbar a.defaultCommand { background-color:#D89035;}
 
 /* Claim Items */
 div.claimItem { margin:0 2em 0 2em; padding:0 0 1em 0; border-bottom:solid 1px #ccc;}
 div.claimItem div.title { font-size:1.4em; color:#333;}
+div.claimItem div.toolbar {font-size:0.8em;}
+div.claimItem div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
+div.claimItem div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
+div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
 
 /*}}}*/
 </pre>
