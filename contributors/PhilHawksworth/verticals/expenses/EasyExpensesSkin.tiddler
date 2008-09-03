@@ -11,22 +11,64 @@
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
+|''~claimHeaderViewTemplate:''|##claimHeaderViewTemplate|
+|''~claimHeaderEditTemplate:''|##claimHeaderEditTemplate|
+|''~claimItemViewTemplate:''|##claimItemViewTemplate|
+|''~claimItemEditTemplate:''|##claimItemEditTemplate|
 |''~StyleSheet:''|##StyleSheet|
 ***/
 
 !PageTemplate
 <!--{{{-->
-<div id='messageBar'><span id='messageArea'></span></div>
 <div class='header'>
-<div class='headerShadow'>
-<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 </div>
-<div id='topMenu' refresh='content' tiddler='TopMenu'></div>
+<div id='ribbon'>
+	<div id='menu' refresh='content' tiddler='MainMenu'></div>
+	<div id='messageBar'><span id='messageArea'></span></div>
 </div>
-<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 <div id='displayArea'>
 	<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!claimHeaderViewTemplate
+<!--{{{-->
+<div class='claimHeader'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='subtitle'>Claim created on <span macro='view modified date'></span></div>
+<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+!claimHeaderEditTemplate
+<!--{{{-->
+<div class='claimHeader'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimEditToolbar]]'></div>
+<div class='title edit' macro='edit title'></div>
+<div class='subtitle'>Claim created on <span macro='view modified date'></span></div>
+<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!claimItemViewTemplate
+<!--{{{-->
+<div class='claimItem'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+!claimItemEditTemplate
+<!--{{{-->
+<div class='claimItem'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemEditToolbar]]'></div>
+<div class='title' macro='edit title'></div>
+<div class='viewer' macro='edit text wikified'></div>
 </div>
 <!--}}}-->
 
@@ -34,7 +76,31 @@
 
 !StyleSheet
 /*{{{*/
+	
+div.header { display:block; padding:0.5em; background-color:#000531;}
+div.header span { color:#fff; }
+div.header span img { position:absolute; top:5; left:10px;}
+div.header span.siteTitle {font-size:1.8em; letter-spacing:-1px; margin-left:3em;}
+div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; font-style:italic;}
+#ribbon { background-color:#eee; margin:0; padding:0; position:relative; }
+#ribbon a { background-color:#eee; font-size:2em; font-style:none; font-weight:bold; color:#333; letter-spacing:-1px; border-style:none; line-height:3.2em; display:inline; padding:1em; border-right:solid 1px #ddd;}
+#ribbon a:hover { background-color:#ECBB29; color:#fff; }
+#messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
+#displayArea { clear:left; margin:0;}
 
+div.viewer a.button { border-style:none; background-color:#ECBB29; color:#fff; padding:0.5em;}
+div.viewer a.button:hover { border-style:none; background-color:#333; color:#fff;}
+
+
+/* Claim Header */
+div.claimHeader { margin:2em 2em 0 2em; padding:0 0 1em 0; border-bottom:solid 2px #333;}
+div.claimHeader div.title{ font-size:2.2em; color:#000; }
+div.claimHeader div.title input{font-family:arial; font-weight:bold; font-size:1em; color:#000; }
+div.claimHeader div.subtitle{ font-size:0.9em; color:#bbb; }
+
+/* Claim Items */
+div.claimItem { margin:0 2em 0 2em; padding:0 0 1em 0; border-bottom:solid 1px #ccc;}
+div.claimItem div.title { font-size:1.4em; color:#333;}
 
 /*}}}*/
 </pre>

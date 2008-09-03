@@ -3,16 +3,16 @@
 #
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
-
 #
 # Settings
 #
-js: settings.js
+tiddler: settings.js
 
 #
 # Plugins
 #
 tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: plugins/CreateClaimItemPlugin.js
 
 
@@ -22,10 +22,13 @@ tiddler: plugins/CreateClaimItemPlugin.js
 tiddler: EasyExpensesSkin.tiddler
 tiddler: EasyExpensesColors.tiddler
 tiddler: MainMenu.tiddler
+tiddler: ToolbarCommands.tiddler
 
 #
 # Tiddlers
 #
 tiddler: DefaultTiddlers.tiddler
-tiddler: SampleClaimHeader.tiddler
-tiddler: SampleClaimAdd.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: Previous_Claims.tiddler
+tiddler: About_You.tiddler

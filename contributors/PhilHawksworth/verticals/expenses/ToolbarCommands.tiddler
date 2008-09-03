@@ -1,0 +1,10 @@
+<div title="ToolbarCommands" modifier="PhilHawksworth" created="200809011713">
+<pre>
+|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
+|~ClaimViewToolbar|+editTiddler -closeTiddler deleteTiddler fields|
+|~ClaimEditToolbar|+saveTiddler -cancelTiddler deleteTiddler fields|
+|~ClaimItemViewToolbar|+editTiddler -closeTiddler deleteTiddler fields|
+|~ClaimItemEditToolbar|+saveTiddler -cancelTiddler deleteTiddler fields|
+</pre>
+</div>
