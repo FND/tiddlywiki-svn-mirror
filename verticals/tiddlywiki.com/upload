@@ -6,6 +6,8 @@
 # default values
 DEFAULT_RELEASE="2.4.1"
 RELEASE=${1:-$DEFAULT_RELEASE}
+REMOTE_USER=${2:-$USER}
+DEST=$PWD/../../../cooked/tiddlywiki.com
 HOST="tiddlywiki.com"
 DIR="/var/www/www.tiddlywiki.com/htdocs"
 OWNER="www-data:www-data"
@@ -23,14 +25,14 @@ function setPermissions() {
 echo
 echo "uploading files"
 echo
-FILES="index.$RELEASE.html index.$RELEASE.xml empty.$RELEASE.html TiddlySaver.jar empty.$RELEASE.zip"
-scp $FILES "$HOST:./tmp/"
+FILES="$DEST/index.$RELEASE.html $DEST/index.$RELEASE.xml $DEST/empty.$RELEASE.html $DEST/TiddlySaver.jar $DEST/empty.$RELEASE.zip"
+scp $FILES "$REMOTE_USER@$HOST:./tmp/"
 
 # transfer files to their respective folders
 echo
 echo "transferring files"
 echo
-COMMANDS="ssh $HOST"
+COMMANDS="ssh $REMOTE_USER@$HOST"
 # Index
 COMMANDS="$COMMANDS sudo mv ./tmp/index.$RELEASE.html $DIR/index.html;"
 setPermissions "$DIR/index.html"
@@ -52,7 +54,7 @@ setPermissions "$DIR/empty.zip"
 $COMMANDS
 
 # cleanup
-if [ "$2" = "true" ]; then
+if [ "$3" = "true" ]; then
 	echo "cleaning up (removing cooked files)"
 	echo "removing index.$RELEASE.html"
 	rm "index.$RELEASE.html"
