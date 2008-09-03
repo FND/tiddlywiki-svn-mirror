@@ -26,7 +26,7 @@ config.macros.CreateClaim.doCreate = function(ev) {
 	var t = store.createTiddler(title);
 	t.tags.pushUnique('claimHeader');
 	t.fields['claim_id'] = claim_id;
-	t.text = 'this is a new claim. It\'s ~GENERATED_CLAIM_ID will need to be provided by the expenses system  <<CreateClaimItem>>';
+	t.text = 'this is a new claim. Its ~GENERATED_CLAIM_ID will need to be provided by the expenses system  <<CreateClaimItem>>';
 	story.displayTiddler(null,title,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);		
 };
 
