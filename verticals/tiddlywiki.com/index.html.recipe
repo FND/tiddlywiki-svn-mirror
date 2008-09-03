@@ -1,6 +1,4 @@
 recipe: ../../core/tiddlywiki.html.recipe
-tiddler: ../../association/plugins/DeprecatedFunctionsPlugin/DeprecatedFunctionsPlugin.js
-tiddler: ../../association/plugins/SparklinePlugin/SparklinePlugin.js
 tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js tags="systemConfig"
 recipe: plugins/split.recipe
 recipe: feeds/split.recipe

@@ -1,11 +1,14 @@
 #!/bin/bash
 DEFAULT_RELEASE=2.4.1
 RELEASE=${1:-$DEFAULT_RELEASE}
-DEST=$PWD
+DEST=$PWD/../../../cooked/tiddlywiki.com
+mkdir $PWD/../../../cooked
+mkdir $PWD/../../../cooked/tiddlywiki.com
 RECIPE=$PWD/index.$RELEASE.html.recipe
 ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
 RECIPE=$PWD/empty.$RELEASE.html.recipe
 ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
-cp empty.$RELEASE.html /tmp/empty.html
-rm empty.$RELEASE.zip
-zip -j empty.$RELEASE.zip /tmp/empty.html TiddlySaver.jar
+cp $DEST/empty.$RELEASE.html /tmp/empty.html
+rm $DEST/empty.$RELEASE.zip
+zip -j $DEST/empty.$RELEASE.zip /tmp/empty.html $DEST/TiddlySaver.jar
+rm /tmp/empty.html
