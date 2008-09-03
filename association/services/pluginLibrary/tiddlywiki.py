@@ -8,10 +8,8 @@ def unescapeLineBreaks(text): # TODO: rename
 	"""
 	unescape line breaks
 
-	@param text: original text
-	@type  text: str
-	@return: converted text
-	@rtype : str
+	@param text (str): original text
+	@return (str): converted text
 	"""
 	return text.replace("\\n", "\n").replace("\\b", " ").replace("\\s", "\\").replace("\r", "")
 
@@ -19,11 +17,10 @@ def getSlices(text): # TODO: should be in Tiddler class
 	"""
 	retrieve plugin meta-slices
 
-	@param text: tiddler text
-	@type  text: str
+	@param text (str): tiddler text
 	"""
 	pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)" # RegEx origin: TiddlyWiki core
-	pattern = re.compile(pattern, re.M + re.I)
+	pattern = re.compile(pattern, re.M + re.I) # XXX: enhance efficiency by moving to class attribute to prevent re-compiling
 	matches = pattern.findall(text)
 	slices = {}
 	for match in matches:
@@ -39,8 +36,7 @@ class TiddlyWiki:
 	"""
 	def __init__(self, html):
 		"""
-		@param html: TiddlyWiki document
-		@type  html: str
+		@param html (str): TiddlyWiki document
 		@return: None
 		"""
 		self.dom = BeautifulSoup(html)
@@ -50,10 +46,8 @@ class TiddlyWiki:
 		"""
 		retrieve plugin tiddlers
 
-		@param repo: current repository
-		@type  repo: dict
-		@return: plugin tiddlers (pure-store format)
-		@rtype : str
+		@param repo (str): current repository
+		@return (str): plugin tiddlers (pure-store format)
 		"""
 		tag = "systemConfig" # includes "systemConfigDisable" -- XXX: include systemTheme tiddlers?
 		# remove non-plugin tiddlers
@@ -68,8 +62,7 @@ class TiddlyWiki:
 		"""
 		remove plugins whose origin is not the repository specified
 
-		@param repo: repository URL
-		@type  repo: str
+		@param repo (str): repository URL
 		@return: None
 		"""
 		repo = trimURI(repo)
@@ -84,11 +77,11 @@ class TiddlyWiki:
 		"""
 		retrieve TiddlyWiki version number
 
-		@return: version number (major, minor, revision)
-		@rtype : list or None
+		@return (list): version number (major, minor, revision)
+		@raise ValueError: invalid TiddlyWiki version
 		"""
 		version = self.dom.html.head.script.renderContents()
-		pattern = re.compile(r"major: (\d+), minor: (\d+), revision: (\d+)")
+		pattern = re.compile(r"major: (\d+), minor: (\d+), revision: (\d+)") # XXX: enhance efficiency by moving to class attribute to prevent re-compiling
 		matches = pattern.search(version)
 		if matches:
 			major = int(matches.groups()[0])
@@ -96,7 +89,7 @@ class TiddlyWiki:
 			revision = int(matches.groups()[2])
 			return [major, minor, revision]
 		else:
-			return None
+			raise ValueError("invalid TiddlyWiki version") # TODO
 
 	def convertStoreFormat(self):
 		"""
@@ -116,4 +109,3 @@ class TiddlyWiki:
 				pre = Tag(self.dom, "pre")
 				pre.contents = tiddler.contents
 				tiddler.contents = [pre]
-

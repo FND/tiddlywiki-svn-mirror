@@ -53,12 +53,9 @@ def getPlugins(repo, store):
 	"""
 	retrieve and store plugins from repository
 
-	@param repo: repository dictionaries
-	@type  repo: list
-	@param store: TiddlyWeb store
-	@type  store: Store
-	@return: success
-	@rtype : bool
+	@param repo (list): repository dictionaries
+	@param store (Store): TiddlyWeb store
+	@return (bool): success
 	"""
 	if repo["type"] == "TiddlyWiki":
 		try:
@@ -95,10 +92,8 @@ def generateRecipe(bags, store):
 	"""
 	generate recipe from a list of bags
 
-	@param bags: bag names
-	@type  bags: list
-	@param store: TiddlyWeb store
-	@type  store: Store
+	@param bags (list): bag names
+	@param store (Store): TiddlyWeb store
 	@return: None
 	"""
 	recipe = Recipe("plugins")
@@ -110,10 +105,8 @@ def savePlugins(store, bag):
 	"""
 	save repository's plugins to store
 
-	@param bags: TiddlyWeb bag
-	@type  bags: Bag
-	@param store: TiddlyWeb store
-	@type  store: Store
+	@param bags (Bag): TiddlyWeb bag
+	@param store (Store): TiddlyWeb store
 	@return: None
 	"""
 	try: # XXX: don't use exception here!?
@@ -126,4 +119,3 @@ def savePlugins(store, bag):
 
 if __name__ == "__main__": # skip main() if imported as module
 	sys.exit(main(sys.argv))
-

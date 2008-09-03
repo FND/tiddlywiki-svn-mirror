@@ -14,8 +14,7 @@ from utils import addTrailingSlash
 class DirScraper:
 	def __init__(self, host):
 		"""
-		@param host: base URI
-		@type  host: str
+		@param host (str): base URI
 		"""
 		self.host = addTrailingSlash(host)
 		self.blacklist = "excludeLibrary.txt"
@@ -25,10 +24,8 @@ class DirScraper:
 		"""
 		retrieve page contents
 
-		@param url: page URL
-		@type  url: str
-		@return: page contents
-		@rtype : str
+		@param url (str): page URL
+		@return (str): page contents
 		"""
 		http = httplib2.Http()
 		reponse, content = http.request(url, method = "GET")
@@ -43,12 +40,9 @@ class DirScraper:
 		whitelist and blacklist files contain one file or directory name per line
 		whitelist takes precedence over blacklist
 
-		@param dir: directory (relative path)
-		@type  dir: str
-		@param recursive: process subdirectories
-		@type  recursive: bool
-		@return: plugin tiddlers
-		@rtype : list
+		@param dir (str): directory (relative path)
+		@param recursive (bool): process subdirectories
+		@return (list): plugin tiddlers
 		"""
 		plugins = []
 		dir = addTrailingSlash(dir)
@@ -89,10 +83,8 @@ class DirScraper:
 		meta file contains one field per line
 		field format is "key: value"
 
-		@param plugin: TiddlyWeb tiddler
-		@type  plugin: Tiddler
-		@param uri: path to meta file
-		@type  uri: str
+		@param plugin (Tiddler): TiddlyWeb tiddler
+		@param uri (str): path to meta file
 		@return: None
 		"""
 		fields = self._get(uri).split("\n")
@@ -108,4 +100,3 @@ class DirScraper:
 				else:
 					#plugin.fields[k] = v # DEBUG'd -- TODO: not yet implemented in Tiddler class
 					pass # DEBUG
-

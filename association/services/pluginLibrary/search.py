@@ -19,10 +19,8 @@ def parseQuery(query):
 	"""
 	parse query string
 
-	@param query: query string
-	@type  query: str
-	@return: query components
-	@rtype : dict
+	@param query (str): query string
+	@return (dict): query components
 	"""
 	return { "text": query } # XXX: to do
 
@@ -32,10 +30,8 @@ class Store(TextStore):
 		"""
 		search the store
 
-		@param query: query string
-		@type  query: str
-		@return: matching tiddlers
-		@rtype : list
+		@param query (str): query string
+		@return (list): matching tiddlers
 		"""
 		path = os.path.join(self._store_root(), "bags")
 		bags = self._files_in_dir(path)
@@ -50,7 +46,7 @@ class Store(TextStore):
 				tiddler = Tiddler(title=tiddlerName, bag=bag)
 				revisionID = self.list_tiddler_revisions(tiddler)[0]
 				try:
-					tiddlerFile = open(os.path.join(tiddlerDir, tiddlerName, str(revisionID)))
+					tiddlerFile = open(os.path.join(tiddlerDir, tiddlerName, str(revisionID)), "r")
 					for line in tiddlerFile:
 						if query in line.lower():
 							found_tiddlers.append(tiddler)
@@ -62,4 +58,3 @@ class Store(TextStore):
 		# returned Tiddler objects must have their 'bag' attribute set to the name of the
 		# bag they were found in
 		# see tiddlyweb.stores.text.search for a simple example
-
