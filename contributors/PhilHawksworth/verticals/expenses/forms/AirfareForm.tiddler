@@ -1,0 +1,17 @@
+<div title="AirfareForm" modifier="PaulDowney" created="200808290900" tags="form" expenses_type="Airfare">
+<pre>
+|StartDate|DetailStartDate|
+|Days|DetailDays|
+|Amount|DetailReceiptAmount|
+|LostReceipt|DetailReceiptMissing|
+|TrainingCost|DetailFlex0|
+|Supplier|DetailMerchantName|
+|Justification|DetailJust|
+|Country|DetailFlex1|
+|TicketClass|TicketClass|
+|TicketNumber|TicketNumber|
+|AgentNumber|DetailFlex3|
+|LocationFrom|FromLocation|
+|LocationTo|ToLocation|
+</pre>
+</div>

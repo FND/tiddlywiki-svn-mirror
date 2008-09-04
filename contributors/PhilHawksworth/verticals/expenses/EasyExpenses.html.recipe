@@ -32,3 +32,8 @@ tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: Previous_Claims.tiddler
 tiddler: About_You.tiddler
+
+#
+# Expense type forms
+#
+tiddler: forms/AirfareForm.tiddler

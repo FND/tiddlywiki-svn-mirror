@@ -2,9 +2,9 @@
 <pre>
 |~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|
 |~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
-|~ClaimViewToolbar|-newClaimItem +editTiddler -closeTiddler deleteTiddler fields|
-|~ClaimEditToolbar|-newClaimItem +saveTiddler -cancelTiddler deleteTiddler fields|
-|~ClaimItemViewToolbar|+editTiddler deleteTiddler cloneClaimItem fields|
-|~ClaimItemEditToolbar|+saveTiddler -cancelTiddler cloneClaimItem fields|
+|~ClaimViewToolbar|-newClaimItem +editTiddler -closeTiddler deleteTiddler|
+|~ClaimEditToolbar|-newClaimItem +saveTiddler -cancelTiddler deleteTiddler|
+|~ClaimItemViewToolbar|+editTiddler deleteTiddler cloneClaimItem|
+|~ClaimItemEditToolbar|+saveTiddler -cancelTiddler cloneClaimItem|
 </pre>
 </div>

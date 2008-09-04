@@ -26,7 +26,6 @@ config.macros.CreateClaim.doCreate = function(ev) {
 	var t = store.createTiddler(title);
 	t.tags.pushUnique('claimHeader');
 	t.fields['claim_id'] = claim_id;
-	// t.text = 'this is a new claim. Its ~GENERATED_CLAIM_ID will need to be provided by the expenses system.';
 	story.displayTiddler(null,title,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);		
 };
 
@@ -39,11 +38,21 @@ config.commands.newClaimItem = {
 		var claimTiddler = store.getTiddler(title);
 		var dt = new Date();
 		var uniqueID = 'claim_' + claimTiddler.fields['claim_id'] + '_' + dt.getTime();
+
 		// create tiddler and associate it with this claim.
-		var t = store.createTiddler(uniqueID);
-		t.tags.pushUnique('claimItem');
-		t.fields['claim_id'] = claimTiddler.fields['claim_id'];
-		t.text = 'defined by the FORM';
+		var formDefinitionTiddler = store.getTiddler('AirfareForm');
+		var newTiddler = store.createTiddler(uniqueID);
+		newTiddler.tags.pushUnique('claimItem');
+		newTiddler.fields['claim_id'] = claimTiddler.fields['claim_id'];
+
+		// add fields as described in the form template for this claim type
+		newTiddler.fields['expenses_type'] = formDefinitionTiddler.fields['expenses_type'];
+		var slices = store.calcAllSlices('AirfareForm');
+		for(s in slices) {
+			var arg =  store.getTiddlerSlice('AirfareForm',s);
+			newTiddler.fields[s.toLowerCase()] = {'label':s, 'arg':arg, 'value':null};
+		}
+	
 		// refelct the form elements into this claim report.		
 		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
 	}
@@ -64,6 +73,18 @@ config.commands.cloneClaimItem = {
 		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
 	}
 };
+
+config.macros.view.views.complexField = function(value,place,params,wikifier,paramString,tiddler) {
+	var results = value[params[2]];
+	highlightify(results,place,highlightHack,tiddler);
+	// console.log('complex field',arguments, results);
+};
+
+	// text: function(value,place,params,wikifier,paramString,tiddler) {
+	// 	highlightify(value,place,highlightHack,tiddler);
+	// },
+
+
 
 }
 //}}}
