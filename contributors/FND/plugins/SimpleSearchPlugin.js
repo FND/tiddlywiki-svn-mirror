@@ -2,7 +2,7 @@
 |''Name''|SimpleSearchPlugin|
 |''Description''|displays search results as a simple list of matching tiddlers|
 |''Authors''|FND|
-|''Version''|0.4.0|
+|''Version''|0.4.1|
 |''Status''|stable|
 |''Source''|http://devpad.tiddlyspot.com/#SimpleSearchPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/SimpleSearchPlugin.js|
@@ -37,7 +37,7 @@ plugins.SimpleSearchPlugin = {
 	btnOpenLabel: "Open all",
 	btnOpenTooltip: "open all search results",
 	btnOpenId: "search_open",
-	
+
 	displayResults: function(matches, query) {
 		story.refreshAllTiddlers(true); // update highlighting within story tiddlers
 		var el = document.getElementById(this.containerId);
@@ -47,7 +47,7 @@ plugins.SimpleSearchPlugin = {
 		} else { //# fallback: use displayArea as parent
 			var container = document.getElementById("displayArea");
 			el = document.createElement("div");
-			el.setAttribute("id", this.containerId);
+			el.id = this.containerId;
 			el = container.insertBefore(el, container.firstChild);
 		}
 		var msg = "!" + this.heading + "\n";
