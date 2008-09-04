@@ -103,7 +103,7 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 div.claimHeader { margin:2em 0 0 0; padding:0 0 0.5em 0; border-bottom:solid 2px #333; position:relative; }
 div.claimHeader div.title {font-size:2.2em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold; }
 div.claimHeader div.title input {font-size:1em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold;}
-div.claimHeader div.subtitle{ font-size:0.9em; color:#bbb; }
+div.claimHeader div.subtitle{ font-size:0.9em; color:#999; }
 div.claimHeader div.toolbar {font-size:1em; position:absolute; right:0; bottom:1em;}
 div.claimHeader div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
 div.claimHeader div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
@@ -119,7 +119,7 @@ div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
 
 div.view input { border-style:none;}
 span.field {margin:0 1em 1em 0;}
-span.field label {font-size:0.9em; color:#bbb; display:block; margin-left:2px;}
+span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
 
 span.amount {display:inline; float:left; ;}
 span.date { display:inline; float:left;}
