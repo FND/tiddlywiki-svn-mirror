@@ -34,3 +34,4 @@ def reportCoverage(testModules):
 if __name__ == "__main__":
 	status = main(sys.argv)
 	sys.exit(not status)
+

@@ -119,3 +119,4 @@ def savePlugins(store, bag):
 
 if __name__ == "__main__": # skip main() if imported as module
 	sys.exit(main(sys.argv))
+

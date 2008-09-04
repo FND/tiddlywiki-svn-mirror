@@ -58,3 +58,4 @@ class Store(TextStore):
 		# returned Tiddler objects must have their 'bag' attribute set to the name of the
 		# bag they were found in
 		# see tiddlyweb.stores.text.search for a simple example
+

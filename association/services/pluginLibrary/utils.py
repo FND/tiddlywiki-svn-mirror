@@ -19,3 +19,4 @@ def addTrailingSlash(path): # XXX: rename?
 	if path[-1] != "/":
 		path = path + "/"
 	return path
+

@@ -153,11 +153,11 @@ var foo = "bar";
 		expected = [2, 1, 3]
 		self.assertEqual(expected, legacyTW.getVersion())
 
-	def testGetVersionReturnsNoneForMissingVersion(self):
-		"""getVersion returns None if version information is missing"""
+	def testGetVersionRaisesValueErrorForMissingVersion(self):
+		"""getVersion raises ValueError if version information is missing"""
 		blankTW = tiddlywiki.TiddlyWiki(dummyTiddlyWiki("blank"))
-		expected = None
-		self.assertEqual(expected, blankTW.getVersion())
+		expected = ValueError
+		self.assertRaises(expected, blankTW.getVersion)
 
 	def testConvertStoreFormatConvertsTiddlerAttribute(self):
 		"""convertStoreFormat converts tiddler to title attribute"""
@@ -262,3 +262,4 @@ var foo = "bar";
 
 if __name__ == "__main__":
 	unittest.main()
+

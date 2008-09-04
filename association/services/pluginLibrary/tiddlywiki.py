@@ -109,3 +109,4 @@ class TiddlyWiki:
 				pre = Tag(self.dom, "pre")
 				pre.contents = tiddler.contents
 				tiddler.contents = [pre]
+
