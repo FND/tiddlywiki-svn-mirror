@@ -96,7 +96,7 @@ Rect.prototype.midPoint = function() {
 // Given a point in the coordinates of a target element, compute the coordinates relative to a specified parent element
 function normalisePoint(parent,target,pt) {
 	var e = target;
-	var r = {x: pt.x, y: pt.y};
+	var r = new Point(pt);
 	while((e != parent) && (e.parentNode)) {
 		r.x += e.offsetLeft;
 		r.y += e.offsetTop;
@@ -423,7 +423,7 @@ Cecily.draggers.backgroundDragger = {
 
 //# Display a given tiddler with a given template. If the tiddler is already displayed but with a different
 //# template, it is switched to the specified template. If the tiddler does not exist, and if server hosting
-//# custom fields were provided, then an attempt is made to retrieve the tiddler from the server
+//# custom fields were provided, then an attempt is made to retrieve the tiddler from the server
 //# srcElement - reference to element from which this one is being opened -or-
 //#              special positions "top", "bottom"
 //# tiddler - tiddler or title of tiddler to display
@@ -1019,7 +1019,7 @@ div#messageArea:hover .button:active {
 
 #overlayMenu .twtable tr {
 	border: none;
-	border-bottom: 1px solid white;
+	border-bottom: 1px solid #ccc;
 }
 
 .viewer table, table.twtable {
@@ -1068,6 +1068,7 @@ div#backstageArea {
 	position: absolute;
 	left: 0px;
 	top: 0px;
+	background-color: #eee;
 }
 
 .cecilyMenu {
@@ -1156,6 +1157,7 @@ div#backstageArea {
 	padding: 2pt 8pt 4pt 8pt;
 	color: #444;
 	font-size: 0.6em;
+	-webkit-transform: scale(0.1,0.1);
 }
 
 .cecily .tiddler .viewer {
