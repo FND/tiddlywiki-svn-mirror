@@ -354,11 +354,11 @@ Cecily.draggers.tiddlerDragger = {
 		tiddler.parentNode.insertBefore(tiddler,null);
 		cecily.drag.tiddler = tiddler;
 		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
-		cecily.drag.lastPoint = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
+		cecily.drag.lastPoint = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
 		addClass(tiddler,"drag");
 	},
 	dragMove: function(cecily,target,ev) {
-		var dragThis = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
+		var dragThis = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
 		if(dragThis) {
 			var s = cecily.frame.offsetWidth/cecily.view.w;
 			cecily.drag.tiddler.style.left = (cecily.drag.tiddler.offsetLeft + (dragThis.x - cecily.drag.lastPoint.x) / s) + "px";
@@ -381,13 +381,13 @@ Cecily.draggers.tiddlerResizer = {
 		tiddler.parentNode.insertBefore(tiddler,null);
 		cecily.drag.tiddler = tiddler;
 		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
-		cecily.drag.startPoint = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
+		cecily.drag.startPoint = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
 		cecily.drag.startWidth = tiddler.scaledWidth;
 		addClass(tiddler,"drag");
 	},
 	dragMove: function(cecily,target,ev) {
 		var s = cecily.frame.offsetWidth/cecily.view.w;
-		var dragThis = normalisePoint(cecily.frame,target,{x: ev.offsetX, y: ev.offsetY});
+		var dragThis = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
 		if(dragThis) {
 			var newWidth = cecily.drag.startWidth + (dragThis.x - cecily.drag.startPoint.x) / s;
 			if(newWidth < 0.01)
@@ -1157,7 +1157,6 @@ div#backstageArea {
 	padding: 2pt 8pt 4pt 8pt;
 	color: #444;
 	font-size: 0.6em;
-	-webkit-transform: scale(0.1,0.1);
 }
 
 .cecily .tiddler .viewer {
