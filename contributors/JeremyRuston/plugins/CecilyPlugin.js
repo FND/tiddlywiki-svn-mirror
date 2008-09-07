@@ -267,7 +267,6 @@ Cecily.prototype.createDisplay = function() {
 	this.addEventHandler(window,"resize",this.onWindowResize,false);
 	this.addEventHandler(window,"mousewheel",this.onMouseWheel,true);
 	this.addEventHandler(document,"mousedown",this.onMouseDownCapture,true);
-	this.addEventHandler(document,"click",this.onMouseClickBubble,false);
 	this.addEventHandler(document,"mousemove",this.onMouseMoveCapture,true);
 	this.addEventHandler(document,"mouseup",this.onMouseUpCapture,true);
 	var cecily = this;
@@ -301,20 +300,13 @@ Cecily.prototype.onMouseWheel = function(ev) {
 	return false;
 };
 
-Cecily.prototype.onMouseClickBubble = function(ev) {
-	var tiddler = story.findContainingTiddler(ev.target);
-	if(tiddler && this.drag == null && !hasClass(ev.target,"tiddlyLink")) {
-		tiddler.parentNode.insertBefore(tiddler,null);
-		this.scrollToTiddler(tiddler);
-	}
-};
-
 Cecily.prototype.onMouseDownCapture = function(ev) {
-	for(var d in Cecily.draggers) {
-		var dragger = Cecily.draggers[d];
+	for(var d=0; d<Cecily.draggerList.length; d++) {
+		var dragger = Cecily.draggers[Cecily.draggerList[d]];
 		if(dragger.isDrag(this,ev.target,ev)) {
 			this.drag = {dragger: dragger};
 			dragger.dragDown(this,ev.target,ev);
+			break;
 		}
 	}
 	if(this.drag !== null) {
@@ -344,6 +336,28 @@ Cecily.prototype.onMouseUpCapture = function(ev) {
 };
 
 Cecily.draggers = {};
+Cecily.draggerList = ["tiddlerDragger","tiddlerResizer","tiddlerSelector","backgroundDragger"];
+
+Cecily.draggers.tiddlerSelector = {
+	isDrag: function(cecily,target,ev) {
+		return findRelated(target,"tiddler","className","parentNode") !== null;
+	},
+	dragDown: function(cecily,target,ev) {
+		var tiddler = story.findContainingTiddler(target);
+		tiddler.parentNode.insertBefore(tiddler,null);
+		cecily.drag.tiddler = tiddler;
+		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
+		cecily.drag.hadMove = false;
+		addClass(tiddler,"drag");
+	},
+	dragMove: function(cecily,target,ev) {
+		cecily.drag.hadMove = true;
+	},
+	dragUp: function(cecily,target,ev) {
+		removeClass(cecily.drag.tiddler,"drag");
+		cecily.scrollToTiddler(cecily.drag.tiddler);
+	}
+};
 
 Cecily.draggers.tiddlerDragger = {
 	isDrag: function(cecily,target,ev) {
