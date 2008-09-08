@@ -32,12 +32,28 @@ class DirScraperTestCase(unittest.TestCase):
 		expected = "/***\nlorem\n***/\n"
 		self.assertEqual(expected, self.svn._get(uri))
 
+	def testGetPluginsRetrievesJSFiles(self):
+		"""getPlugins retrieves .js files from directory"""
+		self.svn = DirScraper("http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/")
+		uri = "test/foo"
+		tiddlers = [t.title for t in self.svn.getPlugins(uri)]
+		expected = ["lorem", "sit"]
+		self.assertEqual(expected, tiddlers)
+
+	def testGetPluginsSupportsRecursiveRetrieval(self):
+		"""getPlugins support recursively retrieving .js files from sub-directories"""
+		self.svn = DirScraper("http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/")
+		uri = "test"
+		tiddlers = [t.title for t in self.svn.getPlugins(uri, True)]
+		expected = ["consectetur", "adipisicing", "lorem", "sit"] # N.B.: includes checking for white- and blacklisting
+		self.assertEqual(expected, tiddlers)
+
 	def testRetrieveMetadataSetsTitle(self):
 		"""retrieveMetadata sets title if present""" # TODO: test missing condition
 		tiddler = Tiddler()
 		uri = "http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/test/foo/lorem.js.meta"
 		self.svn.retrieveMetadata(tiddler, uri)
-		expected = Tiddler(title = "lorem").title
+		expected = "lorem"
 		self.assertEqual(expected, tiddler.title)
 
 	def testRetrieveMetadataSetsCreated(self):
@@ -45,7 +61,7 @@ class DirScraperTestCase(unittest.TestCase):
 		tiddler = Tiddler()
 		uri = "http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/test/foo/lorem.js.meta"
 		self.svn.retrieveMetadata(tiddler, uri)
-		expected = Tiddler(created= "200808211445").created
+		expected = "200808211445"
 		self.assertEqual(expected, tiddler.created)
 
 	def testRetrieveMetadataSetsModified(self):
@@ -53,7 +69,7 @@ class DirScraperTestCase(unittest.TestCase):
 		tiddler = Tiddler()
 		uri = "http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/test/foo/lorem.js.meta"
 		self.svn.retrieveMetadata(tiddler, uri)
-		expected = Tiddler(modified = "200808211445").modified
+		expected = "200808211445"
 		self.assertEqual(expected, tiddler.modified)
 
 	def testRetrieveMetadataSetsModifier(self):
@@ -61,7 +77,7 @@ class DirScraperTestCase(unittest.TestCase):
 		tiddler = Tiddler()
 		uri = "http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/test/foo/lorem.js.meta"
 		self.svn.retrieveMetadata(tiddler, uri)
-		expected = Tiddler(modifier = "FND").modifier
+		expected = "FND"
 		self.assertEqual(expected, tiddler.modifier)
 
 	def testRetrieveMetadataSetsTags(self):
@@ -69,7 +85,7 @@ class DirScraperTestCase(unittest.TestCase):
 		tiddler = Tiddler()
 		uri = "http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/test/foo/lorem.js.meta"
 		self.svn.retrieveMetadata(tiddler, uri)
-		expected = Tiddler(tags = ["systemConfig", "tmp"]).tags
+		expected = ["systemConfig", "tmp"]
 		self.assertEqual(expected, tiddler.tags)
 
 if __name__ == "__main__":
