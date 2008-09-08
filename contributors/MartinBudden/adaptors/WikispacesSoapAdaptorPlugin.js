@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.1.5|
+|''Version:''|0.1.6|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -343,7 +343,7 @@ fnLog('getTiddlerListCallback:'+status);
 					// seems like Wikispaces have changed what is returned, so this does not work anymore
 					tiddler.text = gev(p,i,'content');
 					*/
-					tiddler.tags = '';
+					tiddler.tags = [];
 					tiddler.modified = WikispacesSoapAdaptor.dateFromTimestamp(gev(p,i,'date_created'));
 					tiddler.fields['server.modifier.id'] = gev(p,i,'user_created');
 					tiddler.fields['server.page.id'] = gev(p,i,'id');
@@ -472,7 +472,7 @@ fnLog('getTiddlerCallback:'+context.tiddler.title);
 			//#console.log(p[0].getElementsByTagName('content')[0].childNodes);
 			//#console.log(p[0].getElementsByTagName('content')[0].childNodes.length);
 			var tiddler = context.tiddler;
-			tiddler.tags = ['page'];
+			tiddler.tags = [];
 			tiddler.text = "";
 			var contentNodes = p[0].getElementsByTagName('content')[0].childNodes;
 			for(var i=0;i<contentNodes.length;i++) {
@@ -490,14 +490,62 @@ fnLog('getTiddlerCallback:'+context.tiddler.title);
 //#fnLog("fields");
 //#fnLog(tiddler.fields);
 			context.tiddler = tiddler;
+			context.status = true;
+			context.statusText = null;
+			WikispacesSoapAdaptor._getTiddlerTags (context);			
+			return;
 		} catch(ex) {
 			context.statusText = exceptionText(ex,WikispacesSoapAdaptor.serverParsingErrorMessage);
-			if(context.callback)
-				context.callback(context,context.userParams);
-			return;
 		}
-		context.status = true;
-		context.statusText = null;
+	} else {
+		context.statusText = '%0:%1 - %2 (line:%3)'.format([r.name,r.message,r.fileName,r.lineNumber]);
+		//#fnLog('gtc:'+context.statusText);
+	}
+	if(context.callback)
+		context.callback(context,context.userParams);
+};
+
+WikispacesSoapAdaptor._getTiddlerTags = function(context)
+{
+fnLog('_getTiddlerTags:'+context.tiddler.title);
+	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0tag/api');
+fnLog('uri:'+uri);
+	var pl = new SOAPClientParameters();
+	pl.add('session',context.sessionToken);
+	pl.add('page_id',context.tiddler.fields['server.page.id']);
+	SOAPClient.invoke(uri,'listTagsForPage',pl,true,WikispacesSoapAdaptor._getTiddlerTagsCallback,context);
+	return true;
+};
+
+WikispacesSoapAdaptor._getTiddlerTagsCallback = function(r,x,context)//(status,context,responseText,uri,xhr)
+{
+fnLog('_getTiddlerTagsCallback:'+context.tiddler.title);
+	var status = r instanceof Error ? false : true;
+	context.status = false;
+	context.statusText = WikispacesSoapAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
+	function gev(p,i,n) {
+		try {
+			return p[i].getElementsByTagName(n)[0].childNodes[0].nodeValue;
+		} catch(ex) {
+		}
+		return null;
+	}
+	if(status) {
+		try {
+			var tagNodes = x.getElementsByTagName('tagList')[0].childNodes;
+			//# console.log('tagnodes',tagNodes,tagNodes.length);
+			for(var i=0;i<tagNodes.length;i++) {
+				if(tagNodes[i].nodeType==1) {
+					//#console.log('x:', tagNodes[i].getElementsByTagName('name')[0].childNodes[0].nodeValue);
+					//context.tiddler.tags.push(tagNodes[i].getElementsByTagName('name')[0].childNodes[0].nodeValue);
+					context.tiddler.tags.push(gev(tagNodes,i,'name'));
+				}
+			}
+			context.status = true;
+			context.statusText = null;
+		} catch(ex) {
+			context.statusText = exceptionText(ex,WikispacesSoapAdaptor.serverParsingErrorMessage);
+		}
 	} else {
 		context.statusText = '%0:%1 - %2 (line:%3)'.format([r.name,r.message,r.fileName,r.lineNumber]);
 		//#fnLog('gtc:'+context.statusText);
