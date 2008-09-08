@@ -949,10 +949,10 @@ function runCecily()
 	store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 }
 
-if(config.browser.isSafari && (document.body.style['-webkit-transform'] !== undefined)) {
+if(document.body.style['-webkit-transform'] !== undefined) {
 	runCecily();
 } else {
-	alert("ProjectCecily currently only works on Safari 3.1 and above. Use the nightly build from http://webkit.org/ for the best experience");
+	alert("ProjectCecily currently only works on Safari 3.1 and Google Chrome. Use the WebKit nightly build from http://webkit.org/ for the best experience");
 }
 
 } // if(!version.extensions.CecilyPlugin)
