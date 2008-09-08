@@ -7,12 +7,10 @@ import os
 import shutil
 
 from urllib import urlopen
-
 from tiddlyweb.store import Store
 from tiddlyweb.bag import Bag
 from tiddlyweb.recipe import Recipe
 from tiddlyweb.importer import import_wiki
-
 from tiddlywiki import TiddlyWiki
 from dirScraper import DirScraper
 
@@ -20,7 +18,7 @@ def main(args = []):
 	store = Store("text")
 	repos = getRepositories("repos.lst")
 	for repo in repos:
-		print "processing " + repo["name"] + " (" + repo["URI"] + ")" # XXX: log
+		print "processing %s (%s)" % (repo["name"], repo["URI"]) # XXX: log
 		getPlugins(repo, store)
 	bags = [repo["name"] for repo in repos] # XXX: repo["name"] not necessarily equals Bag(repo["name"]).name
 	generateRecipe(bags, store)
@@ -38,10 +36,10 @@ def getRepositories(filepath):
 	@return: repository objects
 	@rtype : list
 	"""
-	repos = list()
+	repos = []
 	for line in open(filepath, "r"):
 		if line.strip() and not line.startswith("#"): # skip blank and commented lines
-			repo = dict()
+			repo = {}
 			components = line.split("|", 2)
 			repo["URI"] = components[0].strip()
 			repo["type"] = components[1].strip()
