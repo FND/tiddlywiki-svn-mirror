@@ -86,7 +86,6 @@
 	
 input { font-family:arial; }
 	
-	
 div.header { display:block; padding:0.5em; background-color:#000531;}
 div.header span { color:#fff; }
 div.header span img { position:absolute; top:5; left:10px;}

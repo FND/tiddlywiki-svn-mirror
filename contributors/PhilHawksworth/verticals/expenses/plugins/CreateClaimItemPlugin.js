@@ -50,8 +50,10 @@ config.commands.newClaimItem = {
 		var slices = store.calcAllSlices('AirfareForm');
 		for(s in slices) {
 			var arg =  store.getTiddlerSlice('AirfareForm',s);
-			newTiddler.fields[s.toLowerCase()] = {'label':s, 'arg':arg, 'value':null};
+			newTiddler.fields[s.toLowerCase()] = "";
+			// newTiddler.fields[s.toLowerCase()] = {'label':s, 'arg':arg, 'value':null};
 		}
+		console.log('newTiddler.fields',newTiddler.fields);
 	
 		// refelct the form elements into this claim report.		
 		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);

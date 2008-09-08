@@ -1101,8 +1101,10 @@ config.commands.newClaimItem = {
 		var slices = store.calcAllSlices('AirfareForm');
 		for(s in slices) {
 			var arg =  store.getTiddlerSlice('AirfareForm',s);
-			newTiddler.fields[s.toLowerCase()] = {'label':s, 'arg':arg, 'value':null};
+			newTiddler.fields[s.toLowerCase()] = &quot;&quot;;
+			// newTiddler.fields[s.toLowerCase()] = {'label':s, 'arg':arg, 'value':null};
 		}
+		console.log('newTiddler.fields',newTiddler.fields);
 	
 		// refelct the form elements into this claim report.		
 		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
@@ -1228,7 +1230,6 @@ config.macros.view.views.complexField = function(value,place,params,wikifier,par
 	
 input { font-family:arial; }
 	
-	
 div.header { display:block; padding:0.5em; background-color:#000531;}
 div.header span { color:#fff; }
 div.header span img { position:absolute; top:5; left:10px;}
@@ -1245,7 +1246,7 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 div.claimHeader { margin:2em 0 0 0; padding:0 0 0.5em 0; border-bottom:solid 2px #333; position:relative; }
 div.claimHeader div.title {font-size:2.2em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold; }
 div.claimHeader div.title input {font-size:1em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold;}
-div.claimHeader div.subtitle{ font-size:0.9em; color:#bbb; }
+div.claimHeader div.subtitle{ font-size:0.9em; color:#999; }
 div.claimHeader div.toolbar {font-size:1em; position:absolute; right:0; bottom:1em;}
 div.claimHeader div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
 div.claimHeader div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
@@ -1261,7 +1262,7 @@ div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
 
 div.view input { border-style:none;}
 span.field {margin:0 1em 1em 0;}
-span.field label {font-size:0.9em; color:#bbb; display:block; margin-left:2px;}
+span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
 
 span.amount {display:inline; float:left; ;}
 span.date { display:inline; float:left;}
@@ -1290,6 +1291,22 @@ background: #fff</pre>
 |~ClaimEditToolbar|-newClaimItem +saveTiddler -cancelTiddler deleteTiddler|
 |~ClaimItemViewToolbar|+editTiddler deleteTiddler cloneClaimItem|
 |~ClaimItemEditToolbar|+saveTiddler -cancelTiddler cloneClaimItem|</pre>
+</div>
+<div title="BackstageMod" tags="excludeLists excludeSearch systemConfig">
+<pre>//{{{
+backstage.init_old = backstage.init;
+backstage.init = function() {
+//        var s = '&lt;&lt;newTiddler label:&quot;new track&quot; template:TrackEditTemplate tag:&quot;track&quot; text:{{store.getTiddlerText(&quot;TrackText&quot;)}} title:&quot;New Track&quot;&gt;&gt;'
+//		+ '&lt;&lt;newTiddler label:&quot;new session&quot; template:SessionEditTemplate tag:&quot;session&quot; text:&quot;&quot; title:&quot;New Session&quot;&gt;&gt;';
+		var s = '[[content listing|Content Listing]]';
+        this.init_old.apply(this, arguments);
+        wikify(s, document.getElementById(&quot;backstageToolbar&quot;));
+};
+//}}}</pre>
+</div>
+<div title="Content Listing" modifier="PhilHawksworth" created="200809011713">
+<pre>
+&lt;&lt;tiddler SideBarTabs&gt;&gt;</pre>
 </div>
 <div title="DefaultTiddlers" modifier="PhilHawksworth" created="200809011642">
 <pre></pre>
