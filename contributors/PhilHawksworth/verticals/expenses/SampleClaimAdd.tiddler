@@ -1,7 +1,0 @@
-<div title="SampleClaimAdd" modifier="PhilHawksworth" created="200809011556" tags="claimAddUI" claim_id="1">
-<pre>
-create new claim item UI.
-<<CreateClaimItem>>
-</pre>
-</div>
-

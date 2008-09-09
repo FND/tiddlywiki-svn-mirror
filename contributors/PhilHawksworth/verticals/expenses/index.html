@@ -1064,7 +1064,6 @@ if(!version.extensions.CreateClaimPlugin) {
 version.extensions.CreateClaimPlugin = {installed:true};
 
 config.macros.CreateClaim = {};
-config.macros.CreateClaimItem = {};
 
 config.macros.CreateClaim.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var btn = createTiddlyButton(place,&quot;New claim&quot;,&quot;start a new claim&quot;,this.doCreate);
@@ -1079,6 +1078,62 @@ config.macros.CreateClaim.doCreate = function(ev) {
 	t.fields['claim_id'] = claim_id;
 	story.displayTiddler(null,title,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);		
 };
+
+
+config.macros.CreateClaimItem = {};
+config.macros.CreateClaimItem.newItemType = 'simple';
+
+config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+	var options = [];
+	var slices = store.calcAllSlices('expenseTypeValues');
+
+	// test data to be replaced later when the tiddler exists.
+	options.push({'caption':'just get it up there', 'name':'Simple'});
+	options.push({'caption':'An Airfare', 'name':'Airfare'});
+
+	for(s in slices) {
+		var arg =  store.getTiddlerSlice('AirfareForm',s);
+		options.push({'caption':arg, 'value':arg});
+	}
+	createTiddlyDropDown(place,this.setItemType,options,'simple');
+	createTiddlyButton(place,&quot;add item&quot;,&quot;add another item to this claim&quot;,this.doCreate);
+};
+
+config.macros.CreateClaimItem.doCreate = function(ev) {
+
+	var e = ev ? ev : window.event;
+	var t = story.findContainingTiddler(e.target);
+	var claimTiddler = store.getTiddler(t.getAttribute('tiddler'));
+	var dt = new Date();
+	var uniqueID = 'claim_' + claimTiddler.fields['claim_id'] + '_' + dt.getTime();
+
+	// create tiddler and associate it with this claim.
+	var valuesTiddlerTitle = config.macros.CreateClaimItem.newItemType + 'Form';	
+	var formDefinitionTiddler = store.getTiddler(valuesTiddlerTitle);
+	var newTiddler = store.createTiddler(uniqueID);
+	newTiddler.tags.pushUnique('claimItem');
+	newTiddler.fields['claim_id'] = claimTiddler.fields['claim_id'];
+
+	// add fields as described in the form template for this claim type
+	var slices = store.calcAllSlices(formDefinitionTiddler);
+	for(s in slices) {
+		var arg =  store.getTiddlerSlice(formDefinitionTiddler,s);
+		newTiddler.fields[s.toLowerCase()] = &quot;&quot;;
+		// newTiddler.fields[s.toLowerCase()] = {'label':s, 'arg':arg, 'value':null};
+	}
+	console.log('newTiddler.fields',newTiddler.fields);
+
+	// refelct the form elements into this claim report.		
+	story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
+};
+
+config.macros.CreateClaimItem.setItemType = function(ev) {
+	var e = ev ? ev : window.event;
+	var t = e.target;
+	config.macros.CreateClaimItem.newItemType = t[t.selectedIndex].value;
+};
+
 
 
 // Extend the commands so that we can use our own commands on tiddlers.
@@ -1110,6 +1165,8 @@ config.commands.newClaimItem = {
 		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
 	}
 };
+
+
 config.commands.cloneClaimItem = {
 	text: &quot;clone&quot;,
 	tooltip: &quot;add another claim item just like this&quot;,
@@ -1130,13 +1187,19 @@ config.commands.cloneClaimItem = {
 config.macros.view.views.complexField = function(value,place,params,wikifier,paramString,tiddler) {
 	var results = value[params[2]];
 	highlightify(results,place,highlightHack,tiddler);
-	// console.log('complex field',arguments, results);
 };
 
-	// text: function(value,place,params,wikifier,paramString,tiddler) {
-	// 	highlightify(value,place,highlightHack,tiddler);
-	// },
 
+
+config.macros.SubmitQuickClaim = {};
+
+config.macros.SubmitQuickClaim.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	var btn = createTiddlyButton(place,&quot;submit quick claim&quot;,&quot;quickly submit this item to the system to tweak later&quot;,this.doSubmit);
+};
+
+config.macros.SubmitQuickClaim.doSubmit = function(ev) {
+	alert(&quot;submitted&quot;);
+};
 
 
 }
@@ -1177,14 +1240,31 @@ config.macros.view.views.complexField = function(value,place,params,wikifier,par
 &lt;/div&gt;
 &lt;!--}}}--&gt;
 
+!quickClaimViewTemplate
+&lt;!--{{{--&gt;
+&lt;div class='quickClaim'&gt;
+&lt;div class='claimHeader'&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='subtitle' macro='view text'&gt;&lt;/div&gt;
+&lt;div class='toolbar'&gt;&lt;span macro='toolbar [[ToolbarCommands::QuickClaimToolbar]]'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;form&quot;&gt;
+&lt;span class='field amount'&gt;&lt;label for='amount'&gt;Amount&lt;/label&gt;&lt;input type='text' /&gt;&lt;/span&gt;
+&lt;span class='field justification'&gt;&lt;label for='justification'&gt;Justification / description&lt;/label&gt;&lt;input type='text' /&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class='toolbar' macro='SubmitQuickClaim'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
 !claimHeaderViewTemplate
 &lt;!--{{{--&gt;
 &lt;div class='claimHeader'&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='subtitle'&gt;Claim created on &lt;span macro='view modified date'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimViewToolbar]]'&gt;&lt;/div&gt;
+&lt;div class='toolbar'&gt;&lt;span class='selector' macro='CreateClaimItem'&gt;&lt;/span&gt;&lt;span macro='toolbar [[ToolbarCommands::ClaimViewToolbar]]'&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;!--}}}--&gt;
+
 
 !claimHeaderEditTemplate
 &lt;!--{{{--&gt;
@@ -1229,6 +1309,8 @@ config.macros.view.views.complexField = function(value,place,params,wikifier,par
 	
 	
 input { font-family:arial; }
+#menu a,
+a.button {white-space:nowrap;}
 	
 div.header { display:block; padding:0.5em; background-color:#000531;}
 div.header span { color:#fff; }
@@ -1241,16 +1323,32 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 #messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
 #displayArea { clear:left; margin:0; padding:0 2em;}
 
+/* Quick Claim */
+div.tiddler {margin:2em 0;}
+div.quickClaim div.form { margin:2em 0; }
+div.quickClaim span {display:inline; float:left; }
+div.quickClaim span.amount input {font-size:1.8em; width:5em;}
+div.quickClaim span.justification input {font-size:1.8em; width:40em;}
+div.quickClaim div.toolbar {font-size:1.6em; clear:left; text-align:left;}
+div.quickClaim div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; line-height:2em;}
+div.quickClaim div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
+
+
+
+
+
 
 /* Claim Header */
 div.claimHeader { margin:2em 0 0 0; padding:0 0 0.5em 0; border-bottom:solid 2px #333; position:relative; }
 div.claimHeader div.title {font-size:2.2em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold; }
 div.claimHeader div.title input {font-size:1em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold;}
-div.claimHeader div.subtitle{ font-size:0.9em; color:#999; }
+div.claimHeader div.subtitle{ font-size:0.9em; color:#999; margin-right:12em;}
 div.claimHeader div.toolbar {font-size:1em; position:absolute; right:0; bottom:1em;}
-div.claimHeader div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
+div.claimHeader div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-right:1px;}
 div.claimHeader div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
 div.claimHeader div.toolbar a.defaultCommand { background-color:#D89035;}
+div.claimHeader div.toolbar select { margin-right:0.5em;}
+
 
 /* Claim Items */
 div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative;}
@@ -1264,14 +1362,14 @@ div.view input { border-style:none;}
 span.field {margin:0 1em 1em 0;}
 span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
 
-span.amount {display:inline; float:left; ;}
-span.date { display:inline; float:left;}
-span.type { display:inline; float:left;}
-span.justification { clear:left; display:block;}
-span.amount input {font-size:1.8em; width:5em;}
-span.date input {font-size:1.8em; width:6em;}
-span.type input {font-size:1.8em; width:15em;}
-span.justification input {font-size:0.9em; width:60em;}
+div.claimItem span.amount {display:inline; float:left;}
+div.claimItem span.date { display:inline; float:left;}
+div.claimItem span.type { display:inline; float:left;}
+div.claimItem span.justification { clear:left; display:block;}
+div.claimItem span.amount input {font-size:1.8em; width:5em;}
+div.claimItem span.date input {font-size:1.8em; width:6em;}
+div.claimItem span.type input {font-size:1.8em; width:15em;}
+div.claimItem span.justification input {font-size:0.9em; width:60em;}
 
 /*}}}*/</pre>
 </div>
@@ -1281,14 +1379,15 @@ background: #fff</pre>
 </div>
 <div title="MainMenu" modifier="PhilHawksworth" created="200809011713">
 <pre>
-[[About You]]&lt;&lt;CreateClaim&gt;&gt;[[Previous Claims]]</pre>
+[[About You]]&lt;&lt;CreateClaim&gt;&gt;[[Quick claim|Quick Claim]][[Previous Claims]]</pre>
 </div>
 <div title="ToolbarCommands" modifier="PhilHawksworth" created="200809011713">
 <pre>
 |~ViewToolbar|closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump|
 |~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
-|~ClaimViewToolbar|-newClaimItem +editTiddler -closeTiddler deleteTiddler|
-|~ClaimEditToolbar|-newClaimItem +saveTiddler -cancelTiddler deleteTiddler|
+|~QuickClaimToolbar| -closeTiddler|
+|~ClaimViewToolbar| +editTiddler -closeTiddler deleteTiddler|
+|~ClaimEditToolbar| +saveTiddler -cancelTiddler deleteTiddler|
 |~ClaimItemViewToolbar|+editTiddler deleteTiddler cloneClaimItem|
 |~ClaimItemEditToolbar|+saveTiddler -cancelTiddler cloneClaimItem|</pre>
 </div>
@@ -1296,8 +1395,6 @@ background: #fff</pre>
 <pre>//{{{
 backstage.init_old = backstage.init;
 backstage.init = function() {
-//        var s = '&lt;&lt;newTiddler label:&quot;new track&quot; template:TrackEditTemplate tag:&quot;track&quot; text:{{store.getTiddlerText(&quot;TrackText&quot;)}} title:&quot;New Track&quot;&gt;&gt;'
-//		+ '&lt;&lt;newTiddler label:&quot;new session&quot; template:SessionEditTemplate tag:&quot;session&quot; text:&quot;&quot; title:&quot;New Session&quot;&gt;&gt;';
 		var s = '[[content listing|Content Listing]]';
         this.init_old.apply(this, arguments);
         wikify(s, document.getElementById(&quot;backstageToolbar&quot;));
@@ -1307,6 +1404,10 @@ backstage.init = function() {
 <div title="Content Listing" modifier="PhilHawksworth" created="200809011713">
 <pre>
 &lt;&lt;tiddler SideBarTabs&gt;&gt;</pre>
+</div>
+<div title="Quick Claim" modifier="PhilHawksworth" created="200809011713" tags="quickClaim" startDate="" amount="0.00" justification="">
+<pre>
+	Quick Claim gives you a way of rapidly adding an item to the expenses system so that you don't forget it. Your expense item will be added to your latest open expense claim, or to a new one</pre>
 </div>
 <div title="DefaultTiddlers" modifier="PhilHawksworth" created="200809011642">
 <pre></pre>

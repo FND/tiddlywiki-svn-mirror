@@ -33,14 +33,31 @@
 </div>
 <!--}}}-->
 
+!quickClaimViewTemplate
+<!--{{{-->
+<div class='quickClaim'>
+<div class='claimHeader'>
+<div class='title' macro='view title'></div>
+<div class='subtitle' macro='view text'></div>
+<div class='toolbar'><span macro='toolbar [[ToolbarCommands::QuickClaimToolbar]]'></span></div>
+</div>
+<div class="form">
+<span class='field amount'><label for='amount'>Amount</label><input type='text' /></span>
+<span class='field justification'><label for='justification'>Justification / description</label><input type='text' /></span>
+</div>
+<div class='toolbar' macro='SubmitQuickClaim'></div>
+</div>
+<!--}}}-->
+
 !claimHeaderViewTemplate
 <!--{{{-->
 <div class='claimHeader'>
 <div class='title' macro='view title'></div>
 <div class='subtitle'>Claim created on <span macro='view modified date'></span></div>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimViewToolbar]]'></div>
+<div class='toolbar'><span class='selector' macro='CreateClaimItem'></span><span macro='toolbar [[ToolbarCommands::ClaimViewToolbar]]'></span></div>
 </div>
 <!--}}}-->
+
 
 !claimHeaderEditTemplate
 <!--{{{-->
@@ -85,6 +102,8 @@
 	
 	
 input { font-family:arial; }
+#menu a,
+a.button {white-space:nowrap;}
 	
 div.header { display:block; padding:0.5em; background-color:#000531;}
 div.header span { color:#fff; }
@@ -97,16 +116,32 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 #messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
 #displayArea { clear:left; margin:0; padding:0 2em;}
 
+/* Quick Claim */
+div.tiddler {margin:2em 0;}
+div.quickClaim div.form { margin:2em 0; }
+div.quickClaim span {display:inline; float:left; }
+div.quickClaim span.amount input {font-size:1.8em; width:5em;}
+div.quickClaim span.justification input {font-size:1.8em; width:40em;}
+div.quickClaim div.toolbar {font-size:1.6em; clear:left; text-align:left;}
+div.quickClaim div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; line-height:2em;}
+div.quickClaim div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
+
+
+
+
+
 
 /* Claim Header */
 div.claimHeader { margin:2em 0 0 0; padding:0 0 0.5em 0; border-bottom:solid 2px #333; position:relative; }
 div.claimHeader div.title {font-size:2.2em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold; }
 div.claimHeader div.title input {font-size:1em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold;}
-div.claimHeader div.subtitle{ font-size:0.9em; color:#999; }
+div.claimHeader div.subtitle{ font-size:0.9em; color:#999; margin-right:12em;}
 div.claimHeader div.toolbar {font-size:1em; position:absolute; right:0; bottom:1em;}
-div.claimHeader div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
+div.claimHeader div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-right:1px;}
 div.claimHeader div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
 div.claimHeader div.toolbar a.defaultCommand { background-color:#D89035;}
+div.claimHeader div.toolbar select { margin-right:0.5em;}
+
 
 /* Claim Items */
 div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative;}
@@ -120,14 +155,14 @@ div.view input { border-style:none;}
 span.field {margin:0 1em 1em 0;}
 span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
 
-span.amount {display:inline; float:left; ;}
-span.date { display:inline; float:left;}
-span.type { display:inline; float:left;}
-span.justification { clear:left; display:block;}
-span.amount input {font-size:1.8em; width:5em;}
-span.date input {font-size:1.8em; width:6em;}
-span.type input {font-size:1.8em; width:15em;}
-span.justification input {font-size:0.9em; width:60em;}
+div.claimItem span.amount {display:inline; float:left;}
+div.claimItem span.date { display:inline; float:left;}
+div.claimItem span.type { display:inline; float:left;}
+div.claimItem span.justification { clear:left; display:block;}
+div.claimItem span.amount input {font-size:1.8em; width:5em;}
+div.claimItem span.date input {font-size:1.8em; width:6em;}
+div.claimItem span.type input {font-size:1.8em; width:15em;}
+div.claimItem span.justification input {font-size:0.9em; width:60em;}
 
 /*}}}*/
 </pre>
