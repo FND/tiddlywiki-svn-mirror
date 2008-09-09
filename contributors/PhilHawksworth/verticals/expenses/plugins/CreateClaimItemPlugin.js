@@ -128,7 +128,7 @@ config.macros.SubmitQuickClaim.doSubmit = function(ev) {
 	console.log('submitting quick claim item');
 	
 	//call out to the particular systems 
-	config.macros.SiteminderLoginPlugin.doLogin();
+	config.macros.SiteminderLogin.doLogin();
 	
 	// config.macros.SubmitQuickClaim.handleResponse();
 };
