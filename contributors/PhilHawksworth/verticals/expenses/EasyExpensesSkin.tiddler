@@ -116,6 +116,13 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 #messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
 #displayArea { clear:left; margin:0; padding:0 2em;}
 
+
+/* General form styles */
+div.form {}
+div.form h3 {font-size:0.9em; color:#999; display:block; margin-left:0 0 2px 2px; padding:0; border-style:none; font-weight:normal;}
+div.form input {font-size:1.8em; width:10em;}
+
+
 /* Quick Claim */
 div.tiddler {margin:2em 0;}
 div.quickClaim div.form { margin:2em 0; }
@@ -125,10 +132,6 @@ div.quickClaim span.justification input {font-size:1.8em; width:40em;}
 div.quickClaim div.toolbar {font-size:1.4em; clear:left; text-align:left;}
 div.quickClaim div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; line-height:2em;}
 div.quickClaim div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
-
-
-
-
 
 
 /* Claim Header */
