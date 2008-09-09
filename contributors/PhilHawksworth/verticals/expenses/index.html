@@ -1135,37 +1135,39 @@ config.macros.CreateClaimItem.setItemType = function(ev) {
 };
 
 
+// ==================
+// = New claim item =
+// ==================
 
 // Extend the commands so that we can use our own commands on tiddlers.
-config.commands.newClaimItem = {
-	text: &quot;new claim item&quot;,
-	tooltip: &quot;add another item to claim&quot;,
-	handler : function(event,src,title) {
-		var claimTiddler = store.getTiddler(title);
-		var dt = new Date();
-		var uniqueID = 'claim_' + claimTiddler.fields['claim_id'] + '_' + dt.getTime();
-
-		// create tiddler and associate it with this claim.
-		var formDefinitionTiddler = store.getTiddler('AirfareForm');
-		var newTiddler = store.createTiddler(uniqueID);
-		newTiddler.tags.pushUnique('claimItem');
-		newTiddler.fields['claim_id'] = claimTiddler.fields['claim_id'];
-
-		// add fields as described in the form template for this claim type
-		newTiddler.fields['expenses_type'] = formDefinitionTiddler.fields['expenses_type'];
-		var slices = store.calcAllSlices('AirfareForm');
-		for(s in slices) {
-			var arg =  store.getTiddlerSlice('AirfareForm',s);
-			newTiddler.fields[s.toLowerCase()] = &quot;&quot;;
-			// newTiddler.fields[s.toLowerCase()] = {'label':s, 'arg':arg, 'value':null};
-		}
-		console.log('newTiddler.fields',newTiddler.fields);
-	
-		// refelct the form elements into this claim report.		
-		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
-	}
-};
-
+// config.commands.newClaimItem = {
+// 	text: &quot;new claim item&quot;,
+// 	tooltip: &quot;add another item to claim&quot;,
+// 	handler : function(event,src,title) {
+// 		var claimTiddler = store.getTiddler(title);
+// 		var dt = new Date();
+// 		var uniqueID = 'claim_' + claimTiddler.fields['claim_id'] + '_' + dt.getTime();
+// 
+// 		// create tiddler and associate it with this claim.
+// 		var formDefinitionTiddler = store.getTiddler('AirfareForm');
+// 		var newTiddler = store.createTiddler(uniqueID);
+// 		newTiddler.tags.pushUnique('claimItem');
+// 		newTiddler.fields['claim_id'] = claimTiddler.fields['claim_id'];
+// 
+// 		// add fields as described in the form template for this claim type
+// 		newTiddler.fields['expenses_type'] = formDefinitionTiddler.fields['expenses_type'];
+// 		var slices = store.calcAllSlices('AirfareForm');
+// 		for(s in slices) {
+// 			var arg =  store.getTiddlerSlice('AirfareForm',s);
+// 			newTiddler.fields[s.toLowerCase()] = &quot;&quot;;
+// 			// newTiddler.fields[s.toLowerCase()] = {'label':s, 'arg':arg, 'value':null};
+// 		}
+// 		console.log('newTiddler.fields',newTiddler.fields);
+// 	
+// 		// refelct the form elements into this claim report.		
+// 		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
+// 	}
+// };
 
 config.commands.cloneClaimItem = {
 	text: &quot;clone&quot;,
@@ -1190,7 +1192,9 @@ config.macros.view.views.complexField = function(value,place,params,wikifier,par
 };
 
 
-
+// ===============
+// = Quick claim =
+// ===============
 config.macros.SubmitQuickClaim = {};
 
 config.macros.SubmitQuickClaim.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -1198,7 +1202,13 @@ config.macros.SubmitQuickClaim.handler = function(place,macroName,params,wikifie
 };
 
 config.macros.SubmitQuickClaim.doSubmit = function(ev) {
-	alert(&quot;submitted&quot;);
+	console.log('submitting quick claim item');
+	config.macros.SubmitQuickClaim.handleResponse();
+};
+
+config.macros.SubmitQuickClaim.handleResponse = function() {
+	console.log('handling response from quick claim form submission');
+	displayMessage(&quot;Your quick claim item has been submitted&quot;);
 };
 
 
@@ -1329,7 +1339,7 @@ div.quickClaim div.form { margin:2em 0; }
 div.quickClaim span {display:inline; float:left; }
 div.quickClaim span.amount input {font-size:1.8em; width:5em;}
 div.quickClaim span.justification input {font-size:1.8em; width:40em;}
-div.quickClaim div.toolbar {font-size:1.6em; clear:left; text-align:left;}
+div.quickClaim div.toolbar {font-size:1.4em; clear:left; text-align:left;}
 div.quickClaim div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; line-height:2em;}
 div.quickClaim div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
 
@@ -1379,7 +1389,7 @@ background: #fff</pre>
 </div>
 <div title="MainMenu" modifier="PhilHawksworth" created="200809011713">
 <pre>
-[[About You]]&lt;&lt;CreateClaim&gt;&gt;[[Quick claim|Quick Claim]][[Previous Claims]]</pre>
+[[About you]]&lt;&lt;CreateClaim&gt;&gt;[[Quick claim]][[Previous claims]]</pre>
 </div>
 <div title="ToolbarCommands" modifier="PhilHawksworth" created="200809011713">
 <pre>
@@ -1405,7 +1415,7 @@ backstage.init = function() {
 <pre>
 &lt;&lt;tiddler SideBarTabs&gt;&gt;</pre>
 </div>
-<div title="Quick Claim" modifier="PhilHawksworth" created="200809011713" tags="quickClaim" startDate="" amount="0.00" justification="">
+<div title="Quick claim" modifier="PhilHawksworth" created="200809011713" tags="quickClaim" startDate="" amount="0.00" justification="">
 <pre>
 	Quick Claim gives you a way of rapidly adding an item to the expenses system so that you don't forget it. Your expense item will be added to your latest open expense claim, or to a new one</pre>
 </div>
@@ -1420,11 +1430,11 @@ backstage.init = function() {
 <pre>
 trying to make it easier to get your money back</pre>
 </div>
-<div title="Previous Claims" modifier="PhilHawksworth" created="200809011713">
+<div title="Previous claims" modifier="PhilHawksworth" created="200809011713">
 <pre>
 Listing the previous claims foer review.</pre>
 </div>
-<div title="About You" modifier="PhilHawksworth" created="200809011713">
+<div title="About you" modifier="PhilHawksworth" created="200809011713">
 <pre>
 Your name, EIN and other global settings.</pre>
 </div>

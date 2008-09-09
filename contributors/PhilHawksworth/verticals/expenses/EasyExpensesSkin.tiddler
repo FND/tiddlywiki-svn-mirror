@@ -122,7 +122,7 @@ div.quickClaim div.form { margin:2em 0; }
 div.quickClaim span {display:inline; float:left; }
 div.quickClaim span.amount input {font-size:1.8em; width:5em;}
 div.quickClaim span.justification input {font-size:1.8em; width:40em;}
-div.quickClaim div.toolbar {font-size:1.6em; clear:left; text-align:left;}
+div.quickClaim div.toolbar {font-size:1.4em; clear:left; text-align:left;}
 div.quickClaim div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; line-height:2em;}
 div.quickClaim div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
 

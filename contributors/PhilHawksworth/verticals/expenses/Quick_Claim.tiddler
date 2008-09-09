@@ -1,4 +1,4 @@
-<div title="Quick Claim" modifier="PhilHawksworth" created="200809011713" tags="quickClaim" amount="0.00" justification="" startDate="">
+<div title="Quick claim" modifier="PhilHawksworth" created="200809011713" tags="quickClaim" amount="0.00" justification="" startDate="">
 <pre>
 	Quick Claim gives you a way of rapidly adding an item to the expenses system so that you don't forget it. Your expense item will be added to your latest open expense claim, or to a new one
 </pre>
