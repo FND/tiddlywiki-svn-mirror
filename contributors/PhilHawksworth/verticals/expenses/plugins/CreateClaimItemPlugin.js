@@ -126,7 +126,11 @@ config.macros.SubmitQuickClaim.handler = function(place,macroName,params,wikifie
 
 config.macros.SubmitQuickClaim.doSubmit = function(ev) {
 	console.log('submitting quick claim item');
-	config.macros.SubmitQuickClaim.handleResponse();
+	
+	//call out to the particular systems 
+	config.macros.SiteminderLoginPlugin.doLogin();
+	
+	// config.macros.SubmitQuickClaim.handleResponse();
 };
 
 config.macros.SubmitQuickClaim.handleResponse = function() {
