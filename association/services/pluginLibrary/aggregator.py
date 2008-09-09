@@ -69,7 +69,7 @@ def getPlugins(repo, store):
 		empty = "<html><body><div id='storeArea'>\n</div></body></html>" # XXX: ugly hack; cf. tiddlywiki.TiddlyWiki.getPluginTiddlers()
 		if plugins != empty:
 			savePlugins(store, bag)
-			import_wiki(plugins, bag.name)
+			import_wiki(store, plugins, bag.name)
 			return True
 		else:
 			return False # TODO: log error
