@@ -1,6 +1,7 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: tiddlers/split.recipe
 recipe: plugins/split.recipe
+tiddler: ../../plugins/ExtendableHttpReqPlugin.js
 tiddler: ../../plugins/HttpManagerPlugin.js
 tiddler: ../../plugins/ProgressIndicatorPlugin.js
 tiddler: ../../../PhilHawksworth/plugins/FeedListManagerPlugin.js
