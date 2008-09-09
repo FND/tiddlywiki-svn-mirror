@@ -375,8 +375,10 @@ Cecily.draggers.tiddlerDragger = {
 		var dragThis = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
 		if(dragThis) {
 			var s = cecily.frame.offsetWidth/cecily.view.w;
-			cecily.drag.tiddler.style.left = (cecily.drag.tiddler.offsetLeft + (dragThis.x - cecily.drag.lastPoint.x) / s) + "px";
-			cecily.drag.tiddler.style.top = (cecily.drag.tiddler.offsetTop + (dragThis.y - cecily.drag.lastPoint.y) / s) + "px";
+			cecily.drag.tiddler.realPos = new Point(cecily.drag.tiddler.realPos.x + (dragThis.x - cecily.drag.lastPoint.x) / s,
+													cecily.drag.tiddler.realPos.y + (dragThis.y - cecily.drag.lastPoint.y) / s);
+			cecily.drag.tiddler.style.left = cecily.drag.tiddler.realPos.x + "px";
+			cecily.drag.tiddler.style.top = cecily.drag.tiddler.realPos.y + "px";
 			cecily.drag.lastPoint = dragThis;
 		}
 	},
@@ -460,6 +462,7 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 	var pos = this.getTiddlerPosition(title,srcElement);
 	tiddlerElem.style.left = pos.x + "px";
 	tiddlerElem.style.top = pos.y + "px";
+	tiddlerElem.realPos = new Point(pos.x,pos.y);
 	tiddlerElem.scaledWidth = pos.w;
 	tiddlerElem.rotate = 0;
 	tiddlerElem.enlarge = 1.0;
@@ -542,6 +545,7 @@ Cecily.prototype.setMap = function(title)
 		var pos = me.getTiddlerPosition(tiddler);
 		elem.style.left = pos.x + "px";
 		elem.style.top = pos.y + "px";
+		elem.realPos = new Point(pos.x,pos.y);
 		elem.scaledWidth = pos.w;
 		elem.rotate = 0;
 		elem.enlarge = 1.0;
