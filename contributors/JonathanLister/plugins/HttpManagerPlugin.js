@@ -1,6 +1,6 @@
 /***
 |''Name:''|HttpManagerPlugin|
-|''Description:''||
+|''Description:''|Buffers HTTP requests, allowing user feedback and exception handling|
 |''Author''|JonathanLister|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/HttpManagerPlugin.js |
 |''Version:''|0.1|
@@ -9,6 +9,7 @@
 |''~CoreVersion:''|2.4|
 
 ! Usage
+...
 
 ! Idea
 don't send XMLHttpRequests straight away, queue them up
@@ -54,10 +55,12 @@ HttpManager.addRequest = function(type,url,callback,params,headers,data,contentT
 HttpManager.proceedIfClear = function() {
 	var i = this.getNextEmptySlot();
 	if(i!==false) {
-		console.log('cleared to proceed! queue size: ',this.queue.count());
+		//console.log('cleared to proceed! queue size: ',this.queue.count());
+		displayMessage('cleared to proceed! queue size: '+this.queue.count());
 		this.makeReq(i);
 	} else {
-		console.log('not clear to proceed! queue size: ',this.queue.count());
+		//console.log('not clear to proceed! queue size: ',this.queue.count());
+		displayMessage('not clear to proceed! queue size: '+this.queue.count());
 	}
 };
 
@@ -68,7 +71,8 @@ HttpManager.getNextEmptySlot = function() {
 
 HttpManager.setFullSlot = function(slot) {
 	if(this.slots[slot]!=='empty') { // this should never happen, unless maybe things have got out of order...
-		console.log('error: slot that is empty should be full: '+slot);
+		//console.log('error: slot that is empty should be full: '+slot);
+		displayMessage('error: slot that is empty should be full: '+slot);
 	}
 	this.slots[slot] = "full";
 };
@@ -76,7 +80,8 @@ HttpManager.setFullSlot = function(slot) {
 HttpManager.clearNextFullSlot = function() {
 	var i = this.slots.indexOf('full');
 	if(i===-1) { // this should never happen, unless maybe things have got out of order...
-		console.log('error: no empty slots on response callback');
+		//console.log('error: no empty slots on response callback');
+		displayMessage('error: no empty slots on response callback');
 	}
 	this.slots[i] = "empty";
 };
@@ -85,10 +90,12 @@ HttpManager.makeReq = function(slot) {
 	try {
 		var req = this.queue.nextUriObj();
 		if(!req) {
-			console.log('nothing on the queue!',this.queue);
+			//console.log('nothing on the queue!',this.queue);
+			displayMessage('nothing on the queue!');
 			return;
 		} else {
-			console.log('queue position: ',this.queue.currentPosition);
+			//console.log('queue position: ',this.queue.currentPosition);
+			displayMessage('queue position: '+this.queue.currentPosition);
 		}
 		var args = req.params;
 		var type = args.type;
@@ -106,7 +113,8 @@ HttpManager.makeReq = function(slot) {
 			that.clearNextFullSlot();
 			that.stats.logResponse(url,xhr);
 			orig_callback.call(this,status,userParams,responseText,url,xhr);
-			console.log('proceeding with the next attempt, queue size: ',that.queue.count());
+			//console.log('proceeding with the next attempt, queue size: ',that.queue.count());
+			displayMessage('proceeding with the next attempt, queue size: '+that.queue.count());
 			that.proceedIfClear();
 		};
 		// 'move' the request from the queue to an empty slot
@@ -114,16 +122,19 @@ HttpManager.makeReq = function(slot) {
 		this.setFullSlot(slot);
 		this.stats.logCall(url);
 		this.count++;
-		console.log('making request number in makeReq: ',this.count);
+		//console.log('making request number in makeReq: ',this.count);
+		displayMessage('making request number: '+this.count);
 		this.origHttp(type,url,callback,params,headers,data,contentType,username,password,allowCache);
 	} catch (ex) {
-		console.log('exception in makeReq: ',ex);
+		//console.log('exception in makeReq: ',ex);
+		displayMessage('exception in makeReq: ',ex);
 	}
 };
 
 HttpManager.showStats = function() {
 	//this.stats.stats();
-	console.log(this.stats);
+	//console.log(this.stats);
+	//displayMessage(this.stats);
 };
 
 HttpManager.setHttpReq = function(func) {

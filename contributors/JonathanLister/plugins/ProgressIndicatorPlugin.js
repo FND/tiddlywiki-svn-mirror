@@ -28,7 +28,7 @@ Http.extend(window.httpReq,{
 			percentComplete = Math.floor((position / totalSize)*100);
 			percentComplete = percentComplete > 100 ? 100 : percentComplete;
 		}
-		clearMessage();
+		/*clearMessage();
 		displayMessage(url);
 		if(goodData) {
 			displayMessage(direction+"... "+percentComplete+"%");
@@ -38,6 +38,9 @@ Http.extend(window.httpReq,{
 			window.setTimeout(function(){
 				clearMessage();
 			},2000);
+		}*/
+		if(percentComplete % 20 === 0) {
+			displayMessage('('+position+' of '+(goodData ? totalSize : 'unknown')+' bytes)');
 		}
 	},
 	

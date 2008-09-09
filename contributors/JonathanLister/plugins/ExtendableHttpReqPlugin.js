@@ -48,7 +48,7 @@ window.httpReq = function(type,url,callback,params,headers,data,contentType,user
 	var ext = window.httpReq.extensions;
 	if(ext) {
 		for(var n in ext) {
-			x[n] = eval(ext[n].toString());
+			x[n] = eval('('+ext[n].toString()+')');
 		}
 	}
 	//# Send request
@@ -95,7 +95,7 @@ Http.intercept = function(obj,method,preFunc) {
 		obj = window;
 	}
 	var old = obj[method];
-	var orig = eval(old.toString());
+	var orig = eval('('+old.toString()+')');
 	var tempObj = function() {
 		preFunc.apply(this,arguments);
 	};
