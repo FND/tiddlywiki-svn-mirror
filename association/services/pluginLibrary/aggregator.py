@@ -7,6 +7,7 @@ import os
 import shutil
 
 from urllib import urlopen
+from tiddlyweb.config import config
 from tiddlyweb.store import Store
 from tiddlyweb.bag import Bag
 from tiddlyweb.recipe import Recipe
@@ -14,8 +15,9 @@ from tiddlyweb.importer import import_wiki
 from tiddlywiki import TiddlyWiki
 from dirScraper import DirScraper
 
-def main(args = []):
-	store = Store("text")
+def main(args):
+	env = { "tiddlyweb.config": config }
+	store = Store("text", env)
 	repos = getRepositories("repos.lst")
 	for repo in repos:
 		print "processing %s (%s)" % (repo["name"], repo["URI"]) # XXX: log

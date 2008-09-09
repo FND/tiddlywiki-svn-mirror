@@ -11,7 +11,6 @@
 |''License:''||
 |''~CoreVersion:''|2.4.1|
 ***/
-
 //{{{
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.TiddlyWebAdaptorPlugin) {
@@ -205,7 +204,7 @@ TiddlyWebAdaptor.getTiddlerCallback = function(status,context,responseText,uri,x
 		context.tiddler.fields['server.page.revision'] = info.revision;
 		context.tiddler.modifier = info.modifier;
 		context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(info.modified);
-		context.tiddler.created = Date.convertFromYYYYMMDDHHMM(info.created);		
+		context.tiddler.created = Date.convertFromYYYYMMDDHHMM(info.created);
 		if(info.bag) {
 			context.tiddler.fields['server.bag'] = info.bag;
 		} else {

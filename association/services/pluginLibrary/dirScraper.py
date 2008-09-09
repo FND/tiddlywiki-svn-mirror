@@ -88,6 +88,7 @@ class DirScraper:
 		@return: None
 		"""
 		fields = self._get(uri).split("\n")
+		#plugin.:fields = {} # DEBUG'd -- XXX: temporary workaround; extended fields not yet implemented in Tiddler class
 		for field in fields:
 			if ":" in field:
 				k, v = [c.strip() for c in field.split(":", 1)]
@@ -97,7 +98,6 @@ class DirScraper:
 					for tag in v.split(" "): # TODO: resolve bracketed list
 					 	if tag not in plugin.tags:
 					 		plugin.tags.append(tag)
-				else:
-					#plugin.fields[k] = v # DEBUG'd -- TODO: not yet implemented in Tiddler class
-					pass # DEBUG
+				else: # extended field
+					plugin.fields[k] = v
 
