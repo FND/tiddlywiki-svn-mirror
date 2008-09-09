@@ -457,15 +457,15 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 	var tiddlerElem = story.getTiddler(title);
 	if(!tiddlerElem)
 	 	return;
-	if(!tiddlerElemBefore) {
-		var pos = this.getTiddlerPosition(title,srcElement);
-		tiddlerElem.style.left = pos.x + "px";
-		tiddlerElem.style.top = pos.y + "px";
-		tiddlerElem.scaledWidth = pos.w;
-		tiddlerElem.rotate = 0;
-		tiddlerElem.enlarge = 1.0;
-		this.transformTiddler(tiddlerElem);
-	}
+	var pos = this.getTiddlerPosition(title,srcElement);
+	tiddlerElem.style.left = pos.x + "px";
+	tiddlerElem.style.top = pos.y + "px";
+	tiddlerElem.scaledWidth = pos.w;
+	tiddlerElem.rotate = 0;
+	tiddlerElem.enlarge = 1.0;
+	var editFields = {};
+	story.gatherSaveFields(tiddlerElem,editFields);
+	this.transformTiddler(tiddlerElem);
 	if(!startingUp) {
 		if(tiddlerElem.nextSibling) { // Move tiddler to the bottom of the Z-order if it's not already there
 			tiddlerElem.parentNode.insertBefore(tiddlerElem,null);
