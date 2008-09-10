@@ -1,0 +1,30 @@
+recipe: POLS250-common.html.recipe
+#
+#
+# 	Plugins
+tiddler: studentnotebook/plugins/ReadOnlyTiddlersPlugin.js
+tiddler: ../../plugins/TiddlerNotesPlugin/TiddlerNotesPlugin.js
+tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfig excludeLists excludeSearch"
+#
+#
+# 	Feeds
+tiddler: studentnotebook/feeds/POLS250-ContentFeed.tiddler
+tiddler: studentnotebook/feeds/POLS250-StructureFeed.tiddler
+#
+#
+# 	Content
+#
+#
+# 	Shadows
+tiddler: studentnotebook/shadows/ViewTemplate.tiddler
+tiddler: studentnotebook/shadows/SiteTitle.tiddler
+tiddler: studentnotebook/shadows/PageTemplate.tiddler
+tiddler: studentnotebook/shadows/space.menu.tiddler
+#
+#
+#	Framework
+tiddler: studentnotebook/framework/excludeLists.tiddler
+tiddler: studentnotebook/framework/excludeSearch.tiddler
+tiddler: studentnotebook/framework/systemConfig.tiddler
+tiddler: studentnotebook/framework/systemConfigDisable.tiddler
+tiddler: studentnotebook/framework/systemServer.tiddler

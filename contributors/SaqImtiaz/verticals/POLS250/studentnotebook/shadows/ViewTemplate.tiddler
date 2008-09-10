@@ -1,0 +1,11 @@
+<div title="ViewTemplate" modifier="SaqImtiaz" created="200802260834" modified="200802261350" tags="excludeSearch excludeLists">
+<pre><!--{{{-->
+<div class='title' macro='view title'></div>
+<div class='toolbar' macro='toolbar +editTiddler'></div>
+<div class='tagClear'></div>
+<div class='viewer viewernotes' macro='view text wikified'></div>
+<div macro='hideWhen tiddler.fields["server.type"] != "wikispaces"'>
+	<div class='viewer notes' macro='notes heading:"My Notes" tag:"NoteTiddlers excludeLists excludeSearch" suffix:"Notes"'></div>
+</div>
+<!--}}}--></pre>
+</div>
