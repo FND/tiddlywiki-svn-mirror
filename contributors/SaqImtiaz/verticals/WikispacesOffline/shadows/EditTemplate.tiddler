@@ -1,7 +1,7 @@
 <div title="EditTemplate" modifier="SaqImtiaz" created="200802260838" modified="200803030912" tags="excludeLists excludeSearch">
 <pre><!--{{{-->
 <div class='title' macro='view title'></div>
-<div class='toolbar' macro='toolbar previewTiddler +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
 <div class='tagClear'></div>
 <div class="editLabel">Title</div><div class='editor' macro='edit title'></div>
 <div macro='annotations'></div>

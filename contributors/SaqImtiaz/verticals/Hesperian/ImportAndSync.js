@@ -9,20 +9,21 @@ config.macros.importAndSync = {
     },
     
     onClick : function(e){
-        config.macros.importWorkspace.getTiddlersForAllFeeds();
-        var customFields = config.defaultCustomFields;
-        if(!customFields['server.type']) {
-            var tiddlers = store.getTaggedTiddlers('systemServer');
-            if(tiddlers.length>0)
-                var title = tiddlers[0].title;
-        }
-        if(title) {
-            customFields = {};
-            customFields['server.type'] = store.getTiddlerSlice(title,'Type');
-            customFields['server.host'] = store.getTiddlerSlice(title,'URL');
-            customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-        }
-        config.macros.quicksync.getTiddlers(config.macros.quicksync.createContext(customFields));  
+        config.macros.importWorkspace.getTiddlersForAllFeeds(config.macros.quicksync.onClick);
+//        var customFields = config.defaultCustomFields;
+//        if(!customFields['server.type']) {
+//            var tiddlers = store.getTaggedTiddlers('systemServer');
+//            if(tiddlers.length>0)
+//                var title = tiddlers[0].title;
+//        }
+//        if(title) {
+//            customFields = {};
+//            customFields['server.type'] = store.getTiddlerSlice(title,'Type');
+//            customFields['server.host'] = store.getTiddlerSlice(title,'URL');
+//            customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+//        }
+//        config.macros.quicksync.getTiddlers(config.macros.quicksync.createContext(customFields));
+		//config.macros.quicksync.onClick(e);  
         return false;      
     }  
 }

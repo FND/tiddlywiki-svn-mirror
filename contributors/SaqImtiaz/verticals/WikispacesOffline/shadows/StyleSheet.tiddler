@@ -201,6 +201,18 @@ margin-left:0.7em;
     margin-bottom:1.5em;
 }
 
+.viewer.viewernotes
+{
+	margin-bottom:0em;
+	border-bottom:0px;
+}
+
+.viewer.notes
+{
+	margin-top:0em;
+	border-top:0px;
+}
+
 .quickedit .title{
     display:none;
 }

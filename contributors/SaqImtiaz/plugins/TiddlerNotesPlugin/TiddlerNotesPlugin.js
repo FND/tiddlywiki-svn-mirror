@@ -38,53 +38,53 @@
 if (!config.options.chkPrefillNotes)
 	config.options.chkPrefillNotes = false;
 	
-function createTiddlyElement(theParent,theElement,theID,theClass,theText,attribs)
-{
-	var e = document.createElement(theElement);
-	if(theClass != null)
-		e.className = theClass;
-	if(theID != null)
-		e.setAttribute("id",theID);
-	if(theText != null)
-		e.appendChild(document.createTextNode(theText));
-	if(attribs){
-		for(var n in attribs){
-			e.setAttribute(n,attribs[n]);
-		}
-	}
-	if(theParent != null)
-		theParent.appendChild(e);
-	return e;
-}
+/*function createTiddlyElement(theParent,theElement,theID,theClass,theText,attribs)*/
+/*{*/
+/*	var e = document.createElement(theElement);*/
+/*	if(theClass != null)*/
+/*		e.className = theClass;*/
+/*	if(theID != null)*/
+/*		e.setAttribute("id",theID);*/
+/*	if(theText != null)*/
+/*		e.appendChild(document.createTextNode(theText));*/
+/*	if(attribs){*/
+/*		for(var n in attribs){*/
+/*			e.setAttribute(n,attribs[n]);*/
+/*		}*/
+/*	}*/
+/*	if(theParent != null)*/
+/*		theParent.appendChild(e);*/
+/*	return e;*/
+/*}*/
 
-function createTiddlyButton(theParent,theText,theTooltip,theAction,theClass,theId,theAccessKey,attribs)
-{
-	var theButton = document.createElement("a");
-	if(theAction) {
-		theButton.onclick = theAction;
-		theButton.setAttribute("href","javascript:;");
-	}
-	if(theTooltip)
-		theButton.setAttribute("title",theTooltip);
-	if(theText)
-		theButton.appendChild(document.createTextNode(theText));
-	if(theClass)
-		theButton.className = theClass;
-	else
-		theButton.className = "button";
-	if(theId)
-		theButton.id = theId;
-	if(attribs){
-		for(var n in attribs){
-			e.setAttribute(n,attribs[n]);
-		}
-	}
-	if(theParent)
-		theParent.appendChild(theButton);
-	if(theAccessKey)
-		theButton.setAttribute("accessKey",theAccessKey);
-	return theButton;
-}
+/*function createTiddlyButton(theParent,theText,theTooltip,theAction,theClass,theId,theAccessKey,attribs)*/
+/*{*/
+/*	var theButton = document.createElement("a");*/
+/*	if(theAction) {*/
+/*		theButton.onclick = theAction;*/
+/*		theButton.setAttribute("href","javascript:;");*/
+/*	}*/
+/*	if(theTooltip)*/
+/*		theButton.setAttribute("title",theTooltip);*/
+/*	if(theText)*/
+/*		theButton.appendChild(document.createTextNode(theText));*/
+/*	if(theClass)*/
+/*		theButton.className = theClass;*/
+/*	else*/
+/*		theButton.className = "button";*/
+/*	if(theId)*/
+/*		theButton.id = theId;*/
+/*	if(attribs){*/
+/*		for(var n in attribs){*/
+/*			e.setAttribute(n,attribs[n]);*/
+/*		}*/
+/*	}*/
+/*	if(theParent)*/
+/*		theParent.appendChild(theButton);*/
+/*	if(theAccessKey)*/
+/*		theButton.setAttribute("accessKey",theAccessKey);*/
+/*	return theButton;*/
+/*}*/
 
 config.macros.notes={
 	

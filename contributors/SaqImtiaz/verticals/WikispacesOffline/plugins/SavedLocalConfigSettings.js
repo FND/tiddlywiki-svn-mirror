@@ -4,4 +4,4 @@ config.options.chkAllowLinksFromShadowTiddlers = true;
 config.options.chkSavBackups = true;
 //config.options.chkAutoSave = true;
 config.options.chkAnimate = false;
-config.options.txtBackupFolder = 'WikispacesOfflineBackups';
+config.options.txtBackupFolder = 'Pols250 Notebook Backups';

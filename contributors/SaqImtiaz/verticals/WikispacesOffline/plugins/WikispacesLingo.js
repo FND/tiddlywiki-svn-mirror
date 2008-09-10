@@ -59,14 +59,14 @@ merge(config.messages,{
 	rssFailed: "Failed to save RSS feed file",
 	emptySaved: "Empty template saved",
 	emptyFailed: "Failed to save empty template file",
-	mainSaved: "Main TiddlyWiki file saved",
-	mainFailed: "Failed to save main TiddlyWiki file. Your changes have not been saved",
+	mainSaved: "Main notebook file saved",
+	mainFailed: "Failed to save main notebook file. Your changes have not been saved",
 	macroError: "Error in macro <<\%0>>",
 	macroErrorDetails: "Error while executing macro <<\%0>>:\n%1",
 	missingMacro: "No such macro",
 	overwriteWarning: "A page named '%0' already exists. Choose OK to overwrite it",
-	unsavedChangesWarning: "WARNING! There are unsaved changes in TiddlyWiki\n\nChoose OK to save\nChoose CANCEL to discard",
-	confirmExit: "--------------------------------\n\nThere are unsaved changes in TiddlyWiki. If you continue you will lose those changes\n\n--------------------------------",
+	unsavedChangesWarning: "WARNING! There are unsaved changes in your notebook\n\nChoose OK to save\nChoose CANCEL to discard",
+	confirmExit: "--------------------------------\n\nThere are unsaved changes in your notebook. If you continue you will lose those changes\n\n--------------------------------",
 	saveInstructions: "SaveChanges",
 	unsupportedTWFormat: "Unsupported TiddlyWiki format '%0'",
 	tiddlerSaveError: "Error when saving page '%0'",
@@ -119,7 +119,7 @@ merge(config.views.wikified.tag,{
 	popupNone: "No other pages tagged with '%0'"});
 
 merge(config.views.wikified,{
-	defaultText: "The page '%0' doesn't yet exist. Double-click to create it",
+	defaultText: "The page '%0' doesn't exist.",
 	defaultModifier: "(missing)",
 	shadowModifier: "(built-in shadow page)",
 	dateFormat: "DD MMM YYYY",
@@ -146,7 +146,7 @@ merge(config.messages,{
 
 merge(config.macros.search,{
 	label: "search",
-	prompt: "Search this TiddlyWiki",
+	prompt: "Search this notebook",
 	accessKey: "F",
 	successMsg: "%0 pages found matching %1",
 	failureMsg: "No pages found matching %0"});
@@ -179,7 +179,7 @@ merge(config.macros.permaview,{
 
 merge(config.macros.saveChanges,{
 	label: "save changes",
-	prompt: "Save all pages to create a new TiddlyWiki",
+	prompt: "Save your notebook",
 	accessKey: "S"});
 
 merge(config.macros.newTiddler,{
@@ -414,10 +414,10 @@ merge(config.commands.fields,{
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
 	MainMenu: "GettingStarted",
-	SiteTitle: "My TiddlyWiki",
+	SiteTitle: "My Offline Notebook",
 	SiteSubtitle: "a reusable non-linear personal web notebook",
 	SiteUrl: "http://www.tiddlywiki.com/",
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY" "journal">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">>',
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY" "journal">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change advanced options for your notebook">>',
 	SideBarTabs: '<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All pages" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>',
 	TabMore: '<<tabs txtMoreTab "Missing" "Missing pages" TabMoreMissing "Orphans" "Orphaned pages" TabMoreOrphans "Shadowed" "Shadowed pages" TabMoreShadowed>>',
 	ToolbarCommands: "|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|\n|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|"});

@@ -8,9 +8,9 @@ recipe: content/split.recipe
 #tiddler: ../../adaptors/WikispacesAdaptor.js
 tiddler: ../../../MartinBudden/formatters/WikispacesFormatterPlugin.js
 tiddler: ../../../MartinBudden/adaptors/soapclient.js
-tiddler: ../../../MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js
-tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
-tiddler: ../../../MartinBudden/plugins/QuickSyncPlugin.js
-tiddler: ../../../MartinBudden/plugins/ImportWikispacesMessagesPlugin.js
+#tiddler: ../../../MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js
+#tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
+#tiddler: ../../../MartinBudden/plugins/QuickSyncPlugin.js
+#tiddler: ../../../MartinBudden/plugins/ImportWikispacesMessagesPlugin.js
 #tiddler: QuickSyncPlugin.js
 #tiddler: ImportWorkspacePlugin.js

@@ -2,12 +2,24 @@ PasswordPrompt ={
 	prompt : function(callback,context){
 		if (!context)
 			context = {};
-		var box = createTiddlyElement(document.getElementById("contentWrapper"),'div','passwordpromptBox');
+		//var box = createTiddlyElement(document.getElementById("contentWrapper"),'div','passwordpromptBox');
+		var box = document.getElementById('passwordpromptBox') || createTiddlyElement(document.body,'div','passwordpromptBox');
 		box.innerHTML = store.getTiddlerText('PasswordPromptTemplate');
-		box.style.position = 'absolute';
-		this.center(box);
-		var btn = document.getElementById('passwordpromptSubmitBtn');
-		btn.onclick = function(){PasswordPrompt.submit(callback,context);};
+		box.style.position = 'absolute';		this.center(box);
+		this.showCloak();
+		var el = document.getElementById("passwordInputField");
+		if(el) {
+			el.onkeyup = function(ev) {
+				var e = ev || window.event;
+				if(e.keyCode == 10 || e.keyCode == 13) { // Enter
+					PasswordPrompt.submit(callback, context);
+				}
+			};
+		}		
+		var submitBtn = document.getElementById('passwordpromptSubmitBtn');
+		submitBtn.onclick = function(){PasswordPrompt.submit(callback,context); return false;};
+		var cancelBtn = document.getElementById('passwordpromptCancelBtn');
+		cancelBtn.onclick = function(){PasswordPrompt.remove(); return true;};
 	},	
 	
 	center : function(el){
@@ -23,21 +35,38 @@ PasswordPrompt ={
 		return x;
 	},
 	
+	showCloak : function(){
+		var cloak = document.getElementById('backstageCloak');
+		if (config.browser.isIE){
+			overlay.style.height = Math.max(document.documentElement.scrollHeight,document.documentElement.offsetHeight);
+			overlay.style.width = document.documentElement.scrollWidth;
+		}
+		cloak.style.display = "block";
+	},
+	
 	submit : function(cb,context){
 		context.username = document.getElementById('usernameInputField').value;
 		context.password = document.getElementById('passwordInputField').value;
 		cb(context);
+		PasswordPrompt.remove();
+		return false;
+	},
+	
+	remove : function(){
 		var box = document.getElementById('passwordpromptBox');
 		box.parentNode.removeChild(box);
+		document.getElementById('backstageCloak').style.display = "";
 		return false;
 	},
 	
 	setStyles : function(){
 		setStylesheet(
 		"#passwordpromptBox dd.submit {margin-left:0; font-weight: bold; margin-top:1em;}\n"+
- 		"#passwordpromptBox dd.submit .button {padding:0.5em 1em; border:1px solid #ccc;}\n"+
+ 		"#passwordpromptBox dd.submit .button {padding:0.5em 1em; border:1px solid #ccc; margin-right:1em;}\n"+
  		"#passwordpromptBox dt.heading {margin-bottom:0.5em; font-size:1.2em;}\n"+
- 		"#passwordpromptBox {border:1px solid #ccc;background-color: #eee;padding:1em 2em;}",'passwordpromptStyles');
+ 		"html > body > #backstageCloak {height:100%;}"+
+ 		"#passwordpromptBox {border:1px solid #ccc;background-color: #eee;padding:1em 2em; z-index:9999;}",'passwordpromptStyles');
+ 		
 	},
 	
 	template : "<form action=\"\" onsubmit=\"return false;\" id=\"passwordpromptForm\">\n"+
@@ -48,7 +77,8 @@ PasswordPrompt ={
 			 "        <dt>Password:</dt>\n"+
 			 "        <dd><input type=\"password\" tabindex=\"2\" class=\"input\" id=\"passwordInputField\"/></dd>\n"+
 			 "        <dd class=\"submit\">\n"+
-			 "            <a tabindex=\"4\" href=\"javascript:;\" class=\"button\" id=\"passwordpromptSubmitBtn\">OK</a>\n"+
+			 "            <a tabindex=\"3\" href=\"javascript:;\" class=\"button\" id=\"passwordpromptSubmitBtn\">OK</a>\n"+
+			 "			  <a tabindex=\"4\" href=\"javascript:;\" class=\"button\" id=\"passwordpromptCancelBtn\">Cancel</a>\n"+
 			 "        </dd>\n"+
 			 "    </dl>\n"+
 			 "</form>",
@@ -60,4 +90,3 @@ PasswordPrompt ={
 };
 
 PasswordPrompt.init();
-

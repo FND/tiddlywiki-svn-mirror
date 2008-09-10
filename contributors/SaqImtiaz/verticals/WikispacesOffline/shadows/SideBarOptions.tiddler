@@ -3,7 +3,8 @@
 <<newTiddler label:'New Page' prompt:'New Page'>>
 [[Recent Changes]]
 [[Manage]]
+[[Help|Manage]]
 {{search{<<search search>>}}}
-''<<saveChanges "save local copy">>''
-''<<importAndSync>>''</pre>
+{{bigbutton{''<<importAndSync>>''
+''<<saveChanges "save notebook">>''}}}</pre>
 </div>

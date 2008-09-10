@@ -1,5 +1,5 @@
 //config.options.chkImportWorkspaceOnStartup = true;
-//config.options.chkBackstage = true;
+config.options.chkBackstage = false;
 
 //config.macros.quicksync.label = 'synchronize';
 config.macros.sync.syncStatusList.none.display = 'none';

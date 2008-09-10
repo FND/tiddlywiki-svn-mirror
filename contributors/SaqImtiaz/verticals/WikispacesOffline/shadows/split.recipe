@@ -1,9 +1,9 @@
-tiddler: DefaultTiddlers.tiddler
-tiddler: EditTemplate.tiddler
-tiddler: OptionsPanel.tiddler
-tiddler: PageTemplate.tiddler
+shadow: DefaultTiddlers.tiddler
+shadow: EditTemplate.tiddler
+shadow: OptionsPanel.tiddler
+shadow: PageTemplate.tiddler
 tiddler: SideBarOptions.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
-tiddler: StyleSheet.tiddler
-tiddler: ViewTemplate.tiddler
+shadow: SiteSubtitle.tiddler
+shadow: SiteTitle.tiddler
+shadow: StyleSheet.tiddler
+shadow: ViewTemplate.tiddler
