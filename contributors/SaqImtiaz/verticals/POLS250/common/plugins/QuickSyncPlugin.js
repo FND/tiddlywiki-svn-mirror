@@ -23,6 +23,9 @@ To use, add <<quicksync>> to the SideBarOptions shadow tiddler.
 if(!version.extensions.QuickSyncPlugin) {
 version.extensions.QuickSyncPlugin = {installed:true};
 
+if(config.options.chkQuicksyncOnStartup == undefined)
+	{config.options.chkQuicksyncOnStartup = false;}
+
 config.macros.quicksync = {};
 
 merge(config.macros.quicksync,{
@@ -31,6 +34,12 @@ merge(config.macros.quicksync,{
 	tiddlerUploaded: "Tiddler: \"%0\" uploaded",
 	tiddlerImported: "Tiddler: \"%0\" imported"
 	});
+
+config.macros.quicksync.init = function()
+{
+	if(config.options.chkQuicksyncOnStartup)
+		config.macros.quicksync.onClick();
+};
 
 config.macros.quicksync.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
@@ -64,10 +73,12 @@ config.macros.quicksync.onClick = function(e)
 	// var customFields = this.getAttribute('customFields');
 	// var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
 	//console.log('onClick',config.defaultCustomFields['server.host'].toString());
+	config.macros.quicksync.syncServersLength = 0;
 	var tiddlers = store.getTaggedTiddlers('systemServer');
 	for(var i=0;i<tiddlers.length;i++) {
 		var customFields = config.macros.quicksync.getCustomFieldsFromTiddler(tiddlers[i].title);
 		var context = config.macros.quicksync.createContext(customFields);
+		config.macros.quicksync.syncServersLength = tiddlers.length; 
 		config.macros.quicksync.getTiddlers(context);
 	}
 	return false;
@@ -177,6 +188,15 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 				getList.push(title);
 			}
 		}
+		context.adaptor.getTiddlerLength = getList.length;
+		clearMessage();
+		//console.log(getList);
+		if(getList.length){
+			displayMessage("%0 updated and new page(s) on server.".format([getList.length]));
+			displayMessage("downloading updates...")
+		}
+		else
+			displayMessage("no updates available.")
 		for(i=0; i<getList.length; i++) {
 			context.adaptor.getTiddler(getList[i],null,null,config.macros.quicksync.getTiddlerCallback);
 		}
@@ -197,11 +217,26 @@ config.macros.quicksync.getTiddlerCallback = function(context,userParams)
 {
 	if(context.status && context.tiddler) {
 		var tiddler = context.tiddler;
+		store.suspendNotifications();
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+		store.resumeNotifications();
 		//#story.refreshTiddler(tiddler.title,1,true);
-		displayMessage(config.macros.quicksync.tiddlerImported.format([context.tiddler.title]));
+		//displayMessage(config.macros.quicksync.tiddlerImported.format([context.tiddler.title]));
 	} else if(!context.status) {
 		displayMessage(context.statusText);
+	}
+	--context.adaptor.getTiddlerLength;
+	if(context.adaptor.getTiddlerLength==0){
+		--config.macros.quicksync.syncServersLength;
+	}
+	//console.log(context.adaptor.syncServersLength)
+	if(config.macros.quicksync.syncServersLength==0){
+		store.notifyAll();
+		story.refreshAllTiddlers();
+		clearMessage();
+		//displayMessage('update completed. Please save your notebook');
+		window.setTimeout(function() {displayMessage('update completed. Please save your notebook');},1000);
+		//console.log(context)
 	}
 };
 

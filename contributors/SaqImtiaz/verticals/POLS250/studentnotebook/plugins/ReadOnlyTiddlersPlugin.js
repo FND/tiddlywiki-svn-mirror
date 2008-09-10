@@ -20,5 +20,6 @@ setStylesheet("#backstageButton #backstageShow {position:absolute;top:-30em;righ
 setStylesheet("#mysidebar #sidebarOptions .bigbutton .button {padding:0.2em 0.3em; font-size:120%; font-weight:bold; border:1px solid #000; display:block; background-color:#0044BB; color:#fff; margin-bottom:0.2em;} #mysidebar #sidebarOptions .bigbutton br {display:none;}","savebuttonStyles");
 
 config.options.chkPrefillNotes = true;
-
-config.macros.importAndSync.label = "update notebook";
+merge(config.defaultCustomFields,{'wikiformat':'wikispaces'});
+//config.macros.importAndSync.label = "update notebook";
+config.options.chkQuicksyncOnStartup = true;
