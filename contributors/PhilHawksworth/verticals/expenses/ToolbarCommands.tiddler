@@ -5,7 +5,7 @@
 |~QuickClaimToolbar| -closeTiddler|
 |~ClaimViewToolbar| +editTiddler -closeTiddler deleteTiddler|
 |~ClaimEditToolbar| +saveTiddler -cancelTiddler deleteTiddler|
-|~ClaimItemViewToolbar|+editTiddler deleteTiddler cloneClaimItem|
+|~ClaimItemViewToolbar|+editTiddler deleteTiddler cloneClaimItem fields|
 |~ClaimItemEditToolbar|+saveTiddler -cancelTiddler cloneClaimItem|
 
 </pre>

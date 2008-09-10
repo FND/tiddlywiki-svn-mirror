@@ -73,13 +73,10 @@
 <!--{{{-->
 <div class='claimItem view'>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemViewToolbar]]'></div>
-<!-- <span class='amount label' macro='view amount complexField label'></span> -->
-<!-- <span class='amount value' macro='view amount complexField value'></span> -->
-<span class='field amount'><label for='amount'>Amount</label><input type='text' readonly value='1234.56' /></span>
-<span class='field date'><label for='date'>Date</label><input type='text' readonly value='12/06/2008' /></span>
-<span class='field type'><label for='type'>Expense type</label><input type='text' readonly value='Airfare' /></span>
-<span class='field justification'><label for='justification'>Justification</label><input type='text' readonly value='travel to supernova conference' /></span>
-
+<span class='field date' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount readonly:true mandatory:true'></span>
+<span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate readonly:true mandatory:true'></span>
+<span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true'></span>
+<span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification readonly:true mandatory:true'></span>
 
 </div>
 <!--}}}-->
@@ -88,10 +85,11 @@
 <!--{{{-->
 <div class='claimItem'>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemEditToolbar]]'></div>
-<span class='field amount'><label for='amount'>Amount</label><input type='text' value='1234.56' /></span>
-<span class='field date'><label for='date'>Date</label><input type='text' value='12/06/2008' /></span>
-<span class='field type'><label for='type'>Expense type</label><input type='text' readonly value='Airfare' /></span>
-<span class='field justification'><label for='justification'>Justification</label><input type='text' value='travel to supernova conference' /></span>
+<span class='field date' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount'></span>
+<span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate'></span>
+<span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true'></span>
+<span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification'></span>
+<!-- <div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard'></div> -->
 </div>
 <!--}}}-->
 
@@ -121,10 +119,10 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 div.form {}
 div.form h3 {font-size:0.9em; color:#999; display:block; margin-left:0 0 2px 2px; padding:0; border-style:none; font-weight:normal;}
 div.form input {font-size:1.8em; width:10em;}
-
+div.claimItem label.flagMandatory { color:#C85F4E; }
+div.claimItem input.flagMandatory {background-color:#FFF3F3;}
 
 /* Quick Claim */
-div.tiddler {margin:2em 0;}
 div.quickClaim div.form { margin:2em 0; }
 div.quickClaim span {display:inline; float:left; }
 div.quickClaim span.amount input {font-size:1.8em; width:5em;}

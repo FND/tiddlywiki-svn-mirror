@@ -3,17 +3,20 @@
 #
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
+
 #
 # Settings
 #
 tiddler: settings.js
 
+
 #
 # Plugins
 #
-tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
-tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: plugins/CreateClaimItemPlugin.js
+tiddler: $TW_ROOT/contributors/BidiX/plugins/PasswordOptionPlugin.js
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
 
 
 #
@@ -28,6 +31,7 @@ tiddler: BackstageMod.tiddler
 tiddler: Content_Listing.tiddler
 tiddler: Quick_Claim.tiddler
 
+
 #
 # Tiddlers
 #
@@ -37,7 +41,3 @@ tiddler: SiteSubtitle.tiddler
 tiddler: Previous_Claims.tiddler
 tiddler: About_You.tiddler
 
-#
-# Expense type forms
-#
-tiddler: forms/AirfareForm.tiddler
