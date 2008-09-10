@@ -35,15 +35,17 @@ config.macros.CreateClaim.doCreate = function(ev) {
 // ==================
 
 config.macros.CreateClaimItem = {};
-config.macros.CreateClaimItem.newItemType = 'AirfareForm';
+config.macros.CreateClaimItem.newItemType = null;
 config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
+	config.macros.CreateClaimItem.newItemType = 'QuickClaimItemForm';
+	
 	var options = [];
 	var slices = store.calcAllSlices('expenseTypeValues');
 
 	// test data to be replaced later when the tiddler exists.
-	options.push({'caption':'just get it up there', 'name':'SimpleForm'});
-	options.push({'caption':'An Airfare', 'name':'AirfareForm'});
+	options.push({'caption':'Quick Claim', 'name':'QuickClaimItemForm'});
+	options.push({'caption':'Airfare', 'name':'AirfareForm'});
 
 	for(s in slices) {
 		var arg =  store.getTiddlerSlice('AirfareForm',s);
@@ -72,8 +74,7 @@ config.macros.CreateClaimItem.doCreate = function(ev) {
 	// add fields as described in the form template for this claim type
 	var slices = store.calcAllSlices(valuesTiddlerTitle);
 	for(s in slices) {
-		// newTiddler.fields[s] = "";
-		newTiddler.fields[s.toLowerCase()] = "";
+		newTiddler.fields[s] = "";
 	}	
 
 	//display the new tiddler
@@ -109,11 +110,6 @@ config.commands.cloneClaimItem = {
 	}
 };
 
-config.macros.view.views.complexField = function(value,place,params,wikifier,paramString,tiddler) {
-	var results = value[params[2]];
-	highlightify(results,place,highlightHack,tiddler);
-};
-
 
 // ===============
 // = Quick claim =
@@ -141,67 +137,42 @@ config.macros.ModeledDataFormBuilder = {};
 config.macros.ModeledDataFormBuilder.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
 	var options = paramString.parseParams()[0];	
+	var readonly = options.readonly ? options.readonly : null;
+	var mandatory = options.mandatory ? options.mandatory : null;
 	var referenceForm = tiddler.fields[options.formIdentifier] + 'Form';	
-	
 	if(options.field) {
 		// we are displaying the contents of a field
-		var field = options.field + 'Field';
-		var type = store.getTiddler(field).fields['field_type'];
-		var value = tiddler.fields[field.toLowerCase()];
-		var label = options.field;			
-		var param = store.getTiddlerSlice(referenceForm,field);
+		var field = options.field + 'Field';	
 		this.createFormItem(place,{
-			type: type,
-			value: value,
-			label: label,
-			param: param,
-			readonly: options.readonly ? options.readonly : null,
-			mandatory: options.mandatory ? options.mandatory : null
+			value: tiddler.fields[field],
+			label: options.field,
+			param: store.getTiddlerSlice(referenceForm,field),
+			readonly: readonly,
+			mandatory: mandatory
 		});
 	} else if(options.fields && options.fields == 'nonStandard') {
 		// we are displaying all fields not specified as being standard.
-
-		// get these from psd
-		var standardFields = ['claim_id','expense_type','StartDateField', 'AmountFields', 'JustificationField'];
-
-		// sadly we need to sanitise the field names because the tiddler fields seem to neef to be lower case.
-		for (var s=0; s < standardFields.length; s++) {
-			standardFields[s] = standardFields[s].toLowerCase();
-		};
-		
+		var standardFields = ['claim_id','expense_type','StartDateField', 'AmountField', 'JustificationField']; // get these from psd
 		for(var f in tiddler.fields) {
 			if(!standardFields.contains(f)) {
-				console.log('Output ' + f);
-				var field = f + 'Field';
-				var type = store.getTiddler(field).fields['field_type'];
-				var value = tiddler.fields[field.toLowerCase()];
-				var label = f;			
-				var param = store.getTiddlerSlice(referenceForm,field);
-				this.createFormItem(place,{
-					type: type,
-					value: value,
-					label: label,
-					param: param,
-					readonly: options.readonly ? options.readonly : null,
-					mandatory: options.mandatory ? options.mandatory : null
+				var s = createTiddlyElement(place,'span',null,'field');	
+				this.createFormItem(s,{
+					value: tiddler.fields[f],
+					label: f.substr(0,f.length-5),
+					param: store.getTiddlerSlice(referenceForm,f),
+					readonly: readonly,
+					mandatory: mandatory
 				});
 			}
-		}
-		
-		
+		}	
 	} else {
 		//we are displaying the form reference that we are using
-		var type = 'text';
-		var value = tiddler.fields[options.formIdentifier];
-		var label = 'Claim Item Type'; // thinking that this should be paramaterised somehow.
-		var param = tiddler.fields[options.formIdentifier]; // is this submitted ?
 		this.createFormItem(place,{
-			type: type,
-			value: value,
-			label: label,
-			param: param,
-			readonly: options.readonly ? options.readonly : null,
-			mandatory: options.mandatory ? options.mandatory : null
+			value: tiddler.fields[options.formIdentifier],
+			label: 'Claim Item Type', 						// thinking that this should be paramaterised somehow.
+			param: tiddler.fields[options.formIdentifier], 	// is this submitted ?
+			readonly: readonly,
+			mandatory: mandatory
 		});
 	}
 

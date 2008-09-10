@@ -77,7 +77,7 @@
 <span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate readonly:true mandatory:true'></span>
 <span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true'></span>
 <span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification readonly:true mandatory:true'></span>
-
+<div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard readonly:true'></div>
 </div>
 <!--}}}-->
 
@@ -89,7 +89,7 @@
 <span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate'></span>
 <span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true'></span>
 <span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification'></span>
-<!-- <div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard'></div> -->
+<div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard'></div>
 </div>
 <!--}}}-->
 
@@ -145,25 +145,23 @@ div.claimHeader div.toolbar select { margin-right:0.5em;}
 
 
 /* Claim Items */
-div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative;}
+div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative; overflow:auto;}
 div.claimItem div.title { font-size:1.4em; color:#333;}
-div.claimItem div.toolbar {font-size:0.8em;position:absolute; top:0px; right:0;}
+div.claimItem div.toolbar {font-size:0.8em;position:absolute; top:1em; right:0;}
 div.claimItem div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
 div.claimItem div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
 div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
 
 div.view input { border-style:none;}
-span.field {margin:0 1em 1em 0;}
+<!-- span.field {} -->
 span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
-
-div.claimItem span.amount {display:inline; float:left;}
-div.claimItem span.date { display:inline; float:left;}
-div.claimItem span.type { display:inline; float:left;}
-div.claimItem span.justification { clear:left; display:block;}
+div.claimItem span.field { display:inline; float:left; margin:0 1em 1em 0;}
+div.claimItem span.justification { clear:left; display:block; float:none;}
 div.claimItem span.amount input {font-size:1.8em; width:5em;}
 div.claimItem span.date input {font-size:1.8em; width:6em;}
 div.claimItem span.type input {font-size:1.8em; width:15em;}
 div.claimItem span.justification input {font-size:0.9em; width:60em;}
+
 
 /*}}}*/
 </pre>
