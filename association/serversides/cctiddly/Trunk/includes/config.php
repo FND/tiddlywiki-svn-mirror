@@ -6,7 +6,7 @@ $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "upgrade";		//db name
+$tiddlyCfg['db']['name'] = "rel_cct";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 
@@ -340,8 +340,8 @@ Notes :
 */
 
 //default privileges
-$tiddlyCfg['privilege_misc']['undefined_privilege'] = "A";		//defined what should undefined (U) be treated as
-$tiddlyCfg['privilege_misc']['default_privilege'] = "AAAA";		//default privilege for all group and tags
+$tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what should undefined (U) be treated as
+$tiddlyCfg['privilege_misc']['default_privilege'] = "AAAD";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
 $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = "ADDD";
@@ -357,7 +357,7 @@ $tiddlyCfg['privilege_misc']['group_default_privilege']['admin'] = "AAAA";
 */
 
 $tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
-$tiddlyCfg['privilege']['user']['task'] = "AAAA";
+$tiddlyCfg['privilege']['non_admin']['task'] = "AAAA";
 $tiddlyCfg['privilege']['anonymous']['task'] = "DDDD";
 $tiddlyCfg['privilege']['admin']['task'] = "AAAA";
 //The following privilege are for blog

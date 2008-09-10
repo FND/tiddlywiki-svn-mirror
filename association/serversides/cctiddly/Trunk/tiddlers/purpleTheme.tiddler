@@ -44,7 +44,7 @@
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
 
 !SideBarOptions
-<<search "search...">><<closeAll>><<newTiddler>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'content »' 'View TiddlyWiki Tabs'>>
+<<search "search...">><<closeAll>><<newTiddler>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<saveChanges>><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'content »' 'View TiddlyWiki Tabs'>>
 
 !StyleSheet
 /***
