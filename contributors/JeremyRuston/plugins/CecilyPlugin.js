@@ -143,7 +143,7 @@ SliderControl.prototype.set = function(value) {
 };
 
 //-----------------------------------------------------------------------------------
-// Cecily helper macros
+// Zoom macro
 //-----------------------------------------------------------------------------------
 
 config.macros.cecilyZoom = {};
@@ -185,6 +185,10 @@ config.macros.cecilyZoom.propagate = function(scale) {
 	}
 }
 
+//-----------------------------------------------------------------------------------
+// Zoom All macro
+//-----------------------------------------------------------------------------------
+
 config.macros.cecilyZoomAll = {};
 
 config.macros.cecilyZoomAll.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -193,6 +197,10 @@ config.macros.cecilyZoomAll.handler = function(place,macroName,params,wikifier,p
 			cecily.scrollToAllTiddlers();
 	});
 }
+
+//-----------------------------------------------------------------------------------
+// Switch background macro
+//-----------------------------------------------------------------------------------
 
 config.macros.cecilyBackground = {
 };
@@ -225,6 +233,10 @@ config.macros.cecilyBackground.propagate = function(background) {
 		}
 	}
 };
+
+//-----------------------------------------------------------------------------------
+// Switch map macro
+//-----------------------------------------------------------------------------------
 
 config.macros.cecilyMap = {
 };
@@ -484,8 +496,6 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 	tiddlerElem.scaledWidth = pos.w;
 	tiddlerElem.rotate = 0;
 	tiddlerElem.enlarge = 1.0;
-	var editFields = {};
-	story.gatherSaveFields(tiddlerElem,editFields);
 	this.transformTiddler(tiddlerElem);
 	if(!startingUp) {
 		if(tiddlerElem.nextSibling) { // Move tiddler to the bottom of the Z-order if it's not already there
@@ -543,8 +553,8 @@ Cecily.prototype.getTiddlerPosition = function(title,srcElement) {
 
 // Updates the position of a named tiddler into the current map
 Cecily.prototype.updateTiddlerPosition = function(title,tiddlerElem) {
-	var pos = new Rect(tiddlerElem.offsetLeft,
-						tiddlerElem.offsetTop,
+	var pos = new Rect(tiddlerElem.realPos.x,
+						tiddlerElem.realPos.y,
 						tiddlerElem.scaledWidth,
 						tiddlerElem.offsetHeight * (tiddlerElem.scaledWidth/tiddlerElem.offsetWidth));
 	this.map[title] = pos;
@@ -632,8 +642,8 @@ Cecily.prototype.startHightlight = function(elem) {
 Cecily.prototype.scrollToAllTiddlers = function() {
 	var currRect = null;
 	story.forEachTiddler(function (title,tiddlerElem) {
-		var tiddlerRect = new Rect(tiddlerElem.offsetLeft,
-								tiddlerElem.offsetTop,
+		var tiddlerRect = new Rect(tiddlerElem.realPos.x,
+								tiddlerElem.realPos.y,
 								tiddlerElem.scaledWidth,
 								tiddlerElem.offsetHeight * (tiddlerElem.scaledWidth/tiddlerElem.offsetWidth));
 		if(!currRect)
@@ -651,8 +661,8 @@ Cecily.prototype.scrollToTiddler = function(tiddler) {
 	var tiddlerElem = typeof tiddler == "string" ? story.getTiddler(tiddler) : tiddler;
 	if(tiddlerElem) {
 		this.startHightlight(tiddlerElem);
-		var targetRect = new Rect(tiddlerElem.offsetLeft,
-									tiddlerElem.offsetTop,
+		var targetRect = new Rect(tiddlerElem.realPos.x,
+									tiddlerElem.realPos.y,
 									tiddlerElem.scaledWidth,
 									tiddlerElem.offsetHeight * (tiddlerElem.scaledWidth/tiddlerElem.offsetWidth));
 		if(this.view.contains(targetRect)) {
