@@ -38,7 +38,7 @@
 <!--}}}-->
 
 !OptionsPanel
-[[help|Help]] <br />[[settings|AdvancedOptions]]<br /><<ccOptions>>
+[[help|Help]] <br />[[settings|settings]]<br /><<ccOptions>>
 
 !tabs
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>

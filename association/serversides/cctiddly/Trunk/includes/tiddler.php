@@ -229,7 +229,7 @@
 	//!	@param $body body string to be converted
 	function tiddler_bodyDecode($body)
 	{
-		$body = htmlspecialchars_decode($body);		//replace <, >, &, " with their html code, htmlspecialchars_decode only available in PHP5
+	//	$body = htmlspecialchars_decode($body);		//replace <, >, &, " with their html code, htmlspecialchars_decode only available in PHP5
 		$body = str_replace("&quot;","\"",$body);
 		$body = str_replace("&#039;","'",$body);
 		$body = str_replace("&lt;","<",$body);
@@ -238,7 +238,6 @@
 		$body = str_replace("\\n","\n",$body);		//replace newline with '\n'
 		$body = str_replace('\\s',"\\",$body);		//replace'\' with '\s'
 		//$body = str_replace("\r","",$body);		//return character is not required
-
 		return $body;
 	}
 	///////////////////////////////////////////////////////////////privilege function//////////////////////////////////////////////////

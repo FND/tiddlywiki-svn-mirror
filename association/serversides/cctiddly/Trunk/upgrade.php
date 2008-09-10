@@ -64,4 +64,16 @@ mysql_query($SQL2);
 
 echo "<h1> Your database has been upgraded. To start using this ccTiddly instance please delete the upgrade.php file from your server.</h1>";
 
+
+/*
+
+UPDATE tiddler SET body=(REPLACE (body,"\\n",'\n'));
+UPDATE tiddler SET body=(REPLACE (body,"\\s",'\\'));
+UPDATE tiddler SET body=(REPLACE (body,"&amp;",'&'));
+UPDATE tiddler SET body=(REPLACE (body,"&lt;",'<'));
+UPDATE tiddler SET body=(REPLACE (body,"&gt;",'>'));
+UPDATE tiddler SET body=(REPLACE (body, "&#039;","'"));
+UPDATE tiddler SET body=(REPLACE (body, "&quot;","\"''));
+
+*/
 ?>
