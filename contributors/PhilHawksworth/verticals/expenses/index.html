@@ -43,8 +43,7 @@ DAMAGE.
 <!--}}}-->
 <!--PRE-HEAD-END-->
 <title>
-
-[img[images/BT_21pix_rev.gif]] //''Your''Expenses//
+<<tiddler bt_logo>>//''Your''Expenses//
  - 
 trying to make it easier to get your money back
 
@@ -1080,9 +1079,13 @@ config.macros.CreateClaim.doCreate = function(ev) {
 };
 
 
+
+// ==================
+// = New claim item =
+// ==================
+
 config.macros.CreateClaimItem = {};
 config.macros.CreateClaimItem.newItemType = 'simple';
-
 config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
 	var options = [];
@@ -1135,40 +1138,10 @@ config.macros.CreateClaimItem.setItemType = function(ev) {
 };
 
 
-// ==================
-// = New claim item =
-// ==================
 
+//
 // Extend the commands so that we can use our own commands on tiddlers.
-// config.commands.newClaimItem = {
-// 	text: &quot;new claim item&quot;,
-// 	tooltip: &quot;add another item to claim&quot;,
-// 	handler : function(event,src,title) {
-// 		var claimTiddler = store.getTiddler(title);
-// 		var dt = new Date();
-// 		var uniqueID = 'claim_' + claimTiddler.fields['claim_id'] + '_' + dt.getTime();
-// 
-// 		// create tiddler and associate it with this claim.
-// 		var formDefinitionTiddler = store.getTiddler('AirfareForm');
-// 		var newTiddler = store.createTiddler(uniqueID);
-// 		newTiddler.tags.pushUnique('claimItem');
-// 		newTiddler.fields['claim_id'] = claimTiddler.fields['claim_id'];
-// 
-// 		// add fields as described in the form template for this claim type
-// 		newTiddler.fields['expenses_type'] = formDefinitionTiddler.fields['expenses_type'];
-// 		var slices = store.calcAllSlices('AirfareForm');
-// 		for(s in slices) {
-// 			var arg =  store.getTiddlerSlice('AirfareForm',s);
-// 			newTiddler.fields[s.toLowerCase()] = &quot;&quot;;
-// 			// newTiddler.fields[s.toLowerCase()] = {'label':s, 'arg':arg, 'value':null};
-// 		}
-// 		console.log('newTiddler.fields',newTiddler.fields);
-// 	
-// 		// refelct the form elements into this claim report.		
-// 		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
-// 	}
-// };
-
+//
 config.commands.cloneClaimItem = {
 	text: &quot;clone&quot;,
 	tooltip: &quot;add another claim item just like this&quot;,
@@ -1203,7 +1176,11 @@ config.macros.SubmitQuickClaim.handler = function(place,macroName,params,wikifie
 
 config.macros.SubmitQuickClaim.doSubmit = function(ev) {
 	console.log('submitting quick claim item');
-	config.macros.SubmitQuickClaim.handleResponse();
+	
+	//call out to the particular systems 
+	config.macros.SiteminderLogin.doLogin();
+	
+	// config.macros.SubmitQuickClaim.handleResponse();
 };
 
 config.macros.SubmitQuickClaim.handleResponse = function() {
@@ -1214,6 +1191,37 @@ config.macros.SubmitQuickClaim.handleResponse = function() {
 
 }
 //}}}</pre>
+</div>
+<div title="bt_logo" modifier="PhilHawksworth" created="200809101037">
+<pre>
+&lt;html&gt;&lt;img src=&quot;data:image/
+png;base64,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&quot;&gt;&lt;/html&gt;</pre>
 </div>
 <div title="EasyExpensesSkin" modifier="PhilHawksworth" created="200808141405" tags="systemTheme excludeSearch">
 <pre>
@@ -1333,6 +1341,13 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 #messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
 #displayArea { clear:left; margin:0; padding:0 2em;}
 
+
+/* General form styles */
+div.form {}
+div.form h3 {font-size:0.9em; color:#999; display:block; margin-left:0 0 2px 2px; padding:0; border-style:none; font-weight:normal;}
+div.form input {font-size:1.8em; width:10em;}
+
+
 /* Quick Claim */
 div.tiddler {margin:2em 0;}
 div.quickClaim div.form { margin:2em 0; }
@@ -1342,10 +1357,6 @@ div.quickClaim span.justification input {font-size:1.8em; width:40em;}
 div.quickClaim div.toolbar {font-size:1.4em; clear:left; text-align:left;}
 div.quickClaim div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; line-height:2em;}
 div.quickClaim div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
-
-
-
-
 
 
 /* Claim Header */
@@ -1423,8 +1434,7 @@ backstage.init = function() {
 <pre></pre>
 </div>
 <div title="SiteTitle" modifier="PhilHawksworth" created="200809011713">
-<pre>
-[img[images/BT_21pix_rev.gif]] //''Your''Expenses//</pre>
+<pre>&lt;&lt;tiddler bt_logo&gt;&gt;//''Your''Expenses//</pre>
 </div>
 <div title="SiteSubtitle" modifier="PhilHawksworth" created="200809011713">
 <pre>

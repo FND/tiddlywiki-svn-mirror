@@ -19,6 +19,7 @@ tiddler: plugins/CreateClaimItemPlugin.js
 #
 # UI elements
 #
+tiddler: bt_logo.tiddler
 tiddler: EasyExpensesSkin.tiddler
 tiddler: EasyExpensesColors.tiddler
 tiddler: MainMenu.tiddler
