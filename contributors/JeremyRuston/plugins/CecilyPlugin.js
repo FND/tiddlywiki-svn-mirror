@@ -146,14 +146,12 @@ SliderControl.prototype.set = function(value) {
 // Cecily helper macros
 //-----------------------------------------------------------------------------------
 
-config.macros.cecilyZoom = {
-	zoomers: []
-};
+config.macros.cecilyZoom = {};
 
 config.macros.cecilyZoom.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	createTiddlyElement(place,"span",null,"cecilyLabel","zoom ");
+	var zoomElem = createTiddlyElement(place,"span",null,"cecilyLabel cecilyZoom","zoom ");
 	var me = this;
-	config.macros.cecilyZoom.zoomers.push(new SliderControl({
+	zoomElem.sliderControl = new SliderControl({
 		place: place,
 		min: 0,
 		max: 100,
@@ -177,13 +175,13 @@ config.macros.cecilyZoom.handler = function(place,macroName,params,wikifier,para
 				cecily.setView(newView);
 			}
 		}
-	}));
+	});
 }
 
 config.macros.cecilyZoom.propagate = function(scale) {
-	var me = config.macros.cecilyZoom;
-	for(var t = 0; t < me.zoomers.length; t++) {
-		me.zoomers[t].set(scale);
+	var zoomers = document.getElementsByClassName("cecilyZoom");
+	for(var t = 0; t < zoomers.length; t++) {
+		zoomers[t].sliderControl.set(scale);
 	}
 }
 
@@ -205,17 +203,26 @@ config.macros.cecilyBackground.handler = function(place,macroName,params,wikifie
 		var onchange = function(ev) {
 			var sel = this.options[this.selectedIndex].value;
 			if(sel != cecily.background) {
-				cecily.background = sel;
-				config.options.txtCecilyBackground = sel;
-				saveOptionCookie("txtCecilyBackground");
-				cecily.drawBackground();
+				cecily.setBackground(sel);
 			}
 		};
 		var options = [];
 		for(var t in Cecily.backgrounds) {
 			options.push({name: t, caption: Cecily.backgrounds[t].title});
 		}
-		createTiddlyDropDown(place,onchange,options,cecily.background);
+		var d = createTiddlyDropDown(place,onchange,options,cecily.background);
+		addClass(d,"cecilyBackground");
+	}
+};
+
+config.macros.cecilyBackground.propagate = function(background) {
+	var backgrounders = document.getElementsByClassName("cecilyBackground");
+	for(var k=0; k<backgrounders.length; k++) {
+		var b = backgrounders[k];
+		for(var s=0; s<b.options.length; s++) {
+			if(b.options[s].value === background && b.selectedIndex !== s)
+				b.selectedIndex = s;
+		}
 	}
 };
 
@@ -237,7 +244,19 @@ config.macros.cecilyMap.handler = function(place,macroName,params,wikifier,param
 		for(var t=0; t<mapTiddlers.length; t++) {
 			options.push({name: mapTiddlers[t].title, caption: mapTiddlers[t].title});
 		}
-		createTiddlyDropDown(place,onchange,options,cecily.mapTitle);
+		var d = createTiddlyDropDown(place,onchange,options,cecily.mapTitle);
+		addClass(d,"cecilyMap");
+	}
+};
+
+config.macros.cecilyMap.propagate = function(map) {
+	var mappers = document.getElementsByClassName("cecilyMap");
+	for(var k=0; k<mappers.length; k++) {
+		var m = mappers[k];
+		for(var s=0; s<m.options.length; s++) {
+			if(m.options[s].value === map && m.selectedIndex !== s)
+				m.selectedIndex = s;
+		}
 	}
 };
 
@@ -269,9 +288,8 @@ Cecily.prototype.createDisplay = function() {
 	this.addEventHandler(document,"mousedown",this.onMouseDownCapture,true);
 	this.addEventHandler(document,"mousemove",this.onMouseMoveCapture,true);
 	this.addEventHandler(document,"mouseup",this.onMouseUpCapture,true);
-	var cecily = this;
 	this.defaultTiddler = null;
-	window.setTimeout(function() {cecily.scrollToTiddler(cecily.defaultTiddler);},10);
+	window.setTimeout(function() {me.scrollToTiddler(me.defaultTiddler);},10);
 }
 
 Cecily.prototype.setViewSize = function() {
@@ -552,6 +570,7 @@ Cecily.prototype.setMap = function(title)
 		me.transformTiddler(elem);
 	});
 	this.drawBackground();
+	config.macros.cecilyMap.propagate(title);
 }
 
 // Applies the tiddler transformation properties (rotate & enlarge) to the display
@@ -682,6 +701,14 @@ Cecily.prototype.startScroller = function(rectList,duration) { // One or more re
 	}
 };
 
+Cecily.prototype.setBackground = function(background) {
+	cecily.background = background;
+	config.options.txtCecilyBackground = background;
+	saveOptionCookie("txtCecilyBackground");
+	cecily.drawBackground();
+	config.macros.cecilyBackground.propagate(background);
+};
+
 Cecily.prototype.drawBackground = function() {
 	var b = Cecily.backgrounds[this.background];
 	if(b) {
@@ -691,7 +718,7 @@ Cecily.prototype.drawBackground = function() {
 		ctx.fillStyle = "#cccccc";
 		ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 	}
-}
+};
 
 //-----------------------------------------------------------------------------------
 // Background plumbing and generators
