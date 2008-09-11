@@ -1,0 +1,3 @@
+<div title="SideBarOptions">
+<pre><<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY" "journal">><<newTiddler "new post" label:"new blog post" prompt:"new blog post" fields:"server.type:wordpress server.host:changeme.wordpress.com">> <<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">></pre>
+</div>
