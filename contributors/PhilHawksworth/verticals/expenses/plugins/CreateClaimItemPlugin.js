@@ -198,7 +198,7 @@ config.macros.ModeledDataFormBuilder.createFormItem = function(place, options) {
 		className = 'flagMandatory';
 	}
 
-	// create the label elelment
+	// create the label element
 	createTiddlyElement(place,'label',null,className,options.label,{'for': options.param});	
 
 	// create the form input element
@@ -206,17 +206,35 @@ config.macros.ModeledDataFormBuilder.createFormItem = function(place, options) {
 	if(options.readonly) {
 		attributes.readonly = true;
 	}
-	createTiddlyElement(place,'input',null,className,null,attributes);	
+	var t = story.findContainingTiddler(place);
+	createTiddlyElement(place,'input',t.getAttribute('tiddler')+options.param,className,null,attributes);	
 
 };
 
 
 // Hijack the save tiddler function so that we can also persist changes in the edited fields.
+config.macros.CreateClaimItem.saveTiddler = story.saveTiddler;
+Story.prototype.saveTiddler = function(title,event,shiftKey) {
+	
+	// reflect the values in the inputs back to the tiddler fields.
+	var storedTiddler = store.getTiddler(title);
+	var displayedTiddler = story.getTiddler(title);
+	
+	// fields definitions are held in..
+	var defs = storedTiddler.fields['expense_type'];
+	
+	// for each field in the stored tiddler, look for a corresponding inout in the displayed tiddler.
+	for(var f in storedTiddler.fields) {
+		var s = store.getTiddlerSlice(defs + 'Form',f);
+		if(s !== undefined) {			
+			storedTiddler.fields[f] = document.getElementById(title+s).value;
+		}
+	}
+		
+	// call the real save tiddler button.
+	config.macros.CreateClaimItem.saveTiddler.apply(this, arguments);
+};
 
-// 
-// config.macros.CreateClaim.saveTiddler = Story.saveTiddler;
-// tory.saveTiddler(title,event.shiftKey);
-// 
 
 }
 //}}}
