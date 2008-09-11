@@ -171,7 +171,7 @@ config.shadowTiddlers.OptionsPanel = "[[help|Help]] &lt;br /&gt;[[settings|Advan
 readOnly =false;
 config.options.chkHttpReadOnly = false;		//make it HTTP writable by default
 config.options.chkSaveBackups = false;		//disable save backup
-config.options.chkAutoSave = false;			//disable autosave
+//config.options.chkAutoSave = false;			//disable autosave
 config.options.chkUsePreForStorage = false;
 
 
