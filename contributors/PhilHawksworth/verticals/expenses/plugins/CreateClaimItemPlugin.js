@@ -40,15 +40,13 @@ config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier
 	config.macros.CreateClaimItem.newItemType = 'QuickClaimItemForm';
 	
 	var options = [];
-	var slices = store.calcAllSlices('expenseTypeValues');
+	var slices = store.calcAllSlices('ExpenseTypeValues');
 
-	// test data to be replaced later when the tiddler exists.
-	options.push({'caption':'Quick Claim', 'name':'QuickClaimItemForm'});
-	options.push({'caption':'Airfare', 'name':'AirfareForm'});
+	//options.push({'caption':'Quick Claim', 'name':'QuickClaimItemForm'});
+	//options.push({'caption':'Airfare', 'name':'AirfareForm'});
 
 	for(s in slices) {
-		var arg =  store.getTiddlerSlice('AirfareForm',s);
-		options.push({'caption':arg, 'value':arg});
+		options.push({'caption':s, 'name':slices[s]+"Form"});
 	}
 	createTiddlyDropDown(place,this.setItemType,options,'SimpleForm');
 	createTiddlyButton(place,"add item","add another item to this claim",this.doCreate);
