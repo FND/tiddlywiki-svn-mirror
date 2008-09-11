@@ -143,7 +143,6 @@ $tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each
 
 $tiddlyCfg['twLanguage'] = "en";	//predefine language
 $tiddlyCfg['keep_revision'] = 1;
-$tiddlyCfg['require_login'] = 0; 
 
 $tiddlyCfg['tag_tiddler_with_modifier'] = 0;
 $tiddlyCfg['char_set'] = "utf8";
@@ -166,13 +165,6 @@ $tiddlyCfg['status'] = "";
 
 
 
-
-
-
-
-
-
-	
 /////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
 
 

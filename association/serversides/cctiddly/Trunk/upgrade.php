@@ -17,15 +17,15 @@ if(@mysql_num_rows(mysql_query("SELECT * FROM instance_history where version='1.
 }
 
 echo "<h1>Upgrade.php</h1>";
-$form = "<form method='get'><input name='adminPassword' /><input type='submit' value='upgrade'/></form>";
+$form = "<form method='post'><input name='adminPassword' /><input type='submit' value='upgrade'/></form>";
 
 if($tiddlyCfg['adminPassword']==""){
 	echo "<b>If you are seeing this message unexpectedly please contact your system administrator. </b><hr />An upgrade password is required in the <b>includes/config.php</b> file. Please set the variable at line 13 of <b>includes/config.php</b> and then refresh this page.";
 	exit;
-}elseif(!$_REQUEST['adminPassword']){
+}elseif(!$_POST['adminPassword']){
 	echo "<b>If you are seeing this message unexpectedly please contact your system administrator. </b><hr /><b>Please ensure that you have a full database backup in place before upgrading.</b><br /></br />Please enter your admin password to confirm that you wish to upgrade from ccTiddly 1.6 to 1.7.</p> Please note that upgrading may take afew minutes if you have a large database.".$form;
 	exit;
-}elseif($_REQUEST['adminPassword']!=$tiddlyCfg['adminPassword']){
+}elseif($_POST['adminPassword']!=$tiddlyCfg['adminPassword']){
 	echo "incorrect password entered.".$form;
 	exit;
 }
