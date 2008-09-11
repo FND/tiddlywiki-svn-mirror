@@ -43,7 +43,7 @@ DAMAGE.
 <!--}}}-->
 <!--PRE-HEAD-END-->
 <title>
-<<tiddler bt_logo>>//''Your''Expenses//
+//''Your''Expenses//
  - 
 trying to make it easier to get your money back
 
@@ -526,6 +526,342 @@ claim_group.setGroupField('claim_id');
 
 //}}}</pre>
 </div>
+<div title="CreateClaimItemPlugin" modifier="PhilHawksworth" created="200809011610" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|CreateClaimItemPlugin |
+|''Description:''|Creat a new claim item in the EasyExpenses system|
+|''Author:''|Phil Hawksworth|
+|''Version:''|0.2|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.1|
+***/
+
+//{{{
+if(!version.extensions.CreateClaimPlugin) {
+version.extensions.CreateClaimPlugin = {installed:true};
+
+config.macros.CreateClaim = {};
+
+config.macros.CreateClaim.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	var btn = createTiddlyButton(place,&quot;New claim&quot;,&quot;start a new claim&quot;,this.doCreate);
+};
+
+config.macros.CreateClaim.doCreate = function(ev) {
+	var dt = new Date();
+	var claim_id = 'GENERATED_CLAIM_ID_'+ dt.getTime();
+	var title = &quot;Your reference&quot;;
+	var t = store.createTiddler(title);
+	t.tags.pushUnique('claimHeader');
+	t.fields['claim_id'] = claim_id;
+	story.displayTiddler(null,title,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);		
+};
+
+
+
+// ==================
+// = New claim item =
+// ==================
+
+config.macros.CreateClaimItem = {};
+config.macros.CreateClaimItem.newItemType = null;
+config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+	config.macros.CreateClaimItem.newItemType = 'QuickClaimItemForm';
+	
+	var options = [];
+	var slices = store.calcAllSlices('expenseTypeValues');
+
+	// test data to be replaced later when the tiddler exists.
+	options.push({'caption':'Quick Claim', 'name':'QuickClaimItemForm'});
+	options.push({'caption':'Airfare', 'name':'AirfareForm'});
+
+	for(s in slices) {
+		var arg =  store.getTiddlerSlice('AirfareForm',s);
+		options.push({'caption':arg, 'value':arg});
+	}
+	createTiddlyDropDown(place,this.setItemType,options,'SimpleForm');
+	createTiddlyButton(place,&quot;add item&quot;,&quot;add another item to this claim&quot;,this.doCreate);
+};
+
+
+config.macros.CreateClaimItem.doCreate = function(ev) {
+
+	var e = ev ? ev : window.event;
+	var t = story.findContainingTiddler(e.target);
+	var claimTiddler = store.getTiddler(t.getAttribute('tiddler'));
+	var dt = new Date();
+	var uniqueID = 'claim_' + claimTiddler.fields['claim_id'] + '_' + dt.getTime();
+
+	// create tiddler and associate it with this claim.
+	var valuesTiddlerTitle = config.macros.CreateClaimItem.newItemType;	
+	var newTiddler = store.createTiddler(uniqueID);
+	newTiddler.tags.pushUnique('claimItem');
+	newTiddler.fields['claim_id'] = claimTiddler.fields['claim_id'];
+	newTiddler.fields['expense_type'] = config.macros.CreateClaimItem.newItemType.substr(0,config.macros.CreateClaimItem.newItemType.length-4);
+
+	// add fields as described in the form template for this claim type
+	var slices = store.calcAllSlices(valuesTiddlerTitle);
+	for(s in slices) {
+		newTiddler.fields[s] = &quot;&quot;;
+	}	
+
+	//display the new tiddler
+	story.displayTiddler(null,uniqueID,DEFAULT_EDIT_TEMPLATE,false,null,null,false,null);
+};
+
+
+config.macros.CreateClaimItem.setItemType = function(ev) {
+	var e = ev ? ev : window.event;
+	var t = e.target;
+	config.macros.CreateClaimItem.newItemType = t[t.selectedIndex].value;
+};
+
+
+
+//
+// Extend the commands so that we can use our own commands on tiddlers.
+//
+config.commands.cloneClaimItem = {
+	text: &quot;clone&quot;,
+	tooltip: &quot;add another claim item just like this&quot;,
+	handler : function(event,src,title) {
+		var sourceTiddler = store.getTiddler(title);
+		var dt = new Date();
+		var uniqueID = 'claim_' + sourceTiddler.fields['claim_id'] + '_' + dt.getTime();
+		// create tiddler and associate it with this claim.
+		var t = store.createTiddler(uniqueID);
+		t.tags.pushUnique('claimItem');
+		t.fields = sourceTiddler.fields;
+		t.text = sourceTiddler.text;
+		// refelct the form elements into this claim report.		
+		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
+	}
+};
+
+
+// ===============
+// = Quick claim =
+// ===============
+config.macros.SubmitQuickClaim = {};
+
+config.macros.SubmitQuickClaim.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	var btn = createTiddlyButton(place,&quot;submit quick claim&quot;,&quot;quickly submit this item to the system to tweak later&quot;,this.doSubmit);
+};
+
+config.macros.SubmitQuickClaim.doSubmit = function(ev) {
+
+	console.log('submitting quick claim item');
+
+	//call out to the particular systems authentication and claim generation functions.
+	config.macros.SiteminderLogin.doLogin();
+};
+
+
+// ===========================================
+// = Build form elements from the data model =
+// ===========================================
+config.macros.ModeledDataFormBuilder = {};
+
+config.macros.ModeledDataFormBuilder.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+	var options = paramString.parseParams()[0];	
+	var readonly = options.readonly ? options.readonly : null;
+	var mandatory = options.mandatory ? options.mandatory : null;
+	var referenceForm = tiddler.fields[options.formIdentifier] + 'Form';	
+	if(options.field) {
+		// we are displaying the contents of a field
+		var field = options.field + 'Field';	
+		this.createFormItem(place,{
+			value: tiddler.fields[field],
+			label: options.field,
+			param: store.getTiddlerSlice(referenceForm,field),
+			readonly: readonly,
+			mandatory: mandatory
+		});
+	} else if(options.fields &amp;&amp; options.fields == 'nonStandard') {
+		// we are displaying all fields not specified as being standard.
+		var standardFields = ['claim_id','expense_type','StartDateField', 'AmountField', 'JustificationField']; // get these from psd
+		for(var f in tiddler.fields) {
+			if(!standardFields.contains(f)) {
+				var s = createTiddlyElement(place,'span',null,'field');	
+				this.createFormItem(s,{
+					value: tiddler.fields[f],
+					label: f.substr(0,f.length-5),
+					param: store.getTiddlerSlice(referenceForm,f),
+					readonly: readonly,
+					mandatory: mandatory
+				});
+			}
+		}	
+	} else {
+		//we are displaying the form reference that we are using
+		this.createFormItem(place,{
+			value: tiddler.fields[options.formIdentifier],
+			label: 'Claim Item Type', 						// thinking that this should be paramaterised somehow.
+			param: tiddler.fields[options.formIdentifier], 	// is this submitted ?
+			readonly: readonly,
+			mandatory: mandatory
+		});
+	}
+
+};
+
+
+config.macros.ModeledDataFormBuilder.createFormItem = function(place, options) {
+	
+	// test for an empty mandatory element.
+	var className = null;
+	if(options.mandatory &amp;&amp; options.value.length === 0) {
+		className = 'flagMandatory';
+	}
+
+	// create the label elelment
+	createTiddlyElement(place,'label',null,className,options.label,{'for': options.param});	
+
+	// create the form input element
+	var attributes = {'value':options.value, 'name':options.param};
+	if(options.readonly) {
+		attributes.readonly = true;
+	}
+	createTiddlyElement(place,'input',null,className,null,attributes);	
+
+};
+
+}
+//}}}</pre>
+</div>
+<div title="PasswordOptionPlugin" modifier="BidiX" created="200701172059" modified="200704210834" tags="systemConfig" changecount="2">
+<pre>/***
+|''Name:''|PasswordOptionPlugin|
+|''Description:''|Extends TiddlyWiki options with non encrypted password option.|
+|''Version:''|1.0.2|
+|''Date:''|Apr 19, 2007|
+|''Source:''|http://tiddlywiki.bidix.info/#PasswordOptionPlugin|
+|''Author:''|BidiX (BidiX (at) bidix (dot) info)|
+|''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
+|''~CoreVersion:''|2.2.0 (Beta 5)|
+***/
+//{{{
+version.extensions.PasswordOptionPlugin = {
+	major: 1, minor: 0, revision: 2, 
+	date: new Date(&quot;Apr 19, 2007&quot;),
+	source: 'http://tiddlywiki.bidix.info/#PasswordOptionPlugin',
+	author: 'BidiX (BidiX (at) bidix (dot) info',
+	license: '[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D]]',
+	coreVersion: '2.2.0 (Beta 5)'
+};
+
+config.macros.option.passwordCheckboxLabel = &quot;Save this password on this computer&quot;;
+config.macros.option.passwordInputType = &quot;password&quot;; // password | text
+setStylesheet(&quot;.pasOptionInput {width: 11em;}\n&quot;,&quot;passwordInputTypeStyle&quot;);
+
+merge(config.macros.option.types, {
+	'pas': {
+		elementType: &quot;input&quot;,
+		valueField: &quot;value&quot;,
+		eventName: &quot;onkeyup&quot;,
+		className: &quot;pasOptionInput&quot;,
+		typeValue: config.macros.option.passwordInputType,
+		create: function(place,type,opt,className,desc) {
+			// password field
+			config.macros.option.genericCreate(place,'pas',opt,className,desc);
+			// checkbox linked with this password &quot;save this password on this computer&quot;
+			config.macros.option.genericCreate(place,'chk','chk'+opt,className,desc);			
+			// text savePasswordCheckboxLabel
+			place.appendChild(document.createTextNode(config.macros.option.passwordCheckboxLabel));
+		},
+		onChange: config.macros.option.genericOnChange
+	}
+});
+
+merge(config.optionHandlers['chk'], {
+	get: function(name) {
+		// is there an option linked with this chk ?
+		var opt = name.substr(3);
+		if (config.options[opt]) 
+			saveOptionCookie(opt);
+		return config.options[name] ? &quot;true&quot; : &quot;false&quot;;
+	}
+});
+
+merge(config.optionHandlers, {
+	'pas': {
+ 		get: function(name) {
+			if (config.options[&quot;chk&quot;+name]) {
+				return encodeCookie(config.options[name].toString());
+			} else {
+				return &quot;&quot;;
+			}
+		},
+		set: function(name,value) {config.options[name] = decodeCookie(value);}
+	}
+});
+
+// need to reload options to load passwordOptions
+loadOptionsCookie();
+
+/*
+if (!config.options['pasPassword'])
+	config.options['pasPassword'] = '';
+
+merge(config.optionsDesc,{
+		pasPassword: &quot;Test password&quot;
+	});
+*/
+//}}}</pre>
+</div>
+<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200804011417" tags="BookmarkPackage MediaPackage TaskPackage systemConfig IFramePackage" changecount="2">
+<pre>/***
+|Name|TaggedTemplateTweak|
+|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
+|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
+|Version|1.2.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides|Story.prototype.chooseTemplateForTiddler()|
+|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
+This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
+!!!!!Documentation
+&gt;see [[TaggedTemplateTweakInfo]]
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.04.01 [1.2.0] added support for using systemTheme section-based template definitions (requested by Phil Hawksworth)
+2008.01.22 [*.*.*] plugin size reduction - documentation moved to [[TaggedTemplateTweakInfo]]
+2007.06.23 [1.1.0] re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
+| please see [[TaggedTemplateTweakInfo]] for previous revision details |
+2007.06.11 [1.0.0] initial release
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.taggedTemplate= {major: 1, minor: 2, revision: 0, date: new Date(2008,4,1)};
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.chooseTemplateForTiddler = function(title,template)
+{
+	// get default template from core
+	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+
+	// if the tiddler to be rendered doesn't exist yet, just return core result
+	var tiddler=store.getTiddler(title); if (!tiddler) return template;
+
+	// look for template whose prefix matches a tag on this tiddler
+	for (i=0; i&lt;tiddler.tags.length; i++) {
+		var t=tiddler.tags[i]+template; // add tag prefix
+		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
+		var s=config.options.txtTheme+&quot;##&quot;; // systemTheme section prefix
+		if (store.tiddlerExists(t)) { template=t; break; }
+		if (store.tiddlerExists(c)) { template=c; break; }
+		if (store.getTiddlerText(s+t)) { template=s+t; break; }
+		if (store.getTiddlerText(s+c)) { template=s+c; break; }
+	}
+	return template;
+}
+//}}}</pre>
+</div>
 <div title="TiddlerDisplayGroupsPlugin" modifier="PhilHawksowrth" created="200804151546" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|TiddlerDisplayGroupsPlugin |
@@ -996,233 +1332,6 @@ Story.prototype.closeAllTiddlers = function(exclude)
 } //# end of 'install only once'
 //}}}</pre>
 </div>
-<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200804011417" tags="BookmarkPackage MediaPackage TaskPackage systemConfig IFramePackage" changecount="2">
-<pre>/***
-|Name|TaggedTemplateTweak|
-|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
-|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
-|Version|1.2.0|
-|Author|Eric Shulman - ELS Design Studios|
-|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|~CoreVersion|2.1|
-|Type|plugin|
-|Requires||
-|Overrides|Story.prototype.chooseTemplateForTiddler()|
-|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
-This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
-!!!!!Documentation
-&gt;see [[TaggedTemplateTweakInfo]]
-!!!!!Revisions
-&lt;&lt;&lt;
-2008.04.01 [1.2.0] added support for using systemTheme section-based template definitions (requested by Phil Hawksworth)
-2008.01.22 [*.*.*] plugin size reduction - documentation moved to [[TaggedTemplateTweakInfo]]
-2007.06.23 [1.1.0] re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
-| please see [[TaggedTemplateTweakInfo]] for previous revision details |
-2007.06.11 [1.0.0] initial release
-&lt;&lt;&lt;
-!!!!!Code
-***/
-//{{{
-version.extensions.taggedTemplate= {major: 1, minor: 2, revision: 0, date: new Date(2008,4,1)};
-Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
-Story.prototype.chooseTemplateForTiddler = function(title,template)
-{
-	// get default template from core
-	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
-
-	// if the tiddler to be rendered doesn't exist yet, just return core result
-	var tiddler=store.getTiddler(title); if (!tiddler) return template;
-
-	// look for template whose prefix matches a tag on this tiddler
-	for (i=0; i&lt;tiddler.tags.length; i++) {
-		var t=tiddler.tags[i]+template; // add tag prefix
-		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
-		var s=config.options.txtTheme+&quot;##&quot;; // systemTheme section prefix
-		if (store.tiddlerExists(t)) { template=t; break; }
-		if (store.tiddlerExists(c)) { template=c; break; }
-		if (store.getTiddlerText(s+t)) { template=s+t; break; }
-		if (store.getTiddlerText(s+c)) { template=s+c; break; }
-	}
-	return template;
-}
-//}}}</pre>
-</div>
-<div title="CreateClaimItemPlugin" modifier="PhilHawksworth" created="200809011610" tags="systemConfig excludeLists excludeSearch">
-<pre>/***
-|''Name:''|CreateClaimItemPlugin |
-|''Description:''|Creat a new claim item in the EasyExpenses system|
-|''Author:''|Phil Hawksworth|
-|''Version:''|0.2|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.4.1|
-***/
-
-//{{{
-if(!version.extensions.CreateClaimPlugin) {
-version.extensions.CreateClaimPlugin = {installed:true};
-
-config.macros.CreateClaim = {};
-
-config.macros.CreateClaim.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var btn = createTiddlyButton(place,&quot;New claim&quot;,&quot;start a new claim&quot;,this.doCreate);
-};
-
-config.macros.CreateClaim.doCreate = function(ev) {
-	var dt = new Date();
-	var claim_id = 'GENERATED_CLAIM_ID_'+ dt.getTime();
-	var title = &quot;Your reference&quot;;
-	var t = store.createTiddler(title);
-	t.tags.pushUnique('claimHeader');
-	t.fields['claim_id'] = claim_id;
-	story.displayTiddler(null,title,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);		
-};
-
-
-
-// ==================
-// = New claim item =
-// ==================
-
-config.macros.CreateClaimItem = {};
-config.macros.CreateClaimItem.newItemType = 'simple';
-config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
-	var options = [];
-	var slices = store.calcAllSlices('expenseTypeValues');
-
-	// test data to be replaced later when the tiddler exists.
-	options.push({'caption':'just get it up there', 'name':'Simple'});
-	options.push({'caption':'An Airfare', 'name':'Airfare'});
-
-	for(s in slices) {
-		var arg =  store.getTiddlerSlice('AirfareForm',s);
-		options.push({'caption':arg, 'value':arg});
-	}
-	createTiddlyDropDown(place,this.setItemType,options,'simple');
-	createTiddlyButton(place,&quot;add item&quot;,&quot;add another item to this claim&quot;,this.doCreate);
-};
-
-config.macros.CreateClaimItem.doCreate = function(ev) {
-
-	var e = ev ? ev : window.event;
-	var t = story.findContainingTiddler(e.target);
-	var claimTiddler = store.getTiddler(t.getAttribute('tiddler'));
-	var dt = new Date();
-	var uniqueID = 'claim_' + claimTiddler.fields['claim_id'] + '_' + dt.getTime();
-
-	// create tiddler and associate it with this claim.
-	var valuesTiddlerTitle = config.macros.CreateClaimItem.newItemType + 'Form';	
-	var formDefinitionTiddler = store.getTiddler(valuesTiddlerTitle);
-	var newTiddler = store.createTiddler(uniqueID);
-	newTiddler.tags.pushUnique('claimItem');
-	newTiddler.fields['claim_id'] = claimTiddler.fields['claim_id'];
-
-	// add fields as described in the form template for this claim type
-	var slices = store.calcAllSlices(formDefinitionTiddler);
-	for(s in slices) {
-		var arg =  store.getTiddlerSlice(formDefinitionTiddler,s);
-		newTiddler.fields[s.toLowerCase()] = &quot;&quot;;
-		// newTiddler.fields[s.toLowerCase()] = {'label':s, 'arg':arg, 'value':null};
-	}
-	console.log('newTiddler.fields',newTiddler.fields);
-
-	// refelct the form elements into this claim report.		
-	story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
-};
-
-config.macros.CreateClaimItem.setItemType = function(ev) {
-	var e = ev ? ev : window.event;
-	var t = e.target;
-	config.macros.CreateClaimItem.newItemType = t[t.selectedIndex].value;
-};
-
-
-
-//
-// Extend the commands so that we can use our own commands on tiddlers.
-//
-config.commands.cloneClaimItem = {
-	text: &quot;clone&quot;,
-	tooltip: &quot;add another claim item just like this&quot;,
-	handler : function(event,src,title) {
-		var sourceTiddler = store.getTiddler(title);
-		var dt = new Date();
-		var uniqueID = 'claim_' + sourceTiddler.fields['claim_id'] + '_' + dt.getTime();
-		// create tiddler and associate it with this claim.
-		var t = store.createTiddler(uniqueID);
-		t.tags.pushUnique('claimItem');
-		t.fields = sourceTiddler.fields;
-		t.text = sourceTiddler.text;
-		// refelct the form elements into this claim report.		
-		story.displayTiddler(null,uniqueID,DEFAULT_VIEW_TEMPLATE,false,null,null,false,null);
-	}
-};
-
-config.macros.view.views.complexField = function(value,place,params,wikifier,paramString,tiddler) {
-	var results = value[params[2]];
-	highlightify(results,place,highlightHack,tiddler);
-};
-
-
-// ===============
-// = Quick claim =
-// ===============
-config.macros.SubmitQuickClaim = {};
-
-config.macros.SubmitQuickClaim.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var btn = createTiddlyButton(place,&quot;submit quick claim&quot;,&quot;quickly submit this item to the system to tweak later&quot;,this.doSubmit);
-};
-
-config.macros.SubmitQuickClaim.doSubmit = function(ev) {
-	console.log('submitting quick claim item');
-	
-	//call out to the particular systems 
-	config.macros.SiteminderLogin.doLogin();
-	
-	// config.macros.SubmitQuickClaim.handleResponse();
-};
-
-config.macros.SubmitQuickClaim.handleResponse = function() {
-	console.log('handling response from quick claim form submission');
-	displayMessage(&quot;Your quick claim item has been submitted&quot;);
-};
-
-
-}
-//}}}</pre>
-</div>
-<div title="bt_logo" modifier="PhilHawksworth" created="200809101037">
-<pre>
-&lt;html&gt;&lt;img src=&quot;data:image/
-png;base64,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&quot;&gt;&lt;/html&gt;</pre>
-</div>
 <div title="EasyExpensesSkin" modifier="PhilHawksworth" created="200808141405" tags="systemTheme excludeSearch">
 <pre>
 /***
@@ -1298,14 +1407,11 @@ qNzQE0RYQcU9DwwzzAN8mGMFvDovxDMRiWCBxRMpJy311FQLFBAAOw&quot;&gt;&lt;/html&gt;</p
 &lt;!--{{{--&gt;
 &lt;div class='claimItem view'&gt;
 &lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemViewToolbar]]'&gt;&lt;/div&gt;
-&lt;!-- &lt;span class='amount label' macro='view amount complexField label'&gt;&lt;/span&gt; --&gt;
-&lt;!-- &lt;span class='amount value' macro='view amount complexField value'&gt;&lt;/span&gt; --&gt;
-&lt;span class='field amount'&gt;&lt;label for='amount'&gt;Amount&lt;/label&gt;&lt;input type='text' readonly value='1234.56' /&gt;&lt;/span&gt;
-&lt;span class='field date'&gt;&lt;label for='date'&gt;Date&lt;/label&gt;&lt;input type='text' readonly value='12/06/2008' /&gt;&lt;/span&gt;
-&lt;span class='field type'&gt;&lt;label for='type'&gt;Expense type&lt;/label&gt;&lt;input type='text' readonly value='Airfare' /&gt;&lt;/span&gt;
-&lt;span class='field justification'&gt;&lt;label for='justification'&gt;Justification&lt;/label&gt;&lt;input type='text' readonly value='travel to supernova conference' /&gt;&lt;/span&gt;
-
-
+&lt;span class='field date' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount readonly:true mandatory:true'&gt;&lt;/span&gt;
+&lt;span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate readonly:true mandatory:true'&gt;&lt;/span&gt;
+&lt;span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true'&gt;&lt;/span&gt;
+&lt;span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification readonly:true mandatory:true'&gt;&lt;/span&gt;
+&lt;div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard readonly:true'&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;!--}}}--&gt;
 
@@ -1313,10 +1419,11 @@ qNzQE0RYQcU9DwwzzAN8mGMFvDovxDMRiWCBxRMpJy311FQLFBAAOw&quot;&gt;&lt;/html&gt;</p
 &lt;!--{{{--&gt;
 &lt;div class='claimItem'&gt;
 &lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemEditToolbar]]'&gt;&lt;/div&gt;
-&lt;span class='field amount'&gt;&lt;label for='amount'&gt;Amount&lt;/label&gt;&lt;input type='text' value='1234.56' /&gt;&lt;/span&gt;
-&lt;span class='field date'&gt;&lt;label for='date'&gt;Date&lt;/label&gt;&lt;input type='text' value='12/06/2008' /&gt;&lt;/span&gt;
-&lt;span class='field type'&gt;&lt;label for='type'&gt;Expense type&lt;/label&gt;&lt;input type='text' readonly value='Airfare' /&gt;&lt;/span&gt;
-&lt;span class='field justification'&gt;&lt;label for='justification'&gt;Justification&lt;/label&gt;&lt;input type='text' value='travel to supernova conference' /&gt;&lt;/span&gt;
+&lt;span class='field date' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount'&gt;&lt;/span&gt;
+&lt;span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate'&gt;&lt;/span&gt;
+&lt;span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true'&gt;&lt;/span&gt;
+&lt;span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification'&gt;&lt;/span&gt;
+&lt;div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard'&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;!--}}}--&gt;
 
@@ -1346,10 +1453,10 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 div.form {}
 div.form h3 {font-size:0.9em; color:#999; display:block; margin-left:0 0 2px 2px; padding:0; border-style:none; font-weight:normal;}
 div.form input {font-size:1.8em; width:10em;}
-
+div.claimItem label.flagMandatory { color:#C85F4E; }
+div.claimItem input.flagMandatory {background-color:#FFF3F3;}
 
 /* Quick Claim */
-div.tiddler {margin:2em 0;}
 div.quickClaim div.form { margin:2em 0; }
 div.quickClaim span {display:inline; float:left; }
 div.quickClaim span.amount input {font-size:1.8em; width:5em;}
@@ -1372,25 +1479,23 @@ div.claimHeader div.toolbar select { margin-right:0.5em;}
 
 
 /* Claim Items */
-div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative;}
+div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative; overflow:auto;}
 div.claimItem div.title { font-size:1.4em; color:#333;}
-div.claimItem div.toolbar {font-size:0.8em;position:absolute; top:0px; right:0;}
+div.claimItem div.toolbar {font-size:0.8em;position:absolute; top:1em; right:0;}
 div.claimItem div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
 div.claimItem div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
 div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
 
 div.view input { border-style:none;}
-span.field {margin:0 1em 1em 0;}
+&lt;!-- span.field {} --&gt;
 span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
-
-div.claimItem span.amount {display:inline; float:left;}
-div.claimItem span.date { display:inline; float:left;}
-div.claimItem span.type { display:inline; float:left;}
-div.claimItem span.justification { clear:left; display:block;}
+div.claimItem span.field { display:inline; float:left; margin:0 1em 1em 0;}
+div.claimItem span.justification { clear:left; display:block; float:none;}
 div.claimItem span.amount input {font-size:1.8em; width:5em;}
 div.claimItem span.date input {font-size:1.8em; width:6em;}
 div.claimItem span.type input {font-size:1.8em; width:15em;}
 div.claimItem span.justification input {font-size:0.9em; width:60em;}
+
 
 /*}}}*/</pre>
 </div>
@@ -1409,7 +1514,7 @@ background: #fff</pre>
 |~QuickClaimToolbar| -closeTiddler|
 |~ClaimViewToolbar| +editTiddler -closeTiddler deleteTiddler|
 |~ClaimEditToolbar| +saveTiddler -cancelTiddler deleteTiddler|
-|~ClaimItemViewToolbar|+editTiddler deleteTiddler cloneClaimItem|
+|~ClaimItemViewToolbar|+editTiddler deleteTiddler cloneClaimItem fields|
 |~ClaimItemEditToolbar|+saveTiddler -cancelTiddler cloneClaimItem|</pre>
 </div>
 <div title="BackstageMod" tags="excludeLists excludeSearch systemConfig">
@@ -1434,7 +1539,7 @@ backstage.init = function() {
 <pre></pre>
 </div>
 <div title="SiteTitle" modifier="PhilHawksworth" created="200809011713">
-<pre>&lt;&lt;tiddler bt_logo&gt;&gt;//''Your''Expenses//</pre>
+<pre>//''Your''Expenses//</pre>
 </div>
 <div title="SiteSubtitle" modifier="PhilHawksworth" created="200809011713">
 <pre>
@@ -1447,22 +1552,6 @@ Listing the previous claims foer review.</pre>
 <div title="About you" modifier="PhilHawksworth" created="200809011713">
 <pre>
 Your name, EIN and other global settings.</pre>
-</div>
-<div title="AirfareForm" modifier="PaulDowney" created="200808290900" tags="form" expenses_type="Airfare">
-<pre>
-|StartDate|DetailStartDate|
-|Days|DetailDays|
-|Amount|DetailReceiptAmount|
-|LostReceipt|DetailReceiptMissing|
-|TrainingCost|DetailFlex0|
-|Supplier|DetailMerchantName|
-|Justification|DetailJust|
-|Country|DetailFlex1|
-|TicketClass|TicketClass|
-|TicketNumber|TicketNumber|
-|AgentNumber|DetailFlex3|
-|LocationFrom|FromLocation|
-|LocationTo|ToLocation|</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
@@ -3878,21 +3967,22 @@ config.macros.search.handler = function(place,macroName,params)
 {
 	var searchTimeout = null;
 	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick,"searchButton");
-	var txt = createTiddlyElement(place,"input",null,"txtOptionInput searchField");
+	var txt = createTiddlyElement(null,"input",null,"txtOptionInput searchField");
 	if(params[0])
 		txt.value = params[0];
-	txt.onkeyup = this.onKeyPress;
-	txt.onfocus = this.onFocus;
-	txt.setAttribute("size",this.sizeTextbox);
-	txt.setAttribute("accessKey",this.accessKey);
-	txt.setAttribute("autocomplete","off");
-	txt.setAttribute("lastSearchText","");
 	if(config.browser.isSafari) {
 		txt.setAttribute("type","search");
 		txt.setAttribute("results","5");
 	} else {
 		txt.setAttribute("type","text");
 	}
+	place.appendChild(txt);
+	txt.onkeyup = this.onKeyPress;
+	txt.onfocus = this.onFocus;
+	txt.setAttribute("size",this.sizeTextbox);
+	txt.setAttribute("accessKey",this.accessKey);
+	txt.setAttribute("autocomplete","off");
+	txt.setAttribute("lastSearchText","");
 };
 
 // Global because there's only ever one outstanding incremental search timer
@@ -6733,7 +6823,8 @@ config.macros.sync.updateSyncStatus = function(syncItem)
 	var e = syncItem.colElements["status"];
 	removeChildren(e);
 	createTiddlyText(e,syncItem.syncStatus.text);
-	syncItem.rowElement.style.display = syncItem.syncStatus.display;
+	if(syncItem.syncStatus.display)
+		syncItem.rowElement.style.display = syncItem.syncStatus.display;
 	if(syncItem.syncStatus.className)
 		syncItem.rowElement.className = syncItem.syncStatus.className;
 };
@@ -7743,6 +7834,8 @@ function ieCreatePath(path)
 	}
 
 	var pos = path.lastIndexOf("\\");
+	if(pos==-1)
+		pos = path.lastIndexOf("/");
 	if(pos!=-1)
 		path = path.substring(0,pos+1);
 

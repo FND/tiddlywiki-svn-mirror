@@ -35,7 +35,6 @@ config.macros.CreateClaim.doCreate = function(ev) {
 // ==================
 
 config.macros.CreateClaimItem = {};
-config.macros.CreateClaimItem.newItemType = null;
 config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 
 	config.macros.CreateClaimItem.newItemType = 'QuickClaimItemForm';

@@ -22,7 +22,6 @@ tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin
 #
 # UI elements
 #
-tiddler: bt_logo.tiddler
 tiddler: EasyExpensesSkin.tiddler
 tiddler: EasyExpensesColors.tiddler
 tiddler: MainMenu.tiddler

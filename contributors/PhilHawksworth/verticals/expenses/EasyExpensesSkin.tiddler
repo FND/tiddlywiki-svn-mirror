@@ -111,8 +111,11 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 #ribbon { border-top:solid 3px #D89035; border-bottom:solid 3px #eee; background-color:#ECBB29; margin:0; padding:0; position:relative; }
 #ribbon a {border-top:solid 3px #D89035; background-color:#ECBB29; font-size:2em; font-style:none; font-weight:bold; color:#fff; letter-spacing:-1px; border-style:none; line-height:3.18em; display:inline; padding:1em; border-right:solid 1px #D89035;}
 #ribbon a:hover { border-top:solid 3px #A97027; background-color:#D89035; color:#fff; }
-#messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
 #displayArea { clear:left; margin:0; padding:0 2em;}
+
+/* Message Area */
+#messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
+#messageArea {border:dotted 3px red;}
 
 
 /* General form styles */
