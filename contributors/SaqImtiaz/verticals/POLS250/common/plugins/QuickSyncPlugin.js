@@ -209,7 +209,7 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 				story.refreshAllTiddlers();
 				clearMessage();
 				//displayMessage('update completed. Please save your notebook');
-				window.setTimeout(function() {displayMessage('update completed. Please save your notebook');},1000);
+				//window.setTimeout(function() {displayMessage('update completed. Please save your notebook');},1000);
 				//console.log(context)
 			}				
 			displayMessage("no updates available.")
