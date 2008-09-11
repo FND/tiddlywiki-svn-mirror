@@ -199,7 +199,7 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 		clearMessage();
 		//console.log(getList);
 		if(getList.length){
-			displayMessage("%0 updated and new page(s) on server.".format([getList.length]));
+			//displayMessage("%0 updated and new page(s) on server.".format([getList.length]));
 			displayMessage("downloading updates...")
 		}
 		else {

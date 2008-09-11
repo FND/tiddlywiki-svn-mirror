@@ -24,3 +24,7 @@ merge(config.defaultCustomFields,{'wikiformat':'wikispaces'});
 //config.macros.importAndSync.label = "update notebook";
 config.options.chkQuicksyncOnStartup = true;
 config.options.chkQuicksyncNoUpload = true;
+
+merge(config.commands.saveTiddler,{
+	text: "enter",
+	tooltip: "finish editing this page"});
