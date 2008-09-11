@@ -6,7 +6,6 @@ Your username for signing your edits:
 
 <<option chkSaveBackups>> SaveBackups
 <<option chkAutoSave>> AutoSave
-<<option chkAnimate>> EnableAnimations
 
 ----
 Also see AdvancedOptions</pre>

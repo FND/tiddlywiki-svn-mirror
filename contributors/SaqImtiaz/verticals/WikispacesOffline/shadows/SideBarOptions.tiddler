@@ -5,6 +5,6 @@
 [[Manage]]
 [[Help|Manage]]
 {{search{<<search search>>}}}
-{{bigbutton{''<<quicksync label:'update notebook'>>''
+{{bigbutton{''<<quicksync label:'update notebook' prompt:'update your notebook'>>''
 ''<<saveChanges "save notebook">>''}}}</pre>
 </div>

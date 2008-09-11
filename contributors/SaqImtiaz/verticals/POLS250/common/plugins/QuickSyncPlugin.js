@@ -26,6 +26,9 @@ version.extensions.QuickSyncPlugin = {installed:true};
 if(config.options.chkQuicksyncOnStartup == undefined)
 	{config.options.chkQuicksyncOnStartup = false;}
 
+if(config.options.chkQuicksyncNoUpload == undefined)
+	config.options.chkQuicksyncNoUpload = false;
+
 config.macros.quicksync = {};
 
 merge(config.macros.quicksync,{
@@ -64,7 +67,8 @@ config.macros.quicksync.handler = function(place,macroName,params,wikifier,param
 	}
 	customFields = String.encodeHashMap(customFields);*/
 	var label = getParam(params,'label',this.label);
-	var btn = createTiddlyButton(place,label,this.prompt,this.onClick);
+	var prompt = getParam(params,'prompt',this.promt);
+	var btn = createTiddlyButton(place,label,prompt,this.onClick);
 	/*btn.setAttribute('customFields',customFields);*/
 };
 
@@ -155,11 +159,12 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 //console.log('qs getTiddlerListCB', arguments)
 	if(context.status) {
 		var tiddlers = context.tiddlers;
+		//console.log(tiddlers)
 		var getList = [];
 		var putList = [];
 		store.forEachTiddler(function(title,tiddler) {
 			var f = tiddlers.findByField("title",title);
-			if(f !== null && tiddler.fields['server.type']) {
+			if(f !== null && tiddler.fields['server.type'] && (tiddler.fields['server.host'] == context.host)) {
 				if(tiddlers[f].fields['server.page.revision'] > tiddler.fields['server.page.revision']) {
 					if(tiddler.isTouched())
 						backstage.switchTab('sync');
@@ -171,13 +176,15 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 				}
 			} else {
 				// tiddler not on server, so add to putList if it has been changed
-				if(tiddler.fields['server.type'] && tiddler.isTouched()) {
+				if(tiddler.fields['server.type'] && tiddler.isTouched() && (tiddler.fields['server.host'] == context.host)) {
 					putList.push(tiddler);
 				}
 			}
 		});
-		for(var i=0; i<putList.length; i++) {
-			context.adaptor.putTiddler(putList[i],null,null,config.macros.quicksync.putTiddlerCallback);
+		if(!config.options.chkQuicksyncNoUpload){
+			for(var i=0; i<putList.length; i++) {
+				context.adaptor.putTiddler(putList[i],null,null,config.macros.quicksync.putTiddlerCallback);
+			}		
 		}
 		// now add all tiddlers that only exist on server to getList
 		for(i=0; i<tiddlers.length; i++) {
