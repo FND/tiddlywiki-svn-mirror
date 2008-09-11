@@ -4,7 +4,7 @@ recipe: content/split.recipe
 recipe: feeds/split.recipe
 tiddler: settings.js
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
-tiddler: ../../shadows/ViewTemplateGetPutRevisionsFields.tiddler
+tiddler: ../../shadows/ViewTemplateGetPut.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/WordpressAdaptorPlugin.js tags="systemConfig"
