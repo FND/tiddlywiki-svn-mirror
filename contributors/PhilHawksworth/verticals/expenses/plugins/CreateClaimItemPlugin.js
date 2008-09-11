@@ -41,13 +41,10 @@ config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier
 	
 	var options = [];
 	var slices = store.calcAllSlices('ExpenseTypeValues');
-
-	//options.push({'caption':'Quick Claim', 'name':'QuickClaimItemForm'});
-	//options.push({'caption':'Airfare', 'name':'AirfareForm'});
-
 	for(s in slices) {
 		options.push({'caption':s, 'name':slices[s]+"Form"});
 	}
+
 	createTiddlyDropDown(place,this.setItemType,options,'SimpleForm');
 	createTiddlyButton(place,"add item","add another item to this claim",this.doCreate);
 };
@@ -118,11 +115,22 @@ config.macros.SubmitQuickClaim.handler = function(place,macroName,params,wikifie
 };
 
 config.macros.SubmitQuickClaim.doSubmit = function(ev) {
-
 	console.log('submitting quick claim item');
-
 	//call out to the particular systems authentication and claim generation functions.
-	config.macros.SiteminderLogin.doLogin();
+};
+
+config.macros.SubmitQuickClaim.handleResponse = function(success, message) {
+	var successMsg = "Your quick claim item has been added to a claim on the system.";
+	var failureMsg = "Doh! We couldn't get to the system to add your quick claim item. Have another bash.";
+	var msg;
+	if(success) {
+		msg = message ? message : successMsg;
+		document.forms['quickClaim'].reset();
+	} else {
+		msg = message ? message : failureMsg;
+	}
+	clearMessage();
+	displayMessage(msg);
 };
 
 
