@@ -11,7 +11,7 @@ merge(config.macros.register,{
 	buttonCancel:"Cancel",
 	buttonCancelToolTip:"Cancel transaction ",
 	buttonRegister:"Register",	
-	buttonRegisterToolTip:"click to register",	
+	buttonRegisterToolTip:"click to register",
 	step2Title:"",
 	step2Html:"Please wait while we create you an account..."
 });
@@ -53,23 +53,26 @@ config.macros.register.doRegister=function(place, w){
 		return false;
 	}
 	if(w.formElem["reg_password1"].value==''){
-		config.macros.register.setStatus(w, "pass1_error", "no password entered");		
+		config.macros.register.setStatus(w, "pass1_error", "no password entered");
 		return false;
 	}else{
-		config.macros.register.setStatus(w, "pass1_error", "");				
+		config.macros.register.setStatus(w, "pass1_error", "");
 	}
 	if(w.formElem["reg_password2"].value==''){
 		config.macros.register.setStatus(w, "pass2_error", "no password entered");
 		return false;
 }
-	if(w.formElem["reg_password1"].value != w.formElem["reg_password2"].value ){			
+	if(w.formElem["reg_password1"].value != w.formElem["reg_password2"].value ){
 		config.macros.register.setStatus(w, "pass1_error", "your passwords do not match");
 		config.macros.register.setStatus(w, "pass2_error", "your passwords do not match");
 
 		return false;
 	}
-
-	var loginResp=doHttp('POST',url+'/handle/register.php',"username="+w.formElem['reg_username'].value+"&reg_mail="+w.formElem['reg_mail'].value+"&password="+w.formElem['reg_password1'].value+"&password2="+w.formElem['reg_password2'].value,null,null,null,config.macros.register.registerCallback,params);
+ 	var params ={};
+	params.p = Crypto.hexSha1Str(w.formElem['reg_password1'].value);
+	params.u = w.formElem['reg_username'].value;
+	params.place = place;
+	var loginResp=doHttp('POST',url+'/handle/register.php',"username="+w.formElem['reg_username'].value+"&reg_mail="+w.formElem['reg_mail'].value+"&password="+Crypto.hexSha1Str(w.formElem['reg_password1'].value)+"&password2="+Crypto.hexSha1Str(w.formElem['reg_password2'].value),null,null,null,config.macros.register.registerCallback,params);
 	w.addStep(me.step2Title,"attempting to register your account.") ;
 	w.setButtons([
 		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {config.macros.login.refresh(place);}
@@ -77,7 +80,7 @@ config.macros.register.doRegister=function(place, w){
 }
 
 config.macros.register.emailValid=function(str){
-	if((str.indexOf(".") > 0) && (str.indexOf("@") > 0)){	
+	if((str.indexOf(".") > 0) && (str.indexOf("@") > 0)){
 		return true;
 	}else{
 		return false;
@@ -85,7 +88,7 @@ config.macros.register.emailValid=function(str){
 };
 
 config.macros.register.usernameValid=function(str){
-	if((str.indexOf("_") > 0) && (str.indexOf("@") > 0)){	
+	if((str.indexOf("_") > 0) && (str.indexOf("@") > 0)){
 		return false;
 	}else{
 		return true;
@@ -93,7 +96,18 @@ config.macros.register.usernameValid=function(str){
 };
 
 config.macros.register.registerCallback=function(status,params,responseText,uri,xhr){
-	window.location=window.location;
+	
+	var userParams = {};
+	userParams.place = params.place;
+	var adaptor = new config.adaptors[config.defaultCustomFields['server.type']];
+	var context = {};
+	context.host = window.url;
+	context.username = params.u;
+	context.password = params.p;
+	
+	adaptor.login(context,userParams,config.macros.ccLogin.loginCallback);
+	
+//	window.location=window.location;
 	return true;
 
 }
@@ -212,7 +226,7 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 	var a = createTiddlyElement(step,"div",null,"submit");
 	var btn = createTiddlyElement(null,"input",this.prompt,"button");
 	btn.setAttribute("type","submit");
-	btn.setAttribute("value","Register Account");	 
+	btn.setAttribute("value","Register Account");
 	btn.setAttribute("tabindex","5");
 	
 	btn.setAttribute("id","registerAccountSubmit");
@@ -221,7 +235,7 @@ config.macros.ccRegister.refresh=function(place,errorMsg){
 };
 
 config.macros.ccRegister.emailValid=function(str){
-	if((str.indexOf(".") > 0) && (str.indexOf("@") > 0)){	
+	if((str.indexOf(".") > 0) && (str.indexOf("@") > 0)){
 		return true;
 	}else{
 		return false;
@@ -279,7 +293,7 @@ config.macros.ccRegister.registerOnSubmit=function(){
 		document.getElementById('pass2_error').innerHTML='';
 		this.password2.setAttribute("class","input");
 	}
-	if(this.password1.value != this.password2.value ){			
+	if(this.password1.value != this.password2.value ){
 		this.password1.setAttribute("class","inputError");
 		document.getElementById('pass2_error').innerHTML='Please ensure both passwords match';
 		this.password2.setAttribute("class","inputError");
@@ -312,8 +326,8 @@ config.macros.ccRegister.registerCallback=function(status,params,responseText,ur
 		document.getElementById('password2').value='';
 		document.getElementById('username_error').innerHTML='';
 		document.getElementById('mail_error').innerHTML='';
-		document.getElementById('pass1_error').innerHTML=''; 	
-		document.getElementById('pass2_error').innerHTML=''; 
+		document.getElementById('pass1_error').innerHTML='';
+		document.getElementById('pass2_error').innerHTML='';
 		var but=document.getElementById('registerAccountSubmit');
 		but.disabled=false;
 		but.setAttribute("class","button");

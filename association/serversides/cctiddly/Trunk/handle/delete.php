@@ -20,10 +20,8 @@ if( $tiddler===FALSE ) {
 //delete current tiddler
 if(user_deletePrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags']))) {
 	tiddler_delete_new($tiddler['id']);		//delete current tiddler
-	//returnResult("003");
 	sendHeader(200,$ccT_msg['notice']['TiddlerDeleted'],"",1);
 }else{
-	//returnResult("020");
 	sendHeader(401,$ccT_msg['warning']['not_authorized'],"",1);
 }
 sendHeader(400,$ccT_msg['warning']['del_error'],"",1);

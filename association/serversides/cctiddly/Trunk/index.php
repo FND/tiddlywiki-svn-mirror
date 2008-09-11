@@ -28,7 +28,7 @@ include_once($cct_base."includes/login.php");
 
 if(@mysql_num_rows(mysql_query("SELECT * FROM instance_history where version='".$tiddlyCfg['version']."'"))==0) {
 	echo "<h1>ccTiddly Upgrade</h1>";
-	echo "<p>Your instance of ccTiddly is being upgraded. Now you need to run the <a href=upgrade.php >upgrade.php file</a> to complete the upgrade.</p>";
+	echo "<p>Your instance of ccTiddly is being upgraded. Now you need to run <a href=upgrade.php >upgrade.php</a> to complete the upgrade.</p>";
 	echo "If you do not have access to the server and this error message persists then please contact your system administrator.";
 	exit;
 }

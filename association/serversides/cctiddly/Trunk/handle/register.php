@@ -29,6 +29,5 @@ if ($res !=1)
 	echo 'User not created, please try again with a different username.';
 }else
 {
-	user_login($data['username'],$data['password']);
-}
+	user_login(formatParametersPOST($data['username']),formatParametersPOST($data['password']));}
 ?> 

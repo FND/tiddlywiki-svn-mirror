@@ -23,7 +23,7 @@ if($tiddlyCfg['adminPassword']==""){
 	echo "<b>If you are seeing this message unexpectedly please contact your system administrator. </b><hr />An upgrade password is required in the <b>includes/config.php</b> file. Please set the variable at line 13 of <b>includes/config.php</b> and then refresh this page.";
 	exit;
 }elseif(!$_REQUEST['adminPassword']){
-	echo "<b>If you are seeing this message unexpectedly please contact your system administrator. </b><hr /><b>Please ensure that you have a full database backup in place before upgrading.</b><br /></br />Please enter your admin password to confirm that you wish to upgrade from ccTiddly 1.6 to 1.7.</p>".$form;
+	echo "<b>If you are seeing this message unexpectedly please contact your system administrator. </b><hr /><b>Please ensure that you have a full database backup in place before upgrading.</b><br /></br />Please enter your admin password to confirm that you wish to upgrade from ccTiddly 1.6 to 1.7.</p> Please note that upgrading may take afew minutes if you have a large database.".$form;
 	exit;
 }elseif($_REQUEST['adminPassword']!=$tiddlyCfg['adminPassword']){
 	echo "incorrect password entered.".$form;
@@ -46,10 +46,6 @@ if($fail > 0){
 	echo "something went wrong. Please refresh the page to rerun this script, if you continue to have difficulties please contact the ccTiddly google groups : 
 	http://groups.google.com/group/ccTiddly";
 	exit;
-}
-else
-{
-	echo "all went ok";
 }
 
 $q = "SELECT * FROM ".$tiddlyCfg['table']['workspace'];
@@ -91,6 +87,8 @@ if($fail == 0) {
 
  	$SQL = "INSERT INTO `instance_history` (`id` ,`date` ,`version` ,`description`) VALUES ('', '".mktime()."', '1.7', '1.7 upgrade');";	
 	mysql_query($SQL);
+	
+	echo "<h1>Your database has been upgraded.</h1> Please return to your homepage";
 }
 
 ?>

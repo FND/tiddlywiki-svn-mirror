@@ -10,7 +10,7 @@ $tiddlyCfg['db']['name'] = "upgrade2";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 
-$tiddlyCfg['adminPassword'] = "a";
+$tiddlyCfg['adminPassword'] = "p";
 
 // User Managment Information 
 
@@ -120,7 +120,7 @@ $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;
 $tiddlyCfg['debug']['params'] = 1;
 $tiddlyCfg['debug']['fail'] = 0;
-$tiddlyCfg['debug']['steps'] = 0;
+$tiddlyCfg['debug']['steps'] = 1;
 $tiddlyCfg['debug']['display_logs'] = 0;
 $tiddlyCfg['debug']['secret'] = "bigsecret";
 
@@ -341,12 +341,14 @@ Notes :
 
 //default privileges
 $tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what should undefined (U) be treated as
-$tiddlyCfg['privilege_misc']['default_privilege'] = "AAAD";		//default privilege for all group and tags
+$tiddlyCfg['privilege_misc']['default_privilege'] = "UUUU";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
 $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = "ADDD";
-$tiddlyCfg['privilege_misc']['group_default_privilege']['non_admin'] = "AAAA";
-$tiddlyCfg['privilege_misc']['group_default_privilege']['admin'] = "AAAA";
+$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['default_anonymous_perm'];
+$tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $tiddlyCfg['default_user_perm'];
+
+
 ////////////////////////////////////////////////////////ADVANCE PRIVILEGE for tags//////////////////////////////////////////////////////
 /*
 	assign privilege to specific tag using groups
