@@ -1,4 +1,5 @@
 <?php 
+
 // This script should be deleted after is has been run. 
 
 // This script removes changecount from the fields in the database replacing it with old_changecount
@@ -22,14 +23,35 @@ if($tiddlyCfg['adminPassword']==""){
 	exit;
 }
 
-$cct_base = "";
-include_once($cct_base."includes/header.php");
+
 
 // automatically back up the database. 
 //echo $command = "mysqldump --opt -h ".$tiddlyCfg['db']['host']."  -u ".$tiddlyCfg['db']['login']." -p '".$tiddlyCfg['db']['pass']."'   //".$tiddlyCfg['db']['name']." > backup_".$tiddlyCfg['db']['name'];
 //echo system($command);
 //echo mysql_error();
 //exit
+
+
+
+$fail = 0;
+$s = 'UPDATE tiddler SET body=(REPLACE (body, "\\\n","\\n"));';
+if(!mysql_query($s)) {$fail++;echo "failed";}
+if(!mysql_query("UPDATE tiddler SET body=(REPLACE (body,'\\\s','\\\'));")) {$fail++;}
+if(!mysql_query("UPDATE tiddler SET body=(REPLACE (body,'&amp;','&'));")) {$fail++;}
+if(!mysql_query("UPDATE tiddler SET body=(REPLACE (body,'&lt;','<'));")) {$fail++;}
+if(!mysql_query("UPDATE tiddler SET body=(REPLACE (body,'&gt;','>'));")) {$fail++;}
+if(!mysql_query("UPDATE tiddler SET body=(REPLACE (body, '&quot;','\"'));")) {$fail++;}
+
+
+if($fail > 0){
+	echo "something went wrong. Please refresh the page to rerun this script, if you continue to have difficulties please contact the ccTiddly google groups : 
+	http://groups.google.com/group/ccTiddly";
+	exit;
+}
+else
+{
+	echo "all went ok";
+}
 
 $q = "SELECT * FROM ".$tiddlyCfg['table']['workspace'];
 $result = mysql_query($q);
@@ -38,19 +60,16 @@ while ($row = db_fetch_assoc($result)){
 	if ($row['name']!=""){
 		$SQL_CHECK = "SELECT * FROM tiddler where workspace_name='".$row['name']."' and title='UpgradeConfig17'";
 		$res = mysql_query($SQL_CHECK);
-		if (mysql_num_rows($res) > 0)
-		{
+		if (mysql_num_rows($res) > 0){
 			echo "Tiddler already exists in the workspace ".$row['name'];
 		}else{
-			$SQL = "insert into tiddler (title, modifier, creator, modified, created, body, workspace_name, tags, revision) values ('UpgradeConfig17', 'ccTiddly', 'ccTiddly', '200809000000', '200809000000',  '// This tiddler has been automatically generated to configure your upgraded instance of ccTiddly to use the new theme mechanism\nconfig.options.txtTheme = &quot;simpleTheme&quot;', '".$row['name']."', 'systemConfig', 1)";
+			$SQL = "insert into tiddler (title, modifier, creator, modified, created, body, workspace_name, tags, revision) values ('UpgradeConfig17', 'ccTiddly', 'ccTiddly', '200809000000', '200809000000',  'config.options.txtTheme = \"simpleTheme\"', '".$row['name']."', 'systemConfig', 1)";
 			$rs = mysql_query($SQL);
-
-			echo 		mysql_affected_rows();
 			if(!rs || mysql_error()){
-		//		echo "FAILED TO EXECUTE : ".$SQL;
-				echo mysql_error();	
+				echo "FAILED TO EXECUTE : ".$SQL;
+			//	echo mysql_error();	
 			}else{
-				echo "update tiddler created for workspace ".$row['name'];
+				echo "Update tiddler created for workspace ".$row['name'].".";
 			}		
 		}		
 		
@@ -62,7 +81,11 @@ while ($row = db_fetch_assoc($result)){
 $SQL2 = "UPDATE ".$tiddlyCfg['table']['main']." SET fields=(REPLACE (fields,'changecount=','old_change_count='))";
 mysql_query($SQL2);
 
-echo "<h1> Your database has been upgraded. To start using this ccTiddly instance please delete the upgrade.php file from your server.</h1>";
+
+
+
+if($fail == 0)
+echo "<h1> Your database has been upgraded. To start using this ccTiddly instance please delete this file (upgrade.php) file from your server.</h1>";
 
 
 /*
@@ -73,7 +96,8 @@ UPDATE tiddler SET body=(REPLACE (body,"&amp;",'&'));
 UPDATE tiddler SET body=(REPLACE (body,"&lt;",'<'));
 UPDATE tiddler SET body=(REPLACE (body,"&gt;",'>'));
 UPDATE tiddler SET body=(REPLACE (body, "&#039;","'"));
-UPDATE tiddler SET body=(REPLACE (body, "&quot;","\"''));
+UPDATE tiddler SET body=(REPLACE (body, "&quot;",'\"'));
+
 
 */
 ?>
