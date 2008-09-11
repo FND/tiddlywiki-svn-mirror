@@ -36,16 +36,13 @@ config.macros.CreateClaim.doCreate = function(ev) {
 
 config.macros.CreateClaimItem = {};
 config.macros.CreateClaimItem.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
 	config.macros.CreateClaimItem.newItemType = 'QuickClaimItemForm';
-	
 	var options = [];
 	var slices = store.calcAllSlices('ExpenseTypeValues');
 	for(s in slices) {
 		options.push({'caption':s, 'name':slices[s]+"Form"});
 	}
-
-	createTiddlyDropDown(place,this.setItemType,options,'SimpleForm');
+	createTiddlyDropDown(place,this.setItemType,options,'QuickClaimItemForm');
 	createTiddlyButton(place,"add item","add another item to this claim",this.doCreate);
 };
 
@@ -79,7 +76,7 @@ config.macros.CreateClaimItem.doCreate = function(ev) {
 config.macros.CreateClaimItem.setItemType = function(ev) {
 	var e = ev ? ev : window.event;
 	var t = e.target;
-	config.macros.CreateClaimItem.newItemType = t[t.selectedIndex].value;
+	config.macros.CreateClaimItem.newItemType = t[t.selectedIndex].value == 'nullForm' ? 'QuickClaimItemForm' : t[t.selectedIndex].value;
 };
 
 
@@ -116,7 +113,8 @@ config.macros.SubmitQuickClaim.handler = function(place,macroName,params,wikifie
 
 config.macros.SubmitQuickClaim.doSubmit = function(ev) {
 	console.log('submitting quick claim item');
-	//call out to the particular systems authentication and claim generation functions.
+	// call out to the particular systems authentication and claim generation functions.
+	// this function will typically be overwritten to add the sensitive 
 };
 
 config.macros.SubmitQuickClaim.handleResponse = function(success, message) {
@@ -148,6 +146,11 @@ config.macros.ModeledDataFormBuilder.handler = function(place,macroName,params,w
 	if(options.field) {
 		// we are displaying the contents of a field
 		var field = options.field + 'Field';	
+		
+		// if this form doesn't specify a field that we are asking for, return nothing.
+		if(tiddler.fields[field] === undefined) {
+			return;
+		}
 		this.createFormItem(place,{
 			value: tiddler.fields[field],
 			label: options.field,
@@ -157,10 +160,13 @@ config.macros.ModeledDataFormBuilder.handler = function(place,macroName,params,w
 		});
 	} else if(options.fields && options.fields == 'nonStandard') {
 		// we are displaying all fields not specified as being standard.
-		var standardFields = ['claim_id','expense_type','StartDateField', 'AmountField', 'JustificationField']; // get these from psd
+		var tiddlyWikiMetaFields = ['changecount'];
+		var standardFields = ['claim_id','expense_type','StartDateField','DaysField','LostReceiptField','TrainingCostField','AmountField','JustificationField']; // get these from psd
+		standardFields = standardFields.concat(tiddlyWikiMetaFields);
+		var s;
 		for(var f in tiddler.fields) {
 			if(!standardFields.contains(f)) {
-				var s = createTiddlyElement(place,'span',null,'field');	
+				s = createTiddlyElement(place,'span',null,'field');	
 				this.createFormItem(s,{
 					value: tiddler.fields[f],
 					label: f.substr(0,f.length-5),
@@ -203,6 +209,14 @@ config.macros.ModeledDataFormBuilder.createFormItem = function(place, options) {
 	createTiddlyElement(place,'input',null,className,null,attributes);	
 
 };
+
+
+// Hijack the save tiddler function so that we can also persist changes in the edited fields.
+
+// 
+// config.macros.CreateClaim.saveTiddler = Story.saveTiddler;
+// tory.saveTiddler(title,event.shiftKey);
+// 
 
 }
 //}}}

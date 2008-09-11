@@ -73,11 +73,14 @@
 <!--{{{-->
 <div class='claimItem view'>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemViewToolbar]]'></div>
-<span class='field date' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount readonly:true mandatory:true'></span>
-<span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate readonly:true mandatory:true'></span>
+<span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount readonly:true mandatory:true'></span>
 <span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true'></span>
+<span class='field date' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate readonly:true mandatory:true'></span>
+<span class='field days' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Days readonly:true mandatory:true'></span>
+<span class='field lostreceipt' macro='ModeledDataFormBuilder formIdentifier:expense_type field:LostReceipt'></span>
+<span class='field trainingcost' macro='ModeledDataFormBuilder formIdentifier:expense_type field:TrainingCost'></span>
 <span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification readonly:true mandatory:true'></span>
-<div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard readonly:true'></div>
+<div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard'></div>
 </div>
 <!--}}}-->
 
@@ -85,9 +88,12 @@
 <!--{{{-->
 <div class='claimItem'>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemEditToolbar]]'></div>
-<span class='field date' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount'></span>
-<span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate'></span>
+<span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount'></span>
 <span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true'></span>
+<span class='field date' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate'></span>
+<span class='field days' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Days'></span>
+<span class='field lostreceipt' macro='ModeledDataFormBuilder formIdentifier:expense_type field:LostReceipt'></span>
+<span class='field trainingcost' macro='ModeledDataFormBuilder formIdentifier:expense_type field:TrainingCost'></span>
 <span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification'></span>
 <div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard'></div>
 </div>
@@ -156,13 +162,17 @@ div.claimItem div.toolbar a.button:hover{ border-style:none; background-color:#3
 div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
 
 div.view input { border-style:none;}
-<!-- span.field {} -->
+
 span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
 div.claimItem span.field { display:inline; float:left; margin:0 1em 1em 0;}
-div.claimItem span.justification { clear:left; display:block; float:none;}
-div.claimItem span.amount input {font-size:1.8em; width:5em;}
+div.claimItem span.amount { border-bottom:2px solid #000; }
+div.claimItem span.amount input {font-size:3em; width:5em;}
+div.claimItem span.type input {font-size:1.8em; width:10em;}
 div.claimItem span.date input {font-size:1.8em; width:6em;}
-div.claimItem span.type input {font-size:1.8em; width:15em;}
+div.claimItem span.days input {font-size:1.8em; width:2em;}
+div.claimItem span.justification { clear:left; display:block; float:none;}
+
+
 div.claimItem span.justification input {font-size:0.9em; width:60em;}
 
 
