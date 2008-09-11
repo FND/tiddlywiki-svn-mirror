@@ -17,6 +17,7 @@ tiddler: plugins/CreateClaimItemPlugin.js
 tiddler: $TW_ROOT/contributors/BidiX/plugins/PasswordOptionPlugin.js
 tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/SliceCommentPlugin/SliceCommentPlugin.recipe
 
 
 #
