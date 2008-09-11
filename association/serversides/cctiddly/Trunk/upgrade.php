@@ -9,6 +9,13 @@
 
 include_once("includes/header.php");
 
+
+if(@mysql_num_rows(mysql_query("SELECT * FROM instance_history where version='1.7'")) > 0)
+{
+	echo "Your database has already been ugraded to ccTiddly 1.7";
+	exit;
+}
+
 echo "<h1>Upgrade.php</h1>";
 $form = "<form method='get'><input name='adminPassword' /><input type='submit' value='upgrade'/></form>";
 
@@ -25,17 +32,9 @@ if($tiddlyCfg['adminPassword']==""){
 
 
 
-// automatically back up the database. 
-//echo $command = "mysqldump --opt -h ".$tiddlyCfg['db']['host']."  -u ".$tiddlyCfg['db']['login']." -p '".$tiddlyCfg['db']['pass']."'   //".$tiddlyCfg['db']['name']." > backup_".$tiddlyCfg['db']['name'];
-//echo system($command);
-//echo mysql_error();
-//exit
-
-
-
 $fail = 0;
 $s = 'UPDATE tiddler SET body=(REPLACE (body, "\\\n","\\n"));';
-if(!mysql_query($s)) {$fail++;echo "failed";}
+if(!mysql_query($s)) {$fail++;}
 if(!mysql_query("UPDATE tiddler SET body=(REPLACE (body,'\\\s','\\\'));")) {$fail++;}
 if(!mysql_query("UPDATE tiddler SET body=(REPLACE (body,'&amp;','&'));")) {$fail++;}
 if(!mysql_query("UPDATE tiddler SET body=(REPLACE (body,'&lt;','<'));")) {$fail++;}
@@ -81,23 +80,17 @@ while ($row = db_fetch_assoc($result)){
 $SQL2 = "UPDATE ".$tiddlyCfg['table']['main']." SET fields=(REPLACE (fields,'changecount=','old_change_count='))";
 mysql_query($SQL2);
 
+if($fail == 0) {
+	$SQL = "CREATE TABLE `instance_history` (
+		`id` VARCHAR( 20 ) NOT NULL ,
+		`date` VARCHAR( 20 ) NOT NULL ,
+		`version` VARCHAR( 50 ) NOT NULL ,
+		`description` VARCHAR( 500 ) NOT NULL ,
+		PRIMARY KEY ( `id`))";
+	mysql_query($SQL);
 
+ 	$SQL = "INSERT INTO `instance_history` (`id` ,`date` ,`version` ,`description`) VALUES ('', '".mktime()."', '1.7', '1.7 upgrade');";	
+	mysql_query($SQL);
+}
 
-
-if($fail == 0)
-echo "<h1> Your database has been upgraded. To start using this ccTiddly instance please delete this file (upgrade.php) file from your server.</h1>";
-
-
-/*
-
-UPDATE tiddler SET body=(REPLACE (body,"\\n",'\n'));
-UPDATE tiddler SET body=(REPLACE (body,"\\s",'\\'));
-UPDATE tiddler SET body=(REPLACE (body,"&amp;",'&'));
-UPDATE tiddler SET body=(REPLACE (body,"&lt;",'<'));
-UPDATE tiddler SET body=(REPLACE (body,"&gt;",'>'));
-UPDATE tiddler SET body=(REPLACE (body, "&#039;","'"));
-UPDATE tiddler SET body=(REPLACE (body, "&quot;",'\"'));
-
-
-*/
 ?>

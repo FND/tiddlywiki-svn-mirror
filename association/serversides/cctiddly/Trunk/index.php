@@ -2,12 +2,6 @@
 //timing
 
 
-if (is_file("upgrade.php")) {
-	echo "<h1>ccTiddly Upgrade</h1>";
-	echo "<p>Your instance of ccTiddly is being upgraded. Now you need to run the <a href=upgrade.php >upgrade.php file</a> to complete the upgrade.</p>";
-	echo "If you do not have access to the server and this error message persists then please contact your system administrator.";
-	exit;
-}
 
 
 function recordTime_float($name="unnamed")
@@ -30,6 +24,17 @@ $cct_base = "";
 include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/login.php");
 
+
+
+if(@mysql_num_rows(mysql_query("SELECT * FROM instance_history where version='".$tiddlyCfg['version']."'"))==0) {
+	echo "<h1>ccTiddly Upgrade</h1>";
+	echo "<p>Your instance of ccTiddly is being upgraded. Now you need to run the <a href=upgrade.php >upgrade.php file</a> to complete the upgrade.</p>";
+	echo "If you do not have access to the server and this error message persists then please contact your system administrator.";
+	exit;
+}
+
+
+
 recordTime_float("includes");
 
 //RSS
@@ -50,7 +55,7 @@ if( isset($_GET['title']) )
 		$t[] = $tid;
 	}
 	$tiddlers = $t;
-}elseif( isset($_GET['tags']) )
+}elseif( isset($_GET['tags']) ) 
 {
 	$tiddlers = getTiddlersWithTags($yesTags, $noTags);
 }else{

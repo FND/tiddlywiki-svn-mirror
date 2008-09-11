@@ -233,3 +233,11 @@ CREATE TABLE `workspace_view` (
 -- 
 
 
+CREATE TABLE `instance_history` (
+	`id` VARCHAR( 20 ) NOT NULL ,
+	`date` VARCHAR( 20 ) NOT NULL ,
+	`version` VARCHAR( 50 ) NOT NULL ,
+	`description` VARCHAR( 500 ) NOT NULL ,
+	PRIMARY KEY ( `id`));
+
+INSERT INTO `instance_history` (`id` ,`date` ,`version` ,`description`) VALUES ('', '', '1.7', '1.7 install.');	
