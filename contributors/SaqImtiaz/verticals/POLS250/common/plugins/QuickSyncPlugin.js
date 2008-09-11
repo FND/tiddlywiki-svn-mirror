@@ -202,8 +202,18 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 			displayMessage("%0 updated and new page(s) on server.".format([getList.length]));
 			displayMessage("downloading updates...")
 		}
-		else
+		else {
+			--config.macros.quicksync.syncServersLength;
+			if(config.macros.quicksync.syncServersLength==0){
+				store.notifyAll();
+				story.refreshAllTiddlers();
+				clearMessage();
+				//displayMessage('update completed. Please save your notebook');
+				window.setTimeout(function() {displayMessage('update completed. Please save your notebook');},1000);
+				//console.log(context)
+			}				
 			displayMessage("no updates available.")
+		}	
 		for(i=0; i<getList.length; i++) {
 			context.adaptor.getTiddler(getList[i],null,null,config.macros.quicksync.getTiddlerCallback);
 		}
