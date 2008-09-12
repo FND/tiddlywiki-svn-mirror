@@ -7,7 +7,7 @@
 |''Version:''|2.1|
 |''Date:''|26/10/07|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''~CoreVersion:''|2.2.3|
+|''~CoreVersion:''|2.4.0|
 
 !!Concept:
 *The TiddlerNotesPlugin allows you to add notes to tiddlers, without needing to edit the original tiddler. This means that your original content will remain unaltered, and if you update it in the future, you won’t lose your notes. Notes are stored in separate tiddlers, but can be viewed and edited from within the original tiddler.
@@ -90,9 +90,9 @@ config.macros.notes={
 	
 	cancelWarning: "Are you sure you want to abandon changes to your notes for '%0'?",
 	editLabel: "edit notes",
-	editTitle: "double click to edit",
-	saveLabel: "save notes",
-	saveTitle: "double click to save",
+	editTitle: "double click to edit your notes",
+	saveLabel: "enter notes",
+	saveTitle: "double click to finish editing your notes",
 	cancelLabel: "cancel",
 	heading: "Notes",
 	suffix: "Notes",
@@ -110,7 +110,7 @@ config.macros.notes={
 		if(textarea.getAttribute("oldText")!=textarea.value && !hasClass(theTarget,"cancelNotesButton")){
 			var suffix = box.getAttribute("suffix");
 			var t = store.getTiddler(title+"-"+suffix);
-			store.saveTiddler(title+"-"+suffix,title+"-"+suffix,textarea.value,config.options.txtUserName,new Date(),t?t.tags:box.getAttribute("tag"),t?t.fields:{});
+			store.saveTiddler(title+"-"+suffix,title+"-"+suffix,textarea.value,config.options.txtUserName,new Date(),t?t.tags:box.getAttribute("tag"),t?t.fields:merge(config.macros.notes.defaultFields||config.defaultCustomFields,{}));
 		}
 		story.refreshTiddler(title,1,true);
 		autoSaveChanges(true);
