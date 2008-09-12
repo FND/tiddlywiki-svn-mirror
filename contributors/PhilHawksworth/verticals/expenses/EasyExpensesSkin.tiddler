@@ -126,7 +126,7 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 #messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
 #messageArea a { color:#666; text-decoration:underline; background-color:transparent;}
 #messageArea a:hover { color:#3E65C8; text-decoration:underline; background-color:transparent;}
-#messageArea .button { float:right; background-color:#eee; color:#3E65C8; margin:0 0 0 1em; padding:3px 1em; }
+#messageArea .button { float:right; background-color:#eee; color:#3E65C8; text-decoration:none; margin:0 0 0 1em; padding:3px 1em; }
 #messageArea .button:hover {background-color:#eee; color:#3E65C8; text-decoration:underline;}
 
 
