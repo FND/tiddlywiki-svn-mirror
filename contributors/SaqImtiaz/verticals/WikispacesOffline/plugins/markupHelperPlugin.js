@@ -3,12 +3,13 @@
 
 config.macros.markupHelper = {
     
-    defaultFormat : 'tiddlywiki',
+    getDefaultFormat : function(){return config.defaultCustomFields['wikiformat'];},
 	
 	rules : {},
     
     handler: function(place,macroName,params,wikifier,paramString,tiddler){
-        var wikiformat = tiddler.fields['wikiformat'] || this.defaultFormat;
+        var wikiformat = tiddler.fields['wikiformat'] || this.getDefaultFormat();
+        console.log(wikiformat)
         var rulesTiddler = wikiformat + 'MarkupRules';
 		if (!store.getTiddlerText(rulesTiddler))
             return; //no definitions for this wikiformat
