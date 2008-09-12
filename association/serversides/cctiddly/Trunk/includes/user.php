@@ -38,8 +38,6 @@
 			//no slashes, star and question mark in username
 			$user['verified'] = (($verified==-1)?user_session_validate():$verified);
 		}
-	
-	
 		//NOTE: group is always in array
 		//FORMAT: $user['group'] = array("group1", "group2");
 		$user['group'] = (strcmp($group,"")==0?user_getGroup($user['username'],$user['verified']):$group);
