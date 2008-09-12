@@ -4,6 +4,9 @@ config.options.chkAutoSave = true;
 config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
 config.options.txtTheme = "EasyExpensesSkin";
+config.messages.messageClose.text = "dismiss";
+config.messages.messageClose.tooltip = "I've seen enough. Hide this message.";
+
 
 var claim_group = new TiddlerDisplayGroup();
 var claim_group_pattern = [

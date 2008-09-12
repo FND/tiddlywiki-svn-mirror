@@ -223,7 +223,7 @@ Story.prototype.saveTiddler = function(title,event,shiftKey) {
 	// fields definitions are held in..
 	var defs = storedTiddler.fields['expense_type'];
 	
-	// for each field in the stored tiddler, look for a corresponding inout in the displayed tiddler.
+	// for each field in the stored tiddler, look for a corresponding input in the displayed tiddler.
 	for(var f in storedTiddler.fields) {
 		var s = store.getTiddlerSlice(defs + 'Form',f);
 		if(s !== undefined) {			

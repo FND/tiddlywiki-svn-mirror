@@ -26,8 +26,8 @@
 </div>
 <div id='ribbon'>
 	<div id='menu' refresh='content' tiddler='MainMenu'></div>
-	<div id='messageBar'><span id='messageArea'></span></div>
 </div>
+<div id='messageBar'><span id='messageArea'></span></div>
 <div id='displayArea'>
 	<div id='tiddlerDisplay'></div>
 </div>
@@ -104,7 +104,6 @@
 !StyleSheet
 /*{{{*/
 	
-	
 input { font-family:arial; }
 #menu a,
 a.button {white-space:nowrap;}
@@ -120,8 +119,15 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 #displayArea { clear:left; margin:0; padding:0 2em;}
 
 /* Message Area */
-#messageBar {width:100%; margin-right:-10em; background-color:#c00; position:absolute; left:10em; line-height:2em;}
-#messageArea {border:dotted 3px red;}
+#messageArea { position:inherit;  margin:0 20px 1em 10px; padding:6px; border-style:none; }
+#messageBar {display:block; position:relative; width:100%; margin:0; height:1.6em; font-size:1em; }
+#messageArea { position:absolute; top:0; right:0; padding:0; margin:0; border-style:none; color:#666; background-color:transparent;} 
+#messageArea div { margin-right:7em; padding:4px 0 0 0;}
+#messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
+#messageArea a { color:#666; text-decoration:underline; background-color:transparent;}
+#messageArea a:hover { color:#3E65C8; text-decoration:underline; background-color:transparent;}
+#messageArea .button { float:right; background-color:#eee; color:#3E65C8; margin:0 0 0 1em; padding:3px 1em; }
+#messageArea .button:hover {background-color:#eee; color:#3E65C8; text-decoration:underline;}
 
 
 /* General form styles */
