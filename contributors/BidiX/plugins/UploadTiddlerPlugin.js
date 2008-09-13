@@ -1,18 +1,18 @@
 /***
 |''Name:''|UploadTiddlerPlugin|
 |''Description:''|Upload a tiddler and Update a remote TiddlyWiki |
-|''Version:''|1.2.1|
-|''Date:''|2008-08-19|
+|''Version:''|1.2.2|
+|''Date:''|2008-09-13|
 |''Source:''|http://tiddlywiki.bidix.info/#UploadTiddlerPlugin|
-|''Usage:''|Uses {{{uploadOptions>>}}}<br>with those UploadTiddler Options : <br>chkUploadTiddler: <<option chkUploadTiddler>><br>txtUploadTiddlerStoreUrl: <<option txtUploadTiddlerStoreUrl>>|
+|''Usage:''|Uses {{{<<uploadOptions>>}}}<br>with those UploadTiddler Options : <br>chkUploadTiddler: <<option chkUploadTiddler>><br>txtUploadTiddlerStoreUrl: <<option txtUploadTiddlerStoreUrl>><br>chkUploadTiddlerFromFile: <<option chkUploadTiddlerFromFile>>|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''[[License]]:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
 |''CoreVersion:''|2.3.0|
 ***/
 //{{{
 version.extensions.UploadTiddlerPlugin = {
-	major: 1, minor: 2, revision: 1, 
-	date: new Date("2008-08-11"),
+	major: 1, minor: 2, revision: 2, 
+	date: new Date("2008-09-13"),
 	source: 'http://tiddlywiki.bidix.info/#UploadTiddlerPlugin',
 	author: 'BidiX (BidiX (at) bidix (dot) info',
 	coreVersion: '2.3.0'
@@ -23,8 +23,9 @@ bidix.debugMode = false;
 bidix.uploadTiddler = {
 	messages: {
 		aboutToSaveTiddler: "About to update tiddler '%0'...",
+		aboutToRemotelySaveTiddler: "About to REMOTELY update tiddler '%0'...",
 		storeTiddlerNotFound: "Script store tiddler '%0' not found",
-		tiddlerSaved: "Tiddler '%0' updated in '%1'"
+		tiddlerSaved: "Tiddler '%0' updated in '%1' using '%2' "
 	},
 	upload: function(title,tiddler,oldTitle) {
 		var callback = function(status,params,responseText,url,xhr) {
@@ -39,12 +40,17 @@ bidix.uploadTiddler = {
 			} else if (responseText.charAt(0) != '0') 
 				alert(responseText);
 			else 
-				displayMessage(bidix.uploadTiddler.messages.tiddlerSaved.format([params[0], params[1]]));
+				displayMessage(bidix.uploadTiddler.messages.tiddlerSaved.format([params[0], params[1], params[2]]));
 				store.setDirty(false);
 			}
 
-		if ((config.options['chkUploadTiddler']) && (document.location.toString().substr(0,4) == "http")){
-			displayMessage(bidix.uploadTiddler.messages.aboutToSaveTiddler.format([title]));
+		if ((config.options['chkUploadTiddler']) && 
+				((document.location.toString().substr(0,4) == "http") || config.options['chkUploadTiddlerFromFile'])) {
+			clearMessage();
+			if (document.location.toString().substr(0,4) != "http")
+				displayMessage(bidix.uploadTiddler.messages.aboutToRemotelySaveTiddler.format([title]));
+			else
+				displayMessage(bidix.uploadTiddler.messages.aboutToSaveTiddler.format([title]));
 			var ExtTiddler = null;
 			var html = null;
 			if (tiddler) {
@@ -65,7 +71,7 @@ bidix.uploadTiddler = {
 			var storeScript = (config.options.txtUploadTiddlerStoreUrl 
 								? config.options.txtUploadTiddlerStoreUrl : 'storeTiddler.php');
 			var r = doHttp("POST",storeScript,form+"\n",'application/x-www-form-urlencoded',
-				config.options['txtUploadUserName'],config.options['pasUploadPassword'],callback,Array(title,filename),null);
+				config.options['txtUploadUserName'],config.options['pasUploadPassword'],callback,Array(title,filename, storeScript),null);
 		}
 	}
 }
@@ -98,17 +104,20 @@ setStylesheet('.txtUploadTiddlerStoreUrl {width: 22em;}',"uploadTiddlerPluginSty
 //optionsDesc
 merge(config.optionsDesc,{
 	txtUploadTiddlerStoreUrl: "Url of the UploadTiddlerService script (default: storeTiddler.php)",
-	chkUploadTiddler: "Do per Tiddler upload using txtUploadTiddlerStoreUrl (default: false)"
+	chkUploadTiddler: "Do per Tiddler upload using txtUploadTiddlerStoreUrl (default: false)",
+	chkUploadTiddlerFromFile: "Upload tiddler even if TiddlyWiki is located on local file (default: false)"
 });
 
 // Options Initializations
 bidix.initOption('txtUploadTiddlerStoreUrl','');
 bidix.initOption('chkUploadTiddler','');
+bidix.initOption('chkUploadTiddlerFromFile','');
+
 
 // add options in backstage UploadOptions
 if (config.macros.uploadOptions) {
 	if (config.macros.uploadOptions.options) {
-		config.macros.uploadOptions.options.push("txtUploadTiddlerStoreUrl","chkUploadTiddler");
+		config.macros.uploadOptions.options.push("txtUploadTiddlerStoreUrl","chkUploadTiddler", "chkUploadTiddlerFromFile");
 	}
 }
 
