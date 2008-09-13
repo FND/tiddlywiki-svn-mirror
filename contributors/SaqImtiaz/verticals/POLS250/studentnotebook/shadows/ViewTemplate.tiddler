@@ -5,7 +5,7 @@
 <div class='tagClear'></div>
 <div class='viewer viewernotes' macro='view text wikified'></div>
 <div macro='hideWhen tiddler.fields["server.type"] != "wikispaces"'>
-	<div class='viewer notes' macro='notes heading:"My Notes" tag:"MyNotes excludeLists excludeSearch" suffix:"Notes"'></div>
+	<div class='viewer notes' macro='notes heading:"My Notes" tag:"MyNotes excludeLists" suffix:"Notes"'></div>
 </div>
 <!--}}}--></pre>
 </div>
