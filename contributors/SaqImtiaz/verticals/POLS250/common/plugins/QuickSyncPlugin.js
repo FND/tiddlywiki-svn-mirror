@@ -47,42 +47,19 @@ config.macros.quicksync.init = function()
 config.macros.quicksync.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	params = paramString.parseParams('anon',null,false,false,false);
-/*	var customFields = getParam(params,'fields',false);
-	if(!customFields['server.type']) {
-		var title = getParam(params,'anon');
-		if(!title) {
-			customFields = config.defaultCustomFields;
-			if(!customFields['server.type']) {
-				var tiddlers = store.getTaggedTiddlers('systemServer');
-				if(tiddlers.length>0)
-					title = tiddlers[0].title;
-			}
-		}
-		if(title) {
-			customFields = {};
-			customFields['server.type'] = store.getTiddlerSlice(title,'Type');
-			customFields['server.host'] = store.getTiddlerSlice(title,'URL');
-			customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-		}
-	}
-	customFields = String.encodeHashMap(customFields);*/
 	var label = getParam(params,'label',this.label);
 	var prompt = getParam(params,'prompt',this.promt);
 	var btn = createTiddlyButton(place,label,prompt,this.onClick);
-	/*btn.setAttribute('customFields',customFields);*/
 };
 
 config.macros.quicksync.onClick = function(e)
 {
-	// var customFields = this.getAttribute('customFields');
-	// var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
-	//console.log('onClick',config.defaultCustomFields['server.host'].toString());
 	config.macros.quicksync.syncServersLength = 0;
 	var tiddlers = store.getTaggedTiddlers('systemServer');
+	config.macros.quicksync.syncServersLength = tiddlers.length;
 	for(var i=0;i<tiddlers.length;i++) {
 		var customFields = config.macros.quicksync.getCustomFieldsFromTiddler(tiddlers[i].title);
-		var context = config.macros.quicksync.createContext(customFields);
-		config.macros.quicksync.syncServersLength = tiddlers.length; 
+		var context = config.macros.quicksync.createContext(customFields); 
 		config.macros.quicksync.getTiddlers(context);
 	}
 	return false;
@@ -90,8 +67,6 @@ config.macros.quicksync.onClick = function(e)
 
 config.macros.quicksync.getCustomFieldsFromTiddler = function(title)
 {
-	//console.log('getCustomFieldsFromTiddler',config.defaultCustomFields['server.host'].toString());
-	//displayMessage(config.defaultCustomFields['server.host'].toString());
 	if(!title) {
 		customFields = config.defaultCustomFields;
 		if(!customFields['server.type']) {
@@ -105,14 +80,24 @@ config.macros.quicksync.getCustomFieldsFromTiddler = function(title)
 		customFields['server.type'] = store.getTiddlerSlice(title,'Type');
 		customFields['server.host'] = store.getTiddlerSlice(title,'URL');
 		customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-		//config.defaultCustomFields.wikiformat = store.getTiddlerSlice(title,'WikiFormat');
 	}
 	return customFields;
 };
 
+config.macros.quicksync.fullHostName = function(host)
+{
+	if(!host)
+		return '';
+	host = host.trim();
+	if(!host.match(/:\/\//))
+		host = 'http://' + host;
+	if(host.substr(host.length-1) != '/')
+		host = host + '/';
+	return host;
+};
+
 config.macros.quicksync.createContext = function(fields)
 {
-	//console.log('createContext',config.defaultCustomFields['server.host'].toString());
 	var serverType = fields['server.type'];
 	if(!serverType)
 		serverType = fields['wikiformat'];
@@ -133,8 +118,7 @@ config.macros.quicksync.createContext = function(fields)
 
 config.macros.quicksync.getTiddlers = function(context)
 {
-//	console.log('quicksync get tiddlers',arguments)
-	//console.log('getTiddlers',config.defaultCustomFields['server.host'].toString());
+	//	console.log('quicksync get tiddlers',arguments)
 	if(context) {
 		context.adaptor.openHost(context.host,context);
 		context.adaptor.openWorkspace(context.workspace,context,null,config.macros.quicksync.openWorkspaceCallback);
@@ -145,27 +129,30 @@ config.macros.quicksync.getTiddlers = function(context)
 
 config.macros.quicksync.openWorkspaceCallback = function(context,userParams)
 {
-//	console.log('qs openWS_CB',arguments)
+	//console.log('qs openWS_CB',arguments)
 	if(context.status) {
 		context.adaptor.getTiddlerList(context,null,config.macros.quicksync.getTiddlerListCallback);
 		return true;
 	}
-	//displayMessage(context.statusText);
 	return false;
 };
 
 config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 {
-//console.log('qs getTiddlerListCB', arguments)
+ 	//console.log('qs getTiddlerListCB', arguments)
+ 	clearMessage();
 	if(context.status) {
 		var tiddlers = context.tiddlers;
-		//console.log(tiddlers)
 		var getList = [];
 		var putList = [];
 		store.forEachTiddler(function(title,tiddler) {
 			var f = tiddlers.findByField("title",title);
-			if(f !== null && tiddler.fields['server.type'] && (tiddler.fields['server.host'] == context.host)) {
+			console.log(tiddler.fields['server.host'])
+			console.log(context.host)
+			if(f !== null && tiddler.fields['server.type'] && (config.macros.quicksync.fullHostName(tiddler.fields['server.host']) == config.macros.quicksync.fullHostName(context.host))) {
+				//console.log(tiddler)
 				if(tiddlers[f].fields['server.page.revision'] > tiddler.fields['server.page.revision']) {
+					//console.log(tiddler)
 					if(tiddler.isTouched())
 						backstage.switchTab('sync');
 					else
@@ -176,16 +163,24 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 				}
 			} else {
 				// tiddler not on server, so add to putList if it has been changed
-				if(tiddler.fields['server.type'] && tiddler.isTouched() && (tiddler.fields['server.host'] == context.host)) {
+				if(tiddler.fields['server.type'] && tiddler.isTouched() && (config.macros.quicksync.fullHostName(tiddler.fields['server.host']) == config.macros.quicksync.fullHostName(context.host))) {
 					putList.push(tiddler);
 				}
 			}
 		});
-		if(!config.options.chkQuicksyncNoUpload){
+
+		context.adaptor.putTiddlerLength = putList.length;
+
+		if(putList.length && !config.options.chkQuicksyncNoUpload){
 			for(var i=0; i<putList.length; i++) {
 				context.adaptor.putTiddler(putList[i],null,null,config.macros.quicksync.putTiddlerCallback);
 			}		
 		}
+//		else if(!putList.length){
+//		
+//		
+//		}
+
 		// now add all tiddlers that only exist on server to getList
 		for(i=0; i<tiddlers.length; i++) {
 			title = tiddlers[i].title;
@@ -196,21 +191,17 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 			}
 		}
 		context.adaptor.getTiddlerLength = getList.length;
-		clearMessage();
-		//console.log(getList);
 		if(getList.length){
 			//displayMessage("%0 updated and new page(s) on server.".format([getList.length]));
 			displayMessage("downloading updates...")
 		}
-		else {
+		
+		if (!getList.length && (!putList.length || !config.options.chkQuicksyncNoUpload)) {
 			--config.macros.quicksync.syncServersLength;
 			if(config.macros.quicksync.syncServersLength==0){
 				store.notifyAll();
 				story.refreshAllTiddlers();
 				clearMessage();
-				//displayMessage('update completed. Please save your notebook');
-				//window.setTimeout(function() {displayMessage('update completed. Please save your notebook');},1000);
-				//console.log(context)
 			}				
 			displayMessage("no updates available.")
 		}	
@@ -228,6 +219,17 @@ config.macros.quicksync.putTiddlerCallback = function(context,userParams)
 	} else {
 		displayMessage(context.statusText);
 	}
+	--context.adaptor.putTiddlerLength;
+	if(context.adaptor.getTiddlerLength==0 && context.adaptor.putTiddlerLength == 0){
+		--config.macros.quicksync.syncServersLength;
+	}
+	//console.log(context.adaptor.syncServersLength)
+	if(config.macros.quicksync.syncServersLength==0){
+		store.notifyAll();
+		story.refreshAllTiddlers();
+		clearMessage();
+		window.setTimeout(function() {displayMessage('update completed. Please save your notebook');},1000);
+	}	
 };
 
 config.macros.quicksync.getTiddlerCallback = function(context,userParams)
@@ -237,23 +239,18 @@ config.macros.quicksync.getTiddlerCallback = function(context,userParams)
 		store.suspendNotifications();
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
 		store.resumeNotifications();
-		//#story.refreshTiddler(tiddler.title,1,true);
-		//displayMessage(config.macros.quicksync.tiddlerImported.format([context.tiddler.title]));
 	} else if(!context.status) {
 		displayMessage(context.statusText);
 	}
 	--context.adaptor.getTiddlerLength;
-	if(context.adaptor.getTiddlerLength==0){
+	if(context.adaptor.getTiddlerLength==0 && context.adaptor.putTiddlerLength == 0){
 		--config.macros.quicksync.syncServersLength;
 	}
-	//console.log(context.adaptor.syncServersLength)
 	if(config.macros.quicksync.syncServersLength==0){
 		store.notifyAll();
 		story.refreshAllTiddlers();
 		clearMessage();
-		//displayMessage('update completed. Please save your notebook');
 		window.setTimeout(function() {displayMessage('update completed. Please save your notebook');},1000);
-		//console.log(context)
 	}
 };
 

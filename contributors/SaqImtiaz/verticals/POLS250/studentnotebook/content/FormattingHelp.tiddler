@@ -1,0 +1,47 @@
+<div title="FormattingHelp" tags="" wikiformat="wikispaces">
+<pre>
+Bold:
+{{**text**}} → **text**
+
+Italic:
+{{//text//}} → //text//
+
+Underline:
+{{__text__}} → __text__
+
+Ordered list:
+put {{# text }} at the beginning of a new line:
+# text
+# text
+
+Unordered list:
+put {{* text }} at the beginning of a new line:
+* text
+* text
+
+Horizontal rule:
+put {{---- }} at the beginning of a new line:
+----
+
+Heading 1:
+put {{=text=}} at the beginning of a new line:
+=text=
+
+<br>
+Heading 2:
+put {{==text==}} at the beginning of a new line:
+=text=
+
+<br>
+Indent:
+put {{> text }} at the beginning of a new line:
+>  text
+
+Table:
+{{|| cell 1 || cell 2 ||}}
+{{|| cell 3 || cell 4 ||}}
+will yield:
+|| cell 1 || cell 2 ||
+|| cell 3 || cell 4 ||
+</pre>
+</div>

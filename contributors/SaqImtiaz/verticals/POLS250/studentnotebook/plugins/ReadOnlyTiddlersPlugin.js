@@ -28,3 +28,4 @@ config.options.chkQuicksyncNoUpload = true;
 merge(config.commands.saveTiddler,{
 	text: "enter",
 	tooltip: "finish editing this page"});
+	

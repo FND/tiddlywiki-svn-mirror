@@ -1,0 +1,31 @@
+recipe: POLS250-common.html.recipe
+
+#
+#
+#
+# 	Plugins
+tiddler: ../../plugins/TiddlerNotesPlugin/TiddlerNotesPlugin.js
+tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfig excludeLists excludeSearch"
+tiddler: instructorsnotebook/plugins/defaultCustomFieldsPlugin.js
+tiddler: instructorsnotebook/plugins/settingsInstructorNotebookPlugin.js
+tiddler: instructorsnotebook/plugins/toggleFieldPlugin.js
+#
+#
+# 	Feeds
+#tiddler: instructorsnotebook/feeds/POLS250-ContentFeed.tiddler
+tiddler: instructorsnotebook/feeds/test.tiddler
+#
+#
+# 	Content
+#
+#
+# 	Shadows
+tiddler: instructorsnotebook/shadows/ViewTemplate.tiddler
+tiddler: instructorsnotebook/shadows/SiteTitle.tiddler
+#tiddler: instructorsnotebook/shadows/PageTemplate.tiddler
+tiddler: instructorsnotebook/shadows/space.menu.tiddler
+tiddler: instructorsnotebook/shadows/DefaultTiddlers.tiddler
+#
+#
+#	Framework
+
