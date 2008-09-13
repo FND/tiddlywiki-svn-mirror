@@ -147,8 +147,8 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 		var putList = [];
 		store.forEachTiddler(function(title,tiddler) {
 			var f = tiddlers.findByField("title",title);
-			console.log(tiddler.fields['server.host'])
-			console.log(context.host)
+			//console.log(tiddler.fields['server.host'])
+			//console.log(context.host)
 			if(f !== null && tiddler.fields['server.type'] && (config.macros.quicksync.fullHostName(tiddler.fields['server.host']) == config.macros.quicksync.fullHostName(context.host))) {
 				//console.log(tiddler)
 				if(tiddlers[f].fields['server.page.revision'] > tiddler.fields['server.page.revision']) {
