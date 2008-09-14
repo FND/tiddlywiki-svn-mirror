@@ -5,6 +5,8 @@ recipe: POLS250-common.html.recipe
 tiddler: studentnotebook/plugins/ReadOnlyTiddlersPlugin.js
 tiddler: ../../plugins/TiddlerNotesPlugin/TiddlerNotesPlugin.js
 tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfig excludeLists excludeSearch"
+tiddler: ../../plugins/batchNavigationMacro.js
+tiddler: ../../plugins/NavigationMacro/NavigationMacro.js
 #
 #
 # 	Feeds

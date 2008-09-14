@@ -1,3 +1,5 @@
+//<div class='viewer' macro='batchNavigation Lectures'></div>
+
 config.macros.batchNavigation = {
 	handler : function(place,macroName,params,wikifier,paramString,tiddler) {
 		if(!config.macros.navigation)
