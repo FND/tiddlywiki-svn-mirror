@@ -19,7 +19,7 @@ PasswordPrompt ={
 		var submitBtn = document.getElementById('passwordpromptSubmitBtn');
 		submitBtn.onclick = function(){PasswordPrompt.submit(callback,context); return false;};
 		var cancelBtn = document.getElementById('passwordpromptCancelBtn');
-		cancelBtn.onclick = function(){PasswordPrompt.remove(); return true;};
+		cancelBtn.onclick = function(){PasswordPrompt.remove(); return false;};
 	},	
 	
 	center : function(el){
@@ -38,8 +38,8 @@ PasswordPrompt ={
 	showCloak : function(){
 		var cloak = document.getElementById('backstageCloak');
 		if (config.browser.isIE){
-			overlay.style.height = Math.max(document.documentElement.scrollHeight,document.documentElement.offsetHeight);
-			overlay.style.width = document.documentElement.scrollWidth;
+			cloak.style.height = Math.max(document.documentElement.scrollHeight,document.documentElement.offsetHeight);
+			cloak.style.width = document.documentElement.scrollWidth;
 		}
 		cloak.style.display = "block";
 	},
