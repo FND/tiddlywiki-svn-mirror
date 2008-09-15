@@ -22,6 +22,8 @@ if($_POST['free'] ==1 )
 	echo count(db_record_select($tiddlyCfg['table']['user'],$data));
 	exit;
 }
+
+
 $res = db_record_insert($tiddlyCfg['table']['user'],$data);
 
 if ($res !=1)

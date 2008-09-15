@@ -29,17 +29,10 @@ To display a login prompt for your user simple type the following text into a ti
 ***/
 //{{{
 
-if (isLoggedIn()){
-	config.backstageTasks.push("logout");
-	merge(config.tasks,{logout:{text: "logout",tooltip: "Logout from ccTiddly",content: '<<ccLogin>>'}});
-}else{
-	config.backstageTasks.push("login");
-	merge(config.tasks,{login:{text: "login",tooltip: "Login to ccTiddly",content: '<<ccLogin>>'}});	
-}
-var loginState=null;
-var registerState=null;
 
 config.macros.ccLogin={};	
+
+
 merge(config.macros.ccLogin,{
 	WizardTitleText:"Please Login",
 	usernameRequest:"Username",
@@ -53,22 +46,40 @@ merge(config.macros.ccLogin,{
 	stepLogoutTitle:"Logout",
 	stepLogoutText:"You are currently logged in as ",
 	buttonLogout:"Logout",
-	buttonLogoutToolTip:"Click here to logout",
+	buttonLogoutToolTip:"Click here to logout.",
 	buttonLogin:"Login",
-	buttonLoginToolTip:"click to login ",	
+	buttonLoginToolTip:"Click to Login.",	
 	buttonCancel:"Cancel",
 	buttonCancelToolTip:"Cancel transaction ",
 	buttonForgottenPassword:"Forgotten Password",	
-	buttonSendForgottenPassword:"Mail me a new password",
-	buttonSendForgottenPasswordToolTip:"clicking here will have a new password mailed to you.",
+	buttonSendForgottenPassword:"Mail me a New Password",
+	buttonSendForgottenPasswordToolTip:"Click here if you have forgotten your password",
 	buttonForgottenPasswordToolTip:"Click to be reminded of your password",
+	msgNoUsername:"Please enter a username", 
+	msgNoPassword:"Please enter a password",
+	msgLoginFailed:"Login Failed, please try again. ", 
 	configURL:url+"/handle/login.php", 
 	configUsernameInputName:"cctuser",
 	configPasswordInputName:"cctpass",
 	configPasswordCookieName:"cctPass",
+
 	sha1:true
 });
 	
+
+
+if (isLoggedIn()){
+	config.backstageTasks.push("logout");
+	merge(config.tasks,{logout:{text: "logout",tooltip: config.macros.ccLogin.buttonLogoutToolTip,content: '<<ccLogin>>'}});
+}else{
+	config.backstageTasks.push("login");
+	merge(config.tasks,{login:{text: "login",tooltip: config.macros.ccLogin.buttonLoginToolTip,content: '<<ccLogin>>'}});	
+}
+
+var loginState=null;
+var registerState=null;
+
+
 config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	config.macros.ccLogin.refresh(place);
 };
@@ -100,16 +111,15 @@ config.macros.ccLogin.refresh=function(place, error){
 	var footer = findRelated(form,"wizardFooter","className");
 	createTiddlyButton(w.footer,this.buttonLogin,this.buttonLoginToolTip,function() {
 		if (w.formElem["username"].value==""){
-			displayMessage("No username was entered");
+			displayMessage(me.msgNoUsername);
 			return false;
 		}
 		if (w.formElem["password"].value==""){
-			displayMessage("No password was entered");
+			displayMessage(me.msgNoPassword);
 			return false;
 		}
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	});
-
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	},null, null, null,  {tabindex:'3'});
@@ -144,13 +154,11 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	}]);
 }
 
-config.macros.ccLogin.loginCallback=function(context,userParams){	
-
-		
+config.macros.ccLogin.loginCallback=function(context,userParams){			
 	if(context.status){
 			window.location=window.location;
 	}else{
-		config.macros.ccLogin.refresh(userParams.place, 'Login Failed. Please try again');
+		config.macros.ccLogin.refresh(userParams.place, config.macros.ccLogin.msgLoginFailed);
 	} 
 };
 
@@ -169,20 +177,17 @@ config.macros.ccLogin.displayForgottenPassword=function(item, place){
 //	console.log(w.formElem["forgottenPassword"].value);
 //}
 
-
 config.macros.toolbar.isCommandEnabled=function(command,tiddler){	
 	var title=tiddler.title;
 	if (workspace_delete=="D"){
 		// REMOVE OPTION TO DELETE TIDDLERS 
-		if (command.text=='delete'){
+		if (command.text=='delete')
 			return false;
-		}
 	}
 	if (workspace_udate=="D"){
 		// REMOVE EDIT LINK FROM TIDDLERS 
-		if (command.text=='edit'){
+		if (command.text=='edit')
 			return false;
-		}
 	}
 	var ro=tiddler.isReadOnly();
 	var shadow=store.isShadowTiddler(title) && !store.tiddlerExists(title);
@@ -211,9 +216,8 @@ config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramSt
 // Returns output var with output.txtUsername and output.sessionToken
 function findToken(cookieStash){
 	var output={};
-	if (!cookieStash){
-		return false;
-	}	
+	if (!cookieStash)
+		return false;	
 	//  THIS IS VERY HACKY AND SHOULD BE REFACTORED WHEN TESTS ARE IN PLACE
 	var cookies=cookieStash.split('path=/');
 	for(var c=0; c < cookies.length ; c++){
@@ -238,7 +242,6 @@ function findToken(cookieStash){
 
 
 function cookieString(str){	
-
 	var cookies = str.split(";");
 	var output = {};
 	for(var c=0; c < cookies.length; c++){
@@ -257,10 +260,9 @@ function cookieString(str){
 	return output;
 }
 
-Story.prototype.displayDefaultTiddlers = function()
-{
-    var tiddlers="";
-    if (isLoggedIn()) {        
+Story.prototype.displayDefaultTiddlers = function(){
+ 	var tiddlers="";
+	if (isLoggedIn()) {        
 		var url = window.location;        
 		url = url.toString();        
 		var bits = url.split('#');        
@@ -268,16 +270,16 @@ Story.prototype.displayDefaultTiddlers = function()
 			tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));            
 			story.displayTiddlers(null, tiddlers);
 		}
-	} else {        
+	} else {         
 		tiddlers=store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));        
 		story.displayTiddlers(null, tiddlers);   
 	}    
 };
 
 window.restart = function (){
-		story.displayDefaultTiddlers();
-		invokeParamifier(params,"onstart");
-		window.scrollTo(0,0); 
+	story.displayDefaultTiddlers();
+	invokeParamifier(params,"onstart");
+	window.scrollTo(0,0); 
 };
 
 
