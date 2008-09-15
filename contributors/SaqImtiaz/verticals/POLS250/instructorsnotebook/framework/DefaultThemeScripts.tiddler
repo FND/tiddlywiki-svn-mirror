@@ -1,0 +1,5 @@
+<div title="DefaultThemeScripts" modifier="SaqImtiaz" tags="excludeSearch">
+<pre>
+config.options.chkSinglePageMode = false;
+</pre>
+</div>
