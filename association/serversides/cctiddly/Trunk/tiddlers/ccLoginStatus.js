@@ -37,6 +37,7 @@ config.macros.saveChanges.handler=function(place,macroName,params,wikifier,param
 					window.location = window.fullUrl+"&logout=1";
 				else
 					window.location = window.fullUrl+"?logout=1";
+			return false;
 		},null,null,this.accessKey);
 	}else{
 		createTiddlyButton(place,"login" , "Click to login", function()  {
