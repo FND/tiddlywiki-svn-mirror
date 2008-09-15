@@ -1,0 +1,23 @@
+<div title="SlideStyleSheet" modifier="MartinBudden" tags="excludeSearch">
+<pre>
+[[MPTWStyleSheet]]
+/*{{{*/
+.toolbar {float:right;}
+.tiddler {font-size:200%; border:none;}
+body {background:#fff !important;}
+.quoteClass{ display:block; margin:1em 1em 1em 1em; padding:1em 1em 1em 1em; background:#ffc; text-align:left;}
+.quoteClassb{ display:block; margin:1em 1em 1em 1em; padding:1em 1em 1em 1em; background:#ffc; text-align:justify;}
+.quoteClassc{ display:block; padding:1em 1em 1em 1em; background:#ffc; text-align:justify;}
+.quoteClassd{ display:block; margin:1em 1em 1em 1em; padding:1em 1em 1em 1em; background:#ffc;text-align:justify;float:left; width:40%;}
+.quoteClasse{ display:block; margin:1em 1em 1em 1em; padding:1em 1em 1em 1em; background:#ffc; text-align:left;float:right; width:40%;}
+#displayArea { margin: 0em 0em 0em 0em; } 
+#backstageButton { display: none !important; }
+.toolbar { visibility: hidden; font-size:75%; } 
+.selected .toolbar { visibility: visible; font-size:75%; } 
+.navNext { visibility: hidden; font-size:75%; }
+.selected .navNext { visibility: visible; font-size:75%; color:[[ColorPalette::TertiaryMid]];}
+.navPrev { visibility: hidden; font-size:75%; } 
+.selected .navPrev { visibility: visible; font-size:75%; color:[[ColorPalette::TertiaryMid]];}  
+/*}}}*/
+</pre>
+</div>

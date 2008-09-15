@@ -1,0 +1,10 @@
+<div title="SlideTheme" modifier="MartinBudden" tags="systemTheme excludeSearch">
+<pre>
+|''Name:''|Slides|
+|''Description:''|A theme for showing slides|
+|''~StyleSheet:''|SlideStyleSheet|
+|''~PageTemplate''|SlidePageTemplate|
+|''~ViewTemplate:''|SlideViewTemplate|
+</pre>
+</div>
+

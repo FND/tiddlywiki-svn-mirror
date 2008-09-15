@@ -9,6 +9,9 @@ tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfi
 tiddler: instructorsnotebook/plugins/defaultCustomFieldsPlugin.js
 tiddler: instructorsnotebook/plugins/settingsInstructorNotebookPlugin.js
 tiddler: instructorsnotebook/plugins/toggleFieldPlugin.js
+tiddler: ../../../MartinBudden/plugins/ThemeSwitcherPlugin.js
+tiddler: ../../plugins/batchNavigationMacro.js
+tiddler: ../../plugins/NavigationMacro/NavigationMacro.js
 #
 #
 # 	Feeds
@@ -28,4 +31,9 @@ tiddler: instructorsnotebook/shadows/DefaultTiddlers.tiddler
 #
 #
 #	Framework
-
+tiddler: instructorsnotebook/framework/DefaultTheme.tiddler
+tiddler: instructorsnotebook/framework/SlidePageTemplate.tiddler
+tiddler: instructorsnotebook/framework/SlideStyleSheet.tiddler
+tiddler: instructorsnotebook/framework/SlideTheme.tiddler
+tiddler: instructorsnotebook/framework/SlideViewTemplate.tiddler
+tiddler: instructorsnotebook/framework/MptwStyleSheet.tiddler
