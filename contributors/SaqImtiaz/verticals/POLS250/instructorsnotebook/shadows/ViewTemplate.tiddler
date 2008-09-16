@@ -1,7 +1,7 @@
 <div title="ViewTemplate" modifier="SaqImtiaz" created="200802260834" modified="200802261350" tags="excludeSearch excludeLists">
 <pre><!--{{{-->
 <div class='title' macro='view title'></div>
-<div class='toolbar'></span><span macro='toolbar +editTiddler fields'></span><span style="padding-left:0.5em;" macro='toggleField server.host {{config.defaultCustomFields["server.host"]}} private "" true'><span macro='selectTheme'></span> </div>
+<div class='toolbar'></span><span macro='toolbar +editTiddler'></span><span style="padding-left:0.5em;" macro='toggleField server.host {{config.defaultCustomFields["server.host"]}} private "" true {{window.setPrivatePageTag}}'><span macro='selectTheme'></span> </div>
 <div class='tagClear'></div>
 <div class='viewer viewernotes' macro='view text wikified'></div>
 <div macro='hideWhen tiddler.tags.containsAny(["excludeLists","excludeSearch","systemConfig","systemConfigDisable","systemServer","PrivateNotes"])'>

@@ -1,10 +1,10 @@
-<div title="SlideViewTemplate" modifier="MartinBudden" tags="excludeSearch">
+<div title="SlideViewTemplate" modifier="MartinBudden" tags="excludeSearch excludeLists">
 <pre>
 <!--{{{-->
 <div class="toolbar">
 <span macro='selectTheme'></span> 
 <span macro='tag lectures'></span>
-<span macro='toolbar -closeTiddler +editTiddler'></span> 
+<span macro='toolbar +editTiddler'></span> 
 </div>
 <div class='title' macro='view title'></div>
 <div class='viewer viewernotes'> <span macro='view text wikified'></div>
