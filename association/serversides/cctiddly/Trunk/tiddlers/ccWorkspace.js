@@ -185,18 +185,18 @@ merge(config.macros.ccEditWorkspace,{
 	buttonSubmitToolTip:"Update workspace permissions",
 	button1SubmitCaption:"ok",
 	button1SubmitToolTip:"review permissions",
-	step2Error:"Error"
+	step2Error:"Error", 
+	errorTextPermissionDenied:"You do not have permissions to edit this workspace permissions.  You may need to log in."
 	});
 	
 config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikifier, paramString, tiddler){
-	if (workspacePermission.owner !=1)
-	{
-		createTiddlyElement(place,'div', null, "annotation",  'You do not have permissions to create a workspace.  You may need to log in.');
+	var me = config.macros.ccEditWorkspace;
+	if (workspacePermission.owner !=1) {
+		createTiddlyElement(place,'div', null, "annotation",  me.errorTextPermissionDenied);
 		return null;
 	}
 	var w = new Wizard();
 	w.createWizard(place, this.WizardTitleText);
-	var me = config.macros.ccEditWorkspace;
 	
 	var booAdmin = false;
 	var booUser = false;
@@ -246,62 +246,62 @@ config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikif
 		tableBodyBuffer.push(' ></input></td>');
 	}
 	if (booUser) {
-		tableBodyBuffer.push('		<td><input name="usR" class="checkInput" type="checkbox" ');
+		tableBodyBuffer.push('<td><input name="usR" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.userR == 1 ? 'checked' : '');
-		tableBodyBuffer.push(' ></input></td>');
+		tableBodyBuffer.push('></input></td>');
 	}
 	if (booAdmin) {
-		tableBodyBuffer.push('		<td><input name="adR" class="checkInput" type="checkbox" checked disabled></input></td>');
+		tableBodyBuffer.push('<td><input name="adR" class="checkInput" type="checkbox" checked disabled></input></td>');
 	}
-	tableBodyBuffer.push('	</tr>');
-	tableBodyBuffer.push('	<tr>');
-	tableBodyBuffer.push('		<th  align="right">' + this.stepLabelCreate + '</th>');
+	tableBodyBuffer.push('</tr>');
+	tableBodyBuffer.push('<tr>');
+	tableBodyBuffer.push('<th  align="right">' + this.stepLabelCreate + '</th>');
 	if (booAnon) {
-		tableBodyBuffer.push('		<td><input name="anC" class="checkInput" type="checkbox" ');
+		tableBodyBuffer.push('<td><input name="anC" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.anonC == 1 ? 'checked' : '');
 		tableBodyBuffer.push(' ></input></td>');
 	}
 	if (booUser) {
-		tableBodyBuffer.push('		<td><input name="usC" class="checkInput" type="checkbox" ');
+		tableBodyBuffer.push('<td><input name="usC" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.userC == 1 ? 'checked' : '');
 		tableBodyBuffer.push(' ></input></td>');
 	}
 	if (booAdmin) {
-		tableBodyBuffer.push('		<td><input name="adC" class="checkInput" type="checkbox" checked disabled></input></td>');
+		tableBodyBuffer.push('<td><input name="adC" class="checkInput" type="checkbox" checked disabled></input></td>');
 	}
-	tableBodyBuffer.push('	</tr>');
-	tableBodyBuffer.push('	<tr>');
+	tableBodyBuffer.push('</tr>');
+	tableBodyBuffer.push('<tr>');
 	tableBodyBuffer.push('<th  align="right">' + this.stepLabelUpdate + '</th>');
 	if (booAnon) {
-		tableBodyBuffer.push('		<td><input name="anU" class="checkInput" type="checkbox" ');
+		tableBodyBuffer.push('<td><input name="anU" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.anonU == 1 ? 'checked' : '');
 		tableBodyBuffer.push(' ></input></td>');
 	}
 	if (booUser) {
-		tableBodyBuffer.push('		<td><input name="usU" class="checkInput" type="checkbox" ');
+		tableBodyBuffer.push('<td><input name="usU" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.userU == 1 ? 'checked' : '');
 		tableBodyBuffer.push(' ></input></td>');
 	}
 	if (booAdmin) {
 		tableBodyBuffer.push('		<td><input name="adU" class="checkInput" type="checkbox" checked disabled></input></td>');
 	}
-	tableBodyBuffer.push('	</tr>');
-	tableBodyBuffer.push('	<tr>');
-	tableBodyBuffer.push('		<th  align="right">' + this.stepLabelDelete + '</th>');
+	tableBodyBuffer.push('</tr>');
+	tableBodyBuffer.push('<tr>');
+	tableBodyBuffer.push('<th  align="right">' + this.stepLabelDelete + '</th>');
 	if (booAnon) {
-		tableBodyBuffer.push('		<td><input name="anD" class="checkInput" type="checkbox" ');
+		tableBodyBuffer.push('<td><input name="anD" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.anonD == 1 ? 'checked' : '');
 		tableBodyBuffer.push(' ></input></td>');
 	}
 	if (booUser) {
-		tableBodyBuffer.push('		<td><input name="usD" class="checkInput" type="checkbox" ');
+		tableBodyBuffer.push('<td><input name="usD" class="checkInput" type="checkbox" ');
 		tableBodyBuffer.push(workspacePermission.userD == 1 ? 'checked' : '');
 		tableBodyBuffer.push(' ></input></td>');
 	}
 	if (booAdmin) {
-		tableBodyBuffer.push('		<td><input name="adD" class="checkInput" type="checkbox" checked disabled></input></td>');
+		tableBodyBuffer.push('<td><input name="adD" class="checkInput" type="checkbox" checked disabled></input></td>');
 	}
-	tableBodyBuffer.push('	</tr>');
+	tableBodyBuffer.push('</tr>');
 	tableBodyBuffer.push('</table>');
 	
 	var stepHTML = tableBodyBuffer.join('');
@@ -316,9 +316,6 @@ config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikif
 config.macros.ccEditWorkspace.ewSubmit = function(place, macroName, params2, wikifier, paramString, tiddler,w, booAnon, booUser){
 	var trueStr = "A";
 	var falseStr = "U";
-	// build up string with permissions values
-	
-	// validate which we need to update
 	var anon = '';
 	var user = '';
 	

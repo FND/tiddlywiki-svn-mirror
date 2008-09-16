@@ -24,14 +24,19 @@ function ccTiddlyAutoSave()
 }
 
 
+merge(ccTiddlyAutoSave, {
+	msgSaved:"Saved ",
+	msgError:"There was an error saving "
+});
+
 ccTiddlyAutoSave.putCallback = function(context, userParams)
 {
     tiddler = context.tiddler;
     if (context.status) {
-        displayMessage('Saved ' + tiddler.title);
+        displayMessage(ccTiddlyAutoSave.msgSaved + tiddler.title);
         tiddler.clearChangeCount();
 	} else {
-        displayMessage('Error Saving ' + tiddler.title + ' ' + context.statusText);
+        displayMessage(ccTiddlyAutoSave.msgError + tiddler.title + ' ' + context.statusText);
         tiddler.incChangeCount();
     }
 };
