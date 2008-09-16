@@ -167,13 +167,11 @@ class ccTests extends PHPUnit_Framework_TestCase
 		// Tiddler should not be in the story. 
 	}
 	
-	
 	public function	runPermTests()
 	{
-		$this->testPermUpdate();
 		$this->selenium->open("/rel");
 		$this->doLogin("admin", "password");
-		
+		$this->testPermUpdate();		
 	}
 
 	public function runTests()
@@ -207,11 +205,66 @@ $a->runPermTests();
 //$a->testEditPermissions();
 //$a->runTests();
 //$a->testTeamTasks();
-$a->tearDown();
+//$a->tearDown();
 
 if($fail_count==0) {
 	echo "<body style='background-color:green; color:white;'><h1>You have no errors </h1>";
 }else {
 	echo "Total Fails: ".$fail_count;
 }
+
+// DO ALL OF THE BELOW WITH DIFFERENT LANGUAGE PACKS
+
+checkState()
+{
+	if(testPermRead())
+		echo 'user has read permissions';
+	if(testPermWrite())
+		echo 'user has write permissions';
+	if(testPermUpdate())
+		echo 'user can update';
+	if(testPermDelete())
+		echo 'user can delete';
+}
+
+//RUN THROUGH 
+	// IE6
+	// IE7
+	// Firefox 
+	// Safari
+	
+//NOT PRESENT
+	//create 
+	//edit
+	//delete ?
+	//new task
+	//new journal 
+	// create workspace 
+	// any other macros?
+	// Save button
+	// sync button
+	// backstage >> About
+	// backstage >> Login
+	
+//PRESENT 
+	// revisions?
+	// login 
+	// login status
+	// register?
+	
+
+
+// FAILED LOGIN
+
+// FAILED REGISTER
+
+// SUCCESSFUL LOGIN 
+	//Anon User
+
+	//Logged in User
+
+	//Admin User 
+	
+// LOGOUT
+
 ?>

@@ -14,7 +14,6 @@
 |''~taskEditTemplate:''|##taskEditTemplate|
 |''~EditTemplate:''|##EditTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
-|''~wizardViewTemplate:''|##wizardViewTemplate|
 ***/
 
 
@@ -44,7 +43,7 @@
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
 
 !SideBarOptions
-<<search "search...">><<closeAll>><<newTiddler>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<saveChanges>><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'content »' 'View TiddlyWiki Tabs'>>
+<<search "search...">><<closeAll>><<newTiddler>><<saveChanges>><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'content »' 'View TiddlyWiki Tabs'>>
 
 !StyleSheet
 /***
@@ -721,13 +720,6 @@ table.sortable td.sortedCol {
 <div class='tagClear'></div>
 <div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 <hr />
-<!--}}}-->
-
-!wizardViewTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
-<div class='viewer' macro='view text wikified'></div>
-<div class='tagClear'></div>
 <!--}}}-->
 
 </pre>
