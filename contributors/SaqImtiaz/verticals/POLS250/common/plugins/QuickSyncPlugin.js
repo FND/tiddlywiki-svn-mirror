@@ -17,7 +17,7 @@ It makes no attempt to deal with conflicted tiddlers, tiddlers that have been ch
 To use, add <<quicksync>> to the SideBarOptions shadow tiddler.
 
 ***/
-
+//doesnt support updates of non-Wikispaces pages. Adaptors need comparison method
 //{{{
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.QuickSyncPlugin) {

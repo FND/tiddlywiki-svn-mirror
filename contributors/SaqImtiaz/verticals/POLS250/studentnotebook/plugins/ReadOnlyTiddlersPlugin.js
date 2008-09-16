@@ -2,7 +2,7 @@ Tiddler.prototype.wikispaces_oldIsReadOnly = Tiddler.prototype.isReadOnly;
 
 Tiddler.prototype.isReadOnly = function()
 {
-	if (this.fields['server.locked'])
+	if (this.fields['server.locked'] || this.fields['server.type'] == 'wikispaces')
 		return true;
 //	else if (!store.getTiddler(this.title) && !store.isShadowTiddler(this.title))
 //		return true;
@@ -29,3 +29,4 @@ merge(config.commands.saveTiddler,{
 	text: "enter",
 	tooltip: "finish editing this page"});
 	
+store.removeTiddler("readOnlyTiddlersPlugin");
