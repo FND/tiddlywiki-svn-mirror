@@ -1,10 +1,13 @@
+config.macros.ccFile = {};
 
-
-//window.url = 'http://127.0.0.1/association/serversides/cctiddly/Trunk';
-//window.workspace = 'testfiles';
-
-config.macros.ccFile = {}
 merge(config.macros.ccFile,{
+	wizardTitleText:"Manage Files",
+	wizardStepText:"Manage files in workspace.",
+	buttonDeleteText:"Delete Files.",
+	buttonDeleteTooltip:"Click to Delete files.",
+	buttonUploadText:"Upload Files.",
+	buttonUploadTooltip:"Click to Upload files.",
+	labelFiles:"Existing Files ",
 	listAdminTemplate: {
 	columns: [	
 	{name: 'wiki text', field: 'wikiText', title: "", type: 'WikiText'},
@@ -19,15 +22,15 @@ merge(config.macros.ccFile,{
 
 
 var iFrameLoad=function(){
-	var uploadIframe= document.getElementById('uploadIframe');
-	var statusArea=document.getElementById("uploadStatus");
+	var uploadIframe = document.getElementById('uploadIframe');
+	var statusArea = document.getElementById("uploadStatus");
 	document.getElementById("ccfile").value=""; 
 	statusArea.innerHTML=uploadIframe.contentDocument.body.innerHTML;
 };
 
 config.macros.ccFile.handler=function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
 	var w = new Wizard();
-	w.createWizard(place,"Manage Files");
+	w.createWizard(place,config.macros.ccFile.wizardTitleText);
 	config.macros.ccFile.refresh(w);
 };
 
@@ -35,14 +38,15 @@ config.macros.ccFile.refresh=function(w){
 	params = {};
 	params.w = w;
 	params.e = this;
+	var me = config.macros.ccFile;
 	doHttp('GET',url+'/handle/listFiles.php?workspace_name='+workspace,'',null,null,null,config.macros.ccFile.listAllCallback,params);
 	w.setButtons([
-		{caption: 'Delete Files', tooltip: 'Delete Files', onClick: function(w){ 
+		{caption: me.buttonDeleteText, tooltip: me.buttonDeleteTooltip, onClick: function(w){ 
 			config.macros.ccFile.delFileSubmit(null, params);
 			 return false;
 		}
 			 }, 
-		{caption: 'Upload File', tooltip: 'Upload File', onClick: function(w){ 
+		{caption: me.buttonUploadText, tooltip: me.buttonUploadTooltip, onClick: function(w){ 
 			story.displayTiddler(null,"Upload");
 			//config.macros.ccFile.addFileDisplay(null, params); return false 
 			} }]);
@@ -61,11 +65,9 @@ config.macros.ccFile.delFileCallback=function(status,params,responseText,uri,xhr
 };
 
 config.macros.ccFile.addFileDisplay = function(e, params) {
-	
+ 	// THIS FUNCTION IS NOT CURRENTLY BEING USED
 	var frmWrapper=createTiddlyElement(null,'div',"frmWrapper", "frmWrapper");
-
 	var step=createTiddlyElement(frmWrapper,'form',null,"wizardStep");
-
 	var frm=createTiddlyElement(frmWrapper,'div', 'form', 'form');
 	frmWrapper.appendChild(frm);
 //	if(navigator.appName=="Microsoft Internet Explorer")
@@ -143,7 +145,6 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 	var me = config.macros.ccFile;
 	var out = "";
 	var adminUsers = [];
-	
 	try{
 		var a = eval(responseText);
 		for(var e=0; e < a.length; e++){ 		
@@ -159,11 +160,10 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 	} catch (ex)
 	{
 		params.w.setButtons([
-			{caption: 'Upload File', tooltip: 'Upload File', onClick: function(w){
+			{caption: me.buttonUploadText, tooltip: me.buttonUploadTooltip, onClick: function(w){
 			story.displayTiddler(null,"Upload");} }]);
 	}
-	var html ='<input type="hidden" name="markList"></input>';
-	params.w.addStep("Manage files in workspace  '"+workspace+"'", html);
+	params.w.addStep(me.wizardStepText+workspace, "<input type='hidden' name='markList'></input>");
 	var markList = params.w.getElement("markList");
 	var listWrapper = document.createElement("div");
 	markList.parentNode.insertBefore(listWrapper,markList);
@@ -175,7 +175,7 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 config.macros.ccFile.listFilesCallback = function(status,params,responseText,uri,xhr) {
 	createTiddlyElement(params.place,'hr');
 	createTiddlyElement(params.place,'br');
-	createTiddlyElement(params.place, 'h2', null, null,  "Existing Files ");
+	createTiddlyElement(params.place, 'h2', null, null, me.labelFiles);
 	var a = eval( "[" +responseText+ "]" );
 		for(var e=0; e < a.length; e++){  
 			var link=createExternalLink(params.place,url+'/uploads/workspace/'+workspace+'/'+a[e]);
@@ -185,8 +185,6 @@ config.macros.ccFile.listFilesCallback = function(status,params,responseText,uri
 }
 
 config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,xhr) {	
-	
-	displayMessage("add file callback");
 	config.macros.ccFile.refresh(params.w);
 };
 

@@ -15,6 +15,45 @@
 // Ensure that the plugin is only installed once.
 if(!version.extensions.AdaptorCommandsPlugin) {
 version.extensions.AdaptorCommandsPlugin = {installed:true};
+
+merge(config.commands,{ 
+	getTiddler:{
+		text: "get",
+		tooltip:"Download this tiddler",
+		readOnlyText: "get",
+		readOnlyTooltip: "Download this tiddler",
+		done: "Tiddler downloaded"
+	}, putTiddler:{
+		text: "put",
+		tooltip: "Upload this tiddler",
+		hideReadOnly: true,
+		done: "Tiddler uploaded"
+	}, revisions:{
+		text: "revisions",
+		tooltip: "View another revision of this tiddler",
+		loading: "loading...",
+		done: "Revision downloaded",
+		revisionTooltip: "View this revision",
+		popupNone: "No revisions",
+		revisionTemplate: "%0 r:%1 m:%2"
+	}, saveTiddlerAndPut: {
+		text: "done",
+		tooltip: "Save this tiddler and upload",
+		hideReadOnly: true,
+		done: "Tiddler uploaded"
+	}, saveTiddlerHosted: {
+		text: "done",
+		tooltip: "Save changes to this tiddler",
+		hideReadOnly: true,
+		done: "done"
+	}, deleteTiddlerHosted: {
+		text: "delete",
+		tooltip: "Delete this tiddler",
+		warning: "Are you sure you want to delete '%0'?",
+		hideReadOnly: true,
+		done: "done"		
+	}
+});
 function getServerType(fields)
 {
 	if(!fields)
@@ -48,9 +87,6 @@ function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 		ret = param2 ? adaptor[fnName](param1,param2,context,userParams,callback) : adaptor[fnName](param1,context,userParams,callback);
 	else
 		ret = adaptor[fnName](context,userParams,callback);
-	
-	//adaptor.close();
-	//delete adaptor;
 	return ret;
 }
 
@@ -58,9 +94,7 @@ function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 //# Used by (eg): config.commands.download.isEnabled
 function isAdaptorFunctionSupported(fnName,fields)
 {
-//#console.log("isAdaptorFunctionSupported:",fnName,"f:",fields);
 	var serverType = getServerType(fields);
-//#console.log("st:"+serverType);
 	if(!serverType || !config.adaptors[serverType])
 		return false;
 	if(!config.adaptors[serverType].isLocal && !fields['server.host'])
@@ -68,17 +102,8 @@ function isAdaptorFunctionSupported(fnName,fields)
 	var fn = config.adaptors[serverType].prototype[fnName];
 	return fn ? true : false;
 }
-
 //# getTiddler command definition
 config.commands.getTiddler = {};
-merge(config.commands.getTiddler,{
-	text: "get",
-	tooltip:"Download this tiddler",
-	readOnlyText: "get",
-	readOnlyTooltip: "Download this tiddler",
-	done: "Tiddler downloaded"
-	});
-
 config.commands.getTiddler.isEnabled = function(tiddler)
 {
 	return isAdaptorFunctionSupported('getTiddler',tiddler.fields);
@@ -86,7 +111,6 @@ config.commands.getTiddler.isEnabled = function(tiddler)
 
 config.commands.getTiddler.handler = function(event,src,title)
 {
-//#console.log("config.commands.getTiddler.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(tiddler) {
 		var fields = tiddler.fields;
@@ -99,8 +123,6 @@ config.commands.getTiddler.handler = function(event,src,title)
 
 config.commands.getTiddler.callback = function(context,userParams)
 {
-//#console.log("config.commands.getTiddler.callback:"+context.tiddler.title);
-//#displayMessage("status:"+context.status);
 	if(context.status) {
 		var tiddler = context.tiddler;
 		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
@@ -110,16 +132,7 @@ config.commands.getTiddler.callback = function(context,userParams)
 		displayMessage(context.statusText);
 	}
 };
-
-//# putTiddler command definition
 config.commands.putTiddler = {};
-merge(config.commands.putTiddler,{
-	text: "put",
-	tooltip: "Upload this tiddler",
-	hideReadOnly: true,
-	done: "Tiddler uploaded"
-	});
-
 config.commands.putTiddler.isEnabled = function(tiddler)
 {
 	return tiddler && tiddler.isTouched() && isAdaptorFunctionSupported('putTiddler',tiddler.fields);
@@ -127,7 +140,6 @@ config.commands.putTiddler.isEnabled = function(tiddler)
 
 config.commands.putTiddler.handler = function(event,src,title)
 {
-//#console.log("config.commands.putTiddler.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
@@ -136,7 +148,6 @@ config.commands.putTiddler.handler = function(event,src,title)
 
 config.commands.putTiddler.callback = function(context,userParams)
 {
-	//#console.log("config.commands.putTiddler.callback:"+context.tiddler.title);
 	if(context.status) {
 		store.fetchTiddler(context.title).clearChangeCount();
 		displayMessage(config.commands.putTiddler.done);
@@ -146,16 +157,6 @@ config.commands.putTiddler.callback = function(context,userParams)
 };
 
 //# revisions command definition
-config.commands.revisions = {};
-merge(config.commands.revisions,{
-	text: "revisions",
-	tooltip: "View another revision of this tiddler",
-	loading: "loading...",
-	done: "Revision downloaded",
-	revisionTooltip: "View this revision",
-	popupNone: "No revisions",
-	revisionTemplate: "%0 r:%1 m:%2"	
-	});
 
 config.commands.revisions.isEnabled = function(tiddler)
 {
@@ -197,8 +198,7 @@ config.commands.revisions.callback = function(context,userParams)
 			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
 					config.commands.revisions.revisionTemplate.format([modified,revision,tiddler.modifier]),
 					tiddler.text||config.commands.revisions.revisionTooltip,
-					function() {
-						config.commands.revisions.getTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('tiddlerModified'),this.getAttribute('tiddlerRevision'),this);
+					function() {		config.commands.revisions.getTiddlerRevision(this.getAttribute('tiddlerTitle'),this.getAttribute('tiddlerModified'),this.getAttribute('tiddlerRevision'),this);
 						return false;
 						},
 					'tiddlyLinkExisting tiddlyLink');
@@ -221,10 +221,8 @@ config.commands.revisions.getTiddlerRevision = function(title,modified,revision)
 
 config.commands.revisions.getTiddlerRevisionCallback = function(context,userParams)
 {
-//#console.log("config.commands.getTiddlerRevisionCallback:"+context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
-		//store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
 		store.addTiddler(tiddler);
 		store.notify(tiddler.title, true);
 		story.refreshTiddler(tiddler.title,1,true);
@@ -235,16 +233,8 @@ config.commands.revisions.getTiddlerRevisionCallback = function(context,userPara
 };
 
 config.commands.saveTiddlerAndPut = {};
-merge(config.commands.saveTiddlerAndPut,{
-	text: "done",
-	tooltip: "Save this tiddler and upload",
-	hideReadOnly: true,
-	done: "Tiddler uploaded"
-	});
-
 config.commands.saveTiddlerAndPut.handler = function(event,src,title)
 {
-	displayMessage("asdasdasd");
 	config.commands.putTiddlerRevision.handler(event,src,title);// save the old tiddler as a revision
 	var newTitle = story.saveTiddler(title,event.shiftKey);
 	if(newTitle)
@@ -253,16 +243,8 @@ config.commands.saveTiddlerAndPut.handler = function(event,src,title)
 };
 
 config.commands.saveTiddlerHosted = {};
-merge(config.commands.saveTiddlerHosted,{
-	text: "done",
-	tooltip: "Save changes to this tiddler",
-	hideReadOnly: true,
-	done: "done"
-	});
-	
 config.commands.saveTiddlerHosted.handler = function(event,src,title)
 {
-//#displayMessage("config.commands.saveTiddlerHosted.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
@@ -271,7 +253,6 @@ config.commands.saveTiddlerHosted.handler = function(event,src,title)
 
 config.commands.saveTiddlerHosted.callback = function(context,userParams)
 {
-//#displayMessage("config.commands.saveTiddlerHosted.callback:"+context.tiddler.title);
 	if(context.status) {
 		displayMessage(config.commands.saveTiddlerHosted.done);
 	} else {
@@ -280,17 +261,8 @@ config.commands.saveTiddlerHosted.callback = function(context,userParams)
 };
 
 config.commands.deleteTiddlerHosted = {};
-merge(config.commands.deleteTiddlerHosted,{
-	text: "delete",
-	tooltip: "Delete this tiddler",
-	warning: "Are you sure you want to delete '%0'?",
-	hideReadOnly: true,
-	done: "done"
-	});
-	
 config.commands.deleteTiddlerHosted.handler = function(event,src,title)
 {
-//#console.log("config.commands.deleteTiddlerHosted.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return false;
@@ -300,7 +272,6 @@ config.commands.deleteTiddlerHosted.handler = function(event,src,title)
 
 config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 {
-//#displayMessage("config.commands.deleteTiddlerHosted.callback:"+context.tiddler.title);
 	if(context.status) {
 		displayMessage(config.commands.saveTiddlerHosted.done);
 	} else {

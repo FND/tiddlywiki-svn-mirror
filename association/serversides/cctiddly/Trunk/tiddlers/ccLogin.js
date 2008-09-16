@@ -65,9 +65,23 @@ merge(config.macros.ccLogin,{
 
 	sha1:true
 });
+
+config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	if(isLoggedIn()){
+		createTiddlyButton(place, config.macros.ccLogin.buttonLogout, config.macros.ccLogin.buttonLogoutToolTip, function(){
+				if (window.fullUrl.indexOf("?") >0)
+					window.location = window.fullUrl+"&logout=1";
+				else
+					window.location = window.fullUrl+"?logout=1";
+			return false;
+		},null,null,this.accessKey);
+	}else{
+		createTiddlyButton(place,config.macros.ccLogin.buttonLogin , config.macros.ccLogin.buttonLoginToolTip, function() {
+			story.displayTiddler(null, "Login");
+		},null,null,this.accessKey);
+	}
+};
 	
-
-
 if (isLoggedIn()){
 	config.backstageTasks.push("logout");
 	merge(config.tasks,{logout:{text: "logout",tooltip: config.macros.ccLogin.buttonLogoutToolTip,content: '<<ccLogin>>'}});
@@ -87,7 +101,6 @@ config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramStri
 config.macros.ccLogin.refresh=function(place, error){
 	removeChildren(place);
 	var w = new Wizard();
-
 	if (isLoggedIn())	{
 		w.createWizard(place,this.stepLogoutTitle);
 		w.addStep(null, this.stepLogoutText+cookieString(document.cookie).txtUserName+"<br /><br />");

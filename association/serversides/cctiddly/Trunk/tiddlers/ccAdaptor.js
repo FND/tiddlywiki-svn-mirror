@@ -1,5 +1,13 @@
 
 
+
+
+config.backstageTasks.remove("upgrade");
+config.backstageTasks.remove("save");
+config.backstageTasks.remove("sync");
+
+
+
 function isLoggedIn(){
 	if(window.loggedIn == '1'){
 		return true;
@@ -11,6 +19,17 @@ function isLoggedIn(){
 function ccTiddlyAdaptor()
 {
 }
+
+merge(ccTiddlyAdaptor, { 
+	errorTitleNotSaved:"<h1>Your changes were NOT saved.</h1>", 
+	errorTextSessionExpired:"Your Session has expired. <br /> You will need to log into the new window and then copy your changes from this window into the new window. ", 
+	errorTextConfig:"There was a conflict when saving. <br /> Please open the page in a new window to see the changes.",
+	errorTextUnknown:"An unknown error occured.",
+	errorClose:"close",
+	buttonOpenNewWindow:"Open a Window where I can save my changes	.... ",
+	buttonHideThisMessage:"Hide this message"
+	
+});
 
 ccTiddlyAdaptor.prototype = new AdaptorBase();
 
@@ -322,6 +341,68 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	return typeof req == 'string' ? req : true;
 };
 
+
+ccTiddlyAdaptor.center  = function(el)
+{
+	var size = this.getsize(el);
+	el.style.left = (Math.round(findWindowWidth()/2) - (size.width /2) + findScrollX())+'px';
+	el.style.top = (Math.round(findWindowHeight()/2) - (size.height /2) + findScrollY())+'px';
+}
+	
+ccTiddlyAdaptor.getsize = function (el)
+{
+	var x = {};
+	x.width = el.offsetWidth || el.style.pixelWidth;
+	x.height = el.offsetHeight || el.style.pixelHeight;
+	return x;
+}
+	
+ccTiddlyAdaptor.showCloak = function()
+{
+	var cloak = document.getElementById('backstageCloak');
+	if (config.browser.isIE){
+		cloak.style.height = Math.max(document.documentElement.scrollHeight,document.documentElement.offsetHeight);
+		cloak.style.width = document.documentElement.scrollWidth;
+	}
+	cloak.style.display = "block";
+}
+
+ccTiddlyAdaptor.hideError = function(){
+	var box = document.getElementById('errorBox');
+	box.parentNode.removeChild(box);
+	document.getElementById('backstageCloak').style.display = "";
+}
+
+ccTiddlyAdaptor.handleError = function(error_code)
+{
+	setStylesheet(
+	"#errorBox dd.submit {margin-left:0; font-weight: bold; margin-top:1em;}\n"+
+	"#errorBox dd.submit .button {padding:0.5em 1em; border:1px solid #ccc; margin-right:1em;}\n"+
+	"#errorBox dt.heading {margin-bottom:0.5em; font-size:1.2em;}\n"+
+	"html > body > #backstageCloak {height:100%;}"+
+	"#errorBox {border:1px solid #ccc;background-color: #eee;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
+	var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
+	var error = ccTiddlyAdaptor.errorTitleNotSaved;
+	switch(error_code){
+	case 401:
+		error += ccTiddlyAdaptor.errorTextSessionExpired;
+	break;    
+	case 409:
+		error += ccTiddlyAdaptor.errorTextConflict;
+	break;
+	default:
+		error+= ccTiddlyAdaptor.errorTextUnknown;
+	}	
+	box.innerHTML = " <a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><p>"+error+"</p><br/><br/>";
+	createTiddlyButton(box,ccTiddlyAdaptor.buttonOpenNewWindow,null,function(e){ window.open (window.location,"mywindow");	 return false;});
+	createTiddlyElement(box,"br");
+	createTiddlyElement(box,"br");
+	createTiddlyButton(box,ccTiddlyAdaptor.buttonHideThisMessage,null,function(){ccTiddlyAdaptor.hideError();});
+	box.style.position = 'absolute';
+	ccTiddlyAdaptor.center(box);
+	ccTiddlyAdaptor.showCloak();
+}
+
 ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
 	context.status = false;
@@ -329,46 +410,8 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xh
 		context.status = true;
 	} else {
 		context.status = false;	
-		if(xhr.status == 401 || xhr.status==409)
-		{
-			window.loggedIn = false; // we should check for other cases - revisions have changed. 
-			var p = document.getElementById('backstagePanel');
-			p.style.zIndex=10;
-		
-			var a = document.getElementById('backstageCloak');
-			a.style.display = "block";	
-			//a.style.opacity = "0.7"; 
-			a.style.height= "100%";
-			var b = document.getElementById('backstage');
-			b.style.position="absolute";	
-			b.style.padding='40px 0px 0px 0px';
-			frm=createTiddlyElement(b,"form",null,"wizard");
-			var body=createTiddlyElement(frm,"div",null,"wizardBody");
-			var step=createTiddlyElement(body,"div",null,"wizardStep");
-			createTiddlyElement(step,"h1",null,null,"Your changes were *NOT* saved");
-			createTiddlyElement(step,"br");
-			createTiddlyElement(step,"br");		
-			createTiddlyText(step,"Please click the button below which will open a new window.");
-			createTiddlyElement(step,"br");
-			createTiddlyElement(step,"br");
-			if(xhr.status==401){
-				createTiddlyText(step,"Your session has expired.");
-				createTiddlyElement(step,"br");	
-				createTiddlyText(step,"You will need to log into the new window and then copy your changes from this window into the new window. ");
-			}else{
-				createTiddlyText(step,"There was a conflict when saving.");
-				createTiddlyElement(step,"br");	
-				createTiddlyText(step,"Please open the page in a new window to see the changes.");		
-			}
-			createTiddlyElement(step,"br");
-			createTiddlyElement(step,"br");
-			createTiddlyButton(step,"Open a Window where I can save my changes	.... ",null,function(e){ window.open (window.location,"mywindow");	 return false;});
-			createTiddlyElement(step,"br");
-			createTiddlyElement(step,"br");
-			createTiddlyButton(step,"Hide this message",null,function(e){a.style.display = "none"; b.style.display = "none";	 return false;});
-			createTiddlyElement(step,"br");
-			createTiddlyElement(step,"br");
-			createTiddlyText(step,"Sorry for any inconvenience. ");
+		if(xhr.status == 401 || xhr.status==409){
+			ccTiddlyAdaptor.handleError(xhr.status);	
 		}else{
 			displayMessage(responseText);
 			displayMessage('  xhr status is' + xhr.status);
@@ -386,22 +429,15 @@ ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,call
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
 	title = encodeURIComponent(title);
-//#console.log('deleteTiddler:'+title);
 	var host = this && this.host ? this.host : this.fullHostName(tiddler.fields['server.host']);
 	var uriTemplate = '%0/handle/delete.php?workspace=%1&title=%2';
 	var uri = uriTemplate.format([host,context.workspace,title]);
-//#console.log('uri: '+uri);
-
 	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.deleteTiddlerCallback,title);
-//#fnLog("req:"+req);
 	return typeof req == 'string' ? req : true;
 };
 
 ccTiddlyAdaptor.deleteTiddlerCallback = function(status,context,responseText,uri,xhr)
 {
-//#console.log('deleteTiddlerCallback:'+status);
-//#console.log('rt:'+responseText.substr(0,50));
-//#fnLog('xhr:'+xhr);
 	if(status) {
 		context.status = true;
 	} else {
