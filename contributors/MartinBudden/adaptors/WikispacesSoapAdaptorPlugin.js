@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.1.6|
+|''Version:''|0.1.7|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -120,7 +120,7 @@ WikispacesSoapAdaptor.prototype.complete = function(context,fn)
 
 WikispacesSoapAdaptor.prototype.login = function(context)
 {
-//#fnLog('login:'+context.host);
+fnLog('login:'+context.host);
 	if(config.options.txtWikispacesUsername && config.options.txtWikispacesPassword) {
 		context.username = config.options.txtWikispacesUsername;
 		context.password = config.options.txtWikispacesPassword;
@@ -136,14 +136,15 @@ WikispacesSoapAdaptor.prototype.login = function(context)
 
 WikispacesSoapAdaptor.loginPromptCallback = function(context)
 {
-//#fnLog('loginPromptCallback');
+fnLog('loginPromptCallback');
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0site/api');
-//#fnLog('uri:'+uri);
+fnLog('uri:'+uri);
 	var pl = new SOAPClientParameters();
 	config.options.txtWikispacesUsername = context.username;
 	config.options.txtWikispacesPassword = context.password;
 	pl.add('username',context.username);
 	pl.add('password',context.password);
+//#console.log(context);
 	SOAPClient.invoke(uri,'login',pl,true,WikispacesSoapAdaptor.loginCallback,context);
 	return true;
 };
@@ -164,7 +165,7 @@ WikispacesSoapAdaptor.loginCallback = function(r,x,context)//status,context,resp
 
 WikispacesSoapAdaptor.prototype.openHost = function(host,context,userParams,callback)
 {
-//#fnLog('openHost:'+host);
+fnLog('openHost:'+host);
 	this.host = WikispacesSoapAdaptor.fullHostName(host);
 	context = this.setContext(context,userParams,callback);
 	if(callback) {
@@ -472,8 +473,8 @@ fnLog('getTiddlerCallback:'+context.tiddler.title);
 			//#console.log(p[0].getElementsByTagName('content')[0].childNodes);
 			//#console.log(p[0].getElementsByTagName('content')[0].childNodes.length);
 			var tiddler = context.tiddler;
-			tiddler.tags = [];
-			tiddler.text = "";
+			tiddler.tags = ['page']; // for ViewTemplate
+ 			tiddler.text = "";
 			var contentNodes = p[0].getElementsByTagName('content')[0].childNodes;
 			for(var i=0;i<contentNodes.length;i++) {
 				tiddler.text += contentNodes[i].nodeValue;
@@ -783,7 +784,7 @@ fnLog('getTopicListCallback:'+status);
 					tiddler.fields.wikiformat = 'wikispaces';
 					tiddler.fields['server.type'] = WikispacesSoapAdaptor.serverType;
 					tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
-					tiddler.tags = ["topic"];
+					tiddler.tags = ['topic']; // for ViewTemplate
 					list.push(tiddler);
 				}
 			}
@@ -858,7 +859,7 @@ fnLog('getMessageListCallback:'+status);
 						tiddler.fields['server.type'] = WikispacesSoapAdaptor.serverType;
 						tiddler.fields['server.host'] = WikispacesSoapAdaptor.minHostName(context.host);
 						tiddler.fields['server.message_index'] = String(i);
-						tiddler.tags = ["message"];
+						tiddler.tags = ['message']; // for ViewTemplate
 						list.push(tiddler);
 					}
 				}
