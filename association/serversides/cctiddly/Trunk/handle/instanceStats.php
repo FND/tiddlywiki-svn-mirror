@@ -20,20 +20,33 @@ function chart_data($values) {
 }
 
 
+
 function displayGraph($SQL, $title)
 {	$results = mysql_query($SQL);
 	$count = 0;
-	while($result=mysql_fetch_assoc($results)){	
+	while($result=mysql_fetch_assoc($results)){
+		$labelValues[$count]=$result['numRows'];	
 		$values[$count++] .=$result['numRows'];
 		$labels .= $result['Date']."|";
 	}
+	$labelValues = array_unique($labelValues);
+	sort($labelValues);
+	foreach($labelValues as $label)
+		$lv .=$label.'|';
+	$lv = substr($lv,0,strlen($lv)-1);
 	$r2 = round(max($values), -2)/2;
+	echo "\r\n\r<img src=http://chart.apis.google.com/chart?chtt=".urlencode($title)."&cht=lc&chs=800x375&chd=".chart_data($values)."&chxt=x,y&chxl=0:|".$labels."1:|".$lv."&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&>";
 
-	echo "\r\n\r<img src=http://chart.apis.google.com/chart?chtt=".urlencode($title)."&cht=lc&chs=800x375&chd=".chart_data($values)."&chxt=x,y&chxl=0:|".$labels."1:|0|".$r2."|".round(max($values))."&chf=c,lg,90,DDDDDD,0.5,ffffff,20|bg,s,FFFFFF&&chg=100.0,25.0&chf=c,ls,0,CCCCCC,0.2,FFFFFF,0.2>";
+//	echo "\r\n\r<img src=http://chart.apis.google.com/chart?chtt=".urlencode($title)."&cht=lc&chs=800x375&chd=".chart_data($values)."&chxt=x,y&chxl=0:|".$labels."1:|".$lv."&chf=c,lg,90,DDDDDD,0.5,ffffff,20|bg,s,FFFFFF&&chg=20.0,10.0&chf=c,ls,0,CCCCCC,0.2,FFFFFF,0.2>";
 }
 
-$SQL ="SELECT DATE_FORMAT(time, '%d/%m/%Y-%k:%i') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 1 day AND workspace='".$_REQUEST['workspace']."' GROUP BY Date order by time";
-displayGraph($SQL, "Views of workspace ".$_REQUEST['workspace']." over the past day by minutes");
+
+if($_REQUEST['mins']=1){
+	$SQL ="SELECT DATE_FORMAT(time, '%d/%m/%Y-%k:%i') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 1 day AND workspace='".$_REQUEST['workspace']."' GROUP BY Date order by time";
+	displayGraph($SQL, "Views of workspace ".$_REQUEST['workspace']." over the past day by minutes");
+}
+
+exit;
 
 $SQL ="SELECT DATE_FORMAT(time, '%d/%m/%Y-%k') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 1 day AND workspace='".$_REQUEST['workspace']."' GROUP BY Date order by time";
 displayGraph($SQL, "Views of workspace ".$_REQUEST['workspace']." over the past day by hour");
