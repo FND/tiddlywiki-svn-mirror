@@ -8,6 +8,7 @@ merge(config.macros.ccFile,{
 	buttonUploadText:"Upload Files.",
 	buttonUploadTooltip:"Click to Upload files.",
 	labelFiles:"Existing Files ",
+	errorPermissionDenied:"You do not have permissions to create a file on this server. ",
 	listAdminTemplate: {
 	columns: [	
 	{name: 'wiki text', field: 'wikiText', title: "", type: 'WikiText'},
