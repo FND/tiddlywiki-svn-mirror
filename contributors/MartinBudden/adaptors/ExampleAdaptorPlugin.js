@@ -126,7 +126,7 @@ ExampleAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var host = this && this.host ? this.host : ExampleAdaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 // !!TODO set the uriTemplate
-	uriTemplate = '%0/%1%2';
+	var uriTemplate = '%0/%1%2';
 	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
 	return info;
 };
