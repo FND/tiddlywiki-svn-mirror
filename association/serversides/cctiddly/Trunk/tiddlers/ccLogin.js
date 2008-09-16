@@ -207,24 +207,6 @@ config.macros.toolbar.isCommandEnabled=function(command,tiddler){
 	return (!ro || (ro && !command.hideReadOnly)) && !(shadow && command.hideShadow);
 };
 
-config.macros.ccOptions={};	
-config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	if(workspacePermission.owner==1)
-		wikify("[[users|Manage Users]]<br />[[permissions|Permissions]]<br />", place);
-	if (isLoggedIn())
-		wikify("[[files|files]]<br />", place);
-	if (workspacePermission.create==1)
-		wikify("[[create|CreateWorkspace]]<br />", place);
-		if (isLoggedIn())
-		{
-			// append url function required 
-			if (window.fullUrl.indexOf("?") >0)
-				wikify("[[offline|"+fullUrl+"&standalone=1]]<br />", place);
-			else 
-				wikify("[[offline|"+fullUrl+"?standalone=1]]<br />", place);
-			
-		}
-};
 
 // Returns output var with output.txtUsername and output.sessionToken
 function findToken(cookieStash){

@@ -86,7 +86,7 @@ workspacePermission.userC = <?php echo permToBinary($userPerm['create']); ?> ;
 workspacePermission.userR = <?php echo permToBinary($userPerm['read']); ?>; 
 workspacePermission.userU = <?php echo permToBinary($userPerm['update']); ?>;
 workspacePermission.userD = <?php echo permToBinary($userPerm['delete']); ?>;
-workspacePermission.canCreateAccount = <?php echo $tiddlyCfg['create_workspace']; ?>;
+workspacePermission.canCreateWorkspace = <?php echo $tiddlyCfg['create_workspace']; ?>;
 
 <?php 
 if ($workspace_create == "D")
