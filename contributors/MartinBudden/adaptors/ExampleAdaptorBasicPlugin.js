@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#ExampleAdaptorPlugin|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/ExampleAdaptorPlugin.js |
-|''Version:''|0.5.6|
+|''Version:''|0.5.7|
 |''Status:''|Not for release - this is a template for creating new adaptors|
 |''Date:''|Mar 11, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -90,7 +90,7 @@ ExampleAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 // !!TODO set the uriTemplate
-	var uriTemplate = '%0%1';
+	var uriTemplate = '%0/%1';
 	var uri = uriTemplate.format([context.host,context.workspace]);
 	var req = httpReq('GET',uri,ExampleAdaptor.getTiddlerListCallback,context);
 	return typeof req == 'string' ? req : true;
@@ -127,7 +127,7 @@ ExampleAdaptor.prototype.generateTiddlerInfo = function(tiddler)
 	var host = this && this.host ? this.host : ExampleAdaptor.fullHostName(tiddler.fields['server.host']);
 	var workspace = this && this.workspace ? this.workspace : tiddler.fields['server.workspace'];
 // !!TODO set the uriTemplate
-	uriTemplate = '%0%1%2';
+	var uriTemplate = '%0/%1%2';
 	info.uri = uriTemplate.format([host,workspace,tiddler.title]);
 	return info;
 };
@@ -138,7 +138,7 @@ ExampleAdaptor.prototype.getTiddler = function(title,context,userParams,callback
 	if(title)
 		context.title = title;
 // !!TODO set the uriTemplate
-	uriTemplate = '%0%1%2';
+	var uriTemplate = '%0/%1%2';
 	uri = uriTemplate.format([context.host,context.workspace,ExampleAdaptor.normalizedTitle(title),context.revision]);
 
 	context.tiddler = new Tiddler(title);
