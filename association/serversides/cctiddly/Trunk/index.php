@@ -70,7 +70,7 @@ recordTime_float("get all tiddlers");
 	
 // log the workspace viewing : 
 $data1['username'] = $user['username'];
-$data1['workspace'] = $workspace;
+$data1['workspace'] = $tiddlyCfg['workspace_name'];
 
 $data1['time'] = date( 'Y-m-d H:i:s', mktime());
 db_record_insert($tiddlyCfg['table']['workspace_view'],$data1);
