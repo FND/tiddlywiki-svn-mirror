@@ -9,15 +9,17 @@ tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfi
 tiddler: instructorsnotebook/plugins/defaultCustomFieldsPlugin.js
 tiddler: instructorsnotebook/plugins/settingsInstructorNotebookPlugin.js
 tiddler: instructorsnotebook/plugins/toggleFieldPlugin.js
+tiddler: instructorsnotebook/plugins/setPrivatePageTagsScript.js
 #tiddler: instructorsnotebook/plugins/switchThemeScriptsPlugin.js
 tiddler: ../../../MartinBudden/plugins/ThemeSwitcherPlugin.js
 tiddler: ../../plugins/batchNavigationMacro.js
 tiddler: ../../plugins/NavigationMacro/NavigationMacro.js
+tiddler: ../../plugins/tagglyTaggerPlugin/tagglyTaggerPlugin.js
 #
 #
 # 	Feeds
-#tiddler: instructorsnotebook/feeds/POLS250-ContentFeed.tiddler
-tiddler: instructorsnotebook/feeds/test.tiddler
+tiddler: instructorsnotebook/feeds/POLS250-ContentFeed.tiddler
+#tiddler: instructorsnotebook/feeds/test.tiddler
 #
 #
 # 	Content
@@ -40,3 +42,10 @@ tiddler: instructorsnotebook/framework/SlideViewTemplate.tiddler
 tiddler: instructorsnotebook/framework/MptwStyleSheet.tiddler
 #tiddler: instructorsnotebook/framework/SlideThemeScripts.tiddler
 #tiddler: instructorsnotebook/framework/DefaultThemeScripts.tiddler
+tiddler: instructorsnotebook/framework/excludeLists.tiddler
+tiddler: instructorsnotebook/framework/excludeSearch.tiddler
+tiddler: instructorsnotebook/framework/systemConfig.tiddler
+tiddler: instructorsnotebook/framework/systemConfigDisable.tiddler
+tiddler: instructorsnotebook/framework/systemServer.tiddler
+tiddler: instructorsnotebook/framework/systemServerDefault.tiddler
+tiddler: instructorsnotebook/framework/systemTheme.tiddler
