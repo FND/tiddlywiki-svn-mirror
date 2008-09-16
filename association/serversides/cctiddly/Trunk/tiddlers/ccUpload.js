@@ -99,7 +99,6 @@ config.macros.ccUpload.handler=function(place,macroName,params,wikifier,paramStr
 };
 
 config.macros.ccUpload.submitiframe=function(){
-
 	var statusArea=document.getElementById("uploadStatus");
 	statusArea.innerHTML="uploading...  &lt;img src=loading.gif /&gt; ";	
 	return true;

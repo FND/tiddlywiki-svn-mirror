@@ -42,7 +42,7 @@ merge(config.macros.ccCreateWorkspace, {
 	
 
 if (isLoggedIn()) {
-	config.backstageTasks.push(config.macros.ccCreateWorkspace.buttonCreate);
+	config.backstageTasks.push(config.macros.ccCreateWorkspace.buttonCreateText);
 	merge(config.tasks,{create: {text: config.macros.ccCreateWorkspace.buttonCreateText, tooltip: config.macros.ccCreateWorkspace.buttonCreateTooltip, content:'<<ccCreateWorkspace>>'}});
 }
 

@@ -27,7 +27,6 @@ config.macros.packageImporter = {
 		importStore.importTiddlyWiki(content);
 		store.suspendNotifications();
 		importStore.forEachTiddler(function(title,tiddler) {
-		//	console.log(tiddler.text);
 			if(!store.getTiddler(title)) {
 				store.saveTiddler(title,title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,false,tiddler.created);
 			}
@@ -47,15 +46,8 @@ config.macros.packageImporter = {
 				break;
 			}
 		}
-		//console.log(package);
 		var url = store.getTiddlerSlice(packageTiddler,'URL');
-		//console.log(url)
-		//console.log(a);
-		//console.log(this);
-		//alert(a.previousSibling.value);
 		this.fetchFile(url);
-		//displayMessage(store.getTiddlerSlice(a.value,"URL"));
-		//this.fetchFile(store.getTiddlerSlice(a.value,"URL"));
-	}
+		}
 	
 }

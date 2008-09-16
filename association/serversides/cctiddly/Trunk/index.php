@@ -152,7 +152,6 @@ DAMAGE.
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
-<div style="color:white;background-color:red; padding:20px"> This instance of ccTiddly is being upgraded to version 1.7. If you expereince any problems please contact the ccTiddly google groups. <a href="http://groups.google.com/group/ccTiddly">http://groups.google.com/group/ccTiddly</a></div>
 <!--PRE-BODY-START-->
 <?php
 	if( isset( $tiddlers['MarkupPreBody'] ) )
