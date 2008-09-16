@@ -73,6 +73,7 @@ if (substr($workspace_permissions, 1, 1) == "U")
 {
 	$workspace_create = $tiddlyCfg['privilege_misc']['undefined_privilege'];
 }else{
+
 	$workspace_create = substr($workspace_permissions, 1, 1);
 }
 //echo $workspace_create;

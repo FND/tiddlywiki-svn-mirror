@@ -71,7 +71,7 @@ config.macros.ccCreateWorkspace.workspaceNameCallback=function(status,params,res
 };
 
 config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
-	if (workspacePermission.create!=1) {
+	if (window.workspacePermission.canCreateAccount!=1) {
 		createTiddlyElement(place,'div', null, "annotation",  config.macros.ccCreateWorkspace.errorPermissions);
 		return null;
 	}
