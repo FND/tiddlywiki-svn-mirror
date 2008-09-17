@@ -44,7 +44,7 @@
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
 
 !SideBarOptions
-<<search "search...">><<closeAll>><<newTiddler>><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<saveChanges>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'contents »' 'View TiddlyWiki Tabs'>>
+<<search "search...">><<closeAll>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<newTiddler>><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<saveChanges>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'contents »' 'View TiddlyWiki Tabs'>>
 
 !StyleSheet
 /***
@@ -271,11 +271,15 @@ color:white;
 }
 
 #sidebar .sliderPanel {
-	margin-left:0em;
-	border:0px;
-	padding:0.5em;
+	border-color:-moz-use-text-color #222 -moz-use-text-color -moz-use-text-color;
+	border-style:none solid none none;
+	border-width:0 1px 0 0;
 	margin-bottom:0.8em;
+	margin-left:5px;
+	padding:0;
+	margin-left:0px;
 }
+
 
 #sidebarOptions .searchButton {
 	display:none;
@@ -291,6 +295,12 @@ color:white;
 	font-variant: small-caps;
 }
 
+
+.wizard .button:hover{
+	background-color:#333;
+	border:1px solid #444;
+	color:white;
+}
 .selected .toolbar a {
 	color:#999;
 }
@@ -588,6 +598,7 @@ table.sortable td.sortedCol {
 	background-color:#111;
 	color:white;
 }
+
 
 /*}}}*/
 

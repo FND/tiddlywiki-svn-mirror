@@ -27,7 +27,8 @@ merge(ccTiddlyAdaptor, {
 	errorTextUnknown:"An unknown error occured.",
 	errorClose:"close",
 	buttonOpenNewWindow:"Open a Window where I can save my changes	.... ",
-	buttonHideThisMessage:"Hide this message"
+	buttonHideThisMessage:"Hide this message", 
+	msgErrorCode:"Error Code : "
 	
 });
 
@@ -376,11 +377,9 @@ ccTiddlyAdaptor.hideError = function(){
 ccTiddlyAdaptor.handleError = function(error_code)
 {
 	setStylesheet(
-	"#errorBox dd.submit {margin-left:0; font-weight: bold; margin-top:1em;}\n"+
-	"#errorBox dd.submit .button {padding:0.5em 1em; border:1px solid #ccc; margin-right:1em;}\n"+
-	"#errorBox dt.heading {margin-bottom:0.5em; font-size:1.2em;}\n"+
+	"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
 	"html > body > #backstageCloak {height:100%;}"+
-	"#errorBox {border:1px solid #ccc;background-color: #eee;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
+	"#errorBox {border:1px solid #ccc;background-color: #eee; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
 	var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
 	var error = ccTiddlyAdaptor.errorTitleNotSaved;
 	switch(error_code){
@@ -391,7 +390,7 @@ ccTiddlyAdaptor.handleError = function(error_code)
 		error += ccTiddlyAdaptor.errorTextConflict;
 	break;
 	default:
-		error+= ccTiddlyAdaptor.errorTextUnknown;
+		error+= ccTiddlyAdaptor.errorTextUnknown+"<br />"+ccTiddlyAdaptor.msgErrorCode+error_code;
 	}	
 	box.innerHTML = " <a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><p>"+error+"</p><br/><br/>";
 	createTiddlyButton(box,ccTiddlyAdaptor.buttonOpenNewWindow,null,function(e){ window.open (window.location,"mywindow");	 return false;});
@@ -413,9 +412,8 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xh
 		if(xhr.status == 401 || xhr.status==409){
 			ccTiddlyAdaptor.handleError(xhr.status);	
 		}else{
-			displayMessage(responseText);
-			displayMessage('  xhr status is' + xhr.status);
-			displayMessage('putTiddler xhr status text is' + xhr.statusText);
+			
+			ccTiddlyAdaptor.handleError(xhr.status);
 			context.statusText = xhr.statusText;	
 		}
 	}
