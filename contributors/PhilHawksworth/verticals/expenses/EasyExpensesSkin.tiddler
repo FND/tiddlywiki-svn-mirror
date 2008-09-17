@@ -42,8 +42,8 @@
 <div class='toolbar'><span macro='toolbar [[ToolbarCommands::QuickClaimToolbar]]'></span></div>
 </div>
 <form name='quickClaim'>
-<span class='field amount'><label for='amount'>Amount</label><input type='text' name='AmountParameter' /></span>
-<span class='field justification'><label for='justification'>Justification / description</label><input type='text'  /></span>
+<span class='field amount'><label for='amount'>Amount</label><input type='text' name='amount' /></span>
+<span class='field justification'><label for='justification'>Justification / description</label><input type='text' name='justification'  /></span>
 </form>
 <div class='toolbar' macro='SubmitQuickClaim'></div>
 </div>
@@ -88,14 +88,18 @@
 <!--{{{-->
 <div class='claimItem'>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemEditToolbar]]'></div>
+<div class='fields'>
 <span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount'></span>
+<span class='field lostreceipt' macro='ModeledDataFormBuilder formIdentifier:expense_type field:LostReceipt'></span>
+<span class='field trainingcost' macro='ModeledDataFormBuilder formIdentifier:expense_type field:TrainingCost'></span>
+</div>
+<div class='fields'>
 <span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true'></span>
 <span class='field date' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate'></span>
 <span class='field days' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Days'></span>
-<span class='field lostreceipt' macro='ModeledDataFormBuilder formIdentifier:expense_type field:LostReceipt'></span>
-<span class='field trainingcost' macro='ModeledDataFormBuilder formIdentifier:expense_type field:TrainingCost'></span>
 <span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification'></span>
 <div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard'></div>
+</div>
 </div>
 <!--}}}-->
 
@@ -126,7 +130,7 @@ div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; f
 #messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
 #messageArea a { color:#666; text-decoration:underline; background-color:transparent;}
 #messageArea a:hover { color:#3E65C8; text-decoration:underline; background-color:transparent;}
-#messageArea .button { float:right; background-color:#eee; color:#3E65C8; text-decoration:none; margin:0 0 0 1em; padding:3px 1em; }
+#messageArea .button { float:right; background-color:#eee; color:#3E65C8; text-decoration:none; margin:0 0 0 1em; padding:3px 1em 5px 1em; }
 #messageArea .button:hover {background-color:#eee; color:#3E65C8; text-decoration:underline;}
 
 
@@ -160,6 +164,7 @@ div.claimHeader div.toolbar select { margin-right:0.5em;}
 
 
 /* Claim Items */
+/*
 div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative; overflow:auto;}
 div.claimItem div.title { font-size:1.4em; color:#333;}
 div.claimItem div.toolbar {font-size:0.8em;position:absolute; top:1em; right:0;}
@@ -177,8 +182,28 @@ div.claimItem span.type input {font-size:1.8em; width:10em;}
 div.claimItem span.date input {font-size:1.8em; width:6em;}
 div.claimItem span.days input {font-size:1.8em; width:2em;}
 div.claimItem span.justification { clear:left; display:block; float:none;}
+div.claimItem span.justification input {font-size:0.9em; width:60em;}
 
+*/
 
+div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative; overflow:auto;}
+div.claimItem div.title { font-size:1.4em; color:#333;}
+div.claimItem div.toolbar {font-size:0.8em; position:absolute; bottom:1em; right:0;}
+div.claimItem div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
+div.claimItem div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
+div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
+div.view input { border-style:none;}
+
+div.claimItem span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
+div.claimItem span.field { display:inline; float:left; margin:0 1em 1em 0;}
+div.claimItem span.amount { border-bottom:2px solid #000; position:absolute; top:1em; right:0; }
+div.claimItem span.amount input {font-size:3em; width:5em;}
+div.claimItem span.amount { border-bottom:2px solid #000; position:absolute; top:1em; right:0; }
+
+div.claimItem span.type input {font-size:1.8em; width:10em;}
+div.claimItem span.date input {font-size:1.8em; width:6em;}
+div.claimItem span.days input {font-size:1.8em; width:2em;}
+div.claimItem span.justification { clear:left; display:block; float:none;}
 div.claimItem span.justification input {font-size:0.9em; width:60em;}
 
 

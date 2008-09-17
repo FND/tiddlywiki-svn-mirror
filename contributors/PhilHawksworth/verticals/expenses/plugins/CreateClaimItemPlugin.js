@@ -117,7 +117,7 @@ config.macros.SubmitQuickClaim.doSubmit = function(ev) {
 	// this function will typically be overwritten to add the sensitive 
 };
 
-config.macros.SubmitQuickClaim.handleResponse = function(success, message) {
+config.macros.SubmitQuickClaim.handleResponse = function(success, message, uri) {
 	var successMsg = "Your quick claim item has been added to a claim on the system.";
 	var failureMsg = "Doh! We couldn't get to the system to add your quick claim item. Have another bash.";
 	var msg;
@@ -128,7 +128,7 @@ config.macros.SubmitQuickClaim.handleResponse = function(success, message) {
 		msg = message ? message : failureMsg;
 	}
 	clearMessage();
-	displayMessage(msg);
+	displayMessage(msg, uri);
 };
 
 
