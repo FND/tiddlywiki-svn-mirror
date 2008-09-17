@@ -88,7 +88,6 @@ class DirScraper:
 		@return: None
 		"""
 		fields = self._get(uri).split("\n")
-		#plugin.:fields = {} # DEBUG'd -- XXX: temporary workaround; extended fields not yet implemented in Tiddler class
 		for field in fields:
 			if ":" in field:
 				k, v = [c.strip() for c in field.split(":", 1)]

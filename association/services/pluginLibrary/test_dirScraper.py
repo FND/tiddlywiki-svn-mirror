@@ -88,6 +88,14 @@ class DirScraperTestCase(unittest.TestCase):
 		expected = ["systemConfig", "tmp"]
 		self.assertEqual(expected, tiddler.tags)
 
+	def testRetrieveMetadataSetsExtendedFields(self):
+		"""retrieveMetadata sets extended fields if present"""
+		tiddler = Tiddler()
+		uri = "http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/test/bar/adipisicing.js.meta"
+		self.svn.retrieveMetadata(tiddler, uri)
+		expected = { "foo": "lorem ipsum", "bar": "dolor sit amet" }
+		self.assertEqual(expected, tiddler.fields)
+
 if __name__ == "__main__":
 	unittest.main()
 
