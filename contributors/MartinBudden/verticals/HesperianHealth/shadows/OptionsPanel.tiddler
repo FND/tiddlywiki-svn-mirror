@@ -1,0 +1,13 @@
+<div title="OptionsPanel" tags="excludeLists excludeSearch">
+<pre>These ~InterfaceOptions for customising ~TiddlyWiki are saved in your browser
+
+<<option txtUserName>>
+<<option chkSaveBackups>> ~SaveBackups
+<<option chkAutoSave>> ~AutoSave
+<<option chkRegExpSearch>> ~RegExpSearch
+<<option chkCaseSensitiveSearch>> ~CaseSensitiveSearch
+----
+AdvancedOptions
+PluginManager
+ImportTiddlers</pre>
+</div>

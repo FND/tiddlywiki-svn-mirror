@@ -1,0 +1,16 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: shadows/split.recipe
+recipe: feeds/split.recipe
+recipe: content/split.recipe
+#recipe: templates/split.recipe
+tiddler: Logo.tiddler
+#recipe:  ../tiddlypedia/splitHostedRevisions.recipe
+tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
+tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: ../../formatters/MediaWikiFormatterPlugin.js
+tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
+tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
+tiddler: ../../styles/wikipediaStyle.js
+tiddler: ../../adaptors/AdaptorMacrosPlugin.js
+tiddler: ../../adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
