@@ -51,3 +51,57 @@ config.macros.packageImporter = {
 		}
 	
 }
+
+
+config.macros.stats={};
+
+config.macros.stats.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	var params;
+	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=1",title:"Views By Hour.", desc:"this shows users who have viewed this workspace by hour."};
+	// params.place = place;
+	// params.url = "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=1";
+	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
+	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=2",title:"Views By Day.", desc:"this shows users who have viewed this workspace by day."};
+	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
+	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=3",title:"Views by Month.", desc:"this shows users who have viewed this workspace by month."};
+	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
+
+}
+
+
+config.macros.stats.imgCallback = function(status,params,responseText,uri,xhr){	
+	var div = createTiddlyElement(params.place, "div");
+	params.div = div;
+	div.onclick = function()
+	{
+		doHttp('GET',params.url+"&full=1",null, null, null, null, config.macros.stats.imgCallbackFull,params);
+	}
+	createTiddlyElement(div, "h2", null, null, params.title);
+
+	var img = createTiddlyElement(div, "img");
+	img.src = responseText;
+	var span = createTiddlyElement(div, "div", null, "graph_label", params.desc);
+	setStylesheet(".graph_label  {  position:relative; top:-60px; left:130px;}");
+
+	createTiddlyElement(params.place, "br");
+	console.log(responseText);
+}
+
+
+config.macros.stats.imgCallbackFull = function(status,params,responseText,uri,xhr){
+console.log(responseText);
+		setStylesheet(
+		"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
+		"html > body > #backstageCloak {height:100%;}"+
+		"#errorBox {border:1px solid #ccc;background-color: #eee; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
+		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
+		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><br />";
+			box.style.position = 'absolute';
+			var img = createTiddlyElement(box, "img");
+			img.src = responseText;
+			console.log(img.src);
+			ccTiddlyAdaptor.center(box);
+			ccTiddlyAdaptor.showCloak();
+
+}
+
