@@ -30,8 +30,7 @@ To display a login prompt for your user simple type the following text into a ti
 //{{{
 
 
-config.macros.ccLogin={};	
-
+config.macros.ccLogin={sha1:true};
 
 merge(config.macros.ccLogin,{
 	WizardTitleText:"Please Login",
@@ -61,9 +60,7 @@ merge(config.macros.ccLogin,{
 	configURL:url+"/handle/login.php", 
 	configUsernameInputName:"cctuser",
 	configPasswordInputName:"cctpass",
-	configPasswordCookieName:"cctPass",
-
-	sha1:true
+	configPasswordCookieName:"cctPass"
 });
 
 config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){
