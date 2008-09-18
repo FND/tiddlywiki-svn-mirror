@@ -16,6 +16,11 @@ version.extensions.HTMLParserPlugin = {installed:true};
 
 HTMLParser = {};
 
+HTMLParser.removeScripts = function (str) {
+        str = str.replace(/<script(.*?)>.*?<\/script>/ig,"");
+        return str;
+}
+
 HTMLParser.iframeDocument = function (iframe)
 {
 	if(iframe.contentDocument)
@@ -76,6 +81,7 @@ HTMLParser.parseText = function (text,handler,context)
 
 	// write HTML text into the iframe
         var doc = HTMLParser.iframeDocument(iframe);
+	text = HTMLParser.removeScripts(text);
         doc.open();
         doc.writeln(text);
         doc.close();
