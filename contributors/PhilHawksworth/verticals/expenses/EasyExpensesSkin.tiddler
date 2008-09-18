@@ -174,7 +174,8 @@ div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
 
 div.view input { border-style:none;}
 
-span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
+/*span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}*/
+label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
 div.claimItem span.field { display:inline; float:left; margin:0 1em 1em 0;}
 div.claimItem span.amount { border-bottom:2px solid #000; }
 div.claimItem span.amount input {font-size:3em; width:5em;}
