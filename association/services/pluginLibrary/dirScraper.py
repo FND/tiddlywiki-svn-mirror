@@ -72,7 +72,7 @@ class DirScraper:
 					self.retrieveMetadata(plugin, self.host + dir + uri + ".meta")
 				plugins.append(plugin)
 			elif uri.endswith("/") and recursive: # directory -- XXX: potential for infinite loop?
-				plugins.extend(self.getPlugins(dir + uri))
+				plugins.extend(self.getPlugins(dir + uri, recursive))
 		return plugins
 
 	def retrieveMetadata(self, plugin, uri): # TODO: rename!?
