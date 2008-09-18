@@ -57,16 +57,16 @@ config.macros.stats={};
 
 config.macros.stats.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var params;
-	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=minute",title:"Views by minute.", desc:"this shows users who have viewed this workspace by minute."};
+	params = { place: place, url: window.url+"/handle/instanceStats.php?graph=minute",title:"Views by minute.", desc:"this shows users who have viewed this workspace by minute."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
 	
-	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=hour",title:"Views by hour.", desc:"this shows users who have viewed this workspace by minute."};
+	params = { place: place, url:  window.url+"/handle/instanceStats.php?graph=hour",title:"Views by hour.", desc:"this shows users who have viewed this workspace by minute."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
 	
-	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=day",title:"Views by day.", desc:"this shows users who have viewed this workspace by minute."};
+	params = { place: place, url:  window.url+"/handle/instanceStats.php?graph=day",title:"Views by day.", desc:"this shows users who have viewed this workspace by minute."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
 	
-	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=month",title:"Views by month.", desc:"this shows users who have viewed this workspace by minute."};
+	params = { place: place, url:  window.url+"/handle/instanceStats.php?graph=month",title:"Views by month.", desc:"this shows users who have viewed this workspace by minute."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
 
 }
@@ -103,7 +103,7 @@ config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){
 	}
 	var maxValue = config.macros.stats.max(d);
  	params.gData = config.macros.stats.simpleEncode(d,maxValue);
-	params.XLabel = l;
+	params.XLabel = l.substring(0, l.length -1);
 	params.YLabel = "0|"+maxValue+"|";
 	var image = 'http://chart.apis.google.com/chart?cht=lc&chs=100x75&chd='+params.gData+'&chxt=x,y&chxl=0:||1:|';
 	var div = createTiddlyElement(params.place, "div");
@@ -114,11 +114,11 @@ config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){
 		setStylesheet(
 		"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
 		"html > body > #backstageCloak {height:100%;}"+
-		"#errorBox {border:1px solid #ccc;background-color: #eee; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
+		"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
 		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
-		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><br />";
+		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><h3>"+params.title+"</h3><br />";
 		box.style.position = 'absolute';
-		box.style.height= "400px";
+		box.style.height= "460px";
 		box.style.width= "800px";
 		var img = createTiddlyElement(box, "img");
 		img.src = full;
