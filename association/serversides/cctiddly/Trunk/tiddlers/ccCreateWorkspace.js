@@ -37,7 +37,7 @@ merge(config.macros.ccCreateWorkspace, {
 	msgWorkspaceAvailable:"Workspace name is available.",
 	errorWorkspaceNameInUse:"Workspace name is already in use.",
 	stepTitle:"Please enter workspace name",
-	stepCreateHtml:"<input class='input' id='workspace_name' name='workspace_name' tabindex='1'/><span></span><input type='hidden' name='workspace_error'></input><br /><br /><h2></h2><input type='hidden' name='workspace_url'></input>",
+	stepCreateHtml:"<input class='input' id='workspace_name' name='workspace_name' tabindex='1'/><span></span><input type='hidden' name='workspace_error'></input><h2></h2><input type='hidden' name='workspace_url'></input>",
 });
 	
 
@@ -65,7 +65,6 @@ config.macros.ccCreateWorkspace.workspaceNameCallback=function(status,params,res
 	if(responseText > 0){{
 			config.macros.register.setStatus(params.w, "workspace_error", me.errorWorkspaceNameInUse);
 			config.macros.register.setStatus(params.w, "workspace_url", "");
-
 	}
 	}else{
 		config.macros.register.setStatus(params.w, "workspace_error", me.msgWorkspaceAvailable);
