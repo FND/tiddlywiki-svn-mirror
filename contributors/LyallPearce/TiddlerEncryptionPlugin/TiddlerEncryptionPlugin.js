@@ -3,7 +3,7 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|3.1.0|
+|Version|3.1.1|
 |~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -43,6 +43,7 @@ Useful Buttons:
 <<<
 !!!!!Revision History
 <<<
+* 3.1.1 - Obscure bug whereby if an encrypted tiddler was a certain length, it would refuse to decrypt.
 * 3.1.0 - When creating a new Encrypt(prompt) tiddler and you have not previously decrypted a tiddler with the same prompt, on save, you will be prompted for the password to encrypt the tiddler. Prior to encrypting, an attempt to decrypt all other tiddlers with the same prompt, is performed. If any tiddler fails to decrypt, the save is aborted - this is so you don't accidentally have 2 (or more!) passwords for the same prompt. Either you enter the correct password, change the prompt string and try re-saving or you cancel (and the tiddler is saved unencrypted).
 * 3.0.1 - Allow Enter to be used for password entry, rather than having to press the OK button.
 * 3.0.0 - Major revamp internally to support entry of passwords using forms such that passwords are no longer visible on entry. Completely backward compatible with old encrypted tiddlers. No more using the javascript prompt() function.
@@ -51,7 +52,7 @@ Useful Buttons:
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 3, minor: 1, revision: 0, date: new Date(2008,8,18)};
+version.extensions.TiddlerEncryptionPlugin = {major: 3, minor: 1, revision: 1, date: new Date(2008,9,18)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -498,7 +499,8 @@ function HexToString_TiddlerEncryptionPlugin(theString) {
     var theResult = "";
     for(var i=0; i<theString.length; i+=2) {
 	if(theString.charAt(i) == "\n") {
-	    i++;
+	    i--;	// cause us to skip over the newline and resume
+	    continue;
 	}
 	theResult += String.fromCharCode(parseInt(theString.substr(i, 2),16));
     }
