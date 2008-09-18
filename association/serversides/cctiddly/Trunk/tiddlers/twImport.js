@@ -59,16 +59,16 @@ config.macros.stats.handler = function(place,macroName,params,wikifier,paramStri
 	var params;
 	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=minute",title:"Views by minute.", desc:"this shows users who have viewed this workspace by minute."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
-/*
-	params = { place: place, url: "http://127.0.0.1/release/release/handle/instanceStats.php?graph=hour",title:"Views by hour.", desc:"this shows users who have viewed this workspace by hour."};
-	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
-	params = { place: place, url: "http://127.0.0.1/release/release/handle/instanceStats.php?graph=day",title:"Views by day.", desc:"this shows users who have viewed this workspace by day."};
-	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
-	params = { place: place, url: "http://127.0.0.1/release/release/handle/instanceStats.php?graph=month",title:"Views by month.", desc:"this shows users who have viewed this workspace by month."};
-	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
-	params = { place: place, url: "http://127.0.0.1/release/release/handle/instanceStats.php?graph=year",title:"Views by year.", desc:"this shows users who have viewed this workspace by year."};
-	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
-*/
+	
+	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=hour",title:"Views by hour.", desc:"this shows users who have viewed this workspace by minute."};
+	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
+	
+	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=day",title:"Views by day.", desc:"this shows users who have viewed this workspace by minute."};
+	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
+	
+	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=month",title:"Views by month.", desc:"this shows users who have viewed this workspace by minute."};
+	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
+
 }
 
 
@@ -102,10 +102,52 @@ config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){
 	for(var c=0; c<res.length; c++){
 		d[c]= res[c].hits;
 	}
-	var maxValue = 9;
+	var maxValue = config.macros.stats.max(d);
+ 	var image = 'http://chart.apis.google.com/chart?cht=lc&chs=100x75&chd='+config.macros.stats.simpleEncode(d,maxValue)+'&chxt=x,y&chxl=0:||1:|';
+	var div = createTiddlyElement(params.place, "div");
+	div.onclick = function()
+	{
+		var full = "http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd="+config.macros.stats.simpleEncode(d)+"&chxt=x,y&chxl=0:1:|"+"label"+"&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
+		console.log(full);
+		setStylesheet(
+		"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
+		"html > body > #backstageCloak {height:100%;}"+
+		"#errorBox {border:1px solid #ccc;background-color: #eee; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
+		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
+		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><br />";
+		box.style.position = 'absolute';
+		var img = createTiddlyElement(box, "img");
+		img.src = full;
+		ccTiddlyAdaptor.center(box);
+		ccTiddlyAdaptor.showCloak();
+	}
+	var img = createTiddlyElement(div, "h2", null, null, params.title);
+	var img = createTiddlyElement(div, "img");
+	img.src = image;
 	
-	console.log('http://chart.apis.google.com/chart?cht=lc&chs=100x75&chd='+config.macros.stats.simpleEncode(d,maxValue)+'&chxt=x,y&chxl=0:||1:|');
+	var span = createTiddlyElement(div, "div", null, "graph_label", params.desc);
+	setStylesheet(".graph_label  {  position:relative; top:-60px; left:130px;}");
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 config.macros.stats.imgCallback = function(status,params,responseText,uri,xhr){	
 	var div = createTiddlyElement(params.place, "div");
