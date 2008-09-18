@@ -1,7 +1,7 @@
 /***
 |Name:|NewMeansNewPlugin|
 |Description:|If 'New Tiddler' already exists then create 'New Tiddler (1)' and so on|
-|Version:|1.1 ($Rev: 2263 $)|
+|Version:|1.1.1 ($Rev: 2263 $)|
 |Date:|$Date: 2007-06-13 04:22:32 +1000 (Wed, 13 Jun 2007) $|
 |Source:|http://mptw.tiddlyspot.com/empty.html#NewMeansNewPlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
@@ -9,6 +9,9 @@
 !!Note: I think this should be in the core
 ***/
 //{{{
+
+// change this or set config.newMeansNewForJournalsToo it in MptwUuserConfigPlugin
+if (config.newMeansNewForJournalsToo == undefined) config.newMeansNewForJournalsToo = true;
 
 String.prototype.getNextFreeName = function() {
        var numberRegExp = / \(([0-9]+)\)$/;
@@ -42,19 +45,22 @@ config.macros.newTiddler.onClickNewTiddler = function()
 {
 	var title = this.getAttribute("newTitle");
 	if(this.getAttribute("isJournal") == "true") {
-		var now = new Date();
-		title = now.formatString(title.trim());
+		title = new Date().formatString(title.trim());
 	}
 
-	title = config.macros.newTiddler.getName(title); // <--- only changed bit
+	// ---- these three lines should be the only difference between this and the core onClickNewTiddler
+	if (config.newMeansNewForJournalsToo || this.getAttribute("isJournal") != "true")
+		title = config.macros.newTiddler.getName(title);
 
 	var params = this.getAttribute("params");
 	var tags = params ? params.split("|") : [];
 	var focus = this.getAttribute("newFocus");
 	var template = this.getAttribute("newTemplate");
 	var customFields = this.getAttribute("customFields");
+	if(!customFields && !store.isShadowTiddler(title))
+		customFields = String.encodeHashMap(config.defaultCustomFields);
 	story.displayTiddler(null,title,template,false,null,null);
-	var tiddlerElem = document.getElementById(story.idPrefix + title);
+	var tiddlerElem = story.getTiddler(title);
 	if(customFields)
 		story.addCustomFields(tiddlerElem,customFields);
 	var text = this.getAttribute("newText");

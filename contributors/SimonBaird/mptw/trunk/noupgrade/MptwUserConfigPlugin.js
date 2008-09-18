@@ -16,4 +16,7 @@ See http://www.tiddlywiki.org/wiki/Configuration_Options for other options you c
 //config.options.chkAutoSave = false;
 //config.options.txtBackupFolder = 'backups';
 
+// uncomment to disable 'new means new' functionality for the new journal macro
+//config.newMeansNewForJournalsToo = false;
+
 //}}}
