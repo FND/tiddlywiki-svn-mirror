@@ -1,6 +1,10 @@
 <div title="messageViewTemplate" tags="excludeLists excludeSearch">
 <pre><!--{{{-->
-<div class="title" macro="view 'server.subject'"></div>
+<div class='message'>
+<div class='toolbar' macro='toolbar closeTiddler fields'></div>
+<div class='title'><span macro='view modifier link'></span><span macro="view 'server.subject'"></span></div>
 <div class='viewer' macro='view text wikified'></div>
+<div class='subtitle'><span macro='message views.wikified.postedPrompt'></span> <span macro='view modified date "DD mmm, YYYY 0hh:0mm"'></span></div>
+</div>
 <!--}}}--></pre>
 </div>

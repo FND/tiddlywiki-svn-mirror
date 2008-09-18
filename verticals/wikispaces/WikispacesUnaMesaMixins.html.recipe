@@ -11,6 +11,8 @@ tiddler: ../../contributors/MartinBudden/mystyle/StyleSheetHorizontalMainMenu.ti
 #tiddler: ../../contributors/SaqImtiaz/verticals/Hesperian/DisabledVillageChildren/DisabledVillageChildrenFeed.tiddler
 recipe: plugins/split.recipe
 recipe: content/split.recipe
+recipe: topics/split.recipe
+tiddler: shadows/WikispacesTheme.tiddler
 tiddler: feeds/WikispacesUnaMesaMixinsFeed.tiddler
 #tiddler: ../../contributors/SaqImtiaz/adaptors/WikispacesAdaptor.js
 tiddler: ../../contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js
