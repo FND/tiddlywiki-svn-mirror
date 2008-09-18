@@ -43,7 +43,7 @@ HTMLParser.parseText = function (text,handler,context)
 		// poll for load complete
 		if(iframe.readyState){
 			if(iframe.readyState!=4 && iframe.readyState!="complete"){
-				window.window.setTimeout(arguments.callee,10);
+				window.setTimeout(arguments.callee,10);
 				return false;
 			}
 		}
@@ -62,7 +62,7 @@ HTMLParser.parseText = function (text,handler,context)
 			iframe.parentNode.removeChild(iframe);
 		};
 		collect.iframe = iframe;
-		window.window.setTimeout(collect,10);
+		window.setTimeout(collect,10);
 		return false;
 	};
 
