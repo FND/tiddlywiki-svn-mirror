@@ -1,0 +1,117 @@
+/***
+|''Name:''|HTMLParserPlugin|
+|''Description:''|parse a HTML string into a DOM|
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/HTMLParserPlugin |
+|''Version:''|0.1|
+|''License:''|[[BSD open source license]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.2|
+
+***/
+
+//{{{
+if(!version.extensions.HTMLParser){
+version.extensions.HTMLParserPlugin = {installed:true};
+
+/*
+ *  Iframe abstraction
+ *  - TBD: make separate plugin ..
+ */
+function IFrame(place,id,hidden)
+{
+        this.iframe = document.createElement("iframe");
+	this.id = id || "parseHTML-iframe";
+	this.iframe.setAttribute("id", this.id);
+	this.iframe.setAttribute("name", this.id);
+	this.iframe.setAttribute("type", "content");
+	this.pollInterval = 10;
+	if(hidden){
+		this.iframe.style.display = "none";
+	}
+	place = place || document.body;
+	place.appendChild(this.iframe);
+	return this;
+};
+
+/*
+ *  return documentElement for IFrame
+ */
+IFrame.prototype.document = function()
+{
+	if(this.iframe.contentDocument)
+		return this.iframe.contentDocument; 
+	if(iframe.contentWindow)
+		return this.iframe.contentWindow.document; // IE5.5 and IE6
+	return this.iframe.document;
+};
+
+/*
+ *  onload callback
+ */
+IFrame.prototype.iframeLoader = function(event) {
+	var iframe = arguments.callee.iframe;
+
+	// poll for load complete
+	if(iframe.readyState){
+		if(iframe.readyState!=4 && iframe.readyState!="complete"){
+			alert("here:"+iframe.readyState);
+			window.window.setTimeout(arguments.callee,1000);
+			return false;
+		}
+	}
+
+	// call user handler
+	var handler = arguments.callee.handler;
+	var context = arguments.callee.context;
+	if(handler){
+		handler(HTMLParser.iframeDocument(iframe),context);
+	}
+
+	// delete iframe asynchronously 
+	// - inline caused spinlock in FF3.1
+	var collect = function() {
+		var iframe = arguments.callee.iframe;
+		iframe.parentNode.removeChild(iframe);
+	};
+
+	collect.iframe = iframe;
+	window.window.setTimeout(collect,this.pollInterval);
+	return false;
+};
+
+/*
+ *  call user function when iframe loaded
+ */
+IFrame.prototype.load = function(handler,context)
+{
+	this.handler = handler;
+	iframeLoader.self = this;
+
+	// IE6 and Opera don't support onload event for iframe ..
+	window.window.setTimeout(this.iframeLoader,this.pollInterval);
+	return iframe;
+};
+
+HTMLParser = {};
+
+/*
+ *  parse HTML from string
+ *  - return DOM
+ */
+HTMLParser.parseText = function(text,handler,context)
+{
+	// create hidden iframe to hold HTML
+	var iframe = new IFrame(handler,context);
+	iframe.load(handler,context);
+
+	// write HTML text into the iframe
+        var doc = HTMLParser.iframeDocument(iframe);
+        doc.open();
+        doc.writeln(text);
+        doc.close();
+        return;
+};
+
+} //# end of 'install only once'
+//}}}

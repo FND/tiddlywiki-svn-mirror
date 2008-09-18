@@ -1,0 +1,41 @@
+<html>
+<head>
+
+	<script type="text/javascript"  charset="utf-8">
+		function go(){
+			var code = document.getElementById("code").value;
+			eval(code);
+		}
+
+		version = { extensions: {}};
+	</script>
+	<script src="HTMLParserPlugin.js" type="text/javascript"  charset="utf-8"></script>
+</head>
+<body>
+<textarea id="input" rows="5" cols="80">
+&lt;html&gt;
+&lt;body&gt;
+&lt;p&gt;&lt;b&gt;hello&lt;/b&gt;&lt;/p&gt;
+&lt;p id="check"&gt;&lt;i&gt;folks&lt;/i&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+
+<textarea id="code" rows="5" cols="80">
+	function loaded(doc,context){
+		document.getElementById("output").innerHTML = "out:" + doc.documentElement.innerHTML;
+		return;
+	}
+	HTMLParser.parseText(document.getElementById('input').value.replace(/</g,"&lt;").replace(/>/g,"&gt;"), loaded, "mycontext");
+</textarea>
+
+<div><button type="button" onclick="go()">GO!</button></div>
+
+<div id="output"></div>
+
+	<script type="text/javascript"  charset="utf-8">
+		go();
+	</script>
+
+</body>
+</html>
