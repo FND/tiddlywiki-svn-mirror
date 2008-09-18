@@ -108,10 +108,25 @@ config.commands.cloneClaimItem = {
 config.macros.SubmitQuickClaim = {};
 
 config.macros.SubmitQuickClaim.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var btn = createTiddlyButton(place,"submit quick claim","quickly submit this item to the system to tweak later",this.doSubmit);
+	var btn = createTiddlyButton(place,"submit quick claim","quickly submit this item to the system to tweak later",this.submitClick);
+	btn.setAttribute('id','btn_QuickClaimSubmit');
 };
 
-config.macros.SubmitQuickClaim.doSubmit = function(ev) {
+config.macros.SubmitQuickClaim.submitClick = function() {
+	var btn = document.getElementById('btn_QuickClaimSubmit');
+	var disabled = hasClass(btn, 'disabled');
+	if(disabled) {
+		return;
+	}
+	if(document.quickClaim.justification.value.length < 1  && document.quickClaim.amount.value.length < 1) {
+		config.macros.SubmitQuickClaim.handleResponse(false, "Oops. You need to provide an amount and a description.");
+	} else {
+		addClass(btn, 'disabled');
+		config.macros.SubmitQuickClaim.doSubmit();			
+	}
+};
+
+config.macros.SubmitQuickClaim.doSubmit = function() {
 	console.log('submitting quick claim item');
 	// call out to the particular systems authentication and claim generation functions.
 	// this function will typically be overwritten to add the sensitive 
@@ -129,7 +144,12 @@ config.macros.SubmitQuickClaim.handleResponse = function(success, message, uri) 
 	}
 	clearMessage();
 	displayMessage(msg, uri);
+	
+	// reset the button.
+	var btn = document.getElementById('btn_QuickClaimSubmit');
+	removeClass(btn, 'disabled');
 };
+
 
 
 // ===========================================
