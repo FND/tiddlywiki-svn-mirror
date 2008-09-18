@@ -88,8 +88,6 @@ config.macros.stats.simpleEncode = function(valueArray,maxValue) {
 	return chartData.join('');
 }
 
-config.macros.stats.makeGraph = function(valueArray,maxValue) {
-}
 
 config.macros.stats.max = function(array) {
 	return Math.max.apply( Math, array );
@@ -97,17 +95,21 @@ config.macros.stats.max = function(array) {
 
 config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){	
 	var res = eval("[" + responseText + "]");
-	console.log(responseText);
 	var d=[];
+	var l="";
 	for(var c=0; c<res.length; c++){
 		d[c]= res[c].hits;
+		l+=res[c].date+"|";
 	}
 	var maxValue = config.macros.stats.max(d);
- 	var image = 'http://chart.apis.google.com/chart?cht=lc&chs=100x75&chd='+config.macros.stats.simpleEncode(d,maxValue)+'&chxt=x,y&chxl=0:||1:|';
+ 	params.gData = config.macros.stats.simpleEncode(d,maxValue);
+	params.XLabel = l;
+	params.YLabel = "0|"+maxValue+"|";
+	var image = 'http://chart.apis.google.com/chart?cht=lc&chs=100x75&chd='+params.gData+'&chxt=x,y&chxl=0:||1:|';
 	var div = createTiddlyElement(params.place, "div");
 	div.onclick = function()
 	{
-		var full = "http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd="+config.macros.stats.simpleEncode(d)+"&chxt=x,y&chxl=0:1:|"+"label"+"&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
+		var full = "http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd="+params.gData+"&chxt=x,y&chxl=1:|"+params.YLabel+"0:|"+params.XLabel+"&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
 		console.log(full);
 		setStylesheet(
 		"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
@@ -116,6 +118,8 @@ config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){
 		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
 		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><br />";
 		box.style.position = 'absolute';
+		box.style.height= "400px";
+		box.style.width= "800px";
 		var img = createTiddlyElement(box, "img");
 		img.src = full;
 		ccTiddlyAdaptor.center(box);
@@ -128,25 +132,6 @@ config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){
 	var span = createTiddlyElement(div, "div", null, "graph_label", params.desc);
 	setStylesheet(".graph_label  {  position:relative; top:-60px; left:130px;}");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 config.macros.stats.imgCallback = function(status,params,responseText,uri,xhr){	
