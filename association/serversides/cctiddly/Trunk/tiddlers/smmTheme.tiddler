@@ -73,8 +73,8 @@ body{
 //	 background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
 }
 #backstageCloak {
-opacity:0.8; filter:'alpha(opacity:70)';
-background:white;
+opacity:0.9; filter:'alpha(opacity:90)';
+background:#222;
 }
 
 #messageArea {
