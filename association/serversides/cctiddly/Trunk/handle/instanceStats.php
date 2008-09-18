@@ -1,7 +1,62 @@
 <?php
 
+echo "{ date:'17/09/2008-10:41', hits:1 },{ date:'17/09/2008-10:42', hits:2 },{ date:'17/09/2008-10:46', hits:3 }";
+exit;
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+
+	$SQL ="SELECT DATE_FORMAT(time, '%d/%m/%Y-%k:%i') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 1 day AND workspace='".$_REQUEST['workspace']."' GROUP BY Date order by time limit 3";
+	$results = mysql_query($SQL);
+	$count = 0;
+	while($result=mysql_fetch_assoc($results)){
+		$str .= "{ date:'".$result['Date']."', hits:".$result['numRows']." },";	
+	}
+	
+echo $str = substr($str,0,strlen($str)-1);
+
+exit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function chart_data($values) {
 	$maxValue = max($values);
@@ -11,8 +66,7 @@ function chart_data($values) {
   	for ($i = 0; $i < count($values); $i++) {
     	$currentValue = $values[$i];
     	if ($currentValue > -1) {
-    		
-$chartData.=substr($simpleEncoding,61*($currentValue/$maxValue),1);
+    			$chartData.=substr($simpleEncoding,61*($currentValue/$maxValue),1);
     	}
       	else {
       		$chartData.='_';
@@ -49,6 +103,9 @@ function displayGraph($SQL, $title)
 	$r2 = round(max($values), -2)/2;
 	displayGraphData($_REQUEST['desc'], $values, "$label", $lv);
 }
+
+
+
 
 
 

@@ -57,8 +57,9 @@ config.macros.stats={};
 
 config.macros.stats.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var params;
-	params = { place: place, url: "http://127.0.0.1/release/release/handle/instanceStats.php?graph=minute",title:"Views by minute.", desc:"this shows users who have viewed this workspace by minute."};
-	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
+	params = { place: place, url: "https://127.0.0.1/Trunk/handle/instanceStats.php?graph=minute",title:"Views by minute.", desc:"this shows users who have viewed this workspace by minute."};
+	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
+/*
 	params = { place: place, url: "http://127.0.0.1/release/release/handle/instanceStats.php?graph=hour",title:"Views by hour.", desc:"this shows users who have viewed this workspace by hour."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
 	params = { place: place, url: "http://127.0.0.1/release/release/handle/instanceStats.php?graph=day",title:"Views by day.", desc:"this shows users who have viewed this workspace by day."};
@@ -67,9 +68,44 @@ config.macros.stats.handler = function(place,macroName,params,wikifier,paramStri
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
 	params = { place: place, url: "http://127.0.0.1/release/release/handle/instanceStats.php?graph=year",title:"Views by year.", desc:"this shows users who have viewed this workspace by year."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.imgCallback,params);
-
+*/
 }
 
+
+
+config.macros.stats.simpleEncode = function(valueArray,maxValue) {
+	var simpleEncoding = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	var chartData = ['s:'];
+	  for (var i = 0; i < valueArray.length; i++) {
+	    var currentValue = valueArray[i];
+	    if (!isNaN(currentValue) && currentValue >= 0) {
+	    	chartData.push(simpleEncoding.charAt(Math.round((simpleEncoding.length-1) * currentValue / maxValue)));
+	    }
+	      else {
+	      chartData.push('_');
+	      }
+	  }
+	return chartData.join('');
+}
+
+config.macros.stats.makeGraph = function(valueArray,maxValue) {
+}
+
+config.macros.stats.max = function(array) {
+	return Math.max.apply( Math, array );
+}
+
+config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){	
+	var res = eval("[" + responseText + "]");
+	console.log(responseText);
+	var d=[];
+	for(var c=0; c<res.length; c++){
+		d[c]= res[c].hits;
+	}
+	var maxValue = 9;
+	
+	console.log('http://chart.apis.google.com/chart?cht=lc&chs=100x75&chd='+config.macros.stats.simpleEncode(d,maxValue)+'&chxt=x,y&chxl=0:||1:|');
+}
 
 config.macros.stats.imgCallback = function(status,params,responseText,uri,xhr){	
 	var div = createTiddlyElement(params.place, "div");
