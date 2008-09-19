@@ -79,6 +79,7 @@ class TiddlyWiki:
 
 		@return (list): version number (major, minor, revision)
 		@raise ValueError: invalid TiddlyWiki version
+		@raise AttributeError: missing TiddlyWiki version
 		"""
 		version = self.dom.html.head.script.renderContents()
 		pattern = re.compile(r"major: (\d+), minor: (\d+), revision: (\d+)") # XXX: enhance efficiency by moving to class attribute to prevent re-compiling
@@ -97,7 +98,10 @@ class TiddlyWiki:
 
 		@return: None
 		"""
-		version = self.getVersion()
+		try:
+			version = self.getVersion()
+		except (ValueError, AttributeError):
+			version = [0, 0, 0] # assume pre-v2.2 format
 		if version and (version[0] + (version[1] / 10.0) < 2.2): # N.B.: works because all pre-v2.2 releases are known
 			for tiddler in self.store.findChildren("div", tiddler = True):
 				# convert tiddler attribute to title attribute

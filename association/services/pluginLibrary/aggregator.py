@@ -3,8 +3,6 @@ retrieve TiddlyWiki plugins from authors' repositories
 """
 
 import sys
-import os
-import shutil
 
 from urllib import urlopen
 from tiddlyweb.config import config

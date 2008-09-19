@@ -7,8 +7,6 @@ import posixpath
 
 from BeautifulSoup import BeautifulSoup
 from tiddlyweb.tiddler import Tiddler
-from tiddlywiki import TiddlyWiki
-from tiddlywiki import getSlices
 from utils import addTrailingSlash
 
 class DirScraper:
