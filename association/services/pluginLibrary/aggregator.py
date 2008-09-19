@@ -13,15 +13,20 @@ from tiddlyweb.importer import import_wiki
 from tiddlywiki import TiddlyWiki
 from dirScraper import DirScraper
 
+log = [] # XXX: use of global (module-scoped!) variable wrong?; use function that also inserts timestamp
+
 def main(args):
 	env = { "tiddlyweb.config": config }
 	store = Store("text", env)
 	repos = getRepositories("repos.lst")
 	for repo in repos:
-		print "processing %s (%s)" % (repo["name"], repo["URI"]) # XXX: log
+		msg = "processing %s (%s)" % (repo["name"], repo["URI"])
+		log.append(msg)
+		print msg # DEBUG
 		getPlugins(repo, store)
 	bags = [repo["name"] for repo in repos] # XXX: repo["name"] not necessarily equals Bag(repo["name"]).name
 	generateRecipe(bags, store)
+	print log # TODO: write to file
 
 def getRepositories(filepath):
 	"""
@@ -59,7 +64,8 @@ def getPlugins(repo, store):
 		try:
 			html = urlopen(repo["URI"]).read() # TODO: deferred processing?!
 		except IOError:
-			return False # TODO: log error
+			log.append("ERROR: could not process repository %s" % repo["name"])
+			return False
 		bag = Bag(repo["name"])
 		tw = TiddlyWiki(html)
 		tw.convertStoreFormat()
@@ -70,19 +76,27 @@ def getPlugins(repo, store):
 			import_wiki(store, plugins, bag.name)
 			return True
 		else:
-			return False # TODO: log error
+			log.append("WARNING: repository %s does not contain any plugins" % repo["name"])
+			return False
 	elif repo["type"] == "SVN":
 		bag = Bag(repo["name"])
 		svn = DirScraper(repo["URI"])
-		plugins = svn.getPlugins("./", True)
+		try:
+			plugins = svn.getPlugins("./", True)
+		except IOError:
+			log.append("ERROR: could not process repository %s" % repo["name"])
 		if plugins:
 			savePlugins(store, bag)
 			for plugin in plugins:
 				plugin.bag = bag.name
-				store.put(plugin)
+				try:
+					store.put(plugin)
+				except UnicodeDecodeError: # XXX: temporary workaround
+					log.append("ERROR: could not store %s in %s" % (plugin.title, bag.name))
 			return True
 		else:
-			return False # TODO: log error
+			log.append("WARNING: repository %s contains no plugins" % repo["name"])
+			return False
 	else:
 		pass # XXX: TBD
 
