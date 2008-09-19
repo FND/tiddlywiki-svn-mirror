@@ -2,20 +2,20 @@
 #http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/test | SVN | Test
 
 http://tiddlywiki.abego-software.de | TiddlyWiki | abegoExtensions
-#http://tiddlywiki.bidix.info | TiddlyWiki | BidiXTW
+http://tiddlywiki.bidix.info | TiddlyWiki | BidiXTW
 http://www.tiddlywiki.com/coreplugins.html | TiddlyWiki | Core Plugins
 http://mptw.tiddlyspot.com | TiddlyWiki | MPTW
 http://www.tiddlytools.com | TiddlyWiki | TiddlyTools
 http://visualtw.ouvaton.org/VisualTW.html | TiddlyWiki | VisualTW
-#http://svn.tiddlywiki.org/Trunk/contributors/BidiX/ | SVN | contributor: BidiX
-#http://svn.tiddlywiki.org/Trunk/contributors/BobMcElrath/ | SVN | contributor: Bob McElrath
+http://svn.tiddlywiki.org/Trunk/contributors/BidiX/ | SVN | contributor: BidiX
+http://svn.tiddlywiki.org/Trunk/contributors/BobMcElrath/ | SVN | contributor: Bob McElrath
 http://svn.tiddlywiki.org/Trunk/contributors/FND/ | SVN | contributor: FND
-#http://svn.tiddlywiki.org/Trunk/contributors/SaqImtiaz/ | SVN | contributor: Saq Imtiaz
-#http://svn.tiddlywiki.org/Trunk/contributors/SimonBaird/ | SVN | contributor: Simon Baird
-#http://svn.tiddlywiki.org/Trunk/contributors/UdoBorkowski/ | SVN | contributor: Udo Borkowski
+http://svn.tiddlywiki.org/Trunk/contributors/SaqImtiaz/ | SVN | contributor: Saq Imtiaz
+http://svn.tiddlywiki.org/Trunk/contributors/SimonBaird/ | SVN | contributor: Simon Baird
+http://svn.tiddlywiki.org/Trunk/contributors/UdoBorkowski/ | SVN | contributor: Udo Borkowski
 #http://bob.mcelrath.org/plugins.html | TiddlyWiki | BobMcElrath
 http://devpad.tiddlyspot.com | TiddlyWiki | FND's DevPad
-#http://end.com/~speth/HaloscanMacro.html | TiddlyWiki | HaloscanMacro
+http://end.com/~speth/HaloscanMacro.html | TiddlyWiki | HaloscanMacro
 http://jackparke.googlepages.com/jtw.html | TiddlyWiki | Jack's TiddlyWiki
 http://www.martinswiki.com | TiddlyWiki | Martin's Wiki
 http://www.math.ist.utl.pt/~psoares/addons.html | TiddlyWiki | Paulo Soares TiddlyWiki

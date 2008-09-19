@@ -20,7 +20,7 @@ def main(args):
 	store = Store("text", env)
 	repos = getRepositories("repos.lst")
 	for repo in repos:
-		msg = "processing %s (%s)" % (repo["name"], repo["URI"])
+		msg = "processing '%s' (%s)" % (repo["name"], repo["URI"])
 		log.append(msg)
 		print msg # DEBUG
 		getPlugins(repo, store)
@@ -64,7 +64,7 @@ def getPlugins(repo, store):
 		try:
 			html = urlopen(repo["URI"]).read() # TODO: deferred processing?!
 		except IOError:
-			log.append("ERROR: could not process repository %s" % repo["name"])
+			log.append("ERROR: could not process repository '%s'" % repo["name"])
 			return False
 		bag = Bag(repo["name"])
 		tw = TiddlyWiki(html)
@@ -76,7 +76,7 @@ def getPlugins(repo, store):
 			import_wiki(store, plugins, bag.name)
 			return True
 		else:
-			log.append("WARNING: repository %s does not contain any plugins" % repo["name"])
+			log.append("WARNING: repository '%s' does not contain any plugins" % repo["name"])
 			return False
 	elif repo["type"] == "SVN":
 		bag = Bag(repo["name"])
@@ -84,7 +84,7 @@ def getPlugins(repo, store):
 		try:
 			plugins = svn.getPlugins("./", True)
 		except IOError:
-			log.append("ERROR: could not process repository %s" % repo["name"])
+			log.append("ERROR: could not process repository '%s'" % repo["name"])
 		if plugins:
 			savePlugins(store, bag)
 			for plugin in plugins:
@@ -92,10 +92,10 @@ def getPlugins(repo, store):
 				try:
 					store.put(plugin)
 				except (UnicodeDecodeError, StoreLockError): # XXX: temporary workaround
-					log.append("ERROR: could not store %s in %s" % (plugin.title, bag.name))
+					log.append("ERROR: could not store '%s' in '%s'" % (plugin.title, bag.name))
 			return True
 		else:
-			log.append("WARNING: repository %s contains no plugins" % repo["name"])
+			log.append("WARNING: repository '%s' contains no plugins" % repo["name"])
 			return False
 	else:
 		pass # XXX: TBD
