@@ -4,10 +4,22 @@ $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
 
+// format : "19-02-2006" or any other format strtotime can handle.
+function getMaxDate($dates){
+	foreach($dates as $date){
+	if(gmdate("Y-m-d", strtotime($temp)) < gmdate("Y-m-d", strtotime($date)))
+			 $temp = $date;
+	}
+	return $temp;
+}
+
 
 function GetDays($sStartDate, $sEndDate){
-
-echo   $sStartDate = gmdate("Y-m-d", strtotime($sStartDate));
+  // Firstly, format the provided dates.
+  // This function works best with YYYY-MM-DD
+  // but other date formats will work thanks
+  // to strtotime().
+  $sStartDate = gmdate("Y-m-d", strtotime($sStartDate));
   $sEndDate = gmdate("Y-m-d", strtotime($sEndDate));
 
   // Start the variable off with the start date
@@ -20,48 +32,54 @@ echo   $sStartDate = gmdate("Y-m-d", strtotime($sStartDate));
   // While the current date is less than the end date
   while($sCurrentDate < $sEndDate){
     // Add a day to the current date
-  $sCurrentDate = gmdate("Y-m-d", strtotime("+1 day", strtotime($sCurrentDate)));
-
+echo    $sCurrentDate = gmdate("Y-m-d", strtotime("+2 day", strtotime($sCurrentDate)));
+echo "<br/>";
     // Add this new day to the aDays array
     $aDays[] = $sCurrentDate;
   }
 
   // Once the loop has finished, return the
   // array of days.
+//print_r($aDays);
   return $aDays;
 }
 
-// format : "19-02-2006" or any other format strtotime can handle.
-function getMaxDate($dates){
-	foreach($dates as $date){
-	if(gmdate("Y-m-d", strtotime($temp)) < gmdate("Y-m-d", strtotime($date)))
-			 $temp = $date;
-	}
-	return $temp;
-}
 
 
+
+	
 function handleSQL($SQL){
 	$results = mysql_query($SQL);
 	$count = 0;
-	
-	
 	while($result=mysql_fetch_assoc($results)){
 		$dates[] .= $result['Date'];
 		$str .= "{ date:'".$result['Date']."', hits:".$result['numRows']." },";	
 	}
-//	print_r($dates);
-	//echo date(mktime());
-	echo date("j-m-Y", mktime());
-	echo "<br/>";
-	echo date("j-m-Y", strtotime("+10 day", strtotime(date("j-m-Y", mktime()))));
+	$format = "Y-m-d";
+
+	GetDays("2008-09-20", "2008-09-26");
+
+	$to = date($format, mktime());
+	$from = date($format, strtotime("-10 day", strtotime(date("Y-m-j", mktime()))));
+
+	echo "From $from <br/> To : $to ";
+
+	GetDays("$from", "$to");
+
+//	GetDays($from, $to);
+
+	exit;
+
 	
+	foreach($timeBetween as $time){
+		if(!in_array($time, $dates) )
+			$str .= "{ date:'".$time."', hits:0 },";		
+	}
 	exit;
 	
-	
-	echo getMaxDate($dates);
 	return $str = substr($str,0,strlen($str)-1);	
 }
+
 
 
 
