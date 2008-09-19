@@ -1,7 +1,7 @@
 /***
 |Name:|SelectThemePlugin|
 |Description:|Lets you easily switch theme and palette|
-|Version:|1.0 ($Rev: 3646 $)|
+|Version:|1.0.1 ($Rev: 3646 $)|
 |Date:|$Date: 2008-02-27 02:34:38 +1000 (Wed, 27 Feb 2008) $|
 |Source:|http://mptw.tiddlyspot.com/#SelectThemePlugin|
 |Author:|Simon Baird <simon.baird@gmail.com>|
@@ -58,7 +58,7 @@ config.macros.selectTheme.onClick = function(ev)
 		var t = tiddlers[i].title;
 		var name = store.getTiddlerSlice(t,'Name');
 		var desc = store.getTiddlerSlice(t,'Description');
-		var btn = createTiddlyButton(createTiddlyElement(popup,'li'),name ? name : title,desc ? desc : config.macros.selectTheme.label['mode'],config.macros.selectTheme.onClickTheme);
+		var btn = createTiddlyButton(createTiddlyElement(popup,'li'), name?name:t, desc?desc:config.macros.selectTheme.label['mode'], config.macros.selectTheme.onClickTheme);
 		btn.setAttribute('theme',t);
 		btn.setAttribute('mode',mode);
 	}
