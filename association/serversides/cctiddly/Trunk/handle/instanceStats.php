@@ -14,93 +14,104 @@ function getMaxDate($dates){
 }
 
 
-function GetDays($sStartDate, $sEndDate, $interval){
-  // Firstly, format the provided dates.
-  // This function works best with YYYY-MM-DD
-  // but other date formats will work thanks
-  // to strtotime().
-  $sStartDate = gmdate("Y-m-d H", strtotime($sStartDate));
-  $sEndDate = gmdate("Y-m-d H", strtotime($sEndDate));
+function aGetDays($sStartDate, $sEndDate, $interval, $format){
+  echo	$sStartDate = gmdate($format, strtotime($sStartDate));
+echo "<br />";
+echo	$sEndDate = gmdate($format, strtotime($sEndDate));
 
-  // Start the variable off with the start date
-  $aDays[] = $sStartDate;
-
-  // Set a 'temp' variable, sCurrentDate, with
-  // the start date - before beginning the loop
-  $sCurrentDate = $sStartDate;
-
-  // While the current date is less than the end date
-  while($sCurrentDate < $sEndDate){
-    // Add a day to the current date
-    	$sCurrentDate = gmdate("Y-m-d H", mktime()+3600);
-    // Add this new day to the aDays array
-    $aDays[] = $sCurrentDate;
-  }
-
-  // Once the loop has finished, return the
-  // array of days.
-//print_r($aDays);
-  return $aDays;
+	$aDays[] = $sStartDate;
+	$sCurrentDate = $sStartDate;
+	echo "c : ".strtotime($sCurrentDate)." <br />e : ".strtotime($sEndDate).".<br />";
+  	while(strtotime($sCurrentDate) < strtotime($sEndDate)){
+echo "<h2>$sEndDate</h2>";	
+    	echo $sCurrentDate = gmdate($format, mktime()+$interval);
+		$aDays[] = $sCurrentDate;
+  	}
+	return $aDays;
 }
 
+
+
+
+
+function GetDays($sStartDate, $sEndDate, $interval, $format){
+  echo	$sStartDate = gmdate($format, strtotime($sStartDate));
+echo "<br />";
+echo	$sEndDate = gmdate($format, strtotime($sEndDate));
+
+	$aDays[] = $sStartDate;
+	$sCurrentDate = $sStartDate;
+  	while(strtotime($sCurrentDate) < strtotime($sEndDate)){
+
+    	echo $sCurrentDate = gmdate($format, mktime()+$interval);
+		$aDays[] = $sCurrentDate;
+  	}
+	return $aDays;
+}
+
+//$a =  gaps(strtotime("2008-09-01 9:00"), strtotime("2008-09-01 12:00"), 3600);
+//foreach ($a as $v)
+//echo date("Y-m-d H:00", $v)."<br />";
+//exit;
+//getDays("2008-09-01 12:00", "2008-09-01 09:00", 3600, "Y-m-d H:00");
+//exit;
+
+
+
+
+
+function gaps($start, $interval){
+	$gaps[] = $start;
+	$temp=$start;
+	while($temp < mktime()){
+		$temp = $temp + $interval;
+		$gaps[] = $temp;
+  	}
+	return $gaps;
+}
 
 
 function handleSQL($SQL, $format, $goBack, $interval){
 	$results = mysql_query($SQL);
 	$count = 0;
 	while($result=mysql_fetch_assoc($results)){
-		$dates[] .= strtotime($result['Date']);
-		$hits[strtotime($result['Date'])] = $result['numRows'];
+			$dates[] .= $result['Date'];
+			$hits[$result['Date']] = $result['numRows'];
 	}
-	$to = date($format, mktime());
-	$from = date($format, mktime()-$goBack);
-	$timeBetween = GetDays("$from", "$to", $interval);
-	foreach($timeBetween as $time){
-		if(!in_array(strtotime($time), $dates)){
-			$hits[strtotime($time)] = 0;
-			$dates[] .= strtotime($time);
+	$a = gaps(mktime()-$goBack, $interval);
+	foreach ($a as $time){
+		if(!in_array(date($format, $time), $dates)){
+			$hits[date($format, $time)] = 0;
+ 			$dates[] = date($format, $time);
 		}
 	}
-	
-	//$data = SortByDate($data);
 	sort($dates);
 	
-	foreach($dates as $date)
-	{
-		//echo "<b>".date("y-m-d", $date)."</b> Time : ".$hits[$date]."<br />";
-		$str .= "{ date:'".date($format, $date)."', hits:".$hits[$date]." },";	
-		
+	foreach($dates as $date){
+		if($date!="")
+			$str .= "{ date:'".$date."', hits:".$hits[$date]." },";	
 	}
-	return $str = substr($str,0,strlen($str)-1);	
+	return substr($str,0,strlen($str)-1);	
 }
 
 
 
-if(!user_session_validate())
-{
-	sendHeader("403");
+
+if ($_REQUEST['graph']=="hour"){
+	$SQL = "SELECT DATE_FORMAT(time, '%d-%k') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >SUBDATE(now() , INTERVAL 24 HOUR) AND workspace='".$w."' GROUP BY Date order by time limit 24";
+	echo handleSQL($SQL, "d-H", 86400, 3600);
+	// 3600 second in an hour.
+	// 86400 second in a day.
+	
 }
 
-
-$w=$_REQUEST['workspace'];
-
-if (!user_isAdmin(user_getUsername(), $w))
-{
-	sendHeader("401");
-	exit;
-}
-
-
+exit;
 
 if ($_REQUEST['graph']=="minute")
 	echo handleSQL("SELECT DATE_FORMAT(time, '%k:%i') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >SUBDATE(now() , INTERVAL 20 MINUTE) AND workspace='".$w."' GROUP BY Date order by time asc limit 20", "Y-m-d");
 
-if ($_REQUEST['graph']=="hour"){
-	$SQL = "SELECT DATE_FORMAT(time, '%k:00') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 1 day AND workspace='".$w."' GROUP BY Date order by time limit 24";
-	echo handleSQL($SQL, "Y-m-d h:i", 86400, "+2 minute");
-	// second in a day.
-	
-}
+
+
 if ($_REQUEST['graph']=="day"){
 	$SQL = "SELECT DATE_FORMAT(time, '%Y-%m-%d') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 7 DAY GROUP BY Date order by time limit 15";
 	echo handleSQL($SQL, "Y-m-d", "-5 day", "+2 day");
@@ -110,6 +121,8 @@ if ($_REQUEST['graph']=="month")
 
 if ($_REQUEST['graph']=="year")
 	echo handleSQL("SELECT DATE_FORMAT(time, '%Y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 5 YEAR AND workspace='".$w."' GROUP BY Date order by time limit 5");
+
+
 
 
 
@@ -137,6 +150,19 @@ exit;
 
 
 
+if(!user_session_validate())
+{
+	sendHeader("403");
+}
+
+
+$w=$_REQUEST['workspace'];
+
+if (!user_isAdmin(user_getUsername(), $w))
+{
+	sendHeader("401");
+	exit;
+}
 
 
 
