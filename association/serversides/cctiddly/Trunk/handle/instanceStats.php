@@ -1,10 +1,7 @@
 <?php
 
-
-
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-
 
 
 
@@ -33,20 +30,40 @@ echo   $sStartDate = gmdate("Y-m-d", strtotime($sStartDate));
   // array of days.
   return $aDays;
 }
+
+// format : "19-02-2006" or any other format strtotime can handle.
+function getMaxDate($dates){
+	foreach($dates as $date){
+	if(gmdate("Y-m-d", strtotime($temp)) < gmdate("Y-m-d", strtotime($date)))
+			 $temp = $date;
+	}
+	return $temp;
+}
+
+
 function handleSQL($SQL){
 	$results = mysql_query($SQL);
 	$count = 0;
-
+	
+	
 	while($result=mysql_fetch_assoc($results)){
+		$dates[] .= $result['Date'];
 		$str .= "{ date:'".$result['Date']."', hits:".$result['numRows']." },";	
 	}
+//	print_r($dates);
+	//echo date(mktime());
+	echo date("j-m-Y", mktime());
+	echo "<br/>";
+	echo date("j-m-Y", strtotime("+10 day", strtotime(date("j-m-Y", mktime()))));
+	
+	exit;
+	
+	
+	echo getMaxDate($dates);
 	return $str = substr($str,0,strlen($str)-1);	
 }
 
 
-$a=	GetDays("2008-09-10", "2008-09-15");
-print_r($a);
-exit;
 
 if(!user_session_validate())
 {
@@ -71,7 +88,7 @@ if ($_REQUEST['graph']=="hour")
 	echo handleSQL("SELECT DATE_FORMAT(time, '%k:00') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 1 day AND workspace='".$w."' GROUP BY Date order by time limit 24");
 
 if ($_REQUEST['graph']=="day")
-	echo handleSQL("SELECT DATE_FORMAT(time, '%d/%m') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 7 DAY GROUP BY Date order by time limit 15");
+	echo handleSQL("SELECT DATE_FORMAT(time, '%d-%m-%Y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 7 DAY GROUP BY Date order by time limit 15");
 
 if ($_REQUEST['graph']=="month")
 	echo handleSQL("SELECT DATE_FORMAT(time, '%m/%y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 12 MONTH AND workspace='".$w."'  GROUP BY Date order by time limit 200");
