@@ -29,7 +29,7 @@ class DirScraper:
 		http = httplib2.Http()
 		response, content = http.request(url, method = "GET")
 		if response.status == 200: # XXX: too restrictive?
-			return content
+			return unicode(content, "utf-8", "replace")
 		else:
 			raise IOError("error retrieving remote content: HTTP status %s" % response.status) # IOError not approriate
 

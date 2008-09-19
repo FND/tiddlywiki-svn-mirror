@@ -89,10 +89,7 @@ def getPlugins(repo, store):
 			savePlugins(store, bag)
 			for plugin in plugins:
 				plugin.bag = bag.name
-				try:
-					store.put(plugin)
-				except (UnicodeDecodeError, StoreLockError): # XXX: temporary workaround
-					log.append("ERROR: could not store '%s' in '%s'" % (plugin.title, bag.name))
+				store.put(plugin)
 			return True
 		else:
 			log.append("WARNING: repository '%s' contains no plugins" % repo["name"])
