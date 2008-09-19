@@ -19,8 +19,8 @@ function GetDays($sStartDate, $sEndDate, $interval){
   // This function works best with YYYY-MM-DD
   // but other date formats will work thanks
   // to strtotime().
-  $sStartDate = gmdate("Y-m-d", strtotime($sStartDate));
-  $sEndDate = gmdate("Y-m-d", strtotime($sEndDate));
+  $sStartDate = gmdate("Y-m-d H", strtotime($sStartDate));
+  $sEndDate = gmdate("Y-m-d H", strtotime($sEndDate));
 
   // Start the variable off with the start date
   $aDays[] = $sStartDate;
@@ -32,8 +32,7 @@ function GetDays($sStartDate, $sEndDate, $interval){
   // While the current date is less than the end date
   while($sCurrentDate < $sEndDate){
     // Add a day to the current date
-    	$sCurrentDate = gmdate("Y-m-d", strtotime($interval, strtotime($sCurrentDate)));
-
+    	$sCurrentDate = gmdate("Y-m-d H", mktime()+3600);
     // Add this new day to the aDays array
     $aDays[] = $sCurrentDate;
   }
@@ -46,47 +45,34 @@ function GetDays($sStartDate, $sEndDate, $interval){
 
 
 
-
-
-function handleSQL($SQL){
+function handleSQL($SQL, $format, $goBack, $interval){
 	$results = mysql_query($SQL);
 	$count = 0;
 	while($result=mysql_fetch_assoc($results)){
 		$dates[] .= strtotime($result['Date']);
 		$hits[strtotime($result['Date'])] = $result['numRows'];
 	}
-
-	$format = "Y-m-d";
 	$to = date($format, mktime());
-	$from = date($format, strtotime("-5 day", strtotime(date("Y-m-j", mktime()))));
-	$timeBetween = GetDays("$from", "$to", "+2 day");
+	$from = date($format, mktime()-$goBack);
+	$timeBetween = GetDays("$from", "$to", $interval);
 	foreach($timeBetween as $time){
 		if(!in_array(strtotime($time), $dates)){
 			$hits[strtotime($time)] = 0;
 			$dates[] .= strtotime($time);
 		}
 	}
+	
+	//$data = SortByDate($data);
 	sort($dates);
+	
 	foreach($dates as $date)
 	{
 		//echo "<b>".date("y-m-d", $date)."</b> Time : ".$hits[$date]."<br />";
-		$str .= "{ date:'".date("y-m-d", $date)."', hits:".$hits[$date]." },";	
+		$str .= "{ date:'".date($format, $date)."', hits:".$hits[$date]." },";	
 		
 	}
 	return $str = substr($str,0,strlen($str)-1);	
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -107,16 +93,20 @@ if (!user_isAdmin(user_getUsername(), $w))
 
 
 if ($_REQUEST['graph']=="minute")
-	echo handleSQL("SELECT DATE_FORMAT(time, '%k:%i') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >SUBDATE(now() , INTERVAL 20 MINUTE) AND workspace='".$w."' GROUP BY Date order by time asc limit 20");
+	echo handleSQL("SELECT DATE_FORMAT(time, '%k:%i') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >SUBDATE(now() , INTERVAL 20 MINUTE) AND workspace='".$w."' GROUP BY Date order by time asc limit 20", "Y-m-d");
 
-if ($_REQUEST['graph']=="hour")
-	echo handleSQL("SELECT DATE_FORMAT(time, '%k:00') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 1 day AND workspace='".$w."' GROUP BY Date order by time limit 24");
-
-if ($_REQUEST['graph']=="day")
-	echo handleSQL("SELECT DATE_FORMAT(time, '%Y-%m-%d') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 7 DAY GROUP BY Date order by time limit 15");
-
+if ($_REQUEST['graph']=="hour"){
+	$SQL = "SELECT DATE_FORMAT(time, '%k:00') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 1 day AND workspace='".$w."' GROUP BY Date order by time limit 24";
+	echo handleSQL($SQL, "Y-m-d h:i", 86400, "+2 minute");
+	// second in a day.
+	
+}
+if ($_REQUEST['graph']=="day"){
+	$SQL = "SELECT DATE_FORMAT(time, '%Y-%m-%d') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 7 DAY GROUP BY Date order by time limit 15";
+	echo handleSQL($SQL, "Y-m-d", "-5 day", "+2 day");
+}
 if ($_REQUEST['graph']=="month")
-	echo handleSQL("SELECT DATE_FORMAT(time, '%m/%y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 12 MONTH AND workspace='".$w."'  GROUP BY Date order by time limit 200");
+	echo handleSQL("SELECT DATE_FORMAT(time, '%m/%y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 12 MONTH AND workspace='".$w."'  GROUP BY Date order by time limit 200", "Y-m-d");
 
 if ($_REQUEST['graph']=="year")
 	echo handleSQL("SELECT DATE_FORMAT(time, '%Y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 5 YEAR AND workspace='".$w."' GROUP BY Date order by time limit 5");
