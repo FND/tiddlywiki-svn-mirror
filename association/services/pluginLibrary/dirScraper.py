@@ -24,10 +24,14 @@ class DirScraper:
 
 		@param url (str): page URL
 		@return (str): page contents
+		@raise IOError: HTTP status error
 		"""
 		http = httplib2.Http()
-		reponse, content = http.request(url, method = "GET")
-		return content
+		response, content = http.request(url, method = "GET")
+		if response.status == 200: # XXX: too restrictive?
+			return content
+		else:
+			raise IOError("error retrieving remote content: HTTP status %s" % response.status) # IOError not approriate
 
 	def getPlugins(self, dir, recursive = False):
 		"""
