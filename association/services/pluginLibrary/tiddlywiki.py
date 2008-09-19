@@ -102,7 +102,7 @@ class TiddlyWiki:
 			version = self.getVersion()
 		except (ValueError, AttributeError):
 			version = [0, 0, 0] # assume pre-v2.2 format
-		if version and (version[0] + (version[1] / 10.0) < 2.2): # N.B.: works because all pre-v2.2 releases are known
+		if version and (version[0] + (version[1] / 10.0) < 2.3): # N.B.: works because all pre-v2.2 releases are known
 			for tiddler in self.store.findChildren("div", tiddler = True):
 				# convert tiddler attribute to title attribute
 				tiddler["title"] = tiddler["tiddler"]
