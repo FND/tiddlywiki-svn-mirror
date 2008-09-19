@@ -57,9 +57,7 @@ echo	$sEndDate = gmdate($format, strtotime($sEndDate));
 //exit;
 
 
-
-
-
+// returns an array of all the timestamps between the start timestamp and current date. 
 function gaps($start, $interval){
 	$gaps[] = $start;
 	$temp=$start;
@@ -69,7 +67,6 @@ function gaps($start, $interval){
   	}
 	return $gaps;
 }
-
 
 function handleSQL($SQL, $format, $goBack, $interval){
 	$results = mysql_query($SQL);
@@ -86,7 +83,6 @@ function handleSQL($SQL, $format, $goBack, $interval){
 		}
 	}
 	sort($dates);
-	
 	foreach($dates as $date){
 		if($date!="")
 			$str .= "{ date:'".$date."', hits:".$hits[$date]." },";	
@@ -96,29 +92,38 @@ function handleSQL($SQL, $format, $goBack, $interval){
 
 
 
+$w = $_REQUEST['workspace'];
 
 if ($_REQUEST['graph']=="hour"){
-	$SQL = "SELECT DATE_FORMAT(time, '%d-%k') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >SUBDATE(now() , INTERVAL 24 HOUR) AND workspace='".$w."' GROUP BY Date order by time limit 24";
+	// last 24 hours
+	$SQL = "SELECT DATE_FORMAT(time, '%d-%k') AS Date, COUNT(*) AS numRows FROM workspace_view  where time >SUBDATE(now() , INTERVAL 10 HOUR) AND workspace='".$w."' GROUP BY Date order by time limit 10";
 	echo handleSQL($SQL, "d-H", 86400, 3600);
 	// 3600 second in an hour.
 	// 86400 second in a day.
-	
 }
 
-exit;
 
-if ($_REQUEST['graph']=="minute")
-	echo handleSQL("SELECT DATE_FORMAT(time, '%k:%i') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >SUBDATE(now() , INTERVAL 20 MINUTE) AND workspace='".$w."' GROUP BY Date order by time asc limit 20", "Y-m-d");
+if ($_REQUEST['graph']=="minute"){
+	// last 20 min
+ 	$SQL = "SELECT DATE_FORMAT(time, '%k:%i') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >SUBDATE(now() , INTERVAL 20 minute) AND workspace='".$w."' GROUP BY Date order by time asc limit 20";
+	echo handleSQL($SQL, "H:i", 1200, 60);
+	// 3600 second in an hour.
+	// 86400 second in a day.
+}
 
 
 
 if ($_REQUEST['graph']=="day"){
+	// last 7 days
 	$SQL = "SELECT DATE_FORMAT(time, '%Y-%m-%d') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 7 DAY GROUP BY Date order by time limit 15";
-	echo handleSQL($SQL, "Y-m-d", "-5 day", "+2 day");
+	echo handleSQL($SQL, "Y-m-d", 604800, 3600);
 }
-if ($_REQUEST['graph']=="month")
-	echo handleSQL("SELECT DATE_FORMAT(time, '%m/%y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 12 MONTH AND workspace='".$w."'  GROUP BY Date order by time limit 200", "Y-m-d");
+if ($_REQUEST['graph']=="month"){
+	// last 5 months
+	$SQL = "SELECT DATE_FORMAT(time, '%m/%Y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 12 MONTH AND workspace='".$w."'  GROUP BY Date order by time limit 200";
+	echo handleSQL($SQL, "m/Y", 9592000, 3600);
 
+}
 if ($_REQUEST['graph']=="year")
 	echo handleSQL("SELECT DATE_FORMAT(time, '%Y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 5 YEAR AND workspace='".$w."' GROUP BY Date order by time limit 5");
 

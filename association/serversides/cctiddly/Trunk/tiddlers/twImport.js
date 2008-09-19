@@ -77,16 +77,16 @@ config.macros.stats.max = function(array) {
 
 config.macros.stats.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var params;
-	params = { place: place, url: window.url+"/handle/instanceStats.php?graph=minute&workspace="+workspace,title:"The Last 20 Minutes.", desc:"this shows users who have viewed this workspace over the last 20 minutes."};
+	params = { place: place, url: window.url+"/handle/instanceStats.php?graph=minute&workspace="+workspace,title:"minute - The Last 20 Minutes.", desc:"this shows users who have viewed this workspace over the last 20 minutes."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
 	
-	params = { place: place, url:  window.url+"/handle/instanceStats.php?graph=hour&workspace="+workspace,title:"Views by hour.", desc:"this shows users who have viewed this workspace by minute."};
+	params = { place: place, url:  window.url+"/handle/instanceStats.php?graph=hour&workspace="+workspace,title:"hour - Last 24 hours.", desc:"This shows the number of users who have viewed this workspace in the past 24 hours."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
 	
-	params = { place: place, url:  window.url+"/handle/instanceStats.php?graph=day&workspace="+workspace,title:"Views by day.", desc:"this shows users who have viewed this workspace by minute."};
+	params = { place: place, url:  window.url+"/handle/instanceStats.php?graph=day&workspace="+workspace,title:"day - Last 7 days.", desc:"This shows the number of users who have viewed this workspace in the last 7 days."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
 	
-	params = { place: place, url:  window.url+"/handle/instanceStats.php?graph=month&workspace="+workspace,title:"Views by month.", desc:"this shows users who have viewed this workspace by minute."};
+	params = { place: place, url:  window.url+"/handle/instanceStats.php?graph=month&workspace="+workspace,title:"month - Last 5 months.", desc:"This shows the number of users who have viewed this workspace in the past 30 days."};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
 
 }
