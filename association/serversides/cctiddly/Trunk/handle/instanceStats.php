@@ -32,8 +32,8 @@ function GetDays($sStartDate, $sEndDate){
   // While the current date is less than the end date
   while($sCurrentDate < $sEndDate){
     // Add a day to the current date
-echo    $sCurrentDate = gmdate("Y-m-d", strtotime("+2 day", strtotime($sCurrentDate)));
-echo "<br/>";
+    	$sCurrentDate = gmdate("Y-m-d", strtotime("+2 day", strtotime($sCurrentDate)));
+
     // Add this new day to the aDays array
     $aDays[] = $sCurrentDate;
   }
@@ -45,38 +45,99 @@ echo "<br/>";
 }
 
 
+function DateCmp($a, $b)
+{
+if (strtotime($a) >= strtotime($b))
+echo "rturn<br />$a .....$b";
+return (strtotime($a) > strtotime($b)) ? -1 : 0;
+
+//  return ($a[1] < $b[1]) ? -1 : 0;
+}
+
+function SortByDate(&$Files)
+{
+
+  usort($Files, 'DateCmp');
+	print_r($Files);
+}
+
+//$a = array("1", "4", "2", "0");
+$a['7'] =  "aaa";
+$a['4'] =  "bbb";
+$a['8'] =  "ccc";
+$a['1'] =  "dd";
+$a['0'] = "sddd";
+//echo sort($a);
+//print_r($a);
+//exit;
 
 
-	
 function handleSQL($SQL){
 	$results = mysql_query($SQL);
 	$count = 0;
 	while($result=mysql_fetch_assoc($results)){
+		$dates[] .= strtotime($result['Date']);
+		$hits[strtotime($result['Date'])] = $result['numRows'];
+	}
+
+	$format = "Y-m-d";
+	$to = date($format, mktime());
+	$from = date($format, strtotime("-5 day", strtotime(date("Y-m-j", mktime()))));
+	$timeBetween = GetDays("$from", "$to");
+	foreach($timeBetween as $time){
+		if(!in_array(strtotime($time), $dates)){
+			$hits[strtotime($time)] = 0;
+			$dates[] .= strtotime($time);
+		}
+	}
+	
+	//$data = SortByDate($data);
+	sort($dates);
+	
+	foreach($dates as $date)
+	{
+		//echo "<b>".date("y-m-d", $date)."</b> Time : ".$hits[$date]."<br />";
+		$str .= "{ date:'".date("y-m-d", $date)."', hits:".$hits[$date]." },";	
+		
+	}
+	return $str = substr($str,0,strlen($str)-1);	
+}
+
+
+
+
+
+
+
+
+
+
+	
+function ahandleSQL($SQL){
+	$results = mysql_query($SQL);
+	$count = 0;
+	while($result=mysql_fetch_assoc($results)){
 		$dates[] .= $result['Date'];
+		
+		
+		
 		$str .= "{ date:'".$result['Date']."', hits:".$result['numRows']." },";	
+
+
+
 	}
 	$format = "Y-m-d";
-
-	GetDays("2008-09-20", "2008-09-26");
-
 	$to = date($format, mktime());
-	$from = date($format, strtotime("-10 day", strtotime(date("Y-m-j", mktime()))));
+	$from = date($format, strtotime("-5 day", strtotime(date("Y-m-j", mktime()))));
 
-	echo "From $from <br/> To : $to ";
-
-	GetDays("$from", "$to");
-
-//	GetDays($from, $to);
-
-	exit;
+	$timeBetween = GetDays("$from", "$to");
 
 	
 	foreach($timeBetween as $time){
-		if(!in_array($time, $dates) )
+
+		if(!in_array($time, $dates))
 			$str .= "{ date:'".$time."', hits:0 },";		
 	}
-	exit;
-	
 	return $str = substr($str,0,strlen($str)-1);	
 }
 
@@ -106,7 +167,7 @@ if ($_REQUEST['graph']=="hour")
 	echo handleSQL("SELECT DATE_FORMAT(time, '%k:00') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 1 day AND workspace='".$w."' GROUP BY Date order by time limit 24");
 
 if ($_REQUEST['graph']=="day")
-	echo handleSQL("SELECT DATE_FORMAT(time, '%d-%m-%Y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 7 DAY GROUP BY Date order by time limit 15");
+	echo handleSQL("SELECT DATE_FORMAT(time, '%Y-%m-%d') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 7 DAY GROUP BY Date order by time limit 15");
 
 if ($_REQUEST['graph']=="month")
 	echo handleSQL("SELECT DATE_FORMAT(time, '%m/%y') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 12 MONTH AND workspace='".$w."'  GROUP BY Date order by time limit 200");
