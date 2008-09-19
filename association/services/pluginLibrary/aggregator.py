@@ -6,14 +6,14 @@ import sys
 
 from urllib import urlopen
 from tiddlyweb.config import config
-from tiddlyweb.store import Store
+from tiddlyweb.store import Store, StoreLockError
 from tiddlyweb.bag import Bag
 from tiddlyweb.recipe import Recipe
 from tiddlyweb.importer import import_wiki
 from tiddlywiki import TiddlyWiki
 from dirScraper import DirScraper
 
-log = [] # XXX: use of global (module-scoped!) variable wrong?; use function that also inserts timestamp
+log = [] # XXX: don't use of global (module-scoped!) variable -- TODO: use function that also inserts timestamp
 
 def main(args):
 	env = { "tiddlyweb.config": config }
@@ -26,7 +26,7 @@ def main(args):
 		getPlugins(repo, store)
 	bags = [repo["name"] for repo in repos] # XXX: repo["name"] not necessarily equals Bag(repo["name"]).name
 	generateRecipe(bags, store)
-	print log # TODO: write to file
+	print "%s new log entries:\n" % len(log), "\n".join(log) # TODO: write to file
 
 def getRepositories(filepath):
 	"""
@@ -91,7 +91,7 @@ def getPlugins(repo, store):
 				plugin.bag = bag.name
 				try:
 					store.put(plugin)
-				except UnicodeDecodeError: # XXX: temporary workaround
+				except (UnicodeDecodeError, StoreLockError): # XXX: temporary workaround
 					log.append("ERROR: could not store %s in %s" % (plugin.title, bag.name))
 			return True
 		else:
@@ -113,7 +113,7 @@ def generateRecipe(bags, store):
 	recipe.set_recipe(items)
 	store.put(recipe)
 
-def savePlugins(store, bag):
+def savePlugins(store, bag): # TODO: rename (misleading)
 	"""
 	save repository's plugins to store
 
