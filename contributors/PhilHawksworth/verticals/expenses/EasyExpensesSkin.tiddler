@@ -44,8 +44,8 @@
 <form name='quickClaim'>
 <span class='field amount'><label for='amount'>Amount</label><input type='text' name='amount' /></span>
 <span class='field justification'><label for='justification'>Justification / description</label><input type='text' name='justification'  /></span>
+<div macro='SubmitQuickClaim'></div>
 </form>
-<div class='toolbar' macro='SubmitQuickClaim'></div>
 </div>
 <!--}}}-->
 
@@ -141,17 +141,6 @@ div.form input {font-size:1.8em; width:10em;}
 div.claimItem label.flagMandatory { color:#C85F4E; }
 div.claimItem input.flagMandatory {background-color:#FFF3F3;}
 
-/* Quick Claim */
-div.quickClaim form { margin:2em 0; }
-div.quickClaim span {display:inline; float:left; margin:0 1em 0.5em 0;}
-div.quickClaim span.amount input {font-size:1.8em; width:5em;}
-div.quickClaim span.justification input {font-size:1.8em; width:40em;}
-div.quickClaim div.toolbar {font-size:1.4em; clear:left; text-align:left; margin-top:5em;}
-div.quickClaim div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; line-height:2em;}
-div.quickClaim div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
-div.quickClaim div.toolbar a.disabled{ background-color:#ccc; color:#fff; padding:0.5em 0.8em; line-height:2em;}
-div.quickClaim div.toolbar a.disabled:hover{  background-color:#ccc; color:#fff; cursor:default; }
-
 
 
 /* Claim Header */
@@ -188,7 +177,6 @@ div.claimItem span.days input {font-size:1.8em; width:2em;}
 div.claimItem span.justification { clear:left; display:block; float:none;}
 div.claimItem span.justification input {font-size:0.9em; width:60em;}
 
-*/
 
 div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative; overflow:auto;}
 div.claimItem div.title { font-size:1.4em; color:#333;}
@@ -209,6 +197,37 @@ div.claimItem span.date input {font-size:1.8em; width:6em;}
 div.claimItem span.days input {font-size:1.8em; width:2em;}
 div.claimItem span.justification { clear:left; display:block; float:none;}
 div.claimItem span.justification input {font-size:0.9em; width:60em;}
+
+
+
+/* Quick Claim */
+div.quickClaim div.claimHeader { margin:2em 0 0 0; padding:0 0 0.5em 0; border-bottom:solid 2px #333; position:relative; background-color:#fff;}
+div.quickClaim form { margin:2em 0; border:solid 1px #fff;}
+div.quickClaim span.field {display:inline; float:left; margin:0 1em 1.5em 0;}
+div.quickClaim span.amount input {font-size:1.8em; width:5em;}
+div.quickClaim span.justification input {font-size:1.8em; width:40em;}
+div.quickClaim form div {clear:left; padding:0; margin:0;}
+div.quickClaim form div a.button { border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; font-size:1.4em;}
+div.quickClaim form div a.button:hover { border-style:none; background-color:#333; color:#fff; }
+div.quickClaim form div a.disabled { border-style:none; background-color:#ccc; color:#fff; padding:0.5em 0.8em;}
+div.quickClaim form div a.disabled:hover{  background-color:#ccc; color:#fff; cursor:default; }
+div.quickClaim form div a.button:active {border-style:none;}
+
+
+/*
+<div class='quickClaim'>
+<div class='claimHeader'>
+<div class='title' macro='view title'></div>
+<div class='subtitle' macro='view text'></div>
+<div class='toolbar'><span macro='toolbar [[ToolbarCommands::QuickClaimToolbar]]'></span></div>
+</div>
+<form name='quickClaim'>
+<span class='field amount'><label for='amount'>Amount</label><input type='text' name='amount' /></span>
+<span class='field justification'><label for='justification'>Justification / description</label><input type='text' name='justification'  /></span>
+<div macro='SubmitQuickClaim'></div>
+</form>
+</div>
+*/
 
 
 
