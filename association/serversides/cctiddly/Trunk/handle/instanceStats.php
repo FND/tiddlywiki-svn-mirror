@@ -14,7 +14,7 @@ function getMaxDate($dates){
 }
 
 
-function GetDays($sStartDate, $sEndDate){
+function GetDays($sStartDate, $sEndDate, $interval){
   // Firstly, format the provided dates.
   // This function works best with YYYY-MM-DD
   // but other date formats will work thanks
@@ -32,7 +32,7 @@ function GetDays($sStartDate, $sEndDate){
   // While the current date is less than the end date
   while($sCurrentDate < $sEndDate){
     // Add a day to the current date
-    	$sCurrentDate = gmdate("Y-m-d", strtotime("+2 day", strtotime($sCurrentDate)));
+    	$sCurrentDate = gmdate("Y-m-d", strtotime($interval, strtotime($sCurrentDate)));
 
     // Add this new day to the aDays array
     $aDays[] = $sCurrentDate;
@@ -45,31 +45,7 @@ function GetDays($sStartDate, $sEndDate){
 }
 
 
-function DateCmp($a, $b)
-{
-if (strtotime($a) >= strtotime($b))
-echo "rturn<br />$a .....$b";
-return (strtotime($a) > strtotime($b)) ? -1 : 0;
 
-//  return ($a[1] < $b[1]) ? -1 : 0;
-}
-
-function SortByDate(&$Files)
-{
-
-  usort($Files, 'DateCmp');
-	print_r($Files);
-}
-
-//$a = array("1", "4", "2", "0");
-$a['7'] =  "aaa";
-$a['4'] =  "bbb";
-$a['8'] =  "ccc";
-$a['1'] =  "dd";
-$a['0'] = "sddd";
-//echo sort($a);
-//print_r($a);
-//exit;
 
 
 function handleSQL($SQL){
@@ -83,17 +59,14 @@ function handleSQL($SQL){
 	$format = "Y-m-d";
 	$to = date($format, mktime());
 	$from = date($format, strtotime("-5 day", strtotime(date("Y-m-j", mktime()))));
-	$timeBetween = GetDays("$from", "$to");
+	$timeBetween = GetDays("$from", "$to", "+2 day");
 	foreach($timeBetween as $time){
 		if(!in_array(strtotime($time), $dates)){
 			$hits[strtotime($time)] = 0;
 			$dates[] .= strtotime($time);
 		}
 	}
-	
-	//$data = SortByDate($data);
 	sort($dates);
-	
 	foreach($dates as $date)
 	{
 		//echo "<b>".date("y-m-d", $date)."</b> Time : ".$hits[$date]."<br />";
@@ -112,34 +85,7 @@ function handleSQL($SQL){
 
 
 
-	
-function ahandleSQL($SQL){
-	$results = mysql_query($SQL);
-	$count = 0;
-	while($result=mysql_fetch_assoc($results)){
-		$dates[] .= $result['Date'];
-		
-		
-		
-		$str .= "{ date:'".$result['Date']."', hits:".$result['numRows']." },";	
 
-
-
-	}
-	$format = "Y-m-d";
-	$to = date($format, mktime());
-	$from = date($format, strtotime("-5 day", strtotime(date("Y-m-j", mktime()))));
-
-	$timeBetween = GetDays("$from", "$to");
-
-	
-	foreach($timeBetween as $time){
-
-		if(!in_array($time, $dates))
-			$str .= "{ date:'".$time."', hits:0 },";		
-	}
-	return $str = substr($str,0,strlen($str)-1);	
-}
 
 
 
