@@ -1,10 +1,52 @@
 <?php
 
+
+
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
 
 
+
+function GetDays($sStartDate, $sEndDate){
+
+echo   $sStartDate = gmdate("Y-m-d", strtotime($sStartDate));
+  $sEndDate = gmdate("Y-m-d", strtotime($sEndDate));
+
+  // Start the variable off with the start date
+  $aDays[] = $sStartDate;
+
+  // Set a 'temp' variable, sCurrentDate, with
+  // the start date - before beginning the loop
+  $sCurrentDate = $sStartDate;
+
+  // While the current date is less than the end date
+  while($sCurrentDate < $sEndDate){
+    // Add a day to the current date
+  $sCurrentDate = gmdate("Y-m-d", strtotime("+1 day", strtotime($sCurrentDate)));
+
+    // Add this new day to the aDays array
+    $aDays[] = $sCurrentDate;
+  }
+
+  // Once the loop has finished, return the
+  // array of days.
+  return $aDays;
+}
+function handleSQL($SQL){
+	$results = mysql_query($SQL);
+	$count = 0;
+
+	while($result=mysql_fetch_assoc($results)){
+		$str .= "{ date:'".$result['Date']."', hits:".$result['numRows']." },";	
+	}
+	return $str = substr($str,0,strlen($str)-1);	
+}
+
+
+$a=	GetDays("2008-09-10", "2008-09-15");
+print_r($a);
+exit;
 
 if(!user_session_validate())
 {
@@ -18,17 +60,6 @@ if (!user_isAdmin(user_getUsername(), $w))
 {
 	sendHeader("401");
 	exit;
-}
-
-
-
-function handleSQL($SQL){
-	$results = mysql_query($SQL);
-	$count = 0;
-	while($result=mysql_fetch_assoc($results)){
-		$str .= "{ date:'".$result['Date']."', hits:".$result['numRows']." },";	
-	}
-	return $str = substr($str,0,strlen($str)-1);	
 }
 
 

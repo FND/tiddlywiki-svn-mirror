@@ -115,14 +115,15 @@ config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){
 	params.YLabel = "0|"+maxValue+"|";
 	var image = 'http://chart.apis.google.com/chart?cht=lc&chs=100x75&chd='+params.gData+'&chxt=x,y&chxl=0:||1:|';
 	var div = createTiddlyElement(params.place, "div", null, "div_button");
-	setStylesheet(".div_button:hover {opacity:0.8; cursor: pointer} ", "DivButton");
+	
+	setStylesheet(".div_button:hover {opacity:0.8; cursor: pointer} .div_button{ padding:5px;color:#555;background-color:white;} ", "DivButton");
 	div.onclick = function()
 	{
 		var full = "http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd="+params.gData+"&chxt=x,y&chxl=1:|"+params.YLabel+"0:|"+params.XLabel+"&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
 		console.log(full);
 		setStylesheet(
 		"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
-		"html > body > #backstageCloak {height:110%;}"+
+		"html > body > #backstageCloak {height:"+window.innerHeight*2+"px;}"+
 		"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
 		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
 		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><h3>"+params.title+"</h3><br />";
@@ -140,6 +141,10 @@ config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){
 	
 	var span = createTiddlyElement(div, "div", null, "graph_label", params.desc);
 	setStylesheet(".graph_label  {  position:relative; top:-60px; left:130px;}");
+//	var w = new Wizard();
+//	w.createWizard(params.place,"TiTle");
+//	w.addStep("Import Package from :", div);
+	
 }
 
 
@@ -181,10 +186,11 @@ config.macros.stats.imgCallbackFull = function(status,params,responseText,uri,xh
 		"html > body > #backstageCloak {height:100%;}"+
 		"#errorBox {border:1px solid #ccc;background-color: #eee; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
 		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
-		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><br />";
+		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a>";
 			box.style.position = 'absolute';
 			var img = createTiddlyElement(box, "img");
 			img.src = responseText;
+			next.value='ss';
 			console.log(img.src);
 			ccTiddlyAdaptor.center(box);
 			ccTiddlyAdaptor.showCloak();
