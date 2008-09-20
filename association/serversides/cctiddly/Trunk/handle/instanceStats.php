@@ -4,57 +4,21 @@ $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
 
-// format : "19-02-2006" or any other format strtotime can handle.
-function getMaxDate($dates){
-	foreach($dates as $date){
-	if(gmdate("Y-m-d", strtotime($temp)) < gmdate("Y-m-d", strtotime($date)))
-			 $temp = $date;
-	}
-	return $temp;
+if(!user_session_validate())
+{
+	sendHeader("403");
 }
 
 
-function aGetDays($sStartDate, $sEndDate, $interval, $format){
-  echo	$sStartDate = gmdate($format, strtotime($sStartDate));
-echo "<br />";
-echo	$sEndDate = gmdate($format, strtotime($sEndDate));
+$w=$_REQUEST['workspace'];
 
-	$aDays[] = $sStartDate;
-	$sCurrentDate = $sStartDate;
-	echo "c : ".strtotime($sCurrentDate)." <br />e : ".strtotime($sEndDate).".<br />";
-  	while(strtotime($sCurrentDate) < strtotime($sEndDate)){
-echo "<h2>$sEndDate</h2>";	
-    	echo $sCurrentDate = gmdate($format, mktime()+$interval);
-		$aDays[] = $sCurrentDate;
-  	}
-	return $aDays;
+if (!user_isAdmin(user_getUsername(), $w))
+{
+	sendHeader("401");
+	exit;
 }
 
 
-
-
-
-function GetDays($sStartDate, $sEndDate, $interval, $format){
-  echo	$sStartDate = gmdate($format, strtotime($sStartDate));
-echo "<br />";
-echo	$sEndDate = gmdate($format, strtotime($sEndDate));
-
-	$aDays[] = $sStartDate;
-	$sCurrentDate = $sStartDate;
-  	while(strtotime($sCurrentDate) < strtotime($sEndDate)){
-
-    	echo $sCurrentDate = gmdate($format, mktime()+$interval);
-		$aDays[] = $sCurrentDate;
-  	}
-	return $aDays;
-}
-
-//$a =  gaps(strtotime("2008-09-01 9:00"), strtotime("2008-09-01 12:00"), 3600);
-//foreach ($a as $v)
-//echo date("Y-m-d H:00", $v)."<br />";
-//exit;
-//getDays("2008-09-01 12:00", "2008-09-01 09:00", 3600, "Y-m-d H:00");
-//exit;
 
 
 // returns an array of all the timestamps between the start timestamp and current date. 
@@ -77,7 +41,7 @@ function handleSQL($SQL, $format, $goBack, $interval){
 	}
 	$a = gaps(mktime()-$goBack, $interval);
 	foreach ($a as $time){
-		if(!in_array(date($format, $time), $dates)){
+		if(!@in_array(date($format, $time), $dates)){
 			$hits[date($format, $time)] = 0;
  			$dates[] = date($format, $time);
 		}
@@ -91,8 +55,6 @@ function handleSQL($SQL, $format, $goBack, $interval){
 }
 
 
-
-$w = $_REQUEST['workspace'];
 
 if ($_REQUEST['graph']=="hour"){
 	// last 24 hours
@@ -115,7 +77,7 @@ if ($_REQUEST['graph']=="minute"){
 
 if ($_REQUEST['graph']=="day"){
 	// last 7 days
-	$SQL = "SELECT DATE_FORMAT(time, '%Y-%m-%d') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 7 DAY GROUP BY Date order by time limit 15";
+	$SQL = "SELECT DATE_FORMAT(time, '%Y-%m-%d') AS Date,  COUNT(*) AS numRows FROM workspace_view  where time >CURRENT_DATE() - INTERVAL 7 DAY AND workspace='".$w."'  GROUP BY Date order by time limit 15";
 	echo handleSQL($SQL, "Y-m-d", 604800, 3600);
 }
 if ($_REQUEST['graph']=="month"){
@@ -153,21 +115,6 @@ exit;
 
 
 
-
-
-if(!user_session_validate())
-{
-	sendHeader("403");
-}
-
-
-$w=$_REQUEST['workspace'];
-
-if (!user_isAdmin(user_getUsername(), $w))
-{
-	sendHeader("401");
-	exit;
-}
 
 
 
