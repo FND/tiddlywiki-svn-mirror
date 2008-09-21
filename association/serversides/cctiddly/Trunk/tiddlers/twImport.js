@@ -54,6 +54,22 @@ config.macros.packageImporter = {
 
 
 config.macros.stats={};
+merge(config.macros.stats, {
+	graph24HourTitle:"Last 24 hours.",
+	graph24HourDesc:"This shows the number of users who have viewed this workspace in the past 24 hours.",
+	graph20MinsTitle:"The Last 20 Minutes.",
+	graph20MinsDesc:"this shows users who have viewed this workspace over the last 20 minutes.",
+	graph7DaysTitle:"Last 7 days.",
+	graph7DaysDesc:"This shows the number of users who have viewed this workspace in the last 7 days.",
+	graph5MonthsTitle:"Last 5 months.",
+	graph5MonthsDesc:"This shows the number of users who have viewed this workspace in the past 30 days."
+});
+
+config.macros.stats.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	var params;
+	params.place = place;
+	doHttp('POST',url+'/handle/workspaceAdmin.php','action=LISTWORKSPACES',null,null,null,config.macros.stats.listWorkspaces,params);
+}
 
 config.macros.stats.simpleEncode = function(valueArray,maxValue) {
 	var simpleEncoding = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -70,21 +86,9 @@ config.macros.stats.simpleEncode = function(valueArray,maxValue) {
 	return chartData.join('');
 }
 
-
 config.macros.stats.max = function(array) {
-	return Math.max.apply( Math, array );
+	return Math.max.apply(Math, array);
 }
-
-config.macros.stats.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var params;
-
-params.place = place;
-	doHttp('POST',url+'/handle/workspaceAdmin.php','action=LISTWORKSPACES',null,null,null,config.macros.stats.listWorkspaces,params);
-	
-}
-
-
-
 
 config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){	
 	if(xhr.status==401)
@@ -134,43 +138,35 @@ config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){
 //	var w = new Wizard();
 //	w.createWizard(params.place,"TiTle");
 //	w.addStep("Import Package from :", div);
-
 }
 
-
-
 config.macros.stats.switchWorkspace = function(params){
-
 	removeChildren(params.container);
 	config.macros.stats.refresh(params);	
 }
 
 config.macros.stats.refresh = function(params) {
-
-	
+	var me = config.macros.stats;
 	var select = document.getElementById("statsWorkspaceName");
-	workspace = select[select.selectedIndex].value;
+	if(select[select.selectedIndex].value!="")
+		workspace = select[select.selectedIndex].value;
 	createTiddlyElement(params.container, "h2", null, null , workspace);
-
-	params = { container: params.container, url: window.url+"/handle/instanceStats.php?graph=minute&workspace="+workspace,title:"minute - The Last 20 Minutes.", desc:"this shows users who have viewed this workspace over the last 20 minutes."};
-
+	params = { container: params.container, url: window.url+"/handle/instanceStats.php?graph=minute&workspace="+workspace,title:me.graph20MinsTitle, desc:me.graph20MinsDesc};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
-	
-	params = { container:params.container, url:  window.url+"/handle/instanceStats.php?graph=hour&workspace="+workspace,title:"hour - Last 24 hours.", desc:"This shows the number of users who have viewed this workspace in the past 24 hours."};
+	params = { container:params.container, url:  window.url+"/handle/instanceStats.php?graph=hour&workspace="+workspace,title:me.graph24HourTitle, desc:me.graph24HourDesc};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
-	
-	params = { container: params.container, url:  window.url+"/handle/instanceStats.php?graph=day&workspace="+workspace,title:"day - Last 7 days.", desc:"This shows the number of users who have viewed this workspace in the last 7 days."};
+	params = { container: params.container, url:  window.url+"/handle/instanceStats.php?graph=day&workspace="+workspace,title:me.graph7DaysTitle, desc:me.graph7DaysDesc};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
-	
-	params = { container: params.container, url:  window.url+"/handle/instanceStats.php?graph=month&workspace="+workspace,title:"month - Last 5 months.", desc:"This shows the number of users who have viewed this workspace in the past 30 days."};
-	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
-	
+	params = { container: params.container, url:  window.url+"/handle/instanceStats.php?graph=month&workspace="+workspace,title:me.graph5MonthsTitle, desc:me.graph5MonthsDesc};
+	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);	
 }
 
 config.macros.stats.listWorkspaces = function(status,params,responseText,uri,xhr) {
 	var frm = createTiddlyElement(params.place,'form',null,null);
 	var me = config.macros.stats;
 	var s = createTiddlyElement(null,"select","statsWorkspaceName",null,"workspaceName");
+	var i = createTiddlyElement(s,"option",null,null,"");
+	
 	s.name = 'workspaceName';
 	s.onchange = function() {config.macros.stats.switchWorkspace(params) ;};
 	var workspaces = eval('[ '+responseText+' ]');
