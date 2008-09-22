@@ -4,7 +4,7 @@
 |''Description:''|Wikispaces Formatter|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js |
-|''Version:''|0.1.0|
+|''Version:''|0.1.1|
 |''Date:''|Nov 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -337,7 +337,7 @@ Include a List of Links to this Page [[include page="PAGENAME" component="backli
 				invokeMacro(w.output,'tiddler','[['+title+']]',w,w.tiddler);
 			} else if(lookaheadMatch[1]=='tag') {
 				var tags = lookaheadMatch[2];
-				invokeMacro(w.output,'list','filter '+'[tag['+tags+']]',w,w.tiddler);
+				invokeMacro(w.output,'list','filter '+'[tag['+tags.toLowerCase()+']]',w,w.tiddler);
 			}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
