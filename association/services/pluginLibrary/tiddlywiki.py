@@ -2,7 +2,7 @@ import re
 
 from BeautifulSoup import BeautifulSoup, Tag
 
-from utils import trimURI
+from utils import trimURI, decodePrettyLink
 
 def decodeTiddlerText(text):
 	"""
@@ -68,8 +68,12 @@ class TiddlyWiki:
 		repo = trimURI(repo)
 		for plugin in self.store.findChildren("div", title = True):
 			slices = getSlices(plugin.pre.renderContents())
-			if slices.has_key("Source"): # N.B.: plugin accepted if Source slice not present -- XXX: harmful? (e.g. includes simple config tweaks)
-				source = trimURI(slices["Source"])
+			if "Source" in slices: # N.B.: plugin accepted if Source slice not present -- XXX: harmful? (e.g. includes simple config tweaks)
+				try:
+					source = decodePrettyLink(slices["Source"])["uri"]
+				except ValueError:
+					source = slices["Source"]
+				source = trimURI(source)
 				if source != repo:
 					plugin.extract()
 
@@ -114,8 +118,8 @@ class TiddlyWiki:
 				# convert tiddler attribute to title attribute
 				tiddler["title"] = tiddler["tiddler"]
 				del(tiddler["tiddler"])
-				# unescape line breaks
-				tiddler.contents[0].replaceWith(unescapeLineBreaks(tiddler.contents[0])) # XXX: use of contents[0] hacky?
+				# decode tiddler contents
+				tiddler.contents[0].replaceWith(decodeTiddlerText(tiddler.contents[0])) # XXX: use of contents[0] hacky?
 				# add PRE wrapper
 				pre = Tag(self.dom, "pre")
 				pre.contents = tiddler.contents

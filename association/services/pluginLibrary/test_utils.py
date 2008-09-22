@@ -1,6 +1,29 @@
 import unittest
 import utils
 
+class decodePrettyLinkTestCase(unittest.TestCase):
+	def setUp(self):
+		pass
+
+	def tearDown(self):
+		pass
+
+	def testReturnsLabelAndURI(self):
+		"""returns dictionary with label and URI"""
+		str = "[[foo|bar]]"
+		expected = { "label": "foo", "uri": "bar" }
+		self.assertEqual(expected, utils.decodePrettyLink(str))
+
+	def testRaisesValueError(self):
+		"""raises ValueError for invalid PrettyLinks"""
+		str = "foo"
+		expected = ValueError
+		self.assertRaises(expected, utils.decodePrettyLink, str)
+		str = "foo|bar"
+		self.assertRaises(expected, utils.decodePrettyLink, str)
+		str = "[[foo]]"
+		self.assertRaises(expected, utils.decodePrettyLink, str)
+
 class trimURITestCase(unittest.TestCase):
 	def setUp(self):
 		pass

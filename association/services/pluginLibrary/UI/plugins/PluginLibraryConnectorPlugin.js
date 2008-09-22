@@ -44,31 +44,34 @@ config.macros.ImportPlugins = {
 	},
 
 	findPlugins: function(query) { // XXX: rename?
-		displayMessage("searching ", query);
+		displayMessage("searching ", query); // DEBUG
 		var adaptor = new TiddlyWebAdaptor();
 		var context = {
 			host: this.host,
-			query: query 
+			query: query
 		};
 		return adaptor.getSearchResults(context, null, this.getPlugins);
 	},
 
 	getPlugins: function(context, userParams) { // XXX: rename?
-		displayMessage("still searching");
-		var plugins = context.tiddlers;
-		if(plugins) {
-			for(var i = 0; i < plugins.length; i++) {
-				if(!store.tiddlerExists(plugins[i].title)) { // XXX: prevents plugins from being reopened in subsequent searches
-					var subContext = {
-						host: context.host,
-						bag: plugins[i].fields["server.bag"]
-					};
-					context.adaptor.getTiddler(plugins[i].title, subContext,
-						userParams, config.macros.ImportPlugins.displayPlugin);
+		if(!context.status) {
+			displayMessage("error retrieving data from server"); // XXX: TBD
+		} else {
+			var plugins = context.tiddlers;
+			if(plugins) {
+				for(var i = 0; i < plugins.length; i++) {
+					if(!store.tiddlerExists(plugins[i].title)) { // XXX: prevents plugins from being reopened in subsequent searches
+						var subContext = {
+							host: context.host,
+							bag: plugins[i].fields["server.bag"]
+						};
+						context.adaptor.getTiddler(plugins[i].title, subContext,
+							userParams, config.macros.ImportPlugins.displayPlugin);
+					}
 				}
 			}
 		}
-		displayMessage("searched");
+		displayMessage("searched"); // DEBUG
 	},
 
 	displayPlugin: function(context, userParams) { // XXX: rename?
@@ -89,8 +92,7 @@ config.macros.SearchPlugins = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		var wrapper = createTiddlyElement(place, "div", null, "searchBox");
 		var input = createTiddlyElement(wrapper, "input");
-		//input.onkeyup = this.onclick; // DEBUG'd
-		input.onchange = this.onclick; // DEBUG: for testing purposes only
+		input.onchange = this.onclick; // TODO: onkeypress ENTER
 		createTiddlyButton(wrapper, this.btnLabel, this.btnTooltip, this.onclick, this.btnClass);
 	},
 
@@ -117,5 +119,5 @@ config.shadowTiddlers.PluginInfoTemplate = "<!--{{{-->\n"
 config.shadowTiddlers.PluginInfoToolbar = ""
 	+ "|~ViewToolbar|closeTiddler closeOthers +editTiddler|";
 
-} //# end of "install only once"
+}
 //}}}

@@ -2,7 +2,7 @@ import unittest
 import copy
 import tiddlywiki
 
-class unescapeLineBreaksTestCase(unittest.TestCase):
+class decodeTiddlerTextTestCase(unittest.TestCase):
 	def setUp(self):
 		pass
 
@@ -13,25 +13,25 @@ class unescapeLineBreaksTestCase(unittest.TestCase):
 		"""converts new-line markers"""
 		text = "foo\\nbar"
 		expected = "foo\nbar"
-		self.assertEqual(expected, tiddlywiki.unescapeLineBreaks(text))
+		self.assertEqual(expected, tiddlywiki.decodeTiddlerText(text))
 
 	def testConvertsSpaceMarkers(self):
 		"""converts space markers"""
 		text = "foo\\bbar"
 		expected = "foo bar"
-		self.assertEqual(expected, tiddlywiki.unescapeLineBreaks(text))
+		self.assertEqual(expected, tiddlywiki.decodeTiddlerText(text))
 
 	def testConvertsSlashMarkers(self):
 		"""converts slash markers"""
 		text = "foo\\sbar"
 		expected = "foo\\bar"
-		self.assertEqual(expected, tiddlywiki.unescapeLineBreaks(text))
+		self.assertEqual(expected, tiddlywiki.decodeTiddlerText(text))
 
 	def testRemovesCarriageReturns(self):
 		"""removes carriage returns"""
 		text = "foo\r"
 		expected = "foo"
-		self.assertEqual(expected, tiddlywiki.unescapeLineBreaks(text))
+		self.assertEqual(expected, tiddlywiki.decodeTiddlerText(text))
 
 class getSlicesTestCase(unittest.TestCase):
 	def setUp(self):
@@ -95,6 +95,7 @@ class TiddlyWikiTestCase(unittest.TestCase):
 		"""__init__ requires input"""
 		expected = TypeError
 		self.assertRaises(expected, tiddlywiki.TiddlyWiki)
+
 	def testInitCreatesDOM(self):
 		"""__init__ creates DOM"""
 		expected = "BeautifulSoup"
