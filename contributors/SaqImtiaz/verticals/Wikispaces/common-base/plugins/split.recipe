@@ -1,8 +1,8 @@
-tiddler: ../../../plugins/AnchorsPlugin.js
-tiddler: ../../../plugins/InlineEditPlugin.js
-tiddler: ../../../plugins/WikispacesSanitizeTitlePlugin.js
-tiddler: ../../../plugins/WikispacesStyleSearchPlugin.js
-tiddler: ../../../plugins/markupHelperPlugin.js
+tiddler: ../../../../plugins/AnchorsPlugin.js
+tiddler: ../../../../plugins/InlineEditPlugin.js
+tiddler: ../../../../plugins/WikispacesSanitizeTitlePlugin.js
+tiddler: ../../../../plugins/WikispacesStyleSearchPlugin.js
+tiddler: ../../../../plugins/markupHelperPlugin.js
 tiddler: SavedLocalConfigSettings.js
 tiddler: SinglePageModePlugin.js
 tiddler: WikispacesBackstageTasksTweaks.js
