@@ -30,7 +30,7 @@ Show the current user their login status.
 config.macros.ccLoginStatus={};
 
 merge(config.macros.ccLoginStatus,{
-	textDefaultWorkspaceLoggedIn:"Please Login",
+	textDefaultWorkspaceLoggedIn:"You are logged in as ",
 	textViewingWorkspace:"Viewing Workspace : ",
 	textLoggedInAs:"Logged in as :",
 	textNotLoggedIn:"You are not logged in.",
@@ -44,18 +44,19 @@ config.macros.ccLoginStatus.handler=function(place,macroName,params,wikifier,par
 	
 config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 	var me = config.macros.ccLoginStatus;
-	var loginDivRef=document.getElementById ("LoginDiv");
+	var loginDivRef=document.getElementById("LoginDiv");
 	removeChildren(loginDivRef);
 	var wrapper=createTiddlyElement(place,"div");
 	if (isLoggedIn()){
 		name = cookieString(document.cookie).txtUserName;
 		if(workspace == "")
-			var str = wikify(me.textDefaultWorksaceLoggedIn+decodeURIComponent(name)+".\r\n\r\n",wrapper);
+			var str = wikify(me.textDefaultWorkspaceLoggedIn+decodeURIComponent(name)+".\r\n\r\n",wrapper);
 		else
 			var str = wikify(me.textViewingWorkspace+workspace+"\r\n\r\n"+me.textLoggedInAs+decodeURIComponent(name)+".\r\n\r\n",wrapper);
 		if (workspacePermission.owner==1){
 			createTiddlyText(wrapper,me.textAdmin);
 		}
+	
 	}else{
 		var str = wikify(me.textViewingWorkspace+workspace+"\r\n\r\n"+me.textNotLoggedIn,wrapper);
 	}

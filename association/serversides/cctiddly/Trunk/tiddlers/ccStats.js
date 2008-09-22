@@ -1,11 +1,9 @@
-
-
 config.macros.stats={};
 merge(config.macros.stats, {
 	graph24HourTitle:"Last 24 hours",
-	graph24HourDesc:"This shows the number of users who have viewed this workspace in the past 24 hours.",
+	graph24HourDesc:"This shows the number of users who have viewed this workspace in the past 24 hours",
 	graph20MinsTitle:"The Last 20 Minutes",
-	graph20MinsDesc:"this shows users who have viewed this workspace over the last 20 minutes.",
+	graph20MinsDesc:"this shows users who have viewed this workspace over the last 20 minutes",
 	graph7DaysTitle:"Last 7 days",
 	graph7DaysDesc:"This shows the number of users who have viewed this workspace in the last 7 days.",
 	graph5MonthsTitle:"Last 5 months",
@@ -16,10 +14,6 @@ merge(config.macros.stats, {
 config.macros.stats.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var params;
 	params.place = place;
-	
-	var str = "hi my name is '%0' ";
-	st2 = str.format(['simon']);
-	displayMessage(st2);
 	doHttp('POST',url+'/handle/workspaceAdmin.php','action=LISTWORKSPACES',null,null,null,config.macros.stats.listWorkspaces,params);
 }
 

@@ -72,17 +72,15 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 	var step = createTiddlyElement(frm,'div',null, "null");
 	var workspace_label = createTiddlyElement(step, "label", null, "label", "Workspace");
 	workspace_label.setAttribute("for","workspaceName");
-	var s = createTiddlyElement(null,"select","workspaceName",null,"workspaceName");
-	s.name = 'workspaceName';
 	var workspaces = eval('[ '+responseText+' ]');
-	for(var d=0; d < workspaces.length; d++){
-		var i = createTiddlyElement(s,"option",null,null,workspaces[d]);
-		i.value = workspaces[d];
-		if (workspace == workspaces[d]){
-			// select the workspace being viewed
-		}
+	
+	var dropdown = [];
+	for(var t=0; t<workspaces.length; t++) {
+
+		dropdown.push({name: workspaces[t], caption: workspaces[t]});
 	}
-	step.appendChild(s);
+	createTiddlyDropDown(step,null,dropdown,workspace);
+	//	step.appendChild(s);
 	createTiddlyElement(step,'br');
 	var username_label = createTiddlyElement(step, "label", null, "label", me.labelUsername);
 	username_label.setAttribute("for","adminUsername");
