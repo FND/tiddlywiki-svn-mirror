@@ -30,7 +30,7 @@ Show the current user their login status.
 config.macros.ccLoginStatus={};
 
 merge(config.macros.ccLoginStatus,{
-	textDefaultWorkspaceLoggedIn:"You are logged in as ",
+	textDefaultWorkspaceLoggedIn:"Viewing default workspace as ",
 	textViewingWorkspace:"Viewing Workspace : ",
 	textLoggedInAs:"Logged in as :",
 	textNotLoggedIn:"You are not logged in.",
@@ -47,7 +47,7 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 	var loginDivRef=document.getElementById("LoginDiv");
 	removeChildren(loginDivRef);
 	var wrapper=createTiddlyElement(place,"div");
-	if (isLoggedIn()){
+	if (isLoggedIn()){ 
 		name = cookieString(document.cookie).txtUserName;
 		if(workspace == "")
 			var str = wikify(me.textDefaultWorkspaceLoggedIn+decodeURIComponent(name)+".\r\n\r\n",wrapper);

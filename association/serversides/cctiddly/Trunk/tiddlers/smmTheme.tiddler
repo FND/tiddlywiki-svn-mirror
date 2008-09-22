@@ -624,7 +624,7 @@ table.sortable td.sortedCol {
 !taskEditTemplate
 <!--{{{-->
 <div class="editor">
-<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='toolbar' macro='toolbar[[ToolbarCommands::EditToolbar]]'></div>
 <div class='title edit' macro='edit title'></div>
 <div class='task'>
 

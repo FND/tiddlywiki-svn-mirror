@@ -19,7 +19,7 @@ if (!user_isAdmin($user['username'], $_POST['workspaceName'])){
 
 function makeFolder($path){
 	if(!file_exists($path)){
-		mkdir($path, 0700, true);
+		mkdir($path, 0700);
 	}
 }
 

@@ -22,7 +22,7 @@
 !PageTemplate
 <!--{{{-->
 	
-	<div id='bodywrapper'>
+<div id='bodywrapper'>
 <div class='header' macro='gradient vert #ccc #eee'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
@@ -689,7 +689,7 @@ table.sortable td.sortedCol {
 !taskEditTemplate
 <!--{{{-->
 <div class="editor">
-<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='toolbar' macro='toolbar[[ToolbarCommands::EditToolbar]]'></div>
 <div class='task'>
 
 	<table>
