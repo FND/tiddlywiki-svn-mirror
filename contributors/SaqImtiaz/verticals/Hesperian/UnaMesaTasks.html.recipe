@@ -1,4 +1,5 @@
-recipe: Hesperian.html.recipe
+recipe: ../WikispacesOffline/WikispacesOffline.html.recipe
 tiddler: UnaMesaTasks/UnaMesaTasksFeed.tiddler
 tiddler: UnaMesaTasks/License.tiddler
 tiddler: UnaMesaTasks/SiteTitle.tiddler
+#start up import via runOnce or importWS or QuickSync disabled

@@ -1,10 +1,9 @@
 recipe:  ../WikispacesOffline/WikispacesOffline.html.recipe
-tiddler: ../Hesperian/wikispacesMarkupRules.tiddler
-tiddler: ../Hesperian/tiddlywikiMarkupRules.tiddler
-tiddler: ../Hesperian/settings.js
+#tiddler: ../Hesperian/wikispacesMarkupRules.tiddler
+#tiddler: ../Hesperian/tiddlywikiMarkupRules.tiddler
+#tiddler: ../Hesperian/settings.js
 #tiddler: ../Hesperian/RunOnce.js
 #tiddler: ../Hesperian/ImportAndSync.js
-tiddler: ../../plugins/PasswordPromptPlugin.js
 tiddler: common/plugins/WikispacesSoapAdaptorPlugin.js
 tiddler: common/plugins/QuickSyncPlugin.js
 #tiddler: common/plugins/ImportWorkspacePlugin.js

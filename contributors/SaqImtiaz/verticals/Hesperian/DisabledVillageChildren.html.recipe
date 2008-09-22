@@ -1,4 +1,5 @@
-recipe: Hesperian.html.recipe
+recipe: ../WikispacesOffline/WikispacesOffline.html.recipe
 tiddler: DisabledVillageChildren/DisabledVillageChildrenFeed.tiddler
 tiddler: DisabledVillageChildren/License.tiddler
 tiddler: DisabledVillageChildren/SiteTitle.tiddler
+#start up import via runOnce or importWS or QuickSync disabled

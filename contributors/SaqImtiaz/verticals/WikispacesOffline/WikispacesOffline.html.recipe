@@ -14,3 +14,7 @@ tiddler: ../../../MartinBudden/adaptors/soapclient.js
 #tiddler: ../../../MartinBudden/plugins/ImportWikispacesMessagesPlugin.js
 #tiddler: QuickSyncPlugin.js
 #tiddler: ImportWorkspacePlugin.js
+tiddler: wikispacesMarkupRules.tiddler
+tiddler: tiddlywikiMarkupRules.tiddler
+tiddler: settings.js
+tiddler: ../../plugins/PasswordPromptPlugin.js
