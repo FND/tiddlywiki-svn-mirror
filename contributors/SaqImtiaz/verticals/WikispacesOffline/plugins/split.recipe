@@ -1,11 +1,11 @@
-tiddler: WikispacesLingo.js
 tiddler: ../../../plugins/AnchorsPlugin.js
 tiddler: ../../../plugins/InlineEditPlugin.js
-#tiddler: RefreshExternalTheme.js
-tiddler: SavedLocalConfigSettings.js
-tiddler: SinglePageModePlugin.js
-#tiddler: WikispacesAlwaysSyncTiddlersPlugin.js
-tiddler: WikispacesBackstageTasksTweaks.js
-tiddler: WikispacesSanitizeTitlePlugin.js
+tiddler: ../../../plugins/WikispacesSanitizeTitlePlugin.js
 tiddler: ../../../plugins/WikispacesStyleSearchPlugin.js
 tiddler: ../../../plugins/markupHelperPlugin.js
+tiddler: SavedLocalConfigSettings.js
+tiddler: SinglePageModePlugin.js
+tiddler: WikispacesBackstageTasksTweaks.js
+tiddler: WikispacesLingo.js
+#
+#tiddler: WikispacesAlwaysSyncTiddlersPlugin.js
