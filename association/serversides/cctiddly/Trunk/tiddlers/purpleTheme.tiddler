@@ -17,6 +17,8 @@
 ***/
 
 
+
+
 !PageTemplate
 <!--{{{-->
 	
@@ -33,6 +35,7 @@
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
 </div>
+<div id='contentFooter'  macro='gradient vert #eee #ccc'></div>
 </div>
 <!--}}}-->
 
@@ -117,7 +120,7 @@ h1 {
 	font-size: 11px;
 	font-family: Lucida Grande, Tahoma, Arial, Helvetica, sans-serif;
 	height:1%;
-	display:table;
+//	display:table;
 	background-color:#eee;
 }
 
