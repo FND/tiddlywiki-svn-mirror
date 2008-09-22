@@ -6,11 +6,11 @@ recipe: POLS250-common.html.recipe
 # 	Plugins
 tiddler: ../../plugins/TiddlerNotesPlugin/TiddlerNotesPlugin.js
 tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfig excludeLists excludeSearch"
-tiddler: instructorsnotebook/plugins/defaultCustomFieldsPlugin.js
+tiddler: plugins/defaultCustomFieldsPlugin.js
 tiddler: instructorsnotebook/plugins/settingsInstructorNotebookPlugin.js
-tiddler: instructorsnotebook/plugins/toggleFieldPlugin.js
+tiddler: plugins/toggleFieldPlugin.js
 tiddler: instructorsnotebook/plugins/setPrivatePageTagsScript.js
-#tiddler: instructorsnotebook/plugins/switchThemeScriptsPlugin.js
+#tiddler: plugins/switchThemeScriptsPlugin.js
 tiddler: ../../../MartinBudden/plugins/ThemeSwitcherPlugin.js
 tiddler: ../../plugins/batchNavigationMacro.js
 tiddler: ../../plugins/NavigationMacro/NavigationMacro.js

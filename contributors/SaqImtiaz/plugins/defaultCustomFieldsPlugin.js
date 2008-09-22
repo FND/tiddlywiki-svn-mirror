@@ -1,3 +1,4 @@
+//set customFields from a systemServer tiddler tagged systemServerDefault
 window.setDefaultCustomFields = function(){
 	var t = store.getTaggedTiddlers('systemServerDefault')[0];
 	var cf = {};	
