@@ -4,4 +4,4 @@ tiddler: tiddlywikiMarkupRules.tiddler
 tiddler: settings.js
 #tiddler: RunOnce.js
 #tiddler: ImportAndSync.js
-tiddler: PasswordPromptPlugin.js
+tiddler: ../../plugins/PasswordPromptPlugin.js
