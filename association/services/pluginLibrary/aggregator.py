@@ -20,7 +20,7 @@ def main(args):
 	store = Store("text", env)
 	repos = getRepositories("repos.lst")
 	for repo in repos:
-		msg = "processing '%s' (%s)" % (repo["name"], repo["URI"])
+		msg = "STATUS: processing '%s' (%s)" % (repo["name"], repo["URI"])
 		log.append(msg)
 		print msg # DEBUG
 		getPlugins(repo, store)
@@ -69,7 +69,7 @@ def getPlugins(repo, store):
 		bag = Bag(repo["name"])
 		tw = TiddlyWiki(html)
 		tw.convertStoreFormat()
-		plugins = tw.getPluginTiddlers(repo);
+		plugins = tw.getPluginTiddlers(repo)
 		empty = "<html><body><div id='storeArea'>\n</div></body></html>" # XXX: ugly hack; cf. tiddlywiki.TiddlyWiki.getPluginTiddlers()
 		if plugins != empty:
 			savePlugins(store, bag)

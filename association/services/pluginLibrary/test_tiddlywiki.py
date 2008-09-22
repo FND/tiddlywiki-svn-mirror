@@ -147,10 +147,10 @@ var foo = "bar";
 
 	def testGetVersionReturnsVersionFragments(self):
 		"""getVersion returns version fragments"""
-		expected = [2, 2, 0]
+		expected = (2, 3, 0)
 		self.assertEqual(expected, self.tw.getVersion())
 		legacyTW = tiddlywiki.TiddlyWiki(dummyTiddlyWiki("legacy"))
-		expected = [2, 1, 3]
+		expected = (2, 1, 3)
 		self.assertEqual(expected, legacyTW.getVersion())
 
 	def testGetVersionRaisesValueErrorForMissingVersion(self):
@@ -236,7 +236,7 @@ def dummyTiddlyWiki(type = "canonical"):
 		"""
 	elif type == "canonical":
 		version = """
-			var version = {title: "TiddlyWiki", major: 2, minor: 2, revision: 0, date: new Date("Jun 5, 2007"), extensions: {}};"
+			var version = {title: "TiddlyWiki", major: 2, minor: 3, revision: 0, date: new Date("Jun 5, 2007"), extensions: {}};"
 		"""
 		store = """
 			<div title="SamplePlugin" tags="systemConfig">

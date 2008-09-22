@@ -4,14 +4,14 @@ from BeautifulSoup import BeautifulSoup, Tag
 
 from utils import trimURI
 
-def unescapeLineBreaks(text): # TODO: rename
+def decodeTiddlerText(text):
 	"""
-	unescape line breaks
+	decode tiddler text
 
 	@param text (str): original text
 	@return (str): converted text
 	"""
-	return text.replace("\\n", "\n").replace("\\b", " ").replace("\\s", "\\").replace("\r", "")
+	return text.replace(r"\n", "\n").replace(r"\b", " ").replace(r"\s", "\\").replace("\r", "")
 
 def getSlices(text): # TODO: should be in Tiddler class
 	"""
@@ -88,7 +88,7 @@ class TiddlyWiki:
 			major = int(matches.groups()[0])
 			minor = int(matches.groups()[1])
 			revision = int(matches.groups()[2])
-			return [major, minor, revision]
+			return (major, minor, revision)
 		else:
 			raise ValueError("invalid TiddlyWiki version") # TODO
 
@@ -96,13 +96,20 @@ class TiddlyWiki:
 		"""
 		convert legacy to canonical store format
 
+		N.B.:
+		While the new canonical store format was introduced in
+		TiddlyWiki v2.2 final, various v2.2 beta releases are still
+		using the legacy store format.
+		Converting a TiddlyWiki document that is already using the new
+		store format is unlikely to do any harm.
+
 		@return: None
 		"""
 		try:
 			version = self.getVersion()
 		except (ValueError, AttributeError):
-			version = [0, 0, 0] # assume pre-v2.2 format
-		if version and (version[0] + (version[1] / 10.0) < 2.3): # N.B.: works because all pre-v2.2 releases are known
+			version = (0, 0, 0) # assume pre-v2.2 format
+		if version and (version[0] + (version[1] / 10.0) < 2.3): # N.B.: addition works because all pre-v2.3 releases are known
 			for tiddler in self.store.findChildren("div", tiddler = True):
 				# convert tiddler attribute to title attribute
 				tiddler["title"] = tiddler["tiddler"]

@@ -97,8 +97,8 @@ class DirScraper:
 					setattr(plugin, k, v)
 				elif k == "tags":
 					for tag in v.split(" "): # TODO: resolve bracketed list
-					 	if tag not in plugin.tags:
-					 		plugin.tags.append(tag)
+						if tag not in plugin.tags:
+							plugin.tags.append(tag)
 				else: # extended field
 					plugin.fields[k] = v
 
