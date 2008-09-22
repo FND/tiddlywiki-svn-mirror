@@ -132,22 +132,28 @@ config.macros.SubmitQuickClaim.doSubmit = function() {
 	// this function will typically be overwritten to add the sensitive 
 };
 
-config.macros.SubmitQuickClaim.handleResponse = function(success, message, uri) {
+config.macros.SubmitQuickClaim.handleResponse = function(status, message, uri) {
 	var successMsg = "Your quick claim item has been added to a claim on the system.";
 	var failureMsg = "Doh! We couldn't get to the system to add your quick claim item. Have another bash.";
 	var msg;
-	if(success) {
+
+	// status = info | success | fail
+	if(status == 'success') {
 		msg = message ? message : successMsg;
 		document.forms['quickClaim'].reset();
-	} else {
+		var btn = document.getElementById('btn_QuickClaimSubmit');
+		removeClass(btn, 'disabled');
+	} 
+	else if(status == 'fail') {
 		msg = message ? message : failureMsg;
+		var btn = document.getElementById('btn_QuickClaimSubmit');
+		removeClass(btn, 'disabled');
+	} else {
+		msg = message;
 	}
 	clearMessage();
 	displayMessage(msg, uri);
-	
-	// reset the button.
-	var btn = document.getElementById('btn_QuickClaimSubmit');
-	removeClass(btn, 'disabled');
+
 };
 
 

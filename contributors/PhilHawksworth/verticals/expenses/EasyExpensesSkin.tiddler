@@ -33,13 +33,14 @@
 </div>
 <!--}}}-->
 
+
 !quickClaimViewTemplate
 <!--{{{-->
 <div class='quickClaim'>
 <div class='claimHeader'>
 <div class='title' macro='view title'></div>
 <div class='subtitle' macro='view text'></div>
-<div class='toolbar'><span macro='toolbar [[ToolbarCommands::QuickClaimToolbar]]'></span></div>
+<div class='controlBar' macro='toolbar [[ToolbarCommands::QuickClaimToolbar]]'></div>
 </div>
 <form name='quickClaim'>
 <span class='field amount'><label for='amount'>Amount</label><input type='text' name='amount' /></span>
@@ -69,18 +70,23 @@
 <!--}}}-->
 
 
+
 !claimItemViewTemplate
 <!--{{{-->
 <div class='claimItem view'>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemViewToolbar]]'></div>
+<div class='static'>
 <span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount readonly:true mandatory:true'></span>
-<span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true'></span>
+<span class='field lostreceipt' macro='ModeledDataFormBuilder formIdentifier:expense_type field:LostReceipt readonly:true'></span>
+<span class='field trainingcost' macro='ModeledDataFormBuilder formIdentifier:expense_type field:TrainingCost readonly:true'></span>
+</div>
+<div class='fields'>
+<span class='field type' macro='ModeledDataFormBuilder formIdentifier:expense_type readonly:true mandatory:true'></span>
 <span class='field date' macro='ModeledDataFormBuilder formIdentifier:expense_type field:StartDate readonly:true mandatory:true'></span>
 <span class='field days' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Days readonly:true mandatory:true'></span>
-<span class='field lostreceipt' macro='ModeledDataFormBuilder formIdentifier:expense_type field:LostReceipt'></span>
-<span class='field trainingcost' macro='ModeledDataFormBuilder formIdentifier:expense_type field:TrainingCost'></span>
-<span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification readonly:true mandatory:true'></span>
+<span class='field justification' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Justification readonly:true '></span>
 <div class='remainingFields' macro='ModeledDataFormBuilder formIdentifier:expense_type fields:nonStandard'></div>
+</div>
 </div>
 <!--}}}-->
 
@@ -88,7 +94,7 @@
 <!--{{{-->
 <div class='claimItem'>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ClaimItemEditToolbar]]'></div>
-<div class='fields'>
+<div class='static'>
 <span class='field amount' macro='ModeledDataFormBuilder formIdentifier:expense_type field:Amount'></span>
 <span class='field lostreceipt' macro='ModeledDataFormBuilder formIdentifier:expense_type field:LostReceipt'></span>
 <span class='field trainingcost' macro='ModeledDataFormBuilder formIdentifier:expense_type field:TrainingCost'></span>
@@ -143,30 +149,33 @@ div.claimItem input.flagMandatory {background-color:#FFF3F3;}
 
 
 
+/* all tiddlers */
+div.tiddler div.title {font-size:2.2em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold; }
+div.tiddler a.button { border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-right:1px;}
+div.tiddler a.button:hover{ border-style:none; background-color:#333; color:#fff; }
+div.tiddler a.defaultCommand { background-color:#D89035;}
+div.tiddler div.subtitle {display:none;}
+div.tiddler div.tagged {display:none;}
+
 /* Claim Header */
-div.claimHeader { margin:2em 0 0 0; padding:0 0 0.5em 0; border-bottom:solid 2px #333; position:relative; }
+div.claimHeader { margin:2em 0 0 0; padding:0 0 0.5em 0; border-bottom:solid 2px #333; position:relative; background-color:#fff;}
 div.claimHeader div.title {font-size:2.2em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold; }
 div.claimHeader div.title input {font-size:1em; font-family:arial; letter-spacing:-1px; color:#000; font-weight:bold;}
 div.claimHeader div.subtitle{ font-size:0.9em; color:#999; margin-right:12em;}
-div.claimHeader div.toolbar {font-size:1em; position:absolute; right:0; bottom:1em;}
+div.claimHeader div.toolbar {font-size:1em;  position:absolute; bottom:0.7em; right:0; }
 div.claimHeader div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-right:1px;}
 div.claimHeader div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
 div.claimHeader div.toolbar a.defaultCommand { background-color:#D89035;}
 div.claimHeader div.toolbar select { margin-right:0.5em;}
 
+div.claimHeader div.controlBar { position:absolute; right:0; bottom:0; padding:0 0 1em 0;}
+div.claimHeader div.controlBar a.button { border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-right:1px;}
+div.claimHeader div.controlBar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
+div.claimHeader div.controlBar a.defaultCommand { background-color:#D89035;}
+div.claimHeader div.controlBar select { margin-right:0.5em;}
 
 /* Claim Items */
-/*
-div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative; overflow:auto;}
-div.claimItem div.title { font-size:1.4em; color:#333;}
-div.claimItem div.toolbar {font-size:0.8em;position:absolute; top:1em; right:0;}
-div.claimItem div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
-div.claimItem div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
-div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
 
-div.view input { border-style:none;}
-
-/*span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}*/
 label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
 div.claimItem span.field { display:inline; float:left; margin:0 1em 1em 0;}
 div.claimItem span.amount { border-bottom:2px solid #000; }
@@ -177,21 +186,21 @@ div.claimItem span.days input {font-size:1.8em; width:2em;}
 div.claimItem span.justification { clear:left; display:block; float:none;}
 div.claimItem span.justification input {font-size:0.9em; width:60em;}
 
-
-div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative; overflow:auto;}
+div.claimItem { margin:0; padding:0 0 1em 0; border-bottom:solid 1px #ccc; position:relative; overflow:hidden;}
 div.claimItem div.title { font-size:1.4em; color:#333;}
-div.claimItem div.toolbar {font-size:0.8em; position:absolute; bottom:1em; right:0;}
-div.claimItem div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px;}
+div.claimItem div.toolbar {bottom:1.5em; font-size:0.8em; position:absolute; right:0; text-align:right;}
+
+div.claimItem div.toolbar a.button{ border-style:none; font-weight:bold; background-color:#ECBB29; color:#fff; padding:0.5em 0.8em; margin-left:1px; line-height:1.2em;}
 div.claimItem div.toolbar a.button:hover{ border-style:none; background-color:#333; color:#fff; }
 div.claimItem div.toolbar a.defaultCommand { background-color:#D89035;}
 div.view input { border-style:none;}
 
 div.claimItem span.field label {font-size:0.9em; color:#999; display:block; margin-left:2px;}
 div.claimItem span.field { display:inline; float:left; margin:0 1em 1em 0;}
-div.claimItem span.amount { border-bottom:2px solid #000; position:absolute; top:1em; right:0; }
-div.claimItem span.amount input {font-size:3em; width:5em;}
-div.claimItem span.amount { border-bottom:2px solid #000; position:absolute; top:1em; right:0; }
 
+
+div.claimItem div.static span.amount { border-bottom:2px solid #000;}
+div.claimItem div.static span.amount input {font-size:3em; width:5em;}
 div.claimItem span.type input {font-size:1.8em; width:10em;}
 div.claimItem span.date input {font-size:1.8em; width:6em;}
 div.claimItem span.days input {font-size:1.8em; width:2em;}
@@ -199,9 +208,16 @@ div.claimItem span.justification { clear:left; display:block; float:none;}
 div.claimItem span.justification input {font-size:0.9em; width:60em;}
 
 
+div.claimItem div.static {position:absolute; top:0; right:0; }
+div.claimItem div.static span { clear:left;  margin-right:0;}
+div.claimItem div.fields {margin-right:20em;}
+
+
+
+
 
 /* Quick Claim */
-div.quickClaim div.claimHeader { margin:2em 0 0 0; padding:0 0 0.5em 0; border-bottom:solid 2px #333; position:relative; background-color:#fff;}
+div.quickClaim {margin-bottom:2em;}
 div.quickClaim form { margin:2em 0; border:solid 1px #fff;}
 div.quickClaim span.field {display:inline; float:left; margin:0 1em 1.5em 0;}
 div.quickClaim span.amount input {font-size:1.8em; width:5em;}
@@ -213,21 +229,6 @@ div.quickClaim form div a.disabled { border-style:none; background-color:#ccc; c
 div.quickClaim form div a.disabled:hover{  background-color:#ccc; color:#fff; cursor:default; }
 div.quickClaim form div a.button:active {border-style:none;}
 
-
-/*
-<div class='quickClaim'>
-<div class='claimHeader'>
-<div class='title' macro='view title'></div>
-<div class='subtitle' macro='view text'></div>
-<div class='toolbar'><span macro='toolbar [[ToolbarCommands::QuickClaimToolbar]]'></span></div>
-</div>
-<form name='quickClaim'>
-<span class='field amount'><label for='amount'>Amount</label><input type='text' name='amount' /></span>
-<span class='field justification'><label for='justification'>Justification / description</label><input type='text' name='justification'  /></span>
-<div macro='SubmitQuickClaim'></div>
-</form>
-</div>
-*/
 
 
 
