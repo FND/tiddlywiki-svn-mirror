@@ -130,11 +130,12 @@ div.header span.siteSubtitle a.tiddlyLink {color:#C7CCED; margin-left:0.5em; fon
 #displayArea { clear:left; margin:0; padding:0 2em;}
 
 /* Message Area */
-#messageArea { position:inherit;  margin:0 20px 1em 10px; padding:6px; border-style:none; }
+#messageArea { position:inherit;  margin:0 20px 1em 10px; padding:6px; border-style:none; text-align:right;}
 #messageBar {display:block; position:relative; width:100%; margin:0; height:1.6em; font-size:1em; }
 #messageArea { position:absolute; top:0; right:0; padding:0; margin:0; border-style:none; color:#666; background-color:transparent;} 
 #messageArea div { margin-right:7em; padding:4px 0 0 0;}
-#messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
+/*#messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}*/
+#messageArea div.messageToolbar { padding:0; margin:0;}
 #messageArea a { color:#666; text-decoration:underline; background-color:transparent;}
 #messageArea a:hover { color:#3E65C8; text-decoration:underline; background-color:transparent;}
 #messageArea .button { float:right; background-color:#eee; color:#3E65C8; text-decoration:none; margin:0 0 0 1em; padding:3px 1em 5px 1em; }
@@ -215,9 +216,6 @@ div.claimItem div.static span { clear:left;  margin-right:0;}
 div.claimItem div.fields {margin-right:20em;}
 
 
-
-
-
 /* Quick Claim */
 div.quickClaim {margin-bottom:2em;}
 div.quickClaim form { margin:2em 0; border:solid 1px #fff;}
@@ -231,8 +229,6 @@ div.quickClaim form div a.disabled { border-style:none; background-color:#ccc; c
 div.quickClaim form div a.disabled:hover{  background-color:#ccc; color:#fff; cursor:default; }
 div.quickClaim form div a.disabled:active{  background-color:#ccc; color:#fff; cursor:default; }
 div.quickClaim form div a.button:active {border-style:none;}
-
-
 
 
 /*}}}*/
