@@ -3,7 +3,7 @@
 |''Description:''|Commands to access hosted TiddlyWiki data|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js |
-|''Version:''|0.0.10|
+|''Version:''|0.0.11|
 |''Date:''|May 13, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -174,11 +174,80 @@ config.commands.getDiscussion.handler = function(event,src,title)
 	if(tiddler) {
 		var fields = tiddler.fields;
 	} else {
-		fields = String(document.getElementById(story.idPrefix + title).getAttribute("tiddlyFields"));
+		fields = String(document.getElementById(story.idPrefix + title).getAttribute('tiddlyFields'));
 		fields = fields ? fields.decodeHashMap() : null;
 	}
 	config.macros.importWikispacesMessages.getTopicList(config.macros.importWikispacesMessages.createContext(title,fields));
 	return true;
+};
+
+//# showDiscussions command definition
+config.commands.showDiscussions = {};
+merge(config.commands.showDiscussions,{
+	text: "discussions",
+	tooltip:"Show discussions for this tiddler",
+	popupNone: "No discussions",
+	topicTooltip: "View this topic",
+	template: "%0"
+});
+
+config.commands.showDiscussions.isEnabled = function(tiddler)
+{
+	return true;
+};
+
+config.commands.showDiscussions.handler = function(event,src,title)
+{
+console.log('showDiscussions',title);
+	var t = store.fetchTiddler(title);
+	var parentId = t.fields['server.page.id'];
+	var topics = [];
+	store.forEachTiddler(function(title,tiddler) {
+		if(tiddler.fields['server.page_id']==parentId && tiddler.title.indexOf('_topic')==0) {
+			topics.push(tiddler);
+			console.log('push',tiddler.title);
+		}
+	});
+//#displayMessage("config.commands.revisions.callback:"+revisions.length);
+	popup = Popup.create(src);
+	Popup.show(popup,false);
+	if(topics.length==0) {
+		createTiddlyText(createTiddlyElement(popup,'li',null,'disabled'),config.commands.showDiscussions.popupNone);
+	} else {
+		topics.sort(function(a,b) {return a.modified < b.modified ? +1 : -1;});
+		for(var i=0; i<topics.length; i++) {
+			var tiddler = topics[i];
+			//var modified = tiddler.modified.formatString(context.dateFormat||userParams.dateFormat);
+			//var revision = tiddler.fields['server.page.revision'];
+			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
+					config.commands.showDiscussions.template.format([tiddler.fields['server.subject'],tiddler.modifier]),
+					tiddler.text||config.commands.showDiscussions.topicTooltip,
+					function() {
+						config.commands.showDiscussions.showTopic(this.getAttribute('tiddlerTitle'));
+						return false;
+						},
+					'tiddlyLinkExisting tiddlyLink');
+			btn.setAttribute('tiddlerTitle',tiddler.title);
+			//btn.setAttribute('tiddlerModified',tiddler.modified.convertToYYYYMMDDHHMM());
+		}
+	}
+};
+
+config.commands.showDiscussions.showTopic = function(title)
+{
+console.log('showTopic',"'"+title+"'");
+	//story.displayTiddler(null,title);
+	var topic = store.getTiddler(title);
+	var topicId = topic.fields['server.topic_id'];
+	var messages = [];
+	store.forEachTiddler(function(title,tiddler) {
+		if(tiddler.fields['server.topic_id']==topicId && tiddler.title.indexOf('_message')==0) {
+			messages.push(tiddler);
+		}
+	});
+	messages.push(topic);
+	messages.sort(function(a,b) {return a.modified < b.modified ? -1 : +1;});
+	story.displayTiddlers(null,messages);
 };
 
 config.macros.importWorkspace.getTiddlersForAllFeeds = function()
