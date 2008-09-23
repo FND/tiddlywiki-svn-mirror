@@ -123,6 +123,7 @@ div.header span { color:#fff; }
 div.header span img { position:absolute; top:5; left:10px;}
 div.header span.siteTitle {font-size:1.8em; letter-spacing:-1px; margin-left:3em;}
 div.header span.siteSubtitle {font-size:1em; color:#3E65C8; margin-left:0.5em; font-style:italic;}
+div.header span.siteSubtitle a.tiddlyLink {color:#C7CCED; margin-left:0.5em; font-wieght:normal;}
 #ribbon { border-top:solid 3px #D89035; border-bottom:solid 3px #eee; background-color:#ECBB29; margin:0; padding:0; position:relative; }
 #ribbon a {border-top:solid 3px #D89035; background-color:#ECBB29; font-size:2em; font-style:none; font-weight:bold; color:#fff; letter-spacing:-1px; border-style:none; line-height:3.18em; display:inline; padding:1em; border-right:solid 1px #D89035;}
 #ribbon a:hover { border-top:solid 3px #A97027; background-color:#D89035; color:#fff; }
@@ -156,6 +157,7 @@ div.tiddler a.button:hover{ border-style:none; background-color:#333; color:#fff
 div.tiddler a.defaultCommand { background-color:#D89035;}
 div.tiddler div.subtitle {display:none;}
 div.tiddler div.tagged {display:none;}
+div.tiddler div.viewer {font-size:1.2em; margin-bottom:2em;}
 
 /* Claim Header */
 div.claimHeader { margin:2em 0 0 0; padding:0 0 0.5em 0; border-bottom:solid 2px #333; position:relative; background-color:#fff;}
