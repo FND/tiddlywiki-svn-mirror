@@ -1,0 +1,4 @@
+# build demo TiddlyWiki
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: FieldReporterPlugin.recipe
+tiddler: DefaultTiddlers.tiddler
