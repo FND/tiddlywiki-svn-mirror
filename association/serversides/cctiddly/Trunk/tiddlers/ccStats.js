@@ -1,13 +1,13 @@
 config.macros.stats={};
 merge(config.macros.stats, {
 	graph24HourTitle:"Last 24 hours",
-	graph24HourDesc:"This shows the number of users who have viewed this workspace in the past 24 hours",
+	graph24HourDesc:"The number of views of this workspace in the past 24 hours",
 	graph20MinsTitle:"The Last 20 Minutes",
-	graph20MinsDesc:"this shows users who have viewed this workspace over the last 20 minutes",
+	graph20MinsDesc:"The number of views of this workspace in the last 20 minutes",
 	graph7DaysTitle:"Last 7 days",
-	graph7DaysDesc:"This shows the number of users who have viewed this workspace in the last 7 days.",
+	graph7DaysDesc:"The number of views of this workspace in the last 7 days.",
 	graph5MonthsTitle:"Last 5 months",
-	graph5MonthsDesc:"This shows the number of users who have viewed this workspace in the past 30 days.",
+	graph5MonthsDesc:"The number of views of this workspace in the past 30 days.",
 	errorPermissionDenied:"Permissions Denied to data for %0 You need to be an administrator on the %1 workspace."
 });
 
