@@ -117,20 +117,22 @@ config.macros.SubmitQuickClaim.submitClick = function() {
 	var btn = document.getElementById('btn_QuickClaimSubmit');
 	var disabled = hasClass(btn, 'disabled');
 	if(disabled) {
-		return;
+		return false;
 	}
 	
 	// validate the form.		
 	if(document.quickClaim.amount.value.length < 1) {
-		config.macros.SubmitQuickClaim.handleResponse('fail', "Oops. You need to an amount ");	
+		config.macros.SubmitQuickClaim.handleResponse('fail', "Oops. You need to submit an amount.");	
 	} else if (isNaN(parseFloat(document.quickClaim.amount.value))) {
-		config.macros.SubmitQuickClaim.handleResponse('fail', "Oops. The amount you enter needs to be a number");	
+		config.macros.SubmitQuickClaim.handleResponse('fail', "Oops. The amount you enter needs to be a number.");	
 	} else if (document.quickClaim.justification.value.length < 1) {
-		config.macros.SubmitQuickClaim.handleResponse('fail', "Oops. You need to provide a justification. ");	
+		config.macros.SubmitQuickClaim.handleResponse('fail', "Oops. You need to provide a justification.");	
 	} else {
 		addClass(btn, 'disabled');	
 		config.macros.SubmitQuickClaim.doSubmit();			
 	}	
+	
+	return false;
 };
 
 config.macros.SubmitQuickClaim.doSubmit = function() {
