@@ -8,7 +8,7 @@ config.macros.coverFlow.handler = function (place,macroName,params,wikifier,para
 	var btn = createTiddlyButton(place,"Big","tooltip", function() { config.macros.coverFlow.onClick(place, true); });
 	var btn = createTiddlyButton(place,"Small","tooltip", function() { config.macros.coverFlow.onClick(place, false); });
 	
-	setStylesheet("img { position:absolute; top:0px; border:none; } h1 { font:250% Trebuchet MS, verdana, arial, helvetica, sans-serif; text-align:center; } h2 { font:120% Trebuchet MS, verdana, arial, helvetica, sans-serif; text-align:center; } a{ color:#fff; } .clear{ clear:both; } #menu{ position:absolute; left:10px; top:10px;} #images img{ visibility:hidden; display:none; filter: alpha(opacity=100); opacity: 1; } #preload{ visibility:hidden; } #scrollbar{ position:relative; border-bottom:1px solid #b3b3b3; z-index:10001; } #slider{ position:absolute; margin-top:-8px; margin-left:-8px; z-index:10002;background-image:url(slider.png);background-repeat:no-repeat;width:48px; height:16px;}");
+	setStylesheet("img.coverflow { position:absolute; top:0px; border:none; } h1 { font:250% Trebuchet MS, verdana, arial, helvetica, sans-serif; text-align:center; } h2 { font:120% Trebuchet MS, verdana, arial, helvetica, sans-serif; text-align:center; } a{ color:#fff; } .clear{ clear:both; } #menu{ position:absolute; left:10px; top:10px;} #images img{ visibility:hidden; display:none; filter: alpha(opacity=100); opacity: 1; } #preload{ visibility:hidden; } #scrollbar{ position:relative; border-bottom:1px solid #b3b3b3; z-index:10001; } #slider{ position:absolute; margin-top:-8px; margin-left:-8px; z-index:10002;background-image:url(slider.png);background-repeat:no-repeat;width:48px; height:16px;}");
 	
 
 //addReflections(); 
@@ -27,34 +27,98 @@ config.macros.coverFlow.onClick = function (place, big){
 	
 	var div = createTiddlyElement(backstage, "div", conf_imageflow);
 	var imagesdiv = createTiddlyElement(div, "div",  "images");
+	
+	
+	
 
-	var img = createTiddlyElement(null, "img", null, "reflect");
+
+
+	var img = createTiddlyElement(null, "img", null, "coverflow");
+	img.src="http://farm4.static.flickr.com/3075/2878882067_eaa5d8ed6d.jpg";
+	img.setAttribute("w", "800");
+	img.setAttribute("h", "600");
+	imagesdiv.appendChild(img);
+
+	var img = createTiddlyElement(null, "img", null, "coverflow");
+	img.src="http://farm4.static.flickr.com/3147/2878964902_70f3b82eb4.jpg";
+	img.setAttribute("w", "800");
+	img.setAttribute("h", "600");
+	imagesdiv.appendChild(img);
+	
+	
+	var img = createTiddlyElement(null, "img", null, "coverflow");
+	img.src="http://farm4.static.flickr.com/3171/2878143939_12fa8433fc.jpg";
+	img.setAttribute("w", "800");
+	img.setAttribute("h", "600");
+	imagesdiv.appendChild(img);
+	
+	var img = createTiddlyElement(null, "img", null, "coverflow");
+	img.src="http://farm4.static.flickr.com/3098/2878170629_f722d79d07.jpg	";
+	img.setAttribute("w", "800");
+	img.setAttribute("h", "600");
+	imagesdiv.appendChild(img);
+	
+	
+	
+	var img = createTiddlyElement(null, "img", null, "coverflow");
+	img.src="http://farm4.static.flickr.com/3075/2878882067_eaa5d8ed6d.jpg";
+	img.setAttribute("w", "800");
+	img.setAttribute("h", "600");
+	imagesdiv.appendChild(img);
+	
+	var img = createTiddlyElement(null, "img", null, "coverflow");
+	img.src="http://farm4.static.flickr.com/3169/2879022320_85a28a039f.jpg";
+	img.setAttribute("w", "800");
+	img.setAttribute("h", "600");
+	imagesdiv.appendChild(img);
+	
+	var img = createTiddlyElement(null, "img", null, "coverflow");
+	img.src="http://farm4.static.flickr.com/3010/2878605185_d7375ff5ac.jpg";
+	img.setAttribute("w", "800");
+	img.setAttribute("h", "600");
+	imagesdiv.appendChild(img);
+	
+	
+	var img = createTiddlyElement(null, "img", null, "coverflow");
+	img.src="http://farm4.static.flickr.com/3272/2881442971_cb653cf037.jpg";
+	img.setAttribute("w", "800");
+	img.setAttribute("h", "600");
+	imagesdiv.appendChild(img);
+	
+	
+
+
+
+
+
+	var img = createTiddlyElement(null, "img", null, "coverflow");
 	img.src="http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd=s:AAAAAAAAAAAAAAAAAAAAAAAA9&chxt=x,y&chxl=1:|0|39|0:|21-21|21-22|21-23|22-00|22-01|22-02|22-03|22-04|22-05|22-06|22-07|22-08|22-09|22-10|22-11|22-12|22-13|22-14|22-15|22-16|22-17|22-18|22-19|22-20|22-21&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
 	img.setAttribute("w", "800");
 	img.setAttribute("h", "600");
 	imagesdiv.appendChild(img);
 
-	var img = createTiddlyElement(null, "img", null, "reflect");
+	var img = createTiddlyElement(null, "img", null, "coverflow");
 	img.src="http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd=s:AAAAAAAAAAAAAAAAAAAAAAAA9&chxt=x,y&chxl=1:|0|39|0:|21-21|21-22|21-23|22-00|22-01|22-02|22-03|22-04|22-05|22-06|22-07|22-08|22-09|22-10|22-11|22-12|22-13|22-14|22-15|22-16|22-17|22-18|22-19|22-20|22-21&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
 	img.setAttribute("w", "800");
 	img.setAttribute("h", "600");
 	imagesdiv.appendChild(img);
 
-	var img2 = createTiddlyElement(null, "img", null, "reflect");
+	var img2 = createTiddlyElement(null, "img", null, "coverflow");
 	img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
 	img2.setAttribute("w", "600");
 	img2.setAttribute("h", "400");
 	imagesdiv.appendChild(img2);
 
 
-	var img2 = createTiddlyElement(null, "img", null, "reflect");
+
+	var img2 = createTiddlyElement(null, "img", null, "coverflow");
 	img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
 	img2.setAttribute("w", "600");
 	img2.setAttribute("h", "400");
 
 	imagesdiv.appendChild(img2);
 
-	var img2 = createTiddlyElement(null, "img", null, "reflect");
+	var img2 = createTiddlyElement(null, "img", null, "coverflow");
 	img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
 	img2.setAttribute("w", "600");
 	img2.setAttribute("h", "400");
