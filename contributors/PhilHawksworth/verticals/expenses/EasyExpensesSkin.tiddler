@@ -229,6 +229,7 @@ div.quickClaim form div a.button { border-style:none; font-weight:bold; backgrou
 div.quickClaim form div a.button:hover { border-style:none; background-color:#333; color:#fff; }
 div.quickClaim form div a.disabled { border-style:none; background-color:#ccc; color:#fff; padding:0.5em 0.8em;}
 div.quickClaim form div a.disabled:hover{  background-color:#ccc; color:#fff; cursor:default; }
+div.quickClaim form div a.disabled:active{  background-color:#ccc; color:#fff; cursor:default; }
 div.quickClaim form div a.button:active {border-style:none;}
 
 
