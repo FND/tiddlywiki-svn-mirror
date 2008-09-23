@@ -28,10 +28,6 @@ config.macros.coverFlow.onClick = function (place, big){
 	var div = createTiddlyElement(backstage, "div", conf_imageflow);
 	var imagesdiv = createTiddlyElement(div, "div",  "images");
 	
-	
-	
-
-
 
 	var img = createTiddlyElement(null, "img", null, "coverflow");
 	img.src="http://farm4.static.flickr.com/3075/2878882067_eaa5d8ed6d.jpg";
@@ -45,7 +41,6 @@ config.macros.coverFlow.onClick = function (place, big){
 	img.setAttribute("h", "600");
 	imagesdiv.appendChild(img);
 	
-	
 	var img = createTiddlyElement(null, "img", null, "coverflow");
 	img.src="http://farm4.static.flickr.com/3171/2878143939_12fa8433fc.jpg";
 	img.setAttribute("w", "800");
@@ -57,8 +52,6 @@ config.macros.coverFlow.onClick = function (place, big){
 	img.setAttribute("w", "800");
 	img.setAttribute("h", "600");
 	imagesdiv.appendChild(img);
-	
-	
 	
 	var img = createTiddlyElement(null, "img", null, "coverflow");
 	img.src="http://farm4.static.flickr.com/3075/2878882067_eaa5d8ed6d.jpg";
@@ -78,18 +71,11 @@ config.macros.coverFlow.onClick = function (place, big){
 	img.setAttribute("h", "600");
 	imagesdiv.appendChild(img);
 	
-	
 	var img = createTiddlyElement(null, "img", null, "coverflow");
 	img.src="http://farm4.static.flickr.com/3272/2881442971_cb653cf037.jpg";
 	img.setAttribute("w", "800");
 	img.setAttribute("h", "600");
 	imagesdiv.appendChild(img);
-	
-	
-
-
-
-
 
 	var img = createTiddlyElement(null, "img", null, "coverflow");
 	img.src="http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd=s:AAAAAAAAAAAAAAAAAAAAAAAA9&chxt=x,y&chxl=1:|0|39|0:|21-21|21-22|21-23|22-00|22-01|22-02|22-03|22-04|22-05|22-06|22-07|22-08|22-09|22-10|22-11|22-12|22-13|22-14|22-15|22-16|22-17|22-18|22-19|22-20|22-21&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
@@ -103,20 +89,17 @@ config.macros.coverFlow.onClick = function (place, big){
 	img.setAttribute("h", "600");
 	imagesdiv.appendChild(img);
 
-	var img2 = createTiddlyElement(null, "img", null, "coverflow");
-	img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-	img2.setAttribute("w", "600");
-	img2.setAttribute("h", "400");
-	imagesdiv.appendChild(img2);
+	var img = createTiddlyElement(null, "img", null, "coverflow");
+	img.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
+	img.setAttribute("w", "600");
+	img.setAttribute("h", "400");
+	imagesdiv.appendChild(img);
 
-
-
-	var img2 = createTiddlyElement(null, "img", null, "coverflow");
-	img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-	img2.setAttribute("w", "600");
-	img2.setAttribute("h", "400");
-
-	imagesdiv.appendChild(img2);
+	var img = createTiddlyElement(null, "img", null, "coverflow");
+	img.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
+	img.setAttribute("w", "600");
+	img.setAttribute("h", "400");
+	imagesdiv.appendChild(img);
 
 	var img2 = createTiddlyElement(null, "img", null, "coverflow");
 	img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
@@ -129,9 +112,6 @@ config.macros.coverFlow.onClick = function (place, big){
 	createTiddlyElement(scrollbar, "div", "slider");
 	init();
 }
-
-
-
 
 /**
  *	ImageFlow 0.9

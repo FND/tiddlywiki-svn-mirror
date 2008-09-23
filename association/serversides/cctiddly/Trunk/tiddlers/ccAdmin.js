@@ -7,7 +7,7 @@ merge(config.macros.ccAdmin,{
 	WizardTitleText:"Workspace Administration.",
 	buttonDeleteText:"Delete Users", 
 	buttonDeleteTooltip:"Click to delete users.",
-	buttonAddText:"Add User.",
+	buttonAddText:"Add User",
 	buttonAddTooltip:"Click to add user.",
 	buttonCancelText:"Cancel",
 	buttonCalcelTooltip:"Calcel adding user.", 

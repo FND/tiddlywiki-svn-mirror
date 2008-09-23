@@ -3,9 +3,9 @@ config.macros.ccFile = {};
 merge(config.macros.ccFile,{
 	wizardTitleText:"Manage Files",
 	wizardStepText:"Manage files in workspace.",
-	buttonDeleteText:"Delete Files.",
+	buttonDeleteText:"Delete Files",
 	buttonDeleteTooltip:"Click to Delete files.",
-	buttonUploadText:"Upload Files.",
+	buttonUploadText:"Upload Files",
 	buttonUploadTooltip:"Click to Upload files.",
 	labelFiles:"Existing Files ",
 	errorPermissionDenied:"You do not have permissions to create a file on this server. ",
