@@ -2,6 +2,60 @@
 
 
 
+
+config.macros.coverFlow = {};
+config.macros.coverFlow.handler = function (place,macroName,params,wikifier,paramString,tiddler){
+	
+	
+	var backstage = document.getElementById("backstage");
+	//removeChildren(backstage);
+	
+	
+var div = createTiddlyElement(backstage, "div", conf_imageflow);
+var imagesdiv = createTiddlyElement(div, "div",  "images");
+var img = createTiddlyElement(null, "img", null, "reflect");
+img.src="http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd=s:AAAAAAAAAAAAAAAAAAAAAAAA9&chxt=x,y&chxl=1:|0|39|0:|21-21|21-22|21-23|22-00|22-01|22-02|22-03|22-04|22-05|22-06|22-07|22-08|22-09|22-10|22-11|22-12|22-13|22-14|22-15|22-16|22-17|22-18|22-19|22-20|22-21&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
+img.setAttribute("w", "800");
+img.setAttribute("h", "600");
+imagesdiv.appendChild(img);
+
+var img1 = createTiddlyElement(null, "img", null, "reflect");
+img1.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAjM9cAN&chxt=x,y&chxl=1:|0|187|0:|2008-09-15|2008-09-16|2008-09-17|2008-09-18|2008-09-19|2008-09-20|2008-09-21|2008-09-22&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
+img1.setAttribute("w", "600");
+img1.setAttribute("h", "400");
+imagesdiv.appendChild(img1);
+
+var img2 = createTiddlyElement(null, "img", null, "reflect");
+img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
+img2.setAttribute("w", "600");
+img2.setAttribute("h", "400");
+imagesdiv.appendChild(img2);
+
+
+var img2 = createTiddlyElement(null, "img", null, "reflect");
+img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
+img2.setAttribute("w", "600");
+img2.setAttribute("h", "400");
+
+imagesdiv.appendChild(img2);
+
+var img2 = createTiddlyElement(null, "img", null, "reflect");
+img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
+img2.setAttribute("w", "600");
+img2.setAttribute("h", "400");
+imagesdiv.appendChild(img2);
+createTiddlyElement(div, "div", "captions", null, "ssssss");
+var backstage = document.getElementById("backstage");
+var scrollbar = createTiddlyElement(backstage, "div", "scrollbar");
+createTiddlyElement(scrollbar, "div", "slider");
+
+init();
+//addReflections(); 
+}
+
+
+
+
 /**
  *	ImageFlow 0.9
  *
@@ -477,55 +531,191 @@ document.onkeydown = function(event)
 }
 
 
-config.macros.coverFlow = {};
-config.macros.coverFlow.handler = function (place,macroName,params,wikifier,paramString,tiddler){
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * reflection.js v1.9
+ * http://cow.neondragon.net/stuff/reflection/
+ * Freely distributable under MIT-style license.
+ */
+ 
+/* From prototype.js */
+if (!document.myGetElementsByClassName) {
 	
+	document.myGetElementsByClassName = function(className) {
+
+		var children = document.getElementsByTagName('*') || document.all;
+		var elements = new Array();
+	  
+		for (var i = 0; i < children.length; i++) {
+			var child = children[i];
+			var classNames = child.className.split(' ');
+			for (var j = 0; j < classNames.length; j++) {
+				if (classNames[j] == className) {
+					elements.push(child);
+					break;
+				}
+			}
+		}
+		return elements;
+	}
+}
+
+var Reflection = {
+	defaultHeight : 0.5,
+	defaultOpacity: 0.5,
 	
-	var backstage = document.getElementById("backstage");
-	//removeChildren(backstage);
+	add: function(image, options) {
+		Reflection.remove(image);
+		
+		doptions = { "height" : Reflection.defaultHeight, "opacity" : Reflection.defaultOpacity }
+		if (options) {
+			for (var i in doptions) {
+				if (!options[i]) {
+					options[i] = doptions[i];
+				}
+			}
+		} else {
+			options = doptions;
+		}
 	
+		try {
+			var d = document.createElement('div');
+			var p = image;
+			
+			var classes = p.className.split(' ');
+			var newClasses = '';
+			for (j=0;j<classes.length;j++) {
+				if (classes[j] != "reflect") {
+					if (newClasses) {
+						newClasses += ' '
+					}
+					
+					newClasses += classes[j];
+				}
+			}
+
+			var reflectionHeight = Math.floor(p.height*options['height']);
+			var divHeight = Math.floor(p.height*(1+options['height']));
+			
+			var reflectionWidth = p.width;
+			
+			if (document.all && !window.opera) {
+				/* Fix hyperlinks */
+                if(p.parentElement.tagName == 'A') {
+	                var d = document.createElement('a');
+	                d.href = p.parentElement.href;
+                }  
+                    
+				/* Copy original image's classes & styles to div */
+				d.className = newClasses;
+				p.className = 'reflected';
+				
+				d.style.cssText = p.style.cssText;
+				p.style.cssText = 'vertical-align: bottom';
+			
+				var reflection = document.createElement('img');
+				reflection.src = p.src;
+				reflection.style.width = reflectionWidth+'px';
+				reflection.style.display = 'block';
+				reflection.style.height = p.height+"px";
+				
+				reflection.style.marginBottom = "-"+(p.height-reflectionHeight)+'px';
+				reflection.style.filter = 'flipv progid:DXImageTransform.Microsoft.Alpha(opacity='+(options['opacity']*100)+', style=1, finishOpacity=0, startx=0, starty=0, finishx=0, finishy='+(options['height']*100)+')';
+				
+				d.style.width = reflectionWidth+'px';
+				d.style.height = divHeight+'px';
+				p.parentNode.replaceChild(d, p);
+				
+				d.appendChild(p);
+				d.appendChild(reflection);
+			} else {
+				var canvas = document.createElement('canvas');
+				if (canvas.getContext) {
+					/* Copy original image's classes & styles to div */
+					d.className = newClasses;
+					p.className = 'reflected';
+					
+					d.style.cssText = p.style.cssText;
+					p.style.cssText = 'vertical-align: bottom';
+			
+					var context = canvas.getContext("2d");
+				
+					canvas.style.height = reflectionHeight+'px';
+					canvas.style.width = reflectionWidth+'px';
+					canvas.height = reflectionHeight;
+					canvas.width = reflectionWidth;
+					
+					d.style.width = reflectionWidth+'px';
+					d.style.height = divHeight+'px';
+					p.parentNode.replaceChild(d, p);
+					
+					d.appendChild(p);
+					d.appendChild(canvas);
+					
+					context.save();
+					
+					context.translate(0,image.height-1);
+					context.scale(1,-1);
+					
+					context.drawImage(image, 0, 0, reflectionWidth, image.height);
 	
-var div = createTiddlyElement(backstage, "div", conf_imageflow);
-var imagesdiv = createTiddlyElement(div, "div",  "images");
-var img = createTiddlyElement(null, "img");
-img.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAAAAAAAAAAAAAAAAAAAAAAA9&chxt=x,y&chxl=1:|0|39|0:|21-21|21-22|21-23|22-00|22-01|22-02|22-03|22-04|22-05|22-06|22-07|22-08|22-09|22-10|22-11|22-12|22-13|22-14|22-15|22-16|22-17|22-18|22-19|22-20|22-21&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-img.setAttribute("w", "600");
-img.setAttribute("h", "400");
-imagesdiv.appendChild(img);
+					context.restore();
+					
+					context.globalCompositeOperation = "destination-out";
+					var gradient = context.createLinearGradient(0, 0, 0, reflectionHeight);
+					
+					gradient.addColorStop(1, "rgba(255, 255, 255, 1.0)");
+					gradient.addColorStop(0, "rgba(255, 255, 255, "+(1-options['opacity'])+")");
+		
+					context.fillStyle = gradient;
+					if (navigator.appVersion.indexOf('WebKit') != -1) {
+						context.fill();
+					} else {
+						context.fillRect(0, 0, reflectionWidth, reflectionHeight*2);
+					}
+				}
+			}
+		} catch (e) {
+	    }
+	},
+	
+	remove : function(image) {
+		if (image.className == "reflected") {
+			image.className = image.parentNode.className;
+			image.parentNode.parentNode.replaceChild(image, image.parentNode);
+		}
+	}
+}
 
-var img1 = createTiddlyElement(null, "img");
-img1.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAjM9cAN&chxt=x,y&chxl=1:|0|187|0:|2008-09-15|2008-09-16|2008-09-17|2008-09-18|2008-09-19|2008-09-20|2008-09-21|2008-09-22&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-img1.setAttribute("w", "600");
-img1.setAttribute("h", "400");
-imagesdiv.appendChild(img1);
-
-var img2 = createTiddlyElement(null, "img");
-img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-img2.setAttribute("w", "600");
-img2.setAttribute("h", "400");
-imagesdiv.appendChild(img2);
-
-
-var img2 = createTiddlyElement(null, "img");
-img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-img2.setAttribute("w", "600");
-img2.setAttribute("h", "400");
-
-imagesdiv.appendChild(img2);
-
-var img2 = createTiddlyElement(null, "img");
-img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-img2.setAttribute("w", "600");
-img2.setAttribute("h", "400");
-imagesdiv.appendChild(img2);
-createTiddlyElement(div, "div", "captions", null, "ssssss");
-var backstage = document.getElementById("backstage");
-var scrollbar = createTiddlyElement(backstage, "div", "scrollbar");
-createTiddlyElement(scrollbar, "div", "slider");
-
-init();
-
-//
-createTiddlyText(place, "hjere");	
+function addReflections() {
+	var rimages = document.myGetElementsByClassName('reflect');
+	for (i=0;i<rimages.length;i++) {
+		displayMessage("image");
+		var rheight = null;
+		var ropacity = null;
+		
+		var classes = rimages[i].className.split(' ');
+		for (j=0;j<classes.length;j++) {
+			if (classes[j].indexOf("rheight") == 0) {
+				var rheight = classes[j].substring(7)/100;
+			} else if (classes[j].indexOf("ropacity") == 0) {
+				var ropacity = classes[j].substring(8)/100;
+			}
+		}
+		
+		Reflection.add(rimages[i], { height: rheight, opacity : ropacity});
+	}
 }
 
