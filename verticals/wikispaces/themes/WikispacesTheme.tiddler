@@ -1,0 +1,59 @@
+<div title="WikispacesTheme" modifier="MartinBudden" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|WikispacesTheme|
+|''Description:''|The basic Wikispaces theme |
+|''~CoreVersion:''|2.4.0|
+|''~MainMenu:''|##MainMenu|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~topicViewTemplate:''|##topicViewTemplate|
+|''~messageViewTemplate:''|##messageViewTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+!ViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler showDiscussions getDiscussion > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!topicViewTemplate
+<!--{{{-->
+<div class='topic'>
+<div class='toolbar' macro='toolbar closeTiddler closeOthers fields'></div>
+<div class='title'><span macro='view modifier link'></span><span macro="view 'server.subject'"></span></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='subtitle'><span macro='message views.wikified.postedPrompt'></span> <span macro='view modified date "DD mmm, YYYY 0hh:0mm"'></span></div>
+</div>
+<!--}}}-->
+
+!messageViewTemplate
+<!--{{{-->
+<div class='message'>
+<div class='toolbar' macro='toolbar closeTiddler fields'></div>
+<div class='title'><span macro='view modifier link'></span><span macro="view 'server.subject'"></span></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='subtitle'><span macro='message views.wikified.postedPrompt'></span> <span macro='view modified date "DD mmm, YYYY 0hh:0mm"'></span></div>
+</div>
+<!--}}}-->
+
+!StyleSheet
+/*{{{*/
+/*horizontal mainmenu*/
+#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
+#mainMenu br {display:none;}
+#mainMenu {background:#336699;}
+#mainMenu {padding:2px;}
+#mainMenu .button, #mainMenu .tiddlyLink {padding-left:0.5em;padding-right:0.5em;color:white;font-size:115%;}
+
+#displayArea {margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;padding-top:.1em;padding-bottom:.1em;}
+
+div.topic .viewer {margin:0 8em 0 0; padding:0.5em 5px 0.5em 10px; background-color:#ddd;}
+div.message .viewer {margin:0 8em 0 0; padding:0.5em 5px 0.5em 10px; background-color:#ccc;}
+/*}}}*/
+</pre>
+</div>

@@ -12,7 +12,7 @@ tiddler: ../../contributors/MartinBudden/mystyle/StyleSheetHorizontalMainMenu.ti
 recipe: plugins/split.recipe
 recipe: content/split.recipe
 recipe: topics/split.recipe
-tiddler: shadows/WikispacesTheme.tiddler
+tiddler: themes/WikispacesTheme.tiddler
 tiddler: feeds/WikispacesUnaMesaMixinsFeed.tiddler
 #tiddler: ../../contributors/SaqImtiaz/adaptors/WikispacesAdaptor.js
 tiddler: ../../contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js
@@ -24,4 +24,4 @@ tiddler: ../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
 tiddler: ../../contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js
 tiddler: ../../contributors/MartinBudden/plugins/QuickSyncPlugin.js
 tiddler: ../../contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
-tiddler: ../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
+#tiddler: ../../contributors/EricShulman/plugins/TaggedTemplateTweak.js

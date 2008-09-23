@@ -31,6 +31,32 @@ var wikispacesTopicPattern = [
 wikispacesTopicGroup.setPattern(wikispacesTopicPattern); 
 wikispacesTopicGroup.setGroupField('server.topic_id');
 
+
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.chooseTemplateForTiddler = function(title,template)
+{
+	// get default template from core
+	var t = template==DEFAULT_EDIT_TEMPLATE ? 'EditTemplate' : 'ViewTemplate';
+	var template = this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+
+	// if the tiddler to be rendered doesn't exist yet, just return core result
+	var tiddler = store.getTiddler(title);
+	if(!tiddler)
+		return template;
+
+	// look for template whose prefix matches a tag on this tiddler
+	var p = config.options.txtTheme + "##"; // systemTheme section prefix
+	for (i=0; i<tiddler.tags.length; i++) {
+		var s = p + tiddler.tags[i] + t; // add tag prefix
+		if(store.getTiddlerText(p+s)) {
+			 return s;
+		}
+	}
+	return template;
+}
+
+
+
 /*getTopicList = function(context,userParams)
 {
 	context.title = context.tiddler.title;
