@@ -1,4 +1,4 @@
 tiddler: ConfigTweaks.js tags="systemConfig"
 tiddler: PluginInfoPlugin.js tags="systemConfig"
-tiddler: PluginLibraryConnectorPlugin.js tags="systemConfig"
+tiddler: PluginLibraryAdaptor.js tags="systemConfig"
 tiddler: TiddlyWebAdaptorPlugin.js tags="systemConfig"
