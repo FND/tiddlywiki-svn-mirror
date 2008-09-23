@@ -1,0 +1,50 @@
+== Aggregator ==
+
+* dirScraper: wildcards support for black-/whitelisting
+* logging
+* handling of removed plugins (e.g. don't delete, but tag with "disabled"?)
+** relevant with regards to metadata augmentation (cf. Community Features)
+* efficiency enhancements (e.g. caching, deferred processing)
+
+== Search ==
+
+* components: repository, tags, fields, slices, documentation, code, full-text
+* RegEx support
+* indexing
+** index contents on change (aggregator), rather than using live search?
+** free-text indexing system?
+** SQL store?
+
+== Front-End ==
+
+* interface elements
+** search (using file adaptor to pull in results)
+** navigation menu
+** tag cloud
+** recent changes
+* logic on retaining and re-displaying search results (tiddlers in store & story)
+* results handling (toolbar commands)
+** dismiss
+** shelve
+** save
+
+=== Admin Interface ===
+
+* list of repositories
+* annotations
+* switch for authors to instantly add/update a specific plugin
+
+== Community Features ==
+
+* user tagging
+* commenting
+* rating
+* views counter
+
+== Misc. ==
+
+* unit testing
+* code analysis (PyLint, PyChecker, PyFlakes)
+* review TODO, XXX and DEBUG markers in the code
+* code sanitizing
+* refactoring
