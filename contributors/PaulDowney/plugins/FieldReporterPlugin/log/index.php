@@ -1,7 +1,7 @@
 <?php 
 
 /*
- *  simple UsageLog form
+ *  simple FieldReporter form
  */
 require_once("params.php");
 mysql_connect($db["host"], $db["username"], $db["password"]) or die(mysql_error()); 

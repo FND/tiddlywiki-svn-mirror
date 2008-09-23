@@ -6,6 +6,6 @@
 $db["host"] = "localhost";
 $db["username"] = "osmosoft";
 $db["password"] = "password";
-$db["name"] = "usagelog";
+$db["name"] = "fieldreporter";
 
 ?>

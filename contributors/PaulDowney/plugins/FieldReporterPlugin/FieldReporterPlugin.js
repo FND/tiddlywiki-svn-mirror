@@ -57,7 +57,7 @@ config.macros.FieldReporter = {
 			config.macros.FieldReporter.log(action,"from the test button");
 		};
 		createTiddlyButton(place,action,"send a test request!",click);
-	},
+	}
 
 };
 
