@@ -1,5 +1,13 @@
 <?php
 
+
+//$content = "123456789</div>,asdasd12";
+
+//echo strripos($content, "</div>");
+//			  echo $pos2 = strlen($content) - strpos(strrev($content), strrev("</div>")) - strlen("</div>");
+			
+//			exit;
+
 //////////////////////////////////////////////////////// description ////////////////////////////////////////////////////////
 	/**
 		@file
@@ -183,7 +191,7 @@
 			$content = substr($tiddler,  $pos1+5); 
 
 			// get the last </pre> tag
-			$pos2 = strrpos($content, "</pre>", 0);
+			$pos2 = strripos($content, "</pre>", 0);
 			$bottom = substr($content,  $pos2); 
 			$content = substr($content,0,$pos2);
 		}else
@@ -193,8 +201,8 @@
 			$top = substr($tiddler,  0, $pos1+1);
 			$content = substr($tiddler,  $pos1+1); 
 			// look for the final closing div tag
-			  $pos2 = strlen(string $content) - strpos (strrev(string $content), strrev(string "</div>")) - strlen(string "</div>");
-	//		$pos2 = strrpos($content, "</div>");
+		//	  $pos2 = strlen($content) - strpos(strrev($content), strrev("</div>")) - strlen("</div>");
+			$pos2 = strripos($content, "</div>", 0);
 			$bottom = substr($content,  $pos2); 
 			$content = substr($content,0,$pos2);
 		}
