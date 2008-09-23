@@ -1,0 +1,91 @@
+<div title="Template:Infobox Digicam" server.host="en.wikipedia.org/w" wikiformat="mediawiki">
+<pre>{{infobox
+|abovestyle=background: #eee8aa;
+|above= {{{model}}}
+|image={{{image|}}}
+|label1= Type
+|data1= {{{kind|}}}
+|label2= [[Image sensor|Sensor]]
+|data2= {{{sensor|}}}
+|label3= Maximum [[Image resolution|resolution]]
+|data3=  {{{res|}}}
+|label4= [[Photographic lens|Lens type]]
+|data4=  {{{lens|}}}
+|label5= [[Shutter (photography)|Shutter]]
+|data5=  {{{shutter|}}}
+|label6= [[Shutter speed]] range
+|data6=  {{{shutterRange|}}}
+|label7= [[Exposure (photography)|Exposure]] [[Metering]]
+|data7=  {{{metering|}}}
+|label8= Exposure Modes
+|data8=  {{{emode|}}}
+|label9= [[Metering mode]]s
+|data9=  {{{mmode|}}}
+|label10= [[Focus (optics)|Focus]] areas
+|data10=  {{{farea|}}}
+|label11= [[Focus (optics)|Focus]] modes
+|data11=  {{{fmode|}}}
+|label12= Continuous Shooting
+|data12=  {{{cont|}}}
+|label13= [[Viewfinder]]
+|data13=  {{{viewfinder|}}}
+|label14= [[Film speed|ASA/ISO range]]
+|data14=  {{{speedRange|}}}
+|label15= Flash
+|data15=  {{{flash|}}}
+|label16= Flash bracketing
+|data16=  {{{flbkt|}}}
+|label17= Focus bracketing
+|data17=  {{{fcbkt|}}}
+|label18= Custom WB
+|data18=  {{{WB|}}}
+|label19= WB bracketing
+|data19=  {{{wbbkt|}}}
+|label20= Rear LCD monitor
+|data20=  {{{rearLCD|}}}
+|label21= [[Computer storage|Storage]]
+|data21=  {{{storage|}}}
+|label22= Battery
+|data22=  {{{battery|}}}
+|label23= Dimensions
+|data23=  {{{dimensions|}}}
+|label24= Weight
+|data24=  {{{weight|}}}
+|label25= Optional Battery Packs
+|data25=  {{{obp|}}}
+}}<noinclude>
+==Usage==
+<pre>{{Infobox Digicam
+| model        = 
+| image        = 
+| kind         = 
+| sensor       = 
+| res          =
+| lens         = 
+| shutter      = 
+| shutterRange = 
+| metering     = 
+| emode        = 
+| mmode        = 
+| farea        = 
+| fmode        = 
+| cont         = 
+| viewfinder   = 
+| speedRange   = 
+| flash        = 
+| flbkt        = 
+| fcbkt        = 
+| WB           = 
+| wbbkt        = 
+| rearLCD      = 
+| storage      = 
+| battery      = 
+| dimensions   =
+| weight       = 
+| obp          = 
+}}</pre>
+
+[[Category:Technology and applied science templates|Digicam]]<!--will probably need focusing-->
+
+</noinclude></pre>
+</div>
