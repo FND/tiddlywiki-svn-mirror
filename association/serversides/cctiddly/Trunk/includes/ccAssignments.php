@@ -1,34 +1,10 @@
 <div title="ccAssignments" modifier="ccTiddly" tags="systemConfig ccTiddly excludeSearch excludeLists">
 <pre>
 /*{{{*/
-	
-	
-	merge(config.optionsDesc,{
-		txtUserName: "",
-		chkRegExpSearch: "Enable regular expressions for searches",
-		chkCaseSensitiveSearch: "Case-sensitive searching",
-		chkIncrementalSearch: "Incremental key-by-key searching",
-		chkAnimate: "Enable animations",
-		chkSaveBackups: "",
-		chkAutoSave: "",
-		txtTheme: "Change the TiddlyWiki theme being used",
-		chkGenerateAnRssFeed: "",
-		chkSaveEmptyTemplate: "",
-		chkOpenInNewWindow: "Open external links in a new window",
-		chkToggleLinks: "Clicking on links to open tiddlers causes them to close",
-		chkHttpReadOnly: "",
-		chkForceMinorUpdate: "",
-		chkConfirmDelete: "Require confirmation before deleting tiddlers",
-		chkInsertTabs: "Use the tab key to insert tab characters instead of moving between fields",
-		txtBackupFolder: "",
-		txtMaxEditRows: "Maximum number of rows in edit boxes",
-		txtFileSystemCharSet: "Default character set for saving changes (Firefox/Mozilla only)"});
 
-	merge(config.macros.options,{
-		wizardTitle: "Change Settings",
-		step1Title: "",
-		step1Html: '<input type="hidden" name="markList"></input><br><input type="hidden" checked="false" name="chkUnknown"></input>These options are saved in a cookie.'
-	});
+
+
+
 	
 	
 window.ccTiddlyVersion = '<?php echo $tiddlyCfg['version'];?>';
@@ -152,23 +128,6 @@ var serverside={
 config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};
 
 //  Change the options for advanced settings. 
-
-merge(config.macros.options,{
-	wizardTitle:"Advanced settings",
-	step1Title:null,
-		unknownDescription: "//(unknown)//",
-	listViewTemplate: {
-		columns: [
-			{name: 'Option', field: 'option', title: "", type: 'String'},
-			{name: 'Description', field: 'description', title: "", type: 'WikiText'}
-			],
-			rowClasses: [
-						{className: 'lowlight', field: 'lowlight'}
-						]
-}
-	});
-	
-
 
 
 config.shadowTiddlers.OptionsPanel = "[[help|Help]] &lt;br /&gt;[[settings|AdvancedOptions]]&lt;br /&gt;&lt;&lt;ccOptions&gt;&gt;";
