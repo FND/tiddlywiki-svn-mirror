@@ -14,9 +14,10 @@
 <body>
 <textarea id="input" rows="5" cols="80">
 &lt;html&gt;
-&lt;body&gt;
+&lt;body onload="foo()" onunload='bar()'&gt;
 &lt;p&gt;&lt;b&gt;hello&lt;/b&gt;&lt;/p&gt;
 &lt;p id="check"&gt;&lt;i&gt;folks&lt;/i&gt;&lt;/p&gt;
+&lt;script&gt;foo bar grock &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 </textarea>
@@ -24,6 +25,7 @@
 <textarea id="code" rows="5" cols="80">
 	function loaded(doc,context){
 		document.getElementById("output").innerHTML = "out:" + doc.documentElement.innerHTML;
+		document.getElementById("outputtext").value = doc.documentElement.innerHTML;
 		return;
 	}
 	HTMLParser.parseText(document.getElementById('input').value.replace(/</g,"&lt;").replace(/>/g,"&gt;"), loaded, "mycontext");
@@ -32,6 +34,8 @@
 <div><button type="button" onclick="go()">GO!</button></div>
 
 <div id="output"></div>
+
+<textarea id="outputtext" rows="5" cols="80"></textarea>
 
 	<script type="text/javascript"  charset="utf-8">
 		go();

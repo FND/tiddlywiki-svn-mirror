@@ -18,6 +18,7 @@ HTMLParser = {};
 
 HTMLParser.removeScripts = function (str) {
         str = str.replace(/<script(.*?)>.*?<\/script>/ig,"");
+        str = str.replace(/(onload|onunload)(=.)/ig,"$1$2\/\/");
         return str;
 }
 
