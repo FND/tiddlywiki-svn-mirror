@@ -1,5 +1,0 @@
-RewriteEngine on
-Options +FollowSymlinks
-RewriteBase /
-
-RewriteRule ^api/(.*)$ /pluginLibrary/api.php/$1 [L]
