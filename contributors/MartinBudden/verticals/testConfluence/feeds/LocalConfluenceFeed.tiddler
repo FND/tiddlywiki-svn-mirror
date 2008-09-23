@@ -1,4 +1,4 @@
-<div title="Local Confluence Feed" modifier="MartinBudden" tags="systemServer excludeLists excludeSearch">
+<div title="Local Confluence Feed" modifier="MartinBudden" tags="systemServer excludeSearch">
 <pre>|''Description:''|Local Confluence wiki feed|
 |''Type:''|confluence|
 |''URL:''|http://localhost:8080|
