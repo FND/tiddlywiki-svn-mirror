@@ -214,7 +214,7 @@ config.macros.quicksync.putTiddlerCallback = function(context,userParams)
 		displayMessage(context.statusText);
 	}
 	--context.adaptor.putTiddlerLength;
-	if(context.adaptor.getTiddlerLength==0 && context.adaptor.putTiddlerLength == 0){
+	if(!context.adaptor.getTiddlerLength && !context.adaptor.putTiddlerLength) {
 		--config.macros.quicksync.syncServersLength;
 	}
 	//console.log(context.adaptor.syncServersLength)
@@ -248,7 +248,7 @@ config.macros.quicksync.getTiddlerCallback = function(context,userParams)
 		store.notifyAll();
 		story.refreshAllTiddlers();
 		clearMessage();
-		window.setTimeout(function() {displayMessage(config.macros.quicksync.updateCompleted);},1000);
+		window.setTimeout(function() {displayMessage(config.macros.quicksync.updateComplete);},1000);
 	}
 };
 
