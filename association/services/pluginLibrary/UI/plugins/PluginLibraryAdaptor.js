@@ -23,7 +23,7 @@ plugins.PluginLibraryAdaptor = {
 	 * @param {Function} callback function to execute for each tiddler being retrieved
 	 */
 	getMatches: function(query, userParams, callback) { // XXX: rename?
-		displayMessage("retrieving list of plugins matching '" + query + "'"); // DEBUG
+		displayMessage("retrieving list of plugins matching '" + query + "'..."); // TODO: i18n
 		var adaptor = new TiddlyWebAdaptor();
 		var context = {
 			host: this.host,
@@ -43,7 +43,7 @@ plugins.PluginLibraryAdaptor = {
 			displayMessage("error retrieving data from server"); // XXX: TBD
 			return false; // XXX: raise exception?
 		}
-		displayMessage("found " + context.tiddlers.length + " matching plugins"); // DEBUG
+		displayMessage("found " + context.tiddlers.length + " matching plugins"); // TODO: i18n
 		var plugins = context.tiddlers;
 		if(plugins) {
 			for(var i = 0; i < plugins.length; i++) {
@@ -72,13 +72,25 @@ config.macros.ImportPlugins = { // TODO: rename
 		var input = createTiddlyElement(wrapper, "input", null, null, null, {
 			accessKey: this.accessKey
 		});
-		input.onchange = this.onclick; // TODO: onkeypress ENTER
-		createTiddlyButton(wrapper, this.btnLabel, this.btnTooltip, this.onclick, this.btnClass);
+		input.onkeyup = this.onKeyPress;
+		createTiddlyButton(wrapper, this.btnLabel, this.btnTooltip, this.onClick, this.btnClass);
 	},
 
-	onclick: function(ev) { // TODO: rename
-		var query = this.parentNode.getElementsByTagName("input")[0].value;
-		config.macros.ImportPlugins.doSearch(query);
+	onKeyPress: function(ev)
+	{
+		var e = ev || window.event;
+		switch(e.keyCode) {
+			case 13: // Enter
+			case 10: // Enter on IE PC
+				config.macros.ImportPlugins.doSearch(this.value);
+				break;
+			case 27: // Escape
+				this.value = "";
+				clearMessage();
+				break;
+			default:
+				break;
+		}
 	},
 
 	doSearch: function(query) {
@@ -91,9 +103,11 @@ config.macros.ImportPlugins = { // TODO: rename
 	displayTiddler: function(context, userParams) {
 		var plugin = context.tiddler;
 		plugin.fields.doNotSave = true;
+		var dirtyState = store.dirty;
 		plugin = store.saveTiddler(plugin.title, plugin.title, plugin.text,
 			plugin.modifier, plugin.modified, plugin.tags, plugin.fields, true,
 			plugin.created);
+		store.dirty = dirtyState;
 		story.displayTiddler(null, plugin, config.macros.ImportPlugins.pluginViewTemplate);
 	}
 };
