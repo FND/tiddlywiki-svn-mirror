@@ -1,0 +1,13 @@
+<div title="Home" modifier="MartinBudden">
+<pre>This is an example //Tiddlypedia// - a collection of Wikipedia articles collected into a [[TiddlyWiki|http://www.tiddlywiki.com]].
+
+The articles have all been downloaded directly from Wikipedia without editing (although in one or two cases some problematic text has been removed). The tiddlers then have their //wikiformat// field set to //mediawiki//, to identify them to the TiddlyWiki formatter.
+
+Click on one of the links below to get started:
+
+[[Nordic countries]] 
+
+[[Denmark]] [[Finland]] [[Iceland]] [[Norway]] [[Sweden]] 
+
+[[Copenhagen]] [[Helsinki]] [[Reykjavík]] [[Oslo]] [[Stockholm]] </pre>
+</div>
