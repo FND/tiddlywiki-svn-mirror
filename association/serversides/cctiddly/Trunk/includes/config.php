@@ -276,7 +276,6 @@ $tiddlyCfg['session_expire']=120;// in minutes - If set to 0 will not expire
 		during regular running:
 			Error Query: SET NAMES 'utf8'
 */
-$tiddlyCfg['pref']['utf8'] = 0;
 
 ////////////////////////////////////////////////////users and privileges////////////////////////////////////////////////////
 

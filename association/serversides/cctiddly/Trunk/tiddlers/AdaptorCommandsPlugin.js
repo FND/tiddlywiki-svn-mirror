@@ -25,7 +25,8 @@ merge(config.commands.revisions,{
 	done: "Revision downloaded",
 	revisionTooltip: "View this revision",
 	popupNone: "No revisions",
-	revisionTemplate: "%0 r:%1 m:%2"	
+	revisionTemplate: "%0 r:%1 m:%2",
+	dateFormat:"YYYY mmm 0DD 0hh:0mm"	
 });
 
 config.commands.deleteTiddlerHosted = {};
@@ -103,7 +104,7 @@ config.commands.revisions.handler = function(event,src,title)
 	userParams = {};
 	userParams.tiddler = tiddler;
 	userParams.src = src;
-	userParams.dateFormat = 'YYYY mmm 0DD 0hh:0mm';
+	userParams.dateFormat = config.commands.revisions.dateFormat;
 	var revisionLimit = 10;
 	if(!invokeAdaptor('getTiddlerRevisionList',title,revisionLimit,null,userParams,config.commands.revisions.callback,tiddler.fields))
 		return false;
@@ -126,7 +127,7 @@ config.commands.revisions.callback = function(context,userParams)
 		revisions.sort(function(a,b) {return a.modified < b.modified ? +1 : -1;});
 		for(var i=0; i<revisions.length; i++) {
 			var tiddler = revisions[i];
-			var modified = tiddler.modified.formatString(context.dateFormat||userParams.dateFormat);
+			var modified = tiddler.modified.formatString(context.dateFormat||config.commands.revisions.dateFormat);
 			var revision = tiddler.fields['server.page.revision'];
 			var btn = createTiddlyButton(createTiddlyElement(popup,'li'),
 					config.commands.revisions.revisionTemplate.format([modified,revision,tiddler.modifier]),
