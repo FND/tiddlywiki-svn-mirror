@@ -2,7 +2,7 @@ config.macros.stats={};
 merge(config.macros.stats, {
 	graph24HourTitle:"Last 24 hours",
 	graph24HourDesc:"The number of views of this workspace in the past 24 hours",
-	graph20MinsTitle:"The Last 20 Minutes",
+	graph20MinsTitle:"Last 20 Minutes",
 	graph20MinsDesc:"The number of views of this workspace in the last 20 minutes",
 	graph7DaysTitle:"Last 7 days",
 	graph7DaysDesc:"The number of views of this workspace in the last 7 days.",
