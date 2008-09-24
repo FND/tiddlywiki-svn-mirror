@@ -3,7 +3,7 @@
 |''Description:''|Get tiddlers that have been changed on server but not locally and put tiddlers that have been changed locally but not on server|
 |''Author:''|Martin Budden|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MyDirectory/plugins/QuickSyncPlugin.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|Jan 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -23,49 +23,80 @@ To use, add <<quicksync>> to the SideBarOptions shadow tiddler.
 if(!version.extensions.QuickSyncPlugin) {
 version.extensions.QuickSyncPlugin = {installed:true};
 
+if(config.options.chkQuicksyncOnStartup == undefined)
+	{config.options.chkQuicksyncOnStartup = false;}
+
+if(config.options.chkQuicksyncNoUpload == undefined)
+	config.options.chkQuicksyncNoUpload = false;
+
 config.macros.quicksync = {};
 
 merge(config.macros.quicksync,{
 	label: "quicksync",
 	prompt: "Sync tiddlers that have been changed locally or on server, but not both",
 	tiddlerUploaded: "Tiddler: \"%0\" uploaded",
-	tiddlerImported: "Tiddler: \"%0\" imported"
+	tiddlerImported: "Tiddler: \"%0\" imported",
+	downloadingUpdates: "downloading updates...",
+	noUpdatesAvailable: "no updates available.",
+	updateComplete: "update completed. Please save your notebook"
 	});
+
+config.macros.quicksync.init = function()
+{
+	if(config.options.chkQuicksyncOnStartup)
+		config.macros.quicksync.onClick();
+};
 
 config.macros.quicksync.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	params = paramString.parseParams('anon',null,false,false,false);
-	var customFields = getParam(params,'fields',false);
-	if(!customFields['server.type']) {
-		var title = getParam(params,'anon');
-		if(!title) {
-			customFields = config.defaultCustomFields;
-			if(!customFields['server.type']) {
-				var tiddlers = store.getTaggedTiddlers('systemServer');
-				if(tiddlers.length>0)
-					title = tiddlers[0].title;
-			}
-		}
-		if(title) {
-			customFields = {};
-			customFields['server.type'] = store.getTiddlerSlice(title,'Type');
-			customFields['server.host'] = store.getTiddlerSlice(title,'URL');
-			customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
-		}
-	}
-	customFields = String.encodeHashMap(customFields);
 	var label = getParam(params,'label',this.label);
-	var btn = createTiddlyButton(place,label,this.prompt,this.onClick);
-	btn.setAttribute('customFields',customFields);
+	var prompt = getParam(params,'prompt',this.promt);
+	createTiddlyButton(place,label,prompt,this.onClick);
 };
 
 config.macros.quicksync.onClick = function(e)
 {
-	var customFields = this.getAttribute('customFields');
-	var fields = customFields ? customFields.decodeHashMap() : config.defaultCustomFields;
-	var context = config.macros.quicksync.createContext(fields);
-	config.macros.quicksync.getTiddlers(context);
+	config.macros.quicksync.syncServersLength = 0;
+	var tiddlers = store.getTaggedTiddlers('systemServer');
+	config.macros.quicksync.syncServersLength = tiddlers.length;
+	for(var i=0;i<tiddlers.length;i++) {
+		var customFields = config.macros.quicksync.getCustomFieldsFromTiddler(tiddlers[i].title);
+		var context = config.macros.quicksync.createContext(customFields); 
+		config.macros.quicksync.getTiddlers(context);
+	}
 	return false;
+};
+
+config.macros.quicksync.getCustomFieldsFromTiddler = function(title)
+{
+	if(!title) {
+		customFields = config.defaultCustomFields;
+		if(!customFields['server.type']) {
+			var tiddlers = store.getTaggedTiddlers('systemServer');
+			if(tiddlers.length>0)
+				title = tiddlers[0].title;
+		}
+	}
+	if(title) {
+		customFields = {};
+		customFields['server.type'] = store.getTiddlerSlice(title,'Type');
+		customFields['server.host'] = store.getTiddlerSlice(title,'URL');
+		customFields['server.workspace'] = store.getTiddlerSlice(title,'Workspace');
+	}
+	return customFields;
+};
+
+config.macros.quicksync.fullHostName = function(host)
+{
+	if(!host)
+		return '';
+	host = host.trim();
+	if(!host.match(/:\/\//))
+		host = 'http://' + host;
+	if(host.substr(host.length-1) != '/')
+		host = host + '/';
+	return host;
 };
 
 config.macros.quicksync.createContext = function(fields)
@@ -90,6 +121,7 @@ config.macros.quicksync.createContext = function(fields)
 
 config.macros.quicksync.getTiddlers = function(context)
 {
+	//	console.log('quicksync get tiddlers',arguments)
 	if(context) {
 		context.adaptor.openHost(context.host,context);
 		context.adaptor.openWorkspace(context.workspace,context,null,config.macros.quicksync.openWorkspaceCallback);
@@ -100,23 +132,27 @@ config.macros.quicksync.getTiddlers = function(context)
 
 config.macros.quicksync.openWorkspaceCallback = function(context,userParams)
 {
+	//console.log('qs openWS_CB',arguments)
 	if(context.status) {
 		context.adaptor.getTiddlerList(context,null,config.macros.quicksync.getTiddlerListCallback);
 		return true;
 	}
-	displayMessage(context.statusText);
 	return false;
 };
 
 config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 {
+ 	//console.log('qs getTiddlerListCB', arguments)
+ 	clearMessage();
 	if(context.status) {
 		var tiddlers = context.tiddlers;
 		var getList = [];
 		var putList = [];
 		store.forEachTiddler(function(title,tiddler) {
 			var f = tiddlers.findByField("title",title);
-			if(f !== null && tiddler.fields['server.type']) {
+			//console.log(tiddler.fields['server.host'])
+			//console.log(context.host)
+			if(f !== null && tiddler.fields['server.type'] && (config.macros.quicksync.fullHostName(tiddler.fields['server.host']) == config.macros.quicksync.fullHostName(context.host))) {
 				if(tiddlers[f].fields['server.page.revision'] > tiddler.fields['server.page.revision']) {
 					if(tiddler.isTouched())
 						backstage.switchTab('sync');
@@ -128,13 +164,16 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 				}
 			} else {
 				// tiddler not on server, so add to putList if it has been changed
-				if(tiddler.fields['server.type'] && tiddler.isTouched()) {
+				if(tiddler.fields['server.type'] && tiddler.isTouched() && (config.macros.quicksync.fullHostName(tiddler.fields['server.host']) == config.macros.quicksync.fullHostName(context.host))) {
 					putList.push(tiddler);
 				}
 			}
 		});
-		for(var i=0; i<putList.length; i++) {
-			context.adaptor.putTiddler(putList[i],null,null,config.macros.quicksync.putTiddlerCallback);
+		if(!config.options.chkQuicksyncNoUpload) {
+			context.adaptor.putTiddlerLength = putList.length;
+			for(var i=0; i<putList.length; i++) {
+				context.adaptor.putTiddler(putList[i],null,null,config.macros.quicksync.putTiddlerCallback);
+			}
 		}
 		// now add all tiddlers that only exist on server to getList
 		for(i=0; i<tiddlers.length; i++) {
@@ -144,6 +183,21 @@ config.macros.quicksync.getTiddlerListCallback = function(context,userParams)
 				//# only get the tiddlers that are not available locally
 				getList.push(title);
 			}
+		}
+		context.adaptor.getTiddlerLength = getList.length;
+		if(getList.length) {
+			//displayMessage("%0 updated and new page(s) on server.".format([getList.length]));
+			displayMessage(config.macros.quicksync.downloadingUpdates);
+		}
+		
+		if (!getList.length && (!putList.length || !config.options.chkQuicksyncNoUpload)) {
+			--config.macros.quicksync.syncServersLength;
+			if(config.macros.quicksync.syncServersLength==0){
+				store.notifyAll();
+				story.refreshAllTiddlers();
+				clearMessage();
+			}
+			displayMessage(config.macros.quicksync.noUpdatesAvailable);
 		}
 		for(i=0; i<getList.length; i++) {
 			context.adaptor.getTiddler(getList[i],null,null,config.macros.quicksync.getTiddlerCallback);
@@ -159,17 +213,42 @@ config.macros.quicksync.putTiddlerCallback = function(context,userParams)
 	} else {
 		displayMessage(context.statusText);
 	}
+	--context.adaptor.putTiddlerLength;
+	if(context.adaptor.getTiddlerLength==0 && context.adaptor.putTiddlerLength == 0){
+		--config.macros.quicksync.syncServersLength;
+	}
+	//console.log(context.adaptor.syncServersLength)
+	if(config.macros.quicksync.syncServersLength==0){
+		store.notifyAll();
+		story.refreshAllTiddlers();
+		clearMessage();
+		window.setTimeout(function() {displayMessage(config.macros.quicksync.updateCompleted);},1000);
+	}
 };
 
 config.macros.quicksync.getTiddlerCallback = function(context,userParams)
 {
 	if(context.status) {
 		var tiddler = context.tiddler;
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-		//#story.refreshTiddler(tiddler.title,1,true);
-		displayMessage(config.macros.quicksync.tiddlerImported.format([context.tiddler.title]));
+		if(tiddler) {
+			store.suspendNotifications();
+			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+			store.resumeNotifications();
+			//#story.refreshTiddler(tiddler.title,1,true);
+			//displayMessage(config.macros.quicksync.tiddlerImported.format([context.tiddler.title]));
+		}
 	} else {
 		displayMessage(context.statusText);
+	}
+	--context.adaptor.getTiddlerLength;
+	if(context.adaptor.getTiddlerLength==0 && context.adaptor.putTiddlerLength == 0){
+		--config.macros.quicksync.syncServersLength;
+	}
+	if(config.macros.quicksync.syncServersLength==0){
+		store.notifyAll();
+		story.refreshAllTiddlers();
+		clearMessage();
+		window.setTimeout(function() {displayMessage(config.macros.quicksync.updateCompleted);},1000);
 	}
 };
 
