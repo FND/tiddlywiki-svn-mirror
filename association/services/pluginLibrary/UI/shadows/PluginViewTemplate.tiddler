@@ -1,0 +1,8 @@
+<div title="PluginViewTemplate">
+<pre><!--{{{-->
+<div class='pluginInfoTiddler'>
+<div class='toolbar pluginToolbar' macro='toolbar [[PluginViewToolbar::ViewToolbar]]'></div>
+<div class='viewer pluginViewer' macro='pluginInfo'></div>
+</div>
+<!--}}}--></pre>
+</div>

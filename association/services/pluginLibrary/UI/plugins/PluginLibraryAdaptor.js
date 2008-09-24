@@ -47,13 +47,16 @@ plugins.PluginLibraryAdaptor = {
 		var plugins = context.tiddlers;
 		if(plugins) {
 			for(var i = 0; i < plugins.length; i++) {
-				//if(!store.tiddlerExists(plugins[i].title)) { // DEBUG'd -- XXX: TBD
+				if(!store.tiddlerExists(plugins[i].title)) { // XXX: potentially harmful?
 					var subContext = {
 						host: context.host,
 						bag: plugins[i].fields["server.bag"]
 					};
 					context.adaptor.getTiddler(plugins[i].title, subContext, userParams, userParams.callback);
-				//}
+				} else {
+					context.tiddler = plugins[i].title; // XXX: hacky?
+					userParams.callback(context, userParams);
+				}
 			}
 		}
 		return true;
@@ -102,25 +105,17 @@ config.macros.ImportPlugins = { // TODO: rename
 
 	displayTiddler: function(context, userParams) {
 		var plugin = context.tiddler;
-		plugin.fields.doNotSave = true;
-		var dirtyState = store.dirty;
-		plugin = store.saveTiddler(plugin.title, plugin.title, plugin.text,
-			plugin.modifier, plugin.modified, plugin.tags, plugin.fields, true,
-			plugin.created);
-		store.dirty = dirtyState;
+		if(plugin instanceof Tiddler) { // XXX: hacky?
+			plugin.fields.doNotSave = true;
+			var dirtyState = store.dirty;
+			plugin = store.saveTiddler(plugin.title, plugin.title, plugin.text,
+				plugin.modifier, plugin.modified, plugin.tags, plugin.fields, true,
+				plugin.created);
+			store.dirty = dirtyState;
+		}
 		story.displayTiddler(null, plugin, config.macros.ImportPlugins.pluginViewTemplate);
 	}
 };
-
-config.shadowTiddlers.PluginViewTemplate = "<!--{{{-->\n" +
-	"<div class='pluginInfoTiddler'>" +
-	"<div class='toolbar pluginToolbar' macro='toolbar [[PluginViewToolbar::ViewToolbar]]'></div>\n" +
-	"<div class='viewer pluginViewer' macro='pluginInfo'></div>\n" +
-	"</div>" +
-	"<!--}}}-->";
-
-config.shadowTiddlers.PluginViewToolbar = "" +
-	"|~ViewToolbar|closeTiddler closeOthers +editTiddler|";
 
 }
 //}}}

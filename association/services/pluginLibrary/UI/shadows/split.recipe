@@ -4,3 +4,5 @@ tiddler: PageTemplate.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: StyleSheet.tiddler
+tiddler: PluginViewTemplate.tiddler
+tiddler: PluginViewToolbar.tiddler
