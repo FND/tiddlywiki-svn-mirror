@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.4|
+|''Version:''|0.4.9|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -201,6 +201,231 @@ MediaWikiFormatter.normalizedTitle = function(title)
 	return n.replace(/\s/g,'_');
 };
 
+//# see http://meta.wikimedia.org/wiki/Help:Variable
+MediaWikiFormatter.expandVariable = function(w,variable)
+{
+	switch(variable) {
+	case 'PAGENAME':
+		createTiddlyText(w.output,w.tiddler.title);
+		break;
+	case 'PAGENAMEE':
+		createTiddlyText(w.output,MediaWikiFormatter.normalizedTitle(w.tiddler.title));
+		break;
+	case 'REVISIONID':
+		var text = w.tiddler.fields['server.revision'];
+		if(text)
+			createTiddlyText(w.output,text);
+		break;
+	default:
+		return false;
+	}
+	return true;
+};
+
+MediaWikiFormatter.getParserFunctionParams = function(text)
+{
+//#console.log('getParserFunctionParams');
+//#console.log(text);
+//#{{test|a|b}}
+//#{{test|n=a|m=b}}
+	var params = [];
+	
+//	#if: foo | do if true | do if false
+
+	text += '|';
+	//var fRegExp = / ? # ?([a-z]*) ?:/mg;
+	//var fRegExp = /#(if) : (foo) :/mg;
+	var fRegExp = /(#([a-z]*) *: ([^\|]*))\|/mg;
+	fRegExp.lastIndex = 0;
+	var match = fRegExp.exec(text);
+//#console.log(match);
+//#console.log(fRegExp.lastIndex);
+	var pRegExp = /([^\|]*)\|/mg;
+	if(match) {
+		//# skip function name
+		pRegExp.lastIndex = fRegExp.lastIndex;
+		match = pRegExp.exec(text);
+	}
+	var i = 1;
+	while(match) {
+		params[i] = match[1].trim();
+		i++;
+		match = pRegExp.exec(text);
+	}
+	return params;
+};
+
+MediaWikiFormatter.getTemplateParams = function(text)
+{
+//#console.log('getTemplateParams');
+//#console.log(text);
+//#{{test|a|b}}
+//#{{test|n=a|m=b}}
+	var params = {};
+
+	text += '|';
+	var pRegExp = /(?:([^\|]*)=)?([^\|]*)\|/mg;
+	var match = pRegExp.exec(text);
+	if(match) {
+		//# skip template name
+		match = pRegExp.exec(text);
+	}
+	var i = 1;
+	while(match) {
+		//#params[match[1] ? match[1] : i++] = match[2];
+		if(match[1]) {
+			params[match[1]] = match[2];
+		} else {
+			params[i] = match[2];
+			i++;
+		}
+		match = pRegExp.exec(text);
+	}
+	return params;
+};
+
+//#The #if function is an if-then-else construct. The syntax is:
+//#	{{#if: <condition> | <then text> | <else text> }}
+//#	{{#if: <condition> | <then text> }}
+
+//#If the condition is an empty string or consists only of whitespace, then it is considered false, and the ''else text'' is returned. Otherwise, the ''then text'' is returned. The ''else text'' may be omitted, in which case the result will be blank if the condition is false.
+
+//#An example:
+//#	{{#if| {{{parameter|}}} | Parameter is defined. | Parameter is undefined, or empty}}
+
+//#Note that the {{#if}} function does '''not''' support "=" signs or mathematical expressions.
+//#	{{#if|1 = 2 | yes | no}} will return "yes", because the string "1 = 2" is not blank.
+//#	It is intended as an ''"if not empty"'' structure.
+
+//# {{#if:{{{param1|}}} | param1value:{{{param1}}} }}
+//# include {{testTpf|param1=hello}}
+//# becomes:
+//# {{#if:hello | param1value:hello }}
+//# becomes:
+//# param1value:hello
+
+//# include {{testTpf}}
+//# becomes:
+//# {{#if: | param1value: }}
+//# becomes:
+//# <nothing>
+
+
+//# see:
+//# http://meta.wikimedia.org/wiki/ParserFunctions
+//# http://www.mediawiki.org/wiki/Extension:Parser_function_extensions
+//# http://svn.wikimedia.org/viewvc/mediawiki/trunk/extensions/ParserFunctions/ParserFunctions.php?view=markup
+//# http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/includes/Parser.php?view=markup
+MediaWikiFormatter.expandParserFunction = function(w,text,expr,params)
+{
+//#console.log('expandParserFunction'+text);
+//#console.log(params);
+//#console.log(expr);
+	var fnRegExp = / *#(if) */mg;
+	var t = '';//params[0];
+	fnRegExp.lastIndex = 0;
+	var match = fnRegExp.exec(text);
+//#console.log(match);
+	if(match) {
+//#displayMessage("m:"+match);
+//#displayMessage("m0:"+match[0]);
+//#displayMessage("m1:"+match[1]);
+//#displayMessage("m2:"+match[2]);
+//#displayMessage("m3:"+match[3]);
+//#displayMessage("ss:"+text.substring(fi,match.index));
+		switch(match[1]) {
+		case 'if':
+			t = expr.trim()=='' ? params[2] : params[1];
+			break;
+		default:
+			break;
+		}
+	}
+//#displayMessage("text:"+text);
+	return t;
+};
+
+MediaWikiFormatter.expandTemplate = function(w,templateText,params)
+//# Expand the template by dealing with <noinclude>, <includeonly> and substituting parameters with their values
+//# see http://meta.wikimedia.org/wiki/Help:Template
+{
+//#mwDebug(w.output,'et:'+templateText);
+	var text = templateText;
+	text = text.replace(/<noinclude>((?:.|\n)*?)<\/noinclude>/mg,'');// remove text between noinclude tags
+	var includeOnlyRegExp = /<includeonly>((?:.|\n)*?)<\/includeonly>/mg;
+	var t = '';
+	var match = includeOnlyRegExp.exec(text);
+	while(match) {
+		t += match[1];
+		match = includeOnlyRegExp.exec(text);
+	}
+	text = t == '' ? text : t;
+//#console.log("expandTemplate:"+text);
+//#console.log(params);
+
+	var paramsRegExp = /\{\{\{(.*?)(?:\|(.*?))?\}\}\}/mg;
+	t = '';
+	var pi = 0;
+	match = paramsRegExp.exec(text);
+	while(match) {
+		var name = match[1];
+		var val = params[name];
+		if(!val) {
+			//# use default
+			val = match[2];
+		}
+		if(!val) {
+			//# if no value or default, parameter evaluates to name
+			val = '';//val = match[0];
+		}
+		t += text.substring(pi,match.index) + val;
+		pi = paramsRegExp.lastIndex;
+		match = paramsRegExp.exec(text);
+	}
+	t += text.substring(pi);
+	return t;
+	//return t == '' ? text : t;
+/*	//displayMessage("ss:"+text.substring(pi));
+	t += text.substring(pi);
+	t = MediaWikiFormatter.evaluateTemplateParserFunctions(t);
+	//{{#if: {{{perihelion|}}} | <tr><th>[[Perihelion|Perihelion distance]]:</th><td>{{{perihelion}}}</td></tr>}}
+	//{{#if:{{{symbol|}}} | {{{symbol}}} | }}
+	text = t == '' ? text : t;
+	displayMessage("t2:"+text);
+	return text;
+*/
+};
+
+MediaWikiFormatter.endOfParams = function(w,text)
+{
+	var p = 0;
+	var i = text.indexOf('|');
+	if(i==-1) {return -1;}
+	var n = text.indexOf('\n');
+	if(n!=-1 && n<i) {return -1;}
+	var b = text.indexOf('[[');
+	//# can't have [[ in parameters
+	if(b!=-1 && b<i) {return -1;}
+	
+	b = text.indexOf('{{');
+	while(b!=-1 && b<i) {
+		//# have {{ before |, so need to find first '|' after '{{..}}' pairs
+		//# cut off the ..{{, find the }} cut off and repeat
+		p += b;
+		text = text.substr(b);
+		var c = text.indexOf('}}');
+		p += c;
+		text = text.substr(c);
+		i = text.indexOf('|');
+		if(i==-1) {return -1;}
+		n = text.indexOf('\n');
+		if(n!=-1 && n<i) {return -1;}
+		b = text.indexOf('{{');
+		i = -1;
+	}
+	return i;
+};
+
 MediaWikiFormatter.readToDelim = function(w)
 //!!! this is a bit rubish, needs doing properly.
 {
@@ -356,18 +581,179 @@ config.mediawiki.formatters = [
 
 {
 	name: 'mediaWikiTable',
+	// see http://www.mediawiki.org/wiki/Help:Tables, http://meta.wikimedia.org/wiki/Help:Table
 	match: '^\\{\\|', // ^{|
+	tableTerm: '\\n\\|\\}', // |}
+	rowStart: '\\n\\|\\-', // \n|-
+	cellStart: '\\n!|!!|\\|\\||\\n\\|', //\n! or !! or || or \n|
+	caption: '\\n\\|\\+',
+	rowTerm: null,
+	cellTerm: null,
+	inCellTerm: null,
+	tt: 0,
+	debug: null,
+	rowTermRegExp: null,
 	handler: function(w)
 	{
-		var pair = MediaWikiTemplate.findTableBracePair(w.source,w.matchStart);
-		if(pair.start==w.matchStart) {
-			w.nextMatch = w.matchStart;
-			var table = createTiddlyElement2(w.output,'table');
-			var tbody = createTiddlyElement2(table,'tbody');// needed for IE
-			var mwt = new MediaWikiTemplate();
-			mwt.wikifyTable(tbody,w,pair);
+		if(!this.rowTermRegExp) {
+			this.rowTerm = '(' + this.tableTerm +')|(' + this.rowStart + ')';
+			this.cellTerm = this.rowTerm + '|(' + this.cellStart + ')';
+			this.inCellTerm = '(' + this.match + ')|' + this.rowTerm + '|(' + this.cellStart + ')';
+			this.caption = '(' + this.caption + ')|' + this.cellTerm;
+
+			this.rowTermRegExp = new RegExp(this.rowTerm,'mg');
+			this.cellTermRegExp = new RegExp(this.cellTerm,'mg');
+			this.inCellTermRegExp = new RegExp(this.inCellTerm,'mg');
+			this.captionRegExp = new RegExp(this.caption,'mg');
 		}
-	}
+//#this.debug = createTiddlyElement2(w.output,'p');
+//#mwDebug(this.debug,'start table');
+		this.captionRegExp.lastIndex = w.nextMatch;
+		var match = this.captionRegExp.exec(w.source);
+		if(!match) {return;}
+		//#var inPara = w.output.nodeType==1 && w.output.nodeName=='P' ? true : false;
+		//#var output = inPara ? w.output.parentNode : w.output;
+		var output = w.output;
+		var table = createTiddlyElement2(output,'table');
+		var rowContainer = table;
+
+		var i = w.source.indexOf('\n',w.nextMatch);
+		if(i>w.nextMatch) {
+			MediaWikiFormatter.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
+			w.nextMatch = i;
+		}
+
+		var rowCount = 0;
+		var eot = false;
+		if(match[1]) {
+			//# caption
+			var caption = createTiddlyElement2(table,'caption');
+			w.nextMatch = this.captionRegExp.lastIndex;
+			var captionText = w.source.substring(w.nextMatch);
+			var n = captionText.indexOf('\n');
+			captionText = captionText.substr(0,n);
+			i = MediaWikiFormatter.endOfParams(w,captionText);
+			if(i!=-1) {
+				captionText = w.source.substr(w.nextMatch,i);
+				//#captionText = captionText.replace(/^\+/mg,'')//!!hack until I fix this properly
+				//#MediaWikiFormatter.setAttributesFromParams(caption,captionText);
+				w.nextMatch += i+1;
+			}
+			if(caption != table.firstChild) {
+				table.insertBefore(caption,table.firstChild);
+			}
+			w.subWikify(caption,this.cellTerm);
+			//# rewind to before the match
+			w.nextMatch -= w.matchLength;
+			this.cellTermRegExp.lastIndex = w.nextMatch;
+			var match2 = this.cellTermRegExp.exec(w.source);
+			if(match2) {
+				if(match2[3]) {
+					//# no first row marker
+					eot = this.rowHandler(w,createTiddlyElement2(rowContainer,'tr'));
+					rowCount++;
+				}
+			}
+		} else if(match[3]) {
+			//# row
+			//# rewind to before the match
+			w.nextMatch = this.captionRegExp.lastIndex-match[3].length;
+		} else if(match[4]) {
+			//# cell, no first row marker in table
+			//# rewind to before the match
+			w.nextMatch = this.captionRegExp.lastIndex-match[4].length;
+			eot = this.rowHandler(w,createTiddlyElement2(rowContainer,'tr'));
+			rowCount++;
+		}
+
+		this.rowTermRegExp.lastIndex = w.nextMatch;
+		match = this.rowTermRegExp.exec(w.source);
+		while(match && eot==false) {
+			if(match[1]) {
+				//# end table
+				w.nextMatch = this.rowTermRegExp.lastIndex;
+				if(w.tableDepth==0) {
+					return;
+				}
+			} else if(match[2]) {
+				//# row
+				var rowElement = createTiddlyElement2(rowContainer,'tr');
+				//# skip over the match
+				w.nextMatch += match[2].length;
+				i = w.source.indexOf('\n',w.nextMatch);
+				if(i>w.nextMatch) {
+					MediaWikiFormatter.setAttributesFromParams(rowElement,w.source.substring(w.nextMatch,i));
+					w.nextMatch = i;
+				}
+				eot = this.rowHandler(w,rowElement);
+			}
+			rowCount++;
+			this.rowTermRegExp.lastIndex = w.nextMatch;
+			match = this.rowTermRegExp.exec(w.source);
+		}//# end while
+		if(w.tableDepth==0) {
+			//# skip over tableterm, \n|}
+			w.nextMatch +=3;
+		}
+		//#if(inPara)
+		//#	w.output = createTiddlyElement2(output,'p');
+	},//# end handler
+
+	rowHandler: function(w,e)
+	{
+		//# assumes w.nextMatch points to first cell terminator, returns false if any improperly terminated element
+		var cell;
+		this.inCellTermRegExp.lastIndex = w.nextMatch;
+		var match = this.inCellTermRegExp.exec(w.source);
+		while(match) {
+			if(match[1]) {
+				//# nested table
+				w.tableDepth++;
+				w.subWikify(cell,this.tableTerm);
+				w.nextMatch = this.tt;
+				w.tableDepth--;
+				return false;
+			} else if(match[2]) {
+				//# end table
+				this.tt = this.inCellTermRegExp.lastIndex;
+				return true;
+			} else if(match[3]) {
+				//# end row
+				return false;
+			} else if(match[4]) {
+				//# cell
+				var len = match[4].length;
+				cell = createTiddlyElement2(e,match[4].substr(len-1)=='!'?'th':'td');
+				//# skip over the match
+				w.nextMatch += len;
+
+				this.inCellTermRegExp.lastIndex = w.nextMatch;
+				var lookahead = this.inCellTermRegExp.exec(w.source);
+				if(!lookahead) {
+					//# improperly terminated table
+					return false;
+				}
+				var cellText = w.source.substr(w.nextMatch,lookahead.index-w.nextMatch);
+				var oldSource = w.source;
+				var i = MediaWikiFormatter.endOfParams(w,cellText);//cellText.indexOf('|');
+				if(i!=-1) {
+					cellText = cellText.replace(/^\+/mg,'');  //!!hack until I fix this properly
+					MediaWikiFormatter.setAttributesFromParams(cell,cellText.substr(0,i-1));
+					cellText = cellText.substring(i+1);
+				}
+				//# remove leading spaces so not treated as preformatted
+				cellText = cellText.replace(/^\s*/mg,'');
+				w.source = cellText;
+				w.nextMatch = 0;
+				w.subWikifyUnterm(cell);
+				w.source = oldSource;
+				w.nextMatch = lookahead.index;
+			}
+			this.inCellTermRegExp.lastIndex = w.nextMatch;
+			match = this.inCellTermRegExp.exec(w.source);
+		}//# end while
+		return false;
+	}//# end rowHandler
 },
 
 {
@@ -443,7 +829,7 @@ config.mediawiki.formatters = [
 	}
 },
 
-/*{
+{
 	name: 'mediaWikiLeadingSpaces',
 	match: '^ ',
 	lookaheadRegExp: /^ /mg,
@@ -463,7 +849,7 @@ config.mediawiki.formatters = [
 			}
 		}
 	}
-},*/
+},
 
 //# [[Image:Westminstpalace.jpg|frame|none|caption text]]
 //# //http://en.wikipedia.org/wiki/Image:Westminstpalace.jpg
@@ -544,22 +930,13 @@ config.mediawiki.formatters = [
 				var img = createTiddlyElement2(a,'img');
 				img.src = 'images/' + psrc;
 				if(config.options.chkUseHostImages && Crypto.hexMd5Str) {
-//#http://wiki.openmoko.org/images/thumb/b/b9/Freerunner02.gif/150px-Freerunner02.gif
-//#http://upload.wikimedia.org/wikipedia/en/thumb/1/1d/KLM_Aircraft_at_Schiphol.jpg/180px-KLM_Aircraft_at_Schiphol.jpg
-//#http://upload.wikimedia.org/wikipedia/commons/thumb/3/37/KLMS.jpg/250px-KLMS.jpg
+//md5('Freerunner02.gif')='b9c7d001492123675aee092f14757d58'
+//url is http://wiki.openmoko.org/images/thumb/b/b9/Freerunner02.gif/150px-Freerunner02.gif
 					var md5 = Crypto.hexMd5Str(src);
 					var imgdir = (md5.substr(0,1) + '/' + md5.substr(0,2)).toLowerCase();
 					img.src = MediaWikiFormatter.fullHostName(w.tiddler.fields['server.host']||config.defaultCustomFields['server.host']);
-					var imgDir = 'images'
-					//if(img.src=='http://en.wikipedia.org/w/') {
-					if(img.src.indexOf('wikipedia.org/')!=-1) {
-						//imgDir = 'wikipedia/en';
-						imgDir = 'wikipedia/commons';
-						img.src = 'http://upload.wikimedia.org/';
-					}	
-					img.src += imgDir;
-					img.src += '/thumb/' + imgdir + '/' + src + '/' + psrc;
-					console.log('image uri',img.src);
+					img.src += 'images/thumb/' + imgdir + '/' + src + '/' + psrc;
+					//console.log('image uri',img.src);
 				}
 
 //#mwDebug(w.output,'s1:'+img.src);
@@ -634,9 +1011,8 @@ config.mediawiki.formatters = [
 					}
 				} else if(lookaheadMatch[6]) {
 					//# Piped link
-					while(link.charAt(0)==':')
+					if(link.charAt(0)==':')
 						link = link.substring(1);
-					link = MediaWikiTemplate.normalizeTitle(link);
 					//#if(config.formatterHelpers.isExternalLink(link)) {
 					//#	e = createExternalLink(w.output,link);
 					//#} else {
@@ -650,6 +1026,73 @@ config.mediawiki.formatters = [
 				}
 			}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
+	}
+},
+
+//#{{Audio|sv-Stockholm.ogg|Stockholm}}
+{
+	name: 'mediaWikiTemplate',
+	match: '\\{\\{[^\\{]',
+	lookaheadRegExp: /\{\{((?:.|\n)*?)\}\}/mg,
+	handler: function(w)
+	{
+//# mwDebug(w.output,'wt:'+w.matchText+' ws:'+w.matchStart+' wn:'+w.nextMatch+' wl:'+w.matchLength);
+		this.lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
+//# mwDebug(w.output,'lm:'+lookaheadMatch);
+//# mwDebug(w.output,'lmi:'+lookaheadMatch.index+' lI:'+this.lookaheadRegExp.lastIndex);
+//# mwDebug(w.output,'lm1:'+lookaheadMatch[1]);
+//# mwDebug(w.output,'lm2:'+lookaheadMatch[2]);
+			var lastIndex = this.lookaheadRegExp.lastIndex;
+			var contents = lookaheadMatch[1];
+			if(MediaWikiFormatter.expandVariable(w,contents)) {
+				w.nextMatch = lastIndex;
+				return;
+			}
+			var i = contents.indexOf('|');
+			var title = i==-1 ? contents : contents.substr(0,i);
+			//# normalize title
+			title = title.trim().replace(/_/mg,' ');
+			if(title.substr(0,1)=='#') {
+				var parserFn = true;
+				var j = contents.indexOf(':');
+				var expr = contents.substring(j+1,i);
+				i = title.indexOf(':');
+				title = title.substr(0,i);
+			} else {
+				title = 'Template:' + title.substr(0,1).toUpperCase() + title.substring(1);
+				var tiddler = store.fetchTiddler(title);
+			}
+			var oldSource = w.source;
+			if(tiddler) {
+				var params = {};
+				if(i!=-1) {
+					//#w.nextMatch = 0;
+					params = MediaWikiFormatter.getTemplateParams(lookaheadMatch[1]);
+				}
+				w.source = MediaWikiFormatter.expandTemplate(w,tiddler.text,params);
+				w.nextMatch = 0;
+				w.subWikifyUnterm(w.output);
+			} else if(parserFn) {
+				if(i!=-1) {
+					//#w.nextMatch = 0;
+					params = MediaWikiFormatter.getParserFunctionParams(lookaheadMatch[1]);
+				}
+				w.source = MediaWikiFormatter.expandParserFunction(w,title,expr,params);
+				w.nextMatch = 0;
+				w.subWikifyUnterm(w.output);			
+			} else {
+				if(config.options.chkMediaWikiDisplayEmptyTemplateLinks) {
+					//# for conveniece, output the name of the template so can click on it and create tiddler
+					w.source = '[['+title+']]';
+					w.nextMatch = 0;
+					w.subWikifyUnterm(w.output);
+				}
+			}
+			w.source = oldSource;
+			w.nextMatch = lastIndex;
 		}
 	}
 },
@@ -694,7 +1137,7 @@ config.mediawiki.formatters = [
 
 {
 	name: 'mediaWikiTitledUrlLink',
-	match: '\\[' + config.textPrimitives.urlPattern + '(?:\\s+[^\\]]+)?' + '\\]', //'
+	match: '\\[' + config.textPrimitives.urlPattern + '(?:\\s+[^\\]]+)?' + '\\]',
 	//# eg [http://www.nupedia.com] or [http://www.nupedia.com Nupedia]
 	//# <sup id='_ref-1' class='reference'><a href='#_note-1' title=''>[2]</a>
 	handler: function(w)
@@ -761,7 +1204,7 @@ config.mediawiki.formatters = [
 	}
 },
 
-/*{
+{
 	//# note, this only gets invoked when viewing the template
 	name: 'mediaWikiTemplateParam',
 	match: '\\{\\{\\{',
@@ -769,7 +1212,6 @@ config.mediawiki.formatters = [
 	element: 'span',
 	handler: config.formatterHelpers.enclosedTextHelper
 },
-*/
 
 //# See http://en.wikipedia.org/wiki/Wikipedia:Footnotes
 //# for an explanation of how to generate footnotes using the <ref(erences/)> tags
@@ -777,7 +1219,7 @@ config.mediawiki.formatters = [
 	name: 'mediaWikiInsertReference',
 	match: '<ref[^/]*>',
 	lookaheadRegExp: /<ref(\s+(?:.*?)=["']?(?:.*?)["']?)?>([^<]*?)<\/ref>/mg,
-	//#lookaheadRegExp: /<ref(\s+(?:.*?)=["']?(?:.*?)["']?)?>([.\n]*?)<\/ref>/mg, //"
+	//#lookaheadRegExp: /<ref(\s+(?:.*?)=["']?(?:.*?)["']?)?>([.\n]*?)<\/ref>/mg, "
 	handler: function(w)
 	{
 		if(config.browser.isIE) {
@@ -866,7 +1308,7 @@ config.mediawiki.formatters = [
 {
 	name: 'mediaWikiRepeatReference',
 	match: '<ref[^/]*/>',
-	lookaheadRegExp: /<ref(\s+(?:.*?)=["'](?:.*?)["'])?\s*\/>/mg, //'
+	lookaheadRegExp: /<ref(\s+(?:.*?)=["'](?:.*?)["'])?\s*\/>/mg,
 	handler: function(w)
 	{
 		if(config.browser.isIE) {
@@ -977,16 +1419,11 @@ config.mediawiki.formatters = [
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			//# deal with variables by name here
-			switch(lookaheadMatch[1]) {
-			case 'NOTOC':
+			if(lookaheadMatch[1]=='NOTOC') {
 				//# do nothing
-				break;
-			default:
-				if(config.options.chkDisplayMediaWikiMagicWords) {
-					//# just output the text of any variables that are not understood
-					w.outputText(w.output,w.matchStart,w.nextMatch);
-				}
-				break;
+			} else if(config.options.chkDisplayMediaWikiMagicWords) {
+				//# just output the text of any variables that are not understood
+				w.outputText(w.output,w.matchStart,w.nextMatch);
 			}
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
 		}
@@ -1025,7 +1462,7 @@ config.mediawiki.formatters = [
 			w.source = lookaheadMatch[1] +']]';//!! ]] is hack until getParams is working
 			w.nextMatch = 0;
 			var params = MediaWikiFormatter.getParams(w);
-			var src = params[1]||'';
+			var src = params[1];
 			src = src.trim().replace(/ /mg,'_');
 			src = src.substr(0,1).toUpperCase() + src.substring(1);
 			var palign = 'right'; 
@@ -1096,9 +1533,8 @@ config.mediawiki.formatters = [
 
 {
 	name: 'mediaWikiHtmlTag',
-	match: "<[a-zA-Z]{2,}(?:.*?)>",
-	//match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
-	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>/mg, //'
+	match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
+	lookaheadRegExp: /<([a-zA-Z]{2,})((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -1122,417 +1558,5 @@ config.mediawiki.formatters = [
 config.parsers.mediawikiFormatter = new Formatter(config.mediawiki.formatters);
 config.parsers.mediawikiFormatter.format = 'mediawiki';
 config.parsers.mediawikiFormatter.formatTag = 'MediaWikiFormat';
-
-MediaWikiTemplate = function()
-{
-	this.stack = [];
-	this.error = false;
-	this.tiddler = null;
-};
-
-MediaWikiTemplate.findRawDelimiter = function(delimiter,text,start)
-{
-//# {{!}} {{|}}
-//#fnLog('findRawDelimiter:'+text.substr(start,50));
-	var d = text.indexOf(delimiter,start);
-	if(d==-1)
-		return -1;
-	var b = {start:-1,end:-1};
-	var bs = text.indexOf('[[',start);
-	var bi = text.indexOf('{{',start);
-	if((bi==-1 || bi > d) && (bs==-1 || bs >d))
-		return d;
-	var s1 = -1;
-	if(bs!=-1 && bs <d) {
-		var be = text.indexOf(']]',bs);
-		if(be!=-1) {
-			b.start = bs;
-			b.end = be;
-		}
-	}
-//#console.log('frd('+d+','+bs+','+be+')');
-	if(b.start!=-1 && d>b.start)
-		s1 = b.end+2;
-	var db = MediaWikiTemplate.findDBP(text,start);
-//#console.log('frd('+d+','+db.start+','+db.end+')');
-	if(db.end!=-1 && d>db.start) {
-		if(db.end+2>s1)
-			s1 = db.end+2;
-	}
-	var tb = MediaWikiTemplate.findTBP(text,start);
-	if(tb.end!=-1 && d>tb.start) {
-		if(tb.end+3>s1)
-			s1 = tb.end+3;
-	}
-	return s1==-1 ? d : MediaWikiTemplate.findRawDelimiter(delimiter,text,s1);
-};
-
-/*
-* Matched sets of four consecutive braces are interpreted as a parameter surrounded by single braces:
-	{{{{foo}}}} is equivalent to { {{{foo}}} }.
-* Unmatched sets of four braces are interpreted as nested template calls:
-	{{{{TEx1}} }} is parsed as a call to a template, the name of which is dependent on the output of TEx1.
-In this example, {{{{TEx1}} }} results in Template:Hello world!, as the Hello world! template does not exist.
-* Matched sets of five consecutive braces are interpreted as a template call surrounding a parameter:
-	{{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}.
-* Unmatched sets of five braces are interpreted using the standard rules:
-	{{{{{TEx1}} }}} is interpreted as a named parameter with the name dependent on the result of Template:TEx1,
-	which in this case is equivalent to {{{Hello world!}}}.
-*/
-//	dbrTest('{{ {{{a}}} b }} {{c}}',0,0,13);
-MediaWikiTemplate.findDBP = function(text,start,end)
-// findDoubleBracePair
-{
-//#console.log('findDBP:'+start+' t:'+text);
-	var ret = {start:-1,end:-1};
-	var s = text.indexOf('{{',start);
-	if(s==-1) {
-		return ret;
-	}
-	if(end && s>end)
-		return ret;
-	if(text.substr(s+2,1)!='{') {
-		//# only two braces
-		var e = text.indexOf('}}',s+2);
-//#console.log('db:'+db.start+' ,'+db.end);
-//#console.log('tb:'+tb.start+' ,'+tb.end);
-//#console.log('e:'+e);
-		if(e==-1)
-			return ret;
-		var s2 = text.indexOf('{{',s+2);
-		if(s2==-1 || s2 > e)
-			return {start:s,end:e};
-		var si = s+2;
-		var db = MediaWikiTemplate.findDBP(text,si,e);
-		var tb = MediaWikiTemplate.findTBP(text,si,e);
-		while((db.end!=-1 && e>db.start && e<=db.end) || (tb.end!=-1 && e>tb.start && e<=tb.end)) {
-			//# intervening double or triple brace pair, so skip over
-			if(db.end!=-1 && e>db.start && e<=db.end) {
-				var si = db.end+2;
-				if(tb.end!=-1 && e>tb.start && e<=tb.end) {
-					if(tb.end>db.end)
-						si = tb.end+3;
-				}
-			} else {
-				si = tb.end+3;
-			}			
-			e = text.indexOf('}}',si);
-			db = MediaWikiTemplate.findDBP(text,si,e);
-			tb = MediaWikiTemplate.findTBP(text,si,e);
-			if(e==-1) {
-				return ret;
-			}
-		}
-		return {start:s,end:e};
-	}
-	//# more than two braces, so count them
-	var c = 2;
-	while(text.substr(s+c,1)=='{') {
-		c++;
-	}
-	if(c==3) {
-		//# it's a triple brace, so skip over it
-		//tb = MediaWikiTemplate.findTBP(text,s);
-//#console.log('s:'+s+' t:'+text);
-//#console.log('tb:'+tb.start+' ,'+tb.end);
-		//return tb.end==-1 ? ret : MediaWikiTemplate.findDBP(text,tb.end+3);
-		return MediaWikiTemplate.findDBP(text,s+3)
-	} else if(c==4) {
-		//# it's a quadrupal brace, so see if it is matched (eg {{{{x}}}} ) or not (eg {{{{x}} }} )
-		db = MediaWikiTemplate.findDBP(text,s+2);
-		if(db.end==-1)
-			return ret;
-		if(text.substr(db.end+2,2)=='}}') {
-			//# it's matched, so skip over 
-			//# {{{{foo}}}} is equivalent to { {{{foo}}} }
-			return MediaWikiTemplate.findDBP(text,db.end+4);
-		} else {
-			//# it's not matched
-			//# {{{{foo}} }} is equivalent to {{ {{foo}} }}
-			e = text.indexOf('}}',db.end+2);
-			return e==-1 ? ret : {start:s,end:e};
-		}
-	} else if(c==5) {
-		//# it's a quintupal brace, so see if it is matched (eg {{{{{x}}}}} ) or not (eg {{{{{x}} }}} or {{{{{x}}} }})
-		//# {{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}.
-		db = MediaWikiTemplate.findDBP(text,s+3);
-		if(db.end==-1)
-			return ret;
-		if(text.substr(db.end+2,3)=='}}}') {
-			// it's matched
-			return {start:s,end:db.end+3};
-		} else if(text.substr(db.end+2,1)!='}') {
-			// it's not matched
-			// {{{{{x}} }}}
-			return {start:s+3,end:db.end};
-		} else {
-			// }}} }}
-			e = text.indexOf('}}',db.end+3);
-			return e==-1 ? ret : {start:s,end:e};
-		}
-	} else {
-		//# presume treat six braces as two sets of {{{, so skip
-		return MediaWikiTemplate.findDBP(text,s+6);
-	}
-};
-
-MediaWikiTemplate.findTBP = function(text,start,end)
-// findTripleBracePair
-{
-//#fnLog('findTBP:'+start+' t:'+text);
-	var ret = {start:-1,end:-1};
-	var s = text.indexOf('{{{',start);
-	if(s==-1)
-		return ret;
-	if(end && s>end)
-		return ret;
-	if(text.substr(s+3,1)!='{' || text.substr(s+3,3)=='{{{') {
-		//# only three braces, or 6 braces
-		var si = s+3;
-		var e = text.indexOf('}}}',si);
-		if(e==-1)
-			return ret;
-		var s2 = text.indexOf('{{',si);
-		if(s2==-1 || s2 > e)
-			return {start:s,end:e};
-		var db = MediaWikiTemplate.findDBP(text,si,e);
-		var tb = MediaWikiTemplate.findTBP(text,si,e);
-//	console.log('t:'+text.substr(s,100));
-		while((db.end!=-1 && e>=db.end) || (tb.end!=-1 && e>=tb.end)) {
-			//# intervening double or triple brace pair, so skip over
-			if(db.end!=-1 && e>=db.end) {
-				si = db.end+2;
-				if(tb.end!=-1 && e>=tb.end) {
-					if(tb.end>=db.end)
-						si = tb.end+3;
-				}
-			} else {
-				si = tb.end+3;
-			}
-			db = MediaWikiTemplate.findDBP(text,si,e);
-			tb = MediaWikiTemplate.findTBP(text,si,e);
-			e = text.indexOf('}}}',si);
-			if(e==-1)
-				return ret;
-		}
-		return {start:s,end:e};
-	}
-	//# more than three braces, so count them
-	var c = 3;
-	while(text.substr(s+c,1)=='{') {
-		c++;
-	}
-	if(c==4) {
-		//# it's a quadrupal brace, so see if it is matched (eg {{{{x}}}} ) or not (eg {{{{x}} }} )
-		tb = MediaWikiTemplate.findTBP(text,s+1);
-		if(tb.end==-1)
-			return ret;
-		if(text.substr(tb.end+1,1)=='}') {
-			//# it's matched 
-			//# {{{{foo}}}} is equivalent to { {{{foo}}} }
-			return {start:s+1,end:tb.end};
-		} else {
-			//# it's not matched, so skip
-			//# {{{{foo}} }} is equivalent to {{ {{foo}} }}
-			return MediaWikiTemplate.findTBP(text,tb.end+4);
-		}
-	} else if(c==5) {
-		//# it's a quintupal brace, so see if it is matched (eg {{{{{x}}}}} ) or not (eg {{{{{x}} }}} or {{{{{x}}} }})
-		//# {{{{{foo}}}}} is equivalent to {{ {{{foo}}} }}.
-		db = MediaWikiTemplate.findDBP(text,s+3);
-		if(db.end==-1)
-			return ret;
-		if(text.substr(db.end+2,3)=='}}}') {
-			//# it's matched
-			return {start:s+2,end:db.end};
-		} else if(text.substr(db.end+2,1)!='}') {
-			//# it's not matched
-			//# {{{{{x}} }}}
-			e = text.indexOf('}}}',db.end+2);
-			return e==-1 ? ret : {start:s,end:e};
-		} else {
-			//# {{{{{{x}}} }}
-			return {start:s+2,end:db.end};
-		}
-	}
-};
-
-MediaWikiTemplate.findTableBracePair = function(text,start)
-{
-//#fnLog('findTableBracePair:'+start+' t:'+text);
-	var ret = {start:-1,end:-1};
-	var s = text.indexOf('{|',start);
-	if(s==-1)
-		return ret;
-	var e = text.indexOf('\n|}',s+2);
-	if(e==-1)
-		return ret;
-	e++;
-	var s2 = text.indexOf('{|',s+2);
-	if(s2==-1 || s2 > e)
-		return {start:s,end:e};
-	var tp = MediaWikiTemplate.findTableBracePair(text,s+2);
-	while(tp.end!=-1 && e>tp.start && e<=tp.end) {
-		//# intervening table brace pair, so skip over
-		e = tp.end+2;
-		tp = MediaWikiTemplate.findTableBracePair(text,e);
-		e = text.indexOf('\n|}',e);
-		if(e==-1)
-			return ret;
-		e++;
-	}
-	return {start:s,end:e};
-};
-
-MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
-{
-//#console.log('wikifyTable');
-//#console.log(w);
-//#console.log(w.source);
-	function lineEnd(w) {
-		var r = w.source.indexOf('\n',w.nextMatch);
-		while(r!=-1) {
-			var n = w.source.substr(r+1,1);
-			if(n=='|' || n=='!' || (n=='{' && w.source.substr(r+2,1)=='|'))
-				break;
-			r = w.source.indexOf('\n',r+1);
-		}
-		return r;
-	}
-	function subWikifyText(e,w,text) {
-			var oldSource = w.source; var oldMatch = w.nextMatch;
-			w.source = text; w.nextMatch = 0;
-			w.subWikifyUnterm(e);
-			w.source = oldSource; w.nextMatch = oldMatch;
-	}		
-	//# skip over {|
-	w.nextMatch += 2;
-	var i = lineEnd(w);
-	if(i>w.nextMatch) {
-//#console.log('attribs');
-		MediaWikiFormatter.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
-		w.nextMatch = i;
-	}
-	w.nextMatch++;
-	if(w.source.substr(w.nextMatch,2)=='|+') {
-//#console.log('caption');
-		var caption = createTiddlyElement2(table,'caption');
-		w.nextMatch += 2;
-		i = lineEnd(w);
-		var d = MediaWikiTemplate.findRawDelimiter('|',w.source,w.nextMatch);
-		if(d!=-1 && d<i) {
-			MediaWikiFormatter.setAttributesFromParams(caption,w.source.substring(w.nextMatch,d));
-			w.nextMatch = d+1;
-		}
-		w.subWikifyTerm(caption,/(\n)/mg);
-	}
-	var tr = createTiddlyElement2(table,'tr');
-//#console.log('x1:'+w.source.substr(w.nextMatch,10));
-	if(w.source.substr(w.nextMatch,2)=='|-') {
-		w.nextMatch += 3;
-	}
-//#console.log('x2:'+w.source.substr(w.nextMatch,10));
-	var x = w.source.substr(w.nextMatch,2);
-	while(x!='|}') {
-		if(x=='{|') {
-			//# nested table
-			var pair2 = MediaWikiTemplate.findTableBracePair(w.source,w.nextMatch);
-			if(pair2.start==w.nextMatch) {
-				var table2 = createTiddlyElement2(cell,'table');
-				this.wikifyTable(table2,w,pair2);
-			}
-		} else if(x=='|-') {
-			//# new row
-			tr = createTiddlyElement2(table,'tr');
-//#console.log('xr:'+w.source.substr(w.nextMatch,40));
-			w.nextMatch += 2;
-			i = lineEnd(w);
-			if(i==-1)
-				break;
-			if(i>w.nextMatch) {
-				MediaWikiFormatter.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
-				w.nextMatch = i;
-			}
-			w.nextMatch++;
-		} else if(x.substr(0,1)=='!') {
-			//# header cell
-			w.nextMatch++;
-//#console.log('xh:'+w.source.substr(w.nextMatch,40));
-			i = lineEnd(w);
-//#console.log('xi:'+w.source.substring(w.nextMatch,i));
-			if(i==-1)
-				break;
-			var cell = createTiddlyElement2(tr,'th');
-			var c = w.source.indexOf('!!',w.nextMatch);
-			while(c!=-1 && c<i) {
-				d = MediaWikiTemplate.findRawDelimiter('|',w.source,w.nextMatch);
-				if(d!=-1 && d<c) {
-					MediaWikiFormatter.setAttributesFromParams(cell,w.source.substring(w.nextMatch,d));
-					w.nextMatch = d+1;
-				}
-				while(w.source.substr(w.nextMatch,1)==' ') {
-					w.nextMatch++;
-				}
-				w.subWikifyTerm(cell,/(\!\!)/mg);
-				cell = createTiddlyElement2(tr,'th');
-				c = w.source.indexOf('!!',w.nextMatch);
-			}
-			d = MediaWikiTemplate.findRawDelimiter('|',w.source,w.nextMatch);
-			if(d!=-1 && d<i) {
-				MediaWikiFormatter.setAttributesFromParams(cell,w.source.substring(w.nextMatch,d));
-				w.nextMatch = d+1;
-			}
-//#console.log('xk:'+w.source.substr(w.nextMatch,i));
-			while(w.source.substr(w.nextMatch,1)==' ') {
-				w.nextMatch++;
-			}
-			subWikifyText(cell,w,w.source.substring(w.nextMatch,i));
-			w.nextMatch = i+1;
-			//w.subWikifyTerm(cell,/(\n)/mg);
-		} else if(x.substr(0,1)=='|') {
-			//# cell
-			w.nextMatch++;
-//#console.log('xc:'+w.source.substr(w.nextMatch,40));
-			i = lineEnd(w);
-			if(i==-1)
-				break;
-			cell = createTiddlyElement2(tr,'td');
-			c = w.source.indexOf('||',w.nextMatch);
-	//#console.log('i:'+i);
-			while(c!=-1 && c<i) {
-				d = MediaWikiTemplate.findRawDelimiter('|',w.source,w.nextMatch);
-	//#console.log('c1:'+c);
-	//#console.log('d1:'+d+'('+w.nextMatch+','+i+')');
-				if(d!=-1 && d<c) {
-					MediaWikiFormatter.setAttributesFromParams(cell,w.source.substring(w.nextMatch,d));
-					w.nextMatch = d+1;
-				}
-				while(w.source.substr(w.nextMatch,1)==' ') {
-					w.nextMatch++;
-				}
-				w.subWikifyTerm(cell,/(\|\|)/mg);
-				cell = createTiddlyElement2(tr,'td');
-				c = w.source.indexOf('||',w.nextMatch);
-			}
-			d = MediaWikiTemplate.findRawDelimiter('|',w.source,w.nextMatch);
-	//#console.log('d2:'+d+'('+w.nextMatch+','+i+')');
-			if(d!=-1 && d<i) {
-				MediaWikiFormatter.setAttributesFromParams(cell,w.source.substring(w.nextMatch,d));
-				w.nextMatch = d+1;
-			}
-			while(w.source.substr(w.nextMatch,1)==' ') {
-				w.nextMatch++;
-			}
-			subWikifyText(cell,w,w.source.substring(w.nextMatch,i));
-			w.nextMatch = i+1;
-			//w.subWikifyTerm(cell,/(\n)/mg);
-		}
-		x = w.source.substr(w.nextMatch,2);
-	}
-	w.nextMatch = pair.end + 3;
-	return;
-	
-};
-
 } //# end of 'install only once'
 //}}}
