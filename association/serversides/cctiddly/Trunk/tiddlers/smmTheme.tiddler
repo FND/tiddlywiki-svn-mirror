@@ -330,10 +330,10 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 	border:0px;
 }
 
-#topMenu a, #topMenu .button {
+#topMenu a, #topMenu .button, .wizard .button{
 	padding: 5px 15px;
 	margin:9px;
-	border:1px dotted #999;
+	border:1px solid #999;
 	font-weight:bold;
 	line-height:40px;
 	top:1em;
@@ -598,26 +598,6 @@ table.sortable td.sortedCol {
 	background-color:#111;
 	color:white;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*}}}*/
