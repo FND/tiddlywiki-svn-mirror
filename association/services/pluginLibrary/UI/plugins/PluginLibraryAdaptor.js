@@ -117,5 +117,16 @@ config.macros.ImportPlugins = { // TODO: rename
 	}
 };
 
+config.commands.keepTiddler = { // TODO: rename?
+	text: "keep",
+	tooltip: "Permanently store this tiddler",
+
+	handler: function(event, src, title) {
+		var tiddler = store.getTiddler(title);
+		delete tiddler.fields.doNotSave;
+		return false;
+	}
+};
+
 }
 //}}}
