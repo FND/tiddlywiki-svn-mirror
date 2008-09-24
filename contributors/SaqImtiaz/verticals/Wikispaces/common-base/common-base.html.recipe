@@ -1,13 +1,13 @@
-recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: ../../../../../core/tiddlywiki.html.recipe
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 #recipe: feeds/split.recipe
 recipe: actions/split.recipe
 recipe: help/split.recipe
 recipe: content/split.recipe
-#tiddler: ../../adaptors/WikispacesAdaptor.js
-tiddler: ../../../MartinBudden/formatters/WikispacesFormatterPlugin.js
-tiddler: ../../../MartinBudden/adaptors/soapclient.js
+#tiddler: ../../../adaptors/WikispacesAdaptor.js
+tiddler: ../../../../MartinBudden/formatters/WikispacesFormatterPlugin.js
+tiddler: ../../../../MartinBudden/adaptors/soapclient.js
 #tiddler: ../../../MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js
 #tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
 #tiddler: ../../../MartinBudden/plugins/QuickSyncPlugin.js
@@ -17,4 +17,4 @@ tiddler: ../../../MartinBudden/adaptors/soapclient.js
 tiddler: wikispacesMarkupRules.tiddler
 tiddler: tiddlywikiMarkupRules.tiddler
 tiddler: settings.js
-tiddler: ../../plugins/PasswordPromptPlugin.js
+tiddler: ../../../plugins/PasswordPromptPlugin.js
