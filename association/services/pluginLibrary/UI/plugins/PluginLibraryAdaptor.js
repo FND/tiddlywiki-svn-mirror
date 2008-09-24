@@ -44,7 +44,7 @@ plugins.PluginLibraryAdaptor = {
 	 */
 	getMatchesCallback: function(context, userParams) {
 		if(!context.status) {
-			displayMessage(window.tiddlers.PluginLibraryAdaptor.retrievalErrorMsg);
+			displayMessage(plugins.PluginLibraryAdaptor.retrievalErrorMsg);
 			return false; // XXX: raise exception?
 		}
 		displayMessage(plugins.PluginLibraryAdaptor.tiddlerRetrievalMsg.format([context.tiddlers.length]));
@@ -82,6 +82,11 @@ config.macros.ImportPlugins = { // TODO: rename
 		});
 		input.onkeyup = this.onKeyPress;
 		createTiddlyButton(wrapper, this.btnLabel, this.btnTooltip, this.onClick, this.btnClass);
+	},
+
+	onClick: function(ev) {
+		var query = this.parentNode.getElementsByTagName("input")[0].value;
+		config.macros.ImportPlugins.doSearch(query);
 	},
 
 	onKeyPress: function(ev)
