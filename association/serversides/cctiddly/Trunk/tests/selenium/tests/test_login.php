@@ -12,7 +12,7 @@ class ccTests extends PHPUnit_Framework_TestCase
 		$fail_count=0;
 		$this->selenium = new Testing_Selenium("*firefox", "http://127.0.0.1/Trunk/tests/selenium/selenium_tests/");
 		$this->selenium->start();
-	//	$this->selenium->setSpeed("1000");
+		$this->selenium->setSpeed("1");
 	}
 
 	public function tearDown()
@@ -200,9 +200,9 @@ class ccTests extends PHPUnit_Framework_TestCase
 $a = new ccTests();
 $a->setUp();
 
-$a->runPermTests();
+//$a->runPermTests();
 
-//$a->testEditPermissions();
+$a->testEditPermissions();
 //$a->runTests();
 //$a->testTeamTasks();
 //$a->tearDown();
