@@ -23,8 +23,7 @@ tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
 #tiddler: ../../adaptors/MediaWikiAdaptorInfoboxFilter.js
 tiddler: ../../feeds/WikipediaInfoboxDigicamTemplateFeed.tiddler
-#tiddler: ../../formatters/MediaWikiFormatterPlugin.js
-tiddler: ../../formatters/MediaWikiFormatterPluginT.js
+tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../formatters/MediaWikiTemplatePlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../plugins/MD5UnwoundPlugin.js
