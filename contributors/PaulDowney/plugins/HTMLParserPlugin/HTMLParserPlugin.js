@@ -79,15 +79,16 @@ HTMLParser.parseText = function (text,handler,context)
 	onload.handler = handler;
 	onload.context = context;
 
-	// IE6 and Opera don't support onload event for iframe ..
-	window.setTimeout(onload,10);
-
 	// write HTML text into the iframe
         var doc = HTMLParser.iframeDocument(iframe);
 	text = HTMLParser.removeScripts(text);
         doc.open();
         doc.writeln(text);
         doc.close();
+
+	// IE6 and Opera don't support onload event for iframe ..
+	window.setTimeout(onload,10);
+
         return;
 };
 
