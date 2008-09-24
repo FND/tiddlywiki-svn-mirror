@@ -12,22 +12,26 @@
 if(!version.extensions.PluginLibraryAdaptor) { // TODO: rename
 version.extensions.PluginLibraryAdaptor = { installed: true };
 
-if(plugins === undefined) { var plugins = {}; }
+if(!plugins) { var plugins = {}; }
 
 plugins.PluginLibraryAdaptor = {
 	host: "http://burningchrome.com:8090",
+	listRetrievalMsg: "retrieving list of plugins matching '%0'...",
+	tiddlerRetrievalMsg: "retrieving %0 matching plugins",
+	retrievalErrorMsg: "error retrieving data from server",
 
 	/**
 	 * retrieve plugins matching the search query
 	 * @param {String} host Plugin Library URL
 	 * @param {Function} callback function to execute for each tiddler being retrieved
 	 */
-	getMatches: function(query, userParams, callback) { // XXX: rename?
-		displayMessage("retrieving list of plugins matching '" + query + "'..."); // TODO: i18n
+	getMatches: function(query, userParams, callback) {
+		displayMessage(this.listRetrievalMsg.format([query]));
 		var adaptor = new TiddlyWebAdaptor();
 		var context = {
 			host: this.host,
-			query: query
+			query: query,
+			matchCallback: callback
 		};
 		return adaptor.getSearchResults(context, userParams, this.getMatchesCallback);
 	},
@@ -38,24 +42,25 @@ plugins.PluginLibraryAdaptor = {
 	 * @param {Function} callback function to execute for each tiddler being retrieved
 	 * @return {Boolean} success
 	 */
-	getMatchesCallback: function(context, userParams) { // XXX: rename?
+	getMatchesCallback: function(context, userParams) {
 		if(!context.status) {
-			displayMessage("error retrieving data from server"); // XXX: TBD
+			displayMessage(window.tiddlers.PluginLibraryAdaptor.retrievalErrorMsg);
 			return false; // XXX: raise exception?
 		}
-		displayMessage("found " + context.tiddlers.length + " matching plugins"); // TODO: i18n
-		var plugins = context.tiddlers;
-		if(plugins) {
-			for(var i = 0; i < plugins.length; i++) {
-				if(!store.tiddlerExists(plugins[i].title)) { // XXX: potentially harmful?
+		displayMessage(plugins.PluginLibraryAdaptor.tiddlerRetrievalMsg.format([context.tiddlers.length]));
+		var tiddlers = context.tiddlers;
+		if(tiddlers) {
+			for(var i = 0; i < tiddlers.length; i++) {
+				if(store.tiddlerExists(tiddlers[i].title)) {
+					context.tiddler = tiddlers[i];
+					context.tiddlerExists = true;
+					context.matchCallback(context, userParams);
+				} else {
 					var subContext = {
 						host: context.host,
-						bag: plugins[i].fields["server.bag"]
+						bag: tiddlers[i].fields["server.bag"]
 					};
-					context.adaptor.getTiddler(plugins[i].title, subContext, userParams, userParams.callback);
-				} else {
-					context.tiddler = plugins[i].title; // XXX: hacky?
-					userParams.callback(context, userParams);
+					context.adaptor.getTiddler(tiddlers[i].title, subContext, userParams, context.matchCallback);
 				}
 			}
 		}
@@ -97,27 +102,22 @@ config.macros.ImportPlugins = { // TODO: rename
 	},
 
 	doSearch: function(query) {
-		var userParams = {
-			callback: this.displayTiddler
-		};
-		plugins.PluginLibraryAdaptor.getMatches(query, userParams);
+		plugins.PluginLibraryAdaptor.getMatches(query, null, this.displayTiddler);
 	},
 
 	displayTiddler: function(context, userParams) {
-		var plugin = context.tiddler;
-		if(plugin instanceof Tiddler) { // XXX: hacky?
-			plugin.fields.doNotSave = true;
+		var tiddler = context.tiddler;
+		if(!context.tiddlerExists) {
+			tiddler.fields.doNotSave = true;
 			var dirtyState = store.dirty;
-			plugin = store.saveTiddler(plugin.title, plugin.title, plugin.text,
-				plugin.modifier, plugin.modified, plugin.tags, plugin.fields, true,
-				plugin.created);
+			store.addTiddler(tiddler);
 			store.dirty = dirtyState;
 		}
-		story.displayTiddler(null, plugin, config.macros.ImportPlugins.pluginViewTemplate);
+		story.displayTiddler(null, tiddler, config.macros.ImportPlugins.pluginViewTemplate);
 	}
 };
 
-config.commands.keepTiddler = { // TODO: rename?
+config.commands.keepTiddler = {
 	text: "keep",
 	tooltip: "Permanently store this tiddler",
 
