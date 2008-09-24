@@ -31,7 +31,8 @@ class ccTests extends PHPUnit_Framework_TestCase
 	{
 		$this->selenium->type("username", $u);
 		$this->selenium->type("password", $p);
-		$this->selenium->click("//div[@id='tiddlerLogin']");
+		    $this->selenium->click("//div[@id='tiddlerLogin']/div[2]/form/div[2]/a[1]");
+//		$this->selenium->click("link=login");
 		$this->selenium->waitForPageToLoad("30000");
 	}
 
