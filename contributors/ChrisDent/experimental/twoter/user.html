@@ -1,0 +1,19 @@
+
+<h1>Hello {{ user }}</h1>
+
+<p>Use this <a href="{% include "bookmarklet.html" %}">Twoter</a> bookmarklet.</p>
+
+<ul>
+    <li><a href="{{ recent_url }}">Your Recent Twotes</a></li>
+    <li><a href="{{ all_url }}">All Your Twotes</a></li>
+</ul>
+
+<h2>Add another Twote</h2>
+<form method="POST">
+    Title: <input type="text" name="title"><br>
+    URL: <input type="text" name="url"><br>
+    Snip: <textarea name="snip"></textarea><br>
+    <input type="submit"><br>
+</form>
+
+
