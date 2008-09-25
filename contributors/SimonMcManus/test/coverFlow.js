@@ -1,116 +1,46 @@
 
-
-
-
-
 config.macros.coverFlow = {};
 config.macros.coverFlow.handler = function (place,macroName,params,wikifier,paramString,tiddler){
-	var btn = createTiddlyButton(place,"Big","tooltip", function() { config.macros.coverFlow.onClick(place, true); });
-	var btn = createTiddlyButton(place,"Small","tooltip", function() { config.macros.coverFlow.onClick(place, false); });
-	
+	var images = paramString.split("|");
+	if(images=="")
+ 		var images = [
+	"http://farm4.static.flickr.com/3075/2878882067_eaa5d8ed6d.jpg",
+	"http://farm4.static.flickr.com/3075/2878882067_eaa5d8ed6d.jpg",
+	"http://farm4.static.flickr.com/3147/2878964902_70f3b82eb4.jpg",
+	"http://farm4.static.flickr.com/3098/2878170629_f722d79d07.jpg", 
+	"http://farm4.static.flickr.com/3075/2878882067_eaa5d8ed6d.jpg",
+	"http://farm4.static.flickr.com/3169/2879022320_85a28a039f.jpg",
+	"http://farm4.static.flickr.com/3010/2878605185_d7375ff5ac.jpg",
+	"http://farm4.static.flickr.com/3272/2881442971_cb653cf037.jpg"
+	];	
+	var btn = createTiddlyButton(place,"Big CoverFlow","tooltip", function() { config.macros.coverFlow.onClick(place, images, true); });
+	var btn = createTiddlyButton(place,"Small Inline CoverFlow","tooltip", function() { config.macros.coverFlow.onClick(place, images, false); });
 	setStylesheet("img.coverflow { position:absolute; top:0px; border:none; } h1 { font:250% Trebuchet MS, verdana, arial, helvetica, sans-serif; text-align:center; } h2 { font:120% Trebuchet MS, verdana, arial, helvetica, sans-serif; text-align:center; } a{ color:#fff; } .clear{ clear:both; } #menu{ position:absolute; left:10px; top:10px;} #images img{ visibility:hidden; display:none; filter: alpha(opacity=100); opacity: 1; } #preload{ visibility:hidden; } #scrollbar{ position:relative; border-bottom:1px solid #b3b3b3; z-index:10001; } #slider{ position:absolute; margin-top:-8px; margin-left:-8px; z-index:10002;background-image:url(slider.png);background-repeat:no-repeat;width:48px; height:16px;}");
-	
-
-//addReflections(); 
 }
 
-
-config.macros.coverFlow.onClick = function (place, big){
-	if(big)
-		var backstage = document.getElementById("backstage");
-	else
+config.macros.coverFlow.onClick = function (place, images, big){
+	if(big){
+		var backstage = document.getElementById("backstagePanel");
+		setStylesheet(" img.coverflow { position:absolute; top:0px; border:none; } h1 { font:250% Trebuchet MS, verdana, arial, helvetica, sans-serif; text-align:center; } h2 { font:120% Trebuchet MS, verdana, arial, helvetica, sans-serif; text-align:center; } a{ color:#fff; } .clear{ clear:both; } #menu{ position:absolute; left:10px; top:10px;} #images img{ visibility:hidden; display:none; filter: alpha(opacity=100); opacity: 1; } #preload{ visibility:hidden; } #scrollbar{ position:relative; border-bottom:1px solid #b3b3b3; z-index:10001; } #slider{ position:absolute; margin-top:-8px; margin-left:-8px; z-index:10002;background-image:url(slider.png);background-repeat:no-repeat;width:48px; height:16px;} #backstageCloak {display:block; position:absolute; height:100%} #backstagePanel  {display:block; position:absolute; width:98%; height:100%;} #backstageArea {display:block; overflow:hidden; position :absolute}");
+	}else{
 		var backstage =	createTiddlyElement(place, "div", "container");
-	var image = {};
-	image.src = "file:///Users/simonmcmanus/Desktop/reflection/example.jpg";
-	image.height = 800;
-	image.width = 600;
-	
+	}
+
 	var div = createTiddlyElement(backstage, "div", conf_imageflow);
 	var imagesdiv = createTiddlyElement(div, "div",  "images");
-	
 
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://farm4.static.flickr.com/3075/2878882067_eaa5d8ed6d.jpg";
-	img.setAttribute("w", "800");
-	img.setAttribute("h", "600");
-	imagesdiv.appendChild(img);
-
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://farm4.static.flickr.com/3147/2878964902_70f3b82eb4.jpg";
-	img.setAttribute("w", "800");
-	img.setAttribute("h", "600");
-	imagesdiv.appendChild(img);
-	
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://farm4.static.flickr.com/3171/2878143939_12fa8433fc.jpg";
-	img.setAttribute("w", "800");
-	img.setAttribute("h", "600");
-	imagesdiv.appendChild(img);
-	
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://farm4.static.flickr.com/3098/2878170629_f722d79d07.jpg	";
-	img.setAttribute("w", "800");
-	img.setAttribute("h", "600");
-	imagesdiv.appendChild(img);
-	
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://farm4.static.flickr.com/3075/2878882067_eaa5d8ed6d.jpg";
-	img.setAttribute("w", "800");
-	img.setAttribute("h", "600");
-	imagesdiv.appendChild(img);
-	
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://farm4.static.flickr.com/3169/2879022320_85a28a039f.jpg";
-	img.setAttribute("w", "800");
-	img.setAttribute("h", "600");
-	imagesdiv.appendChild(img);
-	
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://farm4.static.flickr.com/3010/2878605185_d7375ff5ac.jpg";
-	img.setAttribute("w", "800");
-	img.setAttribute("h", "600");
-	imagesdiv.appendChild(img);
-	
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://farm4.static.flickr.com/3272/2881442971_cb653cf037.jpg";
-	img.setAttribute("w", "800");
-	img.setAttribute("h", "600");
-	imagesdiv.appendChild(img);
-
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd=s:AAAAAAAAAAAAAAAAAAAAAAAA9&chxt=x,y&chxl=1:|0|39|0:|21-21|21-22|21-23|22-00|22-01|22-02|22-03|22-04|22-05|22-06|22-07|22-08|22-09|22-10|22-11|22-12|22-13|22-14|22-15|22-16|22-17|22-18|22-19|22-20|22-21&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-	img.setAttribute("w", "800");
-	img.setAttribute("h", "600");
-	imagesdiv.appendChild(img);
-
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd=s:AAAAAAAAAAAAAAAAAAAAAAAA9&chxt=x,y&chxl=1:|0|39|0:|21-21|21-22|21-23|22-00|22-01|22-02|22-03|22-04|22-05|22-06|22-07|22-08|22-09|22-10|22-11|22-12|22-13|22-14|22-15|22-16|22-17|22-18|22-19|22-20|22-21&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-	img.setAttribute("w", "800");
-	img.setAttribute("h", "600");
-	imagesdiv.appendChild(img);
-
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-	img.setAttribute("w", "600");
-	img.setAttribute("h", "400");
-	imagesdiv.appendChild(img);
-
-	var img = createTiddlyElement(null, "img", null, "coverflow");
-	img.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-	img.setAttribute("w", "600");
-	img.setAttribute("h", "400");
-	imagesdiv.appendChild(img);
-
-	var img2 = createTiddlyElement(null, "img", null, "coverflow");
-	img2.src="http://chart.apis.google.com/chart?cht=lc&chs=600x400&chd=s:AAA9&chxt=x,y&chxl=1:|0|458|0:|06/2008|07/2008|08/2008|09/2008&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
-	img2.setAttribute("w", "600");
-	img2.setAttribute("h", "400");
-	imagesdiv.appendChild(img2);
-	createTiddlyElement(div, "div", "captions", null, "ssssss");
+	for(var i = 0 ; i <= images.length ; i++) {
+		var img = createTiddlyElement(null, "img", null, "coverflow");
+		img.src=images[i];
+		img.setAttribute("w", "800");
+		img.setAttribute("h", "600");
+		imagesdiv.appendChild(img);
+	}
+	createTiddlyElement(div, "div", "captions", null, null);
 	var backstage = document.getElementById("backstage");
 	var scrollbar = createTiddlyElement(backstage, "div", "scrollbar");
 	createTiddlyElement(scrollbar, "div", "slider");
-	init();
+	config.macros.coverFlow.init();
 }
 
 /**
@@ -168,15 +98,7 @@ var posx = 0;
 var new_posx = 0;
 var xstep = 150;
 
-function setOpacity(image, value)
-{
-	
-//console.log(i);
-
-	if(image.style.zIndex="8"){
-	}
-//	image.style.opacity = 0.50;
-
+config.macros.coverFlow.setOpacity = function(image, value) {
 	if (image.filters && image.filters[0])
 	{
 		image.filters[0].opacity = value * 100;
@@ -187,13 +109,15 @@ function setOpacity(image, value)
 	}
 }
 
-function step()
-{
+//function step()
+//{
+
+config.macros.coverFlow.step = function(){
 	switch (target < current-1 || target > current+1) 
 	{
 		case true:
-			moveTo(current + (target-current)/3);
-			window.setTimeout(step, 50);
+			config.macros.coverFlow.moveTo(current + (target-current)/3);
+			window.setTimeout(config.macros.coverFlow.step, 50);
 			timer = 1;
 			break;
 
@@ -203,14 +127,13 @@ function step()
 	}
 }
 
-function glideTo(x, new_caption_id)
-{	
+config.macros.coverFlow.glideTo = function(x, new_caption_id) {
 	/* Animate gliding to new x position */
 	target = x;
 	mem_target = x;
 	if (timer == 0)
 	{
-		window.setTimeout(step, 50);
+		window.setTimeout(config.macros.coverFlow.step, 50);
 		timer = 1;
 	}
 	
@@ -228,8 +151,8 @@ function glideTo(x, new_caption_id)
 	}
 }
 
-function moveTo(x)
-{
+
+config.macros.coverFlow.moveTo = function(x) {
 	current = x;
 	var zIndex = max;
 	
@@ -280,13 +203,13 @@ function moveTo(x)
 			if ((x < -(xstep*4.5)) || (x > (xstep*4.5)))
 			{
 				if (x > 0)
-					setOpacity(image, (xstep*5.5-x)/xstep);
+					config.macros.coverFlow.setOpacity(image, (xstep*5.5-x)/xstep);
 				else
-					setOpacity(image, (xstep*5.5+x)/xstep);
+					config.macros.coverFlow.setOpacity(image, (xstep*5.5+x)/xstep);
 			}
 			else
 			{
-				setOpacity(image, 1);
+				config.macros.coverFlow.setOpacity(image, 1);
 			}
 
 			image.style.visibility = 'visible';
@@ -307,7 +230,7 @@ function moveTo(x)
 			switch ( image.i == caption_id )
 			{
 				case false:
-					image.onclick = function() { glideTo(this.x_pos, this.i); }
+					image.onclick = function() { config.macros.coverFlow.glideTo(this.x_pos, this.i); }
 					break;
 
 				default:
@@ -322,8 +245,8 @@ function moveTo(x)
 }
 
 /* Main function */
-function refresh(onload)
-{
+
+config.macros.coverFlow.refresh = function(onload) {
 	/* Cache document objects in global variables */
 	imageflow_div = document.getElementById(conf_imageflow);
 	img_div = document.getElementById(conf_images);
@@ -357,7 +280,7 @@ function refresh(onload)
 	scrollbar_div.style.width = scrollbar_width + 'px';
 	
 	/* Set slider attributes */
-	slider_div.onmousedown = function () { dragstart(this); };
+	slider_div.onmousedown = function () { config.macros.coverFlow.dragstart(this); };
 	slider_div.style.cursor = conf_slider_cursor;
 
 	/* Cache EVERYTHING! */
@@ -371,7 +294,7 @@ function refresh(onload)
 			array_images[i] = index;
 			
 			/* Set image onclick by adding i and x_pos as attributes! */
-			image.onclick = function() { glideTo(this.x_pos, this.i); }
+			image.onclick = function() { config.macros.coverFlow.glideTo(this.x_pos, this.i); }
 			image.x_pos = (-i * xstep);
 			image.i = i;
 			
@@ -409,55 +332,28 @@ function refresh(onload)
 	max = array_images.length;
 
 	/* Display images in current order */
-	moveTo(current);
-	glideTo(current, caption_id);
+	config.macros.coverFlow.moveTo(current);
+	config.macros.coverFlow.glideTo(current, caption_id);
 }
 
-/* Show/hide element functions */
-function show(id)
-{
-	var element = document.getElementById(id);
-	element.style.visibility = 'visible';
-}
-function hide(id)
-{
+config.macros.coverFlow.hide = function(id) {
 	var element = document.getElementById(id);
 	element.style.visibility = 'hidden';
 	element.style.display = 'none';
 }
-function init()
-{
+
+config.macros.coverFlow.init = function() {
 	if(document.getElementById(conf_imageflow))
 	{
-		displayMessage("aaaaaa");
-		refresh(true);
-		initMouseWheel();
-		initMouseDrag();
-		glideTo(0, 0);
+		config.macros.coverFlow.refresh(true);
+		config.macros.coverFlow.initMouseWheel();
+		config.macros.coverFlow.initMouseDrag();
+		config.macros.coverFlow.glideTo(0, 0);
 	}
 }
 
-/* Hide loading bar, show content and initialize mouse event listening after loading */
-window.onload = function()
-{
-}
-
-/* Refresh ImageFlow on window resize */
-window.onresize = function()
-{
-	if(document.getElementById(conf_imageflow)) refresh();
-}
-
-/* Fixes the back button issue */
-window.onunload = function()
-{
-  document = null;
-}
-
-
 /* Handle the wheel angle change (delta) of the mouse wheel */
-function handle(delta)
-{
+config.macros.coverFlow.handle = function(delta) {
 	var change = false;
 	switch (delta > 0)
 	{
@@ -483,13 +379,13 @@ function handle(delta)
 	/* Glide to next (mouse wheel down) / previous (mouse wheel up) image */
 	if (change == true)
 	{
-		glideTo(target, new_caption_id);
+		config.macros.coverFlow.glideTo(target, new_caption_id);
 	}
 }
 
 /* Event handler for mouse wheel event */
-function wheel(event)
-{
+
+config.macros.coverFlow.wheel = function(event) {
 	var delta = 0;
 	if (!event) event = window.event;
 	if (event.wheelDelta)
@@ -500,35 +396,31 @@ function wheel(event)
 	{
 		delta = -event.detail / 3;
 	}
-	if (delta) handle(delta);
+	if (delta) config.macros.coverFlow.handle(delta);
 	if (event.preventDefault) event.preventDefault();
 	event.returnValue = false;
 }
 
 /* Initialize mouse wheel event listener */
-function initMouseWheel()
-{
-	if(window.addEventListener) imageflow_div.addEventListener('DOMMouseScroll', wheel, false);
-	imageflow_div.onmousewheel = wheel;
+config.macros.coverFlow.initMouseWheel = function() {
+	if(window.addEventListener) imageflow_div.addEventListener('DOMMouseScroll', config.macros.coverFlow.wheel, false);
+	imageflow_div.onmousewheel = config.macros.coverFlow.wheel;
 }
 
 /* This function is called to drag an object (= slider div) */
-function dragstart(element)
-{
+config.macros.coverFlow.dragstart = function(element) {
 	dragobject = element;
 	dragx = posx - dragobject.offsetLeft + new_slider_pos;
 }
 
 /* This function is called to stop dragging an object */
-function dragstop()
-{
+config.macros.coverFlow.dragstop = function() {
 	dragobject = null;
 	dragging = false;
 }
 
 /* This function is called on mouse movement and moves an object (= slider div) on user action */
-function drag(e)
-{
+config.macros.coverFlow.drag = function (e) {
 	posx = document.all ? window.event.clientX : e.pageX;
 	if(dragobject != null)
 	{
@@ -546,15 +438,14 @@ function drag(e)
 		var new_caption_id = image_number;
 
 		dragobject.style.left = new_posx + 'px';
-		glideTo(new_target, new_caption_id);
+		config.macros.coverFlow.glideTo(new_target, new_caption_id);
 	}
 }
 
 /* Initialize mouse event listener */
-function initMouseDrag()
-{
-	document.onmousemove = drag;
-	document.onmouseup = dragstop;
+config.macros.coverFlow.initMouseDrag = function () {
+	document.onmousemove = config.macros.coverFlow.drag;
+	document.onmouseup = config.macros.coverFlow.dragstop;
 
 	/* Avoid text and image selection while dragging  */
 	document.onselectstart = function () 
@@ -570,27 +461,48 @@ function initMouseDrag()
 	}
 }
 
-function getKeyCode(event)
-{
+config.macros.coverFlow.getKeyCode =  function(event) {
 	event = event || window.event;
 	return event.keyCode;
 }
 
+if(document.onkeydown)
+	var  old_document_onkeydown =  document.onkeydown; 
 document.onkeydown = function(event)
 {
-	var charCode  = getKeyCode(event);
+	if(old_document_onkeydown)
+		old_document_onkeydown(event);
+	var charCode  = config.macros.coverFlow.getKeyCode(event);
 	switch (charCode)
 	{
 		/* Right arrow key */
 		case 39:
-			handle(-1);
+			config.macros.coverFlow.handle(-1);
 			break;
 		
 		/* Left arrow key */
 		case 37:
-			handle(1);
+			config.macros.coverFlow.handle(1);
 			break;
 	}
 }
 
+/* Refresh ImageFlow on window resize */
+if(window.onresize)
+	var old_window_resize = window.onresize;
+window.onresize = function()
+{	
+	if(old_window_resize)
+		old_window_resize();
+	if(document.getElementById(conf_imageflow)) config.macros.coverFlow.refresh();
+}
 
+/* Fixes the back button issue */
+if(window.onunload)
+	var old_window_onunload = window.onunload;
+window.onunload = function()
+{
+	if(old_window_onunload)
+		old_window_onunload();
+	document = null;
+}
