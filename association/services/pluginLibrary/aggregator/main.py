@@ -5,6 +5,7 @@ retrieve TiddlyWiki plugins from authors' repositories
 import sys
 
 from urllib import urlopen
+from time import time
 from tiddlyweb.config import config
 from tiddlyweb.store import Store, StoreLockError
 from tiddlyweb.bag import Bag
@@ -16,6 +17,7 @@ from dirScraper import DirScraper
 log = [] # XXX: don't use of global (module-scoped!) variable -- TODO: use function that also inserts timestamp
 
 def main(args):
+	t0 = time()
 	env = { "tiddlyweb.config": config }
 	store = Store("text", env)
 	repos = getRepositories("repos.lst")
@@ -26,7 +28,8 @@ def main(args):
 		getPlugins(repo, store)
 	bags = [repo["name"] for repo in repos] # XXX: repo["name"] not necessarily equals Bag(repo["name"]).name
 	generateRecipe(bags, store)
-	print "%s new log entries:\n" % len(log), "\n".join(log) # TODO: write to file
+	t1 = time()
+	print "%s new log entries:\n%s\nelapsed time: %s seconds" % (len(log), "\n".join(log), t1 - t0)
 
 def getRepositories(filepath):
 	"""

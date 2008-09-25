@@ -69,7 +69,7 @@ plugins.PluginLibraryAdaptor = {
 };
 
 config.macros.ImportPlugins = { // TODO: rename
-	btnLabel: "Plugin Search",
+	btnLabel: "Search",
 	btnTooltip: "search the TiddlyWiki Plugin Library",
 	btnClass: null,
 	accessKey: "f",

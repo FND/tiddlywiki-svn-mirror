@@ -6,7 +6,7 @@ body {
 }
 
 #contentWrapper {
-	width: 50%;
+	width: 75%;
 	overflow: auto;
 	margin: 0 auto;
 	padding-bottom: 2em;

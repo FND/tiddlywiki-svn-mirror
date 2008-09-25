@@ -36,10 +36,10 @@ config.macros.pluginInfo = {
 		} else {
 			info += String.encodeTiddlyLink(name);
 		}
-		info += "}}}\n"
-			+ (slices.Description || "")
-			+ "<<slider chk" + tiddler.title.replace(" ", "_") + "Slider "
-			+ "[[" + tiddler.title + "]]" + "'More...' 'full info'>>";
+		info += "}}}\n" +
+			(slices.Description || "") +
+			"<<slider chk" + tiddler.title.replace(" ", "_") + "Slider " +
+			"[[" + tiddler.title + "]]" + "'More...' 'full info'>>";
 		wikify(info, place);
 	}
 };
