@@ -2,7 +2,7 @@
 |''Name''|PluginLibraryAdaptor|
 |''Description''|[TBD]|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/UI/plugins/PluginLibraryConnectorPlugin.js|
 |''License''|[[Creative Commons Attribution-Share Alike 3.0|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -15,7 +15,7 @@ version.extensions.PluginLibraryAdaptor = { installed: true };
 if(!plugins) { var plugins = {}; }
 
 plugins.PluginLibraryAdaptor = {
-	host: "http://burningchrome.com:8090",
+	host: "http://plugins.tiddlywiki.org/tiddlyweb/",
 	listRetrievalMsg: "retrieving list of plugins matching '%0'...",
 	tiddlerRetrievalMsg: "retrieving %0 matching plugins",
 	retrievalErrorMsg: "error retrieving data from server",

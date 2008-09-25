@@ -2,7 +2,7 @@
 |''Name''|PluginInfoPlugin|
 |''Description''|imports plugins from TiddlyWiki Plugin Library|
 |''Author''|FND|
-|''Version''|0.1|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#PluginLibraryConnectorPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -11,8 +11,6 @@
 {{{
 <<pluginInfo [name]>>
 }}}
-!!Examples
-<<pluginInfo>>
 !Revision History
 !!v0.1 (2008-07-25)
 * initial release
