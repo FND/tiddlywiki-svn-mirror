@@ -60,9 +60,12 @@ def user(environ, start_response):
     Display an information page for the user. If they are not
     logged in, have them log in.
     """
+    userpath = environ['wsgiorg.routing_args'][1]['username']
     user = environ['tiddlyweb.usersign']['name']
     if user == 'GUEST':
         raise UserRequiredError, 'real user required to twote'
+    if user != userpath:
+        raise HTTP302, '%s/twoter/%s' % (server_base_url(environ), urllib.quote(user))
 
     recent_recipe = _check_recipe('recent', environ, user)
     all_recipe = _check_recipe('all', environ, user)
@@ -91,6 +94,7 @@ def submit(environ, start_response):
     if user == 'GUEST':
         raise UserRequiredError, 'real user required to twote'
 
+    recent_recipe = _check_recipe('recent', environ, user)
     all_recipe = _check_recipe('all', environ, user)
 
     length = environ['CONTENT_LENGTH']
@@ -147,7 +151,7 @@ def _check_bag(name, environ, user):
         bag = Bag(name)
         store.get(bag)
     except NoBagError:
-        policy = Policy(dict(read=[user], write=[user], delete=[user], create=[user]))
+        policy = Policy(read=[user], write=[user], delete=[user], create=[user])
         bag.policy = policy
         store.put(bag)
     return bag
