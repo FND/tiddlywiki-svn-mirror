@@ -34,7 +34,7 @@ config.macros.register.displayRegister=function(place, w, item){
 	w.formElem["reg_username"].onkeyup=function() {me.isUsernameAvailable(w);};
 	w.setButtons([
 		{caption: me.buttonRegister, tooltip: me.buttonRegisterToolTip, onClick:function() { me.doRegister(place, w)}},
-		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() { me.refresh(place)}}
+		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() { config.macros.ccLogin.refresh(place)}}
 	]);
 }
 
@@ -80,7 +80,7 @@ config.macros.register.doRegister=function(place, w){
 	var loginResp=doHttp('POST',url+'/handle/register.php',"username="+w.formElem['reg_username'].value+"&reg_mail="+w.formElem['reg_mail'].value+"&password="+Crypto.hexSha1Str(w.formElem['reg_password1'].value)+"&password2="+Crypto.hexSha1Str(w.formElem['reg_password2'].value),null,null,null,config.macros.register.registerCallback,params);
 	w.addStep(me.step2Title, me.msgCreatingAccount);
 	w.setButtons([
-		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {config.macros.login.refresh(place);}
+		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {me.refresh(place);}
 	}]);
 }
 

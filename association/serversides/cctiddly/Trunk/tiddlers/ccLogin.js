@@ -46,7 +46,7 @@ merge(config.macros.ccLogin,{
 	stepLogoutText:"You are currently logged in as ",
 	buttonLogout:"logout",
 	buttonLogoutToolTip:"Click here to logout.",
-	buttonLogin:"login",
+	buttonLogin:"Login",
 	buttonLoginToolTip:"Click to Login.",	
 	buttonCancel:"Cancel",
 	buttonCancelToolTip:"Cancel transaction ",
@@ -73,7 +73,7 @@ config.macros.saveChanges.handler=function(place,macroName,params,wikifier,param
 			return false;
 		},null,null,this.accessKey);
 	}else{
-		createTiddlyButton(place,config.macros.ccLogin.buttonLogin , config.macros.ccLogin.buttonLoginToolTip, function() {
+		createTiddlyButton(place,config.macros.ccLogin.buttonLogin, config.macros.ccLogin.buttonLoginToolTip, function() {
 			story.displayTiddler(null, "Login");
 		},null,null,this.accessKey);
 	}
@@ -132,7 +132,7 @@ config.macros.ccLogin.refresh=function(place, error){
 	});
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
-	},"loginId", null, null,  {tabindex:'3'});
+	},null, null, null,  {tabindex:'3'});
 	if(config.macros.register!==undefined){		
 		createTiddlyButton(w.footElem,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
 				config.macros.register.displayRegister(place, w, this);
