@@ -33,8 +33,9 @@ if($tiddlyCfg['developing']>0){
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 {
 ?>
+
 // OFF LINE TIDDLERS 
-<div title='ccAdaptorSaveLocal' modifier='cctiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
+<div title='ccAdaptorSaveLocal' modifier='ccTiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
 <pre>
 config.backstageTasks.remove("upgrade");
 	
