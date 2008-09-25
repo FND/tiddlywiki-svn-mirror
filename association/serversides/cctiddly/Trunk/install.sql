@@ -8,7 +8,7 @@
 -- PHP Version: 5.2.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
+SET NAMES 'utf8' COLLATE 'utf8_unicode_ci';
 -- 
 -- Database: `cctw_public2`
 -- 
@@ -25,7 +25,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 CREATE TABLE `admin_of_workspace` (
   `username` varchar(255) NOT NULL,
   `workspace_name` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM;
 
 -- 
 -- Dumping data for table `admin_of_workspace`
@@ -44,7 +44,7 @@ INSERT INTO `admin_of_workspace` (`username`, `workspace_name`) VALUES
 CREATE TABLE `group` (
   `name` varchar(50) NOT NULL,
   `desc` mediumtext NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM;
 
 -- 
 -- Dumping data for table `group`
@@ -60,7 +60,7 @@ CREATE TABLE `group` (
 CREATE TABLE `group_membership` (
   `user_id` varchar(255) NOT NULL,
   `group_name` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM;
 
 -- 
 -- Dumping data for table `group_membership`
@@ -78,7 +78,7 @@ CREATE TABLE `login_session` (
   `session_token` varchar(150) NOT NULL COMMENT 'username+password+time',
   `expire` varchar(16) NOT NULL,
   `ip` varchar(15) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM;
 
 -- 
 -- Dumping data for table `login_session`
@@ -97,7 +97,7 @@ CREATE TABLE `permissions` (
   `delete` int(1) NOT NULL,
   `group_name` varchar(50) NOT NULL,
   `workspace_name` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM;
 
 -- 
 -- Dumping data for table `permissions`
@@ -123,7 +123,7 @@ CREATE TABLE `tiddler` (
   `created` varchar(12) NOT NULL,
   `revision` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=133 ;
+) ENGINE=MyISAM AUTO_INCREMENT=133 ;
 
 -- 
 -- Dumping data for table `tiddler`
@@ -152,7 +152,7 @@ CREATE TABLE `tiddler_revisions` (
   `tags` varchar(255) NOT NULL default '',
   `tiddler_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=37 ;
 
 -- 
 -- Dumping data for table `tiddler_revisions`
@@ -170,7 +170,7 @@ CREATE TABLE `user` (
   `short_name` varchar(50) NOT NULL,
   `long_name` varchar(100) NOT NULL,
   PRIMARY KEY  (`username`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM;
 
 -- 
 -- Dumping data for table `user`
@@ -204,7 +204,7 @@ CREATE TABLE `workspace` (
   `rss_group` varchar(50) NOT NULL,
   `markup_group` varchar(50) NOT NULL,
   PRIMARY KEY  (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM;
 
 -- 
 -- Dumping data for table `workspace`
@@ -226,7 +226,7 @@ CREATE TABLE `workspace_view` (
   `workspace` varchar(255) NOT NULL,
   `time` datetime NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=82 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=82 ;
 
 -- 
 -- Dumping data for table `workspace_view`

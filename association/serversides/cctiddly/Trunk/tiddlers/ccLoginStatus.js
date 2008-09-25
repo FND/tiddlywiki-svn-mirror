@@ -32,7 +32,7 @@ config.macros.ccLoginStatus={};
 merge(config.macros.ccLoginStatus,{
 	textDefaultWorkspaceLoggedIn:"Viewing default workspace",
 	textViewingWorkspace:"Viewing Workspace : ",
-	textLoggedInAs:"Logged in as :",
+	textLoggedInAs:"Logged in as ",
 	textNotLoggedIn:"You are not logged in.",
 	textAdmin:"You are an Administrator."
 });
@@ -50,7 +50,6 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
        var str = (workspace == "" ? me.textDefaultWorkspaceLoggedIn :
 (me.textViewingWorkspace+workspace))+"\r\n\r\n";
        if (isLoggedIn()){
-				str += "as";
                name = cookieString(document.cookie).txtUserName;
                str += me.textLoggedInAs+decodeURIComponent(name)+".\r\n\r\n";
                if (workspacePermission.owner==1){
