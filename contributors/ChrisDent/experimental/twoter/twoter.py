@@ -151,7 +151,8 @@ def _check_bag(name, environ, user):
         bag = Bag(name)
         store.get(bag)
     except NoBagError:
-        policy = Policy(read=[user], write=[user], delete=[user], create=[user])
+        uni_user = unicode(user)
+        policy = Policy(read=[uni_user], write=[uni_user], delete=[uni_user], create=[uni_user])
         bag.policy = policy
         store.put(bag)
     return bag
