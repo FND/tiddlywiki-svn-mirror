@@ -55,6 +55,6 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 	}
 	return coreTemplate; // no matching tag, return core result
 }
-//}}}
+
 </pre>
 </div>

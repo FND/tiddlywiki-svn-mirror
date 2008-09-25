@@ -1,4 +1,4 @@
-<div title="wizardViewTemplate" modifier="Simon McManus" modified="200708091500" tags="systemTheme excludeSearch excludeLists">
+<div title="wizardViewTemplate" modifier="ccTiddly" modified="200708091500" tags="systemTheme excludeSearch excludeLists">
 <pre>
 <!--{{{-->
 <div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>

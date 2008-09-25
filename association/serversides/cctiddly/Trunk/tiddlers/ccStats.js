@@ -99,13 +99,13 @@ config.macros.stats.refresh = function(params) {
 	if(select[select.selectedIndex].value!="")
 		workspace = select[select.selectedIndex].value;
 	createTiddlyElement(params.container, "h2", null, null , workspace);
-	params = { container: params.container, url: window.url+"/handle/instanceStats.php?graph=minute&workspace="+workspace,title:me.graph20MinsTitle, desc:me.graph20MinsDesc};
+	params = { container: params.container, url: window.url+"/handle/stats.php?graph=minute&workspace="+workspace,title:me.graph20MinsTitle, desc:me.graph20MinsDesc};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
-	params = { container:params.container, url:  window.url+"/handle/instanceStats.php?graph=hour&workspace="+workspace,title:me.graph24HourTitle, desc:me.graph24HourDesc};
+	params = { container:params.container, url:  window.url+"/handle/stats.php?graph=hour&workspace="+workspace,title:me.graph24HourTitle, desc:me.graph24HourDesc};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
-	params = { container: params.container, url:  window.url+"/handle/instanceStats.php?graph=day&workspace="+workspace,title:me.graph7DaysTitle, desc:me.graph7DaysDesc};
+	params = { container: params.container, url:  window.url+"/handle/stats.php?graph=day&workspace="+workspace,title:me.graph7DaysTitle, desc:me.graph7DaysDesc};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
-	params = { container: params.container, url:  window.url+"/handle/instanceStats.php?graph=month&workspace="+workspace,title:me.graph5MonthsTitle, desc:me.graph5MonthsDesc};
+	params = { container: params.container, url:  window.url+"/handle/stats.php?graph=month&workspace="+workspace,title:me.graph5MonthsTitle, desc:me.graph5MonthsDesc};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);	
 }
 
