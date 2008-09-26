@@ -14,9 +14,7 @@ $ccT_msg['upload']['maxFileSize'] = "Maximum file size limit: ".$tiddlyCfg['max_
 $ccT_msg['upload']['fileExists'] = "file already exists.  Please try again with a different file name.";
 $ccT_msg['upload']['unknownError'] "There were some errors!";
 $ccT_msg['upload']['uploadedTitle'] = "Image Uploaded";
-
-
-
+$ccT_msg['upload']['includeCode'] = "You can include this image into a tiddlywiki using the code below : ";
 
 if(!user_session_validate()){
 	sendHeader("403");
@@ -154,7 +152,7 @@ else{
 	$url = $remote_root.$folder.$_FILES["userFile"]["name"];
 	if($file_type == 'image'){
 		$output .= '<h2>'.$ccT_msg['upload']['uploadedTitle'].'</h2> ';
-		$output .= "<a href='".$url."'><img src='".$url."' height=100 /></a><p>You can include this image into a tiddlywiki using the code below : </p><form name='tiddlyCode' ><input type=text name='code' id='code' onclick='this.focus();this.select();' cols=90 rows=1 value='[img[".$url."][EmbeddedImages]]' /></form>";
+		$output .= "<a href='".$url."'><img src='".$url."' height=100 /></a><p>".$ccT_msg['upload']['includeCode']."</p><form name='tiddlyCode' ><input type=text name='code' id='code' onclick='this.focus();this.select();' cols=90 rows=1 value='[img[".$url."][EmbeddedImages]]' /></form>";
 	}
 	else{		
 		$output .= "<a href='".$url."'/>".$url."</a>";	
