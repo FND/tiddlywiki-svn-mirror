@@ -51,7 +51,6 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 			 return s;
 		}
 	}
-	console.log('tt',template);
 	return template;
 }
 
