@@ -12,6 +12,7 @@ config.options.chkAutoSave = false;
 config.options.txtBackupFolder = 'backup';
 config.options.txtMaxEditRows = 20;
 config.options.chkDisableWikiLinks = true;
+config.options.	txtTheme = 'HesperianHealthTheme';
 
 config.maxTiddlerImportCount = 500;
 
