@@ -2,9 +2,9 @@
 HTTP directory scraper
 """
 
-import httplib2 # XXX: use urllib? (for consistency with main.py)
 import posixpath
 
+from urllib import urlopen
 from BeautifulSoup import BeautifulSoup
 from tiddlyweb.tiddler import Tiddler
 from utils import addTrailingSlash
@@ -24,14 +24,10 @@ class DirScraper:
 
 		@param url (str): page URL
 		@return (str): page contents
-		@raise IOError: HTTP status error
+		@raise IOError: HTTP error
 		"""
-		http = httplib2.Http()
-		response, content = http.request(url, method = "GET")
-		if response.status == 200: # XXX: too restrictive?
-			return unicode(content, "utf-8", "replace")
-		else:
-			raise IOError("error retrieving remote content: HTTP status %s" % response.status) # IOError not approriate
+		content = urlopen(url).read()
+		return unicode(content, "utf-8", "replace")
 
 	def getPlugins(self, dir, recursive = False):
 		"""
