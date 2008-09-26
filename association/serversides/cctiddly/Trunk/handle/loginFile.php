@@ -15,7 +15,7 @@ if(isset($u) && isset($p))
 if (isset($_POST['logout']) || isset($_REQUEST['logout']))
 {
 	debug("logout request received", "login");
-	user_logout('You have logged out.');
+	user_logout();
 }
 
 ?>

@@ -18,7 +18,7 @@ if( sizeof($tiddlers)>0 )
 		if( user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])) ) { //if read privilege ok, output
 			$a .= "{'title':'".$t['title']."', 'revision':".$t['revision']."}".",";
 		}else{ //if no read privilege, stop
-			sendHeader(204,$ccT_msg['error']['tiddler_not_found'],"",1);
+			sendHeader(204);
 		}
 		
 	}

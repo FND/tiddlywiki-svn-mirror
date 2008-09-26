@@ -20,7 +20,9 @@ merge(config.macros.register,{
 	msgUsernameTaken:"The username requested has been taken.",
 	msgUsernameAvailable:"The username is available.",
 	step2Title:"",
-	step2Html:"Please wait while we create you an account..."
+	step2Html:"Please wait while we create you an account...",
+	errorRegisterTitle:"Error",
+	errorRegister:"User not created, please try again with a different username."
 });
 
 config.macros.register.handler=function(place,macroName,params,wikifier,paramString,tiddler){
@@ -77,6 +79,7 @@ config.macros.register.doRegister=function(place, w){
 	params.p = Crypto.hexSha1Str(w.formElem['reg_password1'].value);
 	params.u = w.formElem['reg_username'].value;
 	params.place = place;
+	params.w = w;
 	var loginResp=doHttp('POST',url+'/handle/register.php',"username="+w.formElem['reg_username'].value+"&reg_mail="+w.formElem['reg_mail'].value+"&password="+Crypto.hexSha1Str(w.formElem['reg_password1'].value)+"&password2="+Crypto.hexSha1Str(w.formElem['reg_password2'].value),null,null,null,config.macros.register.registerCallback,params);
 	w.addStep(me.step2Title, me.msgCreatingAccount);
 	w.setButtons([
@@ -101,6 +104,11 @@ config.macros.register.usernameValid=function(str){
 config.macros.register.registerCallback=function(status,params,responseText,uri,xhr){
 	var userParams = {};
 	userParams.place = params.place;
+	if (xhr.status==304){
+		params.w.addStep(config.macros.register.errorRegisterTitle, config.macros.register.errorRegister);
+		return false;
+	}	
+	return true;
 	var adaptor = new config.adaptors[config.defaultCustomFields['server.type']];
 	var context = {};
 	context.host = window.url;

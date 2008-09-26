@@ -8,6 +8,8 @@ $data['password'] = $_POST['password'];
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
+sendHeader(304);
+exit;
 if ($tiddlyCfg['can_create_account'] !=1)
 {
 	sendHeader("403");
@@ -27,9 +29,8 @@ if($_POST['free'] ==1 )
 $res = db_record_insert($tiddlyCfg['table']['user'],$data);
 
 if ($res !=1)
-{
-	echo 'User not created, please try again with a different username.';
-}else
-{
-	user_login(formatParametersPOST($data['username']),formatParametersPOST($data['password']));}
+	sendHeader(304);
+else
+	user_login(formatParametersPOST($data['username']),formatParametersPOST($data['password']));
+
 ?> 
