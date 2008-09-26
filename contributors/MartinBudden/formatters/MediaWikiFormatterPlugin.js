@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.6|
+|''Version:''|0.5.7|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -548,9 +548,9 @@ config.mediawiki.formatters = [
 //#http://upload.wikimedia.org/wikipedia/en/thumb/1/1d/KLM_Aircraft_at_Schiphol.jpg/180px-KLM_Aircraft_at_Schiphol.jpg
 //#http://upload.wikimedia.org/wikipedia/commons/thumb/3/37/KLMS.jpg/250px-KLMS.jpg
 					var md5 = Crypto.hexMd5Str(src);
-					var imgdir = (md5.substr(0,1) + '/' + md5.substr(0,2)).toLowerCase();
+					var md5dir = '/' + (md5.substr(0,1) + '/' + md5.substr(0,2)).toLowerCase();
 					img.src = MediaWikiFormatter.fullHostName(w.tiddler.fields['server.host']||config.defaultCustomFields['server.host']);
-					var imgDir = 'images'
+					var imgDir = 'images';
 					//if(img.src=='http://en.wikipedia.org/w/') {
 					if(img.src.indexOf('wikipedia.org/')!=-1) {
 						//imgDir = 'wikipedia/en';
@@ -558,7 +558,7 @@ config.mediawiki.formatters = [
 						img.src = 'http://upload.wikimedia.org/';
 					}	
 					img.src += imgDir;
-					img.src += '/thumb/' + imgdir + '/' + src + '/' + psrc;
+					img.src += '/thumb' + md5dir + '/' + src + '/' + psrc;
 					//#console.log('image uri',img.src);
 				}
 
@@ -587,11 +587,29 @@ config.mediawiki.formatters = [
 				a.title = ptitle;
 				img = createTiddlyElement2(a,'img');
 				if(palign) {img.align = palign;}
-				img.src = px ? 'images/' + px + 'px-' + src : 'images/' + src;
 //#mwDebug(w.output,'s2:'+img.src);
 				if(px) {img.width = px;}
 				img.longdesc = 'Image:' + src;
 				img.alt = ptitle;
+				if(config.options.chkUseHostImages) {
+//#http://wiki.openmoko.org/images/thumb/b/b9/Freerunner02.gif/150px-Freerunner02.gif
+//#http://upload.wikimedia.org/wikipedia/en/thumb/1/1d/KLM_Aircraft_at_Schiphol.jpg/180px-KLM_Aircraft_at_Schiphol.jpg
+//#http://upload.wikimedia.org/wikipedia/commons/thumb/3/37/KLMS.jpg/250px-KLMS.jpg
+					md5dir = '';
+					if(Crypto.hexMd5Str) {
+						md5 = Crypto.hexMd5Str(src);
+						md5dir = '/'+ (md5.substr(0,1) + '/' + md5.substr(0,2)).toLowerCase();
+					}
+					img.src = MediaWikiFormatter.fullHostName(w.tiddler.fields['server.host']||config.defaultCustomFields['server.host']);
+					imgDir = 'images';
+					if(img.src.indexOf('wikipedia.org/')!=-1) {
+						imgDir = 'wikipedia/commons';
+						img.src = 'http://upload.wikimedia.org/';
+					}	
+					img.src += imgDir + md5dir + '/' + src;
+				} else {
+					img.src = px ? 'images/' + px + 'px-' + src : 'images/' + src;
+				}
 			}
 		}
 	}//#end image handler
