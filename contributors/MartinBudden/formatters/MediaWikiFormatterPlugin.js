@@ -1429,10 +1429,19 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 	var tr = createTiddlyElement2(table,'tr');
 //#console.log('x1:'+w.source.substr(w.nextMatch,10));
 	if(w.source.substr(w.nextMatch,2)=='|-') {
-		w.nextMatch += 3;
+		w.nextMatch += 2;
+		i = lineEnd(w);
+		//if(i==-1)
+		//	break;
+		if(i>w.nextMatch) {
+			MediaWikiFormatter.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
+			w.nextMatch = i;
+		}
+		w.nextMatch++;
 	}
 //#console.log('x2:'+w.source.substr(w.nextMatch,10));
 	var x = w.source.substr(w.nextMatch,2);
+//#console.log('xw:'+x);
 	while(x!='|}') {
 		if(x=='{|') {
 			//# nested table
@@ -1526,8 +1535,10 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 			subWikifyText(cell,w,w.source.substring(w.nextMatch,i));
 			w.nextMatch = i+1;
 			//w.subWikifyTerm(cell,/(\n)/mg);
+		} else {
 		}
 		x = w.source.substr(w.nextMatch,2);
+//#console.log('xw2:'+x);
 	}
 	w.nextMatch = pair.end + 3;
 	return;
