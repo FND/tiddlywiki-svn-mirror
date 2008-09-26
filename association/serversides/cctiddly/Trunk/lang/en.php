@@ -33,22 +33,14 @@ $ccT_msg['debug']['actionIs'] = "cct action is : ";
 $ccT_msg['debug']['delegatedSessionManagementEnabled'] = "deligated session management is enabled";
 $ccT_msg['debug']['sessionExpired'] = "SESSION has expired";
 $ccT_msg['debug']['setSession'] = "user set session ";
-$ccT_msg['debug']['userRequiredInDb'] = "user is required in db";
+$ccT_msg['debug']['userRequiredInDb'] = "user is required in db.";
 $ccT_msg['debug']['userExistsInDb'] = "user exists in the database.";
 $ccT_msg['debug']['userDoesNotExistInDb'] = "The user does not exist in the database.";
 $ccT_msg['debug']['sessionWillExpire'] = "session will expire : ";
-$ccT_msg['debug']['sessionAddedToDb'] = "session has been added to the database";
-$ccT_msg['debug']['ldapFailNoPassword'] = "LDAP login failed due to no password being present";
-$ccT_msg['debug']['ldapFailNoConnect'] = "LDAP connection could not be established (1)";
-$ccT_msg['debug']['ldapMakingProgress'] = "LDAP making prgress - tis ok"; 
+$ccT_msg['debug']['sessionAddedToDb'] = "session has been added to the database.";
+$ccT_msg['debug']['ldapFailNoPassword'] = "LDAP login failed due to no password being present.";
+$ccT_msg['debug']['ldapFailNoConnect'] = "LDAP connection could not be established.";
+$ccT_msg['debug']['ldapMakingProgress'] = "LDAP making prgress"; 
 
-$ccT_msg['debug'][''] = 
-$ccT_msg['debug'][''] = 
-$ccT_msg['debug'][''] = 
-$ccT_msg['debug'][''] = 
-$ccT_msg['debug'][''] = 
-$ccT_msg['debug'][''] = 
-$ccT_msg['debug'][''] = 
-$ccT_msg['debug'][''] = 
-$ccT_msg['debug'][''] = 
+
 ?>

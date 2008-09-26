@@ -49,7 +49,6 @@ if(isset($tiddler['title']))
 
 		$ntiddler['creator'] = $ntiddler['modifier'];
 		$ntiddler['created'] = $ntiddler['modified'];
-		debug($ntiddler['modified']."MOD");
 		$ntiddler['revision'] = 1;
 		tiddler_insert_new($ntiddler);
 		sendHeader(201);

@@ -1,6 +1,7 @@
 <?php 
 include_once($cct_base."includes/ccAssignments.php");
-
+echo tiddler_outputJsFile($cct_base."lang/".$tiddlyCfg['pref']['language'].".js");
+	
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	tiddler_outputOffline();
 else

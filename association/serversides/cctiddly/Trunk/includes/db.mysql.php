@@ -625,7 +625,6 @@ $db_var['settings']['magic_quote'] = 0;
 		$sql = "";
 			while( (list($k,$v) = each($data)) )
 		{
-//			debug("add var to SQL -".$k."  = ".$v, "params");
 			if (($v != '') || ($k=='workspace_name'))  // make sure we dont search on emtpy values unless its 
 				$sql .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."' and ";
 		}
