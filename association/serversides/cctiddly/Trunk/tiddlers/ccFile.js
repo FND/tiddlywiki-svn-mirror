@@ -8,7 +8,9 @@ merge(config.macros.ccFile,{
 	buttonUploadText:"Upload Files",
 	buttonUploadTooltip:"Click to Upload files.",
 	labelFiles:"Existing Files ",
-	errorPermissionDenied:"You do not have permissions to create a file on this server. ",
+	errorPermissionDeniedTitle:"Permission Denied",
+	errorPermissionDeniedUpload:"You do not have permissions to create a file on this server. ",
+	errorPermissionDeniedView:"You do not have permissions to view files in this workspace. ",
 	listAdminTemplate: {
 	columns: [	
 	{name: 'wiki text', field: 'wikiText', title: "", type: 'WikiText'},
@@ -114,7 +116,6 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	saveTo.name='saveTo';
 	step.appendChild(saveTo);
 
-
 	var submitDiv=createTiddlyElement(step,"div",null,'submit');
 	var btn=createTiddlyElement(null,"input",null,'button');
 	btn.setAttribute("type","submit");
@@ -146,6 +147,12 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 	var me = config.macros.ccFile;
 	var out = "";
 	var adminUsers = [];
+	if(xhr.status!=200){
+		params.w.addStep(me.errorPermissionDeniedTitle, me.errorPermissionDeniedView);
+		return true;
+	}
+
+	displayMessage(xhr.status);
 	try{
 		var a = eval(responseText);
 		for(var e=0; e < a.length; e++){ 		
@@ -172,18 +179,6 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 	//params.w.setValue("listAdminView",listAdminView);
 	params.w.setValue("listView",listView);
 };
-
-config.macros.ccFile.listFilesCallback = function(status,params,responseText,uri,xhr) {
-	createTiddlyElement(params.place,'hr');
-	createTiddlyElement(params.place,'br');
-	createTiddlyElement(params.place, 'h2', null, null, me.labelFiles);
-	var a = eval( "[" +responseText+ "]" );
-		for(var e=0; e < a.length; e++){  
-			var link=createExternalLink(params.place,url+'/uploads/workspace/'+workspace+'/'+a[e]);
-			link.textContent=a[e];
-			createTiddlyElement(params.place, "br");
-		}
-}
 
 config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,xhr) {	
 	config.macros.ccFile.refresh(params.w);

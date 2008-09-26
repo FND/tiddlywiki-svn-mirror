@@ -36,7 +36,7 @@ var iFrameLoad=function(){
 config.macros.ccUpload={};
 config.macros.ccUpload.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
 	if (workspacePermission.upload!=1){
-		createTiddlyElement(place,'div',null,"annotation",config.macros.ccFile.errorPermissionDenied);
+		createTiddlyElement(place,'div',null,"annotation",config.macros.ccFile.errorPermissionDeniedUpload);
 		return null;
 	}
 	var frm=createTiddlyElement(null,'form',null,"wizard");

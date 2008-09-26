@@ -1,5 +1,9 @@
 <?php
 
+// This code is not being used. 
+exit;
+
+
 $data['username'] = $_REQUEST['username'];
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
@@ -14,8 +18,6 @@ if (count($results) == 1)                   //  if the array has 1 or more acoun
 		echo "User does not have an email address stored.";
 	}
 }
-
-
 
 // check mail functionaility is enabled, provide nice notification on install if the mail functionality is not present. 
 // SQL to install mail field in user table : ALTER TABLE `user` ADD `mail` VARCHAR( 800 ) NOT NULL ;

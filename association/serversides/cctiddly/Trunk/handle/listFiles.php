@@ -9,7 +9,6 @@ include_once($cct_base."includes/header.php");
 if(!user_session_validate())
 {
 	sendHeader("403");
-	echo '<b>You do not appear to be logged in. You may need to refresh the page to recieve the login prompt.</b>';
 	exit;	
 }
 
@@ -18,7 +17,6 @@ if (!user_isAdmin($user['username'], $_w))
 	if ($tiddlyCfg['only_workspace_admin_can_upload']==1)
 	{
 		sendHeader("401");
-		echo '<b> You do not have permissions to upload files,  Only workspace owners can upload files. You could try creating your own workspace.</b>';
 		exit;
 	}
 }
