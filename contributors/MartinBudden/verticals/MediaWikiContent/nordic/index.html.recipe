@@ -9,6 +9,7 @@ tiddler: settings.js
 recipe: ../../tiddlypedia/splitHostedLogo.recipe
 tiddler: ../../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../../plugins/AsyncStartupPlugin.js
+tiddler: ../../../plugins/MD5UnwoundPlugin.js
 tiddler: ../../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../../formatters/MediaWikiTemplatePlugin.js
 tiddler: ../../../styles/wikipedia.MediaWiki.Common.css.js
