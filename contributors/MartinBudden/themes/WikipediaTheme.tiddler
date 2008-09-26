@@ -1,0 +1,75 @@
+<div title="WikipediaTheme" modifier="MartinBudden" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|WikipediaTheme|
+|''Description:''|The basic WikipediaTheme theme|
+|''~CoreVersion:''|2.4.1|
+|''~MainMenu:''|##MainMenu|
+|''~PageTemplate:''|##PageTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div class='header'>
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+
+<div id='sidebar'>
+<div id='logo' refresh='content' tiddler='WikipediaTheme##Logo'></div>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='WikipediaTheme##SideBarTabs'></div>
+</div>
+
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!Logo
+<br/>
+[img[TiddlypediaLogo.gif]]
+''@@font-size(2.4em):T@@@@font-size(1.7em):IDDLYPEDI@@@@font-size(2.4em):A@@''
+
+!SideBarTabs
+<<tabs txtMainTab "Articles" "All articles" TabAll "Tags" "All tags" TabTags "More" "More lists" WikipediaTheme##TabMore>>
+
+!TabMore
+<<tabs txtMoreTab "OtherPages" "OtherPages" TabOtherPages "Updated" "Updated off line" TabUpdated "Shadowed" "Shadowed tiddlers" TabMoreShadowed>>
+
+!ViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler revisions > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagged' macro='tags'></div>
+<div class='viewer' macro='include Template:WikipediaArticleFooter'></div>
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler'></div>
+<!--}}}-->
+
+!StyleSheet
+/*{{{*/
+/*horizontal mainmenu*/
+#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
+#mainMenu br {display:none;}
+#mainMenu {background:#336699;}
+#mainMenu {padding:2px;}
+#mainMenu .button, #mainMenu .tiddlyLink {padding-left:0.5em;padding-right:0.5em;color:white;font-size:115%;}
+#displayArea {
+	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
+	padding-top:.1em;padding-bottom:.1em;
+}
+
+[[wikipediaStyle]]
+[[wikipediaAbridged/Skins-1.5.monobook/main.css]]
+[[wikipedia.MediaWiki.Common.css]]
+/*}}}*/
+</pre>
+</div>
