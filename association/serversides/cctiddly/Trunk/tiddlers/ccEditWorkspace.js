@@ -19,8 +19,9 @@ merge(config.macros.ccEditWorkspace,{
 	button1SubmitCaption:"ok",
 	button1SubmitToolTip:"review permissions",
 	step2Error:"Error", 
-	errorTextPermissionDenied:"You do not have permissions to edit this workspace permissions.  You may need to log in."
-	});
+	errorTextPermissionDenied:"You do not have permissions to edit this workspace permissions.  You may need to log in.",
+	errorUpdateFailed:"Permissions Not changed"
+});
 	
 config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikifier, paramString, tiddler){
 	var me = config.macros.ccEditWorkspace;
@@ -206,7 +207,7 @@ config.macros.ccEditWorkspace.editWorkspaceCallback = function(status,params,res
 		]);
 	}
 	else{
-		w.addStep(me.step2Error+': ' + xhr.status,responseText);
+		w.addStep(me.step2Error+': ' + xhr.status,config.macros.ccEditWorkspace.errorUpdateFailed);
 	}
 	return false;
 };

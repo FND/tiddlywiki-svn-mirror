@@ -9,9 +9,7 @@ $u = $_POST['username']?$_POST['username']:$_REQUEST['username'];
 $w = $_POST['workspace_name']?$_POST['workspace_name']:$_REQUEST['workspace_name'];
 
 if(!user_session_validate())
-{
-	sendHeader("403");
-}
+	sendHeader("403", null, null, 1);
 
 if ($a =="LISTWORKSPACES")
 {
@@ -27,16 +25,10 @@ if ($a =="LISTWORKSPACES")
 }
 
 if (!user_isAdmin(user_getUsername(), $w))
-{
-	
-	sendHeader("401");
-	echo "You do not have Admin rights on this workspace.";
-	exit;
-}
+	sendHeader("401", null, null, 1);
 
 if($a == "DELETEADMIN")
 {
-
 	$users = explode( ",", $u);
 	foreach($users as $user)
 	{
@@ -58,8 +50,6 @@ if ($a =="LISTALL")
     $count = 0;
 	foreach ($r as $k=>$v)
 	{
-		//	$out .="'".$count++."':'".$v[workspace_name]."',";
-		//	$out .="'".$v[username]."',";
 		$out .="{'username':'".$v[username]."',";
 		$data1['username']=$v[username];
 		$data1['workspace']=$w;
