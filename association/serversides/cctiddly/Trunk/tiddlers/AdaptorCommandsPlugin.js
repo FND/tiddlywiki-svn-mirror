@@ -172,21 +172,22 @@ config.commands.revisions.getTiddlerRevisionCallback = function(context,userPara
 config.commands.deleteTiddlerHosted.handler = function(event,src,title)
 {
 	var tiddler = store.fetchTiddler(title);
-	if(!tiddler)
-	        return false;
-	var deleteIt = true;
-	if(config.options.chkConfirmDelete)
-	        deleteIt = confirm(this.warning.format([title]));
-	if(deleteIt) {
-	        var ret = invokeAdaptor('deleteTiddler',title,null,null,null,config.commands.deleteTiddlerHosted.callback,tiddler.fields);
-	        if(ret){
-	                store.removeTiddler(title);
-	                story.closeTiddler(title,true);
-	                autoSaveChanges();
-	                store.setDirty(false);
-	        }
-	}
-	return false;
+		if(!tiddler)
+		        return false;
+		var deleteIt = true;
+		if(config.options.chkConfirmDelete)
+		        deleteIt = confirm(this.warning.format([title]));
+		if(deleteIt) {
+		        var ret = invokeAdaptor('deleteTiddler',title,null,null,null,config.commands.deleteTiddlerHosted.callback,tiddler.fields);
+		        if(ret){
+		                store.removeTiddler(title);
+		                story.closeTiddler(title,true);
+		                autoSaveChanges();
+		                store.setDirty(false);
+		        }
+		}
+		return false;
+
 };
 
 config.commands.deleteTiddlerHosted.callback = function(context,userParams)
