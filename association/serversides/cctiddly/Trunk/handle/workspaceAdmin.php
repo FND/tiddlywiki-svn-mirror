@@ -56,7 +56,7 @@ if ($a =="LISTALL")
 	 	$r1 = db_record_select($tiddlyCfg['table']['workspace_view'], $data1, null ,"order by id limit 1");	
 		$out .= "'lastVisit':'".$r1[0]['time']."'},";
 	}	
-echo substr_replace($out ,"",-1)."]";		
+	echo substr_replace($out ,"",-1)."]";		
 	exit;
 }
 
@@ -66,19 +66,16 @@ if ($u && $w)
 	$data['workspace_name'] = $w;
 }else
 {
-	echo 'Please enter a workspace name and username.';
 	exit;
 }
 
 $res = db_record_insert($tiddlyCfg['table']['admin'],$data);
 
 if ($res !=1)
-{
-	echo 'User could not be added. ';
-	exit;
-}else
-{
+	sendHeader(304, null, null, 1);
+else
 	sendHeader("201");
-	echo "created";
-}
+
+
+
 ?> 

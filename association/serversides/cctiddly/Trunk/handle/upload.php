@@ -3,16 +3,29 @@
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
+
+$ccT_msg['upload']['blockedConfig'] = "HTTP file uploading is blocked in php configuration file (php.ini). Please, contact to server administrator.";
+$ccT_msg['upload']['blockedFunction'] = "PHP function move_uploaded_file is blocked in php configuration file (php.ini). Please, contact to server administrator."
+$ccT_msg['upload']['noFile'] = "No file recieved, please check it was ";
+$ccT_msg['upload']['emptyFile'] = "Empty file";
+$ccT_msg['upload']['specifyFileorHtml'] = "Please specify a file name or provide HTML";
+$ccT_msg['upload']['typeNotSupported'] = "File Type not supported";
+$ccT_msg['upload']['maxFileSize'] = "Maximum file size limit: ".$tiddlyCfg['max_file_size']." bytes";
+$ccT_msg['upload']['fileExists'] = "file already exists.  Please try again with a different file name.";
+$ccT_msg['upload']['unknownError'] "There were some errors!";
+$ccT_msg['upload']['uploadedTitle'] = "Image Uploaded";
+
+
+
+
 if(!user_session_validate()){
 	sendHeader("403");
-	echo '<b>You do not appear to be logged in. You may need to refresh the page to recieve the login prompt.</b>';
 	exit;	
 }
 
 if (!user_isAdmin($user['username'], $_POST['workspaceName'])){
 	if ($tiddlyCfg['only_workspace_admin_can_upload']==1){
 		sendHeader("401");
-		echo '<b> You do not have permissions to upload files,  Only workspace owners can upload files. You could try creating your own workspace.</b>';
 		exit;
 	}
 }
@@ -24,22 +37,22 @@ function makeFolder($path){
 }
 
 function check_vals(){
-	global $upload_dirs, $err;
+	global $upload_dirs, $err, $ccT_msg;
 	if (!ini_get("file_uploads")){
 			sendHeader("405");
-		$err .= "HTTP file uploading is blocked in php configuration file (php.ini). Please, contact to server administrator."; return 0; 
+		$err .= $ccT_msg['upload']['blockedConfig']; return 0; 
 	}
 	$pos = strpos(ini_get("disable_functions"), "move_uploaded_file");
 	if ($pos !== false){
 			sendHeader("405");
-	$err .= "PHP function move_uploaded_file is blocked in php configuration file (php.ini). Please, contact to server administrator."; return 0; 
+	$err .= $ccT_msg['upload']['blockedFunction']; return 0; 
 	}
 
   	if (!isset($_FILES["userFile"])) {
-  		$err .= "No file recieved, please check it was "; return 0;
+  		$err .= $ccT_msg['upload']['noFile']; return 0;
   	}
   	elseif (!is_uploaded_file($_FILES['userFile']['tmp_name'])) {
-  		$err .= "Empty file"; return 0; 
+  		$err .= $ccT_msg['upload']['emptyFile']; return 0; 
   	}
 	return 1;
 }
@@ -54,9 +67,6 @@ if ($_POST['saveTo'] == 'workspace'){
 elseif ($_POST['saveTo'] == 'user'){
  	$folder = "/user/".$_POST['username'];
 }
-else{
-	echo "<p>Please specify where you wish to save this file</p>";
-}
 
 $local_root = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']));
 $remote_root = dirname(getURL());
@@ -67,7 +77,7 @@ makeFolder($local_root.$folder);
 if ($_POST['ccHTMLName'] || $_POST['ccHTML']){
 	if (!$_POST['ccHTMLName'] || !$_POST['ccHTML']){
 		sendHeader("402");
-		echo "Please specify a file name or provide HTML";
+		echo $ccT_msg['upload']['specifyFileorHtml'];
 		exit;
 	}
 	
@@ -110,7 +120,7 @@ if (isset($_FILES["userFile"])){
 		else if(in_array($_FILES["userFile"]["type"], $tiddlyCfg['upload_allow_extensions'])){
 			$file_type = 'text';
 		}else{
-			echo '<b>File Type not supported</b>';
+			echo '<b>'.$ccT_msg['upload']['typeNotSupported'].'</b>';
 			exit;
 		}
 		
@@ -118,20 +128,20 @@ if (isset($_FILES["userFile"])){
 	
 		if (filesize($_FILES["userFile"]["tmp_name"]) > $tiddlyCfg['max_file_size']){
 			sendHeader("400");
-			$err .= "Maximum file size limit: ".$tiddlyCfg['max_file_size']." bytes";
+			$err .= $ccT_msg['upload']['maxFileSize'];
 		}
 		else{
 			$from =  $_FILES["userFile"]["tmp_name"];
 			$to = $local_root.$folder."/".$_FILES["userFile"]["name"];
 			if(file_exists($to)){
-				echo '<b>file already exists.  Please try again with a different file name.</b>';
+				echo '<b>'.$ccT_msg['upload']['fileExists'].'</b>';
 				exit;
 			}
 			
 			if (move_uploaded_file($from, $to)){
 				$status = 1;
 			}
-			else $err .= "There were some errors!";
+			else $err .= $ccT_msg['upload']['unknownError'];
 		}
 	}
 }
@@ -143,7 +153,7 @@ if (!$status){
 else{
 	$url = $remote_root.$folder.$_FILES["userFile"]["name"];
 	if($file_type == 'image'){
-		$output .= '<h2>Image Uploaded</h2> ';
+		$output .= '<h2>'.$ccT_msg['upload']['uploadedTitle'].'</h2> ';
 		$output .= "<a href='".$url."'><img src='".$url."' height=100 /></a><p>You can include this image into a tiddlywiki using the code below : </p><form name='tiddlyCode' ><input type=text name='code' id='code' onclick='this.focus();this.select();' cols=90 rows=1 value='[img[".$url."][EmbeddedImages]]' /></form>";
 	}
 	else{		
