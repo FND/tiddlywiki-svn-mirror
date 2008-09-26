@@ -8,7 +8,8 @@ merge(config.macros.stats, {
 	graph7DaysDesc:"The number of views of this workspace in the last 7 days.",
 	graph5MonthsTitle:"Last 5 months",
 	graph5MonthsDesc:"The number of views of this workspace in the past 30 days.",
-	errorPermissionDenied:"Permissions Denied to data for %0 You need to be an administrator on the %1 workspace."
+	errorPermissionDenied:"Permissions Denied to data for %0 You need to be an administrator on the %1 workspace.",
+	stepTitle:"Workspace Statistics"
 });
 
 config.macros.stats.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -108,7 +109,7 @@ config.macros.stats.listWorkspaces = function(status,params,responseText,uri,xhr
 	params.container=createTiddlyElement(null, "div", "container");
 	var me = config.macros.stats;
 	var w = new Wizard();
-	w.createWizard(params.place,"Workspace Statistics");
+	w.createWizard(params.place,me.stepTitle);
 	w.addStep(null, "<select name='workspaces'></select><input name='stats_hol' type='hidden'></input>");
 	var s = w.formElem.workspaces;	
 	s.onchange = function() {config.macros.stats.switchWorkspace(params) ;};
