@@ -31,7 +31,6 @@ var wikispacesTopicPattern = [
 wikispacesTopicGroup.setPattern(wikispacesTopicPattern); 
 wikispacesTopicGroup.setGroupField('server.topic_id');
 
-
 Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
 Story.prototype.chooseTemplateForTiddler = function(title,template)
 {
@@ -54,8 +53,6 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 	}
 	return template;
 }
-
-
 
 /*getTopicList = function(context,userParams)
 {
