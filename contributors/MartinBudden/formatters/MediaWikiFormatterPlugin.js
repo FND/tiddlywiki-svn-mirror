@@ -559,7 +559,7 @@ config.mediawiki.formatters = [
 					}	
 					img.src += imgDir;
 					img.src += '/thumb/' + imgdir + '/' + src + '/' + psrc;
-					console.log('image uri',img.src);
+					//#console.log('image uri',img.src);
 				}
 
 //#mwDebug(w.output,'s1:'+img.src);
