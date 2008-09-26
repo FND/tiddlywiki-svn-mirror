@@ -58,7 +58,7 @@ config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){
 	var image = 'http://chart.apis.google.com/chart?cht=lc&chs=100x75&chd='+params.gData+'&chxt=x,y&chxl=0:||1:|';
 	var div = createTiddlyElement(params.container, "div", null, "div_button");
 	
-	setStylesheet(".div_button:hover {opacity:0.8; cursor: pointer} .div_button{ padding:5px;color:#555;background-color:white;} ", "DivButton");
+	setStylesheet(".div_button:hover {opacity:0.7; cursor: pointer} .div_button{ width:100%; padding:5px;color:#555;background-color:white;} ", "DivButton");
 	div.onclick = function()
 	{
 		var full = "http://chart.apis.google.com/chart?cht=lc&chs=800x375&chd="+params.gData+"&chxt=x,y&chxl=1:|"+params.YLabel+"0:|"+params.XLabel+"&chf=c,lg,90,EEEEEE,0.5,ffffff,20|bg,s,FFFFFF&&chg=10.0,10.0&";
@@ -81,11 +81,7 @@ config.macros.stats.dataCallback = function(status,params,responseText,uri,xhr){
 	img.src = image;
 	
 	var span = createTiddlyElement(div, "div", null, "graph_label", params.desc);
-	setStylesheet(".graph_label  {  position:relative; top:-60px; left:130px;}");
-
-//	var w = new Wizard();
-//	w.createWizard(params.place,"TiTle");
-//	w.addStep("Stats for:", "<input name='stats_hol'></input>");
+	setStylesheet(".graph_label  {  position:relative; width:300px; top:-80px; left:130px;}");
 }
 
 config.macros.stats.switchWorkspace = function(params){
@@ -95,10 +91,9 @@ config.macros.stats.switchWorkspace = function(params){
 
 config.macros.stats.refresh = function(params) {
 	var me = config.macros.stats;
-	var select = document.getElementById("statsWorkspaceName");
+	var select = params.w.formElem.workspaces;
 	if(select[select.selectedIndex].value!="")
 		workspace = select[select.selectedIndex].value;
-	createTiddlyElement(params.container, "h2", null, null , workspace);
 	params = { container: params.container, url: window.url+"/handle/stats.php?graph=minute&workspace="+workspace,title:me.graph20MinsTitle, desc:me.graph20MinsDesc};
 	doHttp('GET',params.url,null, null, null, null, config.macros.stats.dataCallback,params);
 	params = { container:params.container, url:  window.url+"/handle/stats.php?graph=hour&workspace="+workspace,title:me.graph24HourTitle, desc:me.graph24HourDesc};
@@ -110,52 +105,23 @@ config.macros.stats.refresh = function(params) {
 }
 
 config.macros.stats.listWorkspaces = function(status,params,responseText,uri,xhr) {
-	var frm = createTiddlyElement(params.place,'form',null,null);
+	params.container=createTiddlyElement(null, "div", "container");
 	var me = config.macros.stats;
-	var s = createTiddlyElement(null,"select","statsWorkspaceName",null,"workspaceName");
-	var i = createTiddlyElement(s,"option",null,null,"");
-	
-	s.name = 'workspaceName';
+	var w = new Wizard();
+	w.createWizard(params.place,"Workspace Statistics");
+	w.addStep(null, "<select name='workspaces'></select><input name='stats_hol' type='hidden'></input>");
+	var s = w.formElem.workspaces;	
 	s.onchange = function() {config.macros.stats.switchWorkspace(params) ;};
 	var workspaces = eval('[ '+responseText+' ]');
 	for(var d=0; d < workspaces.length; d++){
 		var i = createTiddlyElement(s,"option",null,null,workspaces[d]);
 		i.value = workspaces[d];
 		if (workspace == workspaces[d]){
-			// select the workspace being viewed
+			i.selected = true;
 		}
+   
 	}
-	params.place.appendChild(s);
-	params.container=createTiddlyElement(params.place, "div", "container");
+	params.w = w; 
+	w.formElem.stats_hol.parentNode.appendChild(params.container);
 	config.macros.stats.refresh(params);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
