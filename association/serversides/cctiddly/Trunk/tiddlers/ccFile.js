@@ -49,9 +49,8 @@ config.macros.ccFile.refresh=function(w){
 			 return false;
 		}
 			 }, 
-		{caption: me.buttonUploadText, tooltip: me.buttonUploadTooltip, onClick: function(w){ 
-			story.displayTiddler(null,"Upload");
-			//config.macros.ccFile.addFileDisplay(null, params); return false 
+		{caption: me.buttonUploadText, tooltip: me.buttonUploadTooltip, onClick: function(e){ 
+			config.macros.ccFile.addFileDisplay(null, params); return false 
 			} }]);
 };
 
@@ -68,25 +67,23 @@ config.macros.ccFile.delFileCallback=function(status,params,responseText,uri,xhr
 };
 
 config.macros.ccFile.addFileDisplay = function(e, params) {
- 	// THIS FUNCTION IS NOT CURRENTLY BEING USED
 	var frmWrapper=createTiddlyElement(null,'div',"frmWrapper", "frmWrapper");
-	var step=createTiddlyElement(frmWrapper,'form',null,"wizardStep");
-	var frm=createTiddlyElement(frmWrapper,'div', 'form', 'form');
-	frmWrapper.appendChild(frm);
+	var frm=createTiddlyElement(frmWrapper,'form',null,"wizardStep");
+	var step = frm;
+	//frmWrapper.appendChild(frm);
 //	if(navigator.appName=="Microsoft Internet Explorer")
 //	{
 //		encType = frm.getAttributeNode("enctype");
 //	    encType.value = "multipart/form-data";
 //	}
-//	frm.setAttribute("enctype","multipart/form-data");
-//	frm.setAttribute("method","POST");
-//	frm.action=window.url+"/handle/upload.php"; 
-//	frm.id="ccUpload";
-//	frm.target="uploadIframe";
-	
-//	step.appendChild(frm);
-	
-//	step.appendChild(frm);
+	frm.setAttribute("enctype","multipart/form-data");
+	frm.setAttribute("method","POST");
+	frm.action=window.url+"/handle/upload.php"; 
+	frm.id="ccUpload";
+	frm.target="uploadIframe";
+	frm.name = "uploadForm";
+	frm.parentNode.appendChild(frm);
+
 	var username=createTiddlyElement(null,'input','username','username');				
 	username.setAttribute("name","username");
 	username.setAttribute("type","HIDDEN");
@@ -116,12 +113,12 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	saveTo.name='saveTo';
 	step.appendChild(saveTo);
 
-	var submitDiv=createTiddlyElement(step,"div",null,'submit');
-	var btn=createTiddlyElement(null,"input",null,'button');
-	btn.setAttribute("type","submit");
-	btn.setAttribute("onClick","config.macros.ccUpload.submitiframe()");
-	btn.value='Upload File';
-	submitDiv.appendChild(btn);	
+//	var submitDiv=createTiddlyElement(step,"div",null,'submit');
+//	var btn=createTiddlyElement(null,"input",null,'button');
+//	btn.setAttribute("type","submit");
+	//btn.setAttribute("onClick","config.macros.ccUpload.submitiframe()");
+//	btn.value='Upload File';
+//	submitDiv.appendChild(btn);	
 
 	// Create the iframe
 	var iframe=document.createElement("iframe");
@@ -129,10 +126,18 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	iframe.id='uploadIframe';
 	iframe.name='uploadIframe';
 	iframe.onload=iFrameLoad;
-//	frm.appendChild(iframe);
+	frm.appendChild(iframe);
 	createTiddlyElement(step,"div",'uploadStatus');
-	//var w = new Wizard(params.e);
-	params.w.addStep("sd",frmWrapper.innerHTML);
+	params.w.addStep("sd","<input type='hidden' name='placeholder'/>");
+	params.w.formElem.placeholder.parentNode.appendChild(frmWrapper);
+	
+	params.w.setButtons([
+		{caption: config.macros.ccFile.buttonUploadText, tooltip: config.macros.ccFile.buttonUploadTooltip, onClick: function() {
+			params.w.formElem.uploadForm.submit();
+		}
+	}]);
+	
+	
 };
 
 function addOption(selectbox,text,value )
@@ -151,8 +156,6 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 		params.w.addStep(me.errorPermissionDeniedTitle, me.errorPermissionDeniedView);
 		return true;
 	}
-
-	displayMessage(xhr.status);
 	try{
 		var a = eval(responseText);
 		for(var e=0; e < a.length; e++){ 		
@@ -169,7 +172,11 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 	{
 		params.w.setButtons([
 			{caption: me.buttonUploadText, tooltip: me.buttonUploadTooltip, onClick: function(w){
-			story.displayTiddler(null,"Upload");} }]);
+				
+				config.macros.ccFile.addFileDisplay(e, params);
+				//story.displayTiddler(null,"Upload");
+			
+			} }]);
 	}
 	params.w.addStep(me.wizardStepText+workspace, "<input type='hidden' name='markList'></input>");
 	var markList = params.w.getElement("markList");
