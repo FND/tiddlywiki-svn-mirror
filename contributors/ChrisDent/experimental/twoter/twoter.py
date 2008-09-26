@@ -36,7 +36,7 @@ from tiddlyweb.auth import UserRequiredError
 from tiddlyweb.web.http import HTTP302
 from tiddlyweb.web.util import server_base_url, recipe_url
 
-from tiddlyweb.store import NoRecipeError, NoBagError
+from tiddlyweb.store import NoRecipeError, NoBagError, NoTiddlerError
 from tiddlyweb.recipe import Recipe
 from tiddlyweb.bag import Bag, Policy
 from tiddlyweb.tiddler import Tiddler
@@ -100,24 +100,44 @@ def submit(environ, start_response):
     length = environ['CONTENT_LENGTH']
     content = environ['wsgi.input'].read(int(length))
 
-    posted_data = cgi.parse_qs(content)
-    title = posted_data.get('title', [''])[0]
-    url = posted_data.get('url', [''])[0]
-    snip = posted_data.get('snip', [''])[0]
-
-    tiddler_title = title.replace('.', '_')
-    tiddler = Tiddler(tiddler_title)
-    tiddler.tags = [u'twoted']
-    tiddler.modifier = user
-    tiddler.text = '[[%s|%s]]\n\n%s' % (title, url, snip)
+    tiddler = _make_tiddler(content, user)
 
     bag = control.determine_bag_for_tiddler(all_recipe, tiddler)
     tiddler.bag = bag.name
 
     store = environ['tiddlyweb.store']
-    store.put(tiddler)
+
+    original_title = tiddler.title
+    tester_tiddler = Tiddler(original_title, bag=bag.name)
+    addendum = 2
+    while 1:
+        try:
+            store.get(tester_tiddler)
+            new_title = '%s-%s' % (original_title, addendum)
+            tiddler.title = new_title
+            tester_tiddler.title = new_title
+            addendum += 1
+        except NoTiddlerError:
+            store.put(tiddler)
+            break
 
     raise HTTP302, '%s/twoter/%s' % (server_base_url(environ), urllib.quote(user))
+
+def _make_tiddler(content, user):
+    """
+    Slice and dice the input to make it into a tiddler.
+    """
+    posted_data = cgi.parse_qs(content)
+    title = posted_data.get('title', [''])[0]
+    url = posted_data.get('url', [''])[0]
+    snip = posted_data.get('snip', [''])[0]
+    tiddler_title = title.replace('.', '_')
+    tiddler_text_title = title.replace('|', ' ')
+    tiddler = Tiddler(tiddler_title)
+    tiddler.tags = [u'twoted']
+    tiddler.modifier = user
+    tiddler.text = '[[%s|%s]]\n\n%s' % (tiddler_text_title, url, snip)
+    return tiddler
 
 def _check_recipe(name, environ, user):
     """
