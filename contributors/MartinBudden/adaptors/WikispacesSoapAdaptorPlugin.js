@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.1.8|
+|''Version:''|0.1.9|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -565,6 +565,8 @@ WikispacesSoapAdaptor._getTiddlerTagsCallback = function(r,x,context)
 					context.tiddler.tags.push(gev(tagNodes,i,'name'));
 				}
 			}
+			if (tiddler.tags.contains('nosync'))
+				context.tiddler = null;
 			context.status = true;
 			context.statusText = null;
 		} catch(ex) {
