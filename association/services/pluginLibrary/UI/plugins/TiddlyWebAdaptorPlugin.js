@@ -22,6 +22,7 @@ TiddlyWebAdaptor.prototype = new AdaptorBase();
 
 TiddlyWebAdaptor.mimeType = 'application/json';
 TiddlyWebAdaptor.serverType = 'tiddlyweb'; // MUST BE LOWER CASE
+TiddlyWebAdaptor.serverLabel = 'TiddlyWeb';
 TiddlyWebAdaptor.serverParsingErrorMessage = "Error parsing result from server";
 TiddlyWebAdaptor.errorInFunctionMessage = "Error in function TiddlyWebAdaptor.%0";
 
@@ -102,6 +103,7 @@ TiddlyWebAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 		for(var i = 0; i < tiddlers.length; i++) {
 			var ti = tiddlers[i];
 			var tiddler = new Tiddler(ti.title);
+			tiddler.assign(ti.title,null,ti.modifier,ti.modified,ti.tags,ti.created,ti.fields);
 			tiddler.fields['server.page.revision'] = ti.revision;
 			if(ti.bag) {
 				tiddler.fields['server.bag'] = ti.bag;
