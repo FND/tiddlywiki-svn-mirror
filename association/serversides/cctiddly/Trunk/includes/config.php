@@ -29,7 +29,6 @@ $tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via
 	
 //LDAP
 
-
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
 $tiddlyCfg['pref']['ldap_enabled'] = 0;	
 $tiddlyCfg['pref']['ldap_username']	= "CN=,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
