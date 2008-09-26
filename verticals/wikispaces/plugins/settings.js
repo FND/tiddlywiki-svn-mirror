@@ -47,10 +47,11 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 	var p = config.options.txtTheme + "##"; // systemTheme section prefix
 	for (i=0; i<tiddler.tags.length; i++) {
 		var s = p + tiddler.tags[i] + t; // add tag prefix
-		if(store.getTiddlerText(p+s)) {
+		if(store.getTiddlerText(s)) {
 			 return s;
 		}
 	}
+	console.log('tt',template);
 	return template;
 }
 
