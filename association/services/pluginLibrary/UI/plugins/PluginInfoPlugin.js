@@ -23,6 +23,8 @@ if(!version.extensions.PluginInfoPlugin) {
 version.extensions.PluginInfoPlugin = { installed: true };
 
 config.macros.pluginInfo = {
+	tiddlerLabel: "More...",
+
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		var title = params[0] || tiddler.title;
 		var slices = store.calcAllSlices(title);
@@ -36,7 +38,7 @@ config.macros.pluginInfo = {
 		}
 		info += "}}}\n" +
 			(slices.Description || "") + "\n" +
-			"[[" + tiddler.title + "]]";
+			"[[" + this.tiddlerLabel + "|" + tiddler.title + "]]";
 		wikify(info, place);
 	}
 };
