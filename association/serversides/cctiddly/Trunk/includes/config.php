@@ -257,7 +257,7 @@ if( sizeof($workspace_settings)==0 )
 			//db_workspace_install($tiddlyCfg);		//install using default parameters
 		}else{	//give error message of workspace not found
 			header("HTTP/1.0 404 Not Found"); 
-			exit($ccT_msg['error']['workspace_not_found']);
+			exit;
 		}
 	}
 }

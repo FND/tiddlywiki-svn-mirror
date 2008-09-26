@@ -27,20 +27,8 @@ $db_var['settings']['handleError'] = 1;
 //	1 = assume magic_quote ON and never add slashes
 //	2 = detect magic_quote and act accordingly
 $db_var['settings']['magic_quote'] = 0;		
-if(isset($ccT_msg))
-{
-	$db_var['error']['connect'] = $ccT_msg['db']['connect'];
-	$db_var['error']['selectDB'] = $ccT_msg['db']['select'];
-	$db_var['error']['queryErr'] = $ccT_msg['word']['query_failed'];
-	$db_var['error']['error'] = $ccT_msg['msg']['error'];
-	$db_var['error']['query'] = $ccT_msg['msg']['query'];
-}
 
-/*$db_var['error']['connect'] = "Error connecting to db";
-$db_var['error']['selectDB'] = "Error selecting db";
-$db_var['error']['queryErr'] = "query error";
-$db_var['error']['error'] = " error: ";
-$db_var['error']['query'] = " query: ";*/
+
 ///////////////////////////////////////////////////////new core - connection fns///////////////////////////////////////////////////////////
 	//-----------------------------------------------------------------------DB connect functions--------------------------------------------------------------------------//
 	//!	@fn resource db_connect($cont)
@@ -50,7 +38,6 @@ $db_var['error']['query'] = " query: ";*/
 	{
 		global $db_var;
 		global $tiddlyCfg;
-		global $ccT_msg;
 		
 		//connect to db
 		$link = mysql_connect(
@@ -58,7 +45,7 @@ $db_var['error']['query'] = " query: ";*/
 			,$db_var['username']
 			,$db_var['password']
 			,TRUE)
-			or die($ccT_msg['db']['db_connect_err'].$ccT_msg['db']['word_error'].mysql_error());
+			or die(mysql_error());
 		
 		//use database
 		//if $cont is set, return FALSE instead of exit script. This is used for installation
@@ -68,14 +55,14 @@ $db_var['error']['query'] = " query: ";*/
 			}
 		}else{
 			mysql_select_db($db_var['db'],$link)
-				or die($ccT_msg['db']['db_connect_selectdb'].$ccT_msg['db']['word_error'].mysql_error());
+				or die(mysql_error());
 		}
 		
 		//set to utf-8 communication
 		if( $tiddlyCfg['pref']['utf8'] == 1 )
 		{
 			mysql_query("SET NAMES 'utf8'")
-				or die($ccT_msg['db']['db_connect_utf8'].$ccT_msg['db']['word_error'].mysql_error());
+				or die(mysql_error());
 		}
 		
 		return TRUE;
@@ -101,11 +88,10 @@ $db_var['error']['query'] = " query: ";*/
 	function db_install_db()
 	{
 		global $db_var; 
-		global $ccT_msg; 
 		$sql = "CREATE DATABASE `".$db_var['db']."`";
 		debug($sql, "mysql");
 		mysql_query($sql)
-			or die($ccT_msg['db']['db_install_createDB'].$ccT_msg['db']['word_error'].mysql_error());
+			or die(mysql_error());
 		return TRUE;
 	}
 
@@ -113,9 +99,7 @@ $db_var['error']['query'] = " query: ";*/
 	//!	@brief install main table
 	function db_install_mainT()
 	{
-		global $ccT_msg;
-		global $tiddlyCfg;
-		
+		global $tiddlyCfg;		
 		$query = "CREATE TABLE ".$tiddlyCfg['table']['main']." (
 			`id` int(11) NOT NULL auto_increment,
 			`title` varchar(255) NOT NULL default '',
@@ -140,7 +124,7 @@ $db_var['error']['query'] = " query: ";*/
 		
 		if( mysql_query("DESCRIBE ".$tiddlyCfg['table']['main'])===FALSE ) {
 			mysql_query( $query	)
-				or die($ccT_msg['db']['word_error'].mysql_error());
+				or die(mysql_error());
 			return TRUE;
 		}else{//table existed
 			return FALSE;
@@ -151,10 +135,7 @@ $db_var['error']['query'] = " query: ";*/
 	//!	@brief install backup table
 	function db_install_backupT()
 	{
-		global $ccT_msg;
 		global $tiddlyCfg;
-		
-		
 		$query = "CREATE TABLE ".$tiddlyCfg['table']['backup']." (
 			`id` int(11) NOT NULL auto_increment,
 			`title` varchar(255) NOT NULL default '',
@@ -176,8 +157,8 @@ $db_var['error']['query'] = " query: ";*/
 		}
 
 		if( mysql_query("DESCRIBE ".$tiddlyCfg['table']['backup'])===FALSE ) {
-			mysql_query( $query	)
-				or die($ccT_msg['db']['word_error'].mysql_error());
+			mysql_query($query)
+				or die(mysql_error());
 			return TRUE;
 		}else{//table existed
 			return FALSE;
@@ -210,12 +191,11 @@ $db_var['error']['query'] = " query: ";*/
 	function db_workspace_selectSettings()
 	{
 		global $tiddlyCfg;
-		global $ccT_msg;
 		$q = "SELECT * FROM ".$tiddlyCfg['table']['workspace']." WHERE name='".$tiddlyCfg['workspace_name']."'";
 
 		debug("db_workspace_selectSettings: ".$q, "mysql");
 		$r = mysql_query($q)
-			or die($ccT_msg['db']['word_error'].mysql_error());
+			or die(mysql_error());
 		
 		//grab record and check if setting name match
 		//this is required since mysql is not binary safe unless deliberately configured in table
@@ -237,14 +217,12 @@ $db_var['error']['query'] = " query: ";*/
 	function db_workspace_selectAllPublic()
 	{
 		global $tiddlyCfg;
-		global $ccT_msg;
-		
 		//or use status=P for public???
 		$q = "SELECT * FROM ".$tiddlyCfg['table']['workspace']." WHERE default_anonymous_perm LIKE 'A%%%'";
 
 		debug("db_workspace_selectAll: ".$q, "mysql");
 		$r = mysql_query($q)
-		or die($ccT_msg['db']['word_error'].mysql_error());
+		or die(mysql_error());
 		return $r;
 	}
 
@@ -254,12 +232,11 @@ $db_var['error']['query'] = " query: ";*/
 	function db_workspace_selectOwnedBy($user)
 	{
 		global $tiddlyCfg;
-		global $ccT_msg;
 		//or use status=P for public???
 		$q = "SELECT * FROM ".$tiddlyCfg['table']['admin']." WHERE username='".$user."'";
 		debug("db_workspace_selectOwnedBy: ".$q, "mysql");
 		$r = mysql_query($q)
-			or die($ccT_msg['db']['word_error'].mysql_error());
+			or die(mysql_error());
 		return $r;
 	}
 	
@@ -269,10 +246,7 @@ $db_var['error']['query'] = " query: ";*/
 	function db_workspace_install()
 	{
 		global $tiddlyCfg;
-		global $ccT_msg;
-		
 		//default settings come from config.php
-		
 		$q = "INSERT INTO ".$tiddlyCfg['table']['workspace']
 			."(`name`,`twLanguage`,`keep_revision`"
 			.",`require_login`,`session_expire`,`tag_tiddler_with_modifier`"
@@ -294,10 +268,9 @@ $db_var['error']['query'] = " query: ";*/
 			.",'".$tiddlyCfg['default_user_perm']."'"
 			.",'".$tiddlyCfg['rss_group']."'"
 			.",'".$tiddlyCfg['markup_group']."')";
-		
 		debug("db_workspace_install: ".$q, "mysql");
 		$r = mysql_query($q)
-			or die($ccT_msg['db']['word_error'].mysql_error());
+			or die(mysql_error());
 		
 		return TRUE;
 	}
@@ -308,12 +281,11 @@ $db_var['error']['query'] = " query: ";*/
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
-		global $ccT_msg;
 		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
 		$q= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."'";
 		debug($q, "mysql");
 		$result = mysql_query($q)
-			or die($ccT_msg['db']['word_error'].mysql_error());
+			or die(mysql_error());
 		return $result;
 	}
 	
@@ -321,7 +293,6 @@ $db_var['error']['query'] = " query: ";*/
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
-		global $ccT_msg;
 			//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
 			$start= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE ";
 			
@@ -337,7 +308,7 @@ $db_var['error']['query'] = " query: ";*/
 				return false;
 			$q = $start.$q;
 			debug($q, "mysql");
-			$result = mysql_query($q) or die($ccT_msg['db']['word_error'].mysql_error());
+			$result = mysql_query($q) or die(mysql_error());
 			return $result;
 	}
 	
@@ -349,14 +320,13 @@ $db_var['error']['query'] = " query: ";*/
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
-		global $ccT_msg;
 		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
 		$query= "SELECT * FROM ".$tiddlyCfg['table']['main']
 			." WHERE workspace_name='".$tiddlyCfg['workspace_name']
 			."' ORDER BY modified DESC LIMIT 20";
 		debug("db_tiddlers_mainSelect4RSS: ".$query, "mysql");
 		$result = mysql_query($query)
-			or die($ccT_msg['db']['word_error'].mysql_error());
+			or die(mysql_error());
 //return mysql_fetch_assoc($result);
 		return $result;
 	}
@@ -367,7 +337,6 @@ $db_var['error']['query'] = " query: ";*/
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
-		global $ccT_msg;
 		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
 		$q = "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."'";
 		$q .= " AND (title='SiteTitle'";
@@ -376,19 +345,14 @@ $db_var['error']['query'] = " query: ";*/
 		$q .= ")";
 		debug("db_tiddlers_mainSelectSiteConfig: ".$q, "mysql");
 		$result = mysql_query($q)
-			or die($ccT_msg['db']['word_error'].mysql_error());
+			or die(mysql_error());
 		return $result;
 	}
-
-
-
-
 
 	function db_tiddlers_mainSearchAll($term)
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
-		global $ccT_msg;
 		//$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']
 		$q= "SELECT * FROM ".$tiddlyCfg['table']['main']." WHERE workspace_name='".$tiddlyCfg['workspace_name']."' and (title  like '%".$term."%' or body  like '%".$term."%')";
 		debug("db_tiddlers_mainSearchAll: ".$q, "mysql");
@@ -396,9 +360,6 @@ $db_var['error']['query'] = " query: ";*/
 		return $result;
 	}
 	
-	
-
-
 	//!	@fn array db_tiddlers_selectTitle($title,$workspace)
 	//!	@brief select tiddler with particular title
 	//!	@param $table table name
@@ -408,13 +369,12 @@ $db_var['error']['query'] = " query: ";*/
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
-		global $ccT_msg;
 		$q = "SELECT * FROM `".$tiddlyCfg['table']['main']
 			."` WHERE workspace_name='".$tiddlyCfg['workspace_name']
 			."' AND title='".db_format4SQL($title)."'";
 		debug("db_tiddlers_mainSelectTitle: ".$q, "mysql");
 		$result = mysql_query($q)
-			or die($ccT_msg['db']['word_error'].mysql_error());
+			or die(mysql_error());
 		
 		//grab record and check if title are the same
 		//this is required since mysql is not binary safe unless deliberately configured in table
@@ -436,13 +396,12 @@ $db_var['error']['query'] = " query: ";*/
 	
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
-		global $ccT_msg;
 		$q = "SELECT * FROM `".$tiddlyCfg['table']['backup']
 			."` WHERE `tiddler_id`='".db_format4SQL($oid)."'"
 			." ORDER BY `revision` DESC";
 		debug("db_tiddlers_backupSelectOid: ".$q, "mysql");
 		$result = mysql_query($q)
-			or die($ccT_msg['db']['word_error'].mysql_error());
+			or die(mysql_error());
 		//grab record and check if title are the same
 		//this is required since mysql is not binary safe unless deliberately configured in table
 		//result would be empty string if not found, array if found
@@ -460,8 +419,6 @@ $db_var['error']['query'] = " query: ";*/
 	{
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
-		global $ccT_msg;
-		
 		while( (list($k,$v) = each($tiddler)) )
 		{
 			$q .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."',";
@@ -476,7 +433,7 @@ $db_var['error']['query'] = " query: ";*/
 		debug("db_tiddlers_mainInsert: ".$q, "mysql");
 		if( $stop==1 ) {
 			$result = mysql_query($q)
-				or die($ccT_msg['db']['word_error'].mysql_error().$ccT_msg['db']['word_query'].$q);
+				or die(mysql_error().$q);
 		}else{
 			$result = mysql_query($q);
 		}
@@ -490,8 +447,6 @@ $db_var['error']['query'] = " query: ";*/
 	function db_tiddlers_backupInsert($tiddler,$stop=1)
 	{
 		global $tiddlyCfg;
-		global $ccT_msg;
-		
 		while( (list($k,$v) = each($tiddler)) )
 		{
 			$q .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."',";
@@ -507,7 +462,7 @@ $db_var['error']['query'] = " query: ";*/
 		debug("db_tiddlers_backupInsert: ".$q, "mysql");
 		if( $stop==1 ) {
 			$result = mysql_query($q)
-				or die($ccT_msg['db']['word_error'].mysql_error().$ccT_msg['db']['word_query'].$q);
+				or die(mysql_error());
 		}else{
 			$result = mysql_query($q);
 		}
@@ -522,8 +477,6 @@ $db_var['error']['query'] = " query: ";*/
 	function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
 	{
 		global $tiddlyCfg;
-		global $ccT_msg;
-
 		//remove primary key (first element in array)
 		array_shift($tiddler);
 		//make query
@@ -538,7 +491,7 @@ $db_var['error']['query'] = " query: ";*/
 		//send query
 		if( $stop==1 ) {
 			$result = mysql_query($q)
-				or die($ccT_msg['db']['word_error'].mysql_error().$ccT_msg['db']['word_query'].$q);
+				or die(mysql_error());
 		}else{
 			$result = mysql_query($q);
 		}
@@ -553,13 +506,11 @@ $db_var['error']['query'] = " query: ";*/
 	function db_tiddlers_mainDelete($id)
 	{
 		global $tiddlyCfg;
-		global $ccT_msg;
-
 		$q = "DELETE FROM ".$tiddlyCfg['table']['main']." WHERE `id` = '".$id."'";
 		//send query
 		debug($q, "mysql");
 		$result = mysql_query($q)
-			or die($ccT_msg['db']['word_error'].mysql_error().$ccT_msg['db']['word_query'].$q);
+			or die(mysql_error());
 		return $result;
 	}
 ///////////////////////////////////////////////////////record functions///////////////////////////////////////////////////////////
