@@ -1,3 +1,5 @@
+tiddler: PluginViewTemplate.tiddler
+tiddler: PluginViewToolbar.tiddler
 tiddler: SearchBox.tiddler
 tiddler: Sidebar.tiddler
 tiddler: StyleSheetReset.tiddler
