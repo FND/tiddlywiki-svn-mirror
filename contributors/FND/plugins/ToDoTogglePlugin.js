@@ -21,7 +21,7 @@ When all checkboxes within a tiddler are checked, the respective tiddler's //tod
 !!v0.1.0 (2008-08-14)
 * initial release
 !!v0.2.0 (2008-08-15)
-* restoring //todo// tag when checkbox is unchecked 
+* restoring //todo// tag when checkbox is unchecked
 !To Do
 * documentation
 !Code
@@ -30,8 +30,9 @@ When all checkboxes within a tiddler are checked, the respective tiddler's //tod
 if(!version.extensions.ToDoTogglePlugin) { //# ensure that the plugin is only installed once
 version.extensions.ToDoTogglePlugin = { installed: true };
 
-if(!plugins) { var plugins = {}; }
-plugins.ToDoTogglePlugin = {
+if(!config.extensions) { config.extensions = {}; }
+
+config.extensions.ToDoTogglePlugin = {
 	tags: {
 		active: "todo",
 		closed: "done"
@@ -60,7 +61,7 @@ config.macros.checkbox.onClickCheckbox = function(event) {
 	var status = config.macros.checkbox.onClickCheckbox_todoToggle.apply(this, arguments);
 	if(tiddler && !this.init) {
 		var title = tiddler.getAttribute("tiddler");
-		plugins.ToDoTogglePlugin.toggleStatus(title);
+		version.extensions.ToDoTogglePlugin.toggleStatus(title);
 	}
 	return status;
 };

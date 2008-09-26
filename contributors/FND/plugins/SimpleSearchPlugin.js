@@ -27,8 +27,9 @@
 if(!version.extensions.SimpleSearchPlugin) { //# ensure that the plugin is only installed once
 version.extensions.SimpleSearchPlugin = { installed: true };
 
-if(!plugins) { var plugins = {}; }
-plugins.SimpleSearchPlugin = {
+if(!config.extensions) { config.extensions = {}; }
+
+config.extensions.SimpleSearchPlugin = {
 	heading: "Search Results",
 	containerId: "searchResults",
 	btnCloseLabel: "close",
@@ -61,55 +62,55 @@ plugins.SimpleSearchPlugin = {
 		} else {
 			msg += "''" + config.macros.search.failureMsg.format([query]) + "''"; // XXX: do not use bold here!?
 		}
-		createTiddlyButton(el, this.btnCloseLabel, this.btnCloseTooltip, plugins.SimpleSearchPlugin.closeResults, "button", this.btnCloseId);
+		createTiddlyButton(el, this.btnCloseLabel, this.btnCloseTooltip, version.extensions.SimpleSearchPlugin.closeResults, "button", this.btnCloseId);
 		wikify(msg, el);
 		if(matches.length > 0) { // XXX: redundant!?
-			createTiddlyButton(el, this.btnOpenLabel, this.btnOpenTooltip, plugins.SimpleSearchPlugin.openAll, "button", this.btnOpenId);
+			createTiddlyButton(el, this.btnOpenLabel, this.btnOpenTooltip, version.extensions.SimpleSearchPlugin.openAll, "button", this.btnOpenId);
 		}
 	},
 
 	closeResults: function() {
-		var el = document.getElementById(plugins.SimpleSearchPlugin.containerId);
+		var el = document.getElementById(version.extensions.SimpleSearchPlugin.containerId);
 		removeNode(el);
-		plugins.SimpleSearchPlugin.results = null;
+		version.extensions.SimpleSearchPlugin.results = null;
 		highlightHack = null;
 	},
 
 	openAll: function(ev) {
-		story.displayTiddlers(null, plugins.SimpleSearchPlugin.results);
+		story.displayTiddlers(null, version.extensions.SimpleSearchPlugin.results);
 		return false;
 	}
 };
 
 config.shadowTiddlers.StyleSheetSimpleSearch = "/*{{{*/\n" +
-	"#" + plugins.SimpleSearchPlugin.containerId + " {\n" +
+	"#" + version.extensions.SimpleSearchPlugin.containerId + " {\n" +
 	"\toverflow: auto;\n" +
 	"\tpadding: 5px 1em 10px;\n" +
 	"\tbackground-color: [[ColorPalette::TertiaryPale]];\n" +
 	"}\n\n" +
-	"#" + plugins.SimpleSearchPlugin.containerId + " h1 {\n" +
+	"#" + version.extensions.SimpleSearchPlugin.containerId + " h1 {\n" +
 	"\tmargin-top: 0;\n" +
 	"\tborder: none;\n" +
 	"}\n\n" +
-	"#" + plugins.SimpleSearchPlugin.containerId + " ul {\n" +
+	"#" + version.extensions.SimpleSearchPlugin.containerId + " ul {\n" +
 	"\tmargin: 0.5em;\n" +
 	"\tpadding-left: 1.5em;\n" +
 	"}\n\n" +
-	"#" + plugins.SimpleSearchPlugin.containerId + " .button {\n" +
+	"#" + version.extensions.SimpleSearchPlugin.containerId + " .button {\n" +
 	"\tdisplay: block;\n" +
 	"\tborder-color: [[ColorPalette::TertiaryDark]];\n" +
 	"\tpadding: 5px;\n" +
 	"\tbackground-color: [[ColorPalette::TertiaryLight]];\n" +
 	"}\n\n" +
-	"#" + plugins.SimpleSearchPlugin.containerId + " .button:hover {\n" +
+	"#" + version.extensions.SimpleSearchPlugin.containerId + " .button:hover {\n" +
 	"\tborder-color: [[ColorPalette::SecondaryMid]];\n" +
 	"\tbackground-color: [[ColorPalette::SecondaryLight]];\n" +
 	"}\n\n" +
-	"#" + plugins.SimpleSearchPlugin.btnCloseId + " {\n" +
+	"#" + version.extensions.SimpleSearchPlugin.btnCloseId + " {\n" +
 	"\tfloat: right;\n" +
 	"\tmargin: -5px -1em 5px 5px;\n" +
 	"}\n\n" +
-	"#" + plugins.SimpleSearchPlugin.btnOpenId + " {\n" +
+	"#" + version.extensions.SimpleSearchPlugin.btnOpenId + " {\n" +
 	"\tfloat: left;\n" +
 	"\tmargin-top: 5px;\n" +
 	"}\n" +
@@ -121,7 +122,7 @@ Story.prototype.search = function(text, useCaseSensitive, useRegExp) {
 	highlightHack = new RegExp(useRegExp ? text : text.escapeRegExp(), useCaseSensitive ? "mg" : "img");
 	var matches = store.search(highlightHack, null, "excludeSearch");
 	var q = useRegExp ? "/" : "'";
-	plugins.SimpleSearchPlugin.displayResults(matches, q + text + q);
+	version.extensions.SimpleSearchPlugin.displayResults(matches, q + text + q);
 };
 
 // override TiddlyWiki.search() to sort by relevance
