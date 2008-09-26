@@ -1,14 +1,9 @@
-modifier: ChrisDent
-created: 200804020000
-modified: 200804020000
-tags: systemConfig excludeLists excludeSearch
-
 /***
 |''Name:''|TiddlyWebAutoSavePlugin|
 |''Description:''|Auto Save using the TiddlyWebAdaptorPlugin|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Source:''|n/a|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/ChrisDent/....|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlywebclient/plugins/TiddlyWebAutoSavePlugin.js|
 |''Version:''|0.0.1|
 |''Status:''|Under Development|
 |''Date:''|Mar 25, 2008|
