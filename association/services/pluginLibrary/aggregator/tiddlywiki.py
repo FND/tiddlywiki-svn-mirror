@@ -32,7 +32,7 @@ def getSlices(text): # TODO: should be in Tiddler class
 
 class TiddlyWiki:
 	"""
-	utility functions for processing TiddlyWiki documents
+	utility functions for parsing TiddlyWiki documents
 	"""
 	def __init__(self, html):
 		"""
@@ -104,8 +104,6 @@ class TiddlyWiki:
 		While the new canonical store format was introduced in
 		TiddlyWiki v2.2 final, various v2.2 beta releases are still
 		using the legacy store format.
-		Converting a TiddlyWiki document that is already using the new
-		store format is unlikely to do any harm.
 
 		@return: None
 		"""
@@ -113,7 +111,7 @@ class TiddlyWiki:
 			version = self.getVersion()
 		except (ValueError, AttributeError):
 			version = (0, 0, 0) # assume pre-v2.2 format
-		if version and (version[0] + (version[1] / 10.0) < 2.3): # N.B.: addition works because all pre-v2.3 releases are known
+		if version and (version[0] + (version[1] / 10.0) < 2.3): # N.B.: addition works because all pre-v2.3 releases are known -- XXX: actual threshold is v2.2 final
 			for tiddler in self.store.findChildren("div", tiddler = True):
 				# convert tiddler attribute to title attribute
 				tiddler["title"] = tiddler["tiddler"]

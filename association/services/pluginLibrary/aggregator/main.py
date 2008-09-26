@@ -127,7 +127,5 @@ def savePlugins(store, bag): # TODO: rename (misleading)
 		pass
 	store.put(bag)
 
-# startup
-
-if __name__ == "__main__": # skip main() if imported as module
+if __name__ == "__main__":
 	sys.exit(main(sys.argv))

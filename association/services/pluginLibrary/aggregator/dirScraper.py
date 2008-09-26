@@ -2,7 +2,7 @@
 HTTP directory scraper
 """
 
-import httplib2
+import httplib2 # XXX: use urllib? (for consistency with main.py)
 import posixpath
 
 from BeautifulSoup import BeautifulSoup
