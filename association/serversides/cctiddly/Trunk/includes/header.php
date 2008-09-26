@@ -11,12 +11,11 @@
 //include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");	//include in config.php
 include_once($cct_base."includes/functions.php");
 include_once($cct_base."includes/config.php");
+include_once($cct_base."lang/".$tiddlyCfg['pref']['language'].".php");
 
 if(!isset($cct_base)) 
-{
 	$cct_base= "";
-	debug("cct_base not exist", "params");
-}
+
 //include is used because language file is included once in config.php file
 include_once($cct_base."includes/tiddler.php");
 include_once($cct_base."includes/user.php");
@@ -29,7 +28,7 @@ if(!isset($ccT_msg))
 if(!isset($workspace)) 
 {
 	$workspace= "";
-	debug("workspace was not set", "fail");
+	debug($ccT_msg['debug']['workspaceNotSet'], "fail");
 }
 
 
@@ -39,16 +38,14 @@ $standalone = ((isset($_GET['standalone'])&&$_GET['standalone']==1)?1:0);		//if 
 
 //?action=something, used for modulation
 $cctAction = (isset($_GET['action'])?format4Name($_GET['action']):"");
-debug("cct action is : ".$cctAction, "steps");
+debug($ccT_msg['debug']['actionIs'].$cctAction, "steps");
 
 //?title="tiddly title", get all version of that tiddly
 if( isset($_GET['title']) )
 {
 	$title = $_GET['title'];
 	if( get_magic_quotes_gpc() )
-	{
 		$title = stripslashes($title);
-	}
 }
 //?config="configfile", force the use of config file "configfile.php" [security check performed in including config file]
 //?time=<number>, override the presetted cookie expiry time for PASSWORD ONLY, UNIT: minutes

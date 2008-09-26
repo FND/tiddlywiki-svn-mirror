@@ -142,7 +142,7 @@ function getAllVersionTiddly($title)
 	//get current tiddler id
 
 	$tiddler_id = tiddler_selectTitle($title);
-	debug("getAllVersionTiddly - get current tiddler ok", "steps");
+	debug("getAllVersionTiddly", "steps");
 	//return empty array if not found
 	if( sizeof($tiddler_id)==0 )
 	{
@@ -218,147 +218,6 @@ function getTiddlersWithTags($yesTags,$noTags)
 }
 ///////////////////////////////////////////////////////////////get tiddlers/////////////////////////////////////////
 	
-	//!	@fn bool saveTiddly($otitle, $title, $body, $modifier="YourName", $tags="")
-	//!	@brief save tiddler
-	//!	@param $otitle current title
-	//!	@param $title new title
-	//!	@param $body new body
-	//!	@param $modifier person adding/changing the tiddler
-	//!	@param $tags tags
-	//function saveTiddly($otitle, $title, $body, $modified, $omodified, $modifier="YourName", $tags="", $username="", $password="", $overwrite=0)
-	function saveTiddly($otitle, $omodified, $ntiddler, $username="", $password="", $overwrite=0)
-	{
-		global $tiddlyCfg;
-		debug("function : saveTiddly", "steps");
-		//SCENERIO
-		//	old title NOT exist:
-		//		creating new tiddler		[INSERT]
-		//		user dont have right to read, and created a new tiddler which may overwrite an existing one		[OVERWRITE]
-		//	old title exist:
-		//		different to new title		[RENAME]
-		//		same as new title		[UPDATE]
-		//check if old title exist
-		//	if not exist, either it is creating new tiddler
-		//		or it wasn't displayed for that user, which can overwrite another tiddler
-		//	declare otitle false
-		//if old title exist, is it the same as new tiddler?
-		
-		//lock title check
-		if( in_array($ntiddler['title'],$tiddlyCfg['pref']['lock_title']) )
-		{
-			debug("Tiddler is logged : ".$ntiddler['title'], "steps");
-			return "020";
-		}
-		
-		//get user and privilege and set variables
-		if( strlen($username)==0 && strlen($password)==0 )
-		{
-			$user = user_create();
-		}else{
-			$user = user_create($username,"",0,"",$password,1);
-		}
-		//$modifier = $user['username'];			//this is always true in local TW, set modifier = username
-		
-		//if anonymous and forceAnonymous is on, change username and modifier to $ccT_msg['loginpanel']['anoymous']
-		if( $user['verified'] === FALSE && $tiddlyCfg['pref']['forceAnonymous']==1 )
-		{
-			global $ccT_msg;
-			$user['username'] = $ccT_msg['loginpanel']['anoymous'];
-			$ntiddler['modifier'] = $ccT_msg['loginpanel']['anoymous'];
-		}
-		
-		//check for markup
-		if( !tiddler_markupCheck($user,$title) )
-		{
-			debug("failed markup check", "steps");
-			return "020";
-		}
-		
-		$tiddler = tiddler_selectTitle(tiddler_create($ntiddler['title']));			//tiddler with title $title
-		if( $otitle===NULL )		//$otitle not exist
-		{
-			$otiddler = array();
-		}elseif( strcmp($ntiddler['title'],$otitle)==0 ){		//$otitle same as $ntiddler['title'], EDIT without changing title
-			//$otiddler = $tiddler;
-			if( sizeof($tiddler)>0 )		//if $title exist
-			{
-				if( strcmp("TiddlySnip",$omodified)!=0 )
-				{
-					if( strcmp($tiddler['modified'],$omodified)!=0 )		//ask to reload if modified date differs
-					{
-						return "012";
-					}
-					return updateTiddler($user, $ntiddler, $tiddler);
-				}else{
-					if( $overwrite==1 )		//overwrite
-					{
-						return updateTiddler($user, $ntiddler, $tiddler);
-					}elseif( $overwrite==2 )		//append
-					{
-						$ntiddler['body'] = $tiddler['body'].$ntiddler['body'];
-						$ntiddler['tags'] = $tiddler['tags'].$ntiddler['tags'];
-						return updateTiddler($user, $ntiddler, $tiddler);
-					}
-					return "015";		//tiddler existed
-				}
-			}else{				//both title not exist and use insert
-				$otiddler = array();
-			}
-		}else{
-			$otiddler = tiddler_selectTitle(tiddler_create($otitle));		//tiddler with $otitle
-		}
-		
-		//insert tiddler if both are not found
-		if( sizeof($tiddler)==0 && sizeof($otiddler)==0 ) {
-			return insertTiddler($user,$ntiddler);
-		}
-		
-		//if old title not exist, but new title exist, treat as overwrite (new tiddler overwrite another)
-		if( sizeof($tiddler)!=0 && sizeof($otiddler)==0 ) {
-			$result = updateTiddler($user, $ntiddler, $tiddler);
-			if( strcmp($result,"002")==0 )		//if success, warn of overwrite
-			{
-				return "004";
-			}
-			return $result;
-		}
-		
-		//$otitle exist, $title not exist, treat as editting/modify (rename  tiddler)
-		if( sizeof($tiddler)==0 && sizeof($otiddler)!=0 )
-		{
-			//if old title exist, check if old modified time matches to new one
-			if( strcmp($otiddler['modified'],$omodified)!=0 )		//ask to reload if modified date differs
-			{
-				return "012";
-			}
-			
-			return updateTiddler($user, $ntiddler, $otiddler);
-		}
-		
-		//both $otitle and $title exist and title different, $title overwrite $otitle, delete $title
-		if( sizeof($tiddler)!=0 && sizeof($otiddler)!=0 )
-		{
-			//if old title exist, check if old modified time matches to new one
-			if( strcmp($otiddler['modified'],$omodified)!=0 )		//ask to reload if modified date differs
-			{
-				return "012";
-			}
-			
-			$result = deleteTiddler($user, $tiddler);
-			if( strcmp($result,"003")!=0 )		//if delete unsuccessful, return
-			{
-				return $result;
-			}
-			$result = updateTiddler($user, $ntiddler, $otiddler);
-			if( strcmp($result,"002")==0 )		//if update successful, notify of overwrite
-			{
-				return "004";
-			}
-			return $result;
-		}
-		
-		return "010";
-	}
 
 	//!	@fn string insertTiddler($userArr,$tiddlerArr)
 	//!	@brief insert tiddler into DB
@@ -423,20 +282,12 @@ function getTiddlersWithTags($yesTags,$noTags)
 	function deleteTiddly($title)
 	{
 		$user = user_create();
-
 		//check for extra privilege if title is markup
 		if( !tiddler_markupCheck($user,$title) )
-		{
 			return "020";
-		}
-
 		$tiddler = tiddler_selectTitle(tiddler_create($title));		//tiddler to delete
-		debug("Number ofTiddlers found matching the title".sizeof($tiddler), "steps");
 		if( sizeof($tiddler)==0 )		//check if tiddler exist
-		{
 			return "014";
-		}
-		
 		return deleteTiddler($user, $tiddler);
 	}
 	

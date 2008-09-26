@@ -66,10 +66,9 @@
 		global $tiddlyCfg;
 		db_connect_new();
 		$pw = cookie_get('sessionToken');
-		debug("PASSWORD : ".$pw, 'params');
 		if ($tiddlyCfg['deligate_session_management'] ==1)
 		{
-			debug("deligated session management is enabled", "login");
+			debug($ccT_msg['debug']['delegatedSessionManagementEnabled'], "login");
 			$req_url = $tiddlyCfg['pref']['deligate_session_url'].$_REQUEST['sess'];
 			if($a = @file_get_contents($req_url))
 			{
@@ -95,8 +94,8 @@
 				}
 				else 
 				{
-					debug("SESSION has expired", "fail");	
-					user_logout('Your session has expired ');
+					debug($ccT_msg['debug']['sessionExpired'], "fail");	
+					user_logout();
 				 	return FALSE; 
 				 	//delete the cookies and session record 
 				}
@@ -115,21 +114,21 @@
 	function user_set_session($un, $pw)
 	{
 		global $tiddlyCfg;
-		debug("user set session ", "login");
+		debug($ccT_msg['debug']['setSession'], "login");
 		if ($tiddlyCfg['users_required_in_db']==1)
 		{
-			debug("user is required in db", "login");
+			debug($ccT_msg['debug']['userRequiredInDb'], "login");
 		 	$data['username'] = $un;
 			$login_check = db_record_select($tiddlyCfg['table']['user'], $data);			// get array of results		
 		
 			if (count($login_check) > 0 ) 
 			{
-				debug("user exists in the database.", "login");
+				debug($ccT_msg['debug']['userExistsInDb'], "login");
 				//return true;
 			}
 			else
 			{	// user does not exists in the user database. 
-				debug("The user does not exist in the database.", "login");
+				debug($ccT_msg['debug']['userDoesNotExistInDb'], "login");
 				return false;
 			}     
 		}
@@ -139,9 +138,7 @@
 		$a = time();
 		$total = $a+$tiddlyCfg['session_expire'];	
 		$insert_data['expire'] = epochToTiddlyTime($total); // add expire time to data array for insert		
-		debug("session will expire : ".$insert_data['expire'], "login");
-	
-	
+		debug($ccT_msg['debug']['sessionWillExpire'].$insert_data['expire'], "login");	
 		$insert_data['ip'] = $_SERVER['REMOTE_ADDR'];  // get the ip address
 		$insert_data['session_token'] = sha1($un.$_SERVER['REMOTE_ADDR'].$expire); // colect data together and sh1 it so that we have a unique indentifier 
 		if ($tiddlyCfg['pref']['delete_other_sessions_on_login']) {
@@ -152,7 +149,7 @@
  		cookie_set('sessionToken', $insert_data['session_token']);
 		$rs = db_record_insert('login_session',$insert_data);
 		if ($rs){
-			debug("session has been added to the database", "login");
+			debug($ccT_msg['debug']['sessionAddedToDb'], "login");
 			return $insert_data['session_token'];
 		}	
 	}		
@@ -160,16 +157,16 @@
 	function user_ldap_login($username, $password)
 	{
 		global $tiddlyCfg;
-		debug("LLDAP Login", "login");
+		debug("user_ldap_login", "login");
 		if ($password == "")
 		{
-			debug("LDAP login failed due to no password being present", "login");
+			debug($ccT_msg['debug']['ldapFailNoPassword'], "login");
 			return false;
 		}
 		$ds = ldap_connect($tiddlyCfg['pref']['ldap_connection_string']); 
 	    if( !$ds ) 
 	    { 
-			debug("LDAP connection could not be established (1)", "login");	
+			debug($ccT_msg['debug']['ldapFailNoConnect'], "login");	
 			return false;
 	    } 
      
@@ -178,11 +175,10 @@
 	$bind_user =$tiddlyCfg['pref']['ldap_username'];
 	$bind_pass = $tiddlyCfg['pref']['ldap_password'];
     $bind = @ldap_bind($ds,$bind_user,$bind_pass); 
-     debug("we ok ", "login");
     //Check to make sure we're bound. 
     if( !$bind ) 
     { 
-		debug("LDAP connection could not be established (2)", "login");	
+		debug($ccT_msg['debug']['ldapFailNoConnect'], "login");	
        return false;
     } 
      
@@ -201,10 +197,10 @@
 	  $user_dn = $info[0]["dn"];
 		$userBind = @ldap_bind($ds, $user_dn,$password);
 		if(!$userBind){
-			debug("LDAP connection could not be established (3)", "login");	
+			debug($ccT_msg['debug']['ldapFailNoConnect'], "login");	
 			return false;
 		}else{
-			debug("LDAP making prgress - tis ok", "login");
+			debug($ccT_msg['debug']['ldapMakingProgress'], "login");
 			return TRUE;
 		}
 		@ldap_close($ds); 

@@ -8,13 +8,13 @@ include_once($cct_base."includes/header.php");
 
 if(isset($u) && isset($p))	
 {	
-	debug("login request u:".$u." & p : ".$p, "login");
+	debug($ccT_msg['debug']['loginRequest'].$u, "login");
 	user_login(formatParametersPOST($u),formatParametersPOST($p));
 }
 
 if (isset($_POST['logout']) || isset($_REQUEST['logout']))
 {
-	debug("logout request received", "login");
+	debug($ccT_msg['debug']['logoutRequest'], "login");
 	user_logout();
 }
 

@@ -3,19 +3,6 @@
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
-
-$ccT_msg['upload']['blockedConfig'] = "HTTP file uploading is blocked in php configuration file (php.ini). Please, contact to server administrator.";
-$ccT_msg['upload']['blockedFunction'] = "PHP function move_uploaded_file is blocked in php configuration file (php.ini). Please, contact to server administrator."
-$ccT_msg['upload']['noFile'] = "No file recieved, please check it was ";
-$ccT_msg['upload']['emptyFile'] = "Empty file";
-$ccT_msg['upload']['specifyFileorHtml'] = "Please specify a file name or provide HTML";
-$ccT_msg['upload']['typeNotSupported'] = "File Type not supported";
-$ccT_msg['upload']['maxFileSize'] = "Maximum file size limit: ".$tiddlyCfg['max_file_size']." bytes";
-$ccT_msg['upload']['fileExists'] = "file already exists.  Please try again with a different file name.";
-$ccT_msg['upload']['unknownError'] "There were some errors!";
-$ccT_msg['upload']['uploadedTitle'] = "Image Uploaded";
-$ccT_msg['upload']['includeCode'] = "You can include this image into a tiddlywiki using the code below : ";
-
 if(!user_session_validate()){
 	sendHeader("403");
 	exit;	

@@ -23,8 +23,6 @@ $tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an ac
 
 $tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 $tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
-$tiddlyCfg['GettingStartedText'] = "To get started with this workspace, you'll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the workspace is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the worksace is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] and [[Permissions]] tiddlers.<<ccEditWorkspace>>";
-// The text that will be displayed to users in the GettingStarted tiddler immediately after they have created a workspace.
 $tiddlyCfg['extract_admin_from_url']=0;// The admin user for each workspace when create will be taken from the URL.  If turned on it means the user SimonMcManus owns the workspace /SimonMcManus/.
 $tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 
@@ -37,6 +35,7 @@ $tiddlyCfg['pref']['ldap_enabled'] = 0;
 $tiddlyCfg['pref']['ldap_username']	= "CN=,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
 $tiddlyCfg['pref']['ldap_password'] = "";
 $tiddlyCfg['pref']['ldap_connection_string'] = "";
+$tiddlyCfg['pref']['language'] = "en";
 
 //Deligated Session Managment 
  
@@ -168,8 +167,8 @@ $tiddlyCfg['status'] = "";
 /////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
 
 
-debug("------------------------------------------------------------------------ >> log breaker << ------------------------------------------------------------------------");
-debug("QUERY_STRING: ".$_SERVER['QUERY_STRING'], "params");
+debug("------------------------------------------------- >> ".$ccT_msg['debug']['logBreaker']." << -------------------------------------------------");
+debug($ccT_msg['debug']['queryString'].$_SERVER['QUERY_STRING'], "params");
 
 $a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
 if (isset($_REQUEST['workspace']))
@@ -190,9 +189,9 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	header("Content-Disposition: attachment; filename=\"".$offline_name.".html\";\r\n");
 
 	
-debug("workspace_name : ".$tiddlyCfg['workspace_name'], "config");
+debug($ccT_msg['debug']['workspaceName'].$tiddlyCfg['workspace_name'], "config");
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
-debug("filename : ".$_SERVER["SCRIPT_NAME"], "config");
+debug($ccT_msg['debug']['fileName'].$_SERVER["SCRIPT_NAME"], "config");
 
 //install new workspace??
 if (isset($_SERVER['REDIRECT_URL']) )
@@ -374,10 +373,10 @@ $tiddlyCfg['tiddlywiki_type'] = $cct_base."tiddlywiki/".$tiddlyCfg['tiddlywiki_t
 if ($tiddlyCfg['debug']['params']==1 || $tiddlyCfg['developing'] == 2 )
 {
 	foreach ($_POST as $k => $v) {
-		debug("POST : ".$k." : ".$v, "params");
+		debug($ccT_msg['debug']['postVars'].$k." : ".$v, "params");
 	}
 	foreach ($_REQUEST as $k => $v) {
-//		debug("REQUEST : ".$k." : ".$v, "params");
+		debug($ccT_msg['debug']['requestVars'].$k." : ".$v, "params");
 	}
 }
 ?>

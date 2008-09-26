@@ -13,14 +13,13 @@ exit;
 if ($tiddlyCfg['can_create_account'] !=1)
 {
 	sendHeader("403");
-	echo 'This is not allowed on this server. ';
 }
 
 // if the user is checking if the username is available.
 if($_POST['free'] ==1 )
 {
-	debug("username is available ".$data['username'], "params");
-	debug("count is ".count(db_record_select($tiddlyCfg['table']['user'],$data)), "params");
+	debug($ccT_msg['debug']['usernameAvailable'].$data['username'], "params");
+	debug($ccT_msg['debug']['countIs'].count(db_record_select($tiddlyCfg['table']['user'],$data)), "params");
 	echo count(db_record_select($tiddlyCfg['table']['user'],$data));
 	exit;
 }
