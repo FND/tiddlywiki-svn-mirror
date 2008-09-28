@@ -1,7 +1,6 @@
 <?php
 //allows files in the uploods/workpspace/WORKSPACENAME/FILE.blah folder can appear as simply /WORKSPACENAME/FILE.blah 
 
-$url = parse_url(getURL());
 $filename = $tiddlyCfg['pref']['upload_dir']."workspace/".$tiddlyCfg['workspace_name'];
 
 if(is_file($filename)){	

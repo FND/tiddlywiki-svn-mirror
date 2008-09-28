@@ -16,7 +16,8 @@ $time=array();
 recordTime_float("Start");
 
 //includes
-$cct_base = "";
+if(!isset($cct_base))
+	$cct_base = "";
  
 
 include_once($cct_base."includes/header.php");
