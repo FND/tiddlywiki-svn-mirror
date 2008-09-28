@@ -1,9 +1,9 @@
-<div title="SearchOptionsPluginInfo" modifier="ELSDesignStudios" created="200801090140" tags="plugininfo">
+<div title="SearchOptionsPluginInfo" modifier="ELSDesignStudios" created="200801090140" modified="200809241609" tags="pluginInfo" changecount="17">
 <pre>/***
 |Name|SearchOptionsPluginInfo|
 |Source|http://www.TiddlyTools.com/#SearchOptionsPlugin|
 |Documentation|http://www.TiddlyTools.com/#SearchOptionsPluginInfo|
-|Version|2.6.1|
+|Version|2.9.9|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -11,21 +11,105 @@
 |Requires||
 |Overrides||
 |Description|Documentation for SearchOptionsPlugin|
-Extend core search function with additional user-configurable options including generating a ''list of matching tiddler'' instead of immediately displaying all matches.
+Extend core search function with additional user-configurable options including selecting which data items to search, enabling/disabling incremental key-by-key searches, and generating a ''list of matching tiddler'' instead of immediately displaying all matches.  This plugin also adds syntax for rendering 'search links' within tiddler content to embed one-click searches using pre-defined 'hard-coded' search terms.
+!!!!!Search link Syntax
+&lt;&lt;&lt;
+To insert a 'search link' into tiddler content, you can write:
+{{{
+[search[text to find]]
+}}}
+or
+{{{
+[search[text to display|text to find]]
+}}}
+Clicking on the resulting search link will trigger the search functionality, just as if the specified 'text to find' had been entered into the standard search input field usually displayed in the document sidebar.
+&lt;&lt;&lt;
+!!!!!Inline output: search macro syntax
+&lt;&lt;&lt;
+Alternatively, to embed search results lists directly into your tiddler content, you can use:
+{{{
+&lt;&lt;search &quot;text&quot; report&gt;&gt; (report is a literal keyword)
+&lt;&lt;search &quot;text&quot; &quot;heading&quot; &quot;separator&quot;&gt;&gt; (simple inline generator)
+}}}
+&lt;&lt;&lt;
+!!!!!Inline output examples:
+&lt;&lt;&lt;
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot;&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot;&gt;&gt;
+===
+
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot; &quot;/%%/&quot;&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot; &quot;/%%/&quot;&gt;&gt;
+===
+
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot; &quot;See also: &quot;&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot; &quot;See also: &quot;&gt;&gt;
+===
+
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot; &quot;See also:\n*&quot; &quot;\n*&quot;&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot; &quot;See also:\n*&quot; &quot;\n*&quot;&gt;&gt;
+===
+
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot; report=list &quot;See also:&quot;&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot; report=list &quot;See Also:&quot; &gt;&gt;
+===
+
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot; report&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot; report&gt;&gt;
+===
+
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot; report=&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot; report=&gt;&gt;
+===
+
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot; report=all&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot; report=all&gt;&gt;
+===
+
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot; report=summary+buttons+again+list&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot; report=summary+buttons+again+list&gt;&gt;
+===
+
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot; report=summary+again&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot; report=summary+again&gt;&gt;
+===
+
+*+++*[&amp;lt;&amp;lt;search &quot;wood&quot; report=summary&amp;gt;&amp;gt;]&gt;...
+&lt;&lt;search &quot;wood&quot; report=summary&gt;&gt;
+===
+
+&lt;&lt;&lt;
 !!!!!Configuration
 &lt;&lt;&lt;
-&lt;&lt;option chkSearchTitles&gt;&gt; Search in titles
-&lt;&lt;option chkSearchText&gt;&gt; Search in tiddler text
-&lt;&lt;option chkSearchTags&gt;&gt; Search in tags
-&lt;&lt;option chkSearchFields&gt;&gt; Search in data fields
-&lt;&lt;option chkSearchShadows&gt;&gt; Search shadow tiddlers
-&lt;&lt;option chkSearchTitlesFirst&gt;&gt; Show title matches first
-&lt;&lt;option chkSearchByDate&gt;&gt; Sort matching tiddlers by date
-&lt;&lt;option chkSearchList&gt;&gt; Show list of matches in [[SearchResults]]
-&lt;&lt;option chkSearchIncremental&gt;&gt; Incremental (key-by-key) searching
+Search in:
+&lt;&lt;option chkSearchTitles&gt;&gt; titles &lt;&lt;option chkSearchText&gt;&gt; text &lt;&lt;option chkSearchTags&gt;&gt; tags &lt;&lt;option chkSearchFields&gt;&gt; fields &lt;&lt;option chkSearchShadows&gt;&gt; shadows
+{{{&lt;&lt;option chkSearchTitles&gt;&gt; &lt;&lt;option chkSearchText&gt;&gt; &lt;&lt;option chkSearchTags&gt;&gt;}}}
+{{{&lt;&lt;option chkSearchFields&gt;&gt; &lt;&lt;option chkSearchShadows&gt;&gt;}}}
+&lt;&lt;option chkSearchList&gt;&gt; Show list of matches {{{(&lt;&lt;option chkSearchList&gt;&gt;)}}}
+&lt;&lt;option chkSearchListTiddler&gt;&gt; Write list to [[SearchResults]] tiddler {{{(&lt;&lt;option chkSearchListTiddler&gt;&gt;)}}}
+&lt;&lt;option chkSearchTitlesFirst&gt;&gt; Show title matches first {{{(&lt;&lt;option chkSearchTitlesFirst&gt;&gt;)}}}
+&lt;&lt;option chkSearchByDate&gt;&gt; Sort matching tiddlers by date {{{(&lt;&lt;option chkSearchByDate&gt;&gt;)}}}
+&lt;&lt;option chkIncrementalSearch&gt;&gt; Incremental key-by-key search: {{twochar{&lt;&lt;option txtIncrementalSearchMin&gt;&gt;}}} or more characters,  {{threechar{&lt;&lt;option txtIncrementalSearchDelay&gt;&gt;}}} msec delay
+{{{&lt;&lt;option chkSearchIncremental&gt;&gt; &lt;&lt;option txtSearchIncrementalMin&gt;&gt; &lt;&lt;option txtSearchIncrementalDelay&gt;&gt;}}}
 &lt;&lt;&lt;
 !!!!!Revisions
 &lt;&lt;&lt;
+2008.09.24 [2.9.9] performance improvment to reportSearchResults(): when rendering a real SearchResults tiddler, store.notify() isn't needed since the results tiddler is always explicitly closed and redrawn each time.
+2008.09.20 [2.9.8] corrected createPanel() and renderPanel() so toolbar will be correctly shown/hidden on mouseover/mouseout.
+2008.09.19 [2.9.7] fixes to panel handling for IE, Safari, and others.  Changed panel id to #searchPanel and added .searchResults CSS class wrapper around panel content.  Fixed fold/unfold handling.
+2008.09.18 [2.9.6] refactored panel handling code, added 'fold/unfold' panel toolbar command, added dynamic 'title' (shows search term), added txtIncrementalSearchMin option
+2008.09.17 [2.9.5] added focus and cursor handling for 'search again' field in #searchResults DIV report so that an incremental key-by-key search doesn't interfere with continuous typing into the field.
+2008.09.17 [2.9.4] fix 'flicker' when updating #searchResults DIV by wikify()ing to an 'offscreen' DIV and then using replaceChild() instead of using removeChildren() followed by wikify()
+2008.09.16 [2.9.3] changed report layout, added &quot;search again&quot; and collapsible 'options' section with incremental search checkbox and &quot;txtIncrementalSearchDelay&quot; timer tweak to onKeyPress()
+2008.08.25 [2.9.2] added animation to search results DIV.  Also, the #searchResults DOM element is only auto-created if it does not exist ... and when closed, the DIV is simply hidden rather than removed.  This allows custom placement of search results report in the PageTemplate definition.
+2008.08.23 [2.9.1] story column search results uses {{{&lt;&lt;moveablePanel&gt;&gt;}}}
+2008.08.22 [2.9.0] default is now to show search results at top of story column, similar to FND's SimpleSearchPlugin display, with an option to generate SearchResults tiddler as before.  Also changed 'chkSearchIncremental' to 'chkIncrementalSearch' to match core option variable
+2008.08.12 [2.8.2] change default for chkSearchByDate back to FALSE, and adjusted &quot;list&quot; and &quot;again&quot; output formats (minor tweaks requested by PhilWhitehouse for use on TiddlyWiki.com)
+2008.08.11 [2.8.1] changed defaults for chkSearchTitlesFirst, chkSearchList and chkSearchShadows to TRUE to enable enhanced search results output as soon as plugin is installed.
+2008.06.21 [2.8.0] added extended syntax for {{{&lt;&lt;search &quot;text&quot; report heading&gt;&gt; and &lt;&lt;search &quot;text&quot; &quot;heading&quot; &quot;seperator&quot;&gt;&gt;}}}
+2008.05.03 [2.7.1] in searchLink formatter handler(), use separate setAttribute() call instead of passing attribs to createTiddlyButton().  Avoids conflict with errant code in TiddlerNotesPlugin (v2.1 26/10/07)
+2008.04.29 [2.7.0] added searchLink formatter (syntax: {{{[search[text]]}}} or {{{[search[display|text]]}}})
+2008.04.08 [2.6.2] don't automatically add options to AdvancedOptions shadow tiddler
 2007.02.17 [2.6.1] added redefinition of config.macros.search.onKeyPress() to restore check to bypass key-by-key searching (i.e., when chkSearchIncremental==false), which had been unintentionally removed with v2.6.0
 2007.02.13 [2.6.0] remove redefinition of config.macros.search.handler since core now includes handling for ENTER key.
 2007.02.08 [2.5.1] include 'temporary' tag when creating SearchResults (for use with TemporaryTiddlersPlugin)

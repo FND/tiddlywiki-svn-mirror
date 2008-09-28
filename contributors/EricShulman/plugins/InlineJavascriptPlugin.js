@@ -2,7 +2,7 @@
 |Name|InlineJavascriptPlugin|
 |Source|http://www.TiddlyTools.com/#InlineJavascriptPlugin|
 |Documentation|http://www.TiddlyTools.com/#InlineJavascriptPluginInfo|
-|Version|1.9.2|
+|Version|1.9.3|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -15,6 +15,7 @@
 >see [[InlineJavascriptPluginInfo]]
 !!!!!Revisions
 <<<
+2008.06.11 [1.9.3] added $(...) function as 'shorthand' convenience syntax for document.getElementById()
 2008.03.03 [1.9.2] corrected declaration of wikifyPlainText() for 'TW 2.1.x compatibility fallback' (fixes Safari "parse error")
 2008.02.23 [1.9.1] in onclick function, use string instead of array for 'bufferedHTML' attribute on link element (fixes IE errors)
 2008.02.21 [1.9.0] 'onclick' scripts now allow returned text (or document.write() calls) to be wikified into a span that immediately follows the onclick link.  Also, added default 'return false' handling if no return value provided (prevents HREF from being triggered -- return TRUE to allow HREF to be processed).  Thanks to Xavier Verges for suggestion and preliminary code.
@@ -24,7 +25,7 @@
 !!!!!Code
 ***/
 //{{{
-version.extensions.inlineJavascript= {major: 1, minor: 9, revision: 2, date: new Date(2008,3,3)};
+version.extensions.InlineJavascriptPlugin= {major: 1, minor: 9, revision: 3, date: new Date(2008,6,11)};
 
 config.formatters.push( {
 	name: "inlineJavascript",
@@ -96,5 +97,21 @@ if (typeof(wikifyPlainText)=="undefined") window.wikifyPlainText=function(text,l
 	if(limit > 0) text = text.substr(0,limit);
 	var wikifier = new Wikifier(text,formatter,null,tiddler);
 	return wikifier.wikifyPlain();
+}
+//}}}
+
+// // $(...) function: 'shorthand' convenience syntax for document.getElementById()
+//{{{
+if (typeof($)=="undefined") { // avoid redefinition
+function $() {
+	var elements=new Array();
+	for (var i=0; i<arguments.length; i++) {
+		var element=arguments[i];
+		if (typeof element=='string') element=document.getElementById(element);
+		if (arguments.length==1) return element;
+		elements.push(element);
+	}
+	return elements;
+}
 }
 //}}}

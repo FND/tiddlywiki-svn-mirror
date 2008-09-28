@@ -2,7 +2,7 @@
 |Name|TaggedTemplateTweak|
 |Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
 |Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
-|Version|1.2.0|
+|Version|1.4.1|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -15,35 +15,43 @@ This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler
 >see [[TaggedTemplateTweakInfo]]
 !!!!!Revisions
 <<<
-2008.04.01 [1.2.0] added support for using systemTheme section-based template definitions (requested by Phil Hawksworth)
-2008.01.22 [*.*.*] plugin size reduction - documentation moved to [[TaggedTemplateTweakInfo]]
-2007.06.23 [1.1.0] re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
+2008.08.29 [1.4.1] corrected handling for tiddlers with no matching tagged template when non-default theme is in effect (e.g., use "MyTheme##ViewTemplate").
 | please see [[TaggedTemplateTweakInfo]] for previous revision details |
 2007.06.11 [1.0.0] initial release
 <<<
 !!!!!Code
 ***/
 //{{{
-version.extensions.taggedTemplate= {major: 1, minor: 2, revision: 0, date: new Date(2008,4,1)};
+version.extensions.TaggedTemplateTweak= {major: 1, minor: 4, revision: 1, date: new Date(2008,8,29)};
+
 Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
 Story.prototype.chooseTemplateForTiddler = function(title,template)
 {
 	// get default template from core
-	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+	var coreTemplate=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
 
-	// if the tiddler to be rendered doesn't exist yet, just return core result
-	var tiddler=store.getTiddler(title); if (!tiddler) return template;
+	// if the tiddler doesn't exist yet or is untagged, return core result
+	var tiddler=store.getTiddler(title);
+	if (!tiddler || !tiddler.tags.length)
+		return coreTemplate;
 
-	// look for template whose prefix matches a tag on this tiddler
+	// split core template into theme prefix and template name
+	var theme="";
+	var template=coreTemplate;
+	var parts=template.split(config.textPrimitives.sectionSeparator);
+	if (parts[1]) { theme=parts[0]; template=parts[1]; }
+	else theme=config.options.txtTheme||""; // fallback if theme is not specified
+	theme+=config.textPrimitives.sectionSeparator;
+
+	// look for template whose prefix matches a tag on this tiddler (if any)
 	for (i=0; i<tiddler.tags.length; i++) {
-		var t=tiddler.tags[i]+template; // add tag prefix
+		var t=tiddler.tags[i]+template; // add tag prefix to template
 		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
-		var s=config.options.txtTheme+"##"; // systemTheme section prefix
-		if (store.tiddlerExists(t)) { template=t; break; }
-		if (store.tiddlerExists(c)) { template=c; break; }
-		if (store.getTiddlerText(s+t)) { template=s+t; break; }
-		if (store.getTiddlerText(s+c)) { template=s+c; break; }
+		if (store.getTiddlerText(theme+t))	{ return theme+t; } // theme##tagTemplate
+		if (store.getTiddlerText(theme+c))	{ return theme+c; } // theme##TagTemplate
+		if (store.getTiddlerText(t)) 		{ return t; }	     // tagTemplate
+		if (store.getTiddlerText(c))		{ return c; }	     // TagTemplate
 	}
-	return template;
+	return coreTemplate; // no matching tag, return core result
 }
 //}}}

@@ -1,9 +1,9 @@
-<div title="ExportTiddlersPluginInfo" modifier="ELSDesignStudios" created="200703222349" tags="plugininfo">
+<div title="ExportTiddlersPluginInfo" modifier="ELSDesignStudios" created="200703222349" modified="200809261410" tags="pluginInfo ImportExportPackage" changecount="2">
 <pre>/***
 |Name|ExportTiddlersPluginInfo|
 |Source|http://www.TiddlyTools.com/#ExportTiddlersPlugin|
 |Documentation|http://www.TiddlyTools.com/#ExportTiddlersPluginInfo|
-|Version|2.5.1|
+|Version|2.8.3|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -11,7 +11,11 @@
 |Requires||
 |Overrides||
 |Description|Documentation for ExportTiddlersPlugin|
-ExportTiddlersPlugin lets you select and extract tiddlers from your ~TiddlyWiki documents using interactive control panel lets you specify a destination, and then select which tiddlers to export. Tiddler data can be output as complete, stand-alone TiddlyWiki documents, or just the selected tiddlers (&quot;~PureStore&quot; format -- smaller files!) that can be imported directly into another ~TiddlyWiki, or as an ~RSS-compatible XML file that can be published for RSS syndication.
+ExportTiddlersPlugin provides an interactive control panel that allows you to select and extract tiddlers from your ~TiddlyWiki document, and write them into another file, using one of several different file formats:
+* ~TiddlyWiki - a complete, stand-alone, standard TiddlyWiki HTML document
+* ~PureStore - a small HTML archive file containing tiddler data only (no core code)
+* ~PlainText - a simple TXT text file with tiddler source listings
+* ~NewsFeed - an XML-format file that can be published for RSS syndication.
 !!!!!Usage
 &lt;&lt;&lt;
 {{{
@@ -23,11 +27,17 @@ Inline control panel (live):
 &lt;&lt;exportTiddlers inline&gt;&gt;
 
 Optional &quot;special tiddlers&quot; used by this plugin:
-* SiteUrl&lt;br&gt;URL for official server-published version of document being viewed (used in XML export). Ddefault: //none//
-* SiteDate&lt;br&gt;stored date/time stamp for most recent published version of document.  Default: current document.modified value (i.e., the 'file date')
+* SiteUrl&lt;br&gt;URL for official server-published version of document being viewed (used in XML export). Default: //none//
 &lt;&lt;&lt;
 !!!!!Revisions
 &lt;&lt;&lt;
+2008.09.26 [2.8.3] in go(), if rewriting *current* file and chkSaveBackups and/or chkGenerateAnRssFeed is enabled, then write a backup file or RSS feed, respectively.
+2008.09.24 [2.8.2] in assembleFile(), make sure that markup block is updated if corresponding Markup* tiddler is exported.
+2008.09.19 [2.8.1] in formatItem(), removed unnecessary convertUnicodeToUTF8() (was causing double-conversion!)
+2008.09.11 [2.8.0] extensive code cleanup: moved all global functions inside macro object. Re-wrote file generator and I/O to support TiddlyWiki, PlainText, PureStore, and NewsFeed file formats.  Replaced inline 'match tags' code with use of getMatchingTiddlers() from [[MatchTagsPlugin]] (if installed), with fallback to core getTaggedTiddlers() otherwise.
+2008.05.27 [2.7.0] added ability to 'merge' with existing export file.  Also, revised 'matchTags' functionality to be more robust and more efficient
+2008.05.12 [2.6.1] automatically add 'export' task to backstage (moved from BackstageTweaks)
+2008.03.10 [2.6.0] added &quot;delete tiddlers&quot; button
 2007.12.04 [*.*.*] update for TW2.3.0: replaced deprecated core functions, regexps, and macros
 2007.11.10 [2.5.1] removed debugging alert messages from promptForExportFilename()
 2007.10.31 [2.5.0] code reduction: removed incomplete/unused interface and supporting functions for exporting directly to http, https or ftp servers.  Plugin now supports exporting to local file only.  Transferring that file is now left to other mechanisms, such as email attachments, FTP uploads, portable media (USB,CD,DVD,...), etc.  Also, updated &quot;save as TiddlyWiki document&quot; output to correctly generate TW2.2 compatible file format.

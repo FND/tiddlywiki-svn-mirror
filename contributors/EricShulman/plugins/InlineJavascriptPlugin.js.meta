@@ -1,6 +1,5 @@
 title: InlineJavascriptPlugin
 modifier: ELSDesignStudios
 created: 200512130544
-modified: 200803032241
-tags: BackstagePackage CatalogPackage DiscoveryPackage IconPackage MediaPackage MenuPackage TaskPackage TidIDEPackage includeNew systemConfig FormattingPackage QuickEditPackage
-changecount: 3
+modified: 200806111415
+tags: DiscoveryPackage IconPackage MediaPackage TaskPackage TidIDEPackage systemConfig QuickEditPackage ScrollbarPackage

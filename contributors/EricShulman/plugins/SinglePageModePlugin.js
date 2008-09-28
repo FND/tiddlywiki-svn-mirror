@@ -2,13 +2,14 @@
 |Name|SinglePageModePlugin|
 |Source|http://www.TiddlyTools.com/#SinglePageModePlugin|
 |Documentation|http://www.TiddlyTools.com/#SinglePageModePluginInfo|
-|Version|2.9.0|
+|Version|2.9.5|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
 |Type|plugin|
 |Requires||
 |Overrides|Story.prototype.displayTiddler(), Story.prototype.displayTiddlers()|
+|Options|##Configuration|
 |Description|Show tiddlers one at a time with automatic permalink, or always open tiddlers at top/bottom of page.|
 This plugin allows you to configure TiddlyWiki to navigate more like a traditional multipage web site with only one tiddler displayed at a time.
 !!!!!Documentation
@@ -16,10 +17,11 @@ This plugin allows you to configure TiddlyWiki to navigate more like a tradition
 !!!!!Configuration
 <<<
 <<option chkSinglePageMode>> Display one tiddler at a time
-><<option chkSinglePageKeepFoldedTiddlers>> Don't auto-close folded tiddlers
 ><<option chkSinglePagePermalink>> Automatically permalink current tiddler
-<<option chkTopOfPageMode>> Always open tiddlers at the top of the page
-<<option chkBottomOfPageMode>> Always open tiddlers at the bottom of the page
+><<option chkSinglePageKeepFoldedTiddlers>> Don't close tiddlers that are folded
+><<option chkSinglePageKeepEditedTiddlers>> Don't close tiddlers that are being edited
+<<option chkTopOfPageMode>> Open tiddlers at the top of the page
+<<option chkBottomOfPageMode>> Open tiddlers at the bottom of the page
 <<option chkSinglePageAutoScroll>> Automatically scroll tiddler into view (if needed)
 
 Notes:
@@ -29,14 +31,14 @@ Notes:
 <<<
 !!!!!Revisions
 <<<
-2008.04.02 [2.9.0] in displayTiddler(), when single-page mode is in use and a tiddler is being edited, ask for permission to save-and-close that tiddler, instead of just leaving it open.
+2008.06.12 [2.9.5] corrected 'scroll to top of page' logic in auto-scroll handling
 | Please see [[SinglePageModePluginInfo]] for previous revision details |
 2005.08.15 [1.0.0] Initial Release.  Support for BACK/FORWARD buttons adapted from code developed by Clint Checketts.
 <<<
 !!!!!Code
 ***/
 //{{{
-version.extensions.SinglePageMode= {major: 2, minor: 9, revision: 0, date: new Date(2008,4,2)};
+version.extensions.SinglePageModePlugin= {major: 2, minor: 9, revision: 5, date: new Date(2008,6,12)};
 //}}}
 //{{{
 config.paramifiers.SPM = { onstart: function(v) {
@@ -48,29 +50,20 @@ config.paramifiers.SPM = { onstart: function(v) {
 } };
 //}}}
 //{{{
-if (config.options.chkSinglePageMode==undefined) config.options.chkSinglePageMode=false;
-if (config.options.chkSinglePageKeepFoldedTiddlers==undefined) config.options.chkSinglePageKeepFoldedTiddlers=true;
-if (config.options.chkSinglePagePermalink==undefined) config.options.chkSinglePagePermalink=true;
-if (config.options.chkTopOfPageMode==undefined) config.options.chkTopOfPageMode=false;
-if (config.options.chkBottomOfPageMode==undefined) config.options.chkBottomOfPageMode=false;
-if (config.options.chkSinglePageAutoScroll==undefined) config.options.chkSinglePageAutoScroll=true;
-
-if (config.optionsDesc) {
-	config.optionsDesc.chkSinglePageMode="Display one tiddler at a time";
-	config.optionsDesc.chkSinglePageKeepFoldedTiddlers="Don't auto-close folded tiddlers";
-	config.optionsDesc.chkSinglePagePermalink="Automatically permalink current tiddler";
-	config.optionsDesc.chkSinglePageAutoScroll="Automatically scroll tiddler into view (if needed)";
-	config.optionsDesc.chkTopOfPageMode="Always open tiddlers at the top of the page";
-	config.optionsDesc.chkBottomOfPageMode="Always open tiddlers at the bottom of the page";
-} else {
-	config.shadowTiddlers.AdvancedOptions += "\
-		\n<<option chkSinglePageMode>> Display one tiddler at a time \
-		\n<<option chkSinglePageKeepFoldedTiddlers>> Don't auto-close folded tiddlers \
-		\n<<option chkSinglePagePermalink>> Automatically permalink current tiddler \
-		\n<<option chkSinglePageAutoScroll>> Automatically scroll tiddler into view (if needed) \
-		\n<<option chkTopOfPageMode>> Always open tiddlers at the top of the page \
-		\n<<option chkBottomOfPageMode>> Always open tiddlers at the bottom of the page";
-}
+if (config.options.chkSinglePageMode==undefined)
+	config.options.chkSinglePageMode=false;
+if (config.options.chkSinglePagePermalink==undefined)
+	config.options.chkSinglePagePermalink=true;
+if (config.options.chkSinglePageKeepFoldedTiddlers==undefined)
+	config.options.chkSinglePageKeepFoldedTiddlers=false;
+if (config.options.chkSinglePageKeepEditedTiddlers==undefined)
+	config.options.chkSinglePageKeepEditedTiddlers=false;
+if (config.options.chkTopOfPageMode==undefined)
+	config.options.chkTopOfPageMode=false;
+if (config.options.chkBottomOfPageMode==undefined)
+	config.options.chkBottomOfPageMode=false;
+if (config.options.chkSinglePageAutoScroll==undefined)
+	config.options.chkSinglePageAutoScroll=true;
 //}}}
 //{{{
 config.SPMTimer = 0;
@@ -80,7 +73,7 @@ function checkLastURL()
 	if (!config.options.chkSinglePageMode)
 		{ window.clearInterval(config.SPMTimer); config.SPMTimer=0; return; }
 	if (config.lastURL == window.location.hash) return; // no change in hash
-	var tids=convertUTF8ToUnicode(decodeURIComponent(window.location.hash.substr(1))).readBracketedList();
+	var tids=decodeURIComponent(window.location.hash.substr(1)).readBracketedList();
 	if (tids.length==1) // permalink (single tiddler in URL)
 		story.displayTiddler(null,tids[0]);
 	else { // restore permaview or default view
@@ -98,7 +91,10 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,sl
 	var title=(tiddler instanceof Tiddler)?tiddler.title:tiddler;
 	var tiddlerElem=document.getElementById(story.idPrefix+title); // ==null unless tiddler is already displayed
 	var opt=config.options;
-	if (opt.chkSinglePageMode) {
+	var single=opt.chkSinglePageMode && !startingUp;
+	var top=opt.chkTopOfPageMode && !startingUp;
+	var bottom=opt.chkBottomOfPageMode && !startingUp;
+	if (single) {
 		story.forEachTiddler(function(tid,elem) {
 			// skip current tiddler and, optionally, tiddlers that are folded.
 			if (	tid==title
@@ -106,7 +102,8 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,sl
 				return;
 			// if a tiddler is being edited, ask before closing
 			if (elem.getAttribute("dirty")=="true") {
-				// if tiddler to be displayed is already shown, then leave active tiddlers editors as is
+				if (opt.chkSinglePageKeepEditedTiddlers) return;
+				// if tiddler to be displayed is already shown, then leave active tiddler editor as is
 				// (occurs when switching between view and edit modes)
 				if (tiddlerElem) return;
 				// otherwise, ask for permission
@@ -117,42 +114,40 @@ Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,sl
 			story.closeTiddler(tid);
 		});
 	}
-	else if (opt.chkTopOfPageMode)
+	else if (top)
 		arguments[0]=null;
-	else if (opt.chkBottomOfPageMode)
+	else if (bottom)
 		arguments[0]="bottom";
-	if (opt.chkSinglePageMode && opt.chkSinglePagePermalink && !config.browser.isSafari) {
-		window.location.hash = encodeURIComponent(convertUnicodeToUTF8(String.encodeTiddlyLink(title)));
+	if (single && opt.chkSinglePagePermalink && !config.browser.isSafari) {
+		window.location.hash = encodeURIComponent(String.encodeTiddlyLink(title));
 		config.lastURL = window.location.hash;
 		document.title = wikifyPlain("SiteTitle") + " - " + title;
 		if (!config.SPMTimer) config.SPMTimer=window.setInterval(function() {checkLastURL();},1000);
 	}
 	if (tiddlerElem && tiddlerElem.getAttribute("dirty")=="true") { // editing... move tiddler without re-rendering
 		var isTopTiddler=(tiddlerElem.previousSibling==null);
-		if (!isTopTiddler && (opt.chkSinglePageMode || opt.chkTopOfPageMode))
+		if (!isTopTiddler && (single || top))
 			tiddlerElem.parentNode.insertBefore(tiddlerElem,tiddlerElem.parentNode.firstChild);
-		else if (opt.chkBottomOfPageMode)
+		else if (bottom)
 			tiddlerElem.parentNode.insertBefore(tiddlerElem,null);
 		else this.SPM_coreDisplayTiddler.apply(this,arguments); // let CORE render tiddler
 	} else
 		this.SPM_coreDisplayTiddler.apply(this,arguments); // let CORE render tiddler
 	var tiddlerElem=document.getElementById(story.idPrefix+title);
 	if (tiddlerElem&&opt.chkSinglePageAutoScroll) {
-		var yPos=ensureVisible(tiddlerElem); // scroll to top of tiddler
+		// scroll to top of page or top of tiddler
 		var isTopTiddler=(tiddlerElem.previousSibling==null);
-		if (opt.chkSinglePageMode||opt.chkTopOfPageMode||isTopTiddler)
-			yPos=0; // scroll to top of page instead of top of tiddler
-		if (opt.chkAnimate) // defer scroll until 200ms after animation completes
-			setTimeout("window.scrollTo(0,"+yPos+")",config.animDuration+200); 
-		else
-			window.scrollTo(0,yPos); // scroll immediately
+		var yPos=isTopTiddler?0:ensureVisible(tiddlerElem);
+		// if animating, defer scroll until 200ms after animation completes
+		var delay=opt.chkAnimate?config.animDuration+200:0;
+		setTimeout("window.scrollTo(0,"+yPos+")",delay); 
 	}
 }
 
 if (Story.prototype.SPM_coreDisplayTiddlers==undefined)
 	Story.prototype.SPM_coreDisplayTiddlers=Story.prototype.displayTiddlers;
 Story.prototype.displayTiddlers = function() {
-	// suspend single-page mode (and/or top/bottom display options) when showing multiple tiddlers
+	// suspend single/top/bottom modes when showing multiple tiddlers
 	var opt=config.options;
 	var saveSPM=opt.chkSinglePageMode; opt.chkSinglePageMode=false;
 	var saveTPM=opt.chkTopOfPageMode; opt.chkTopOfPageMode=false;

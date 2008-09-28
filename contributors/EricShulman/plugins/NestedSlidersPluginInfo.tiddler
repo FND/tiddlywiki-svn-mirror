@@ -1,9 +1,9 @@
-<div title="NestedSlidersPluginInfo" modifier="ELSDesignStudios" created="200801081313" modified="200801081302" tags="plugininfo">
+<div title="NestedSlidersPluginInfo" modifier="ELSDesignStudios" created="200801081313" modified="200806072044" tags="pluginInfo">
 <pre>/***
 |Name|NestedSlidersPluginInfo|
 |Source|http://www.TiddlyTools.com/#NestedSlidersPlugin|
 |Documentation|http://www.TiddlyTools.com/#NestedSlidersPluginInfo|
-|Version|2.3.4|
+|Version|2.4.5|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -22,6 +22,7 @@ Additional optional syntax elements let you specify
 *heading level
 *floater (with optional CSS width value)
 *transient display (clicking elsewhere closes panel)
+*open on hover (without needing to click)
 *custom class/label/tooltip/accesskey
 *alternate label/tooltip (displayed when panel is open)
 *panelID (for later use with {{{&lt;&lt;DOM&gt;&gt;}}} macro.  See [[DOMTweaksPlugin]])
@@ -29,20 +30,21 @@ Additional optional syntax elements let you specify
 *deferred rendering of panel content
 The complete syntax, using all options, is:
 //{{{
-++++(cookiename)!!!!!^width^*{{class{[label=key|tooltip][altlabel|alttooltip]}}}#panelID:&gt;...
+++++(cookiename)!!!!!^width^*@{{class{[label=key|tooltip][altlabel|alttooltip]}}}#panelID:&gt;...
 content goes here
 ===
 //}}}
 where:
-* {{{+++}}} (or {{{++++}}}) and {{{===}}}&lt;br&gt;marks the start and end of the slider definition, respectively.  When the extra {{{+}}} is used, the slider will be open when initially displayed.
-* {{{(cookiename)}}}&lt;br&gt;saves the slider opened/closed state, and restores this state whenever the slider is re-rendered.
-* {{{!}}} through {{{!!!!!}}}&lt;br&gt;displays the slider label using a formatted headline (Hn) style instead of a button/link style
-* {{{^width^}}} (or just {{{^}}})&lt;br&gt;makes the slider 'float' on top of other content rather than shifting that content downward.  'width' must be a valid CSS value (e.g., &quot;30em&quot;, &quot;180px&quot;, &quot;50%&quot;, etc.).  If omitted, the default width is &quot;auto&quot; (i.e., fit to content)
-* {{{&quot;*&quot;}}} //(without the quotes)//&lt;br&gt;denotes &quot;transient display&quot;: when a click occurs elsewhere in the document, the slider/floating panel will be automatically closed.  This is useful for creating 'pulldown menus' that automatically go away after they are used.  //Note: using SHIFT-click on a slider label will open/close that slider without triggering the automatic closing of any transient slider panels that are currently displayed, permitting ''temporary'' display of several transient panels at once.//
-* &quot;&quot;&quot;{{class{[label=key|tooltip][altlabel|alttooltip]}}}&quot;&quot;&quot;&lt;br&gt;uses label/tooltip/accesskey.  &quot;&quot;&quot;{{class{...}}}&quot;&quot;&quot;, &quot;&quot;&quot;=key&quot;&quot;&quot;, &quot;&quot;&quot;|tooltip&quot;&quot;&quot; and &quot;&quot;&quot;[altlabel|alttooltip]&quot;&quot;&quot; are optional.  'class' is any valid CSS class name, used to style the slider label text.  'key' must be a ''single letter only''.  altlabel/alttooltip specifiy alternative label/tooltip for use when slider/floating panel is displayed.
-* {{{#panelID:}}}&lt;br&gt;defines a unique DOM element ID that is assigned to the panel element used to display the slider content.  This ID can then be used later to reposition the panel using the {{{&lt;&lt;DOM move id&gt;&gt;}}} macro (see [[DOMTweaksPlugin]]), or to access/modify the panel element through use of {{{document.getElementById(...)}}}) javascript code in a plugin or inline script.
-* {{{&quot;&gt;&quot;}}} //(without the quotes)//&lt;br&gt;automatically adds blockquote formatting to slider content
-* {{{&quot;...&quot;}}} //(without the quotes)//&lt;br&gt;defers rendering of closed sliders until the first time they are opened.  //Note: deferred rendering may produce unexpected results in some cases.  Use with care.//
+* ''&quot;&quot;&quot;+++&quot;&quot;&quot; (or &quot;&quot;&quot;++++&quot;&quot;&quot;) and &quot;&quot;&quot;===&quot;&quot;&quot;''&lt;br&gt;marks the start and end of the slider definition, respectively.  When the extra {{{+}}} is used, the slider will be open when initially displayed.
+* ''&quot;&quot;&quot;(cookiename)&quot;&quot;&quot;''&lt;br&gt;saves the slider opened/closed state, and restores this state whenever the slider is re-rendered.
+* ''&quot;&quot;&quot;! through !!!!!&quot;&quot;&quot;''&lt;br&gt;displays the slider label using a formatted headline (Hn) style instead of a button/link style
+* ''&quot;&quot;&quot;^width^ (or just ^)&quot;&quot;&quot;''&lt;br&gt;makes the slider 'float' on top of other content rather than shifting that content downward.  'width' must be a valid CSS value (e.g., &quot;30em&quot;, &quot;180px&quot;, &quot;50%&quot;, etc.).  If omitted, the default width is &quot;auto&quot; (i.e., fit to content)
+* ''&quot;&quot;&quot;*&quot;&quot;&quot;''&lt;br&gt;denotes &quot;transient display&quot;: when a click occurs elsewhere in the document, the slider/floating panel will be automatically closed.  This is useful for creating 'pulldown menus' that automatically go away after they are used.  //Note: using SHIFT-click on a slider label will open/close that slider without triggering the automatic closing of any transient slider panels that are currently displayed, permitting ''temporary'' display of several transient panels at once.//
+* ''&quot;&quot;&quot;@&quot;&quot;&quot;''&lt;br&gt;denotes &quot;open on hover&quot;: the slider/floating panel will be automatically opened as soon as the mouse moves over the slider label, without requiring a click.
+* ''&quot;&quot;&quot;{{class{[label=key|tooltip][altlabel|alttooltip]}}}&quot;&quot;&quot;''&lt;br&gt;uses label/tooltip/accesskey.  &quot;&quot;&quot;{{class{...}}}&quot;&quot;&quot;, &quot;&quot;&quot;=key&quot;&quot;&quot;, &quot;&quot;&quot;|tooltip&quot;&quot;&quot; and &quot;&quot;&quot;[altlabel|alttooltip]&quot;&quot;&quot; are optional.  'class' is any valid CSS class name, used to style the slider label text.  'key' must be a ''single letter only''.  altlabel/alttooltip specify alternative label/tooltip for use when slider/floating panel is displayed.  //Note: you can use HTML syntax within the label text to include HTML entities (e.g., {{{&amp;raquo;}}} (&amp;raquo;) or {{{&amp;#x25ba;}}} (&amp;#x25ba;), or even embedded images (e.g., {{{&lt;img src=&quot;images/eric3.gif&quot;&gt;}}}).//
+* ''&quot;&quot;&quot;#panelID:&quot;&quot;&quot;''&lt;br&gt;defines a unique DOM element ID that is assigned to the panel element used to display the slider content.  This ID can then be used later to reposition the panel using the {{{&lt;&lt;DOM move id&gt;&gt;}}} macro (see [[DOMTweaksPlugin]]), or to access/modify the panel element through use of {{{document.getElementById(...)}}}) javascript code in a plugin or inline script.
+* ''&quot;&quot;&quot;&gt;&quot;&quot;&quot;''&lt;br&gt;automatically adds blockquote formatting to slider content
+* ''&quot;&quot;&quot;...&quot;&quot;&quot;''&lt;br&gt;defers rendering of closed sliders until the first time they are opened.  //Note: deferred rendering may produce unexpected results in some cases.  Use with care.//
 
 //Note: to make slider definitions easier to read and recognize when editing a tiddler, newlines immediately following the {{{+++}}} 'start slider' or preceding the {{{===}}} 'end slider' sequence are automatically supressed so that excess whitespace is eliminated from the output.//
 &lt;&lt;&lt;
@@ -78,13 +80,13 @@ content automatically blockquoted:
    content
 ===
 ----
-all options combined //(default open, cookie, heading, sized floater, transient, class, label/tooltip/key, blockquoted, deferred)//
+all options (except cookie) //(default open, heading, sized floater, transient, open on hover, class, label/tooltip/key, blockquoted, deferred)//
 {{{
-++++(testcookie)!!!^30em^*{{big{[label=Z|click or press Alt-Z to open]}}}&gt;...
+++++!!!^30em^*@{{big{[label=Z|click or press Alt-Z to open]}}}&gt;...
    content
 ===
 }}}
-++++(testcookie)!!!^30em^*{{big{[label=Z|click or press Alt-Z to open]}}}&gt;...
+++++!!!^30em^*@{{big{[label=Z|click or press Alt-Z to open]}}}&gt;...
    content
 ===
 ----
@@ -107,9 +109,26 @@ complex nesting example:
 		perhaps with a +++^25em^*[glossary definition]explaining technical terms===
 	===
 ===
+----
+embedded image as slider button
+{{{
++++[&lt;img src=images/eric3.gif&gt;|click me!]&gt;
+	{{big{OUCH!}}}
+===
+}}}
++++[&lt;img src=images/eric3.gif&gt;|click me!]&gt;
+	{{big{OUCH!}}}
+===
 &lt;&lt;&lt;
 !!!!!Revisions
 &lt;&lt;&lt;
+2008.06.07 - 2.4.5 in 'onmouseover' handler for 'open on hover' slider buttons, use call() method when invoking document.onclick function (avoids error in IE)
+2008.06.07 - 2.4.4 changed default for chkFloatingSlidersAnimate to FALSE to avoid clipping problem on some browsers (IE).  Updated Morpher hijack (again) to adjust regular sliderPanel styles as well as floatingPanel styles.
+2008.05.07 - 2.4.3 updated Morpher hijack to adjust floatingPanel styles after animation without affecting other animated elements (i.e. popups).  Also, updated adjustSliderPos() to account for scrollwidth and use core findWindowWidth().
+2008.04.02 - 2.4.2 in onClickNestedSlider, handle clicks on elements contained //within// slider buttons (e.g., when using HTML to display an image as a slider button).
+2008.04.01 - 2.4.1 open on hover also triggers document.onclick to close other transient sliders
+2008.04.01 - 2.4.0 re-introduced 'open on hover' feature using &quot;@&quot; symbol
+2008.03.26 - 2.3.5 in document.onclick(), if click is in popup, don't dismiss transient panel (if any)
 2008.01.08 - [*.*.*] plugin size reduction: documentation moved to ...Info tiddler
 2007.12.28 - 2.3.4 added hijack for Animator.prototype.startAnimating().  Previously, the plugin code simply set the overflow to &quot;visible&quot; after animation.  This code tweak corrects handling of elements that were styled with overflow=hidden/auto/scroll before animation by saving the overflow style and then restoring it after animation has completed.
 2007.12.17 - 2.3.3 use hasClass() instead of direct comparison to test for &quot;floatingPanel&quot; class.  Allows floating panels to have additional classes assigned to them (i.e., by AnimationEffectsPlugin).

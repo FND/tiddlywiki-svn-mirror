@@ -1,7 +1,7 @@
 /***
 |Name|ImportTiddlersPluginPatch|
 |Source|http://www.TiddlyTools.com/#ImportTiddlersPluginPatch|
-|Version|3.6.0|
+|Version|4.3.2|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -9,7 +9,6 @@
 |Requires|ImportTiddlersPlugin|
 |Overrides|config.macros.importTiddlers.handler|
 |Description|backward-compatible function patches for use with ImportTiddlersPlugin and TW2.1.x or earlier|
-
 !!!!!Usage
 <<<
 The current version ImportTiddlersPlugin is compatible with the TW2.2.x core functions.  This "patch" plugin provides additional functions needed to enable the current version of ImportTiddlersPlugin to operate correctly under TW2.1.x or earlier.
@@ -19,10 +18,11 @@ The current version ImportTiddlersPlugin is compatible with the TW2.2.x core fun
 <<<
 !!!!!Revisions
 <<<
-''2008.01.03 [3.6.0]'' added support for passing txtRemoteUsername and txtRemotePassword for accessing password-protected remote servers
-''2007.06.27 [3.5.5]'' compatibility functions split from ImportTiddlersPlugin
+2008.08.05 [4.3.2] rewrote loadRemoteFile to eliminate use of platform-specific fileExists() function
+2008.01.03 [3.6.0] added support for passing txtRemoteUsername and txtRemotePassword for accessing password-protected remote servers
+2007.06.27 [3.5.5] compatibility functions split from ImportTiddlersPlugin
 |please see [[ImportTiddlersPlugin]] for additional revision details|
-''2005.07.20 [1.0.0]'' Initial Release
+2005.07.20 [1.0.0] Initial Release
 <<<
 !!!!!Code
 ***/
@@ -31,7 +31,7 @@ The current version ImportTiddlersPlugin is compatible with the TW2.2.x core fun
 if (version.major+version.minor/10 <= 2.1) {
 
 // Version
-version.extensions.importTiddlersPatch21x = {major: 3, minor: 6, revision: 0, date: new Date(2008,1,3)};
+version.extensions.ImportTiddlersPluginPatch= {major: 4, minor: 3, revision: 2, date: new Date(2008,8,5)};
 
 // fixups for TW2.0.x and earlier
 if (window.merge==undefined) window.merge=function(dst,src,preserveExisting)
@@ -42,25 +42,24 @@ config.macros.importTiddlers.loadRemoteFile = function(src,callback,quiet) {
 	if (src==undefined || !src.length) return null; // filename is required
 	if (!quiet) clearMessage();
 	if (!quiet) displayMessage(this.openMsg.format([src]));
-	if (src.substr(0,5)!="http:" && src.substr(0,5)!="file:") { // if src is relative (i.e., not a URL)
-		if (!this.fileExists(src)) { // if file cannot be found, might be relative path.. try fixup
+
+	if (src.substr(0,5)!="http:" && src.substr(0,5)!="file:") { // if not a URL, read from local filesystem
+		var txt=loadFile(src);
+		if (!txt) { // file didn't load, might be relative path.. try fixup
 			var pathPrefix=document.location.href;  // get current document path and trim off filename
 			var slashpos=pathPrefix.lastIndexOf("/"); if (slashpos==-1) slashpos=pathPrefix.lastIndexOf("\\"); 
 			if (slashpos!=-1 && slashpos!=pathPrefix.length-1) pathPrefix=pathPrefix.substr(0,slashpos+1);
 			src=pathPrefix+src;
 			if (pathPrefix.substr(0,5)!="http:") src=getLocalPath(src);
+			var txt=loadFile(src);
 		}
-	}
-	if (src.substr(0,4)!="http" && src.substr(0,4)!="file") { // if not a URL, read from local filesystem
-		var txt=loadFile(src);
-		if ((txt==null)||(txt==false)) // file didn't load
-			{ if (!quiet) displayMessage(config.macros.importTiddlers.openErrMsg.format([src,"(unknown)"])); }
-		else {
-			if (!quiet) displayMessage(config.macros.importTiddlers.readMsg.format([txt.length,src]));
+		if (!txt) { // file still didn't load, report error
+			if (!quiet) displayMessage(config.macros.importTiddlers.openErrMsg.format([src.replace(/%20/g," "),"(filesystem error)"]));
+		} else {
+			if (!quiet) displayMessage(config.macros.importTiddlers.readMsg.format([txt.length,src.replace(/%20/g," ")]));
 			if (callback) callback(true,quiet,convertUTF8ToUnicode(txt),src,null);
 		}
-	}
-	else {
+	} else {
 		var x; // get an request object
 		try {x = new XMLHttpRequest()} // moz
 		catch(e) {

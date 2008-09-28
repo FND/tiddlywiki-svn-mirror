@@ -1,7 +1,7 @@
 /***
 |Name|TiddlerTweakerPlugin|
 |Source|http://www.TiddlyTools.com/#TiddlerTweakerPlugin|
-|Version|2.2.0|
+|Version|2.2.2|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -23,6 +23,8 @@ Important Notes:
 <<<
 !!!!!Revisions
 <<<
+2008.09.07 [2.2.2] added removeOptionCookie() function for compatibility with [[CookieManagerPlugin]]
+2008.05.12 [2.2.1] replace built-in backstage "tweak" task with tiddler tweaker control panel (moved from BackstageTweaks)
 2008.01.13 [2.2.0] added "auto-selection" links: all, changed, tags, title, text
 2007.12.26 [2.1.0] added support for managing 'creator' custom field (see [[CoreTweaks]])
 2007.11.01 [2.0.3] added config.options.txtTweakerSortBy for cookie-based persistence of list display order preference setting.
@@ -34,9 +36,27 @@ Important Notes:
 !!!!!Code
 ***/
 //{{{
-version.extensions.tiddlerTweaker= {major: 2, minor: 2, revision: 0, date: new Date(2008,1,13)};
+version.extensions.TiddlerTweakerPlugin= {major: 2, minor: 2, revision: 2, date: new Date(2008,9,7)};
+
+// shadow tiddler
 config.shadowTiddlers.TiddlerTweaker="<<tiddlerTweaker>>";
-if (config.options.txtTweakerSortBy==undefined) config.options.txtTweakerSortBy="title";
+
+/// backstage task
+if (config.tasks) { // for TW2.2b3 or above
+	config.tasks.tweak.tooltip="review/modify tiddler internals: dates, authors, tags, etc.";
+	config.tasks.tweak.content="{{smallform small groupbox{<<tiddlerTweaker>>}}}";
+}
+
+if (config.options.txtTweakerSortBy==undefined) config.options.txtTweakerSortBy="modified";
+
+// if removeOptionCookie() function is not defined by TW core, define it here.
+if (window.removeOptionCookie===undefined) {
+window.removeOptionCookie=function(cookie) {
+	var ex=new Date(); ex.setTime(ex.getTime()-1000);  // immediately expire cookie
+	document.cookie = cookie+"=novalue; path=/; expires="+ex.toGMTString();
+}
+}
+
 config.macros.tiddlerTweaker = {
 	html: '<form style="display:inline"><!--\
 		--><table style="padding:0;margin:0;border:0;width:100%"><tr valign="top" style="padding:0;margin:0;border:0"><!--\
@@ -112,7 +132,8 @@ config.macros.tiddlerTweaker = {
 				onchange="config.macros.tiddlerTweaker.init(this.form,this.value)"><!--\
 			--><option value="title">title</option><!--\
 			--><option value="size">size</option><!--\
-			--><option value="modified">date</option><!--\
+			--><option value="modified">modified</option><!--\
+			--><option value="created">created</option><!--\
 			--></select><!--\
 			--><input type="button" value="refresh" \
 				onclick="config.macros.tiddlerTweaker.init(this.form,this.form.sortby.value)"<!--\
@@ -193,8 +214,8 @@ config.macros.tiddlerTweaker = {
 			tids.sort(function(a,b) {return a.text.length > b.text.length ? -1 : (a.text.length == b.text.length ? 0 : +1);});
 		for (i=0; i<tids.length; i++) {
 			var label=tids[i].title; var value=tids[i].title;
-			if (sortby=="modified") {
-				label=tids[tids.length-i-1].modified.formatString("YY.0MM.0DD 0hh:0mm ")+tids[tids.length-i-1].title;
+			if (sortby=="modified" || sortby=="created") {
+				label=tids[tids.length-i-1][sortby].formatString("YY.0MM.0DD 0hh:0mm ")+tids[tids.length-i-1].title;
 				value=tids[tids.length-i-1].title;
 			}
 			if (sortby=="size") label="["+tids[i].text.length+"] "+label;
@@ -207,12 +228,9 @@ config.macros.tiddlerTweaker = {
 		f.settitle.disabled=false;
 		config.options.txtTweakerSortBy=sortby; // remember current setting
 		f.sortby.value=sortby; // sync droplist selection with current setting
-		if (sortby!="title") // non-default preference... save cookie
+		if (sortby!="modified") // non-default preference... save cookie
 			saveOptionCookie("txtTweakerSortBy");
-		else { // default preference... clear cookie
-			var ex=new Date(); ex.setTime(ex.getTime()-1000);
-			document.cookie = "txtTweakerSortBy=null; path=/; expires="+ex.toGMTString();
-		}
+		else removeOptionCookie("txtTweakerSortBy"); // default preference... clear cookie
 	},
 	selecttiddlers: function(here) { // enable/disable tweaker fields based on number of items selected
 		// count how many tiddlers are selected
@@ -333,7 +351,8 @@ config.macros.tiddlerTweaker = {
 		var avg=tot/tids.length;
 		out=tot+' bytes in '+tids.length+' selected tiddlers ('+avg+' bytes/tiddler)\n<<<\n'+out+'<<<\n';
 		removeChildren(target);
-		target.innerHTML="<hr><font size=-2><a href='javascript:;' style='float:right' onclick='this.parentNode.parentNode.style.display=\"none\"'>close</a></font>";
+		target.innerHTML="<hr><font size=-2><a href='javascript:;' style='float:right' "
+			+"onclick='this.parentNode.parentNode.style.display=\"none\"'>close</a></font>";
 		wikify(out,target);
 		target.style.display="block";
 	}

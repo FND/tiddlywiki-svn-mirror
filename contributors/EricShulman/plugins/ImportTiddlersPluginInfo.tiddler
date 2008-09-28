@@ -1,9 +1,9 @@
-<div title="ImportTiddlersPluginInfo" modifier="ELSDesignStudios" created="200801090740" modified="200803260737" tags="plugininfo" creator="ELSDesignStudios" changecount="2">
+<div title="ImportTiddlersPluginInfo" modifier="ELSDesignStudios" created="200801090740" modified="200808130057" tags="pluginInfo ImportExportPackage" creator="ELSDesignStudios">
 <pre>/***
 |Name|ImportTiddlersPluginInfo|
 |Source|http://www.TiddlyTools.com/#ImportTiddlersPlugin|
 |Documentation|http://www.TiddlyTools.com/#ImportTiddlersPluginInfo|
-|Version|3.8.0|
+|Version|4.3.3|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -61,6 +61,16 @@ Note: You can prevent the ImportedTiddlers report from being generated for any g
 &lt;&lt;&lt;
 !!!!!Revisions
 &lt;&lt;&lt;
+2008.08.12 [4.3.3] rewrite backstage and shadow tiddler definitions for easier customization
+2008.08.05 [4.3.2] rewrote loadRemoteFile() to eliminate use of platform-specific fileExists() function
+2008.06.29 [4.3.1] More layout/animation work for simpler sequential interaction.  Code reduction/cleanup
+2008.06.28 [4.3.0] HTML and CSS cleanup and tweaks to layout.  Added animation to panels
+2008.06.22 [4.2.0] For FireFox, use HTML with separate text+button control instead of type='file' control
+2008.06.05 [4.1.0] in filterByHash(), added support for boolean tag expressions using getMatchingTiddlers() (defined by MatchTagsPlugin)
+2008.05.12 [4.0.2] automatically tweak the backstage &quot;import&quot; task to add the ImportTiddlers control panel as an optional alternative to the standard import wizard.  (Moved from BackstageTweaks).
+2008.04.30 [4.0.1] trim #... suffix for loading files/URLs in IE
+2008.04.30 [4.0.0] added source filtering (using URL paramifiers).  Also, abbreviations for code-size reduction.
+2008.04.13 [3.9.0] added 'apply to all' checkbox for collision processing
 2008.03.26 [3.8.0] added support for selecting pre-defined systemServer URLs
 2008.03.25 [3.7.0] added support for setting 'server' fields on imported tiddlers (for later synchronizing of changes)
 2008.01.03 [3.6.0] in loadRemoteFile(), use lower-level doHttp() instead of loadRemoteFile() in order to support username/password access to remote server

@@ -1,9 +1,9 @@
-<div title="InlineJavascriptPluginInfo" modifier="ELSDesignStudios" created="200801081257" modified="200802231358" tags="plugininfo" changecount="1">
+<div title="InlineJavascriptPluginInfo" modifier="ELSDesignStudios" created="200801081257" modified="200806111412" tags="pluginInfo">
 <pre>/***
 |Name|InlineJavascriptPluginInfo|
 |Source|http://www.TiddlyTools.com/#InlineJavascriptPlugin|
 |Documentation|http://www.TiddlyTools.com/#InlineJavascriptPluginInfo|
-|Version|1.9.2|
+|Version|1.9.3|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -32,7 +32,9 @@ __''Loading scripts from external source files''__
 &lt;/script&gt;You can also load javascript directly from an external source URL, by including a src=&quot;...&quot; parameter in the initial {{{&lt;script&gt;}}} marker (e.g., {{{&lt;script src=&quot;demo.js&quot;&gt;&lt;/script&gt;}}}).  This is particularly useful when incorporating third-party javascript libraries for use in custom extensions and plugins.  The 'foreign' javascript code remains isolated in a separate file that can be easily replaced whenever an updated library file becomes available.
 
 In addition to loading the javascript from the external file, you can also use this feature to invoke javascript code contained within the {{{&lt;script&gt;...&lt;/script&gt;}}} markers.  This code is invoked //after// the external script file has been processed, and can make immediate use of the functions and/or global variables defined by the external script file.
-&gt;Note: To ensure that your javascript functions are always available when needed, you should load the libraries from a tiddler that will be rendered as soon as your TiddlyWiki document is opened.  For example, you could put your {{{&lt;script src=&quot;...&quot;&gt;&lt;/script&gt;}}} syntax into a tiddler called LoadScripts, and then add {{{&lt;&lt;tiddler LoadScripts&gt;&gt;}}} in your MainMenu tiddler.  Since the MainMenu is always rendered immediately upon opening your document, the library will always be loaded before any other tiddlers that rely upon the functions it defines.  Loading an external javascript library does not produce any direct output in the tiddler, so these definitions should have no impact on the appearance of your MainMenu.
+&gt;Note: To ensure that your javascript functions are always available when needed, you should load the libraries from a tiddler that is rendered as soon as your TiddlyWiki document is opened, such as MainMenu.  For example: put your {{{&lt;script src=&quot;...&quot;&gt;&lt;/script&gt;}}} syntax into a separate 'library' tiddler (e.g., LoadScripts), and then add {{{&lt;&lt;tiddler LoadScripts&gt;&gt;}}} to MainMenu so that the library is loaded before any other tiddlers that rely upon the functions it defines. 
+&gt;
+&gt;Normally, loading external javascript in this way does not produce any direct output, and should not have any impact on the appearance of your MainMenu.  However, if your LoadScripts tiddler contains notes or other visible content, you can suppress this output by using 'inline CSS' in the MainMenu, like this: {{{@@display:none;&lt;&lt;tiddler LoadScripts&gt;&gt;@@}}}
 &lt;&lt;&lt;
 !!!!!Creating dynamic tiddler content and accessing the ~TiddlyWiki DOM
 &lt;&lt;&lt;
@@ -44,17 +46,34 @@ However, in a ~TiddlyWiki document, tiddlers (and other DOM elements) are create
 * generate wiki-formatted output using {{{wikify(&quot;...content...&quot;,place)}}}
 * vary the script's actions based upon the DOM element in which it is embedded
 * access 'tiddler-relative' DOM information using {{{story.findContainingTiddler(place)}}}
-&gt;Note: ''When using an 'onclick' script, the 'place' element actually refers to the onclick //link text// itself, instead of the containing DOM element.''  This permits you to directly reference or modify the link text to reflect any 'stateful' conditions that might set by the script.  To refer to the containing DOM element from within an 'onclick' script, you can use &quot;place.parentNode&quot; instead.
+Note:
+''When using an 'onclick' script, the 'place' element actually refers to the onclick //link text// itself, instead of the containing DOM element.''  This permits you to directly reference or modify the link text to reflect any 'stateful' conditions that might set by the script.  To refer to the containing DOM element from within an 'onclick' script, you can use &quot;place.parentNode&quot; instead.
 &lt;&lt;&lt;
 !!!!!Instant &quot;bookmarklets&quot;
 &lt;&lt;&lt;
 You can also use an 'onclick' link to define a &quot;bookmarklet&quot;: a small piece of javascript that can be ''invoked directly from the browser without having to be defined within the current document.''  This allows you to create 'stand-alone' commands that can be applied to virtually ANY TiddlyWiki document... even remotely-hosted documents that have been written by others!!  To create a bookmarklet, simply define an 'onclick' script and then grab the resulting link text and drag-and-drop it onto your browser's toolbar (or right-click and use the 'bookmark this link' command to add it to the browser's menu).
-&gt;Note: When writing scripts intended for use as bookmarklets, due to the ~URI-encoding required by the browser, ''you cannot not use ANY double-quotes (&quot;) within the bookmarklet script code.''  In addition, all comments embedded in the bookmarklet script must ''use the fully-delimited {{{/* ... */}}} comment syntax,'' rather than the shorter {{{//}}} comment syntax.  Most importantly, because bookmarklets are invoked directly from the browser interface and are not embedded within the TiddlyWiki document, there is NO containing DOM element surrounding the script.  As a result, ''you cannot use a bookmarklet to generate dynamic output in your document,''  and using {{{document.write()}}} or returning wiki-syntax text or making reference to the 'place' DOM element is likely to produce a fatal error when the bookmarklet is invoked.
+
+Notes:
+*When writing scripts intended for use as bookmarklets, due to the ~URI-encoding required by the browser, ''you cannot not use ANY double-quotes (&quot;) within the bookmarklet script code.''
+*All comments embedded in the bookmarklet script must ''use the fully-delimited {{{/* ... */}}} comment syntax,'' rather than the shorter {{{//}}} comment syntax.
+*Most importantly, because bookmarklets are invoked directly from the browser interface and are not embedded within the TiddlyWiki document, there is NO containing 'place' DOM element surrounding the script.  As a result, ''you cannot use a bookmarklet to generate dynamic output in your document,''  and using {{{document.write()}}} or returning wiki-syntax text or making reference to the 'place' DOM element will halt the script and report a &quot;Reference Error&quot; when that bookmarklet is invoked.  
 Please see [[InstantBookmarklets]] for many examples of 'onclick' scripts that can also be used as bookmarklets.
 &lt;&lt;&lt;
 !!!!!Special reserved function name
 &lt;&lt;&lt;
 The plugin 'wraps' all inline javascript code inside a function, {{{_out()}}}, so that any return value you provide can be correctly handled by the plugin and inserted into the tiddler.  To avoid unpredictable results (and possibly fatal execution errors), this function should never be redefined or called from ''within'' your script code.
+&lt;&lt;&lt;
+!!!!!$(...) 'shorthand' function
+&lt;&lt;&lt;
+As described by Dustin Diaz [[here|http://www.dustindiaz.com/top-ten-javascript/]], the plugin defines a 'shorthand' function that allows you to write:
+{{{
+$(id)
+}}}
+in place of the normal standard javascript syntax:
+{{{
+document.getElementById(id)
+}}}
+This function is provided merely as a convenience for javascript coders that may be familiar with this abbreviation, in order to allow them to save a few bytes when writing their own inline script code.
 &lt;&lt;&lt;
 !!!!!Examples
 &lt;&lt;&lt;
@@ -124,6 +143,7 @@ loading a script from a source url:
 &lt;&lt;&lt;
 !!!!!Revisions
 &lt;&lt;&lt;
+2008.06.11 [1.9.3] added $(...) function as 'shorthand' convenience syntax for document.getElementById()
 2008.03.03 [1.9.2] corrected declaration of wikifyPlainText() for 'TW 2.1.x compatibility fallback' (fixes Safari &quot;parse error&quot;)
 2008.02.23 [1.9.1] in onclick function, use string instead of array for 'bufferedHTML' attribute on link element (fixes IE errors)
 2008.02.21 [1.9.0] 'onclick' scripts now allow returned text (or document.write() calls) to be wikified into a span that immediately follows the onclick link.  Also, added default 'return false' handling if no return value provided (prevents HREF from being triggered -- return TRUE to allow HREF to be processed).  Thanks to Xavier Verges for suggestion and preliminary code.
