@@ -1,7 +1,7 @@
 <div title="PageTemplate" modifier="JeremyRuston" modified="200806162219">
 <pre><!--{{{-->
-<div id='overlayMenu' refresh='content' tiddler='OverlayMenu'></div>
 <div id='displayArea'>
+<div id='overlayMenu' refresh='content' tiddler='OverlayMenu'></div>
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
 </div>

@@ -96,16 +96,31 @@ Rect.prototype.midPoint = function() {
 // Given a point in the coordinates of a target element, compute the coordinates relative to a specified parent element
 function normalisePoint(parent,target,pt) {
 	var e = target;
-	var r = new Point(pt);
-	while((e != parent) && (e.parentNode)) {
+	var r = new Point(pt.x,pt.y);
+console.log("Starting out with " + r.x + "," + r.y + " on " + e.outerHTML.substr(0,100));
+	while(e != parent && e.offsetParent) {
 		r.x += e.offsetLeft;
 		r.y += e.offsetTop;
-		e = e.parentNode;
+console.log("Adding  " + e.offsetLeft + "," + e.offsetTop + " from " + e.outerHTML.substr(0,100));
+		e = e.offsetParent;
 	}
 	if(e == parent)
 		return r;
 	else
 		return null;
+}
+
+// Checks which of an array of classes are applied to a given element. Returns an array of the classes that are found
+function hasClasses(e,classNames)
+{
+	var classes = e.className ? e.className.split(" ") : [];
+	var results = [];
+	for(var t=0; t<classNames.length; t++) {
+		if(classes.indexOf(classNames[t]) != -1) {
+			results.push(classNames[t]);
+		}
+	}
+	return results;
 }
 
 //-----------------------------------------------------------------------------------
@@ -285,6 +300,8 @@ function Cecily()
 }
 
 Cecily.prototype.createDisplay = function() {
+	this.overlayMenu = document.getElementById("overlayMenu");
+	this.addEventHandler(this.overlayMenu,"mouseout",this.onMouseOutOverlay,false);
 	this.loadMap(this.mapTitle);
 	this.container = document.getElementById(story.containerId());
 	this.frame = this.container.parentNode;
@@ -297,6 +314,8 @@ Cecily.prototype.createDisplay = function() {
 	var me = this;
 	this.addEventHandler(window,"resize",this.onWindowResize,false);
 	this.addEventHandler(window,"mousewheel",this.onMouseWheel,true);
+	this.addEventHandler(document,"click",this.onMouseClickBubble,false);
+	this.addEventHandler(document,"dblclick",this.onMouseDoubleClickBubble,false);
 	this.addEventHandler(document,"mousedown",this.onMouseDownCapture,true);
 	this.addEventHandler(document,"mousemove",this.onMouseMoveCapture,true);
 	this.addEventHandler(document,"mouseup",this.onMouseUpCapture,true);
@@ -328,6 +347,25 @@ Cecily.prototype.onMouseWheel = function(ev) {
 	newView.y -= (ev.wheelDeltaY/120) * (this.view.w/16);
 	this.setView(newView);
 	return false;
+};
+
+Cecily.prototype.onMouseClickBubble = function(ev) {
+	var tiddler = story.findContainingTiddler(ev.target);
+
+if(tiddler) {
+	console.log("Click on " + ev.target.outerHTML + ", tidder is " + tiddler.getAttribute("tiddler"));
+var pt = normalisePoint(cecily.frame,ev.target,new Point(ev.offsetX,ev.offsetY));
+console.log("Mouse is " + pt.x + "," + pt.y + " from " + ev.offsetX + "," + ev.offsetY);
+}
+
+	if(tiddler && this.drag === null && hasClasses(ev.target,["tiddlyLink","toolbar","title","tagged"]).length == 0) { 
+		tiddler.parentNode.insertBefore(tiddler,null); 
+		this.scrollToTiddler(tiddler); 
+	} 
+};
+
+Cecily.prototype.onMouseDoubleClickBubble = function(ev) {
+	this.showOverlayMenu(new Point(ev.offsetX,ev.offsetY));
 };
 
 Cecily.prototype.onMouseDownCapture = function(ev) {
@@ -366,28 +404,7 @@ Cecily.prototype.onMouseUpCapture = function(ev) {
 };
 
 Cecily.draggers = {};
-Cecily.draggerList = ["tiddlerDragger","tiddlerResizer","tiddlerSelector","backgroundDragger"];
-
-Cecily.draggers.tiddlerSelector = {
-	isDrag: function(cecily,target,ev) {
-		return findRelated(target,"tiddler","className","parentNode") !== null;
-	},
-	dragDown: function(cecily,target,ev) {
-		var tiddler = story.findContainingTiddler(target);
-		tiddler.parentNode.insertBefore(tiddler,null);
-		cecily.drag.tiddler = tiddler;
-		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
-		cecily.drag.hadMove = false;
-		addClass(tiddler,"drag");
-	},
-	dragMove: function(cecily,target,ev) {
-		cecily.drag.hadMove = true;
-	},
-	dragUp: function(cecily,target,ev) {
-		removeClass(cecily.drag.tiddler,"drag");
-		cecily.scrollToTiddler(cecily.drag.tiddler);
-	}
-};
+Cecily.draggerList = ["tiddlerDragger","tiddlerResizer","backgroundDragger"];
 
 Cecily.draggers.tiddlerDragger = {
 	isDrag: function(cecily,target,ev) {
@@ -464,6 +481,38 @@ Cecily.draggers.backgroundDragger = {
 		cecily.setView(newView);
 	},
 	dragUp: function(cecily,target,ev) {
+	}
+};
+
+Cecily.prototype.showOverlayMenu = function(pos)
+{
+	var overlayPos = new Rect(pos.x - this.overlayMenu.offsetWidth/2,pos.y - this.overlayMenu.offsetHeight/2,
+							this.overlayMenu.offsetWidth,this.overlayMenu.offsetHeight);
+	var w = this.frame.offsetWidth;
+	var h = this.frame.offsetHeight;
+	if(overlayPos.w > w || overlayPos.h > h) {
+		console.log(Math.min(w/overlayPos.w,h/overlayPos.h));
+		overlayPos = overlayPos.scale(Math.min(w/overlayPos.w,h/overlayPos.h));
+	}
+	if(overlayPos.x < 0)
+		overlayPos.x = 0;
+	if(overlayPos.y < 0)
+		overlayPos.y = 0;
+	if(overlayPos.x + overlayPos.w > w)
+		overlayPos.x = w - overlayPos.w;
+	if(overlayPos.y + overlayPos.h > h)
+		overlayPos.y = h - overlayPos.h;
+	var scale = overlayPos.h / this.overlayMenu.offsetHeight;
+	this.overlayMenu.style['-webkit-transform'] = "scale(" + scale + "," + scale + ")";
+	this.overlayMenu.style.left = overlayPos.x + "px";
+	this.overlayMenu.style.top = overlayPos.y + "px";
+	this.overlayMenu.style.opacity = "1.0";
+};
+
+Cecily.prototype.onMouseOutOverlay = function(ev)
+{
+	if(findRelated(ev.toElement,"overlayMenu","id","parentNode") == null) {
+		this.overlayMenu.style.opacity = "0.0";
 	}
 };
 
@@ -1011,7 +1060,7 @@ if(document.body.style['-webkit-transform'] !== undefined) {
 
 div#messageArea {
 	-webkit-transition: opacity 0.3s ease-in-out;
-	-webkit-border-radius: 7px;
+	-webkit-border-radius: 4px;
 	border: 1px solid #222;
 	background-color: [[ColorPalette::SecondaryLight]];
 	background-image: -webkit-gradient(linear, left top, left bottom, from([[ColorPalette::SecondaryPale]]), to([[ColorPalette::SecondaryDark]]), color-stop(0.1,[[ColorPalette::SecondaryLight]]), color-stop(0.6,[[ColorPalette::SecondaryMid]]));
@@ -1046,16 +1095,14 @@ div#messageArea:hover .button:active {
 	-webkit-transition: opacity 0.3s ease-in-out;
 	font-size: 0.5em;
 	z-index: 100;
-	bottom: 3em;
-	right: 1em;
 	width: 24em;
 	position: absolute;
 	padding: 0.2em 0.2em 0.2em 0.2em;
-	-webkit-border-radius: 7px;
+	-webkit-border-radius: 4px;
 	border: 1px solid #222;
 	background-color: #444;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#666), color-stop(0.3,#444));
-	opacity: 0.4;
+	opacity: 0;
 }
 
 #overlayMenu table.twtable {
@@ -1160,7 +1207,7 @@ div#backstageArea {
 .cecily .tiddler .heading {
 	background-color: #bbb;
 	background-image: -webkit-gradient(linear, left top, left bottom,
-		from(#fff), color-stop(0.5,#ccc), color-stop(0.51,#bbb), to(#aaa));
+		from(#fff), color-stop(0.5,#bbb), color-stop(0.51,#aaa), to(#999));
 }
 
 .cecily .tiddler .toolbar {
