@@ -26,9 +26,9 @@ class Serialization(SerializationInterface):
         else:
             strings = [mystring]
 
-        line = 1
+        line = 5
         for string in strings:
-            draw.text((1, line), string)
+            draw.text((5, line), string)
             line = line + theight
 
         f = StringIO.StringIO()
