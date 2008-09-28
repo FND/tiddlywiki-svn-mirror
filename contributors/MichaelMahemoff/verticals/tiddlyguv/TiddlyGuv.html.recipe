@@ -2,22 +2,20 @@
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
 # Content
-tiddler: tiddlyguv/content/Apache_2_0.tiddler
-tiddler: tiddlyguv/content/Apache_2_0_plain.tiddler
-tiddler: tiddlyguv/content/Apache_2_0_policy.tiddler
-tiddler: tiddlyguv/content/Apache_2_0_text.tiddler
-tiddler: tiddlyguv/content/Apache_2_0_usage.tiddler
-tiddler: tiddlyguv/content/Apache_2_0_links.tiddler
+tiddler: content/Apache_2_0.tiddler
+tiddler: content/Apache_2_0_plain.tiddler
+tiddler: content/Apache_2_0_policy.tiddler
+tiddler: content/Apache_2_0_text.tiddler
+tiddler: content/Apache_2_0_usage.tiddler
+tiddler: content/Apache_2_0_links.tiddler
 
 # Shadows
-tiddler: tiddlyguv/DefaultTiddlers.tiddler
-tiddler: tiddlyguv/SiteTitle.tiddler
-tiddler: tiddlyguv/SiteSubtitle.tiddler
-tiddler: tiddlyguv/StyleSheet.tiddler
-tiddler: tiddlyguv/ColorPalette.tiddler
+tiddler: shadows/DefaultTiddlers.tiddler
+tiddler: shadows/SiteTitle.tiddler
+tiddler: shadows/SiteSubtitle.tiddler
+tiddler: shadows/StyleSheet.tiddler
+tiddler: shadows/ColorPalette.tiddler
 
 # Comments
-tiddler: comments/CommentsPlugin.js
-tiddler: comments/commentViewTemplate.tiddler
-tiddler: comments/ToolbarCommands.tiddler
-tiddler: comments/TaggedTemplateTweak.js
+tiddler: ../../plugins/comments/CommentsPlugin.js
+tiddler: ../../plugins/comments/ToolbarCommands.tiddler
