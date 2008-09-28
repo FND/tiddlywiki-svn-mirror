@@ -1,0 +1,40 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+
+# Config
+tiddler: DefaultTiddlers.tiddler
+tiddler: MainMenu.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteUrl.tiddler
+##
+tiddler: ConfigSettings.js
+tiddler: MarkupPostBody.tiddler
+tiddler: MarkupPreHead.tiddler
+
+# Theme
+tiddler: ViewTemplate.tiddler
+tiddler: StyleSheet.tiddler
+tiddler: AuthorPageTemplate.tiddler
+tiddler: AuthorScripts.tiddler
+tiddler: AuthorStyleSheet.tiddler
+tiddler: AuthorViewTemplate.tiddler
+tiddler: PageTemplate.tiddler
+tiddler: SideBar.tiddler
+
+# Content
+tiddler: About.tiddler
+tiddler: License.tiddler
+
+#Plugins
+tiddler: HideWhenPlugin.js
+tiddler: HighlightActiveLinksPlugin.js
+tiddler: InlineSliders.js
+tiddler: NavigatorPlugin.js
+tiddler: PresentationPlugin.js
+tiddler: SinglePageModePlugin.js
+tiddler: SplashScreenPlugin.js
+tiddler: Tiddler_Subtitle_Tweak.js
+tiddler: TopMacro.js
+tiddler: fsplugin.js
+
+

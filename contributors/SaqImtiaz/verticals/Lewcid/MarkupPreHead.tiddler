@@ -1,0 +1,14 @@
+<div title="MarkupPreHead" modifier="Saq" created="200701182001" modified="200701182130" server.host="file:///home/saq/Desktop/TiddlySnip - About.htm" server.page.revision="200701182130" server.type="file">
+<pre><!--{{{-->
+<link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/>
+
+<style type="text/css">body {background:#fff};#contentWrapper {display:none;}</style>
+
+<div id="SplashScreen" style="border:none; width:500px; display: block; margin: 170px auto;  color:#848484; font-size: 26px; font-family:Verdana, Helvetica, sans-serif; text-align:center;">
+
+<img src='images/splash.png'><br>
+<img style="width:150px;margin-top:20px;" src='images/loading2.gif'>
+</div>
+
+<!--}}}--></pre>
+</div>

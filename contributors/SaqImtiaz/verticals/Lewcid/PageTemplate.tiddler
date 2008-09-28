@@ -1,0 +1,19 @@
+<div title="PageTemplate" modifier="Saq" created="200701141952" modified="200701151258" server.host="file:///home/saq/Desktop/TiddlySnip - About.htm" server.page.revision="200701151258" server.type="file">
+<pre><!--{{{-->
+<div id='header' class='header'>
+    <div id='title'>
+        <div id='topMenu' refresh='content' tiddler='MainMenu'></div>
+        <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+    </div>
+
+</div>
+<!-- <div id='mainMenu' refresh='content' tiddler='MainMenu'></div> -->
+<div id='sidebar'>
+	<div class='sidebartiddler' refresh='content' tiddler='SideBar'></div>
+</div>
+<div id='displayArea'>
+	<div id='messageArea'></div>
+	<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}--></pre>
+</div>

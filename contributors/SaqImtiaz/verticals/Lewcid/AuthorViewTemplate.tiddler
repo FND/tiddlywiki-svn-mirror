@@ -1,0 +1,9 @@
+<div title="AuthorViewTemplate" modifier="Saq" created="200701151117" modified="200701161723" server.host="file:///home/saq/Desktop/TiddlySnip - About.htm" server.page.revision="200701161723" server.type="file">
+<pre><!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler permalink references jump'></div>
+<div macro='hideWhen tiddler.tags.contains("Guides")'>
+    <div class='title' macro='view title'></div>
+</div>
+<div class='viewer' macro='view text wikified'></div>
+<!--}}}--></pre>
+</div>

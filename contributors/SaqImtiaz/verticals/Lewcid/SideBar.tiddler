@@ -1,0 +1,28 @@
+<div title="SideBar" modifier="Saq" created="200701151212" modified="200701192131" server.host="file:///home/saq/Desktop/TiddlySnip - About.htm" server.page.revision="200701192131" server.type="file">
+<pre>!DOWNLOAD
+!!~TiddlySnip 1.0 ~RC1
+{{indent{
+released: 19-01-2007
+[img[images/firefox.png]] Firefox 1.5 - 3.0
+[img[images/tw.ico]] ~TiddlyWiki 2.1+ }}}{{noborder{<html><a href="tiddlysnip1.0RC1.xpi"><br/><img src="images/install.png"/></a></html>}}}
+----
+
+!HELP
+[[Features]]
+[[User Guides]]
+[[FAQ]]
+[[Discuss|Discuss]]
+
+----
+
+!PROJECT INFO
+[[License]]
+[[Developers|Credits]]
+[[Credits|Credits]]
+[[Change Log]]
+[[To Do|Future Plans]]
+[[Source Code]]
+[[Contribute]]
+
+----</pre>
+</div>

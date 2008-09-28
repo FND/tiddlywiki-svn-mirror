@@ -1,0 +1,145 @@
+<div title="AuthorStyleSheet" modifier="Saq" created="200701151116" modified="200701192131" server.host="file:///home/saq/Desktop/TiddlySnip - About.htm" server.page.revision="200701192131" server.type="file">
+<pre>/***
+!!Body
+***/
+/*{{{*/
+body {
+   background:#fff;
+   border-top:40px solid #F3F3F3;
+   font-size: 76%;
+   color: #64635f;g
+   font-family:  Verdana, Helvetica, sans-serif; 
+}
+
+#contentWrapper {
+   width:770px;
+   margin:0 auto;
+}
+/*}}}*/
+
+/***
+!!Header
+***/
+/*{{{*/
+#header {background:#fff; padding: 1.0em 0em 0em 0.4em; height:1%;
+ }
+
+.siteTitle {
+font-family: 'Trebuchet MS' sans-serif;
+font-weight: bold;
+font-size: 32px;
+color: #63625F;
+background-color: #FFF; 
+}
+
+
+#topMenu { positon:relative; float:right; display:inline; margin-left:3em; font-size:15px; font-family: 'Trebuchet MS' sans-serif;}
+#topMenu br {display:none; }
+#topMenu { background: #fff; color:#000;padding: 0.8em 0em;}
+#topMenu a, #topMenu .tiddlyLink, #topMenu .button {margin:0 1em; color:#666;margin-right:0;margin-left:2em; }
+#topMenu a:hover, #topMenu .activebutton {border-bottom:5px solid #F16000;}
+
+/*}}}*/
+
+/***
+!!displayArea
+***/
+/*{{{*/
+#displayArea {margin-left:0.5em; margin-right:19.3em; margin-top:0.5em; padding-top:0em; padding-bottom:10px;}
+/*}}}*/
+
+/***
+!!viewer
+***/
+/*{{{*/
+.title,h1, h2, h3, h4, h5, h6 { margin: 0; color: #64635f; font-family: Trebuchet MS, verdana, sans-serif; background:transparent; padding:0;}
+
+.title { font-size: 2em; margin-bottom: .5em;font-variant:small-caps; font-weight:normal; margin-bottom:0.3em; }
+
+a { color: 	#F25B00; }
+a:hover { color: 	#F25B00; background:transparent; border-bottom:1px solid 	#F25B00; }
+
+.viewer {line-height:1.5em;   font-family:  Verdana, Helvetica, sans-serif; }
+
+.tiddler {padding:0;margin:0;padding-bottom:0.5em;}
+/***
+!!fix these so can use them in tiddler text. too big? try them all
+***/
+
+h1 { font-size: 2em; margin-bottom: .5em;font-variant:small-caps; font-weight:normal; margin-bottom:0.3em; }
+h1 em { color: #00C5E8; font-style: normal; background: none; }
+
+h2 { font-size: 1.8em; margin-bottom: .3em; font-weight: normal;font-variant:small-caps; }
+h3 { font-size: 1.2em; }
+h4 { font-size: 1.1em; font-family:  Verdana, Helvetica, sans-serif; }
+
+.externalLink {font-weight:bold;}
+.externalLink:hover {border:none;}
+
+.indent{margin-left:0.8em; line-height:1.8em; margin-bottom:0.2em;}
+.indent img {margin:0;  margin-left:0.8em;}
+.big {font-size:1.2em; font-weight:bold; font-variant: small-caps;}
+.small {font-size: 0.8em;}
+.viewer hr {border:0; border-bottom:1px solid #CACACA; margin:0em 0;}
+.viewer .navigator .centre h2 {border:none; margin-bottom:0.5em;}
+ .centre {text-align:center; padding:0; margin:0.8em 0; }
+.centre img {border:1px solid #CACACA;}
+/*}}}*/
+
+/***
+!!Sidebar
+***/
+/*{{{*/
+#sidebar {position:relative;float:right; line-height: 1.4em; border-left:1px solid #CACACA; display:inline; background:#fff; right:0; padding-left:15px;margin-top:0.5em; 
+width: 16em;}
+#sidebar {font-size:1em;line-height:1.5em;   font-family:  Verdana, Helvetica, sans-serif; }
+.sidebartiddler {padding-bottom:0em; margin-left:0.5em;}
+
+#sidebar img {margin-left:-0.5em; margin-bottom:0.5em;}
+#sidebar .indent img {margin-left:0; margin:0;}
+
+#tiddlerSideBar h1, #sidebar h1 {font-size:15px; font-family: 'Trebuchet MS' sans-serif;font-weight:bold; margin-left:-0.5em; margin-bottom:0.5em;}
+#tiddlerSideBar h2, #sidebar h2 {font-size:15px; font-family: 'Trebuchet MS' sans-serif;font-weight:bold;}
+
+#tiddlerSideBar hr, #sidebar hr {border:0; border-bottom:1px solid #CACACA; margin:0em 0; margin-left:-0.5em;}
+
+
+/*}}}*/
+
+/***
+!!Navigator
+***/
+/*{{{*/
+.navigatorBar {margin-top:0.5em; margin-right:-12px;margin-left:-12px;}
+.navigatorBar table {margin:0 auto;border:0px solid #000;padding:0;border-collapse: separate; margin-top:3px;}
+.navigatorBar.button:hover,.navigatorBar .button  {color:#f16000; background:transparent; border:none;font-weight:bold;}
+.navigatorBar  table td {border-spacing: 1px;padding:4px; border:1px solid #64635F;
+              cursor:pointer;cursor:hand}
+.navigatorBar .activenav{background:#64635F}
+.navigator {padding:5px 10px 5px 10px; position:relative;height:1%;}
+.navNext {float:right;  font-variant: small-caps; }
+.navPrevious{float:left;  font-variant: small-caps;}
+.navigator h2 {border-bottom:1px solid #CACACA;}
+.viewer .border h1 {color:#f16000; margin-top:-5px;}
+.border {border: 1px solid #64635F; padding:10px; padding-top:5px; padding-left:10px; padding-bottom:5px;}
+
+.viewer .topbutton, .viewer .topbutton:hover, .exit .button, .exit .button:hover{border:1px solid #f16000; background:#f16000; color:#fff;padding:0px 3px; margin:0px 0px; font-weight:bold;font-family: arial,helvetica; line-height:1.2em;}
+
+.border .navigator {border:0px solid #fff;}
+.right {float:right; display:inline;}
+.right .topbutton {margin-right:-10px !important; margin-right:0px;}
+#contentWrapper .viewer .nofloat{float:none;}
+/*}}}*/
+
+
+.viewer blockquote {margin-top:0; border:none; background:#f3f3f3; padding:10px; color:#4F4E4A; padding-top:7px; margin-left:0em;}
+#tiddlerFAQ ul {margin-top:0; font-variant:small-caps;}
+#tiddlerFAQ ul ul li {font-variant:normal;}
+
+.heavy {text-align:center; font-family:'Lucida Grande', Verdana, Sans-Serif; font-size:1.2em; font-weight:bold; font-style:normal;
+}
+
+#contentWrapper .missing .title {display:none;}
+#contentWrapper .missing .viewer {margin-top:2.5em;}
+#sidebar .noborder a:hover {border:none;}</pre>
+</div>
