@@ -32,7 +32,8 @@ class ModulesLoader {
 		array_push($this->msgHandlers,$msgHandler);
 	}
 	
-	public function readModules(){
+	public function readModules($cct_base){
+	//	$cct_base="../";
 		$dir = $cct_base."modules/";
 		include("modules.php");
 		error_log("dir".$dir);
@@ -71,7 +72,7 @@ class ModulesLoader {
 
 global $modulesLoader;
 $modulesLoader = new ModulesLoader();
-$modulesLoader->readModules();
+$modulesLoader->readModules($cct_base);
 //this needs to make sure plugins and events are loaded by ccT
 $modulesLoader->runModules();
 ?>
