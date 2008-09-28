@@ -1,0 +1,4 @@
+<div title="ToolbarCommands" modifier="Mahemoff" created="200809191546" modified="200809231322" changecount="2">
+<pre>|~ViewToolbar|closeTiddler closeOthers +editTiddler deleteTiddler fields >  syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|</pre>
+</div>

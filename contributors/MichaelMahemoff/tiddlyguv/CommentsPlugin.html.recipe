@@ -1,0 +1,20 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# Comments plugin
+tiddler: comments/CommentsPlugin.js
+tiddler: comments/CommentsPlugin.js.meta
+tiddler: comments/CommentsPluginInfo.tiddler
+
+# Demo
+tiddler: comments/ConfigTweaks.js
+tiddler: comments/ConfigTweaks.js.meta
+tiddler: comments/DefaultTiddlers.tiddler
+tiddler: comments/cake.tiddler
+tiddler: comments/SiteTitle.tiddler
+tiddler: comments/SiteSubtitle.tiddler
+tiddler: comments/ToolbarCommands.tiddler
+tiddler: comments/MainMenu.tiddler
+
+# Test
+tiddler: comments/TestComments.js
