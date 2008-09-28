@@ -51,7 +51,11 @@
 General
 ***/
 /*{{{*/
+.tiddler .button:hover {
+background-color:#222;
+}
 .tiddler .button {
+	border:1px solid black;
 	line-height:4;
 	margin:5px;
 	padding:8px;
@@ -311,7 +315,13 @@ color:white;
 	border:1px solid #fff;
 }
 
-* html .viewer pre {
+.viewer pre {
+background:#111111 none repeat scroll 0 0;
+border:1px solid #FFEE88;
+}
+
+
+* html .viewer pre {	
 	margin-left: 0em;
 }
 

@@ -21,8 +21,13 @@ recordTime_float("Start");
 
 //includes
 $cct_base = "";
+ 
+
 include_once($cct_base."includes/header.php");
+if ($tiddlyCfg['version'] === "1.8")
+	include_once($cct_base."includes/moduleLoader.php");
 include_once($cct_base."includes/login.php");
+
 
 
 

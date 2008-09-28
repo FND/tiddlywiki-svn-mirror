@@ -17,7 +17,7 @@ if (!user_isAdmin($user['username'], $_POST['workspaceName'])){
 
 function makeFolder($path){
 	if(!file_exists($path)){
-		mkdir($path, 0700);
+		mkdir($path, 0700, true);
 	}
 }
 
@@ -56,7 +56,7 @@ elseif ($_POST['saveTo'] == 'user'){
 $local_root = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']));
 $remote_root = dirname(getURL());
 $path = ltrim(rtrim($_POST['ccPath'], "/"), "/");
-$folder = str_replace("../", "","/uploads".$folder.'/'.$path."/");
+$folder = str_replace("../", "","/uploads".$folder.'/'.$path."");
 makeFolder($local_root.$folder);
 
 if ($_POST['ccHTMLName'] || $_POST['ccHTML']){

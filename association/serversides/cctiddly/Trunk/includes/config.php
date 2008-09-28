@@ -85,7 +85,8 @@ array(	'wikipedia.org',
 		'127.0.0.1', 
 		'localhost', 
 		'getteamtasks.com', 
-		'mptw.tiddlyspot.com'
+		'mptw.tiddlyspot.com',
+		'plugins.tiddlywiki.org'
 );
 	
 // Allowed file upload types	
@@ -169,11 +170,12 @@ $tiddlyCfg['status'] = "";
 debug("------------------------------------------------- >> ".$ccT_msg['debug']['logBreaker']." << -------------------------------------------------");
 debug($ccT_msg['debug']['queryString'].$_SERVER['QUERY_STRING'], "params");
 
-$a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
+ $a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
 if (isset($_REQUEST['workspace']))
 	$tiddlyCfg['workspace_name'] = $_REQUEST['workspace'];
 else
-	$tiddlyCfg['workspace_name'] = $a;
+ 	$tiddlyCfg['workspace_name'] = $a;
+
 if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
 	$tiddlyCfg['workspace_name'] = str_replace(stristr($tiddlyCfg['workspace_name'], "?"), "", $b);
 if (isset($_POST['workspace']))
@@ -187,7 +189,6 @@ else
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	header("Content-Disposition: attachment; filename=\"".$offline_name.".html\";\r\n");
 
-	
 debug($ccT_msg['debug']['workspaceName'].$tiddlyCfg['workspace_name'], "config");
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
 debug($ccT_msg['debug']['fileName'].$_SERVER["SCRIPT_NAME"], "config");
@@ -358,7 +359,7 @@ $tiddlyCfg['privilege']['anonymous']['comments'] = "AADD";		//allow comments to 
 
 // END OF PERMISSIONS 
 
-$tiddlyCfg['version']="1.7.2";	//set ccTiddly Version number
+$tiddlyCfg['version']="1.8";	//set ccTiddly Version number
 $tiddlyCfg['session_expire'] = ($tiddlyCfg['session_expire']==0?9999999:$tiddlyCfg['session_expire']);
 $tiddlyCfg['session_expire'] = $tiddlyCfg['session_expire'] * 60;  // Converts minutes to seconds to be added to an epoch value 
 
