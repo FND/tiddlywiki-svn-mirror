@@ -33,18 +33,24 @@ class ModulesLoader {
 	}
 	
 	public function readModules(){
-		$dir = "modules/";
+		$dir = "../modules/";
 		include("modules.php");
+		error_log("dir".$dir);
+
 		// Open a known directory, and proceed to read its contents
 		if (is_dir($dir)) {
+			error_log("IS DIRECTORY !!!!!");
 		    if ($dh = opendir($dir)) {
 		       while (($file = readdir($dh)) !== false) {
 					if( is_dir($dir.$file))
 					{
+						
 						// check for index.php and remove the ..
-						$modulePath = $dir.$file."/index.php";
+					 	$modulePath = $dir.$file."/index.php";
 						if (is_file($modulePath) && $file!=='..')
 						{
+							
+								error_log($modulePath."IS DIRECTORY !!!!!");
 							include($modulePath);
 						}
 					}

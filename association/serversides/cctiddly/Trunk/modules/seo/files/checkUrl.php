@@ -1,9 +1,11 @@
 <?php
+//allows files in the uploods/workpspace/WORKSPACENAME/FILE.blah folder can appear as simply /WORKSPACENAME/FILE.blah 
+
 $url = parse_url(getURL());
 $filename = $tiddlyCfg['pref']['upload_dir']."workspace/".$tiddlyCfg['workspace_name'];
-$file_extension = strtolower(substr(strrchr($filename,"."),1));
 
 if(is_file($filename)){	
+	$file_extension = strtolower(substr(strrchr($filename,"."),1));
 	switch ($file_extension) {
 		case "pdf": $ctype="application/pdf"; break;
 		case "zip": $ctype="application/zip"; break;

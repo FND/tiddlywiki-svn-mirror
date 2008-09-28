@@ -21,6 +21,25 @@ $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
 $tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
 
+
+foreach ($modulesLoader->plugins as $plugin)
+{
+	if(is_file($cct_base."modules/".$plugin))
+		include_once($cct_base."modules/".$plugin);	
+}
+
+foreach ($modulesLoader->events['preSave'] as $event)
+{
+		$cct_base= "../";
+error_log("IS DIR : ".is_file($cct_base."modules/".$event));
+	if(is_file($cct_base."modules/".$event)) {
+		error_log("IS FILE ");
+
+		include_once($cct_base."modules/".$event);
+		error_log("IS FILE2 ");
+
+	}	
+}
 if(isset($tiddler['title']))
 {
 	// Tiddler with the same 	name already exisits.

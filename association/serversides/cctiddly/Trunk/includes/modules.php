@@ -1,6 +1,5 @@
 <?php
-
-
+error_log('ss');
 global $Modules;
 $Modules = array();
 class Module {
@@ -33,6 +32,7 @@ class Module {
       }
       
       public function addEvent($eventname, $fileInclude) {
+	error_log('addEvet'.$eventname);
 		if ( !isset($this->phpEvents[$eventname]))
 			$this->phpEvents[$eventname] = array();
 		array_push($this->phpEvents[$eventname], $fileInclude); 

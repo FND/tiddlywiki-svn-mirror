@@ -7,14 +7,17 @@
 // cct_base is used to prefix calls to files, 
 
 
+if(!isset($cct_base)) 
+	$cct_base= "";
 //////////////////////////////////////////////////////// include files  ////////////////////////////////////////////////////////
 //include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");	//include in config.php
 include_once($cct_base."includes/functions.php");
 include_once($cct_base."includes/config.php");
+
+if ($tiddlyCfg['version'] == "1.8")
+	include_once($cct_base."includes/moduleLoader.php");
 include_once($cct_base."lang/".$tiddlyCfg['pref']['language'].".php");
 
-if(!isset($cct_base)) 
-	$cct_base= "";
 
 //include is used because language file is included once in config.php file
 include_once($cct_base."includes/tiddler.php");
