@@ -47,9 +47,7 @@ window.refreshImportList=refreshImportList;
 if (!config.options.chkImportReport) config.options.chkImportReport=true;
 
 // default shadow definition
-config.shadowTiddlers.ImportTiddlers="Use ~TiddlyWiki built-in importer (below) or, ";
-config.shadowTiddlers.ImportTiddlers+="<<importTiddlers link 'Use ImportTiddlersPlugin control panel...'>>\n";
-config.shadowTiddlers.ImportTiddlers+="<<importTiddlers core>>";
+config.shadowTiddlers.ImportTiddlers="<<importTiddlers inline>>";
 
 // use shadow tiddler content in backstage panel
 if (config.tasks) config.tasks.importTask.content="<<tiddler ImportTiddlers>>" // TW2.2 or above
