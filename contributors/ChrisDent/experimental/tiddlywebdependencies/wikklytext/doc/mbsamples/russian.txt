@@ -1,0 +1,3 @@
+/% encoding: koi8-r %/
+Russian (KOI8-R): Здравствуй, мир!
+

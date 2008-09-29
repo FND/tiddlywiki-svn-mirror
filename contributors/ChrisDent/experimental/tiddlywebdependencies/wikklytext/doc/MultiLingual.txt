@@ -1,0 +1,77 @@
+﻿/%----------------------------------------------------------------------
+<!-- Be careful when editing this header - see comments! -->
+<WikklyContentHeader>
+ <Name>MultiLingual</Name>
+ <Author>0</Author>
+ <Created>200710202057</Created>
+ <!-- Delete next tag to use file mtime instead -->
+ <Modified>200711041923</Modified>
+ <!-- Example: <Tags>One Two [[Three Four]] Five</Tags> -->
+ <Tags></Tags>
+ <!-- Valid types: WikklyText, TiddlyWiki -->
+ <ContentType>WikklyText</ContentType>
+ <Revision></Revision>
+</WikklyContentHeader>
+----------------------------------------------------------------------%/
+''WikklyText'' fully supports multilingual content using both traditional multibyte character sets as
+well as Unicode. Source file encodings can be specified in two ways:
+# Files written in {{tt{''UTF-8''}}}, {{tt{''UTF-8-SIG''}}}, {{tt{''UTF-16LE''}}}, and {{tt{''UTF-16BE''}}} formats are automatically detected from their Byte Order Marker (BOM).
+# Non-UTF multibyte formats are detected by placing the following comment somewhere in the wikitext: {{{
+/% encoding​: ENCODING %/
+}}} <br> Where ''//ENCODING//'' is any [[Python-supported encoding|http://docs.python.org/lib/standard-encodings.html]].
+
+First, a sample showing multilanguage content directly from this source file (this source file
+is encoded in UTF-8, as are all the samples below):
+
+|!Language|!Sample|
+|Bulgarian|Здравей, свят!|
+|Chinese, simplified|世界你好！|
+|Chinese, traditional|哈囉，大家好！|
+|English|Hello world!|
+|Estonian|Tere kõik!|
+|Georgian|სალამი მსოფლიოს!|
+|Greek|Γεια σου, κόσμε!|
+|Hebrew|םלועה לכל םולש|
+|Japanese|世界よ、こんにちは！|
+|Korean|안녕하세요, 여러분!|
+|Persian|سلام بر هم|
+|Polish|Witaj świecie!|
+|Russian|Здравствуй, мир!|
+|Serbian|Поздрав свима!|
+|Turkish|Merhaba, dünya!|
+|Ukranian|Привіт світ!|
+|Vietnamese|Chào thế giới !|
+
+<<<
+//If the characters are not displayed correctly in your browser, you need to
+install the approriate font.
+
+References://
+* [[Japanese fonts in Windows XP|http://www.coscom.co.jp/japanesefont/japanesefont/japanesefont.html]]
+<<<
+
+<?py
+def show(context):
+	from pkg_resources import resource_listdir
+	import re
+	txt = u''
+	txt += u'|!Filename|!Language (Encoding): Sample|\n'
+
+	names = resource_listdir('wikklytext','doc/mbsamples')
+	names.sort()
+	for name in names:
+		if re.match(r'^.*\.txt$', name):
+			txt += '|%s|<<include doc/mbsamples/%s>>|\n' % (name,name)
+			
+	return txt
+?>
+
+It is possible to mix content encoding types within a document by using the {{{<<include ...>>}}} macro to
+import other files. This table below mixes a variety of traditional multibyte encodings in a single table.
+''WikklyText'' handles them using a combination of BOM detection and {{{/% encoding ...%/}}} tags.
+
+<<show>>
+
+//(The text samples were taken from [[GNU hello|http://www.gnu.org/software/hello/]], which
+is Copyright (C) 2006 Free Software Foundation, Inc.)//
+
