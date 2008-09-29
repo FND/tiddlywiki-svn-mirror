@@ -2,7 +2,7 @@ import re
 
 from subprocess import call, Popen, PIPE
 
-cmd = "git svn info association/services/pluginLibrary/" # XXX: future Git versions interpret path as relative to $PWD
+cmd = "git svn info ./association/services/pluginLibrary/" # XXX: future Git versions interpret path as relative to $PWD
 info = Popen(cmd.split(" "), stdout = PIPE).communicate()[0]
 rev = re.compile(r"Rev: ([0-9]+)").search(info).groups()[0]
 timestamp = re.compile(r"Date: (.+?)\s\+").search(info).groups()[0]

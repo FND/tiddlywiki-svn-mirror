@@ -1,0 +1,4 @@
+<div title="PluginToolbarCommands">
+<pre>|~PluginViewToolbar|closeTiddler closeOthers keepTiddler|
+|~ViewToolbar|closeTiddler closeOthers keepTiddler > +editTiddler fields syncing permalink references jump|</pre>
+</div>
