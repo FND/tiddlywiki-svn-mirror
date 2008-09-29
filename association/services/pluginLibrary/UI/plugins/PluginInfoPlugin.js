@@ -38,7 +38,7 @@ config.macros.pluginInfo = {
 		}
 		info += "}}}\n" +
 			(slices.Description || "") + "\n" +
-			"[[" + this.tiddlerLabel + "|" + tiddler.title + "]]";
+			"[[" + this.tiddlerLabel + "|" + tiddler.title + "]]"; // XXX: replaces existing tiddler view
 		wikify(info, place);
 	}
 };
