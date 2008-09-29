@@ -5,8 +5,13 @@ mkdir($dir, 0700, true);
 $myFile = $dir."/".$ntiddler['title'].".html";
 $fh = fopen($myFile, 'w+') or die("can't open file");
 $doc = "<html>\r\n<head>\r\n<script language='javascript'><!-- \r\nlocation.replace('".dirname(getUrl())."/".$tiddlyCfg['workspace_name']."#".$ntiddler['title']."') \r\n //--></script>\r\n</head>\r\n<body>\r\n";
-$doc .= $_POST['wikifiedBody']."\r\n</body>\r\n</html>";
-if(fwrite($fh, formatParametersPOST($doc))){
+
+$str = str_replace(dirname(getUrl()), dirname(getUrl())."/tiddlers/", formatParametersPOST($_POST['wikifiedBody']));
+$str = str_replace("#", "", $str);
+
+$doc .= $str."\r\n</body>\r\n</html>";
+
+if(fwrite($fh, $doc)){
 }
 fclose($fh);		
 

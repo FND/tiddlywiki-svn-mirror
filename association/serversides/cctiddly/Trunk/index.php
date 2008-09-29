@@ -1,4 +1,6 @@
 <?php
+
+
 //timing
 function recordTime_float($name="unnamed")
 {
@@ -22,8 +24,6 @@ if(!isset($cct_base))
 
 include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/login.php");
-
-
 
 
 if(@mysql_num_rows(mysql_query("SELECT * FROM instance_history where version='1.7'"))==0) {

@@ -34,7 +34,7 @@ $tiddlyCfg['pref']['ldap_enabled'] = 0;
 $tiddlyCfg['pref']['ldap_username']	= "CN=,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
 $tiddlyCfg['pref']['ldap_password'] = "";
 $tiddlyCfg['pref']['ldap_connection_string'] = "";
-$tiddlyCfg['pref']['language'] = "en";
+$tiddlyCfg['pref']['language'] = "zh-Hans";
 
 //Deligated Session Managment 
  
