@@ -1,0 +1,15 @@
+
+These dependencies work for Python 2.5
+
+For 2.4 we also need:
+
+* wsgiref (available with easy_install)
+* elementree (usually available in the package system)
+
+To use these, symlink this directory into your TiddlyWeb
+checkout, and add the following line near the top of manager:
+
+  sys.path.append('tiddlywebdependencies')
+
+(This is just a first stab, an improved version to come,
+once things are fleshed out.)
