@@ -37,4 +37,9 @@ tiddler: Tiddler_Subtitle_Tweak.js
 tiddler: TopMacro.js
 tiddler: fsplugin.js
 
-
+# distribution plugins
+tiddler: ../../plugins/TableSortingPlugin/TableSortingPlugin.js tags+="distribution systemConfigDisable"
+tiddler: ../../plugins/FootnotesPlugin/FootnotesPlugin.js tags+="distribution systemConfigDisable"
+tiddler: ../../plugins/AnnotationsPlugin/AnnotationsPlugin.js tags+="distribution systemConfigDisable"
+#tiddler: ../../plugins/tagglyTaggerPlugin/tagglyTaggerPlugin.js tags+="distribution systemConfigDisable"
+tiddler: ../../plugins/WebDavPlugin.js tags+="distribution systemConfigDisable"
