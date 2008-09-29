@@ -86,7 +86,8 @@ array(	'wikipedia.org',
 		'localhost', 
 		'getteamtasks.com', 
 		'mptw.tiddlyspot.com',
-		'plugins.tiddlywiki.org'
+		'plugins.tiddlywiki.org',
+		'tiddlywiki.abego-software.de'
 );
 	
 // Allowed file upload types	

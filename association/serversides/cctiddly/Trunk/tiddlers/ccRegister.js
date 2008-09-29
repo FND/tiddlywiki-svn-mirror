@@ -64,15 +64,15 @@ config.macros.register.doRegister=function(place, w){
 		me.setStatus(w, "pass1_error", me.msgNoPassword);
 		return false;
 	}else{
-		config.macros.register.setStatus(w, "pass1_error", "");
+		me.setStatus(w, "pass1_error", "");
 	}
 	if(w.formElem["reg_password2"].value==''){
-		config.macros.register.setStatus(w, "pass2_error", me.msgNoPassword);
+		me.setStatus(w, "pass2_error", me.msgNoPassword);
 		return false;
 	}
 	if(w.formElem["reg_password1"].value != w.formElem["reg_password2"].value ){
-		config.macros.register.setStatus(w, "pass1_error", me.msgDifferentPasswords);
-		config.macros.register.setStatus(w, "pass2_error", me.msgDifferentPasswords);
+		me.setStatus(w, "pass1_error", me.msgDifferentPasswords);
+		me.setStatus(w, "pass2_error", me.msgDifferentPasswords);
 		return false;
 	}
  	var params ={};
@@ -83,7 +83,7 @@ config.macros.register.doRegister=function(place, w){
 	var loginResp=doHttp('POST',url+'/handle/register.php',"username="+w.formElem['reg_username'].value+"&reg_mail="+w.formElem['reg_mail'].value+"&password="+Crypto.hexSha1Str(w.formElem['reg_password1'].value)+"&password2="+Crypto.hexSha1Str(w.formElem['reg_password2'].value),null,null,null,config.macros.register.registerCallback,params);
 	w.addStep(me.step2Title, me.msgCreatingAccount);
 	w.setButtons([
-		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {me.refresh(place);}
+		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() {config.macros.ccLogin.refresh(place);}
 	}]);
 }
 
@@ -108,7 +108,6 @@ config.macros.register.registerCallback=function(status,params,responseText,uri,
 		params.w.addStep(config.macros.register.errorRegisterTitle, config.macros.register.errorRegister);
 		return false;
 	}	
-	return true;
 	var adaptor = new config.adaptors[config.defaultCustomFields['server.type']];
 	var context = {};
 	context.host = window.url;

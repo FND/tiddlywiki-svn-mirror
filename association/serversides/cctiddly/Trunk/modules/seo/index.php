@@ -1,11 +1,9 @@
 <?php
-
 $m = new Module('SEO Plugin','0.1','simonmcmanus.com');
-error_log(" index of seo plugin");
+// before saving each tiddler it creates a wikified version of that file in the html directory. 
 $m->addEvent("preSave", 'seo/files/createHtml.php');  
-$m->addEvent("returnNotFound", 'seo/files/checkUrl.php');
 
-//$m->addPlugin('sdk/inboundSMS.tiddler'); // plugin
-//$m->addEvent("loadStoreArea", 'sdk/files/examples/cmds/getRecievedMessages.php');  // eventName, fileContainingCode
+// before returning file not found check if the file exists in the uploads/tiddlers/ directory. 
+$m->addEvent("returnNotFound", 'seo/files/checkUrl.php');
 
 ?>

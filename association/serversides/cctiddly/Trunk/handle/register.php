@@ -8,11 +8,10 @@ $data['password'] = $_POST['password'];
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
-sendHeader(304);
-exit;
+
 if ($tiddlyCfg['can_create_account'] !=1)
 {
-	sendHeader("403");
+	sendHeader("403", null, null, 1);
 }
 
 // if the user is checking if the username is available.
