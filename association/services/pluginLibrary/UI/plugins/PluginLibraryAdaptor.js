@@ -115,7 +115,6 @@ config.macros.ImportPlugins = { // TODO: rename
 			tiddler.fields.doNotSave = true;
 			tiddler.fields["server.host"] = config.extensions.PluginLibraryAdaptor.host;
 			tiddler.fields["server.type"] = "tiddlyweb";
-			tiddler.fields["server.workspace"] = "plugins";
 		}
 		console.log("dT", config.defaultCustomFields);
 		story.displayTiddler(null, tiddler, config.macros.ImportPlugins.pluginViewTemplate, null, null, String.encodeHashMap(tiddler.fields));
@@ -131,6 +130,34 @@ config.commands.keepTiddler = {
 		delete tiddler.fields.doNotSave;
 		return false;
 	}
+};
+
+// override loadMissingTiddler to make it bag-aware (cf. ticket #696)
+Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem) {
+	var getTiddlerCallback = function(context) {
+		var tiddler = context.tiddler;
+		if(tiddler && tiddler.text) {
+			if(!tiddler.created)
+				tiddler.created = new Date();
+			if(!tiddler.modified)
+				tiddler.modified = tiddler.created;
+			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+			autoSaveChanges();
+		}
+		context.adaptor.close();
+		delete context.adpator;
+	};
+	var tiddler = new Tiddler(title);
+	tiddler.fields = typeof fields == "string" ?  fields.decodeHashMap() : (fields ? fields : {});
+	context = {};
+	context.serverType = tiddler.getServerType();
+	if(!context.serverType)
+		return;
+	context.host = tiddler.fields['server.host'];
+	context.bag = tiddler.fields['server.bag'];
+	var adaptor = new config.adaptors[context.serverType];
+	adaptor.getTiddler(title,context,null,getTiddlerCallback);
+	return config.messages.loadingMissingTiddler.format([title,context.serverType,context.host,context.workspace]);
 };
 
 }
