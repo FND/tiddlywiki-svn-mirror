@@ -86,6 +86,7 @@ TiddlyWebAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 
 TiddlyWebAdaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
+	context.status = false;
 	context.httpStatus = xhr.status;
 	context.statusText = TiddlyWebAdaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	context.tiddlers = [];
