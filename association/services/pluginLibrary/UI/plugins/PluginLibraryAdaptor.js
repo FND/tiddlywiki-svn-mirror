@@ -21,11 +21,6 @@ config.extensions.PluginLibraryAdaptor = {
 	noMatchMsg: "no plugins found matching '%0'",
 	retrievalErrorMsg: "error retrieving data from server",
 
-	/**
-	 * retrieve plugins matching the search query
-	 * @param {String} host Plugin Library URL
-	 * @param {Function} callback function to execute for each tiddler being retrieved
-	 */
 	getMatches: function(query, userParams, callback) {
 		displayMessage(this.listRetrievalMsg.format([query]));
 		var adaptor = new TiddlyWebAdaptor();
@@ -37,12 +32,6 @@ config.extensions.PluginLibraryAdaptor = {
 		return adaptor.getSearchResults(context, userParams, this.getMatchesCallback);
 	},
 
-	/**
-	 * retrieve individual tiddlers
-	 * @param {Object} context context object with members host, callback
-	 * @param {Function} callback function to execute for each tiddler being retrieved
-	 * @return {Boolean} success
-	 */
 	getMatchesCallback: function(context, userParams) {
 		if(!context.status) {
 			if(context.httpStatus == 404) {

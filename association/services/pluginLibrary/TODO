@@ -10,11 +10,15 @@
 == Front-End ==
 
 * move plugins (entire UI vertical?) to generic directory
-* search: support for filters
+* search:
+** support for filters
+** support for boolean operators
+** support for RegEx
+** ignore code sections (optional)
 * slices RegEx fails for values containing pipes (e.g. PrettyLinks)
 * ViewTemplate
 ** plugin origin for missing Source slice
-** boilerplate message report while content is loading
+** boilerplate message while content is loading
 ** two-column layout (cf. TiddlyVault)
 ** additional information (e.g. author, documentation)
 ** personalization for authors (e.g. icon)
