@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden|
 |''Source:''|http://www.martinswiki.com/#ThemeSwitcherPlugin |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js |
-|''Version:''|0.0.7|
+|''Version:''|0.0.8|
 |''Status:''|Not for release - still under development|
 |''Date:''|Oct 31, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -45,7 +45,7 @@ config.macros.selectTheme.onClick = function(ev)
 		var t = tiddlers[i].title;
 		var name = store.getTiddlerSlice(t,'Name');
 		var desc = store.getTiddlerSlice(t,'Description');
-		var btn = createTiddlyButton(createTiddlyElement(popup,'li'),name ? name : title,desc ? desc : label,config.macros.selectTheme.onClickTheme);
+		var btn = createTiddlyButton(createTiddlyElement(popup,'li'),name ? name : t,desc ? desc : config.macros.selectTheme.label,config.macros.selectTheme.onClickTheme);
 		btn.setAttribute('theme',t);
 	}
 	Popup.show();
