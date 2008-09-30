@@ -528,14 +528,15 @@ PrimarySourceURL - http://www.colourlovers.com/palette/328418/rosso_rosso</pre>
 <div title="Contact" modifier="Mahemoff" created="200809221041" changecount="1">
 <pre>For any queries, please contact Michael Mahemoff - mahemoff@osmosoft.com</pre>
 </div>
-<div title="Current Status" modifier="Mahemoff" created="200809191205" modified="200809221054" changecount="7">
-<pre>We're just getting started here.
-
-The project will be run in an agile manner, meaning it will be delivered in small chunks of functionality, where each iteration is immediately usable.
+<div title="Current Status" modifier="Mahemoff" created="200809191205" modified="200809300910" changecount="11">
+<pre>We're just getting started here. The project will be run in an agile manner, meaning it will be delivered in small chunks of functionality, where each iteration is immediately usable.
 
 The first goal is to produce a license portal. The aim is to provide a unique URL for each license, containing information such as the license text and corporate policy. A nested commenting system will support discussion among users about each license. It will be backed by TiddlyWeb.
 
-There is also a ''very rudimentary'' [[tiddlywiki model showing some of the workflow that is envisioned|flow.html]].</pre>
+The following has been produced to date:
+* [[Workflow|flow.html]] - A ''very rudimentary'' tiddlywiki model showing some of the workflow that is envisioned. This is a little out of date now.
+* [[Comments plugin|CommentsPlugin.html]] - A plugin supporting nested comments. (True to TiddlyWiki principles, the plugin is not specific to this project and could be reused in any TiddlyWiki context.)
+* [[License portal prototype|TiddlyGuv.html]] - A read-only view of a license with comments.</pre>
 </div>
 <div title="DefaultTiddlers" modifier="Mahemoff" created="200809191121" modified="200809191122" changecount="2">
 <pre>[[TiddlyGuv]]</pre>
@@ -548,8 +549,8 @@ There is also a ''very rudimentary'' [[tiddlywiki model showing some of the work
 
 &lt;&lt;search&gt;&gt;</pre>
 </div>
-<div title="Motivation" modifier="Mahemoff" created="200809191201" modified="200809221044" changecount="7">
-<pre>Open source components are present in many enterprise software projects - [[some of the reasons are described here|http://en.wikipedia.org/wiki/Comparison_of_open_source_and_closed_source]]. Large enterprises typically run thousands of software projects at any time, and it's common for many of them to use open source libraries, databases, operating systems, and so on. In some cases, they are also producers of own open source products as well. Furthermore, many workers are using open source products on their desktop systems, including browsers, mail readers, and word-processors.
+<div title="Motivation" modifier="Mahemoff" created="200809191201" modified="200809290555" changecount="8">
+<pre>Open source components are present in many enterprise software projects - [[some of the reasons are described here|http://en.wikipedia.org/wiki/Comparison_of_open_source_and_closed_source]]. Large enterprises typically run thousands of software projects at any time, and it's common for many of those projects to use open source libraries, databases, operating systems, and so on. In some cases, enterprises go beyond just consuming  open source, and also release some of their own products under open source licenses. Furthermore, many workers are using open source products on their desktop systems, including browsers, mail readers, and word-processors.
 
 In all cases, there are legal implications. Open source products come with a license that imposes certain requirements on those who use it. Organisations need to formulate policies on open source usage - in particular, their views on specific licenses and the processes for adopting open source products. In Osmosoft, we are establishing a governance programme (people and processes) to ensure BT is using open source the right way. TiddlyGuv is the software tool we'll use in conjunction with the governance programme, and we are open sourcing it so that others may use it in their organisation too.</pre>
 </div>
@@ -748,9 +749,9 @@ Story.prototype.displayTiddlers = function() {
 <div title="SiteTitle" modifier="Mahemoff" created="200809191132" changecount="8">
 <pre>TiddlyGuv</pre>
 </div>
-<div title="StyleSheet" modifier="Mahemoff" created="200809221434" modified="200809221441" changecount="6">
+<div title="StyleSheet" modifier="Mahemoff" created="200809221434" modified="200809300908" changecount="9">
 <pre>body { font-size: 1em; }
-#displayArea { margin-right: 10em; }
+#displayArea { width: 30em; margin-right: 10em; }
 .headerForeground, .headerShadow { padding-top: 3em; }</pre>
 </div>
 <div title="StyleSheetColors" modifier="Mahemoff" created="200809191127" modified="200809191128" changecount="2">
@@ -891,14 +892,13 @@ h2,h3 {border-bottom:1px solid [[ColorPalette::TertiaryLight]];}
 #backstageCloak {background:[[ColorPalette::Foreground]]; opacity:0.6; filter:'alpha(opacity:60)';}
 /*}}}*/</pre>
 </div>
-<div title="TiddlyGuv" modifier="Mahemoff" created="200809191047" modified="200809221342" changecount="10">
+<div title="TiddlyGuv" modifier="Mahemoff" created="200809191047" modified="200809290549" changecount="11">
 <pre>TiddlyGuv is an Open Source Governance Tool. That means it's a tool for enterprises to co-ordinate their open source activities. At [[Osmosoft]], we're responsible for supporting BT's use and production of open source; this is a tool we're building to support that process, and we're open sourcing it for other enterprises to use as well. Feedback and contributions are welcome.
 
-We envision TiddlyGuv will support the following features:
+We envision TiddlyGuv will include the following features:
 * A knowledge base where information about open source usage and production, along with related policies, can be disseminated and discussed by the community,
 * A database of projects using open source, components they are using, and licenses they are bound to.
 * A workflow system for tracking and releasing projects, ensuring open-source policies have been adhered to.
-
 As you can guess from the name, TiddlyGuv is based on TiddlyWiki. In addition, it uses TiddlyWeb for server-side persistence.</pre>
 </div>
 <div title="TiddlyWeb" modifier="Mahemoff" created="200809191212" changecount="5">
