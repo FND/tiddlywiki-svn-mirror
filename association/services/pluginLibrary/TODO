@@ -1,0 +1,60 @@
+== Aggregator ==
+
+* unique tiddler names (bag + title)?
+* dirScraper: wildcards support for black-/whitelisting
+* enhance logging
+* handling of removed plugins (e.g. don't delete, but tag with "disabled"?)
+** relevant with regards to metadata augmentation (cf. Community Features)
+* efficiency enhancements (e.g. caching, deferred processing)
+
+== Front-End ==
+
+* move plugins (entire UI vertical?) to generic directory
+* search: support for filters
+* slices RegEx fails for values containing pipes (e.g. PrettyLinks)
+* ViewTemplate
+** plugin origin for missing Source slice
+** boilerplate message report while content is loading
+** two-column layout (cf. TiddlyVault)
+** additional information (e.g. author, documentation)
+** personalization for authors (e.g. icon)
+** "More..." link confusing (e.g. duplicates information from original repository)
+* highlight matching snippets
+* interface elements
+** navigation menu
+** tag cloud
+** recent changes
+* results handling (toolbar commands)
+** dismiss (i.e. delete)
+** keep (i.e. disable doNotSave)
+
+== Search ==
+
+* components: repository, tags, fields, slices, documentation, code, full-text
+* RegEx support
+* indexing
+** index contents on change (aggregator), rather than using live search?
+** free-text indexing system?
+** SQL store?
+
+=== Admin Interface ===
+
+* list of repositories
+* annotations
+* switch for authors to instantly add/update a specific plugin
+
+== Community Features ==
+
+* user tagging
+* commenting
+* rating
+* views counter
+
+== Misc. ==
+
+* documentation (wiki, blog)
+* RSS feed
+* code sanitizing
+** code analysis (PyLint/PyChecker/PyFlakes/pep8, JSLint)
+** review TODO, XXX and DEBUG markers
+
