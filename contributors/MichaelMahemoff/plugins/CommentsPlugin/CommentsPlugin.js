@@ -9,30 +9,26 @@
 |~CoreVersion|2.2|
 ***/
 
-/*
-  TODO
-  Refactor:
-    - consistent naming for *Tiddler, *El (element) etc.
-    - send subject around less (and other params). just use parent.subject
-  
-  Enhance:
-    - options - styling, date format, etc etc
-    - edit comments in-place (may not be worth it?)
-    - when you close an incomplete comment and re-open it, retain the comment
+//# TODO
+//# Refactor:
+//#    - consistent naming for *Tiddler, *El (element) etc.
+//#    - send subject around less (and other params). just use parent.subject
+//#  
+//#  Enhance:
+//#    - options - styling, date format, etc etc
+//#    - edit comments in-place (may not be worth it?)
+//#    - when you close an incomplete comment and re-open it, retain the comment
 
-*/
-
-/******************************************************************************/
-/* CONFIG
-/******************************************************************************/
+//##############################################################################
+//# CONFIG
+//##############################################################################
 
 DATE_FORMAT = "DDD, MMM DDth, YYYY hh12:0mm:0ss am";
 
-/******************************************************************************/
-/* COLLECTION CLOSURES
-/******************************************************************************/
+//##############################################################################
+//# COLLECTION CLOSURES
+//##############################################################################
 
-/* Utils */
 function forEach(list, visitor) { for (var i=0; i<list.length; i++) visitor(list[i]); }
 function select(list, selector) { 
   var selection = [];
@@ -52,46 +48,46 @@ function remove(list, unwantedItem) {
         function(currentItem) { return currentItem!=unwantedItem; });
 }
 
-/******************************************************************************/
-/* RELATIONSHIP MANAGEMENT
-/*
-/* This establishes a tree model for a collection of tiddlers. Each tiddler in the
-/* tree always has three properties: "daddy", "children", and "root"). ("daddy"
-/* is used because "parent" is already overloaded in web-based Javascript to mean
-/* the parent frame.) The relationships are persisted using the extended fields
-/* model, but manipulated using direct pointers to other tiddlers (ie daddy
-/* points to the daddy tiddler, children is an array of child tiddlers, and
-/* root points to the root tiddler).
-/* 
-/* For daddy and root, the stored value
-/* is the tiddler title. Or an empty string if there is none (only during
-/* construction, as there should *always* be a daddy and a root - even the root
-/* element has a daddy and a root - both of these point to itself, which is a
-/* popular and convenient idiom in tree algorithms. For children, the value is 
-/* a comma-separated list of zero or more tiddlers.
-/* 
-/* The functions are low-level and afford direct manipulation of the three
-/* fields. No attempt is made to check integrity - the caller is responsible
-/* for ensuring referenced tiddlers exist, and root, daddy, and chldren across
-/* all tiddlers are consistent with each other, avoiding any circular references
-/* 
-/* The functions abstract away manipulation of tiddler fields. As a user of 
-/* these functions, you work directly 
-/* with relationship expandos -> tiddler.root, and tiddler.parent,
-/* tiddler.children
-/* To endow a tiddler with relationships:
-/*   - load or create the tiddler from the store
-/*   - call tiddler.initialiseRelationships()
-/*     This will establish relationship expandos, or if it already contains
-/*     that
-/*       relationship data, the expandos will be populated.
-/*     You can now manipulate the expandos directly.
-/*   - call tiddler.serialiseRelationships() to set fields from the expandos,
-/*   so the 
-/*     tiddler is ready for saving. You will need to make your own arrangements 
-/*     for the tiddler to be saved subsequently (e.g. call saveChanges()).
-/* 
-/******************************************************************************/
+//################################################################################
+//# RELATIONSHIP MANAGEMENT
+//#
+//# This establishes a tree model for a collection of tiddlers. Each tiddler in the
+//# tree always has three properties: "daddy", "children", and "root"). ("daddy"
+//# is used because "parent" is already overloaded in web-based Javascript to mean
+//# the parent frame.) The relationships are persisted using the extended fields
+//# model, but manipulated using direct pointers to other tiddlers (ie daddy
+//# points to the daddy tiddler, children is an array of child tiddlers, and
+//# root points to the root tiddler).
+//# 
+//# For daddy and root, the stored value
+//# is the tiddler title. Or an empty string if there is none (only during
+//# construction, as there should *always* be a daddy and a root - even the root
+//# element has a daddy and a root - both of these point to itself, which is a
+//# popular and convenient idiom in tree algorithms. For children, the value is 
+//# a comma-separated list of zero or more tiddlers.
+//# 
+//# The functions are low-level and afford direct manipulation of the three
+//# fields. No attempt is made to check integrity - the caller is responsible
+//# for ensuring referenced tiddlers exist, and root, daddy, and chldren across
+//# all tiddlers are consistent with each other, avoiding any circular references
+//# 
+//# The functions abstract away manipulation of tiddler fields. As a user of 
+//# these functions, you work directly 
+//# with relationship expandos -> tiddler.root, and tiddler.parent,
+//# tiddler.children
+//# To endow a tiddler with relationships:
+//#   - load or create the tiddler from the store
+//#   - call tiddler.initialiseRelationships()
+//#     This will establish relationship expandos, or if it already contains
+//#     that
+//#       relationship data, the expandos will be populated.
+//#     You can now manipulate the expandos directly.
+//#   - call tiddler.serialiseRelationships() to set fields from the expandos,
+//#   so the 
+//#     tiddler is ready for saving. You will need to make your own arrangements 
+//#     for the tiddler to be saved subsequently (e.g. call saveChanges()).
+//# 
+//################################################################################
 
 Tiddler.prototype.initialiseRelationships = function() {
   if (this.fields.daddy && this.fields.root && this.fields.children) {
@@ -123,9 +119,9 @@ Tiddler.prototype._deserialiseRelationships = function() {
     forEach(this.children, function(child) { child._deserialiseRelationships(); });
 }
 
-/******************************************************************************/
-/* MACRO INITIALISATION
-/******************************************************************************/
+//################################################################################
+//# MACRO INITIALISATION
+//################################################################################
 
 config.macros.comments = {
 
@@ -137,9 +133,9 @@ config.macros.comments = {
 
 };
 
-/******************************************************************************/
-/* MACRO VIEW - RENDERING COMMENTS
-/******************************************************************************/
+//################################################################################
+//# MACRO VIEW - RENDERING COMMENTS
+//################################################################################
 
 function buildCommentsArea(rootTiddler, place) {
   var suffix = "_" + rootTiddler.title.trim();
@@ -245,9 +241,9 @@ function openReplyLink(commentTiddler, commentEl, replyLink) {
   commentEl.appendChild(commentEl.replyEl);
 }
 
-/******************************************************************************/
-/* MACRO MODEL - MANIPULATING TIDDLERS
-/******************************************************************************/
+//################################################################################
+//# MACRO MODEL - MANIPULATING TIDDLERS
+//################################################################################
 
 function createOrThawRelationships(rootTiddler) {
   if (rootTiddler.initialiseRelationships()) { // recursively thaws if already exists
@@ -285,6 +281,10 @@ function deleteTiddlerAndDescendents(tiddler) {
   });
   saveChanges();
 }
+
+//################################################################################
+//# CUSTOM STYLESHEET
+//################################################################################
 
 // inspired by http://svn.tiddlywiki.org/Trunk/contributors/SaqImtiaz/plugins/DropDownMenuPlugin/DropDownMenuPlugin.js, suggested by Saq Imtiaz
 config.shadowTiddlers["StyleSheetCommentsPlugin"] = 
