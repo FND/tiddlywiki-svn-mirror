@@ -12,10 +12,10 @@
 if(!version.extensions.PluginLibraryAdaptor) { // TODO: rename
 version.extensions.PluginLibraryAdaptor = { installed: true };
 
-if(!plugins) { var plugins = {}; }
+if(!config.extensions) { config.extensions = {}; }
 
-plugins.PluginLibraryAdaptor = {
-	host: "http://plugins.tiddlywiki.org/tiddlyweb/",
+config.extensions.PluginLibraryAdaptor = {
+	host: "plugins.tiddlywiki.org/tiddlyweb",
 	listRetrievalMsg: "retrieving list of plugins matching '%0'...",
 	matchCountMsg: "retrieving %0 matching plugins",
 	noMatchMsg: "no plugins found matching '%0'",
@@ -46,27 +46,20 @@ plugins.PluginLibraryAdaptor = {
 	getMatchesCallback: function(context, userParams) {
 		if(!context.status) {
 			if(context.httpStatus == 404) {
-				displayMessage(plugins.PluginLibraryAdaptor.noMatchMsg.format([context.query]));
+				displayMessage(config.extensions.PluginLibraryAdaptor.noMatchMsg.format([context.query]));
 			} else {
-				displayMessage(plugins.PluginLibraryAdaptor.retrievalErrorMsg);
+				displayMessage(config.extensions.PluginLibraryAdaptor.retrievalErrorMsg);
 			}
 			return false; // XXX: raise exception?
 		}
-		displayMessage(plugins.PluginLibraryAdaptor.matchCountMsg.format([context.tiddlers.length]));
+		displayMessage(config.extensions.PluginLibraryAdaptor.matchCountMsg.format([context.tiddlers.length]));
 		var tiddlers = context.tiddlers;
 		if(tiddlers) {
 			for(var i = 0; i < tiddlers.length; i++) {
-				if(store.tiddlerExists(tiddlers[i].title)) {
-					context.tiddler = tiddlers[i];
-					context.tiddlerExists = true;
-					context.matchCallback(context, userParams);
-				} else {
-					var subContext = {
-						host: context.host,
-						bag: tiddlers[i].fields["server.bag"]
-					};
-					context.adaptor.getTiddler(tiddlers[i].title, subContext, userParams, context.matchCallback);
-				}
+				subContext = {
+					tiddler: tiddlers[i]
+				};
+				context.matchCallback(subContext, userParams);
 			}
 		}
 		return true;
@@ -112,18 +105,20 @@ config.macros.ImportPlugins = { // TODO: rename
 	},
 
 	doSearch: function(query) {
-		plugins.PluginLibraryAdaptor.getMatches(query, null, this.displayTiddler);
+		config.extensions.PluginLibraryAdaptor.getMatches(query, null, this.displayTiddler);
 	},
 
 	displayTiddler: function(context, userParams) {
 		var tiddler = context.tiddler;
-		if(!context.tiddlerExists) {
+		console.log(tiddler, config.defaultCustomFields);
+		if(!store.tiddlerExists(tiddler.title)) {
 			tiddler.fields.doNotSave = true;
-			var dirtyState = store.dirty;
-			store.addTiddler(tiddler);
-			store.dirty = dirtyState;
+			tiddler.fields["server.host"] = config.extensions.PluginLibraryAdaptor.host;
+			tiddler.fields["server.type"] = "tiddlyweb";
+			tiddler.fields["server.workspace"] = "plugins";
 		}
-		story.displayTiddler(null, tiddler, config.macros.ImportPlugins.pluginViewTemplate);
+		console.log("dT", config.defaultCustomFields);
+		story.displayTiddler(null, tiddler, config.macros.ImportPlugins.pluginViewTemplate, null, null, String.encodeHashMap(tiddler.fields));
 	}
 };
 

@@ -16,6 +16,7 @@
 * initial release
 !To Do
 * rename
+* cf. TiddlyVault layout
 !Code
 ***/
 //{{{
