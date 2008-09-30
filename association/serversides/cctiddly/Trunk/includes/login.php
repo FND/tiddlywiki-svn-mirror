@@ -111,11 +111,11 @@ if (substr($workspace_permissions, 2, 1) == "U")
 
 
 //  SET WORKSPACE DELETE PERMISSION FLAG
-if (substr($workspace_permissions, 2, 1) == "U")
+if (substr($workspace_permissions, 3, 1) == "U")
 {
 	$workspace_delete = $tiddlyCfg['privilege_misc']['undefined_privilege'];
 }else{
-	$workspace_delete = substr($workspace_permissions, 2, 1);
+	$workspace_delete = substr($workspace_permissions, 3, 1);
 }
 
 //

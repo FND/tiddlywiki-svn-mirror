@@ -33,7 +33,6 @@ class ModulesLoader {
 	}
 	
 	public function readModules($cct_base){
-	//	$cct_base="../";
 		$dir = $cct_base."modules/";
 		include("modules.php");
 		error_log("dir".$dir);

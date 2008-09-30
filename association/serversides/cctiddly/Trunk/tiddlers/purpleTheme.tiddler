@@ -22,6 +22,8 @@
 
 
 
+
+
 !PageTemplate
 <!--{{{-->
 	
@@ -40,6 +42,69 @@
 </div>
 <div id='contentFooter'  macro='gradient vert #eee #ccc'></div>
 </div>
+<!--}}}-->
+
+
+
+
+!taskViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'>Task : </div>
+<div class='task'>
+	<table>
+	<tr>
+		<td class='taskbody' width=100%><div class='viewer' macro='view text wikified'></div></td>
+		<td class='taskControls' valign='top'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+</div>
+
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!taskEditTemplate
+<!--{{{-->
+<div class="editor">
+<div class='toolbar' macro='toolbar[[ToolbarCommands::EditToolbar]]'></div>
+<div class='task'>
+
+	<table>
+	<tr><td colspan=2><div class='title edit' macro='edit title'></div>
+	</td></tr>
+	<tr>
+		<td class='taskbody' width=100% height=100%><div class='viewer edit' macro='edit text wikified'></div></div></td>
+		<td class='taskControls' valign=top><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+</div>
+<div class='editor' macro='edit tags'></div>
+<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span></div>
+</div>
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='tagClear'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<hr />
 <!--}}}-->
 
 !OptionsPanel
@@ -670,65 +735,6 @@ table.sortable td.sortedCol {
 
 /*}}}*/
 
-!taskViewTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
-<div class='title' macro='view title'>Task : </div>
-<div class='task'>
-	<table>
-	<tr>
-		<td class='taskbody' width=100%><div class='viewer' macro='view text wikified'></div></td>
-		<td class='taskControls' valign='top'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
-	</tr>
-	</table>
-</div>
-
-<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged' macro='tags'></div>
-<div class='tagClear'></div>
-<!--}}}-->
-
-!taskEditTemplate
-<!--{{{-->
-<div class="editor">
-<div class='toolbar' macro='toolbar[[ToolbarCommands::EditToolbar]]'></div>
-<div class='task'>
-
-	<table>
-	<tr><td colspan=2><div class='title edit' macro='edit title'></div>
-	</td></tr>
-	<tr>
-		<td class='taskbody' width=100% height=100%><div class='viewer edit' macro='edit text wikified'></div></div></td>
-		<td class='taskControls' valign=top><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
-	</tr>
-	</table>
-</div>
-<div class='editor' macro='edit tags'></div>
-<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span></div>
-</div>
-<!--}}}-->
-
-!EditTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-<div class='editor' macro='edit title'></div>
-<div macro='annotations'></div>
-<div class='editor' macro='edit text'></div>
-<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
-<!--}}}-->
-
-!ViewTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='title' macro='view title'></div>
-<div class='viewer' macro='view text wikified'></div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged' macro='tags'></div>
-<div class='tagClear'></div>
-<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<hr />
-<!--}}}-->
 
 </pre>
 </div>

@@ -34,7 +34,7 @@ $tiddlyCfg['pref']['ldap_enabled'] = 0;
 $tiddlyCfg['pref']['ldap_username']	= "CN=,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
 $tiddlyCfg['pref']['ldap_password'] = "";
 $tiddlyCfg['pref']['ldap_connection_string'] = "";
-$tiddlyCfg['pref']['language'] = "zh-Hans";
+$tiddlyCfg['pref']['language'] = "en";
 
 //Deligated Session Managment 
  
@@ -141,7 +141,6 @@ $tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each
 
 // Other 
 
-$tiddlyCfg['twLanguage'] = "en";	//predefine language
 $tiddlyCfg['keep_revision'] = 1;
 
 $tiddlyCfg['tag_tiddler_with_modifier'] = 0;

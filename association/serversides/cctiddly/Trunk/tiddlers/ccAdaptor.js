@@ -383,7 +383,7 @@ ccTiddlyAdaptor.handleError = function(error_code)
 		error += ccTiddlyAdaptor.errorTextConflict;
 	break;
 	default:
-		error+= ccTiddlyAdaptor.errorTextUnknown+"<br />"+ccTiddlyAdaptor.msgErrorCode+error_code;
+		error += ccTiddlyAdaptor.errorTextUnknown+"<br />"+ccTiddlyAdaptor.msgErrorCode+error_code;
 	}	
 	box.innerHTML = " <a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><p>"+error+"</p><br/><br/>";
 	createTiddlyButton(box,ccTiddlyAdaptor.buttonOpenNewWindow,null,function(e){ window.open (window.location,"mywindow");	 return false;});
