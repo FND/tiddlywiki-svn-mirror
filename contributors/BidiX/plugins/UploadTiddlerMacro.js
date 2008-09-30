@@ -3,7 +3,7 @@
 |''Description:''|Define a macro to upload a tiddler using UploadTiddlerPlugin (see UploadTiddlerPlugin for details).|
 |''Version:''|1.0.0|
 |''Date:''|2008-09-30|
-|''Source:''|http://tiddlywiki.bidix.info/#UploadToFileMacro|
+|''Source:''|http://tiddlywiki.bidix.info/#UploadTiddlerMacro|
 |''Usage:''|{{{<<uploadTiddler [tiddlerTitle]>>}}}<br>{{{tiddlerTitle: if omitted the title of the current tiddler}}}|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
 |''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
