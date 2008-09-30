@@ -50,4 +50,31 @@ config.macros.uploadTiddler = {
 	}
 };
 
+//
+// Utilities
+// 
+if (!window.bidix) window.bidix = {}; // bidix namespace
+
+bidix.checkPlugin = function(plugin, major, minor, revision) {
+	var ext = version.extensions[plugin];
+	if (!
+		(ext  && 
+			((ext.major > major) || 
+			((ext.major == major) && (ext.minor > minor))  ||
+			((ext.major == major) && (ext.minor == minor) && (ext.revision >= revision))))) {
+			// write error in PluginManager
+			if (pluginInfo)
+				pluginInfo.log.push("Requires " + plugin + " " + major + "." + minor + "." + revision);
+			eval(plugin); // generate an error : "Error: ReferenceError: xxxx is not defined"
+	}
+};
+
+//
+// Initializations
+//
+
+// require UploadTiddlerPlugin 1.2.2 or better
+bidix.checkPlugin("UploadTiddlerPlugin", 1, 2, 2);
+
+
 //}}}
