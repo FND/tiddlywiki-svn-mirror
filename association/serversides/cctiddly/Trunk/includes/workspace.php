@@ -44,7 +44,7 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 	$data['markup_group'] = '';
 	db_record_insert($tiddlyCfg['table']['workspace'],$data);  
 	$data1['workspace_name'] = $workspace;
-	$data1['body'] = $workspace;
+	$data1['body'] = "AAA";
 	$data1['title'] = 'SiteTitle';
 	$data1['creator'] = 'ccTiddly';
 	$data1['modifier'] = 'ccTiddly';
@@ -66,7 +66,7 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 	
 	$data1['body'] = 'Provided by [[Osmosoft]] using TiddlyWiki - The Wiki with a silly name';
 	$data1['title'] = 'SiteSubtitle';
-	$data1['creator'] = 'ccTiddly';
+	$data1['creator'] = 'ccTiddly'; 
 	$data1['modifier'] = 'ccTiddly';
 	$data1['created'] = epochToTiddlyTime(mktime());
 	db_record_insert($tiddlyCfg['table']['main'],$data1);

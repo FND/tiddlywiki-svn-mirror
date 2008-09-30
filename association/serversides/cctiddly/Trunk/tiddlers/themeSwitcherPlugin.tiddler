@@ -45,7 +45,6 @@ config.macros.selectTheme.onClick = function(ev)
 	var tiddlers = store.getTaggedTiddlers('systemTheme');
 	for(var i=0; i<tiddlers.length; i++) {
 		var t = tiddlers[i].title;
-		console.log(t+"aaa");
 		var name = store.getTiddlerSlice(t,'Name');
 		var desc = store.getTiddlerSlice(t,'Description');
 		var btn = createTiddlyButton(createTiddlyElement(popup,'li'),name ? name : t,desc ? desc : config.macros.selectTheme.label,config.macros.selectTheme.onClickTheme);
