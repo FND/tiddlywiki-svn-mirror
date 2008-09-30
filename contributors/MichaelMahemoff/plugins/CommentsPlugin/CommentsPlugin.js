@@ -250,7 +250,7 @@ function createOrThawRelationships(rootTiddler) {
     rootTiddler.root = rootTiddler; // make top point to self
     rootTiddler.daddy = rootTiddler;
     rootTiddler.serialiseRelationships();
-    saveChanges();
+    autoSaveChanges();
   }
 }
 
