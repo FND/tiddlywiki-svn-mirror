@@ -74,6 +74,7 @@ def user(environ, start_response):
             'user': user,
             'recent_url': '%s/tiddlers?filter=[sort[-modified]]' % recipe_url(environ, recent_recipe),
             'all_url': '%s/tiddlers?filter=[sort[-modified]]' % recipe_url(environ, all_recipe),
+            'twoter_url': '%s/twoter/%s' % (server_base_url(environ), urllib.quote(user)),
             }
 
     environ['tiddlyweb.title'] = 'Twoter for %s' % user
@@ -128,9 +129,12 @@ def _make_tiddler(content, user):
     Slice and dice the input to make it into a tiddler.
     """
     posted_data = cgi.parse_qs(content)
-    title = posted_data.get('title', [''])[0]
+    charset = posted_data.get('charset', ['UTF-8'])[0]
     url = posted_data.get('url', [''])[0]
+    title = posted_data.get('title', [''])[0]
+    title = unicode(title, charset, 'replace')
     snip = posted_data.get('snip', [''])[0]
+    snip = unicode(snip, charset, 'replace')
     tiddler_title = title.replace('.', '_')
     tiddler_text_title = title.replace('|', ' ')
     tiddler = Tiddler(tiddler_title)
