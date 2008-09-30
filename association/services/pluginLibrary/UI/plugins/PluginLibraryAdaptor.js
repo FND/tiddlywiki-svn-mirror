@@ -17,7 +17,8 @@ if(!plugins) { var plugins = {}; }
 plugins.PluginLibraryAdaptor = {
 	host: "http://plugins.tiddlywiki.org/tiddlyweb/",
 	listRetrievalMsg: "retrieving list of plugins matching '%0'...",
-	tiddlerRetrievalMsg: "retrieving %0 matching plugins",
+	matchCountMsg: "retrieving %0 matching plugins",
+	noMatchMsg: "no plugins found matching '%0'",
 	retrievalErrorMsg: "error retrieving data from server",
 
 	/**
@@ -44,10 +45,14 @@ plugins.PluginLibraryAdaptor = {
 	 */
 	getMatchesCallback: function(context, userParams) {
 		if(!context.status) {
-			displayMessage(plugins.PluginLibraryAdaptor.retrievalErrorMsg);
+			if(context.httpStatus == 404) {
+				displayMessage(plugins.PluginLibraryAdaptor.noMatchMsg.format([context.query]));
+			} else {
+				displayMessage(plugins.PluginLibraryAdaptor.retrievalErrorMsg);
+			}
 			return false; // XXX: raise exception?
 		}
-		displayMessage(plugins.PluginLibraryAdaptor.tiddlerRetrievalMsg.format([context.tiddlers.length]));
+		displayMessage(plugins.PluginLibraryAdaptor.matchCountMsg.format([context.tiddlers.length]));
 		var tiddlers = context.tiddlers;
 		if(tiddlers) {
 			for(var i = 0; i < tiddlers.length; i++) {

@@ -17,4 +17,3 @@ f.write(subtitle)
 f.close()
 
 call(["ck", "UI"])
-call(["rm", "TiddlySaver.jar"])
