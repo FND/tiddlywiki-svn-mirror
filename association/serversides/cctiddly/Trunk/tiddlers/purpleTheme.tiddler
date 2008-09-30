@@ -116,6 +116,7 @@
 !SideBarOptions
 <<search "search...">><<closeAll>><<newTiddler>><<saveChanges>><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'content »' 'View TiddlyWiki Tabs'>>
 
+
 !StyleSheet
 /***
 General
