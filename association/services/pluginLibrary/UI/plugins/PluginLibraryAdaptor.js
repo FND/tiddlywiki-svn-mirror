@@ -146,12 +146,15 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem) {
 	};
 	var tiddler = new Tiddler(title);
 	tiddler.fields = typeof fields == "string" ?  fields.decodeHashMap() : (fields ? fields : {});
-	context = {};
-	context.serverType = tiddler.getServerType();
-	if(!context.serverType)
+	context = {
+		tiddler: tiddler,
+		serverType: tiddler.getServerType(),
+		host: tiddler.fields['server.host'],
+		bag: tiddler.fields['server.bag']
+	};
+	if(!context.serverType) {
 		return;
-	context.host = tiddler.fields['server.host'];
-	context.bag = tiddler.fields['server.bag'];
+	}
 	var adaptor = new config.adaptors[context.serverType];
 	adaptor.getTiddler(title,context,null,getTiddlerCallback);
 	return config.messages.loadingMissingTiddler.format([title,context.serverType,context.host,context.workspace]);

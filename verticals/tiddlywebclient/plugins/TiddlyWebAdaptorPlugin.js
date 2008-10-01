@@ -171,7 +171,9 @@ TiddlyWebAdaptor.prototype.getTiddler = function(title,context,userParams,callba
 	} else {
 		uriTemplate = '%0/%1/%2/tiddlers/%3';
 	}
-	context.tiddler = new Tiddler(title);
+	if(!context.tiddler) {
+		context.tiddler = new Tiddler(title);
+	}
 	context.tiddler.fields['server.type'] = TiddlyWebAdaptor.serverType;
 	context.tiddler.fields['server.host'] = AdaptorBase.minHostName(context.host);
 	if(context.bag) {
