@@ -1,6 +1,8 @@
-<div title="StyleSheet" modifier="FND" created="200807281701" modified="200807281706" tags="meta" changecount="5">
+<div title="StyleSheet">
 <pre>[[StyleSheetReset]]
 /*{{{*/
+/* page layout */
+
 body {
 	background-color: #333;
 }
@@ -49,6 +51,8 @@ body {
 	color: #000;
 	background-color: #aaa;
 }
+
+/* tiddler layout */
 
 .pluginInfoTiddler {
 	overflow: auto;

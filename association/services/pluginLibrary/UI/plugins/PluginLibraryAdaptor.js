@@ -130,11 +130,15 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem) {
 	var getTiddlerCallback = function(context) {
 		var tiddler = context.tiddler;
 		if(tiddler && tiddler.text) {
-			if(!tiddler.created)
+			if(!tiddler.created) {
 				tiddler.created = new Date();
-			if(!tiddler.modified)
+			}
+			if(!tiddler.modified) {
 				tiddler.modified = tiddler.created;
+			}
+			var dirtyState = store.dirty;
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+			store.dirty = dirtyState;
 			autoSaveChanges();
 		}
 		context.adaptor.close();

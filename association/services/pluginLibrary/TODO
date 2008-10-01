@@ -10,6 +10,7 @@
 
 == Front-End ==
 
+* override search paramifier
 * plugin origin for missing Source slice
 * redesign displayMessage dialog
 * move plugins (entire UI vertical?) to generic directory
