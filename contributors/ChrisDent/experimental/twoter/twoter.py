@@ -170,6 +170,7 @@ def _check_recipe(name, environ, user):
             [u'TiddlyWeb', u''],
             [unicode(bag.name), unicode(_filter_string(name))],
             ])
+        recipe.desc = '%s twotes for %s' % (name, user)
         store.put(recipe)
     return recipe
 
@@ -186,8 +187,11 @@ def _check_bag(name, environ, user):
         store.get(bag)
     except NoBagError:
         uni_user = unicode(user)
-        policy = Policy(read=[uni_user], write=[uni_user], delete=[uni_user], create=[uni_user])
+        policy = Policy(owner=uni_user, manage=[uni_user],
+                read=[uni_user], write=[uni_user],
+                delete=[uni_user], create=[uni_user])
         bag.policy = policy
+        bag.desc = 'Twotes for %s', uni_user;
         store.put(bag)
     return bag
 
