@@ -95,8 +95,8 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 	
 	
 	params.w.setButtons([
-		{caption: me.buttonCancelText, tooltip: me.buttonCancelTooltip, onClick: function(w){ config.macros.ccAdmin.refresh(params.w) } },
-		{caption: me.buttonCreateText, tooltip: me.buttonCreateTooltip, onClick: function(){ config.macros.ccAdmin.addAdminSubmit(null, params) } }
+		{caption: me.buttonCreateText, tooltip: me.buttonCreateTooltip, onClick: function(){ config.macros.ccAdmin.addAdminSubmit(null, params) } },
+		{caption: me.buttonCancelText, tooltip: me.buttonCancelTooltip, onClick: function(w){ config.macros.ccAdmin.refresh(params.w) } }
 	]);
 
 };

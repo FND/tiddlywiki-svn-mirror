@@ -190,6 +190,12 @@ else
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	header("Content-Disposition: attachment; filename=\"".$offline_name.".html\";\r\n");
 
+$str = $_SERVER['REQUEST_URI'];
+if($str[strlen($str)-1]!="/")
+	header("location: ".$_SERVER['REQUEST_URI']."/"); 
+
+
+
 debug($ccT_msg['debug']['workspaceName'].$tiddlyCfg['workspace_name'], "config");
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
 debug($ccT_msg['debug']['fileName'].$_SERVER["SCRIPT_NAME"], "config");

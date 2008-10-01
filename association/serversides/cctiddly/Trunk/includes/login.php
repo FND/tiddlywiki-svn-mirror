@@ -42,14 +42,14 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 				include_once($cct_base."modules/".$plugin);	
 		}
 
-		
-		foreach ($modulesLoader->events['returnNotFound'] as $event)
+		if($modulesLoader->events['returnNotFound'])
 		{
-			if(is_file("modules/".$event))
-				include_once("modules/".$event);	
-		}
-
-		
+			foreach ($modulesLoader->events['returnNotFound'] as $event)
+			{
+				if(is_file("modules/".$event))
+					include_once("modules/".$event);	
+			}
+		}		
 			$error404 = true;		
 			$theme = "simple";
 		
