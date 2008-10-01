@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#WikispacesSoapAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js |
-|''Version:''|0.1.9|
+|''Version:''|0.1.10|
 |''Date:''|Feb 15, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -437,6 +437,7 @@ fnLog('getTiddler:'+title);
 	if(!context.workspaceId)
 		context.workspaceId = config.defaultCustomFields['server.workspaceid'];
 //#fnLog('wid:'+context.workspaceId);
+	context.title = title;
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields.wikiformat = 'wikispaces';
 	context.tiddler.fields['server.type'] = WikispacesSoapAdaptor.serverType;
