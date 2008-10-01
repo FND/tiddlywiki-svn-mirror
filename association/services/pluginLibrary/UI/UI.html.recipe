@@ -2,4 +2,5 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: plugins/split.recipe
 recipe: shadows/split.recipe
 recipe: tiddlers/split.recipe
+tiddler: ../../../../contributors/FND/plugins/ViewSlicesPlugin.js tags="systemConfig"
 tiddler: ../../../../verticals/tiddlywebclient/plugins/TiddlyWebAdaptorPlugin.js tags="systemConfig"

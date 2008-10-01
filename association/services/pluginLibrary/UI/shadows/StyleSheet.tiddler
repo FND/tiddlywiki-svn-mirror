@@ -58,26 +58,53 @@ body {
 	background-color: #eee;
 }
 
-.pluginToolbar {
+.pluginInfoTiddler .toolbar {
 	float: right;
 }
 
-.pluginToolbar .button {
+.pluginInfoTiddler .toolbar .button {
 	display: block;
 	background: [[ColorPalette::SecondaryLight]];
 	border-color: [[ColorPalette::SecondaryMid]];
 }
 
-.pluginToolbar .button:hover {
+.pluginInfoTiddler .toolbar .button:hover {
 	display: block;
 	color: [[ColorPalette::Foreground]];
 	background: [[ColorPalette::SecondaryLight]];
 	border-color: [[ColorPalette::SecondaryMid]];
 }
 
-.pluginViewer {
-	overflow: auto;
-	padding-top: 1em;
+.pluginInfoTiddler .viewer {
+	overflow: auto; /* contain floats */
+}
+
+.pluginInfoTiddler .viewer ul,
+.pluginInfoTiddler .viewer div,
+.pluginInfoTiddler .viewer p {
+	margin: 0;
+	padding: 0;
+}
+
+.pluginInfoTiddler .viewer ul {
+	float: left;
+	margin-right: 3em;
+	list-style-type: none;
+}
+
+.pluginInfoTiddler .viewer li {
+	width: 30em;
+	height: 1.4em;
+	line-height: 1.4em;
+	overflow: hidden;
+}
+
+.pluginInfoTiddler .viewer div {
+	overflow: hidden; /* columnize */
+}
+
+.pluginInfoTiddler .viewer p {
+	margin-top: 0.5em;
 }
 /*}}}*/</pre>
 </div>

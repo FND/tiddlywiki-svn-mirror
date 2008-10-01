@@ -10,6 +10,7 @@
 
 == Front-End ==
 
+* plugin origin for missing Source slice
 * redesign displayMessage dialog
 * move plugins (entire UI vertical?) to generic directory
 * search:
@@ -19,13 +20,8 @@
 ** ignore code sections (optional)
 * slices RegEx fails for values containing pipes (e.g. PrettyLinks)
 * ViewTemplate
-** use macro for displaying slice values
-** plugin origin for missing Source slice
 ** boilerplate message while content is loading
-** two-column layout (cf. TiddlyVault)
-** additional information (e.g. author, documentation)
 ** personalization for authors (e.g. icon)
-** "More..." link confusing (e.g. duplicates information from original repository)
 * highlight matching snippets
 * interface elements
 ** navigation menu

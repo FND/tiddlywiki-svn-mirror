@@ -1,8 +1,28 @@
 <div title="PluginViewTemplate">
 <pre><!--{{{-->
 <div class='pluginInfoTiddler'>
-<div class='toolbar pluginToolbar' macro='toolbar [[PluginToolbarCommands::PluginViewToolbar]]'></div>
-<div class='viewer pluginViewer' macro='pluginInfo'></div>
+	<div class='toolbar' macro='toolbar [[PluginToolbarCommands::PluginViewToolbar]]'></div>
+	<div class='title' macro='view title link'></div>
+	<div class='viewer'>
+		<ul>
+			<li>
+				<strong>Author:</strong>
+				<span macro="view text slice Author N/A"></span>
+			</li>
+			<li>
+				<strong>Source:</strong>
+				<span macro="view text slice Source N/A"></span>
+			</li>
+			<li>
+				<strong>Documentation:</strong>
+				<span macro="view text slice Documentation N/A"></span>
+			</li>
+		</ul>
+		<div>
+			<strong>Description</strong>
+			<p macro="view text slice Description N/A"></p>
+		</div>
+	</div>
 </div>
 <!--}}}--></pre>
 </div>
