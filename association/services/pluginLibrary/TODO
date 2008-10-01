@@ -1,5 +1,6 @@
 == Aggregator ==
 
+* black-/whitelisting for tiddlers within TiddlyWiki documents (tag-based; "systemPrivate"?)
 * unique tiddler names (bag + title)?
 * dirScraper: wildcards support for black-/whitelisting
 * enhance logging
@@ -9,6 +10,8 @@
 
 == Front-End ==
 
+* throttle search requests (one at a time)
+* redesign displayMessage dialog
 * move plugins (entire UI vertical?) to generic directory
 * search:
 ** support for filters
@@ -17,6 +20,7 @@
 ** ignore code sections (optional)
 * slices RegEx fails for values containing pipes (e.g. PrettyLinks)
 * ViewTemplate
+** use macro for displaying slice values
 ** plugin origin for missing Source slice
 ** boilerplate message while content is loading
 ** two-column layout (cf. TiddlyVault)
