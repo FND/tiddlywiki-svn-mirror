@@ -10,7 +10,6 @@
 
 == Front-End ==
 
-* throttle search requests (one at a time)
 * redesign displayMessage dialog
 * move plugins (entire UI vertical?) to generic directory
 * search:

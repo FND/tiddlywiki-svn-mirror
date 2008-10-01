@@ -20,8 +20,13 @@ config.extensions.PluginLibraryAdaptor = {
 	matchCountMsg: "retrieving %0 matching plugins",
 	noMatchMsg: "no plugins found matching '%0'",
 	retrievalErrorMsg: "error retrieving data from server",
+	activeSearchRequest: false,
 
 	getMatches: function(query, userParams, callback) {
+		if(this.activeSearchRequest) {
+			return false; // XXX: raise exception?
+		}
+		this.activeSearchRequest = true;
 		displayMessage(this.listRetrievalMsg.format([query]));
 		var adaptor = new TiddlyWebAdaptor();
 		var context = {
@@ -51,6 +56,7 @@ config.extensions.PluginLibraryAdaptor = {
 				context.matchCallback(subContext, userParams);
 			}
 		}
+		config.extensions.PluginLibraryAdaptor.activeSearchRequest = false;
 		return true;
 	}
 };
