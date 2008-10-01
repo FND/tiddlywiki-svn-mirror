@@ -103,15 +103,13 @@ config.macros.ImportPlugins = { // TODO: rename
 		config.extensions.PluginLibraryAdaptor.getMatches(query, null, this.displayTiddler);
 	},
 
-	displayTiddler: function(context, userParams) {
+	displayTiddler: function(context, userParams) { // lazily loads tiddler contents
 		var tiddler = context.tiddler;
-		console.log(tiddler, config.defaultCustomFields);
 		if(!store.tiddlerExists(tiddler.title)) {
 			tiddler.fields.doNotSave = true;
 			tiddler.fields["server.host"] = config.extensions.PluginLibraryAdaptor.host;
 			tiddler.fields["server.type"] = "tiddlyweb";
 		}
-		console.log("dT", config.defaultCustomFields);
 		story.displayTiddler(null, tiddler, config.macros.ImportPlugins.pluginViewTemplate, null, null, String.encodeHashMap(tiddler.fields));
 	}
 };
