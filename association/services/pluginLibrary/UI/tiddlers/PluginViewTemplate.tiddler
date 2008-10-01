@@ -1,8 +1,9 @@
 <div title="PluginViewTemplate">
 <pre><!--{{{-->
-<div class='pluginInfoTiddler'>
+<div class='pluginInfoTiddler' macro='gradient vert #eee #f8f8f8'>
 	<div class='toolbar' macro='toolbar [[PluginToolbarCommands::PluginViewToolbar]]'></div>
 	<div class='title' macro='view title link'></div>
+	<div class='title progressMsg'>loading...</div>
 	<div class='viewer'>
 		<table>
 			<tr>
