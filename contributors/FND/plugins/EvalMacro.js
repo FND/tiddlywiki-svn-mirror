@@ -50,7 +50,7 @@ if(!version.extensions.EvalMacro) {
 version.extensions.EvalMacro = { installed: true };
 
 config.macros.eval = {
-	handler = function(place, macroName, params, wikifier, paramString, tiddler) {
+	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		if(params[1] == "scriptMode") {
 			eval(params[0]);
 		} else {
