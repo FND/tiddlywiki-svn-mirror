@@ -54,12 +54,13 @@ body {
 	overflow: auto;
 	margin-bottom: 1em;
 	border: 1px solid #aaa;
-	padding: 0 0 1em 1em;
+	padding: 10px;
 	background-color: #eee;
 }
 
 .pluginInfoTiddler .toolbar {
 	float: right;
+	margin: -10px -10px 1em 1em;
 }
 
 .pluginInfoTiddler .toolbar .button {

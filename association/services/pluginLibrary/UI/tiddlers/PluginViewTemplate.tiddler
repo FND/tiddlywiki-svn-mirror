@@ -14,6 +14,10 @@
 				<span macro="view text slice Source N/A"></span>
 			</li>
 			<li>
+				<strong>Status:</strong>
+				<span macro="view text slice Status N/A"></span>
+			</li>
+			<li>
 				<strong>Documentation:</strong>
 				<span macro="view text slice Documentation N/A"></span>
 			</li>
