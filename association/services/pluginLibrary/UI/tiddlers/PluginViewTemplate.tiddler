@@ -4,28 +4,30 @@
 	<div class='toolbar' macro='toolbar [[PluginToolbarCommands::PluginViewToolbar]]'></div>
 	<div class='title' macro='view title link'></div>
 	<div class='viewer'>
-		<ul>
-			<li>
-				<strong>Author:</strong>
-				<span macro="view text slice Author N/A"></span>
-			</li>
-			<li>
-				<strong>Source:</strong>
-				<span macro="view text slice Source N/A"></span>
-			</li>
-			<li>
-				<strong>Status:</strong>
-				<span macro="view text slice Status N/A"></span>
-			</li>
-			<li>
-				<strong>Documentation:</strong>
-				<span macro="view text slice Documentation N/A"></span>
-			</li>
-		</ul>
-		<div>
-			<strong>Description</strong>
-			<p macro="view text slice Description N/A"></p>
-		</div>
+		<table>
+			<tr>
+				<th>Author:</th>
+				<td macro="view text slice Author N/A"></td>
+			</tr>
+			<tr>
+				<th>Source:</th>
+				<td macro="view text slice Source N/A"></td>
+			</tr>
+			<tr>
+				<th>Status:</th>
+				<td macro="view text slice Status N/A"></td>
+			</tr>
+			<tr>
+				<th>Documentation:</th>
+				<td macro="view text slice Documentation N/A"></td>
+			</tr>
+		</table>
+		<span macro="eval {{
+			var src = store.getTiddlerSlice(tiddler.title, 'Icon') || 'http://plugins.tiddlywiki.org/plugin.png';
+			'[<img[' + src + ']]';
+		}}"></span>
+		<h1>Description</h1>
+		<p macro="view text slice Description N/A"></p>
 	</div>
 </div>
 <!--}}}--></pre>

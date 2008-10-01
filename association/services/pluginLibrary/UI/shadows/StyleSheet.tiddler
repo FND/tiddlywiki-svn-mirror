@@ -84,32 +84,41 @@ body {
 	overflow: auto; /* contain floats */
 }
 
-.pluginInfoTiddler .viewer ul,
-.pluginInfoTiddler .viewer div,
-.pluginInfoTiddler .viewer p {
+.pluginInfoTiddler .viewer table,
+.pluginInfoTiddler .viewer tr,
+.pluginInfoTiddler .viewer th,
+.pluginInfoTiddler .viewer td {
 	margin: 0;
+	border: none;
 	padding: 0;
 }
 
-.pluginInfoTiddler .viewer ul {
-	float: left;
-	margin-right: 3em;
-	list-style-type: none;
+.pluginInfoTiddler .viewer table {
+	margin: 0.5em;
+	line-height: 1.6em;
 }
 
-.pluginInfoTiddler .viewer li {
-	width: 30em;
-	height: 1.4em;
-	line-height: 1.4em;
-	overflow: hidden;
+.pluginInfoTiddler .viewer th {
+	padding-right: 1em;
+	text-align: left;
+	color: [[ColorPalette::Foreground]];
+	background-color: transparent;
 }
 
-.pluginInfoTiddler .viewer div {
-	overflow: hidden; /* columnize */
-}
-
+.pluginInfoTiddler .viewer h1,
 .pluginInfoTiddler .viewer p {
 	margin-top: 0.5em;
+	margin-left: 110px;
+}
+
+.pluginInfoTiddler .viewer h1 {
+	margin-top: 0;
+	color: [[ColorPalette::Foreground]];
+}
+
+.pluginInfoTiddler .viewer img {
+	width: 100px;
+	margin-right: 10px;
 }
 /*}}}*/</pre>
 </div>
