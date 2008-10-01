@@ -17,7 +17,7 @@ if(!config.extensions) { config.extensions = {}; }
 config.extensions.PluginLibraryAdaptor = {
 	host: "plugins.tiddlywiki.org/tiddlyweb",
 	listRetrievalMsg: "retrieving list of plugins matching '%0'...",
-	matchCountMsg: "retrieving %0 matching plugins",
+	matchCountMsg: "found %0 matching plugins",
 	noMatchMsg: "no plugins found matching '%0'",
 	retrievalErrorMsg: "error retrieving data from server",
 	activeSearchRequest: false,
@@ -27,6 +27,7 @@ config.extensions.PluginLibraryAdaptor = {
 			return false; // XXX: raise exception?
 		}
 		this.activeSearchRequest = true;
+		clearMessage();
 		displayMessage(this.listRetrievalMsg.format([query]));
 		var adaptor = new TiddlyWebAdaptor();
 		var context = {
@@ -38,9 +39,10 @@ config.extensions.PluginLibraryAdaptor = {
 	},
 
 	getMatchesCallback: function(context, userParams) {
+		clearMessage();
 		if(!context.status) {
 			if(context.httpStatus == 404) {
-				displayMessage(config.extensions.PluginLibraryAdaptor.noMatchMsg.format([context.query]));
+								displayMessage(config.extensions.PluginLibraryAdaptor.noMatchMsg.format([context.query]));
 			} else {
 				displayMessage(config.extensions.PluginLibraryAdaptor.retrievalErrorMsg);
 			}

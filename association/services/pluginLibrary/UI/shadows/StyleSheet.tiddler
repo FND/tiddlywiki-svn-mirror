@@ -15,6 +15,15 @@ body {
 	background-color: #FFF;
 }
 
+#messageArea {
+	position: static;
+}
+
+.messageToolbar {
+	float: right;
+	padding: 0 5px;
+}
+
 .header {
 	padding: 0.5em 1em;
 	background-color: #000;
@@ -79,20 +88,25 @@ body {
 
 .pluginInfoTiddler .toolbar {
 	float: right;
-	margin: -10px -10px 1em 1em;
+	margin: -11px -11px 1em 1em;
 }
 
-.pluginInfoTiddler .toolbar .button {
+.pluginInfoTiddler .toolbar .button,
+.pluginInfoTiddler .toolbar .button:hover {
 	display: block;
-	background: [[ColorPalette::SecondaryLight]];
-	border-color: [[ColorPalette::SecondaryMid]];
+	margin-bottom: -1px;
+	border-color: #aaa;
+	color: #888;
+	background-color: #f8f8f8;
+}
+
+.selected .pluginInfoTiddler .toolbar .button {
+	color: #444;
 }
 
 .pluginInfoTiddler .toolbar .button:hover {
-	display: block;
 	color: [[ColorPalette::Foreground]];
-	background: [[ColorPalette::SecondaryLight]];
-	border-color: [[ColorPalette::SecondaryMid]];
+	background-color: #aaa;
 }
 
 .pluginInfoTiddler .viewer {
