@@ -70,10 +70,20 @@ def user(environ, start_response):
     recent_recipe = _check_recipe('recent', environ, user)
     all_recipe = _check_recipe('all', environ, user)
 
+    def recipe_href(recipe, extension):
+        return '%s/tiddlers%s?filter=%s' % (
+                recipe_url(environ, recipe), extension, urllib.quote('[sort[-modified]]')
+                )
+
     template_values = {
             'user': user,
-            'recent_url': '%s/tiddlers?filter=[sort[-modified]]' % recipe_url(environ, recent_recipe),
-            'all_url': '%s/tiddlers?filter=[sort[-modified]]' % recipe_url(environ, all_recipe),
+            'recent_url': recipe_href(recent_recipe, ''),
+            'recent_feed': recipe_href(recent_recipe, '.atom'),
+            'recent_wiki': recipe_href(recent_recipe, '.wiki') + '&amp;download=twoter-recent.html',
+            'recent_json': recipe_href(recent_recipe, '.json'),
+            'all_url': recipe_href(all_recipe, ''),
+            'all_wiki': recipe_href(all_recipe, '.wiki') + '&amp;download=twoter-recent.html',
+            'all_json': recipe_href(all_recipe, '.json'),
             'twoter_url': '%s/twoter/%s' % (server_base_url(environ), urllib.quote(user)),
             }
 
