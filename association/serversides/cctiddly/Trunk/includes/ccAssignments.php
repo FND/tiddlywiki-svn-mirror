@@ -3,11 +3,7 @@
 /*{{{*/
 	
 	
-	// TODO : TRANSLATE
-merge(config.shadowTiddlers,{
-	SiteTitle: "Please Login",
-	SiteSubtitle:"You do not have permission to view this workspace."
-});
+
 
 merge(config.macros.importTiddlers, {
 	wizardTitle: "Import tiddlers",

@@ -141,6 +141,7 @@ $tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each
 
 // Other 
 
+$tiddlyCfg['twLanguage'] = "en";	//predefine language
 $tiddlyCfg['keep_revision'] = 1;
 
 $tiddlyCfg['tag_tiddler_with_modifier'] = 0;
