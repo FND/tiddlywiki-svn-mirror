@@ -146,9 +146,13 @@ body {
 	color: [[ColorPalette::Foreground]];
 }
 
-.pluginInfoTiddler .viewer img {
-	width: 100px;
+.pluginInfoTiddler .viewer .icon {
+	float: left;
 	margin-right: 10px;
+}
+
+.pluginInfoTiddler .viewer .icon img {
+	width: 100px;
 }
 /*}}}*/</pre>
 </div>

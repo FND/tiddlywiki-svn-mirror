@@ -8,27 +8,24 @@
 		<table>
 			<tr>
 				<th>Author:</th>
-				<td macro="view text slice Author N/A"></td>
+				<td macro='view text slice Author N/A'></td>
 			</tr>
 			<tr>
 				<th>Source:</th>
-				<td macro="view text slice Source N/A"></td>
+				<td macro='view text slice Source N/A'></td>
 			</tr>
 			<tr>
 				<th>Status:</th>
-				<td macro="view text slice Status N/A"></td>
+				<td macro='view text slice Status N/A'></td>
 			</tr>
 			<tr>
 				<th>Documentation:</th>
-				<td macro="view text slice Documentation N/A"></td>
+				<td macro='view text slice Documentation N/A'></td>
 			</tr>
 		</table>
-		<span macro="eval {{
-			var src = store.getTiddlerSlice(tiddler.title, 'Icon') || 'http://plugins.tiddlywiki.org/plugin.png';
-			'[<img[' + src + ']]';
-		}}"></span>
+		<div class="icon" macro='dynamicImage "::Icon" "http://plugins.tiddlywiki.org/plugin.png"'></div>
 		<h1>Description</h1>
-		<p macro="view text slice Description N/A"></p>
+		<p macro='view text slice Description N/A'></p>
 	</div>
 </div>
 <!--}}}--></pre>
