@@ -9,7 +9,7 @@
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 !Usage
 {{{
-<<view text slice [name] [defaultValue]>>
+<<view text slice <name> [defaultValue]>>
 }}}
 !!Examples
 <<view text slice Description "N/A">>
