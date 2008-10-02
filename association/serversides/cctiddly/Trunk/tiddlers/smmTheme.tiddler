@@ -17,8 +17,6 @@
 |''~wizardViewTemplate:''|##wizardViewTemplate|
 ***/
 
-
-
 !PageTemplate
 <!--{{{-->
 <div class='header' macro='gradient vert #111 #222'>
