@@ -10,27 +10,22 @@
 
 == Front-End ==
 
-* override search paramifier
+* slices RegEx fails for values containing pipes (e.g. PrettyLinks)
 * plugin origin for missing Source slice
-* redesign displayMessage dialog
 * move plugins (entire UI vertical?) to generic directory
+* results handling (toolbar commands)
+** dismiss (i.e. delete)
+** keep (i.e. disable doNotSave)
 * search:
 ** support for filters
 ** support for boolean operators
 ** support for RegEx
 ** ignore code sections (optional)
-* slices RegEx fails for values containing pipes (e.g. PrettyLinks)
-* ViewTemplate
-** boilerplate message while content is loading
-** personalization for authors (e.g. icon)
 * highlight matching snippets
 * interface elements
 ** navigation menu
 ** tag cloud
 ** recent changes
-* results handling (toolbar commands)
-** dismiss (i.e. delete)
-** keep (i.e. disable doNotSave)
 
 == Search ==
 

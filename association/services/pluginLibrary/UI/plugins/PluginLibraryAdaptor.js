@@ -63,7 +63,7 @@ config.extensions.PluginLibraryAdaptor = {
 	}
 };
 
-config.macros.ImportPlugins = { // TODO: rename
+config.macros.ImportPlugins = { // TODO: rename -- XXX: move to separate plugin
 	btnLabel: "Search",
 	btnTooltip: "search the TiddlyWiki Plugin Library",
 	btnClass: null,
@@ -113,6 +113,12 @@ config.macros.ImportPlugins = { // TODO: rename
 			tiddler.fields["server.type"] = "tiddlyweb";
 		}
 		story.displayTiddler(null, tiddler, config.macros.ImportPlugins.pluginViewTemplate, null, null, String.encodeHashMap(tiddler.fields));
+	}
+};
+
+config.paramifiers.search = {
+	onstart: function(v) {
+		config.macros.ImportPlugins.doSearch(v);
 	}
 };
 
