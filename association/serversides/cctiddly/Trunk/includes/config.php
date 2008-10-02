@@ -192,8 +192,11 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 
 $str = $_SERVER['REQUEST_URI'];
 if($str[strlen($str)-1]!="/")
-	header("location : ".$_SERVER['REQUEST_URI']."/"); 
+{
 
+	header("location: ".$_SERVER['REQUEST_URI']."/"); 
+echo "ss";
+}
 
 
 debug($ccT_msg['debug']['workspaceName'].$tiddlyCfg['workspace_name'], "config");
