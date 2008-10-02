@@ -11,7 +11,7 @@
 |''~CoreVersion:''|2.2.0|
 ***/
 //{{{
-merge(config.macros.stats, {
+merge(config.macros.ccStats, {
 	graph24HourTitle:"最近 24 小时",
 	graph24HourDesc:"最近 24 小时内，本工作区的点阅数。",
 	graph20MinsTitle:"最近 20 分",

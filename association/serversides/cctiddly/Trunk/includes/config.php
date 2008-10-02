@@ -1,5 +1,10 @@
 <?php
 
+// YOU ARE ATTEMPTING TO USE BROKEN CODE. 
+
+// PLEASE READ THE TOP OF INDEX.PHP
+
+
 // Initial Database Setup 
 
 $tiddlyCfg['db']['type'] = "mysql";		//sql type
@@ -8,6 +13,11 @@ $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
 $tiddlyCfg['db']['name'] = "alpha_upgrade";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
+
+
+// THIS LATEST CODE VERSION IS BROKEN. 
+
+
 
 
 $tiddlyCfg['adminPassword'] = "";
@@ -149,137 +159,9 @@ $tiddlyCfg['char_set'] = "utf8";
 $tiddlyCfg['hashseed'] = "aigijgij";
 $tiddlyCfg['default_anonymous_perm'] = "AUUU";
 $tiddlyCfg['default_user_perm'] = "AADD";
-$tiddlyCfg['pref']['utf8'] = 0;	
 $tiddlyCfg['on_the_fly_workspace_creation'] = 0;
+$tiddlyCfg['pref']['utf8'] = 0;	
 
-
-// Nearly depreciated.
-
-$tiddlyCfg['rss_group'] = "";
-$tiddlyCfg['markup_group'] = "";
-$tiddlyCfg['tiddlywiki_type'] = "tiddlywiki";
-$tiddlyCfg['status'] = "";
-	
-//  DO NOT EDIT BEYOND THIS POINT .....UNLESS YOU KNOW WHAT YOUR DOING......OR DON'T MIND BREAKING STUFF!
-
-
-
-
-/////////////////////////////////////////////////////////url dependent config////////////////////////////////////////////////////.
-
-
-debug("------------------------------------------------- >> ".$ccT_msg['debug']['logBreaker']." << -------------------------------------------------");
-debug($ccT_msg['debug']['queryString'].$_SERVER['QUERY_STRING'], "params");
-
- $a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
-if (isset($_REQUEST['workspace']))
-	$tiddlyCfg['workspace_name'] = $_REQUEST['workspace'];
-else
- 	$tiddlyCfg['workspace_name'] = $a;
-
-if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
-	$tiddlyCfg['workspace_name'] = str_replace(stristr($tiddlyCfg['workspace_name'], "?"), "", $b);
-if (isset($_POST['workspace']))
-	$tiddlyCfg['workspace_name'] = $_POST['workspace'];	
-
-if($tiddlyCfg['workspace_name'] !=="")
-	$offline_name = $tiddlyCfg['workspace_name'];
-else 
-	$offline_name = "default_workspace";
-	
-if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
-	header("Content-Disposition: attachment; filename=\"".$offline_name.".html\";\r\n");
-
-$str = $_SERVER['REQUEST_URI'];
-
-if($str[strlen($str)-1]!="/")
-	header("location: ".$_SERVER['REQUEST_URI']."/"); 
-
-
-if(substr($tiddlyCfg['workspace_name'], strlen($tiddlyCfg['workspace_name'])-1, strlen($tiddlyCfg['workspace_name']))=="/")
-	$tiddlyCfg['workspace_name'] = substr($tiddlyCfg['workspace_name'], 0,  strlen($tiddlyCfg['workspace_name'])-1);
-
-
-
-
-debug($ccT_msg['debug']['workspaceName'].$tiddlyCfg['workspace_name'], "config");
-$tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
-debug($ccT_msg['debug']['fileName'].$_SERVER["SCRIPT_NAME"], "config");
-
-//install new workspace??
-if (isset($_SERVER['REDIRECT_URL']) )
-{
-	if (stristr($_SERVER['REDIRECT_URL'], 'msghandle.php')) {
-		include('./msghandle.php');
-		exit;	
-	}
-	$redirect_url = $_SERVER['REDIRECT_URL'];
-}	
-
-$tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'/uploads/';  // location of the file upload directory - assumes is it under the root folder 
-if (isset($redirect_url))
-$file_location  =  $tiddlyCfg['pref']['upload_dir'].str_replace('/'.$tiddlyCfg['pref']['folder'].'/', '', $redirect_url);   // create url to file 
-	
-if(@file($file_location))
-{
-	readfile($file_location);
-	exit;
-}
-
-/////////////////////////////////////////////////////////config dependent include////////////////////////////////////////////////////.
-
-//include_once($cct_base."includes/url.php");
-include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
-
-
-//////////////////////////////////////////////////////////////////////// manupulate values////////////////////////////////////////////////////.
-
-//////////////////////////////////////////////////////// config file ////////////////////////////////////////////////////////
-//include default config file first before the desired config based either on config variable or URL
-//used for seamless upgrade as possible
-// GLOBAL PREFERENCES THAT PERSIST ACCROSS ALL workspaces
-
-//make connection to DB and select DB name
-db_connect_new();
-
-//return array form, empty array means workspace not exist
-$workspace_settings = db_workspace_selectSettings();
-
-//if no instance found, check if instance name is empty string
-if( sizeof($workspace_settings)==0 )
-{
-	if( strlen($tiddlyCfg['workspace_name'])==0 )
-	{//do install
-		include_once($cct_base."includes/workspace.php");
-		workspace_create_new();
-	}else{	//if not empty, check if installation can be done
-		if( $tiddlyCfg['allow_workspace_creation']>0 )
-		{//if allow workspace creation
-			
-			if ($_POST)
-			{
-				include($cct_base."includes/workspace.php");
-				workspace_create($tiddlyCfg['workspace_name'], $_POST['ccAnonPerm']);
-			}
-			
-			if( $tiddlyCfg['allow_workspace_creation']==2 )	//if =2, only allow user to create workspace
-			{
-				//check if user login valid
-			}
-			//db_workspace_install($tiddlyCfg);		//install using default parameters
-		}else{	//give error message of workspace not found
-			header("HTTP/1.0 404 Not Found"); 
-			exit;
-		}
-	}
-}
-$tiddlyCfg = array_merge($tiddlyCfg, $workspace_settings);
-	
-$tiddlyCfg['pref']['lock_title'] = array("LoginPanel");		//lock certain tiddler's title such that it can't be changed even with admin
-$tiddlyCfg['pref']['uploadPluginIgnoreTitle'] = array("ccTiddly_debug_time", "UploadLog","UploadPlugin","UploadOptions");		//this specify what tiddler should uploadplugin ignore. It is recommended to put in uploadPlugin itself and the upload log. CaSe-SeNsItIvE
-$tiddlyCfg['pref']['forceAnonymous'] = 1;		//if enabled, anonymous users will take "anonymous" as username
-$tiddlyCfg['pref']['hashSeed'] = "145tgwg45wg4";		//used to increase security for hashing passwords. Put in a random string withing the double quotes.
-$tiddlyCfg['session_expire']=120;// in minutes - If set to 0 will not expire
 /*
 	This specify whether utf8 is required [1 = enable, 0 =disable]
 	If you got one of the following error message, that may mean your database do not support utf8
@@ -288,23 +170,58 @@ $tiddlyCfg['session_expire']=120;// in minutes - If set to 0 will not expire
 		during regular running:
 			Error Query: SET NAMES 'utf8'
 */
+$tiddlyCfg['pref']['forceAnonymous'] = 1;		//if enabled, anonymous users will take "anonymous" as username
+$tiddlyCfg['pref']['hashSeed'] = "145tgwg45wg4";		//used to increase security for hashing passwords. Put in a random string withing the double quotes.
+$tiddlyCfg['session_expire']=120;// in minutes - If set to 0 will not expire
+
+// Nearly depreciated.
+
+$tiddlyCfg['rss_group'] = "";
+$tiddlyCfg['markup_group'] = "";
+$tiddlyCfg['tiddlywiki_type'] = "tiddlywiki";
+$tiddlyCfg['status'] = "";
+
+	
+//  DO NOT EDIT BEYOND THIS POINT .....UNLESS YOU KNOW WHAT YOUR DOING......OR DON'T MIND BREAKING STUFF!
+
+
+
+
+
+
+
+
+
+$tiddlyCfg['workspace_name'] = getWorkspaceName($_SERVER, $_REQUEST);
+if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
+	getOfflineFile();
+
+$tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
+$tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'/uploads/';  // location of the file upload directory - assumes is it under the root folder 
+
+if(@file($file_location))
+{
+	readfile($file_location);
+	exit;
+}
+
+include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
+
+// lookup workspace in db. 
+db_connect_new();
+$workspace_settings = db_workspace_selectSettings();
+// return 404 or create workspace
+checkWorkspace($workspace_settings, $_POST, $cct_base);
+$tiddlyCfg = array_merge($tiddlyCfg, $workspace_settings);
+handleDebug($_SERVER);
+checkAndAddSlash($_SERVER['REQUEST_URI']);
+
 
 ////////////////////////////////////////////////////users and privileges////////////////////////////////////////////////////
 
 
-$admin_select_data['workspace_name']  = $tiddlyCfg['workspace_name'];
-$results = db_record_select($tiddlyCfg['table']['admin'], $admin_select_data);// get list of admin users for workspace
+$tiddlyCfg['group']['admin'] = getAdminsOfWorkspace($tiddlyCfg['workspace_name']);
 
-$i = 0;
-foreach($results as $result)
-	$admin_array[$i++] = $result['username'];
-	
-if(is_array($admin_array))
-	$tiddlyCfg['group']['admin'] = $admin_array;
-else
-	$tiddlyCfg['group']['admin'] = array();
-
-$tiddlyCfg['group']['exampleGroup'] = array('admin', 'simon');
 
 //user allow to upload rss, put in group names here like $tiddlyCfg['privilege_misc']['rss'] = array("<group1>", "<group2>");
 $tiddlyCfg['privilege_misc']['rss'] = array("user");

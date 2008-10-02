@@ -1,8 +1,8 @@
 <?php
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-error_log($tiddlyCfg['workspace_name']);
-error_log("ez text");
+error_log("workspace : ".$tiddlyCfg['workspace_name']);
+
 
 if(!user_session_validate())
 {
@@ -41,10 +41,7 @@ if($modulesLoader->events['preSave'])
 if(isset($tiddler['title']))
 {
 	// Tiddler with the same 	name already exisits.
-	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);
-	error_log("1".$tiddler['revision']);
-	error_log("2".$tiddler['revision']);
-	
+	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);	
 	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
 		debug($ccT_msg['debug']['reloadRequired'], "params");
 		sendHeader(409);

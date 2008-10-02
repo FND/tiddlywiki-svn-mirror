@@ -11,7 +11,7 @@
 |''~CoreVersion:''|2.2.0|
 ***/
 //{{{
-merge(config.macros.stats, {
+merge(config.macros.ccStats, {
 	graph24HourTitle:"最近 24 小時",
 	graph24HourDesc:"最近 24 小時內，本工作區的點閱數。",
 	graph20MinsTitle:"最近 20 分",

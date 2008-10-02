@@ -39,7 +39,6 @@ class ModulesLoader {
 
 		// Open a known directory, and proceed to read its contents
 		if (is_dir($dir)) {
-			error_log("IS DIRECTORY !!!!!");
 		    if ($dh = opendir($dir)) {
 		       while (($file = readdir($dh)) !== false) {
 					if( is_dir($dir.$file))

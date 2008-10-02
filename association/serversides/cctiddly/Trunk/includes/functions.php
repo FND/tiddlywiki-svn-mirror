@@ -8,6 +8,52 @@
 	
 
 //////////////////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////////////
+function getOfflineFile()
+{
+	
+	if($tiddlyCfg['workspace_name'] !=="")
+		$offline_name = $tiddlyCfg['workspace_name'];
+	else 
+		$offline_name = "default_workspace";
+	header("Content-Disposition: attachment; filename=\"".$offline_name.".html\";\r\n");
+}
+
+
+function checkAndAddSlash($uri)
+{
+	if($uri[strlen($uri)-1]!="/") {
+		header("location: ".$uri."/"); 
+//		exit;
+	}
+}
+
+function getWorkspaceName($_SERVER, $_REQUEST)
+{
+	global $tiddlyCfg;
+	$a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
+	if (isset($_REQUEST['workspace']))
+		return $_REQUEST['workspace'];
+	else
+		return $a;
+	if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
+		return str_replace(stristr($tiddlyCfg['workspace_name'], "?"), "", $b);
+	if (isset($_POST['workspace']))
+		return $_POST['workspace'];
+
+	if(substr($tiddlyCfg['workspace_name'], strlen($tiddlyCfg['workspace_name'])-1, strlen($tiddlyCfg['workspace_name']))=="/")
+		return substr($tiddlyCfg['workspace_name'], 0,  strlen($tiddlyCfg['workspace_name'])-1);
+}
+
+
+function handleDebug($_SERVER)
+{
+	global $ccT_msg, $tiddlyCfg;
+	debug("------------------------------------------------- >> ".$ccT_msg['debug']['logBreaker']." << -------------------------------------------------");
+	debug($ccT_msg['debug']['queryString'].$_SERVER['QUERY_STRING'], "params");
+	debug($ccT_msg['debug']['fileName'].$_SERVER["SCRIPT_NAME"], "config");
+	debug($ccT_msg['debug']['workspaceName'].$tiddlyCfg['workspace_name'], "config");
+	
+}
 
 function stringToPerm($string)
 {
@@ -20,14 +66,63 @@ function stringToPerm($string)
 
 
 
+function getAdminsOfWorkspace($workspace)
+{
+	$admin_select_data['workspace_name'] = $workspace;
+	$results = db_record_select($tiddlyCfg['table']['admin'], $admin_select_data);// get list of admin users for workspace
+
+	$i = 0;
+	foreach($results as $result)
+		$admin_array[$i++] = $result['username'];
+
+	if(is_array($admin_array))
+		return $admin_array;
+	else
+		return array();
+
+}
+
+function checkWorkspace($workspace_settings, $_POST, $cct_base)
+{
+	global $tiddlyCfg;
+	if( sizeof($workspace_settings)==0 )
+	{
+		if( strlen($tiddlyCfg['workspace_name'])==0 )
+		{//do install
+			include_once($cct_base."includes/workspace.php");
+			workspace_create_new();
+		}else{	//if not empty, check if installation can be done
+			if( $tiddlyCfg['allow_workspace_creation']>0 )
+			{//if allow workspace creation
+
+				if ($_POST)
+				{
+					include($cct_base."includes/workspace.php");
+					workspace_create($tiddlyCfg['workspace_name'], $_POST['ccAnonPerm']);
+				}
+
+				if( $tiddlyCfg['allow_workspace_creation']==2 )	//if =2, only allow user to create workspace
+				{
+					//check if user login valid
+				}
+				//db_workspace_install($tiddlyCfg);		//install using default parameters
+			}else{	//give error message of workspace not found
+				header("HTTP/1.0 404 Not Found"); 
+				exit;
+			}
+		}
+	}	
+}
+
+
+
+
 function permToBinary($string)
 {
 	if($string == "A")
 		return 1;
 	else
 	return 0;
-		
-		
 	if ($string == "D")
 		return "D";
 		if ($string == "U")
@@ -35,29 +130,29 @@ function permToBinary($string)
 }
 
 
-    function arrayToJson($data, $entityname) {
-	    $out = "{";
-	 	$out .= "\"".$entityname."\" : [";
-		while ($row = db_fetch_assoc($data))
-		{
-			$out .= "{";
-			foreach($row as $key=>$val){
-		    if (is_array($val)) {
-			    $output .= "\"".$key."\" : [{";
-			    foreach($val as $subkey=>$subval){
-				    $out .= "\"".$subkey."\" : \"".$subval."\",";
-				    }
-				    	$out .= "}],";
-				    } else {
-				    	$out .= "\"".$key."\" : \"".$val."\",";
+function arrayToJson($data, $entityname) {
+    $out = "{";
+ 	$out .= "\"".$entityname."\" : [";
+	while ($row = db_fetch_assoc($data))
+	{
+		$out .= "{";
+		foreach($row as $key=>$val){
+	    if (is_array($val)) {
+		    $output .= "\"".$key."\" : [{";
+		    foreach($val as $subkey=>$subval){
+			    $out .= "\"".$subkey."\" : \"".$subval."\",";
 			    }
+			    	$out .= "}],";
+			    } else {
+			    	$out .= "\"".$key."\" : \"".$val."\",";
 		    }
-			 $out .= "},";
-		}
-	    $out .= "]}";
-		$out = 	str_replace(",}", "}", $out);
-	    return $out;
-    }
+	    }
+		 $out .= "},";
+	}
+    $out .= "]}";
+	$out = 	str_replace(",}", "}", $out);
+    return $out;
+}
 
 function getScheme()
 {
