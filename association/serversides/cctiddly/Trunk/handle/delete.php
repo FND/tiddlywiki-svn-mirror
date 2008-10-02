@@ -23,6 +23,5 @@ if(user_deletePrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags']))) {
 }else{
 	sendHeader(401);
 }
-sendHeader(400);
 
 ?>

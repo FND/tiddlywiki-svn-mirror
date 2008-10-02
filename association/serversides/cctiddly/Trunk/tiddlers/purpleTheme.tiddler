@@ -8,7 +8,6 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.4.1|
 |''~PageTemplate:''|##PageTemplate|
-|''~OptionsPanel:''|##OptionsPanel|
 |''~tabs:''|##tabs|
 |''~OptionsPanel:''|##OptionsPanel|
 |''~SideBarTabs:''|##SideBarTabs|
@@ -20,13 +19,8 @@
 ***/
 
 
-
-
-
-
 !PageTemplate
 <!--{{{-->
-	
 <div id='bodywrapper'>
 <div class='header' macro='gradient vert #ccc #eee'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
@@ -43,9 +37,6 @@
 <div id='contentFooter'  macro='gradient vert #eee #ccc'></div>
 </div>
 <!--}}}-->
-
-
-
 
 !taskViewTemplate
 <!--{{{-->
@@ -71,7 +62,6 @@
 <div class="editor">
 <div class='toolbar' macro='toolbar[[ToolbarCommands::EditToolbar]]'></div>
 <div class='task'>
-
 	<table>
 	<tr><td colspan=2><div class='title edit' macro='edit title'></div>
 	</td></tr>
@@ -108,14 +98,13 @@
 <!--}}}-->
 
 !OptionsPanel
-[[help|Help]] <br />[[AdvancedOptions|settings]]<br /><<ccOptions>>
+[[help|Help]] <br />[[settings|AdvancedOptions]]<br /><<ccOptions>>
 
 !tabs
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
 
 !SideBarOptions
-<<search "search...">><<closeAll>><<newTiddler>><<saveChanges>><<slider chkSliderOptionsPanel purpleTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs purpleTheme##tabs 'content »' 'View TiddlyWiki Tabs'>>
-
+<<search "search...">><<closeAll>><<newTiddler>><<saveChanges>><<slider chkSliderOptionsPanel smmTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'content »' 'View TiddlyWiki Tabs'>>
 
 !StyleSheet
 /***
@@ -128,12 +117,11 @@ body, html{
 	color:#333;
 //	background:url(http://www.thefabricdeli.com/assets/images/qud21112-purple.jpg);
 //	background:url(http://mr-pc.org/inc/paisleyTileSmall.png);
-	
 }
 
 #backstageCloak {
-opacity:0.8; filter:'alpha(opacity:70)';
-background:black;
+	opacity:0.8; filter:'alpha(opacity:70)';
+	background:black;
 }
 .tiddler .button {
 	line-height:4;
@@ -142,7 +130,7 @@ background:black;
 }
 
 body .chkOptionInput {
-width:auto;
+	width:auto;
 	float:right;
 }
 
@@ -160,27 +148,24 @@ text-align:right;
 	background-color:white;
 }
 
-
 .header {
-background-color:#eee;
+	background-color:#eee;
 }
-
 
 #messageArea {
 	border:1px solid white;
 	background-color:#eee;
 }
 
-#messageArea .button{
+#messageArea .button {
 	background:none;
 }
 
-h1 {	
+h1 {
 	color:black;
 }
 
-
-#contentWrapper{
+#contentWrapper {
 	position:relative;
 	margin: 2.5em auto;
 	width:780px;
@@ -203,7 +188,6 @@ h1 {
 /*}}}*/
 
 /*{{{*/
-
 .siteTitle {
 	font-family: 'Trebuchet MS' sans-serif;
 	font-weight: bold;
@@ -217,7 +201,7 @@ h1 {
 .siteSubtitle {
 	padding-top:15px;
 	font-size: 1.0em;
-	display:block; 
+	display:block;
 	color: #999; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
 	padding-top:3em;
 }
@@ -230,7 +214,6 @@ h1 {
 	padding-bottom:10px;
 }
 
-
 #sidebarOptions input {
 	border:1px solid #ddd;
 }
@@ -241,73 +224,71 @@ h1 {
 	color:#999;
 }
 
-#sidebar{
+#sidebar {
 	position:inherit;
-	float:right; 
+	float:right;
 	display:inline;
 }
 
-#tiddlerDisplay .tagging, #tiddlerDisplay .tagged{
+#tiddlerDisplay .tagging, #tiddlerDisplay .tagged {
 	background-color:#eee;
 	border:none;
 	float:none;
 }
 
-.sliderPanel .tabsetWrapper .tabContents{
+.sliderPanel .tabsetWrapper .tabContents {
 	border-right:none;
 	border-color:#999;
 	background-color:#999;
 }
 
-#sidebarOptions .sliderPanel a{
+#sidebarOptions .sliderPanel a {
 	padding:3px;
 	margin:0px;
 	border:2px;
 	background-color:#999;
 }
 
-.tabsetWrapper{
+.tabsetWrapper {
 	position :relative;
 }
 
 #sidebar{
-	padding-left:0.5em;  
+	padding-left:0.5em;
 	background-color:#eee;
 	padding-top:1em;
 }
 
-#sidebarOptions a{
+#sidebarOptions a {
 	margin:17px;
 	display:block;
 	margin:0.5em 0em;
 	padding:0.3em 0.6em;
 }
 
-
 .popup li a {
-margin:0px;
-padding:0px;
-display:inline;
-color:black;
+	margin:0px;
+	padding:0px;
+	display:inline;
+	color:black;
 }
 
 .popup {
 	background-color:white;
 	border:1px solid purple;
 }
-.popup li a:hover {
-display:inline;
-margin:0px;
-padding:0px;
 
-background-color:white;
-color:purple;
+.popup li a:hover {
+	display:inline;
+	margin:0px;
+	padding:0px;
+	background-color:white;
+	color:purple;
 }
 
 .popup li {
-margin:0px;
-padding:5px;
-
+	margin:0px;
+	padding:5px;
 	background-color:#eee;
 }
 .popup li:hover {
@@ -315,37 +296,35 @@ padding:5px;
 }
 
 #tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, .tiddler .button, #sidebarOptions .sliderPanel input {
-		border:1px solid white;
+	border:1px solid white;
 	background-color:white;
 	color:purple;
 }
+
 #tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover, .tiddler .button, #sidebarOptions .sliderPanel input:hover
 {
 	border:1px solid #ccc;
 }
+
 #sidebarOptions a:hover {
 border-right:1px solid white;
 }
 
-.tagged ul
-{
-list-style: none;
+.tagged ul {
+	list-style: none;
 }
 
-.tagged li
-{
-display: inline;
+.tagged li {
+	display: inline;
 }
-
-
 
 .zoomer {
-	background:none; color:#ddd; 
+	background:none; color:#ddd;
 	border:2px solid #ddd;
 }
 
 a:active{
-border:1px solid red;
+	border:1px solid red;
 	background-color:#eee;
 	color:[[ColorPalette::smmLight1]]
 }
@@ -355,25 +334,24 @@ a:hover {
 	color:[[ColorPalette::smmLight1]]
 }
 
-#backstageArea,#backstageArea a  {
+#backstageArea,#backstageArea a {
 	background:transparent;
 	color:white;
 }
 
-#mainMenu a{
+#mainMenu a {
 	padding:8px 15px 8px 15px;
 	margin:10px;
-line-height:40px;
+	line-height:40px;
 	border:1px solid #eee;
 }
 
-#contentWrapper #mainMenu{ 
+#contentWrapper #mainMenu{
 	position:static;
 	width:100%;
 	float:left;
 	text-align:left;
 	padding-top:20px;
-
 }
 
 .editor textarea, .editor input, input, body select {
@@ -406,7 +384,6 @@ textarea {
 	padding:0.4em 0.9em 0.4em 0.9em;
 	margin:0px 0px 0px 7px;
 }
-
 
 #sideBarOptions .searchButton{
 	display:none;
@@ -485,22 +462,22 @@ border-bottom:1px solid white;
 }
 
 .highlight, .marked {
-	background:transparent; 
-	color:#999; 
-	border:none; 
+	background:transparent;
+	color:#999;
+	border:none;
 	text-decoration:underline;
 }
 
 .tagging .button:hover, .tagged .button:hover, .tagging .button:active, .tagged .button:active {
-	border: none; 
-	background:transparent; 
-	text-decoration:underline; 
+	border: none;
+	background:transparent;
+	text-decoration:underline;
 	color:#eee;
 }
 
 .viewer th, thead td {
 	background: #eee;
-	border:none;	
+	border:none;
 	color: #fff;
 }
 
@@ -517,7 +494,6 @@ table.twtable {
 	border: 1px dotted #999;
 }
 
- 
 hr {
 	border: dotted 1px #ccc;
 }
@@ -537,7 +513,6 @@ hr {
 	border-bottom:1px solid black;
 	color:#999;
 	border-bottom:2px solid white;
-
 }
 
 .tabContents {
@@ -546,13 +521,13 @@ hr {
 }
 
 .viewer code {
-background:##eee none repeat scroll 0%;
-color:#999;
+	background:##eee none repeat scroll 0%;
+	color:#999;
 }
 
 
 h1,h2,h3,h4,h5 {
-	 color: #555; border-color:#333; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;
+	color: #555; border-color:#333; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
@@ -570,14 +545,14 @@ h3 {
 }
 
 .annotation {
-background-color:purple;
-border:1px solid white;
-color:white;
+	background-color:purple;
+	border:1px solid white;
+	color:white;
 }
 
 #contentFooter {
-	background:#999; 
-	clear: both; 
+	background:#999;
+	clear: both;
 	padding: 0.5em 1em;
 }
 
@@ -585,15 +560,15 @@ color:white;
 .button, .wizard .button, .tiddler .button:hover{
 	border:1px solid #777;
 	padding:3px 9px;
-	margin:3px 9px; 
+	margin:3px 9px;
 	background:#eee;
-	color:#777; 
+	color:#777;
 }
 
 .button, .wizard .button:hover {
 	border:1px solid #999;
 	background:#eee;
-	color:#999; 
+	color:#999;
 }
 
 .sliderPanel input  {
@@ -602,23 +577,21 @@ color:white;
 	color:#777;	
 }
 
-
-
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 	border:0px solid #666666;
 }
 
-body .wizardFooter { 
-	padding :10; 
+body .wizardFooter {
+	padding :10;
 	margin:0px;
-	background:white; 
+	background:white;
 	font-weight:bold;
 }
 
 .wizardStep {
 	padding:0px;
-	border:none; 
-	background-color:none; 
+	border:none;
+	background-color:none;
 } 
 	
 .wizard  th{
@@ -632,7 +605,7 @@ body .wizardFooter {
 	border:0px; 
 };
 
-.wizard  {
+.wizard {
 	color:#292929;
 }
 
@@ -643,17 +616,17 @@ body .wizardFooter {
 	color:#999;
 }
 
-.wizard h1{
+.wizard h1 {
 	color:#999;
 	padding-top:10px;
 	padding-bottom:10px;
 }
 
-.wizard h2{
+.wizard h2 {
 	color:black;
 }
 
-body .wizardStep{
+body .wizardStep {
 	color:#999;
 	border:0px;
 	margin:0m;
@@ -666,10 +639,10 @@ body select {
 	margin:4px;
 }
 
-
 #backstageArea a:hover {
-background-color:white;
+	background-color:white;
 }
+
 #backstagePanel {
 	background:none;
 	width:60%;
@@ -679,7 +652,7 @@ background-color:white;
 	margin-top:-36px;
 }
 
-#backstageToolbar a.backstageSelTab{
+#backstageToolbar a.backstageSelTab {
 	background-color:white;
 	border:1px solid white;
 }
@@ -693,18 +666,16 @@ background-color:white;
 	border:0px;
 }
 
-.viewer th, .viewer td, .viewer tr, .viewer caption, .twtable th, .twtable td, .twtable tr, .twtable caption   {
+.viewer th, .viewer td, .viewer tr, .viewer caption, .twtable th, .twtable td, .twtable tr, .twtable caption {
 	border:0px;
 	padding:0px;
 	margin:0px;
 }
 
-
-.viewer .sortable td  {
+.viewer .sortable td {
 	padding:12px;
 	margin:21px;
 }
-
 
 .title {
 	color:#777;
@@ -712,8 +683,8 @@ background-color:white;
 }
 
 .viewer table, table.twtable {
-border-collapse:seperated;
-border:0px;
+	border-collapse:seperated;
+	border:0px;
 }
 
 .viewer th, .viewer thead td, .twtable th, .twtable thead td {
@@ -731,11 +702,8 @@ border:0px;
 table.sortable td.sortedCol {
 	background-color:white;
 }
-
-
-
 /*}}}*/
 
-
+[[StyleSheet]]
 </pre>
 </div>

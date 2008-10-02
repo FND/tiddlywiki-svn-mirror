@@ -1,7 +1,7 @@
-<div title="smmTheme" modifier="BramChen" modified="200708091500" tags="systemTheme excludeSearch excludeLists">
+<div title="smmTheme" modifier="BramChen" modified="200810021500" tags="systemTheme excludeSearch excludeLists">
 <pre>
 /***
-|''Name:''|smmTheme|
+|''Name:''|smmTheme.zh-Hans|
 |''Author:''|Saq Imtiaz and Simon McManus|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/BleachTheme.tiddler |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -15,7 +15,6 @@
 |''~ViewTemplate:''|##ViewTemplate|
 |''~wizardViewTemplate:''|##wizardViewTemplate|
 ***/
-
 
 
 !PageTemplate
@@ -34,6 +33,71 @@
 </div>
 <div id='contentFooter'  macro='gradient vert #222 #111'></div>
 </div>
+<!--}}}-->
+
+!taskViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='title' macro='view title'>Task : </div>
+<div class='task'>
+	<table>
+	<tr>
+		<td class='taskbody' width=100%><div class='viewer' macro='view text wikified'></div></td>
+		<td class='taskControls' valign='top'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+</div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!taskEditTemplate
+<!--{{{-->
+<div class="editor">
+<div class='toolbar' macro='toolbar[[ToolbarCommands::EditToolbar]]'></div>
+<div class='title edit' macro='edit title'></div>
+<div class='task'>
+	<table>
+	<tr>
+		<td class='taskbody' width=100% height=100%><div class='viewer edit' macro='edit text wikified'></div></div></td>
+		<td class='taskControls' valign=top><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+</div>
+<div class='subtitle'>最近更新: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='subtitle'>最近更新: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='tagClear'></div>
+<div class='comments' macro='comments'></div>
+<!--}}}-->
+
+!wizardViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
 <!--}}}-->
 
 !OptionsPanel
@@ -74,8 +138,8 @@ body{
 //	background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
 }
 #backstageCloak {
-opacity:0.9; filter:'alpha(opacity:90)';
-background:#222;
+	opacity:0.9; filter:'alpha(opacity:90)';
+	background:#222;
 }
 
 #messageArea {
@@ -92,10 +156,9 @@ background:#222;
 	display:none;
 }
 
-h1 {	
+h1 {
 	color:white;
 }
-
 
 #contentWrapper{
 	position:relative;
@@ -109,11 +172,11 @@ h1 {
 	background-color:#222;
 }
 
-.clearAll{
+.clearAll {
 	clear:both;
 }
 
-.tagClear{
+.tagClear {
 	clear:none;
 }
 /*}}}*/
@@ -133,7 +196,7 @@ h1 {
 .siteSubtitle {
 	padding-top:15px;
 	font-size: 1.0em;
-	display:block; 
+	display:block;
 	color: #999; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
 }
 
@@ -150,19 +213,19 @@ h1 {
 	color:#999;
 }
 
-#sidebar{
+#sidebar {
 	position:inherit;
-	float:right; 
+	float:right;
 	display:inline;
 }
 
-#tiddlerDisplay .tagging, #tiddlerDisplay .tagged{
+#tiddlerDisplay .tagging, #tiddlerDisplay .tagged {
 	background-color:#222;
 	border:none;
 	float:none;
 }
 
-.sliderPanel .tabsetWrapper .tabContents{
+.sliderPanel .tabsetWrapper .tabContents {
 	border-right:none;
 	border-color:#999;
 	background-color:#111;
@@ -175,17 +238,17 @@ h1 {
 	background-color:#111;
 }
 
-.tabsetWrapper{
+.tabsetWrapper {
 	position :relative;
 }
 
 #sidebar{
-	padding-left:0.5em;  
+	padding-left:0.5em;
 	background-color:#222;
 	padding-top:1em;
 }
 
-#sidebarOptions a{
+#sidebarOptions a {
 	margin:17px;
 	display:block;
 	margin:0.5em 0em;
@@ -194,22 +257,22 @@ h1 {
 .popup li a {
 	padding:12px;
 }
-#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, #sidebarOptions .sliderPanel input{
+#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, #sidebarOptions .sliderPanel input {
 	background-color:#111;
 	color:#999;
 	border:1px solid #111;
 }
 
-
-.wizard  .txtOptionInput{
-text-align:right;
+.wizard  .txtOptionInput {
+	text-align:right;
 }
 
 a:hover {
 	background-color:#222;
 	color:#eee
 }
-#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover, #sidebarOptions .sliderPanel input:hover{
+
+#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover,  #mainMenu a:hover, #sidebarOptions .sliderPanel input:hover {
 	border:1px dotted #000;
 	background-color:#222;
 	color:white;
@@ -217,11 +280,11 @@ a:hover {
 #mainMenu a{
 	padding:8px 15px 8px 15px;
 	margin:10px;
-line-height:40px;
+	line-height:40px;
 	border:0px solid #eee;
 }
 
-#contentWrapper #mainMenu{ 
+#contentWrapper #mainMenu { 
 	position:static;
 	width:100%;
 	float:left;
@@ -229,7 +292,7 @@ line-height:40px;
 	padding-top:20px;
 
 }
-.editor textarea, .editor input,  input, body select {
+.editor textarea, .editor input, input, body select {
 	border:1px solid #222;
 	background-color:#333;
 	color:#999;
@@ -256,13 +319,12 @@ textarea {
 	color:#eee;
 	background:#111;
 }
-.tagged li
-{
-display: inline;
+.tagged li {
+	display: inline;
 }
 
 .tiddler .button {
-color:white;
+	color:white;
 	padding:0.4em 0.9em 0.4em 0.9em;
 	margin:0px 0px 0px 7px;
 }
@@ -281,7 +343,6 @@ color:white;
 	margin-left:0px;
 }
 
-
 #sidebarOptions .searchButton {
 	display:none;
 }
@@ -296,7 +357,6 @@ color:white;
 	font-variant: small-caps;
 }
 
-
 .wizard .button:hover{
 	background-color:#333;
 	border:1px solid #444;
@@ -307,7 +367,7 @@ color:white;
 }
 
 .selected .toolbar a:hover {
-	color:#222; 
+	color:#222;
 	background:transparent;
 	border:1px solid #fff;
 }
@@ -360,16 +420,16 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 }
 
 .highlight, .marked {
-	background:transparent; 
-	color:#111; 
-	border:none; 
+	background:transparent;
+	color:#111;
+	border:none;
 	text-decoration:underline;
 }
 
 .tagging .button:hover, .tagged .button:hover, .tagging .button:active, .tagged .button:active {
-	border: none; 
-	background:transparent; 
-	text-decoration:underline; 
+	border: none;
+	background:transparent;
+	text-decoration:underline;
 	color:#222;
 }
 
@@ -379,7 +439,7 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 
 .viewer th, thead td {
 	background: #222;
-	border:none;	
+	border:none;
 	color: #fff;
 }
 
@@ -395,7 +455,6 @@ table.twtable {
 	border: 1px solid #999;
 }
 
- 
 .viewer hr {
 	border-top: dashed 1px #999;
 }
@@ -413,10 +472,9 @@ table.twtable {
 }
 
 .viewer code {
-background:##222 none repeat scroll 0%;
-color:#999;
+	background:##222 none repeat scroll 0%;
+	color:#999;
 }
-
 
 h1,h2,h3,h4,h5 {
 	 color: #555; border-color:#333; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;
@@ -435,58 +493,57 @@ h3 {
 }
 
 #contentFooter {
-	background:#999; 
-	clear: both; 
+	background:#999;
+	clear: both;
 	padding: 0.5em 1em;
 }
 
 .wizard input {
 	border:1px solid #333;
 }
-#sidebarOptions input { 
+#sidebarOptions input {
 	border: 1px solid #222;
 }
 
 .button {
 	border:1px solid #999;
 	padding:3px 9px;
-	margin:3px 9px; 
-	background:#111; 
+	margin:3px 9px;
+	background:#111;
 }
 
 .annotation {
-background-color:green;
-border:1px solid white;
-color:white;
+	background-color:green;
+	border:1px solid white;
+	color:white;
 }
 
 .wizardFooter .button{
-background:#222;
-margin:3px;
-padding:0.5em;
-padding-left:1.5em;
-padding-right:1.5em;
-color:white;
-border:1px solid #333;
+	background:#222;
+	margin:3px;
+	padding:0.5em;
+	padding-left:1.5em;
+	padding-right:1.5em;
+	color:white;
+	border:1px solid #333;
 }
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 	border:0px solid #666666;
 }
 
-
-.tagging .listTitle, .tagged .listTitle, .txtMainTab .tabContents li  {
- color:white;
+.tagging .listTitle, .tagged .listTitle, .txtMainTab .tabContents li {
+	color:white;
 }
 
-body .wizardFooter { 
-	padding : 0em 0px 0px 5px; 
+body .wizardFooter {
+	padding : 0em 0px 0px 5px;
 	background:none; 
-	font-weight:bold;}   
+	font-weight:bold;}
 
 .wizardStep {
-	border:none; 
-	background-color:none; 
-} 
+	border:none;
+	background-color:none;
+}
 
 body .wizard {
 	width:80%;
@@ -494,7 +551,7 @@ body .wizard {
 	border:1px solid #EBE6F5;
 }
 
-.wizard  th{
+.wizard th{
 	background:#222;
 	color:#888;
 	padding:3px;
@@ -505,11 +562,11 @@ body .wizard {
 	border:0px; 
 };
 
-.wizard  {
+.wizard {
 	padding : 4px 14px 4px 14px;
 	font-weight:bold;
 	color:#292929;
-	border:solid 0px #292929; 
+	border:solid 0px #292929;
 	margin-top:1px;
 }
 
@@ -520,20 +577,20 @@ body .wizard {
 	border:1px solid #333;
 	color:#777;
 }
-.wizard h1{
+.wizard h1 {
 	color:#999;
 }
 
-.wizard h2{
+.wizard h2 {
 	padding:4px;
 	color:white;
 }
 
-body .wizardStep{
+body .wizardStep {
 	color:#999;
 	border:0px;
 	margin:0m;
-	background:none;	
+	background:none;
 }
 
 body select {
@@ -543,7 +600,7 @@ body select {
 }
 
 #backstagePanel {
-border:0px;
+	border:0px;
 	background:none;
 	width:60%;
 	position:fixed
@@ -561,18 +618,16 @@ border:0px;
 	border:0px;
 }
 
-.viewer th, .viewer td, .viewer tr, .viewer caption, .twtable th, .twtable td, .twtable tr, .twtable caption   {
+.viewer th, .viewer td, .viewer tr, .viewer caption, .twtable th, .twtable td, .twtable tr, .twtable caption {
 	border:0px;
 	padding:0px;
 	margin:0px;
 }
 
-
 .viewer .sortable td  {
 	padding:12px;
 	margin:21px;
 }
-
 
 .title {
 	color:#C0C0C0;
@@ -580,8 +635,8 @@ border:0px;
 }
 
 .viewer table, table.twtable {
-border-collapse:seperated;
-border:0px;
+	border-collapse:seperated;
+	border:0px;
 }
 
 .viewer th, .viewer thead td, .twtable th, .twtable thead td {
@@ -604,74 +659,8 @@ table.sortable td.sortedCol {
 	background-color:#111;
 	color:white;
 }
-
 /*}}}*/
 
-!taskViewTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='title' macro='view title'>Task : </div>
-<div class='task'>
-	<table>
-	<tr>
-		<td class='taskbody' width=100%><div class='viewer' macro='view text wikified'></div></td>
-		<td class='taskControls' valign='top'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
-	</tr>
-	</table>
-</div>
-
-<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged' macro='tags'></div>
-<div class='tagClear'></div>
-<!--}}}-->
-
-!taskEditTemplate
-<!--{{{-->
-<div class="editor">
-<div class='toolbar' macro='toolbar[[ToolbarCommands::EditToolbar]]'></div>
-<div class='title edit' macro='edit title'></div>
-<div class='task'>
-
-	<table>
-	<tr>
-		<td class='taskbody' width=100% height=100%><div class='viewer edit' macro='edit text wikified'></div></div></td>
-		<td class='taskControls' valign=top><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
-	</tr>
-	</table>
-</div>
-<div class='subtitle'>最近更新: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
-<div class='tagClear'></div>
-</div>
-<!--}}}-->
-
-!EditTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-<div class='editor' macro='edit title'></div>
-<div macro='annotations'></div>
-<div class='editor' macro='edit text'></div>
-<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
-<!--}}}-->
-
-!ViewTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='title' macro='view title'></div>
-<div class='viewer' macro='view text wikified'></div>
-<div class='subtitle'>最近更新: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged' macro='tags'></div>
-<div class='tagClear'></div>
-<!--}}}-->
-
-!wizardViewTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
-<div class='viewer' macro='view text wikified'></div>
-<div class='tagClear'></div>
-<!--}}}-->
-
+[[StyleSheet]]
 </pre>
 </div>

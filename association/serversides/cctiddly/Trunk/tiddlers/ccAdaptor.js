@@ -1,13 +1,12 @@
+
+
 config.backstageTasks.remove("upgrade");
 config.backstageTasks.remove("save");
 config.backstageTasks.remove("sync");
 
+
 function isLoggedIn(){
-	if(window.loggedIn == '1'){
-		return true;
-	}else{
-		return false;
-	}
+	return (window.loggedIn == '1') 
 }
 
 function ccTiddlyAdaptor()
@@ -312,10 +311,10 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	var d = new Date();
 	d.setTime(Date.parse(tiddler['modified']));
 	d = d.convertToYYYYMMDDHHMM();
-	var fieldString = ""; 
-	for (var name in tiddler.fields) { 
-		if (String(tiddler.fields[name])) 
-			fieldString += name +"='"+tiddler.fields[name]+"' "; 
+	var fieldString = "";
+	for (var name in tiddler.fields) {
+		if (String(tiddler.fields[name]))
+			fieldString += name +"='"+tiddler.fields[name]+"' ";
 	}
 	
 	if(tiddler.fields['server.page.revision']==1)
@@ -323,7 +322,7 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	else
 		tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10)+1;
 	
-	var payload = "workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(tiddler.title)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
+	var payload = "workspace="+tiddler.fields['server.workspace']+"&otitle="+encodeURIComponent(context.otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
 "&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(wikifyStatic(tiddler.text))+"";
 	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 	return typeof req == 'string' ? req : true;
@@ -370,15 +369,15 @@ ccTiddlyAdaptor.handleError = function(error_code)
 	var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
 	var error = ccTiddlyAdaptor.errorTitleNotSaved;
 	switch(error_code){
-	case 401:
-		error += ccTiddlyAdaptor.errorTextSessionExpired;
-	break;    
-	case 409:
-		error += ccTiddlyAdaptor.errorTextConflict;
-	break;
-	default:
-		error += ccTiddlyAdaptor.errorTextUnknown+"<br />"+ccTiddlyAdaptor.msgErrorCode+error_code;
-	}	
+		case 401:
+			error += ccTiddlyAdaptor.errorTextSessionExpired;
+			break;
+		case 409:
+			error += ccTiddlyAdaptor.errorTextConflict;
+			break;
+		default:
+			error += ccTiddlyAdaptor.errorTextUnknown+"<br />"+ccTiddlyAdaptor.msgErrorCode+error_code;
+	}
 	box.innerHTML = " <a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><p>"+error+"</p><br/><br/>";
 	createTiddlyButton(box,ccTiddlyAdaptor.buttonOpenNewWindow,null,function(e){ window.open (window.location,"mywindow");	 return false;});
 	createTiddlyElement(box,"br");
@@ -395,13 +394,12 @@ ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xh
 	if(status) {
 		context.status = true;
 	} else {
-		context.status = false;	
+		context.status = false;
 		if(xhr.status == 401 || xhr.status==409){
-			ccTiddlyAdaptor.handleError(xhr.status);	
-		}else{
-			
 			ccTiddlyAdaptor.handleError(xhr.status);
-			context.statusText = xhr.statusText;	
+		}else{
+			ccTiddlyAdaptor.handleError(xhr.status);
+			context.statusText = xhr.statusText;
 		}
 	}
 	if(context.callback){
@@ -417,7 +415,7 @@ ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,call
 	var host = this && this.host ? this.host : this.fullHostName(tiddler.fields['server.host']);
 	var uriTemplate = '%0/handle/delete.php?workspace=%1&title=%2';
 	var uri = uriTemplate.format([host,context.workspace,title]);
-	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.deleteTiddlerCallback,title);
+	var req = ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.deleteTiddlerCallback,context);
 	return typeof req == 'string' ? req : true;
 };
 

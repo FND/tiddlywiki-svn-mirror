@@ -5,7 +5,7 @@
 |''Source:''| |
 |''CodeRepository:''| |
 |''Version:''|1.7.1|
-|''Date:''|Sep 25, 2008|
+|''Date:''|Oct 2, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWiki-zh |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.2.0|
@@ -20,7 +20,7 @@ merge(config.commands.revisions,{
 	revisionTooltip: "检视此修订版",
 	popupNone: "无修订版本",
 	revisionTemplate: "%0 - 版本:%1，修订者:%2",
-	dateFormat:"YYYY年0mmm月0DD日 0hh:0mm"
+	dateFormat:"YYYY年0mm月0DD日 0hh:0mm"
 	});
 
 merge(config.commands.deleteTiddlerHosted,{
@@ -28,7 +28,7 @@ merge(config.commands.deleteTiddlerHosted,{
 	tooltip: "删除文章",
 	warning: "确定删除 '%0'?",
 	hideReadOnly: true,
-	done: "完成"
+	done: "已删除："
 	});
 
 /*

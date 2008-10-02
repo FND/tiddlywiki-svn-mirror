@@ -14,7 +14,7 @@
 //{{{
 // Ensure that the plugin is only installed once.
 if(!version.extensions.AdaptorCommandsPlugin) {
-version.extensions.AdaptorCommandsPlugin = {installed:true};
+	version.extensions.AdaptorCommandsPlugin = {installed:true};
 
 //# revisions command definition
 config.commands.revisions = {};
@@ -35,7 +35,7 @@ merge(config.commands.deleteTiddlerHosted,{
 	tooltip: "Delete this tiddler",
 	warning: "Are you sure you want to delete '%0'?",
 	hideReadOnly: true,
-	done: "done"
+	done: "Deleted "
 });
 
 function getServerType(fields)
@@ -71,7 +71,7 @@ function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 		ret = param2 ? adaptor[fnName](param1,param2,context,userParams,callback) : adaptor[fnName](param1,context,userParams,callback);
 	else
 		ret = adaptor[fnName](context,userParams,callback);
-	
+
 	//adaptor.close();
 	//delete adaptor;
 	return ret;
@@ -173,18 +173,18 @@ config.commands.deleteTiddlerHosted.handler = function(event,src,title)
 {
 	var tiddler = store.fetchTiddler(title);
 		if(!tiddler)
-		        return false;
+			return false;
 		var deleteIt = true;
 		if(config.options.chkConfirmDelete)
 		        deleteIt = confirm(this.warning.format([title]));
 		if(deleteIt) {
-		        var ret = invokeAdaptor('deleteTiddler',title,null,null,null,config.commands.deleteTiddlerHosted.callback,tiddler.fields);
-		        if(ret){
-		                store.removeTiddler(title);
-		                story.closeTiddler(title,true);
-		                autoSaveChanges();
-		                store.setDirty(false);
-		        }
+			var ret = invokeAdaptor('deleteTiddler',title,null,null,null,config.commands.deleteTiddlerHosted.callback,tiddler.fields);
+			if(ret){
+			store.removeTiddler(title);
+			story.closeTiddler(title,true);
+			autoSaveChanges();
+			store.setDirty(false);
+			}
 		}
 		return false;
 
@@ -192,11 +192,12 @@ config.commands.deleteTiddlerHosted.handler = function(event,src,title)
 
 config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 {
-//#displayMessage("config.commands.deleteTiddlerHosted.callback:"+context.tiddler.title);
+//# console.log("config.commands.deleteTiddlerHosted.callback:"+context.title);
 	if(context.status) {
-		displayMessage(config.commands.saveTiddlerHosted.done);
+		displayMessage(config.commands.deleteTiddlerHosted.done + context.title);
 	} else {
-		displayMessage(context.statusText);
+		if (context.statusText.indexOf("Not Found") == -1)
+			displayMessage(context.statusText);
 	}
 };
 
