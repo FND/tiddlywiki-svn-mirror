@@ -1,7 +1,8 @@
 <?php
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-
+error_log($tiddlyCfg['workspace_name']);
+error_log("ez text");
 
 if(!user_session_validate())
 {
@@ -27,23 +28,23 @@ foreach ($modulesLoader->plugins as $plugin)
 	if(is_file($cct_base."modules/".$plugin))
 		include_once($cct_base."modules/".$plugin);	
 }
-
-foreach ($modulesLoader->events['preSave'] as $event)
+if($modulesLoader->events['preSave']) 
 {
+	foreach ($modulesLoader->events['preSave'] as $event)
+	{
 		$cct_base= "../";
-error_log("IS DIR : ".is_file($cct_base."modules/".$event));
-	if(is_file($cct_base."modules/".$event)) {
-		error_log("IS FILE ");
-
-		include_once($cct_base."modules/".$event);
-		error_log("IS FILE2 ");
-
-	}	
+		if(is_file($cct_base."modules/".$event)) {
+			include_once($cct_base."modules/".$event);
+		}	
+	}
 }
 if(isset($tiddler['title']))
 {
 	// Tiddler with the same 	name already exisits.
 	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);
+	error_log("1".$tiddler['revision']);
+	error_log("2".$tiddler['revision']);
+	
 	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
 		debug($ccT_msg['debug']['reloadRequired'], "params");
 		sendHeader(409);

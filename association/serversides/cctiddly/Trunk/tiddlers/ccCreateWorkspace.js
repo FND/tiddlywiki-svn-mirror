@@ -96,7 +96,7 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w) {
 		params.url = url+'/'+w.formElem["workspace_name"].value; 
 	else
 		params.url = url+'/?workspace='+w.formElem["workspace_name"].value;
-	var loginResp = doHttp('POST',url+'/?&workspace='+w.formElem["workspace_name"].value,'&ccCreateWorkspace=' + encodeURIComponent(w.formElem["workspace_name"].value)+'&amp;ccAnonPerm='+encodeURIComponent("AADD"),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
+	var loginResp = doHttp('POST',url+'/?&workspace='+w.formElem["workspace_name"].value+"/",'&ccCreateWorkspace=' + encodeURIComponent(w.formElem["workspace_name"].value)+'&amp;ccAnonPerm='+encodeURIComponent("AADD"),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	return false; 
 };
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {

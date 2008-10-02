@@ -114,8 +114,8 @@ $tiddlyCfg['txtTheme'] = 'purpleTheme';  // The default TiddlyWiki theme to use.
 
 // Debugging Information 
 
-$tiddlyCfg['developing'] = 0;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
-$tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
+$tiddlyCfg['developing'] =0;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['debug']['mysql'] = 1;	 // if set to x1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login'] = 0;
 $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;
@@ -191,10 +191,16 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	header("Content-Disposition: attachment; filename=\"".$offline_name.".html\";\r\n");
 
 $str = $_SERVER['REQUEST_URI'];
+
 if($str[strlen($str)-1]!="/")
 	header("location: ".$_SERVER['REQUEST_URI']."/"); 
 
-$tiddlyCfg['workspace_name'] = substr($tiddlyCfg['workspace_name'], 0,  strlen($tiddlyCfg['workspace_name'])-1);
+
+if(substr($tiddlyCfg['workspace_name'], strlen($tiddlyCfg['workspace_name'])-1, strlen($tiddlyCfg['workspace_name']))=="/")
+	$tiddlyCfg['workspace_name'] = substr($tiddlyCfg['workspace_name'], 0,  strlen($tiddlyCfg['workspace_name'])-1);
+
+
+
 
 debug($ccT_msg['debug']['workspaceName'].$tiddlyCfg['workspace_name'], "config");
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);

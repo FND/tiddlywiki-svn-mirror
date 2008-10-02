@@ -44,13 +44,10 @@ class ModulesLoader {
 		       while (($file = readdir($dh)) !== false) {
 					if( is_dir($dir.$file))
 					{
-						
 						// check for index.php and remove the ..
 					 	$modulePath = $dir.$file."/index.php";
 						if (is_file($modulePath) && $file!=='..')
 						{
-							
-								error_log($modulePath."IS DIRECTORY !!!!!");
 							include($modulePath);
 						}
 					}
