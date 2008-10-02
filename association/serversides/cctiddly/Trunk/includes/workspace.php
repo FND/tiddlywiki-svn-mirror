@@ -44,7 +44,7 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 	$data['markup_group'] = '';
 	db_record_insert($tiddlyCfg['table']['workspace'],$data);  
 	$data1['workspace_name'] = $workspace;
-	$data1['body'] = "AAA";
+	$data1['body'] = $workspace;
 	$data1['title'] = 'SiteTitle';
 	$data1['creator'] = 'ccTiddly';
 	$data1['modifier'] = 'ccTiddly';
