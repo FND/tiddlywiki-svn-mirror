@@ -82,7 +82,6 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 	}
 	var sel = createTiddlyDropDown(step,null,dropdown,workspace);
 	sel.id = "workspaceName";
-
 	createTiddlyElement(step,'br');
 	var username_label = createTiddlyElement(step, "label", null, "label", me.labelUsername);
 	username_label.setAttribute("for","adminUsername");
@@ -91,9 +90,6 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 	createTiddlyElement(step,'br');
 	params.w.addStep(me.stepAddTitle,"<input type='hidden' name='admin_placeholder'/>");
 	params.w.formElem.admin_placeholder.parentNode.appendChild(frm);
-	
-	
-	
 	params.w.setButtons([
 		{caption: me.buttonCreateText, tooltip: me.buttonCreateTooltip, onClick: function(){ config.macros.ccAdmin.addAdminSubmit(null, params) } },
 		{caption: me.buttonCancelText, tooltip: me.buttonCancelTooltip, onClick: function(w){ config.macros.ccAdmin.refresh(params.w) } }
