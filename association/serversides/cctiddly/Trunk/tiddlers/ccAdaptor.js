@@ -1,12 +1,6 @@
-
-
-
-
 config.backstageTasks.remove("upgrade");
 config.backstageTasks.remove("save");
 config.backstageTasks.remove("sync");
-
-
 
 function isLoggedIn(){
 	if(window.loggedIn == '1'){

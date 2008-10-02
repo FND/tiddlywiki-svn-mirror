@@ -73,9 +73,6 @@ config.macros.ccCreateWorkspace.workspaceNameCallback=function(status,params,res
 			config.macros.register.setStatus(params.w, "workspace_url", url+'/'+params.w.formElem["workspace_name"].value);			 
 		else
 			config.macros.register.setStatus(params.w, "workspace_url", url+'/?workspace='+params.w.formElem["workspace_name"].value);
-		
-			 
-			
 	}
 };
 

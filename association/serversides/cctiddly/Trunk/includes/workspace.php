@@ -6,8 +6,8 @@ include_once($cct_base."includes/tiddler.php");
 
 
 function workspace_create($workspace, $anonPerm="ADDD", $admin="")
-
 {
+error_log("workspace_create function");
 	global $tiddlyCfg;
 	if(!user_session_validate())
 	{
@@ -28,6 +28,8 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 		header('HTTP/1.0 403  Forbidden');
 		exit("Thie ability to create workspaces on this server is currently disabled. Please contant your system administrator.");
 	}
+	
+	
 	$data['name'] = $workspace;
 	$data['twLanguage'] = 'en';
 	$data['keep_revision'] = 1;

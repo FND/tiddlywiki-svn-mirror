@@ -193,11 +193,10 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 $str = $_SERVER['REQUEST_URI'];
 if($str[strlen($str)-1]!="/")
 {
-
 	header("location: ".$_SERVER['REQUEST_URI']."/"); 
-echo "ss";
 }
-
+//echo $tiddlyCfg['workspace_name'] = substr($tiddlyCfg['workspace_name'], 0,  strlen($tiddlyCfg['workspace_name'])-1);
+//$tiddlyCfg['workspace_name'] = $str[strlen($str)-1]
 
 debug($ccT_msg['debug']['workspaceName'].$tiddlyCfg['workspace_name'], "config");
 $tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);

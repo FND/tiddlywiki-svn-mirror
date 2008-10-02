@@ -11,18 +11,15 @@
 |''License:''||
 |''~CoreVersion:''||
 ***/
-
 //{{{
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.ccTiddlyAutoSavePlugin) {
 version.extensions.ccTiddlyAutoSavePlugin = {installed:true};
 
-
 function ccTiddlyAutoSave()
 {
     return this;
 }
-
 
 merge(ccTiddlyAutoSave, {
 	msgSaved:"Saved ",

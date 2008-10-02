@@ -6,13 +6,14 @@ merge(config.macros.ccOptions, {
 	linkPermissions:"permissions",
 	linkFiles:"files",
 	linkCreate:"create",
-	linkOffline:"offline"
+	linkOffline:"offline",
+	linkStats:"statistics"
 	
 });
 config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	var me = config.macros.ccOptions;
 	if(workspacePermission.owner==1)
-		wikify("[["+me.linkManageUsers+"|Manage Users]]<br />[["+me.linkPermissions+"|Permissions]]<br />", place);
+		wikify("[["+me.linkManageUsers+"|Manage Users]]<br />[["+me.linkPermissions+"|Permissions]]<br />[["+me.linkStats+"|Statistics]]<br />", place);
 	if (isLoggedIn())
 		wikify("[["+me.linkFiles+"|files]]<br />", place);
 	if (workspacePermission.canCreateWorkspace==1)
