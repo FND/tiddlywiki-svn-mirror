@@ -37,7 +37,7 @@ merge(config.macros.ccLogin,{
 	usernameRequest:"Username",
 	passwordRequest:"Password",
 	stepLoginTitle:null,
-	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=username id=username tabindex='1'></td></tr><tr><td>password</td><td><input type=password id='password' tabindex='2' name=password></td></tr></table>",
+	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=username id=username tabindex='1'></td></tr><tr><td>password</td><td><input tabindex='2' class='txtPassword'><input type='password'   name='password'></td></tr></table>",
 	stepDoLoginTitle:"Logging you in",
 	stepDoLoginIntroText:"we are currently trying to log you in.... ",
 	stepForgotPasswordTitle:"Password Request",
@@ -106,6 +106,7 @@ config.macros.ccLogin.refresh=function(place, error){
 		}]);
 		return true;
 	}
+	
 
 	w.createWizard(place,this.WizardTitleText);
 	var me=config.macros.ccLogin;
@@ -114,6 +115,23 @@ config.macros.ccLogin.refresh=function(place, error){
 	if (error!==undefined)
 		this.stepLoginTitle=error;	
 	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
+
+	txtPassword = findRelated(w.formElem.password,"txtPassword","className","previousSibling");
+	txtPassword.style.display="none";
+	txtPassword.onkeypress = function() {
+		w.formElem.password.value = txtPassword.value;
+		if(me.sha1 == true)
+			w.formElem.password.value = Crypto.hexSha1Str(txtPassword.value);
+		else 
+			w.formElem.password.value = txtPassword.value;
+	};
+
+	w.formElem.method ="POST";
+	w.formElem.onsubmit = function() {config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place); return false;};
+	var submit = createTiddlyElement(null, "input");
+	submit.type="submit";
+	w.formElem.appendChild(submit);
+
 	var cookieValues=findToken(document.cookie);
 	if (cookieValues.txtUserName!==undefined){
 		w.formElem["username"].value=cookieValues.txtUserName ;
