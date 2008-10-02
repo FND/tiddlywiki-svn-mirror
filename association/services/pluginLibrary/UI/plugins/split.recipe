@@ -1,1 +1,2 @@
-tiddler: PluginLibraryAdaptor.js tags="systemConfig"
+tiddler: ExtensionBasketPlugin.js tags="systemConfig pluginLibrary"
+tiddler: PluginLibraryAdaptor.js tags="systemConfig pluginLibrary"

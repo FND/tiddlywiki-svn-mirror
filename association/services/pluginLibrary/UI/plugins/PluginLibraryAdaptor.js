@@ -116,7 +116,7 @@ config.macros.ImportPlugins = { // TODO: rename
 	}
 };
 
-config.commands.keepTiddler = {
+config.commands.keepTiddler = { // XXX: move to separate plugin
 	text: "keep",
 	tooltip: "Permanently store this tiddler",
 
