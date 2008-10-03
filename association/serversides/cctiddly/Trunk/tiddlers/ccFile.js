@@ -144,6 +144,23 @@ function addOption(selectbox,text,value ){
 	selectbox.options.add(optn);
 }
 
+config.macros.ccFileImageBox = function(image){
+		var full = image.src;
+		setStylesheet(
+		"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
+		"html > body > #backstageCloak {height:"+window.innerHeight*2+"px;}"+
+		"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
+		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
+		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><h3>"+image.src+"</h3><br />";
+		box.style.position = 'absolute';
+		box.style.height= "460px";
+		box.style.width= "800px";
+		var img = createTiddlyElement(box, "img");
+		img.src = full;
+		ccTiddlyAdaptor.center(box);
+		ccTiddlyAdaptor.showCloak();
+}
+
 config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,xhr){
 	var me = config.macros.ccFile;
 	var out = "";
@@ -159,7 +176,7 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 			adminUsers.push({
 				htmlName: "<html><a href='"+a[e].url+"' target='new'>"+a[e].filename+"</a></html>",
 				name: a[e].filename,
-				wikiText:'<html><img onclick=alert("a"); src="'+a[e].url+'" style="width: 70px; "/></html>',
+				wikiText:'<html><img onclick="config.macros.ccFileImageBox(this)"; src="'+a[e].url+'" style="width: 70px; "/></html>',
 				lastVisit:a[e].lastVisit,
 				fileSize:a[e].fileSize
 			});
