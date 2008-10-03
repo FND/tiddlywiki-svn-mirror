@@ -1,0 +1,95 @@
+
+body {
+	background: #111;
+	font-size: 14px; 
+    line-height: 1.4em;
+	color: #aaa;
+	font-family: "HelveticaNeue-Roman", "Helvetica 55 Roman", Helvetica, Arial, sans-serif;
+}
+
+a {
+	background-color:#f0f0f0;
+	color:#1E52CD;
+	text-decoration:none;
+	padding:0.2em;
+	line-height:1em;
+}
+
+a:hover {
+	border-bottom:solid 2px #1E52CD;
+}
+
+ul#toolbar {
+	background-color:#1E52CD;
+	border-bottom:solid 2px #fff;
+	font-size:0.9em;
+	position:fixed;
+	right:0;
+	text-align:right;
+	top:0;
+	width:100%;
+	z-index:100;
+	overflow:hidden;
+	height:4px;
+
+}
+	ul#toolbar li {
+		display:none;
+	}
+	
+
+ul#toolbar:hover {
+	height:auto;
+	padding:0.5em 1em;
+}
+		ul#toolbar:hover li {
+			display:inline;
+			line-height:2.4em;
+		}
+		
+		ul#toolbar:hover li a {
+			padding:0.4em 1em;
+			background-color:#1843A8;
+			color:#fff;
+			border-style:none;
+		}
+		ul#toolbar:hover li a:hover;{
+			background-color:#fff;
+		}
+
+#footer { 
+	padding:2em;
+	clear:left;
+}
+
+	#footer a {
+		background-color:#000;
+		color:#1E52CD;
+		text-decoration:none;
+		padding:6px;
+	}
+
+	#footer a:hover {
+		border-bottom:solid 2px #1E52CD;
+	}
+
+
+/* ================================================================== */
+/* = store. only styled for when there is no javascript to hide it. = */
+/* ================================================================== */
+
+#store {
+	background-color:#fff;
+	border-bottom:4px solid #ddd;
+	color:#222;
+}
+
+#store div.hentry {
+	padding: 2em;
+}
+
+#store div.hentry .entry-title {
+	font-size:2.5em;
+	letter-spacing:-1px;
+	color:#000;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>jQuery plugin vertical - Edit in place</title>
+	<link rel="stylesheet" href="css/reset.css" type="text/css" media="screen" title="basic" charset="utf-8">
+	<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" title="basic" charset="utf-8">
+	<script src="../../jquery-1.2.6.pack.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../plugins/jquery.tiddlerStore.js" type="text/javascript" charset="utf-8"></script>	
+	<script type="text/javascript" charset="utf-8">
+		
+		
+	// DOM ready.
+	$(document).ready(function(){
+	
+
+		var store = $('#store').tiddlerStore({
+			visible: true
+		});
+		
+		var store2 = $('#store2').tiddlerStore();
+
+
+		var tiddler = store.getTiddler('jQuery tiddler store');
+		var tiddler2 = store2.getTiddler('jQuery tiddler store 2');
+		var alltiddlers = store.getAllTiddlers();
+		
+		console.log('tiddler2', tiddler2);
+		console.log('tiddler', tiddler);
+		console.log('alltiddlers', alltiddlers);
+		
+	});
+		
+	</script>
+
+</head>
+<body>
+	<ul id='toolbar'>
+		<li><a href='#' class='edit'>edit</a></li>
+		<li><a href='#' class='save'>save</a></li>
+	</ul>
+	<div id='display'></div>
+	<div id='store'>
+
+		<div class='hentry'>
+			<h2 class='entry-title'>jQuery tiddler store</h2>
+			<div class='entry-content'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+			<dl class='meta'>
+				<dt>modified</dt><dd class='updated'>ddmmyyyy</dd>
+				<dt>changecount</dt><dd>0</dd>
+			</dl>
+			<a href='#foo' rel='tag'>foo</a>
+			<a href='#bar' rel='tag'>bar</a>
+		</div>
+		
+	</div>
+	
+	<div id='store2'>
+
+		<div class='hentry'>
+			<h2 class='entry-title'>jQuery tiddler store 2</h2>
+			<div class='entry-content'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+			<dl class='meta'>
+				<dt>modified</dt><dd class='updated'>ddmmyyyy</dd>
+				<dt>changecount</dt><dd>0</dd>
+			</dl>
+			<a href='#foo' rel='tag'>foo</a>
+			<a href='#bar' rel='tag'>bar</a>
+		</div>
+		
+	</div>
+	
+	<div id="footer">
+		<h2>About this application</h2>
+		<p>
+			This simple application is built with by <a href="http://hawksworx.com" title="http://hawksworx.com">Phil Hawksworth</a> with <a href="http://jquery.com/" title="http://jquery.com/">jQuery</a> and the following plugins:
+		</p>
+		<ul>
+			<li><a href="/jquery.tiddlerStore.js.txt" title="jquery.tiddlerStore.js">jquery.tiddlerStore.js</a> - Enable an html based data store and expose an API to CRUD items in that store.</li>
+		</ul>
+	</div>
+
+</body>
+</html>
