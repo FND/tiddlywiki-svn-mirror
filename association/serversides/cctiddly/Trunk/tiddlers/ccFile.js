@@ -2,7 +2,7 @@ config.macros.ccFile = {};
 
 merge(config.macros.ccFile,{
 	wizardTitleText:"Manage Files",
-	wizardStepText:"Manage files in workspace.",
+	wizardStepText:"Manage files in workspace ",
 	buttonDeleteText:"Delete Files",
 	buttonDeleteTooltip:"Click to Delete files.",
 	buttonUploadText:"Upload File",

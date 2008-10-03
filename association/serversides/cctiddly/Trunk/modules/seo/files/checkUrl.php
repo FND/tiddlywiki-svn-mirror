@@ -1,7 +1,7 @@
 <?php
 //allows files in the uploods/workpspace/WORKSPACENAME/FILE.blah folder can appear as simply /WORKSPACENAME/FILE.blah 
 
-$filename = $tiddlyCfg['pref']['upload_dir']."workspace/".$tiddlyCfg['workspace_name'];
+$filename = $tiddlyCfg['pref']['upload_dir']."tiddlers/".$tiddlyCfg['workspace_name']."";
 
 if(is_file($filename)){	
 	$file_extension = strtolower(substr(strrchr($filename,"."),1));
