@@ -42,7 +42,7 @@ config.macros.ccFile.refresh=function(w){
 	params.w = w;
 	params.e = this;
 	var me = config.macros.ccFile;
-	doHttp('GET',url+'/handle/listFiles.php?workspace_name='+workspace,'',null,null,null,config.macros.ccFile.listAllCallback,params);
+	doHttp('GET',url+'/handle/listFiles.php?workspace='+workspace,'',null,null,null,config.macros.ccFile.listAllCallback,params);
 	w.setButtons([
 		{caption: me.buttonDeleteText, tooltip: me.buttonDeleteTooltip, onClick: function(w){ 
 			config.macros.ccFile.delFileSubmit(null, params);
@@ -78,7 +78,7 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 //	}
 	frm.setAttribute("enctype","multipart/form-data");
 	frm.setAttribute("method","POST");
-	frm.action=window.url+"/handle/upload.php"; 
+	frm.action=window.url+"/handle/upload1.php"; 
 	frm.id="ccUpload";
 	frm.target="uploadIframe";
 	frm.name = "uploadForm";

@@ -30,11 +30,13 @@ function checkAndAddSlash($uri)
 function getWorkspaceName($_SERVER, $_REQUEST)
 {
 	global $tiddlyCfg;
-	if(substr($_REQUEST['workspace'], strlen($_REQUEST['workspace'])-1, strlen($_REQUEST['workspace']))=="/")
+	if(substr($_REQUEST['workspace'], strlen($_REQUEST['workspace'])-1, strlen($_REQUEST['workspace']))=="/"){
+		error_log("workspace name is : ".substr($_REQUEST['workspace'], 0,  $_REQUEST['workspace']-1));
 		return substr($_REQUEST['workspace'], 0,  $_REQUEST['workspace']-1);
-	else
+	}else{
+		error_log($_REQUEST['workspace']);
 		return $_REQUEST['workspace'];
-
+	}
 
 	// THE REST SHOULD BE INGNORED.
 		
@@ -61,7 +63,6 @@ function handleDebug($_SERVER)
 	debug($ccT_msg['debug']['queryString'].$_SERVER['QUERY_STRING'], "params");
 	debug($ccT_msg['debug']['fileName'].$_SERVER["SCRIPT_NAME"], "config");
 	debug($ccT_msg['debug']['workspaceName'].$tiddlyCfg['workspace_name'], "config");
-	
 }
 
 function stringToPerm($string)
