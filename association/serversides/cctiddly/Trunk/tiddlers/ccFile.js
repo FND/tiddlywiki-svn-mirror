@@ -60,7 +60,7 @@ config.macros.ccFile.delFileSubmit=function(e, params) {
 	var listView = params.w.getValue("listView");
 	var rowNames = ListView.getSelectedRows(listView);
 	for(var e=0; e < rowNames.length; e++) 
-	doHttp('POST',url+'/handle/listFiles.php','action=DELETEFILE&file='+rowNames[e]+'&workspace_name='+workspace,null,null,null,config.macros.ccFile.delFileCallback,params);
+	doHttp('POST',url+'/handle/listFiles.php','action=DELETEFILE&file='+rowNames[e]+'&workspace='+workspace,null,null,null,config.macros.ccFile.delFileCallback,params);
 	return false; 
 };
 
