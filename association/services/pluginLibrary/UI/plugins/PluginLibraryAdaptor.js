@@ -168,20 +168,20 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem) {
 	return config.messages.loadingMissingTiddler.format([title,context.serverType,context.host,context.workspace]);
 };
 
-// hijack httpReq to throttle simultaneous XHRs
-config.options.XHRCount = 0; // XXX: wrong namespace
-config.options.XHRThrottleDelay = 1000; // TODO: rename?
-config.options.XHRThrottleAmount = 5; // TODO: rename?
+// hijack httpReq to throttle simultaneous XHRs -- TODO: move to separate plugin
+config.options.XHRCount = 0; // XXX: namespace abuse
+config.options.txtXHRThrottleDelay = 1000;
+config.options.txtXHRThrottleAmount = 5;
 var httpReq_orig = httpReq;
 httpReq = function(type, url, callback, params, headers, data, contentType, username, password, allowCache) {
-	if(config.options.XHRCount >= config.options.XHRThrottleAmount) {
+	if(config.options.XHRCount >= config.options.txtXHRThrottleAmount) {
 		var defer = function() {
 			return httpReq(type, url, callback, params, headers, data, contentType, username, password, allowCache);
 		};
-		setTimeout(defer, config.options.XHRThrottleDelay);
+		setTimeout(defer, config.options.txtXHRThrottleDelay); // XXX: queueing's a better solution
 	} else {
 		config.options.XHRCount++;
-		var callbackWrapper = function(status, params, responseText, url, x) { // callback wrapper
+		var callbackWrapper = function(status, params, responseText, url, x) {
 			config.options.XHRCount--;
 			return callback(status, params, responseText, url, x);
 		};
