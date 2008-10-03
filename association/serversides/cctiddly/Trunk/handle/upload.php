@@ -3,8 +3,7 @@ $cct_base = "../";
 include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/uploads.php");
 
-
-
+echo $tiddlyCfg['workspace_name'];
 
 if(!user_session_validate()){
 	sendHeader("403");
@@ -18,7 +17,7 @@ if (!user_isAdmin($user['username'], $tiddlyCfg['workspace_name'])){
 	}
 }
 
-$folder = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['REQUEST_URI']))."/uploads/workspaces/".$tiddlyCfg['workspace_name'];
+$folder = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['REQUEST_URI']))."/uploads/workspace/".$tiddlyCfg['workspace_name'];
 
 
 
@@ -70,7 +69,7 @@ if (!$status){
 	echo "<h4>$err</h4>";
 }
 else{
-	$url = dirname(getUrl())."/uploads/".$tiddlyCfg['workspace_name']."/".$_FILES["userFile"]["name"];
+	$url = dirname(getUrl())."/uploads/workspace/".$tiddlyCfg['workspace_name']."/".$_FILES["userFile"]["name"];
 	if($file_type == 'image'){
 		$output .= '<h2>'.$ccT_msg['upload']['uploadedTitle'].'</h2> ';
 		$output .= "<a href='".$url."'><img src='".$url."' height=100 /></a><p>".$ccT_msg['upload']['includeCode']."</p><form name='tiddlyCode' ><input type=text name='code' id='code' onclick='this.focus();this.select();' cols=90 rows=1 value='[img[".$url."][EmbeddedImages]]' /></form>";

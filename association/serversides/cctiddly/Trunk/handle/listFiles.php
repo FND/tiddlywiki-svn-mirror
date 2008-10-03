@@ -28,11 +28,11 @@ if($w=="")
 if($_POST['action']=="DELETEFILE")
 {
 
-	echo unlink($_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/uploads/workspaces/".$w."/".$_POST['file']);
+	echo unlink($_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/uploads/workspace/".$w."/".$_POST['file']);
 	exit;
 }
 
-$folder =  $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/uploads/workspaces/".$w;
+$folder =  $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/uploads/workspace/".$w;
 if ($handle = opendir($folder)) {
 	echo "[";    
 	while (false !== ($file = readdir($handle))) {

@@ -71,11 +71,11 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	var frm=createTiddlyElement(frmWrapper,'form',null,"wizardStep");
 	var step = frm;
 	//frmWrapper.appendChild(frm);
-//	if(navigator.appName=="Microsoft Internet Explorer")
-//	{
-//		encType = frm.getAttributeNode("enctype");
-//	    encType.value = "multipart/form-data";
-//	}
+	if(navigator.appName=="Microsoft Internet Explorer")
+	{
+		encType = frm.getAttributeNode("enctype");
+	    encType.value = "multipart/form-data";
+	}
 	frm.setAttribute("enctype","multipart/form-data");
 	frm.setAttribute("method","POST");
 	frm.action=window.url+"/handle/upload.php"; 
@@ -98,7 +98,7 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	step.appendChild(file);
 	
 	var workspaceName=createTiddlyElement(null,'input','workspaceName','workspaceName');				
-	workspaceName .setAttribute('name','workspaceName');
+	workspaceName .setAttribute('name','workspace');
 	workspaceName.type="HIDDEN";
 	workspaceName.value=workspace;
 	step.appendChild(workspaceName);
