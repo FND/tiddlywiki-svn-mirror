@@ -168,5 +168,27 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem) {
 	return config.messages.loadingMissingTiddler.format([title,context.serverType,context.host,context.workspace]);
 };
 
+// hijack httpReq to throttle simultaneous XHRs
+config.options.XHRCount = 0; // XXX: wrong namespace
+config.options.XHRThrottleDelay = 1000; // TODO: rename?
+config.options.XHRThrottleAmount = 5; // TODO: rename?
+var httpReq_orig = httpReq;
+httpReq = function(type, url, callback, params, headers, data, contentType, username, password, allowCache) {
+	if(config.options.XHRCount >= config.options.XHRThrottleAmount) {
+		var defer = function() {
+			return httpReq(type, url, callback, params, headers, data, contentType, username, password, allowCache);
+		};
+		setTimeout(defer, config.options.XHRThrottleDelay);
+	} else {
+		config.options.XHRCount++;
+		var callbackWrapper = function(status, params, responseText, url, x) { // callback wrapper
+			config.options.XHRCount--;
+			return callback(status, params, responseText, url, x);
+		};
+		var args = [type, url, callbackWrapper, params, headers, data, contentType, username, password, allowCache];
+		return httpReq_orig.apply(this, args);
+	}
+};
+
 }
 //}}}
