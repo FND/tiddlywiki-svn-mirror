@@ -153,7 +153,6 @@ config.macros.ccFileImageBox = function(image){
 		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
 		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><h3>"+image.src+"</h3><br />";
 		box.style.position = 'absolute';
-		box.style.height= "460px";
 		box.style.width= "800px";
 		var img = createTiddlyElement(box, "img");
 		img.src = full;
