@@ -78,7 +78,7 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 //	}
 	frm.setAttribute("enctype","multipart/form-data");
 	frm.setAttribute("method","POST");
-	frm.action=window.url+"/handle/upload1.php"; 
+	frm.action=window.url+"/handle/upload.php"; 
 	frm.id="ccUpload";
 	frm.target="uploadIframe";
 	frm.name = "uploadForm";
