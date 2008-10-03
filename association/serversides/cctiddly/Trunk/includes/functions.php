@@ -21,10 +21,10 @@ function getOfflineFile()
 
 function checkAndAddSlash($uri)
 {
-	if($uri[strlen($uri)-1]!="/") {
+	if(stristr($uri, ".php"))
+		return true;
+	if($uri[strlen($uri)-1]!="/") 
 		header("location: ".$uri."/"); 
-//		exit;
-	}
 }
 
 function getWorkspaceName($_SERVER, $_REQUEST)

@@ -6,8 +6,8 @@ include_once($cct_base."includes/header.php");
 
 $a = $_POST['action']?$_POST['action']:$_REQUEST['action'];
 $u = $_POST['username']?$_POST['username']:$_REQUEST['username'];
-$w = $_POST['workspace_name']?$_POST['workspace_name']:$_REQUEST['workspace_name'];
-
+$w = $tiddlyCfg['workspace_name'];
+error_log("workspace = ".$w);
 if(!user_session_validate())
 	sendHeader("403", null, null, 1);
 
