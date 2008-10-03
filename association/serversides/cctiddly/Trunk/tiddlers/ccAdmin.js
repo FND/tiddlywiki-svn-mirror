@@ -22,7 +22,7 @@ merge(config.macros.ccAdmin,{
 	listAdminTemplate: {
 	columns: [	
 		{name: 'Selected', field: 'Selected', rowName: 'name', type: 'Selector'},
-		{name: 'Name', field: 'name', title: "Username", type: 'String'},
+		{name: 'Name', field: 'name', title: "Username", type: 'String'},	
 		{name: 'Last Visit', field: 'lastVisit', title: "Last Login", type: 'String'}
 	],
 	rowClasses: [
@@ -55,7 +55,6 @@ config.macros.ccAdmin.refresh= function(w){
 config.macros.ccAdmin.delAdminSubmit = function(e, params) {
 	var listView = params.w.getValue("listView");
 	var rowNames = ListView.getSelectedRows(listView);
-	//displayMessage(rowNames);
 	var delUsers = "";
 	for(var e=0; e < rowNames.length; e++) 
 		delUsers += rowNames[e]+",";
@@ -87,10 +86,6 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 };
 
 config.macros.ccAdmin.addAdminSubmit = function(e, params){
-	console.log(params);
-	console.log(params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value);
-
-	displayMessage("---"+params.w.formElem.adminUsername.value);
 	doHttp('POST',url+'/handle/workspaceAdmin.php','username='+params.w.formElem.adminUsername.value+'&workspace='+params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value,null,null,null,config.macros.ccAdmin.addAdminCallback,params);
 	return false; 
 };
@@ -114,7 +109,6 @@ config.macros.ccAdmin.listAllCallback = function(status,params,responseText,uri,
 			lastVisit:a[e].lastVisit});
 		}
 	} catch(ex) {
-		console.log(ex);
 			params.w.addStep(" "+workspace, me.stepNoAdminTitle);
 			params.w.setButtons([
 				{caption: me.buttonCreateText, tooltip: me.buttonCreateTooltip, onClick: function(){ config.macros.ccAdmin.addAdminDisplay(null, params)}}]);
