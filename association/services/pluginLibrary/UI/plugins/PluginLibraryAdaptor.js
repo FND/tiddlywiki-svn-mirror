@@ -178,7 +178,7 @@ httpReq = function(type, url, callback, params, headers, data, contentType, user
 		var defer = function() {
 			return httpReq(type, url, callback, params, headers, data, contentType, username, password, allowCache);
 		};
-		setTimeout(defer, config.options.txtXHRThrottleDelay); // XXX: queueing's a better solution
+		setTimeout(defer, config.options.txtXHRThrottleDelay); // XXX: actual queueing would be better
 	} else {
 		config.options.XHRCount++;
 		var callbackWrapper = function(status, params, responseText, url, x) {

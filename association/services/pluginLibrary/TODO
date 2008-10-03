@@ -10,7 +10,6 @@
 
 == Front-End ==
 
-* slices RegEx fails for values containing pipes (e.g. PrettyLinks)
 * plugin origin for missing Source slice
 * move plugins (entire UI vertical?) to generic directory
 * results handling (toolbar commands)
