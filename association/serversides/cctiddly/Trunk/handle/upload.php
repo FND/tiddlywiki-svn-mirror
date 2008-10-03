@@ -3,8 +3,6 @@ $cct_base = "../";
 include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/uploads.php");
 
-echo $tiddlyCfg['workspace_name'];
-
 if(!user_session_validate()){
 	sendHeader("403");
 	exit;	
@@ -19,37 +17,26 @@ if (!user_isAdmin($user['username'], $tiddlyCfg['workspace_name'])){
 
 $folder = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['REQUEST_URI']))."/uploads/workspace/".$tiddlyCfg['workspace_name'];
 
-
-
-
-
 if(!file_exists($folder)){
 	mkdir($folder, 0777, true);
 }
-
-
 $err = ""; 
 $status = 0;
-
 if (isset($_FILES["userFile"])){
-
 	if (check_vals()){
 		if (($_FILES["userFile"]["type"] == "image/gif") || ($_FILES["userFile"]["type"] == "image/jpeg")|| ($_FILES["userFile"]["type"] == "image/pjpeg")){
 			$file_type = 'image';
-		}
-		else if(in_array($_FILES["userFile"]["type"], $tiddlyCfg['upload_allow_extensions'])){
+		}else if(in_array($_FILES["userFile"]["type"], $tiddlyCfg['upload_allow_extensions'])){
 			$file_type = 'text';
 		}else{
 			echo '<b>'.$ccT_msg['upload']['typeNotSupported'].'</b>';
 			exit;
 		}
-		
 		$upload_dir = $folder;
 		if (filesize($_FILES["userFile"]["tmp_name"]) > $tiddlyCfg['max_file_size']){
 			sendHeader("400");
 			$err .= $ccT_msg['upload']['maxFileSize'];
-		}
-		else{
+		}else{
 			$from =  $_FILES["userFile"]["tmp_name"];
 			$to = $folder."/".$_FILES["userFile"]["name"];
 			if(file_exists($to)){
@@ -67,14 +54,12 @@ if (isset($_FILES["userFile"])){
 if (!$status){
 	if (strlen($err) > 0)
 	echo "<h4>$err</h4>";
-}
-else{
+}else{
 	$url = dirname(getUrl())."/uploads/workspace/".$tiddlyCfg['workspace_name']."/".$_FILES["userFile"]["name"];
-	if($file_type == 'image'){
+	if($file_type == 'image') {
 		$output .= '<h2>'.$ccT_msg['upload']['uploadedTitle'].'</h2> ';
 		$output .= "<a href='".$url."'><img src='".$url."' height=100 /></a><p>".$ccT_msg['upload']['includeCode']."</p><form name='tiddlyCode' ><input type=text name='code' id='code' onclick='this.focus();this.select();' cols=90 rows=1 value='[img[".$url."][EmbeddedImages]]' /></form>";
-	}
-	else{		
+	}else{		
 		$output .= "<a href='".$url."'/>".$url."</a>";	
 	}
 	echo $output;

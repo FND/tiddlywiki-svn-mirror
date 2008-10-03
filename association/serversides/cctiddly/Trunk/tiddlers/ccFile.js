@@ -5,8 +5,10 @@ merge(config.macros.ccFile,{
 	wizardStepText:"Manage files in workspace.",
 	buttonDeleteText:"Delete Files",
 	buttonDeleteTooltip:"Click to Delete files.",
-	buttonUploadText:"Upload Files",
+	buttonUploadText:"Upload File",
 	buttonUploadTooltip:"Click to Upload files.",
+	buttonCancelText:"Cancel",
+	buttonCancelTooltip:"Click to cancel.",
 	labelFiles:"Existing Files ",
 	errorPermissionDeniedTitle:"Permission Denied",
 	errorPermissionDeniedUpload:"You do not have permissions to create a file on this server. ",
@@ -112,15 +114,7 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	saveTo.value='workspace';
 	saveTo.name='saveTo';
 	step.appendChild(saveTo);
-
-//	var submitDiv=createTiddlyElement(step,"div",null,'submit');
-//	var btn=createTiddlyElement(null,"input",null,'button');
-//	btn.setAttribute("type","submit");
-	//btn.setAttribute("onClick","config.macros.ccUpload.submitiframe()");
-//	btn.value='Upload File';
-//	submitDiv.appendChild(btn);	
-
-	// Create the iframe
+	
 	var iframe=document.createElement("iframe");
 	iframe.style.display="none";
 	iframe.id='uploadIframe';
@@ -132,23 +126,25 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	params.w.formElem.placeholder.parentNode.appendChild(frmWrapper);
 	
 	params.w.setButtons([
-		{caption: config.macros.ccFile.buttonUploadText, tooltip: config.macros.ccFile.buttonUploadTooltip, onClick: function() {
-			params.w.formElem.uploadForm.submit();
+		{caption: config.macros.ccFile.buttonCancelText, tooltip: config.macros.ccFile.buttonCancelTooltip, onClick: function() {
+			config.macros.ccFile.refresh(params.w);
 		}
-	}]);
-	
-	
+	},
+	{caption: config.macros.ccFile.buttonUploadText, tooltip: config.macros.ccFile.buttonUploadTooltip, onClick: function() {
+		params.w.formElem.uploadForm.submit();
+	}
+}
+	]);
 };
 
-function addOption(selectbox,text,value )
-{
+function addOption(selectbox,text,value ){
 	var optn = document.createElement("OPTION");
 	optn.text = text;
 	optn.value = value;
 	selectbox.options.add(optn);
 }
 
-config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,xhr) {
+config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,xhr){
 	var me = config.macros.ccFile;
 	var out = "";
 	var adminUsers = [];
@@ -187,7 +183,7 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 	params.w.setValue("listView",listView);
 };
 
-config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,xhr) {	
+config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,xhr){	
 	config.macros.ccFile.refresh(params.w);
 };
 
