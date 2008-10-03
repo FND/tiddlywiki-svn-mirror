@@ -174,8 +174,6 @@ $tiddlyCfg['status'] = "";
 //  DO NOT EDIT BEYOND THIS POINT .....UNLESS YOU KNOW WHAT YOUR DOING......OR DON'T MIND BREAKING STUFF!
 
 
-
-
 $tiddlyCfg['workspace_name'] = getWorkspaceName($_SERVER, $_REQUEST);
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	getOfflineFile();
@@ -205,8 +203,7 @@ checkAndAddSlash($_SERVER['REQUEST_URI']);
 
 $tiddlyCfg['group']['admin'] = getAdminsOfWorkspace($tiddlyCfg['workspace_name']);
 
-
-
+ 
 //user allow to upload rss, put in group names here like $tiddlyCfg['privilege_misc']['rss'] = array("<group1>", "<group2>");
 $tiddlyCfg['privilege_misc']['rss'] = array("user");
 $tiddlyCfg['privilege_misc']['upload'] = array("admin");			//user allow to upload the whole TW or import TW, put in group names here

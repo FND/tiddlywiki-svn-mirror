@@ -37,7 +37,7 @@ merge(config.macros.ccLogin,{
 	usernameRequest:"Username",
 	passwordRequest:"Password",
 	stepLoginTitle:null,
-	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=username id=username tabindex='1'></td></tr><tr><td>password</td><td><input tabindex='2' class='txtPassword'><input type='password'   name='password'></td></tr></table>",
+	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=username id=username tabindex='1'></td></tr><tr><td>password</td><td><input type='password' tabindex='2' class='txtPassword'><input   name='password'></td></tr></table>",
 	stepDoLoginTitle:"Logging you in",
 	stepDoLoginIntroText:"we are currently trying to log you in.... ",
 	stepForgotPasswordTitle:"Password Request",
@@ -117,9 +117,8 @@ config.macros.ccLogin.refresh=function(place, error){
 	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
 
 	txtPassword = findRelated(w.formElem.password,"txtPassword","className","previousSibling");
-	txtPassword.style.display="none";
-	txtPassword.onkeypress = function() {
-		w.formElem.password.value = txtPassword.value;
+	w.formElem.password.style.display="none";
+	txtPassword.onkeyup = function() {
 		if(me.sha1 == true)
 			w.formElem.password.value = Crypto.hexSha1Str(txtPassword.value);
 		else 
@@ -128,8 +127,11 @@ config.macros.ccLogin.refresh=function(place, error){
 
 	w.formElem.method ="POST";
 	w.formElem.onsubmit = function() {config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place); return false;};
+	
+	
 	var submit = createTiddlyElement(null, "input");
 	submit.type="submit";
+	submit.style.display="none";
 	w.formElem.appendChild(submit);
 
 	var cookieValues=findToken(document.cookie);
@@ -170,9 +172,7 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	var context = {};
 	context.host = window.url;
 	context.username = username;
-	if(me.sha1 == true)
-		context.password = Crypto.hexSha1Str(password);
-	else
+
 		context.password = password;
 	adaptor.login(context,userParams,config.macros.ccLogin.loginCallback)
 	var html = me.stepDoLoginIntroText; 
