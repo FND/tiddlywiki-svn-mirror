@@ -1,10 +1,4 @@
 <?php
-
-// YOU ARE ATTEMPTING TO USE BROKEN CODE. 
-
-// PLEASE READ THE TOP OF INDEX.PHP
-
-
 // Initial Database Setup 
 
 $tiddlyCfg['db']['type'] = "mysql";		//sql type
@@ -13,11 +7,6 @@ $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
 $tiddlyCfg['db']['name'] = "alpha_upgrade";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
-
-
-// THIS LATEST CODE VERSION IS BROKEN. 
-
-
 
 
 $tiddlyCfg['adminPassword'] = "";
@@ -124,7 +113,7 @@ $tiddlyCfg['txtTheme'] = 'purpleTheme';  // The default TiddlyWiki theme to use.
 
 // Debugging Information 
 
-$tiddlyCfg['developing'] =0;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['developing'] =1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
 $tiddlyCfg['debug']['mysql'] = 1;	 // if set to x1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login'] = 0;
 $tiddlyCfg['debug']['handle'] = 0;
@@ -187,11 +176,6 @@ $tiddlyCfg['status'] = "";
 
 
 
-
-
-
-
-
 $tiddlyCfg['workspace_name'] = getWorkspaceName($_SERVER, $_REQUEST);
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	getOfflineFile();
@@ -216,11 +200,11 @@ $tiddlyCfg = array_merge($tiddlyCfg, $workspace_settings);
 handleDebug($_SERVER);
 checkAndAddSlash($_SERVER['REQUEST_URI']);
 
-
 ////////////////////////////////////////////////////users and privileges////////////////////////////////////////////////////
 
 
 $tiddlyCfg['group']['admin'] = getAdminsOfWorkspace($tiddlyCfg['workspace_name']);
+
 
 
 //user allow to upload rss, put in group names here like $tiddlyCfg['privilege_misc']['rss'] = array("<group1>", "<group2>");

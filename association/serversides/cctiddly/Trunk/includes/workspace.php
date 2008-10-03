@@ -7,29 +7,25 @@ include_once($cct_base."includes/tiddler.php");
 
 function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 {
-error_log("workspace_create function");
 	global $tiddlyCfg;
 	if(!user_session_validate())
 	{
 		sendHeader("403");
-		echo '<b>You do not appear to be logged in</b>';
 		exit;	
 	}
 	if(eregi('[^a-zA-Z0-9.-/]', $workspace))
 	{
 		header('HTTP/1.0 400 Bad Request');
-		echo $workspace+"Workspace name can only include numbers, letters and full stops.";
-		
 		exit;
 	}
 	
 	if ($tiddlyCfg['create_workspace']!==1)
 	{
 		header('HTTP/1.0 403  Forbidden');
-		exit("Thie ability to create workspaces on this server is currently disabled. Please contant your system administrator.");
+		exit;
 	}
 	
-	
+	error_log("ssdsds");
 	$data['name'] = $workspace;
 	$data['twLanguage'] = 'en';
 	$data['keep_revision'] = 1;

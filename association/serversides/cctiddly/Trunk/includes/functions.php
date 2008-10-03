@@ -30,6 +30,15 @@ function checkAndAddSlash($uri)
 function getWorkspaceName($_SERVER, $_REQUEST)
 {
 	global $tiddlyCfg;
+	if(substr($_REQUEST['workspace'], strlen($_REQUEST['workspace'])-1, strlen($_REQUEST['workspace']))=="/")
+		return substr($_REQUEST['workspace'], 0,  $_REQUEST['workspace']-1);
+	else
+		return $_REQUEST['workspace'];
+
+
+	// THE REST SHOULD BE INGNORED.
+		
+		
 	$a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
 	if (isset($_REQUEST['workspace']))
 		return $_REQUEST['workspace'];
@@ -65,12 +74,12 @@ function stringToPerm($string)
 }
 
 
-
+         
 function getAdminsOfWorkspace($workspace)
 {
+	global $tiddlyCfg;
 	$admin_select_data['workspace_name'] = $workspace;
 	$results = db_record_select($tiddlyCfg['table']['admin'], $admin_select_data);// get list of admin users for workspace
-
 	$i = 0;
 	foreach($results as $result)
 		$admin_array[$i++] = $result['username'];
@@ -85,12 +94,13 @@ function getAdminsOfWorkspace($workspace)
 function checkWorkspace($workspace_settings, $_POST, $cct_base)
 {
 	global $tiddlyCfg;
+	error_log("wsd ".$tiddlyCfg['workspace_name']);
 	if( sizeof($workspace_settings)==0 )
 	{
 		if( strlen($tiddlyCfg['workspace_name'])==0 )
 		{//do install
-			include_once($cct_base."includes/workspace.php");
-			workspace_create_new();
+			include_once("../includes/workspace.php");
+			workspace_create($tiddlyCfg['workspace_name'], $_POST['ccAnonPerm']);
 		}else{	//if not empty, check if installation can be done
 			if( $tiddlyCfg['allow_workspace_creation']>0 )
 			{//if allow workspace creation

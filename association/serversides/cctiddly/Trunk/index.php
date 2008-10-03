@@ -1,23 +1,4 @@
-THIS CODE IS CURRENTLY BROKEN.... 
-
-PLEASE DOWNLOAD A RELEASE OF CCT FROM
-
- http://www.tiddlywiki.org/wiki/CcTiddly
-
-
-I AM CURRENTLY COMPLETELY REWRITING THE THE CONFIG.PHP CODE. 
-
-I HOPE TO HAVE THIS WORKING AGAIN FOR THE 1.7.3 RELEASE NEXT WEEK. 
-
-
-SORRY FOR ANY PROBLEMS.  PLEASE CONTACT THE GOOGLE GROUP IF YOU WOULD LIKE SOME HELP. 
-
-
-
-
 <?php
-
-EXIT;
 
 //timing
 function recordTime_float($name="unnamed")
@@ -41,6 +22,7 @@ if(!isset($cct_base))
  
 
 include_once($cct_base."includes/header.php");
+
 include_once($cct_base."includes/login.php");
 
 
