@@ -196,7 +196,7 @@ $workspace_settings = db_workspace_selectSettings();
 checkWorkspace($workspace_settings, $_POST, $cct_base);
 $tiddlyCfg = array_merge($tiddlyCfg, $workspace_settings);
 handleDebug($_SERVER);
-checkAndAddSlash($_SERVER['REQUEST_URI']);
+//checkAndAddSlash($_SERVER['REQUEST_URI']);
 
 ////////////////////////////////////////////////////users and privileges////////////////////////////////////////////////////
 
