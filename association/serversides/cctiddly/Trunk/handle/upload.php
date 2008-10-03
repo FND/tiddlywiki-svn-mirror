@@ -18,7 +18,7 @@ if (!user_isAdmin($user['username'], $tiddlyCfg['workspace_name'])){
 	}
 }
 
-$folder = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['REQUEST_URI']))."/uploads/".$_REQUEST['workspace'];
+$folder = $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['REQUEST_URI']))."/uploads/workspaces/".$tiddlyCfg['workspace_name'];
 
 
 
