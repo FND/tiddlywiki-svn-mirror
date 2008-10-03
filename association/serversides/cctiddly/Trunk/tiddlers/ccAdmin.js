@@ -74,7 +74,9 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 	params.w.addStep(me.stepAddTitle,"<input type='hidden' name='admin_placeholder'/>"+me.labelUsername+"<input name=adminUsername><br />"+me.labelWorkspace+"<select name=workspaceName />");
 	var workspaces = eval('[ '+responseText+' ]');
 	for(var t=0; t<workspaces.length; t++) {
-		createTiddlyElement(params.w.formElem.workspaceName, "option", null, null, workspaces[t]);
+		var o = createTiddlyElement(params.w.formElem.workspaceName, "option", null, null, workspaces[t]);
+		if(workspaces[t] == workspace)
+			o.selected = true;
 	}
 	params.w.formElem.admin_placeholder.parentNode.appendChild(frm);
 	params.w.setButtons([
