@@ -46,15 +46,11 @@ twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,u
 		var tiddler = new Tiddler(tweets[i]['id']);
 		var timestamp = tweets[i]['created_at'];
 		tiddler.created = convertTimestamp(timestamp).convertToLocalYYYYMMDDHHMM().toString();
-		tiddler.set(tweets[i]['id'],tweets[i]['text'],"modifier",convertTimestamp(timestamp),"",convertTimestamp(timestamp),"");
+		tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",convertTimestamp(timestamp),"",convertTimestamp(timestamp),"");
 		store.addTiddler(tiddler);
 	}			
 	context.tiddlers = list;
 	context.status = true;		
 };
 
-
-
-
 config.adaptors[twitterAdaptor.serverType] = twitterAdaptor;
-
