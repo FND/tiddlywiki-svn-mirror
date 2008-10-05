@@ -5,6 +5,23 @@ flickrAdaptor.mimeType = 'application/json';
 flickrAdaptor.serverType = 'flickr';
 
 
+// convert short-month string (mmm) to month number (zero-based)
+function convertShortMonth(text) {
+	for(var i = 0; i < config.messages.dates.shortMonths.length; i++) { // XXX: inefficient!?
+		if(text == config.messages.dates.shortMonths[i]) {
+			return i;
+		}
+	}
+}
+
+// convert ISO 8601 timestamp to Date instance
+function convertISOTimestamp(str) { // TODO: rename
+	var components = str.match(/(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)/);
+	console.log(components);
+	return new Date(components[1], components[2], components[3],
+		components[4], components[5], components[6]);
+}
+
 
 flickrAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
@@ -23,12 +40,15 @@ flickrAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 
 
 function createTiddler(i){
-		var date = "";
+
+	console.log(i.published)
+
+		var date = convertISOTimestamp(i.published);
+//	var date = "";
 		var tiddler = new Tiddler(i.title);
 		tiddler.set(i.title,"[img["+ i.title +"|"+ i.media.m+"]]","modifier",date,"",date,"");
 		store.addTiddler(tiddler);
 	    displayMessage("<img src=" + i.media.m + " alt=" + i.title +">’");
-		console.log(tiddler);
 	
 }
 
