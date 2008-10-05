@@ -29,8 +29,8 @@ twitterAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType
 
 twitterAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
-	 console.log(context);
- 	context = this.setContext(context,userParams,callback);
+	
+		context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0/statuses/user_timeline/simonmcmanus.json';
 	var uri = uriTemplate.format([context.host]);
 	var req = twitterAdaptor.doHttpGET(uri,twitterAdaptor.getWorkspaceListCallback,context, {'accept':twitterAdaptor.mimeType});
@@ -46,11 +46,16 @@ twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,u
 		var tiddler = new Tiddler(tweets[i]['id']);
 		var timestamp = tweets[i]['created_at'];
 		tiddler.created = convertTimestamp(timestamp).convertToLocalYYYYMMDDHHMM().toString();
-		tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",convertTimestamp(timestamp),"",convertTimestamp(timestamp),"");
+		fields = {};
+		fields["server.type"] = "twitter";
+		tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",convertTimestamp(timestamp),"",convertTimestamp(timestamp),fields);
 		store.addTiddler(tiddler);
 	}			
 	context.tiddlers = list;
 	context.status = true;		
+//	context.userParams.addStep("Tweets Imported","Your tweets have been imported. ");
+	window.refreshDisplay();
+//	console.log(context);
 };
 
 config.adaptors[twitterAdaptor.serverType] = twitterAdaptor;
