@@ -44,7 +44,6 @@ flickrAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 	//	displayMessage("get Tiddler list");
 };
 
-
 function createTiddler(i){
 	var date = convertISOTimestamp(i.published);
 	var tiddler = new Tiddler(i.title);

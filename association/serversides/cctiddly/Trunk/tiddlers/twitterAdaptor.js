@@ -29,8 +29,7 @@ twitterAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType
 
 twitterAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
-	
-		context = this.setContext(context,userParams,callback);
+	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0/statuses/user_timeline/simonmcmanus.json';
 	var uri = uriTemplate.format([context.host]);
 	var req = twitterAdaptor.doHttpGET(uri,twitterAdaptor.getWorkspaceListCallback,context, {'accept':twitterAdaptor.mimeType});
