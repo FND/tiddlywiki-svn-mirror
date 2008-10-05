@@ -1052,6 +1052,10 @@ if(document.body.style['-webkit-transform'] !== undefined) {
 /***
 !StyleSheet
 
+body {
+	font-family: helvetica,arial;
+}
+
 #displayArea.cecily {
 	float: none;
 	margin: 0em 0em 0em 0em;
