@@ -65,7 +65,8 @@ array(	"ccAdaptor",
 
 $tiddlyCfg['allowed_proxy_list'] = 
 array(	'wikipedia.org', 
-		'google.com', 
+		'google.com',
+		'twitter.com',
 		'visualtw.ouvaton.org', 
 		'en.wikipedia.org', 
 		'wikiedia.org', 
@@ -249,7 +250,6 @@ $tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what shoul
 $tiddlyCfg['privilege_misc']['default_privilege'] = "UUUU";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
-$tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = "ADDD";
 $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['default_anonymous_perm'];
 $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $tiddlyCfg['default_user_perm'];
 
