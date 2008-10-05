@@ -486,6 +486,7 @@ Cecily.draggers.backgroundDragger = {
 
 Cecily.prototype.showOverlayMenu = function(pos)
 {
+	this.overlayMenu.style.display = "block";
 	var overlayPos = new Rect(pos.x - this.overlayMenu.offsetWidth/2,pos.y - this.overlayMenu.offsetHeight/2,
 							this.overlayMenu.offsetWidth,this.overlayMenu.offsetHeight);
 	var w = this.frame.offsetWidth;
@@ -506,13 +507,14 @@ Cecily.prototype.showOverlayMenu = function(pos)
 	this.overlayMenu.style['-webkit-transform'] = "scale(" + scale + "," + scale + ")";
 	this.overlayMenu.style.left = overlayPos.x + "px";
 	this.overlayMenu.style.top = overlayPos.y + "px";
-	this.overlayMenu.style.opacity = "1.0";
+	this.overlayMenu.style.opacity = "0.8";
 };
 
 Cecily.prototype.onMouseOutOverlay = function(ev)
 {
 	if(findRelated(ev.toElement,"overlayMenu","id","parentNode") == null) {
 		this.overlayMenu.style.opacity = "0.0";
+		this.overlayMenu.style.display = "none";
 	}
 };
 
@@ -1103,6 +1105,7 @@ div#messageArea:hover .button:active {
 	background-color: #444;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#666), color-stop(0.3,#444));
 	opacity: 0;
+	display: none;
 }
 
 #overlayMenu table.twtable {
@@ -1127,10 +1130,6 @@ div#messageArea:hover .button:active {
 .viewer table, table.twtable {
 	border: none;
 	border-bottom: none;
-}
-
-#overlayMenu:hover {
-	opacity: 0.9;
 }
 
 #overlayMenu a {
