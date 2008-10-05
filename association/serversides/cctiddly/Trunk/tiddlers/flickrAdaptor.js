@@ -25,31 +25,33 @@ function convertISOTimestamp(str) { // TODO: rename
 
 flickrAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-		uri = "release/handle/proxy.php?feed="+uri;
-	    return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
+	uri = "release/handle/proxy.php?feed="+uri;
+    return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
 flickrAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
- 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0/services/feeds/photos_public.gne?format=json&ids=22127230@N08';
+ 	
+context = this.setContext(context,userParams,callback);
+	var uriTemplate = '%0/services/feeds/photos_public.gne?ids=22127230@N08&format=json';
 	var uri = uriTemplate.format([context.host]);
-	var req = flickrAdaptor.doHttpGET(uri,flickrAdaptor.getWorkspaceListCallback,context);
+	var req = flickrAdaptor.doHttpGET(uri,flickrAdaptor.getWorkspaceListCallback,context, null, "format=json");
 	return typeof req == 'string' ? req : true;
 };
 
 
+flickrAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
+{
+	displayMessage("tiddler list");
+	//	displayMessage("get Tiddler list");
+};
+
+
 function createTiddler(i){
-
-	console.log(i.published)
-
 		var date = convertISOTimestamp(i.published);
-//	var date = "";
 		var tiddler = new Tiddler(i.title);
 		tiddler.set(i.title,"[img["+ i.title +"|"+ i.media.m+"]]","modifier",date,"",date,"");
 		store.addTiddler(tiddler);
-	    displayMessage("<img src=" + i.media.m + " alt=" + i.title +">’");
-	
 }
 
 function jsonFlickrFeed(o){

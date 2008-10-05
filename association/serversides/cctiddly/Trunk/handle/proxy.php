@@ -14,9 +14,14 @@ if(!in_array($url[host], $tiddlyCfg['allowed_proxy_list']))
 	error_log("");
 	exit;
 }
+
 if($feed != '' && strpos($feed, 'http') === 0)
 {
-	readfile($feed);
+	if($_REQUEST['format'])
+		readfile($feed."&format=".$_REQUEST['format']);
+	else
+		readfile($feed);
+		
 	return;
 }
 ?>
