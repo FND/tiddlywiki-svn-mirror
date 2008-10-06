@@ -23,7 +23,7 @@ function convertISOTimestamp(str) { // TODO: rename
 
 flickrAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	uri = "Trunk/handle/proxy.php?feed="+uri;
+	uri = "/release/release/handle/proxy.php?feed="+uri;
     return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 

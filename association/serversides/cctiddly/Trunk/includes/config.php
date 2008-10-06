@@ -66,6 +66,7 @@ array(	"ccAdaptor",
 $tiddlyCfg['allowed_proxy_list'] = 
 array(	'wikipedia.org', 
 		'api.flickr.com',
+		'feeds.delicious.com',
 		'google.com',
 		'twitter.com',
 		'visualtw.ouvaton.org', 

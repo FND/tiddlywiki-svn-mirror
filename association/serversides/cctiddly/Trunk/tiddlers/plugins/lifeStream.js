@@ -12,6 +12,16 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	context.host = "http://api.flickr.com";
 	flickr.getWorkspaceList(context);
 	
+	
+	displayMessage("0");
+	var delicious = new deliciousAdaptor();
+	delicious.openHost();
+	displayMessage("1");
+	context.host = "http://feeds.delicious.com";
+	delicious.getWorkspaceList(context);
+	
+	
+	
 	setStylesheet(".twitterStream { background-repeat:no-repeat; background-image:url(http://assets0.twitter.com/images/twitter.png);}"+
 	".flickrStream { }"+
 	".stream {background-color:#111;color:black; padding:10px; margin:10px ; border:1px solid #111;}"+

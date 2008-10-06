@@ -24,13 +24,13 @@ function convertTimestamp(str) { // TODO: rename
 
 twitterAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	    return doHttp('GET',"Trunk/handle/proxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
+	    return doHttp('GET',"/release/release/handle/proxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
 };
 
 twitterAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0/statuses/user_timeline/simonmcmanus.json';
+	var uriTemplate = '%0/statuses/user_timeline/simonmcmanus.json?';
 	var uri = uriTemplate.format([context.host]);
 	var req = twitterAdaptor.doHttpGET(uri,twitterAdaptor.getWorkspaceListCallback,context, {'accept':twitterAdaptor.mimeType});
 	return typeof req == 'string' ? req : true;
