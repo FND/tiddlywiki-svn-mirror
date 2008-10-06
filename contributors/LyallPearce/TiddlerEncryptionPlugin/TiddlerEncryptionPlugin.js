@@ -4,7 +4,7 @@
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |Version|3.2.0|
-|~CoreVersion|2.3.0|
+|~CoreVersion|2.4.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
 |Description|Encrypt/Decrypt Tiddlers with a Password key|
@@ -43,7 +43,7 @@ Useful Buttons:
 <<<
 !!!!!Revision History
 <<<
-* 3.2.0 - Ditched the 'Decrypt' button showing up in the tiddler contents if the tiddler is encrypted. It caused too much pain if you edit the tiddler without decrypting it - you lost your data as it was replaced by a Decrypt Macro call!  Additionally, a 'decrypt' button will now appear in the toolbar, just before the edit button, if the tiddler is encrypted.
+* 3.2.0 - Ditched the 'Decrypt' button showing up in the tiddler contents if the tiddler is encrypted. It caused too much pain if you edit the tiddler without decrypting it - you lost your data as it was replaced by a Decrypt Macro call!  Additionally, a 'decrypt' button will now appear in the toolbar, just before the edit button, if the tiddler is encrypted. This button only appears if using core TiddlyWiki version 2.4 or above.
 * 3.1.1 - Obscure bug whereby if an encrypted tiddler was a certain length, it would refuse to decrypt.
 * 3.1.0 - When creating a new Encrypt(prompt) tiddler and you have not previously decrypted a tiddler with the same prompt, on save, you will be prompted for the password to encrypt the tiddler. Prior to encrypting, an attempt to decrypt all other tiddlers with the same prompt, is performed. If any tiddler fails to decrypt, the save is aborted - this is so you don't accidentally have 2 (or more!) passwords for the same prompt. Either you enter the correct password, change the prompt string and try re-saving or you cancel (and the tiddler is saved unencrypted).
 * 3.0.1 - Allow Enter to be used for password entry, rather than having to press the OK button.
@@ -120,7 +120,8 @@ config.commands.decryptThis = {
 	return false; 
     }
 };
-if(config.shadowTiddlers.ToolbarCommands.indexOf('decryptThis') == -1) {
+// core version 2.4 or above get a 'decrypt' button in the toolbar.
+if(config.shadowTiddlers && config.shadowTiddlers.ToolbarCommands  && config.shadowTiddlers.ToolbarCommands.indexOf('decryptThis') == -1) {
     // put our toolbar button in before the edit button.
     // won't work if editTiddler is not the default item (prefixed with plus)
     config.shadowTiddlers.ToolbarCommands.replace(/\+editTiddler/,'decryptThis +editTiddler');
