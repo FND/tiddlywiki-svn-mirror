@@ -3,7 +3,7 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|3.1.1|
+|Version|3.2.0|
 |~CoreVersion|2.3.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -27,7 +27,7 @@
 * Errors are reported via diagnostic messages.
 ** Empty passwords, on save, will result in the tiddler being saved unencrypted - this should only occur with new tiddlers, decrypted tiddlers or with tiddlers who have had their 'prompt' tag changed.
 ** Encrypted tiddlers know if they are decrypted successfully - failure to decrypt a tiddler will ''not'' lose your data.
-** Editing of an encrypted (that has not been unencrypted) tiddler will result in loss of that tiddler as the SHA1 checksums will no longer match, upon decryption. To this end, it is best that you do not check the option.
+** Editing of an encrypted (that has not been unencrypted) tiddler will result in loss of that tiddler as the SHA1 checksums will no longer match, upon decryption. To this end, it is best that you do not check the option. You can, however edit an encrypted tiddler tag list - just do ''not'' change the tiddler contents.
 ** To change the password on a Tiddler, change the Encrypt('prompt') tag to a new prompt value, after decrypting the tiddler.
 ** You can edit the tags of an encrypted tiddler, so long as you do not edit the text.
 ** To change the password for all tiddlers of a particular prompt, use the {{{<<EncryptionChangePassword ["button text" ["tooltip text" ["prompt string" ["accessKey"]]]]>>}}} macro.
@@ -43,6 +43,7 @@ Useful Buttons:
 <<<
 !!!!!Revision History
 <<<
+* 3.2.0 - Ditched the 'Decrypt' button showing up in the tiddler contents if the tiddler is encrypted. It caused too much pain if you edit the tiddler without decrypting it - you lost your data as it was replaced by a Decrypt Macro call!  Additionally, a 'decrypt' button will now appear in the toolbar, just before the edit button, if the tiddler is encrypted.
 * 3.1.1 - Obscure bug whereby if an encrypted tiddler was a certain length, it would refuse to decrypt.
 * 3.1.0 - When creating a new Encrypt(prompt) tiddler and you have not previously decrypted a tiddler with the same prompt, on save, you will be prompted for the password to encrypt the tiddler. Prior to encrypting, an attempt to decrypt all other tiddlers with the same prompt, is performed. If any tiddler fails to decrypt, the save is aborted - this is so you don't accidentally have 2 (or more!) passwords for the same prompt. Either you enter the correct password, change the prompt string and try re-saving or you cancel (and the tiddler is saved unencrypted).
 * 3.0.1 - Allow Enter to be used for password entry, rather than having to press the OK button.
@@ -52,7 +53,7 @@ Useful Buttons:
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 3, minor: 1, revision: 1, date: new Date(2008,9,18)};
+version.extensions.TiddlerEncryptionPlugin = {major: 3, minor: 2, revision: 0, date: new Date(2008,10,6)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -102,6 +103,30 @@ config.macros.EncryptionDecryptThis.handler = function(place,macroName,params,wi
 	theButton.setAttribute("theTiddler", params[2]);
     }
 };
+// toolbar button to decrypt tiddlers.
+config.commands.decryptThis = {
+  text: "decrypt",
+  tooltip: "Decrypt this tiddler",
+  isEnabled : function(tiddler) {
+	// Only show decrypt button if tiddler is tagged as Decrypt(
+	if(tiddler.tags.join().indexOf('Decrypt(') == -1)  {
+	    return false;
+	} else {
+	    return true;
+	}
+    },	
+  handler: function(event, src, title) {
+	encryptionGetAndDecryptTiddler(title);
+	return false; 
+    }
+};
+if(config.shadowTiddlers.ToolbarCommands.indexOf('decryptThis') == -1) {
+    // put our toolbar button in before the edit button.
+    // won't work if editTiddler is not the default item (prefixed with plus)
+    config.shadowTiddlers.ToolbarCommands.replace(/\+editTiddler/,'decryptThis +editTiddler');
+}
+
+
 // Called by the EncryptionChangePassword macro/button
 // Also invoked by the callback for password entry
 function onClickEncryptionChangePassword(eventObject) {
@@ -149,9 +174,14 @@ function onClickEncryptionDecryptThis() {
     if(!theTiddler) {
 	return;
     }
+    encryptionGetAndDecryptTiddler(theTiddler);
+    return;
+};
+
+function encryptionGetAndDecryptTiddler(title) {
     config.encryptionReEnterPasswords = true;
     try {
-	theTiddler = store.getTiddler(theTiddler);
+	theTiddler = store.getTiddler(title);
 	config.encryptionReEnterPasswords = false;
 	story.refreshAllTiddlers();
     } catch (e) {
@@ -162,6 +192,7 @@ function onClickEncryptionDecryptThis() {
     } // catch
     return;
 };
+
 // called by the EncryptionDecryptAlll macro/button
 // Also called by the callback after the user clicks 'OK' button on the password entry form
 function onClickEncryptionDecryptAll(eventObject) {
@@ -415,17 +446,18 @@ store.getTiddler = function(title) {
 	try {
 	    return CheckTiddlerForDecryption_TiddlerEncryptionPlugin(tiddler);
 	} catch (e) {
-	    if(e == "DecryptionFailed") {
-		var tiddler = store.getTiddler("DecryptionFailed");
-		if(!tiddler) {
-		    tiddler = new Tiddler();
-		    tiddler.set(title,
-				"<<EncryptionDecryptThis \"Decrypt\" \"Decrypt this tiddler\" \""+title+"\">>",
-				config.views.wikified.shadowModifier,
-				version.date,[],version.date);
-		} 
-		return tiddler;
-	    } // if(e)
+	    return(tiddler);
+	    // if(e == "DecryptionFailed") {
+	    // 	var tiddler = store.getTiddler("DecryptionFailed");
+	    // 	if(!tiddler) {
+	    // 	    tiddler = new Tiddler();
+	    // 	    tiddler.set(title,
+	    // 			"<<EncryptionDecryptThis \"Decrypt\" \"Decrypt this tiddler\" \""+title+"\">>",
+	    // 			config.views.wikified.shadowModifier,
+	    // 			version.date,[],version.date);
+	    // 	} 
+	    // 	return tiddler;
+	    // } // if(e)
 	} // catch
     } // if(tiddler) {
     return null;
