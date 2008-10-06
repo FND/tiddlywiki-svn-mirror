@@ -124,11 +124,12 @@ TiddlyWebAdaptor.getTiddlerListCallback = function(status,context,responseText,u
 
 TiddlyWebAdaptor.prototype.getSearchResults = function(context,userParams,callback) {
 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0/search?q=%1';
-	var uri = uriTemplate.format([context.host, context.query]);
+	var filterString = context.filters ? ';filter=' + context.filters : '';
+	var uriTemplate = '%0/search?q=%1%2';
+	var uri = uriTemplate.format([context.host, context.query, filterString]);
 	var req = httpReq('GET',uri,TiddlyWebAdaptor.getSearchResultsCallback,
-		context,{ accept: "application/json" });
-	return typeof req == "string" ? req : true;
+		context,{ accept: 'application/json' });
+	return typeof req == 'string' ? req : true;
 };
 
 TiddlyWebAdaptor.getSearchResultsCallback = function(status,context,responseText,uri,xhr) {

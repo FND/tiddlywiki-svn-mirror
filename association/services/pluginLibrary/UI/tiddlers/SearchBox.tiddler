@@ -1,3 +1,6 @@
 <div title="SearchBox">
-<pre><<ImportPlugins>></pre>
+<pre><<ImportPlugins>>
+{{options{
+Max. results: <<option txtPluginLibrarySearchResults>>
+}}}</pre>
 </div>

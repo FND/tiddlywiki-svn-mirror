@@ -14,6 +14,10 @@ version.extensions.PluginLibraryAdaptor = { installed: true };
 
 if(!config.extensions) { config.extensions = {}; }
 
+if(!config.options.txtPluginLibrarySearchResults) {
+	config.options.txtPluginLibrarySearchResults = "25";
+}
+
 config.extensions.PluginLibraryAdaptor = {
 	host: "plugins.tiddlywiki.org/tiddlyweb",
 	listRetrievalMsg: "retrieving list of plugins matching '%0'...",
@@ -33,6 +37,7 @@ config.extensions.PluginLibraryAdaptor = {
 		var context = {
 			host: this.host,
 			query: query,
+			filters: "[count[" + config.options.txtPluginLibrarySearchResults + "]]",
 			matchCallback: callback
 		};
 		return adaptor.getSearchResults(context, userParams, this.getMatchesCallback);
@@ -42,7 +47,7 @@ config.extensions.PluginLibraryAdaptor = {
 		clearMessage();
 		if(!context.status) {
 			if(context.httpStatus == 404) {
-								displayMessage(config.extensions.PluginLibraryAdaptor.noMatchMsg.format([context.query]));
+				displayMessage(config.extensions.PluginLibraryAdaptor.noMatchMsg.format([context.query]));
 			} else {
 				displayMessage(config.extensions.PluginLibraryAdaptor.retrievalErrorMsg);
 			}
