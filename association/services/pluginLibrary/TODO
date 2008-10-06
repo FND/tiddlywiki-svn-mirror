@@ -12,9 +12,6 @@
 
 * plugin origin for missing Source slice
 * move plugins (entire UI vertical?) to generic directory
-* results handling (toolbar commands)
-** dismiss (i.e. delete)
-** keep (i.e. disable doNotSave)
 * search:
 ** support for filters
 ** support for boolean operators

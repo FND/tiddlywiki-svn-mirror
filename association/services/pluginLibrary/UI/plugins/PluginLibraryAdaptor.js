@@ -124,7 +124,7 @@ config.paramifiers.search = {
 
 config.commands.storeToggle = { // XXX: move to separate plugin
 	temporaryText: "keep",
-	permanentText: "√ keep",
+	permanentText: "\u221A keep",
 	temporaryTooltip: "Permanently store this tiddler",
 	permanentTooltip: "Do not permanently store this tiddler",
 	targetTiddler: "ExtensionBasket",
