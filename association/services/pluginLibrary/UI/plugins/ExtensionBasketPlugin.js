@@ -29,8 +29,8 @@ config.macros.extensionBasket = {
 			if(!tiddler.fields.doNotSave &&
 				!tiddler.tags.contains("pluginLibrary") &&
 				tiddler.tags.containsAny(["systemConfig",  "systemConfigDisable"])) {
-				output += "* [[" + title + "]] (" +
-					(store.getTiddlerSlice(title, "Source") || "N/A") + ")\n";
+				output += "* [[" + title + "|" +
+					(store.getTiddlerSlice(title, "Source") || "") + "]]\n";
 			}
 		});
 		wikify(output, place);

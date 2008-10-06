@@ -124,11 +124,33 @@ config.paramifiers.search = {
 
 config.commands.keepTiddler = { // XXX: move to separate plugin
 	text: "keep",
+	altText: "remove",
 	tooltip: "Permanently store this tiddler",
+	altTooltip: "Do not permanently store this tiddler",
+	targetTiddler: "ExtensionBasket",
+
+	isEnabled: function(tiddler) { // XXX: hacky
+		if(!tiddler.fields.doNotSave) {
+			this.text = this.altText;
+			this.tooltip = this.altTooltip;
+		}
+		return true;
+	},
 
 	handler: function(event, src, title) {
 		var tiddler = store.getTiddler(title);
-		delete tiddler.fields.doNotSave;
+		if(tiddler.fields.doNotSave) {
+			delete tiddler.fields.doNotSave;
+			removeChildren(src);
+			createTiddlyText(src, this.altText);
+			src.title = this.altTooltip;
+		} else {
+			tiddler.fields.doNotSave = true;
+			removeChildren(src);
+			createTiddlyText(src, this.text);
+			src.title = this.tooltip;
+		}
+		store.notify(this.targetTiddler, true);
 		return false;
 	}
 };
@@ -163,7 +185,7 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem) {
 	if(!context.serverType) {
 		return;
 	}
-	var adaptor = new config.adaptors[context.serverType];
+	var adaptor = new config.adaptors[context.serverType]();
 	adaptor.getTiddler(title,context,null,getTiddlerCallback);
 	return config.messages.loadingMissingTiddler.format([title,context.serverType,context.host,context.workspace]);
 };

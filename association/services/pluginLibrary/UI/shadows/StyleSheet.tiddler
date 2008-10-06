@@ -35,8 +35,15 @@ body {
 }
 
 #mainMenu {
+	width: 15em;
 	margin-right: 1em;
 	padding-top: 0.5em;
+	text-align: left;
+}
+
+#mainMenu ul {
+	margin: 0 0 0 1.2em;
+	padding: 0;
 }
 
 #searchBox {
