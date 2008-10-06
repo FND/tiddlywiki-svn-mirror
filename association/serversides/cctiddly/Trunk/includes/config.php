@@ -23,7 +23,7 @@ $tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an ac
 $tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 $tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
 $tiddlyCfg['extract_admin_from_url']=0;// The admin user for each workspace when create will be taken from the URL.  If turned on it means the user SimonMcManus owns the workspace /SimonMcManus/.
-$tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
+$tiddlyCfg['use_mod_rewrite'] = 0;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 
 	
 //LDAP
@@ -116,7 +116,7 @@ $tiddlyCfg['txtTheme'] = 'purpleTheme';  // The default TiddlyWiki theme to use.
 // Debugging Information 
 
 $tiddlyCfg['developing'] =1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
-$tiddlyCfg['debug']['mysql'] = 1;	 // if set to x1 will output every sql query into the logfile 
+$tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login'] = 0;
 $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;

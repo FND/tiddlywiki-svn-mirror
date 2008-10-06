@@ -148,6 +148,10 @@
 		if (is_dir($dir)) {
 		    if ($dh = opendir($dir)) {
 		       while (($file = readdir($dh)) !== false) {
+			
+				$full = $_SERVER['DOCUMENT_ROOT'].dirname($_SERVER['REQUEST_URI'])."/".$dir."/".$file;
+					if(is_dir($full))
+						getDir($full, $file); 
 					$ext = substr($file, strrpos($file, '.') + 1); 
 					if ($ext == "js")			
 						echo tiddler_outputJsFile($dir."/".$file, $cct_base);
@@ -157,9 +161,15 @@
 		        closedir($dh);
 		    }
 		}
-	}
+	}	
 	
-
+	function getDir($full, $file)
+	{
+		if($file!= "." && $file!=".." && $file!=".svn") {
+			tiddler_outputFolder($full, $cct_base);
+			error_log("path : ".$dir."/".$file);
+		}
+	}
 	
 	function tiddler_outputOffline()
 	{

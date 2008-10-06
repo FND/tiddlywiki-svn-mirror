@@ -39,10 +39,19 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 {
 ?>
 
+
+
 // OFF LINE TIDDLERS 
 <div title='ccAdaptorSaveLocal' modifier='ccTiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
 <pre>
 config.backstageTasks.remove("upgrade");
+	
+	
+	
+	
+config.macros.ccLogin.handler = function() {
+	
+};
 	
 if (config.options.txtTheme == "")
 config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
