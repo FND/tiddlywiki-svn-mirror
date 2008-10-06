@@ -1,6 +1,0 @@
-<div title="ToolbarCommands" modifier="ccTiddly" modified="200804011417" created="200706181748" tags="ccTiddly  excludeSearch excludeLists">
-<pre>
-|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink revisions references jump|
-|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
-</pre>
-</div>
