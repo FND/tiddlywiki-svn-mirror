@@ -122,20 +122,20 @@ config.paramifiers.search = {
 	}
 };
 
-config.commands.keepToggle = { // XXX: move to separate plugin
-	keepText: "keep",
-	removeText: "remove",
-	keepTooltip: "Permanently store this tiddler",
-	removeTooltip: "Do not permanently store this tiddler",
+config.commands.storeToggle = { // XXX: move to separate plugin
+	temporaryText: "keep",
+	permanentText: "√ keep",
+	temporaryTooltip: "Permanently store this tiddler",
+	permanentTooltip: "Do not permanently store this tiddler",
 	targetTiddler: "ExtensionBasket",
 
 	isEnabled: function(tiddler) { // XXX: hacky abuse
 		if(!tiddler.fields.doNotSave) {
-			this.text = this.removeText;
-			this.tooltip = this.removeTooltip;
+			this.text = this.permanentText;
+			this.tooltip = this.permanentTooltip;
 		} else {
-			this.text = this.keepText;
-			this.tooltip = this.keepTooltip;
+			this.text = this.temporaryText;
+			this.tooltip = this.temporaryTooltip;
 		}
 		return true;
 	},
@@ -145,13 +145,13 @@ config.commands.keepToggle = { // XXX: move to separate plugin
 		if(tiddler.fields.doNotSave) {
 			delete tiddler.fields.doNotSave;
 			removeChildren(src);
-			createTiddlyText(src, this.removeText);
-			src.title = this.removeTooltip;
+			createTiddlyText(src, this.permanentText);
+			src.title = this.permanentTooltip;
 		} else {
 			tiddler.fields.doNotSave = true;
 			removeChildren(src);
-			createTiddlyText(src, this.keepText);
-			src.title = this.keepTooltip;
+			createTiddlyText(src, this.temporaryText);
+			src.title = this.temporaryTooltip;
 		}
 		store.notify(this.targetTiddler, true);
 		return false;
