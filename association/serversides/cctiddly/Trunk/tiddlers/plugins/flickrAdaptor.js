@@ -23,7 +23,7 @@ function convertISOTimestamp(str) { // TODO: rename
 
 flickrAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	uri = "/release/release/handle/proxy.php?feed="+uri;
+	uri = "Trunk/handle/proxy.php?feed="+uri;
     return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
@@ -40,7 +40,6 @@ flickrAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 flickrAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
 	displayMessage("tiddler list");
-	//	displayMessage("get Tiddler list");
 };
 
 function createTiddler(i){

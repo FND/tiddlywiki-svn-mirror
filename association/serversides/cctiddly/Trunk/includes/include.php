@@ -5,7 +5,7 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
        tiddler_outputOffline();
 else {
        echo tiddler_outputFolder("tiddlers", $cct_base);
-       echo tiddler_outputFolder($cct_base."lang/".$tiddlyCfg['pref']['language'], $cct_base);
+       echo tiddler_outputFolder("lang/".$tiddlyCfg['pref']['language'], $cct_base);
 }
 
 

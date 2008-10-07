@@ -143,13 +143,19 @@
 	
 	function tiddler_outputFolder($dir, $cct_base) 
 	{	
-		$dir = $cct_base.$dir;
+		global $tiddlyCfg;
+		$dir = $dir;
+		
+		error_log("START DIR : ".$dir);
 		// Open plugins directory, and read its contents
 		if (is_dir($dir)) {
 		    if ($dh = opendir($dir)) {
 		       while (($file = readdir($dh)) !== false) {
 			
-				$full = $_SERVER['DOCUMENT_ROOT'].dirname($_SERVER['REQUEST_URI'])."/".$dir."/".$file;
+					$full  = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder']."/".$dir."/".$file;
+							error_log("full 1 : ".$full);
+			
+		
 					if(is_dir($full))
 						getDir($full, $file); 
 					$ext = substr($file, strrpos($file, '.') + 1); 
@@ -165,9 +171,13 @@
 	
 	function getDir($full, $file)
 	{
+				error_log("path : ".$file);
+	
+			error_log("path : ".$full);
 		if($file!= "." && $file!=".." && $file!=".svn") {
+
 			tiddler_outputFolder($full, $cct_base);
-			error_log("path : ".$dir."/".$file);
+
 		}
 	}
 	

@@ -5,7 +5,7 @@ $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "alpha_upgrade";		//db name
+$tiddlyCfg['db']['name'] = "172";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 
@@ -177,6 +177,9 @@ $tiddlyCfg['status'] = "";
 
 
 $tiddlyCfg['workspace_name'] = getWorkspaceName($_SERVER, $_REQUEST);
+$tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
+$tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'/uploads/';  // location of the file upload directory - assumes is it under the root folder
+
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	getOfflineFile();
 
