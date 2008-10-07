@@ -33,11 +33,13 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	};
 	
 	
-	setStylesheet(".twitterStream { background-repeat:no-repeat; background-image:url(http://assets0.twitter.com/images/twitter.png);}"+
+	setStylesheet(".twitterStream { background-repeat:no-repeat;}"+
 	".flickrStream { }"+
-	".deliciousStream { background-repeat:no-repeat;background-image:url(http://ransom.redjar.org/images/delicious_icon.gif);}"+
-	".stream {background-color:#111;color:white; padding:10px; margin:10px ; border:1px solid #111;}"+
-".stream:hover {background-color:#333; border:1px solid #111; cursor:pointer;} .stream:hover h1 {color:white}"+
+	"a.twitterStream {background:url(http://www.iconarchive.com/icons/fasticon/web-2/Twitter-256x256.png); }"+
+	"a.deliciousStream {background:url(http://ransom.redjar.org/images/delicious_icon.gif);}"+
+	".tiddler .button {background-repeat:no-repeat;  padding-left:50px; }"+
+	".stream { background-repeat:no-repeat; display: block; width:100%; background-color:#111;color:white; padding:10px; margin:10px ; width:90%; border:1px solid #111;}"+
+".stream:hover { border:1px solid #111; cursor:pointer;} .stream:hover h1 {color:white}"+
 "h1 {border-bottom:0px;underline:none; padding-top:20px;}");
 
 	var field = params[0] || "modified";
@@ -90,36 +92,16 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 				
 			break;
 			case "twitter":
-				var li = createTiddlyElement(place, "div", null, "twitterStream stream");
-				li.title = tiddlers[t].title;
-					li.onclick = function() {
-						setStylesheet(
-						"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
-						"html > body > #backstageCloak {height:"+window.innerHeight*2+"px;}"+
-						"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
-						var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
-					//	console.log(store.getTiddlerText(this.title));
-						box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><h3>"+wikifyStatic(store.getTiddlerText(this.title))+"</h3><br />";
-						box.style.position = 'absolute';
-						box.style.width= "800px";
-						var content = createTiddlyElement(box, "div");
-						ccTiddlyAdaptor.center(box);
-						ccTiddlyAdaptor.showCloak();
-					};
-				wikify("!"+tiddlers[t].text+" \n\r"+tiddlers[t].created, li);
+				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].text);
+				var sliderButton = findRelated(slider,"button","className","previousSibling");
+				addClass(sliderButton,"stream twitterStream");
+				wikify("\n\r"+tiddlers[t].created,slider);
 			break;
 			case "delicious":
-		//		var li = createTiddlyElement(place, "div", null, "deliciousStream stream");
-		//		li.title = tiddlers[t].title;
-		//		wikify("!"+tiddlers[t].text+"\n\r"+tiddlers[t].created, li);		
 				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
-				addClass(sliderButton,"deliciousStream");
-					wikify("HIHIHIH",slider);
-				
-
-	
-					
+				addClass(sliderButton,"stream deliciousStream");
+				wikify("\n\r"+tiddlers[t].text+""+tiddlers[t].created,slider);
 			break;
 			default:
 			//	createTiddlyElement(ul,"li",null,"listLink").appendChild(createTiddlyLink(place,tiddlers[t].title,true));
