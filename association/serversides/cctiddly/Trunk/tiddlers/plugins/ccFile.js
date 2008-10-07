@@ -26,11 +26,26 @@ merge(config.macros.ccFile,{
 });
 
 
-var iFrameLoad=function(){
+var iFrameLoad=function(w){
 	var uploadIframe = document.getElementById('uploadIframe');
-	var statusArea = document.getElementById("uploadStatus");
+	displayMessage("o");
+
+
+	var a = createTiddlyElement(null, "div");
+	
+	a.innerHTML = uploadIframe.contentDocument.body.innerHTML;
+
+
+	removeChildren(w.formElem.placeholder);
+	w.formElem.placeholder.parentNode.appendChild(a);
+	
+	
+	console.log(w);
+
+	var statusArea = w.formElem.placeholder;
 	document.getElementById("ccfile").value=""; 
-	statusArea.innerHTML=uploadIframe.contentDocument.body.innerHTML;
+	
+	//statusArea.parentNode.appendChild(uploadIframe.contentDocument.body.innerHTML);
 };
 
 config.macros.ccFile.handler=function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
@@ -69,10 +84,7 @@ config.macros.ccFile.delFileCallback=function(status,params,responseText,uri,xhr
 };
 
 config.macros.ccFile.addFileDisplay = function(e, params) {
-	var frmWrapper=createTiddlyElement(null,'div',"frmWrapper", "frmWrapper");
-	var frm=createTiddlyElement(frmWrapper,'form',null,"wizardStep");
-	var step = frm;
-	//frmWrapper.appendChild(frm);
+	var frm = params.w.formElem;
 	if(navigator.appName=="Microsoft Internet Explorer")
 	{
 		encType = frm.getAttributeNode("enctype");
@@ -85,53 +97,45 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	frm.target="uploadIframe";
 	frm.name = "uploadForm";
 	frm.parentNode.appendChild(frm);
+	
 
-	var username=createTiddlyElement(null,'input','username','username');				
-	username.setAttribute("name","username");
-	username.setAttribute("type","HIDDEN");
-	username.value=config.options.txtUserName;		
-	step.appendChild(username);
+
 	
-	var label=createTiddlyElement(step,"label",null,"label","Upload your file ");
-	label.setAttribute("for","ccfile");
-	var file=createTiddlyElement(null,'input','ccfile','input');				
-	file.type="file";
-	file.name="userFile";
-	step.appendChild(file);
 	
+
+	params.w.addStep("ss", "<input id='ccfile' class='input' type='file' name='userFile'/>"+"<input type='hidden' name='placeholder'/>");
+
 	var workspaceName=createTiddlyElement(null,'input','workspaceName','workspaceName');				
 	workspaceName .setAttribute('name','workspace');
 	workspaceName.type="HIDDEN";
 	workspaceName.value=workspace;
-	step.appendChild(workspaceName);
-	
-	createTiddlyElement(step,'br');
+	frm.appendChild(workspaceName);
+	createTiddlyElement(frm,'br');
 	var saveTo=createTiddlyElement(null,"input","saveTo","saveTo");	
 
-	//saveTo.setAttribute("type","HIDDEN");
-	saveTo.setAttribute("name","saveTo");
-	saveTo.type="HIDDEN";
-	saveTo.value='workspace';
-	saveTo.name='saveTo';
-	step.appendChild(saveTo);
-	
+
 	var iframe=document.createElement("iframe");
 	iframe.style.display="none";
 	iframe.id='uploadIframe';
 	iframe.name='uploadIframe';
-	iframe.onload=iFrameLoad;
-	frm.appendChild(iframe);
-	createTiddlyElement(step,"div",'uploadStatus');
-	params.w.addStep("sd","<input type='hidden' name='placeholder'/>");
-	params.w.formElem.placeholder.parentNode.appendChild(frmWrapper);
+	iframe.onload = function() {
+		iFrameLoad(params.w);
+	}	
 	
+	frm.appendChild(iframe);
+	createTiddlyElement(frm,"div",'uploadStatus');
+//	params.w.addStep("","<input type='hidden' name='placeholder'/>");
+
+	
+//	params.w.addStep(iframe.innerHtml);
+//	params.w.formElem.placeholder.appendChild(iframe);
 	params.w.setButtons([
 		{caption: config.macros.ccFile.buttonCancelText, tooltip: config.macros.ccFile.buttonCancelTooltip, onClick: function() {
 			config.macros.ccFile.refresh(params.w);
 		}
 	},
 	{caption: config.macros.ccFile.buttonUploadText, tooltip: config.macros.ccFile.buttonUploadTooltip, onClick: function() {
-		params.w.formElem.uploadForm.submit();
+			params.w.formElem.submit();
 	}
 }
 	]);
@@ -145,19 +149,19 @@ function addOption(selectbox,text,value ){
 }
 
 config.macros.ccFileImageBox = function(image){
-		var full = image.src;
-		setStylesheet(
-		"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
-		"html > body > #backstageCloak {height:"+window.innerHeight*2+"px;}"+
-		"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
-		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
-		box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><h3>"+image.src+"</h3><br />";
-		box.style.position = 'absolute';
-		box.style.width= "800px";
-		var img = createTiddlyElement(box, "img");
-		img.src = full;
-		ccTiddlyAdaptor.center(box);
-		ccTiddlyAdaptor.showCloak();
+	var full = image.src;
+	setStylesheet(
+	"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
+	"html > body > #backstageCloak {height:"+window.innerHeight*2+"px;}"+
+	"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
+	var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
+	box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><h3>"+image.src+"</h3><br />";
+	box.style.position = 'absolute';
+	box.style.width= "800px";
+	var img = createTiddlyElement(box, "img");
+	img.src = full;
+	ccTiddlyAdaptor.center(box);
+	ccTiddlyAdaptor.showCloak();
 }
 
 config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,xhr){
@@ -200,6 +204,7 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 };
 
 config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,xhr){	
+	displayMessage("got to here ");
 	config.macros.ccFile.refresh(params.w);
 };
 

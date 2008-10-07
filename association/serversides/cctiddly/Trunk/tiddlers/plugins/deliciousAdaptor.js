@@ -37,7 +37,6 @@ deliciousAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 
 
 deliciousAdaptor.createTiddler = function(data) {
-	console.log(data.dt);
 	var date = convertISOTimestamp1(data.dt);
 	var tiddler = new Tiddler(data.d);
 	fields = {};

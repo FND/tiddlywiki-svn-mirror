@@ -1,6 +1,8 @@
 config.macros.lifeStream = {};
 config.macros.lifeStream.handler = function(place,macroName,params)
 {
+	
+	
 	var context = {};
 	context.host = "http://twitter.com";
 	var twitter = new twitterAdaptor();

@@ -34,7 +34,6 @@
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
 </div>
-<div id='contentFooter'  macro='gradient vert #eee #ccc'></div>
 </div>
 <!--}}}-->
 
