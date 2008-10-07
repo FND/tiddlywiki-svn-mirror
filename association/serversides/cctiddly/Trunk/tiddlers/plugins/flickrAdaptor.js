@@ -18,7 +18,7 @@ function convertShortMonth(text) {
 
 flickrAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	uri = "Trunk/handle/proxy.php?feed="+uri;
+	uri = window.url+"/handle/proxy.php?feed="+uri;
     return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
@@ -42,7 +42,7 @@ function createTiddler(i){
 	var tiddler = new Tiddler(i.title);
 	fields = {};
 	fields["server.type"] = "flickr";
-	tiddler.set(i.title,"[img["+ i.title +"|"+ i.media.m+"]]","modifier",date,"",date,fields);
+	tiddler.set(i.title, i.media.m,"modifier",date,"",date,fields);
 	store.addTiddler(tiddler);
 }
 

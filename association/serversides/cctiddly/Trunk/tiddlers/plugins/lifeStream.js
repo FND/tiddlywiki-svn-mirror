@@ -34,71 +34,45 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	
 	
 	setStylesheet(".twitterStream { background-repeat:no-repeat;}"+
-	".flickrStream { }"+
-	"a.twitterStream {background:url(http://www.iconarchive.com/icons/fasticon/web-2/Twitter-256x256.png); }"+
-	"a.deliciousStream {background:url(http://ransom.redjar.org/images/delicious_icon.gif);}"+
-	".tiddler .button {background-repeat:no-repeat;  padding-left:50px; }"+
-	".stream { background-repeat:no-repeat; display: block; width:100%; background-color:#111;color:white; padding:10px; margin:10px ; width:90%; border:1px solid #111;}"+
-".stream:hover { border:1px solid #111; cursor:pointer;} .stream:hover h1 {color:white}"+
-"h1 {border-bottom:0px;underline:none; padding-top:20px;}");
+	"a.flickrStream, a.flickrStream:hover { background:url(http://i65.photobucket.com/albums/h239/myspacemasonry/links/ExtCommunity_Flickr_Size50x50.jpg)}"+
+	"a.twitterStream, a.twitterStream:hover {background:url(http://www.ewanspence.com/blog/wp-content/themes/hemingway/styles/purple/icon_twitter.jpg); }"+
+	"a.deliciousStream,a.deliciousStream:hover {background:url(http://ransom.redjar.org/images/delicious_icon.gif);}"+
+	".tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;  padding-left:50px; background-color:#111; margin:20px}"+
+	".stream { background-repeat:no-repeat; display: block; color:white; padding:10px; margin:10px ; width:85%; border:1px solid #111;}"+	
+	".slider { background-color:#111;color:white; margin-left:64px; width:84%;margin-top:-19px; padding:10px; border:1px solid #111;}"+	
+
+	".tiddler .button:hover	 { background-color:#111; border:1px solid #333;}"
+	);
 
 	var field = params[0] || "modified";
 	var tiddlers = store.reverseLookup("tags","excludeLists",false,field);
 	var last = params[1] ? tiddlers.length-Math.min(tiddlers.length,parseInt(params[1])) : 0;
 	var div = createTiddlyElement(place, "div");
 	for(var t=tiddlers.length-1; t>=last; t--) {
-		
-		
-				createTiddlyElement(place, "br");
-		
-	
-	
-	
-	
 		switch(tiddlers[t].fields['server.type']){
 			case "flickr":
-				var li = createTiddlyElement(place, "div", null, "flickrStream stream");
-				li.title = tiddlers[t].title;
-				
-
-
-				
-				li.onclick = function() {
-					setStylesheet(
-					"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
-					"html > body > #backstageCloak {height:"+window.innerHeight*2+"px;}"+
-					"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
-					var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
-					box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><h3>"+wikifyStatic(store.getTiddlerText(this.title))+"</h3><br />";
-					box.style.position = 'absolute';
-					box.style.width= "800px";
-					var content = createTiddlyElement(box, "div");
-					ccTiddlyAdaptor.center(box);
-					ccTiddlyAdaptor.showCloak();
-				};
-
-				wikify("[img[http://jonsthoughtsoneverything.com/projects/xbmc/flickr/flickrLogo.png]]"+tiddlers[t].text+" \n\r"+tiddlers[t].created, li);
-				
-				
-				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
-				wikify("HIHIHIH",slider);
-				
-				var sliderButton = findRelated(slider,"stream","className","previousSibling");
-				if(!sliderButton)
-				displayMessage(error);
-
-
-				
-				
+				var img = createTiddlyElement(null, "img");
+				img.src = tiddlers[t].text;
+				img.width = "50";
+				img.height = "50";
+				var slider = config.macros.slider.createSlider(place, "");
+				addClass(slider,"slider");
+				var sliderButton = findRelated(slider,"button","className","previousSibling");
+				sliderButton.appendChild(img);
+				createTiddlyText(sliderButton, tiddlers[t].title);
+				addClass(sliderButton,"stream flickrStream");
+				wikify("\n\r"+tiddlers[t].created,slider);
 			break;
 			case "twitter":
 				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].text);
+				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
 				addClass(sliderButton,"stream twitterStream");
 				wikify("\n\r"+tiddlers[t].created,slider);
 			break;
 			case "delicious":
 				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
+				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
 				addClass(sliderButton,"stream deliciousStream");
 				wikify("\n\r"+tiddlers[t].text+""+tiddlers[t].created,slider);
