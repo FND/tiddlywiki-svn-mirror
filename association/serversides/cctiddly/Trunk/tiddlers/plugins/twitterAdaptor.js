@@ -1,3 +1,13 @@
+/***
+|''Name''|flickrAdaptor|
+|''Author''|[[Simon McManus|http://simonmcmanus.com]] |
+|''Version''|0.1|
+
+!Code
+
+***/
+//{{{
+	
 function twitterAdaptor(){}
 	
 twitterAdaptor.prototype = new AdaptorBase();
@@ -22,13 +32,11 @@ function convertTimestamp(str) { // TODO: rename
 }
 
 
-twitterAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
-{
+twitterAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password){
     return doHttp('GET',window.url+"/handle/proxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
 };
 
-twitterAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
-{
+twitterAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
 	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0/statuses/user_timeline/simonmcmanus.json?';
 	var uri = uriTemplate.format([context.host]);
@@ -36,8 +44,7 @@ twitterAdaptor.prototype.getWorkspaceList = function(context,userParams,callback
 	return typeof req == 'string' ? req : true;
 };
 
-twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
-{
+twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr){
 	context.status = false;
 	eval('var tweets=' + responseText);
 	var list = [];
@@ -52,9 +59,9 @@ twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,u
 	}			
 	context.tiddlers = list;
 	context.status = true;		
-//	context.userParams.addStep("Tweets Imported","Your tweets have been imported. ");
 	window.refreshDisplay();
-//	console.log(context);
 };
 
 config.adaptors[twitterAdaptor.serverType] = twitterAdaptor;
+
+//}}}

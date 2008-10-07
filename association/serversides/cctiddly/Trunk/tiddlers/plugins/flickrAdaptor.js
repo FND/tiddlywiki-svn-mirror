@@ -1,12 +1,21 @@
+/***
+|''Name''|flickrAdaptor|
+|''Author''|[[Simon McManus|http://simonmcmanus.com]] |
+|''Version''|0.1|
+
+!Code
+
+***/
+//{{{
+
 function flickrAdaptor(){}
 
 flickrAdaptor.prototype = new AdaptorBase();
 flickrAdaptor.mimeType = 'application/json';
 flickrAdaptor.serverType = 'flickr';
 
-
 // convert short-month string (mmm) to month number (zero-based)
-function convertShortMonth(text) {
+function convertShortMonth(text){
 	for(var i = 0; i < config.messages.dates.shortMonths.length; i++) { // XXX: inefficient!?
 		if(text == config.messages.dates.shortMonths[i]) {
 			return i;
@@ -14,27 +23,17 @@ function convertShortMonth(text) {
 	}
 }
 
-
-
-flickrAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
-{
+flickrAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password){
 	uri = window.url+"/handle/proxy.php?feed="+uri;
     return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
-flickrAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
-{
+flickrAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
 	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0/services/feeds/photos_public.gne?ids=22127230@N08&format=json';
 	var uri = uriTemplate.format([context.host]);
 	var req = flickrAdaptor.doHttpGET(uri,flickrAdaptor.getWorkspaceListCallback,context, null, "format=json");
 	return typeof req == 'string' ? req : true;
-};
-
-
-flickrAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
-{
-	displayMessage("tiddler list");
 };
 
 function createTiddler(i){
@@ -50,20 +49,15 @@ function jsonFlickrFeed(o){
 	return o; 
 }
 
-flickrAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
-{
+flickrAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr){
 	var pics = eval(" { " + responseText + " } ");
 	var i=0;
-  while(pics.items[i]){
+  	while(pics.items[i]){
 		createTiddler(pics.items[i]);
-    i++;
-  }
-//context.userParams.addStep("Flickr Pics Imported","Your Photos have been imported. ");
-window.refreshDisplay();
+		i++;
+	}
+	window.refreshDisplay();
 };
 
-
-
-
 config.adaptors[flickrAdaptor.serverType] = flickrAdaptor;
-
+//}}}
