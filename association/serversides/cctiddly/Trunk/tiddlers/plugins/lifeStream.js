@@ -61,7 +61,7 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 				sliderButton.appendChild(img);
 				createTiddlyText(sliderButton, tiddlers[t].title);
 				addClass(sliderButton,"stream flickrStream");
-				wikify("\n\r"+tiddlers[t].created,slider);
+				wikify("\n\r[img["+tiddlers[t].text+"]]\n\r"+tiddlers[t].created,slider);
 			break;
 			case "twitter":
 				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].text);
