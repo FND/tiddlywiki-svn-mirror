@@ -14,12 +14,7 @@ function convertShortMonth(text) {
 	}
 }
 
-// convert ISO 8601 timestamp to Date instance
-function convertISOTimestamp(str) { // TODO: rename
-	var components = str.match(/(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)/);
-	return new Date(components[1], components[2], components[3],
-		components[4], components[5], components[6]);
-}
+
 
 flickrAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
@@ -43,7 +38,7 @@ flickrAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 };
 
 function createTiddler(i){
-	var date = convertISOTimestamp(i.published);
+	var date = convertISOTimestamp1(i.published);
 	var tiddler = new Tiddler(i.title);
 	fields = {};
 	fields["server.type"] = "flickr";

@@ -4,26 +4,16 @@ deliciousAdaptor.prototype = new AdaptorBase();
 deliciousAdaptor.mimeType = 'application/json';
 deliciousAdaptor.serverType = 'delicious';
 
-// convert short-month string (mmm) to month number (zero-based)
-function convertShortMonth(text) {
-	for(var i = 0; i < config.messages.dates.shortMonths.length; i++) { // XXX: inefficient!?
-		if(text == config.messages.dates.shortMonths[i]) {
-			return i;
-		}
-	}
-}
-
 // convert ISO 8601 timestamp to Date instance
-function convertISOTimestamp(str) { // TODO: rename
+function convertISOTimestamp1(str) { // TODO: rename
 	var components = str.match(/(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)/);
-	return new Date(components[1], components[2], components[3],
+	return new Date(components[1], components[2] - 1, components[3],
 		components[4], components[5], components[6]);
 }
 
 deliciousAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	displayMessage("1");
-	uri = "release/handle/proxy.php?feed="+uri;
+	uri = window.url+"/handle/proxy.php?feed="+uri;
     return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
@@ -47,7 +37,8 @@ deliciousAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 
 
 deliciousAdaptor.createTiddler = function(data) {
-	var date = convertISOTimestamp(data.dt);
+	console.log(data.dt);
+	var date = convertISOTimestamp1(data.dt);
 	var tiddler = new Tiddler(data.d);
 	fields = {};
 	fields["server.type"] = "delicious";

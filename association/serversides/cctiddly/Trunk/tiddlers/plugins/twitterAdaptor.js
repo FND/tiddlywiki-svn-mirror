@@ -24,7 +24,7 @@ function convertTimestamp(str) { // TODO: rename
 
 twitterAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password)
 {
-	    return doHttp('GET',"/release/release/handle/proxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
+    return doHttp('GET',window.url+"/handle/proxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
 };
 
 twitterAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
