@@ -14,14 +14,23 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	context.host = "http://api.flickr.com";
 	flickr.getWorkspaceList(context);
 	
-	
-	displayMessage("0");
 	var delicious = new deliciousAdaptor();
 	delicious.openHost();
-	displayMessage("1");
 	context.host = "http://feeds.delicious.com";
 	delicious.getWorkspaceList(context);
 	
+
+	
+	config.macros.slider.createSlider = function(place,cookie,title,tooltip)
+	{
+		var c = cookie || "";
+		var btn = createTiddlyButton(place,title,tooltip,this.onClickSlider);
+		var panel = createTiddlyElement(null,"div",null,"sliderPanel");
+		panel.setAttribute("cookie",c);
+		panel.style.display = config.options[c] ? "block" : "none";
+		place.appendChild(panel);
+		return panel;
+	};
 	
 	
 	setStylesheet(".twitterStream { background-repeat:no-repeat; background-image:url(http://assets0.twitter.com/images/twitter.png);}"+
@@ -36,10 +45,22 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	var last = params[1] ? tiddlers.length-Math.min(tiddlers.length,parseInt(params[1])) : 0;
 	var div = createTiddlyElement(place, "div");
 	for(var t=tiddlers.length-1; t>=last; t--) {
+		
+		
+				createTiddlyElement(place, "br");
+		
+	
+	
+	
+	
 		switch(tiddlers[t].fields['server.type']){
 			case "flickr":
 				var li = createTiddlyElement(place, "div", null, "flickrStream stream");
 				li.title = tiddlers[t].title;
+				
+
+
+				
 				li.onclick = function() {
 					setStylesheet(
 					"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
@@ -55,6 +76,18 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 				};
 
 				wikify("[img[http://jonsthoughtsoneverything.com/projects/xbmc/flickr/flickrLogo.png]]"+tiddlers[t].text+" \n\r"+tiddlers[t].created, li);
+				
+				
+				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
+				wikify("HIHIHIH",slider);
+				
+				var sliderButton = findRelated(slider,"stream","className","previousSibling");
+				if(!sliderButton)
+				displayMessage(error);
+
+
+				
+				
 			break;
 			case "twitter":
 				var li = createTiddlyElement(place, "div", null, "twitterStream stream");
@@ -65,7 +98,7 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 						"html > body > #backstageCloak {height:"+window.innerHeight*2+"px;}"+
 						"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
 						var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
-						console.log(store.getTiddlerText(this.title));
+					//	console.log(store.getTiddlerText(this.title));
 						box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><h3>"+wikifyStatic(store.getTiddlerText(this.title))+"</h3><br />";
 						box.style.position = 'absolute';
 						box.style.width= "800px";
@@ -76,23 +109,17 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 				wikify("!"+tiddlers[t].text+" \n\r"+tiddlers[t].created, li);
 			break;
 			case "delicious":
-				var li = createTiddlyElement(place, "div", null, "deliciousStream stream");
-				li.title = tiddlers[t].title;
-					li.onclick = function() {
-						setStylesheet(
-						"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
-						"html > body > #backstageCloak {height:"+window.innerHeight*2+"px;}"+
-						"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
-						var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
-						console.log(store.getTiddlerText(this.title));
-						box.innerHTML =  "<a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><h3>"+wikifyStatic(store.getTiddlerText(this.title))+"</h3><br />";
-						box.style.position = 'absolute';
-						box.style.width= "800px";
-						var content = createTiddlyElement(box, "div");
-						ccTiddlyAdaptor.center(box);
-						ccTiddlyAdaptor.showCloak();
-					};
-				wikify("!"+tiddlers[t].text+"\n\r"+tiddlers[t].created, li);
+		//		var li = createTiddlyElement(place, "div", null, "deliciousStream stream");
+		//		li.title = tiddlers[t].title;
+		//		wikify("!"+tiddlers[t].text+"\n\r"+tiddlers[t].created, li);		
+				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
+				var sliderButton = findRelated(slider,"button","className","previousSibling");
+				addClass(sliderButton,"deliciousStream");
+					wikify("HIHIHIH",slider);
+				
+
+	
+					
 			break;
 			default:
 			//	createTiddlyElement(ul,"li",null,"listLink").appendChild(createTiddlyLink(place,tiddlers[t].title,true));
