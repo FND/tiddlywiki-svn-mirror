@@ -37,22 +37,12 @@ function getWorkspaceName($_SERVER, $_REQUEST)
 		error_log($_REQUEST['workspace']);
 		return $_REQUEST['workspace'];
 	}
+}
 
-	// THE REST SHOULD BE INGNORED.
-		
-		
-	$a = str_replace($_SERVER['QUERY_STRING'], "", str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']), "", $_SERVER['REQUEST_URI']));
-	if (isset($_REQUEST['workspace']))
-		return $_REQUEST['workspace'];
-	else
-		return $a;
-	if ($b = stristr($tiddlyCfg['workspace_name'], "?"))
-		return str_replace(stristr($tiddlyCfg['workspace_name'], "?"), "", $b);
-	if (isset($_POST['workspace']))
-		return $_POST['workspace'];
-
-	if(substr($tiddlyCfg['workspace_name'], strlen($tiddlyCfg['workspace_name'])-1, strlen($tiddlyCfg['workspace_name']))=="/")
-		return substr($tiddlyCfg['workspace_name'], 0,  strlen($tiddlyCfg['workspace_name'])-1);
+function getBaseDir($_SERVER)
+{
+	$d = dirname($_SERVER['SCRIPT_NAME']);
+	return str_replace("handle", "", $d);
 }
 
 

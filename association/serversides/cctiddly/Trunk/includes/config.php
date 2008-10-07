@@ -177,24 +177,15 @@ $tiddlyCfg['status'] = "";
 
 
 $tiddlyCfg['workspace_name'] = getWorkspaceName($_SERVER, $_REQUEST);
-$tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
-$tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'/uploads/';  // location of the file upload directory - assumes is it under the root folder
 
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 	getOfflineFile();
 
-$tiddlyCfg['pref']['base_folder'] = str_replace('/index.php', '', $_SERVER["SCRIPT_NAME"]);
-$tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'/uploads/';  // location of the file upload directory - assumes is it under the root folder 
+$tiddlyCfg['pref']['base_folder'] = getBaseDir($_SERVER);
+$tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'uploads/';  // location of the file upload directory - assumes is it under the root folder 
 
 
-/*
-$include_path = $_SERVER['DOCUMENT_ROOT'].$_SERVER['REQUEST_URI'];
-if(@file($include_path))
-{
-	readfile($include_path);
-	exit;
-}
-*/
+
 
 include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
 
