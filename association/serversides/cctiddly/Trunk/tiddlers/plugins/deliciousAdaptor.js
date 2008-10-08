@@ -37,7 +37,7 @@ deliciousAdaptor.createTiddler = function(data) {
 	var tiddler = new Tiddler(data.d);
 	fields = {};
 	fields["server.type"] = "delicious";
-	tiddler.set(data.d,data.d,"modifier",date,"",date,fields);
+	tiddler.set(data.d,data.u+"\n\rTags:"+data.t,"modifier",date,"",date,fields);
 	store.addTiddler(tiddler);
 }
 

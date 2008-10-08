@@ -56,7 +56,11 @@ flickrAdaptor.getWorkspaceListCallback = function(status,context,responseText,ur
 		createTiddler(pics.items[i]);
 		i++;
 	}
-	window.refreshDisplay();
+	
+	if(context.callback)
+		context.callback(context,context.userParams);
+	window.callbackCount+1;
+//	window.refreshDisplay();
 };
 
 config.adaptors[flickrAdaptor.serverType] = flickrAdaptor;

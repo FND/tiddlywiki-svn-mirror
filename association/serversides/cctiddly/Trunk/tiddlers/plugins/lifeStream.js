@@ -2,6 +2,10 @@ config.macros.lifeStream = {};
 config.macros.lifeStream.handler = function(place,macroName,params)
 {
 	var context = {};
+	window.ls_callbackCount = 0;
+	context.callback = function() {
+		config.macros.lifeStream.display(place, params);
+	};
 	context.host = "http://twitter.com";
 	var twitter = new twitterAdaptor();
 	twitter.openHost();
@@ -14,15 +18,17 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	delicious.openHost();
 	context.host = "http://feeds.delicious.com";
 	delicious.getWorkspaceList(context);
-	
-	setStylesheet(".twitterStream { background-repeat:no-repeat;}"+
-	"a.flickrStream,a.flickrStream:hover{background:url(http://i65.photobucket.com/albums/h239/myspacemasonry/links/ExtCommunity_Flickr_Size50x50.jpg)}"+
-	"a.twitterStream,a.twitterStream:hover{background:url(http://www.ewanspence.com/blog/wp-content/themes/hemingway/styles/purple/icon_twitter.jpg);}"+
-	"a.deliciousStream,a.deliciousStream:hover {background:url(http://ransom.redjar.org/images/delicious_icon.gif);}"+
-	".tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;  padding-left:50px; background-color:#111; margin:20px}"+
-	".stream { background-repeat:no-repeat; display: block; color:white; padding:10px; margin:10px ; width:85%; border:1px solid #111;}"+	
-	".slider { background-color:#111;color:white; margin-left:64px; width:84%;margin-top:-19px; padding:10px; border:1px solid #111;}"+	
-	".tiddler .button:hover	 { background-color:#111; border:1px solid #333;}");
+config.macros.lifeStream.display(place, params);	
+};
+
+config.macros.lifeStream.display = function (place, params)
+{
+	setStylesheet(".tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;   background-color:#111; margin:20px}"+
+	".stream { background-repeat:no-repeat; display: block; color:white; padding:10px; margin:10px ; width750px; border:1px solid #111;}"+	
+	".slider { background-color:#111;color:white; margin-left:20px; margin-top:-20px; padding:10px 10px 10px 50px; width:625px;border:1px solid #111;}"+	
+	".tiddler a.deliciousStream,a.delicousStream:hover{padding-left:50px;background:url(http://ransom.redjar.org/images/delicious_icon.gif);background-repeat:no-repeat;  background-color:#111;}"+
+	".textSpace {margin-left:10px; position:relative}"+
+	".tiddler .button:hover	 { background-color:#111; border:1px solid #111;}");
 
 	var tiddlers = store.reverseLookup("tags","excludeLists",false,"modified");
 	var last = params[1] ? tiddlers.length-Math.min(tiddlers.length,parseInt(params[1])) : 0;
@@ -43,18 +49,24 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 				wikify("\n\r[img["+tiddlers[t].text+"]]\n\r"+tiddlers[t].created,slider);
 			break;
 			case "twitter":
-				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].text);
+				var img = createTiddlyElement(null, "img");
+				img.src = tiddlers[t].fields['user_img'];
+				img.width = "50";
+				img.height = "50";
+				var slider = config.macros.slider.createSlider(place, "", "");
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
+				sliderButton.appendChild(img);
+				createTiddlyElement(sliderButton, "div", null, "textSpace",  wikifyStatic(tiddlers[t].text));
 				addClass(sliderButton,"stream twitterStream");
-				wikify("\n\r"+tiddlers[t].created,slider);
+				wikify("\n\r"+"\n\r"+tiddlers[t].created,slider);
 			break;
 			case "delicious":
 				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
 				addClass(sliderButton,"stream deliciousStream");
-				wikify("\n\r"+tiddlers[t].text+""+tiddlers[t].created,slider);
+				wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created,slider);
 			break;
 			default:
 		}
