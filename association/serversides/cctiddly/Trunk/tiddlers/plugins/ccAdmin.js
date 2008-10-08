@@ -86,7 +86,8 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 };
 
 config.macros.ccAdmin.addAdminSubmit = function(e, params){
-	doHttp('POST',url+'/handle/workspaceAdmin.php','username='+params.w.formElem.adminUsername.value+'&workspace='+params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value,null,null,null,config.macros.ccAdmin.addAdminCallback,params);
+	alert(params.w.formElem.adminUsername.value);
+	doHttp('POST',url+'/handle/workspaceAdmin.php','&username='+params.w.formElem.adminUsername.value+'&action=addNew&workspace='+params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value,null,null,null,config.macros.ccAdmin.addAdminCallback,params);
 	return false; 
 };
 
@@ -124,8 +125,6 @@ config.macros.ccAdmin.listAllCallback = function(status,params,responseText,uri,
 };
 
 config.macros.ccAdmin.addAdminCallback = function(status,params,responseText,uri,xhr) {
-	
-	
 	config.macros.ccAdmin.refresh(params.w);
 };
 

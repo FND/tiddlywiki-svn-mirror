@@ -1,5 +1,4 @@
 <?php
-error_log('ss');
 global $Modules;
 $Modules = array();
 class Module {

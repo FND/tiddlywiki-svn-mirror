@@ -28,24 +28,12 @@ merge(config.macros.ccFile,{
 
 var iFrameLoad=function(w){
 	var uploadIframe = document.getElementById('uploadIframe');
-	displayMessage("o");
-
-
 	var a = createTiddlyElement(null, "div");
-	
 	a.innerHTML = uploadIframe.contentDocument.body.innerHTML;
-
-
 	removeChildren(w.formElem.placeholder);
 	w.formElem.placeholder.parentNode.appendChild(a);
-	
-	
-	console.log(w);
-
 	var statusArea = w.formElem.placeholder;
 	document.getElementById("ccfile").value=""; 
-	
-	//statusArea.parentNode.appendChild(uploadIframe.contentDocument.body.innerHTML);
 };
 
 config.macros.ccFile.handler=function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){

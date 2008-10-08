@@ -25,7 +25,6 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 		exit;
 	}
 	
-	error_log("ssdsds");
 	$data['name'] = $workspace;
 	$data['twLanguage'] = 'en';
 	$data['keep_revision'] = 1;
