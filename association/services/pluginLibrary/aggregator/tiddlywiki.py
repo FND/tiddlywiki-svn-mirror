@@ -19,7 +19,7 @@ def getSlices(text): # TODO: should be in Tiddler class
 
 	@param text (str): tiddler text
 	"""
-	pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1[\t ]*([^\n]+)[\t ]*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|[\t\x20]*([^\n]+)[\t\x20]*\|$)" # tweaked version of TiddlyWiki core RegEx
+	pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1[\t\x20]*([^\n]+)[\t\x20]*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|[\t\x20]*([^\n]+)[\t\x20]*\|$)" # tweaked version of TiddlyWiki core RegEx
 	pattern = re.compile(pattern, re.M + re.I) # XXX: enhance efficiency by moving to class attribute to prevent re-compiling
 	matches = pattern.findall(text)
 	slices = {}
@@ -49,10 +49,12 @@ class TiddlyWiki:
 		@param repo (str): current repository
 		@return (str): plugin tiddlers (pure-store format)
 		"""
-		tag = "systemConfig" # includes "systemConfigDisable" -- XXX: include systemTheme tiddlers?
+		pluginTag = "systemConfig" # N.B.: includes "systemConfigDisable" -- TODO: include systemTheme tiddlers
+		excludeTag = "systemPrivate"
 		# remove non-plugin tiddlers
 		[tiddler.extract() for tiddler in self.store.findChildren("div", title = True)
-			if (not tiddler.has_key("tags")) or (tag not in tiddler["tags"])]
+			if (not tiddler.has_key("tags")) or (pluginTag not in tiddler["tags"]) or
+			(excludeTag in tiddler["tags"])]
 		# remove non-originating plugins
 		self.removeDuplicates(repo["URI"])
 		# return pure-store format

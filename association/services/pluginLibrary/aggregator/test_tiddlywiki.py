@@ -114,7 +114,17 @@ class TiddlyWikiTestCase(unittest.TestCase):
 //{{{
 var foo = "bar";
 //}}}
-				</pre>\n</div>"""
+				</pre>\n</div>\n"""
+		expected = "<html><body><div id='storeArea'>\n%s\n</div></body></html>" % tiddler
+		self.assertEqual(expected, self.tw.getPluginTiddlers(self.repo))
+
+	def testGetPluginTiddlersIgnoresMarkedTiddlers(self):
+		"""getPluginTiddlers skips tiddlers tagged with 'systemPrivate'"""
+		tiddler = """\n<div title="SampleHack" tags="systemConfig">\n<pre>
+//{{{
+var foo = "bar";
+//}}}
+				</pre>\n</div>\n"""
 		expected = "<html><body><div id='storeArea'>\n%s\n</div></body></html>" % tiddler
 		self.assertEqual(expected, self.tw.getPluginTiddlers(self.repo))
 
@@ -249,6 +259,13 @@ var foo = "bar";
 				</pre>
 			</div>
 			<div title="SampleHack" tags="systemConfig">
+				<pre>
+//{{{
+var foo = "bar";
+//}}}
+				</pre>
+			</div>
+			<div title="SampleTiddler" tags="systemConfig systemPrivate">
 				<pre>
 //{{{
 var foo = "bar";
