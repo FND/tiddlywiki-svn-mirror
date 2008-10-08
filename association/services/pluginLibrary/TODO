@@ -1,6 +1,7 @@
 == Aggregator ==
 
 * black-/whitelisting for tiddlers within TiddlyWiki documents (tag-based; "systemPrivate"?)
+* additional metadata (e.g. repository, name, title)
 * unique tiddler names (bag + title)?
 * dirScraper: wildcards support for black-/whitelisting
 * enhance logging

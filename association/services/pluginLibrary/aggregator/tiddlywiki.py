@@ -19,7 +19,7 @@ def getSlices(text): # TODO: should be in Tiddler class
 
 	@param text (str): tiddler text
 	"""
-	pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)" # RegEx origin: TiddlyWiki core
+	pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1[\t ]*([^\n]+)[\t ]*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|[\t\x20]*([^\n]+)[\t\x20]*\|$)" # tweaked version of TiddlyWiki core RegEx
 	pattern = re.compile(pattern, re.M + re.I) # XXX: enhance efficiency by moving to class attribute to prevent re-compiling
 	matches = pattern.findall(text)
 	slices = {}

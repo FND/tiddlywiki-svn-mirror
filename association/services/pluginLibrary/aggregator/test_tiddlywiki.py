@@ -42,8 +42,7 @@ class getSlicesTestCase(unittest.TestCase):
 
 	def testSupportsColonNotation(self):
 		"""supports colon notation"""
-		text = ("Foo: lorem\n" +
-			"Bar: ipsum")
+		text = "Foo: lorem\nBar: ipsum"
 		expected = {
 			"Foo": "lorem",
 			"Bar": "ipsum"
@@ -52,8 +51,7 @@ class getSlicesTestCase(unittest.TestCase):
 
 	def testSupportsTableNotation(self):
 		"""supports table notation"""
-		text = ("|Foo|lorem|\n" +
-			"|Bar|ipsum|")
+		text = ("|Foo|lorem|\n|Bar|ipsum|")
 		expected = {
 			"Foo": "lorem",
 			"Bar": "ipsum"
@@ -62,8 +60,7 @@ class getSlicesTestCase(unittest.TestCase):
 
 	def testSupportsMixedNotation(self):
 		"""supports mixed notation"""
-		text = ("Foo: lorem\n" +
-			"|Bar|ipsum|")
+		text = ("Foo: lorem\n|Bar|ipsum|")
 		expected = {
 			"Foo": "lorem",
 			"Bar": "ipsum"
