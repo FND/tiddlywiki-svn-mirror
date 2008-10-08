@@ -46,6 +46,9 @@ class TiddlyWiki:
 		"""
 		retrieve plugin tiddlers
 
+		plugin tiddlers are tagged with "systemConfig" (or "systemConfigDisable")
+		tiddlers tagged with "systemPrivate" will be ignored
+
 		@param repo (str): current repository
 		@return (str): plugin tiddlers (pure-store format)
 		"""
