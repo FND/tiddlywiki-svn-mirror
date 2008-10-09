@@ -66,7 +66,8 @@ config.macros.lifeStream.display = function (place, params)
 				createTiddlyElement(sliderButton, "div", null, "textSpace",  wikifyStatic(tiddlers[t].text));
 				addClass(sliderButton,"stream twitterStream");
 				createTiddlyElement(sliderButton, "div", null, "noFloat");
-				wikify("\n\r"+tiddlers[t].created,slider);
+				console.log(tiddlers[t].fields);
+				wikify(tiddlers[t].fields['url']+""+"\n\r"+tiddlers[t].created,slider);
 			break;
 			case "delicious":
 				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
