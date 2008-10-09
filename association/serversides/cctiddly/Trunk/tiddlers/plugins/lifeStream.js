@@ -26,7 +26,7 @@ config.macros.lifeStream.display = function (place, params)
 {
 	setStylesheet(".tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;   background-color:#111; margin:20px; float:none}"+
 	".stream { background-repeat:no-repeat; display: block; color:white; padding:10px; margin:10px ; width750px; border:1px solid #111;}"+	
-	".slider { background-color:#111;color:white; margin-left:20px; margin-top:-20px; padding:10px 10px 10px 50px; width:625px;border:1px solid #111;}"+	
+	".slider { background-color:#111;color:white; margin-left:20px; margin-top:-20px; padding:10px 10px 10px 50px; width:606px;border:1px solid #111; padding-left:69px;}"+	
 	".imgClass {float:left; display:block; padding-right:10px}"+
 	".tiddler a.deliciousStream,a.delicousStream:hover{padding-left:50px;background:url(http://ransom.redjar.org/images/delicious_icon.gif);background-repeat:no-repeat;  background-color:#111;}"+
 	".textSpace {padding-left:60px; }"+
