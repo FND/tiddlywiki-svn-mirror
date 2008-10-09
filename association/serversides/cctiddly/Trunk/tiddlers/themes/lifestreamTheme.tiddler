@@ -131,7 +131,7 @@ body .chkOptionInput {
 }
 
 body{
-	background:#333;
+	background:#111;
 	color:white;
 //	 background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
 //	 background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
