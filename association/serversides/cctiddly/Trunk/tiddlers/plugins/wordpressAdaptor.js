@@ -49,6 +49,7 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 	var regex_item = /<item>(.|\n)*?<\/item>/mg;
 	var regex_title = /<title>(.|\n)*?<\/title>/mg;
 	var regex_created = /<pubDate>(.|\n)*?<\/pubDate>/mg;
+	var regex_link = /<link>(.|\n)*?<\/link>/mg;
 	var regex_guid = /<guid>(.|\n)*?<\/guid>/mg;
 	var regex_desc = /<description>(.|\n)*?<\/description>/mg;
 	var item_match = responseText.match(regex_item);
@@ -61,17 +62,17 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		item.created = created[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
 		item.created = wordpressAdaptor.convertTimestamp(item.created);
 		desc = item_match[i].match(regex_desc);
+		var link = item_match[i].match(regex_link);
 		if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
 		var t = new Tiddler(item.title);
-		t.text = "<html>" + item.text.htmlDecode() + "</html>";
+		t.text = "" + item.text.htmlDecode() + "";	
+		t.text = t.text.replace("<![CDATA[", "");
+		t.text = t.text.replace("]]]>", "");
+		console.log(item);
+		t.fields["url"] = link;
 		t.fields["server.type"] = "wordpress";
 		t.set(item.title,t.text,"modifier",item.created,null,t.fields);
 		store.addTiddler(t);
-	//	context.tiddlers.push(t);
-		
-		
-		
-		
 	}
 	context.status = true;
 };
