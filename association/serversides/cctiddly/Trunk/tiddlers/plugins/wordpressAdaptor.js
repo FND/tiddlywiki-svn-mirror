@@ -64,29 +64,11 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		item.created = wordpressAdaptor.convertTimestamp(item.created);
 		desc = item_match[i].match(regex_desc);
 		if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
-			/*
-			
-			var timestamp = tweets[i]['created_at'];
-
-				tiddler.created = convertTimestamp(timestamp).convertToLocalYYYYMMDDHHMM().toString();
-			fields = {};
-			fields["server.type"] = "twitter";
-			console.log(tweets[i]);
-			fields["url"] = "http://twitter.com/"+tweets[i]['user']['name']+"/statuses/"+tweets[i]['id'];
-			fields["user_img"] = tweets[i]['user']['profile_image_url'];
-			tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",convertTimestamp(timestamp),"",convertTimestamp(timestamp),fields);
-			store.addTiddler(tiddler);
-			
-			*/
-			
 		var t = new Tiddler(item.title);
 		t.text = "<html>" + item.text.htmlDecode() + "</html>";
 		t.fields["server.type"] = "wordpress";
-	//	store.addTiddler(t);
-		
-	store.addTiddler(item.title,t.text,"modifier",item.created,null,t.fields);
-
-
+		t.set(item.title,t.text,"modifier",item.created,null,t.fields);
+		store.addTiddler(t);
 		context.tiddlers.push(t);
 	}
 	context.status = true;
