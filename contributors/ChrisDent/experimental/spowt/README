@@ -1,0 +1,36 @@
+
+This is an experiment with creating a TiddlySpot style
+thing using TiddlyWeb. What's here thus far is just
+game playing to flesh out some of the ideas.
+
+The name comes from thinking about Spot, TW, Spout,
+and a few other things all at the same time.
+
+This is being developed outside the TiddlyWeb source
+tree to see what needs to happen to make tiddlyweb
+work well as a library. For current work some symlinks
+needs to be made:
+
+lrwxr-xr-x  1 cdent  cdent  21 Oct 10 18:59 ./cherrypy -> ../TiddlyWeb/cherrypy
+lrwxr-xr-x  1 cdent  cdent  16 Oct 10 18:38 ./lib -> ../TiddlyWeb/lib
+lrwxr-xr-x  1 cdent  cdent  22 Oct 10 18:38 ./tiddlyweb -> ../TiddlyWeb/tiddlyweb
+lrwxr-xr-x  1 cdent  cdent  21 Oct 10 18:39 ./urls.map -> ../TiddlyWeb/urls.map
+
+Also, to get around a bug without tiddlywebconfig.py
+is read by tiddlyweb.config, we need a _copy_ (not
+symlink) of ../TiddlyWeb/manager in this directory.
+
+Then if you run 
+
+    ./manager server 0.0.0.0 8080
+
+You can go to http://0.0.0.0:8080/spowt and do some
+stuff.
+
+All this does so far is show a form from which a Bag
+and Recipe are created. The assocation between Recipe
+name and user is maintain in the note field of the User
+database. A hack, but working for the time being.
+
+
+
