@@ -6,6 +6,9 @@ game playing to flesh out some of the ideas.
 The name comes from thinking about Spot, TW, Spout,
 and a few other things all at the same time.
 
+You need jinja2 (a templating engine) to make this go.
+Get information about it at http://jinja.pocoo.org/2/
+
 This is being developed outside the TiddlyWeb source
 tree to see what needs to happen to make tiddlyweb
 work well as a library. For current work some symlinks
