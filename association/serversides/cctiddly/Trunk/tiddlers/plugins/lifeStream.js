@@ -10,11 +10,12 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	twitter.openHost();
 	twitter.getWorkspaceList(context);
 
-var flickr = new flickrAdaptor();
+	var flickr = new flickrAdaptor();
 	flickr.openHost();
 	context.host = "http://api.flickr.com/services/feeds/photos_public.gne?ids=22127230@N08";
 	flickr.getWorkspaceList(context);
-		var delicious = new deliciousAdaptor();
+	
+	var delicious = new deliciousAdaptor();
 	delicious.openHost();
 	context.host = "http://feeds.delicious.com/v2/json/simonmcmanus";
 	delicious.getWorkspaceList(context);
@@ -23,6 +24,16 @@ var flickr = new flickrAdaptor();
 	wordpress.openHost();
 	context.host = "http://simonmcmanus.com";
 	wordpress.getWorkspaceList(context);
+	
+	
+	
+	var trac = new tracAdaptor();
+	trac.openHost();
+	context.host = "http://tiddlywiki.org/trac/timeline?format=rss";
+	trac.getWorkspaceList(context);
+	
+	
+	
 	createTiddlyElement(place, "h3", null, null, "Loading...");
 };
 
@@ -52,6 +63,9 @@ config.macros.lifeStream.display = function (place, params)
 				addClass(sliderButton,"stream wordpressStream");
 				wikify("'''"+tiddlers[t].text+"'''\n\r"+tiddlers[t].fields["url"],slider);			
 			break;
+			case "trac":
+			displayMessage("trac");
+			break;
 			case "flickr":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				img.src = tiddlers[t].text;
@@ -63,7 +77,7 @@ config.macros.lifeStream.display = function (place, params)
 				sliderButton.appendChild(img);
 				createTiddlyText(sliderButton, tiddlers[t].title);
 				addClass(sliderButton,"stream flickrStream");
-				wikify("[img["+tiddlers[t].text+"]]\n\r"+tiddlers[t].fields['link']+"\n\r\n\r"+tiddlers[t].created,slider);
+				wikify("[img["+tiddlers[t].text+"]]\n\r"+tiddlers[t].fields['link']+"\n\r"+tiddlers[t].created,slider);
 				createTiddlyElement(sliderButton, "div", null, "noFloat");
 			break;
 			case "twitter":
