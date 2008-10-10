@@ -53,8 +53,6 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 	var regex_desc = /<description>(.|\n)*?<\/description>/mg;
 	var item_match = responseText.match(regex_item);
 	for (var i=0;i<item_match.length;i++) {
-		// create a new Tiddler in context.tiddlers with the finished item object
-		// grab a title
 		item = {};
 		var title = item_match[i].match(regex_title);	
 		var created = item_match[i].match(regex_created);
@@ -68,50 +66,14 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		t.text = "<html>" + item.text.htmlDecode() + "</html>";
 		t.fields["server.type"] = "wordpress";
 		t.set(item.title,t.text,"modifier",item.created,null,t.fields);
+		console.log(t);
 		store.addTiddler(t);
-		context.tiddlers.push(t);
+	//	context.tiddlers.push(t);
+		
+		
+		
+		
 	}
 	context.status = true;
-	
-	return true;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	context.status = false;
-	eval('var tweets=' + responseText);
-	var list = [];
-	for (var i=0; i < tweets.length; i++) {
-		var tiddler = new Tiddler(tweets[i]['id']);
-		var timestamp = tweets[i]['created_at'];
-		
-			tiddler.created = convertTimestamp(timestamp).convertToLocalYYYYMMDDHHMM().toString();
-		fields = {};
-		fields["server.type"] = "wordpress";
-		console.log(tweets[i]);
-		fields["url"] = "http://twitter.com/"+tweets[i]['user']['name']+"/statuses/"+tweets[i]['id'];
-		fields["user_img"] = tweets[i]['user']['profile_image_url'];
-		tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",convertTimestamp(timestamp),"",convertTimestamp(timestamp),fields);
-		store.addTiddler(tiddler);
-	}			
-	context.tiddlers = list;
-	context.status = true;		
-	window.refreshDisplay();
 };
 config.adaptors[wordpressAdaptor.serverType] = wordpressAdaptor;

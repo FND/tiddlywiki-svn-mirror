@@ -34,6 +34,7 @@ config.macros.lifeStream.display = function (place, params)
 	".slider { background-color:#111;color:white; margin-left:20px; margin-top:-18px; padding:10px 10px 10px 50px; width:604px;border:2px solid #111; padding-left:69px;border-top:0px;}"+	
 	".imgClass {float:left; display:block; padding-right:10px}"+
 	".tiddler a.deliciousStream,a.delicousStream:hover{left:80px;padding-left:70px;background:url(http://ransom.redjar.org/images/delicious_icon.gif);background-repeat:no-repeat;  background-color:#111;}"+
+	".tiddler a.wordpressStream,a.wordpressStream:hover{left:80px;padding-left:70px;background:url(http://tbn0.google.com/images?q=tbn:hUFm8dh1eWVDoM:http://3nhanced.com/wp-content/uploads/2007/11/finished.jpg);background-repeat:no-repeat;  background-color:#111;}"+	
 	".textSpace {padding-left:60px; }"+
 	
 	".noFloat {float:none; background-color:red;}"+
@@ -43,9 +44,17 @@ config.macros.lifeStream.display = function (place, params)
 	var last = params[1] ? tiddlers.length-Math.min(tiddlers.length,parseInt(params[1])) : 0;
 	var div = createTiddlyElement(place, "div");
 	for(var t=tiddlers.length-1; t>=last; t--) {
+		
+		console.log(tiddlers[t].title+"type : "+tiddlers[t].fields['server.type']);
+		
 		switch(tiddlers[t].fields['server.type']){
 			case "wordpress" :
-			displayMessage("wordpress found"+tiddlers[t].text);
+				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
+				addClass(slider,"slider");
+				var sliderButton = findRelated(slider,"button","className","previousSibling");
+				addClass(sliderButton,"stream wordpressStream");
+displayMessage("class added");
+				wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created,slider);				
 			break;
 			case "flickr":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
