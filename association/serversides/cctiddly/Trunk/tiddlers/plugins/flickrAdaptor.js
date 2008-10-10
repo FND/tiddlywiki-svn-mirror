@@ -30,7 +30,7 @@ flickrAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,
 
 flickrAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0/services/feeds/photos_public.gne?ids=22127230@N08&format=json';
+	var uriTemplate = '%0&format=json';
 	var uri = uriTemplate.format([context.host]);
 	var req = flickrAdaptor.doHttpGET(uri,flickrAdaptor.getWorkspaceListCallback,context, null, "format=json");
 	return typeof req == 'string' ? req : true;
@@ -40,6 +40,7 @@ function createTiddler(i){
 	var date = convertISOTimestamp1(i.published);
 	var tiddler = new Tiddler(i.title);
 	fields = {};
+	fields["link"] = i.link;
 	fields["server.type"] = "flickr";
 	tiddler.set(i.title, i.media.m,"modifier",date,"",date,fields);
 	store.addTiddler(tiddler);

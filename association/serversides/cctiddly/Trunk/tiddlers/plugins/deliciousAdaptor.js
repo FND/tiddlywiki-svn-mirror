@@ -26,7 +26,7 @@ deliciousAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentTy
 
 deliciousAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0/v2/json/simonmcmanus?count=15';
+	var uriTemplate = '%0?count=15';
 	var uri = uriTemplate.format([context.host]);
 	var req = deliciousAdaptor.doHttpGET(uri,deliciousAdaptor.getWorkspaceListCallback,context, null, "format=json");
 	return typeof req == 'string' ? req : true;

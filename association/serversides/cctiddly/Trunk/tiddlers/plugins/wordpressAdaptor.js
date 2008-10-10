@@ -16,7 +16,7 @@ wordpressAdaptor.serverType = 'wordpress';
 
 
 // Thanks to FND for this fuction.
-function convertShortMonth(text) {
+wordpressAdaptor.convertShortMonth = function(text) {
     for(var i = 0; i < config.messages.dates.shortMonths.length; i++) { // XXX: inefficient!?
         if(text == config.messages.dates.shortMonths[i]) {
             return i;
@@ -24,10 +24,14 @@ function convertShortMonth(text) {
     }
 }
 
+
+
 // convert "mmm 0DD 0hh:0mm:0ss +0000 YYYY" to Date instance
-function convertTimestamp(str) { // TODO: rename
+wordpressAdaptor.convertTimestamp = function(str) { // TODO: rename
+	displayMessage("aa"+str);
 	var components = str.match(/(\w+) (\d+) (\d+):(\d+):(\d+) \+\d+ (\d+)/);
-	return new Date(components[6], convertShortMonth(components[1]), components[2],
+	var components = str.match(/(\w+) (\d+) (\d+):(\d+):(\d+) \+\d+ (\d+)/);
+	return new Date(components[6], wordpressAdaptor.convertShortMonth(components[1]), components[2],
 		components[3], components[4], components[5]);
 }
 
@@ -71,7 +75,8 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		item.title = title[0].replace(/^<title>|<\/title>$/mg,"");
 		item.title = item.title.htmlDecode();
 		item.created = created[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
-		displayMessage(item.created);
+	//	displayMessage(item.created);
+	//	item.created = wordpressAdaptor.convertTimestamp(item.created).convertToLocalYYYYMMDDHHMM().toString();
 		desc = item_match[i].match(regex_desc);
 		if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
 

@@ -38,7 +38,7 @@ twitterAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType
 
 twitterAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0/statuses/user_timeline/simonmcmanus.json?';
+	var uriTemplate = '%0.json?';
 	var uri = uriTemplate.format([context.host]);
 	var req = twitterAdaptor.doHttpGET(uri,twitterAdaptor.getWorkspaceListCallback,context, {'accept':twitterAdaptor.mimeType});
 	return typeof req == 'string' ? req : true;
@@ -51,8 +51,7 @@ twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,u
 	for (var i=0; i < tweets.length; i++) {
 		var tiddler = new Tiddler(tweets[i]['id']);
 		var timestamp = tweets[i]['created_at'];
-		
-			tiddler.created = convertTimestamp(timestamp).convertToLocalYYYYMMDDHHMM().toString();
+		tiddler.created = convertTimestamp(timestamp).convertToLocalYYYYMMDDHHMM().toString();
 		fields = {};
 		fields["server.type"] = "twitter";
 		fields["url"] = "http://twitter.com/"+tweets[i]['user']['name']+"/statuses/"+tweets[i]['id'];
