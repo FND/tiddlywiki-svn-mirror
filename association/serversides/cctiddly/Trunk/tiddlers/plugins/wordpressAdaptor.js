@@ -66,7 +66,6 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		t.text = "<html>" + item.text.htmlDecode() + "</html>";
 		t.fields["server.type"] = "wordpress";
 		t.set(item.title,t.text,"modifier",item.created,null,t.fields);
-		console.log(t);
 		store.addTiddler(t);
 	//	context.tiddlers.push(t);
 		
