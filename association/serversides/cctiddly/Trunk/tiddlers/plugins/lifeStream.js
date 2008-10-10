@@ -50,11 +50,7 @@ config.macros.lifeStream.display = function (place, params)
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
 				addClass(sliderButton,"stream wordpressStream");
-				
-			//	wikify(tiddlers[t].text.replace("html>", ""),slider);			
-				wikify("'''"+tiddlers[t].text+"'''",slider);			
-				
-				displayMessage(tiddlers[t].fields["url"]);
+				wikify("'''"+tiddlers[t].text+"'''\n\r"+tiddlers[t].fields["url"],slider);			
 			break;
 			case "flickr":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
@@ -67,7 +63,7 @@ config.macros.lifeStream.display = function (place, params)
 				sliderButton.appendChild(img);
 				createTiddlyText(sliderButton, tiddlers[t].title);
 				addClass(sliderButton,"stream flickrStream");
-				wikify("[img["+tiddlers[t].text+"]]\n\r"+tiddlers[t].fields['link']+"\n\r"+tiddlers[t].created,slider);
+				wikify("[img["+tiddlers[t].text+"]]\n\r"+tiddlers[t].fields['link']+"\n\r\n\r"+tiddlers[t].created,slider);
 				createTiddlyElement(sliderButton, "div", null, "noFloat");
 			break;
 			case "twitter":

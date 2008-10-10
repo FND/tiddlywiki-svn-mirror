@@ -63,12 +63,12 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		item.created = wordpressAdaptor.convertTimestamp(item.created);
 		desc = item_match[i].match(regex_desc);
 		var link = item_match[i].match(regex_link);
+		link = link[0].replace(/^<link>|<\/link>$/mg,"");
 		if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
 		var t = new Tiddler(item.title);
 		t.text = "" + item.text.htmlDecode() + "";	
 		t.text = t.text.replace("<![CDATA[", "");
 		t.text = t.text.replace("]]]>", "");
-		console.log(item);
 		t.fields["url"] = link;
 		t.fields["server.type"] = "wordpress";
 		t.set(item.title,t.text,"modifier",item.created,null,t.fields);
