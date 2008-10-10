@@ -18,6 +18,15 @@ var flickr = new flickrAdaptor();
 	delicious.openHost();
 	context.host = "http://feeds.delicious.com";
 	delicious.getWorkspaceList(context);
+	
+	var wordpress = new wordpressAdaptor();
+	wordpress.openHost();
+	context.host = "http://simonmcmanus.com";
+	wordpress.getWorkspaceList(context);
+	
+	
+	var img = createTiddlyElement(place, "img");
+	img.src = "http://www.ajaxload.info/cache/11/11/11/44/44/44/37-0.gif";
 
 
 };
@@ -26,9 +35,9 @@ config.macros.lifeStream.display = function (place, params)
 {
 	setStylesheet(".tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;   background-color:#111; margin:20px; float:none}"+
 	".stream { background-repeat:no-repeat; display: block; color:white; padding:10px; margin:10px ; width750px; border:1px solid #111;}"+	
-	".slider { background-color:#111;color:white; margin-left:20px; margin-top:-20px; padding:10px 10px 10px 50px; width:606px;border:1px solid #111; padding-left:69px;}"+	
+	".slider { background-color:#111;color:white; margin-left:20px; margin-top:-18px; padding:10px 10px 10px 50px; width:604px;border:2px solid #111; padding-left:69px;border-top:0px;}"+	
 	".imgClass {float:left; display:block; padding-right:10px}"+
-	".tiddler a.deliciousStream,a.delicousStream:hover{padding-left:50px;background:url(http://ransom.redjar.org/images/delicious_icon.gif);background-repeat:no-repeat;  background-color:#111;}"+
+	".tiddler a.deliciousStream,a.delicousStream:hover{left:80px;padding-left:70px;background:url(http://ransom.redjar.org/images/delicious_icon.gif);background-repeat:no-repeat;  background-color:#111;}"+
 	".textSpace {padding-left:60px; }"+
 	
 	".noFloat {float:none; background-color:red;}"+
@@ -66,7 +75,6 @@ config.macros.lifeStream.display = function (place, params)
 				createTiddlyElement(sliderButton, "div", null, "textSpace",  wikifyStatic(tiddlers[t].text));
 				addClass(sliderButton,"stream twitterStream");
 				createTiddlyElement(sliderButton, "div", null, "noFloat");
-				console.log(tiddlers[t].fields);
 				wikify(tiddlers[t].fields['url']+""+"\n\r"+tiddlers[t].created,slider);
 			break;
 			case "delicious":

@@ -55,7 +55,6 @@ twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,u
 			tiddler.created = convertTimestamp(timestamp).convertToLocalYYYYMMDDHHMM().toString();
 		fields = {};
 		fields["server.type"] = "twitter";
-		console.log(tweets[i]);
 		fields["url"] = "http://twitter.com/"+tweets[i]['user']['name']+"/statuses/"+tweets[i]['id'];
 		fields["user_img"] = tweets[i]['user']['profile_image_url'];
 		tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",convertTimestamp(timestamp),"",convertTimestamp(timestamp),fields);

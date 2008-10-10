@@ -93,7 +93,7 @@
 
 !wizardViewTemplate
 <!--{{{-->
-<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 <div class='viewer' macro='view text wikified'></div>
 <div class='tagClear'></div>
 <!--}}}-->
