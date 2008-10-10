@@ -44,6 +44,9 @@ config.macros.lifeStream.display = function (place, params)
 	var div = createTiddlyElement(place, "div");
 	for(var t=tiddlers.length-1; t>=last; t--) {
 		switch(tiddlers[t].fields['server.type']){
+			case "wordpress" :
+			displayMessage("wordpress found"+tiddlers[t].text);
+			break;
 			case "flickr":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				img.src = tiddlers[t].text;
@@ -67,10 +70,11 @@ config.macros.lifeStream.display = function (place, params)
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
 				sliderButton.appendChild(img);
-				createTiddlyElement(sliderButton, "div", null, "textSpace",  wikifyStatic(tiddlers[t].text));
+				
+				var div = createTiddlyElement(sliderButton, "div", null, "textSpace");
+				div.innerHTML =  wikifyStatic(tiddlers[t].text);
 				addClass(sliderButton,"stream twitterStream");
 				createTiddlyElement(sliderButton, "div", null, "noFloat");
-				console.log(tiddlers[t].fields);
 				wikify(tiddlers[t].fields['url']+""+"\n\r"+tiddlers[t].created,slider);
 			break;
 			case "delicious":

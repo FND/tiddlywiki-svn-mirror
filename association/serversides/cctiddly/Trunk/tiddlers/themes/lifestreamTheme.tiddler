@@ -391,7 +391,7 @@ textarea {
 }
 
 a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
-	color:green;
+	color:white;
 	background-color:transparent;
 }
 
@@ -518,7 +518,7 @@ h3 {
 }
 
 .annotation {
-	background-color:green;
+	background-color:white;
 	border:1px solid white;
 	color:white;
 }
