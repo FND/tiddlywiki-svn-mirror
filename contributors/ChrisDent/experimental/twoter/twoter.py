@@ -4,24 +4,13 @@ TiddlyWeb as its datastore. This version is built
 to work under googleappengine, but that's not 
 really a requirement.
 
-To run this we must add to urls.map:
-
-# a fun little interface to do bookmarks
-/twoter
-    GET twoter:base
-
-/twoter/{username:segment}
-    GET twoter:user
-    POST twoter:submit
-
-And put user.html and bookmarklet.html in the
-apps working dir.
+To run this we must put user.html and bookmarklet.html
+in the apps working dir and add 'twoter' to
+config['system_plugins'] in tiddlywebconfig.py.
 
 There's a version of this running at
 
    http://tiddlyweb.appspot.com/twoter
-
-It is _riddled_ with bugs.
 """
 
 import urllib
@@ -202,3 +191,7 @@ def _filter_string(name):
         return '[sort[-modified]]'
     else:
         return '[sort[-modified]] [count[10]]'
+
+def init(config):
+    config['selector'].add('/twoter', GET=base)
+    config['selector'].add('/twoter/{username:segment}', GET=user, POST=submit)
