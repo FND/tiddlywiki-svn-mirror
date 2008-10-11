@@ -76,7 +76,7 @@ tracAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,
 						var t = new Tiddler(item.title);
 						item.text = "" + item.text.htmlDecode() + "";	
 						t.fields["server.type"] = "trac";
-						
+						t.fields["url"] = link;
 						t.set(item.title,item.text,"modifier",item.created,null,item.created, t.fields);
 						store.addTiddler(t);
 					}

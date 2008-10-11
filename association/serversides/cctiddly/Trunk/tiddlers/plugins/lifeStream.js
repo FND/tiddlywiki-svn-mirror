@@ -61,7 +61,7 @@ config.macros.lifeStream.display = function (place, params)
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
 				addClass(sliderButton,"stream tracStream");
-				wikify("'''"+tiddlers[t].text+"'''\n\r"+tiddlers[t].fields["url"],slider);			
+				wikify(tiddlers[t].text+"\n\r"+tiddlers[t].fields["url"],slider);			
 			break;
 			case "flickr":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
