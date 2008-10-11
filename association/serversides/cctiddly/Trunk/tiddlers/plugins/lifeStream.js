@@ -28,7 +28,7 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	
 	var trac = new tracAdaptor();
 	trac.openHost();
-	context.host = "http://tiddlywiki.org/trac/timeline?format=rss";
+	context.host = "http://trac.tiddlywiki.org/timeline?format=rss";
 	trac.getWorkspaceList(context);
 	
 	
