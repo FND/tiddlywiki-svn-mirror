@@ -27,22 +27,26 @@
 if(!version.extensions.XMLRPCPlugin) {
 version.extensions.XMLRPCPlugin = { installed: true };
 
-xmlrpc = {
+if(!config.extensions) { config.extensions = {}; }
+
+config.extensions.xmlrpc = {
 	request: function(url, callback, method, params, username, password, allowCache) { // DEBUG: rename?
-		doHttp("POST", url, this.generateMethodCall(method, params), "text/xml",
-			username, password, callback, null, null, allowCache); // DEBUG: no custom params or headers?
+		httpReq("POST", url, callback, null, null, this.generateMethodCall(method, params), "text/xml",
+			username, password, allowCache);
 	},
+
 	parseResponse: function(status, params, responseText, xhr) {
-		if(status && responseText.indexOf("<fault>") == -1) { // DEBUG: use proper XML parsing?
-			var match = responseText.match(/<value>([\s\S]*)<\/value>/i); // DEBUG: use proper XML parsing?
+		if(status && responseText.indexOf("<fault>") == -1) { // TODO: use proper XML parsing (xhr.responseXML)
+			var match = responseText.match(/<value>([\s\S]*)<\/value>/i); // TODO: use proper XML parsing (xhr.responseXML)
 			if(match && match.length) {
 				return match[0];
 			}
 		} else {
-			var error = responseText.match(/faultString<\/name>[\s\S]*?<string>([\s\S]*)<\/string>/i); // DEBUG: use proper XML parsing?
+			var error = responseText.match(/faultString<\/name>[\s\S]*?<string>([\s\S]*)<\/string>/i); // TODO: use proper XML parsing (xhr.responseXML)
 			return (error && error.length) ? error[1] : false;
 		}
 	},
+
 	/**
 	 * generate method call
 	 * @param {String} methodName name of remote procedure
@@ -50,14 +54,14 @@ xmlrpc = {
 	 * @return {String} method call
 	 */
 	generateMethodCall: function(methodName, params) {
-		var msg = "<?xml version='1.0'?><methodCall>"
-			+ "<methodName>" + methodName + "</methodName>"
-			+ "<params>";
+		var msg = "<?xml version='1.0'?><methodCall>" +
+			"<methodName>" + methodName + "</methodName><params>";
 		for(var i = 0; i < (params ? params.length : 0); i++) {
 			msg += this.generateParamNode(params[i]);
 		}
 		return msg + "</params></methodCall>";
 	},
+
 	/**
 	 * generate parameter node
 	 * @param {Object} param object with keys "type" (data type) and "value"
@@ -107,6 +111,7 @@ config.macros.XMLRPC = {
 	btnLabel: "XML-RPC",
 	btnTooltip: null,
 	btnClass: null,
+
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		createTiddlyButton(place, this.btnLabel,
 			this.btnTooltip || params[0] + " - " + params[1],
@@ -117,15 +122,17 @@ config.macros.XMLRPC = {
 				password: params[3] || "" // DEBUG: use of plain-text parameter for password is insecure
 			});
 	},
+
 	onclick: function() {
 		var url = this.getAttribute("url");
 		var method = this.getAttribute("method");
 		var username = this.getAttribute("username") || null;
 		var password = this.getAttribute("password") || null;
-		xmlrpc.request(url, config.macros.XMLRPC.diplayResults, method, null, username, password);
+		config.extensions.xmlrpc.request(url, config.macros.XMLRPC.diplayResults, method, null, username, password);
 	},
-	diplayResults: function(status, params, responseText, xhr) {
-		var response = xmlrpc.parseResponse(status, params, responseText, xhr);
+
+	diplayResults: function(status, params, responseText, xhr) { // TODO
+		var response = config.extensions.xmlrpc.parseResponse(status, params, responseText, xhr);
 		displayMessage(response); // DEBUG
 	}
 };
