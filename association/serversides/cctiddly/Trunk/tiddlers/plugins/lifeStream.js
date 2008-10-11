@@ -6,10 +6,11 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 		config.macros.lifeStream.display(place, params);
 	};
 	context.host = "http://twitter.com/statuses/user_timeline/simonmcmanus";
+
 	var twitter = new twitterAdaptor();
 	twitter.openHost();
 	twitter.getWorkspaceList(context);
-
+	
 	var flickr = new flickrAdaptor();
 	flickr.openHost();
 	context.host = "http://api.flickr.com/services/feeds/photos_public.gne?ids=22127230@N08";
@@ -25,13 +26,10 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	context.host = "http://simonmcmanus.com";
 	wordpress.getWorkspaceList(context);
 	
-	
-	
 	var trac = new tracAdaptor();
 	trac.openHost();
 	context.host = "http://tiddlywiki.org/trac/timeline?format=rss";
 	trac.getWorkspaceList(context);
-	
 	
 	
 	createTiddlyElement(place, "h3", null, null, "Loading...");
@@ -40,21 +38,16 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 config.macros.lifeStream.display = function (place, params)
 {
 	removeChildren(place);
-	setStylesheet(".tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;   background-color:#111; margin:20px; float:none}"+
-	".stream { background-repeat:no-repeat; display: block; color:white; padding:10px; margin:10px ; width750px; border:1px solid #111;}"+	
-	".slider { background-color:#111;color:white; margin-left:20px; margin-top:-18px; padding:10px 10px 10px 50px; width:604px;border:2px solid #111; padding-left:69px;border-top:0px;}"+	
-	".imgClass {float:left; display:block; padding-right:10px}"+
-	".tiddler a.deliciousStream,a.delicousStream:hover{left:80px;padding-left:70px;background:url(http://ransom.redjar.org/images/delicious_icon.gif);background-repeat:no-repeat;  background-color:#111;}"+
-	".tiddler a.wordpressStream,a.wordpressStream:hover{left:80px;padding-left:70px;background:url(http://tbn0.google.com/images?q=tbn:R26G1WDW9AZUaM:http://joeymoggie.net/wp-content/uploads/2007/09/wordpress_logo50x50.jpg);background-repeat:no-repeat;  background-color:#111;}"+	
+	setStylesheet(".tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;  margin:20px; float:none}"+
+	".tiddler .button:hover,.tiddler .button	 {background-repeat:no-repeat; }"+
 	".textSpace {padding-left:60px; }"+
-	
 	".noFloat {float:none; background-color:red;}"+
-	".tiddler .button:hover	 { background-color:#111; border:1px solid #111;}");
+	"a.imgClass {float:left; display:block; padding-right:10px}");
 
 	var tiddlers = store.reverseLookup("tags","excludeLists",false,"modified");
 	var last = params[1] ? tiddlers.length-Math.min(tiddlers.length,parseInt(params[1])) : 0;
 	var div = createTiddlyElement(place, "div");
-	for(var t=tiddlers.length-1; t>=last; t--) {	
+	for(var t=tiddlers.length-1; t>=last; t--) {
 		switch(tiddlers[t].fields['server.type']){
 			case "wordpress" :
 				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
@@ -64,7 +57,11 @@ config.macros.lifeStream.display = function (place, params)
 				wikify("'''"+tiddlers[t].text+"'''\n\r"+tiddlers[t].fields["url"],slider);			
 			break;
 			case "trac":
-			displayMessage("trac");
+				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
+				addClass(slider,"slider");
+				var sliderButton = findRelated(slider,"button","className","previousSibling");
+				addClass(sliderButton,"stream tracStream");
+				wikify("'''"+tiddlers[t].text+"'''\n\r"+tiddlers[t].fields["url"],slider);			
 			break;
 			case "flickr":
 				var img = createTiddlyElement(null, "img", null, "imgClass");

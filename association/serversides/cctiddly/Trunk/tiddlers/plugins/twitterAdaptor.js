@@ -51,12 +51,12 @@ twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,u
 	for (var i=0; i < tweets.length; i++) {
 		var tiddler = new Tiddler(tweets[i]['id']);
 		var timestamp = tweets[i]['created_at'];
-		tiddler.created = convertTimestamp(timestamp).convertToLocalYYYYMMDDHHMM().toString();
+		var created = convertTimestamp(timestamp).convertToLocalYYYYMMDDHHMM().toString();
 		fields = {};
 		fields["server.type"] = "twitter";
 		fields["url"] = "http://twitter.com/"+tweets[i]['user']['name']+"/statuses/"+tweets[i]['id'];
 		fields["user_img"] = tweets[i]['user']['profile_image_url'];
-		tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",convertTimestamp(timestamp),"",convertTimestamp(timestamp),fields);
+		tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",created,"",created,fields);
 		store.addTiddler(tiddler);
 	}			
 	context.tiddlers = list;

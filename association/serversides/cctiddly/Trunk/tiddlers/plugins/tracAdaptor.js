@@ -30,7 +30,6 @@ tracAdaptor.convertTimestamp = function(str) { // TODO: rename
 
 
 tracAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password){
-	displayMessage(url+"/handle/proxy.php?feed="+uri);
     return doHttp('GET',window.url+"/handle/proxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
 };
 
@@ -62,33 +61,30 @@ tracAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,
 		var title = item_match[i].match(regex_title);	
 		var created = item_match[i].match(regex_created);
 		item.title = title[0].replace(/^<title>|<\/title>$/mg,"");
-		var author = item_match[i].match(regex_author);		
-		author = author[0].replace(/^<author>|<\/author>$/mg,"");
-		if(author == "mcmanus.simon@gmail.com") {
-//			item.title = item.title.htmlDecode();
-			displayMessage(author);
+
+			if(item_match[i].match(regex_author)) {
+				var author = item_match[i].match(regex_author);		
+				author = author[0].replace(/^<author>|<\/author>$/mg,"");
+					if(author == "mcmanus.simon@gmail.com") {
+						item.created = created[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
+						item.created = tracAdaptor.convertTimestamp(item.created);
+						desc = item_match[i].match(regex_desc);
+						var link = item_match[i].match(regex_link);
+						link = link[0].replace(/^<link>|<\/link>$/mg,"");
+						if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
+						var t = new Tiddler(item.title);
+						item.text = "" + item.text.htmlDecode() + "";	
+						t.fields["server.type"] = "trac";
+						
+						t.set(item.title,item.text,"modifier",item.created,null,item.created, t.fields);
+						store.addTiddler(t);
+					}
+			}
 		
-	
-			item.created = created[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
-			
-			item.created = tracAdaptor.convertTimestamp(item.created);
-			
-				displayMessage(item.created);
-			desc = item_match[i].match(regex_desc);
-			var link = item_match[i].match(regex_link);
-			link = link[0].replace(/^<link>|<\/link>$/mg,"");
-			if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
-			var t = new Tiddler(item.title);
-			t.text = "" + item.text.htmlDecode() + "";	
-			t.text = t.text.replace("<![CDATA[", "");
-			t.text = t.text.replace("]]]>", "");
-			t.fields["url"] = link;
-			t.fields["server.type"] = "trac";
-			t.set(item.title,t.text,"modifier",item.created,null,t.fields);
-			store.addTiddler(t);
-			console.log(t);
-		}
 	}
 	context.status = true;
+	
+	if(context.callback)
+		context.callback(context,context.userParams);
 };
 config.adaptors[tracAdaptor.serverType] = tracAdaptor;
