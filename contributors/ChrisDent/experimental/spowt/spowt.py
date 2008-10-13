@@ -14,7 +14,7 @@ from tiddlyweb.web.util import server_base_url, recipe_url
 
 template_env = Environment(loader=FileSystemLoader('.'))
 
-def root(environ, start_response):
+def spowt(environ, start_response):
     username = environ['tiddlyweb.usersign']['name']
     if username == 'GUEST':
         start_response('200 OK', [('Content-Type', 'text/html')])
@@ -34,6 +34,7 @@ def new_wiki(environ, start_response):
     length = environ['CONTENT_LENGTH']
     content = environ['wsgi.input'].read(int(length))
     wikiname = cgi.parse_qs(content).get('wikiname', [''])[0]
+    perms = cgi.parse_qs(content).get('perms', [''])[0]
 
     if wikiname:
         bag = Bag(wikiname)
@@ -43,6 +44,17 @@ def new_wiki(environ, start_response):
         except NoBagError:
             bag.desc = 'hello'
             bag.policy.owner = username
+            if perms == 'closed':
+                bag.policy.manage = [username]
+                bag.policy.read = [username]
+                bag.policy.write = [username]
+                bag.policy.create = [username]
+                bag.policy.delete = [username]
+            if perms == 'read':
+                bag.policy.manage = [username]
+                bag.policy.write = [username]
+                bag.policy.create = [username]
+                bag.policy.delete = [username]
             store.put(bag)
 
         recipe = Recipe(wikiname)
@@ -52,7 +64,8 @@ def new_wiki(environ, start_response):
         except NoRecipeError:
             recipe.desc = 'hello'
             recipe.policy.owner = username
-            recipe.set_recipe([[bag.name, '']])
+            recipe.policy.manage = [username]
+            recipe.set_recipe([['tiddlyweb', ''], [bag.name, '']])
             store.put(recipe)
 
         user = User(username)
@@ -77,7 +90,8 @@ def userpage(environ, start_response):
     username = environ['tiddlyweb.usersign']['name']
     user = environ['wsgiorg.routing_args'][1]['user']
     if username != user:
-        raise ForbiddenError
+        #raise ForbiddenError
+        raise UserRequiredError
 
     store = environ['tiddlyweb.store']
     user_data = User(user)
@@ -105,7 +119,19 @@ def userpage(environ, start_response):
     return template.generate(user=user, wikis=wikis)
 
 
+def root(environ, start_response):
+    start_response('200 OK', [('Content-Type', 'text/html')])
+    return ["hello"]
+
+
+def replace_handler(selector, path, new_handler):
+    for index, (regex, handler) in enumerate(selector.mappings):
+        if regex.match(path) is not None:
+            selector.mappings[index] = (regex, new_handler)
+
+
 def init(config):
     print "initializing spowt"
-    config['selector'].add('/spowt', GET=root, POST=new_wiki)
+    #replace_handler(config['selector'], '/', dict(GET=spowt))
+    config['selector'].add('/spowt', GET=spowt, POST=new_wiki)
     config['selector'].add('/spowt/{user:segment}', GET=userpage)

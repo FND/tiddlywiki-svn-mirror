@@ -23,6 +23,19 @@ Also, to get around a bug without tiddlywebconfig.py
 is read by tiddlyweb.config, we need a _copy_ (not
 symlink) of ../TiddlyWeb/manager in this directory.
 
+You will need to create a tiddlyweb bag:
+
+    ./manager bag tiddlyweb
+    ^D
+
+And then add the required plugins to that bag. You can
+use lib/from_svn:
+
+    lib/from_svn \
+        tiddlyweb http://svn.tiddlywiki.org/Trunk/verticals/tiddlywebclient/plugins/TiddlyWebAdaptorPlugin.js
+        tiddlyweb http://svn.tiddlywiki.org/Trunk/verticals/tiddlywebclient/plugins/TiddlyWebAutoSavePlugin.js
+        tiddlyweb http://svn.tiddlywiki.org/Trunk/verticals/tiddlywebclient/plugins/TiddlyWebSpowtDefaulterPlugin.js
+
 Then if you run 
 
     ./manager server 0.0.0.0 8080
@@ -30,10 +43,6 @@ Then if you run
 You can go to http://0.0.0.0:8080/spowt and do some
 stuff.
 
-All this does so far is show a form from which a Bag
-and Recipe are created. The assocation between Recipe
-name and user is maintain in the note field of the User
-database. A hack, but working for the time being.
-
-
-
+The assocation between Recipe name and user is maintained
+in the note field of the User database. A hack, but
+working for the time being.
