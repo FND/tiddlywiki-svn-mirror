@@ -1,50 +1,71 @@
 /***
 |''Name''|XMLRPCPlugin|
-|''Description''|XML-RPC library and macro|
+|''Description''|basic XML-RPC library|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.2.0|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#XMLRPCPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
-|''License''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-!Usage
-{{{
-<<XMLRPC URL methodName [username] [password]>>
-}}}
-!!Examples
-<<XMLRPC "http://trac.tiddlywiki.org/login/xmlrpc" "system.listMethods">>
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 !Revision History
 !!v0.1 (2008-07-22)
 * initial release
+!!v0.2 (2008-10-12)
+* major refactoring/rewrite to improve response handling
 !To Do
+* response parsing
 * XML-RPC multi-call to combine multiple calls into a single HTTP request
-* macro missing option for parameters
-* documentation
-* code documentation
 !Code
 ***/
 //{{{
-if(!version.extensions.XMLRPCPlugin) {
-version.extensions.XMLRPCPlugin = { installed: true };
+if(!version.extensions.XMLRPC) {
+version.extensions.XMLRPC = { installed: true };
 
 if(!config.extensions) { config.extensions = {}; }
 
-config.extensions.xmlrpc = {
-	request: function(url, callback, method, params, username, password, allowCache) { // DEBUG: rename?
-		httpReq("POST", url, callback, null, null, this.generateMethodCall(method, params), "text/xml",
-			username, password, allowCache);
+config.extensions.XMLRPC = {
+
+	/**
+	 * perform method call
+	 * @param {String} host URL of remote host
+	 * @param {String} methodName name of remote procedure
+	 * @param {Array} params objects with keys "type" and "value"
+	 * @param {String} username optional username for authentication
+	 * @param {String} password optional password for authentication
+	 * @param {Boolean} allowCache allow caching
+	 * @param {Function} callback function to handle response
+	 */
+	request: function(host, method, params, username, password, allowCache, callback) { // TODO: rename?
+		var rpc = this.generateMethodCall(method, params);
+		var context = {
+			callback: callback
+		};
+		httpReq("POST", host, this.requestCallback, context, null, rpc,
+			"text/xml", username, password, allowCache);
 	},
 
-	parseResponse: function(status, params, responseText, xhr) {
-		if(status && responseText.indexOf("<fault>") == -1) { // TODO: use proper XML parsing (xhr.responseXML)
-			var match = responseText.match(/<value>([\s\S]*)<\/value>/i); // TODO: use proper XML parsing (xhr.responseXML)
-			if(match && match.length) {
-				return match[0];
-			}
-		} else {
-			var error = responseText.match(/faultString<\/name>[\s\S]*?<string>([\s\S]*)<\/string>/i); // TODO: use proper XML parsing (xhr.responseXML)
-			return (error && error.length) ? error[1] : false;
+	/**
+	 * process RPC response
+	 * @param {Boolean} status false if request produced an error
+	 * @param {Object} context parameter object
+	 * @param {String} responseText server response
+	 * @param {String} url requested URL
+	 * @param {Object} xhr XMLHttpRequest object
+	 */
+	requestCallback: function(status, context, responseText, url, xhr) {
+		var xml = xhr.responseXML;
+		if(!status || !xml) {
+			throw new Error("error connecting to server"); // XXX: usage incorrect?
 		}
+		var error = xml.getElementsByTagName("fault");
+		if(error.length) {
+			error = {
+				code: parseInt(error.getElementsByTagName("int")[0], 10),
+				message: error.getElementsByTagName("string")[0]
+			};
+			throw new Error(error); // XXX: usage incorrect?
+		}
+		context.callback(xml);
 	},
 
 	/**
@@ -70,7 +91,7 @@ config.extensions.xmlrpc = {
 	generateParamNode: function(param) {
 		switch(param.type) {
 			case "array":
-				break; // DEBUG: to be implemented
+				break; // TODO
 			case "base64":
 				var value = "<base64>" + param.value + "</base64>";
 				break;
@@ -80,7 +101,7 @@ config.extensions.xmlrpc = {
 				break;
 			case "date":
 			case "time":
-				value = "<dateTime.iso8601>" + param.value + "</dateTime.iso8601>"; // DEBUG: convert to ISO 8601 format
+				value = "<dateTime.iso8601>" + param.value + "</dateTime.iso8601>"; // TODO: convert to ISO 8601 format
 				break;
 			case "double":
 			case "float":
@@ -95,7 +116,7 @@ config.extensions.xmlrpc = {
 				value = "<string>" + param.value + "</string>";
 				break;
 			case "struct":
-				break; // DEBUG: to be implemented
+				break; // TODO
 			case "nil":
 			case "null":
 				value = "<nil/>";
@@ -103,37 +124,7 @@ config.extensions.xmlrpc = {
 			default:
 				break;
 		}
-		return "<param><value>" + value + "</value></param>"; // DEBUG: value tag for all types?
-	}
-};
-
-config.macros.XMLRPC = {
-	btnLabel: "XML-RPC",
-	btnTooltip: null,
-	btnClass: null,
-
-	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-		createTiddlyButton(place, this.btnLabel,
-			this.btnTooltip || params[0] + " - " + params[1],
-			this.onclick, this.btnClass, null, null, {
-				url: params[0],
-				method: params[1],
-				username: params[2] || "",
-				password: params[3] || "" // DEBUG: use of plain-text parameter for password is insecure
-			});
-	},
-
-	onclick: function() {
-		var url = this.getAttribute("url");
-		var method = this.getAttribute("method");
-		var username = this.getAttribute("username") || null;
-		var password = this.getAttribute("password") || null;
-		config.extensions.xmlrpc.request(url, config.macros.XMLRPC.diplayResults, method, null, username, password);
-	},
-
-	diplayResults: function(status, params, responseText, xhr) { // TODO
-		var response = config.extensions.xmlrpc.parseResponse(status, params, responseText, xhr);
-		displayMessage(response); // DEBUG
+		return "<param><value>" + value + "</value></param>"; // XXX: value tag for all types?
 	}
 };
 
