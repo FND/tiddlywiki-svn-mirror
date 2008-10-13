@@ -36,7 +36,7 @@ tracAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,us
 
 tracAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0';
+	var uriTemplate = '%0&amp;max=10';
 	var uri = uriTemplate.format([context.host]);
 	var req = tracAdaptor.doHttpGET(uri,tracAdaptor.getWorkspaceListCallback,context, {'accept':tracAdaptor.mimeType});
 	return typeof req == 'string' ? req : true;
@@ -72,7 +72,7 @@ tracAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,
 						link = link[0].replace(/^<link>|<\/link>$/mg,"");
 						if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
 						var t = new Tiddler(item.title);
-						item.text = "" + item.text.htmlDecode() + "";	
+						item.text = "'''" + item.text.htmlDecode() + "'''";	
 						t.fields["server.type"] = "trac";
 						t.fields["url"] = link;
 						t.set(item.title,item.text,"modifier",item.created,null,item.created, t.fields);
