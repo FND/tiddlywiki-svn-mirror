@@ -22,6 +22,7 @@
 <!--{{{-->
 <div class='backgroundHeader'>
 </div>
+<meta name = "viewport" content = "width = 500">
 <div class='header' macro='gradient vert #111 #222'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
