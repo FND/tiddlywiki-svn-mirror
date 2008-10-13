@@ -30,30 +30,35 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	trac.openHost();
 	context.host = "http://trac.tiddlywiki.org/timeline?format=rss";
 	trac.getWorkspaceList(context);
-	
-	
-	createTiddlyElement(place, "h3", null, null, "Loading...");
+	createTiddlyElement(place, "h4", null, null, "loading...");
 };
 
 config.macros.lifeStream.display = function (place, params)
 {
 	removeChildren(place);
 	setStylesheet(".tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;  margin:20px; float:none}"+
-	".tiddler .button:hover,.tiddler .button	 {background-repeat:no-repeat; }"+
+	".tiddler .button:hover,.tiddler .button	 {background-repeat:no-repeat; float:none;  }"+
 	".textSpace {padding-left:60px; }"+
 	".noFloat {float:none; background-color:red;}"+
-	"a.imgClass {float:left; display:block; padding-right:10px}");
-
+	".stream { display: block; padding:10px; margin:10px ; width750px;  min-height:53px; }"+
+	".imgClass {float:left; display:block;padding-right:10px}");
 	var tiddlers = store.reverseLookup("tags","excludeLists",false,"modified");
 	var last = params[1] ? tiddlers.length-Math.min(tiddlers.length,parseInt(params[1])) : 0;
 	var div = createTiddlyElement(place, "div");
 	for(var t=tiddlers.length-1; t>=last; t--) {
 		switch(tiddlers[t].fields['server.type']){
 			case "wordpress" :
-				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
+				var img = createTiddlyElement(null, "img", null, "imgClass");
+				img.src = "http://www.mrblogger.com/wp-content/wordpress-icon-128.png";
+				img.width = "50";
+				img.height = "50";
+				img.style.border ="0px";
+				var slider = config.macros.slider.createSlider(place, "", "");
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
 				addClass(sliderButton,"stream wordpressStream");
+				sliderButton.appendChild(img);
+				createTiddlyElement(sliderButton, "div", null, "textSpace", tiddlers[t].title);
 				wikify("'''"+tiddlers[t].text+"'''\n\r"+tiddlers[t].fields["url"],slider);			
 			break;
 			case "trac":
@@ -71,8 +76,8 @@ config.macros.lifeStream.display = function (place, params)
 				var slider = config.macros.slider.createSlider(place, "");
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
-				sliderButton.appendChild(img);
-				createTiddlyText(sliderButton, tiddlers[t].title);
+				sliderButton.appendChild(img);		
+				createTiddlyElement(sliderButton, "div", null, "textSpace", tiddlers[t].title);
 				addClass(sliderButton,"stream flickrStream");
 				wikify("[img["+tiddlers[t].text+"]]\n\r"+tiddlers[t].fields['link']+"\n\r"+tiddlers[t].created,slider);
 				createTiddlyElement(sliderButton, "div", null, "noFloat");
@@ -94,9 +99,15 @@ config.macros.lifeStream.display = function (place, params)
 				wikify(tiddlers[t].fields['url']+""+"\n\r"+tiddlers[t].created,slider);
 			break;
 			case "delicious":
-				var slider = config.macros.slider.createSlider(place, "", tiddlers[t].title);
+				var img = createTiddlyElement(null, "img", null, "imgClass");
+				img.src = "http://ransom.redjar.org/images/delicious_icon.gif";
+				img.width = "50";
+				img.height = "50";
+				var slider = config.macros.slider.createSlider(place, "", "");
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
+				sliderButton.appendChild(img);
+				createTiddlyElement(sliderButton, "div", null, "textSpace", tiddlers[t].title);
 				addClass(sliderButton,"stream deliciousStream");
 				wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created,slider);
 			break;

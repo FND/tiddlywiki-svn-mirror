@@ -46,8 +46,6 @@ tracAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,
 	if(!context)
 		context = {};
 	context.tiddlers = [];
-	
-	
 	responseText = responseText.replace(/\r+/mg,"");
 	var regex_item = /<item>(.|\n)*?<\/item>/mg;
 	var regex_title = /<title>(.|\n)*?<\/title>/mg;
@@ -66,7 +64,9 @@ tracAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,
 			if(item_match[i].match(regex_author)) {
 				var author = item_match[i].match(regex_author);		
 				author = author[0].replace(/^<dc:creator>|<\/dc:creator>$/mg,"");
+				console.log(author);
 					if(author == "simonmcmanus") {
+						displayMessage(author);
 						item.created = created[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
 						item.created = tracAdaptor.convertTimestamp(item.created);
 						desc = item_match[i].match(regex_desc);
