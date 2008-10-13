@@ -125,6 +125,27 @@ config.extensions.XMLRPC = {
 				break;
 		}
 		return "<param><value>" + value + "</value></param>"; // XXX: value tag for all types?
+	},
+
+	/**
+	 * utility function to retrieve node values (cross-browser compatible)
+	 * @param {Object} node XML node
+	 * @param {String} type optional type for conversion ("int" or "float")
+	 * @return {String, Integer, Float} node value
+	 */
+	getNodeValue: function(node, type) {
+		var value = node.textContent || node.text;
+		switch(type) {
+			case "int":
+				value = parseInt(value, 10);
+				break;
+			case "float":
+				value = parseFloat(value);
+				break;
+			default:
+				break;
+		}
+		return value;
 	}
 };
 
