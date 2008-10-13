@@ -40,8 +40,8 @@ config.extensions.XMLRPC = {
 		var context = {
 			callback: callback
 		};
-		httpReq("POST", host, this.requestCallback, context, null, rpc,
-			"text/xml", username, password, allowCache);
+		return httpReq("POST", host, this.requestCallback, context, null,
+			rpc, "text/xml", username, password, allowCache);
 	},
 
 	/**
@@ -49,10 +49,10 @@ config.extensions.XMLRPC = {
 	 * @param {Boolean} status false if request produced an error
 	 * @param {Object} context parameter object
 	 * @param {String} responseText server response
-	 * @param {String} url requested URL
+	 * @param {String} uri requested URL
 	 * @param {Object} xhr XMLHttpRequest object
 	 */
-	requestCallback: function(status, context, responseText, url, xhr) {
+	requestCallback: function(status, context, responseText, uri, xhr) {
 		var xml = xhr.responseXML;
 		if(!status || !xml) {
 			throw new Error("error connecting to server"); // XXX: usage incorrect?
@@ -65,7 +65,7 @@ config.extensions.XMLRPC = {
 			};
 			throw new Error(error); // XXX: usage incorrect?
 		}
-		context.callback(xml);
+		context.callback(status, context, responseText, uri, xhr);
 	},
 
 	/**
