@@ -7,7 +7,7 @@ import sys
 from urllib import urlopen
 from time import time
 from tiddlyweb.config import config
-from tiddlyweb.store import Store, StoreLockError
+from tiddlyweb.store import Store, StoreLockError, NoBagError
 from tiddlyweb.bag import Bag
 from tiddlyweb.recipe import Recipe
 from tiddlyweb.importer import import_wiki
@@ -22,9 +22,7 @@ def main(args):
 	store = Store("text", env)
 	repos = getRepositories("repos.lst")
 	for repo in repos:
-		msg = "STATUS: processing '%s' (%s)" % (repo["name"], repo["URI"])
-		log.append(msg)
-		print msg # DEBUG
+		print "processing '%s' (%s)" % (repo["name"], repo["URI"])
 		getPlugins(repo, store)
 	bags = [repo["name"] for repo in repos] # XXX: repo["name"] not necessarily equals Bag(repo["name"]).name
 	generateRecipe(bags, store)
@@ -66,6 +64,7 @@ def getPlugins(repo, store):
 	if repo["type"] == "TiddlyWiki":
 		try:
 			html = urlopen(repo["URI"]).read() # TODO: deferred processing?!
+			log.append("STATUS: retrieved repository '%s' (%s)" % (repo["name"], repo["URI"]))
 		except IOError:
 			log.append("ERROR: could not process repository '%s'" % repo["name"])
 			return False
@@ -86,8 +85,10 @@ def getPlugins(repo, store):
 		svn = DirScraper(repo["URI"])
 		try:
 			plugins = svn.getPlugins("./", True)
+			log.append("STATUS: retrieved repository '%s' (%s)" % (repo["name"], repo["URI"]))
 		except IOError:
 			log.append("ERROR: could not process repository '%s'" % repo["name"])
+			return False
 		if plugins:
 			savePlugins(store, bag)
 			for plugin in plugins:
@@ -109,7 +110,13 @@ def generateRecipe(bags, store):
 	@return: None
 	"""
 	recipe = Recipe("plugins")
-	items = [([bag, ""]) for bag in bags] # TODO: use None instead of empty string?
+	items = []
+	for bag in bags:
+		try:
+			store.get(Bag(bag)) # ensure that bag exists
+			items.append([bag, ""]) # bag name and filter string
+		except NoBagError:
+			pass # skip missing bag
 	recipe.set_recipe(items)
 	store.put(recipe)
 

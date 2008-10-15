@@ -47,7 +47,10 @@ class DirScraper:
 		content = self._get(self.host + dir)
 		soup = BeautifulSoup(content)
 		list = soup.find("ul")
-		items = list.findChildren("li")
+		try:
+			items = list.findChildren("li")
+		except AttributeError: # means 404 -- XXX: ugly hack; check for HTTP status code directly
+			raise IOError("404 Not Found") # XXX: IOError not appropriate
 		uris = [item.findChild("a")["href"] for item in items]
 		if self.whitelist in uris:
 			whitelisted = self._get(self.host + dir + self.whitelist).split("\n")

@@ -1,6 +1,5 @@
 == Aggregator ==
 
-* remove erroneous repositories from recipe [to be handled by TiddlyWeb?]
 * additional metadata (e.g. repository, name, title)
 * refactor tiddlywiki.py to return tiddler objects
 * unique tiddler names (bag + title)?
