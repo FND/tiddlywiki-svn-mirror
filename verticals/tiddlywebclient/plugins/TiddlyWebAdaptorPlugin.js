@@ -38,7 +38,7 @@ TiddlyWebAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0/recipes';
 	var uri = uriTemplate.format([context.host]);
-	var req = httpReq('GET',uri,TiddlyWebAdaptor.getWorkspaceListCallback,context,{'accept':'application/json'});
+	var req = httpReq('GET',uri,TiddlyWebAdaptor.getWorkspaceListCallback,context,{'accept':TiddlyWebAdaptor.mimeType});
 	return typeof req == 'string' ? req : true;
 };
 
@@ -81,7 +81,7 @@ TiddlyWebAdaptor.prototype.getTiddlerList = function(context,userParams,callback
 	} else {
 		uri = uriTemplate.format([context.host,'recipes',context.workspace,params]);
 	}
-	var req = httpReq('GET',uri,TiddlyWebAdaptor.getTiddlerListCallback,context, {'accept':'application/json'});
+	var req = httpReq('GET',uri,TiddlyWebAdaptor.getTiddlerListCallback,context, {'accept':TiddlyWebAdaptor.mimeType});
 	return typeof req == 'string' ? req : true;
 };
 
@@ -129,7 +129,7 @@ TiddlyWebAdaptor.prototype.getSearchResults = function(context,userParams,callba
 	var uriTemplate = '%0/search?q=%1%2';
 	var uri = uriTemplate.format([context.host, context.query, filterString]);
 	var req = httpReq('GET',uri,TiddlyWebAdaptor.getSearchResultsCallback,
-		context,{ accept: 'application/json' });
+		context,{accept:TiddlyWebAdaptor.mimeType});
 	return typeof req == 'string' ? req : true;
 };
 
@@ -187,7 +187,7 @@ TiddlyWebAdaptor.prototype.getTiddler = function(title,context,userParams,callba
 			TiddlyWebAdaptor.normalizedTitle(title),context.revision]);
 		context.tiddler.fields['server.workspace'] = context.workspace;
 	}
-	var req = httpReq('GET',uri,TiddlyWebAdaptor.getTiddlerCallback,context, {'accept':'application/json'});
+	var req = httpReq('GET',uri,TiddlyWebAdaptor.getTiddlerCallback,context, {'accept':TiddlyWebAdaptor.mimeType});
 	return typeof req == 'string' ? req : true;
 };
 
@@ -240,7 +240,7 @@ TiddlyWebAdaptor.prototype.getTiddlerRevisionList = function(title,limit,context
 	} else {
 		uri = uriTemplate.format([context.host,'recipes',context.workspace,TiddlyWebAdaptor.normalizedTitle(title)]);
 	}
-	var req = httpReq('GET',uri,TiddlyWebAdaptor.getTiddlerRevisionListCallback,context, {'accept':'application/json'});
+	var req = httpReq('GET',uri,TiddlyWebAdaptor.getTiddlerRevisionListCallback,context, {'accept':TiddlyWebAdaptor.mimeType});
 	return typeof req == 'string' ? req : true;
 };
 
