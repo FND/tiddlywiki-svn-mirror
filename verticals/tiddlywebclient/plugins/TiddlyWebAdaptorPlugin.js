@@ -74,11 +74,12 @@ TiddlyWebAdaptor.getWorkspaceListCallback = function(status,context,responseText
 TiddlyWebAdaptor.prototype.getTiddlerList = function(context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0/%1/%2/tiddlers';
+	var uriTemplate = '%0/%1/%2/tiddlers%3';
+	var params = context.filters ? '?filter=' + context.filters : '';
 	if(context.bag) {
-		var uri = uriTemplate.format([context.host,'bags',context.bag]);
+		var uri = uriTemplate.format([context.host,'bags',context.bag,params]);
 	} else {
-		uri = uriTemplate.format([context.host,'recipes',context.workspace]);
+		uri = uriTemplate.format([context.host,'recipes',context.workspace,params]);
 	}
 	var req = httpReq('GET',uri,TiddlyWebAdaptor.getTiddlerListCallback,context, {'accept':'application/json'});
 	return typeof req == 'string' ? req : true;

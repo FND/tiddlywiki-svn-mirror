@@ -36,11 +36,13 @@ config.extensions.PluginLibraryAdaptor = {
 		var adaptor = new TiddlyWebAdaptor();
 		var context = {
 			host: this.host,
+			workspace: "plugins",
 			query: query,
-			filters: "[count[" + config.options.txtPluginLibrarySearchResults + "]]",
 			matchCallback: callback
 		};
-		return adaptor.getSearchResults(context, userParams, this.getMatchesCallback);
+		context.filters = "[text[" + query + "]]" +
+			" [count[" + config.options.txtPluginLibrarySearchResults + "]]";
+		return adaptor.getTiddlerList(context, userParams, this.getMatchesCallback);
 	},
 
 	getMatchesCallback: function(context, userParams) {

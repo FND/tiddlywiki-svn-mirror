@@ -1,9 +1,11 @@
 == Aggregator ==
 
+* remove erroneous repositories from recipe [to be handled by TiddlyWeb?]
 * additional metadata (e.g. repository, name, title)
+* refactor tiddlywiki.py to return tiddler objects
 * unique tiddler names (bag + title)?
 * dirScraper: wildcards support for black-/whitelisting
-* enhance logging
+* enhance log output
 * handling of removed plugins (e.g. don't delete, but tag with "disabled"?)
 ** relevant with regards to metadata augmentation (cf. Community Features)
 * efficiency enhancements (e.g. caching, deferred processing)
@@ -13,7 +15,7 @@
 * plugin origin for missing Source slice
 * move plugins (entire UI vertical?) to generic directory
 * search:
-** support for filters
+** support for filters (esp. [text[...]])
 ** support for boolean operators
 ** support for RegEx
 ** ignore code sections (optional)
