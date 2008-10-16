@@ -1,0 +1,669 @@
+<div title="lifestreamTheme" modifier="Simon McManus" modified="200708091500" tags="systemTheme excludeSearch excludeLists">
+<pre>
+/***
+|''Name:''|lifestreamTheme|
+|''Author:''|Saq Imtiaz and Simon McManus|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/BleachTheme.tiddler |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.4.1|
+|''~PageTemplate:''|##PageTemplate|
+|''~tabs:''|##tabs|
+|''~OptionsPanel:''|##OptionsPanel|
+|''~StyleSheet:''|##StyleSheet|
+|''~taskViewTemplate:''|##taskViewTemplate|
+|''~taskEditTemplate:''|##taskEditTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~wizardViewTemplate:''|##wizardViewTemplate|
+***/
+
+
+!PageTemplate
+<!--{{{-->
+<!--<div class='backgroundHeader'></div>-->
+<meta name = "viewport" content = "width = 600">
+<div class='header' macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+
+</div>
+<div id='bodywrapper'>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay' width=100%></div>
+</div>
+<div id='contentFooter'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]'></div>
+</div>
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!wizardViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+!OptionsPanel
+[[help|Help]] <br />[[settings|AdvancedOptions]]<br /><<ccOptions>>
+
+!tabs
+<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
+
+!SideBarOptions
+<<search "search...">><<closeAll>><<newTiddler label:"new task" text:"New Task" title:"New Task" tag:"task">><<newTiddler>><<slider chkSliderOptionsPanel lifestreamTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<saveChanges>><<slider 'chkLoginStatus' 'LoginStatus' '  status »' 'Login to make changes'>><<slider chkSliderTabs lifestreamTheme##tabs 'contents »' 'View TiddlyWiki Tabs'>>
+
+!StyleSheet
+/***
+General
+***/
+/*{{{*/
+.tiddler .button:hover {
+	background-color:[[ColorPalette::ls_mid]];
+}
+.tiddler .button {
+	border:1px solid black;
+	line-height:4;
+	margin:5px;
+	padding:8px;
+}
+
+body .chkOptionInput {
+	width:auto;
+	float:right;
+}
+
+#contentWrapper .wizard .txtOptionInput {
+	width:7em;
+}
+
+body{
+	color:[[ColorPalette::ls_foreground]];
+	background-color:[[ColorPalette::ls_background]];
+//	 background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
+//	 background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
+}
+
+#backstageCloak {
+	opacity:0.9; filter:'alpha(opacity:90)';
+	background:[[ColorPalette::ls_mid]];
+}
+
+#messageArea {
+	border:0px;
+	color:white;
+	background-color:[[ColorPalette::ls_mid]];
+}
+
+#messageArea .button{
+	background:none;
+}
+
+#mainMenu br {
+	display:none;
+}
+
+h1 {
+	color:white;
+}
+
+#contentWrapper{
+	position:relative;
+	margin: 2.5em auto;
+	width:600px;
+	line-height: 1.6em;
+	border:1px solid [[ColorPalette::ls_background]];
+	font-size: 11px;
+	font-family: Lucida Grande, Tahoma, Arial, Helvetica, sans-serif;
+	height:1%;
+	background-color:[[ColorPalette::ls_mid]];
+}
+
+.clearAll{
+	clear:both;
+}
+
+.tagClear{
+	clear:none;
+}
+/*}}}*/
+
+/*{{{*/
+
+.siteTitle {
+	font-family: 'Trebuchet MS' sans-serif;
+	font-weight: bold;
+	position:relative;
+	top:20px;
+	left :20px;
+	font-size: 32px;
+	color:#eee;
+}
+
+.siteSubtitle {
+	padding-top:15px;
+	font-size: 1.0em;
+	display:block; 
+	color: #999; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
+}
+
+#displayArea {
+	width:96%;
+	margin-left:1.35em;
+	margin-right:16.3em;
+	margin-top:0;
+	padding-top:1em;
+	padding-bottom:10px;
+}
+
+.tabUnselected {
+	background:[[ColorPalette::ls_mid]] none repeat scroll 0%;
+	color:#999;
+}
+
+#sidebar {
+	position:inherit;
+	float:right;
+	display:inline;
+}
+
+#tiddlerDisplay .tagging, #tiddlerDisplay .tagged {
+	background-color:[[ColorPalette::ls_mid]];
+	border:none;
+	float:none;
+}
+
+.sliderPanel .tabsetWrapper .tabContents {
+	border-right:none;
+	border-color:#999;
+	background-color:[[ColorPalette::ls_background]];
+}
+
+#sidebarOptions .sliderPanel a{
+	padding:3px;
+	margin:0px;
+	border:2px;
+	background-color:[[ColorPalette::ls_background]];
+}
+
+.tabsetWrapper {
+	position :relative;
+}
+
+#sidebar {
+	padding-left:0.5em;
+	background-color:[[ColorPalette::ls_mid]];
+	padding-top:1em;
+}
+
+#sidebarOptions a {
+	margin:17px;
+	display:block;
+	margin:0.5em 0em;
+	padding:0.3em 0.6em;
+}
+
+.popup li a {
+	padding:12px;
+}
+.toolbar {
+	z-index:2;
+	padding-right:34px;
+}
+#tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, #sidebarOptions .sliderPanel input {
+	background-color:[[ColorPalette::ls_background]];
+	color:#999;
+	border:1px solid [[ColorPalette::ls_background]];
+}
+
+.wizard  .txtOptionInput {
+	text-align:right;
+}
+
+a:hover {
+	background-color:[[ColorPalette::ls_mid]];
+	color:#eee
+}
+
+#tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover, #mainMenu a:hover, #sidebarOptions .sliderPanel input:hover {
+	border:1px dotted #000;
+	background-color:[[ColorPalette::ls_mid]];
+	color:white;
+}
+
+#mainMenu a {
+	padding:8px 15px 8px 15px;
+	margin:10px;
+	line-height:40px;
+	border:0px solid #eee;
+}
+
+#contentWrapper #mainMenu { 
+	position:static;
+	width:100%;
+	float:left;
+	text-align:left;
+	padding-top:20px;
+
+
+}
+
+
+
+
+
+.editor textarea, .editor input,  input, body select {
+	border:1px solid [[ColorPalette::ls_mid]];
+	background-color:[[ColorPalette::SecondaryDark]];
+	color:#999;
+	padding:3px;
+	margin:3px;
+}
+
+textarea {
+	height:20em;
+}
+
+#sidebarOptions input {
+	border:1px solid #999;
+	background-color:#00000;
+	width:10em;
+}
+
+#sidebarTabs {
+	margin:0px;
+	padding:0px
+}
+
+#sidebarTabs .tabContents {
+	color:#eee;
+	background:[[ColorPalette::ls_background]];
+}
+.tagged li
+{
+	display: inline;
+}
+#sideBarOptions .searchButton {
+	display:none;
+}
+
+#sidebar .sliderPanel {
+	border-color:-moz-use-text-color [[ColorPalette::ls_mid]] -moz-use-text-color -moz-use-text-color;
+	border-style:none solid none none;
+	border-width:0 1px 0 0;
+	margin-bottom:0.8em;
+	margin-left:5px;
+	padding:0;
+	margin-left:0px;
+}
+
+#sidebarOptions .searchButton {
+	display:none;
+}
+
+.title {
+	color:#C0C0C0;
+}
+
+.subtitle, .subtitle a {
+	color: #999;
+	font-size: 1em;margin:0.2em;
+	font-variant: small-caps;
+}
+
+.wizard .button:hover{
+	background-color:[[ColorPalette::SecondaryDark]];
+	border:1px solid #444;
+	color:white;
+}
+.selected .toolbar a {
+	color:#999;
+}
+
+.selected .toolbar a:hover {
+	color:[[ColorPalette::ls_mid]];
+	background:transparent;
+	border:1px solid #fff;
+}
+
+.viewer pre {
+	background:[[ColorPalette::ls_background]]111 none repeat scroll 0 0;
+	border:1px solid #FFEE88;
+}
+
+* html .viewer pre {
+	margin-left: 0em;
+}
+
+* html .editor textarea, * html .editor input {
+	width: 98%;
+}
+
+a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
+	color:[[ColorPalette::ls_high]];
+	background-color:transparent;
+}
+
+#sidebarOptions .sliderPanel a:hover, #topMenu a, #topMenu .button:hover {
+	background-color:transparent;
+	border:0px;
+}
+
+#topMenu a, #topMenu .button, .wizard .button {
+	padding: 5px 15px;
+	margin:9px;
+	border:1px solid #999;
+	font-weight:bold;
+	line-height:40px;
+	top:1em;
+	color:#eee;
+	background-color:[[ColorPalette::ls_mid]];
+}
+
+#topMenu br {
+	display:none;
+}
+
+#topMenu a:hover, #topMenu .button:hover {
+	background-color:[[ColorPalette::ls_mid]];
+}
+
+.tagging, .tagged {
+	border: 1px solid #eee;
+}
+
+.highlight, .marked {
+	background:transparent;
+	color:[[ColorPalette::ls_background]];
+	border:none;
+	text-decoration:underline;
+}
+
+.tagging .button:hover, .tagged .button:hover, .tagging .button:active, .tagged .button:active {
+	border: none;
+	background:transparent;
+	text-decoration:underline;
+	color:[[ColorPalette::ls_mid]];
+}
+
+.tiddler {
+	padding-bottom: 5px;
+}
+
+.viewer th, thead td {
+	background: [[ColorPalette::ls_mid]];
+	border:none;
+	color: #fff;
+}
+
+.viewer table {
+	border:1px dotted [[ColorPalette::ls_mid]];
+}
+
+table.twtable {
+	border-collapse:seperate;
+}
+
+.viewer pre {
+	border: 1px solid #999;
+}
+
+.viewer hr {
+	border-top: dashed 1px #999;
+}
+
+.tabSelected {
+	background:[[ColorPalette::ls_background]] none repeat scroll 0%;
+	border:1px solid [[ColorPalette::ls_background]];
+	border-bottom:1px solid black;
+	color:#999;
+}
+
+.tabContents {
+	background:#f7f7f7;
+	border:0px;
+}
+
+.viewer code {
+	background:#[[ColorPalette::ls_mid]] none repeat scroll 0%;
+color:#999;
+}
+
+h1,h2,h3,h4,h5 {
+	color: #555; border-color:[[ColorPalette::SecondaryDark]]; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+	font-size:18px;
+}
+
+h2 {
+	font-size:16px;
+}
+
+h3 {
+	font-size: 14px;
+}
+
+#contentFooter {
+	background:#999;
+	clear: both;
+	padding: 0.5em 1em;
+}
+
+.wizard input {
+	border:1px solid [[ColorPalette::SecondaryDark]];
+}
+#sidebarOptions input {
+	border: 1px solid [[ColorPalette::ls_mid]];
+}
+
+.button {
+	border:1px solid #999;
+	padding:3px 9px;
+	margin:3px 9px;
+	background:[[ColorPalette::ls_background]];
+}
+
+.annotation {
+	background-color:white;
+	border:1px solid white;
+	color:white;
+}
+
+.wizardFooter .button{
+	background:[[ColorPalette::ls_mid]];
+	margin:3px;
+	padding:0.5em;
+	padding-left:1.5em;
+	padding-right:1.5em;
+	color:white;
+	border:1px solid [[ColorPalette::SecondaryDark]];
+}
+table, .viewer td, .viewer tr, .twtable td, .twtable tr {
+	border:0px solid #666666;
+}
+
+.tagging .listTitle, .tagged .listTitle, .txtMainTab .tabContents li {
+	color:white;
+}
+
+body .wizardFooter {
+	padding : 0em 0px 0px 5px;
+	background:none;
+	font-weight:bold;}
+
+.wizardStep {
+	border:none;
+	background-color:none;
+}
+
+body .wizard {
+	width:80%;
+	padding:10px;
+	border:1px solid #EBE6F5;
+}
+
+.wizard  th{
+	background:[[ColorPalette::ls_mid]];
+	color:#888;
+	padding:3px;
+	margin:40px;
+};
+
+.wizard, listView twtable {
+	border:0px;
+};
+
+.wizard {
+	padding : 4px 14px 4px 14px;
+	font-weight:bold;
+	color:#292929;
+	border:solid 0px #292929;
+	margin-top:1px;
+}
+
+.viewer .wizard, body .wizard{
+	background:[[ColorPalette::ls_background]];
+	margin:2em;
+	border:0px;
+	border:1px solid [[ColorPalette::SecondaryDark]];
+	color:#777;
+}
+
+.wizard h1{
+	color:#999;
+}
+
+.wizard h2{
+	padding:4px;
+	color:white;
+}
+
+body .wizardStep{
+	color:#999;
+	border:0px;
+	margin:0m;
+	background:none;
+}
+
+body select {
+	border:0px;
+	padding:3px;
+	margin:4px;
+}
+
+#backstagePanel {
+	border:0px;
+	background:none;
+	width:60%;
+	position:fixed
+	padding:0px;
+	margin:0px;
+	margin-top:-36px;
+}
+
+#sidebar .sliderPanel {
+	background-color:[[ColorPalette::ls_mid]];
+	font-size:1em;
+}
+
+.viewer .wizardStep table {
+	border:0px;
+}
+
+.viewer th, .viewer td, .viewer tr, .viewer caption, .twtable th, .twtable td, .twtable tr, .twtable caption {
+	border:0px;
+	padding:0px;
+	margin:0px;
+}
+
+.viewer .sortable td  {
+	padding:12px;
+	margin:21px;
+}
+
+.title {
+	color:#C0C0C0;
+	padding:10px;
+}
+
+.viewer table, table.twtable {
+	border-collapse:seperated;
+	border:0px;
+}
+
+.viewer th, .viewer thead td, .twtable th, .twtable thead td {
+	border:0px;
+	color:white;
+}
+
+.twtable th{
+	background-color:[[ColorPalette::SecondaryDark]];
+	padding:15px;
+	margin:15px;
+}
+
+table.sortable td.sortedCol {
+	background-color:[[ColorPalette::SecondaryDark]];
+}
+
+#backstageArea a:hover, #backstageArea a.backstageSelTab {
+	background-color:[[ColorPalette::ls_background]];
+	color:white;
+}
+.backstageArea {
+	display:none;
+}
+
+#contentWrapper .backgroundHeader {
+	
+	height:200px;
+	position:absolute;
+	width:585px;
+	z-index:1;
+	background:url(http://img.skitch.com/20081011-jqeekgqe69mche67uf1ap51ens.png);
+	background-repeat:no-repeat;
+	left :-50px;
+	background-position: top right;
+	background-color:transparent;
+	
+}
+
+.header {
+padding-left:31px;
+}
+
+
+
+.tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;  margin:1px;background-color:[[ColorPalette::SecondaryDark]];line-height:1.5; }
+.stream {  padding:2px; margin:1px ; width750px;  min-height:53px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
+.slider { margin-left:20px; margin-top:-2px; padding:2px 10px 10px 30px; width:435px;border:0px solid [[ColorPalette::ls_background]]; padding-left:30px;border-top:0px; color:white; background-color:[[ColorPalette::ls_mid]]; }
+.textSpace {padding-left:40px; line-height:1.5; padding-top:13px}
+.tiddler .button:hover,.tiddler .button	 { background-color:[[ColorPalette::ls_background]]; color:white;background-repeat:no-repeat; border:0px solid  [[ColorPalette::ls_mid]];}
+
+
+/*}}}*/
+
+[[StyleSheet]]
+
+</pre>
+</div>

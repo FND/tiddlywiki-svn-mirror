@@ -4,6 +4,23 @@ include_once($cct_base."includes/ccAssignments.php");
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
        tiddler_outputOffline();
 else {
+	  
+		foreach ($modulesLoader->plugins as $plugin)
+		{
+			if(is_file($cct_base."modules/".$plugin))
+				include_once($cct_base."modules/".$plugin);	
+		}
+		if($modulesLoader->events['outputTiddlers']) 
+		{
+			foreach ($modulesLoader->events['outputTiddlers'] as $event)
+			{
+
+				echo "sssss2".$cct_base."modules/".$event;
+				if(is_file("modules/".$event)) {
+					include_once("modules/".$event);
+				}	
+			}
+		}
        echo tiddler_outputFolder("tiddlers", $cct_base);
        echo tiddler_outputFolder("lang/".$tiddlyCfg['pref']['language'], $cct_base);
 }

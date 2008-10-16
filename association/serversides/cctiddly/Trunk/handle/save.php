@@ -62,8 +62,8 @@ if(isset($tiddler['title']))
 	}
 }else{
 	//This Tiddler does not exist in the database.
-	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) {
-
+	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) 
+	{
 		$ntiddler['creator'] = $ntiddler['modifier'];
 		$ntiddler['created'] = $ntiddler['modified'];
 		$ntiddler['revision'] = 1;
