@@ -1,3 +1,29 @@
+/***
+|''Name''|ccFile|
+|''Description''|Allows users to see their files and upload files in ccTiddly|
+|''Author''|[[Simon McManus|http://simonmcmanus.com]] |
+|''Version''|1.0.1|
+|''Date''|12/05/2008|
+|''Status''|@@alpha@@|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/tiddlers/plugins/ccFile.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/tiddlers/plugins/ccFile.js|
+|''License''|BSD|
+|''Feedback''|http://groups.google.com/group/ccTiddly|
+|''Keywords''|ccTiddly ccFile|
+
+!Description
+Allows users to see their files and upload files in ccTiddly
+
+!Usage
+{{{
+<<ccFile>>
+}}}
+
+!Code
+
+***/
+//{{{
+	
 config.macros.ccFile = {};
 
 merge(config.macros.ccFile,{
@@ -25,7 +51,6 @@ merge(config.macros.ccFile,{
 	]}
 });
 
-
 var iFrameLoad=function(w){
 	var uploadIframe = document.getElementById('uploadIframe');
 	var a = createTiddlyElement(null, "div");
@@ -52,11 +77,11 @@ config.macros.ccFile.refresh=function(w){
 		{caption: me.buttonDeleteText, tooltip: me.buttonDeleteTooltip, onClick: function(w){ 
 			config.macros.ccFile.delFileSubmit(null, params);
 			 return false;
-		}
-			 }, 
+		}}, 
 		{caption: me.buttonUploadText, tooltip: me.buttonUploadTooltip, onClick: function(e){ 
 			config.macros.ccFile.addFileDisplay(null, params); return false 
-			} }]);
+			} }
+	]);
 };
 
 config.macros.ccFile.delFileSubmit=function(e, params) {
@@ -67,14 +92,13 @@ config.macros.ccFile.delFileSubmit=function(e, params) {
 	return false; 
 };
 
-config.macros.ccFile.delFileCallback=function(status,params,responseText,uri,xhr) {
+config.macros.ccFile.delFileCallback=function(status,params,responseText,uri,xhr){
 	config.macros.ccFile.refresh(params.w);
 };
 
-config.macros.ccFile.addFileDisplay = function(e, params) {
+config.macros.ccFile.addFileDisplay = function(e, params){
 	var frm = params.w.formElem;
-	if(navigator.appName=="Microsoft Internet Explorer")
-	{
+	if(navigator.appName=="Microsoft Internet Explorer"){
 		encType = frm.getAttributeNode("enctype");
 	    encType.value = "multipart/form-data";
 	}
@@ -85,14 +109,7 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	frm.target="uploadIframe";
 	frm.name = "uploadForm";
 	frm.parentNode.appendChild(frm);
-	
-
-
-	
-	
-
 	params.w.addStep("ss", "<input id='ccfile' class='input' type='file' name='userFile'/>"+"<input type='hidden' name='placeholder'/>");
-
 	var workspaceName=createTiddlyElement(null,'input','workspaceName','workspaceName');				
 	workspaceName .setAttribute('name','workspace');
 	workspaceName.type="HIDDEN";
@@ -100,8 +117,6 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	frm.appendChild(workspaceName);
 	createTiddlyElement(frm,'br');
 	var saveTo=createTiddlyElement(null,"input","saveTo","saveTo");	
-
-
 	var iframe=document.createElement("iframe");
 	iframe.style.display="none";
 	iframe.id='uploadIframe';
@@ -109,24 +124,13 @@ config.macros.ccFile.addFileDisplay = function(e, params) {
 	iframe.onload = function() {
 		iFrameLoad(params.w);
 	}	
-	
 	frm.appendChild(iframe);
 	createTiddlyElement(frm,"div",'uploadStatus');
-//	params.w.addStep("","<input type='hidden' name='placeholder'/>");
-
-	
-//	params.w.addStep(iframe.innerHtml);
-//	params.w.formElem.placeholder.appendChild(iframe);
 	params.w.setButtons([
-		{caption: config.macros.ccFile.buttonCancelText, tooltip: config.macros.ccFile.buttonCancelTooltip, onClick: function() {
-			config.macros.ccFile.refresh(params.w);
-		}
+	{caption: config.macros.ccFile.buttonCancelText, tooltip: config.macros.ccFile.buttonCancelTooltip, onClick: function(){config.macros.ccFile.refresh(params.w);}
 	},
-	{caption: config.macros.ccFile.buttonUploadText, tooltip: config.macros.ccFile.buttonUploadTooltip, onClick: function() {
-			params.w.formElem.submit();
-	}
-}
-	]);
+	{caption: config.macros.ccFile.buttonUploadText, tooltip: config.macros.ccFile.buttonUploadTooltip, onClick: function(){params.w.formElem.submit();}
+	}]);
 };
 
 function addOption(selectbox,text,value ){
@@ -172,14 +176,10 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 				fileSize:a[e].fileSize
 			});
 		}
-	} catch (ex)
-	{
+	}catch (ex){
 		params.w.setButtons([
-			{caption: me.buttonUploadText, tooltip: me.buttonUploadTooltip, onClick: function(w){
-				
+			{caption: me.buttonUploadText, tooltip: me.buttonUploadTooltip, onClick: function(w){				
 				config.macros.ccFile.addFileDisplay(e, params);
-				//story.displayTiddler(null,"Upload");
-			
 			} }]);
 	}
 	params.w.addStep(me.wizardStepText+workspace, "<input type='hidden' name='markList'></input>");
@@ -195,4 +195,4 @@ config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,x
 	displayMessage("got to here ");
 	config.macros.ccFile.refresh(params.w);
 };
-
+//}}}

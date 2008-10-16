@@ -3,7 +3,8 @@
 /***
 |''Name:''|smmTheme|
 |''Author:''|Saq Imtiaz and Simon McManus|
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/themes/BleachTheme.tiddler |
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/tiddlers/themes/smmTheme.tiddler|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/tiddlers/themes/smmTheme.tiddler|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.4.1|
 |''~PageTemplate:''|##PageTemplate|

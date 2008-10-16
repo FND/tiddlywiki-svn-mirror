@@ -17,12 +17,11 @@
 if(!version.extensions.ccTiddlyAutoSavePlugin) {
 	version.extensions.ccTiddlyAutoSavePlugin = {installed:true};
 
-function ccTiddlyAutoSave()
-{
+function ccTiddlyAutoSave(){
 	return this;
 }
 
-merge(ccTiddlyAutoSave, {
+merge(ccTiddlyAutoSave,{
 	msgSaved:"Saved ",
 	msgError:"There was an error saving "
 });
@@ -30,13 +29,13 @@ merge(ccTiddlyAutoSave, {
 ccTiddlyAutoSave.putCallback = function(context, userParams)
 {
 	tiddler = context.tiddler;
-	if (context.status) {
+	if (context.status){
 		if (context.otitle != tiddler.title){
 			var ret = invokeAdaptor('deleteTiddler',context.otitle,null,null,null,config.commands.deleteTiddlerHosted.callback,tiddler.fields);
 		}
 		displayMessage(ccTiddlyAutoSave.msgSaved + tiddler.title);
 		tiddler.clearChangeCount();
-	} else {
+	}else{
 		displayMessage(ccTiddlyAutoSave.msgError + tiddler.title + ' ' + context.statusText);
 		tiddler.incChangeCount();
 	}
@@ -45,8 +44,7 @@ ccTiddlyAutoSave.putCallback = function(context, userParams)
 // override save and write content to net immediately when done
 // based on ccTiddly serverside.js
 TiddlyWiki.prototype.orig_saveTiddler = TiddlyWiki.prototype.saveTiddler;	//hijack
-TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created)
-{
+TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created){
 	var tiddler = this.fetchTiddler(title);
 	tiddler = this.orig_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,false,created);
 	var adaptor = new config.adaptors['cctiddly'];
@@ -65,6 +63,5 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 		store.setDirty(false);
 	return req ? tiddler : false;
 };
-
 } //# end of 'install only once'
 //}}}

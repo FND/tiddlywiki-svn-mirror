@@ -1,5 +1,33 @@
-config.macros.register={};	
+//{{{
 
+/***
+|''Name''|ccRegister|
+|''Description''|Allows users to register for ccTiddly, reqired ccLogin|
+|''Author''|[[Simon McManus|http://simonmcmanus.com]] |
+|''Version''|1.0.1|
+|''Date''|12/05/2008|
+|''Status''|@@alpha@@|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccRegister.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccRegister.js|
+|''License''|BSD|
+|''Requires''|ccVariables|
+|''Overrides''|restart|
+|''Feedback''|http://groups.google.com/group/ccTiddly|
+|''Keywords''|ccTiddly ccLogin|
+
+!Description
+Allows users to register for ccTiddly, reqired ccLogin
+!Usage
+{{{
+<<ccLogin>>
+}}}
+
+!Code
+
+***/
+//{{{
+
+config.macros.register={};	
 merge(config.macros.register,{
 	usernameRequest:"username",
 	passwordRequest:"password",
@@ -129,5 +157,4 @@ config.macros.register.isUsernameAvailabeCallback=function(status,params,respons
 	var resp = (responseText > 0) ? me.msgUsernameTaken : me.msgUsernameAvailable;
 	config.macros.register.setStatus(params.w, "username_error", resp);
 };
-
 //}}}

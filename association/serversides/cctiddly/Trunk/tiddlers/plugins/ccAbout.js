@@ -6,12 +6,11 @@
 |''Version''|2.3|
 |''Date''|12/05/08|
 |''Status''|@@alpha@@;|
-|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccAbout.js|
-|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccAbout.js|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/tiddlers/plugins/ccAbout.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/tiddlers/plugins/ccAbout.js|
 |''License''|BSD|
 |''Feedback''|http://groups.google.com/group/ccTiddly|
 |''Keywords''|ccTiddly ccAbout|
-
 
 !Usage
 {{{
@@ -20,8 +19,6 @@
 
 ***/
 //{{{
-	
-	
 config.macros.ccAbout={};
 merge(config.macros.ccAbout,{
 	buttonBackstageText:"about",
@@ -30,12 +27,8 @@ merge(config.macros.ccAbout,{
 	stepAboutTextStart:"You are running ccTiddly ",
 	stepAboutTextEnd:"More info about ccTiddly can be found  at <a  target=new href=http://www.tiddlywiki.org/wiki/CcTiddly>http://www.tiddlywiki.org/wiki/CcTiddly</a><br/><br/>  More information about TiddlyWiki can be found at <a target=new href=http://www.tiddlywiki.com>http://www.tiddlywiki.com</a><br/>"
 });
-
-
 config.backstageTasks.push(config.macros.ccAbout.buttonBackstageText);
-
 merge(config.tasks,{about:{text: config.macros.ccAbout.buttonBackstageText,tooltip: config.macros.ccAbout.buttonBackstageTooltip,content: '<<ccAbout>>'}});
-
 config.macros.ccAbout.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
 	var w = new Wizard();
 	var me = config.macros.ccAbout;

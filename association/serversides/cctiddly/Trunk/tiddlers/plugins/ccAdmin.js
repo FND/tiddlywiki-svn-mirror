@@ -1,7 +1,27 @@
+/***
+|''Name''|ccAdmin|
+|''Description''|Allows admin users to add and remove administrators from a ccTiddly workspace|
+|''Author''|[[Simon McManus|http://simonmcmanus.com]] |
+|''Version''|1.0.1|
+|''Date''|12/05/2008|
+|''Status''|@@alpha@@|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/tiddlers/plugins/ccAdmin.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/tiddlers/plugins/ccAdmin.js|
+|''License''|BSD|
+|''Feedback''|http://groups.google.com/group/ccTiddly|
+|''Keywords''|ccTiddly ccAdmin|
+
+!Description
+Allows admin users to add and remove administrators from a ccTiddly workspace
+!Usage
+{{{
+<<ccAdmin>>
+}}}
+
+!Code
+***/
 //{{{
-
 config.macros.ccAdmin = {}
-
 merge(config.macros.ccAdmin,{
 	stepAddTitle:"Add a new Workspace Administrator",
 	WizardTitleText:"Workspace Administration.",
@@ -31,7 +51,7 @@ merge(config.macros.ccAdmin,{
 	
 });
 
-config.macros.ccAdmin.handler =  function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
+config.macros.ccAdmin.handler = function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
 	var w = new Wizard();
 	w.createWizard(place,config.macros.ccAdmin.WizardTitleText);
 	config.macros.ccAdmin.refresh(w);
@@ -52,7 +72,7 @@ config.macros.ccAdmin.refresh= function(w){
 			config.macros.ccAdmin.addAdminDisplay(null, params); return false } }]);
 };
 
-config.macros.ccAdmin.delAdminSubmit = function(e, params) {
+config.macros.ccAdmin.delAdminSubmit = function(e, params){
 	var listView = params.w.getValue("listView");
 	var rowNames = ListView.getSelectedRows(listView);
 	var delUsers = "";
@@ -62,11 +82,11 @@ config.macros.ccAdmin.delAdminSubmit = function(e, params) {
 	return false; 
 };
 
-config.macros.ccAdmin.addAdminDisplay = function(e, params) {
+config.macros.ccAdmin.addAdminDisplay = function(e, params){
 	doHttp('POST',url+'/handle/workspaceAdmin.php','action=LISTWORKSPACES',null,null,null,config.macros.ccAdmin.listWorkspaces,params);
 };
 
-config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,xhr) {
+config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,xhr){
 	var frm = createTiddlyElement(null,'form',null,null);
 	var me = config.macros.ccAdmin;
 	frm.onsubmit = config.macros.ccAdmin.addAdminSubmit;	
@@ -101,7 +121,7 @@ config.macros.ccAdmin.listAllCallback = function(status,params,responseText,uri,
 		params.w.setButtons([]);
 		return false;
 	}
-	try {
+	try{
 		var a = eval(responseText);
 		for(var e=0; e < a.length; e++){
 			out += a[e].username;
@@ -109,7 +129,7 @@ config.macros.ccAdmin.listAllCallback = function(status,params,responseText,uri,
 			name: a[e].username,
 			lastVisit:a[e].lastVisit});
 		}
-	} catch(ex) {
+	}catch(ex){
 			params.w.addStep(" "+workspace, me.stepNoAdminTitle);
 			params.w.setButtons([
 				{caption: me.buttonCreateText, tooltip: me.buttonCreateTooltip, onClick: function(){ config.macros.ccAdmin.addAdminDisplay(null, params)}}]);

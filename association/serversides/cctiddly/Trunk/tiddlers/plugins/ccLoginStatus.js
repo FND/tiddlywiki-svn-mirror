@@ -5,8 +5,8 @@
 |''Version''|1.0.1|
 |''Date''|12/05/2008|
 |''Status''|@@alpha@@|
-|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccLoginStatus.js|
-|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccLoginStatus.js|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/tiddlers/plugins/ccLoginStatus.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/tiddlers/plugins/ccLoginStatus.js|
 |''License''|BSD|
 |''Requires''|ccRegister, ccLogin|
 |''Feedback''|http://groups.google.com/group/ccTiddly|
@@ -47,19 +47,16 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
        var loginDivRef=document.getElementById ("LoginDiv");
        removeChildren(loginDivRef);
        var wrapper=createTiddlyElement(place,"div");
-       var str = (workspace == "" ? me.textDefaultWorkspaceLoggedIn :
-(me.textViewingWorkspace+workspace))+"\r\n\r\n";
+       var str = (workspace == "" ? me.textDefaultWorkspaceLoggedIn :(me.textViewingWorkspace+workspace))+"\r\n\r\n";
        if (isLoggedIn()){
-               name = cookieString(document.cookie).txtUserName;
-               str += me.textLoggedInAs+decodeURIComponent(name)+".\r\n\r\n";
-               if (workspacePermission.owner==1){
-                       str += me.textAdmin;
-               }
+			name = cookieString(document.cookie).txtUserName;
+			str += me.textLoggedInAs+decodeURIComponent(name)+".\r\n\r\n";
+			if (workspacePermission.owner==1){
+				str += me.textAdmin;
+			}
        }else{
                str += me.textNotLoggedIn;
        }
        wikify(str,wrapper);
 };
-
-
 //}}}

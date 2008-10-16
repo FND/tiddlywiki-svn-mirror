@@ -90,7 +90,6 @@ if (isLoggedIn()){
 var loginState=null;
 var registerState=null;
 
-
 config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	config.macros.ccLogin.refresh(place);
 };
@@ -98,7 +97,7 @@ config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramStri
 config.macros.ccLogin.refresh=function(place, error){
 	removeChildren(place);
 	var w = new Wizard();
-	if (isLoggedIn())	{
+	if (isLoggedIn()){
 		w.createWizard(place,this.stepLogoutTitle);
 		w.addStep(null, this.stepLogoutText+cookieString(document.cookie).txtUserName+"<br /><br />");
 		w.setButtons([
@@ -106,8 +105,6 @@ config.macros.ccLogin.refresh=function(place, error){
 		}]);
 		return true;
 	}
-	
-
 	w.createWizard(place,this.WizardTitleText);
 	var me=config.macros.ccLogin;
 	var oldForm = w.formElem.innerHTML;
@@ -115,7 +112,6 @@ config.macros.ccLogin.refresh=function(place, error){
 	if (error!==undefined)
 		this.stepLoginTitle=error;	
 	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
-
 	txtPassword = findRelated(w.formElem.password,"txtPassword","className","previousSibling");
 	w.formElem.password.style.display="none";
 	txtPassword.onkeyup = function() {
@@ -124,16 +120,12 @@ config.macros.ccLogin.refresh=function(place, error){
 		else 
 			w.formElem.password.value = txtPassword.value;
 	};
-
 	w.formElem.method ="POST";
 	w.formElem.onsubmit = function() {config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place); return false;};
-	
-	
 	var submit = createTiddlyElement(null, "input");
 	submit.type="submit";
 	submit.style.display="none";
 	w.formElem.appendChild(submit);
-
 	var cookieValues=findToken(document.cookie);
 	if (cookieValues.txtUserName!==undefined){
 		w.formElem["username"].value=cookieValues.txtUserName ;
@@ -172,8 +164,7 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	var context = {};
 	context.host = window.url;
 	context.username = username;
-
-		context.password = password;
+	context.password = password;
 	adaptor.login(context,userParams,config.macros.ccLogin.loginCallback)
 	var html = me.stepDoLoginIntroText; 
 	w.addStep(me.stepDoLoginTitle,html);
@@ -183,7 +174,6 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 }
 
 config.macros.ccLogin.loginCallback=function(context,userParams){
-
 	if(context.status){
 		window.location.reload();
 	}else{
@@ -197,7 +187,7 @@ config.macros.ccLogin.displayForgottenPassword=function(item, place){
 	w.addStep(me.stepForgotPasswordTitle,me.stepForgotPasswordIntroText);
 	w.setButtons([
 		{caption: this.buttonCancel, tooltip: this.buttonCancelToolTip, onClick: function() {me.refresh(place);}}
-		]);
+	]);
 };
 
 //config.macros.ccLogin.sendForgottenPassword=function(item, place){	
@@ -222,7 +212,6 @@ config.macros.toolbar.isCommandEnabled=function(command,tiddler){
 	var shadow=store.isShadowTiddler(title) && !store.tiddlerExists(title);
 	return (!ro || (ro && !command.hideReadOnly)) && !(shadow && command.hideShadow);
 };
-
 
 // Returns output var with output.txtUsername and output.sessionToken
 function findToken(cookieStash){
@@ -250,8 +239,6 @@ function findToken(cookieStash){
 	return output;
 };
 
-
-
 function cookieString(str){	
 	var cookies = str.split(";");
 	var output = {};
@@ -273,25 +260,23 @@ function cookieString(str){
 
 Story.prototype.displayDefaultTiddlers = function(){
  	var tiddlers="";
-	if (isLoggedIn()) {        
+	if(isLoggedIn()){        
 		var url = window.location;        
 		url = url.toString();        
 		var bits = url.split('#');        
-		if (bits.length == 1) {            
+		if(bits.length == 1){            
 			tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));            
 			story.displayTiddlers(null, tiddlers);
 		}
-	} else {         
+	}else{         
 		tiddlers=store.filterTiddlers(store.getTiddlerText("AnonDefaultTiddlers"));        
 		story.displayTiddlers(null, tiddlers);   
 	}    
 };
 
-window.restart = function (){
+window.restart = function(){
 	story.displayDefaultTiddlers();
 	invokeParamifier(params,"onstart");
 	window.scrollTo(0,0); 
 };
-
-
 //}}}

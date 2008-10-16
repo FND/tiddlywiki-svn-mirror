@@ -6,6 +6,8 @@
 |''Description:''|A theme with lots of white space and a clean and elegant purple presentation|
 |''Author:''|Saq Imtiaz and Simon McManus|
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/tiddlers/themes/purpleTheme.tiddler|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/tiddlers/themes/purpleTheme.tiddler|
 |''~CoreVersion:''|2.4.1|
 |''~PageTemplate:''|##PageTemplate|
 |''~tabs:''|##tabs|
@@ -17,8 +19,6 @@
 |''~EditTemplate:''|##EditTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
 ***/
-
-
 !PageTemplate
 <!--{{{-->
 <div id='bodywrapper'>
@@ -423,7 +423,6 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 	background-color:transparent;
 }
 
-
 #sidebarOptions .sliderPanel a:hover, #topMenu a, #topMenu .button:hover {
 	color:black;
 	background-color:transparent;
@@ -434,8 +433,6 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 border:1px solid #ddd;
 border-bottom:1px solid white;
 }
-
-
  
 #topMenu a, #topMenu .button {
 	padding: 5px 15px;
@@ -504,7 +501,6 @@ hr {
 	padding:2px;
 }
 
-
 #sidebarOptions .sliderPanel .tabSelected {
 	background:white none repeat scroll 0%;
 	padding:2px;
@@ -524,9 +520,12 @@ hr {
 	color:#999;
 }
 
-
 h1,h2,h3,h4,h5 {
-	color: #555; border-color:#333; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;
+	color: #555; 
+	border-color:#333; 
+	background: transparent; 
+	padding-bottom:2px; 
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
@@ -555,7 +554,6 @@ h3 {
 	padding: 0.5em 1em;
 }
 
-
 .button, .wizard .button:hover {
 	border:0px;
 }
@@ -564,6 +562,10 @@ h3 {
 	border:1px solid #777;
 	background-color:white;
 	color:#777;	
+}
+
+#contentWrapper .tiddler .button:hover {
+	border:1px solid;
 }
 
 table, .viewer td, .viewer tr, .twtable td, .twtable tr {

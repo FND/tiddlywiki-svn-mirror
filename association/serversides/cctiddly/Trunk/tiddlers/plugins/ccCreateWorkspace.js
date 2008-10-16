@@ -5,14 +5,13 @@
 |''Version''|1.0.1|
 |''Date''|12/05/08|
 |''Status''|@@alpha@@|
-|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccWorkspace.js|
-|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccWorkspace.js|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/tiddlers/plugins/ccWorkspace.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/tiddlers/plugins/ccWorkspace.js|
 |''License''|BSD|
 |''Feedback''|http://groups.google.com/group/ccTiddly|
 |''Keywords''|ccTiddly, ccWorkspace|
 
 !Description
-
 Allows users to create their own workspace. 
 
 !Usage
@@ -21,10 +20,8 @@ Allows users to create their own workspace.
 }}}
 
 !Code
-
 ***/
 //{{{
-
 
 config.macros.ccCreateWorkspace = {}
 merge(config.macros.ccCreateWorkspace, {
@@ -41,12 +38,12 @@ merge(config.macros.ccCreateWorkspace, {
 });
 	
 
-if (isLoggedIn()) {
+if(isLoggedIn()){
 	config.backstageTasks.push(config.macros.ccCreateWorkspace.buttonCreateText);
 	merge(config.tasks,{create: {text: config.macros.ccCreateWorkspace.buttonCreateText, tooltip: config.macros.ccCreateWorkspace.buttonCreateTooltip, content:'<<ccCreateWorkspace>>'}});
 }
 
-config.macros.ccCreateWorkspace.setStatus=function(w, element, text){
+config.macros.ccCreateWorkspace.setStatus=function(w,element,text){
 	var label_var = w.getElement(element);
 	removeChildren(label_var.previousSibling);
 	var label = document.createTextNode(text);
@@ -66,10 +63,8 @@ config.macros.ccCreateWorkspace.workspaceNameCallback=function(status,params,res
 	if(responseText > 0){{
 			config.macros.register.setStatus(params.w, "workspace_error", me.errorWorkspaceNameInUse);
 			config.macros.register.setStatus(params.w, "workspace_url", "");
-	}
-	}else{
+	}}else{
 		config.macros.register.setStatus(params.w, "workspace_error", me.msgWorkspaceAvailable);
-		
 		if (window.useModRewrite == 1)
 			config.macros.register.setStatus(params.w, "workspace_url", url+'/'+params.w.formElem["workspace_name"].value);			 
 		else
@@ -91,25 +86,26 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 		{caption: me.buttonCreateWorkspaceText, tooltip: me.buttonCreateWorkspaceTooltip, onClick:function(){config.macros.ccCreateWorkspace.createWorkspaceOnSubmit(w);}
 	}]);
 };
-config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w) {
+
+config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
 	var params = {}; 
-	if (window.useModRewrite == 1)
+	if(window.useModRewrite == 1)
 		params.url = url+'/'+w.formElem["workspace_name"].value; 
 	else
 		params.url = url+'/?workspace='+w.formElem["workspace_name"].value;
 	var loginResp = doHttp('POST',url+'/?&workspace='+w.formElem["workspace_name"].value+"/",'&ccCreateWorkspace=' + encodeURIComponent(w.formElem["workspace_name"].value)+'&amp;ccAnonPerm='+encodeURIComponent("AADD"),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	return false; 
 };
+
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {
-	if(xhr.status==201) {
+	if(xhr.status==201){
 		window.location = params.url;
-	} else if (xhr.status == 200) {
+	}else if(xhr.status == 200){
 		displayMessage(config.macros.ccCreateWorkspace.errorWorkspaceNameInUse);
-	} else if (xhr.status == 403) {
+	}else if(xhr.status == 403){
 		displayMessage(config.macros.ccCreateWorkspace.errorPermissions);	
-	} else {
+	}else{
 		displayMessage(responseText);	
 	}
 };
-
-
+//}}}
