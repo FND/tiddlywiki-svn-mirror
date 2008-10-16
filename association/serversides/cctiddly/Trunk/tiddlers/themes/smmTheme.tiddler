@@ -511,13 +511,6 @@ h3 {
 	border: 1px solid #222;
 }
 
-.button {
-	border:1px solid #999;
-	padding:3px 9px;
-	margin:3px 9px;
-	background:#111;
-}
-
 .annotation {
 	background-color:green;
 	border:1px solid white;

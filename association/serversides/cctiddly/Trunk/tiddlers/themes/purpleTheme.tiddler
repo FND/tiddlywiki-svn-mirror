@@ -556,18 +556,8 @@ h3 {
 }
 
 
-.button, .wizard .button, .tiddler .button:hover{
-	border:1px solid #777;
-	padding:3px 9px;
-	margin:3px 9px;
-	background:#eee;
-	color:#777;
-}
-
 .button, .wizard .button:hover {
-	border:1px solid #999;
-	background:#eee;
-	color:#999;
+	border:0px;
 }
 
 .sliderPanel input  {

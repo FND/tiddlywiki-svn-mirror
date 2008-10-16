@@ -16,7 +16,7 @@ merge(config.macros.ccLogin,{
 	usernameRequest:"用戶",
 	passwordRequest:"密碼",
 	stepLoginTitle:null,
-	stepLoginIntroTextHtml:"<table border=0px><tr><td>用戶</td><td><input name=username id=username tabindex='1'></td></tr><tr><td>密碼</td><td><input type=password id='password' tabindex='2' name=password></td></tr></table>",
+	stepLoginIntroTextHtml:"<table border=0px><tr><td>用戶</td><td><input name=username id=username tabindex='1'></td></tr><tr><td>密碼</td><td><input tabindex='2' class='txtPassword'><input type='password' name='password'></td></tr></table>",
 	stepDoLoginTitle:"登入用戶為",
 	stepDoLoginIntroText:"登入中 .... ",
 	stepForgotPasswordTitle:"查詢密碼",
