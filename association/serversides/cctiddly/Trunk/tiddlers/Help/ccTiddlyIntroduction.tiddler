@@ -10,8 +10,6 @@ Allows you to specify a different set of tiddlers to be loaded for anonymous use
 
 [[ccAssignments]]
 
-
-
 !!! Predefined ccTiddly Tags 
 
 !!!!wizard
@@ -20,8 +18,8 @@ Displays the tiddler without showing the date editor tags or title.
 !!!!private
 Only administrators of a workspace can read tiddlers tagged private.
 
-
 !!! Working Offline : 
+To take a copy of a ccTiddly workspace offline add &standalone=1 to the end of the URI and you will be prompted to download an offline file.
 
 </pre>
 </div>
