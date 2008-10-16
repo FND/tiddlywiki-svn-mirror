@@ -504,7 +504,7 @@ Cecily.prototype.showOverlayMenu = function(pos)
 	if(overlayPos.y + overlayPos.h > h)
 		overlayPos.y = h - overlayPos.h;
 	var scale = overlayPos.h / this.overlayMenu.offsetHeight;
-	this.overlayMenu.style['-webkit-transform'] = "scale(" + scale + "," + scale + ")";
+	this.overlayMenu.style[Cecily.cssTransform] = "scale(" + scale + "," + scale + ")";
 	this.overlayMenu.style.left = overlayPos.x + "px";
 	this.overlayMenu.style.top = overlayPos.y + "px";
 	this.overlayMenu.style.opacity = "0.8";
@@ -639,7 +639,7 @@ Cecily.prototype.transformTiddler = function(tiddlerElem) {
 	var s = tiddlerElem.scaledWidth/360;
 	var r = tiddlerElem.rotate;
 	var e = tiddlerElem.enlarge;
-	tiddlerElem.style['-webkit-transform'] = "translate(-50%,-50%) scale(" + s + "," + s + ") translate(50%,50%) rotate(" + r + "rad) scale(" + e + ")";
+	tiddlerElem.style[Cecily.cssTransform] = "translate(-50%,-50%) scale(" + s + "," + s + ") translate(50%,50%) rotate(" + r + "rad) scale(" + e + ")";
 	// Experimental beginnings of support for semantic zooming
 	var w = tiddlerElem.scaledWidth * (this.frame.offsetWidth)/(this.view.w);
 	var f = w < 60 ? addClass : removeClass;
@@ -661,7 +661,7 @@ Cecily.prototype.setView = function(newView) {
 	this.view.y = centre.y - this.view.h/2;
 	var s = w/this.view.w;
 	var transform = "scale(" + s + ") translate(" + -this.view.x + "px," + -this.view.y + "px)";
-	this.container.style['-webkit-transform'] = transform;
+	this.container.style[Cecily.cssTransform] = transform;
 	config.macros.cecilyZoom.propagate(s);
 	this.drawBackground();
 };
@@ -962,6 +962,7 @@ Cecily.backgrounds.experimental = {
 			y = y * h;
 			r = r * w;
 			drawCircle(x,y,r);
+				ctx.drawWindow(window, 0, 0, 100, 200, "rgb(0,0,0)");
 		}
 };
 
@@ -1041,10 +1042,16 @@ function runCecily()
 	store.addNotification("PageTemplate",function () {cecily.createDisplay();});
 }
 
-if(document.body.style['-webkit-transform'] !== undefined) {
+Cecily.cssTransform = null;
+if(document.body.style['-webkit-transform'] !== undefined)
+	Cecily.cssTransform = '-webkit-transform';
+if(document.body.style['MozTransform'] !== undefined)
+	Cecily.cssTransform = 'MozTransform';
+
+if(Cecily.cssTransform) {
 	runCecily();
 } else {
-	alert("ProjectCecily currently only works on Safari 3.1 and Google Chrome. Use the WebKit nightly build from http://webkit.org/ for the best experience");
+	alert("ProjectCecily currently only works on Safari 3.1, Firefox 3.1 and Google Chrome. Use the WebKit nightly build from http://webkit.org/ for the best experience");
 }
 
 } // if(!version.extensions.CecilyPlugin)
@@ -1192,6 +1199,7 @@ div#backstageArea {
 #tiddlerDisplay {
 	position: relative;
 	-webkit-transform-origin: 0% 0%;
+	-moz-transform-origin: 0% 0%;
 }
 
 .cecily .tiddler {
