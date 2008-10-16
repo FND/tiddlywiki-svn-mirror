@@ -48,6 +48,17 @@ function remove(list, unwantedItem) {
         function(currentItem) { return currentItem!=unwantedItem; });
 }
 
+//##############################################################################
+//# TIDDLYWIKI UTILS
+//##############################################################################
+
+function copyFields(fromTiddler, toTiddler, field1, field2, fieldN) {
+  for (var i=2; i<arguments.length; i++) {
+    fieldKey = arguments[i];
+    toTiddler.fields[fieldKey] = fromTiddler.fields[fieldKey];
+  }
+}
+
 //################################################################################
 //# RELATIONSHIP MANAGEMENT
 //#
@@ -163,15 +174,15 @@ function refreshComments(rootTiddler) {
   });
 }
 
-function refreshComment(rootTiddler, comment, offsetPixels) {
+function refreshComment(rootTiddler, comment, offsetEms) {
 
   var commentEl = buildCommentEl(comment);
-  commentEl.style.marginLeft = offsetPixels + "px";
-  offsetPixels += 20;
+  commentEl.style.marginLeft = offsetEms + "em";
+  offsetEms += 2;
   rootTiddler.commentsEl.appendChild(commentEl);
 
   forEach(comment.children, function(child) {
-    refreshComment(rootTiddler, child, offsetPixels);
+    refreshComment(rootTiddler, child, offsetEms);
   });
 
 }
@@ -220,6 +231,7 @@ function openReplyLink(commentTiddler, commentEl, replyLink) {
   }
 
   commentEl.replyEl = document.createElement("div");
+  commentEl.replyEl.style.marginLeft = "2em";
 
   replyLink.style.display = "none";
   var newReplyHeading = createTiddlyElement(commentEl.replyEl, "div", null, "newReply");
@@ -255,7 +267,10 @@ function createOrThawRelationships(rootTiddler) {
 }
 
 function createComment(text, daddy) {
+  // want createTiddler(), then saveTiddler() at the end, for tiddlyweb
+  // var newComment =  store.createTiddler("comment"+((new Date()).getTime()));
   var newComment =  store.saveTiddler(null, "comment"+((new Date()).getTime()));
+  newComment.text = text;
   var now = new Date();
   newComment.set(null, text, config.options.txtUserName, now, ["comment"], now);
   newComment.initialiseRelationships();
@@ -264,8 +279,12 @@ function createComment(text, daddy) {
   daddy.children.push(newComment);
   newComment.serialiseRelationships();
   daddy.serialiseRelationships();
+  copyFields(daddy, newComment,
+    "server.bag", "server.host", "server.page.revision", "server.type", "server.workspace");
   refreshComments(newComment.root);
-  saveChanges();
+  autoSaveChanges();
+  // store.saveTiddler(newComment);
+  // store.saveTiddler(daddy);
   return newComment;
 }
 
@@ -292,7 +311,7 @@ config.shadowTiddlers["StyleSheetCommentsPlugin"] =
 ".commentsArea h1 { margin-bottom: 0; padding-bottom: 0; }\n" +
 ".comments { padding: 0; }\n" +
 
-".comment { background: #fcf; border: 1px solid #f9f; padding: 0.3em; margin: 0 0 0.5em; }\n" +
+".comment { background: #fcf; border: 1px solid #f9f; padding: 0.3em 0.6em 0.3em 0.3em; margin: 0 0 0.5em; }\n" +
 ".comment .toolbar .button { border: 0; color: #9a4; }\n" +
 ".commentTitle { font-size: 1em; opacity: 0.6; filter: alpha(opacity=60); float: left; }\n" +
 ".commentTitle:hover { text-decoration: underline; cursor: pointer; }\n" +
