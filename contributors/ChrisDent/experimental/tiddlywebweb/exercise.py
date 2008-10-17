@@ -9,22 +9,23 @@ import sys
 
 sys.path.append('/Users/cdent/src/osmo/Tiddlyweb')
 
-from tiddlyweb.recipe import Recipe
-from tiddlyweb.bag import Bag
-from tiddlyweb.tiddler import Tiddler
+from tiddlyweb.model.recipe import Recipe
+from tiddlyweb.model.bag import Bag
+from tiddlyweb.model.tiddler import Tiddler
 
 from tiddlywebweb.tiddlywebstore import Store
 
 environ = {
         'tiddlyweb.config': {
-            'server_store': [ None, {'server_base': 'http://localhost:8000'} ],
+            'server_store': [ None, {'server_base': 'http://tiddlyweb.appspot.com'} ],
+            #'server_store': [ None, {'server_base': 'http://localhost:8000'} ],
             }
         }
 
 def do_recipe(name, bag_name):
     store = Store(environ)
     recipe = Recipe(name)
-    recipe.set_recipe([[bag_name, '']])
+    recipe.set_recipe([['TiddlyWeb', ''],[bag_name, '']])
     store.recipe_put(recipe)
 
 def do_bag(name):
