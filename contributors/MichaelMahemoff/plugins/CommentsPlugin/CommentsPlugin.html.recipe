@@ -7,6 +7,8 @@ tiddler: CommentsPlugin.js.meta
 tiddler: CommentsPluginInfo.tiddler
 
 # Demo
+tiddler: ConfigTweaks.js
+tiddler: ConfigTweaks.js.meta
 tiddler: DefaultTiddlers.tiddler
 tiddler: cake.tiddler
 tiddler: SiteTitle.tiddler

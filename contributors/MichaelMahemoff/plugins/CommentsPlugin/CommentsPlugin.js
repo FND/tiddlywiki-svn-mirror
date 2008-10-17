@@ -96,7 +96,7 @@ function copyFields(fromTiddler, toTiddler, field1, field2, fieldN) {
 //#   - call tiddler.serialiseRelationships() to set fields from the expandos,
 //#   so the 
 //#     tiddler is ready for saving. You will need to make your own arrangements 
-//#     for the tiddler to be saved subsequently (e.g. call saveChanges()).
+//#     for the tiddler to be saved subsequently (e.g. call autoSaveChanges()).
 //# 
 //################################################################################
 
@@ -267,10 +267,7 @@ function createOrThawRelationships(rootTiddler) {
 }
 
 function createComment(text, daddy) {
-  // want createTiddler(), then saveTiddler() at the end, for tiddlyweb
-  // var newComment =  store.createTiddler("comment"+((new Date()).getTime()));
   var newComment =  store.saveTiddler(null, "comment"+((new Date()).getTime()));
-  newComment.text = text;
   var now = new Date();
   newComment.set(null, text, config.options.txtUserName, now, ["comment"], now);
   newComment.initialiseRelationships();
@@ -283,8 +280,6 @@ function createComment(text, daddy) {
     "server.bag", "server.host", "server.page.revision", "server.type", "server.workspace");
   refreshComments(newComment.root);
   autoSaveChanges();
-  // store.saveTiddler(newComment);
-  // store.saveTiddler(daddy);
   return newComment;
 }
 
@@ -298,7 +293,7 @@ function deleteTiddlerAndDescendents(tiddler) {
   forEach(children, function(tiddler) {
     deleteTiddlerAndDescendents(tiddler);
   });
-  saveChanges();
+  autoSaveChanges();
 }
 
 //################################################################################
