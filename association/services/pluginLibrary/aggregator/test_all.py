@@ -4,10 +4,10 @@ import testsuite
 
 def main(args):
 	modules = [
-		"test_main",
-		"test_tiddlywiki",
-		"test_dirScraper",
-		"test_utils"
+		"main",
+		"tiddlywiki",
+		"dirScraper",
+		"utils"
 	]
 	if len(args) > 1:
 		modules = args[1:]

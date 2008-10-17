@@ -4,7 +4,7 @@ import testsuite
 
 def main(args):
 	modules = [
-		"test_pluginFilters"
+		"pluginFilters"
 	]
 	if len(args) > 1:
 		modules = args[1:]
