@@ -195,7 +195,7 @@ var foo = "bar";
 		expected = self.tw.store.findChild("div", title = "SamplePlugin").findChild("pre").renderContents().strip()
 		self.assertEquals(expected, plugin)
 
-def dummyTiddlyWiki(type = "canonical"):
+def dummyTiddlyWiki(type = "canonical"): # TODO: use textwrap.dedent
 	"""
 	create dummy TiddlyWiki document
 

@@ -38,9 +38,8 @@ def getRepositories(filepath):
 	* three components per line (pipe-delimited):
 	  URI | type | name
 
-	@param filepath: full path to source file
-	@return: repository objects
-	@rtype : list
+	@param filepath (str): full path to source file
+	@return (list): repository objects
 	"""
 	repos = []
 	for line in open(filepath, "r"):
@@ -107,7 +106,6 @@ def generateRecipe(bags, store):
 
 	@param bags (list): bag names
 	@param store (Store): TiddlyWeb store
-	@return: None
 	"""
 	recipe = Recipe("plugins")
 	items = []
@@ -126,7 +124,6 @@ def savePlugins(store, bag): # TODO: rename (misleading)
 
 	@param bags (Bag): TiddlyWeb bag
 	@param store (Store): TiddlyWeb store
-	@return: None
 	"""
 	try: # XXX: don't use exception here!?
 		store.delete(bag) # XXX: ugly hack?
