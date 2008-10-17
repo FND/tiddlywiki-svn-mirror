@@ -29,7 +29,7 @@ def run(modules):
 	runner = unittest.TextTestRunner(sys.stdout, verbosity = 2)
 	results = runner.run(suite)
 	endCoverage()
-	reportCoverage(testModules)
+	reportCoverage(modules)
 	return results.wasSuccessful()
 
 def initCoverage():
@@ -41,9 +41,14 @@ def endCoverage():
 	coverage.stop()
 
 def reportCoverage(modules):
+	"""
+	report test coverage for given modules
+
+	@param modules (list): module names
+	"""
 	modules = [__import__(module) for module in modules]
 	coverage.report(modules, ignore_errors = 0, show_missing = 1)
 
-if __name__ == "__main__": # XXX: obsolete!?
+if __name__ == "__main__":
 	status = run(sys.argv[1:])
 	sys.exit(not status)
