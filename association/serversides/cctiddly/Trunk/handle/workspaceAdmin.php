@@ -5,9 +5,9 @@ $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
 $a = $_POST['action']?$_POST['action']:$_REQUEST['action'];
-
+error_log(">>>> START <<<<<<<");
 error_log("Acition : ".$a);
-$u = $_POST['username'];
+$u = $_POST['add_username'];
 $w = $tiddlyCfg['workspace_name'];
 
 if(!user_session_validate())
@@ -26,14 +26,12 @@ if ($a =="LISTWORKSPACES")
  	exit;
 }
 
-error_log("MARTINS POST : ".$_POST['username']);
 
 
-error_log("u : ".$_POST['username']);
-
-if (!user_isAdmin($user['username'], $w))
+if (!user_isAdmin($user['username'], $w)){
+	error_log("sendning 401".$user['username']."   --  ".$w);
 	sendHeader("401", null, null, 1);
-
+}
 
 error_log("MADE It TO HERE");
 if($a == "DELETEADMIN")
@@ -97,6 +95,7 @@ if ($a =="LISTALL")
 	exit;
 }
 
+error_log(">>>> STOP <<<<<<<");
 
 
 ?> 
