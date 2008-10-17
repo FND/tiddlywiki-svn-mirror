@@ -56,8 +56,6 @@ function getServerType(fields)
 
 function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 {
-//#console.log("invokeAdaptor:"+fnName);
-
 	var serverType = getServerType(fields);
 	if(!serverType)
 		return null;
@@ -83,9 +81,7 @@ function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 //# Used by (eg): config.commands.download.isEnabled
 function isAdaptorFunctionSupported(fnName,fields)
 {
-//#console.log("isAdaptorFunctionSupported:",fnName,"f:",fields);
 	var serverType = getServerType(fields);
-//#console.log("st:"+serverType);
 	if(!serverType || !config.adaptors[serverType])
 		return false;
 	if(!config.adaptors[serverType].isLocal && !fields['server.host'])
@@ -101,7 +97,6 @@ config.commands.revisions.isEnabled = function(tiddler)
 
 config.commands.revisions.handler = function(event,src,title)
 {
-//#console.log("revisions.handler:"+title);
 	var tiddler = store.fetchTiddler(title);
 	userParams = {};
 	userParams.tiddler = tiddler;
@@ -150,7 +145,6 @@ config.commands.revisions.callback = function(context,userParams)
 
 config.commands.revisions.getTiddlerRevision = function(title,modified,revision)
 {
-//#console.log("config.commands.getTiddlerRevision:"+title+" r:"+revision);
 	var tiddler = store.fetchTiddler(title);
 	var context = {modified:modified};
 	return invokeAdaptor('getTiddlerRevision',title,revision,context,null,config.commands.revisions.getTiddlerRevisionCallback,tiddler.fields);
@@ -158,10 +152,8 @@ config.commands.revisions.getTiddlerRevision = function(title,modified,revision)
 
 config.commands.revisions.getTiddlerRevisionCallback = function(context,userParams)
 {
-//#console.log("config.commands.getTiddlerRevisionCallback:"+context.tiddler.title);
 	if(context.status) {
 		var tiddler = context.tiddler;
-		//store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
 		store.addTiddler(tiddler);
 		store.notify(tiddler.title, true);
 		story.refreshTiddler(tiddler.title,1,true);
@@ -194,7 +186,6 @@ config.commands.deleteTiddlerHosted.handler = function(event,src,title)
 
 config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 {
-//# console.log("config.commands.deleteTiddlerHosted.callback:"+context.title);
 	if(context.status) {
 		displayMessage(config.commands.deleteTiddlerHosted.done + context.title);
 	} else {

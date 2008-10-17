@@ -35,8 +35,6 @@ class ModulesLoader {
 	public function readModules($cct_base){
 		$dir = $cct_base."modules/";
 		include("modules.php");
-		error_log("dir".$dir);
-
 		// Open a known directory, and proceed to read its contents
 		if (is_dir($dir)) {
 		    if ($dh = opendir($dir)) {

@@ -11,7 +11,6 @@ include_once($cct_base."includes/config.php");
 $url = parse_url($feed);
 if(!in_array($url[host], $tiddlyCfg['allowed_proxy_list']))
 {
-	error_log("");
 	exit;
 }
 

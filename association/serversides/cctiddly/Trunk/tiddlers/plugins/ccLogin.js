@@ -192,7 +192,6 @@ config.macros.ccLogin.displayForgottenPassword=function(item, place){
 //config.macros.ccLogin.sendForgottenPassword=function(item, place){	
 //	var w = new Wizard(item);
 //	var me = config.macros.ccLogin;
-//	console.log(w.formElem["forgottenPassword"].value);
 //}
 
 config.macros.toolbar.isCommandEnabled=function(command,tiddler){	

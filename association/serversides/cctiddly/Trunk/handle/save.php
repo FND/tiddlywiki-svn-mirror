@@ -1,9 +1,6 @@
 <?php
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
-error_log("workspace : ".$tiddlyCfg['workspace_name']);
-
-
 if(!user_session_validate())
 {
 	sendHeader("401");

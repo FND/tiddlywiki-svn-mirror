@@ -59,7 +59,6 @@ config.macros.ccCreateWorkspace.workspaceNameKeyPress=function(w){
  	
 config.macros.ccCreateWorkspace.workspaceNameCallback=function(status,params,responseText,uri,xhr){
 	var me = config.macros.ccCreateWorkspace;
-	console.log(responseText);
 	if(responseText > 0){{
 			config.macros.register.setStatus(params.w, "workspace_error", me.errorWorkspaceNameInUse);
 			config.macros.register.setStatus(params.w, "workspace_url", "");

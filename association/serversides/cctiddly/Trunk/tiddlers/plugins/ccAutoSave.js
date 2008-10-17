@@ -27,8 +27,7 @@ merge(ccTiddlyAutoSave,{
 	msgError:"There was an error saving "
 });
 
-ccTiddlyAutoSave.putCallback = function(context, userParams)
-{
+ccTiddlyAutoSave.putCallback = function(context, userParams){
 	tiddler = context.tiddler;
 	if (context.status){
 		if (context.otitle != tiddler.title){
@@ -42,8 +41,6 @@ ccTiddlyAutoSave.putCallback = function(context, userParams)
 	}
 };
 
-// override save and write content to net immediately when done
-// based on ccTiddly serverside.js
 TiddlyWiki.prototype.orig_saveTiddler = TiddlyWiki.prototype.saveTiddler;	//hijack
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created){
 	var tiddler = this.fetchTiddler(title);

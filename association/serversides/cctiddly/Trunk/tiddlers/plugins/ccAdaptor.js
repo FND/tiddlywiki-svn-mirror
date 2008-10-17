@@ -129,7 +129,6 @@ ccTiddlyAdaptor.getWorkspaceListCallback = function(status,context,responseText,
 };
 
 ccTiddlyAdaptor.prototype.getTiddlerList = function(context,userParams,callback){
-	//	displayMessage("get Tiddler list");
 	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0/handle/listTiddlers.php?workspace=%1';
 	var uri = uriTemplate.format([context.host,context.workspace]);

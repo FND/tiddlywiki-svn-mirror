@@ -5,8 +5,6 @@ $cct_base = "../";
 include_once($cct_base."includes/header.php");
 
 $a = $_POST['action']?$_POST['action']:$_REQUEST['action'];
-error_log(">>>> START <<<<<<<");
-error_log("Acition : ".$a);
 $u = $_POST['add_username'];
 $w = $tiddlyCfg['workspace_name'];
 
@@ -28,12 +26,10 @@ if ($a =="LISTWORKSPACES")
 
 
 
-if (!user_isAdmin($user['username'], $w)){
-	error_log("sendning 401".$user['username']."   --  ".$w);
+if (!user_isAdmin($user['username'], $w))
 	sendHeader("401", null, null, 1);
-}
 
-error_log("MADE It TO HERE");
+
 if($a == "DELETEADMIN")
 {
 	$users = explode( ",", $u);
@@ -44,24 +40,13 @@ if($a == "DELETEADMIN")
 			$data['username'] = $user;
 			$data['workspace_name'] =  $w; 
 			$r = db_record_delete($tiddlyCfg['table']['admin'],$data);	
-			
-			errror_log(mysql_error());
 		}	
 	}	
 	exit;
 }
 
-
-error_log("bonna");
-
-error_log("u : ".$u);
-error_log("w : ".$w);
-
-
 if ($u && $w)
 {
-	
-	error_log("HOLLOA");
 	$data['username'] = $u;
 	$data['workspace_name'] = $w;
 	$res = db_record_insert($tiddlyCfg['table']['admin'],$data);
@@ -72,13 +57,8 @@ if ($u && $w)
 	exit;
 }
 
-
-
-
-
 if ($a =="LISTALL")
 {
-	error_log("here 4");
 	$data['workspace_name']=$w;
  	$r = db_record_select($tiddlyCfg['table']['admin'], $data);	 
  	$out = "[";	
@@ -94,8 +74,4 @@ if ($a =="LISTALL")
 	echo substr_replace($out ,"",-1)."]";		
 	exit;
 }
-
-error_log(">>>> STOP <<<<<<<");
-
-
 ?> 
