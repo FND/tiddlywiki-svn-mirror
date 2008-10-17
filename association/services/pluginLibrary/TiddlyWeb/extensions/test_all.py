@@ -1,4 +1,5 @@
 import sys
+import testconfig
 import testsuite
 
 def main(args):
@@ -7,7 +8,7 @@ def main(args):
 	]
 	if len(args) > 1:
 		modules = args[1:]
-	testsuite.run(modules)
+	return testsuite.run(modules)
 
 if __name__ == "__main__":
 	status = main(sys.argv)

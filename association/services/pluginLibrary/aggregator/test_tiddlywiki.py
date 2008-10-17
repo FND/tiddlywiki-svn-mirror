@@ -1,5 +1,6 @@
-import unittest
 import copy
+import unittest
+import testconfig
 import tiddlywiki
 
 class decodeTiddlerTextTestCase(unittest.TestCase):
