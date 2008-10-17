@@ -22,8 +22,8 @@ Include
 in any tiddler to create a select theme button.
 
 ***/
-
 //{{{
+	
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.ThemeSwitcherPlugin) {
 version.extensions.ThemeSwitcherPlugin = {installed:true};

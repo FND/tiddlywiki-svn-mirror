@@ -14,6 +14,7 @@
 !Description
 Allows admin users to add and remove administrators from a ccTiddly workspace
 !Usage
+
 {{{
 <<ccAdmin>>
 }}}
@@ -21,6 +22,7 @@ Allows admin users to add and remove administrators from a ccTiddly workspace
 !Code
 ***/
 //{{{
+
 config.macros.ccAdmin = {}
 merge(config.macros.ccAdmin,{
 	stepAddTitle:"Add a new Workspace Administrator",
@@ -102,7 +104,6 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 		{caption: me.buttonCancelText, tooltip: me.buttonCancelTooltip, onClick: function(w){ config.macros.ccAdmin.refresh(params.w) } },
 		{caption: me.buttonCreateText, tooltip: me.buttonCreateTooltip, onClick: function(){config.macros.ccAdmin.addAdminSubmit(null, params);  } }
 	]);
-
 };
 
 config.macros.ccAdmin.addAdminSubmit = function(e, params){

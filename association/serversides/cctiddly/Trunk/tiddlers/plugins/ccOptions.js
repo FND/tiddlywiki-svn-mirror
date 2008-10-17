@@ -1,4 +1,5 @@
-//{{{	
+//{{{
+	
 config.macros.ccOptions={};	
 
 merge(config.macros.ccOptions, {

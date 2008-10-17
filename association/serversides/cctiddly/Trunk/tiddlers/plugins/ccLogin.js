@@ -29,7 +29,6 @@ To display a login prompt for your user simple type the following text into a ti
 ***/
 //{{{
 
-
 config.macros.ccLogin={sha1:true};
 
 merge(config.macros.ccLogin,{

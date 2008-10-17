@@ -13,6 +13,7 @@
 ***/
 
 //{{{
+	
 // Ensure that the plugin is only installed once.
 if(!version.extensions.AdaptorCommandsPlugin) {
 	version.extensions.AdaptorCommandsPlugin = {installed:true};

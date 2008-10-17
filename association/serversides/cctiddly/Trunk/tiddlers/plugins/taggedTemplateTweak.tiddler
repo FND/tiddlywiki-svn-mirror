@@ -1,5 +1,6 @@
 <div title="TaggedTemplateTweak" modifier="ELSDesignStudios" modified="200804011417" created="200706181748" tags="ccTiddly  excludeSearch excludeLists systemConfig">
-<pre>/***
+<pre>
+/***
 |Name|TaggedTemplateTweak|
 |Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
 |Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
@@ -23,6 +24,7 @@ This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler
 !!!!!Code
 ***/
 //{{{
+	
 version.extensions.TaggedTemplateTweak= {major: 1, minor: 4, revision: 1, date: new Date(2008,8,29)};
 
 Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler

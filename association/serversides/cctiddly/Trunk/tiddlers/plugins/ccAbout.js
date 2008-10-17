@@ -19,6 +19,7 @@
 
 ***/
 //{{{
+	
 config.macros.ccAbout={};
 merge(config.macros.ccAbout,{
 	buttonBackstageText:"about",

@@ -1,4 +1,5 @@
-
+// {{{
+	
 config.macros.coverFlow = {};
 config.macros.coverFlow.handler = function (place,macroName,params,wikifier,paramString,tiddler){
 	var images = paramString.split("|");
@@ -506,3 +507,5 @@ window.onunload = function()
 		old_window_onunload();
 	document = null;
 }
+
+//}}}
