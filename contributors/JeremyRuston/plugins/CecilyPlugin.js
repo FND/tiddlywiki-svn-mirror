@@ -97,11 +97,9 @@ Rect.prototype.midPoint = function() {
 function normalisePoint(parent,target,pt) {
 	var e = target;
 	var r = new Point(pt.x,pt.y);
-console.log("Starting out with " + r.x + "," + r.y + " on " + e.outerHTML.substr(0,100));
 	while(e != parent && e.offsetParent) {
 		r.x += e.offsetLeft;
 		r.y += e.offsetTop;
-console.log("Adding  " + e.offsetLeft + "," + e.offsetTop + " from " + e.outerHTML.substr(0,100));
 		e = e.offsetParent;
 	}
 	if(e == parent)
@@ -332,7 +330,15 @@ Cecily.prototype.setViewSize = function() {
 
 Cecily.prototype.addEventHandler = function(element,type,handler,capture) {
 	var me = this;
-	element.addEventListener(type,function (ev) {return handler.call(me,ev);},capture);
+	element.addEventListener(type,function (ev) {
+		if(ev.offsetX === undefined)
+			ev.offsetX = ev.clientX;
+		if(ev.offsetY === undefined)
+			ev.offsetY = ev.clientY;
+		if(ev.toElement === undefined)
+			ev.toElement = ev.relatedTarget;
+		return handler.call(me,ev);
+		},capture);
 }
 
 Cecily.prototype.onWindowResize = function(ev) {
@@ -351,13 +357,6 @@ Cecily.prototype.onMouseWheel = function(ev) {
 
 Cecily.prototype.onMouseClickBubble = function(ev) {
 	var tiddler = story.findContainingTiddler(ev.target);
-
-if(tiddler) {
-	console.log("Click on " + ev.target.outerHTML + ", tidder is " + tiddler.getAttribute("tiddler"));
-var pt = normalisePoint(cecily.frame,ev.target,new Point(ev.offsetX,ev.offsetY));
-console.log("Mouse is " + pt.x + "," + pt.y + " from " + ev.offsetX + "," + ev.offsetY);
-}
-
 	if(tiddler && this.drag === null && hasClasses(ev.target,["tiddlyLink","toolbar","title","tagged"]).length == 0) { 
 		tiddler.parentNode.insertBefore(tiddler,null); 
 		this.scrollToTiddler(tiddler); 
@@ -492,7 +491,6 @@ Cecily.prototype.showOverlayMenu = function(pos)
 	var w = this.frame.offsetWidth;
 	var h = this.frame.offsetHeight;
 	if(overlayPos.w > w || overlayPos.h > h) {
-		console.log(Math.min(w/overlayPos.w,h/overlayPos.h));
 		overlayPos = overlayPos.scale(Math.min(w/overlayPos.w,h/overlayPos.h));
 	}
 	if(overlayPos.x < 0)
@@ -1074,6 +1072,7 @@ body {
 div#messageArea {
 	-webkit-transition: opacity 0.3s ease-in-out;
 	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
 	border: 1px solid #222;
 	background-color: [[ColorPalette::SecondaryLight]];
 	background-image: -webkit-gradient(linear, left top, left bottom, from([[ColorPalette::SecondaryPale]]), to([[ColorPalette::SecondaryDark]]), color-stop(0.1,[[ColorPalette::SecondaryLight]]), color-stop(0.6,[[ColorPalette::SecondaryMid]]));
@@ -1090,6 +1089,7 @@ div#messageArea .button {
 	-webkit-transition: opacity 0.3s ease-in-out;
 	opacity: 0;
 	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
 	background-color: #aaa;
 	background: -webkit-gradient(linear, left top, left bottom, from([[ColorPalette::PrimaryLight]]), to([[ColorPalette::PrimaryDark]]), color-stop(0.5,[[ColorPalette::PrimaryMid]]));
 	color: [[ColorPalette::TertiaryPale]];
@@ -1108,10 +1108,10 @@ div#messageArea:hover .button:active {
 	-webkit-transition: opacity 0.3s ease-in-out;
 	font-size: 0.5em;
 	z-index: 100;
-	width: 24em;
 	position: absolute;
 	padding: 0.2em 0.2em 0.2em 0.2em;
 	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
 	border: 1px solid #222;
 	background-color: #444;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#666), color-stop(0.3,#444));
@@ -1190,6 +1190,7 @@ div#backstageArea {
 	padding-left: 1em;
 	padding-right: 1em;
 	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
 	background-color: #777;
 	color: #fff;
 	border: 1px solid #000;
@@ -1213,6 +1214,7 @@ div#backstageArea {
 
 .cecily .tiddler.drag {
 	-webkit-box-shadow: 2px 2px 13px #000;
+	-moz-box-shadow: 2px 2px 13px #000;
 }
 
 .cecily .tiddler .heading {
@@ -1238,6 +1240,7 @@ div#backstageArea {
 	margin: 0 0.25em 0 0.25em;
 	border: none;
 	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
 }
 
 .cecily .tiddler.selected .toolbar a {
