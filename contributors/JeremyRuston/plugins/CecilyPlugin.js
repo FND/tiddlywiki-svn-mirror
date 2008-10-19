@@ -505,7 +505,7 @@ Cecily.prototype.showOverlayMenu = function(pos)
 	this.overlayMenu.style[Cecily.cssTransform] = "scale(" + scale + "," + scale + ")";
 	this.overlayMenu.style.left = overlayPos.x + "px";
 	this.overlayMenu.style.top = overlayPos.y + "px";
-	this.overlayMenu.style.opacity = "0.8";
+	this.overlayMenu.style.opacity = "0.9";
 };
 
 Cecily.prototype.onMouseOutOverlay = function(ev)
@@ -1105,16 +1105,18 @@ div#messageArea:hover .button:active {
 }
 
 #overlayMenu {
-	-webkit-transition: opacity 0.3s ease-in-out;
-	font-size: 0.5em;
+	-webkit-box-shadow: 2px 2px 13px #000;
+	-moz-box-shadow: 2px 2px 13px #000;
+	-webkit-transition: opacity 0.2s ease-in-out;
 	z-index: 100;
 	position: absolute;
-	padding: 0.2em 0.2em 0.2em 0.2em;
+	padding: 0.1em 0.1em 0.1em 0.1em;
+	font-size: 0.8em;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
-	border: 1px solid #222;
-	background-color: #444;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#666), color-stop(0.3,#444));
+	border: 1px solid #666;
+	background-color: #bbb;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#999), to(#ddd), color-stop(0.3,#bbb));
 	opacity: 0;
 	display: none;
 }
@@ -1123,10 +1125,8 @@ div#messageArea:hover .button:active {
 	border: none;
 }
 
-#overlayMenu .twtable th, #overlayMenu .twtable thead td {
-	background:[[ColorPalette::SecondaryMid]];
+#overlayMenu .twtable th{
 	border: none;
-	color:[[ColorPalette::Background]];
 }
 
 #overlayMenu .twtable td {
@@ -1138,24 +1138,18 @@ div#messageArea:hover .button:active {
 	border-bottom: 1px solid #ccc;
 }
 
-.viewer table, table.twtable {
-	border: none;
-	border-bottom: none;
-}
-
 #overlayMenu a {
 	-webkit-transition: color 0.3s ease-in-out;
 	text-decoration: none;
 	font-weight: bold;
 	font-style: normal;
 	color: #000;
-	background-color: transparent;
-	display: block;
+	background-color: #999;
 	border: none;
-}
-
-#overlayMenu:hover a {
-	color: [[ColorPalette::Background]];
+	margin: 0 0.25em 0 0.25em;
+	padding: 3px 3px 3px 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
 }
 
 #overlayMenu a:hover {
@@ -1164,12 +1158,13 @@ div#messageArea:hover .button:active {
 	font-style: normal;
 	color: #000;
 	background-color: #ff0;
-	display: block;
 	border: none;
 }
 
 #overlayMenu .overlayCommand {
-	font-size: 3em;
+	font-size: 2em;
+	color: #fff;
+	text-shadow: #000 2px 2px 3px;
 }
 
 div#backstageArea {
@@ -1181,20 +1176,6 @@ div#backstageArea {
 	left: 0px;
 	top: 0px;
 	background-color: #eee;
-}
-
-.cecilyMenu {
-	position: absolute;
-	right: 10px;
-	top: 10px;
-	padding-left: 1em;
-	padding-right: 1em;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	background-color: #777;
-	color: #fff;
-	border: 1px solid #000;
-	opacity: 0.8;
 }
 
 #tiddlerDisplay {
@@ -1225,7 +1206,7 @@ div#backstageArea {
 
 .cecily .tiddler .toolbar {
 	cursor: all-scroll;
-	padding: 2pt 8pt 2pt 8pt;
+	padding: 4pt 2pt 4pt 4pt;
 	color: #aaa;
 }
 
@@ -1236,7 +1217,6 @@ div#backstageArea {
 .cecily .tiddler .toolbar a {
 	-webkit-transition: opacity 0.3s ease-in-out;
 	opacity: 0;
-	font-size: 0.1em;
 	margin: 0 0.25em 0 0.25em;
 	border: none;
 	-webkit-border-radius: 3px;
