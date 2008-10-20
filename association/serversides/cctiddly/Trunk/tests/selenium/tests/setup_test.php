@@ -22,8 +22,16 @@ class GoogleTest extends PHPUnit_Framework_TestCase
 	{
 		$this->browser->type("username", $u);
 		$this->browser->type("password", $p);
+			    $this->->browser->type("//input[@type='password']", "password");
+			
+			
 		$this->click("link=Login");
 		$this->browser->waitForPageToLoad("30000");
+		
+		$this->click("//div[@id='tiddlerLogin']/div[3]/form/div[2]/a[1]");
+	    $this->type("//input[@type='password']", "password");
+	
+	
 	}
 }
 
