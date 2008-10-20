@@ -23,7 +23,7 @@
 		// list all the tiddler in the store in an index.
 		$('#index').append("<ul></ul>");
 		store.getAllTiddlers().each(function(){
-			$('#index ul').append("<li>" + this.tiddlerLink() + "</li>")
+			$('#index ul').append("<li>" + this.tiddlerLink().html() + "</li>")
 		});
 
 	});
@@ -53,7 +53,7 @@
 			<div class='entry-content'>
 				<h2>Description</h2>
 				<p>Create a content store object</p>
-				<h2>Example</h2>
+				<h2>Examples</h2>
 <pre>
 var store = $('#store').contentStore();
 </pre>
@@ -73,7 +73,7 @@ var store = $('#store').contentStore();
 			<div class='entry-content'>
 				<h2>Description</h2>
 				<p>Get a tiddler object from a content store</p>
-				<h2>Example</h2>
+				<h2>Examples</h2>
 <pre>
 var store = $('#store').contentStore();
 var tiddler = store.getTiddler('TiddlerName');
@@ -100,7 +100,7 @@ var tiddler = $('#store').contentStore().getTiddler('TiddlerName');
 			<div class='entry-content'>
 				<h2>Description</h2>
 				<p>Get a jQuery object which contains all of the tiddlers in a content store</p>
-				<h2>Example</h2>
+				<h2>Examples</h2>
 <pre>
 var tiddlers = $('#store').contentStore().getAllTiddlers();
 </pre>
@@ -121,7 +121,7 @@ var tiddlers = $('#store').contentStore().getAllTiddlers();
 			<div class='entry-content'>
 				<h2>Description</h2>
 				<p>Get access to the tiddler title</p>
-				<h2>Example</h2>
+				<h2>Examples</h2>
 				Get the tiddler title value:
 <pre>
 tiddler.title().text();
@@ -145,8 +145,8 @@ var tiddlers = $('#store')
 		</div>
 		
 		
-		<div class='hentry' id='section__tiddler_methods_-_tiddlertext'>
-			<h2 class='entry-title'>tiddler methods - tiddlertext</h2>
+		<div class='hentry' id='section__tiddler_methods_-_tiddlerText'>
+			<h2 class='entry-title'>tiddler methods - tiddlerText</h2>
 			<dl class='meta'>
 				<dt>modifier</dt><dd>PhilHawksworth</dd>
 				<dt>modified</dt><dd>ddmmyyyy</dd>
@@ -155,12 +155,12 @@ var tiddlers = $('#store')
 			<div class='entry-content'>
 				<h2>Description</h2>
 				<p>Get access to the tiddler text element</p>
-				<h2>Example</h2>
+				<h2>Examples</h2>
 				Get the tiddler text as html:
 <pre>
 tiddler.tiddlerText().html();
 </pre>
-				<h3>returns: string</h3>
+				<p>returns: String</p>
 				Set the tiddler text value as html:
 <pre>
 tiddler.tiddlerText().html("&lt;p&gt;Some &lt;i&gt;new&lt;/i&gt; tiddler text as html&lt;/p&gt;");
@@ -169,7 +169,7 @@ tiddler.tiddlerText().html("&lt;p&gt;Some &lt;i&gt;new&lt;/i&gt; tiddler text as
 <pre>
 tiddler.tiddlerText().text();
 </pre>
-				<h3>returns: string</h3>
+				<p>returns: String</p>
 				Set the tiddler text value as plain text:
 <pre>
 tiddler.tiddlerText().text("Some new tiddler text as plain text");
@@ -179,7 +179,7 @@ tiddler.tiddlerText().wikiText({
 	format: "MediaWiki"
 });
 </pre>
-				<h3>returns: string</h3>
+				<p>returns: String</p>
 				Set the tiddler text value as plain text:
 <pre>
 tiddler.tiddlerText().wikiText("Some new tiddler text as plain text", {
@@ -187,6 +187,33 @@ tiddler.tiddlerText().wikiText("Some new tiddler text as plain text", {
 });
 </pre>
 
+			</div>
+			<a href='#Documentation' rel='tag'>Documentation</a>
+			<a href='#API' rel='tag'>API</a>
+		</div>
+		
+		
+		<div class='hentry' id='section__tiddler_methods_-_tiddlerLink'>
+			<h2 class='entry-title'>tiddler methods - tiddlerLink</h2>
+			<dl class='meta'>
+				<dt>modifier</dt><dd>PhilHawksworth</dd>
+				<dt>modified</dt><dd>ddmmyyyy</dd>
+				<dt>changecount</dt><dd>0</dd>
+			</dl>
+			<div class='entry-content'>
+				<h2>Description</h2>
+				<p>Get access to the tiddler link</p>
+				<h2>Examples</h2>
+				Get the tiddlerlink text (or display) value:
+<pre>
+tiddler.tiddlerLink().text();
+</pre>
+				<p>returns: String</p>
+				Get the tiddlerlink html value:
+<pre>
+tiddler.tiddlerLink().html();
+</pre>
+				<p>returns: String</p>
 			</div>
 			<a href='#Documentation' rel='tag'>Documentation</a>
 			<a href='#API' rel='tag'>API</a>
@@ -200,7 +227,7 @@ tiddler.tiddlerText().wikiText("Some new tiddler text as plain text", {
 			This simple application is built with by <a href="http://hawksworx.com" title="http://hawksworx.com">Phil Hawksworth</a> with <a href="http://jquery.com/" title="http://jquery.com/">jQuery</a> and the following plugins:
 		</p>
 		<ul>
-			<li><a href="/jquery.contentStore.js" title="jquery.contentStore.js">jquery.contentStore.js</a> - Enable an html based data store and expose an API to CRUD items in that store.</li>
+			<li><a href="/jquery.contentStore.js" title="jquery.contentStore.js">jquery.contentStore.js</a> - Enable an html based data store and expose an API to interogate and manipulate items in that store.</li>
 		</ul>
 	</div>
 
