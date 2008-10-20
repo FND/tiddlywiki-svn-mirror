@@ -1,7 +1,7 @@
 /*
 
 FILE: jquery.saveToFile.js
-DATE: Oct 1st 2008
+DATE: Oct 3rd 2008
 AUTHORS: Phil Hawksworth. [http://hawksworx.com]
 DESCRIPTION: Enable write access to the filesystem for local file saving.
 NOTES: For a good breakdown of an excellent design pattern for jQuery plugins see http://www.learningjquery.com/2007/10/a-plugin-development-pattern
