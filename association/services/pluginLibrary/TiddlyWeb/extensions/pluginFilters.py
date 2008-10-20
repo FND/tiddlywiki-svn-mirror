@@ -32,7 +32,7 @@ def filterByDocumentation(query, tiddlers):
 	@return (list): matching tiddlers
 	"""
 	query = query.lower() # case-insensitive
-	pattern = re.compile(r"/\*\*\*\s*?\n(.*?)\n\s*?\*\*\*/", re.S)
+	pattern = re.compile(r"[^\t\x20\w]/\*\*\*\s*?\n(.*?)\n\*\*\*/", re.S)
 	results = []
 	for tiddler in tiddlers:
 		try:

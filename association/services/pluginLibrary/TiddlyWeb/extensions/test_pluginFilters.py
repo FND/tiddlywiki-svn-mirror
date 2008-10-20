@@ -43,6 +43,50 @@ class filterByDocumentationTestCase(unittest.TestCase):
 		expected = []
 		self.assertEqual(expected, filterByDocumentation(query, self.tiddlers))
 
+	def testToleratesTrailingWhitespaceForSectionStart(self):
+		"""filterByDocumentation is tolerant of whitespace after the initial documentation-section marker"""
+		self.tiddlers[1].text = dedent("""
+			/***
+			foo bar baz
+			***/
+		""").replace("/***\n", "/*** \t \n")
+		query = "bar"
+		expected = [self.tiddlers[1]]
+		self.assertEqual(expected, filterByDocumentation(query, self.tiddlers))
+
+	def testToleratesTrailingWhitespaceForSectionEnd(self):
+		"""filterByDocumentation is tolerant of whitespace after the final documentation-section marker"""
+		self.tiddlers[1].text = dedent("""
+			/***
+			foo bar baz
+			***/
+		""").replace("***/\n", "***/ \t \n")
+		query = "bar"
+		expected = [self.tiddlers[1]]
+		self.assertEqual(expected, filterByDocumentation(query, self.tiddlers))
+
+	def testDoesNotTolerateLeadingWhitespaceForSectionStart(self):
+		"""filterByDocumentation does not accept whitespace immediately in front of the initial documentation-section marker"""
+		self.tiddlers[1].text = dedent("""
+			/***
+			foo bar baz
+			***/
+		""").replace("/***\n", " \t /***\n")
+		query = "bar"
+		expected = []
+		self.assertEqual(expected, filterByDocumentation(query, self.tiddlers))
+
+	def testDoesNotTolerateLeadingWhitespaceForSectionEnd(self):
+		"""filterByDocumentation does not accept whitespace immediately in front of the final documentation-section marker"""
+		self.tiddlers[1].text = dedent("""
+			/***
+			foo bar baz
+			***/
+		""").replace("***/\n", " \t ***/\n")
+		query = "bar"
+		expected = []
+		self.assertEqual(expected, filterByDocumentation(query, self.tiddlers))
+
 # DEBUG'd -- XXX: fails -- TODO: should multiple documentation sections be supported?
 #	def testSearchesMultipleDocumentationSections(self):
 #		"""filterByDocumentation searches multiple documentation sections"""
