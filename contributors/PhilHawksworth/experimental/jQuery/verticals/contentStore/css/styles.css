@@ -23,57 +23,72 @@ ul#toolbar {
 	background-color:#1E52CD;
 	border-bottom:solid 2px #fff;
 	font-size:0.9em;
-	position:fixed;
-	right:0;
 	text-align:right;
-	top:0;
 	width:100%;
-	z-index:100;
-	overflow:hidden;
-	height:4px;
-
 }
 	ul#toolbar li {
-		display:none;
+		display:inline;
+		margin:0;
+		padding:0;
 	}
-	
-
-ul#toolbar:hover {
-	height:auto;
-	padding:0.5em 1em;
-}
-		ul#toolbar:hover li {
-			display:inline;
-			line-height:2.4em;
-		}
-		
-		ul#toolbar:hover li a {
-			padding:0.4em 1em;
-			background-color:#1843A8;
+			
+	ul#toolbar li.message {
+		margin-right:2em;
+		color:#0C2256;
+		cursor:pointer;
+	}
+			
+		ul#toolbar li a {
 			color:#fff;
 			border-style:none;
+			line-height:2.2em;
+			background-color:#1A49B7;
+			padding:0.6em 1em;
+			margin:0;
 		}
-		ul#toolbar:hover li a:hover;{
-			background-color:#fff;
+		
+		ul#toolbar li a:hover {
+			background-color:#1844AC;
+			color:#fff;
 		}
 
-#footer { 
-	padding:2em;
-	clear:left;
+	#footer { 
+		padding:2em;
+		clear:left;
+	}
+
+		#footer h2 {
+			color:#fff;
+			font-size:1.5em;
+			margin-bottom:0.6em;
+		}
+
+		#footer a {
+			background-color:#000;
+			color:#1E52CD;
+			text-decoration:none;
+			padding:6px;
+		}
+
+		#footer a:hover {
+			border-bottom:solid 2px #1E52CD;
+		}
+
+		#footer ul {
+			margin:1em 1em;
+			list-style-type: disc;
+		}
+
+		#footer ul li {
+			line-height:1.8em;
+		}
+
+
+#display {
+	background-color:#fff;
+	color:#222;
 }
-
-	#footer a {
-		background-color:#000;
-		color:#1E52CD;
-		text-decoration:none;
-		padding:6px;
-	}
-
-	#footer a:hover {
-		border-bottom:solid 2px #1E52CD;
-	}
-
-
+	
 /* ================================================================== */
 /* = store. only styled for when there is no javascript to hide it. = */
 /* ================================================================== */

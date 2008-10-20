@@ -39,7 +39,24 @@ $.fn.tiddlerStore.default.visible = true;
 		
 		// Get a tiddler by it's title.
 		qs.getTiddler = function(name) {
-			return store.find(opts.title+":contains("+name+")");
+			var t = store.find("#section__"+ IDfromName(name)); 
+			t.title = function(){
+				return $(this).find(opts.title);
+			};
+			t.text = function(){
+				return $(this).find(opts.text);
+			};
+			t.tags = function(){
+				var theTags = $(this).find(opts.tags);
+				theTags.addTag = function(tag){
+					// var theTags = $(this).find(opts.tags);
+					console.log('adding', tag);
+					theTags.append($("<a href='#"+tag+"' rel='tag'>"+tag+"</a>"));
+					return theTags;
+				};
+				return theTags;
+			};
+			return t;
 		};
 		
 		// Return all tiddles from a container
@@ -56,14 +73,32 @@ $.fn.tiddlerStore.default.visible = true;
 		visible: false,
 		display: '#story',
 		section : 'div.hentry',
-		title : 'div.hentry h2.entry-title',
-		text : 'div.hentry div.eintry-content'
+		title : 'h2.entry-title',
+		text : 'div.entry-content',
+		tags : 'a[rel=tag]'
 	};
+	
+	
+	
+	//tiddler functions.
+	// $.fn.tiddlerTitle = function(options) {
+	// 	var opts = $.extend({}, $.fn.tiddlerStore.defaults, options);
+	// 	return $(this).find(opts.title);
+	// };
 	
 	
 	//
 	// Private functions.
 	//
+		
+	function IDfromName(name) {
+		return name.replace(/ /g, '_');
+	}
+	
+	function NamefromID(id) {
+		return id.replace(/_/g, ' ');
+	}
+	
 	function log() {
 		if (window.console && window.console.log)
 			window.console.log(arguments);
