@@ -1,3 +1,10 @@
+
+/*
+TODO 
+  AND should refactor buld sequence - no longer need to pass in daddycommentsfield
+
+*/
+
 /***
 |Name|CommentsPlugin|
 |Description|Macro for nested comments, where each comment is a separate tiddler.|
@@ -9,15 +16,10 @@
 |~CoreVersion|2.2|
 ***/
 
-//# TODO
-//# Refactor:
-//#    - consistent naming for *Tiddler, *El (element) etc.
-//#    - send subject around less (and other params). just use parent.subject
-//#  
-//#  Enhance:
-//#    - options - styling, date format, etc etc
-//#    - edit comments in-place (may not be worth it?)
-//#    - when you close an incomplete comment and re-open it, retain the comment
+/* TODO 
+  Don't autosavechanges on each delete recursion - create an outside wrapper fn
+  Cascade comment delete when the top-level tiddler is deleted
+*/
 
 //##############################################################################
 //# CONFIG
@@ -100,35 +102,10 @@ function copyFields(fromTiddler, toTiddler, field1, field2, fieldN) {
 //# 
 //################################################################################
 
-Tiddler.prototype.initialiseRelationships = function() {
-  if (this.fields.daddy && this.fields.root && this.fields.children) {
-    this._deserialiseRelationships();
-    return false;
-  } else {
-    this.daddy = this.root = null;
-    this.children = [];
-    return true;
-  }
-}
-
-Tiddler.prototype.serialiseRelationships = function() {
-  var childrenString = "";
-  forEach(this.children, function(child) { childrenString += child.title+","; });
-  this.fields.children = childrenString.substr(0, childrenString.length-1); // drop ","
-
-  this.fields.daddy = this.daddy ? this.daddy.title : "";
-  this.fields.root = this.root ? this.root.title : "";
-}
-
-Tiddler.prototype._deserialiseRelationships = function() {
-  this.daddy = store.getTiddler(this.fields.daddy);
-  this.root = store.fetchTiddler(this.fields.root);
-  var childrenTitles = this.fields.children.length > 0 ? this.fields.children.split(",") :[];
-  this.children = map(childrenTitles,
-                    function(childTitle) { return store.fetchTiddler(childTitle); });
-  if (this.children.length)
-    forEach(this.children, function(child) { child._deserialiseRelationships(); });
-}
+// Tiddler.prototype.initialiseRelationships = function() {
+  // if (this.fields.daddy) return;
+  // this.fields.daddy = this.fields.firstchild = this.fields.nextchild = "";
+// }
 
 //################################################################################
 //# MACRO INITIALISATION
@@ -137,9 +114,9 @@ Tiddler.prototype._deserialiseRelationships = function() {
 config.macros.comments = {
 
   handler: function(place,macroName,params,wikifier,paramstring,tiddler) {
-    createOrThawRelationships(tiddler);
+    // tiddler.initialiseRelationships();
     buildCommentsArea(tiddler, place);
-    refreshComments(tiddler);
+    refreshCom(story.getTiddler(tiddler.title).commentsEl, tiddler);
   }
 
 };
@@ -150,30 +127,65 @@ config.macros.comments = {
 
 function buildCommentsArea(rootTiddler, place) {
   var suffix = "_" + rootTiddler.title.trim();
-  var commentsArea = createTiddlyElement(place, "div", null, "commentsArea");
+  var commentsArea = createTiddlyElement(place, "div", null, "comments");
   var heading = createTiddlyElement(commentsArea, "h2", null, "", "Comments");
   var comments = createTiddlyElement(commentsArea, "div", null, "");
-  rootTiddler.commentsEl = comments;
+  story.getTiddler(rootTiddler.title).commentsEl = comments;
   createTiddlyElement(commentsArea, "div");
   var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
   var newCommentEl = createTiddlyElement(newCommentArea, "textarea");
-  newCommentEl.rows = 4;
+  newCommentEl.rows = 1;
   newCommentEl.cols = 80;
   var addComment = createTiddlyElement(newCommentArea, "button", null, null, "Add Comment");
   addComment.onclick = function() {
-    createComment(newCommentEl.value, rootTiddler); 
-    refreshComments(rootTiddler);
+    var comment = createComment(newCommentEl.value, rootTiddler); 
+    // refreshComments(comment);
+    // appendComment(comment, rootTiddler.commentsEl, newCommentArea);
     newCommentEl.value = "";
   };
 }
 
-function refreshComments(rootTiddler) {
-  removeChildren(rootTiddler.commentsEl);
-  forEach(rootTiddler.children, function(comment) {
-     refreshComment(rootTiddler, comment, 0);
-  });
+/*
+function appendComment(comment, parentEl, nextEl) {
+  var commentEl = buildCommentEl(comment);
+  parentEl.insertBefore(commentEl, nextEl);
+}
+*/
+var count = 0;
+function refreshCom(daddyCommentsEl, tiddler) {
+
+  log("daddyCommentsEl", daddyCommentsEl, "refreshCom", tiddler);
+
+  var refreshedEl;
+  if (tiddler.isTagged("comment")) {
+    var commentEl = buildCommentEl(daddyCommentsEl, tiddler);
+    // rootTiddler.commentsEl.appendChild(commentEl);
+    // log("daddy element", story.getTiddler(tiddler.fields.daddy));
+    // story.getTiddler(tiddler.fields.daddy).commentsEl.appendChild(commentEl);
+    daddyCommentsEl.appendChild(commentEl);
+    refreshedEl = commentEl;
+  } else {
+    // log("render non-comment");
+    removeChildren(daddyCommentsEl);
+    refreshedEl = story.getTiddler(tiddler.title);
+  }
+
+   // log("start child loop for ", tiddler, "first child:", tiddler.fields.firstchild);
+  prev=null;
+  for (var child = store.getTiddler(tiddler.fields.firstchild); child; child = store.getTiddler(child.fields.nextchild)) {
+     if (prev==child) {
+        console.log(prev, child, "breaking");
+        break;
+      }
+     // log("tiddler and child", refreshedEl, tiddler, child);
+     refreshCom(refreshedEl.commentsEl, child);
+     prev = child;
+  }
+   // log("end child loop for " + tiddler.title);
+
 }
 
+/*
 function refreshComment(rootTiddler, comment, offsetEms) {
 
   var commentEl = buildCommentEl(comment);
@@ -181,20 +193,22 @@ function refreshComment(rootTiddler, comment, offsetEms) {
   offsetEms += 2;
   rootTiddler.commentsEl.appendChild(commentEl);
 
-  forEach(comment.children, function(child) {
+  for (var child = store.getTiddler(rootTiddler.fields.firstchild); child; child = store.getTiddler(child.nextchild)) {
     refreshComment(rootTiddler, child, offsetEms);
-  });
+  }
 
 }
+*/
 
-function buildCommentEl(comment) {
+function buildCommentEl(daddyCommentsEl, comment) {
+  log("build", comment);
 
   // COMMENT ELEMENT
   var commentEl = document.createElement("div");
   commentEl.className = "comment";
 
   // HEADING <- METAINFO AND DELETE
-  var headingEl = createTiddlyElement(commentEl, "div");
+  var headingEl = createTiddlyElement(commentEl, "div", null, "heading");
 
   var metaInfoEl = createTiddlyElement(headingEl, "div", null, "commentTitle",  comment.modifier + '@' + comment.modified.formatString(DATE_FORMAT));
   metaInfoEl.onclick = function() { 
@@ -207,7 +221,8 @@ function buildCommentEl(comment) {
   deleteEl.onclick = function() {
     if (true || confirm("Delete this comment and all of its replies?")) {
       deleteTiddlerAndDescendents(comment);
-      refreshComments(comment.root);
+      log("refreshing inside", daddyCommentsEl);
+      commentEl.parentNode.removeChild(commentEl);
     }
   };
 
@@ -218,6 +233,9 @@ function buildCommentEl(comment) {
   // REPLY LINK
   var replyLink = createTiddlyElement(commentEl, "span", null, "replyLink", "reply to this comment");
   replyLink.onclick = function() { openReplyLink(comment, commentEl, replyLink); };
+
+  // COMMENTS AREA - MM NEW
+  commentEl.commentsEl = createTiddlyElement(commentEl, "div", null, "comments");
 
   // RETURN
   return commentEl;
@@ -231,7 +249,7 @@ function openReplyLink(commentTiddler, commentEl, replyLink) {
   }
 
   commentEl.replyEl = document.createElement("div");
-  commentEl.replyEl.style.marginLeft = "2em";
+  commentEl.replyEl.className = "reply";
 
   replyLink.style.display = "none";
   var newReplyHeading = createTiddlyElement(commentEl.replyEl, "div", null, "newReply");
@@ -243,57 +261,90 @@ function openReplyLink(commentTiddler, commentEl, replyLink) {
   };
 
   var replyText =  createTiddlyElement(commentEl.replyEl, "textarea");
-  replyText.cols = 80; replyText.rows = 4;
+  replyText.cols = 80; replyText.rows = 1;
   var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, null, "Reply");
   submitReply.onclick = function() { 
     var newComment = createComment(replyText.value, commentTiddler);
-    refreshComments(newComment.root);
+    replyText.value = "";
+    closeNewReply.onclick();
+    refreshCom(commentEl.commentsEl, newComment);
   };
 
-  commentEl.appendChild(commentEl.replyEl);
+  commentEl.insertBefore(commentEl.replyEl, commentEl.commentsEl);
 }
 
 //################################################################################
 //# MACRO MODEL - MANIPULATING TIDDLERS
 //################################################################################
 
-function createOrThawRelationships(rootTiddler) {
-  if (rootTiddler.initialiseRelationships()) { // recursively thaws if already exists
-    rootTiddler.root = rootTiddler; // make top point to self
-    rootTiddler.daddy = rootTiddler;
-    rootTiddler.serialiseRelationships();
-    autoSaveChanges();
-  }
-}
-
+commentSeq = 0;
 function createComment(text, daddy) {
-  var newComment =  store.saveTiddler(null, "comment"+((new Date()).getTime()));
+  // var newComment =  store.createTiddler("comment"+((new Date()).getTime()));
+  // var newComment =  store.saveTiddler(null, "comment"+(++commentSeq));
+  var newComment =  store.createTiddler("comment"+(++commentSeq));
   var now = new Date();
-  newComment.set(null, text, config.options.txtUserName, now, ["comment"], now);
-  newComment.initialiseRelationships();
-  newComment.daddy = daddy;
-  newComment.root = daddy.root;
-  daddy.children.push(newComment);
-  newComment.serialiseRelationships();
-  daddy.serialiseRelationships();
+  newComment.set(null, text, config.options.txtUserName, now, ["comment"], now, {});
+
+  newComment.fields.daddy = daddy.title;
   copyFields(daddy, newComment,
     "server.bag", "server.host", "server.page.revision", "server.type", "server.workspace");
-  refreshComments(newComment.root);
-  autoSaveChanges();
+
+  if (!daddy.fields.firstchild) {
+    daddy.fields.firstchild = newComment.title;
+    log("createComment - daddy has no child");
+  } else {
+    for (last = store.getTiddler(daddy.fields.firstchild); last.fields.nextchild; last = store.getTiddler(last.fields.nextchild)) {}
+      last.fields.nextchild = newComment.title;
+  }
+  // console.log(newComment.title, daddy.fields.firstchild, daddy, newComment);
+
+  store.saveTiddler(newComment.title);
+  store.saveTiddler(daddy.title);
+  // autoSaveChanges(null, [daddy, newComment]);
+  saveChanges(null, [daddy, newComment]);
+  log("saved");
+  // refreshCom(newComment);
   return newComment;
 }
 
 function deleteTiddlerAndDescendents(tiddler) {
-  var daddy = tiddler.daddy;
-  if (daddy) daddy.children = remove(daddy.children, tiddler);
-  daddy.serialiseRelationships();
+  var daddy = store.getTiddler(tiddler.fields.daddy);
+  log("delete", tiddler, tiddler.fields.daddy);
+  log("daddy", daddy);
+  if (daddy.fields.firstchild==tiddler.title) {
+    log("deleting firstChild", daddy, tiddler);
+    log("tiddler.nextchild?", tiddler.fields.nextchild);
+    tiddler.fields.nextchild ? daddy.fields.firstchild = tiddler.fields.nextchild :
+                        delete daddy.fields.firstchild;
+    store.saveTiddler(daddy.title);
+  } else {
+    for (prev = store.getTiddler(daddy.fields.firstchild); prev.fields.nextchild!=tiddler.title; prev = store.getTiddler(prev.fields.nextchild))
+      ;
+    log("before - prev fields", prev.fields.nextchild);
+    log("tiddler nxt", tiddler.fields.nextchild);
+    log("deleting from prev", prev, tiddler.fields.nextchild);
+    tiddler.fields.nextchild ? prev.fields.nextchild = tiddler.fields.nextchild :
+                               delete prev.fields.nextchild;
+    log("after - prev fields", prev.fields.nextchild);
+    store.saveTiddler(prev.title);
+  }
 
-  var children = tiddler.children;
+  // for (child = store.getTiddler(tiddler.fields.firstchild); child; child = store.getTiddler(child.fields.nextchild)) {
+    // log("going to delete ", child);
+    // deleteTiddlerAndDescendents(child);
+  // }
+
+  var child = store.getTiddler(tiddler.fields.firstchild);
+  while (child) {
+    var nextchild = store.getTiddler(child.fields.nextchild);
+    deleteTiddlerAndDescendents(child);
+    child = nextchild;
+  }
+
+  log("deleting from store", tiddler.title);
   store.deleteTiddler(tiddler.title);
-  forEach(children, function(tiddler) {
-    deleteTiddlerAndDescendents(tiddler);
-  });
-  autoSaveChanges();
+
+  autoSaveChanges(false);
 }
 
 //################################################################################
@@ -302,23 +353,47 @@ function deleteTiddlerAndDescendents(tiddler) {
 
 // inspired by http://svn.tiddlywiki.org/Trunk/contributors/SaqImtiaz/plugins/DropDownMenuPlugin/DropDownMenuPlugin.js, suggested by Saq Imtiaz
 config.shadowTiddlers["StyleSheetCommentsPlugin"] = 
-
-".commentsArea h1 { margin-bottom: 0; padding-bottom: 0; }\n" +
+".comments h1 { margin-bottom: 0; padding-bottom: 0; }\n" +
 ".comments { padding: 0; }\n" +
+".comment .comments { margin-left: 1em; }\n" +
 
-".comment { background: #fcf; border: 1px solid #f9f; padding: 0.3em 0.6em 0.3em 0.3em; margin: 0 0 0.5em; }\n" +
+".comment { padding: 0 0 1em 0; margin: 1em 0 0; }\n" +
+".comment .toolbar .button { border: 0; color: #9a4; }\n" +
+".comment .heading { background: #bfb; color: #040; border: 1px solid #afa; border-bottom: 1px solid #9b9; border-right: 1px solid #9b9; padding: 0.2em; height: 1.4em; }\n" +
+".commentTitle { float: left; }\n" +
+".commentTitle:hover { text-decoration: underline; cursor: pointer; }\n" +
+".commentText { clear: both; padding: 1em 0; }\n" +
+".deleteComment { float: right; cursor: pointer; text-decoration:underline; color:[[ColorPalette::SecondaryDark]]; padding-right: 0.3em; }\n" +
+".comment .reply { margin-left: 1em; }\n" +
+".comment .replyLink { color:[[ColorPalette::SecondaryDark]]; font-style: italic; \n" +
+                      "cursor: pointer; text-decoration: underline; margin: 0 0.0em; }\n" +
+".comment .created { }\n" +
+".comment .newReply { color:[[ColorPalette::SecondaryDark]]; margin-top: 1em; }\n" +
+".newReplyLabel { float: left; }\n" +
+".closeNewReply { cursor: pointer; float: right; text-decoration: underline; }\n" +
+".comments textarea { width: 100%; }\n";
+
+/*
+".comments h1 { margin-bottom: 0; padding-bottom: 0; }\n" +
+".comments { padding: 0; }\n" +
+".comment .comments { margin-left: 1em; }\n" +
+
+".comment { background: #fcf; border: 1px solid #f9f; padding: 0.3em 0.6em 1em 0.3em; margin: 1em 0 0; }\n" +
 ".comment .toolbar .button { border: 0; color: #9a4; }\n" +
 ".commentTitle { font-size: 1em; opacity: 0.6; filter: alpha(opacity=60); float: left; }\n" +
 ".commentTitle:hover { text-decoration: underline; cursor: pointer; }\n" +
 ".commentText { clear: both; }\n" +
 ".deleteComment { float: right; cursor: pointer; text-decoration:underline; color:[[ColorPalette::SecondaryDark]]; }\n" +
-
+".comment .reply { margin-left: 1em; }\n" +
 ".comment .replyLink { color:[[ColorPalette::SecondaryDark]]; font-style: italic; \n" +
                       "cursor: pointer; text-decoration: underline; margin: 0 auto; }\n" +
 ".comment .created { }\n" +
 ".comment .newReply { color:[[ColorPalette::SecondaryDark]]; margin-top: 1em; }\n" +
 ".newReplyLabel { float: left; }\n" +
 ".closeNewReply { cursor: pointer; float: right; text-decoration: underline; }\n" +
-
-".commentsArea textarea { width: 100%; }\n";
+".comments textarea { width: 100%; }\n";
+*/
 store.addNotification("StyleSheetCommentsPlugin", refreshStyles);
+
+function log() { console.log.apply(null, arguments); }
+// function log() { alert(arguments.join(" ")); }
