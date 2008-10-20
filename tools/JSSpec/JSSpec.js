@@ -33,7 +33,7 @@ var JSSpec = {
 	specs: [],
 	
 	EMPTY_FUNCTION: function() {},
-	
+
 	Browser: {
 		Trident: navigator.appName == "Microsoft Internet Explorer",
 		Webkit: navigator.userAgent.indexOf('AppleWebKit/') > -1,
@@ -416,10 +416,14 @@ JSSpec.Runner.prototype.getTotalErrors = function() {
 };
 
 
+ 
 JSSpec.Runner.prototype.run = function() {
 	JSSpec.log.onRunnerStart();
 	var executor = new JSSpec.CompositeExecutor(function() {JSSpec.log.onRunnerEnd()},null,true);
 	for(var i = 0; i < this.specs.length; i++) {
+		
+		console.log('run ', this.specs[i]);
+		
 		executor.addExecutor(this.specs[i].getExecutor());
 	}
 	executor.run();

@@ -7,19 +7,19 @@
 	<link rel="stylesheet" href="../../QUnit/testsuite.css" type="text/css" media="screen" title="basic" charset="utf-8">
 	<script src="../../jquery-1.2.6.pack.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../QUnit/testrunner.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../../plugins/jquery.tiddlerStore.js" type="text/javascript" charset="utf-8"></script>	
+	<script src="../../plugins/jquery.contentStore.js" type="text/javascript" charset="utf-8"></script>	
 	<script type="text/javascript" charset="utf-8">
 		
 		
 
 	$(document).ready(function(){
 	
-		module("tiddlerStore");
+		module("contentStore");
 
 		test("creating new data store objects", function() {
 			expect(3);				
-			var store = $('#store').tiddlerStore();			
-			equals( typeof store, 'object', "$('#store').tiddlerStore() creates a new store object" );
+			var store = $('#store').contentStore();			
+			equals( typeof store, 'object', "$('#store').contentStore() creates a new store object" );
 			ok(jQuery.isFunction(store.getTiddler), "store objects have a getTiddler() function" );
 			ok(jQuery.isFunction(store.getAllTiddlers), "store objects have a getAllTiddlers() function" );
 		});	
@@ -27,18 +27,18 @@
 	
 		test("defaults", function() {
 			expect(6);				
-			equals( typeof $.fn.tiddlerStore.defaults, 'object', "There is public access to a tiddlerStore.defaults object" );
-			ok(!$.fn.tiddlerStore.defaults.visible, "There is a default store element visibility setting (of false)");
-			ok($.fn.tiddlerStore.defaults.display, "There is a default display element setting");
-			ok($.fn.tiddlerStore.defaults.section, "There is a default section query value");
-			ok($.fn.tiddlerStore.defaults.title, "There is a default title query value");
-			ok($.fn.tiddlerStore.defaults.text, "There is a default text query value");
+			equals( typeof $.fn.contentStore.defaults, 'object', "There is public access to a contentStore.defaults object" );
+			ok(!$.fn.contentStore.defaults.visible, "There is a default store element visibility setting (of false)");
+			ok($.fn.contentStore.defaults.display, "There is a default display element setting");
+			ok($.fn.contentStore.defaults.section, "There is a default section query value");
+			ok($.fn.contentStore.defaults.title, "There is a default title query value");
+			ok($.fn.contentStore.defaults.text, "There is a default text query value");
 		});
 		
 		
 		test("querying", function() {
 			expect(2);		
-			var store = $('#store').tiddlerStore();	
+			var store = $('#store').contentStore();	
 			var t1 = store.getTiddler('test store item 1');
 			equals(t1.length, 1, "store.getTiddler(title) returns the correct tiddler");
 			var ts = store.getAllTiddlers();
@@ -48,29 +48,25 @@
 		delete store;
 		
 		test("tiddler api", function() {
-			expect(7);
-			var store = $('#store').tiddlerStore();
+			expect(9);
+			var store = $('#store').contentStore();
 			var t1 = store.getTiddler('test store item 1');	
 			ok(jQuery.isFunction(t1.title), "tiddlers have a title() function" );
-			ok(jQuery.isFunction(t1.text), "tiddlers have a text() function" );
+			ok(jQuery.isFunction(t1.tiddlerText), "tiddlers have a text() function" );
 			ok(jQuery.isFunction(t1.tags), "tiddlers have a tags() function" );
+			ok(jQuery.isFunction(t1.tiddlerLink), "tiddlers have a link() function" );
 			ok(jQuery.isFunction(t1.tags().add), "tiddlers tags have an add() function" );
 			equals(t1.title().text(), "test store item 1", "The title function gives access to the correct title value");
-			equals(t1.text().text(), "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "The text function gives access to the correct text value");
-			equals(t1.tags().length, 2, "The tags function reaturns the correct number of tags");
+			equals(t1.tiddlerLink(), "<a href='#section__test_store_item_1'>test store item 1</a>", "The link function gives a santised tiddler link");
+			equals(t1.tiddlerText().text(), "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "The text function gives access to the correct text value");
+			equals(t1.tags().length, 2, "The tags function returns the correct number of tags");
 
-		tags = t1.tags();
-		console.log('tags',tags);
-		tags = t1.tags().addTag('blah');
-		console.log('tags',tags);
 
 		});
 		
 		
 
 
-		
-		
 	});
 		
 	</script>
@@ -104,7 +100,7 @@
 			<a href='#bar' rel='tag'>bar</a>
 		</div>
 		<div class='hentry' id='section__test_store_item_2'>
-			<h2 class='entry-title'>test store item 2</22>
+			<h2 class='entry-title'>test store item 2</h2>
 			<div class='entry-content'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
 			<dl class='meta'>
 				<dt>modified</dt><dd class='updated'>ddmmyyyy</dd>

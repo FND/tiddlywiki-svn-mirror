@@ -24,6 +24,7 @@ tiddler: TaskTiddlerControls.tiddler
 tiddler: TeamTasksMetaData.tiddler
 tiddler: TaskDefinitions.tiddler
 tiddler: TaskViews.tiddler
+tiddler: ToolbarCommands.tiddler
 
 # Content and documentation
 recipe: content/split.recipe

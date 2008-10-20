@@ -7,29 +7,25 @@
 	<link rel="stylesheet" href="css/reset.css" type="text/css" media="screen" title="basic" charset="utf-8">
 	<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" title="basic" charset="utf-8">
 	<script src="../../jquery-1.2.6.pack.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../../plugins/jquery.tiddlerStore.js" type="text/javascript" charset="utf-8"></script>	
+	<script src="../../plugins/jquery.contentStore.js" type="text/javascript" charset="utf-8"></script>	
 	<script type="text/javascript" charset="utf-8">
 		
 		
 	// DOM ready.
 	$(document).ready(function(){
 	
-
-		var store = $('#store').tiddlerStore({
+		// make a contentStore
+		var store = $('#store').contentStore({
 			visible: true
 		});
 		
-		var store2 = $('#store2').tiddlerStore();
 
+		// list all the tiddler in the store in an index.
+		$('#index').append("<ul></ul>");
+		store.getAllTiddlers().each(function(){
+			$('#index ul').append("<li>" + this.tiddlerLink() + "</li>")
+		});
 
-		var tiddler = store.getTiddler('jQuery tiddler store');
-		var tiddler2 = store2.getTiddler('jQuery tiddler store 2');
-		var alltiddlers = store.getAllTiddlers();
-		
-		console.log('tiddler2', tiddler2);
-		console.log('tiddler', tiddler);
-		console.log('alltiddlers', alltiddlers);
-		
 	});
 		
 	</script>
@@ -40,44 +36,171 @@
 		<li><a href='#' class='edit'>edit</a></li>
 		<li><a href='#' class='save'>save</a></li>
 	</ul>
-	<div id='display'></div>
+	<div id='display'>
+		<div id='index'>
+			<h1>API Index</h1>
+		</div>
+	</div>
 	<div id='store'>
 
-		<div class='hentry'>
-			<h2 class='entry-title'>jQuery tiddler store</h2>
-			<div class='entry-content'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+		<div class='hentry' id='section__contentStore'>
+			<h2 class='entry-title'>contentStore</h2>
 			<dl class='meta'>
-				<dt>modified</dt><dd class='updated'>ddmmyyyy</dd>
+				<dt>modifier</dt><dd>PhilHawksworth</dd>
+				<dt>modified</dt><dd>ddmmyyyy</dd>
 				<dt>changecount</dt><dd>0</dd>
 			</dl>
-			<a href='#foo' rel='tag'>foo</a>
-			<a href='#bar' rel='tag'>bar</a>
+			<div class='entry-content'>
+				<h2>Description</h2>
+				<p>Create a content store object</p>
+				<h2>Example</h2>
+<pre>
+var store = $('#store').contentStore();
+</pre>
+				<h3>returns: jQuery</h3>
+			</div>
+			<a href='#Documentation' rel='tag'>Documentation</a>
+			<a href='#API' rel='tag'>API</a>
 		</div>
-		
-	</div>
-	
-	<div id='store2'>
 
-		<div class='hentry'>
-			<h2 class='entry-title'>jQuery tiddler store 2</h2>
-			<div class='entry-content'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+		<div class='hentry' id='section__getTiddler'>
+			<h2 class='entry-title'>getTiddler</h2>
 			<dl class='meta'>
-				<dt>modified</dt><dd class='updated'>ddmmyyyy</dd>
+				<dt>modifier</dt><dd>PhilHawksworth</dd>
+				<dt>modified</dt><dd>ddmmyyyy</dd>
 				<dt>changecount</dt><dd>0</dd>
 			</dl>
-			<a href='#foo' rel='tag'>foo</a>
-			<a href='#bar' rel='tag'>bar</a>
+			<div class='entry-content'>
+				<h2>Description</h2>
+				<p>Get a tiddler object from a content store</p>
+				<h2>Example</h2>
+<pre>
+var store = $('#store').contentStore();
+var tiddler = store.getTiddler('TiddlerName');
+</pre>
+				<p>
+					or these statements can simply be chained like this:
+				</p>
+<pre>
+var tiddler = $('#store').contentStore().getTiddler('TiddlerName');
+</pre>
+				<h3>returns: jQuery</h3>
+			</div>
+			<a href='#Documentation' rel='tag'>Documentation</a>
+			<a href='#API' rel='tag'>API</a>
+		</div>
+
+		<div class='hentry' id='section__getAllTiddlers'>
+			<h2 class='entry-title'>getAllTiddlers</h2>
+			<dl class='meta'>
+				<dt>modifier</dt><dd>PhilHawksworth</dd>
+				<dt>modified</dt><dd>ddmmyyyy</dd>
+				<dt>changecount</dt><dd>0</dd>
+			</dl>
+			<div class='entry-content'>
+				<h2>Description</h2>
+				<p>Get a jQuery object which contains all of the tiddlers in a content store</p>
+				<h2>Example</h2>
+<pre>
+var tiddlers = $('#store').contentStore().getAllTiddlers();
+</pre>
+				<h3>returns: jQuery</h3>
+			</div>
+			<a href='#Documentation' rel='tag'>Documentation</a>
+			<a href='#API' rel='tag'>API</a>
 		</div>
 		
+		
+		<div class='hentry' id='section__tiddler_methods_-_title'>
+			<h2 class='entry-title'>tiddler methods - title</h2>
+			<dl class='meta'>
+				<dt>modifier</dt><dd>PhilHawksworth</dd>
+				<dt>modified</dt><dd>ddmmyyyy</dd>
+				<dt>changecount</dt><dd>0</dd>
+			</dl>
+			<div class='entry-content'>
+				<h2>Description</h2>
+				<p>Get access to the tiddler title</p>
+				<h2>Example</h2>
+				Get the tiddler title value:
+<pre>
+tiddler.title().text();
+</pre>
+				Set the tiddler title value:
+<pre>
+tiddler.title().text('NewTitleValue');
+</pre>
+				A more complete example to use chained method calls to get the tiddler title value:
+<pre>
+var tiddlers = $('#store')
+	.contentStore()
+	.getTiddler('TiddlerName')
+	.title()
+	.text();
+</pre>
+				<h3>returns: jQuery</h3>
+			</div>
+			<a href='#Documentation' rel='tag'>Documentation</a>
+			<a href='#API' rel='tag'>API</a>
+		</div>
+		
+		
+		<div class='hentry' id='section__tiddler_methods_-_tiddlertext'>
+			<h2 class='entry-title'>tiddler methods - tiddlertext</h2>
+			<dl class='meta'>
+				<dt>modifier</dt><dd>PhilHawksworth</dd>
+				<dt>modified</dt><dd>ddmmyyyy</dd>
+				<dt>changecount</dt><dd>0</dd>
+			</dl>
+			<div class='entry-content'>
+				<h2>Description</h2>
+				<p>Get access to the tiddler text element</p>
+				<h2>Example</h2>
+				Get the tiddler text as html:
+<pre>
+tiddler.tiddlerText().html();
+</pre>
+				<h3>returns: string</h3>
+				Set the tiddler text value as html:
+<pre>
+tiddler.tiddlerText().html("&lt;p&gt;Some &lt;i&gt;new&lt;/i&gt; tiddler text as html&lt;/p&gt;");
+</pre>
+				Get the tiddler text as plain text
+<pre>
+tiddler.tiddlerText().text();
+</pre>
+				<h3>returns: string</h3>
+				Set the tiddler text value as plain text:
+<pre>
+tiddler.tiddlerText().text("Some new tiddler text as plain text");
+</pre>				Get the tiddler text as wiki text
+<pre>
+tiddler.tiddlerText().wikiText({
+	format: "MediaWiki"
+});
+</pre>
+				<h3>returns: string</h3>
+				Set the tiddler text value as plain text:
+<pre>
+tiddler.tiddlerText().wikiText("Some new tiddler text as plain text", {
+	format: "MediaWiki"
+});
+</pre>
+
+			</div>
+			<a href='#Documentation' rel='tag'>Documentation</a>
+			<a href='#API' rel='tag'>API</a>
+		</div>
+
+		
 	</div>
-	
 	<div id="footer">
 		<h2>About this application</h2>
 		<p>
 			This simple application is built with by <a href="http://hawksworx.com" title="http://hawksworx.com">Phil Hawksworth</a> with <a href="http://jquery.com/" title="http://jquery.com/">jQuery</a> and the following plugins:
 		</p>
 		<ul>
-			<li><a href="/jquery.tiddlerStore.js.txt" title="jquery.tiddlerStore.js">jquery.tiddlerStore.js</a> - Enable an html based data store and expose an API to CRUD items in that store.</li>
+			<li><a href="/jquery.contentStore.js" title="jquery.contentStore.js">jquery.contentStore.js</a> - Enable an html based data store and expose an API to CRUD items in that store.</li>
 		</ul>
 	</div>
 

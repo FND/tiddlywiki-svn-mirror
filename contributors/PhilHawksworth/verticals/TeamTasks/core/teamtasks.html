@@ -3,7 +3,7 @@
 <head>
 <script id="versionArea" type="text/javascript">
 //<![CDATA[
-var version = {title: "TiddlyWiki", major: 2, minor: 4, revision: 1, beta: 1, date: new Date("Jun 11, 2008"), extensions: {}};
+var version = {title: "TiddlyWiki", major: 2, minor: 4, revision: 1, date: new Date("Aug 4, 2008"), extensions: {}};
 //]]>
 </script>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -39,7 +39,7 @@ DAMAGE.
 " />
 <!--PRE-HEAD-START-->
 <!--{{{-->
-<link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/>
+<link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' />
 <!--}}}-->
 <!--PRE-HEAD-END-->
 <title>
@@ -78,7 +78,7 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div id="shadowArea">
 <div title="MarkupPreHead">
 <pre>&lt;!--{{{--&gt;
-&lt;link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/&gt;
+&lt;link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' /&gt;
 &lt;!--}}}--&gt;</pre>
 </div>
 <div title="ColorPalette">
@@ -150,6 +150,14 @@ h2,h3 {border-bottom:1px solid [[ColorPalette::TertiaryLight]];}
 .wizard .button:hover {color:[[ColorPalette::Foreground]]; background:[[ColorPalette::Background]];}
 .wizard .button:active {color:[[ColorPalette::Background]]; background:[[ColorPalette::Foreground]]; border: 1px solid;
 	border-color:[[ColorPalette::PrimaryDark]] [[ColorPalette::PrimaryPale]] [[ColorPalette::PrimaryPale]] [[ColorPalette::PrimaryDark]];}
+	
+.wizard .notChanged {background:transparent;}
+.wizard .changedLocally {background:#80ff80;}
+.wizard .changedServer {background:#8080ff;}
+.wizard .changedBoth {background:#ff8080;}
+.wizard .notFound {background:#ffff80;}
+.wizard .putToServer {background:#ff80ff;}
+.wizard .gotFromServer {background:#80ffff;}
 
 #messageArea {border:1px solid [[ColorPalette::SecondaryMid]]; background:[[ColorPalette::SecondaryLight]]; color:[[ColorPalette::Foreground]];}
 #messageArea .button {color:[[ColorPalette::PrimaryMid]]; background:[[ColorPalette::SecondaryPale]]; border:none;}
@@ -393,7 +401,7 @@ table.listView th, table.listView td, table.listView tr {padding:0px 3px 0px 3px
 #backstageButton {display:none; position:absolute; z-index:175; top:0em; right:0em;}
 #backstageButton a {padding:0.1em 0.4em 0.1em 0.4em; margin:0.1em 0.1em 0.1em 0.1em;}
 #backstage {position:relative; width:100%; z-index:50;}
-#backstagePanel {display:none; z-index:100; position:absolute; margin:0em 3em 0em 3em; padding:1em 1em 1em 1em;}
+#backstagePanel {display:none; z-index:100; position:absolute; width:90%; margin:0em 3em 0em 3em; padding:1em 1em 1em 1em;}
 .backstagePanelFooter {padding-top:0.2em; float:right;}
 .backstagePanelFooter a {padding:0.2em 0.4em 0.2em 0.4em;}
 #backstageCloak {display:none; z-index:20; position:absolute; width:100%; height:100px;}
@@ -547,7 +555,7 @@ config.options.txtTheme = &quot;TeamTasksSkin&quot;;
 !EditTemplate
 &lt;!--{{{--&gt;
 &lt;div class=&quot;editor&quot;&gt;
-&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;
+&lt;div class='toolbar'&gt;[[ToolbarCommands::EditToolbar]]&lt;/div&gt;
 &lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
 &lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
 &lt;div class='tagged edit' macro='edit tags'&gt;&lt;/div&gt;
@@ -559,7 +567,7 @@ config.options.txtTheme = &quot;TeamTasksSkin&quot;;
 
 !taskViewTemplate
 &lt;!--{{{--&gt;
-&lt;div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump'&gt;&lt;/div&gt;
+&lt;div class='toolbar'&gt;[[ToolbarCommands::TaskViewToolbar]]&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
 &lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
@@ -578,7 +586,7 @@ config.options.txtTheme = &quot;TeamTasksSkin&quot;;
 !taskEditTemplate
 &lt;!--{{{--&gt;
 &lt;div class=&quot;editor&quot;&gt;
-&lt;div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'&gt;&lt;/div&gt;
+&lt;div class='toolbar'&gt;[[ToolbarCommands::TaskEditToolbar]]&lt;/div&gt;
 &lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
 &lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
 &lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
@@ -1259,12 +1267,12 @@ version.extensions.TTMigrateTasks0304Plugin = {installed:true};
 } //# end of 'install only once'
 //}}}</pre>
 </div>
-<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200804010000" tags="systemConfig">
+<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200808290824" tags="systemConfig BookmarkPackage MediaPackage TaskPackage IFramePackage DiscussionPackage">
 <pre>/***
 |Name|TaggedTemplateTweak|
 |Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
 |Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
-|Version|1.2.0|
+|Version|1.4.1|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -1277,36 +1285,44 @@ This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler
 &gt;see [[TaggedTemplateTweakInfo]]
 !!!!!Revisions
 &lt;&lt;&lt;
-2008.04.01 [1.2.0] added support for using systemTheme section-based template definitions (requested by Phil Hawksworth)
-2008.01.22 [*.*.*] plugin size reduction - documentation moved to [[TaggedTemplateTweakInfo]]
-2007.06.23 [1.1.0] re-written to use automatic 'tag prefix' search instead of hard coded check for each tag.  Allows new custom tags to be used without requiring code changes to this plugin.
+2008.08.29 [1.4.1] corrected handling for tiddlers with no matching tagged template when non-default theme is in effect (e.g., use &quot;MyTheme##ViewTemplate&quot;).
 | please see [[TaggedTemplateTweakInfo]] for previous revision details |
 2007.06.11 [1.0.0] initial release
 &lt;&lt;&lt;
 !!!!!Code
 ***/
 //{{{
-version.extensions.taggedTemplate= {major: 1, minor: 2, revision: 0, date: new Date(2008,4,1)};
+version.extensions.TaggedTemplateTweak= {major: 1, minor: 4, revision: 1, date: new Date(2008,8,29)};
+
 Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
 Story.prototype.chooseTemplateForTiddler = function(title,template)
 {
 	// get default template from core
-	var template=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+	var coreTemplate=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
 
-	// if the tiddler to be rendered doesn't exist yet, just return core result
-	var tiddler=store.getTiddler(title); if (!tiddler) return template;
+	// if the tiddler doesn't exist yet or is untagged, return core result
+	var tiddler=store.getTiddler(title);
+	if (!tiddler || !tiddler.tags.length)
+		return coreTemplate;
 
-	// look for template whose prefix matches a tag on this tiddler
+	// split core template into theme prefix and template name
+	var theme=&quot;&quot;;
+	var template=coreTemplate;
+	var parts=template.split(config.textPrimitives.sectionSeparator);
+	if (parts[1]) { theme=parts[0]; template=parts[1]; }
+	else theme=config.options.txtTheme||&quot;&quot;; // fallback if theme is not specified
+	theme+=config.textPrimitives.sectionSeparator;
+
+	// look for template whose prefix matches a tag on this tiddler (if any)
 	for (i=0; i&lt;tiddler.tags.length; i++) {
-		var t=tiddler.tags[i]+template; // add tag prefix
+		var t=tiddler.tags[i]+template; // add tag prefix to template
 		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
-		var s=config.options.txtTheme+&quot;##&quot;; // systemTheme section prefix
-		if (store.tiddlerExists(t)) { template=t; break; }
-		if (store.tiddlerExists(c)) { template=c; break; }
-		if (store.getTiddlerText(s+t)) { template=s+t; break; }
-		if (store.getTiddlerText(s+c)) { template=s+c; break; }
+		if (store.getTiddlerText(theme+t))	{ return theme+t; } // theme##tagTemplate
+		if (store.getTiddlerText(theme+c))	{ return theme+c; } // theme##TagTemplate
+		if (store.getTiddlerText(t)) 		{ return t; }	     // tagTemplate
+		if (store.getTiddlerText(c))		{ return c; }	     // TagTemplate
 	}
-	return template;
+	return coreTemplate; // no matching tag, return core result
 }
 //}}}</pre>
 </div>
@@ -1562,6 +1578,13 @@ StatusDefinitions</pre>
 <pre>
 DefaultReportView
 [[(create your own task view)|CreatingTaskReportViews]]</pre>
+</div>
+<div title="ToolbarCommands" modifier="PhilHawksworth" created="200810061445">
+<pre>
+|~ViewToolbar|closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
+|~TaskViewToolbar|closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump|
+|~TaskEditToolbar|+saveTiddler -cancelTiddler deleteTiddler|</pre>
 </div>
 <div title="AnneOther" modifier="PhilHawksworth" created="200710290946" changecount="1">
 <pre>&lt;html&gt;
@@ -1920,6 +1943,9 @@ config.views = {
 
 // Backstage tasks
 config.backstageTasks = ["save","sync","importTask","tweak","upgrade","plugins"];
+
+// Extensions
+config.extensions = {};
 
 // Macros; each has a 'handler' member that is inserted later
 config.macros = {
@@ -2419,13 +2445,13 @@ merge(config.macros.sync,{
 	hasChanged: "Changed while unplugged",
 	hasNotChanged: "Unchanged while unplugged",
 	syncStatusList: {
-		none: {text: "...", color: "transparent", display:null},
-		changedServer: {text: "Changed on server", color: '#8080ff', display:null},
-		changedLocally: {text: "Changed while unplugged", color: '#80ff80', display:null},
-		changedBoth: {text: "Changed while unplugged and on server", color: '#ff8080', display:null},
-		notFound: {text: "Not found on server", color: '#ffff80', display:null},
-		putToServer: {text: "Saved update on server", color: '#ff80ff', display:null},
-		gotFromServer: {text: "Retrieved update from server", color: '#80ffff', display:null}
+		none: {text: "...", display:null, className:'notChanged'},
+		changedServer: {text: "Changed on server", display:null, className:'changedServer'},
+		changedLocally: {text: "Changed while unplugged", display:null, className:'changedLocally'},
+		changedBoth: {text: "Changed while unplugged and on server", display:null, className:'changedBoth'},
+		notFound: {text: "Not found on server", display:null, className:'notFound'},
+		putToServer: {text: "Saved update on server", display:null, className:'putToServer'},
+		gotFromServer: {text: "Retrieved update from server", display:null, className:'gotFromServer'}
 		}
 	});
 
@@ -2592,12 +2618,12 @@ function main()
 	invokeParamifier(params,"onload");
 	t4 = new Date();
 	readOnly = (window.location.protocol == "file:") ? false : config.options.chkHttpReadOnly;
-	showBackstage = !readOnly;
 	var pluginProblem = loadPlugins();
 	t5 = new Date();
 	formatter = new Formatter(config.formatters);
-	story.switchTheme(config.options.txtTheme);
 	invokeParamifier(params,"onconfig");
+	story.switchTheme(config.options.txtTheme);
+	showBackstage = !readOnly;
 	t6 = new Date();
 	store.notifyAll();
 	t7 = new Date();
@@ -2633,8 +2659,7 @@ function restart()
 {
 	invokeParamifier(params,"onstart");
 	if(story.isEmpty()) {
-		var tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
-		story.displayTiddlers(null,tiddlers);
+		story.displayDefaultTiddlers();
 	}
 	window.scrollTo(0,0);
 }
@@ -2880,7 +2905,7 @@ config.paramifiers.recent= {
 		var tiddlers=store.getTiddlers("modified","excludeLists").reverse();
 		for(var i=0; i<v && i<tiddlers.length; i++)
 			titles.push(tiddlers[i].title);
-		story.displayTiddlers(null,titles); 
+		story.displayTiddlers(null,titles);
 	}
 };
 
@@ -4234,21 +4259,22 @@ config.macros.search.handler = function(place,macroName,params)
 {
 	var searchTimeout = null;
 	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick,"searchButton");
-	var txt = createTiddlyElement(place,"input",null,"txtOptionInput searchField");
+	var txt = createTiddlyElement(null,"input",null,"txtOptionInput searchField");
 	if(params[0])
 		txt.value = params[0];
-	txt.onkeyup = this.onKeyPress;
-	txt.onfocus = this.onFocus;
-	txt.setAttribute("size",this.sizeTextbox);
-	txt.setAttribute("accessKey",this.accessKey);
-	txt.setAttribute("autocomplete","off");
-	txt.setAttribute("lastSearchText","");
 	if(config.browser.isSafari) {
 		txt.setAttribute("type","search");
 		txt.setAttribute("results","5");
 	} else {
 		txt.setAttribute("type","text");
 	}
+	place.appendChild(txt);
+	txt.onkeyup = this.onKeyPress;
+	txt.onfocus = this.onFocus;
+	txt.setAttribute("size",this.sizeTextbox);
+	txt.setAttribute("accessKey",this.accessKey);
+	txt.setAttribute("autocomplete","off");
+	txt.setAttribute("lastSearchText","");
 };
 
 // Global because there's only ever one outstanding incremental search timer
@@ -4938,6 +4964,154 @@ TiddlyWiki.prototype.isDirty = function()
 	return this.dirty;
 };
 
+TiddlyWiki.prototype.tiddlerExists = function(title)
+{
+	var t = this.fetchTiddler(title);
+	return t != undefined;
+};
+
+TiddlyWiki.prototype.isShadowTiddler = function(title)
+{
+	return config.shadowTiddlers[title] === undefined ? false : true;
+};
+
+TiddlyWiki.prototype.createTiddler = function(title)
+{
+	var tiddler = this.fetchTiddler(title);
+	if(!tiddler) {
+		tiddler = new Tiddler(title);
+		this.addTiddler(tiddler);
+		this.setDirty(true);
+	}
+	return tiddler;
+};
+
+TiddlyWiki.prototype.getTiddler = function(title)
+{
+	var t = this.fetchTiddler(title);
+	if(t != undefined)
+		return t;
+	else
+		return null;
+};
+
+TiddlyWiki.prototype.getShadowTiddlerText = function(title)
+{
+	if(typeof config.shadowTiddlers[title] == "string")
+		return config.shadowTiddlers[title];
+	else
+		return "";
+};
+
+TiddlyWiki.prototype.getTiddlerText = function(title,defaultText)
+{
+	if(!title)
+		return defaultText;
+	var pos = title.indexOf(config.textPrimitives.sectionSeparator);
+	var section = null;
+	if(pos != -1) {
+		section = title.substr(pos + config.textPrimitives.sectionSeparator.length);
+		title = title.substr(0,pos);
+	}
+	pos = title.indexOf(config.textPrimitives.sliceSeparator);
+	if(pos != -1) {
+		var slice = this.getTiddlerSlice(title.substr(0,pos),title.substr(pos + config.textPrimitives.sliceSeparator.length));
+		if(slice)
+			return slice;
+	}
+	var tiddler = this.fetchTiddler(title);
+	if(tiddler) {
+		if(!section)
+			return tiddler.text;
+		var re = new RegExp("(^!{1,6}" + section.escapeRegExp() + "[ \t]*\n)","mg");
+		re.lastIndex = 0;
+		var match = re.exec(tiddler.text);
+		if(match) {
+			var t = tiddler.text.substr(match.index+match[1].length);
+			var re2 = /^!/mg;
+			re2.lastIndex = 0;
+			match = re2.exec(t); //# search for the next heading
+			if(match)
+				t = t.substr(0,match.index-1);//# don't include final \n
+			return t;
+		}
+		return defaultText;
+	}
+	if(this.isShadowTiddler(title))
+		return this.getShadowTiddlerText(title);
+	if(defaultText != undefined)
+		return defaultText;
+	return null;
+};
+
+TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
+{
+	var bracketRegExp = new RegExp("(?:\\[\\[([^\\]]+)\\]\\])","mg");
+	var text = this.getTiddlerText(title,null);
+	if(text == null)
+		return defaultText;
+	var textOut = [];
+	var lastPos = 0;
+	do {
+		var match = bracketRegExp.exec(text);
+		if(match) {
+			textOut.push(text.substr(lastPos,match.index-lastPos));
+			if(match[1]) {
+				if(depth <= 0)
+					textOut.push(match[1]);
+				else
+					textOut.push(this.getRecursiveTiddlerText(match[1],"[[" + match[1] + "]]",depth-1));
+			}
+			lastPos = match.index + match[0].length;
+		} else {
+			textOut.push(text.substr(lastPos));
+		}
+	} while(match);
+	return textOut.join("");
+};
+
+TiddlyWiki.prototype.slicesRE = /(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)/gm;
+
+// @internal
+TiddlyWiki.prototype.calcAllSlices = function(title)
+{
+	var slices = {};
+	var text = this.getTiddlerText(title,"");
+	this.slicesRE.lastIndex = 0;
+	var m = this.slicesRE.exec(text);
+	while(m) {
+		if(m[2])
+			slices[m[2]] = m[3];
+		else
+			slices[m[5]] = m[6];
+		m = this.slicesRE.exec(text);
+	}
+	return slices;
+};
+
+// Returns the slice of text of the given name
+TiddlyWiki.prototype.getTiddlerSlice = function(title,sliceName)
+{
+	var slices = this.slices[title];
+	if(!slices) {
+		slices = this.calcAllSlices(title);
+		this.slices[title] = slices;
+	}
+	return slices[sliceName];
+};
+
+// Build an hashmap of the specified named slices of a tiddler
+TiddlyWiki.prototype.getTiddlerSlices = function(title,sliceNames)
+{
+	var r = {};
+	for(var t=0; t<sliceNames.length; t++) {
+		var slice = this.getTiddlerSlice(title,sliceNames[t]);
+		if(slice)
+			r[sliceNames[t]] = slice;
+	}
+	return r;
+};
+
 TiddlyWiki.prototype.suspendNotifications = function()
 {
 	this.notificationLevel--;
@@ -4993,133 +5167,15 @@ TiddlyWiki.prototype.removeTiddler = function(title)
 	}
 };
 
-TiddlyWiki.prototype.tiddlerExists = function(title)
+// Reset the sync status of a freshly synced tiddler
+TiddlyWiki.prototype.resetTiddler = function(title)
 {
-	var t = this.fetchTiddler(title);
-	return t != undefined;
-};
-
-TiddlyWiki.prototype.isShadowTiddler = function(title)
-{
-	return typeof config.shadowTiddlers[title] == "string";
-};
-
-TiddlyWiki.prototype.getTiddler = function(title)
-{
-	var t = this.fetchTiddler(title);
-	if(t != undefined)
-		return t;
-	else
-		return null;
-};
-
-TiddlyWiki.prototype.getTiddlerText = function(title,defaultText)
-{
-	if(!title)
-		return defaultText;
-	var pos = title.indexOf(config.textPrimitives.sectionSeparator);
-	var section = null;
-	if(pos != -1) {
-		section = title.substr(pos + config.textPrimitives.sectionSeparator.length);
-		title = title.substr(0,pos);
-	}
-	pos = title.indexOf(config.textPrimitives.sliceSeparator);
-	if(pos != -1) {
-		var slice = this.getTiddlerSlice(title.substr(0,pos),title.substr(pos + config.textPrimitives.sliceSeparator.length));
-		if(slice)
-			return slice;
-	}
 	var tiddler = this.fetchTiddler(title);
 	if(tiddler) {
-		if(!section)
-			return tiddler.text;
-		var re = new RegExp("(^!{1,6}" + section.escapeRegExp() + "[ \t]*\n)","mg");
-		re.lastIndex = 0;
-		var match =  re.exec(tiddler.text);
-		if(match) {
-			var t = tiddler.text.substr(match.index+match[1].length);
-			var re2 = /^!/mg;
-			re2.lastIndex = 0;
-			match = re2.exec(t); //# search for the next heading
-			if(match)
-				t = t.substr(0,match.index-1);//# don't include final \n
-			return t;
-		}
-		return defaultText;
+		tiddler.clearChangeCount();
+		this.notify(title,true);
+		this.setDirty(true);
 	}
-	if(this.isShadowTiddler(title))
-		return config.shadowTiddlers[title];
-	if(defaultText != undefined)
-		return defaultText;
-	return null;
-};
-
-TiddlyWiki.prototype.slicesRE = /(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)/gm;
-
-// @internal
-TiddlyWiki.prototype.calcAllSlices = function(title)
-{
-	var slices = {};
-	var text = this.getTiddlerText(title,"");
-	this.slicesRE.lastIndex = 0;
-	var m = this.slicesRE.exec(text);
-	while(m) {
-		if(m[2])
-			slices[m[2]] = m[3];
-		else
-			slices[m[5]] = m[6];
-		m = this.slicesRE.exec(text);
-	}
-	return slices;
-};
-
-// Returns the slice of text of the given name
-TiddlyWiki.prototype.getTiddlerSlice = function(title,sliceName)
-{
-	var slices = this.slices[title];
-	if(!slices) {
-		slices = this.calcAllSlices(title);
-		this.slices[title] = slices;
-	}
-	return slices[sliceName];
-};
-
-// Build an hashmap of the specified named slices of a tiddler
-TiddlyWiki.prototype.getTiddlerSlices = function(title,sliceNames)
-{
-	var r = {};
-	for(var t=0; t<sliceNames.length; t++) {
-		var slice = this.getTiddlerSlice(title,sliceNames[t]);
-		if(slice)
-			r[sliceNames[t]] = slice;
-	}
-	return r;
-};
-
-TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
-{
-	var bracketRegExp = new RegExp("(?:\\[\\[([^\\]]+)\\]\\])","mg");
-	var text = this.getTiddlerText(title,null);
-	if(text == null)
-		return defaultText;
-	var textOut = [];
-	var lastPos = 0;
-	do {
-		var match = bracketRegExp.exec(text);
-		if(match) {
-			textOut.push(text.substr(lastPos,match.index-lastPos));
-			if(match[1]) {
-				if(depth <= 0)
-					textOut.push(match[1]);
-				else
-					textOut.push(this.getRecursiveTiddlerText(match[1],"[[" + match[1] + "]]",depth-1));
-			}
-			lastPos = match.index + match[0].length;
-		} else {
-			textOut.push(text.substr(lastPos));
-		}
-	} while(match);
-	return textOut.join("");
 };
 
 TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag)
@@ -5132,7 +5188,7 @@ TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag)
 		if(status)
 			tiddler.tags.push(tag);
 		tiddler.changed();
-		this.incChangeCount(title);
+		tiddler.incChangeCount(title);
 		this.notify(title,true);
 		this.setDirty(true);
 	}
@@ -5145,7 +5201,7 @@ TiddlyWiki.prototype.addTiddlerFields = function(title,fields)
 		return;
 	merge(tiddler.fields,fields);
 	tiddler.changed();
-	this.incChangeCount(title);
+	tiddler.incChangeCount(title);
 	this.notify(title,true);
 	this.setDirty(true);
 };
@@ -5173,17 +5229,6 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 	return tiddler;
 };
 
-// Reset the sync status of a freshly synced tiddler
-TiddlyWiki.prototype.resetTiddler = function(title)
-{
-	var tiddler = this.fetchTiddler(title);
-	if(tiddler) {
-		tiddler.clearChangeCount();
-		this.notify(title,true);
-		this.setDirty(true);
-	}
-};
-
 TiddlyWiki.prototype.incChangeCount = function(title)
 {
 	var tiddler = this.fetchTiddler(title);
@@ -5191,15 +5236,24 @@ TiddlyWiki.prototype.incChangeCount = function(title)
 		tiddler.incChangeCount();
 };
 
-TiddlyWiki.prototype.createTiddler = function(title)
+TiddlyWiki.prototype.getLoader = function()
 {
-	var tiddler = this.fetchTiddler(title);
-	if(!tiddler) {
-		tiddler = new Tiddler(title);
-		this.addTiddler(tiddler);
-		this.setDirty(true);
-	}
-	return tiddler;
+	if(!this.loader)
+		this.loader = new TW21Loader();
+	return this.loader;
+};
+
+TiddlyWiki.prototype.getSaver = function()
+{
+	if(!this.saver)
+		this.saver = new TW21Saver();
+	return this.saver;
+};
+
+// Return all tiddlers formatted as an HTML string
+TiddlyWiki.prototype.allTiddlersAsHtml = function()
+{
+	return this.getSaver().externalize(store);
 };
 
 // Load contents of a TiddlyWiki from an HTML DIV
@@ -5254,12 +5308,6 @@ TiddlyWiki.prototype.updateTiddlers = function()
 	});
 };
 
-// Return all tiddlers formatted as an HTML string
-TiddlyWiki.prototype.allTiddlersAsHtml = function()
-{
-	return store.getSaver().externalize(store);
-};
-
 // Return an array of tiddlers matching a search regular expression
 TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag,match)
 {
@@ -5292,7 +5340,7 @@ TiddlyWiki.prototype.getTags = function(excludeTag)
 				}
 			}
 			if(n && excludeTag) {
-				var t = store.fetchTiddler(tag);
+				var t = this.fetchTiddler(tag);
 				if(t && t.isTagged(excludeTag))
 					n = false;
 			}
@@ -5387,7 +5435,7 @@ TiddlyWiki.prototype.getShadowed = function()
 {
 	var results = [];
 	for(var t in config.shadowTiddlers) {
-		if(typeof config.shadowTiddlers[t] == "string")
+		if(this.isShadowTiddler(t))
 			results.push(t);
 	}
 	results.sort();
@@ -5413,20 +5461,6 @@ TiddlyWiki.prototype.resolveTiddler = function(tiddler)
 	return t instanceof Tiddler ? t : null;
 };
 
-TiddlyWiki.prototype.getLoader = function()
-{
-	if(!this.loader)
-		this.loader = new TW21Loader();
-	return this.loader;
-};
-
-TiddlyWiki.prototype.getSaver = function()
-{
-	if(!this.saver)
-		this.saver = new TW21Saver();
-	return this.saver;
-};
-
 // Filter a list of tiddlers
 TiddlyWiki.prototype.filterTiddlers = function(filter)
 {
@@ -5441,9 +5475,9 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 				tiddler = this.fetchTiddler(title);
 				if(tiddler) {
 					results.pushUnique(tiddler);
-				} else if(store.isShadowTiddler(title)) {
+				} else if(this.isShadowTiddler(title)) {
 					tiddler = new Tiddler();
-					tiddler.set(title,store.getTiddlerText(title));
+					tiddler.set(title,this.getTiddlerText(title));
 					results.pushUnique(tiddler);
 				}
 			} else if(match[2]) {
@@ -5691,6 +5725,11 @@ Story.prototype.forEachTiddler = function(fn)
 	}
 };
 
+Story.prototype.displayDefaultTiddlers = function()
+{
+	this.displayTiddlers(null,store.filterTiddlers(store.getTiddlerText("DefaultTiddlers")));
+};
+
 Story.prototype.displayTiddlers = function(srcElement,titles,template,animate,unused,customFields,toggle)
 {
 	for(var t = titles.length-1;t>=0;t--)
@@ -5887,7 +5926,7 @@ Story.prototype.refreshAllTiddlers = function(force)
 	var e = this.getContainer().firstChild;
 	while(e) {
 		var template = e.getAttribute("template");
-		if(template && template.toLowerCase().indexOf("edit")==-1) {
+		if(template && e.getAttribute("dirty") != "true") {
 			this.refreshTiddler(e.getAttribute("tiddler"),force ? null : template,true);
 		}
 		e = e.nextSibling;
@@ -6004,8 +6043,7 @@ Story.prototype.blurTiddler = function(title)
 
 Story.prototype.setTiddlerField = function(title,tag,mode,field)
 {
-	var c = story.getTiddlerField(title,field);
-
+	var c = this.getTiddlerField(title,field);
 	var tags = c.value.readBracketedList();
 	tags.setItem(tag,mode);
 	c.value = String.encodeTiddlyLinkList(tags);
@@ -6013,7 +6051,7 @@ Story.prototype.setTiddlerField = function(title,tag,mode,field)
 
 Story.prototype.setTiddlerTag = function(title,tag,mode)
 {
-	Story.prototype.setTiddlerField(title,tag,mode,"tags");
+	this.setTiddlerField(title,tag,mode,"tags");
 };
 
 Story.prototype.closeTiddler = function(title,animate,unused)
@@ -6153,7 +6191,7 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 		if(!store.tiddlerExists(newTitle))
 			minorUpdate = false;
 		var newDate = new Date();
-		var extendedFields = store.tiddlerExists(newTitle) ? store.fetchTiddler(newTitle).fields : (newTitle!=title && store.tiddlerExists(title) ? store.fetchTiddler(title).fields : {});
+		var extendedFields = store.tiddlerExists(newTitle) ? store.fetchTiddler(newTitle).fields : (newTitle!=title && store.tiddlerExists(title) ? store.fetchTiddler(title).fields : config.defaultCustomFields);
 		for(var n in fields) {
 			if(!TiddlyWiki.isStandardField(n))
 				extendedFields[n] = fields[n];
@@ -6237,7 +6275,7 @@ Story.prototype.switchTheme = function(theme)
 	if(!startingUp) {
 		if(config.refresherData.pageTemplate!=pt || config.tiddlerTemplates[vi]!=vt || config.tiddlerTemplates[ei]!=et) {
 			refreshAll();
-			story.refreshAllTiddlers(true);
+			this.refreshAllTiddlers(true);
 		} else {
 			setStylesheet(store.getRecursiveTiddlerText(config.refresherData.styleSheet,"",10),config.refreshers.styleSheet);
 		}
@@ -6633,7 +6671,7 @@ config.macros.importTiddlers.onWorkspaceChange = function(e)
 {
 	var wizard = new Wizard(this);
 	var t = wizard.getElement("txtWorkspace");
-	t.value  = this.value;
+	t.value = this.value;
 	this.selectedIndex = 0;
 	return false;
 };
@@ -6697,7 +6735,7 @@ config.macros.importTiddlers.onGetTiddlerList = function(context,wizard)
 	txtSaveTiddler.value = config.macros.importTiddlers.generateSystemServerName(wizard);
 	wizard.setButtons([
 			{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel},
-			{caption: config.macros.importTiddlers.importLabel, tooltip: config.macros.importTiddlers.importPrompt, onClick:  config.macros.importTiddlers.doImport}
+			{caption: config.macros.importTiddlers.importLabel, tooltip: config.macros.importTiddlers.importPrompt, onClick: config.macros.importTiddlers.doImport}
 		]);
 };
 
@@ -6812,7 +6850,7 @@ config.macros.upgrade.onClickUpgrade = function(e)
 	if(window.location.protocol != "file:") {
 		alert(me.errorCantUpgrade);
 		return false;
-	}	
+	}
 	if(story.areAnyDirty() || store.isDirty()) {
 		alert(me.errorNotSaved);
 		return false;
@@ -6860,7 +6898,7 @@ config.macros.upgrade.onLoadCore = function(status,params,responseText,url,xhr)
 		saveFile(localPath,responseText);
 		w.setButtons([],me.statusReloadingCore);
 		var backupPath = w.getValue("backupPath");
-		var newLoc = document.location.toString() + '?time=' + new Date().convertToYYYYMMDDHHMM()  + '#upgrade:[[' + encodeURI(backupPath) + ']]';
+		var newLoc = document.location.toString() + '?time=' + new Date().convertToYYYYMMDDHHMM() + '#upgrade:[[' + encodeURI(backupPath) + ']]';
 		window.setTimeout(function () {window.location = newLoc;},10);
 	};
 	var step2 = [me.step2Html_downgrade,me.step2Html_restore,me.step2Html_upgrade][compareVersions(version,newVer) + 1];
@@ -6978,8 +7016,10 @@ config.macros.sync.processSyncableTiddlers = function(syncList)
 {
 	for(var i=0; i<syncList.length; i++) {
 		var si = syncList[i];
-		si.rowElement.style.backgroundColor = si.syncStatus.color;
-		si.rowElement.style.display = si.syncStatus.display;
+		if(si.syncStatus.display)
+			si.rowElement.style.display = si.syncStatus.display;
+		if(si.syncStatus.className)
+			si.rowElement.className = si.syncStatus.className;
 	}
 };
 
@@ -7075,8 +7115,10 @@ config.macros.sync.updateSyncStatus = function(syncItem)
 	var e = syncItem.colElements["status"];
 	removeChildren(e);
 	createTiddlyText(e,syncItem.syncStatus.text);
-	syncItem.rowElement.style.backgroundColor = syncItem.syncStatus.color;
-	syncItem.rowElement.style.display = syncItem.syncStatus.display;
+	if(syncItem.syncStatus.display)
+		syncItem.rowElement.style.display = syncItem.syncStatus.display;
+	if(syncItem.syncStatus.className)
+		syncItem.rowElement.className = syncItem.syncStatus.className;
 };
 
 config.macros.sync.doSync = function(e)
@@ -7173,7 +7215,9 @@ SyncMachine.prototype.getTiddler = function(title,nextStep)
 SyncMachine.prototype.putTiddler = function(tiddler,nextStep)
 {
 	var me = this;
-	return me.adaptor.putTiddler(tiddler,null,null,function(context) {me.go(nextStep,context);});
+	if(me.adaptor.putTiddler)
+		return me.adaptor.putTiddler(tiddler,null,null,function(context) {me.go(nextStep,context);});
+	return false;
 };
 
 //--
@@ -7230,8 +7274,8 @@ config.macros.plugins.refresh = function(listWrapper,params)
 		var listView = ListView.create(listWrapper,plugins,this.listViewTemplate,this.onSelectCommand);
 		wizard.setValue("listView",listView);
 		wizard.setButtons([
-				{caption: config.macros.plugins.removeLabel, tooltip: config.macros.plugins.removePrompt, onClick:  config.macros.plugins.doRemoveTag},
-				{caption: config.macros.plugins.deleteLabel, tooltip: config.macros.plugins.deletePrompt, onClick:  config.macros.plugins.doDelete}
+				{caption: config.macros.plugins.removeLabel, tooltip: config.macros.plugins.removePrompt, onClick: config.macros.plugins.doRemoveTag},
+				{caption: config.macros.plugins.deleteLabel, tooltip: config.macros.plugins.deletePrompt, onClick: config.macros.plugins.doDelete}
 			]);
 	}
 };
@@ -7383,7 +7427,7 @@ function refreshElements(root,changeList)
 	var nodes = root.childNodes;
 	for(var c=0; c<nodes.length; c++) {
 		var e = nodes[c], type = null;
-		if(e.getAttribute  && (e.tagName ? e.tagName != "IFRAME" : true))
+		if(e.getAttribute && (e.tagName ? e.tagName != "IFRAME" : true))
 			type = e.getAttribute("refresh");
 		var refresher = config.refreshers[type];
 		var refreshed = false;
@@ -7590,7 +7634,7 @@ config.macros.option.types = {
 	'txt': {
 		elementType: "input",
 		valueField: "value",
-		eventName: "onkeyup",
+		eventName: "onchange",
 		className: "txtOptionInput",
 		create: config.macros.option.genericCreate,
 		onChange: config.macros.option.genericOnChange
@@ -8082,6 +8126,8 @@ function ieCreatePath(path)
 	}
 
 	var pos = path.lastIndexOf("\\");
+	if(pos==-1)
+		pos = path.lastIndexOf("/");
 	if(pos!=-1)
 		path = path.substring(0,pos+1);
 
@@ -8258,8 +8304,8 @@ AdaptorBase.prototype.fullHostName = function(host)
 	host = host.trim();
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
-	if(host.substr(host.length-1) != '/')
-		host = host + '/';
+	if(host.substr(host.length-1) == '/')
+		host = host.substr(0,host.length-1)
 	return host;
 };
 
@@ -8502,7 +8548,7 @@ function getXMLHttpRequest()
 }
 
 // included for compatibility
-function  doHttp(type,url,data,contentType,username,password,callback,params,headers,allowCache)
+function doHttp(type,url,data,contentType,username,password,callback,params,headers,allowCache)
 {
 	return httpReq(type,url,callback,params,headers,data,contentType,username,password,allowCache);
 }
@@ -8813,13 +8859,8 @@ function glyph(name)
 	return g.codes[name][b];
 }
 
-function log(message)
-{
-	if(window.console) {
-		console.log.apply(this,arguments);
-	} else {
-		displayMessage(message);
-	}
+if(!window.console) {
+	console = {log:function(message) {displayMessage(message);}};
 }
 
 //-
@@ -9187,8 +9228,11 @@ ListView.create = function(place,listObject,listTemplate,callback,className)
 		var columnTemplate = listTemplate.columns[t];
 		var c = createTiddlyElement(r,"th");
 		var colType = ListView.columnTypes[columnTemplate.type];
-		if(colType && colType.createHeader)
+		if(colType && colType.createHeader) {
 			colType.createHeader(c,columnTemplate,t);
+			if(columnTemplate.className)
+				addClass(c,columnTemplate.className);
+		}
 	}
 	var tbody = createTiddlyElement(table,"tbody");
 	for(var rc=0; rc<listObject.length; rc++) {
@@ -9205,8 +9249,11 @@ ListView.create = function(place,listObject,listTemplate,callback,className)
 			columnTemplate = listTemplate.columns[cc];
 			var field = columnTemplate.field;
 			colType = ListView.columnTypes[columnTemplate.type];
-			if(colType && colType.createItem)
+			if(colType && colType.createItem) {
 				colType.createItem(c,rowObject,field,columnTemplate,cc,rc);
+				if(columnTemplate.className)
+					addClass(c,columnTemplate.className);
+			}
 			rowObject.colElements[field] = c;
 		}
 	}
