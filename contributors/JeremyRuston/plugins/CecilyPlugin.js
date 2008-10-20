@@ -144,9 +144,11 @@ function SliderControl(sliderInfo) {
 	this.slider.max = this.max;
 	this.slider.style["-webkit-appearance"] = "slider-horizontal";
 	var me = this;
-	this.slider.oninput = function (ev) {
+	var handler = function (ev) {
 		me.onChange(me.getterTransform(parseInt(me.slider.value,10)));
 	};
+	this.slider.oninput = handler;
+	this.slider.onchange = handler;
 }
 
 SliderControl.prototype.set = function(value) {
@@ -291,7 +293,7 @@ config.macros.cecilyMap.propagate = function(map) {
 
 function Cecily()
 {
-	this.background = config.options.txtCecilyBackground ? config.options.txtCecilyBackground : "honeycomb";
+	this.background = config.options.txtCecilyBackground ? config.options.txtCecilyBackground : "plain";
 	this.mapTitle = config.options.txtCecilyMap ? config.options.txtCecilyMap : "MyMap";
 	this.drag = null;
 	this.map = null;
@@ -510,7 +512,7 @@ Cecily.prototype.showOverlayMenu = function(pos)
 
 Cecily.prototype.onMouseOutOverlay = function(ev)
 {
-	if(findRelated(ev.toElement,"overlayMenu","id","parentNode") == null) {
+	if(findRelated(ev.target,"overlayMenu","id","parentNode") == null) {
 		this.overlayMenu.style.opacity = "0.0";
 		this.overlayMenu.style.display = "none";
 	}
