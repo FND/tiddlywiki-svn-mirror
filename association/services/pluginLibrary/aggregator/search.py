@@ -12,7 +12,7 @@ See atom_server.py for ways to adjust tiddlyweb.config on
 
 import os
 
-from tiddlyweb.tiddler import Tiddler
+from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.stores.text import Store as TextStore
 
 def parseQuery(query):

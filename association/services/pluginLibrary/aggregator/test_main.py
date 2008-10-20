@@ -5,7 +5,7 @@ import testconfig
 import main
 
 from tiddlyweb.store import Store
-from tiddlyweb.bag import Bag
+from tiddlyweb.model.bag import Bag
 
 class getRepositoriesTestCase(unittest.TestCase):
 	def setUp(self):

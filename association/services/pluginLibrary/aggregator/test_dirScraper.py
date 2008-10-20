@@ -1,7 +1,7 @@
 import unittest
 import testconfig
 
-from tiddlyweb.tiddler import Tiddler
+from tiddlyweb.model.tiddler import Tiddler
 from dirScraper import DirScraper
 
 class DirScraperTestCase(unittest.TestCase):

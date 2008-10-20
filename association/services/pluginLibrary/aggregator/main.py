@@ -8,8 +8,8 @@ from urllib import urlopen
 from time import time
 from tiddlyweb.config import config
 from tiddlyweb.store import Store, StoreLockError, NoBagError
-from tiddlyweb.bag import Bag
-from tiddlyweb.recipe import Recipe
+from tiddlyweb.model.bag import Bag
+from tiddlyweb.model.recipe import Recipe
 from tiddlyweb.importer import import_wiki
 from tiddlywiki import TiddlyWiki
 from dirScraper import DirScraper

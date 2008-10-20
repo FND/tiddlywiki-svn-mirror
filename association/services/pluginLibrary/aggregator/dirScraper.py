@@ -6,7 +6,7 @@ import posixpath
 
 from urllib import urlopen
 from BeautifulSoup import BeautifulSoup
-from tiddlyweb.tiddler import Tiddler
+from tiddlyweb.model.tiddler import Tiddler
 
 class DirScraper:
 	def __init__(self, host):

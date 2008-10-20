@@ -2,7 +2,7 @@ import unittest
 import testconfig
 
 from textwrap import dedent
-from tiddlyweb.tiddler import Tiddler
+from tiddlyweb.model.tiddler import Tiddler
 from pluginFilters import filterByDocumentation, filterByCode
 
 class filterByDocumentationTestCase(unittest.TestCase):
