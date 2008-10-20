@@ -295,13 +295,15 @@ function createComment(text, daddy) {
   } else {
     for (last = store.getTiddler(daddy.fields.firstchild); last.fields.nextchild; last = store.getTiddler(last.fields.nextchild)) {}
       last.fields.nextchild = newComment.title;
+      store.saveTiddler(last.fields.nextchild);
   }
   // console.log(newComment.title, daddy.fields.firstchild, daddy, newComment);
 
   store.saveTiddler(newComment.title);
   store.saveTiddler(daddy.title);
   // autoSaveChanges(null, [daddy, newComment]);
-  saveChanges(null, [daddy, newComment]);
+  // saveChanges(null, [daddy, newComment]);
+  saveChanges(false);
   log("saved");
   // refreshCom(newComment);
   return newComment;
@@ -313,7 +315,7 @@ function deleteTiddlerAndDescendents(tiddler) {
   log("daddy", daddy);
   if (daddy.fields.firstchild==tiddler.title) {
     log("deleting firstChild", daddy, tiddler);
-    log("tiddler.nextchild?", tiddler.fields.nextchild);
+    log("tiddlr.nextchild?", tiddler.fields.nextchild);
     tiddler.fields.nextchild ? daddy.fields.firstchild = tiddler.fields.nextchild :
                         delete daddy.fields.firstchild;
     store.saveTiddler(daddy.title);
