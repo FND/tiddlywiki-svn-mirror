@@ -12,7 +12,7 @@ a {
 	color:#1E52CD;
 	text-decoration:none;
 	padding:0.2em;
-	line-height:1em;
+/*	line-height:1em;*/
 }
 
 a:hover {
@@ -98,7 +98,7 @@ ul#toolbar {
 	list-style:disc;
 	padding: 0 2em 1em 2em;
 	font-size:0.9em;
-	border-bottom:solid 1px #ddd;
+/*	border-bottom:solid 1px #ddd;*/
 }
 #index ul li a {
 	line-height:1.8em;
@@ -115,73 +115,96 @@ ul#toolbar {
 /* = store. only styled for when there is no javascript to hide it. = */
 /* ================================================================== */
 
-#store {
+#store,
+#display  {
 	background-color:#fff;
 	border-bottom:4px solid #ddd;
 	color:#222;
 }
 
-#store div.hentry {
+div.hentry {
 	padding: 2em;
 }
 
-#store div.hentry .entry-title {
+div.hentry div.controls {
+	border-bottom:solid 1px #ddd;
+	margin-bottom:1em;
+	padding:0.4em 0;
+	text-align:right;
+	font-size:0.8em;
+}
+	div.hentry div.controls a {
+		color:#fff;
+		border-style:none;
+		background-color:#1E52CD;
+		padding:0.4em 1em;
+		margin:0 0 0 1px;
+	}
+	div.hentry div.controls a:hover {
+		background-color:#1844AC;
+		color:#fff;
+	}
+	
+
+
+
+div.hentry .entry-title {
 	font-size:2.5em;
 	letter-spacing:-1px;
 	color:#000;
 	line-height:1em;
 }
 
-#store div.hentry dl.meta {
+div.hentry dl.meta {
 	font-size:0.9em;
 	color:#666;
 }
-	#store div.hentry dl.meta dt {
+	div.hentry dl.meta dt {
 		display:inline;
 		color:#888;
 		margin-right:0.5em;
 	}
-	#store div.hentry dl.meta dt:after{
+	div.hentry dl.meta dt:after {
 		content: ":";
 	}
-	#store div.hentry dl.meta dd {
+	div.hentry dl.meta dd {
 		display:inline;
 		margin-right:0.8em;
 	}
 
-#store div.hentry .entry-content {
+
+div.hentry .entry-content {
 	margin-top:0.5em;
 }
 
-#store div.hentry .entry-content h1,
-#store div.hentry .entry-content h2,
-#store div.hentry .entry-content h3,
-#store div.hentry .entry-content h4,
-#store div.hentry .entry-content h5 {
+div.hentry .entry-content h1,
+div.hentry .entry-content h2,
+div.hentry .entry-content h3,
+div.hentry .entry-content h4,
+div.hentry .entry-content h5 {
 	color:#555;
 	margin:0.1em 0 0.5em 0;
 }
-#store div.hentry .entry-content h1 {
+div.hentry .entry-content h1 {
 	font-size:1.8em;
 	border-bottom:solid 1px #ddd;
 	margin:1.5em 0 0.5em 0;
 }
-#store div.hentry .entry-content h1:first-child {
+div.hentry .entry-content h1:first-child {
 	margin-top:0.1em;
 }
 
-#store div.hentry .entry-content h2 {
+div.hentry .entry-content h2 {
 	font-size:1.4em;
 }
-#store div.hentry .entry-content h3 {
+div.hentry .entry-content h3 {
 	font-size:1.2em;
 }
-
-#store div.hentry .entry-content p {
+div.hentry .entry-content p {
 	margin:0 0 1em 0;
 }
 
-#store div.hentry .entry-content pre {
+div.hentry .entry-content pre {
 	margin:0 0 3em 0;
 	padding:1em;
 	border:solid 1px #ccc;

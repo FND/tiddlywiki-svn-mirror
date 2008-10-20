@@ -50,7 +50,7 @@ $.fn.contentStore.default.visible = true;
 			};
 			t.tiddlerLink = function(){
 				title = $(this).find(opts.title).text();
-				var h =  "<a href='#section__" + IDfromName(title) + "'>"+ title +"</a>";
+				var h =  "<a href='#section__" + IDfromName(title) + "' class='tiddlerLink'>"+ title +"</a>";
 				var link = $(h);
 				link.html = function() {
 					return h;

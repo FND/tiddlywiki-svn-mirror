@@ -43,21 +43,23 @@
 			equals(t1.length, 1, "store.getTiddler(title) returns the correct tiddler");
 			var ts = store.getAllTiddlers();
 			equals(ts.length, 2, "store.getAllTiddlers() returns the correct number of items");
-
 		});
 		delete store;
 		
 		test("tiddler api", function() {
-			expect(9);
+			expect(12);
 			var store = $('#store').contentStore();
 			var t1 = store.getTiddler('test store item 1');	
 			ok(jQuery.isFunction(t1.title), "tiddlers have a title() function" );
-			ok(jQuery.isFunction(t1.tiddlerText), "tiddlers have a text() function" );
+			ok(jQuery.isFunction(t1.tiddlerText), "tiddlers have a tiddlerText() function" );
+			ok(jQuery.isFunction(t1.tiddlerLink), "tiddlers have a tiddlerLink() function");
+			ok(jQuery.isFunction(t1.tiddlerLink().text), "tiddlerLinks have a text function");
+			ok(jQuery.isFunction(t1.tiddlerLink().html), "tiddlerLinks have a html function");
 			ok(jQuery.isFunction(t1.tags), "tiddlers have a tags() function" );
-			ok(jQuery.isFunction(t1.tiddlerLink), "tiddlers have a link() function" );
-			ok(jQuery.isFunction(t1.tags().add), "tiddlers tags have an add() function" );
+			ok(jQuery.isFunction(t1.tags().addTag), "tiddlers tags have an addTag() function" );
 			equals(t1.title().text(), "test store item 1", "The title function gives access to the correct title value");
-			equals(t1.tiddlerLink(), "<a href='#section__test_store_item_1'>test store item 1</a>", "The link function gives a santised tiddler link");
+			equals(t1.tiddlerLink().html(), "<a href='#section__test_store_item_1'>test store item 1</a>", "The tiddlerLink.html() function gives a complete tiddler link");
+			equals(t1.tiddlerLink().text(), "test store item 1", "The tiddlerLink.text() function gives the display text of a tiddler link");
 			equals(t1.tiddlerText().text(), "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "The text function gives access to the correct text value");
 			equals(t1.tags().length, 2, "The tags function returns the correct number of tags");
 
