@@ -1,4 +1,5 @@
 import unittest
+
 import utils
 
 class decodePrettyLinkTestCase(unittest.TestCase):

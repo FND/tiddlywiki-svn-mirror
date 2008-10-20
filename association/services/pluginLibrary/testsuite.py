@@ -12,6 +12,7 @@ TODO:
 
 import sys
 import unittest
+
 import coverage
 
 def run(modules):

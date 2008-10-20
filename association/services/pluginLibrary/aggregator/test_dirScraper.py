@@ -1,4 +1,5 @@
 import unittest
+
 import testconfig
 
 from tiddlyweb.model.tiddler import Tiddler

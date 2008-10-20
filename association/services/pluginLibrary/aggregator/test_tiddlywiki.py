@@ -1,5 +1,6 @@
 import copy
 import unittest
+
 import testconfig
 import tiddlywiki
 

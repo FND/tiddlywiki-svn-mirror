@@ -4,8 +4,9 @@ retrieve TiddlyWiki plugins from authors' repositories
 
 import sys
 
-from urllib import urlopen
 from time import time
+from urllib import urlopen
+
 from tiddlyweb.config import config
 from tiddlyweb.store import Store, StoreLockError, NoBagError
 from tiddlyweb.model.bag import Bag

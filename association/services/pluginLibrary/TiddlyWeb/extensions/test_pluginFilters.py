@@ -1,7 +1,9 @@
 import unittest
-import testconfig
 
 from textwrap import dedent
+
+import testconfig
+
 from tiddlyweb.model.tiddler import Tiddler
 from pluginFilters import filterByDocumentation, filterByCode
 

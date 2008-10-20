@@ -1,4 +1,5 @@
 import sys
+
 import testconfig
 import testsuite
 

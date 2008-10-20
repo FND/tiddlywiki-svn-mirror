@@ -5,7 +5,9 @@ HTTP directory scraper
 import posixpath
 
 from urllib import urlopen
+
 from BeautifulSoup import BeautifulSoup
+
 from tiddlyweb.model.tiddler import Tiddler
 
 class DirScraper:
