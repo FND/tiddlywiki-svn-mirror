@@ -216,7 +216,7 @@ if($fail_count==0) {
 
 // DO ALL OF THE BELOW WITH DIFFERENT LANGUAGE PACKS
 
-checkState()
+function checkState()
 {
 	if(testPermRead())
 		echo 'user has read permissions';
