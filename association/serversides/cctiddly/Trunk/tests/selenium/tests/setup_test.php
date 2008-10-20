@@ -1,30 +1,36 @@
 <?php
 
-set_include_path(get_include_path() . PATH_SEPARATOR . './PEAR/');
 require_once 'Testing/Selenium.php';
 require_once 'PHPUnit/Framework/TestCase.php';
-class ccTests extends PHPUnit_Framework_TestCase
+
+class GoogleTest extends PHPUnit_Framework_TestCase
 {
-	private $selenium;
-	public function setUp()
+    private $browser;
+
+    public function setUp()
+    {
+	$this->browser = new Testing_Selenium("*iexplore", "http://127.0.0.1");
+        $this->browser->start();
+    }
+
+    public function testGoogle()
+    {
+        $this->browser->open("/Trunk");
+    }
+
+	public function doLogin($u, $p)
 	{
-		global $fail_count;
-		$fail_count=0;
-		$this->selenium = new Testing_Selenium("*iexplore", "http://127.0.0.1/Trunk/");
-		$this->selenium->start();
-		$this->selenium->setSpeed("1");
+		$this->browser->type("username", $u);
+		$this->browser->type("password", $p);
+		$this->click("link=Login");
+		$this->browser->waitForPageToLoad("30000");
 	}
+}
 
-	public function tearDown()
-	{
-		$this->selenium->stop();
-	}
-
-
-	$a = new ccTests();
-	$a->setUp();
-
-	//$a->runTests();
-	
-
+$a = new GoogleTest();
+$a->setUp();
+$a->testGoogle();
+$a->doLogin("username", "password");
 ?>
+
+

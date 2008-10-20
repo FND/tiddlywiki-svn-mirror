@@ -10,7 +10,7 @@ class ccTests extends PHPUnit_Framework_TestCase
 	{
 		global $fail_count;
 		$fail_count=0;
-		$this->selenium = new Testing_Selenium("*firefox", "http://127.0.0.1/Trunk/");
+		$this->selenium = new Testing_Selenium("*firefox", "http://127.0.0.1/Trunk");
 		$this->selenium->start();
 		$this->selenium->setSpeed("1");
 	}
