@@ -5,8 +5,9 @@ using unittest and coverage
 
 TODO:
 * make coverage optional
-* add "test_" prefix to module names, rather than removing it
 * read modules from directory listing
+* read test files from sub-directory?
+* force recompilation (preventing that $PWD/testsuite.pyc takes precedence over shared testsuite.py)
 """
 
 import sys
@@ -52,3 +53,4 @@ def reportCoverage(modules):
 if __name__ == "__main__":
 	status = run(sys.argv[1:])
 	sys.exit(not status)
+

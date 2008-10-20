@@ -1,12 +1,12 @@
 == Aggregator ==
 
 * additional metadata (e.g. repository, name, title)
+** tiddler identifier: bag + title
 * refactor tiddlywiki.py to return tiddler objects
-* unique tiddler names (bag + title)?
-* dirScraper: wildcards support for black-/whitelisting
-* enhance log output
 * handling of removed plugins (e.g. don't delete, but tag with "disabled"?)
 ** relevant with regards to metadata augmentation (cf. Community Features)
+* dirScraper: wildcards support for black-/whitelisting
+* enhance log output
 * efficiency enhancements (e.g. caching, deferred processing)
 
 == Front-End ==
@@ -24,7 +24,7 @@
 ** tag cloud
 ** recent changes
 
-== Search ==
+== TiddlyWeb Search ==
 
 * components: repository, tags, fields, slices, documentation, code, full-text
 * RegEx support

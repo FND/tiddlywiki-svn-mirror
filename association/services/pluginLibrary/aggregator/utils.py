@@ -13,7 +13,7 @@ def decodePrettyLink(str):
 	else:
 		raise ValueError("invalid PrettyLink")
 
-def trimURI(uri):
+def trimURI(uri): # TODO: properly normalize URI
 	"""
 	strip non-essential trailing characters from URI
 
@@ -23,14 +23,3 @@ def trimURI(uri):
 	uri = uri.split("#", 1)[0]
 	uri = uri.rstrip("/").lower()
 	return uri
-
-def addTrailingSlash(path): # XXX: rename?
-	"""
-	add trailing slash to directory path if not present
-
-	@param path (str): directory path
-	@return (str): directory path
-	"""
-	if path[-1] != "/":
-		path = path + "/"
-	return path

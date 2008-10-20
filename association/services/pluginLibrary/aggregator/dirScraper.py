@@ -7,14 +7,13 @@ import posixpath
 from urllib import urlopen
 from BeautifulSoup import BeautifulSoup
 from tiddlyweb.tiddler import Tiddler
-from utils import addTrailingSlash
 
 class DirScraper:
 	def __init__(self, host):
 		"""
 		@param host (str): base URI
 		"""
-		self.host = addTrailingSlash(host)
+		self.host = host
 		self.blacklist = "excludeLibrary.txt"
 		self.whitelist = "includeLibrary.txt"
 
@@ -43,8 +42,8 @@ class DirScraper:
 		@return (list): plugin tiddlers
 		"""
 		plugins = []
-		dir = addTrailingSlash(dir)
-		content = self._get(self.host + dir)
+		uri = posixpath.join(self.host, dir)
+		content = self._get(uri)
 		soup = BeautifulSoup(content)
 		list = soup.find("ul")
 		try:
@@ -53,12 +52,14 @@ class DirScraper:
 			raise IOError("404 Not Found") # XXX: IOError not appropriate
 		uris = [item.findChild("a")["href"] for item in items]
 		if self.whitelist in uris:
-			whitelisted = self._get(self.host + dir + self.whitelist).split("\n")
+			uri = posixpath.join(self.host, dir, self.whitelist)
+			whitelisted = self._get(uri).split("\n")
 			meta = [uri.strip() for uri in uris if uri.endswith(".meta")]
 			uris = [uri.strip() for uri in whitelisted]
 			uris.extend(meta)
 		elif self.blacklist in uris:
-			blacklisted = self._get(self.host + dir + self.blacklist).split("\n")
+			uri = posixpath.join(self.host, dir, self.blacklist)
+			blacklisted = self._get(uri).split("\n")
 			blacklisted.append(self.blacklist)
 			uris = [uri.strip() for uri in uris if uri not in blacklisted]
 		for uri in uris:
@@ -68,12 +69,15 @@ class DirScraper:
 				plugin = Tiddler()
 				plugin.title = posixpath.basename(uri[:-3])
 				plugin.tags = ["systemConfig"]
-				plugin.text = self._get(self.host + dir + uri)
+				fullURI = posixpath.join(self.host, dir, uri)
+				plugin.text = self._get(fullURI)
 				if uri + ".meta" in uris: # retrieve metadata
-					self.retrieveMetadata(plugin, self.host + dir + uri + ".meta")
+					metaURI = posixpath.join(self.host, dir, uri + ".meta")
+					self.retrieveMetadata(plugin, metaURI)
 				plugins.append(plugin)
 			elif uri.endswith("/") and recursive: # directory -- XXX: potential for infinite loop?
-				plugins.extend(self.getPlugins(dir + uri, recursive))
+				subDir = posixpath.join(dir, uri)
+				plugins.extend(self.getPlugins(subDir, recursive))
 		return plugins
 
 	def retrieveMetadata(self, plugin, uri): # TODO: rename!?

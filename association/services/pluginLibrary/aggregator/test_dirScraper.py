@@ -22,11 +22,6 @@ class DirScraperTestCase(unittest.TestCase):
 		expected = "localhost/"
 		self.assertEqual(expected, svn.host)
 
-	def testInitNormalizesHostURI(self):
-		"""__init__ normalizes host URI"""
-		expected = "localhost/"
-		self.assertEqual(expected, self.svn.host)
-
 	def testGetRetrievesRemoteContent(self):
 		"""_get retrieves remote content"""
 		uri = "http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/aggregator/test/foo/lorem.js"

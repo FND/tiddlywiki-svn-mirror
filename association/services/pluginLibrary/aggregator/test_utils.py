@@ -49,24 +49,5 @@ class trimURITestCase(unittest.TestCase):
 		expected = "http://localhost/foo"
 		self.assertEqual(expected, utils.trimURI(uri))
 
-class addTrailingSlashTestCase(unittest.TestCase):
-	def setUp(self):
-		pass
-
-	def tearDown(self):
-		pass
-
-	def testAddsTrailingSlash(self):
-		"""adds trailing slash"""
-		uri = "http://localhost"
-		expected = "http://localhost/"
-		self.assertEqual(expected, utils.addTrailingSlash(uri))
-
-	def testDoesNotDuplicateTrailingSlash(self):
-		"""does not duplicate trailing slash"""
-		uri = "http://localhost/"
-		expected = "http://localhost/"
-		self.assertEqual(expected, utils.addTrailingSlash(uri))
-
 if __name__ == "__main__":
 	unittest.main()
