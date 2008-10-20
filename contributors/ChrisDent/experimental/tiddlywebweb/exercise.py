@@ -17,8 +17,8 @@ from tiddlywebweb.tiddlywebstore import Store
 
 environ = {
         'tiddlyweb.config': {
-            'server_store': [ None, {'server_base': 'http://tiddlyweb.appspot.com'} ],
-            #'server_store': [ None, {'server_base': 'http://localhost:8000'} ],
+            #'server_store': [ None, {'server_base': 'http://tiddlyweb.appspot.com'} ],
+            'server_store': [ None, {'server_base': 'http://localhost:8000'} ],
             }
         }
 
@@ -39,6 +39,13 @@ def do_tiddler(name, bag_name):
     tiddler.text = 'wow this is %s in %s' % (name, bag_name)
     store.tiddler_put(tiddler)
 
+def do_bin(name, bag_name):
+    store = Store(environ)
+    tiddler = Tiddler(name, bag=bag_name)
+    tiddler.type = 'image/png'
+    tiddler.text = file(name, 'rb').read()
+    store.tiddler_put(tiddler)
+
 def usage():
     print "you need to tell me what to do"
 
@@ -50,6 +57,8 @@ if __name__ == '__main__':
             do_bag(sys.argv[2])
         elif sys.argv[1] == 'tiddler':
             do_tiddler(sys.argv[2], sys.argv[3])
+        elif sys.argv[1] == 'bin':
+            do_bin(sys.argv[2], sys.argv[3])
         else:
             usage()
     except IndexError:
