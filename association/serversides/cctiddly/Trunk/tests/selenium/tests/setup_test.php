@@ -21,7 +21,7 @@ class GoogleTest extends PHPUnit_Framework_TestCase
 	public function doLogin($u, $p)
 	{
 		$this->browser->type("username", $u);
-		$this->browser->type("password", $p);
+//		$this->browser->type("password", $p);
 			    $this->->browser->type("//input[@type='password']", "password");
 			
 			
