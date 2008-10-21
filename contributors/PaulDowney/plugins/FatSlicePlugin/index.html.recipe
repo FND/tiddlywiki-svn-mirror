@@ -3,3 +3,6 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: FatSlicePlugin.recipe
 
 tiddler: DefaultTiddlers.tiddler
+tiddler: MainMenu.tiddler
+tiddler: data.tiddler
+tiddler: lookups.tiddler
