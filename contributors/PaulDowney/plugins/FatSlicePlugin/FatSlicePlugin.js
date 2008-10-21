@@ -19,11 +19,10 @@ version.extensions.FatSlicePlugin = {installed:true};
 TiddlyWiki.prototype.superSlicesRE = /(?:^\|.*[^\\]|\s*$)/gm;
 
 //@internal
-TiddlyWiki.prototype.calcAllFatSlices = function(title,cols)
+TiddlyWiki.prototype.calcFatSlices = function(title,cols)
 {
-        var slices = [];
         var text = this.getTiddlerText(title,"");
-        return slices;
+        return {row:{col:'val'}};
 };
 
 
