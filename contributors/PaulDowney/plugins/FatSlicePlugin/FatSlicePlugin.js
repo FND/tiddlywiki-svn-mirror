@@ -27,12 +27,12 @@ var v = getFatSlice('TiddlerName', 'RowName', 'ColumnName');
 
 Such data is also accessable from wikitext via the slice macro:
 {{{
-<<slice TiddlerName RowName ColumnName>>
+<<slice [[TiddlerName]] "RowName" "ColumnName">>
 }}}
 
 The slice macro also provides access to data in standard tiddler slices:
 {{{
-<<slice TiddlerName SliceName>>
+<<slice [[TiddlerName]] "SliceName">>
 }}}
 
 
