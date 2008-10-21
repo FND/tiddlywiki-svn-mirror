@@ -1,0 +1,2 @@
+cook testFatSlicePlugin && ff testFatSlicePlugin.html
+#cook && ff index.html

@@ -1,0 +1,5 @@
+# build demo TiddlyWiki
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: FatSlicePlugin.recipe
+
+tiddler: DefaultTiddlers.tiddler

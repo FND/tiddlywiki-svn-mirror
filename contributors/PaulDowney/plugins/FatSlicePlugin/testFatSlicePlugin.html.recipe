@@ -1,0 +1,12 @@
+title=FatSlicePlugin Tests
+recipe: $TW_ROOT/core/tests/html/testContributors.recipe
+
+recipe: FatSlicePlugin.recipe
+
+jsspecsrc=<script src="../../../../core/tests/js/tiddlywiki.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="../../../../core/tests/js/mock.js" type="text/javascript"  charset="utf-8"></script>
+
+jsspecsrc=<script src="testFatSlicePlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
+
+# existing core slice tests:
+#jsspecsrc=<script src="../../../../core/tests/jsspec/TiddlyWiki.jsspec.js" type="text/javascript"  charset="utf-8"></script>
