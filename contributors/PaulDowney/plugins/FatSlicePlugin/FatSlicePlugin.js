@@ -1,8 +1,11 @@
 /***
 |''Name:''|FatSlicePlugin|
-|''Description:''|wide slices|
+|''Description:''|slices with multiple columns|
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
+|''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/FatSlicePlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/FatSlicePlugin/ |
+|''Documentation:''|##Documentation |
+|''Status:''|@@Beta@@|
 |''Version:''|0.1|
 |''License:''|[[BSD open source license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
