@@ -53,7 +53,7 @@ TiddlyWiki.prototype.calcFatSlices = function(title) {
 	while(m) {
 		var slice = m[1].split('|');
 		var key = slice.shift();
-		if (!cols.length) {
+		if (!key) {
 			cols = slice;
 			for(var i=0;i<cols.length;i++){
 				cols[i] = cols[i].replace(/[^\w]/g, '');
@@ -61,7 +61,9 @@ TiddlyWiki.prototype.calcFatSlices = function(title) {
 		} else {
 			row = {};
 			for(var i=0; i<cols.length; i++){
-				row[cols[i]]=slice[i];
+				if (cols[i]){
+					row[cols[i]]=slice[i];
+				}
 			}
 			slices[key] = row;
 		}
