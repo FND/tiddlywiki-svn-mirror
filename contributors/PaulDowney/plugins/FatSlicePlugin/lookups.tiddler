@@ -6,6 +6,7 @@ We should be able to grap data fromm the data tiddler like this:
 <<slice data phil email>>
 }}}
 ''Phil's email address from the data tiddler:'' <<slice data phil email>>
+''Regular old slice lookup:'' <<slice ColorPalette Background>>
 {{{
 // get Paul's phone number from the data tiddler:
 <<slice data paul phone>>
