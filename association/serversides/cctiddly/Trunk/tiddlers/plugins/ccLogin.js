@@ -119,6 +119,7 @@ config.macros.ccLogin.refresh=function(place, error){
 		else 
 			w.formElem.password.value = txtPassword.value;
 	};
+	txtPassword.onchange = txtPassword.onkeyup;
 	w.formElem.method ="POST";
 	w.formElem.onsubmit = function() {config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place); return false;};
 	var submit = createTiddlyElement(null, "input");

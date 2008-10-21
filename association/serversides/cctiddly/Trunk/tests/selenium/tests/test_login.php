@@ -10,7 +10,7 @@ class ccTests extends PHPUnit_Framework_TestCase
 	{
 		global $fail_count;
 		$fail_count=0;
-		$this->selenium = new Testing_Selenium("*firefox", "http://127.0.0.1/Trunk");
+		$this->selenium = new Testing_Selenium("*firefox", "http://127.0.0.1/");
 		$this->selenium->start();
 		$this->selenium->setSpeed("1");
 	}
@@ -27,20 +27,20 @@ class ccTests extends PHPUnit_Framework_TestCase
 		$fail_count++;
 	}
 
-	public function doLogin($u, $p)
+	public function doLogin($u="admin", $p="password")
 	{
-		$this->selenium->type("username", $u);
-		$this->selenium->type("password", $p);
-	//	    $this->selenium->click("//div[@id='tiddlerLogin']/div[2]/form/div[2]/a[1]");
-		$this->click("link=login");
-		$this->selenium->waitForPageToLoad("30000");
+		$this->selenium->open("/");
+	    $this->selenium->type("//input[@name='username']", $u);
+	    $this->selenium->type("//input[@type='password']", $p);
+	  	$this->selenium->click("//div[@id='tiddlerLogin']/div[3]/form/div[2]/a[1]");
+		$this->selenium->waitForPageToLoad("300");
 	}
 
 	public function testLoginStatus()
 	{
 		$this->selenium->click("backstageShow");
 		try {
-			$this->assertTrue($this->selenium->isTextPresent("logout▾"));
+			$this->assertTrue($this->selenium->isTextPresent("logout"));
 		} catch (PHPUnit_Framework_AssertionFailedError $e) {
 			$this->handleError($e, "Logout button not present.");
 		}
@@ -56,8 +56,7 @@ class ccTests extends PHPUnit_Framework_TestCase
 		    $this->selenium->click("//input[@name='anR']");
 		
 			echo $this->selenium->isChecked("usR");
-			exit;		
-		    	$this->selenium->click("usR");
+				$this->selenium->click("usR");
 		
 			if($this->selenium->isChecked("usR"))			
 		    	$this->selenium->click("usR");
@@ -110,8 +109,10 @@ class ccTests extends PHPUnit_Framework_TestCase
 	public function testEditTiddler($tiddler, $text)
 	{
 		$this->selenium->click("link=edit");
+		
 		$this->selenium->click("tiddler".$tiddler);
 		$this->selenium->type("//div[@id='tiddler".$tiddler."']/div[4]/fieldset/div/textarea", $text);
+		
 	    $this->selenium->click("link=done");
 		$this->selenium->refresh();
 		try {
@@ -177,35 +178,37 @@ class ccTests extends PHPUnit_Framework_TestCase
 
 	public function runTests()
 	{
-		$this->selenium->open("/17");
+		$this->selenium->open("/");
 		$this->selenium->deleteAllVisibleCookies();
-		$this->selenium->open("/17/testing");
-		$this->doLogin("username", "password");
+		$this->selenium->open("/");
+		$this->doLogin();
 		$this->testLoginStatus();
+		$this->selenium->waitForPageToLoad("300");
+		$this->testEditTiddler("GettingStarted", "Tiddler changed by selenium at ".mktime());
 		$this->selenium->deleteAllVisibleCookies();
 		$this->selenium->createCookie("txtTheme=smmTheme", "");
 		$this->selenium->refresh();
-		$this->selenium->open("/17/testing");
+		$this->selenium->open("/");
 		$this->doLogin();
 		$this->testLoginStatus();
-		$this->testEditTiddler("GettingStarted", "Tiddler changed by selenium at ".mktime());
 		$this->selenium->deleteAllVisibleCookies();
 		$this->selenium->createCookie("txtTheme=NON EXISTANT THEME", "");
 		$this->selenium->refresh();
-		$this->selenium->open("/17/testing");
+		$this->selenium->open("/");
 		$this->doLogin();
 		$this->testLoginStatus();	
-    }
+
+  }
 }
 
 $a = new ccTests();
 $a->setUp();
 
+//$a->doLogin("username", "password");
+//$a->testLoginStatus();
 //$a->runPermTests();
-
-$a->testEditPermissions();
-//$a->runTests();
-//$a->testTeamTasks();
+//$a->testEditPermissions();
+$a->runTests();
 //$a->tearDown();
 
 if($fail_count==0) {
