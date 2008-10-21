@@ -16,13 +16,33 @@
 if(!version.extensions.FatSlicePlugin){
 version.extensions.FatSlicePlugin = {installed:true};
 
-TiddlyWiki.prototype.superSlicesRE = /(?:^\|.*[^\\]|\s*$)/gm;
+TiddlyWiki.prototype.fatSlicesRE = /^\|(.*)\|$/gm;
 
-//@internal
-TiddlyWiki.prototype.calcFatSlices = function(title,cols)
+// @internal
+TiddlyWiki.prototype.calcFatSlices = function(title)
 {
+        var slices = {};
+	var cols = [];
         var text = this.getTiddlerText(title,"");
-        return {row:{col:'val'}};
+        this.slicesRE.lastIndex = 0;
+        var m = this.fatSlicesRE.exec(text);
+        while(m) {
+		var slice = m[1].split('|');
+		console.log(slice);
+		var key = slice.shift();
+		console.log(key);
+		if (!cols.length){
+			cols = slice;
+		} else {
+			row = {};
+			for(var i=0;i<cols.length;i++){
+				row[cols[i]]=slice[i];
+			}
+			slices[key] = row;
+		}
+                m = this.fatSlicesRE.exec(text);
+        }
+        return slices;
 };
 
 

@@ -7,16 +7,25 @@ function __main() {
 	loadPlugins();
 }
 
-describe('Slice: calcAllFatSlices()', {
+describe('Slice: calcFatSlices()', {
 	before_each: function() {
 		__main();
 	},
 
-	'should return a 1x2 matrix from a 1x2 table': function() {
+	'simplest FatSlice table': function() {
 		var title = "tiddler";
-		var text = "||col|\n|row|val|";
-		store.saveTiddler(title, title, text);
+		store.saveTiddler(title, title, "||col|\n" + "|row|val|");
 		value_of(store.calcFatSlices(title)).should_be({row:{col:'val'}});
+	},
+	'one row, two columns FatSlice table': function() {
+		var title = "tiddler";
+		store.saveTiddler(title, title, "||col1|col2|\n" + "|row|val1|val2|");
+		value_of(store.calcFatSlices(title)).should_be({row:{col1:'val1',col2:'val2'}});
+	},
+	'one row, two columns with content FatSlice table': function() {
+		var title = "tiddler";
+		store.saveTiddler(title, title, "blah, blah\n" + "||col1|col2|\n" + "|row|val1|val2|\n" + "ya yak yak");
+		value_of(store.calcFatSlices(title)).should_be({row:{col1:'val1',col2:'val2'}});
 	}
 
 });
