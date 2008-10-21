@@ -93,16 +93,18 @@ Rect.prototype.midPoint = function() {
 // Generic helper functions
 //-----------------------------------------------------------------------------------
 
-// Given a point in the coordinates of a target element, compute the coordinates relative to a specified parent element
-function normalisePoint(parent,target,pt) {
+// Given a point in the coordinates of a target element, compute the coordinates relative to a specified base element
+function normalisePoint(base,target,pt) {
 	var e = target;
+	var parent = target.offsetParent;
 	var r = new Point(pt.x,pt.y);
-	while(e != parent && e.offsetParent) {
-		r.x += e.offsetLeft;
-		r.y += e.offsetTop;
-		e = e.offsetParent;
+	while(e !== base && parent) {
+		r.x += parent.offsetLeft;
+		r.y += parent.offsetTop;
+		e = parent;
+		parent = e.offsetParent;
 	}
-	if(e == parent)
+	if(e == base)
 		return r;
 	else
 		return null;
@@ -545,6 +547,7 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 	tiddlerElem.rotate = 0;
 	tiddlerElem.enlarge = 1.0;
 	this.transformTiddler(tiddlerElem);
+	this.updateTiddlerPosition(title,tiddlerElem);
 	if(!startingUp) {
 		if(tiddlerElem.nextSibling) { // Move tiddler to the bottom of the Z-order if it's not already there
 			tiddlerElem.parentNode.insertBefore(tiddlerElem,null);
