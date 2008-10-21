@@ -15,7 +15,10 @@ jw.controls = {
 		}
 	},
 	'save': {
-		handler: function(tiddler) { saveChanges(); }
+		handler: function(tiddler) {
+		console.log("saving");
+			jw.saveToFile()
+		}
 	},
 	'save tiddler': {
 		handler: function(tiddler) { 
