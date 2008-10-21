@@ -425,8 +425,7 @@ Cecily.draggers.tiddlerDragger = {
 			var s = cecily.frame.offsetWidth/cecily.view.w;
 			cecily.drag.tiddler.realPos = new Point(cecily.drag.tiddler.realPos.x + (dragThis.x - cecily.drag.lastPoint.x) / s,
 													cecily.drag.tiddler.realPos.y + (dragThis.y - cecily.drag.lastPoint.y) / s);
-			cecily.drag.tiddler.style.left = cecily.drag.tiddler.realPos.x + "px";
-			cecily.drag.tiddler.style.top = cecily.drag.tiddler.realPos.y + "px";
+			cecily.transformTiddler(cecily.drag.tiddler);
 			cecily.drag.lastPoint = dragThis;
 		}
 	},
@@ -512,7 +511,7 @@ Cecily.prototype.showOverlayMenu = function(pos)
 
 Cecily.prototype.onMouseOutOverlay = function(ev)
 {
-	if(findRelated(ev.target,"overlayMenu","id","parentNode") == null) {
+	if(findRelated(ev.toElement,"overlayMenu","id","parentNode") == null) {
 		this.overlayMenu.style.opacity = "0.0";
 		this.overlayMenu.style.display = "none";
 	}
@@ -541,8 +540,6 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 	if(!tiddlerElem)
 	 	return;
 	var pos = this.getTiddlerPosition(title,srcElement);
-	tiddlerElem.style.left = pos.x + "px";
-	tiddlerElem.style.top = pos.y + "px";
 	tiddlerElem.realPos = new Point(pos.x,pos.y);
 	tiddlerElem.scaledWidth = pos.w;
 	tiddlerElem.rotate = 0;
@@ -622,8 +619,6 @@ Cecily.prototype.setMap = function(title)
 	var me = this;
 	story.forEachTiddler(function(tiddler,elem) {
 		var pos = me.getTiddlerPosition(tiddler);
-		elem.style.left = pos.x + "px";
-		elem.style.top = pos.y + "px";
 		elem.realPos = new Point(pos.x,pos.y);
 		elem.scaledWidth = pos.w;
 		elem.rotate = 0;
@@ -636,10 +631,11 @@ Cecily.prototype.setMap = function(title)
 
 // Applies the tiddler transformation properties (rotate & enlarge) to the display
 Cecily.prototype.transformTiddler = function(tiddlerElem) {
+	var pos = tiddlerElem.realPos;
 	var s = tiddlerElem.scaledWidth/360;
 	var r = tiddlerElem.rotate;
 	var e = tiddlerElem.enlarge;
-	tiddlerElem.style[Cecily.cssTransform] = "translate(-50%,-50%) scale(" + s + "," + s + ") translate(50%,50%) rotate(" + r + "rad) scale(" + e + ")";
+	tiddlerElem.style[Cecily.cssTransform] = "translate(-50%,-50%) scale(" + s + "," + s + ") translate(50%,50%) translate(" + pos.x / s + "px," + pos.y / s + "px) rotate(" + r + "rad) scale(" + e + ")";
 	// Experimental beginnings of support for semantic zooming
 	var w = tiddlerElem.scaledWidth * (this.frame.offsetWidth)/(this.view.w);
 	var f = w < 60 ? addClass : removeClass;
@@ -1188,6 +1184,8 @@ div#backstageArea {
 
 .cecily .tiddler {
 	position: absolute;
+	top: 0px;
+	left: 0px;
 	width: 360px;
 	padding: 0;
 	background-color: #fff;
