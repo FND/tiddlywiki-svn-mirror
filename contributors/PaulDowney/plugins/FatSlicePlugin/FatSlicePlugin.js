@@ -7,8 +7,7 @@
 |''License:''|[[BSD open source license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4.1|
-
-!!Documentation
+!Documentation
 The Fat Slice Plugin enriches the existing Slice mechanism in TiddlyWiki.
 It enables the specification of lookup tables which are addressable by column and row rather than just Name/Value pairs of the current slice implementation.
 
@@ -35,9 +34,7 @@ The slice macro also provides access to data in standard tiddler slices:
 <<slice [[TiddlerName]] "SliceName">>
 }}}
 
-
-
-!!!Source Code
+!!Source Code
 ***/
 
 //{{{
