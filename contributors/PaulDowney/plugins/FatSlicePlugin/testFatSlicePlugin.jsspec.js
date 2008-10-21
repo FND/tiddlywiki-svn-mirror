@@ -41,6 +41,19 @@ describe('Slice: calcFatSlices()', {
 
 });
 
+describe('Slice: getFatSlice()', {
+	before_each: function() {
+		__main();
+	},
+
+	'simplest FatSlice table': function() {
+		var title = "tiddler";
+		store.saveTiddler(title, title, "||col|\n" + "|row|val|");
+		value_of(store.getFatSlice(title,'row','col')).should_be('val');
+	},
+
+});
+
 
 
 /*

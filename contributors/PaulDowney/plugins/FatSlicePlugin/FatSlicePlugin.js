@@ -28,9 +28,7 @@ TiddlyWiki.prototype.calcFatSlices = function(title)
         var m = this.fatSlicesRE.exec(text);
         while(m) {
 		var slice = m[1].split('|');
-		console.log(slice);
 		var key = slice.shift();
-		console.log(key);
 		if (!cols.length){
 			cols = slice;
 		} else {
@@ -45,6 +43,11 @@ TiddlyWiki.prototype.calcFatSlices = function(title)
         return slices;
 };
 
+TiddlyWiki.prototype.getFatSlice = function(title,row,col)
+{
+	var slices = this.calcFatSlices(title);
+	return slices[row][col];
+}
 
 } //# end of 'install only once'
 //}}}
