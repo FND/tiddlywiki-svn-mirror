@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -30,12 +30,22 @@
 			// tiddlerLink clicks.
 			if( target.is('a.tiddlerLink') ) {
 				var title = $(e.target).text();
-				var tiddler = store.getTiddler(title).clone();
-				tiddler = addTiddlerFurniture(tiddler);
-				$('#display').append(tiddler);
+				// var tiddler = store.getTiddler(title).clone();
+				// tiddler = addTiddlerFurniture(tiddler);
+				// $('#display').append(tiddler);
+
+				var tiddlerSrc = store.getTiddler(title).clone();
+				displayTiddlay(tiddlerSrc);
 			}
 			// tiddler controls clicks
 			if( target.is('div.controls a') && target.text() == 'close') {
+				// close a tiddler
+				target.parents('div.hentry').slideUp( function(){
+				 	$(this).remove();
+				});
+			}
+			else if( target.is('div.controls a') && target.text() == 'edit') {
+				//edit a tiddler
 				target.parents('div.hentry').slideUp( function(){
 				 	$(this).remove();
 				});
@@ -47,6 +57,14 @@
 			var controls = "<div class='controls'><a href='#'>close</a></div>";
 			tiddler.prepend(controls);
 			return tiddler;
+		}
+		
+		
+		function displayTiddler(tiddlerSrc) {
+			var controls = "<div class='controls'><a href='#'>close</a></div>";
+			var editpanel = "<textarea class='editpanel'></textarea>";
+			var tiddler = $(controls + tiddlerSrc);
+			$('#display').append(tiddler);
 		}
 
 	});

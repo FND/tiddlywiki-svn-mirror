@@ -58,9 +58,9 @@ $.fn.saveToFile.default.filename = 'fileName.html';
 		var save = false;
 		try {
 			//# Save new file
-			var head = $('head').html();
-			var body = $('body').html();
-			var revised = head + body;
+			// var head = $('head').html();
+			var revised = $('html').parent().html();
+			// var revised = head + body;
 			save = saveFile(localPath,revised);
 		} catch (ex) {
 			console.log('exception ', ex);
@@ -135,4 +135,18 @@ $.fn.saveToFile.default.filename = 'fileName.html';
 		}
 		return null;
 	}
+	
+	function convertUriToUTF8(uri,charSet)
+	{
+		if(window.netscape == undefined || charSet == undefined || charSet == "")
+			return uri;
+		try {
+			netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+			var converter = Components.classes["@mozilla.org/intl/utf8converterservice;1"].getService(Components.interfaces.nsIUTF8ConverterService);
+		} catch(ex) {
+			return uri;
+		}
+		return converter.convertURISpecToUTF8(uri,charSet);
+	}
+	
 })(jQuery);
