@@ -28,3 +28,18 @@ describe('Slice: calcAllFatSlices()', {
 });
 
 // ]]>
+
+
+var d = calcFatSlices('data');
+d = {
+	'phil' : {
+		'nickname': 'PhilHawksworth',
+		'email': 'phil@osmosoft.com',
+		'phone': '+44 123456789'
+	},
+	'paul' : {
+		'nickname': 'psd',
+		'email': 'psd@osmosoft.com',
+		'phone': '+44 987654321'
+	}
+};
