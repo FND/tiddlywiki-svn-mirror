@@ -58,15 +58,15 @@ $.fn.saveToFile.default.filename = 'fileName.html';
 		var save = false;
 		try {
 			//# Save new file
-			// var head = $('head').html();
-			var revised = $('html').parent().html();
-			// var revised = head + body;
+			var head = $('head').html();
+			var body = $('body').html();
+			var revised = '<html>'+ head + body +'</html>';
 			save = saveFile(localPath,revised);
 		} catch (ex) {
 			console.log('exception ', ex);
 		}
 		if(save) {
-			alert("Saved!");
+			return;
 		} else {
 			alert("Save failed");
 		}

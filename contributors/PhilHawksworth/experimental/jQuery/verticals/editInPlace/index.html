@@ -13,6 +13,10 @@
 	// DOM ready.
 	$(document).ready(function(){
 		
+		//reset any toggling state which might have got saved!
+		$('a.edit').removeClass('live');
+		
+		
 		// Add event handlers to the buttons and the message bar.
 		$('a.edit').click(function(ev){
 			ev.preventDefault();
@@ -38,7 +42,7 @@
 				input.remove();
 				d.show();
 				
-				$('body').saveToFile();
+				// $('body').saveToFile();
 				
 				$('li.message').html('...saved');
 			} else {
@@ -71,7 +75,7 @@
 		<li class="message"></li>
 		<li><a href="#" class="edit live">edit</a></li>
 	</ul>
-	<div style="display: block;" id="display"><h1>foo jQuery access to the file system.....</h1>
+	<div style="display: block;" id="display"><h1>file saveAs ok !!  jQuery access to the file system.....</h1>
 <p>
 Lorem ipsum <a href="#">dolor</a> sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 </p>
@@ -91,5 +95,4 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 		<li><a href="/jquery.saveToFile.js.txt" title="jquery.saveToFile.js">jquery.saveToFile.js</a> - to allow access to the FileSystemObject and enable local file saving.</li>
 	</ul>
 </div>
-
 </html>
