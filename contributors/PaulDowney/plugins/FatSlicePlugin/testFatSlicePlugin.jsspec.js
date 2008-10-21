@@ -7,6 +7,20 @@ function __main() {
 	loadPlugins();
 }
 
+function __mainFull() {
+                version.extensions = {};
+                tests_mock.before('refreshDisplay');
+                tests_mock.before('saveTest', function() { tests_mock.before('store.notifyAll'); });
+                tests_mock.before('restart');
+                tests_mock.before('backstage.init');
+                main();
+                tests_mock.after('backstage.init');
+                tests_mock.after('restart');
+                tests_mock.after('saveTest');
+                tests_mock.after('store.notifyAll');
+                tests_mock.after('refreshDisplay');
+}
+
 describe('Slice: calcFatSlices()', {
 	before_each: function() {
 		__main();
@@ -66,6 +80,16 @@ describe('Slice: getFatSlice()', {
 
 });
 
+describe('Slice: macro()', {
+	before_each: function() {
+		__mainFull();
+	},
+	'simplest FatSlice table': function() {
+		var title = "tiddler";
+		store.saveTiddler(title, title, "||col|\n" + "|row|val|");
+		value_of(wikifyStatic("text:<<slice tiddler row col>>:")).should_be('text:val:');
+	}
+});
 
 
 /*
