@@ -53,6 +53,7 @@ TiddlyWiki.prototype.calcFatSlices = function(title) {
 	while(m) {
 		var slice = m[1].split('|');
 		var key = slice.shift();
+		key = key.replace(/[^\w]/g, '');
 		if (!key) {
 			cols = slice;
 			for(var i=0;i<cols.length;i++){
@@ -74,9 +75,8 @@ TiddlyWiki.prototype.calcFatSlices = function(title) {
 
 TiddlyWiki.prototype.getFatSlice = function(title,row,col) {
 	var slices = this.calcFatSlices(title);
-	return slices[row][col];
+	return slices[row]?slices[row][col]:undefined;
 };
-
 
 // Slice macro.
 config.macros.slice = {};
