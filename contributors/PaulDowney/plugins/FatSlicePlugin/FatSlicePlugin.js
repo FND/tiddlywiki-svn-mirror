@@ -31,6 +31,9 @@ TiddlyWiki.prototype.calcFatSlices = function(title)
 		var key = slice.shift();
 		if (!cols.length){
 			cols = slice;
+			for(var i=0;i<cols.length;i++){
+				cols[i] = cols[i].replace(/[^\w]/g, '');
+			}
 		} else {
 			row = {};
 			for(var i=0;i<cols.length;i++){
@@ -45,8 +48,18 @@ TiddlyWiki.prototype.calcFatSlices = function(title)
 
 TiddlyWiki.prototype.getFatSlice = function(title,row,col)
 {
+console.log(arguments);
 	var slices = this.calcFatSlices(title);
+console.log(slices);
 	return slices[row][col];
+}
+
+config.macros.slice = {};
+config.macros.slice.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	if(params.length>2){
+		
+		createTiddlyText(place,store.getFatSlice(params[0],params[1],params[2]));
+	}
 }
 
 } //# end of 'install only once'

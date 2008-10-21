@@ -3,13 +3,13 @@
 We should be able to grap data fromm the data tiddler like this:
 {{{
 // get Phil's email address from the data tiddler:
-[[data::phil::email]]
+<<slice data phil email>>
 }}}
-''Phil's email address from the data tiddler:'' [[data::phil::email]]
+''Phil's email address from the data tiddler:'' <<slice data phil email>>
 {{{
 // get Paul's phone number from the data tiddler:
-[[data::paul::phone]]
+<<slice data paul phone>>
 }}}
-''Paul's phone number from the data tiddler:'' [[data::paul::phone]]
+''Paul's phone number from the data tiddler:'' <<slice data paul phone>>
 </pre>
 </div>
