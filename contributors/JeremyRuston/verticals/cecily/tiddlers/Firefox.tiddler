@@ -1,0 +1,10 @@
+<div title="Firefox" modifier="JeremyRuston" created="200810192350" changecount="1">
+<pre>Like Webkit, Firefox is an awesome piece of work, as evidenced by the way that this embedded video plays smoothly even with lots of zooming and scaling going on:
+{{{
+<html>
+<video src="Ecl1-11-08-1999.ogg" controls="true" width="320" height="240" autoplay playcount="999">
+</video>
+</html>
+}}}
+<html><video src="Ecl1-11-08-1999.ogg" controls="true" width="320" height="240" autoplay playcount="999"></video></html></pre>
+</div>
