@@ -6,8 +6,36 @@
 |''Version:''|0.1|
 |''License:''|[[BSD open source license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''~CoreVersion:''|2.4|
+|''~CoreVersion:''|2.4.1|
+
 !!Documentation
+The Fat Slice Plugin enriches the existing Slice mechanism in TiddlyWiki.
+It enables the specification of lookup tables which are addressable by column and row rather than just Name/Value pairs of the current slice implementation.
+
+A data table takes the form:
+{{{
+| |!column1 |!column2 |!column3 |
+|row1| a | b | c |
+|row2| d | e | f |
+|row3| g | h | i |
+}}}
+
+Values can be retrieved from the data set via the getFatSlice() function:
+{{{
+var v = getFatSlice('TiddlerName', 'RowName', 'ColumnName');
+}}}
+
+Such data is also accessable from wikitext via the slice macro:
+{{{
+<<slice TiddlerName RowName ColumnName>>
+}}}
+
+The slice macro also provides access to data in standard tiddler slices:
+{{{
+<<slice TiddlerName SliceName>>
+}}}
+
+
 
 !!!Source Code
 ***/
