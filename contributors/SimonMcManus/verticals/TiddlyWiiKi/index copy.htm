@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+	<title>HullBreach - Wii Enabled Javascript Software, Games, and SDK</title>
+	<meta name="keywords" content="online, Nintendo, Wii, javascript, html, css, dhtml, games, pointer, mouse, wiimote, wii remote, video games, Pilotwings, Starfox, Wii Chatroom, Wii Enabled Chatroom, ajax, chatroom, chat" />
+	<meta name="description" content="HullBreach - Wii Enabled Javascript Software, Games, and SDK" />
+
+	<script language='javascript' type='text/javascript' src='sdk/wiimote.js'></script>
+	<script language='javascript' type='text/javascript' src='sdk/draw.js'></script>
+
+	<script language='javascript' type='text/javascript' src='sdk/3dfps.js'></script>
+	<script language='javascript' type='text/javascript'>
+
+		Photo = new Array();
+		Photo[0] = new Image();
+		Photo[0].src = "wall/tile-brick.png";
+		Photo[1] = new Image();
+		Photo[1].src = "wall/tile-woodfloor.png";
+		Photo[2] = new Image();
+		Photo[2].src = "wall/tile-rock.png";
+
+		TransPoly = new Array();
+		timer=null;
+
+		Poly = new Array();
+		//x1, y1, z1, x2, y2, z2, txr
+		Poly[0] = new Array(600,-200,400, 200,200,400, 0);
+		Poly[1] = new Array(200,-200,400, -200,200,400, 0);
+		Poly[2] = new Array(-200,-200,400, -600,200,400, 0);
+		Poly[3] = new Array(600,-200,0, 600,200,400, 0);
+		Poly[4] = new Array(-600,-200,400, -600,200,0, 0);
+		Poly[5] = new Array(600,-200,-400, 600,200,0, 0);
+		Poly[6] = new Array(-600,-200,0, -600,200,-400, 0);
+		Poly[7] = new Array(-600,-200,-400, -200,200,-400, 0);
+		Poly[8] = new Array(200,-200,-400, 600,200,-400, 0);
+		Poly[9] = new Array(-200,-200,-400, -800,200,-400, 2);
+		Poly[10] = new Array(800,-200,-400, 200,200,-400, 2);
+		Poly[11] = new Array(-800,-200,-400, -800,200,-800, 2);
+		Poly[12] = new Array(800,-200,-800, 800,200,-400, 2);
+		Poly[13] = new Array(-800,150,-800, 0,200,-900, 2);
+		Poly[14] = new Array(0,150,-900, 800,200,-800, 2);
+		Poly[15] = new Array(-800,-200,-800, -600,150,-1100, 2);
+		Poly[16] = new Array(600,-200,-1100, 800,150,-800, 2);
+		Poly[17] = new Array(-600,100,-1100, 0,150,-1000, 2);
+		Poly[18] = new Array(0,100,-1000, 600,150,-1100, 2);
+		Poly[19] = new Array(-600,-200,-1100, -300,100,-1400, 2);
+		Poly[20] = new Array(300,-200,-1400, 600,100,-1100, 2);
+		Poly[21] = new Array(-300,-200,-1400, 300,100,-1400, 1);
+
+		var angle = 0;
+		var frame = false;
+		var z = 0;
+
+
+		function setupcanvas(){
+
+			ThreeDee.SetBounds(0,0, 320,240);
+
+			animate();
+		}
+
+		function animate(){
+			Wiimote.SetActive(0);
+			if(Wiimote.GetEnabled()){
+				if(Wiimote.GetX()) angle += (Wiimote.GetX()-400)>>5;
+				if(Wiimote.GetY()) z += ((Wiimote.GetY()-240)>>2)*Math.cos(angle*Math.PI/180)|0;
+			}else{
+				angle+=3;
+				z+=40*Math.cos(angle*Math.PI/180)|0
+			}
+			if(angle>360) angle-=360;
+			if(angle<0) angle+=360;
+			if(z>0) z=0;
+			if(z<-1000) z=-1000;
+
+			frame = !frame;
+
+			ThreeDee.SetPoints(Poly);
+			ThreeDee.SetRotation(angle);
+			ThreeDee.Move(0, -z, 0, Poly.length-1);
+			ThreeDee.Rotate(0, 0, 0, Poly.length-1);
+			ThreeDee.ZSort();
+			TransPoly = ThreeDee.GetTranslation();
+
+			Draw.initialize(document.getElementById("thecanvas"+frame));
+			Draw.setFillColor(200,200,255);
+			Draw.drawRectangle(0, 0, 320, 80, 1, 0);
+			Draw.setFillColor(100,50,0);
+			Draw.drawRectangle(0, 80, 320, 240, 1, 0);
+			for(index=0;index<TransPoly.length;index++){
+				if(ThreeDee.GetHidden(TransPoly[index]))
+					Draw.drawWall(TransPoly[index][0], TransPoly[index][1], TransPoly[index][2], TransPoly[index][3], TransPoly[index][4], TransPoly[index][5], Photo[TransPoly[index][6]]);
+			}
+			document.getElementById("thecanvas"+frame).style.display="block";
+			document.getElementById("thecanvas"+(!frame)).style.display="none";
+
+			timer=setTimeout("animate()", 50);
+		}
+
+		function stop(){
+			timer=clearTimeout();
+		}
+	</script>
+
+</head>
+<body onload='setupcanvas()' onunload='stop()'>
+	<canvas id='thecanvasfalse' style='border:1px solid; display:none; position:absolute; left:240px; top:20px' width='320' height='240'></canvas>
+	<canvas id='thecanvastrue' style='border:1px solid; position:absolute; left:240px; top:20px' width='320' height='240'></canvas>
+	<span id='status' style='position:absolute; left:80px; top:300px'>
+		Return to the main <a href='sdk.html'>Wii Opera SDK</a> page.
+	</span>
+
+</body>
+</html>
