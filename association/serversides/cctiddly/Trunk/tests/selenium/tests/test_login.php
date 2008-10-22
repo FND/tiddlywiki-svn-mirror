@@ -10,14 +10,11 @@ class ccTests extends PHPUnit_Framework_TestCase
 	{
 		global $fail_count;
 		$fail_count=0;
+		
 		$this->selenium = new Testing_Selenium("*firefox", "http://127.0.0.1/");
+       
 		$this->selenium->start();
-		$this->selenium->setSpeed("1");
-	}
-
-	public function tearDown()
-	{
-		$this->selenium->stop();
+		$this->selenium->setSpeed("1");	
 	}
 
 	public function handleError($e, $error_text)
@@ -49,7 +46,7 @@ class ccTests extends PHPUnit_Framework_TestCase
 	public function testEditPermissions()
 	{
 		
-			$this->selenium->open("/rel");
+			$this->selenium->open("/");
 		
 			$this->doLogin("admin", "password");
 			$this->selenium->click("link=permissions");
@@ -70,7 +67,8 @@ class ccTests extends PHPUnit_Framework_TestCase
 	public function testStartupStuff()
 	{
 		// click the backstage button.
-		try {
+	
+	/*	try {
 			$this->assertTrue($this->selenium->isTextNotPresent("save"));
 		} catch (PHPUnit_Framework_AssertionFailedError $e) {
 			$this->handleError($e, "Save button has not been removed.");
@@ -80,6 +78,7 @@ class ccTests extends PHPUnit_Framework_TestCase
 		} catch (PHPUnit_Framework_AssertionFailedError $e) {
 			$this->handleError($e, "Upgrade button has not been removed.");
 		}		
+		*/
 		try {
 			$this->assertTrue($this->selenium->isTextPresent("about▾"));
 		} catch (PHPUnit_Framework_AssertionFailedError $e) {
@@ -171,7 +170,7 @@ class ccTests extends PHPUnit_Framework_TestCase
 	
 	public function	runPermTests()
 	{
-		$this->selenium->open("/rel");
+		$this->selenium->open("/");
 		$this->doLogin("admin", "password");
 		$this->testPermUpdate();		
 	}
@@ -197,18 +196,21 @@ class ccTests extends PHPUnit_Framework_TestCase
 		$this->selenium->open("/");
 		$this->doLogin();
 		$this->testLoginStatus();	
-
   }
+public function tearDown()
+{
+	$this->selenium->stop();
+}
 }
 
-$a = new ccTests();
-$a->setUp();
+//$a = new ccTests();
+//$a->setUp();
 
 //$a->doLogin("username", "password");
 //$a->testLoginStatus();
 //$a->runPermTests();
 //$a->testEditPermissions();
-$a->runTests();
+//$a->runTests();
 //$a->tearDown();
 
 if($fail_count==0) {

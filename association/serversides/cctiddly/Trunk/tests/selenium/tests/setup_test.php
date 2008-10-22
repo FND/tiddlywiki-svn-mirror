@@ -9,7 +9,7 @@ class GoogleTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-	$this->browser = new Testing_Selenium("*iexplore", "http://127.0.0.1");
+		$this->browser = new Testing_Selenium("*iexplore", "http://127.0.0.1");
         $this->browser->start();
     }
 
