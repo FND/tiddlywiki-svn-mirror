@@ -362,10 +362,6 @@ a:hover {
 	margin:3px;
 }
 
-textarea {
-	height:20em;
-}
-
 #sidebarOptions input {
 	width:85%;
 	margin-left:-0.1em;}

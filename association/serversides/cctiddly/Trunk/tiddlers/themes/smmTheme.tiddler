@@ -306,9 +306,7 @@ a:hover {
 	margin:3px;
 }
 
-textarea {
-	height:20em;
-}
+
 
 #sidebarOptions input {
 	border:1px solid #999;
