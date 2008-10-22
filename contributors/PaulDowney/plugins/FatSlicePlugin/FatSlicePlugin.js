@@ -77,6 +77,9 @@ TiddlyWiki.prototype.calcFatSlices = function(title) {
 };
 
 TiddlyWiki.prototype.getFatSlice = function(title,row,col) {
+	if (!col) {
+		return store.getTiddlerSlice(title,row);
+	}
 	var slices = this.calcFatSlices(title);
 	return slices[row]?slices[row][col]:undefined;
 };
@@ -84,12 +87,7 @@ TiddlyWiki.prototype.getFatSlice = function(title,row,col) {
 // Slice macro.
 config.macros.slice = {};
 config.macros.slice.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	if(params.length > 2){
-		createTiddlyText(place,store.getFatSlice(params[0],params[1],params[2]));
-	} else {
-		// use the builtn in slice functionality.
-		createTiddlyText(place,store.getTiddlerSlice(params[0],params[1]));		
-	}
+	wikify(store.getFatSlice(params[0],params[1],params[2]),place);
 };
 
 } //# end of 'install only once'
