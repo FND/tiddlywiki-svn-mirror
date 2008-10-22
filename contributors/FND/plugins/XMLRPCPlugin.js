@@ -2,7 +2,7 @@
 |''Name''|XMLRPCPlugin|
 |''Description''|basic XML-RPC library|
 |''Author''|FND|
-|''Version''|0.2.0|
+|''Version''|0.2.1|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#XMLRPCPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -33,39 +33,31 @@ config.extensions.XMLRPC = {
 	 * @param {String} username optional username for authentication
 	 * @param {String} password optional password for authentication
 	 * @param {Boolean} allowCache allow caching
-	 * @param {Function} callback function to handle response
+	 * @param {Object} context parameters being passed to the callback
+	 * @param {Function} callback response handler
+	 * @return {Object, String} XMLHttpRequest object or error string
 	 */
-	request: function(host, method, params, username, password, allowCache, callback) { // TODO: rename?
-		var rpc = this.generateMethodCall(method, params);
-		var context = {
-			callback: callback
-		};
-		return httpReq("POST", host, this.requestCallback, context, null,
-			rpc, "text/xml", username, password, allowCache);
+	request: function(host, methodName, params, username, password, allowCache, context, callback) { // TODO: rename?
+		var rpc = this.generateMethodCall(methodName, params);
+		return httpReq("POST", host, callback, context, null, rpc,
+			"text/xml", username, password, allowCache);
 	},
 
 	/**
-	 * process RPC response
-	 * @param {Boolean} status false if request produced an error
-	 * @param {Object} context parameter object
-	 * @param {String} responseText server response
-	 * @param {String} uri requested URL
-	 * @param {Object} xhr XMLHttpRequest object
+	 * check RPC response for errors
+	 * @param {Object} xml XML document
+	 * @return {Boolean, Object} true or error object (members code and message)
 	 */
-	requestCallback: function(status, context, responseText, uri, xhr) {
-		var xml = xhr.responseXML;
-		if(!status || !xml) {
-			throw new Error("error connecting to server"); // XXX: usage incorrect?
-		}
+	responseStatus: function(xml) {
+		status = true;
 		var error = xml.getElementsByTagName("fault");
 		if(error.length) {
-			error = {
+			status = {
 				code: parseInt(error.getElementsByTagName("int")[0], 10),
 				message: error.getElementsByTagName("string")[0]
 			};
-			throw new Error(error); // XXX: usage incorrect?
 		}
-		context.callback(status, context, responseText, uri, xhr);
+		return status;
 	},
 
 	/**
@@ -90,8 +82,8 @@ config.extensions.XMLRPC = {
 	 */
 	generateParamNode: function(param) {
 		switch(param.type) {
-			case "array":
-				break; // TODO
+			case "array": // TODO
+				break;
 			case "base64":
 				var value = "<base64>" + param.value + "</base64>";
 				break;
@@ -115,8 +107,8 @@ config.extensions.XMLRPC = {
 			case "string":
 				value = "<string>" + param.value + "</string>";
 				break;
-			case "struct":
-				break; // TODO
+			case "struct": // TODO
+				break;
 			case "nil":
 			case "null":
 				value = "<nil/>";
@@ -146,6 +138,42 @@ config.extensions.XMLRPC = {
 				break;
 		}
 		return value;
+	},
+
+	parseType: function(dataNode) {
+		var typeNode = dataNode.childNodes[0]; // XXX: missing type node means string
+		switch(typeNode.name) { // XXX: name property correct?
+			case "array": // TODO
+				var valueNodes = typeNode.childNodes[0].childNodes;
+				var values = [];
+				for(var i = 0; i < valueNodes.length; i++) {
+					typeNode = valueNodes[i].childNodes[0];
+					values.push(parseType(typeNode));
+				}
+				return values;
+			case "base64": // TODO
+				break;
+			case "boolean":
+				var value = typeNode.textContent || typeNode.text;
+				return value === true;
+			case "dateTime.iso8601": // TODO
+				break;
+			case "double":
+				value = typeNode.textContent || typeNode.text;
+				return parseFloat(value);
+			case "i4":
+			case "int":
+				value = typeNode.textContent || typeNode.text;
+				return parseInt(value, 10);
+			case "string":
+				return typeNode.textContent || typeNode.text;
+			case "struct": // TODO
+				break;
+			case "nil":
+				return null;
+			default:
+				break;
+		}
 	}
 };
 
