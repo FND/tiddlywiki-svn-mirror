@@ -91,10 +91,7 @@ config.macros.ImportPlugins = { // TODO: rename -- XXX: move to separate plugin
 
 	doSearch: function(query) {
 		displayMessage(this.listRetrievalMsg.format([query]));
-		setTimeout(function() { // spawn a new thread
-			config.extensions.PluginLibraryAdaptor.getMatches(query, null,
-				config.macros.ImportPlugins.displayTiddlers);
-		}, 0);
+		config.extensions.PluginLibraryAdaptor.getMatches(query, null, this.displayTiddlers);
 	},
 
 	displayTiddlers: function(context, userParams) {
