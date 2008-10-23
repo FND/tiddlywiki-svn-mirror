@@ -4,11 +4,13 @@
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
 |''Version''|0.2|
 !To Do
+* individual tiddlers are still truncated - i.e. getTiddlerCallback is obsolete!?
 * workspace serves as user input
 * link back to respective tweet
 * recurse through pages
 * process tweet properties in_reply_to_status_id, source, favorited
 * store user info in a tiddler
+* documentation
 !Code
 ***/
 //{{{
@@ -94,6 +96,7 @@ TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri,
 			"server.host": AdaptorBase.minHostName(context.host)
 		};
 		context.tiddler.fields = merge(context.tiddler.fields, fields);
+		console.log(context.tiddler.text, tweet, responseText);
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
