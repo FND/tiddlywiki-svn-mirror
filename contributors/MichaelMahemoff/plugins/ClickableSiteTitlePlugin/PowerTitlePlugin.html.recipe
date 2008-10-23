@@ -1,0 +1,9 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+tiddler: PowerTitlePlugin.js
+tiddler: PowerTitlePlugin.js.meta
+tiddler: PowerTitlePluginInfo.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler

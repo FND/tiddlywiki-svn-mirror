@@ -1,0 +1,4 @@
+<div title="PowerTitlePluginInfo" modifier="Mahemoff" created="200809101652" modified="200809191228" changecount="15"><pre>This plugin makes the page reload when the title is clicked. This is a common idiom in website UIs. To test it, close this tiddler and open another. Then click on the title to restore it all.
+
+The plugin applies hover and cursor styling to the title. You may update the styling by editing the PowerTitleStylesheet tiddler.</pre>
+</div>
