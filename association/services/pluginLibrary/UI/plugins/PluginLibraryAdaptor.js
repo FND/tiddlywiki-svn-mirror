@@ -27,7 +27,6 @@ config.extensions.PluginLibraryAdaptor = {
 			return false;
 		}
 		this.activeSearchRequest = true;
-		clearMessage();
 		var adaptor = new TiddlyWebAdaptor();
 		var context = {
 			host: this.host,
@@ -92,7 +91,10 @@ config.macros.ImportPlugins = { // TODO: rename -- XXX: move to separate plugin
 
 	doSearch: function(query) {
 		displayMessage(this.listRetrievalMsg.format([query]));
-		config.extensions.PluginLibraryAdaptor.getMatches(query, null, this.displayTiddlers);
+		setTimeout(function() { // spawn a new thread
+			config.extensions.PluginLibraryAdaptor.getMatches(query, null,
+				config.macros.ImportPlugins.displayTiddlers);
+		}, 0);
 	},
 
 	displayTiddlers: function(context, userParams) {
