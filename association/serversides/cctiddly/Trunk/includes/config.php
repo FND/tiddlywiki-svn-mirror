@@ -72,6 +72,7 @@ $tiddlyCfg['allowed_proxy_list'] =
 array(	'wikipedia.org', 
 		'tiddlywiki.org',
 		'trac.tiddlywiki.org',
+		'svn.tiddlywiki.org',
 		'api.flickr.com',
 		'feeds.delicious.com',
 		'google.com',
