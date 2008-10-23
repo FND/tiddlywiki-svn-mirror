@@ -36,7 +36,8 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 	{   
 		// workspace does not exist\
 		// this variable is later used in includes/ccVariables.php
-		foreach ($modulesLoader->plugins as $plugin)
+	
+	/*	foreach ($modulesLoader->plugins as $plugin)
 		{
 			if(is_file($cct_base."modules/".$plugin))
 				include_once($cct_base."modules/".$plugin);	
@@ -49,7 +50,8 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 				if(is_file("modules/".$event))
 					include_once("modules/".$event);	
 			}
-		}		
+		}
+		*/		
 			$error404 = true;		
 			$theme = "simple";
 		
