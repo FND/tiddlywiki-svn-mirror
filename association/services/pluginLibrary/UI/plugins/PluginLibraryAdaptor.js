@@ -20,10 +20,6 @@ if(!config.options.txtPluginLibrarySearchResults) {
 
 config.extensions.PluginLibraryAdaptor = {
 	host: "plugins.tiddlywiki.org/tiddlyweb",
-	listRetrievalMsg: "retrieving list of plugins matching '%0'...",
-	matchCountMsg: "found %0 matching plugins",
-	noMatchMsg: "no plugins found matching '%0'",
-	retrievalErrorMsg: "error retrieving data from server",
 	activeSearchRequest: false,
 
 	getMatches: function(query, userParams, callback) {
@@ -32,13 +28,12 @@ config.extensions.PluginLibraryAdaptor = {
 		}
 		this.activeSearchRequest = true;
 		clearMessage();
-		displayMessage(this.listRetrievalMsg.format([query])); // XXX: does not belong into adaptor!?
 		var adaptor = new TiddlyWebAdaptor();
 		var context = {
 			host: this.host,
 			workspace: "plugins",
 			query: query,
-			matchCallback: callback
+			matchesCallback: callback
 		};
 		context.filters = "[text[" + query + "]]" +
 			" [count[" + config.options.txtPluginLibrarySearchResults + "]]";
@@ -46,19 +41,8 @@ config.extensions.PluginLibraryAdaptor = {
 	},
 
 	getMatchesCallback: function(context, userParams) {
-		clearMessage();
-		if(!context.status) {
-			if(context.httpStatus == 404) {
-				displayMessage(config.extensions.PluginLibraryAdaptor.noMatchMsg.format([context.query])); // XXX: does not belong into adaptor!?
-			} else {
-				displayMessage(config.extensions.PluginLibraryAdaptor.retrievalErrorMsg); // XXX: does not belong into adaptor!?
-			}
-			return false;
-		}
-		displayMessage(config.extensions.PluginLibraryAdaptor.matchCountMsg.format([context.tiddlers.length])); // XXX: does not belong into adaptor!?
-		context.matchCallback(context, userParams);
+		context.matchesCallback(context, userParams);
 		config.extensions.PluginLibraryAdaptor.activeSearchRequest = false;
-		return true;
 	}
 };
 
@@ -67,6 +51,12 @@ config.macros.ImportPlugins = { // TODO: rename -- XXX: move to separate plugin
 	btnTooltip: "search the TiddlyWiki Plugin Library",
 	btnClass: null,
 	accessKey: "f",
+
+	listRetrievalMsg: "retrieving list of plugins matching '%0'...",
+	matchCountMsg: "found %0 matching plugins",
+	noMatchMsg: "no plugins found matching '%0'",
+	serverErrorMsg: "error retrieving data from server",
+
 	pluginViewTemplate: "PluginViewTemplate",
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
@@ -101,10 +91,21 @@ config.macros.ImportPlugins = { // TODO: rename -- XXX: move to separate plugin
 	},
 
 	doSearch: function(query) {
+		displayMessage(this.listRetrievalMsg.format([query]));
 		config.extensions.PluginLibraryAdaptor.getMatches(query, null, this.displayTiddlers);
 	},
 
 	displayTiddlers: function(context, userParams) {
+		clearMessage();
+		if(!context.status) {
+			if(context.httpStatus == 404) {
+				displayMessage(config.macros.ImportPlugins.noMatchMsg.format([context.query]));
+			} else {
+				displayMessage(config.macros.ImportPlugins.serverErrorMsg);
+			}
+			return false;
+		}
+		displayMessage(config.macros.ImportPlugins.matchCountMsg.format([context.tiddlers.length]));
 		var tiddlers = context.tiddlers;
 		for(var i = 0; i < tiddlers.length; i++) {
 			if(!store.tiddlerExists(tiddlers[i].title)) { // lazy loading of tiddler contents
@@ -114,6 +115,7 @@ config.macros.ImportPlugins = { // TODO: rename -- XXX: move to separate plugin
 			}
 			story.displayTiddler(null, tiddlers[i], config.macros.ImportPlugins.pluginViewTemplate, null, null, String.encodeHashMap(tiddlers[i].fields));
 		}
+		return true;
 	}
 };
 

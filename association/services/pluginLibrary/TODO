@@ -1,12 +1,13 @@
 == Aggregator ==
 
+* dirScraper does not check source slice!?
 * additional metadata (e.g. repository, name, title)
 ** tiddler identifier: bag + title
 * refactor tiddlywiki.py to return tiddler objects
 * handling of removed plugins (e.g. don't delete, but tag with "disabled"?)
 ** relevant with regards to metadata augmentation (cf. Community Features)
 * dirScraper: wildcards support for black-/whitelisting
-* enhance log output
+* enhance log output (verbosity levels; e.g. displaying individual SVN directories being crawled)
 * efficiency enhancements (e.g. caching, deferred processing)
 
 == Front-End ==
@@ -26,6 +27,7 @@
 
 == TiddlyWeb Search ==
 
+* rename extensions to plugins
 * components: repository, tags, fields, slices, documentation, code, full-text
 * RegEx support
 * indexing
