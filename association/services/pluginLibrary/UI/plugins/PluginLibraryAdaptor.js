@@ -28,11 +28,11 @@ config.extensions.PluginLibraryAdaptor = {
 
 	getMatches: function(query, userParams, callback) {
 		if(this.activeSearchRequest) {
-			return false; // XXX: raise exception?
+			return false;
 		}
 		this.activeSearchRequest = true;
 		clearMessage();
-		displayMessage(this.listRetrievalMsg.format([query]));
+		displayMessage(this.listRetrievalMsg.format([query])); // XXX: does not belong into adaptor!?
 		var adaptor = new TiddlyWebAdaptor();
 		var context = {
 			host: this.host,
@@ -49,22 +49,14 @@ config.extensions.PluginLibraryAdaptor = {
 		clearMessage();
 		if(!context.status) {
 			if(context.httpStatus == 404) {
-				displayMessage(config.extensions.PluginLibraryAdaptor.noMatchMsg.format([context.query]));
+				displayMessage(config.extensions.PluginLibraryAdaptor.noMatchMsg.format([context.query])); // XXX: does not belong into adaptor!?
 			} else {
-				displayMessage(config.extensions.PluginLibraryAdaptor.retrievalErrorMsg);
+				displayMessage(config.extensions.PluginLibraryAdaptor.retrievalErrorMsg); // XXX: does not belong into adaptor!?
 			}
-			return false; // XXX: raise exception?
+			return false;
 		}
-		displayMessage(config.extensions.PluginLibraryAdaptor.matchCountMsg.format([context.tiddlers.length]));
-		var tiddlers = context.tiddlers;
-		if(tiddlers) {
-			for(var i = 0; i < tiddlers.length; i++) {
-				subContext = {
-					tiddler: tiddlers[i]
-				};
-				context.matchCallback(subContext, userParams);
-			}
-		}
+		displayMessage(config.extensions.PluginLibraryAdaptor.matchCountMsg.format([context.tiddlers.length])); // XXX: does not belong into adaptor!?
+		context.matchCallback(context, userParams);
 		config.extensions.PluginLibraryAdaptor.activeSearchRequest = false;
 		return true;
 	}
@@ -109,17 +101,19 @@ config.macros.ImportPlugins = { // TODO: rename -- XXX: move to separate plugin
 	},
 
 	doSearch: function(query) {
-		config.extensions.PluginLibraryAdaptor.getMatches(query, null, this.displayTiddler);
+		config.extensions.PluginLibraryAdaptor.getMatches(query, null, this.displayTiddlers);
 	},
 
-	displayTiddler: function(context, userParams) { // lazily loads tiddler contents
-		var tiddler = context.tiddler;
-		if(!store.tiddlerExists(tiddler.title)) {
-			tiddler.fields.doNotSave = true;
-			tiddler.fields["server.host"] = config.extensions.PluginLibraryAdaptor.host;
-			tiddler.fields["server.type"] = "tiddlyweb";
+	displayTiddlers: function(context, userParams) {
+		var tiddlers = context.tiddlers;
+		for(var i = 0; i < tiddlers.length; i++) {
+			if(!store.tiddlerExists(tiddlers[i].title)) { // lazy loading of tiddler contents
+				tiddlers[i].fields.doNotSave = true;
+				tiddlers[i].fields["server.host"] = config.extensions.PluginLibraryAdaptor.host;
+				tiddlers[i].fields["server.type"] = "tiddlyweb";
+			}
+			story.displayTiddler(null, tiddlers[i], config.macros.ImportPlugins.pluginViewTemplate, null, null, String.encodeHashMap(tiddlers[i].fields));
 		}
-		story.displayTiddler(null, tiddler, config.macros.ImportPlugins.pluginViewTemplate, null, null, String.encodeHashMap(tiddler.fields));
 	}
 };
 
