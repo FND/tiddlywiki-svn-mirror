@@ -40,6 +40,32 @@ merge(config.commands.deleteTiddlerHosted,{
 	done: "Deleted "
 });
 
+
+config.commands.saveTiddlerHosted = {};
+merge(config.commands.saveTiddlerHosted, config.commands.saveTiddler);
+
+config.commands.saveTiddlerHosted.handler = function(event,src,title)
+{
+	var tiddlerElem = story.getTiddler(title);
+	var fields = {};
+	story.gatherSaveFields(tiddlerElem,fields);
+	var newTitle = fields.title || title;
+	if(!store.tiddlerExists(newTitle))
+		newTitle = newTitle.trim();
+	var rename = new ccTiddlyAdaptor();
+	var userParams = {event:event};
+	var context = {title:title, newTitle:newTitle, workspace:window.workspace};
+	rename.rename(context, userParams, config.commands.saveTiddlerHosted.callback);	
+	return false;
+};
+
+config.commands.saveTiddlerHosted.callback = function(context, userParams) {
+	displayMessage("got to callback 2");
+		var newTitle = story.saveTiddler(context.title,userParams.event.shiftKey);
+		if(newTitle)
+			story.displayTiddler(null,newTitle);
+}
+
 function getServerType(fields)
 {
 	if(!fields)

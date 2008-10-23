@@ -86,6 +86,17 @@ ccTiddlyAdaptor.prototype.register = function(context,userParams,callback){
 	return typeof req == 'string' ? req : true;
 };
 
+ccTiddlyAdaptor.prototype.rename = function(context, userParams, callback){
+	context = this.setContext(context,userParams,callback);
+	var uri = window.url+"/handle/renameTiddler.php?otitle="+context.title+"&ntitle="+context.newTitle+"&workspace="+window.workspace;
+	ccTiddlyAdaptor.doHttpPOST(uri,ccTiddlyAdaptor.renameCallback,context,null,null);
+};
+
+ccTiddlyAdaptor.renameCallback = function(status,context,responseText,uri,xhr){
+	if(context.callback)
+		context.callback(context,context.userParams);
+};
+
 ccTiddlyAdaptor.registerCallback = function(status,context,responseText,uri,xhr){
 	if(status){
 		context.status = true;
