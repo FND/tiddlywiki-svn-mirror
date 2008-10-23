@@ -28,13 +28,13 @@
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 </div>
 <div id='sidebar'>
-<div id='sidebarOptions' refresh='content' tiddler='purpleTheme##SideBarOptions'></div>
+<div id='sidebarOptions' refresh='content' force='true' tiddler='purpleTheme##SideBarOptions'></div>
 </div>
 <div id='displayArea'>
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
 </div>
-<div id='contentFooter'  macro='gradient vert #eee #ccc'></div>
+
 </div>
 <!--}}}-->
 

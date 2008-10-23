@@ -13,6 +13,17 @@ if(!in_array($url[host], $tiddlyCfg['allowed_proxy_list']))
 {
 	exit;
 }
+$url = $feed;
+
+$params = array('http' => array(
+'method' => 'GET',
+'header'=> 'accept:application/json',
+'content' => $data));
+$ctx = stream_context_create($params);
+$fp = fopen($url, 'rb', false, $ctx);
+echo $response = stream_get_contents($fp);
+
+exit;
 
 if($feed != '' && strpos($feed, 'http') === 0)
 {
