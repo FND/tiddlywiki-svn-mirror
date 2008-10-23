@@ -24,7 +24,6 @@ if ($tiddlyCfg['version'] == "1.8")
 	include_once($cct_base."includes/moduleLoader.php");
 include_once($cct_base."lang/".$tiddlyCfg['pref']['language']."/language.php");
 
-
 //include is used because language file is included once in config.php file
 include_once($cct_base."includes/tiddler.php");
 include_once($cct_base."includes/user.php");
