@@ -75,6 +75,11 @@ if ($tiddlyCfg['workspace_name'] == ""){
 	var base = "<? echo $tiddlyCfg['pref']['base_folder'];?>";
 
 displayMessage(base);
+
+var base1 =  base == "/"?"":"/";
+displayMessage("base1"+base1);
+
+
 	if(base == "/")
 		base = "";
 	else
