@@ -89,10 +89,10 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
 	var params = {}; 
 	if(window.useModRewrite == 1)
-		params.url = fullUrl+w.formElem["workspace_name"].value; 
+		params.url = url+w.formElem["workspace_name"].value; 
 	else
-		params.url = fullUrl+'?workspace='+w.formElem["workspace_name"].value;
-	var loginResp = doHttp('POST',url+'/?&workspace='+w.formElem["workspace_name"].value+"/",'&ccCreateWorkspace=' + encodeURIComponent(w.formElem["workspace_name"].value)+'&amp;ccAnonPerm='+encodeURIComponent("AADD"),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
+		params.url = url+'?workspace='+w.formElem["workspace_name"].value;
+	var loginResp = doHttp('POST',url+'?&workspace='+w.formElem["workspace_name"].value+"/",'&ccCreateWorkspace=' + encodeURIComponent(w.formElem["workspace_name"].value)+'&amp;ccAnonPerm='+encodeURIComponent("AADD"),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
 	return false; 
 };
 
