@@ -1,5 +1,11 @@
 <div title="Release Notes" modifier="PhilHawksworth" created="200710241224" modified="200710241439" tags="help" changecount="23">
-<pre>!Version 0.4
+<pre>
+!Version 0.4.1
+!!!Comments
+*Minor bug fix to address the poor rendering of the Task Edit view.
+*Inclusion of the new TiddlyWiki toolbar macro for organising and rendering the toolbars on all tiddlers.
+
+!Version 0.4
 !!!Comments
 *The macro for producing task list views has been replaced with the TTReportViewPlugin which uses named prameters and outputs sortable table views of your data.
 *Task metadata is now stored on the task tiddlers in a much more friendly way. All TeamTasks fields on a tiddler are of the form {{{tt_fieldName='value'}}}

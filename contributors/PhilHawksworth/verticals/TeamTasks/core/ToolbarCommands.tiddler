@@ -1,0 +1,8 @@
+<div title="ToolbarCommands" modifier="PhilHawksworth" created="200810061445">
+<pre>
+|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
+|~TaskViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|
+|~TaskEditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
+</pre>
+</div>

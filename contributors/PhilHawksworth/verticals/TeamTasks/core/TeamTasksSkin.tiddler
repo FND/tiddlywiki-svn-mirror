@@ -37,11 +37,11 @@
 !EditTemplate
 <!--{{{-->
 <div class="editor">
-<div class='toolbar'>[[ToolbarCommands::EditToolbar]]</div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 <div class='title edit' macro='edit title'></div>
 <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 <div class='tagged edit' macro='edit tags'></div>
-<div class='viewer edit' macro='edit text wikified'></div>
+<div class='viewer edit' macro='edit text'></div>
 <div class='tagClear'></div>
 </div>
 <!--}}}-->
@@ -49,7 +49,7 @@
 
 !taskViewTemplate
 <!--{{{-->
-<div class='toolbar'>[[ToolbarCommands::TaskViewToolbar]]</div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::TaskViewToolbar]]'></div>
 <div class='title' macro='view title'></div>
 <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 <div class='tagging' macro='tagging'></div>
@@ -68,7 +68,7 @@
 !taskEditTemplate
 <!--{{{-->
 <div class="editor">
-<div class='toolbar'>[[ToolbarCommands::TaskEditToolbar]]</div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::TaskEditToolbar]]'></div>
 <div class='title edit' macro='edit title'></div>
 <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 <div class='tagging' macro='tagging'></div>
