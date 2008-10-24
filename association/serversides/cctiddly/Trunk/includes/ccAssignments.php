@@ -63,6 +63,8 @@ window.workspacePermission= {};
 window.url = "<?php echo getURL();?>";
 
 <?php
+
+// hack to add a forward slash to the url if not the base dir.
 if($tiddlyCfg['pref']['base_folder']!="/")
 {
 ?>
@@ -70,10 +72,7 @@ window.url= '<?php echo getURL();?>/';
 <?php
 }
 ?>
-
 window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
-
-
 <?php 
 if ($tiddlyCfg['workspace_name'] == ""){
 ?>
@@ -81,9 +80,6 @@ if ($tiddlyCfg['workspace_name'] == ""){
 <?php
 } elseif ($tiddlyCfg['use_mod_rewrite'] == 1){ 
 ?>
-	var base = "/";
-
-	base = base == "/"?"":"/";
 	window.fullUrl = window.url+window.workspace;
 <?php
 }else{
