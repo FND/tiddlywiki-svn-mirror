@@ -1,0 +1,14 @@
+# TiddlyWiki core
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# Plugins
+tiddler: CodeRunnerPlugin.js
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
+
+# Other Content
+tiddler: DefaultTiddlers.tiddler
+tiddler: CodeSnippet.tiddler
+tiddler: ToolbarCommands.tiddler
+tiddler: jsEditTemplate.tiddler
+tiddler: jsViewTemplate.tiddler
+

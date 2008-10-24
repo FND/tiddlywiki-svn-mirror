@@ -1,0 +1,8 @@
+title=NewPlugin Tests
+recipe: $TW_TRUNK/core/tests/html/testContributors.recipe
+
+recipe: NewPlugin.recipe
+
+jsspecsrc=<script src="../../../../core/tests/js/tiddlywiki.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="../../../../core/tests/js/mock.js" type="text/javascript"  charset="utf-8"></script>
+jsspecsrc=<script src="NewPlugin.jsspec.js" type="text/javascript" charset="utf-8"></script>
