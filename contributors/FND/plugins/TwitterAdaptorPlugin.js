@@ -23,7 +23,7 @@ TwitterAdaptor.defaultTags = ["tweets"];
 
 TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) { // TODO: workspace == user
 	context = this.setContext(context, userParams, callback);
-	context.workspaces = [{ title: "TiddlyWiki" }]; // DEBUG: for testing purposes only
+	context.workspaces = [];
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(function() { callback(context, context.userParams); }, 0);
@@ -86,10 +86,9 @@ TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callb
 	if(!context.tiddler) {
 		context.tiddler = new Tiddler(title);
 		context.tiddler.fields = fields;
-		context.tiddler.modifier = context.workspace;
 	}
 	var uriTemplate = "%0/%1/status/%2";
-	var uri = uriTemplate.format([context.host, context.tiddler.modifier, context.tiddler.title]);
+	var uri = uriTemplate.format([context.host, context.workspace, context.tiddler.title]);
 	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerCallback, context);
 	return typeof req == "string" ? req : true;
 };
