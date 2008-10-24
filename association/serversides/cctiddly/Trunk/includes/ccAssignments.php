@@ -73,19 +73,7 @@ if ($tiddlyCfg['workspace_name'] == ""){
 } elseif ($tiddlyCfg['use_mod_rewrite'] == 1){ 
 	?>
 	var base = "<? echo $tiddlyCfg['pref']['base_folder'];?>";
-
-displayMessage(base);
-
-var base1 =  base == "/"?"":"/";
-displayMessage("base1"+base1);
-
-
-	if(base == "/")
-		base = "";
-	else
-		base = "/";
-		
-	displayMessage(base);
+	base = base == "/"?"":"/";
 	window.fullUrl = window.url+base+window.workspace;
 		<?php
 
