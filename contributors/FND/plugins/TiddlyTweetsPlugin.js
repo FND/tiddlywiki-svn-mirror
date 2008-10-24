@@ -10,7 +10,7 @@
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 !Usage
 {{{
-<<TiddlyTweets [username] [pages]>>
+<<TiddlyTweets [username] [pages] [pages]>>
 }}}
 !Revision History
 !!v0.1 (2008-10-24)
@@ -31,36 +31,49 @@ config.macros.TiddlyTweets = {
 	usernamePrompt: "enter Twitter username",
 
 	host: "http://www.twitter.com", // XXX: use HTTPS?
+	requestDelay: 1000, // delay between page requests
 	adaptor: new TwitterAdaptor(),
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+		this.pageCount = 0; // XXX: means there can only be a single instance!!
 		createTiddlyButton(place, this.btnLabel, this.btnTooltip,
-			function() { config.macros.TiddlyTweets.launcher(params); });
+			function() { config.macros.TiddlyTweets.dispatcher(params) });
 	},
 
-	launcher: function(params) { // TODO: rename
+	dispatcher: function(params) { // TODO: rename
+		var self = config.macros.TiddlyTweets;
+		var maxPages = params[1] || 1;
+		if(self.pageCount < maxPages) {
+			var username = params[0] || prompt(self.usernamePrompt);
+			self.launcher(username, self.pageCount);
+			setTimeout(function() { self.dispatcher(params); },
+				self.requestDelay);
+			self.pageCount++;
+		} else {
+			self.pageCount = 0;
+		}
+	},
+
+	launcher: function(username, page) { // TODO: rename
+		var self = config.macros.TiddlyTweets;
 		var context = {
-			host: config.macros.TiddlyTweets.host,
-			workspace: params[0] || prompt(config.macros.TiddlyTweets.usernamePrompt)
+			host: self.host,
+			workspace: username,
+			page: page
 		};
-		var pages = params[1] || 1;
-		for(var i = 0; i < pages; i++) {
-			context.page = i;
-			var status = config.macros.TiddlyTweets.adaptor.getTiddlerList(context,
-				null, config.macros.TiddlyTweets.processor);
-			if(status) {
-				displayMessage("retrieving tweets from page " + context.page); // TODO: i18n
-			} else {
-				displayMessage("error retrieving tweets from page " + context.page); // TODO: i18n
-			}
+		var status = self.adaptor.getTiddlerList(context, null, self.processor);
+		if(status) {
+			displayMessage("retrieving tweets from page " + context.page); // TODO: i18n
+		} else {
+			displayMessage("error retrieving tweets from page " + context.page); // TODO: i18n
 		}
 	},
 
 	processor: function(context, userParams) { // TODO: rename
+		var self = config.macros.TiddlyTweets;
 		for(var i = 0; i < context.tiddlers.length; i++) {
 			context.tiddler = context.tiddlers[i];
-			config.macros.TiddlyTweets.adaptor.getTiddler(null,
-				context, null, config.macros.TiddlyTweets.saver);
+			self.adaptor.getTiddler(null, context, null, self.saver);
 		}
 	},
 

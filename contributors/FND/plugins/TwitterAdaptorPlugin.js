@@ -162,6 +162,8 @@ TwitterAdaptor.convertTimestamp = function(str) {
 		components[2], components[3], components[4], components[5]);
 };
 
+config.adaptors[TwitterAdaptor.serverType] = TwitterAdaptor;
+
 // convert short-month string (mmm) to month number (zero-based)
 function convertShortMonth(text) {
 	for(var i = 0; i < config.messages.dates.shortMonths.length; i++) { // XXX: inefficient!?
@@ -176,5 +178,3 @@ function decodeHTMLEntities(str) {
 	el.innerHTML = str;
 	return el.value;
 }
-
-config.adaptors[TwitterAdaptor.serverType] = TwitterAdaptor;
