@@ -1,15 +1,20 @@
 /***
 |''Name''|TwitterAdaptorPlugin|
+|''Description''|adaptor for retrieving data from Twitter|
 |''Author''|FND|
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
-|''Version''|0.2.1|
+|''Version''|0.2.5|
+|''Status''|@@beta@@|
+|''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptorPlugin|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+!Revision History
+!!v0.2 (2008-10-23)
+* initial release
 !To Do
-* workspace to serve as user input
-* link back to respective tweet
-* recurse through pages
-* process tweet properties in_reply_to_status_id, source, favorited
+* scrapeTweet: retrieve created/modified date (via API?)
 * store user info in a tiddler
-* documentation
+* support for timelines (user, public, replies)
 !Code
 ***/
 //{{{
@@ -86,6 +91,7 @@ TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callb
 	if(!context.tiddler) {
 		context.tiddler = new Tiddler(title);
 		context.tiddler.fields = fields;
+		context.tiddler.modifier = context.workspace;
 	}
 	var uriTemplate = "%0/%1/status/%2";
 	var uri = uriTemplate.format([context.host, context.workspace, context.tiddler.title]);
@@ -114,8 +120,10 @@ TwitterAdaptor.parseTweet = function(tweet) {
 	tiddler.text = tweet.text;
 	tiddler.tags = TwitterAdaptor.defaultTags;
 	tiddler.fields = {
-		avatar: tweet.user.profile_image_url,
-		truncated: tweet.truncated
+		source: tweet.source, // XXX: rename?
+		truncated: tweet.truncated,
+		favorited: tweet.favorited,
+		context: tweet.in_reply_to_status_id // XXX: rename?
 	};
 	return tiddler;
 };
