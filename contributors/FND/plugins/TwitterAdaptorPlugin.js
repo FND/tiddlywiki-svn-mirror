@@ -66,25 +66,26 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 
 TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
-	context.title = title;
+	context.title = title || context.tiddler.title; // XXX: fallback wrong?
 	var fields = {
 		"server.type": TwitterAdaptor.serverType,
 		"server.host": AdaptorBase.minHostName(context.host)
 	};
 	// reuse previously-requested tiddlers
-	var tiddlers = userParams.getValue("adaptor").context.tiddlers; // XXX: ugly workaround; adaptor framework should pass context.tiddler
-	for(var i = 0; i < tiddlers.length; i++) {
-		if(tiddlers[i].title == title) {
-			context.tiddler = tiddlers[i];
-		}
-	}
 	if(context.tiddler) {
 		context.tiddler.fields = merge(context.tiddler.fields, fields);
+	} else if(userParams && userParams.getValue) { // access wizard context -- XXX: ugly workaround; adaptor framework should pass context.tiddler
+		var tiddlers = userParams.getValue("adaptor").context.tiddlers;
+		for(var i = 0; i < tiddlers.length; i++) {
+			if(tiddlers[i].title == title) {
+				context.tiddler = tiddlers[i];
+			}
+		}
 	}
 	// do not re-request non-truncated tweets
 	if(context.tiddler && !context.tiddler.fields.truncated) {
 		context.status = true;
-		window.setTimeout(function() { callback(context, context.userParams); }, 0);
+		window.setTimeout(new Function(callback(context, context.userParams)), 0); // XXX: new constructor to force evaluation is evil!?
 		return true;
 	}
 	// request individual tweet -- resorting to screen scraping due to API deficiency (cf. http://code.google.com/p/twitter-api/issues/detail?id=133)
@@ -117,7 +118,7 @@ TwitterAdaptor.parseTweet = function(tweet) {
 	tiddler.created = TwitterAdaptor.convertTimestamp(tweet.created_at);
 	tiddler.modified = tiddler.created;
 	tiddler.modifier = tweet.user.screen_name;
-	tiddler.text = tweet.text;
+	tiddler.text = tweet.text; // TODO: convert HTML entities
 	tiddler.tags = TwitterAdaptor.defaultTags;
 	tiddler.fields = {
 		source: tweet.source, // XXX: rename?
@@ -151,7 +152,7 @@ TwitterAdaptor.scrapeTweet = function(contents) {
 		}
 	}
 	removeNode(ifrm);
-	return text.trim();
+	return text.trim(); // TODO: convert HTML entities
 };
 
 // convert timestamp ("mmm 0DD 0hh:0mm:0ss +0000 YYYY") to Date instance
