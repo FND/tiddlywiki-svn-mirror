@@ -4,8 +4,7 @@
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
 |''Version''|0.2.1|
 !To Do
-* getTiddler requires context.tiddler or context.tiddlers -- what if there's only a title?
-* workspace serves as user input
+* workspace to serve as user input
 * link back to respective tweet
 * recurse through pages
 * process tweet properties in_reply_to_status_id, source, favorited
@@ -63,19 +62,32 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = title;
-	// do not re-request non-truncated tweets
-	var tiddlers = userParams.getValue("adaptor").context.tiddlers; // XXX: ugly workaround; redundant when framework is fixed (see below)
+	var fields = {
+		"server.type": TwitterAdaptor.serverType,
+		"server.host": AdaptorBase.minHostName(context.host)
+	};
+	// reuse previously-requested tiddlers
+	var tiddlers = userParams.getValue("adaptor").context.tiddlers; // XXX: ugly workaround; adaptor framework should pass context.tiddler
 	for(var i = 0; i < tiddlers.length; i++) {
 		if(tiddlers[i].title == title) {
 			context.tiddler = tiddlers[i];
 		}
 	}
-	if(context.tiddler && !context.tiddler.fields.truncated) { // XXX: requires adaptor framework to pass context.tiddler!?
+	if(context.tiddler) {
+		context.tiddler.fields = merge(context.tiddler.fields, fields);
+	}
+	// do not re-request non-truncated tweets
+	if(context.tiddler && !context.tiddler.fields.truncated) {
 		context.status = true;
 		window.setTimeout(function() { callback(context, context.userParams); }, 0);
 		return true;
 	}
-	// request individual, truncated tweet -- resorting to screen scraping due to API deficiency (cf. http://code.google.com/p/twitter-api/issues/detail?id=133)
+	// request individual tweet -- resorting to screen scraping due to API deficiency (cf. http://code.google.com/p/twitter-api/issues/detail?id=133)
+	if(!context.tiddler) {
+		context.tiddler = new Tiddler(title);
+		context.tiddler.fields = fields;
+		context.tiddler.modifier = context.workspace;
+	}
 	var uriTemplate = "%0/%1/status/%2";
 	var uri = uriTemplate.format([context.host, context.tiddler.modifier, context.tiddler.title]);
 	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerCallback, context);
@@ -88,11 +100,6 @@ TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri,
 	context.httpStatus = xhr.status;
 	if(status) {
 		context.tiddler.text = TwitterAdaptor.scrapeTweet(responseText);
-		var fields = {
-			"server.type": TwitterAdaptor.serverType,
-			"server.host": AdaptorBase.minHostName(context.host)
-		};
-		context.tiddler.fields = merge(context.tiddler.fields, fields);
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
@@ -115,7 +122,7 @@ TwitterAdaptor.parseTweet = function(tweet) {
 };
 
 // retrieve tweet text from HTML
-TwitterAdaptor.scrapeTweet = function(text) {
+TwitterAdaptor.scrapeTweet = function(contents) {
 	var ifrm = document.createElement("iframe");
 	ifrm.style.display = "none";
 	document.body.appendChild(ifrm);
@@ -126,8 +133,8 @@ TwitterAdaptor.scrapeTweet = function(text) {
 		doc = ifrm.contentWindow.document;
 	}
     doc.open();
-    doc.writeln(text);
-    doc.close()
+    doc.writeln(contents);
+    doc.close();
 	var containers = doc.getElementsByTagName("div");
 	for(i = 0; i < containers.length; i++) {
 		if(containers[i].className == "desc-inner") {
