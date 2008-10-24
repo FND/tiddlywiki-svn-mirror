@@ -60,7 +60,17 @@ merge(config.macros.options,{
 	
 window.ccTiddlyVersion = '<?php echo $tiddlyCfg['version'];?>';
 window.workspacePermission= {};
-window.url = "<?php echo getURL();?>/";
+window.url = "<?php echo getURL();?>";
+
+<?php
+if($tiddlyCfg['pref']['base_folder']!="/")
+{
+?>
+window.url= '<?php echo getURL();?>/';
+<?php
+}
+?>
+
 window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 
 
@@ -71,9 +81,10 @@ if ($tiddlyCfg['workspace_name'] == ""){
 <?php
 } elseif ($tiddlyCfg['use_mod_rewrite'] == 1){ 
 ?>
-	var base = "<? echo $tiddlyCfg['pref']['base_folder'];?>";
+	var base = "/";
+
 	base = base == "/"?"":"/";
-	window.fullUrl = window.url+base+window.workspace;
+	window.fullUrl = window.url+window.workspace;
 <?php
 }else{
 	?>
