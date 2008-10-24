@@ -2,9 +2,9 @@
 |''Name''|TwitterAdaptorPlugin|
 |''Author''|FND|
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
-|''Version''|0.2|
+|''Version''|0.2.1|
 !To Do
-* individual tiddlers are still truncated - i.e. getTiddlerCallback is obsolete!?
+* getTiddler requires context.tiddler or context.tiddlers -- what if there's only a title?
 * workspace serves as user input
 * link back to respective tweet
 * recurse through pages
@@ -75,12 +75,10 @@ TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callb
 		window.setTimeout(function() { callback(context, context.userParams); }, 0);
 		return true;
 	}
-	// request individual tiddler
-	context.tiddler = new Tiddler(title);
-	var uriTemplate = "%0/statuses/show/%1.json";
-	var uri = uriTemplate.format([context.host, context.tiddler.title]);
-	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerCallback,
-		context, null, null, { "accept": TwitterAdaptor.mimeType });
+	// request individual, truncated tweet -- resorting to screen scraping due to API deficiency (cf. http://code.google.com/p/twitter-api/issues/detail?id=133)
+	var uriTemplate = "%0/%1/status/%2";
+	var uri = uriTemplate.format([context.host, context.tiddler.modifier, context.tiddler.title]);
+	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerCallback, context);
 	return typeof req == "string" ? req : true;
 };
 
@@ -89,14 +87,12 @@ TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri,
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
-		eval("var tweet = " + responseText); // evaluate JSON response
-		context.tiddler = TwitterAdaptor.parseTweet(tweet);
+		context.tiddler.text = TwitterAdaptor.scrapeTweet(responseText);
 		var fields = {
 			"server.type": TwitterAdaptor.serverType,
 			"server.host": AdaptorBase.minHostName(context.host)
 		};
 		context.tiddler.fields = merge(context.tiddler.fields, fields);
-		console.log(context.tiddler.text, tweet, responseText);
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
@@ -118,6 +114,32 @@ TwitterAdaptor.parseTweet = function(tweet) {
 	return tiddler;
 };
 
+// retrieve tweet text from HTML
+TwitterAdaptor.scrapeTweet = function(text) {
+	var ifrm = document.createElement("iframe");
+	ifrm.style.display = "none";
+	document.body.appendChild(ifrm);
+	var doc = ifrm.document;
+	if(ifrm.contentDocument) { // NS6
+		doc = ifrm.contentDocument;
+	} else if(ifrm.contentWindow) { // IE
+		doc = ifrm.contentWindow.document;
+	}
+    doc.open();
+    doc.writeln(text);
+    doc.close()
+	var containers = doc.getElementsByTagName("div");
+	for(i = 0; i < containers.length; i++) {
+		if(containers[i].className == "desc-inner") {
+			var tweet = containers[i].getElementsByTagName("p")[0];
+			var text = tweet.text || tweet.textContent; // strip descendants' markup -- XXX: cross-browser compatible?
+			break;
+		}
+	}
+	removeNode(ifrm);
+	return text.trim();
+};
+
 // convert timestamp ("mmm 0DD 0hh:0mm:0ss +0000 YYYY") to Date instance
 TwitterAdaptor.convertTimestamp = function(str) {
 	var components = str.match(/(\w+) (\d+) (\d+):(\d+):(\d+) \+\d+ (\d+)/);
@@ -127,11 +149,11 @@ TwitterAdaptor.convertTimestamp = function(str) {
 
 // convert short-month string (mmm) to month number (zero-based)
 TwitterAdaptor.convertShortMonth = function(text) {
-    for(var i = 0; i < config.messages.dates.shortMonths.length; i++) { // XXX: inefficient!?
-        if(text == config.messages.dates.shortMonths[i]) {
-            return i;
-        }
-    }
+	for(var i = 0; i < config.messages.dates.shortMonths.length; i++) { // XXX: inefficient!?
+		if(text == config.messages.dates.shortMonths[i]) {
+			return i;
+		}
+	}
 };
 
 config.adaptors[TwitterAdaptor.serverType] = TwitterAdaptor;
