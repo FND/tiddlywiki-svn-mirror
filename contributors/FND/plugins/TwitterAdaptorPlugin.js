@@ -158,12 +158,12 @@ TwitterAdaptor.scrapeTweet = function(contents) {
 // convert timestamp ("mmm 0DD 0hh:0mm:0ss +0000 YYYY") to Date instance
 TwitterAdaptor.convertTimestamp = function(str) {
 	var components = str.match(/(\w+) (\d+) (\d+):(\d+):(\d+) \+\d+ (\d+)/);
-	return new Date(components[6], this.convertShortMonth(components[1]),
+	return new Date(components[6], convertShortMonth(components[1]),
 		components[2], components[3], components[4], components[5]);
 };
 
 // convert short-month string (mmm) to month number (zero-based)
-TwitterAdaptor.convertShortMonth = function(text) {
+function convertShortMonth(text) {
 	for(var i = 0; i < config.messages.dates.shortMonths.length; i++) { // XXX: inefficient!?
 		if(text == config.messages.dates.shortMonths[i]) {
 			return i;
