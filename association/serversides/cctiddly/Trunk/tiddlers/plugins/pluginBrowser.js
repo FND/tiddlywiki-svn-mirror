@@ -16,14 +16,13 @@ merge(config.macros.pluginBrowser,{
 	wizardStepText:" <input name='markList' style='display:none' />",
 	wizardButtonInstallText:"Install",
 	wizardButtonInstallTooltip:"Click to install plugins",
-		plugins: [	
-		{title: 'QRCode Plugin', url: 'http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/QRCodePlugin/QRCodePlugin.js', description: ''},
-		{title: 'MicroFormats Plugin', url: 'http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/MicroformatPlugin.js', description: ''},
-		{title: 'Comments Plugin', url: 'http://svn.tiddlywiki.org/Trunk/contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js', description: ''},
-		{title: 'Theme Switcher Plugin', url: 'http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js', description: ''},
-		{title: 'ToDo List Plugin', url: 'http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/TodoListPlugin.js', description: ''},
-		{title: 'Table Sorting Plugin6', url: 'http://tiddlytools.com', description: ''},
-		]
+	plugins: [	
+		{title: 'Twitter Adaptor', url: 'http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/TwitterAdaptorPlugin.js', description: 'Automatically turns the siteTitle into a link.'},
+		{title: 'Power Title', url: 'http://svn.tiddlywiki.org/Trunk/contributors/MichaelMahemoff/plugins/ClickableSiteTitlePlugin/PowerTitlePlugin.js', description: 'Automatically turns the siteTitle into a link.'},
+		{title: 'Comments Plugin', url: 'http://svn.tiddlywiki.org/Trunk/contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js', description: '{{{<<comments>>}}}'},
+		{title: 'Theme Switcher Plugin', url: 'http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js', description: '{{{<<selectTheme>>}}}'},
+		{title: 'ToDo List Plugin', url: 'http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/TodoListPlugin.js', description: '{{{<<listTodos>>}}}'}
+	]
 	});
 
 config.macros.pluginBrowser.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
@@ -55,7 +54,7 @@ config.macros.pluginBrowser.installCallback = function(status,params,responseTex
 	uri = uri.substring(uri.lastIndexOf('/'));
 	var title = uri.substring(1, uri.indexOf('.js'));
 	var now = new Date();
-	if(!store.getTiddler(title)) {
+	if(!store.getTiddler(title)){
 		store.saveTiddler(title,title,responseText,'ccTiddly',now,'systemConfig');
     }
 	store.resumeNotifications();

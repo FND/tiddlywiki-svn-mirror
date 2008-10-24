@@ -63,7 +63,7 @@ array(	"ccAdaptor",
 
 // Getting Started Text 
 
-$tiddlyCfg['GettingStartedText'] = "To get started with this workspace, you'll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the workspace is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the worksace is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] and [[Permissions]] tiddlers.<<ccEditWorkspace>>";
+$tiddlyCfg['GettingStartedText'] = "<<pluginBrowser>>To get started with this workspace, you'll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the workspace is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the worksace is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] and [[Permissions]] tiddlers.<<ccEditWorkspace>>";
 
 
 //Proxy Allowed Servers
@@ -193,19 +193,18 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 $tiddlyCfg['pref']['base_folder'] = getBaseDir($_SERVER);
 $tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'uploads/';  // location of the file upload directory - assumes is it under the root folder 
 
-
-
-
 include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
 
-// lookup workspace in db. 
+// lookup workspace settings from db. 
 db_connect_new();
 $workspace_settings = db_workspace_selectSettings();
 // return 404 or create workspace
 checkWorkspace($workspace_settings, $_POST, $cct_base);
 $tiddlyCfg = array_merge($tiddlyCfg, $workspace_settings);
 handleDebug($_SERVER);
-//checkAndAddSlash($_SERVER['REQUEST_URI']);
+//This is where to override values which can be set in the workspace table.
+//$tiddlyCfg['session_expire'] = 2000;
+//$tiddlyCfg['keep_revision'] = 1;
 
 ////////////////////////////////////////////////////users and privileges////////////////////////////////////////////////////
 
@@ -250,7 +249,7 @@ Notes :
 */
 
 //default privileges
-$tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what should undefined (U) be treated as
+$tiddlyCfg['privilege_misc']['undefined_privilege'] = "A";		//defined what should undefined (U) be treated as
 $tiddlyCfg['privilege_misc']['default_privilege'] = "UUUU";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
