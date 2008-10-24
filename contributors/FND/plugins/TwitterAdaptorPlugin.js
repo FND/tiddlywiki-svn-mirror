@@ -118,7 +118,7 @@ TwitterAdaptor.parseTweet = function(tweet) {
 	tiddler.created = TwitterAdaptor.convertTimestamp(tweet.created_at);
 	tiddler.modified = tiddler.created;
 	tiddler.modifier = tweet.user.screen_name;
-	tiddler.text = tweet.text; // TODO: convert HTML entities
+	tiddler.text = decodeHTMLEntities(tweet.text);
 	tiddler.tags = TwitterAdaptor.defaultTags;
 	tiddler.fields = {
 		source: tweet.source, // XXX: rename?
@@ -152,7 +152,7 @@ TwitterAdaptor.scrapeTweet = function(contents) {
 		}
 	}
 	removeNode(ifrm);
-	return text.trim(); // TODO: convert HTML entities
+	return decodeHTMLEntities(text.trim());
 };
 
 // convert timestamp ("mmm 0DD 0hh:0mm:0ss +0000 YYYY") to Date instance
@@ -170,5 +170,11 @@ TwitterAdaptor.convertShortMonth = function(text) {
 		}
 	}
 };
+
+function decodeHTMLEntities(str) {
+	var el = document.createElement("textarea");
+	el.innerHTML = str;
+	return el.value;
+}
 
 config.adaptors[TwitterAdaptor.serverType] = TwitterAdaptor;
