@@ -72,7 +72,7 @@ if ($tiddlyCfg['workspace_name'] == ""){
 	<?php
 } elseif ($tiddlyCfg['use_mod_rewrite'] == 1){ 
 	?>
-	window.fullUrl = window.url+"/"+window.workspace;
+	window.fullUrl = window.url+window.workspace;
 		<?php
 
 }else{

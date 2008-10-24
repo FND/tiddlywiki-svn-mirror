@@ -4,8 +4,6 @@ merge(config.macros.pluginBrowser,{
        listTemplate: {
        columns: [
        {name: 'Selected', field: 'url', rowName: 'url', type: 'Selector'},
-       {name: 'wiki text', field: 'installed', title: 'installed', type: 'WikiText'},
-       {name: 'wiki text', field: 'saved', title: 'saved', type: 'WikiText'},
 	   {name: 'wiki text', field: 'title', title: "Plugin", type: 'WikiText'},
 	   {name: 'wiki text', field: 'description', title: "Description", type: 'WikiText'}
 	   ],
@@ -18,7 +16,7 @@ merge(config.macros.pluginBrowser,{
 	wizardStepText:" <input name='markList' style='display:none' />",
 	wizardButtonInstallText:"Install",
 	wizardButtonInstallTooltip:"Click to install plugins",
-	plugins: [	
+	ccPlugins: [
 		{title: 'Twitter Adaptor', url: 'http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/TwitterAdaptorPlugin.js', description: 'Automatically turns the siteTitle into a link.'},
 		{title: 'Power Title', url: 'http://svn.tiddlywiki.org/Trunk/contributors/MichaelMahemoff/plugins/ClickableSiteTitlePlugin/PowerTitlePlugin.js', description: 'Automatically turns the siteTitle into a link.'},
 		{title: 'Comments Plugin', url: 'http://svn.tiddlywiki.org/Trunk/contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js', description: '{{{<<comments>>}}}'},
@@ -38,20 +36,24 @@ config.macros.pluginBrowser.handler=function(place,macroName,params,wikifier,par
 	var markList = w.getElement("markList");
 	var listWrapper = document.createElement("div");
 	markList.parentNode.insertBefore(listWrapper,markList);
-	for(t=0; t<me.plugins.length; t++){
-		p = me.plugins[t];
-		var tiddler = store.getTiddler(me.getFileName(p.url));
-		if(tiddler){
-			p.url = false;
-			p.saved = " true ";
-			if(tiddler.isTagged("systemConfig"))
-				p.installed =" true";
+	console.log(me.ccPlugins);
+	for(var m=0; m < me.ccPlugins.length; m++)  {
+		p = me.ccPlugins[m];
+		console.log(p);
+
+		if(p.url){
+			var tiddler2 = store.getTiddler(me.getFileName(p.url));
+			if(tiddler2){
+				if(tiddler2.isTagged("systemConfig")){
+					me.ccPlugins.remove(p);
+				}
+			}
 		}
 	}
-	var listView = ListView.create(listWrapper,me.plugins,me.listTemplate);
+	var listView = ListView.create(listWrapper,me.ccPlugins,me.listTemplate);
 	w.setValue("listView",listView);
 	me.refresh(w);
-};
+	};
 
 config.macros.pluginBrowser.refresh=function(w){
 	var me = config.macros.pluginBrowser;

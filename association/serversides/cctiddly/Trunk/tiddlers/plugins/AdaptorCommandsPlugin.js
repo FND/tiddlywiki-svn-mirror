@@ -60,10 +60,9 @@ config.commands.saveTiddlerHosted.handler = function(event,src,title)
 };
 
 config.commands.saveTiddlerHosted.callback = function(context, userParams) {
-	displayMessage("got to callback 2");
-		var newTitle = story.saveTiddler(context.title,userParams.event.shiftKey);
-		if(newTitle)
-			story.displayTiddler(null,newTitle);
+	var newTitle = story.saveTiddler(context.title,userParams.event.shiftKey);
+	if(newTitle)
+		story.displayTiddler(null,newTitle);
 }
 
 function getServerType(fields)
