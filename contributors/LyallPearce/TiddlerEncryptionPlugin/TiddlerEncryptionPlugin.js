@@ -3,7 +3,7 @@
 |Author|Lyall Pearce|
 |Source|http://www.Remotely-Helpful.com/TiddlyWiki/TiddlerEncryptionPlugin.html|
 |License|[[Creative Commons Attribution-Share Alike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|Version|3.2.0|
+|Version|3.2.1|
 |~CoreVersion|2.4.0|
 |Requires|None|
 |Overrides|store.getSaver().externalizeTiddler(), store.getTiddler() and store.getTiddlerText()|
@@ -40,9 +40,11 @@ Useful Buttons:
 <<EncryptionDecryptAll>> - Decrypt ALL tiddlers - enables searching contents of encrypted tiddlers.
 <<option chkExcludeEncryptedFromSearch>> - If set, Encrypted Tiddlers are excluded from searching by tagging with excludeSearch. If Clear, excludeSearch is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Searching of Encrypted Tiddlers is only meaningful for the Title and Tags.
 <<option chkExcludeEncryptedFromLists>> - If set, Encrypted Tiddlers are excluded from lists by tagging with excludeLists. If Clear, excludeLists is not added and it is also removed from existing Encrypted Tiddlers only if it is the last Tag. Preventing encrypted tiddlers from appearing in lists effectively hides them.
+<<option chkShowDecryptButtonInContent>> - If set, Encrypted Tiddlers content is replaced by <<EncryptionDecryptThis>> button. This has consequences, in the current version as, if you edit the tiddler without decrypting it, you lose the contents.
 <<<
 !!!!!Revision History
 <<<
+* 3.2.1 - Returned the <<EncryptionDecryptThis>> button as an option.
 * 3.2.0 - Ditched the 'Decrypt' button showing up in the tiddler contents if the tiddler is encrypted. It caused too much pain if you edit the tiddler without decrypting it - you lost your data as it was replaced by a Decrypt Macro call!  Additionally, a 'decrypt' button will now appear in the toolbar, just before the edit button, if the tiddler is encrypted. This button only appears if using core TiddlyWiki version 2.4 or above.
 * 3.1.1 - Obscure bug whereby if an encrypted tiddler was a certain length, it would refuse to decrypt.
 * 3.1.0 - When creating a new Encrypt(prompt) tiddler and you have not previously decrypted a tiddler with the same prompt, on save, you will be prompted for the password to encrypt the tiddler. Prior to encrypting, an attempt to decrypt all other tiddlers with the same prompt, is performed. If any tiddler fails to decrypt, the save is aborted - this is so you don't accidentally have 2 (or more!) passwords for the same prompt. Either you enter the correct password, change the prompt string and try re-saving or you cancel (and the tiddler is saved unencrypted).
@@ -53,7 +55,7 @@ Useful Buttons:
 
 ***/
 //{{{
-version.extensions.TiddlerEncryptionPlugin = {major: 3, minor: 2, revision: 0, date: new Date(2008,10,6)};
+version.extensions.TiddlerEncryptionPlugin = {major: 3, minor: 2, revision: 1, date: new Date(2008,10,26)};
 
 // where I cache the passwords - for want of a better place.
 config.encryptionPasswords = new Array();
@@ -61,6 +63,7 @@ config.encryptionReEnterPasswords = false;
 
 if(config.options.chkExcludeEncryptedFromSearch == undefined) config.options.chkExcludeEncryptedFromSearch = false;
 if(config.options.chkExcludeEncryptedFromLists == undefined) config.options.chkExcludeEncryptedFromLists = false;
+if(config.options.chkShowDecryptButtonInContent == undefined) config.options.chkShowDecryptButtonInContent = false;
 
 config.macros.EncryptionChangePassword = {};
 config.macros.EncryptionChangePassword.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -447,18 +450,20 @@ store.getTiddler = function(title) {
 	try {
 	    return CheckTiddlerForDecryption_TiddlerEncryptionPlugin(tiddler);
 	} catch (e) {
+	    if (config.options.chkShowDecryptButtonInContent == true) {
+		if(e == "DecryptionFailed") {
+		    var tiddler = store.getTiddler("DecryptionFailed");
+		    if(!tiddler) {
+			tiddler = new Tiddler();
+			tiddler.set(title,
+				    "<<EncryptionDecryptThis \"Decrypt\" \"Decrypt this tiddler\" \""+title+"\">>",
+				    config.views.wikified.shadowModifier,
+				    version.date,[],version.date);
+		    } 
+		    return tiddler;
+		} // if(e)
+	    }
 	    return(tiddler);
-	    // if(e == "DecryptionFailed") {
-	    // 	var tiddler = store.getTiddler("DecryptionFailed");
-	    // 	if(!tiddler) {
-	    // 	    tiddler = new Tiddler();
-	    // 	    tiddler.set(title,
-	    // 			"<<EncryptionDecryptThis \"Decrypt\" \"Decrypt this tiddler\" \""+title+"\">>",
-	    // 			config.views.wikified.shadowModifier,
-	    // 			version.date,[],version.date);
-	    // 	} 
-	    // 	return tiddler;
-	    // } // if(e)
 	} // catch
     } // if(tiddler) {
     return null;
