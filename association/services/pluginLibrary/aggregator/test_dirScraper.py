@@ -42,7 +42,7 @@ class DirScraperTestCase(unittest.TestCase):
 		self.svn = DirScraper("http://svn.tiddlywiki.org/Trunk/association/services/pluginLibrary/aggregator/")
 		uri = "test"
 		tiddlers = [t.title for t in self.svn.getPlugins(uri, True)]
-		expected = ["consectetur", "adipisicing", "lorem", "sit"] # N.B.: includes checking for white- and blacklisting
+		expected = ["adipisicing", "consectetur", "lorem", "sit"] # N.B.: includes checking for white- and blacklisting
 		self.assertEqual(expected, tiddlers)
 
 	def testRetrieveMetadataSetsTitle(self):

@@ -50,5 +50,24 @@ class trimURITestCase(unittest.TestCase):
 		expected = "http://localhost/foo"
 		self.assertEqual(expected, utils.trimURI(uri))
 
+class matchPatternsTestCase(unittest.TestCase):
+	def setUp(self):
+		pass
+
+	def tearDown(self):
+		pass
+
+	def testReturnsFalseForNoMatch(self):
+		"""returns False if URI matches none of the given patterns"""
+		term = "lorem.js"
+		patterns = ["foo", "bar", "baz"]
+		self.assertFalse(utils.matchPatterns(term, patterns))
+
+	def testReturnsTrueForAnyMatch(self):
+		"""returns True if URI matches any of the given patterns"""
+		term = "lorem.js"
+		patterns = ["foo", "bar", "*.js"]
+		self.assertTrue(utils.matchPatterns(term, patterns))
+
 if __name__ == "__main__":
 	unittest.main()

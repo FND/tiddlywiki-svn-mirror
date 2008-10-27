@@ -1,3 +1,5 @@
+from fnmatch import fnmatch
+
 def decodePrettyLink(str):
 	"""
 	separate PrettyLinks' label and URI
@@ -23,3 +25,9 @@ def trimURI(uri): # TODO: properly normalize URI
 	uri = uri.split("#", 1)[0]
 	uri = uri.rstrip("/").lower()
 	return uri
+
+def matchPatterns(term, patterns): # TODO: rename
+	for pattern in patterns:
+		if fnmatch(term, pattern):
+			return True
+	return False

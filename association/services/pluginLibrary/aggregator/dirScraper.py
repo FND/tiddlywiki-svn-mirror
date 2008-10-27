@@ -9,6 +9,7 @@ from urllib import urlopen
 from BeautifulSoup import BeautifulSoup
 
 from tiddlyweb.model.tiddler import Tiddler
+from utils import matchPatterns
 
 class DirScraper:
 	def __init__(self, host):
@@ -53,17 +54,17 @@ class DirScraper:
 		except AttributeError: # means 404 -- XXX: ugly hack; check for HTTP status code directly
 			raise IOError("404 Not Found") # XXX: IOError not appropriate
 		uris = [item.findChild("a")["href"] for item in items]
-		if self.whitelist in uris:
+		if self.whitelist in uris: # whitelisting
 			uri = posixpath.join(self.host, dir, self.whitelist)
-			whitelisted = self._get(uri).split("\n")
+			patterns = self._get(uri).split("\n")
 			meta = [uri.strip() for uri in uris if uri.endswith(".meta")]
-			uris = [uri.strip() for uri in whitelisted]
+			uris = [uri.strip() for uri in uris if matchPatterns(uri, patterns)]
 			uris.extend(meta)
-		elif self.blacklist in uris:
+		elif self.blacklist in uris: # blacklisting
 			uri = posixpath.join(self.host, dir, self.blacklist)
-			blacklisted = self._get(uri).split("\n")
-			blacklisted.append(self.blacklist)
-			uris = [uri.strip() for uri in uris if uri not in blacklisted]
+			patterns = self._get(uri).split("\n")
+			patterns.append(self.blacklist)
+			uris = [uri.strip() for uri in uris if not matchPatterns(uri, patterns)]
 		for uri in uris:
 			if uri == "../":
 				continue

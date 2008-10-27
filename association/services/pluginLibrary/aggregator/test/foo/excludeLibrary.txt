@@ -1,2 +1,2 @@
-ipsum.js
 dolor.js
+*sum.js
