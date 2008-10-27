@@ -192,8 +192,6 @@ $db_var['settings']['magic_quote'] = 0;
 	{
 		global $tiddlyCfg;
 		$q = "SELECT * FROM ".$tiddlyCfg['table']['workspace']." WHERE name='".$tiddlyCfg['workspace_name']."'";
-
-		debug("db_workspace_selectSettings: ".$q, "mysql");
 		$r = mysql_query($q)
 			or die(mysql_error());
 		

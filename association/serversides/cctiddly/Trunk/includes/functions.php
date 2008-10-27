@@ -34,7 +34,6 @@ function getWorkspaceName($_SERVER, $_REQUEST)
 		error_log("workspace name is : ".substr($_REQUEST['workspace'], 0,  $_REQUEST['workspace']-1));
 		return substr($_REQUEST['workspace'], 0,  $_REQUEST['workspace']-1);
 	}else{
-		error_log($_REQUEST['workspace']);
 		return $_REQUEST['workspace'];
 	}
 }
@@ -532,7 +531,7 @@ function getTiddlersWithTags($yesTags,$noTags)
 		
 		//display messages
 		if( $stop==0 ) {
-			print $processReport."\n".$returnStr;
+	//		print $processReport."\n".$returnStr;
 		}else{
 			exit($processReport."\n".$returnStr);
 		}

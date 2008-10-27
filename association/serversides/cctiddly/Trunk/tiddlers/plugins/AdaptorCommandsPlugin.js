@@ -52,17 +52,44 @@ config.commands.saveTiddlerHosted.handler = function(event,src,title)
 	var newTitle = fields.title || title;
 	if(!store.tiddlerExists(newTitle))
 		newTitle = newTitle.trim();
-	var rename = new ccTiddlyAdaptor();
-	var userParams = {minorUpdate:event.shiftKey};
-	var context = {title:title, newTitle:newTitle, workspace:window.workspace};
-	rename.rename(context, userParams, config.commands.saveTiddlerHosted.callback);	
+		displayMessage(newTitle+" and "+title);
+	if(newTitle==title){
+		var newTitle = story.saveTiddler(title,event.shiftKey);
+		if(newTitle)
+			story.displayTiddler(null,newTitle);		 
+	} else {
+		displayMessage("rename");
+		var tiddler = store.fetchTiddler(title);
+		console.log('tiddler',tiddler);
+		if(store.tiddlerExists(newTitle) && newTitle != title) {
+			if(!confirm(config.messages.overwriteWarning.format([newTitle.toString()])))
+				return false;
+		}
+		
+		var adaptor = new ccTiddlyAdaptor();
+		var userParams = {minorUpdate:event.shiftKey};
+		var context = {title:title, newTitle:newTitle, workspace:window.workspace};
+		adaptor.rename(context, userParams, config.commands.saveTiddlerHosted.callback);
+				displayMessage("rename2");		
+	}
 	return false;
+
 };
 
 config.commands.saveTiddlerHosted.callback = function(context, userParams) {
-	var newTitle = story.saveTiddler(context.title,userParams.minorUpdate);
-	if(newTitle)
-		story.displayTiddler(null,newTitle);
+	
+	displayMessage("old title:"+context.title);
+	displayMessage("new title:"+context.newTitle);
+	var tiddler = store.fetchTiddler(context.title);
+	if(tiddler) {
+		tiddler.title = context.newTitle;
+	} else {
+		var newTitle = story.saveTiddler(context.title,userParams.minorUpdate);
+		displayMessage("saved tiddler 2"+newTitle);
+		if(newTitle)
+			story.displayTiddler(null,newTitle);
+	}
+	displayMessage("saved tiddler 3:"+newTitle);
 }
 
 function getServerType(fields)

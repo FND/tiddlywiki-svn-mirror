@@ -39,4 +39,5 @@ $ccT_msg['debug']['sessionAddedToDb'] = "Session has been added to the database.
 $ccT_msg['debug']['ldapFailNoPassword'] = "LDAP login failed due to no password being present.";
 $ccT_msg['debug']['ldapFailNoConnect'] = "LDAP connection could not be established.";
 $ccT_msg['debug']['ldapMakingProgress'] = "LDAP making progress"; 
+$ccT_msg['debug']['handleFileName'] = "file : handle : ";
 ?>

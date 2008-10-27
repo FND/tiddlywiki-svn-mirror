@@ -125,11 +125,11 @@ $tiddlyCfg['txtTheme'] = 'purpleTheme';  // The default TiddlyWiki theme to use.
 
 // Debugging Information 
 
-$tiddlyCfg['developing'] =0;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['developing'] =1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
 $tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
-$tiddlyCfg['debug']['login'] = 0;
-$tiddlyCfg['debug']['handle'] = 0;
-$tiddlyCfg['debug']['config'] = 0;
+$tiddlyCfg['debug']['login'] = 1;
+$tiddlyCfg['debug']['handle'] = 1;
+$tiddlyCfg['debug']['save'] = 1;
 $tiddlyCfg['debug']['params'] = 0;
 $tiddlyCfg['debug']['fail'] = 0;
 $tiddlyCfg['debug']['steps'] = 0;

@@ -1,4 +1,5 @@
 <?php
+
 //////////////////////////////////////////////////////// check base variable ////////////////////////////////////////////////////////
 // here we are setting a null value to avoid notices in the error logs when it is not used. ////
 // cct_base is used to prefix calls to files, 
@@ -23,8 +24,7 @@ if(!isset($workspace))
 {
 	$workspace= "";
 	debug($ccT_msg['debug']['workspaceNotSet'], "fail");
-}
-
+} 
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
 //?standalone=1, used for making the script standalone form like a regular tiddlywiki
 $standalone = ((isset($_GET['standalone'])&&$_GET['standalone']==1)?1:0);		//if 1, will make it into standalone form

@@ -5,6 +5,7 @@ debug($_SERVER['PHP_SELF'], "handle");
 
 if(!user_session_validate())
 {
+	debug("failed to validate session.", "save");
 	sendHeader("401");
 	exit;	
 }
@@ -21,7 +22,9 @@ $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
 $tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
 
+/*
 
+Will be used from v1.8 - SimonMcManus
 foreach ($modulesLoader->plugins as $plugin)
 {
 	if(is_file($cct_base."modules/".$plugin))
@@ -37,12 +40,15 @@ if($modulesLoader->events['preSave'])
 		}	
 	}
 }
+*/
+
+
 if(isset($tiddler['title']))
 {
 	// Tiddler with the same 	name already exisits.
 	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);	
 	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
-		debug($ccT_msg['debug']['reloadRequired'], "params");
+		debug($ccT_msg['debug']['reloadRequired'], "save");
 		sendHeader(409);
 		exit;
 	}
@@ -55,14 +61,17 @@ if(isset($tiddler['title']))
 		$ntiddler['created'] = $otiddler['created'];
 		if($otiddler['revision'] !==0)
 			$ntiddler['revision'] = $otiddler['revision']+1;
+		debug("Attempting to update server...", "save");
 		tiddler_update_new($otiddler['id'], $ntiddler);
 	}else{
+		debug("Permissions denied to save.", "save");
 		sendHeader(400);	
 	}
 }else{
 	//This Tiddler does not exist in the database.
 	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) 
 	{
+		debug("Inserting New Tiddler...", "save");
 		$ntiddler['creator'] = $ntiddler['modifier'];
 		$ntiddler['created'] = $ntiddler['modified'];
 		$ntiddler['revision'] = 1;

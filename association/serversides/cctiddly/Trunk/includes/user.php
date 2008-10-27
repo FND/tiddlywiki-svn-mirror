@@ -24,6 +24,7 @@
 				{
 					if ($a != "")
 					{
+						debug("login ok  - setting details", "login");
 						user_set_session($a, "MY PASSWORD");
 						$user['username'] = $a;	
 						//no slashes, star and question mark in username
@@ -81,8 +82,10 @@
 
 		if ($pw && $pw !== "invalid")
 		{
+			debug("session key is valid".$pw, "login");
 			$data_session['session_token'] = $pw;
 			$results = db_record_select('login_session', $data_session);			// get array of results		
+			debug(count($results)."session(s) exists", "login");
 			if (count($results) > 0 )                   //  if the array has 1  session
 			{
 				//$user['verified'] = 1;	
@@ -94,7 +97,7 @@
 				}
 				else 
 				{
-					debug($ccT_msg['debug']['sessionExpired'], "fail");	
+					debug($ccT_msg['debug']['sessionExpired'], "login");	
 					user_logout();
 				 	return FALSE; 
 				 	//delete the cookies and session record 
@@ -107,6 +110,7 @@
 			}
 		}
 		// no session key or its invalid
+		debug("invalid session key", "login");
 		return FALSE;
 	}
 	
