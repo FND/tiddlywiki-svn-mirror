@@ -1,0 +1,9 @@
+# TiddlyWiki core
+recipe: $TW_TRUNK/core/tiddlywiki.html.recipe
+
+# Plugins
+tiddler: NewPlugin.js
+
+# Other Content
+tiddler: DefaultTiddlers.tiddler
+
