@@ -13,6 +13,7 @@
 * initial release
 !To Do
 * move parsing into XML-RPC library
+* include wiki pages in addition to tickets
 !Code
 ***/
 //{{{
@@ -29,7 +30,7 @@ TracAdaptor.errorInFunctionMessage = "Error in function TiddlyWebAdaptor.%0"; //
 
 TracAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) { // XXX: not applicable
 	context = this.setContext(context, userParams, callback);
-	context.workspaces = [{ name: "tickets", title: "tickets" }]; // XXX: dummy workspace
+	context.workspaces = [{ title: "tickets" }];
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(function() { callback(context, context.userParams); }, 0);
@@ -67,9 +68,7 @@ TracAdaptor.getTiddlerListCallback = function(status, context, responseText, uri
 
 TracAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
-	if(title) {
-		context.title = title;
-	}
+	context.title = title;
 	if(!context.tiddler) {
 		context.tiddler = new Tiddler(title);
 	}
@@ -111,7 +110,7 @@ version.extensions.TracAdaptor = { installed: true };
 
 if(!config.extensions) { config.extensions = {}; }
 
-config.extensions.TracAdaptor = {
+config.extensions.TracAdaptor = { // XXX: should be part of TracAdaptor object
 	parseTicketList: function(xml) {
 		var ticketNodes = xml.getElementsByTagName("int");
 		var tickets = [];
