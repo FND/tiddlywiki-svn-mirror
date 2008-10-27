@@ -16,6 +16,8 @@ merge(config.macros.pluginBrowser,{
 	wizardStepText:" <input name='markList' style='display:none' />",
 	wizardButtonInstallText:"Install",
 	wizardButtonInstallTooltip:"Click to install plugins",
+	wizardButtonRemoveText:"Remove",
+	wizardButtonRemoveTooltip:"Click to remove plugins",
 	ccPlugins: [
 		{title: 'Twitter Adaptor', url: 'http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/TwitterAdaptorPlugin.js', description: 'Automatically turns the siteTitle into a link.'},
 		{title: 'Power Title', url: 'http://svn.tiddlywiki.org/Trunk/contributors/MichaelMahemoff/plugins/ClickableSiteTitlePlugin/PowerTitlePlugin.js', description: 'Automatically turns the siteTitle into a link.'},
@@ -29,38 +31,81 @@ config.macros.pluginBrowser.handler=function(place,macroName,params,wikifier,par
 	var me = config.macros.pluginBrowser;
 	var w = new Wizard();
 	w.createWizard(place,me.wizardTitleText);
-	
-
-	
-	w.addStep(null, me.wizardStepText);
-	var markList = w.getElement("markList");
-	var listWrapper = document.createElement("div");
-	markList.parentNode.insertBefore(listWrapper,markList);
-	console.log(me.ccPlugins);
-	for(var m=0; m < me.ccPlugins.length; m++)  {
-		p = me.ccPlugins[m];
-		console.log(p);
-
-		if(p.url){
-			var tiddler2 = store.getTiddler(me.getFileName(p.url));
-			if(tiddler2){
-				if(tiddler2.isTagged("systemConfig")){
-					me.ccPlugins.remove(p);
-				}
-			}
-		}
-	}
-	var listView = ListView.create(listWrapper,me.ccPlugins,me.listTemplate);
-	w.setValue("listView",listView);
-	me.refresh(w);
+	w.setButtons([
+		{caption: me.wizardButtonInstallText, tooltip: me.wizardButtonInstallTooltip, onClick: function() {me.install(w);}},
+		{caption: me.wizardButtonInstallText+"2", tooltip: me.wizardButtonInstallTooltip, onClick: function() {me.installView(w);}},  	
+	{caption: me.wizardButtonRemoveText, tooltip: me.wizardButtonRemoveTooltip, onClick: function() {me.removeView(w); }}
+	]);
 	};
 
 config.macros.pluginBrowser.refresh=function(w){
 	var me = config.macros.pluginBrowser;
 	w.setButtons([
-		{caption: me.wizardButtonInstallText, tooltip: me.wizardButtonInstallTooltip, onClick: function() {me.install(w);}
-	}]);
+		{caption: me.wizardButtonInstallText, tooltip: me.wizardButtonInstallTooltip, onClick: function() {me.install(w);}},
+		{caption: me.wizardButtonInstallText+"2", tooltip: me.wizardButtonInstallTooltip, onClick: function() {me.installView(w);}},  	
+	{caption: me.wizardButtonRemoveText, tooltip: me.wizardButtonRemoveTooltip, onClick: function() {me.removeView(w); }}
+	]);
+
 };
+	
+
+
+config.macros.pluginBrowser.installView = function(w){
+ alert("1");
+	var me = config.macros.pluginBrowser;
+	w.addStep(null, " <input name='markList3' style='display:none' />");
+	var markList = w.getElement("markList3");
+	var listWrapper = document.createElement("div");
+	markList.parentNode.insertBefore(listWrapper,markList);
+	var ps1 = me.ccPlugins;
+	for(m=0; m < ps1.length;  m++)  {
+		p = ps1[m];
+		displayMessage(p);
+
+		if(p.url){
+			var tiddler2 = store.getTiddler(me.getFileName(p.url));
+			if(tiddler2){
+			//		ps1.remove(p);
+				}
+			}
+	}
+	var listView = ListView.create(listWrapper,ps1,me.listTemplate);
+	//w.setValue("listView",listView);
+	w.setButtons([
+		{caption: me.wizardButtonInstallText, tooltip: me.wizardButtonInstallTooltip, onClick: function() {me.install(w);}},
+		{caption: me.wizardButtonInstallText+"2", tooltip: me.wizardButtonInstallTooltip, onClick: function() {me.installView(w);}},  	
+	{caption: me.wizardButtonRemoveText, tooltip: me.wizardButtonRemoveTooltip, onClick: function() {me.removeView(w); }}
+	]);
+
+};
+	
+config.macros.pluginBrowser.removeView = function(w){
+	alert("2");
+	var me = config.macros.pluginBrowser;
+	
+	w.addStep(null, " <input name='markList2' style='display:none' />");
+	var markList = w.getElement("markList2");
+	var listWrapper = document.createElement("div");
+	markList.parentNode.insertBefore(listWrapper,markList);
+	var ps2 = me.ccPlugins;
+	console.log(me.ccPlugins);
+	for(d=0;d < ps2.length;  d++)  {
+		p = ps2[d];
+		if(p.url){
+			var tiddler2 = store.getTiddler(me.getFileName(p.url));
+			if(!tiddler2){
+					ps2.remove(p);
+				}
+			}
+	}
+	var listView = ListView.create(listWrapper,ps2,me.listTemplate);
+//	w.setValue("listView",listView);
+w.setButtons([
+	{caption: me.wizardButtonInstallText, tooltip: me.wizardButtonInstallTooltip, onClick: function() {me.install(w);}},
+	{caption: me.wizardButtonInstallText+"2", tooltip: me.wizardButtonInstallTooltip, onClick: function() {me.installView(w);}},  	
+{caption: me.wizardButtonRemoveText, tooltip: me.wizardButtonRemoveTooltip, onClick: function() {me.removeView(w); }}
+]);
+};	
 	
 config.macros.pluginBrowser.install = function(w){
 	var listView = w.getValue("listView");

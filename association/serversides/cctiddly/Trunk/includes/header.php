@@ -1,23 +1,11 @@
 <?php
-
-
 //////////////////////////////////////////////////////// check base variable ////////////////////////////////////////////////////////
-
-///// here we are setting a null value to avoid notices in the error logs when it is not used. ////
+// here we are setting a null value to avoid notices in the error logs when it is not used. ////
 // cct_base is used to prefix calls to files, 
-
-
 if(!isset($cct_base)) 
 	$cct_base= "";
-	
-	
-
 //////////////////////////////////////////////////////// include files  ////////////////////////////////////////////////////////
 include_once($cct_base."includes/functions.php");
-
-
-	
-	
 include_once($cct_base."includes/config.php");
 
 if ($tiddlyCfg['version'] == "1.8")
@@ -29,16 +17,13 @@ include_once($cct_base."includes/tiddler.php");
 include_once($cct_base."includes/user.php");
 
 if(!isset($ccT_msg)) 
-{
 	$ccT_msg= "";
-}
 
 if(!isset($workspace)) 
 {
 	$workspace= "";
 	debug($ccT_msg['debug']['workspaceNotSet'], "fail");
 }
-
 
 //////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
 //?standalone=1, used for making the script standalone form like a regular tiddlywiki
@@ -72,8 +57,6 @@ if( $tiddlyCfg['developing']!=1 && $tiddlyCfg['developing']!=0)
 		$tiddlyCfg['developing'] = 0;
 	}
 }
-
-	
 //?tags=+<tag1>-<tag2>, to only see or remove some tags
 //	+ means to see tiddlers with this tag
 //	- means to not see any tiddlers with this tag, if a tiddler have both + and - tag, it is not shown

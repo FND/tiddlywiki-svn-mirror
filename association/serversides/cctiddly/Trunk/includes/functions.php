@@ -85,7 +85,6 @@ function getAdminsOfWorkspace($workspace)
 function checkWorkspace($workspace_settings, $_POST, $cct_base)
 {
 	global $tiddlyCfg;
-	error_log("wsd ".$tiddlyCfg['workspace_name']);
 	if( sizeof($workspace_settings)==0 )
 	{
 		if( strlen($tiddlyCfg['workspace_name'])==0 )
