@@ -53,14 +53,14 @@ config.commands.saveTiddlerHosted.handler = function(event,src,title)
 	if(!store.tiddlerExists(newTitle))
 		newTitle = newTitle.trim();
 	var rename = new ccTiddlyAdaptor();
-	var userParams = {event:event};
+	var userParams = {minorUpdate:event.shiftKey};
 	var context = {title:title, newTitle:newTitle, workspace:window.workspace};
 	rename.rename(context, userParams, config.commands.saveTiddlerHosted.callback);	
 	return false;
 };
 
 config.commands.saveTiddlerHosted.callback = function(context, userParams) {
-	var newTitle = story.saveTiddler(context.title,userParams.event.shiftKey);
+	var newTitle = story.saveTiddler(context.title,userParams.minorUpdate);
 	if(newTitle)
 		story.displayTiddler(null,newTitle);
 }
