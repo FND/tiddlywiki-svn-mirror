@@ -13,7 +13,7 @@ license: license.txt
 #
 # Core styling
 #
-# style: css/default.css
+style: css/default.css
 
 
 #
@@ -40,8 +40,8 @@ js: js/search.js
 #
 # include some exisiting tiddlywiki core code.
 #
-#js: js/Saving.js
-#js: js/FileSystem.js
+js: js/Saving.js
+js: js/FileSystem.js
 
 
 #
@@ -49,7 +49,7 @@ js: js/search.js
 # js: jqueryPlugins/jwisiwyg-0.4/jquery.wysiwyg.pack.js
 # style: jqueryPlugins/jwisiwyg-0.4/jquery.wysiwyg.css
 # js: jqueryPlugins/jquery.lightbox-0.5.pack.js
-js: jqueryPlugins/jquery.saveToFile.js
+# js: jqueryPlugins/jquery.saveToFile.js
 
 
 #
