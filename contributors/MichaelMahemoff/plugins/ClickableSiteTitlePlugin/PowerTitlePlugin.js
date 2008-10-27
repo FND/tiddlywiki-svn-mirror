@@ -20,7 +20,7 @@ window.restart = function() {
   // Rewrite site title. This (a) adds onclick event; (b) suppresses tiddler
   var pageTemplate = store.createTiddler("PageTemplate");
   pageTemplate.text =
-    store.getShadowTiddlerText("PageTemplate").replace(
+    store.getTiddlerText("PageTemplate").replace(
       /<span class='siteTitle' refresh='content' tiddler='SiteTitle'><\/span>/g,
       "<span onclick='PowerTitlePlugin.onTitleClick();' class='siteTitle' tiddler='SiteTitle'>" + store.getTiddlerText("SiteTitle") + "</span>"
     );
