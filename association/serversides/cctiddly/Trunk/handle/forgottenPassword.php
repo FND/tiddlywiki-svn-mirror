@@ -7,6 +7,7 @@ exit;
 $data['username'] = $_REQUEST['username'];
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+debug($_SERVER['PHP_SELF'], "handle");	
 
 $results = db_record_select('user', $data);			// get array of results		
 if (count($results) == 1)                   //  if the array has 1 or more acounts 

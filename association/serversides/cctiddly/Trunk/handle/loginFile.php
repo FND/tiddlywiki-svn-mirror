@@ -5,6 +5,7 @@ $p = (isset($_REQUEST['cctpass'])?$_REQUEST['cctpass']:$_POST['cctpass']);
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+debug($_SERVER['PHP_SELF'], "handle");	
 
 if(isset($u) && isset($p))	
 {	

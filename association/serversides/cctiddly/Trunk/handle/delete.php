@@ -1,7 +1,7 @@
 <?php
-
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+debug($_SERVER['PHP_SELF'], "handle");	
 
 //return result/message
 $title = formatParameters($_REQUEST['title']);

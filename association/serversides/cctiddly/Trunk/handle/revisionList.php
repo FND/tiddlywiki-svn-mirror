@@ -1,6 +1,8 @@
 <?php
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+debug($_SERVER['PHP_SELF'], "handle");	
+
 $title = formatParametersGET($_GET['title']);
 /////////////////////////////////////////////////////preformat tiddler data//////////////////////////////////////////////////////////////
 if(!isset($_GET['title']))

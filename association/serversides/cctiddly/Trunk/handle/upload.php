@@ -1,6 +1,7 @@
 <?php 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+debug($_SERVER['PHP_SELF'], "handle");	
 include_once($cct_base."includes/uploads.php");
 
 if(!user_session_validate()){

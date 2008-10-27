@@ -3,6 +3,7 @@
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+debug($_SERVER['PHP_SELF'], "handle");	
 
 $a = $_POST['action']?$_POST['action']:$_REQUEST['action'];
 $u = $_POST['add_username'];

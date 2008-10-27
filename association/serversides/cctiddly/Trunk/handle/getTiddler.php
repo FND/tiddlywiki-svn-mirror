@@ -4,6 +4,7 @@
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+debug($_SERVER['PHP_SELF'], "handle");	
 
 $tiddler = db_tiddlers_mainSelectTitle($title);
 if( $tiddler === FALSE ) {//not found

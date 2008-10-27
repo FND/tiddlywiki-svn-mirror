@@ -5,6 +5,7 @@ $a = $_POST['action'];
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+debug($_SERVER['PHP_SELF'], "handle");	
 
 if(!user_session_validate())
 {

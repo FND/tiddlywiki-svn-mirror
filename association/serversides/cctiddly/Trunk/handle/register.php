@@ -7,6 +7,7 @@ $data['password'] = $_POST['password'];
 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+debug($_SERVER['PHP_SELF'], "handle");	
 
 
 if ($tiddlyCfg['can_create_account'] !=1)

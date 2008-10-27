@@ -1,6 +1,8 @@
 <?php 
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
+debug($_SERVER['PHP_SELF'], "handle");	
+
 $result =  db_workspace_selectAllPublic(); 
 echo "[";
 while ($row = db_fetch_assoc($result)) { 		
