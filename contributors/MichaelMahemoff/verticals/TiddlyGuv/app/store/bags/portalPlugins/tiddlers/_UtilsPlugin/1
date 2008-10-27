@@ -1,0 +1,35 @@
+modifier: MichaelMahemoff
+created: 200508181151
+modified: 200609101232
+tags: systemConfig
+
+function wordCount(s) {
+  return s.split(/\W+/).length;
+}
+
+//##############################################################################
+//# COLLECTION CLOSURES
+//##############################################################################
+
+function forEach(list, visitor) { for (var i=0; i<list.length; i++) visitor(list[i]); }
+function select(list, selector) { 
+  var selection = [];
+  forEach(list, function(currentItem) {
+    if (selector(currentItem)) { selection.push(currentItem); }
+  });
+  return selection;
+}
+function map(list, mapper) { 
+  var mapped = [];
+  forEach(list, function(currentItem) { mapped.push(mapper(currentItem)); });
+  return mapped;
+}
+
+function remove(list, unwantedItem) {
+  return select(list,
+        function(currentItem) { return currentItem!=unwantedItem; });
+}
+
+//##############################################################################
+//# PORTAL SPECIFIC SETUP
+//##############################################################################
