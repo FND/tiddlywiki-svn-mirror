@@ -49,9 +49,11 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 
     // put the tiddler and deal with callback
     context = {};
-    tiddler.fields = fields;
+	if(fields) {
+		tiddler.fields = fields;
+	}
     context.tiddler = tiddler;
-    context.workspace = fields['server.workspace'];
+    context.workspace = tiddler.fields['server.workspace'] || fields['server.workspace'];
     req = adaptor.putTiddler(tiddler, context, {}, TiddlyWebAutoSave.putCallback);
     return req ? tiddler : false;
 };
