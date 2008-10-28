@@ -40,10 +40,6 @@ recipe: ../js/split.recipe
 #
 recipe: ../tiddlers/shadows/split.recipe
 
-#
-# tiddlers for inclusion in main content (store)
-#
-recipe: ../tiddlers/split.recipe
 
 
 
