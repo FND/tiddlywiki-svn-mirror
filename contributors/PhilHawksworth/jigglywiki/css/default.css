@@ -1,12 +1,8 @@
-/* ================== */
-/* = page structure = */
-/* ================== */
+/* page structure */
 body{font-size:14px;color:#aaa;font-family:"HelveticaNeue-Roman","Helvetica 55 Roman",Helvetica,Arial,sans-serif;}
-
 div#header{display:block;background-color:#111;padding:1.5em 2em;color:#ddd; border-top:solid 2px #0c0c0c;}
 div#header h1{display:inline;color:#1e52cd;margin-right:0.5em; font-size:2em;}
 div#header h3{display:inline;}
-
 #store, div.story{width:100%; margin-right:-200px; background-color:#f9f9f9; z-index:1;}
 div.hentry{ margin:0 200px 0 0;padding:1em 1.5em;border-top:solid 1px #ccc;border-right:solid 1px #ccc;}
 div.hentry:first-child {border-top-style:none;}
@@ -29,21 +25,20 @@ a[href^="http"]:visited {background-color:transparent;color:#1E52CD;text-decorat
 a[href^="http"]:hover,
 a[href^="http"]:focus{border-bottom:solid 2px #1E52CD;}
 
+/* tag links */
+a[rel='tag']:link,
+a[rel='tag']:visited{font-size:0.8em; border-left:solid 8px #ccc; padding:0.2em 0.5em; line-height:1;}
+a[rel='tag']:hover,
+a[rel='tag']:focus{ border-left:solid 8px #003B83; background-color:#1E52CD; color:#fff; border-bottom-style:none;}
 
-
-
-/* 
-banner
-*/
+/* banner */
 #banner { position:relative; font-size:0.9em; line-height:1.6em;}
 #banner div.banner_top { border-top:dashed 1.4em #273261; background-color:#1E264B; margin-top:-0.8em;}
 #banner div.banner_bottom { border-top:dashed 1.4em #222B53; background-color:#1A2140;}
 #banner p {position:absolute; color:#fff; font-style:italic;  margin:0; padding:0 1em; right:1em;  bottom:0.2em; font-size:1em;}
 
 
-/*
-sidebar 
-*/
+/* sidebar */
 #sidebar div{ margin:0 1em; padding:1em 0; border-top:solid 1px #fff; border-bottom:solid 1px #eee;}
 #sidebar div:first-child{ border-top-style:none;}
 #sidebar div:last-child{ border-bottom-style:none;}
@@ -51,15 +46,11 @@ div.controls{display:block; padding:1em; }
 div.controls a{display:block; color:#1e52cd;padding:2px 0.6em;margin:0;text-decoration:none;font-weight:bold;border-style:none;}
 div.controls a:hover{background-color:#111;color:#fff;border-style:none;}
 
-/* ========== */
-/* = search = */
-/* ========== */
+/*  search */
 div.search a.tiddlerLink{display:block; color:#1e52cd;padding:2px 0.6em;margin:0;text-decoration:none;font-weight:bold;border-style:none;}
 div.search a.tiddlerLink:hover{background-color:#1e52cd;color:#fff;border-style:none;}
 
-/* 
-Tiddlers
-*/
+/* Tiddlers */
 div.hentry{padding:2em; background-color:#fff; line-height:1.6em; color:#333;}
 div.hentry div.controls{border-bottom:solid 1px #ddd;margin-bottom:1em;padding:0.4em 0;text-align:right;font-size:0.8em;}
 div.hentry div.controls a{color:#fff;border-style:none;background-color:#1E52CD;padding:0.4em 1em;margin:0 0 0 1px;}
@@ -81,54 +72,41 @@ div.hentry .entry-content h2{font-size:1.4em;}
 div.hentry .entry-content h3{font-size:1.2em;}
 div.hentry .entry-content p{margin:0 0 1em 0;}
 div.hentry .entry-content pre{margin:0 0 3em 0;padding:1em;border:solid 1px #ccc;background-color:#f0f0f0;font-family:courier;font-size:0.8em;color:#444;text-align:left;}
-a[rel='tag']{font-size:0.9em;}
-
 
 code {display:block; padding:1em; margin:0.5em 0; border:solid 1px #ddd; background-color:#eee; font-family:"Courier New", monospace;}
 
-/* ================ */
-/* = Tiddler Edit = */
-/* ================ */
+
+/* Tiddler Edit */
 div.edit input.tiddlerName {border-top:1px solid #666; border-left:1px solid #666; margin:0.8em 0; background-color:#FEFFEA; font-size:3em; letter-spacing:-3px; font-weight:bold; font-family:arial; display:block;padding:0;margin:10px 0;}
 div.edit div.text { border-top:1px solid #666; border-left:1px solid #666; margin:0.8em 0; background-color:#FEFFEA;}
 div.edit div.text textarea {width:100%;height:200px; font:12px/1.7em arial; border-style:none; background-color:transparent;}
 
-/* =========== */
-/* = shadows = */
-/* =========== */
+/* shadows */
 div.shadow {display:none;}
 
-/* ========================= */
-/* = Vanilla Skin Tiddlers = */
-/* ========================= */
-div.tags a.tiddlerLink,
-div.tags a.tiddlerLink:hover{margin:1px;font-size:0.9em;}
-
-/* ================= */
-/* = iPhone styles = */
-/* ================= */
-@media only screen and (max-device-width:480px){html,body{width:320px;}
-div.tiddler h1.tiddlerName{font-size:2.8em;}
-}
 
 #ghost {background-color:#bbb; border:solid 3px #000; z-index:10; position:absolute;}
 #popup_div { background-color:#222; color:#eee; padding:1em;position:absolute; z-index:10; display:none;}
 
 
-/* =========== */
-/* = console = */
-/* =========== */
-#console {display:block; background-color:#111; color:#eee; height:100px; padding:1em;}
-#console div.display {display:block; background-color:#000; border:#FFFD00; color:#eee; height:100px; overflow: auto;}
-#console a { background-color: #1e52cd; color:#fff; line-height:2em; padding:3px 1em; border-style:none;}
+/* footer */
+#footer { font-size:0.8em;}
+#footer a:link,
+#footer a:visited { color:#999;}
+#footer a:hover,
+#footer a:focus { color:#1E52CD;}
 
-/* =========== */
-/* = pagemap = */
-/* =========== */
+
+/* iPhone styles */
+@media only screen and (max-device-width:480px){html,body{width:320px;}
+div.hentry .entry-title {font-size:2.8em;}
+}
+
+
+/******* Plugin styles. Thes should be included via some plugin code. *********/
+
+/* pagemap */
 #pagemap { position:fixed; top:0; right:0; width:20px; height:100%; background-color: #eee;}
 #pagemap div {display:block; border-bottom:solid 1px #bbb; border-top:solid 1px #fff; background-color:#ddd;}
 #pagemap div:hover { background-color:#ccc;}
-
-
-
 
