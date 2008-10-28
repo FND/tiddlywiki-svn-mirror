@@ -13,7 +13,7 @@ license: ../license.txt
 #
 # Core styling
 #
-style: ../css/default.css
+recipe: ../css/split.recipe
 
 
 #
@@ -38,7 +38,7 @@ recipe: ../js/split.recipe
 #
 # shadow iddlers for inclusion in main content (store)
 #
-recipe: ../tiddlers/shadows/split.recipe
+# recipe: ../tiddlers/shadows/split.recipe
 
 
 

@@ -1,14 +1,19 @@
 /* ================== */
 /* = page structure = */
 /* ================== */
-body{font:12px/1.7em arial;margin:0;padding:0;}
+body {
+	font-size: 14px; 
+    line-height: 1.6em;
+	color: #aaa;
+	font-family: "HelveticaNeue-Roman", "Helvetica 55 Roman", Helvetica, Arial, sans-serif;
+}
 div#header{display:block;background-color:#111;padding:1.5em 2em;color:#ddd; border-top:solid 2px #0c0c0c;}
 div#header h1{display:inline;color:#1e52cd;margin-right:0.5em;}
 div#header h3{display:inline;}
 
 #store, div.story{width:100%; margin-right:-200px; background-color:#f9f9f9; z-index:1;}
-div.tiddler{ margin:0 200px 0 0;padding:1em 1.5em;border-top:solid 1px #ccc;border-right:solid 1px #ccc;}
-div.tiddler:first-child {border-top-style:none;}
+div.hentry{ margin:0 200px 0 0;padding:1em 1.5em;border-top:solid 1px #ccc;border-right:solid 1px #ccc;}
+div.hentry:first-child {border-top-style:none;}
 #sidebar{background-color:#f9f9f9;width:200px;float:right;}
 #footer{clear:both;padding:1em;border-top:solid 1px #ccc;text-align:right;}
 
@@ -44,7 +49,7 @@ div.search a.tiddlerLink:hover{background-color:#1e52cd;color:#fff;border-style:
 /* =========== */
 /* = Tiddler = */
 /* =========== */
-div.tiddler{font-size:13px;line-height:1.3em;background-color:#fff;}
+/*div.tiddler{font-size:13px;line-height:1.3em;background-color:#fff;}
 div.tiddler h1.tiddlerName{letter-spacing:-3px;font-size:3em;line-height:1em;padding:0;margin:10px 0;}
 div.tiddler ul.tags{list-style:none;padding:0;}
 div.tiddler ul.tags *{display:inline;margin-right:1em;}
@@ -59,7 +64,34 @@ div.tiddler .meta a{color:#666;background-color:#f0f0f0;padding:1px 4px;margin:0
 div.tiddler .meta a:hover{color:#fff;background-color:#1e52cd;padding:1px 4px;margin:0;border-style:none;}
 div.tiddler div.controls{ display:block;text-align:right;}
 div.tiddler a.control{ font-size:0.8em; margin-left:2px;padding:2px 6px;color:#fff;background-color:#bbb;border-style:none;font-style:bold;}
-div.tiddler a.control:hover{ font-size:0.8em;color:#fff;background-color:#666;border-style:none;}
+div.tiddler a.control:hover{ font-size:0.8em;color:#fff;background-color:#666;border-style:none;}*/
+
+/*#store,
+#display{background-color:#fff;color:#222;}
+*/
+div.hentry{padding:2em; background-color:#fff;}
+div.hentry div.controls{border-bottom:solid 1px #ddd;margin-bottom:1em;padding:0.4em 0;text-align:right;font-size:0.8em;}
+div.hentry div.controls a{color:#fff;border-style:none;background-color:#1E52CD;padding:0.4em 1em;margin:0 0 0 1px;}
+div.hentry div.controls a:hover{background-color:#1844AC;color:#fff;}
+div.hentry .entry-title{font-size:2.5em;letter-spacing:-1px;color:#000;line-height:1em;}
+div.hentry dl.meta{font-size:0.9em;color:#666;}
+div.hentry dl.meta dt{display:inline;color:#888;margin-right:0.5em;}
+div.hentry dl.meta dt:after{content:":";}
+div.hentry dl.meta dd{display:inline;margin-right:0.8em;}
+div.hentry .entry-content{margin-top:0.5em;}
+div.hentry .entry-content h1,
+div.hentry .entry-content h2,
+div.hentry .entry-content h3,
+div.hentry .entry-content h4,
+div.hentry .entry-content h5{color:#555;margin:0.1em 0 0.5em 0;}
+div.hentry .entry-content h1{font-size:1.8em;border-bottom:solid 1px #ddd;margin:1.5em 0 0.5em 0;}
+div.hentry .entry-content h1:first-child{margin-top:0.1em;}
+div.hentry .entry-content h2{font-size:1.4em;}
+div.hentry .entry-content h3{font-size:1.2em;}
+div.hentry .entry-content p{margin:0 0 1em 0;}
+div.hentry .entry-content pre{margin:0 0 3em 0;padding:1em;border:solid 1px #ccc;background-color:#f0f0f0;font-family:courier;font-size:0.8em;color:#444;text-align:left;}
+a[rel='tag']{font-size:0.9em;}
+
 
 code {display:block; padding:1em; margin:0.5em 0; border:solid 1px #ddd; background-color:#eee; font-family:"Courier New", monospace;}
 
