@@ -68,7 +68,12 @@ jw.addEventHandlers = function() {
 };
 
 
-jw.inlineMenu = function(e,menu) {
+jw.inlineMenu = function(e,menu,options) {
+	var defaults = {
+		offsetX: 0,
+		offsetY: 0
+	};
+	var opts = $.extend({},defaults,options);
 	if($('#popup_div').length == 0) {
 		$('body').append('<div id=\'popup_div\'>'+ menu +'</div>');			
 	}

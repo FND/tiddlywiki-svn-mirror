@@ -10,7 +10,7 @@ jw.displayTiddler = function(name, options) {
 		animate: true,
 		overflow: false
 	};
-	var opts = $.extend(defaults, options);
+	var opts = $.extend(defaults, options);	
 	var t = jw.getTiddler(name, 'store');
 	if(!t) {
 		alert("Nope. Couldn't find a tiddler called " + name + ".\n\nAre you sure that's what it's called?");
@@ -70,6 +70,8 @@ jw.displayTiddler = function(name, options) {
 	if(!opts.overflow) {
 		jw.ensureTiddlerVisible(theTiddler);
 	}
+	
+	jw.pagemap.refresh();
 };
 
 

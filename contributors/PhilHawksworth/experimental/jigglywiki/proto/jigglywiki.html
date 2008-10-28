@@ -7,9 +7,7 @@
 	<title>JigglyWiki : a simple, web-visable, jquery supported tiddlywiki clone</title>
 	<meta name="generator" content="TextMate http://macromates.com/">
 	<meta name="author" content="Phil Hawksworth">
-	
 <meta name="copyright" content="
-
 JigglyWiki created by Phil Hawksworth (http://hawksworx.com)
 
 Copyright (c) 2008, Phil Hawksworth
@@ -59,9 +57,7 @@ and GPL (GPL-LICENSE.txt) licenses.
 
 $Date: 2008-05-24 14:22:17 -0400 (Sat, 24 May 2008) $
 $Rev: 5685 $
-
 " />
-	
 	<meta name = "viewport" content = "initial-scale = 1.0">
 	<style type="text/css" media="screen">
 /* ================== */
@@ -159,6 +155,16 @@ div.tiddler h1.tiddlerName{font-size:2.8em;}
 #console {display:block; background-color:#111; color:#eee; height:100px; padding:1em;}
 #console div.display {display:block; background-color:#000; border:#FFFD00; color:#eee; height:100px; overflow: auto;}
 #console a { background-color: #1e52cd; color:#fff; line-height:2em; padding:3px 1em; border-style:none;}
+
+/* =========== */
+/* = pagemap = */
+/* =========== */
+#pagemap { position:fixed; top:0; right:0; width:20px; height:100%; background-color: #eee;}
+#pagemap div {display:block; border-bottom:solid 1px #bbb; border-top:solid 1px #fff; background-color:#ddd;}
+#pagemap div:hover { background-color:#ccc;}
+
+
+
 
 	</style>
 </head>
@@ -471,10 +477,7 @@ macro:view, property:text, element:textarea
 		<li><i>modifier</i><span>PhilHawksworth</span></li>
 	</ul>
 </div>
-	</div>
-
-
-		
+	</div>	
 	<div id="footer">
 		information and navigation helpers
 	</div>
@@ -590,6 +593,7 @@ jw.init = function() {
 	jw.showDefaultTiddlers();
 	jw.addEventHandlers();
 	// runSpeedTests();
+	jw.pagemap.render();
 };
 
 
@@ -734,7 +738,7 @@ jw.displayTiddler = function(name, options) {
 		animate: true,
 		overflow: false
 	};
-	var opts = $.extend(defaults, options);
+	var opts = $.extend(defaults, options);	
 	var t = jw.getTiddler(name, 'store');
 	if(!t) {
 		alert("Nope. Couldn't find a tiddler called " + name + ".\n\nAre you sure that's what it's called?");
@@ -794,6 +798,8 @@ jw.displayTiddler = function(name, options) {
 	if(!opts.overflow) {
 		jw.ensureTiddlerVisible(theTiddler);
 	}
+	
+	jw.pagemap.refresh();
 };
 
 
@@ -847,16 +853,16 @@ jQuery.fn.tiddlerDisplayAnim = function(options) {
 
 // Popup context menu anims.
 jQuery.fn.swooshIn = function(){
-	var end =  this.css('top');
+	var end = this.css('top');
 	var start = parseInt(end.substr(0,end.length-2)) + 5 + 'px';
-	this.hide().css({top:start, opacity: '0.96'});
+	this.hide().css({top:start, opacity: '0.96', 'white-space': 'no-wrap'});
 	this.animate({top:end, opacity:'show'}, 200);
 	return this;
 };
 jQuery.fn.swooshOut = function(){
-	var start =this.css('top');
+	var start = this.css('top');
 	var end = parseInt(start.substr(0,start.length-2)) - 50 + 'px';
-	this.animate({top:end, opacity:'0'}, 200, function(){ $(this).hide(); });
+	this.animate({top:end, opacity:'0'}, 200, function(){ $(this).remove(); });
 	return this;
 };// Define the macros.
 // Additional macros can be added into the jw.macros namespace.
@@ -958,7 +964,10 @@ jw.controls = {
 		}
 	},
 	'save': {
-		handler: function(tiddler) { saveChanges(); }
+		handler: function(tiddler) {
+		console.log("saving");
+			jw.saveToFile();
+		}
 	},
 	'save tiddler': {
 		handler: function(tiddler) { 
@@ -1009,6 +1018,7 @@ jw.controls = {
 		handler: function(tiddler) { 
 			tiddler.slideUp( function(){
 			 	tiddler.remove();
+				jw.pagemap.refresh();
 			});	
 		}
 	},
@@ -1124,7 +1134,12 @@ jw.log("Console ready");jw.addEventHandlers = function() {
 };
 
 
-jw.inlineMenu = function(e,menu) {
+jw.inlineMenu = function(e,menu,options) {
+	var defaults = {
+		offsetX: 0,
+		offsetY: 0
+	};
+	var opts = $.extend({},defaults,options);
 	if($('#popup_div').length == 0) {
 		$('body').append('<div id=\'popup_div\'>'+ menu +'</div>');			
 	}
@@ -1185,6 +1200,77 @@ jw.search.lookahead = function(input) {
 		    list.append(link);
 		});		
 	}
+};jw.pagemap = {};
+
+jw.pagemap.render = function() {
+
+	// add the pagemap element
+	$('body').append('<div id=\'pagemap\'></div>');
+
+	// create click handlers for all future pagemap elements
+	var map = $('#pagemap');
+	map.click(function(e){
+		e.preventDefault();
+		if( $(e.target).is('div') ) {
+			var t = $(e.target).find('a.tiddlerLink');
+			jw.tiddlerLinkClick.apply(t, [t, 'story1', {position: 'before'}]);
+		}
+	});
+	map.mouseover(function(e){
+		if($(e.target).is('div')){
+			var t = $(e.target).attr('title');
+			if($('#popup_div').length == 0) {
+				$('body').append('<div id=\'popup_div\'></div>');			
+			}
+			var pop = $('#popup_div').text(t);
+			x = $(e.target).width();
+			y = $(e.target).offset().top;		
+			pop.css({right:x, top:y}).swooshIn();
+		}
+	});
+	map.mouseout(function(e){
+		if($(e.target).is('div')){
+			$('#popup_div').remove();
+		}
+	});
+	
+	// handle windoe resoez and scrolling events
+	$(window).resize(function(ev){
+		jw.pagemap.resize();
+	});
+	$(window).scroll(function(ev){
+		$('#popup_div').remove();
+	});
+	
+	jw.pagemap.refresh();	
+};
+
+
+// Populate the pagemap according to the contents of the story
+jw.pagemap.refresh = function() {
+	var map = $('#pagemap');
+	var mapHtml = "";
+	$('#story1 div.tiddler').each(function(){
+		var name = $(this).find('h1.tiddlerName').text();
+		mapHtml += "<div title='"+name+"'><a class='tiddlerLink' href='tiddler:"+name.replace(/ /g,'_')+"'></a></div>";
+	});
+	map.html(mapHtml);
+	jw.pagemap.resize();
+};
+
+
+// Resize the pagemap elements in the current display size.
+jw.pagemap.resize = function() {
+	var mapHeight = $('#pagemap').height();
+	var storyHeight = 0;
+	$('#story1 div.tiddler').each(function() {
+		storyHeight += $(this).height();
+	});
+	$('#story1 div.tiddler').each(function(e, n) {
+		var pct = parseInt((100 / storyHeight) * $(this).height());
+		var mapPct = parseInt((mapHeight / 100) * pct);
+		$('#pagemap div').slice(e,e+1).css({'height': mapPct});
+	});
 };//--
 //-- Saving
 //--

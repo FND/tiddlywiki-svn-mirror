@@ -35,6 +35,7 @@ js: js/controls.js
 js: js/console.js
 js: js/events.js
 js: js/search.js
+js: js/pagemap.js
 
 
 #

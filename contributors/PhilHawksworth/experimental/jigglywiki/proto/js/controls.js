@@ -17,7 +17,7 @@ jw.controls = {
 	'save': {
 		handler: function(tiddler) {
 		console.log("saving");
-			jw.saveToFile()
+			jw.saveToFile();
 		}
 	},
 	'save tiddler': {
@@ -69,6 +69,7 @@ jw.controls = {
 		handler: function(tiddler) { 
 			tiddler.slideUp( function(){
 			 	tiddler.remove();
+				jw.pagemap.refresh();
 			});	
 		}
 	},

@@ -31,6 +31,7 @@ jw.init = function() {
 	jw.showDefaultTiddlers();
 	jw.addEventHandlers();
 	// runSpeedTests();
+	jw.pagemap.render();
 };
 
 
