@@ -11,7 +11,7 @@ class ccTests extends PHPUnit_Framework_TestCase
 		global $fail_count;
 		$fail_count=0;
 		
-		$this->selenium = new Testing_Selenium("*firefox", "http://127.0.0.1/");
+		$this->selenium = new Testing_Selenium("*firefox", "https://127.0.0.1");
        
 		$this->selenium->start();
 		$this->selenium->setSpeed("1");	
@@ -203,8 +203,8 @@ public function tearDown()
 }
 }
 
-//$a = new ccTests();
-//$a->setUp();
+$a = new ccTests();
+$a->setUp();
 
 //$a->doLogin("username", "password");
 //$a->testLoginStatus();

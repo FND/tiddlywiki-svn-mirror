@@ -23,7 +23,7 @@ $tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an ac
 $tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 $tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
 $tiddlyCfg['extract_admin_from_url']=0;// The admin user for each workspace when create will be taken from the URL.  If turned on it means the user SimonMcManus owns the workspace /SimonMcManus/.
-$tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
+$tiddlyCfg['use_mod_rewrite'] = 0;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 
 	
 //LDAP
@@ -61,18 +61,12 @@ array(	"ccAdaptor",
 		"ccLogin"
 );
 
-// Getting Started Text 
-
-$tiddlyCfg['GettingStartedText'] = "<<pluginBrowser>>To get started with this workspace, you'll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the workspace is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the worksace is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] and [[Permissions]] tiddlers.<<ccEditWorkspace>>";
-
-
 //Proxy Allowed Servers
 
 $tiddlyCfg['allowed_proxy_list'] = 
 array(	'wikipedia.org', 
 		'tiddlywiki.org',
 		'trac.tiddlywiki.org',
-		'svn.tiddlywiki.org',
 		'api.flickr.com',
 		'feeds.delicious.com',
 		'google.com',
@@ -125,11 +119,11 @@ $tiddlyCfg['txtTheme'] = 'purpleTheme';  // The default TiddlyWiki theme to use.
 
 // Debugging Information 
 
-$tiddlyCfg['developing'] =1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['developing'] =0;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
 $tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
-$tiddlyCfg['debug']['login'] = 1;
-$tiddlyCfg['debug']['handle'] = 1;
-$tiddlyCfg['debug']['save'] = 1;
+$tiddlyCfg['debug']['login'] = 0;
+$tiddlyCfg['debug']['handle'] = 0;
+$tiddlyCfg['debug']['config'] = 0;
 $tiddlyCfg['debug']['params'] = 0;
 $tiddlyCfg['debug']['fail'] = 0;
 $tiddlyCfg['debug']['steps'] = 0;
@@ -193,18 +187,19 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 $tiddlyCfg['pref']['base_folder'] = getBaseDir($_SERVER);
 $tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'uploads/';  // location of the file upload directory - assumes is it under the root folder 
 
+
+
+
 include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
 
-// lookup workspace settings from db. 
+// lookup workspace in db. 
 db_connect_new();
 $workspace_settings = db_workspace_selectSettings();
 // return 404 or create workspace
 checkWorkspace($workspace_settings, $_POST, $cct_base);
 $tiddlyCfg = array_merge($tiddlyCfg, $workspace_settings);
 handleDebug($_SERVER);
-//This is where to override values which can be set in the workspace table.
-//$tiddlyCfg['session_expire'] = 2000;
-//$tiddlyCfg['keep_revision'] = 1;
+//checkAndAddSlash($_SERVER['REQUEST_URI']);
 
 ////////////////////////////////////////////////////users and privileges////////////////////////////////////////////////////
 
@@ -249,7 +244,7 @@ Notes :
 */
 
 //default privileges
-$tiddlyCfg['privilege_misc']['undefined_privilege'] = "A";		//defined what should undefined (U) be treated as
+$tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what should undefined (U) be treated as
 $tiddlyCfg['privilege_misc']['default_privilege'] = "UUUU";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
