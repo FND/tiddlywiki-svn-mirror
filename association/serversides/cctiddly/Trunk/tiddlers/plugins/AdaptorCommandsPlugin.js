@@ -82,14 +82,20 @@ config.commands.saveTiddlerHosted.callback = function(context, userParams) {
 	displayMessage("new title:"+context.newTitle);
 	var tiddler = store.fetchTiddler(context.title);
 	if(tiddler) {
+		displayMessage("if");
+		story.closeTiddler(context.title,false);
+		store.deleteTiddler(tiddler.title);
 		tiddler.title = context.newTitle;
+		store.addTiddler(tiddler);
+		story.displayTiddler(null,tiddler.title);
+		store.notify(tiddler.title,true);
 	} else {
+		displayMessage("else")
 		var newTitle = story.saveTiddler(context.title,userParams.minorUpdate);
-		displayMessage("saved tiddler 2"+newTitle);
+		displayMessage("saved tiddler 2:"+newTitle);
 		if(newTitle)
 			story.displayTiddler(null,newTitle);
 	}
-	displayMessage("saved tiddler 3:"+newTitle);
 }
 
 function getServerType(fields)
