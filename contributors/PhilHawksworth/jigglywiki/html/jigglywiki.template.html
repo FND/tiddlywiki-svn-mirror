@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>JigglyWiki : a simple, web-visable, jquery supported tiddlywiki clone</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Phil Hawksworth">
+	<!--@@license@@-->
+	<meta name = "viewport" content = "initial-scale = 1.0">
+	<style type="text/css" media="screen">
+		<!--@@style@@-->
+	</style>
+</head>
+<body>
+	<!--@@qunittitle@@-->
+	<!--@@qunithtml@@-->
+	
+	<div id='banner'>
+		<p>pre-alpha, proof of concept. v0.0.3</p>
+		<div class='banner_top'></div>
+		<div class='banner_bottom'></div>
+	</div>
+	<div id='header'>
+		<h1 class='tiddlerName'>JigglyWiki</h1>
+		<h3>a web-visible, jQuery-based tiddlywiki clone</h3>
+	</div>
+	
+	<!-- Sidebar navigation and search and whatnot -->
+	<div id='sidebar'>
+		<div class='search'>
+			<input type='text' class='search' value='search' />
+			<div class='search_results'></div>
+		</div>
+		<div class='controls'>
+			<a class='control' href='#'>close all</a>
+			<a class='control' href='#'>save</a>
+			<a class='control' href='#'>permalink</a>
+			<a class='action' href='#'>test action menu anim</a>
+		</div>
+		<div class='controls'>
+			<a class="tiddlerLink" href="#tiddler:help">help</a>
+			<a class="tiddlerLink" href="#tiddler:JigglyWiki">JigglyWiki</a>
+		</div>		
+	</div>
+	
+	<!-- We use this div to display content via user actions -->
+	<div id='story1' class='story'></div>
+	
+	<!-- We keep the tiddlers stored here. This represents the content of the page. -->
+	<!-- Displaying different tiddlers will not impact the order in which this content is stored -->
+	<!-- but after manipulating the order of tiddler display in the UI, we can reflect those -->
+	<!-- changes back here by calling jiggleStore() -->
+	<div id='store'>
+	<!--@@para@@-->
+	</div>	
+	<div id="footer">
+		information and navigation helpers
+	</div>
+
+	<script type="text/javascript">
+	<!--@@jquery@@-->
+	<!--@@js@@-->
+	</script>
+</body>
+</html>

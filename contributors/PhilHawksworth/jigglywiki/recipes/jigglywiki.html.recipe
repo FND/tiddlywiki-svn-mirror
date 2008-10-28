@@ -1,0 +1,49 @@
+#
+# Core JigglyWiki page template
+#
+template: ../html/jigglywiki.template.html
+
+
+#
+# License and attributions
+#
+license: ../license.txt
+
+
+#
+# Core styling
+#
+style: ../css/default.css
+
+
+#
+# latest jQuery library
+#
+jquery: ../jquery/jquery-1.2.6.pack.js
+jquery: ../js/jquery-extensions.js
+
+
+#
+# jquery plugins
+#
+jquery: $TW_ROOT/../Branches/jcore/jquery/plugins/jquery.file.save.js
+
+
+#
+# jigglywiki javascript code.
+#
+recipe: ../js/split.recipe
+
+
+#
+# shadow iddlers for inclusion in main content (store)
+#
+recipe: ../tiddlers/shadows/split.recipe
+
+#
+# tiddlers for inclusion in main content (store)
+#
+recipe: ../tiddlers/split.recipe
+
+
+
