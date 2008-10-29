@@ -11,11 +11,11 @@ jq(document).ready(function() {
 });
 
 
-jw.log = function(str) {
+jw.log = function() {
 	if(window.console && window.console.log) {
-		console.log(str);
+		console.log(arguments);
 	} else {
-		alert(str);
+		alert(arguments);
 	}
 };
 
