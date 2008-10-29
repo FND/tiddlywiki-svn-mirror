@@ -26,19 +26,28 @@ jw.init = function() {
 	jw.store = jq('#store').tiddlerStore();
 	
 	var t;
+
 	t = jw.store.fetch();
-	jw.log('all tiddlers: ', t);
+	jw.log('all tiddlers:', t);
+
+	t = jw.store.fetch({modifier: 'PhilHawksworth'});
+	jw.log('all tiddlers modified by PhilHawksworth:', t);
 	
 	t = jw.store.fetch('PhilHawksworth');
-	jw.log('one tiddler: ', t);
+	jw.log('The PhilHawksworth tiddler:', t);
+
+	t = jw.store.fetch('PhilHawksworth', {modifier: 'PhilHawksworth'});
+	jw.log('the tiddlers of a set of one, modified by PhilHawksworth:', t);
 	
-	t = jw.store.fetch(['PhilHawksworth','JigglyWiki','NotARealTiddler']);
-	jw.log('some tiddlers: ', t);
+	t = jw.store.fetch('PhilHawksworth','JigglyWiki','NotARealTiddler');
+	jw.log('2 valid tiddlers (from 3 requested):', t);
+		
+	t = jw.store.fetch('PhilHawksworth','JigglyWiki','NotARealTiddler', {modifier: 'PhilHawksworth'});
+	jw.log('the tiddlers of a set of 3, modified by PhilHawksworth:', t);
+
 	
-	t = jw.store.fetch({
-		modifier: 'PhilHawksworth'
-	});
-	jw.log('filtered tiddlers: ', t);	
+
+
 	
 	// jw.showDefaultTiddlers();
 	// jw.addEventHandlers();
