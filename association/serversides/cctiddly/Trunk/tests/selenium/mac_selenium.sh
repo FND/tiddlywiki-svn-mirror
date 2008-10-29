@@ -1,9 +1,9 @@
-#!/bin/sh
-cd /Applications/xampp/xamppfiles/htdocs/Trunk
+
+cd ../../
 svn update
-/Applications/xampp/xamppfiles/bin/mysqladmin -u root drop alpha_upgrade -f
-/Applications/xampp/xamppfiles/bin/mysqladmin -u root create alpha_upgrade 
-/Applications/xampp/xamppfiles/bin/mysql -u root alpha_upgrade< /Applications/xampp/xamppfiles/htdocs/install.sql
-cp  /Applications/xampp/xamppfiles/htdocs/tests/selenium/configs/default_config.php   /Applications/xampp/xamppfiles/htdocs/Trunk/includes/config.php
-java -jar /Users/simonmcmanus/selenium-server/selenium-server.jar -interactive &
-"/Applications/Firefox.app/Contents/MacOS/firefox"  -url http://127.0.0.1/Trunk/tests/selenium/tests/setup_test.php
+../bin/mysqladmin -u root drop cctiddly_selenium_testing_db -f
+../bin/mysqladmin -u root create cctiddly_selenium_testing_db 
+../bin/mysql -u root cctiddly_selenium_testing_db < install.sql
+cp  tests/selenium/configs/default_config.php   includes/config.php
+java -jar tests/selenium/selenium-server.jar -interactive &
+"/Applications/Firefox3.app/Contents/MacOS/firefox"  -url http://127.0.0.1/tests/selenium/tests/setup_test.php

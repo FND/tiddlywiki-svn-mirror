@@ -5,7 +5,7 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
        tiddler_outputOffline();
 else {
 	  /*
-		// Will be used in v 1.8 - Simon McManus
+		// Modules code : Will be used in v 1.8 - Simon McManus
 		foreach ($modulesLoader->plugins as $plugin)
 		{
 			if(is_file($cct_base."modules/".$plugin))
