@@ -46,7 +46,7 @@ if($a == "DELETEADMIN")
 	exit;
 }
 
-if ($u && $w)
+if ($a == "addNew" && $u)
 {
 	$data['username'] = $u;
 	$data['workspace_name'] = $w;

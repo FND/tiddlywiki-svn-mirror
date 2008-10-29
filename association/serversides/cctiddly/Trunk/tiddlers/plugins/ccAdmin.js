@@ -110,6 +110,8 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 };
 
 config.macros.ccAdmin.addAdminSubmit = function(e, params){
+	
+//	displayMessage(params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value);
 	doHttp('POST',url+'/handle/workspaceAdmin.php','&add_username='+params.w.formElem.adminUsername.value+'&action=addNew&workspace='+params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value,null,null,null,config.macros.ccAdmin.addAdminCallback,params);
 	return false; 
 };
