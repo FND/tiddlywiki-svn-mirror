@@ -1,8 +1,10 @@
 <?php
 
-set_include_path(get_include_path() . PATH_SEPARATOR . './PEAR/');
-require_once 'Testing/Selenium.php';
-require_once 'PHPUnit/Framework/TestCase.php';
+set_include_path(get_include_path() . PATH_SEPARATOR . '../../');
+echo get_include_path() ;
+
+require_once '../includes/Selenium.php';
+require_once '../../PHPUnit/Framework/TestCase.php';
 class ccTests extends PHPUnit_Framework_TestCase
 {
 	private $selenium;
@@ -11,7 +13,7 @@ class ccTests extends PHPUnit_Framework_TestCase
 		global $fail_count;
 		$fail_count=0;
 		
-		$this->selenium = new Testing_Selenium("*opera", "http://127.0.0.1");
+		$this->selenium = new Testing_Selenium("*safari", "http://127.0.0.1");
        
 		$this->selenium->start();
 		$this->selenium->setSpeed("1");	

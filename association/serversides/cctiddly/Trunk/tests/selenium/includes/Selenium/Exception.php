@@ -23,7 +23,7 @@
 /**
  * uses PEAR_Exception
  */
-require_once 'PEAR/Exception.php';
+require_once '../../PEAR/Exception.php';
 
 /**
  * Testing_Selenium_Exception
