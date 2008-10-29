@@ -1,8 +1,5 @@
 <?php
-
 set_include_path(get_include_path() . PATH_SEPARATOR . '../../');
-echo get_include_path() ;
-
 require_once '../includes/Selenium.php';
 require_once '../../PHPUnit/Framework/TestCase.php';
 class ccTests extends PHPUnit_Framework_TestCase
@@ -13,10 +10,14 @@ class ccTests extends PHPUnit_Framework_TestCase
 		global $fail_count;
 		$fail_count=0;
 		
-		$this->selenium = new Testing_Selenium("*safari", "http://127.0.0.1");
+		$this->selenium = new Testing_Selenium("*Safari", "http://127.0.0.1");
        
+	}
+	
+	public function start()
+	{
 		$this->selenium->start();
-		$this->selenium->setSpeed("1");	
+		$this->selenium->setSpeed("1");
 	}
 
 	public function handleError($e, $error_text)
@@ -207,7 +208,12 @@ public function tearDown()
 
 $a = new ccTests();
 $a->setUp();
-
+$a->start();
+$a->doLogin("username", "password");
+$a->tearDown();
+exit;
+$a->setUp();
+$a->start();
 $a->doLogin("username", "password");
 $a->testLoginStatus();
 $a->runPermTests();

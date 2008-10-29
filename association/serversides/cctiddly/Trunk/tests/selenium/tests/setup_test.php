@@ -1,5 +1,6 @@
 <?php
 
+set_include_path(get_include_path() . PATH_SEPARATOR . '../../');
 require_once '../includes/Selenium.php';
 require_once '../../PHPUnit/Framework/TestCase.php';
 
