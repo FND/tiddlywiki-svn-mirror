@@ -1,5 +1,5 @@
-// create a jigglwiki namsespace.
-var jw = jq.fn.jw = {};
+// create a jigglwiki namsespace in jquery land.
+var jw = jq.extend({});
 
 
 // DOM ready. Let's go!
@@ -23,7 +23,23 @@ jw.log = function() {
 
 jw.init = function() {
 	
-	jq('div.tiddler').hide();
+	jw.store = jq('#store').tiddlerStore();
+	
+	var t;
+	t = jw.store.fetch();
+	jw.log('all tiddlers: ', t);
+	
+	t = jw.store.fetch('PhilHawksworth');
+	jw.log('one tiddler: ', t);
+	
+	t = jw.store.fetch(['PhilHawksworth','JigglyWiki','NotARealTiddler']);
+	jw.log('some tiddlers: ', t);
+	
+	t = jw.store.fetch({
+		modifier: 'PhilHawksworth'
+	});
+	jw.log('filtered tiddlers: ', t);	
+	
 	// jw.showDefaultTiddlers();
 	// jw.addEventHandlers();
 	// jw.pagemap.render();
