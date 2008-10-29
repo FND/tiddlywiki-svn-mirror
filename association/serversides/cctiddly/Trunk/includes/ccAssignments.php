@@ -1,8 +1,7 @@
 <div title="ccAssignments" modifier="ccTiddly" tags="systemConfig ccTiddly excludeSearch excludeLists">
 <pre>
 /*{{{*/
-	
-	
+
 window.saveChanges = function(){};
 
 merge(config.macros.importTiddlers, {
@@ -53,17 +52,10 @@ merge(config.macros.options,{
 }
 });
 	
-
-
-
-	
-	
 window.ccTiddlyVersion = '<?php echo $tiddlyCfg['version'];?>';
 window.workspacePermission= {};
 window.url = "<?php echo getURL();?>";
-
 <?php
-
 // hack to add a forward slash to the url if not the base dir.
 if($tiddlyCfg['pref']['base_folder']!="/")
 {
@@ -76,41 +68,39 @@ window.workspace = "<?php echo $tiddlyCfg['workspace_name'];?>";
 <?php 
 if ($tiddlyCfg['workspace_name'] == ""){
 ?>
-	window.fullUrl = window.url;	
+window.fullUrl = window.url;	
 <?php
 } elseif ($tiddlyCfg['use_mod_rewrite'] == 1){ 
 ?>
-	window.fullUrl = window.url+window.workspace;
+window.fullUrl = window.url+window.workspace;
 <?php
 }else{
-	?>
-	window.fullUrl = window.url+"?workspace="+window.workspace;
-	<?php
+?>
+window.fullUrl = window.url+"?workspace="+window.workspace;
+<?php
 }
 if($tiddlyCfg['use_mod_rewrite'] == 1)
 {
 ?>
-	window.useModRewrite = 1;
+window.useModRewrite = 1;
 <?php
 }
 ?>
-
 if (config.options.txtTheme == "")
 config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
-
 <?php
 if(isset($error404) && $error404 == true)
 {
 ?>
-	// Workspace does not exist.
-	var titleTiddler = store.createTiddler('SiteTitle');
-	titleTiddler.text = "'<?php echo $tiddlyCfg['workspace_name'];?>' does not exists";
-	var subTitleTiddler = store.createTiddler('SiteSubtitle');
-	subTitleTiddler.text = 'The workspace you requested does not exist.';
-	var subTitleTiddler = store.createTiddler('MainMenu');
-	subTitleTiddler.text = '';	
-	config.shadowTiddlers.DefaultTiddlers = 'CreateWorkspace';
-	refreshDisplay();
+// Workspace does not exist.
+var titleTiddler = store.createTiddler('SiteTitle');
+titleTiddler.text = "'<?php echo $tiddlyCfg['workspace_name'];?>' does not exists";
+var subTitleTiddler = store.createTiddler('SiteSubtitle');
+subTitleTiddler.text = 'The workspace you requested does not exist.';
+var subTitleTiddler = store.createTiddler('MainMenu');
+subTitleTiddler.text = '';	
+config.shadowTiddlers.DefaultTiddlers = 'CreateWorkspace';
+refreshDisplay();
 <?php
 }
 
@@ -128,18 +118,15 @@ if ($user['verified'] && user_isAdmin($user['username'], $tiddlyCfg['workspace_n
 	echo "workspacePermission.upload = 1;";
 }
 
-
 if ($user['verified'] && $_REQUEST['standalone']!=1)
 {
 ?>
 window.loggedIn ="1";
 <?php
 }
-
 $anonPerm  = stringToPerm($tiddlyCfg['default_anonymous_perm']);
 $userPerm  = stringToPerm($tiddlyCfg['default_user_perm']);	
 ?>
-
 workspacePermission.anonC = <?php echo permToBinary($anonPerm['create']); ?> ;
 workspacePermission.anonR = <?php echo permToBinary($anonPerm['read']); ?>; 
 workspacePermission.anonU = <?php echo permToBinary($anonPerm['update']); ?>;
@@ -165,11 +152,8 @@ config.macros.newTiddler.handler = function(place,macroName,params,wikifier,para
 } 
 ?>
 
-
 window.workspace_delete = "<?php echo $workspace_delete;?>";
 window.workspace_udate = "<?php echo $workspace_udate;?>";
-
-
 
 var serverside={
 	url:"<?php echo getURL();?>",		//server url, for use in local TW or TW hosted elsewhere
@@ -183,12 +167,7 @@ var serverside={
 	openId:"<?php echo $tiddlyCfg['pref']['openid_enabled']; ?>"
 };
 
-
 config.defaultCustomFields = {"server.host":window.url, "server.type":"cctiddly", "server.workspace":window.workspace};
-
-//  Change the options for advanced settings. 
-
-
 config.shadowTiddlers.OptionsPanel = "[[help|Help]] &lt;br /&gt;[[settings|AdvancedOptions]]&lt;br /&gt;&lt;&lt;ccOptions&gt;&gt;";
 
 readOnly =false;
@@ -196,7 +175,6 @@ config.options.chkHttpReadOnly = false;		//make it HTTP writable by default
 config.options.chkSaveBackups = false;		//disable save backup
 //config.options.chkAutoSave = false;			//disable autosave
 config.options.chkUsePreForStorage = false;
-
 
 /*}}}*/
 </pre>
