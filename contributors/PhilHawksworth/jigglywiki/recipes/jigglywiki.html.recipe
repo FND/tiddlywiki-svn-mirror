@@ -27,7 +27,7 @@ jquery: ../js/jquery-extensions.js
 # jquery plugins
 #
 jquery: $TW_ROOT/../Branches/jcore/jquery/plugins/jquery.file.save.js
-jquery: $TW_ROOT/../Branches/jcore/jquery/plugins/jquery.contentStore.js
+jquery: $TW_ROOT/../Branches/jcore/jquery/plugins/jquery.tiddlerStore.js
 
 
 #
