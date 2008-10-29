@@ -46,6 +46,7 @@ merge(config.macros.ccLogin,{
 	buttonLogout:"logout",
 	buttonLogoutToolTip:"Click here to logout.",
 	buttonLogin:"Login",
+	buttonlogin:"login",
 	buttonLoginToolTip:"Click to Login.",	
 	buttonCancel:"Cancel",
 	buttonCancelToolTip:"Cancel transaction ",
@@ -72,7 +73,7 @@ config.macros.saveChanges.handler=function(place,macroName,params,wikifier,param
 			return false;
 		},null,null,this.accessKey);
 	}else{
-		createTiddlyButton(place,config.macros.ccLogin.buttonLogin, config.macros.ccLogin.buttonLoginToolTip, function() {
+		createTiddlyButton(place,config.macros.ccLogin.buttonlogin, config.macros.ccLogin.buttonLoginToolTip, function() {
 			story.displayTiddler(null, "Login");
 		},null,null,this.accessKey);
 	}

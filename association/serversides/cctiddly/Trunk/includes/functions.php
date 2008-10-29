@@ -32,10 +32,11 @@ function getWorkspaceName($_SERVER, $_REQUEST)
 	global $tiddlyCfg;
 	if(substr($_REQUEST['workspace'], strlen($_REQUEST['workspace'])-1, strlen($_REQUEST['workspace']))=="/"){
 		error_log("workspace name is : ".substr($_REQUEST['workspace'], 0,  $_REQUEST['workspace']-1));
-		return substr($_REQUEST['workspace'], 0,  $_REQUEST['workspace']-1);
+		$str =  substr($_REQUEST['workspace'], 0,  $_REQUEST['workspace']-1);
 	}else{
-		return $_REQUEST['workspace'];
+		$str =  $_REQUEST['workspace'];
 	}
+	return $str;
 }
 
 function getBaseDir($_SERVER)

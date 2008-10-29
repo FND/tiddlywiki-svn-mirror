@@ -10,7 +10,7 @@ if(!user_session_validate())
 	exit;	
 }
 
-// TODO set workspace name 
+$tiddlyCfg['workspace_name'] = formatParametersPOST($_POST['workspace']);
 $ntiddler['title'] = formatParametersPOST($_POST['title']);
 $oldTitle = formatParametersPOST($_POST['otitle']);
 $ntiddler['modifier'] = formatParametersPOST($_POST['modifier']);
