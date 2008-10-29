@@ -3,7 +3,7 @@
 require_once '../includes/Selenium.php';
 require_once '../../PHPUnit/Framework/TestCase.php';
 
-class GoogleTest extends PHPUnit_Framework_TestCase
+class simpleLoginTest extends PHPUnit_Framework_TestCase
 {
     private $browser;
 
@@ -11,11 +11,8 @@ class GoogleTest extends PHPUnit_Framework_TestCase
     {
 		$this->browser = new Testing_Selenium("*firefox", "http://127.0.0.1");
         $this->browser->start();
-    }
-
-    public function testGoogle()
-    {
-        $this->browser->open("/Trunk");
+		$this->browser->open("/");
+		$this->browser->deleteAllVisibleCookies();
     }
 
 	public function doLogin($u, $p)
@@ -27,9 +24,8 @@ class GoogleTest extends PHPUnit_Framework_TestCase
 	}
 }
 
-$a = new GoogleTest();
+$a = new simpleLoginTest();
 $a->setUp();
-$a->testGoogle();
 $a->doLogin("username", "password");
 ?>
 
