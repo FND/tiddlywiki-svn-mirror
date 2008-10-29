@@ -94,9 +94,7 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 	frm.onsubmit = config.macros.ccAdmin.addAdminSubmit;	
 	params.w.addStep(me.stepAddTitle,"<input type='hidden' name='admin_placeholder'/>"+me.labelUsername+"<input name=adminUsername><br />"+me.labelWorkspace+"<select name=workspaceName />");
 	var workspaces = eval('[ '+responseText+' ]');
-
 	for(var t=0; t<workspaces.length; t++) {
-		displayMessage(workspaces[t]);
 		var o = createTiddlyElement(params.w.formElem.workspaceName, "option", null, null, workspaces[t]);
 		o.value=workspaces[t];
 		if(workspaces[t] == workspace)
@@ -110,8 +108,6 @@ config.macros.ccAdmin.listWorkspaces = function(status,params,responseText,uri,x
 };
 
 config.macros.ccAdmin.addAdminSubmit = function(e, params){
-	
-	displayMessage(params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value);
 	doHttp('POST',url+'/handle/workspaceAdmin.php','&add_username='+params.w.formElem.adminUsername.value+'&action=addNew&workspace='+params.w.formElem.workspaceName[params.w.formElem.workspaceName.selectedIndex].value,null,null,null,config.macros.ccAdmin.addAdminCallback,params);
 	return false; 
 };
