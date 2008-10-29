@@ -5,13 +5,15 @@ jw.addEventHandlers = function() {
 	//
 	
 	$('div.story').click(function(e){
-		e.preventDefault();
+	
 		// tiddlerLink clicks.
 		if( $(e.target).is('a.tiddlerLink') ) {
+			e.preventDefault();
 			jw.tiddlerLinkClick.apply(e.target, [e.target, 'story1']);
 		}
 		// tiddler controls clicks
 		if( $(e.target).is('a.control') ) {
+			e.preventDefault();
 			var fn = $(e.target).text();
 			var tiddler = jw.containingTiddler(e.target);	
 			if(jw.controls[fn] !== undefined) {

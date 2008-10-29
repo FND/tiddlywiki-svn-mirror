@@ -99,7 +99,7 @@ div.tiddler h1.tiddlerName{font-size:2.8em;}
 /* =========== */
 #pagemap { position:fixed; top:0; right:0; width:20px; height:100%; background-color: #eee;}
 #pagemap div {display:block; border-bottom:solid 1px #bbb; border-top:solid 1px #fff; background-color:#ddd;}
-#pagemap div:hover { background-color:#ccc;}
+#pagemap div:hover { background-color:#ccc; cursor:pointer;}
 
 
 
