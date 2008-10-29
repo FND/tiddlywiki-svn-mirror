@@ -1,7 +1,7 @@
 <?php
 
-require_once 'Testing/Selenium.php';
-require_once 'PHPUnit/Framework/TestCase.php';
+require_once '../includes/Selenium.php';
+require_once '../../PHPUnit/Framework/TestCase.php';
 
 class GoogleTest extends PHPUnit_Framework_TestCase
 {
@@ -9,7 +9,7 @@ class GoogleTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-		$this->browser = new Testing_Selenium("*safari", "https://127.0.0.1");
+		$this->browser = new Testing_Selenium("*firefox", "http://127.0.0.1");
         $this->browser->start();
     }
 
