@@ -1,0 +1,1 @@
+<div tiddler="TemplateShowColor" modifier="FND" modified="200711172346" created="200711172338" tags="templates">@@margin:0 1em;padding:0 4em;background-color:$1;&amp;nbsp;@@ @@padding-right:1em;{{{$1}}}@@ [[$2|$3]]</div>

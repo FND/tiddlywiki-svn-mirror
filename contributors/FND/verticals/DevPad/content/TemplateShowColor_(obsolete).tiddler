@@ -1,0 +1,1 @@
+<div tiddler="TemplateShowColor (obsolete)" modifier="FND" modified="200711172340" created="200706131356" tags="templates">@@margin: 0 1em;padding: 0 4em;width: 20em;background-color: $1;&amp;nbsp;@@ [[$2|ColorPalette]]</div>
