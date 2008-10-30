@@ -1,0 +1,16 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+tiddler: ZonePlugin.js
+tiddler: ZonePlugin.js.meta
+tiddler: ConfigTweaks.js
+tiddler: ConfigTweaks.js.meta
+tiddler: ../../../../contributors/EricShulman/plugins/SinglePageModePlugin.js
+tiddler: ../../../../contributors/EricShulman/plugins/SinglePageModePlugin.js.meta
+tiddler: Cake.tiddler
+tiddler: NeverGonnaGiveYouUp.tiddler
+tiddler: Violin.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: Zones.tiddler
+tiddler: MusicZoneInit.tiddler
+tiddler: MusicZoneStylesheet.tiddler
