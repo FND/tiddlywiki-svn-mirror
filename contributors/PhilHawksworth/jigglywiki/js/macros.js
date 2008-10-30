@@ -4,7 +4,20 @@
 (function($) {
 
 	$.fn.extend({
-		jw_macros_view: function(args) {
+		jw_macro_test: function(options) {
+			// simple macro for test purposes
+			var text = "this is some test text";
+			this.append("<span>"+text+"</span>");
+		}
+	});
+	
+})(jQuery);
+
+
+(function($) {
+
+	$.fn.extend({
+		jw_macro_view: function(args) {
 			var defaults = {
 				place: this[0],
 				tiddler: null,
@@ -29,7 +42,7 @@
 (function($) {
 
 	$.fn.extend({
-		jw_macros_newTiddler: function(args) {
+		jw_macro_newTiddler: function(args) {
 			var defaults = {
 				place: this[0],
 				label: "new tiddler",
@@ -73,16 +86,47 @@
 
 
 
-// Call the handler of the macro, passing along any arguments
-// and hide the macro code block.
-jw.callMacro = function(macro, args) {
-	// console.log('Calling macro:', macro, args);
-	var j = jq(place)['jw_macros_'+macro];
-	if(j) {
-		jq(place)['jw_macros_'+macro]({macro:macro,params:params.readMacroParams,wikifier:wikifier,paramString:params,tiddler:tiddler});
-		args.place.hide();
-	} else {
-		console.log("No handler for ", macro);
-	}
-};
 
+(function($) {
+
+	$.fn.extend({
+		jw_expandMacros: function(args) {
+			// find any macros in this jQuery object and expand them
+	
+			this.find('code.macro').each(function(n,e) {
+				if( $(this).css('display') == 'block') {
+					// build an object for calling the macro handler.
+					var opts = {
+						tiddler:args.tiddler,
+					};
+					var t = $.trim($(e).text());
+					var pairs = t.split(',');
+					for (var p=0; p < pairs.length; p++) {
+						nv = pairs[p].split(':');
+						opts[$.trim(nv[0])] = $.trim(nv[1]);
+					};
+					// pass the macro name directly and remove it fro the arguments passed to the macro caller.
+					var m = opts.macro;
+					delete opts.macro;
+					invokeMacro(m, e, opts);
+				}
+			}
+		}
+	});
+
+	// Private functions.
+	function invokeMacro(macro, place, args) {
+		// Call the handler of the macro, passing along any arguments
+		// and hide the macro code block.
+		// console.log('Calling macro:', macro, args);
+		var j = jq(place)['jw_macro_'+macro];
+		if(j) {
+			//jq(place)['jw_macros_'+macro]({macro:macro,params:params.readMacroParams,wikifier:wikifier,paramString:params,tiddler:tiddler});
+			jq(place)['jw_macro_'+macro](args);
+			place.hide();
+		} else {
+			console.log("No handler for ", macro);
+		}
+	}
+
+})(jQuery);
