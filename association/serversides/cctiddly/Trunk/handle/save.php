@@ -22,26 +22,31 @@ $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
 $tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
 
-/*
+error_log("about to try saving....1");
 
-Will be used from v1.8 - SimonMcManus
-foreach ($modulesLoader->plugins as $plugin)
-{
-	if(is_file($cct_base."modules/".$plugin))
-		include_once($cct_base."modules/".$plugin);	
-}
-if($modulesLoader->events['preSave']) 
-{
-	foreach ($modulesLoader->events['preSave'] as $event)
+	//Will be used from v1.8 - SimonMcManus
+	foreach ($modulesLoader->plugins as $plugin)
 	{
-		$cct_base= "../";
-		if(is_file($cct_base."modules/".$event)) {
-			include_once($cct_base."modules/".$event);
-		}	
+		if(@is_file($cct_base."modules/".$plugin))
+			@include_once($cct_base."modules/".$plugin);	
 	}
-}
-*/
 
+	error_log("2");
+	if(@$modulesLoader->events['preSave']) 
+	{
+		foreach (@$modulesLoader->events['preSave'] as $event)
+		{
+			
+			error_log("4");
+			$cct_base= "../";
+			if(@is_file($cct_base."modules/".$event)) {
+				include($cct_base."modules/".$event);
+			}	
+			
+		}
+	}
+
+error_log("about to try saving....");
 
 if(isset($tiddler['title']))
 {

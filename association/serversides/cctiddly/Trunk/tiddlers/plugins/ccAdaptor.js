@@ -277,6 +277,7 @@ ccTiddlyAdaptor.getTiddlerRevisionListCallback = function(status,context,respons
 };
 
 ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback){
+
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
 	var recipeuriTemplate = '%0/handle/save.php';
@@ -290,13 +291,40 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 		if (String(tiddler.fields[name]))
 			fieldString += name +"='"+tiddler.fields[name]+"' ";
 	}
+	
+	// Freds SEO Code 
+
+	var host = "http://127.0.0.1/";
+	var workspace = "";
+	var el = createTiddlyElement(document.body, "div", "ccTiddlyTMP", null, null, { "style.display": "none" });
+
+	var formatter = new Formatter(config.formatters);
+	var wikifier = new Wikifier(tiddler.text,formatter,null,tiddler);
+		wikifier.isStatic = true;
+		wikifier.subWikify(el);
+	//wikify(tiddler.text, el);
+	delete formatter;
+
+	var links = el.getElementsByTagName("a");
+	for(var i = 0; i < links.length; i++) {
+		var tiddlyLink = links[i].getAttribute("tiddlyLink");
+	    if(tiddlyLink) {
+	        if(hasClass(links[i], "tiddlyLinkNonExisting")) { // target tiddler does not exist
+	            links[i].href = "#";
+	        } else {
+	            links[i].href = host + workspace + tiddlyLink + ".html";
+	        }
+	    }
+	}	
+	// End Freds SEO Code 
 	if(tiddler.fields['server.page.revision']==1)
 		tiddler.fields['server.page.revision'] = 10000;
 	else
 		tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10)+1;
 	var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(context.otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
-"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(wikifyStatic(tiddler.text))+"";
+"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"";
 	var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
+	removeNode(el);
 	return typeof req == 'string' ? req : true;
 };
 

@@ -9,7 +9,7 @@ if(!isset($cct_base))
 include_once($cct_base."includes/functions.php");
 include_once($cct_base."includes/config.php");
 
-if ($tiddlyCfg['version'] == "1.8")
+//if ($tiddlyCfg['version'] == "1.8")
 	include_once($cct_base."includes/moduleLoader.php");
 include_once($cct_base."lang/".$tiddlyCfg['pref']['language']."/language.php");
 
