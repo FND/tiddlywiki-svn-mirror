@@ -2,11 +2,11 @@
 |''Name''|TeamTasksCLI|
 |''Description''|command-line interface for [[TeamTasks|http://getteamtasks.com]]|
 |''Author''|FND|
-|''Version''|0.1.1|
+|''Version''|0.1.2|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#TeamTasksCLI|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
-|''License''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 !Usage
 When entering a task title, use nanoformats defined in [[TTCommands]] to populate task fields.
 !!Examples
