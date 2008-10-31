@@ -1,4 +1,30 @@
 // Substitute date components into a string
+
+// ISO 8601 date format is YYYY-MM-DDThh:mm:ss
+// Smaller units can be ommitted if zero or not required
+// This equates to a format string of 'YYYY-0MM-0DDThh:mm:ss'
+
+Date.prototype.toIso8601 = function()
+{
+	return this.formatString('YYYY-0MM-0DDThh:mm');
+};
+
+Date.fromIso8601 = function(d)
+// Static method to create a date from a ISO 860 format string
+// ISO 8601 date format is YYYY-MM-DDThh:mm:ss
+// hh,mm and ss are optional and will be set to zero if not specified
+{
+	var hh = d.substr(11,2) || '0';
+	var mm = d.substr(14,2) || '0';
+	var ss = d.substr(17,2) || '0';
+	return new Date(Date.UTC(parseInt(d.substr(0,4),10),
+			parseInt(d.substr(5,2),10)-1,
+			parseInt(d.substr(8,2),10),
+			parseInt(hh,10),
+			parseInt(mm,10),
+			parseInt(ss,10),0));
+};
+
 Date.prototype.formatString = function(template)
 {
 	var zeroPad = function(n,d) {
