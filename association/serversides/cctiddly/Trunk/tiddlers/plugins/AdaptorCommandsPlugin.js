@@ -52,11 +52,13 @@ config.commands.saveTiddlerHosted.handler = function(event,src,title)
 	var newTitle = fields.title || title;
 	if(!store.tiddlerExists(newTitle))
 		newTitle = newTitle.trim();
-	if(newTitle==title){
+	if(newTitle==title){  // we are not renaming the tiddler 
+		console.log("we are not renaming the tiddler - call");
 		var newTitle = story.saveTiddler(title,event.shiftKey);
 		if(newTitle)
 			story.displayTiddler(null,newTitle);		 
-	} else {
+	} else { // the tiddler is being renamed 
+		console.log("the tiddler is being renamed - call");	
 		var tiddler = store.fetchTiddler(title);
 		if(store.tiddlerExists(newTitle) && newTitle != title) {
 			if(!confirm(config.messages.overwriteWarning.format([newTitle.toString()])))
@@ -68,28 +70,42 @@ config.commands.saveTiddlerHosted.handler = function(event,src,title)
 		adaptor.rename(context, userParams, config.commands.saveTiddlerHosted.callback);
 	}
 	return false;
-
 };
 
+
+// implementing closeTiddler without the clearMessage();
+Story.prototype.closeTiddler = function(title,animate,unused)
+{
+	var tiddlerElem = this.getTiddler(title);
+	if(tiddlerElem) {
+		this.scrubTiddler(tiddlerElem);
+		if(config.options.chkAnimate && animate && anim && typeof Slider == "function")
+			anim.startAnimating(new Slider(tiddlerElem,false,null,"all"));
+		else {
+			removeNode(tiddlerElem);
+			forceReflow();
+		}
+	}
+};
+
+
+
+
 config.commands.saveTiddlerHosted.callback = function(context, userParams) {
-	console.log('n,o',context.newTitle,context.title,userParams)
 	var tiddler = store.fetchTiddler(context.title);
-	if(tiddler) {
-		displayMessage("if");
+	if(tiddler) { // if tiddler exists with the old title. (we are renaming)
 		story.closeTiddler(context.title,false);
 		store.deleteTiddler(tiddler.title);
 		tiddler.title = context.newTitle;
 		store.addTiddler(tiddler);
 		story.displayTiddler(null,tiddler.title);
+		story.refreshTiddler(tiddler.title,null,true);
 		store.notify(tiddler.title,true);
-	} else {
-		displayMessage("else");
-		//story.closeTiddler(context.title,false);
-		displayMessage("else2");
+	} else {   //tiddler does not exist so this is a new tiddler. 
 		var newTitle = story.saveTiddler(context.title,userParams.minorUpdate);
 		if(newTitle)
 			story.displayTiddler(null,newTitle);
-		displayMessage("else3");
+		story.closeTiddler(context.title,false);
 	}
 }
 
