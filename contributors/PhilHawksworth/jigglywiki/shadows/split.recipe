@@ -1,0 +1,5 @@
+shadow: TiddlerTemplate.html
+shadow: DefaultTiddlers.html
+shadow: ViewTemplate.html
+shadow: EditTemplate.html
+shadow: GettingStarted.html

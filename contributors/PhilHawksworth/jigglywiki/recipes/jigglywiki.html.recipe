@@ -39,7 +39,7 @@ recipe: ../js/split.recipe
 #
 # shadow tiddlers for inclusion in main content (store)
 #
-recipe: ../tiddlers/shadows/split.recipe
+recipe: ../shadows/split.recipe
 
 
 
