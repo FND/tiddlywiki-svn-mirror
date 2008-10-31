@@ -1,0 +1,6 @@
+<div title="StyleSheet" modifier="JonRobson" tags="tagMindMapCodePackage">
+<pre>
+.node {cursor:pointer;}
+#tagmindmap {border:solid; border-width:1px;}
+</pre>
+</div>
