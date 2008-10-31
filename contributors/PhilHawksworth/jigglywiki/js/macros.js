@@ -1,16 +1,32 @@
 // Define the macros.
-// Additional macros can be added into the jw.macros namespace.
+// Additional macros (prefixed jw_macro_) can be added to jQuery.
 
 (function($) {
 
 	$.fn.extend({
-		jw_macro_test: function(options) {
+		jw_macro_test: function(args) {
 			// simple macro for test purposes
-			var text = "this is some test text";
-			this.append("<span>"+text+"</span>");
+			var text = 'this is some test text';
+			this.append('<span>'+text+'</span>');
 		}
 	});
-	
+
+	$.fn.extend({
+		jw_macro_today: function(args) {
+			var now = new Date();
+			var text = args.format ? now.formatString(args.format.trim()) : now.toLocaleString();
+			this.append('<span>'+text+'</span>');
+		}
+	});
+
+	$.fn.extend({
+		jw_macro_version: function(args) {
+			var v = jw.version;
+			var text = v.major + "." + v.minor + "." + v.revision + (v.beta ? " (beta " + v.beta + ")" : "");
+			this.append('<span>'+text+'</span>');
+		}
+	});
+
 })(jQuery);
 
 
@@ -35,7 +51,7 @@
 			}
 		}
 	});
-	
+
 })(jQuery);
 
 
@@ -85,8 +101,6 @@
 })(jQuery);
 
 
-
-
 (function($) {
 
 	$.fn.extend({
@@ -130,3 +144,4 @@
 	}
 
 })(jQuery);
+
