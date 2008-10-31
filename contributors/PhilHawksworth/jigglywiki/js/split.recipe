@@ -4,3 +4,4 @@ js: version.js
 js: locale.js
 js: dates.js
 js: macros.js
+js: events.js

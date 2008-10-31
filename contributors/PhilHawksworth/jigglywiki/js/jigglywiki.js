@@ -39,28 +39,30 @@ jw.showDefaultTiddlers = function() {
 		jw.displayTiddler(jq(this));
 	});
 	
-	// var links = jw.getTiddlerData('DefaultTiddlers', 'store').tiddlerLinks;	
-	// links.each(function(){	
+
 	// 	jw.displayTiddler( jq(this).attr('href'), { 
 	// 		container: container,
 	// 		template: 'ViewTemplate',
 	// 		overflow: true,
 	// 		animate: false
 	// 	});	
-	// });	
+
 };
 
 
+// Render a tiddler in the story.
 jw.displayTiddler = function(link, options) {
-	
-	jw.log('in displayTiddler');
-
 	if(typeof link == 'string') {
 		var name = link;
 	} else {
 		var name = link.text();		
 	}
 	var t = jw.store.fetch(name).clone();
+	
+	// Add a command bar to the tiddler.
+	var commandBar = "<div class='commandBar'><a href='#' class='command close'>close tiddler</a><a href='#' class='command edit'>edit tiddler</a></div>";
+	t.prepend(commandBar);
+	
 	jq(t).jw_expandMacros();
 	jq('#story1').append(t);
 };

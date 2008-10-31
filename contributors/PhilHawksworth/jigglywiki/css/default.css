@@ -15,19 +15,19 @@ a.button { background-color: #1e52cd; color:#fff; line-height:2em; padding:3px 1
 
 /*  Links and tiddler links */
 a:link,
-a:visited{background-color:#f0f0f0;color:#1E52CD;text-decoration:none;padding:0.2em 0.2em 0.1em 0.2em;}
+a:visited{color:#1E52CD;text-decoration:none;padding:0.1em 0;}
 a:hover,
 a:focus{border-bottom:solid 2px #1E52CD;}
 
 /* Links to external resources */
 a[href^="http"]:link,
-a[href^="http"]:visited {background-color:transparent;color:#1E52CD;text-decoration:none;padding:0.1em 0;}
+a[href^="http"]:visited {text-decoration:none; border-bottom:dotted 1px #999;}
 a[href^="http"]:hover,
-a[href^="http"]:focus{border-bottom:solid 2px #1E52CD;}
+a[href^="http"]:focus{border-bottom:solid 2px #999;}
 
 /* tag links */
 a[rel='tag']:link,
-a[rel='tag']:visited{font-size:0.8em; border-left:solid 8px #ccc; padding:0.2em 0.5em; line-height:1;}
+a[rel='tag']:visited{ background-color:#eee; font-size:0.8em; border-left:solid 8px #ccc; padding:0.2em 0.5em; line-height:1;}
 a[rel='tag']:hover,
 a[rel='tag']:focus{ border-left:solid 8px #003B83; background-color:#1E52CD; color:#fff; border-bottom-style:none;}
 
