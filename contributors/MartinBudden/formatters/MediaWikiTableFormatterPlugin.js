@@ -1,49 +1,53 @@
 /***
-|''Name:''|MediaWikiTableFormatterPlugin|
-|''Description:''|Allows Tiddlers to use [[MediaWiki|http://meta.wikimedia.org/wiki/Help:Wikitext]] ([[WikiPedia|http://meta.wikipedia.org/]]) text formatting|
-|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiTableFormatterPlugin.js |
-|''Version:''|0.0.1|
-|''Date:''|Jul 27, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
+|''Name''|MediaWikiTableFormatterPlugin|
+|''Description''|alternative markup for flexible tables|
+|''Author''|Martin Budden (mjbudden (at) gmail (dot) com)|
+|''Contributors''|FND|
+|''Version''|0.1.0|
+|''Status''|@@beta@@|
+|''Source''|http://devpad.tiddlyspot.com/#MediaWikiTableFormatterPlugin|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiTableFormatterPlugin.js|
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.1.0|
-
+!Description
+Enables [[MediaWiki's table markup|http://www.mediawiki.org/wiki/Help:Tables]] in TiddlyWiki, allowing for multi-line contents within table cells.
+!Revision History
+!!v0.1 (2008-10-31)
+* initial release
+!Code
 ***/
-
 //{{{
-// Ensure that the MediaWikiTableFormatter Plugin is only installed once.
-if(!version.extensions.MediaWikiTableFormatterPlugin) {
-version.extensions.MediaWikiTableFormatterPlugin = {installed:true};
+if(!version.extensions.MediaWikiTableFormatterPlugin) { //# ensure that the plugin is only installed once
+version.extensions.MediaWikiTableFormatterPlugin = { installed: true };
 
-if(version.major < 2 || (version.major == 2 && version.minor < 1))
-	{alertAndThrow('MediaWikiTableFormatterPlugin requires TiddlyWiki 2.1 or later.');}
-
-if(config.options.chkDisplayInstrumentation == undefined)
-	{config.options.chkDisplayInstrumentation = false;}
-
-function createTiddlyElement2(parent,element)
-{
-	return parent.appendChild(document.createElement(element));
+if(version.major < 2 || (version.major == 2 && version.minor < 1)) {
+	alertAndThrow('MediaWikiTableFormatterPlugin requires TiddlyWiki 2.1 or later.');
 }
 
+if(config.options.chkDisplayInstrumentation === undefined) {
+	config.options.chkDisplayInstrumentation = false;
+}
 
-var tableEntry = {
-	name: 'enhancedTable',
-	match: '^\\{\\|',
-	handler: function(w)
-	{
-		var pair = MediaWikiTemplate.findTableBracePair(w.source,w.matchStart);
-		if(pair.start==w.matchStart) {
-			w.nextMatch = w.matchStart;
-			var table = createTiddlyElement2(w.output,'table');
-			var tbody = createTiddlyElement2(table,'tbody');// needed for IE
-			var mwt = new MediaWikiTemplate();
-			mwt.wikifyTable(tbody,w,pair);
+if(!config.extensions) { config.extensions = {}; }
+config.extensions.MediaWikiTableFormatterPlugin = {
+	tableEntry: {
+		name: 'enhancedTable',
+		match: '^\\{\\|',
+		handler: function(w)
+		{
+			var pair = MediaWikiTemplate.findTableBracePair(w.source,w.matchStart);
+			if(pair.start==w.matchStart) {
+				w.nextMatch = w.matchStart;
+				var table = MediaWikiTemplate.createElement(w.output,'table');
+				var tbody = MediaWikiTemplate.createElement(table,'tbody'); // required for IE
+				var mwt = new MediaWikiTemplate();
+				mwt.wikifyTable(tbody,w,pair);
+			}
 		}
 	}
 }
-config.formatters.push(tableEntry);
+
+config.formatters.push(config.extensions.MediaWikiTableFormatterPlugin.tableEntry);
 
 MediaWikiTemplate = function()
 {
@@ -96,11 +100,9 @@ MediaWikiTemplate.findRawDelimiter = function(delimiter,text,start)
 			b.end = be;
 		}
 	}
-//#console.log('frd('+d+','+bs+','+be+')');
 	if(b.start!=-1 && d>b.start)
 		s1 = b.end+2;
 	var db = MediaWikiTemplate.findDBP(text,start);
-//#console.log('frd('+d+','+db.start+','+db.end+')');
 	if(db.end!=-1 && d>db.start) {
 		if(db.end+2>s1)
 			s1 = db.end+2;
@@ -129,7 +131,6 @@ In this example, {{{{TEx1}} }} results in Template:Hello world!, as the Hello wo
 MediaWikiTemplate.findDBP = function(text,start,end)
 // findDoubleBracePair
 {
-//#console.log('findDBP:'+start+' t:'+text);
 	var ret = {start:-1,end:-1};
 	var s = text.indexOf('{{',start);
 	if(s==-1) {
@@ -140,9 +141,6 @@ MediaWikiTemplate.findDBP = function(text,start,end)
 	if(text.substr(s+2,1)!='{') {
 		//# only two braces
 		var e = text.indexOf('}}',s+2);
-//#console.log('db:'+db.start+' ,'+db.end);
-//#console.log('tb:'+tb.start+' ,'+tb.end);
-//#console.log('e:'+e);
 		if(e==-1)
 			return ret;
 		var s2 = text.indexOf('{{',s+2);
@@ -161,7 +159,7 @@ MediaWikiTemplate.findDBP = function(text,start,end)
 				}
 			} else {
 				si = tb.end+3;
-			}			
+			}
 			e = text.indexOf('}}',si);
 			db = MediaWikiTemplate.findDBP(text,si,e);
 			tb = MediaWikiTemplate.findTBP(text,si,e);
@@ -179,8 +177,6 @@ MediaWikiTemplate.findDBP = function(text,start,end)
 	if(c==3) {
 		//# it's a triple brace, so skip over it
 		//tb = MediaWikiTemplate.findTBP(text,s);
-//#console.log('s:'+s+' t:'+text);
-//#console.log('tb:'+tb.start+' ,'+tb.end);
 		//return tb.end==-1 ? ret : MediaWikiTemplate.findDBP(text,tb.end+3);
 		return MediaWikiTemplate.findDBP(text,s+3)
 	} else if(c==4) {
@@ -189,7 +185,7 @@ MediaWikiTemplate.findDBP = function(text,start,end)
 		if(db.end==-1)
 			return ret;
 		if(text.substr(db.end+2,2)=='}}') {
-			//# it's matched, so skip over 
+			//# it's matched, so skip over
 			//# {{{{foo}}}} is equivalent to { {{{foo}}} }
 			return MediaWikiTemplate.findDBP(text,db.end+4);
 		} else {
@@ -243,7 +239,6 @@ MediaWikiTemplate.findTBP = function(text,start,end)
 			return {start:s,end:e};
 		var db = MediaWikiTemplate.findDBP(text,si,e);
 		var tb = MediaWikiTemplate.findTBP(text,si,e);
-//	console.log('t:'+text.substr(s,100));
 		while((db.end!=-1 && e>=db.end) || (tb.end!=-1 && e>=tb.end)) {
 			//# intervening double or triple brace pair, so skip over
 			if(db.end!=-1 && e>=db.end) {
@@ -274,7 +269,7 @@ MediaWikiTemplate.findTBP = function(text,start,end)
 		if(tb.end==-1)
 			return ret;
 		if(text.substr(tb.end+1,1)=='}') {
-			//# it's matched 
+			//# it's matched
 			//# {{{{foo}}}} is equivalent to { {{{foo}}} }
 			return {start:s+1,end:tb.end};
 		} else {
@@ -332,9 +327,6 @@ MediaWikiTemplate.findTableBracePair = function(text,start)
 
 MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 {
-//#console.log('wikifyTable');
-//#console.log(w);
-//#console.log(w.source);
 	function lineEnd(w) {
 		var r = w.source.indexOf('\n',w.nextMatch);
 		while(r!=-1) {
@@ -350,19 +342,17 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 			w.source = text; w.nextMatch = 0;
 			w.subWikifyUnterm(e);
 			w.source = oldSource; w.nextMatch = oldMatch;
-	}		
+	}
 	//# skip over {|
 	w.nextMatch += 2;
 	var i = lineEnd(w);
 	if(i>w.nextMatch) {
-//#console.log('attribs');
 		MediaWikiTemplate.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
 		w.nextMatch = i;
 	}
 	w.nextMatch++;
 	if(w.source.substr(w.nextMatch,2)=='|+') {
-//#console.log('caption');
-		var caption = createTiddlyElement2(table,'caption');
+		var caption = MediaWikiTemplate.createElement(table,'caption');
 		w.nextMatch += 2;
 		i = lineEnd(w);
 		var d = MediaWikiTemplate.findRawDelimiter('|',w.source,w.nextMatch);
@@ -372,8 +362,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 		}
 		w.subWikifyTerm(caption,/(\n)/mg);
 	}
-	var tr = createTiddlyElement2(table,'tr');
-//#console.log('x1:'+w.source.substr(w.nextMatch,10));
+	var tr = MediaWikiTemplate.createElement(table,'tr');
 	if(w.source.substr(w.nextMatch,2)=='|-') {
 		w.nextMatch += 2;
 		i = lineEnd(w);
@@ -385,21 +374,18 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 		}
 		w.nextMatch++;
 	}
-//#console.log('x2:'+w.source.substr(w.nextMatch,10));
 	var x = w.source.substr(w.nextMatch,2);
-//#console.log('xw:'+x);
 	while(x!='|}') {
 		if(x=='{|') {
 			//# nested table
 			var pair2 = MediaWikiTemplate.findTableBracePair(w.source,w.nextMatch);
 			if(pair2.start==w.nextMatch) {
-				var table2 = createTiddlyElement2(cell,'table');
+				var table2 = MediaWikiTemplate.createElement(cell,'table');
 				this.wikifyTable(table2,w,pair2);
 			}
 		} else if(x=='|-') {
 			//# new row
-			tr = createTiddlyElement2(table,'tr');
-//#console.log('xr:'+w.source.substr(w.nextMatch,40));
+			tr = MediaWikiTemplate.createElement(table,'tr');
 			w.nextMatch += 2;
 			i = lineEnd(w);
 			if(i==-1)
@@ -412,12 +398,10 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 		} else if(x.substr(0,1)=='!') {
 			//# header cell
 			w.nextMatch++;
-//#console.log('xh:'+w.source.substr(w.nextMatch,40));
 			i = lineEnd(w);
-//#console.log('xi:'+w.source.substring(w.nextMatch,i));
 			if(i==-1)
 				break;
-			var cell = createTiddlyElement2(tr,'th');
+			var cell = MediaWikiTemplate.createElement(tr,'th');
 			var c = w.source.indexOf('!!',w.nextMatch);
 			while(c!=-1 && c<i) {
 				d = MediaWikiTemplate.findRawDelimiter('|',w.source,w.nextMatch);
@@ -429,7 +413,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 					w.nextMatch++;
 				}
 				w.subWikifyTerm(cell,/(\!\!)/mg);
-				cell = createTiddlyElement2(tr,'th');
+				cell = MediaWikiTemplate.createElement(tr,'th');
 				c = w.source.indexOf('!!',w.nextMatch);
 			}
 			d = MediaWikiTemplate.findRawDelimiter('|',w.source,w.nextMatch);
@@ -437,7 +421,6 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 				MediaWikiTemplate.setAttributesFromParams(cell,w.source.substring(w.nextMatch,d));
 				w.nextMatch = d+1;
 			}
-//#console.log('xk:'+w.source.substr(w.nextMatch,i));
 			while(w.source.substr(w.nextMatch,1)==' ') {
 				w.nextMatch++;
 			}
@@ -447,17 +430,13 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 		} else if(x.substr(0,1)=='|') {
 			//# cell
 			w.nextMatch++;
-//#console.log('xc:'+w.source.substr(w.nextMatch,40));
 			i = lineEnd(w);
 			if(i==-1)
 				break;
-			cell = createTiddlyElement2(tr,'td');
+			cell = MediaWikiTemplate.createElement(tr,'td');
 			c = w.source.indexOf('||',w.nextMatch);
-	//#console.log('i:'+i);
 			while(c!=-1 && c<i) {
 				d = MediaWikiTemplate.findRawDelimiter('|',w.source,w.nextMatch);
-	//#console.log('c1:'+c);
-	//#console.log('d1:'+d+'('+w.nextMatch+','+i+')');
 				if(d!=-1 && d<c) {
 					MediaWikiTemplate.setAttributesFromParams(cell,w.source.substring(w.nextMatch,d));
 					w.nextMatch = d+1;
@@ -466,11 +445,10 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 					w.nextMatch++;
 				}
 				w.subWikifyTerm(cell,/(\|\|)/mg);
-				cell = createTiddlyElement2(tr,'td');
+				cell = MediaWikiTemplate.createElement(tr,'td');
 				c = w.source.indexOf('||',w.nextMatch);
 			}
 			d = MediaWikiTemplate.findRawDelimiter('|',w.source,w.nextMatch);
-	//#console.log('d2:'+d+'('+w.nextMatch+','+i+')');
 			if(d!=-1 && d<i) {
 				MediaWikiTemplate.setAttributesFromParams(cell,w.source.substring(w.nextMatch,d));
 				w.nextMatch = d+1;
@@ -484,12 +462,15 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 		} else {
 		}
 		x = w.source.substr(w.nextMatch,2);
-//#console.log('xw2:'+x);
 	}
 	w.nextMatch = pair.end + 3;
 	return;
-	
 };
+
+MediaWikiTemplate.createElement = function(parent,element)
+{
+	return parent.appendChild(document.createElement(element));
+}
 
 } //# end of 'install only once'
 //}}}
