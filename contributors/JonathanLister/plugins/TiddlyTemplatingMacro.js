@@ -40,8 +40,9 @@ config.macros.TiddlyTemplating.handler = function(place,macroName,params,wikifie
 
 config.macros.TiddlyTemplating.onclick = function(e)
 {
+	console.log(TiddlyTemplating);
 	var p = this.paramString.parseParams("anon",null,true,false,false);
-	var filename = TiddlyTemplating.getFilename(p);
+	var filename = TiddlyTemplating.getFileName(p);
 	var template = TiddlyTemplating.getTemplate(p);
 	var tiddlers = TiddlyTemplating.getTiddlers(p);
 	var wikitext = getParam(p,"wikitext",null);
@@ -51,10 +52,12 @@ config.macros.TiddlyTemplating.onclick = function(e)
 
 TiddlyTemplating.getFileName = function(p)
 {
-	var filename = getParam(p,"filename");
+	console.log(p);
+	var filename = getParam(p,"fileName");
 	if(!filename) {
 		filename = this.defaultFileName;
 	}
+	return filename;
 };
 
 TiddlyTemplating.getTemplate = function(p)
