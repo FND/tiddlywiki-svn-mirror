@@ -10,7 +10,7 @@
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 !Usage
 {{{
-<<TiddlyTweets [username] [pages] [pages]>>
+<<TiddlyTweets [username] [pages]>>
 }}}
 !Revision History
 !!v0.1 (2008-10-24)
@@ -37,7 +37,7 @@ config.macros.TiddlyTweets = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		this.pageCount = 0; // XXX: means there can only be a single instance!!
 		createTiddlyButton(place, this.btnLabel, this.btnTooltip,
-			function() { config.macros.TiddlyTweets.dispatcher(params) });
+			function() { config.macros.TiddlyTweets.dispatcher(params); });
 	},
 
 	dispatcher: function(params) { // TODO: rename
