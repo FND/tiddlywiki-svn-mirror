@@ -95,8 +95,8 @@ Crypto.base64decode = function(s)
 	var j,c;
 	var sg = 0;
 	var n = 0;
-	var b = new Array();
-	var d = new Array();
+	var b = [];
+	var d = [];
 	while(i<s.length) {
 		for(j=0;j<4;) {
 			if(i>=s.length) {
