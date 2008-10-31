@@ -72,6 +72,7 @@ config.commands.saveTiddlerHosted.handler = function(event,src,title)
 };
 
 config.commands.saveTiddlerHosted.callback = function(context, userParams) {
+	console.log('n,o',context.newTitle,context.title,userParams)
 	var tiddler = store.fetchTiddler(context.title);
 	if(tiddler) {
 		displayMessage("if");
@@ -82,10 +83,13 @@ config.commands.saveTiddlerHosted.callback = function(context, userParams) {
 		story.displayTiddler(null,tiddler.title);
 		store.notify(tiddler.title,true);
 	} else {
-		displayMessage("else")
+		displayMessage("else");
+		//story.closeTiddler(context.title,false);
+		displayMessage("else2");
 		var newTitle = story.saveTiddler(context.title,userParams.minorUpdate);
 		if(newTitle)
 			story.displayTiddler(null,newTitle);
+		displayMessage("else3");
 	}
 }
 
