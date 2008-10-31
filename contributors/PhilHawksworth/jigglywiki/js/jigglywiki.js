@@ -53,9 +53,13 @@ jw.showDefaultTiddlers = function() {
 
 jw.displayTiddler = function(link, options) {
 	
-	// TODO: handler either tiddler names or tiddlerLinks.
-console.log('in displayTiddler');
-	var name = link.text();
+	jw.log('in displayTiddler');
+
+	if(typeof link == 'string') {
+		var name = link;
+	} else {
+		var name = link.text();		
+	}
 	var t = jw.store.fetch(name).clone();
 	jq(t).jw_expandMacros();
 	jq('#story1').append(t);
