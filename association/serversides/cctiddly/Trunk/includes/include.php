@@ -4,7 +4,6 @@ include_once($cct_base."includes/ccAssignments.php");
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
        tiddler_outputOffline();
 else {
-	  /*
 		// Modules code : Will be used in v 1.8 - Simon McManus
 		foreach ($modulesLoader->plugins as $plugin)
 		{
@@ -22,8 +21,7 @@ else {
 				}	
 			}
 		}
-		
-		*/
+
        echo tiddler_outputFolder("tiddlers", $cct_base);
        echo tiddler_outputFolder("lang/".$tiddlyCfg['pref']['language'], $cct_base);
 }

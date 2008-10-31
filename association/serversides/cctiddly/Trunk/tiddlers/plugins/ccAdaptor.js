@@ -293,18 +293,16 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	}
 	
 	// Freds SEO Code 
-
-	var host = "http://127.0.0.1/";
-	var workspace = "";
+	if(workspace)
+	 	var breaker = "/";
+	else
+		var breaker = "";
 	var el = createTiddlyElement(document.body, "div", "ccTiddlyTMP", null, null, { "style.display": "none" });
-
 	var formatter = new Formatter(config.formatters);
 	var wikifier = new Wikifier(tiddler.text,formatter,null,tiddler);
 		wikifier.isStatic = true;
 		wikifier.subWikify(el);
-	//wikify(tiddler.text, el);
 	delete formatter;
-
 	var links = el.getElementsByTagName("a");
 	for(var i = 0; i < links.length; i++) {
 		var tiddlyLink = links[i].getAttribute("tiddlyLink");
@@ -312,7 +310,7 @@ ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callb
 	        if(hasClass(links[i], "tiddlyLinkNonExisting")) { // target tiddler does not exist
 	            links[i].href = "#";
 	        } else {
-	            links[i].href = host + workspace + tiddlyLink + ".html";
+	            links[i].href = url+ workspace + breaker +tiddlyLink + ".html";
 	        }
 	    }
 	}	

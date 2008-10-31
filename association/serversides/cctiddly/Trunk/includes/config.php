@@ -8,7 +8,6 @@ $tiddlyCfg['db']['pass'] = "";		//login password
 $tiddlyCfg['db']['name'] = "1";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
-
 $tiddlyCfg['adminPassword'] = "";
 
 // User Managment Information 
@@ -68,7 +67,9 @@ array(	"ccAdaptor",
 $tiddlyCfg['allowed_proxy_list'] = 
 array(	'wikipedia.org', 
 		'tiddlywiki.org',
+		'agilecookbook.com',
 		'trac.tiddlywiki.org',
+		'monkeygtd.tiddlyspot.com',
 		'api.flickr.com',
 		'feeds.delicious.com',
 		'google.com',
@@ -121,7 +122,7 @@ $tiddlyCfg['txtTheme'] = 'purpleTheme';  // The default TiddlyWiki theme to use.
 
 // Debugging Information 
 
-$tiddlyCfg['developing'] =1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['developing'] =2;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
 $tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login'] = 0;
 $tiddlyCfg['debug']['handle'] = 0;
