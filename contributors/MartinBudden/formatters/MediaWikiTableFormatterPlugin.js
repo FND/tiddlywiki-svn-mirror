@@ -10,7 +10,38 @@
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.1.0|
 !Description
-Enables [[MediaWiki's table markup|http://www.mediawiki.org/wiki/Help:Tables]] in TiddlyWiki, allowing for multi-line contents within table cells.
+Enables [[MediaWiki|http://www.mediawiki.org]]'s table markup in TiddlyWiki, allowing for multi-line contents within table cells.
+!Usage
+Detailed documentation available at [[MediaWiki.org|http://www.mediawiki.org/wiki/Help:Tables]].
+!!Examples
+{{{
+{|
+! Heading 1
+! Heading 2
+! Heading 3
+|-
+| row 1, column 1
+| row 1, column 2
+| row 1, column 3
+|-
+| row 2, column 1
+| row 2, column 2
+| row 2, column 3
+|}
+}}}
+{|
+! Heading 1
+! Heading 2
+! Heading 3
+|-
+| row 1, column 1
+| row 1, column 2
+| row 1, column 3
+|-
+| row 2, column 1
+| row 2, column 2
+| row 2, column 3
+|}
 !Revision History
 !!v0.1 (2008-10-31)
 * initial release
