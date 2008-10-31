@@ -75,15 +75,12 @@ ccTiddlyAdaptor.prototype.register = function(context,userParams,callback){
 };
 
 ccTiddlyAdaptor.prototype.rename = function(context, userParams, callback){
-	displayMessage("we got to here");
 	context = this.setContext(context,userParams,callback);
 	var uri = window.url+"handle/renameTiddler.php?otitle="+context.title+"&ntitle="+context.newTitle+"&workspace="+window.workspace;
-	displayMessage(uri);
 	httpReq('POST', uri,ccTiddlyAdaptor.renameCallback,context,null,null);
 };
 
 ccTiddlyAdaptor.renameCallback = function(status,context,responseText,uri,xhr){
-	displayMessage("we got tot he the callback");
 	if(context.callback)
 		context.callback(context,context.userParams);
 };

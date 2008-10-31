@@ -1,18 +1,12 @@
 <?php
-error_log("createTHTNK");
-
-	$ws_folder = $tiddlyCfg['workspace_name'];
-
+$ws_folder = $tiddlyCfg['workspace_name'];
 $dir = $tiddlyCfg['pref']['upload_dir']."tiddlers/".$ws_folder."";
-error_log("DIR >>>. ".$dir);
 mkdir($dir, 0777, true);
 $myFile = $dir."/".$ntiddler['title'].".html";
 $fh = fopen($myFile, 'w+');
 $doc = "<html>\r\n<head>\r\n<script language='javascript'><!-- \r\n//location.replace('".dirname(getUrl())."/".$tiddlyCfg['workspace_name']."#".$ntiddler['title']."') \r\n //--></script>\r\n";
 $doc .= "<title>".$ntiddler['title']."</title>\r\n</head>\r\n<body>\r\n";
 $doc .= "<h1>".$ntiddler['title']."</h1>\r\n";
-
-error_log("failed2");
 $doc .= str_replace(dirname(getUrl())."/".$tiddlyCfg['workspace_name']."#", dirname(getUrl())."/".$tiddlyCfg['workspace_name']."/", formatParametersPOST($_POST['wikifiedBody']));
 $doc .= "<br /><i>Modified : ".$ntiddler['modified']." by ".$ntiddler['modifier']."</i><br /><br />";
 $doc .= "\r\n<h3>Fields</h3>\r\n<ul>\r\n";
@@ -31,8 +25,6 @@ foreach($tags as $tag)
 	if($tag)
 		$doc .="<a href='#' rel='tag'>".$tag."</a>\r\n";
 $doc .= "</ul>\r\n</body>\r\n</html>";
-
-error_log("failed4");
 if(fwrite($fh, $doc)){
 }
 fclose($fh);

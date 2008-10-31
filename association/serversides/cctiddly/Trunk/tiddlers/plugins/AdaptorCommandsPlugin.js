@@ -101,11 +101,13 @@ config.commands.saveTiddlerHosted.callback = function(context, userParams) {
 		story.displayTiddler(null,tiddler.title);
 		story.refreshTiddler(tiddler.title,null,true);
 		store.notify(tiddler.title,true);
+		displayMessage("Tiddler Renamed");
 	} else {   //tiddler does not exist so this is a new tiddler. 
 		var newTitle = story.saveTiddler(context.title,userParams.minorUpdate);
 		if(newTitle)
 			story.displayTiddler(null,newTitle);
 		story.closeTiddler(context.title,false);
+
 	}
 }
 

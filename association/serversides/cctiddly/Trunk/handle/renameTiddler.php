@@ -1,5 +1,4 @@
 <?php
-error_log($_SERVER['REQUEST_URI']);
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 if(!user_session_validate())
@@ -19,7 +18,6 @@ if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags'])))
 	if(tiddler_update_new($tiddler['id'], $ntiddler))
 	{
 		error_log("sending 200");
-		sendHeader(200);
 	}
 }
 
