@@ -7,7 +7,7 @@
 		jw_macro_test: function(args) {
 			// simple macro for test purposes
 			var text = 'this is some test text';
-			this.append('<span>'+text+'</span>');
+			this.after('<span>'+text+'</span>');
 		}
 	});
 
@@ -15,7 +15,7 @@
 		jw_macro_today: function(args) {
 			var now = new Date();
 			var text = args.format ? now.formatString(args.format.trim()) : now.toLocaleString();
-			this.append('<span>'+text+'</span>');
+			this.after('<span>'+text+'</span>');
 		}
 	});
 
@@ -23,7 +23,7 @@
 		jw_macro_version: function(args) {
 			var v = jw.version;
 			var text = v.major + "." + v.minor + "." + v.revision + (v.beta ? " (beta " + v.beta + ")" : "");
-			this.append('<span>'+text+'</span>');
+			this.after('<span>'+text+'</span>');
 		}
 	});
 
@@ -106,18 +106,13 @@
 	$.fn.extend({
 		jw_expandMacros: function(args) {
 			// find any macros in this jQuery object and expand them
-			console.log('hello');
-			this.append('<b>some test text</b>');
-			return;
-	
 			this.find('code.macro').each(function(n,e) {
 				if( $(this).css('display') == 'block') {
 					// build an object for calling the macro handler.
 					var opts = {
-						tiddler:args.tiddler
 					};
 					var t = $.trim($(e).text());
-					var pairs = t.split(',');
+					var pairs = t.split(' ');
 					for (var p=0; p < pairs.length; p++) {
 						nv = pairs[p].split(':');
 						opts[$.trim(nv[0])] = $.trim(nv[1]);
@@ -135,14 +130,13 @@
 	function invokeMacro(macro, place, args) {
 		// Call the handler of the macro, passing along any arguments
 		// and hide the macro code block.
-		// console.log('Calling macro:', macro, args);
 		var j = jq(place)['jw_macro_'+macro];
 		if(j) {
 			//jq(place)['jw_macros_'+macro]({macro:macro,params:params.readMacroParams,wikifier:wikifier,paramString:params,tiddler:tiddler});
 			jq(place)['jw_macro_'+macro](args);
-			place.hide();
+			$(place).hide();
 		} else {
-			console.log("No handler for ", macro);
+			jw.log("No handler for ", macro);
 		}
 	}
 
