@@ -3,3 +3,4 @@ js: jigglywiki.js
 js: version.js
 js: locale.js
 js: dates.js
+js: macros.js

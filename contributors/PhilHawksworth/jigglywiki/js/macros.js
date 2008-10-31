@@ -106,25 +106,28 @@
 	$.fn.extend({
 		jw_expandMacros: function(args) {
 			// find any macros in this jQuery object and expand them
+			console.log('hello');
+			this.append('<b>some test text</b>');
+			return;
 	
 			this.find('code.macro').each(function(n,e) {
 				if( $(this).css('display') == 'block') {
 					// build an object for calling the macro handler.
 					var opts = {
-						tiddler:args.tiddler,
+						tiddler:args.tiddler
 					};
 					var t = $.trim($(e).text());
 					var pairs = t.split(',');
 					for (var p=0; p < pairs.length; p++) {
 						nv = pairs[p].split(':');
 						opts[$.trim(nv[0])] = $.trim(nv[1]);
-					};
+					}
 					// pass the macro name directly and remove it fro the arguments passed to the macro caller.
 					var m = opts.macro;
 					delete opts.macro;
 					invokeMacro(m, e, opts);
 				}
-			}
+			});
 		}
 	});
 
