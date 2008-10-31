@@ -14,7 +14,7 @@
 	$.fn.extend({
 		jw_macro_today: function(args) {
 			var now = new Date();
-			var text = args.format ? now.formatString(args.format.trim()) : now.toLocaleString();
+			var text = args.format ? now.formatString(args.format) : now.toLocaleString();
 			this.after('<span>'+text+'</span>');
 		}
 	});
@@ -27,11 +27,6 @@
 		}
 	});
 
-})(jQuery);
-
-
-(function($) {
-
 	$.fn.extend({
 		jw_macro_view: function(args) {
 			var defaults = {
@@ -41,21 +36,19 @@
 				css: null,
 				property: null
 			};
+			var tiddler = this.parents('div.hentry');
+			var html = tiddler.find('div.entry-content').html();
+			//console.log('tiddler',tiddler,html);
 			var opts = $.extend(defaults, args);
-			var data = jw.getTiddlerData(opts.tiddler, 'store');
+			/*var data = jw.getTiddlerData(opts.tiddler, 'store');
 			var val = $(data[opts.property]);
 			if(opts.element == 'input') {
 				$('<input type=\'text\' value=\''+ val.html() +'\'>').addClass(opts.css).insertAfter(opts.place);
 			} else {
 				$('<'+opts.element+'>'+ val.html() +'</'+opts.element+'>').addClass(opts.css).insertAfter(opts.place);
-			}
+			}*/
 		}
 	});
-
-})(jQuery);
-
-
-(function($) {
 
 	$.fn.extend({
 		jw_macro_newTiddler: function(args) {
@@ -109,9 +102,9 @@
 			this.find('code.macro').each(function(n,e) {
 				if( $(this).css('display') == 'block') {
 					// build an object for calling the macro handler.
-					var opts = {
-					};
+					var opts = {};
 					var t = $.trim($(e).text());
+					//!! the parsing of the macro parameters needs improving, especially to cope with quoted parameters, eg format:"YYYY/0MM/0DD, hh:mm"
 					var pairs = t.split(' ');
 					for (var p=0; p < pairs.length; p++) {
 						nv = pairs[p].split(':');
@@ -132,7 +125,6 @@
 		// and hide the macro code block.
 		var j = jq(place)['jw_macro_'+macro];
 		if(j) {
-			//jq(place)['jw_macros_'+macro]({macro:macro,params:params.readMacroParams,wikifier:wikifier,paramString:params,tiddler:tiddler});
 			jq(place)['jw_macro_'+macro](args);
 			$(place).hide();
 		} else {
