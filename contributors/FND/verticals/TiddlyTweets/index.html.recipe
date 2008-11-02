@@ -1,0 +1,5 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: shadows/split.recipe
+recipe: content/split.recipe
+tiddler: ../../plugins/TwitterAdaptorPlugin.js tags="systemConfig"
+tiddler: ../../plugins/TiddlyTweetsPlugin.js tags="systemConfig"
