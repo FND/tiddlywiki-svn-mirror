@@ -8,13 +8,13 @@
 |''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptorPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''CoreVersion''|2.5|
 !Revision History
 !!v0.2 (2008-10-23)
 * initial release
 !To Do
-* scrapeTweet: retrieve created/modified date (via API?)
 * store user info in a tiddler
-* support for timelines (user, public, replies)
+* support for timelines (user, public, replies) - to be implemented as "magic" workspaces?
 !Code
 ***/
 //{{{
@@ -26,7 +26,7 @@ TwitterAdaptor.serverType = "twitter";
 TwitterAdaptor.serverLabel = "Twitter";
 TwitterAdaptor.defaultTags = ["tweets"];
 
-TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) { // TODO: workspace == user
+TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) { // TODO: workspace == user/home/replies/DMs
 	context = this.setContext(context, userParams, callback);
 	context.workspaces = [];
 	if(context.callback) {
@@ -58,7 +58,6 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 			context.tiddlers.push(tiddler);
 		}
 	}
-	context.adaptor.context = context; // XXX: ugly workaround; see getTiddler
 	if(context.callback) {
 		context.callback(context, context.userParams);
 	}
@@ -66,7 +65,7 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 
 TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
-	context.title = title || context.tiddler.title; // XXX: fallback wrong?
+	context.title = title;
 	var fields = {
 		"server.type": TwitterAdaptor.serverType,
 		"server.host": AdaptorBase.minHostName(context.host)
@@ -74,33 +73,60 @@ TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callb
 	// reuse previously-requested tiddlers
 	if(context.tiddler) {
 		context.tiddler.fields = merge(context.tiddler.fields, fields);
-	} else if(userParams && userParams.getValue) { // access wizard context -- XXX: ugly workaround; adaptor framework should pass context.tiddler
-		var tiddlers = userParams.getValue("adaptor").context.tiddlers;
-		for(var i = 0; i < tiddlers.length; i++) {
-			if(tiddlers[i].title == title) {
-				context.tiddler = tiddlers[i];
-			}
-		}
 	}
 	// do not re-request non-truncated tweets
-	if(context.tiddler && !context.tiddler.fields.truncated) {
+	if(context.tiddler && context.tiddler.fields.truncated === false) {
 		context.status = true;
-		window.setTimeout(new Function(callback(context, context.userParams)), 0); // XXX: new constructor to force evaluation is evil!?
+		window.setTimeout(function() { callback(context, context.userParams); }, 0);
 		return true;
 	}
-	// request individual tweet -- resorting to screen scraping due to API deficiency (cf. http://code.google.com/p/twitter-api/issues/detail?id=133)
-	if(!context.tiddler) {
+	// request individual tweet
+	if(!context.tiddler || context.tiddler.fields.truncated === undefined) { // truncated flag as indicator of actual tweet
 		context.tiddler = new Tiddler(title);
-		context.tiddler.fields = fields;
 		context.tiddler.modifier = context.workspace;
 	}
-	var uriTemplate = "%0/%1/status/%2";
-	var uri = uriTemplate.format([context.host, context.workspace, context.tiddler.title]);
-	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerCallback, context);
+	var uriTemplate = "%0/statuses/show/%1.json";
+	var uri = uriTemplate.format([context.host, context.tiddler.title]);
+	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerCallback,
+		context, null, null, { "accept": TwitterAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
 TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
+	context.status = status;
+	context.statusText = xhr.statusText;
+	context.httpStatus = xhr.status;
+	var fields = {
+		"server.type": TwitterAdaptor.serverType,
+		"server.host": AdaptorBase.minHostName(context.host)
+	}; // XXX: redundant!? (cf. getTiddler)
+	if(status) {
+		eval("var tweet = " + responseText); // evaluate JSON response
+		context.tiddler = TwitterAdaptor.parseTweet(tweet);
+		context.tiddler.fields = merge(context.tiddler.fields, fields);
+	}
+	if(context.callback) {
+		if(context.tiddler.fields.truncated) {
+			var subContext = {
+				tiddler: context.tiddler
+			};
+			TwitterAdaptor.getFullTweet(subContext, context.userParams, context.callback);
+		} else {
+			context.callback(context, context.userParams);
+		}
+	}
+};
+
+// re-request truncated tweet
+TwitterAdaptor.prototype.getFullTweet = function(context, userParams, callback) { // XXX: shouldn't be prototype? -- TODO: rename?
+	context = this.setContext(context, userParams, callback);
+	var uriTemplate = "%0/%1/status/%2";
+	var uri = uriTemplate.format([context.host, context.workspace, context.tiddler.title]);
+	var req = httpReq("GET", uri, TwitterAdaptor.getFullTweetCallback, context);
+	return typeof req == "string" ? req : true;
+};
+
+TwitterAdaptor.getFullTweetCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -118,19 +144,22 @@ TwitterAdaptor.parseTweet = function(tweet) {
 	tiddler.created = TwitterAdaptor.convertTimestamp(tweet.created_at);
 	tiddler.modified = tiddler.created;
 	tiddler.modifier = tweet.user.screen_name;
-	tiddler.text = decodeHTMLEntities(tweet.text);
 	tiddler.tags = TwitterAdaptor.defaultTags;
 	tiddler.fields = {
 		source: tweet.source, // XXX: rename?
 		truncated: tweet.truncated,
 		favorited: tweet.favorited,
-		context: tweet.in_reply_to_status_id // XXX: rename?
+		context: tweet.in_reply_to_status_id, // XXX: rename?
+		username: tweet.user.name,
+		usernick: tweet.user.screen_name // TODO: rename
 	};
+	tiddler.text = decodeHTMLEntities(tweet.text);
 	return tiddler;
 };
 
-// retrieve tweet text from HTML
-TwitterAdaptor.scrapeTweet = function(contents) {
+// retrieve untruncated tweet (cf. http://code.google.com/p/twitter-api/issues/detail?id=133)
+TwitterAdaptor.scrapeTweet = function(html) {
+	// load HTML page
 	var ifrm = document.createElement("iframe");
 	ifrm.style.display = "none";
 	document.body.appendChild(ifrm);
@@ -140,9 +169,10 @@ TwitterAdaptor.scrapeTweet = function(contents) {
 	} else if(ifrm.contentWindow) { // IE
 		doc = ifrm.contentWindow.document;
 	}
-    doc.open();
-    doc.writeln(contents);
-    doc.close();
+	doc.open();
+	doc.writeln(html);
+	doc.close();
+	// retrieve status message
 	var containers = doc.getElementsByTagName("div");
 	for(i = 0; i < containers.length; i++) {
 		if(containers[i].className == "desc-inner") {
@@ -171,10 +201,11 @@ function convertShortMonth(text) {
 			return i;
 		}
 	}
-};
+}
 
 function decodeHTMLEntities(str) {
 	var el = document.createElement("textarea");
 	el.innerHTML = str;
 	return el.value;
 }
+//}}}
