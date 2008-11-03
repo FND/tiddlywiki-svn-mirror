@@ -19,3 +19,40 @@ jw.locale.permaview = {
 };
 
 
+jw.locale.closeTiddler = {
+	text: "close",
+	tooltip: "Close this tiddler"
+};
+
+jw.locale.closeOthers = {
+	text: "close others",
+	tooltip: "Close all other tiddlers"
+};
+
+jw.locale.editTiddler = {
+	text: "edit",
+	tooltip: "Edit this tiddler",
+	readOnlyText: "view",
+	readOnlyTooltip: "View the source of this tiddler"
+};
+
+jw.locale.saveTiddler = {
+	text: "done",
+	tooltip: "Save changes to this tiddler"
+};
+
+jw.locale.cancelTiddler = {
+	text: "cancel",
+	tooltip: "Undo changes to this tiddler",
+	warning: "Are you sure you want to abandon your changes to '%0'?",
+	readOnlyText: "done",
+	readOnlyTooltip: "View this tiddler normally"
+};
+
+jw.locale.deleteTiddler = {
+	text: "delete",
+	tooltip: "Delete this tiddler",
+	warning: "Are you sure you want to delete '%0'?"
+};
+
+
