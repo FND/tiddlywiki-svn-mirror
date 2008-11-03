@@ -18,6 +18,10 @@ jq('div.story').click(function(ev){
 		ev.preventDefault();
 		var tiddler = target.parents('div.hentry');
 		var command = target.attr('class').replace('command ','');
+		
+		//var opts = {macro:command,tiddler:tiddler};
+		//$(this).jw_invokeMacro(opts);
+
 
 		jw.log('command clicked', tiddler, command);
 	
