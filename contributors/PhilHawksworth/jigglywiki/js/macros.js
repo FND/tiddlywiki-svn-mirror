@@ -51,6 +51,19 @@
 	});
 
 	$.fn.extend({
+		jw_macro_list: function(args) {
+			var defaults = {};
+			var opts = $.extend(defaults,args);
+			var text = "<ul>";
+			jw.store.fetch().each(function(){
+				text += "<li>"+$(this).find("h2.entry-title").text()+"</li>\n";
+			});
+			text + "</ul>";
+			this.after(text);
+		}
+	});
+
+	$.fn.extend({
 		jw_macro_newTiddler: function(args) {
 			var defaults = {
 				place: this[0],
