@@ -30,17 +30,14 @@ jq('div.story').click(function(ev){
 });
 
 
-// doublicking
+// double clicking
 jq('div.story').dblclick(function(ev){
 	
 	var target = jq(ev.target);
-	jw.log('dblclick');
-
-	// if( target.is('div.entry-content') ) {
-	// 	// doubleclick tiddler text
-	// 	
-	// 	jw.log('tiddler dblclick');
-	// 
-	// }
+	var tiddler = target.parents('div.hentry');
+	if(tiddler.length !== 0) {
+		jw.log('dblclick', tiddler.attr('id'));	
+		// go to edit mode on this tiddler.
+	}
 	
 });
