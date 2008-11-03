@@ -18,8 +18,16 @@ if(!version.extensions.CecilyPlugin) {
 version.extensions.CecilyPlugin = {installed:true};
 
 //-----------------------------------------------------------------------------------
-// Point and Rectangle classes
+// Geometry classes
 //-----------------------------------------------------------------------------------
+
+function interpolateLinear(t,a,b) {
+	return a + (b - a) * t;
+}
+
+function interpolateQuad(t,a,b,c) {
+	return Math.pow(1 - t,2) * a + 2 * t * (1 -t) * b + t * t * c;
+}
 
 // Point class {x:,y:}
 function Point(x,y) {
@@ -71,10 +79,15 @@ Rect.prototype.contains = function(src) {
 }
 
 // Interpolates between this (t=0) and the source retangle (t=1)
-Rect.prototype.interpolate = function(src,t) {
-	var interpolate = function(a,b,t) {return a + (b - a) * t;};
-	return new Rect(interpolate(this.x,src.x,t), interpolate(this.y,src.y,t),
-		interpolate(this.w,src.w,t), interpolate(this.h,src.h,t));
+Rect.prototype.interpolateLinear = function(t,src) {
+	return new Rect(interpolateLinear(t,this.x,src.x), interpolateLinear(t,this.y,src.y),
+		interpolateLinear(t,this.w,src.w), interpolateLinear(t,this.h,src.h));
+}
+
+// Interpolates between this (t=0) and the source rectangle (t=1) and a passing rectangle (t=0.5)
+Rect.prototype.interpolateQuad = function(t,src,passing) {
+	return new Rect(interpolateQuad(t,this.x,passing.x,src.x), interpolateQuad(t,this.y,passing.y,src.y),
+					interpolateQuad(t,this.w,passing.w,src.w), interpolateQuad(t,this.h,passing.h,src.h));
 }
 
 // Scales a rectangle around it's centre
@@ -361,10 +374,15 @@ Cecily.prototype.onMouseWheel = function(ev) {
 
 Cecily.prototype.onMouseClickBubble = function(ev) {
 	var tiddler = story.findContainingTiddler(ev.target);
-	if(tiddler && this.drag === null && hasClasses(ev.target,["tiddlyLink","toolbar","title","tagged"]).length == 0) { 
-		tiddler.parentNode.insertBefore(tiddler,null); 
+	if(tiddler && this.drag === null && hasClasses(ev.target,["tiddlyLink","toolbar","title","tagged"]).length == 0) {
+		// The next bit is equivalent to tiddler.parentNode.insertBefore(tiddler,null); but avoids moving
+		// the element that was clicked on
+		while(tiddler.nextSibling) {
+			tiddler.parentNode.insertBefore(tiddler.nextSibling,tiddler);
+		}
 		this.scrollToTiddler(tiddler); 
-	} 
+	}
+	return true;
 };
 
 Cecily.prototype.onMouseDoubleClickBubble = function(ev) {
@@ -703,7 +721,7 @@ Cecily.prototype.scrollToAllTiddlers = function() {
 	});
 	if(currRect)
 		this.startScroller([currRect.scale(1.2)]);
-}
+};
 
 // Highlight a particular tiddler and scroll it into view
 //  tiddler - title of tiddler or reference to tiddlers DOM element
@@ -729,28 +747,32 @@ Cecily.prototype.initScroller = function() {
 	this.scroller = {
 		scrolling: false
 	};
+	var s = this.scroller;
 	me.scroller.tick = function() {
 		var now = new Date();
-		var t = (now - me.scroller.animationStart) / me.scroller.animationDuration;
+		var t = (now - s.animationStart) / s.animationDuration;
 		if(t > 1)
 			t = 1;
-		me.setView(me.scroller.rectList[me.scroller.currRect].interpolate(me.scroller.rectList[me.scroller.currRect + 1],t));
-		if(t == 1) {
-			me.scroller.currRect++;
-			if(me.scroller.currRect + 1 >= me.scroller.rectList.length) {
-				me.scroller.scrolling = false;
-				return false;
-			}
-			me.scroller.animationStart = now;
+		switch(s.rectList.length) {
+			case 2:
+				me.setView(s.rectList[0].interpolateLinear(t,s.rectList[1]));
+				break;
+			case 3:
+				me.setView(s.rectList[0].interpolateQuad(t,s.rectList[2],s.rectList[1]));
+				break;
 		}
-		return true;
+		if(t == 1) {
+			s.scrolling = false;
+			return false;
+		} else
+			return true;
 	};
-}
+};
 
 Cecily.prototype.startScroller = function(rectList,duration) { // One or more rectangles to scroll to in turn
 	var s = this.scroller;
 	s.rectList = [this.view];
-	for(var r = 0; r < rectList.length; r++)
+	for(var r = 0; r < Math.min(rectList.length,2); r++)
 		s.rectList.push(rectList[r]);
 	s.animationStart = new Date();
 	s.animationDuration = duration ? duration : 0.75 * 1000;
@@ -1250,6 +1272,7 @@ div#backstageArea {
 	padding: 2pt 8pt 2pt 8pt;
 	color: #000;
 	background-color: transparent;
+	text-shadow: #fff 1px 1px 2px;
 }
 
 .cecily .tiddler .subtitle {
