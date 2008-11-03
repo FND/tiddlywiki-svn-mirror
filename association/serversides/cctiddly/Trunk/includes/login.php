@@ -72,10 +72,10 @@ if (isset($_POST['logout']) || isset($_REQUEST['logout']))
  // check to see if user is logged in or not and then assign permissions accordingly. 
 //if ($user['verified'] = user_session_validate())
 $user['verified'] = user_session_validate();
-
 if ($user['verified']){
-	$workspace_permissions = user_tiddlerPrivilegeOfUser($user);
-//	$workspace_permissions = $tiddlyCfg['default_user_perm'];
+ 	$workspace_permissions = user_tiddlerPrivilegeOfUser($user);
+	if(in_array("admin", $user['group']))
+		$workspace_permissions = "AAAA";
 }else{
 	$workspace_permissions = $tiddlyCfg['default_anonymous_perm'];
 }
@@ -88,6 +88,8 @@ if($workspace_permissions == ""){
 //  Can this use an existing function ?!?!?!
 
 //  SET WORKSPACE CREATE PERMISSION FLAG
+// DEBUG
+echo $workspace_permissions;
 if (substr($workspace_permissions, 1, 1) == "U")
 {
 	$workspace_create = $tiddlyCfg['privilege_misc']['undefined_privilege'];
