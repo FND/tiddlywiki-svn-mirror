@@ -104,25 +104,55 @@
 					// build an object for calling the macro handler.
 					var opts = {};
 					var t = $.trim($(e).text());
-					//!! the parsing of the macro parameters needs improving, especially to cope with quoted parameters, eg format:"YYYY/0MM/0DD, hh:mm"
-					var pairs = t.split(' ');
-					for (var p=0; p < pairs.length; p++) {
-						nv = pairs[p].split(':');
-						opts[$.trim(nv[0])] = $.trim(nv[1]);
+					var c = 1;
+					var s = 0;
+					var i = findNakedSpace(t,s);
+					var p = i==-1 ? t.substr(s) : t.substr(s,i);
+					while(true) {
+						var ci = p.indexOf(':');
+						if(ci==-1) {
+							// parameter is unnamed
+							opts[c++] = p;
+						} else {
+							var name = p.substr(0,ci);
+							var val = p.substr(ci+1);
+							val = $.trim(val);
+							if(val.charAt(0)=='"' && val.charAt(val.length-1)=='"') {
+								val = val.substr(1,val.length-2);
+							}
+							opts[name] = val; 
+						}
+						s = i+1;
+						i = findNakedSpace(t,s);
+						if(i==-1)
+							break;
+						p = i==-1 ? t.substr(s) : t.substr(s,i);
 					}
-					// pass the macro name directly and remove it fro the arguments passed to the macro caller.
-					var m = opts.macro;
-					delete opts.macro;
-					invokeMacro(m, e, opts);
+					invokeMacro(e, opts);
 				}
 			});
 		}
 	});
 
 	// Private functions.
-	function invokeMacro(macro, place, args) {
+	function findNakedSpace(text,start) {
+		// find the next space not surrounded by quotes
+		var d = text.indexOf(' ',start);
+		if(d==-1)
+			return -1;
+		var qs = text.indexOf('"',start);
+		if(qs==-1 || qs > d)
+			return d;
+		var qe = text.indexOf('"',qs);
+		if(qe==-1)
+			return d;
+		return findNakedSpace(text,qe+1);
+	}
+
+	function invokeMacro(place, args) {
 		// Call the handler of the macro, passing along any arguments
 		// and hide the macro code block.
+		var macro = args['macro'];
 		var j = jq(place)['jw_macro_'+macro];
 		if(j) {
 			jq(place)['jw_macro_'+macro](args);
@@ -133,4 +163,3 @@
 	}
 
 })(jQuery);
-
