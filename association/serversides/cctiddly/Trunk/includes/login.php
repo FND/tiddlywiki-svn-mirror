@@ -88,8 +88,6 @@ if($workspace_permissions == ""){
 //  Can this use an existing function ?!?!?!
 
 //  SET WORKSPACE CREATE PERMISSION FLAG
-// DEBUG
-echo $workspace_permissions;
 if (substr($workspace_permissions, 1, 1) == "U")
 {
 	$workspace_create = $tiddlyCfg['privilege_misc']['undefined_privilege'];
