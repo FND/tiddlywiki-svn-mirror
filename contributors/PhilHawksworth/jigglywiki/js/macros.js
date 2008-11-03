@@ -19,6 +19,9 @@
 
 	$.fn.extend({
 		jw_macro_view: function(args) {
+
+			console.log('view', args);
+
 			var defaults = {
 				place: this[0],
 				tiddler: null,
@@ -26,10 +29,11 @@
 				css: null,
 				property: null
 			};
-			var tiddler = this.parents('div.hentry');
-			var html = tiddler.find('div.entry-content').html();
-			//console.log('tiddler',tiddler,html);
-			var opts = $.extend(defaults, args);
+			var opts = $.extend({}, defaults, args);
+			var tiddler = jw.store.fetch(opts.tiddler);
+						
+			console.log('tiddler',tiddler);
+
 			/*var data = jw.getTiddlerData(opts.tiddler, 'store');
 			var val = $(data[opts.property]);
 			if(opts.element == 'input') {
@@ -103,29 +107,29 @@
 
 
 	// Private functions.
-	function createNewTiddler(args) {
-		var defaults = {
-			place: null,
-			title: "NewTiddler",
-			text: "Add your tiddler text"
-		};
-		var opts = $.extend(defaults, args);
-
-		// clone the template in the store and replace the placeholder values
-		var newTiddler = jw.getTiddler('TIDDLER_TEMPLATE', 'store').clone();
-		var html = newTiddler.html();
-		html = html.replace(/TIDDLER_TEMPLATE/g, opts.title);
-		html = html.replace(/TIDDLER_TEXT/g, opts.text);
-		html = html.replace(/TIDDLER_MODIFIER/g, jw.config.options.UserName);
-		newTiddler.html(html);
-		$('#store').append(newTiddler);
-					
-		//display the new tiddler in the story.
-		jw.displayTiddler(opts.title, {
-			relative: jw.containingTiddler(opts.place),
-			template: 'EditTemplate'
-		});
-	}
+	// function createNewTiddler(args) {
+	// 	var defaults = {
+	// 		place: null,
+	// 		title: "NewTiddler",
+	// 		text: "Add your tiddler text"
+	// 	};
+	// 	var opts = $.extend(defaults, args);
+	// 
+	// 	// clone the template in the store and replace the placeholder values
+	// 	var newTiddler = jw.getTiddler('TIDDLER_TEMPLATE', 'store').clone();
+	// 	var html = newTiddler.html();
+	// 	html = html.replace(/TIDDLER_TEMPLATE/g, opts.title);
+	// 	html = html.replace(/TIDDLER_TEXT/g, opts.text);
+	// 	html = html.replace(/TIDDLER_MODIFIER/g, jw.config.options.UserName);
+	// 	newTiddler.html(html);
+	// 	$('#store').append(newTiddler);
+	// 				
+	// 	//display the new tiddler in the story.
+	// 	jw.displayTiddler(opts.title, {
+	// 		relative: jw.containingTiddler(opts.place),
+	// 		template: 'EditTemplate'
+	// 	});
+	// }
 
 })(jQuery);
 
@@ -188,6 +192,10 @@
 	function invokeMacro(place, args) {
 		// Call the handler of the macro, passing along any arguments
 		// and hide the macro code block.
+		
+		
+		console.log('invokeMacro', args);
+		
 		var macro = args['macro'];
 		var j = jq(place)['jw_macro_'+macro];
 		if(j) {

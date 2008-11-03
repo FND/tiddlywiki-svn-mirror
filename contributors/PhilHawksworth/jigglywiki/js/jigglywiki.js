@@ -46,7 +46,6 @@ jw.showDefaultTiddlers = function() {
 // Display a tiddler in a story element.
 jw.displayTiddler = function(link, options) {
 	
-	
 	var defaults = {
 		container: '#story1',
 		theme: 'DefaultTheme',
@@ -61,22 +60,19 @@ jw.displayTiddler = function(link, options) {
 	} else {
 		var name = link.text();		
 	}
-	
-	console.log('name', name);
 
-	// var themeTiddler = jw.store.fetch(opts.theme);
-	// console.log('displayTiddler', name, opts, themeTiddler);
+	var themeTiddler = jw.store.fetch(opts.theme);	
+	var template = themeTiddler.find('div.'+opts.template);
+
+	// Refactor this!
+	// Replace the TIDDLER_TITLE placeholder.
+	template.find('div.hentry').attr('id', 'tiddler:'+name);
+	jq(template).jw_expandMacros();
+
 	
+	jq('#story1').append(template.html());	
 	
-	
-	var t = jw.store.fetch(name).clone();
-	
-	// Add a command bar to the tiddler.
-	var commandBar = "<div class='commandBar'><a href='#' class='command close'>close tiddler</a><a href='#' class='command edit'>edit tiddler</a></div>";
-	t.prepend(commandBar);
-	
-	jq(t).jw_expandMacros();
-	jq('#story1').append(t);
+
 
 };
 

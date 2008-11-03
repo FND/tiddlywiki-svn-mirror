@@ -7,46 +7,20 @@
 	<div class='entry-content'>
 
 		<h3>ViewTemplate</h3>
-		<div class='viewtemplate'>
-			<div class='entry-content viewtemplate'>
-			<code class='macro'>
-			macro:view, property:title, element:h2, css:entry-title
-			</code>
-			<code class='macro'>
-			macro:view, property:modifier, element:span, css:meta
-			</code>
-			<span class='meta'>at</span>
-			<code class='macro'>
-			macro:view, property:modified, element:span, css:meta
-			</code>
-			<div class='commands'><a href='#' class='command edit'>edit</a><a href='#' class='command close'>close</a></div>
-			<code class='macro'>
-			macro:view, property:text, element:div, css:text
-			</code>
+		<div class='ViewTemplate'>
+			
+			<div class='hentry tiddler' id='tiddler:TIDDLER_NAME'>
+				<code class='macro'>
+					macro:view property:title element:h2 css:entry-title
+				</code>
+				<div class='commands'><a href='#' class='command edit'>edit</a><a href='#' class='command close'>close</a></div>
+				<code class='macro'>
+					macro:view property:text element:div css:entry-text
+				</code>
 			</div>
+			
 		</div>
 
-		<h3>EditTemplate</h3>
-		<div class='edittemplate'>
-			<div class='entry-content'>
-				<code class='macro'>
-				macro:view, property:title, element:input, css:tiddlerName
-				</code>
-				<code class='macro'>
-				macro:view, property:modifier, element:span, css:meta
-				</code>
-				<span class='meta'>at</span>
-				<code class='macro'>
-				macro:view, property:modified, element:span, css:meta
-				</code>
-				<div class='commands'><a href='#' class='command save'>save</a><a href='#' class='command cancel'>cancel</a></div>
-				<div class='text'>
-					<code class='macro'>
-					macro:view, property:text, element:textarea
-					</code>
-				</div>
-			</div>
-		</div>
 
 	</div>
 	<a href='#tiddler:shadow' rel='tag'>shadow</a>
