@@ -49,7 +49,7 @@ jw.displayTiddler = function(link, options) {
 	
 	var defaults = {
 		container: '#story1',
-		theme: 'DefualtTheme',
+		theme: 'DefaultTheme',
 		template: 'ViewTemplate',
 		overflow: false,
 		animate: true
