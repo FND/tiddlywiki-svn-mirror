@@ -12,3 +12,10 @@ jw.locale.dates.daySuffixes = ["st","nd","rd","th","th","th","th","th","th","th"
 		"st"];
 jw.locale.dates.am = "am";
 jw.locale.dates.pm = "pm";
+
+jw.locale.permaview = {
+	text: "permaview",
+	title: "Link to an URL that retrieves all the currently displayed tiddlers"
+};
+
+

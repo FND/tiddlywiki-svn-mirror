@@ -4,22 +4,12 @@
 (function($) {
 
 	$.fn.extend({
-		jw_macro_test: function(args) {
-			// simple macro for test purposes
-			var text = 'this is some test text';
-			this.after('<span>'+text+'</span>');
-		}
-	});
-
-	$.fn.extend({
 		jw_macro_today: function(args) {
 			var now = new Date();
 			var text = args.format ? now.formatString(args.format) : now.toLocaleString();
 			this.after('<span>'+text+'</span>');
-		}
-	});
+		},
 
-	$.fn.extend({
 		jw_macro_version: function(args) {
 			var v = jw.version;
 			var text = v.major + "." + v.minor + "." + v.revision + (v.beta ? " (beta " + v.beta + ")" : "");
@@ -57,11 +47,10 @@
 			};
 			var opts = $.extend(defaults,args);
 			var list = "<ul>";
-//		<a class="tiddlerLink" href="#tiddler:JigglyWiki">JigglyWiki</a>
 			jw.store.fetch().each(function() {
 				var title = $(this).find("h2.entry-title").text();
-				var text = '<a class="'+ opts.css +'" title="'+ title +'" href="#tiddler:'+ title +'">'+title+'</a>';
-				list += "<li>"+text+"</li>\n";
+				var link = '<a class="'+ opts.css +'" title="'+ title +'" href="#tiddler:'+ title +'">'+title+'</a>';
+				list += "<li>"+link+"</li>\n";
 			});
 			list += "</ul>";
 			this.after(list);
@@ -83,6 +72,30 @@
 			});
 		}
 	});
+
+
+	$.fn.extend({
+		jw_macro_permaview: function(args) {
+			var defaults = {
+				css: 'button',
+				title: jw.locale.permaview.title, // The tooltip
+				text: jw.locale.permaview.text
+			};
+			var opts = $.extend(defaults,args);
+			var link = '<a class="'+ opts.css +'" title="'+ opts.title +'" href="#">'+opts.text+'</a>';
+			var onClick = function(e) {
+				jw.log('perma click');
+				var links = [];
+				var t = encodeURIComponent(links.join(" "));
+				if(t == "")
+					t = "#";
+				if(window.location.hash != t)
+					window.location.hash = t;
+			};
+			$(link).insertAfter(this).click(onClick);
+		}
+	});
+
 
 	// Private functions.
 	function createNewTiddler(args) {
