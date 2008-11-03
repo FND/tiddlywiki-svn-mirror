@@ -1,0 +1,80 @@
+<html><head>
+<script src="altNames.js" type="text/javascript"></script>
+<script src="countryCodesMap.js" type="text/javascript"></script>
+<script src="originalJSON.js" type="text/javascript"></script>
+<script src="countriesWhereIllegal.js" type="text/javascript"></script>
+<script src="countriesWhereLegal.js" type="text/javascript"></script>
+<script>
+
+
+
+var f = json.features;
+
+for(var i=0; i < f.length; i++){
+	var p = f[i].properties;
+	convertProperties(p);
+}
+
+function isLegal(name){
+	if(countriesWhereLegal[name]) {
+		return 1;
+	}
+	else if(countriesWhereIllegal[name]){
+		return 0;
+	}
+	else{
+		return -1;
+	}
+		
+}
+
+function convertNameToUNStandard(name){
+	var name = name.toUpperCase();
+	if(countryCodesMap[name]) {
+	 	// it is fine
+		return name;
+	} else {
+		// it needs a special mapping
+		if(nameToUNStandard[name]) 
+			return nameToUNStandard[name];
+		else { //please do a manual define
+			console.log(name);
+			return name;
+		}
+
+		
+	}
+
+}
+function convertProperties(p){
+	
+
+	//try alternative names
+	
+	var name = convertNameToUNStandard(p.name)
+	p.name = name;
+	//p.value = null;
+	delete p.value;
+	var legal = isLegal(name);
+		
+	if(legal ==1){
+		p.colour = "#33FF00";
+	}
+	else if(legal == 0){
+		p.colour = "#FF0000";
+	}
+	else{
+	p.colour = "#CCCCCC"; //no data
+	}
+		
+
+}
+
+</script>
+</head>
+<body>
+<div id='res' width='800'></div>
+<script>
+document.getElementById('res').innerHTML = json.toSource();
+</script>
+	</body></html>
