@@ -86,6 +86,11 @@
 			var onClick = function(e) {
 				jw.log('perma click');
 				var links = [];
+				jq('#story1').each(function() {
+					var title = $(this).find("h2.entry-title").text();
+					links.push(title);
+				});
+
 				var t = encodeURIComponent(links.join(" "));
 				if(t == "")
 					t = "#";
