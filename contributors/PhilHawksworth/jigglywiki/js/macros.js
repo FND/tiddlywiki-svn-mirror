@@ -1,6 +1,7 @@
 // Define the macros.
 // Additional macros (prefixed jw_macro_) can be added to jQuery.
 
+
 (function($) {
 
 	$.fn.extend({
@@ -17,6 +18,19 @@
 		}
 	});
 
+	$.fn.extend({
+		// commands
+		jw_macro_closeTiddler: function(args) {
+		},
+		jw_macro_closeOthers: function(args) {
+		},
+		jw_macro_editTiddler: function(args) {
+		},
+		jw_macro_saveTiddler: function(args) {
+		},
+		jw_macro_cancelTiddler: function(args) {
+		}
+	});
 	$.fn.extend({
 		jw_macro_view: function(args) {
 
@@ -163,7 +177,7 @@
 							break;
 						s = i+1;
 						i = findNakedSpace(t,s);
-						var param = i==-1 ? t.substr(s) : t.substring(s,i);
+						param = i==-1 ? t.substr(s) : t.substring(s,i);
 					}
 					invokeMacro(e, opts);
 				}
