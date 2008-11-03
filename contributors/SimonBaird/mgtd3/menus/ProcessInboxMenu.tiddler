@@ -5,7 +5,9 @@
 %/<<newSavedTiddler title:'new Project' label:'new active project' tag:{{'Project Active [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
 %/<<newSavedTiddler title:'new Someday/Maybe Project' label:'new someday project' tag:{{'Project Someday/Maybe [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
 %/<<newSavedTiddler title:'new Tickler' label:'new tickler' tag:{{'Tickler Once [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
-%/<<newSavedTiddler title:'new Contact' label:'new contact' tag:{{'Contact [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
+%/<<newSavedTiddler title:'new Reference Item' label:'new reference' tag:{{'Reference [['+config.macros.mgtdList.getRealm()+']]'}}>>
+
+<<newSavedTiddler title:'new Contact' label:'new contact' tag:{{'Contact [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
 %/<<newSavedTiddler title:'new Context' label:'new context' tag:{{'Context [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
 %/<<newSavedTiddler title:'new Area' label:'new area' tag:{{'Area [['+config.macros.mgtdList.getRealm()+']]'}}>>/%
 %/<<newSavedTiddler title:'new Realm' label:'new realm' tag:{{'Realm [['+config.macros.mgtdList.getRealm()+']]'}}>>''

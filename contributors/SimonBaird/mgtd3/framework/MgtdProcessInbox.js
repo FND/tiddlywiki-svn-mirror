@@ -29,10 +29,10 @@ merge(config.macros,{
 
 				for (var i=0;i<lines.length;i++) {
 
-					var fields_and_text = lines[i].split(/\|\|/); // anything after || is to become tiddler content
+					var fields_and_text = lines[i].trim().split(/\|\|/); // anything after || is to become tiddler content
 					
 
-					var fields = fields_and_text[0].split(/[|;]/);
+					var fields = fields_and_text[0].trim().split(/[|;]/);
 					var tiddlerText = fields_and_text[1];
 
 
@@ -47,8 +47,10 @@ merge(config.macros,{
 						// add the realm
 						fields.push(config.macros.mgtdList.getRealm());
 
-						if (title[0] != '.') {
+						if (title.substr(0,1) != '.') {
+
 							//alert("project "+title);
+
 							currentProject = title;
 
 							if (document.getElementById('piShowProjects').checked)
@@ -69,6 +71,7 @@ merge(config.macros,{
 								);
 						}
 						else {
+							//alert("action "+title);
 
 							// default to next actions
 							if (!fields.containsAny(['N','F','W']))
@@ -91,6 +94,19 @@ merge(config.macros,{
 							fields.push("Action"); // make it an action 
 							if (currentProject.trim() != "")
 								fields.push(currentProject); // make it in this project
+
+							// these should be configurable
+							var automagicContexts = {
+								'Call':'call',
+								'Errand':'buy'
+							};
+							for (amc in automagicContexts) {
+								var checkExists = store.fetchTiddler(amc);
+								var startString = automagicContexts[amc];
+								if (title.substr(0,startString.length).toLowerCase() == startString && checkExists && checkExists.hasTag('Context')) {
+									fields.push(amc);
+								}
+							}
 
 							if (store.tiddlerExists(title))
 								alert("Warning: '"+title+" already exists, did not create");

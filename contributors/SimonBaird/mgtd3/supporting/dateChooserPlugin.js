@@ -7,6 +7,23 @@
 
 if (DatePicker){
     merge(config.macros, {
+        calendarPopup: {
+            handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+                var dateBox = createTiddlyButton(place,params[0],params[1]);            
+                DatePicker.create(dateBox,(new Date()),function(el,objDate) {
+					// mostly copy/pasted from NewSavedTiddler. refactor please
+					var title = prompt("Enter name for new Tickler","");
+					if (title) {
+						if (typeof config.macros.newTiddler.getName == "function")  {
+							title = config.macros.newTiddler.getName(title); // from NewMeansNewPlugin
+						}
+						store.saveTiddler(title,title,"",config.options.txtUserName,new Date(),"Tickler Once",{'mgtd_date':objDate.convertToYYYYMMDDHHMM()});
+						story.displayTiddler(this,title);
+					}
+				});
+			}
+		},
+
         dateChooser: {
             handler: function(place,macroName,params,wikifier,paramString,tiddler) {
     

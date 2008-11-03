@@ -18,6 +18,7 @@
 
 require 'pathname'
 require 'open-uri'
+require 'set'
 
 def read_file(file_name) #:nodoc:
   File.read(file_name)
@@ -421,6 +422,10 @@ class Tiddler
     fields['tags'] && fields['tags'].readBrackettedList.include?(tag)
   end
 
+  def has_tags(tags) 
+    fields['tags'] && tags.to_set.subset?(fields['tags'].readBrackettedList.to_set)
+  end
+
   # Returns a Hash containing all tiddler slices
   def get_slices
     if not @slices
@@ -570,6 +575,10 @@ class TiddlyWiki
   # returns an array of tiddlers containing a particular tag
   def tiddlers_with_tag(tag)
     @tiddlers.select{|t| t.has_tag(tag)}
+  end
+
+  def tiddlers_with_tags(tags)
+    @tiddlers.select{|t| t.has_tags(tags)}
   end
 
   # adds a tiddler

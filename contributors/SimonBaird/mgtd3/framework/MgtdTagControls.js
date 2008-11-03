@@ -100,7 +100,7 @@ merge(config.macros,{
 
 			// dreadful hack
 			if (tag == "Starred")
-				label = "\u2605";
+				label = config.mGTD.data.unicodeStar;
 
 			var autoClass = "button " + t.title.replace(/[\/ ]/g,'') 
 
@@ -308,6 +308,7 @@ merge(config.macros,{
 			getValues.each(function(t) {
 				var useTitle = store.getTiddlerSlice(t.title,"button");
 				if (!useTitle) useTitle = t.title;
+				if (useTitle.length > 50) useTitle = useTitle.substr(0,50) + "...";
 				selectOptions.push({name: t.title, caption:useTitle});
 			});
 

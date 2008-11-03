@@ -155,7 +155,8 @@ make_tw {
   get_tiddler('MgtdConf').fields['text'].sub!(/__REV__/,Time.now.strftime('%m%d%H%M')[1..-2])
 
   %w[systemConfig systemTheme].each do |tag|
-    tiddlers_with_tag(tag).each{ |t| t.add_tags(['excludeSearch','excludeLists']) }
+    #tiddlers_with_tag(tag).each{ |t| t.add_tags(['excludeSearch','excludeLists']) } # makes it too hard to find plugins etc
+    tiddlers_with_tag(tag).each{ |t| t.add_tags(['excludeSearch']) }
   end
 
   # actually everything in upgrade should be exclude search...
@@ -206,7 +207,7 @@ Townsville Civic Theatre
 http://previous.townsville.qld.gov.au/theatre/TheatreSeason.asp
   ''')
 
-  add_tiddler_from_scratch('tiddler' => 'Okay to donate blood again', 'tags' => "Tickler Personal Enabled", 'text' => '', 'mgtd_date' => '200810140200' )
+  add_tiddler_from_scratch('tiddler' => 'Okay to donate blood again', 'tags' => "Tickler Personal Enabled", 'text' => '', 'mgtd_date' => '200901140200' )
 
 
   #############

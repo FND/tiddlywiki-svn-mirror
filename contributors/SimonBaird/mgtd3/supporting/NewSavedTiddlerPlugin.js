@@ -54,7 +54,9 @@ config.macros.newSavedTiddler.onClick = function(e) {
 	}
 	var title = prompt(titlePrompt,"");
 	if (title) {
-		title = config.macros.newTiddler.getName(title); // from NewMeansNewPlugin
+		if (typeof config.macros.newTiddler.getName == "function")  {
+			title = config.macros.newTiddler.getName(title); // from NewMeansNewPlugin
+		}
 		var text = getParam(p,"text","");
 		var tags = getParam(p,"tag","");
 		var fields = getParam(p,"fields","").decodeHashMap();

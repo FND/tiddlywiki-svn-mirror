@@ -5,6 +5,7 @@
 [[Action Dashboard|Action Dashboard by Context]]
 [[Starred Items]]
 [[Tickler Dashboard]]
+[[Tickler Dashboard by Contact]]
 [[Delegated Tasks Dashboard]]
 [[Reference Items]]
 [[Done Actions]]
@@ -33,6 +34,7 @@
 
 {{tiny{
 <slider Advanced>
+[[Mankoff Dash]]
 [[modify menu|DoWorkMenu]]
 [[GTDComponent]]
 </slider>
