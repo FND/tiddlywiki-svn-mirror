@@ -36,27 +36,35 @@ jw.showDefaultTiddlers = function() {
 
 	var tiddler = jw.store.fetch('DefaultTiddlers');
 	tiddler.find('div.entry-content a.tiddlerLink').each(function(){
-		jw.displayTiddler(jq(this));
+		jw.displayTiddler(jq(this), {
+			overflow: true,
+			animate: false
+		});
 	});
-	
-
-	// 	jw.displayTiddler( jq(this).attr('href'), { 
-	// 		container: container,
-	// 		template: 'ViewTemplate',
-	// 		overflow: true,
-	// 		animate: false
-	// 	});	
 
 };
 
 
 // Render a tiddler in the story.
 jw.displayTiddler = function(link, options) {
+
+	var defaults = {
+		container: '#story1',
+		thems: DefaultTiddler,
+		template: 'ViewTemplate',
+		overflow: false,
+		animate: true		
+	};
+	var opts = jq.extend({},options, defaults);
+		
 	if(typeof link == 'string') {
 		var name = link;
 	} else {
 		var name = link.text();		
 	}
+	
+	
+	
 	var t = jw.store.fetch(name).clone();
 	
 	// Add a command bar to the tiddler.
