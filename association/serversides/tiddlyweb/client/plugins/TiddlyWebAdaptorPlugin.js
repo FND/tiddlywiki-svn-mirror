@@ -310,7 +310,7 @@ TiddlyWebAdaptor.prototype.putTiddler = function(tiddler,context,userParams,call
 		text: tiddler.text,
 		modifier: tiddler.modifier,
 		tags: tiddler.tags,
-    fields: tiddler.fields,
+		fields: tiddler.fields,
 		revision: tiddler['server.page.revision']
 	};
 	payload = JSON.stringify(payload);
