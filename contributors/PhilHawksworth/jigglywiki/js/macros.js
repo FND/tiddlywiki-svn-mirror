@@ -52,14 +52,19 @@
 
 	$.fn.extend({
 		jw_macro_list: function(args) {
-			var defaults = {};
+			var defaults = {
+				css: 'tiddlerLink'
+			};
 			var opts = $.extend(defaults,args);
-			var text = "<ul>";
-			jw.store.fetch().each(function(){
-				text += "<li>"+$(this).find("h2.entry-title").text()+"</li>\n";
+			var list = "<ul>";
+//		<a class="tiddlerLink" href="#tiddler:JigglyWiki">JigglyWiki</a>
+			jw.store.fetch().each(function() {
+				var title = $(this).find("h2.entry-title").text();
+				var text = '<a class="'+ opts.css +'" title="'+ title +'" href="#tiddler:'+ title +'">'+title+'</a>';
+				list += "<li>"+text+"</li>\n";
 			});
-			text + "</ul>";
-			this.after(text);
+			list += "</ul>";
+			this.after(list);
 		}
 	});
 
