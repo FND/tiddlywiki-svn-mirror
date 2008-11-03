@@ -24,8 +24,8 @@ jw.log = function() {
 jw.init = function() {
 	
 	// create a store and hide the html which describes it.
-	jw.store = jq('#store').hide().tiddlerStore();
-	
+	jw.store = jq('#store').tiddlerStore();
+	// jq('#store').hide();
 	jw.showDefaultTiddlers();
 	// jw.pagemap.render();
 };
