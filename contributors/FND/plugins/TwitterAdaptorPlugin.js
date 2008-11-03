@@ -3,7 +3,7 @@
 |''Description''|adaptor for retrieving data from Twitter|
 |''Author''|FND|
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
-|''Version''|0.2.5|
+|''Version''|0.3.0|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptorPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|

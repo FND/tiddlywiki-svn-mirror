@@ -2,7 +2,7 @@
 |''Name''|TiddlyTweetsPlugin|
 |''Description''|automatically retrieve tweets from Twitter|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Requires''|TwitterAdaptorPlugin|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterArchivePlugin|
