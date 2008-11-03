@@ -30,13 +30,13 @@ jq('div.story').click(function(ev){
 jq('div.story').dblclick(function(ev){
 	
 	var target = jq(ev.target);
-	
+	jw.log('dblclick');
 
-	if( target.is('div.entry-content') ) {
-		// doubleclick tiddler text
-		
-		jw.log('tiddler dblclick');
-	
-	}
+	// if( target.is('div.entry-content') ) {
+	// 	// doubleclick tiddler text
+	// 	
+	// 	jw.log('tiddler dblclick');
+	// 
+	// }
 	
 });

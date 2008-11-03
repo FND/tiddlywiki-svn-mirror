@@ -24,8 +24,7 @@ jw.log = function() {
 jw.init = function() {
 	
 	// create a store and hide the html which describes it.
-	jw.store = jq('#store').tiddlerStore();
-	// jq('#store').hide();
+	jw.store = jq('#store').hide().tiddlerStore();
 	jw.showDefaultTiddlers();
 	// jw.pagemap.render();
 };
@@ -47,6 +46,7 @@ jw.showDefaultTiddlers = function() {
 // Display a tiddler in a story element.
 jw.displayTiddler = function(link, options) {
 	
+	
 	var defaults = {
 		container: '#story1',
 		theme: 'DefaultTheme',
@@ -62,8 +62,10 @@ jw.displayTiddler = function(link, options) {
 		var name = link.text();		
 	}
 	
-	var themeTiddler = jw.store.fetch(opts.theme);
-	console.log('displayTiddler', name, opts, themeTiddler);
+	console.log('name', name);
+
+	// var themeTiddler = jw.store.fetch(opts.theme);
+	// console.log('displayTiddler', name, opts, themeTiddler);
 	
 	
 	
