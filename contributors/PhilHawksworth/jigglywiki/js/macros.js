@@ -45,7 +45,7 @@
 			var opts = $.extend({}, defaults, args);
 			var tiddler = jw.store.fetch(opts.tiddler);
 						
-						
+			var optsproperty = "";
 			var output = 'VIEW MACRO: ' + opts.tiddler +"("+ optsproperty +") in a " + opts.element;
 						
 			this.after(output);
@@ -181,9 +181,25 @@
 						i = findNakedSpace(t,s);
 						param = i==-1 ? t.substr(s) : t.substring(s,i);
 					}
-					invokeMacro(e, opts);
+					$(this).jw_invokeMacro(opts);
 				}
 			});
+		}
+	});
+
+	$.fn.extend({
+		jw_invokeMacro: function(args) {
+			// Call the handler of the macro, passing along any arguments
+			jw.log('macro',args);
+
+			var macro = args['macro'];
+			var j = $(this)['jw_macro_'+macro];
+			if(j) {
+				$(this)['jw_macro_'+macro](args);
+				$(this).hide();// hide the macro code block.
+			} else {
+				jw.log("No handler for ", macro);
+			}
 		}
 	});
 
@@ -200,19 +216,6 @@
 		if(qe==-1)
 			return d;
 		return findNakedSpace(text,qe+1);
-	}
-
-	function invokeMacro(place, args) {
-		// Call the handler of the macro, passing along any arguments
-		// and hide the macro code block.
-		var macro = args['macro'];
-		var j = jq(place)['jw_macro_'+macro];
-		if(j) {
-			jq(place)['jw_macro_'+macro](args);
-			$(place).hide();
-		} else {
-			jw.log("No handler for ", macro);
-		}
 	}
 
 })(jQuery);
