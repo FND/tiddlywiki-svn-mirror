@@ -88,7 +88,6 @@
 			var opts = $.extend(defaults,args);
 			var link = '<a class="'+ opts.css +'" title="'+ opts.title +'" href="#">'+opts.text+'</a>';
 			var onClick = function(e) {
-				jw.log('perma click');
 				var links = [];
 				jq('#story1').each(function() {
 					var title = $(this).find("h2.entry-title").text();
@@ -135,7 +134,6 @@
 
 
 (function($) {
-
 	$.fn.extend({
 		jw_expandMacros: function(args) {
 			// find any macros in this jQuery object and expand them
@@ -144,18 +142,18 @@
 					// build an object for calling the macro handler.
 					var opts = {};
 					var t = $.trim($(e).text());
-					var c = 1;
+					var unnamed = 1;
 					var s = 0;
 					var i = findNakedSpace(t,s);
-					var p = i==-1 ? t.substr(s) : t.substr(s,i);
+					var param = i==-1 ? t.substr(s) : t.substring(s,i);
 					while(true) {
-						var ci = p.indexOf(':');
+						var ci = param.indexOf(':');
 						if(ci==-1) {
 							// parameter is unnamed
-							opts[c++] = p;
+							opts[unnamed++] = param;
 						} else {
-							var name = p.substr(0,ci);
-							var val = p.substr(ci+1);
+							var name = param.substr(0,ci);
+							var val = param.substr(ci+1);
 							val = $.trim(val);
 							if(val.charAt(0)=='"' && val.charAt(val.length-1)=='"') {
 								val = val.substr(1,val.length-2);
@@ -163,10 +161,10 @@
 							opts[name] = val; 
 						}
 						s = i+1;
-						i = findNakedSpace(t,s);
 						if(i==-1)
 							break;
-						p = i==-1 ? t.substr(s) : t.substr(s,i);
+						i = findNakedSpace(t,s);
+						var param = i==-1 ? t.substr(s) : t.substring(s,i);
 					}
 					invokeMacro(e, opts);
 				}
@@ -191,6 +189,7 @@
 
 	function invokeMacro(place, args) {
 		// Call the handler of the macro, passing along any arguments
+		jw.log('macro',args);
 		// and hide the macro code block.
 		
 		
