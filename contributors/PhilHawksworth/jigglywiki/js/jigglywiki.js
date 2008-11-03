@@ -23,17 +23,16 @@ jw.log = function() {
 
 jw.init = function() {
 	
+	// create a store and hide the html which describes it.
 	jw.store = jq('#store').hide().tiddlerStore();
 	
 	jw.showDefaultTiddlers();
-	// jw.addEventHandlers();
 	// jw.pagemap.render();
 };
 
 
 // Show the default tiddlers
 jw.showDefaultTiddlers = function() {
-
 	var tiddler = jw.store.fetch('DefaultTiddlers');
 	tiddler.find('div.entry-content a.tiddlerLink').each(function(){
 		jw.displayTiddler(jq(this), {
@@ -45,23 +44,26 @@ jw.showDefaultTiddlers = function() {
 };
 
 
-// Render a tiddler in the story.
+// Display a tiddler in a story element.
 jw.displayTiddler = function(link, options) {
-
+	
 	var defaults = {
 		container: '#story1',
-		thems: DefaultTiddler,
+		theme: 'DefualtTheme',
 		template: 'ViewTemplate',
 		overflow: false,
-		animate: true		
+		animate: true
 	};
-	var opts = jq.extend({},options, defaults);
-		
+	var opts = jq.extend({}, defaults, options);
+	
 	if(typeof link == 'string') {
 		var name = link;
 	} else {
 		var name = link.text();		
 	}
+	
+	var themeTiddler = jw.store.fetch(opts.theme);
+	console.log('displayTiddler', name, opts, themeTiddler);
 	
 	
 	
@@ -73,6 +75,7 @@ jw.displayTiddler = function(link, options) {
 	
 	jq(t).jw_expandMacros();
 	jq('#story1').append(t);
+
 };
 
 
