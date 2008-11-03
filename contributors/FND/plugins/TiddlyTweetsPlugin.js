@@ -4,7 +4,7 @@
 |''Author''|FND|
 |''Version''|0.1.0|
 |''Status''|@@experimental@@|
-|''Requires''|TracAdaptorPlugin|
+|''Requires''|TwitterAdaptorPlugin|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterArchivePlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -16,6 +16,7 @@
 !!v0.1 (2008-10-24)
 * initial release
 !To Do
+* rename? (clashes with vertical)
 * abort conditions: empty response or tweet already archived
 * report when retrieval has been completed
 * disable wiki markup for tweets
