@@ -20,7 +20,7 @@
 	$.fn.extend({
 		jw_macro_view: function(args) {
 
-			console.log('view', args);
+			jw.log('view', args);
 
 			var defaults = {
 				place: this[0],
@@ -32,7 +32,7 @@
 			var opts = $.extend({}, defaults, args);
 			var tiddler = jw.store.fetch(opts.tiddler);
 						
-			console.log('tiddler',tiddler);
+			jw.log('tiddler',tiddler);
 
 			/*var data = jw.getTiddlerData(opts.tiddler, 'store');
 			var val = $(data[opts.property]);
@@ -132,7 +132,6 @@
 
 })(jQuery);
 
-
 (function($) {
 	$.fn.extend({
 		jw_expandMacros: function(args) {
@@ -160,9 +159,9 @@
 							}
 							opts[name] = val; 
 						}
-						s = i+1;
 						if(i==-1)
 							break;
+						s = i+1;
 						i = findNakedSpace(t,s);
 						var param = i==-1 ? t.substr(s) : t.substring(s,i);
 					}
@@ -181,7 +180,7 @@
 		var qs = text.indexOf('"',start);
 		if(qs==-1 || qs > d)
 			return d;
-		var qe = text.indexOf('"',qs);
+		var qe = text.indexOf('"',qs+1);
 		if(qe==-1)
 			return d;
 		return findNakedSpace(text,qe+1);
