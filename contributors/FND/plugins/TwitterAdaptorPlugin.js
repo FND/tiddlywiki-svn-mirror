@@ -84,6 +84,7 @@ TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callb
 	if(!context.tiddler || context.tiddler.fields.truncated === undefined) { // truncated flag as indicator of actual tweet
 		context.tiddler = new Tiddler(title);
 		context.tiddler.modifier = context.workspace;
+		context.tiddler.fields = fields;
 	}
 	var uriTemplate = "%0/statuses/show/%1.json";
 	var uri = uriTemplate.format([context.host, context.tiddler.title]);
@@ -96,21 +97,18 @@ TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri,
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
-	var fields = {
-		"server.type": TwitterAdaptor.serverType,
-		"server.host": AdaptorBase.minHostName(context.host)
-	}; // XXX: redundant!? (cf. getTiddler)
 	if(status) {
 		eval("var tweet = " + responseText); // evaluate JSON response
-		context.tiddler = TwitterAdaptor.parseTweet(tweet);
-		context.tiddler.fields = merge(context.tiddler.fields, fields);
+		var tiddler = TwitterAdaptor.parseTweet(tweet);
+		tiddler.fields = merge(context.tiddler.fields, tiddler.fields);
+		context.tiddler = tiddler;
 	}
 	if(context.callback) {
 		if(context.tiddler.fields.truncated) {
 			var subContext = {
 				tiddler: context.tiddler
 			};
-			TwitterAdaptor.getFullTweet(subContext, context.userParams, context.callback);
+			context.adaptor.getFullTweet(subContext, context.userParams, context.callback);
 		} else {
 			context.callback(context, context.userParams);
 		}
@@ -118,7 +116,7 @@ TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri,
 };
 
 // re-request truncated tweet
-TwitterAdaptor.prototype.getFullTweet = function(context, userParams, callback) { // XXX: shouldn't be prototype? -- TODO: rename?
+TwitterAdaptor.prototype.getFullTweet = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/%1/status/%2";
 	var uri = uriTemplate.format([context.host, context.workspace, context.tiddler.title]);
