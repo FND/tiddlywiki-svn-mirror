@@ -1,12 +1,8 @@
+
 if(!console){
 	var console = function(){};
 
-	console.prototype = {
-		log: function(e){
-			alert(e);
-			//console.logreturn;
-		}
-	};
+	console.prototype.log = function(){};
 	
 }
 Array.prototype.contains = function(item)
@@ -112,12 +108,12 @@ EasyMap.prototype = {
 		return shape;
 		
 	},
-	drawShape: function(easyShape,drawToCanvas){
+	drawShape: function(easyShape){
 		
 		easyShape.id = this.memory.length;
 		this.memory[easyShape.id] = easyShape;
 		easyShape = this.transform(easyShape);
-		if(easyShape.shape =='polygon') this.drawPolygon(easyShape, drawToCanvas);
+		if(easyShape.shape =='polygon') this.drawPolygon(easyShape);
 		else return;
 		
 	},
@@ -136,28 +132,28 @@ EasyMap.prototype = {
 	ctx.stroke();
 
 	},
-	drawPolygon: function(poly,drawToCanvas){
-		var left = this.wrapper.offsetLeft;
-		var top = this.wrapper.offsetTop;
-		var topright =  parseInt(this.canvas.width) + left; 
-		var bottomleft = parseInt(this.canvas.height) + top;
-		
-		if(poly.grid){
-			if(poly.grid.x2 < left) {
-				return;}
-			if(poly.grid.y2 < top) {
-				return;}
-			if(poly.grid.x1 > topright){
-				return;
+	drawPolygon: function(poly){
+			
+			var left = this.wrapper.offsetLeft;
+			var top = this.wrapper.offsetTop;
+			var topright =  parseInt(this.canvas.width) + left; 
+			var bottomleft = parseInt(this.canvas.height) + top;
+
+			if(poly.grid){
+				if(poly.grid.x2 < left) {
+					return;}
+				if(poly.grid.y2 < top) {
+					return;}
+				if(poly.grid.x1 > topright){
+					return;
+				}
+
+				if(poly.grid.y1 > bottomleft){
+					return;	
+				}
+
 			}
-				
-			if(poly.grid.y1 > bottomleft){
-				return;	
-			}
-				
-		}
-		
-		if(drawToCanvas){
+			
 			this.ctx.fillStyle =poly.fillStyle;
 			this.ctx.strokeStyle = poly.strokeStyle;
 			this.ctx.beginPath();
@@ -179,10 +175,13 @@ EasyMap.prototype = {
 			  this.ctx.stroke();
 			else 
 			  this.ctx.fill();
-		}
+			
+								
+
+		this._makePolygonClickable(poly);
 		
 		
-		if(poly.href) this._makePolygonClickable(poly);
+
 	
 		
 	},
@@ -191,14 +190,14 @@ EasyMap.prototype = {
 		//var alpha = shape;
 
 		//this.drawShape(alpha);
-		this.drawShape(shape,true);
+		this.drawShape(shape);
 	},
-	renderFromMemory: function(){
+	redraw: function(){
 		var existingMem = this.memory;	
 		this.clear();
 
 		for(var i=0; i < existingMem.length; i++){
-			this.drawShape(existingMem[i],true);
+			this.drawShape(existingMem[i]);
 
 		}
 		
@@ -367,19 +366,33 @@ EasyMap.prototype = {
 
 	
 	drawGeoJsonFeatures: function(features){
+			var t1 = new Date();
+			var avg1 = 0;
 			for(var i=0; i < features.length; i++){
 				var geometry = features[i].geometry;
 				if(geometry.type.toLowerCase() == 'multipolygon'){
 					var coords = geometry.coordinates;
+					
 					for(var j=0; j< coords.length; j++){
+						
 						var s = new EasyShape(features[i],coords[j],this.canvas);
+						
+						var z1 = new Date();
 						this.drawShape(s);
+						var z2 = new Date();
+						//console.log(z2-z1,s);
 					}
+
+
 				}
 				else {	
 					//console.log("unsupported geojson geometry type " + geometry.type);
 				}
 			}
+			
+			var t2 = new Date();
+
+			//console.log("draw all" ,t2 -t1,"avg time to create shape", avg1);
 	},
 	
 	drawFromGeojson: function(geojson){
@@ -396,7 +409,6 @@ EasyMap.prototype = {
 			var t2 = new Date();
 		//	console.log(t2 - t);
 		
-		this.renderFromMemory();
 	},
 	drawFromGeojsonFile: function(file){
 		var that = this;
@@ -406,15 +418,18 @@ EasyMap.prototype = {
 			var json = eval('(' +responseText + ')');
 			that.drawFromGeojson(json);
 			
+			var t = document.getElementById(that.wrapper.id + "_statustext");
+			if(t) t.innerHTML = "";
 		};
 		
 		this._loadRemoteFile(file,callback);
 
 	},
 	_makePolygonClickable: function(elem){
+		if(document.getElementById(elem.id)) return;
 		var area = document.createElement("AREA");
 		area.shape = elem.shape;
-		area.alt = elem.alt;
+		//area.alt = elem.alt;
 		area.coords = elem.transformedCoords;
 		area.name = elem.name;
 		area.title = elem.tooltip;
@@ -444,7 +459,7 @@ var EasyShape = function(node,coordinates,canvas){
 	this.grid = {};
 	this.properties = {};
 	this.fillStyle = "#000000"
-	this.threshold = 1;
+	this.threshold = 1.7;
 	if(node){
 		if(coordinates) {
 			this.constructFromGeoJSON(node,coordinates,canvas);

@@ -21,7 +21,11 @@ function init(){
 		if(el.style.display == 'none'){
 			el.style.position = "absolute";
 			el.style.display = "";
-			el.innerHTML = shape.tooltip;
+			var legal = "";
+			if(shape.properties.legality == 1) legal = " (legal)";
+			else if(shape.properties.legality == 0) legal = " (illegal)";
+			else legal = "(no data)";
+			el.innerHTML = shape.tooltip + legal;
 			el.style.left =0;
 			el.style.top = 300;
 
@@ -41,14 +45,16 @@ function init(){
 	
 	eMap.drawFromGeojsonFile('whereLegal.json');
 
+
 }
 
 </script>
 </head>
-<body onload="init()">
-
-<div id='wrapper' style="width:800; height:400;position:relative;background-image:url(worldmapimg.jpg)">
+<body onload="window.setTimeout(init,0)">
+<h1>Countries where homosexual acts are legal/illegal</h1>
+<div id='wrapper' style="width:800; height:400;position:relative;">
 	<div id ='caption'></div>
+	<div id='wrapper_statustext'>please wait while we load... </div>
 </div>
 
 
