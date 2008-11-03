@@ -35,10 +35,9 @@
 		jw_macro_view: function(args) {
 
 			jw.log('view', args);
-
 			var defaults = {
 				place: this[0],
-				tiddler: null,
+				tiddler: $(this).parents('div.hentry').attr('id').replace('tiddler:',''),
 				element: 'div',
 				css: null,
 				property: null
@@ -46,7 +45,10 @@
 			var opts = $.extend({}, defaults, args);
 			var tiddler = jw.store.fetch(opts.tiddler);
 						
-			jw.log('tiddler',tiddler);
+						
+			var output = 'VIEW MACRO: ' + opts.tiddler +"("+ optsproperty +") in a " + opts.element;
+						
+			this.after(output);
 
 			/*var data = jw.getTiddlerData(opts.tiddler, 'store');
 			var val = $(data[opts.property]);
@@ -202,12 +204,7 @@
 
 	function invokeMacro(place, args) {
 		// Call the handler of the macro, passing along any arguments
-		jw.log('macro',args);
 		// and hide the macro code block.
-		
-		
-		console.log('invokeMacro', args);
-		
 		var macro = args['macro'];
 		var j = jq(place)['jw_macro_'+macro];
 		if(j) {

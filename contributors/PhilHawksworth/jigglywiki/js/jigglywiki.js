@@ -62,12 +62,14 @@ jw.displayTiddler = function(link, options) {
 	}
 
 	var themeTiddler = jw.store.fetch(opts.theme);	
-	var template = themeTiddler.find('div.'+opts.template);
+	var template = themeTiddler.find('div.'+opts.template).clone();
 
 	// Refactor this!
 	// Replace the TIDDLER_TITLE placeholder.
 	template.find('div.hentry').attr('id', 'tiddler:'+name);
+
 	jq(template).jw_expandMacros();
+	// jq(template).jw_expandMacros();
 
 	
 	jq('#story1').append(template.html());	
