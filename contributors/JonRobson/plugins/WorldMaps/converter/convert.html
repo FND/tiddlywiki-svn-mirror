@@ -58,6 +58,7 @@ function convertProperties(p){
 	var legal = isLegal(name);
 		
 	if(legal ==1){
+
 		p.colour = "#33FF00";
 	}
 	else if(legal == 0){
@@ -66,6 +67,7 @@ function convertProperties(p){
 	else{
 	p.colour = "#CCCCCC"; //no data
 	}
+	p.legality = legal;
 		
 
 }
