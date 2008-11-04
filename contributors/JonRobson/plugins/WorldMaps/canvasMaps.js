@@ -134,8 +134,8 @@ EasyMap.prototype = {
 	},
 	drawPolygon: function(poly){
 			
-			var left = this.wrapper.offsetLeft;
-			var top = this.wrapper.offsetTop;
+			var left = 0;
+			var top = 0;
 			var topright =  parseInt(this.canvas.width) + left; 
 			var bottomleft = parseInt(this.canvas.height) + top;
 
