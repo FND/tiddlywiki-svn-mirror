@@ -3,7 +3,7 @@
 |''Description''|adaptor for retrieving data from Twitter|
 |''Author''|FND|
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
-|''Version''|0.3.0|
+|''Version''|0.3.1|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptorPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -12,9 +12,11 @@
 !Revision History
 !!v0.2 (2008-10-23)
 * initial release
+!!v0.3 (2008-11-03)
+* major refactoring
 !To Do
-* store workspaces
-* support for timelines (user, public, replies) - to be implemented as "magic" workspaces?
+* parsing of replies, DMs etc.
+* secure password prompt (using PasswordPromptPlugin?)
 !Code
 ***/
 //{{{
@@ -27,9 +29,19 @@ TwitterAdaptor.serverLabel = "Twitter";
 TwitterAdaptor.tweetTags = ["tweets"];
 TwitterAdaptor.userTags = ["users"];
 
-TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) { // TODO: workspace == user/home/replies/DMs
+TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
-	context.workspaces = [];
+	context.workspaces = [
+		{ title: "public" },
+		{ title: "with_friends" }, // TODO: rename?
+		{ title: "replies" },
+		{ title: "direct_messages_in" },
+		{ title: "direct_messages_out" },
+		{ title: "friends" },
+		{ title: "followers" },
+		{ title: "users" },
+		{ title: config.options.txtUserName } // user timeline
+	];
 	if(context.callback) {
 		context.status = true;
 		window.setTimeout(function() { callback(context, context.userParams); }, 0);
@@ -39,11 +51,56 @@ TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callba
 
 TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
-	var uriTemplate = "%0/statuses/user_timeline/%1.json?page=%2";
-	var page = context.page || 0;
-	var uri = uriTemplate.format([context.host, context.workspace, page]);
+	var page, authorizationRequired = true;
+	switch(context.workspace) {
+		case "public":
+			var uriTemplate = "%0/statuses/public_timeline.json";
+			var uri = uriTemplate.format([context.host]);
+			authorizationRequired = false;
+			break;
+		case "with_friends":
+			uriTemplate = "%0/statuses/friends_timeline.json";
+			uri = uriTemplate.format([context.host]);
+			break;
+		case "replies": // TODO: require special parsing
+			uriTemplate = "%0/statuses/replies.json";
+			uri = uriTemplate.format([context.host]);
+		case "direct_messages_in":
+			uriTemplate = "%0/direct_messages.json";
+			uri = uriTemplate.format([context.host]);
+			break;
+		case "direct_messages_out":
+			uriTemplate = "%0/direct_messages/sent.json";
+			uri = uriTemplate.format([context.host]);
+			break;
+		case "friends":
+			uriTemplate = "%0/statuses/friends.json";
+			uri = uriTemplate.format([context.host]);
+			break;
+		case "followers":
+			uriTemplate = "%0/statuses/followers.json";
+			uri = uriTemplate.format([context.host]);
+			break;
+		case "users":
+			uriTemplate = "%0/users/show/%1.format";
+			uri = uriTemplate.format([context.host, context.userID]); // XXX: userID defined where? use tiddler.title?
+			authorizationRequired = false;
+			break;
+		default: // user timeline
+			uriTemplate = "%0/statuses/user_timeline/%1.json?page=%2";
+			page = context.page || 0;
+			uri = uriTemplate.format([context.host, context.workspace, page]);
+			authorizationRequired = false;
+			break;
+	}
+	var username, password;
+	if(authorizationRequired) { // TODO
+		username = prompt("username");
+		password = prompt("password");
+	}
 	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerListCallback,
-		context, null, null, { "accept": TwitterAdaptor.mimeType });
+		context, null, null, { "accept": TwitterAdaptor.mimeType },
+		username, password);
 	return typeof req == "string" ? req : true;
 };
 
@@ -58,7 +115,7 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 		for(var i = 0; i < tweets.length; i++) {
 			var tiddler = TwitterAdaptor.parseTweet(tweets[i]);
 			context.tiddlers.push(tiddler);
-			if(context.fetchUsers) {
+			if(config.options.chkTwitterFetchUsers) {
 				var user = tweets[i].user;
 				user.updated = TwitterAdaptor.convertTimestamp(tweets[i].created_at);
 				if(!(users[user.id] && user.updated > users[user.id].modified)) {
@@ -93,7 +150,7 @@ TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callb
 		context.tiddler.fields = merge(context.tiddler.fields, fields, true);
 	}
 	// do not re-request non-truncated tweets
-	if(context.tiddler && (context.tiddler.fields.truncated === false || context.tiddler.tags == TwitterAdaptor.userTags)) {
+	if(context.tiddler && (context.tiddler.fields.truncated === false || context.tiddler.fields["server.workspace"] == "users")) {
 		context.status = true;
 		window.setTimeout(function() { callback(context, context.userParams); }, 0);
 		return true;
@@ -176,7 +233,7 @@ TwitterAdaptor.parseTweet = function(tweet) {
 
 // convert user to tiddler object
 TwitterAdaptor.parseUser = function(user) {
-	var tiddler = new Tiddler(user.id.toString()); // XXX: use user.screen_name?
+	var tiddler = new Tiddler(user.id.toString());
 	tiddler.created = user.updated; // XXX: not quite correct (updated vs. created)
 	tiddler.modified = tiddler.created;
 	tiddler.modifier = user.id.toString();
