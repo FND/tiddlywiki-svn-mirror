@@ -7,6 +7,8 @@
 		jw_controls_edit: function(args) {
 			var tiddler = args.tiddler;
 			var container = $(tiddler).parents('div.story')[0].id;
+			jw.log('jw_controls_edit',args);
+			return;
 			var name = jw.getTiddlerNameFromStory(tiddler);
 			jw.displayTiddler(name, { 
 				relative:tiddler, 
@@ -71,6 +73,8 @@
 
 		jw_controls_close: function(args) {
 			jw.log('jw_controls_close',args);
+			$('div.story').trigger("tiddlerAddedEvent", [ "Hello" ]);
+
 			return;
 			/*var tiddler = args.tiddler;
 			tiddler.slideUp( function(){

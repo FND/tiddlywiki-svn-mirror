@@ -16,7 +16,7 @@ jq('div.story').click(function(ev){
 		ev.preventDefault();
 		var opts = {};
 		opts.tiddler = target.parents('div.hentry');
-		opts.macro = "jw_controls_" + target.attr('class').replace('command ','');
+		opts.macro = 'jw_controls_' + target.attr('class').replace('command ','');
 		jq(this).jw_invokeMacro(opts);
 		jw.log('command clicked', opts.macro, opts.tiddler);
 	}
@@ -25,16 +25,24 @@ jq('div.story').click(function(ev){
 
 // double clicking
 jq('div.story').dblclick(function(ev){
-	
+
 	var target = jq(ev.target);
 	var tiddler = target.parents('div.hentry');
 	if(tiddler.length !== 0) {
-		jw.log('dblclick', tiddler.attr('id'));	
+		jw.log('dblclick', tiddler.attr('id'));
 		// go to edit mode on this tiddler.
+		var opts = {macro:'jw_controls_edit',tiddler:tiddler};
+		jq(this).jw_invokeMacro(opts);
 	}
-	
+
 });
 
 
-// Custom event handlers:
+// Bind custom event handlers to the story
 //
+
+jq('div.story').bind('tiddlerAddedEvent', function(e,args) {
+	jw.log('tiddlerAddedEvent',args);
+});
+
+
