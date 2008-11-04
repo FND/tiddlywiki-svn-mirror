@@ -28,7 +28,6 @@ head.appendChild(s2);
 config.macros.canvasMaps = {};
 
 config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	console.log("doing the handler thing");
 	if(!window.EasyMap) {
 		var that = this;
 		var args = arguments;
