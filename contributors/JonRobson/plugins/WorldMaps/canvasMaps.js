@@ -1,4 +1,3 @@
-
 if(!console){
 	var console = function(){};
 
@@ -23,14 +22,14 @@ Array.prototype.indexOf = function(item,from)
 };}
 
 
-var EasyMap = function(divID){
+var EasyMap = function(divID,imageURL){
 
 	var wrapper = document.getElementById(divID);
 	this.wrapper = wrapper;
 
 	wrapper.style.position = "relative";
 	var img = document.createElement('img');
-	img.src='spacer.gif';
+	img.src=imageURL?imageURL:'spacer.gif';
 	img.id = divID + "_img";
 	img.style.left = 0;
 	img.style.top = 0;
@@ -42,7 +41,6 @@ var EasyMap = function(divID){
 	
 	canvas.width = parseInt(wrapper.style.width);
 	canvas.height = parseInt(wrapper.style.height);
-	
 	if(canvas.width == 0){
 		canvas.width = 600;
 		canvas.height = 400;
@@ -103,6 +101,74 @@ var EasyMap = function(divID){
 };
 
 EasyMap.prototype = {
+
+	addControl: function(controlType) {
+		var over = function() {
+			this.style.cursor='pointer';
+		};
+		switch(controlType) {
+			case "pan":
+				var panControl = document.createElement("div");
+				panControl.emap = this;
+				panControl.onmouseover = over;
+				panControl.onclick = this.panClickHandler;
+				var panWest = document.createElement("div");
+				panWest.pan = "w";
+				panWest.innerHTML = "&larr;";
+				panControl.appendChild(panWest);
+				var panEast = document.createElement("div");
+				panEast.pan = "e";
+				panEast.innerHTML = "&rarr;";
+				panControl.appendChild(panEast);
+				var panNorth = document.createElement("div");
+				panNorth.pan = "n";
+				panNorth.innerHTML = "&uarr;";
+				panControl.appendChild(panNorth);
+				var panSouth = document.createElement("div");
+				panSouth.pan = "s";
+				panSouth.innerHTML = "&darr;";
+				panControl.appendChild(panSouth);
+				panControl.style.position = "absolute";
+				console.log(this.canvas.width,this.canvas);
+				panControl.style.left = 0;
+				panControl.style.top = 0;
+				var wrapper = this.wrapper;
+				wrapper.appendChild(panControl);
+				break;
+			case "zoom":
+				break;
+			default:
+				break;
+		}
+	},
+	
+	panClickHandler: function(e) {
+		var target = e.target;
+		var emap = this.emap;
+		var dir = target.pan;
+		pan = {
+			x:0,
+			y:0
+		};
+		switch(dir) {
+			case "w":
+				pan.x = 50;
+				break;
+			case "e":
+				pan.x = -50;
+				break;
+			case "n":
+				pan.y = 50;
+				break;
+			case "s":
+				pan.y = -50;
+				break;
+			default:
+				break;
+		}
+		emap.pan(pan.x,pan.y);
+	},
+	
 	pan: function(x,y){ //relative to centre
 		
 		this.translate.x += x;
