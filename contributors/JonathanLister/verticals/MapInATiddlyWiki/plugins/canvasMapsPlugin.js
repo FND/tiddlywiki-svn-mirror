@@ -17,11 +17,25 @@ NB: This assumes canvasMaps.js has been included in the postjs!
 if(!version.extensions.canvasMapsPlugin) {
 version.extensions.canvasMapsPlugin = {installed:true};
 
+var head = document.getElementsByTagName("head")[0];
+var s1 = document.createElement("script");
+var s2 = document.createElement("script");
+s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps.js";
+s2.src = "http://www.osmosoft.com/ILGA/demos/ieHack.js";
+head.appendChild(s1);
+head.appendChild(s2);
+
 config.macros.canvasMaps = {};
 
 config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	if(!EasyMap) {
-		displayMessage("Error in canvasMaps - EasyMap not loaded!");
+	console.log("doing the handler thing");
+	if(!window.EasyMap) {
+		var that = this;
+		var args = arguments;
+		var func = function() {
+			config.macros.canvasMaps.handler.apply(that,args);
+		};
+		window.setTimeout(func,300);
 	} else {
 		var wrapper = createTiddlyElement(place,"div","wrapper","wrapper");
 		var statustext = createTiddlyElement(wrapper,"div","wrapper_statustext");
@@ -39,18 +53,11 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 			shape.fillStyle = "#FFFFFF";
 			shape.strokeStyle = "#FFFFFF";
 			var el = myElement;
-			if(el.style.display == 'none'){
-				el.style.position = "absolute";
-				el.style.display = "";
-				var legal = "";
-				if(shape.properties.legality == 1) legal = " (legal)";
-				else if(shape.properties.legality == 0) legal = " (illegal)";
-				else legal = " (no data)";
-				el.innerHTML = shape.tooltip + legal;
-				el.style.left =0;
-				el.style.top = 300;
-	
-			}	
+			var legal = "";
+			if(shape.properties.legality == 1) legal = " (legal)";
+			else if(shape.properties.legality == 0) legal = " (illegal)";
+			else legal = " (no data)";
+			el.innerHTML = shape.tooltip + legal;
 			that.redrawShape(shape);
 		};
 	
@@ -58,7 +65,6 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 			shape.fillStyle = that.oldcolor;
 			shape.strokeStyle = that.oldstrokecolor;
 			that.redrawShape(shape);
-			myElement.style.display = "none";
 		};
 	
 		eMap.clickHandler = function(e,shape){
