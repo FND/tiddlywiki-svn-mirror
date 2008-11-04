@@ -11,9 +11,7 @@ class PluginsLoader {
 		$this->tidddlers = array();
 		$this->msgHandlers = array();
 	}	
-	//  These functions populate arrays with module data
-	// !! ccT needs to make sure these arrays are processed
-	
+
 	public function addPlugin($plugin){
 		array_push($this->plugins,$plugin);
 	}
@@ -62,10 +60,8 @@ class PluginsLoader {
 		}		
 	}
 }
-
 global $pluginsLoader;
 $pluginsLoader = new PluginsLoader();
 $pluginsLoader->readPlugins($cct_base);
-//this needs to make sure plugins and events are loaded by ccT
 $pluginsLoader->runPlugins();
 ?>
