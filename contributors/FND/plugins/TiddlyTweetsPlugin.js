@@ -31,7 +31,7 @@ config.macros.TiddlyTweets = {
 	btnTooltip: "retrieve tweets",
 	usernamePrompt: "enter Twitter username",
 
-	host: "http://www.twitter.com", // XXX: use HTTPS?
+	host: "http://www.twitter.com",
 	requestDelay: 1000, // delay between page requests
 	adaptor: new TwitterAdaptor(),
 

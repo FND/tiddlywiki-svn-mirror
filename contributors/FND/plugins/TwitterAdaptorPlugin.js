@@ -51,7 +51,7 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
-		context.tiddlers = []; // XXX: outside of status check?
+		context.tiddlers = [];
 		eval("var tweets = " + responseText); // evaluate JSON response
 		for(var i = 0; i < tweets.length; i++) {
 			var tiddler = TwitterAdaptor.parseTweet(tweets[i]);
@@ -144,12 +144,12 @@ TwitterAdaptor.parseTweet = function(tweet) {
 	tiddler.modifier = tweet.user.screen_name;
 	tiddler.tags = TwitterAdaptor.defaultTags;
 	tiddler.fields = {
-		source: tweet.source, // XXX: rename?
+		source: tweet.source, // TODO: strip markup
 		truncated: tweet.truncated,
 		favorited: tweet.favorited,
-		context: tweet.in_reply_to_status_id, // XXX: rename?
+		context: tweet.in_reply_to_status_id,
 		username: tweet.user.name,
-		usernick: tweet.user.screen_name // TODO: rename
+		usernick: tweet.user.screen_name // TODO: rename -- XXX: obsolete due to separate user info?
 	};
 	tiddler.text = decodeHTMLEntities(tweet.text);
 	return tiddler;
