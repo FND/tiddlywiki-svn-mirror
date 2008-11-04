@@ -17,6 +17,8 @@ if( $tiddler===FALSE ) {
 	sendHeader(404);
 }
 
+
+echo user_deletePrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags']));
 if(user_deletePrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags']))) {
 	tiddler_delete_new($tiddler['id']);		//delete current tiddler
 	sendHeader(200);

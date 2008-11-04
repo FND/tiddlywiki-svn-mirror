@@ -41,10 +41,10 @@ merge(config.commands.deleteTiddlerHosted,{
 });
 
 
-config.commands.saveTiddlerHosted = {};
-merge(config.commands.saveTiddlerHosted, config.commands.saveTiddler);
+config.commands.saveTiddlerHosted1 = {};
+merge(config.commands.saveTiddlerHosted1, config.commands.saveTiddler);
 
-config.commands.saveTiddlerHosted.handler = function(event,src,title)
+config.commands.saveTiddlerHosted1.handler = function(event,src,title)
 {
 	var tiddlerElem = story.getTiddler(title);
 	var fields = {};
@@ -67,7 +67,7 @@ config.commands.saveTiddlerHosted.handler = function(event,src,title)
 		var adaptor = new ccTiddlyAdaptor();
 		var userParams = {minorUpdate:event.shiftKey};
 		var context = {title:title, newTitle:newTitle, workspace:window.workspace};
-		adaptor.rename(context, userParams, config.commands.saveTiddlerHosted.callback);
+		adaptor.rename(context, userParams, config.commands.saveTiddlerHosted1.callback);
 	}
 	return false;
 };
@@ -91,7 +91,7 @@ Story.prototype.closeTiddler = function(title,animate,unused)
 
 
 
-config.commands.saveTiddlerHosted.callback = function(context, userParams) {
+config.commands.saveTiddlerHosted1.callback = function(context, userParams) {
 	var tiddler = store.fetchTiddler(context.title);
 	if(tiddler) { // if tiddler exists with the old title. (we are renaming)
 		story.closeTiddler(context.title,false);
