@@ -20,7 +20,7 @@ version.extensions.canvasMapsPlugin = {installed:true};
 var head = document.getElementsByTagName("head")[0];
 var s1 = document.createElement("script");
 var s2 = document.createElement("script");
-s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps.js";
+s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps.js";
 s2.src = "http://www.osmosoft.com/ILGA/demos/ieHack.js";
 head.appendChild(s1);
 head.appendChild(s2);
