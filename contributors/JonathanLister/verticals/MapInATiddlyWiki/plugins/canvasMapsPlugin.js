@@ -1,0 +1,74 @@
+/***
+|''Name:''|canvasMapsPlugin |
+|''Description:''|A psd-patented "Quick Win" to hack JDLR's canvasMaps.js into TiddlyWiki |
+|''Author:''|JonathanLister |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/canvasMapsPlugin.js |
+|''Version:''|0.0.1 |
+|''Date:''|4/11/08 |
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4|
+
+NB: This assumes canvasMaps.js has been included in the postjs!
+
+***/
+
+//{{{
+if(!version.extensions.canvasMapsPlugin) {
+version.extensions.canvasMapsPlugin = {installed:true};
+
+config.macros.canvasMaps = {};
+
+config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	if(!EasyMap) {
+		displayMessage("Error in canvasMaps - EasyMap not loaded!");
+	} else {
+		var wrapper = createTiddlyElement(place,"div","wrapper","wrapper");
+		var statustext = createTiddlyElement(wrapper,"div","wrapper_statustext");
+		createTiddlyText(statustext,"loading... please wait a little while!");
+		var caption = createTiddlyElement(place,"div","caption","caption");
+		var eMap = new EasyMap('wrapper','http://www.osmosoft.com/ILGA/demos/spacer.gif');
+		eMap.scale.x = 2.2;
+		eMap.scale.y = 2.2;
+		
+		var that = eMap;
+		var myElement = document.getElementById('caption');
+		eMap.mouseoverHandler = function(e,shape){
+			that.oldcolor = shape.fillStyle;
+			that.oldstrokecolor = shape.strokeStyle;
+			shape.fillStyle = "#FFFFFF";
+			shape.strokeStyle = "#FFFFFF";
+			var el = myElement;
+			if(el.style.display == 'none'){
+				el.style.position = "absolute";
+				el.style.display = "";
+				var legal = "";
+				if(shape.properties.legality == 1) legal = " (legal)";
+				else if(shape.properties.legality == 0) legal = " (illegal)";
+				else legal = " (no data)";
+				el.innerHTML = shape.tooltip + legal;
+				el.style.left =0;
+				el.style.top = 300;
+	
+			}	
+			that.redrawShape(shape);
+		};
+	
+		eMap.mouseoutHandler = function(e,shape){
+			shape.fillStyle = that.oldcolor;
+			shape.strokeStyle = that.oldstrokecolor;
+			that.redrawShape(shape);
+			myElement.style.display = "none";
+		};
+	
+		eMap.clickHandler = function(e,shape){
+			var tiddlerElem = story.findContainingTiddler(e.target);
+			story.displayTiddler(tiddlerElem,shape.tooltip);
+		};
+		
+		eMap.drawFromGeojsonFile('http://www.osmosoft.com/ILGA/demos/whereLegal.json');
+	}
+};
+
+} //# end of 'install only once'
+//}}}
