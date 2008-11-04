@@ -19,19 +19,6 @@
 	});
 
 	$.fn.extend({
-		// commands
-		jw_macro_closeTiddler: function(args) {
-		},
-		jw_macro_closeOthers: function(args) {
-		},
-		jw_macro_editTiddler: function(args) {
-		},
-		jw_macro_saveTiddler: function(args) {
-		},
-		jw_macro_cancelTiddler: function(args) {
-		}
-	});
-	$.fn.extend({
 		jw_macro_view: function(args) {
 
 			jw.log('view', args);
@@ -193,10 +180,15 @@
 			jw.log('macro',args);
 
 			var macro = args['macro'];
-			var j = $(this)['jw_macro_'+macro];
+			if(macro.substr(0,3)!="jw_") {
+				macro = "jw_macro_" + macro;
+			}
+			var j = $(this)[macro];
 			if(j) {
-				$(this)['jw_macro_'+macro](args);
-				$(this).hide();// hide the macro code block.
+				$(this)[macro](args);
+				if(macro.substr(0,9)=="jw_macro_") {
+					$(this).hide();// hide the macro code block.
+				}
 			} else {
 				jw.log("No handler for ", macro);
 			}
