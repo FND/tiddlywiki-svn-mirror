@@ -820,8 +820,8 @@ var GraphPlot = {
 	*/
 	hideLabels: function (hide) {
 		var container = document.getElementById(Config.labelContainer);
-		if(hide) container.style.display = 'none';
-		else container.style.display = '';
+		//if(hide) container.style.display = 'none';
+		//else container.style.display = '';
 		this.labelsHidden = hide;
 	},
 
@@ -832,7 +832,7 @@ var GraphPlot = {
 	*/
 	animate: function(graph, id, canvas, controller) {
 		var that = this;
-		this.hideLabels(true);
+		//this.hideLabels(true);
 		var comp = function(from, to, delta){ return (to.$add(from.scale(-1))).$scale(delta).$add(from); };
 		var compPolar = function(from, to, delta){ 
 			var p = to.interpolate(from, delta);
@@ -886,11 +886,11 @@ var GraphPlot = {
 			GraphUtil.eachAdjacency(aGraph, node, function(adj) {
 				if(!adj.nodeTo._flag) {
 					controller.onBeforePlotLine(adj);
-					that.plotLine(adj, canvas);
+					that.plotLine(adj, canvas,controller);
 					controller.onAfterPlotLine(adj);
 				}
 			});
-			that.plotNode(node, canvas);
+			that.plotNode(node, canvas,controller);
 	 		if(!that.labelsHidden) that.plotLabel(canvas, node, controller);
 			node._flag = true;
 		});
@@ -902,13 +902,13 @@ var GraphPlot = {
 	
 	   Plots a graph node.
 	*/
-	plotNode: function(node, canvas) {
+	plotNode: function(node, canvas,controller) {
 		var pos = node.pos.toComplex();
-		var dx = this.displacement.x; var dy = this.displacement.y;
+		var d = controller.getOffset();
 		try{
 		canvas.path('fill', function(context) {
 	  		//jon add
-	  		context.arc(pos.x +dx, pos.y +dy, node._radius, 0, Math.PI*2, true);	
+	  		context.arc(pos.x +d.x, pos.y +d.y, node._radius, 0, Math.PI*2, true);	
 
 		});
 
@@ -923,17 +923,17 @@ var GraphPlot = {
 	*/
 	
 
-	plotLine: function(adj, canvas) {
+	plotLine: function(adj, canvas,controller) {
 		
-		var dx = this.displacement.x; var dy = this.displacement.y; //jon hack
+		var d = controller.getOffset();
 		var node = adj.nodeFrom, child = adj.nodeTo;
 		var pos = node.pos.toComplex();
 		var posChild = child.pos.toComplex();
 		canvas.path('stroke', function(context) {
-			var x1 = pos.x + dx;
-			var y1 = pos.y + dy;
-			var x2 = posChild.x+dx;
-			var y2 = posChild.y+dy;
+			var x1 = pos.x + d.x;
+			var y1 = pos.y + d.y;
+			var x2 = posChild.x+d.x;
+			var y2 = posChild.y+d.y;
 			context.moveTo(x1, y1);//jon hack
 		context.lineTo(x2, y2); //jon hack
 		
@@ -993,15 +993,15 @@ console.log(shape);
 	*/
 	plotLabel: function(canvas, node, controller) {
 		
-		var dx = this.displacement.x; var dy = this.displacement.y;
+		var d = controller.getOffset();
 		
 		//canvas.setPosition();
 		var size = node._radius;
-		var id = Config.nodeLabelPrefix + node.id;
+		var id = controller.getNodeLabelPrefix() + node.id;
 		var tag = false;
 		if(!(tag = document.getElementById(id))) {
 			tag = document.createElement('div');
-			var container = document.getElementById(Config.labelContainer);
+			var container = document.getElementById(controller.getNodeLabelContainer());
 			container.style.position= 'relative';
 			container.appendChild(tag);
 			controller.onCreateLabel(tag, node);
@@ -1009,8 +1009,8 @@ console.log(shape);
 		var pos = node.pos.toComplex();
 		var radius= canvas.getSize();
 		var labelPos= {
-			x: Math.round((pos.x  + radius.x/2 - size /2) +dx),
-			y: Math.round((pos.y + radius.y/2 - size /2) +dy)
+			x: Math.round((pos.x  + radius.x/2 - size /2) +d.x),
+			y: Math.round((pos.y + radius.y/2 - size /2) +d.y)
 		};
 		tag.id = id;
 		tag.className = 'node';
@@ -1197,9 +1197,12 @@ RGraph.prototype = {
 	
 	/*jon hack */
 	offsetCenter: function(x,y){
-		
-		GraphPlot.displacement.x += x;
-		GraphPlot.displacement.y += y;
+		var d =this.controller.getOffset();
+		d.x += x;
+		d.y += y;
+		this.controller.setOffset(d);
+		//GraphPlot.displacement.x += x;
+		//GraphPlot.displacement.y += y;
 	},
 	
 	/*
@@ -1370,7 +1373,6 @@ RGraph.prototype = {
 			GraphUtil.eachNode(this.graph, function(elem) {
 				elem.endPos = elem.endPos.add(new Polar(thetaDiff, 0));
 			});
-			
 			GraphPlot.animate(this.graph, id, this.canvas, this.controller);
 		}		
 	}

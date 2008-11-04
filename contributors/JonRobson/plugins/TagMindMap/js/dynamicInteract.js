@@ -7,7 +7,6 @@
 var Tagmindmap = function(divID,clickFunction){
 
 /*Generic  properties */
-
 this.graph_showCirclesFlag = false; //shows circles in the mind map
 Config['levelDistance'] = 80; //in pixel
 this.excludeNodeList = [];
@@ -19,6 +18,7 @@ if(clickFunction)
 else
   this.callWhenClickOnNode = function(n){return};
 
+this.displacement = {'x':0, 'y':0};
 this._init_defaults();
 this._init_html_elements(divID);
 
@@ -34,9 +34,10 @@ Tagmindmap.prototype = {
 		this.graphUtil = GraphUtil;
 		
 		this.getNodeParentsAndChildren = function(id){return {};}
-		tiddlytagmindmapobject = this;
-		this.wrapperonmousedown = function (event){		
-			
+		var ttmm = this;
+		this.wrapperonmousedown = function (event){
+			var id = this.id;	
+			console.log(id,ttmm);
 			var targ;
 			if (!event)var event = window.event;
 			if (event.target) targ = event.target;
@@ -47,11 +48,10 @@ Tagmindmap.prototype = {
 		
 			//check if a node was clicked on, if so bail out! :)
 			if(tname == "SPAN")return;
-		
 	
-			if(tiddlytagmindmapobject){
-				tiddlytagmindmapobject.canvas.setPosition();
-				var canvasPos = tiddlytagmindmapobject.canvas.getPosition();
+			if(ttmm){
+				ttmm.canvas.setPosition();
+				var canvasPos = ttmm.canvas.getPosition();
 				var myX= 0;
 				var myY =0;
 	
@@ -65,19 +65,14 @@ Tagmindmap.prototype = {
 					myY = event.clientY + document.body.scrollTop
 						+ document.documentElement.scrollTop;
 				}
-				console.log("clicked at " +myX + " " + myY);
-				var canvasSize = tiddlytagmindmapobject.canvas.getSize();
-				console.log(canvasPos.x + " " + canvasPos.y)
+				var canvasSize = ttmm.canvas.getSize();
 				var centerY = canvasPos.y+ (canvasSize.y / 2);;
 				var centerX = canvasPos.x + (canvasSize.x / 2);
-				console.log("center is at " + centerX + " " + centerY);
 				offsetY= centerY -myY;
 				offsetX= centerX -myX;
-				console.log("offset " + offsetX + " " + offsetY);
-
-				tiddlytagmindmapobject.rgraph.offsetCenter(offsetX,offsetY);
+				ttmm.rgraph.offsetCenter(offsetX,offsetY);
 		
-				tiddlytagmindmapobject.rgraph.plot();
+				ttmm.rgraph.plot();
 			}
 
 			return false;
@@ -91,19 +86,15 @@ Tagmindmap.prototype = {
 			this.canvasID = wrapperID + "_canvas"; //the canvas object ID
 			this.labelContainer = wrapperID + "_label_container";
 			
-			Config.nodeLabelPrefix = this.canvasID +"_";//labelIDPrefix; //allows 2 mind maps on same page, by making sure all divs use unique names			
+			this.nodeLabelPrefix = this.canvasID +"_";//labelIDPrefix; //allows 2 mind maps on same page, by making sure all divs use unique names			
 			
 			/*setup the divs */
 			var wrapper = document.getElementById(wrapperID);
-
 			wrapper.onmousedown =  this.wrapperonmousedown;
 			
 			if(!wrapper.style.height){wrapper.style.height = "200px";}
 			if(!wrapper.style.width){wrapper.style.width = "200px";}
-			//console.log(parseInt(wrapper.style.width) + "w<<");
-			
-			//console.log(parseInt(wrapper.style.height) + "h<<");
-			Config.labelContainer = this.labelContainer;
+
 			var labelContainer = document.createElement("div");
 			labelContainer.id=this.labelContainer;
 			
@@ -114,8 +105,7 @@ Tagmindmap.prototype = {
 
 			wrapper.appendChild(labelContainer);
 			wrapper.appendChild(canvas);
-			if(config.browser.isIE && G_vmlCanvasManager) {G_vmlCanvasManager.init_(document);}
-			
+			if(config.browser.isIE && G_vmlCanvasManager) {G_vmlCanvasManager.init_(document);} //ie hack			
 },
 
 
@@ -270,7 +260,7 @@ _make_connection: function(a,b){
  
   //if neither node is currently in tree, then we need to create a "bridge" to connect the trees
   if(node1 == null && node2 == null) {
-	console.log(a + "connected to hidden bridge");
+	//console.log(a + "connected to hidden bridge");
 	this._make_connection(this.thehiddenbridge,a);
 	
   }
@@ -323,6 +313,10 @@ _getController: function(){
   var tagmindmapobj = this;
     var effectHash = {};
   var controller =  {
+	setOffset: function(d){tagmindmapobj.displacement = d;},
+	getOffset: function(){return tagmindmapobj.displacement;},
+	getNodeLabelContainer: function(){return tagmindmapobj.labelContainer;},
+	getNodeLabelPrefix: function(){return tagmindmapobj.nodeLabelPrefix;},
   	onBeforeCompute: function(node) {
 		
   	},
@@ -385,9 +379,7 @@ _getController: function(){
 						var tooltip =node.data.url;
 						if(node.data.tooltip)
 							tooltip = node.data.tooltip;
-					  if(tagmindmapobj.useDHTML)
-					    linky = "<a href=\"#\" onClick=\"openmypage('"+node.name + "', '" + node.data.url + "'); return false\"><img src='"+img+"' border='0' alt='(link)'></a>";
-					  else
+
 					    linky = "<a href=\"" + node.data.url + "\"><img src='"+img+"' border='0' title='" + tooltip+ "'></a>";
 	    			     		}
 		     		else
@@ -467,7 +459,7 @@ this.rgraph_currentNode =lastOpenNode;
 		  controller = this._getController();
 		
          
-		this.rgraph= new RGraph(this.canvas, controller);
+		this.rgraph= new RGraph(this.canvas, controller,this.labelContainer);
 		this.graph = this.rgraph.graph;	  
 
 		  

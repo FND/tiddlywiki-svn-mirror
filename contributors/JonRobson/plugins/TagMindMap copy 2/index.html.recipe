@@ -1,8 +1,0 @@
-recipe: $TW_ROOT/core/tiddlywiki.html.recipe
-
-tiddler: /tiddlers/PageTemplate.tiddler
-tiddler: /tiddlers/ToolbarCommands.tiddler
-tiddler: /tiddlers/Stylesheet.tiddler
-tiddler: /js/TagMindMapCommands.js
-tiddler: /js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js  tagMindMapIEHack.js
-tiddler: /tiddlers/TiddlyTagMindMap.tiddler

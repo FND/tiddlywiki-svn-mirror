@@ -1,9 +1,26 @@
 /***
 !Layer 1: TiddlyWiki Specific
+
+?? on dbl click re-center (offset 0s)
+?? tagcloud concept
 ***/
 
 {{{
-function refreshDisplay(hint){}; //it's nasty!	
+
+var oldRefreshElements = refreshElements;
+
+function refreshElements(root,changeList)
+{
+	//do something here to stop refreshing of tagmindmap
+	var nodes = root.childNodes;
+
+//if(root.id == 'contentWrapper') return;
+console.log(root,nodes);
+	
+	oldRefreshElements(root,changeList);
+};
+
+
 	
 //load defaults
 if(!config.options.txtTTMM_canvasWidth)config.options.txtTTMM_canvasWidth = 800;
@@ -42,141 +59,170 @@ config.macros.ToggleTagMindMap = {};
 config.macros.LoadMindMap = {};
 config.macros.ZoomMindMapIn = {};
 config.macros.ZoomMindMapOut = {};
+config.macros.RecenterMindMap = {};
 
 merge(config.macros.ZoomMindMapIn,{label: "zoom+",	prompt: "Expand the tag mind map"});
-	
+merge(config.macros.ZoomMindMapOut,{label: "zoom-",prompt: "shrink the tag mind map"});
+merge(config.macros.LoadMindMap,{label: "loadall",prompt: "load all tiddlers into tag mind map"});
+merge(config.macros.ToggleTagMindMap,{label: "toggle",prompt: "Toggle on or off the tag mind map"});
+merge(config.macros.RecenterMindMap,{label: "re-center",	prompt: "Center the mind map"});
+
+config.macros.RecenterMindMap.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
+
+	var btn= createTiddlyButton(place,this.label,this.prompt,this.onClick);	
+	if(params[0])btn.wrapperID = params[0];
+};
+
+config.macros.RecenterMindMap.onClick = function(e)
+{
+var ttmm = getAssociatedTiddlyTagMindMapObject(this);
+	if(ttmm){
+		ttmm.rgraph.controller.setOffset({'x':0, 'y':0});
+		ttmm.computeThenPlot();
+	}
+}
+
 config.macros.ZoomMindMapIn.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
-createTiddlyButton(place,this.label,this.prompt,this.onClick);	
+
+var btn= createTiddlyButton(place,this.label,this.prompt,this.onClick);	
+if(params[0])btn.wrapperID = params[0];
 };
 
 config.macros.ZoomMindMapIn.onClick = function(e)
 {
-config.options.txtTTMM_inflation = ttmm_current.zoom(10);
-if(ttmm_current)ttmm_current.computeThenPlot();
+var ttmm = getAssociatedTiddlyTagMindMapObject(this);
+	if(ttmm){
+		var z =ttmm.zoom(10);
+		ttmm.computeThenPlot();
+	}
 }
-
 /* Zooming TagMindMap (zoom out) */
-
-merge(config.macros.ZoomMindMapOut,{label: "zoom-",prompt: "shrink the tag mind map"});
 	
 config.macros.ZoomMindMapOut.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
-createTiddlyButton(place,this.label,this.prompt,this.onClick);	
+var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
+if(params[0])btn.wrapperID = params[0];	
 };
 
 config.macros.ZoomMindMapOut.onClick = function(e)
 {
-config.options.txtTTMM_inflation =ttmm_current.zoom(-10);
-//saveOptionCookie("txtTTMM_inflation");
-if(ttmm_current)ttmm_current.computeThenPlot();
+	var ttmm = getAssociatedTiddlyTagMindMapObject(this);
+		if(ttmm){
+			var z =ttmm.zoom(-10);
+			ttmm.computeThenPlot();
+		}
 }
-
-/*Load All Tiddlers into TagMindMap Macro */
 
 config.macros.TagMindMapEdge.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
 
 var from = params[0]; var to = params[1];
-if(ttmm_current){
-	ttmm_current.drawEdge(from,to);
-	ttmm_current.computeThenPlot();
+var ttmm = tiddlytagmindmapobjects[ttmm_lastID];
+if(ttmm){
+	ttmm.drawEdge(from,to);
+	ttmm.computeThenPlot();
 	}
 
 };
 
-
-
-merge(config.macros.LoadMindMap,{label: "loadall",prompt: "load all tiddlers into tag mind map"});
 	
 config.macros.LoadMindMap.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
-createTiddlyButton(place,this.label,this.prompt,this.onClick);	
+	var btn =createTiddlyButton(place,this.label,this.prompt,this.onClick);	
+	if(params[0])btn.wrapperID = params[0];
 };
 
 config.macros.LoadMindMap.onClick = function(e)
 {
+	var ttmm = getAssociatedTiddlyTagMindMapObject(this); 
 	var list = store.getTiddlers();
 	for (var t=0; t<list.length; t++) { 
-		ttmm_current.createNodeFromJSON(createJSON(list[t].title));	
+		ttmm.createNodeFromJSON(createJSON(list[t].title));	
 	}
-	ttmm_current.computeThenPlot();
+	ttmm.computeThenPlot();
 
 }
-/*Toggler Macro */
-merge(config.macros.ToggleTagMindMap,{label: "toggle",prompt: "Toggle on or off the tag mind map"});
 
 config.macros.ToggleTagMindMap.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
-	createTiddlyButton(place,this.label,this.prompt,this.onClick);
+
+	var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
+	if(params[0])btn.wrapperID = params[0];
 };
 
 config.macros.ToggleTagMindMap.onClick = function(e)
-{
-	if(document.getElementById(ttmm_current.wrapperID).style.display== "none"){
-		document.getElementById(ttmm_current.wrapperID).style.display=  "";
+{ 
+	
+	var id = getAssociatedTiddlyTagMindMapObject(this).wrapperID;
+
+	if(document.getElementById(id).style.display== "none"){
+		document.getElementById(id).style.display=  "";
 	}
 	else{
-		document.getElementById(ttmm_current.wrapperID).style.display=  "none";
+		document.getElementById(id).style.display=  "none";
 	}
 };
 
 var tiddlytagmindmapobjects = {};
-var ttmm_current = null;
-var ttmm_loadedStatus = true;
+//var ttmm_current = null
+var ttmm_lastID = null;
+var ttmm_primaryID = null;
 /* Init TagMindMap macro */
 
 config.macros.tiddlytagmindmap.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
-console.log("entered macro");
-
-var settings = {};
-
-if(params){
-	var prms = paramString.parseParams(null, null, true);
-	settings.ignoreLoneNodes = getParam(prms, "ignoreLoneNodes");
-	console.log(settings.ignoreLoneNodes + "<<");
-	if(settings.ignoreLoneNodes == 'false') settings.ignoreLoneNodes = false; else settings.ignoreLoneNodes = true;
-	settings.width = getParam(prms, "width");
-	settings.height = getParam(prms, "height");
-	var toolbar = getParam(prms, "toolbarSettings");
-	if(!toolbar) toolbar = "1111";
-
-	if(toolbar[0] == '1')settings.verticalToolbar = false;
-	if(toolbar[1] == '1')settings.loadButton = true;
-	if(toolbar[2] == '1')settings.toggleButton = true;
-	if(toolbar[3] == '1')settings.zoomButtons = true;	
+	var settings = {};
+	startupFunction = function(){};
+	if(params){
+		var prms = paramString.parseParams(null, null, true);
+		settings.ignoreLoneNodes = getParam(prms, "ignoreLoneNodes");
+		if(settings.ignoreLoneNodes == 'false') settings.ignoreLoneNodes = false; else settings.ignoreLoneNodes = true;
+		settings.width = getParam(prms, "width");
+		settings.height = getParam(prms, "height");
+		settings.toolbar= getParam(prms, "toolbarSettings");
 	
-	var startState = getParam(prms, "startState");
+		var startState = getParam(prms, "startState");
 	
-	var startupFunction;
-	if(startState == 'all')
-		startupFunction = config.macros.LoadMindMap.onClick;
-	else if(startState == 'defaultTiddlers')
-		startupFunction = function(){//default tiddlers
-		loadTiddlersIntoTTMM(store.filterTiddlers(store.getTiddlerText("DefaultTiddlers")));}; 
-	else
-		startupFunction = function(){};
-		
-}
-
-/*set based on tweaked preferences if none passed as parameters*/
-if(!settings.ignoreLoneNodes) settings.ignoreLoneNodes = config.options.chkTTMM_ignoreLoneNodes;
-if(!settings.width) settings.width = config.options.txtTTMM_canvasWidth;
-if(!settings.height) settings.height =config.options.txtTTMM_canvasHeight;
-
-/*check no other instances are alive still*/
-
-/*
-if(ttmm_current){
-	var ttmm = document.getElementById(ttmm_current.wrapperID);
-	if(ttmm) {
-		throw "Currently we can only support one tiddly tag mind map at a time. We're working hard to allow you more!";
+		var startupFunction;
+		if(startState == 'all')
+			startupFunction = config.macros.LoadMindMap.onClick;
+		else if(startState == 'defaultTiddlers')
+			startupFunction = function(){//default tiddlers
+			loadTiddlersIntoTTMM(store.filterTiddlers(store.getTiddlerText("DefaultTiddlers")));}; 
 	}
-}
-*/
-	var wrapper;
+	/*set some defaults based on tweaked preferences if none passed as parameters*/
+	if(!settings.ignoreLoneNodes) settings.ignoreLoneNodes = config.options.chkTTMM_ignoreLoneNodes;
+	if(!settings.width) settings.width = config.options.txtTTMM_canvasWidth;
+	if(!settings.height) settings.height =config.options.txtTTMM_canvasHeight;
+	if(!settings.toolbar)  settings.toolbar = "01111";
 
-	if(!place) {
+	var id = setup_ttmm_html(place,settings);
 
+		try{
+	/*creating the object */
+   	 	var clickF = function(node){story.displayTiddler(null, node.id,null,null,null,null,null,id);};
+
+		tiddlytagmindmapobjects[id]= new Tagmindmap(id,clickF);
+							
+		var excludeLists = config.options.txtTTMM_excludeNodeList;
+		tiddlytagmindmapobjects[id].excludeNodeList = getParents(excludeLists);
+		//Config['levelDistance'] = config.options.txtTTMM_inflation;
+		tiddlytagmindmapobjects[id].ignoreLoneNodes = settings.ignoreLoneNodes;
+		tiddlytagmindmapobjects[id].maxNodeNameLength = config.options.txtTTMM_maxNodeNameLength;
+		
+		ttmm_lastID = id;
+		ttmm_current = tiddlytagmindmapobjects[id];
+		startupFunction();
+		
+		console.log("created new instance with id",id);
+	}
+	catch(e){console.log("exception thrown during startup:"+e);}
+
+};
+
+}}}
+
+{{{
+function setup_ttmm_html(place,settings){
+	if(!place) { //give a default place
 		place = document.getElementById('tagmindmap');
-			
-		if(!place) return;
+		if(!place) return; //unable to create
 		if(place.style.width) settings.width = place.style.width;
 		if(place.style.height) settings.height = place.style.height;
 	}
@@ -194,62 +240,41 @@ if(ttmm_current){
 	toolbar.id = newTTMM.id + "_toolbar";
 	var html="", divider = " ";
 
-	if(settings.verticalToolbar){
+	if(settings.toolbar[0] == 1){
 		//shift menu to right
 		toolbar.style.height = "1px";
 		toolbar.style.position = "relative";
-		var temp =  parseInt(ttmm_width) +10;
+		var temp =  parseInt(settings.width) +10;
 		toolbar.style.top = "0px";
 		toolbar.style.left = temp+"px";
 		divider = "\n";
 	}
-	if(settings.toggleButton) html += "<<ToggleTagMindMap>>" + divider;
-	if(settings.loadButton) html += "<<LoadMindMap>>"+ divider;
-	if(settings.zoomButtons) {
-		html += "<<ZoomMindMapIn>>"+ divider;
-		html += "<<ZoomMindMapOut>>";
+	if(settings.toolbar[1] == 1) html += "<<ToggleTagMindMap " + newTTMM.id+">>" + divider;
+	if(settings.toolbar[2] == 1) html += "<<LoadMindMap " + newTTMM.id+">>"+ divider;
+	if(settings.toolbar[3] == 1) {
+		html += "<<ZoomMindMapIn  " + newTTMM.id+">>"+ divider;
+		html += "<<ZoomMindMapOut " + newTTMM.id+">>"+ divider;
 	}
-
+	html += "<<RecenterMindMap " + newTTMM.id+">>";
 	place.appendChild(toolbar);
 	wikify(html,toolbar);
-
 	place.appendChild(newTTMM);
-	wrapper = newTTMM;
+
+	if(!ttmm_primaryID)ttmm_primaryID = newTTMM.id;
 	
-	if(!wrapper.style.width) wrapper.style.width = settings.width;
-	if(!wrapper.style.height) wrapper.style.height = settings.height;
-		try{
-		/*creating the object */
-			
-	   	 	var clickF = function(node){story.displayTiddler(null, node.id);};
-
-			tiddlytagmindmapobjects[wrapper.id]= new Tagmindmap(wrapper.id,clickF);
-								
-			var excludeLists = config.options.txtTTMM_excludeNodeList;
-			tiddlytagmindmapobjects[wrapper.id].excludeNodeList = getParents(excludeLists);
-			Config['levelDistance'] = config.options.txtTTMM_inflation;
-			tiddlytagmindmapobjects[wrapper.id].ignoreLoneNodes = settings.ignoreLoneNodes;
-			tiddlytagmindmapobjects[wrapper.id].maxNodeNameLength = config.options.txtTTMM_maxNodeNameLength;
-			
-			
-			ttmm_current = tiddlytagmindmapobjects[wrapper.id];
-			startupFunction();
-			
-			console.log("created new instance")
-			console.log(tiddlytagmindmapobjects[wrapper.id]);
-		}
-		catch(e){console.log("exception thrown during startup:"+e);}
-
-};
-
-}}}
-
-{{{
+	if(!newTTMM.style.width) newTTMM.style.width = settings.width;
+	if(!newTTMM.style.height) newTTMM.style.height = settings.height;
 	
+	return newTTMM.id;
+}
+function getAssociatedTiddlyTagMindMapObject(that){
+		if(that.wrapperID) return tiddlytagmindmapobjects[that.wrapperID];
+		else return tiddlytagmindmapobjects[ttmm_lastID];
+}	
 /*Colouring Functions */
-function doColouring(currentNode){
+function doColouring(currentNode,ttmm){
 
-if(config.options.chkTTMM_leaveRedBreadCrumbTrail)colorNode(currentNode, "red");
+if(config.options.chkTTMM_leaveRedBreadCrumbTrail) colorNode(ttmm,currentNode, "red");
 
 /*below coming soon */
 //colorNode("TiddlyTagMindMap for Everyone","green");
@@ -281,9 +306,9 @@ function getChildren(a){
     return [];
 }
 
-function colorNode(nodename,color){
-	if(ttmm_current){
-		ttmm_current.setNodeData(nodename, "color",color);
+function colorNode(ttmm,nodename,color){
+	if(ttmm){
+		ttmm.setNodeData(nodename, "color",color);
 	  //var divName = ttmm_current.canvasID+ "_"+nodename; 
 	  //var elem = document.getElementById(divName); 
 	  //if(elem)elem.style.color = color; 
@@ -333,37 +358,46 @@ var createJSON = function(nodeid){
 
 Story.prototype.beforettmm_displayTiddler = Story.prototype.displayTiddler;
 
-function loadTiddlersIntoTTMM(tiddlerList){
+/*rturns the object where clicking links should update*/
+
+function loadTiddlersIntoTTMM(tiddlerList,visualisationID){
+	
+	var viz;
+	if(!visualisationID) 
+		viz = tiddlytagmindmapobjects[ttmm_primaryID];
+	else
+		viz = tiddlytagmindmapobjects[visualisationID];
 	var nodesLoaded = false;
 	var title = "";
 	for(var i =0; i < tiddlerList.length; i++){
 		if(tiddlerList[i].title) title = tiddlerList[i].title;
 		else title = tiddlerList[i];
-		
-		nodesLoaded = ttmm_current.createNodeFromJSON(createJSON(title)) | nodesLoaded;
+		nodesLoaded = viz.createNodeFromJSON(createJSON(title)) | nodesLoaded;
 	}
 	
-	if(nodesLoaded && ttmm_current.rgraph){
-		doColouring(title);
-		ttmm_current.centerOnNode(title);
-		ttmm_current.computeThenPlot();
+	if(nodesLoaded && viz.rgraph){
+		doColouring(title,viz);
+
+		viz.centerOnNode(title);
+		viz.computeThenPlot();
 	}
 }
-Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle)
+Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID)
 {
-if(!ttmm_current) config.macros.tiddlytagmindmap.handler();
+
+if(!ttmm_lastID) config.macros.tiddlytagmindmap.handler();
 
 
 
 	var title = (tiddler instanceof Tiddler)? tiddler.title : tiddler;
 
-if(ttmm_current){
+
+if(tiddlytagmindmapobjects){
 	try{
-	
-	var res = loadTiddlersIntoTTMM([title]);
+	var res = loadTiddlersIntoTTMM([title],visualisationID);
 	}
 	catch(e){
-		console.log("exception: " + e);
+		console.log("exception in display tiddler: " + e);
 	}
 	
 }

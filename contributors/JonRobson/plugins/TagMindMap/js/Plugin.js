@@ -40,17 +40,21 @@ There are a variety of configuration options in the backstage area under tweak. 
 tiddlytagmindmap takes several (but all optional) parameters. Some examples can be seen below, note the order is irrelevant of these parameters.
 
 !!!Height and Width
-<<tiddlytagmindmap height:100 width:100>> will set a tiddlytagmindmap with height and width 100.
+{{{<<tiddlytagmindmap height:100 width:100>>}}} will set a tiddlytagmindmap with height and width 100.
 
 !!!The toolbar
-A parameter toolbarSettings is a string of 1s. These signify the buttons. The first parameter sets whether the bar should appear vertically or horizontally.
-The default is 0111
-<<tiddlytagmindmap toolbarSettings:1101>> would give you a vertical toolbar with toggle and load buttons but no zoom.
+A parameter toolbarSettings is a string of 1s. These signify the buttons. The first digit sets whether the bar should appear vertically or horizontally.
+The following digits turn off or on the other available buttons.
+!!!!The buttons
+toggle, loadall,zoom+,zoom-,re-center (re-center after panning the map)
+
+The default is 01111
+{{{<<tiddlytagmindmap toolbarSettings:1101>>}}} would give you a vertical toolbar with toggle and load buttons but no zoom.
 
 !!!The Start State
 A parameter can be used to specify how the map looks on start up. 
 Currently the options are empty OR all.
-<<tiddlytagmindmap startState:empty>> loads a blank tag mind map however <<tiddlytagmindmap startState:all>> loads all nodes excluding those in the exclude List.
+{{{<<tiddlytagmindmap startState:empty>>}}} loads a blank tag mind map however {{{<<tiddlytagmindmap startState:all>>}}} loads all nodes excluding those in the exclude List.
 It defaults to displaying all defaultTiddlers in the map
 !!Examples
 See usage hopefully self explanatory.
