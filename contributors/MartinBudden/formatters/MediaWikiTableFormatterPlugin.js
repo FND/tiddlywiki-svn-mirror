@@ -3,8 +3,8 @@
 |''Description''|alternative markup for flexible tables|
 |''Author''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Contributors''|FND|
-|''Version''|0.1.0|
-|''Status''|@@beta@@|
+|''Version''|0.1.1|
+|''Status''|stable|
 |''Source''|http://devpad.tiddlyspot.com/#MediaWikiTableFormatterPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiTableFormatterPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -378,7 +378,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 	w.nextMatch += 2;
 	var i = lineEnd(w);
 	if(i>w.nextMatch) {
-		MediaWikiTemplate.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
+		MediaWikiTemplate.setAttributesFromParams(table.parentNode,w.source.substring(w.nextMatch,i));
 		w.nextMatch = i;
 	}
 	w.nextMatch++;
@@ -400,7 +400,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 		//if(i==-1)
 		//	break;
 		if(i>w.nextMatch) {
-			MediaWikiTemplate.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
+			MediaWikiTemplate.setAttributesFromParams(tr,w.source.substring(w.nextMatch,i));
 			w.nextMatch = i;
 		}
 		w.nextMatch++;
@@ -422,7 +422,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 			if(i==-1)
 				break;
 			if(i>w.nextMatch) {
-				MediaWikiTemplate.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
+				MediaWikiTemplate.setAttributesFromParams(tr,w.source.substring(w.nextMatch,i));
 				w.nextMatch = i;
 			}
 			w.nextMatch++;
