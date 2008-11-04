@@ -20,7 +20,7 @@ version.extensions.canvasMapsPlugin = {installed:true};
 var head = document.getElementsByTagName("head")[0];
 var s1 = document.createElement("script");
 var s2 = document.createElement("script");
-s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps.js";
+s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps.js";
 s2.src = "http://www.osmosoft.com/ILGA/demos/ieHack.js";
 head.appendChild(s1);
 head.appendChild(s2);
@@ -40,7 +40,8 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		var statustext = createTiddlyElement(wrapper,"div","wrapper_statustext");
 		createTiddlyText(statustext,"loading... please wait a little while!");
 		var caption = createTiddlyElement(place,"div","caption","caption");
-		var eMap = new EasyMap('wrapper','http://www.osmosoft.com/ILGA/demos/spacer.gif');
+		var eMap = new EasyMap('wrapper','http://www.osmosoft.com/ILGA/demos/spacer.gif'); // 2nd argument not in EasyMap yet
+		eMap.addControl('pan');
 		eMap.scale.x = 2.2;
 		eMap.scale.y = 2.2;
 		
