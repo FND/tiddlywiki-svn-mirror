@@ -69,12 +69,14 @@
 			}); 
 		},
 
-		jw_controls_close: function(args) { 
-			var tiddler = args.tiddler;
+		jw_controls_close: function(args) {
+			jw.log('jw_controls_close',args);
+			return;
+			/*var tiddler = args.tiddler;
 			tiddler.slideUp( function(){
 			 	tiddler.remove();
 				jw.pagemap.refresh();
-			});	
+			});*/	
 		},
 
 		jw_controls_close_all: function(args) {
