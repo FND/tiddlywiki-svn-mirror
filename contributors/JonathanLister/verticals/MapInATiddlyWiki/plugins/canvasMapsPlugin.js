@@ -42,6 +42,7 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		var caption = createTiddlyElement(place,"div","caption","caption");
 		var eMap = new EasyMap('wrapper','http://www.osmosoft.com/ILGA/demos/spacer.gif'); // 2nd argument not in EasyMap yet
 		eMap.addControl('pan');
+		eMap.addControl('zoom');
 		eMap.scale.x = 2.2;
 		eMap.scale.y = 2.2;
 		
