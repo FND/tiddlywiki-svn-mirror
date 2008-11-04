@@ -56,7 +56,7 @@ class PluginsLoader {
 	
 	public function runPlugins(){
 		global $Plugins;
-		foreach ($plugins as $plugin)
+		foreach ($Plugins as $plugin)
 		{
 			$plugin->run();
 		}		

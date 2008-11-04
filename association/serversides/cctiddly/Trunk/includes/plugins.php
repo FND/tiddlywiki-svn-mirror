@@ -21,11 +21,8 @@ class Module {
     
  // Specified relative to the module folder, these javascripts will be directly included at the end of the whole wiki // 
       public function addPlugin($script) {
-	          array_push($this->plugins, $script);$plugins
+	          array_push($this->plugins, $script);
       }
-
-
-
       public function addTiddler($tiddler) {
 	          array_push($this->tiddlers, $tiddler);
       }
