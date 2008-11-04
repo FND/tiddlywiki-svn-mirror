@@ -57,10 +57,7 @@ array(	"ccTheme",
 		"ValueSwitcherPlugin"
 	);
 
-$tiddlyCfg['pref']['offline']['js'] = 
-array(	"ccAdaptor",
-		"ccLogin"
-);
+$tiddlyCfg['pref']['offline']['js'] = array("ccAdaptor");
 
 //Proxy Allowed Servers
 

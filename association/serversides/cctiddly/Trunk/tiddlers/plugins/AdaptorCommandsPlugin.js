@@ -53,12 +53,10 @@ config.commands.saveTiddlerHosted1.handler = function(event,src,title)
 	if(!store.tiddlerExists(newTitle))
 		newTitle = newTitle.trim();
 	if(newTitle==title){  // we are not renaming the tiddler 
-		console.log("we are not renaming the tiddler - call");
 		var newTitle = story.saveTiddler(title,event.shiftKey);
 		if(newTitle)
 			story.displayTiddler(null,newTitle);		 
 	} else { // the tiddler is being renamed 
-		console.log("the tiddler is being renamed - call");	
 		var tiddler = store.fetchTiddler(title);
 		if(store.tiddlerExists(newTitle) && newTitle != title) {
 			if(!confirm(config.messages.overwriteWarning.format([newTitle.toString()])))
@@ -71,7 +69,6 @@ config.commands.saveTiddlerHosted1.handler = function(event,src,title)
 	}
 	return false;
 };
-
 
 // implementing closeTiddler without the clearMessage();
 Story.prototype.closeTiddler = function(title,animate,unused)
@@ -87,9 +84,6 @@ Story.prototype.closeTiddler = function(title,animate,unused)
 		}
 	}
 };
-
-
-
 
 config.commands.saveTiddlerHosted1.callback = function(context, userParams) {
 	var tiddler = store.fetchTiddler(context.title);
