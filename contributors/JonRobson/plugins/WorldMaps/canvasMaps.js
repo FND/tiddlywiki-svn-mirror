@@ -410,7 +410,10 @@ EasyMap.prototype = {
 	},
 	
 	drawFromGeojson: function(geojson){
-			var t = new Date();
+			var t1 = parseFloat(this.canvas.width) /2;
+			var t2 = parseFloat(this.canvas.height) / 2;
+			this.translate.x = t1;
+			this.translate.y = t2;
 			this.clear();
 
 			if(geojson.type.toLowerCase() == "featurecollection"){
@@ -420,8 +423,7 @@ EasyMap.prototype = {
 				console.log("only feature collections currently supported");
 				return;
 			}
-			var t2 = new Date();
-		//	console.log(t2 - t);
+
 		
 	},
 	drawFromGeojsonFile: function(file){
@@ -537,14 +539,6 @@ EasyShape.prototype={
 		for(var i=0; i < coords[0].length; i++){
 			var x =coords[0][i][0];
 			var y = -coords[0][i][1];
-			
-			
-			t1 = parseFloat(canvas.width) /2;
-			t2 = parseFloat(canvas.height) / 2;
-			this.translateMandatory = {'x':t1,'y':t2};
-			//this.translateMandatory = {'x':0,'y':0};
-			//x += t1;
-			//y += t2;
 			res.push(x);
 			res.push(y);
 		}
@@ -613,21 +607,17 @@ EasyShape.prototype={
 			var y =parseFloat(this.coords[i+1]);
 
 		
+
+			if(performScale){
+				x *=  scaling.x;
+				y *= scaling.y;
+			}
 			if(performTranslate){
 
 				x = x + parseFloat(translation.x);
 				y = y + parseFloat(translation.y);
 			}
-			if(performScale){
-				x *=  scaling.x;
-				y *= scaling.y;
-			}
 
-			if(this.translateMandatory){
-				x += parseFloat(this.translateMandatory.x);
-				y += parseFloat(this.translateMandatory.y);
-			}
-			
 			if(x < this.grid.x1) this.grid.x1 = x;
 			if(y < this.grid.y1) this.grid.y1 = y;
 			
