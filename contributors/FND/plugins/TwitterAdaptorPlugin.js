@@ -15,6 +15,7 @@
 !!v0.3 (2008-11-03)
 * major refactoring
 !To Do
+* don't use config.options; pass in settings via context
 * parsing of replies, DMs etc.
 * secure password prompt (using PasswordPromptPlugin?)
 !Code
@@ -51,7 +52,8 @@ TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callba
 
 TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
-	var page, authorizationRequired = true;
+	var page = context.page || 0;
+	var authorizationRequired = true;
 	switch(context.workspace) {
 		case "public":
 			var uriTemplate = "%0/statuses/public_timeline.json";
@@ -59,27 +61,33 @@ TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback
 			authorizationRequired = false;
 			break;
 		case "with_friends":
-			uriTemplate = "%0/statuses/friends_timeline.json";
-			uri = uriTemplate.format([context.host]);
+			uriTemplate = "%0/statuses/friends_timeline.json?page=%1";
+			uri = uriTemplate.format([context.host, page]);
 			break;
 		case "replies": // TODO: require special parsing
-			uriTemplate = "%0/statuses/replies.json";
-			uri = uriTemplate.format([context.host]);
+			uriTemplate = "%0/statuses/replies.json?page=%1";
+			uri = uriTemplate.format([context.host, page]);
 		case "direct_messages_in":
-			uriTemplate = "%0/direct_messages.json";
-			uri = uriTemplate.format([context.host]);
+			uriTemplate = "%0/direct_messages.json?page=%1";
+			uri = uriTemplate.format([context.host, page]);
 			break;
 		case "direct_messages_out":
-			uriTemplate = "%0/direct_messages/sent.json";
-			uri = uriTemplate.format([context.host]);
+			uriTemplate = "%0/direct_messages/sent.json?page=%1";
+			uri = uriTemplate.format([context.host, page]);
 			break;
 		case "friends":
-			uriTemplate = "%0/statuses/friends.json";
-			uri = uriTemplate.format([context.host]);
+			if(context.userID) {
+				uriTemplate = "%0/statuses/friends/%1.json?page=%2";
+				uri = uriTemplate.format([context.host, context.userID, page]); // XXX: userID defined where? use tiddler.title?
+				authorizationRequired = false;
+			} else {
+				uriTemplate = "%0/statuses/friends.json?page=%2";
+				uri = uriTemplate.format([context.host, page]);
+			}
 			break;
 		case "followers":
-			uriTemplate = "%0/statuses/followers.json";
-			uri = uriTemplate.format([context.host]);
+			uriTemplate = "%0/statuses/followers.json?page=%1";
+			uri = uriTemplate.format([context.host, page]);
 			break;
 		case "users":
 			uriTemplate = "%0/users/show/%1.format";
@@ -88,7 +96,6 @@ TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback
 			break;
 		default: // user timeline
 			uriTemplate = "%0/statuses/user_timeline/%1.json?page=%2";
-			page = context.page || 0;
 			uri = uriTemplate.format([context.host, context.workspace, page]);
 			authorizationRequired = false;
 			break;
@@ -115,7 +122,7 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 		for(var i = 0; i < tweets.length; i++) {
 			var tiddler = TwitterAdaptor.parseTweet(tweets[i]);
 			context.tiddlers.push(tiddler);
-			if(config.options.chkTwitterFetchUsers) {
+			if(config.options.chkTwitterFetchUsers) { // store user info
 				var user = tweets[i].user;
 				user.updated = TwitterAdaptor.convertTimestamp(tweets[i].created_at);
 				if(!(users[user.id] && user.updated > users[user.id].modified)) {
