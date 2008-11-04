@@ -23,7 +23,7 @@ function init(){
 			el.style.display = "";
 			var legal = "";
 			if(shape.properties.legality == 1) legal = " (legal)";
-			else if(shape.properties.legality == 0) legal = " (illegal)";
+			else if(shape..propertieslegality == 0) legal = "(illegal)";
 			else legal = "(no data)";
 			el.innerHTML = shape.tooltip + legal;
 			el.style.left =0;
@@ -56,6 +56,12 @@ function init(){
 	<div id ='caption'></div>
 	<div id='wrapper_statustext'>please wait while we load... </div>
 </div>
+<a href="javascript:eMap.zoom(0.1,0.1)">zoom in</a> <a href="javascript:eMap.zoom(-0.1,-0.1)">zoom out</a>
+
+
+<a href="javascript:eMap.pan(0,-10)">up</a> <a href="javascript:eMap.pan(0,10)">down</a>
+
+<a href="javascript:eMap.pan(-10,0)">left</a> <a href="javascript:eMap.pan(10,0)">right</a>
 
 
 
