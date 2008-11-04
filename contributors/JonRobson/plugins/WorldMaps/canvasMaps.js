@@ -24,9 +24,10 @@ Array.prototype.indexOf = function(item,from)
 
 
 var EasyMap = function(divID){
-	
+
 	var wrapper = document.getElementById(divID);
 	this.wrapper = wrapper;
+
 	wrapper.style.position = "relative";
 	var img = document.createElement('img');
 	img.src='spacer.gif';
@@ -35,6 +36,8 @@ var EasyMap = function(divID){
 	img.style.top = 0;
 	img.style.border = 0;
 	img.style.position = "absolute";
+	
+	this.controls = {};
 	var canvas = document.createElement('canvas');
 	
 	canvas.width = parseInt(wrapper.style.width);
@@ -100,7 +103,18 @@ var EasyMap = function(divID){
 };
 
 EasyMap.prototype = {
-
+	pan: function(x,y){ //relative to centre
+		
+		this.translate.x += x;
+		this.translate.y += y;
+		this.redraw();
+	},
+	
+	zoom: function(scaleX,scaleY){
+		this.scale.x += scaleX;
+		this.scale.y += scaleY;
+		this.redraw();
+	},
 	
 	transform: function(shape){
 
@@ -202,12 +216,12 @@ EasyMap.prototype = {
 		}
 		
 	},
-	clear: function(clearmem){
+	clear: function(){
 		this.memory = [];
 
 		this._maxX = 0;
 		this._maxY = 0;
-		if(this.canvasDrawingEnabled)this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+		this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 		var m = this.imageMap;
 		if (m.hasChildNodes() )
 		{
