@@ -13,7 +13,7 @@
 !!v0.2 (2008-10-23)
 * initial release
 !To Do
-* store user info in a tiddler
+* store workspaces
 * support for timelines (user, public, replies) - to be implemented as "magic" workspaces?
 !Code
 ***/
@@ -24,7 +24,8 @@ TwitterAdaptor.prototype = new AdaptorBase();
 TwitterAdaptor.mimeType = "application/json";
 TwitterAdaptor.serverType = "twitter";
 TwitterAdaptor.serverLabel = "Twitter";
-TwitterAdaptor.defaultTags = ["tweets"];
+TwitterAdaptor.tweetTags = ["tweets"];
+TwitterAdaptor.userTags = ["users"];
 
 TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) { // TODO: workspace == user/home/replies/DMs
 	context = this.setContext(context, userParams, callback);
@@ -52,10 +53,26 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 	context.httpStatus = xhr.status;
 	if(status) {
 		context.tiddlers = [];
+		var users = {};
 		eval("var tweets = " + responseText); // evaluate JSON response
 		for(var i = 0; i < tweets.length; i++) {
 			var tiddler = TwitterAdaptor.parseTweet(tweets[i]);
 			context.tiddlers.push(tiddler);
+			if(context.fetchUsers) {
+				var user = tweets[i].user;
+				user.updated = TwitterAdaptor.convertTimestamp(tweets[i].created_at);
+				if(!(users[user.id] && user.updated > users[user.id].modified)) {
+					users[user.id] = TwitterAdaptor.parseUser(user);
+					users[user.id].fields = {
+						"server.type": TwitterAdaptor.serverType,
+						"server.host": AdaptorBase.minHostName(context.host),
+						"server.workspace": "users"
+					};
+				}
+			}
+		}
+		for(user in users) { // XXX: should be for each, but JSLint complains
+			context.tiddlers.push(users[user]);
 		}
 	}
 	if(context.callback) {
@@ -68,14 +85,15 @@ TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callb
 	context.title = title;
 	var fields = {
 		"server.type": TwitterAdaptor.serverType,
-		"server.host": AdaptorBase.minHostName(context.host)
+		"server.host": AdaptorBase.minHostName(context.host),
+		"server.workspace": context.workspace
 	};
 	// reuse previously-requested tiddlers
 	if(context.tiddler) {
-		context.tiddler.fields = merge(context.tiddler.fields, fields);
+		context.tiddler.fields = merge(context.tiddler.fields, fields, true);
 	}
 	// do not re-request non-truncated tweets
-	if(context.tiddler && context.tiddler.fields.truncated === false) {
+	if(context.tiddler && (context.tiddler.fields.truncated === false || context.tiddler.tags == TwitterAdaptor.userTags)) {
 		context.status = true;
 		window.setTimeout(function() { callback(context, context.userParams); }, 0);
 		return true;
@@ -100,7 +118,7 @@ TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri,
 	if(status) {
 		eval("var tweet = " + responseText); // evaluate JSON response
 		var tiddler = TwitterAdaptor.parseTweet(tweet);
-		tiddler.fields = merge(context.tiddler.fields, tiddler.fields);
+		tiddler.fields = merge(context.tiddler.fields, tiddler.fields, true);
 		context.tiddler = tiddler;
 	}
 	if(context.callback) {
@@ -141,17 +159,38 @@ TwitterAdaptor.parseTweet = function(tweet) {
 	var tiddler = new Tiddler(tweet.id.toString());
 	tiddler.created = TwitterAdaptor.convertTimestamp(tweet.created_at);
 	tiddler.modified = tiddler.created;
-	tiddler.modifier = tweet.user.screen_name;
-	tiddler.tags = TwitterAdaptor.defaultTags;
+	tiddler.modifier = tweet.user.id;
+	tiddler.tags = TwitterAdaptor.tweetTags;
 	tiddler.fields = {
-		source: tweet.source, // TODO: strip markup
+		source: tweet.source, // TODO: split into appName and appURI
 		truncated: tweet.truncated,
 		favorited: tweet.favorited,
 		context: tweet.in_reply_to_status_id,
-		username: tweet.user.name,
-		usernick: tweet.user.screen_name // TODO: rename -- XXX: obsolete due to separate user info?
+		user: tweet.user.id,
+		username: tweet.user.name, // XXX: obsolete due to separate user info?
+		usernick: tweet.user.screen_name // TODO: rename --  XXX: obsolete due to separate user info?
 	};
 	tiddler.text = decodeHTMLEntities(tweet.text);
+	return tiddler;
+};
+
+// convert user to tiddler object
+TwitterAdaptor.parseUser = function(user) {
+	var tiddler = new Tiddler(user.id.toString()); // XXX: use user.screen_name?
+	tiddler.created = user.updated; // XXX: not quite correct (updated vs. created)
+	tiddler.modified = tiddler.created;
+	tiddler.modifier = user.id.toString();
+	tiddler.tags = TwitterAdaptor.userTags;
+	var slice = "|''%0''|%1|\n";
+	tiddler.text = slice.format(["ID", user.id]) +
+		slice.format(["ScreenName", user.screen_name]) +
+		slice.format(["FullName", user.name]) +
+		slice.format(["URL", user.url]) +
+		slice.format(["Icon", user.profile_image_url]) +
+		slice.format(["Bio", user.description]) +
+		slice.format(["Location", user.location]) +
+		slice.format(["Followers", user.followers_count]) +
+		slice.format(["Protected", user.protected]);
 	return tiddler;
 };
 
