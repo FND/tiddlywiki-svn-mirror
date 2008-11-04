@@ -8,25 +8,18 @@ jq('div.story').click(function(ev){
 
 	if( target.is('a.tiddlerLink') ) {
 		// tiddlerlink button clicks
-		
 		ev.preventDefault();
 		jw.log('tiddlerLink clicked', target.text());
-	
+
 	} else if( target.is('a.command') ) {
 		// Command link clicks
-		
 		ev.preventDefault();
-		var tiddler = target.parents('div.hentry');
-		var command = target.attr('class').replace('command ','');
-		
-		//var opts = {macro:command,tiddler:tiddler};
-		//$(this).jw_invokeMacro(opts);
-
-
-		jw.log('command clicked', tiddler, command);
-	
+		var opts = {};
+		opts.tiddler = target.parents('div.hentry');
+		opts.macro = "jw_controls_" + target.attr('class').replace('command ','');
+		jq(this).jw_invokeMacro(opts);
+		jw.log('command clicked', opts.macro, opts.tiddler);
 	}
-	
 });
 
 
@@ -41,3 +34,7 @@ jq('div.story').dblclick(function(ev){
 	}
 	
 });
+
+
+// Custom event handlers:
+//
