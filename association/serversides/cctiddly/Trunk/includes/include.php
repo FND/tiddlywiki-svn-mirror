@@ -5,19 +5,17 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
        tiddler_outputOffline();
 else {
 		// Modules code : Will be used in v 1.8 - Simon McManus
-		foreach ($modulesLoader->plugins as $plugin)
+		foreach ($pluginsLoader->plugins as $plugin)
 		{
-			if(is_file($cct_base."modules/".$plugin))
-				include_once($cct_base."modules/".$plugin);	
+			if(is_file($cct_base."plugins/".$plugin))
+				include_once($cct_base."plugins/".$plugin);	
 		}
-		if($modulesLoader->events['outputTiddlers']) 
+		if($pluginsLoader->events['outputTiddlers']) 
 		{
-			foreach ($modulesLoader->events['outputTiddlers'] as $event)
+			foreach ($pluginsLoader->events['outputTiddlers'] as $event)
 			{
-
-				echo "sssss2".$cct_base."modules/".$event;
-				if(is_file("modules/".$event)) {
-					include_once("modules/".$event);
+				if(is_file("plugins/".$event)) {
+					include_once("plugins/".$event);
 				}	
 			}
 		}
@@ -66,7 +64,7 @@ config.backstageTasks.remove("upgrade");
 	
 	
 	
-	
+config.macros.ccLogin={};
 config.macros.ccLogin.handler = function() {
 	
 };
@@ -96,7 +94,7 @@ To update your changes please log into ccTiddly in a seperate window and then pr
 
 <div title="sync" tags='wizard'>
 <pre>
-&lt;&lt;sync&gt;&gt;
+&lt;&lt;sync>>
 </pre>
 </div>
 <?php

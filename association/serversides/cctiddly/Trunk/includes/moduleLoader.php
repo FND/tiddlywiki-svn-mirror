@@ -1,5 +1,5 @@
 <?php
-class ModulesLoader {
+class PluginsLoader {
 	public $events;
 	public $plugins;
 	public $tidddlers;
@@ -32,9 +32,9 @@ class ModulesLoader {
 		array_push($this->msgHandlers,$msgHandler);
 	}
 	
-	public function readModules($cct_base){
-		$dir = $cct_base."modules/";
-		include("modules.php");
+	public function readPlugins($cct_base){
+		$dir = $cct_base."plugins/";
+		include("plugins.php");
 		// Open a known directory, and proceed to read its contents
 		if (is_dir($dir)) {
 		    if ($dh = opendir($dir)) {
@@ -42,10 +42,10 @@ class ModulesLoader {
 					if( is_dir($dir.$file))
 					{
 						// check for index.php and remove the ..
-					 	$modulePath = $dir.$file."/index.php";
-						if (is_file($modulePath) && $file!=='..')
+					 	$pluginPath = $dir.$file."/index.php";
+						if (is_file($pluginPath) && $file!=='..')
 						{
-							include($modulePath);
+							include($pluginPath);
 						}
 					}
 		    	}
@@ -54,18 +54,18 @@ class ModulesLoader {
 		}
 	}
 	
-	public function runModules(){
-		global $Modules;
-		foreach ($Modules as $module)
+	public function runPlugins(){
+		global $Plugins;
+		foreach ($plugins as $plugin)
 		{
-			$module->run();
+			$plugin->run();
 		}		
 	}
 }
 
-global $modulesLoader;
-$modulesLoader = new ModulesLoader();
-$modulesLoader->readModules($cct_base);
+global $pluginsLoader;
+$pluginsLoader = new PluginsLoader();
+$pluginsLoader->readPlugins($cct_base);
 //this needs to make sure plugins and events are loaded by ccT
-$modulesLoader->runModules();
+$pluginsLoader->runPlugins();
 ?>

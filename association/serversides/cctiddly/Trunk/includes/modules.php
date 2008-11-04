@@ -1,6 +1,6 @@
 <?php
-global $Modules;
-$Modules = array();
+global $Plugins;
+$Plugins = array();
 class Module {
       private $plugins;
       private $phpEvents;
@@ -8,7 +8,7 @@ class Module {
 	  private $msgHandler;
 	      
       public function __construct($author, $version, $website) {
-      		global $Modules;
+      		global $Plugins;
           $this->author = $author;
           $this->version = $version;
           $this->website = $website;
@@ -16,12 +16,12 @@ class Module {
           $this->phpEvents = array();
 		  $this->tiddlers = array();
 		  $this->msgHandler = array();
-		  array_push($Modules,$this);
+		  array_push($Plugins,$this);
       }
     
  // Specified relative to the module folder, these javascripts will be directly included at the end of the whole wiki // 
       public function addPlugin($script) {
-	          array_push($this->plugins, $script);
+	          array_push($this->plugins, $script);$plugins
       }
 
 
@@ -38,17 +38,17 @@ class Module {
       
       public function run() {
           // DO INIT SCRIPTS, JSs and MACROS // 
-        global $modulesLoader;  
+        global $pluginsLoader;  
 		foreach ($this->plugins as $plugin) {
-              $modulesLoader->addPlugin($plugin);
+              $pluginsLoader->addPlugin($plugin);
         }
           foreach ($this->phpEvents as $eventnames=>$eventArray) {
 				//print_r($eventnames);
 			foreach ($eventArray as $event)
-              $modulesLoader->addEvent($eventnames,$event);
+              $pluginsLoader->addEvent($eventnames,$event);
          }
 	   foreach ($this->tiddlers as $event) {
-              $modulesLoader->addTiddler($event);
+              $pluginsLoader->addTiddler($event);
        }
       }
       
