@@ -68,7 +68,14 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 	
 		eMap.clickHandler = function(e,shape){
 			var tiddlerElem = story.findContainingTiddler(e.target);
-			story.displayTiddler(tiddlerElem,shape.tooltip);
+			var country = shape.tooltip;
+			if(!store.tiddlerExists(country)) {
+				var tags = "country";
+				var text = "We don't have any information about this country yet! Please edit to add some or leave a comment.";
+				var userName = config.options.txtUserName ? config.options.txtUserName : "guest";
+				store.saveTiddler(country,country,text,userName,new Date(),tags);
+			}
+			story.displayTiddler(tiddlerElem,country);
 		};
 		
 		eMap.drawFromGeojsonFile('http://www.osmosoft.com/ILGA/demos/whereLegal.json');
