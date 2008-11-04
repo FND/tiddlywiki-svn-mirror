@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.7|
+|''Version:''|0.5.8|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -1428,7 +1428,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 	var i = lineEnd(w);
 	if(i>w.nextMatch) {
 //#console.log('attribs');
-		MediaWikiFormatter.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
+		MediaWikiFormatter.setAttributesFromParams(table.parentNode,w.source.substring(w.nextMatch,i));
 		w.nextMatch = i;
 	}
 	w.nextMatch++;
@@ -1452,7 +1452,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 		//if(i==-1)
 		//	break;
 		if(i>w.nextMatch) {
-			MediaWikiFormatter.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
+			MediaWikiFormatter.setAttributesFromParams(tr,w.source.substring(w.nextMatch,i));
 			w.nextMatch = i;
 		}
 		w.nextMatch++;
@@ -1477,7 +1477,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 			if(i==-1)
 				break;
 			if(i>w.nextMatch) {
-				MediaWikiFormatter.setAttributesFromParams(table,w.source.substring(w.nextMatch,i));
+				MediaWikiFormatter.setAttributesFromParams(tr,w.source.substring(w.nextMatch,i));
 				w.nextMatch = i;
 			}
 			w.nextMatch++;
