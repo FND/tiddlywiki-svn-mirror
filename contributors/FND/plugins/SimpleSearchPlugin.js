@@ -62,55 +62,55 @@ config.extensions.SimpleSearchPlugin = {
 		} else {
 			msg += "''" + config.macros.search.failureMsg.format([query]) + "''"; // XXX: do not use bold here!?
 		}
-		createTiddlyButton(el, this.btnCloseLabel, this.btnCloseTooltip, version.extensions.SimpleSearchPlugin.closeResults, "button", this.btnCloseId);
+		createTiddlyButton(el, this.btnCloseLabel, this.btnCloseTooltip, config.extensions.SimpleSearchPlugin.closeResults, "button", this.btnCloseId);
 		wikify(msg, el);
 		if(matches.length > 0) { // XXX: redundant!?
-			createTiddlyButton(el, this.btnOpenLabel, this.btnOpenTooltip, version.extensions.SimpleSearchPlugin.openAll, "button", this.btnOpenId);
+			createTiddlyButton(el, this.btnOpenLabel, this.btnOpenTooltip, config.extensions.SimpleSearchPlugin.openAll, "button", this.btnOpenId);
 		}
 	},
 
 	closeResults: function() {
-		var el = document.getElementById(version.extensions.SimpleSearchPlugin.containerId);
+		var el = document.getElementById(config.extensions.SimpleSearchPlugin.containerId);
 		removeNode(el);
-		version.extensions.SimpleSearchPlugin.results = null;
+		config.extensions.SimpleSearchPlugin.results = null;
 		highlightHack = null;
 	},
 
 	openAll: function(ev) {
-		story.displayTiddlers(null, version.extensions.SimpleSearchPlugin.results);
+		story.displayTiddlers(null, config.extensions.SimpleSearchPlugin.results);
 		return false;
 	}
 };
 
 config.shadowTiddlers.StyleSheetSimpleSearch = "/*{{{*/\n" +
-	"#" + version.extensions.SimpleSearchPlugin.containerId + " {\n" +
+	"#" + config.extensions.SimpleSearchPlugin.containerId + " {\n" +
 	"\toverflow: auto;\n" +
 	"\tpadding: 5px 1em 10px;\n" +
 	"\tbackground-color: [[ColorPalette::TertiaryPale]];\n" +
 	"}\n\n" +
-	"#" + version.extensions.SimpleSearchPlugin.containerId + " h1 {\n" +
+	"#" + config.extensions.SimpleSearchPlugin.containerId + " h1 {\n" +
 	"\tmargin-top: 0;\n" +
 	"\tborder: none;\n" +
 	"}\n\n" +
-	"#" + version.extensions.SimpleSearchPlugin.containerId + " ul {\n" +
+	"#" + config.extensions.SimpleSearchPlugin.containerId + " ul {\n" +
 	"\tmargin: 0.5em;\n" +
 	"\tpadding-left: 1.5em;\n" +
 	"}\n\n" +
-	"#" + version.extensions.SimpleSearchPlugin.containerId + " .button {\n" +
+	"#" + config.extensions.SimpleSearchPlugin.containerId + " .button {\n" +
 	"\tdisplay: block;\n" +
 	"\tborder-color: [[ColorPalette::TertiaryDark]];\n" +
 	"\tpadding: 5px;\n" +
 	"\tbackground-color: [[ColorPalette::TertiaryLight]];\n" +
 	"}\n\n" +
-	"#" + version.extensions.SimpleSearchPlugin.containerId + " .button:hover {\n" +
+	"#" + config.extensions.SimpleSearchPlugin.containerId + " .button:hover {\n" +
 	"\tborder-color: [[ColorPalette::SecondaryMid]];\n" +
 	"\tbackground-color: [[ColorPalette::SecondaryLight]];\n" +
 	"}\n\n" +
-	"#" + version.extensions.SimpleSearchPlugin.btnCloseId + " {\n" +
+	"#" + config.extensions.SimpleSearchPlugin.btnCloseId + " {\n" +
 	"\tfloat: right;\n" +
 	"\tmargin: -5px -1em 5px 5px;\n" +
 	"}\n\n" +
-	"#" + version.extensions.SimpleSearchPlugin.btnOpenId + " {\n" +
+	"#" + config.extensions.SimpleSearchPlugin.btnOpenId + " {\n" +
 	"\tfloat: left;\n" +
 	"\tmargin-top: 5px;\n" +
 	"}\n" +
@@ -122,7 +122,7 @@ Story.prototype.search = function(text, useCaseSensitive, useRegExp) {
 	highlightHack = new RegExp(useRegExp ? text : text.escapeRegExp(), useCaseSensitive ? "mg" : "img");
 	var matches = store.search(highlightHack, null, "excludeSearch");
 	var q = useRegExp ? "/" : "'";
-	version.extensions.SimpleSearchPlugin.displayResults(matches, q + text + q);
+	config.extensions.SimpleSearchPlugin.displayResults(matches, q + text + q);
 };
 
 // override TiddlyWiki.search() to sort by relevance
