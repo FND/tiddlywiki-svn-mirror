@@ -2,7 +2,7 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: plugins/split.recipe
 recipe: shadows/split.recipe
 recipe: tiddlers/split.recipe
-tiddler: ../../../../contributors/FND/plugins/DynamicImageMacro.js tags="systemConfig pluginLibrary"
-tiddler: ../../../../contributors/FND/plugins/ViewSlicesPlugin.js tags="systemConfig pluginLibrary"
-tiddler: ../../../../contributors/FND/plugins/HTTPThrottlingPlugin.js tags="systemConfig pluginLibrary"
-tiddler: ../../../serversides/tiddlyweb/client/plugins/TiddlyWebAdaptorPlugin.js tags="systemConfig pluginLibrary"
+tiddler: ../../../../contributors/FND/plugins/DynamicImageMacro.js tags+="pluginLibrary"
+tiddler: ../../../../contributors/FND/plugins/ViewSlicesPlugin.js tags+="pluginLibrary"
+tiddler: ../../../../contributors/FND/plugins/HTTPThrottlingPlugin.js tags+="pluginLibrary"
+tiddler: ../../../serversides/tiddlyweb/client/plugins/TiddlyWebAdaptorPlugin.js tags+="pluginLibrary"
