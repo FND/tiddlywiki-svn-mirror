@@ -5,7 +5,7 @@ $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "cctiddly_agilecookbook_DISASTERREC";		//db name
+$tiddlyCfg['db']['name'] = "1";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 $tiddlyCfg['adminPassword'] = "";
