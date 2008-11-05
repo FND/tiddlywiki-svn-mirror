@@ -10,6 +10,7 @@
 
 == Front-End ==
 
+* rename directory (and recipe) to "client"
 * plugin origin for missing Source slice
 * move plugins (entire UI vertical?) to generic directory
 * search:

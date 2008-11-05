@@ -195,27 +195,5 @@ Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem) {
 	return config.messages.loadingMissingTiddler.format([title,context.serverType,context.host,context.workspace]);
 };
 
-// hijack httpReq to throttle simultaneous XHRs -- TODO: move to separate plugin; use HttpManagerPlugin (employs actual queueing)
-config.options.XHRCount = 0; // XXX: namespace abuse
-config.options.txtXHRThrottleDelay = 1000;
-config.options.txtXHRThrottleAmount = 5;
-var httpReq_orig = httpReq;
-httpReq = function(type, url, callback, params, headers, data, contentType, username, password, allowCache) {
-	if(config.options.XHRCount >= config.options.txtXHRThrottleAmount) {
-		var defer = function() {
-			return httpReq(type, url, callback, params, headers, data, contentType, username, password, allowCache);
-		};
-		setTimeout(defer, config.options.txtXHRThrottleDelay);
-	} else {
-		config.options.XHRCount++;
-		var callbackWrapper = function(status, params, responseText, url, x) {
-			config.options.XHRCount--;
-			return callback(status, params, responseText, url, x);
-		};
-		var args = [type, url, callbackWrapper, params, headers, data, contentType, username, password, allowCache];
-		return httpReq_orig.apply(this, args);
-	}
-};
-
 }
 //}}}
