@@ -438,13 +438,21 @@
 		return str_replace("U",$tiddlyCfg['privilege_misc']['undefined_privilege'],$privilege);
 	}
 	
+	function user_isAdminGroup()
+	{
+		global $user;
+		if(in_array("admin", $user['group']))
+			return true;
+		else
+			return false;
+	}
+	
 	//!	@fn string user_readPrivilege($privilege)
 	//!	@brief obtain read privilege from privilege string
 	//!	@param $privilege privilege string
 	function user_readPrivilege($privilege)
 	{
-		global $user;
-		if(in_array("admin", $user['group']))
+		if(user_isAdminGroup())
 			return true;
 		if(strcmp($privilege[0], 'A')==0)
 			return TRUE;
@@ -455,6 +463,8 @@
 	//!	@param $privilege privilege string
 	function user_insertPrivilege($privilege)
 	{
+		if(user_isAdminGroup())
+			return true;
 		if( strcmp($privilege[1], 'A')==0 )
 		{
 			return TRUE;
@@ -466,6 +476,8 @@
 	//!	@param $privilege privilege string
 	function user_editPrivilege($privilege)
 	{
+		if(user_isAdminGroup())
+			return true;
 		if( strcmp($privilege[2], 'A')==0 )
 		{
 			return TRUE;
@@ -477,6 +489,8 @@
 	//!	@param $privilege privilege string
 	function user_deletePrivilege($privilege)
 	{
+		if(user_isAdminGroup())
+			return true;
 		if( strcmp($privilege[3], 'A')==0 )
 		{
 			return TRUE;
