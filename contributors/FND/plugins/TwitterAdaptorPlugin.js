@@ -17,7 +17,7 @@
 !To Do
 * don't use config.options; pass in settings via context
 * parsing of replies, DMs etc.
-* secure password prompt (using PasswordPromptPlugin?)
+* document custom/optional context attributes (page, userID)
 !Code
 ***/
 //{{{
@@ -67,6 +67,7 @@ TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback
 		case "replies": // TODO: require special parsing
 			uriTemplate = "%0/statuses/replies.json?page=%1";
 			uri = uriTemplate.format([context.host, page]);
+			break;
 		case "direct_messages_in":
 			uriTemplate = "%0/direct_messages.json?page=%1";
 			uri = uriTemplate.format([context.host, page]);
@@ -78,7 +79,7 @@ TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback
 		case "friends":
 			if(context.userID) {
 				uriTemplate = "%0/statuses/friends/%1.json?page=%2";
-				uri = uriTemplate.format([context.host, context.userID, page]); // XXX: userID defined where? use tiddler.title?
+				uri = uriTemplate.format([context.host, context.userID, page]);
 				authorizationRequired = false;
 			} else {
 				uriTemplate = "%0/statuses/friends.json?page=%2";
@@ -91,7 +92,7 @@ TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback
 			break;
 		case "users":
 			uriTemplate = "%0/users/show/%1.format";
-			uri = uriTemplate.format([context.host, context.userID]); // XXX: userID defined where? use tiddler.title?
+			uri = uriTemplate.format([context.host, context.userID]);
 			authorizationRequired = false;
 			break;
 		default: // user timeline
@@ -101,10 +102,6 @@ TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback
 			break;
 	}
 	var username, password;
-	if(authorizationRequired) { // TODO
-		username = prompt("username");
-		password = prompt("password");
-	}
 	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerListCallback,
 		context, null, null, { "accept": TwitterAdaptor.mimeType },
 		username, password);
@@ -135,7 +132,7 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 				}
 			}
 		}
-		for(user in users) { // XXX: should be for each, but JSLint complains
+		for(user in users) { // XXX: should be for each, but JSLint doesn't recognize that
 			context.tiddlers.push(users[user]);
 		}
 	}
