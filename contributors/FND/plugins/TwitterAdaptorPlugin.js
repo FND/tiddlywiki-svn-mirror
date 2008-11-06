@@ -53,12 +53,10 @@ TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callba
 TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var page = context.page || 0;
-	var authorizationRequired = true;
 	switch(context.workspace) {
 		case "public":
 			var uriTemplate = "%0/statuses/public_timeline.json";
 			var uri = uriTemplate.format([context.host]);
-			authorizationRequired = false;
 			break;
 		case "with_friends":
 			uriTemplate = "%0/statuses/friends_timeline.json?page=%1";
@@ -80,7 +78,6 @@ TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback
 			if(context.userID) {
 				uriTemplate = "%0/statuses/friends/%1.json?page=%2";
 				uri = uriTemplate.format([context.host, context.userID, page]);
-				authorizationRequired = false;
 			} else {
 				uriTemplate = "%0/statuses/friends.json?page=%2";
 				uri = uriTemplate.format([context.host, page]);
@@ -93,18 +90,14 @@ TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback
 		case "users":
 			uriTemplate = "%0/users/show/%1.format";
 			uri = uriTemplate.format([context.host, context.userID]);
-			authorizationRequired = false;
 			break;
 		default: // user timeline
 			uriTemplate = "%0/statuses/user_timeline/%1.json?page=%2";
 			uri = uriTemplate.format([context.host, context.workspace, page]);
-			authorizationRequired = false;
 			break;
 	}
-	var username, password;
 	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerListCallback,
-		context, null, null, { "accept": TwitterAdaptor.mimeType },
-		username, password);
+		context, null, null, { "accept": TwitterAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
