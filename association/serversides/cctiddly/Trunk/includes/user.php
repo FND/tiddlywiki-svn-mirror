@@ -443,10 +443,11 @@
 	//!	@param $privilege privilege string
 	function user_readPrivilege($privilege)
 	{
-		if( strcmp($privilege[0], 'A')==0 )
-		{
+		global $user;
+		if(in_array("admin", $user['group']))
+			return true;
+		if(strcmp($privilege[0], 'A')==0)
 			return TRUE;
-		}
 		return FALSE;
 	}
 	//!	@fn string user_insertPrivilege($privilege)
@@ -490,7 +491,6 @@
 	function user_tiddlerPrivilegeOfUser($user,$tag="")
 	{
 		global $tiddlyCfg;
-		//	var_dump($user['group']);
 		$privilege = $tiddlyCfg['privilege_misc']['default_privilege'];
 		$privilegeArr = $user['privilege'];
 		$group = $user['group'];
@@ -498,8 +498,6 @@
 		//redefine default privilege
 		foreach($group as $g)
 		{
-			
-		//	echo $g;
 			if( isset($tiddlyCfg['privilege_misc']['group_default_privilege'][$g]) )
 			{
 				$privilege = user_mergePrivilege($privilege,$tiddlyCfg['privilege_misc']['group_default_privilege'][$g]);

@@ -32,9 +32,6 @@ if(@mysql_num_rows(mysql_query("SELECT * FROM instance_history where version='1.
 	echo "If you do not have access to the server and this error message persists then please contact your system administrator.";
 	exit;
 }
-
-
-
 recordTime_float("includes");
 
 //RSS
@@ -48,6 +45,7 @@ if( strcmp($cctAction,"RSS")==0 )
 if( isset($_GET['title']) )
 {
 	$tiddlers = getAllVersionTiddly($title);
+	
 	$t = array();
 	foreach( $tiddlers as $tid )
 	{
