@@ -155,7 +155,7 @@
 					$ext = substr($file, strrpos($file, '.') + 1); 
 					if ($ext == "js")			
 						echo tiddler_outputJsFile($dir."/".$file, $cct_base);
-		    		else if ($ext == "tiddler")
+					 		else if ($ext == "tiddler")
 						echo tiddler_outputTiddlerFile($dir."/".$file, $cct_base);
 		    	}
 		        closedir($dh);
@@ -188,7 +188,10 @@
 			$file_parts=explode("/", $file);
 			$tiddler_name = str_replace('.js', '', $file_parts[count($file_parts)-1]);
 			$file = file_get_contents($cct_base.$file);
-			return  "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch ccTiddly\">\n<pre>".htmlspecialchars($file)."</pre>\n</div>\n";
+			if($file)
+				return  "<div title=\"".$tiddler_name."\" modifier=\"ccTiddly\" tags=\"systemConfig excludeLists excludeSearch ccTiddly\">\n<pre>".htmlspecialchars($file)."</pre>\n</div>\n";
+			else
+				return false;
 	}
 	
 	function tiddler_outputTiddlerFile($file, $cct_base)
