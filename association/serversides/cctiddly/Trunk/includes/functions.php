@@ -176,8 +176,6 @@ function getAllTiddlers($user_remove="", $search="")
 	global $tiddlyCfg;
 	global $user;
 	
-
-	
 	//get all data from db
 	db_connect();
 	if ($search != "")
