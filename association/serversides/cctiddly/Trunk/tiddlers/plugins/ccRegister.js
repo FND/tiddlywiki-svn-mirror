@@ -4,16 +4,15 @@
 |''Name''|ccRegister|
 |''Description''|Allows users to register for ccTiddly, reqired ccLogin|
 |''Author''|[[Simon McManus|http://simonmcmanus.com]] |
-|''Version''|1.0.1|
 |''Date''|12/05/2008|
 |''Status''|@@alpha@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccRegister.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccRegister.js|
-|''License''|BSD|
 |''Requires''|ccVariables|
 |''Overrides''|restart|
 |''Feedback''|http://groups.google.com/group/ccTiddly|
 |''Keywords''|ccTiddly ccLogin|
+|''Version''|0.1|
 
 !Description
 Allows users to register for ccTiddly, reqired ccLogin

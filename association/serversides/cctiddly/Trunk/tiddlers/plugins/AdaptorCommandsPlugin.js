@@ -1,15 +1,15 @@
 /***
 |''Name:''|AdaptorCommandsPlugin|
 |''Description:''|Commands to access hosted TiddlyWiki data|
-|''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
-|''OriginalCodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
+|''Author:''|Martin Budden and Simon McManus|
+|''Source:''| http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/tiddlers/plugins/AdaptorCommandsPlugin.js |
+|''OriginalCodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/tiddlers/plugins/AdaptorCommandsPlugin.js|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/tiddlers/plugins/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.11|
-|''Date:''|Aug 23, 2007|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''Comments:''|Please make comments at http://groups.google.com/group/ccTiddly|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.2.0|
+|''Date:''|Nov 6, 2008|
+|''Version:''|0.1|
 ***/
 
 //{{{

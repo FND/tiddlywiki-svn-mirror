@@ -1,3 +1,4 @@
+
 /***
 |''Name''|ccAbout|
 |''Description''|The ccAbout macro lets you find the current version number in ccTiddly|
@@ -11,6 +12,11 @@
 |''License''|BSD|
 |''Feedback''|http://groups.google.com/group/ccTiddly|
 |''Keywords''|ccTiddly ccAbout|
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
+|''~CoreVersion:''|2.2.0|
+|''Date:''|Nov 6, 2008|
+|''Version:''|0.1|
+
 
 !Usage
 {{{

@@ -5,9 +5,12 @@
 |''Date:''|mar 17, 2007|
 |''Source:''|http://tiddlywiki.bidix.info/#LoadRemoteFileHijack|
 |''Author:''|BidiX (BidiX (at) bidix (dot) info)|
-|''License:''|[[BSD open source license|http://tiddlywiki.bidix.info/#%5B%5BBSD%20open%20source%20license%5D%5D ]]|
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.2.0|
+|''Date:''|Nov 6, 2008|
+|''Version:''|0.1|
 ***/
+
 //{{{
 	
 version.extensions.LoadRemoteFileThroughProxy={

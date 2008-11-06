@@ -9,11 +9,14 @@
 |''Status''|@@alpha@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccLogin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/ccPlugins/ccLogin.js|
-|''License''|BSD|
 |''Requires''|ccVariables|
 |''Overrides''|restart|
 |''Feedback''|http://groups.google.com/group/ccTiddly|
 |''Keywords''|ccTiddly ccLogin|
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
+|''~CoreVersion:''|2.2.0|
+|''Date:''|Nov 6, 2008|
+|''Version:''|0.1|
 
 !Description
 

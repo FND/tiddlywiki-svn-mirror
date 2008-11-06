@@ -8,8 +8,10 @@
 |''Status:''|Under Development|
 |''Date:''|Mar 25, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
-|''License:''||
-|''~CoreVersion:''||
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
+|''~CoreVersion:''|2.2.0|
+|''Date:''|Nov 6, 2008|
+|''Version:''|0.1|
 ***/
 
 //{{{
