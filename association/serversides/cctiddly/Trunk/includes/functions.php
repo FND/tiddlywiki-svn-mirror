@@ -391,6 +391,16 @@ function getTiddlersWithTags($yesTags,$noTags)
 	{
 		return date('YmdHi', $timestamp); 
 	}
+	function TiddlyTimeToEpoch($TiddlyTime)
+	{
+		echo $y = substr($TiddlyTime, 0, 4); 
+		echo $m = substr($TiddlyTime, 4, 2); 
+		echo $d = substr($TiddlyTime, 6, 2); 
+		echo $h = substr($TiddlyTime, 8, 2);
+		echo $min = substr($TiddlyTime, 10, 2);
+		return mktime($h, $min, $s, $m, $d, $y);
+
+	}
 
 //////////////////////////////////////////////////////// cookie related////////////////////////////////////////////////////////
 	//!	@fn cookie_set($k,$v)
