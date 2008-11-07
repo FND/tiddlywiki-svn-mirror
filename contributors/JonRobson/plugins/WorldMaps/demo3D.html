@@ -71,16 +71,16 @@ function init(){
 
 	};
 	eMap.mousemoveHandler = function(e){
-			var shape =eMap.getShapeAtClick(e);
+			//var shape =eMap.getShapeAtClick(e);
 			
-			if(shape)
-			document.getElementById('time').innerHTML ="long: " + shape.longitudes + " lat:" + shape.latitudes;			
+	//		if(shape)
+	//		document.getElementById('time').innerHTML ="long: " + shape.longitudes + " lat:" + shape.latitudes;			
 	};
 
 	eMap.clickHandler = function(e){
 
 		var s = eMap.getShapeAtClick(e);
-
+		console.log(s);
 		
 		if(s)
 			alert(s.tooltip);
@@ -91,10 +91,9 @@ function init(){
 	
 	var spin = function() {
 			eMap.spin(0.01,0,0);
-			window.setTimeout(spin,100);
+			window.setTimeout(spin,500);
 		}
-		spin();
-
+		//spin();
 }
 
 </script>

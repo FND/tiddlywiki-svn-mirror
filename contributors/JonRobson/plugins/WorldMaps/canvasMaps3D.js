@@ -65,7 +65,7 @@ var EasyMap = function(divID,imageURL){
 	this.translate = {'x':0, 'y':0};
 	this.rotate = {'x': 0, 'y':1.6, 'z':0};
 	this.spherical = true;
-	this.radius = 50;
+	this.radius = 100;
 
 	this.memory = [];
 	
@@ -85,7 +85,8 @@ EasyMap.prototype = {
 		var boundingRect = this.canvas.getBoundingClientRect();
 		x = e.clientX - boundingRect.left;
 		y = e.clientY - boundingRect.top;
-		return this.getShapeAt(x,y);
+		var shape = this.getShapeAt(x,y);
+		return shape;
 	},
 	
 	getShapeAt: function(x,y) {
@@ -119,40 +120,43 @@ EasyMap.prototype = {
 	/* _inPoly adapted from inpoly.c
 	Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
 	http://www.visibone.com/inpoly/inpoly.c.txt */                        
-	_inPoly: function(x,y,poly)
-	{
-		var npoints = poly.length;
-		if (npoints/2 < 3) {
-			//points don't describe a polygon
-			return false;
-		}
-		var inside = false;
-		var xold = poly[npoints-2];
-		var yold = poly[npoints-1];
-		var x1,x2,y1,y2,xnew,ynew;
-		for (var i=0; i<npoints; i+2) {
-			xnew=poly[i];
-			ynew=poly[i+1];
-			if (xnew > xold) {
-				x1=xold;
-				x2=xnew;
-				y1=yold;
-				y2=ynew;
-			} else {
-				x1=xnew;
-				x2=xold;
-				y1=ynew;
-				y2=yold;
+	/* _inPoly adapted from inpoly.c
+		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
+		http://www.visibone.com/inpoly/inpoly.c.txt */                        
+		_inPoly: function(x,y,poly) {
+			var coords = poly.transformedCoords;
+			var npoints = coords.length;
+			if (npoints/2 < 3) {
+				//points don't describe a polygon
+				return false;
 			}
-			if ((xnew < x) == (x <= xold)
-				&& (y-y1)*(x2-x1) < (y2-y1)*(x-x1)) {
-				   inside=!inside;
+			var inside = false;
+			var xold = coords[npoints-2];
+			var yold = coords[npoints-1];
+			var x1,x2,y1,y2,xnew,ynew;
+			for (var i=0; i<npoints; i+=2) {
+				xnew=coords[i];
+				ynew=coords[i+1];
+				if (xnew > xold) {
+					x1=xold;
+					x2=xnew;
+					y1=yold;
+					y2=ynew;
+				} else {
+					x1=xnew;
+					x2=xold;
+					y1=ynew;
+					y2=yold;
 				}
-			xold=xnew;
-			yold=ynew;
-		 }
-		 return(inside);
-	},
+				if ((xnew < x) == (x <= xold)
+					&& (y-y1)*(x2-x1) < (y2-y1)*(x-x1)) {
+					   inside=!inside;
+					}
+				xold=xnew;
+				yold=ynew;
+			 }
+			 return inside;
+		},
 	
 	addControl: function(controlType) {
 		var controlDiv = this.wrapper.controlDiv;
@@ -598,30 +602,19 @@ EasyShape.prototype={
 
 	},	
 
-
-	_getLongLat: function(x,y){
-		var ll = {};
-		ll.latitude = Math.PI * (x / 180);
-		ll.longitude = Math.PI * (y/ 180);
-		return ll; 
+	// convert degrees to radians
+	_convertDegToRad: function(deg){
+		return Math.PI * (deg / 180);
 	},
 	_spherify: function(x,y,radians,radius){//http://board.flashkit.com/board/archive/index.php/t-666832.html
 		var res = {};
-		
-		// convert lat/long( to radians
-
 
 		
-		y += (radians.y * 10);
-
+		var latitude = this._convertDegToRad(x);
+		var longitude = this._convertDegToRad(y);
 		
-		ll =this._getLongLat(x,y);
-		latitude = ll.latitude;
-		longitude = ll.longitude;
-
-
-
- 		latitude += 1.6; //rotate 90 degrees
+		//rotate 90 degrees
+ 		latitude += Math.PI/2;
  		
 		latitude += radians.x;
 		
@@ -636,7 +629,7 @@ EasyShape.prototype={
 			yPos = (radius) * Math.cos(latitude);
 			//yPos = (radius) * Math.cos(latitude) * Math.sin(longitude);
 			
-			ll = this._getLongLat(xPos,yPos);
+			//ll = this._convertDegToRad(xPos,yPos);
 			
 			//if(xPos < x) {xPos=0;yPos = 0;}
 			
@@ -648,11 +641,10 @@ EasyShape.prototype={
 			
 			//if(x  >xPos) res.ok =false; 
 			//else res.ok = true;
-			res.longitude = ll.longitude;
-			res.latitude = ll.latitude;
-			
-	
-			
+			//res.longitude = ll.longitude;
+			//res.latitude = ll.latitude;
+			res.longitude = longitude;
+			res.latitude = latitude;
 
 		return res;
 	},
