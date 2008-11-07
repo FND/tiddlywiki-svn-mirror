@@ -52,128 +52,108 @@ var EasyMap = function(divID,imageURL){
 	canvas.id = divID + "_canvas";
 	canvas.style["z-index"] = -1;
 	wrapper.appendChild(canvas);
-	this.canvas = document.getElementById(canvas.id);
+	this.canvas = canvas;
 
 	this.drawOnDemand = false;
-	if(!this.canvas.getContext){
+	if(!canvas.getContext){
 		this.drawOnDemand = true;
 		G_vmlCanvasManager.init_(document); //ie hack	
 	}
-	this.ctx = this.canvas.getContext('2d');
+	this.ctx = canvas.getContext('2d');
 
 	this.scale = {'x':1, 'y':1};
 	this.translate = {'x':0, 'y':0};
 	this.rotate = {'x': 0, 'y':0, 'z':1.6};
-	this.spherical =true;
+	this.spherical = true;
 	this.radius = 50;
 
 	this.memory = [];
 	
-	this.oldcolor;
-	this.oldstrokecolor;
+	this.oldcolor = null;
+	this.oldstrokecolor = null;
 
-	this.myElement = document.getElementById('myDomElement');
-	var that = this;
-	this.utils = new EasyMapUtils();
-
-	
-
-	
+	//this.myElement = document.getElementById('myDomElement'); ??
+	this.utils = EasyMapUtils;
 };
 
 EasyMap.prototype = {
 
-	getLongLatAt: function(e,x,y){
-		var res = {};
-		var m = this.utils.getMouseXY(e,this.canvas);
-		
-		//reverse any transformations
-		m.x -= this.translate.x;
-		m.y -= this.translate.y;
-		
-		res.latitude = Math.PI * (m.x / 180);
-		res.longitude = Math.PI * (m.y/ 180);
-	return	res;
-	},
-	getShapeAt: function(e,x,y){
-		
-
-
-		if(!x && !y){
-			var m = this.utils.getMouseXY(e,this.canvas);
-			x = m.x;
-			y = m.y;
+	getShapeAtClick: function(e){
+		if(!e) {
+			e = window.event;
 		}
-
-		var hits = [];
+		var boundingRect = this.canvas.getBoundingClientRect();
+		x = e.clientX - boundingRect.left;
+		y = e.clientY - boundingRect.top;
+		return this.getShapeAt(x,y);
+	},
+	
+	getShapeAt: function(x,y) {
+		var hitShapes = [];
 		for(var i=0; i < this.memory.length; i++){
-			var g =this.memory[i].grid;
+			var g = this.memory[i].grid;
 			if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
-				hits.push(this.memory[i]);
+				hitShapes.push(this.memory[i]);
 			}
 		}
-			
 		var res;	
-		if(hits.length == 1) 
-			res = hits[0];
-		else{
-			res = this._findNeedleInHaystack(x,y,hits);
+		if(hitShapes.length == 1) {
+			res = hitShapes[0];
+		} else {
+			res = this._findNeedleInHaystack(x,y,hitShapes);
 		}
-		
 		//this.canvas.onmousemove = this.mousemoveHandler;
 		//this.canvas.onclick = this.clickHandler;
 		return res;
 	},
-	
-	/*source:http://www.scottandrew.com/*/
-	_inPoly: function(px,py,p){
-		var c = p.transformedCoords;
-	     var npoints = c.length; // number of points in polygon
-	     var xnew,ynew,xold,yold,x1,y1,x2,y2,i;
-	     var inside=false;
 
-	     if (npoints/2 < 3) { // points don't describe a polygon
-	          return false;
-	     }
-	     xold=c[npoints-2];
-	     yold=c[npoints-1];
-
-	     for (i=0 ; i < npoints ; i=i+2) {
-	          xnew=c[i];
-	          ynew=c[i+1];
-	          if (xnew > xold) {
-	               x1=xold;
-	               x2=xnew;
-	               y1=yold;
-	               y2=ynew;
-	          }
-	          else {
-	               x1=xnew;
-	               x2=xold;
-	               y1=ynew;
-	               y2=yold;
-	          }
-	          if ((xnew < px) == (px <= xold) && ((py-y1)*(x2-x1) < (y2-y1)*(px-x1))) {
-	               inside=!inside;
-	          }
-	          xold=xnew;
-	          yold=ynew;
-	     }
-	     return inside;
-
-		
-		
-	},
-	_findNeedleInHaystack: function(x,y,shapes){		
-
-		//if(!this.ctx.isPointInPath)return shapes[0]; //need to find a new method
-			
+	_findNeedleInHaystack: function(x,y,shapes){
 		for(var i=0; i < shapes.length; i++){
-			if(this._inPoly(x,y,shapes[i])) return shapes[i];
-				
+			if(this._inPoly(x,y,shapes[i])) {
+				return shapes[i];
+			}
 		}
-		return false;
+		return null;
 	},
+
+	/* _inPoly adapted from inpoly.c
+	Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
+	http://www.visibone.com/inpoly/inpoly.c.txt */                        
+	_inPoly: function(x,y,poly)
+	{
+		var npoints = poly.length;
+		if (npoints/2 < 3) {
+			//points don't describe a polygon
+			return false;
+		}
+		var inside = false;
+		var xold = poly[npoints-2];
+		var yold = poly[npoints-1];
+		var x1,x2,y1,y2,xnew,ynew;
+		for (var i=0; i<npoints; i+2) {
+			xnew=poly[i];
+			ynew=poly[i+1];
+			if (xnew > xold) {
+				x1=xold;
+				x2=xnew;
+				y1=yold;
+				y2=ynew;
+			} else {
+				x1=xnew;
+				x2=xold;
+				y1=ynew;
+				y2=yold;
+			}
+			if ((xnew < x) == (x <= xold)
+				&& (y-y1)*(x2-x1) < (y2-y1)*(x-x1)) {
+				   inside=!inside;
+				}
+			xold=xnew;
+			yold=ynew;
+		 }
+		 return(inside);
+	},
+	
 	addControl: function(controlType) {
 		var controlDiv = this.wrapper.controlDiv;
 		if(!controlDiv) {
@@ -629,28 +609,43 @@ EasyShape.prototype={
 		var res = {};
 		
 		// convert lat/long( to radians
-		var ll =this._getLongLat(x,y);
+
+
+		
+		y += (radians.y * 10);
+
+		
+		ll =this._getLongLat(x,y);
 		latitude = ll.latitude;
 		longitude = ll.longitude;
 
-		latitude += 1.6; //rotate 90 degrees
+
+
+ 		latitude += 1.6; //rotate 90 degrees
  		
 		latitude += radians.x;
-
-		longitude += radians.y;
+		
+		res.ok = true;
+		
+			//if(x < 0) res.ok =true;
+			//else res.ok = false;
 		//latitude += radians.y;
 		
 		//if(longitude < 0) longitude = 0;	
 			// and switch z and y
 			xPos = (radius) * Math.sin(latitude) * Math.cos(longitude);
 			yPos = (radius) * Math.cos(latitude);
-
+			//yPos = (radius) * Math.cos(latitude) * Math.sin(longitude);
+			
+			ll = this._getLongLat(xPos,yPos);
 			res.x = xPos;
 			res.y =yPos;
 			
-			var ll2 =this._getLongLat(res.x,res.y);
-			if(ll2.latitude < 0) 
-				res.x = 0;			
+
+			res.longitude = ll.longitude;
+			res.latitude = ll.latitude;
+			
+	
 			
 
 		return res;
@@ -673,7 +668,7 @@ EasyShape.prototype={
 		var lastX, lastY;
 		var index = 0;
 		for(var i=0; i < this.coords.length-1; i+=2){
-
+			coordOK= true;
 			var x =parseFloat(this.coords[i]);
 			var y =parseFloat(this.coords[i+1]);
 
@@ -681,11 +676,22 @@ EasyShape.prototype={
 		
 			if(spherical){
 
+				var lim1, lim2;
+				lim1 = -radius;
+				lim2 = radius;
+
 				
+				x -= radius;
+				y -= radius;
 				var t= 	this._spherify(x,y,rotate,radius);
+			
 				x = t.x;
 				y = t.y;
+				coordOK = t.ok;
 
+							//	if(t.latitude < 0){coordOK = false;}
+				this.latitudes[i] = t.latitude;
+				this.longitudes[i] = t.longitude;
 			}
 
 
@@ -731,7 +737,9 @@ EasyShape.prototype={
 			else
 			l = this.threshold;
 			
-			if(l >= this.threshold){ //draw
+			if(l < this.threshold) coordOK = false;
+			
+			if(coordOK){ //draw
 
 				this.transformedCoords[index] = x;
 				this.transformedCoords[index+1] = y;
@@ -746,22 +754,10 @@ EasyShape.prototype={
 };
 
 
-var EasyMapUtils = function(){	};
-
-EasyMapUtils.prototype = {
-	
-	getMouseXY: function(e,canvas){
-		var res ={};
-		if (!e)var e = window.event;
-		var boundingRect = canvas.getBoundingClientRect();
-		res.x = e.clientX - boundingRect.left;
-		res.y = e.clientY - boundingRect.top;
-		
-		return res;
-	},
+var EasyMapUtils = {
 	loadRemoteFile: function(url,callback,params)
 	{
-		return this._httpReq("GET",url,callback,params,null,null,null,null,null,true);
+		return EasyMapUtils._httpReq("GET",url,callback,params,null,null,null,null,null,true);
 	},
 
 	_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
@@ -840,5 +836,3 @@ EasyMapUtils.prototype = {
 		return doc;	
 	}
 };
-
-

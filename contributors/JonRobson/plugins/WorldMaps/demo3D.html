@@ -71,18 +71,15 @@ function init(){
 
 	};
 	eMap.mousemoveHandler = function(e){
-			var ll = eMap.getLongLatAt(e);
-			document.getElementById('time').innerHTML ="long: " + ll.longitude + " lat:" + ll.latitude + "<br>";
-			
-			var shape =eMap.getShapeAt(e);
+			var shape =eMap.getShapeAtClick(e);
 			
 			if(shape)
-			document.getElementById('time').innerHTML +="long: " + shape.longitudes + " lat:" + shape.latitudes;			
+			document.getElementById('time').innerHTML ="long: " + shape.longitudes + " lat:" + shape.latitudes;			
 	};
 
 	eMap.clickHandler = function(e){
 
-		var s = eMap.getShapeAt(e);
+		var s = eMap.getShapeAtClick(e);
 
 		
 		if(s)
@@ -113,6 +110,9 @@ spin: <a href="javascript:eMap.spin(-0.5,0,0)"><--</a><a href="javascript:eMap.s
 	<div id='wrapper_statustext'>please wait while we load... </div>
 </div>
 <div id='time'></div>
+<br>
+<br>
+<br>
 <a href="javascript:eMap.zoom(0.5,0.5)">zoom in</a> <a href="javascript:eMap.zoom(-0.5,-0.5)">zoom out</a>
 
 
