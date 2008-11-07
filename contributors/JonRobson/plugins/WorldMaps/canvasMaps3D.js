@@ -261,7 +261,7 @@ EasyMap.prototype = {
 		this.rotate.x +=x;
 		this.rotate.y +=y;
 		this.rotate.z +=z;
-		console.log(this.rotate.x,this.rotate.y,this.rotate.z);
+	//	console.log(this.rotate.x,this.rotate.y,this.rotate.z);
 		this.redraw();
 	},
 	pan: function(x,y){ //relative to centre
@@ -336,8 +336,8 @@ EasyMap.prototype = {
 
 			var x = parseFloat(poly.transformedCoords[0]);
 			var y=parseFloat(poly.transformedCoords[1]);
-			for(var i=0; i < poly.transformedCoords.length-1; i+=2){
-				//this.ctx.moveTo(x,y);
+			this.ctx.moveTo(x,y);
+			for(var i=2; i < poly.transformedCoords.length-1; i+=2){
 				var x =parseFloat(poly.transformedCoords[i]);
 				var y=parseFloat(poly.transformedCoords[i+1]);
 				this.ctx.lineTo(x,y);
@@ -350,10 +350,10 @@ EasyMap.prototype = {
 			this.ctx.closePath();
 			
 			if(!poly.hidden) {
-				if(!poly.fill) 
+				//if(!poly.fill) 
 				  this.ctx.stroke();
-				else 
-				  this.ctx.fill();
+				//else 
+				//  this.ctx.fill();
 			}
 	
 		
@@ -626,6 +626,7 @@ EasyShape.prototype={
 
 		res.x = xPos;
 		res.y =yPos;
+		
 		return res;
 	},
 	transform: function(scaling, translation,rotate,spherical,radius){
@@ -645,6 +646,7 @@ EasyShape.prototype={
 		var lastX, lastY;
 		var index = 0;
 		for(var i=0; i < this.coords.length-1; i+=2){
+
 			var x =parseFloat(this.coords[i]);
 			var y =parseFloat(this.coords[i+1]);
 
@@ -664,9 +666,7 @@ EasyShape.prototype={
 									v = y ;
 									x =  (u * Math.cos(rotate.z)) - (v * Math.sin(rotate.z));
 									y = (v * Math.cos(rotate.z)) + (u * Math.sin(rotate.z));
-
-									u = x ;
-									v = y ;
+								}
 
 
 			}
@@ -677,13 +677,14 @@ EasyShape.prototype={
 				x *=  scaling.x;
 				y *= scaling.y;
 			}
+
 			if(performTranslate){
 
 				x = x + parseFloat(translation.x);
 				y = y + parseFloat(translation.y);
 			}
 
-	
+
 
 
 			if(x < this.grid.x1) this.grid.x1 = x;
@@ -693,7 +694,7 @@ EasyShape.prototype={
 			if(y > this.grid.y2) this.grid.y2 = y;
 			
 
-			}
+			
 			
 			if(index > 0){
 			var l = Math.sqrt(((x-lastX)*(x-lastX)) + ((y -lastY) * (y-lastY)));
@@ -709,7 +710,7 @@ EasyShape.prototype={
 			}
 		}
 		
-
+		if(this.transformedCoords.length < 3) this.transformedCoords = [0,0,0];
 
 	}
 };
