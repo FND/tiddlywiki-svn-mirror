@@ -393,11 +393,11 @@ function getTiddlersWithTags($yesTags,$noTags)
 	}
 	function TiddlyTimeToEpoch($TiddlyTime)
 	{
-		echo $y = substr($TiddlyTime, 0, 4); 
-		echo $m = substr($TiddlyTime, 4, 2); 
-		echo $d = substr($TiddlyTime, 6, 2); 
-		echo $h = substr($TiddlyTime, 8, 2);
-		echo $min = substr($TiddlyTime, 10, 2);
+		$y = substr($TiddlyTime, 0, 4); 
+		$m = substr($TiddlyTime, 4, 2); 
+		$d = substr($TiddlyTime, 6, 2); 
+		$h = substr($TiddlyTime, 8, 2);
+		$min = substr($TiddlyTime, 10, 2);
 		return mktime($h, $min, $s, $m, $d, $y);
 
 	}
