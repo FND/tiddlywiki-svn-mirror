@@ -63,7 +63,7 @@ var EasyMap = function(divID,imageURL){
 
 	this.scale = {'x':1, 'y':1};
 	this.translate = {'x':0, 'y':0};
-	this.rotate = {'x': 0, 'y':0, 'z':1.6};
+	this.rotate = {'x': 0, 'y':1.6, 'z':0};
 	this.spherical = true;
 	this.radius = 50;
 
@@ -627,9 +627,8 @@ EasyShape.prototype={
 		
 		res.ok = true;
 		
-			//if(x < 0) res.ok =true;
-			//else res.ok = false;
-		//latitude += radians.y;
+
+		longitude += radians.z;
 		
 		//if(longitude < 0) longitude = 0;	
 			// and switch z and y
@@ -638,10 +637,17 @@ EasyShape.prototype={
 			//yPos = (radius) * Math.cos(latitude) * Math.sin(longitude);
 			
 			ll = this._getLongLat(xPos,yPos);
+			
+			//if(xPos < x) {xPos=0;yPos = 0;}
+			
+			//if(yPos < y) {xPos=0;yPos = 0;}
+			
+			
 			res.x = xPos;
 			res.y =yPos;
 			
-
+			//if(x  >xPos) res.ok =false; 
+			//else res.ok = true;
 			res.longitude = ll.longitude;
 			res.latitude = ll.latitude;
 			
@@ -696,11 +702,11 @@ EasyShape.prototype={
 
 
 			if(performRotate){
-								if(rotate.z){
+								if(rotate.y){
 									u = x ;
 									v = y ;
-									x =  (u * Math.cos(rotate.z)) - (v * Math.sin(rotate.z));
-									y = (v * Math.cos(rotate.z)) + (u * Math.sin(rotate.z));
+									x =  (u * Math.cos(rotate.y)) - (v * Math.sin(rotate.y));
+									y = (v * Math.cos(rotate.y)) + (u * Math.sin(rotate.y));
 								}
 
 
