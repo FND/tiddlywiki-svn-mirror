@@ -20,11 +20,8 @@ recordTime_float("Start");
 if(!isset($cct_base))
 	$cct_base = "";
  
-
 include_once($cct_base."includes/header.php");
-
 include_once($cct_base."includes/login.php");
-
 
 if(@mysql_num_rows(mysql_query("SELECT * FROM instance_history where version='1.7'"))==0) {
 	echo "<h1>ccTiddly Upgrade</h1>";
@@ -47,13 +44,13 @@ if( isset($_GET['title']) )
 	$tiddlers = getAllVersionTiddly($title);
 	
 	$t = array();
-	foreach( $tiddlers as $tid )
+	foreach($tiddlers as $tid)
 	{
 		$tid['title'] .= " revision ".$tid['revision'];
 		$t[] = $tid;
 	}
 	$tiddlers = $t;
-}elseif( isset($_GET['tags']) ) 
+}elseif(isset($_GET['tags'])) 
 {
 	$tiddlers = getTiddlersWithTags($yesTags, $noTags);
 }else{

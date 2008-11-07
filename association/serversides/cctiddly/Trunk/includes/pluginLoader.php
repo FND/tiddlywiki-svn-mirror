@@ -1,4 +1,5 @@
 <?php
+
 class PluginsLoader {
 	public $events;
 	public $plugins;
@@ -21,8 +22,10 @@ class PluginsLoader {
              $this->events[$eventname] = array();
 			array_push($this->events[$eventname], $event); 
 	}
-	
+		
 	public function addTiddler($tiddler){
+		if(!$this->tiddlers)
+			$this->tiddlers = array(); 
 		array_push($this->tiddlers,$tiddler);
 	}
 	
@@ -64,4 +67,7 @@ global $pluginsLoader;
 $pluginsLoader = new PluginsLoader();
 $pluginsLoader->readPlugins($cct_base);
 $pluginsLoader->runPlugins();
+
+
+
 ?>

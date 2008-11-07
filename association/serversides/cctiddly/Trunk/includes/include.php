@@ -1,33 +1,18 @@
 <?php 
 include_once($cct_base."includes/ccAssignments.php");
 
-if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
+if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1) {
        tiddler_outputOffline();
-else {
-		// Modules code : Will be used in v 1.8 - Simon McManus
-		foreach ($pluginsLoader->plugins as $plugin)
-		{
-			if(is_file($cct_base."plugins/".$plugin))
-				include_once($cct_base."plugins/".$plugin);	
-		}
-		if($pluginsLoader->events['outputTiddlers']) 
-		{
-			foreach ($pluginsLoader->events['outputTiddlers'] as $event)
-			{
-				if(is_file("plugins/".$event)) {
-					include_once("plugins/".$event);
-				}	
-			}
-		}
-
-       echo tiddler_outputFolder("tiddlers", $cct_base);
-       echo tiddler_outputFolder("lang/".$tiddlyCfg['pref']['language'], $cct_base);
+} else {
+	foreach($pluginsLoader->tiddlers as $tiddler)
+		tiddler_outputDIV($tiddler);
+	foreach($pluginsLoader->js as $tiddler)
+		tiddler_outputDIV($tiddler);
+    echo tiddler_outputFolder("tiddlers", $cct_base);
+    echo tiddler_outputFolder("lang/".$tiddlyCfg['pref']['language'], $cct_base);
 }
 
-
-	
-
-///////  START DEBUG TIDDLER 
+/////  START DEBUG TIDDLER 
 
 recordTime_float("before print tiddly");
 if( sizeof($tiddlers)>0 ){
