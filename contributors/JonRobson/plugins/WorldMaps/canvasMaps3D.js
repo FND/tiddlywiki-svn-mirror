@@ -83,12 +83,26 @@ var EasyMap = function(divID,imageURL){
 
 EasyMap.prototype = {
 
+	getLongLatAt: function(e,x,y){
+		var res = {};
+		var m = this.utils.getMouseXY(e,this.canvas);
+		
+		//reverse any transformations
+		m.x -= this.translate.x;
+		m.y -= this.translate.y;
+		
+		res.latitude = Math.PI * (m.x / 180);
+		res.longitude = Math.PI * (m.y/ 180);
+	return	res;
+	},
 	getShapeAt: function(e,x,y){
-		if (!e)var e = window.event;
+		
+
+
 		if(!x && !y){
-			var boundingRect = this.canvas.getBoundingClientRect();
-			x = e.clientX - boundingRect.left;
-			y = e.clientY - boundingRect.top;
+			var m = this.utils.getMouseXY(e,this.canvas);
+			x = m.x;
+			y = m.y;
 		}
 
 		var hits = [];
@@ -604,29 +618,37 @@ EasyShape.prototype={
 
 	},	
 
+
+	_getLongLat: function(x,y){
+		var ll = {};
+		ll.latitude = Math.PI * (x / 180);
+		ll.longitude = Math.PI * (y/ 180);
+		return ll; 
+	},
 	_spherify: function(x,y,radians,radius){//http://board.flashkit.com/board/archive/index.php/t-666832.html
 		var res = {};
 		
-		// convert lat/long to radians
-		latitude = Math.PI * (x / 180);
-		longitude = Math.PI * (y/ 180);
-		//latitude = - latitude;
-		// adjust position by radians
-		latitude += 1.6; //rotate 90
-		
+		// convert lat/long( to radians
+		var ll =this._getLongLat(x,y);
+		latitude = ll.latitude;
+		longitude = ll.longitude;
+
+		latitude += 1.6; //rotate 90 degrees
+ 		
 		latitude += radians.x;
 
-		longitude += radians.y;
-
-			
+		//longitude += radians.y;
+		//latitude += radians.y;
+		
+		//if(longitude < 0) longitude = 0;	
 			// and switch z and y
 			xPos = (radius) * Math.sin(latitude) * Math.cos(longitude);
 			yPos = (radius) * Math.cos(latitude);
 
+			res.x = xPos;
+			res.y =yPos;				
+			
 
-		res.x = xPos;
-		res.y =yPos;
-		
 		return res;
 	},
 	transform: function(scaling, translation,rotate,spherical,radius){
@@ -637,7 +659,8 @@ EasyShape.prototype={
 		if(translation.x == 0 && translation.y == 0) performTranslate = false;
 		if(rotate) performRotate = true;
 
-
+		this.longitudes = [];
+		this.latitudes = [];
 		this.transformedCoords = [];
 
 		this.grid.x1 = 2000;
@@ -653,10 +676,15 @@ EasyShape.prototype={
 
 		
 			if(spherical){
+
+				
 				var t= 	this._spherify(x,y,rotate,radius);
+				var ll1 = this._getLongLat(x,y);
 				x = t.x;
 				y = t.y;
-				if(t.hidden)this.hidden = t.hidden
+				var ll2 =this._getLongLat(x,y);
+				if(ll2.latitude < 0) 
+					x = radius;
 			}
 
 
@@ -703,6 +731,7 @@ EasyShape.prototype={
 			l = this.threshold;
 			
 			if(l >= this.threshold){ //draw
+
 				this.transformedCoords[index] = x;
 				this.transformedCoords[index+1] = y;
 				index += 2;
@@ -719,6 +748,16 @@ EasyShape.prototype={
 var EasyMapUtils = function(){	};
 
 EasyMapUtils.prototype = {
+	
+	getMouseXY: function(e,canvas){
+		var res ={};
+		if (!e)var e = window.event;
+		var boundingRect = canvas.getBoundingClientRect();
+		res.x = e.clientX - boundingRect.left;
+		res.y = e.clientY - boundingRect.top;
+		
+		return res;
+	},
 	loadRemoteFile: function(url,callback,params)
 	{
 		return this._httpReq("GET",url,callback,params,null,null,null,null,null,true);

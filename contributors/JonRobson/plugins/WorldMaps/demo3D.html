@@ -70,13 +70,23 @@ function init(){
 		}
 
 	};
-	eMap.mousemoveHandler = function(e){};
+	eMap.mousemoveHandler = function(e){
+			var ll = eMap.getLongLatAt(e);
+			document.getElementById('time').innerHTML ="long: " + ll.longitude + " lat:" + ll.latitude + "<br>";
+			
+			var shape =eMap.getShapeAt(e);
+			
+			if(shape)
+			document.getElementById('time').innerHTML +="long: " + shape.longitudes + " lat:" + shape.latitudes;			
+	};
 
 	eMap.clickHandler = function(e){
 
 		var s = eMap.getShapeAt(e);
+
+		
 		if(s)
-			alert(s.tooltip + e.clientY);
+			alert(s.tooltip);
 	};
 	
 	eMap.drawFromGeojsonFile('whereLegal.json');
@@ -95,13 +105,14 @@ function init(){
 
 <body onload="window.setTimeout(init,0)">
 <h1>Countries where homosexual acts are legal/illegal</h1>
-<div id='time'></div>
+
 spin: <a href="javascript:eMap.spin(-0.5,0,0)"><--</a><a href="javascript:eMap.spin(0.5,0,0)">--></a>
 <a href="javascript:eMap.spin(0,-0.5,0)">up</a> <a href="javascript:eMap.spin(0,0.5,0)">down</a>
 <div id='wrapper' style="width:800; height:400;position:relative;">
 	<div id ='caption'></div>
 	<div id='wrapper_statustext'>please wait while we load... </div>
 </div>
+<div id='time'></div>
 <a href="javascript:eMap.zoom(0.5,0.5)">zoom in</a> <a href="javascript:eMap.zoom(-0.5,-0.5)">zoom out</a>
 
 
