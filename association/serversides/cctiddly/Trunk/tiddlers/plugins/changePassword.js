@@ -2,7 +2,7 @@ config.macros.changePassword={};
 merge(config.macros.changePassword,{
 	title:"Change Password", 
 	subTitle : "for user ", 
-	step1Html: "Old Password : <input name='old' type='password'/><br/> New Password : <input name='new1' type='password' /><br /> New Password Again : <input name='new2' type='password' /> ",   
+	step1Html: " <label for='old'>Old Password </label><input name='old' type='password'/><br/> <label for='new1'>New Password </label> <input  name='new1' type='password' /><br /><label for='new2'>New Password Again</label> <input  name='new2' type='password' /> ",   
 	buttonChangeText:"Change Password",
 	buttonChangeToolTip:"Click to change your password", 
 	buttonCancelText:"Cancel",
@@ -12,6 +12,7 @@ merge(config.macros.changePassword,{
 	noticePasswordUpdated : "Your Password has been updated", 
 	noticePasswordUpdateFailed : "Your Password was NOT updated." 
 });
+
 
 config.macros.changePassword.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
 	var w = new Wizard();
@@ -39,6 +40,6 @@ config.macros.changePassword.callback = function(status,context,responseText,uri
 		displayMessage(me.noticePasswordUpdated);
 }
 
+
+
 //}}}
-
-

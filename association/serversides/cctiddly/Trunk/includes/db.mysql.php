@@ -655,7 +655,7 @@ $db_var['settings']['magic_quote'] = 0;
 		//$data = formatArray4SQL($data);			//require to check data???
 		global $tiddlyCfg;
 			//insert record into db
-		if ($table = $tiddlyCfg['table']['main'])
+		if ($table == $tiddlyCfg['table']['main'])
 		{
 			$q = "SELECT * FROM ".$table." where workspace_name='".$tiddlyCfg['workspace_name']."'";
 		}

@@ -4,6 +4,11 @@
 
 window.saveChanges = function(){};
 
+setStylesheet(
+	"label {width:10em; float:left; text-align:right;}"+ 
+	"div.wizardStep > input {display:inline}",
+'labelStyles');
+
 merge(config.macros.importTiddlers, {
 	wizardTitle: "Import tiddlers",
 	step1Title: "Step 1: Locate the server or TiddlyWiki file",

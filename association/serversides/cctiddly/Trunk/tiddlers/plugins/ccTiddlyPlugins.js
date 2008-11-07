@@ -1413,7 +1413,7 @@ merge(config.macros.ccLogin,{
 	usernameRequest:"Username",
 	passwordRequest:"Password",
 	stepLoginTitle:null,
-	stepLoginIntroTextHtml:"<table border=0px><tr><td>username</td><td><input name=username id=username tabindex='1'></td></tr><tr><td>password</td><td><input type='password' tabindex='2' class='txtPassword'><input   name='password'></td></tr></table>",
+	stepLoginIntroTextHtml:"<label>username</label><input name=username id=username tabindex='1'><br /><label>password</label><input type='password' tabindex='2' class='txtPassword'><input   name='password'>",
 	stepDoLoginTitle:"Logging you in",
 	stepDoLoginIntroText:"we are currently trying to log you in.... ",
 	stepForgotPasswordTitle:"Password Request",
