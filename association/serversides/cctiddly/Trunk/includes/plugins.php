@@ -25,10 +25,13 @@ class Plugin {
 	public function addPlugin($script) {
 		array_push($this->plugins, $script);
 	}
-	public function addTiddler($tiddler) {
+	public function addTiddler($tiddler, $data=null) {
 		if(is_file($tiddler))
 		{
 			$tiddler = $this->tiddlerFromFile($tiddler);
+			$tiddler['tags'] = "systemConfig";
+			if($data)
+				$tiddler = array_merge( $data, $tiddler);
 			$this->addTiddler($tiddler);
 		}else{
 			array_push($this->tiddlers, $tiddler);

@@ -10,7 +10,7 @@ config.macros.OpenID.handler=function(place,macroName,params,wikifier,paramStrin
 	var w = new Wizard();
 	var me = config.macros.OpenID;
 	w.createWizard(place,me.titleOpenID);
-	w.addStep(null,"<input name='open_id_login' />");
+	w.addStep(null,"<input name='open_id_login' value='http://' size=50 />");
 	w.setButtons([
 		{caption: me.buttonOpenIDText, tooltip: me.buttonOpenIDToolTip, onClick: function(){config.macros.OpenID.login(w);  } }
 	]);
