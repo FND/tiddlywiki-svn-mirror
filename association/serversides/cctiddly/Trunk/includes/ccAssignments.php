@@ -5,8 +5,9 @@
 window.saveChanges = function(){};
 
 setStylesheet(
-	"label {width:10em; float:left; text-align:right;}"+ 
-	"div.wizardStep > input {display:inline}",
+	"label {width:8em; float:left; text-align:right; width:10em; font-size:1.1em; padding:3px; background-color:#eee; height:1.5em}"+ 
+//	"div.wizardFooter {padding-left:10em}"+
+	"div.wizardStep > input {display:inline; padding:3px; margin-bottom:10px}",
 'labelStyles');
 
 merge(config.macros.importTiddlers, {

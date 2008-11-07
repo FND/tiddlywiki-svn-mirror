@@ -2,7 +2,7 @@ config.macros.changePassword={};
 merge(config.macros.changePassword,{
 	title:"Change Password", 
 	subTitle : "for user ", 
-	step1Html: " <label for='old'>Old Password </label><input name='old' type='password'/><br/> <label for='new1'>New Password </label> <input  name='new1' type='password' /><br /><label for='new2'>New Password Again</label> <input  name='new2' type='password' /> ",   
+	step1Html: " <label for='old'>Old Password </label><input name='old' type='password'/><br/> <label for='new1'>New Password </label> <input  name='new1' type='password' /><br /><label for='new2'>Repeat Password</label> <input  name='new2' type='password' /> ",   
 	buttonChangeText:"Change Password",
 	buttonChangeToolTip:"Click to change your password", 
 	buttonCancelText:"Cancel",
