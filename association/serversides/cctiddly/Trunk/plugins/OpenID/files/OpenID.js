@@ -6,7 +6,6 @@ merge(config.macros.OpenID,{
 	buttonOpenIDToolTip:"Click to use OpenID Login" 
 });
 
-
 config.macros.OpenID.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
 	var w = new Wizard();
 	var me = config.macros.OpenID;
