@@ -2,7 +2,7 @@
 
 require_once "common.php";
 
-$cct_base = "../../";
+$cct_base = "../../../../";
 include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/user.php");
 
@@ -93,7 +93,7 @@ function run() {
     			}
 
 		      
-		      header("location:".$scheme."://".$_SERVER['SERVER_NAME'].dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));                    
+		      header("location:".$scheme."://".$_SERVER['SERVER_NAME'].dirname(dirname(dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))))));                    
     }
 
 }

@@ -113,7 +113,6 @@ if (substr($workspace_permissions, 2, 1) == "U")
 	$workspace_udate = substr($workspace_permissions, 2, 1);
 }
 
-
 //  SET WORKSPACE DELETE PERMISSION FLAG
 if (substr($workspace_permissions, 3, 1) == "U")
 {
@@ -122,16 +121,14 @@ if (substr($workspace_permissions, 3, 1) == "U")
 	$workspace_delete = substr($workspace_permissions, 3, 1);
 }
 
-//
-////////////////////////////////////////////
-
-//echo $user['verified'];
-//echo $workspace_permissions;
-
-// display open id bits if it is enabled. 
-if ($tiddlyCfg['pref']['openid_enabled'] ==1)
+if(@$pluginsLoader->events['postSetLoginPerm']) 
 {
-		require_once "includes/openid/common.php";	
+	foreach (@$pluginsLoader->events['postSetLoginPerm'] as $event)
+	{
+		if(@is_file($event)) {
+			include($event);
+		}	
+	}
 }
 
 ?>

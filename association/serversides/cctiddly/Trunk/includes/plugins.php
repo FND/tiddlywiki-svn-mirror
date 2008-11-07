@@ -26,8 +26,31 @@ class Plugin {
 		array_push($this->plugins, $script);
 	}
 	public function addTiddler($tiddler) {
-		array_push($this->tiddlers, $tiddler);
+		if(is_file($tiddler))
+		{
+			$tiddler = $this->tiddlerFromFile($tiddler);
+			$this->addTiddler($tiddler);
+		}else{
+			array_push($this->tiddlers, $tiddler);
+		}
 	}
+	
+	public function tiddlerFromFile($file)
+	{
+		$tiddler['created'] = epochToTiddlyTime(mktime());
+		$tiddler['modified'] = epochToTiddlyTime(mktime());
+		$tiddler['modifier'] = "ccTiddly";
+		$tiddler['creator'] = epochToTiddlyTime(mktime());
+		$ext = substr($file, strrpos($file, '.') + 1);
+		$tiddler['title'] = substr($file, strrpos($file, '/')+1, -strlen($ext)-1); 
+		$tiddler['body'] = file_get_contents($dir."/".$file);
+		if($ext=='tiddler')
+			$tiddler['tags'] = "";
+		elseif($ext=='js') 
+			$tiddler['tags'] = "systemConfig";
+		return $tiddler;
+	}
+	
 	public function addTiddlersFolder($dir) 
 	{
 		if (is_dir($dir)) 
@@ -38,23 +61,8 @@ class Plugin {
 				{
 					if(substr($file,0,1)!=".") 
 					{ // do not include system/hidden files. 
-						$tiddler['created'] = epochToTiddlyTime(mktime());
-						$tiddler['modified'] = epochToTiddlyTime(mktime());
-						$tiddler['modifier'] = "ccTiddly";
-						$tiddler['creator'] = epochToTiddlyTime(mktime());
-						$ext = substr($file, strrpos($file, '.') + 1);
-						$tiddler['title'] = substr($file, 0, -strlen($ext)-1); 
-						$tiddler['body'] = file_get_contents($dir."/".$file);
-						if($ext=='tiddler')
-						{
-							$tiddler['tags'] = "";
-							$this->addTiddler($tiddler);
-						}
-						elseif($ext=='js') 
-						{
-							$tiddler['tags'] = "systemConfig";
-							$this->addTiddler($tiddler);
-						}
+						$tiddler = $this->tiddlerFromFile($dir."/".$file);
+						$this->addTiddler($tiddler);			
 					}
 				}
 			}

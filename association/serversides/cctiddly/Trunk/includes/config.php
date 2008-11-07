@@ -43,7 +43,7 @@ $tiddlyCfg['pref']['deligate_session_url'] = "http://server...";
 
 // OpenID
 
-$tiddlyCfg['pref']['openid_enabled'] = 0;  // openid not fully implented yet. 
+$tiddlyCfg['pref']['openid_enabled'] = 1;  // openid not fully implented yet. 
 
 // Offline Mode 
 // .tiddler and .js files to be loaded from the tiddlers directory when the user is takes ccTiddly in offline mode. 
@@ -66,6 +66,7 @@ array(	'wikipedia.org',
 		'tiddlywiki.org',
 		'agilecookbook.com',
 		'trac.tiddlywiki.org',
+		'www.myopenid.com',
 		'monkeygtd.tiddlyspot.com',
 		'api.flickr.com',
 		'feeds.delicious.com',
