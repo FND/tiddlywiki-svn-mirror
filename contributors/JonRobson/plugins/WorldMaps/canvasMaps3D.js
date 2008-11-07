@@ -637,7 +637,7 @@ EasyShape.prototype={
  		
 		latitude += radians.x;
 
-		//longitude += radians.y;
+		longitude += radians.y;
 		//latitude += radians.y;
 		
 		//if(longitude < 0) longitude = 0;	
@@ -646,7 +646,11 @@ EasyShape.prototype={
 			yPos = (radius) * Math.cos(latitude);
 
 			res.x = xPos;
-			res.y =yPos;				
+			res.y =yPos;
+			
+			var ll2 =this._getLongLat(res.x,res.y);
+			if(ll2.latitude < 0) 
+				res.x = 0;			
 			
 
 		return res;
@@ -679,12 +683,9 @@ EasyShape.prototype={
 
 				
 				var t= 	this._spherify(x,y,rotate,radius);
-				var ll1 = this._getLongLat(x,y);
 				x = t.x;
 				y = t.y;
-				var ll2 =this._getLongLat(x,y);
-				if(ll2.latitude < 0) 
-					x = radius;
+
 			}
 
 
