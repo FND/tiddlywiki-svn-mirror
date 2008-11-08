@@ -13,7 +13,6 @@ merge(config.macros.changePassword,{
 	noticePasswordUpdateFailed : "Your Password was NOT updated." 
 });
 
-
 config.macros.changePassword.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
 	var w = new Wizard();
 	var me = config.macros.changePassword;

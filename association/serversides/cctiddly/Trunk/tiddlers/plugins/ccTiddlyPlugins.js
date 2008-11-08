@@ -1409,7 +1409,7 @@ config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,x
 config.macros.ccLogin={sha1:true};
 
 merge(config.macros.ccLogin,{
-	WizardTitleText:"Please Login",
+	WizardTitleText:"ccTiddly Login",
 	usernameRequest:"Username",
 	passwordRequest:"Password",
 	stepLoginTitle:null,
@@ -1717,15 +1717,15 @@ config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramSt
 		wikify("[["+me.linkManageUsers+"|Manage Users]]<br />[["+me.linkPermissions+"|Permissions]]<br />[["+me.linkStats+"|Statistics]]<br />", place);
 	if (isLoggedIn())
 		wikify("[["+me.linkFiles+"|files]]<br />", place);
-	if (workspacePermission.canCreateWorkspace==1)
-		wikify("[["+me.linkCreate+"|CreateWorkspace]]<br />", place);
 		if (isLoggedIn()){
+			if (workspacePermission.canCreateWorkspace==1)
+				wikify("[["+me.linkCreate+"|CreateWorkspace]]<br />", place);
 			// append url function required 
+			wikify("[[password|Password]]<br />", place);
 			if (window.fullUrl.indexOf("?") >0)
 				wikify("[["+me.linkOffline+"|"+fullUrl+"&standalone=1]]<br />", place);
 			else 
-				wikify("[["+me.linkOffline+"|"+fullUrl+"?standalone=1]]<br />", place);
-			
+				wikify("[["+me.linkOffline+"|"+fullUrl+"?standalone=1]]<br />", place);	
 		}
 };
 
@@ -1733,9 +1733,8 @@ config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramSt
 
 // ccRegister //
 
-
 //{{{
-
+	
 config.macros.register={};	
 merge(config.macros.register,{
 	usernameRequest:"username",

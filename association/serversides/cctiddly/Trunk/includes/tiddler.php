@@ -1,22 +1,5 @@
 <?php
 
-
-//$content = "123456789</div>,asdasd12";
-
-//echo strripos($content, "</div>");
-//			  echo $pos2 = strlen($content) - strpos(strrev($content), strrev("</div>")) - strlen("</div>");
-			
-//			exit;
-
-//////////////////////////////////////////////////////// description ////////////////////////////////////////////////////////
-	/**
-		@file
-		
-		@brief This file provides PHP functions related to tiddler (it mimic a class but didn't put as a class to speed things up abit).
-	*/
-	
-//////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
-
 //////////////////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////////////
 
 		//!	@fn array tiddler_create($title, $body="", $modifier="", $modified="", $tags="", $id="", $creator="", $created="", $fields="", $version=1)
@@ -51,7 +34,6 @@
 		return $tiddler;
 	}
 	
-	
 	function tiddler_toJson($tiddler)
 	{
 
@@ -66,7 +48,6 @@
 		$output .= "}\n";
 		return $output;
 	}
-	
 	
 	//!	@fn array tiddler_backup_create($un)
 	//!	@brief create backup tiddler array format using tiddler array
@@ -91,23 +72,6 @@
 		return $tiddler;
 	}
 	///////////////////////////////////////////////////////////////encoding and formatting//////////////////////////////////////////////////
-	//!	@fn tiddler_outputDIV($tiddler)
-	//!	@brief output tiddler in div form for TW
-	//!	@param $tiddler tiddler array
-	/*
-	
-	
-		$body = str_replace("&quot;","\"",$body);
-		$body = str_replace("&#039;","'",$body);
-		$body = str_replace("&lt;","<",$body);
-		$body = str_replace("&gt;",">",$body);
-		$body = str_replace("&amp;","&",$body);
-		$body = str_replace("\\n","\n",$body);		//replace newline with '\n'
-		$body = str_replace('\\s',"\\",$body);		//replace'\' with '\s'
-		
-		
-	*/
-
 
 	//!	@fn array tiddler_breakTag($tagStr)
 	//!	@brief break tag into array
@@ -115,7 +79,6 @@
 	function tiddler_breakTag($tagStr)
 	{
 		$array = array();
-		
 		//obtain and remove [[tags]]
 		$r=0;
 		$e=0;		//ending tag position
@@ -128,7 +91,6 @@
 		//obtain regular tags separate by space
 		//put in all tags into $array
 		$array = array_merge($array,explode(" ",$tagStr));
-		
 		//strip empty string and trim tags
 		$return = array();
 		foreach($array as $t)
@@ -146,9 +108,12 @@
 		global $tiddlyCfg;
 		$dir = $dir;
 		// Open plugins directory, and read its contents
-		if (is_dir($dir)) {
-		    if ($dh = opendir($dir)) {
-		       while (($file = readdir($dh)) !== false) {
+		if (is_dir($dir)) 
+		{
+		    if ($dh = opendir($dir)) 
+			{
+		       while (($file = readdir($dh)) !== false) 
+				{
 					$full  = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder']."/".$dir."/".$file;
 					if(is_dir($full))
 						getDir($full, $file); 
@@ -165,9 +130,8 @@
 	
 	function getDir($full, $file)
 	{
-		if($file!= "." && $file!=".." && $file!=".svn") {
+		if($file!= "." && $file!=".." && $file!=".svn") 
 			tiddler_outputFolder($full, $cct_base);
-		}
 	}
 	
 	function tiddler_outputOffline()
@@ -203,13 +167,11 @@
 			// find the first pre tag and remove everything before it. 
 			$top = substr($tiddler,  0, $pos1+5);
 			$content = substr($tiddler,  $pos1+5); 
-
 			// get the last </pre> tag
 			$pos2 = strripos($content, "</pre>", 0);
 			$bottom = substr($content,  $pos2); 
 			$content = substr($content,0,$pos2);
-		}else
-		{
+		} else {
 			// look for first closing tag
 			$pos1 = stripos($tiddler, ">");
 			$top = substr($tiddler,  0, $pos1+1);
@@ -230,7 +192,9 @@
 			$server = dirname(getURL());
 		else
 			$server = getURL();
-			echo  "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">\r\n<pre>".htmlspecialchars($tiddler['body'])."</pre>\r\n</div>\n\r";	
+		if(is_array($tiddler["tags"]))
+			$tiddler["tags"] = implode(" ", $tiddler["tags"]);
+		echo  "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">\r\n<pre>".htmlspecialchars($tiddler['body'])."</pre>\r\n</div>\n\r";	
 		return;	
 	}
 	
@@ -243,7 +207,6 @@
 		$body = str_replace("\n","\\n",$body);		//replace newline with '\n'
 		$body = str_replace("\r","",$body);		//return character is not required
 		$body = htmlspecialchars($body);		//replace <, >, &, " with their html code
-
 		return $body;
 	}
 	
@@ -272,15 +235,8 @@
 	{
 		//global $tiddlyCfg;
 		//debugV($userArr);
-		if( strcmp($title,"MarkupPostBody")==0 || strcmp($title,"MarkupPostHead")==0 || strcmp($title,"MarkupPreBody")==0 || strcmp($title,"MarkupPreHead")==0 )
+		if(strcmp($title,"MarkupPostBody")==0 || strcmp($title,"MarkupPostHead")==0 || strcmp($title,"MarkupPreBody")==0 || strcmp($title,"MarkupPreHead")==0)
 		{
-			/*$ugroup = array_merge($userArr['group'],$tiddlyCfg['privilege_misc']['markup']);		//append one array to another
-			$ugroupsize = sizeof($ugroup);		//get initial size
-			$ugroup = array_flip(array_flip($ugroup));		//flip^2 to remove duplicate
-			if( sizeof($ugroup) == $ugroupsize )		//check group size. return FALSE if not in markup group
-			{
-				return FALSE;
-			}*/
 			return tiddler_privilegeMiscCheck($userArr, "markup");
 		}
 		return TRUE;
@@ -297,7 +253,7 @@
 		$ugroup = array_merge($userArr['group'],$tiddlyCfg['privilege_misc'][$type]);		//append one array to another
 		$ugroupsize = sizeof($ugroup);		//get initial size
 		$ugroup = array_flip(array_flip($ugroup));		//flip^2 to remove duplicate
-		if( sizeof($ugroup) == $ugroupsize )		//check group size. return FALSE if not in markup group
+		if(sizeof($ugroup) == $ugroupsize)		//check group size. return FALSE if not in markup group
 		{
 			return FALSE;
 		}
@@ -311,23 +267,18 @@
 	function tiddler_insert($tiddler, $backup=-1)
 	{
 		global $tiddlyCfg;
-		
-		//insert record
 		$result = db_record_insert($tiddlyCfg['table']['main'], $tiddler);
 		print db_error();
 		if( $result===FALSE )
 		{
 			return FALSE;
 		}
-		
 		//insert backup if required
 		if( $backup==1 || ($backup==-1 && $tiddlyCfg['keep_revision']==1) )
-		{
-			//set inserted record id as oid
+		{	//set inserted record id as oid
 			$tiddler = tiddler_backup_create($tiddler, db_insert_id($result));
 			$result = db_record_insert($tiddlyCfg['table']['backup'], $tiddler);
 		}
-		
 		return TRUE;
 	}
 	
@@ -336,8 +287,7 @@
 	//!	@param $tiddler tiddler array, use id for delete
 	function tiddler_delete($tiddler)
 	{
-		global $tiddlyCfg;
-		
+		global $tiddlyCfg;	
 		//insert record, will stop at db_query function if error occurs
 		return db_record_delete($tiddlyCfg['table']['main'], $tiddler);
 	}
@@ -350,23 +300,18 @@
 	function tiddler_update($oldtiddler, $tiddler, $backup=-1)
 	{
 		global $tiddlyCfg;
-		
 		//insert record, will stop at db_query function if error occurs
 		$result = db_record_update($tiddlyCfg['table']['main'], $oldtiddler, $tiddler);
-		
 		if( $result===FALSE )
 		{
 			return FALSE;
 		}
-
 		//insert backup if required
 		if( $backup==1 || ($backup==-1 && $tiddlyCfg['keep_revision']==1) )
-		{
-			//set inserted record id as oid
+		{	//set inserted record id as oid
 			$tiddler = tiddler_backup_create($tiddler, $oldtiddler['id']);
 			$result = db_record_insert($tiddlyCfg['table']['backup'], $tiddler);
 		}
-		
 		return TRUE;
 	}
 
@@ -380,7 +325,6 @@
 		{
 			$tiddler = tiddler_create($tiddler);
 		}
-		
 		$tiddlers = db_record_select($tiddlyCfg['table']['main'],$tiddler,1);
 		
 		//grab record and check if title are the same
@@ -411,7 +355,6 @@
 	function tiddler_selectBackupID($id)
 	{
 		global $tiddlyCfg;
-		
 		return db_record_select($tiddlyCfg['table']['backup'],tiddler_backup_create(array(),$id),1);
 	}
 	///////////////////////////////////////////////new functions/////////////////////////////////////////
@@ -422,20 +365,15 @@
 	function tiddler_insert_new($tiddler,$stop=1)
 	{
 		global $tiddlyCfg;
-		
-		//insert record
-		//$result = db_record_insert($tiddlyCfg['table']['main'], $tiddler);
 		$result = db_tiddlers_mainInsert($tiddler,$stop);
-		if( $result===FALSE ) {
+		if( $result===FALSE ) 
 			return FALSE;
-		}
-
 		//insert backup if required
-		if( $tiddlyCfg['keep_revision']==1 ) {
+		if( $tiddlyCfg['keep_revision']==1 ) 
+		{
 			$tiddler = tiddler_backup_create($tiddler, db_insert_id());
 			$result = db_tiddlers_backupInsert($tiddler,$stop);
 		}
-		
 		return TRUE;
 	}
 	
@@ -455,24 +393,15 @@
 	function tiddler_update_new($oid, $tiddler, $stop=1)
 	{
 		global $tiddlyCfg;
-		
 		//updaterecord
 		$result = db_tiddlers_mainUpdate($oid,$tiddler,$stop);
-
-		//insert record, will stop at db_query function if error occurs
-		//$result = db_record_update($tiddlyCfg['table']['main'], $oldtiddler, $tiddler);
-		
-		if( $result===FALSE ) {
+		if( $result===FALSE )
 			return FALSE;
-		}
-		//insert backup if required
-		if( $tiddlyCfg['keep_revision']==1 ) {
-
-			//set inserted record id as oid
+		if( $tiddlyCfg['keep_revision']==1 ) 
+		{	//insert backup if required
 			$tiddler = tiddler_backup_create($tiddler, $oid);
 			$result = db_tiddlers_backupInsert($tiddler,$stop);
 		}
-		
 		return TRUE;
 	}
 ?>

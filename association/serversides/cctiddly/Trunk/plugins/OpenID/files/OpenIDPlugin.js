@@ -17,7 +17,15 @@ config.macros.OpenID.handler=function(place,macroName,params,wikifier,paramStrin
 };
 
 config.macros.OpenID.login = function (w) {
-window.location = "https://127.0.0.1/plugins/openid/files/openid/try_auth.php?action=verify&openid_identifier="+w.formElem.open_id_login.value;
+	var iframe = document.createElement("iframe");
+	iframe.style.display = "none";
+	iframe.src = url+"/plugins/openid/files/openid/try_auth.php?action=verify&openid_identifier="+w.formElem.open_id_login.value;
+	document.body.appendChild(iframe);
+	iframe.onload = function() {
+		alert(this.src.indexOf("try_auth.php"));
+		window.location = this.src;
+	};
+	document.body.appendChild(iframe);
 }
 
 //}}}

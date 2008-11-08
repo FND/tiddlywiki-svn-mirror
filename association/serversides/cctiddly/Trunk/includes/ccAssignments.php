@@ -5,9 +5,9 @@
 window.saveChanges = function(){};
 
 setStylesheet(
-	"label {width:8em; float:left; text-align:right; width:10em; font-size:1.1em; padding:3px; background-color:#eee; height:1.5em: top:-20px}"+ 
-//	"div.wizardFooter {padding-left:10em}"+
-	"div.wizardStep > input {display:fixed; padding:3px; margin-bottom:10px}",
+	"label {width:8em; float:left; text-align:right; width:10em; font-size:1.1em; padding:3px;  height:1.5em: top:-20px; margin:2px -2px 0 0;}"+ 
+//	"div.wizardFooter {padding-left:10em}"+ 
+	"div.wizardStep > input {display:fixed; padding:3px; margin-bottom:10px; margin-right:0px}",
 'labelStyles');
 
 merge(config.macros.importTiddlers, {

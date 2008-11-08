@@ -29,9 +29,10 @@ class Plugin {
 		if(is_file($tiddler))
 		{
 			$tiddler = $this->tiddlerFromFile($tiddler);
-			$tiddler['tags'] = "systemConfig";
 			if($data)
-				$tiddler = array_merge( $data, $tiddler);
+			{
+				$tiddler = array_merge_recursive($tiddler, $data);
+			}
 			$this->addTiddler($tiddler);
 		}else{
 			array_push($this->tiddlers, $tiddler);
