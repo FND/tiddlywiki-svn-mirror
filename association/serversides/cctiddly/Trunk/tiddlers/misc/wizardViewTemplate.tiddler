@@ -1,0 +1,6 @@
+<div title="wizardViewTemplate" modifier="ccTiddly"  tags="">
+<pre>
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='viewer' macro='view text wikified'></div>
+</pre>
+</div>

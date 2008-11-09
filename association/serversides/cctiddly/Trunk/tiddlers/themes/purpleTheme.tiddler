@@ -377,8 +377,8 @@ a:hover {
 }
 
 #contentWrapper .tiddler .button {
-	padding:0.4em 0.9em 0.4em 0.9em;
-	margin:0px 0px 0px 7px;
+margin:0.4em;
+padding:0.4em 0.8em;
 }
 
 #sideBarOptions .searchButton{
@@ -570,8 +570,9 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 }
 
 body .wizardFooter {
-	padding :10;
+	padding :10px;
 	margin:0px;
+	padding-top:0px;
 	background:white;
 	font-weight:bold;
 }

@@ -26,7 +26,8 @@ class PluginsLoader {
 	public function addTiddler($tiddler){
 		if(!$this->tiddlers)
 			$this->tiddlers = array(); 
-		array_push($this->tiddlers,$tiddler);
+		foreach($tiddler as $t)
+			$this->tiddlers[$t['title']] = $tiddler[$t['title']];
 	}
 	
 	public function addHandler($msgHandler){

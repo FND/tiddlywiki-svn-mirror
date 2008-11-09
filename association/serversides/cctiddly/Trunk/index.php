@@ -61,6 +61,10 @@ if( isset($_GET['title']) )
 		$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
 	}
 }
+//print_r($pluginsLoader->tiddlers);
+//print_r($tiddlers);
+$tiddlers = array_merge($pluginsLoader->tiddlers, $tiddlers);
+
 recordTime_float("get all tiddlers");
 	
 // log the workspace viewing : 
@@ -113,16 +117,8 @@ DAMAGE.
 <!--PRE-HEAD-START-->
 <!--{{{-->
 <?php
-	if( isset( $tiddlers['MarkupPreHead'] ) )
-	{
 		print tiddler_bodyDecode($tiddlers['MarkupPreHead']['body']);
-	}else{
-
-		if(isset($config) && is_file($tiddlyCfg['pref']['upload_dir'] .$tiddlyCfg['workspace_name']."/$config.xml"))
-			print "<link rel='alternate' type='application/rss+xml' title='RSS' href='".$tiddlyCfg['workspace_name']."/$config.xml'>";
-
-	}
-?>	
+	?>	
 <!--}}}-->
 <!--PRE-HEAD-END-->
 <title>
@@ -137,7 +133,7 @@ DAMAGE.
 #shadowArea {display:none;}
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
-<!--POST-HEAD-START-->
+<!--POST-HEAD-START123-->
 <?php
 	if( isset( $tiddlers['MarkupPostHead'] ) )
 	{
@@ -9446,7 +9442,7 @@ if(useJavaSaver)
 	document.write("<applet style='position:absolute;left:-1px' name='TiddlySaver' code='TiddlySaver.class' archive='TiddlySaver.jar' width='1' height='1'></applet>");
 //]]>
 </script>
-<!--POST-SCRIPT-START-->
+<!--POST-SCRIPT-START321-->
 <?php
 	if( isset( $tiddlers['MarkupPostBody'] ) )
 	{

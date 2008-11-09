@@ -4,8 +4,8 @@ include_once($cct_base."includes/ccAssignments.php");
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1) {
        tiddler_outputOffline();
 } else {
-	foreach($pluginsLoader->tiddlers as $tiddler)
-		tiddler_outputDIV($tiddler);
+//	foreach($pluginsLoader->tiddlers as $tiddler)
+//		tiddler_outputDIV($tiddler);
 	foreach($pluginsLoader->js as $tiddler)
 		tiddler_outputDIV($tiddler);
     echo tiddler_outputFolder("tiddlers", $cct_base);

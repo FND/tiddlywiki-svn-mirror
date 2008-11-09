@@ -1403,13 +1403,12 @@ config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,x
 
 // ccLogin //
 
-
 //{{{
 
 config.macros.ccLogin={sha1:true};
 
 merge(config.macros.ccLogin,{
-	WizardTitleText:"ccTiddly Login",
+	WizardTitleText:null,
 	usernameRequest:"Username",
 	passwordRequest:"Password",
 	stepLoginTitle:null,
@@ -1461,7 +1460,7 @@ if (isLoggedIn()){
 	merge(config.tasks,{logout:{text: "logout",tooltip: config.macros.ccLogin.buttonLogoutToolTip,content: '<<ccLogin>>'}});
 }else{
 	config.backstageTasks.push("login");
-	merge(config.tasks,{login:{text: "login",tooltip: config.macros.ccLogin.buttonLoginToolTip,content: '<<ccLogin>>'}});	
+	merge(config.tasks,{login:{text: "login",tooltip: config.macros.ccLogin.buttonLoginToolTip,content: '\r\n\r\n<<tiddler Login>>'}});	
 }
 
 var loginState=null;
@@ -1476,7 +1475,7 @@ config.macros.ccLogin.refresh=function(place, error){
 	var w = new Wizard();
 	if (isLoggedIn()){
 		w.createWizard(place,this.stepLogoutTitle);
-		w.addStep(null, this.stepLogoutText+cookieString(document.cookie).txtUserName+"<br /><br />");
+		w.addStep(null, this.stepLogoutText+decodeURIComponent(cookieString(document.cookie).txtUserName)+"<br /><br />");
 		w.setButtons([
 			{caption: this.buttonLogout, tooltip: this.buttonLogoutToolTip, onClick: function() {window.location=fullUrl+"?&logout=1"}
 		}]);
@@ -1506,7 +1505,7 @@ config.macros.ccLogin.refresh=function(place, error){
 	w.formElem.appendChild(submit);
 	var cookieValues=findToken(document.cookie);
 	if (cookieValues.txtUserName!==undefined){
-		w.formElem["username"].value=cookieValues.txtUserName ;
+		w.formElem["username"].value=decodeURIComponent(cookieValues.txtUserName) ;
 	}
 	var footer = findRelated(form,"wizardFooter","className");
 	createTiddlyButton(w.footer,this.buttonLogin,this.buttonLoginToolTip,function() {

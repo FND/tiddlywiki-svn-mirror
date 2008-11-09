@@ -45,10 +45,6 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 	$data1['modified'] = epochToTiddlyTime(mktime());
 	$data1['created'] = epochToTiddlyTime(mktime());
 	db_record_insert($tiddlyCfg['table']['main'],$data1);	
-	$data0['body'] = 'http://osmosoft.com/ More info about osmosoft can be found here ' ;
-	$data0['title'] = 'Osmosoft';
-	$data0['tags'] = 'excludeLists';
-	db_record_insert($tiddlyCfg['table']['main'],$data0);
 	$data1['body'] = $tiddlyCfg['GettingStartedText'];
 	$data1['title'] = 'GettingStarted';
 	db_record_insert($tiddlyCfg['table']['main'], $data1);

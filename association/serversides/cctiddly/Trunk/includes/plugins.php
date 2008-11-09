@@ -33,7 +33,9 @@ class Plugin {
 			{
 				$tiddler = array_merge_recursive($tiddler, $data);
 			}
-			$this->addTiddler($tiddler);
+			
+			$tiddler_named_array[$tiddler['title']] = $tiddler;
+			$this->addTiddler($tiddler_named_array);
 		}else{
 			array_push($this->tiddlers, $tiddler);
 		}
