@@ -21,7 +21,10 @@ Array.prototype.indexOf = function(item,from)
 	return -1;
 };}
 
-
+var minLon = 1000;
+var maxLon = -1000;
+var minLat = 1000;
+var maxLat = -1000;
 var EasyMap = function(divID,imageURL){
 
 	this.renderTime = 0;
@@ -276,11 +279,10 @@ EasyMap.prototype = {
 	},
 	
 	transform: function(shape){
-
 		shape.transform(this.scale, this.translate,this.rotate,this.spherical,this.radius);
 		return shape;
-		
 	},
+
 	drawShape: function(easyShape){
 		easyShape.id = this.memory.length;
 		this.memory[easyShape.id] = easyShape;
@@ -289,22 +291,6 @@ EasyMap.prototype = {
 		else return;
 		
 	},
-	
-	_testCanvas: function(){
-		this.clear();
-		var ctx = this.ctx;
-		ctx.beginPath();
-		ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
-		ctx.moveTo(110,75);
-		ctx.arc(75,75,35,0,Math.PI,false);   // Mouth (clockwise)
-		ctx.moveTo(65,65);
-		ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
-		ctx.moveTo(95,65);
-		ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
-		ctx.stroke();
-
-	},
-	
 
 	drawPolygon: function(poly,dontDrawMe){
 			
@@ -333,11 +319,11 @@ EasyMap.prototype = {
 			this.ctx.beginPath();
 
 			var x = parseFloat(poly.transformedCoords[0]);
-			var y=parseFloat(poly.transformedCoords[1]);
+			var y = parseFloat(poly.transformedCoords[1]);
 			this.ctx.moveTo(x,y);
 			for(var i=2; i < poly.transformedCoords.length-1; i+=2){
-				var x =parseFloat(poly.transformedCoords[i]);
-				var y=parseFloat(poly.transformedCoords[i+1]);
+				var x = parseFloat(poly.transformedCoords[i]);
+				var y = parseFloat(poly.transformedCoords[i+1]);
 				this.ctx.lineTo(x,y);
 
 				if(x>this._maxX) this._maxX = x;
@@ -348,10 +334,10 @@ EasyMap.prototype = {
 			this.ctx.closePath();
 			
 			if(!poly.hidden) {
-				//if(!poly.fill) 
+				if(!poly.fill) 
 				  this.ctx.stroke();
-				//else 
-				//  this.ctx.fill();
+				else 
+				  this.ctx.fill();
 			}
 	
 		
@@ -370,7 +356,7 @@ EasyMap.prototype = {
 			this.ctx.scale(this.scale.x,this.scale.y);
 							this.ctx.beginPath();
 				//	ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
-			this.ctx.arc(0,0,this.radius,0,2*Math.PI,true);
+			//this.ctx.arc(0,0,this.radius,0,2*Math.PI,true);
 			this.ctx.closePath();
 			this.ctx.fillStyle = '#42C0FB';
 			//this.ctx.strokeStyle 
@@ -552,13 +538,14 @@ EasyShape.prototype={
 	_convertGeoJSONCoords: function(coords,canvas){
 		var res = [];
 		for(var i=0; i < coords[0].length; i++){
-			var x =coords[0][i][0];
+			// x is longitude, y is latitude
+			// longitude goes from -180 (W) to 180 (E), latitude from -90 (S) to 90 (N)
+			// in our data, lat goes from 90 (S) to -90 (N), so we negate
+			var x = coords[0][i][0];
 			var y = -coords[0][i][1];
 			res.push(x);
 			res.push(y);
 		}
-
-		
 		return res;
 	},
 	
@@ -606,153 +593,134 @@ EasyShape.prototype={
 	_convertDegToRad: function(deg){
 		return Math.PI * (deg / 180);
 	},
-	_spherify: function(x,y,radians,radius){//http://board.flashkit.com/board/archive/index.php/t-666832.html
+	_spherify: function(lon,lat,rotate,radius){//http://board.flashkit.com/board/archive/index.php/t-666832.html
 		var res = {};
-
+		if(lon>maxLon)maxLon=lon;
+		if(lon<minLon)minLon=lon;
+		if(lat>maxLat)maxLat=lat;
+		if(lat<minLat)minLat=lat;
 		
-		var latitude = this._convertDegToRad(x);
-		var longitude = this._convertDegToRad(y);
-		
-		//rotate 90 degrees
- 		latitude += Math.PI/2;
+		var longitude = this._convertDegToRad(lon);
+		var latitude = this._convertDegToRad(lat);
  		
-		latitude += radians.x;
+ 		// assume rotate values given in radians
+		longitude += rotate.z;
 		
-		res.ok = true;
-		
+		// latitude is 90-theta, where theta is the polar angle in spherical coordinates
+		// cos(90-theta) = sin(theta)
+		// sin(90-theta) = cos(theta)
+		// to transform from spherical to cartesian, we would normally use radius*Math.cos(theta)
+		//   hence in this case we use radius*Math.sin(latitude)
+		// similarly longitude is phi-180, where phi is the azimuthal angle
+		// cos(phi-180) = -cos(phi)
+		// sin(phi-180) = -sin(phi)
+		// to transform from spherical to cartesian, we would normally use radius*Math.sin(theta)*Math.cos(phi)
+		//   we must exchange for theta as above, but because of the circular symmetry
+		//   it does not matter whether we multiply by sin or cos of longitude
+		yPos = (radius) * Math.sin(latitude);
+		xPos = (radius) * Math.cos(latitude) * Math.sin(longitude);
 
-		longitude += radians.z;
-		
-		//if(longitude < 0) longitude = 0;	
-			// and switch z and y
-			xPos = (radius) * Math.sin(latitude) * Math.cos(longitude);
-			yPos = (radius) * Math.cos(latitude);
-			//yPos = (radius) * Math.cos(latitude) * Math.sin(longitude);
-			
-			//ll = this._convertDegToRad(xPos,yPos);
-			
-			//if(xPos < x) {xPos=0;yPos = 0;}
-			
-			//if(yPos < y) {xPos=0;yPos = 0;}
-			
-			
-			res.x = xPos;
-			res.y =yPos;
-			
-			//if(x  >xPos) res.ok =false; 
-			//else res.ok = true;
-			//res.longitude = ll.longitude;
-			//res.latitude = ll.latitude;
-			res.longitude = longitude;
-			res.latitude = latitude;
-
+		res.x = xPos;
+		res.y = yPos;
+		res.latitude = latitude;
+		res.longitude = longitude;
 		return res;
 	},
+
 	transform: function(scaling, translation,rotate,spherical,radius){
 		var performScale = true;
 		var performTranslate = true; 
+		var performRotate = false;
 		
-		if(scaling.x == 1 && scaling.y == 1) performScale = false;
-		if(translation.x == 0 && translation.y == 0) performTranslate = false;
-		if(rotate) performRotate = true;
-
+		if(scaling.x == 1 && scaling.y == 1) {
+			performScale = false;
+		}
+		if(translation.x == 0 && translation.y == 0) {
+			performTranslate = false;
+		}
+		if(rotate) {
+			performRotate = true;
+		}
+		
 		this.longitudes = [];
 		this.latitudes = [];
 		this.transformedCoords = [];
 
 		this.grid.x1 = 2000;
 		this.grid.y1 = 2000;
-		this.grid.x2 = 0; this.grid.y2 = 0;
+		this.grid.x2 = 0;
+		this.grid.y2 = 0;
+		
 		var lastX, lastY;
 		var index = 0;
+		var coordOK;
 		for(var i=0; i < this.coords.length-1; i+=2){
 			coordOK= true;
-			var x =parseFloat(this.coords[i]);
-			var y =parseFloat(this.coords[i+1]);
+			var lon = parseFloat(this.coords[i]);
+			var lat = parseFloat(this.coords[i+1]);
+			var xPos, yPos;
 
-
-		
 			if(spherical){
-
-				var lim1, lim2;
-				lim1 = -radius;
-				lim2 = radius;
-
-				
+				/* JRL - I'm not entirely sure these two lines make sense - x is in radians, radius is in metres?
 				x -= radius;
-				y -= radius;
-				var t= 	this._spherify(x,y,rotate,radius);
-			
-				x = t.x;
-				y = t.y;
-				coordOK = t.ok;
-
-							//	if(t.latitude < 0){coordOK = false;}
+				y -= radius;*/
+				var t = this._spherify(lon,lat,rotate,radius);
+				xPos = t.x;
+				yPos = t.y;
 				this.latitudes[i] = t.latitude;
 				this.longitudes[i] = t.longitude;
+			} else {
+				xPos = lon;
+				yPos = lat;
 			}
-
-
+			/* JRL - removing rotations about the z axis for now (it says y below, but should be z)
 			if(performRotate){
-								if(rotate.y){
-									u = x ;
-									v = y ;
-									x =  (u * Math.cos(rotate.y)) - (v * Math.sin(rotate.y));
-									y = (v * Math.cos(rotate.y)) + (u * Math.sin(rotate.y));
-								}
-
-
-			}
-
-			
-			
+				if(rotate.y){
+					u = x ;
+					v = y ;
+					x =  (u * Math.cos(rotate.y)) - (v * Math.sin(rotate.y));
+					y = (v * Math.cos(rotate.y)) + (u * Math.sin(rotate.y));
+				}
+			}*/
 			if(performScale){
-				x *=  scaling.x;
-				y *= scaling.y;
+				xPos *= scaling.x;
+				yPos *= scaling.y;
 			}
-
 			if(performTranslate){
-
-				x = x + parseFloat(translation.x);
-				y = y + parseFloat(translation.y);
+				xPos = xPos + parseFloat(translation.x);
+				yPos = yPos + parseFloat(translation.y);
 			}
 
+			if(xPos < this.grid.x1) this.grid.x1 = xPos;
+			if(yPos < this.grid.y1) this.grid.y1 = yPos;	
+			if(xPos > this.grid.x2) this.grid.x2 = xPos;
+			if(yPos > this.grid.y2) this.grid.y2 = yPos;
 
-
-
-			if(x < this.grid.x1) this.grid.x1 = x;
-			if(y < this.grid.y1) this.grid.y1 = y;
-			
-			if(x > this.grid.x2) this.grid.x2 = x;
-			if(y > this.grid.y2) this.grid.y2 = y;
-			
-
-			
-			
 			if(index > 0){
-			var l = Math.sqrt(((x-lastX)*(x-lastX)) + ((y -lastY) * (y-lastY)));
+				var l = (xPos-lastX)*(xPos-lastX) + (yPos-lastY) * (yPos-lastY);
+			} else {
+				l = this.threshold*this.threshold;
 			}
-			else
-			l = this.threshold;
-			
-			if(l < this.threshold) coordOK = false;
-			
+			if(l < this.threshold*this.threshold) {
+				coordOK = false;
+			}
 			if(coordOK){ //draw
-
-				this.transformedCoords[index] = x;
-				this.transformedCoords[index+1] = y;
-				index += 2;
-				lastX = x; lastY = y;
+				this.transformedCoords.push(xPos);
+				this.transformedCoords.push(yPos);
+				index+=2;
+				lastX = xPos; lastY = yPos;
 			}
 		}
-		
-		if(this.transformedCoords.length < 3) this.transformedCoords = [0,0,0];
 
+		// JRL - is this line needed? why 3 coords?
+		if(this.transformedCoords.length < 3) this.transformedCoords = [0,0,0];
 	}
 };
 
-
-var EasyMapUtils = {
+var EasyMapsUtil = function(){
+	
+};
+EasyMapUtils.prototype = {
 	loadRemoteFile: function(url,callback,params)
 	{
 		return EasyMapUtils._httpReq("GET",url,callback,params,null,null,null,null,null,true);
