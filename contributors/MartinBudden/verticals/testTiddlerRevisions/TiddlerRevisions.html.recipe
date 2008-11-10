@@ -1,5 +1,4 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-title: title.txt
 recipe: shadows/split.recipe
 tiddler: ../../shadows/MainMenuHome.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
@@ -10,7 +9,8 @@ tiddler: settings.js
 tiddler: Home.tiddler
 tiddler: test.tiddler
 tiddler: ../../shadows/ViewTemplateRevisions.tiddler
+#tiddler: ../../shadows/EditTemplateSaveAndPut.tiddler
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/LocalAdaptorPlugin.js
-tiddler: ../../tiddlers/Configuration.tiddler
-tiddler: ../../tiddlers/Configuration.SideBarTabs.tiddler
+tiddler: ../../adaptors/LocalAdaptorSettings.js
