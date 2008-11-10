@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.7.2|
+|''Version:''|0.7.3|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -115,7 +115,7 @@ MediaWikiAdaptor.prototype.complete = function(context,fn)
 
 MediaWikiAdaptor.prototype.login = function(context)
 {
-//#console.log('login');
+//#console.log('login',context);
 	//#context = this.setContext(context,userParams,callback);
 	var host = this.fullHostName(context.host);
 	var uriTemplate = '%0/api.php?action=login&format=json&lgname=%1&lgpassword=%2';
@@ -162,6 +162,7 @@ MediaWikiAdaptor.loginCallback = function(status,context,responseText,uri,xhr)
 		}
 		context.status = true;
 		context.sessionToken = info.login.lgtoken;
+//#console.log('token',context.sessionToken);
 		//var page = MediaWikiAdaptor.anyChild(info.query.pages);
 		//context.sessionToken = page.edittoken;
 		if(context.complete)
@@ -725,21 +726,19 @@ MediaWikiAdaptor.getTiddlerRevisionListCallback = function(status,context,respon
 //#</api>
 
 
-/*
 MediaWikiAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback)
 {
-console.log('putTiddler:'+tiddler.title);
+//#console.log('putTiddler:'+tiddler.title);
 	context = this.setContext(context,userParams,callback);
 	context.tiddler = tiddler;
 	context.title = tiddler.title;
 	return this.complete(context,MediaWikiAdaptor.putTiddlerComplete);
 };
-*/
 
 MediaWikiAdaptor.putTiddlerComplete = function(context,userParams)
 {
 //#console.log('putTiddlerComplete');
-	var host = this.fullHostName(context.host);
+	var host = context.host;
 	var uriTemplate = '%0/api.php?action=edit&title=%1&token=%2&text=%3';
 	var uri = uriTemplate.format([host,escape(MediaWikiAdaptor.normalizedTitle(context.tiddler.title)),context.sessionToken,escape(context.tiddler.text)]);
 //#console.log('uri:'+uri);
