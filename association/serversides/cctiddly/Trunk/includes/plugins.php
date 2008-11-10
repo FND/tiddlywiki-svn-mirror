@@ -2,50 +2,35 @@
 global $Plugins;
 $Plugins = array();
 class Plugin {
-      private $phpEvents;
-      public $tiddlers;
-	      
-	public $count; 
+	private $phpEvents;
+	public $tiddlers;
 	
-      public function __construct($author, $version, $website) {
-      		global $Plugins;
-          $this->author = $author;
-          $this->version = $version;
-          $this->website = $website;
-          $this->phpEvents = array();
-		  $this->tiddlers = array();
-		  array_push($Plugins,$this);
-      }
+	public function __construct($author, $version, $website) {
+		global $Plugins;
+		$this->author = $author;
+		$this->version = $version;
+		$this->website = $website;
+		$this->phpEvents = array();
+		$this->tiddlers = array();
+		array_push($Plugins,$this);
+	}
 
-	public function addTiddler($tiddler, $data=null) {
-			if(is_file($tiddler))
-			{
-				$tiddler = $this->tiddlerFromFile($tiddler);
-			}
-				if($data)
-	$tiddler = array_merge_recursive($tiddler, $data);
-	$this->tiddlers[$tiddler['title']] = $tiddler;
-
-//	echo $tiddler['title'];
- 	echo "<br />";
-//	foreach($tiddler as $t)
-//	$this->tiddlers[$t['title']] = $tiddler[$t['title']];
-//	//	print_r($pluginsLoader);
-	//	$this->addTiddler($tiddler);	
-		/*
-		echo"ffff";
-		if(is_file($tiddler))
-		{
-			$tiddler = $this->tiddlerFromFile($tiddler);
-		}
-			if($data)
-				$tiddler = array_merge_recursive($tiddler, $data);
-			$tiddler_named_array[$tiddler['title']] = $tiddler;
+	public function addTiddler($data, $path=null) {
+		if(is_file($path))
+			$tiddler = $this->tiddlerFromFile($path);
+		else 
+			$tiddler = array();
 			
-			print_r($tiddler_named_array);
-			$this->addTiddler($tiddler_named_array);
-			print_r($this->tiddlers);
-	*/
+			
+
+		if(is_array($data)) {
+
+
+			$tiddler = array_merge_recursive($data,$tiddler);
+		}
+		
+		
+		$this->tiddlers[$tiddler['title']] = $tiddler;
 	}
 	
 	public function tiddlerFromFile($file)
@@ -82,22 +67,19 @@ class Plugin {
 		}
 	}
       
-      public function addEvent($eventname, $fileInclude) {
-		if ( !isset($this->phpEvents[$eventname]))
+	public function addEvent($eventname, $fileInclude) {
+		if (!isset($this->phpEvents[$eventname]))
 			$this->phpEvents[$eventname] = array();
 		array_push($this->phpEvents[$eventname], $fileInclude); 
-      }
+	}
      
 	public function run() {
-		// DO INIT SCRIPTS, JSs and MACROS // 
 		global $pluginsLoader;  
 		foreach ($this->phpEvents as $eventnames=>$eventArray) {
-			//print_r($eventnames);
-		foreach ($eventArray as $event)
-			$pluginsLoader->addEvent($eventnames,$event);
+			foreach ($eventArray as $event)
+				$pluginsLoader->addEvent($eventnames,$event);
 		}
 		foreach ($this->tiddlers as $tiddler) {
-			echo "LOOP";
 			$pluginsLoader->addTiddler($tiddler);
 		}
 	}   

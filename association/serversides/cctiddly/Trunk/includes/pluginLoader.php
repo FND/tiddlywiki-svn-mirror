@@ -17,23 +17,19 @@ class PluginsLoader {
 	
 	public function addTiddler($tiddler){
 		$this->tiddlers[$tiddler['title']] = $tiddler;
-
 	}
 	
-
 	public function readPlugins($cct_base){
 		$dir = $cct_base."plugins/";
 		include("plugins.php");
-		// Open a known directory, and proceed to read its contents
-		if (is_dir($dir)) {
+		if (is_dir($dir)) {		// Open a known directory, and proceed to read its contents
 		    if ($dh = opendir($dir)) {
 		       while (($file = readdir($dh)) !== false) {
 					if( is_dir($dir.$file))
 					{
-						// check for index.php and remove the ..
 					 	$pluginPath = $dir.$file."/index.php";
 						if (is_file($pluginPath) && $file!=='..')
-						{
+						{	// check for index.php and remove the ..
 							include($pluginPath);
 						}
 					}
@@ -56,6 +52,4 @@ $pluginsLoader = new PluginsLoader();
 $pluginsLoader->readPlugins($cct_base);
 $pluginsLoader->runPlugins();
 
-
-print_r($pluginsLoader);
 ?>

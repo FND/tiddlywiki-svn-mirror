@@ -62,10 +62,6 @@ if( isset($_GET['title']) )
 	}
 }
 
-exit;
-print_r($pluginsLoader);
-
-exit;
 
 $tiddlers = array_merge($pluginsLoader->tiddlers, $tiddlers);
 
