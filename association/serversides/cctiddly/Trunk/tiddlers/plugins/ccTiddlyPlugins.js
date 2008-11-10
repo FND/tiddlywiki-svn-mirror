@@ -1519,17 +1519,25 @@ config.macros.ccLogin.refresh=function(place, error){
 		}
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	});
+	
+	
+	
+		var li_register = createTiddlyElement(w.footElem, "label");
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	},null, null, null,  {tabindex:'3'});
+	
 	if(config.macros.register!==undefined){		
-		createTiddlyButton(w.footElem,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
+		var li_register = createTiddlyElement(w.footElem, "li");
+		createTiddlyButton(li_register,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
 				config.macros.register.displayRegister(place, w, this);
-		},null, null, null,  {tabindex:4});
+		},"nobox", null, null,  {tabindex:4});
 	}
-	createTiddlyButton(w.footElem,this.buttonForgottenPassword,this.buttonForgottenPasswordToolTip,function() {
+	var li_forgotten = createTiddlyElement(w.footElem, "li");
+	createTiddlyButton(li_forgotten,this.buttonForgottenPassword,this.buttonForgottenPasswordToolTip,function() {
 		config.macros.ccLogin.displayForgottenPassword(this, place);
-	},null, null, null,  {tabindex:5});
+	},"nobox", null, null,  {tabindex:5});
+
 };
 
 config.macros.ccLogin.doLogin=function(username, password, item, place){

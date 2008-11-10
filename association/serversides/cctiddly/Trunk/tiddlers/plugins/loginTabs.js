@@ -1,13 +1,10 @@
-config.macros.loginTabs={};
+config.macros.taggedTabs={};
 
-config.macros.loginTabs.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
-	var tagged = store.getTaggedTiddlers("loginBox","title").reverse();
-	if(tagged.length==1 || isLoggedIn()==1){
-		wikify(tagged[0].text, place);
-		return true;
-	}
-	var cookie = "loginTabs";
-	var wrapper = createTiddlyElement(null,"div",null,"tabsetWrapper " + cookie);
+config.macros.taggedTabs.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
+	var params = paramString.parseParams("taggedTabset",null,true,false,false);
+	var tagged = store.getTaggedTiddlers(params[1].value,"title").reverse();
+	var cookie = "taggedTabs";
+	var wrapper = createTiddlyElement(null,"div",null,"tabsetWrapper taggedTabset" + cookie);
 	var tabset = createTiddlyElement(wrapper,"div",null,"tabset");
 	var validTab = false;
 	tabset.setAttribute("cookie",cookie);
@@ -32,6 +29,8 @@ config.macros.loginTabs.handler=function(place,macroName,params,wikifier,paramSt
 	setStylesheet("div.tiddler .tab {font-size:1.2em;  font-weight:bold;padding:5px;padding-bottom:2px; padding-left:2em; padding-right:2em; margin-left:0px; margin-right:1em;}"+
 	"div.tiddler .wizard { margin:0px; }"+
 	" div.tabContents .wizard { margin:0px; }"+
+	".tabsetWrapper .wizard h1 {display:none}"+
+	".tabsetWrapper .wizard h2 {padding:0.5em}"+
 	".viewer {float:right; width:90%;}"+
 	"a.tabUnselected{ background-color:#ddd;}"+
 	"a.tabSelected:hover, a.tabUnselected:hover{ color:black}"+
@@ -39,7 +38,7 @@ config.macros.loginTabs.handler=function(place,macroName,params,wikifier,paramSt
 	"a.tabSelected{ filter:'alpha(opacity:60)'; background-color:white;}"+
 	"div.tabset {padding:0px}"+
 	"div.tabContents {padding:0px; background:transparent}",
-	 "loginTabs");
+	 "taggedTabs");
 	
 };
 
