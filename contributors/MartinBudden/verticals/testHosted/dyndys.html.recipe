@@ -1,0 +1,23 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: shadows/split.recipe
+recipe: dyndyscontent/split.recipe
+tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: settings.js
+tiddler: ../tiddlypedia/OptionsPanel.tiddler
+tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
+tiddler: ../../shadows/ViewTemplateGetPutRevisionsFields.tiddler
+tiddler: ../tiddlypedia/SideBarTabs.tiddler
+tiddler: ../tiddlypedia/TabMoreOtherPagesUpdatedShadowed.tiddler
+tiddler: ../tiddlypedia/TabTags.tiddler
+tiddler: ../tiddlypedia/TabOtherPages.tiddler
+# tiddler: ../../tiddlers/Download_this_wiki.tiddler
+tiddler: ../../adaptors/AdaptorMacrosPlugin.js
+tiddler: ../../adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
+tiddler: ../../feeds/TiddlyWikiDynDnsFeed.tiddler
+tiddler: ../../formatters/MediaWikiFormatterPlugin.js
+tiddler: ../../formatters/MediaWikiTemplatePlugin.js
+tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
+tiddler: ../../styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
+tiddler: ../../styles/wikipediaStyle.js
+tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
