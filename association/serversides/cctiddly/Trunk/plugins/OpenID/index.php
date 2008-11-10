@@ -5,4 +5,6 @@ $data['tags'] = 'systemConfig';
 $p->addTiddler('/Applications/xampp/xamppfiles/htdocs/plugins/OpenID/files/OpenIDPlugin.js', $data);
 $data['tags'] = 'loginBox';
 $p->addTiddler('/Applications/xampp/xamppfiles/htdocs/plugins/OpenID/files/OpenID.tiddler', $data);
+
+
 ?>

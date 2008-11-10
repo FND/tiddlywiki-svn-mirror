@@ -29,7 +29,7 @@ config.macros.loginTabs.handler=function(place,macroName,params,wikifier,paramSt
 	place.appendChild(wrapper);
 	config.macros.tabs.switchTab(tabset, config.options[cookie]);
 	
-	setStylesheet("div.tiddler .tab {font-size:1.2em;  font-weight:bold;padding:5px;padding-bottom:1.5px; padding-left:2em; padding-right:2em; margin-left:0px; margin-right:1em;}"+
+	setStylesheet("div.tiddler .tab {font-size:1.2em;  font-weight:bold;padding:5px;padding-bottom:2px; padding-left:2em; padding-right:2em; margin-left:0px; margin-right:1em;}"+
 	"div.tiddler .wizard { margin:0px; }"+
 	" div.tabContents .wizard { margin:0px; }"+
 	".viewer {float:right; width:90%;}"+

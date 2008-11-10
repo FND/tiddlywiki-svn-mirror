@@ -2,38 +2,25 @@
 
 class PluginsLoader {
 	public $events;
-	public $plugins;
-	public $tidddlers;
-	public $msgHandlers;
+	public $tiddlers;
 	
 	public function __construct(){
 		$this->events = array();
-		$this->plugins = array();
-		$this->tidddlers = array();
-		$this->msgHandlers = array();
+		$this->tiddlers = array();
 	}	
-
-	public function addPlugin($plugin){
-		array_push($this->plugins,$plugin);
-	}
 	
 	public function addEvent($eventname,$event){
 		if ( !isset($this->events[$eventname]))
              $this->events[$eventname] = array();
 			array_push($this->events[$eventname], $event); 
 	}
-		
+	
 	public function addTiddler($tiddler){
-		if(!$this->tiddlers)
-			$this->tiddlers = array(); 
-		foreach($tiddler as $t)
-			$this->tiddlers[$t['title']] = $tiddler[$t['title']];
+		$this->tiddlers[$tiddler['title']] = $tiddler;
+
 	}
 	
-	public function addHandler($msgHandler){
-		array_push($this->msgHandlers,$msgHandler);
-	}
-	
+
 	public function readPlugins($cct_base){
 		$dir = $cct_base."plugins/";
 		include("plugins.php");
@@ -70,5 +57,5 @@ $pluginsLoader->readPlugins($cct_base);
 $pluginsLoader->runPlugins();
 
 
-
+print_r($pluginsLoader);
 ?>
