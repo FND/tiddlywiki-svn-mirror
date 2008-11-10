@@ -16,4 +16,4 @@ tiddler: ../../plugins/synchrotronHandlerPlugin.js
 tiddler: ../../../../../../synchrotron/diff.js
 tiddler: ../../../../../../synchrotron/fs.js
 tiddler: ../../../../../../synchrotron/graph.js
-tiddler: ../../../../../../synchrotron/json2.js
+tiddler: ../../../../../../synchrotron/json2.js -c
