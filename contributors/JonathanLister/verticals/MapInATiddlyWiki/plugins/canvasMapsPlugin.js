@@ -20,11 +20,13 @@ version.extensions.canvasMapsPlugin = {installed:true};
 var head = document.getElementsByTagName("head")[0];
 var s1 = document.createElement("script");
 var s2 = document.createElement("script");
-s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps.js";
+var s3 = document.createElement("script");
+s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps3D.js";
 s2.src = "http://www.osmosoft.com/ILGA/demos/ieHack.js";
+s3.src = "http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js";
 head.appendChild(s1);
 head.appendChild(s2);
-
+head.appendChild(s3);
 config.macros.canvasMaps = {};
 
 config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -40,36 +42,18 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		var statustext = createTiddlyElement(wrapper,"div","wrapper_statustext");
 		createTiddlyText(statustext,"loading... please wait a little while!");
 		var caption = createTiddlyElement(place,"div","caption","caption");
-		var eMap = new EasyMap('wrapper','http://www.osmosoft.com/ILGA/demos/spacer.gif'); // 2nd argument not in EasyMap yet
+		var eMap = new EasyMap('wrapper');
 		eMap.addControl('pan');
 		eMap.addControl('zoom');
-		eMap.scale.x = 2.2;
-		eMap.scale.y = 2.2;
+		eMap.scale.x = 1.8;
+		eMap.scale.y = 1.8;
 		
 		var that = eMap;
 		var myElement = document.getElementById('caption');
-		eMap.mouseoverHandler = function(e,shape){
-			that.oldcolor = shape.fillStyle;
-			that.oldstrokecolor = shape.strokeStyle;
-			shape.fillStyle = "#FFFFFF";
-			shape.strokeStyle = "#FFFFFF";
-			var el = myElement;
-			var legal = "";
-			if(shape.properties.legality == 1) legal = " (legal)";
-			else if(shape.properties.legality == 0) legal = " (illegal)";
-			else legal = " (no data)";
-			el.innerHTML = shape.tooltip + legal;
-			that.redrawShape(shape);
-		};
+		
 	
-		eMap.mouseoutHandler = function(e,shape){
-			shape.fillStyle = that.oldcolor;
-			shape.strokeStyle = that.oldstrokecolor;
-			that.redrawShape(shape);
-		};
-	
-		eMap.clickHandler = function(e,shape){
-			var tiddlerElem = story.findContainingTiddler(e.target);
+		eMap.clickHandler = function(e){
+			var shape = eMap.getShapeAtClick(e);
 			var country = shape.tooltip;
 			if(!store.tiddlerExists(country)) {
 				var tags = "country";
@@ -77,10 +61,11 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 				var userName = config.options.txtUserName ? config.options.txtUserName : "guest";
 				store.saveTiddler(country,country,text,userName,new Date(),tags);
 			}
+			var tiddlerElem = story.findContainingTiddler(e.target);
 			story.displayTiddler(tiddlerElem,country);
 		};
 		
-		eMap.drawFromGeojsonFile('http://www.osmosoft.com/ILGA/demos/whereLegal.json');
+		eMap.drawFromGeojsonFile('http://plugins.tiddlywiki.org/ILGA.json');
 	}
 };
 
