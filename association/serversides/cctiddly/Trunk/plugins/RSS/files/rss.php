@@ -1,5 +1,5 @@
 <?php
-$cct_base = "../../../";
+
 include_once($cct_base."includes/header.php");
 //force anonymous due to security concerns
 $user['verified']=0;

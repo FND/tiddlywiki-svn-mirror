@@ -2,7 +2,7 @@
 global $Plugins;
 $Plugins = array();
 class Plugin {
-	private $phpEvents;
+	public $phpEvents;
 	public $tiddlers;
 	
 	public function __construct($author, $version, $website) {
@@ -20,16 +20,9 @@ class Plugin {
 			$tiddler = $this->tiddlerFromFile($path);
 		else 
 			$tiddler = array();
-			
-			
-
 		if(is_array($data)) {
-
-
 			$tiddler = array_merge_recursive($data,$tiddler);
 		}
-		
-		
 		$this->tiddlers[$tiddler['title']] = $tiddler;
 	}
 	

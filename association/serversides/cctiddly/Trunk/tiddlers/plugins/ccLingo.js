@@ -28,9 +28,7 @@ merge(config.macros.ccAbout,{
 	stepAboutTextEnd:"More info about ccTiddly can be found  at <a  target=new href=http://www.tiddlywiki.org/wiki/CcTiddly>http://www.tiddlywiki.org/wiki/CcTiddly</a><br/><br/>  More information about TiddlyWiki can be found at <a target=new href=http://www.tiddlywiki.com>http://www.tiddlywiki.com</a><br/>"
 });
 
-function ccTiddlyAdaptor(){
-}
-
+function ccTiddlyAdaptor(){}
 merge(ccTiddlyAdaptor,{ 
 	errorTitleNotSaved:"<h1>Your changes were NOT saved.</h1>", 
 	errorTextSessionExpired:"Your Session has expired. <br /> You will need to log into the new window and then copy your changes from this window into the new window. ", 
@@ -69,13 +67,9 @@ merge(config.macros.ccAdmin,{
 	rowClasses: [
 		{className: 'lowlight', field: 'lowlight'}
 	]}
-	
 });
 
-function ccTiddlyAutoSave(){
-	return this;
-}
-
+function ccTiddlyAutoSave(){return this;}
 merge(ccTiddlyAutoSave,{
 	msgSaved:"Saved ",
 	msgError:"There was an error saving "
@@ -94,7 +88,6 @@ merge(config.macros.ccCreateWorkspace, {
 	stepTitle:"Please enter workspace name",
 	stepCreateHtml:"<input class='input' id='workspace_name' name='workspace_name' value='"+workspace+"' tabindex='1' /><span></span><input type='hidden' name='workspace_error'></input><h2></h2><input type='hidden' name='workspace_url'></input>"
 });
-
 
 config.macros.ccEditWorkspace={};	
 merge(config.macros.ccEditWorkspace,{
@@ -118,7 +111,6 @@ errorUpdateFailed:"Permissions Not changed"
 });
 
 config.macros.ccFile = {};
-
 merge(config.macros.ccFile,{
 	wizardTitleText:"Manage Files",
 	wizardStepText:"Manage files in workspace ",
@@ -144,9 +136,7 @@ merge(config.macros.ccFile,{
 	]}
 });
 
-
 config.macros.ccLogin={sha1:true};
-
 merge(config.macros.ccLogin,{
 	WizardTitleText:null,
 	usernameRequest:"Username",
@@ -180,7 +170,6 @@ merge(config.macros.ccLogin,{
 });
 
 config.macros.ccLoginStatus={};
-
 merge(config.macros.ccLoginStatus,{
 	textDefaultWorkspaceLoggedIn:"Viewing default workspace",
 	textViewingWorkspace:"Viewing Workspace : ",
@@ -190,15 +179,13 @@ merge(config.macros.ccLoginStatus,{
 });
 
 config.macros.ccOptions={};	
-
 merge(config.macros.ccOptions, {
 	linkManageUsers:"users",
 	linkPermissions:"permissions",
 	linkFiles:"files",
 	linkCreate:"create",
 	linkOffline:"offline",
-	linkStats:"statistics"
-	
+	linkStats:"statistics"	
 });
 
 config.macros.register={};	
@@ -227,7 +214,6 @@ merge(config.macros.register,{
 	errorRegister:"User not created, please try again with a different username."
 });
 
-
 config.macros.ccStats={};
 merge(config.macros.ccStats,{
 	graph24HourTitle:"Last 24 hours",
@@ -241,4 +227,3 @@ merge(config.macros.ccStats,{
 	errorPermissionDenied:"Permissions Denied to data for %0 You need to be an administrator on the %1 workspace.",
 	stepTitle:"Workspace Statistics"
 });
-

@@ -25,35 +25,23 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 
 			workspace_create($tiddlyCfg['workspace_name'], "ADDD", $username);
 			$workspace_settings = db_workspace_selectSettings();
-			$workspace_settings_count = count($workspace_settings);
-
-		
+			$workspace_settings_count = count($workspace_settings);	
 		}
 	}
-}else
-{	
+}else{
 	if ($workspace_settings_count < 1)
 	{   
 		// workspace does not exist\
-		// this variable is later used in includes/ccVariables.php
-	
-		foreach ($modulesLoader->plugins as $plugin)
+		if($pluginsLoader->events['returnNotFound'])
 		{
-			if(is_file($cct_base."modules/".$plugin))
-				include_once($cct_base."modules/".$plugin);	
-		}
-
-		if($modulesLoader->events['returnNotFound'])
-		{
-			foreach ($modulesLoader->events['returnNotFound'] as $event)
+			foreach ($pluginsLoader->events['returnNotFound'] as $event)
 			{
-				if(is_file("modules/".$event))
-					include_once("modules/".$event);	
+				if(is_file("plugins/".$event))
+					include_once("plugins/".$event);	
 			}
-		}
-				
-			$error404 = true;		
-			$theme = "simple";
+		}	
+		$error404 = true;		
+		$theme = "simple";
 		
 	}
 }

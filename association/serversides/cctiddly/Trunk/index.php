@@ -23,6 +23,17 @@ if(!isset($cct_base))
 include_once($cct_base."includes/header.php");
 include_once($cct_base."includes/login.php");
 
+
+if($pluginsLoader->events['afterIncludes'])
+{
+	foreach ($pluginsLoader->events['afterIncludes'] as $event)
+	{
+		if(is_file("plugins/".$event))
+			include_once("plugins/".$event);	
+	}
+}
+
+
 if(@mysql_num_rows(mysql_query("SELECT * FROM instance_history where version='1.7'"))==0) {
 	echo "<h1>ccTiddly Upgrade</h1>";
 	echo "<p>Your instance of ccTiddly is being upgraded. Now you need to run <a href=upgrade.php >upgrade.php</a> to complete the upgrade.</p>";
@@ -62,6 +73,8 @@ if( isset($_GET['title']) )
 	}
 }
 $tiddlers = array_merge($pluginsLoader->tiddlers, $tiddlers);
+
+
 
 recordTime_float("get all tiddlers");
 	
