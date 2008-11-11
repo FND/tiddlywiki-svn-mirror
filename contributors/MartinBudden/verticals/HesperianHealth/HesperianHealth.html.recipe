@@ -4,6 +4,7 @@ recipe: feeds/split.recipe
 recipe: content/split.recipe
 #recipe: templates/split.recipe
 recipe: themes/split.recipe
+tiddler: ../../shadows/ViewTemplateGetPutRevisionsFields.tiddler
 tiddler: settings.js
 #tiddler: Logo.tiddler
 #recipe:  ../tiddlypedia/splitHostedRevisions.recipe

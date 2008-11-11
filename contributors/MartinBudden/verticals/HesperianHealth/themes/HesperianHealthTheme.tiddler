@@ -1,10 +1,11 @@
-<div title="HesperianHealthTheme" modifier="MartinBudden" tags="systemTheme excludeSearch">
+<div title="HesperianHealthTheme" modifier="MartinBudden" tags="systemTheme excludeSearch excludeLists">
 <pre>/***
 |''Name:''|HesperianHealthTheme|
 |''Description:''|The basic Hesperian Health theme|
 |''~CoreVersion:''|2.4.1|
 |''~MainMenu:''|##MainMenu|
 |''~PageTemplate:''|##PageTemplate|
+|''~ViewTempate:''|##ViewTemplate|
 |''~StyleSheet:''|##StyleSheet|
 
 ***/
@@ -40,7 +41,7 @@
 
 !ViewTemplate
 <!--{{{-->
-<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler showDiscussions getDiscussion > fields syncing permalink references jump'></div>
+<div class='toolbar' macro='toolbar getTiddler putTiddler -closeTiddler closeOthers +editTiddler revisions > fields syncing permalink references jump'></div>
 <div class='title' macro='view title'></div>
 <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 <div class='tagging' macro='tagging'></div>
@@ -48,7 +49,6 @@
 <div class='viewer' macro='view text wikified'></div>
 <div class='tagClear'></div>
 <!--}}}-->
-
 
 !Logo
 <br/>
