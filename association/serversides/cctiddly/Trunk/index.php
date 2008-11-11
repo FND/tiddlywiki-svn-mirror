@@ -28,6 +28,7 @@ if($pluginsLoader->events['afterIncludes'])
 {
 	foreach ($pluginsLoader->events['afterIncludes'] as $event)
 	{
+		echo "ssss";
 		if(is_file("plugins/".$event))
 			include_once("plugins/".$event);	
 	}
@@ -42,12 +43,6 @@ if(@mysql_num_rows(mysql_query("SELECT * FROM instance_history where version='1.
 }
 recordTime_float("includes");
 
-//RSS
-if( strcmp($cctAction,"RSS")==0 )
-{
-	include_once($cct_base."handle/rss.php");
-	exit;
-}
 
 //check if getting revision
 if( isset($_GET['title']) )
