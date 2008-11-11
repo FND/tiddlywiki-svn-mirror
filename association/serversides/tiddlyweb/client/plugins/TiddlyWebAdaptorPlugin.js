@@ -107,7 +107,7 @@ config.extensions.TiddlyWebAdaptor.getTiddlerListCallback = function(status, con
 		}
 	}
 	if(context.callback) {
-		context.callback(context,context.userParams);
+		context.callback(context, context.userParams);
 	}
 };
 
@@ -152,7 +152,7 @@ config.extensions.TiddlyWebAdaptor.getTiddlerRevisionListCallback = function(sta
 			context.status = false; // XXX: correct?
 			context.statusText = exceptionText(ex, config.extensions.TiddlyWebAdaptor.parsingErrorMessage);
 			if(context.callback) {
-				context.callback(context,context.userParams);
+				context.callback(context, context.userParams);
 			}
 			return;
 		}
@@ -243,7 +243,7 @@ config.extensions.TiddlyWebAdaptor.getTiddlerCallback = function(status, context
 
 // store an individual tiddler
 config.extensions.TiddlyWebAdaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) {
-	context = this.setContext(context,userParams,callback);
+	context = this.setContext(context, userParams, callback);
 	context.title = tiddler.title;
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
 	var host = context.host ? context.host : this.fullHostName(tiddler.fields["server.host"]); // TODO: fullHostName should be static method!?
