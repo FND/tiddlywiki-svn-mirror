@@ -1,0 +1,6 @@
+body { background: black; font-family: sans-serif; margin: 0; }
+h1 { font-size: 2em; background: #f60; margin: 0em; padding-left: 20px; padding: 0.3em; color: #fea; }
+table { width: 100%; margin: 0; border-collapse: collapse; }
+tr { background: #daf; color: #62f; border-bottom: 1px solid white; border-top: 1px solid white; }
+td { margin: 0; border: 0; font-size: 1.5em; padding: 0.3em; vertical-align: bottom; }
+td.count { font-weight: bold; width: 1em; padding-left: 20px; }
