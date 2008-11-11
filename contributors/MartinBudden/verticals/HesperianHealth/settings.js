@@ -12,13 +12,13 @@ config.options.chkAutoSave = false;
 config.options.txtBackupFolder = 'backup';
 config.options.txtMaxEditRows = 20;
 config.options.chkDisableWikiLinks = true;
-config.options.	txtTheme = 'HesperianHealthTheme';
+config.options.txtTheme = 'HesperianHealthTheme';
 
 config.maxTiddlerImportCount = 500;
 
 merge(config.defaultCustomFields,{
 	'server.type':'mediawiki',
-	'server.host':'http://health.hesperian.net/health'
+	'server.host':'http://health.hesperian.net/wx/'
 });
 
 config.options.chkSinglePageMode = false;
