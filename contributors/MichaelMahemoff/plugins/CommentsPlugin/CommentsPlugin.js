@@ -14,7 +14,7 @@
 ***/
 
 /* TODO 
-  Don't autosavechanges on each delete recursion - create an outside wrapper fn
+  Don't autoSavechanges on each delete recursion - create an outside wrapper fn
   Cascade comment delete when the top-level tiddler is deleted
 */
 
@@ -46,6 +46,12 @@ function remove(list, unwantedItem) {
   return select(list,
         function(currentItem) { return currentItem!=unwantedItem; });
 }
+
+//##############################################################################
+//# GENERAL UTILS
+//##############################################################################
+
+function log() { console.log.apply(null, arguments); }
 
 //##############################################################################
 //# TIDDLYWIKI UTILS
@@ -86,8 +92,6 @@ function copyFields(fromTiddler, toTiddler, field1, field2, fieldN) {
 //# MACRO INITIALISATION
 //################################################################################
 
-// setStylesheet(store.getRecursiveTiddlerText(tiddler.title + "##StyleSheet"),"comments");
-// var stylesheet = store.getRecursiveTiddlerText(tiddler.title + "##StyleSheet");
 var stylesheet = store.getTiddlerText(tiddler.title + "##StyleSheet");
 config.shadowTiddlers["StyleSheetCommentsPlugin"] = stylesheet;
 store.addNotification("StyleSheetCommentsPlugin", refreshStyles);
@@ -95,25 +99,11 @@ store.addNotification("StyleSheetCommentsPlugin", refreshStyles);
 config.macros.comments = {
 
   handler: function(place,macroName,params,wikifier,paramstring,tiddler) {
-    // tiddler.initialiseRelationships();
     buildCommentsArea(tiddler, place);
     refreshCom(story.getTiddler(tiddler.title).commentsEl, tiddler);
   }
 
 };
-
-/*
-function setupSequenceTiddler() {
-  if (store.getTiddler("commentSequence")) return;
-  log("new seq");
-  // store.saveTiddler("commentSequence", "commentSequence", 1);
-  var commentSeq =  store.createTiddler("commentSequence");
-  // commmentSeq.modifier = config.options.txtUserName;
-  commentSeq.text = "0"
-  store.saveTiddler(commentSeq.title);
-  saveChanges(false);
-}
-*/
 
 //################################################################################
 //# MACRO VIEW - RENDERING COMMENTS
@@ -152,28 +142,23 @@ function refreshCom(daddyCommentsEl, tiddler) {
   if (tiddler.isTagged("comment")) {
     var commentEl = buildCommentEl(daddyCommentsEl, tiddler);
     // rootTiddler.commentsEl.appendChild(commentEl);
-    // log("daddy element", story.getTiddler(tiddler.fields.daddy));
     // story.getTiddler(tiddler.fields.daddy).commentsEl.appendChild(commentEl);
     daddyCommentsEl.appendChild(commentEl);
     refreshedEl = commentEl;
   } else {
-    // log("render non-comment");
     removeChildren(daddyCommentsEl);
     refreshedEl = story.getTiddler(tiddler.title);
   }
 
-   // log("start child loop for ", tiddler, "first child:", tiddler.fields.firstchild);
   prev=null;
   for (var child = store.getTiddler(tiddler.fields.firstchild); child; child = store.getTiddler(child.fields.nextchild)) {
      if (prev==child) {
         console.log(prev, child, "breaking");
         break;
       }
-     // log("tiddler and child", refreshedEl, tiddler, child);
      refreshCom(refreshedEl.commentsEl, child);
      prev = child;
   }
-   // log("end child loop for " + tiddler.title);
 
 }
 
@@ -212,7 +197,6 @@ function buildCommentEl(daddyCommentsEl, comment) {
   deleteEl.onclick = function() {
     if (true || confirm("Delete this comment and all of its replies?")) {
       deleteTiddlerAndDescendents(comment);
-      log("refreshing inside", daddyCommentsEl);
       commentEl.parentNode.removeChild(commentEl);
     }
   };
@@ -222,10 +206,14 @@ function buildCommentEl(daddyCommentsEl, comment) {
   wikify(comment.text, commentEl.text);
 
   // REPLY LINK
-  var replyLink = createTiddlyElement(commentEl, "span", null, "replyLink", "reply to this comment");
+  var replyLinkZone = createTiddlyElement(commentEl, "div", null, "replyLinkZone");
+  var replyLink = createTiddlyElement(replyLinkZone, "span", null, "replyLink", "reply to this comment");
   replyLink.onclick = function() { openReplyLink(comment, commentEl, replyLink); };
 
-  // COMMENTS AREA - MM NEW
+  // var clearance = createTiddlyElement(commentEl, "clearance", null, "clearance");
+  // clearance.innerHTML = "&nbsp;";
+
+  // COMMENTS AREA
   commentEl.commentsEl = createTiddlyElement(commentEl, "div", null, "comments");
 
   // RETURN
@@ -275,88 +263,62 @@ function createComment(text, daddy) {
   var newComment =  store.createTiddler("comment"+((new Date()).getTime()));
 
   /*
-    doesn't work due to some persistence issue i don't grok!
+    Doesn't work due to some persistence issue i don't grok!
+
   var commentSeq =  store.getTiddler("commentSequence");
   if (!commentSeq) {
-    log("NEW SEQ");
     commentSeq =  store.createTiddler("commentSequence");
     commentSeq.text = "0"
   }
   commentSeq.text = parseInt(commentSeq.text) + 1;
-  log("the seq", commentSeq);
   // commmentSeq.modifier = config.options.txtUserName;
   var newComment =  store.createTiddler("comment"+commentSeq.text);
   store.saveTiddler("commentSequence", "commentSequence");
   */
 
-  // var newComment =  store.saveTiddler(null, "comment"+(++commentSeq));
-  // log(store.getTiddler("commentSequence"));
-  // log("COMMENT SEQ", commentSeq);
-  // store.getTiddler("commentSequence").text = commentSeq + 1;
-  // store.saveTiddler("commentSequence");
-  // saveChanges(false);
-  // log("sAved");
-
-  // var newComment =  store.createTiddler("comment"+(++commentSeq));
   var now = new Date();
   newComment.set(null, text, config.options.txtUserName, now, ["comment"], now, {});
 
   newComment.fields.daddy = daddy.title;
   copyFields(daddy, newComment,
-    "server.bag", "server.host", "server.page.revision", "server.type", "server.workspace");
+    "server.bag", "server.host", /* "server.page.revision", */"server.type", "server.workspace");
 
   if (!daddy.fields.firstchild) {
     daddy.fields.firstchild = newComment.title;
-    log("createComment - daddy has no child");
   } else {
-    for (last = store.getTiddler(daddy.fields.firstchild); last.fields.nextchild; last = store.getTiddler(last.fields.nextchild)) {}
-      last.fields.nextchild = newComment.title;
-      store.saveTiddler(last.fields.nextchild);
+    for (last = store.getTiddler(daddy.fields.firstchild); last.fields.nextchild; last = store.getTiddler(last.fields.nextchild))
+      {}
+    last.fields.nextchild = newComment.title;
+    store.saveTiddler(last.fields.nextchild);
   }
-  // console.log(newComment.title, daddy.fields.firstchild, daddy, newComment);
 
   store.saveTiddler(newComment.title);
   store.saveTiddler(daddy.title);
-  // saveChanges(false, [daddy, newComment, store.getTiddler("commentSequence")]); // TODO dont always save daddy
-  saveChanges(false);
+  autoSaveChanges(false);
   return newComment;
 }
 
 function deleteTiddlerAndDescendents(tiddler) {
   var daddy = store.getTiddler(tiddler.fields.daddy);
-  log("delete", tiddler, tiddler.fields.daddy);
-  log("daddy", daddy);
   if (daddy.fields.firstchild==tiddler.title) {
-    log("deleting firstChild", daddy, tiddler);
-    log("tiddlr.nextchild?", tiddler.fields.nextchild);
     tiddler.fields.nextchild ? daddy.fields.firstchild = tiddler.fields.nextchild :
                         delete daddy.fields.firstchild;
     store.saveTiddler(daddy.title);
   } else {
     for (prev = store.getTiddler(daddy.fields.firstchild); prev.fields.nextchild!=tiddler.title; prev = store.getTiddler(prev.fields.nextchild))
       ;
-    log("before - prev fields", prev.fields.nextchild);
-    log("tiddler nxt", tiddler.fields.nextchild);
-    log("deleting from prev", prev, tiddler.fields.nextchild);
     tiddler.fields.nextchild ? prev.fields.nextchild = tiddler.fields.nextchild :
                                delete prev.fields.nextchild;
-    log("after - prev fields", prev.fields.nextchild);
     store.saveTiddler(prev.title);
   }
 
-  // for (child = store.getTiddler(tiddler.fields.firstchild); child; child = store.getTiddler(child.fields.nextchild)) {
-    // log("going to delete ", child);
-    // deleteTiddlerAndDescendents(child);
-  // }
-
-  var child = store.getTiddler(tiddler.fields.firstchild);
+    var child = store.getTiddler(tiddler.fields.firstchild);
   while (child) {
     var nextchild = store.getTiddler(child.fields.nextchild);
     deleteTiddlerAndDescendents(child);
     child = nextchild;
   }
 
-  log("deleting from store", tiddler.title);
   store.deleteTiddler(tiddler.title);
 
   autoSaveChanges(false);
@@ -374,6 +336,7 @@ function deleteTiddlerAndDescendents(tiddler) {
 .comment .comments { margin-left: 1em; }
 
 .comment { padding: 0 0 1em 0; margin: 1em 0 0; }
+.comment .comment { margin 0; }
 .comment .toolbar .button { border: 0; color: #9a4; }
 .comment .heading { background: [[ColorPalette::PrimaryPale]]; color: [[ColorPalette::PrimaryDark]]; border-bottom: 1px solid [[ColorPalette::PrimaryLight]]; border-right: 1px solid [[ColorPalette::PrimaryLight]]; padding: 0.15em; height: 1.3em; }
 .commentTitle { float: left; }
@@ -389,8 +352,8 @@ function deleteTiddlerAndDescendents(tiddler) {
 .closeNewReply { cursor: pointer; float: right; text-decoration: underline; }
 .comments textarea { width: 100%; }
 
+.clearance { clear: both; }
+
 !(end of StyleSheet)
 
 ***/
-
-function log() { console.log.apply(null, arguments); }
