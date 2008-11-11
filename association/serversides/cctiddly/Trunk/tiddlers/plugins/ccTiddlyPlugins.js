@@ -38,30 +38,6 @@
 // Ensure that the plugin is only installed once.
 if(!version.extensions.AdaptorCommandsPlugin) {
 	version.extensions.AdaptorCommandsPlugin = {installed:true};
-
-//# revisions command definition
-config.commands.revisions = {};
-merge(config.commands.revisions,{
-	text: "revisions",
-	tooltip: "View another revision of this tiddler",
-	loading: "loading...",
-	done: "Revision downloaded",
-	revisionTooltip: "View this revision",
-	popupNone: "No revisions",
-	revisionTemplate: "%0 r:%1 m:%2",
-	dateFormat:"YYYY mmm 0DD 0hh:0mm"	
-});
-
-config.commands.deleteTiddlerHosted = {};
-merge(config.commands.deleteTiddlerHosted,{
-	text: "delete",
-	tooltip: "Delete this tiddler",
-	warning: "Are you sure you want to delete '%0'?",
-	hideReadOnly: true,
-	done: "Deleted "
-});
-
-
 config.commands.saveTiddlerHosted1 = {};
 merge(config.commands.saveTiddlerHosted1, config.commands.saveTiddler);
 
@@ -157,9 +133,6 @@ function invokeAdaptor(fnName,param1,param2,context,userParams,callback,fields)
 		ret = param2 ? adaptor[fnName](param1,param2,context,userParams,callback) : adaptor[fnName](param1,context,userParams,callback);
 	else
 		ret = adaptor[fnName](context,userParams,callback);
-
-	//adaptor.close();
-	//delete adaptor;
 	return ret;
 }
 
@@ -284,15 +257,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 //}}}
 
 //  ccAbout //
-	
-config.macros.ccAbout={};
-merge(config.macros.ccAbout,{
-	buttonBackstageText:"about",
-	buttonBackstageTooltip:"Find out more about ccTiddly ",
-	stepAboutTitle:"About",
-	stepAboutTextStart:"You are running ccTiddly ",
-	stepAboutTextEnd:"More info about ccTiddly can be found  at <a  target=new href=http://www.tiddlywiki.org/wiki/CcTiddly>http://www.tiddlywiki.org/wiki/CcTiddly</a><br/><br/>  More information about TiddlyWiki can be found at <a target=new href=http://www.tiddlywiki.com>http://www.tiddlywiki.com</a><br/>"
-});
+
 config.backstageTasks.push(config.macros.ccAbout.buttonBackstageText);
 merge(config.tasks,{about:{text: config.macros.ccAbout.buttonBackstageText,tooltip: config.macros.ccAbout.buttonBackstageTooltip,content: '<<ccAbout>>'}});
 config.macros.ccAbout.handler=function(place,macroName,params,wikifier,paramString,tiddler,errorMsg){
@@ -314,21 +279,6 @@ config.macros.ccAbout.handler=function(place,macroName,params,wikifier,paramStri
 	function isLoggedIn(){
 		return (window.loggedIn == '1') 
 	}
-
-	function ccTiddlyAdaptor(){
-	}
-
-	merge(ccTiddlyAdaptor,{ 
-		errorTitleNotSaved:"<h1>Your changes were NOT saved.</h1>", 
-		errorTextSessionExpired:"Your Session has expired. <br /> You will need to log into the new window and then copy your changes from this window into the new window. ", 
-		errorTextConfig:"There was a conflict when saving. <br /> Please open the page in a new window to see the changes.",
-		errorTextUnknown:"An unknown error occured.",
-		errorClose:"close",
-		buttonOpenNewWindow:"Open a Window where I can save my changes	.... ",
-		buttonHideThisMessage:"Hide this message", 
-		msgErrorCode:"Error Code : "
-
-	});
 
 	ccTiddlyAdaptor.prototype = new AdaptorBase();
 
@@ -737,36 +687,6 @@ config.macros.ccAbout.handler=function(place,macroName,params,wikifier,paramStri
 
 //{{{
 
-config.macros.ccAdmin = {}
-merge(config.macros.ccAdmin,{
-	stepAddTitle:"Add a new Workspace Administrator",
-	WizardTitleText:"Workspace Administration.",
-	buttonDeleteText:"Delete Users",
-	buttonDeleteTooltip:"Click to delete users.",
-	buttonAddText:"Add User",
-	buttonAddTooltip:"Click to add user.",
-	buttonCancelText:"Cancel",
-	buttonCalcelTooltip:"Calcel adding user.",
-	buttonCreateText:"Make User Admin",
-	buttonCreateTooltip:"Click to make user admin.",
-	labelWorkspace:"Workspace: ",
-	labelUsername:"Username  : ",
-	stepErrorTitle:"You need to be an administrator of this workspace.",
-	stepErrorText:"Permission Denied to edit workspace : ",
-	stepNoAdminTitle:"There are no admins of this workspace.",
-	stepManageWorkspaceTitle:"",
-	listAdminTemplate: {
-	columns: [	
-		{name: 'Selected', field: 'Selected', rowName: 'name', type: 'Selector'},
-		{name: 'Name', field: 'name', title: "Username", type: 'String'},	
-		{name: 'Last Visit', field: 'lastVisit', title: "Last Login", type: 'String'}
-	],
-	rowClasses: [
-		{className: 'lowlight', field: 'lowlight'}
-	]}
-	
-});
-
 config.macros.ccAdmin.handler = function(place,macroName,params,wikifier,paramString,tiddler, errorMsg){
 	var w = new Wizard();
 	w.createWizard(place,config.macros.ccAdmin.WizardTitleText);
@@ -865,24 +785,13 @@ config.macros.ccAdmin.addAdminCallback = function(status,params,responseText,uri
 
 //}}}
 
-
 //  ccAutoSave //
-
 
 //{{{
 	
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.ccTiddlyAutoSavePlugin) {
 	version.extensions.ccTiddlyAutoSavePlugin = {installed:true};
-
-function ccTiddlyAutoSave(){
-	return this;
-}
-
-merge(ccTiddlyAutoSave,{
-	msgSaved:"Saved ",
-	msgError:"There was an error saving "
-});
 
 ccTiddlyAutoSave.putCallback = function(context, userParams){
 	tiddler = context.tiddler;
@@ -923,23 +832,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 
 // ccCreateWorkspace //
 
-
 //{{{
-
-config.macros.ccCreateWorkspace = {}
-merge(config.macros.ccCreateWorkspace, {
-	wizardTitle:"Create Workspace",
-	buttonCreateText:"create",
-	buttonCreateWorkspaceText:"Create Workspace",
-	buttonCreateTooltip:'Create new workspace',
-	errorPermissions:"You do not have permissions to create a workspace.  You may need to log in.",
-	msgPleaseWait:"Please wait, your workspace is being created.",
-	msgWorkspaceAvailable:"Workspace name is available.",
-	errorWorkspaceNameInUse:"Workspace name is already in use.",
-	stepTitle:"Please enter workspace name",
-	stepCreateHtml:"<input class='input' id='workspace_name' name='workspace_name' value='"+workspace+"' tabindex='1' /><span></span><input type='hidden' name='workspace_error'></input><h2></h2><input type='hidden' name='workspace_url'></input>"
-});
-	
 
 if(isLoggedIn()){
 	config.backstageTasks.push(config.macros.ccCreateWorkspace.buttonCreateText);
@@ -1016,28 +909,7 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 
 
 //{{{
-	
-config.macros.ccEditWorkspace={};	
-merge(config.macros.ccEditWorkspace,{
-	WizardTitleText:"Edit Workspace Permissions",
-	stepEditTitle:null,
-	stepLabelCreate:'Create',
-	stepLabelRead:'Read',
-	stepLabelUpdate:'Edit',
-	stepLabelDelete:'Delete',
-	stepLabelPermission:'',
-	stepLabelAnon:'  Anonymous   ',
-	stepLabelUser:' Authenticated   ',
-	stepLabelAdmin:' Admin  ',
-	buttonSubmitCaption:"Update Workspace Permissions",
-	buttonSubmitToolTip:"Update workspace permissions",
-	button1SubmitCaption:"ok",
-	button1SubmitToolTip:"review permissions",
-	step2Error:"Error", 
-	errorTextPermissionDenied:"You do not have permissions to edit this workspace permissions.  You may need to log in.",
-	errorUpdateFailed:"Permissions Not changed"
-});
-	
+		
 config.macros.ccEditWorkspace.handler = function(place, macroName, params, wikifier, paramString, tiddler){
 	var me = config.macros.ccEditWorkspace;
 	if(workspacePermission.owner !=1){
@@ -1228,33 +1100,6 @@ config.macros.ccEditWorkspace.refresh = function(place, macroName, params, wikif
 
 //{{{
 	
-config.macros.ccFile = {};
-
-merge(config.macros.ccFile,{
-	wizardTitleText:"Manage Files",
-	wizardStepText:"Manage files in workspace ",
-	buttonDeleteText:"Delete Files",
-	buttonDeleteTooltip:"Click to Delete files.",
-	buttonUploadText:"Upload File",
-	buttonUploadTooltip:"Click to Upload files.",
-	buttonCancelText:"Cancel",
-	buttonCancelTooltip:"Click to cancel.",
-	labelFiles:"Existing Files ",
-	errorPermissionDeniedTitle:"Permission Denied",
-	errorPermissionDeniedUpload:"You do not have permissions to create a file on this server. ",
-	errorPermissionDeniedView:"You do not have permissions to view files in this workspace. ",
-	listAdminTemplate: {
-	columns: [	
-	{name: 'wiki text', field: 'wikiText', title: "", type: 'WikiText'},
-	{name: 'Selected', field: 'Selected', rowName: 'name', type: 'Selector'},
-	{name: 'Name', field: 'name', title: "File", type: 'WikiText'},
-	{name: 'Size', field: 'fileSize', title: "size", type: 'String'}
-	],
-	rowClasses: [
-	{className: 'lowlight', field: 'lowlight'}
-	]}
-});
-
 var iFrameLoad=function(w){
 	var uploadIframe = document.getElementById('uploadIframe');
 	var a = createTiddlyElement(null, "div");
@@ -1404,40 +1249,6 @@ config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,x
 // ccLogin //
 
 //{{{
-
-config.macros.ccLogin={sha1:true};
-
-merge(config.macros.ccLogin,{
-	WizardTitleText:null,
-	usernameRequest:"Username",
-	passwordRequest:"Password",
-	stepLoginTitle:null,
-	stepLoginIntroTextHtml:"<label>username</label><input name=username id=username tabindex='1'><br /><label>password</label><input type='password' tabindex='2' class='txtPassword'><input   name='password'>",
-	stepDoLoginTitle:"Logging you in",
-	stepDoLoginIntroText:"we are currently trying to log you in.... ",
-	stepForgotPasswordTitle:"Password Request",
-	stepForgotPasswordIntroText:"Please contact your system administrator or register for a new account.  <br /><input id='forgottenPassword' type='hidden' name='forgottenPassword'/>",
-	stepLogoutTitle:"Logout",
-	stepLogoutText:"You are currently logged in as ",
-	buttonLogout:"logout",
-	buttonLogoutToolTip:"Click here to logout.",
-	buttonLogin:"Login",
-	buttonlogin:"login",
-	buttonLoginToolTip:"Click to Login.",	
-	buttonCancel:"Cancel",
-	buttonCancelToolTip:"Cancel transaction ",
-	buttonForgottenPassword:"Forgotten Password",	
-	buttonSendForgottenPassword:"Mail me a New Password",
-	buttonSendForgottenPasswordToolTip:"Click here if you have forgotten your password",
-	buttonForgottenPasswordToolTip:"Click to be reminded of your password",
-	msgNoUsername:"Please enter a username", 
-	msgNoPassword:"Please enter a password",
-	msgLoginFailed:"Login Failed, please try again. ", 
-	configURL:url+"/handle/login.php", 
-	configUsernameInputName:"cctuser",
-	configPasswordInputName:"cctpass",
-	configPasswordCookieName:"cctPass"
-});
 
 config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	if(isLoggedIn()){
@@ -1669,16 +1480,6 @@ window.restart = function(){
 
 //{{{
 
-config.macros.ccLoginStatus={};
-
-merge(config.macros.ccLoginStatus,{
-	textDefaultWorkspaceLoggedIn:"Viewing default workspace",
-	textViewingWorkspace:"Viewing Workspace : ",
-	textLoggedInAs:"Logged in as ",
-	textNotLoggedIn:"You are not logged in.",
-	textAdmin:"You are an Administrator."
-});
-
 config.macros.ccLoginStatus.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	var loginDiv=createTiddlyElement(place,"div",null,"loginDiv",null);
 	this.refresh(loginDiv);
@@ -1707,17 +1508,6 @@ config.macros.ccLoginStatus.refresh=function(place,errorMsg){
 
 //{{{
 	
-config.macros.ccOptions={};	
-
-merge(config.macros.ccOptions, {
-	linkManageUsers:"users",
-	linkPermissions:"permissions",
-	linkFiles:"files",
-	linkCreate:"create",
-	linkOffline:"offline",
-	linkStats:"statistics"
-	
-});
 config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	var me = config.macros.ccOptions;
 	if(workspacePermission.owner==1)
@@ -1742,32 +1532,6 @@ config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramSt
 
 //{{{
 	
-config.macros.register={};	
-merge(config.macros.register,{
-	usernameRequest:"username",
-	passwordRequest:"password",
-	passwordConfirmationRequest:"confirm password",
-	emailRequest:"email",
-	stepRegisterTitle:"Register for an account.",
-	stepRegisterIntroText:"Hi, please register below.... ",
-	stepRegisterHtml:"<label> username</label><input class='input' id='reg_username' name='reg_username' tabindex='1'/><span></span><input type='hidden'  name='username_error'></input><br /><label>email</label><input class='input' name=reg_mail id='reg_mail' tabindex='2'/><span> </span><input type='hidden' name='mail_error'></input><br/><label>password</label><input type='password' class='input' id='password1' name='reg_password1' tabindex='3'/><span> </span><input type='hidden'  name='pass1_error'></input><br/><label>confirm password</label><input type='password' class='input' id='password2' name='reg_password2' tabindex='4'/><span> </span><input type='hidden'  name='pass2_error'></input>",
-	buttonCancel:"Cancel",
-	buttonCancelToolTip:"Cancel transaction ",
-	buttonRegister:"Register",	
-	buttonRegisterToolTip:"click to register",
-	msgCreatingAccount:"Attempting to create the account for you.", 
-	msgNoUsername:"No username entered", 
-	msgEmailOk:"Email address is OK.",
-	msgNoPassword:"no password entered.",
-	msgDifferentPasswords:"Your Passwords do not match.",
-	msgUsernameTaken:"The username requested has been taken.",
-	msgUsernameAvailable:"The username is available.",
-	step2Title:"",
-	step2Html:"Please wait while we create you an account...",
-	errorRegisterTitle:"Error",
-	errorRegister:"User not created, please try again with a different username."
-});
-
 config.macros.register.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	//config.macros.login.refresh(place);
 };
@@ -1777,20 +1541,14 @@ config.macros.register.displayRegister=function(place, w, item){
 	var w = new Wizard(item);
 	w.addStep(me.stepRegisterTitle, me.stepRegisterHtml);
 	w.formElem["reg_username"].onkeyup=function() {me.isUsernameAvailable(w);};
-	console.log(w.footElem);
 	w.setButtons([
 		{caption: me.buttonRegister, tooltip: me.buttonRegisterToolTip, onClick:function() { me.doRegister(place, w)}},
 		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() { config.macros.ccLogin.refresh(place)}}
 	]);
 	var h1 = createTiddlyElement(null, "h1", null, null, "hahahaha");
-//	w.footElem.appendChild(h1, w.footElem);
-
-
+	//	w.footElem.appendChild(h1, w.footElem);
 	w.footElem.firstChild.parentNode.appendChild(h1, w.footElem);
-
 	//w.footElem.firstChild.insertBefore(h1, w.footElem);
-	
-
 }
 
 config.macros.register.setStatus=function(w, element, text){
@@ -1886,23 +1644,8 @@ config.macros.register.isUsernameAvailabeCallback=function(status,params,respons
 
 // ccStats //
 
-
 //{{{
 	
-config.macros.ccStats={};
-merge(config.macros.ccStats,{
-	graph24HourTitle:"Last 24 hours",
-	graph24HourDesc:"The number of views of this workspace in the past 24 hours",
-	graph20MinsTitle:"Last 20 Minutes",
-	graph20MinsDesc:"The number of views of this workspace in the last 20 minutes",
-	graph7DaysTitle:"Last 7 days",
-	graph7DaysDesc:"The number of views of this workspace in the last 7 days.",
-	graph5MonthsTitle:"Last 5 months",
-	graph5MonthsDesc:"The number of views of this workspace in the past 30 days.",
-	errorPermissionDenied:"Permissions Denied to data for %0 You need to be an administrator on the %1 workspace.",
-	stepTitle:"Workspace Statistics"
-});
-
 config.macros.ccStats.handler = function(place,macroName,params,wikifier,paramString,tiddler){
 	var params;
 	params.place = place;
@@ -1966,7 +1709,6 @@ config.macros.ccStats.dataCallback = function(status,params,responseText,uri,xhr
 	var img = createTiddlyElement(div, "h2", null, null, params.title);
 	var img = createTiddlyElement(div, "img");
 	img.src = image;
-	
 	var span = createTiddlyElement(div, "div", null, "graph_label", params.desc);
 	setStylesheet(".graph_label{  position:relative; width:300px; top:-80px; left:130px;}");
 }
