@@ -22,7 +22,7 @@ var s1 = document.createElement("script");
 var s2 = document.createElement("script");
 var s3 = document.createElement("script");
 s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps3D.js";
-s2.src = "http://www.osmosoft.com/ILGA/demos/ieHack.js";
+s2.src = "http://www.osmosoft.com/ILGA/demos/excanvas.js";
 s3.src = "http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js";
 head.appendChild(s1);
 head.appendChild(s2);
@@ -30,13 +30,18 @@ head.appendChild(s3);
 config.macros.canvasMaps = {};
 
 config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	if(!window.EasyMap) {
+	// horrible hacked method to make sure excanvas has loaded - this should not be in this plugin
+	var loaded = window.EasyMap;
+	if(loaded && !window.CanvasRenderingContext2D) {
+		loaded = window.G_vmlCanvasManager;
+	}
+	if(!loaded) {
 		var that = this;
 		var args = arguments;
 		var func = function() {
 			config.macros.canvasMaps.handler.apply(that,args);
 		};
-		window.setTimeout(func,300);
+		return window.setTimeout(func,300);
 	} else {
 		var wrapper = createTiddlyElement(place,"div","wrapper","wrapper");
 		var statustext = createTiddlyElement(wrapper,"div","wrapper_statustext");
@@ -47,6 +52,7 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		eMap.addControl('zoom');
 		eMap.scale.x = 1.8;
 		eMap.scale.y = 1.8;
+		eMap.translate.x = 1;
 		
 		var that = eMap;
 		var myElement = document.getElementById('caption');
