@@ -28,7 +28,7 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 			$workspace_settings_count = count($workspace_settings);	
 		}
 	}
-}else{
+} else {
 	if ($workspace_settings_count < 1)
 	{   
 		// workspace does not exist\

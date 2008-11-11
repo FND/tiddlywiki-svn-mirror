@@ -1,5 +1,8 @@
 <?php
 
+
+
+
 class PluginsLoader {
 	public $events;
 	public $tiddlers;
@@ -51,6 +54,4 @@ global $pluginsLoader;
 $pluginsLoader = new PluginsLoader();
 $pluginsLoader->readPlugins($cct_base);
 $pluginsLoader->runPlugins();
-
-
 ?>

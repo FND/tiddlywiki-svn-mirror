@@ -28,7 +28,6 @@ if($pluginsLoader->events['afterIncludes'])
 {
 	foreach ($pluginsLoader->events['afterIncludes'] as $event)
 	{
-		echo "ssss";
 		if(is_file("plugins/".$event))
 			include_once("plugins/".$event);	
 	}

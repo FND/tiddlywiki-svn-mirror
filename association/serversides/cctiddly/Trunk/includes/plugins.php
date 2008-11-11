@@ -1,9 +1,11 @@
 <?php
 global $Plugins;
+global $tiddlyCfg;
 $Plugins = array();
 class Plugin {
 	public $phpEvents;
 	public $tiddlers;
+	public $workspace;
 	
 	public function __construct($author, $version, $website) {
 		global $Plugins;
@@ -12,6 +14,7 @@ class Plugin {
 		$this->website = $website;
 		$this->phpEvents = array();
 		$this->tiddlers = array();
+		$this->workspace = "pies2";
 		array_push($Plugins,$this);
 	}
 
