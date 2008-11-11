@@ -99,8 +99,8 @@ TiddlyWebAdaptor.getTiddlerListCallback = function(status, context, responseText
 			tiddler.assign(t.title, null, t.modifier, t.modified, t.tags, t.created, t.fields);
 			tiddler.fields["server.bag"] = t.bag;
 			tiddler.fields["server.page.revision"] = t.revision;
-			if(t.workspace) { // XXX -- TODO: to be changed to .recipe
-				tiddler.fields["server.workspace"] = t.workspace;
+			if(t.recipe) {
+				tiddler.fields["server.workspace"] = t.recipe;
 			}
 			context.tiddlers.push(tiddler);
 		}
@@ -231,8 +231,8 @@ TiddlyWebAdaptor.getTiddlerCallback = function(status, context, responseText, ur
 			Date.convertFromYYYYMMDDHHMM(t.created), context.tiddler.fields); // XXX: merge extended fields!?
 		context.tiddler.fields["server.bag"] = t.bag;
 		context.tiddler.fields["server.page.revision"] = t.revision;
-		if(t.workspace) { // XXX -- TODO: to be changed to .recipe
-			context.tiddler.fields["server.workspace"] = t.workspace;
+		if(t.recipe) {
+			context.tiddler.fields["server.workspace"] = t.recipe;
 		}
 	}
 	if(context.callback) {
