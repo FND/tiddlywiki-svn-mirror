@@ -103,7 +103,7 @@ config.commands.getTiddler.callback = function(context,userParams)
 //#displayMessage("status:"+context.status);
 	if(context.status) {
 		var tiddler = context.tiddler;
-		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields);
+		store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true);
 		story.refreshTiddler(tiddler.title,1,true);
 		displayMessage(config.commands.getTiddler.done);
 	} else {
