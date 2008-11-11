@@ -5,9 +5,9 @@
 window.saveChanges = function(){};
 
 setStylesheet(
-	"label {width:8em; float:left; text-align:right; width:9em; font-size:1.1em; padding:3px;  height:1.5em: top:-20px; margin:2px -2px 0 0;}"+ 
+	"label {width:8em; float:left; text-align:right; width:9em; font-size:1.1em; padding:3px;  height:1.5em: top:-20px; margin: 0px -2px 0 0;}"+ 
 //	"div.wizardFooter {padding-left:0em}"+ 
-	"div.wizardStep > input {display:fixed; padding:3px; margin-bottom:10px; margin-right:0px}",
+	"div.wizardStep > input {display:fixed; padding:3px; margin-bottom:5px; margin-top:0px; margin-right:0px}",
 'labelStyles');
 
 merge(config.macros.importTiddlers, {
@@ -164,7 +164,7 @@ window.workspace_udate = "<?php echo $workspace_udate;?>";
 var serverside={
 	url:"<?php echo getURL();?>",		//server url, for use in local TW or TW hosted elsewhere
 	workspace:"<?php echo $tiddlyCfg['workspace_name'];?>",
-	queryString:"<?php echo queryString();?>",
+	queryString:"<?php echo $_SERVER['QUERY_STRING'];?>",
 	debug:<?php print $tiddlyCfg['developing'] ?>,		//debug mode, display alert box for each action
 	passwordTime:0,		//defines how long password variable store in cookie. 0 = indefinite
 	messageDuration:5000,				//displayMessage autoclose duration (in milliseconds), 0=leave open

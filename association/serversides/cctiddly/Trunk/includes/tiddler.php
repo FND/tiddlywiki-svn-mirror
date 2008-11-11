@@ -234,7 +234,6 @@
 	function tiddler_markupCheck($userArr, $title)
 	{
 		//global $tiddlyCfg;
-		//debugV($userArr);
 		if(strcmp($title,"MarkupPostBody")==0 || strcmp($title,"MarkupPostHead")==0 || strcmp($title,"MarkupPreBody")==0 || strcmp($title,"MarkupPreHead")==0)
 		{
 			return tiddler_privilegeMiscCheck($userArr, "markup");

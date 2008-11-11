@@ -311,26 +311,13 @@ function deleteTiddler($userArr, $tiddlerArr)
 	}
 }
 
-//!	@fn bool deleteTiddly($title)
-//!	@brief delete tiddler, does not delete in backup table
-//!	@param $title title to be deleted
-function deleteTiddly($title)
-{
-	$user = user_create();
-	//check for extra privilege iftitle is markup
-	if(!tiddler_markupCheck($user,$title))
-		return "020";
-	$tiddler = tiddler_selectTitle(tiddler_create($title));		//tiddler to delete
-	if(sizeof($tiddler)==0)		//check iftiddler exist
-		return "014";
-	return deleteTiddler($user, $tiddler);
-}
-
 //  Returns time in TiddlyWiki format from Epoch time stamp.
 function epochToTiddlyTime($timestamp)
 {
 	return date('YmdHi', $timestamp); 
 }
+
+// Takes TiddlyTime (as stored in TiddlyWiki) and returns an epoch timestamp.
 function TiddlyTimeToEpoch($TiddlyTime)
 {
 	$y = substr($TiddlyTime, 0, 4); 
@@ -393,18 +380,6 @@ function formatParametersGET($str)
 function formatParametersPOST($str)
 {
 	return (get_magic_quotes_gpc()?stripslashes($str):$str);
-}
-
-/**
-* RFC1738 compliant replacement to PHP's rawurldecode - which actually works with unicode (using utf-8 encoding)
-* @author Ronen Botzer
-* @param $source [STRING]
-* @return unicode safe rawurldecoded string [STRING]
-* @access public
-*/
-function utf8RawUrlDecode ($source) 
-{
-	return rawurldecode($source);
 }
 
 //!	@fn format4Name($str)
@@ -497,26 +472,8 @@ function logerror($display_error, $stop_script=0, $record_error="")
 	return TRUE;
 }
 
-//!	@fn string queryString()
-//!	@brief return the query string
-function queryString()
-{
-	return ($_SERVER['QUERY_STRING']);
-}
 //////////////////////////////////////////////////////// debug only////////////////////////////////////////////////////////
 
-//!	@fn bool debugV($str)
-//!	@brief debug function, replace var_dump so any var_dump left in the code won't be notice
-//!	@param $str string to be var_dumped
-function debugV($str)
-{
-	global $tiddlyCfg;
-	global $standalone;
-	if($tiddlyCfg['developing']==1 && $standalone!=1)
-		var_dump($str);print '<br>';
-	return TRUE;
-}
-	
 //!	@fn bool debug($str)
 //!	@brief debug function, similar to debugV but use print instead
 //!	@param $str string to be printed

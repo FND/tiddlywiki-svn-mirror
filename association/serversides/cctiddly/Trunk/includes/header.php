@@ -1,17 +1,14 @@
 <?php
 
-//////////////////////////////////////////////////////// check base variable ////////////////////////////////////////////////////////
 // here we are setting a null value to avoid notices in the error logs when it is not used. ////
 // cct_base is used to prefix calls to files, 
 if(!isset($cct_base)) 
 	$cct_base= "";
-//////////////////////////////////////////////////////// include files  ////////////////////////////////////////////////////////
+
 include_once($cct_base."includes/functions.php");
 include_once($cct_base."includes/config.php");
-
 include_once($cct_base."includes/pluginLoader.php");
 include_once($cct_base."lang/".$tiddlyCfg['pref']['language']."/language.php");
-
 //include is used because language file is included once in config.php file
 include_once($cct_base."includes/tiddler.php");
 include_once($cct_base."includes/user.php");
@@ -24,11 +21,11 @@ if(!isset($workspace))
 	$workspace= "";
 	debug($ccT_msg['debug']['workspaceNotSet'], "fail");
 } 
-//////////////////////////////////////////////////////// parameter check ////////////////////////////////////////////////////////
+
 //?standalone=1, used for making the script standalone form like a regular tiddlywiki
 $standalone = ((isset($_GET['standalone'])&&$_GET['standalone']==1)?1:0);		//if 1, will make it into standalone form
 
-//?action=something, used for modulation
+//?action=something, used for modulation ?? IS THIS USED ANYMORE? 
 $cctAction = (isset($_GET['action'])?format4Name($_GET['action']):"");
 debug($ccT_msg['debug']['actionIs'].$cctAction, "steps");
 

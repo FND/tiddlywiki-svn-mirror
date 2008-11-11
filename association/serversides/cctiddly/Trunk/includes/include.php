@@ -4,59 +4,28 @@ include_once($cct_base."includes/ccAssignments.php");
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1) {
        tiddler_outputOffline();
 } else {
-//	foreach($pluginsLoader->tiddlers as $tiddler)
-//		tiddler_outputDIV($tiddler);
-	foreach($pluginsLoader->js as $tiddler)
-		tiddler_outputDIV($tiddler);
     echo tiddler_outputFolder("tiddlers", $cct_base);
     echo tiddler_outputFolder("lang/".$tiddlyCfg['pref']['language'], $cct_base);
 }
 
-/////  START DEBUG TIDDLER 
-
-recordTime_float("before print tiddly");
 if( sizeof($tiddlers)>0 ){
 	foreach($tiddlers as $t)
 	{
 		tiddler_outputDIV($t);
 	}
 }
-recordTime_float("after print tiddly");
-
-//print time tiddly in debug mode
-if($tiddlyCfg['developing']>0){
-	$t["body"] = "";
-	recordTime_float("end of script");
-	for($i=1; $i<sizeof($time); $i++)
-		$t["body"] =+ $time[$i]["name"]." = ".(round($time[$i]["time"]-$time[0]["time"],3))."s\\n";
-	$t["title"] = 'ccTiddly Debug';
-	$t["modifier"] = 'ccTiddly';
-	$t["tags"] = 'ccTiddly debug';
-	echo tiddler_outputDIV($t);
-}
-///// END DEBUG TIDDLER
-
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 {
 ?>
-
-
-
 // OFF LINE TIDDLERS 
 <div title='ccAdaptorSaveLocal' modifier='ccTiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
 <pre>
 config.backstageTasks.remove("upgrade");
-	
-	
-	
 config.macros.ccLogin={};
-config.macros.ccLogin.handler = function() {
-	
-};
-	
+config.macros.ccLogin.handler = function() {};
+
 if (config.options.txtTheme == "")
 config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
-
 config.options.chkUsePreForStorage=true;
 if (config.options.txtTheme == "")
 config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
@@ -76,7 +45,6 @@ To update your changes please log into ccTiddly in a seperate window and then pr
 [[sync]] 
 </pre>
 </div>
-
 <div title="sync" tags='wizard'>
 <pre>
 &lt;&lt;sync>>
@@ -85,6 +53,3 @@ To update your changes please log into ccTiddly in a seperate window and then pr
 <?php
 }
 ?>
-
-
-

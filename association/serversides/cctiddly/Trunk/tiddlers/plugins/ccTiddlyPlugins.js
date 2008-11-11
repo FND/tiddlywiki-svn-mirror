@@ -1777,10 +1777,20 @@ config.macros.register.displayRegister=function(place, w, item){
 	var w = new Wizard(item);
 	w.addStep(me.stepRegisterTitle, me.stepRegisterHtml);
 	w.formElem["reg_username"].onkeyup=function() {me.isUsernameAvailable(w);};
+	console.log(w.footElem);
 	w.setButtons([
 		{caption: me.buttonRegister, tooltip: me.buttonRegisterToolTip, onClick:function() { me.doRegister(place, w)}},
 		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() { config.macros.ccLogin.refresh(place)}}
 	]);
+	var h1 = createTiddlyElement(null, "h1", null, null, "hahahaha");
+//	w.footElem.appendChild(h1, w.footElem);
+
+
+	w.footElem.firstChild.parentNode.appendChild(h1, w.footElem);
+
+	//w.footElem.firstChild.insertBefore(h1, w.footElem);
+	
+
 }
 
 config.macros.register.setStatus=function(w, element, text){

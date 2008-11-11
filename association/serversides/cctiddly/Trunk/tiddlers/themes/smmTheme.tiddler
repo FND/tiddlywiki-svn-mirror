@@ -119,11 +119,14 @@ General
 }
 .tiddler .button {
 	border:1px solid black;
-	line-height:4;
+	line-height:2;
 	margin:5px;
 	padding:8px;
 }
 
+#contentWrapper .tiddler .button {
+	margin-left:20px;
+}
 body .chkOptionInput {
 	width:auto;
 	float:right;
