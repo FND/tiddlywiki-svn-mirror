@@ -13,7 +13,6 @@
 !!v0.1 (2008-11-10)
 * refactoring of previous experimental efforts
 !To Do
-* use config.extensions namespace?
 * externalize JSON library
 * document custom/optional context attributes (e.g. bag, filters, query, revision)
 !Code
@@ -22,25 +21,25 @@
 if(!version.extensions.TiddlyWebAdaptorPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 
-var TiddlyWebAdaptor = function() {};
-TiddlyWebAdaptor.prototype = new AdaptorBase();
-TiddlyWebAdaptor.mimeType = "application/json";
-TiddlyWebAdaptor.serverType = "tiddlyweb";
-TiddlyWebAdaptor.serverLabel = "TiddlyWeb";
-TiddlyWebAdaptor.parsingErrorMessage = "Error parsing result from server";
-TiddlyWebAdaptor.locationIDErrorMessage = "no bag or recipe specified for tiddler"; // TODO: rename
+config.extensions.TiddlyWebAdaptor = function() {};
+config.extensions.TiddlyWebAdaptor.prototype = new AdaptorBase();
+config.extensions.TiddlyWebAdaptor.mimeType = "application/json";
+config.extensions.TiddlyWebAdaptor.serverType = "tiddlyweb";
+config.extensions.TiddlyWebAdaptor.serverLabel = "TiddlyWeb";
+config.extensions.TiddlyWebAdaptor.parsingErrorMessage = "Error parsing result from server";
+config.extensions.TiddlyWebAdaptor.locationIDErrorMessage = "no bag or recipe specified for tiddler"; // TODO: rename
 
 // retrieve a list of workspaces
-TiddlyWebAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
+config.extensions.TiddlyWebAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/recipes"; // XXX: bags?
 	var uri = uriTemplate.format([context.host]);
-	var req = httpReq("GET", uri ,TiddlyWebAdaptor.getWorkspaceListCallback,
-		context, { accept: TiddlyWebAdaptor.mimeType });
+	var req = httpReq("GET", uri, config.extensions.TiddlyWebAdaptor.getWorkspaceListCallback,
+		context, { accept: config.extensions.TiddlyWebAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-TiddlyWebAdaptor.getWorkspaceListCallback = function(status, context, responseText, uri, xhr) {
+config.extensions.TiddlyWebAdaptor.getWorkspaceListCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -49,7 +48,7 @@ TiddlyWebAdaptor.getWorkspaceListCallback = function(status, context, responseTe
 			eval("var workspaces = " + responseText);
 		} catch(ex) {
 			context.status = false; // XXX: correct?
-			context.statusText = exceptionText(ex, TiddlyWebAdaptor.parsingErrorMessage);
+			context.statusText = exceptionText(ex, config.extensions.TiddlyWebAdaptor.parsingErrorMessage);
 			if(context.callback) {
 				context.callback(context, context.userParams);
 			}
@@ -63,21 +62,21 @@ TiddlyWebAdaptor.getWorkspaceListCallback = function(status, context, responseTe
 };
 
 // retrieve a list of tiddlers
-TiddlyWebAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
+config.extensions.TiddlyWebAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/%1/%2/tiddlers%3";
-	var params = context.filters ? "?filter=" + context.filters : ""; // TODO: support for more parameters? => generic function to append paramer string
+	var params = context.filters ? "?filter=" + context.filters : "";
 	if(context.bag) {
 		var uri = uriTemplate.format([context.host, "bags", context.bag, params]);
 	} else {
 		uri = uriTemplate.format([context.host, "recipes", context.workspace, params]);
 	}
-	var req = httpReq("GET", uri, TiddlyWebAdaptor.getTiddlerListCallback,
-		context, { accept: TiddlyWebAdaptor.mimeType });
+	var req = httpReq("GET", uri, config.extensions.TiddlyWebAdaptor.getTiddlerListCallback,
+		context, { accept: config.extensions.TiddlyWebAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-TiddlyWebAdaptor.getTiddlerListCallback = function(status, context, responseText, uri, xhr) {
+config.extensions.TiddlyWebAdaptor.getTiddlerListCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -87,7 +86,7 @@ TiddlyWebAdaptor.getTiddlerListCallback = function(status, context, responseText
 			eval("var tiddlers = " + responseText); //# N.B.: not actual tiddler instances
 		} catch(ex) {
 			context.status = false; // XXX: correct?
-			context.statusText = exceptionText(ex, TiddlyWebAdaptor.parsingErrorMessage);
+			context.statusText = exceptionText(ex, config.extensions.TiddlyWebAdaptor.parsingErrorMessage);
 			if(context.callback) {
 				context.callback(context, context.userParams);
 			}
@@ -111,22 +110,22 @@ TiddlyWebAdaptor.getTiddlerListCallback = function(status, context, responseText
 };
 
 // perform global search
-TiddlyWebAdaptor.prototype.getSearchResults = function(context, userParams, callback) {
+config.extensions.TiddlyWebAdaptor.prototype.getSearchResults = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/search?q=%1%2";
 	var filterString = context.filters ? ";filter=" + context.filters : "";
 	var uri = uriTemplate.format([context.host, context.query, filterString]);
-	var req = httpReq("GET", uri, TiddlyWebAdaptor.getSearchResultsCallback,
-		context, { accept: TiddlyWebAdaptor.mimeType });
+	var req = httpReq("GET", uri, config.extensions.TiddlyWebAdaptor.getSearchResultsCallback,
+		context, { accept: config.extensions.TiddlyWebAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-TiddlyWebAdaptor.getSearchResultsCallback = function(status, context, responseText, uri, xhr) {
-	TiddlyWebAdaptor.getTiddlerListCallback(status, context, responseText, uri, xhr); // XXX: use apply?
+config.extensions.TiddlyWebAdaptor.getSearchResultsCallback = function(status, context, responseText, uri, xhr) {
+	config.extensions.TiddlyWebAdaptor.getTiddlerListCallback(status, context, responseText, uri, xhr); // XXX: use apply?
 };
 
 // retrieve a particular tiddler's revisions
-TiddlyWebAdaptor.prototype.getTiddlerRevisionList = function(title, limit, context, userParams, callback) {
+config.extensions.TiddlyWebAdaptor.prototype.getTiddlerRevisionList = function(title, limit, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions";
 	if(context.bag) {
@@ -134,12 +133,12 @@ TiddlyWebAdaptor.prototype.getTiddlerRevisionList = function(title, limit, conte
 	} else {
 		uri = uriTemplate.format([context.host, "recipes", context.workspace, title]);
 	}
-	var req = httpReq("GET", uri, TiddlyWebAdaptor.getTiddlerRevisionListCallback,
-		context, { accept: TiddlyWebAdaptor.mimeType });
+	var req = httpReq("GET", uri, config.extensions.TiddlyWebAdaptor.getTiddlerRevisionListCallback,
+		context, { accept: config.extensions.TiddlyWebAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-TiddlyWebAdaptor.getTiddlerRevisionListCallback = function(status, context, responseText, uri, xhr) {
+config.extensions.TiddlyWebAdaptor.getTiddlerRevisionListCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -149,7 +148,7 @@ TiddlyWebAdaptor.getTiddlerRevisionListCallback = function(status, context, resp
 			eval("var tiddlers = " + responseText); //# N.B.: not actual tiddler instances
 		} catch(ex) {
 			context.status = false; // XXX: correct?
-			context.statusText = exceptionText(ex, TiddlyWebAdaptor.parsingErrorMessage);
+			context.statusText = exceptionText(ex, config.extensions.TiddlyWebAdaptor.parsingErrorMessage);
 			if(context.callback) {
 				context.callback(context,context.userParams);
 			}
@@ -179,14 +178,14 @@ TiddlyWebAdaptor.getTiddlerRevisionListCallback = function(status, context, resp
 };
 
 // retrieve an individual tiddler revision -- XXX: breaks with standard arguments list -- XXX: convenience function; simply use getTiddler?
-TiddlyWebAdaptor.prototype.getTiddlerRevision = function(title, revision, context, userParams, callback) {
+config.extensions.TiddlyWebAdaptor.prototype.getTiddlerRevision = function(title, revision, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.revision = revision;
 	return this.getTiddler(title, context, userParams, callback);
 };
 
 // retrieve an individual tiddler
-TiddlyWebAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
+config.extensions.TiddlyWebAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = title;
 	if(context.revision) {
@@ -197,7 +196,7 @@ TiddlyWebAdaptor.prototype.getTiddler = function(title, context, userParams, cal
 	if(!context.tiddler) {
 		context.tiddler = new Tiddler(title);
 	}
-	context.tiddler.fields["server.type"] = TiddlyWebAdaptor.serverType;
+	context.tiddler.fields["server.type"] = config.extensions.TiddlyWebAdaptor.serverType;
 	context.tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
 	if(context.bag) {
 		var uri = uriTemplate.format([context.host, "bags", context.bag, title, context.revision]);
@@ -206,12 +205,12 @@ TiddlyWebAdaptor.prototype.getTiddler = function(title, context, userParams, cal
 		uri = uriTemplate.format([context.host, "recipes", context.workspace, title, context.revision]);
 		context.tiddler.fields["server.workspace"] = context.workspace;
 	}
-	var req = httpReq("GET", uri, TiddlyWebAdaptor.getTiddlerCallback,
-		context, { accept: TiddlyWebAdaptor.mimeType });
+	var req = httpReq("GET", uri, config.extensions.TiddlyWebAdaptor.getTiddlerCallback,
+		context, { accept: config.extensions.TiddlyWebAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-TiddlyWebAdaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
+config.extensions.TiddlyWebAdaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -220,7 +219,7 @@ TiddlyWebAdaptor.getTiddlerCallback = function(status, context, responseText, ur
 			eval("var t = " + responseText); //# N.B.: not an actual tiddler instance
 		} catch(ex) {
 			context.status = false; // XXX: correct?
-			context.statusText = exceptionText(ex, TiddlyWebAdaptor.parsingErrorMessage);
+			context.statusText = exceptionText(ex, config.extensions.TiddlyWebAdaptor.parsingErrorMessage);
 			if(context.callback) {
 				context.callback(context, context.userParams);
 			}
@@ -241,7 +240,7 @@ TiddlyWebAdaptor.getTiddlerCallback = function(status, context, responseText, ur
 };
 
 // store an individual tiddler
-TiddlyWebAdaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) {
+config.extensions.TiddlyWebAdaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) {
 	context = this.setContext(context,userParams,callback);
 	context.title = tiddler.title;
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
@@ -252,7 +251,7 @@ TiddlyWebAdaptor.prototype.putTiddler = function(tiddler, context, userParams, c
 	} else if(context.workspace) {
 		uri = uriTemplate.format([host, "recipes", context.workspace, tiddler.title]);
 	} else {
-		return TiddlyWebAdaptor.locationIDErrorMessage;
+		return config.extensions.TiddlyWebAdaptor.locationIDErrorMessage;
 	}
 	var payload = {
 		title: tiddler.title,
@@ -263,12 +262,12 @@ TiddlyWebAdaptor.prototype.putTiddler = function(tiddler, context, userParams, c
 		revision: tiddler["server.page.revision"]
 	};
 	payload = JSON.stringify(payload);
-	var req = httpReq("PUT", uri, TiddlyWebAdaptor.putTiddlerCallback,
-		context, {}, payload, TiddlyWebAdaptor.mimeType);
+	var req = httpReq("PUT", uri, config.extensions.TiddlyWebAdaptor.putTiddlerCallback,
+		context, {}, payload, config.extensions.TiddlyWebAdaptor.mimeType);
 	return typeof req == "string" ? req : true;
 };
 
-TiddlyWebAdaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
+config.extensions.TiddlyWebAdaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -277,7 +276,7 @@ TiddlyWebAdaptor.putTiddlerCallback = function(status, context, responseText, ur
 	}
 };
 
-config.adaptors[TiddlyWebAdaptor.serverType] = TiddlyWebAdaptor;
+config.adaptors[config.extensions.TiddlyWebAdaptor.serverType] = config.extensions.TiddlyWebAdaptor;
 
 /***
 !JSON Code, used to serialize the data
