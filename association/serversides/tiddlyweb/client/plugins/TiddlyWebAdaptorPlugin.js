@@ -28,12 +28,6 @@ TiddlyWebAdaptor.mimeType = "application/json";
 TiddlyWebAdaptor.serverType = "tiddlyweb";
 TiddlyWebAdaptor.serverLabel = "TiddlyWeb";
 TiddlyWebAdaptor.parsingErrorMessage = "Error parsing result from server";
-TiddlyWebAdaptor.errorInFunctionMessage = "Error in function TiddlyWebAdaptor.%0"; // XXX: unused?
-
-// convert a tiddler title to the normalized form used in URIs -- XXX: obsolete?
-TiddlyWebAdaptor.normalizedTitle = function(title) {
-	return title;
-};
 
 TiddlyWebAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
@@ -128,22 +122,6 @@ TiddlyWebAdaptor.getSearchResultsCallback = function(status, context, responseTe
 	TiddlyWebAdaptor.getTiddlerListCallback(status, context, responseText, uri, xhr); // XXX: use apply?
 };
 
-// XXX: unused!?
-TiddlyWebAdaptor.prototype.generateTiddlerInfo = function(tiddler) {
-	var info = {};
-	var host = this && this.host ? this.host : tiddler.fields["server.host"];
-	host = this.fullHostName(host); // TODO: fullHostName should be static method!?
-	var uriTemplate = "%0/%1/%2/tiddlers/%3";
-	var bag = tiddler.fields["server.bag"];
-	if(bag) {
-		info.uri = uriTemplate.format([host, "bags", bag, tiddler.title]);
-	} else {
-		var workspace = tiddler.fields["server.workspace"];
-		info.uri = uriTemplate.format([host, "recipes", workspace, tiddler.title]);
-	}
-	return info;
-};
-
 // XXX: breaks with standard arguments list -- convenience function; simply use getTiddler?
 TiddlyWebAdaptor.prototype.getTiddlerRevision = function(title, revision, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
@@ -153,7 +131,6 @@ TiddlyWebAdaptor.prototype.getTiddlerRevision = function(title, revision, contex
 
 TiddlyWebAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
-	title = TiddlyWebAdaptor.normalizedTitle(title); // should be after context.title?
 	context.title = title;
 	if(context.revision) {
 		var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions/%4";
@@ -210,7 +187,6 @@ TiddlyWebAdaptor.getTiddlerCallback = function(status, context, responseText, ur
 TiddlyWebAdaptor.prototype.getTiddlerRevisionList = function(title, limit, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions";
-	title = TiddlyWebAdaptor.normalizedTitle(title);
 	if(context.bag) {
 		var uri = uriTemplate.format([context.host, "bags", context.bag, title]);
 	} else {
