@@ -23,7 +23,7 @@
 
 <div id='sidebar'>
 <div id='logo' refresh='content' tiddler='HesperianHealthTheme##Logo'></div>
-<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarOptions' refresh='content' tiddler='HesperianHealthTheme##SideBarOptions'></div>
 <div id='sidebarTabs' refresh='content' force='true' tiddler='HesperianHealthTheme##SideBarTabs'></div>
 </div>
 
@@ -32,6 +32,9 @@
 <div id='tiddlerDisplay'></div>
 </div>
 <!--}}}-->
+
+!SideBarOptions
+<<search>><<closeAll>><<permaview>><<newTiddler>><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">>
 
 !SideBarTabs
 <<tabs txtMainTab "Articles" "All articles" TabAll "Tags" "All tags" TabTags "More" "More lists" HesperianHealthTheme##TabMore>>
