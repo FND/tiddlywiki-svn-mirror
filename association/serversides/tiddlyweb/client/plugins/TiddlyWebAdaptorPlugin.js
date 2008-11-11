@@ -21,6 +21,8 @@
 if(!version.extensions.TiddlyWebAdaptorPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 
+if(!config.extensions) { config.extensions = {}; }
+
 config.extensions.TiddlyWebAdaptor = function() {};
 config.extensions.TiddlyWebAdaptor.prototype = new AdaptorBase();
 config.extensions.TiddlyWebAdaptor.mimeType = "application/json";
