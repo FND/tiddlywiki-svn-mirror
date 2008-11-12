@@ -5,7 +5,7 @@
 |''Contributors''|FND, MartinBudden|
 |''Version''|0.1.0|
 |''Status''|@@beta@@|
-|''Source''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/TiddlyWebAdaptorPlugin.js |
+|''Source''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/TiddlyWebAdaptorPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion''|2.4.1|
