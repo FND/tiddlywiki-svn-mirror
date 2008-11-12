@@ -20,7 +20,7 @@ if(!user_login($user['username'],$_POST['old1']))
 $odata['username'] = $user['username'];
 $ndata['password'] = $_POST['new2'];
 if(db_record_update($tiddlyCfg['table']['user'],$odata,$ndata))
-echo "all went well";
+error_log("all went well");
 else
 	sendHeader(304);
 ?>
