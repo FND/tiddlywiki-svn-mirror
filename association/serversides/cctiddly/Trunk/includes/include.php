@@ -1,10 +1,10 @@
 <?php 
 
+include_once($cct_base."includes/ccAssignments.php");
 
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1) {
        tiddler_outputOffline();
 } else {
-include_once($cct_base."includes/ccAssignments.php");
     echo tiddler_outputFolder("tiddlers", $cct_base);
     echo tiddler_outputFolder("lang/".$tiddlyCfg['pref']['language'], $cct_base);
 }
