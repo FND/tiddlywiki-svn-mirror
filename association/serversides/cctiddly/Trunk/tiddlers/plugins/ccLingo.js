@@ -1,23 +1,3 @@
-config.commands.revisions = {};
-merge(config.commands.revisions,{
-	text: "revisions",
-	tooltip: "View another revision of this tiddler",
-	loading: "loading...",
-	done: "Revision downloaded",
-	revisionTooltip: "View this revision",
-	popupNone: "No revisions",
-	revisionTemplate: "%0 r:%1 m:%2",
-	dateFormat:"YYYY mmm 0DD 0hh:0mm"	
-});
-
-config.commands.deleteTiddlerHosted = {};
-merge(config.commands.deleteTiddlerHosted,{
-	text: "delete",
-	tooltip: "Delete this tiddler",
-	warning: "Are you sure you want to delete '%0'?",
-	hideReadOnly: true,
-	done: "Deleted "
-});
 
 config.macros.ccAbout={};
 merge(config.macros.ccAbout,{
@@ -28,17 +8,6 @@ merge(config.macros.ccAbout,{
 	stepAboutTextEnd:"More info about ccTiddly can be found  at <a  target=new href=http://www.tiddlywiki.org/wiki/CcTiddly>http://www.tiddlywiki.org/wiki/CcTiddly</a><br/><br/>  More information about TiddlyWiki can be found at <a target=new href=http://www.tiddlywiki.com>http://www.tiddlywiki.com</a><br/>"
 });
 
-function ccTiddlyAdaptor(){}
-merge(ccTiddlyAdaptor,{ 
-	errorTitleNotSaved:"<h1>Your changes were NOT saved.</h1>", 
-	errorTextSessionExpired:"Your Session has expired. <br /> You will need to log into the new window and then copy your changes from this window into the new window. ", 
-	errorTextConfig:"There was a conflict when saving. <br /> Please open the page in a new window to see the changes.",
-	errorTextUnknown:"An unknown error occured.",
-	errorClose:"close",
-	buttonOpenNewWindow:"Open a Window where I can save my changes	.... ",
-	buttonHideThisMessage:"Hide this message", 
-	msgErrorCode:"Error Code : "
-});
 
 config.macros.ccAdmin = {}
 merge(config.macros.ccAdmin,{

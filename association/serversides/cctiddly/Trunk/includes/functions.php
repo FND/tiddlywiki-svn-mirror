@@ -7,7 +7,7 @@ function getOfflineFile()
 		$offline_name = $tiddlyCfg['workspace_name'];
 	else 
 		$offline_name = "default_workspace";
-	header("Content-Disposition: attachment; filename=\"".$offline_name.".html\";\r\n");
+//	header("Content-Disposition: attachment; filename=\"".$offline_name.".html\";\r\n");
 }
 
 function checkAndAddSlash($uri)

@@ -50,14 +50,12 @@ $tiddlyCfg['pref']['openid_enabled'] = 1;  // openid not fully implented yet.
 
 
 $tiddlyCfg['pref']['offline']['tiddler'] = 
-array(	"ccTheme", 
-		"smmTheme", 
-		"purpleTheme", 
-		"taggedTemplateTweak", 
-		"ValueSwitcherPlugin"
+array(	"themes/smmTheme", 
+		"themes/purpleTheme", 
+		"taggedTemplateTweak"
 	);
 
-$tiddlyCfg['pref']['offline']['js'] = array("ccAdaptor");
+$tiddlyCfg['pref']['offline']['js'] = array("plugins/ccTiddlyAdaptor");
 
 //Proxy Allowed Servers
 
