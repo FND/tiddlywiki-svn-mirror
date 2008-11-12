@@ -233,7 +233,7 @@
 		{
 			$data['username'] = $un;
 			$data['password'] = $pw;
-			$results = db_record_select('user', $data);			// get array of results		
+			$results = db_record_select($tiddlyCfg['table']['prefix'].$tiddlyCfg['table']['user'], $data);			// get array of results		
 			if (count($results) > 0 )                   //  if the array has 1 or more acounts 
 			{
 				$del_data1['expire'] = epochToTiddlyTime(time());
