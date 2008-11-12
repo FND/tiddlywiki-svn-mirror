@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebTiddlerSourcePlugin|
 |''Description''|select tiddler source (host and bag)|
 |''Author:''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/TiddlyWebTiddlerSourcePlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/|
@@ -11,8 +11,7 @@
 !!v0.1 (2008-11-12)
 * initial release
 !To Do
-* custom prompt for host and bag
-* option to remove host and bag
+* handling of other server.* fields (e.g. in clearSource)?
 * rename?
 !Code
 ***/
@@ -44,9 +43,20 @@ config.commands.tiddlerSource = {
 	type: "popup",
 	text: "source", // XXX: misleading
 	tooltip: "select tiddler source",
-	sourceUnset: "host and bag unset", // TODO: rename
-	labelTemplate: "%0: %1",
-	tooltipTemplate: "%1 on %0",
+
+	labels: {
+		sourceTemplate: "%0: %1",
+		sourceUnset: "host and bag unset", // TODO: rename
+		btnClearSource: "remove source fields",
+		btnCustomSource: "set custom source"
+	},
+	tooltips: {
+		sourceTemplate: "%1 on %0",
+		btnClearSource: "", // TODO?
+		btnCustomSource: "" // TODO?
+	},
+
+	headerClass: "", // TODO: rename
 
 	handlePopup: function(popup, title) {
 		// display active host and bag
@@ -54,11 +64,18 @@ config.commands.tiddlerSource = {
 		var host = tiddler.fields["server.host"];
 		var bag = tiddler.fields["server.bag"];
 		if(host && bag) {
-			var label = this.labelTemplate.format([AdaptorBase.minHostName(host), bag])
+			var label = this.labels.sourceTemplate.format([AdaptorBase.minHostName(host), bag]);
 		} else {
-			label = this.sourceUnset;
+			label = this.labels.sourceUnset;
 		}
-		createTiddlyText(createTiddlyElement(popup, "li"), label); // TODO: use properly styled DIV
+		createTiddlyText(createTiddlyElement(popup, "li", null, this.headerClass), label);
+		// generate standard controls
+		if(host && bag) {
+			createTiddlyButton(createTiddlyElement(popup, "li"), this.labels.btnClearSource,
+				this.tooltips.btnClearSource, this.clearSource, null, null, null, { tiddler: title });
+		}
+		createTiddlyButton(createTiddlyElement(popup, "li"), this.labels.btnCustomSource,
+			this.tooltips.btnCustomSource, this.customSource, null, null, null, { tiddler: title });
 		// retrieve hosts and bags currently in use
 		var sources = {};
 		store.forEachTiddler(function(title, tiddler) {
@@ -75,18 +92,32 @@ config.commands.tiddlerSource = {
 			var bags = sources[host];
 			for(var i = 0; i < bags.length; i++) {
 				createTiddlyButton(createTiddlyElement(popup, "li"),
-					this.labelTemplate.format([AdaptorBase.minHostName(host), bags[i]]),
-					this.tooltipTemplate.format([host, bags[i]]),
-					this.btnClick, null, null, null,
+					this.labels.sourceTemplate.format([AdaptorBase.minHostName(host), bags[i]]),
+					this.tooltips.sourceTemplate.format([host, bags[i]]),
+					this.selectSource, null, null, null,
 					{ tiddler: title, host: host, bag: bags[i] });
 			}
 		}
 	},
 
-	btnClick: function(ev) {
+	selectSource: function(ev) {
 		var tiddler = store.getTiddler(this.getAttribute("tiddler"));
 		tiddler.fields["server.host"] = this.getAttribute("host");
 		tiddler.fields["server.bag"] = this.getAttribute("bag");
+		story.saveTiddler(tiddler.title); // XXX: correct?
+	},
+
+	clearSource: function(ev) {
+		var tiddler = store.getTiddler(this.getAttribute("tiddler"));
+		delete tiddler.fields["server.host"];
+		delete tiddler.fields["server.bag"];
+		story.saveTiddler(tiddler.title); // XXX: correct?
+	},
+
+	customSource: function(ev) { // TODO: don't use prompt
+		var tiddler = store.getTiddler(this.getAttribute("tiddler"));
+		tiddler.fields["server.host"] = prompt("enter host"); // TODO: i18n -- XXX: use minHostName?
+		tiddler.fields["server.bag"] = prompt("enter bag name"); // TODO: i18n
 		story.saveTiddler(tiddler.title); // XXX: correct?
 	}
 };
