@@ -8,6 +8,20 @@ merge(config.macros.ccAbout,{
 	stepAboutTextEnd:"More info about ccTiddly can be found  at <a  target=new href=http://www.tiddlywiki.org/wiki/CcTiddly>http://www.tiddlywiki.org/wiki/CcTiddly</a><br/><br/>  More information about TiddlyWiki can be found at <a target=new href=http://www.tiddlywiki.com>http://www.tiddlywiki.com</a><br/>"
 });
 
+config.macros.ccChangePassword={};
+merge(config.macros.ccChangePassword,{
+	title:"Change Password", 
+	subTitle : "for user ", 
+	step1Html: " <label for='old'>Old Password </label><input name='old' type='password'/><br/> <label for='new1'>New Password </label> <input  name='new1' type='password' /><br /><label for='new2'>Repeat Password</label> <input  name='new2' type='password' /> ",   
+	buttonChangeText:"Change Password",
+	buttonChangeToolTip:"Click to change your password", 
+	buttonCancelText:"Cancel",
+	buttonCancelToolTip:"Click to cancel",
+	noticePasswordsNoMatch : "Your new passwords do not match", 
+	noticePasswordWrong : "Your password is incorrect.",
+	noticePasswordUpdated : "Your Password has been updated", 
+	noticePasswordUpdateFailed : "Your Password was NOT updated." 
+});
 
 config.macros.ccAdmin = {}
 merge(config.macros.ccAdmin,{
@@ -60,23 +74,23 @@ merge(config.macros.ccCreateWorkspace, {
 
 config.macros.ccEditWorkspace={};	
 merge(config.macros.ccEditWorkspace,{
-WizardTitleText:"Edit Workspace Permissions",
-stepEditTitle:null,
-stepLabelCreate:'Create',
-stepLabelRead:'Read',
-stepLabelUpdate:'Edit',
-stepLabelDelete:'Delete',
-stepLabelPermission:'',
-stepLabelAnon:'  Anonymous   ',
-stepLabelUser:' Authenticated   ',
-stepLabelAdmin:' Admin  ',
-buttonSubmitCaption:"Update Workspace Permissions",
-buttonSubmitToolTip:"Update workspace permissions",
-button1SubmitCaption:"ok",
-button1SubmitToolTip:"review permissions",
-step2Error:"Error", 
-errorTextPermissionDenied:"You do not have permissions to edit this workspace permissions.  You may need to log in.",
-errorUpdateFailed:"Permissions Not changed"
+	WizardTitleText:"Edit Workspace Permissions",
+	stepEditTitle:null,
+	stepLabelCreate:'Create',
+	stepLabelRead:'Read',
+	stepLabelUpdate:'Edit',
+	stepLabelDelete:'Delete',
+	stepLabelPermission:'',
+	stepLabelAnon:'  Anonymous   ',
+	stepLabelUser:' Authenticated   ',
+	stepLabelAdmin:' Admin  ',
+	buttonSubmitCaption:"Update Workspace Permissions",
+	buttonSubmitToolTip:"Update workspace permissions",
+	button1SubmitCaption:"ok",
+	button1SubmitToolTip:"review permissions",
+	step2Error:"Error", 
+	errorTextPermissionDenied:"You do not have permissions to edit this workspace permissions.  You may need to log in.",
+	errorUpdateFailed:"Permissions Not changed"
 });
 
 config.macros.ccFile = {};
