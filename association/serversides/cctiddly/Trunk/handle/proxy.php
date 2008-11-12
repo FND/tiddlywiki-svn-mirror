@@ -1,4 +1,6 @@
 <?php
+// This file requires refactoring....
+
 if(!isset($cct_base)) 
 	$cct_base= "../";
 
@@ -22,6 +24,9 @@ $params = array('http' => array(
 $ctx = stream_context_create($params);
 $fp = fopen($url, 'rb', false, $ctx);
 echo $response = stream_get_contents($fp);
+
+// in some situtations this needs to replace the above line. 
+//echo $response = readExternalFile($feed);
 
 exit;
 
