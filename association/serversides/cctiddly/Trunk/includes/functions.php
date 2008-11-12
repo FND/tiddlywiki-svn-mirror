@@ -2,6 +2,7 @@
 
 function getOfflineFile()
 {	
+	global $tiddlyCfg;
 	if($tiddlyCfg['workspace_name'] !=="")
 		$offline_name = $tiddlyCfg['workspace_name'];
 	else 

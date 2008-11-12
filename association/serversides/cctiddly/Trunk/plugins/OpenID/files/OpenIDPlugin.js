@@ -1,6 +1,5 @@
 config.macros.OpenID={};
 merge(config.macros.OpenID,{
-	buttonBackstageText:"about",
 	titleOpenID:"",
 	buttonOpenIDText:"Login",
 	buttonOpenIDToolTip:"Click to use OpenID Login" 

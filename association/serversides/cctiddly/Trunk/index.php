@@ -174,9 +174,7 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div id="contentStash"></div>
 <div id="shadowArea">
 <div title="MarkupPreHead">
-<pre>&lt;!--{{{--&gt;
-&lt;link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' /&gt;
-&lt;!--}}}--&gt;</pre>
+<pre></pre>
 </div>
 <div title="ColorPalette">
 <pre>Background: #fff

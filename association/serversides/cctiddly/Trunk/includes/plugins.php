@@ -5,8 +5,7 @@ $Plugins = array();
 class Plugin {
 	public $phpEvents;
 	public $tiddlers;
-	public $workspace;
-	
+		
 	public function __construct($author, $version, $website) {
 		global $Plugins;
 		$this->author = $author;
@@ -14,7 +13,6 @@ class Plugin {
 		$this->website = $website;
 		$this->phpEvents = array();
 		$this->tiddlers = array();
-		$this->workspace = "pies2";
 		array_push($Plugins,$this);
 	}
 
@@ -23,14 +21,12 @@ class Plugin {
 			$tiddler = $this->tiddlerFromFile($path);
 		else 
 			$tiddler = array();
-		if(is_array($data)) {
+		if(is_array($data)) 
 			$tiddler = array_merge_recursive($data,$tiddler);
-		}
 		$this->tiddlers[$tiddler['title']] = $tiddler;
 	}
 	
-	public function tiddlerFromFile($file)
-	{
+	public function tiddlerFromFile($file) {
 		$tiddler['created'] = epochToTiddlyTime(mktime());
 		$tiddler['modified'] = epochToTiddlyTime(mktime());
 		$tiddler['modifier'] = "ccTiddly";
@@ -45,13 +41,12 @@ class Plugin {
 		return $tiddler;
 	}
 	
-	public function addTiddlersFolder($dir) 
-	{
+	public function addTiddlersFolder($dir) {
 		if (is_dir($dir)) 
 		{
 		    if ($dh = opendir($dir)) 
 			{
-		       while (($file = readdir($dh)) !== false) 
+		    	while (($file = readdir($dh)) !== false) 
 				{
 					if(substr($file,0,1)!=".") 
 					{ // do not include system/hidden files. 
@@ -80,6 +75,4 @@ class Plugin {
 		}
 	}   
 }
-
-
 ?>
