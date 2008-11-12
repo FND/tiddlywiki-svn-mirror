@@ -9,6 +9,8 @@
 |~CoreVersion|2.2|
 ***/
 
+if(!version.extensions.GuidPlugin) { //# ensure that the plugin is only installed once
+
 /* 
  * Copyright (c) <year>, <copyright holder>
  * All rights reserved.
@@ -83,3 +85,19 @@ Guid.constants.epoch = function(year) { return (new Date("Jan 1 " + year)).getTi
 
 function log() { console.log.apply(null, arguments); }
 
+
+version.extensions.GuidPlugin = { installed: true };
+if (!config.extensions) { config.extensions = {}; }
+config.extensions.GuidPlugin = {};
+
+// clients may override these
+config.extensions.GuidPlugin.guid = new Guid();
+
+TiddlyWiki.prototype.createGuidTiddler = function(prefix, name) {
+  title = (prefix ? prefix:"") + config.extensions.GuidPlugin.guid.generate();
+  var tiddler = store.createTiddler(title);
+  if (name) tiddler.fields.name = name;
+  return tiddler;
+}
+
+}

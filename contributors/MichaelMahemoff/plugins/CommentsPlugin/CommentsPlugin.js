@@ -193,7 +193,7 @@ openReplyLink: function(commentTiddler, commentEl, replyLink) {
 
 createComment: function(text, daddy) {
 
-  var newComment = store.createTiddler(macro.generateCommentID());
+  var newComment = macro.createCommentTiddler();// store.createTiddler(macro.generateCommentID());
   var now = new Date();
   newComment.set(null, text, config.options.txtUserName, now, ["comment"], now, {});
 
@@ -270,10 +270,11 @@ remove: function(list, unwantedItem) {
 //##############################################################################
 
 // callers may replace this with their own ID generation algorithm
-generateCommentID: function() {
-  if (!window.Guid) return "comment_"+((new Date()).getTime());
-  if (!macro.guid) macro.guid = new Guid();
-  return "comment_" + macro.guid.generate();
+createCommentTiddler: function() {
+  if (!store.createGuidTiddler) return store.createTiddler("comment_"+((new Date()).getTime()));
+  return store.createGuidTiddler("comment_");
+  // if (!macro.guid) macro.guid = new Guid();
+  // return "comment_" + macro.guid.generate();
 },
 
 log: function() { if (console && console.firebug) console.log.apply(null, arguments); },

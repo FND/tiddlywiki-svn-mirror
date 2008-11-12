@@ -9,4 +9,22 @@
 |~CoreVersion|2.2|
 ***/
 
+if(!version.extensions.GuidPlugin) { //# ensure that the plugin is only installed once
+
 @@@../../lib/guid0/guid0.js@@@
+
+version.extensions.GuidPlugin = { installed: true };
+if (!config.extensions) { config.extensions = {}; }
+config.extensions.GuidPlugin = {};
+
+// clients may override these
+config.extensions.GuidPlugin.guid = new Guid();
+
+TiddlyWiki.prototype.createGuidTiddler = function(prefix, name) {
+  title = (prefix ? prefix:"") + config.extensions.GuidPlugin.guid.generate();
+  var tiddler = store.createTiddler(title);
+  if (name) tiddler.fields.name = name;
+  return tiddler;
+}
+
+}
