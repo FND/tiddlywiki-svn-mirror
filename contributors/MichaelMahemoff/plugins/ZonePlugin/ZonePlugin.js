@@ -14,20 +14,23 @@
 *******************************************************************************/
 
 var latestTiddler = null;
-
-var origRestart = restart;
+var zonePlugin = {};
 var zonesByTag = {};
 
+zonePlugin.origRestart = restart;
 window.restart = function() {
-  origRestart();
+  zonePlugin.origRestart();
   buildZonesMap(); // TODO call on refresh
   startZone();
 }
 
-origDisplayTiddler = Story.prototype.displayTiddler;
+zonePlugin.origDisplayTiddler = Story.prototype.displayTiddler;
 Story.prototype.displayTiddler = function(dontCare, tiddler, etc, etc) {
-  origDisplayTiddler.apply(this, arguments);
+  zonePlugin.origDisplayTiddler.apply(this, arguments);
   startZone();
+  // config.options.txtTheme = "MusicTheme";
+  // refreshDisplay();
+  // story.switchTheme("MusicTheme");
 }
 
 /*******************************************************************************
@@ -36,11 +39,14 @@ Story.prototype.displayTiddler = function(dontCare, tiddler, etc, etc) {
 
 function startZone() {
   var tiddler = getFirstTiddlerInStory();
-  log("tiddler", tiddler);
   if (!tiddler) return;
   var zone = findZone(tiddler);
+  log("find zone for tiddler", tiddler, "was", zone, "from zones by tag", zonesByTag);
   window.eval(store.getRecursiveTiddlerText(zone+"ZoneInit", "", 10));
   setStylesheet(store.getRecursiveTiddlerText(zone+"ZoneStylesheet", "", 10));
+
+  // subtitle = (store.getTiddler(zone+"ZoneSiteSubtitle")) ? store.getRecursiveTiddlerText(zone+"ZoneSiteSubtitle") : defaultSubtitle;
+  // store.saveTiddler("SiteSubtitle" , "SiteSubtitle", subtitle,null,null,"",{});
 }
 
 function buildZonesMap() {
@@ -58,7 +64,6 @@ function buildZonesMap() {
 function findZone(tiddler) {
   for (var i=0; i<tiddler.tags.length; i++) {
     var tag = tiddler.tags[i];
-    log("tiddler tag ", tag);
     if (zonesByTag[tag]) return zonesByTag[tag];
   }
 }
@@ -69,7 +74,6 @@ function findZone(tiddler) {
 
 function getFirstTiddlerInStory() {
   var currentTiddlerEl = story.getContainer().firstChild;
-  log("current", currentTiddlerEl);
   if (currentTiddlerEl) {
     var currentTiddlerTitle = currentTiddlerEl.getAttribute("tiddler");
     return store.getTiddler(currentTiddlerTitle);
@@ -81,4 +85,4 @@ function getFirstTiddlerInStory() {
 *******************************************************************************/
 
 function trim(s) { return s.replace(/^\s+|\s+$/g,""); }
-function log() { console.log.apply(null, arguments); }
+function log() { if (console) console.log.apply(null, arguments); }

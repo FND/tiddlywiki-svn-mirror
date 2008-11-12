@@ -1,3 +1,14 @@
+/***
+|Name|GuidPlugin|
+|Description|Support for tiddlers with GUID|
+|Source|http://tiddlyguv.org/GuidPlugin.html#GuidPlugin|
+|Documentation|http://tiddlyguv.org/GuidPlugin.html#GuidPluginInfo|
+|Version|0.1|
+|Author|Michael Mahemoff|
+|''License:''|[[BSD open source license]]|
+|~CoreVersion|2.2|
+***/
+
 /* 
  * Copyright (c) <year>, <copyright holder>
  * All rights reserved.
@@ -71,3 +82,4 @@ Guid.constants.epoch1970 = (new Date(0));
 Guid.constants.epoch = function(year) { return (new Date("Jan 1 " + year)).getTime(); }
 
 function log() { console.log.apply(null, arguments); }
+

@@ -238,7 +238,6 @@ openReplyLink: function(commentTiddler, commentEl, replyLink) {
 //# MACRO MODEL - MANIPULATING TIDDLERS
 //################################################################################
 
-// commentSeq = 0;
 createComment: function(text, daddy) {
 
   var newComment =  store.createTiddler("comment"+((new Date()).getTime()));

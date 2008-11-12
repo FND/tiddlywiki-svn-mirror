@@ -42,7 +42,9 @@ DAMAGE.
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' />
 <!--}}}-->
 <!--PRE-HEAD-END-->
-<title> My TiddlyWiki - a reusable non-linear personal web notebook </title>
+<title>
+A demo of sorts
+</title>
 <style id="styleArea" type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -53,12 +55,10 @@ DAMAGE.
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
-
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
 <!--PRE-BODY-START-->
-
 <!--PRE-BODY-END-->
 <div id="copyright">
 Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa Association
@@ -506,8 +506,107 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="Cake" modifier="YourName" created="200809181254" modified="200810301728" tags="Song Dessert Opinion Comparison" changecount="20" children="">
-<pre>Cake actually rawks!!! The cake is not the [[Violin]], dontcha know.</pre>
+<div title="PowerTitlePlugin" modifier="Mahemoff" created="200601031639" modified="200809181408" tags="systemConfig" creator="Michael Mahemoff, Osmosoft" server.host="osmosoft.com" server.page.revision="200809181408" server.type="file" changecount="1">
+<pre>/***
+|Name|ZonePlugin|
+|Description|Partition a single-page-plugin-powered tiddlywiki into zones|
+|Source|http://tiddlyguv.org/ZonePlugin.html#ZonePlugin|
+|Documentation|http://tiddlyguv.org/ZonePlugin.html#ZonePluginInfo|
+|Version|0.1|
+|Author|Michael Mahemoff, Osmosoft|
+|''License:''|[[BSD open source license]]|
+|~CoreVersion|2.2|
+***/
+
+/*******************************************************************************
+* Initialisation and hijacking
+*******************************************************************************/
+
+var latestTiddler = null;
+var zonePlugin = {};
+var zonesByTag = {};
+
+zonePlugin.origRestart = restart;
+window.restart = function() {
+  zonePlugin.origRestart();
+  buildZonesMap(); // TODO call on refresh
+  startZone();
+}
+
+zonePlugin.origDisplayTiddler = Story.prototype.displayTiddler;
+Story.prototype.displayTiddler = function(dontCare, tiddler, etc, etc) {
+  zonePlugin.origDisplayTiddler.apply(this, arguments);
+  startZone();
+  // config.options.txtTheme = &quot;MusicTheme&quot;;
+  // refreshDisplay();
+  // story.switchTheme(&quot;MusicTheme&quot;);
+}
+
+/*******************************************************************************
+* Zone plugin functions
+*******************************************************************************/
+
+function startZone() {
+  var tiddler = getFirstTiddlerInStory();
+  if (!tiddler) return;
+  var zone = findZone(tiddler);
+  log(&quot;find zone for tiddler&quot;, tiddler, &quot;was&quot;, zone, &quot;from zones by tag&quot;, zonesByTag);
+  window.eval(store.getRecursiveTiddlerText(zone+&quot;ZoneInit&quot;, &quot;&quot;, 10));
+  setStylesheet(store.getRecursiveTiddlerText(zone+&quot;ZoneStylesheet&quot;, &quot;&quot;, 10));
+
+  // subtitle = (store.getTiddler(zone+&quot;ZoneSiteSubtitle&quot;)) ? store.getRecursiveTiddlerText(zone+&quot;ZoneSiteSubtitle&quot;) : defaultSubtitle;
+  // store.saveTiddler(&quot;SiteSubtitle&quot; , &quot;SiteSubtitle&quot;, subtitle,null,null,&quot;&quot;,{});
+}
+
+function buildZonesMap() {
+  var zonesTiddler = store.getTiddler(&quot;Zones&quot;);
+  var zoneSlices = store.calcAllSlices(&quot;Zones&quot;);
+  for (var zone in zoneSlices) {
+    var tags = zoneSlices[zone].split(&quot;,&quot;);
+    for (var i=0; i&lt;tags.length; i++) {
+      var tag = trim(tags[i]);
+      zonesByTag[tag] = zone;
+    }
+  }
+}
+
+function findZone(tiddler) {
+  for (var i=0; i&lt;tiddler.tags.length; i++) {
+    var tag = tiddler.tags[i];
+    if (zonesByTag[tag]) return zonesByTag[tag];
+  }
+}
+
+/*******************************************************************************
+* TiddlyWiki Generic
+*******************************************************************************/
+
+function getFirstTiddlerInStory() {
+  var currentTiddlerEl = story.getContainer().firstChild;
+  if (currentTiddlerEl) {
+    var currentTiddlerTitle = currentTiddlerEl.getAttribute(&quot;tiddler&quot;);
+    return store.getTiddler(currentTiddlerTitle);
+  }
+}
+
+/*******************************************************************************
+* Generic
+*******************************************************************************/
+
+function trim(s) { return s.replace(/^\s+|\s+$/g,&quot;&quot;); }
+function log() { if (console) console.log.apply(null, arguments); }</pre>
+</div>
+<div title="ZonePlugin.js.meta" created="200810291530">
+<pre>title: PowerTitlePlugin
+modifier: Mahemoff
+created: 200601031639
+modified: 200809181408
+tags: systemConfig
+server.host: osmosoft.com
+creator: Michael Mahemoff, Osmosoft 
+server.page.revision: 200809181408
+server.type: file
+changecount: 1</pre>
 </div>
 <div title="ConfigTweaks" modifier="Mahemoff" created="200601031639" modified="200809181408" tags="systemConfig" creator="Michael Mahemoff, Osmosoft" server.host="osmosoft.com" server.page.revision="200809181408" server.type="file" changecount="1">
 <pre>config.options.chkSinglePageMode=true;
@@ -528,106 +627,6 @@ changecount: 1
 
 config.options.chkSinglePageMode=true;
 config.options.chkAnimate=false;</pre>
-</div>
-<div title="DefaultTiddlers" modifier="Mahemoff" created="200809181254" modified="200809191620" changecount="19" children="">
-<pre>Violin
-Cake
-ZonePlugin</pre>
-</div>
-<div title="MusicZoneInit" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="Dessert Opinion Comparison" changecount="19" children="">
-<pre>if (console) console.log(&quot;la la la. It's the music zone&quot;)</pre>
-</div>
-<div title="MusicZoneStylesheet" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="Dessert Opinion Comparison" changecount="19" children="">
-<pre>body { background: orange; }</pre>
-</div>
-<div title="NeverGonnaGiveYouUp" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="Song" changecount="19" children="">
-<pre>Rolling, rolling, rolling. No  [[Violin]] was used in this production, nor I expect [[Cake]].</pre>
-</div>
-<div title="PowerTitlePlugin" modifier="Mahemoff" created="200601031639" modified="200809181408" tags="systemConfig" creator="Michael Mahemoff, Osmosoft" server.host="osmosoft.com" server.page.revision="200809181408" server.type="file" changecount="1">
-<pre>/***
-|Name|ZonePlugin|
-|Description|Partition a single-page-plugin-powered tiddlywiki into zones|
-|Source|http://tiddlyguv.org/ZonePlugin.html#ZonePlugin|
-|Documentation|http://tiddlyguv.org/ZonePlugin.html#ZonePluginInfo|
-|Version|0.1|
-|Author|Michael Mahemoff, Osmosoft|
-|''License:''|[[BSD open source license]]|
-|~CoreVersion|2.2|
-***/
-
-/*******************************************************************************
-* Initialisation and hijacking
-*******************************************************************************/
-
-var latestTiddler = null;
-
-var origRestart = restart;
-var zonesByTag = {};
-
-window.restart = function() {
-  origRestart();
-  buildZonesMap(); // TODO call on refresh
-  startZone();
-}
-
-origDisplayTiddler = Story.prototype.displayTiddler;
-Story.prototype.displayTiddler = function(dontCare, tiddler, etc, etc) {
-  origDisplayTiddler.apply(this, arguments);
-  startZone();
-}
-
-/*******************************************************************************
-* Zone plugin functions
-*******************************************************************************/
-
-function startZone() {
-  var tiddler = getFirstTiddlerInStory();
-  log(&quot;tiddler&quot;, tiddler);
-  if (!tiddler) return;
-  var zone = findZone(tiddler);
-  window.eval(store.getRecursiveTiddlerText(zone+&quot;ZoneInit&quot;, &quot;&quot;, 10));
-  setStylesheet(store.getRecursiveTiddlerText(zone+&quot;ZoneStylesheet&quot;, &quot;&quot;, 10));
-}
-
-function buildZonesMap() {
-  var zonesTiddler = store.getTiddler(&quot;Zones&quot;);
-  var zoneSlices = store.calcAllSlices(&quot;Zones&quot;);
-  for (var zone in zoneSlices) {
-    var tags = zoneSlices[zone].split(&quot;,&quot;);
-    for (var i=0; i&lt;tags.length; i++) {
-      var tag = trim(tags[i]);
-      zonesByTag[tag] = zone;
-    }
-  }
-}
-
-function findZone(tiddler) {
-  for (var i=0; i&lt;tiddler.tags.length; i++) {
-    var tag = tiddler.tags[i];
-    log(&quot;tiddler tag &quot;, tag);
-    if (zonesByTag[tag]) return zonesByTag[tag];
-  }
-}
-
-/*******************************************************************************
-* TiddlyWiki Generic
-*******************************************************************************/
-
-function getFirstTiddlerInStory() {
-  var currentTiddlerEl = story.getContainer().firstChild;
-  log(&quot;current&quot;, currentTiddlerEl);
-  if (currentTiddlerEl) {
-    var currentTiddlerTitle = currentTiddlerEl.getAttribute(&quot;tiddler&quot;);
-    return store.getTiddler(currentTiddlerTitle);
-  }
-}
-
-/*******************************************************************************
-* Generic
-*******************************************************************************/
-
-function trim(s) { return s.replace(/^\s+|\s+$/g,&quot;&quot;); }
-function log() { console.log.apply(null, arguments); }</pre>
 </div>
 <div title="SinglePageModePlugin" modifier="ELSDesignStudios" created="200512271815" modified="200806121934" tags="NavigationPackage systemConfig" creator="ELSDesignStudios">
 <pre>/***
@@ -799,24 +798,256 @@ modified: 200806121934
 tags: NavigationPackage systemConfig
 creator: ELSDesignStudios</pre>
 </div>
+<div title="Cake" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="Dessert Opinion Comparison" changecount="19" children="">
+<pre>Cake actually rawks!!! The cake is not the [[Violin]], dontcha know.</pre>
+</div>
+<div title="NeverGonnaGiveYouUp" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="Song" changecount="19" children="">
+<pre>Rolling, rolling, rolling. No  [[Violin]] was used in this production, nor I expect [[Cake]].</pre>
+</div>
 <div title="Violin" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="Instrument" changecount="19" children="">
 <pre>Everyone likes violins. Sure, but only in the summer. When the sun's not so shiny, they prefer [[Cake]] and that.</pre>
 </div>
-<div title="ZonePlugin.js.meta" created="200810291530">
-<pre>title: PowerTitlePlugin
-modifier: Mahemoff
-created: 200601031639
-modified: 200809181408
-tags: systemConfig
-server.host: osmosoft.com
-creator: Michael Mahemoff, Osmosoft 
-server.page.revision: 200809181408
-server.type: file
-changecount: 1</pre>
+<div title="DefaultTiddlers" modifier="Mahemoff" created="200809181254" modified="200809191620" changecount="19" children="">
+<pre>
+Violin
+Cake
+ZonePlugin</pre>
 </div>
 <div title="Zones" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="music" changecount="19" children="">
 <pre>|Music| Instrument, Song|
 |Food| Dessert, Fruit|</pre>
+</div>
+<div title="MusicZoneInit" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="Dessert Opinion Comparison" changecount="19" children="">
+<pre>if (console) console.log(&quot;la la la. It's the music zone&quot;)</pre>
+</div>
+<div title="MusicZoneStylesheet" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="Dessert Opinion Comparison" changecount="19" children="">
+<pre>body { background: orange; }</pre>
+</div>
+<div title="MusicZoneSiteSubtitle" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="Dessert Opinion Comparison" changecount="19" children="">
+<pre>Where the music comes alive!</pre>
+</div>
+<div title="FoodZoneStylesheet" modifier="Mahemoff" created="200809181254" modified="200809191620" changecount="19" children="">
+<pre>body { background-color: #ccff88; background-repeat: no-repeat; background-image: url('http://www.japanprobe.com/news/dekai-burger.jpg') }
+  .tiddler { background: red; }
+  #mainMenu { background: #9f9faf; }</pre>
+</div>
+<div title="SiteSubtitle" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="Dessert Opinion Comparison" changecount="19" children="">
+<pre>A demo of sorts</pre>
+</div>
+<div title="MusicTheme" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="systemTheme" changecount="1" children="">
+<pre>
+|''Name:''|MPTWTheme|
+|''Description:''|The popular theme from Monkey Pirate TiddlyWiki|
+|''Author:''|Simon Baird|
+|''Date:''|Nov 3, 2007|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.3.0|
+
+|''~StyleSheet:''|##StyleSheet|
+|''~PageTemplate:''|##PageTemplate|
+
+!StyleSheet
+/*{{{*/
+/* http://mptw.tiddlyspot.com/#MptwStyleSheet ($Rev: 2720 $) */
+
+/* a contrasting background so I can see where one tiddler ends and the other begins */
+body {
+	background: [[ColorPalette::TertiaryLight]];
+}
+
+/* sexy colours and font for the header */
+.headerForeground {
+	color: [[ColorPalette::PrimaryPale]];
+}
+.headerShadow, .headerShadow a {
+	color: [[ColorPalette::PrimaryMid]];
+}
+
+/* separate the top menu parts */
+.headerForeground, .headerShadow {
+	padding: 1em 1em 0;
+}
+
+.headerForeground, .headerShadow {
+	font-family: 'Trebuchet MS' sans-serif;
+	font-weight:bold;
+}
+.headerForeground .siteSubtitle {
+	color: [[ColorPalette::PrimaryLight]];
+}
+.headerShadow .siteSubtitle {
+	color: [[ColorPalette::PrimaryMid]];
+}
+
+/* make shadow go and down right instead of up and left */
+.headerShadow {
+	left: 1px;
+	top: 1px;
+}
+
+/* prefer monospace for editing */
+.editor textarea, .editor input {
+	font-family: 'Consolas' monospace;
+	background-color:[[ColorPalette::TertiaryPale]];
+}
+
+
+/* sexy tiddler titles */
+.title {
+	font-size: 250%;
+	color: [[ColorPalette::PrimaryLight]];
+	font-family: 'Trebuchet MS' sans-serif;
+}
+
+/* more subtle tiddler subtitle */
+.subtitle {
+	padding:0px;
+	margin:0px;
+	padding-left:0.5em;
+	font-size: 90%;
+	color: [[ColorPalette::TertiaryMid]];
+}
+.subtitle .tiddlyLink {
+	color: [[ColorPalette::TertiaryMid]];
+}
+
+/* a little bit of extra whitespace */
+.viewer {
+	padding-bottom:3px;
+}
+
+/* don't want any background color for headings */
+h1,h2,h3,h4,h5,h6 {
+	background: [[ColorPalette::Background]];
+	color: [[ColorPalette::Foreground]];
+}
+
+/* give tiddlers 3d style border and explicit background */
+.tiddler {
+	background: [[ColorPalette::Background]];
+	border-right: 2px [[ColorPalette::TertiaryMid]] solid;
+	border-bottom: 2px [[ColorPalette::TertiaryMid]] solid;
+	margin-bottom: 1em;
+	padding:1em 2em 2em 1.5em;
+}
+
+/* make options slider look nicer */
+#sidebarOptions .sliderPanel {
+	border:solid 1px [[ColorPalette::PrimaryLight]];
+}
+
+/* the borders look wrong with the body background */
+#sidebar .button {
+	border-style: none;
+}
+
+/* this means you can put line breaks in SidebarOptions for readability */
+#sidebarOptions br {
+	display:none;
+}
+/* undo the above in OptionsPanel */
+#sidebarOptions .sliderPanel br {
+	display:inline;
+}
+
+/* horizontal main menu stuff */
+#displayArea {
+	margin: 1em 15.7em 0em 1em; /* use the freed up space */
+}
+#topMenu br {
+	display: none;
+}
+#topMenu {
+	background: [[ColorPalette::PrimaryMid]];
+	color:[[ColorPalette::PrimaryPale]];
+}
+#topMenu {
+	padding:2px;
+}
+#topMenu .button, #topMenu .tiddlyLink, #topMenu a {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	padding-left: 3px;
+	padding-right: 3px;
+	color: [[ColorPalette::PrimaryPale]];
+	font-size: 115%;
+}
+#topMenu .button:hover, #topMenu .tiddlyLink:hover {
+	background: [[ColorPalette::PrimaryDark]];
+}
+
+/* make 2.2 act like 2.1 with the invisible buttons */
+.toolbar {
+	visibility:hidden;
+}
+.selected .toolbar {
+	visibility:visible;
+}
+
+/* experimental. this is a little borked in IE7 with the button 
+ * borders but worth it I think for the extra screen realestate */
+.toolbar { float:right; }
+
+/* Tagger Plugin users uncomment this.  from sb56637 */
+/*
+.popup li a {
+   display:inline;
+}
+*/
+
+/* make it print a little cleaner */
+@media print {
+	#topMenu {
+		display: none ! important;
+	}
+	/* not sure if we need all the importants */
+	.tiddler {
+		border-style: none ! important;
+		margin:0px ! important;
+		padding:0px ! important;
+		padding-bottom:2em ! important;
+	}
+	.tagglyTagging .button, .tagglyTagging .hidebutton {
+		display: none ! important;
+	}
+	.headerShadow {
+		visibility: hidden ! important;
+	}
+	.tagglyTagged .quickopentag, .tagged .quickopentag {
+		border-style: none ! important;
+	}
+	.quickopentag a.button, .miniTag {
+		display: none ! important;
+	}
+}
+/*}}}*/
+
+!PageTemplate
+&lt;!--{{{--&gt;
+&lt;h1&gt;PAAAAAGE T E M P L A T E&lt;/h1&gt;
+&lt;div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'&gt;
+	&lt;div class='headerShadow'&gt;
+		&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+		&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+	&lt;/div&gt;
+	&lt;div class='headerForeground'&gt;
+		&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+		&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- horizontal MainMenu --&gt;
+&lt;div id='topMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
+&lt;!-- original MainMenu menu --&gt;
+&lt;!-- &lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt; --&gt;
+&lt;div id='sidebar'&gt;
+	&lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
+	&lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id='displayArea'&gt;
+	&lt;div id='messageArea'&gt;&lt;/div&gt;
+	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
@@ -9655,7 +9886,6 @@ if(useJavaSaver)
 //]]>
 </script>
 <!--POST-SCRIPT-START-->
-
 <!--POST-SCRIPT-END-->
 </body>
 </html>

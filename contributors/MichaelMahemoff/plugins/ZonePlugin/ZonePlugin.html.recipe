@@ -14,3 +14,7 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: Zones.tiddler
 tiddler: MusicZoneInit.tiddler
 tiddler: MusicZoneStylesheet.tiddler
+tiddler: MusicZoneSiteSubtitle.tiddler
+tiddler: FoodZoneStylesheet.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: MusicTheme.tiddler

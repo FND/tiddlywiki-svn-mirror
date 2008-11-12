@@ -1,0 +1,12 @@
+/***
+|Name|GuidPlugin|
+|Description|Support for tiddlers with GUID|
+|Source|http://tiddlyguv.org/GuidPlugin.html#GuidPlugin|
+|Documentation|http://tiddlyguv.org/GuidPlugin.html#GuidPluginInfo|
+|Version|0.1|
+|Author|Michael Mahemoff|
+|''License:''|[[BSD open source license]]|
+|~CoreVersion|2.2|
+***/
+
+@@@../../lib/guid0/guid0.js@@@
