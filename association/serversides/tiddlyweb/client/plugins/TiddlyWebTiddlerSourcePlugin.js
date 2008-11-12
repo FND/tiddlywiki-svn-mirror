@@ -11,7 +11,6 @@
 !!v0.1 (2008-11-12)
 * initial release
 !To Do
-* display current host and bag
 * custom prompt for host and bag
 * option to remove host and bag
 * rename?
@@ -45,31 +44,42 @@ config.commands.tiddlerSource = {
 	type: "popup",
 	text: "source", // XXX: misleading
 	tooltip: "select tiddler source",
-	popupNone: "no hosts or bags present", // XXX: ??
+	sourceUnset: "host and bag unset", // TODO: rename
+	labelTemplate: "%0: %1",
+	tooltipTemplate: "%1 on %0",
 
 	handlePopup: function(popup, title) {
-		var hosts = [];
-		var bags = [];
-		store.forEachTiddler(function(title, tiddler) { // retrieve host and bags currently in use
+		// display active host and bag
+		var tiddler = store.getTiddler(title);
+		var host = tiddler.fields["server.host"];
+		var bag = tiddler.fields["server.bag"];
+		if(host && bag) {
+			var label = this.labelTemplate.format([AdaptorBase.minHostName(host), bag])
+		} else {
+			label = this.sourceUnset;
+		}
+		createTiddlyText(createTiddlyElement(popup, "li"), label); // TODO: use properly styled DIV
+		// retrieve hosts and bags currently in use
+		var sources = {};
+		store.forEachTiddler(function(title, tiddler) {
 			var host = tiddler.fields["server.host"];
 			var bag = tiddler.fields["server.bag"];
-			if(host) {
-				hosts.pushUnique(host);
-			}
-			if(bag) { // XXX: duplication!?
-				bags.pushUnique(bag);
+			if(host && bag) {
+				if(!sources[host]) {
+					sources[host] = [];
+				}
+				sources[host].pushUnique(bag);
 			}
 		});
-		for(var i = 0; i < hosts.length; i++) {
-			for(var j = 0; j < bags.length; j++) { // XXX: combining hosts and bags at will is wrong; bags are host-dependant
+		for(host in sources) {
+			var bags = sources[host];
+			for(var i = 0; i < bags.length; i++) {
 				createTiddlyButton(createTiddlyElement(popup, "li"),
-					AdaptorBase.minHostName(hosts[i]) + ": " + bags[j],
-					bags[j] + " on " + hosts[i], this.btnClick, null, null,
-					null, { tiddler: title, host: hosts[i], bag: bags[i] });
+					this.labelTemplate.format([AdaptorBase.minHostName(host), bags[i]]),
+					this.tooltipTemplate.format([host, bags[i]]),
+					this.btnClick, null, null, null,
+					{ tiddler: title, host: host, bag: bags[i] });
 			}
-		}
-		if(!(hosts.length && bags.length)) {
-			createTiddlyText(createTiddlyElement(popup, "li", null, "disabled"), this.popupNone);
 		}
 	},
 
