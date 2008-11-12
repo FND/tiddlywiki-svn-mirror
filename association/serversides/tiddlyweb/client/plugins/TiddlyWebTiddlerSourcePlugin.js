@@ -11,7 +11,10 @@
 !!v0.1 (2008-11-12)
 * initial release
 !To Do
+* don't modify store; use story.getTiddler(title).setAttribute("tiddlyfields")
+* use closures instead of DOM attributes
 * handling of other server.* fields (e.g. in clearSource)?
+* limit to edit mode
 * rename?
 !Code
 ***/
@@ -61,8 +64,10 @@ config.commands.tiddlerSource = {
 	handlePopup: function(popup, title) {
 		// display active host and bag
 		var tiddler = store.getTiddler(title);
-		var host = tiddler.fields["server.host"];
-		var bag = tiddler.fields["server.bag"];
+		if(tiddler) {
+			var host = tiddler.fields["server.host"];
+			var bag = tiddler.fields["server.bag"];
+		}
 		if(host && bag) {
 			var label = this.labels.sourceTemplate.format([AdaptorBase.minHostName(host), bag]);
 		} else {
@@ -100,14 +105,14 @@ config.commands.tiddlerSource = {
 		}
 	},
 
-	selectSource: function(ev) {
+	selectSource: function(ev) { // XXX: if source existed before, this amounts to renaming!?
 		var tiddler = store.getTiddler(this.getAttribute("tiddler"));
 		tiddler.fields["server.host"] = this.getAttribute("host");
 		tiddler.fields["server.bag"] = this.getAttribute("bag");
 		story.saveTiddler(tiddler.title); // XXX: correct?
 	},
 
-	clearSource: function(ev) {
+	clearSource: function(ev) { // XXX: pointless, as TiddlyWeb sets those fields!?
 		var tiddler = store.getTiddler(this.getAttribute("tiddler"));
 		delete tiddler.fields["server.host"];
 		delete tiddler.fields["server.bag"];
