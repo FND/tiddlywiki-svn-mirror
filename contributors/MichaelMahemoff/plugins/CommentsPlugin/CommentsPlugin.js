@@ -31,69 +31,6 @@ if(!version.extensions.CommentsPlugin) {
 
 DATE_FORMAT: "DDD, MMM DDth, YYYY hh12:0mm:0ss am",
 
-//##############################################################################
-//# COLLECTION CLOSURES
-//##############################################################################
-
-forEach: function(list, visitor) { for (var i=0; i<list.length; i++) visitor(list[i]); },
-select: function(list, selector) { 
-  var selection = [];
-  macro.forEach(list, function(currentItem) {
-    if (selector(currentItem)) { selection.push(currentItem); }
-  });
-  return selection;
-},
-map: function(list, mapper) { 
-  var mapped = [];
-  macro.forEach(list, function(currentItem) { mapped.push(mapper(currentItem)); });
-  return mapped;
-},
-remove: function(list, unwantedItem) {
-  return macro.select(list,
-        function(currentItem) { return currentItem!=unwantedItem; });
-},
-
-//##############################################################################
-//# GENERAL UTILS
-//##############################################################################
-
-log: function() { if (console && console.firebug) console.log.apply(null, arguments); },
-
-//##############################################################################
-//# TIDDLYWIKI UTILS
-//##############################################################################
-
-copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
-  for (var i=2; i<arguments.length; i++) {
-    fieldKey = arguments[i];
-    toTiddler.fields[fieldKey] = fromTiddler.fields[fieldKey];
-  }
-},
-
-//################################################################################
-//# RELATIONSHIP MANAGEMENT
-//#
-//# Children are held in a singly linked list structure.
-//#
-//# The root tiddler (containing comments macro) and all of its comments have
-//# one or more of the following custom fields:
-//#   - daddy: title of parent tiddler ("parent" is already used in DOM, hence "daddy")
-//#   - firstchild: title of first child
-//#   - nextchild: title of next child in the list (ie its sibling). New comments are always
-//#     appended to the list of siblings at the end, if it exists.
-//#
-//# Iff daddy is undefined, this is the root in the hierarchy (ie what the comments are about,
-//#   and not tagged "comment")
-//# Iff firstchild is undefined, this tiddler has no children
-//# Iff nextchild is undefined, this tiddler is the most 
-//#
-//# Incidentally, the only redundancy with this structure is with "daddy" field. This field exists only
-//# to give the comment some context in isolation. It's redundant as it could be derived
-//# from inspecting all tiddlers' firstchild and nextchild properties. However, 
-//# that would be exceedingly slow, especially where the tiddlers live on a server.
-//#
-//################################################################################
-
 //################################################################################
 //# MACRO INITIALISATION
 //################################################################################
@@ -106,7 +43,7 @@ init: function() {
 
 handler: function(place,macroName,params,wikifier,paramstring,tiddler) {
   macro.buildCommentsArea(tiddler, place);
-  macro.refreshCom(story.getTiddler(tiddler.title).commentsEl, tiddler);
+  macro.refreshComments(story.getTiddler(tiddler.title).commentsEl, tiddler);
 },
 
 //################################################################################
@@ -127,19 +64,15 @@ buildCommentsArea: function(rootTiddler, place) {
   var addComment = createTiddlyElement(newCommentArea, "button", null, null, "Add Comment");
   addComment.onclick = function() {
     var comment = macro.createComment(newCommentEl.value, rootTiddler); 
-    // refreshComments(comment);
-    // appendComment(comment, rootTiddler.commentsEl, newCommentArea);
     newCommentEl.value = "";
   };
 },
 
-refreshCom: function(daddyCommentsEl, tiddler) {
+refreshComments: function(daddyCommentsEl, tiddler) {
 
   var refreshedEl;
   if (tiddler.isTagged("comment")) {
     var commentEl = macro.buildCommentEl(daddyCommentsEl, tiddler);
-    // rootTiddler.commentsEl.appendChild(commentEl);
-    // story.getTiddler(tiddler.fields.daddy).commentsEl.appendChild(commentEl);
     daddyCommentsEl.appendChild(commentEl);
     refreshedEl = commentEl;
   } else {
@@ -153,7 +86,7 @@ refreshCom: function(daddyCommentsEl, tiddler) {
         console.log(prev, child, "breaking");
         break;
       }
-     macro.refreshCom(refreshedEl.commentsEl, child);
+     macro.refreshComments(refreshedEl.commentsEl, child);
      prev = child;
   }
 
@@ -228,15 +161,36 @@ openReplyLink: function(commentTiddler, commentEl, replyLink) {
     var newComment = macro.createComment(replyText.value, commentTiddler);
     replyText.value = "";
     closeNewReply.onclick();
-    macro.refreshCom(commentEl.commentsEl, newComment);
+    macro.refreshComments(commentEl.commentsEl, newComment);
   };
 
   commentEl.insertBefore(commentEl.replyEl, commentEl.commentsEl);
 },
 
 //################################################################################
-//# MACRO MODEL - MANIPULATING TIDDLERS
+//# RELATIONSHIP MANAGEMENT
+//#
+//# Children are held in a singly linked list structure.
+//#
+//# The root tiddler (containing comments macro) and all of its comments have
+//# one or more of the following custom fields:
+//#   - daddy: title of parent tiddler ("parent" is already used in DOM, hence "daddy")
+//#   - firstchild: title of first child
+//#   - nextchild: title of next child in the list (ie its sibling). New comments are always
+//#     appended to the list of siblings at the end, if it exists.
+//#
+//# Iff daddy is undefined, this is the root in the hierarchy (ie what the comments are about,
+//#   and not tagged "comment")
+//# Iff firstchild is undefined, this tiddler has no children
+//# Iff nextchild is undefined, this tiddler is the most 
+//#
+//# Incidentally, the only redundancy with this structure is with "daddy" field. This field exists only
+//# to give the comment some context in isolation. It's redundant as it could be derived
+//# from inspecting all tiddlers' firstchild and nextchild properties. However, 
+//# that would be exceedingly slow, especially where the tiddlers live on a server.
+//#
 //################################################################################
+
 
 createComment: function(text, daddy) {
 
@@ -288,6 +242,45 @@ deleteTiddlerAndDescendents: function(tiddler, doAutoSave) {
 
   store.deleteTiddler(tiddler.title);
   if (doAutoSave) autoSaveChanges(false); // Should only apply to top level
+},
+
+//##############################################################################
+//# COLLECTION CLOSURES
+//##############################################################################
+
+forEach: function(list, visitor) { for (var i=0; i<list.length; i++) visitor(list[i]); },
+select: function(list, selector) { 
+  var selection = [];
+  macro.forEach(list, function(currentItem) {
+    if (selector(currentItem)) { selection.push(currentItem); }
+  });
+  return selection;
+},
+map: function(list, mapper) { 
+  var mapped = [];
+  macro.forEach(list, function(currentItem) { mapped.push(mapper(currentItem)); });
+  return mapped;
+},
+remove: function(list, unwantedItem) {
+  return macro.select(list,
+        function(currentItem) { return currentItem!=unwantedItem; });
+},
+
+//##############################################################################
+//# GENERAL UTILS
+//##############################################################################
+
+log: function() { if (console && console.firebug) console.log.apply(null, arguments); },
+
+//##############################################################################
+//# TIDDLYWIKI UTILS
+//##############################################################################
+
+copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
+  for (var i=2; i<arguments.length; i++) {
+    fieldKey = arguments[i];
+    toTiddler.fields[fieldKey] = fromTiddler.fields[fieldKey];
+  }
 }
 
 }
