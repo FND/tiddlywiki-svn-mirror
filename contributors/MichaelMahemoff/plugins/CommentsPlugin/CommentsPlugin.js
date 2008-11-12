@@ -22,8 +22,7 @@ if(!version.extensions.CommentsPlugin) {
 
   version.extensions.CommentsPlugin = {installed:true};
 
-  var macro;
-  macro = config.macros.comments = {
+  var macro = config.macros.comments = {
 
 //##############################################################################
 //# CONFIG
@@ -44,6 +43,7 @@ init: function() {
 handler: function(place,macroName,params,wikifier,paramstring,tiddler) {
   macro.buildCommentsArea(tiddler, place);
   macro.refreshComments(story.getTiddler(tiddler.title).commentsEl, tiddler);
+  // var params = paramString.parseParams(null, "val", true);
 },
 
 //################################################################################
@@ -191,10 +191,9 @@ openReplyLink: function(commentTiddler, commentEl, replyLink) {
 //#
 //################################################################################
 
-
 createComment: function(text, daddy) {
 
-  var newComment =  store.createTiddler("comment"+((new Date()).getTime()));
+  var newComment = store.createTiddler(macro.generateCommentID());
   var now = new Date();
   newComment.set(null, text, config.options.txtUserName, now, ["comment"], now, {});
 
@@ -269,6 +268,13 @@ remove: function(list, unwantedItem) {
 //##############################################################################
 //# GENERAL UTILS
 //##############################################################################
+
+// callers may replace this with their own ID generation algorithm
+generateCommentID: function() {
+  if (!window.Guid) return "comment_"+((new Date()).getTime());
+  if (!macro.guid) macro.guid = new Guid();
+  return "comment_" + macro.guid.generate();
+},
 
 log: function() { if (console && console.firebug) console.log.apply(null, arguments); },
 
