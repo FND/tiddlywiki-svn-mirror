@@ -31,6 +31,17 @@ config.extensions.TiddlyWebAdaptor.serverLabel = "TiddlyWeb";
 config.extensions.TiddlyWebAdaptor.parsingErrorMessage = "Error parsing result from server";
 config.extensions.TiddlyWebAdaptor.locationIDErrorMessage = "no bag or recipe specified for tiddler"; // TODO: rename
 
+// perform a login -- XXX: experimental; currently limited to cookie_form
+TiddlyWebAdaptor.prototype.login = function(context, userParams, callback) {
+    context = this.setContext(context, userParams, callback);
+    var uriTemplate = "%0/challenge/cookie_form";
+    var uri = uriTemplate.format([context.host]);
+    var payload = "user=" + encodeURIComponent(context.username) +
+		"&password=" + encodeURIComponent(context.password);
+    var req = httpReq("POST", uri, callback, context, {}, payload);
+    return typeof req == "string" ? req : true;
+};
+
 // retrieve a list of workspaces
 config.extensions.TiddlyWebAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
@@ -62,17 +73,6 @@ config.extensions.TiddlyWebAdaptor.getWorkspaceListCallback = function(status, c
 		context.callback(context, context.userParams);
 	}
 };
-
-// do a login. Experimental and limited for now to cookie_form.
-TiddlyWebAdaptor.prototype.login = function(context,userParams,callback){
-    context = this.setContext(context,userParams,callback);
-    var uriTemplate = '%0/challenge/cookie_form';
-    var uri = uriTemplate.format([context.host]);
-    var payload = 'user=' + encodeURIComponent(context.username) + '&password=' + encodeURIComponent(context.password);
-    var req = httpReq('POST',uri,callback,context, {}, payload);
-    return typeof req == 'string' ? req : true;
-};
-
 
 // retrieve a list of tiddlers
 config.extensions.TiddlyWebAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
