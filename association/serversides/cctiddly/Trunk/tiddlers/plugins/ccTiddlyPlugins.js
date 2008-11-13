@@ -779,7 +779,7 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 
 config.macros.ccLogin.loginCallback=function(context,userParams){
 	if(context.status){
-	//	window.location.reload();
+		window.location.reload();
 	}else{
 		config.macros.ccLogin.refresh(userParams.place, config.macros.ccLogin.msgLoginFailed);
 	} 
