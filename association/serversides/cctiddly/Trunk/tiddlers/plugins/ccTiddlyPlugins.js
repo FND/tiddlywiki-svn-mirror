@@ -649,6 +649,13 @@ config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,x
 // ccLogin //
 
 //{{{
+	
+function isLoggedIn() {
+	if(window.loggedIn)
+	 	return true;
+	else 
+		return false;
+}
 
 config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	if(isLoggedIn()){
@@ -755,6 +762,7 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	var w = new Wizard(item);
 	var me = config.macros.ccLogin;
 	var userParams = {};
+	console.log(config.adaptors);
 	userParams.place = place;
 	var adaptor = new config.adaptors[config.defaultCustomFields['server.type']];
 	var context = {};
@@ -771,7 +779,7 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 
 config.macros.ccLogin.loginCallback=function(context,userParams){
 	if(context.status){
-		window.location.reload();
+	//	window.location.reload();
 	}else{
 		config.macros.ccLogin.refresh(userParams.place, config.macros.ccLogin.msgLoginFailed);
 	} 

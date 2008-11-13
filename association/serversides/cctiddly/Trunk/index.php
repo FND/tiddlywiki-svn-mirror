@@ -1,5 +1,4 @@
 <?php
-
 //timing
 function recordTime_float($name="unnamed")
 {
@@ -32,7 +31,6 @@ if($pluginsLoader->events['afterIncludes'])
 			include_once("plugins/".$event);	
 	}
 }
-
 
 if(@mysql_num_rows(mysql_query("SELECT * FROM instance_history where version='1.7'"))==0) {
 	echo "<h1>ccTiddly Upgrade</h1>";
