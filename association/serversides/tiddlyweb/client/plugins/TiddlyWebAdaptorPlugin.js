@@ -32,13 +32,13 @@ config.extensions.TiddlyWebAdaptor.parsingErrorMessage = "Error parsing result f
 config.extensions.TiddlyWebAdaptor.locationIDErrorMessage = "no bag or recipe specified for tiddler"; // TODO: rename
 
 // perform a login -- XXX: experimental; currently limited to cookie_form
-TiddlyWebAdaptor.prototype.login = function(context, userParams, callback) {
+config.extensions.TiddlyWebAdaptor.prototype.login = function(context, userParams, callback) {
     context = this.setContext(context, userParams, callback);
     var uriTemplate = "%0/challenge/cookie_form";
     var uri = uriTemplate.format([context.host]);
     var payload = "user=" + encodeURIComponent(context.username) +
 		"&password=" + encodeURIComponent(context.password);
-    var req = httpReq("POST", uri, callback, context, {}, payload);
+    var req = httpReq("POST", uri, callback, context, null, payload);
     return typeof req == "string" ? req : true;
 };
 
@@ -276,12 +276,39 @@ config.extensions.TiddlyWebAdaptor.prototype.putTiddler = function(tiddler, cont
 	};
 	payload = JSON.stringify(payload);
 	var req = httpReq("PUT", uri, config.extensions.TiddlyWebAdaptor.putTiddlerCallback,
-		context, {}, payload, config.extensions.TiddlyWebAdaptor.mimeType);
+		context, null, payload, config.extensions.TiddlyWebAdaptor.mimeType);
 	return typeof req == "string" ? req : true;
 };
 
 config.extensions.TiddlyWebAdaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
+	context.statusText = xhr.statusText;
+	context.httpStatus = xhr.status;
+	if(context.callback) {
+		context.callback(context, context.userParams);
+	}
+};
+
+// delete an individual tiddler
+config.extensions.TiddlyWebAdaptor.prototype.deleteTiddler = function(tiddler, context, userParams, callback) {
+	context = this.setContext(context, userParams, callback);
+	context.title = tiddler.title; // XXX: not required!?
+	var uriTemplate = "%0/%1/%2/tiddlers/%3";
+	var host = context.host ? context.host : this.fullHostName(tiddler.fields["server.host"]);
+	var bag = tiddler.fields["server.bag"];
+	if(bag) {
+		var uri = uriTemplate.format([host, "bags", bag, tiddler.title]);
+	} else if(context.workspace) {
+		uri = uriTemplate.format([host, "recipes", context.workspace, tiddler.title]);
+	} else {
+		return config.extensions.TiddlyWebAdaptor.locationIDErrorMessage;
+	}
+	var req = httpReq("DELETE", uri, config.extensions.TiddlyWebAdaptor.deleteTiddlerCallback, context);
+	return typeof req == "string" ? req : true;
+};
+
+config.extensions.TiddlyWebAdaptor.deleteTiddlerCallback = function(status, context, responseText, uri, xhr) {
+	context.status = xhr.status === 204 || status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(context.callback) {
