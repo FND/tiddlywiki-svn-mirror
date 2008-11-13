@@ -17,7 +17,7 @@ if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags'])))
 {
 	if(tiddler_update_new($tiddler['id'], $ntiddler))
 	{
-		error_log("sending 200");
+//		error_log("sending 200");
 	}
 }
 

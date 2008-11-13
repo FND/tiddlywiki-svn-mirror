@@ -606,11 +606,10 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 };
 
 config.macros.ccFile.addFileCallback = function(status,params,responseText,uri,xhr){	
-	displayMessage("got to here ");
 	config.macros.ccFile.refresh(params.w);
 };
-//}}}
 
+//}}}
 
 // ccChangePassword //
 

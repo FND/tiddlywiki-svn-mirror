@@ -11,7 +11,6 @@ if (!user_isAdmin(user_getUsername(), $w)){
 	sendHeader("401", null, null, 1);
 }
 
-
 // returns an array of all the timestamps between the start timestamp and current date. 
 function gaps($start, $interval){
 	$gaps[] = $start;

@@ -6,13 +6,11 @@ $a = $_POST['action'];
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 debug($_SERVER['PHP_SELF'], "handle");	
-
 if(!user_session_validate())
 {
 	sendHeader("403");
 	exit;	
 }
-
 if (!user_isAdmin($user['username'], $_w))
 {
 	if ($tiddlyCfg['only_workspace_admin_can_upload']==1)
@@ -21,18 +19,14 @@ if (!user_isAdmin($user['username'], $_w))
 		exit;
 	}
 }
-
-
 if($w=="")
 	$w='default';
-
 if($_POST['action']=="DELETEFILE")
 {
 
 	echo unlink($_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/uploads/workspace/".$w."/".$_POST['file']);
 	exit;
 }
-
 $folder =  $_SERVER['DOCUMENT_ROOT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/uploads/workspace/".$w;
 if ($handle = opendir($folder)) {
 	echo "[";    

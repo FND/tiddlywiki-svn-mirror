@@ -1,17 +1,13 @@
 <?php
 // THIS WILL BECOME A MODULE IN 1.7
-
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 debug($_SERVER['PHP_SELF'], "handle");	
-
 $a = $_POST['action']?$_POST['action']:$_REQUEST['action'];
 $u = $_POST['add_username'];
 $w = $tiddlyCfg['workspace_name'];
-
 if(!user_session_validate())
 	sendHeader("403", null, null, 1);
-
 if ($a =="LISTWORKSPACES")
 {
 	$data['workspace_name']=$w;
@@ -24,13 +20,8 @@ if ($a =="LISTWORKSPACES")
 	echo substr_replace($out ,"",-2)." ";	
  	exit;
 }
-
-
-
 if (!user_isAdmin($user['username'], $w))
 	sendHeader("401", null, null, 1);
-
-
 if($a == "DELETEADMIN")
 {
 	$users = explode( ",", $u);
@@ -45,7 +36,6 @@ if($a == "DELETEADMIN")
 	}	
 	exit;
 }
-
 if ($a == "addNew" && $u)
 {
 	$data['username'] = $u;
@@ -57,7 +47,6 @@ if ($a == "addNew" && $u)
 		sendHeader("201");
 	exit;
 }
-
 if ($a =="LISTALL")
 {
 	$data['workspace_name']=$w;

@@ -32,8 +32,6 @@ if(@$modulesLoader->events['preSave'])
 {
 	foreach (@$modulesLoader->events['preSave'] as $event)
 	{
-		
-		error_log("4");
 		$cct_base= "../";
 		if(@is_file($cct_base."modules/".$event)) {
 			include($cct_base."modules/".$event);

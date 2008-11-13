@@ -143,11 +143,9 @@ $tiddlyCfg['table']['admin'] = "admin_of_workspace";	//	admin of a particular wo
 $tiddlyCfg['table']['session'] = "login_session";	// stores login session
 $tiddlyCfg['table']['workspace_view'] = 'workspace_view'; // used to record each viewing of a workspace
 
-
 // Other 
 
 $tiddlyCfg['keep_revision'] = 1;
-
 $tiddlyCfg['tag_tiddler_with_modifier'] = 0;
 $tiddlyCfg['char_set'] = "utf8";
 $tiddlyCfg['hashseed'] = "aigijgij";

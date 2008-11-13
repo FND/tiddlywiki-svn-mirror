@@ -15,7 +15,6 @@ include_once($cct_base."includes/header.php");
 $search = $_REQUEST['search'];
 $search = $_POST['search'];
 
-
 $tiddlers = getAllTiddlers('simon', $search);
 
 if(!$tiddlers)
@@ -32,6 +31,4 @@ foreach($tiddlers as $t)
 }
 echo $str = substr($str,0,	(strlen($str)-1));		//remove last ","
 print "}";
-
-
 ?>

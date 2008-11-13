@@ -3,7 +3,6 @@
 // This code is not being used. 
 exit;
 
-
 $data['username'] = $_REQUEST['username'];
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
