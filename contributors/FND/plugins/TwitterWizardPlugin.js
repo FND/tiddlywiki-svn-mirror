@@ -1,6 +1,6 @@
 /***
-|''Name''|TiddlyTweetsPlugin|
-|''Description''|automatically retrieve tweets from Twitter|
+|''Name''|TwitterWizardPlugin|
+|''Description''|interface for retrieving tweets and user data from Twitter|
 |''Author''|FND|
 |''Version''|0.1.1|
 |''Status''|@@experimental@@|
@@ -13,18 +13,21 @@
 <<TiddlyTweets [username] [pages]>>
 }}}
 !Revision History
-!!v0.1 (2008-10-24)
+!!v0.1 (2008-11-14)
 * initial release
 !To Do
-* rename? (clashes with vertical)
 * abort conditions: empty response or tweet already archived
 * report when retrieval has been completed
 * disable wiki markup for tweets
 !Code
 ***/
 //{{{
-if(!version.extensions.TwitterArchivePlugin) {
-version.extensions.TwitterArchivePlugin = { installed: true };
+if(!version.extensions.TwitterWizardPlugin) {
+version.extensions.TwitterWizardPlugin = { installed: true };
+
+if(!config.extensions.TwitterAdaptor) {
+	throw "Missing dependency: TwitterAdaptor";
+}
 
 config.macros.TiddlyTweets = {
 	btnLabel: "TiddlyTweets",
@@ -83,6 +86,50 @@ config.macros.TiddlyTweets = {
 		store.saveTiddler(tiddler.title, tiddler.title, tiddler.text,
 			tiddler.modifier, tiddler.modified, tiddler.tags,
 			tiddler.fields, false, tiddler.created);
+	}
+};
+
+// Twitter archiving wizard ***** experimental, incomplete *****
+// To Do: i18n
+config.macros.TwitterWizard = {
+	handler: function(place, macroName, params, wikifier, paramString, tiddler, errorMsg) {
+		var w = new Wizard();
+		w.createWizard(place, "Twitter Import");
+		w.addStep("Enter your twitter ID", "<input name='twitter_id'>");
+		w.setButtons([{
+			caption: "Import",
+			tooltip: "click to import",
+			onClick: function() { config.macros.twitter.step1(w); }
+		}]);
+	},
+
+	step1: function(w) {
+		var step1Html = "<input name='my_tweets' type='checkbox' /><label>My Tweets</label><br />" +
+			"<input name='contacts' type='checkbox' /><label>My Contacts</label><br />" +
+			"<input name='contacts_tweets' type='checkbox' /><label>My Contacts Tweets</label><br />";
+		w.addStep("account :" + w.formElem.twitter_id.value, step1Html);
+		w.setButtons([{
+			caption: "Import 2",
+			tooltip: "click to import",
+			onClick: function() { config.macros.twitter.step2(w); }
+		}]);
+	},
+
+	step2: function(w) {
+		w.addStep("enter password for " + w.formElem.twitter_id.value,
+			"<input name='twitter_password' type='password'/>");
+		w.setButtons([{
+			caption: "Import",
+			tooltip: "click to import",
+			onClick: function() { config.macros.twitter.step3(w); }
+		}]);
+	},
+
+	step3: function(w) {
+		var html = w.formElem.twitter_id.value + "<br />" +
+			w.formElem.my_tweets + "<br />" +
+			w.formElem.twitter_password.value + "<br />";
+		w.addStep("All Done", html);
 	}
 };
 
