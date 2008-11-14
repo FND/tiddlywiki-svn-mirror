@@ -4,7 +4,7 @@
 <script src="originalJSON.js" type="text/javascript"></script>
 <script src="countriesWhereIllegal.js" type="text/javascript"></script>
 <script src="countriesWhereLegal.js" type="text/javascript"></script>
-<script>
+<script type="text/javascript">
 
 
 
@@ -60,12 +60,15 @@ function convertProperties(p){
 	if(legal ==1){
 
 		p.colour = "#33FF00";
+		p.value = "Legal";
 	}
 	else if(legal == 0){
 		p.colour = "#FF0000";
+		p.value = "Illegal";
 	}
 	else{
 	p.colour = "#CCCCCC"; //no data
+	p.value = "No data";
 	}
 	p.legality = legal;
 		

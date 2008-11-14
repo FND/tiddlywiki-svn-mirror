@@ -90,10 +90,10 @@ function init(){
 	eMap.addControl("pan");
 	
 	var spin = function() {
-			eMap.spin(0.0,0,0.1);
-			window.setTimeout(spin,500);
-		}
-		spin();
+		eMap.spin(0,0,0.01);
+		window.setTimeout(spin,100);
+	}
+	spin();
 }
 
 </script>
@@ -102,8 +102,8 @@ function init(){
 <body onload="window.setTimeout(init,0)">
 <h1>Countries where homosexual acts are legal/illegal</h1>
 
-spin: <a href="javascript:eMap.spin(-0.5,0,0)"><--</a><a href="javascript:eMap.spin(0.5,0,0)">--></a>
-<a href="javascript:eMap.spin(0,0,-0.5)">up</a> <a href="javascript:eMap.spin(0,0,0.5)">down</a>
+spin: <a href="javascript:eMap.spin(0,0,-0.1)"><--</a><a href="javascript:eMap.spin(0,0,0.1)">--></a>
+<a href="javascript:eMap.spin(-0.1,0,0)">up</a> <a href="javascript:eMap.spin(0.1,0,0)">down</a>
 <div id='wrapper' style="width:800; height:400;position:relative;">
 	<div id ='caption'></div>
 	<div id='wrapper_statustext'>please wait while we load... </div>
