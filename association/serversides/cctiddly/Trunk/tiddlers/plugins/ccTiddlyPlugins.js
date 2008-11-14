@@ -926,7 +926,7 @@ config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramSt
 			if (workspacePermission.canCreateWorkspace==1)
 				wikify("[["+me.linkCreate+"|CreateWorkspace]]<br />", place);
 			// append url function required 
-			wikify("[[password|Password]]<br />", place);
+			wikify("[["+me.linkPassword+"|Password]]<br />", place);
 			if (window.fullUrl.indexOf("?") >0)
 				wikify("[["+me.linkOffline+"|"+fullUrl+"&standalone=1]]<br />", place);
 			else 

@@ -166,6 +166,7 @@ merge(config.macros.ccOptions, {
 	linkManageUsers:"users",
 	linkPermissions:"permissions",
 	linkFiles:"files",
+	linkPassword:"password",
 	linkCreate:"create",
 	linkOffline:"offline",
 	linkStats:"statistics"	
