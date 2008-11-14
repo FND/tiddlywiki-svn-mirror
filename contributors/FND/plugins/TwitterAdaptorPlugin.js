@@ -3,7 +3,7 @@
 |''Description''|adaptor for retrieving data from Twitter|
 |''Author''|FND|
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
-|''Version''|0.3.1|
+|''Version''|0.3.2|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptorPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -16,25 +16,26 @@
 * major refactoring
 !To Do
 * revert to storing state (context.tiddlers) in adaptor
-* add "install only once" wrapper
-** avoid function statements (cf. http://www.tiddlywiki.org/wiki/Dev:Best_Practices#Declaring_Global_Functions)
-*** use config.extensions namespace?
 * don't use config.options; pass in settings via context
 * parsing of replies, DMs etc.
 * document custom/optional context attributes (page, userID)
 !Code
 ***/
 //{{{
-function TwitterAdaptor() {}
+if(!version.extensions.TiddlyWebAdaptorPlugin) { //# ensure that the plugin is only installed once
+version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 
-TwitterAdaptor.prototype = new AdaptorBase();
-TwitterAdaptor.serverType = "twitter";
-TwitterAdaptor.serverLabel = "Twitter";
-TwitterAdaptor.mimeType = "application/json";
-TwitterAdaptor.tweetTags = ["tweets"];
-TwitterAdaptor.userTags = ["users"];
+if(!config.extensions) { config.extensions = {}; }
 
-TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
+config.extensions.TwitterAdaptor = function() {}
+config.extensions.TwitterAdaptor.prototype = new AdaptorBase();
+config.extensions.TwitterAdaptor.serverType = "twitter";
+config.extensions.TwitterAdaptor.serverLabel = "Twitter";
+config.extensions.TwitterAdaptor.mimeType = "application/json";
+config.extensions.TwitterAdaptor.tweetTags = ["tweets"];
+config.extensions.TwitterAdaptor.userTags = ["users"];
+
+config.extensions.TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.workspaces = [
 		{ title: "public" },
@@ -54,7 +55,7 @@ TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callba
 	return true;
 };
 
-TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
+config.extensions.TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var page = context.page || 0;
 	switch(context.workspace) {
@@ -100,12 +101,12 @@ TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback
 			uri = uriTemplate.format([context.host, context.workspace, page]);
 			break;
 	}
-	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerListCallback,
-		context, null, null, { "accept": TwitterAdaptor.mimeType });
+	var req = httpReq("GET", uri, config.extensions.TwitterAdaptor.getTiddlerListCallback,
+		context, null, null, { "accept": config.extensions.TwitterAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, uri, xhr) {
+config.extensions.TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -114,15 +115,15 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 		var users = {};
 		eval("var tweets = " + responseText); // evaluate JSON response -- TODO: catch parsing errors (cf. TiddlyWeb adaptor)?
 		for(var i = 0; i < tweets.length; i++) {
-			var tiddler = TwitterAdaptor.parseTweet(tweets[i]);
+			var tiddler = config.extensions.TwitterAdaptor.parseTweet(tweets[i]);
 			context.tiddlers.push(tiddler);
 			if(config.options.chkTwitterFetchUsers) { // store user info
 				var user = tweets[i].user;
-				user.updated = TwitterAdaptor.convertTimestamp(tweets[i].created_at);
+				user.updated = config.extensions.TwitterAdaptor.convertTimestamp(tweets[i].created_at);
 				if(!(users[user.id] && user.updated > users[user.id].modified)) {
-					users[user.id] = TwitterAdaptor.parseUser(user);
+					users[user.id] = config.extensions.TwitterAdaptor.parseUser(user);
 					users[user.id].fields = {
-						"server.type": TwitterAdaptor.serverType,
+						"server.type": config.extensions.TwitterAdaptor.serverType,
 						"server.host": AdaptorBase.minHostName(context.host),
 						"server.workspace": "users"
 					};
@@ -138,11 +139,11 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 	}
 };
 
-TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
+config.extensions.TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = title;
 	var fields = {
-		"server.type": TwitterAdaptor.serverType,
+		"server.type": config.extensions.TwitterAdaptor.serverType,
 		"server.host": AdaptorBase.minHostName(context.host),
 		"server.workspace": context.workspace
 	};
@@ -164,18 +165,18 @@ TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callb
 	}
 	var uriTemplate = "%0/statuses/show/%1.json";
 	var uri = uriTemplate.format([context.host, context.tiddler.title]);
-	var req = httpReq("GET", uri, TwitterAdaptor.getTiddlerCallback,
-		context, null, null, { "accept": TwitterAdaptor.mimeType });
+	var req = httpReq("GET", uri, config.extensions.TwitterAdaptor.getTiddlerCallback,
+		context, null, null, { "accept": config.extensions.TwitterAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
+config.extensions.TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
 		eval("var tweet = " + responseText); // evaluate JSON response -- TODO: catch parsing errors (cf. TiddlyWeb adaptor)?
-		var tiddler = TwitterAdaptor.parseTweet(tweet);
+		var tiddler = config.extensions.TwitterAdaptor.parseTweet(tweet);
 		tiddler.fields = merge(context.tiddler.fields, tiddler.fields, true);
 		context.tiddler = tiddler;
 	}
@@ -192,20 +193,20 @@ TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri,
 };
 
 // re-request truncated tweet
-TwitterAdaptor.prototype.getFullTweet = function(context, userParams, callback) {
+config.extensions.TwitterAdaptor.prototype.getFullTweet = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/%1/status/%2";
 	var uri = uriTemplate.format([context.host, context.workspace, context.tiddler.title]);
-	var req = httpReq("GET", uri, TwitterAdaptor.getFullTweetCallback, context);
+	var req = httpReq("GET", uri, config.extensions.TwitterAdaptor.getFullTweetCallback, context);
 	return typeof req == "string" ? req : true;
 };
 
-TwitterAdaptor.getFullTweetCallback = function(status, context, responseText, uri, xhr) {
+config.extensions.TwitterAdaptor.getFullTweetCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
-		context.tiddler.text = TwitterAdaptor.scrapeTweet(responseText);
+		context.tiddler.text = config.extensions.TwitterAdaptor.scrapeTweet(responseText);
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
@@ -213,12 +214,12 @@ TwitterAdaptor.getFullTweetCallback = function(status, context, responseText, ur
 };
 
 // convert tweet to tiddler object
-TwitterAdaptor.parseTweet = function(tweet) {
+config.extensions.TwitterAdaptor.parseTweet = function(tweet) {
 	var tiddler = new Tiddler(tweet.id.toString());
-	tiddler.created = TwitterAdaptor.convertTimestamp(tweet.created_at);
+	tiddler.created = config.extensions.TwitterAdaptor.convertTimestamp(tweet.created_at);
 	tiddler.modified = tiddler.created;
 	tiddler.modifier = tweet.user.id;
-	tiddler.tags = TwitterAdaptor.tweetTags;
+	tiddler.tags = config.extensions.TwitterAdaptor.tweetTags;
 	tiddler.fields = {
 		source: tweet.source, // TODO: split into appName and appURI
 		truncated: tweet.truncated,
@@ -228,17 +229,17 @@ TwitterAdaptor.parseTweet = function(tweet) {
 		username: tweet.user.name, // XXX: obsolete due to separate user info?
 		usernick: tweet.user.screen_name // TODO: rename --  XXX: obsolete due to separate user info?
 	};
-	tiddler.text = decodeHTMLEntities(tweet.text);
+	tiddler.text = config.extensions.decodeHTMLEntities(tweet.text);
 	return tiddler;
 };
 
 // convert user to tiddler object
-TwitterAdaptor.parseUser = function(user) {
+config.extensions.TwitterAdaptor.parseUser = function(user) {
 	var tiddler = new Tiddler(user.id.toString());
 	tiddler.created = user.updated; // XXX: not quite correct (updated vs. created)
 	tiddler.modified = tiddler.created;
 	tiddler.modifier = user.id.toString();
-	tiddler.tags = TwitterAdaptor.userTags;
+	tiddler.tags = config.extensions.TwitterAdaptor.userTags;
 	var slice = "|''%0''|%1|\n";
 	tiddler.text = slice.format(["ID", user.id]) +
 		slice.format(["ScreenName", user.screen_name]) +
@@ -253,7 +254,7 @@ TwitterAdaptor.parseUser = function(user) {
 };
 
 // retrieve untruncated tweet (cf. http://code.google.com/p/twitter-api/issues/detail?id=133)
-TwitterAdaptor.scrapeTweet = function(html) {
+config.extensions.TwitterAdaptor.scrapeTweet = function(html) {
 	// load HTML page
 	var ifrm = document.createElement("iframe");
 	ifrm.style.display = "none";
@@ -277,20 +278,20 @@ TwitterAdaptor.scrapeTweet = function(html) {
 		}
 	}
 	removeNode(ifrm);
-	return decodeHTMLEntities(text.trim());
+	return config.extensions.decodeHTMLEntities(text.trim());
 };
 
 // convert timestamp ("mmm 0DD 0hh:0mm:0ss +0000 YYYY") to Date instance
-TwitterAdaptor.convertTimestamp = function(str) {
-	var components = str.match(/(\w+) (\d+) (\d+):(\d+):(\d+) \+\d+ (\d+)/);
-	return new Date(components[6], convertShortMonth(components[1]),
-		components[2], components[3], components[4], components[5]);
+config.extensions.TwitterAdaptor.convertTimestamp = function(str) {
+	var c = str.match(/(\w+) (\d+) (\d+):(\d+):(\d+) \+\d+ (\d+)/);
+	return new Date(c[6], config.extensions.convertShortMonth(c[1]),
+		c[2], c[3], c[4], c[5]);
 };
 
-config.adaptors[TwitterAdaptor.serverType] = TwitterAdaptor;
+config.adaptors[config.extensions.TwitterAdaptor.serverType] = config.extensions.TwitterAdaptor;
 
 // convert short-month string (mmm) to month number (zero-based)
-function convertShortMonth(text) {
+config.extensions.convertShortMonth = function(text) {
 	for(var i = 0; i < config.messages.dates.shortMonths.length; i++) { // XXX: inefficient!?
 		if(text == config.messages.dates.shortMonths[i]) {
 			return i;
@@ -298,9 +299,12 @@ function convertShortMonth(text) {
 	}
 }
 
-function decodeHTMLEntities(str) {
+// convert HTML entities to the respective characters
+config.extensions.decodeHTMLEntities = function(str) {
 	var el = document.createElement("textarea");
 	el.innerHTML = str;
 	return el.value;
 }
+
+} //# end of "install only once"
 //}}}
