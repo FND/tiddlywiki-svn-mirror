@@ -174,8 +174,8 @@ ccTiddlyAutoSave.putCallback = function(context, userParams){
 
 TiddlyWiki.prototype.orig_saveTiddler = TiddlyWiki.prototype.saveTiddler;	//hijack
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created){
-	var tiddler = this.fetchTiddler(title);
-	tiddler = this.orig_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,false,created);
+	this.orig_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,false,created); //
+    var tiddler = this.fetchTiddler(title); //And then I get it
 	var adaptor = new config.adaptors['cctiddly'];
 	// put the tiddler and deal with callback
 	tiddler.fields['server.host'] = window.url;
