@@ -8,14 +8,15 @@
 	<body>
 		<div id="wrapper">
 			<div id="leftpane">
-				<canvas width="400" height="400" id="canvas"></canvas>
+				<canvas width="300px" height="300px" id="canvas"></canvas>
+				<button id="drawButton">Draw on me!</button>
+				<button id="reset">Reset</button>
 			</div>
 			<div id="rightpane">
 				<h1>Experiments with a canvas</h1>
-				<p>Type some stuff in the box below and press the button. It will appear in the canvas to the left.</p>
+				<p>Draw on the canvas to the left by typing some JavaScript in the box below and pressing the button.</p>
 				<p><em>Note: you have 'ctx' as the canvas 2D drawing context</em></p>
-				<textarea id="drawingBoard" rows="25" cols="50"></textarea>
-				<button id="drawButton">Draw me!</button>
+				<textarea id="drawingBoard" rows="35" cols="70"></textarea>
 			</div>
 		</div>
 	</body>

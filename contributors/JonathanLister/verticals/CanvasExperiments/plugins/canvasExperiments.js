@@ -5,6 +5,11 @@ function draw() {
 	//$('#canvas').html($('#drawingBoard').val());
 }
 
+function reset() {
+	var canvas = $('#canvas')[0];
+	canvas.width = canvas.width;
+}
+
 function example(ctx) {
 	// Create gradients
 	var radgrad = ctx.createRadialGradient(45,45,10,52,50,30);
@@ -47,6 +52,9 @@ $('document').ready(function() {
 	$drawingBoard.val(exampleText+s);
 	$('#drawButton').click(function() {
 		draw();
+	});
+	$('#reset').click(function() {
+		reset();
 	});
 })
 
