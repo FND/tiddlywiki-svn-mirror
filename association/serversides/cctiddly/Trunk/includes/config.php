@@ -5,7 +5,7 @@ $tiddlyCfg['db']['type'] = "mysql";		//sql type
 $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "1";		//db name
+$tiddlyCfg['db']['name'] = "DATABASENAME";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 
 $tiddlyCfg['adminPassword'] = "";
@@ -34,7 +34,7 @@ $tiddlyCfg['pref']['ldap_enabled'] = 0;
 $tiddlyCfg['pref']['ldap_username']	= "CN=,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
 $tiddlyCfg['pref']['ldap_password'] = "";
 $tiddlyCfg['pref']['ldap_connection_string'] = "";
-$tiddlyCfg['pref']['language'] = "zh-Hans";
+$tiddlyCfg['pref']['language'] = "en";
 
 //Deligated Session Managment 
  
@@ -119,9 +119,9 @@ $tiddlyCfg['txtTheme'] = 'purpleTheme';  // The default TiddlyWiki theme to use.
 
 // Debugging Information 
 
-$tiddlyCfg['developing'] =1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['developing'] = 0;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
 $tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
-$tiddlyCfg['debug']['login'] = 1;
+$tiddlyCfg['debug']['login'] = 0;
 $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;
 $tiddlyCfg['debug']['params'] = 0;
