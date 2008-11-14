@@ -21,7 +21,8 @@ var head = document.getElementsByTagName("head")[0];
 var s1 = document.createElement("script");
 var s2 = document.createElement("script");
 var s3 = document.createElement("script");
-s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps3D.js";
+//s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps3D.js";
+s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps3d.js"
 s2.src = "http://www.osmosoft.com/ILGA/demos/excanvas.js";
 s3.src = "http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js";
 head.appendChild(s1);
@@ -59,7 +60,13 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		
 	
 		eMap.clickHandler = function(e){
+			if(!e) {
+				e = window.event;
+			}
 			var shape = eMap.getShapeAtClick(e);
+			if(!shape) {
+				return false;
+			}
 			var country = shape.tooltip;
 			if(!store.tiddlerExists(country)) {
 				var tags = "country";
@@ -67,8 +74,9 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 				var userName = config.options.txtUserName ? config.options.txtUserName : "guest";
 				store.saveTiddler(country,country,text,userName,new Date(),tags);
 			}
-			var tiddlerElem = story.findContainingTiddler(e.target);
+			var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
 			story.displayTiddler(tiddlerElem,country);
+			return false;
 		};
 		
 		eMap.drawFromGeojsonFile('http://plugins.tiddlywiki.org/ILGA.json');
