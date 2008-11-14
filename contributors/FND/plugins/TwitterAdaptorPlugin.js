@@ -15,6 +15,10 @@
 !!v0.3 (2008-11-03)
 * major refactoring
 !To Do
+* revert to storing state (context.tiddlers) in adaptor
+* add "install only once" wrapper
+** avoid function statements (cf. http://www.tiddlywiki.org/wiki/Dev:Best_Practices#Declaring_Global_Functions)
+*** use config.extensions namespace?
 * don't use config.options; pass in settings via context
 * parsing of replies, DMs etc.
 * document custom/optional context attributes (page, userID)
@@ -24,9 +28,9 @@
 function TwitterAdaptor() {}
 
 TwitterAdaptor.prototype = new AdaptorBase();
-TwitterAdaptor.mimeType = "application/json";
 TwitterAdaptor.serverType = "twitter";
 TwitterAdaptor.serverLabel = "Twitter";
+TwitterAdaptor.mimeType = "application/json";
 TwitterAdaptor.tweetTags = ["tweets"];
 TwitterAdaptor.userTags = ["users"];
 
@@ -108,7 +112,7 @@ TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, 
 	if(status) {
 		context.tiddlers = [];
 		var users = {};
-		eval("var tweets = " + responseText); // evaluate JSON response
+		eval("var tweets = " + responseText); // evaluate JSON response -- TODO: catch parsing errors (cf. TiddlyWeb adaptor)?
 		for(var i = 0; i < tweets.length; i++) {
 			var tiddler = TwitterAdaptor.parseTweet(tweets[i]);
 			context.tiddlers.push(tiddler);
@@ -170,7 +174,7 @@ TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri,
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
-		eval("var tweet = " + responseText); // evaluate JSON response
+		eval("var tweet = " + responseText); // evaluate JSON response -- TODO: catch parsing errors (cf. TiddlyWeb adaptor)?
 		var tiddler = TwitterAdaptor.parseTweet(tweet);
 		tiddler.fields = merge(context.tiddler.fields, tiddler.fields, true);
 		context.tiddler = tiddler;
