@@ -10,7 +10,7 @@
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 !Usage
 {{{
-<<TiddlyTweets [username] [pages]>>
+<<TwitterWizard>>
 }}}
 !Revision History
 !!v0.1 (2008-11-14)
@@ -22,7 +22,7 @@
 !Code
 ***/
 //{{{
-if(!version.extensions.TwitterWizardPlugin) {
+if(!version.extensions.TwitterWizardPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TwitterWizardPlugin = { installed: true };
 
 if(!config.extensions.TwitterAdaptor) {
@@ -36,7 +36,7 @@ config.macros.TiddlyTweets = {
 
 	host: "http://www.twitter.com",
 	requestDelay: 1000, // delay between page requests
-	adaptor: new TwitterAdaptor(),
+	adaptor: new config.extensions.TwitterAdaptor(),
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		this.pageCount = 0; // XXX: means there can only be a single instance!!
