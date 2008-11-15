@@ -18,7 +18,7 @@
 * revert to storing state (context.tiddlers) in adaptor
 * don't use config.options; pass in settings via context
 * parsing of replies, DMs etc.
-* document custom/optional context attributes (page, userID)
+* document custom/optional context attributes (page, userID, suppressUsers)
 !Code
 ***/
 //{{{
@@ -117,7 +117,7 @@ config.extensions.TwitterAdaptor.getTiddlerListCallback = function(status, conte
 		for(var i = 0; i < tweets.length; i++) {
 			var tiddler = config.extensions.TwitterAdaptor.parseTweet(tweets[i]);
 			context.tiddlers.push(tiddler);
-			if(config.options.chkTwitterFetchUsers) { // store user info
+			if(!context.suppressUsers) { // retain user info
 				var user = tweets[i].user;
 				user.updated = config.extensions.TwitterAdaptor.convertTimestamp(tweets[i].created_at);
 				if(!(users[user.id] && user.updated > users[user.id].modified)) {
