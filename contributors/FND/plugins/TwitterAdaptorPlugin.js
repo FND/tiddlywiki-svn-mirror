@@ -27,7 +27,7 @@ version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 
 if(!config.extensions) { config.extensions = {}; }
 
-config.extensions.TwitterAdaptor = function() {}
+config.extensions.TwitterAdaptor = function() {};
 config.extensions.TwitterAdaptor.prototype = new AdaptorBase();
 config.extensions.TwitterAdaptor.serverType = "twitter";
 config.extensions.TwitterAdaptor.serverLabel = "Twitter";
@@ -102,7 +102,7 @@ config.extensions.TwitterAdaptor.prototype.getTiddlerList = function(context, us
 			break;
 	}
 	var req = httpReq("GET", uri, config.extensions.TwitterAdaptor.getTiddlerListCallback,
-		context, null, null, { "accept": config.extensions.TwitterAdaptor.mimeType });
+		context, null, null, { accept: config.extensions.TwitterAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
@@ -164,9 +164,9 @@ config.extensions.TwitterAdaptor.prototype.getTiddler = function(title, context,
 		context.tiddler.fields = fields;
 	}
 	var uriTemplate = "%0/statuses/show/%1.json";
-	var uri = uriTemplate.format([context.host, context.tiddler.title]);
+	var uri = uriTemplate.format([context.host, title]);
 	var req = httpReq("GET", uri, config.extensions.TwitterAdaptor.getTiddlerCallback,
-		context, null, null, { "accept": config.extensions.TwitterAdaptor.mimeType });
+		context, null, null, { accept: config.extensions.TwitterAdaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
@@ -297,14 +297,14 @@ config.extensions.convertShortMonth = function(text) {
 			return i;
 		}
 	}
-}
+};
 
 // convert HTML entities to the respective characters
 config.extensions.decodeHTMLEntities = function(str) {
 	var el = document.createElement("textarea");
 	el.innerHTML = str;
 	return el.value;
-}
+};
 
 } //# end of "install only once"
 //}}}

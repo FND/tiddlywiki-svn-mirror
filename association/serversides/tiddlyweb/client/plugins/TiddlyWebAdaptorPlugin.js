@@ -25,9 +25,10 @@ if(!config.extensions) { config.extensions = {}; }
 
 config.extensions.TiddlyWebAdaptor = function() {};
 config.extensions.TiddlyWebAdaptor.prototype = new AdaptorBase();
-config.extensions.TiddlyWebAdaptor.mimeType = "application/json";
 config.extensions.TiddlyWebAdaptor.serverType = "tiddlyweb";
 config.extensions.TiddlyWebAdaptor.serverLabel = "TiddlyWeb";
+config.extensions.TiddlyWebAdaptor.mimeType = "application/json";
+
 config.extensions.TiddlyWebAdaptor.parsingErrorMessage = "Error parsing result from server";
 config.extensions.TiddlyWebAdaptor.locationIDErrorMessage = "no bag or recipe specified for tiddler"; // TODO: rename
 
