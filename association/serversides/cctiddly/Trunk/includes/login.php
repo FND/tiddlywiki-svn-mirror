@@ -36,8 +36,8 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 		{
 			foreach ($pluginsLoader->events['returnNotFound'] as $event)
 			{
-				if(is_file("plugins/".$event))
-					include_once("plugins/".$event);	
+					if(is_file($event))
+					include_once($event);	
 			}
 		}	
 		$error404 = true;		

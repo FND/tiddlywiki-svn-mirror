@@ -26,16 +26,15 @@ config.macros.taggedTabs.handler=function(place,macroName,params,wikifier,paramS
 	place.appendChild(wrapper);
 	config.macros.tabs.switchTab(tabset, config.options[cookie]);
 	
-	setStylesheet("div.tiddler .tab {font-size:1.2em;  font-weight:bold;padding:5px;padding-bottom:2px; padding-left:2em; padding-right:2em; margin-left:0px; margin-right:1em;}"+
+	setStylesheet("div.tiddler .tab {font-size:1.2em;  font-weight:bold;padding-left:2em; padding-right:2em; margin-left:0px; margin-right:1em;}"+
 	"div.tiddler .wizard { margin:0px; }"+
 	" div.tabContents .wizard { margin:0px; }"+
 	".tabsetWrapper .wizard h1 {display:none}"+
 	".tabsetWrapper .wizard h2 {padding:0.5em}"+
 	".viewer {float:right; width:90%;}"+
-	"a.tabUnselected{ background-color:#ddd;}"+
-	"a.tabSelected:hover, a.tabUnselected:hover{ color:black}"+
+
 "div.viewer  div.tabsetWrapper{width:90%}"+
-	"a.tabSelected{ filter:'alpha(opacity:60)'; background-color:white;}"+
+	"a.tabSelected{ filter:'alpha(opacity:60)'; }"+
 	"div.tabset {padding:0px}"+
 	"div.tabContents {padding:0px; background:transparent}",
 	 "taggedTabs");

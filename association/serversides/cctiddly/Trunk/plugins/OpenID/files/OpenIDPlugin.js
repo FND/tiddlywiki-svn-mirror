@@ -9,7 +9,7 @@ config.macros.OpenID.handler=function(place,macroName,params,wikifier,paramStrin
 	var w = new Wizard();
 	var me = config.macros.OpenID;
 	w.createWizard(place,me.titleOpenID);
-	w.addStep(null,"<!--<img width='200px' src='http://openid.net/wp-content/uploads/2007/10/openid_big_logo_text.png'/><br />--><input name='open_id_login' value='%0' size=50 style='background: rgb(255, 255, 255) url(http://www.openid.net/login-bg.gif) no-repeat scroll 0pt 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; color: rgb(0, 0, 0); padding-left: 18px;'/>".format([decodeURIComponent(cookieString(document.cookie).txtUserName)]));
+	w.addStep(null,"<!--<img width='150px' src='http://openid.net/wp-content/uploads/2007/10/openid_big_logo_text.png'/><br />--><input name='open_id_login' value='%0' size=40 style='background: rgb(255, 255, 255) url(http://www.openid.net/login-bg.gif) no-repeat scroll 0pt 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; color: rgb(0, 0, 0); padding-left: 18px;'/>".format([decodeURIComponent(cookieString(document.cookie).txtUserName)]));
 	w.setButtons([
 		{caption: me.buttonOpenIDText, tooltip: me.buttonOpenIDToolTip, onClick: function(){config.macros.OpenID.login(w);  } }
 	]);

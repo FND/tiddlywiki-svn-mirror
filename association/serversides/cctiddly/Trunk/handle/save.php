@@ -28,13 +28,17 @@ foreach ($modulesLoader->plugins as $plugin)
 	if(@is_file($cct_base."modules/".$plugin))
 		@include_once($cct_base."modules/".$plugin);	
 }
-if(@$modulesLoader->events['preSave']) 
+
+error_log("hoihoio");
+if(@$pluginsLoader->events['preSave']) 
 {
-	foreach (@$modulesLoader->events['preSave'] as $event)
+	
+	foreach (@$pluginsLoader->events['preSave'] as $event)
 	{
-		$cct_base= "../";
-		if(@is_file($cct_base."modules/".$event)) {
-			include($cct_base."modules/".$event);
+	
+		error_log($event);
+		if(is_file($event)) {
+			include($event);
 		}	
 		
 	}

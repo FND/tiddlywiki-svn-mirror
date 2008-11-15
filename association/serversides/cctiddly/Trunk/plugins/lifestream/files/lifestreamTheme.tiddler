@@ -1,3 +1,5 @@
+<div title="lifestreamTheme" modifier="Simon McManus" modified="200708091500" tags="systemTheme excludeSearch excludeLists">
+<pre>
 /***
 |''Name:''|lifestreamTheme|
 |''Author:''|Saq Imtiaz and Simon McManus|
@@ -18,7 +20,7 @@
 
 !PageTemplate
 <!--{{{-->
-<!--<div class='backgroundHeader'></div>-->
+<div class='backgroundHeader'></div>
 <meta name = "viewport" content = "width = 600">
 <div class='header' macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
@@ -57,6 +59,7 @@
 !wizardViewTemplate
 <!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
 <div class='viewer' macro='view text wikified'></div>
 <div class='tagClear'></div>
 <!--}}}-->
@@ -78,7 +81,7 @@ General
 	background-color:[[ColorPalette::ls_mid]];
 }
 .tiddler .button {
-	border:1px solid black;
+//	border:1px solid black;
 	line-height:4;
 	margin:5px;
 	padding:8px;
@@ -173,8 +176,9 @@ h1 {
 }
 
 .tabUnselected {
-	background:[[ColorPalette::ls_mid]] none repeat scroll 0%;
-	color:#999;
+	background:[[ColorPalette::ls_light]] none repeat scroll 0%;
+	color:#111;
+	padding-bottom:0px;	
 }
 
 #sidebar {
@@ -242,8 +246,8 @@ a:hover {
 }
 
 #tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover, #mainMenu a:hover, #sidebarOptions .sliderPanel input:hover {
-	border:1px dotted #000;
-	background-color:[[ColorPalette::ls_mid]];
+	border:1px solid #000;
+	background-color:[[ColorPalette::ls_background]];
 	color:white;
 }
 
@@ -251,7 +255,7 @@ a:hover {
 	padding:8px 15px 8px 15px;
 	margin:10px;
 	line-height:40px;
-	border:0px solid #eee;
+	border:1px solid [[ColorPalette::ls_background]];
 }
 
 #contentWrapper #mainMenu { 
@@ -634,13 +638,14 @@ table.sortable td.sortedCol {
 
 #contentWrapper .backgroundHeader {
 	
-	height:200px;
+	height:140px;
 	position:absolute;
-	width:585px;
-	z-index:1;
-	background:url(http://img.skitch.com/20081011-jqeekgqe69mche67uf1ap51ens.png);
+	width:100px;
+	float:right;
+	z-index:9000;
+	background:url(http://75.101.136.11/simon.png);
 	background-repeat:no-repeat;
-	left :-50px;
+	left :440px;
 	background-position: top right;
 	background-color:transparent;
 	
@@ -650,10 +655,18 @@ table.sortable td.sortedCol {
 padding-left:31px;
 }
 
+div.tiddler .tab {
+ border:1px solid #444;
+padding-bottom:1px;
+border-bottom:0px;
+}
 
+a.tabUnselected:hover, a.tabSelected:hover {
+background-color:transparent;
+}
 
 .tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;  margin:1px;background-color:[[ColorPalette::SecondaryDark]];line-height:1.5; }
-.stream {  padding:2px; margin:1px ; width750px;  min-height:53px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
+.stream {  padding:2px; margin:1px ; width750px;  min-height:53px;}
 .slider { margin-left:20px; margin-top:-2px; padding:2px 10px 10px 30px; width:435px;border:0px solid [[ColorPalette::ls_background]]; padding-left:30px;border-top:0px; color:white; background-color:[[ColorPalette::ls_mid]]; }
 .textSpace {padding-left:40px; line-height:1.5; padding-top:13px}
 .tiddler .button:hover,.tiddler .button	 { background-color:[[ColorPalette::ls_background]]; color:white;background-repeat:no-repeat; border:0px solid  [[ColorPalette::ls_mid]];}
@@ -662,3 +675,7 @@ padding-left:31px;
 /*}}}*/
 
 [[StyleSheet]]
+
+</pre>
+</div>
+	

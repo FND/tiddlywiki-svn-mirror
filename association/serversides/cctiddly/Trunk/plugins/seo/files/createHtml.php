@@ -1,4 +1,5 @@
 <?php
+error_log("holla");
 $ws_folder = $tiddlyCfg['workspace_name'];
 $dir = $tiddlyCfg['pref']['upload_dir']."tiddlers/".$ws_folder."";
 mkdir($dir, 0777, true);

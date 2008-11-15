@@ -8,6 +8,8 @@ if(!user_session_validate())
 	sendHeader("403");
 	exit;	
 }
+
+
 if (!user_isAdmin($user['username'], $tiddlyCfg['workspace_name'])){
 	if ($tiddlyCfg['only_workspace_admin_can_upload']==1)
 	{
@@ -15,21 +17,30 @@ if (!user_isAdmin($user['username'], $tiddlyCfg['workspace_name'])){
 		exit;
 	}
 }
+
+
 if ($tiddlyCfg['workspace_name'] == "")
 	$w = "default";
 else
 	$w = $tiddlyCfg['workspace_name'];
 $folder = $tiddlyCfg['pref']['upload_dir']."workspace/".$w;
+
+
 if(!file_exists($folder))
 {
 	mkdir($folder, 0777, true);
 }
+
 $err = ""; 
 $status = 0;
 if (isset($_FILES["userFile"]))
 {
+	
+		error_log("hre1");
 	if (check_vals())
 	{
+		error_log("hre11");
+		
 		if (($_FILES["userFile"]["type"] == "image/gif") || ($_FILES["userFile"]["type"] == "image/jpeg")|| ($_FILES["userFile"]["type"] == "image/pjpeg"))
 		{
 			$file_type = 'image';
@@ -40,6 +51,8 @@ if (isset($_FILES["userFile"]))
 			exit;
 		}
 		$upload_dir = $folder;
+			error_log("hre211");
+		
 		if(filesize($_FILES["userFile"]["tmp_name"]) > $tiddlyCfg['max_file_size'])
 		{
 			sendHeader("400");
@@ -56,6 +69,7 @@ if (isset($_FILES["userFile"]))
 				$status = 1;
 			else
 				$err .= $ccT_msg['upload']['unknownError'];
+				
 		}
 	}
 }
