@@ -11,10 +11,10 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	twitter.openHost();
 	twitter.getWorkspaceList(context);
 	
-	var flickr = new flickrAdaptor();
-	flickr.openHost();
-	context.host = "http://api.flickr.com/services/feeds/photos_public.gne?ids=22127230@N08";
-	flickr.getWorkspaceList(context);
+//	var flickr = new flickrAdaptor();
+//	flickr.openHost();
+//	context.host = "http://api.flickr.com/services/feeds/photos_public.gne?ids=22127230@N08";
+//	flickr.getWorkspaceList(context);
 	
 	var delicious = new deliciousAdaptor();
 	delicious.openHost();
@@ -23,7 +23,7 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	
 	var wordpress = new wordpressAdaptor();
 	wordpress.openHost();
-	context.host = "http://simonmcmanus.com";
+	context.host = "http://simonmcmanus.wordpress.com";
 	wordpress.getWorkspaceList(context);
 	
 	var trac = new tracAdaptor();

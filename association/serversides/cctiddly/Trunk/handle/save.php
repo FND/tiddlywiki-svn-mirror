@@ -29,7 +29,6 @@ foreach ($modulesLoader->plugins as $plugin)
 		@include_once($cct_base."modules/".$plugin);	
 }
 
-error_log("hoihoio");
 if(@$pluginsLoader->events['preSave']) 
 {
 	

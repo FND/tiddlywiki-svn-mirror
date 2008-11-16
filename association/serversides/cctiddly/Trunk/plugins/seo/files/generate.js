@@ -1,6 +1,6 @@
 config.macros.seo = {};
 config.macros.seo.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	createTiddlyButton(place, "text", "tooltip", config.macros.seo.click);
+	createTiddlyButton(place, "Generate HTML files", "Click to generate HTML files.", config.macros.seo.click);
 };
 
 config.macros.seo.click = function() {

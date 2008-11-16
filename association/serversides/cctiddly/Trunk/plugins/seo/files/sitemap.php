@@ -1,11 +1,10 @@
 <?php
+$output = "<?xml version='1.0' encoding='UTF-8'?>";
+$output.= "<urlset xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd' xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>";
 $start_dirname = getcwd()."/uploads/tiddlers/";
-?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<?php
 function recurse($dirname) 
 {
-	global $start_dirname;
+	global $start_dirname, $output;
 	$dir = dir($dirname);
 	while (false !== $entry = $dir->read()) 
 	{
@@ -17,14 +16,14 @@ function recurse($dirname)
 			
 			if($uri_dir)
 				$uri_dir = "/".$uri_dir;
-			?>
-			   <url>	
-			      <loc><?php echo "http://".$_SERVER["SERVER_ADDR"].$uri_dir."/".$entry;?></loc>
-			   </url>
-			<?php
+			$output .= "<url><loc>http://".$_SERVER["SERVER_NAME"].$uri_dir."/".$entry."</loc></url>";
+				
 		}
 	}
 	$dir->close();		
 }
 recurse($start_dirname);
+
+$output .= "</urlset>";
+echo utf8_encode($output);
 ?>		

@@ -26,8 +26,8 @@ if(is_file($filename)){
 
 
 // Return SiteMap 
-
-if($_SERVER["REQUEST_URI"] == "/".$_SERVER["SERVER_NAME"]."-sitemap.xml")
+// str_replace should also remove .org, ,net and any other extension. 
+if($_SERVER["REQUEST_URI"] == "/".str_replace(".com", "", $_SERVER["SERVER_NAME"])."-sitemap.xml")
 {
 	include(getcwd()."/plugins/seo/files/sitemap.php");
 	exit;

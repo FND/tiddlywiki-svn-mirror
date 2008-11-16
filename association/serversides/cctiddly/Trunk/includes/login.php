@@ -1,5 +1,4 @@
 <?php
-
 $workspace_settings_count=count($workspace_settings);
 if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 {
@@ -40,7 +39,8 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 					include_once($event);	
 			}
 		}	
-		$error404 = true;		
+		$error404 = true;	
+		sendHeader(404);	
 		$theme = "simple";
 		
 	}

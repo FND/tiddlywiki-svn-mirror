@@ -1,11 +1,10 @@
 <?php
-error_log("holla");
 $ws_folder = $tiddlyCfg['workspace_name'];
 $dir = $tiddlyCfg['pref']['upload_dir']."tiddlers/".$ws_folder."";
 mkdir($dir, 0777, true);
 $myFile = $dir."/".$ntiddler['title'].".html";
 $fh = fopen($myFile, 'w+');
-$doc = "<html>\r\n<head>\r\n<script language='javascript'><!-- \r\n//location.replace('".dirname(getUrl())."/".$tiddlyCfg['workspace_name']."#".$ntiddler['title']."') \r\n //--></script>\r\n";
+$doc = "<html>\r\n<head>\r\n<script language='javascript'><!-- \r\nlocation.replace('".dirname(getUrl())."/".$tiddlyCfg['workspace_name']."#".$ntiddler['title']."') \r\n //--></script>\r\n";
 $doc .= "<title>".$ntiddler['title']."</title>\r\n</head>\r\n<body>\r\n";
 $doc .= "<h1>".$ntiddler['title']."</h1>\r\n";
 $doc .= str_replace(dirname(getUrl())."/".$tiddlyCfg['workspace_name']."#", dirname(getUrl())."/".$tiddlyCfg['workspace_name']."/", formatParametersPOST($_POST['wikifiedBody']));
