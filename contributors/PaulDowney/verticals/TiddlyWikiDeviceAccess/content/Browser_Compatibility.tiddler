@@ -1,4 +1,4 @@
-<div title="Browser Compatibility" modifier="Paul Downey" created="200811141720" modified="200811171723" changecount="11">
+<div title="Browser Compatibility" modifier="Paul Downey" created="200811141720" modified="200811171723" changecount="11" tags="paper">
 <pre>At the time of writing, TiddlyWiki is known to be viewable on all major desktop browsers on Windows, Macintosh and Linux and many mobile browsers such as the Apple iPhone and the Nokia 770/N800, notably:
 |!Browser |!Version |![[File Saving]] Supported? |
 |[[InternetExplorer|http://tiddlywiki.com/#InternetExplorer]] |6.0+ |Yes |
