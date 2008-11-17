@@ -13,7 +13,7 @@
 ***/
 
 //{{{
-//# Ensure that the plugin is only installed once.
+// Ensure that the plugin is only installed once.
 if(!version.extensions.CecilyPlugin) {
 version.extensions.CecilyPlugin = {installed:true};
 
@@ -124,7 +124,7 @@ function normalisePoint(base,target,pt) {
 }
 
 // Checks which of an array of classes are applied to a given element. Returns an array of the classes that are found
-function hasClasses(e,classNames)
+function hasAnyClass(e,classNames)
 {
 	var classes = e.className ? e.className.split(" ") : [];
 	var results = [];
@@ -140,13 +140,13 @@ function hasClasses(e,classNames)
 // Slider control
 //-----------------------------------------------------------------------------------
 
-//# The slider control is constructed with a sliderInfo object that can contain the following keys:
-//#   place: DOM node to which the slider control is appended as a new child
-//#   min: Minimum value (integer)
-//#   max: Maximum value (integer)
-//#   getterTransform: function to convert internal slider values when reading them
-//#   setterTransform: function to convert to internal slider value when setting them
-//#   onChange: function(value) called when the slider moves
+// The slider control is constructed with a sliderInfo object that can contain the following keys:
+//   place: DOM node to which the slider control is appended as a new child
+//   min: Minimum value (integer)
+//   max: Maximum value (integer)
+//   getterTransform: function to convert internal slider values when reading them
+//   setterTransform: function to convert to internal slider value when setting them
+//   onChange: function(value) called when the slider moves
 function SliderControl(sliderInfo) {
 	merge(this,sliderInfo);
 	if(!this.getterTransform)
@@ -170,6 +170,49 @@ SliderControl.prototype.set = function(value) {
 	var n = this.setterTransform(value).toString();
 	if(this.slider.value != n)
 		this.slider.value = n;
+};
+
+//-----------------------------------------------------------------------------------
+// cecilyTransform mechanism
+//-----------------------------------------------------------------------------------
+
+// Set up an element to be transformed
+function cecilyTransform(element)
+{
+	addClass(element,"cecilyTransform");
+	element.cecilyTransform = this;
+	this.element = element;
+	this.originalWidth = element.offsetWidth;
+	this.bounds = new Rect(0,0,this.originalWidth,element.offsetHeight);
+	this.rotate = 0;
+	this.enlarge = 1;
+}
+
+// Applies any of these transformations over the top of prevailing ones
+//   transforms.bounds = Rect() of bounds of element
+//   transforms.rotate = numeric radian rotation applied to element around centre
+//   transforms.enlarge = numeric scale factor applied after sizing
+cecilyTransform.prototype.transform = function(transforms) {
+	if(transforms.bounds !== undefined)
+		this.bounds = new Rect(transforms.bounds);
+	if(transforms.rotate !== undefined)
+		this.rotate = transforms.rotate;
+	if(transforms.enlarge !== undefined)
+		this.enlarge = transforms.enlarge;
+	var s = this.bounds.w / this.originalWidth;
+	this.element.style[Cecily.cssTransform] =
+			"translate(-50%,-50%) " +
+			"scale(" + s + "," + s + ") " +
+			"translate(50%,50%) " +
+			"translate(" + this.bounds.x / s + "px," + this.bounds.y / s + "px) " +
+			"rotate(" + this.rotate + "rad) " +
+			"scale(" + this.enlarge + ")";
+};
+
+// Updates the bounds to account for text flow
+cecilyTransform.prototype.getFlowedBounds = function() {
+	this.bounds.h = this.element.offsetHeight * (this.bounds.w / this.element.offsetWidth);
+	return new Rect(this.bounds);
 };
 
 //-----------------------------------------------------------------------------------
@@ -374,7 +417,7 @@ Cecily.prototype.onMouseWheel = function(ev) {
 
 Cecily.prototype.onMouseClickBubble = function(ev) {
 	var tiddler = story.findContainingTiddler(ev.target);
-	if(tiddler && this.drag === null && hasClasses(ev.target,["tiddlyLink","toolbar","title","tagged"]).length == 0) {
+	if(tiddler && this.drag === null && hasAnyClass(ev.target,["tiddlyLink","toolbar","title","tagged"]).length == 0) {
 		// The next bit is equivalent to tiddler.parentNode.insertBefore(tiddler,null); but avoids moving
 		// the element that was clicked on
 		while(tiddler.nextSibling) {
@@ -443,9 +486,11 @@ Cecily.draggers.tiddlerDragger = {
 		var dragThis = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
 		if(dragThis) {
 			var s = cecily.frame.offsetWidth/cecily.view.w;
-			cecily.drag.tiddler.realPos = new Point(cecily.drag.tiddler.realPos.x + (dragThis.x - cecily.drag.lastPoint.x) / s,
-													cecily.drag.tiddler.realPos.y + (dragThis.y - cecily.drag.lastPoint.y) / s);
-			cecily.transformTiddler(cecily.drag.tiddler);
+			console.log(cecily.drag.tiddler.cecilyTransform.bounds.x);
+			var pos = new Rect(cecily.drag.tiddler.cecilyTransform.bounds.x + (dragThis.x - cecily.drag.lastPoint.x) / s,
+								cecily.drag.tiddler.cecilyTransform.bounds.y + (dragThis.y - cecily.drag.lastPoint.y) / s,
+								cecily.drag.tiddler.cecilyTransform.bounds.w, cecily.drag.tiddler.cecilyTransform.bounds.h);
+			cecily.drag.tiddler.cecilyTransform.transform({bounds: pos});
 			cecily.drag.lastPoint = dragThis;
 		}
 	},
@@ -465,18 +510,18 @@ Cecily.draggers.tiddlerResizer = {
 		cecily.drag.tiddler = tiddler;
 		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
 		cecily.drag.startPoint = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
-		cecily.drag.startWidth = tiddler.scaledWidth;
+		cecily.drag.startWidth = tiddler.cecilyTransform.bounds.w;
 		addClass(tiddler,"drag");
 	},
 	dragMove: function(cecily,target,ev) {
 		var s = cecily.frame.offsetWidth/cecily.view.w;
 		var dragThis = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
 		if(dragThis) {
-			var newWidth = cecily.drag.startWidth + (dragThis.x - cecily.drag.startPoint.x) / s;
-			if(newWidth < 0.01)
-				newWidth = 0.01;
-			cecily.drag.tiddler.scaledWidth = newWidth;
-			cecily.transformTiddler(cecily.drag.tiddler);
+			var pos = new Rect(cecily.drag.tiddler.cecilyTransform.bounds);
+			pos.w = cecily.drag.startWidth + (dragThis.x - cecily.drag.startPoint.x) / s;
+			if(pos.w < 0.01)
+				pos.w = 0.01;
+			cecily.drag.tiddler.cecilyTransform.transform({bounds: pos});
 		}
 	},
 	dragUp: function(cecily,target,ev) {
@@ -537,18 +582,18 @@ Cecily.prototype.onMouseOutOverlay = function(ev)
 	}
 };
 
-//# Display a given tiddler with a given template. If the tiddler is already displayed but with a different
-//# template, it is switched to the specified template. If the tiddler does not exist, and if server hosting
-//# custom fields were provided, then an attempt is made to retrieve the tiddler from the server
-//# srcElement - reference to element from which this one is being opened -or-
-//#              special positions "top", "bottom"
-//# tiddler - tiddler or title of tiddler to display
-//# template - the name of the tiddler containing the template -or-
-//#            one of the constants DEFAULT_VIEW_TEMPLATE and DEFAULT_EDIT_TEMPLATE -or-
-//#            null or undefined to indicate the current template if there is one, DEFAULT_VIEW_TEMPLATE if not
-//# animate - whether to perform animations
-//# customFields - an optional list of name:"value" pairs to be assigned as tiddler fields (for edit templates)
-//# toggle - if true, causes the tiddler to be closed if it is already opened
+// Display a given tiddler with a given template. If the tiddler is already displayed but with a different
+// template, it is switched to the specified template. If the tiddler does not exist, and if server hosting
+// custom fields were provided, then an attempt is made to retrieve the tiddler from the server
+// srcElement - reference to element from which this one is being opened -or-
+//              special positions "top", "bottom"
+// tiddler - tiddler or title of tiddler to display
+// template - the name of the tiddler containing the template -or-
+//            one of the constants DEFAULT_VIEW_TEMPLATE and DEFAULT_EDIT_TEMPLATE -or-
+//            null or undefined to indicate the current template if there is one, DEFAULT_VIEW_TEMPLATE if not
+// animate - whether to perform animations
+// customFields - an optional list of name:"value" pairs to be assigned as tiddler fields (for edit templates)
+// toggle - if true, causes the tiddler to be closed if it is already opened
 Cecily.prototype.displayTiddler = function(superFunction,args) {
 	var tiddler = args[1];
 	var srcElement = args[0];
@@ -560,11 +605,8 @@ Cecily.prototype.displayTiddler = function(superFunction,args) {
 	if(!tiddlerElem)
 	 	return;
 	var pos = this.getTiddlerPosition(title,srcElement);
-	tiddlerElem.realPos = new Point(pos.x,pos.y);
-	tiddlerElem.scaledWidth = pos.w;
-	tiddlerElem.rotate = 0;
-	tiddlerElem.enlarge = 1.0;
-	this.transformTiddler(tiddlerElem);
+	var transform = new cecilyTransform(tiddlerElem);
+	transform.transform({bounds: pos});
 	this.updateTiddlerPosition(title,tiddlerElem);
 	if(!startingUp) {
 		if(tiddlerElem.nextSibling) { // Move tiddler to the bottom of the Z-order if it's not already there
@@ -622,11 +664,7 @@ Cecily.prototype.getTiddlerPosition = function(title,srcElement) {
 
 // Updates the position of a named tiddler into the current map
 Cecily.prototype.updateTiddlerPosition = function(title,tiddlerElem) {
-	var pos = new Rect(tiddlerElem.realPos.x,
-						tiddlerElem.realPos.y,
-						tiddlerElem.scaledWidth,
-						tiddlerElem.offsetHeight * (tiddlerElem.scaledWidth/tiddlerElem.offsetWidth));
-	this.map[title] = pos;
+	this.map[title] = tiddlerElem.cecilyTransform.getFlowedBounds();
 	this.saveMap(this.mapTitle);
 }
 
@@ -640,28 +678,11 @@ Cecily.prototype.setMap = function(title)
 	var me = this;
 	story.forEachTiddler(function(tiddler,elem) {
 		var pos = me.getTiddlerPosition(tiddler);
-		elem.realPos = new Point(pos.x,pos.y);
-		elem.scaledWidth = pos.w;
-		elem.rotate = 0;
-		elem.enlarge = 1.0;
-		me.transformTiddler(elem);
+		elem.cecilyTransform.transform({bounds: pos});
 	});
 	this.drawBackground();
 	config.macros.cecilyMap.propagate(title);
 }
-
-// Applies the tiddler transformation properties (rotate & enlarge) to the display
-Cecily.prototype.transformTiddler = function(tiddlerElem) {
-	var pos = tiddlerElem.realPos;
-	var s = tiddlerElem.scaledWidth/360;
-	var r = tiddlerElem.rotate;
-	var e = tiddlerElem.enlarge;
-	tiddlerElem.style[Cecily.cssTransform] = "translate(-50%,-50%) scale(" + s + "," + s + ") translate(50%,50%) translate(" + pos.x / s + "px," + pos.y / s + "px) rotate(" + r + "rad) scale(" + e + ")";
-	// Experimental beginnings of support for semantic zooming
-	var w = tiddlerElem.scaledWidth * (this.frame.offsetWidth)/(this.view.w);
-	var f = w < 60 ? addClass : removeClass;
-	f(tiddlerElem,"tooSmallToRead");
-};
 
 // Moves the viewport to accommodate the specified rectangle
 Cecily.prototype.setView = function(newView) {
@@ -710,10 +731,7 @@ Cecily.prototype.startHightlight = function(elem) {
 Cecily.prototype.scrollToAllTiddlers = function() {
 	var currRect = null;
 	story.forEachTiddler(function (title,tiddlerElem) {
-		var tiddlerRect = new Rect(tiddlerElem.realPos.x,
-								tiddlerElem.realPos.y,
-								tiddlerElem.scaledWidth,
-								tiddlerElem.offsetHeight * (tiddlerElem.scaledWidth/tiddlerElem.offsetWidth));
+		var tiddlerRect = new Rect(tiddlerElem.cecilyTransform.getFlowedBounds());
 		if(!currRect)
 			currRect = tiddlerRect;
 		else
@@ -729,10 +747,7 @@ Cecily.prototype.scrollToTiddler = function(tiddler) {
 	var tiddlerElem = typeof tiddler == "string" ? story.getTiddler(tiddler) : tiddler;
 	if(tiddlerElem) {
 		this.startHightlight(tiddlerElem);
-		var targetRect = new Rect(tiddlerElem.realPos.x,
-									tiddlerElem.realPos.y,
-									tiddlerElem.scaledWidth,
-									tiddlerElem.offsetHeight * (tiddlerElem.scaledWidth/tiddlerElem.offsetWidth));
+		var targetRect = new Rect(tiddlerElem.cecilyTransform.getFlowedBounds());
 		if(this.view.contains(targetRect)) {
 			this.startScroller([targetRect.scale(1.2)]);
 		} else {
