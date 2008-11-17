@@ -79,9 +79,7 @@ var EasyMap = function(divID){
 		G_vmlCanvasManager.init_(document); //ie hack	
 	}*/
 	if(!canvas.getContext) {
-		G_vmlCanvasManager.init_(document);
-		var c = document.getElementsByTagName("canvas")[0];
-		this.canvas = canvas = c;
+		G_vmlCanvasManager.initElement(canvas);
 	}
 	this.ctx = canvas.getContext('2d');
 
@@ -234,6 +232,9 @@ EasyMap.prototype = {
 		switch(controlType) {
 			case "pan":
 				var panCanvas = document.createElement('canvas');
+				if(!panCanvas.getContext) {
+					G_vmlCanvasManager.initElement(panCanvas);
+				}
 				panCanvas.width = 14;
 				panCanvas.height = 50;
 				controlDiv.appendChild(panCanvas);
@@ -497,9 +498,11 @@ EasyMap.prototype = {
 			ctx.fill();
 			ctx.restore();
 		}*/
+		alert('going to draw '+existinMem.length+' shapes');
 		for(var i=0; i < existingMem.length; i++){
 			this.drawShape(existingMem[i]);
 		}
+		alert('drawn them!');
 	},
 	
 	clear: function(){
@@ -542,6 +545,7 @@ EasyMap.prototype = {
 	
 	drawGeoJsonFeatures: function(features){
 			var avg1 = 0;
+			alert('going to draw '+features.length+' features');
 			for(var i=0; i < features.length; i++){
 				var geometry = features[i].geometry;
 				if(geometry.type.toLowerCase() == 'multipolygon'){
@@ -554,10 +558,11 @@ EasyMap.prototype = {
 					}
 
 				}
-				else {	
+				else {
 					//console.log("unsupported geojson geometry type " + geometry.type);
 				}
 			}
+			alert('drawn those features');
 
 	},
 	
@@ -572,6 +577,7 @@ EasyMap.prototype = {
 
 			if(geojson.type.toLowerCase() == "featurecollection"){
 				var features = geojson.features;
+				alert('about to call drawGeoJsonFeatures');
 				this.drawGeoJsonFeatures(features);
 			} else {
 				console.log("only feature collections currently supported");
@@ -585,6 +591,7 @@ EasyMap.prototype = {
 		var callback = function(status,params,responseText,url,xhr){
 		
 			var json = eval('(' +responseText + ')');
+			alert('going to call drawFromGeoJson');
 			that.drawFromGeojson(json);
 			
 			var t = document.getElementById(that.wrapper.id + "_statustext");
