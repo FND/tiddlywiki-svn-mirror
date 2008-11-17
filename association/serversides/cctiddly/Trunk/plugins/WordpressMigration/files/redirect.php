@@ -1,5 +1,4 @@
 <?php
-
 function csv_explode($str, $delim = ',', $qual = "\"") {
   $len = strlen($str);
   $inside = false;
@@ -24,10 +23,15 @@ function csv_explode($str, $delim = ',', $qual = "\"") {
   return $out;
 }
 
+$a = file_get_contents(getcwd().'/plugins/WordpressMigration/files/redirect.csv');
+$array = csv_explode($a);
+$uri = "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 
+if(in_array($uri, $array)) 
+{
+	header("HTTP/1.1 301 Moved Permanently");
+	header("Location: ".$p->wordpressInstance.$_SERVER['REQUEST_URI']);
+	exit();
+}
 
-$a = file_get_contents('redirect.csv');
-$b = csv_explode($a);
-
-print_r($b);
 ?>

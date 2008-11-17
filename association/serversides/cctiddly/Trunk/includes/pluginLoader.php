@@ -1,8 +1,4 @@
 <?php
-
-
-
-
 class PluginsLoader {
 	public $events;
 	public $tiddlers;
