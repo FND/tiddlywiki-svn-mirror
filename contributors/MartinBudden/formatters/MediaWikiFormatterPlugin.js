@@ -11,7 +11,6 @@
 |''~CoreVersion:''|2.1.0|
 
 |''Display instrumentation''|<<option chkDisplayInstrumentation>>|
-|''Display empty template links:''|<<option chkMediaWikiDisplayEmptyTemplateLinks>>|
 |''Allow zooming of thumbnail images''|<<option chkMediaWikiDisplayEnableThumbZoom>>|
 |''List references''|<<option chkMediaWikiListReferences>>|
 |''Display unsupported magic words''|<<option chkDisplayMediaWikiMagicWords>>|
@@ -51,8 +50,6 @@ if(version.major < 2 || (version.major == 2 && version.minor < 1))
 if(config.options.chkDisplayInstrumentation == undefined)
 	{config.options.chkDisplayInstrumentation = false;}
 
-if(config.options.chkMediaWikiDisplayEmptyTemplateLinks == undefined)
-	{config.options.chkMediaWikiDisplayEmptyTemplateLinks = false;}
 if(config.options.chkMediaWikiDisplayEnableThumbZoom == undefined)
 	{config.options.chkMediaWikiDisplayEnableThumbZoom = false;}
 if(config.options.chkMediaWikiListReferences == undefined)

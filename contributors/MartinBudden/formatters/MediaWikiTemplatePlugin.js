@@ -8,6 +8,9 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.4.1|
 
+|''Display empty template links:''|<<option chkMediaWikiDisplayEmptyTemplateLinks>>|
+
+
 http://meta.wikimedia.org/wiki/Help:Template
 http://meta.wikimedia.org/wiki/User:Happy-melon/Templates
 
@@ -41,6 +44,8 @@ version.extensions.MediaWikiTemplatePlugin = {installed:true};
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	{alertAndThrow('MediaWikiTemplatePlugin requires TiddlyWiki 2.1 or later.');}
 
+if(config.options.chkMediaWikiDisplayEmptyTemplateLinks == undefined)
+	{config.options.chkMediaWikiDisplayEmptyTemplateLinks = false;}
 
 fnLog = function(text)
 {
