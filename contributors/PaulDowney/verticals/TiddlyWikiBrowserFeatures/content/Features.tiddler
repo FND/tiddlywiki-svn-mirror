@@ -1,0 +1,9 @@
+<div title="Features" modifier="Paul Downey" created="200811141428" modified="200811171723" tags="paper" changecount="13">
+<pre>As a [[HTML Application|HTML Applications]], a TiddlyWiki saved locally and opened in a browser from a file URI is able to:
+*save changes locally - [[File Saving]]
+*write to other local files - [[Writing Other Files]]
+*save changes remotely - [[Server Side]]
+*import and export to a server - [[Synchronization]]
+*store and retrieve options from local cookies - [[File URI Cookies]]
+A number of other features, not directly applicable to this workshop, listed on [[TiddlyWiki.com|http://www.tiddlywiki.com/#Features]].</pre>
+</div>

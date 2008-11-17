@@ -1,0 +1,88 @@
+<div title="Workshop on Security for Access to Device APIs from the Web" modifier="Paul Downey" created="200811021547" modified="200811141300" tags="W3C workshop" changecount="22">
+<pre>!Call For Participation
+As the Web becomes an ubiquitous development platform, application developers need to get access to the features available on the computers or devices on which their Web application (through a browser or through a widget) is running.
+
+With the emergence of the Web as a compelling alternative to locally installed applications, security issues are an increasing obstacle for realizing the full potential of the Web, in particular when Web applications developers need to get access to features not traditionally available in the browsing environment: cameras, GPS systems, connectivity and battery levels, external applications launch, access to personal data (e.g. calendar or addressbook), etc.
+!Scope
+The goal of this workshop is to bring together people from a wide variety of backgrounds (API designers, security experts, usability experts, ...) to discuss the security challenges involved in allowing Web applications and widgets to access the ~APIs that allow to control these features, and to advise the W3C on appropriate next steps for any gap that needs to be addressed with new technical work.
+
+Topics that might serve as appropriate discussion points for position papers include, but are not limited to:
+*Existing frameworks on desktop and mobile platforms to regulate security policies for specific ~APIs,
+*Similarities and differences of the security approaches in desktop and mobile platforms, in a browser and in a widgets environment,
+*Usability of security relevant user interactions; issues and opportunities in the mobile environment,
+*Safe language and API subsets, and models for application use of such subsets,
+*Policy based trust delegation mechanisms,
+*Reducing the attack surface exposed by Web page scripts
+*Role of authentication of users and applications in securing API access,
+*Increasing awareness of good security practices for Web applications,
+*Usability of security and privacy policies.
+We expect the discussions at this workshop to be relevant to the following Working Groups:
+*[[Web Applications Working Group|http://www.w3.org/2008/webapps/]]
+*[[Geolocation Working Group|http://www.w3.org/2008/geolocation/]]
+*[[Ubiquitous Web Applications Working Group|http://www.w3.org/2007/uwa/]]
+*[[HTML Working Group|http://www.w3.org/html/wg/]]
+*[[Web Security Context Working Group|http://www.w3.org/2006/WSC/]]
+!Requirements for Participation
+*Position papers are required and must be submitted by email to team-secure-web@w3.org before October 30th, 2008 EOB; position papers will be accepted until November 5th, provided that a very short expression of interest has been submitted before October 30th.
+*W3C membership is not required in order to participate in the Workshop.
+*The total number of participants will be limited. To ensure diversity, a limit might be imposed on the maximum number of participants per organization.
+*Instructions for how to register will be sent to submitters of accepted position papers. These instructions will also indicate a possible limit on the maximum number of participants per organization.
+*Workshop sessions and documents will be in English.
+*There is no fee to participate.
+!!Expression of Interest
+To help the organizers plan the workshop: If you wish to participate, please as soon as possible send a message to team-secure-web@w3.org with a short (one paragraph) "expression of interest" stating:
+*that a representative from your organization plans to submit a position paper
+*whether you want to send one or two participants
+*whether or not you wish to make a presentation
+Note: Sending that expression of interest does not mean that you registered for the workshop. It is still necessary to send a position paper (see below), which then must be considered for acceptance by the Program Committee.
+!Position Papers
+
+You paper submitted to team-secure-web@w3.org must meet the following criteria:
+*explains your interest in the Workshop
+*aligned with the Workshop's stated goals as outlined above.
+*1 to 5 pages long
+*formatted in (valid) HTML/XHTML, PDF, or plain text
+Based on a review of all submitted position papers, the Program Committee will select the most relevant and invite the submitters of those papers to the Workshop. From among all accepted papers, the program committee will choose a small number of papers judged most appropriate for fostering discussion, and ask the authors of those papers to give short presentations about them at the Workshop. After the workshop, those presentations will then be published on the workshop home page.
+!Important dates
+|Date|Event|
+|September|30	Call for Participation issued|
+|30 October|Deadline for position papers|
+|5 November|Extended Deadline for position papers following an expression of interest|
+|17 November|Acceptance notification sent|
+|20 November|Program released|
+|25 November|Deadline for Registration|
+|10-11 December|Workshop|
+!Workshop Organization
+Workshop sessions and documents will be in English.
+!Chairs:
+*Nick Allott, OMTP
+*Thomas Roessler, W3C
+!Program Committee
+At this time, the program committee is still being assembled.
+*Luis Barriga, Ericsson
+*Art Barstow, Nokia
+*Steven Bellovin, Columbia University
+*Jon Ferraiolo, Open Ajax Alliance
+*Marcin Hanclik, ACCESS
+*Robert Hansen, OWASP
+*Dominique ~Hazaël-Massieux, W3C
+*Collin Jackson, Stanford University
+*Ben Laurie, Google
+*Eric Lawrence, Microsoft
+*Charles ~McCathie-Neville, Opera Software
+*Dave Raggett, W3C
+*David Rogers, OMTP
+*Mark Priestley, Vodafone
+*Alex Stamos, isecpartners
+*Dan Veditz, Mozilla
+*Charles Wei, Torch Mobile
+*Mary Ellen Zurko, IBM
+!Venue
+The Workshop will be hosted by Vodafone, in their London offices.
+!Deliverables
+Position papers, agenda, accepted presentations, and report will also be published online.
+!!Origin
+This information was taken from the W3C site http://www.w3.org/2008/security-ws/. <html>For more information, contact <span class="vcard"><a class="url fn"
+  href="http://www.w3.org/People/Dom/">Dominique ~Hazaël-Massieux</a>, W3C
+  Contact</span>  <small>$Date: 2008/11/07 10:00:21 $</small></html></pre>
+</div>

@@ -1,0 +1,12 @@
+<div title="Browser Compatibility" modifier="Paul Downey" created="200811141720" modified="200811171723" changecount="11">
+<pre>At the time of writing, TiddlyWiki is known to be viewable on all major desktop browsers on Windows, Macintosh and Linux and many mobile browsers such as the Apple iPhone and the Nokia 770/N800, notably:
+|!Browser |!Version |![[File Saving]] Supported? |
+|[[InternetExplorer|http://tiddlywiki.com/#InternetExplorer]] |6.0+ |Yes |
+|[[Firefox|http://tiddlywiki.com/#FireFox]] |1.0+ |Yes |
+|[[Safari|http://tiddlywiki.com/#Safari]] |1.0+ |Yes, using TiddlySaver plugin|
+|[[Opera|http://tiddlywiki.com/#Opera]] |? |Yes, using TiddlySaver plugin|
+|[[NetscapeNavigator|http://tiddlywiki.com/#NetscapeNavigator]] |7.0+ |Yes |
+|[[Camino|http://tiddlywiki.com/#Camino]] |1.0+ |Yes |
+|[[Chrome|http://tiddlywiki.com/#Chrome]] |All |Yes, using TiddlySaver plugin|
+|[[Wii|http://tiddlywiki.com/#Wii]] |All |No |</pre>
+</div>

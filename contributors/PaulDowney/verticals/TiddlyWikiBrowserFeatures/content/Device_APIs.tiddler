@@ -1,0 +1,12 @@
+<div title="Device APIs" modifier="Paul Downey" created="200811121158" modified="200811171601" tags="paper" changecount="15">
+<pre>Building on the examples presented in the [[Workshop call for participation|Workshop on Security for Access to Device APIs from the Web]], examples of features which are of interest to a TiddlyWiki developer could include:
+* location data from GPS and other sources
+* network connectivity, bandwidth available and usage
+* battery levels and power consumption
+* access to personal data held in calendars and address books
+* access to metadata and content held in music libraries
+* access to metadata and images held in photo albums
+* photographs and data held on cameras
+* the ability to launch external applications
+Ideally, these should be made available to TiddlyWiki as JavaScript functions, and in a browser independent way. To that end, we support the efforts of to standardise common practice in the [[Web Applications|http://www.w3.org/2008/webapps/]], [[Geolocation|http://www.w3.org/2008/geolocation/]], [[Ubiquitous Web Applications|http://www.w3.org/2007/uwa/]] and [[HTML|http://www.w3.org/html/wg/]] Working Groups.</pre>
+</div>

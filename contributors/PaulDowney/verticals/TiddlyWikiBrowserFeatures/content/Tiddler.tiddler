@@ -1,0 +1,10 @@
+<div title="Tiddler" modifier="Paul Downey" created="200811132220" modified="200811171722" changecount="9">
+<pre>TiddlyWiki content is made up from a collection of Micro Content, or tiddlers. Each tiddler is stored as a HTML <div> containing the source text in wiki format. For example, this Tiddler is stored as follows:
+{{{
+<div title="Tiddler" modifier="Paul Downey" 
+  created="200811132220" modified="200811132225" 
+  changecount="3" tags="paper">
+<pre>TiddlyWiki content is a collection of Micro Content ...
+</div>
+}}}</pre>
+</div>

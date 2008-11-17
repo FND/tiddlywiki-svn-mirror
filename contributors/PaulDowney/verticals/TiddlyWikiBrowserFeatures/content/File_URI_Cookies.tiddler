@@ -1,0 +1,5 @@
+<div title="File URI Cookies" modifier="Paul Downey" created="200811122142" modified="200811171911" tags="paper" changecount="17">
+<pre>TiddlyWiki [[options|http://tiddlywiki.com/#InterfaceOptions]] such as the wiki author's name and preferences such as where backup files are created, across browser sessions. Cookies stored against the file URI is a feature widely supported, though not well documented. Notably the Google Chrome browser does not support storing cookies to a file URI, as discussed under the [[Google Chrome Issue #535|http://code.google.com/p/chromium/issues/detail?id=535]]. This appears to be for well thought out reasons, as explained in the paper [[Beware of Finer-Grained Origins|http://www.adambarth.com/papers/2008/jackson-barth-b.pdf]] by Collin Jackson and Adam Barth of Stanford University, 2008.
+
+TiddlyWiki has possible solutions for where file URI cookies are unavailable, most of which involve storing data inside the TiddlyWiki file. A method of storing user preference data outside of a TiddlyWiki remains desirable for some [[options use-cases|http://www.tiddlywiki.org/wiki/Dev:UseCasesOptions]].</pre>
+</div>

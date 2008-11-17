@@ -1,0 +1,7 @@
+<div title="Server Side" modifier="Paul Downey" created="200811161339" modified="200811171656" tags="paper [[Use Cases]]" changecount="9">
+<pre>A number of strategies for hosting editable or collaborative [[TiddlyWikis|TiddlyWiki]] which use [[HTTP Requests]] to [[Synchronize|Synchronization]] [[content|Tiddler]] to the Web, notably:
+*[[TiddlyWeb|http://www.tiddlywiki.org/wiki/TiddlyWeb]] - a practical, ~RESTful, reference implementation in Python 
+*[[ccTiddly|http://www.tiddlywiki.org/wiki/CcTiddly]] - a widely adopted PHP implementation 
+*[[TiddlySpot|http://tiddlyspot.com/]] - a zero-touch, free service for hosted personal ~TiddlyWikis
+There is a more complete list of server side implementations on [[TiddlyWiki.com|http://www.tiddlywiki.com/#ServerSide]]</pre>
+</div>

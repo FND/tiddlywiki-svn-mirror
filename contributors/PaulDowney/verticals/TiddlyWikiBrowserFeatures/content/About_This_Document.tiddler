@@ -1,0 +1,12 @@
+<div title="About This Document" modifier="Paul Downey" created="200802181204" modified="200811161819" changecount="25">
+<pre>This document is a TiddlyWiki - a Wiki in a single HTML file. The content is divided into paragraphs, or "[[tiddlers|Tiddler]]", which may be edited and changed as [[wiki text|http://tiddlywiki.org/wiki/TiddlyWiki_Markup]]. The appearance is highly customisable, and under the control of the following tiddlers:
+* SiteTitle, SiteSubtitle: the title and subtitle of the site.
+* MainMenu: the menu, on the left hand side.
+* PageTemplate, ViewTemplate, EditTemplate: change the composition of the page and the layout of individual tiddlers
+* DefaultTiddlers: the names of the tiddlers which appear when the TiddlyWiki is opened
+* ColorPalette: the set of colours displayed
+* StyleSheet: additional CSS used to customise the appearance. 
+Other [[Options|AdvancedOptions]] may be used to personalise your experience of the TiddlyWiki, such as the username for signing your edits: <<option txtUserName>> may be stored in [[cookies|File URI Cookies]].
+
+You can [[download|download/]] and save this file locally.</pre>
+</div>

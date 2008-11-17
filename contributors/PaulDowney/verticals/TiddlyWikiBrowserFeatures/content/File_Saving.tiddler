@@ -1,0 +1,16 @@
+<div title="File Saving" modifier="Paul Downey" created="200811170928" modified="200811171549" tags="paper" changecount="29">
+<pre>A TiddlyWiki opened from a file URI may save changes made back to the file using one of the following techniques:
+*the Mozilla [[File I/O|https://developer.mozilla.org/en/Code_snippets/File_I%2F%2FO]] under the control of the [[UniversalXPConnect per-file preferences|http://www.mozilla.org/projects/security/components/per-file.html]]
+*[[TiddlySaver]] Java code to extend Safari, Opera, Chrome, and [[other browsers|Browser Compatibility]].
+*the Microsoft [[ActiveX|http://en.wikipedia.org/wiki/ActiveX]]  [[FileSystemObject|http://msdn.microsoft.com/en-us/library/d6dw7aeh(VS.85).aspx]]
+The user experience of granting privilege to save differs radically across browsers and operating systems as illustrated by the  step-by-step guides on how to install TiddlyWiki locally on [[TiddlyWiki.com|http://www.tiddlywiki.com]]:
+*[[Firefox on Mac OS X|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Firefox on Mac OS X%5D%5D]]
+*[[Firefox on Windows Vista|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Firefox on Windows Vista%5D%5D]]
+*[[Firefox on Windows XP|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Firefox on Windows XP]]
+*[[Firefox on Ubuntu|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Firefox on Ubuntu]]
+*[[Internet Explorer on Windows Vista|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Internet Explorer on Windows Vista%5D%5D]]
+*[[Internet Explorer on Windows XP|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Internet Explorer on Windows XP%5D%5D]]
+*[[Safari on Mac OS X|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Safari on Mac OS X%5D%5D]]
+*[[Opera on Mac OS X|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Opera on Mac OS X%5D%5D]]
+Writing itself to a file led [[Jeremy Ruston]] to consider TiddlyWiki as akin to a  [[quine|http://en.wikipedia.org/wiki/Quine_(computing)]]. In some cases the browser or operating system may block [[HTML Applications]] from creating binary content. TiddlyWiki avoids this constraint by escaping non-printable content using HTML character entities prior to saving. This technique is employed for [[Writing Other Files]].</pre>
+</div>

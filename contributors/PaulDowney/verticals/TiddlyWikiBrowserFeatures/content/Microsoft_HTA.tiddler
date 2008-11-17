@@ -1,0 +1,5 @@
+<div title="Microsoft HTA" modifier="Paul Downey" created="200811131058" modified="200811171723" tags="paper" changecount="20">
+<pre>Microsoft formalised the concept of the HTML Application as [[HTA|http://msdn.microsoft.com/en-us/library/ms536496(VS.85).aspx]], a package format which expands to a directory structure containing a HTML file along with other assets such as CSS, JavaScript and image files which together provide a Web like experience which may run offline. A [[Microsoft HTA]] file downloaded from the Web onto a Windows computer results in a similar challenge to that offered as a result of downloading an executable. Once access is granted by the user, the application has the ability including the ability to execute commands against the document, or portions of the document through the JavaScript [[execCommand|http://msdn.microsoft.com/en-us/library/ms536419(VS.85).aspx]] method.
+
+HTA is specific to Microsoft Windows, and may be run outside of the browser This differs to the cross-platform story of .HTML files, running inside a browser, illustrated by TiddlyWiki.</pre>
+</div>

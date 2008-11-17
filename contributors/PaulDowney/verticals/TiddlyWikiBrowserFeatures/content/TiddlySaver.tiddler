@@ -1,0 +1,3 @@
+<div title="TiddlySaver" modifier="Paul Downey" created="200811171127" modified="200811171204" tags="paper" changecount="8">
+<pre>The [["TiddlySaver.jar"|http://tiddlywiki.com/#TiddlySaver]]  allows TiddlyWiki to save changes made to a file URL in Safari, Opera and [[other browsers|Browser Compatibility]]. The jar file, placed in the same directory as the HTML, must be present before the file is opened. The jar has been digitally signed using the [[Una Mesa]] "Thawte Code Signing CA" intermediate certificate which demands trust from the user when opening a TiddlyWiki file for the first time.</pre>
+</div>

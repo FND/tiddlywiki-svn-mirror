@@ -1,0 +1,6 @@
+<div title="Writing Other Files" modifier="Paul Downey" created="200811171043" modified="200811171049" tags="paper" changecount="11">
+<pre>A TiddlyWiki opened from a local file URI and able to engage in [[File Saving]] is also able create and write to other files, this has a number of common use cases:
+*[[creating backup files|http://www.tiddlywiki.com/#SaveBackups]], often in a separate directory
+*[[Generating an RSS feed|http://www.tiddlywiki.com/#GenerateAnRssFeed]]
+*creating other content, such as static HTML files - [[TiddlyTemplating|http://www.tiddlywiki.org/wiki/TiddlyTemplating]]</pre>
+</div>

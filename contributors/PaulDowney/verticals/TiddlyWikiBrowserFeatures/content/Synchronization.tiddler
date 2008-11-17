@@ -1,0 +1,7 @@
+<div title="Synchronization" modifier="Paul Downey" created="200811171542" modified="200811171653" tags="paper [[Use Cases]]" changecount="10">
+<pre>TiddlyWiki has the ability to synchronize [[content|Tiddler]] either using [[HTTP Requests]] through a formal [[adapter framework|http://svn.tiddlywiki.org/Trunk/core/js/AdaptorBase.js]] or informally from plugins and extensions. 
+
+There are a number of [[adaptors|http://www.martinswiki.com/#Adaptors]] available which when combined with [[formatters|http://www.martinswiki.com/]] supporting a wide variety of [[wiki text|http://en.wikipedia.org/wiki/Wikitext]] markup dialects, make TiddlyWiki ideally suited for refactoring wiki content, and a [[Use Case|Use Cases]] of cascading, moderated content, colloquially known as [[TiddlyChatter|http://tiddlychatter.tiddlyspot.com/]].
+
+When parsing another TiddlyWiki from a local file or hosted on the Web, a temporary, hidden [[iframe|http://en.wikipedia.org/wiki/IFrame]] is created to load the URI, and the browser DOM used to parse the TiddlyWiki HTML [[content|Tiddler]].</pre>
+</div>
