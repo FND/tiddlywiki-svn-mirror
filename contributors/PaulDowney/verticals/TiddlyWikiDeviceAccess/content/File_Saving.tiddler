@@ -12,5 +12,6 @@ The user experience of granting privilege to save differs radically across brows
 *[[Internet Explorer on Windows XP|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Internet Explorer on Windows XP%5D%5D]]
 *[[Safari on Mac OS X|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Safari on Mac OS X%5D%5D]]
 *[[Opera on Mac OS X|http://tiddlywiki.com/#%5B%5BInstallation guidelines: Opera on Mac OS X%5D%5D]]
-Writing itself to a file led [[Jeremy Ruston]] to consider TiddlyWiki being akin to a  [[quine|http://en.wikipedia.org/wiki/Quine_(computing)]]. In some cases the browser or operating system may block [[HTML Applications]] from creating binary content. TiddlyWiki avoids this constraint by escaping non-printable content using HTML character entities prior to saving. This technique is employed for [[Writing Other Files]].</pre>
+Writing itself to a file led [[Jeremy Ruston]] to consider TiddlyWiki being akin to a  [[quine|http://en.wikipedia.org/wiki/Quine_(computing)]]. 
+Character encoding bugs in the file saving component used in Internet Explorer prevents HTML Applications from directly saving binary content. TiddlyWiki avoids this constraint by escaping non-printable content using HTML character entities prior to saving. This technique is employed for [[Writing Other Files]].</pre>
 </div>

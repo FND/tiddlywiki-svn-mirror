@@ -1,4 +1,18 @@
 <div title="StyleSheet" modifier="Paul Downey" created="200811121037" modified="200811171655" changecount="7">
-<pre>body { font-size: 100% }
-.tagging { float: right }</pre>
+<pre>
+/*{{{*/
+body { font-size: 100% }
+.tagging { float: right }
+.subtitle { font-size:0.75em; padding:0.4em 0; border-bottom:solid 1px #eee;}
+.tiddler {margin-bottom: 1.8em;}
+.tiddler .toolbar a { color:transparent; }
+.selected .toolbar a { color:[[ColorPalette::TertiaryLight]]; }
+#sidebar { background: [[ColorPalette::TertiaryPale]]; }
+#sidebar .button { background: [[ColorPalette::TertiaryPale]]; 
+	border: 1px solid [[ColorPalette::TertiaryPale]]; }
+#sidebarTabs { background: [[ColorPalette::TertiaryPale]]; }
+#sidebarOptions .sliderPanel {background:[[ColorPalette::TertiaryPale]];}
+#sidebarOptions .sliderPanel a {border:none;color:[[ColorPalette::TertiaryMid]];}
+/*}}}*/
+</pre>
 </div>
