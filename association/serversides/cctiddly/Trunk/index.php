@@ -136,7 +136,7 @@ DAMAGE.
 #shadowArea {display:none;}
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
-<!--POST-HEAD-START123-->
+<!--POST-HEAD-START-->
 <?php
 	if( isset( $tiddlers['MarkupPostHead'] ) )
 	{
