@@ -1,11 +1,7 @@
-<div title="Main Page" server.host="www.tiddlywiki.org" wikiformat="mediawiki">
-<pre>
-{{:Tip of the Week}}
-= Welcome to TiddlyWiki.org =
-
-{{Note
+<div title="Main Page" modifier="YourName" modified="200811171715" server.host="www.tiddlywiki.org" wikiformat="mediawiki">
+<pre>{{Note
   |[http://trac.tiddlywiki.org/ Looking for '''Trac'''?]
-  |float: left; margin: 0 1em 1em 0; border-style: solid; padding: 2px 5px;
+  |float: right; margin: 0 1em 1em 0; border-style: solid; padding: 2px 5px;
 }}
 [[TiddlyWiki]] is a free reusable, non-linear personal notebook.
 
@@ -16,8 +12,22 @@ This wiki is a community effort, so active [[Project:Community Portal|participat
 <!-- portal wrapper -->
 <div class="portal">
 
+<!-- top bar -->
+<div class="header" style="border-width: 2px; padding: 0; text-align: center;">
+[[TiddlyWiki]]
+[[Project:About|TiddlyWiki.org]]
+[[Project:Policy|Policy]]
+[[Help:Contents|Help]]
+</div>
+
 <!-- right column wrapper -->
 <div style="float: right; width: 32%;">
+
+<!-- try tips here -->
+<div class="panel">
+== Did you know? ==
+{{#random:{{:Tip of the Week/Tips}}}}
+</div>
 
 <!-- upper panel -->
 <div class="panel">
@@ -25,17 +35,21 @@ This wiki is a community effort, so active [[Project:Community Portal|participat
 
 === Guides ===
 
-* [[Translating TiddlyWiki]]
-* [[Core|Understanding the Core]]
-* [[Plugin Development|Writing Plugins]]
-* [[Macro Development|Writing Macros]]
+* [[Dev:Translation|Translation]]
+* [[Dev:Core Code Overview|Core Code]]
+* [[Dev:Plugins|Writing Plugins]]
+* [[Dev:Macros|Writing Macros]]
 
-<h3 style="margin-top: 0.5em;"> Resources </h3>
+=== Resources ===
 
-* [[Subversion]]
-* [[Tickets|Tickets (Bug Tracking)]]
+* [[Dev:Code Repository|Code Repository]]
+* [[Dev:Tickets|Tickets (Bug Tracking)]]
 * [http://groups.google.com/group/TiddlyWikiDev/ Mailing List]
-* [http://nightly.lewcid.org Nightly builds]
+* [[Dev:Nightly Builds|Nightly Builds]]
+* [[Dev:Tools|Developer Tools]]
+* [[Dev:Hot Issues|Hot Issues]]
+
+{{Help:Developer Search}}
 
 <!-- end of upper panel -->
 </div>
@@ -66,12 +80,12 @@ buttonlabel=Create New Article
 <div style="float: left; width: 48%; margin-right: 2em; padding: 0;">
 === Basics ===
 
-* [[TiddlyWiki|About TiddlyWiki]]
-* [[Initial Configuration]]
-* [[Browser-specific Issues]]
-* [[Navigation|Navigation and Tagging]]
-* [[Editing]]
-* [[Printing]]
+* [[Introduction]]
+* [[TiddlyWiki Markup]]
+* [[Components]]
+* [[Configuration]]
+* [[Content Management]]
+* [[Troubleshooting]]
 * [[TiddlyWiki FAQ|FAQ]]
 
 <!-- end of left column -->
@@ -79,17 +93,12 @@ buttonlabel=Create New Article
 
 <!-- right column -->
 <div style="float: left; padding: 0;">
-=== Advanced Features by Function ===
-* [[Customization and Layout]]
-* [[Setup for Server-Side TiddlyWikis]]
-
-=== Advanced Features by Format ===
+=== Advanced Features ===
+* [[Customization]]
 * [[Macros]]
 * [[Plugins]]
 * [[Scripts]]
-* [[StyleSheet Adjustments]]
-* [[PageTemplate Adjustments]]
-* [[ViewTemplate and EditTemplate Adjustments]]
+* [[Server-Side Solutions]]
 
 <!-- end of right column -->
 </div>
@@ -100,15 +109,26 @@ buttonlabel=Create New Article
 
 <!-- lower panel -->
 <div class="panel">
-== External Resources ==
+== Additional Resources ==
+
+=== Beginner's Guides ===
 
 * [http://tiddlywiki.com/#GettingStarted Getting Started] on TiddlyWiki.com
 * [http://www.giffmex.org/twfortherestofus.html TiddlyWiki for the Rest of Us] by Dave Gifford
 * [http://tiddlyspot.com/twhelp/ TW Help] by Morris Gray
-* [http://nothickmanuals.info/doku.php/cheatsheets TiddlyWiki quick reference card] by Dmitri Popov
-* [http://groups.google.com/group/TiddlyWiki TiddlyWiki mailing list] at Google Groups
+* [[TiddlyWiki Resources|more...]]
+
+=== Services ===
+
+* [http://groups.google.com/group/TiddlyWiki TiddlyWiki community support] at Google Groups
 * [http://www.tiddlyspot.com TiddlySpot] (free TiddlyWiki hosting)
-* [[TiddlyWiki Resources|More Resources...]]
+
+=== Adaptations ===
+
+* [[MPTW]]
+* [[TeamTasks]]
+* [[RippleRap]]
+* [[:Category:Adaptations|more...]]
 
 <!-- end of lower panel -->
 </div>
@@ -120,55 +140,7 @@ buttonlabel=Create New Article
 </div>
 <div style="clear: both;"></div>
 
-For information about using this wiki, please consult the [[Help:Help|help pages]].
-The [[Help_Talk:Help|support desk]] is the place to discuss issues regarding the usage of this wiki.
-
-Some general guidelines can be found at [[Project:Policy|policy]].
-
-<tagcloud style="margin-top: 3em;"></tagcloud>
+<tagcloud style="margin-top: 2em;"></tagcloud>
 __NOTOC__
-__NOEDITSECTION__
-<css>
-h1.firstHeading { /* remove Main Page title */
-  display: none !important;
-}
-
-.portal {
-	clear: both;
-	width: 90%;
-	margin: 2em auto;
-}
-
-.panel {
-	margin-bottom: 1em;
-	border: 1px solid #AAA;
-	padding: 5px;
-	background-color: #EFF7FF;
-}
-
-.panel h2 {
-	margin: -5px;
-	border-bottom: 1px solid #AAA;
-	padding: 0.2em 0;
-	font-size: 120%;
-	font-weight: bold;
-	text-indent: 0.5em;
-	font-variant: small-caps;
-	background-color: #F0F0F0;
-}
-
-.panel h3 {
-	margin: 0;
-	padding: 0;
-}
-
-.panel ul {
-	margin-top: 0;
-}
-
-.tagcloud {
-
-}
-</css>
-</pre>
+__NOEDITSECTION__</pre>
 </div>
