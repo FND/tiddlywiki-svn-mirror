@@ -1,10 +1,25 @@
 // Depends on JQuery for offset function
-if(!console){
-	var console = function(){};
-
-	console.prototype.log = function(){};
-	
+// Get the current horizontal page scroll position
+function findScrollX()
+{
+	return window.scrollX || document.documentElement.scrollLeft;
 }
+
+// Get the current vertical page scroll position
+function findScrollY()
+{
+	return window.scrollY || document.documentElement.scrollTop;
+}
+
+
+
+
+	if(!window.console) {
+		console = {log:function(message) {document.getElementById('consolelogger').innerHTML += message+"<<] ";}};
+	}
+
+	
+
 Array.prototype.contains = function(item)
 {
 	return this.indexOf(item) != -1;
@@ -39,13 +54,202 @@ var minLon = 1000;
 var maxLon = -1000;
 var minLat = 1000;
 var maxLat = -1000;
+
+
+var EasyMapController = function(targetjs,elemid){
+	this.wrapper = elemid; //a dom element to detect mouse actions
+	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
+	this.utils = new EasyMapUtils(this.wrapper); //some utilities that it may find useful
+	
+	//looks for specifically named functions in targetjs
+	if(!this.targetjs.zoom) alert("no 'zoom(x,y)' function defined in " + targetjs+"!");
+	if(!this.targetjs.pan) alert("no 'pan(x,y)' function defined in " + targetjs+"!");	
+	
+};
+
+EasyMapController.prototype = {
+
+	drawButtonLabel: function(ctx,r,type){
+		ctx.beginPath();
+		if(type == 'arrow'){
+			ctx.moveTo(0,-r);
+			ctx.lineTo(0,r);
+			ctx.moveTo(0,r);
+			ctx.lineTo(-r,0);
+			ctx.moveTo(0,r);
+			ctx.lineTo(r,0);
+		}
+		else if(type == 'plus'){
+			ctx.moveTo(-r,0);
+			ctx.lineTo(r,0);
+			ctx.moveTo(0,-r);
+			ctx.lineTo(0,r);
+		}
+		else if(type == 'minus'){
+			ctx.moveTo(-r,0);
+			ctx.lineTo(r,0);
+
+		}
+		ctx.stroke();
+		ctx.closePath();
+		
+	},
+	drawButton: function(canvas,width,angle,offset,type) {
+		var ctx = canvas.getContext('2d');
+		var rad = angle ? this.utils._degToRad(angle) : 0;
+		var w = width || 100;
+		var r = w/2;
+		var l = w/10;
+		offset = {
+			x: offset.x || 0,
+			y: offset.y || 0
+		};
+		ctx.save();
+		ctx.lineWidth = l;
+		ctx.fillStyle = "rgba(150,150,150,0.8)";
+		ctx.beginPath();
+		ctx.translate(offset.x+r,offset.y+r);
+		ctx.rotate(rad);
+		ctx.moveTo(-r,r);
+		ctx.lineTo(r,r);
+		ctx.lineTo(r,-r);
+		ctx.lineTo(-r,-r);
+		ctx.closePath();
+		ctx.stroke();
+		ctx.fill();
+		this.drawButtonLabel(ctx,r,type);
+		ctx.restore();
+	},
+	
+	addControl: function(controlType) {
+		var controlDiv = this.wrapper.controlDiv;
+		if(!controlDiv) {
+			controlDiv = document.createElement('div');
+			controlDiv.style.position = "absolute";
+			controlDiv.style.top = "0";
+			controlDiv.style.left = "0";
+			this.wrapper.appendChild(controlDiv);
+			this.wrapper.controlDiv = controlDiv;
+		}
+		var over = function() {
+			this.style.cursor='pointer';
+		};
+		switch(controlType) {
+			//case "zoom":
+			case "pan":
+				this.addPanningAction(controlDiv);
+				break;
+			default:
+				break;
+		}
+/*
+			case "zoom":
+				var zoomControl = document.createElement("div");
+				zoomControl.emap = this;
+				zoomControl.onmouseover = over;
+				zoomControl.onclick = this.zoomClickHandler;
+				var zoomIn = document.createElement("div");
+				zoomIn.zoom = 1;
+				zoomIn.innerHTML = "+";
+				zoomControl.appendChild(zoomIn);
+				var zoomOut = document.createElement("div");
+				zoomOut.zoom = -1;
+				zoomOut.innerHTML = "-";
+				zoomControl.appendChild(zoomOut);
+				controlDiv.appendChild(zoomControl);
+				break;
+			default:
+				break;
+		}*/
+	},
+	
+	addPanningAction: function(controlDiv){
+		var prop = {};
+		prop.name = 'W';
+		
+		var panCanvas = document.createElement('canvas');
+		panCanvas.width = 14;
+		panCanvas.height = 50;
+		controlDiv.appendChild(panCanvas);
+		panCanvas.memory = [];
+		panCanvas.emap = this;
+
+		if(!panCanvas.getContext) {
+			G_vmlCanvasManager.init_(document);
+		}
+		
+		north = new EasySquare({'actionid':'N'},10,{x:2,y:2});
+		this.drawButton(panCanvas,10,180,{x:2,y:2},"arrow");
+
+		south = new EasySquare({'actionid':'S'},10,{x:2,y:14});
+		this.drawButton(panCanvas,10,0,{x:2,y:14},"arrow");
+
+		east = new EasySquare({'actionid':'E'},10,{x:2,y:26});
+		this.drawButton(panCanvas,10,270,{x:2,y:26},"arrow");
+		
+		var west = new EasySquare({'actionid':'W'},10,{x:2,y:38},"arrow");
+		this.drawButton(panCanvas,10,90,{x:2,y:38},"arrow");
+		panCanvas.memory = [north,south,east,west];
+		panCanvas.onclick = this.panClickHandler;	
+	},
+	panClickHandler: function(e) {
+		if(!e) {
+			e = window.event;
+		}
+		//var target = resolveTarget(e);
+		//var emap = target.emap;
+		var emap = this.emap;
+		var hit = emap.utils.getShapeAtClick(e);
+		if(!hit) {
+			return false;
+		}
+		var pan = {
+			x:0,
+			y:0
+		};
+		
+		if(hit.properties.action){
+			action(x,y);
+		}
+		
+		switch(hit.properties.actionid) {
+			case "W":
+				pan.x = 100;
+				break;
+			case "E":
+				pan.x = -100;
+				break;
+			case "N":
+				pan.y = 100;
+				break;
+			case "S":
+				pan.y = -100;
+				break;
+		}
+		emap.targetjs.pan(pan.x,pan.y)
+		return false;
+	},
+	
+	zoomClickHandler: function(e) {
+		var target = e.target;
+		var emap = this.emap;
+		var zoom = target.zoom;
+		if(zoom > 0) {
+			emap.zoom(2,2);
+		} else {
+			emap.zoom(-2,-2);
+		}
+	}
+
+};
+
 var EasyMap = function(divID){
 
 	this.renderTime = 0;
 	this.calculateTime= 0;
 	var wrapper = document.getElementById(divID);	
 	this.wrapper = wrapper;
-
+	this.controller = new EasyMapController(this,wrapper);
 	wrapper.style.position = "relative";
 	this.mousemoveHandler = function(e,shape){
 	};
@@ -73,327 +277,34 @@ var EasyMap = function(divID){
 	wrapper.appendChild(canvas);
 	this.canvas = canvas;
 
-	/*this.drawOnDemand = false;
-	if(!canvas.getContext){
-		this.drawOnDemand = true;
-		G_vmlCanvasManager.init_(document); //ie hack	
-	}*/
 	if(!canvas.getContext) {
-		G_vmlCanvasManager.initElement(canvas);
+		G_vmlCanvasManager.init_(document);
 	}
 	this.ctx = canvas.getContext('2d');
 
 	this.scale = {'x':1, 'y':1};
 	this.translate = {'x':0, 'y':0};
 	this.rotate = {'x': 0, 'y':1.6, 'z':0};
-	this.spherical = false;
+	this.spherical = false; //experimental!! fiddle with at your own risk! :)
 	this.radius = 100;
-
-	//this.memory = [];
-	
 	this.oldcolor = null;
 	this.oldstrokecolor = null;
 
-	//this.myElement = document.getElementById('myDomElement'); ??
-	this.utils = EasyMapUtils;
+	this.utils = new EasyMapUtils(this.wrapper);
 };
 
 EasyMap.prototype = {
 
-	getShapeAtClick: function(e){
-		if(!e) {
-			e = window.event;
-		}
-		var target = resolveTarget(e);
-		//var boundingRect = this.canvas.getBoundingClientRect();
-		var offset = $('#wrapper').offset();
-		x = e.clientX + window.findScrollX() - offset.left;
-		y = e.clientY + window.findScrollY() - offset.top;
-		var shape = this.getShapeAt(x,y,target.memory);
-		return shape;
-	},
 	
-	getShapeAt: function(x,y,shapes) {
-		var hitShapes = [];
-		for(var i=0; i < shapes.length; i++){
-			var g = shapes[i].grid;
-			if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
-				hitShapes.push(shapes[i]);
-			}
-		}
-		var res;	
-		if(hitShapes.length == 1) {
-			res = hitShapes[0];
-		} else {
-			res = this._findNeedleInHaystack(x,y,hitShapes);
-		}
-		//this.canvas.onmousemove = this.mousemoveHandler;
-		//this.canvas.onclick = this.clickHandler;
-		return res;
-	},
-
-	_findNeedleInHaystack: function(x,y,shapes){
-		for(var i=0; i < shapes.length; i++){
-			if(this._inPoly(x,y,shapes[i])) {
-				return shapes[i];
-			}
-		}
-		return null;
-	},
-                     
-	/* _inPoly adapted from inpoly.c
-	Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
-	http://www.visibone.com/inpoly/inpoly.c.txt */                        
-	_inPoly: function(x,y,poly) {
-		var coords = poly.transformedCoords;
-		var npoints = coords.length;
-		if (npoints/2 < 3) {
-			//points don't describe a polygon
-			return false;
-		}
-		var inside = false;
-		var xold = coords[npoints-2];
-		var yold = coords[npoints-1];
-		var x1,x2,y1,y2,xnew,ynew;
-		for (var i=0; i<npoints; i+=2) {
-			xnew=coords[i];
-			ynew=coords[i+1];
-			if (xnew > xold) {
-				x1=xold;
-				x2=xnew;
-				y1=yold;
-				y2=ynew;
-			} else {
-				x1=xnew;
-				x2=xold;
-				y1=ynew;
-				y2=yold;
-			}
-			if ((xnew < x) == (x <= xold)
-				&& (y-y1)*(x2-x1) < (y2-y1)*(x-x1)) {
-				   inside=!inside;
-				}
-			xold=xnew;
-			yold=ynew;
-		 }
-		 return inside;
-	},
-	
-	_degToRad: function(deg) {
-		return deg * Math.PI / 180;
-	},
-
-	drawArrowBox: function(ctx,width,angle,offset) {
-		var rad = angle ? this._degToRad(angle) : 0;
-		var w = width || 100;
-		var r = w/2;
-		var l = w/10;
-		offset = {
-			x: offset.x || 0,
-			y: offset.y || 0
-		};
-		ctx.save();
-		ctx.lineWidth = l;
-		ctx.fillStyle = "rgba(150,150,150,0.8)";
-		ctx.beginPath();
-		ctx.translate(offset.x+r,offset.y+r);
-		ctx.rotate(rad);
-		ctx.moveTo(-r,r);
-		ctx.lineTo(r,r);
-		ctx.lineTo(r,-r);
-		ctx.lineTo(-r,-r);
-		ctx.closePath();
-		ctx.stroke();
-		ctx.fill();
-		ctx.beginPath();
-		ctx.moveTo(0,-r);
-		ctx.lineTo(0,r);
-		ctx.moveTo(0,r);
-		ctx.lineTo(-r,0);
-		ctx.moveTo(0,r);
-		ctx.lineTo(r,0);
-		ctx.stroke();
-		ctx.restore();
-	},
-
 	addControl: function(controlType) {
-		var controlDiv = this.wrapper.controlDiv;
-		if(!controlDiv) {
-			controlDiv = document.createElement('div');
-			controlDiv.style.position = "absolute";
-			controlDiv.style.top = "0";
-			controlDiv.style.left = "0";
-			this.wrapper.appendChild(controlDiv);
-			this.wrapper.controlDiv = controlDiv;
-		}
-		var over = function() {
-			this.style.cursor='pointer';
-		};
-		switch(controlType) {
-			case "pan":
-				var panCanvas = document.createElement('canvas');
-				if(!panCanvas.getContext) {
-					G_vmlCanvasManager.initElement(panCanvas);
-				}
-				panCanvas.width = 14;
-				panCanvas.height = 50;
-				controlDiv.appendChild(panCanvas);
-				panCanvas.memory = [];
-				panCanvas.emap = this;
-				var ctx = panCanvas.getContext('2d');
-				var square = new Square(10,{x:2,y:2});
-				this.drawArrowBox(ctx,10,180,{x:2,y:2});
-				panCanvas.memory.push({
-					grid:square.getGrid(),
-					transformedcoords:square.sq,
-					tooltip:'N'
-				});
-				square = new Square(10,{x:2,y:14});
-				this.drawArrowBox(ctx,10,0,{x:2,y:14});
-				panCanvas.memory.push({
-					grid:square.getGrid(),
-					transformedcoords:square.sq,
-					tooltip:'S'
-				});
-				square = new Square(10,{x:2,y:26});
-				this.drawArrowBox(ctx,10,270,{x:2,y:26});
-				panCanvas.memory.push({
-					grid:square.getGrid(),
-					transformedcoords:square.sq,
-					tooltip:'E'
-				});
-				square = new Square(10,{x:2,y:38});
-				this.drawArrowBox(ctx,10,90,{x:2,y:38});
-				panCanvas.memory.push({
-					grid:square.getGrid(),
-					transformedcoords:square.sq,
-					tooltip:'W'
-				});
-				panCanvas.onclick = this.panClickHandler;
-				break;
-			default:
-				break;
-		}
-		/*switch(controlType) {
-			case "pan":
-				var panControl = document.createElement("div");
-				panControl.emap = this;
-				panControl.onmouseover = over;
-				panControl.onclick = this.panClickHandler;
-				var panWest = document.createElement("div");
-				panWest.pan = "w";
-				panWest.innerHTML = "&larr;";
-				panControl.appendChild(panWest);
-				var panEast = document.createElement("div");
-				panEast.pan = "e";
-				panEast.innerHTML = "&rarr;";
-				panControl.appendChild(panEast);
-				var panNorth = document.createElement("div");
-				panNorth.pan = "n";
-				panNorth.innerHTML = "&uarr;";
-				panControl.appendChild(panNorth);
-				var panSouth = document.createElement("div");
-				panSouth.pan = "s";
-				panSouth.innerHTML = "&darr;";
-				panControl.appendChild(panSouth);
-				controlDiv.appendChild(panControl);
-				break;
-			case "zoom":
-				var zoomControl = document.createElement("div");
-				zoomControl.emap = this;
-				zoomControl.onmouseover = over;
-				zoomControl.onclick = this.zoomClickHandler;
-				var zoomIn = document.createElement("div");
-				zoomIn.zoom = 1;
-				zoomIn.innerHTML = "+";
-				zoomControl.appendChild(zoomIn);
-				var zoomOut = document.createElement("div");
-				zoomOut.zoom = -1;
-				zoomOut.innerHTML = "-";
-				zoomControl.appendChild(zoomOut);
-				controlDiv.appendChild(zoomControl);
-				break;
-			default:
-				break;
-		}*/
+		this.controller.addControl(controlType);
 	},
-	
-	panClickHandler: function(e) {
-		if(!e) {
-			e = window.event;
-		}
-		var target = resolveTarget(e);
-		var emap = target.emap;
-		var hit = emap.getShapeAtClick(e);
-		if(!hit) {
-			return false;
-		}
-		var pan = {
-			x:0,
-			y:0
-		};
-		switch(hit.tooltip) {
-			case "W":
-				pan.x = 100;
-				break;
-			case "E":
-				pan.x = -100;
-				break;
-			case "N":
-				pan.y = 100;
-				break;
-			case "S":
-				pan.y = -100;
-				break;
-		}
-		emap.pan(pan.x,pan.y);
-		return false;
-	},
-	
-	/*
-	panClickHandler: function(e) {
-		var emap = this.emap;
-		var dir = target.pan;
-		var pan = {
-			x:0,
-			y:0
-		};
-		switch(dir) {
-			case "w":
-				pan.x = 100;
-				break;
-			case "e":
-				pan.x = -100;
-				break;
-			case "n":
-				pan.y = 100;
-				break;
-			case "s":
-				pan.y = -100;
-				break;
-			default:
-				break;
-		}
-		emap.pan(pan.x,pan.y);
-	},
-	*/
-	
-	zoomClickHandler: function(e) {
-		var target = e.target;
-		var emap = this.emap;
-		var zoom = target.zoom;
-		if(zoom > 0) {
-			emap.zoom(2,2);
-		} else {
-			emap.zoom(-2,-2);
-		}
-	},
-	
+
+
 	spin: function(x,y,z){
 		this.rotate.x +=x;
 		this.rotate.y +=y;
 		this.rotate.z +=z;
-	//	console.log(this.rotate.x,this.rotate.y,this.rotate.z);
 		this.redraw();
 	},
 	pan: function(x,y){ //relative to centre
@@ -498,11 +409,11 @@ EasyMap.prototype = {
 			ctx.fill();
 			ctx.restore();
 		}*/
-		alert('going to draw '+existinMem.length+' shapes');
-		for(var i=0; i < existingMem.length; i++){
-			this.drawShape(existingMem[i]);
+		if(existingMem){		
+			for(var i=0; i < existingMem.length; i++){
+				this.drawShape(existingMem[i]);
+			}
 		}
-		alert('drawn them!');
 	},
 	
 	clear: function(){
@@ -520,7 +431,6 @@ EasyMap.prototype = {
 	},
 	
 
-	
 	drawFromSVG: function(file){
 		var that = this;
 		this.clear();
@@ -536,33 +446,29 @@ EasyMap.prototype = {
 			
 	},
 	drawFromSVGElement: function(SVGElement){
-		var s = new EasyShape(SVGElement);
+		var s = new EasyShape(SVGElement,null,"svg");
 		this.drawShape(s);
 
 	},
 	
-
-	
 	drawGeoJsonFeatures: function(features){
 			var avg1 = 0;
-			alert('going to draw '+features.length+' features');
 			for(var i=0; i < features.length; i++){
 				var geometry = features[i].geometry;
 				if(geometry.type.toLowerCase() == 'multipolygon'){
 					var coords = geometry.coordinates;
 					
-					for(var j=0; j< coords.length; j++){
-						
-						var s = new EasyShape(features[i],coords[j],this.canvas);
+					for(var j=0; j< coords.length; j++){//identify and create each polygon	
+						var s = new EasyShape(features[i].properties,coords[j],"geojson");
 						this.drawShape(s);
+								console.log("drew shape");
 					}
 
 				}
-				else {
+				else {	
 					//console.log("unsupported geojson geometry type " + geometry.type);
 				}
 			}
-			alert('drawn those features');
 
 	},
 	
@@ -577,7 +483,7 @@ EasyMap.prototype = {
 
 			if(geojson.type.toLowerCase() == "featurecollection"){
 				var features = geojson.features;
-				alert('about to call drawGeoJsonFeatures');
+				console.log("beginning to draw geojsonfeatures");
 				this.drawGeoJsonFeatures(features);
 			} else {
 				console.log("only feature collections currently supported");
@@ -591,7 +497,6 @@ EasyMap.prototype = {
 		var callback = function(status,params,responseText,url,xhr){
 		
 			var json = eval('(' +responseText + ')');
-			alert('going to call drawFromGeoJson');
 			that.drawFromGeojson(json);
 			
 			var t = document.getElementById(that.wrapper.id + "_statustext");
@@ -605,55 +510,61 @@ EasyMap.prototype = {
 
 };
 
-var Square = function(width,offset) {
+var EasySquare = function(properties,width,offset) {
 	width = width || 10;
 	offset = offset || {x:0,y:0};
-	this.sq = [
+	var coords = [
 		offset.x, offset.y,
 		offset.x + width, offset.y,
 		offset.x + width, offset.y + width,
 		offset.x, offset.y + width
 	];
+	var s = new EasyShape(properties,coords);
+	s.grid.x1 = s.coords[0];
+	s.grid.y1 = s.coords[1];
+	s.grid.x2 = s.coords[2];
+	s.grid.y2 = s.coords[s.coords.length-1];
+	return s;
 };
 
-Square.prototype = {
-	getGrid: function() {
-		var grid = {};
-		grid.x1 = this.sq[0];
-		grid.y1 = this.sq[1];
-		grid.x2 = this.sq[2];
-		grid.y2 = this.sq[this.sq.length-1];
-		return grid;
-	}
-};
-
-var EasyShape = function(node,coordinates,canvas){
+var EasyShape = function(element,coordinates,sourceType){
 	this.strokeStyle = '#000000';
 	this.grid = {};
 	this.properties = {};
 	this.fillStyle = "#000000"
 	this.threshold = 1.7;
-	this.width = canvas.width;
-	this.origin= {'x': canvas.width/2, 'y':canvas.height/2};
-	if(node){
-		if(coordinates) {
-			this.constructFromGeoJSON(node,coordinates,canvas);
-		} else if(node.tagName == "AREA") {
-			this.constructFromAreaTag(node);
-		} else if(node.tagName.toLowerCase() == "polygon") {
-			this.constructFromSVGPolygon(node);
+	//this.width = canvas.width;
+	//this.origin= {'x': canvas.width/2, 'y':canvas.height/2};
+	if(sourceType){
+		if(sourceType == 'geojson') {
+			this.constructFromGeoJSONPolygon(element,coordinates);
+		} else if(sourceType == "svg") {
+			this.constructFromSVGPolygon(element);
 		}
+	}
+	else{
+		this.constructBasicPolygon(element,coordinates);
 	}
 
 };
 
+
 EasyShape.prototype={
 	
-	
+	constructBasicPolygon: function(properties, coordinates){
+		this.coords = coordinates;
+		this.shape = "polygon";
+		this.transformedCoords = this.coords;
+		//this.href = "#";
+		this.properties = properties
+		this.fill = true;
+		if(this.properties.colour)
+			this.fillStyle =  this.properties.colour;
+		this.grid = {}; //an enclosing grid
+	},
 	constructFromSVGPolygon: function(svgpoly){
 		this.shape = "polygon";
 		this.coords = this._convertFromSVGCoords(svgpoly.getAttribute("points"));
-		this.coords_start = this.coords;
 		this.href= svgpoly.getAttribute("xlink");
 	
 		if(svgpoly.getAttribute("fill")) {
@@ -669,29 +580,12 @@ EasyShape.prototype={
 	},
 
 /*multi-polygons */
-	constructFromGeoJSON: function(node,coordinates,canvas){
-		this.shape = "polygon";	
-		
-		this.coords = this._convertGeoJSONCoords(coordinates,canvas);
-		this.transformedCoords = this.coords;
-		this.href = "#";
-		this.properties = node.properties;
-		this.tooltip = node.properties.name;
-		this.fill = true;
-		this.fillStyle =  node.properties.colour;
-		this.grid = {}; //an enclosing grid
-
+	
+	constructFromGeoJSONPolygon: function(properties,coordinates){		
+		var newcoords = this._convertGeoJSONCoords(coordinates);
+		this.constructBasicPolygon(properties,newcoords);
 	},
 		
-	constructFromAreaTag: function(node){
-		this.shape = node.shape.toLowerCase();
-		if(this.shape == 'poly') this.shape= "polygon";
-		this.coords = this._getArrayFromString(node.coords);
-		
-		this.href = node.href;
-		this.fill = false;
-		this.fillStyle =  "rgb(0,0,0)";
-	},
 	_convertGeoJSONCoords: function(coords,canvas){
 		var res = [];
 		for(var i=0; i < coords[0].length; i++){
@@ -716,7 +610,7 @@ EasyShape.prototype={
 		return y;
 	},
 	
-	_convertFromSVGCoords: function(SVGCoordinates,canvas){
+	_convertFromSVGCoords: function(SVGCoordinates){
 		var pointPairs = [];
 		
 		if(SVGCoordinates) {
@@ -785,6 +679,8 @@ EasyShape.prototype={
 	},
 
 	transform: function(scaling, translation,rotate,spherical,radius){
+	
+		
 		var performScale = true;
 		var performTranslate = true; 
 		var performRotate = false;
@@ -799,6 +695,9 @@ EasyShape.prototype={
 			performRotate = true;
 		}
 		
+			if(this.properties.static) {
+				performRotate = false; performTranslate = false; performScale = false;
+			}
 		this.longitudes = [];
 		this.latitudes = [];
 		this.transformedCoords = [];
@@ -869,15 +768,113 @@ EasyShape.prototype={
 			}
 		}
 
-		// JRL - is this line needed? why 3 coords?
+		// JRL - is this line needed? why 3 coords? -
+		//JDLR says.. a polygon must have at least 3 coordinates. It's just preventing any invalid polygons from being added
 		if(this.transformedCoords.length < 3) this.transformedCoords = [0,0,0];
 	}
 };
 
-var EasyMapUtils = {
+var EasyMapUtils = function(wrapper){
+	this.wrapper = wrapper;
+};
+EasyMapUtils.prototype = {
+	_testCanvas: function(ctx){
+	ctx.beginPath();
+	ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
+	ctx.moveTo(110,75);
+	ctx.arc(75,75,35,0,Math.PI,false);   // Mouth (clockwise)
+	ctx.moveTo(65,65);
+	ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+	ctx.moveTo(95,65);
+	ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+	ctx.stroke();
+
+	},
+	
+	_degToRad: function(deg) {
+		return deg * Math.PI / 180;
+	},
+	getShapeAtClick: function(e,id){
+		if(!e) {
+			e = window.event;
+		}
+		var target = resolveTarget(e);
+		
+		var id ="#"+this.wrapper.id;
+		var offset = $(id).offset();
+		x = e.clientX + window.findScrollX() - offset.left;
+		y = e.clientY + window.findScrollY() - offset.top;
+		var shape = this.getShapeAt(x,y,target.memory);
+		return shape;
+	},
+	
+	getShapeAt: function(x,y,shapes) {
+		var hitShapes = [];
+		for(var i=0; i < shapes.length; i++){
+			var g = shapes[i].grid;
+			if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
+				hitShapes.push(shapes[i]);
+			}
+		}
+		var res;	
+		if(hitShapes.length == 1) {
+			res = hitShapes[0];
+		} else {
+			res = this._findNeedleInHaystack(x,y,hitShapes);
+		}
+		return res;
+	},
+
+	_findNeedleInHaystack: function(x,y,shapes){
+		for(var i=0; i < shapes.length; i++){
+			if(this._inPoly(x,y,shapes[i])) {
+				return shapes[i];
+			}
+		}
+		return null;
+	},
+                     
+	/* _inPoly adapted from inpoly.c
+	Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
+	http://www.visibone.com/inpoly/inpoly.c.txt */                        
+	_inPoly: function(x,y,poly) {
+		var coords = poly.transformedCoords;
+		var npoints = coords.length;
+		if (npoints/2 < 3) {
+			//points don't describe a polygon
+			return false;
+		}
+		var inside = false;
+		var xold = coords[npoints-2];
+		var yold = coords[npoints-1];
+		var x1,x2,y1,y2,xnew,ynew;
+		for (var i=0; i<npoints; i+=2) {
+			xnew=coords[i];
+			ynew=coords[i+1];
+			if (xnew > xold) {
+				x1=xold;
+				x2=xnew;
+				y1=yold;
+				y2=ynew;
+			} else {
+				x1=xnew;
+				x2=xold;
+				y1=ynew;
+				y2=yold;
+			}
+			if ((xnew < x) == (x <= xold)
+				&& (y-y1)*(x2-x1) < (y2-y1)*(x-x1)) {
+				   inside=!inside;
+				}
+			xold=xnew;
+			yold=ynew;
+		 }
+		 return inside;
+	},
+	
 	loadRemoteFile: function(url,callback,params)
 	{
-		return EasyMapUtils._httpReq("GET",url,callback,params,null,null,null,null,null,true);
+		return this._httpReq("GET",url,callback,params,null,null,null,null,null,true);
 	},
 
 	_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
