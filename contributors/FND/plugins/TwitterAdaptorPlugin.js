@@ -16,9 +16,8 @@
 * major refactoring
 !To Do
 * revert to storing state (context.tiddlers) in adaptor
-* don't use config.options; pass in settings via context
 * parsing of replies, DMs etc.
-* document custom/optional context attributes (page, userID, suppressUsers)
+* document custom/optional context attributes (userID, userName, page, suppressUsers)
 !Code
 ***/
 //{{{
@@ -46,7 +45,7 @@ config.extensions.TwitterAdaptor.prototype.getWorkspaceList = function(context, 
 		{ title: "friends" },
 		{ title: "followers" },
 		{ title: "users" },
-		{ title: config.options.txtUserName } // user timeline
+		{ title: context.userName } // user timeline
 	];
 	if(context.callback) {
 		context.status = true;
