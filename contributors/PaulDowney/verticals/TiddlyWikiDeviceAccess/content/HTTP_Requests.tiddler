@@ -1,7 +1,9 @@
-<div title="HTTP Requests" modifier="Paul Downey" created="200811132309" modified="200811171724" tags="paper" changecount="10">
+<div title="HTTP Requests" modifier="Paul Downey" created="200811132309" modified="200811171936" tags="paper" changecount="12">
 <pre>A [[HTML Application|HTML Applications]] opened from a file URI isn't bound by [[same origin policy|http://en.wikipedia.org/wiki/Same_origin_policy]] when accessing the Web from JavaScript using [[XHR|http://en.wikipedia.org/wiki/XMLHttpRequest]]. This enables a number of interesting [[Use Cases]] normally precluded from a client side application, in particular collecting data from a wide variety of sources and mashing up public resources with private or localized data.
 
 Browsers such as Firefox 3.0, represent cookies for an [[XHR|http://en.wikipedia.org/wiki/XMLHttpRequest]] to another domain, enabling [[session hijacking|http://en.wikipedia.org/wiki/Session_hijacking]]. This is useful for some [[Use Cases]], but does raise opportunities for a [[malicious HTML application|Security]].
+
+Where a TiddlyWiki is opened from a HTTP URI, and is bound by [[same origin policy|http://en.wikipedia.org/wiki/Same_origin_policy]] it is common practice to either use [[Server Side]] code, or deploy a small, generic proxy, in the manor of the [[Google Feed API|http://code.google.com/apis/ajaxfeeds/]], although this introduces a central point of failure and attack. For this reason, we are tracking the progress of the [[Access Control for Cross-Site Requests|http://www.w3.org/TR/access-control/]] specification with interest. 
 
 For services using delegated authentication such as [[Fickr|http://www.flickr.com/services/api/misc.userauth.html]] and [[OAuth|http://oauth.net/]], the inability to redirect from the Web back to a file URI means [[HTML Applications]] have to behave as an installed application. This requires a user requesting permission for TiddlyWiki to access a resource to visit a Web site in a separate window or tab, grant access and then return to the TiddlyWiki and click a button or link before authorization may complete.</pre>
 </div>
