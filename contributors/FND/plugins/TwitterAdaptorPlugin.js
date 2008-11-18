@@ -15,7 +15,6 @@
 !!v0.3 (2008-11-03)
 * major refactoring
 !To Do
-* revert to storing state (context.tiddlers) in adaptor
 * parsing of replies, DMs etc.
 * document custom/optional context attributes (userID, userName, page, suppressUsers)
 !Code

@@ -89,13 +89,12 @@ config.macros.TiddlyTweets = {
 	}
 };
 
-// Twitter archiving wizard ***** experimental, incomplete *****
-// To Do: i18n
+// Twitter archiving wizard -- XXX: experimental, incomplete -- To Do: i18n
 config.macros.TwitterWizard = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler, errorMsg) {
 		var w = new Wizard();
-		w.createWizard(place, "Twitter Import");
-		w.addStep("Enter your twitter ID", "<input name='twitter_id'>");
+		w.createWizard(place, "Twitter Wizard");
+		w.addStep("Twitter username", "<input name='username'>");
 		w.setButtons([{
 			caption: "Import",
 			tooltip: "click to import",
