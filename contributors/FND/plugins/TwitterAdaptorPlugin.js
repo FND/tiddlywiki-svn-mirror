@@ -3,7 +3,7 @@
 |''Description''|adaptor for retrieving data from Twitter|
 |''Author''|FND|
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
-|''Version''|0.3.2|
+|''Version''|0.3.3|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptorPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -27,14 +27,17 @@ version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 if(!config.extensions) { config.extensions = {}; }
 
 config.extensions.TwitterAdaptor = function() {};
-config.extensions.TwitterAdaptor.prototype = new AdaptorBase();
-config.extensions.TwitterAdaptor.serverType = "twitter";
-config.extensions.TwitterAdaptor.serverLabel = "Twitter";
-config.extensions.TwitterAdaptor.mimeType = "application/json";
-config.extensions.TwitterAdaptor.tweetTags = ["tweets"];
-config.extensions.TwitterAdaptor.userTags = ["users"];
 
-config.extensions.TwitterAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
+(function(adaptor) { //# set up alias
+
+adaptor.prototype = new AdaptorBase();
+adaptor.serverType = "twitter";
+adaptor.serverLabel = "Twitter";
+adaptor.mimeType = "application/json";
+adaptor.tweetTags = ["tweets"];
+adaptor.userTags = ["users"];
+
+adaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.workspaces = [
 		{ title: "public" },
@@ -54,7 +57,7 @@ config.extensions.TwitterAdaptor.prototype.getWorkspaceList = function(context, 
 	return true;
 };
 
-config.extensions.TwitterAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
+adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var page = context.page || 0;
 	switch(context.workspace) {
@@ -100,12 +103,12 @@ config.extensions.TwitterAdaptor.prototype.getTiddlerList = function(context, us
 			uri = uriTemplate.format([context.host, context.workspace, page]);
 			break;
 	}
-	var req = httpReq("GET", uri, config.extensions.TwitterAdaptor.getTiddlerListCallback,
-		context, null, null, { accept: config.extensions.TwitterAdaptor.mimeType });
+	var req = httpReq("GET", uri, adaptor.getTiddlerListCallback,
+		context, null, null, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-config.extensions.TwitterAdaptor.getTiddlerListCallback = function(status, context, responseText, uri, xhr) {
+adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -114,15 +117,15 @@ config.extensions.TwitterAdaptor.getTiddlerListCallback = function(status, conte
 		var users = {};
 		eval("var tweets = " + responseText); // evaluate JSON response -- TODO: catch parsing errors (cf. TiddlyWeb adaptor)?
 		for(var i = 0; i < tweets.length; i++) {
-			var tiddler = config.extensions.TwitterAdaptor.parseTweet(tweets[i]);
+			var tiddler = adaptor.parseTweet(tweets[i]);
 			context.tiddlers.push(tiddler);
 			if(!context.suppressUsers) { // retain user info
 				var user = tweets[i].user;
-				user.updated = config.extensions.TwitterAdaptor.convertTimestamp(tweets[i].created_at);
+				user.updated = adaptor.convertTimestamp(tweets[i].created_at);
 				if(!(users[user.id] && user.updated > users[user.id].modified)) {
-					users[user.id] = config.extensions.TwitterAdaptor.parseUser(user);
+					users[user.id] = adaptor.parseUser(user);
 					users[user.id].fields = {
-						"server.type": config.extensions.TwitterAdaptor.serverType,
+						"server.type": adaptor.serverType,
 						"server.host": AdaptorBase.minHostName(context.host),
 						"server.workspace": "users"
 					};
@@ -138,11 +141,11 @@ config.extensions.TwitterAdaptor.getTiddlerListCallback = function(status, conte
 	}
 };
 
-config.extensions.TwitterAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
+adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = title;
 	var fields = {
-		"server.type": config.extensions.TwitterAdaptor.serverType,
+		"server.type": adaptor.serverType,
 		"server.host": AdaptorBase.minHostName(context.host),
 		"server.workspace": context.workspace
 	};
@@ -164,18 +167,18 @@ config.extensions.TwitterAdaptor.prototype.getTiddler = function(title, context,
 	}
 	var uriTemplate = "%0/statuses/show/%1.json";
 	var uri = uriTemplate.format([context.host, title]);
-	var req = httpReq("GET", uri, config.extensions.TwitterAdaptor.getTiddlerCallback,
-		context, null, null, { accept: config.extensions.TwitterAdaptor.mimeType });
+	var req = httpReq("GET", uri, adaptor.getTiddlerCallback,
+		context, null, null, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-config.extensions.TwitterAdaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
+adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
 		eval("var tweet = " + responseText); // evaluate JSON response -- TODO: catch parsing errors (cf. TiddlyWeb adaptor)?
-		var tiddler = config.extensions.TwitterAdaptor.parseTweet(tweet);
+		var tiddler = adaptor.parseTweet(tweet);
 		tiddler.fields = merge(context.tiddler.fields, tiddler.fields, true);
 		context.tiddler = tiddler;
 	}
@@ -192,20 +195,20 @@ config.extensions.TwitterAdaptor.getTiddlerCallback = function(status, context, 
 };
 
 // re-request truncated tweet
-config.extensions.TwitterAdaptor.prototype.getFullTweet = function(context, userParams, callback) {
+adaptor.prototype.getFullTweet = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/%1/status/%2";
 	var uri = uriTemplate.format([context.host, context.workspace, context.tiddler.title]);
-	var req = httpReq("GET", uri, config.extensions.TwitterAdaptor.getFullTweetCallback, context);
+	var req = httpReq("GET", uri, adaptor.getFullTweetCallback, context);
 	return typeof req == "string" ? req : true;
 };
 
-config.extensions.TwitterAdaptor.getFullTweetCallback = function(status, context, responseText, uri, xhr) {
+adaptor.getFullTweetCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
-		context.tiddler.text = config.extensions.TwitterAdaptor.scrapeTweet(responseText);
+		context.tiddler.text = adaptor.scrapeTweet(responseText);
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
@@ -213,12 +216,12 @@ config.extensions.TwitterAdaptor.getFullTweetCallback = function(status, context
 };
 
 // convert tweet to tiddler object
-config.extensions.TwitterAdaptor.parseTweet = function(tweet) {
+adaptor.parseTweet = function(tweet) {
 	var tiddler = new Tiddler(tweet.id.toString());
-	tiddler.created = config.extensions.TwitterAdaptor.convertTimestamp(tweet.created_at);
+	tiddler.created = adaptor.convertTimestamp(tweet.created_at);
 	tiddler.modified = tiddler.created;
 	tiddler.modifier = tweet.user.id;
-	tiddler.tags = config.extensions.TwitterAdaptor.tweetTags;
+	tiddler.tags = adaptor.tweetTags;
 	tiddler.fields = {
 		source: tweet.source, // TODO: split into appName and appURI
 		truncated: tweet.truncated,
@@ -228,17 +231,17 @@ config.extensions.TwitterAdaptor.parseTweet = function(tweet) {
 		username: tweet.user.name, // XXX: obsolete due to separate user info?
 		usernick: tweet.user.screen_name // TODO: rename --  XXX: obsolete due to separate user info?
 	};
-	tiddler.text = config.extensions.decodeHTMLEntities(tweet.text);
+	tiddler.text = adaptor.decodeHTMLEntities(tweet.text);
 	return tiddler;
 };
 
 // convert user to tiddler object
-config.extensions.TwitterAdaptor.parseUser = function(user) {
+adaptor.parseUser = function(user) {
 	var tiddler = new Tiddler(user.id.toString());
 	tiddler.created = user.updated; // XXX: not quite correct (updated vs. created)
 	tiddler.modified = tiddler.created;
 	tiddler.modifier = user.id.toString();
-	tiddler.tags = config.extensions.TwitterAdaptor.userTags;
+	tiddler.tags = adaptor.userTags;
 	var slice = "|''%0''|%1|\n";
 	tiddler.text = slice.format(["ID", user.id]) +
 		slice.format(["ScreenName", user.screen_name]) +
@@ -253,7 +256,7 @@ config.extensions.TwitterAdaptor.parseUser = function(user) {
 };
 
 // retrieve untruncated tweet (cf. http://code.google.com/p/twitter-api/issues/detail?id=133)
-config.extensions.TwitterAdaptor.scrapeTweet = function(html) {
+adaptor.scrapeTweet = function(html) {
 	// load HTML page
 	var ifrm = document.createElement("iframe");
 	ifrm.style.display = "none";
@@ -277,20 +280,18 @@ config.extensions.TwitterAdaptor.scrapeTweet = function(html) {
 		}
 	}
 	removeNode(ifrm);
-	return config.extensions.decodeHTMLEntities(text.trim());
+	return adaptor.decodeHTMLEntities(text.trim());
 };
 
 // convert timestamp ("mmm 0DD 0hh:0mm:0ss +0000 YYYY") to Date instance
-config.extensions.TwitterAdaptor.convertTimestamp = function(str) {
+adaptor.convertTimestamp = function(str) {
 	var c = str.match(/(\w+) (\d+) (\d+):(\d+):(\d+) \+\d+ (\d+)/);
-	return new Date(c[6], config.extensions.convertShortMonth(c[1]),
+	return new Date(c[6], adaptor.convertShortMonth(c[1]),
 		c[2], c[3], c[4], c[5]);
 };
 
-config.adaptors[config.extensions.TwitterAdaptor.serverType] = config.extensions.TwitterAdaptor;
-
 // convert short-month string (mmm) to month number (zero-based)
-config.extensions.convertShortMonth = function(text) {
+adaptor.convertShortMonth = function(text) {
 	for(var i = 0; i < config.messages.dates.shortMonths.length; i++) { // XXX: inefficient!?
 		if(text == config.messages.dates.shortMonths[i]) {
 			return i;
@@ -299,11 +300,15 @@ config.extensions.convertShortMonth = function(text) {
 };
 
 // convert HTML entities to the respective characters
-config.extensions.decodeHTMLEntities = function(str) {
+adaptor.decodeHTMLEntities = function(str) {
 	var el = document.createElement("textarea");
 	el.innerHTML = str;
 	return el.value;
 };
+
+config.adaptors[adaptor.serverType] = adaptor;
+
+})(config.extensions.TwitterAdaptor); //# end of alias
 
 } //# end of "install only once"
 //}}}
