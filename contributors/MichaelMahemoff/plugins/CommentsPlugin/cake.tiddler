@@ -1,4 +1,14 @@
-<div title="cake" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="" changecount="19">
-<pre>I like cake. What do you think about it?
-<<comments>></pre>
-</div>
+<div title="cake" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="" changecount="19" food="dessert" healthy="no" tasty="yes">
+<pre>I like cake. Do you like cake too?
+!Comments with default options
+<<comments>>
+!Comments with custom options
+
+Auto-adds tags and fields and other goodies to the comment. Create a comment and click on its title to inspect tags and fields.
+
+<<comments text:"My name: 
+My job: 
+Comments:
+
+" textRows:10 tags:specialComment,brilliant,amazing fields:"testField:done foo:bar" inheritedFields:"healthy,food,nonExistent" dateFormat:"MMM DD hh:0mm">>
+</pre>
