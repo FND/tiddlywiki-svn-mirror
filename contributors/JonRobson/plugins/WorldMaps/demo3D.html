@@ -11,8 +11,7 @@
 var eMap = null;
 function init(){
 	eMap = new EasyMap('wrapper');
-	eMap.scale.x = 2.2;
-	eMap.scale.y = 2.2;
+
 	
 	var that = eMap;
 	var myElement = document.getElementById('caption');
@@ -110,15 +109,6 @@ spin: <a href="javascript:eMap.spin(0,0,-0.1)"><--</a><a href="javascript:eMap.s
 	<div id='wrapper_statustext'>please wait while we load... </div>
 </div>
 <div id='time'></div>
-<br>
-<br>
-<br>
-<a href="javascript:eMap.zoom(0.5,0.5)">zoom in</a> <a href="javascript:eMap.zoom(-0.5,-0.5)">zoom out</a>
-
-
-<a href="javascript:eMap.pan(0,20)">up</a> <a href="javascript:eMap.pan(0,-20)">down</a>
-
-<a href="javascript:eMap.pan(20,0)">left</a> <a href="javascript:eMap.pan(-20,0)">right</a>
 
 
 

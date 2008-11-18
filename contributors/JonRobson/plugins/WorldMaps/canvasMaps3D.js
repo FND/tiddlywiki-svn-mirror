@@ -62,8 +62,7 @@ var EasyMapController = function(targetjs,elemid){
 	this.utils = new EasyMapUtils(this.wrapper); //some utilities that it may find useful
 	
 	//looks for specifically named functions in targetjs
-	if(!this.targetjs.zoom) alert("no 'zoom(x,y)' function defined in " + targetjs+"!");
-	if(!this.targetjs.pan) alert("no 'pan(x,y)' function defined in " + targetjs+"!");	
+	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 	
 };
 
@@ -94,7 +93,7 @@ EasyMapController.prototype = {
 		ctx.closePath();
 		
 	},
-	drawButton: function(canvas,width,angle,offset,type) {
+	drawButton: function(canvas,width,angle,offset,properties) {
 		var ctx = canvas.getContext('2d');
 		var rad = angle ? this.utils._degToRad(angle) : 0;
 		var w = width || 100;
@@ -117,8 +116,11 @@ EasyMapController.prototype = {
 		ctx.closePath();
 		ctx.stroke();
 		ctx.fill();
-		this.drawButtonLabel(ctx,r,type);
+		this.drawButtonLabel(ctx,r,properties.buttonType);
 		ctx.restore();
+		
+		var button = new EasySquare(properties,10,{x:offset.x,y:offset.y});
+		return button;
 	},
 	
 	addControl: function(controlType) {
@@ -164,35 +166,37 @@ EasyMapController.prototype = {
 	},
 	
 	addPanningAction: function(controlDiv){
-		var prop = {};
-		prop.name = 'W';
+
 		
 		var panCanvas = document.createElement('canvas');
 		panCanvas.width = 14;
-		panCanvas.height = 50;
+		panCanvas.height = 74;
 		controlDiv.appendChild(panCanvas);
 		panCanvas.memory = [];
 		panCanvas.emap = this;
+		panCanvas.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1}};
 
 		if(!panCanvas.getContext) {
 			G_vmlCanvasManager.init_(document);
 		}
-		
-		north = new EasySquare({'actionid':'N'},10,{x:2,y:2});
-		this.drawButton(panCanvas,10,180,{x:2,y:2},"arrow");
+		//console.log(this.drawButton(panCanvas,10,180,{x:2,y:2},{'actiontype':'N','buttonType': 'arrow'}));
 
-		south = new EasySquare({'actionid':'S'},10,{x:2,y:14});
-		this.drawButton(panCanvas,10,0,{x:2,y:14},"arrow");
+		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:2,y:2},{'actiontype':'N','buttonType': 'arrow'}));
 
-		east = new EasySquare({'actionid':'E'},10,{x:2,y:26});
-		this.drawButton(panCanvas,10,270,{x:2,y:26},"arrow");
+		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:2,y:14},{'actiontype':'S','buttonType': 'arrow'}));
+
+		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:2,y:26},{'actiontype':'E','buttonType': 'arrow'}));
 		
-		var west = new EasySquare({'actionid':'W'},10,{x:2,y:38},"arrow");
-		this.drawButton(panCanvas,10,90,{x:2,y:38},"arrow");
-		panCanvas.memory = [north,south,east,west];
-		panCanvas.onclick = this.panClickHandler;	
+		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:38},{'actiontype':'W','buttonType': 'arrow'}));
+		
+	
+		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:2,y:50},{'actiontype':'in','buttonType': 'plus'}));
+		
+		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:2,y:62},{'actiontype':'out','buttonType': 'minus'}));
+		console.log(panCanvas.memory);
+		panCanvas.onclick = this.clickHandler;	
 	},
-	panClickHandler: function(e) {
+	clickHandler: function(e) {
 		if(!e) {
 			e = window.event;
 		}
@@ -208,37 +212,45 @@ EasyMapController.prototype = {
 			y:0
 		};
 		
+		var zoom = {x: 0, y:0};
+		
 		if(hit.properties.action){
 			action(x,y);
 		}
 		
-		switch(hit.properties.actionid) {
+		switch(hit.properties.actiontype) {
 			case "W":
-				pan.x = 100;
+				this.transformation.translate.x += 1;
 				break;
 			case "E":
-				pan.x = -100;
+				this.transformation.translate.x -= 1;
 				break;
 			case "N":
-				pan.y = 100;
+				this.transformation.translate.y += 1;
 				break;
 			case "S":
-				pan.y = -100;
+				this.transformation.translate.y -= 1;
+				break;
+			case "in":
+				this.transformation.scale.x += 1;
+				this.transformation.scale.y += 1;
+				break;
+			case "out":
+				this.transformation.scale.x -= 1;
+				this.transformation.scale.y -= 1;
+				
+				if(this.transformation.scale.x <= 0) this.transformation.scale.x = 1;
+				if(this.transformation.scale.y <= 0) this.transformation.scale.y = 1;				
 				break;
 		}
-		emap.targetjs.pan(pan.x,pan.y)
+
+
+		emap.targetjs.transform(this.transformation);
+		//emap.targetjs.zoom(zoom.x,zoom.y);
+		//emap.targetjs.pan(pan.x,pan.y)
+
+
 		return false;
-	},
-	
-	zoomClickHandler: function(e) {
-		var target = e.target;
-		var emap = this.emap;
-		var zoom = target.zoom;
-		if(zoom > 0) {
-			emap.zoom(2,2);
-		} else {
-			emap.zoom(-2,-2);
-		}
 	}
 
 };
@@ -272,6 +284,10 @@ var EasyMap = function(divID){
 	}*/
 	canvas.width = 600;
 	canvas.height = 400;
+	this.center = {};
+	this.center.x = parseFloat(canvas.width) /2;
+	this.center.y = parseFloat(canvas.height) / 2;
+	
 	canvas.id = divID + "_canvas";
 	canvas.style["z-index"] = -1;
 	wrapper.appendChild(canvas);
@@ -282,8 +298,9 @@ var EasyMap = function(divID){
 	}
 	this.ctx = canvas.getContext('2d');
 
-	this.scale = {'x':1, 'y':1};
-	this.translate = {'x':0, 'y':0};
+	this.transformation ={'scale':{x:1,y:1}, 'translate':{x:0,y:0}};
+	this.additionaltransformation ={'scale':{x:1,y:1}, 'translate':{x:0,y:0}};
+
 	this.rotate = {'x': 0, 'y':1.6, 'z':0};
 	this.spherical = false; //experimental!! fiddle with at your own risk! :)
 	this.radius = 100;
@@ -307,6 +324,16 @@ EasyMap.prototype = {
 		this.rotate.z +=z;
 		this.redraw();
 	},
+	
+	transform: function(transformation){
+		var newt = transformation;
+
+		//newt.translate.x += this.additionaltransformation.translate.x;
+		//newt.translate.y += this.additionaltransformation.translate.y;
+		this.transformation = newt;
+		this.redraw();
+	},
+	/*
 	pan: function(x,y){ //relative to centre
 		
 		this.translate.x += x;
@@ -319,18 +346,15 @@ EasyMap.prototype = {
 		this.scale.y += scaleY;
 		this.redraw();
 	},
+	*/
 	
-	transform: function(shape){
-		shape.transform(this.scale, this.translate,this.rotate,this.spherical,this.radius);
-		return shape;
-	},
 
 	drawShape: function(easyShape){
 		var mapCanvas = this.canvas;
 		var memory = mapCanvas.memory;
 		easyShape.id = memory.length;
 		memory[easyShape.id] = easyShape;
-		easyShape = this.transform(easyShape);
+		easyShape.transform(this.transformation,this.rotate,this.spherical,this.radius);
 		if(easyShape.shape =='polygon') this.drawPolygon(easyShape);
 		else return;
 		
@@ -357,6 +381,7 @@ EasyMap.prototype = {
 				}
 
 			}
+
 			
 			this.ctx.fillStyle =poly.fillStyle;
 			this.ctx.strokeStyle = poly.strokeStyle;
@@ -364,17 +389,21 @@ EasyMap.prototype = {
 
 			var x = parseFloat(poly.transformedCoords[0]);
 			var y = parseFloat(poly.transformedCoords[1]);
+
+			var initialX = x;
+			var initialY =y;
 			this.ctx.moveTo(x,y);
 			for(var i=2; i < poly.transformedCoords.length-1; i+=2){
 				var x = parseFloat(poly.transformedCoords[i]);
 				var y = parseFloat(poly.transformedCoords[i+1]);
+				
 				this.ctx.lineTo(x,y);
 
 				if(x>this._maxX) this._maxX = x;
 				if(y>this._maxY) this._maxY = y;
 			}
 			//connect last to first
-			this.ctx.lineTo(poly.transformedCoords[0],poly.transformedCoords[1], poly.transformedCoords[poly.transformedCoords.length-2],poly.transformedCoords[poly.transformedCoords.length-1]);
+			this.ctx.lineTo(initialX,initialY, x,y);
 			this.ctx.closePath();
 			
 			if(!poly.hidden) {
@@ -418,6 +447,7 @@ EasyMap.prototype = {
 	
 	clear: function(){
 		var mapCanvas = this.canvas;
+		this.canvas.onclick = this.clickHandler;
 		var ctx = mapCanvas.getContext('2d');
 		mapCanvas.memory = [];
 
@@ -425,8 +455,9 @@ EasyMap.prototype = {
 		this._maxY = 0;
 		// you could replace the next line with this.canvas.width = this.canvas.width, as that resets it (don't know what happens in G_VML though...)
 		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
-		this.canvas.onclick = this.clickHandler;
-		this.canvas.onmousemove = this.mousemoveHandler;
+		
+
+
 		
 	},
 	
@@ -451,7 +482,7 @@ EasyMap.prototype = {
 
 	},
 	
-	drawGeoJsonFeatures: function(features){
+	_drawGeoJsonFeatures: function(features){
 			var avg1 = 0;
 			for(var i=0; i < features.length; i++){
 				var geometry = features[i].geometry;
@@ -459,9 +490,14 @@ EasyMap.prototype = {
 					var coords = geometry.coordinates;
 					
 					for(var j=0; j< coords.length; j++){//identify and create each polygon	
-						var s = new EasyShape(features[i].properties,coords[j],"geojson");
+						var prop =features[i].properties;
+						prop.center = {};
+						prop.center.x = this.center.x;
+						prop.center.y = this.center.y;
+						
+						var s = new EasyShape(prop,coords[j],"geojson");
 						this.drawShape(s);
-								console.log("drew shape");
+								//console.log("drew shape");
 					}
 
 				}
@@ -473,18 +509,12 @@ EasyMap.prototype = {
 	},
 	
 	drawFromGeojson: function(geojson){
-			//add a mandatory translate to make it appear in center of canvas
-			var t1 = parseFloat(this.canvas.width) /2;
-			var t2 = parseFloat(this.canvas.height) / 2;
-			this.translate.x = t1;
-			this.translate.y = t2;
-			
 			this.clear();
 
 			if(geojson.type.toLowerCase() == "featurecollection"){
 				var features = geojson.features;
-				console.log("beginning to draw geojsonfeatures");
-				this.drawGeoJsonFeatures(features);
+				//console.log("beginning to draw geojsonfeatures");
+				this._drawGeoJsonFeatures(features);
 			} else {
 				console.log("only feature collections currently supported");
 				return;
@@ -584,6 +614,7 @@ EasyShape.prototype={
 	constructFromGeoJSONPolygon: function(properties,coordinates){		
 		var newcoords = this._convertGeoJSONCoords(coordinates);
 		this.constructBasicPolygon(properties,newcoords);
+		this.geojson = true;
 	},
 		
 	_convertGeoJSONCoords: function(coords,canvas){
@@ -678,13 +709,15 @@ EasyShape.prototype={
 		return res;
 	},
 
-	transform: function(scaling, translation,rotate,spherical,radius){
+	transform: function(transformation,rotate,spherical,radius){
 	
 		
 		var performScale = true;
 		var performTranslate = true; 
 		var performRotate = false;
 		
+		var scaling = transformation.scale;
+		var translation = transformation.translate;
 		if(scaling.x == 1 && scaling.y == 1) {
 			performScale = false;
 		}
@@ -729,6 +762,10 @@ EasyShape.prototype={
 				xPos = lon;
 				yPos = lat;
 			}
+			//console.log("before",xPos,yPos);
+			
+
+						//console.log("after",xPos,yPos);
 			/* JRL - removing rotations about the z axis for now (it says y below, but should be z)
 			if(performRotate){
 				if(rotate.y){
@@ -738,19 +775,32 @@ EasyShape.prototype={
 					y = (v * Math.cos(rotate.y)) + (u * Math.sin(rotate.y));
 				}
 			}*/
-			if(performScale){
-				xPos *= scaling.x;
-				yPos *= scaling.y;
-			}
+
+			
 			if(performTranslate){
 				xPos = xPos + parseFloat(translation.x);
 				yPos = yPos + parseFloat(translation.y);
 			}
+			
 
+			
+			
+			if(performScale){
+				xPos *= scaling.x;
+				yPos *= scaling.y;
+			}
+
+			//last but not least center if required
+			if(this.properties.center){
+				xPos += this.properties.center.x;
+				yPos += this.properties.center.y;
+			}
 			if(xPos < this.grid.x1) this.grid.x1 = xPos;
 			if(yPos < this.grid.y1) this.grid.y1 = yPos;	
 			if(xPos > this.grid.x2) this.grid.x2 = xPos;
 			if(yPos > this.grid.y2) this.grid.y2 = yPos;
+			
+			
 
 			if(index > 0){
 				var l = (xPos-lastX)*(xPos-lastX) + (yPos-lastY) * (yPos-lastY);
@@ -794,18 +844,26 @@ EasyMapUtils.prototype = {
 	_degToRad: function(deg) {
 		return deg * Math.PI / 180;
 	},
-	getShapeAtClick: function(e,id){
+	getShapeAtClick: function(e){
+				console.log("attempt");
 		if(!e) {
 			e = window.event;
 		}
 		var target = resolveTarget(e);
-		
+				console.log("attempt2");
 		var id ="#"+this.wrapper.id;
 		var offset = $(id).offset();
+				console.log("attempt3");
 		x = e.clientX + window.findScrollX() - offset.left;
 		y = e.clientY + window.findScrollY() - offset.top;
-		var shape = this.getShapeAt(x,y,target.memory);
-		return shape;
+		console.log("attempt4");
+		if(target.memory){
+			var shape = this.getShapeAt(x,y,target.memory);
+			return shape;}
+		else{
+			console.log("no shapes in memory");
+			return false;
+		}
 	},
 	
 	getShapeAt: function(x,y,shapes) {
