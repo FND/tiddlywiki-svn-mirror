@@ -3,7 +3,6 @@ tiddler: BT.tiddler
 tiddler: Browser_Compatibility.tiddler
 tiddler: Community.tiddler
 tiddler: Conclusions.tiddler
-tiddler: DefaultTiddlers.tiddler
 tiddler: Device_APIs.tiddler
 tiddler: Features.tiddler
 tiddler: File_Saving.tiddler
@@ -13,7 +12,6 @@ tiddler: HTTP_Requests.tiddler
 tiddler: Introduction.tiddler
 tiddler: Jeremy_Ruston.tiddler
 tiddler: JigglyWiki.tiddler
-tiddler: MainMenu.tiddler
 tiddler: Microsoft_HTA.tiddler
 tiddler: Open_Source.tiddler
 tiddler: Osmosoft.tiddler
@@ -22,7 +20,6 @@ tiddler: Preface.tiddler
 tiddler: Project_Cecily.tiddler
 tiddler: Security.tiddler
 tiddler: Server_Side.tiddler
-tiddler: SiteTitle.tiddler
 tiddler: Synchronization.tiddler
 tiddler: Tiddler.tiddler
 tiddler: TiddlySaver.tiddler
