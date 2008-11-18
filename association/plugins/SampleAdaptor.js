@@ -1,23 +1,26 @@
 config.extensions.SampleAdaptor = function() {};
-config.extensions.SampleAdaptor.prototype = new AdaptorBase();
-config.extensions.SampleAdaptor.serverType = "sampletype";
-config.extensions.SampleAdaptor.serverLabel = "Sample Type";
-config.extensions.SampleAdaptor.mimeType = "application/json";
+
+(function(adaptor) { //# set up alias
+
+adaptor.prototype = new AdaptorBase();
+adaptor.serverType = "sampletype";
+adaptor.serverLabel = "Sample Type";
+adaptor.mimeType = "application/json";
 
 // retrieve a list of workspaces
-config.extensions.SampleAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
+adaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/workspaces";
 	var uri = uriTemplate.format([context.host]);
-	var req = httpReq("GET", uri, config.extensions.SampleAdaptor.getWorkspaceListCallback,
-		context, { accept: config.extensions.SampleAdaptor.mimeType });
+	var req = httpReq("GET", uri, adaptor.getWorkspaceListCallback,
+		context, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-config.extensions.SampleAdaptor.getWorkspaceListCallback = function(status, context, responseText, uri, xhr) {
+adaptor.getWorkspaceListCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
-	context.httpStatus = xhr.status;&action=submit
+	context.httpStatus = xhr.status;
 	if(status) {
 		context.workspaces = [];
 		/* ... */ // parse responseText, determining workspaces
@@ -28,15 +31,15 @@ config.extensions.SampleAdaptor.getWorkspaceListCallback = function(status, cont
 };
 
 // retrieve a list of tiddlers
-config.extensions.SampleAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
+adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/tiddlers";
-	var req = httpReq("GET", uri, config.extensions.SampleAdaptor.getTiddlerListCallback,
-		context, null, null, { accept: config.extensions.SampleAdaptor.mimeType });
+	var req = httpReq("GET", uri, adaptor.getTiddlerListCallback,
+		context, null, null, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-config.extensions.SampleAdaptor.getTiddlerListCallback = function(status, context, responseText, uri, xhr) {
+adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -50,23 +53,23 @@ config.extensions.SampleAdaptor.getTiddlerListCallback = function(status, contex
 };
 
 // retrieve an individual tiddler
-config.extensions.SampleAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
+adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = title;
 	context.tiddler = new Tiddler(title);
 	context.tiddler.fields = {
-		"server.type": config.extensions.SampleAdaptor.serverType,
+		"server.type": adaptor.serverType,
 		"server.host": AdaptorBase.minHostName(context.host),
 		"server.workspace": context.workspace
 	};
 	var uriTemplate = "%0/tiddlers/%1";
 	var uri = uriTemplate.format([context.host, title]);
-	var req = httpReq("GET", uri, config.extensions.SampleAdaptor.getTiddlerCallback,
-		context, null, null, { accept: config.extensions.SampleAdaptor.mimeType });
+	var req = httpReq("GET", uri, adaptor.getTiddlerCallback,
+		context, null, null, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-config.extensions.SampleAdaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
+adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -81,4 +84,6 @@ config.extensions.SampleAdaptor.getTiddlerCallback = function(status, context, r
 	}
 };
 
-config.adaptors[config.extensions.SampleAdaptor.serverType] = config.extensions.SampleAdaptor;
+config.adaptors[adaptor.serverType] = adaptor;
+
+})(config.extensions.SampleAdaptor); //# end of alias
