@@ -10,6 +10,7 @@ See http://www.w3schools.com/css/css_colors.asp for a color chart.
 /*{{{*/
 #mainMenu {background:#007777;}
 body {background:#53c4ea;}
+#sidebarOptions .button {border:none; font-weight:bold;}
 /*}}}*/
 </pre>
 </div>
