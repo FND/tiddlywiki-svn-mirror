@@ -148,6 +148,7 @@ EasyMapController.prototype = {
 		panCanvas.width = width;
 		panCanvas.height = height;
 		panCanvas.style.position = "absolute";
+		panCanvas.id = Math.random();
 		this.wrapper.controlDiv.appendChild(panCanvas);
 		panCanvas.memory = [];
 		panCanvas.emap = this;
@@ -834,7 +835,7 @@ EasyMapUtils.prototype = {
 			e = window.event;
 		}
 		var target = resolveTarget(e);
-				console.log(target);
+				console.log(target.memory ? target.memory.length : target.memory);
 		var id ="#"+this.wrapper.id;
 		
 		var offset = $(id).offset();
