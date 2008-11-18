@@ -36,7 +36,6 @@ $status = 0;
 if (isset($_FILES["userFile"]))
 {
 	
-		error_log("hre1");
 	if (check_vals())
 	{
 		error_log("hre11");
@@ -51,8 +50,6 @@ if (isset($_FILES["userFile"]))
 			exit;
 		}
 		$upload_dir = $folder;
-			error_log("hre211");
-		
 		if(filesize($_FILES["userFile"]["tmp_name"]) > $tiddlyCfg['max_file_size'])
 		{
 			sendHeader("400");

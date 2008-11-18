@@ -3,6 +3,7 @@
 include_once($cct_base."includes/header.php");
 //force anonymous due to security concerns
 $user['verified']=0;
+$tiddlyCfg['workspace_name'] = '';
 
 $data = db_tiddlers_mainSelectSiteConfig();
 $tmp=array();
@@ -12,7 +13,7 @@ while( $d=db_fetch_assoc($data) ) {
 $data = $tmp;
 
 //$siteUrl = isset($data['SiteUrl'])?htmlspecialchars($data['SiteUrl']['body']):"http://www.tiddlywiki.com/";
-$siteUrl = dirname(dirname(dirname(getUrl())))."/".$tiddlyCfg['workspace_name'];
+echo $siteUrl = dirname(dirname(dirname(getUrl())))."/".$tiddlyCfg['workspace_name'];
 $result = '<?xml version="1.0"?><rss version="2.0"><channel>
 <title>'.(isset($data['SiteTitle'])?htmlspecialchars($data['SiteTitle']['body']):"My TiddlyWiki").'</title>
 <link>'.$siteUrl.'</link>
