@@ -9,7 +9,7 @@
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4|
 
-NB: This assumes canvasMaps.js has been included in the postjs!
+NB: This assumes canvasMaps3D.js has been included in the postjs!
 
 ***/
 
@@ -21,8 +21,8 @@ var head = document.getElementsByTagName("head")[0];
 var s1 = document.createElement("script");
 var s2 = document.createElement("script");
 var s3 = document.createElement("script");
-//s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps3D.js";
-s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps3d.js"
+s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps3D.js";
+//s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps3d.js"
 s2.src = "http://www.osmosoft.com/ILGA/demos/excanvas.js";
 s3.src = "http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js";
 head.appendChild(s1);
@@ -32,11 +32,8 @@ config.macros.canvasMaps = {};
 
 config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	// horrible hacked method to make sure excanvas has loaded - this should not be in this plugin
-	var loaded = window.EasyMap;
-	if(loaded && !window.CanvasRenderingContext2D) {
-		loaded = window.G_vmlCanvasManager;
-	}
-	if(!loaded) {
+	if(!window.EasyMap || (!window.G_vmlCanvasManager && !document.createElement('canvas').getContext)) {
+		alert('not loaded');
 		var that = this;
 		var args = arguments;
 		var func = function() {
@@ -44,6 +41,7 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		};
 		return window.setTimeout(func,300);
 	} else {
+		alert('loaded');
 		var wrapper = createTiddlyElement(place,"div","wrapper","wrapper");
 		var statustext = createTiddlyElement(wrapper,"div","wrapper_statustext");
 		createTiddlyText(statustext,"loading... please wait a little while!");
