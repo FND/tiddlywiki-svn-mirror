@@ -12,7 +12,14 @@ function findScrollY()
 }
 
 if(!window.console) {
-	console = {log:function(message) {document.getElementById('consolelogger').innerHTML += message+"<<] ";}};
+	console = {
+		log:function(message) {
+			var d = document.getElementById('consolelogger');
+			if(d) {
+				d.innerHTML += message+"<<] ";
+			}
+		}
+	};
 }
 
 Array.prototype.contains = function(item)
@@ -182,7 +189,7 @@ EasyMapController.prototype = {
 	
 	addZoomingActions: function(){
 		var zoomCanvas = this._createcontrollercanvas(20,30);
-		var left = parseInt(this.wrapper.style.width) - 20;
+		var left = parseInt(this.targetjs.canvas.width,10) - 20 + "px";
 
 		zoomCanvas.style.left = left;
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','buttonType': 'plus'}));		
@@ -501,6 +508,7 @@ EasyMap.prototype = {
 	
 	drawFromGeojson: function(responseText){
 			var geojson = eval('(' +responseText + ')');
+			console.log("eval done: ",geojson);
 			this.clear();
 			// NB: removing this statustext node so it doesn't mess up offsets in IE
 			// this problem needs to be fixed so that we're either not adding div's in
