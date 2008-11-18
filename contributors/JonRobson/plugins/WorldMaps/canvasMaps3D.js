@@ -293,28 +293,9 @@ EasyMap.prototype = {
 	},
 	
 	transform: function(transformation){
-		var newt = transformation;
-
-		//newt.translate.x += this.additionaltransformation.translate.x;
-		//newt.translate.y += this.additionaltransformation.translate.y;
-		this.transformation = newt;
+		this.transformation = transformation;
 		this.redraw();
 	},
-	/*
-	pan: function(x,y){ //relative to centre
-		
-		this.translate.x += x;
-		this.translate.y += y;
-		this.redraw();
-	},
-	
-	zoom: function(scaleX,scaleY){
-		this.scale.x += scaleX;
-		this.scale.y += scaleY;
-		this.redraw();
-	},
-	*/
-	
 
 	drawShape: function(easyShape){
 		var mapCanvas = this.canvas;
@@ -323,11 +304,11 @@ EasyMap.prototype = {
 		memory[easyShape.id] = easyShape;
 		easyShape.transform(this.transformation,this.rotate,this.spherical,this.radius);
 		if(easyShape.shape =='polygon') this.drawPolygon(easyShape);
-		else return;
+		else {console.log("no idea how to draw");return;}
 		
 	},
 
-	drawPolygon: function(poly,dontDrawMe){
+	drawPolygon: function(poly){ //is this really a drawPolygon or a drawLines
 			
 			var left = 0;
 			var top = 0;
@@ -449,28 +430,58 @@ EasyMap.prototype = {
 
 	},
 	
+	_drawGeoJsonMultiPolygonFeature: function(coordinates,properties){
+		var prop = properties;
+		var coords = coordinates;
+		
+		for(var j=0; j< coords.length; j++){//identify and create each polygon	
+			this._drawGeoJsonPolygonFeature(coords[j],prop);
+		}
+		
+	},
+	
+	_drawGeoJsonPolygonFeature: function(coordinates,properties){
+		var p = properties;
+		p.shape = 'polygon';
+		var s = new EasyShape(p,coordinates,"geojson");
+		this.drawShape(s);
+	},
+	
+	
+	_drawGeoJsonPointFeature: function(coordinates,properties){
+		var p = properties;
+		p.shape = 'point';
+		console.log("drawing point");
+		var s = new EasyShape(p,coordinates,"geojson");
+		this.drawShape(s);
+	},
+	
+	_drawGeoJsonFeature: function(feature){
+			var geometry = feature.geometry;
+			var type =geometry.type.toLowerCase();
+			var p = feature.properties;
+			p.center = {};
+			p.center.x = this.center.x;
+			p.center.y = this.center.y;
+			
+			if(type == 'multipolygon'){
+				var coords = feature.geometry.coordinates;
+				this._drawGeoJsonMultiPolygonFeature(coords,p);
+			}
+			else if(type == 'polygon'){
+				this._drawGeoJsonPolygonFeature(feature.geometry.coordinates,p);
+			}
+			else if(type == 'point'){
+				this._drawGeoJsonPointFeature(feature.geometry.coordinates,p);				
+			}
+			else {	
+				console.log("unsupported geojson geometry type " + geometry.type);
+			}
+	},
 	_drawGeoJsonFeatures: function(features){
 			var avg1 = 0;
 			for(var i=0; i < features.length; i++){
-				var geometry = features[i].geometry;
-				if(geometry.type.toLowerCase() == 'multipolygon'){
-					var coords = geometry.coordinates;
-					
-					for(var j=0; j< coords.length; j++){//identify and create each polygon	
-						var prop =features[i].properties;
-						prop.center = {};
-						prop.center.x = this.center.x;
-						prop.center.y = this.center.y;
-						
-						var s = new EasyShape(prop,coords[j],"geojson");
-						this.drawShape(s);
-								//console.log("drew shape");
-					}
-
-				}
-				else {	
-					//console.log("unsupported geojson geometry type " + geometry.type);
-				}
+				this._drawGeoJsonFeature(features[i]);
 			}
 
 	},
@@ -478,11 +489,16 @@ EasyMap.prototype = {
 	drawFromGeojson: function(responseText){
 			var geojson = eval('(' +responseText + ')');
 			this.clear();
-			if(geojson.type.toLowerCase() == "featurecollection"){
+
+			var type =geojson.type.toLowerCase();
+			if(type == "featurecollection"){
 				var features = geojson.features;
-				//console.log("beginning to draw geojsonfeatures");
 				this._drawGeoJsonFeatures(features);
-			} else {
+			} 
+			else if(type =='feature'){
+				this._drawGeoJsonFeature(geojson);
+			}
+			else {
 				console.log("only feature collections currently supported");
 				return;
 			}
@@ -524,11 +540,10 @@ var EasyShape = function(element,coordinates,sourceType){
 	this.properties = {};
 	this.fillStyle = "#000000"
 	this.threshold = 1.7;
-	//this.width = canvas.width;
-	//this.origin= {'x': canvas.width/2, 'y':canvas.height/2};
+
 	if(sourceType){
 		if(sourceType == 'geojson') {
-			this.constructFromGeoJSONPolygon(element,coordinates);
+			this.constructFromGeoJSONObject(element,coordinates);
 		} else if(sourceType == "svg") {
 			this.constructFromSVGPolygon(element);
 		}
@@ -541,7 +556,20 @@ var EasyShape = function(element,coordinates,sourceType){
 
 
 EasyShape.prototype={
-	
+	constructFromGeoJSONObject: function(element,coordinates){
+		if(element.shape == 'polygon'){
+			this.constructFromGeoJSONPolygon(element,coordinates);	
+		}
+		else if(element.shape == 'point'){
+			var x = coordinates[0]; var y = coordinates[1];
+			var ps = 0.2;
+			var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, x+ps];
+			console.log(newcoords);
+			this.constructBasicPolygon(element,newcoords);	
+		}
+		else
+			console.log("don't know what to do with shape " + element.shape);
+	},
 	constructBasicPolygon: function(properties, coordinates){
 		this.coords = coordinates;
 		this.shape = "polygon";
@@ -570,12 +598,10 @@ EasyShape.prototype={
 		
 	},
 
-/*multi-polygons */
 	
 	constructFromGeoJSONPolygon: function(properties,coordinates){		
 		var newcoords = this._convertGeoJSONCoords(coordinates);
 		this.constructBasicPolygon(properties,newcoords);
-		this.geojson = true;
 	},
 		
 	_convertGeoJSONCoords: function(coords,canvas){
