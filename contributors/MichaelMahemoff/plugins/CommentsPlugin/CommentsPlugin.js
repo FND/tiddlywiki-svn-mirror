@@ -1,8 +1,8 @@
 /*
-  Encapsulate it all in a single namespace object
+  TiddlyWiki Comments Plugin - Online demo at http://tiddlyguv.org/CommentsPlugin.html
 
-  - Don't autoSavechanges on each delete recursion - create an outside wrapper fn
-  - Cascade comment delete when the top-level tiddler is deleted
+  TODO:
+  - Support Cascade comment delete when the top-level tiddler is deleted
 
 */
 
