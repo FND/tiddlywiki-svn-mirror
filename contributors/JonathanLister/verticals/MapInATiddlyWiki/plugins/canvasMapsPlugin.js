@@ -21,18 +21,21 @@ var head = document.getElementsByTagName("head")[0];
 var s1 = document.createElement("script");
 var s2 = document.createElement("script");
 var s3 = document.createElement("script");
+var s4 = document.createElement("script");
 s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps3D.js";
 //s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps3d.js"
-s2.src = "http://www.osmosoft.com/ILGA/demos/excanvas.js";
+s2.src = "http://www.osmosoft.com/ILGA/demos/ieHack.js";
 s3.src = "http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js";
+s4.src = "http://www.osmosoft.com/ILGA/demos/whereLegal.js";
 head.appendChild(s1);
 head.appendChild(s2);
 head.appendChild(s3);
+head.appendChild(s4);
 config.macros.canvasMaps = {};
 
 config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	// horrible hacked method to make sure excanvas has loaded - this should not be in this plugin
-	if(!window.EasyMap || (!window.G_vmlCanvasManager && !document.createElement('canvas').getContext)) {
+	if (!document.createElement('canvas').getContext && !window.G_vmlCanvasManager) {
 		alert('not loaded');
 		var that = this;
 		var args = arguments;
@@ -49,23 +52,23 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		var eMap = new EasyMap('wrapper');
 		eMap.addControl('pan');
 		eMap.addControl('zoom');
-		eMap.scale.x = 1.8;
-		eMap.scale.y = 1.8;
-		eMap.translate.x = 1;
+		//eMap.scale.x = 1.8;
+		//eMap.scale.y = 1.8;
+		//eMap.translate.x = 1;
 		
 		var that = eMap;
 		var myElement = document.getElementById('caption');
 		
 	
-		eMap.clickHandler = function(e){
+		/*eMap.clickHandler = function(e){
 			if(!e) {
 				e = window.event;
 			}
-			var shape = eMap.getShapeAtClick(e);
+			var shape = eMap.utils.getShapeAtClick(e);
 			if(!shape) {
 				return false;
 			}
-			var country = shape.tooltip;
+			var country = shape.properties.name;
 			if(!store.tiddlerExists(country)) {
 				var tags = "country";
 				var text = "We don't have any information about this country yet! Please edit to add some or leave a comment.";
@@ -75,9 +78,17 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 			var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
 			story.displayTiddler(tiddlerElem,country);
 			return false;
+		};*/
+		eMap.clickHandler = function(e){
+
+			var s = eMap.utils.getShapeAtClick(e);
+			
+			if(s)
+				alert(s.properties.name);
 		};
 		
-		eMap.drawFromGeojsonFile('http://plugins.tiddlywiki.org/ILGA.json');
+		// geojson var from whereLegal.js
+		eMap.drawFromGeojson(geojson);
 	}
 };
 
