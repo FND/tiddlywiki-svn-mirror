@@ -242,6 +242,7 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 	w.createWizard(place,me.wizardTitle);
 	w.addStep(me.stepTitle, me.stepCreateHtml);
 	w.formElem["workspace_name"].onkeyup=function() {me.workspaceNameKeyPress(w);};
+	w.formElem.onsubmit = function() { config.macros.ccCreateWorkspace.createWorkspaceOnSubmit(w);  return false;};
 	w.setButtons([
 		{caption: me.buttonCreateWorkspaceText, tooltip: me.buttonCreateWorkspaceTooltip, onClick:function(){config.macros.ccCreateWorkspace.createWorkspaceOnSubmit(w);}
 	}]);
