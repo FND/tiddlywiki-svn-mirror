@@ -1,0 +1,8 @@
+<div title="Template:Note" modifier="FND" created="200811181240" modified="200710311003" tags="Category:Templates" server.host="www.tiddlywiki.org" server.page.revision="3599" wikiformat="mediawiki">
+<pre><div style="margin: 1em 2em 1em 2em; border: 1px solid #888; padding: 5px 10px; background-color: #FFFFF1; {{{2|}}}">{{{1}}}</div><noinclude>
+== Usage ==
+
+<pre>{{Note|[text]|[custom styles]}}</pre>
+[[Category:Templates]]
+</noinclude></pre>
+</div>
