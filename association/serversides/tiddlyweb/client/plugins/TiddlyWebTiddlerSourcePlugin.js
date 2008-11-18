@@ -108,24 +108,21 @@ config.commands.tiddlerSource = {
 	},
 
 	selectSource: function(title, host, bag) { // XXX: if source existed before, this amounts to renaming!?
-		var tiddler = store.getTiddler(title);
-		tiddler.fields["server.host"] = host;
-		tiddler.fields["server.bag"] = bag;
-		story.saveTiddler(tiddler.title); // XXX: correct?
+		var tiddlerElem = story.getTiddler(title);
+		var hashmap = "server.host:'%0' server.bag:'%1'".format([host, bag]);
+		story.addCustomFields(tiddlerElem, hashmap);
 	},
 
 	clearSource: function(title) { // XXX: pointless, as TiddlyWeb sets those fields!?
-		var tiddler = store.getTiddler(title);
-		delete tiddler.fields["server.host"];
-		delete tiddler.fields["server.bag"];
-		story.saveTiddler(tiddler.title); // XXX: correct?
+		// TODO: TBD
 	},
 
-	customSource: function(title) { // TODO: don't use prompt
-		var tiddler = store.getTiddler(title);
-		tiddler.fields["server.host"] = prompt("enter host"); // TODO: i18n -- XXX: use minHostName?
-		tiddler.fields["server.bag"] = prompt("enter bag name"); // TODO: i18n
-		story.saveTiddler(tiddler.title); // XXX: correct?
+	customSource: function(title) { // TODO: don't use prompt -- XXX: if source existed before, this amounts to renaming!?
+		var tiddlerElem = story.getTiddler(title);
+		var host = prompt("enter host"); // TODO: i18n -- XXX: use minHostName?
+		var bag = prompt("enter bag name"); // TODO: i18n
+		var hashmap = "server.host:'%0' server.bag:'%1'".format([host, bag]);
+		story.addCustomFields(tiddlerElem, hashmap);
 	}
 };
 
