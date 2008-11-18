@@ -61,6 +61,17 @@ var EasyMapController = function(targetjs,elemid){
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
 	this.utils = new EasyMapUtils(this.wrapper); //some utilities that it may find useful
 	
+	
+	var controlDiv = this.wrapper.controlDiv;
+	if(!controlDiv) {
+		controlDiv = document.createElement('div');
+		controlDiv.style.position = "absolute";
+		controlDiv.style.top = "0";
+		controlDiv.style.left = "0";
+		this.wrapper.appendChild(controlDiv);
+		this.wrapper.controlDiv = controlDiv;
+	}
+	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1}};	
 	//looks for specifically named functions in targetjs
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 	
@@ -125,127 +136,99 @@ EasyMapController.prototype = {
 	
 	addControl: function(controlType) {
 		var controlDiv = this.wrapper.controlDiv;
-		if(!controlDiv) {
-			controlDiv = document.createElement('div');
-			controlDiv.style.position = "absolute";
-			controlDiv.style.top = "0";
-			controlDiv.style.left = "0";
-			this.wrapper.appendChild(controlDiv);
-			this.wrapper.controlDiv = controlDiv;
-		}
-		var over = function() {
-			this.style.cursor='pointer';
-		};
 		switch(controlType) {
 			//case "zoom":
 			case "pan":
-				this.addPanningAction(controlDiv);
+				this.addPanningActions(controlDiv);
 				break;
+			case "zoom":
+				this.addZoomingActions(controlDiv);
 			default:
 				break;
 		}
-/*
-			case "zoom":
-				var zoomControl = document.createElement("div");
-				zoomControl.emap = this;
-				zoomControl.onmouseover = over;
-				zoomControl.onclick = this.zoomClickHandler;
-				var zoomIn = document.createElement("div");
-				zoomIn.zoom = 1;
-				zoomIn.innerHTML = "+";
-				zoomControl.appendChild(zoomIn);
-				var zoomOut = document.createElement("div");
-				zoomOut.zoom = -1;
-				zoomOut.innerHTML = "-";
-				zoomControl.appendChild(zoomOut);
-				controlDiv.appendChild(zoomControl);
-				break;
-			default:
-				break;
-		}*/
-	},
 	
-	addPanningAction: function(controlDiv){
+	},
 
-		
+	_createcontrollercanvas: function(width,height){
 		var panCanvas = document.createElement('canvas');
-		panCanvas.width = 14;
-		panCanvas.height = 74;
-		controlDiv.appendChild(panCanvas);
+		panCanvas.width = width;
+		panCanvas.height = height;
+		panCanvas.style.position = "absolute";
+		this.wrapper.controlDiv.appendChild(panCanvas);
 		panCanvas.memory = [];
 		panCanvas.emap = this;
-		panCanvas.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1}};
+
 
 		if(!panCanvas.getContext) {
 			G_vmlCanvasManager.init_(document);
 		}
-		//console.log(this.drawButton(panCanvas,10,180,{x:2,y:2},{'actiontype':'N','buttonType': 'arrow'}));
 
-		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:2,y:2},{'actiontype':'N','buttonType': 'arrow'}));
-
-		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:2,y:14},{'actiontype':'S','buttonType': 'arrow'}));
-
-		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:2,y:26},{'actiontype':'E','buttonType': 'arrow'}));
+		return panCanvas;
+	},
+	addPanningActions: function(){
+		var panCanvas = this._createcontrollercanvas(44,64);
+		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','buttonType': 'arrow'}));
 		
-		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:38},{'actiontype':'W','buttonType': 'arrow'}));
-		
+		//panCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:50},{'actiontype':'in','buttonType': 'plus'}));		
+		//panCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:62},{'actiontype':'out','buttonType': 'minus'}));
+		panCanvas.onclick = this.clickHandler;		
+
+	},
 	
-		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:2,y:50},{'actiontype':'in','buttonType': 'plus'}));
-		
-		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:2,y:62},{'actiontype':'out','buttonType': 'minus'}));
-		console.log(panCanvas.memory);
-		panCanvas.onclick = this.clickHandler;	
+	addZoomingActions: function(){
+		var zoomCanvas = this._createcontrollercanvas(20,30);
+		var left = parseInt(this.wrapper.style.width) - 20;
+
+		zoomCanvas.style.left = left;
+		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','buttonType': 'plus'}));		
+		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:12},{'actiontype':'out','buttonType': 'minus'}));
+		zoomCanvas.onclick = this.clickHandler;	
 	},
 	clickHandler: function(e) {
 		if(!e) {
 			e = window.event;
 		}
-		//var target = resolveTarget(e);
-		//var emap = target.emap;
 		var emap = this.emap;
 		var hit = emap.utils.getShapeAtClick(e);
 		if(!hit) {
 			return false;
 		}
-		var pan = {
-			x:0,
-			y:0
-		};
-		
-		var zoom = {x: 0, y:0};
-		
+
 		if(hit.properties.action){
 			action(x,y);
 		}
 		
 		switch(hit.properties.actiontype) {
 			case "W":
-				this.transformation.translate.x += 1;
+				emap.transformation.translate.x += 5;
 				break;
 			case "E":
-				this.transformation.translate.x -= 1;
+				emap.transformation.translate.x -= 5;
 				break;
 			case "N":
-				this.transformation.translate.y += 1;
+				emap.transformation.translate.y += 5;
 				break;
 			case "S":
-				this.transformation.translate.y -= 1;
+				emap.transformation.translate.y -= 5;
 				break;
 			case "in":
-				this.transformation.scale.x += 1;
-				this.transformation.scale.y += 1;
+				emap.transformation.scale.x += 1;
+				emap.transformation.scale.y += 1;
 				break;
 			case "out":
-				this.transformation.scale.x -= 1;
-				this.transformation.scale.y -= 1;
+				emap.transformation.scale.x -= 1;
+				emap.transformation.scale.y -= 1;
 				
-				if(this.transformation.scale.x <= 0) this.transformation.scale.x = 1;
-				if(this.transformation.scale.y <= 0) this.transformation.scale.y = 1;				
+				if(emap.transformation.scale.x <= 0) emap.transformation.scale.x = 1;
+				if(emap.transformation.scale.y <= 0) emap.transformation.scale.y = 1;				
 				break;
 		}
 
 
-		emap.targetjs.transform(this.transformation);
+		emap.targetjs.transform(emap.transformation);
 		//emap.targetjs.zoom(zoom.x,zoom.y);
 		//emap.targetjs.pan(pan.x,pan.y)
 
@@ -276,14 +259,8 @@ var EasyMap = function(divID){
 	this.controls = {};
 	var canvas = document.createElement('canvas');
 	
-	/*canvas.width = parseInt(wrapper.style.width);
-	canvas.height = parseInt(wrapper.style.height);
-	if(canvas.width == 0){
-		canvas.width = 600;
-		canvas.height = 400;
-	}*/
-	canvas.width = 600;
-	canvas.height = 400;
+	canvas.width = parseInt(wrapper.style.width) || 600;
+	canvas.height = parseInt(wrapper.style.height) || 400;
 	this.center = {};
 	this.center.x = parseFloat(canvas.width) /2;
 	this.center.y = parseFloat(canvas.height) / 2;
@@ -845,18 +822,23 @@ EasyMapUtils.prototype = {
 		return deg * Math.PI / 180;
 	},
 	getShapeAtClick: function(e){
-				console.log("attempt");
 		if(!e) {
 			e = window.event;
 		}
 		var target = resolveTarget(e);
 				console.log("attempt2");
 		var id ="#"+this.wrapper.id;
+		
 		var offset = $(id).offset();
-				console.log("attempt3");
+		
 		x = e.clientX + window.findScrollX() - offset.left;
 		y = e.clientY + window.findScrollY() - offset.top;
-		console.log("attempt4");
+		
+		//counter any positioning
+		if(target.style.left) x -= parseInt(target.style.left);
+		if(target.style.top) y -= parseInt(target.style.top);
+		
+		console.log("attempt4",x,y);
 		if(target.memory){
 			var shape = this.getShapeAt(x,y,target.memory);
 			return shape;}

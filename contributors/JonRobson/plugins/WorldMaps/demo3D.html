@@ -88,7 +88,7 @@ function init(){
 	
 	eMap.drawFromGeojsonFile('whereLegal.json');
 	eMap.addControl("pan");
-	
+	eMap.addControl("zoom");	
 	var spin = function() {
 		eMap.spin(0,0,0.01);
 		window.setTimeout(spin,100);
