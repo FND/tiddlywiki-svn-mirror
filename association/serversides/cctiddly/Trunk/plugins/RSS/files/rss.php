@@ -13,7 +13,7 @@ while( $d=db_fetch_assoc($data) ) {
 $data = $tmp;
 
 //$siteUrl = isset($data['SiteUrl'])?htmlspecialchars($data['SiteUrl']['body']):"http://www.tiddlywiki.com/";
-echo $siteUrl = dirname(dirname(dirname(getUrl())))."/".$tiddlyCfg['workspace_name'];
+$siteUrl = dirname(dirname(dirname(getUrl())))."/".$tiddlyCfg['workspace_name'];
 $result = '<?xml version="1.0"?><rss version="2.0"><channel>
 <title>'.(isset($data['SiteTitle'])?htmlspecialchars($data['SiteTitle']['body']):"My TiddlyWiki").'</title>
 <link>'.$siteUrl.'</link>

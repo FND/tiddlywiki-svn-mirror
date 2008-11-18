@@ -61,6 +61,7 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 		$owner['username'] = $admin;
 	$owner['workspace_name']=$workspace;
 	db_record_insert($tiddlyCfg['table']['admin'],$owner);
+	db_record_insert($tiddlyCfg['table']['admin'],"admin");
 	header('HTTP/1.0 201 Created');
   	return true;
 }
