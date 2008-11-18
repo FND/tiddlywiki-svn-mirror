@@ -31,7 +31,7 @@ tiddler: ../../tiddlers/Logo.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
-tiddler: ../../formatters/MediaWikiFormatterPluginT.js
+tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../formatters/MediaWikiTemplatePlugin.js
 tiddler: ../../plugins/DisableWikiLinksPlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
