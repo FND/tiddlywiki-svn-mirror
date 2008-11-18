@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.5|
+|''Version:''|0.1.6|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -273,7 +273,7 @@ MediaWikiTemplate.prototype._expandParserFunction = function(text)
 MediaWikiTemplate.prototype._splitTemplateNTag = function(ntag)
 // split naked template tag (ie without {{ and }}) at raw pipes into name and parameter definitions
 {
-//#fnLog('_splitTemplateNTag:'+ntag);
+//#console.log('_splitTemplateNTag:'+ntag);
 	var pd = []; // parameters definitions array, p[0] contains template name
 	var i = 0;
 	var s = 0;
@@ -295,14 +295,18 @@ MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 	if(ret!==false) {
 		return ret;
 	}
-	ret = this._expandParserFunction(ntag);
-	if(ret!==false) {
-		return ret;
+	var c = MediaWikiTemplate.findDBP(ntag,0);
+//#console.log('c:'+c.start);
+	if(c.start==-1) {
+		ret = this._expandParserFunction(ntag);
+		if(ret!==false) {
+			return ret;
+		}
 	}
 	var pd = this._splitTemplateNTag(ntag);
 	var templateName = pd[0];
 //#console.log('tn:'+templateName);
-//#console.log(pd);
+//#console.log('pd',pd);
 	var s = 1;
 
 	var params = {};
@@ -318,7 +322,7 @@ MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 			var pnRegExp = /\s*([A-Za-z0-9\-]*)\s*=(.*)/mg;
 			pnRegExp.lastIndex = 0;
 			match = pnRegExp.exec(t);
-//#console.log(match);
+//#console.log('match:',match);
 			if(match) {
 				var name = match[1];
 //#console.log('name:'+name);
@@ -354,7 +358,17 @@ MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 			}
 		}
 	}
+	//#console.log('params',params);
+	/*for(i in params) {
+		console.log('p0['+i+']='+params[i]);
+		params[i] = this.substituteParameters(params[i],params);
+		console.log('p1['+i+']='+params[i]);
+		params[i] = this._transcludeTemplates(params[i]);
+		console.log('p2['+i+']='+params[i]);
+	}*/
+	
 	ret = this.expandTemplateContent(templateName.trim(),params);
+	//#console.log('ret:'+ret);
 	//#var eret = this._expandParserFunction(ret);
 	//#if(eret!==false) {
 	//#	ret = eret;;
@@ -365,7 +379,7 @@ MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 
 MediaWikiTemplate.prototype._transcludeTemplates = function(text)
 {
-//#fnLog('_transcludeTemplates:'+text);
+//#console.log('_transcludeTemplates:'+text);
 	if(!text)
 		return text;
 	var c = MediaWikiTemplate.findDBP(text,0);
