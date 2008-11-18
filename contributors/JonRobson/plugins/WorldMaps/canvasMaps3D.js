@@ -11,14 +11,9 @@ function findScrollY()
 	return window.scrollY || document.documentElement.scrollTop;
 }
 
-
-
-
-	if(!window.console) {
-		console = {log:function(message) {document.getElementById('consolelogger').innerHTML += message+"<<] ";}};
-	}
-
-	
+if(!window.console) {
+	console = {log:function(message) {document.getElementById('consolelogger').innerHTML += message+"<<] ";}};
+}
 
 Array.prototype.contains = function(item)
 {
@@ -61,7 +56,6 @@ var EasyMapController = function(targetjs,elemid){
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
 	this.utils = new EasyMapUtils(this.wrapper); //some utilities that it may find useful
 	
-	
 	var controlDiv = this.wrapper.controlDiv;
 	if(!controlDiv) {
 		controlDiv = document.createElement('div');
@@ -74,7 +68,6 @@ var EasyMapController = function(targetjs,elemid){
 	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1}};	
 	//looks for specifically named functions in targetjs
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
-	
 };
 
 EasyMapController.prototype = {
@@ -104,6 +97,7 @@ EasyMapController.prototype = {
 		ctx.closePath();
 		
 	},
+	
 	drawButton: function(canvas,width,angle,offset,properties) {
 		var ctx = canvas.getContext('2d');
 		var rad = angle ? this.utils._degToRad(angle) : 0;
@@ -157,14 +151,12 @@ EasyMapController.prototype = {
 		this.wrapper.controlDiv.appendChild(panCanvas);
 		panCanvas.memory = [];
 		panCanvas.emap = this;
-
-
 		if(!panCanvas.getContext) {
 			G_vmlCanvasManager.init_(document);
 		}
-
 		return panCanvas;
 	},
+	
 	addPanningActions: function(){
 		var panCanvas = this._createcontrollercanvas(44,64);
 		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','buttonType': 'arrow'}));
@@ -187,6 +179,7 @@ EasyMapController.prototype = {
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:12},{'actiontype':'out','buttonType': 'minus'}));
 		zoomCanvas.onclick = this.clickHandler;	
 	},
+	
 	clickHandler: function(e) {
 		if(!e) {
 			e = window.event;
@@ -227,11 +220,9 @@ EasyMapController.prototype = {
 				break;
 		}
 
-
 		emap.targetjs.transform(emap.transformation);
 		//emap.targetjs.zoom(zoom.x,zoom.y);
 		//emap.targetjs.pan(pan.x,pan.y)
-
 
 		return false;
 	}
@@ -248,7 +239,6 @@ var EasyMap = function(divID){
 	wrapper.style.position = "relative";
 	this.mousemoveHandler = function(e,shape){
 	};
-	
 	
 	this.clickHandler = function(e,shape){
 	};
@@ -485,9 +475,9 @@ EasyMap.prototype = {
 
 	},
 	
-	drawFromGeojson: function(geojson){
+	drawFromGeojson: function(responseText){
+			var geojson = eval('(' +responseText + ')');
 			this.clear();
-
 			if(geojson.type.toLowerCase() == "featurecollection"){
 				var features = geojson.features;
 				//console.log("beginning to draw geojsonfeatures");
@@ -496,25 +486,19 @@ EasyMap.prototype = {
 				console.log("only feature collections currently supported");
 				return;
 			}
-
-		
 	},
+	
 	drawFromGeojsonFile: function(file){
 		var that = this;
 		var callback = function(status,params,responseText,url,xhr){
 		
-			var json = eval('(' +responseText + ')');
-			that.drawFromGeojson(json);
+			that.drawFromGeojson(responseText);
 			
 			var t = document.getElementById(that.wrapper.id + "_statustext");
 			if(t) t.innerHTML = "";
 		};
-		
 		this.utils.loadRemoteFile(file,callback);
-
 	}
-		
-
 };
 
 var EasySquare = function(properties,width,offset) {
