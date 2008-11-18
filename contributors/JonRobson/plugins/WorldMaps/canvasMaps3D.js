@@ -45,6 +45,15 @@ function resolveTarget(e)
 	return obj;
 }
 
+function resolveTargetWithMemory(target)
+{
+	while(target && !target.memory) {
+		target = target.parentNode;
+		console.log('->'+target.nodeName);
+	}
+	return target;
+}
+
 var minLon = 1000;
 var maxLon = -1000;
 var minLat = 1000;
@@ -835,20 +844,30 @@ EasyMapUtils.prototype = {
 			e = window.event;
 		}
 		var target = resolveTarget(e);
-				console.log(target.memory ? target.memory.length : target.memory);
+		var memoryTarget = resolveTargetWithMemory(target);
+		var memory = memoryTarget.memory;
+		console.log("memory length: "+memory.length);
 		var id ="#"+this.wrapper.id;
 		
 		var offset = $(id).offset();
 		
 		x = e.clientX + window.findScrollX() - offset.left;
 		y = e.clientY + window.findScrollY() - offset.top;
+		console.log("offset.left: "+offset.left);
+		console.log("e.ClientX: "+e.clientX);
+		console.log("window.findScrollX(): "+window.findScrollX());
+		console.log("offset.top: "+offset.top);
+		console.log("e.ClientY: "+e.clientY);
+		console.log("window.findScrollY(): "+window.findScrollY());
+		console.log("x going in is "+x);
+		console.log("y going in is "+y);
 		
 		//counter any positioning
-		if(target.style.left) x -= parseInt(target.style.left);
-		if(target.style.top) y -= parseInt(target.style.top);
+		if(memoryTarget.style.left) x -= parseInt(memoryTarget.style.left);
+		if(memoryTarget.style.top) y -= parseInt(memoryTarget.style.top);
 		
-		if(target.memory){
-			var shape = this.getShapeAt(x,y,target.memory);
+		if(memory){
+			var shape = this.getShapeAt(x,y,memory);
 			return shape;}
 		else{
 			console.log("no shapes in memory");
@@ -857,6 +876,8 @@ EasyMapUtils.prototype = {
 	},
 	
 	getShapeAt: function(x,y,shapes) {
+		console.log('x that has come in is: '+x);
+		console.log('y that has come in is: '+y);
 		var hitShapes = [];
 		for(var i=0; i < shapes.length; i++){
 			var g = shapes[i].grid;
