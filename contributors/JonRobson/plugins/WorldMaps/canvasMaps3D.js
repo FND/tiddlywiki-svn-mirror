@@ -502,16 +502,20 @@ EasyMap.prototype = {
 	drawFromGeojson: function(responseText){
 			var geojson = eval('(' +responseText + ')');
 			this.clear();
-
+			// NB: removing this statustext node so it doesn't mess up offsets in IE
+			// this problem needs to be fixed so that we're either not adding div's in
+			// places where they shouldn't be, or so they don't affect things
+			var t = document.getElementById(this.wrapper.id + "_statustext");
+			if(t) {
+				t.parentNode.removeChild(t);	
+			}
 			var type =geojson.type.toLowerCase();
 			if(type == "featurecollection"){
 				var features = geojson.features;
 				this._drawGeoJsonFeatures(features);
-			} 
-			else if(type =='feature'){
+			}  else if(type =='feature') {
 				this._drawGeoJsonFeature(geojson);
-			}
-			else {
+			} else {
 				console.log("only feature collections currently supported");
 				return;
 			}
@@ -522,9 +526,6 @@ EasyMap.prototype = {
 		var callback = function(status,params,responseText,url,xhr){
 		
 			that.drawFromGeojson(responseText);
-			
-			var t = document.getElementById(that.wrapper.id + "_statustext");
-			if(t) t.innerHTML = "";
 		};
 		this.utils.loadRemoteFile(file,callback);
 	}
