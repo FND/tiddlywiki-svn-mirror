@@ -445,12 +445,16 @@ EasyMap.prototype = {
 		p.shape = 'polygon';
 		var s = new EasyShape(p,coordinates,"geojson");
 		this.drawShape(s);
+		
+		//coordinates outerring, inner ring1, inner ring 2 etc..
 	},
 	
 	
 	_drawGeoJsonPointFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'point';
+		p.fillStyle ="#000000";
+		p.fill = true;
 		console.log("drawing point");
 		var s = new EasyShape(p,coordinates,"geojson");
 		this.drawShape(s);
@@ -465,8 +469,7 @@ EasyMap.prototype = {
 			p.center.y = this.center.y;
 			
 			if(type == 'multipolygon'){
-				var coords = feature.geometry.coordinates;
-				this._drawGeoJsonMultiPolygonFeature(coords,p);
+				this._drawGeoJsonMultiPolygonFeature(feature.geometry.coordinates,p);
 			}
 			else if(type == 'polygon'){
 				this._drawGeoJsonPolygonFeature(feature.geometry.coordinates,p);
@@ -562,8 +565,8 @@ EasyShape.prototype={
 		}
 		else if(element.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
-			var ps = 0.2;
-			var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, x+ps];
+			var ps = 5;
+			var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, y+ps];
 			console.log(newcoords);
 			this.constructBasicPolygon(element,newcoords);	
 		}
@@ -691,8 +694,6 @@ EasyShape.prototype={
 
 		res.x = xPos;
 		res.y = yPos;
-		res.latitude = latitude;
-		res.longitude = longitude;
 		return res;
 	},
 
@@ -718,8 +719,7 @@ EasyShape.prototype={
 			if(this.properties.static) {
 				performRotate = false; performTranslate = false; performScale = false;
 			}
-		this.longitudes = [];
-		this.latitudes = [];
+
 		this.transformedCoords = [];
 
 		this.grid.x1 = 2000;
@@ -743,8 +743,6 @@ EasyShape.prototype={
 				var t = this._spherify(lon,lat,rotate,radius);
 				xPos = t.x;
 				yPos = t.y;
-				this.latitudes[i] = t.latitude;
-				this.longitudes[i] = t.longitude;
 			} else {
 				xPos = lon;
 				yPos = lat;
@@ -836,7 +834,7 @@ EasyMapUtils.prototype = {
 			e = window.event;
 		}
 		var target = resolveTarget(e);
-				console.log("attempt2");
+				console.log(target);
 		var id ="#"+this.wrapper.id;
 		
 		var offset = $(id).offset();
@@ -848,13 +846,12 @@ EasyMapUtils.prototype = {
 		if(target.style.left) x -= parseInt(target.style.left);
 		if(target.style.top) y -= parseInt(target.style.top);
 		
-		console.log("attempt4",x,y);
 		if(target.memory){
 			var shape = this.getShapeAt(x,y,target.memory);
 			return shape;}
 		else{
 			console.log("no shapes in memory");
-			return false;
+			//return false;
 		}
 	},
 	
