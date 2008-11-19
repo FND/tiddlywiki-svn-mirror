@@ -1,11 +1,22 @@
 <?php
-include_once('includes/header.php');
+$cct_base = '../';
+include_once('../includes/header.php');
+
+
+$locations['STORE_AREA']['start'] = '<!--POST-SHADOWAREA-->
+<div id="storeArea">';
+$locations['STORE_AREA']['end'] = '</div>
+<!--POST-STOREAREA-->';
+$locations['POST_HEAD']['type'] = 'store';
+$locations['POST_HEAD']['text'] = ' text goes here - >';
+
+/*
 
 $locations['SITE_TITLE']['start'] = '<title>';
 $locations['SITE_TITLE']['end'] = '</title>';
 $locations['SITE_TITLE']['type'] = 'text';
 $locations['SITE_TITLE']['tiddler'] = 'SiteTitle';
-
+$locations['SITE_TITLE']['text'] = ' new title from simon';
 
 $locations['PRE_HEAD']['start'] = '<!--PRE-HEAD-START-->';
 $locations['PRE_HEAD']['end'] = '<!--PRE-HEAD-END-->';
@@ -27,16 +38,31 @@ $locations['POST_SCRIPT']['end'] = '<!--POST-SCRIPT-END-->';
 $locations['POST_SCRIPT']['type'] = 'text';
 $locations['POST_SCRIPT']['tiddler'] = 'MarkUpPostHead';
 
-$file = file_get_contents('tiddlywikis/teamtasks.html');
+* */
+$file = file_get_contents('teamtasks.html');
 
 foreach($locations as $loc)
 {
-	$start_pos = strpos($file, $loc['start'])+strlen($loc['start']);
-	$end_pos = strpos($file, $loc['end']) - $start_pos;
-	$body = substr($file, $start_pos, $end_pos);	
-	$tiddler = tiddler_create($loc['tiddler'], $body);
-	tiddler_insert($tiddler);
-echo $loc['tiddler'].'create </br>';
+
+$str_start = $loc['start'];
+$str_end = $loc['end'];
+$string = $file;
+$start_pos = strpos($string, $str_start)+strlen($str_start);
+$end_pos = strpos($string, $str_end);
+$part1 = substr($string, 0, $start_pos);
+$part2 = substr($string, $end_pos, strlen($string));
+echo $part1.$loc['text'].$part2;
+
+
+
+
+
+
+
+	//$tiddler = tiddler_create($loc['tiddler'], $body);
+	//tiddler_insert($tiddler);
+	//echo $loc['tiddler'].'create </br>';
+	
 }
 
 ?>
