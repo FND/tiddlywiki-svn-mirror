@@ -3,14 +3,15 @@ $cct_base = '../';
 include_once('../includes/header.php');
 
 
+
+
 $locations['STORE_AREA']['start'] = '<!--POST-SHADOWAREA-->
 <div id="storeArea">';
-$locations['STORE_AREA']['end'] = '</div>
-<!--POST-STOREAREA-->';
+$locations['STORE_AREA']['end'] = '<!--POST-STOREAREA-->';
 $locations['POST_HEAD']['type'] = 'store';
-$locations['POST_HEAD']['text'] = ' text goes here - >';
-
-/*
+$locations['POST_HEAD']['text'] = '<div id="storeArea"><div title="SiteTitle" modifier="PhilHawksworth" created="200708161546" modified="200709241632">
+<pre>//teamtasks//</pre>
+</div></div>';
 
 $locations['SITE_TITLE']['start'] = '<title>';
 $locations['SITE_TITLE']['end'] = '</title>';
@@ -37,32 +38,32 @@ $locations['POST_SCRIPT']['start'] = '<!--POST-SCRIPT-START-->';
 $locations['POST_SCRIPT']['end'] = '<!--POST-SCRIPT-END-->';
 $locations['POST_SCRIPT']['type'] = 'text';
 $locations['POST_SCRIPT']['tiddler'] = 'MarkUpPostHead';
-
-* */
+ 
 $file = file_get_contents('teamtasks.html');
 
+/*
+$locations['STORE_AREA']['start'] = '<b>';
+$locations['STORE_AREA']['end'] = '</b>';
+$locations['STORE_AREA']['type'] = 'store';
+$locations['STORE_AREA']['text'] = 'BOB';
+*/
+
+//$file = 'helly my name is <b>something</b> ... ';
 foreach($locations as $loc)
 {
-
-$str_start = $loc['start'];
-$str_end = $loc['end'];
-$string = $file;
-$start_pos = strpos($string, $str_start)+strlen($str_start);
-$end_pos = strpos($string, $str_end);
-$part1 = substr($string, 0, $start_pos);
-$part2 = substr($string, $end_pos, strlen($string));
-echo $part1.$loc['text'].$part2;
-
-
-
-
-
-
-
+	$str_start = $loc['start'];
+	$str_end = $loc['end'];
+	$string = $file;
+	$start_pos = strpos($string, $str_start)+strlen($str_start);
+	$end_pos = strpos($string, $str_end);
+	$part1 = substr($string, 0, $start_pos);
+	$part2 = substr($string, $end_pos, strlen($string));
+	if($loc['text'])
+		echo  $part1.$loc['text'].$part2;
+//exit;
 	//$tiddler = tiddler_create($loc['tiddler'], $body);
 	//tiddler_insert($tiddler);
-	//echo $loc['tiddler'].'create </br>';
-	
+	//e	cho $loc['tiddler'].'create </br>';	
 }
 
 ?>
