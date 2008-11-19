@@ -52,15 +52,6 @@ function resolveTarget(e)
 	return obj;
 }
 
-function resolveTargetWithMemory(target)
-{
-	while(target && !target.memory) {
-		target = target.parentNode;
-		console.log('->'+target.nodeName);
-	}
-	return target;
-}
-
 var minLon = 1000;
 var maxLon = -1000;
 var minLat = 1000;
@@ -164,7 +155,6 @@ EasyMapController.prototype = {
 		panCanvas.width = width;
 		panCanvas.height = height;
 		panCanvas.style.position = "absolute";
-		panCanvas.id = Math.random();
 		this.wrapper.controlDiv.appendChild(panCanvas);
 		panCanvas.memory = [];
 		panCanvas.emap = this;
@@ -177,23 +167,27 @@ EasyMapController.prototype = {
 	addPanningActions: function(){
 		var panCanvas = this._createcontrollercanvas(44,64);
 		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','buttonType': 'arrow'}));
-		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','buttonType': 'arrow'}));
-		
-		//panCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:50},{'actiontype':'in','buttonType': 'plus'}));		
-		//panCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:62},{'actiontype':'out','buttonType': 'minus'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','buttonType': 'arrow'}));
+				
 		panCanvas.onclick = this.clickHandler;		
 
 	},
 	
 	addZoomingActions: function(){
 		var zoomCanvas = this._createcontrollercanvas(20,30);
+
+		var left = 14;
+		var top = 50;
+
 		var left = parseInt(this.targetjs.canvas.width,10) - 20 + "px";
 
+
 		zoomCanvas.style.left = left;
+		zoomCanvas.style.top = top;
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','buttonType': 'plus'}));		
-		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:12},{'actiontype':'out','buttonType': 'minus'}));
+		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','buttonType': 'minus'}));
 		zoomCanvas.onclick = this.clickHandler;	
 	},
 	
@@ -238,8 +232,6 @@ EasyMapController.prototype = {
 		}
 
 		emap.targetjs.transform(emap.transformation);
-		//emap.targetjs.zoom(zoom.x,zoom.y);
-		//emap.targetjs.pan(pan.x,pan.y)
 
 		return false;
 	}
@@ -584,9 +576,8 @@ EasyShape.prototype={
 		}
 		else if(element.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
-			var ps = 5;
+			var ps = 0.4;
 			var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, y+ps];
-			console.log(newcoords);
 			this.constructBasicPolygon(element,newcoords);	
 		}
 		else
@@ -853,30 +844,20 @@ EasyMapUtils.prototype = {
 			e = window.event;
 		}
 		var target = resolveTarget(e);
-		var memoryTarget = resolveTargetWithMemory(target);
-		var memory = memoryTarget.memory;
-		console.log("memory length: "+memory.length);
+				console.log(target);
 		var id ="#"+this.wrapper.id;
 		
 		var offset = $(id).offset();
 		
 		x = e.clientX + window.findScrollX() - offset.left;
 		y = e.clientY + window.findScrollY() - offset.top;
-		console.log("offset.left: "+offset.left);
-		console.log("e.ClientX: "+e.clientX);
-		console.log("window.findScrollX(): "+window.findScrollX());
-		console.log("offset.top: "+offset.top);
-		console.log("e.ClientY: "+e.clientY);
-		console.log("window.findScrollY(): "+window.findScrollY());
-		console.log("x going in is "+x);
-		console.log("y going in is "+y);
 		
 		//counter any positioning
-		if(memoryTarget.style.left) x -= parseInt(memoryTarget.style.left);
-		if(memoryTarget.style.top) y -= parseInt(memoryTarget.style.top);
+		if(target.style.left) x -= parseInt(target.style.left);
+		if(target.style.top) y -= parseInt(target.style.top);
 		
-		if(memory){
-			var shape = this.getShapeAt(x,y,memory);
+		if(target.memory){
+			var shape = this.getShapeAt(x,y,target.memory);
 			return shape;}
 		else{
 			console.log("no shapes in memory");
@@ -885,8 +866,6 @@ EasyMapUtils.prototype = {
 	},
 	
 	getShapeAt: function(x,y,shapes) {
-		console.log('x that has come in is: '+x);
-		console.log('y that has come in is: '+y);
 		var hitShapes = [];
 		for(var i=0; i < shapes.length; i++){
 			var g = shapes[i].grid;
@@ -904,12 +883,50 @@ EasyMapUtils.prototype = {
 	},
 
 	_findNeedleInHaystack: function(x,y,shapes){
+		var hits = [];
 		for(var i=0; i < shapes.length; i++){
 			if(this._inPoly(x,y,shapes[i])) {
-				return shapes[i];
+				hits.push(shapes[i]);
 			}
 		}
-		return null;
+
+		if(hits.length == 0){
+			return null;
+		}
+		else if(hits.length == 1) 
+			return hits[0];
+		else {//the click is in a polygon which is inside another polygon
+			
+			var g = hits[0].grid;
+			var min = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
+			
+			var closerEdge = {id:0, closeness:min};
+			for(var i=1; i < hits.length; i++){
+				g = hits[i].grid;
+			var min = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
+				
+				if(closerEdge.closeness > min) {
+					closerEdge.id = i; closerEdge.closeness = min;
+				}
+				return hits[closerEdge.id];
+			}
+			
+			/*
+			var g = hits[0].grid;
+			var area = (g.x2 - g.x1) * (g.y2 - g.y1);
+			var smallestPoly = {id:0, size:area};
+			for(var i=1; i < hits.length; i++){
+				g = hits[i].grid;
+				area = (g.x2 - g.x1) * (g.y2 - g.y1);
+				if(smallestPoly.size > area) {
+					smallestPoly.id = i; smallestPoly.size = area;
+				}
+				return hits[smallestPoly.id];
+			}
+			*/
+
+	}
+
 	},
                      
 	/* _inPoly adapted from inpoly.c
