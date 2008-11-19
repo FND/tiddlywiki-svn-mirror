@@ -1,3 +1,3 @@
-<div title="France" modifier="JonRobson" created="200811111722" tags="[[lat:51.507778]] [[long:-0.12]]" geoproperties="{'name':'France', 'colour': '#222222'}">
-<pre>This tiddler overrides the colour property in GeojsonCore</pre>
+<div title="FRANCE" modifier="JonRobson" created="200811111722" tags="[[lat:51.507778]] [[long:-0.12]]" geoproperties="{'name':'FRANCE', 'colour': '#99ff00'}">
+<pre>This tiddler overrides the colour property in GeojsonCore to make it yellow.</pre>
 </div>

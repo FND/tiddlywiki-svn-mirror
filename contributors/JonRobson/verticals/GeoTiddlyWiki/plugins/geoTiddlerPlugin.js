@@ -29,15 +29,39 @@ config.macros.canvasMaps.getCoreGeoJson = function(){
 		data = eval(data);
 	}
 	else
- 		data = geojson;
+		alert("please define a geojson in tiddler 'GeojsonCoreData'")
 
 
 	
 	//look for any changes in meta data
 	//coming soon
 	
+	var features = data.features;
+	for(var i=0; i < features.length; i++){
+		var name = features[i].properties.name;
+		var tiddler = store.getTiddler(name);
+		
+		if(tiddler){
+			if(tiddler.fields.geoproperties){
+
+				try{
+					var newp = eval("("+tiddler.fields.geoproperties+")");
+					console.log(features[i].properties,newp);
+
+					features[i].properties = newp;
+				}
+				catch(e){
+					alert("invalid geo meta data set for tiddler " + name);
+				}
+
+			}
+		}
+	}
+	
+	//tiddler.geoproperties
 	//add geotags
  	store.forEachTiddler(function(title,tiddler) {
+		//add geotags
 		var tags = tiddler.tags;
 		var longc, latc;
 		for(var i=0; i < tags.length; i++){
@@ -97,6 +121,8 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 				var text = "We don't have any information about this country yet! Please edit to add some or leave a comment.";
 				var userName = config.options.txtUserName ? config.options.txtUserName : "guest";
 				console.log(shape.properties);
+				
+				var geometa = "{name:"+shape.properties.name+"}";
 				store.saveTiddler(country,country,text,userName,new Date(),tags);
 			}
 			var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
