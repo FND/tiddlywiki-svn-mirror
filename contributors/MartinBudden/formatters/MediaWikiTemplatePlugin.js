@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.7|
+|''Version:''|0.1.8|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -295,7 +295,7 @@ MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 	if(ret!==false) {
 		return ret;
 	}
-	var c = MediaWikiTemplate.findTBP(ntag,0);// search for a parameter
+	var c = MediaWikiTemplate.findDBP(ntag,0);
 //#console.log('c:'+c.start);
 	if(c.start==-1) {
 		// only expand parser functions if all parameters have been subsituted
