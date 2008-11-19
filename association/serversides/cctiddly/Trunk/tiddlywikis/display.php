@@ -23,11 +23,7 @@ include_once('../includes/header.php');
  	$tiddlers = getAllTiddlers();
 
 
-$locations['STORE_AREA']['start'] = '<!--POST-SHADOWAREA-->';
-$locations['STORE_AREA']['end'] = '<!--POST-STOREAREA-->';
-$locations['STORE_AREA']['tiddlers'] = $tiddlers;
-
-
+/*
 $locations['PRE_HEAD']['start'] = '<!--PRE-HEAD-START-->';
 $locations['PRE_HEAD']['end'] = '<!--PRE-HEAD-END-->';
 $locations['PRE_HEAD']['tiddlers'] = $tiddlers['MarkupPreHead'];
@@ -43,27 +39,37 @@ $locations['PRE_BODY']['tiddlers'] = $tiddlers['MarkupPreBody'];
 $locations['POST_SCRIPT']['start'] = '<!--POST-SCRIPT-START-->';
 $locations['POST_SCRIPT']['end'] = '<!--POST-SCRIPT-END-->';
 $locations['POST_SCRIPT']['tiddlers'] = $tiddlers['MarkupPostBody'];
+*/
+
+$locations['STORE_AREA']['start'] = '<!--POST-SHADOWAREA-->';
+$locations['STORE_AREA']['end'] = '<!--POST-STOREAREA-->';
+$locations['STORE_AREA']['tiddlers'] = $tiddlers;
 
 
 $file = file_get_contents('teamtasks.html');
-
+//$file = 'aaaaaaaaaaaaaaa<!--PRE-BODY-START-->bbbb<!--POST-STOREAREA-->cccccc';
 foreach($locations as $loc)
 {
+print_r($loc['start']);
 	$str_start = $loc['start'];
 	$str_end = $loc['end'];
-	$string = $file;
-	$start_pos = strpos($string, $str_start)+strlen($str_start);
-	$end_pos = strpos($string, $str_end);
-	$part1 = substr($string, 0, $start_pos);
-	$part2 = substr($string, $end_pos, strlen($string));
+	$start_pos = strpos($file, $str_start)+strlen($str_start);
+	$end_pos = strpos($file, $str_end);
+	$part1 = substr($file, 0, $start_pos);
+	$part2 = substr($file, $end_pos, strlen($file));
+	
 	if($loc['tiddlers'])
 	{
-
 		foreach($loc['tiddlers'] as $tiddler)
-		print_r($part1.tiddler_bodyDecode($tiddler['body'])).$part2;
-	
-	
-
+		{
+			$tiddler_str .= tiddler_outputDIV($tiddler);	
+		}
+		$file = $part1.'<div id="storeArea">'.$tiddler_str.'</div>'.$part2;		
+	echo $file;
+	exit;
+		//if($loc['type']=='store')
+		//else
+		//$file .= $part1.$tiddler_str.$part2;
 	}
 }
 
