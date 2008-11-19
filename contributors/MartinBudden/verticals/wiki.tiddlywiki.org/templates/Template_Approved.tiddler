@@ -1,0 +1,8 @@
+<div title="Template:Approved" modifier="FND" created="200811191145" modified="200711011244" tags="Category:Approved Category:Templates" server.host="www.tiddlywiki.org" server.page.timestamp="2007-11-01T12:44:07Z" server.page.revision="3666" wikiformat="mediawiki">
+<pre>{{Dablink|[[Image:SealOfApproval80.png|80px|Seal of Approval]]
+This article meets {{SITENAME}}'s [[Project:Quality|quality standards]].}}<includeonly>[[Category:Approved]]</includeonly><noinclude>
+== Usage ==
+<pre>{{Approved}}</pre>
+[[Category:Templates]]
+</noinclude></pre>
+</div>

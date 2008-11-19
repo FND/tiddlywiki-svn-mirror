@@ -1,0 +1,8 @@
+<div title="Template:Review" modifier="FND" created="200811191139" modified="200710311407" tags="[[Category:Needs Review]] Category:Templates" server.host="www.tiddlywiki.org" server.page.timestamp="2007-10-31T14:07:57Z" server.page.revision="3623" wikiformat="mediawiki">
+<pre>{{Dablink|1=This {{ #if:  {{{1|}}} | section needs | page's contents need }} to be reviewed and/or [http://www.aboutus.org/Refactoring refactored] to comply with {{SITENAME}}'s [[Project:Quality|quality standards]].
+<div style="margin: 0; padding: 0; font-size: 90%;">Please improve the article, or discuss the issue on the [[{{TALKSPACE}}:{{PAGENAME}}|talk page]].</div>}}<includeonly>[[Category:Needs Review]]</includeonly><noinclude>
+== Usage ==
+<pre>{{Review|[section]}}</pre>
+[[Category:Templates]]
+</noinclude></pre>
+</div>

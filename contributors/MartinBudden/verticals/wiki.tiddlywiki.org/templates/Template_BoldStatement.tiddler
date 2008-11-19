@@ -1,0 +1,8 @@
+<div title="Template:BoldStatement" modifier="FND" created="200811191143" modified="200707130819" tags="Category:Templates" server.host="www.tiddlywiki.org" server.page.timestamp="2007-07-13T08:19:35Z" server.page.revision="2184" wikiformat="mediawiki">
+<pre><div style="margin: 1em 10%; border: 1px solid #703; border-width: 0 0.7em; padding: 1em; font-size: 1.1em; font-weight: bold; text-align: center; background: #f8f8f8; {{{2|}}}">{{{1}}}</div><noinclude>
+== Usage ==
+
+<pre>{{BoldStatement|[text]|[custom styles]}}</pre>
+[[Category:Templates]]
+</noinclude></pre>
+</div>
