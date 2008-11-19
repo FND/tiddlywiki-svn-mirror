@@ -4,14 +4,15 @@ recipe: templates/split.recipe
 recipe: content/split.recipe
 tiddler: settings.js
 tiddler: ../../tiddlers/Logo.tiddler
-tiddler: ../tiddlypedia/OptionsPanel.tiddler
-tiddler: ../tiddlypedia/SideBarOptionsWithMediaWikiFormat.tiddler
-tiddler: ../tiddlypedia/SideBarTabs.tiddler
-tiddler: ../tiddlypedia/TabMoreTemplatesUpdatedShadowed.tiddler
-tiddler: ../tiddlypedia/TabTags.tiddler
-tiddler: ../tiddlypedia/TabTemplates.tiddler
-tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
-tiddler: ../../shadows/ViewTemplateGetPutRevisions.tiddler
+tiddler: ../../themes/MediaWikiTheme.tiddler
+#tiddler: ../tiddlypedia/OptionsPanel.tiddler
+#tiddler: ../tiddlypedia/SideBarOptionsWithMediaWikiFormat.tiddler
+#tiddler: ../tiddlypedia/SideBarTabs.tiddler
+#tiddler: ../tiddlypedia/TabMoreTemplatesUpdatedShadowed.tiddler
+#tiddler: ../tiddlypedia/TabTags.tiddler
+#tiddler: ../tiddlypedia/TabTemplates.tiddler
+#tiddler: ../tiddlypedia/PageTemplateWithLogo.tiddler
+#tiddler: ../../shadows/ViewTemplateGetPutRevisions.tiddler
 # tiddler: ../../tiddlers/Download_this_wiki.tiddler
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../adaptors/AdaptorMacrosPlugin.js
