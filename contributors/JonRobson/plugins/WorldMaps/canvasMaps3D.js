@@ -502,8 +502,13 @@ EasyMap.prototype = {
 	},
 	
 	drawFromGeojson: function(responseText){
-			var geojson = eval('(' +responseText + ')');
-			console.log("eval done: ",geojson);
+			var geojson;
+			if(typeof responseText == 'string'){
+				geojson = eval('(' +responseText + ')');
+				console.log("eval done: ",geojson);
+			}
+			else
+				geojson = responseText;
 			this.clear();
 			// NB: removing this statustext node so it doesn't mess up offsets in IE
 			// this problem needs to be fixed so that we're either not adding div's in
