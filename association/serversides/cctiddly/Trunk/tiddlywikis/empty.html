@@ -1,87 +1,5 @@
-<?php
-//timing
-function recordTime_float($name="unnamed")
-{
-	global $time;
-	if( !isset($time) )		//stop if time var not exist
-	{
-		return FALSE;
-	}
-	list($usec, $sec) = explode(" ", microtime());
-	$time[] = array("name"=>$name, "time"=>((float)$usec + (float)$sec));
-	return TRUE;
-}
-
-$time=array();
-recordTime_float("Start");
-
-//includes
-if(!isset($cct_base))
-	$cct_base = "";
- 
-include_once($cct_base."includes/header.php");
-include_once($cct_base."includes/login.php");
-
-
-if($pluginsLoader->events['afterIncludes'])
-{
-	foreach ($pluginsLoader->events['afterIncludes'] as $event)
-	{
-		if(is_file("plugins/".$event))
-			include_once("plugins/".$event);	
-	}
-}
-
-
-
-if($db_number < '17') {
-	echo "<h1>ccTiddly Upgrade</h1>";
-	echo "<p>Your instance of ccTiddly is being upgraded. Now you need to run <a href=upgrade.php >upgrade.php</a> to complete the upgrade.</p>";
-	echo "If you do not have access to the server and this error message persists then please contact your system administrator.";
-	exit;
-}
-recordTime_float("includes");
-
-
-//check if getting revision
-if( isset($_GET['title']) )
-{
-	$tiddlers = getAllVersionTiddly($title);
-	
-	$t = array();
-	foreach($tiddlers as $tid)
-	{
-		$tid['title'] .= " revision ".$tid['revision'];
-		$t[] = $tid;
-	}
-	$tiddlers = $t;
-}elseif(isset($_GET['tags'])) 
-{
-	$tiddlers = getTiddlersWithTags($yesTags, $noTags);
-}else{
-	$tiddlers = getAllTiddlers();
-	if (isset($_REQUEST['skin']))
-	{
-		$skin_tiddlers = getSkinTiddlers($_REQUEST['skin']); 
-		$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
-	}
-}
-$tiddlers = array_merge($pluginsLoader->tiddlers, $tiddlers);
-
-
-
-recordTime_float("get all tiddlers");
-	
-// log the workspace viewing : 
-$data1['username'] = $user['username'];
-$data1['workspace'] = $tiddlyCfg['workspace_name'];
-
-$data1['time'] = date( 'Y-m-d H:i:s', mktime());
-db_record_insert($tiddlyCfg['table']['workspace_view'],$data1);
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<base href='<?php echo getURL();?>'/>
 <head>
 <script id="versionArea" type="text/javascript">
 //<![CDATA[
@@ -121,9 +39,7 @@ DAMAGE.
 " />
 <!--PRE-HEAD-START-->
 <!--{{{-->
-<?php
-		print tiddler_bodyDecode($tiddlers['MarkupPreHead']['body']);
-	?>	
+<link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' />
 <!--}}}-->
 <!--PRE-HEAD-END-->
 <title>
@@ -139,22 +55,10 @@ DAMAGE.
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
-<?php
-	if( isset( $tiddlers['MarkupPostHead'] ) )
-	{
-		print tiddler_bodyDecode($tiddlers['MarkupPostHead']['body']);
-	}
-?>
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
 <!--PRE-BODY-START-->
-<?php
-	if( isset( $tiddlers['MarkupPreBody'] ) )
-	{
-		print tiddler_bodyDecode($tiddlers['MarkupPreBody']['body']);
-	}
-?>
 <!--PRE-BODY-END-->
 <div id="copyright">
 Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa Association
@@ -167,14 +71,15 @@ Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa As
 <div id="backstageButton"></div>
 <div id="backstageArea"><div id="backstageToolbar"></div></div>
 <div id="backstage">
-
 	<div id="backstagePanel"></div>
 </div>
 <div id="contentWrapper"></div>
 <div id="contentStash"></div>
 <div id="shadowArea">
 <div title="MarkupPreHead">
-<pre></pre>
+<pre>&lt;!--{{{--&gt;
+&lt;link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' /&gt;
+&lt;!--}}}--&gt;</pre>
 </div>
 <div title="ColorPalette">
 <pre>Background: #fff
@@ -192,7 +97,6 @@ TertiaryLight: #ccc
 TertiaryMid: #999
 TertiaryDark: #666
 Error: #f88</pre>
-
 </div>
 <div title="StyleSheetColors">
 <pre>/*{{{*/
@@ -530,7 +434,6 @@ noscript {display:none;}
 }
 /*}}}*/</pre>
 </div>
-
 <div title="PageTemplate">
 <pre>&lt;!--{{{--&gt;
 &lt;div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'&gt;
@@ -539,7 +442,6 @@ noscript {display:none;}
 &lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
 &lt;/div&gt;
 &lt;div class='headerForeground'&gt;
-
 &lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
 &lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
 &lt;/div&gt;
@@ -547,7 +449,6 @@ noscript {display:none;}
 &lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
 &lt;div id='sidebar'&gt;
 &lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
-
 &lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div id='displayArea'&gt;
@@ -555,14 +456,12 @@ noscript {display:none;}
 &lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;!--}}}--&gt;</pre>
-
 </div>
 <div title="ViewTemplate">
 <pre>&lt;!--{{{--&gt;
 &lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
-
 &lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
 &lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
 &lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
@@ -571,14 +470,12 @@ noscript {display:none;}
 </div>
 <div title="EditTemplate">
 <pre>&lt;!--{{{--&gt;
-
 &lt;div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;
 &lt;div macro='annotations'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt;
-
 &lt;!--}}}--&gt;</pre>
 </div>
 <div title="GettingStarted">
@@ -595,7 +492,6 @@ Your username for signing your edits. Write it as a WikiWord (eg JoeBloggs)
 
 &lt;&lt;option txtUserName&gt;&gt;
 &lt;&lt;option chkSaveBackups&gt;&gt; SaveBackups
-
 &lt;&lt;option chkAutoSave&gt;&gt; AutoSave
 &lt;&lt;option chkRegExpSearch&gt;&gt; RegExpSearch
 &lt;&lt;option chkCaseSensitiveSearch&gt;&gt; CaseSensitiveSearch
@@ -606,25 +502,10 @@ Also see AdvancedOptions</pre>
 </div>
 <div title="ImportTiddlers">
 <pre>&lt;&lt;importTiddlers&gt;&gt;</pre>
-
 </div>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<?php
-include_once($cct_base."includes/include.php");
-?>
-
-<?php /*print cct_print_form($standalone);/*cct*/ ?>
-</div>
-<!--POST-STOREAREA-->
-<!--POST-BODY-START-->
-<?php
-	if( isset( $tiddlers['MarkupPostBody'] ) )
-	{
-		print tiddler_bodyDecode($tiddlers['MarkupPostBody']['body']);
-	}
-?>
 </div>
 <!--POST-STOREAREA-->
 <!--POST-BODY-START-->
@@ -5787,8 +5668,7 @@ config.macros.sync.processSyncableTiddlers = function(syncList)
 {
 	for(var i=0; i<syncList.length; i++) {
 		var si = syncList[i];
-		if(si.syncStatus.display)
-			si.rowElement.style.display = si.syncStatus.display;
+		si.rowElement.style.display = si.syncStatus.display;
 		if(si.syncStatus.className)
 			si.rowElement.className = si.syncStatus.className;
 	}
@@ -5886,8 +5766,7 @@ config.macros.sync.updateSyncStatus = function(syncItem)
 	var e = syncItem.colElements["status"];
 	removeChildren(e);
 	createTiddlyText(e,syncItem.syncStatus.text);
-	if(syncItem.syncStatus.display) 	
-		syncItem.rowElement.style.display = syncItem.syncStatus.display;
+	syncItem.rowElement.style.display = syncItem.syncStatus.display;
 	if(syncItem.syncStatus.className)
 		syncItem.rowElement.className = syncItem.syncStatus.className;
 };
@@ -9445,13 +9324,7 @@ if(useJavaSaver)
 	document.write("<applet style='position:absolute;left:-1px' name='TiddlySaver' code='TiddlySaver.class' archive='TiddlySaver.jar' width='1' height='1'></applet>");
 //]]>
 </script>
-<!--POST-SCRIPT-START321-->
-<?php
-	if( isset( $tiddlers['MarkupPostBody'] ) )
-	{
-		print tiddler_bodyDecode($tiddlers['MarkupPostBody']['body']);
-	}
-?>
+<!--POST-SCRIPT-START-->
 <!--POST-SCRIPT-END-->
 </body>
 </html>

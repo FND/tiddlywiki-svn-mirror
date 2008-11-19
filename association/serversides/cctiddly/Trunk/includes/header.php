@@ -21,6 +21,13 @@ if(!isset($workspace))
 	debug($ccT_msg['debug']['workspaceNotSet'], "fail");
 } 
 
+
+// Check the which ccTiddly version the database used last. 
+$version_result = mysql_query("SELECT * FROM instance_history");
+$db_version = mysql_fetch_assoc($version_result);
+$db_number = str_replace('.', '', $db_version['version']);
+
+
 //?standalone=1, used for making the script standalone form like a regular tiddlywiki
 $standalone = ((isset($_GET['standalone'])&&$_GET['standalone']==1)?1:0);		//if 1, will make it into standalone form
 
