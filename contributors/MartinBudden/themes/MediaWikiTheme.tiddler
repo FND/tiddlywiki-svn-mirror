@@ -1,0 +1,95 @@
+<div title="MediaWikiTheme" modifier="MartinBudden" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|MediaWikiTheme|
+|''Description:''|The basic MediaWiki theme|
+|''~CoreVersion:''|2.4.1|
+|''~MainMenu:''|##MainMenu|
+|''~PageTemplate:''|##PageTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+
+!PageTemplate
+<!--{{{-->
+<div class='header'>
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebar'>
+<div id='logo' refresh='content' tiddler='MediaWikiTheme##Logo'></div>
+<div id='sidebarOptions' refresh='content' tiddler='MediaWikiTheme##SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='MediaWikiTheme##SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+!SideBarOptions
+<<search>><<closeAll>><<permaview>><<newTiddler "New Tiddler" MediaWikiFormat>><<saveChanges>><<slider chkSliderOptionsPanel MediaWikiTheme##OptionsPanel "options È" "Change TiddlyWiki advanced options">>
+
+!OptionsPanel
+These ~InterfaceOptions for customising ~TiddlyWiki are saved in your browser
+
+<<option txtUserName>>
+<<option chkSaveBackups>> ~SaveBackups
+<<option chkAutoSave>> ~AutoSave
+<<option chkRegExpSearch>> ~RegExpSearch
+<<option chkCaseSensitiveSearch>> ~CaseSensitiveSearch
+----
+AdvancedOptions
+PluginManager
+ImportTiddlers
+
+!SideBarTabs
+<<tabs txtMainTab "Articles" "All articles" TabAll "Tags" "All tags" TabTags "More" "More lists" MediaWikiTheme##TabMore>>
+
+!TabMore
+<<tabs txtMoreTab "Templates" "Templates" MediaWikiTheme##TabTemplates "Updated" "Updated off line" TabUpdated "Shadowed" "Shadowed tiddlers" TabMoreShadowed>>
+
+!TabTemplates
+<<list templates>>
+
+!ViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar getTiddler putTiddler -closeTiddler closeOthers +editTiddler revisions > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler'></div>
+<!--}}}-->
+
+!Logo
+<br/>
+[img[logo.png]]
+
+!StyleSheet
+/*{{{*/
+/*horizontal mainmenu*/
+#mainMenu {position:relative;left:auto;width:auto;text-align:left;line-height:normal;padding 0em 1em 0em 1em;font-size:normal;}
+#mainMenu br {display:none;}
+/*#mainMenu {background:#336699;}*/
+#mainMenu {background:#007777;}
+#mainMenu {padding:2px;}
+#mainMenu .button, #mainMenu .tiddlyLink {padding-left:0.5em;padding-right:0.5em;color:white;font-size:115%;}
+#displayArea {
+	margin-top:0;margin-right:15.5em;margin-bottom:0;margin-left:1em;
+	padding-top:.1em;padding-bottom:.1em;
+}
+
+body {background:#53c4ea;}
+#sidebarOptions .button {border:none; font-weight:bold;}
+
+[[wikipediaStyle]]
+[[wikipediaAbridged/Skins-1.5.monobook/main.css]]
+[[wikipedia.MediaWiki.Common.css]]
+/*}}}*/
+</pre>
+</div>
