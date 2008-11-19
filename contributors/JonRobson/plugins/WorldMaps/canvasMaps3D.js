@@ -585,7 +585,10 @@ EasyShape.prototype={
 		else if(element.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
 			var ps = 0.4;
-			var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, y+ps];
+			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
+			console.log("newcoords",newcoords);
+			newcoords = this._convertGeoJSONCoords(newcoords);
+			console.log(newcoords);
 			this.constructBasicPolygon(element,newcoords);	
 		}
 		else
@@ -621,21 +624,25 @@ EasyShape.prototype={
 
 	
 	constructFromGeoJSONPolygon: function(properties,coordinates){		
-		var newcoords = this._convertGeoJSONCoords(coordinates);
+		var newcoords = this._convertGeoJSONCoords(coordinates[0]);
 		this.constructBasicPolygon(properties,newcoords);
+				//we ignore any holes in the polygon (for time being.. coords[1][0..n], coords[2][0..n])
 	},
-		
-	_convertGeoJSONCoords: function(coords,canvas){
+	
+
+	_convertGeoJSONCoords: function(coords){
+
 		var res = [];
-		for(var i=0; i < coords[0].length; i++){
+		for(var i=0; i < coords.length; i++){
 			// x is longitude, y is latitude
 			// longitude goes from -180 (W) to 180 (E), latitude from -90 (S) to 90 (N)
 			// in our data, lat goes from 90 (S) to -90 (N), so we negate
-			var x = coords[0][i][0];
-			var y = -coords[0][i][1];
+			var x = coords[i][0];
+			var y = - coords[i][1];
 			res.push(x);
 			res.push(y);
 		}
+
 		return res;
 	},
 	
