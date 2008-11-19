@@ -22,11 +22,11 @@ var s1 = document.createElement("script");
 var s2 = document.createElement("script");
 var s3 = document.createElement("script");
 var s4 = document.createElement("script");
-s1.src = "http://www.osmosoft.com/ILGA/demos/canvasMaps3D.js";
-//s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps3d.js"
-s2.src = "http://www.osmosoft.com/ILGA/demos/ieHack.js";
-s3.src = "http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js";
-s4.src = "http://www.osmosoft.com/ILGA/demos/whereLegal.js";
+//s1.src = "canvasMaps3D.js";
+s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps3D.js"
+s2.src = "../../../JonRobson/plugins/WorldMaps/ieHack.js";
+s3.src = "../../../JonRobson/plugins/WorldMaps/jquery.js";
+s4.src = "../../../JonRobson/plugins/WorldMaps/whereLegal.js";
 head.appendChild(s1);
 head.appendChild(s2);
 head.appendChild(s3);
@@ -45,10 +45,13 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		return window.setTimeout(func,300);
 	} else {
 		alert('loaded');
-		var wrapper = createTiddlyElement(place,"div","wrapper","wrapper");
+		var wrapper = createTiddlyElement(place,"div","wrapper");
+		wrapper.style.width = "800px";
+		wrapper.style.height = "400px";
+		wrapper.style.position = "relative";
+		var caption = createTiddlyElement(wrapper,"div","caption");
 		var statustext = createTiddlyElement(wrapper,"div","wrapper_statustext");
 		createTiddlyText(statustext,"loading... please wait a little while!");
-		var caption = createTiddlyElement(place,"div","caption","caption");
 		var eMap = new EasyMap('wrapper');
 		eMap.addControl('pan');
 		eMap.addControl('zoom');
