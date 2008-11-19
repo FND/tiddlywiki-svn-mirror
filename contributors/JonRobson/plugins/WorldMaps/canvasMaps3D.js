@@ -151,21 +151,24 @@ EasyMapController.prototype = {
 	},
 
 	_createcontrollercanvas: function(width,height){
-		var panCanvas = document.createElement('canvas');
-		panCanvas.width = width;
-		panCanvas.height = height;
-		panCanvas.style.position = "absolute";
-		this.wrapper.controlDiv.appendChild(panCanvas);
-		panCanvas.memory = [];
-		panCanvas.emap = this;
-		if(!panCanvas.getContext) {
+		var newCanvas = document.createElement('canvas');
+		newCanvas.width = width;
+		newCanvas.height = height;
+		newCanvas.style.position = "absolute";
+		newCanvas.style.left = 0;
+		newCanvas.style.top = 0;
+		this.wrapper.controlDiv.appendChild(newCanvas);
+		newCanvas.memory = [];
+		newCanvas.emap = this;
+		if(!newCanvas.getContext) {
 			G_vmlCanvasManager.init_(document);
 		}
-		return panCanvas;
+		return newCanvas;
 	},
 	
 	addPanningActions: function(){
 		var panCanvas = this._createcontrollercanvas(44,64);
+		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','buttonType': 'arrow'}));
@@ -184,8 +187,8 @@ EasyMapController.prototype = {
 		//var left = parseInt(this.targetjs.canvas.width,10) - 20 + "px";
 
 
-		zoomCanvas.style.left = left;
-		zoomCanvas.style.top = top;
+		zoomCanvas.style.left = left +"px";
+		zoomCanvas.style.top = top + "px";
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','buttonType': 'plus'}));		
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','buttonType': 'minus'}));
 		zoomCanvas.onclick = this.clickHandler;	
