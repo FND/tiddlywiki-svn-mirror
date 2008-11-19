@@ -1,0 +1,39 @@
+<div title="Template:Plugin" modifier="124.148.123.107" created="200811191216" modified="200807221236" tags="Category:{{{Category}}} Category:{{{Category2}}} Category:{{{Category3}}} Category:{{{Category4}}} Category:{{{Category5}}} Category:Plugins Category:Templates" server.host="www.tiddlywiki.org" server.page.timestamp="2008-07-22T12:36:10Z" server.page.revision="6082" wikiformat="mediawiki">
+<pre>{|
+<!-- Name -->
+| '''Name:''' || {{ #if: {{{Name|}}} | {{{Name}}} | {{PAGENAME}} }}
+|-
+<!-- Author -->
+{{OptionalTableRow| Author | {{{Author|}}} }}
+<!-- URL -->
+{{OptionalTableRow| URL | {{{URL|}}}#{{ #if: {{{Name|}}} | {{{Name}}} | {{PAGENAME}} }} }}
+<!-- Description -->
+{{OptionalTableRow| Description | {{{Description|}}} }}|-
+<!-- Version -->
+{{OptionalTableRow| Version | {{{Version|}}} }}|-
+|}<includeonly>
+{{#if: {{{Category|}}}  | [[Category:{{{Category}}}]] }}
+{{#if: {{{Category2|}}} | [[Category:{{{Category2}}}]] }}
+{{#if: {{{Category3|}}} | [[Category:{{{Category3}}}]] }}
+{{#if: {{{Category4|}}} | [[Category:{{{Category4}}}]] }}
+{{#if: {{{Category5|}}} | [[Category:{{{Category5}}}]] }}
+[[Category:Plugins]]</includeonly><noinclude>
+== Usage ==
+
+<pre>
+{{Plugin
+  |Name=PluginName
+  |Author=PluginAuthor [optional]
+  |URL=PluginURL [optional]
+  |Description=Plugin Description [optional]
+  |Version=Version Info [optional]
+  |Category=Plugin category [optional]
+  |Category2=Plugin category 2 [optional]
+  ...
+  |Category5=Plugin category 5 [optional]
+}}
+</pre>
+All plugins are listed in [[:Category:Plugins]].
+[[Category:Templates]]
+</noinclude></pre>
+</div>

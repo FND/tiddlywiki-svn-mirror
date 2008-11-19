@@ -1,0 +1,17 @@
+<div title="Template:OptionalTableRow" modifier="FND" created="200811191216" modified="200803171858" tags="Category:Templates Category:Meta-Templates" server.host="www.tiddlywiki.org" server.page.timestamp="2008-03-17T18:58:57Z" server.page.revision="4827" wikiformat="mediawiki">
+<pre>{{ #if: {{{2|}}} |
+{{!}} '''{{{1}}}:''' {{!}}{{!}} {{{2}}}
+{{!}}-
+}}<noinclude>
+== Description ==
+
+This is a meta-template for constructing conditional rows in simple tables, meant for inclusion in other templates.
+
+== Usage ==
+
+<pre>
+{{OptionalTableRow|designation|value}}
+</pre>
+[[Category:Templates]] [[Category:Meta-Templates]]
+</noinclude></pre>
+</div>

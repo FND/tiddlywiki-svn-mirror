@@ -1,0 +1,10 @@
+<div title="Template:Cleanup" modifier="FND" created="200811191216" modified="200706181120" tags="Category:Cleanup Category:Templates" server.host="www.tiddlywiki.org" server.page.timestamp="2007-06-18T11:20:05Z" server.page.revision="1725" wikiformat="mediawiki">
+<pre>{{Note|
+This page needs [[Project:Cleanup|cleanup]]. Please help keep [[Meta:About|{{SITENAME}}]] a useful resource by refactoring this page.
+}}<includeonly>[[Category:Cleanup]]</includeonly><noinclude>
+== Usage ==
+<pre>{{Cleanup}}</pre>
+See [[:Category:Cleanup]] for pages requiring [[Project:Cleanup|cleanup]].
+[[Category:Templates]]
+</noinclude></pre>
+</div>

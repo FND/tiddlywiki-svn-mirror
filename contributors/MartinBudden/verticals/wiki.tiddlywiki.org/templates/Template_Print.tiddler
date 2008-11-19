@@ -1,0 +1,7 @@
+<div title="Template:Print" modifier="FND" created="200811191216" modified="200706231406" tags="Category:Templates" server.host="www.tiddlywiki.org" server.page.timestamp="2007-06-23T14:06:27Z" server.page.revision="1866" wikiformat="mediawiki">
+<pre><div class="noprint" style="float: right; border: 1px solid; padding: 5px; text-align: right; background-color: #EEEEEE;">
+[{{fullurl:{{FULLPAGENAME}}|printable=yes}} printer-friendly version]
+</div><noinclude>
+[[Category:Templates]]
+</noinclude></pre>
+</div>

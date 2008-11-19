@@ -1,0 +1,12 @@
+<div title="Template:StatusOK" modifier="FND" created="200811191216" modified="200711111010" tags="Category:Templates [[Category:Icon Templates]]" server.host="www.tiddlywiki.org" server.page.timestamp="2007-11-11T10:10:25Z" server.page.revision="3802" wikiformat="mediawiki">
+<pre><span style="margin: 0 0.5em; border: 1px solid #0A0; padding: 1px 4px; font-weight: bold; background-color: #0F0; color: #050;">OK</span><noinclude>
+== Usage ==
+<pre>{{StatusOK|[author (optional)]|[text]}}</pre>
+
+== See Also ==
+
+* [[Template:StatusOpen|StatusOpen]]
+* [[Template:StatusPending|StatusPending]]
+[[Category:Templates]] [[Category:Icon Templates]]
+</noinclude></pre>
+</div>

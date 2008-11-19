@@ -1,0 +1,14 @@
+<div title="Template:Quote" modifier="FND" created="200811191216" modified="200709271410" tags="Category:Templates" server.host="www.tiddlywiki.org" server.page.timestamp="2007-09-27T14:10:23Z" server.page.revision="3207" wikiformat="mediawiki">
+<pre><div style="margin: 1em 2em; padding: 0.5em; border: 1px dashed #EEE; background-color: #FCFCFE;">
+{{ #if: {{{1|}}} |
+<div style="float: right; margin-left: 1em; padding: 0.5em; border: 1px solid #AAA; background-color: #EEE;">
+by {{{1}}}
+</div>
+}}
+{{{2}}}
+</div><noinclude>
+== Usage ==
+<pre>{{Quote|[author (optional)]|[text]}}</pre>
+[[Category:Templates]]
+</noinclude></pre>
+</div>

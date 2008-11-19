@@ -1,0 +1,20 @@
+<div title="Template:Sidenote" modifier="FND" created="200811191216" modified="200706231420" tags="Category:Templates" server.host="www.tiddlywiki.org" server.page.timestamp="2007-06-23T14:20:05Z" server.page.revision="1871" wikiformat="mediawiki">
+<pre><!-- default to right-side floating -->
+<div style="float: {{ #ifeq: {{{1}}} | left | left | right }};
+width: 10%;
+margin: 0.2em 0;
+margin-{{ #ifeq: {{{1}}} | left | right | left }}: 1em;
+border: 1px dashed #000; padding: 5px;
+text-align: {{ #ifeq: {{{1}}} | left | left | right }};
+background-color: #FFFFE1;">
+{{{2}}}
+</div><noinclude>
+== Usage ==
+
+<pre>
+{{Sidenote|left|[text]}}
+{{Sidenote|right|[text]}}
+</pre>
+[[Category:Templates]]
+</noinclude></pre>
+</div>
