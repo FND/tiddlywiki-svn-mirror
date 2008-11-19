@@ -10,6 +10,17 @@ function getOfflineFile()
 	header("Content-Disposition: attachment; filename=\"".$offline_name.".html\";\r\n");
 }
 
+// takes a string, finds the text before the first tag and also reutrn text after the second tag.
+function splitString($string, $search1, $search2)
+{
+	$start_pos = strpos($string, $search1)+strlen($search1);
+	$end_pos = strpos($string, $search2);
+	$part['1'] = substr($string, 0, $start_pos);
+	$part['2'] = substr($string, $end_pos, strlen($string));
+	return $part;
+}
+
+
 function checkAndAddSlash($uri)
 {
 	if(stristr($uri, ".php"))
