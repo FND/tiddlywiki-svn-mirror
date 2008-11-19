@@ -1,0 +1,8 @@
+<div title="Template:Merge" modifier="FND" created="200811191150" modified="200804161319" tags="[[Category:Needs Review]] Category:Templates" server.host="www.tiddlywiki.org" server.page.timestamp="2008-04-16T13:19:53Z" server.page.revision="5210" wikiformat="mediawiki">
+<pre>{{Dablink|1=This {{ #if: {{{2|}}} | section | page }} is to be merged with {{{1}}}.}}<includeonly>[[Category:Needs Review]]</includeonly><noinclude>
+== Usage ==
+
+<pre>{{Merge|[page link]}}</pre>
+[[Category:Templates]]
+</noinclude></pre>
+</div>
