@@ -181,7 +181,7 @@ EasyMapController.prototype = {
 		var left = 14;
 		var top = 50;
 
-		var left = parseInt(this.targetjs.canvas.width,10) - 20 + "px";
+		//var left = parseInt(this.targetjs.canvas.width,10) - 20 + "px";
 
 
 		zoomCanvas.style.left = left;
