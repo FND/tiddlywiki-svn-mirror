@@ -52,6 +52,13 @@ function resolveTarget(e)
 	return obj;
 }
 
+function resolveMemory(node)
+{
+	while(node && !node.memory)
+		node = node.parentNode;
+	return node.memory;
+}
+
 var minLon = 1000;
 var maxLon = -1000;
 var minLat = 1000;
@@ -203,7 +210,11 @@ EasyMapController.prototype = {
 		if(!hit) {
 			return false;
 		}
-
+		console.log("hit!");
+		console.log(hit);
+		for(var n in hit.properties) {
+			console.log(n+": "+hit.properties[n]);
+		}
 		if(hit.properties.action){
 			action(x,y);
 		}
@@ -859,7 +870,10 @@ EasyMapUtils.prototype = {
 			e = window.event;
 		}
 		var target = resolveTarget(e);
-				console.log(target);
+				console.log("target: ",target);
+				console.log("target id: "+target.id);
+				//console.log("target width: "+target.width);
+				console.log("target nodename: "+target.nodeName);
 		var id ="#"+this.wrapper.id;
 		
 		var offset = $(id).offset();
@@ -871,8 +885,10 @@ EasyMapUtils.prototype = {
 		if(target.style.left) x -= parseInt(target.style.left);
 		if(target.style.top) y -= parseInt(target.style.top);
 		
-		if(target.memory){
-			var shape = this.getShapeAt(x,y,target.memory);
+		var memory = resolveMemory(target);
+		console.log('memory length: '+memory.length);
+		if(memory){
+			var shape = this.getShapeAt(x,y,memory);
 			return shape;}
 		else{
 			console.log("no shapes in memory");
