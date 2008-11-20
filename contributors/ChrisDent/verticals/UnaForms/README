@@ -1,0 +1,15 @@
+
+This directory contains files related to a server-side storage system
+for the UnaMesa forms project:
+
+    http://forms.unamesa.org/
+
+Initial plans are to create a TiddlyWeb plugin that provides a useful 
+interface for retrieval of forms and revisioned storage of both 
+complete and incomplete form data.
+
+Information about the work can be found at the link above and at:
+
+    http://tasks.projects.unamesa.org/Chris
+
+
