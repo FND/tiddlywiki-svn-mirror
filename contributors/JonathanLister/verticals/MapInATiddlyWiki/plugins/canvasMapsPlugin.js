@@ -22,11 +22,14 @@ var s1 = document.createElement("script");
 var s2 = document.createElement("script");
 var s3 = document.createElement("script");
 var s4 = document.createElement("script");
-//s1.src = "canvasMaps3D.js";
-s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps3D.js"
-s2.src = "../../../JonRobson/plugins/WorldMaps/ieHack.js";
-s3.src = "../../../JonRobson/plugins/WorldMaps/jquery.js";
-s4.src = "../../../JonRobson/plugins/WorldMaps/whereLegal.js";
+s1.src = "http://osmosoft.com/ILGA/demos/canvasMaps3D.js";
+s2.src = "http://osmosoft.com/ILGA/demos/iehack.js";
+s3.src = "http://osmosoft.com/ILGA/demos/jquery.js";
+s4.src = "http://osmosoft.com/ILGA/demos/whereLegal.js";
+//s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps3D.js"
+//s2.src = "../../../JonRobson/plugins/WorldMaps/ieHack.js";
+//s3.src = "../../../JonRobson/plugins/WorldMaps/jquery.js";
+//s4.src = "../../../JonRobson/plugins/WorldMaps/whereLegal.js";
 head.appendChild(s1);
 head.appendChild(s2);
 head.appendChild(s3);
@@ -35,8 +38,8 @@ config.macros.canvasMaps = {};
 
 config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	// horrible hacked method to make sure excanvas has loaded - this should not be in this plugin
-	if (!document.createElement('canvas').getContext && !window.G_vmlCanvasManager) {
-		alert('not loaded');
+	if ((!document.createElement('canvas').getContext && !window.G_vmlCanvasManager) || !window.EasyMap || !window.geojson) {
+		console.log('not loaded');
 		var that = this;
 		var args = arguments;
 		var func = function() {
@@ -44,7 +47,7 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		};
 		return window.setTimeout(func,300);
 	} else {
-		alert('loaded');
+		console.log('loaded');
 		var wrapper = createTiddlyElement(place,"div","wrapper");
 		wrapper.style.width = "800px";
 		wrapper.style.height = "400px";
