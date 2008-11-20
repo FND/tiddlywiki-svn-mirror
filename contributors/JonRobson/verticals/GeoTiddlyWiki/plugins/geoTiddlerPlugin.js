@@ -64,7 +64,7 @@ config.macros.canvasMaps.getCoreGeoJson = function(sourcetiddler){
 					features[i].properties = newp;
 				}
 				catch(e){
-					alert("invalid geo meta data set for tiddler " + name);
+					alert("invalid geo meta data set for tiddler " + name + " exception:" + e);
 				}
 
 			}
@@ -138,8 +138,13 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 				var userName = config.options.txtUserName ? config.options.txtUserName : "guest";
 				console.log(shape.properties);
 				
-				var geometa = "{name:"+shape.properties.name+"}";
-				store.saveTiddler(country,country,text,userName,new Date(),tags);
+				var geometa = {};
+				
+				shape.properties.toSource(); //no ie support for this!
+				
+				var fields = {};
+				fields.geoproperties = geometa;
+				store.saveTiddler(country,country,text,userName,new Date(),tags,fields);
 			}
 			var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
 			story.displayTiddler(tiddlerElem,country);
