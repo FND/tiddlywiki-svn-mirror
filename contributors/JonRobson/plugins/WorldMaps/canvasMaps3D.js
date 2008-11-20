@@ -86,6 +86,11 @@ var EasyMapController = function(targetjs,elemid){
 
 EasyMapController.prototype = {
 
+	setTransformation: function(t){
+		if(!t.scale && !t.translate) alert("bad transformation applied");
+		this.transformation = t;
+		this.targetjs.transform(t);
+	},
 	drawButtonLabel: function(ctx,r,type){
 		ctx.beginPath();
 		if(type == 'arrow'){
@@ -290,7 +295,7 @@ var EasyMap = function(divID){
 	this.ctx = canvas.getContext('2d');
 
 	this.transformation ={'scale':{x:1,y:1}, 'translate':{x:0,y:0}};
-	this.additionaltransformation ={'scale':{x:1,y:1}, 'translate':{x:0,y:0}};
+
 
 	this.rotate = {'x': 0, 'y':1.6, 'z':0};
 	this.spherical = false; //experimental!! fiddle with at your own risk! :)
@@ -432,17 +437,20 @@ EasyMap.prototype = {
 
 		
 	},
-	
+	drawFromSVG: function(representation){
+		var xml = this.utils._getXML(representation);
+		var polys = xml.getElementsByTagName('polygon');
+		for(var i=0; i < polys.length; i++)
+			this.drawFromSVGElement(polys[i]);
+	},
 
-	drawFromSVG: function(file){
+	drawFromSVGFile: function(file){
 		var that = this;
 		this.clear();
 		var callback = function(status,params,responseText,url,xhr){
 			
-			var xml = that._getXML(responseText);
-			var polys = xml.getElementsByTagName('polygon');
-			for(var i=0; i < polys.length; i++)
-				that.drawFromSVGElement(polys[i]);
+
+			that.drawFromSVG(responseText);
 			
 		};
 		this.utils.loadRemoteFile(file,callback);		
