@@ -1,3 +1,8 @@
 <div title="London" modifier="JonRobson" created="200811111722" tags="[[lat:51.507778]] [[long:-0.12]]">
-<pre>This tiddler is geotagged.</pre>
+<pre>
+This tiddler is geotagged.
+
+This is the capital of the UK which is shown below:
+<<canvasMaps source:geojsonUK long:-0.12 lat:51.50778 zoom: 20>>
+</pre>
 </div>

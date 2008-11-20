@@ -20,17 +20,30 @@ version.extensions.canvasMapsPlugin = {installed:true};
 config.macros.canvasMaps = {};
 
 config.macros.geoto = {};
-config.macros.canvasMaps.getCoreGeoJson = function(){
+config.macros.canvasMaps.getCoreGeoJson = function(sourcetiddler){
+	if(!sourcetiddler) sourcetiddler ='GeojsonCoreData';
 	
-	var data = store.getTiddlerText('GeojsonCoreData');
+	if(sourcetiddler.indexOf('.svg') > -1){
+		//svg file.
+		return "svgfile";
+	}
+	else{
+		var source = store.getTiddler(sourcetiddler);
+		if(!source) return {};
+		var data = source.text;
+	}
+
 	
-	
-	if(data) {
+	if(data.indexOf("({") == 0) {
 		data = eval(data);
 	}
-	else
-		alert("please define a geojson in tiddler 'GeojsonCoreData'")
-
+	else if(source.tags.contains("svg")){
+		return "svg";
+	}
+	else{
+		data = {};
+		alert("please define a geojson in tiddler '"+sourcetiddler +"'")
+	}
 
 	
 	//look for any changes in meta data
@@ -84,8 +97,10 @@ config.macros.canvasMaps.getCoreGeoJson = function(){
 };
 
 config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	// horrible hacked method to make sure excanvas has loaded - this should not be in this plugin
 
+		
+	// horrible hacked method to make sure excanvas has loaded - this should not be in this plugin
+/*
 	if (!document.createElement('canvas').getContext && !window.G_vmlCanvasManager) {
 		//alert('not loaded');
 		var that = this;
@@ -95,6 +110,7 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		};
 		return window.setTimeout(func,300);
 	} else {
+		*/
 		var wrapper = createTiddlyElement(place,"div","wrapper","wrapper");
 		var statustext = createTiddlyElement(wrapper,"div","wrapper_statustext");
 		createTiddlyText(statustext,"loading... please wait a little while!");
@@ -131,10 +147,34 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		};
 
 		
-		var geodata = this.getCoreGeoJson();
-		eMap.drawFromGeojson(geodata);
+		var prms = paramString.parseParams(null, null, true);
+		var source = null;
+		if(getParam(prms,"source")) source = getParam(prms,"source");
 		
-	}
+
+		
+		var latitude = 0, longitude = 0, zoom = 1;
+		if(getParam(prms,"zoom")) zoom = getParam(prms,"zoom");
+		if(getParam(prms,"long")) longitude = getParam(prms,"long");
+		if(getParam(prms,"lat")) latitude = getParam(prms,"lat");
+		var t ={'scale':{'x':zoom, 'y': zoom}, 'translate': {'x': longitude, 'y':latitude}};
+		//var t = {'translate':{x:0,y:0}, 'scale': {x:1, y:1}};	
+		eMap.controller.setTransformation(t);
+		var geodata = this.getCoreGeoJson(source);
+		
+		if(geodata == 'svg'){
+			eMap.drawFromSVG(store.getTiddlerText(source));
+		}
+		else if(geodata == 'svgfile'){
+			eMap.drawFromSVGFile(source);
+		}
+		else
+			eMap.drawFromGeojson(geodata);
+		
+
+		
+				
+	//}
 };
 
 } //# end of 'install only once'
