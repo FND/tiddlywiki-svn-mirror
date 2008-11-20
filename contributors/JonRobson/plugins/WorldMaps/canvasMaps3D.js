@@ -164,7 +164,8 @@ EasyMapController.prototype = {
 		newCanvas.style.position = "absolute";
 		newCanvas.style.left = 0;
 		newCanvas.style.top = 0;
-		this.wrapper.controlDiv.appendChild(newCanvas);
+		//this.wrapper.controlDiv.appendChild(newCanvas);
+		this.wrapper.appendChild(newCanvas);
 		newCanvas.memory = [];
 		newCanvas.emap = this;
 		if(!newCanvas.getContext) {
