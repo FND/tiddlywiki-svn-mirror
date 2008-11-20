@@ -34,7 +34,6 @@
 
 // Only add this code if we do not already have a canvas implementation
 if (!document.createElement('canvas').getContext) {
-alert('got the iehack file');
 (function() {
 
   // alias some functions to make (compiled) code shorter
@@ -179,7 +178,6 @@ alert('got the iehack file');
       el.firstChild.style.height = el.clientHeight + 'px';
     }
   }
-	alert('calling init');
   G_vmlCanvasManager_.init();
 
   // precompute "00" to "FF"
@@ -827,7 +825,6 @@ alert('got the iehack file');
   function CanvasPattern_() {}
 
   // set up externs
-  alert('setting up externs');
   G_vmlCanvasManager = G_vmlCanvasManager_;
   CanvasRenderingContext2D = CanvasRenderingContext2D_;
   CanvasGradient = CanvasGradient_;
