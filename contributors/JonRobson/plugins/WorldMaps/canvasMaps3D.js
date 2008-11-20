@@ -354,7 +354,7 @@ EasyMap.prototype = {
 
 			}
 
-			
+			if(poly.isSubjectToThreshold) console.log(poly.transformedCoords);
 			this.ctx.fillStyle =poly.fillStyle;
 			this.ctx.strokeStyle = poly.strokeStyle;
 			this.ctx.beginPath();
@@ -469,18 +469,16 @@ EasyMap.prototype = {
 		p.shape = 'polygon';
 		var s = new EasyShape(p,coordinates,"geojson");
 		this.drawShape(s);
-		
-		//coordinates outerring, inner ring1, inner ring 2 etc..
 	},
 	
 	
 	_drawGeoJsonPointFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'point';
-		p.fillStyle ="#000000";
 		p.fill = true;
-		console.log("drawing point");
+
 		var s = new EasyShape(p,coordinates,"geojson");
+		console.log("drawing point",s);
 		this.drawShape(s);
 	},
 	
@@ -596,11 +594,11 @@ EasyShape.prototype={
 		}
 		else if(element.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
-			var ps = 0.4;
+			var ps = 0.5;
 			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
-			console.log("newcoords",newcoords);
 			newcoords = this._convertGeoJSONCoords(newcoords);
-			console.log(newcoords);
+			element.notSubjectToThreshold = true;
+			if(!element.fillStyle) element.fillStyle ="#000000";
 			this.constructBasicPolygon(element,newcoords);	
 		}
 		else
@@ -822,15 +820,15 @@ EasyShape.prototype={
 			if(xPos > this.grid.x2) this.grid.x2 = xPos;
 			if(yPos > this.grid.y2) this.grid.y2 = yPos;
 			
-			
-
-			if(index > 0){
-				var l = (xPos-lastX)*(xPos-lastX) + (yPos-lastY) * (yPos-lastY);
-			} else {
-				l = this.threshold*this.threshold;
-			}
-			if(l < this.threshold*this.threshold) {
-				coordOK = false;
+			if(!this.properties.notSubjectToThreshold){
+				if(index > 0){
+					var l = (xPos-lastX)*(xPos-lastX) + (yPos-lastY) * (yPos-lastY);
+				} else {
+					l = this.threshold*this.threshold;
+				}
+				if(l < this.threshold*this.threshold) {
+					coordOK = false;
+				}
 			}
 			if(coordOK){ //draw
 				this.transformedCoords.push(xPos);
