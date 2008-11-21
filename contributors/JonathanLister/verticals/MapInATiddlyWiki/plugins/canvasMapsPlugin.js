@@ -23,7 +23,7 @@ var s2 = document.createElement("script");
 var s3 = document.createElement("script");
 var s4 = document.createElement("script");
 s1.src = "http://osmosoft.com/ILGA/demos/canvasMaps3D.js";
-s2.src = "http://osmosoft.com/ILGA/demos/iehack.js";
+s2.src = "http://osmosoft.com/ILGA/demos/ieHack.js";
 s3.src = "http://osmosoft.com/ILGA/demos/jquery.js";
 s4.src = "http://osmosoft.com/ILGA/demos/whereLegal.js";
 //s1.src = "../../../JonRobson/plugins/WorldMaps/canvasMaps3D.js"
@@ -39,7 +39,11 @@ config.macros.canvasMaps = {};
 config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	// horrible hacked method to make sure excanvas has loaded - this should not be in this plugin
 	if ((!document.createElement('canvas').getContext && !window.G_vmlCanvasManager) || !window.EasyMap || !window.geojson) {
-		console.log('not loaded');
+		/*console.log('not loaded');
+		console.log(!!document.createElement('canvas').getContext);
+		console.log(!!window.G_vmlCanvasManager);
+		console.log(!!window.EasyMap);
+		console.log(!!window.geojson);*/
 		var that = this;
 		var args = arguments;
 		var func = function() {
@@ -47,7 +51,7 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		};
 		return window.setTimeout(func,300);
 	} else {
-		console.log('loaded');
+		//console.log('loaded');
 		var wrapper = createTiddlyElement(place,"div","wrapper");
 		wrapper.style.width = "800px";
 		wrapper.style.height = "400px";
@@ -66,7 +70,7 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		var myElement = document.getElementById('caption');
 		
 	
-		/*eMap.clickHandler = function(e){
+		eMap.clickHandler = function(e){
 			if(!e) {
 				e = window.event;
 			}
@@ -84,14 +88,14 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 			var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
 			story.displayTiddler(tiddlerElem,country);
 			return false;
-		};*/
-		eMap.clickHandler = function(e){
+		};
+		/*eMap.clickHandler = function(e){
 
 			var s = eMap.utils.getShapeAtClick(e);
 			
 			if(s)
 				alert(s.properties.name);
-		};
+		};*/
 		
 		// geojson var from whereLegal.js
 		eMap.drawFromGeojson(geojson);
