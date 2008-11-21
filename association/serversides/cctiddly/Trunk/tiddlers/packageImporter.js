@@ -114,13 +114,15 @@ config.macros.ccCreateWorkspace.doImport = function (params, content) {
 		window.savedCount ++;
 		if(config.macros.ccCreateWorkspace.checkSaveCount(window.savedRequestedCount, window.savedCount))
 			window.location = params.url;
-		}
+	}
 	window.savedCount = 0;
 	window.savedRequestedCount = 0;
 	
 	importStore.forEachTiddler(function(title,tiddler) {
 		if(!store.getTiddler(title)) {
 			tiddler.fields['server.workspace'] = params.w.formElem["workspace_name"].value;
+			window.workspace = params.w.formElem["workspace_name"].value;
+			displayMessage(tiddler.fields['server.workspace']);
 			store.saveTiddler(title,title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,false,tiddler.created);
 			window.savedRequestedCount ++;
 		}
