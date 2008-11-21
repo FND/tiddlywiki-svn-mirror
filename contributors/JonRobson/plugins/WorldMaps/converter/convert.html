@@ -53,6 +53,11 @@ function convertProperties(p){
 	
 	var name = convertNameToUNStandard(p.name)
 	p.name = name;
+	delete p.value;
+	p.fill = false;
+	p.colour = "";
+	
+	/*
 	//p.value = null;
 	delete p.value;
 	var legal = isLegal(name);
@@ -71,6 +76,7 @@ function convertProperties(p){
 	p.value = "No data";
 	}
 	p.legality = legal;
+	*/
 		
 
 }

@@ -239,12 +239,12 @@ EasyMapController.prototype = {
 				emap.transformation.translate.y -= 5;
 				break;
 			case "in":
-				emap.transformation.scale.x += 1;
-				emap.transformation.scale.y += 1;
+				emap.transformation.scale.x *= 2;
+				emap.transformation.scale.y *= 2;
 				break;
 			case "out":
-				emap.transformation.scale.x -= 1;
-				emap.transformation.scale.y -= 1;
+				emap.transformation.scale.x /= 2;
+				emap.transformation.scale.y /= 2;
 				
 				if(emap.transformation.scale.x <= 0) emap.transformation.scale.x = 1;
 				if(emap.transformation.scale.y <= 0) emap.transformation.scale.y = 1;				
@@ -398,6 +398,7 @@ EasyMap.prototype = {
 	},
 	
 	redraw: function(){
+
 		var mapCanvas = this.canvas;
 		var ctx = mapCanvas.getContext('2d');
 		var existingMem = mapCanvas.memory;	
@@ -438,15 +439,25 @@ EasyMap.prototype = {
 		
 	},
 	drawFromSVG: function(representation){
+		this.clear();
+		var t = document.getElementById(this.wrapper.id + "_statustext");
+		if(t) {
+			t.parentNode.removeChild(t);	
+		}
 		var xml = this.utils._getXML(representation);
 		var polys = xml.getElementsByTagName('polygon');
 		for(var i=0; i < polys.length; i++)
 			this.drawFromSVGElement(polys[i]);
+			
+		if(polys.length > 0) return;
+	
+	var json = this.utils.convertSVGToMultiPolygonFeatureCollection(xml,this.canvas);
+	this.drawFromGeojson(json);			
+		
 	},
 
 	drawFromSVGFile: function(file){
 		var that = this;
-		this.clear();
 		var callback = function(status,params,responseText,url,xhr){
 			
 
@@ -456,7 +467,7 @@ EasyMap.prototype = {
 		this.utils.loadRemoteFile(file,callback);		
 			
 	},
-	drawFromSVGElement: function(SVGElement){
+	drawFromSVGElement: function(SVGElement){		
 		var s = new EasyShape(SVGElement,null,"svg");
 		this.drawShape(s);
 
@@ -465,7 +476,6 @@ EasyMap.prototype = {
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,properties){
 		var prop = properties;
 		var coords = coordinates;
-		
 		for(var j=0; j< coords.length; j++){//identify and create each polygon	
 			this._drawGeoJsonPolygonFeature(coords[j],prop);
 		}
@@ -520,6 +530,7 @@ EasyMap.prototype = {
 	},
 	
 	drawFromGeojson: function(responseText){
+
 			var geojson;
 			if(typeof responseText == 'string'){
 				geojson = eval('(' +responseText + ')');
@@ -536,6 +547,14 @@ EasyMap.prototype = {
 				t.parentNode.removeChild(t);	
 			}
 			var type =geojson.type.toLowerCase();
+
+
+
+			if(geojson.transform){
+				this.center.x = geojson.transform.translate.x;
+				this.center.y = geojson.transform.translate.y;				
+			}
+
 			if(type == "featurecollection"){
 				var features = geojson.features;
 				this._drawGeoJsonFeatures(features);
@@ -543,7 +562,6 @@ EasyMap.prototype = {
 				this._drawGeoJsonFeature(geojson);
 			} else {
 				console.log("only feature collections currently supported");
-				return;
 			}
 	},
 	
@@ -566,7 +584,11 @@ var EasySquare = function(properties,width,offset) {
 		offset.x + width, offset.y + width,
 		offset.x, offset.y + width
 	];
-	var s = new EasyShape(properties,coords);
+	//var s = new EasyShape(properties,coords);
+	var s ={};
+	s.properties = properties;
+	s.coords = coords;
+	s.grid = {x1: coords[0], y1: coords[1], x2: coords[2],y2: coords[3]};
 	s.grid.x1 = s.coords[0];
 	s.grid.y1 = s.coords[1];
 	s.grid.x2 = s.coords[2];
@@ -582,10 +604,10 @@ var EasyShape = function(element,coordinates,sourceType){
 	this.threshold = 1.7;
 
 	if(sourceType){
-		if(sourceType == 'geojson') {
+		if(sourceType == "geojson") {
 			this.constructFromGeoJSONObject(element,coordinates);
 		} else if(sourceType == "svg") {
-			this.constructFromSVGPolygon(element);
+			this.constructFromSVGElement(element);
 		}
 	}
 	else{
@@ -621,17 +643,30 @@ EasyShape.prototype={
 		this.fill = true;
 		if(this.properties.colour)
 			this.fillStyle =  this.properties.colour;
+			
+		if(typeof this.properties.fill == 'boolean'){	
+			this.fill = this.properties.fill;
+		}
 		this.grid = {}; //an enclosing grid
 	},
+	
+	constructFromSVGElement: function(SVGElement){
+		var type =SVGElement.tagName;
+		if(type == 'polygon') {
+			this.constructFromSVGPolygon(SVGElement);
+		}
+	},
+
 	constructFromSVGPolygon: function(svgpoly){
 		this.shape = "polygon";
 		this.coords = this._convertFromSVGCoords(svgpoly.getAttribute("points"));
-		this.href= svgpoly.getAttribute("xlink");
+		this.properties = {};
+		this.properties.name = svgpoly.getAttribute("name")
+		this.properties.href= svgpoly.getAttribute("xlink");
 	
 		if(svgpoly.getAttribute("fill")) {
 			this.fillStyle = svgpoly.getAttribute("fill"); 
 			this.fill = true;
-			//console.log(this.fillStyle);
 		}
 		else {
 			this.fillStyle = "rgb(0,0,0)"; 
@@ -673,7 +708,8 @@ EasyShape.prototype={
 
 		return y;
 	},
-	
+
+
 	_convertFromSVGCoords: function(SVGCoordinates){
 		var pointPairs = [];
 		
@@ -819,10 +855,9 @@ EasyShape.prototype={
 			}
 
 			//last but not least center if required
-			if(this.properties.center){
-				xPos += this.properties.center.x;
-				yPos += this.properties.center.y;
-			}
+			if(this.properties.center) xPos += this.properties.center.x;
+			if(this.properties.center) yPos += this.properties.center.y;
+			
 			if(xPos < this.grid.x1) this.grid.x1 = xPos;
 			if(yPos < this.grid.y1) this.grid.y1 = yPos;	
 			if(xPos > this.grid.x2) this.grid.x2 = xPos;
@@ -852,10 +887,142 @@ EasyShape.prototype={
 	}
 };
 
+
+var EasyMapSVGUtils = function(){};
+
+EasyMapSVGUtils.prototype = {
+	createFeatureFromSVGPathElement: function(svgpath){
+		
+		var f = {};
+		f.type = 'Feature';
+		
+		f.properties = {};
+		f.properties.colour = '#cccccc';
+		f.properties.fill = svgpath.getAttribute("fill"); 
+		f.properties.name = svgpath.getAttribute("id");
+		f.properties.href= svgpath.getAttribute("xlink");
+		f.geometry = {};
+		f.geometry.type = "MultiPolygon";
+		
+		var p =svgpath.getAttribute("d");
+		var t =svgpath.getAttribute("transform");
+		if(t) console.log(f.properties.name)
+		var coords = this._convertFromSVGPathCoords(p,t);
+		//console.log(coords[0].length,f.properties.name,f);
+		//if(coords[0].length == 1)console.log(coords[0]);
+		f.geometry.coordinates = coords;
+
+		return f;
+	},
+	
+	
+	createFeaturesFromSVGPathElements: function(paths){
+		var res = [];
+		for(var i=0; i< paths.length; i++){
+			var el = paths[i];
+			res.push(this.createFeatureFromSVGPathElement(el));
+		}
+		return res;
+	},
+
+	_convertFromSVGPathCoords: function(SVGCoordinates,transformation){
+		//transformation in form matrix(0.5,0,0,0.5,-180,0)
+		var matrix =[];
+		if(transformation){
+			if(transformation.indexOf("matrix") > -1){ //matrix given!
+				transformation=transformation.replace("matrix(","");
+				transformation=transformation.replace(")","");
+				transformation=transformation.replace(" ", "");
+				var matrix  = transformation.split(",");
+				console.log("matrix", matrix);
+			}
+			else{
+				console.log(transformation);
+			}
+		}
+		var pointPairs = [];
+		
+		if(SVGCoordinates) {
+			SVGCoordinates = SVGCoordinates.replace(/^\s*(.*?)\s*$/, "$1"); 
+			pointPairs = SVGCoordinates.split(" ");
+		}
+
+		var numPairs = pointPairs.length;
+		var points = [[]];
+		var polyc = [];
+		if(numPairs > 0) {
+
+		 	var coords, numCoords;
+
+			for(var i=0; i<numPairs; i++) {
+				var pair = pointPairs[i];
+				//console.log(pair);
+								pair = pair.replace(" ",""); //unnecessary whitespace
+								pair = pair.replace("M",""); //move to
+								pair = pair.replace("L",""); //line to
+								pair = pair.replace("C",""); //curve
+				//if(pair.indexOf("z") > -1) console.log(pair,pair.indexOf("z"));
+				if(pair.indexOf("z") ==0){
+					points[0].push(polyc);
+					polyc = [];
+					pair = pair.replace("z",""); //close path		
+				} 
+				
+
+
+				if(pair.length > 0){				
+					coords = pair.split(",");
+					numCoords = coords.length;
+					var x =coords[0];
+					var y=coords[1];
+					if(matrix.length == 6){
+
+						x = (x * matrix[0]) +  (x * matrix[1]) + (x * matrix[2]);
+						y = (y * -matrix[1]) +  (y * matrix[3]) + (-y * -matrix[5]); 
+					}
+					polyc.push([x,-y]);
+				
+				}
+
+			}
+		}
+		if(polyc.length >0) points[0].push(polyc);
+		return points;
+	}	
+};
 var EasyMapUtils = function(wrapper){
 	this.wrapper = wrapper;
 };
 EasyMapUtils.prototype = {
+	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){
+		//construct a geo element!
+		/*for(var i=0; i < paths.length; i++){
+			var path = paths[i];
+					}*/
+					
+		var svgu = new EasyMapSVGUtils();
+		var res = new Object();
+		res.type = "FeatureCollection";
+		res.features = [];
+		
+
+		//paths = paths.concat(xml.getElementsByTagName("path"));
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(xml.getElementsByTagName("svg:path")));
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(xml.getElementsByTagName("path")));
+		res.transform = {};
+		res.transform.translate = {};
+		
+		var offsetx =		parseFloat(canvas.width) /2;
+		var offsety =parseFloat(canvas.height) / 2;
+		
+		//offsetx = -185820;
+		//offsety = -76293.5;
+
+		res.transform.translate.x =offsetx;
+		res.transform.translate.y =  offsety;
+		console.log(res);
+		return res;
+	},
 	_testCanvas: function(ctx){
 	ctx.beginPath();
 	ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
@@ -877,10 +1044,7 @@ EasyMapUtils.prototype = {
 			e = window.event;
 		}
 		var target = resolveTarget(e);
-				console.log("target: ",target);
-				console.log("target id: "+target.id);
-				//console.log("target width: "+target.width);
-				console.log("target nodename: "+target.nodeName);
+
 		var id ="#"+this.wrapper.id;
 		
 		var offset = $(id).offset();
@@ -893,7 +1057,7 @@ EasyMapUtils.prototype = {
 		if(target.style.top) y -= parseInt(target.style.top);
 		
 		var memory = resolveMemory(target);
-		console.log('memory length: '+memory.length);
+
 		if(memory){
 			var shape = this.getShapeAt(x,y,memory);
 			return shape;}

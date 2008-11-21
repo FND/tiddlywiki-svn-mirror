@@ -21,7 +21,7 @@ function init(){
 			el.style.display = "";
 			var legal = "";
 			if(shape.properties.legality == 1) legal = " (legal)";
-			else if(shape..propertieslegality == 0) legal = "(illegal)";
+			else if(shape.properties.legality == 0) legal = "(illegal)";
 			else legal = "(no data)";
 			el.innerHTML = shape.tooltip + legal;
 			el.style.left =0;

@@ -22,7 +22,12 @@ function init(){
 	
 	eMap.utils._testCanvas(eMap.ctx);
 
-	eMap.drawFromSVGFile("blue_white_world_map.svg");
+	//eMap.drawFromSVGFile("blue_white_world_map.svg");
+	eMap.drawFromSVGFile("europe.svg");	
+	//eMap.drawFromSVGFile("worldmap.svg");
+eMap.controller.setTransformation({'scale':{'x':0.001,'y':0.001}, 'translate': {'x':0,'y':0}})
+	//73481
+
 	eMap.addControl("pan");
 	eMap.addControl("zoom");
 
