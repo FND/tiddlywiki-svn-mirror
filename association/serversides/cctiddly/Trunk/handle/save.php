@@ -81,4 +81,6 @@ if(isset($tiddler['title']))
 		sendHeader(400);
 	}
 }
+error_log("got to here");
+
 ?>

@@ -56,7 +56,7 @@ To update your changes please log into ccTiddly in a seperate window and then pr
 </div>
 <div title="sync" tags='wizard'>
 <pre>
-&lt;&lt;sync>>
+&lt;&lt;sync&gt;&gt;
 </pre>
 </div>
 <?php

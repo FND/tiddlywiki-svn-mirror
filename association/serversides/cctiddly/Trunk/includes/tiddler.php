@@ -194,7 +194,9 @@
 			$server = getURL();
 		if(is_array($tiddler["tags"]))
 			$tiddler["tags"] = implode(" ", $tiddler["tags"]);
-	return	  "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">\r\n<pre>".htmlspecialchars($tiddler['body'])."</pre>\r\n</div>\n\r";	
+
+	echo	  "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"].">\r\n<pre>".htmlspecialchars($tiddler['body'])."</pre>\r\n</div>\n\r";	
+	return;
 	}
 	
 	//!	@fn array tiddler_bodyEncode($body)

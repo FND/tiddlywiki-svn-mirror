@@ -95,7 +95,7 @@ array(	'wikipedia.org',
 		'plugins.tiddlywiki.org',
 		'tiddlywiki.abego-software.de'
 );
-	
+						
 // Allowed file upload types	
 
 $tiddlyCfg['upload_allow_extensions'] = 
@@ -125,6 +125,7 @@ $tiddlyCfg['debug']['mysql'] = 1;	 // if set to x1 will output every sql query i
 $tiddlyCfg['debug']['login'] = 0;
 $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;
+$tiddlyCfg['debug']['save'] = 1;
 $tiddlyCfg['debug']['params'] = 0;
 $tiddlyCfg['debug']['fail'] = 0;
 $tiddlyCfg['debug']['steps'] = 0;
