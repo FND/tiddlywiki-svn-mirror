@@ -97,18 +97,34 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 };
 
 
+config.macros.ccCreateWorkspace.checkSaveCount = function (requests, saved) {
+	if(requests == 0)
+		return false;
+	//	console.log('s'+saved);
+//console.log('r'+requests);
+	if(requests == saved)
+		return true;
+}	
 
 config.macros.ccCreateWorkspace.doImport = function (params, content) {
 	var importStore = new TiddlyWiki();
 	importStore.importTiddlyWiki(content);
 	store.suspendNotifications();
+	ccTiddlyAutoSave.putCallback = function(context, userParams){
+		window.savedCount ++;
+		if(config.macros.ccCreateWorkspace.checkSaveCount(window.savedRequestedCount, window.savedCount))
+			window.location = params.url;
+		}
+	window.savedCount = 0;
+	window.savedRequestedCount = 0;
+	
 	importStore.forEachTiddler(function(title,tiddler) {
 		if(!store.getTiddler(title)) {
 			tiddler.fields['server.workspace'] = params.w.formElem["workspace_name"].value;
 			store.saveTiddler(title,title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,false,tiddler.created);
+			window.savedRequestedCount ++;
 		}
 	});
-
 }
 
 config.macros.ccCreateWorkspace.fetchFileCallback = function(status,params,responseText,url,xhr){
