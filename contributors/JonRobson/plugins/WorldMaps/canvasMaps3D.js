@@ -52,11 +52,12 @@ function resolveTarget(e)
 	return obj;
 }
 
-function resolveMemory(node)
+function resolveTargetWithMemory(e)
 {
+	var node = resolveTarget(e);
 	while(node && !node.memory)
 		node = node.parentNode;
-	return node.memory;
+	return node;
 }
 
 var minLon = 1000;
@@ -216,11 +217,11 @@ EasyMapController.prototype = {
 		if(!hit) {
 			return false;
 		}
-		console.log("hit!");
+		/*console.log("hit!");
 		console.log(hit);
 		for(var n in hit.properties) {
 			console.log(n+": "+hit.properties[n]);
-		}
+		}*/
 		if(hit.properties.action){
 			action(x,y);
 		}
@@ -534,7 +535,7 @@ EasyMap.prototype = {
 			var geojson;
 			if(typeof responseText == 'string'){
 				geojson = eval('(' +responseText + ')');
-				console.log("eval done: ",geojson);
+				//console.log("eval done: ",geojson);
 			}
 			else
 				geojson = responseText;
@@ -1043,8 +1044,11 @@ EasyMapUtils.prototype = {
 		if(!e) {
 			e = window.event;
 		}
-		var target = resolveTarget(e);
-
+		var target = resolveTargetWithMemory(e);
+				//console.log("target: ",target);
+				//console.log("target id: "+target.id);
+				//console.log("target width: "+target.width); <-- this break in IE...
+				//console.log("target nodename: "+target.nodeName);
 		var id ="#"+this.wrapper.id;
 		
 		var offset = $(id).offset();
@@ -1055,22 +1059,35 @@ EasyMapUtils.prototype = {
 		//counter any positioning
 		if(target.style.left) x -= parseInt(target.style.left);
 		if(target.style.top) y -= parseInt(target.style.top);
-		
-		var memory = resolveMemory(target);
+		/*console.log('e.clientX: '+e.clientX);
+		console.log('window.findScrollX: '+window.findScrollX());
+		console.log('offset.left: '+offset.left);
+		console.log('target.style.left: '+target.style.left);
+		console.log('e.clientY: '+e.clientY);
+		console.log('window.findScrollY: '+window.findScrollY());
+		console.log('offset.top: '+offset.top);
+		console.log('target.style.top: '+target.style.top);*/
 
+		var memory = target.memory;
+		//console.log('memory length: '+memory.length);
 		if(memory){
 			var shape = this.getShapeAt(x,y,memory);
-			return shape;}
-		else{
-			console.log("no shapes in memory");
+			return shape;
+		} else{
+			//console.log("no shapes in memory");
 			//return false;
 		}
 	},
 	
 	getShapeAt: function(x,y,shapes) {
+		//console.log('looking for hit at x,y: '+x+', '+y);
 		var hitShapes = [];
 		for(var i=0; i < shapes.length; i++){
 			var g = shapes[i].grid;
+			/*console.log(g.x1);
+			console.log(g.y1);
+			console.log(g.x2);
+			console.log(g.y2);*/
 			if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
 				hitShapes.push(shapes[i]);
 			}
