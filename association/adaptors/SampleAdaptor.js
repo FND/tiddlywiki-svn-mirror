@@ -1,3 +1,30 @@
+/***
+|''Name''|SampleAdaptor|
+|''Description''|<...>|
+|''Icon''|<...>|
+|''Author''|<...>|
+|''Contributors''|<...>|
+|''Version''|<...>|
+|''Date''|<...>|
+|''Status''|<//unknown//; @@experimental@@; @@beta@@; //obsolete//; stable>|
+|''Source''|<...>|
+|''CodeRepository''|<...>|
+|''Copyright''|<...>|
+|''License''|<...>|
+|''CoreVersion''|<...>|
+|''Requires''|<...>|
+|''Overrides''|<...>|
+|''Feedback''|<...>|
+|''Documentation''|<...>|
+|''Keywords''|<...>|
+!Code
+***/
+//{{{
+if(!version.extensions.SampleAdaptor) { //# ensure that the plugin is only installed once
+version.extensions.SampleAdaptor = { installed: true };
+
+if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
+
 config.extensions.SampleAdaptor = function() {};
 
 (function(adaptor) { //# set up alias
@@ -87,3 +114,6 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 config.adaptors[adaptor.serverType] = adaptor;
 
 })(config.extensions.SampleAdaptor); //# end of alias
+
+} //# end of "install only once"
+//}}}
