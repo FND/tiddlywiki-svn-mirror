@@ -3,7 +3,7 @@
 |''Description''|<...>|
 |''Author''|Zooko|
 |''Contributors''|FND|
-|''Version''|0.1.2|
+|''Version''|0.1.3|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/Zooko/HTTPSavingPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/Zooko/HTTPSavingPlugin.js|
@@ -113,6 +113,7 @@ getPath = function(origPath) {
 
 // override saveFile()
 saveFile = function(fileUrl,content,callb) {
+	displayMessage("saving... please wait"); // XXX: belongs into command handler -- TODO: i18n
 	//alert("whee! about to save to " + fileUrl);
 	var localCallback = function(status,params,responseText,url,xhr) {
 		//alert("whee! got callback status " + status + ", params " + params + ", url " + url + ", xhr " + xhr);
