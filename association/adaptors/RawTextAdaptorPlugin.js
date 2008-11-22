@@ -2,7 +2,7 @@
 |''Name''|RawTextAdaptorPlugin|
 |''Description''|adaptor for importing plain-text files (e.g. from Subversion) as tiddlers|
 |''Author''|FND|
-|''Version''|0.2.0|
+|''Version''|0.2.1|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#RawTextAdaptorPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -16,14 +16,21 @@
 !Code
 ***/
 //{{{
-function RawTextAdaptor() {}
+if(!version.extensions.RawTextAdaptor) { //# ensure that the plugin is only installed once
+version.extensions.RawTextAdaptor = { installed: true };
 
-RawTextAdaptor.prototype = new AdaptorBase();
-RawTextAdaptor.serverType = "rawtext";
-RawTextAdaptor.serverLabel = "Raw Text";
-RawTextAdaptor.defaultModifier = "..."; // XXX: use empty string?
+if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
 
-RawTextAdaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
+config.extensions.RawTextAdaptor = function() {};
+
+(function(adaptor) { //# set up alias
+
+adaptor.prototype = new AdaptorBase();
+adaptor.serverType = "rawtext";
+adaptor.serverLabel = "Raw Text";
+adaptor.defaultModifier = "..."; // XXX: use empty string?
+
+adaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.workspaces = [{ title: "N/A" }];
 	if(context.callback) {
@@ -33,29 +40,29 @@ RawTextAdaptor.prototype.getWorkspaceList = function(context, userParams, callba
 	return true;
 };
 
-RawTextAdaptor.prototype.getTiddlerList = function(context, userParams, callback) {
+adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	if(context.callback) {
 		context.status = true;
-		var filename = trimURI(context.host).split("/").pop();
-		context.tiddlers = [RawTextAdaptor.createTiddler(filename)];
+		var filename = adaptor.trimURI(context.host).split("/").pop();
+		context.tiddlers = [adaptor.createTiddler(filename)];
 		window.setTimeout(function() { callback(context, context.userParams); }, 0);
 	}
 	return true;
 };
 
-RawTextAdaptor.prototype.getTiddler = function(title, context, userParams, callback) {
+adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	if(!context.tiddler) {
-		context.tiddler = RawTextAdaptor.createTiddler(title);
+		context.tiddler = adaptor.createTiddler(title);
 	}
-	context.tiddler.fields["server.type"] = RawTextAdaptor.serverType;
+	context.tiddler.fields["server.type"] = adaptor.serverType;
 	context.tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
-	var req = httpReq("GET", context.host, RawTextAdaptor.getTiddlerCallback, context);
+	var req = httpReq("GET", context.host, adaptor.getTiddlerCallback, context);
 	return typeof req == "string" ? req : true;
 };
 
-RawTextAdaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
+adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -68,25 +75,29 @@ RawTextAdaptor.getTiddlerCallback = function(status, context, responseText, uri,
 };
 
 // create tiddler from filename
-RawTextAdaptor.createTiddler = function(filename) {
+adaptor.createTiddler = function(filename) {
 	var tiddler = new Tiddler(filename);
 	var pos = filename.lastIndexOf(".");
 	if(pos != -1) { // strip file extension
-		tiddler.title = title.substr(0, pos); //# N.B.: altering title is acceptable since it's not used as URI component
-		if(title.substr(pos) == ".js") { // treat as plugin
+		tiddler.title = filename.substr(0, pos); //# N.B.: altering title is acceptable since it's not used as URI component
+		if(filename.substr(pos) == ".js") { // treat as plugin
 			tiddler.tags = ["systemConfig"];
 		}
 	}
-	context.created = new Date();
-	context.modified = context.created;
-	context.modifier = RawTextAdaptor.defaultModifier;
+	tiddler.created = new Date();
+	tiddler.modified = tiddler.created;
+	tiddler.modifier = adaptor.defaultModifier;
 	return tiddler;
 };
 
-config.adaptors[RawTextAdaptor.serverType] = RawTextAdaptor;
+config.adaptors[adaptor.serverType] = adaptor;
 
 // strip fragments and parameters from URI
-function trimURI(uri) {
+adaptor.trimURI = function(uri) {
 	return uri.split("#")[0].split("?")[0];
 }
+
+})(config.extensions.RawTextAdaptor); //# end of alias
+
+} //# end of "install only once"
 //}}}
