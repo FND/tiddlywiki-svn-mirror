@@ -19,8 +19,6 @@
 if(!version.extensions.RawTextAdaptor) { //# ensure that the plugin is only installed once
 version.extensions.RawTextAdaptor = { installed: true };
 
-if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
-
 config.extensions.RawTextAdaptor = function() {};
 
 (function(adaptor) { //# set up alias
