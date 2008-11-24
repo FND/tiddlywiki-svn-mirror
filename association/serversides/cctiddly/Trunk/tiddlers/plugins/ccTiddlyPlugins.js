@@ -169,7 +169,6 @@ config.extensions.ServerSideSavingPlugin = {
 	adaptor: config.adaptors.cctiddly,
 
 	saveTiddler: function(tiddler) {
-		displayMessage("acW RUSSLER ");
 		var adaptor = new this.adaptor();
 		context = {
 			tiddler: tiddler,
@@ -217,8 +216,9 @@ config.macros.importTiddlers.onGetTiddler = function(context,wizard)
 	tiddler.fields['server.type'] = 'cctiddly';
 	tiddler.fields['server.host'] = window.url;
 	tiddler.fields['workspace']= window.workspace;
-	store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, true, tiddler.created);// local 
-	config.extensions.ServerSideSavingPlugin.saveTiddler(tiddler); // remote save. 
+
+	store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, false, tiddler.created);// local 
+//	config.extensions.ServerSideSavingPlugin.saveTiddler(tiddler); // remote save. 
 	if(!wizard.getValue("sync")) {
 		store.setValue(tiddler.title,'server',null);
 	}
