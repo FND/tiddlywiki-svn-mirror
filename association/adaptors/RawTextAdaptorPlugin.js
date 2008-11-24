@@ -2,7 +2,7 @@
 |''Name''|RawTextAdaptorPlugin|
 |''Description''|adaptor for importing plain-text files (e.g. from Subversion) as tiddlers|
 |''Author''|FND|
-|''Version''|0.2.1|
+|''Version''|0.2.2|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#RawTextAdaptorPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -19,7 +19,7 @@
 if(!version.extensions.RawTextAdaptor) { //# ensure that the plugin is only installed once
 version.extensions.RawTextAdaptor = { installed: true };
 
-config.extensions.RawTextAdaptor = function() {};
+config.adaptors.rawtext = function() {};
 
 (function(adaptor) { //# set up alias
 
@@ -88,14 +88,12 @@ adaptor.createTiddler = function(filename) {
 	return tiddler;
 };
 
-config.adaptors[adaptor.serverType] = adaptor;
-
 // strip fragments and parameters from URI
 adaptor.trimURI = function(uri) {
 	return uri.split("#")[0].split("?")[0];
 }
 
-})(config.extensions.RawTextAdaptor); //# end of alias
+})(config.adaptors.rawtext); //# end of alias
 
 } //# end of "install only once"
 //}}}
