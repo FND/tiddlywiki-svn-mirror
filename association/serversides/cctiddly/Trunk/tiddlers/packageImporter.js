@@ -50,8 +50,15 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 
 	var html = "<form>";
 	for(var t=0; t<tagged.length; t++){
-		   html += "<input tabindex=2 type=radio name='packages' value='"+tagged[t].title+"' >"+tagged[t].title+"<br />";
-		   html +=  store.getTiddlerSlice(tagged[t].title,'Description')+"<br /><br /";
+html += "<div id='mid' style='vertical-align:middle'>";
+		if(store.getTiddlerSlice(tagged[t].title,'image')!=undefined)
+			html += "<img src="+store.getTiddlerSlice(tagged[t].title,'image')+" width=50px >";
+		else
+			html += "<img src='http://www.google.co.uk/intl/en_uk/images/logo.gif' width=50px >";
+	
+		   html += "<input tabindex=2 type=radio name='packages' value='"+tagged[t].title+"' >"+tagged[t].title+"<br/>";
+			html +="</div>";
+//		   html +=  store.getTiddlerSlice(tagged[t].title,'Description')+"<br /><br />";
 	}
 	var form =  html+"</form>";
 	
@@ -64,17 +71,20 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 };
 
 config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
-	var radios = w.formElem.packages;
-	var packageTiddler;
-	for(var z=0;z<radios.length;z++){
-		if (radios[z].checked){
-			selectedPackage = radios[z].value;
-			break;
-		}
-	}
 	var params = {}; 
 	params.w = w;
-	params.selectedPackage = selectedPackage;
+	if(w.formElem.packages===true) {
+		var radios = w.formElem.packages;
+		var packageTiddler;
+		for(var z=0;z<radios.length;z++){
+			if (radios[z].checked){
+				selectedPackage = radios[z].value;
+				break;
+			}
+		}
+		displayMessage('settingpackages');
+		params.selectedPackages = selectedPackage;
+	}
 	if(window.useModRewrite == 1)
 	params.url = url+w.formElem["workspace_name"].value; 
 	else
@@ -84,7 +94,16 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
 };
 
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {
+	
+	if(params.selectedPackage=="undefined"){
+	displayMessage("sssdsd");
+	}
+
+
+//		window.location = params.url;
 	if(xhr.status==201){
+		params.w.addStep("Please wait", "This could take afew minutes depending on your internet connection.<img src='http://www.ajaxload.info/cache/FF/FF/FF/00/00/00/37-0.gif'/>"+"<br/><br/><input width='300' name='statusMarker'/>");
+	//	params.w.setButtons([]);
 	   var url = store.getTiddlerSlice(params.selectedPackage,'URL');
 		loadRemoteFile(url,config.macros.ccCreateWorkspace.fetchFileCallback ,params);
 	}else if(xhr.status == 200){
@@ -100,8 +119,6 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 config.macros.ccCreateWorkspace.checkSaveCount = function (requests, saved) {
 	if(requests == 0)
 		return false;
-	//	console.log('s'+saved);
-//console.log('r'+requests);
 	if(requests == saved)
 		return true;
 }	
@@ -109,7 +126,6 @@ config.macros.ccCreateWorkspace.checkSaveCount = function (requests, saved) {
 config.macros.ccCreateWorkspace.doImport = function (params, content) {
 	var importStore = new TiddlyWiki();
 	importStore.importTiddlyWiki(content);
-	store.suspendNotifications();
 	ccTiddlyAutoSave.putCallback = function(context, userParams){
 		window.savedCount ++;
 		if(config.macros.ccCreateWorkspace.checkSaveCount(window.savedRequestedCount, window.savedCount))
@@ -120,9 +136,9 @@ config.macros.ccCreateWorkspace.doImport = function (params, content) {
 	
 	importStore.forEachTiddler(function(title,tiddler) {
 		if(!store.getTiddler(title)) {
+			params.w.formElem.statusMarker.value='saving '+title;
 			tiddler.fields['server.workspace'] = params.w.formElem["workspace_name"].value;
 			window.workspace = params.w.formElem["workspace_name"].value;
-			displayMessage(tiddler.fields['server.workspace']);
 			store.saveTiddler(title,title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,false,tiddler.created);
 			window.savedRequestedCount ++;
 		}

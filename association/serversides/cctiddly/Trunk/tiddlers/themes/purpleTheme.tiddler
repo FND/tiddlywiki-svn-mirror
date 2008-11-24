@@ -218,10 +218,14 @@ h1 {
 	border:1px solid #ddd;
 }
 
+div.tabset {
+	margin-bottom:1px;
+}
 
 .tabUnselected {
-	background:#eee none repeat scroll 0%;
+	background:#ddd none repeat scroll 0%;
 	color:#999;
+	border:1px solid #ccc;
 }
 
 #sidebar {
@@ -426,10 +430,6 @@ a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
 	border:0px;
 }
 
-#sidebarOptions .sliderPanel a.tabSelected {
-border:1px solid #ddd;
-border-bottom:1px solid white;
-}
  
 #topMenu a, #topMenu .button {
 	padding: 5px 15px;
@@ -495,16 +495,13 @@ hr {
 	background:#eee none repeat scroll 0%;
 	border:0px solid #999;
 	color:#999;
-	padding:2px;
 }
 
-#sidebarOptions .sliderPanel .tabSelected {
+.tabSelected, #sidebarOptions .sliderPanel .tabSelected {
 	background:white none repeat scroll 0%;
-	padding:2px;
-	border:1px solid #999;
-	border-bottom:1px solid black;
+	border:1px solid #ddd;
+	border-bottom:1px solid white;
 	color:#999;
-	border-bottom:2px solid white;
 }
 
 .tabContents {
@@ -570,8 +567,8 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 }
 
 body .wizardFooter {
-	padding :10px;
 	margin:0px;
+	margin-top:-1em;
 	padding-top:0px;
 	background:white;
 	font-weight:bold;

@@ -665,8 +665,6 @@ config.macros.ccLogin.refresh=function(place, error){
 	});
 	
 	
-	
-		var li_register = createTiddlyElement(w.footElem, "label");
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	},null, null, null,  {tabindex:'3'});
