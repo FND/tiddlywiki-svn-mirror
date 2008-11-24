@@ -39,6 +39,7 @@ config.extensions.ServerSideSavingPlugin = {
 		var adaptor = new this.adaptor();
 		context = {
 			tiddler: tiddler,
+			changecount: tiddler.fields.changecount,
 			workspace: tiddler.fields["server.workspace"] // XXX: bag?
 		};
 		var req = adaptor.putTiddler(tiddler, context, {}, this.saveTiddlerCallback);
@@ -49,10 +50,11 @@ config.extensions.ServerSideSavingPlugin = {
 		var tiddler = context.tiddler;
 		if(context.status) { // TODO: handle 412 etc.
 			displayMessage("Saved " + tiddler.title); // TODO: i18n
-			tiddler.clearChangeCount(); // XXX: async => there could have been another change
+			if(tiddler.fields.changecount != context.changecount) {
+				tiddler.clearChangeCount();
+			}
 		} else {
 			displayMessage("Error saving " + tiddler.title + ": " + context.statusText); // TODO: i18n
-			tiddler.incChangeCount(); // XXX: ?
 		}
 	}
 };
