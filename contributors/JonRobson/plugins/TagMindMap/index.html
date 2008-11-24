@@ -510,7 +510,7 @@ Also see AdvancedOptions</pre>
 <pre>
 This demonstrates how to customise exactly what we want to see in our visualisation. We do this by defining a tag mind map (initially empty) and following it up with various drawEdge commands. In this example we also show off the parameter maxNodeNameLength which allows you to shorten the node name. We have also turned off clicking a node opens a new tiddler using the parameter {{{click:none}}}.
 
-&lt;&lt;tiddlytagmindmap width:400 height:400 toolbar:1111 startState:empty maxNodeNameLength:10 click:none&gt;&gt;
+&lt;&lt;tiddlytagmindmap width:400 height:400 toolbar:1111 startState:empty maxNodeNameLength:10 click:none directed:true&gt;&gt;
 &lt;&lt;TagMindMapEdge &quot;The Solar System&quot; &quot;The Earth&quot;&gt;&gt;
 &lt;&lt;TagMindMapEdge &quot;The Earth&quot; &quot;Africa&quot;&gt;&gt;
 &lt;&lt;TagMindMapEdge &quot;The Earth&quot; &quot;Europe&quot;&gt;&gt;
@@ -631,13 +631,13 @@ config.commands.newParent.handler = function(event,src,title){
 
 }</pre>
 </div>
-<div title="TiddlyTagMindMapPlugin" modifier="JonRobson" created="200811102221" tags="systemConfig tagMindMapCodePackage interesting">
+<div title="TiddlyTagMindMapPlugin" modifier="JonRobson" created="200811241824" tags="systemConfig tagMindMapCodePackage interesting">
 <pre>/***
 |''Name''|TiddlyTagMindMap|
 |''Description''|Bring your tiddlers to life in a radial graph which displays all your tiddlywiki tiddlers and the relationships between them. (A bit like The Brain)|
 |''Author''|Jon Robson|
 |''Contributors''|Nicolas Garcia Belmonte|
-|''Version''|1.5 is the next release|
+|''Version''|1.5 in progress|
 |''Date''|Nov 2008|
 |''Status''|@@experimental@@;|
 |''License''|BSD|
@@ -666,8 +666,9 @@ There are a variety of configuration options in the backstage area under tweak. 
 !!Parameters
 tiddlytagmindmap takes several (but all optional) parameters. Some examples can be seen below, note the order is irrelevant of these parameters.
 
-!!!Nodes
-
+!!!Nodes and Edges
+!!!!Directional edges 
+The directed parameter allows you to add arrowheads to your edges. usage: &lt;&lt;tiddlytagmindmap directed:true&gt;&gt;
 !!!!Name Length
 nodeNameLength:x where x is an integer will shorten the name of any node with a name longer than x. If x =0, the labels will disappear so you can rely on tooltips.
 
@@ -920,11 +921,13 @@ config.macros.tiddlytagmindmap.get_ttmm_settings = function(paramString){
 	var clickF = function(node,id){story.displayTiddler(null, node.id,null,null,null,null,null,id);};
 	settings.clickFunction = clickF;
 	
+	settings.dynamicUpdateFunction = createJSON;
+	
 	if(paramString){
 		var prms = paramString.parseParams(null, null, true);
 		settings.breadcrumbs = eval(getParam(prms, &quot;breadcrumbs&quot;));
 		settings.ignoreLoneNodes = eval(getParam(prms, &quot;ignoreLoneNodes&quot;));
-
+		settings.arrowheads = eval(getParam(prms, &quot;directed&quot;));
 		settings.tagcloud.off = eval(getParam(prms, &quot;notagcloud&quot;));
 			
 		settings.width = getParam(prms, &quot;width&quot;);
@@ -1121,13 +1124,13 @@ config.macros.tiddlytagmindmap.loadTiddlersIntoTTMM=  function(tiddlerList,visua
 
 
 	if(viz.rgraph){
-//		var n = GraphUtil.getNode(viz.rgraph.graph,title);
-
 		if(nodesLoaded !=0){
-		viz.centerOnNode(title);
-		viz.rgraph.compute();
+
+			viz.rgraph.compute();
+			viz.rgraph.plot();
+			
 		}
-		viz.rgraph.plot();
+		viz.centerOnNode(title);
 	}
 }
 
@@ -1165,8 +1168,15 @@ story.beforettmm_displayTiddler(srcElement,tiddler,template,animate,unused,custo
 {{{
 
 var Tagmindmap = function(divID,settings){
-	if(settings.clickFunction)this.callWhenClickOnNode = settings.clickFunction;
-	else this.callWhenClickOnNode = function(node,id){return};
+	if(settings.clickFunction)
+		this.callWhenClickOnNode = settings.clickFunction;
+	else
+		this.callWhenClickOnNode = function(node,id){return};
+	
+	if(settings.dynamicUpdateFunction)
+		this.dynamicUpdateFunction = settings.dynamicUpdateFunction;
+	else
+		this.dynamicUpdateFunction = function(node,id){return {};};		
 	this.wrapperID = divID;
 
 	this._setup(settings);
@@ -1178,7 +1188,7 @@ Tagmindmap.prototype = {
 	_setup: function(settings){
 		
 		
-		this.settings = {'arrowheads':true,'breadcrumbs': true,'lineColor':'#ccddee','nodeColor':'#ccddee','zoomLevel':100, 'ignoreLoneNodes':false,'excludeNodeList': ['excludeLists']}; //put all default settings here
+		this.settings = {'arrowheads':false,'breadcrumbs': true,'lineColor':'#ccddee','nodeColor':'#ccddee','zoomLevel':100, 'ignoreLoneNodes':false,'excludeNodeList': ['excludeLists']}; //put all default settings here
 		this.settings.tagcloud = {'smallest': 0.8, 'largest': 1.4, 'upper':0, 'off': false}; //upper is the maximum sized node
 	
 		this.graph_showCirclesFlag = false; //shows circles in the mind map
@@ -1189,7 +1199,7 @@ Tagmindmap.prototype = {
 
 		this.settings.breadcrumb_startcolor = &quot;red&quot;; //rgb(0,0,0)
 		/*above defaults below read in */
-		
+		this.settings.arrowheads = settings.arrowheads;
 		this.settings.breadcrumbs = settings.breadcrumbs;
 		this.settings.tagcloud.off = settings.tagcloud.off;
 		this.settings.excludeNodeList = settings.excludeNodeList;
@@ -1527,6 +1537,7 @@ Tagmindmap.prototype = {
 			getNodeLabelContainer: function(){return ttmm.labelContainer;},
 			getNodeLabelPrefix: function(){return ttmm.nodeLabelPrefix;},
 		  	onBeforeCompute: function(node) {
+									ttmm.createNodeFromJSON(ttmm.dynamicUpdateFunction(node.id));
 									if(ttmm.settings.breadcrumbs) ttmm.setNodeData(node.id, &quot;color&quot;,ttmm.settings.breadcrumb_startcolor);	
 			},
 		  	getName: function(node1, node2) {
@@ -1545,15 +1556,23 @@ Tagmindmap.prototype = {
 			
 				if(node.id == this.thehiddenbridge) return;
 				var clickfunction = function(e){
-					ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);
 					
-			//	console.log(ttmm.rgraph.graph.nodes[node.id].data.children,ttmm.rgraph.graph.nodes[node.id].data.parents);
-					ttmm.rgraph.onClick(node.id);
-
+					ttmm.rgraph.onClick(node.id);					
+					return false;
+				};
+				
+				var dblclickfunction =function(e){
+					ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);		
 				};
 					ttmm.rgraph_currentNode = node.id;	 
-					if(domElement.addEvent){domElement.addEvent('click',clickfunction);}
-					else {domElement.onclick = clickfunction;}
+					if(domElement.addEvent){
+						//domElement.addEvent('click',clickfunction);
+						domElement.addEvent('dblclick',dblclickfunction);
+						}
+					else {
+						domElement.onclick = clickfunction;
+						domElement.ondblclick = dblclickfunction;
+						}
 			},
 
 			getMaxChildren: function(){
@@ -1672,44 +1691,43 @@ Tagmindmap.prototype = {
 			},
 	
 			onAfterPlotLine: function(adj){
-				var l =this.getNodeLabelContainer();
-				
-			//document.getElementById(l).innerHTML = &quot;&quot;;	
-			var context = ttmm.canvas.getContext();
-			var canvas = ttmm.canvas;
-			var node = adj.nodeFrom, child = adj.nodeTo;
+				var l =this.getNodeLabelContainer();				
+				//document.getElementById(l).innerHTML = &quot;&quot;;	
+				var context = ttmm.canvas.getContext();
+				var canvas = ttmm.canvas;
+				var node = adj.nodeFrom, child = adj.nodeTo;
 
-			var pos = node.pos.toComplex();
-			var posChild = child.pos.toComplex();
+				var pos = node.pos.toComplex();
+				var posChild = child.pos.toComplex();
 				var d = this.getOffset();//jon
 				
-			//draw arrowhead.. (angle needs to be calculated)
-			if(ttmm.settings.arrowheads){
-				if(node.id == ttmm.thehiddenbridge)return;
-				//console.log(&quot;arrowhead from&quot;,node.id, &quot;to&quot;,child.id)
-				canvas.path('stroke', function(context) {
-				var r = 10;
-				var ctx = context;
-				ctx.save();
-				//ctx.beginPath();
-				ctx.translate(posChild.x +d.x,posChild.y+d.y);
-				var o = parseFloat(posChild.y-pos.y);
-				var a = parseFloat(posChild.x -pos.x);
+				//draw arrowhead.. (angle needs to be calculated)
+				if(ttmm.settings.arrowheads){
+					if(node.id == ttmm.thehiddenbridge)return;
+					//console.log(&quot;arrowhead from&quot;,node.id, &quot;to&quot;,child.id)
+					canvas.path('stroke', function(context) {
+					var r = 30;
+					var ctx = context;
+					ctx.save();
+					//ctx.beginPath();
+					ctx.translate(posChild.x +d.x,posChild.y+d.y);
+					var o = parseFloat(posChild.y-pos.y);
+					var a = parseFloat(posChild.x -pos.x);
    
-				if(a !=0){
-				var rad = Math.atan2(o,a);
-				ctx.rotate(rad);
-				ctx.moveTo(2,0);
-				ctx.lineTo(-10,-4);
-				ctx.lineTo(-10,4);
+					if(a !=0){
+					var rad = Math.atan2(o,a);
+					ctx.rotate(rad);
+					ctx.moveTo(2,0);
+					ctx.lineTo(-r,-4);
+					ctx.lineTo(-r,4);
 
-			    ctx.lineTo(2,0);
-				ctx.fill();		
-				}
+				    ctx.lineTo(2,0);
+					ctx.fill();		
+					}
 
-				ctx.restore();
+					ctx.restore();
 
-			});
+				});
 			
 			}
 			

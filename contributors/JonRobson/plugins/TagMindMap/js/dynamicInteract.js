@@ -7,8 +7,15 @@
 {{{
 
 var Tagmindmap = function(divID,settings){
-	if(settings.clickFunction)this.callWhenClickOnNode = settings.clickFunction;
-	else this.callWhenClickOnNode = function(node,id){return};
+	if(settings.clickFunction)
+		this.callWhenClickOnNode = settings.clickFunction;
+	else
+		this.callWhenClickOnNode = function(node,id){return};
+	
+	if(settings.dynamicUpdateFunction)
+		this.dynamicUpdateFunction = settings.dynamicUpdateFunction;
+	else
+		this.dynamicUpdateFunction = function(node,id){return {};};		
 	this.wrapperID = divID;
 
 	this._setup(settings);
@@ -20,7 +27,7 @@ Tagmindmap.prototype = {
 	_setup: function(settings){
 		
 		
-		this.settings = {'arrowheads':true,'breadcrumbs': true,'lineColor':'#ccddee','nodeColor':'#ccddee','zoomLevel':100, 'ignoreLoneNodes':false,'excludeNodeList': ['excludeLists']}; //put all default settings here
+		this.settings = {'arrowheads':false,'breadcrumbs': true,'lineColor':'#ccddee','nodeColor':'#ccddee','zoomLevel':100, 'ignoreLoneNodes':false,'excludeNodeList': ['excludeLists']}; //put all default settings here
 		this.settings.tagcloud = {'smallest': 0.8, 'largest': 1.4, 'upper':0, 'off': false}; //upper is the maximum sized node
 	
 		this.graph_showCirclesFlag = false; //shows circles in the mind map
@@ -31,7 +38,7 @@ Tagmindmap.prototype = {
 
 		this.settings.breadcrumb_startcolor = "red"; //rgb(0,0,0)
 		/*above defaults below read in */
-		
+		this.settings.arrowheads = settings.arrowheads;
 		this.settings.breadcrumbs = settings.breadcrumbs;
 		this.settings.tagcloud.off = settings.tagcloud.off;
 		this.settings.excludeNodeList = settings.excludeNodeList;
@@ -369,6 +376,7 @@ Tagmindmap.prototype = {
 			getNodeLabelContainer: function(){return ttmm.labelContainer;},
 			getNodeLabelPrefix: function(){return ttmm.nodeLabelPrefix;},
 		  	onBeforeCompute: function(node) {
+									ttmm.createNodeFromJSON(ttmm.dynamicUpdateFunction(node.id));
 									if(ttmm.settings.breadcrumbs) ttmm.setNodeData(node.id, "color",ttmm.settings.breadcrumb_startcolor);	
 			},
 		  	getName: function(node1, node2) {
@@ -387,15 +395,23 @@ Tagmindmap.prototype = {
 			
 				if(node.id == this.thehiddenbridge) return;
 				var clickfunction = function(e){
-					ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);
 					
-			//	console.log(ttmm.rgraph.graph.nodes[node.id].data.children,ttmm.rgraph.graph.nodes[node.id].data.parents);
-					ttmm.rgraph.onClick(node.id);
-
+					ttmm.rgraph.onClick(node.id);					
+					return false;
+				};
+				
+				var dblclickfunction =function(e){
+					ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);		
 				};
 					ttmm.rgraph_currentNode = node.id;	 
-					if(domElement.addEvent){domElement.addEvent('click',clickfunction);}
-					else {domElement.onclick = clickfunction;}
+					if(domElement.addEvent){
+						//domElement.addEvent('click',clickfunction);
+						domElement.addEvent('dblclick',dblclickfunction);
+						}
+					else {
+						domElement.onclick = clickfunction;
+						domElement.ondblclick = dblclickfunction;
+						}
 			},
 
 			getMaxChildren: function(){
@@ -514,44 +530,43 @@ Tagmindmap.prototype = {
 			},
 	
 			onAfterPlotLine: function(adj){
-				var l =this.getNodeLabelContainer();
-				
-			//document.getElementById(l).innerHTML = "";	
-			var context = ttmm.canvas.getContext();
-			var canvas = ttmm.canvas;
-			var node = adj.nodeFrom, child = adj.nodeTo;
+				var l =this.getNodeLabelContainer();				
+				//document.getElementById(l).innerHTML = "";	
+				var context = ttmm.canvas.getContext();
+				var canvas = ttmm.canvas;
+				var node = adj.nodeFrom, child = adj.nodeTo;
 
-			var pos = node.pos.toComplex();
-			var posChild = child.pos.toComplex();
+				var pos = node.pos.toComplex();
+				var posChild = child.pos.toComplex();
 				var d = this.getOffset();//jon
 				
-			//draw arrowhead.. (angle needs to be calculated)
-			if(ttmm.settings.arrowheads){
-				if(node.id == ttmm.thehiddenbridge)return;
-				//console.log("arrowhead from",node.id, "to",child.id)
-				canvas.path('stroke', function(context) {
-				var r = 10;
-				var ctx = context;
-				ctx.save();
-				//ctx.beginPath();
-				ctx.translate(posChild.x +d.x,posChild.y+d.y);
-				var o = parseFloat(posChild.y-pos.y);
-				var a = parseFloat(posChild.x -pos.x);
+				//draw arrowhead.. (angle needs to be calculated)
+				if(ttmm.settings.arrowheads){
+					if(node.id == ttmm.thehiddenbridge)return;
+					//console.log("arrowhead from",node.id, "to",child.id)
+					canvas.path('stroke', function(context) {
+					var r = 30;
+					var ctx = context;
+					ctx.save();
+					//ctx.beginPath();
+					ctx.translate(posChild.x +d.x,posChild.y+d.y);
+					var o = parseFloat(posChild.y-pos.y);
+					var a = parseFloat(posChild.x -pos.x);
    
-				if(a !=0){
-				var rad = Math.atan2(o,a);
-				ctx.rotate(rad);
-				ctx.moveTo(2,0);
-				ctx.lineTo(-10,-4);
-				ctx.lineTo(-10,4);
+					if(a !=0){
+					var rad = Math.atan2(o,a);
+					ctx.rotate(rad);
+					ctx.moveTo(2,0);
+					ctx.lineTo(-r,-4);
+					ctx.lineTo(-r,4);
 
-			    ctx.lineTo(2,0);
-				ctx.fill();		
-				}
+				    ctx.lineTo(2,0);
+					ctx.fill();		
+					}
 
-				ctx.restore();
+					ctx.restore();
 
-			});
+				});
 			
 			}
 			

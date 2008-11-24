@@ -3,7 +3,7 @@
 |''Description''|Bring your tiddlers to life in a radial graph which displays all your tiddlywiki tiddlers and the relationships between them. (A bit like The Brain)|
 |''Author''|Jon Robson|
 |''Contributors''|Nicolas Garcia Belmonte|
-|''Version''|1.5 is the next release|
+|''Version''|1.5 in progress|
 |''Date''|Nov 2008|
 |''Status''|@@experimental@@;|
 |''License''|BSD|
@@ -32,8 +32,9 @@ There are a variety of configuration options in the backstage area under tweak. 
 !!Parameters
 tiddlytagmindmap takes several (but all optional) parameters. Some examples can be seen below, note the order is irrelevant of these parameters.
 
-!!!Nodes
-
+!!!Nodes and Edges
+!!!!Directional edges 
+The directed parameter allows you to add arrowheads to your edges. usage: <<tiddlytagmindmap directed:true>>
 !!!!Name Length
 nodeNameLength:x where x is an integer will shorten the name of any node with a name longer than x. If x =0, the labels will disappear so you can rely on tooltips.
 
@@ -63,12 +64,16 @@ The first two options are simple strings eg.
 {{{<<tiddlytagmindmap startState:empty>>}}} loads a blank tag mind map however {{{<<tiddlytagmindmap startState:all>>}}} loads all nodes excluding those in the exclude List.
 the latter is more interesting. Have a look at [[Example 2]]!
 !Revision History
+1.5 xx/xx 
+	*Ability to add arrow heads to show direction
+	*better performance
 1.4 11/08 tag cloud integration/multiple tag mind maps/ability to call from macro
 1.3 22/10/08 working with ie/packaged up code
 
 !To Do
-*Ability to add arrow heads to show direction
-*Ability to define function for relative sizing
+
+*better control panel: replacement of macros for toggle/zoom in and out with built in toolbar to plugin
+*Ability to define your own function for relative sizing (ie. you could weight them on some meta field)
 *Ability to set meta-data specific to nodes within a tiddler in optional fields see http://TiddlyWiki.abego-software.de/#PartTiddlerPlugin (eg. colouring of children/parents/images in node label)
 *rss hooks - specify where tags and node names come from in feed
 *ability to specify what click function is/ turn off click function

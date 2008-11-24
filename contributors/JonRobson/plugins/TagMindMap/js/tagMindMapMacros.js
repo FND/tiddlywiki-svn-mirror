@@ -199,11 +199,13 @@ config.macros.tiddlytagmindmap.get_ttmm_settings = function(paramString){
 	var clickF = function(node,id){story.displayTiddler(null, node.id,null,null,null,null,null,id);};
 	settings.clickFunction = clickF;
 	
+	settings.dynamicUpdateFunction = createJSON;
+	
 	if(paramString){
 		var prms = paramString.parseParams(null, null, true);
 		settings.breadcrumbs = eval(getParam(prms, "breadcrumbs"));
 		settings.ignoreLoneNodes = eval(getParam(prms, "ignoreLoneNodes"));
-
+		settings.arrowheads = eval(getParam(prms, "directed"));
 		settings.tagcloud.off = eval(getParam(prms, "notagcloud"));
 			
 		settings.width = getParam(prms, "width");
@@ -400,13 +402,13 @@ config.macros.tiddlytagmindmap.loadTiddlersIntoTTMM=  function(tiddlerList,visua
 
 
 	if(viz.rgraph){
-//		var n = GraphUtil.getNode(viz.rgraph.graph,title);
-
 		if(nodesLoaded !=0){
-		viz.centerOnNode(title);
-		viz.rgraph.compute();
+
+			viz.rgraph.compute();
+			viz.rgraph.plot();
+			
 		}
-		viz.rgraph.plot();
+		viz.centerOnNode(title);
 	}
 }
 
