@@ -120,10 +120,7 @@ saveFile = function(fileUrl,content,callb) {
 			displayMessage("saving failed: " + responseText);
 		}
 	};
-	var req = httpReq("PUT",fileUrl,localCallback,null,null,content,"tahoe tiddly type");
-	if(!req) {
-		displayMessage("error saving");
-	}
+	return req = httpReq("PUT",fileUrl,localCallback,null,null,content,"tahoe tiddly type");
 };
 
 } //# end of "install only once"
