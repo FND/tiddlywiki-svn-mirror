@@ -28,7 +28,7 @@ config.adaptors.sampletype = function() {};
 (function(adaptor) { //# set up alias
 
 adaptor.prototype = new AdaptorBase();
-adaptor.serverType = "sampletype"; //# corresponds to config.adaptor property name
+adaptor.serverType = "sampletype"; //# corresponds to config.adaptors entry
 adaptor.serverLabel = "Sample Type";
 adaptor.mimeType = "application/json";
 
