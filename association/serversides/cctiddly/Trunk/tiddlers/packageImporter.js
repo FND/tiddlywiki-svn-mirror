@@ -104,8 +104,12 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 	if(xhr.status==201){
 		params.w.addStep("Please wait", "This could take afew minutes depending on your internet connection.<img src='http://www.ajaxload.info/cache/FF/FF/FF/00/00/00/37-0.gif'/>"+"<br/><br/><input width='300' name='statusMarker'/>");
 	//	params.w.setButtons([]);
-	   var url = store.getTiddlerSlice(params.selectedPackage,'URL');
-		loadRemoteFile(url,config.macros.ccCreateWorkspace.fetchFileCallback ,params);
+		if(params.selectedPackage) {
+	   		var url = store.getTiddlerSlice(params.selectedPackage,'URL');
+			loadRemoteFile(url,config.macros.ccCreateWorkspace.fetchFileCallback ,params);
+		} else {
+			window.location = params.url;
+		}
 	}else if(xhr.status == 200){
 		displayMessage(config.macros.ccCreateWorkspace.errorWorkspaceNameInUse);
 	}else if(xhr.status == 403){
