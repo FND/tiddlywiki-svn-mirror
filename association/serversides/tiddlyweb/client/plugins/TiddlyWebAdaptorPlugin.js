@@ -278,6 +278,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		fields: tiddler.fields,
 		revision: tiddler["server.page.revision"]
 	};
+	delete payload.fields.changecount;
 	payload = JSON.stringify(payload);
 	var req = httpReq("PUT", uri, adaptor.putTiddlerCallback,
 		context, null, payload, adaptor.mimeType);
