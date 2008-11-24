@@ -39,34 +39,8 @@ merge(ccTiddlyAdaptor,{
 // Ensure that the plugin is only installed once.
 if(!version.extensions.AdaptorCommandsPlugin) {
 	version.extensions.AdaptorCommandsPlugin = {installed:true};
-config.commands.saveTiddlerHosted1 = {};
-merge(config.commands.saveTiddlerHosted1, config.commands.saveTiddler);
 
-config.commands.saveTiddlerHosted1.handler = function(event,src,title)
-{
-	var tiddlerElem = story.getTiddler(title);
-	var fields = {};
-	story.gatherSaveFields(tiddlerElem,fields);
-	var newTitle = fields.title || title;
-	if(!store.tiddlerExists(newTitle))
-		newTitle = newTitle.trim();
-	if(newTitle==title){  // we are not renaming the tiddler 
-		var newTitle = story.saveTiddler(title,event.shiftKey);
-		if(newTitle)
-			story.displayTiddler(null,newTitle);		 
-	} else { // the tiddler is being renamed 
-		var tiddler = store.fetchTiddler(title);
-		if(store.tiddlerExists(newTitle) && newTitle != title) {
-			if(!confirm(config.messages.overwriteWarning.format([newTitle.toString()])))
-				return false;
-		}
-		var adaptor = new ccTiddlyAdaptor();
-		var userParams = {minorUpdate:event.shiftKey};
-		var context = {title:title, newTitle:newTitle, workspace:window.workspace};
-		adaptor.rename(context, userParams, config.commands.saveTiddlerHosted1.callback);
-	}
-	return false;
-};
+
 
 // implementing closeTiddler without the clearMessage();
 Story.prototype.closeTiddler = function(title,animate,unused)
@@ -82,26 +56,6 @@ Story.prototype.closeTiddler = function(title,animate,unused)
 		}
 	}
 };
-
-config.commands.saveTiddlerHosted1.callback = function(context, userParams) {
-	var tiddler = store.fetchTiddler(context.title);
-	if(tiddler) { // if tiddler exists with the old title. (we are renaming)
-		story.closeTiddler(context.title,false);
-		store.deleteTiddler(tiddler.title);
-		tiddler.title = context.newTitle;
-		store.addTiddler(tiddler);
-		story.displayTiddler(null,tiddler.title);
-		story.refreshTiddler(tiddler.title,null,true);
-		store.notify(tiddler.title,true);
-		displayMessage("Tiddler Renamed");
-	} else {   //tiddler does not exist so this is a new tiddler. 
-		var newTitle = story.saveTiddler(context.title,userParams.minorUpdate);
-		if(newTitle)
-			story.displayTiddler(null,newTitle);
-		story.closeTiddler(context.title,false);
-
-	}
-}
 
 function getServerType(fields)
 {
@@ -530,7 +484,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		d = d.convertToYYYYMMDDHHMM();
 		var fieldString = "";
 		for (var name in tiddler.fields){
-			if (String(tiddler.fields[name]))
+			if (String(tiddler.fields[name]) && name != "changecount")
 				fieldString += name +"='"+tiddler.fields[name]+"' ";
 		}
 

@@ -152,48 +152,60 @@ config.macros.ccAdmin.addAdminCallback = function(status,params,responseText,uri
 
 //  ccAutoSave //
 
-//{{{
-	
-//# Ensure that the plugin is only installed once.
-if(!version.extensions.ccTiddlyAutoSavePlugin) {
-	version.extensions.ccTiddlyAutoSavePlugin = {installed:true};
 
-ccTiddlyAutoSave.putCallback = function(context, userParams){
-	tiddler = context.tiddler;
-	if (context.status){
-		if (context.otitle != tiddler.title){
-			var ret = invokeAdaptor('deleteTiddler',context.otitle,null,null,null,config.commands.deleteTiddlerHosted.callback,tiddler.fields);
+//{{{
+if(!version.extensions.ServerSideSavingPlugin) { //# ensure that the plugin is only installed once
+version.extensions.ServerSideSavingPlugin = { installed: true };
+
+config.options.chkAutoSave = true; // XXX: does not belong here!?
+
+if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
+
+if(!config.adaptors.cctiddly) { // XXX: hardcoded; bad!
+	throw "Missing dependency: cctiddly";
+}
+
+config.extensions.ServerSideSavingPlugin = {
+	adaptor: config.adaptors.cctiddly,
+
+	saveTiddler: function(tiddler) {
+		var adaptor = new this.adaptor();
+		context = {
+			tiddler: tiddler,
+			changecount: tiddler.fields.changecount,
+			workspace: tiddler.fields["server.workspace"] // XXX: bag?
+		};
+		var req = adaptor.putTiddler(tiddler, context, {}, this.saveTiddlerCallback);
+		return req ? tiddler : false;
+	},
+
+	saveTiddlerCallback: function(context, userParams) {
+		var tiddler = context.tiddler;
+		if(context.status) { // TODO: handle 412 etc.
+			displayMessage("Saved " + tiddler.title); // TODO: i18n
+			if(tiddler.fields.changecount != context.changecount) {
+				tiddler.clearChangeCount(); // XXX: async => there could have been another change
+			}
+		} else {
+			displayMessage("Error saving " + tiddler.title + ": " + context.statusText); // TODO: i18n
+			tiddler.incChangeCount(); // XXX: ?
 		}
-		displayMessage(ccTiddlyAutoSave.msgSaved + tiddler.title);
-		tiddler.clearChangeCount();
-	}else{
-		displayMessage(ccTiddlyAutoSave.msgError + tiddler.title + ' ' + context.statusText);
-		tiddler.incChangeCount();
 	}
 };
 
-TiddlyWiki.prototype.orig_saveTiddler = TiddlyWiki.prototype.saveTiddler;	//hijack
-TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created){
-	this.orig_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,false,created); //
-    var tiddler = this.fetchTiddler(title); //And then I get it
-	var adaptor = new config.adaptors['cctiddly'];
-	// put the tiddler and deal with callback
-	tiddler.fields['server.host'] = window.url;
-	tiddler.fields['server.type'] = config.defaultCustomFields['server.type'];
-	tiddler.fields['server.workspace'] = window.workspace;
-	tiddler.clearChangeCount();
-	context = {};
-	context.tiddler = tiddler;
-	context.otitle = title;
-	context.workspace = window.workspace;
-	context.host = window.url;
-	req = adaptor.putTiddler(tiddler, context, {}, ccTiddlyAutoSave.putCallback);
-	if(req)
-		store.setDirty(false);
-	return req ? tiddler : false;
+// override saveChanges to trigger server-side saving -- XXX: use hijacking instead
+saveChanges = function(onlyIfDirty, tiddlers) {
+	store.forEachTiddler(function(title, tiddler) {
+		if(tiddler.fields.changecount > 0) {
+			config.extensions.ServerSideSavingPlugin.saveTiddler(tiddler); // TODO: handle return value
+		}
+	});
 };
-} //# end of 'install only once'
+
+} //# end of "install only once"
 //}}}
+
+
 
 
 // ccEditWorkspace //
