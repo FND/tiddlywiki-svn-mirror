@@ -18,7 +18,7 @@ config.maxTiddlerImportCount = 500;
 
 merge(config.defaultCustomFields,{
 	'server.type':'mediawiki',
-	'server.host':'http://health.hesperian.net/wx/'
+	'server.host':'http://www.hesperian.net/wx/'
 });
 
 config.options.chkSinglePageMode = false;
