@@ -23,14 +23,12 @@
 if(!version.extensions.SampleAdaptor) { //# ensure that the plugin is only installed once
 version.extensions.SampleAdaptor = { installed: true };
 
-if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
-
-config.extensions.SampleAdaptor = function() {};
+config.adaptors.sampletype = function() {};
 
 (function(adaptor) { //# set up alias
 
 adaptor.prototype = new AdaptorBase();
-adaptor.serverType = "sampletype";
+adaptor.serverType = "sampletype"; //# corresponds to config.adaptor property name
 adaptor.serverLabel = "Sample Type";
 adaptor.mimeType = "application/json";
 
@@ -111,9 +109,7 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	}
 };
 
-config.adaptors[adaptor.serverType] = adaptor;
-
-})(config.extensions.SampleAdaptor); //# end of alias
+})(config.adaptors.sampletype); //# end of alias
 
 } //# end of "install only once"
 //}}}
