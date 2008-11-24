@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -17,7 +17,7 @@
 !!v0.1 (2008-11-24)
 * initial release
 !To Do
-* turn into generic server-side saving plugin, capable of using any adaptor
+* handle deleting/renaming (e.g. by hijacking the respective commands and creating a log)
 !Code
 ***/
 //{{{
