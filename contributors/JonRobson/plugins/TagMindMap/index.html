@@ -506,7 +506,45 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="PageTemplate" modifier="JonRobson" tags="tagMindMapCodePackage">
+<div title="Example 1" modifier="JonRobson" tags="tagMindMapExamples exampleWithVerticalToolbar usageOfTagMindMapEdge">
+<pre>
+This demonstrates how to customise exactly what we want to see in our visualisation. We do this by defining a tag mind map (initially empty) and following it up with various drawEdge commands. In this example we also show off the parameter maxNodeNameLength which allows you to shorten the node name. We have also turned off clicking a node opens a new tiddler using the parameter {{{click:none}}}.
+
+&lt;&lt;tiddlytagmindmap width:400 height:400 toolbar:1111 startState:empty maxNodeNameLength:10 click:none&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;The Solar System&quot; &quot;The Earth&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;The Earth&quot; &quot;Africa&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;The Earth&quot; &quot;Europe&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;Europe&quot; &quot;France&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;Europe&quot; &quot;UK&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;The Earth&quot; &quot;Asia&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;The Earth&quot; &quot;Americas&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;Asia&quot; &quot;Japan&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;Asia&quot; &quot;Vietnam&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;Japan&quot; &quot;Kyoto&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;Japan&quot; &quot;Tokyo&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;Japan&quot; &quot;Nagano&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;Japan&quot; &quot;Matsumoto&quot;&gt;&gt;
+&lt;&lt;TagMindMapEdge &quot;Japan&quot; &quot;Hiroshima&quot;&gt;&gt;</pre>
+</div>
+<div title="Example 2" modifier="JonRobson" tags="tagMindMapExamples">
+<pre>
+This demonstrates supports for filtering certain tiddlers and popping them into the visualisation. It will load all tiddlers tagged with tagMindMapCodePackageOptional however I'm sure you can imagine up many more ways of using this! It accepts lists of tiddler names or lists of tiddlers. [[this link|http://tiddlywiki.org/index.php?title=Dev:FilterTiddlers]] may be of interest. Try {{{startState:{{store.filterTiddlers(store.getTiddlerText(&quot;DefaultTiddlers&quot;))}}}}} to show default tiddlers.
+
+&lt;&lt;tiddlytagmindmap width:600 height:200 startState:{{store.filterTiddlers(&quot;[tag[tagMindMapCodePackageOptional]]&quot;)}}&gt;&gt;</pre>
+</div>
+<div title="Example 3" modifier="JonRobson" tags="tagMindMapExamples excludingTags">
+<pre>
+This visualisation example shows how you can exclude certain elements. This particular one will show ALL tiddlers EXCEPT those which are or are tagged 'tagMindMapExamples' or 'tagMindMapCodePackageOptional' (set in the parameter exclude). These tags and any of their children therefore do not appear in the visualisation.
+
+&lt;&lt;tiddlytagmindmap width:400 height:400 toolbar:01011 startState:all exclude:['tagMindMapExamples','tagMindMapCodePackageOptional'] ignoreLoneNodes:false&gt;&gt;</pre>
+</div>
+<div title="Example 4" modifier="JonRobson" tags="tagMindMapExamples excludingTags">
+<pre>
+You can flatten the tag mind map using the notagcloud parameter..
+
+&lt;&lt;tiddlytagmindmap width:400 height:400 toolbar:01011 startState:all notagcloud:true&gt;&gt;</pre>
+</div>
+<div title="PageTemplate" modifier="JonRobson" tags="tagMindMapCodePackage tagMindMapCodePackageOptional">
 <pre>
 &lt;div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'&gt;
 &lt;div class='headerShadow'&gt;
@@ -530,30 +568,25 @@ Also see AdvancedOptions</pre>
 
 
 &lt;div id='displayArea'&gt;
-&lt;div refresh='content' tiddler='TiddlyTagMindMap'&gt;&lt;/div&gt;
+&lt;div id='tagmindmap'&gt;&lt;/div&gt;
 
 &lt;div id='messageArea'&gt;&lt;/div&gt;
 &lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
 &lt;/div&gt;</pre>
 </div>
-<div title="ToolbarCommands" modifier="JonRobson" tags="tagMindMapCodePackage">
+<div title="ToolbarCommands" modifier="JonRobson" tags="tagMindMapCodePackage tagMindMapCodePackageOptional">
 <pre>
 |~ViewToolbar|closeTiddler newChild newParent editTiddler &gt; closeOthers fields syncing permalink references jump|
 |~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|</pre>
 </div>
-<div title="StyleSheet" modifier="JonRobson" tags="tagMindMapCodePackage">
+<div title="StyleSheet" modifier="JonRobson" tags="tagMindMapCodePackage tagMindMapCodePackageOptional">
 <pre>
 .node {cursor:pointer;}
-.TTMM {}
-.TTMM_Toolbar {}</pre>
+.ttmm {border: solid;border_width : 1px;}
+.ttmm_toolbar {}</pre>
 </div>
-<div title="TiddlyTagMindMapCommands" modifier="JonRobson" created="200810221350" tags="systemConfig">
-<pre>config.commands.newChild ={};
-
-merge(config.commands.newChild,{
-	text: &quot;add child&quot;,
-	tooltip: &quot;Add child tiddler&quot;});
-	
+<div title="TiddlyTagMindMapCommands" modifier="JonRobson" created="200811092123" tags="systemConfig tagMindMapCodePackageOptional">
+<pre>config.commands.newChild ={text: &quot;add child&quot;,tooltip: &quot;Add child tiddler&quot;};
 config.commands.newChild.handler = function(event,src,title){
 	
 	clearMessage();
@@ -561,19 +594,16 @@ config.commands.newChild.handler = function(event,src,title){
 		if(!newTitle) return;
 	var tags = [title];
 	story.displayTiddler(null,newTitle,DEFAULT_EDIT_TEMPLATE,false,null,null);
+		config.commands.editTiddler.handler(event,src,newTitle);
 	for(var t=0;t&lt;tags.length;t++)
 		story.setTiddlerTag(newTitle,tags[t],+1);
-	story.focusTiddler(newTitle,config.options.txtEditorFocus||&quot;text&quot;);
+	//story.focusTiddler(newTitle,config.options.txtEditorFocus||&quot;text&quot;);
 	
+		config.commands.saveTiddler.handler(event,src,newTitle);
 	return false;
 };
 
-
-config.commands.newParent ={};
-
-merge(config.commands.newParent,{
-	text: &quot;add parent&quot;,
-	tooltip: &quot;Name and thus associate a parent with this tiddler&quot;});
+config.commands.newParent ={text: &quot;add parent&quot;,tooltip: &quot;Name and thus associate a parent with this tiddler&quot;};
 	
 config.commands.newParent.handler = function(event,src,title){
 	clearMessage();
@@ -595,30 +625,23 @@ config.commands.newParent.handler = function(event,src,title){
 	if(story.getTiddler(newTitle) == null);
 		story.displayTiddler(null,newTitle,null,false,null,null);
 		
-	config.commands.editTiddler.handler(event,src,newTitle);
+	//config.commands.editTiddler.handler(event,src,newTitle);
 	
 	return false;
 
 }</pre>
 </div>
-<div title="TiddlyTagMindMapPlugin" modifier="JonRobson" created="200811041056" tags="systemConfig">
+<div title="TiddlyTagMindMapPlugin" modifier="JonRobson" created="200811102221" tags="systemConfig tagMindMapCodePackage interesting">
 <pre>/***
 |''Name''|TiddlyTagMindMap|
 |''Description''|Bring your tiddlers to life in a radial graph which displays all your tiddlywiki tiddlers and the relationships between them. (A bit like The Brain)|
-|''Icon''|&lt;...&gt;|
 |''Author''|Jon Robson|
 |''Contributors''|Nicolas Garcia Belmonte|
-|''Version''|1.3|
-|''Date''|22 Oct 2008|
+|''Version''|1.5 is the next release|
+|''Date''|Nov 2008|
 |''Status''|@@experimental@@;|
-|''Source''|&lt;...&gt;|
-|''CodeRepository''|&lt;...&gt;|
-|''Copyright''|&lt;...&gt;|
-|''License''|&lt;...&gt;|
+|''License''|BSD|
 |''CoreVersion''|&lt;...&gt;|
-|''Requires''|&lt;...&gt;|
-|''Overrides''|&lt;...&gt;|
-|''Feedback''|&lt;...&gt;|
 |''Documentation''|&lt;...&gt;|
 |''Keywords''|data visualisation, mindmap, The Brain, Mind Manager, FreeMind,tag relationships,graph|
 !Description
@@ -643,73 +666,66 @@ There are a variety of configuration options in the backstage area under tweak. 
 !!Parameters
 tiddlytagmindmap takes several (but all optional) parameters. Some examples can be seen below, note the order is irrelevant of these parameters.
 
-!!!Height and Width
+!!!Nodes
+
+!!!!Name Length
+nodeNameLength:x where x is an integer will shorten the name of any node with a name longer than x. If x =0, the labels will disappear so you can rely on tooltips.
+
+!!!!Variable node sizes (tagcloud)
+notagcloud:true as a parameter will flatten the nodes to have the same size font
+
+!!!Dimensions
 {{{&lt;&lt;tiddlytagmindmap height:100 width:100&gt;&gt;}}} will set a tiddlytagmindmap with height and width 100.
 
+!!!Zooming
+A parameter zoom allows you to specify an integer representing the initial inflation of the mind map. The smaller it is - the closer the nodes will be together.
+{{{&lt;&lt;tiddlytagmindmap zoom:1000&gt;&gt;}}} will give you a very inflated TagMindMap!
+
 !!!The toolbar
-A parameter toolbarSettings is a string of 1s. These signify the buttons. The first digit sets whether the bar should appear vertically or horizontally.
+A parameter toolbar is a string of 1s. These signify the buttons. The first digit sets whether the bar should appear vertically or horizontally.
 The following digits turn off or on the other available buttons.
 !!!!The buttons
+The digits preceding the first digit represent these buttons in this order..
 toggle, loadall,zoom+,zoom-,re-center (re-center after panning the map)
 
-The default is 01111
-{{{&lt;&lt;tiddlytagmindmap toolbarSettings:1101&gt;&gt;}}} would give you a vertical toolbar with toggle and load buttons but no zoom.
+{{{&lt;&lt;tiddlytagmindmap toolbar:11010&gt;&gt;}}} would give you a vertical toolbar with toggle and load buttons but no zoom and no re-center buttons.
 
 !!!The Start State
 A parameter can be used to specify how the map looks on start up. 
-Currently the options are empty OR all.
+Currently the options are empty OR all OR a custom executable javascript function.
+The first two options are simple strings eg.
 {{{&lt;&lt;tiddlytagmindmap startState:empty&gt;&gt;}}} loads a blank tag mind map however {{{&lt;&lt;tiddlytagmindmap startState:all&gt;&gt;}}} loads all nodes excluding those in the exclude List.
-It defaults to displaying all defaultTiddlers in the map
-!!Examples
-See usage hopefully self explanatory.
-!Configuration Options
-&lt;...&gt;
+the latter is more interesting. Have a look at [[Example 2]]!
 !Revision History
-Coming soon..
-*Integration with TagClouds
-*Ability to set meta-data on nodes (eg. colouring)
-*Working version in IE
+1.4 11/08 tag cloud integration/multiple tag mind maps/ability to call from macro
+1.3 22/10/08 working with ie/packaged up code
+
 !To Do
-&lt;...&gt;
+*Ability to add arrow heads to show direction
+*Ability to define function for relative sizing
+*Ability to set meta-data specific to nodes within a tiddler in optional fields see http://TiddlyWiki.abego-software.de/#PartTiddlerPlugin (eg. colouring of children/parents/images in node label)
+*rss hooks - specify where tags and node names come from in feed
+*ability to specify what click function is/ turn off click function
+*allow resizing
+*node repositioning and saving of state
+*better css support
+*performance issues
+*deleting edges as tiddlers are deleted
+*adapt to parabolic tree mode and other visualisation types
+*update to new version of RGraph (JIT)
+*Self-defined click functions
+*Continued code cleanup
+*define a colour of the breadcrumb trail - make it change colour each click (increment colour, so you can get an idea of path you took to get somewhere)
+*add pins to locations in the mind map to jump back to (definable in meta data long term, also short term in tiddler edit menu)
 !Code
 ***/
 /***
-!Layer 1: TiddlyWiki Specific
-
-?? on dbl click re-center (offset 0s)
-?? tagcloud concept
+!Layer 1: TiddlyWiki Specific 
+Jon Robson
 ***/
 
 {{{
 
-var oldRefreshElements = refreshElements;
-
-function refreshElements(root,changeList)
-{
-	//do something here to stop refreshing of tagmindmap
-	var nodes = root.childNodes;
-
-//if(root.id == 'contentWrapper') return;
-console.log(root,nodes);
-	
-	oldRefreshElements(root,changeList);
-};
-
-
-	
-//load defaults
-if(!config.options.txtTTMM_canvasWidth)config.options.txtTTMM_canvasWidth = 800;
-if(!config.options.txtTTMM_canvasHeight)config.options.txtTTMM_canvasHeight = 200;
-//if(!config.options.txtTTMM_inflation)
-config.options.txtTTMM_inflation = 80;
-
-//if(config.options.txtTTMM_inflation &lt;=0) config.options.txtTTMM_inflation = 10;
-if(!config.options.txtTTMM_maxNodeNameLength)config.options.txtTTMM_maxNodeNameLength = 25;
-if(config.options.chkTTMM_ignoreLoneNodes == null) config.options.chkTTMM_ignoreLoneNodes = false;
-if(config.options.chkTTMM_leaveRedBreadCrumbTrail == null) config.options.chkTTMM_leaveRedBreadCrumbTrail = true;
-if(!config.options.txtTTMM_excludeNodeList) config.options.txtTTMM_excludeNodeList= 'excludeLists';
-
-var ttmm_loadOnStart = false; //load all nodes on start
 
 //set descriptions
 merge(config.optionsDesc,{
@@ -718,46 +734,42 @@ txtTTMM_canvasWidth: &quot;TiddlyTagMindMapPlugin : Width of  visualisation. You
 ,txtTTMM_inflation: &quot;TiddlyTagMindMapPlugin : The visualisation can be inflated and deflated to allow you to see the structure from above or close up. This value allows you to set a start inflation.&quot;
 ,txtTTMM_maxNodeNameLength:&quot;TiddlyTagMindMapPlugin : maximum length of a tiddler name. Any tiddlers with names longer than this will be abbrieviated using '...'. Set to zero to make labels disappear altogether and rely completely on tooltips.&quot;
 ,chkTTMM_ignoreLoneNodes: &quot;TiddlyTagMindMapPlugin : any lone tiddlers/nodes (ie. tiddlers that are not tagged with any data) will be ignored in the visualisation. This cleans up the visualisation greatly.&quot;
-,txtTTMM_excludeNodeList: &quot;TiddlyTagMindMapPlugin :Anything tagged with this will be ignored in the visualisation. Eventually this will allow multiple tags but I am currently being lazy. Sorry..&quot;
+,txtTTMM_excludeNodeList: &quot;TiddlyTagMindMapPlugin :Anything tagged with this will be ignored in the visualisation. Formatted in form ['tiddlername1', 'tiddlername2']&quot;
 ,chkTTMM_leaveRedBreadCrumbTrail: &quot;TiddlyTagMindMapPlugin : When you visit a node it will be coloured red leaving a breadcrumb trail of where you have been.&quot;
 }
 );
 
 /*MACROS*/
-
+var tiddlytagmindmapobjects = {}; //a library of created ttmm objects
+//var ttmm_lastID = null; //the index of the last ttmm to be opened
+//var ttmm_primaryID = null; //the primary ttmm  - this is the first to be opened. If that is closed, then the primary one becomes the next one opened after it's destruction.
 /* Zooming TagMindMap (zoom in) */
 
 config.macros.tiddlytagmindmap = {};
 config.macros.TagMindMapEdge = {};
+config.macros.LoadMindMap = {label: &quot;loadall&quot;,prompt: &quot;load all tiddlers into tag mind map&quot;};
 
-config.macros.ToggleTagMindMap = {};
-config.macros.LoadMindMap = {};
-config.macros.ZoomMindMapIn = {};
-config.macros.ZoomMindMapOut = {};
-config.macros.RecenterMindMap = {};
-
-merge(config.macros.ZoomMindMapIn,{label: &quot;zoom+&quot;,	prompt: &quot;Expand the tag mind map&quot;});
-merge(config.macros.ZoomMindMapOut,{label: &quot;zoom-&quot;,prompt: &quot;shrink the tag mind map&quot;});
-merge(config.macros.LoadMindMap,{label: &quot;loadall&quot;,prompt: &quot;load all tiddlers into tag mind map&quot;});
-merge(config.macros.ToggleTagMindMap,{label: &quot;toggle&quot;,prompt: &quot;Toggle on or off the tag mind map&quot;});
-merge(config.macros.RecenterMindMap,{label: &quot;re-center&quot;,	prompt: &quot;Center the mind map&quot;});
+//macros below will become redundant soon..
+config.macros.ToggleTagMindMap = {label: &quot;toggle&quot;,prompt: &quot;Toggle on or off the tag mind map&quot;};
+config.macros.ZoomMindMapIn = {label: &quot;zoom+&quot;,	prompt: &quot;Expand the tag mind map&quot;};
+config.macros.ZoomMindMapOut = {label: &quot;zoom-&quot;,prompt: &quot;shrink the tag mind map&quot;};
+config.macros.RecenterMindMap = {label: &quot;re-center&quot;,	prompt: &quot;Center the mind map&quot;};
 
 config.macros.RecenterMindMap.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
 
-var btn= createTiddlyButton(place,this.label,this.prompt,this.onClick);	
-if(params[0])btn.wrapperID = params[0];
+	var btn= createTiddlyButton(place,this.label,this.prompt,this.onClick);	
+	if(params[0])btn.wrapperID = params[0];
 };
 
 config.macros.RecenterMindMap.onClick = function(e)
 {
-var ttmm = getAssociatedTiddlyTagMindMapObject(this);
-	if(ttmm){
+var ttmm = getAssociatedTiddlyTagMindMapObject(this,true);
+	if(ttmm.rgraph){
 		ttmm.rgraph.controller.setOffset({'x':0, 'y':0});
 		ttmm.computeThenPlot();
 	}
 }
 
-	
 config.macros.ZoomMindMapIn.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
 
 var btn= createTiddlyButton(place,this.label,this.prompt,this.onClick);	
@@ -766,13 +778,13 @@ if(params[0])btn.wrapperID = params[0];
 
 config.macros.ZoomMindMapIn.onClick = function(e)
 {
-var ttmm = getAssociatedTiddlyTagMindMapObject(this);
-	if(ttmm){
+var ttmm = getAssociatedTiddlyTagMindMapObject(this,true);
+	if(ttmm.rgraph){
 		var z =ttmm.zoom(10);
 		ttmm.computeThenPlot();
 	}
 }
-/* Zooming TagMindMap (zoom out) */
+
 	
 config.macros.ZoomMindMapOut.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
 var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
@@ -781,33 +793,62 @@ if(params[0])btn.wrapperID = params[0];
 
 config.macros.ZoomMindMapOut.onClick = function(e)
 {
-	var ttmm = getAssociatedTiddlyTagMindMapObject(this);
-		if(ttmm){
+	var ttmm = getAssociatedTiddlyTagMindMapObject(this,true);
+		if(ttmm.rgraph){
 			var z =ttmm.zoom(-10);
 			ttmm.computeThenPlot();
 		}
 }
 
+/*accepts either name of node or json representing node {id,name,data}*/
 config.macros.TagMindMapEdge.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
 
-var from = params[0]; var to = params[1];
-var ttmm = tiddlytagmindmapobjects[ttmm_lastID];
+var id1 = params[0]; var id2 = params[1];
+var name1,name2,data1,data2;
+if(id1.id){
+	//its a json
+	name1 = id1.name;
+	data1 = id1.data;
+	id1 = id1.id;
+	
+}
+
+if(id2.id){
+	//its a json
+	name2 = id2.name;
+	data2 = id2.data;
+	id2 = id2.id;
+}
+
+var ttmm = getAssociatedTiddlyTagMindMapObject(this,false);
+
+
 if(ttmm){
-	ttmm.drawEdge(from,to);
-	ttmm.computeThenPlot();
+	ttmm.drawEdge(id1,id2,name1,name2,data1,data2);
+	
+	if(!params[2])
+		ttmm.computeThenPlot();
 	}
 
 };
 
+config.macros.TagMindMapEdge.commit = function(){
+	var ttmm = getAssociatedTiddlyTagMindMapObject(this,false);
+	ttmm.computeThenPlot();
+};
 	
 config.macros.LoadMindMap.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
 	var btn =createTiddlyButton(place,this.label,this.prompt,this.onClick);	
 	if(params[0])btn.wrapperID = params[0];
 };
 
-config.macros.LoadMindMap.onClick = function(e)
+config.macros.LoadMindMap.onClick = function(e,id)
 {
-	var ttmm = getAssociatedTiddlyTagMindMapObject(this); 
+	var ttmm;
+	if(id) 
+		ttmm = tiddlytagmindmapobjects[id];
+	else
+		ttmm = getAssociatedTiddlyTagMindMapObject(this,true); 
 	var list = store.getTiddlers();
 	for (var t=0; t&lt;list.length; t++) { 
 		ttmm.createNodeFromJSON(createJSON(list[t].title));	
@@ -826,7 +867,7 @@ config.macros.ToggleTagMindMap.handler = function(place,macroName,params,wikifie
 config.macros.ToggleTagMindMap.onClick = function(e)
 { 
 	
-	var id = getAssociatedTiddlyTagMindMapObject(this).wrapperID;
+	var id = getAssociatedTiddlyTagMindMapObject(this,true).wrapperID;
 
 	if(document.getElementById(id).style.display== &quot;none&quot;){
 		document.getElementById(id).style.display=  &quot;&quot;;
@@ -836,69 +877,121 @@ config.macros.ToggleTagMindMap.onClick = function(e)
 	}
 };
 
-var tiddlytagmindmapobjects = {};
-//var ttmm_current = null
-var ttmm_lastID = null;
-var ttmm_primaryID = null;
-/* Init TagMindMap macro */
+
 
 config.macros.tiddlytagmindmap.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
-	var settings = {};
-	startupFunction = function(){};
-	if(params){
-		var prms = paramString.parseParams(null, null, true);
-		settings.ignoreLoneNodes = getParam(prms, &quot;ignoreLoneNodes&quot;);
-		if(settings.ignoreLoneNodes == 'false') settings.ignoreLoneNodes = false; else settings.ignoreLoneNodes = true;
-		settings.width = getParam(prms, &quot;width&quot;);
-		settings.height = getParam(prms, &quot;height&quot;);
-		settings.toolbar= getParam(prms, &quot;toolbarSettings&quot;);
-	
-		var startState = getParam(prms, &quot;startState&quot;);
-	
-		var startupFunction;
-		if(startState == 'all')
-			startupFunction = config.macros.LoadMindMap.onClick;
-		else if(startState == 'defaultTiddlers')
-			startupFunction = function(){//default tiddlers
-			loadTiddlersIntoTTMM(store.filterTiddlers(store.getTiddlerText(&quot;DefaultTiddlers&quot;)));}; 
-	}
-	/*set some defaults based on tweaked preferences if none passed as parameters*/
-	if(!settings.ignoreLoneNodes) settings.ignoreLoneNodes = config.options.chkTTMM_ignoreLoneNodes;
-	if(!settings.width) settings.width = config.options.txtTTMM_canvasWidth;
-	if(!settings.height) settings.height =config.options.txtTTMM_canvasHeight;
-	if(!settings.toolbar)  settings.toolbar = &quot;01111&quot;;
+	var settings = this.get_ttmm_settings(paramString);
 
-	var id = setup_ttmm_html(place,settings);
+	var id = this.setup_ttmm_html(place,settings);
 
 		try{
-	/*creating the object */
-   	 	var clickF = function(node){story.displayTiddler(null, node.id,null,null,null,null,null,id);};
 
-		tiddlytagmindmapobjects[id]= new Tagmindmap(id,clickF);
-							
-		var excludeLists = config.options.txtTTMM_excludeNodeList;
-		tiddlytagmindmapobjects[id].excludeNodeList = getParents(excludeLists);
-		//Config['levelDistance'] = config.options.txtTTMM_inflation;
-		tiddlytagmindmapobjects[id].ignoreLoneNodes = settings.ignoreLoneNodes;
-		tiddlytagmindmapobjects[id].maxNodeNameLength = config.options.txtTTMM_maxNodeNameLength;
-		
-		ttmm_lastID = id;
-		ttmm_current = tiddlytagmindmapobjects[id];
-		startupFunction();
-		
-		console.log(&quot;created new instance with id&quot;,id);
+		tiddlytagmindmapobjects[id]= new Tagmindmap(id,settings);
+		tiddlytagmindmapobjects['last'] = id;
+		tiddlytagmindmapobjects['cur'] = id;	
+		//ttmm_lastID = id;
+		//var ttmm_current = tiddlytagmindmapobjects[id];
+		settings.startupFunction(id);
+
+		//console.log(&quot;created ttmm &quot;,ttmm_current);
 	}
-	catch(e){console.log(&quot;exception thrown during startup:&quot;+e);}
+	catch(e){console.log(&quot;exception thrown during tiddlytagmindmap creation:&quot;+e);}
 
 };
 
-}}}
+config.macros.tiddlytagmindmap.set_ttmm_setting_defaults = function(){
+	if(!config.options.txtTTMM_canvasWidth)config.options.txtTTMM_canvasWidth = 800;
+	if(!config.options.txtTTMM_canvasHeight)config.options.txtTTMM_canvasHeight = 200;
+	if(!config.options.txtTTMM_inflation)config.options.txtTTMM_inflation = 80;
+	if(!config.options.txtTTMM_maxNodeNameLength)config.options.txtTTMM_maxNodeNameLength = 25;
+	if(config.options.chkTTMM_ignoreLoneNodes == null) config.options.chkTTMM_ignoreLoneNodes = false;
+	if(config.options.chkTTMM_leaveRedBreadCrumbTrail == null) config.options.chkTTMM_leaveRedBreadCrumbTrail = true;
+	if(!config.options.txtTTMM_excludeNodeList) config.options.txtTTMM_excludeNodeList= &quot;['excludeLists']&quot;;
+}	
+config.macros.tiddlytagmindmap.get_ttmm_settings = function(paramString){
+	this.set_ttmm_setting_defaults();
+	var settings = {};
+	var exList = null;
+	var that = this;
+	if(config.options.txtTTMM_excludeNodeList) settings.excludeList = eval(config.options.txtTTMM_excludeNodeList);
+	var startupFunction = function(id){};
+	settings.tagcloud = {};
 
-{{{
-function setup_ttmm_html(place,settings){
+	var clickF = function(node,id){story.displayTiddler(null, node.id,null,null,null,null,null,id);};
+	settings.clickFunction = clickF;
+	
+	if(paramString){
+		var prms = paramString.parseParams(null, null, true);
+		settings.breadcrumbs = eval(getParam(prms, &quot;breadcrumbs&quot;));
+		settings.ignoreLoneNodes = eval(getParam(prms, &quot;ignoreLoneNodes&quot;));
+
+		settings.tagcloud.off = eval(getParam(prms, &quot;notagcloud&quot;));
+			
+		settings.width = getParam(prms, &quot;width&quot;);
+		settings.height = getParam(prms, &quot;height&quot;);
+		settings.toolbar= getParam(prms, &quot;toolbar&quot;);
+		settings.zoomLevel = getParam(prms,&quot;zoom&quot;);
+		settings.maxNodeNameLength = getParam(prms,&quot;maxNodeNameLength&quot;);
+		exList = getParam(prms, &quot;exclude&quot;);
+			
+		if(getParam(prms, &quot;click&quot;) == &quot;none&quot;) settings.clickFunction = function(node,id){return;} ;	
+		var startState = getParam(prms, &quot;startState&quot;);
+		if(startState){
+			if(startState == 'all')
+				startupFunction = function(id){config.macros.LoadMindMap.onClick(null,id);}
+			else if(startState == 'empty'){
+				startupFunction = function(id){};
+			}
+			else if(startState == 'default'){
+
+				startupFunction = function(id){
+					var startState = store.filterTiddlers(store.getTiddlerText(&quot;DefaultTiddlers&quot;));
+					that.loadTiddlersIntoTTMM(startState,id);
+				}
+			}
+			else{
+				if(startState){
+					startupFunction = function(id){
+						if(startState.length == 0) return;
+						that.loadTiddlersIntoTTMM(startState,id);
+					} 
+				}
+			
+			}
+		}
+	}
+	
+	if(!exList){
+		exList = [];
+		if(config.options.txtTTMM_excludeNodeList)exList = config.options.txtTTMM_excludeNodeList;
+	}
+	/*set the excluded nodes */
+	var l = eval(exList);
+	settings.excludeNodeList = [];
+	for(var i=0; i &lt; l.length; i++){
+		settings.excludeNodeList.push(l[i]);	
+		settings.excludeNodeList = settings.excludeNodeList.concat(getChildren(l[i]));		
+	}
+
+	
+	/*set some defaults based on tweaked preferences if none passed as parameters*/
+	if(!settings.maxNodeNameLength)	settings.maxNodeNameLength = config.options.txtTTMM_maxNodeNameLength;
+	if(settings.ignoreLoneNodes==null) settings.ignoreLoneNodes = config.options.chkTTMM_ignoreLoneNodes;
+		if(settings.tagcloud == null)settings.tagcloud.off = false;
+	if(!settings.width) settings.width = config.options.txtTTMM_canvasWidth;
+	if(!settings.height) settings.height =config.options.txtTTMM_canvasHeight;
+	if(!settings.toolbar)  settings.toolbar = &quot;01111&quot;;
+	if(!settings.zoomLevel) settings.zoomLevel = config.options.txtTTMM_inflation;
+	if(!settings.breadcrumbs) settings.breadcrumbs = config.options.chkTTMM_leaveRedBreadCrumbTrail;
+	settings.startupFunction = startupFunction;
+	
+	
+	return settings;
+}
+config.macros.tiddlytagmindmap.setup_ttmm_html = function(place,settings){
 	if(!place) { //give a default place
 		place = document.getElementById('tagmindmap');
-		if(!place) return; //unable to create
+		if(!place) throw &quot;no place to put ttmm!&quot;; //unable to create
 		if(place.style.width) settings.width = place.style.width;
 		if(place.style.height) settings.height = place.style.height;
 	}
@@ -908,16 +1001,13 @@ function setup_ttmm_html(place,settings){
 	newTTMM.id = &quot;ttmm_&quot; +Math.random();
 	newTTMM.style.width = settings.width +&quot;px&quot;;
 	newTTMM.style.height= settings.height +&quot;px&quot;;
-	newTTMM.style.border = &quot;solid&quot;;
-	newTTMM.style.border_width = &quot;1px&quot;;
-
+	newTTMM.setAttribute(&quot;class&quot;,&quot;ttmm&quot;);
 	/*setup toolbar */
 	var toolbar = document.createElement(&quot;div&quot;);
-	toolbar.id = newTTMM.id + &quot;_toolbar&quot;;
+	toolbar.setAttribute(&quot;class&quot;,&quot;ttmm_toolbar&quot;);
 	var html=&quot;&quot;, divider = &quot; &quot;;
 
-	if(settings.toolbar[0] == 1){
-		//shift menu to right
+	if(settings.toolbar[0] == 1){//MAKE VERTICAL
 		toolbar.style.height = &quot;1px&quot;;
 		toolbar.style.position = &quot;relative&quot;;
 		var temp =  parseInt(settings.width) +10;
@@ -927,157 +1017,139 @@ function setup_ttmm_html(place,settings){
 	}
 	if(settings.toolbar[1] == 1) html += &quot;&lt;&lt;ToggleTagMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot; + divider;
 	if(settings.toolbar[2] == 1) html += &quot;&lt;&lt;LoadMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider;
-	if(settings.toolbar[3] == 1) {
-		html += &quot;&lt;&lt;ZoomMindMapIn  &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider;
-		html += &quot;&lt;&lt;ZoomMindMapOut &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider;
-	}
-	html += &quot;&lt;&lt;RecenterMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot;;
+	if(settings.toolbar[3] == 1) {html += &quot;&lt;&lt;ZoomMindMapIn  &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider+ &quot;&lt;&lt;ZoomMindMapOut &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider;}
+	if(settings.toolbar[4] == 1){html += &quot;&lt;&lt;RecenterMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot;;}
+	
 	place.appendChild(toolbar);
 	wikify(html,toolbar);
 	place.appendChild(newTTMM);
 
-	if(!ttmm_primaryID)ttmm_primaryID = newTTMM.id;
+	if(!document.getElementById(tiddlytagmindmapobjects['first']))tiddlytagmindmapobjects['first'] = newTTMM.id; //no primary ttmm exists
 	
 	if(!newTTMM.style.width) newTTMM.style.width = settings.width;
 	if(!newTTMM.style.height) newTTMM.style.height = settings.height;
 	
 	return newTTMM.id;
 }
-function getAssociatedTiddlyTagMindMapObject(that){
+function getAssociatedTiddlyTagMindMapObject(that,primaryPlease){
+
 		if(that.wrapperID) return tiddlytagmindmapobjects[that.wrapperID];
-		else return tiddlytagmindmapobjects[ttmm_lastID];
+		else {
+			if(primaryPlease) 
+				return tiddlytagmindmapobjects[tiddlytagmindmapobjects['first']];
+			else 
+				return tiddlytagmindmapobjects[tiddlytagmindmapobjects['last']];
+		}
 }	
-/*Colouring Functions */
-function doColouring(currentNode,ttmm){
-
-if(config.options.chkTTMM_leaveRedBreadCrumbTrail) colorNode(ttmm,currentNode, &quot;red&quot;);
-
-/*below coming soon */
-//colorNode(&quot;TiddlyTagMindMap for Everyone&quot;,&quot;green&quot;);
-//colorChildrenOf(&quot;TiddlyTagMindMap for Developers&quot;,&quot;blue&quot;);
-//colorParentsOf(&quot;TiddlyTagMindMap for Developers&quot;,&quot;white&quot;);
-}
 
 
 function getParents(a){ 
-  if(store.getTaggedTiddlers(a)){
-    var tags = store.getTaggedTiddlers(a);
-    if(tags.length == 0) return [];
 
-    var a = new Array();
-    for (var t=0; t&lt;tags.length; t++) { 
-	a.push(tags[t].title);
-    }
-    return a;
-}
-  else
-    return []; 
-} 
-
-function getChildren(a){
   if(store.getTiddler(a)){
     return store.getTiddler(a).tags;
   }
   else
     return [];
-}
+} 
 
-function colorNode(ttmm,nodename,color){
-	if(ttmm){
-		ttmm.setNodeData(nodename, &quot;color&quot;,color);
-	  //var divName = ttmm_current.canvasID+ &quot;_&quot;+nodename; 
-	  //var elem = document.getElementById(divName); 
-	  //if(elem)elem.style.color = color; 
+function getChildren(a){
+	  if(store.getTaggedTiddlers(a)){
+	    var tags = store.getTaggedTiddlers(a);
+	    if(tags.length == 0) return [];
+
+	    var a = new Array();
+	    for (var t=0; t&lt;tags.length; t++) { 
+		a.push(tags[t].title);
+	    }
+	    return a;
 	}
+	  else
+	    return [];
 }
 
-function colorParentsOf(node,color){ 
-  var tags = getParents(node); 
-  for (var t=0; t&lt;tags.length; t++) { 
-    colorNode(tags[t].title,color);
-  } 
-} 
 
-function colorChildrenOf(node,color){ 
-  var tags = getChildren(node); 
-  for (var t=0; t&lt;tags.length; t++) { 
-    colorNode(tags[t],color);
-  } 
-} 
 
-var createJSONTagMindMapNode = function(id){ 
-	return &quot;{\&quot;id\&quot;:\&quot;&quot; + id+ &quot;\&quot;, \&quot;name\&quot;: \&quot;&quot; + id+ &quot;\&quot;, \&quot;data\&quot;:{}}&quot;;
-	};
-var createJSONTagMindMapNodes  = function(mylist) { 
-									var res=&quot;&quot;; 
+function createJSONTagMindMapNode(id){
+	
+	var json = {};
+	json.id = id;
+	json.name = id;
+	return json;
+};
+function createJSONTagMindMapNodes(mylist) { 
+									var res=[]; 
                                     for (var t=0; t&lt;mylist.length; t++){
-										if(t != 0) res+= &quot;,&quot;;
-										res += createJSONTagMindMapNode(mylist[t]);
-
+										res[t] = createJSONTagMindMapNode(mylist[t]);
 									} 
 									return res;
 								};
 	
-var createJSON = function(nodeid){
+function createJSON(nodeid){
 	if(!nodeid) return &quot;{}&quot;;
-    var children = getChildren(nodeid);
+    var myjson = {};
+	
+	var children = getChildren(nodeid);
     var parents = getParents(nodeid);
-    var json = &quot;{ 'node': &quot; + createJSONTagMindMapNode(nodeid) + &quot;, &quot;;
-	json += &quot;'children':[&quot; + createJSONTagMindMapNodes(children)+ &quot;],&quot;;
- 	json += &quot;'parents' :[ &quot;+ createJSONTagMindMapNodes(parents)+ &quot;]&quot;;
-	json += &quot;}&quot;;
+    myjson.node  = createJSONTagMindMapNode(nodeid);
+	myjson.children =  createJSONTagMindMapNodes(children);
+ 	myjson.parents = createJSONTagMindMapNodes(parents);
 
-	var myjson = eval(&quot;(&quot;+json+&quot;)&quot;);
 	return myjson;
 }
 
 
-Story.prototype.beforettmm_displayTiddler = Story.prototype.displayTiddler;
 
-/*rturns the object where clicking links should update*/
 
-function loadTiddlersIntoTTMM(tiddlerList,visualisationID){
+config.macros.tiddlytagmindmap.loadTiddlersIntoTTMM=  function(tiddlerList,visualisationID){
 	
 	var viz;
 	if(!visualisationID) 
-		viz = tiddlytagmindmapobjects[ttmm_primaryID];
+		viz = tiddlytagmindmapobjects[tiddlytagmindmapobjects['first']];
 	else
 		viz = tiddlytagmindmapobjects[visualisationID];
 	var nodesLoaded = false;
-	var title = &quot;&quot;;
+	
+	
+	var title =&quot;&quot;;var firstTitle=&quot;&quot;;
 	for(var i =0; i &lt; tiddlerList.length; i++){
+		
 		if(tiddlerList[i].title) title = tiddlerList[i].title;
 		else title = tiddlerList[i];
+		if(i==0) firstTitle = title;
 		nodesLoaded = viz.createNodeFromJSON(createJSON(title)) | nodesLoaded;
 	}
-	
-	if(nodesLoaded &amp;&amp; viz.rgraph){
-		doColouring(title,viz);
 
+
+	if(viz.rgraph){
+//		var n = GraphUtil.getNode(viz.rgraph.graph,title);
+
+		if(nodesLoaded !=0){
 		viz.centerOnNode(title);
-		viz.computeThenPlot();
+		viz.rgraph.compute();
+		}
+		viz.rgraph.plot();
 	}
 }
+
+Story.prototype.beforettmm_displayTiddler = Story.prototype.displayTiddler;
 Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID)
 {
 
-if(!ttmm_lastID) config.macros.tiddlytagmindmap.handler();
-
-
-
+try{
+	if(!document.getElementById(tiddlytagmindmapobjects['first'])) config.macros.tiddlytagmindmap.handler(); //try and setup a default one
+}catch(e){};
 	var title = (tiddler instanceof Tiddler)? tiddler.title : tiddler;
 
 
-if(tiddlytagmindmapobjects){
-	try{
-	var res = loadTiddlersIntoTTMM([title],visualisationID);
-	}
-	catch(e){
-		console.log(&quot;exception in display tiddler: &quot; + e);
-	}
-	
-}
+	if(tiddlytagmindmapobjects){
+		try{
+		var res = config.macros.tiddlytagmindmap.loadTiddlersIntoTTMM([title],visualisationID);
 
+		}
+		catch(e){
+			//console.log(&quot;exception in display tiddler: &quot; + e);
+		}
+	}
 
 story.beforettmm_displayTiddler(srcElement,tiddler,template,animate,unused,customFields,toggle);
 
@@ -1085,95 +1157,84 @@ story.beforettmm_displayTiddler(srcElement,tiddler,template,animate,unused,custo
 
 }}}
 /***
+296.56
+58 * 151.46
+246.56
 !Layer 2: DynamicInteract: Extension of RGraph
 ***/
 {{{
 
-//tag mindmap constructor
-var Tagmindmap = function(divID,clickFunction){
+var Tagmindmap = function(divID,settings){
+	if(settings.clickFunction)this.callWhenClickOnNode = settings.clickFunction;
+	else this.callWhenClickOnNode = function(node,id){return};
+	this.wrapperID = divID;
 
-/*Generic  properties */
-this.graph_showCirclesFlag = false; //shows circles in the mind map
-Config['levelDistance'] = 80; //in pixel
-this.excludeNodeList = [];
-this.ignoreLoneNodes = true;
-this.maxNodeNameLength = 0;
-						   
-if(clickFunction)
-  this.callWhenClickOnNode = clickFunction; //function taking one parameter node name
-else
-  this.callWhenClickOnNode = function(n){return};
-
-this.displacement = {'x':0, 'y':0};
-this._init_defaults();
-this._init_html_elements(divID);
-
+	this._setup(settings);
+	this._init_html_elements(divID);
+	
 };
 
-//tagmindmap class body
 Tagmindmap.prototype = {
-
-
-	/*defines a mouse down event on the graph for the visualisation */
-	_init_defaults: function(){		
-		this.thehiddenbridge = &quot;RGRAPHTREEBRIDGE&quot;; //a hidden node which bridges all dislocated nodes.
-		this.graphUtil = GraphUtil;
+	_setup: function(settings){
 		
-		this.getNodeParentsAndChildren = function(id){return {};}
+		
+		this.settings = {'arrowheads':true,'breadcrumbs': true,'lineColor':'#ccddee','nodeColor':'#ccddee','zoomLevel':100, 'ignoreLoneNodes':false,'excludeNodeList': ['excludeLists']}; //put all default settings here
+		this.settings.tagcloud = {'smallest': 0.8, 'largest': 1.4, 'upper':0, 'off': false}; //upper is the maximum sized node
+	
+		this.graph_showCirclesFlag = false; //shows circles in the mind map
+		this.maxNodeNameLength = 0;
+		this.displacement = {'x':0, 'y':0};
+		this.maxChildrenOnSingleNode = 0;	
+		this.thehiddenbridge = &quot;RGRAPHTREEBRIDGE&quot;; //a hidden node which bridges all dislocated nodes.
+
+		this.settings.breadcrumb_startcolor = &quot;red&quot;; //rgb(0,0,0)
+		/*above defaults below read in */
+		
+		this.settings.breadcrumbs = settings.breadcrumbs;
+		this.settings.tagcloud.off = settings.tagcloud.off;
+		this.settings.excludeNodeList = settings.excludeNodeList;
+		this.settings.ignoreLoneNodes = settings.ignoreLoneNodes;
+		this.maxNodeNameLength = settings.maxNodeNameLength;
+		this.settings.zoomLevel = settings.zoomLevel;
 		var ttmm = this;
 		this.wrapperonmousedown = function (event){
 			var id = this.id;	
-			console.log(id,ttmm);
 			var targ;
 			if (!event)var event = window.event;
 			if (event.target) targ = event.target;
 			else if (event.srcElement) targ = event.srcElement;
 			if (targ.nodeType == 3)  targ = targ.parentNode;
 			var tname;
-			tname=targ.tagName +&quot;&quot;;
 		
-			//check if a node was clicked on, if so bail out! :)
-			if(tname == &quot;SPAN&quot;)return;
+			if(targ.getAttribute(&quot;class&quot;) == &quot;node&quot;)return; 	//if a node was clicked on we bail out! :)
+			if(targ.getAttribute(&quot;class&quot;) == &quot;nodeLink&quot;)return; 	//if a node was clicked on we bail out! :)
 	
-			if(ttmm){
+			if(ttmm.canvas){
 				ttmm.canvas.setPosition();
 				var canvasPos = ttmm.canvas.getPosition();
-				var myX= 0;
-				var myY =0;
-	
-				if (event.pageX || event.pageY) 	{
-					myX = event.pageX;
-					myY = event.pageY;
-				}
-				else if (event.clientX || event.clientY) 	{
-					myX = event.clientX + document.body.scrollLeft
-						+ document.documentElement.scrollLeft;
-					myY = event.clientY + document.body.scrollTop
-						+ document.documentElement.scrollTop;
-				}
-				var canvasSize = ttmm.canvas.getSize();
-				var centerY = canvasPos.y+ (canvasSize.y / 2);;
-				var centerX = canvasPos.x + (canvasSize.x / 2);
+				var myX= 0;var myY =0;
+				if (event.pageX || event.pageY) {myX = event.pageX;myY = event.pageY;}
+				else if (event.clientX || event.clientY) 	{myX = event.clientX + document.body.scrollLeft+ document.documentElement.scrollLeft;myY = event.clientY + document.body.scrollTop+ document.documentElement.scrollTop;}
+				
+				var centerY = canvasPos.y+ (ttmm.canvas.getSize().y / 2);;
+				var centerX = canvasPos.x + (ttmm.canvas.getSize().x / 2);
 				offsetY= centerY -myY;
 				offsetX= centerX -myX;
 				ttmm.rgraph.offsetCenter(offsetX,offsetY);
-		
 				ttmm.rgraph.plot();
 			}
 
 			return false;
 		};
 	},
+
 	
 	_init_html_elements: function(wrapperID){
 			if(!document.getElementById(wrapperID)){ throw (wrapperID + &quot; html element doesn't exist&quot;);}
-
 			this.wrapperID = wrapperID;
 			this.canvasID = wrapperID + &quot;_canvas&quot;; //the canvas object ID
 			this.labelContainer = wrapperID + &quot;_label_container&quot;;
-			
-			this.nodeLabelPrefix = this.canvasID +&quot;_&quot;;//labelIDPrefix; //allows 2 mind maps on same page, by making sure all divs use unique names			
-			
+			this.nodeLabelPrefix = this.canvasID +&quot;_&quot;;
 			/*setup the divs */
 			var wrapper = document.getElementById(wrapperID);
 			wrapper.onmousedown =  this.wrapperonmousedown;
@@ -1183,7 +1244,7 @@ Tagmindmap.prototype = {
 
 			var labelContainer = document.createElement(&quot;div&quot;);
 			labelContainer.id=this.labelContainer;
-			
+			labelContainer.style.position= 'relative';		
 			var canvas = document.createElement(&quot;canvas&quot;);
 			canvas.id = this.canvasID;
 			canvas.width = parseInt(wrapper.style.width);
@@ -1191,392 +1252,522 @@ Tagmindmap.prototype = {
 
 			wrapper.appendChild(labelContainer);
 			wrapper.appendChild(canvas);
-			if(config.browser.isIE &amp;&amp; G_vmlCanvasManager) {G_vmlCanvasManager.init_(document);} //ie hack			
-},
+			if(config.browser.isIE &amp;&amp; G_vmlCanvasManager) {G_vmlCanvasManager.init_(document);} //ie hack - needs changing to work outside tw		
+	},
 
+	zoom: function(inc){
+		this.settings.zoomLevel = parseInt(this.settings.zoomLevel);
+		this.settings.zoomLevel += inc;
+		if(this.settings.zoomLevel &lt;= 0) this.settings.zoomLevel = 1;
+		return this.settings.zoomLevel;
+	},	
 
-
-zoom: function(inc){
-	Config['levelDistance'] = parseInt(Config['levelDistance']);
- 	Config['levelDistance']+= inc;
-	if(Config['levelDistance'] &lt;= 0) Config['levelDistance']= 1;
-	return Config['levelDistance'];
+	_findItemInArray: function(item, arr) {
+		for(i=0;i&lt; arr.length;i++){
+		  if(arr[i] == item) return true;
+		}
 	
-},	
+		return false;
+	},
 
-_findItemInArray: function(item, arr) {
+	createNodeFromJSON: function(json){
 
-	for(i=0;i&lt; arr.length;i++){
-	  if(arr[i] == item) return true;
-	}
+		if(json == {}) return;
+		var temp = false;
+		var res = false;
+		var node1= json['node'];
+		if(json['parents']){ 
+			for(var i=0; i &lt; json['parents'].length; i++){
+				var parent = json['parents'][i];
+				temp = this.drawEdge(parent['id'],node1['id'],parent['name'],node1['name'],parent['data'],node1['data']);
+				res = temp | res;
+			}
+		 }
+
+		if(json['children']){
+			for(var i=0; i &lt; json['children'].length; i++){
+			   	var child = json['children'][i];
+				temp = this.drawEdge(node1['id'],child['id'],node1['name'],child['name'],node1['data'],child['data']);
+				res = temp | res;
+			 }
+		}
+
+		if(json['children'] &amp;&amp; json['parents']){
+		 if(!this.settings.ignoreLoneNodes &amp;&amp; json['children'].length ==0 &amp;&amp; json['parents'].length == 0)
+		   temp = this.drawEdge(this.thehiddenbridge, node1['id'],null,node1['name'],null,node1['data']);
+		res = temp | res;
+		 }
+		return res;
+	},
+
+	centerOnNode:function(id){
+
+		if(this.getCurrentNodeID() == id) return;
+
+		var oldId = this.rgraph_currentNode;
+		this.rgraph_currentNode = id;
+
+		try{
+			this.rgraph.onClick(id);
+		}
+		catch(e){
+			this.rgraph_currentNode = oldId;
+		}
+	},
+
+	getCurrentNodeID: function(){
+		if(this.rgraph_currentNode == this.thehiddenbridge) return &quot;&quot;;
+		else return this.rgraph_currentNode;
+	},
+
+	setNodeName: function(nodeid,newName){
+		var node = this.controller.getNode(nodeid);
+		if(node.name != newName){
+			node.name = newName;
+			if(this.thehiddenbridge != nodeid &amp;&amp; this.graph_index) this.graph_index[newName] = nodeid;
+		}
+	},
+	mergeNodeData: function(id,data){
+
+			var node = this.controller.getNode(id);
+			if(!node) return;
+
+			for (var key in data){
+				if(typeof node.data[key] == 'array')
+					node.data[key] = node.data[key].concat(data[key]);
+				else
+					node.data[key] = data[key];
+			}
+			
+			if(node.data.weight &gt; this.settings.tagcloud.upper) {
+				this.settings.tagcloud.upper = node.data.weight;
+			}
+	},
+	setNodeData: function(id,data,newvalue){
+		var node = this.controller.getNode(id);
+		if(!node) return;
+		
+		if(!newvalue){
+			node.data = data;
+		}
+		else{
+			node.data[data] = newvalue;	
+		}
+
+		if(node.data.weight &gt; this.settings.tagcloud.upper) {
+			this.settings.tagcloud.upper = node.data.weight;
+		}
 	
-	return false;
-},
+	},
+
+	_nodeInExcludeList: function(id){
+		return this._findItemInArray(id,this.settings.excludeNodeList);
+	},
+
+	drawEdge: function(id_a,id_b,name_a,name_b,data_a,data_b){
+
+		if(this._nodeInExcludeList(id_a) || this._nodeInExcludeList(id_b)) return;
+		plotNeeded=false;
+
+		if(id_a != &quot;&quot; &amp;&amp; id_b != &quot;&quot;){
+
+		  plotNeeded = this._make_connection(id_a,id_b);
+
+		  if(name_a){this.setNodeName(id_a,name_a);}
+		  if(name_b){this.setNodeName(id_b,name_b);}
+		
+		
+		
+		  //if(data_a) {this.setNodeData(id_a,data_a); }
+		 //if(data_b) {this.setNodeData(id_b,data_b);}
+
+		  if(data_a) {this.mergeNodeData(id_a,data_a); }
+		  if(data_b) {this.mergeNodeData(id_b,data_b);}
+
+		}  
+		return plotNeeded;
+	},
+
+	_make_connection: function(a,b){
+	  	  this._setupMapIfNeeded(a);
+		  var node1, node2; 
+		  var drawn = false;
+
+		  node1 = this.controller.getNode(a);
+		  node2 = this.controller.getNode(b);
+
+		  if(node1 &amp;&amp; node2){
+			if(node1.adjacentTo(node2)) {return false;}
+
+		  }
+		  else if(!node1 &amp;&amp; !node2) {//neither in graph yet
+			this._make_connection(this.thehiddenbridge,a);  //if neither node is currently in tree, then we need to create a &quot;bridge&quot; to connect the trees
+		  
+		  }
+		
+		
+		  if(!node1) {node1= new Graph.Node(a,a,{});drawn= true; }//create this node
+		  if(!node2) {node2= new Graph.Node(b,b,{});drawn= true; }//create that node
+
+		  if(node1){			
+	
+			  if(!node1.adjacentTo(node2)){
+
+	
+				this.controller.addAdjacence(node1,node2);
+				
+				node1 = this.controller.getNode(a);
+			  	node2 = this.controller.getNode(b);
+			
+				if(!node1.data.children) node1.data.children = [];
+				if(!node2.data.parents) node2.data.parents = [];
+				node1.data.children.push(b);
+				node2.data.parents.push(a);
+
+				//if(a == this.thehiddenbridge) console.log(b + &quot; is bridged&quot;);
+				//console.log(&quot;added edge from &quot;,a,&quot; to &quot;,b, node1.data,&quot;/&quot;,node2.data);
+				return true;
+			 }
+		 }
+	},
+	deleteNode: function(id){
+		var node = this.rgraph.controller.getNode(id);
+		//console.log(&quot;start&quot;,node,&quot;end&quot;);
+		var parents = node.data.parents;
+		var children = node.data.children;
+		console.log(id,parents,children);
+		if(children){
+			//sort out children
+			for(var i=0; i &lt; children.length; i++){
+				var childNode = this.rgraph.controller.getNode(children[i]);
+			
+				var oldparents = childNode.data.parents;
+				var newparents = [];
+				for(var j=0; j &lt; oldparents.length; j++){
+					if(oldparents[j] != id)newparents.push(oldparents[j]);
+				}
+
+				this.setNodeData(children[i],&quot;parents&quot;,newparents);
+				
+				if(newparents.length == 0) { //connect it up to the bridge
+					this.drawEdge(this.thehiddenbridge,children[i]);
+			
+				}
+			}
+		}
+			
+		//sort out parents
+		if(parents){
+			for(var i=0; i &lt; parents.length; i++){
+				if(parents[i] != this.thehiddenbridge){
+					
+			
+					var parentNode = this.rgraph.controller.getNode(parents[i]);
+			
+					var oldchildren = parentNode.data.children;
+					var newchildren = [];
+					for(var j=0; j &lt; oldchildren.length; j++){
+						if(oldchildren[j] != id)newchildren.push(oldchildren[j]);
+					}
+					this.setNodeData(parents[i],&quot;children&quot;,newchildren);
+				}
+			}
+		}
+				
+		this.rgraph.controller.removeNode(id);
 
 
-createNodeFromJSON: function(json){
+	},
+	computeThenPlot: function(){
+		  this.rgraph.compute();
+		  this.rgraph.plot(); 
+	},
 
-  if(json == {}) return;
-var temp = false;
-var res = false;
-  var allNodeAdjacencies = new Array();
-  
-  var node1= json['node'];
-						 if(json['parents']){ 
-							  for(var i=0; i &lt; json['parents'].length; i++){
-							    var parent = json['parents'][i];
-								//alert(&quot;draw &quot; + parent['id'] + &quot; to &quot; + node1['id']);
-								temp = this.drawEdge(parent['id'],node1['id'],parent['name'],node1['name'],parent['data'],node1['data']);
-								res = temp | res;
-								allNodeAdjacencies.push(parent['id']);
-							  }
-						  }
+	_trimNodeName: function(node_name){
+		if(this.maxNodeNameLength ==0) return &quot;&lt;span&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&quot;;
+		if(this.maxNodeNameLength){
+			var nlength = this.maxNodeNameLength;
 
-						if(json['children']){
-							for(var i=0; i &lt; json['children'].length; i++){
-						    	var child = json['children'][i];
-								temp = this.drawEdge(node1['id'],child['id'],node1['name'],child['name'],node1['data'],child['data']);
-								allNodeAdjacencies.push(child['id']);
-								res = temp | res;
-						  	}
+			  if(node_name.length &gt; nlength)
+			    return node_name.substr(0,nlength/2) + &quot;...&quot; + node_name.substr(node_name.length-nlength/2,node_name.length);
+			  else
+			    return node_name;
+		}
+		return node_name;
+	},
+
+	_getController: function(){
+
+  		var ttmm = this;
+		    var effectHash = {};
+		  var controller =  {
+			
+			removeNode: function(id){
+				
+				var el = document.getElementById(this.getNodeLabelPrefix()+id);
+				el.parentNode.removeChild(el);
+				
+				var graph = ttmm.rgraph.graph;
+				if(graph) graph.removeNode(id);	
+			
+			},
+			getNode: function(id){
+			
+			  var n = GraphUtil.getNode(ttmm.rgraph.graph,id); 
+
+			return n;
+			},
+			addAdjacence: function(node1,node2){
+				ttmm.rgraph.graph.addAdjacence(node1,node2);	
+			},
+			/*some custom defined controller operations (search in RGraph source)*/
+			getZoomLevel: function(){return ttmm.settings.zoomLevel;},
+			setOffset: function(d){ttmm.displacement = d;},
+			getOffset: function(){return ttmm.displacement;},
+			getNodeLabelContainer: function(){return ttmm.labelContainer;},
+			getNodeLabelPrefix: function(){return ttmm.nodeLabelPrefix;},
+		  	onBeforeCompute: function(node) {
+									if(ttmm.settings.breadcrumbs) ttmm.setNodeData(node.id, &quot;color&quot;,ttmm.settings.breadcrumb_startcolor);	
+			},
+		  	getName: function(node1, node2) {
+		  		for(var i=0; i&lt;node1.data.length; i++) {
+		  			var dataset = node1.data[i];
+		  			if(dataset.key == node2.name) return dataset.value;
+		  		}
+  		
+				for(var i=0; i&lt;node2.data.length; i++) {
+		  			var dataset = node2.data[i];
+		  			if(dataset.key == node1.name) return dataset.value;
+		  		}
+		  	},	
+		
+		  	onCreateLabel: function(domElement, node) {
+			
+				if(node.id == this.thehiddenbridge) return;
+				var clickfunction = function(e){
+					ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);
+					
+			//	console.log(ttmm.rgraph.graph.nodes[node.id].data.children,ttmm.rgraph.graph.nodes[node.id].data.parents);
+					ttmm.rgraph.onClick(node.id);
+
+				};
+					ttmm.rgraph_currentNode = node.id;	 
+					if(domElement.addEvent){domElement.addEvent('click',clickfunction);}
+					else {domElement.onclick = clickfunction;}
+			},
+
+			getMaxChildren: function(){
+				var max =0,num;
+				for(var i in ttmm.rgraph.graph.nodes){
+					if(ttmm.rgraph.graph.nodes[i].data.children)
+						num = ttmm.rgraph.graph.nodes[i].data.children.length;
+					else
+						num =0;
+					if(num &gt; max) max = num;
+				}
+				return max;
+			},
+		  	onPlaceLabel: function(domElement, node) {
+				domElement.innerHTML = '';
+				
+ 				if(node.id != ttmm.thehiddenbridge){
+						if(node.data.color) domElement.style.color = node.data.color;
+						
+						if(!ttmm.settings.tagcloud.off){
+							var weight=0, u=0;
+							if(node.data.weight) { //user has defined some sort of weight
+								weight = parseFloat(node.data.weight);
+								u =parseFloat(ttmm.settings.tagcloud.upper);
+							}
+							else{ //just take number of children
+								if(node.data.children)
+									weight = node.data.children.length;
+								u = this.getMaxChildren();
+							}
+							var s = parseFloat(ttmm.settings.tagcloud.smallest);
+							var l =parseFloat(ttmm.settings.tagcloud.largest);
+							
+							var fontsize = s + ((l - s) * parseFloat(weight / u));
+							domElement.style['fontSize'] = fontsize + &quot;em&quot;;
+							
+						}
+						
+						if(!node.data.label){
+						var trimmedName = ttmm._trimNodeName(node.name);
+						}
+						else
+							trimmedName = node.data.label;
+							
+						if(node.data.title)
+							domElement.title = node.data.title;
+						else
+							domElement.title = node.name;
+					
+						domElement.innerHTML = trimmedName;
+						
+						//domElement.appendChild(document.createTextNode(trimmedName));	
+						if(node.data.links){
+							var links =node.data.links;
+
+							var link;
+							for(var j=0; j &lt; links.length; j++){
+								var linktext;
+								if(links[j][1])
+									linktext = links[j][1]; 
+								else 
+									linktext = &quot;go&quot;;
+							
+								var linkEl = document.createElement(&quot;a&quot;);
+								linkEl.setAttribute(&quot;class&quot;,&quot;nodeLink&quot;);
+								linkEl.setAttribute(&quot;target&quot;,&quot;_blank&quot;);
+								
+								link =links[j][0];
+								if(typeof link == 'function'){
+
+									var id =node.id;
+									link = eval(link);
+									var f =function(e){
+										link(e,id);
+									};
+																
+									linkEl.onmousedown = f;
+								}
+								else{
+									linkEl.setAttribute(&quot;href&quot;,link);
+								}
+
+								linkEl.innerHTML = linktext;
+								//linkEl.appendChild(document.createTextNode(&quot; &quot; +linktext+ &quot; &quot;));
+																
+								domElement.appendChild(linkEl)
+							}
 						}
 
-
-	//is it an orphan with no kids?
-	/* 
-	this._fix_if_orphan(node1);
-	*/
-	if(json['children'] &amp;&amp; json['parents']){
-	 if(!this.ignoreLoneNodes &amp;&amp; json['children'].length ==0 &amp;&amp; json['parents'].length == 0)
-	   temp = this.drawEdge(this.thehiddenbridge, node1['id'],null,node1['name'],null,node1['data']);
-	res = temp | res;
-	 }
-
-return res;
-},
-
-
-
-centerOnNode:function(id){
-
-	if(this.getCurrentNodeID() == id) return;
-
-	var oldId = this.rgraph_currentNode;
-	this.rgraph_currentNode = id;
-
-	try{
-	this.rgraph.onClick(id);
-	
-	}
-	catch(e){
-	this.rgraph_currentNode = oldId;
-	}
-
-
-
-},
-
-getCurrentNodeID: function(){
-if(this.rgraph_currentNode == this.thehiddenbridge) return &quot;&quot;;
-else return this.rgraph_currentNode;
-},
-
-
-setNodeName: function(nodeid,newName){
-if(this.graph.nodes[nodeid].name != newName){
-this.graph.nodes[nodeid].name = newName;
-
-if(this.thehiddenbridge != nodeid &amp;&amp; this.graph_index) this.graph_index[newName] = nodeid;
- 
-//this.computeThenPlot();
-}
-},
-
-setNodeData: function(id,data,newvalue){
-	
-	if(!newvalue){
-		this.graph.nodes[id].data = data;
-	}
-	else{
-		this.graph.nodes[id].data[data] = newvalue;	
-	}
-
-},
-
-_nodeInExcludeList: function(id){
-	return this._findItemInArray(id,this.excludeNodeList);
-},
-
-drawEdge: function(id_a,id_b,name_a,name_b,data_a,data_b){
-
-if(this._nodeInExcludeList(id_a) || this._nodeInExcludeList(id_b)) return;
-plotNeeded=false;
-
-if(id_a != &quot;&quot; &amp;&amp; id_b != &quot;&quot;){
-
-  plotNeeded = this._make_connection(id_a,id_b,name_a);
-
-  if(name_a){this.setNodeName(id_a,name_a);}
-  if(name_b){this.setNodeName(id_b,name_b);}
-
-	
-  if(data_a) {this.setNodeData(id_a,data_a); }
-  if(data_b) {this.setNodeData(id_b,data_b);}
-
-}  
-return plotNeeded;
-},
-
-
-
-_make_connection: function(a,b){
-
-  this._setupMapIfNeeded(a);
-  var node1, node2; 
-  var drawn = false;
-
-  node1 = this.graphUtil.getNode(this.graph,a)  
-  node2 = this.graphUtil.getNode(this.graph,b)  
- 
-  //check if adjacent before re-drawing
-  if(node1 != null &amp;&amp; node2 !=null){
-	if(node1.adjacentTo(node2)) {return false;}
-
-  }
- 
-  //if neither node is currently in tree, then we need to create a &quot;bridge&quot; to connect the trees
-  if(node1 == null &amp;&amp; node2 == null) {
-	//console.log(a + &quot;connected to hidden bridge&quot;);
-	this._make_connection(this.thehiddenbridge,a);
-	
-  }
-
-  if(node1 == null) {node1= new Graph.Node(a,a,[]);drawn= true; }
-  if(node2 == null) {node2= new Graph.Node(b,b,[]);drawn= true; }
-  
-  if(!node1.adjacentTo(node2)){
-	this.graph.addAdjacence(node1,node2);
-	return true;
- }
-
-  
-
-
-},
-computeThenPlot: function(){
-var ajaxload = document.getElementById(this.ajaxLoadingLabelID);
-var labels = document.getElementById(this.labelContainer);
-labels.style.display = &quot;block&quot;;
-var loadNotInProgress = true;
-
-/*
-if(ajaxload){
-	if(ajaxload.style.display != &quot;none&quot;) loadNotInProgress = false;
-}
-*/
-
-if(loadNotInProgress){
-  this.rgraph.compute();;
-  this.rgraph.plot(); //problem in plot...
- }
-},
-
-_trimNodeName: function(node_name){
-	if(this.maxNodeNameLength ==0) return &quot;&lt;span&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&quot;;
-	if(this.maxNodeNameLength){
-		var nlength = this.maxNodeNameLength;
-
-		  if(node_name.length &gt; nlength)
-		    return node_name.substr(0,nlength/2) + &quot;...&quot; + node_name.substr(node_name.length-nlength/2,node_name.length);
-		  else
-		    return node_name;
-	}
-	return node_name;
-},
-
-_getController: function(){
-
-  var tagmindmapobj = this;
-    var effectHash = {};
-  var controller =  {
-	setOffset: function(d){tagmindmapobj.displacement = d;},
-	getOffset: function(){return tagmindmapobj.displacement;},
-	getNodeLabelContainer: function(){return tagmindmapobj.labelContainer;},
-	getNodeLabelPrefix: function(){return tagmindmapobj.nodeLabelPrefix;},
-  	onBeforeCompute: function(node) {
-		
-  	},
-
-  	getName: function(node1, node2) {
-  		for(var i=0; i&lt;node1.data.length; i++) {
-  			var dataset = node1.data[i];
-  			if(dataset.key == node2.name) return dataset.value;
-  		}
-  		
-		for(var i=0; i&lt;node2.data.length; i++) {
-  			var dataset = node2.data[i];
-  			if(dataset.key == node1.name) return dataset.value;
-  		}
-  	},
-  	
-	
-  //Add a controller to assign the node's name to the created label.	
-  	onCreateLabel: function(domElement, node) {
-		if(node.id != this.thehiddenbridge)
-			tagmindmapobj.rgraph_currentNode = node.id;	
-			
-		var clickfunction = function(e){
-						tagmindmapobj.rgraph.onClick(node.id);
-				  	  	if(node.id != this.thehiddenbridge){
-						  tagmindmapobj.rgraph_currentNode = node.id;	 
-						}  
-				
-		  };
-
-	//define on click event
-	
-	    if(domElement.addEvent){
-		//dblclick
-			domElement.addEvent('click',clickfunction);
-		}
-		else {
-		  domElement.onclick = clickfunction;
-
-		}
-
-  	},
-  	
-  	//Take off previous width and height styles and
-  	//add half of the *actual* label width to the left position
-  	// That will center your label (do the math man). 
-  	onPlaceLabel: function(domElement, node) {
-	
-		domElement.innerHTML = '';
- 
-			if(node.id != tagmindmapobj.thehiddenbridge){
-			
-				if(node.data){
-				var img;
-					if(node.data.linkimg) img = node.data.linkimg;
-					else img = tagmindmapobj.linkimg;
-
 						
-					if(node.data.url){
-						var tooltip =node.data.url;
-						if(node.data.tooltip)
-							tooltip = node.data.tooltip;
-
-					    linky = &quot;&lt;a href=\&quot;&quot; + node.data.url + &quot;\&quot;&gt;&lt;img src='&quot;+img+&quot;' border='0' title='&quot; + tooltip+ &quot;'&gt;&lt;/a&gt;&quot;;
-	    			     		}
-		     		else
-					  linky = &quot;&quot;;
-					 
-
 				}
-				if(node.data.color) domElement.style.color = node.data.color;
-				if(node.data.weight) domElement.style.fontSize = node.data.weight;
-					  
-				var trimmedName = tagmindmapobj._trimNodeName(node.name);
-
-				domElement.innerHTML = &quot;&lt;span title='&quot; + node.name +&quot;'&gt;&quot; + trimmedName + &quot;&lt;/span&gt;&quot; + linky;
-				
-				
-				
-			}
-			else domElement.style.display = &quot;none&quot;;
+				else domElement.style.display = &quot;none&quot;;
 
 			
-			var left = parseInt(domElement.style.left);
-			domElement.style.width = '';
-			domElement.style.height = '';
-			var w = domElement.offsetWidth;
-			domElement.style.left = (left - w /2) + 'px';
+				var left = parseInt(domElement.style.left);
+				domElement.style.width = '';
+				domElement.style.height = '';
+				var w = domElement.offsetWidth;
+				domElement.style.left = (left - w /2) + 'px';
 
 
-	},
+			},
 	
-	onAfterCompute: function() {
- 
-						  if(tagmindmapobj.rgraph_currentNode != tagmindmapobj.thehiddenbridge){
-						    tagmindmapobj.callWhenClickOnNode(tagmindmapobj.rgraph.graph.nodes[tagmindmapobj.rgraph_currentNode]);
-						  }
-		if(tagmindmapobj.ajaxfocusResultDIV){
-		document.getElementById(tagmindmapobj.ajaxfocusResultDIV).innerHTML = &quot;Please wait while node details are loaded...&quot;;
-		}
-		tagmindmapobj.getNodeParentsAndChildren(tagmindmapobj.getCurrentNodeID());
-
-
-	},
+			onAfterCompute: function() {
+			},
 	
-	onBeforePlotLine: function(adj){
-	  lineW = tagmindmapobj.canvas.getContext().lineWidth;  
-      nodeid = adj.nodeFrom.id;
-	  nodeid2 = adj.nodeTo.id;
-	  if(nodeid == tagmindmapobj.thehiddenbridge || nodeid2 == tagmindmapobj.thehiddenbridge){
-		tagmindmapobj.canvas.getContext().lineWidth = &quot;0&quot;;
-		}
-	  else tagmindmapobj.canvas.getContext().lineWidth = &quot;1&quot;;
+			onBeforePlotLine: function(adj){
+			  lineW = ttmm.canvas.getContext().lineWidth;  
+		      nodeid = adj.nodeFrom.id;
+			  nodeid2 = adj.nodeTo.id;
+			  if(nodeid == ttmm.thehiddenbridge || nodeid2 == ttmm.thehiddenbridge){
+				ttmm.canvas.getContext().lineWidth = &quot;0&quot;;
+				}
+			  else ttmm.canvas.getContext().lineWidth = &quot;1&quot;;
 
-	},
+			},
 	
-	onAfterPlotLine: function(adj){
-	
-	}
+			onAfterPlotLine: function(adj){
+				var l =this.getNodeLabelContainer();
+				
+			//document.getElementById(l).innerHTML = &quot;&quot;;	
+			var context = ttmm.canvas.getContext();
+			var canvas = ttmm.canvas;
+			var node = adj.nodeFrom, child = adj.nodeTo;
+
+			var pos = node.pos.toComplex();
+			var posChild = child.pos.toComplex();
+				var d = this.getOffset();//jon
+				
+			//draw arrowhead.. (angle needs to be calculated)
+			if(ttmm.settings.arrowheads){
+				if(node.id == ttmm.thehiddenbridge)return;
+				//console.log(&quot;arrowhead from&quot;,node.id, &quot;to&quot;,child.id)
+				canvas.path('stroke', function(context) {
+				var r = 10;
+				var ctx = context;
+				ctx.save();
+				//ctx.beginPath();
+				ctx.translate(posChild.x +d.x,posChild.y+d.y);
+				var o = parseFloat(posChild.y-pos.y);
+				var a = parseFloat(posChild.x -pos.x);
+   
+				if(a !=0){
+				var rad = Math.atan2(o,a);
+				ctx.rotate(rad);
+				ctx.moveTo(2,0);
+				ctx.lineTo(-10,-4);
+				ctx.lineTo(-10,4);
+
+			    ctx.lineTo(2,0);
+				ctx.fill();		
+				}
+
+				ctx.restore();
+
+			});
+			
+			}
+			
+			ttmm.canvas.getContext().lineWidth = &quot;1&quot;;
+
+			}
   	
-  };
+		  };
   
-  return controller;
+		return controller;
 
 },
 
-//if the map needs to be setup, the first node will be created with id and name given in parameters
-_setupMapIfNeeded: function(lastOpenNode){
+	_setupMapIfNeeded: function(lastOpenNode){
 
-var ctx = document.getElementById(this.canvasID).getContext;
-if(!ctx) {console.log(&quot;no context available! Please install ExplorerCanvas&quot;);}
+		var ctx = document.getElementById(this.canvasID).getContext;
+		if(!ctx) {console.log(&quot;no context available! Please install ExplorerCanvas&quot;);}
 
-if(this.graphloaded) return;
-this.graphloaded = true;
-this.rgraph_currentNode =lastOpenNode;
+		if(this.graphloaded) return;
+		this.graphloaded = true;
+		this.rgraph_currentNode =lastOpenNode;
 
 
-   var json = {&quot;id&quot;:this.thehiddenbridge, &quot;name&quot;:this.thehiddenbridge, &quot;children&quot;:[{&quot;id&quot;:lastOpenNode,&quot;name&quot;:lastOpenNode, &quot;data&quot;:[], &quot;children&quot;:[]}],&quot;data&quot;:[]};
-     this.canvas= new Canvas(this.canvasID, '#ccddee', '#772277'); 
-		  controller = this._getController();
+	  	var json = {&quot;id&quot;:this.thehiddenbridge,&quot;children&quot;:[{&quot;id&quot;:lastOpenNode,&quot;name&quot;:lastOpenNode, &quot;data&quot;:{&quot;parents&quot;:[this.thehiddenbridge], &quot;children&quot;:[]}, &quot;children&quot;:[]}], 'data':{&quot;parents&quot;:[], &quot;children&quot;:[lastOpenNode]}};
 		
-         
+		json.data = {};
+		json.data.nodraw=true;
+	    this.canvas= new Canvas(this.canvasID, this.settings.nodeColor, this.settings.lineColor); 
+		controller = this._getController();	
 		this.rgraph= new RGraph(this.canvas, controller,this.labelContainer);
-		this.graph = this.rgraph.graph;	  
-
-		  
-  Config['drawConcentricCircles'] = this.graph_showCirclesFlag;
-	 
-  this.rgraph.loadTreeFromJSON(json);
-  this.rgraph.root = lastOpenNode;
-}
+  
 
 
+	  	Config['drawConcentricCircles'] = this.graph_showCirclesFlag;
+ 
+	 	this.rgraph.loadTreeFromJSON(json);
+	  	this.rgraph.root = lastOpenNode;
+		this.controller = controller;
+	
+	}
 
 
 };
 
 }}}
-/***
-!Layer 3: RGraph (JIT)
-***/
-{{{
-	
 /*
  * File: RGraph.js
  * 
  * Author: Nicolas Garcia Belmonte
  * 
  * Copyright: Copyright 2008 by Nicolas Garcia Belmonte.
+ *
+ * Homepage: &lt;http://thejit.org&gt;
+ * 
+ * Version: 1.0.7a
  * 
  * License: BSD License
  * 
- * * Copyright (c) 2008, Nicolas Garcia Belmonte
- * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -1600,9 +1791,6 @@ this.rgraph_currentNode =lastOpenNode;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * 
- * Homepage: &lt;http://thejit.org&gt;
- * 
- * Version: 1.0a
  */
 
 /*
@@ -1628,20 +1816,27 @@ var $_ = {
 
 	unlink: function (object){
 		var unlinked = null;
-		
-		switch (typeof object){
-			case 'object':
-				unlinked = {};
-				for (var p in object) unlinked[p] = this.unlink(object[p]);
-			break;
-			case 'array':
+		if(this.isArray(object)) {
 				unlinked = [];
 				for (var i = 0, l = object.length; i &lt; l; i++) unlinked[i] = this.unlink(object[i]);
-			break;
-			default: return object;
-		}
-		
+		} else if(this.isObject(object)) {
+				unlinked = {};
+				for (var p in object) unlinked[p] = this.unlink(object[p]);
+		} else return object;
+
 		return unlinked;
+	},
+	
+	isArray: function(obj) {
+		return obj.constructor.toString().match(/array/i);
+	},
+	
+	isString: function(obj) {
+		return obj.constructor.toString().match(/string/i);
+	},
+	
+	isObject: function(obj) {
+		return obj.constructor.toString().match(/object/i);
 	}
 } ;
 
@@ -1682,7 +1877,7 @@ var Canvas= function (canvasId, fillStyle, strokeStyle) {
 			  this.translateToCenter();
 		
 		} else {
-			throw &quot;RGraph canvas: Canvas object could not initialize.&quot;;
+			throw &quot;Canvas object could not initialize.&quot;;
 		}
 	
 };
@@ -1831,7 +2026,7 @@ var Complex= function() {
 		this.y= null;
 	}
 	
-}
+};
 
 Complex.prototype= {
 	/*
@@ -1958,6 +2153,15 @@ Complex.prototype= {
 	},
 
 	/*
+	   Method: equals
+	
+	   Comparison method.
+	*/
+	equals: function(c) {
+		return this.x == c.x &amp;&amp; this.y == c.y;
+	},
+
+	/*
 	   Method: $add
 	
 	   Returns the result of adding two complex numbers.
@@ -2053,6 +2257,8 @@ Complex.prototype= {
 	}
 };
 
+Complex.KER = new Complex(0, 0);
+
 /*
    Class: Polar
 
@@ -2135,6 +2341,15 @@ Polar.prototype = {
 	},
 	
 	/*
+	   Method: equals
+	
+	   Comparison method.
+	*/
+	equals: function(c) {
+		return this.theta == c.theta &amp;&amp; this.rho == c.rho;
+	},
+	
+	/*
 	   Method: $add
 	
 	    Adds two &lt;Polar&gt; instances affecting the current object.
@@ -2209,7 +2424,7 @@ Polar.prototype = {
 	}
 };
 
-
+Polar.KER = new Polar(0, 0);
 
 
 /*
@@ -2223,10 +2438,9 @@ var Config= {
 		//Id for label container. The label container is a div dom element that must be explicitly added to your page in order to enable the RGraph.
 		labelContainer: 'label_container',
 		
-		nodeLabelPrefix: &quot;rgraph_&quot;,
 		//Property: drawConcentricCircles
 		//show/hide concentricCircles
-		drawConcentricCircles: true,
+		drawConcentricCircles: 4,
 		
 		//Property: concentricCirclesColor
 		//The color of the concentric circles
@@ -2234,7 +2448,7 @@ var Config= {
 
 		//Property: levelDistance
 		//The actual distance between levels
-		levelDistance: 200,
+		levelDistance: 100,
 		
 		//Property: nodeRadius
 		//The radius of the nodes displayed
@@ -2262,13 +2476,13 @@ var Config= {
 
 		//Property: fps
 		//animation frames per second
-		fps:35,
+		fps:40,
 		
 		//Property: animationTime
-		animationTime: 1500,
+		animationTime: 2500,
 		
 		//Property: interpolation
-		interpolation: 'other'
+		interpolation: 'linear'
 };
 
 /*
@@ -2276,24 +2490,37 @@ var Config= {
 
    A multi purpose object to do graph traversal and processing.
 */
-
 var GraphUtil = {
+	/*
+	   Method: filter
+	
+	   For internal use only. Provides a filtering function based on flags.
+	*/
+	filter: function(param) {
+		if(!param || !$_.isString(param)) return function() { return true; };
+		var props = param.split(&quot; &quot;);
+		return function(elem) {
+			for(var i=0; i&lt;props.length; i++) if(elem[props[i]]) return false;
+			return true;
+		};
+	},
+	/*
+	   Method: getNode
+	
+	   Returns a graph's node with a specified _id_.
+	*/
+	getNode: function(graph, id) {
+		return graph.getNode(id);
+	},
+	
 	/*
 	   Method: eachNode
 	
 	   Iterates over graph nodes performing an action.
 	*/
-	eachNode: function(graph, action) {
-		for(var i in graph.nodes) action(graph.nodes[i]);
-	},
-	
-	/*
-	   Method: getNode
-	
-	   Returns a node from a specified id.
-	*/
-	getNode: function(graph, id) {
-		return graph.nodes[id];
+	eachNode: function(graph, action, flags) {
+		var filter = this.filter(flags);
+		for(var i in graph.nodes) if(filter(graph.nodes[i])) action(graph.nodes[i]);
 	},
 	
 	/*
@@ -2301,30 +2528,59 @@ var GraphUtil = {
 	
 	   Iterates over a _node_ adjacencies applying the _action_ function.
 	*/
-	eachAdjacency: function(graph, node, action) {
-		for(var i=0, adjs = node.adjacencies; i&lt;adjs.length; i++) action(adjs[i], i);
+	eachAdjacency: function(node, action, flags) {
+		var adj = node.adjacencies, filter = this.filter(flags);
+		for(var id in adj) if(filter(adj[id])) action(adj[id], id);
+	},
+
+	/*
+	   Method: computeLevels
+	
+	   Performs a BFS traversal setting correct level for nodes.
+	*/
+	computeLevels: function(graph, id, flags) {
+		var filter = this.filter(flags);
+		this.eachNode(graph, function(elem) {
+			elem._flag = false;
+			elem._depth = -1;
+		}, flags);
+		var root = graph.getNode(id);
+		root._depth = 0;
+		var queue = [root];
+		while(queue.length != 0) {
+			var node = queue.pop();
+			node._flag = true;
+			this.eachAdjacency(node, function(adj) {
+				var n = adj.nodeTo;
+				if(n._flag == false &amp;&amp; filter(n)) {
+					if(n._depth &lt; 0) n._depth = node._depth + 1;
+					queue.unshift(n);
+				}
+			}, flags);
+		}
 	},
 
 	/*
 	   Method: eachBFS
 	
 	   Performs a BFS traversal of a graph beginning by the node of id _id_ and performing _action_ on each node.
+	   This traversal ignores nodes or edges having the property _ignore_ setted to _true_.
 	*/
-	eachBFS: function(graph, id, action) {
-		var that = this;
-		GraphUtil.clean(graph);
-		var queue = [this.getNode(graph, id)];
+	eachBFS: function(graph, id, action, flags) {
+		var filter = this.filter(flags);
+		this.clean(graph);
+		var queue = [graph.getNode(id)];
 		while(queue.length != 0) {
 			var node = queue.pop();
 			node._flag = true;
 			action(node, node._depth);
-			for(var i=0, adj = node.adjacencies; i&lt;adj.length; i++) {
-				var n = adj[i].nodeTo;
-				if(n._flag == false) {
-					n._depth = node._depth + 1;
+			this.eachAdjacency(node, function(adj) {
+				var n = adj.nodeTo;
+				if(n._flag == false &amp;&amp; filter(n)) {
+					n._flag = true;
 					queue.unshift(n);
 				}
-			}
+			}, flags);
 		}
 	},
 	
@@ -2333,12 +2589,29 @@ var GraphUtil = {
 	
 	   After a BFS traversal the _depth_ property of each node has been modified. Now the graph can be traversed as a tree. This method iterates for each subnode that has depth larger than the specified node.
 	*/
-	eachSubnode: function(graph, node, action) {
-		var d = node._depth;
-		for(var i=0, ad = node.adjacencies; i&lt;ad.length; i++) {
-			var n = ad[i].nodeTo;
-			if(n._depth &gt; d) action(n);
-		}
+	eachSubnode: function(graph, node, action, flags) {
+		var d = node._depth, filter = this.filter(flags);
+		this.eachAdjacency(node, function(adj) {
+			var n = adj.nodeTo;
+			if(n._depth &gt; d &amp;&amp; filter(n)) action(n);
+		}, flags);
+	},
+	
+	/*
+	   Method: getSubnodes
+	
+	   Collects all subnodes for a specified node. The _level_ parameter filters nodes having relative depth of _level_ from the root node.
+	*/
+	getSubnodes: function(graph, id, level, flags) {
+		var ans = new Array(), that = this, node = graph.getNode(id);
+		(function(graph, node) {
+			var fn = arguments.callee;
+			if(!level || level &lt;= node._depth)	ans.push(node);
+			that.eachSubnode(graph, node, function(elem) {
+				fn(graph, elem);
+			}, flags);
+		})(graph, node);
+		return ans;
 	},
 
 	/*
@@ -2349,10 +2622,10 @@ var GraphUtil = {
 	getParents: function(graph, node) {
 		var adj = node.adjacencies;
 		var ans = new Array();
-		for(var i=0; i&lt;adj.length; i++) {
-			var n = adj[i].nodeTo;
+		this.eachAdjacency(node, function(adj) {
+			var n = adj.nodeTo;
 			if(n._depth &lt; node._depth) ans.push(n);
-		}
+		});
 		return ans;
 	},
 	
@@ -2362,8 +2635,362 @@ var GraphUtil = {
 	   Cleans flags from nodes (by setting the _flag_ property to false).
 	*/
 	clean: function(graph) { this.eachNode(graph, function(elem) { elem._flag = false; }); }
-	
 };
+
+/*
+   Object: GraphOp
+
+   An object holding unary and binary graph operations such as removingNodes, removingEdges, adding two graphs and morphing.
+*/
+var GraphOp = {
+
+	options: {
+		type: 'nothing',
+		duration: 2000,
+		fps:30
+	},
+	
+	/*
+	   Method: removeNode
+	
+	   Removes one or more nodes from the visualization. It can also perform several animations like fading sequentially, fading concurrently, iterating or replotting.
+
+	   Parameters:
+	
+	      viz - The visualization object (an RGraph instance in this case).
+	      node - The node's id. Can also be an array having many ids.
+	      opt - Animation options. It's an object with two properties: _type_, which can be _nothing_, _replot_, _fade:seq_,  _fade:con_ or _iter_. The other property is the _duration_ in milliseconds. 
+	
+	*/
+	removeNode: function(viz, node, opt) {
+		var options = $_.merge(viz.controller, this.options, opt);
+		var n = $_.isString(node)? [node] : node;
+		switch(options.type) {
+			case 'nothing':
+				for(var i=0; i&lt;n.length; i++) 	viz.graph.removeNode(n[i]);
+				break;
+			
+			case 'replot':
+				this.removeNode(viz, n, { type: 'nothing' });
+				GraphPlot.clearLabels(viz);
+				viz.refresh();
+				break;
+			
+			case 'fade:seq': case 'fade':
+				var GPlot = GraphPlot, that = this;
+				//set alpha to 0 for nodes to remove.
+				for(var i=0; i&lt;n.length; i++) {
+					var nodeObj = viz.graph.getNode(n[i]);
+					nodeObj.endAlpha = 0;
+				}
+				GPlot.animate(viz, $_.merge(options, {
+					modes: ['fade:nodes'],
+					onComplete: function() {
+						that.removeNode(viz, n, { type: 'nothing' });
+						GPlot.clearLabels(viz);
+						viz.compute('endPos');
+						GPlot.animate(viz, $_.merge(options, {
+							modes: ['linear']
+						}));
+					}
+				}));
+				break;
+			
+			case 'fade:con':
+				var GPlot = GraphPlot, that = this;
+				//set alpha to 0 for nodes to remove. Tag them for being ignored on computing positions.
+				for(var i=0; i&lt;n.length; i++) {
+					var nodeObj = viz.graph.getNode(n[i]);
+					nodeObj.endAlpha = 0;
+					nodeObj.ignore = true;
+				}
+				viz.compute('endPos');
+				GPlot.animate(viz, $_.merge(options, {
+					modes: ['fade:nodes', 'linear'],
+					onComplete: function() {
+						that.removeNode(viz, n, { type: 'nothing' });
+					}
+				}));
+				break;
+			
+			case 'iter':
+				var that = this, GPlot = GraphPlot;
+				GPlot.sequence(viz, {
+					condition: function() { return n.length != 0; },
+					step: function() { that.removeNode(viz, n.shift(), { type: 'nothing' });  GPlot.clearLabels(viz); },
+					onComplete: function() { options.onComplete(); },
+					duration: Math.ceil(options.duration / n.length)
+				});
+				break;
+				
+			default: this.doError();
+		}
+	},
+	
+	/*
+	   Method: removeEdge
+	
+	   Removes one or more edges from the visualization. It can also perform several animations like fading sequentially, fading concurrently, iterating or replotting.
+
+	   Parameters:
+	
+	      viz - The visualization object (an RGraph instance in this case).
+	      vertex - An array having two strings which are the ids of the nodes connected by this edge: ['id1', 'id2']. Can also be a two dimensional array holding many edges: [['id1', 'id2'], ['id3', 'id4'], ...].
+	      opt - Animation options. It's an object with two properties: _type_, which can be _nothing_, _replot_, _fade:seq_,  _fade:con_ or _iter_. The other property is the _duration_ in milliseconds. 
+	
+	*/
+	removeEdge: function(viz, vertex, opt) {
+		var options = $_.merge(viz.controller, this.options, opt);
+		var v = $_.isString(vertex[0])? [vertex] : vertex;
+		switch(options.type) {
+			case 'nothing':
+				for(var i=0; i&lt;v.length; i++) 	viz.graph.removeAdjacence(v[i][0], v[i][1]);
+				break;
+			
+			case 'replot':
+				this.removeEdge(viz, v, { type: 'nothing' });
+				viz.refresh();
+				break;
+			
+			case 'fade:seq': case 'fade':
+				var GPlot = GraphPlot, that = this;
+				//set alpha to 0 for nodes to remove.
+				for(var i=0; i&lt;v.length; i++) {
+					var adjs = viz.graph.getAdjacence(v[i][0], v[i][1]);
+					if(adjs) {
+						adjs[0].endAlpha = 0;
+						adjs[1].endAlpha = 0;
+					}
+				}
+				GPlot.animate(viz, $_.merge(options, {
+					modes: ['fade:vertex'],
+					onComplete: function() {
+						that.removeEdge(viz, v, { type: 'nothing' });
+						viz.compute('endPos');
+						GPlot.animate(viz, $_.merge(options, {
+							modes: ['linear']
+						}));
+					}
+				}));
+				break;
+			
+			case 'fade:con':
+				var GPlot = GraphPlot, that = this;
+				//set alpha to 0 for nodes to remove. Tag them for being ignored when computing positions.
+				for(var i=0; i&lt;v.length; i++) {
+					var adjs = viz.graph.getAdjacence(v[i][0], v[i][1]);
+					if(adjs) {
+						adjs[0].endAlpha = 0;
+						adjs[0].ignore = true;
+						adjs[1].endAlpha = 0;
+						adjs[1].ignore = true;
+					}
+				}
+				viz.compute('endPos');
+				GPlot.animate(viz, $_.merge(options, {
+					modes: ['fade:vertex', 'linear'],
+					onComplete: function() {
+						that.removeEdge(viz, v, { type: 'nothing' });
+					}
+				}));
+				break;
+			
+			case 'iter':
+				var that = this, GPlot = GraphPlot;
+				GPlot.sequence(viz, {
+					condition: function() { return v.length != 0; },
+					step: function() { that.removeEdge(viz, v.shift(), { type: 'nothing' }); GPlot.clearLabels(viz); },
+					onComplete: function() { options.onComplete(); },
+					duration: Math.ceil(options.duration / v.length)
+				});
+				break;
+				
+			default: this.doError();
+		}
+	},
+	
+	/*
+	   Method: sum
+	
+	   Adds a new graph to the visualization. The json graph (or tree) must at least have a common node with the current graph plotted by the visualization. The resulting graph can be defined as follows: &lt;http://mathworld.wolfram.com/GraphSum.html&gt;
+
+	   Parameters:
+	
+	      viz - The visualization object (an RGraph instance in this case).
+	      json - A json tree &lt;http://blog.thejit.org/2008/04/27/feeding-json-tree-structures-to-the-jit/&gt;, a json graph &lt;http://blog.thejit.org/2008/07/02/feeding-json-graph-structures-to-the-jit/&gt; or an extended json graph &lt;http://blog.thejit.org/2008/08/05/weighted-nodes-weighted-edges/&gt;.
+	      opt - Animation options. It's an object with two properties: _type_, which can be _nothing_, _replot_, _fade:seq_,  or _fade:con_. The other property is the _duration_ in milliseconds. 
+	
+	*/
+	sum: function(viz, json, opt) {
+		var options = $_.merge(viz.controller, this.options, opt), root = viz.root;
+		viz.root = opt.id || viz.root;
+		switch(options.type) {
+			case 'nothing':
+				var graph = viz.construct(json), GUtil = GraphUtil;
+				GUtil.eachNode(graph, function(elem) {
+					GUtil.eachAdjacency(elem, function(adj) {
+						viz.graph.addAdjacence(adj.nodeFrom, adj.nodeTo, adj.data);
+					});
+				});
+				break;
+			
+			case 'replot':
+				this.sum(viz, json, { type: 'nothing' });
+				viz.refresh();
+				break;
+			
+			case 'fade:seq': case 'fade': case 'fade:con':
+				var GUtil = GraphUtil, GPlot = GraphPlot, that = this, graph = viz.construct(json);
+				//set alpha to 0 for nodes to add.
+				var fadeEdges = this.preprocessSum(viz, graph);
+				var modes = !fadeEdges? ['fade:nodes'] : ['fade:nodes', 'fade:vertex'];
+				viz.compute('endPos');
+				if(options.type != 'fade:con') {
+					GPlot.animate(viz, $_.merge(options, {
+						modes: ['linear'],
+						onComplete: function() {
+							GPlot.animate(viz, $_.merge(options, {
+								modes: modes,
+								onComplete: function() {
+									options.onComplete();
+								}
+							}));
+						}
+					}));
+				} else {
+					GUtil.eachNode(viz.graph, function(elem) {
+						if(elem.id != root &amp;&amp; elem.pos.equals(Polar.KER)) elem.pos = elem.startPos = elem.endPos;
+					});
+					GPlot.animate(viz, $_.merge(options, {
+						modes: ['linear'].concat(modes),
+						onComplete: function() {
+							options.onComplete();
+						}
+					}));
+				}
+				break;
+
+			default: this.doError();
+		}
+	},
+	
+	/*
+	   Method: morph
+	
+	   This method will _morph_ the current visualized graph into the new _json_ representation passed in the method. Can also perform multiple animations. The _json_ object must at least have the root node in common with the current visualized graph.
+
+	   Parameters:
+	
+	      viz - The visualization object (an RGraph instance in this case).
+	      json - A json tree &lt;http://blog.thejit.org/2008/04/27/feeding-json-tree-structures-to-the-jit/&gt;, a json graph &lt;http://blog.thejit.org/2008/07/02/feeding-json-graph-structures-to-the-jit/&gt; or an extended json graph &lt;http://blog.thejit.org/2008/08/05/weighted-nodes-weighted-edges/&gt;.
+	      opt - Animation options. It's an object with two properties: _type_, which can be _nothing_, _replot_, or _fade_. The other property is the _duration_ in milliseconds. 
+	
+	*/
+	morph: function(viz, json, opt) {
+		var options = $_.merge(viz.controller, this.options, opt), root = viz.root;
+		viz.root = opt.id || viz.root;
+		switch(options.type) {
+			case 'nothing':
+				var graph = viz.construct(json), GUtil = GraphUtil;
+				GUtil.eachNode(graph, function(elem) {
+					GUtil.eachAdjacency(elem, function(adj) {
+						viz.graph.addAdjacence(adj.nodeFrom, adj.nodeTo, adj.data);
+					});
+				});
+				GUtil.eachNode(viz.graph, function(elem) {
+					GUtil.eachAdjacency(elem, function(adj) {
+						if(!graph.getAdjacence(adj.nodeFrom.id, adj.nodeTo.id)) {
+							viz.graph.removeAdjacence(adj.nodeFrom.id, adj.nodeTo.id);
+						}
+						if(!viz.graph.hasNode(elem.id)) viz.graph.removeNode(elem.id);
+					});
+				});
+				
+				break;
+			
+			case 'replot':
+				this.morph(viz, json, { type: 'nothing' });
+				viz.refresh();
+				break;
+			
+			case 'fade:seq': case 'fade': case 'fade:con':
+				var GUtil = GraphUtil, GPlot = GraphPlot, that = this, graph = viz.construct(json);
+				//preprocessing for adding nodes.
+				var fadeEdges = this.preprocessSum(viz, graph);
+				//preprocessing for nodes to delete.
+				GUtil.eachNode(viz.graph, function(elem) {
+					if(!graph.hasNode(elem.id)) {
+						elem.alpha = 1; elem.startAlpha = 1; elem.endAlpha = 0; elem.ignore = true;
+					}
+				});	
+				GUtil.eachNode(viz.graph, function(elem) {
+					if(elem.ignore) return;
+					GUtil.eachAdjacency(elem, function(adj) {
+						if(adj.nodeFrom.ignore || adj.nodeTo.ignore) return;
+						var nodeFrom = graph.getNode(adj.nodeFrom.id);
+						var nodeTo = graph.getNode(adj.nodeTo.id);
+						if(!nodeFrom.adjacentTo(nodeTo)) {
+							var adjs = viz.graph.getAdjacence(nodeFrom.id, nodeTo.id);
+							fadeEdges = true;
+							adjs[0].alpha = 1; adjs[0].startAlpha = 1; adjs[0].endAlpha = 0; adjs[0].ignore = true;
+							adjs[1].alpha = 1; adjs[1].startAlpha = 1; adjs[1].endAlpha = 0; adjs[1].ignore = true;
+						}
+					});
+				});	
+				var modes = !fadeEdges? ['fade:nodes'] : ['fade:nodes', 'fade:vertex'];
+				viz.compute('endPos');
+				GUtil.eachNode(viz.graph, function(elem) {
+					if(elem.id != root &amp;&amp; elem.pos.equals(Polar.KER)) elem.pos = elem.startPos = elem.endPos;
+				});
+				GPlot.animate(viz, $_.merge(options, {
+					modes: ['polar'].concat(modes),
+					onComplete: function() {
+						GUtil.eachNode(viz.graph, function(elem) {
+							if(elem.ignore) viz.graph.removeNode(elem.id);
+						});
+						GUtil.eachNode(viz.graph, function(elem) {
+							GUtil.eachAdjacency(elem, function(adj) {
+								if(adj.ignore) viz.graph.removeAdjacence(adj.nodeFrom.id, adj.nodeTo.id);
+							});
+						});
+						options.onComplete();
+					}
+				}));
+				break;
+
+			default: this.doError();
+		}
+	},
+	
+	preprocessSum: function(viz, graph) {
+		var GUtil = GraphUtil;
+		GUtil.eachNode(graph, function(elem) {
+			if(!viz.graph.hasNode(elem.id)) {
+				viz.graph.addNode(elem);
+				var n = viz.graph.getNode(elem.id);
+				n.alpha = 0; n.startAlpha = 0; n.endAlpha = 1;
+			}
+		});	
+		var fadeEdges = false;
+		GUtil.eachNode(graph, function(elem) {
+			GUtil.eachAdjacency(elem, function(adj) {
+				var nodeFrom = viz.graph.getNode(adj.nodeFrom.id);
+				var nodeTo = viz.graph.getNode(adj.nodeTo.id);
+				if(!nodeFrom.adjacentTo(nodeTo)) {
+					var adjs = viz.graph.addAdjacence(nodeFrom, nodeTo, adj.data);
+					if(nodeFrom.startAlpha == nodeFrom.endAlpha 
+					&amp;&amp; nodeTo.startAlpha == nodeTo.endAlpha) {
+						fadeEdges = true;
+						adjs[0].alpha = 0; adjs[0].startAlpha = 0; adjs[0].endAlpha = 1;
+						adjs[1].alpha = 0; adjs[1].startAlpha = 0; adjs[1].endAlpha = 1;
+					} 
+				}
+			});
+		});	
+		return fadeEdges;
+	}
+};
+
 
 /*
    Object: GraphPlot
@@ -2371,67 +2998,163 @@ var GraphUtil = {
    An object that performs specific radial layouts for a generic graph structure.
 */
 var GraphPlot = {
+
+	Interpolator: {
+		'polar': function(elem, delta) {
+			var from = elem.startPos;
+			var to = elem.endPos;
+			elem.pos = to.interpolate(from, delta);
+		},
+		
+		'linear': function(elem, delta) {
+			var from = elem.startPos.toComplex();
+			var to = elem.endPos.toComplex();
+			elem.pos = ((to.$add(from.scale(-1))).$scale(delta).$add(from)).toPolar();
+		},
+		
+		'fade:nodes': function(elem, delta) {
+			if(elem.endAlpha != elem.alpha) {
+				var from = elem.startAlpha;
+				var to   = elem.endAlpha;
+				elem.alpha = from + (to - from) * delta;
+			}
+		},
+		
+		'fade:vertex': function(elem, delta) {
+			var adjs = elem.adjacencies;
+			for(var id in adjs) this['fade:nodes'](adjs[id], delta);
+		}
+	},
+
 	//Property: labelsHidden
 	//A flag value indicating if node labels are being displayed or not.
 	labelsHidden: false,
-	displacement: {'x':0, 'y':0},
+	//Property: labelContainer
+	//Label DOM element
+	labelContainer: false,
+	//Property: labels
+	//Label DOM elements hash.
+	labels: {},
 
+	/*
+	   Method: getLabelContainer
+	
+	   Lazy fetcher for the label container.
+	*/
+	getLabelContainer: function() {
+		return this.labelContainer? this.labelContainer : this.labelContainer = document.getElementById(Config.labelContainer);
+	},
+	
+	/*
+	   Method: getLabel
+	
+	   Lazy fetcher for the label DOM element.
+	*/
+	getLabel: function(id) {
+		return (id in this.labels &amp;&amp; this.labels[id] != null)? this.labels[id] : this.labels[id] = document.getElementById(id);
+	},
+	
 	/*
 	   Method: hideLabels
 	
 	   Hides all labels.
 	*/
 	hideLabels: function (hide) {
-		var container = document.getElementById(Config.labelContainer);
-		//if(hide) container.style.display = 'none';
-		//else container.style.display = '';
+		var container = this.getLabelContainer();
+		if(hide) container.style.display = 'none';
+		else container.style.display = '';
 		this.labelsHidden = hide;
 	},
 
+	/*
+	   Method: clearLabels
+	
+	   Clears the label container.
+	*/
+	clearLabels: function(viz) {
+		for(var id in this.labels) 
+			if(!viz.graph.hasNode(id)) {
+				this.disposeLabel(id);
+				delete this.labels[id];
+			}
+	},
+	
+	/*
+	   Method: disposeLabel
+	
+	   Removes a label.
+	*/
+	disposeLabel: function(id) {
+		var elem = this.getLabel(id);
+		if(elem &amp;&amp; elem.parentNode) {
+			elem.parentNode.removeChild(elem);
+		}  
+	},
+	
 	/*
 	   Method: animate
 	
 	   Animates the graph mantaining a radial layout.
 	*/
-	animate: function(graph, id, canvas, controller) {
-		var that = this;
-		//this.hideLabels(true);
-		var comp = function(from, to, delta){ return (to.$add(from.scale(-1))).$scale(delta).$add(from); };
-		var compPolar = function(from, to, delta){ 
-			var p = to.interpolate(from, delta);
-			return p;
-		};
-		//can also interpolate polar coordinates.
-		var interpolate = function(elem, delta) {
-			if(Config.interpolation == 'polar') {
-				var from = elem.startPos;
-				var to = elem.endPos;
-				elem.pos = compPolar(from, to, delta);
-			} else {
-				var from = elem.startPos.toComplex();
-				var to = elem.endPos.toComplex();
-				elem.pos = comp(from, to, delta).toPolar();
-			}
-
-		};
+	animate: function(viz, opt) {
+		var that = this, GUtil = GraphUtil, Anim = Animation, duration = opt.duration || Anim.duration, fps = opt.fps || Anim.fps;
+		//Should be changed eventually, when Animation becomes a class.
+		var prevDuration = Anim.duration, prevFps = Anim.fps;
+		
+		Anim.duration = duration;
+		Anim.fps = fps;
+		
+		if(opt.hideLabels) this.hideLabels(true);
 		var animationController = {
 			compute: function(delta) {
-				canvas.clear();
-				if(Config.drawConcentricCircles) canvas.drawConcentricCircles(Config.drawConcentricCircles);
-				GraphUtil.eachNode(graph, function(node) { interpolate(node, delta); });
-				that.plot(graph, id, canvas, controller);
+				GUtil.eachNode(viz.graph, function(node) { 
+					for(var i=0; i&lt;opt.modes.length; i++) {
+							that.Interpolator[opt.modes[i]](node, delta);
+					}
+				});
+				that.plot(viz, opt);
 			},
-			
+
 			complete: function() {
-				that.hideLabels(false);
-				GraphUtil.eachNode(graph, function(elem) {elem.startPos = elem.pos});
-				that.plot(graph, id, canvas, controller);
-				controller.onAfterCompute();
+				GUtil.eachNode(viz.graph, function(node) { 
+					node.startPos = node.pos;
+					node.startAlpha = node.alpha;
+				});
+				if(opt.hideLabels) that.hideLabels(false);
+				that.plot(viz, opt);
+				Anim.duration = prevDuration;
+				Anim.fps = prevFps;
+				opt.onComplete();
+				opt.onAfterCompute();
 			}		
 		};
-		var that = this;
-		Animation.controller = animationController;
-		Animation.start();
+		Anim.controller = animationController;
+		Anim.start();
+	},
+
+
+	/*
+	   Method: sequence
+	
+	   Iteratively performs an action while refreshing the state of the visualization.
+	*/
+	sequence: function(viz, options) {
+		options = $_.merge({
+			condition: function() { return false; },
+			step: $_.fn(),
+			onComplete: $_.fn(),
+			duration: 200
+		}, options);
+
+		var interval = setInterval(function() {
+			if(options.condition()) {
+				options.step();
+			} else {
+				clearInterval(interval);
+				options.onComplete();
+			}
+			viz.refresh();
+		}, options.duration);
 	},
 
 	/*
@@ -2439,23 +3162,30 @@ var GraphPlot = {
 	
 	   Plots a Graph.
 	*/
-	plot: function(graph, id, canvas, controller) {
-		var aGraph = graph;
-		var that = this;
+	plot: function(viz, opt) {
+		var aGraph = viz.graph, canvas = viz.canvas, id = viz.root;
+		var that = this, ctx = canvas.getContext(), GUtil = GraphUtil;
 		canvas.clear();
-		if(Config.drawConcentricCircles) canvas.drawConcentricCircles();
-		GraphUtil.clean(graph);
-		GraphUtil.eachBFS(aGraph, id, function(node) {
-			GraphUtil.eachAdjacency(aGraph, node, function(adj) {
-				if(!adj.nodeTo._flag) {
-					controller.onBeforePlotLine(adj);
-					that.plotLine(adj, canvas,controller);
-					controller.onAfterPlotLine(adj);
+		if(Config.drawConcentricCircles) canvas.drawConcentricCircles(Config.drawConcentricCircles);
+		var T = !!aGraph.getNode(id).visited;
+		GUtil.eachNode(aGraph, function(node) {
+			GUtil.eachAdjacency(node, function(adj) {
+				if(!!adj.nodeTo.visited === T) {
+					opt.onBeforePlotLine(adj);
+					ctx.save();
+					ctx.globalAlpha = Math.min(Math.min(node.alpha, adj.nodeTo.alpha), adj.alpha);
+					that.plotLine(adj, canvas);
+					ctx.restore();
+					opt.onAfterPlotLine(adj);
 				}
 			});
-			that.plotNode(node, canvas,controller);
-	 		if(!that.labelsHidden) that.plotLabel(canvas, node, controller);
-			node._flag = true;
+			ctx.save();
+			ctx.globalAlpha = node.alpha;
+			that.plotNode(node, canvas);
+	 		if(!that.labelsHidden &amp;&amp; ctx.globalAlpha &gt;= .95) that.plotLabel(canvas, node, opt);
+	 		else if(!that.labelsHidden &amp;&amp; ctx.globalAlpha &lt; .95) that.hideLabel(node);
+			ctx.restore();
+			node.visited = !T;
 		});
 	},
 	
@@ -2465,18 +3195,11 @@ var GraphPlot = {
 	
 	   Plots a graph node.
 	*/
-	plotNode: function(node, canvas,controller) {
+	plotNode: function(node, canvas) {
 		var pos = node.pos.toComplex();
-		var d = controller.getOffset();
-		try{
 		canvas.path('fill', function(context) {
-	  		//jon add
-	  		context.arc(pos.x +d.x, pos.y +d.y, node._radius, 0, Math.PI*2, true);	
-
+			context.arc(pos.x, pos.y, node._radius, 0, Math.PI*2, true);			
 		});
-
-			  		}
-	  		catch(e){console.log(e);}		
 	},
 	
 	/*
@@ -2484,106 +3207,53 @@ var GraphPlot = {
 	
 	   Plots a line connecting _node_ and _child_ nodes.
 	*/
-	
-
-	plotLine: function(adj, canvas,controller) {
-		
-		var d = controller.getOffset();
+	plotLine: function(adj, canvas) {
 		var node = adj.nodeFrom, child = adj.nodeTo;
 		var pos = node.pos.toComplex();
 		var posChild = child.pos.toComplex();
 		canvas.path('stroke', function(context) {
-			var x1 = pos.x + d.x;
-			var y1 = pos.y + d.y;
-			var x2 = posChild.x+d.x;
-			var y2 = posChild.y+d.y;
-			context.moveTo(x1, y1);//jon hack
-		context.lineTo(x2, y2); //jon hack
-		
-		//GraphPlot.drawArrowHead(context,x1,y1,x2,y2);
-	
-			/*
-			context.moveTo(posChild.x+dx, posChild.y+dy);//jon hack
-			context.lineTo(posChild.x+dx+5, posChild.y+dy+20); //jon hack
-			context.moveTo(posChild.x+dx, posChild.y+dy);//jon hack
-			context.lineTo(posChild.x+dx-5, posChild.y+dy+20); //jon hack
-			*/
+			context.moveTo(pos.x, pos.y);
+		  	context.lineTo(posChild.x, posChild.y);
 		});
 	},
 	
+	/*
+	   Method: hideLabel
 	
-	rotateShape: function(shape,ang) {
-	    var rv = [];
-	    for(p in shape)
-	        rv.push(GraphPlot.rotatePoint(ang,shape[p][0],shape[p][1]));
-	    return rv;
-	},
-	rotatePoint: function(ang,x,y) {
-	    return [
-	        (x * Math.cos(ang)) - (y * Math.sin(ang)),
-	        (x * Math.sin(ang)) + (y * Math.cos(ang))
-	    ];
+	   Hides a label having _node.id_ as id.
+	*/
+	hideLabel: function(node) {
+		var n; if(n = document.getElementById(node.id)) n.style.display = &quot;none&quot;;
 	},
 	
-	
-	drawArrowHead: function(ctx,x1,x2,y1,y2) {
-
-		var shape = [[ 2, 0 ],[ -10, -4 ],[ -10, 4]];
-		
-		var ang = Math.atan2(y2-y1,x2-x1);
-		
-		shape = GraphPlot.rotateShape(shape,ang);
-	   
-		ctx.moveTo(shape[0][0],shape[0][1]);
- 		
-console.log(shape);
-		for(p in shape){
-			console.log(p);
-			if (p &gt; 0) ctx.lineTo(shape[p][0],shape[p][1]);
-			console.log(&quot;drawn?@&quot;+p);
-		}
-		console.log(&quot;drawn?@xx&quot;);
-		ctx.lineTo(shape[0][0],shape[0][1]);
-		
-		ctx.fill();
-	
-
-	},
 	/*
 	   Method: plotLabel
 	
 	   Plots a label for a given node.
 	*/
 	plotLabel: function(canvas, node, controller) {
-		
-		var d = controller.getOffset();
-		
-		//canvas.setPosition();
-		var size = node._radius;
-		var id = controller.getNodeLabelPrefix() + node.id;
-		var tag = false;
-		if(!(tag = document.getElementById(id))) {
+		var size = node._radius, id = node.id, tag = this.getLabel(id);
+		if(!tag &amp;&amp; !(tag = document.getElementById(id))) {
 			tag = document.createElement('div');
-			var container = document.getElementById(controller.getNodeLabelContainer());
-			container.style.position= 'relative';
+			var container = this.getLabelContainer();
 			container.appendChild(tag);
+			tag.id = id;
+			tag.className = 'node';
+			tag.style.position = 'absolute';
 			controller.onCreateLabel(tag, node);
 		}
 		var pos = node.pos.toComplex();
 		var radius= canvas.getSize();
+		var cpos = canvas.getPosition();
 		var labelPos= {
-			x: Math.round((pos.x  + radius.x/2 - size /2) +d.x),
-			y: Math.round((pos.y + radius.y/2 - size /2) +d.y)
+			x: Math.round(pos.x + cpos.x + radius.x/2 - size /2),
+			y: Math.round(pos.y + cpos.y + radius.y/2 - size /2)
 		};
-		tag.id = id;
-		tag.className = 'node';
-		tag.style.position = 'absolute';
 		tag.style.width = size + 'px';
 		tag.style.height = size + 'px';
 		tag.style.left = labelPos.x + 'px';
 		tag.style.top = labelPos.y  + 'px';
-		if(this.fitsInCanvas(labelPos, canvas)) tag.style.display = '';
-		else tag.style.display = 'none';
+		tag.style.display = this.fitsInCanvas(labelPos, canvas)? '' : 'none';
 		controller.onPlaceLabel(tag, node);
 	},
 	
@@ -2593,16 +3263,11 @@ console.log(shape);
 	   Returns _true_ or _false_ if the label for the node is contained on the canvas dom element or not.
 	*/
 	fitsInCanvas: function(pos, canvas) {
-		//canvas.setPosition();
-	    var size = canvas.getSize();
-		var offset1 = parseInt(size.x);
-		var offset2 = parseInt(size.y);
-		if(pos.x &lt;  0 || pos.x &gt; offset1 || pos.y &lt; 0 || pos.y &gt; offset2) return false;
-		else
-		  return true;						
+		var size = canvas.getSize();
+		if(pos.x &gt;= size.x + canvas.position.x || pos.x &lt; canvas.position.x 
+			|| pos.y &gt;= size.y + canvas.position.y || pos.y &lt; canvas.position.y) return false;
+		return true;					
 	}
-	
-
 };
 
 /*
@@ -2654,12 +3319,12 @@ var RGraph = function(canvas, controller) {
 		onAfterPlotLine: $_.fn(),
 		request:         false
 	};
-	
 	this.controller = $_.merge(innerController, controller);
 	this.graph = new Graph();
 	this.json = null;
 	this.canvas = canvas;
 	this.root = null;
+	this.busy = false;
 	
 	Animation.duration = Config.animationTime;
 	Animation.fps = Config.fps;
@@ -2667,6 +3332,42 @@ var RGraph = function(canvas, controller) {
 };
 
 RGraph.prototype = {
+	
+	
+	construct: function(json) {
+		var isGraph = $_.isArray(json);
+		var ans = new Graph();
+		if(!isGraph) 
+			//make tree
+			(function (ans, json) {
+				ans.addNode(json);
+				for(var i=0, ch = json.children; i&lt;ch.length; i++) {
+					ans.addAdjacence(json, ch[i]);
+					arguments.callee(ans, ch[i]);
+				}
+			})(ans, json);
+		else
+			//make graph
+			(function (ans, json) {
+				var getNode = function(id) {
+					for(var w=0; w&lt;json.length; w++) if(json[w].id == id) return json[w];
+				};
+				for(var i=0; i&lt;json.length; i++) {
+					ans.addNode(json[i]);
+					for(var j=0, adj = json[i].adjacencies; j&lt;adj.length; j++) {
+						var node = adj[j], data;
+						if(typeof adj[j] != 'string') {
+							data = node.data;
+							node = node.nodeTo;
+						}
+						ans.addAdjacence(json[i], getNode(node), data);
+					}
+				}
+			})(ans, json);
+
+		return ans;
+	},
+	
 	/*
 	 Method: loadTree
 	
@@ -2674,12 +3375,7 @@ RGraph.prototype = {
 	 
 	*/
 	loadTree: function(json) {
-		var ch = json.children;
-		this.graph.addNode(json);
-		for(var i=0; i&lt;ch.length; i++) {
-			this.graph.addAdjacence(json, ch[i]);
-			this.loadTree(ch[i]);
-		}
+		this.graph = this.construct(json);
 	},
 
 	/*
@@ -2689,24 +3385,21 @@ RGraph.prototype = {
 	 
 	*/
 	loadGraph: function(json) {
-		var getNode = function(id) {
-			for(var w=0; w&lt;json.length; w++) if(json[w].id == id) return json[w];
-		};
-		
-		for(var i=0; i&lt;json.length; i++) {
-			this.graph.addNode(json[i]);
-			for(var j=0, adj = json[i].adjacencies; j&lt;adj.length; j++) {
-				var node = adj[j], data;
-				if(typeof adj[j] != 'string') {
-					data = node.data; node = node.nodeTo;
-				}
-				
-				this.graph.addAdjacence(json[i], getNode(node), data);
-			}
-		}
+		this.graph = this.construct(json);
 	},
 	
 	/*
+	 Method: refresh
+	
+	 Computes positions and then plots.
+	 
+	*/
+	refresh: function() {
+		this.compute();
+		this.plot();
+	},
+	
+  /*
 	 Method: flagRoot
 	
 	 Flags a node specified by _id_ as root.
@@ -2758,15 +3451,6 @@ RGraph.prototype = {
 		this.root = json[i? i : 0].id;
 	},
 	
-	/*jon hack */
-	offsetCenter: function(x,y){
-		var d =this.controller.getOffset();
-		d.x += x;
-		d.y += y;
-		this.controller.setOffset(d);
-		//GraphPlot.displacement.x += x;
-		//GraphPlot.displacement.y += y;
-	},
 	
 	/*
 	 Method: plot
@@ -2774,7 +3458,7 @@ RGraph.prototype = {
 	 Plots the RGraph
 	*/
 	plot: function() {
-		GraphPlot.plot(this.graph, this.root, this.canvas, this.controller);
+		GraphPlot.plot(this, this.controller);
 	},
 	
 	/*
@@ -2783,10 +3467,11 @@ RGraph.prototype = {
 	 Computes the graph nodes positions and stores this positions on _property_.
 	*/
 	compute: function(property) {
-		var prop = property || ['pos', 'startPos'];
-		var node = GraphUtil.getNode(this.graph, this.root);
+		var prop = property || ['pos', 'startPos', 'endPos'];
+		var node = this.graph.getNode(this.root);
 		node._depth = 0;
 		this.flagRoot(this.root);
+		GraphUtil.computeLevels(this.graph, this.root, &quot;ignore&quot;);
 		this.computeAngularWidths();
 		this.computePositions(prop);
 	},
@@ -2799,7 +3484,8 @@ RGraph.prototype = {
 	computePositions: function(property) {
 		var propArray = (typeof property == 'array' || typeof property == 'object')? property : [property];
 		var aGraph = this.graph;
-		var root = GraphUtil.getNode(this.graph, this.root);
+		var GUtil = GraphUtil;
+		var root = this.graph.getNode(this.root);
 
 		for(var i=0; i&lt;propArray.length; i++)
 			root[propArray[i]] = new Polar(0, 0);
@@ -2810,23 +3496,24 @@ RGraph.prototype = {
 		};
 		root._rel = 1;
 		
-		GraphUtil.eachBFS(this.graph, this.root, function (elem) {
+		GUtil.eachBFS(this.graph, this.root, function (elem) {
 			var angleSpan = elem.angleSpan.end - elem.angleSpan.begin;
 			var rho = (elem._depth + 1) * Config.levelDistance;
 			var angleInit = elem.angleSpan.begin;
 			var totalAngularWidths = (function (element){
 				var total = 0;
-				GraphUtil.eachSubnode(aGraph, element, function(sib) {
+				GUtil.eachSubnode(aGraph, element, function(sib) {
 					total += sib._treeAngularWidth;
-				});
+				}, &quot;ignore&quot;);
 				return total;
 			})(elem);
 			
-			GraphUtil.eachSubnode(aGraph, elem, function(child) {
+			GUtil.eachSubnode(aGraph, elem, function(child) {
 				if(!child._flag) {
 					child._rel = child._treeAngularWidth / totalAngularWidths;
 					var angleProportion = child._rel * angleSpan;
 					var theta = angleInit + angleProportion / 2;
+
 					for(var i=0; i&lt;propArray.length; i++)
 						child[propArray[i]] = new Polar(theta, rho);
 
@@ -2836,9 +3523,11 @@ RGraph.prototype = {
 					};
 					angleInit += angleProportion;
 				}
-			});
-		});
+			}, &quot;ignore&quot;);
+		}, &quot;ignore&quot;);
 	},
+
+
 	
 	/*
 	 Method: setAngularWidthForNodes
@@ -2846,15 +3535,15 @@ RGraph.prototype = {
 	 Sets nodes angular widths.
 	*/
 	setAngularWidthForNodes: function() {
-		var rVal = Config.nodeRangeValues, rDiam = Config.nodeRangeDiameters, nr = Config.nodeRadius; 
+		var rVal = Config.nodeRangeValues, rDiam = Config.nodeRangeDiameters, nr = Config.nodeRadius, allow = Config.allowVariableNodeDiameters; 
 		var diam = function(value) { return (((rDiam.max - rDiam.min)/(rVal.max - rVal.min)) * (value - rVal.min) + rDiam.min) };
 		GraphUtil.eachBFS(this.graph, this.root, function(elem, i) {
-			var dataValue = (Config.allowVariableNodeDiameters &amp;&amp; elem.data &amp;&amp; elem.data.length &gt; 0)? elem.data[0].value : nr;
+			var dataValue = (allow &amp;&amp; elem.data &amp;&amp; elem.data.length &gt; 0)? elem.data[0].value : nr;
 			var diamValue = diam(dataValue);
 			var rho = Config.levelDistance * i;
 			elem._angularWidth = diamValue / rho;
-			elem._radius = diamValue / 2;
-		});
+			elem._radius = allow? diamValue / 2 : nr;
+		}, &quot;ignore&quot;);
 	},
 	
 	/*
@@ -2866,7 +3555,7 @@ RGraph.prototype = {
 		var that = this;
 		GraphUtil.eachNode(this.graph, function(elem) {
 			that.setSubtreeAngularWidth(elem);
-		});
+		}, &quot;ignore&quot;);
 	},
 	
 	/*
@@ -2879,7 +3568,7 @@ RGraph.prototype = {
 		GraphUtil.eachSubnode(this.graph, elem, function(child) {
 			that.setSubtreeAngularWidth(child);
 			sumAW += child._treeAngularWidth;
-		});
+		}, &quot;ignore&quot;);
 		elem._treeAngularWidth = Math.max(nodeAW, sumAW);
 	},
 	
@@ -2900,7 +3589,7 @@ RGraph.prototype = {
 	*/
 	getNodeAndParentAngle: function(id) {
 		var theta = false;
-		var n  = GraphUtil.getNode(this.graph, id);
+		var n  = this.graph.getNode(id);
 		var ps = GraphUtil.getParents(this.graph, n);
 		var p  = (ps.length &gt; 0)? ps[0] : false;
 		if(p) {
@@ -2909,7 +3598,6 @@ RGraph.prototype = {
 			theta = (function(pos) {
 				var t = Math.atan2(pos.y, pos.x);
 				if(t &lt; 0) t = 2 * Math.PI + t;
-				
 				return t;
 			})(newPos);
 		}
@@ -2922,22 +3610,33 @@ RGraph.prototype = {
 	
 	 Performs all calculations and animation when clicking on a label specified by _id_. The label id is the same id as its homologue node.
 	*/
-	onClick: function(id) {
-		if(this.root != id) {
-			//GraphPlot.displacement.x =0;
-			//GraphPlot.displacement.y = 0;
+	onClick: function(id) {		
+		if(this.root != id &amp;&amp; !this.busy) {
+			this.busy = true;
 			//we apply first constraint to the algorithm
-			
 			var obj = this.getNodeAndParentAngle(id);
-			this.root = id;
-			this.controller.onBeforeCompute(GraphUtil.getNode(this.graph, id));
-			this.compute('endPos');
+			this.root = id, that = this;
+			this.controller.onBeforeCompute(this.graph.getNode(id));
+
+			console.log(&quot;!&quot;);
 			var thetaDiff = obj.theta - obj._parent.endPos.theta;
-			GraphUtil.eachNode(this.graph, function(elem) {
+
+												GraphUtil.eachNode(this.graph, function(elem) {
 				elem.endPos = elem.endPos.add(new Polar(thetaDiff, 0));
 			});
-			GraphPlot.animate(this.graph, id, this.canvas, this.controller);
-		}		
+			
+			var mode = (Config.interpolation == 'linear')? 'linear' : 'polar';
+
+
+			GraphPlot.animate(this, $_.merge(this.controller, {
+				hideLabels:true,
+				modes: [mode],
+				onComplete: function() {
+					that.busy = false;
+				}
+			}));
+				}		
+
 	}
 };
 
@@ -2962,34 +3661,32 @@ var Graph= function()  {
 	
 	
 Graph.prototype= {
-	/*
-	 Method: addAdjacence
+
+/*
+	 Method: getNode
 	
-	 Connects nodes specified by *obj* and *obj2*. If not found, nodes are created.
-	 
-	 Parameters:
+	 Returns a &lt;Graph.Node&gt; from a specified _id_.
+*/	
+ getNode: function(id) {
+ 	if(this.hasNode(id)) 	return this.nodes[id];
+ 	return false;
+ },
+
+
+/*
+	 Method: getAdjacence
 	
-	    obj - a &lt;Graph.Node&gt; object.
-	    obj2 - Another &lt;Graph.Node&gt; object.
-	*/	
-  addAdjacence: function (obj, obj2, weight) {
-  	if(!this.hasNode(obj.id)) this.addNode(obj);
-  	if(!this.hasNode(obj2.id)) this.addNode(obj2);
-	obj = this.nodes[obj.id]; obj2 = this.nodes[obj2.id];
-	
-  	for(var i in this.nodes) {
-  		if(this.nodes[i].id == obj.id) {
-  			if(!this.nodes[i].adjacentTo(obj2)) {
-  				this.nodes[i].addAdjacency(obj2, weight);
-  			}
-  		}
-  		
-  		if(this.nodes[i].id == obj2.id) {	
-  			if(!this.nodes[i].adjacentTo(obj)) {
-  				this.nodes[i].addAdjacency(obj, weight);
-  			}
-  		}
-  	}
+	 Returns an array of &lt;Graph.Adjacence&gt; that connects nodes with id _id_ and _id2_.
+*/	
+  getAdjacence: function (id, id2) {
+	var adjs = [];
+	if(this.hasNode(id) 	&amp;&amp; this.hasNode(id2) 
+	&amp;&amp; this.nodes[id].adjacentTo({ 'id':id2 }) &amp;&amp; this.nodes[id2].adjacentTo({ 'id':id })) {
+		adjs.push(this.nodes[id].getAdjacency(id2));
+		adjs.push(this.nodes[id2].getAdjacency(id));
+		return adjs;
+	}
+	return false;	
  },
 
 	/*
@@ -3007,7 +3704,65 @@ Graph.prototype= {
   	}
   	return this.nodes[obj.id];
   },
+  
+	/*
+	 Method: addAdjacence
+	
+	 Connects nodes specified by *obj* and *obj2*. If not found, nodes are created.
+	 
+	 Parameters:
+	
+	    obj - a &lt;Graph.Node&gt; object.
+	    obj2 - Another &lt;Graph.Node&gt; object.
+	    data - A DataSet object.
+	*/	
+  addAdjacence: function (obj, obj2, weight) {
+  	var adjs = []
+  	if(!this.hasNode(obj.id)) this.addNode(obj);
+  	if(!this.hasNode(obj2.id)) this.addNode(obj2);
+	obj = this.nodes[obj.id]; obj2 = this.nodes[obj2.id];
+	
+  	for(var i in this.nodes) {
+  		if(this.nodes[i].id == obj.id) {
+  			if(!this.nodes[i].adjacentTo(obj2)) {
+  				adjs.push(this.nodes[i].addAdjacency(obj2, weight));
+  			}
+  		}
+  		
+  		if(this.nodes[i].id == obj2.id) {	
+  			if(!this.nodes[i].adjacentTo(obj)) {
+  				adjs.push(this.nodes[i].addAdjacency(obj, weight));
+  			}
+  		}
+  	}
+  	return adjs;
+ },
 
+	/*
+	 Method: removeNode
+	
+	 Removes a &lt;Graph.Node&gt; from &lt;Graph&gt; that matches the specified _id_.
+	*/	
+  removeNode: function(id) {
+  	if(this.hasNode(id)) {
+  		var node = this.nodes[id];
+  		for(var i=0 in node.adjacencies) {
+  			var adj = node.adjacencies[i];
+  			this.removeAdjacence(id, adj.nodeTo.id);
+  		}
+  		delete this.nodes[id];
+  	}
+  },
+  
+/*
+	 Method: removeAdjacence
+	
+	 Removes a &lt;Graph.Adjacence&gt; from &lt;Graph&gt; that matches the specified _id1_ and _id2_.
+*/	
+  removeAdjacence: function(id1, id2) {
+  	if(this.hasNode(id1)) this.nodes[id1].removeAdjacency(id2);
+  	if(this.hasNode(id2)) this.nodes[id2].removeAdjacency(id1);
+  },
 
 	/*
 	 Method: hasNode
@@ -3023,12 +3778,7 @@ Graph.prototype= {
 	 		A Boolean instance indicating if node belongs to graph or not.
 	*/	
   hasNode: function(id) {
-  	for(var index in this.nodes) {
-  		if (index== id) {
-  			return true;
-  		}
-  	}
-  	return false;	
+	return id in this.nodes;
   }
 };
 /*
@@ -3055,45 +3805,49 @@ Graph.prototype= {
 */
 Graph.Node = function(id, name, data) {
 	//Property: id
+	//A node's id
 	this.id= id;
 	//Property: name
+	//A node's name
 	this.name = name;
 	//Property: data
 	//The dataSet object &lt;http://blog.thejit.org/?p=7&gt;
 	this.data = data;
-		
 	//Property: drawn
 	//Node flag
 	this.drawn= false;
-
 	//Property: angle span
 	//allowed angle span for adjacencies placement
 	this.angleSpan= {
 		begin:0,
 		end:0
 	};
-
 	//Property: pos
 	//node position
 	this.pos= new Polar(0, 0);
-	
 	//Property: startPos
 	//node from position
 	this.startPos= new Polar(0, 0);
-	
 	//Property: endPos
 	//node to position
 	this.endPos= new Polar(0, 0);
-	
+	//Property: alpha
+	//node alpha
+	this.alpha = 1;
+	//Property: startAlpha
+	//node start alpha
+	this.startAlpha = 1;
+	//Property: endAlpha
+	//node end alpha
+	this.endAlpha = 1;
 	//Property: adjacencies
 	//node adjacencies
-	this.adjacencies= new Array();
-	
-}
+	this.adjacencies= {};
+};
 
 Graph.Node.prototype= {
 	
-		/*
+	/*
 	   Method: adjacentTo
 	
 	   Indicates if the node is adjacent to the node indicated by the specified id
@@ -3107,15 +3861,22 @@ Graph.Node.prototype= {
 	     A Boolean instance indicating whether this node is adjacent to the specified by id or not.
 	*/
 	adjacentTo: function(node) {
-		for(var index=0; index&lt;this.adjacencies.length; index++) {
-			if(node.id == this.adjacencies[index].nodeTo.id) {
-				return true;
-			}
-		}
-		return false;
+		return node.id in this.adjacencies;
 	},
 
-		/*
+	/*
+	   Method: getAdjacency
+	
+	   Returns a &lt;Graph.Adjacence&gt; that connects the current &lt;Graph.Node&gt; with the node having _id_ as id.
+
+	   Parameters:
+	
+	      id - A node id.
+	*/	
+	getAdjacency: function(id) {
+		return this.adjacencies[id];
+	},
+	/*
 	   Method: addAdjacency
 	
 	   Connects the node to the specified by id.
@@ -3126,7 +3887,20 @@ Graph.Node.prototype= {
 	*/	
 	addAdjacency: function(node, data) {
 		var adj = new Graph.Adjacence(this, node, data);
-		this.adjacencies.push(adj);
+		return this.adjacencies[node.id] = adj;
+	},
+	
+	/*
+	   Method: removeAdjacency
+	
+	   Deletes the &lt;Graph.Adjacence&gt; by _id_.
+
+	   Parameters:
+	
+	      id - A node id.
+	*/	
+	removeAdjacency: function(id) {
+		delete this.adjacencies[id];
 	}
 };
 /*
@@ -3135,10 +3909,25 @@ Graph.Node.prototype= {
 	 Creates a new &lt;Graph&gt; adjacence.
 
 */
-Graph.Adjacence = function(node, node2, data) {
-	this.nodeFrom = node;
-	this.nodeTo    = node2;
-	this.data     = data;
+Graph.Adjacence = function(nodeFrom, nodeTo, data) {
+	//Property: nodeFrom
+	//One of the two &lt;Graph.Node&gt;s connected by this edge.
+	this.nodeFrom = nodeFrom;
+	//Property: nodeTo
+	//One of the two &lt;Graph.Node&gt;s connected by this edge.
+	this.nodeTo = nodeTo;
+	//Property: data
+	//A dataset object
+	this.data = data;
+	//Property: alpha
+	//node alpha
+	this.alpha = 1;
+	//Property: startAlpha
+	//node start alpha
+	this.startAlpha = 1;
+	//Property: endAlpha
+	//node end alpha
+	this.endAlpha = 1;
 };
 
 /*
@@ -3201,7 +3990,6 @@ var Animation = {
 		return this;
 	},
 
-
 	startTimer: function(){
 		if (this.timer) return false;
 		this.time = this.getTime() - this.time;
@@ -3209,7 +3997,237 @@ var Animation = {
 		return true;
 	}
 };
-}}}/***
+/*Jon's JIT Hacks */
+
+Config.animationTime = 1000;
+
+/*RGRAPH*/
+RGraph.prototype.offsetCenter= function(x,y){
+	var d =this.controller.getOffset();
+	d.x += x;
+	d.y += y;
+	this.controller.setOffset(d);
+};
+
+RGraph.prototype.setAngularWidthForNodes= function() {
+	var rVal = Config.nodeRangeValues, rDiam = Config.nodeRangeDiameters, nr = Config.nodeRadius, allow = Config.allowVariableNodeDiameters; 
+	var diam = function(value) { return (((rDiam.max - rDiam.min)/(rVal.max - rVal.min)) * (value - rVal.min) + rDiam.min) };
+	GraphUtil.eachBFS(this.graph, this.root, function(elem, i) {
+		var dataValue = (allow &amp;&amp; elem.data &amp;&amp; elem.data.length &gt; 0)? elem.data[0].value : nr;
+		var diamValue = diam(dataValue);
+		var rho = this.controller.getZoomLevel() * i;//jon
+		elem._angularWidth = diamValue / rho;
+		elem._radius = allow? diamValue / 2 : nr;
+	}, &quot;ignore&quot;);
+};
+
+
+
+RGraph.prototype.computePositions= function(property) {
+	var propArray = (typeof property == 'array' || typeof property == 'object')? property : [property];
+	var aGraph = this.graph;
+	var GUtil = GraphUtil;
+	var root = this.graph.getNode(this.root);
+
+	for(var i=0; i&lt;propArray.length; i++)
+		root[propArray[i]] = new Polar(0, 0);
+	
+	root.angleSpan = {
+		begin: 0,
+		end: 2 * Math.PI
+	};
+	root._rel = 1;
+	
+	GUtil.eachBFS(this.graph, this.root, function (elem) {
+		var angleSpan = elem.angleSpan.end - elem.angleSpan.begin;
+		var rho = (elem._depth + 1) * this.controller.getZoomLevel();//jon
+		var angleInit = elem.angleSpan.begin;
+		var totalAngularWidths = (function (element){
+			var total = 0;
+			GUtil.eachSubnode(aGraph, element, function(sib) {
+				total += sib._treeAngularWidth;
+			}, &quot;ignore&quot;);
+			return total;
+		})(elem);
+		
+		GUtil.eachSubnode(aGraph, elem, function(child) {
+			if(!child._flag) {
+				child._rel = child._treeAngularWidth / totalAngularWidths;
+				var angleProportion = child._rel * angleSpan;
+				var theta = angleInit + angleProportion / 2;
+
+				for(var i=0; i&lt;propArray.length; i++)
+					child[propArray[i]] = new Polar(theta, rho);
+
+				child.angleSpan = {
+					begin: angleInit,
+					end: angleInit + angleProportion
+				};
+				angleInit += angleProportion;
+			}
+		}, &quot;ignore&quot;);
+	}, &quot;ignore&quot;);
+};
+
+
+
+RGraph.prototype.onClick= function(id) { //weird bug in here
+		
+		if(this.root != id) {//jon
+			this.busy = true;
+			//we apply first constraint to the algorithm
+			var obj = this.getNodeAndParentAngle(id);
+			this.root = id, that = this;
+			this.controller.onBeforeCompute(this.graph.getNode(id));
+
+			this.compute('endPos');
+
+			var thetaDiff = obj.theta - obj._parent.endPos.theta;
+
+			GraphUtil.eachNode(this.graph, function(elem) {
+				elem.endPos = elem.endPos.add(new Polar(thetaDiff, 0));
+			});
+			
+			var mode = (Config.interpolation == 'linear')? 'linear' : 'polar';
+
+
+			this.controller.modes = [mode];//jon
+			GraphPlot.animate(this, this.controller);//jon
+		}
+
+};
+/*GRAPH PLOT */
+
+GraphPlot.plotLine = function(adj, canvas,controller) {//jon
+	var d = controller.getOffset();//jon
+	var node = adj.nodeFrom, child = adj.nodeTo;
+	var pos = node.pos.toComplex();
+	var posChild = child.pos.toComplex();
+	canvas.path('stroke', function(context) {
+		
+		pos.x += d.x;//jon..
+		pos.y += d.y;
+		posChild.x += d.x;
+		posChild.y += d.y;//..jon
+		
+		context.moveTo(pos.x, pos.y);
+	  	context.lineTo(posChild.x, posChild.y);
+		
+		 
+
+			
+		
+	});
+};
+
+
+GraphPlot.getLabelContainer = function(controller){
+	return document.getElementById(controller.getNodeLabelContainer());
+};
+
+
+
+GraphPlot.fitsInCanvas= function(pos, canvas) {
+	//canvas.setPosition();
+    var size = canvas.getSize();
+	var offset1 = parseInt(size.x);
+	var offset2 = parseInt(size.y);
+	if(pos.x &lt;  0 || pos.x &gt; offset1 || pos.y &lt; 0 || pos.y &gt; offset2) return false;
+	else
+	  return true;						
+};
+
+GraphPlot.plotLabel= function(canvas, node, controller) {
+	
+	var size = node._radius;
+	var id = controller.getNodeLabelPrefix() + node.id;//jon change
+	var d = controller.getOffset(); //jon
+
+	var pos = node.pos.toComplex();
+	var radius= canvas.getSize();
+	canvas.setPosition(); //jon
+	var cpos = canvas.getPosition();
+	
+	var labelPos= {
+		x: Math.round((pos.x  + radius.x/2 - size /2) +d.x),//jon
+		y: Math.round((pos.y + radius.y/2 - size /2) +d.y)//jon
+	};
+
+	var tag = this.getLabel(id);
+	
+	if(!this.fitsInCanvas(labelPos,canvas)) {
+		
+		//if(tag &amp;&amp; tag.parentNode)tag.parentNode.removeChild(tag);
+		return;
+	}
+	
+	if(!tag &amp;&amp; !(tag = document.getElementById(id))) {
+		tag = document.createElement('div');
+		var container = this.getLabelContainer(controller); //jon change
+		container.style.position= 'relative';//jon change
+		container.appendChild(tag);
+		tag.id = id;
+		tag.className = 'node';
+		tag.style.position = 'absolute';
+		controller.onCreateLabel(tag, node);
+	}
+
+	tag.style.width = size + 'px';
+	tag.style.height = size + 'px';
+	tag.style.left = labelPos.x + 'px';
+	tag.style.top = labelPos.y  + 'px';
+	tag.style.display = this.fitsInCanvas(labelPos, canvas)? '' : 'none';
+	controller.onPlaceLabel(tag, node);
+};
+
+
+/*overriding of several functions */
+GraphPlot.plotNode =  function(node, canvas,controller) {
+	var pos = node.pos.toComplex();
+	var d = controller.getOffset();
+
+	if(node.data.nodraw == undefined)  		//jon
+	canvas.path('fill', function(context) {
+  		context.arc(pos.x +d.x, pos.y +d.y, node._radius, 0, Math.PI*2, true);	//jon
+
+	});		
+};
+
+
+GraphPlot.plot= function(viz, opt) {
+
+	var aGraph = viz.graph, canvas = viz.canvas, id = viz.root;
+	
+	var controller = viz.controller;//jon
+	var container = this.getLabelContainer(controller); //jon change
+	container.innerHTML = &quot;&quot;;
+	var that = this, ctx = canvas.getContext(), GUtil = GraphUtil;
+	canvas.clear();
+	if(Config.drawConcentricCircles) canvas.drawConcentricCircles(Config.drawConcentricCircles);
+	var T = !!aGraph.getNode(id).visited;
+	GUtil.eachNode(aGraph, function(node) {
+		GUtil.eachAdjacency(node, function(adj) {
+			if(!!adj.nodeTo.visited === T) {
+				opt.onBeforePlotLine(adj);
+				ctx.save();
+				ctx.globalAlpha = Math.min(Math.min(node.alpha, adj.nodeTo.alpha), adj.alpha);
+				that.plotLine(adj, canvas,controller);//jon
+				ctx.restore();
+				opt.onAfterPlotLine(adj);
+			}
+		});
+		ctx.save();
+		ctx.globalAlpha = node.alpha;
+		that.plotNode(node, canvas,controller); //jon
+ 		if(!that.labelsHidden &amp;&amp; ctx.globalAlpha &gt;= .95) that.plotLabel(canvas, node, opt);
+ 		else if(!that.labelsHidden &amp;&amp; ctx.globalAlpha &lt; .95) that.hideLabel(node);
+		ctx.restore();
+		node.visited = !T;
+	});
+};
+
+
+/***
 !Layer 4: Support Internet Explorer (Safely remove if not required)
 ***/
 
@@ -4052,28 +5070,7 @@ if (!document.createElement('canvas').getContext) {
 </div>
 <div title="TiddlyTagMindMap" modifier="JonRobson" tags="tagMindMapCodePackage">
 <pre>
-&lt;&lt;tiddlytagmindmap ignoreLoneNodes:false width:400 height:200 startState:empty&gt;&gt;
-
-{{{
-nasty function
-
-}}}</pre>
-</div>
-<div title="TiddlyTagMindMapDIYExample" modifier="JonRobson" tags="tagMindMapExamples">
-<pre>
-&lt;&lt;tiddlytagmindmap width:400 height:400 toolbarSettings:1111 startState:empty&gt;&gt;
-&lt;&lt;TagMindMapEdge &quot;The Solar System&quot; &quot;The Earth&quot;&gt;&gt;
-&lt;&lt;TagMindMapEdge &quot;The Earth&quot; &quot;Africa&quot;&gt;&gt;
-&lt;&lt;TagMindMapEdge &quot;The Earth&quot; &quot;Europe&quot;&gt;&gt;
-&lt;&lt;TagMindMapEdge &quot;The Earth&quot; &quot;Asia&quot;&gt;&gt;
-&lt;&lt;TagMindMapEdge &quot;The Earth&quot; &quot;Americas&quot;&gt;&gt;
-
-&lt;&lt;tiddlytagmindmap width:400 height:400 toolbarSettings:1111 startState:empty&gt;&gt;
-&lt;&lt;TagMindMapEdge &quot;Japan&quot; &quot;Kyoto&quot;&gt;&gt;
-&lt;&lt;TagMindMapEdge &quot;Japan&quot; &quot;Tokyo&quot;&gt;&gt;
-&lt;&lt;TagMindMapEdge &quot;Japan&quot; &quot;Nagano&quot;&gt;&gt;
-&lt;&lt;TagMindMapEdge &quot;Japan&quot; &quot;Matsumoto&quot;&gt;&gt;
-&lt;&lt;TagMindMapEdge &quot;Japan&quot; &quot;Hiroshima&quot;&gt;&gt;</pre>
+&lt;&lt;tiddlytagmindmap ignoreLoneNodes:false width:400 height:200 startState:{{store.filterTiddlers(store.getTiddlerText(&quot;DefaultTiddlers&quot;))}} zoom:80 breadcrumbs:true&gt;&gt;</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->

@@ -1,9 +1,4 @@
-config.commands.newChild ={};
-
-merge(config.commands.newChild,{
-	text: "add child",
-	tooltip: "Add child tiddler"});
-	
+config.commands.newChild ={text: "add child",tooltip: "Add child tiddler"};
 config.commands.newChild.handler = function(event,src,title){
 	
 	clearMessage();
@@ -11,19 +6,16 @@ config.commands.newChild.handler = function(event,src,title){
 		if(!newTitle) return;
 	var tags = [title];
 	story.displayTiddler(null,newTitle,DEFAULT_EDIT_TEMPLATE,false,null,null);
+		config.commands.editTiddler.handler(event,src,newTitle);
 	for(var t=0;t<tags.length;t++)
 		story.setTiddlerTag(newTitle,tags[t],+1);
-	story.focusTiddler(newTitle,config.options.txtEditorFocus||"text");
+	//story.focusTiddler(newTitle,config.options.txtEditorFocus||"text");
 	
+		config.commands.saveTiddler.handler(event,src,newTitle);
 	return false;
 };
 
-
-config.commands.newParent ={};
-
-merge(config.commands.newParent,{
-	text: "add parent",
-	tooltip: "Name and thus associate a parent with this tiddler"});
+config.commands.newParent ={text: "add parent",tooltip: "Name and thus associate a parent with this tiddler"};
 	
 config.commands.newParent.handler = function(event,src,title){
 	clearMessage();
@@ -45,7 +37,7 @@ config.commands.newParent.handler = function(event,src,title){
 	if(story.getTiddler(newTitle) == null);
 		story.displayTiddler(null,newTitle,null,false,null,null);
 		
-	config.commands.editTiddler.handler(event,src,newTitle);
+	//config.commands.editTiddler.handler(event,src,newTitle);
 	
 	return false;
 

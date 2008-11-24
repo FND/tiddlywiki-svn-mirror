@@ -1,19 +1,16 @@
-/***
-!Layer 3: RGraph (JIT)
-***/
-{{{
-	
 /*
  * File: RGraph.js
  * 
  * Author: Nicolas Garcia Belmonte
  * 
  * Copyright: Copyright 2008 by Nicolas Garcia Belmonte.
+ *
+ * Homepage: <http://thejit.org>
+ * 
+ * Version: 1.0.7a
  * 
  * License: BSD License
  * 
- * * Copyright (c) 2008, Nicolas Garcia Belmonte
- * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,9 +34,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * 
- * Homepage: <http://thejit.org>
- * 
- * Version: 1.0a
  */
 
 /*
@@ -65,20 +59,27 @@ var $_ = {
 
 	unlink: function (object){
 		var unlinked = null;
-		
-		switch (typeof object){
-			case 'object':
-				unlinked = {};
-				for (var p in object) unlinked[p] = this.unlink(object[p]);
-			break;
-			case 'array':
+		if(this.isArray(object)) {
 				unlinked = [];
 				for (var i = 0, l = object.length; i < l; i++) unlinked[i] = this.unlink(object[i]);
-			break;
-			default: return object;
-		}
-		
+		} else if(this.isObject(object)) {
+				unlinked = {};
+				for (var p in object) unlinked[p] = this.unlink(object[p]);
+		} else return object;
+
 		return unlinked;
+	},
+	
+	isArray: function(obj) {
+		return obj.constructor.toString().match(/array/i);
+	},
+	
+	isString: function(obj) {
+		return obj.constructor.toString().match(/string/i);
+	},
+	
+	isObject: function(obj) {
+		return obj.constructor.toString().match(/object/i);
 	}
 } ;
 
@@ -119,7 +120,7 @@ var Canvas= function (canvasId, fillStyle, strokeStyle) {
 			  this.translateToCenter();
 		
 		} else {
-			throw "RGraph canvas: Canvas object could not initialize.";
+			throw "Canvas object could not initialize.";
 		}
 	
 };
@@ -268,7 +269,7 @@ var Complex= function() {
 		this.y= null;
 	}
 	
-}
+};
 
 Complex.prototype= {
 	/*
@@ -395,6 +396,15 @@ Complex.prototype= {
 	},
 
 	/*
+	   Method: equals
+	
+	   Comparison method.
+	*/
+	equals: function(c) {
+		return this.x == c.x && this.y == c.y;
+	},
+
+	/*
 	   Method: $add
 	
 	   Returns the result of adding two complex numbers.
@@ -490,6 +500,8 @@ Complex.prototype= {
 	}
 };
 
+Complex.KER = new Complex(0, 0);
+
 /*
    Class: Polar
 
@@ -572,6 +584,15 @@ Polar.prototype = {
 	},
 	
 	/*
+	   Method: equals
+	
+	   Comparison method.
+	*/
+	equals: function(c) {
+		return this.theta == c.theta && this.rho == c.rho;
+	},
+	
+	/*
 	   Method: $add
 	
 	    Adds two <Polar> instances affecting the current object.
@@ -646,7 +667,7 @@ Polar.prototype = {
 	}
 };
 
-
+Polar.KER = new Polar(0, 0);
 
 
 /*
@@ -660,10 +681,9 @@ var Config= {
 		//Id for label container. The label container is a div dom element that must be explicitly added to your page in order to enable the RGraph.
 		labelContainer: 'label_container',
 		
-		nodeLabelPrefix: "rgraph_",
 		//Property: drawConcentricCircles
 		//show/hide concentricCircles
-		drawConcentricCircles: true,
+		drawConcentricCircles: 4,
 		
 		//Property: concentricCirclesColor
 		//The color of the concentric circles
@@ -671,7 +691,7 @@ var Config= {
 
 		//Property: levelDistance
 		//The actual distance between levels
-		levelDistance: 200,
+		levelDistance: 100,
 		
 		//Property: nodeRadius
 		//The radius of the nodes displayed
@@ -699,13 +719,13 @@ var Config= {
 
 		//Property: fps
 		//animation frames per second
-		fps:35,
+		fps:40,
 		
 		//Property: animationTime
-		animationTime: 1500,
+		animationTime: 2500,
 		
 		//Property: interpolation
-		interpolation: 'other'
+		interpolation: 'linear'
 };
 
 /*
@@ -713,24 +733,37 @@ var Config= {
 
    A multi purpose object to do graph traversal and processing.
 */
-
 var GraphUtil = {
+	/*
+	   Method: filter
+	
+	   For internal use only. Provides a filtering function based on flags.
+	*/
+	filter: function(param) {
+		if(!param || !$_.isString(param)) return function() { return true; };
+		var props = param.split(" ");
+		return function(elem) {
+			for(var i=0; i<props.length; i++) if(elem[props[i]]) return false;
+			return true;
+		};
+	},
+	/*
+	   Method: getNode
+	
+	   Returns a graph's node with a specified _id_.
+	*/
+	getNode: function(graph, id) {
+		return graph.getNode(id);
+	},
+	
 	/*
 	   Method: eachNode
 	
 	   Iterates over graph nodes performing an action.
 	*/
-	eachNode: function(graph, action) {
-		for(var i in graph.nodes) action(graph.nodes[i]);
-	},
-	
-	/*
-	   Method: getNode
-	
-	   Returns a node from a specified id.
-	*/
-	getNode: function(graph, id) {
-		return graph.nodes[id];
+	eachNode: function(graph, action, flags) {
+		var filter = this.filter(flags);
+		for(var i in graph.nodes) if(filter(graph.nodes[i])) action(graph.nodes[i]);
 	},
 	
 	/*
@@ -738,30 +771,59 @@ var GraphUtil = {
 	
 	   Iterates over a _node_ adjacencies applying the _action_ function.
 	*/
-	eachAdjacency: function(graph, node, action) {
-		for(var i=0, adjs = node.adjacencies; i<adjs.length; i++) action(adjs[i], i);
+	eachAdjacency: function(node, action, flags) {
+		var adj = node.adjacencies, filter = this.filter(flags);
+		for(var id in adj) if(filter(adj[id])) action(adj[id], id);
+	},
+
+	/*
+	   Method: computeLevels
+	
+	   Performs a BFS traversal setting correct level for nodes.
+	*/
+	computeLevels: function(graph, id, flags) {
+		var filter = this.filter(flags);
+		this.eachNode(graph, function(elem) {
+			elem._flag = false;
+			elem._depth = -1;
+		}, flags);
+		var root = graph.getNode(id);
+		root._depth = 0;
+		var queue = [root];
+		while(queue.length != 0) {
+			var node = queue.pop();
+			node._flag = true;
+			this.eachAdjacency(node, function(adj) {
+				var n = adj.nodeTo;
+				if(n._flag == false && filter(n)) {
+					if(n._depth < 0) n._depth = node._depth + 1;
+					queue.unshift(n);
+				}
+			}, flags);
+		}
 	},
 
 	/*
 	   Method: eachBFS
 	
 	   Performs a BFS traversal of a graph beginning by the node of id _id_ and performing _action_ on each node.
+	   This traversal ignores nodes or edges having the property _ignore_ setted to _true_.
 	*/
-	eachBFS: function(graph, id, action) {
-		var that = this;
-		GraphUtil.clean(graph);
-		var queue = [this.getNode(graph, id)];
+	eachBFS: function(graph, id, action, flags) {
+		var filter = this.filter(flags);
+		this.clean(graph);
+		var queue = [graph.getNode(id)];
 		while(queue.length != 0) {
 			var node = queue.pop();
 			node._flag = true;
 			action(node, node._depth);
-			for(var i=0, adj = node.adjacencies; i<adj.length; i++) {
-				var n = adj[i].nodeTo;
-				if(n._flag == false) {
-					n._depth = node._depth + 1;
+			this.eachAdjacency(node, function(adj) {
+				var n = adj.nodeTo;
+				if(n._flag == false && filter(n)) {
+					n._flag = true;
 					queue.unshift(n);
 				}
-			}
+			}, flags);
 		}
 	},
 	
@@ -770,12 +832,29 @@ var GraphUtil = {
 	
 	   After a BFS traversal the _depth_ property of each node has been modified. Now the graph can be traversed as a tree. This method iterates for each subnode that has depth larger than the specified node.
 	*/
-	eachSubnode: function(graph, node, action) {
-		var d = node._depth;
-		for(var i=0, ad = node.adjacencies; i<ad.length; i++) {
-			var n = ad[i].nodeTo;
-			if(n._depth > d) action(n);
-		}
+	eachSubnode: function(graph, node, action, flags) {
+		var d = node._depth, filter = this.filter(flags);
+		this.eachAdjacency(node, function(adj) {
+			var n = adj.nodeTo;
+			if(n._depth > d && filter(n)) action(n);
+		}, flags);
+	},
+	
+	/*
+	   Method: getSubnodes
+	
+	   Collects all subnodes for a specified node. The _level_ parameter filters nodes having relative depth of _level_ from the root node.
+	*/
+	getSubnodes: function(graph, id, level, flags) {
+		var ans = new Array(), that = this, node = graph.getNode(id);
+		(function(graph, node) {
+			var fn = arguments.callee;
+			if(!level || level <= node._depth)	ans.push(node);
+			that.eachSubnode(graph, node, function(elem) {
+				fn(graph, elem);
+			}, flags);
+		})(graph, node);
+		return ans;
 	},
 
 	/*
@@ -786,10 +865,10 @@ var GraphUtil = {
 	getParents: function(graph, node) {
 		var adj = node.adjacencies;
 		var ans = new Array();
-		for(var i=0; i<adj.length; i++) {
-			var n = adj[i].nodeTo;
+		this.eachAdjacency(node, function(adj) {
+			var n = adj.nodeTo;
 			if(n._depth < node._depth) ans.push(n);
-		}
+		});
 		return ans;
 	},
 	
@@ -799,8 +878,362 @@ var GraphUtil = {
 	   Cleans flags from nodes (by setting the _flag_ property to false).
 	*/
 	clean: function(graph) { this.eachNode(graph, function(elem) { elem._flag = false; }); }
-	
 };
+
+/*
+   Object: GraphOp
+
+   An object holding unary and binary graph operations such as removingNodes, removingEdges, adding two graphs and morphing.
+*/
+var GraphOp = {
+
+	options: {
+		type: 'nothing',
+		duration: 2000,
+		fps:30
+	},
+	
+	/*
+	   Method: removeNode
+	
+	   Removes one or more nodes from the visualization. It can also perform several animations like fading sequentially, fading concurrently, iterating or replotting.
+
+	   Parameters:
+	
+	      viz - The visualization object (an RGraph instance in this case).
+	      node - The node's id. Can also be an array having many ids.
+	      opt - Animation options. It's an object with two properties: _type_, which can be _nothing_, _replot_, _fade:seq_,  _fade:con_ or _iter_. The other property is the _duration_ in milliseconds. 
+	
+	*/
+	removeNode: function(viz, node, opt) {
+		var options = $_.merge(viz.controller, this.options, opt);
+		var n = $_.isString(node)? [node] : node;
+		switch(options.type) {
+			case 'nothing':
+				for(var i=0; i<n.length; i++) 	viz.graph.removeNode(n[i]);
+				break;
+			
+			case 'replot':
+				this.removeNode(viz, n, { type: 'nothing' });
+				GraphPlot.clearLabels(viz);
+				viz.refresh();
+				break;
+			
+			case 'fade:seq': case 'fade':
+				var GPlot = GraphPlot, that = this;
+				//set alpha to 0 for nodes to remove.
+				for(var i=0; i<n.length; i++) {
+					var nodeObj = viz.graph.getNode(n[i]);
+					nodeObj.endAlpha = 0;
+				}
+				GPlot.animate(viz, $_.merge(options, {
+					modes: ['fade:nodes'],
+					onComplete: function() {
+						that.removeNode(viz, n, { type: 'nothing' });
+						GPlot.clearLabels(viz);
+						viz.compute('endPos');
+						GPlot.animate(viz, $_.merge(options, {
+							modes: ['linear']
+						}));
+					}
+				}));
+				break;
+			
+			case 'fade:con':
+				var GPlot = GraphPlot, that = this;
+				//set alpha to 0 for nodes to remove. Tag them for being ignored on computing positions.
+				for(var i=0; i<n.length; i++) {
+					var nodeObj = viz.graph.getNode(n[i]);
+					nodeObj.endAlpha = 0;
+					nodeObj.ignore = true;
+				}
+				viz.compute('endPos');
+				GPlot.animate(viz, $_.merge(options, {
+					modes: ['fade:nodes', 'linear'],
+					onComplete: function() {
+						that.removeNode(viz, n, { type: 'nothing' });
+					}
+				}));
+				break;
+			
+			case 'iter':
+				var that = this, GPlot = GraphPlot;
+				GPlot.sequence(viz, {
+					condition: function() { return n.length != 0; },
+					step: function() { that.removeNode(viz, n.shift(), { type: 'nothing' });  GPlot.clearLabels(viz); },
+					onComplete: function() { options.onComplete(); },
+					duration: Math.ceil(options.duration / n.length)
+				});
+				break;
+				
+			default: this.doError();
+		}
+	},
+	
+	/*
+	   Method: removeEdge
+	
+	   Removes one or more edges from the visualization. It can also perform several animations like fading sequentially, fading concurrently, iterating or replotting.
+
+	   Parameters:
+	
+	      viz - The visualization object (an RGraph instance in this case).
+	      vertex - An array having two strings which are the ids of the nodes connected by this edge: ['id1', 'id2']. Can also be a two dimensional array holding many edges: [['id1', 'id2'], ['id3', 'id4'], ...].
+	      opt - Animation options. It's an object with two properties: _type_, which can be _nothing_, _replot_, _fade:seq_,  _fade:con_ or _iter_. The other property is the _duration_ in milliseconds. 
+	
+	*/
+	removeEdge: function(viz, vertex, opt) {
+		var options = $_.merge(viz.controller, this.options, opt);
+		var v = $_.isString(vertex[0])? [vertex] : vertex;
+		switch(options.type) {
+			case 'nothing':
+				for(var i=0; i<v.length; i++) 	viz.graph.removeAdjacence(v[i][0], v[i][1]);
+				break;
+			
+			case 'replot':
+				this.removeEdge(viz, v, { type: 'nothing' });
+				viz.refresh();
+				break;
+			
+			case 'fade:seq': case 'fade':
+				var GPlot = GraphPlot, that = this;
+				//set alpha to 0 for nodes to remove.
+				for(var i=0; i<v.length; i++) {
+					var adjs = viz.graph.getAdjacence(v[i][0], v[i][1]);
+					if(adjs) {
+						adjs[0].endAlpha = 0;
+						adjs[1].endAlpha = 0;
+					}
+				}
+				GPlot.animate(viz, $_.merge(options, {
+					modes: ['fade:vertex'],
+					onComplete: function() {
+						that.removeEdge(viz, v, { type: 'nothing' });
+						viz.compute('endPos');
+						GPlot.animate(viz, $_.merge(options, {
+							modes: ['linear']
+						}));
+					}
+				}));
+				break;
+			
+			case 'fade:con':
+				var GPlot = GraphPlot, that = this;
+				//set alpha to 0 for nodes to remove. Tag them for being ignored when computing positions.
+				for(var i=0; i<v.length; i++) {
+					var adjs = viz.graph.getAdjacence(v[i][0], v[i][1]);
+					if(adjs) {
+						adjs[0].endAlpha = 0;
+						adjs[0].ignore = true;
+						adjs[1].endAlpha = 0;
+						adjs[1].ignore = true;
+					}
+				}
+				viz.compute('endPos');
+				GPlot.animate(viz, $_.merge(options, {
+					modes: ['fade:vertex', 'linear'],
+					onComplete: function() {
+						that.removeEdge(viz, v, { type: 'nothing' });
+					}
+				}));
+				break;
+			
+			case 'iter':
+				var that = this, GPlot = GraphPlot;
+				GPlot.sequence(viz, {
+					condition: function() { return v.length != 0; },
+					step: function() { that.removeEdge(viz, v.shift(), { type: 'nothing' }); GPlot.clearLabels(viz); },
+					onComplete: function() { options.onComplete(); },
+					duration: Math.ceil(options.duration / v.length)
+				});
+				break;
+				
+			default: this.doError();
+		}
+	},
+	
+	/*
+	   Method: sum
+	
+	   Adds a new graph to the visualization. The json graph (or tree) must at least have a common node with the current graph plotted by the visualization. The resulting graph can be defined as follows: <http://mathworld.wolfram.com/GraphSum.html>
+
+	   Parameters:
+	
+	      viz - The visualization object (an RGraph instance in this case).
+	      json - A json tree <http://blog.thejit.org/2008/04/27/feeding-json-tree-structures-to-the-jit/>, a json graph <http://blog.thejit.org/2008/07/02/feeding-json-graph-structures-to-the-jit/> or an extended json graph <http://blog.thejit.org/2008/08/05/weighted-nodes-weighted-edges/>.
+	      opt - Animation options. It's an object with two properties: _type_, which can be _nothing_, _replot_, _fade:seq_,  or _fade:con_. The other property is the _duration_ in milliseconds. 
+	
+	*/
+	sum: function(viz, json, opt) {
+		var options = $_.merge(viz.controller, this.options, opt), root = viz.root;
+		viz.root = opt.id || viz.root;
+		switch(options.type) {
+			case 'nothing':
+				var graph = viz.construct(json), GUtil = GraphUtil;
+				GUtil.eachNode(graph, function(elem) {
+					GUtil.eachAdjacency(elem, function(adj) {
+						viz.graph.addAdjacence(adj.nodeFrom, adj.nodeTo, adj.data);
+					});
+				});
+				break;
+			
+			case 'replot':
+				this.sum(viz, json, { type: 'nothing' });
+				viz.refresh();
+				break;
+			
+			case 'fade:seq': case 'fade': case 'fade:con':
+				var GUtil = GraphUtil, GPlot = GraphPlot, that = this, graph = viz.construct(json);
+				//set alpha to 0 for nodes to add.
+				var fadeEdges = this.preprocessSum(viz, graph);
+				var modes = !fadeEdges? ['fade:nodes'] : ['fade:nodes', 'fade:vertex'];
+				viz.compute('endPos');
+				if(options.type != 'fade:con') {
+					GPlot.animate(viz, $_.merge(options, {
+						modes: ['linear'],
+						onComplete: function() {
+							GPlot.animate(viz, $_.merge(options, {
+								modes: modes,
+								onComplete: function() {
+									options.onComplete();
+								}
+							}));
+						}
+					}));
+				} else {
+					GUtil.eachNode(viz.graph, function(elem) {
+						if(elem.id != root && elem.pos.equals(Polar.KER)) elem.pos = elem.startPos = elem.endPos;
+					});
+					GPlot.animate(viz, $_.merge(options, {
+						modes: ['linear'].concat(modes),
+						onComplete: function() {
+							options.onComplete();
+						}
+					}));
+				}
+				break;
+
+			default: this.doError();
+		}
+	},
+	
+	/*
+	   Method: morph
+	
+	   This method will _morph_ the current visualized graph into the new _json_ representation passed in the method. Can also perform multiple animations. The _json_ object must at least have the root node in common with the current visualized graph.
+
+	   Parameters:
+	
+	      viz - The visualization object (an RGraph instance in this case).
+	      json - A json tree <http://blog.thejit.org/2008/04/27/feeding-json-tree-structures-to-the-jit/>, a json graph <http://blog.thejit.org/2008/07/02/feeding-json-graph-structures-to-the-jit/> or an extended json graph <http://blog.thejit.org/2008/08/05/weighted-nodes-weighted-edges/>.
+	      opt - Animation options. It's an object with two properties: _type_, which can be _nothing_, _replot_, or _fade_. The other property is the _duration_ in milliseconds. 
+	
+	*/
+	morph: function(viz, json, opt) {
+		var options = $_.merge(viz.controller, this.options, opt), root = viz.root;
+		viz.root = opt.id || viz.root;
+		switch(options.type) {
+			case 'nothing':
+				var graph = viz.construct(json), GUtil = GraphUtil;
+				GUtil.eachNode(graph, function(elem) {
+					GUtil.eachAdjacency(elem, function(adj) {
+						viz.graph.addAdjacence(adj.nodeFrom, adj.nodeTo, adj.data);
+					});
+				});
+				GUtil.eachNode(viz.graph, function(elem) {
+					GUtil.eachAdjacency(elem, function(adj) {
+						if(!graph.getAdjacence(adj.nodeFrom.id, adj.nodeTo.id)) {
+							viz.graph.removeAdjacence(adj.nodeFrom.id, adj.nodeTo.id);
+						}
+						if(!viz.graph.hasNode(elem.id)) viz.graph.removeNode(elem.id);
+					});
+				});
+				
+				break;
+			
+			case 'replot':
+				this.morph(viz, json, { type: 'nothing' });
+				viz.refresh();
+				break;
+			
+			case 'fade:seq': case 'fade': case 'fade:con':
+				var GUtil = GraphUtil, GPlot = GraphPlot, that = this, graph = viz.construct(json);
+				//preprocessing for adding nodes.
+				var fadeEdges = this.preprocessSum(viz, graph);
+				//preprocessing for nodes to delete.
+				GUtil.eachNode(viz.graph, function(elem) {
+					if(!graph.hasNode(elem.id)) {
+						elem.alpha = 1; elem.startAlpha = 1; elem.endAlpha = 0; elem.ignore = true;
+					}
+				});	
+				GUtil.eachNode(viz.graph, function(elem) {
+					if(elem.ignore) return;
+					GUtil.eachAdjacency(elem, function(adj) {
+						if(adj.nodeFrom.ignore || adj.nodeTo.ignore) return;
+						var nodeFrom = graph.getNode(adj.nodeFrom.id);
+						var nodeTo = graph.getNode(adj.nodeTo.id);
+						if(!nodeFrom.adjacentTo(nodeTo)) {
+							var adjs = viz.graph.getAdjacence(nodeFrom.id, nodeTo.id);
+							fadeEdges = true;
+							adjs[0].alpha = 1; adjs[0].startAlpha = 1; adjs[0].endAlpha = 0; adjs[0].ignore = true;
+							adjs[1].alpha = 1; adjs[1].startAlpha = 1; adjs[1].endAlpha = 0; adjs[1].ignore = true;
+						}
+					});
+				});	
+				var modes = !fadeEdges? ['fade:nodes'] : ['fade:nodes', 'fade:vertex'];
+				viz.compute('endPos');
+				GUtil.eachNode(viz.graph, function(elem) {
+					if(elem.id != root && elem.pos.equals(Polar.KER)) elem.pos = elem.startPos = elem.endPos;
+				});
+				GPlot.animate(viz, $_.merge(options, {
+					modes: ['polar'].concat(modes),
+					onComplete: function() {
+						GUtil.eachNode(viz.graph, function(elem) {
+							if(elem.ignore) viz.graph.removeNode(elem.id);
+						});
+						GUtil.eachNode(viz.graph, function(elem) {
+							GUtil.eachAdjacency(elem, function(adj) {
+								if(adj.ignore) viz.graph.removeAdjacence(adj.nodeFrom.id, adj.nodeTo.id);
+							});
+						});
+						options.onComplete();
+					}
+				}));
+				break;
+
+			default: this.doError();
+		}
+	},
+	
+	preprocessSum: function(viz, graph) {
+		var GUtil = GraphUtil;
+		GUtil.eachNode(graph, function(elem) {
+			if(!viz.graph.hasNode(elem.id)) {
+				viz.graph.addNode(elem);
+				var n = viz.graph.getNode(elem.id);
+				n.alpha = 0; n.startAlpha = 0; n.endAlpha = 1;
+			}
+		});	
+		var fadeEdges = false;
+		GUtil.eachNode(graph, function(elem) {
+			GUtil.eachAdjacency(elem, function(adj) {
+				var nodeFrom = viz.graph.getNode(adj.nodeFrom.id);
+				var nodeTo = viz.graph.getNode(adj.nodeTo.id);
+				if(!nodeFrom.adjacentTo(nodeTo)) {
+					var adjs = viz.graph.addAdjacence(nodeFrom, nodeTo, adj.data);
+					if(nodeFrom.startAlpha == nodeFrom.endAlpha 
+					&& nodeTo.startAlpha == nodeTo.endAlpha) {
+						fadeEdges = true;
+						adjs[0].alpha = 0; adjs[0].startAlpha = 0; adjs[0].endAlpha = 1;
+						adjs[1].alpha = 0; adjs[1].startAlpha = 0; adjs[1].endAlpha = 1;
+					} 
+				}
+			});
+		});	
+		return fadeEdges;
+	}
+};
+
 
 /*
    Object: GraphPlot
@@ -808,67 +1241,163 @@ var GraphUtil = {
    An object that performs specific radial layouts for a generic graph structure.
 */
 var GraphPlot = {
+
+	Interpolator: {
+		'polar': function(elem, delta) {
+			var from = elem.startPos;
+			var to = elem.endPos;
+			elem.pos = to.interpolate(from, delta);
+		},
+		
+		'linear': function(elem, delta) {
+			var from = elem.startPos.toComplex();
+			var to = elem.endPos.toComplex();
+			elem.pos = ((to.$add(from.scale(-1))).$scale(delta).$add(from)).toPolar();
+		},
+		
+		'fade:nodes': function(elem, delta) {
+			if(elem.endAlpha != elem.alpha) {
+				var from = elem.startAlpha;
+				var to   = elem.endAlpha;
+				elem.alpha = from + (to - from) * delta;
+			}
+		},
+		
+		'fade:vertex': function(elem, delta) {
+			var adjs = elem.adjacencies;
+			for(var id in adjs) this['fade:nodes'](adjs[id], delta);
+		}
+	},
+
 	//Property: labelsHidden
 	//A flag value indicating if node labels are being displayed or not.
 	labelsHidden: false,
-	displacement: {'x':0, 'y':0},
+	//Property: labelContainer
+	//Label DOM element
+	labelContainer: false,
+	//Property: labels
+	//Label DOM elements hash.
+	labels: {},
 
+	/*
+	   Method: getLabelContainer
+	
+	   Lazy fetcher for the label container.
+	*/
+	getLabelContainer: function() {
+		return this.labelContainer? this.labelContainer : this.labelContainer = document.getElementById(Config.labelContainer);
+	},
+	
+	/*
+	   Method: getLabel
+	
+	   Lazy fetcher for the label DOM element.
+	*/
+	getLabel: function(id) {
+		return (id in this.labels && this.labels[id] != null)? this.labels[id] : this.labels[id] = document.getElementById(id);
+	},
+	
 	/*
 	   Method: hideLabels
 	
 	   Hides all labels.
 	*/
 	hideLabels: function (hide) {
-		var container = document.getElementById(Config.labelContainer);
-		//if(hide) container.style.display = 'none';
-		//else container.style.display = '';
+		var container = this.getLabelContainer();
+		if(hide) container.style.display = 'none';
+		else container.style.display = '';
 		this.labelsHidden = hide;
 	},
 
+	/*
+	   Method: clearLabels
+	
+	   Clears the label container.
+	*/
+	clearLabels: function(viz) {
+		for(var id in this.labels) 
+			if(!viz.graph.hasNode(id)) {
+				this.disposeLabel(id);
+				delete this.labels[id];
+			}
+	},
+	
+	/*
+	   Method: disposeLabel
+	
+	   Removes a label.
+	*/
+	disposeLabel: function(id) {
+		var elem = this.getLabel(id);
+		if(elem && elem.parentNode) {
+			elem.parentNode.removeChild(elem);
+		}  
+	},
+	
 	/*
 	   Method: animate
 	
 	   Animates the graph mantaining a radial layout.
 	*/
-	animate: function(graph, id, canvas, controller) {
-		var that = this;
-		//this.hideLabels(true);
-		var comp = function(from, to, delta){ return (to.$add(from.scale(-1))).$scale(delta).$add(from); };
-		var compPolar = function(from, to, delta){ 
-			var p = to.interpolate(from, delta);
-			return p;
-		};
-		//can also interpolate polar coordinates.
-		var interpolate = function(elem, delta) {
-			if(Config.interpolation == 'polar') {
-				var from = elem.startPos;
-				var to = elem.endPos;
-				elem.pos = compPolar(from, to, delta);
-			} else {
-				var from = elem.startPos.toComplex();
-				var to = elem.endPos.toComplex();
-				elem.pos = comp(from, to, delta).toPolar();
-			}
-
-		};
+	animate: function(viz, opt) {
+		var that = this, GUtil = GraphUtil, Anim = Animation, duration = opt.duration || Anim.duration, fps = opt.fps || Anim.fps;
+		//Should be changed eventually, when Animation becomes a class.
+		var prevDuration = Anim.duration, prevFps = Anim.fps;
+		
+		Anim.duration = duration;
+		Anim.fps = fps;
+		
+		if(opt.hideLabels) this.hideLabels(true);
 		var animationController = {
 			compute: function(delta) {
-				canvas.clear();
-				if(Config.drawConcentricCircles) canvas.drawConcentricCircles(Config.drawConcentricCircles);
-				GraphUtil.eachNode(graph, function(node) { interpolate(node, delta); });
-				that.plot(graph, id, canvas, controller);
+				GUtil.eachNode(viz.graph, function(node) { 
+					for(var i=0; i<opt.modes.length; i++) {
+							that.Interpolator[opt.modes[i]](node, delta);
+					}
+				});
+				that.plot(viz, opt);
 			},
-			
+
 			complete: function() {
-				that.hideLabels(false);
-				GraphUtil.eachNode(graph, function(elem) {elem.startPos = elem.pos});
-				that.plot(graph, id, canvas, controller);
-				controller.onAfterCompute();
+				GUtil.eachNode(viz.graph, function(node) { 
+					node.startPos = node.pos;
+					node.startAlpha = node.alpha;
+				});
+				if(opt.hideLabels) that.hideLabels(false);
+				that.plot(viz, opt);
+				Anim.duration = prevDuration;
+				Anim.fps = prevFps;
+				opt.onComplete();
+				opt.onAfterCompute();
 			}		
 		};
-		var that = this;
-		Animation.controller = animationController;
-		Animation.start();
+		Anim.controller = animationController;
+		Anim.start();
+	},
+
+
+	/*
+	   Method: sequence
+	
+	   Iteratively performs an action while refreshing the state of the visualization.
+	*/
+	sequence: function(viz, options) {
+		options = $_.merge({
+			condition: function() { return false; },
+			step: $_.fn(),
+			onComplete: $_.fn(),
+			duration: 200
+		}, options);
+
+		var interval = setInterval(function() {
+			if(options.condition()) {
+				options.step();
+			} else {
+				clearInterval(interval);
+				options.onComplete();
+			}
+			viz.refresh();
+		}, options.duration);
 	},
 
 	/*
@@ -876,23 +1405,30 @@ var GraphPlot = {
 	
 	   Plots a Graph.
 	*/
-	plot: function(graph, id, canvas, controller) {
-		var aGraph = graph;
-		var that = this;
+	plot: function(viz, opt) {
+		var aGraph = viz.graph, canvas = viz.canvas, id = viz.root;
+		var that = this, ctx = canvas.getContext(), GUtil = GraphUtil;
 		canvas.clear();
-		if(Config.drawConcentricCircles) canvas.drawConcentricCircles();
-		GraphUtil.clean(graph);
-		GraphUtil.eachBFS(aGraph, id, function(node) {
-			GraphUtil.eachAdjacency(aGraph, node, function(adj) {
-				if(!adj.nodeTo._flag) {
-					controller.onBeforePlotLine(adj);
-					that.plotLine(adj, canvas,controller);
-					controller.onAfterPlotLine(adj);
+		if(Config.drawConcentricCircles) canvas.drawConcentricCircles(Config.drawConcentricCircles);
+		var T = !!aGraph.getNode(id).visited;
+		GUtil.eachNode(aGraph, function(node) {
+			GUtil.eachAdjacency(node, function(adj) {
+				if(!!adj.nodeTo.visited === T) {
+					opt.onBeforePlotLine(adj);
+					ctx.save();
+					ctx.globalAlpha = Math.min(Math.min(node.alpha, adj.nodeTo.alpha), adj.alpha);
+					that.plotLine(adj, canvas);
+					ctx.restore();
+					opt.onAfterPlotLine(adj);
 				}
 			});
-			that.plotNode(node, canvas,controller);
-	 		if(!that.labelsHidden) that.plotLabel(canvas, node, controller);
-			node._flag = true;
+			ctx.save();
+			ctx.globalAlpha = node.alpha;
+			that.plotNode(node, canvas);
+	 		if(!that.labelsHidden && ctx.globalAlpha >= .95) that.plotLabel(canvas, node, opt);
+	 		else if(!that.labelsHidden && ctx.globalAlpha < .95) that.hideLabel(node);
+			ctx.restore();
+			node.visited = !T;
 		});
 	},
 	
@@ -902,18 +1438,11 @@ var GraphPlot = {
 	
 	   Plots a graph node.
 	*/
-	plotNode: function(node, canvas,controller) {
+	plotNode: function(node, canvas) {
 		var pos = node.pos.toComplex();
-		var d = controller.getOffset();
-		try{
 		canvas.path('fill', function(context) {
-	  		//jon add
-	  		context.arc(pos.x +d.x, pos.y +d.y, node._radius, 0, Math.PI*2, true);	
-
+			context.arc(pos.x, pos.y, node._radius, 0, Math.PI*2, true);			
 		});
-
-			  		}
-	  		catch(e){console.log(e);}		
 	},
 	
 	/*
@@ -921,106 +1450,53 @@ var GraphPlot = {
 	
 	   Plots a line connecting _node_ and _child_ nodes.
 	*/
-	
-
-	plotLine: function(adj, canvas,controller) {
-		
-		var d = controller.getOffset();
+	plotLine: function(adj, canvas) {
 		var node = adj.nodeFrom, child = adj.nodeTo;
 		var pos = node.pos.toComplex();
 		var posChild = child.pos.toComplex();
 		canvas.path('stroke', function(context) {
-			var x1 = pos.x + d.x;
-			var y1 = pos.y + d.y;
-			var x2 = posChild.x+d.x;
-			var y2 = posChild.y+d.y;
-			context.moveTo(x1, y1);//jon hack
-		context.lineTo(x2, y2); //jon hack
-		
-		//GraphPlot.drawArrowHead(context,x1,y1,x2,y2);
-	
-			/*
-			context.moveTo(posChild.x+dx, posChild.y+dy);//jon hack
-			context.lineTo(posChild.x+dx+5, posChild.y+dy+20); //jon hack
-			context.moveTo(posChild.x+dx, posChild.y+dy);//jon hack
-			context.lineTo(posChild.x+dx-5, posChild.y+dy+20); //jon hack
-			*/
+			context.moveTo(pos.x, pos.y);
+		  	context.lineTo(posChild.x, posChild.y);
 		});
 	},
 	
+	/*
+	   Method: hideLabel
 	
-	rotateShape: function(shape,ang) {
-	    var rv = [];
-	    for(p in shape)
-	        rv.push(GraphPlot.rotatePoint(ang,shape[p][0],shape[p][1]));
-	    return rv;
-	},
-	rotatePoint: function(ang,x,y) {
-	    return [
-	        (x * Math.cos(ang)) - (y * Math.sin(ang)),
-	        (x * Math.sin(ang)) + (y * Math.cos(ang))
-	    ];
+	   Hides a label having _node.id_ as id.
+	*/
+	hideLabel: function(node) {
+		var n; if(n = document.getElementById(node.id)) n.style.display = "none";
 	},
 	
-	
-	drawArrowHead: function(ctx,x1,x2,y1,y2) {
-
-		var shape = [[ 2, 0 ],[ -10, -4 ],[ -10, 4]];
-		
-		var ang = Math.atan2(y2-y1,x2-x1);
-		
-		shape = GraphPlot.rotateShape(shape,ang);
-	   
-		ctx.moveTo(shape[0][0],shape[0][1]);
- 		
-console.log(shape);
-		for(p in shape){
-			console.log(p);
-			if (p > 0) ctx.lineTo(shape[p][0],shape[p][1]);
-			console.log("drawn?@"+p);
-		}
-		console.log("drawn?@xx");
-		ctx.lineTo(shape[0][0],shape[0][1]);
-		
-		ctx.fill();
-	
-
-	},
 	/*
 	   Method: plotLabel
 	
 	   Plots a label for a given node.
 	*/
 	plotLabel: function(canvas, node, controller) {
-		
-		var d = controller.getOffset();
-		
-		//canvas.setPosition();
-		var size = node._radius;
-		var id = controller.getNodeLabelPrefix() + node.id;
-		var tag = false;
-		if(!(tag = document.getElementById(id))) {
+		var size = node._radius, id = node.id, tag = this.getLabel(id);
+		if(!tag && !(tag = document.getElementById(id))) {
 			tag = document.createElement('div');
-			var container = document.getElementById(controller.getNodeLabelContainer());
-			container.style.position= 'relative';
+			var container = this.getLabelContainer();
 			container.appendChild(tag);
+			tag.id = id;
+			tag.className = 'node';
+			tag.style.position = 'absolute';
 			controller.onCreateLabel(tag, node);
 		}
 		var pos = node.pos.toComplex();
 		var radius= canvas.getSize();
+		var cpos = canvas.getPosition();
 		var labelPos= {
-			x: Math.round((pos.x  + radius.x/2 - size /2) +d.x),
-			y: Math.round((pos.y + radius.y/2 - size /2) +d.y)
+			x: Math.round(pos.x + cpos.x + radius.x/2 - size /2),
+			y: Math.round(pos.y + cpos.y + radius.y/2 - size /2)
 		};
-		tag.id = id;
-		tag.className = 'node';
-		tag.style.position = 'absolute';
 		tag.style.width = size + 'px';
 		tag.style.height = size + 'px';
 		tag.style.left = labelPos.x + 'px';
 		tag.style.top = labelPos.y  + 'px';
-		if(this.fitsInCanvas(labelPos, canvas)) tag.style.display = '';
-		else tag.style.display = 'none';
+		tag.style.display = this.fitsInCanvas(labelPos, canvas)? '' : 'none';
 		controller.onPlaceLabel(tag, node);
 	},
 	
@@ -1030,16 +1506,11 @@ console.log(shape);
 	   Returns _true_ or _false_ if the label for the node is contained on the canvas dom element or not.
 	*/
 	fitsInCanvas: function(pos, canvas) {
-		//canvas.setPosition();
-	    var size = canvas.getSize();
-		var offset1 = parseInt(size.x);
-		var offset2 = parseInt(size.y);
-		if(pos.x <  0 || pos.x > offset1 || pos.y < 0 || pos.y > offset2) return false;
-		else
-		  return true;						
+		var size = canvas.getSize();
+		if(pos.x >= size.x + canvas.position.x || pos.x < canvas.position.x 
+			|| pos.y >= size.y + canvas.position.y || pos.y < canvas.position.y) return false;
+		return true;					
 	}
-	
-
 };
 
 /*
@@ -1091,12 +1562,12 @@ var RGraph = function(canvas, controller) {
 		onAfterPlotLine: $_.fn(),
 		request:         false
 	};
-	
 	this.controller = $_.merge(innerController, controller);
 	this.graph = new Graph();
 	this.json = null;
 	this.canvas = canvas;
 	this.root = null;
+	this.busy = false;
 	
 	Animation.duration = Config.animationTime;
 	Animation.fps = Config.fps;
@@ -1104,6 +1575,42 @@ var RGraph = function(canvas, controller) {
 };
 
 RGraph.prototype = {
+	
+	
+	construct: function(json) {
+		var isGraph = $_.isArray(json);
+		var ans = new Graph();
+		if(!isGraph) 
+			//make tree
+			(function (ans, json) {
+				ans.addNode(json);
+				for(var i=0, ch = json.children; i<ch.length; i++) {
+					ans.addAdjacence(json, ch[i]);
+					arguments.callee(ans, ch[i]);
+				}
+			})(ans, json);
+		else
+			//make graph
+			(function (ans, json) {
+				var getNode = function(id) {
+					for(var w=0; w<json.length; w++) if(json[w].id == id) return json[w];
+				};
+				for(var i=0; i<json.length; i++) {
+					ans.addNode(json[i]);
+					for(var j=0, adj = json[i].adjacencies; j<adj.length; j++) {
+						var node = adj[j], data;
+						if(typeof adj[j] != 'string') {
+							data = node.data;
+							node = node.nodeTo;
+						}
+						ans.addAdjacence(json[i], getNode(node), data);
+					}
+				}
+			})(ans, json);
+
+		return ans;
+	},
+	
 	/*
 	 Method: loadTree
 	
@@ -1111,12 +1618,7 @@ RGraph.prototype = {
 	 
 	*/
 	loadTree: function(json) {
-		var ch = json.children;
-		this.graph.addNode(json);
-		for(var i=0; i<ch.length; i++) {
-			this.graph.addAdjacence(json, ch[i]);
-			this.loadTree(ch[i]);
-		}
+		this.graph = this.construct(json);
 	},
 
 	/*
@@ -1126,24 +1628,21 @@ RGraph.prototype = {
 	 
 	*/
 	loadGraph: function(json) {
-		var getNode = function(id) {
-			for(var w=0; w<json.length; w++) if(json[w].id == id) return json[w];
-		};
-		
-		for(var i=0; i<json.length; i++) {
-			this.graph.addNode(json[i]);
-			for(var j=0, adj = json[i].adjacencies; j<adj.length; j++) {
-				var node = adj[j], data;
-				if(typeof adj[j] != 'string') {
-					data = node.data; node = node.nodeTo;
-				}
-				
-				this.graph.addAdjacence(json[i], getNode(node), data);
-			}
-		}
+		this.graph = this.construct(json);
 	},
 	
 	/*
+	 Method: refresh
+	
+	 Computes positions and then plots.
+	 
+	*/
+	refresh: function() {
+		this.compute();
+		this.plot();
+	},
+	
+  /*
 	 Method: flagRoot
 	
 	 Flags a node specified by _id_ as root.
@@ -1195,15 +1694,6 @@ RGraph.prototype = {
 		this.root = json[i? i : 0].id;
 	},
 	
-	/*jon hack */
-	offsetCenter: function(x,y){
-		var d =this.controller.getOffset();
-		d.x += x;
-		d.y += y;
-		this.controller.setOffset(d);
-		//GraphPlot.displacement.x += x;
-		//GraphPlot.displacement.y += y;
-	},
 	
 	/*
 	 Method: plot
@@ -1211,7 +1701,7 @@ RGraph.prototype = {
 	 Plots the RGraph
 	*/
 	plot: function() {
-		GraphPlot.plot(this.graph, this.root, this.canvas, this.controller);
+		GraphPlot.plot(this, this.controller);
 	},
 	
 	/*
@@ -1220,10 +1710,11 @@ RGraph.prototype = {
 	 Computes the graph nodes positions and stores this positions on _property_.
 	*/
 	compute: function(property) {
-		var prop = property || ['pos', 'startPos'];
-		var node = GraphUtil.getNode(this.graph, this.root);
+		var prop = property || ['pos', 'startPos', 'endPos'];
+		var node = this.graph.getNode(this.root);
 		node._depth = 0;
 		this.flagRoot(this.root);
+		GraphUtil.computeLevels(this.graph, this.root, "ignore");
 		this.computeAngularWidths();
 		this.computePositions(prop);
 	},
@@ -1236,7 +1727,8 @@ RGraph.prototype = {
 	computePositions: function(property) {
 		var propArray = (typeof property == 'array' || typeof property == 'object')? property : [property];
 		var aGraph = this.graph;
-		var root = GraphUtil.getNode(this.graph, this.root);
+		var GUtil = GraphUtil;
+		var root = this.graph.getNode(this.root);
 
 		for(var i=0; i<propArray.length; i++)
 			root[propArray[i]] = new Polar(0, 0);
@@ -1247,23 +1739,24 @@ RGraph.prototype = {
 		};
 		root._rel = 1;
 		
-		GraphUtil.eachBFS(this.graph, this.root, function (elem) {
+		GUtil.eachBFS(this.graph, this.root, function (elem) {
 			var angleSpan = elem.angleSpan.end - elem.angleSpan.begin;
 			var rho = (elem._depth + 1) * Config.levelDistance;
 			var angleInit = elem.angleSpan.begin;
 			var totalAngularWidths = (function (element){
 				var total = 0;
-				GraphUtil.eachSubnode(aGraph, element, function(sib) {
+				GUtil.eachSubnode(aGraph, element, function(sib) {
 					total += sib._treeAngularWidth;
-				});
+				}, "ignore");
 				return total;
 			})(elem);
 			
-			GraphUtil.eachSubnode(aGraph, elem, function(child) {
+			GUtil.eachSubnode(aGraph, elem, function(child) {
 				if(!child._flag) {
 					child._rel = child._treeAngularWidth / totalAngularWidths;
 					var angleProportion = child._rel * angleSpan;
 					var theta = angleInit + angleProportion / 2;
+
 					for(var i=0; i<propArray.length; i++)
 						child[propArray[i]] = new Polar(theta, rho);
 
@@ -1273,9 +1766,11 @@ RGraph.prototype = {
 					};
 					angleInit += angleProportion;
 				}
-			});
-		});
+			}, "ignore");
+		}, "ignore");
 	},
+
+
 	
 	/*
 	 Method: setAngularWidthForNodes
@@ -1283,15 +1778,15 @@ RGraph.prototype = {
 	 Sets nodes angular widths.
 	*/
 	setAngularWidthForNodes: function() {
-		var rVal = Config.nodeRangeValues, rDiam = Config.nodeRangeDiameters, nr = Config.nodeRadius; 
+		var rVal = Config.nodeRangeValues, rDiam = Config.nodeRangeDiameters, nr = Config.nodeRadius, allow = Config.allowVariableNodeDiameters; 
 		var diam = function(value) { return (((rDiam.max - rDiam.min)/(rVal.max - rVal.min)) * (value - rVal.min) + rDiam.min) };
 		GraphUtil.eachBFS(this.graph, this.root, function(elem, i) {
-			var dataValue = (Config.allowVariableNodeDiameters && elem.data && elem.data.length > 0)? elem.data[0].value : nr;
+			var dataValue = (allow && elem.data && elem.data.length > 0)? elem.data[0].value : nr;
 			var diamValue = diam(dataValue);
 			var rho = Config.levelDistance * i;
 			elem._angularWidth = diamValue / rho;
-			elem._radius = diamValue / 2;
-		});
+			elem._radius = allow? diamValue / 2 : nr;
+		}, "ignore");
 	},
 	
 	/*
@@ -1303,7 +1798,7 @@ RGraph.prototype = {
 		var that = this;
 		GraphUtil.eachNode(this.graph, function(elem) {
 			that.setSubtreeAngularWidth(elem);
-		});
+		}, "ignore");
 	},
 	
 	/*
@@ -1316,7 +1811,7 @@ RGraph.prototype = {
 		GraphUtil.eachSubnode(this.graph, elem, function(child) {
 			that.setSubtreeAngularWidth(child);
 			sumAW += child._treeAngularWidth;
-		});
+		}, "ignore");
 		elem._treeAngularWidth = Math.max(nodeAW, sumAW);
 	},
 	
@@ -1337,7 +1832,7 @@ RGraph.prototype = {
 	*/
 	getNodeAndParentAngle: function(id) {
 		var theta = false;
-		var n  = GraphUtil.getNode(this.graph, id);
+		var n  = this.graph.getNode(id);
 		var ps = GraphUtil.getParents(this.graph, n);
 		var p  = (ps.length > 0)? ps[0] : false;
 		if(p) {
@@ -1346,7 +1841,6 @@ RGraph.prototype = {
 			theta = (function(pos) {
 				var t = Math.atan2(pos.y, pos.x);
 				if(t < 0) t = 2 * Math.PI + t;
-				
 				return t;
 			})(newPos);
 		}
@@ -1359,22 +1853,33 @@ RGraph.prototype = {
 	
 	 Performs all calculations and animation when clicking on a label specified by _id_. The label id is the same id as its homologue node.
 	*/
-	onClick: function(id) {
-		if(this.root != id) {
-			//GraphPlot.displacement.x =0;
-			//GraphPlot.displacement.y = 0;
+	onClick: function(id) {		
+		if(this.root != id && !this.busy) {
+			this.busy = true;
 			//we apply first constraint to the algorithm
-			
 			var obj = this.getNodeAndParentAngle(id);
-			this.root = id;
-			this.controller.onBeforeCompute(GraphUtil.getNode(this.graph, id));
-			this.compute('endPos');
+			this.root = id, that = this;
+			this.controller.onBeforeCompute(this.graph.getNode(id));
+
+			console.log("!");
 			var thetaDiff = obj.theta - obj._parent.endPos.theta;
-			GraphUtil.eachNode(this.graph, function(elem) {
+
+												GraphUtil.eachNode(this.graph, function(elem) {
 				elem.endPos = elem.endPos.add(new Polar(thetaDiff, 0));
 			});
-			GraphPlot.animate(this.graph, id, this.canvas, this.controller);
-		}		
+			
+			var mode = (Config.interpolation == 'linear')? 'linear' : 'polar';
+
+
+			GraphPlot.animate(this, $_.merge(this.controller, {
+				hideLabels:true,
+				modes: [mode],
+				onComplete: function() {
+					that.busy = false;
+				}
+			}));
+				}		
+
 	}
 };
 
@@ -1399,34 +1904,32 @@ var Graph= function()  {
 	
 	
 Graph.prototype= {
-	/*
-	 Method: addAdjacence
+
+/*
+	 Method: getNode
 	
-	 Connects nodes specified by *obj* and *obj2*. If not found, nodes are created.
-	 
-	 Parameters:
+	 Returns a <Graph.Node> from a specified _id_.
+*/	
+ getNode: function(id) {
+ 	if(this.hasNode(id)) 	return this.nodes[id];
+ 	return false;
+ },
+
+
+/*
+	 Method: getAdjacence
 	
-	    obj - a <Graph.Node> object.
-	    obj2 - Another <Graph.Node> object.
-	*/	
-  addAdjacence: function (obj, obj2, weight) {
-  	if(!this.hasNode(obj.id)) this.addNode(obj);
-  	if(!this.hasNode(obj2.id)) this.addNode(obj2);
-	obj = this.nodes[obj.id]; obj2 = this.nodes[obj2.id];
-	
-  	for(var i in this.nodes) {
-  		if(this.nodes[i].id == obj.id) {
-  			if(!this.nodes[i].adjacentTo(obj2)) {
-  				this.nodes[i].addAdjacency(obj2, weight);
-  			}
-  		}
-  		
-  		if(this.nodes[i].id == obj2.id) {	
-  			if(!this.nodes[i].adjacentTo(obj)) {
-  				this.nodes[i].addAdjacency(obj, weight);
-  			}
-  		}
-  	}
+	 Returns an array of <Graph.Adjacence> that connects nodes with id _id_ and _id2_.
+*/	
+  getAdjacence: function (id, id2) {
+	var adjs = [];
+	if(this.hasNode(id) 	&& this.hasNode(id2) 
+	&& this.nodes[id].adjacentTo({ 'id':id2 }) && this.nodes[id2].adjacentTo({ 'id':id })) {
+		adjs.push(this.nodes[id].getAdjacency(id2));
+		adjs.push(this.nodes[id2].getAdjacency(id));
+		return adjs;
+	}
+	return false;	
  },
 
 	/*
@@ -1444,7 +1947,65 @@ Graph.prototype= {
   	}
   	return this.nodes[obj.id];
   },
+  
+	/*
+	 Method: addAdjacence
+	
+	 Connects nodes specified by *obj* and *obj2*. If not found, nodes are created.
+	 
+	 Parameters:
+	
+	    obj - a <Graph.Node> object.
+	    obj2 - Another <Graph.Node> object.
+	    data - A DataSet object.
+	*/	
+  addAdjacence: function (obj, obj2, weight) {
+  	var adjs = []
+  	if(!this.hasNode(obj.id)) this.addNode(obj);
+  	if(!this.hasNode(obj2.id)) this.addNode(obj2);
+	obj = this.nodes[obj.id]; obj2 = this.nodes[obj2.id];
+	
+  	for(var i in this.nodes) {
+  		if(this.nodes[i].id == obj.id) {
+  			if(!this.nodes[i].adjacentTo(obj2)) {
+  				adjs.push(this.nodes[i].addAdjacency(obj2, weight));
+  			}
+  		}
+  		
+  		if(this.nodes[i].id == obj2.id) {	
+  			if(!this.nodes[i].adjacentTo(obj)) {
+  				adjs.push(this.nodes[i].addAdjacency(obj, weight));
+  			}
+  		}
+  	}
+  	return adjs;
+ },
 
+	/*
+	 Method: removeNode
+	
+	 Removes a <Graph.Node> from <Graph> that matches the specified _id_.
+	*/	
+  removeNode: function(id) {
+  	if(this.hasNode(id)) {
+  		var node = this.nodes[id];
+  		for(var i=0 in node.adjacencies) {
+  			var adj = node.adjacencies[i];
+  			this.removeAdjacence(id, adj.nodeTo.id);
+  		}
+  		delete this.nodes[id];
+  	}
+  },
+  
+/*
+	 Method: removeAdjacence
+	
+	 Removes a <Graph.Adjacence> from <Graph> that matches the specified _id1_ and _id2_.
+*/	
+  removeAdjacence: function(id1, id2) {
+  	if(this.hasNode(id1)) this.nodes[id1].removeAdjacency(id2);
+  	if(this.hasNode(id2)) this.nodes[id2].removeAdjacency(id1);
+  },
 
 	/*
 	 Method: hasNode
@@ -1460,12 +2021,7 @@ Graph.prototype= {
 	 		A Boolean instance indicating if node belongs to graph or not.
 	*/	
   hasNode: function(id) {
-  	for(var index in this.nodes) {
-  		if (index== id) {
-  			return true;
-  		}
-  	}
-  	return false;	
+	return id in this.nodes;
   }
 };
 /*
@@ -1492,45 +2048,49 @@ Graph.prototype= {
 */
 Graph.Node = function(id, name, data) {
 	//Property: id
+	//A node's id
 	this.id= id;
 	//Property: name
+	//A node's name
 	this.name = name;
 	//Property: data
 	//The dataSet object <http://blog.thejit.org/?p=7>
 	this.data = data;
-		
 	//Property: drawn
 	//Node flag
 	this.drawn= false;
-
 	//Property: angle span
 	//allowed angle span for adjacencies placement
 	this.angleSpan= {
 		begin:0,
 		end:0
 	};
-
 	//Property: pos
 	//node position
 	this.pos= new Polar(0, 0);
-	
 	//Property: startPos
 	//node from position
 	this.startPos= new Polar(0, 0);
-	
 	//Property: endPos
 	//node to position
 	this.endPos= new Polar(0, 0);
-	
+	//Property: alpha
+	//node alpha
+	this.alpha = 1;
+	//Property: startAlpha
+	//node start alpha
+	this.startAlpha = 1;
+	//Property: endAlpha
+	//node end alpha
+	this.endAlpha = 1;
 	//Property: adjacencies
 	//node adjacencies
-	this.adjacencies= new Array();
-	
-}
+	this.adjacencies= {};
+};
 
 Graph.Node.prototype= {
 	
-		/*
+	/*
 	   Method: adjacentTo
 	
 	   Indicates if the node is adjacent to the node indicated by the specified id
@@ -1544,15 +2104,22 @@ Graph.Node.prototype= {
 	     A Boolean instance indicating whether this node is adjacent to the specified by id or not.
 	*/
 	adjacentTo: function(node) {
-		for(var index=0; index<this.adjacencies.length; index++) {
-			if(node.id == this.adjacencies[index].nodeTo.id) {
-				return true;
-			}
-		}
-		return false;
+		return node.id in this.adjacencies;
 	},
 
-		/*
+	/*
+	   Method: getAdjacency
+	
+	   Returns a <Graph.Adjacence> that connects the current <Graph.Node> with the node having _id_ as id.
+
+	   Parameters:
+	
+	      id - A node id.
+	*/	
+	getAdjacency: function(id) {
+		return this.adjacencies[id];
+	},
+	/*
 	   Method: addAdjacency
 	
 	   Connects the node to the specified by id.
@@ -1563,7 +2130,20 @@ Graph.Node.prototype= {
 	*/	
 	addAdjacency: function(node, data) {
 		var adj = new Graph.Adjacence(this, node, data);
-		this.adjacencies.push(adj);
+		return this.adjacencies[node.id] = adj;
+	},
+	
+	/*
+	   Method: removeAdjacency
+	
+	   Deletes the <Graph.Adjacence> by _id_.
+
+	   Parameters:
+	
+	      id - A node id.
+	*/	
+	removeAdjacency: function(id) {
+		delete this.adjacencies[id];
 	}
 };
 /*
@@ -1572,10 +2152,25 @@ Graph.Node.prototype= {
 	 Creates a new <Graph> adjacence.
 
 */
-Graph.Adjacence = function(node, node2, data) {
-	this.nodeFrom = node;
-	this.nodeTo    = node2;
-	this.data     = data;
+Graph.Adjacence = function(nodeFrom, nodeTo, data) {
+	//Property: nodeFrom
+	//One of the two <Graph.Node>s connected by this edge.
+	this.nodeFrom = nodeFrom;
+	//Property: nodeTo
+	//One of the two <Graph.Node>s connected by this edge.
+	this.nodeTo = nodeTo;
+	//Property: data
+	//A dataset object
+	this.data = data;
+	//Property: alpha
+	//node alpha
+	this.alpha = 1;
+	//Property: startAlpha
+	//node start alpha
+	this.startAlpha = 1;
+	//Property: endAlpha
+	//node end alpha
+	this.endAlpha = 1;
 };
 
 /*
@@ -1638,7 +2233,6 @@ var Animation = {
 		return this;
 	},
 
-
 	startTimer: function(){
 		if (this.timer) return false;
 		this.time = this.getTime() - this.time;
@@ -1646,4 +2240,3 @@ var Animation = {
 		return true;
 	}
 };
-}}}

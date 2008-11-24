@@ -138,9 +138,10 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 				var userName = config.options.txtUserName ? config.options.txtUserName : "guest";
 				console.log(shape.properties);
 				
-				var geometa = {};
+				var geometa = "{'name':'"+shape.properties.name+"',colour:'"+shape.properties.colour+"',fill:'"+shape.properties.fill+"'}";
+
 				
-				shape.properties.toSource(); //no ie support for this!
+				//shape.properties.toSource(); //no ie support for this!
 				
 				var fields = {};
 				fields.geoproperties = geometa;
