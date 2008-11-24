@@ -116,9 +116,14 @@ saveFile = function(fileUrl,content,callb) {
 	displayMessage("saving... please wait"); // XXX: belongs into command handler -- TODO: i18n
 	//alert("whee! about to save to " + fileUrl);
 	var localCallback = function(status,params,responseText,url,xhr) {
-		//alert("whee! got callback status " + status + ", params " + params + ", url " + url + ", xhr " + xhr);
+		if(!status) {
+			displayMessage("saving failed: " + responseText);
+		}
 	};
-	return doHttp('PUT',fileUrl,content,"tahoe tiddly type",null,null,localCallback);
+	var req = httpReq("PUT",fileUrl,localCallback,null,null,content,"tahoe tiddly type");
+	if(!req) {
+		displayMessage("error saving");
+	}
 };
 
 } //# end of "install only once"
