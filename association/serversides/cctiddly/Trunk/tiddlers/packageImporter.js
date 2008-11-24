@@ -72,21 +72,20 @@ html += "<div id='mid' style='vertical-align:middle'>";
 
 config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
 	var params = {}; 
-	params.w = w;
-	if(w.formElem.packages===true) {
-		var radios = w.formElem.packages;
-		var packageTiddler;
-		for(var z=0;z<radios.length;z++){
-			if (radios[z].checked){
-				selectedPackage = radios[z].value;
-				break;
-			}
+	params.w = w;	
+	var radios = w.formElem.packages;
+	var packageTiddler;
+	for(var z=0;z<radios.length;z++){
+		if (radios[z].checked){
+
+			params.selectedPackage  = radios[z].value;
+			displayMessage("got to here "+params.selectedPackage);
+			break;
 		}
-		displayMessage('settingpackages');
-		params.selectedPackages = selectedPackage;
 	}
+
 	if(window.useModRewrite == 1)
-	params.url = url+w.formElem["workspace_name"].value; 
+		params.url = url+w.formElem["workspace_name"].value; 
 	else
 		params.url = url+'?workspace='+w.formElem["workspace_name"].value;
 	var loginResp = doHttp('POST',url+'?&workspace='+w.formElem["workspace_name"].value+"/",'&ccCreateWorkspace=' + encodeURIComponent(w.formElem["workspace_name"].value)+'&amp;ccAnonPerm='+encodeURIComponent("AADD"),null,null,null,config.macros.ccCreateWorkspace.createWorkspaceCallback,params);
@@ -94,16 +93,13 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
 };
 
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {
-	
-	if(params.selectedPackage=="undefined"){
-	displayMessage("sssdsd");
-	}
+	console.log(params);
 
-
-//		window.location = params.url;
 	if(xhr.status==201){
 		params.w.addStep("Please wait", "This could take afew minutes depending on your internet connection.<img src='http://www.ajaxload.info/cache/FF/FF/FF/00/00/00/37-0.gif'/>"+"<br/><br/><input width='300' name='statusMarker'/>");
-	//	params.w.setButtons([]);
+		params.w.setButtons([]);
+		
+		displayMessage(params.selectedPackage);
 		if(params.selectedPackage) {
 	   		var url = store.getTiddlerSlice(params.selectedPackage,'URL');
 			loadRemoteFile(url,config.macros.ccCreateWorkspace.fetchFileCallback ,params);
@@ -118,7 +114,6 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 		displayMessage(responseText);	
 	}
 };
-
 
 config.macros.ccCreateWorkspace.checkSaveCount = function (requests, saved) {
 	if(requests == 0)
