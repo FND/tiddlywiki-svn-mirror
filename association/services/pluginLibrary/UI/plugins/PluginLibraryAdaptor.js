@@ -27,7 +27,7 @@ config.extensions.PluginLibraryAdaptor = {
 			return false;
 		}
 		this.activeSearchRequest = true;
-		var adaptor = new TiddlyWebAdaptor();
+		var adaptor = new config.adaptors.tiddlyweb();
 		var context = {
 			host: this.host,
 			workspace: "plugins",
