@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.1.1|
+|''Version''|0.1.2|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/TiddlyWebAdaptorPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/|
@@ -21,9 +21,7 @@
 if(!version.extensions.TiddlyWebAdaptorPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 
-if(!config.extensions) { config.extensions = {}; }
-
-config.extensions.TiddlyWebAdaptor = function() {};
+config.adaptors.tiddlyweb = function() {};
 
 (function(adaptor) { //# set up alias
 
@@ -321,9 +319,7 @@ adaptor.deleteTiddlerCallback = function(status, context, responseText, uri, xhr
 	}
 };
 
-config.adaptors[adaptor.serverType] = adaptor;
-
-})(config.extensions.TiddlyWebAdaptor); //# end of alias
+})(config.adaptors.tiddlyweb); //# end of alias
 
 /***
 !JSON Code, used to serialize the data
