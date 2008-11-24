@@ -93,10 +93,6 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
 };
 
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {
-	console.log(params);
-	
-	displayMessage("nade gere ");
-
 	if(xhr.status==201){
 		params.w.addStep("Please wait", "This could take afew minutes depending on your internet connection.<img src='http://www.ajaxload.info/cache/FF/FF/FF/00/00/00/37-0.gif'/>"+"<br/><br/><input width='300' name='statusMarker'/>");
 		params.w.setButtons([]);
