@@ -209,6 +209,7 @@ saveChanges = function(onlyIfDirty, tiddlers) {
 // Import Override - ensures imported tiddlers have cctiddly server type. 
 config.macros.importTiddlers.onGetTiddler = function(context,wizard)
 {
+	console.log("here");
 	if(!context.status)
 		displayMessage("Error in importTiddlers.onGetTiddler: " + context.statusText);
 	var tiddler = context.tiddler;

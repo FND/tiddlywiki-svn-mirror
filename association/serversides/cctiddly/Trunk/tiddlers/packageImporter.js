@@ -94,12 +94,12 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
 
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {
 	console.log(params);
+	
+	displayMessage("nade gere ");
 
 	if(xhr.status==201){
 		params.w.addStep("Please wait", "This could take afew minutes depending on your internet connection.<img src='http://www.ajaxload.info/cache/FF/FF/FF/00/00/00/37-0.gif'/>"+"<br/><br/><input width='300' name='statusMarker'/>");
 		params.w.setButtons([]);
-		
-		displayMessage(params.selectedPackage);
 		if(params.selectedPackage) {
 	   		var url = store.getTiddlerSlice(params.selectedPackage,'URL');
 			loadRemoteFile(url,config.macros.ccCreateWorkspace.fetchFileCallback ,params);
@@ -137,11 +137,16 @@ config.macros.ccCreateWorkspace.doImport = function (params, content) {
 		if(!store.getTiddler(title)) {
 			params.w.formElem.statusMarker.value='saving '+title;
 			tiddler.fields['server.workspace'] = params.w.formElem["workspace_name"].value;
-			window.workspace = params.w.formElem["workspace_name"].value;
+			window.workspace = params.w.formElem["workspace_name"].value; // HORRID HORRID HACK
+			
+			tiddler.fields['server.type'] = 'cctiddly';
+			tiddler.fields['server.host'] = window.url;
+			tiddler.fields['workspace']= window.workspace;
 			store.saveTiddler(title,title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,false,tiddler.created);
 			window.savedRequestedCount ++;
 		}
 	});
+	autoSaveChanges();
 }
 
 config.macros.ccCreateWorkspace.fetchFileCallback = function(status,params,responseText,url,xhr){
