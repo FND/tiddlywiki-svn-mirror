@@ -9,8 +9,9 @@ if(!user_session_validate())
 	sendHeader("401");
 	exit;	
 }
+$ntiddler = db_tiddlers_mainSelectTitle($_POST['title']);
 $ntiddler['title'] = formatParametersPOST($_POST['title']);
-$ntiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
+
 $tiddlyCfg['workspace_name'] = formatParametersPOST($_POST['workspace']);
 $ntiddler['modifier'] = formatParametersPOST($_POST['modifier']);
 $ntiddler['modified'] = formatParametersPOST($_POST['modified']);
