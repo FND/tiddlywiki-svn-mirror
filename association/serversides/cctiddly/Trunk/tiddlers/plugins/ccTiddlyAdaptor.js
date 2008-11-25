@@ -473,7 +473,14 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	};
 
 	ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback){
+console.log("2", tiddler);
 
+
+
+displayMessage(tiddler.title);
+displayMessage(tiddler.fields.title);
+
+console.log(tiddler.title);
 		context = this.setContext(context,userParams,callback);
 		context.title = tiddler.title;
 		var recipeuriTemplate = '%0/handle/save.php';

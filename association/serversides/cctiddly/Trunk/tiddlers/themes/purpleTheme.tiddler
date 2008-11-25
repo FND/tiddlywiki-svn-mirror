@@ -16,7 +16,7 @@
 |''~StyleSheet:''|##StyleSheet|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
-|''~EditTemplate:''|##EditTemplate|
+|''~EditTemplate:''|##EditTemplate|.wizzz
 |''~ViewTemplate:''|##ViewTemplate|
 ***/
 !PageTemplate
@@ -568,7 +568,6 @@ table, .viewer td, .viewer tr, .twtable td, .twtable tr {
 
 body .wizardFooter {
 	margin:0px;
-	margin-top:-1em;
 	padding-top:0px;
 	background:white;
 	font-weight:bold;

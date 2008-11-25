@@ -167,8 +167,9 @@ if(!config.adaptors.cctiddly) { // XXX: hardcoded; bad!
 
 config.extensions.ServerSideSavingPlugin = {
 	adaptor: config.adaptors.cctiddly,
-
 	saveTiddler: function(tiddler) {
+console.log(tiddler);
+
 		var adaptor = new this.adaptor();
 		context = {
 			tiddler: tiddler,

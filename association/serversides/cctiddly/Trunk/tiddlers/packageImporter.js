@@ -79,11 +79,9 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
 		if (radios[z].checked){
 
 			params.selectedPackage  = radios[z].value;
-			displayMessage("got to here "+params.selectedPackage);
 			break;
 		}
 	}
-
 	if(window.useModRewrite == 1)
 		params.url = url+w.formElem["workspace_name"].value; 
 	else
@@ -121,20 +119,25 @@ config.macros.ccCreateWorkspace.checkSaveCount = function (requests, saved) {
 config.macros.ccCreateWorkspace.doImport = function (params, content) {
 	var importStore = new TiddlyWiki();
 	importStore.importTiddlyWiki(content);
+	/*
 	ccTiddlyAutoSave.putCallback = function(context, userParams){
 		window.savedCount ++;
 		if(config.macros.ccCreateWorkspace.checkSaveCount(window.savedRequestedCount, window.savedCount))
 			window.location = params.url;
 	}
+	*/	
+	config.extensions.ServerSideSavingPlugin.saveTiddlerCallback = function(context, userParams) {
+displayMessage("aaaaasaasas");
+	
+		};
 	window.savedCount = 0;
 	window.savedRequestedCount = 0;
-	
 	importStore.forEachTiddler(function(title,tiddler) {
 		if(!store.getTiddler(title)) {
 			params.w.formElem.statusMarker.value='saving '+title;
 			tiddler.fields['server.workspace'] = params.w.formElem["workspace_name"].value;
 			window.workspace = params.w.formElem["workspace_name"].value; // HORRID HORRID HACK
-			
+						
 			tiddler.fields['server.type'] = 'cctiddly';
 			tiddler.fields['server.host'] = window.url;
 			tiddler.fields['workspace']= window.workspace;
@@ -148,6 +151,8 @@ config.macros.ccCreateWorkspace.doImport = function (params, content) {
 config.macros.ccCreateWorkspace.fetchFileCallback = function(status,params,responseText,url,xhr){
 	if(status && locateStoreArea(responseText))
 		config.macros.ccCreateWorkspace.doImport(params, responseText);
+	else
+		displayMessage("Package not found.  You will be provieded a standard TiddlyWiki.");
 }
 //}}}
 
