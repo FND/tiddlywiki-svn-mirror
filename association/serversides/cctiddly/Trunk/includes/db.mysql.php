@@ -404,11 +404,15 @@ function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
 	$q = "UPDATE ".$tiddlyCfg['table']['main']." SET ";
 	while((list($k,$v) = each($tiddler)))
 	{
-		$q .= "`".db_format4SQL($k)."`='".db_format4SQL($v)."',";
+			error_log($k);
+		$q .= "`".db_format4SQL($k).'`="'.db_format4SQL($v).'",';
 	}
+	
+
 	$q = substr($q,0,(strlen($q)-1));		//remove last ","
 	$q .= " WHERE `id` = '".$oid."'";
 	debug($q, "mysql");
+		error_log($q);
 	if($stop==1) 
 		$result = mysql_query($q)or die(mysql_error());
 	 else 

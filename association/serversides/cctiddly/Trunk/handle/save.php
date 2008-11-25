@@ -9,10 +9,9 @@ if(!user_session_validate())
 	sendHeader("401");
 	exit;	
 }
-
-$tiddlyCfg['workspace_name'] = formatParametersPOST($_POST['workspace']);
 $ntiddler['title'] = formatParametersPOST($_POST['title']);
-$oldTitle = formatParametersPOST($_POST['otitle']);
+$ntiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
+$tiddlyCfg['workspace_name'] = formatParametersPOST($_POST['workspace']);
 $ntiddler['modifier'] = formatParametersPOST($_POST['modifier']);
 $ntiddler['modified'] = formatParametersPOST($_POST['modified']);
 $ntiddler['created'] = formatParametersPOST($_POST['created']); 
@@ -20,14 +19,9 @@ $ntiddler['tags'] = formatParametersPOST($_POST['tags']);
 $ntiddler['body'] =  formatParametersPOST($_POST['body']);
 $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
-$tiddler = db_tiddlers_mainSelectTitle($ntiddler['title']);
-
+$tiddler['id'] = $_POST['id'];
 //Will be used from v1.8 - SimonMcManus
-foreach ($modulesLoader->plugins as $plugin)
-{
-	if(@is_file($cct_base."modules/".$plugin))
-		@include_once($cct_base."modules/".$plugin);	
-}
+
 
 if(@$pluginsLoader->events['preSave']) 
 {
@@ -43,7 +37,7 @@ if(@$pluginsLoader->events['preSave'])
 	}
 }
 
-if(isset($tiddler['title']))
+if($tiddler['id']!="undefined")
 {
 	// Tiddler with the same 	name already exisits.
 	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);	
@@ -62,7 +56,7 @@ if(isset($tiddler['title']))
 		if($otiddler['revision'] !==0)
 			$ntiddler['revision'] = $otiddler['revision']+1;
 		debug("Attempting to update server...", "save");
-		tiddler_update_new($otiddler['id'], $ntiddler);
+		tiddler_update_new($tiddler['id'], $ntiddler);
 	}else{
 		debug("Permissions denied to save.", "save");
 		sendHeader(400);	

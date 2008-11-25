@@ -473,14 +473,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	};
 
 	ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback){
-console.log("2", tiddler);
-
-
-
-displayMessage(tiddler.title);
-displayMessage(tiddler.fields.title);
-
-console.log(tiddler.title);
 		context = this.setContext(context,userParams,callback);
 		context.title = tiddler.title;
 		var recipeuriTemplate = '%0/handle/save.php';
@@ -495,7 +487,8 @@ console.log(tiddler.title);
 				fieldString += name +"='"+tiddler.fields[name]+"' ";
 		}
 
-		// Freds SEO Code 
+		// Freds SEO Code
+
 		if(workspace)
 		 	var breaker = "/";
 		else
@@ -518,6 +511,11 @@ console.log(tiddler.title);
 		    }
 		}	
 		// End Freds SEO Code 
+
+		
+		
+		
+		
 		if(tiddler.fields['server.page.revision']==1)
 			tiddler.fields['server.page.revision'] = 10000;
 		else
@@ -527,7 +525,7 @@ console.log(tiddler.title);
 		else
 			var otitle = context.otitle;
 		var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
-	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"";
+	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id'];
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 		removeNode(el);
 		return typeof req == 'string' ? req : true;
@@ -590,6 +588,8 @@ console.log(tiddler.title);
 	}
 
 	ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr){
+		
+		displayMessage(responseText);
 		context.status = false;
 		if(status){
 			context.status = true;
