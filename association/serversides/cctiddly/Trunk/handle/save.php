@@ -55,8 +55,6 @@ if($tiddler['id']!="undefined")
 		if($otiddler['revision'] !==0)
 			$ntiddler['revision'] = $otiddler['revision']+1;
 		debug("Attempting to update server...", "save");
-		
-		error_log("AAA".$ntiddler['title']);
 		tiddler_update_new($tiddler['id'], $ntiddler);
 	}else{
 		debug("Permissions denied to save.", "save");

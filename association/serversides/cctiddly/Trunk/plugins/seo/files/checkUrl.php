@@ -3,7 +3,6 @@
 
 // Return Tiddler 
 $filename = $tiddlyCfg['pref']['upload_dir']."tiddlers/".$tiddlyCfg['workspace_name']."";
-error_log($filename);
 if(is_file($filename)){	
 	$file_extension = strtolower(substr(strrchr($filename,"."),1));
 	switch ($file_extension) {

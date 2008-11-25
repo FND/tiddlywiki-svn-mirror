@@ -38,8 +38,6 @@ if (isset($_FILES["userFile"]))
 	
 	if (check_vals())
 	{
-		error_log("hre11");
-		
 		if (($_FILES["userFile"]["type"] == "image/gif") || ($_FILES["userFile"]["type"] == "image/jpeg")|| ($_FILES["userFile"]["type"] == "image/pjpeg"))
 		{
 			$file_type = 'image';

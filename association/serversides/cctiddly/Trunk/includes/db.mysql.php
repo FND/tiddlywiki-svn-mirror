@@ -356,7 +356,6 @@ function db_tiddlers_mainInsert($tiddler,$stop=1)
 			."(`".implode("`,`",$key)."`,`workspace_name`)"
 			.' VALUES ("'.implode('","',$val).'","'.$tiddlyCfg['workspace_name'].'")';
 	debug("db_tiddlers_mainInsert: ".$q, "mysql");
-	error_log($q);
 	if($stop==1) 
 		$result = mysql_query($q) or die(mysql_error().$q);
 	else
