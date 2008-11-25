@@ -1,9 +1,21 @@
-<div title="SVGExample" created="200811041153" modifier="JonRobson">
+<div title="svg example 1" created="200811041153" modifier="JonRobson">
 <pre>
-You can load directly from an svg file
+There are 3 ways to get svg files into your tiddlywiki using canvasMaps. This functionality is a work in progress and may not work for some svg files.
+
+!Way 1 - from a file
+You can load directly from an external svg file (this loads europe.svg).
 <<canvasMaps source:europe.svg>>
 
-Or you can specify a tiddler with svg data in it (and tag it svg).. see [[Sample SVG]]
+
+!Way 2 - from tiddler text
+Note: For some unknown reason panning and zooming currently do not work for more than 1 canvasmap in a tiddler.
+
+The example below shows how you can point the source to the text of a tiddler. In this case we point to [[svg example 2]].
+<<canvasMaps source:'svg example 2'>>
+
+!Way 3 - tag it svg
+However alternatively, if a tiddler is simply tagged svg it will render differently when you load that tiddler.. see [[svg example 2]]
+
 
 </pre>
 </div>

@@ -1,4 +1,3 @@
-
 /*Many thanks to the tiddler alias plugin for where I got this code*/
 
 config.macros.canvasMaps.metaExtension ="<div class='editor' macro='edit geoproperties'></div><div class='editorFooter'>here are the geojson feature properties associated with this tiddler</div>";
@@ -45,3 +44,16 @@ if (!store) {
 	};
 } else
 	doHijacking();
+
+
+var oldwikify =wikify;
+
+wikify = function(source,output,highlightRegExp,tiddler){
+	if(tiddler) {
+		if(tiddler.tags.contains("svg")){
+			source = "<<canvasMaps source:'"+ tiddler.title+"'>>";
+			console.log(source);
+		}
+	}
+	oldwikify(source,output,highlightRegExp,tiddler);
+} 
