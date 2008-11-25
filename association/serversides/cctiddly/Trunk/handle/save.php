@@ -40,8 +40,6 @@ if(@$pluginsLoader->events['preSave'])
 
 if($tiddler['id']!="undefined")
 {
-	// Tiddler with the same 	name already exisits.
-	$otiddler = db_tiddlers_mainSelectTitle($oldTitle,$tiddlyCfg['table']['main'],$tiddlyCfg['workspace_name']);	
 	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
 		debug($ccT_msg['debug']['reloadRequired'], "save");
 		sendHeader(409);
@@ -57,6 +55,8 @@ if($tiddler['id']!="undefined")
 		if($otiddler['revision'] !==0)
 			$ntiddler['revision'] = $otiddler['revision']+1;
 		debug("Attempting to update server...", "save");
+		
+		error_log("AAA".$ntiddler['title']);
 		tiddler_update_new($tiddler['id'], $ntiddler);
 	}else{
 		debug("Permissions denied to save.", "save");

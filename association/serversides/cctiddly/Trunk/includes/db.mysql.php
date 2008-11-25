@@ -400,12 +400,11 @@ function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
 {
 	global $tiddlyCfg;
 	//remove primary key (first element in array)
-	array_shift($tiddler);
+	//array_shift($tiddler);
 	//make query
 	$q = "UPDATE ".$tiddlyCfg['table']['main']." SET ";
 	while((list($k,$v) = each($tiddler)))
 	{
-			error_log($k);
 		$q .= "`".db_format4SQL($k).'`="'.db_format4SQL($v).'",';
 	}
 	
