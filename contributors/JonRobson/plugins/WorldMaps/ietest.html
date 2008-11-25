@@ -21,7 +21,7 @@ function init(){
 	};
 	
 	eMap.utils._testCanvas(eMap.ctx);
-
+	geojson = eMap.utils.fitgeojsontocanvas(eval(geojson),eMap.canvas);
 	eMap.drawFromGeojson(geojson);
 	eMap.addControl("pan");
 	eMap.addControl("zoom");

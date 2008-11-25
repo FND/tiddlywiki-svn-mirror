@@ -86,7 +86,13 @@ var EasyMapController = function(targetjs,elemid){
 };
 
 EasyMapController.prototype = {
-
+/*
+	setOrigin: function(x,y){
+		this.transformation.origin.x = x;
+		this.transformation.translate.y = y;		
+		this.targetjs.transform(this.transformation);
+	},*/
+	
 	setTransformation: function(t){
 		if(!t.scale && !t.translate) alert("bad transformation applied");
 		this.transformation = t;
@@ -310,15 +316,48 @@ EasyMap.prototype = {
 		this.controller.addControl(controlType);
 	},
 
+
 	transform: function(transformation){
 		this.transformation = transformation;
 		//set origin
-		this.transformation.origin = {};
-		this.transformation.origin.x = parseInt(this.canvas.width / 2);
-		this.transformation.origin.y =parseInt(this.canvas.height / 2);
+		var w =parseInt(this.canvas.width);
+		var h = parseInt(this.canvas.height);
+		
+		if(!transformation.origin){
+			this.transformation.origin = {};
+			var origin = this.transformation.origin;
+			origin.x =w / 2;
+			origin.y =h / 2;
+		}
+
 		this.redraw();
 	},
 
+	/*_fitToCanvas: function(){
+		var c =this.corners;
+		if(c){
+			var w =parseInt(this.canvas.width);
+			var h = parseInt(this.canvas.height);
+			
+			var t = this.transformation;
+			t.origin = {};
+			t.origin.x =w / 2;
+			t.origin.y =h / 2;
+			
+
+			if(c.x1 > 0 && c.x2 > w)
+			{
+				t.origin.x = c.x2 - (c.x2 - c.x1 /2) ;
+				//t.origin.y = ;
+			}
+			console.log(c);
+			if(c.y1 > 0 && c.y2 > h)
+			{
+				t.origin.y =c.y2 - (c.y2 - c.y1 /2) ;
+			}
+			this.transform(t);
+		}
+	},*/
 	_buildShapeInMemory: function(easyShape){ //add shape to memory
 		var mapCanvas = this.canvas;
 		var memory = mapCanvas.memory;
@@ -329,8 +368,8 @@ EasyMap.prototype = {
 
 		if(this.corners.x1 == null|| g.x1 < this.corners.x1) this.corners.x1 = g.x1;
 		if(this.corners.x2 == null|| g.x2 > this.corners.x2) this.corners.x2 = g.x2;	
-		if(this.corners.y1 == null|| g.y1 < this.corners.y1) this.corners.y1 = g.x1;
-		if(this.corners.y2 == null|| g.y2 > this.corners.y2) this.corners.y2 = g.x2;	
+		if(this.corners.y1 == null|| g.y1 < this.corners.y1) this.corners.y1 = g.y1;
+		if(this.corners.y2 == null|| g.y2 > this.corners.y2) this.corners.y2 = g.y2;	
 	},
 
 	_renderShapes: function(){
@@ -343,7 +382,6 @@ EasyMap.prototype = {
 		}
 		//ctx.restore();
 	},
-
 	_renderShape: function(shape){ //is this really a drawPolygon or a drawLines
 		if(shape.shape !='polygon') {console.log("no idea how to draw");return;}		
 			var left = 0;
@@ -399,8 +437,6 @@ EasyMap.prototype = {
 	
 		
 	},
-	
-
 	redraw: function(){
 
 		var mapCanvas = this.canvas;
@@ -415,8 +451,7 @@ EasyMap.prototype = {
 			this._renderShapes();			
 							
 		}
-	},
-	
+	},	
 	clear: function(){
 		var mapCanvas = this.canvas;
 		this.canvas.onclick = this.clickHandler;
@@ -428,11 +463,7 @@ EasyMap.prototype = {
 		// you could replace the next line with this.canvas.width = this.canvas.width, as that resets it (don't know what happens in G_VML though...)
 		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 		
-
-
-		
 	},
-
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,properties){
 		var prop = properties;
 		var coords = coordinates;
@@ -440,16 +471,13 @@ EasyMap.prototype = {
 			this._drawGeoJsonPolygonFeature(coords[j],prop);
 		}
 		
-	},
-	
+	},	
 	_drawGeoJsonPolygonFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'polygon';
 		var s = new EasyShape(p,coordinates,"geojson");
 		this._buildShapeInMemory(s);
 	},
-	
-	
 	_drawGeoJsonPointFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'point';
@@ -457,8 +485,7 @@ EasyMap.prototype = {
 
 		var s = new EasyShape(p,coordinates,"geojson");
 		this._buildShapeInMemory(s);
-	},
-	
+	},	
 	_drawGeoJsonFeature: function(feature){
 			var geometry = feature.geometry;
 			var type =geometry.type.toLowerCase();
@@ -486,8 +513,7 @@ EasyMap.prototype = {
 				this._drawGeoJsonFeature(features[i]);
 			}
 
-	},
-	
+	},	
 	drawFromGeojson: function(responseText){
 
 			var geojson;
@@ -507,8 +533,6 @@ EasyMap.prototype = {
 			}
 			var type =geojson.type.toLowerCase();
 
-
-
 			if(geojson.transform){
 				this.controller.setTransformation(geojson.transform);		
 			}
@@ -524,7 +548,6 @@ EasyMap.prototype = {
 			}
 			this._renderShapes();
 	},
-	
 	drawFromGeojsonFile: function(file){
 		var that = this;
 		var callback = function(status,params,responseText,url,xhr){
@@ -532,8 +555,7 @@ EasyMap.prototype = {
 			that.drawFromGeojson(responseText);
 		};
 		this.utils.loadRemoteFile(file,callback);
-	},
-	
+	},	
 	drawFromSVG: function(representation){
 		this.clear();
 		var xml = this.utils._getXML(representation);
@@ -542,7 +564,6 @@ EasyMap.prototype = {
 		this.drawFromGeojson(json);			
 		
 	},
-
 	drawFromSVGFile: function(file){
 		var that = this;
 		var callback = function(status,params,responseText,url,xhr){
@@ -588,8 +609,6 @@ var EasyShape = function(element,coordinates,sourceType){
 	if(sourceType){
 		if(sourceType == "geojson") {
 			this.constructFromGeoJSONObject(element,coordinates);
-		} else if(sourceType == "svg") {
-			this.constructFromSVGElement(element);
 		}
 	}
 	else{
@@ -632,16 +651,12 @@ EasyShape.prototype={
 		this.grid = {}; //an enclosing grid
 	},
 	
-
-
-	
 	constructFromGeoJSONPolygon: function(properties,coordinates){		
 		var newcoords = this._convertGeoJSONCoords(coordinates[0]);
 		this.constructBasicPolygon(properties,newcoords);
 				//we ignore any holes in the polygon (for time being.. coords[1][0..n], coords[2][0..n])
 	},
 	
-
 	_convertGeoJSONCoords: function(coords){
 
 		var res = [];
@@ -668,60 +683,6 @@ EasyShape.prototype={
 
 		return y;
 	},
-
-	constructFromSVGElement: function(SVGElement){
-		var type =SVGElement.tagName;
-		if(type == 'polygon') {
-			this.constructFromSVGPolygon(SVGElement);
-		}
-	},
-
-	constructFromSVGPolygon: function(svgpoly){
-		this.shape = "polygon";
-		this.coords = this._convertFromSVGCoords(svgpoly.getAttribute("points"));
-		this.properties = {};
-		this.properties.name = svgpoly.getAttribute("name")
-		this.properties.href= svgpoly.getAttribute("xlink");
-	
-		if(svgpoly.getAttribute("fill")) {
-			this.fillStyle = svgpoly.getAttribute("fill"); 
-			this.fill = true;
-		}
-		else {
-			this.fillStyle = "rgb(0,0,0)"; 
-			this.fill = false;
-		}
-		
-	},
-	_convertFromSVGCoords: function(SVGCoordinates){
-		var pointPairs = [];
-		
-		if(SVGCoordinates) {
-			SVGCoordinates = SVGCoordinates.replace(/^\s*(.*?)\s*$/, "$1");  
-			pointPairs = SVGCoordinates.split(" ");
-		}
-
-		var numPairs = pointPairs.length;
-		var points = [];
-
-		if(numPairs > 0) {
-
-		 	var coords, numCoords;
-
-			for(var i=0; i<numPairs; i++) {
-				coords = pointPairs[i].split(",");
-				numCoords = coords.length;
-				if(numCoords > 1) {
-					if(coords.length == 2)
-						coords[2] = null;
-				}
-				points[points.length] = coords[0];
-				points[points.length] = coords[1];
-			}
-		}
-		return points;
-
-	},	
 
 	// convert degrees to radians
 	_convertDegToRad: function(deg){
@@ -809,10 +770,7 @@ EasyShape.prototype={
 				xPos = lon;
 				yPos = lat;
 			}
-			//console.log("before",xPos,yPos);
-			
 
-						//console.log("after",xPos,yPos);
 			/* JRL - removing rotations about the z axis for now (it says y below, but should be z)
 			if(performRotate){
 				if(rotate.y){
@@ -828,10 +786,7 @@ EasyShape.prototype={
 				xPos = xPos + parseFloat(translation.x);
 				yPos = yPos + parseFloat(translation.y);
 			}
-			
-
-			
-			
+						
 			if(performScale){
 				xPos *= scaling.x;
 				yPos *= scaling.y;
@@ -843,7 +798,6 @@ EasyShape.prototype={
 			xPos += transformation.origin.x;
 			yPos +=transformation.origin.y;
 			}
-			//if(this.properties.center) yPos += this.properties.center.y;
 			
 			if(xPos < this.grid.x1) this.grid.x1 = xPos;
 			if(yPos < this.grid.y1) this.grid.y1 = yPos;	
@@ -868,195 +822,91 @@ EasyShape.prototype={
 			}
 		}
 
-		// JRL - is this line needed? why 3 coords? -
-		//JDLR says.. a polygon must have at least 3 coordinates. It's just preventing any invalid polygons from being added
-		if(this.transformedCoords.length < 3) this.transformedCoords = [0,0,0];
 	}
 };
 
 
-var EasyMapSVGUtils = function(){};
-
-EasyMapSVGUtils.prototype = {
-
-	createFeatureFromSVGPolygonElement: function(svgpoly){
-		
-		var f = {};
-		f.type = 'Feature';
-		f.geometry = {};
-		f.geometry.type = "MultiPolygon";
-		
-		//this.shape = "polygon";
-		f.geometry.coordinates = this._convertFromSVGPathCoords(svgpoly.getAttribute("points"));
-		f.properties = {};
-		
-		f.properties.name = svgpoly.getAttribute("name")
-		f.properties.href= svgpoly.getAttribute("xlink");
-	
-		if(svgpoly.getAttribute("fill")) {
-			f.properties.colour = svgpoly.getAttribute("fill"); 
-			f.properties.fill = true;
-		}
-		else {
-			f.properties.colour = "rgb(0,0,0)"; 
-			f.properties.fill = false;
-		}
-		
-		return f;
-		
-	},
-
-	
-	createFeatureFromSVGPathElement: function(svgpath){
-		
-		var f = {};
-		f.type = 'Feature';
-		
-		f.properties = {};
-		f.properties.colour = '#cccccc';
-		f.properties.fill = svgpath.getAttribute("fill"); 
-		f.properties.name = svgpath.getAttribute("id");
-		f.properties.href= svgpath.getAttribute("xlink");
-		f.geometry = {};
-		f.geometry.type = "MultiPolygon";
-		
-		var p =svgpath.getAttribute("d");
-		var t =svgpath.getAttribute("transform");
-		if(t) console.log(f.properties.name)
-		var coords = this._convertFromSVGPathCoords(p,t);
-		//console.log(coords[0].length,f.properties.name,f);
-		//if(coords[0].length == 1)console.log(coords[0]);
-		f.geometry.coordinates = coords;
-		return f;
-	},
-
-	createFeaturesFromSVGPolygonElements: function(polys){
-		var res = [];
-		for(var i=0; i< polys.length; i++){
-			var el = polys[i];
-			res.push(this.createFeatureFromSVGPolygonElement(el));
-		}
-		return res;
-	},	
-	
-	createFeaturesFromSVGPathElements: function(paths){
-		var res = [];
-		for(var i=0; i< paths.length; i++){
-			var el = paths[i];
-			var f=this.createFeatureFromSVGPathElement(el);
-			//if(f.geometry.coordinates[0].length >0)
-			res.push(f);
-		}
-		return res;
-	},
-
-	_convertFromSVGPathCoords: function(SVGCoordinates,transformation){
-		//transformation in form matrix(0.5,0,0,0.5,-180,0)
-		var matrix =[];
-		if(transformation){
-			if(transformation.indexOf("matrix") > -1){ //matrix given!
-				transformation=transformation.replace("matrix(","");
-				transformation=transformation.replace(")","");
-				transformation=transformation.replace(" ", "");
-				var matrix  = transformation.split(",");
-				console.log("matrix", matrix);
-				console.log(matrix[4], matrix[5]);
-			}
-			else{
-				console.log(transformation);
-			}
-		}
-		var pointPairs = [];
-		
-		if(SVGCoordinates) {
-			SVGCoordinates = SVGCoordinates.replace(/^\s*(.*?)\s*$/, "$1"); 
-			pointPairs = SVGCoordinates.split(" ");
-		}
-
-		var numPairs = pointPairs.length;
-		var points = [[]];
-		var polyc = [];
-		if(numPairs > 0) {
-
-		 	var coords, numCoords;
-
-			for(var i=0; i<numPairs; i++) {
-				var pair = pointPairs[i];
-				//console.log(pair);
-								pair = pair.replace(" ",""); //unnecessary whitespace
-								pair = pair.replace("M",""); //move to
-									pair = pair.replace("m",""); //move to
-								pair = pair.replace("L",""); //line to
-									pair = pair.replace("l",""); //line to
-								pair = pair.replace("C",""); //curve
-													pair = pair.replace("c",""); //curve
-				//if(pair.indexOf("z") > -1) console.log(pair,pair.indexOf("z"));
-				if(pair.indexOf("z") ==0){
-					points[0].push(polyc);
-					polyc = [];
-					pair = pair.replace("z",""); //close path		
-				} 
-				
-
-				if(pair.length > 0){				
-					coords = pair.split(",");
-					numCoords = coords.length;
-					var x =coords[0];
-					var y=coords[1];
-					if(matrix.length == 6){
-						var ox = x, oy=y;
-						x = (ox * matrix[0]) +  (ox * matrix[2]);
-						y = (oy * -matrix[1]) +  (oy * matrix[3]);
-
-						//+ (-y * -matrix[5]); 
-					}
-					//if(typeof x == 'number' && typeof y == 'number')
-					polyc.push([x,-y]);
-				
-				}
-
-			}
-		}
-		if(polyc.length >0) points[0].push(polyc);
-		return points;
-	}	
-};
+/*
+Some common utils used throughout package */
 var EasyMapUtils = function(wrapper){
 	this.wrapper = wrapper;
 };
 EasyMapUtils.prototype = {
-	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){
-		//construct a geo element!
-		/*for(var i=0; i < paths.length; i++){
-			var path = paths[i];
-					}*/
-					
+	fitgeojsontocanvas: function(json,canvas){
+		var view ={};
+		var f =json.features;
+		for(var i=0; i < f.length; i++){
+			var c = f[i].geometry.coordinates;
+			for(var j=0; j < c.length; j++ ){
+				for(var k=0; k < c[j].length; k++){
+					for(var l=0; l < c[j][k].length;l++){
+						var x =c[j][k][l][0];
+						var y = c[j][k][l][1];
+						if(!view.x1 || x <view.x1) {
+							view.x1 = x;
+						}
+						else if(!view.x2 || x >view.x2) {
+							view.x2 = x;
+						}
+						
+						if(!view.y1 || y <view.y1) {
+							view.y1 = y;
+						}
+						else if(!view.y2 || y >view.y2) {
+							view.y2 = y;
+						}
+
+					}
+						
+				}
+				
+			}
+		}
+		if(!json.transform) json.transform ={};
+		if(!json.transform.scale) json.transform.scale = {};
+		if(!json.transform.translate) json.transform.translate = {};
+		var canvasx =		parseFloat(canvas.width);
+		var canvasy =parseFloat(canvas.height);
+		view.center = {};
+		view.width = (view.x2 - view.x1);
+		view.height = (view.y2 - view.y1)
+		view.center.x = view.x2 - (view.width/2);
+		view.center.y = view.y2 - (view.height/2);
+		console.log(view.center.y, view.height);
+		var scale = 1,temp;
+		var tempx = parseFloat(canvasx/view.width);
+		var tempy = parseFloat(canvasy/view.height);
+
+		if(tempx < tempy) temp = tempx; else temp = tempy;
+		json.transform.scale.x = temp;
+		json.transform.scale.y = temp;
+
+
+		
+		json.transform.translate.x = -view.center.x;
+		json.transform.translate.y = view.center.y;//view.center.y;
+						console.log(view,json.transform);		
+		return json;
+	},
+	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
 		var svgu = new EasyMapSVGUtils();
 		var res = new Object();
 		res.type = "FeatureCollection";
 		res.features = [];
+
+		var objs = xml.getElementsByTagName("svg:polygon");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
+		objs = xml.getElementsByTagName("polygon");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
+		objs =xml.getElementsByTagName("svg:path");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
+		objs =xml.getElementsByTagName("path");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
+		res.transform = {};
+		res.transform.translate = {'x':0, 'y':0};
+		res.transform.scale = {'x':1, 'y':1};
 		
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(xml.getElementsByTagName("polygon")));
-		//var paths =xml.getElementsByTagName("svg:path");
-		//if(paths)res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(paths));
-		//var paths =xml.getElementsByTagName("path");
-		//if(paths)res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(xml.getElementsByTagName("path")));
-		//res.transform = {};
-		//res.transform.translate = {};
-
-		var offsetx =		parseFloat(canvas.width) /2;
-		var offsety =parseFloat(canvas.height) / 2;
-		offsetx = -50000;
-		offsety = -50000;
-		//res.transform = {'scale':{'x':0.003,'y':0.003}, 'translate': {'x':offsetx,'y':offsety}};
-
-		//offsety = -82000;
-		//offsetx = -185820;
-		//offsety = -76293.5;
-
-		//res.transform.translate.x =offsetx;
-		//res.transform.translate.y =  offsety;
-		console.log(res);
+		res = this.fitgeojsontocanvas(res,canvas)
 		return res;
 	},
 	_testCanvas: function(ctx){
@@ -1165,21 +1015,7 @@ EasyMapUtils.prototype = {
 				return hits[closerEdge.id];
 			}
 			
-			/*
-			var g = hits[0].grid;
-			var area = (g.x2 - g.x1) * (g.y2 - g.y1);
-			var smallestPoly = {id:0, size:area};
-			for(var i=1; i < hits.length; i++){
-				g = hits[i].grid;
-				area = (g.x2 - g.x1) * (g.y2 - g.y1);
-				if(smallestPoly.size > area) {
-					smallestPoly.id = i; smallestPoly.size = area;
-				}
-				return hits[smallestPoly.id];
-			}
-			*/
-
-	}
+		}
 
 	},
                      
@@ -1301,4 +1137,147 @@ EasyMapUtils.prototype = {
 
 		return doc;	
 	}
+};
+
+
+/*
+SVG targeted functions withe goal to convert to a geojson structure
+*/
+var EasyMapSVGUtils = function(){};
+
+EasyMapSVGUtils.prototype = {
+	createFeatureFromSVGPolygonElement: function(svgpoly){
+		
+		var f = {};
+		f.type = 'Feature';
+		f.geometry = {};
+		f.geometry.type = "MultiPolygon";
+		
+		//this.shape = "polygon";
+		f.geometry.coordinates = this._convertFromSVGPathCoords(svgpoly.getAttribute("points"));
+		f.properties = {};
+		
+		f.properties.name = svgpoly.getAttribute("name")
+		f.properties.href= svgpoly.getAttribute("xlink");
+	
+		if(svgpoly.getAttribute("fill")) {
+			f.properties.colour = svgpoly.getAttribute("fill"); 
+			f.properties.fill = true;
+		}
+		else {
+			f.properties.colour = "rgb(0,0,0)"; 
+			f.properties.fill = false;
+		}
+		
+		return f;
+		
+	},	
+	createFeatureFromSVGPathElement: function(svgpath){
+		
+		var f = {};
+		f.type = 'Feature';
+		
+		f.properties = {};
+		f.properties.colour = '#cccccc';
+		f.properties.fill = svgpath.getAttribute("fill"); 
+		f.properties.name = svgpath.getAttribute("id");
+		f.properties.href= svgpath.getAttribute("xlink");
+		f.geometry = {};
+		f.geometry.type = "MultiPolygon";
+		
+		var p =svgpath.getAttribute("d");
+		var t =svgpath.getAttribute("transform");
+		if(t) console.log(f.properties.name)
+		var coords = this._convertFromSVGPathCoords(p,t);
+		//console.log(coords[0].length,f.properties.name,f);
+		//if(coords[0].length == 1)console.log(coords[0]);
+		f.geometry.coordinates = coords;
+		return f;
+	},
+	createFeaturesFromSVGPolygonElements: function(polys){
+		var res = [];
+		for(var i=0; i< polys.length; i++){
+			var el = polys[i];
+			res.push(this.createFeatureFromSVGPolygonElement(el));
+		}
+		return res;
+	},		
+	createFeaturesFromSVGPathElements: function(paths){
+		var res = [];
+		for(var i=0; i< paths.length; i++){
+			var el = paths[i];
+			var f=this.createFeatureFromSVGPathElement(el);
+			//if(f.geometry.coordinates[0].length >0)
+			res.push(f);
+		}
+		return res;
+	},
+	_convertFromSVGPathCoords: function(SVGCoordinates,transformation){
+		//transformation in form matrix(0.5,0,0,0.5,-180,0)
+		var matrix =[];
+		if(transformation){
+			if(transformation.indexOf("matrix") > -1){ //matrix given!
+				transformation=transformation.replace("matrix(","");
+				transformation=transformation.replace(")","");
+				transformation=transformation.replace(" ", "");
+				var matrix  = transformation.split(",");
+			}
+		}
+		var pointPairs = [];
+		
+		if(SVGCoordinates) {
+			SVGCoordinates = SVGCoordinates.replace(/^\s*(.*?)\s*$/, "$1"); 
+			pointPairs = SVGCoordinates.split(" ");
+		}
+
+		var numPairs = pointPairs.length;
+		var points = [[]];
+		var polyc = [];
+		if(numPairs > 0) {
+
+		 	var coords, numCoords;
+
+			for(var i=0; i<numPairs; i++) {
+				var pair = pointPairs[i];
+				//console.log(pair);
+				pair = pair.replace(" ",""); //unnecessary whitespace
+				pair = pair.replace("M",""); //move to
+				pair = pair.replace("m",""); //move to
+				pair = pair.replace("L",""); //line to
+				pair = pair.replace("l",""); //line to
+				pair = pair.replace("C",""); //curve
+									pair = pair.replace("c",""); //curve
+				//if(pair.indexOf("z") > -1) console.log(pair,pair.indexOf("z"));
+				if(pair.indexOf("z") ==0){
+					points[0].push(polyc);
+					polyc = [];
+				//	pair = pair.replace("z",""); //close path		
+				} 
+					pair = pair.replace("z",""); //close path			
+		
+				if(pair.length > 0){				
+					coords = pair.split(",");
+					
+					if(coords.length == 2 && pair.search(/[a-z]|[A-Z]/)== -1){					
+						numCoords = coords.length;
+						var x =parseInt(coords[0]);
+						var y=parseInt(coords[1]);
+						if(matrix.length == 6){
+							var ox = x, oy=y;
+							x = parseInt((ox * matrix[0]) +   matrix[4]);
+							y = parseInt(oy * matrix[3]);
+						}
+						//console.log(x,y);
+						if(typeof x == 'number' && typeof y =='number')	polyc.push([x,-y]);
+					}
+					else{
+						//console.log("read error!");	
+					} 
+				}
+
+			}
+		}
+		if(polyc.length >0) points[0].push(polyc);
+		return points;
+	}	
 };
