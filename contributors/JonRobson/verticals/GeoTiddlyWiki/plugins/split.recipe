@@ -2,5 +2,5 @@ tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: $TW_ROOT/contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 //tiddler: canvasMapsPlugin.js GeoTiddlerMetaData.js
 
-
+tiddler: countries.js
 tiddler: geoTiddlerPlugin.js GeoTiddlerMetaData.js ../../../plugins/WorldMaps/canvasMaps3D.js ../../../plugins/WorldMaps/ieHack.js ../../../plugins/WorldMaps/jquery.js

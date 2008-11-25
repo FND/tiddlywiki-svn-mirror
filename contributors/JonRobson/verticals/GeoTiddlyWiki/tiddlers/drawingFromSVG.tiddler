@@ -1,9 +1,9 @@
 <div title="SVGExample" created="200811041153" modifier="JonRobson">
 <pre>
-Specify a tiddler with svg data in it (and tag it svg)..
+You can load directly from an svg file
 <<canvasMaps source:europe.svg>>
 
-..or load from an svg file.
-<<canvasMaps source:svgexample.svg>>
+Or you can specify a tiddler with svg data in it (and tag it svg).. see [[Sample SVG]]
+
 </pre>
 </div>

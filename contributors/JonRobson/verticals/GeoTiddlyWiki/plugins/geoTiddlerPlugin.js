@@ -45,7 +45,6 @@ config.macros.canvasMaps.getCoreGeoJson = function(sourcetiddler){
 		alert("please define a geojson in tiddler '"+sourcetiddler +"'")
 	}
 
-	
 	//look for any changes in meta data
 	//coming soon
 	
@@ -97,21 +96,11 @@ config.macros.canvasMaps.getCoreGeoJson = function(sourcetiddler){
 };
 
 config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
-		
-	// horrible hacked method to make sure excanvas has loaded - this should not be in this plugin
-/*
-	if (!document.createElement('canvas').getContext && !window.G_vmlCanvasManager) {
-		//alert('not loaded');
-		var that = this;
-		var args = arguments;
-		var func = function() {
-			config.macros.canvasMaps.handler.apply(that,args);
-		};
-		return window.setTimeout(func,300);
-	} else {
-		*/
+		var prms = paramString.parseParams(null, null, true);
 		var wrapper = createTiddlyElement(place,"div","wrapper","wrapper");
+		wrapper.style.position = "relative";
+		if(getParam(prms,"width"))wrapper.style.width = getParam(prms,"width")+"px";
+		if(getParam(prms,"height"))wrapper.style.height = getParam(prms,"height")+"px";		
 		var statustext = createTiddlyElement(wrapper,"div","wrapper_statustext");
 		createTiddlyText(statustext,"loading... please wait a little while!");
 		var caption = createTiddlyElement(place,"div","caption","caption");
@@ -153,7 +142,7 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		};
 
 		
-		var prms = paramString.parseParams(null, null, true);
+
 		var source = null;
 		if(getParam(prms,"source")) source = getParam(prms,"source");
 		
