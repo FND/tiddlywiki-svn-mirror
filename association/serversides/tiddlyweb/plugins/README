@@ -1,0 +1,10 @@
+A suite of tools that make creating and handling plugins
+in TiddlyWeb a bit more sensible.
+
+Essentially this is a way to raise duplication to a common
+core without encumbering the TiddlyWeb core.
+
+Contact <cdent@peermore.com> or the TiddlyWikiDev Google
+Group for more information:
+
+    http://groups.google.com/group/TiddlyWikiDev
