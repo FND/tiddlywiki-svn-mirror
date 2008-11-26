@@ -53,7 +53,7 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 	} else {
 		//console.log('loaded');
 		var wrapper = createTiddlyElement(place,"div","wrapper");
-		wrapper.style.width = "800px";
+		wrapper.style.width = "500px";
 		wrapper.style.height = "400px";
 		wrapper.style.position = "relative";
 		var caption = createTiddlyElement(wrapper,"div","caption");
@@ -62,9 +62,6 @@ config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,para
 		var eMap = new EasyMap('wrapper');
 		eMap.addControl('pan');
 		eMap.addControl('zoom');
-		//eMap.scale.x = 1.8;
-		//eMap.scale.y = 1.8;
-		//eMap.translate.x = 1;
 		
 		var that = eMap;
 		var myElement = document.getElementById('caption');
