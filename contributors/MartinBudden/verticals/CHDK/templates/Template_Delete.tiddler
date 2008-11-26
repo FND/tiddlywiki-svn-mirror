@@ -1,0 +1,15 @@
+<div title="Template:Delete" modifier="GrAnd" created="200811261358" modified="200710230702" tags="[[Category:Candidates for deletion]]" server.host="chdk.wikia.com" server.page.timestamp="2007-10-23T07:02:52Z" server.page.revision="6066" wikiformat="mediawiki">
+<pre><div name="Deletion notice" class="boilerplate metadata" id="delete" style="background-color: #fee; margin: 0 1em; padding: 0 10px; border: 1px solid #aaa;">
+'''This page is a candidate for deletion.''' {{ #if: {{{1|}}} | <br>'''Reason:''' {{{1}}} }}
+
+If you disagree with its deletion, please explain why at [[Category talk:Candidates for deletion]] or improve the page and remove the <nowiki>{{delete}}</nowiki> tag.
+
+Remember to check [[Special:Whatlinkshere/{{NAMESPACE}}:{{PAGENAME}}|what links here]] and the [{{SERVER}}{{localurl:{{NAMESPACE}}:{{PAGENAME}}|action=history}} the page history] before deleting.
+</div><br/>
+<noinclude>
+'''To use this template, type <nowiki>{{Delete}}</nowiki> on the page to be deleted.'''
+</noinclude>
+<includeonly>
+[[Category:Candidates for deletion]]
+</includeonly></pre>
+</div>

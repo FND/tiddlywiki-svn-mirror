@@ -1,0 +1,12 @@
+<div title="Template:Cc-by" modifier="Default" created="200811261358" modified="200612260020" tags="[[Category:Copyright tags]]" server.host="chdk.wikia.com" server.page.timestamp="2006-12-26T00:20:37Z" server.page.revision="2434" wikiformat="mediawiki">
+<pre><center>
+<div class="boilerplate" id="cc-by" style="width: 90%; margin: 0 auto; text-align: justify; background: #F8F8F8; padding: 0 10px; border: 1px solid #A8ACA8;">
+''[[Media:{{PAGENAME}}|This file]]  is licensed under [[Wikipedia:Creative Commons|Creative Commons]] Attribution 2.5 License: http://creativecommons.org/licenses/by/2.5/''
+</div>
+</center>
+<includeonly>[[Category:CC-BY files|{{PAGENAME}}]]</includeonly>
+<noinclude>[[Category:Copyright tags]]</noinclude>
+<br /><noinclude>
+'''To use this template, type <nowiki>{{Cc-by}}</nowiki> on the image information page'''
+</noinclude></pre>
+</div>

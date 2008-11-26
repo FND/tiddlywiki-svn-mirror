@@ -1,0 +1,12 @@
+<div title="Template:No license" modifier="Default" created="200811261358" modified="200609251246" tags="[[Category:Copyright tags]]" server.host="chdk.wikia.com" server.page.timestamp="2006-09-25T12:46:36Z" server.page.revision="2105" wikiformat="mediawiki">
+<pre><center>
+<div class="boilerplate" id="pd" style="width: 90%; margin: 0 auto; text-align: justify; background: #FFFFFF; padding: 20px; border: 5px solid #ee0000;">
+''[[Media:{{PAGENAME}}|This file]]  '''does not have information on its [[Wikipedia:Copyrights|copyright]] status'''.  Unless the copyright status is provided, it may be deleted.
+</div>
+</center>
+<includeonly> [[Category:Files with unknown copyright status|{{PAGENAME}}]]</includeonly>
+<noinclude>[[Category:Copyright tags]]</noinclude>
+<br /><noinclude>
+'''This template is added when no license template is selected on uploading images or other files'''
+</noinclude></pre>
+</div>

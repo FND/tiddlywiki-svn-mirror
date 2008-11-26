@@ -1,0 +1,12 @@
+<div title="Template:CopyrightedFreeUseProvidedThat" modifier="Default" created="200811261358" modified="200609251148" tags="[[Category:Copyright tags]]" server.host="chdk.wikia.com" server.page.timestamp="2006-09-25T11:48:55Z" server.page.revision="2086" wikiformat="mediawiki">
+<pre><center>
+<div class="boilerplate" id="c-freeuse-pt" style="width: 90%; margin: 0 auto; text-align: justify; background: #FFFFCC; padding: 0 10px; border: 1px solid #A8ACA8;">
+''[[Media:{{PAGENAME}}|This file]]  is [[Wikipedia:Copyright|copyrighted]].  The copyright holder of this file allows anyone to use it '''for any purpose, provided that''' {{{1}}}.''
+</div>
+</center>
+<includeonly>[[Category:Conditional copyrighted free use files|{{PAGENAME}}]]</includeonly>
+<noinclude>[[Category:Copyright tags]]</noinclude>
+<br /><noinclude>
+'''To use this template, type <nowiki>{{CopyrightedFreeUseProvidedThat|condition}}</nowiki> on the image information page.  "Condition" should be replaced with the conditions for use.'''
+</noinclude></pre>
+</div>

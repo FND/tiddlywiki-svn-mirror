@@ -1,0 +1,46 @@
+<div title="Template:THANKS:Header" modifier="GrAnd" created="200811261358" modified="200803171001" server.host="chdk.wikia.com" server.page.timestamp="2008-03-17T10:01:59Z" server.page.revision="8587" wikiformat="mediawiki">
+<pre>{|style="width:100%;margin-top:+.7em;background-color:#fcfcfc;border:1px solid #ccc"
+|style="text-align:left;color:#000" |
+<div style="font-size:100%;border:none;margin: 0;padding:.1em;">
+CHDK has to be one of the most innovative improvements to any cameras that has ever come along since the beginning of photography. Started out by some people who only wanted RAW out of their raw-crippled cameras, it has now grown into one of the most adaptable, flexible, and full-featured operating systems of any cameras ever made. I for one am extremely grateful for the work that everyone has put into this arena of discovery, implementation, coding, sharing, and those that provide all the information on these Wiki pages (and elsewhere in the world). I also think that those who have contributed to this great stride in the world of photography deserve a huge vote of thanks. Words cannot express how grateful some of us are to these people. But maybe they can help. Please share yours here.
+ 
+'''[http://chdk.wikia.com/index.php?title=Template:THANKS&action=edit&section=new Post a new comment]''' if you too wish to express your thanks and gratitude for all those that have helped to make CHDK what it is today.
+</div>
+|}
+
+{|style="width:100%;margin-top:+.7em;background-color:#f5fffa;border:1px solid #a5bfca;"
+|style="text-align:left;color:#000" |
+
+<div style="font-size:100%;border:none;margin: 0;padding:.1em;">
+In special consideration, I personally would like to thank:
+
+'''Vitaly''' for his initial discoveries into the operating system of these cameras. And being the first to fly the kite across the canyon that allowed everyone else to attach their cables to his kite-line to build the CHDK bridge we see today.
+
+'''GrAnd''', for his amazing implementation of what Vitaly discovered. The main backbone to the CHDK that we have now. Including his efforts for starting this whole Wiki section where we might all learn from them and everyone else.
+
+'''owenjm''', for his initial help and suggestions with so many things (Y-RGB histograms for just one) well as some of his own special builds that greatly improve on some of the original functions.
+
+'''Harvester''', for his HUGE help on the Wiki in so many areas, and helping to find so many errors that some of us made (names omitted to protect the guilty) :-)
+
+'''[mr.anon]''', for his outstanding contribution to testing builds, writing and testing a lot of useful (and popular) scripts. For his huge effort on creating articles and topics for this wiki, making suggestions, providing feedback and helping other people through various forums discussions. A note of mention for his "accidental" discovery while testing various builds that these cameras could reach shutter-speeds once thought unattainable before, that discovery now implemented by the more knowledgeable code authors.
+
+'''MX3''', for his remarkable and extraordinary Motion-Detection addition. This one still leaves me in awe.
+
+'''Fingalo''', for his continued effort to supply some much needed improvements and more efficient methods to the uBASIC syntax and fixing problems that show up. As well as providing up-to-date builds with these new features. Most recently his using EWAVR's excellent code to be able to easily increase the shutter speeds not just as low as 65", but now up to a mind-boggling 1/10,000th of a second shutter speed, with flash-sync included!
+
+'''EWAVR/Zosim''', for his extremely useful USB Remote Cable-Release discovery. (Three cheers for this one!) And for helping to make the USB-Remote code available to others. Also for discovering a new method of getting dump of firmware and his continuing effort on porting CHDK to Digic III. Another round of applause for finding a way to beat the 1-gig video limit add 1-99 levels of video compression in two flavors, as well as his remarkable discovery on a way to give all of us 6 new shutter-speeds from 20-65 seconds and high-speed continuous Tv bracketing! His code now being used to include speeds up to 1/10,000th second!
+
+'''acseven''', for providing us with the new and much easier to use [http://chdk.setepontos.com/index.php CHDK Discussion Forum]. Trying to communicate with each other over so many diverse languages, needs, camera models, and interests is a task that I daresay even most corporations can't handle well. His contribution is going to benefit us so much in this effort to only make CHDK more accessible to everyone.
+
+'''AllBest''', a late-comer to the scene but someone who will also be deep in our debt, for providing a CHDK with features that surpass all expectations. His work being a summation of all those that came before him, with his own unique features that aren't found in any other builds so far. AllBest sums it up well, his build includes the '''best''' from '''all''' builds.
+
+'''Script Authors''', thank you for providing some ready-made examples from which we might learn on our own, or to use your scripts just as they are. Your scripts help make our cameras into some of the most remarkable cameras on the face of this earth. As well as giving us new ideas to use our cameras in ways we hadn't even considered before.
+
+And to the rest of you (that I don't remember at the moment, someone please add them if you do). I think I can safely say that '''WE ALL''' appreciate and applaud how much you have done on behalf of advancements in the world of photography.
+
+Last but not least, a special thanks to you Wiki editors, that have documented, compiled, cross-referenced, and tried to make some sense of the overwhelming amount of information from so many areas of the internet, and yet somehow found a way to present it so that most anyone can make full use of CHDK. With special mention to '''Divalent''', a late-comer to the volunteers, for his extensive exploring, testing, and checking of all the Prop_ID values that have heretofore gone undocumented, increasing the usefulness of CHDK even more, as well as his extensive help in keeping updates and additions in check on these Wikia pages. '''THANK-YOU'''.
+
+(If any of the above information for names and timeline is wrong, please forgive me and make the above information more accurate. This is what I have seen happen as I started to follow the development of CHDK from early on, but might be in error on some of it.)
+</div>
+|}</pre>
+</div>

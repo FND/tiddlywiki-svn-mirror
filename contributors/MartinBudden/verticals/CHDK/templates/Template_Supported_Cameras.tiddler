@@ -1,0 +1,53 @@
+<div title="Template:Supported Cameras" modifier="Fe50" created="200811261358" modified="200811240900" server.host="chdk.wikia.com" server.page.timestamp="2008-11-24T09:00:11Z" server.page.revision="13246" wikiformat="mediawiki">
+<pre>The [http://mighty-hoernsche.de/ autobuild] hosts these versions:
+* {{color|#8B2323|<u>Camera:</u>}} {{color|#008000|<u>Firmware Versions</u>}}
+* [[A450]]: '''{{color|#008000|1.00d}}'''
+* [[A460]]: '''{{color|#008000|1.00d}}'''
+* [[A530]]: '''{{color|#008000|1.00a}}'''
+* [[A540]]: '''{{color|#008000|1.00b}}'''
+* [[A550]]: '''{{color|#008000|1.00c}}'''
+* [[A560]]: '''{{color|#008000|1.00a}}'''
+* [[A570 IS|A570]]: '''{{color|#008000|1.00e}}''', '''{{color|#008000|1.01a}}'''
+* [[A590IS|A590]]: '''{{color|#008000|1.00e}}''', '''{{color|#008000|1.01b}}'''
+* [[A610]]: '''{{color|#008000|1.00e}}''', '''{{color|#008000|1.00f}}''', '''{{color|#008000|1.00d}}''' *<small>1</small>
+* [[A620]]: '''{{color|#008000|1.00f}}''', {{color|#800000|1.00e}} *<small>9</small> 
+* [[A630]]: '''{{color|#008000|1.00c}}'''
+* [[A640]]: '''{{color|#008000|1.00b}}'''
+* [[A650IS|A650]]: '''{{color|#008000|1.00d}}'''
+* [[A700]]: '''{{color|#008000|1.00b}}'''
+* [[A710IS|A710]]: '''{{color|#008000|1.00a}}'''
+* [[A720IS|A720]]: '''{{color|#008000|1.00c}}'''
+* [[S2IS|S2]]: '''{{color|#008000|1.00e}}''', '''{{color|#008000|1.00f}}''', '''{{color|#008000|1.00g}}''', '''{{color|#008000|1.00i}}''' *<small>2</small>
+* [[S3IS|S3]]: '''{{color|#008000|1.00a}}'''
+* [[S5IS|S5]]: '''{{color|#008000|1.01a}}''' '''{{color|#008000|1.01b}}'''
+* [[G7]]: '''{{color|#008000|1.00e}}''', '''{{color|#008000|1.00g}}''', '''{{color|#008000|1.00i}}''', '''{{color|#008000|1.00j}}'''
+* [[G9]]: '''{{color|#008000|1.00d}}''','''{{color|#008000|1.00g}}''', '''{{color|#008000|1.00f}}''' *<small>7</small>
+* [[SD300|SD300 (IXUS 40)]]: '''{{color|#008000|1.00j}}''', '''{{color|#008000|1.00k}}'''
+* [[SD400|SD400 (IXUS 50)]]: '''{{color|#008000|1.01a}}''', '''{{color|#008000|1.01b}}'''
+* [[SD450|SD450 (IXUS 55)]]: '''{{color|#008000|1.00b}}''', '''{{color|#008000|1.00c}}''', '''{{color|#008000|1.00d}}'''
+* [[SD500|SD500 (IXUS 700)]]: '''{{color|#008000|1.01a}}''', '''{{color|#008000|1.01b}}'''
+* [[SD550|SD550 (IXUS 750)]]: '''{{color|#008000|1.00f}}''', '''{{color|#008000|1.00g}}'''
+* [[SD600|SD600 (IXUS 60)]]: '''{{color|#008000|1.00a}}''', '''{{color|#008000|1.00d}}''' ([[SD600#Beta_1|beta]])
+* [[SD630|SD630 (IXUS 65)]]: '''{{color|#008000|1.00a}}'''
+* [[SD700IS|SD700 (IXUS 800)]]: '''{{color|#008000|1.00b}}''', '''{{color|#008000|1.01b}}''', '''{{color|#008000|1.01a}}''' *<small>3</small>
+* [[SD750|SD750 (IXUS 75)]]: '''{{color|#008000|1.00b}}''','''{{color|#008000|1.02a}}''','''{{color|#008000|1.01a}}''', '''{{color|#008000|1.01b}}''' *<small>4</small>
+* [[SD800IS|SD800 (IXUS 850)]]: '''{{color|#008000|1.00e}}''', '''{{color|#008000|1.00d}}''' *<small>5</small>
+* [[SD850IS|SD850 (IXUS 950)]]: '''{{color|#008000|1.00c}}'''
+* [[SD870IS|SD870 (IXUS 860)]]: '''{{color|#008000|1.00c}}'''
+* [[IXUS960IS|SD950 (IXUS 960)]]: '''{{color|#008000|1.00d}}'''
+* [[SD1000|SD1000 (IXUS 70)]]: '''{{color|#008000|1.00c}}''','''{{color|#008000|1.01b}}''','''{{color|#008000|1.02a}}''','''{{color|#008000|1.01a}}'''*<small>6</small>
+* [[SD1100IS|SD1100 (IXUS 80)]]: '''{{color|#008000|1.00c}}''', '''{{color|#008000|1.01a}}''', '''{{color|#008000|1.01b}}''' *<small>8</small>
+* [[SX100IS | SX100]]: '''{{color|#008000|1.00b}}''', '''{{color|#008000|1.00c}}''' 
+* [[TX1]]: '''{{color|#008000|1.00g}}''', '''{{color|#008000|1.01b}}'''
+
+<small>'''*1''' - 1.00d with CHDK version for 1.00e</small><br>
+<small>'''*2''' - 1.00i with CHDK version for 1.00g</small><br>
+<small>'''*3''' - 1.01a with CHDK version for 1.01b</small><br>
+<small>'''*4''' - 1.01b with CHDK version for 1.01a</small><br>
+<small>'''*5''' - 1.00d with CHDK version for 1.00e</small><br>
+<small>'''*6''' - 1.01a with CHDK version for 1.01b</small><br>
+<small>'''*7''' - 1.00f with CHDK version for 1.00g</small><br>
+<small>'''*8''' - 1.01b with CHDK version for 1.01a</small><br>
+<small>'''&nbsp; →''' the [http://mighty-hoernsche.de/ autobuild] already has these versions for download</small><br>
+<small>'''*9''' 1.00e is not compatible, update to [http://chdk.wikia.com/wiki/FAQ#Q._How_can_I_update_the_original_Canon_firmware.3F 1.00f]</small></pre>
+</div>

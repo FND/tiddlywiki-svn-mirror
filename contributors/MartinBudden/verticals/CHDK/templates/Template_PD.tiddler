@@ -1,0 +1,12 @@
+<div title="Template:PD" modifier="Default" created="200811261358" modified="200609251148" tags="[[Category:Copyright tags]]" server.host="chdk.wikia.com" server.page.timestamp="2006-09-25T11:48:15Z" server.page.revision="2080" wikiformat="mediawiki">
+<pre><center>
+<div class="boilerplate" id="pd" style="width: 90%; margin: 0 auto; text-align: justify; background: #F1F1DE; padding: 0 10px; border: 1px solid #A8ACA8;">
+''[[Media:{{PAGENAME}}|This file]]  has been released into the '''[[Wikipedia:Public domain|public domain]]''' by the copyright holder, its copyright has expired, or it is ineligible for copyright. This applies worldwide.''
+</div>
+</center>
+<includeonly> [[Category:Public domain files|{{PAGENAME}}]]</includeonly>
+<noinclude>[[Category:Copyright tags]]</noinclude>
+<br /><noinclude>
+'''To use this template, type <nowiki>{{PD}}</nowiki> on the image information page'''
+</noinclude></pre>
+</div>

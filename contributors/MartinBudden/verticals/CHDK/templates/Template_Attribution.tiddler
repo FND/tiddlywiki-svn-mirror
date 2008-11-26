@@ -1,0 +1,12 @@
+<div title="Template:Attribution" modifier="Default" created="200811261358" modified="200609251148" tags="[[Category:Copyright tags]]" server.host="chdk.wikia.com" server.page.timestamp="2006-09-25T11:48:17Z" server.page.revision="2081" wikiformat="mediawiki">
+<pre><center>
+<div class="boilerplate" id="c-attrib" style="width: 90%; margin: 0 auto; text-align: justify; background: #FFFFCC; padding: 0 10px; border: 1px solid #A8ACA8;">
+''[[Media:{{PAGENAME}}|This file]]  is [[Wikipedia:Copyright|copyrighted]].  The copyright holder allows anyone to use this file for any purpose, provided the copyright holder is properly attributed.''
+</div>
+</center>
+<includeonly>[[Category:Files requiring attribution|{{PAGENAME}}]]</includeonly>
+<noinclude>[[Category:Copyright tags]]</noinclude>
+<br /><noinclude>
+'''To use this template, type <nowiki>{{Attribution}}</nowiki> on the image information page'''
+</noinclude></pre>
+</div>

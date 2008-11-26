@@ -1,0 +1,27 @@
+<div title="Template:Welcome" modifier="Angela" created="200811261358" modified="200805180531" server.host="chdk.wikia.com" server.page.timestamp="2008-05-18T05:31:30Z" server.page.revision="9684" wikiformat="mediawiki">
+<pre>==Hi there!==
+[[Image:Wiki.png|thumb|Welcome to the [[CHDK|CHDK Wiki]]!]]
+Welcome to the [[CHDK]] wiki, and thank you for [[Special:Contributions/{{PAGENAME}}|your contributions]]! There's a lot to do around here, so I hope you'll stay with us and make many more improvements.
+
+:If you're new to CHDK, you can read the [[FAQ]], find out about [[downloads|downloading CHDK]], or get a summary of [[CHDK in Brief|what CHDK is]].
+
+:'''[[Special:Recentchanges|Recent changes]]''' is a great first stop, because you can see what other people are editing right this minute, and where you can help.
+
+:'''Need help?'''  Explore the [[Help:Contents|help section]], ask a question at the [[Forum:Help desk|Help desk]], or post a message on [[User talk:{{{1}}}|my talk page]]!
+
+:If you're wondering '''what to edit''', why not make sure the [[Special:Mostvisitedpages|most visited pages]] are complete or expand some of the [[Special:Shortpages|shortest pages]]?
+
+I'm really happy to have you here, and look forward to working with you!
+
+:{{{2}}}
+
+
+<noinclude>
+
+==Using this template==
+To welcome a new user, add this to the user's talk page:
+
+<nowiki>{{subst:welcome | YourUsername | ~~~~}} </nowiki>
+
+</noinclude></pre>
+</div>

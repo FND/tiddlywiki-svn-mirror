@@ -1,0 +1,8 @@
+<div title="Template:Scaps" modifier="Fe50" created="200811261358" modified="200809111141" server.host="chdk.wikia.com" server.page.timestamp="2008-09-11T11:41:03Z" server.page.revision="12079" wikiformat="mediawiki">
+<pre><span style="font-variant:small-caps">{{{1|formats text in small caps}}}</span><noinclude>[[Category:Templates|{{PAGENAME}}]]</noinclude><!-- 
+
+<noinclude>Use it to format the included text to small, capital letters...</noinclude>
+<noinclude>:Usage:  <nowiki>{{scaps|text or Text or TeXt}}</nowiki> (capital letters becomes bold)</noinclude>
+<noinclude>:Result: {{scaps|text or Text or TeXt}}</noinclude>
+ --></pre>
+</div>

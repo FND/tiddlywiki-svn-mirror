@@ -1,0 +1,12 @@
+<div title="Template:CopyrightedFreeUse" modifier="Default" created="200811261358" modified="200701170749" tags="[[Category:Copyright tags]]" server.host="chdk.wikia.com" server.page.timestamp="2007-01-17T07:49:12Z" server.page.revision="2456" wikiformat="mediawiki">
+<pre><center>
+<div class="boilerplate" id="c-fairuse" style="width: 90%; margin: 0 auto; text-align: justify; background: #FFFFCC; padding: 0 10px; border: 1px solid #A8ACA8;">
+''[[Media:{{PAGENAME}}|This file]]  is [[Wikipedia:Copyright|copyrighted]].  The copyright holder of this image allows anyone to use it '''for any purpose''', including unrestricted redistribution, commercial use, and modification.
+</div>
+</center>
+<includeonly>[[Category:Copyrighted free use files|{{PAGENAME}}]]</includeonly>
+<noinclude>[[Category:Copyright tags]]
+<br />
+'''To use this template, type <nowiki>{{CopyrightedFreeUse}}</nowiki> on the image information page.'''
+</noinclude></pre>
+</div>

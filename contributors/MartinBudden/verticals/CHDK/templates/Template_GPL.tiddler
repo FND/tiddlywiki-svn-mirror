@@ -1,0 +1,12 @@
+<div title="Template:GPL" modifier="Default" created="200811261358" modified="200609251150" tags="[[Category:Copyright tags]]" server.host="chdk.wikia.com" server.page.timestamp="2006-09-25T11:50:28Z" server.page.revision="2089" wikiformat="mediawiki">
+<pre><center>
+<div class="boilerplate" id="GDFL" style="width: 90%; margin: 0 auto; text-align: justify; background: #F0F0FF; padding: 0 10px; border: 1px solid #A8ACA8;">
+''[[Media:{{PAGENAME}}|This file]] is [[Wikipedia:free software|free software]]; you can redistribute it and/or modify it under the terms of the '''[[Wikipedia:GNU General Public License|GNU General Public License]]''' as published by the [[Wikipedia:Free Software Foundation|Free Software Foundation]]; either version 2 of the License, or (at your option) any later version. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the [http://www.gnu.org/copyleft/gpl.html GNU General Public License] for more details.''
+</div>
+</center>
+<includeonly> [[Category:GPL files|{{PAGENAME}}]]</includeonly>
+<noinclude>[[Category:Copyright tags]]</noinclude>
+<br /><noinclude>
+'''To use this template, type <nowiki>{{GPL}}</nowiki> on the image information page'''
+</noinclude></pre>
+</div>

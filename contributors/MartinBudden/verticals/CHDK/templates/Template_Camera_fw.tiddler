@@ -1,0 +1,6 @@
+<div title="Template:Camera fw" modifier="GrAnd" created="200811261358" modified="200801311315" server.host="chdk.wikia.com" server.page.timestamp="2008-01-31T13:15:07Z" server.page.revision="7816" wikiformat="mediawiki">
+<pre>|-
+|| {{UC:{{{1|???}}}}}
+|| {{ #ifeq: {{{2|-}}} | + | '''+''' | '''-'''  }}
+|| {{ #ifeq: {{{3|-}}} | + | '''+''' | '''-'''  }}</pre>
+</div>

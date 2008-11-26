@@ -1,0 +1,13 @@
+<div title="Template:Camera" modifier="GrAnd" created="200811261358" modified="200801311429" server.host="chdk.wikia.com" server.page.timestamp="2008-01-31T14:29:18Z" server.page.revision="7821" wikiformat="mediawiki">
+<pre>{|
+|-
+|| '''Model:'''
+|| {{UC:{{{model|{{SUBPAGENAME}} }}} }}
+|-
+|| '''OS:'''
+|| {{ #switch: {{UC:{{{os}}}}} | VXWORKS=VxWorks | DRYOS=DryOS }}
+{{ #ifeq: {{{fw1|+}}} | {{{fw1|-}}} | {{{fw1}}} | }}
+|}
+
+{{ #ifeq: {{{param|+}}} | {{{param|-}}} | param=1 | param=0 }}.</pre>
+</div>

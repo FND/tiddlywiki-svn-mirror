@@ -1,0 +1,12 @@
+<div title="Template:Fairuse" modifier="Default" created="200811261358" modified="200609251148" tags="[[Category:Copyright tags]]" server.host="chdk.wikia.com" server.page.timestamp="2006-09-25T11:48:58Z" server.page.revision="2087" wikiformat="mediawiki">
+<pre><center>
+<div class="boilerplate" id="fairuse" style="width: 90%; margin: 0 auto; text-align: justify; background: #FFFFDD; padding: 0 10px; border: 1px solid #A8ACA8">
+''[[Media:{{PAGENAME}}|This file]]  is [[Wikipedia:Copyright|copyrighted]]. The individual who uploaded this work and first used it in an article, and subsequent persons who place it into articles, assert that this qualifies as '''fair use''' of the material under '''[[Wikipedia:Fair use#Fair use under United States law|United States copyright law]]'''.
+</div>
+</center>
+<includeonly>[[Category:Fair use files|{{PAGENAME}}]]</includeonly>
+<noinclude>[[Category:Copyright tags]]</noinclude>
+<br /><noinclude>
+'''To use this template, type <nowiki>{{Fairuse}}</nowiki> on the image information page'''
+</noinclude></pre>
+</div>

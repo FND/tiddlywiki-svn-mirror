@@ -1,0 +1,23 @@
+<div title="Template:WelcomeIP" modifier="Default" created="200811261358" modified="200709180210" server.host="chdk.wikia.com" server.page.timestamp="2007-09-18T02:10:14Z" server.page.revision="2676" wikiformat="mediawiki">
+<pre><center><big>Welcome --- Bienvenue --- Willkommen</big></center>
+
+
+
+<div style="text-align: center; margin: 0 10%; padding-bottom: 20px;">
+{| class="notice noprint" id="Welcome" style="background: #FFFFB0; border: 2px solid #EE9966; margin: 0 auto;" cellpadding=8
+|- 
+| 
+| '''Hi!  Welcome to this Wikia!''' <br>
+'''[[Special:Userlogin|Please log in and create a user name.]]'''<br>[[Help:Why create an account|Creating a user name]] is free and takes only a minute AND it gives you greater '''anonymity''' if that is your wish.<br>When you have a user name, other contributors can ask you questions and help you out.
+|}</div>
+
+We hope you can make continuing contributions of articles and/or discussion and other improvements, even if not logged in.
+
+If you are new to Wikia or wikis in general, please visit the [[project:Community Portal|"Community portal"]] for an outline of some of the main parts of the site and links to pages that tell you '''how to edit'''.
+
+Discussion of any aspect of the site, and enquiries, can be made at the [[Forum:Index|Forum]] or on the [[help:Talk page|Talk page]] associated with each article. Please sign and date your contributions there, so that readers know "who to talk to" and whether your message is probably still of current interest.<noinclude>
+
+----
+''The above template is for adding to the [[help:Talk page|Talk page]] of any contributor who is identified only by an IP number. Just type or paste <nowiki>{{subst:welcomeIP}}</nowiki> and add your timestamp (four tildes) below it.''
+[[category:templates]]</noinclude></pre>
+</div>

@@ -1,0 +1,7 @@
+<div title="Template:Wikipedia-deleted" modifier="Default" created="200811261358" modified="200701060124" server.host="chdk.wikia.com" server.page.timestamp="2007-01-06T01:24:57Z" server.page.revision="2438" wikiformat="mediawiki">
+<pre>{| align=center border=0 cellpadding=3 cellspacing=3 style="border: 1px solid #E0E0E0; background-color: #F8F8F8"
+|- 
+| http://www.wikia.com/images/Smallwikipedialogo.png 
+| style="font-size: 90%" | This page uses content that was added to [http://en.wikipedia.org '''Wikipedia''']. The article has been deleted from Wikipedia. The original article was written by these Wikipedia users: {{{1}}}. As with this wiki ({{SITENAME}}), the text of Wikipedia is available under the [[Wikia:Text of the GNU Free Documentation License|GNU Free Documentation License]].
+|}</pre>
+</div>

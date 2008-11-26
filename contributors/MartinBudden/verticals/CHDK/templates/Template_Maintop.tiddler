@@ -1,0 +1,10 @@
+<div title="Template:Maintop" modifier="Default" created="200811261358" modified="200706071338" server.host="chdk.wikia.com" server.page.timestamp="2007-06-07T13:38:06Z" server.page.revision="2618" wikiformat="mediawiki">
+<pre>{| align="center"
+|- valign="top" width="100%; style="text-align:center; margin:0px -10px 0px -10px; font-variant: small-caps;"
+| colspan="2" |
+<big>Welcome to '''{{SITENAME}}.'''</big> <br />
+We are [[Special:Recentchanges|currently editing]] over [[Special:Allpages|{{NUMBEROFARTICLES}}]] articles, and '''[[Project:Community Portal|you can help]]'''
+
+[[Project:About|About this wiki]] | [[Special:Newpages|New pages]] | [[Special:Newimages|New files]] | [[Special:Activeusers|Active users]] | [[Special:Categories|Categories]] | [[Wikia:Help:Tutorial|Wiki tutorial]] | [[:Category:Help|Help pages]]
+|}</pre>
+</div>

@@ -1,0 +1,13 @@
+<div title="Template:Cc-by-sa-3.0" modifier="Sannse" created="200811261358" modified="200806251831" server.host="chdk.wikia.com" server.page.timestamp="2008-06-25T18:31:12Z" server.page.revision="10656" wikiformat="mediawiki">
+<pre><center>
+{| class="boilerplate" id="c-fairuse" style="width: 90%; margin: 0 auto; text-align: justify; border: 2px solid #88a; background: #FFFFCC; padding: 10px; color:black; "
+| align="center" |http://images4.wikia.nocookie.net/messaging/images//thumb/7/79/CC_some_rights_reserved.svg/90px-CC_some_rights_reserved.svg.png<br/>http://images2.wikia.nocookie.net/messaging/images//thumb/1/11/Cc-by_new_white.svg/24px-Cc-by_new_white.svg.png http://images3.wikia.nocookie.net/messaging/images//thumb/d/df/Cc-sa_white.svg/24px-Cc-sa_white.svg.png
+|  '''''This work is licensed under the Creative Commons [http://creativecommons.org/licenses/by-sa/3.0/ <span style="color:#002bb8;">Attribution-ShareAlike 3.0</span>] License.<br />{{#if:{{{1|}}}|<br />Attribution: {{{1|}}}}}'''''
+|}
+</center><noinclude>
+
+To use this template, type <nowiki>{{Cc-by-sa-3.0|Attribution details}}</nowiki> on the image information page.  Replace "Attribution details" with information about the source.
+
+[[Category:Image wiki templates|{{PAGENAME}}]]
+</noinclude></pre>
+</div>

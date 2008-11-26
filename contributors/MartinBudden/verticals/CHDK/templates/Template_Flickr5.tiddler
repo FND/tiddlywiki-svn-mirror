@@ -1,0 +1,20 @@
+<div title="Template:Flickr5" modifier="Default" created="200811261358" modified="200705251340" server.host="chdk.wikia.com" server.page.timestamp="2007-05-25T13:40:53Z" server.page.revision="2607" wikiformat="mediawiki">
+<pre>{| class="toccolours" style="width:100%" cellpadding="2"
+! style="background:#8da5cc; text-align:right; vertical-align:middle; padding-right:0.5em; width:15%;" | Description
+| ''This image was uploaded through the [[Special:ImportFreeImages|ImportFreeImages]] special page. A detailed description could be found on flickr. – Please add more information manually, if needed.''
+|-
+! style="background:#8da5cc; text-align:right; vertical-align:middle; padding-right:0.5em; white-space:nowrap;" | Date
+| ''See the information on flickr (cf. "Source"). Add the date of creation manually, if needed.''
+|-
+! style="background:#8da5cc; text-align:right; vertical-align:middle; padding-right:0.5em;" | Author
+| [http://flickr.com/people/{{{3}}}/ {{{3}}}]
+|-
+! style="background:#8da5cc; text-align:right; vertical-align:middle; padding-right:0.5em;" | Souce
+| [http://flickr.com/photos/{{{2}}}/{{{1}}}/ This file on '''flickr.com''']
+|-
+! style="background:#8da5cc; text-align:right; vertical-align:middle; padding-right:0.5em;" | License
+| '''CC-by-sa-2.0''' – ''[[Media:{{PAGENAME}}|This file]]  is licensed under [[Wikipedia:Creative Commons|Creative Commons]] [http://creativecommons.org/licenses/by-sa/2.0/ Attribution ShareAlike 2.0] License.''
+|}
+<includeonly>[[Category:CC-BY-SA files|{{PAGENAME}}]]</includeonly>
+<noinclude>[[Category:Templates|{{PAGENAME}}]]</noinclude></pre>
+</div>

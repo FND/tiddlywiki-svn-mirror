@@ -1,0 +1,7 @@
+<div title="Template:Benchmarks/t2 card row B" modifier="Keyman" created="200811261358" modified="200802250939" server.host="chdk.wikia.com" server.page.timestamp="2008-02-25T09:39:34Z" server.page.revision="8329" wikiformat="mediawiki">
+<pre><includeonly>|- style="text-align:right; background-color:#f0f0f0;" 
+| &nbsp;
+| style="text-align:left;" | {{{1}}}
+|{{{2}}}||{{{3}}}||{{{4}}}||{{{5}}}||{{{6}}}||{{{7}}}</includeonly><noinclude>This is the template for a Card line:style B, in the 2nd table on the Benchmark page.  It has background color :#F0F0F0
+To see what the template is, you will need to edit the page.</noinclude></pre>
+</div>
