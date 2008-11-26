@@ -1,0 +1,207 @@
+<div title="mybtTheme" modifier="Simon McManus" modified="200708091500" tags="systemTheme excludeSearch excludeLists">
+<pre>
+/***
+|''Name:''|mybtTheme|
+|''Author:''|Saq Imtiaz and Simon McManus|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/tiddlers/themes/smmTheme.tiddler|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/tiddlers/themes/smmTheme.tiddler|
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.4.1|
+|''~PageTemplate:''|##PageTemplate|
+|''~tabs:''|##tabs|
+|''~OptionsPanel:''|##OptionsPanel|
+|''~StyleSheet:''|##StyleSheet|
+|''~EditTemplate:''|##EditTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+***/
+
+
+!PageTemplate
+<!--{{{-->
+<link href="https://www.mybt.bt.com/dana-na/auth/url_default/css/fraser1.css" rel="stylesheet" type="text/css"/>
+<div class='header' macro='gradient vert #ffff #fff'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+</div>
+<div id='bodywrapper'>
+
+
+
+<div class="rightColumn">
+
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'></div>
+		</div>
+<b>Options</b>
+	</div>
+	<div class="portletContent">
+
+		<div id='sidebarOptions' refresh='content' force='true' tiddler='mybtTheme##SideBarOptions'></div>
+	</div>
+	<div class="portletFooter">
+		<div class="portletBotLeft"></div>
+		<div class="portletBotRight"></div>
+	</div>
+</div>
+
+</div>
+
+
+
+
+
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<div id='contentFooter'  macro='gradient vert #222 #111'></div>
+</div>
+<!--}}}-->
+
+
+!EditTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'></div>
+		</div>
+		<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+	</div>
+	<div class="portletContent">
+		<div class='editor' macro='edit title'></div>
+		<div macro='annotations'></div>
+		<div class='editor' macro='edit text'></div>
+		<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+	</div>
+	<div class="portletFooter">
+		<div class="portletBotLeft"></div>
+		<div class="portletBotRight"></div>
+	</div>
+</div>
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'></div>
+		</div>
+		<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+	</div>
+	<div class="portletContent">
+		<div class='viewer' macro='view text wikified'></div>
+		<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+		<div class='tagging' macro='tagging'></div>
+		<div class='tagged' macro='tags'></div>
+		<div class='tagClear'></div>
+	</div>
+	<div class="portletFooter">
+		<div class="portletBotLeft"></div>
+		<div class="portletBotRight"></div>
+	</div>
+</div>
+<!--}}}-->
+
+
+!wizardViewTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'></div>
+		</div>
+	<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
+	</div>
+	<div class="portletContent">
+		<div class='viewer' macro='view text wikified'></div>
+	</div>
+	<div class="portletFooter">
+		<div class="portletBotLeft"></div>
+		<div class="portletBotRight"></div>
+	</div>
+</div>
+<!--}}}-->
+
+
+!tabs
+<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
+
+!OptionsPanel
+[[help|Help]] <br />[[settings|AdvancedOptions]]<br /><<ccOptions>>
+
+!SideBarOptions
+<<search "search...">><<closeAll>><<newTiddler label:"" text:"New Note" title:"New Note" tag:"note">><<slider chkSliderOptionsPanel mybtTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider chkSliderTabs mybtTheme##tabs 'contents »' 'View TiddlyWiki Tabs'>>
+
+!StyleSheet
+/***
+General
+***/
+/*{{{*/
+
+
+body {
+background-color:#E8E1F1;
+}
+
+div.title {
+	font-size:1em;
+	color:black;
+}
+
+div.viewer {
+	padding:1em;
+
+}
+
+#sidebarOptions .searchButton {
+	display:none;
+}
+
+
+.button {
+	margin-top:1em;
+	border:0px;
+}
+
+.button:hover {
+	background-color:transparent;
+	font-weight:bold;
+}
+
+div.rightColumn {
+	width:20%;
+	margin-top:1em;
+	margin-right:2em;
+}
+
+div.wizard, div.wizardFooter, div.wizardStep {
+	border:white;
+	background-color:white;
+}
+
+.wizard {
+background-color:white;
+border:0px;
+}
+
+
+#sidebarOptions .sliderPanel {
+	background:white none repeat scroll 0 0;
+}
+
+
+/*}}}*/
+</pre>
+</div>
