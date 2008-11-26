@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.9|
+|''Version:''|0.5.10|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -1113,7 +1113,7 @@ config.mediawiki.formatters = [
 	name: 'mediaWikiHtmlTag',
 	match: "<[a-zA-Z0-9]{2,}(?:.*?)>",
 	//match: "<[a-zA-Z]{2,}(?:\\s*(?:(?:.*?)=[\"']?(?:.*?)[\"']?))*?>",
-	lookaheadRegExp: /<([a-zA-Z0-9]{2,})((?:\s+(?:.*?)=["']?(?:.*?)["']?)*?)?\s*(\/)?>/mg, //'
+	lookaheadRegExp: /<([a-zA-Z0-9]{2,})((?:\s+(?:.*?)=(["']?)(?:.*?)\3?)*?)?\s*(\/)?>/mg, //'
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
@@ -1123,7 +1123,7 @@ config.mediawiki.formatters = [
 			if(lookaheadMatch[2]) {
 				MediaWikiFormatter.setAttributesFromParams(e,lookaheadMatch[2]);
 			}
-			if(lookaheadMatch[3]) {
+			if(lookaheadMatch[4]) {
 				//# empty tag
 				w.nextMatch = this.lookaheadRegExp.lastIndex;
 			} else {
