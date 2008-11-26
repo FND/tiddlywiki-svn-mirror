@@ -268,7 +268,26 @@ var EasyMap = function(wrapper){
 		
 	this.wrapper = wrapper;
 	wrapper.style.position = "relative";
-	this.mousemoveHandler = function(e,shape){};
+	this.mousemoveHandler = function(e,shape){
+
+		var x = e.clientX; var y = e.clientY;
+
+		if(this.lastMouseMove && x < this.lastMouseMove.x + 2 && x > this.lastMouseMove.x -2) return;
+		if(this.lastMouseMove &&  y < this.lastMouseMove.y + 2 && x > this.lastMouseMove.y -2) return;
+		
+		//console.log("moving!");
+		this.lastMouseMove = {};
+		this.lastMouseMove.x = x;this.lastMouseMove.y = y;
+		
+		if(!e) {
+			e = window.event;
+		}
+		var shape = eMap.utils.getShapeAtClick(e);
+		if(shape)this.title = shape.properties.name;
+		
+		
+
+	};
 	this.clickHandler = function(e,shape){};	
 	this._maxX = 0;
 	this._maxY = 0;	
@@ -302,6 +321,7 @@ EasyMap.prototype = {
 	clear: function(){
 		var mapCanvas = this.canvas;
 		this.canvas.onclick = this.clickHandler;
+		this.canvas.onmousemove = this.mousemoveHandler;
 		var ctx = mapCanvas.getContext('2d');
 		mapCanvas.memory = [];
 
