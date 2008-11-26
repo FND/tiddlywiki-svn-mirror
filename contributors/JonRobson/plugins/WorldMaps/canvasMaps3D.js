@@ -250,10 +250,17 @@ EasyMapController.prototype = {
 /*
 A package for rendering geojsons easily
 */
-var EasyMap = function(divID){
+var EasyMap = function(wrapper){
 	this.renderTime = 0;
 	this.calculateTime= 0;
-	var wrapper = document.getElementById(divID);	
+	
+	var wrapper;
+	if(typeof wrapper == 'string')
+		wrapper = document.getElementById(wrapper);
+	else
+		wrapper = wrapper;
+		
+		
 	this.wrapper = wrapper;
 	wrapper.style.position = "relative";
 	this.mousemoveHandler = function(e,shape){};
@@ -263,7 +270,8 @@ var EasyMap = function(divID){
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width) || 600;
 	canvas.height = parseInt(wrapper.style.height) || 400;
-	canvas.id = divID + "_canvas";
+	//canvas.id = divID + "_canvas";
+	//canvas.id = "canvas_" + Math.random();
 	canvas.style["z-index"] = -1;
 	wrapper.appendChild(canvas);
 	this.canvas = canvas;
@@ -755,9 +763,14 @@ EasyMapUtils.prototype = {
 		var f =json.features;
 		for(var i=0; i < f.length; i++){
 			var c = f[i].geometry.coordinates;
+											
 			for(var j=0; j < c.length; j++ ){
 				for(var k=0; k < c[j].length; k++){
+					
+
 					for(var l=0; l < c[j][k].length;l++){
+						
+		
 						var x =c[j][k][l][0];
 						var y = c[j][k][l][1];
 						if(!view.x1 || x <view.x1) {
@@ -773,6 +786,7 @@ EasyMapUtils.prototype = {
 						else if(!view.y2 || y >view.y2) {
 							view.y2 = y;
 						}
+						
 
 					}
 						
@@ -1087,15 +1101,21 @@ EasyMapSVGUtils.prototype = {
 		f.properties = {};
 		f.properties.colour = '#cccccc';
 		f.properties.fill = svgpath.getAttribute("fill"); 
+		f.properties.fill = false;
 		f.properties.name = svgpath.getAttribute("id");
 		f.properties.href= svgpath.getAttribute("xlink");
 		f.geometry = {};
 		f.geometry.type = "MultiPolygon";
-		
 		var p =svgpath.getAttribute("d");
 		var t =svgpath.getAttribute("transform");
-		if(t) console.log(f.properties.name)
-		var coords = this._convertFromSVGPathCoords(p,t);
+		var parent = svgpath.parentNode;
+
+		if(parent && parent.getAttribute("transform")) t = parent.getAttribute("transform");
+		//if(t) console.log(f.properties.name,"has t", t);
+		
+		var newp = this._convertFromSVGPathCoords(p,t);
+		//if(f.properties.name == 'it_6')console.log(p,newp);
+		var coords = newp;
 		//console.log(coords[0].length,f.properties.name,f);
 		//if(coords[0].length == 1)console.log(coords[0]);
 		f.geometry.coordinates = coords;
@@ -1121,70 +1141,129 @@ EasyMapSVGUtils.prototype = {
 	},
 	_convertFromSVGPathCoords: function(SVGCoordinates,transformation){
 		//transformation in form matrix(0.5,0,0,0.5,-180,0)
-		var matrix =[];
+		var matrix =[],translate=[];
+		var bads = [];
 		if(transformation){
+			if(transformation.indexOf("translate") > -1){ //matrix given!
+				transformation=transformation.replace("translate(","");
+				transformation=transformation.replace(")","");
+				transformation=transformation.replace(" ","");
+				translate  = transformation.split(",");
+			}			
 			if(transformation.indexOf("matrix") > -1){ //matrix given!
 				transformation=transformation.replace("matrix(","");
 				transformation=transformation.replace(")","");
 				transformation=transformation.replace(" ", "");
-				var matrix  = transformation.split(",");
+				matrix  = transformation.split(",");
 			}
 		}
 		var pointPairs = [];
 		
 		if(SVGCoordinates) {
-			SVGCoordinates = SVGCoordinates.replace(/^\s*(.*?)\s*$/, "$1"); 
-			pointPairs = SVGCoordinates.split(" ");
+			var c = SVGCoordinates;
+
+			
+
+			
+			c = c.replace(/^\s*(.*?)\s*$/, "$1");
+			
+			 //fix the svg lazy bug (allowing coordinates in form 4-2 rather than 4,-2) 
+			while(c.search(/-?(\d*\.+\d*)\-/g) >-1){
+				//console.log("!");
+				c = c.replace(/(-?\d*\.?\d*)\-/g,"$1,-")
+			}
+			
+			while(c.search(/([A-Z] *-?\d*\.?\d*) *(-?\d*.?\d* *[A-Z])/gi) >-1){ //sorts out M xx.xx yy.yyL -> M xx.xx,yy.yyL 
+				//console.log("!");
+				c = c.replace(/([A-Z] *-?\d*\.?\d*) *(-?\d*.?\d* *[A-Z])/gi,"$1,$2")
+			}
+			
+			while(c.search(/([A-Z]\d*\.?\d*) *(\d*\.?\d*[A-Z])/gi) > -1){
+				c = c.replace(/([A-Z]\d*\.?\d*) *(\d*\.?\d*[A-Z])/gi,"$1,$2");	
+			}
+				
+			//end fixes
+			
+			c = c.replace(/(c|L|M|V)/gi, " $1"); //create spacing
+			c = c.replace(/C|L|M/g, "");//get rid of abs path markers.. absolute coordinates are great
+			c = c.replace(/z/gi, " z ");
+			//console.log("help",c);
+			
+			pointPairs = c.split(" ");
+			
 		}
 
 		var numPairs = pointPairs.length;
 		var points = [[]];
 		var polyc = [];
 		if(numPairs > 0) {
-
+			
 		 	var coords, numCoords;
 
+			var last = {'x':0,'y':0};
 			for(var i=0; i<numPairs; i++) {
 				var pair = pointPairs[i];
-				//console.log(pair);
-				pair = pair.replace(" ",""); //unnecessary whitespace
-				pair = pair.replace("M",""); //move to
-				pair = pair.replace("m",""); //move to
-				pair = pair.replace("L",""); //line to
-				pair = pair.replace("l",""); //line to
-				pair = pair.replace("C",""); //curve
-									pair = pair.replace("c",""); //curve
-				//if(pair.indexOf("z") > -1) console.log(pair,pair.indexOf("z"));
-				if(pair.indexOf("z") ==0){
-					points[0].push(polyc);
-					polyc = [];
-				//	pair = pair.replace("z",""); //close path		
-				} 
-					pair = pair.replace("z",""); //close path			
-		
+				var closeme = false;
+
+				
+				if(pair.search(/z|Z/) >-1){
+					closeme = true;
+					pair = pair.replace("z",""); //close path		
+				}		
+
 				if(pair.length > 0){				
 					coords = pair.split(",");
-					
-					if(coords.length == 2 && pair.search(/[a-z]|[A-Z]/)== -1){					
+					if(coords.length == 2){
+						var relative = false;
+						var x =coords[0];
+						var y= coords[1];
+						
+						if(x.search(/[a-z]/) == 0){ //its relative
+							relative = true;
+							x = x.substring(1); 
+						}
+				
 						numCoords = coords.length;
-						var x =parseInt(coords[0]);
-						var y=parseInt(coords[1]);
+						x =parseInt(x);
+						y=parseInt(y);
+						
+						if(relative){
+							x+= last.x; y+= last.y;
+							//console.log(coords,x,y);
+							
+						}
+						last.x = x; last.y = y;
 						if(matrix.length == 6){
-							var ox = x, oy=y;
+							var ox = x, oy=y;							
 							x = parseInt((ox * matrix[0]) +   matrix[4]);
 							y = parseInt(oy * matrix[3]);
 						}
+						
+						if(translate.length == 2){
+							x += parseFloat(translate[0]);
+							y += parseFloat(translate[1]);
+	
+						}
+					
 						//console.log(x,y);
-						if(typeof x == 'number' && typeof y =='number')	polyc.push([x,-y]);
+						if(typeof x == 'number' && typeof y =='number')	{
+							
+							polyc.push([x,-y]);
+						}
 					}
 					else{
-						//console.log("read error!");	
+						//if(coords.length !=0 && coords.indexOf('-'))bads.push(pair);
 					} 
+				}
+				if(closeme){
+					points[0].push(polyc);
+					polyc = [];
 				}
 
 			}
 		}
 		if(polyc.length >0) points[0].push(polyc);
+		//console.log("read error!",bads);
 		return points;
 	}	
 };
