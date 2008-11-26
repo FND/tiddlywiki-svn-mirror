@@ -2,7 +2,7 @@
 |''Name:''|MediaWikiTemplatePlugin|
 |''Description:''|Development plugin for MediaWiki Template expansion|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
-|''Version:''|0.1.9|
+|''Version:''|0.1.10|
 |''Date:''|Feb 27, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -219,6 +219,15 @@ MediaWikiTemplate.prototype._expandVariable = function(text)
 	case 'PAGENAMEE':
 		ret = MediaWikiTemplate.normalizedTitle(this.tiddler.title);
 		break;
+	case 'NUMBEROFARTICLES':
+		var n = 0;
+		store.forEachTiddler(function(title,tiddler) {
+			if((tiddler.fields.wikiformat && tiddler.fields.wikiformat==config.parsers.mediawikiFormatter.format) || tiddler.isTagged(config.parsers.mediawikiFormatter.formatTag)) {
+					++n;
+			};
+		});
+		return String(n);
+		break;
 	case 'REVISIONID':
 		ret  = this.tiddler.fields['server.revision'];
 		break;
@@ -279,18 +288,18 @@ MediaWikiTemplate.prototype._expandParserFunction = function(text)
 MediaWikiTemplate.prototype._splitTemplateNTag = function(ntag)
 // split naked template tag (ie without {{ and }}) at raw pipes into name and parameter definitions
 {
-//#console.log('_splitTemplateNTag:'+ntag);
+//#console.log('_splitTemplateNTag:'+ntag+':');
 	var pd = []; // parameters definitions array, p[0] contains template name
 	var i = 0;
 	var s = 0;
 	var e = MediaWikiTemplate.findRawDelimiter('|',ntag,s);
 	while(e!=-1) {
-		pd[i] = ntag.substring(s,e).trim();
+		pd[i] = ntag.substring(s,e);//.trim();
 		i++;
 		s = e+1;
 		e = MediaWikiTemplate.findRawDelimiter('|',ntag,s);
 	}
-	pd[i] = ntag.substring(s).trim();
+	pd[i] = ntag.substring(s);//.trim();
 	return pd;
 };
 
@@ -350,7 +359,7 @@ MediaWikiTemplate.prototype._expandTemplateNTag = function(ntag)
 			//# numbered parameter
 			params[String(n)] = t;
 //#console.log('params['+n+']:'+params[n]);
-		}else if(p==-1) {
+		} else if(p==-1) {
 			//# numbered parameter
 			params[String(n)] = t;
 //#console.log('params['+n+']:'+params[n]);
@@ -390,6 +399,11 @@ MediaWikiTemplate.prototype._transcludeTemplates = function(text)
 	if(!text)
 		return text;
 	var c = MediaWikiTemplate.findDBP(text,0);
+	var ns = text.indexOf('<nowiki>');
+	var ne = text.indexOf('</nowiki>',ns);
+	if(ns!=-1 && c.start!=-1 && (c.start>ns && c.start<ne)) {
+		c = MediaWikiTemplate.findDBP(text,ne);
+	}
 	while(c.start!=-1) {
 		var t = this._expandTemplateNTag(text.substring(c.start+2,c.end));
 		if(this.error) {
