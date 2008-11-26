@@ -2,5 +2,5 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: shadows/split.recipe
 recipe: content/split.recipe
 tiddler: ../../plugins/HTTPThrottlingPlugin.js
-tiddler: ../../plugins/TwitterAdaptorPlugin.js
+tiddler: ../../adaptors/TwitterAdaptor.js
 tiddler: ../../plugins/TwitterWizardPlugin.js

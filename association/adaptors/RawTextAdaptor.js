@@ -1,11 +1,11 @@
 /***
-|''Name''|RawTextAdaptorPlugin|
+|''Name''|RawTextAdaptor|
 |''Description''|adaptor for importing plain-text files (e.g. from Subversion) as tiddlers|
 |''Author''|FND|
-|''Version''|0.2.2|
+|''Version''|0.2.3|
 |''Status''|@@beta@@|
-|''Source''|http://devpad.tiddlyspot.com/#RawTextAdaptorPlugin|
-|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
+|''Source''|http://devpad.tiddlyspot.com/#RawTextAdaptor|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/adaptors/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''CoreVersion''|2.5|
 !Revision History

@@ -1,11 +1,11 @@
 /***
-|''Name''|TwitterAdaptorPlugin|
+|''Name''|TwitterAdaptor|
 |''Description''|adaptor for retrieving data from Twitter|
 |''Author''|FND|
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
-|''Version''|0.3.3|
+|''Version''|0.3.4|
 |''Status''|@@beta@@|
-|''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptorPlugin|
+|''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptor|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''CoreVersion''|2.5|

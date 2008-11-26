@@ -1,10 +1,10 @@
 /***
-|''Name''|TracAdaptorPlugin|
+|''Name''|TracAdaptor|
 |''Description''|Trac adaptor|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
-|''Source''|http://devpad.tiddlyspot.com/#TracAdaptorPlugin|
+|''Source''|http://devpad.tiddlyspot.com/#TracAdaptor|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''Requires''|XMLRPCPlugin|
