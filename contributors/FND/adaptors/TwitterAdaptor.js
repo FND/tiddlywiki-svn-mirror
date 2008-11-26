@@ -23,9 +23,7 @@
 if(!version.extensions.TiddlyWebAdaptorPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 
-if(!config.extensions) { config.extensions = {}; }
-
-config.extensions.TwitterAdaptor = function() {};
+config.extensions.twitter = function() {};
 
 (function(adaptor) { //# set up alias
 
@@ -305,9 +303,7 @@ adaptor.decodeHTMLEntities = function(str) {
 	return el.value;
 };
 
-config.adaptors[adaptor.serverType] = adaptor;
-
-})(config.extensions.TwitterAdaptor); //# end of alias
+})(config.extensions.twitter); //# end of alias
 
 } //# end of "install only once"
 //}}}
