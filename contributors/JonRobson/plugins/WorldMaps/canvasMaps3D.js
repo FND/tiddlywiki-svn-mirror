@@ -64,8 +64,8 @@ var minLon = 1000;
 var maxLon = -1000;
 var minLat = 1000;
 var maxLat = -1000;
-var EasyMapController = function(targetjs,elemid){
-	this.wrapper = elemid; //a dom element to detect mouse actions
+var EasyMapController = function(targetjs,elem){
+	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
 	this.utils = new EasyMapUtils(this.wrapper); //some utilities that it may find useful
 	
@@ -215,19 +215,24 @@ EasyMapController.prototype = {
 		if(hit.properties.action){
 			action(x,y);
 		}
+		var pan = {};
+		var scale =emap.transformation.scale;
+		pan.x = parseFloat(20 / scale.x);
+		pan.y = parseFloat(20 / scale.y)
+		
 		
 		switch(hit.properties.actiontype) {
 			case "W":
-				emap.transformation.translate.x += 5;
+				emap.transformation.translate.x += pan.x;
 				break;
 			case "E":
-				emap.transformation.translate.x -= 5;
+				emap.transformation.translate.x -= pan.x;
 				break;
 			case "N":
-				emap.transformation.translate.y += 5;
+				emap.transformation.translate.y += pan.y;
 				break;
 			case "S":
-				emap.transformation.translate.y -= 5;
+				emap.transformation.translate.y -= pan.y;
 				break;
 			case "in":
 				emap.transformation.scale.x *= 2;
@@ -1101,7 +1106,7 @@ EasyMapSVGUtils.prototype = {
 		f.properties = {};
 		f.properties.colour = '#cccccc';
 		f.properties.fill = svgpath.getAttribute("fill"); 
-		f.properties.fill = false;
+		//f.properties.fill = false; //UNCOMMENT ME FOR EDITING MODE
 		f.properties.name = svgpath.getAttribute("id");
 		f.properties.href= svgpath.getAttribute("xlink");
 		f.geometry = {};
@@ -1110,8 +1115,11 @@ EasyMapSVGUtils.prototype = {
 		var t =svgpath.getAttribute("transform");
 		var parent = svgpath.parentNode;
 
-		if(parent && parent.getAttribute("transform")) t = parent.getAttribute("transform");
-		//if(t) console.log(f.properties.name,"has t", t);
+		if(!t && parent && parent.getAttribute("transform") && parent.tagName =='g'){
+			t = parent.getAttribute("transform");
+		}
+		
+		if(t) console.log(f.properties.name,"has t", t);
 		
 		var newp = this._convertFromSVGPathCoords(p,t);
 		//if(f.properties.name == 'it_6')console.log(p,newp);
@@ -1174,7 +1182,6 @@ EasyMapSVGUtils.prototype = {
 			}
 			
 			while(c.search(/([A-Z] *-?\d*\.?\d*) *(-?\d*.?\d* *[A-Z])/gi) >-1){ //sorts out M xx.xx yy.yyL -> M xx.xx,yy.yyL 
-				//console.log("!");
 				c = c.replace(/([A-Z] *-?\d*\.?\d*) *(-?\d*.?\d* *[A-Z])/gi,"$1,$2")
 			}
 			
@@ -1184,7 +1191,7 @@ EasyMapSVGUtils.prototype = {
 				
 			//end fixes
 			
-			c = c.replace(/(c|L|M|V)/gi, " $1"); //create spacing
+			c = c.replace(/(c|L|M|V|H)/gi, " $1"); //create spacing
 			c = c.replace(/C|L|M/g, "");//get rid of abs path markers.. absolute coordinates are great
 			c = c.replace(/z/gi, " z ");
 			//console.log("help",c);
@@ -1213,19 +1220,45 @@ EasyMapSVGUtils.prototype = {
 
 				if(pair.length > 0){				
 					coords = pair.split(",");
-					if(coords.length == 2){
+					
+					if(coords.length > 0){
 						var relative = false;
 						var x =coords[0];
-						var y= coords[1];
+						var y = coords[1];
 						
-						if(x.search(/[a-z]/) == 0){ //its relative
-							relative = true;
-							x = x.substring(1); 
+						if(x.search(/V|H/i) == 0){ //vertical or horizontal command
+							if(x.search(/V/) ==0){//vertical absolute
+								x = x.substring(1);
+								y = last.y;
+							}
+							else if(x.search(/v/) ==0 ){//vertical relative
+								x = parseFloat(last.x + x.substring(1));
+								y = last.y;								
+							}
+							else if(x.search(/h/)==0){//horizontal relative
+								y = parseFloat(last.y + x.substring(1));
+								x = last.x;								
+							}
+							else { //horizontal absolute x
+								y = x.substring(1);
+								x = last.x;	
+							}
+						
 						}
 				
-						numCoords = coords.length;
-						x =parseInt(x);
-						y=parseInt(y);
+					else if(x.search(/[a-z]/) == 0){ //its relative
+							relative = true;
+							x = x.substring(1);
+						
+						}
+
+					x =parseInt(x);
+					y=parseInt(y);
+					}
+					
+					
+					if(x && y){
+						
 						
 						if(relative){
 							x+= last.x; y+= last.y;
@@ -1242,7 +1275,6 @@ EasyMapSVGUtils.prototype = {
 						if(translate.length == 2){
 							x += parseFloat(translate[0]);
 							y += parseFloat(translate[1]);
-	
 						}
 					
 						//console.log(x,y);
