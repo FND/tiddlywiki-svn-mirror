@@ -5,4 +5,4 @@ recipe: tiddlers/split.recipe
 tiddler: ../../../../contributors/FND/plugins/DynamicImageMacro.js tags+="pluginLibrary"
 tiddler: ../../../../contributors/FND/plugins/ViewSlicesPlugin.js tags+="pluginLibrary"
 tiddler: ../../../../contributors/FND/plugins/HTTPThrottlingPlugin.js tags+="pluginLibrary"
-tiddler: ../../../serversides/tiddlyweb/client/plugins/TiddlyWebAdaptorPlugin.js tags+="pluginLibrary"
+tiddler: ../../../adaptors/TiddlyWebAdaptor.js tags+="pluginLibrary"
