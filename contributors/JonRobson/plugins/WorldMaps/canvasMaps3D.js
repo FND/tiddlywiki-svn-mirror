@@ -272,8 +272,8 @@ var EasyMap = function(wrapper){
 
 		var x = e.clientX; var y = e.clientY;
 
-		if(this.lastMouseMove && x < this.lastMouseMove.x + 2 && x > this.lastMouseMove.x -2) return;
-		if(this.lastMouseMove &&  y < this.lastMouseMove.y + 2 && x > this.lastMouseMove.y -2) return;
+		if(this.lastMouseMove && x < this.lastMouseMove.x + 2 && x > this.lastMouseMove.x -2) {return;}
+		if(this.lastMouseMove &&  y < this.lastMouseMove.y + 2 && y > this.lastMouseMove.y -2) {return;}
 		
 		//console.log("moving!");
 		this.lastMouseMove = {};
@@ -283,7 +283,9 @@ var EasyMap = function(wrapper){
 			e = window.event;
 		}
 		var shape = eMap.utils.getShapeAtClick(e);
-		if(shape)this.title = shape.properties.name;
+		if(shape){
+			this.title = shape.properties.name;
+		}	
 		
 		
 
