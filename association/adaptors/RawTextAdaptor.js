@@ -7,7 +7,7 @@
 |''Source''|http://devpad.tiddlyspot.com/#RawTextAdaptor|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/adaptors/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''CoreVersion''|2.5|
+|''CoreVersion''|2.4.1|
 !Revision History
 !!v0.1 (2008-10-28)
 * initial release

@@ -8,7 +8,7 @@
 |''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptor|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''CoreVersion''|2.5|
+|''CoreVersion''|2.4.2|
 !Revision History
 !!v0.2 (2008-10-23)
 * initial release

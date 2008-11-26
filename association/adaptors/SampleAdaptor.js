@@ -11,7 +11,7 @@
 |''CodeRepository''|<...>|
 |''Copyright''|<...>|
 |''License''|<...>|
-|''CoreVersion''|<...>|
+|''CoreVersion''|2.4.1|
 |''Requires''|<...>|
 |''Overrides''|<...>|
 |''Feedback''|<...>|
