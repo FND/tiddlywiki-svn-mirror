@@ -1,14 +1,14 @@
 /***
-|''Name''|TiddlyWebAdaptorPlugin|
+|''Name''|TiddlyWebAdaptor|
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
 |''Version''|0.1.2|
 |''Status''|@@beta@@|
-|''Source''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/TiddlyWebAdaptorPlugin.js|
-|''CodeRepository''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/|
+|''Source''|http://svn.tiddlywiki.org/association/adaptors/TiddlyWebAdaptor.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/association/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''~CoreVersion''|2.4.1|
+|''CoreVersion''|2.4.1|
 !Revision History
 !!v0.1 (2008-11-10)
 * refactoring of previous experimental efforts
