@@ -30,7 +30,9 @@ config.options.chkAutoSave = true; // XXX: does not belong here!?
 
 if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
 
-config.extensions.ServerSideSavingPlugin = {
+(function(plugin) { //# set up alias
+
+plugin = {
 	adaptor: null, // no default adaptor -- XXX: wrong way to pass in adaptor?
 
 	saveTiddler: function(tiddler) {
@@ -61,10 +63,25 @@ config.extensions.ServerSideSavingPlugin = {
 saveChanges = function(onlyIfDirty, tiddlers) {
 	store.forEachTiddler(function(title, tiddler) {
 		if(tiddler.fields.changecount > 0) {
-			config.extensions.ServerSideSavingPlugin.saveTiddler(tiddler); // TODO: handle return value
+			plugin.saveTiddler(tiddler); // TODO: handle return value
 		}
 	});
 };
+
+// hijack removeTiddler to trigger server-side deletion
+plugin.removeTiddler = TiddlyWiki.prototype.removeTiddler;
+TiddlyWiki.prototype.removeTiddler = function(title) {
+	var tiddler = this.fetchTiddler(title);
+	if(tiddler) {
+		var callback = function(context, userParams) {
+			return context.status; // XXX: not sufficient (i.e. needs displayMessage)?
+		};
+		plugin.adaptor.deleteTiddler(tiddler, null, null, callback);
+	}
+	plugin.removeTiddler.apply(this, arguments);
+};
+
+})(config.extensions.ServerSideSavingPlugin); //# end of alias
 
 } //# end of "install only once"
 //}}}
