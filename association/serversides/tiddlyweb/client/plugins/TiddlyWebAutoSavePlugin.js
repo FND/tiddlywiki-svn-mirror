@@ -1,6 +1,6 @@
 /***
 |''Name:''|TiddlyWebAutoSavePlugin|
-|''Description:''|Auto Save using the TiddlyWebAdaptorPlugin|
+|''Description:''|Auto Save using the TiddlyWebAdaptor|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Source:''|n/a|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlywebclient/plugins/TiddlyWebAutoSavePlugin.js|
