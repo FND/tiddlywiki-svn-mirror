@@ -12,5 +12,6 @@ clean:
 dist: test
 	python setup.py sdist
 
-upload: dist
+upload: test
+	python setup.py sdist upload
 	scp dist/tiddlyweb-*.gz cdent@peermore.com:public_html/peermore.com/tiddlyweb/dist
