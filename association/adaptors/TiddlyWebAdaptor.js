@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.1.2|
+|''Version''|0.1.3|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/association/|
@@ -213,6 +213,7 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	}
 	context.tiddler.fields["server.type"] = adaptor.serverType;
 	context.tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
+	context.tiddler.fields.originaltitle = title; //# required for detecting renames
 	if(context.bag) {
 		var uri = uriTemplate.format([context.host, "bags", context.bag, title, context.revision]);
 		context.tiddler.fields["server.bag"] = context.bag;
@@ -258,6 +259,9 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = tiddler.title;
+	if(tiddler.fields.originaltitle && tiddler.title != tiddler.fields.originaltitle) {
+		return this.renameTiddler(tiddler, context, userParams, callback);
+	}
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
 	var host = context.host ? context.host : this.fullHostName(tiddler.fields["server.host"]); // TODO: fullHostName should be static method!?
 	var bag = tiddler.fields["server.bag"];
@@ -277,6 +281,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		revision: tiddler["server.page.revision"]
 	};
 	delete payload.fields.changecount;
+	delete payload.fields.originaltitle;
 	payload = JSON.stringify(payload);
 	var req = httpReq("PUT", uri, adaptor.putTiddlerCallback,
 		context, null, payload, adaptor.mimeType);
@@ -290,6 +295,15 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	if(context.callback) {
 		context.callback(context, context.userParams);
 	}
+};
+
+// rename an individual tiddler
+adaptor.prototype.renameTiddler = function(tiddler, context, userParams, callback) {
+	return; // TODO
+};
+
+adaptor.renameTiddlerCallback = function(status, context, responseText, uri, xhr) {
+	return; // TODO
 };
 
 // delete an individual tiddler
