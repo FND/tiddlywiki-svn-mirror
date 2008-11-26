@@ -21,39 +21,67 @@
 <link href="https://www.mybt.bt.com/dana-na/auth/url_default/css/fraser1.css" rel="stylesheet" type="text/css"/>
 <div class='header' macro='gradient vert #ffff #fff'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
-<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+
+
 </div>
+
+
+
 <div id='bodywrapper'>
 
 
+	<div class="columnOne">
 
-<div class="rightColumn">
-
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
+	<div class="portletContainer">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+				<div class='title' macro='view title'></div>
+			</div>
+	<b>Simons Wiki</b>
 		</div>
-<b>Options</b>
+
+		<div class="portletContent">
+		<center>
+		<br />
+		<img  border='1px solid black' src='http://s3.amazonaws.com/twitter_production/profile_images/52083110/2255567732_ebbf8f2f6a_m_bigger.jpg'/>
+		<br />
+		</center>
+		<b><a href=''>Simon McManus</a></b><br />
+		Web Developer
+		</div>
+		<div class="portletFooter">
+			<div class="portletBotLeft"></div>
+			<div class="portletBotRight"></div>
+		</div>
 	</div>
-	<div class="portletContent">
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 
-		<div id='sidebarOptions' refresh='content' force='true' tiddler='mybtTheme##SideBarOptions'></div>
 	</div>
-	<div class="portletFooter">
-		<div class="portletBotLeft"></div>
-		<div class="portletBotRight"></div>
+
+
+	<div class="columnThree">
+		<div class="portletContainer">
+			<div class="portletToolbar">
+				<div class="portletCornerLeft"></div>
+				<div class="portletCornerRight"></div>
+				<div class="portletTitle">
+					<div class='title' macro='view title'></div>
+				</div>
+		<b>Options</b>
+			</div>
+			<div class="portletContent">
+
+				<div id='sidebarOptions' refresh='content' force='true' tiddler='mybtTheme##SideBarOptions'></div>
+			</div>
+			<div class="portletFooter">
+				<div class="portletBotLeft"></div>
+				<div class="portletBotRight"></div>
+			</div>
+		</div>
 	</div>
-</div>
-
-</div>
-
-
-
-
-
 <div id='displayArea'>
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
@@ -126,6 +154,9 @@
 	</div>
 	<div class="portletContent">
 		<div class='viewer' macro='view text wikified'></div>
+
+		<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+
 	</div>
 	<div class="portletFooter">
 		<div class="portletBotLeft"></div>
@@ -142,7 +173,8 @@
 [[help|Help]] <br />[[settings|AdvancedOptions]]<br /><<ccOptions>>
 
 !SideBarOptions
-<<search "search...">><<closeAll>><<newTiddler label:"" text:"New Note" title:"New Note" tag:"note">><<slider chkSliderOptionsPanel mybtTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider chkSliderTabs mybtTheme##tabs 'contents »' 'View TiddlyWiki Tabs'>>
+<<search "search...">><<newTiddler label:"new note" text:"New Note" title:"New Note" tag:"note">><<closeAll>><<saveChanges>><<slider chkSliderOptionsPanel mybtTheme##OptionsPanel 'options »' 'change TiddlyWiki Options'>><<slider chkSliderTabs mybtTheme##tabs 'contents »' 'View TiddlyWiki Tabs'>>
+
 
 !StyleSheet
 /***
@@ -180,11 +212,22 @@ div.viewer {
 	font-weight:bold;
 }
 
-div.rightColumn {
+div.columnThree {
+	float:right;
 	width:20%;
 	margin-top:1em;
 	margin-right:2em;
 }
+
+div.columnOne {
+	margin-top:1em;
+	margin-left:2em;
+	width:16%;
+	position:fixed;
+	float:left;
+}
+
+
 
 div.wizard, div.wizardFooter, div.wizardStep {
 	border:white;
@@ -201,7 +244,9 @@ border:0px;
 	background:white none repeat scroll 0 0;
 }
 
-
+a.tiddlyLink, a.tab, a.externalLink {
+	color:#871497 !important;
+}
 /*}}}*/
 </pre>
 </div>
