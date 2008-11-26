@@ -17,6 +17,8 @@
 !!v0.1 (2008-11-24)
 * initial release
 !To Do
+* rename to ServerLinkPlugin?
+* attempt to determine default adaptor (and defaultCustomFields) from systemServer tiddlers
 * handle deleting/renaming (e.g. by hijacking the respective commands and creating a log)
 !Code
 ***/
@@ -28,12 +30,8 @@ config.options.chkAutoSave = true; // XXX: does not belong here!?
 
 if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
 
-if(!config.adaptors.tiddlyweb) { // XXX: hardcoded; bad!
-	throw "Missing dependency: TiddlyWebAdaptor";
-}
-
 config.extensions.ServerSideSavingPlugin = {
-	adaptor: config.adaptors.tiddlyweb,
+	adaptor: null, // no default adaptor -- XXX: wrong way to pass in adaptor?
 
 	saveTiddler: function(tiddler) {
 		var adaptor = new this.adaptor();
@@ -48,12 +46,12 @@ config.extensions.ServerSideSavingPlugin = {
 
 	saveTiddlerCallback: function(context, userParams) {
 		var tiddler = context.tiddler;
-		if(context.status) { // TODO: handle 412 etc.
+		if(context.status) {
 			displayMessage("Saved " + tiddler.title); // TODO: i18n
 			if(tiddler.fields.changecount != context.changecount) {
 				tiddler.clearChangeCount();
 			}
-		} else {
+		} else { // TODO: handle 412 etc.
 			displayMessage("Error saving " + tiddler.title + ": " + context.statusText); // TODO: i18n
 		}
 	}
