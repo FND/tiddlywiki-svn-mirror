@@ -45,12 +45,12 @@
 
 		<div class="portletContent">
 		<center>
-		<br />
 		<img  border='1px solid black' src='http://s3.amazonaws.com/twitter_production/profile_images/52083110/2255567732_ebbf8f2f6a_m_bigger.jpg'/>
 		<br />
-		</center>
 		<b><a href=''>Simon McManus</a></b><br />
 		Web Developer
+
+		</center>
 		</div>
 		<div class="portletFooter">
 			<div class="portletBotLeft"></div>
@@ -124,11 +124,15 @@
 		<div class="portletTitle">
 			<div class='title' macro='view title'></div>
 		</div>
-		<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+
+
+
+		<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></a>
+</div>
 	</div>
 	<div class="portletContent">
 		<div class='viewer' macro='view text wikified'></div>
-		<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 		<div class='tagging' macro='tagging'></div>
 		<div class='tagged' macro='tags'></div>
 		<div class='tagClear'></div>
@@ -154,9 +158,6 @@
 	</div>
 	<div class="portletContent">
 		<div class='viewer' macro='view text wikified'></div>
-
-		<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-
 	</div>
 	<div class="portletFooter">
 		<div class="portletBotLeft"></div>
@@ -192,8 +193,8 @@ div.title {
 	color:black;
 }
 
-div.viewer {
-	padding:1em;
+div.portletContent {
+	padding:0.8em;
 
 }
 
@@ -247,6 +248,39 @@ border:0px;
 a.tiddlyLink, a.tab, a.externalLink {
 	color:#871497 !important;
 }
+
+a.tabUnselected, a.tabUnselected:hover {
+	border:1px;
+	background-color:#ddd !important;
+}
+
+a.tabSelected,a.tabSelected:hover  {
+	border:1px;
+	padding-bottom:1em;
+	background-color:none !important;
+}
+
+.wizard .button{
+	background-color:#E8E1F1;
+	border:1px solid #444;
+	color:black;
+	padding:0.5em;
+}
+
+.wizard .button:hover{
+	font-weight:bold;
+}
+
+div.annotation {
+	background-color:#E8E1F1;
+	border:1px solid black;
+}
+
+#messageArea {
+	background-color:white;
+	border:1px solid black;
+}
+
 /*}}}*/
 </pre>
 </div>
