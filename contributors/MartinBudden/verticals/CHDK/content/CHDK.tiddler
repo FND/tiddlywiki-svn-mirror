@@ -1,0 +1,199 @@
+<div title="CHDK" modifier="MartinBudden" created="200811271120" modified="200811271107" tags="Category:CHDK" server.host="chdk.wikia.com" server.page.timestamp="2008-11-27T11:07:35Z" server.page.revision="13348" wikiformat="mediawiki">
+<pre><mainpage-leftcolumn-start />
+
+<!-- Begin of header section-->
+{|style="width:100%;margin-top:+.7em;background-color:#fcfcfc;border:1px solid #ccc"
+|style="text-align:left;color:#000" |
+<center><div style="font-size:162%;border:none;margin: 0;padding:.1em;">
+Welcome to the '''[[Project:About|{{SITENAME}}]]'''<br><span style="font-size:70%"> A wiki dedicated to the CHDK firmware add-on for Canon's ''Digic II'' & ''Digic III'' cameras!</span></div>
+<div style="font-size:200%;margin:6px;">{{color|#003A6F|Unleash the}} <font size="+3"><b><i>{{color|#FF0C00|POWER}}</i></b></font> {{color|#003A6F|in your &quot;PowerShot!&quot;}}  <b>:)</b></div>
+<div style="top:+0.2em;font-size: 95%;font-color: #666;">''We are currently supporting over 37 Canon Cameras and about 71 different Firmware Versions in total!''</div>
+<div style="top:+0.2em;font-size: 95%;font-color: #666;">''[[Special:Activeusers|We]] are [[Special:Recentchanges|currently editing]] over [[Special:Statistics|{{NUMBEROFARTICLES}}]] [[Special:Allpages|articles]], and '''[[CHDK Wiki:Community Portal|you can help!]]'''''</div>
+<div style="top:+0.2em;">If you have any questions that are not answered in the [[FAQ]] section,please visit the <span style="font-size:120%">'''[http://chdk.setepontos.com/index.php {{color|#128812|Forum}}]'''</span> or visit us in <span style="font-size:120%">'''[http://java.freenode.net//index.php?channel=chdk {{color|#128812|IRC}}]'''</span>.
+ Got a bug? Visit the <span style="font-size:120%">'''[http://chdk.kernreaktor.org/mantis/my_view_page.php {{color|#128812|Bugtracker}}]'''</span></div></center>
+|}
+<!-- Thanks section -->
+<div style="border:1px solid #aaa;background-color:#FFFFE0;padding-left:4px;padding-bottom:4px;padding-right:4px;padding-top:2px;"><center>
+If you feel the need to express your thanks and gratitude to all CHDK contributors, please click here '''→''' [[Talk:THANKS|'''<u>THANKS!</u>''']]
+</center></div>
+<!-- End of header section-->
+
+
+{| width="100%" border="0" cellspacing="2" cellpadding="2"
+
+|-
+!
+
+{{Notice|This wiki is under heavy <big>'''DEVELOPMENT'''</big>. Mind this when you sift the pages. If you find something wrong or want to add information - go ahead and do it, after all - it's a wiki. Maintaining the wiki is very hard for a single person, however if everybody that visits the wiki edits just one entry, we'd be millionaires (uhm, speaking of useful entries of information, not money, duh :D)<br>
+[[User:PhyrePhoX|PhyrePhoX]] 11:29, 20 November 2008 (UTC)}}
+
+|-
+!
+
+<h2 style="margin:0;background-color:#cedff2;font-size:120%;font-weight:bold;border:1px solid #a3b0bf;text-align:left;color:#000;padding:0.2em 0.4em;">Overview of <b>CHDK</b> and what it can do for you & your Canon camera</h2>
+|-
+|style="color:#000"|
+
+<u><big>''hard facts:''</big></u>
+*'''First and foremost: CHDK is free''' – CHDK is developed under the hood of the [http://en.wikipedia.org/wiki/GNU_General_Public_License GPL] and will stay free!
+*'''CHDK is a firmware ADDON''' – it does NOT replace the original firmware. It is loaded dynamically off of the SD-card, it does NOT make permanent changes;
+*'''CHDK''' – stands for <b>C</b>anon <b>H</b>ackers <b>D</b>evelopment <b>K</b>it;
+*'''CHDK is open source''' – everybody can take part in the development and create new features or fix bugs on their own (as long as they do not violate the GPL) – see [http://chdk.wikia.com/wiki/For_Developers here] for more info;
+*'''No reports of damage''' – as of now, we have had no single user report of a damaged camera through CHDK! 
+
+{{:Features}}
+|-
+!
+
+{{Notice|So you want to  <big>'''DOWNLOAD'''</big> CHDK? Go visit our <big><u>[http://chdk.wikia.com/wiki/Downloads '''Download''']</u></big> page. In the downloads often there is a small readme, however you should read through the wiki first to make sure you understand all of this.}}
+
+|-
+!
+|- valign="top" 
+<!-- News section -->
+|| <div style="border:1px solid #aaa;background-color:#F0F8FF;padding-left:4px;padding-bottom:4px;padding-right:4px;padding-top:2px;">
+<h4 style="margin:0;background-color:#cedff2;font-size:120%;font-weight:bold;border:1px solid #a3b0bf;text-align:left;color:#000;padding:0.2em 0.4em;">News / History</h4><div style="height: 30em; overflow: auto;">
+{{:News}}
+</div>
+</div>
+|}
+<br>
+{| width="100%" cellpadding="2" cellspacing="5" style="vertical-align:top;background-color:#f5fffa"
+!
+
+<h2 style="margin:0;background-color:#cedff2;font-size:120%;font-weight:bold;border:1px solid #a3b0bf;text-align:left;color:#000;padding:0.2em 0.4em;">Basic Articles</h2>
+|-
+|style="color:#000"|
+The basics: how to install and use the CHDK firmware
+*'''[[CHDK_in_Brief|CHDK In Brief]]''' - What is CHDK? How do I get started?
+*'''[[CHDK for Dummies]]''' - The very first steps.<!-- See http://chdk.setepontos.com/index.php/topic,1607.msg14490.html#msg14490 -->
+*'''[[FAQ|FAQ / Instructions]]''' - Lots of good stuff here. (Installation Instruction,Supported Camera Models,Troubleshooting etc.)
+*'''[[CHDK/MoreBest|CHDK Usage Manual]]''' - this is a beginning documentation of latest release of CHDK
+*'''[http://chdk.wikia.com/wiki/Category:Articles_in_other_languages Articles in other languages:] &nbsp;[[Bulgarian| → <span style="color:blue;">Bulgarian</span>]] &nbsp;[[Chinese/CHDK firmware usage| → <span style="color:blue;">Chinese</span>]] &nbsp;[[German| → <span style="color:blue;">German</span>]] &nbsp;[http://chdk.wikia.com/wiki/Category:Italian → <span style="color:blue;">Italian</span>]'''
+*'''[[CameraFeatures|Camera Features Chart]]''' - Cross-reference chart of the new camera capabilities with CHDK by camera model. (User input still needed to fill in the blanks.)
+*'''[[uBASIC|Scripts]]''' - Unleash the FULL power of your camera. Don't miss the '''[[UBASIC/Scripts|user-written scripts]]''' and [[UBASIC/TutorialScratchpad|scripting tutorial]] section! Some features of CHDK, like USB-Remote and Motion-Detection are impossible to use without them. CHDK is a <b>system</b> of programming and scripts that run within it. You need both, CHDK <b><u>and</u></b> scripts!
+*[[Languages|CHDK interface Languages]]
+*[[CheatSheets|Cheat sheets]]
+
+|-
+!
+
+<h2 style="margin:0;background:#cedff2;font-size:120%;font-weight:bold;border:1px solid #a3bfb1;text-align:left;color:#000;padding:0.2em 0.4em;">Advanced Articles</h2>
+|-
+|style="color:#000"|
+*[[RBF_fonts|Tutorial: RBF fonts]]
+*[[DoF_Stacking|Tutorial: DoF Stacking]]
+*[[Grids| Grid Tutorial & User Contributions]]
+*[[Benchmarks|Benchmark results of various SD cards]]
+*[[HOWTO: Calibrating the distance of the A620]]
+*'''[[For Developers]]'''
+*[[Software| Software - Overview / Link list]] {{new!}}
+
+|-
+!
+
+<h2 style="margin:0;background:#cedff2;font-size:120%;font-weight:bold;border:1px solid #a3bfb1;text-align:left;color:#000;padding:0.2em 0.4em;">Links</h2>
+|-
+|style="color:#000"|
+
+===[[Links|LINKS]]===
+
+:If you are interested in the History of CHDK or want to see some interesting links, head on over to the '''[[Links|LINKS]]''' page.  That page should be updated with all the latest and links and stories.
+
+===Other Info===
+:Change Log / Timeline: https://tools.assembla.com/chdk/timeline 
+:Raw comparison, original "Raw enabler": [http://tinyurl.com/2aq2s8 digicanon.narod.ru]
+:USB Specifications:  [http://en.wikipedia.org/wiki/Universal_Serial_Bus#Power]
+
+===Forum Discussions===
+
+:'''Got a problem or a question?''' Please check the [[FAQ]] first, but if you're still stumped, try one of these forums.  Note: The new [http://chdk.setepontos.com/ CHDK Forum] is the most active of the English forums. Dpreview's forum used to be used most in the past. There you'll find the most extensive (English) history of CHDK's development. An active CHDK thread usually still exists at dpreview (thanks, 'zdravko'!) but the dpreview discussions are rapidly losing favor to the new [http://chdk.setepontos.com/ CHDK Forum].
+
+:English: The main [http://chdk.setepontos.com/ '''"<u>CHDK Forum</u>"'''], [http://forums.dpreview.com/forums/readflat.asp?forum=1010&message=25769055 dpreview.com], [http://s3users.com/forum/showthread.php?t=41 s3users.com], [http://forums.powershot-tx1.com/index.php?board=2.0 TX-1 users CHDK thread]
+:Finnish: [http://keskustelu.afterdawn.com/thread_view.cfm/692954  Afterdawn CHDK-thread]
+:German: [http://zonebattler.twoday.net/stories/1769704/#3738072 zonebattler's homezone], [http://www.wirklemms.de/chdk/forum '''CHDK-Forum''']
+:Italian: [http://www.hwupgrade.it/forum/showthread.php?t=1507541 HWUpgrade Forum]
+:Japanese: [http://hobby11.2ch.net/test/read.cgi/dcamera/1175750766/-100 hobby10.2ch.net]
+:Portuguese: [http://www.digiforum.com.br/viewtopic.php?t=31355 digiforum.com.br]
+:Romanian: [http://forum.softpedia.com/index.php?showtopic=196094 softpedia.com], [http://www.fototarget.ro/forum/showthread.php?t=1724 fototarget.ro] by ursamajor
+:Russian: forum.ixbt.com - [http://forum.ixbt.com/topic.cgi?id=20:11661 1], [http://forum.ixbt.com/topic.cgi?id=20:22191 2]
+:French/Français (G7 only): [http://forum.hardware.fr/hfr/Photonumerique/Appareils-Objectifs/topic-unique-canon-sujet_12385_180.htm#t2012263 Topic unique G7 sur HardwareFr]
+:Polish/Polski: [http://canon-board.info/showthread.php?t=21097 canon-board.info], [http://canon-board.info/showthread.php?t=27089 CHDK Motion Detection]
+:English: dPreview History: {{History:dPreview}}
+:Persian: [http://www.akkasee.com/forum/showthread.php?t=4265  Can i use RAW format in S3 IS?]
+:Persian 2: [http://doorbindigital.com/forum/showthread.php?p=1637  CHDK & All about it]
+:Chinese: Discussions on [http://forum.xitek.com/showthread.php?threadid=418343 forum.Xitek.com]
+
+===Other Wikis===
+:Japanese: [http://wiki.fyi.jp/FrontPage/ wiki.fyi.jp], [[w:c:ja.chdk|Wikia Japanese version]]
+:Russian: [http://tools.assembla.com/chdk/wiki/ tools.assembla.com]
+
+===Web-sites===
+:Russian [http://chdk.clan.su/ chdk.clan.su]
+:Russian (CHDK+ with timestamp) [http://canons5is.clan.su/ canons5is.clan.su]
+
+
+|}
+
+[[:Category:CHDK|Articles by categories]], [[Special:Recentchanges|Recent wiki changes]], [[Special:Recentchangeslinked/Category:CHDK-Talk|Recent changes in discussions]], [[MediaWiki:Map_Of_Visitors|Map of visitors]]
+
+<mainpage-endcolumn />
+
+<mainpage-rightcolumn-start />
+
+{| width="100%" cellpadding="2" cellspacing="5" style="vertical-align:top;background-color:#f0fff0"
+<!-- |style="color:#000;" align="right"| __TOC__
+|-  -->
+! <h2 style="margin:0;background-color:#cedff2;font-size:120%;font-weight:bold;border:1px solid #a3b0bf;text-align:left;color:#000;padding:0.2em 0.4em;">Supported Cameras</h2>
+|-
+|style="color:#000;"| {{Supported Cameras}}
+
+Read the [[FAQ]] and [[CHDK firmware usage|Firmware Usage]] articles before '''[[Downloads|downloading]]''' appropriate version.
+
+|-
+!
+
+<h2 style="margin:0;background:#cedff2;font-size:120%;font-weight:bold;border:1px solid #a3bfb1;text-align:left;color:#000;padding:0.2em 0.4em;">Under Development</h2>
+|-
+|style="color:#000"|
+Check out the [[For Developers|'''"For Developers"''']] page to see what progress is being made to port CHDK to additional cameras and firmware versions.  You'll also find articles describing the porting process there.  (Maybe you'd like to help?)
+
+
+|-
+!
+
+<h2 style="margin:0;background:#cedff2;font-size:120%;font-weight:bold;border:1px solid #a3bfb1;text-align:left;color:#000;padding:0.2em 0.4em;">Sample pictures</h2>
+|-
+|style="color:#000"|
+We couldn't have done it without CHDK...
+*[[Samples: Lightning photography|Lightning photography]]
+*[[Samples: RAW|RAW]]
+*[[Samples: HDR|HDR]]
+*[[Samples: HDR Mosaic|HDR Mosaic]]
+*[[Samples: Unlimited DOF|Unlimited DOF]]
+*[[Samples: Timelapse movies|Timelapse movies]]
+*[[Samples: High-Speed Shutter & Flash-Sync|High-Speed Shutter & Flash-Sync]]<sup><i> New!</i></sup>
+<div style="font-size:80%;">[http://www.wikia.com/wiki/Help:Uploading_files How to upload a picture] ([http://www.wikia.com/wiki/Help:Images See also])</div>
+
+|-
+!
+
+<h2 style="margin:0;background:#cedff2;font-size:120%;font-weight:bold;border:1px solid #a3bfb1;text-align:left;color:#000;padding:0.2em 0.4em;">Feedback</h2>
+|-
+|style="color:#000"|
+*[[Talk:Suggestions | Ideas, Suggestions, Feature Requests]]
+*[[Talk:uBasic command Suggestions | uBasic Script command suggestions]]<br><span style="font-size:80%;">''(A new section just for uBasic)''</span>
+*Express your vote of [[Talk:THANKS|<u>THANKS!</u>]]
+|-
+|style="color:#000" align="right"|
+<div id="map_of_visitors"></div>
+|}
+
+<mainpage-endcolumn />
+
+__NOTOC__
+
+[[Category:CHDK]]
+
+[[ja:]]</pre>
+</div>
