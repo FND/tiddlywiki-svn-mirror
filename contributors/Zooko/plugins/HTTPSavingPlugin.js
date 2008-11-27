@@ -3,7 +3,7 @@
 |''Description''|<...>|
 |''Author''|Zooko|
 |''Contributors''|FND|
-|''Version''|0.1.4|
+|''Version''|0.1.5|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/Zooko/HTTPSavingPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/Zooko/HTTPSavingPlugin.js|
@@ -120,8 +120,14 @@ saveFile = function(fileUrl,content,callb) {
 			displayMessage("saving failed: " + responseText);
 		}
 	};
-	return httpReq("PUT",fileUrl,localCallback,null,null,content,"tahoe tiddly type");
+	return httpReq("PUT",fileUrl,localCallback,null,null,content,"text/html;charset=utf-8");
 };
+
+// override convertUnicodeToFileFormat()
+function convertUnicodeToFileFormat(s)
+{
+	return s;
+}
 
 } //# end of "install only once"
 //}}}
