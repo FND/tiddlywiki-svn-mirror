@@ -32,7 +32,7 @@
 <!--}}}-->
 
 !SideBarOptions
-<<search>><<closeAll>><<permaview>><<newTiddler "New Tiddler" MediaWikiFormat>><<saveChanges>><<slider chkSliderOptionsPanel MediaWikiTheme##OptionsPanel "options È" "Change TiddlyWiki advanced options">>
+<<search>><<closeAll>><<permaview>><<newTiddler "New Tiddler" fields:"wikiformat:mediawiki">><<saveChanges>><<slider chkSliderOptionsPanel MediaWikiTheme##OptionsPanel "options È" "Change TiddlyWiki advanced options">>
 
 !OptionsPanel
 These ~InterfaceOptions for customising ~TiddlyWiki are saved in your browser
