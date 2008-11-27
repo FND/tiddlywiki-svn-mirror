@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.10|
+|''Version:''|0.5.11|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -358,11 +358,14 @@ config.mediawiki.formatters = [
 	{
 		var pair = MediaWikiTemplate.findTableBracePair(w.source,w.matchStart);
 		if(pair.start==w.matchStart) {
+		//#console.log('wwww');
 			w.nextMatch = w.matchStart;
 			var table = createTiddlyElement2(w.output,'table');
 			var tbody = createTiddlyElement2(table,'tbody');// needed for IE
 			var mwt = new MediaWikiTemplate();
+			//#var t0 = new Date();
 			mwt.wikifyTable(tbody,w,pair);
+			//#console.log('tabletime:'+(new Date()-t0)+'ms');
 		}
 	}
 },
@@ -1223,7 +1226,7 @@ MediaWikiTemplate.findDBP = function(text,start,end)
 		while((db.end!=-1 && e>db.start && e<=db.end) || (tb.end!=-1 && e>tb.start && e<=tb.end)) {
 			//# intervening double or triple brace pair, so skip over
 			if(db.end!=-1 && e>db.start && e<=db.end) {
-				var si = db.end+2;
+				si = db.end+2;
 				if(tb.end!=-1 && e>tb.start && e<=tb.end) {
 					if(tb.end>db.end)
 						si = tb.end+3;
@@ -1251,7 +1254,7 @@ MediaWikiTemplate.findDBP = function(text,start,end)
 //#console.log('s:'+s+' t:'+text);
 //#console.log('tb:'+tb.start+' ,'+tb.end);
 		//return tb.end==-1 ? ret : MediaWikiTemplate.findDBP(text,tb.end+3);
-		return MediaWikiTemplate.findDBP(text,s+3)
+		return MediaWikiTemplate.findDBP(text,s+3);
 	} else if(c==4) {
 		//# it's a quadrupal brace, so see if it is matched (eg {{{{x}}}} ) or not (eg {{{{x}} }} )
 		db = MediaWikiTemplate.findDBP(text,s+2);
@@ -1403,7 +1406,7 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 {
 //#console.log('wikifyTable');
 //#console.log(w);
-//#console.log(w.source);
+//#console.log(w.source.substr(w.nextMatch));
 	function lineEnd(w) {
 		var r = w.source.indexOf('\n',w.nextMatch);
 		while(r!=-1) {
@@ -1464,6 +1467,10 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 			if(pair2.start==w.nextMatch) {
 				var table2 = createTiddlyElement2(cell,'table');
 				this.wikifyTable(table2,w,pair2);
+				var y = w.source.substr(w.nextMatch).escapeLineBreaks();
+				while(w.source.substr(w.nextMatch,1)=='\n') {
+					w.nextMatch++;
+				}
 			}
 		} else if(x=='|-') {
 			//# new row
@@ -1551,8 +1558,9 @@ MediaWikiTemplate.prototype.wikifyTable = function(table,w,pair)
 			w.nextMatch = i+1;
 			//w.subWikifyTerm(cell,/(\n)/mg);
 		} else {
+			//#console.log('unknown',x.escapeLineBreaks());
 		}
-		x = w.source.substr(w.nextMatch,2);
+	x = w.source.substr(w.nextMatch,2);
 //#console.log('xw2:'+x);
 	}
 	w.nextMatch = pair.end + 3;
