@@ -35,7 +35,14 @@ if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
 
 plugin = {
 	adaptor: null, // no default adaptor -- XXX: wrong way to pass in adaptor?
-	msgDeleted: "This tiddler has been deleted.",
+	locale: {
+		saved: "%0 saved successfully",
+		saveError: "Error saving %0: %1",
+		deleted: "Removed %0",
+		deleteError: "Error removing %0: %1",
+		deleteLocalError: "Error removing %0 locally",
+		removedNotice: "This tiddler has been deleted."
+	},
 
 	saveTiddler: function(tiddler) {
 		var adaptor = new this.adaptor();
@@ -55,9 +62,9 @@ plugin = {
 			} else {
 				tiddler.fields.changecount -= context.changecount;
 			}
-			displayMessage("Saved " + tiddler.title); // TODO: i18n
+			displayMessage(plugin.locale.saved.format([tiddler.title]));
 		} else { // TODO: handle 412 etc.
-			displayMessage("Error saving " + tiddler.title + ": " + context.statusText); // TODO: i18n
+			displayMessage(plugin.locale.saveError.format([tiddler.title, context.statusText]));
 		}
 	},
 
@@ -76,11 +83,11 @@ plugin = {
 			if(tiddler.fields.deleted) {
 				store.deleteTiddler(tiddler.title);
 			} else {
-				displayMessage("Error removing " + tiddler.title + " locally"); // TODO: i18n
+				displayMessage(plugin.locale.deleteError.format([tiddler.title]));
 			}
-			displayMessage("Removed " + tiddler.title); // TODO: i18n
+			displayMessage(plugin.locale.deleted.format([tiddler.title]));
 		} else { // TODO: handle 412 etc.
-			displayMessage("Error removing " + tiddler.title + ": " + context.statusText); // TODO: i18n
+			displayMessage(plugin.locale.deleteLocalError.format([tiddler.title, context.statusText]));
 		}
 	}
 };
@@ -101,8 +108,8 @@ TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override d
 	var tiddler = this.fetchTiddler(title);
 	if(tiddler) {
 		tiddler.tags = ["excludeLists", "excludeSearch", "excludeMissing"];
-		tiddler.text = plugin.msgDeleted;
-		tiddler.fields.deleted = true;
+		tiddler.text = plugin.locale.removedNotice;
+		tiddler.fields.deleted = true; // XXX: rename to removed/tiddlerRemoved?
 		tiddler.incChangeCount();
 		this.notify(title, true);
 		this.setDirty(true);
