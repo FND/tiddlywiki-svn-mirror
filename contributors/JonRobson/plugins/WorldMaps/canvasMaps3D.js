@@ -83,6 +83,39 @@ var EasyMapController = function(targetjs,elem){
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 };
 EasyMapController.prototype = {
+	addMousePanning: function(){
+		var that = this;
+		this.wrapper.onmousedown = function(e){
+			var t = resolveTarget(e);
+			if(t.getAttribute("class") == "easyControl") return;
+			this.mousedown = true;			
+		};
+		this.wrapper.onmouseup = function(e){
+			this.mousedown = false;
+		}
+		this.wrapper.onmousemove = function(e){
+			if(!this.mousedown) return;
+			var t = resolveTarget(e);
+			if(t.getAttribute("class") == "easyControl") return;
+			
+			var pos = that.utils.getMouseFromEventRelativeToCenter(e);
+			if(!this.lastpos) lastpos = pos;
+			else{
+				if(pos.x > this.lastpos.x -10 && pos.x < this.lastpos.x + 1)return;
+				if(pos.y > this.lastpos.y -10 && pos.y < this.lastpos.y + 10 )return;
+					
+				}
+			this.lastpos = pos;
+			
+			var t = that.transformation;
+			t.translate.x += -(pos.x / t.scale.x);
+			t.translate.y +=-(pos.y / t.scale.y);
+			that.targetjs.transform(that.transformation);
+			//this.transformation.translate.x = pos.x;
+			return false;
+			
+		}
+	},
 	setTransformation: function(t){
 		if(!t.scale && !t.translate) alert("bad transformation applied");
 		this.transformation = t;
@@ -151,6 +184,10 @@ EasyMapController.prototype = {
 				break;
 			case "zoom":
 				this.addZoomingActions(controlDiv);
+				break;
+			case "mousepanning":
+				this.addMousePanning();
+				break;
 			default:
 				break;
 		}
@@ -163,6 +200,7 @@ EasyMapController.prototype = {
 		newCanvas.style.position = "absolute";
 		newCanvas.style.left = 0;
 		newCanvas.style.top = 0;
+		newCanvas.setAttribute("class","easyControl");
 		//this.wrapper.controlDiv.appendChild(newCanvas);
 		this.wrapper.appendChild(newCanvas);
 		newCanvas.memory = [];
@@ -198,6 +236,7 @@ EasyMapController.prototype = {
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','buttonType': 'minus'}));
 		zoomCanvas.onclick = this.clickHandler;	
 	},	
+	
 	clickHandler: function(e) {
 		if(!e) {
 			e = window.event;
@@ -268,8 +307,17 @@ var EasyMap = function(wrapper){
 		
 	this.wrapper = wrapper;
 	wrapper.style.position = "relative";
+	var that = this;
 	this.mousemoveHandler = function(e,shape){
-
+		if(!e) {
+			e = window.event;
+		}
+		var tt =document.getElementById('tooltip');
+		if(!tt){
+			document.createElement('tooltip');
+			return;
+		}
+		
 		var x = e.clientX; var y = e.clientY;
 
 		if(this.lastMouseMove && x < this.lastMouseMove.x + 2 && x > this.lastMouseMove.x -2) {return;}
@@ -279,13 +327,20 @@ var EasyMap = function(wrapper){
 		this.lastMouseMove = {};
 		this.lastMouseMove.x = x;this.lastMouseMove.y = y;
 		
-		if(!e) {
-			e = window.event;
-		}
-		var shape = eMap.utils.getShapeAtClick(e);
+
+		var shape = that.utils.getShapeAtClick(e);
 		if(shape){
-			this.title = shape.properties.name;
+			
+			tt.innerHTML = shape.properties.name;
+			tt.style.left = x;
+			tt.style.top = y;
+			this.setAttribute("title","");
+			this.setAttribute("title",shape.properties.name);
+					//this.setAttribute("alt",shape.properties.name);
+			
 		}	
+		else
+			this.setAttribute("title","");
 		
 		
 
@@ -296,6 +351,9 @@ var EasyMap = function(wrapper){
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width) || 600;
 	canvas.height = parseInt(wrapper.style.height) || 400;
+	
+	if(!wrapper.style.width) wrapper.style.width = canvas.width + "px";
+	if(!wrapper.style.height) wrapper.style.height = canvas.height + "px";
 	//canvas.id = divID + "_canvas";
 	//canvas.id = "canvas_" + Math.random();
 	canvas.style["z-index"] = -1;
@@ -315,6 +373,7 @@ var EasyMap = function(wrapper){
 	
 	this.controller = new EasyMapController(this,wrapper);
 	this.transform(this.controller.transformation); //set initial transformation
+	this.clear();
 };
 EasyMap.prototype = {	
 	addControl: function(controlType) {
@@ -343,8 +402,10 @@ EasyMap.prototype = {
 			else
 				geojson = responseText;
 			
-			geojson = this.utils.fitgeojsontocanvas(geojson,this.canvas);
-			this.clear();
+			if(!geojson.points){
+				geojson = this.utils.fitgeojsontocanvas(geojson,this.canvas);
+			}
+			//this.clear();
 			// NB: removing this statustext node so it doesn't mess up offsets in IE
 			// this problem needs to be fixed so that we're either not adding div's in
 			// places where they shouldn't be, or so they don't affect things
@@ -378,7 +439,6 @@ EasyMap.prototype = {
 		this.utils.loadRemoteFile(file,callback);
 	},	
 	drawFromSVG: function(representation){
-		this.clear();
 		var xml = this.utils._getXML(representation);
 
 		var json = this.utils.convertSVGToMultiPolygonFeatureCollection(xml,this.canvas);
@@ -465,9 +525,8 @@ EasyMap.prototype = {
 
 			}
 
-			if(shape.isSubjectToThreshold) console.log(shape.transformedCoords);
-			this.ctx.fillStyle =shape.fillStyle;
-			this.ctx.strokeStyle = shape.strokeStyle;
+			
+			
 			this.ctx.beginPath();
 
 			var x = parseFloat(shape.transformedCoords[0]);
@@ -488,12 +547,16 @@ EasyMap.prototype = {
 			//connect last to first
 			this.ctx.lineTo(initialX,initialY, x,y);
 			this.ctx.closePath();
-			
+		
 			if(!shape.hidden) {
-				if(!shape.fill) 
-				  this.ctx.stroke();
-				else 
+				if(!shape.fill) {
+				//	this.ctx.strokeStyle = shape.strokeStyle;
+					this.ctx.stroke();
+				}
+				else {
+				this.ctx.fillStyle =shape.fillStyle;
 				  this.ctx.fill();
+				}
 			}
 	
 		
@@ -601,8 +664,7 @@ EasyShape.prototype={
 			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 			newcoords = this._convertGeoJSONCoords(newcoords);
 			element.notSubjectToThreshold = true;
-			if(!element.fillStyle) element.fillStyle ="#000000";
-			this.constructBasicPolygon(element,newcoords);	
+			this.constructBasicPolygon(element,newcoords);
 		}
 		else
 			console.log("don't know what to do with shape " + element.shape);
@@ -612,11 +674,13 @@ EasyShape.prototype={
 		this.shape = "polygon";
 		this.transformedCoords = this.coords;
 		//this.href = "#";
-		this.properties = properties
+		this.properties = properties;
 		this.fill = true;
 		if(this.properties.colour)
 			this.fillStyle =  this.properties.colour;
-			
+		else
+			this.fillStyle ="#000000";
+		
 		if(typeof this.properties.fill == 'boolean'){	
 			this.fill = this.properties.fill;
 		}
@@ -882,15 +946,37 @@ EasyMapUtils.prototype = {
 	_degToRad: function(deg) {
 		return deg * Math.PI / 180;
 	},
+	getMouseFromEventRelativeToCenter: function(e){
+		
+		var pos = this.getMouseFromEvent(e);
+		
+		var w = parseInt(this.wrapper.style.width);
+		var h = parseInt(this.wrapper.style.height);
+		
+		if(!w || !h) throw "wrapper has no width or height (easymaputils)";
+		pos.x -= w/2;
+		pos.y -= h/2;
+
+		
+		return pos;
+	},
+	getMouseFromEvent : function(e){
+			var id ="#"+this.wrapper.id;
+
+			var offset = $(id).offset();
+
+			x = e.clientX + window.findScrollX() - offset.left;
+			y = e.clientY + window.findScrollY() - offset.top;
+
+			return {'x':x, 'y':y};		
+				
+	},
 	getShapeAtClick: function(e){
 		if(!e) {
 			e = window.event;
 		}
 		var target = resolveTargetWithMemory(e);
-				//console.log("target: ",target);
-				//console.log("target id: "+target.id);
-				//console.log("target width: "+target.width); <-- this break in IE...
-				//console.log("target nodename: "+target.nodeName);
+
 		var id ="#"+this.wrapper.id;
 		
 		var offset = $(id).offset();

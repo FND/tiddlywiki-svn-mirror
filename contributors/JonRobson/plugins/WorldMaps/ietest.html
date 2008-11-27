@@ -16,16 +16,60 @@ function init(){
 
 		var s = eMap.utils.getShapeAtClick(e);
 		
-		if(s)
+		if(s){
 			alert(s.properties.name);
+			}
+			
 	};
 	
 	eMap.utils._testCanvas(eMap.ctx);
 	geojson = eMap.utils.fitgeojsontocanvas(eval(geojson),eMap.canvas);
-	eMap.drawFromGeojson(geojson);
+
 	eMap.addControl("pan");
 	eMap.addControl("zoom");
+	eMap.addControl("mousepanning");
 
+
+var that = eMap;
+eMap.mousemoveHandler = function(e,shape){
+	if(!e) {
+		e = window.event;
+	}
+	var tt =document.getElementById('tooltip');
+	if(!tt){
+		tt = document.createElement('div');
+		tt.style.position = "absolute";
+		tt.id = 'tooltip';
+		tt.setAttribute("class","tooltip");
+		eMap.wrapper.appendChild(tt);
+	}
+	
+	var x = e.clientX; var y = e.clientY;
+
+	if(this.lastMouseMove && x < this.lastMouseMove.x + 2 && x > this.lastMouseMove.x -2) {return;}
+	if(this.lastMouseMove &&  y < this.lastMouseMove.y + 2 && y > this.lastMouseMove.y -2) {return;}
+	
+	this.lastMouseMove = {};
+	this.lastMouseMove.x = x;this.lastMouseMove.y = y;
+	
+
+	var shape = that.utils.getShapeAtClick(e);
+	if(shape){
+		tt.innerHTML = shape.properties.name;
+		tt.style.left = x + "px";
+		tt.style.top = y + "px";
+		tt.style.display = "";
+		
+	}	
+	else
+		tt.style.display = "none";
+	
+	
+
+
+};
+eMap.clear();
+eMap.drawFromGeojson(geojson);
 }
 
 </script>
