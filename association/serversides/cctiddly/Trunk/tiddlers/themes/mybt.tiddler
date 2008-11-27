@@ -38,9 +38,8 @@
 			<div class="portletCornerLeft"></div>
 			<div class="portletCornerRight"></div>
 			<div class="portletTitle">
-				<div class='title' macro='view title'></div>
+	<div class='title'>Simons Wiki</div>
 			</div>
-	<b>Simons Wiki</b>
 		</div>
 
 		<div class="portletContent">
@@ -68,9 +67,8 @@
 				<div class="portletCornerLeft"></div>
 				<div class="portletCornerRight"></div>
 				<div class="portletTitle">
-					<div class='title' macro='view title'></div>
+			<div class='title'>Options</div>
 				</div>
-		<b>Options</b>
 			</div>
 			<div class="portletContent">
 
@@ -280,7 +278,7 @@ div.annotation {
 	background-color:white;
 	border:1px solid black;
 }
-
+						
 /*}}}*/
 </pre>
 </div>
