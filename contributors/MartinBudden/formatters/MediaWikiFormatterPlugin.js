@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.11|
+|''Version:''|0.5.12|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -629,7 +629,6 @@ config.mediawiki.formatters = [
 				var e;
 				var link = lookaheadMatch[3];
 				var text = link;
-				//#var link2 = link;
 				link = link.substr(0,1).toUpperCase() + link.substring(1);
 				if(lookaheadMatch[4]) {
 					//# Simple bracketted link
@@ -655,12 +654,18 @@ config.mediawiki.formatters = [
 					while(link.charAt(0)==':')
 						link = link.substring(1);
 					link = MediaWikiFormatter.normalizedTitle(link);
+					var i = link.indexOf('#');
 					//#if(config.formatterHelpers.isExternalLink(link)) {
 					//#	e = createExternalLink(w.output,link);
 					//#} else {
 					//#mwDebug(w.output,'fm2:'+w.tiddler.title);
-						e = createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
+					//#	e = createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
 					//#}
+					if(i==-1) {
+						e = createTiddlyLink(w.output,link,false,null,w.isStatic,w.tiddler);
+					} else {
+						e = createTiddlyLink(w.output,link.substr(0,i),false,null,w.isStatic,w.tiddler);
+					}
 					var oldSource = w.source; var oldMatch = w.nextMatch;
 					w.source = lookaheadMatch[7].trim(); w.nextMatch = 0;
 					w.subWikifyUnterm(e);
@@ -730,6 +735,8 @@ config.mediawiki.formatters = [
 				w.source = oldSource; w.nextMatch = oldMatch;
 			} else {
 				e = createExternalLink(createTiddlyElement2(w.output,'sup'),link);
+				if(w.linkCount===undefined)
+					w.linkCount = 0;
 				w.linkCount++;
 				createTiddlyText(e,'['+w.linkCount+']');
 			}
