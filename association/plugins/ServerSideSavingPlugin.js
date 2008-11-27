@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.1.1|
+|''Version''|0.1.2|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -73,7 +73,11 @@ plugin = {
 	removeTiddlerCallback: function(context, userParams) {
 		var tiddler = context.tiddler;
 		if(context.status) {
-			store.deleteTiddler(tiddler.title); // XXX: might have been renamed in the meantime!?
+			if(tiddler.fields.deleted) {
+				store.deleteTiddler(tiddler.title);
+			} else {
+				displayMessage("Error removing " + tiddler.title + " locally"); // TODO: i18n
+			}
 			displayMessage("Removed " + tiddler.title); // TODO: i18n
 		} else { // TODO: handle 412 etc.
 			displayMessage("Error removing " + tiddler.title + ": " + context.statusText); // TODO: i18n
