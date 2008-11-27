@@ -259,11 +259,13 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = tiddler.title;
-	if(tiddler.fields.originaltitle && tiddler.title != tiddler.fields.originaltitle) {
+	if(!tiddler.fields.originaltitle) {
+		tiddler.fields.originaltitle = tiddler.title; //# required for detecting subsequent renames -- XXX: modifying the store in putTiddler is unexpected
+	} else if(tiddler.title != tiddler.fields.originaltitle) {
 		return this.renameTiddler(tiddler, context, userParams, callback);
 	}
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
-	var host = context.host ? context.host : this.fullHostName(tiddler.fields["server.host"]); // TODO: fullHostName should be static method!?
+	var host = context.host ? context.host : this.fullHostName(tiddler.fields["server.host"]);
 	var bag = tiddler.fields["server.bag"];
 	if(bag) {
 		var uri = uriTemplate.format([host, "bags", bag, tiddler.title]);
