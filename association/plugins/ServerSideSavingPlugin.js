@@ -17,6 +17,7 @@
 !!v0.1 (2008-11-24)
 * initial release
 !To Do
+* handle offline vs. online experience (saving locally and/or to server)
 * rename to ServerLinkPlugin?
 * attempt to determine default adaptor (and defaultCustomFields) from systemServer tiddlers
 * handle deleting/renaming (e.g. by hijacking the respective commands and creating a log)
@@ -34,11 +35,11 @@ if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
 
 plugin = {
 	adaptor: null, // no default adaptor -- XXX: wrong way to pass in adaptor?
+	msgDeleted: "This tiddler has been deleted.",
 
 	saveTiddler: function(tiddler) {
 		var adaptor = new this.adaptor();
 		context = {
-			tiddler: tiddler,
 			changecount: tiddler.fields.changecount,
 			workspace: tiddler.fields["server.workspace"] // XXX: bag?
 		};
@@ -49,36 +50,59 @@ plugin = {
 	saveTiddlerCallback: function(context, userParams) {
 		var tiddler = context.tiddler;
 		if(context.status) {
-			displayMessage("Saved " + tiddler.title); // TODO: i18n
-			if(tiddler.fields.changecount != context.changecount) {
+			if(tiddler.fields.changecount == context.changecount) { //# check for changes since save was triggered
 				tiddler.clearChangeCount();
+			} else {
+				tiddler.fields.changecount -= context.changecount;
 			}
+			displayMessage("Saved " + tiddler.title); // TODO: i18n
 		} else { // TODO: handle 412 etc.
 			displayMessage("Error saving " + tiddler.title + ": " + context.statusText); // TODO: i18n
+		}
+	},
+
+	removeTiddler: function(tiddler) {
+		var adaptor = new this.adaptor();
+		context = {
+			workspace: tiddler.fields["server.workspace"] // XXX: bag?
+		};
+		var req = adaptor.deleteTiddler(tiddler, context, {}, this.removeTiddlerCallback);
+		return req ? tiddler : false;
+	},
+
+	removeTiddlerCallback: function(context, userParams) {
+		var tiddler = context.tiddler;
+		if(context.status) {
+			store.deleteTiddler(tiddler.title); // XXX: might have been renamed in the meantime!?
+			displayMessage("Removed " + tiddler.title); // TODO: i18n
+		} else { // TODO: handle 412 etc.
+			displayMessage("Error removing " + tiddler.title + ": " + context.statusText); // TODO: i18n
 		}
 	}
 };
 
-// override saveChanges to trigger server-side saving -- XXX: use hijacking instead
+// override saveChanges to trigger server-side saving -- XXX: use hijacking instead (crucial for offline experience)
 saveChanges = function(onlyIfDirty, tiddlers) {
 	store.forEachTiddler(function(title, tiddler) {
-		if(tiddler.fields.changecount > 0) {
+		if(tiddler.fields.deleted) {
+			plugin.removeTiddler(tiddler);
+		} else if(tiddler.fields.changecount > 0) {
 			plugin.saveTiddler(tiddler); // TODO: handle return value
 		}
 	});
 };
 
-// hijack removeTiddler to trigger server-side deletion
-plugin.removeTiddler = TiddlyWiki.prototype.removeTiddler;
-TiddlyWiki.prototype.removeTiddler = function(title) {
+// override removeTiddler to flag tiddler as deleted
+TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override deleteTiddler instance method?
 	var tiddler = this.fetchTiddler(title);
 	if(tiddler) {
-		var callback = function(context, userParams) {
-			return context.status; // XXX: not sufficient (i.e. needs displayMessage)?
-		};
-		plugin.adaptor.deleteTiddler(tiddler, null, null, callback);
+		tiddler.tags = ["excludeLists", "excludeSearch", "excludeMissing"];
+		tiddler.text = plugin.msgDeleted;
+		tiddler.fields.deleted = true;
+		tiddler.incChangeCount();
+		this.notify(title, true);
+		this.setDirty(true);
 	}
-	plugin.removeTiddler.apply(this, arguments);
 };
 
 })(config.extensions.ServerSideSavingPlugin); //# end of alias
