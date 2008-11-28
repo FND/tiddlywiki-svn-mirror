@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.3|
+|''Version:''|0.8.4|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -31,12 +31,12 @@ if(!config.options.txtMediaWikiPassword)
 
 //{{{
 //# Ensure that the plugin is only installed once.
-if(!config.extensions.MediaWikiAdaptor) {
+if(!config.adaptors.MediaWikiAdaptor) {
 
 if(config.options.txtMediaWikiAdaptorLimit == undefined)
 	{config.options.txtMediaWikiAdaptorLimit = '500';}
 
-config.extensions.MediaWikiAdaptor = function() {};
+config.adaptors.MediaWikiAdaptor = function() {};
 
 (function(adaptor) {
 
@@ -875,6 +875,6 @@ adaptor.deleteTiddlerCallback2 = function(status,context,responseText,uri,xhr)
 };
 
 config.adaptors[adaptor.serverType] = adaptor;
-})(config.extensions.MediaWikiAdaptor);
+})(config.adaptors.MediaWikiAdaptor);
 } // end of 'install only once'
 //}}}
