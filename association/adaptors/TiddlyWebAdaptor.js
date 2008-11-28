@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.1.3|
+|''Version''|0.1.4|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/association/|
@@ -333,6 +333,21 @@ adaptor.deleteTiddlerCallback = function(status, context, responseText, uri, xhr
 	if(context.callback) {
 		context.callback(context, context.userParams);
 	}
+};
+
+adaptor.prototype.generateTiddlerInfo = function(tiddler) {
+	var info = {};
+	var host = this.host || tiddler.fields["server.host"]; // XXX: this.host obsolete?
+	host = this.fullHostName(host);
+	var bag = tiddler.fields["server.bag"];
+	var uriTemplate = "%0/%1/%2/tiddlers/%3";
+	if(bag) {
+		info.uri = uriTemplate.format([host, "bags", bag, tiddler.title]);
+	} else {
+		var workspace = tiddler.fields["server.workspace"];
+		info.uri = uriTemplate.format([host, "recipes", workspace, tiddler.title]);
+	}
+	return info;
 };
 
 })(config.adaptors.tiddlyweb); //# end of alias
