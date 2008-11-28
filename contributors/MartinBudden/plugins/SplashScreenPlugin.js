@@ -3,7 +3,7 @@
 |''Description:''|Provides a splash screen that consists of the rendered default tiddlers|
 |''Author:''|Martin Budden|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SplashScreenPlugin.js |
-|''Version:''|0.0.6|
+|''Version:''|0.0.7|
 |''Date:''|April 17, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -35,30 +35,48 @@ version.extensions.SplashScreenPlugin.setup = function()
 		return;
 
 	//# put the splash screen display and color styles in the MarkupPostHead tiddler
-	var text = "<!--{{{-->\n\n";
+	var text = "<!--{{{-->\n";
 	text += "<style type=\"text/css\">\n";
 	text += "#contentWrapper {display:none;}\n";
 	text += "#splashScreen {display:block;}\n";
 
-/*
-	text += ".title {color:#841;}\n";
-	text += ".subtitle {color:#666;}\n";
-	text += ".header {background:#04b;}\n";
-	text += ".headerShadow {color:#000;}\n";
-	text += ".headerShadow a {font-weight:normal; color:#000;}\n";
-	text += ".headerForeground {color:#fff;}\n";
-	text += ".headerForeground a {font-weight:normal; color:#8cf;}\n";
-	text += ".shadow .title {color:#666;}\n";
-*/
 	var cp = "ColorPalette";
-	var pm = store.getTiddlerSlice(cp,"PrimaryMid");
 	var bg = store.getTiddlerSlice(cp,"Background");
 	var fg = store.getTiddlerSlice(cp,"Foreground");
 	var pp = store.getTiddlerSlice(cp,"PrimaryPale");
+	var pl = store.getTiddlerSlice(cp,"PrimaryLight");
+	var pm = store.getTiddlerSlice(cp,"PrimaryMid");
+	var pd = store.getTiddlerSlice(cp,"PrimaryDark");
+	var sp = store.getTiddlerSlice(cp,"SecondaryPale");
+	var sl = store.getTiddlerSlice(cp,"SecondaryLight");
 	var sm = store.getTiddlerSlice(cp,"SecondaryMid");
 	var sd = store.getTiddlerSlice(cp,"SecondaryDark");
+	var tp = store.getTiddlerSlice(cp,"TertiaryPale");
+	var tl = store.getTiddlerSlice(cp,"TertiaryLight");
+	var tm = store.getTiddlerSlice(cp,"TertiaryMid");
 	var td = store.getTiddlerSlice(cp,"TertiaryDark");
+	var er = store.getTiddlerSlice(cp,"Error");
 
+	var sc = store.getTiddlerText("StyleSheetColors");
+	sc = sc.replace("[[ColorPalette::Background]]",bg);
+	sc = sc.replace("[[ColorPalette::Foreground]]",fg);
+	sc = sc.replace("[[ColorPalette::PrimaryPale]]",pp);
+	sc = sc.replace("[[ColorPalette::PrimaryLight]]",pl);
+	sc = sc.replace("[[ColorPalette::PrimaryMid]]",pm);
+	sc = sc.replace("[[ColorPalette::PrimaryDark]]",pd);
+	sc = sc.replace("[[ColorPalette::SecondaryPale]]",sp);
+	sc = sc.replace("[[ColorPalette::SecondaryLight]]",sl);
+	sc = sc.replace("[[ColorPalette::SecondaryMid]]",sm);
+	sc = sc.replace("[[ColorPalette::SecondaryDark]]",sd);
+	sc = sc.replace("[[ColorPalette::TertiaryPale]]",tp);
+	sc = sc.replace("[[ColorPalette::TertiaryLight]]",tl);
+	sc = sc.replace("[[ColorPalette::TertiaryMid]]",tm);
+	sc = sc.replace("[[ColorPalette::TertiaryDark]]",td);
+	sc = sc.replace("[[ColorPalette::Error]]",er);
+	
+	text += sc;
+
+	/*
 	text += "body {background:"+bg+"; color:"+fg+";}\n";
 	text += "a {color:"+pm+";}";
 	text += "a:hover {background-color:"+pm+"; color:"+bg+";}";
@@ -73,8 +91,9 @@ version.extensions.SplashScreenPlugin.setup = function()
 	text += ".viewer table, table.twtable {border:2px solid "+td+";}";
 	text += ".viewer th, .viewer thead td, .twtable th, .twtable thead td {background:"+sm+"; border:1px solid "+td+"; color:"+bg+";}";
 	text += ".viewer td, .viewer tr, .twtable td, .twtable tr {border:1px solid "+td+";}";
+	*/
 
-	console.log(store.getTiddlerText("StyleSheet"));
+	//#console.log(store.getTiddlerText("StyleSheet"));
 	var tiddlers = store.filterTiddlers(store.getTiddlerText("StyleSheet"));
 	//#console.log(tiddlers);
 	for(var i=0;i<tiddlers.length;i++) {
@@ -82,8 +101,8 @@ version.extensions.SplashScreenPlugin.setup = function()
 		text += tiddlers[i].text;
 	}
 
-	text += "</style>\n";
-	text += "<!--}}}-->\n\n";
+	text += "\n</style>\n";
+	text += "<!--}}}-->\n";
 	var tiddler = store.createTiddler("MarkupPostHead");
 	tiddler.set(tiddler.title,text,config.options.txtUserName,null,"excludeLists excludeSearch");
 
