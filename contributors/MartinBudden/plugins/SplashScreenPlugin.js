@@ -3,7 +3,7 @@
 |''Description:''|Provides a splash screen that consists of the rendered default tiddlers|
 |''Author:''|Martin Budden|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SplashScreenPlugin.js |
-|''Version:''|0.0.8|
+|''Version:''|0.1.1|
 |''Date:''|April 17, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -95,12 +95,14 @@ version.extensions.SplashScreenPlugin.setup = function()
 	*/
 
 	//#console.log(store.getTiddlerText("StyleSheet"));
-	/*var tiddlers = store.filterTiddlers(store.getTiddlerText("StyleSheet"));
+	/*
+	var tiddlers = store.filterTiddlers(store.getTiddlerText("StyleSheet"));
 	console.log("tiddlers",tiddlers);
 	for(var i=0;i<tiddlers.length;i++) {
 		//#console.log(tiddlers[i].text);
 		text += tiddlers[i].text;
-	}*/
+	}
+	*/
 
 	text += "\n</style>\n";
 	text += "<!--}}}-->\n";
@@ -115,6 +117,7 @@ version.extensions.SplashScreenPlugin.setup = function()
 	pt = pt.replace(/<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'><\/span>/mg,"<span class=\"siteSubtitle\">"+sitesubtitle+"</span>");
 	pt = pt.replace(/<!--\{\{\{-->/mg,"").replace(/<!--\}\}\}-->/mg,"");
 	text = "";
+	
 	tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
 	for(i=0;i<tiddlers.length;i++) {
 		tiddler = tiddlers[i];
@@ -130,8 +133,10 @@ version.extensions.SplashScreenPlugin.setup = function()
 		tiddlerElem.innerHTML = t;
 		applyHtmlMacros(tiddlerElem,tiddler);
 		text += '<div id="splashId_' + tiddler.title + '" class="tiddler">\n';
-		text += tiddlerElem.innerHTML;
-		text += '\n</div>\n';
+		t = tiddlerElem.innerHTML;
+		// remove all tiddler links
+		t = t.replace(/<a tiddlylink=[^>]*>([^<]*)<\/a>/mg,"$1");
+		text += t + '\n</div>\n';
 	}
 	text = text.replace(/<!--\{\{\{-->/mg,"").replace(/<!--\}\}\}-->/mg,"");
 
