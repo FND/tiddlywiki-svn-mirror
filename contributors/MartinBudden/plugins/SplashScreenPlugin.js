@@ -3,7 +3,7 @@
 |''Description:''|Provides a splash screen that consists of the rendered default tiddlers|
 |''Author:''|Martin Budden|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SplashScreenPlugin.js |
-|''Version:''|0.1.1|
+|''Version:''|0.1.2|
 |''Date:''|April 17, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -135,7 +135,7 @@ version.extensions.SplashScreenPlugin.setup = function()
 		text += '<div id="splashId_' + tiddler.title + '" class="tiddler">\n';
 		t = tiddlerElem.innerHTML;
 		// remove all tiddler links
-		t = t.replace(/<a tiddlylink=[^>]*>([^<]*)<\/a>/mg,"$1");
+		t = t.replace(/<a .*?tiddlylink=[^>]*>([^<]*)<\/a>/mg,"$1");
 		text += t + '\n</div>\n';
 	}
 	text = text.replace(/<!--\{\{\{-->/mg,"").replace(/<!--\}\}\}-->/mg,"");
