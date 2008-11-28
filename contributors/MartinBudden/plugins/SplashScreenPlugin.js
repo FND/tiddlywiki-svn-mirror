@@ -3,7 +3,7 @@
 |''Description:''|Provides a splash screen that consists of the rendered default tiddlers|
 |''Author:''|Martin Budden|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SplashScreenPlugin.js |
-|''Version:''|0.0.5|
+|''Version:''|0.0.6|
 |''Date:''|April 17, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -122,6 +122,7 @@ version.extensions.SplashScreenPlugin.setup = function()
 
 	splash += "</div>\n";
 	splash += "<!--}}}-->\n\n";
+	splash += '<script type="text/javascript">\ndocument.getElementById("splashScreen").style.display="none";\n</script>\n';
 
 	tiddler = store.createTiddler("MarkupPreBody");
 	tiddler.set(tiddler.title,splash,config.options.txtUserName,null,"excludeLists excludeSearch");
