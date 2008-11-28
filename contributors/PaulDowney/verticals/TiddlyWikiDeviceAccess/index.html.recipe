@@ -1,5 +1,6 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: ../../../../contributors/PaulDowney/plugins/FatSlicePlugin/FatSlicePlugin.recipe
+tiddler: ../../../../contributors/MartinBudden/plugins/SplashScreenPlugin.js
 
 recipe: content/split.recipe
 recipe: shadows/split.recipe
