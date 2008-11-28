@@ -3,7 +3,7 @@
 |''Description:''|Provides a splash screen that consists of the rendered default tiddlers|
 |''Author:''|Martin Budden|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SplashScreenPlugin.js |
-|''Version:''|0.0.4|
+|''Version:''|0.0.5|
 |''Date:''|April 17, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -103,16 +103,15 @@ version.extensions.SplashScreenPlugin.setup = function()
 		tiddlerElem.style.display = "none";
 		tiddlerElem.setAttribute("refresh","tiddler");
 		var template = story.chooseTemplateForTiddler(title);
-		//#tiddlerElem.setAttribute("tags",tiddler.tags.join(" "));
-		tiddlerElem.setAttribute("tiddler",title);
-		tiddlerElem.setAttribute("template",template);
 		var t = story.getTemplateForTiddler(title,template,tiddler);
 		t = t.replace(/<div class=['"]toolbar[^<]*<\/div>/mg,"<div class=\"toolbar\"><br /></div>");
 		t = t.replace(/<div class=['"]tagging['"][^>]*><\/div>\n/mg,"");
 		t = t.replace(/<div class=['"]tagged['"][^>]*><\/div>\n/mg,"");
 		tiddlerElem.innerHTML = t;
 		applyHtmlMacros(tiddlerElem,tiddler);
+		text += '<div id="splashId_' + tiddler.title + '" class="tiddler">\n';
 		text += tiddlerElem.innerHTML;
+		text += '\n</div>\n';
 	}
 	text = text.replace(/<!--\{\{\{-->/mg,"").replace(/<!--\}\}\}-->/mg,"");
 
