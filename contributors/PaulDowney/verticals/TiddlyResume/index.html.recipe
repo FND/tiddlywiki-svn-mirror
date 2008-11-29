@@ -1,0 +1,13 @@
+#
+#   TiddlyResume recipe
+#
+
+# TiddlyWiki core
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+recipe: plugins/split.recipe
+recipe: shadows/split.recipe
+recipe: themes/split.recipe
+recipe: content/split.recipe
+recipe: examples/split.recipe
+

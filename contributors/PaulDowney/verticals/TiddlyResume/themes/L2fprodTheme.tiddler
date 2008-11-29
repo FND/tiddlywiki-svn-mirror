@@ -1,0 +1,113 @@
+<div title="L2fprodTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResume">
+<pre>
+|''StyleSheet''|##StyleSheet|
+!StyleSheet
+[[StyleSheet]]
+/*{{{*/
+
+/*   
+    Adapted from the hResume stylesheet by Frédéric Lavigne
+    http://l2fprod.com/cv/cv.php
+*/
+
+.hresume {
+  width: 700px;
+  background-color: #fff;
+  padding: 30px;
+  border: 1px solid #191919;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  text-align: left;
+}
+
+.hresume abbr {
+  border: none;
+}
+
+.hresume address {
+  font-style: normal;
+}
+
+.hresume hr {
+  display: block;
+}
+
+.hresume .contact .fn {
+  font-weight: bold;
+  font-size: 12pt;
+}
+
+.hresume .contact .adr {
+  margin-bottom: 10px;
+}
+
+.hresume h2 {
+  font-size: 12pt;
+  padding: 0 0 5px 0;
+  margin: 0;
+}
+
+.hresume .education, .hresume .accreditation {
+  margin: 10px 0 10px 20px;
+  padding: 1px;
+}
+
+.hresume .experience, .hresume .education, .hresume .misc {
+  padding: 5px;
+  margin: 10px 0 15px 20px;
+  border: 1px dotted #ccc;
+}
+
+.hresume .summary, .hresume .objective, .hresume .tags {
+  margin: 10px 0 20px 20px;
+  padding: 1px;
+}
+
+.hresume .education .htitle, .hresume .experience .htitle, .hresume .misc .htitle {
+  float: left;
+}
+
+.hresume .htitle .include {
+  display: none;
+}
+
+.hresume .education .date_duration, .hresume .experience .date_duration, .hresume .misc .date_duration {
+  float: right;
+  font-size: smaller;
+}
+
+.hresume .education .summary {
+  margin: 0;
+}
+
+.hresume .tags ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hresume .tags ul li {
+  display: inline;
+}
+
+.hresume {
+  margin: 30px;
+  color: #000;
+  background-color: #ebebeb;
+  font: 12px "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+.hresume p {
+  margin: 5px 0 0;
+  padding: 0;
+}
+
+.footer {
+  margin-top: 15px;
+  color: #7f8080;
+  font-size: 10px;
+}
+
+/*}}}*/
+</pre>
+</div>

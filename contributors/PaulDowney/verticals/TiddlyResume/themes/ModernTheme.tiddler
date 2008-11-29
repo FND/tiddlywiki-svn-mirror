@@ -1,0 +1,213 @@
+<div title="ModernTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResume">
+<pre>
+|''StyleSheet''|##StyleSheet|
+!StyleSheet
+[[StyleSheet]]
+/*{{{*/
+
+	.hresume {
+		background-color: #fff;
+		color: #000;
+		font: 80% "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;	
+		padding: 2em 3.25em;
+		margin: 0 auto;
+		border: 1px solid #000;
+		width: 52em;
+	}
+
+	h1, h2 {
+		font-variant: small-caps;
+		letter-spacing: 0.2em;
+	}
+
+	h1 {
+		border-bottom: 3px double #000;
+		margin: 0;
+	}
+
+	h1 a {
+		background-color: #fff;
+		color: #000;
+		text-decoration: none;
+	}
+
+	h2 {
+		border-bottom: 1px solid #000;
+		margin: 30px 0 0 0;
+	}
+
+	h3 {
+		font-size: 1em;
+		display: inline;
+		margin-right: .75em;
+		text-transform: uppercase;
+	}
+
+	.experience > h3 {
+	  margin-right: 0;
+	}
+
+	h3:after { 
+	  content: "- ";
+	}
+
+	h4 {
+		font-size: 1em;
+		margin-bottom: 0;
+	}
+
+	ul {
+		list-style-type: none;
+		padding-left: 0;
+	}
+
+	li { 
+		margin-bottom: .5em;
+	}
+
+	abbr { 
+		cursor: default;
+		border: none;
+	}
+
+	abbr:hover { 
+		cursor: default;
+		border-bottom: 1px dotted #000;
+	}
+
+	.type {
+		display: none;	
+	}
+
+	span.street-address, span.postal-code, div.tel { 
+		margin-right: .75em;
+	}
+
+	address > span.street-address, address > span.postal-code, div.vcard > div.tel { 
+		margin-right: 0;
+	}
+
+	span.street-address:after, span.postal-code:after, div.tel:after {
+		content: " \00B7";
+		font-weight: bold;
+		font-size: 1.1em;
+	}
+
+	span.additional-name  {
+		display: none;
+	}
+
+	address, div.email, div.tel { 
+		display: inline;
+		font-style: normal;
+	}
+
+	div.email a { 
+		background-color: #fff;
+		color: #000;
+		text-decoration: none;
+	}
+
+	div.email a span.value{ 
+		background-color: #fff;
+		color: #0000FF;
+		text-decoration: underline;
+	}
+
+	div.location { 
+		display: inline;
+	}
+
+	div.period { 
+		margin-top: -1.3em;
+		float: right;
+	}
+
+	@media all and (min-width: 0px) {
+	  div.period { 
+	    margin-top: 0;
+		}
+
+	}
+	p.description {
+		margin-top: 0;
+	}
+
+	ul.history {
+		list-style-type: none;
+		margin-left: 0;
+		padding-left: 0;
+	}
+
+	li.experience {
+		margin-bottom: 30px;
+	}
+
+	ul.skills  {
+		list-style-type: none;
+		margin: 10px 0 0 0;
+		padding: 0;
+	}
+
+	ul.skills li  {
+		margin: 0;
+		padding: 0;
+	}
+
+	ul.skillset {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		display: inline;
+	}
+
+	li.skillarea {
+		font-weight: bold;
+	}
+
+	ul.skillset li {
+		display: inline;
+		font-weight: normal;
+	}
+
+	ul.skillset li:after {
+		content: ", "
+	}
+
+	ul.skillset li:last-child:after {
+		content: ""
+	}
+
+	object.include {
+		display: none;
+		width:0; 
+		height:0;
+	}
+
+	div#resume_web_header {
+		padding: 0;
+		margin: 0 0 15px 0;
+	}
+
+	div#resume_web_header p {
+		text-align: center;
+		color: #888;
+		line-height: 1.3em;
+		font-size: .9em;
+		border-bottom: 1px solid #888;
+		padding: 0;
+		margin: 0;
+	}
+
+	.hresume p.summary abbr { border-bottom: 1px dotted #000; }
+	/*abbr.dtstart, abbr.dtend {
+	width: 50px;
+	height: 50px;
+	border: 1px solid red;
+	float: right;
+	top: 0;
+	}*/
+
+/*}}}*/
+</pre>
+</div>

@@ -1,0 +1,13 @@
+<div title="educationViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
+<pre>
+   <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+   <div class="vcalendar education vevent">
+	<object data="#name" class="fn include"></object>
+        <span class="time"><span macro="dtend dtend 'YYYY'"></span></span>
+	<span class='summary' macro='view title'></span>
+        <span class='org' macro="LinkMaker type:text display:org linkto:url"></span>
+        <span class='location' macro="view location"></span>
+	<div class='description' macro='view text wikified'></div>
+   </div>
+</pre>
+</div>

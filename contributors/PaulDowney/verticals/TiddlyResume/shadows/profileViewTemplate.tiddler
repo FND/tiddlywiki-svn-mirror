@@ -1,0 +1,24 @@
+<div title="profileViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
+<pre>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ProfileViewToolbar]]'></div>
+<div class="profile vcard">
+        <div class='photoframe' macro="LinkMaker type:img display:photo classname:photo"></div>
+	<span class="fn n" id="name">
+		<span class="honorific-prefix" macro="view honorific_prefix"></span>
+		<span class="given-name" macro="view given_name"></span>
+		<span class="additional-name" macro="view additional_name"></span>
+		<span class="family-name" macro="view family_name"></span>
+		<span class="honorific-suffix" macro="view honorific_suffix"></span>
+	</span>
+	<div class='adr'>
+		<span class="street-address" macro="view street_address"></span>
+		<span class="locality" macro="view locality"></span>
+		<span class="region" macro="view region"></span>
+		<span class="postal-code" macro="view postal_code"></span>
+	</div>
+        <div class='web' macro="LinkMaker type:text display:url linkto:url classname:url"></div>
+        <div class="email" macro="view email"></div>
+        <div class="tel" macro="view phone"></div>
+</div>
+</pre>
+</div>

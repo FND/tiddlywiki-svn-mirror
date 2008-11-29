@@ -1,0 +1,30 @@
+tiddler: SiteUrl.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+
+tiddler: MainMenu.tiddler
+tiddler: OptionsPanel.tiddler
+
+tiddler: settings.js
+
+tiddler: ColorPalette.tiddler
+tiddler: StyleSheet.tiddler
+tiddler: StyleSheetPrint.tiddler
+tiddler: EditTemplate.tiddler
+tiddler: PageTemplate.tiddler
+tiddler: ViewTemplate.tiddler
+
+tiddler: educationViewTemplate.tiddler
+tiddler: educationEditTemplate.tiddler
+tiddler: experienceViewTemplate.tiddler
+tiddler: experienceEditTemplate.tiddler
+tiddler: profileEditTemplate.tiddler
+tiddler: profileViewTemplate.tiddler
+
+tiddler: sectionViewTemplate.tiddler
+
+tiddler: ToolbarCommands.tiddler
+
+# Themes switch this:
+
+tiddler: DefaultTiddlers.tiddler

@@ -1,0 +1,141 @@
+<div title="StyleSheet" modifier="Paul Downey" created="200709041741" tags="excludeLists">
+<pre>/*{{{*/
+
+	body {
+		background-color: [[ColorPalette::BodyBackground]];	
+		color: [[ColorPalette::TextColor]];
+		font-size: 100%;
+		font-family: Georgia, serif;
+	}
+
+	#controlBar {
+		background-color: [[ColorPalette::MenuBackground]];
+		border-bottom: solid 1px [[ColorPalette::MenuBorder]];
+		color: [[ColorPalette::MenuText]];
+		font-size: 0.8em;
+		padding-left: 1em;
+		padding-bottom: 0.2em;
+	}
+
+	#controlBar a {
+		color: [[ColorPalette::MenuText]];
+		border-style: none;
+		margin-right: 2em;
+	}
+
+	#controlBar a:hover {
+		color: [[ColorPalette::MenuTextHover]];
+		background-color: [[ColorPalette::MenuBackground]];
+	}
+
+	#controlBar div.sliderPanel {
+		color: [[ColorPalette:MenuText]];
+		margin: 2em 2em;
+	}
+
+	#controlBar div.sliderPanel a {
+		margin-right: 0;
+	}
+
+	#backstageButton a {
+		color: [[ColorPalette:MenuText]];
+	}
+
+	#messageArea {
+		z-index: 9999;
+	}
+
+	#mainMenu {
+		display: none;
+	}
+
+	#header {
+		padding: 0px;
+		width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1em;
+	}
+
+	.siteTitle {
+		display: block;
+		color: [[ColorPalette::SiteTitle]];
+		background-color: [[ColorPalette::HeaderBackground]];
+		padding: 20px 0px 20px 0px;
+		font-size: 3em;
+		font-weight: bold;
+		letter-spacing: 2px;
+		text-align: center;
+	}
+
+	#mainArea {
+		width: 100%;
+	}
+
+	#displayArea {
+		display: inline-block; /* IE bugfix: give layout (hasLayout = true) */
+	}
+
+	#displayArea {
+		display: block; /* restore proper behavior (see IE bugfix above) */
+		background-color: [[ColorPalette::PaperShadow]];
+		border: thin solid [[ColorPalette::PaperBorder]];
+		padding: 1em;
+		margin: 0.5em auto 0.5em auto;
+		width: 210mm;		/* A4 paper size */
+	}
+
+	.hresume {
+		background-color: [[ColorPalette::PaperBackground]];
+		border: thin solid [[ColorPalette::PaperBorder]];
+		padding: 1em;
+	}
+
+	.hresume, span.title {
+		font-size: 14pt;	/* same size as for print */
+		font-weight: normal;
+		color: [[ColorPalette::PaperColor]];
+	}
+
+	.tiddler div.toolbar {
+		margin: 0;
+		padding: 0;
+		height: 2em;
+		float: right;
+		visibility: hidden;
+	}
+
+	.selected div.toolbar,
+	.editor div.toolbar {
+		visibility: visible;
+	}
+
+	.editor > .tags {
+		display: none;
+	}
+
+	.editor {
+		border: thin solid [[ColorPalette::EditorBorder]];
+		padding: 1em;
+	}
+
+	.profile  > .title {
+		display: none;
+	}
+
+	.hint {
+		color: [[ColorPalette::MenuText]];
+		font-size: 0.8em;
+	}
+
+	.label {
+		padding-top: 1em;
+	}
+
+	.label:after {
+		content: ":";
+	}
+
+
+/*}}}*/</pre>
+</div>

@@ -1,0 +1,17 @@
+# switch themes
+tiddler: $TW_ROOT/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js
+
+# Microformat macros
+tiddler: $TW_ROOT/contributors/PaulDowney/plugins/MicroformatPlugin.js
+
+# Microformat dates
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/FormatUTCStringPlugin/FormatUTCStringPlugin.recipe
+
+# Microformat links
+tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
+
+# group tiddlers into sections 
+tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
+
+# attach a template to a tiddler by the tag name
+tiddler: $TW_ROOT/verticals/RippleRap/core/plugins/TaggedTemplateTweak.js

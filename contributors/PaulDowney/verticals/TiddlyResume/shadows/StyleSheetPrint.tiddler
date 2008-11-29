@@ -1,0 +1,11 @@
+<div title="StyleSheetPrint">
+<pre>/*{{{*/
+@media print { 
+#header, #controlBar, #mainMenu, #sidebar, #messageArea, .toolbar, #backstageButton, #backstageArea {display: none ! important;}
+#mainArea, #displayArea, #tiddlerDisplay { width: 210mm; margin: 0px auto; border: 0px;}
+/* Fixes a feature in Firefox 1.5.0.2 where print preview displays the noscript content */
+noscript {display:none;}
+}
+/*}}}*/</pre>
+</div>
+

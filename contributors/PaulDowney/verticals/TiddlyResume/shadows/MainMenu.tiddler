@@ -1,0 +1,3 @@
+<div title="MainMenu" modifier="Paul Downey" created="200709041658" modified="200709111156" tags="excludeLists">
+<pre><<saveChanges>><<selectTheme>><<newTiddler label:"+education" template:educationEditTemplate tag:'education' text:"" title:"School">><<newTiddler label:"+experience" template:experienceEditTemplate tag:'experience' text:"" title:"Job">><<slider chkSliderOptionsPanel OptionsPanel "options»" "Change TiddlyResume options">><<slider chkSliderTiddlyResumePanel TiddlyResume "help»" "TiddlyResume help">></pre>
+</div>

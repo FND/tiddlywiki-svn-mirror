@@ -1,0 +1,25 @@
+<div title="ClassicTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResume">
+<pre>
+|''StyleSheet''|##StyleSheet|
+!StyleSheet
+[[StyleSheet]]
+/*{{{*/
+
+	.hresume {
+		font-family: "Times New Roman", Times, serif;
+	}
+	
+	.photoframe, photo {
+		display: none;
+	}
+
+	.title, .profile > .fn {
+		color: #000;
+		font-size: 2.0em; 
+		font-weight:bold;
+	}
+
+
+/*}}}*/
+</pre>
+</div>

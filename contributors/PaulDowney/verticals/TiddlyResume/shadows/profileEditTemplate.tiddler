@@ -1,0 +1,23 @@
+<div title="profileEditTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
+<pre>
+<div class="editor profile">
+	<div class='toolbar' macro='toolbar [[ToolbarCommands::ProfileEditToolbar]]'></div>
+        <div class="label">Honorific prefix</div><div class="edit honorific-prefix" macro="edit honorific_prefix"></div>
+        <div class="label">Given name</div><div class="edit given-name" macro="edit given_name"></div>
+        <div class="label">Additional name</div><div class="edit additional-name" macro="edit additional_name"></div>
+        <div class="label">Family name</div><div class="edit family-name" macro="edit family_name"></div>
+        <div class="label">Honorific suffix</div><div class="edit honorific-suffix" macro="edit honorific_suffix"></div>
+        <div class="label">Nickname</div><div class="edit nickname" macro="edit nickname"></div>
+        <div class="label">Url</div><div class="edit url" macro="edit url"></div>
+        <div class="label">Photo</div><div class="edit photo" macro="edit photo"></div>
+        <div class="label">Email</div><div class="edit email" macro="edit email"></div>
+        <div class="label">Phone</div><div class="edit phone" macro="edit phone"></div>
+        <div class="label">Street address</div><div class="edit street-address" macro="edit street_address"></div>
+        <div class="label">Locality</div><div class="edit locality" macro="edit locality"></div>
+        <div class="label">Region</div><div class="edit region" macro="edit region"></div>
+        <div class="label">Postal code</div><div class="edit postal-code" macro="edit postal_code"></div>
+	<div class="edit title" macro="edit title"></div>
+	<div class="tags edit" macro="edit tags"></div>
+</div>
+</pre>
+</div>

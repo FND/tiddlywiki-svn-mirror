@@ -1,0 +1,7 @@
+<div title="sectionViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
+<pre>
+<div class="section">
+	<div class='title' macro='view title'></div>
+</div>
+</pre>
+</div>

@@ -1,0 +1,205 @@
+<div title="EssigTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch">
+<pre>
+|''StyleSheet''|##StyleSheet|
+!StyleSheet
+[[StyleSheet]]
+/*{{{*/
+/*   
+    Adapted from the hResume stylesheet by Jared Essig, 2007
+    http://prochor.us/resume
+    Creative Commons attribution share-alike noncommercial license.  some rights reserved.  
+    http://creativecommons.org/licenses/by-nc-sa/3.0/  
+*/
+.hresume{
+  width: 652px;
+  padding: 0px 10px 0px 10px;
+  font: 11px/1.25 Verdana, Arial, Helvetica, sans-serif; }
+
+#main_content {}
+
+.hresume #back-arrow { float:left; }
+
+#res-colophon {
+  float: right; 
+  margin: 10px 10px 0 0; 
+  padding: 11px 0 11px 0; }
+
+#res-colophon a + a + a { display: block; } 
+p {   font: 11px/1.25 Verdana, Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0; 
+	text-indent:1em;}
+
+p.first { text-indent:0;}
+
+.hresume a, .hresume a:link, .hresume a:visited
+{
+  border-bottom: none;
+	text-decoration:none;
+	color: #000066;
+}
+
+.hresume a:hover
+{
+	/*border-bottom: 1px dashed #000066;		*/
+}
+
+.hresume h2
+{
+	font-size: 14px;
+	line-height: 1.5;
+	font-family: Georgia, Palatino Linotype, serif;
+	font-weight: normal;
+	padding: 0 0 .1em 0;
+	margin: 0;
+	clear: both;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+}
+
+ACRONYM, .caps {
+	text-transform: uppercase;
+    font-size: 9px;
+	font-style: normal;
+	border-bottom: 0;
+	letter-spacing:0.08em;
+}
+
+.hresume ul 
+{
+	list-style-type: none;	
+}
+
+.hresume abbr
+{
+  border: none;
+}
+
+.hresume address
+{
+  font-style: normal;
+}
+
+.hresume hr
+{
+  display: block;
+}
+
+
+/**  Styles for kerning the vCard box in Win FF ****
+
+.kern {
+  letter-spacing:0.1em;
+}
+
+.hresume .contact .fn
+{
+    letter-spacing: .8em;
+}
+.hresume .contact .tel
+{
+	letter-spacing: .6em;
+}
+.hresume .locality, .hresume .region
+{
+	letter-spacing: .06em;
+}
+
+
+/************   End Win FF vCard Styles   *************************/
+
+.hresume .contact
+{
+	margin: 0 0 10px 35%;
+	padding: 5px 5px;
+	font: 11px/1.25 Verdana, Arial, Helvetica, sans-serif;	
+}
+
+.hresume .education, .hresume .accreditation
+{
+  margin: 10px 0 14px 0px;
+  padding: 1px;
+}
+
+.hresume .experience
+{
+    margin: 10px 0 20px 0px;
+    padding: 1px;
+}
+
+.hresume .summary, .hresume .tags, .hresume .skills
+{
+    margin: 10px 0 20px 0px;
+    padding: 1px;
+}
+
+.hresume .htitle
+{
+	float: left;
+}
+
+.hresume .htitle .include
+{
+    display: none;
+}
+
+.hresume .title { display: block; }
+.hresume .date_duration, .hresume .location
+{
+  display:block;
+  float: right;
+  clear: right;
+  color: #444;
+	font-family: Trebuchet MS;
+	text-transform: uppercase;
+	font-size: 11px;
+	letter-spacing: .1em;
+}
+
+.hresume .htitle
+{
+	font-family: Trebuchet MS;
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: .1em;
+}
+
+
+.hresume .description
+{ 
+	clear:both;
+	padding: .3em 0;
+}
+
+.hresume .education .summary
+{
+    margin: 0;
+}
+
+.hresume ul
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.hresume .tags
+{
+  float: left;
+}
+
+.hresume .skills
+{ 
+  float: right;
+}
+.hresume .skills ul li, .hresume .tags ul li
+{
+	display: inline;
+}
+.hresume em 
+{
+    font-style: italic;
+}
+/*}}}*/
+</pre>
+</div>
