@@ -214,7 +214,7 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	}
 	context.tiddler.fields["server.type"] = adaptor.serverType;
 	context.tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
-	context.tiddler.fields["server.tiddlerTitle"] = title; //# required for detecting renames
+	context.tiddler.fields["server.tiddlertitle"] = title; //# required for detecting renames
 	if(context.bag) {
 		var uri = uriTemplate.format([context.host, "bags", context.bag, title, context.revision]);
 		context.tiddler.fields["server.bag"] = context.bag;
@@ -260,9 +260,9 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = tiddler.title;
-	if(!tiddler.fields["server.tiddlerTitle"]) {
-		tiddler.fields["server.tiddlerTitle"] = tiddler.title; //# required for detecting subsequent renames -- XXX: modifying the store in putTiddler is unexpected
-	} else if(tiddler.title != tiddler.fields["server.tiddlerTitle"]) {
+	if(!tiddler.fields["server.tiddlertitle"]) {
+		tiddler.fields["server.tiddlertitle"] = tiddler.title; //# required for detecting subsequent renames -- XXX: modifying the store in putTiddler is unexpected
+	} else if(tiddler.title != tiddler.fields["server.tiddlertitle"]) {
 		return this.renameTiddler(tiddler, context, userParams, callback);
 	}
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
@@ -284,7 +284,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		revision: tiddler["server.page.revision"]
 	};
 	delete payload.fields.changecount;
-	delete payload.fields["server.tiddlerTitle"];
+	delete payload.fields["server.tiddlertitle"];
 	payload = JSON.stringify(payload);
 	var req = httpReq("PUT", uri, adaptor.putTiddlerCallback,
 		context, null, payload, adaptor.mimeType);
