@@ -4,7 +4,7 @@
 |''Author''|FND|
 |''Version''|0.1.2|
 |''Status''|@@experimental@@|
-|''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/ServerSideSavingPlugin.js|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''Requires''|TiddlyWebAdaptorPlugin|
 |''Overrides''|<...>|
@@ -26,8 +26,6 @@
 //{{{
 if(!version.extensions.ServerSideSavingPlugin) { //# ensure that the plugin is only installed once
 version.extensions.ServerSideSavingPlugin = { installed: true };
-
-config.options.chkAutoSave = true; // XXX: does not belong here!?
 
 if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
 
