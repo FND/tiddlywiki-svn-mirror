@@ -6,12 +6,8 @@ $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
 $tiddlyCfg['db']['name'] = "two";		//db name
-$tiddlyCfg['db']['name']['allow_override'] = true;
 $tiddlyCfg['db']['port'] = "3306"; // db port 
-
-
-if($tiddlyCfg['db']['name']['allow_override'] && $_REQUEST['db'])
-	$tiddlyCfg['db']['name'] = $_REQUEST['db'];
+$tiddlyCfg['db']['allow_override'] = true;
 
 
 $tiddlyCfg['adminPassword'] = "";
@@ -203,7 +199,8 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 $tiddlyCfg['pref']['base_folder'] = getBaseDir($_SERVER);
 $tiddlyCfg['pref']['upload_dir'] = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder'].'uploads/';  // location of the file upload directory - assumes is it under the root folder 
 
-
+if($tiddlyCfg['db']['allow_override'] && $_REQUEST['db'])
+	$tiddlyCfg['db']['name'] = $_REQUEST['db'];
 
 
 include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
