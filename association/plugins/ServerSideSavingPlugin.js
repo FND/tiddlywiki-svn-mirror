@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.1.4|
+|''Version''|0.2.0|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -14,8 +14,9 @@ The specific nature of this plugins depends on the respective server.
 !Revision History
 !!v0.1 (2008-11-24)
 * initial release
+!!v0.1 (2008-12-01)
+* added support for local saving
 !To Do
-* handle offline vs. online experience (saving locally and/or to server)
 * rename to ServerLinkPlugin?
 * attempt to determine default adaptor (and defaultCustomFields) from systemServer tiddlers
 * handle deleting/renaming (e.g. by hijacking the respective commands and creating a log)
@@ -90,7 +91,8 @@ plugin = {
 	}
 };
 
-// override saveChanges to trigger server-side saving -- XXX: use hijacking instead (crucial for offline experience)
+// hijack saveChanges to trigger remote saving
+plugin.saveChanges = saveChanges;
 saveChanges = function(onlyIfDirty, tiddlers) {
 	store.forEachTiddler(function(title, tiddler) {
 		if(tiddler.fields.deleted) {
@@ -99,6 +101,9 @@ saveChanges = function(onlyIfDirty, tiddlers) {
 			plugin.saveTiddler(tiddler); // TODO: handle return value
 		}
 	});
+	if(window.location.protocol == "file:") {
+		plugin.saveChanges.apply(this, arguments);
+	}
 };
 
 // override removeTiddler to flag tiddler as deleted
