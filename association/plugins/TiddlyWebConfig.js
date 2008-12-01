@@ -9,7 +9,7 @@
 |''Requires''|[[TiddlyWebAdaptor]]|
 |''Keywords''|serverSide TiddlyWeb|
 !Notes
-This plugin must reside in a tiddler called [[ServerConfig]].
+This plugin should reside in a tiddler called [[ServerConfig]].
 !Revision History
 !!v0.1 (2008-11-30)
 * initial release
