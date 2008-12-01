@@ -2,17 +2,15 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.1.2|
+|''Version''|0.1.3|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''Requires''|TiddlyWebAdaptorPlugin|
-|''Overrides''|<...>|
-|''Feedback''|<...>|
-|''Documentation''|<...>|
-|''Keywords''|<...>|
-!Description
-<...>
+|''Requires''|[[ServerConfig]]|
+|''Keywords''|serverSide|
+!Notes
+This plugin relies on a dedicated configuration plugin to be present.
+The specific nature of this plugins depends on the respective server.
 !Revision History
 !!v0.1 (2008-11-24)
 * initial release
@@ -32,7 +30,7 @@ if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
 (function(plugin) { //# set up alias
 
 plugin = {
-	adaptor: null, // no default adaptor -- XXX: wrong way to pass in adaptor?
+	adaptor: plugin.adaptor, //# N.B.: expects config.extensions.ServerSideSavingPlugin.adaptor to be set
 	locale: {
 		saved: "%0 saved successfully",
 		saveError: "Error saving %0: %1",
