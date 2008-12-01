@@ -1,5 +1,0 @@
-The files in this directory (wikklytext/wikklytext/css) are hereby released 
-to the public domain. Do whatever you'd like with them.
-
-Frank McIngvale <fmcingvale@boodebr.org>
-

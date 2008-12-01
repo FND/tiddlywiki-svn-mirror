@@ -1,3 +1,0 @@
-/% encoding: eucjp %/
-Japanese (EUC-JP): 世界よ、こんにちは！
-

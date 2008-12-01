@@ -1,15 +1,11 @@
 
-These dependencies work for Python 2.5
+This is a tool to create an archive of all the necessary
+dependencies for TiddlyWeb.
 
-For 2.4 we also need:
+Once the archive is created it is uploaded to some 
+accessible location. From there people can download
+it. They can then unpack it and add the location to
+their PYTHONPATH either with PYTHONPATH or
 
-* wsgiref (available with easy_install)
-* elementree (usually available in the package system)
+    sys.path.insert(0, <the path>)
 
-To use these, symlink this directory into your TiddlyWeb
-checkout, and add the following line near the top of manager:
-
-  sys.path.append('tiddlywebdependencies')
-
-(This is just a first stab, an improved version to come,
-once things are fleshed out.)
