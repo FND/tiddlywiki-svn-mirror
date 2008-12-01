@@ -278,8 +278,12 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	};
 
 	ccTiddlyAdaptor.prototype.rename = function(context, userParams, callback){
+		if(window.location.search.substring(1))
+			var postParams = "&"+window.location.search.substring(1);
+		else
+			var postParams = "";
 		context = this.setContext(context,userParams,callback);
-		var uri = window.url+"handle/renameTiddler.php?otitle="+context.title+"&ntitle="+context.newTitle+"&workspace="+window.workspace;
+		var uri = window.url+"handle/renameTiddler.php?otitle="+context.title+"&ntitle="+context.newTitle+"&workspace="+window.workspace+postParams;;
 		httpReq('POST', uri,ccTiddlyAdaptor.renameCallback,context,null,null);
 	};
 
