@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.2.0|
+|''Version''|0.2.1|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -14,10 +14,10 @@ The specific nature of this plugins depends on the respective server.
 !Revision History
 !!v0.1 (2008-11-24)
 * initial release
-!!v0.1 (2008-12-01)
+!!v0.2 (2008-12-01)
 * added support for local saving
 !To Do
-* store's dirty state is not cleared if not on file: URI
+* disable server errors when offline
 * rename to ServerLinkPlugin?
 * attempt to determine default adaptor (and defaultCustomFields) from systemServer tiddlers
 * handle deleting/renaming (e.g. by hijacking the respective commands and creating a log)
@@ -62,6 +62,7 @@ plugin = {
 				tiddler.fields.changecount -= context.changecount;
 			}
 			displayMessage(plugin.locale.saved.format([tiddler.title]));
+			store.setDirty(false);
 		} else { // TODO: handle 412 etc.
 			displayMessage(plugin.locale.saveError.format([tiddler.title, context.statusText]));
 		}
@@ -86,6 +87,7 @@ plugin = {
 				displayMessage(plugin.locale.deleteError.format([tiddler.title]));
 			}
 			displayMessage(plugin.locale.deleted.format([tiddler.title]));
+			store.setDirty(false);
 		} else { // TODO: handle 412 etc.
 			displayMessage(plugin.locale.deleteLocalError.format([tiddler.title, context.statusText]));
 		}
@@ -99,7 +101,7 @@ saveChanges = function(onlyIfDirty, tiddlers) {
 		if(tiddler.fields.deleted) {
 			plugin.removeTiddler(tiddler);
 		} else if(tiddler.fields.changecount > 0 && tiddler.getServerType() && tiddler.fields["server.host"]) {
-			plugin.saveTiddler(tiddler); // TODO: handle return value
+			plugin.saveTiddler(tiddler);
 		}
 	});
 	if(window.location.protocol == "file:") {
