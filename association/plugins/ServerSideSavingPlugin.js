@@ -97,7 +97,7 @@ saveChanges = function(onlyIfDirty, tiddlers) {
 	store.forEachTiddler(function(title, tiddler) {
 		if(tiddler.fields.deleted) {
 			plugin.removeTiddler(tiddler);
-		} else if(tiddler.fields.changecount > 0) {
+		} else if(tiddler.fields.changecount > 0 && tiddler.getServerType() && tiddler.fields["server.host"]) {
 			plugin.saveTiddler(tiddler); // TODO: handle return value
 		}
 	});
