@@ -25,7 +25,7 @@ The specific nature of this plugins depends on the respective server.
 if(!version.extensions.ServerSideSavingPlugin) { //# ensure that the plugin is only installed once
 version.extensions.ServerSideSavingPlugin = { installed: true };
 
-if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
+if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
 
 (function(plugin) { //# set up alias
 

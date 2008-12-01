@@ -42,7 +42,7 @@
 if(!version.extensions.SamplePlugin) { //# ensure that the plugin is only installed once
 version.extensions.SamplePlugin = { installed: true };
 
-if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.5
+if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
 
 config.extensions.SamplePlugin = {
 	sampleFunction: function() {
