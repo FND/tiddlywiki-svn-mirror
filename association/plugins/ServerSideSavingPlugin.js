@@ -17,6 +17,7 @@ The specific nature of this plugins depends on the respective server.
 !!v0.1 (2008-12-01)
 * added support for local saving
 !To Do
+* store's dirty state is not cleared if not on file: URI
 * rename to ServerLinkPlugin?
 * attempt to determine default adaptor (and defaultCustomFields) from systemServer tiddlers
 * handle deleting/renaming (e.g. by hijacking the respective commands and creating a log)
@@ -57,7 +58,7 @@ plugin = {
 		if(context.status) {
 			if(tiddler.fields.changecount == context.changecount) { //# check for changes since save was triggered
 				tiddler.clearChangeCount();
-			} else {
+			} else if(tiddler.fields.changecount > 0) {
 				tiddler.fields.changecount -= context.changecount;
 			}
 			displayMessage(plugin.locale.saved.format([tiddler.title]));
