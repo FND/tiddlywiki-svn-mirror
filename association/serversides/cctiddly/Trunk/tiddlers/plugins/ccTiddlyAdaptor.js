@@ -479,6 +479,10 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	ccTiddlyAdaptor.prototype.putTiddler = function(tiddler,context,userParams,callback){
 		context = this.setContext(context,userParams,callback);
 		context.title = tiddler.title;
+		if(window.location.search.substring(1))
+			var postParams = window.location.search.substring(1);
+		else
+			var postParams = "";
 		var recipeuriTemplate = '%0/handle/save.php';
 		var host = context.host ? context.host : this.fullHostName(tiddler.fields['server.host']);
 		var uri = recipeuriTemplate.format([host,context.workspace,tiddler.title]);
@@ -529,7 +533,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		else
 			var otitle = context.otitle;
 		var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+tiddler.getTags()+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
-	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id'];
+	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id']+"&"+postParams;
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 		removeNode(el);
 		return typeof req == 'string' ? req : true;
