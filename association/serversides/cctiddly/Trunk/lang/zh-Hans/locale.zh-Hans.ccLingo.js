@@ -14,6 +14,9 @@
 !config.macros.ccAbout
 ***/
 //{{{
+	
+	
+config.options.search = ""查找...";
 merge(config.macros.ccAbout,{
 	buttonBackstageText:"关于",
 	buttonBackstageTooltip:"关于 ccTiddly",
@@ -21,6 +24,7 @@ merge(config.macros.ccAbout,{
 	stepAboutTextStart:"您现在正在使用 ccTiddly ",
 	stepAboutTextEnd:"关于 ccTiddly 的资讯详见 <a  target=new href=http://www.tiddlywiki.org/wiki/CcTiddly>http://www.tiddlywiki.org/wiki/CcTiddly</a><br/><br/>  关于 TiddlyWiki 的资讯详见 <a target=new href=http://www.tiddlywiki.com>http://www.tiddlywiki.com</a><br/>"
 });
+
 merge(config.tasks,{about:{text: config.macros.ccAbout.buttonBackstageText,tooltip: config.macros.ccAbout.buttonBackstageTooltip,content: '<<ccAbout>>'}});
 //}}}
 /***
@@ -96,7 +100,7 @@ merge(config.macros.ccCreateWorkspace, {
 	msgWorkspaceAvailable:"工作区有效",
 	errorWorkspaceNameInUse:"工作区已存在",
 	stepTitle:"请输入工作区名称",
-	stepCreateHtml:"<input class='input' id='workspace_name' name='workspace_name' value='"+workspace+"' tabindex='1' /><span></span><input type='hidden' name='workspace_error'></input><h2></h2><input type='hidden' name='workspace_url'></input>"
+	stepCreateHtml:"<input class='input' id='workspace_name' name='workspace_name' value='"+window.workspace+"' tabindex='1' /><span></span><input type='hidden' name='workspace_error'></input><h2></h2><input type='hidden' name='workspace_url'></input>"
 });
 //}}}
 /***
@@ -182,7 +186,7 @@ merge(config.macros.ccLogin,{
 	msgNoUsername:"请输入用户名称", 
 	msgNoPassword:"请输入口令",
 	msgLoginFailed:"登入错误，请重新登入", 
-	configURL:url+"/handle/login.php", 
+	configURL:window.url+"/handle/login.php", 
 	configUsernameInputName:"cctuser",
 	configPasswordInputName:"cctpass",
 	configPasswordCookieName:"cctPass"
@@ -196,6 +200,7 @@ merge(config.macros.ccLoginStatus,{
 	textDefaultWorkspaceLoggedIn:"您正在浏览预设工作区",
 	textViewingWorkspace:"您正在浏览工作区：",
 	textLoggedInAs:"登入用户为：",
+	status:" 状态 »",
 	textNotLoggedIn:"您尚未登入",
 	textAdmin:"您是本工作区的管理者之一"
 });
@@ -211,7 +216,8 @@ merge(config.macros.ccOptions, {
 	linkCreate:"创建工作区",
 	linkOffline:"离线检视",
 	linkPassword:"变更口令",
-	linkStats:"流量统计"
+	linkStats:"流量统计",
+	options:"偏好设置 »"	
 });
 //}}}
 /***
@@ -264,6 +270,7 @@ merge(config.macros.ccStats, {
 !ccTiddlyAdaptor
 ***/
 //{{{
+
 merge(config.commands.saveTiddlerHosted1, config.commands.saveTiddler);
 
 merge(config.commands.revisions,{

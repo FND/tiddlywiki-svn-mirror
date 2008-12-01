@@ -157,6 +157,7 @@ merge(config.macros.ccLoginStatus,{
 	textDefaultWorkspaceLoggedIn:"Viewing default workspace",
 	textViewingWorkspace:"Viewing Workspace : ",
 	textLoggedInAs:"Logged in as ",
+	status:"status »",
 	textNotLoggedIn:"You are not logged in.",
 	textAdmin:"You are an Administrator."
 });
@@ -169,7 +170,8 @@ merge(config.macros.ccOptions, {
 	linkPassword:"password",
 	linkCreate:"create",
 	linkOffline:"offline",
-	linkStats:"statistics"	
+	linkStats:"statistics",
+	options:"options"	
 });
 
 config.macros.register={};	
