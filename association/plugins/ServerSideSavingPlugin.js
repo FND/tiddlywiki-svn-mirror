@@ -107,15 +107,16 @@ plugin = {
 // hijack saveChanges to trigger remote saving
 plugin.saveChanges = saveChanges;
 saveChanges = function(onlyIfDirty, tiddlers) {
-	store.forEachTiddler(function(title, tiddler) {
-		if(tiddler.fields.deleted) {
-			plugin.removeTiddler(tiddler);
-		} else if(tiddler.fields.changecount > 0 && tiddler.getServerType() && tiddler.fields["server.host"]) {
-			plugin.saveTiddler(tiddler);
-		}
-	});
 	if(window.location.protocol == "file:") {
 		plugin.saveChanges.apply(this, arguments);
+	} else {
+		store.forEachTiddler(function(title, tiddler) {
+			if(tiddler.fields.deleted) {
+				plugin.removeTiddler(tiddler);
+			} else if(tiddler.fields.changecount > 0 && tiddler.getServerType() && tiddler.fields["server.host"]) {
+				plugin.saveTiddler(tiddler);
+			}
+		});
 	}
 };
 
