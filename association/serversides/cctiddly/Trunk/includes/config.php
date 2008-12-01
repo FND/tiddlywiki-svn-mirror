@@ -6,7 +6,13 @@ $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 $tiddlyCfg['db']['pass'] = "";		//login password
 $tiddlyCfg['db']['name'] = "two";		//db name
+$tiddlyCfg['db']['name']['allow_override'] = true;
 $tiddlyCfg['db']['port'] = "3306"; // db port 
+
+
+if($tiddlyCfg['db']['name']['allow_override'] && $_REQUEST['db'])
+	$tiddlyCfg['db']['name'] = $_REQUEST['db'];
+
 
 $tiddlyCfg['adminPassword'] = "";
 
@@ -35,6 +41,10 @@ $tiddlyCfg['pref']['ldap_username']	= "CN=,OU=functional,OU=btplc,DC=iuser,DC=ir
 $tiddlyCfg['pref']['ldap_password'] = "";
 $tiddlyCfg['pref']['ldap_connection_string'] = "";
 $tiddlyCfg['pref']['language'] = "en";
+
+
+
+
 
 //Deligated Session Managment 
  

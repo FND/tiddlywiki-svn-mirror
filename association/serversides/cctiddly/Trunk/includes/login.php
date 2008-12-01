@@ -40,7 +40,8 @@ if($tiddlyCfg['on_the_fly_workspace_creation']==1)
 			}
 		}	
 		$error404 = true;	
-		sendHeader(404);	
+		if(!headers_sent())
+			sendHeader(404);	
 		$theme = "simple";
 		
 	}
