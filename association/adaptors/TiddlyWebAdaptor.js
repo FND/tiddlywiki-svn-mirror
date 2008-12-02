@@ -159,7 +159,7 @@ adaptor.getTiddlerRevisionListCallback = function(status, context, responseText,
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
-		context.tiddlers = [];
+		context.revisions = [];
 		try {
 			eval("var tiddlers = " + responseText); //# N.B.: not actual tiddler instances
 		} catch(ex) {
@@ -180,10 +180,10 @@ adaptor.getTiddlerRevisionListCallback = function(status, context, responseText,
 			if(t.workspace) {
 				tiddler.fields["server.workspace"] = t.workspace;
 			}
-			context.tiddlers.push(tiddler);
+			context.revisions.push(tiddler);
 		}
 		var sortField = "server.page.revision";
-		context.tiddlers.sort(function(a, b) {
+		context.revisions.sort(function(a, b) {
 			return a.fields[sortField] < b.fields[sortField] ? 1 :
 				(a.fields[sortField] == b.fields[sortField] ? 0 : -1);
 		 });
