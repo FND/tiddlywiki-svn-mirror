@@ -1,3 +1,4 @@
+
 // Depends on JQuery for offset function
 // Get the current horizontal page scroll position
 function findScrollX()
@@ -42,6 +43,7 @@ if(!Array.indexOf) {
 // Resolve the target object of an event
 function resolveTarget(e)
 {
+	if(!e) e = window.event;
 	var obj;
 	if(e.target)
 		obj = e.target;
@@ -64,10 +66,11 @@ var minLon = 1000;
 var maxLon = -1000;
 var minLat = 1000;
 var maxLat = -1000;
-var EasyMapController = function(targetjs,elem){
+
+var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
-	this.utils = new EasyMapUtils(this.wrapper); //some utilities that it may find useful
+	this.utils = EasyMapUtils; //some utilities that it may find useful
 	
 	var controlDiv = this.wrapper.controlDiv;
 	if(!controlDiv) {
@@ -79,47 +82,133 @@ var EasyMapController = function(targetjs,elem){
 		this.wrapper.controlDiv = controlDiv;
 	}
 	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1}};	
-	//looks for specifically named functions in targetjs
+	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 };
 EasyMapController.prototype = {
+	addMouseWheelZooming: function(){
+		var mw = this.wrapper.onmousewheel;
+		var that = this;
+		var onmousewheel = function(e){
+		
+					
+			/* thanks to http://adomas.org/javascript-mouse-wheel */
+			var delta = 0;
+	        	if (!e) /* For IE. */
+	                e = window.event;
+	
+			var t = resolveTarget(e);
+		
+			if(t != that.wrapper && t.parentNode !=that.wrapper) return;
+	        if (e.wheelDelta) { /* IE/Opera. */
+	                delta = e.wheelDelta/120;
+	                /** In Opera 9, delta differs in sign as compared to IE.
+	                 */
+	                if (window.opera)
+	                        delta = -delta;
+	        } else if (e.detail) { /** Mozilla case. */
+	                /** In Mozilla, sign of delta is different than in IE.
+	                 * Also, delta is multiple of 3.
+	                 */
+	                delta = -e.detail/3;
+	        }
+	
+			var sensitivity = 0.3;
+			if(!this.lastdelta) this.lastdelta = delta;
+			
+			if(delta > this.lastdelta + sensitivity || delta < this.lastdelta - sensitivity){
+				var s =that.transformation.scale;
+				var pos = that.utils.getMouseFromEventRelativeToCenter(e);
+				var t=  that.transformation.translate;
+				//t.x = -pos.x / s.x;
+				//t.y = pos.y / s.y;
+				var newx = s.x+ delta;
+				var newy = s.y + delta;
+				if(newx > 0 && newy > 0){
+					s.x = newx;
+					s.y = newy;
+					that.transform();					
+				}
+
+			}
+			
+			this.lastdelta = delta;
+	        
+		}
+
+		if (window.addEventListener)
+		        /** DOMMouseScroll is for mozilla. */
+		        window.addEventListener('DOMMouseScroll', onmousewheel, false);
+		/** IE/Opera. */
+		window.onmousewheel = document.onmousewheel = onmousewheel;
+		
+		
+	},
+	
 	addMousePanning: function(){
 		var that = this;
-		this.wrapper.onmousedown = function(e){
-			var t = resolveTarget(e);
-			if(t.getAttribute("class") == "easyControl") return;
-			this.mousedown = true;			
-		};
-		this.wrapper.onmouseup = function(e){
-			this.mousedown = false;
-		}
-		this.wrapper.onmousemove = function(e){
-			if(!this.mousedown) return;
-			var t = resolveTarget(e);
-			if(t.getAttribute("class") == "easyControl") return;
+		var md = that.wrapper.onmousedown;
+		var mu = that.wrapper.onmouseup;	
+		var mm = that.wrapper.onmousemove;
+		var onmousemove = function(e){
+			if(mm)mm(e);
+			if(!this.startpos) return;
 			
-			var pos = that.utils.getMouseFromEventRelativeToCenter(e);
-			if(!this.lastpos) lastpos = pos;
-			else{
-				if(pos.x > this.lastpos.x -10 && pos.x < this.lastpos.x + 1)return;
-				if(pos.y > this.lastpos.y -10 && pos.y < this.lastpos.y + 10 )return;
-					
-				}
-			this.lastpos = pos;
+			var t = resolveTarget(e);
+			if(t.getAttribute("class") == "easyControl") return;
+			if(!this.realpos) return;
+			var pos = that.utils.getMouseFromEventRelativeTo(e,this.realpos.x,this.realpos.y);		
 			
 			var t = that.transformation;
-			t.translate.x += -(pos.x / t.scale.x);
-			t.translate.y +=-(pos.y / t.scale.y);
-			that.targetjs.transform(that.transformation);
-			//this.transformation.translate.x = pos.x;
-			return false;
+			var sc = t.scale;
+			t.translate.x = this.startpos.x - pos.x;
+			t.translate.y = this.startpos.y - pos.y;
+			that.transform();
+			return false;	
+		};
+		
+		this.wrapper.onmousedown = function(e){
 			
-		}
+			this.style.cursor= 'move';
+			if(md) md(e);
+			
+			var target = resolveTarget(e);
+			if(target.getAttribute("class") == "easyControl") return;
+			var t = that.transformation.translate;
+			var sc =that.transformation.scale; 
+			var realpos = that.utils.getMouseFromEvent(e);
+			var pos = that.utils.getMouseFromEventRelativeToCenter(e);
+			pos.x = t.x -(pos.x / sc.x);
+			pos.y = t.y - (pos.y /sc.y);
+			this.startpos = pos;
+			this.realpos = realpos;
+
+			console.log("startpos set to", this.startpos,this.realpos);
+			this.onmousemove = onmousemove;
+
+		};
+
+
+		this.wrapper.onmouseup = function(e){
+			this.style.cursor= '';
+			if(mu)mu(e);
+			
+			if(!this.startpos) return;
+			
+
+			
+			
+			this.startpos = null;
+			this.onmousemove = null;
+			return false;
+		};
+	
 	},
 	setTransformation: function(t){
 		if(!t.scale && !t.translate) alert("bad transformation applied");
 		this.transformation = t;
 		this.targetjs.transform(t);
+		console.log("transformation set to ",t);
 	},
 	drawButtonLabel: function(ctx,r,type){
 		ctx.beginPath();
@@ -172,7 +261,13 @@ EasyMapController.prototype = {
 		this.drawButtonLabel(ctx,r,properties.buttonType);
 		ctx.restore();
 		
-		var button = new EasySquare(properties,10,{x:offset.x,y:offset.y});
+		var coords = [
+			offset.x, offset.y,
+			offset.x + width, offset.y,
+			offset.x + width, offset.y + width,
+			offset.x, offset.y + width
+		];
+		var button = new EasyShape(properties,coords);
 		return button;
 	},	
 	addControl: function(controlType) {
@@ -188,6 +283,9 @@ EasyMapController.prototype = {
 			case "mousepanning":
 				this.addMousePanning();
 				break;
+			case "mousewheelzooming":
+				this.addMouseWheelZooming();
+				break;
 			default:
 				break;
 		}
@@ -201,13 +299,14 @@ EasyMapController.prototype = {
 		newCanvas.style.left = 0;
 		newCanvas.style.top = 0;
 		newCanvas.setAttribute("class","easyControl");
-		//this.wrapper.controlDiv.appendChild(newCanvas);
 		this.wrapper.appendChild(newCanvas);
-		newCanvas.memory = [];
+
 		newCanvas.emap = this;
 		if(!newCanvas.getContext) {
 			G_vmlCanvasManager.init_(document);
 		}
+		newCanvas.memory = [];
+		//return clickableCanvas(newCanvas);
 		return newCanvas;
 	},
 	addPanningActions: function(){
@@ -218,7 +317,7 @@ EasyMapController.prototype = {
 		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','buttonType': 'arrow'}));
 				
-		panCanvas.onclick = this.clickHandler;		
+		panCanvas.onclick = this._panzoomClickHandler;		
 
 	},	
 	addZoomingActions: function(){
@@ -226,18 +325,46 @@ EasyMapController.prototype = {
 
 		var left = 14;
 		var top = 50;
-
-		//var left = parseInt(this.targetjs.canvas.width,10) - 20 + "px";
-
-
 		zoomCanvas.style.left = left +"px";
 		zoomCanvas.style.top = top + "px";
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','buttonType': 'plus'}));		
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','buttonType': 'minus'}));
-		zoomCanvas.onclick = this.clickHandler;	
+		zoomCanvas.onclick = this._panzoomClickHandler;	
 	},	
 	
-	clickHandler: function(e) {
+	transform: function(){
+		var t = this.transformation;
+		var s = t.scale;
+		var tr = t.translate;
+		var style = this.wrapper.style;
+		
+		
+		var width = parseInt(style.width);
+		var height = parseInt(style.height);
+		if(s.x <= 0) s.x = 0.1;
+		if(s.y <= 0) s.y = 0.1;
+		if(width && height){
+			var max = {};
+			max.x = parseFloat((width) - 10) * s.x;//the maximum possible translation
+			max.y = parseFloat((height) - 10) * s.y;//the maximum possible translation
+	
+			if(tr.x > max.x){
+				tr.x = max.x;
+			}
+			else if(tr.x < -max.x){
+				tr.x= -max.x;
+			}
+		
+			if(tr.y > max.y){
+				tr.y = max.y;
+			}
+			else if(tr.y < -max.y){
+				tr.y= -max.y;
+			}
+		}
+		this.targetjs.transform(this.transformation);
+	},
+	_panzoomClickHandler: function(e) {
 		if(!e) {
 			e = window.event;
 		}
@@ -246,19 +373,14 @@ EasyMapController.prototype = {
 		if(!hit) {
 			return false;
 		}
-		/*console.log("hit!");
-		console.log(hit);
-		for(var n in hit.properties) {
-			console.log(n+": "+hit.properties[n]);
-		}*/
 		if(hit.properties.action){
 			action(x,y);
 		}
 		var pan = {};
 		var scale =emap.transformation.scale;
-		pan.x = parseFloat(20 / scale.x);
-		pan.y = parseFloat(20 / scale.y)
-		
+		pan.x = parseFloat(30 / scale.x);
+		pan.y = parseFloat(30 / scale.y)
+
 		
 		switch(hit.properties.actiontype) {
 			case "W":
@@ -279,14 +401,11 @@ EasyMapController.prototype = {
 				break;
 			case "out":
 				emap.transformation.scale.x /= 2;
-				emap.transformation.scale.y /= 2;
-				
-				if(emap.transformation.scale.x <= 0) emap.transformation.scale.x = 1;
-				if(emap.transformation.scale.y <= 0) emap.transformation.scale.y = 1;				
+				emap.transformation.scale.y /= 2;			
 				break;
 		}
 
-		emap.targetjs.transform(emap.transformation);
+		emap.transform();
 
 		return false;
 	}
@@ -295,6 +414,7 @@ EasyMapController.prototype = {
 A package for rendering geojsons easily
 */
 var EasyMap = function(wrapper){
+	this.ie = false; //allows you to target ie specific optimisation??
 	this.renderTime = 0;
 	this.calculateTime= 0;
 	
@@ -312,37 +432,42 @@ var EasyMap = function(wrapper){
 		if(!e) {
 			e = window.event;
 		}
-		var tt =document.getElementById('tooltip');
+		var wid =wrapper.id+'_tooltip';
+		var tt =document.getElementById(wid);
 		if(!tt){
-			document.createElement('tooltip');
-			return;
+			tt = document.createElement('div');
+			tt.style.position = "absolute";
+			tt.id = wid;
+			tt.setAttribute("class","easymaptooltip");
+			that.wrapper.appendChild(tt);
 		}
-		
-		var x = e.clientX; var y = e.clientY;
+		var pos = that.utils.getMouseFromEvent(e);
+		var x =pos.x;
+		var y = pos.y;
+		var sensitivity = 1;
+		if(this.lastMouseMove && x < this.lastMouseMove.x + sensitivity && x > this.lastMouseMove.x -sensitivity) {return;}
+		if(this.lastMouseMove &&  y < this.lastMouseMove.y + sensitivity && y > this.lastMouseMove.y -sensitivity) {return;}
 
-		if(this.lastMouseMove && x < this.lastMouseMove.x + 2 && x > this.lastMouseMove.x -2) {return;}
-		if(this.lastMouseMove &&  y < this.lastMouseMove.y + 2 && y > this.lastMouseMove.y -2) {return;}
-		
-		//console.log("moving!");
 		this.lastMouseMove = {};
 		this.lastMouseMove.x = x;this.lastMouseMove.y = y;
-		
+
 
 		var shape = that.utils.getShapeAtClick(e);
 		if(shape){
-			
-			tt.innerHTML = shape.properties.name;
-			tt.style.left = x;
-			tt.style.top = y;
-			this.setAttribute("title","");
-			this.setAttribute("title",shape.properties.name);
-					//this.setAttribute("alt",shape.properties.name);
-			
+			var text =shape.properties.name;
+
+			if(shape.properties.content) text += "<p>"+content+"</p>"
+			tt.innerHTML = text;
+			tt.style.left = x + "px";
+			tt.style.top = y + "px";
+			tt.style.display = "";
+
 		}	
 		else
-			this.setAttribute("title","");
-		
-		
+			tt.style.display = "none";
+
+
+
 
 	};
 	this.clickHandler = function(e,shape){};	
@@ -354,25 +479,20 @@ var EasyMap = function(wrapper){
 	
 	if(!wrapper.style.width) wrapper.style.width = canvas.width + "px";
 	if(!wrapper.style.height) wrapper.style.height = canvas.height + "px";
-	//canvas.id = divID + "_canvas";
-	//canvas.id = "canvas_" + Math.random();
 	canvas.style["z-index"] = -1;
 	wrapper.appendChild(canvas);
+	canvas.style.position = "absolute";
 	this.canvas = canvas;
 
 	if(!canvas.getContext) {
 		G_vmlCanvasManager.init_(document);
 	}
-	this.ctx = canvas.getContext('2d');
+	this.spherical = true; //experimental!! fiddle with at your own risk! :)
 
-	this.rotate = {'x': 0, 'y':1.6, 'z':0}; //not used yet
-	this.spherical = false; //experimental!! fiddle with at your own risk! :)
-	this.radius = 100; //not used yet
-
-	this.utils = new EasyMapUtils(this.wrapper);
-	
-	this.controller = new EasyMapController(this,wrapper);
+	this.utils = EasyMapUtils;	
+	this.controller = new EasyMapController(this,this.wrapper);
 	this.transform(this.controller.transformation); //set initial transformation
+	this.viewarea = {};
 	this.clear();
 };
 EasyMap.prototype = {	
@@ -382,7 +502,7 @@ EasyMap.prototype = {
 	clear: function(){
 		var mapCanvas = this.canvas;
 		this.canvas.onclick = this.clickHandler;
-		this.canvas.onmousemove = this.mousemoveHandler;
+		if(!this.ie)this.canvas.onmousemove = this.mousemoveHandler;
 		var ctx = mapCanvas.getContext('2d');
 		mapCanvas.memory = [];
 
@@ -472,18 +592,30 @@ EasyMap.prototype = {
 		}
 	},	
 	transform: function(transformation){
-		this.transformation = transformation;
+		this.canvas.transformation = transformation;
 		//set origin
 		var w =parseInt(this.canvas.width);
 		var h = parseInt(this.canvas.height);
 		
 		if(!transformation.origin){
-			this.transformation.origin = {};
-			var origin = this.transformation.origin;
+			this.canvas.transformation.origin = {};
+			var origin = this.canvas.transformation.origin;
 			origin.x =w / 2;
 			origin.y =h / 2;
 		}
-
+		//this.canvas.transformation = this.transformation;
+		var t =this.canvas.transformation.translate;
+		var v =this.viewarea;
+		var s = this.canvas.transformation.scale;
+		/*
+		if(this.viewarea){
+			if(this.viewarea.x1){
+				if(t.x > (v.x2*s.x)) t.x = v.x2;
+				if(t.x < (v.x1*s.x)) t.x = v.x1;
+				if(t.y < (v.y1*s.y)) t.y = v.y1;
+				if(t.y > (v.y2*s.y)) t.y = v.y2;
+			}
+		}*/
 		this.redraw();
 	},
 	_buildShapeInMemory: function(easyShape){ //add shape to memory
@@ -491,53 +623,83 @@ EasyMap.prototype = {
 		var memory = mapCanvas.memory;
 		easyShape.id = memory.length;
 		memory[easyShape.id] = easyShape;
-		easyShape.transform(this.transformation,this.rotate,this.spherical,this.radius);	
+		
+		var v = this.viewarea;
+		var g =easyShape.grid;
+		
+		if(!v.x1 ||g.x1 < v.x1) v.x1 = g.x1;
+		if(!v.x2 ||g.x2 > v.x2) v.x2 = g.x2;		
+		if(!g.y2 ||g.y2 > v.y2) v.y2 = g.y2;	
+		if(!v.y1 ||g.y1 < v.y1) v.y1 = g.y1;
+				//easyShape.transform(this.transformation,this.rotate,this.spherical,this.radius);	
 	},
 	_renderShapes: function(){
 		var mem =this.canvas.memory;
-		//var ctx = this.ctx;
-		//ctx.save();
-		//ctx.translate(this.center.x,this.center.y);
-		for(var i=0; i < mem.length; i++){
-			this._renderShape(mem[i]);
-		}
-		//ctx.restore();
-	},
-	_renderShape: function(shape){ //is this really a drawPolygon or a drawLines
-		if(shape.shape !='polygon') {console.log("no idea how to draw");return;}		
-			var left = 0;
-			var top = 0;
-			var topright =  parseInt(this.canvas.width) + left; 
-			var bottomleft = parseInt(this.canvas.height) + top;
+		var ctx = this.canvas.getContext('2d');
+		this.ctx = ctx;
 
+		var t =this.canvas.transformation;
+		var tr =t.translate;
+		var s = t.scale;
+		var o = t.origin;
+	
+		if(!this.ie){
+			ctx.lineWidth = 0.09;
+			ctx.save();	
+			ctx.translate(o.x,o.y);
+			ctx.scale(s.x,s.y);
+			ctx.translate(tr.x,tr.y);
+		}
+		var left = 0;
+		var top = 0;
+		var right =  parseInt(this.canvas.width) + left; 
+		var bottom = parseInt(this.canvas.height) + top;
+
+		var transformedGrid = {};
+		var t= this.canvas.transformation;
+		var topleft = this.utils.undotransformation(left,top,t);
+		var bottomright = this.utils.undotransformation(right,bottom,t);
+		
+		var frame = {};
+		frame.top = topleft.y;
+		frame.bottom = bottomright.y;
+		frame.right = bottomright.x;
+		frame.left = topleft.x;
+
+		for(var i=0; i < mem.length; i++){
+			this._renderShape(mem[i],frame);
+		}
+		ctx.restore();
+	},
+	_renderShape: function(shape,frame){ //is this really a drawPolygon or a drawLines
+		if(shape.shape !='polygon') {console.log("no idea how to draw");return;}		
 			if(shape.grid){
-				if(shape.grid.x2 < left) {
+				if(shape.grid.x2 < frame.left) {
 					return;}
-				if(shape.grid.y2 < top) {
+				if(shape.grid.y2 < frame.top) {
 					return;}
-				if(shape.grid.x1 > topright){
+				if(shape.grid.x1 > frame.right){
 					return;
 				}
-
-				if(shape.grid.y1 > bottomleft){
+				if(shape.grid.y1 > frame.bottom){
 					return;	
 				}
-
 			}
-
-			
 			
 			this.ctx.beginPath();
-
-			var x = parseFloat(shape.transformedCoords[0]);
-			var y = parseFloat(shape.transformedCoords[1]);
+			var c;
+			
+			if(this.ie) c= shape.transformcoordinates(this.canvas.transformation);
+			else c = shape.coords;
+			var x = parseFloat(c[0]);
+			var y = parseFloat(c[1]);
 
 			var initialX = x;
 			var initialY =y;
 			this.ctx.moveTo(x,y);
-			for(var i=2; i < shape.transformedCoords.length-1; i+=2){
-				var x = parseFloat(shape.transformedCoords[i]);
-				var y = parseFloat(shape.transformedCoords[i+1]);
+			for(var i=2; i < c.length-1; i+=2){
+				var x = parseFloat(c[i]);
+				var y = parseFloat(c[i+1]);
 				
 				this.ctx.lineTo(x,y);
 
@@ -547,15 +709,23 @@ EasyMap.prototype = {
 			//connect last to first
 			this.ctx.lineTo(initialX,initialY, x,y);
 			this.ctx.closePath();
-		
-			if(!shape.hidden) {
-				if(!shape.fill) {
-				//	this.ctx.strokeStyle = shape.strokeStyle;
-					this.ctx.stroke();
+			
+			
+			if(!shape.properties.hidden) {
+				if(!shape.properties.fill) {
+					if(shape.properties.stroke){
+						this.ctx.strokeStyle = shape.properties.stroke;
+						this.ctx.stroke();
+					}
 				}
 				else {
-				this.ctx.fillStyle =shape.fillStyle;
-				  this.ctx.fill();
+					if(typeof shape.properties.fill == 'string'){
+					this.ctx.fillStyle =shape.properties.fill;
+					this.ctx.stroke();
+					this.ctx.fill();
+					}
+					else
+					console.log(shape.properties.fill,shape.properties.name);
 				}
 			}
 	
@@ -578,8 +748,6 @@ EasyMap.prototype = {
 	_drawGeoJsonPointFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'point';
-		p.fill = true;
-
 		var s = new EasyShape(p,coordinates,"geojson");
 		this._buildShapeInMemory(s);
 	},	
@@ -587,9 +755,6 @@ EasyMap.prototype = {
 			var geometry = feature.geometry;
 			var type =geometry.type.toLowerCase();
 			var p = feature.properties;
-			//p.center = {};
-			//p.center.x = this.center.x;
-			//p.center.y = this.center.y;
 			
 			if(type == 'multipolygon'){
 				this._drawGeoJsonMultiPolygonFeature(feature.geometry.coordinates,p);
@@ -612,59 +777,55 @@ EasyMap.prototype = {
 
 	}
 };
-/*temporary entry point into EasyShape until EasyShape code is cleaned up*/
-var EasySquare = function(properties,width,offset) {
-	width = width || 10;
-	offset = offset || {x:0,y:0};
-	var coords = [
-		offset.x, offset.y,
-		offset.x + width, offset.y,
-		offset.x + width, offset.y + width,
-		offset.x, offset.y + width
-	];
-	//var s = new EasyShape(properties,coords);
-	var s ={};
-	s.properties = properties;
-	s.coords = coords;
-	s.grid = {x1: coords[0], y1: coords[1], x2: coords[2],y2: coords[3]};
-	s.grid.x1 = s.coords[0];
-	s.grid.y1 = s.coords[1];
-	s.grid.x2 = s.coords[2];
-	s.grid.y2 = s.coords[s.coords.length-1];
-	return s;
-};
-/*
-Basic Shape structure used in package
-*/
-var EasyShape = function(element,coordinates,sourceType){
-	this.strokeStyle = '#000000';
+
+var EasyShape = function(properties,coordinates,sourceType){
+
 	this.grid = {};
-	this.properties = {};
-	this.fillStyle = "#000000"
+
 	this.threshold = 2;
 
 	if(sourceType){
 		if(sourceType == "geojson") {
-			this.constructFromGeoJSONObject(element,coordinates);
+			this.constructFromGeoJSONObject(properties,coordinates);
 		}
 	}
 	else{
-		this.constructBasicPolygon(element,coordinates);
+		this.constructBasicPolygon(properties,coordinates);
 	}
+	this.createGrid();
 
 };
 EasyShape.prototype={
-	constructFromGeoJSONObject: function(element,coordinates){
-		if(element.shape == 'polygon'){
-			this.constructFromGeoJSONPolygon(element,coordinates);	
+	createGrid: function(){
+			this.grid.x1 = 2000;
+			this.grid.y1 = 2000;
+			this.grid.x2 = 0;
+			this.grid.y2 = 0;
+
+			var lastX, lastY;
+			var index = 0;
+			var coordOK;
+			for(var i=0; i < this.coords.length-1; i+=2){
+				coordOK= true;
+				var xPos = parseFloat(this.coords[i]); //long
+				var yPos = parseFloat(this.coords[i+1]); //lat
+				
+				if(xPos < this.grid.x1) this.grid.x1 = xPos;
+				if(yPos < this.grid.y1) this.grid.y1 = yPos;	
+				if(xPos > this.grid.x2) this.grid.x2 = xPos;
+				if(yPos > this.grid.y2) this.grid.y2 = yPos;
+			}
+	},
+	constructFromGeoJSONObject: function(properties,coordinates){
+		if(properties.shape == 'polygon'){
+			this.constructFromGeoJSONPolygon(properties,coordinates);	
 		}
-		else if(element.shape == 'point'){
+		else if(properties.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
 			var ps = 0.5;
 			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 			newcoords = this._convertGeoJSONCoords(newcoords);
-			element.notSubjectToThreshold = true;
-			this.constructBasicPolygon(element,newcoords);
+			this.constructBasicPolygon(properties,newcoords);
 		}
 		else
 			console.log("don't know what to do with shape " + element.shape);
@@ -672,18 +833,16 @@ EasyShape.prototype={
 	constructBasicPolygon: function(properties, coordinates){
 		this.coords = coordinates;
 		this.shape = "polygon";
-		this.transformedCoords = this.coords;
+		//this.transformedCoords = this.coords;
 		//this.href = "#";
-		this.properties = properties;
-		this.fill = true;
-		if(this.properties.colour)
-			this.fillStyle =  this.properties.colour;
-		else
-			this.fillStyle ="#000000";
+		if(!properties.stroke)properties.stroke = '#000000';
 		
-		if(typeof this.properties.fill == 'boolean'){	
-			this.fill = this.properties.fill;
-		}
+
+		
+		if(properties.colour)
+			properties.fill =  properties.colour;
+
+		this.properties = properties;
 		this.grid = {}; //an enclosing grid
 	},	
 	constructFromGeoJSONPolygon: function(properties,coordinates){		
@@ -708,7 +867,7 @@ EasyShape.prototype={
 		return res;
 	},	
 	_spherify: function(lon,lat,rotate,radius){//http://board.flashkit.com/board/archive/index.php/t-666832.html
-		var utils = new EasyMapUtils("");
+		var utils = EasyMapUtils;
 		var res = {};
 		if(lon>maxLon)maxLon=lon;
 		if(lon<minLon)minLon=lon;
@@ -738,10 +897,9 @@ EasyShape.prototype={
 		res.x = xPos;
 		res.y = yPos;
 		return res;
-	},
-	transform: function(transformation,rotate,spherical,radius){
+	}
 	
-		
+	,transformcoordinates: function(transformation,spherical,radius){		
 		var performScale = true;
 		var performTranslate = true; 
 		var performRotate = false;
@@ -754,21 +912,12 @@ EasyShape.prototype={
 		if(translation.x == 0 && translation.y == 0) {
 			performTranslate = false;
 		}
-		if(rotate) {
+		if(transformation.rotate) {
 			performRotate = true;
 		}
 		
-		if(this.properties.static) {
-			performRotate = false; performTranslate = false; performScale = false;
-		}
-
-		this.transformedCoords = [];
-
-		this.grid.x1 = 2000;
-		this.grid.y1 = 2000;
-		this.grid.x2 = 0;
-		this.grid.y2 = 0;
-		
+		var transformedCoords = [];
+		var rotate = transformation.rotate;
 		var lastX, lastY;
 		var index = 0;
 		var coordOK;
@@ -779,9 +928,6 @@ EasyShape.prototype={
 			var xPos, yPos;
 
 			if(spherical){
-				/* JRL - I'm not entirely sure these two lines make sense - x is in radians, radius is in metres?
-				x -= radius;
-				y -= radius;*/
 				var t = this._spherify(lon,lat,rotate,radius);
 				xPos = t.x;
 				yPos = t.y;
@@ -789,16 +935,6 @@ EasyShape.prototype={
 				xPos = lon;
 				yPos = lat;
 			}
-
-			/* JRL - removing rotations about the z axis for now (it says y below, but should be z)
-			if(performRotate){
-				if(rotate.y){
-					u = x ;
-					v = y ;
-					x =  (u * Math.cos(rotate.y)) - (v * Math.sin(rotate.y));
-					y = (v * Math.cos(rotate.y)) + (u * Math.sin(rotate.y));
-				}
-			}*/
 
 			
 			if(performTranslate){
@@ -818,11 +954,6 @@ EasyShape.prototype={
 			yPos +=transformation.origin.y;
 			}
 			
-			if(xPos < this.grid.x1) this.grid.x1 = xPos;
-			if(yPos < this.grid.y1) this.grid.y1 = yPos;	
-			if(xPos > this.grid.x2) this.grid.x2 = xPos;
-			if(yPos > this.grid.y2) this.grid.y2 = yPos;
-			
 			if(index > 0){
 					var l = (xPos-lastX)*(xPos-lastX) + (yPos-lastY) * (yPos-lastY);
 				} else {
@@ -833,22 +964,20 @@ EasyShape.prototype={
 			}
 			
 			if(coordOK){ //draw
-				this.transformedCoords.push(xPos);
-				this.transformedCoords.push(yPos);
+				transformedCoords.push(xPos);
+				transformedCoords.push(yPos);
 				index+=2;
 				lastX = xPos; lastY = yPos;
 			}
 		}
-
+		return transformedCoords;
 	}
 };
 /*
 Some common utils used throughout package 
 */
-var EasyMapUtils = function(wrapper){
-	this.wrapper = wrapper;
-};
-EasyMapUtils.prototype = {
+
+var EasyMapUtils = {
 	fitgeojsontocanvas: function(json,canvas){
 		var view ={};
 		var f =json.features;
@@ -895,7 +1024,7 @@ EasyMapUtils.prototype = {
 		view.height = (view.y2 - view.y1)
 		view.center.x = view.x2 - (view.width/2);
 		view.center.y = view.y2 - (view.height/2);
-		console.log(view.center.y, view.height);
+		//console.log(view.center.y, view.height);
 		var scale = 1,temp;
 		var tempx = parseFloat(canvasx/view.width);
 		var tempy = parseFloat(canvasy/view.height);
@@ -909,6 +1038,28 @@ EasyMapUtils.prototype = {
 		json.transform.translate.x = -view.center.x;
 		json.transform.translate.y = view.center.y;//view.center.y;	
 		return json;
+	},
+	undotransformation: function(x,y,transformation){
+		var pos = {};
+		var t =transformation;
+		var tr =t.translate;
+		var s = t.scale;
+		var o = t.origin;
+		pos.x = x;
+		pos.y = y;
+
+		pos.x -= o.x;
+		pos.y -= o.y;
+	
+		pos.x /= s.x;
+		pos.y /= s.y;
+				
+		pos.x -= tr.x;
+		pos.y -= tr.y;
+		
+
+		//console.log(x,y,"->",pos.x,pos.y);
+		return pos;
 	},
 	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
 		var svgu = new EasyMapSVGUtils();
@@ -946,24 +1097,36 @@ EasyMapUtils.prototype = {
 	_degToRad: function(deg) {
 		return deg * Math.PI / 180;
 	},
-	getMouseFromEventRelativeToCenter: function(e){
+	getMouseFromEventRelativeTo: function (e,x,y){
 		
 		var pos = this.getMouseFromEvent(e);
-		
-		var w = parseInt(this.wrapper.style.width);
-		var h = parseInt(this.wrapper.style.height);
-		
-		if(!w || !h) throw "wrapper has no width or height (easymaputils)";
-		pos.x -= w/2;
-		pos.y -= h/2;
+		pos.x -= x;
+		pos.y -= y;
 
-		
 		return pos;
+		
+	},
+	getMouseFromEventRelativeToCenter: function(e){
+		var w,h;
+		var target = resolveTargetWithMemory(e);
+		if(target.style.width)
+			w = parseInt(target.style.width);
+		else if(target.width)
+			w =parseInt(target.width);
+
+		if(target.style.height)
+			h = parseInt(target.style.height);
+		else if(target.height)
+			h = parseInt(target.height);
+		
+		if(!w || !h) throw "target has no width or height (easymaputils)";
+		
+		return this.getMouseFromEventRelativeTo(e,w/2,h/2);
 	},
 	getMouseFromEvent : function(e){
-			var id ="#"+this.wrapper.id;
-
-			var offset = $(id).offset();
+			if(!e) e = window.event;
+			var target = resolveTargetWithMemory(e);
+			var offset = $(target).offset();
 
 			x = e.clientX + window.findScrollX() - offset.left;
 			y = e.clientY + window.findScrollY() - offset.top;
@@ -976,45 +1139,36 @@ EasyMapUtils.prototype = {
 			e = window.event;
 		}
 		var target = resolveTargetWithMemory(e);
-
-		var id ="#"+this.wrapper.id;
-		
-		var offset = $(id).offset();
-		
+		var offset = $(target).offset();
+	
 		x = e.clientX + window.findScrollX() - offset.left;
 		y = e.clientY + window.findScrollY() - offset.top;
-		
+		//console.log(x,y);
 		//counter any positioning
-		if(target.style.left) x -= parseInt(target.style.left);
-		if(target.style.top) y -= parseInt(target.style.top);
-		/*console.log('e.clientX: '+e.clientX);
-		console.log('window.findScrollX: '+window.findScrollX());
-		console.log('offset.left: '+offset.left);
-		console.log('target.style.left: '+target.style.left);
-		console.log('e.clientY: '+e.clientY);
-		console.log('window.findScrollY: '+window.findScrollY());
-		console.log('offset.top: '+offset.top);
-		console.log('target.style.top: '+target.style.top);*/
+		//if(target.style.left) x -= parseInt(target.style.left);
+		//if(target.style.top) y -= parseInt(target.style.top);
 
 		var memory = target.memory;
+		var transformation = target.transformation;
 		//console.log('memory length: '+memory.length);
 		if(memory){
-			var shape = this.getShapeAt(x,y,memory);
+			var shape = this.getShapeAt(x,y,memory,transformation);
 			return shape;
 		} else{
 			//console.log("no shapes in memory");
 			//return false;
 		}
 	},	
-	getShapeAt: function(x,y,shapes) {
-		//console.log('looking for hit at x,y: '+x+', '+y);
+	getShapeAt: function(x,y,shapes,transformation) {
+		
+		if(transformation){
+			var pos = this.undotransformation(x,y,transformation);
+			x = pos.x;
+			y = pos.y;
+		}
 		var hitShapes = [];
 		for(var i=0; i < shapes.length; i++){
 			var g = shapes[i].grid;
-			/*console.log(g.x1);
-			console.log(g.y1);
-			console.log(g.x2);
-			console.log(g.y2);*/
 			if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
 				hitShapes.push(shapes[i]);
 			}
@@ -1063,7 +1217,7 @@ EasyMapUtils.prototype = {
 		/* _inPoly adapted from inpoly.c
 		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
 		http://www.visibone.com/inpoly/inpoly.c.txt */
-		var coords = poly.transformedCoords;
+		var coords = poly.coords;
 		var npoints = coords.length;
 		if (npoints/2 < 3) {
 			//points don't describe a polygon
@@ -1178,8 +1332,7 @@ EasyMapUtils.prototype = {
 /*
 SVG targeted functions withe goal to convert to a geojson structure
 */
-var EasyMapSVGUtils = function(){};
-EasyMapSVGUtils.prototype = {
+var EasyMapSVGUtils= {
 	createFeatureFromSVGPolygonElement: function(svgpoly){
 		
 		var f = {};
@@ -1195,12 +1348,7 @@ EasyMapSVGUtils.prototype = {
 		f.properties.href= svgpoly.getAttribute("xlink");
 	
 		if(svgpoly.getAttribute("fill")) {
-			f.properties.colour = svgpoly.getAttribute("fill"); 
-			f.properties.fill = true;
-		}
-		else {
-			f.properties.colour = "rgb(0,0,0)"; 
-			f.properties.fill = false;
+			f.properties.fill = svgpoly.getAttribute("fill"); 
 		}
 		
 		return f;
@@ -1239,6 +1387,7 @@ EasyMapSVGUtils.prototype = {
 	},
 	createFeaturesFromSVGPolygonElements: function(polys){
 		var res = [];
+		
 		for(var i=0; i< polys.length; i++){
 			var el = polys[i];
 			res.push(this.createFeatureFromSVGPolygonElement(el));
@@ -1247,14 +1396,15 @@ EasyMapSVGUtils.prototype = {
 	},		
 	createFeaturesFromSVGPathElements: function(paths){
 		var res = [];
+		
 		for(var i=0; i< paths.length; i++){
 			var el = paths[i];
 			var f=this.createFeatureFromSVGPathElement(el);
-			//if(f.geometry.coordinates[0].length >0)
 			res.push(f);
 		}
 		return res;
 	},
+	
 	_convertFromSVGPathCoords: function(SVGCoordinates,transformation){
 		//transformation in form matrix(0.5,0,0,0.5,-180,0)
 		var matrix =[],translate=[];
