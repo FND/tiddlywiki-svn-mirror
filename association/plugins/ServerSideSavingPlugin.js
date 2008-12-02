@@ -17,7 +17,7 @@ The specific nature of this plugins depends on the respective server.
 !!v0.2 (2008-12-01)
 * added support for local saving
 !To Do
-* disable server errors when offline
+* conflict detection/resolution
 * rename to ServerLinkPlugin?
 * attempt to determine default adaptor (and defaultCustomFields) from systemServer tiddlers
 * handle deleting/renaming (e.g. by hijacking the respective commands and creating a log)
