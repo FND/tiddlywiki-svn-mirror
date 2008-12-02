@@ -1,10 +1,11 @@
 <?php 
 
 
-
-echo tiddler_outputJsFile("lang/zh-Hans/ccTransLocale.zh-Hans.ccLingo.js", getcwd()."/");
-echo tiddler_outputJsFile("lang/zh-Hans/001_locale.zh-Hans.js", getcwd()."/");
-
+if($_REQUEST['translation']) 
+{
+	echo tiddler_outputJsFile("lang/".$_REQUEST['translation']."/ccTransLocale.".$_REQUEST['translation'].".ccLingo.js", getcwd()."/");
+	echo tiddler_outputJsFile("lang/".$_REQUEST['translation']."/001_locale.".$_REQUEST['translation'].".js", getcwd()."/");
+}
 include_once($cct_base."includes/ccAssignments.php");
 
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1) {

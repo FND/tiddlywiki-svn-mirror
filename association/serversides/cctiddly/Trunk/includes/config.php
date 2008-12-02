@@ -209,8 +209,10 @@ if($_POST['translation'])
 	$alternative_db = $_POST['translation'];
 
 if($tiddlyCfg['db']['allow_override'] && $alternative_db)
+{
+	$alternative_db = str_replace("-", "", $alternative_db);
 	$tiddlyCfg['db']['name'] = $tiddlyCfg['db']['name']."_".$alternative_db;
-
+}
 include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
 
 // lookup workspace in db. 
