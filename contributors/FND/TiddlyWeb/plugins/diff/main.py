@@ -13,7 +13,16 @@ from tiddlyweb.web import util as web
 
 
 def init(config):
-	print "initializing diff plugin"
+	print "initializing diff"
+	# extend urls.map
+	config["selector"].add("/bags/{bag_name:segment}/tiddlers/tiddlers/{tiddler_name:segment}/diff",
+		GET=get_diff)
+	config["selector"].add("/bags/{bag_name:segment}/tiddlers/" +
+		"{tiddler_name:segment}/diff/{rev1:segment}",
+		GET=get_diff)
+	config["selector"].add("/bags/{bag_name:segment}/tiddlers/" +
+		"{tiddler_name:segment}/diff/{rev1:segment}/{rev2:segment}",
+		GET=get_diff)
 
 
 def get_diff(environ, start_response):
@@ -30,7 +39,7 @@ def _send_tiddler_diff(environ, start_response, tiddler, rev1, rev2):
 	try:
 		store.get(tiddler)
 	except NoTiddlerError, e:
-		raise HTTP404, "%s not found, %s" % (tiddler.title, e)
+		raise HTTP404("%s not found, %s" % (tiddler.title, e))
 
 	if rev1 == None:
 		rev1 = tiddler.revision
@@ -41,7 +50,7 @@ def _send_tiddler_diff(environ, start_response, tiddler, rev1, rev2):
 		try:
 			store.get(tiddler)
 		except NoTiddlerError, e:
-			raise HTTP404, "%s (rev:%s) not found, %s" % (tiddler.title, tiddler.revision, e)
+			raise HTTP404("%s (rev:%s) not found, %s" % (tiddler.title, tiddler.revision, e))
 		return tiddler.text.splitlines(1)
 	tiddler.revision = rev1
 	rev1Text = getTiddlerText(tiddler)
