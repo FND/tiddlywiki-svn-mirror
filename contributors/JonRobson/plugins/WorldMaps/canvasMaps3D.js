@@ -158,7 +158,7 @@ EasyMapController.prototype = {
 			if(t.getAttribute("class") == "easyControl") return;
 			if(!this.realpos) return;
 			var pos = that.utils.getMouseFromEventRelativeTo(e,this.realpos.x,this.realpos.y);		
-			
+			if(!pos)return;
 			var t = that.transformation;
 			var sc = t.scale;
 			t.translate.x = this.startpos.x - pos.x;
@@ -169,21 +169,22 @@ EasyMapController.prototype = {
 		
 		this.wrapper.onmousedown = function(e){
 			
-			this.style.cursor= 'move';
+
 			if(md) md(e);
 			
 			var target = resolveTarget(e);
+			if(!target) return;
 			if(target.getAttribute("class") == "easyControl") return;
+			this.style.cursor= 'move';
 			var t = that.transformation.translate;
 			var sc =that.transformation.scale; 
 			var realpos = that.utils.getMouseFromEvent(e);
 			var pos = that.utils.getMouseFromEventRelativeToCenter(e);
+			if(!pos) return;
 			pos.x = t.x -(pos.x / sc.x);
 			pos.y = t.y - (pos.y /sc.y);
 			this.startpos = pos;
 			this.realpos = realpos;
-
-			console.log("startpos set to", this.startpos,this.realpos);
 			this.onmousemove = onmousemove;
 
 		};
@@ -191,15 +192,9 @@ EasyMapController.prototype = {
 
 		this.wrapper.onmouseup = function(e){
 			this.style.cursor= '';
-			if(mu)mu(e);
-			
-			if(!this.startpos) return;
-			
-
-			
-			
 			this.startpos = null;
 			this.onmousemove = null;
+			if(mu)mu(e);
 			return false;
 		};
 	
@@ -208,7 +203,7 @@ EasyMapController.prototype = {
 		if(!t.scale && !t.translate) alert("bad transformation applied");
 		this.transformation = t;
 		this.targetjs.transform(t);
-		console.log("transformation set to ",t);
+		//console.log("transformation set to ",t);
 	},
 	drawButtonLabel: function(ctx,r,type){
 		ctx.beginPath();
@@ -672,39 +667,67 @@ EasyMap.prototype = {
 		ctx.restore();
 	},
 	_renderShape: function(shape,frame){ //is this really a drawPolygon or a drawLines
+		var scale =this.canvas.transformation.scale;
 		if(shape.shape !='polygon') {console.log("no idea how to draw");return;}		
 			if(shape.grid){
-				if(shape.grid.x2 < frame.left) {
+				var g = shape.grid;
+				if(g.x2 < frame.left) {
 					return;}
-				if(shape.grid.y2 < frame.top) {
+				if(g.y2 < frame.top) {
 					return;}
-				if(shape.grid.x1 > frame.right){
+				if(g.x1 > frame.right){
 					return;
 				}
-				if(shape.grid.y1 > frame.bottom){
+				if(g.y1 > frame.bottom){
 					return;	
 				}
+				var t1 = g.x2 -g.x1;
+				var t2 =g.y2- g.y1;
+				var delta = {x:t1,y:t2};
+				delta.x *= scale.x;
+				delta.y *= scale.y;
+
+				if(delta.x < 5 || delta.y < 5) {return;}//too small
+			
+				if(shape.perimeter * scale.x  < 10)return;
+				
+				//console.log(shape.properties.name,g.x1,g.x2,g.y1,g.y2,"<> ",frame.left,frame.right,frame.top,frame.bottom);
 			}
 			
 			this.ctx.beginPath();
 			var c;
 			
-			if(this.ie) c= shape.transformcoordinates(this.canvas.transformation);
-			else c = shape.coords;
+			c = shape.coords;
+			
+			var deltas = shape.distanceToNext;
 			var x = parseFloat(c[0]);
 			var y = parseFloat(c[1]);
 
 			var initialX = x;
 			var initialY =y;
+			var pathLength = {x: 0, y:0};
+			var threshold = 2;
+
 			this.ctx.moveTo(x,y);
+
+		
+			
+			
 			for(var i=2; i < c.length-1; i+=2){
 				var x = parseFloat(c[i]);
 				var y = parseFloat(c[i+1]);
-				
-				this.ctx.lineTo(x,y);
+				pathLength.x += deltas[i];
+				pathLength.y += deltas[i+1];
 
-				if(x>this._maxX) this._maxX = x;
-				if(y>this._maxY) this._maxY = y;
+				var deltax = parseFloat(pathLength.x) * scale.x;
+				var deltay = parseFloat(pathLength.y)* scale.y;
+				
+				if(deltax > threshold || deltay > threshold){
+					this.ctx.lineTo(x,y);
+					pathLength.x = 0;
+					pathLength.y = 0;
+				}
+
 			}
 			//connect last to first
 			this.ctx.lineTo(initialX,initialY, x,y);
@@ -724,8 +747,6 @@ EasyMap.prototype = {
 					this.ctx.stroke();
 					this.ctx.fill();
 					}
-					else
-					console.log(shape.properties.fill,shape.properties.name);
 				}
 			}
 	
@@ -797,23 +818,47 @@ var EasyShape = function(properties,coordinates,sourceType){
 };
 EasyShape.prototype={
 	createGrid: function(){
-			this.grid.x1 = 2000;
-			this.grid.y1 = 2000;
-			this.grid.x2 = 0;
-			this.grid.y2 = 0;
+			this.grid.x1 = this.coords[0];
+			this.grid.y1 = this.coords[1];
+			this.grid.x2 = this.coords[0];
+			this.grid.y2 = this.coords[1];
+			
+			this.distanceToNext = []
+			var d = this.distanceToNext;
 
 			var lastX, lastY;
 			var index = 0;
 			var coordOK;
+			lastX = this.coords[0];
+			lastY = this.coords[1];
+			this.perimeter = 0;
+			
+			
 			for(var i=0; i < this.coords.length-1; i+=2){
 				coordOK= true;
 				var xPos = parseFloat(this.coords[i]); //long
 				var yPos = parseFloat(this.coords[i+1]); //lat
 				
+				var deltax =xPos - lastX;
+				var deltay= yPos - lastY;
+				
+				
+				this.perimeter += Math.sqrt((deltax*deltax) + (deltay*deltay));
+				
+				if(deltax < 0) deltax = - deltax;
+				if(deltay < 0) deltay = -deltay;
+				d.push(deltax);
+				d.push(deltay);
+				
+				
+				
 				if(xPos < this.grid.x1) this.grid.x1 = xPos;
 				if(yPos < this.grid.y1) this.grid.y1 = yPos;	
 				if(xPos > this.grid.x2) this.grid.x2 = xPos;
 				if(yPos > this.grid.y2) this.grid.y2 = yPos;
+				
+				lastX = xPos;
+				lastY = yPos;
 			}
 	},
 	constructFromGeoJSONObject: function(properties,coordinates){
@@ -1100,6 +1145,7 @@ var EasyMapUtils = {
 	getMouseFromEventRelativeTo: function (e,x,y){
 		
 		var pos = this.getMouseFromEvent(e);
+		if(!pos) return false;
 		pos.x -= x;
 		pos.y -= y;
 
@@ -1109,6 +1155,7 @@ var EasyMapUtils = {
 	getMouseFromEventRelativeToCenter: function(e){
 		var w,h;
 		var target = resolveTargetWithMemory(e);
+		if(!target)return;
 		if(target.style.width)
 			w = parseInt(target.style.width);
 		else if(target.width)
@@ -1126,6 +1173,7 @@ var EasyMapUtils = {
 	getMouseFromEvent : function(e){
 			if(!e) e = window.event;
 			var target = resolveTargetWithMemory(e);
+			if(!target)return;
 			var offset = $(target).offset();
 
 			x = e.clientX + window.findScrollX() - offset.left;
@@ -1139,8 +1187,10 @@ var EasyMapUtils = {
 			e = window.event;
 		}
 		var target = resolveTargetWithMemory(e);
+		if(!target) return;
 		var offset = $(target).offset();
-	
+		
+
 		x = e.clientX + window.findScrollX() - offset.left;
 		y = e.clientY + window.findScrollY() - offset.top;
 		//console.log(x,y);
@@ -1165,6 +1215,7 @@ var EasyMapUtils = {
 			var pos = this.undotransformation(x,y,transformation);
 			x = pos.x;
 			y = pos.y;
+			
 		}
 		var hitShapes = [];
 		for(var i=0; i < shapes.length; i++){
@@ -1179,6 +1230,7 @@ var EasyMapUtils = {
 		} else {
 			res = this._findNeedleInHaystack(x,y,hitShapes);
 		}
+			
 		return res;
 	},
 	_findNeedleInHaystack: function(x,y,shapes){
