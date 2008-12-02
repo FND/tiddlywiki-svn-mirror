@@ -100,18 +100,18 @@ EasyMapController.prototype = {
 			var t = resolveTarget(e);
 		
 			if(t != that.wrapper && t.parentNode !=that.wrapper) return;
-	        if (e.wheelDelta) { /* IE/Opera. */
-	                delta = e.wheelDelta/120;
-	                /** In Opera 9, delta differs in sign as compared to IE.
-	                 */
-	                if (window.opera)
-	                        delta = -delta;
-	        } else if (e.detail) { /** Mozilla case. */
-	                /** In Mozilla, sign of delta is different than in IE.
-	                 * Also, delta is multiple of 3.
-	                 */
-	                delta = -e.detail/3;
-	        }
+	       	 	if (e.wheelDelta) { /* IE/Opera. */
+		                delta = e.wheelDelta/120;
+		                /** In Opera 9, delta differs in sign as compared to IE.
+		                 */
+		                if (window.opera)
+		                        delta = -delta;
+		        } else if (e.detail) { /** Mozilla case. */
+		                /** In Mozilla, sign of delta is different than in IE.
+		                 * Also, delta is multiple of 3.
+		                 */
+		                delta = -e.detail/3;
+		        }
 	
 			var sensitivity = 0.3;
 			if(!this.lastdelta) this.lastdelta = delta;
@@ -151,27 +151,25 @@ EasyMapController.prototype = {
 		var mu = that.wrapper.onmouseup;	
 		var mm = that.wrapper.onmousemove;
 		var onmousemove = function(e){
-			if(mm)mm(e);
-			if(!this.startpos) return;
 			
+			if(mm)mm(e);
+
+			if(!this.realpos) return;
 			var t = resolveTarget(e);
 			if(t.getAttribute("class") == "easyControl") return;
-			if(!this.realpos) return;
 			var pos = that.utils.getMouseFromEventRelativeTo(e,this.realpos.x,this.realpos.y);		
 			if(!pos)return;
 			var t = that.transformation;
 			var sc = t.scale;
-			t.translate.x = this.startpos.x - pos.x;
-			t.translate.y = this.startpos.y - pos.y;
+			
+			t.translate.x = (pos.x /sc.x);
+			t.translate.y =(pos.y / sc.y);
 			that.transform();
 			return false;	
 		};
 		
 		this.wrapper.onmousedown = function(e){
-			
-
 			if(md) md(e);
-			
 			var target = resolveTarget(e);
 			if(!target) return;
 			if(target.getAttribute("class") == "easyControl") return;
@@ -179,25 +177,24 @@ EasyMapController.prototype = {
 			var t = that.transformation.translate;
 			var sc =that.transformation.scale; 
 			var realpos = that.utils.getMouseFromEvent(e);
-			var pos = that.utils.getMouseFromEventRelativeToCenter(e);
-			if(!pos) return;
-			pos.x = t.x -(pos.x / sc.x);
-			pos.y = t.y - (pos.y /sc.y);
-			this.startpos = pos;
+			
+			realpos.x -= t.x;
+			realpos.y -= t.y;
 			this.realpos = realpos;
-			this.onmousemove = onmousemove;
+			that.wrapper.onmousemove = onmousemove;
 
 		};
-
-
+		
+		this.wrapper.onmousemove = onmousemove;
 		this.wrapper.onmouseup = function(e){
 			this.style.cursor= '';
-			this.startpos = null;
-			this.onmousemove = null;
+			that.wrapper.onmousemove = null;
+			this.realpos = null;
 			if(mu)mu(e);
 			return false;
 		};
 	
+		console.log(this.wrapper,this.wrapper.onmousemove);
 	},
 	setTransformation: function(t){
 		if(!t.scale && !t.translate) alert("bad transformation applied");
@@ -1173,12 +1170,12 @@ var EasyMapUtils = {
 	getMouseFromEvent : function(e){
 			if(!e) e = window.event;
 			var target = resolveTargetWithMemory(e);
-			if(!target)return;
+			if(!target)return false;
 			var offset = $(target).offset();
 
 			x = e.clientX + window.findScrollX() - offset.left;
 			y = e.clientY + window.findScrollY() - offset.top;
-
+			//console.log("eclient",e.clientX,e.clientY,"offset",offset.left,offset.top,"window",window.findScrollX(),window.findScrollY(),"x,y",x,y);
 			return {'x':x, 'y':y};		
 				
 	},
