@@ -1,9 +1,6 @@
 <div title="ccAssignments" modifier="ccTiddly" tags="systemConfig ccTiddly excludeSearch excludeLists">
 <pre>
 /*{{{*/
-
-
-
 window.saveChanges = function(){};
 
 setStylesheet(

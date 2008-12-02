@@ -1,5 +1,5 @@
 <?php
-
+sendHeader(200);
 include_once($cct_base."includes/header.php");
 //force anonymous due to security concerns
 $user['verified']=0;
@@ -49,6 +49,5 @@ $result .= '</channel>
 </rss>';
 echo $result;
 //print str_replace("\n","<br>\n",htmlspecialchars($result));
-sendHeader(200);
 exit;
 ?>
