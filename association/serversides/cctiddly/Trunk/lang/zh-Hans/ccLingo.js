@@ -16,7 +16,14 @@
 //{{{
 	
 	
-config.options.search = ""查找...";
+merge(config.options, {search:"查找..."})
+
+config.theme = {
+	contentTitle : '  状态 »',
+	contentToolTip : '依登入帐号而异'
+};
+
+
 merge(config.macros.ccAbout,{
 	buttonBackstageText:"关于",
 	buttonBackstageTooltip:"关于 ccTiddly",
@@ -270,8 +277,6 @@ merge(config.macros.ccStats, {
 !ccTiddlyAdaptor
 ***/
 //{{{
-
-merge(config.commands.saveTiddlerHosted1, config.commands.saveTiddler);
 
 merge(config.commands.revisions,{
 	text: "修订版本",
