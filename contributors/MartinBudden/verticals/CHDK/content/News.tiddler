@@ -1,0 +1,88 @@
+<div title="News" modifier="MartinBudden" created="200812021714" modified="200811271059" server.host="chdk.wikia.com" server.page.timestamp="2008-11-27T10:59:52Z" server.page.revision="13345" wikiformat="mediawiki">
+<pre>* ('''2008 11 25''')  Porting of the A1000 has begun [http://chdk.setepontos.com/index.php/topic,2654.msg24941/topicseen.html#msg24941]
+* ('''2008 11 23''')  [http://stereo.jpn.org/eng/sdm/index.htm SDM 1.75 released] &nbsp;Digiscoping, G9, A590, ixus50 and ixus75 support.
+* ('''2008 11 19''')  A590 now in the [http://mighty-hoernsche.de/ autobuild]
+* ('''2008 11 18''')  PowerShot G9 and Ixus80/SD1100 now in the [http://mighty-hoernsche.de/ autobuild]
+* ('''2008 11 15''')  [http://chdk.wikia.com/wiki/Language:_French_auto French translation] for autobuild
+* ('''2008 11 13''')  The IXUS75/SD750 now is included in the autobuild. get it while it's hot!
+* ('''2008 10 27''')  [http://stereo.jpn.org/eng/sdm/index.htm SDM 1.74a released] &nbsp;Bug fixes.
+* ('''2008 10 22''')  [http://stereo.jpn.org/eng/sdm/index.htm SDM 1.74 released] &nbsp; RAW images may be uploaded, renamed, converted to DNG and automatically viewed as slide-show with Picasa using USB link or card-reader.
+* ('''2008 10 22''') A590IS porting is now [http://chdk.setepontos.com/index.php/topic,2361.60.html available] in beta
+* ('''2008 10 20''') Old, probably not known to many: CHDK channel in {{color|#FF1200|'''IRC Chat!'''}} server: freenode.net/#chdk or [http://java.freenode.net//index.php?channel=chdk JAVA] - come chat with the devs or ask questions...
+* ('''2008 10 04''')  {{color|#FF1200|'''DryOS breakthrough? '''}} First canon firmware update (*.fi2 file) spotted in the wild ([http://chdk.setepontos.com/index.php/topic,2342.msg22184.html#msg22184 Forum link])
+* ('''2008 10 04''')  '''New: Dedicated Bugtracker for CHDK''' We now have a dedicated [http://chdk.kernreaktor.org/mantis Bugtracker] for CHDK where you can also submit feature requests ([http://chdk.setepontos.com/index.php/topic,2357.0.html Forum link] & [http://chdk.wikia.com/wiki/Bug_tracking_and_feature_requests_with_Mantis wiki])
+* ('''2008 09 27''') [[SX110]] dumped ([http://chdk.setepontos.com/index.php/topic,2370.msg21900.html#msg21900 Forum link])
+* ('''2008 09 14''') {{color|#FF1200|<u>'''Allbest & JuciPhoX finally joined forces! '''</u>}} Read more about it [http://chdk.setepontos.com/index.php/topic,2297.0.html here] (this will update during the next days)
+* ('''2008 09 09''') Some EOS [[40D]] breakthroughs, movie mode possible. Example movie and more information on the [[40D]] page.
+* ('''2008 09 02''') '''SX100 IS with Firmware 1.00b is finally ported and in the Autobuild tree!'''
+* ('''2008 08 22''') [[SD1100IS]] (fw 100c) chdk-allbest: first alpha build available ([http://chdk.setepontos.com/index.php/topic,2044.msg20276.html#msg20276 Forum link])
+* ('''2008 08 10''') [[SD770IS]] dumped ([http://chdk.setepontos.com/index.php/topic,288.msg19518.html#msg19518 Forum link])
+* ('''2008 08 08''') [[A590IS]] dumped ([http://chdk.setepontos.com/index.php/topic,696.msg19397.html#msg19397 Forum link])
+* ('''2008 08 08''') CHDK for [[SD550|IXUS 750 (SD550)]] (Firmwares 1.0F & 1.0G) available [http://mighty-hoernsche.de/chdk/ as Autobuild]
+* ('''2008 08 06''') CHDK for [[IXUS960IS|IXUS 960IS (SD950)]] available in latest (experimental) "Juciphox branch" [http://mighty-hoernsche.de/chdk/ Autobuild]
+* ('''2008 08 04''') Autobuild for new experimental "Juciphox branch" [http://chdk.wikia.com/wiki/Downloads#NEW.21_Exceptional_Builds_from_the_CHDK_Forum now available] - now with Thermometer!
+* ('''2008 07 19''') additional NTSC [[SD550]] dumped
+* ('''2008 07 15''') [[A420]] dumped and waiting for contributors.
+* ('''2008 07 10''') '''[http://chdk.wikia.com/wiki/SX100IS SX100 IS] is finally ported!'''
+* ('''2008 06 06''') '''[[SD400]] (IXUS 50) is finally ported!'''
+* ('''2008 06 06''') SD600 porting is now [[SD600 | available]] in beta
+* ('''2008 05 27''') CHDK on [http://www.hackaday.com/2008/05/27/how-to-expand-your-camera-with-chdk/ Hack A Day]
+* ('''2008 05 22''') Some kind of roadmap for chdk has been created, vote on features: [http://chdk.setepontos.com/index.php/topic,1373.0.html link]
+* ('''2008 05 09''') CHDK on [http://www.xatakafoto.com/2008/05/08-dale-cana-a-tu-canon-powershot-con-diversas-mejoras XatakaFoto] (Spanish)
+* ('''2008 05 08''') additional NTSC [[SD550]] dumped
+* ('''2008 05 08''') CHDK on [http://photojojo.com/content/reviews/chdk-point-and-shoot-camera-hack/ Photojojo]
+* ('''2008 05 07''') CHDK on [http://lifehacker.com/387380/turn-your-point+and+shoot-into-a-super+camera Lifehacker] - again ;)
+* ('''2008 04 21''') [[SD30]] dumped
+* ('''2008 04 16''') New version of the Spanish language file for the AllBest Build #50.[[Language:_Spanish2|Spanish2]]
+* ('''2008 04 12''') [[A430]] dumped
+* ('''2008 04 10''') [[A450]] officially ported
+* ('''2008 04 10''') For all creatives of you, we`ve created a little competition to show you how multi-faceted CHDK can be. [http://www.wirklemms.de/chdk/forum/viewtopic.php?t=115 '''Be invited to join in and send us your '''] (fantastic????) results. (Of course, guests are also invited). Have Fun! ('''in German''')
+* ('''2008 04 09''') [[SD600]] dumped
+* ('''2008 04 09''') New version of the Slovak language file for the AllBest Build #50
+* ('''2008 04 08''') [[SD750]] dumped
+* ('''2008 04 08''') '''[[S5IS]] is finally ported!'''
+* ('''2008 04 07''') CHDK on [http://howto.wired.com/wiki/Supercharge_Your_Camera_with_Open-Source_CHDK_Firmware Wired] and [http://lifehacker.com/376070/get-way-more-from-your-canon-digital-camera-with-open+source-firmware Lifehacker]
+* ('''2008 04 07''') AllBest Czech language [[Language:_CzechBest|Build 49]]
+* ('''2008 04 07''') AllBest french language [[Language:_French49|Build 50]]
+* ('''2008 04 06''') AllBest Italian language NOW available!
+* ('''2008 04 06''') [[SD550]] dumped
+* ('''2008 04 03''') New Motion/Lightning Detection and Motion Detection Video scripts for the Canon A640 optimized for the AllBest build (other scripts also revised and updated) [http://chdk.wikia.com/wiki/UBASIC/Scripts:_Scripts_for_Canon_A640 Scripts for Canon A640].
+* ('''2008 03 27''') Allbest Build #48 released, available on the new [http://grandag.nm.ru/hdk/autobuild/ Experimental Releases "AutoBuild"] download area. Added RAW & MB space left w customizable warning limits, 12/24 clock w seconds, Customizable AutoISO, Custom User Menu, Zoom w Video for cameras without, etc. See [http://chdk.setepontos.com/index.php/topic,871.0.html Build 48 History] for full list.
+* ('''2008 03 15''') TX-1 IDA Labels List [http://www.zshare.net/download/9030143c062f0c/] for quick comparison to similar routines in other cameras.
+* ('''2008 03 12''') TX-1 Firmware Dumped [http://www.zshare.net/download/8830648da10fa6/]
+* ('''2008 03 09''') 'StereoData Maker' version 1.50 released [[Downloads#SDM-CHDK_.28StereoData_Maker.29|]]
+
+* '''This section is in a scrolling pane for a long time now, there is no need to edit it for brevity anymore. All old news back to day-one should be reinstated so that people can use this as a time-line, as well as seeing some of the amazing new things that CHDK can do at a glance. Not to mention all the valuable links that are getting lost when editing this section.''' (to the editor that is truncating this section: remove this comment after you have read it)
+
+* ('''2008 02 27''') AllBest Build 37 released [http://malbe.nm.ru/chdk/] & [http://chdk.setepontos.com/index.php/topic,645.0.html]
+* ('''2008 02 25''') SD800IS porting is now [[SD800 | available]] in beta
+* ('''2008 02 25''') A530 porting is now [[A530 | available]] in beta
+* ('''2008 02 22''') New [[CameraFeatures|"<u>Camera Features Chart</u>"]]. Cross-reference of each model and its new capabilities. (Camera-tester's input requested.)
+* ('''2008 02 15''') German language-file (beta) for allbest build 31 [[Language:_German2|German_allbest]]
+* ('''2008 02 13''') Firmware dump and first (early) beta port available for [[SD450]] (IXUS 55)
+* ('''2008 02 10''') AllBest Build 31 released [http://malbe.nm.ru/chdk/]
+* ('''2008 02 02''') A550 porting is now [[A550 | available]] in beta
+* ('''2008 01 31''') Firmware of A650IS is [[A650IS | available]]
+* ('''2008 01 16''') '''[http://img248.imageshack.us/my.php?image=popularsciencechdkarticzl7.jpg The CHDK-related article] published in the Feb.'08 issue of Popular Science magazine!''' 
+* ('''2008 01 10''') 2 new dumps for the [http://www.zshare.net/download/63812841138662/ ixus850_sd800_100e] and the  [http://www.zshare.net/download/63129850141872/ ixus70_sd1000_102a] 
+* ('''2008 01 09''')  [http://www.zshare.net/download/631205658df349/ G9 Firmware dumped!] 
+* Hotpixels removal in AllBest build ?! Read this [http://chdk.wikia.com/wiki/Talk:Suggestions#About_dead.2Fhot_pixels_on_the_ccd] and check it out!
+* ('''2007 12 06''')New Author: AllBest! Has just set a new record in CHDK! [http://chdk.setepontos.com/index.php/topic,101.0.html {{color|#FF1200|<u>'''READ THIS!'''</u>}}] 
+* ('''2007 12 05''') '''SD500 1.01b build is available''' (Read [http://chdk.setepontos.com/index.php/topic,92.0.html "this thread"] for latest details and downloads.)
+* ('''2007 12 04''') EWAVR discovers and implements F-Stop Override, giving 3 new F-stops of f/9.0, f/10.0 and f/11.0! See EWAVR's [[Downloads#Ewavr.27s_.28Zosim.27s.29_Builds|"experimental builds"]] on the [[Downloads|Downloads Page]] 
+* ('''2007 12 01''') '''New High-Speed Shutter and High-Speed Flash Sync taken to new heights!''' Shutter speeds with flash-sync up to 1/10,000th of a second! Use widest apertures too! See [http://chdk.setepontos.com/index.php/topic,32.0.html thread one] and [http://chdk.setepontos.com/index.php/topic,38.0.html two] at the '''new [http://chdk.setepontos.com/index.php CHDK Forum]''' (Don't miss the [[Samples:_High-Speed_Shutter_%26_Flash-Sync|sample images!]])  <i><b>(Update: Speeds up to 1/64,000 have been found!)</b></i>
+* [[A540 | A540 beta build is apparently available]] (and has been since Nov 19?)
+* ('''2007 11 26''') 15 sec exposure limit beaten: [http://hem.passagen.se/fsmmal/chdk2.html Fingalo's build] and [http://stereo.jpn.org/eng/sdm/index.htm Microfunguy's build] are able to perform up to 65" exposures 
+* '''[http://chdk.setepontos.com/index.php The new CHDK-dedicated discussion forum.]''' Check it out.
+* ('''2007 11 25''') [http://forums.dpreview.com/forums/read.asp?forum=1010&message=25757571 S5IS Firmware dumped!]  See [[S5IS]] for progress.
+* ('''2007 11 20''') [http://chdk.wikia.com/wiki/SD700_CHDK_Porting CHDK for SD700 1.01b ported!]. Beta v4 now available 
+* ('''2007 11 04''') [http://forums.dpreview.com/forums/read.asp?forum=1010&message=25489814 A720IS Firmware dumped!] But see the [[For Developers| Developers]] page for the problem 
+* ('''2007 11 02''') [http://chdk.wikia.com/wiki/SD300_CHDK_Porting SD300 CHDK port has started!]
+*1GIG Video Limit Beaten! With 1-99 Video Compression levels! For camera makes and models currently being tested, see EWAVR's download links on the [[Downloads#Ewavr.27s_.28Zosim.27s.29_Builds|Downloads Page]].
+*[http://chdk.wikia.com/index.php?title=Forum:Logo_Contest%3F&t=20071016030659 CHDK Logo Contest?] Submit yours.
+* [http://forums.dpreview.com/forums/readflat.asp?forum=1010&thread=25170969 Remote Cable-Release Via USB!] (A610/20/30/40, A710, S2 IS and S3 IS only, so far. See Microfunguy's Stereo-Data-Maker and Fingalo's [[CHDK#Special_Builds|Special-Builds]], below.)
+* [[CHDK#Special_Builds|CHDK now with Motion Detection!]]
+* CHDK Successfully ported to a Digic III Camera, the PowerShot G7, see [http://forums.dpreview.com/forums/readflat.asp?forum=1010&thread=24662492&page=7 this discussion thread].
+* ('''2007 10 28''') Revised A570is build released [http://chdk.wikia.com/wiki/Downloads#A570_Rossig_Builds (link to download page)].
+* ('''2007 10 28''') [http://chdk.wikia.com/wiki/S5IS Some Progress on S5 porting!]</pre>
+</div>

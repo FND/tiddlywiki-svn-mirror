@@ -1,4 +1,4 @@
-<div title="CHDK" modifier="MartinBudden" created="200811271120" modified="200811271107" tags="Category:CHDK" server.host="chdk.wikia.com" server.page.timestamp="2008-11-27T11:07:35Z" server.page.revision="13348" wikiformat="mediawiki">
+<div title="CHDK" modifier="MartinBudden" created="200812021714" modified="200811301022" tags="Category:CHDK" server.host="chdk.wikia.com" server.page.timestamp="2008-11-30T10:22:58Z" server.page.revision="13488" wikiformat="mediawiki">
 <pre><mainpage-leftcolumn-start />
 
 <!-- Begin of header section-->
@@ -34,12 +34,11 @@ If you feel the need to express your thanks and gratitude to all CHDK contributo
 |-
 |style="color:#000"|
 
-<u><big>''hard facts:''</big></u>
-*'''First and foremost: CHDK is free''' – CHDK is developed under the hood of the [http://en.wikipedia.org/wiki/GNU_General_Public_License GPL] and will stay free!
-*'''CHDK is a firmware ADDON''' – it does NOT replace the original firmware. It is loaded dynamically off of the SD-card, it does NOT make permanent changes;
-*'''CHDK''' – stands for <b>C</b>anon <b>H</b>ackers <b>D</b>evelopment <b>K</b>it;
-*'''CHDK is open source''' – everybody can take part in the development and create new features or fix bugs on their own (as long as they do not violate the GPL) – see [http://chdk.wikia.com/wiki/For_Developers here] for more info;
-*'''No reports of damage''' – as of now, we have had no single user report of a damaged camera through CHDK! 
+<u><big>''Quick facts:''</big></u>
+*'''CHDK is free software''' – CHDK released under the [http://en.wikipedia.org/wiki/GNU_General_Public_License GPL], allowing you to use it for free, and also create your own modifications.
+*'''CHDK is a firmware ADDON''' – CHDK does not replace the original firmware, and does not make any permanent changes to the camera. Instead, it is loaded from the SD card, either at startup or using the built in menu.
+*'''CHDK''' – stands for <b>C</b>anon <b>H</b>ack <b>D</b>evelopment <b>K</b>it;
+*'''CHDK is experimental and comes with no warranty''' – Be sure to read the [[FAQ]] for discussion of possible risks and impact on your Canon warranty coverage.
 
 {{:Features}}
 |-
@@ -53,6 +52,7 @@ If you feel the need to express your thanks and gratitude to all CHDK contributo
 <!-- News section -->
 || <div style="border:1px solid #aaa;background-color:#F0F8FF;padding-left:4px;padding-bottom:4px;padding-right:4px;padding-top:2px;">
 <h4 style="margin:0;background-color:#cedff2;font-size:120%;font-weight:bold;border:1px solid #a3b0bf;text-align:left;color:#000;padding:0.2em 0.4em;">News / History</h4><div style="height: 30em; overflow: auto;">
+<!--News is now transcluded from the News page, so add any news there-->
 {{:News}}
 </div>
 </div>
@@ -101,6 +101,7 @@ The basics: how to install and use the CHDK firmware
 :If you are interested in the History of CHDK or want to see some interesting links, head on over to the '''[[Links|LINKS]]''' page.  That page should be updated with all the latest and links and stories.
 
 ===Other Info===
+:[[Bug_tracking_and_feature_requests_with_Mantis|Bug tracking and feature requests with Mantis]]
 :Change Log / Timeline: https://tools.assembla.com/chdk/timeline 
 :Raw comparison, original "Raw enabler": [http://tinyurl.com/2aq2s8 digicanon.narod.ru]
 :USB Specifications:  [http://en.wikipedia.org/wiki/Universal_Serial_Bus#Power]

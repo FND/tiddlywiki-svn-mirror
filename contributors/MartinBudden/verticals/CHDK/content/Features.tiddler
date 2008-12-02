@@ -1,52 +1,36 @@
-<div title="Features" modifier="MartinBudden" created="200811271120" modified="200811271105" server.host="chdk.wikia.com" server.page.timestamp="2008-11-27T11:05:33Z" server.page.revision="13347" wikiformat="mediawiki">
-<pre><u><big>''the features:''</big></u>
+<div title="Features" modifier="MartinBudden" created="200812021714" modified="200811301019" server.host="chdk.wikia.com" server.page.timestamp="2008-11-30T10:19:38Z" server.page.revision="13487" wikiformat="mediawiki">
+<pre><u><big>''Major features:''</big></u>
 <table border="0" width="100%">
 <tr>
-<td valign="top">
+<td valign="top" width="33%">
 <small>
-*'''RAW''' - with CHDK you can create RAW files (and very soon DNG files that can be read by all gfx applications...)
-*'''RAW operations''' - develop raws in-camera using different settings! merge/subtract/sum RAW files!
-*'''Darkframes''' - enable or disable the taking of darkframes
-*'''Override Shutter Speeds''' - go as fast as 1/60.000s or as slow as 64s - you can even sync the flash at these high speeds!
-*'''Override Aperture and Iso''' - on some cameras you can push the limits a lot
-*'''Add M,Tv & Av modes''' to cameras that normally don't have it - lot's of small Ixuses don't have these modes, but with CHDK they do!
-*'''Custom Auto-ISO''' - that's not so common among compact cameras...
-*'''Override Focus''' - you can set focus in millimeters, even when your camera normally has no MF!
-*'''Bracketing''' - you can use all the aforementioned overrides in bracketing! yes, you read right, you can do bracketing now, focus bracketing, ev bracketing, etc, fully customizable!
-*'''Video Overrides''' - overcome the 1GB or 1hour limit - set custom quality or bitrates (even on the fly DURING recording) - soon you can also set framerate
-*'''Scripting''' - you can write ubasic or LUA scripts and run them on your camera to add even more functionality (this deserves an own wiki alone, it's so powerful!)
-*'''Time Shifting''' - CHDK allows to zoom during the exposure (normally this works on DSLRS with manual lenses only!) and maybe even focus shifting!
-*'''Motion detection''' - Yes, high speed motion detection ! ...can be used for a variety of things, e.g. catching lightning or water drops
+*'''RAW''' - CHDK can record raw files, giving you access to every bit of data the sensor saw, without compression or processing. Raw files can be manipulated on the camera, or processed on your PC. CHDK also has experimental support for the open DNG raw standard.
+*'''Override Camera parameters''' - Exposures from 64s to 1/60.000s with flash sync. Full manual or priority control over exposure, aperture, ISO and focus. 
+*'''Bracketing''' - Bracketing is supported for exposure, aperture, ISO, and even focus.
+*'''Video Overrides''' - Control the quality or bitrate of video, or change it on the fly.
+*'''Scripting''' - Control CHDK and camera features using ubasic and LUA scripts. Enables time lapse, motion detection, advanced bracketing, and much more. Many user-written scripts are available on the forum and wiki.
 </small>
-</td><td valign="top">
+</td>
+<td valign="top" width="33%">
 <small>
-*'''Override canon's powersaving''' - with CHDK the cam won't fall asleep anymore - if you enable that option
-*'''Edge overlay''' - ideal for timelapses, stop-motion, stereography and many more occasions - you have to see this in order to understand it's significance
-*'''Custom Curves''' - apply custom curves to your pictures - in camera!
-*'''Live Histogram''' - you know this from DSLRs, now you got it in your cheap P&S - fully customizable histograms!
-*'''Zebra-Mode''' - see under- and overexposure areas LIVE in the liveview - never shoot blown out pictures again!
-*'''GRIDS''' - you can create and use your own grids now, depending on what you are shooting!
-*'''Temperature''' - yes, CHDK reads out the temperature sensors in your camera, and it is pretty accurate (at least on camera startup)
-*'''All CHDK settings''' are saved permanently in a file on your SD card'''
-*'''Multi-Language Interface''' - CHDK now supports about 13 languages, and adding more languages is very easy!
-*'''DOF Calculator''' - fully customizable DOF Calculator, always telling you DOF related stuff - not many DSLRs have this (if at all)
-*'''Battery Icon''' - now you can see live the state of the battery (not like canon only telling you minutes before it shuts off), you can even see the actual voltage!
+*'''Motion detection''' - Trigger exposure in response to motion, fast enough to catch lighting.
+*'''Edge overlay''' - Detect the edges in a scene, and display them later. Ideal for timelapses, stop-motion, stereography and much more.
+*'''Live Histogram''' - CHDK includes a customizable, live histogram display, like those typically found on more expensive cameras.
+*'''Zebra-Mode''' - Displays under and overexposure areas live on the screen.
+*'''GRIDS''' - Create custom grids and display whichever one suits your shooting conditions.
+*'''Multi-Lingual Interface''' - CHDK supports about 13 languages, and adding more languages is simple.
+*'''DOF Calculator''' - Display detailed DOF information on the screen.
 </small>
-</td><td valign="top">
+</td>
+<td valign="top" width="33%">
 <small>
-*'''Space Icons''' - fully customizable OSD items telling you exactly how much space you have left
-*'''A clock''' - not a big feature, but many people would miss it very much without CHDK - being able to know the time without having to enter a menu is priceless...
-*'''remaining video time''' - no camera has it, chdk adds it: see the remaining time of your ongoing recording - change bitrate/quality on the fly and see how this influences remaining time
-*'''New OSD items''' - CHDK can show you a lot of your camera's inner settings, such as the zoom, luminance (who needs a spyder?) and so on
-*'''fully customizable OSD layout''' - configure it to your liking
-*'''Fonts & Colors galore''' - choose from a variety of fonts, symbols and colors for all items and the menu
-*'''Filebrowser''' - move, delete and edit things on the road
-*'''Textreader''' - read texts, manuals, newspaper etc on the road
-*'''Calendar''' - rudimentary calendar, for those who don't know the month they are in ;)
-*'''Games''' - of course what would an OpenSource Project be without Games - Play Reversi or Sokoban on your camera!
-*'''REMOTE''' - you can control all these cheap cameras with a cheap DIY remote now! it's THAT easy!
-*'''Benchmark''' - benchmark your sdcards in-camera and compare them to each other...
-*'''there is even more →''' read the manual & explore this wikia...
+*'''Customizable OSD''' - Improved display of battery status, free space, camera parameters, and much more. Fully customizable with an on-screen editor.
+*'''Filebrowser''' - Manage files without a PC.
+*'''Textreader''' - Display text files on your camera.
+*'''Games''' - Play Reversi or Sokoban on your camera.
+*'''USB remote''' - Simple DIY remote allows you to control your camera remotely.
+*'''Benchmark''' - Compare the performance of your SD cards.
+*'''there is even more →''' read the manual & explore this wiki
 </small>
 </td>
 </tr>
