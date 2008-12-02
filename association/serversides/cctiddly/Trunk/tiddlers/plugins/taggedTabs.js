@@ -11,7 +11,7 @@ config.macros.taggedTabs.handler=function(place,macroName,params,wikifier,paramS
 	for(var t=0; t<tagged.length; t++) {
 		var label = tagged[t].title;
 		if(label=='ccLogin') 
-			tabLabel = "Login";
+			tabLabel = config.macros.ccLogin.buttonLogin;
 		else
 			tabLabel = label;
 		var prompt = tagged[t].title;
@@ -26,7 +26,7 @@ config.macros.taggedTabs.handler=function(place,macroName,params,wikifier,paramS
 	place.appendChild(wrapper);
 	config.macros.tabs.switchTab(tabset, config.options[cookie]);
 	
-	setStylesheet("div.tiddler .tab {font-size:1.2em;  font-weight:bold;padding-left:2em; padding-right:2em; margin-left:0px; margin-right:1em; padding-bottom:0px}"+
+	setStylesheet("div.tiddler .tab {font-size:1.2em;  font-weight:bold;padding-left:2em; padding-right:2em; margin-left:0px; margin-right:1em; padding-bottom:2px}"+
 	"div.tiddler .wizard { margin:0px; }"+
 	" div.tabContents .wizard { margin:0px; }"+
 	".tabsetWrapper .wizard h1 {display:none}"+

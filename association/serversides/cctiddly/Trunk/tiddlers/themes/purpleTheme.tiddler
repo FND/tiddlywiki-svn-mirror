@@ -576,6 +576,7 @@ body .wizardFooter {
 	padding-top:0px;
 	background:white;
 	font-weight:bold;
+	padding-left:10em;
 }
 
 .wizardStep {

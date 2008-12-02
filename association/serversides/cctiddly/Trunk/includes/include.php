@@ -1,11 +1,15 @@
 <?php 
 
-
+/*
 if($_REQUEST['translation']) 
 {
 	echo tiddler_outputJsFile("lang/".$_REQUEST['translation']."/ccTransLocale.".$_REQUEST['translation'].".ccLingo.js", getcwd()."/");
 	echo tiddler_outputJsFile("lang/".$_REQUEST['translation']."/001_locale.".$_REQUEST['translation'].".js", getcwd()."/");
 }
+
+*/
+
+
 include_once($cct_base."includes/ccAssignments.php");
 
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1) {

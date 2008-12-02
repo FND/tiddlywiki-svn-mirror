@@ -2,6 +2,10 @@
 <pre>
 /*{{{*/
 
+
+
+	
+
 window.saveChanges = function(){};
 
 setStylesheet(
@@ -10,59 +14,7 @@ setStylesheet(
 	"div.wizardStep > input {display:fixed; padding:3px; margin-bottom:5px; margin-top:0px; margin-right:0px}",
 'labelStyles');
 
-config.theme = {
-	contentTitle:"content »",
-	contentToolTip : "View the TiddlyWiki tabs",
-	help : "Help"
-};
 
-merge(config.macros.importTiddlers, {
-	wizardTitle: "Import tiddlers",
-	step1Title: "Step 1: Locate the server or TiddlyWiki file",
-	step1Html: "Specify the type of the server: &lt;select name='selTypes'&gt;&lt;option value=''&gt;Choose...&lt;/option&gt;&lt;/select&gt;&lt;br&gt;Enter the URL here: &lt;input type='text' size=50 name='txtPath'&gt;&lt;br&gt;&lt;input type='hidden' size=50 name='txtBrowse'&gt;&lt;br&gt;&lt;hr&gt;...or select a pre-defined feed: &lt;select name='selFeeds'&gt;&lt;option value=''&gt;Choose...&lt;/option&gt;&lt;/select&gt;"
-});
-
-merge(config.optionsDesc,{
-	txtUserName: "",
-	chkRegExpSearch: "Enable regular expressions for searches",
-	chkCaseSensitiveSearch: "Case-sensitive searching",
-	chkIncrementalSearch: "Incremental key-by-key searching",
-	chkAnimate: "Enable animations",
-	chkSaveBackups: "",
-	chkAutoSave: "",
-	txtTheme: "Change the TiddlyWiki theme being used",
-	chkGenerateAnRssFeed: "",
-	chkSaveEmptyTemplate: "",
-	chkOpenInNewWindow: "Open external links in a new window",
-	chkToggleLinks: "Clicking on links to open tiddlers causes them to close",
-	chkHttpReadOnly: "",
-	chkForceMinorUpdate: "",
-	chkConfirmDelete: "Require confirmation before deleting tiddlers",
-	chkInsertTabs: "Use the tab key to insert tab characters instead of moving between fields",
-	txtBackupFolder: "",
-	txtMaxEditRows: "Maximum number of rows in edit boxes",
-	txtFileSystemCharSet: "Default character set for saving changes (Firefox/Mozilla only)"});
-
-merge(config.macros.options,{
-	wizardTitle: "Change Settings",
-	step1Title: "",
-	step1Html: '<input type="hidden" name="markList"></input><br><input type="hidden" checked="false" name="chkUnknown"></input>These options are saved in a cookie.'
-});
-
-merge(config.macros.options,{
-	wizardTitle:"Advanced settings",
-	step1Title:null,
-		unknownDescription: "//(unknown)//",
-	listViewTemplate: {
-		columns: [
-			{name: 'Option', field: 'option', title: "", type: 'String'},
-			{name: 'Description', field: 'description', title: "", type: 'WikiText'}
-			],
-			rowClasses: [
-						{className: 'lowlight', field: 'lowlight'}
-						]
-}
-});
 	
 window.ccTiddlyVersion = '<?php echo $tiddlyCfg['version'];?>';
 window.workspacePermission= {};
