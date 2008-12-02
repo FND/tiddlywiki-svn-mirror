@@ -4,8 +4,6 @@
 
 
 
-	
-
 window.saveChanges = function(){};
 
 setStylesheet(

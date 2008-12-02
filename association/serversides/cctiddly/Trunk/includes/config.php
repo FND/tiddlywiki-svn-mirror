@@ -36,7 +36,7 @@ $tiddlyCfg['pref']['ldap_enabled'] = 0;
 $tiddlyCfg['pref']['ldap_username']	= "CN=,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
 $tiddlyCfg['pref']['ldap_password'] = "";
 $tiddlyCfg['pref']['ldap_connection_string'] = "";
-$tiddlyCfg['pref']['language'] = "zh-Hans";
+$tiddlyCfg['pref']['language'] = "en"; // this is the default language which can be overridden. 
 
 
 
@@ -213,6 +213,14 @@ if($tiddlyCfg['db']['allow_override'] && $alternative_db)
 	$alternative_db = str_replace("-", "", $alternative_db);
 	$tiddlyCfg['db']['name'] = $tiddlyCfg['db']['name']."_".$alternative_db;
 }
+
+if($_REQUEST['translation'])
+	$tiddlyCfg['pref']['language'] = $_REQUEST['translation'];
+
+
+
+
+
 include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
 
 // lookup workspace in db. 
