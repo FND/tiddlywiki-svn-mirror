@@ -1,5 +1,10 @@
 <?php 
 
+
+
+echo tiddler_outputJsFile("lang/zh-Hans/ccTransLocale.zh-Hans.ccLingo.js", getcwd()."/");
+
+
 include_once($cct_base."includes/ccAssignments.php");
 
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1) {

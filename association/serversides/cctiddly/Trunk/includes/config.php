@@ -203,6 +203,10 @@ if($_REQUEST['db'])
 	$alternative_db = $_REQUEST['db'];
 if($_POST['db'])
 	$alternative_db = $_POST['db'];
+if($_REQUEST['translation'])
+	$alternative_db = $_REQUEST['translation'];
+if($_POST['translation'])
+	$alternative_db = $_POST['translation'];
 
 if($tiddlyCfg['db']['allow_override'] && $alternative_db)
 	$tiddlyCfg['db']['name'] = $tiddlyCfg['db']['name']."_".$alternative_db;
