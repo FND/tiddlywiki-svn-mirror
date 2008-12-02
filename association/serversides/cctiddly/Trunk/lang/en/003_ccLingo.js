@@ -1,5 +1,4 @@
 
-
 merge(config.macros.ccAbout,{
 	buttonBackstageText:"about",
 	buttonBackstageTooltip:"Find out more about ccTiddly ",
@@ -21,7 +20,6 @@ merge(config.macros.ccChangePassword,{
 	noticePasswordUpdated : "Your Password has been updated", 
 	noticePasswordUpdateFailed : "Your Password was NOT updated." 
 });
-
 
 merge(config.macros.ccAdmin,{
 	stepAddTitle:"Add a new Workspace Administrator",
@@ -66,7 +64,7 @@ merge(config.macros.ccCreateWorkspace, {
 	msgWorkspaceAvailable:"Workspace name is available.",
 	errorWorkspaceNameInUse:"Workspace name is already in use.",
 	stepTitle:"Please enter workspace name",
-	stepCreateHtml:"<input class='input' id='workspace_name' name='workspace_name' value='"+workspace+"' tabindex='1' /><span></span><input type='hidden' name='workspace_error'></input><h2></h2><input type='hidden' name='workspace_url'></input>"
+	stepCreateHtml:"<input class='input' id='workspace_name' name='workspace_name' value='"+window.workspace+"' tabindex='1' /><span></span><input type='hidden' name='workspace_error'></input><h2></h2><input type='hidden' name='workspace_url'></input>"
 });
 
 merge(config.macros.ccEditWorkspace,{
@@ -140,7 +138,7 @@ merge(config.macros.ccLogin,{
 	msgNoUsername:"Please enter a username", 
 	msgNoPassword:"Please enter a password",
 	msgLoginFailed:"Login Failed, please try again. ", 
-	configURL:url+"/handle/login.php", 
+	configURL:window.url+"/handle/login.php", 
 	configUsernameInputName:"cctuser",
 	configPasswordInputName:"cctpass",
 	configPasswordCookieName:"cctPass"
