@@ -10,6 +10,12 @@ setStylesheet(
 	"div.wizardStep > input {display:fixed; padding:3px; margin-bottom:5px; margin-top:0px; margin-right:0px}",
 'labelStyles');
 
+config.theme = {
+	contentTitle:"content »",
+	contentToolTip : "View the TiddlyWiki tabs",
+	help : "Help"
+};
+
 merge(config.macros.importTiddlers, {
 	wizardTitle: "Import tiddlers",
 	step1Title: "Step 1: Locate the server or TiddlyWiki file",

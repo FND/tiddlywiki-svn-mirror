@@ -99,14 +99,17 @@
 
 
 
+
+
+
+
 !tabs
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
 
 !SideBarOptions
-
-
 <<search {{config.options.search}}>><<closeAll>><<newTiddler label:{{config.macros.newTiddler.label}} text:{{config.macros.newTiddler.text}} title:{{config.macros.newTiddler.title}} tag:"">
-<<saveChanges>><<slider chkSliderOptionsPanel 'OptionsPanel'  {{config.macros.ccOptions.options}} 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' {{config.macros.ccLoginStatus.status}} 'Login to make changes'>><<slider chkSliderTabs smmTheme##tabs 'content »' 'View TiddlyWiki Tabs'>>
+<<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  {{config.macros.ccOptions.options}} 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' {{config.macros.ccLoginStatus.status}} 'Login to make changes'>><<slider chkSliderTabs purpleTheme##tabs {{config.theme.contentTitle}} {{config.theme.contentToolTip}}>>
+
 
 !StyleSheet
 /***
