@@ -336,6 +336,44 @@ adaptor.deleteTiddlerCallback = function(status, context, responseText, uri, xhr
 	}
 };
 
+// retrieve a diff of tiddler revisions
+adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback) {
+	context = this.setContext(context, userParams, callback);
+	var tiddler = store.getTiddler(title);
+	var host = tiddler.fields["server.host"];
+	host = this.fullHostName(host);
+	var bag = tiddler.fields["server.bag"];
+	var uriTemplate = "%0/%1/%2/tiddlers/%3/diff";
+	if(bag) {
+		var uri = uriTemplate.format([host, "bags", bag, title]);
+	} else {
+		var workspace = tiddler.fields["server.workspace"];
+		uri = uriTemplate.format([host, "recipes", workspace, title]);
+	}
+	if(context.rev1) {
+		uri += "/" + context.rev1;
+		if(context.rev2) {
+			uri += "/" + context.rev2;
+		}
+	}
+	var req = httpReq("GET", uri, adaptor.getTiddlerDiffCallback, context);
+	return typeof req == 'string' ? req : true;
+};
+
+adaptor.getTiddlerDiffCallback = function(status, context, responseText, uri, xhr) {
+	context.status = status;
+	context.statusText = xhr.statusText;
+	context.httpStatus = xhr.status;
+	context.diff = [];
+	if(status) {
+		context.diff = responseText.split("\n");
+	}
+	if(context.callback) {
+		context.callback(context, context.userParams);
+	}
+};
+
+// generate tiddler information
 adaptor.prototype.generateTiddlerInfo = function(tiddler) {
 	var info = {};
 	var host = this.host || tiddler.fields["server.host"]; // XXX: this.host obsolete?
