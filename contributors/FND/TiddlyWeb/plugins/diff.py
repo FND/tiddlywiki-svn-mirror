@@ -1,6 +1,7 @@
 # To Do
-# * extend urls.map instead of overriding
-# * alternative diff format
+# * rename to "differ"
+# * URL structure: /differ?a=<rev_URI>&b=<rev_URI>
+# * alternative diff format (e.g. HTML)
 
 import urllib
 
