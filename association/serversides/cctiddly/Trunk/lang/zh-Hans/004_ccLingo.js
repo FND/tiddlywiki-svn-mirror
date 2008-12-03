@@ -20,9 +20,10 @@ merge(config.options, {search:"查找..."})
 
 config.theme = {
 	contentTitle : '  状态 »',
-	contentToolTip : '依登入帐号而异'
+	contentToolTip : '依登入帐号而异',
+	contentTiddler : '内容 »',
+	contentTiddlerTooltip : '检视归档页签'
 };
-
 
 merge(config.macros.ccAbout,{
 	buttonBackstageText:"关于",
