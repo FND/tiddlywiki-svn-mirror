@@ -33,7 +33,7 @@ if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
 
 (function(plugin) { //# set up alias
 
-if(!plugin || plugin.adaptor) {
+if(!plugin || !plugin.adaptor) {
 	throw "Missing dependency: ServerConfig";
 }
 
