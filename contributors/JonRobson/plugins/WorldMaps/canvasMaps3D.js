@@ -152,45 +152,56 @@ EasyMapController.prototype = {
 		var mm = that.wrapper.onmousemove;
 		var onmousemove = function(e){
 			
-			if(mm)mm(e);
-
-			if(!this.realpos) return;
+			var p =this.panning;
+			if(!p) return;
 			var t = resolveTarget(e);
 			if(t.getAttribute("class") == "easyControl") return;
-			var pos = that.utils.getMouseFromEventRelativeTo(e,this.realpos.x,this.realpos.y);		
+			
+			var pos = that.utils.getMouseFromEventRelativeTo(e,p.clickpos.x,p.clickpos.y);		
 			if(!pos)return;
 			var t = that.transformation;
 			var sc = t.scale;
 			
-			t.translate.x = (pos.x /sc.x);
-			t.translate.y =(pos.y / sc.y);
+			var xd =parseFloat(pos.x /sc.x);
+			var yd = parseFloat(pos.y / sc.y);
+			
+			
+			t.translate.x = p.translate.x + xd;
+			t.translate.y =p.translate.y +yd;
 			that.transform();
+			
+			if(pos.x > 5 || pos.y > 5) p.isClick = false;
+			if(pos.x < 5 || pos.y < 5) p.isClick = false;
 			return false;	
 		};
 		
+		this.wrapper.onclick = function(e){		};
 		this.wrapper.onmousedown = function(e){
 			if(md) md(e);
 			var target = resolveTarget(e);
 			if(!target) return;
 			if(target.getAttribute("class") == "easyControl") return;
-			this.style.cursor= 'move';
+	
 			var t = that.transformation.translate;
 			var sc =that.transformation.scale; 
 			var realpos = that.utils.getMouseFromEvent(e);
+			if(!realpos) return;
+
+			this.panning= {clickpos: realpos, translate:{x: t.x,y:t.y},isClick:true};
 			
-			realpos.x -= t.x;
-			realpos.y -= t.y;
-			this.realpos = realpos;
 			that.wrapper.onmousemove = onmousemove;
+			this.style.cursor= 'move';
 
 		};
 		
-		this.wrapper.onmousemove = onmousemove;
 		this.wrapper.onmouseup = function(e){
+			
 			this.style.cursor= '';
-			that.wrapper.onmousemove = null;
-			this.realpos = null;
-			if(mu)mu(e);
+			that.wrapper.onmousemove = mm;
+			if(this.panning.isClick && mu){ mu(e);}
+			this.panning = null;
+
+			
 			return false;
 		};
 	
@@ -420,7 +431,7 @@ var EasyMap = function(wrapper){
 	this.wrapper = wrapper;
 	wrapper.style.position = "relative";
 	var that = this;
-	this.mousemoveHandler = function(e,shape){
+	var _defaultMousemoveHandler = function(e){
 		if(!e) {
 			e = window.event;
 		}
@@ -450,8 +461,10 @@ var EasyMap = function(wrapper){
 
 			if(shape.properties.content) text += "<p>"+content+"</p>"
 			tt.innerHTML = text;
+			x += 10;
+			y +=10;
 			tt.style.left = x + "px";
-			tt.style.top = y + "px";
+			tt.style.top = y +"px";
 			tt.style.display = "";
 
 		}	
@@ -462,7 +475,7 @@ var EasyMap = function(wrapper){
 
 
 	};
-	this.clickHandler = function(e,shape){};	
+	var _defaultClickHandler = function(e){};	
 	this._maxX = 0;
 	this._maxY = 0;	
 	var canvas = document.createElement('canvas');
@@ -481,20 +494,21 @@ var EasyMap = function(wrapper){
 	}
 	this.spherical = true; //experimental!! fiddle with at your own risk! :)
 
-	this.utils = EasyMapUtils;	
-	this.controller = new EasyMapController(this,this.wrapper);
+	this.utils = EasyMapUtils;
+	this.canvas.onmouseup = _defaultClickHandler;
+	this.canvas.onmousemove = _defaultMousemoveHandler;	
+	this.controller = new EasyMapController(this,this.canvas);
 	this.transform(this.controller.transformation); //set initial transformation
 	this.viewarea = {};
 	this.clear();
-};
+};  
 EasyMap.prototype = {	
 	addControl: function(controlType) {
+
 		this.controller.addControl(controlType);
 	},
 	clear: function(){
 		var mapCanvas = this.canvas;
-		this.canvas.onclick = this.clickHandler;
-		if(!this.ie)this.canvas.onmousemove = this.mousemoveHandler;
 		var ctx = mapCanvas.getContext('2d');
 		mapCanvas.memory = [];
 
@@ -504,6 +518,7 @@ EasyMap.prototype = {
 		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 		
 	},
+	
 	drawFromGeojson: function(responseText){
 
 			var geojson;
@@ -1171,11 +1186,11 @@ var EasyMapUtils = {
 			if(!e) e = window.event;
 			var target = resolveTargetWithMemory(e);
 			if(!target)return false;
+			
 			var offset = $(target).offset();
-
+			if(!offset.left) return false;
 			x = e.clientX + window.findScrollX() - offset.left;
 			y = e.clientY + window.findScrollY() - offset.top;
-			//console.log("eclient",e.clientX,e.clientY,"offset",offset.left,offset.top,"window",window.findScrollX(),window.findScrollY(),"x,y",x,y);
 			return {'x':x, 'y':y};		
 				
 	},
@@ -1190,7 +1205,7 @@ var EasyMapUtils = {
 
 		x = e.clientX + window.findScrollX() - offset.left;
 		y = e.clientY + window.findScrollY() - offset.top;
-		//console.log(x,y);
+		
 		//counter any positioning
 		//if(target.style.left) x -= parseInt(target.style.left);
 		//if(target.style.top) y -= parseInt(target.style.top);
