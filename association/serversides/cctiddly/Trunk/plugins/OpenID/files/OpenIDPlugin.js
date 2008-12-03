@@ -18,7 +18,7 @@ config.macros.OpenID.handler=function(place,macroName,params,wikifier,paramStrin
 config.macros.OpenID.login = function (w) {
 	var iframe = document.createElement("iframe");
 	iframe.style.display = "none";
-	iframe.src = url+"/plugins/openid/files/openid/try_auth.php?action=verify&openid_identifier="+w.formElem.open_id_login.value;
+	iframe.src = url+"plugins/OpenID/files/openid/try_auth.php?action=verify&openid_identifier="+w.formElem.open_id_login.value;
 	document.body.appendChild(iframe);
 	iframe.onload = function() {
 		// this is not working properly.
