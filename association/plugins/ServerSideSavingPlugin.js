@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.2.3|
+|''Version''|0.3.0|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -16,8 +16,9 @@ The specific nature of this plugins depends on the respective server.
 * initial release
 !!v0.2 (2008-12-01)
 * added support for local saving
+!!v0.3 (2008-12-03)
+* added Save to Web macro for manual synchronization
 !To Do
-* SaveToWeb macro
 * conflict detection/resolution
 * rename to ServerLinkPlugin?
 * attempt to determine default adaptor (and defaultCustomFields) from systemServer tiddlers
@@ -41,6 +42,16 @@ plugin = {
 		deleteError: "Error removing %0: %1",
 		deleteLocalError: "Error removing %0 locally",
 		removedNotice: "This tiddler has been deleted."
+	},
+
+	sync: function() {
+		store.forEachTiddler(function(title, tiddler) {
+			if(tiddler.fields.deleted) {
+				plugin.removeTiddler(tiddler);
+			} else if(tiddler.fields.changecount > 0 && tiddler.getServerType() && tiddler.fields["server.host"]) {
+				plugin.saveTiddler(tiddler);
+			}
+		});
 	},
 
 	saveTiddler: function(tiddler) {
@@ -105,19 +116,26 @@ plugin = {
 	}
 };
 
+config.macros.saveToWeb = { // XXX: hijack existing sync macro?
+	locale: {
+		btnLabel: "save to web",
+		btnTooltip: "synchronize changes",
+		btnAccessKey: null
+	},
+
+	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+		createTiddlyButton(place, this.locale.btnLabel, this.locale.btnTooltip,
+			plugin.sync, null, null, this.locale.btnAccessKey);
+	}
+};
+
 // hijack saveChanges to trigger remote saving
 plugin.saveChanges = saveChanges;
 saveChanges = function(onlyIfDirty, tiddlers) {
 	if(window.location.protocol == "file:") {
 		plugin.saveChanges.apply(this, arguments);
 	} else {
-		store.forEachTiddler(function(title, tiddler) { // TODO: move to separate function
-			if(tiddler.fields.deleted) {
-				plugin.removeTiddler(tiddler);
-			} else if(tiddler.fields.changecount > 0 && tiddler.getServerType() && tiddler.fields["server.host"]) {
-				plugin.saveTiddler(tiddler);
-			}
-		});
+		plugin.sync();
 	}
 };
 
