@@ -154,7 +154,7 @@ TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override d
 
 })(config.extensions.ServerSideSavingPlugin); //# end of alias
 
-// override saveTiddler to fix core bug -- XXX: to be fixed in TiddlyWiki v2.4.2
+// override saveTiddler to fix core bug (ticket #769) -- XXX: to be fixed in TiddlyWiki v2.4.2
 Story.prototype.saveTiddler = function(title,minorUpdate)
 {
 	var tiddlerElem = this.getTiddler(title);
