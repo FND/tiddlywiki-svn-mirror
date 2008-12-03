@@ -17,6 +17,7 @@ The specific nature of this plugins depends on the respective server.
 !!v0.2 (2008-12-01)
 * added support for local saving
 !To Do
+* SaveToWeb macro
 * conflict detection/resolution
 * rename to ServerLinkPlugin?
 * attempt to determine default adaptor (and defaultCustomFields) from systemServer tiddlers
@@ -110,7 +111,7 @@ saveChanges = function(onlyIfDirty, tiddlers) {
 	if(window.location.protocol == "file:") {
 		plugin.saveChanges.apply(this, arguments);
 	} else {
-		store.forEachTiddler(function(title, tiddler) {
+		store.forEachTiddler(function(title, tiddler) { // TODO: move to separate function
 			if(tiddler.fields.deleted) {
 				plugin.removeTiddler(tiddler);
 			} else if(tiddler.fields.changecount > 0 && tiddler.getServerType() && tiddler.fields["server.host"]) {
