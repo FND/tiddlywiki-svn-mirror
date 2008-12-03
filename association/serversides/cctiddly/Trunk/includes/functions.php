@@ -232,6 +232,35 @@ function getAllVersionTiddly($title)
 	return array();
 }
 
+
+
+
+
+function getTiddler($title)
+{
+		global $tiddlyCfg;
+	return $tiddlers = tiddler_selectTitle($title);
+	
+
+		debug("getTiddler", "steps");
+		if(sizeof($tiddler_id)==0)
+		{	//return empty array ifnot found
+			return array();
+		}
+		if(sizeof($tiddlers)>0)
+		{
+			$return_tiddlers = array();
+			foreach($tiddlers as $t)
+			{
+				if(user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])))
+					$return_tiddlers[] = $t;
+			}
+			return $return_tiddlers;
+		}
+		return array();
+	
+}
+
 //!	@fn getTiddlersWithTags($yesTags,$noTags)
 //!	@brief get tiddlers with and without certain tags
 //!	@param $yesTags tag array, display tiddlers with this tag

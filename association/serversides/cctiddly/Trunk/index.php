@@ -34,6 +34,13 @@ if($pluginsLoader->events['afterIncludes'])
 
 
 
+
+
+
+
+
+
+
 if($db_number < '17') {
 	echo "<h1>ccTiddly Upgrade</h1>";
 	echo "<p>Your instance of ccTiddly is being upgraded. Now you need to run <a href=upgrade.php >upgrade.php</a> to complete the upgrade.</p>";
@@ -47,7 +54,6 @@ recordTime_float("includes");
 if( isset($_GET['title']) )
 {
 	$tiddlers = getAllVersionTiddly($title);
-	
 	$t = array();
 	foreach($tiddlers as $tid)
 	{
@@ -55,7 +61,15 @@ if( isset($_GET['title']) )
 		$t[] = $tid;
 	}
 	$tiddlers = $t;
-}elseif(isset($_GET['tags'])) 
+}elseif($_GET['tiddler'])
+{
+	$defeaultTiddlersTiddler['title'] = 'DefaultTiddlers';
+	$defeaultTiddlersTiddler['body'] = $_GET['tiddler']; 
+	$t[0] = $defeaultTiddlersTiddler;
+	$t[1] = getTiddler($_GET['tiddler']);
+	$tiddlers = $t;
+}
+elseif(isset($_GET['tags'])) 
 {
 	$tiddlers = getTiddlersWithTags($yesTags, $noTags);
 }else{
@@ -66,9 +80,9 @@ if( isset($_GET['title']) )
 		$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
 	}
 }
+
+
 $tiddlers = array_merge($pluginsLoader->tiddlers, $tiddlers);
-
-
 
 recordTime_float("get all tiddlers");
 	
