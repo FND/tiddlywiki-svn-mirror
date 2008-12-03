@@ -48,7 +48,7 @@ plugin = {
 		store.forEachTiddler(function(title, tiddler) {
 			if(tiddler.fields.deleted) {
 				plugin.removeTiddler(tiddler);
-			} else if(tiddler.fields.changecount > 0 && tiddler.getServerType() && tiddler.fields["server.host"]) {
+			} else if(tiddler.isTouched() && tiddler.getServerType() && tiddler.fields["server.host"]) {
 				plugin.saveTiddler(tiddler);
 			}
 		});
@@ -56,7 +56,7 @@ plugin = {
 
 	saveTiddler: function(tiddler) {
 		var adaptor = new this.adaptor();
-		context = {
+		var context = {
 			tiddler: tiddler,
 			changecount: tiddler.fields.changecount
 		};
