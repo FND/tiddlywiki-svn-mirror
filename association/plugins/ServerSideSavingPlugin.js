@@ -33,6 +33,10 @@ if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
 
 (function(plugin) { //# set up alias
 
+if(!plugin || plugin.adaptor) {
+	throw "Missing dependency: ServerConfig";
+}
+
 plugin = {
 	adaptor: plugin.adaptor, //# N.B.: expects config.extensions.ServerSideSavingPlugin.adaptor to be set
 	locale: {
