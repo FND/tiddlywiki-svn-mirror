@@ -1,0 +1,75 @@
+<html>
+<head>
+
+
+<script src="jquery.js" type="text/javascript"></script>
+
+<script src="ieHack.js" type="text/javascript"></script>
+<script src="canvasMaps3D.js" type="text/javascript"></script>
+<script src="whereLegal.js" type="text/javascript"></script>
+
+<script>
+var eMap = null;
+function init(){
+	eMap = new EasyMap('wrapper');
+	eMap.wrapper.onmouseup = function(e){
+	
+		console.log("clicked");
+		var s = eMap.utils.getShapeAtClick(e);
+		console.log("clicked.");
+		if(s){
+			alert(s.properties.name);
+			}
+	};
+	
+	eMap.utils._testCanvas(eMap.canvas.getContext('2d'));
+	geojson = eMap.utils.fitgeojsontocanvas(eval(geojson),eMap.canvas);
+
+	eMap.addControl("pan");
+	eMap.addControl("zoom");
+	eMap.addControl("mousepanning");
+	eMap.addControl("mousewheelzooming");
+	
+
+	
+
+
+	
+var that = eMap;
+eMap.clear();
+eMap._fittocanvas = false;
+eMap.drawFromGeojson(geojson);
+var ctx = eMap.canvas.getContext('2d');
+var img = document.getElementById('map');
+console.log(img,eMap.controller.transformation);
+ctx.globalAlpha = 0.5;
+ctx.drawImage(img,0,0);
+
+}
+
+</script>
+</head>
+<body onload="window.setTimeout(init,0)">
+
+<div id='wrapper' style="width:600; height:400;position:relative;">
+	<div id ='caption'></div>
+	<div id='wrapper_statustext'>please wait while we load... </div>
+</div>
+<div id='time'></div>
+<br>
+<br>
+<br>
+	<img src="http://maps.google.com/staticmap?center=0,0&zoom=-1&size=600x400&key=YOUR_KEY_HERE" id='map'>
+<a href="javascript:eMap.zoom(0.5,0.5)">zoom in</a> <a href="javascript:eMap.zoom(-0.5,-0.5)">zoom out</a>
+
+
+<a href="javascript:eMap.pan(0,20)">up</a> <a href="javascript:eMap.pan(0,-20)">down</a>
+
+<a href="javascript:eMap.pan(20,0)">left</a> <a href="javascript:eMap.pan(-20,0)">right</a>
+
+
+<div id='consolelogger'></div>
+
+
+</body>
+</html>

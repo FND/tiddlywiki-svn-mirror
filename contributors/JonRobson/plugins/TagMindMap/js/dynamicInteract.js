@@ -395,8 +395,10 @@ Tagmindmap.prototype = {
 			
 				if(node.id == this.thehiddenbridge) return;
 				var clickfunction = function(e){
+					if(ttmm.rgraph.root == node.id)ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);					
 					
-					ttmm.rgraph.onClick(node.id);					
+					ttmm.rgraph.onClick(node.id);
+					//check if root: 
 					return false;
 				};
 				

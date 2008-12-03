@@ -1,4 +1,3 @@
-tiddler: DopplrPlugin.js
-tiddler: flickrPlugin.js
-tiddler: countries.js
+tiddler: flickrPlugin.js DopplrPlugin.js
+//tiddler: countries.js
 tiddler: geoTiddlerPlugin.js GeoTiddlerMetaData.js ../../../plugins/WorldMaps/canvasMaps3D.js ../../../plugins/WorldMaps/ieHack.js ../../../plugins/WorldMaps/jquery.js

@@ -1,5 +1,5 @@
 /***
-|''Name:''|canvasMapsPlugin |
+|''Name:''|geoPlugin |
 |''Description:''|A psd-patented "Quick Win" to hack JDLR's canvasMaps.js into TiddlyWiki |
 |''Author:''|JonathanLister |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/canvasMapsPlugin.js |
@@ -14,15 +14,15 @@ NB: This assumes canvasMaps3D.js has been included in the postjs!
 ***/
 
 //{{{
-if(!version.extensions.canvasMapsPlugin) {
-	setStylesheet(".wrapper {border:1px solid} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'canvasmaps');
+if(!version.extensions.geoPlugin) {
+	setStylesheet(".wrapper {border:1px solid} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'geo');
 	
-	version.extensions.canvasMapsPlugin = {installed:true};
+	version.extensions.geoPlugin = {installed:true};
 
-	config.macros.canvasMaps = {};
 
-	config.macros.canvasMaps.getCoreGeoJson = function(sourcetiddler){
-		if(!sourcetiddler) sourcetiddler ='GeojsonCoreData';
+	config.macros.geo = {};
+	config.macros.geo.getgeojson = function(sourcetiddler){
+		if(!sourcetiddler) sourcetiddler ='geojson';
 
 		if(sourcetiddler.indexOf('.svg') > -1){
 			//svg file.
@@ -33,8 +33,7 @@ if(!version.extensions.canvasMapsPlugin) {
 			if(!source) return {};
 			var data = source.text;
 		}
-
-
+		
 		if(data.indexOf("({") == 0) {
 			data = eval(data);
 		}
@@ -45,7 +44,6 @@ if(!version.extensions.canvasMapsPlugin) {
 			data = {};
 			alert("please define a geojson in tiddler '"+sourcetiddler +"'")
 		}
-
 		//look for any changes in meta data
 
 		var features = data.features;
@@ -79,7 +77,8 @@ if(!version.extensions.canvasMapsPlugin) {
 				var ll = latlong.split(";");
 				var longc =parseFloat(ll[1]);
 				var latc =parseFloat(ll[0]);
-				var geotagfeature = {type: "feature", geometry:{type: "point", coordinates:[longc,latc]}, properties:{name: title,fill:""}};
+				var prop = {name: title,fill:"#ff0000"};
+				var geotagfeature = new GeoTag(longc,latc,prop);
 				data.features.push(geotagfeature); //add the tagging feature
 			}
 		}	
@@ -98,30 +97,61 @@ if(!version.extensions.canvasMapsPlugin) {
 	}
 	
 	var geomaps = {};
-	config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-			if(version.extensions.canvasMapsPlugin.num)
-				version.extensions.canvasMapsPlugin.num += 1;
+	
+	config.macros.geogoto = {};
+	config.macros.geogoto.handler= function(place,macroName,params,wikifier,paramString,tiddler) {
+		var id = tiddler.geoid;
+		if(!id) id = 0;
+		
+		if(!geomaps[id]) {alert("geogoto can only be used if there is a geomap somewhere on the page!");}
+		var lo, la,zoom;
+		if(params[0]) lo = parseFloat(params[0]);
+		if(params[1]) la = parseFloat(params[1]);
+		if(params[2]) zoom = parseFloat(params[2]);		 
+		var tran = geomaps[id].controller.transformation;
+		if(lo) tran.translate.x = -la;
+		if(la) tran.translate.y = lo;
+		if(zoom){ tran.scale.x = zoom;tran.scale.y = zoom;}
+		geomaps[id].controller.setTransformation(tran);
+	}
+
+	config.macros.geo.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+			if(version.extensions.geoPlugin.num >= 0)
+				version.extensions.geoPlugin.num += 1;
 			else
-				version.extensions.canvasMapsPlugin.num = 1;
-				
+				version.extensions.geoPlugin.num = 0;
+			var geoid =version.extensions.geoPlugin.num;	
 			var prms = paramString.parseParams(null, null, true);
 
-			var id = "wrapper"+version.extensions.canvasMapsPlugin.num;
+			var id = "wrapper"+geoid;
+			console.log(id);
 			var wrapper = createTiddlyElement(place,"div",id,"wrapper");
 			wrapper.style.position = "relative";
-			if(getParam(prms,"width"))wrapper.style.width = getParam(prms,"width")+"px";
-			if(getParam(prms,"height"))wrapper.style.height = getParam(prms,"height")+"px";		
+			if(getParam(prms,"width")){
+				var width = getParam(prms,"width");
+				if(width.indexOf("%") == -1 && width.indexOf("px") == -1)
+					width += "px";
+				wrapper.style.width = width;
+			}
+			if(getParam(prms,"height")){
+				var height = getParam(prms,"height");
+				if(height.indexOf("%") == -1 && height.indexOf("px") == -1)
+					height += "px";
+				wrapper.style.height = height;		
+			}
 			var statustext = createTiddlyElement(wrapper,"div",id+"_statustext");
 			createTiddlyText(statustext,"loading... please wait a little while!");
 			var caption = createTiddlyElement(place,"div","caption","caption");
 
 			var eMap = new EasyMap(wrapper);
-			geomaps[version.extensions.canvasMapsPlugin.num] = eMap;			
+			geomaps[geoid] = eMap;
+			tiddler.geoid = geoid; 
+						
 
 			var that = eMap;
 			var myElement = document.getElementById('caption');
 
-			eMap.canvas.onmouseup = function(e){
+			eMap.wrapper.onmouseup = function(e){
 				if(!e) {
 					e = window.event;
 				}
@@ -131,7 +161,7 @@ if(!version.extensions.canvasMapsPlugin) {
 					return false;
 				}
 				var shapeName = shape.properties.name;
-				if(!store.tiddlerExists(shape)) {
+				if(!store.tiddlerExists(shapeName)) {
 					var tags = [];
 					var text = "";
 					var fields = {};
@@ -151,7 +181,6 @@ if(!version.extensions.canvasMapsPlugin) {
 
 			eMap.addControl('pan');
 			eMap.addControl('zoom');
-			console.log(config.browser.isIE);
 			if(!config.browser.isIE){
 				eMap.addControl("mousepanning");
 				eMap.addControl("mousewheelzooming");	
@@ -160,16 +189,9 @@ if(!version.extensions.canvasMapsPlugin) {
 			if(getParam(prms,"source")) source = getParam(prms,"source");
 	
 
-	
-			var latitude = 0, longitude = 0, zoom = 1;
-			if(getParam(prms,"zoom")) zoom = getParam(prms,"zoom");
-			if(getParam(prms,"long")) longitude = getParam(prms,"long");
-			if(getParam(prms,"lat")) latitude = getParam(prms,"lat");
-			var t ={'scale':{'x':zoom, 'y': zoom}, 'translate': {'x': longitude, 'y':latitude}};
-			eMap.controller.setTransformation(t);
-			var geodata = this.getCoreGeoJson(source);
-	
+			var geodata = this.getgeojson(source);
 			if(geodata == 'svg'){
+			
 				eMap.drawFromSVG(store.getTiddlerText(source));
 			}
 			else if(geodata == 'svgfile'){
@@ -177,12 +199,14 @@ if(!version.extensions.canvasMapsPlugin) {
 			}
 			else
 				eMap.drawFromGeojson(geodata);
-	
 
+			
 	
 			
 		//}
 	};
 
+
 } //# end of 'install only once'
 //}}}
+

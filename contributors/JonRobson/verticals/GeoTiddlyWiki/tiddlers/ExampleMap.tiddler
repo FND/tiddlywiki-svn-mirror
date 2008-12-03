@@ -1,6 +1,9 @@
-<div title="Geo Example">
+<div title="Welcome">
 <pre>
-<<canvasMaps>>
+Welcome to GeoTiddlyWiki. This page is designed to give you a quick outline of what GeoTiddlyWiki can do for you. First things first you will have noticed a map below. This has been created by simply calling a macro {{{<<geo>>}}}. Click edit in the top right if you don't believe me!
+<<geo width:400px height:200px>>
+Lovely, but it's not telling us much. Let's do some cool things with it..
+First things first you may have noticed France is green. So lets go to [[FRANCE]] and find out why.
 
 </pre>
 </div>

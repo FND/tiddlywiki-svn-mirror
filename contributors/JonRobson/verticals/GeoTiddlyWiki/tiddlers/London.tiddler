@@ -1,8 +1,12 @@
-<div title="London" modifier="JonRobson" created="200811111722" tags="" geo="51.507778&#59; -0.12">
+<div title="London" modifier="JonRobson" created="200811111722" tags="excludeLists" geo="51.507778 &#59;-0.12">
 <pre>
-This tiddler is geotagged.
+Since this tiddler is also geo-tagged our map will change again to move to London.
+<<geogoto 51.5 -0.12 20>>
 
-This is the capital of the UK which is shown below:
-<<canvasMaps source:geojsonUK long:-0.12 lat:51.50778 zoom: 20>>
+However, we can also create a new map and pan to that one instead. Below we create a new map by calling the {{{<<geo>>}}} macro again and than following this with a {{{geogoto}}} call. View the source to understand more.
+<<geo>>
+<<geogoto 51.5 -0.12 20>>
+
+For one final demo, let's see what happens when we point to rss feeds in Flickr and Dopplr from a tiddler with a map in it. Click through to this [[Flickr and Dopplr Adaptors]].
 </pre>
 </div>
