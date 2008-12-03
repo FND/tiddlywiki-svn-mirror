@@ -265,8 +265,8 @@ function db_tiddlers_mainSelect4RSS()
 {
 	global $tiddlyCfg;
 	$query= "SELECT * FROM ".$tiddlyCfg['table']['main']
-		." WHERE workspace_name='".$tiddlyCfg['workspace_name']
-		."' ORDER BY modified DESC LIMIT 20";
+		." WHERE workspace_name='".$tiddlyCfg['workspace_name']."' AND tags LIKE '%biki%'"
+		." ORDER BY modified DESC LIMIT 20";
 	debug("db_tiddlers_mainSelect4RSS: ".$query, "mysql");
 	$result = mysql_query($query) or die(mysql_error());
 	return $result;
