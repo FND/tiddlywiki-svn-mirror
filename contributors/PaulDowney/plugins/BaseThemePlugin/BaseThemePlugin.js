@@ -27,7 +27,7 @@ version.extensions.BaseThemePlugin = {installed:true};
 
 config.macros.baseTheme = {
 	themes: [],
-	switchTheme = Story.prototype.switchTheme
+	switchTheme: Story.prototype.switchTheme
 };
 
 Story.prototype.switchTheme = function(theme)
