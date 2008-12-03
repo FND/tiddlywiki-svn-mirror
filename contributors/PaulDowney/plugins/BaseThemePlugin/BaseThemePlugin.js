@@ -1,6 +1,6 @@
 /***
 |''Name:''|BaseThemePlugin|
-|''Description:''|Asserts a Base Theme Ahead of|
+|''Description:''|Asserts a list of base themes ahead of the switched theme|
 |''Author:''|Paul Downey|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/BaseThemePlugin/ |
 |''Version:''|0.1|
@@ -10,13 +10,10 @@
 |''~CoreVersion:''|2.3|
 
 !!Description
-This plugin asserts one or more "Base Themes" ahead of the current theme, allowing subclassing of themes.
+Asserts one or more "Base Themes" ahead of the current theme allowing a base theme to provide default templates.
 
 !!Usage
-In settings.js:
-{{{
-config.macros.baseTheme.themes.push("myBaseTheme");
-}}}
+Define a filter in [[BaseThemes]] tiddler, a list of theme tiddlers to be applied by switchTheme before the final theme.
 
 ***/
 
@@ -26,15 +23,17 @@ if(!version.extensions.BaseThemePlugin) {
 version.extensions.BaseThemePlugin = {installed:true};
 
 config.macros.baseTheme = {
-	themes: [],
 	switchTheme: Story.prototype.switchTheme
 };
 
 Story.prototype.switchTheme = function(theme)
 {
 	var that = config.macros.baseTheme;
-	for(var i=0;i<that.themes.length;i++){
-		that.switchTheme(that.themes[i]);
+	var themes = store.filterTiddlers(store.getTiddlerText("BaseThemes"));
+	for(var i=0;i<themes.length;i++){
+		if(themes[i].title!=theme){
+			that.switchTheme(themes[i].title);
+		}
 	}
 	that.switchTheme(theme);
 };
