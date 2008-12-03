@@ -404,9 +404,9 @@ Tagmindmap.prototype = {
 					ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);		
 				};
 					ttmm.rgraph_currentNode = node.id;	 
-					if(domElement.addEvent){
-						//domElement.addEvent('click',clickfunction);
-						domElement.addEvent('dblclick',dblclickfunction);
+					if(domElement.addEvent){ //for ie
+						domElement.addEvent('click',clickfunction);
+						//domElement.addEvent('dblclick',dblclickfunction);
 						}
 					else {
 						domElement.onclick = clickfunction;

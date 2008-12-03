@@ -205,7 +205,7 @@ EasyMapController.prototype = {
 			return false;
 		};
 	
-		console.log(this.wrapper,this.wrapper.onmousemove);
+	
 	},
 	setTransformation: function(t){
 		if(!t.scale && !t.translate) alert("bad transformation applied");
@@ -301,6 +301,7 @@ EasyMapController.prototype = {
 		newCanvas.style.position = "absolute";
 		newCanvas.style.left = 0;
 		newCanvas.style.top = 0;
+		newCanvas.style["z-index"] = 3;
 		newCanvas.setAttribute("class","easyControl");
 		this.wrapper.appendChild(newCanvas);
 
@@ -417,10 +418,7 @@ EasyMapController.prototype = {
 A package for rendering geojsons easily
 */
 var EasyMap = function(wrapper){
-	this.ie = false; //allows you to target ie specific optimisation??
-	this.renderTime = 0;
-	this.calculateTime= 0;
-	
+
 	var wrapper;
 	if(typeof wrapper == 'string')
 		wrapper = document.getElementById(wrapper);
@@ -466,6 +464,7 @@ var EasyMap = function(wrapper){
 			tt.style.left = x + "px";
 			tt.style.top = y +"px";
 			tt.style.display = "";
+			tt.style["z-index"] = 2;
 
 		}	
 		else
@@ -484,7 +483,7 @@ var EasyMap = function(wrapper){
 	
 	if(!wrapper.style.width) wrapper.style.width = canvas.width + "px";
 	if(!wrapper.style.height) wrapper.style.height = canvas.height + "px";
-	canvas.style["z-index"] = -1;
+	canvas.style["z-index"] = 1;
 	wrapper.appendChild(canvas);
 	canvas.style.position = "absolute";
 	this.canvas = canvas;
@@ -497,14 +496,13 @@ var EasyMap = function(wrapper){
 	this.utils = EasyMapUtils;
 	this.canvas.onmouseup = _defaultClickHandler;
 	this.canvas.onmousemove = _defaultMousemoveHandler;	
-	this.controller = new EasyMapController(this,this.canvas);
+	this.controller = new EasyMapController(this,this.wrapper);
 	this.transform(this.controller.transformation); //set initial transformation
 	this.viewarea = {};
 	this.clear();
 };  
 EasyMap.prototype = {	
 	addControl: function(controlType) {
-
 		this.controller.addControl(controlType);
 	},
 	clear: function(){
@@ -1439,7 +1437,6 @@ var EasyMapSVGUtils= {
 			t = parent.getAttribute("transform");
 		}
 		
-		if(t) console.log(f.properties.name,"has t", t);
 		
 		var newp = this._convertFromSVGPathCoords(p,t);
 		//if(f.properties.name == 'it_6')console.log(p,newp);

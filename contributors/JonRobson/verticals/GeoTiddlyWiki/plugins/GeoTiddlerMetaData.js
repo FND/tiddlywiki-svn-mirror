@@ -1,6 +1,11 @@
 /*Many thanks to the tiddler alias plugin for where I got this code*/
 
-config.macros.canvasMaps.metaExtension ="<div class='editor' macro='edit geoproperties'></div><div class='editorFooter'>here are the geojson feature properties associated with this tiddler</div>";
+config.macros.canvasMaps.metaExtension ="<div macro='edit fill' class='editor'></div>"+
+				"<div class='editorFooter'>fill colour for this tiddler</div>"+
+				"<div macro='edit geo' class='editor'></div>"+
+				"<div class='editorFooter'>apply geo coordinate to the tiddler usage format: 'lat;long' eg. for London use 51.507778; -0.12</div>";
+				
+				
 
 
 function modifyEditTemplate() {
@@ -51,8 +56,8 @@ var oldwikify =wikify;
 wikify = function(source,output,highlightRegExp,tiddler){
 	if(tiddler) {
 		if(tiddler.tags.contains("svg")){
-			source = "<<canvasMaps source:'"+ tiddler.title+"'>>";
-			console.log(source);
+			source = "<<canvasMaps source:'"+ tiddler.name+"'>>";
+			
 		}
 	}
 	oldwikify(source,output,highlightRegExp,tiddler);

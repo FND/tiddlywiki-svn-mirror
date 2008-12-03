@@ -15,11 +15,12 @@ NB: This assumes canvasMaps3D.js has been included in the postjs!
 
 //{{{
 if(!version.extensions.canvasMapsPlugin) {
+	setStylesheet(".wrapper {border:1px solid} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'canvasmaps');
+	
 	version.extensions.canvasMapsPlugin = {installed:true};
 
 	config.macros.canvasMaps = {};
 
-	config.macros.geoto = {};
 	config.macros.canvasMaps.getCoreGeoJson = function(sourcetiddler){
 		if(!sourcetiddler) sourcetiddler ='GeojsonCoreData';
 
@@ -46,7 +47,6 @@ if(!version.extensions.canvasMapsPlugin) {
 		}
 
 		//look for any changes in meta data
-		//coming soon
 
 		var features = data.features;
 		for(var i=0; i < features.length; i++){
@@ -54,47 +54,50 @@ if(!version.extensions.canvasMapsPlugin) {
 			var tiddler = store.getTiddler(name);
 	
 			if(tiddler){
-				if(tiddler.fields.geoproperties){
-
-					try{
-						var newp = eval("("+tiddler.fields.geoproperties+")");
-						console.log(features[i].properties,newp);
-
-						features[i].properties = newp;
-					}
-					catch(e){
-						alert("invalid geo meta data set for tiddler " + name + " exception:" + e);
-					}
-
+				var newprop = {};
+				newprop.name = name;
+				if(tiddler.fields.fill){
+					newprop.fill = tiddler.fields.fill;
 				}
+				else
+					newprop.fill = "";
+
+				features[i].properties = newprop;
+				
+				
 			}
 		}
+
 
 		//tiddler.geoproperties
 		//add geotags
 	 	store.forEachTiddler(function(title,tiddler) {
 			//add geotags
-			var tags = tiddler.tags;
-			var longc, latc;
-			for(var i=0; i < tags.length; i++){
-				var tag =tags[i];
-				if(tag.indexOf('long:') == 0){
-					longc = parseFloat(tag.substring(5));
-				}
-				else if(tag.indexOf('lat:') == 0)
-						latc = parseFloat(tag.substring(4));
-			}
-	
-			if(longc && latc){
-				var geotagfeature = {type: "feature", geometry:{type: "point", coordinates:[longc,latc]}, properties:{name: title}};
+			if(tiddler.fields.geo){
+				var latlong =tiddler.fields.geo;
+				latlong = latlong.replace(" ","");
+				var ll = latlong.split(";");
+				var longc =parseFloat(ll[1]);
+				var latc =parseFloat(ll[0]);
+				var geotagfeature = {type: "feature", geometry:{type: "point", coordinates:[longc,latc]}, properties:{name: title,fill:""}};
 				data.features.push(geotagfeature); //add the tagging feature
 			}
 		}	
 		);
-
 		return data;
 	};
-
+	
+	
+	function getElementChild(el,tag){
+		var att = el.childNodes;
+		for(var j=0; j <att.length;j++){			
+			if(att[j].tagName == tag) return att[j];
+		}
+		return false;
+		
+	}
+	
+	var geomaps = {};
 	config.macros.canvasMaps.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 			if(version.extensions.canvasMapsPlugin.num)
 				version.extensions.canvasMapsPlugin.num += 1;
@@ -102,9 +105,8 @@ if(!version.extensions.canvasMapsPlugin) {
 				version.extensions.canvasMapsPlugin.num = 1;
 				
 			var prms = paramString.parseParams(null, null, true);
-			var ran = Math.random();
-			var id = "wrapper_"+ran;
-			id = "wrapper"+version.extensions.canvasMapsPlugin.num;
+
+			var id = "wrapper"+version.extensions.canvasMapsPlugin.num;
 			var wrapper = createTiddlyElement(place,"div",id,"wrapper");
 			wrapper.style.position = "relative";
 			if(getParam(prms,"width"))wrapper.style.width = getParam(prms,"width")+"px";
@@ -112,45 +114,48 @@ if(!version.extensions.canvasMapsPlugin) {
 			var statustext = createTiddlyElement(wrapper,"div",id+"_statustext");
 			createTiddlyText(statustext,"loading... please wait a little while!");
 			var caption = createTiddlyElement(place,"div","caption","caption");
+
 			var eMap = new EasyMap(wrapper);
-			eMap.addControl('pan');
-			eMap.addControl('zoom');
-	
+			geomaps[version.extensions.canvasMapsPlugin.num] = eMap;			
+
 			var that = eMap;
 			var myElement = document.getElementById('caption');
-	
 
-			eMap.clickHandler = function(e){
+			eMap.canvas.onmouseup = function(e){
 				if(!e) {
 					e = window.event;
 				}
 				var shape = eMap.utils.getShapeAtClick(e);
+				
 				if(!shape) {
 					return false;
 				}
-				var country = shape.properties.name;
-				if(!store.tiddlerExists(country)) {
-					var tags = "country";
-					var text = "We don't have any information about this country yet! Please edit to add some or leave a comment.";
-					var userName = config.options.txtUserName ? config.options.txtUserName : "guest";
-					console.log(shape.properties);
-			
-					var geometa = "{'name':'"+shape.properties.name+"',colour:'"+shape.properties.colour+"',fill:'"+shape.properties.fill+"'}";
-
-			
-					//shape.properties.toSource(); //no ie support for this!
-			
+				var shapeName = shape.properties.name;
+				if(!store.tiddlerExists(shape)) {
+					var tags = [];
+					var text = "";
 					var fields = {};
-					fields.geoproperties = geometa;
-					store.saveTiddler(country,country,text,userName,new Date(),tags,fields);
+					
+					if(shape.properties.text) text = shape.properties.text;
+					if(shape.properties.tags) tags = shape.properties.tags;
+					var name =shape.properties.name;
+					var userName = config.options.txtUserName ? config.options.txtUserName : "guest";
+
+					fields.fillStyle = shape.properties.fillStyle;
+					store.saveTiddler(shapeName,shapeName,text,userName,new Date(),tags,fields);
 				}
 				var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
-				story.displayTiddler(tiddlerElem,country);
+				story.displayTiddler(tiddlerElem,shapeName);
 				return false;
 			};
 
-	
-
+			eMap.addControl('pan');
+			eMap.addControl('zoom');
+			console.log(config.browser.isIE);
+			if(!config.browser.isIE){
+				eMap.addControl("mousepanning");
+				eMap.addControl("mousewheelzooming");	
+			}	
 			var source = null;
 			if(getParam(prms,"source")) source = getParam(prms,"source");
 	
@@ -161,7 +166,6 @@ if(!version.extensions.canvasMapsPlugin) {
 			if(getParam(prms,"long")) longitude = getParam(prms,"long");
 			if(getParam(prms,"lat")) latitude = getParam(prms,"lat");
 			var t ={'scale':{'x':zoom, 'y': zoom}, 'translate': {'x': longitude, 'y':latitude}};
-			//var t = {'translate':{x:0,y:0}, 'scale': {x:1, y:1}};	
 			eMap.controller.setTransformation(t);
 			var geodata = this.getCoreGeoJson(source);
 	

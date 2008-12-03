@@ -71,13 +71,15 @@ the latter is more interesting. Have a look at [[Example 2]]!
 1.3 22/10/08 working with ie/packaged up code
 
 !To Do
-
+*fix ie clicking nodes
 *better control panel: replacement of macros for toggle/zoom in and out with built in toolbar to plugin
 *Ability to define your own function for relative sizing (ie. you could weight them on some meta field)
 *Ability to set meta-data specific to nodes within a tiddler in optional fields see http://TiddlyWiki.abego-software.de/#PartTiddlerPlugin (eg. colouring of children/parents/images in node label)
 *rss hooks - specify where tags and node names come from in feed
 *ability to specify what click function is/ turn off click function
 *allow resizing
+*ability to turn off dynamic as you go updates
+*auto spread out messy nodes (ie. zoom out if nodes are too close)
 *node repositioning and saving of state
 *better css support
 *performance issues

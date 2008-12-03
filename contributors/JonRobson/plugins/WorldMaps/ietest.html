@@ -12,7 +12,7 @@
 var eMap = null;
 function init(){
 	eMap = new EasyMap('wrapper');
-	eMap.canvas.onmouseup = function(e){
+	eMap.wrapper.onmouseup = function(e){
 	
 		console.log("clicked");
 		var s = eMap.utils.getShapeAtClick(e);
@@ -29,7 +29,6 @@ function init(){
 	eMap.addControl("zoom");
 	eMap.addControl("mousepanning");
 	eMap.addControl("mousewheelzooming");
-	//eMap.addControl("clickcenters");
 
 var that = eMap;
 //eMap.mousemoveHandler = function(e,shape){};
