@@ -36,13 +36,13 @@ adaptor.locationIDErrorMessage = "no bag or recipe specified for tiddler"; // TO
 
 // perform a login -- XXX: experimental; currently limited to cookie_form
 adaptor.prototype.login = function(context, userParams, callback) {
-    context = this.setContext(context, userParams, callback);
-    var uriTemplate = "%0/challenge/cookie_form";
-    var uri = uriTemplate.format([context.host]);
-    var payload = "user=" + encodeURIComponent(context.username) +
+	context = this.setContext(context, userParams, callback);
+	var uriTemplate = "%0/challenge/cookie_form";
+	var uri = uriTemplate.format([context.host]);
+	var payload = "user=" + encodeURIComponent(context.username) +
 		"&password=" + encodeURIComponent(context.password);
-    var req = httpReq("POST", uri, callback, context, null, payload);
-    return typeof req == "string" ? req : true;
+	var req = httpReq("POST", uri, callback, context, null, payload);
+	return typeof req == "string" ? req : true;
 };
 
 // retrieve a list of workspaces
@@ -261,15 +261,22 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	context = this.setContext(context, userParams, callback);
 	context.title = tiddler.title;
 	if(!tiddler.fields["server.tiddlertitle"]) {
-		tiddler.fields["server.tiddlertitle"] = tiddler.title; //# required for detecting subsequent renames -- XXX: modifying the store in putTiddler is unexpected
+		tiddler.fields["server.tiddlertitle"] = tiddler.title; //# required for detecting subsequent renames
 	} else if(tiddler.title != tiddler.fields["server.tiddlertitle"]) {
 		return this.renameTiddler(tiddler, context, userParams, callback);
 	}
+	var headers = null;
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
 	var host = context.host ? context.host : this.fullHostName(tiddler.fields["server.host"]);
 	var bag = tiddler.fields["server.bag"];
 	if(bag) {
 		var uri = uriTemplate.format([host, "bags", bag, tiddler.title]);
+		var revision = tiddler.fields["server.page.revision"];
+		if(typeof revision == "undefined") {
+			revision = 1;
+		}
+		var etag = [encodeURIComponent(bag), encodeURIComponent(tiddler.title), revision].join("/");
+		headers = { "If-Match": etag };
 	} else if(context.workspace) {
 		uri = uriTemplate.format([host, "recipes", context.workspace, tiddler.title]);
 	} else {
@@ -287,7 +294,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	delete payload.fields["server.tiddlertitle"];
 	payload = JSON.stringify(payload);
 	var req = httpReq("PUT", uri, adaptor.putTiddlerCallback,
-		context, null, payload, adaptor.mimeType);
+		context, headers, payload, adaptor.mimeType);
 	return typeof req == "string" ? req : true;
 };
 
