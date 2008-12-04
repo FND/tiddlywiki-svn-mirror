@@ -77,7 +77,7 @@ function init(){
 	//		document.getElementById('time').innerHTML ="long: " + shape.longitudes + " lat:" + shape.latitudes;			
 	};
 
-	eMap.clickHandler = function(e){
+	eMap.wrapper.onclick = function(e){
 
 		var s = eMap.utils.getShapeAtClick(e);
 		console.log(s);
@@ -85,13 +85,21 @@ function init(){
 		if(s)
 			alert(s.properties.name);
 	};
-	
+	eMap.spherical = true;
 	eMap.drawFromGeojsonFile('whereLegal.json');
 	eMap.addControl("pan");
 	eMap.addControl("zoom");	
 	var spin = function() {
-		eMap.spin(0,0,0.01);
-		window.setTimeout(spin,100);
+		var t = eMap.controller.transformation;
+		if(!t.rotate){
+			t.rotate = {};
+			t.rotate.x = 0;
+			t.rotate.y = 0;
+			t.rotate.z = 0;
+		}
+		t.rotate.z += 0.25;
+		eMap.controller.setTransformation(t);
+		window.setTimeout(spin,1000);
 	}
 	spin();
 }
@@ -100,10 +108,7 @@ function init(){
 </head>
 
 <body onload="window.setTimeout(init,0)">
-<h1>Countries where homosexual acts are legal/illegal</h1>
 
-spin: <a href="javascript:eMap.spin(0,0,-0.1)"><--</a><a href="javascript:eMap.spin(0,0,0.1)">--></a>
-<a href="javascript:eMap.spin(-0.1,0,0)">up</a> <a href="javascript:eMap.spin(0.1,0,0)">down</a>
 <div id='wrapper' style="width:800; height:400;position:relative;">
 	<div id ='caption'></div>
 	<div id='wrapper_statustext'>please wait while we load... </div>

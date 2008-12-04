@@ -23,7 +23,7 @@ function init(){
 	};
 	
 	eMap.utils._testCanvas(eMap.canvas.getContext('2d'));
-	geojson = eMap.utils.fitgeojsontocanvas(eval(geojson),eMap.canvas);
+
 
 	eMap.addControl("pan");
 	eMap.addControl("zoom");
@@ -31,18 +31,18 @@ function init(){
 	eMap.addControl("mousewheelzooming");
 	
 
-	
 
-
-	
 var that = eMap;
 eMap.clear();
 eMap._fittocanvas = false;
 eMap.drawFromGeojson(geojson);
 var ctx = eMap.canvas.getContext('2d');
-var img = document.getElementById('map');
-console.log(img,eMap.controller.transformation);
+
 ctx.globalAlpha = 0.5;
+
+var img = new Image();
+img.src="http://maps.google.com/staticmap?center=0,0&zoom=-1&size=600x400&key=YOUR_KEY_HERE";
+img.width = 300;
 ctx.drawImage(img,0,0);
 
 }
@@ -59,7 +59,6 @@ ctx.drawImage(img,0,0);
 <br>
 <br>
 <br>
-	<img src="http://maps.google.com/staticmap?center=0,0&zoom=-1&size=600x400&key=YOUR_KEY_HERE" id='map'>
 <a href="javascript:eMap.zoom(0.5,0.5)">zoom in</a> <a href="javascript:eMap.zoom(-0.5,-0.5)">zoom out</a>
 
 

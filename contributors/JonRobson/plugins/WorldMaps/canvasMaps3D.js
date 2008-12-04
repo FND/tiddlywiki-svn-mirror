@@ -456,7 +456,7 @@ var EasyMap = function(wrapper){
 	if(!canvas.getContext) {
 		G_vmlCanvasManager.init_(document);
 	}
-	this.spherical = true; //experimental!! fiddle with at your own risk! :)
+	this.spherical = false; //experimental!! fiddle with at your own risk! :)
 
 	this.utils = EasyMapUtils;
 	
@@ -664,10 +664,11 @@ EasyMap.prototype = {
 	
 		ctx.lineWidth = 0.09;
 		ctx.save();	
+		//if(!this.spherical){
 		ctx.translate(o.x,o.y);
 		ctx.scale(s.x,s.y);
 		ctx.translate(tr.x,tr.y);
-		
+		//}
 		var left = 0;
 		var top = 0;
 		var right =  parseInt(this.canvas.width) + left; 
@@ -728,7 +729,11 @@ EasyMap.prototype = {
 			this.ctx.beginPath();
 			var c;
 			
-			c = shape.coords;
+			
+			if(this.spherical) c = shape.spherify(100,this.canvas.transformation);
+			else c = shape.coords;
+	
+			if(c.length == 0) return;
 			
 			var deltas = shape.distanceToNext;
 			var initialX = parseFloat(c[0]);
@@ -940,19 +945,25 @@ EasyShape.prototype={
 
 		return res;
 	},	
-	_spherify: function(lon,lat,rotate,radius){//http://board.flashkit.com/board/archive/index.php/t-666832.html
+	_spherifycoordinate: function(lon,lat,rotate,radius,lastx,lasty){//http://board.flashkit.com/board/archive/index.php/t-666832.html
 		var utils = EasyMapUtils;
 		var res = {};
 		if(lon>maxLon)maxLon=lon;
 		if(lon<minLon)minLon=lon;
 		if(lat>maxLat)maxLat=lat;
 		if(lat<minLat)minLat=lat;
+		/*
+		if(lon > radius) lon = radius;
+		if(lon < - radius) lon = -radius;
+		if(lat > radius) lat = radius;
+		if(lat < -radius) lat = -radius;
+		*/
 		
 		var longitude = utils._degToRad(lon);
 		var latitude = utils._degToRad(lat);
  		
  		// assume rotate values given in radians
-		longitude += rotate.z;
+		if(rotate)longitude += rotate.z;
 		
 		// latitude is 90-theta, where theta is the polar angle in spherical coordinates
 		// cos(90-theta) = sin(theta)
@@ -965,33 +976,92 @@ EasyShape.prototype={
 		// to transform from spherical to cartesian, we would normally use radius*Math.sin(theta)*Math.cos(phi)
 		//   we must exchange for theta as above, but because of the circular symmetry
 		//   it does not matter whether we multiply by sin or cos of longitude
-		yPos = (radius) * Math.sin(latitude);
-		xPos = (radius) * Math.cos(latitude) * Math.sin(longitude);
+		
 
-		res.x = xPos;
-		res.y = yPos;
+		var deglon = EasyMapUtils._radToDeg(longitude);
+		var deglat = EasyMapUtils._radToDeg(latitude);
+		
+		
+		longitude = longitude % EasyMapUtils._degToRad(360);
+		
+		hiddenArea = {};
+		hiddenArea.start = EasyMapUtils._degToRad(90);
+		hiddenArea.finish = EasyMapUtils._degToRad(270);
+		if(longitude > hiddenArea.start && longitude < hiddenArea.finish){
+			
+			//find which side it is closer too
+			/*var t1 = longitude - hiddenArea.start;
+			var t2 = hiddenArea.finish- longitude;
+
+			if(t1 < t2)longitude = hiddenArea.start;
+			else longitude = hiddenArea.finish
+			*/
+		}
+		else{
+			yPos = (radius) * Math.sin(latitude);
+			xPos = (radius) * Math.cos(latitude) * Math.sin(longitude);
+			res.x = xPos;
+			res.y = yPos;			
+		}
+			
+
+		
+		
 		return res;
 	}
 	
+	,spherify: function(radius,transformation){
+		var newcoords = [];
+		var rotate;
+		if(transformation && transformation.rotate) {
+			performRotate = true;
+			rotate = transformation.rotate;
+		}
+		var xPos, yPos;
+		for(var i=0; i < this.coords.length-1; i+=2){
+			coordOK= true;
+			var lon = parseFloat(this.coords[i]);
+			var lat = parseFloat(this.coords[i+1]);
+		
+
+
+			var t = this._spherifycoordinate(lon,lat,rotate,radius);
+			
+			xPos = t.x;
+			yPos = t.y;
+			if(xPos && yPos){
+				newcoords.push(xPos);
+				newcoords.push(yPos);
+			}
+		}
+
+		return newcoords;
+	}
 	,transformcoordinates: function(transformation,spherical,radius){		
 		var performScale = true;
 		var performTranslate = true; 
 		var performRotate = false;
-		
-		var scaling = transformation.scale;
-		var translation = transformation.translate;
-		if(scaling.x == 1 && scaling.y == 1) {
+		if(!transformation){
 			performScale = false;
-		}
-		if(translation.x == 0 && translation.y == 0) {
 			performTranslate = false;
+			performRotate = false;
 		}
-		if(transformation.rotate) {
-			performRotate = true;
+		else{
+			var scaling = transformation.scale;
+			var translation = transformation.translate;
+			if(scaling.x == 1 && scaling.y == 1) {
+				performScale = false;
+			}
+			if(translation.x == 0 && translation.y == 0) {
+				performTranslate = false;
+			}
+			if(transformation.rotate) {
+				performRotate = true;
+				var rotate = transformation.rotate;
+			}
 		}
-		
 		var transformedCoords = [];
-		var rotate = transformation.rotate;
+		
 		var lastX, lastY;
 		var index = 0;
 		var coordOK;
@@ -1002,7 +1072,7 @@ EasyShape.prototype={
 			var xPos, yPos;
 
 			if(spherical){
-				var t = this._spherify(lon,lat,rotate,radius);
+				var t = this._spherifycoordinate(lon,lat,rotate,radius);
 				xPos = t.x;
 				yPos = t.y;
 			} else {
@@ -1160,6 +1230,10 @@ var EasyMapUtils = {
 	ctx.stroke();
 
 	},	
+	
+	_radToDeg: function(rad){
+		return rad / (Math.PI /180);
+	},
 	_degToRad: function(deg) {
 		return deg * Math.PI / 180;
 	},
