@@ -3,7 +3,7 @@ $ws_folder = $tiddlyCfg['workspace_name'];
 $dir = $tiddlyCfg['pref']['upload_dir']."tiddlers/".$ws_folder."";
 @mkdir($dir, 0777, true);
 $myFile = $dir."/".$ntiddler['title'].".html";
-$fh = fopen($myFile, 'w+');
+$fh = @fopen($myFile, 'w+');
 $doc = "<html>\r\n<head>\r\n<script language='javascript'><!-- \r\nlocation.replace('".dirname(getUrl())."/".$tiddlyCfg['workspace_name']."#".$ntiddler['title']."') \r\n //--></script>\r\n";
 $doc .= "<title>".$ntiddler['title']."</title>\r\n</head>\r\n<body>\r\n";
 $doc .= "<h1>".$ntiddler['title']."</h1>\r\n";
@@ -25,7 +25,7 @@ foreach($tags as $tag)
 	if($tag)
 		$doc .="<a href='#' rel='tag'>".$tag."</a>\r\n";
 $doc .= "</ul>\r\n</body>\r\n</html>";
-if(fwrite($fh, $doc)){
+if(@fwrite($fh, $doc)){
 }
-fclose($fh);
+@fclose($fh);
 ?>
