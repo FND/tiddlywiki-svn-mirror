@@ -77,7 +77,7 @@ function init(){
 	//		document.getElementById('time').innerHTML ="long: " + shape.longitudes + " lat:" + shape.latitudes;			
 	};
 
-	eMap.wrapper.onclick = function(e){
+	eMap.canvas.onclick = function(e){
 
 		var s = eMap.utils.getShapeAtClick(e);
 		console.log(s);
@@ -86,19 +86,13 @@ function init(){
 			alert(s.properties.name);
 	};
 	eMap.spherical = true;
+	eMap.addControl("zoom");
+	eMap.addControl("rotation");
+	console.log(eMap.canvas.transformation);
 	eMap.drawFromGeojsonFile('whereLegal.json');
-	eMap.addControl("pan");
-	eMap.addControl("zoom");	
+	
 	var spin = function() {
-		var t = eMap.controller.transformation;
-		if(!t.rotate){
-			t.rotate = {};
-			t.rotate.x = 0;
-			t.rotate.y = 0;
-			t.rotate.z = 0;
-		}
-		t.rotate.z += 0.25;
-		eMap.controller.setTransformation(t);
+
 		window.setTimeout(spin,1000);
 	}
 	spin();

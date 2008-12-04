@@ -96,12 +96,11 @@ if(!version.extensions.geoPlugin) {
 		
 	}
 	
-	var geomaps = {};
+	var geomaps = [];
 	
 	config.macros.geogoto = {};
 	config.macros.geogoto.handler= function(place,macroName,params,wikifier,paramString,tiddler) {
-		var id = tiddler.geoid;
-		if(!id) id = 0;
+		var id = config.macros.geo.getGeoId(tiddler);
 		
 		if(!geomaps[id]) {alert("geogoto can only be used if there is a geomap somewhere on the page!");}
 		var lo, la,zoom;
@@ -115,6 +114,17 @@ if(!version.extensions.geoPlugin) {
 		geomaps[id].controller.setTransformation(tran);
 	}
 
+	config.macros.geo.getGeoId = function(tiddler){
+		var id;
+		if(tiddler) 
+			id= tiddler.geoid;
+		
+		if(id) return id; //there is a geomap in this tiddler
+		for(var i=0; i < geomaps.length; i++){ //find the first geomap 
+			if(geomaps[id]) return id; //should also check the dom element supplied to it is good
+		}
+		
+	};
 	config.macros.geo.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 			if(version.extensions.geoPlugin.num >= 0)
 				version.extensions.geoPlugin.num += 1;
@@ -124,7 +134,7 @@ if(!version.extensions.geoPlugin) {
 			var prms = paramString.parseParams(null, null, true);
 
 			var id = "wrapper"+geoid;
-			console.log(id);
+
 			var wrapper = createTiddlyElement(place,"div",id,"wrapper");
 			wrapper.style.position = "relative";
 			if(getParam(prms,"width")){
@@ -178,8 +188,14 @@ if(!version.extensions.geoPlugin) {
 				story.displayTiddler(tiddlerElem,shapeName);
 				return false;
 			};
-
-			eMap.addControl('pan');
+			if(getParam(prms,"spherify")) {
+				eMap.spherical = true;
+				eMap.addControl("rotation");
+			 }
+			else{
+				eMap.addControl('pan');
+			}
+			
 			eMap.addControl('zoom');
 			if(!config.browser.isIE){
 				eMap.addControl("mousepanning");

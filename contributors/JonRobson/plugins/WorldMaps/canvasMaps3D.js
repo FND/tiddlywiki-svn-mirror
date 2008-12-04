@@ -81,7 +81,7 @@ var EasyMapController = function(targetjs,elem){ //elem must have style.width an
 		this.wrapper.appendChild(controlDiv);
 		this.wrapper.controlDiv = controlDiv;
 	}
-	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1}};	
+	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0}};	
 	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 };
@@ -144,7 +144,7 @@ EasyMapController.prototype = {
 		
 		
 	},
-	
+
 	addMousePanning: function(){
 		var that = this;
 		var md = that.wrapper.onmousedown;
@@ -208,7 +208,7 @@ EasyMapController.prototype = {
 	
 	},
 	setTransformation: function(t){
-		if(!t.scale && !t.translate) alert("bad transformation applied");
+		if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
 		this.transformation = t;
 		this.wrapper.transformation = t;
 		this.targetjs.transform(t);
@@ -275,14 +275,13 @@ EasyMapController.prototype = {
 		return button;
 	},	
 	addControl: function(controlType) {
-		var controlDiv = this.wrapper.controlDiv;
 		switch(controlType) {
 			//case "zoom":
 			case "pan":
-				this.addPanningActions(controlDiv);
+				this.addPanningActions();
 				break;
 			case "zoom":
-				this.addZoomingActions(controlDiv);
+				this.addZoomingActions();
 				break;
 			case "mousepanning":
 				this.addMousePanning();
@@ -290,11 +289,16 @@ EasyMapController.prototype = {
 			case "mousewheelzooming":
 				this.addMouseWheelZooming();
 				break;
+			case "rotation":
+		
+				this.addRotatingActions();
+				break;
 			default:
 				break;
 		}
 	
 	},
+	
 	_createcontrollercanvas: function(width,height){
 		var newCanvas = document.createElement('canvas');
 		newCanvas.width = width;
@@ -314,15 +318,21 @@ EasyMapController.prototype = {
 		//return clickableCanvas(newCanvas);
 		return newCanvas;
 	},
-	addPanningActions: function(){
-		var panCanvas = this._createcontrollercanvas(44,64);
-		
+	addPanningActions: function(controlDiv){
+		var panCanvas = this._createcontrollercanvas(44,64);		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
-		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));
-				
+		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
 		panCanvas.onclick = this._panzoomClickHandler;		
+
+	},
+	addRotatingActions: function(){
+		
+		var rotateCanvas = this._createcontrollercanvas(44,40);		
+		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'arrow'}));
+		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'arrow'}));
+		rotateCanvas.onclick = this._panzoomClickHandler;
 
 	},	
 	addZoomingActions: function(){
@@ -370,46 +380,61 @@ EasyMapController.prototype = {
 		this.targetjs.transform(this.transformation);
 	},
 	_panzoomClickHandler: function(e) {
+		
 		if(!e) {
 			e = window.event;
 		}
 		var emap = this.emap;
+			
 		var hit = emap.utils.getShapeAtClick(e);
 		if(!hit) {
+		
 			return false;
 		}
-		if(hit.properties.action){
-			action(x,y);
-		}
-		var pan = {};
-		var scale =emap.transformation.scale;
-		pan.x = parseFloat(30 / scale.x);
-		pan.y = parseFloat(30 / scale.y)
 
+		var pan = {};
+		var t =emap.transformation;
+		var scale =t.scale;
+		pan.x = parseFloat(30 / scale.x);
+		pan.y = parseFloat(30 / scale.y);
+		if(!t.scale) t.scale = {x:1,y:1};
+		if(!t.translate) t.translate = {x:0,y:0};
+		if(!t.rotate) t.rotate = {x:0,y:0,z:0};
 		
+
 		switch(hit.properties.actiontype) {
 			case "W":
-				emap.transformation.translate.x += pan.x;
+				t.translate.x += pan.x;
 				break;
 			case "E":
-				emap.transformation.translate.x -= pan.x;
+				t.translate.x -= pan.x;
 				break;
 			case "N":
-				emap.transformation.translate.y += pan.y;
+				t.translate.y += pan.y;
 				break;
 			case "S":
-				emap.transformation.translate.y -= pan.y;
+				t.translate.y -= pan.y;
 				break;
 			case "in":
-				emap.transformation.scale.x *= 2;
-				emap.transformation.scale.y *= 2;
+				scale.x *= 2;
+				scale.y *= 2;
 				break;
 			case "out":
-				emap.transformation.scale.x /= 2;
-				emap.transformation.scale.y /= 2;			
+				scale.x /= 2;
+				scale.y /= 2;			
+				break;
+			case "rotatezright":
+				t.rotate.z -= 0.1;
+				var left =6.28318531;
+				
+				if(t.rotate.z <0 )t.rotate.z =left;
+				break;
+			case "rotatezleft":
+				t.rotate.z += 0.1;
+				break;
+			default:
 				break;
 		}
-
 		emap.transform();
 
 		return false;
@@ -510,7 +535,7 @@ var EasyMap = function(wrapper){
 	this.wrapper.onmousemove = _defaultMousemoveHandler;	
 	this.controller = new EasyMapController(this,this.wrapper);
 	this.transform(this.controller.transformation); //set initial transformation
-	this.viewarea = {};
+
 	this._fittocanvas = true;
 	this.clear();
 };  
@@ -622,35 +647,52 @@ EasyMap.prototype = {
 			origin.x =w / 2;
 			origin.y =h / 2;
 		}
-		//this.canvas.transformation = this.transformation;
 		var t =this.canvas.transformation.translate;
-		var v =this.viewarea;
 		var s = this.canvas.transformation.scale;
-		/*
-		if(this.viewarea){
-			if(this.viewarea.x1){
-				if(t.x > (v.x2*s.x)) t.x = v.x2;
-				if(t.x < (v.x1*s.x)) t.x = v.x1;
-				if(t.y < (v.y1*s.y)) t.y = v.y1;
-				if(t.y > (v.y2*s.y)) t.y = v.y2;
+
+		if(this.spherical){
+			if( !this.canvas.transformation.spherical){
+				this.canvas.transformation.spherical = {};
+				this.canvas.transformation.spherical.seaColor = "#AFDCEC";
 			}
-		}*/
+			if(!this.canvas.transformation.rotate){
+				this.canvas.transformation.rotate = {};
+				this.canvas.transformation.rotate.z =0;
+			}
+			
+			if(!this.canvas.transformation.spherical.radius){
+			var heightR = (parseInt(this.canvas.height) / s.y) /2;
+			var widthR= (parseInt(this.canvas.width) / s.x) /2;
+			
+			
+			if(widthR > heightR)
+				this.canvas.transformation.spherical.radius = heightR;
+			else
+				this.canvas.transformation.spherical.radius = widthR;
+			}
+		};
+		
 		this.redraw();
 	},
 	_buildShapeInMemory: function(easyShape){ //add shape to memory
 		var mapCanvas = this.canvas;
 		var memory = mapCanvas.memory;
 		easyShape.id = memory.length;
-		memory[easyShape.id] = easyShape;
+		memory[easyShape.id] = easyShape;	
+	},
+	_createGlobe: function(){
+		var t =this.canvas.transformation;
+		var ctx = this.canvas.getContext('2d');
+		var rad =t.spherical.radius;
+	
+				
+		ctx.beginPath();
+		ctx.arc(0, 0, rad, 0, Math.PI*2, true);
+		ctx.closePath();
+		ctx.fillStyle =t.spherical.seaColor;
+		ctx.fill();
 		
-		var v = this.viewarea;
-		var g =easyShape.grid;
-		
-		if(!v.x1 ||g.x1 < v.x1) v.x1 = g.x1;
-		if(!v.x2 ||g.x2 > v.x2) v.x2 = g.x2;		
-		if(!g.y2 ||g.y2 > v.y2) v.y2 = g.y2;	
-		if(!v.y1 ||g.y1 < v.y1) v.y1 = g.y1;
-				//easyShape.transform(this.transformation,this.rotate,this.spherical,this.radius);	
+
 	},
 	_renderShapes: function(){
 		var mem =this.canvas.memory;
@@ -664,18 +706,12 @@ EasyMap.prototype = {
 	
 		ctx.lineWidth = 0.09;
 		ctx.save();	
-		//if(!this.spherical){
 		ctx.translate(o.x,o.y);
 		ctx.scale(s.x,s.y);
 		ctx.translate(tr.x,tr.y);
-		//}
 		
-		if(this.spherical){
-			ctx.beginPath();
-			ctx.arc(0, 0, 100, 0, Math.PI*2, true);
-			ctx.closePath();
-			ctx.fillStyle ="#AFDCEC";
-			ctx.fill();
+		if(t.spherical){
+			this._createGlobe();
 		}
 		var left = 0;
 		var top = 0;
@@ -731,7 +767,7 @@ EasyMap.prototype = {
 			this.ctx.beginPath();
 			var c;
 	
-			if(this.spherical) c = shape.spherify(100,this.canvas.transformation);
+			if(this.spherical) c = shape.spherify(this.canvas.transformation);
 			else c = shape.coords;
 	
 			if(c.length == 0) return;
@@ -945,78 +981,17 @@ EasyShape.prototype={
 		}
 
 		return res;
-	},	
-	_spherifycoordinate: function(lon,lat,rotate,radius,lastx,lasty){//http://board.flashkit.com/board/archive/index.php/t-666832.html
-		var utils = EasyMapUtils;
-		var res = {};
-		if(lon>maxLon)maxLon=lon;
-		if(lon<minLon)minLon=lon;
-		if(lat>maxLat)maxLat=lat;
-		if(lat<minLat)minLat=lat;
-		/*
-		if(lon > radius) lon = radius;
-		if(lon < - radius) lon = -radius;
-		if(lat > radius) lat = radius;
-		if(lat < -radius) lat = -radius;
-		*/
-		
-		var longitude = utils._degToRad(lon);
-		var latitude = utils._degToRad(lat);
- 		
- 		// assume rotate values given in radians
-		if(rotate)longitude += rotate.z;
-		
-		// latitude is 90-theta, where theta is the polar angle in spherical coordinates
-		// cos(90-theta) = sin(theta)
-		// sin(90-theta) = cos(theta)
-		// to transform from spherical to cartesian, we would normally use radius*Math.cos(theta)
-		//   hence in this case we use radius*Math.sin(latitude)
-		// similarly longitude is phi-180, where phi is the azimuthal angle
-		// cos(phi-180) = -cos(phi)
-		// sin(phi-180) = -sin(phi)
-		// to transform from spherical to cartesian, we would normally use radius*Math.sin(theta)*Math.cos(phi)
-		//   we must exchange for theta as above, but because of the circular symmetry
-		//   it does not matter whether we multiply by sin or cos of longitude
-		
+	}	
 
-		var deglon = EasyMapUtils._radToDeg(longitude);
-		var deglat = EasyMapUtils._radToDeg(latitude);
-		
-		
-		longitude = longitude % 6.28318531; //360 degrees
-		
-		hiddenArea = {};
-		hiddenArea.start = 1.57079633; //90 degrees
-		hiddenArea.finish = 4.71238898;//270 degrees
-		if(longitude > hiddenArea.start && longitude < hiddenArea.finish){
-			//its on other side of the map
-		}
-		else{
-			yPos = (radius) * Math.sin(latitude);
-			xPos = (radius) * Math.cos(latitude) * Math.sin(longitude);
-			res.x = xPos;
-			res.y = yPos;			
-		}
-			
-
-		
-		
-		return res;
-	}
-	
-	,spherify: function(radius,transformation){
+	,spherify: function(transformation){
 		var newcoords = [];
-		var rotate;
-		if(transformation && transformation.rotate) {
-			performRotate = true;
-			rotate = transformation.rotate;
-		}
+		var radius =transformation.spherical.radius;
 		var xPos, yPos;
 		for(var i=0; i < this.coords.length-1; i+=2){
 			coordOK= true;
 			var lon = parseFloat(this.coords[i]);
 			var lat = parseFloat(this.coords[i+1]);
-			var t = this._spherifycoordinate(lon,lat,rotate,radius);
+			var t = EasyMapUtils._spherifycoordinate(lon,lat,transformation);
 			if(t.x && t.y){
 				newcoords.push(t.x);
 				newcoords.push(t.y);
@@ -1060,7 +1035,7 @@ EasyShape.prototype={
 			var xPos, yPos;
 
 			if(spherical){
-				var t = this._spherifycoordinate(lon,lat,rotate,radius);
+				var t = EasyMapUtils._spherifycoordinate(lon,lat,rotate,radius);
 				xPos = t.x;
 				yPos = t.y;
 			} else {
@@ -1164,13 +1139,17 @@ var EasyMapUtils = {
 		return json;
 	},
 	undotransformation: function(x,y,transformation){
+		
 		var pos = {};
 		var t =transformation;
 		var tr =t.translate;
 		var s = t.scale;
 		var o = t.origin;
+		if(!x || !y) 
+			return false;
 		pos.x = x;
 		pos.y = y;
+		
 
 		pos.x -= o.x;
 		pos.y -= o.y;
@@ -1182,9 +1161,14 @@ var EasyMapUtils = {
 		pos.y -= tr.y;
 		
 
-		//console.log(x,y,"->",pos.x,pos.y);
+		if(t.spherical) {
+			pos = this._undospherify(pos.x,pos.y,t);
+		}
+
+			
+			
 		return pos;
-	},
+	},	
 	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
 		var svgu = EasyMapSVGUtils;
 		var res = new Object();
@@ -1292,7 +1276,59 @@ var EasyMapUtils = {
 			//return false;
 		}
 	},
+	
+	_undospherify: function (x,y,transformation){
+		var radius = transformation.spherical.radius;
 		
+		
+		var latitude = Math.asin(y / radius);
+		var longitude = Math.asin(parseFloat(x / radius) / Math.cos(latitude));
+
+
+				
+		if(transformation.rotate && longitude != 'NaN')longitude -= transformation.rotate.z;
+		longitude = longitude % 6.28318531;
+		
+		var lon = this._radToDeg(longitude);
+		var lat = this._radToDeg(latitude);
+		
+		return {x:lon,y:lat};
+	},
+	_spherifycoordinate: function(lon,lat,transformation){//http://board.flashkit.com/board/archive/index.php/t-666832.html
+		var radius = transformation.spherical.radius;
+		var utils = EasyMapUtils;
+		var res = {};
+		
+		var longitude = this._degToRad(lon);
+		var latitude = this._degToRad(lat);
+ 		
+ 		// assume rotate values given in radians
+		if(transformation && transformation.rotate){
+			//latitude += transformation.rotate.x;
+			longitude += transformation.rotate.z
+			 
+		}
+		// latitude is 90-theta, where theta is the polar angle in spherical coordinates
+		// cos(90-theta) = sin(theta)
+		// sin(90-theta) = cos(theta)
+		// to transform from spherical to cartesian, we would normally use radius*Math.cos(theta)
+		//   hence in this case we use radius*Math.sin(latitude)
+		// similarly longitude is phi-180, where phi is the azimuthal angle
+		// cos(phi-180) = -cos(phi)
+		// sin(phi-180) = -sin(phi)
+		// to transform from spherical to cartesian, we would normally use radius*Math.sin(theta)*Math.cos(phi)
+		//   we must exchange for theta as above, but because of the circular symmetry
+		//   it does not matter whether we multiply by sin or cos of longitude	
+	
+		longitude = longitude % 6.28318531; //360 degrees		
+
+		res.y = (radius) * Math.sin(latitude);	
+		if(longitude < 1.57079633 || longitude > 4.71238898){//0-90 (right) or 270-360 (left) then on other side 
+			res.x = (radius) * Math.cos(latitude) * Math.sin(longitude);		
+		}
+	
+		return res;
+	},		
 	getShapeAt: function(x,y,shapes,transformation) {
 		
 		if(transformation){
