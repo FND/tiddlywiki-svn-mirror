@@ -146,7 +146,7 @@ config.macros.ccAdmin.addAdminCallback = function(status,params,responseText,uri
 	config.macros.ccAdmin.refresh(params.w);
 };
 
-//  ccAutoSave config //
+//  ccAutoSave config//
 
 config.options.chkAutoSave = true;
 

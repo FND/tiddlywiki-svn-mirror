@@ -39,7 +39,7 @@
 
 		$output = "{";
 		$output .= '"title":"'.$tiddler['title'].'",';
-		$output .= '"text":"'.$tiddler['body'].'",';
+		$output .= '"text":"'.str_replace("\n", "\\n", $tiddler['body']).'",';
 		$output .= '"modifier":"'.$tiddler['modifier'].'",';
 		$output .= '"created":"'.$tiddler['created'].'",';
 		$output .= '"modified":"'.$tiddler['modified'].'",';
@@ -329,7 +329,7 @@
 			$tiddler = tiddler_create($tiddler);
 		}
 		if($workspace)
-		$tiddler['workspace_name'] = $workspace;
+			$tiddler['workspace_name'] = $workspace;
 
 		$tiddlers = db_record_select($tiddlyCfg['table']['main'],$tiddler,1);
 		print_r($tiddlers);

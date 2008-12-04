@@ -276,6 +276,7 @@ function getTiddlersWithTags($yesTags,$noTags)
 		$return_tiddlers = array();
 		foreach($tiddlers as $t)
 		{
+			
 			if(user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])))
 			{
 				$tag = tiddler_breakTag($t['tags']);

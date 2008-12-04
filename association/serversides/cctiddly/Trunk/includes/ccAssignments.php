@@ -2,7 +2,7 @@
 <pre>
 /*{{{*/
 
-// may be required for mikes comments plugins
+// may be required for mikes comments plugi
 //window.saveChanges = function(){};
 
 setStylesheet(

@@ -83,6 +83,8 @@
 		if ($pw && $pw !== "invalid")
 		{
 			debug("session key is valid".$pw, "login");
+			
+			error_log($pw);
 			$data_session['session_token'] = $pw;
 			$results = db_record_select('login_session', $data_session);			// get array of results		
 			debug(count($results)."session(s) exists", "login");

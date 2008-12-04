@@ -1,5 +1,5 @@
 <?php
-global $p;
+//global $p;
 $p = new Plugin('Skinny Tiddlers Plugin','0.1','simonmcmanus and FND');
 /*
 Loads all tiddlers into tiddlywiki file but does not load the body. 
