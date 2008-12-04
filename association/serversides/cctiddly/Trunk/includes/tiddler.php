@@ -37,15 +37,15 @@
 	function tiddler_toJson($tiddler)
 	{
 
-		$output = "{\n";
-		$output .= '"title":'.$tiddler['title']."\n";
-		$output .= '"text":'.$tiddler['body']."\n";
-		$output .= '"modifier":'.$tiddler['modifier']."\n";
-		$output .= '"created":'.$tiddler['created']."\n";
-		$output .= '"modified":'.$tiddler['modified']."\n";
-		$output .= '"tags":'.$tiddler['tags']."\n";
-		$output .= '"fields":'.$tiddler['fields'];
-		$output .= "}\n";
+		$output = "{";
+		$output .= '"title":"'.$tiddler['title'].'",';
+		$output .= '"text":"'.$tiddler['body'].'",';
+		$output .= '"modifier":"'.$tiddler['modifier'].'",';
+		$output .= '"created":"'.$tiddler['created'].'",';
+		$output .= '"modified":"'.$tiddler['modified'].'",';
+		$output .= '"tags":"'.$tiddler['tags'].'",';
+		$output .= '"fields":"'.$tiddler['fields'];
+		$output .= '"}';
 		return $output;
 	}
 	
@@ -198,7 +198,7 @@
 			$id = "server.id='".$tiddler["id"]."'";
 		else
 			$id = ""; // must be a system tiddler
-		echo "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"]." ".$id.">\r\n<pre>".htmlspecialchars($tiddler['body'])."</pre>\r\n</div>\n\r";	
+		echo "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"]." ".$id.">\r\n<pre></pre>\r\n</div>\n\r";	
 	return;
 	}
 	
