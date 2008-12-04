@@ -20,6 +20,7 @@ tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/MediaWikiAdaptorPlugin.js
 tiddler: ../../plugins/MD5UnwoundPlugin.js
 tiddler: ../../feeds/TiddlyWikiDotOrgFeed.tiddler
+tiddler: ../../feeds/TiddlyWikiDotOrgDevFeed.tiddler
 tiddler: ../../formatters/MediaWikiFormatterPlugin.js
 tiddler: ../../formatters/MediaWikiTemplatePlugin.js
 tiddler: ../../styles/wikipedia.MediaWiki.Common.css.js
