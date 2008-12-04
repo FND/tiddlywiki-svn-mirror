@@ -669,6 +669,14 @@ EasyMap.prototype = {
 		ctx.scale(s.x,s.y);
 		ctx.translate(tr.x,tr.y);
 		//}
+		
+		if(this.spherical){
+			ctx.beginPath();
+			ctx.arc(0, 0, 100, 0, Math.PI*2, true);
+			ctx.closePath();
+			ctx.fillStyle ="#AFDCEC";
+			ctx.fill();
+		}
 		var left = 0;
 		var top = 0;
 		var right =  parseInt(this.canvas.width) + left; 
@@ -693,16 +701,13 @@ EasyMap.prototype = {
 	_renderShape: function(shape,frame){ //is this really a drawPolygon or a drawLines
 		var scale =this.canvas.transformation.scale;
 		var shapetype =shape.properties.shape;
-		if(shapetype=='polygon') {
-		//good
-		}
-		else if(shapetype == 'point'){
-		
+		if(shapetype=='polygon' || shapetype == 'point'){
+		//good shape
 		} 
 		else{
 			console.log("no idea how to draw" +shape.properties.shape);return;
 		}		
-			if(shapetype != 'point' && shape.grid){
+		if(shapetype != 'point' && shape.grid){ //check if worth drawing
 				var g = shape.grid;
 				if(g.x2 < frame.left) {
 					return;}
@@ -721,15 +726,11 @@ EasyMap.prototype = {
 				delta.y *= scale.y;
 
 				if(delta.x < 5 || delta.y < 5) {return;}//too small
-			
-				if(shape.perimeter * scale.x  < 10)return;
-				
 			}
 			
 			this.ctx.beginPath();
 			var c;
-			
-			
+	
 			if(this.spherical) c = shape.spherify(100,this.canvas.transformation);
 			else c = shape.coords;
 	
@@ -982,20 +983,13 @@ EasyShape.prototype={
 		var deglat = EasyMapUtils._radToDeg(latitude);
 		
 		
-		longitude = longitude % EasyMapUtils._degToRad(360);
+		longitude = longitude % 6.28318531; //360 degrees
 		
 		hiddenArea = {};
-		hiddenArea.start = EasyMapUtils._degToRad(90);
-		hiddenArea.finish = EasyMapUtils._degToRad(270);
+		hiddenArea.start = 1.57079633; //90 degrees
+		hiddenArea.finish = 4.71238898;//270 degrees
 		if(longitude > hiddenArea.start && longitude < hiddenArea.finish){
-			
-			//find which side it is closer too
-			/*var t1 = longitude - hiddenArea.start;
-			var t2 = hiddenArea.finish- longitude;
-
-			if(t1 < t2)longitude = hiddenArea.start;
-			else longitude = hiddenArea.finish
-			*/
+			//its on other side of the map
 		}
 		else{
 			yPos = (radius) * Math.sin(latitude);
@@ -1022,16 +1016,10 @@ EasyShape.prototype={
 			coordOK= true;
 			var lon = parseFloat(this.coords[i]);
 			var lat = parseFloat(this.coords[i+1]);
-		
-
-
 			var t = this._spherifycoordinate(lon,lat,rotate,radius);
-			
-			xPos = t.x;
-			yPos = t.y;
-			if(xPos && yPos){
-				newcoords.push(xPos);
-				newcoords.push(yPos);
+			if(t.x && t.y){
+				newcoords.push(t.x);
+				newcoords.push(t.y);
 			}
 		}
 
