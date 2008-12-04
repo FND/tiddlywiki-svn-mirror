@@ -108,7 +108,8 @@
 
 !SideBarOptions
 <<search {{config.options.search}}>><<closeAll>><<newTiddler label:{{config.macros.newTiddler.label}} text:{{config.macros.newTiddler.text}} title:{{config.macros.newTiddler.title}} tag:"">
-<<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  {{config.macros.ccOptions.options}} 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' {{config.macros.ccLoginStatus.status}} 'Login to make changes'>><<slider chkSliderTabs SideBarTabs {{config.theme.contentTiddler}} {{config.theme.contentTiddlerTooltip}}>>
+<<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  {{config.macros.ccOptions.options}} 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' {{config.macros.ccLoginStatus.status}} 'Login to make changes'>>
+<<slider chkSliderTabs SideBarTabs {{config.theme.contentTiddler}} {{config.theme.contentTiddlerTooltip}}>>
 
 !StyleSheet
 /***

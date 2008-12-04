@@ -1,5 +1,10 @@
 
-
+config.theme = {
+	contentTitle : '  状态 »',
+	contentToolTip : '依登入帐号而异',
+	contentTiddler : 'Content »',
+	contentTiddlerTooltip : 'click to view TiddlyWiki content'
+};
 merge(config.macros.ccAbout,{
 	buttonBackstageText:"about",
 	buttonBackstageTooltip:"Find out more about ccTiddly ",

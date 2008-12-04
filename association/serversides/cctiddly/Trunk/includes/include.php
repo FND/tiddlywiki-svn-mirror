@@ -19,9 +19,19 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1) {
     echo tiddler_outputFolder("lang/".$tiddlyCfg['pref']['language'], $cct_base);
 }
 
-if( sizeof($tiddlers)>0 ){
+if( sizeof($tiddlers)>0 )
+{
 	foreach($tiddlers as $t)
 	{
+		if($pluginsLoader->events['preOutputTiddler']) 
+		{
+			foreach ($pluginsLoader->events['preOutputTiddler'] as $event)
+			{
+				if(is_file($event)) {
+					include($event);
+				}	
+			}
+		}		
 		tiddler_outputDIV($t);
 	}
 }

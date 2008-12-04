@@ -1,7 +1,9 @@
 <div title="ccAssignments" modifier="ccTiddly" tags="systemConfig ccTiddly excludeSearch excludeLists">
 <pre>
 /*{{{*/
-window.saveChanges = function(){};
+
+// may be required for mikes comments plugins
+//window.saveChanges = function(){};
 
 setStylesheet(
 	"label {width:8em; float:left; text-align:right; width:9em; font-size:1.1em; padding:3px;  height:1.5em: top:-20px; margin: 0px -2px 0 0;}"+ 
@@ -132,7 +134,7 @@ config.shadowTiddlers.OptionsPanel = "[[help|Help]] &lt;br /&gt;[[settings|Advan
 readOnly =false;
 config.options.chkHttpReadOnly = false;		//make it HTTP writable by default
 config.options.chkSaveBackups = false;		//disable save backup
-//config.options.chkAutoSave = false;			//disable autosave
+//config.options.chkAutoSave = true;			//disable autosave
 config.options.chkUsePreForStorage = false;
 
 /*}}}*/

@@ -236,10 +236,10 @@ function getAllVersionTiddly($title)
 
 
 
-function getTiddler($title)
+function getTiddler($title, $workspace)
 {
 		global $tiddlyCfg;
-	return $tiddlers = tiddler_selectTitle($title);
+	return $tiddlers = tiddler_selectTitle($title, $workspace);
 	
 
 		debug("getTiddler", "steps");

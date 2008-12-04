@@ -41,7 +41,7 @@ class Plugin {
 		return $tiddler;
 	}
 	
-	public function addTiddlersFolder($dir) {
+	public function addTiddlersFolder($dir, $data=null) {
 		if (is_dir($dir)) 
 		{
 		    if ($dh = opendir($dir)) 
@@ -51,6 +51,7 @@ class Plugin {
 					if(substr($file,0,1)!=".") 
 					{ // do not include system/hidden files. 
 						$tiddler = $this->tiddlerFromFile($dir."/".$file);
+						$tiddler = array_merge($tiddler, $data); // allows users to add extra data.
 						$this->addTiddler($tiddler);			
 					}
 				}

@@ -37,6 +37,7 @@ tracAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
 	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0&amp;max=10';
 	var uri = uriTemplate.format([context.host]);
+	displayMessage(uri);
 	var req = tracAdaptor.doHttpGET(uri,tracAdaptor.getWorkspaceListCallback,context, {'accept':tracAdaptor.mimeType});
 	return typeof req == 'string' ? req : true;
 };

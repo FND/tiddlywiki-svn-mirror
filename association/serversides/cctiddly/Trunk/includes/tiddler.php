@@ -198,7 +198,7 @@
 			$id = "server.id='".$tiddler["id"]."'";
 		else
 			$id = ""; // must be a system tiddler
-		echo "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"]." ".$id.">\r\n<pre></pre>\r\n</div>\n\r";	
+		echo "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"]." ".$id.">\r\n<pre>".htmlspecialchars($tiddler['body'])."</pre>\r\n</div>\n\r";	
 	return;
 	}
 	
@@ -321,15 +321,18 @@
 	//!	@fn array tiddler_selectTitle($tiddler)
 	//!	@brief get tiddler with title $title (case sensitive)
 	//!	@param $tiddler tiddler array, can also be title
-	function tiddler_selectTitle($tiddler)
+	function tiddler_selectTitle($tiddler, $workspace=null)
 	{
 		global $tiddlyCfg;
 		if( !is_array($tiddler) )
 		{
 			$tiddler = tiddler_create($tiddler);
 		}
+		if($workspace)
+		$tiddler['workspace_name'] = $workspace;
+
 		$tiddlers = db_record_select($tiddlyCfg['table']['main'],$tiddler,1);
-		
+		print_r($tiddlers);
 		//grab record and check if title are the same
 		//this is required since mysql is not binary safe unless deliberately configured in table
 		//result would be empty string if not found, array if found

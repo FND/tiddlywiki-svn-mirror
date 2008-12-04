@@ -33,14 +33,6 @@ if($pluginsLoader->events['afterIncludes'])
 }
 
 
-
-
-
-
-
-
-
-
 if($db_number < '17') {
 	echo "<h1>ccTiddly Upgrade</h1>";
 	echo "<p>Your instance of ccTiddly is being upgraded. Now you need to run <a href=upgrade.php >upgrade.php</a> to complete the upgrade.</p>";
@@ -48,18 +40,6 @@ if($db_number < '17') {
 	exit;
 }
 recordTime_float("includes");
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //check if getting revision
