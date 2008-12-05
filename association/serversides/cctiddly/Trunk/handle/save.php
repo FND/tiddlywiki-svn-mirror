@@ -1,10 +1,10 @@
 <?php
 
-
-
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 debug($_SERVER['PHP_SELF'], "handle");	
+
+
 
 if(!user_session_validate())
 {
@@ -36,8 +36,7 @@ if(@$pluginsLoader->events['preSave'])
 		}	
 		
 	}
-}
-
+}				
 
 if($tiddler['id']!="undefined")
 {
@@ -58,6 +57,7 @@ if($tiddler['id']!="undefined")
 			$ntiddler['revision'] = $otiddler['revision']+1;
 		debug("Attempting to update server...", "save");
 		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
+
 		if(tiddler_update_new($tiddler['id'], $ntiddler)) {
 			sendHeader(201);
 echo "edited";
@@ -67,6 +67,9 @@ echo "edited";
 		sendHeader(400);	
 	}
 }else{
+	
+
+	
 	//This Tiddler does not exist in the database.
 	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) 
 	{
@@ -75,8 +78,9 @@ echo "edited";
 		$ntiddler['created'] = $ntiddler['modified'];
 		$ntiddler['revision'] = 1;
 		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
-		
+		echo "gpt tp hjere ";
 // problem is here ; 
+
 		if(tiddler_insert_new($ntiddler))
 			sendHeader(201);
 	}else{
