@@ -356,6 +356,7 @@ function db_tiddlers_mainInsert($tiddler,$stop=1)
 			."(`".implode("`,`",$key)."`,`workspace_name`)"
 			.' VALUES ("'.implode('","',$val).'","'.$tiddlyCfg['workspace_name'].'")';
 	debug("db_tiddlers_mainInsert: ".$q, "mysql");
+	error_log($q);
 	if($stop==1) 
 		$result = mysql_query($q) or die(mysql_error().$q);
 	else
@@ -412,7 +413,6 @@ function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
 	$q = substr($q,0,(strlen($q)-1));		//remove last ","
 	$q .= " WHERE `id` = '".$oid."'";
 	debug($q, "mysql");
-		error_log($q);
 	if($stop==1) 
 		$result = mysql_query($q)or die(mysql_error());
 	 else 

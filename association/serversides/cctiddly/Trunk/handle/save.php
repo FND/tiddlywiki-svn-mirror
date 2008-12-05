@@ -1,4 +1,7 @@
 <?php
+
+
+
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 debug($_SERVER['PHP_SELF'], "handle");	
@@ -35,6 +38,7 @@ if(@$pluginsLoader->events['preSave'])
 	}
 }
 
+
 if($tiddler['id']!="undefined")
 {
 	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
@@ -43,6 +47,7 @@ if($tiddler['id']!="undefined")
 		exit;
 	}
 	
+
 	//require edit privilege on new and old tags			
 	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
 	{
@@ -52,9 +57,11 @@ if($tiddler['id']!="undefined")
 		if($otiddler['revision'] !==0)
 			$ntiddler['revision'] = $otiddler['revision']+1;
 		debug("Attempting to update server...", "save");
-	unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
-	if(tiddler_update_new($tiddler['id'], $ntiddler))
-		sendHeader(201);
+		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
+		if(tiddler_update_new($tiddler['id'], $ntiddler)) {
+			sendHeader(201);
+echo "edited";
+		}
 	}else{
 		debug("Permissions denied to save.", "save");
 		sendHeader(400);	
@@ -67,12 +74,14 @@ if($tiddler['id']!="undefined")
 		$ntiddler['creator'] = $ntiddler['modifier'];
 		$ntiddler['created'] = $ntiddler['modified'];
 		$ntiddler['revision'] = 1;
+		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
+		
+// problem is here ; 
 		if(tiddler_insert_new($ntiddler))
 			sendHeader(201);
 	}else{
 		sendHeader(400);
 	}
 }
-error_log("got to here");
 
 ?>
