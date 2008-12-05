@@ -38,44 +38,6 @@
 </div>
 <!--}}}-->
 
-!taskViewTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
-<div class='title' macro='view title'>Task : </div>
-<div class='task'>
-	<table>
-	<tr>
-		<td class='taskbody' width=100%><div class='viewer' macro='view text wikified'></div></td>
-		<td class='taskControls' valign='top'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
-	</tr>
-	</table>
-</div>
-
-<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged' macro='tags'></div>
-<div class='tagClear'></div>
-<!--}}}-->
-
-!taskEditTemplate
-<!--{{{-->
-<div class="editor">
-<div class='toolbar' macro='toolbar[[ToolbarCommands::EditToolbar]]'></div>
-<div class='task'>
-	<table>
-	<tr><td colspan=2><div class='title edit' macro='edit title'></div>
-	</td></tr>
-	<tr>
-		<td class='taskbody' width=100% height=100%><div class='viewer edit' macro='edit text wikified'></div></div></td>
-		<td class='taskControls' valign=top><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
-	</tr>
-	</table>
-</div>
-<div class='editor' macro='edit tags'></div>
-<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span></div>
-</div>
-<!--}}}-->
-
 !EditTemplate
 <!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
@@ -101,15 +63,9 @@
 <<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>
 
 
-
-
-
-
-
 !SideBarOptions
 <<search {{config.options.search}}>><<closeAll>><<newTiddler label:{{config.macros.newTiddler.label}} text:{{config.macros.newTiddler.text}} title:{{config.macros.newTiddler.title}} tag:"">
-<<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  {{config.macros.ccOptions.options}} 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' {{config.macros.ccLoginStatus.status}} 'Login to make changes'>>
-<<slider chkSliderTabs SideBarTabs {{config.theme.contentTiddler}} {{config.theme.contentTiddlerTooltip}}>>
+<<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel  {{config.macros.ccOptions.options}} 'change TiddlyWiki Options'>><<slider 'chkLoginStatus' 'LoginStatus' {{config.macros.ccLoginStatus.status}} 'Login to make changes'>><<slider chkSliderTabs SideBarTabs {{config.theme.contentTitle}} {{config.theme.contentTiddlerTooltip}}>>
 
 !StyleSheet
 /***

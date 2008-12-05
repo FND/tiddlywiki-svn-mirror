@@ -78,8 +78,6 @@ echo "edited";
 		$ntiddler['created'] = $ntiddler['modified'];
 		$ntiddler['revision'] = 1;
 		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
-		echo "gpt tp hjere ";
-// problem is here ; 
 
 		if(tiddler_insert_new($ntiddler))
 			sendHeader(201);

@@ -31,7 +31,7 @@ if( sizeof($tiddlers)>0 )
 					include($event);
 				}	
 			}
-		}		
+		}
 		tiddler_outputDIV($t);
 	}
 }

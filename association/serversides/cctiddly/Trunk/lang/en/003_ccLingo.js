@@ -1,7 +1,10 @@
 
+merge(config.options, {search:"search.."})
+
+
 config.theme = {
-	contentTitle : '  状态 »',
-	contentToolTip : '依登入帐号而异',
+	contentTitle : ' ssss »',
+	contentToolTip : 'aaaa',
 	contentTiddler : 'Content »',
 	contentTiddlerTooltip : 'click to view TiddlyWiki content'
 };
@@ -167,7 +170,7 @@ merge(config.macros.ccOptions, {
 	linkCreate:"create",
 	linkOffline:"offline",
 	linkStats:"statistics",
-	options:"options"	
+	options:"options »"	
 });
 
 merge(config.macros.register,{
