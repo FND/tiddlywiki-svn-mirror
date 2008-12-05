@@ -5,6 +5,7 @@ config.extensions.lazyLoading = {};
 (function(plugin) { //# set up alias
 
 Story.prototype.loadMissingTiddlerContents = function(tiddler) {
+	var title = tiddler.title;
 	var serverType = tiddler.getServerType();
 	var host = tiddler.fields["server.host"];
 	var workspace = tiddler.fields["server.workspace"]; // XXX: bag?
