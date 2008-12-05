@@ -1,5 +1,6 @@
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
+tiddler: /js/TiddlerBar.js
 tiddler: /tiddlers/DIYExample.tiddler
 tiddler: /tiddlers/Example2.tiddler
 tiddler: /tiddlers/Example3.tiddler
@@ -8,6 +9,9 @@ tiddler: /tiddlers/PageTemplate.tiddler
 tiddler: /tiddlers/ToolbarCommands.tiddler
 tiddler: /tiddlers/Stylesheet.tiddler
 tiddler: /js/TagMindMapCommands.js
-tiddler: /js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js tagMindMapIEHack.js
+tiddler: /js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js ../../WorldMaps/js/EasyShapes.js ../../WorldMaps/js/EasyController.js ../../WorldMaps/js/EasyMapUtils.js ../../WorldMaps/jquery.js tagMindMapIEHack.js 
+
 tiddler: /tiddlers/TiddlyTagMindMap.tiddler
+
+
 

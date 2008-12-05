@@ -262,7 +262,7 @@ EasyMapController.prototype = {
 		return newCanvas;
 	},
 	addPanningActions: function(controlDiv){
-		var panCanvas = this._createcontrollercanvas(44,64);		
+		var panCanvas = this._createcontrollercanvas(44,44);		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));

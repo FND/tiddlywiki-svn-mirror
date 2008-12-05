@@ -506,6 +506,202 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
+<div title="tiddlerbar" modifier="JonRobson" created="200812042052" tags="systemConfig tagMindMapCodePackage">
+<pre>/***
+|''Name:''|TiddlersBarPlugin|
+|''Description:''|A bar to switch between tiddlers through tabs (like browser tabs bar).|
+|''Version:''|1.2.5|
+|''Date:''|Jan 18,2008|
+|''Source:''|http://visualtw.ouvaton.org/VisualTW.html|
+|''Author:''|Pascal Collin|
+|''License:''|[[BSD open source license|License]]|
+|''~CoreVersion:''|2.1.0|
+|''Browser:''|Firefox 2.0; InternetExplorer 6.0, others|
+!Demos
+On [[homepage|http://visualtw.ouvaton.org/VisualTW.html]], open several tiddlers to use the tabs bar.
+!Installation
+#import this tiddler from [[homepage|http://visualtw.ouvaton.org/VisualTW.html]] (tagged as systemConfig)
+#save and reload
+#''if you're using a custom [[PageTemplate]]'', add {{{&lt;div id='tiddlersBar' refresh='none' ondblclick='config.macros.tiddlersBar.onTiddlersBarAction(event)'&gt;&lt;/div&gt;}}} before {{{&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;}}}
+#optionally, adjust StyleSheetTiddlersBar
+!Tips
+*Doubleclick on the tiddlers bar (where there is no tab) create a new tiddler.
+*Tabs include a button to close {{{x}}} or save {{{!}}} their tiddler.
+*By default, click on the current tab close all others tiddlers.
+!Configuration options 
+&lt;&lt;option chkDisableTabsBar&gt;&gt; Disable the tabs bar (to print, by example).
+&lt;&lt;option chkHideTabsBarWhenSingleTab &gt;&gt; Automatically hide the tabs bar when only one tiddler is displayed. 
+&lt;&lt;option txtSelectedTiddlerTabButton&gt;&gt; ''selected'' tab command button.
+&lt;&lt;option txtPreviousTabKey&gt;&gt; previous tab access key.
+&lt;&lt;option txtNextTabKey&gt;&gt; next tab access key.
+!Code
+***/
+//{{{
+config.options.chkDisableTabsBar = config.options.chkDisableTabsBar ? config.options.chkDisableTabsBar : false;
+config.options.chkHideTabsBarWhenSingleTab  = config.options.chkHideTabsBarWhenSingleTab  ? config.options.chkHideTabsBarWhenSingleTab  : false;
+config.options.txtSelectedTiddlerTabButton = config.options.txtSelectedTiddlerTabButton ? config.options.txtSelectedTiddlerTabButton : &quot;closeOthers&quot;;
+config.options.txtPreviousTabKey = config.options.txtPreviousTabKey ? config.options.txtPreviousTabKey : &quot;&quot;;
+config.options.txtNextTabKey = config.options.txtNextTabKey ? config.options.txtNextTabKey : &quot;&quot;;
+config.macros.tiddlersBar = {
+	tooltip : &quot;see &quot;,
+	tooltipClose : &quot;click here to close this tab&quot;,
+	tooltipSave : &quot;click here to save this tab&quot;,
+	promptRename : &quot;Enter tiddler new name&quot;,
+	currentTiddler : &quot;&quot;,
+	previousState : false,
+	previousKey : config.options.txtPreviousTabKey,
+	nextKey : config.options.txtNextTabKey,	
+	tabsAnimationSource : null, //use document.getElementById(&quot;tiddlerDisplay&quot;) if you need animation on tab switching.
+	handler: function(place,macroName,params) {
+		var previous = null;
+		if (config.macros.tiddlersBar.isShown())
+			story.forEachTiddler(function(title,e){
+				if (title==config.macros.tiddlersBar.currentTiddler){
+					var d = createTiddlyElement(null,&quot;span&quot;,null,&quot;tab tabSelected&quot;);
+					config.macros.tiddlersBar.createActiveTabButton(d,title);
+					if (previous &amp;&amp; config.macros.tiddlersBar.previousKey) previous.setAttribute(&quot;accessKey&quot;,config.macros.tiddlersBar.nextKey);
+					previous = &quot;active&quot;;
+				}
+				else {
+					var d = createTiddlyElement(place,&quot;span&quot;,null,&quot;tab tabUnselected&quot;);
+					var btn = createTiddlyButton(d,title,config.macros.tiddlersBar.tooltip + title,config.macros.tiddlersBar.onSelectTab);
+					btn.setAttribute(&quot;tiddler&quot;, title);
+					if (previous==&quot;active&quot; &amp;&amp; config.macros.tiddlersBar.nextKey) btn.setAttribute(&quot;accessKey&quot;,config.macros.tiddlersBar.previousKey);
+					previous=btn;
+				}
+				var isDirty =story.isDirty(title);
+				var c = createTiddlyButton(d,isDirty ?&quot;!&quot;:&quot;x&quot;,isDirty?config.macros.tiddlersBar.tooltipSave:config.macros.tiddlersBar.tooltipClose, isDirty ? config.macros.tiddlersBar.onTabSave : config.macros.tiddlersBar.onTabClose,&quot;tabButton&quot;);
+				c.setAttribute(&quot;tiddler&quot;, title);
+				if (place.childNodes) {
+					place.insertBefore(document.createTextNode(&quot; &quot;),place.firstChild); // to allow break line here when many tiddlers are open
+					place.insertBefore(d,place.firstChild); 
+				}
+				else place.appendChild(d);
+			})
+	}, 
+	refresh: function(place,params){
+		removeChildren(place);
+		config.macros.tiddlersBar.handler(place,&quot;tiddlersBar&quot;,params);
+		if (config.macros.tiddlersBar.previousState!=config.macros.tiddlersBar.isShown()) {
+			story.refreshAllTiddlers();
+			if (config.macros.tiddlersBar.previousState) story.forEachTiddler(function(t,e){e.style.display=&quot;&quot;;});
+			config.macros.tiddlersBar.previousState = !config.macros.tiddlersBar.previousState;
+		}
+	},
+	isShown : function(){
+		if (config.options.chkDisableTabsBar) return false;
+		if (!config.options.chkHideTabsBarWhenSingleTab) return true;
+		var cpt=0;
+		story.forEachTiddler(function(){cpt++});
+		return (cpt&gt;1);
+	},
+	selectNextTab : function(){  //used when the current tab is closed (to select another tab)
+		var previous=&quot;&quot;;
+		story.forEachTiddler(function(title){
+			if (!config.macros.tiddlersBar.currentTiddler) {
+				story.displayTiddler(null,title);
+				return;
+			}
+			if (title==config.macros.tiddlersBar.currentTiddler) {
+				if (previous) {
+					story.displayTiddler(null,previous);
+					return;
+				}
+				else config.macros.tiddlersBar.currentTiddler=&quot;&quot;; 	// so next tab will be selected
+			}
+			else previous=title;
+			});		
+	},
+	onSelectTab : function(e){
+		var t = this.getAttribute(&quot;tiddler&quot;);
+		if (t) story.displayTiddler(null,t);
+		return false;
+	},
+	onTabClose : function(e){
+		var t = this.getAttribute(&quot;tiddler&quot;);
+		if (t) {
+			if(story.hasChanges(t) &amp;&amp; !readOnly) {
+				if(!confirm(config.commands.cancelTiddler.warning.format([t])))
+				return false;
+			}
+			story.closeTiddler(t);
+		}
+		return false;
+	},
+	onTabSave : function(e) {
+		var t = this.getAttribute(&quot;tiddler&quot;);
+		if (!e) e=window.event;
+		if (t) config.commands.saveTiddler.handler(e,null,t);
+		return false;
+	},
+	onSelectedTabButtonClick : function(event,src,title) {
+		var t = this.getAttribute(&quot;tiddler&quot;);
+		if (!event) event=window.event;
+		if (t &amp;&amp; config.options.txtSelectedTiddlerTabButton &amp;&amp; config.commands[config.options.txtSelectedTiddlerTabButton])
+			config.commands[config.options.txtSelectedTiddlerTabButton].handler(event, src, t);
+		return false;
+	},
+	onTiddlersBarAction: function(event) {
+		var source = event.target ? event.target.id : event.srcElement.id; // FF uses target and IE uses srcElement;
+		if (source==&quot;tiddlersBar&quot;) story.displayTiddler(null,'New Tiddler',DEFAULT_EDIT_TEMPLATE,false,null,null);
+	},
+	createActiveTabButton : function(place,title) {
+		if (config.options.txtSelectedTiddlerTabButton &amp;&amp; config.commands[config.options.txtSelectedTiddlerTabButton]) {
+			var btn = createTiddlyButton(place, title, config.commands[config.options.txtSelectedTiddlerTabButton].tooltip ,config.macros.tiddlersBar.onSelectedTabButtonClick);
+			btn.setAttribute(&quot;tiddler&quot;, title);
+		}
+		else
+			createTiddlyText(place,title);
+	}
+}
+
+story.coreCloseTiddler = story.coreCloseTiddler? story.coreCloseTiddler : story.closeTiddler;
+story.coreDisplayTiddler = story.coreDisplayTiddler ? story.coreDisplayTiddler : story.displayTiddler;
+
+story.closeTiddler = function(title,animate,unused) {
+	if (title==config.macros.tiddlersBar.currentTiddler)
+		config.macros.tiddlersBar.selectNextTab();
+	story.coreCloseTiddler(title,false,unused); //disable animation to get it closed before calling tiddlersBar.refresh
+	var e=document.getElementById(&quot;tiddlersBar&quot;);
+	if (e) config.macros.tiddlersBar.refresh(e,null);
+}
+
+story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle){
+	story.coreDisplayTiddler(config.macros.tiddlersBar.tabsAnimationSource,tiddler,template,animate,unused,customFields,toggle);
+	var title = (tiddler instanceof Tiddler)? tiddler.title : tiddler;  
+	if (config.macros.tiddlersBar.isShown()) {
+		story.forEachTiddler(function(t,e){
+			if (t!=title) e.style.display=&quot;none&quot;;
+			else e.style.display=&quot;&quot;;
+		})
+		config.macros.tiddlersBar.currentTiddler=title;
+	}
+	var e=document.getElementById(&quot;tiddlersBar&quot;);
+	if (e) config.macros.tiddlersBar.refresh(e,null);
+}
+
+var coreRefreshPageTemplate = coreRefreshPageTemplate ? coreRefreshPageTemplate : refreshPageTemplate;
+refreshPageTemplate = function(title) {
+	coreRefreshPageTemplate(title);
+	if (config.macros.tiddlersBar) config.macros.tiddlersBar.refresh(document.getElementById(&quot;tiddlersBar&quot;));
+}
+
+ensureVisible=function (e) {return 0} //disable bottom scrolling (not useful now)
+
+config.shadowTiddlers.StyleSheetTiddlersBar = &quot;/*{{{*/\n&quot;;
+config.shadowTiddlers.StyleSheetTiddlersBar += &quot;#tiddlersBar .button {border:0}\n&quot;;
+config.shadowTiddlers.StyleSheetTiddlersBar += &quot;#tiddlersBar .tab {white-space:nowrap}\n&quot;;
+config.shadowTiddlers.StyleSheetTiddlersBar += &quot;#tiddlersBar {padding : 1em 0.5em 2px 0.5em}\n&quot;;
+config.shadowTiddlers.StyleSheetTiddlersBar += &quot;.tabUnselected .tabButton, .tabSelected .tabButton {padding : 0 2px 0 2px; margin: 0 0 0 4px;}\n&quot;;
+config.shadowTiddlers.StyleSheetTiddlersBar += &quot;.tiddler, .tabContents {border:1px [[ColorPalette::TertiaryPale]] solid;}\n&quot;;
+config.shadowTiddlers.StyleSheetTiddlersBar +=&quot;/*}}}*/&quot;;
+store.addNotification(&quot;StyleSheetTiddlersBar&quot;, refreshStyles);
+
+config.refreshers.none = function(){return true;}
+config.shadowTiddlers.PageTemplate=config.shadowTiddlers.PageTemplate.replace(/&lt;div id='tiddlerDisplay'&gt;&lt;\/div&gt;/m,&quot;&lt;div id='tiddlersBar' refresh='none' ondblclick='config.macros.tiddlersBar.onTiddlersBarAction(event)'&gt;&lt;/div&gt;\n&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;&quot;);
+
+//}}}</pre>
+</div>
 <div title="Example 1" modifier="JonRobson" tags="tagMindMapExamples exampleWithVerticalToolbar usageOfTagMindMapEdge">
 <pre>
 This demonstrates how to customise exactly what we want to see in our visualisation. We do this by defining a tag mind map (initially empty) and following it up with various drawEdge commands. In this example we also show off the parameter maxNodeNameLength which allows you to shorten the node name. We have also turned off clicking a node opens a new tiddler using the parameter {{{click:none}}}.
@@ -758,8 +954,6 @@ config.macros.LoadMindMap = {label: &quot;loadall&quot;,prompt: &quot;load all t
 
 //macros below will become redundant soon..
 config.macros.ToggleTagMindMap = {label: &quot;toggle&quot;,prompt: &quot;Toggle on or off the tag mind map&quot;};
-config.macros.ZoomMindMapIn = {label: &quot;zoom+&quot;,	prompt: &quot;Expand the tag mind map&quot;};
-config.macros.ZoomMindMapOut = {label: &quot;zoom-&quot;,prompt: &quot;shrink the tag mind map&quot;};
 config.macros.RecenterMindMap = {label: &quot;re-center&quot;,	prompt: &quot;Center the mind map&quot;};
 
 config.macros.RecenterMindMap.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
@@ -772,40 +966,13 @@ config.macros.RecenterMindMap.onClick = function(e)
 {
 var ttmm = getAssociatedTiddlyTagMindMapObject(this,true);
 	if(ttmm.rgraph){
-		ttmm.rgraph.controller.setOffset({'x':0, 'y':0});
-		ttmm.computeThenPlot();
+		var t = ttmm.controlpanel.transformation;
+		t.translate.x = 0;
+		t.translate.y = 0;
+		ttmm.controlpanel.setTransformation(t);
 	}
 }
 
-config.macros.ZoomMindMapIn.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
-
-var btn= createTiddlyButton(place,this.label,this.prompt,this.onClick);	
-if(params[0])btn.wrapperID = params[0];
-};
-
-config.macros.ZoomMindMapIn.onClick = function(e)
-{
-var ttmm = getAssociatedTiddlyTagMindMapObject(this,true);
-	if(ttmm.rgraph){
-		var z =ttmm.zoom(10);
-		ttmm.computeThenPlot();
-	}
-}
-
-	
-config.macros.ZoomMindMapOut.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
-var btn = createTiddlyButton(place,this.label,this.prompt,this.onClick);
-if(params[0])btn.wrapperID = params[0];	
-};
-
-config.macros.ZoomMindMapOut.onClick = function(e)
-{
-	var ttmm = getAssociatedTiddlyTagMindMapObject(this,true);
-		if(ttmm.rgraph){
-			var z =ttmm.zoom(-10);
-			ttmm.computeThenPlot();
-		}
-}
 
 /*accepts either name of node or json representing node {id,name,data}*/
 config.macros.TagMindMapEdge.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
@@ -889,16 +1056,14 @@ config.macros.ToggleTagMindMap.onClick = function(e)
 config.macros.tiddlytagmindmap.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
 	var settings = this.get_ttmm_settings(paramString);
 
-	var id = this.setup_ttmm_html(place,settings);
+	var elem = this.setup_ttmm_html(place,settings);
 
 		try{
 
-		tiddlytagmindmapobjects[id]= new Tagmindmap(id,settings);
-		tiddlytagmindmapobjects['last'] = id;
-		tiddlytagmindmapobjects['cur'] = id;	
-		//ttmm_lastID = id;
-		//var ttmm_current = tiddlytagmindmapobjects[id];
-		settings.startupFunction(id);
+		tiddlytagmindmapobjects[elem.id]= new Tagmindmap(elem,settings);
+		tiddlytagmindmapobjects['last'] = elem.id;
+		tiddlytagmindmapobjects['cur'] = elem.id;	
+		settings.startupFunction(elem.id);
 
 		//console.log(&quot;created ttmm &quot;,ttmm_current);
 	}
@@ -1026,7 +1191,7 @@ config.macros.tiddlytagmindmap.setup_ttmm_html = function(place,settings){
 	}
 	if(settings.toolbar[1] == 1) html += &quot;&lt;&lt;ToggleTagMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot; + divider;
 	if(settings.toolbar[2] == 1) html += &quot;&lt;&lt;LoadMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider;
-	if(settings.toolbar[3] == 1) {html += &quot;&lt;&lt;ZoomMindMapIn  &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider+ &quot;&lt;&lt;ZoomMindMapOut &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider;}
+	//if(settings.toolbar[3] == 1) {html += &quot;&lt;&lt;ZoomMindMapIn  &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider+ &quot;&lt;&lt;ZoomMindMapOut &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider;}
 	if(settings.toolbar[4] == 1){html += &quot;&lt;&lt;RecenterMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot;;}
 	
 	place.appendChild(toolbar);
@@ -1038,7 +1203,7 @@ config.macros.tiddlytagmindmap.setup_ttmm_html = function(place,settings){
 	if(!newTTMM.style.width) newTTMM.style.width = settings.width;
 	if(!newTTMM.style.height) newTTMM.style.height = settings.height;
 	
-	return newTTMM.id;
+	return newTTMM;
 }
 function getAssociatedTiddlyTagMindMapObject(that,primaryPlease){
 
@@ -1173,7 +1338,7 @@ story.beforettmm_displayTiddler(srcElement,tiddler,template,animate,unused,custo
 ***/
 {{{
 
-var Tagmindmap = function(divID,settings){
+var Tagmindmap = function(wrapper,settings){
 	if(settings.clickFunction)
 		this.callWhenClickOnNode = settings.clickFunction;
 	else
@@ -1183,14 +1348,38 @@ var Tagmindmap = function(divID,settings){
 		this.dynamicUpdateFunction = settings.dynamicUpdateFunction;
 	else
 		this.dynamicUpdateFunction = function(node,id){return {};};		
-	this.wrapperID = divID;
-
-	this._setup(settings);
-	this._init_html_elements(divID);
+	this.wrapper = wrapper;
+	this.wrapperID = wrapper.id;
 	
+	this._setup(settings);
+	this._init_html_elements(wrapper.id);
+	
+	this.controlpanel =new EasyMapController(this,wrapper);
+	var x = this.controlpanel;
+	initialT = {translate: {x:0,y:0}, scale: {x:this.settings.zoomLevel,y:this.settings.zoomLevel}};
+	x.setTransformation(initialT);
+	x.addControl(&quot;zoom&quot;);
+	x.addControl(&quot;pan&quot;);
+	x.addControl(&quot;mousepanning&quot;);
+	x.addControl(&quot;mousewheelzooming&quot;);
+
 };
 
 Tagmindmap.prototype = {
+	transform: function(t){
+		var compute = false;
+		if(this.settings.zoomLevel != t.scale.x) {
+			if(t.scale.x &gt; 0)
+			this.settings.zoomLevel = t.scale.x;
+			compute = true;
+		}
+	
+		if(this.rgraph){
+			this.rgraph.offsetCenter(t.translate.x*t.scale.x,t.translate.y*t.scale.x);
+			if(compute) this.rgraph.compute();
+			this.rgraph.plot();
+		}
+	},
 	_setup: function(settings){
 		
 		
@@ -1252,8 +1441,9 @@ Tagmindmap.prototype = {
 			this.labelContainer = wrapperID + &quot;_label_container&quot;;
 			this.nodeLabelPrefix = this.canvasID +&quot;_&quot;;
 			/*setup the divs */
-			var wrapper = document.getElementById(wrapperID);
-			wrapper.onmousedown =  this.wrapperonmousedown;
+			var wrapper = this.wrapper;
+			wrapper.style.position = &quot;relative&quot;;
+			//wrapper.onmousedown =  this.wrapperonmousedown;
 			
 			if(!wrapper.style.height){wrapper.style.height = &quot;200px&quot;;}
 			if(!wrapper.style.width){wrapper.style.width = &quot;200px&quot;;}
@@ -1563,23 +1753,20 @@ Tagmindmap.prototype = {
 				if(node.id == this.thehiddenbridge) return;
 				var clickfunction = function(e){
 					if(ttmm.rgraph.root == node.id)ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);					
-					
 					ttmm.rgraph.onClick(node.id);
-					//check if root: 
+		
+
 					return false;
 				};
 				
-				var dblclickfunction =function(e){
-					ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);		
-				};
+
 					ttmm.rgraph_currentNode = node.id;	 
 					if(domElement.addEvent){ //for ie
 						domElement.addEvent('click',clickfunction);
-						//domElement.addEvent('dblclick',dblclickfunction);
 						}
 					else {
 						domElement.onclick = clickfunction;
-						domElement.ondblclick = dblclickfunction;
+						
 						}
 			},
 
@@ -4030,8 +4217,8 @@ Config.animationTime = 1000;
 /*RGRAPH*/
 RGraph.prototype.offsetCenter= function(x,y){
 	var d =this.controller.getOffset();
-	d.x += x;
-	d.y += y;
+	d.x = x;
+	d.y = y;
 	this.controller.setOffset(d);
 };
 
@@ -4253,7 +4440,1137 @@ GraphPlot.plot= function(viz, opt) {
 };
 
 
-/***
+
+var EasyShape = function(properties,coordinates,sourceType){
+
+	this.grid = {};
+	this.coords = [];
+
+	if(sourceType){
+		if(sourceType == &quot;geojson&quot;) {
+			this.constructFromGeoJSONObject(properties,coordinates);
+		}
+	}
+	else{
+		this.constructBasicPolygon(properties,coordinates);
+	}
+	this.createGrid();
+
+};
+EasyShape.prototype={
+	createGrid: function(coords){
+			if(!coords) coords = this.coords;
+			this.grid.x1 = coords[0];
+			this.grid.y1 = coords[1];
+			this.grid.x2 = coords[0];
+			this.grid.y2 = coords[1];
+			
+			this._deltas = []
+			var d = this._deltas;
+
+			var lastX, lastY;
+			var index = 0;
+		
+			lastX = coords[0];
+			lastY = coords[1];
+			//this.perimeter = 0;
+			
+			
+			for(var i=0; i &lt; coords.length-1; i+=2){
+		
+				var xPos = parseFloat(coords[i]); //long
+				var yPos = parseFloat(coords[i+1]); //lat
+				
+
+				
+				//this.perimeter += Math.sqrt((deltax*deltax) + (deltay*deltay));
+				var deltax =xPos - lastX;
+				var deltay= yPos - lastY;
+				if(deltax &lt; 0) deltax = - deltax;
+				if(deltay &lt; 0) deltay = -deltay;
+				d.push(deltax);
+				d.push(deltay);
+				
+				
+				
+				if(xPos &lt; this.grid.x1) this.grid.x1 = xPos;
+				if(yPos &lt; this.grid.y1) this.grid.y1 = yPos;	
+				if(xPos &gt; this.grid.x2) this.grid.x2 = xPos;
+				if(yPos &gt; this.grid.y2) this.grid.y2 = yPos;
+				
+				lastX = xPos;
+				lastY = yPos;
+			}
+	},
+	
+	constructFromGeoJSONObject: function(properties,coordinates){
+		if(properties.shape == 'polygon'){
+			this.constructFromGeoJSONPolygon(properties,coordinates);	
+		}
+		else if(properties.shape == 'point'){
+			var x = coordinates[0]; var y = coordinates[1];
+			var ps = 0.5;
+			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
+			newcoords = this._convertGeoJSONCoords(newcoords);
+			this.constructBasicPolygon(properties,newcoords);
+		}
+		else
+			console.log(&quot;don't know what to do with shape &quot; + element.shape);
+	},
+	constructBasicPolygon: function(properties, coordinates){
+		this.coords = coordinates;
+		this.shape = &quot;polygon&quot;;
+		//this.transformedCoords = this.coords;
+		//this.href = &quot;#&quot;;
+		if(!properties.stroke)properties.stroke = '#000000';
+		
+
+		
+		if(properties.colour){
+			properties.fill =  properties.colour;
+		}
+		
+		this.properties = properties;
+		this.grid = {}; //an enclosing grid
+	},	
+	constructFromGeoJSONPolygon: function(properties,coordinates){		
+		var newcoords = this._convertGeoJSONCoords(coordinates[0]);
+		this.constructBasicPolygon(properties,newcoords);
+				//we ignore any holes in the polygon (for time being.. coords[1][0..n], coords[2][0..n])
+	},	
+	_convertGeoJSONCoords: function(coords){
+
+		var res = [];
+		if(!coords) return res;
+		for(var i=0; i &lt; coords.length; i++){
+			// x is longitude, y is latitude
+			// longitude goes from -180 (W) to 180 (E), latitude from -90 (S) to 90 (N)
+			// in our data, lat goes from 90 (S) to -90 (N), so we negate
+			var x = coords[i][0];
+			var y = - coords[i][1];
+			res.push(x);
+			res.push(y);
+		}
+
+		return res;
+	}	
+
+	,spherify: function(transformation){
+		var newcoords = [];
+		var radius =transformation.spherical.radius;
+		var xPos, yPos;
+		for(var i=0; i &lt; this.coords.length-1; i+=2){
+			coordOK= true;
+			var lon = parseFloat(this.coords[i]);
+			var lat = parseFloat(this.coords[i+1]);
+			var t = EasyMapUtils._spherifycoordinate(lon,lat,transformation);
+			if(t.x &amp;&amp; t.y){
+				newcoords.push(t.x);
+				newcoords.push(t.y);
+			}
+		}
+		this._tcoords = newcoords;
+		this.createGrid(newcoords);
+		return newcoords;
+	}
+	,transformcoordinates: function(transformation,spherical,radius){		
+		var performScale = true;
+		var performTranslate = true; 
+		var performRotate = false;
+		if(!transformation){
+			performScale = false;
+			performTranslate = false;
+			performRotate = false;
+		}
+		else{
+			var scaling = transformation.scale;
+			var translation = transformation.translate;
+			if(scaling.x == 1 &amp;&amp; scaling.y == 1) {
+				performScale = false;
+			}
+			if(translation.x == 0 &amp;&amp; translation.y == 0) {
+				performTranslate = false;
+			}
+			if(transformation.rotate) {
+				performRotate = true;
+				var rotate = transformation.rotate;
+			}
+		}
+		var transformedCoords = [];
+		
+		var lastX, lastY;
+		var index = 0;
+		var coordOK;
+		for(var i=0; i &lt; this.coords.length-1; i+=2){
+			coordOK= true;
+			var lon = parseFloat(this.coords[i]);
+			var lat = parseFloat(this.coords[i+1]);
+			var xPos, yPos;
+
+			if(spherical){
+				var t = EasyMapUtils._spherifycoordinate(lon,lat,rotate,radius);
+				xPos = t.x;
+				yPos = t.y;
+			} else {
+				xPos = lon;
+				yPos = lat;
+			}
+
+			
+			if(performTranslate){
+				xPos = xPos + parseFloat(translation.x);
+				yPos = yPos + parseFloat(translation.y);
+			}
+						
+			if(performScale){
+				xPos *= scaling.x;
+				yPos *= scaling.y;
+			}
+
+			//last but not least center if required
+			if(transformation.origin){
+				
+			xPos += transformation.origin.x;
+			yPos +=transformation.origin.y;
+			}
+			
+			
+			if(coordOK){ //draw
+				transformedCoords.push(xPos);
+				transformedCoords.push(yPos);
+				index+=2;
+				lastX = xPos; lastY = yPos;
+			}
+		}
+		return transformedCoords;
+	}
+};var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
+	this.wrapper = elem; //a dom element to detect mouse actions
+	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
+	this.utils = EasyMapUtils; //some utilities that it may find useful
+	
+	var controlDiv = this.wrapper.controlDiv;
+	if(!controlDiv) {
+		controlDiv = document.createElement('div');
+		controlDiv.style.position = &quot;absolute&quot;;
+		controlDiv.style.top = &quot;0&quot;;
+		controlDiv.style.left = &quot;0&quot;;
+		this.wrapper.appendChild(controlDiv);
+		this.wrapper.controlDiv = controlDiv;
+	}
+	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0}};	
+	//looks for specifically named function in targetjs
+	if(!this.targetjs.transform) alert(&quot;no transform function defined in &quot; + targetjs+&quot;!&quot;);
+};
+EasyMapController.prototype = {
+	addMouseWheelZooming: function(){
+		var mw = this.wrapper.onmousewheel;
+		var that = this;
+		var onmousewheel = function(e){
+	        	if (!e) /* For IE. */
+	                e = window.event;
+			e.preventDefault();		
+					
+			/* thanks to http://adomas.org/javascript-mouse-wheel */
+			var delta = 0;
+
+	
+	
+			var t = EasyMapUtils.resolveTarget(e);
+		
+			if(t != that.wrapper &amp;&amp; t.parentNode !=that.wrapper) return;
+	       	 	if (e.wheelDelta) { /* IE/Opera. */
+		                delta = e.wheelDelta/120;
+		                /** In Opera 9, delta differs in sign as compared to IE.
+		                 */
+		                if (window.opera)
+		                        delta = -delta;
+		        } else if (e.detail) { /** Mozilla case. */
+		                /** In Mozilla, sign of delta is different than in IE.
+		                 * Also, delta is multiple of 3.
+		                 */
+		                delta = -e.detail/3;
+		        }
+	
+			var sensitivity = 0.3;
+			if(!this.lastdelta) this.lastdelta = delta;
+			
+			if(delta &gt; this.lastdelta + sensitivity || delta &lt; this.lastdelta - sensitivity){
+				
+				var s =that.transformation.scale;
+				var pos = that.utils.getMouseFromEventRelativeToCenter(e);
+				var t=  that.transformation.translate;
+				var newx = s.x+ delta;
+				var newy = s.y + delta;
+				if(newx &gt; 0 &amp;&amp; newy &gt; 0){
+					s.x = newx;
+					s.y = newy;
+					that.transform();					
+				}
+
+			}
+			
+			this.lastdelta = delta;
+			
+			return false;
+
+		}
+
+		
+		var element = this.wrapper;
+		if (element.addEventListener){
+		        /** DOMMouseScroll is for mozilla. */
+		
+		        element.addEventListener('DOMMouseScroll', onmousewheel, false);
+		
+		}
+		else if(element.attachEvent){
+			element.attachEvent(&quot;mousewheel&quot;, onmousewheel); //safari
+		}
+		else{ //it's ie.. or something non-standardised. do nowt
+		//window.onmousewheel = document.onmousewheel = onmousewheel;	
+		}
+
+		
+	},
+
+	addMousePanning: function(){
+		var that = this;
+		var md = that.wrapper.onmousedown;
+		var mu = that.wrapper.onmouseup;	
+		var mm = that.wrapper.onmousemove;
+		var onmousemove = function(e){
+			
+			var p =this.panning;
+			if(!p) return;
+			if(!p) return;
+			var t = EasyMapUtils.resolveTarget(e);
+			if(t.getAttribute(&quot;class&quot;) == &quot;easyControl&quot;) return;
+			var pos = that.utils.getMouseFromEventRelativeTo(e,p.clickpos.x,p.clickpos.y);		
+			if(!pos)return;
+			
+			var t = that.transformation;
+			if(this.transformation) t = this.transformation;
+			var sc = t.scale;
+			
+			var xd =parseFloat(pos.x /sc.x);
+			var yd = parseFloat(pos.y / sc.y);
+			t.translate.x = p.translate.x + xd;
+			t.translate.y =p.translate.y +yd;
+
+			that.transform();
+			
+			if(pos.x &gt; 5 || pos.y &gt; 5) p.isClick = false;
+			if(pos.x &lt; 5 || pos.y &lt; 5) p.isClick = false;
+			return false;	
+		};
+		
+		this.wrapper.onmousedown = function(e){
+			if(md) md(e);
+			var target = EasyMapUtils.resolveTarget(e);
+			if(!target) return;
+			if(target.getAttribute(&quot;class&quot;) == &quot;easyControl&quot;) return;
+			
+			var t = that.transformation.translate;
+			var sc =that.transformation.scale; 
+			var realpos = that.utils.getMouseFromEvent(e);
+			if(!realpos) return;
+
+			this.panning= {clickpos: realpos, translate:{x: t.x,y:t.y},isClick:true};
+			that.wrapper.onmousemove = onmousemove;
+			that.wrapper.style.cursor= &quot;move&quot;;
+			this.style.cursor = &quot;move&quot;;
+
+		};
+		
+		this.wrapper.onmouseup = function(e){
+			
+			that.wrapper.style.cursor= '';
+			that.wrapper.onmousemove = mm;
+			if(this.panning &amp;&amp; this.panning.isClick &amp;&amp; mu){ mu(e);}
+			this.panning = null;
+
+			
+			return false;
+		};
+	
+	
+	},
+	setTransformation: function(t){
+		if(!t.scale &amp;&amp; !t.translate &amp;&amp; !t.rotate) alert(&quot;bad transformation applied - any call to setTransformation must contain translate,scale and rotate&quot;);
+		this.transformation = t;
+		this.wrapper.transformation = t;
+		this.targetjs.transform(t);
+		//console.log(&quot;transformation set to &quot;,t);
+	},
+	drawButtonLabel: function(ctx,r,type){
+		ctx.beginPath();
+		if(type == 'arrow'){
+			ctx.moveTo(0,-r);
+			ctx.lineTo(0,r);
+			ctx.moveTo(0,r);
+			ctx.lineTo(-r,0);
+			ctx.moveTo(0,r);
+			ctx.lineTo(r,0);
+		}
+		else if(type == 'plus'){
+			ctx.moveTo(-r,0);
+			ctx.lineTo(r,0);
+			ctx.moveTo(0,-r);
+			ctx.lineTo(0,r);
+		}
+		else if(type == 'minus'){
+			ctx.moveTo(-r,0);
+			ctx.lineTo(r,0);
+
+		}
+		ctx.stroke();
+		ctx.closePath();
+		
+	},	
+	drawButton: function(canvas,width,angle,offset,properties) {
+		var ctx = canvas.getContext('2d');
+		var rad = angle ? EasyMapUtils._degToRad(angle) : 0;
+		var w = width || 100;
+		var r = w/2;
+		var l = w/10;
+		offset = {
+			x: offset.x || 0,
+			y: offset.y || 0
+		};
+		ctx.save();
+		ctx.lineWidth = l;
+		ctx.fillStyle = &quot;rgba(150,150,150,0.8)&quot;;
+		ctx.beginPath();
+		ctx.translate(offset.x+r,offset.y+r);
+		ctx.rotate(rad);
+		ctx.moveTo(-r,r);
+		ctx.lineTo(r,r);
+		ctx.lineTo(r,-r);
+		ctx.lineTo(-r,-r);
+		ctx.closePath();
+		ctx.stroke();
+		ctx.fill();
+		this.drawButtonLabel(ctx,r,properties.buttonType);
+		ctx.restore();
+		
+		var coords = [
+			offset.x, offset.y,
+			offset.x + width, offset.y,
+			offset.x + width, offset.y + width,
+			offset.x, offset.y + width
+		];
+		var button = new EasyShape(properties,coords);
+		return button;
+	},	
+	addControl: function(controlType) {
+		switch(controlType) {
+			//case &quot;zoom&quot;:
+			case &quot;pan&quot;:
+				this.addPanningActions();
+				break;
+			case &quot;zoom&quot;:
+				this.addZoomingActions();
+				break;
+			case &quot;mousepanning&quot;:
+				this.addMousePanning();
+				break;
+			case &quot;mousewheelzooming&quot;:
+				this.addMouseWheelZooming();
+				break;
+			case &quot;rotation&quot;:
+		
+				this.addRotatingActions();
+				break;
+			default:
+				break;
+		}
+	
+	},
+	
+	_createcontrollercanvas: function(width,height){
+		var newCanvas = document.createElement('canvas');
+		newCanvas.width = width;
+		newCanvas.height = height;
+		newCanvas.style.position = &quot;absolute&quot;;
+		newCanvas.style.left = 0;
+		newCanvas.style.top = 0;
+		newCanvas.style[&quot;z-index&quot;] = 3;
+		newCanvas.setAttribute(&quot;class&quot;,&quot;easyControl&quot;);
+		this.wrapper.appendChild(newCanvas);
+
+		newCanvas.controller = this;
+		if(!newCanvas.getContext) {
+			G_vmlCanvasManager.init_(document);
+		}
+		newCanvas.memory = [];
+		//return clickableCanvas(newCanvas);
+		return newCanvas;
+	},
+	addPanningActions: function(controlDiv){
+		var panCanvas = this._createcontrollercanvas(44,44);		
+		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
+		panCanvas.onclick = this._panzoomClickHandler;		
+
+	},
+	addRotatingActions: function(){
+		
+		var rotateCanvas = this._createcontrollercanvas(44,40);		
+		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'arrow'}));
+		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'arrow'}));
+		rotateCanvas.onclick = this._panzoomClickHandler;
+
+	},	
+	addZoomingActions: function(){
+		var zoomCanvas = this._createcontrollercanvas(20,30);
+
+		var left = 14;
+		var top = 50;
+		zoomCanvas.style.left = left +&quot;px&quot;;
+		zoomCanvas.style.top = top + &quot;px&quot;;
+		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','name':'zoom in','buttonType': 'plus'}));		
+		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','name':'zoom out','buttonType': 'minus'}));
+		zoomCanvas.onclick = this._panzoomClickHandler;	
+	},	
+	
+	transform: function(){
+		var t = this.transformation;
+		var s = t.scale;
+		var tr = t.translate;
+		var style = this.wrapper.style;
+		
+		
+		var width = parseInt(style.width);
+		var height = parseInt(style.height);
+		if(s.x &lt;= 0) s.x = 0.1;
+		if(s.y &lt;= 0) s.y = 0.1;
+		if(width &amp;&amp; height){
+			var max = {};
+			max.x = parseFloat((width) - 10) * s.x;//the maximum possible translation
+			max.y = parseFloat((height) - 10) * s.y;//the maximum possible translation
+	
+			if(tr.x &gt; max.x){
+				tr.x = max.x;
+			}
+			else if(tr.x &lt; -max.x){
+				tr.x= -max.x;
+			}
+		
+			if(tr.y &gt; max.y){
+				tr.y = max.y;
+			}
+			else if(tr.y &lt; -max.y){
+				tr.y= -max.y;
+			}
+		}
+		this.targetjs.transform(this.transformation);
+	},
+	_panzoomClickHandler: function(e) {
+		
+		if(!e) {
+			e = window.event;
+		}
+		var controller = this.controller;
+			
+		var hit = controller.utils.getShapeAtClick(e);
+		if(!hit) {
+		
+			return false;
+		}
+
+		var pan = {};
+		var t =controller.transformation;
+		var scale =t.scale;
+		pan.x = parseFloat(30 / scale.x);
+		pan.y = parseFloat(30 / scale.y);
+		if(!t.scale) t.scale = {x:1,y:1};
+		if(!t.translate) t.translate = {x:0,y:0};
+		if(!t.rotate) t.rotate = {x:0,y:0,z:0};
+		
+
+		switch(hit.properties.actiontype) {
+			case &quot;W&quot;:
+				t.translate.x += pan.x;
+				break;
+			case &quot;E&quot;:
+				t.translate.x -= pan.x;
+				break;
+			case &quot;N&quot;:
+				t.translate.y += pan.y;
+				break;
+			case &quot;S&quot;:
+				t.translate.y -= pan.y;
+				break;
+			case &quot;in&quot;:
+				scale.x *= 2;
+				scale.y *= 2;
+				break;
+			case &quot;out&quot;:
+				scale.x /= 2;
+				scale.y /= 2;			
+				break;
+			case &quot;rotatezright&quot;:
+				t.rotate.z -= 0.1;
+				var left =6.28318531;
+				
+				if(t.rotate.z &lt;0 )t.rotate.z =left;
+				break;
+			case &quot;rotatezleft&quot;:
+				t.rotate.z += 0.1;
+				break;
+			default:
+				break;
+		}
+		controller.transform();
+
+		return false;
+	}
+};
+/*
+Some common utils used throughout package 
+depends on jquery
+*/
+
+if(!window.console) {
+	console = {
+		log:function(message) {
+			var d = document.getElementById('consolelogger');
+			if(d) {
+				d.innerHTML += message+&quot;&lt;&lt;] &quot;;
+			}
+		}
+	};
+}
+
+Array.prototype.contains = function(item)
+{
+	return this.indexOf(item) != -1;
+};
+
+if(!Array.indexOf) {
+	Array.prototype.indexOf = function(item,from)
+	{
+		if(!from)
+			from = 0;
+		for(var i=from; i&lt;this.length; i++) {
+			if(this[i] === item)
+				return i;
+		}
+		return -1;
+	};
+}
+
+
+
+
+// Depends on JQuery for offset function
+// Get the current horizontal page scroll position
+function findScrollX()
+{
+	return window.scrollX || document.documentElement.scrollLeft;
+}
+// Get the current vertical page scroll position
+function findScrollY()
+{
+	return window.scrollY || document.documentElement.scrollTop;
+}
+
+
+var EasyMapUtils = {
+	_radToDeg: function(rad){
+		return rad / (Math.PI /180);
+	},
+	_degToRad: function(deg) {
+		return deg * Math.PI / 180;
+	},
+	fitgeojsontocanvas: function(json,canvas){
+		var view ={};
+		var f =json.features;
+		for(var i=0; i &lt; f.length; i++){
+			var c = f[i].geometry.coordinates;
+											
+			for(var j=0; j &lt; c.length; j++ ){
+				for(var k=0; k &lt; c[j].length; k++){
+					
+
+					for(var l=0; l &lt; c[j][k].length;l++){
+						
+		
+						var x =c[j][k][l][0];
+						var y = c[j][k][l][1];
+						if(!view.x1 || x &lt;view.x1) {
+							view.x1 = x;
+						}
+						else if(!view.x2 || x &gt;view.x2) {
+							view.x2 = x;
+						}
+						
+						if(!view.y1 || y &lt;view.y1) {
+							view.y1 = y;
+						}
+						else if(!view.y2 || y &gt;view.y2) {
+							view.y2 = y;
+						}
+						
+
+					}
+						
+				}
+				
+			}
+		}
+		if(!json.transform) json.transform ={};
+		if(!json.transform.scale) json.transform.scale = {};
+		if(!json.transform.translate) json.transform.translate = {};
+		var canvasx =		parseFloat(canvas.width);
+		var canvasy =parseFloat(canvas.height);
+		view.center = {};
+		view.width = (view.x2 - view.x1);
+		view.height = (view.y2 - view.y1)
+		view.center.x = view.x2 - (view.width/2);
+		view.center.y = view.y2 - (view.height/2);
+		//console.log(view.center.y, view.height);
+		var scale = 1,temp;
+		var tempx = parseFloat(canvasx/view.width);
+		var tempy = parseFloat(canvasy/view.height);
+
+		if(tempx &lt; tempy) temp = tempx; else temp = tempy;
+		json.transform.scale.x = temp;
+		json.transform.scale.y = temp;
+
+
+		
+		json.transform.translate.x = -view.center.x;
+		json.transform.translate.y = view.center.y;//view.center.y;	
+		return json;
+	},
+	undotransformation: function(x,y,transformation){
+		
+		var pos = {};
+		var t =transformation;
+		var tr =t.translate;
+		var s = t.scale;
+		var o = t.origin;
+		if(!x || !y) 
+			return false;
+		pos.x = x;
+		pos.y = y;
+		
+
+		pos.x -= o.x;
+		pos.y -= o.y;
+	
+		pos.x /= s.x;
+		pos.y /= s.y;
+				
+		pos.x -= tr.x;
+		pos.y -= tr.y;
+		/*
+		if(t.spherical) {
+			pos = this._undospherify(pos.x,pos.y,t);
+		}*/
+
+			
+			
+		return pos;
+	},	
+	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
+		var svgu = EasyMapSVGUtils;
+		var res = new Object();
+		res.type = &quot;FeatureCollection&quot;;
+		res.features = [];
+
+		var objs = xml.getElementsByTagName(&quot;svg:polygon&quot;);
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
+		objs = xml.getElementsByTagName(&quot;polygon&quot;);
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
+		objs =xml.getElementsByTagName(&quot;svg:path&quot;);
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
+		objs =xml.getElementsByTagName(&quot;path&quot;);
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
+		res.transform = {};
+		res.transform.translate = {'x':0, 'y':0};
+		res.transform.scale = {'x':1, 'y':1};
+		
+		res = this.fitgeojsontocanvas(res,canvas)
+		return res;
+	},
+	_testCanvas: function(ctx){
+	ctx.beginPath();
+	ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
+	ctx.moveTo(110,75);
+	ctx.arc(75,75,35,0,Math.PI,false);   // Mouth (clockwise)
+	ctx.moveTo(65,65);
+	ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+	ctx.moveTo(95,65);
+	ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+	ctx.stroke();
+
+	},	
+	
+	getMouseFromEventRelativeTo: function (e,x,y){
+		
+		var pos = this.getMouseFromEvent(e);
+		if(!pos) return false;
+		pos.x -= x;
+		pos.y -= y;
+
+		return pos;
+		
+	},
+	getMouseFromEventRelativeToCenter: function(e){
+		var w,h;
+		var target = this.resolveTargetWithMemory(e);
+		if(!target)return;
+		if(target.style.width)
+			w = parseInt(target.style.width);
+		else if(target.width)
+			w =parseInt(target.width);
+
+		if(target.style.height)
+			h = parseInt(target.style.height);
+		else if(target.height)
+			h = parseInt(target.height);
+		
+		if(!w || !h) throw &quot;target has no width or height (easymaputils)&quot;;
+		
+		return this.getMouseFromEventRelativeTo(e,w/2,h/2);
+	},
+	getMouseFromEvent : function(e){
+			if(!e) e = window.event;
+			var target = this.resolveTargetWithMemory(e);
+			if(!target)return false;
+			
+			var offset = $(target).offset();
+			if(!offset.left) return false;
+			x = e.clientX + window.findScrollX() - offset.left;
+			y = e.clientY + window.findScrollY() - offset.top;
+			return {'x':x, 'y':y};		
+				
+	},
+	getShapeAtClick: function(e){
+		if(!e) {
+			e = window.event;
+		}
+		var target = this.resolveTargetWithMemory(e);
+		if(!target) return;
+		var offset = $(target).offset();
+		
+
+		x = e.clientX + window.findScrollX() - offset.left;
+		y = e.clientY + window.findScrollY() - offset.top;
+		
+		//counter any positioning
+		//if(target.style.left) x -= parseInt(target.style.left);
+		//if(target.style.top) y -= parseInt(target.style.top);
+
+		var memory = target.memory;
+		var transformation = target.transformation;
+		//console.log('memory length: '+memory.length);
+		if(memory){
+			var shape = this.getShapeAt(x,y,memory,transformation);
+			return shape;
+		} else{
+			//console.log(&quot;no shapes in memory&quot;);
+			//return false;
+		}
+	},
+	
+	_undospherify: function (x,y,transformation){
+		var radius = transformation.spherical.radius;
+		var pos= this._spherifycoordinate(x,y,transformation);
+		var latitude = Math.asin(y / radius);
+		var longitude = Math.asin(parseFloat(x / radius) / Math.cos(latitude));
+
+				
+	
+		//if(transformation.rotate.z &amp;&amp; longitude != 'NaN')longitude -= transformation.rotate.z;
+		//longitude = longitude % (6.28318531);
+		//if(longitude &lt; 0) longitude = longitude 
+
+		if(transformation.rotate) {
+			var r =transformation.rotate.z;
+			console.log(&quot;from&quot;,longitude);
+			longitude +=r;
+		
+			//longitude =longitude% (6.28318531);
+			
+		}
+		var lon = EasyMapUtils._radToDeg(longitude);
+		var lat = EasyMapUtils._radToDeg(latitude);
+		console.log(&quot;to&quot;,longitude,r,lon);
+		return {x:lon,y:lat};
+	},
+	_spherifycoordinate: function(lon,lat,transformation){//http://board.flashkit.com/board/archive/index.php/t-666832.html
+		var radius = transformation.spherical.radius;
+		var utils = EasyMapUtils;
+		var res = {};
+		
+		var longitude = EasyMapUtils._degToRad(lon);
+		var latitude = EasyMapUtils._degToRad(lat);
+ 		
+ 		// assume rotate values given in radians
+		if(transformation &amp;&amp; transformation.rotate){
+			//latitude += transformation.rotate.x;
+			longitude += transformation.rotate.z
+			 
+		}
+		// latitude is 90-theta, where theta is the polar angle in spherical coordinates
+		// cos(90-theta) = sin(theta)
+		// sin(90-theta) = cos(theta)
+		// to transform from spherical to cartesian, we would normally use radius*Math.cos(theta)
+		//   hence in this case we use radius*Math.sin(latitude)
+		// similarly longitude is phi-180, where phi is the azimuthal angle
+		// cos(phi-180) = -cos(phi)
+		// sin(phi-180) = -sin(phi)
+		// to transform from spherical to cartesian, we would normally use radius*Math.sin(theta)*Math.cos(phi)
+		//   we must exchange for theta as above, but because of the circular symmetry
+		//   it does not matter whether we multiply by sin or cos of longitude	
+	
+		longitude = longitude % 6.28318531; //360 degrees		
+
+		res.y = (radius) * Math.sin(latitude);	
+		if(longitude &lt; 1.57079633 || longitude &gt; 4.71238898){//0-90 (right) or 270-360 (left) then on other side 
+			res.x = (radius) * Math.cos(latitude) * Math.sin(longitude);		
+		}
+	
+		return res;
+	},		
+	getShapeAt: function(x,y,shapes,transformation) {
+		
+		if(transformation){
+			var pos = this.undotransformation(x,y,transformation);
+			x = pos.x;
+			y = pos.y;
+			
+		}
+		var hitShapes = [];
+		
+		for(var i=0; i &lt; shapes.length; i++){
+			var g = shapes[i].grid;
+			if(x &gt;= g.x1 &amp;&amp; x &lt;= g.x2 &amp;&amp; y &gt;=  g.y1 &amp;&amp; y &lt;=g.y2){
+				hitShapes.push(shapes[i]);
+			}
+		}
+		var res;	
+		if(hitShapes.length == 1) {
+			res = hitShapes[0];
+		} else {
+			res = this._findNeedleInHaystack(x,y,hitShapes);
+		}
+			
+		return res;
+	},
+	_findNeedleInHaystack: function(x,y,shapes){
+		var hits = [];
+		for(var i=0; i &lt; shapes.length; i++){
+			if(this._inPoly(x,y,shapes[i])) {
+				hits.push(shapes[i]);
+			}
+		}
+
+		if(hits.length == 0){
+			return null;
+		}
+		else if(hits.length == 1) 
+			return hits[0];
+		else {//the click is in a polygon which is inside another polygon
+			
+			var g = hits[0].grid;
+			var min = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
+			
+			var closerEdge = {id:0, closeness:min};
+			for(var i=1; i &lt; hits.length; i++){
+				g = hits[i].grid;
+			var min = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
+				
+				if(closerEdge.closeness &gt; min) {
+					closerEdge.id = i; closerEdge.closeness = min;
+				}
+				return hits[closerEdge.id];
+			}
+			
+		}
+
+	},                     
+    	_inPoly: function(x,y,poly) {
+		/* _inPoly adapted from inpoly.c
+		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
+		http://www.visibone.com/inpoly/inpoly.c.txt */
+		var coords;
+		if(poly._tcoords){
+			coords = poly._tcoords;
+			//console.log(&quot;using tcoords&quot;,x,y,poly.coords.length,poly._tcoords.length);
+		}
+		else
+			coords= poly.coords;
+		var npoints = coords.length;
+		if (npoints/2 &lt; 3) {
+			//points don't describe a polygon
+			return false;
+		}
+		var inside = false;
+		var xold = coords[npoints-2];
+		var yold = coords[npoints-1];
+		var x1,x2,y1,y2,xnew,ynew;
+		for (var i=0; i&lt;npoints; i+=2) {
+			xnew=coords[i];
+			ynew=coords[i+1];
+			if (xnew &gt; xold) {
+				x1=xold;
+				x2=xnew;
+				y1=yold;
+				y2=ynew;
+			} else {
+				x1=xnew;
+				x2=xold;
+				y1=ynew;
+				y2=yold;
+			}
+			if ((xnew &lt; x) == (x &lt;= xold)
+				&amp;&amp; (y-y1)*(x2-x1) &lt; (y2-y1)*(x-x1)) {
+				   inside=!inside;
+				}
+			xold=xnew;
+			yold=ynew;
+		 }
+		 return inside;
+	},	
+	loadRemoteFile: function(url,callback,params)
+	{
+		return this._httpReq(&quot;GET&quot;,url,callback,params,null,null,null,null,null,true);
+	},
+	_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
+	{
+		var x = null;
+		try {
+			x = new XMLHttpRequest(); //# Modern
+		} catch(ex) {
+			try {
+				x = new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;); //# IE 6
+			} catch(ex2) {
+			}
+		}
+		if(!x)
+			return &quot;Can't create XMLHttpRequest object&quot;;
+		x.onreadystatechange = function() {
+			try {
+				var status = x.status;
+			} catch(ex) {
+				status = false;
+			}
+			if(x.readyState == 4 &amp;&amp; callback &amp;&amp; (status !== undefined)) {
+				if([0, 200, 201, 204, 207].contains(status))
+					callback(true,params,x.responseText,url,x);
+				else
+					callback(false,params,null,url,x);
+				x.onreadystatechange = function(){};
+				x = null;
+			}
+		};
+		if(window.Components &amp;&amp; window.netscape &amp;&amp; window.netscape.security &amp;&amp; document.location.protocol.indexOf(&quot;http&quot;) == -1)
+			window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
+		try {
+			if(!allowCache)
+				url = url + (url.indexOf(&quot;?&quot;) &lt; 0 ? &quot;?&quot; : &quot;&amp;&quot;) + &quot;nocache=&quot; + Math.random();
+			x.open(type,url,true,username,password);
+			if(data)
+				x.setRequestHeader(&quot;Content-Type&quot;, contentType || &quot;application/x-www-form-urlencoded&quot;);
+			if(x.overrideMimeType)
+				x.setRequestHeader(&quot;Connection&quot;, &quot;close&quot;);
+			if(headers) {
+				for(var n in headers)
+					x.setRequestHeader(n,headers[n]);
+			}
+		//	x.setRequestHeader(&quot;X-Requested-With&quot;, &quot;TiddlyWiki &quot; + formatVersion());
+			x.send(data);
+		} catch(ex) {
+			//console.log(ex);
+			return ex;
+		}
+		return x;
+	},
+	_getXML:function(str) {
+		if(!str)
+			return null;
+		var errorMsg;
+		try {
+			var doc = new ActiveXObject(&quot;Microsoft.XMLDOM&quot;);
+			doc.async=&quot;false&quot;;
+			doc.loadXML(str);
+		}
+		catch(e) {
+			try {
+				var parser=  new DOMParser();
+				var doc = parser.parseFromString(str,&quot;text/xml&quot;);
+			}
+			catch(e) {
+				return e.message;
+			}
+		}
+
+		return doc;	
+	}
+	// Resolve the target object of an event
+	,resolveTarget:function(e)
+	{
+		if(!e) e = window.event;
+		var obj;
+		if(e.target)
+			obj = e.target;
+		else if(e.srcElement)
+			obj = e.srcElement;
+		if(obj.nodeType == 3) // defeat Safari bug
+			obj = obj.parentNode;
+		return obj;
+	},
+
+	resolveTargetWithMemory: function(e)
+	{
+		var node = EasyMapUtils.resolveTarget(e);
+		var first = node;
+		while(node &amp;&amp; !node.memory){
+			node = node.parentNode;
+		}
+		if(!node) node = first;
+		return node;
+	}
+};
+/*
+ * jQuery 1.2.6 - New Wave Javascript
+ *
+ * Copyright (c) 2008 John Resig (jquery.com)
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ *
+ * $Date: 2008-05-24 14:22:17 -0400 (Sat, 24 May 2008) $
+ * $Rev: 5685 $
+ */
+(function(){var _jQuery=window.jQuery,_$=window.$;var jQuery=window.jQuery=window.$=function(selector,context){return new jQuery.fn.init(selector,context);};var quickExpr=/^[^&lt;]*(&lt;(.|\s)+&gt;)[^&gt;]*$|^#(\w+)$/,isSimple=/^.[^:#\[\.]*$/,undefined;jQuery.fn=jQuery.prototype={init:function(selector,context){selector=selector||document;if(selector.nodeType){this[0]=selector;this.length=1;return this;}if(typeof selector==&quot;string&quot;){var match=quickExpr.exec(selector);if(match&amp;&amp;(match[1]||!context)){if(match[1])selector=jQuery.clean([match[1]],context);else{var elem=document.getElementById(match[3]);if(elem){if(elem.id!=match[3])return jQuery().find(selector);return jQuery(elem);}selector=[];}}else
+return jQuery(context).find(selector);}else if(jQuery.isFunction(selector))return jQuery(document)[jQuery.fn.ready?&quot;ready&quot;:&quot;load&quot;](selector);return this.setArray(jQuery.makeArray(selector));},jquery:&quot;1.2.6&quot;,size:function(){return this.length;},length:0,get:function(num){return num==undefined?jQuery.makeArray(this):this[num];},pushStack:function(elems){var ret=jQuery(elems);ret.prevObject=this;return ret;},setArray:function(elems){this.length=0;Array.prototype.push.apply(this,elems);return this;},each:function(callback,args){return jQuery.each(this,callback,args);},index:function(elem){var ret=-1;return jQuery.inArray(elem&amp;&amp;elem.jquery?elem[0]:elem,this);},attr:function(name,value,type){var options=name;if(name.constructor==String)if(value===undefined)return this[0]&amp;&amp;jQuery[type||&quot;attr&quot;](this[0],name);else{options={};options[name]=value;}return this.each(function(i){for(name in options)jQuery.attr(type?this.style:this,name,jQuery.prop(this,options[name],type,i,name));});},css:function(key,value){if((key=='width'||key=='height')&amp;&amp;parseFloat(value)&lt;0)value=undefined;return this.attr(key,value,&quot;curCSS&quot;);},text:function(text){if(typeof text!=&quot;object&quot;&amp;&amp;text!=null)return this.empty().append((this[0]&amp;&amp;this[0].ownerDocument||document).createTextNode(text));var ret=&quot;&quot;;jQuery.each(text||this,function(){jQuery.each(this.childNodes,function(){if(this.nodeType!=8)ret+=this.nodeType!=1?this.nodeValue:jQuery.fn.text([this]);});});return ret;},wrapAll:function(html){if(this[0])jQuery(html,this[0].ownerDocument).clone().insertBefore(this[0]).map(function(){var elem=this;while(elem.firstChild)elem=elem.firstChild;return elem;}).append(this);return this;},wrapInner:function(html){return this.each(function(){jQuery(this).contents().wrapAll(html);});},wrap:function(html){return this.each(function(){jQuery(this).wrapAll(html);});},append:function(){return this.domManip(arguments,true,false,function(elem){if(this.nodeType==1)this.appendChild(elem);});},prepend:function(){return this.domManip(arguments,true,true,function(elem){if(this.nodeType==1)this.insertBefore(elem,this.firstChild);});},before:function(){return this.domManip(arguments,false,false,function(elem){this.parentNode.insertBefore(elem,this);});},after:function(){return this.domManip(arguments,false,true,function(elem){this.parentNode.insertBefore(elem,this.nextSibling);});},end:function(){return this.prevObject||jQuery([]);},find:function(selector){var elems=jQuery.map(this,function(elem){return jQuery.find(selector,elem);});return this.pushStack(/[^+&gt;] [^+&gt;]/.test(selector)||selector.indexOf(&quot;..&quot;)&gt;-1?jQuery.unique(elems):elems);},clone:function(events){var ret=this.map(function(){if(jQuery.browser.msie&amp;&amp;!jQuery.isXMLDoc(this)){var clone=this.cloneNode(true),container=document.createElement(&quot;div&quot;);container.appendChild(clone);return jQuery.clean([container.innerHTML])[0];}else
+return this.cloneNode(true);});var clone=ret.find(&quot;*&quot;).andSelf().each(function(){if(this[expando]!=undefined)this[expando]=null;});if(events===true)this.find(&quot;*&quot;).andSelf().each(function(i){if(this.nodeType==3)return;var events=jQuery.data(this,&quot;events&quot;);for(var type in events)for(var handler in events[type])jQuery.event.add(clone[i],type,events[type][handler],events[type][handler].data);});return ret;},filter:function(selector){return this.pushStack(jQuery.isFunction(selector)&amp;&amp;jQuery.grep(this,function(elem,i){return selector.call(elem,i);})||jQuery.multiFilter(selector,this));},not:function(selector){if(selector.constructor==String)if(isSimple.test(selector))return this.pushStack(jQuery.multiFilter(selector,this,true));else
+selector=jQuery.multiFilter(selector,this);var isArrayLike=selector.length&amp;&amp;selector[selector.length-1]!==undefined&amp;&amp;!selector.nodeType;return this.filter(function(){return isArrayLike?jQuery.inArray(this,selector)&lt;0:this!=selector;});},add:function(selector){return this.pushStack(jQuery.unique(jQuery.merge(this.get(),typeof selector=='string'?jQuery(selector):jQuery.makeArray(selector))));},is:function(selector){return!!selector&amp;&amp;jQuery.multiFilter(selector,this).length&gt;0;},hasClass:function(selector){return this.is(&quot;.&quot;+selector);},val:function(value){if(value==undefined){if(this.length){var elem=this[0];if(jQuery.nodeName(elem,&quot;select&quot;)){var index=elem.selectedIndex,values=[],options=elem.options,one=elem.type==&quot;select-one&quot;;if(index&lt;0)return null;for(var i=one?index:0,max=one?index+1:options.length;i&lt;max;i++){var option=options[i];if(option.selected){value=jQuery.browser.msie&amp;&amp;!option.attributes.value.specified?option.text:option.value;if(one)return value;values.push(value);}}return values;}else
+return(this[0].value||&quot;&quot;).replace(/\r/g,&quot;&quot;);}return undefined;}if(value.constructor==Number)value+='';return this.each(function(){if(this.nodeType!=1)return;if(value.constructor==Array&amp;&amp;/radio|checkbox/.test(this.type))this.checked=(jQuery.inArray(this.value,value)&gt;=0||jQuery.inArray(this.name,value)&gt;=0);else if(jQuery.nodeName(this,&quot;select&quot;)){var values=jQuery.makeArray(value);jQuery(&quot;option&quot;,this).each(function(){this.selected=(jQuery.inArray(this.value,values)&gt;=0||jQuery.inArray(this.text,values)&gt;=0);});if(!values.length)this.selectedIndex=-1;}else
+this.value=value;});},html:function(value){return value==undefined?(this[0]?this[0].innerHTML:null):this.empty().append(value);},replaceWith:function(value){return this.after(value).remove();},eq:function(i){return this.slice(i,i+1);},slice:function(){return this.pushStack(Array.prototype.slice.apply(this,arguments));},map:function(callback){return this.pushStack(jQuery.map(this,function(elem,i){return callback.call(elem,i,elem);}));},andSelf:function(){return this.add(this.prevObject);},data:function(key,value){var parts=key.split(&quot;.&quot;);parts[1]=parts[1]?&quot;.&quot;+parts[1]:&quot;&quot;;if(value===undefined){var data=this.triggerHandler(&quot;getData&quot;+parts[1]+&quot;!&quot;,[parts[0]]);if(data===undefined&amp;&amp;this.length)data=jQuery.data(this[0],key);return data===undefined&amp;&amp;parts[1]?this.data(parts[0]):data;}else
+return this.trigger(&quot;setData&quot;+parts[1]+&quot;!&quot;,[parts[0],value]).each(function(){jQuery.data(this,key,value);});},removeData:function(key){return this.each(function(){jQuery.removeData(this,key);});},domManip:function(args,table,reverse,callback){var clone=this.length&gt;1,elems;return this.each(function(){if(!elems){elems=jQuery.clean(args,this.ownerDocument);if(reverse)elems.reverse();}var obj=this;if(table&amp;&amp;jQuery.nodeName(this,&quot;table&quot;)&amp;&amp;jQuery.nodeName(elems[0],&quot;tr&quot;))obj=this.getElementsByTagName(&quot;tbody&quot;)[0]||this.appendChild(this.ownerDocument.createElement(&quot;tbody&quot;));var scripts=jQuery([]);jQuery.each(elems,function(){var elem=clone?jQuery(this).clone(true)[0]:this;if(jQuery.nodeName(elem,&quot;script&quot;))scripts=scripts.add(elem);else{if(elem.nodeType==1)scripts=scripts.add(jQuery(&quot;script&quot;,elem).remove());callback.call(obj,elem);}});scripts.each(evalScript);});}};jQuery.fn.init.prototype=jQuery.fn;function evalScript(i,elem){if(elem.src)jQuery.ajax({url:elem.src,async:false,dataType:&quot;script&quot;});else
+jQuery.globalEval(elem.text||elem.textContent||elem.innerHTML||&quot;&quot;);if(elem.parentNode)elem.parentNode.removeChild(elem);}function now(){return+new Date;}jQuery.extend=jQuery.fn.extend=function(){var target=arguments[0]||{},i=1,length=arguments.length,deep=false,options;if(target.constructor==Boolean){deep=target;target=arguments[1]||{};i=2;}if(typeof target!=&quot;object&quot;&amp;&amp;typeof target!=&quot;function&quot;)target={};if(length==i){target=this;--i;}for(;i&lt;length;i++)if((options=arguments[i])!=null)for(var name in options){var src=target[name],copy=options[name];if(target===copy)continue;if(deep&amp;&amp;copy&amp;&amp;typeof copy==&quot;object&quot;&amp;&amp;!copy.nodeType)target[name]=jQuery.extend(deep,src||(copy.length!=null?[]:{}),copy);else if(copy!==undefined)target[name]=copy;}return target;};var expando=&quot;jQuery&quot;+now(),uuid=0,windowData={},exclude=/z-?index|font-?weight|opacity|zoom|line-?height/i,defaultView=document.defaultView||{};jQuery.extend({noConflict:function(deep){window.$=_$;if(deep)window.jQuery=_jQuery;return jQuery;},isFunction:function(fn){return!!fn&amp;&amp;typeof fn!=&quot;string&quot;&amp;&amp;!fn.nodeName&amp;&amp;fn.constructor!=Array&amp;&amp;/^[\s[]?function/.test(fn+&quot;&quot;);},isXMLDoc:function(elem){return elem.documentElement&amp;&amp;!elem.body||elem.tagName&amp;&amp;elem.ownerDocument&amp;&amp;!elem.ownerDocument.body;},globalEval:function(data){data=jQuery.trim(data);if(data){var head=document.getElementsByTagName(&quot;head&quot;)[0]||document.documentElement,script=document.createElement(&quot;script&quot;);script.type=&quot;text/javascript&quot;;if(jQuery.browser.msie)script.text=data;else
+script.appendChild(document.createTextNode(data));head.insertBefore(script,head.firstChild);head.removeChild(script);}},nodeName:function(elem,name){return elem.nodeName&amp;&amp;elem.nodeName.toUpperCase()==name.toUpperCase();},cache:{},data:function(elem,name,data){elem=elem==window?windowData:elem;var id=elem[expando];if(!id)id=elem[expando]=++uuid;if(name&amp;&amp;!jQuery.cache[id])jQuery.cache[id]={};if(data!==undefined)jQuery.cache[id][name]=data;return name?jQuery.cache[id][name]:id;},removeData:function(elem,name){elem=elem==window?windowData:elem;var id=elem[expando];if(name){if(jQuery.cache[id]){delete jQuery.cache[id][name];name=&quot;&quot;;for(name in jQuery.cache[id])break;if(!name)jQuery.removeData(elem);}}else{try{delete elem[expando];}catch(e){if(elem.removeAttribute)elem.removeAttribute(expando);}delete jQuery.cache[id];}},each:function(object,callback,args){var name,i=0,length=object.length;if(args){if(length==undefined){for(name in object)if(callback.apply(object[name],args)===false)break;}else
+for(;i&lt;length;)if(callback.apply(object[i++],args)===false)break;}else{if(length==undefined){for(name in object)if(callback.call(object[name],name,object[name])===false)break;}else
+for(var value=object[0];i&lt;length&amp;&amp;callback.call(value,i,value)!==false;value=object[++i]){}}return object;},prop:function(elem,value,type,i,name){if(jQuery.isFunction(value))value=value.call(elem,i);return value&amp;&amp;value.constructor==Number&amp;&amp;type==&quot;curCSS&quot;&amp;&amp;!exclude.test(name)?value+&quot;px&quot;:value;},className:{add:function(elem,classNames){jQuery.each((classNames||&quot;&quot;).split(/\s+/),function(i,className){if(elem.nodeType==1&amp;&amp;!jQuery.className.has(elem.className,className))elem.className+=(elem.className?&quot; &quot;:&quot;&quot;)+className;});},remove:function(elem,classNames){if(elem.nodeType==1)elem.className=classNames!=undefined?jQuery.grep(elem.className.split(/\s+/),function(className){return!jQuery.className.has(classNames,className);}).join(&quot; &quot;):&quot;&quot;;},has:function(elem,className){return jQuery.inArray(className,(elem.className||elem).toString().split(/\s+/))&gt;-1;}},swap:function(elem,options,callback){var old={};for(var name in options){old[name]=elem.style[name];elem.style[name]=options[name];}callback.call(elem);for(var name in options)elem.style[name]=old[name];},css:function(elem,name,force){if(name==&quot;width&quot;||name==&quot;height&quot;){var val,props={position:&quot;absolute&quot;,visibility:&quot;hidden&quot;,display:&quot;block&quot;},which=name==&quot;width&quot;?[&quot;Left&quot;,&quot;Right&quot;]:[&quot;Top&quot;,&quot;Bottom&quot;];function getWH(){val=name==&quot;width&quot;?elem.offsetWidth:elem.offsetHeight;var padding=0,border=0;jQuery.each(which,function(){padding+=parseFloat(jQuery.curCSS(elem,&quot;padding&quot;+this,true))||0;border+=parseFloat(jQuery.curCSS(elem,&quot;border&quot;+this+&quot;Width&quot;,true))||0;});val-=Math.round(padding+border);}if(jQuery(elem).is(&quot;:visible&quot;))getWH();else
+jQuery.swap(elem,props,getWH);return Math.max(0,val);}return jQuery.curCSS(elem,name,force);},curCSS:function(elem,name,force){var ret,style=elem.style;function color(elem){if(!jQuery.browser.safari)return false;var ret=defaultView.getComputedStyle(elem,null);return!ret||ret.getPropertyValue(&quot;color&quot;)==&quot;&quot;;}if(name==&quot;opacity&quot;&amp;&amp;jQuery.browser.msie){ret=jQuery.attr(style,&quot;opacity&quot;);return ret==&quot;&quot;?&quot;1&quot;:ret;}if(jQuery.browser.opera&amp;&amp;name==&quot;display&quot;){var save=style.outline;style.outline=&quot;0 solid black&quot;;style.outline=save;}if(name.match(/float/i))name=styleFloat;if(!force&amp;&amp;style&amp;&amp;style[name])ret=style[name];else if(defaultView.getComputedStyle){if(name.match(/float/i))name=&quot;float&quot;;name=name.replace(/([A-Z])/g,&quot;-$1&quot;).toLowerCase();var computedStyle=defaultView.getComputedStyle(elem,null);if(computedStyle&amp;&amp;!color(elem))ret=computedStyle.getPropertyValue(name);else{var swap=[],stack=[],a=elem,i=0;for(;a&amp;&amp;color(a);a=a.parentNode)stack.unshift(a);for(;i&lt;stack.length;i++)if(color(stack[i])){swap[i]=stack[i].style.display;stack[i].style.display=&quot;block&quot;;}ret=name==&quot;display&quot;&amp;&amp;swap[stack.length-1]!=null?&quot;none&quot;:(computedStyle&amp;&amp;computedStyle.getPropertyValue(name))||&quot;&quot;;for(i=0;i&lt;swap.length;i++)if(swap[i]!=null)stack[i].style.display=swap[i];}if(name==&quot;opacity&quot;&amp;&amp;ret==&quot;&quot;)ret=&quot;1&quot;;}else if(elem.currentStyle){var camelCase=name.replace(/\-(\w)/g,function(all,letter){return letter.toUpperCase();});ret=elem.currentStyle[name]||elem.currentStyle[camelCase];if(!/^\d+(px)?$/i.test(ret)&amp;&amp;/^\d/.test(ret)){var left=style.left,rsLeft=elem.runtimeStyle.left;elem.runtimeStyle.left=elem.currentStyle.left;style.left=ret||0;ret=style.pixelLeft+&quot;px&quot;;style.left=left;elem.runtimeStyle.left=rsLeft;}}return ret;},clean:function(elems,context){var ret=[];context=context||document;if(typeof context.createElement=='undefined')context=context.ownerDocument||context[0]&amp;&amp;context[0].ownerDocument||document;jQuery.each(elems,function(i,elem){if(!elem)return;if(elem.constructor==Number)elem+='';if(typeof elem==&quot;string&quot;){elem=elem.replace(/(&lt;(\w+)[^&gt;]*?)\/&gt;/g,function(all,front,tag){return tag.match(/^(abbr|br|col|img|input|link|meta|param|hr|area|embed)$/i)?all:front+&quot;&gt;&lt;/&quot;+tag+&quot;&gt;&quot;;});var tags=jQuery.trim(elem).toLowerCase(),div=context.createElement(&quot;div&quot;);var wrap=!tags.indexOf(&quot;&lt;opt&quot;)&amp;&amp;[1,&quot;&lt;select multiple='multiple'&gt;&quot;,&quot;&lt;/select&gt;&quot;]||!tags.indexOf(&quot;&lt;leg&quot;)&amp;&amp;[1,&quot;&lt;fieldset&gt;&quot;,&quot;&lt;/fieldset&gt;&quot;]||tags.match(/^&lt;(thead|tbody|tfoot|colg|cap)/)&amp;&amp;[1,&quot;&lt;table&gt;&quot;,&quot;&lt;/table&gt;&quot;]||!tags.indexOf(&quot;&lt;tr&quot;)&amp;&amp;[2,&quot;&lt;table&gt;&lt;tbody&gt;&quot;,&quot;&lt;/tbody&gt;&lt;/table&gt;&quot;]||(!tags.indexOf(&quot;&lt;td&quot;)||!tags.indexOf(&quot;&lt;th&quot;))&amp;&amp;[3,&quot;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&quot;,&quot;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&quot;]||!tags.indexOf(&quot;&lt;col&quot;)&amp;&amp;[2,&quot;&lt;table&gt;&lt;tbody&gt;&lt;/tbody&gt;&lt;colgroup&gt;&quot;,&quot;&lt;/colgroup&gt;&lt;/table&gt;&quot;]||jQuery.browser.msie&amp;&amp;[1,&quot;div&lt;div&gt;&quot;,&quot;&lt;/div&gt;&quot;]||[0,&quot;&quot;,&quot;&quot;];div.innerHTML=wrap[1]+elem+wrap[2];while(wrap[0]--)div=div.lastChild;if(jQuery.browser.msie){var tbody=!tags.indexOf(&quot;&lt;table&quot;)&amp;&amp;tags.indexOf(&quot;&lt;tbody&quot;)&lt;0?div.firstChild&amp;&amp;div.firstChild.childNodes:wrap[1]==&quot;&lt;table&gt;&quot;&amp;&amp;tags.indexOf(&quot;&lt;tbody&quot;)&lt;0?div.childNodes:[];for(var j=tbody.length-1;j&gt;=0;--j)if(jQuery.nodeName(tbody[j],&quot;tbody&quot;)&amp;&amp;!tbody[j].childNodes.length)tbody[j].parentNode.removeChild(tbody[j]);if(/^\s/.test(elem))div.insertBefore(context.createTextNode(elem.match(/^\s*/)[0]),div.firstChild);}elem=jQuery.makeArray(div.childNodes);}if(elem.length===0&amp;&amp;(!jQuery.nodeName(elem,&quot;form&quot;)&amp;&amp;!jQuery.nodeName(elem,&quot;select&quot;)))return;if(elem[0]==undefined||jQuery.nodeName(elem,&quot;form&quot;)||elem.options)ret.push(elem);else
+ret=jQuery.merge(ret,elem);});return ret;},attr:function(elem,name,value){if(!elem||elem.nodeType==3||elem.nodeType==8)return undefined;var notxml=!jQuery.isXMLDoc(elem),set=value!==undefined,msie=jQuery.browser.msie;name=notxml&amp;&amp;jQuery.props[name]||name;if(elem.tagName){var special=/href|src|style/.test(name);if(name==&quot;selected&quot;&amp;&amp;jQuery.browser.safari)elem.parentNode.selectedIndex;if(name in elem&amp;&amp;notxml&amp;&amp;!special){if(set){if(name==&quot;type&quot;&amp;&amp;jQuery.nodeName(elem,&quot;input&quot;)&amp;&amp;elem.parentNode)throw&quot;type property can't be changed&quot;;elem[name]=value;}if(jQuery.nodeName(elem,&quot;form&quot;)&amp;&amp;elem.getAttributeNode(name))return elem.getAttributeNode(name).nodeValue;return elem[name];}if(msie&amp;&amp;notxml&amp;&amp;name==&quot;style&quot;)return jQuery.attr(elem.style,&quot;cssText&quot;,value);if(set)elem.setAttribute(name,&quot;&quot;+value);var attr=msie&amp;&amp;notxml&amp;&amp;special?elem.getAttribute(name,2):elem.getAttribute(name);return attr===null?undefined:attr;}if(msie&amp;&amp;name==&quot;opacity&quot;){if(set){elem.zoom=1;elem.filter=(elem.filter||&quot;&quot;).replace(/alpha\([^)]*\)/,&quot;&quot;)+(parseInt(value)+''==&quot;NaN&quot;?&quot;&quot;:&quot;alpha(opacity=&quot;+value*100+&quot;)&quot;);}return elem.filter&amp;&amp;elem.filter.indexOf(&quot;opacity=&quot;)&gt;=0?(parseFloat(elem.filter.match(/opacity=([^)]*)/)[1])/100)+'':&quot;&quot;;}name=name.replace(/-([a-z])/ig,function(all,letter){return letter.toUpperCase();});if(set)elem[name]=value;return elem[name];},trim:function(text){return(text||&quot;&quot;).replace(/^\s+|\s+$/g,&quot;&quot;);},makeArray:function(array){var ret=[];if(array!=null){var i=array.length;if(i==null||array.split||array.setInterval||array.call)ret[0]=array;else
+while(i)ret[--i]=array[i];}return ret;},inArray:function(elem,array){for(var i=0,length=array.length;i&lt;length;i++)if(array[i]===elem)return i;return-1;},merge:function(first,second){var i=0,elem,pos=first.length;if(jQuery.browser.msie){while(elem=second[i++])if(elem.nodeType!=8)first[pos++]=elem;}else
+while(elem=second[i++])first[pos++]=elem;return first;},unique:function(array){var ret=[],done={};try{for(var i=0,length=array.length;i&lt;length;i++){var id=jQuery.data(array[i]);if(!done[id]){done[id]=true;ret.push(array[i]);}}}catch(e){ret=array;}return ret;},grep:function(elems,callback,inv){var ret=[];for(var i=0,length=elems.length;i&lt;length;i++)if(!inv!=!callback(elems[i],i))ret.push(elems[i]);return ret;},map:function(elems,callback){var ret=[];for(var i=0,length=elems.length;i&lt;length;i++){var value=callback(elems[i],i);if(value!=null)ret[ret.length]=value;}return ret.concat.apply([],ret);}});var userAgent=navigator.userAgent.toLowerCase();jQuery.browser={version:(userAgent.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/)||[])[1],safari:/webkit/.test(userAgent),opera:/opera/.test(userAgent),msie:/msie/.test(userAgent)&amp;&amp;!/opera/.test(userAgent),mozilla:/mozilla/.test(userAgent)&amp;&amp;!/(compatible|webkit)/.test(userAgent)};var styleFloat=jQuery.browser.msie?&quot;styleFloat&quot;:&quot;cssFloat&quot;;jQuery.extend({boxModel:!jQuery.browser.msie||document.compatMode==&quot;CSS1Compat&quot;,props:{&quot;for&quot;:&quot;htmlFor&quot;,&quot;class&quot;:&quot;className&quot;,&quot;float&quot;:styleFloat,cssFloat:styleFloat,styleFloat:styleFloat,readonly:&quot;readOnly&quot;,maxlength:&quot;maxLength&quot;,cellspacing:&quot;cellSpacing&quot;}});jQuery.each({parent:function(elem){return elem.parentNode;},parents:function(elem){return jQuery.dir(elem,&quot;parentNode&quot;);},next:function(elem){return jQuery.nth(elem,2,&quot;nextSibling&quot;);},prev:function(elem){return jQuery.nth(elem,2,&quot;previousSibling&quot;);},nextAll:function(elem){return jQuery.dir(elem,&quot;nextSibling&quot;);},prevAll:function(elem){return jQuery.dir(elem,&quot;previousSibling&quot;);},siblings:function(elem){return jQuery.sibling(elem.parentNode.firstChild,elem);},children:function(elem){return jQuery.sibling(elem.firstChild);},contents:function(elem){return jQuery.nodeName(elem,&quot;iframe&quot;)?elem.contentDocument||elem.contentWindow.document:jQuery.makeArray(elem.childNodes);}},function(name,fn){jQuery.fn[name]=function(selector){var ret=jQuery.map(this,fn);if(selector&amp;&amp;typeof selector==&quot;string&quot;)ret=jQuery.multiFilter(selector,ret);return this.pushStack(jQuery.unique(ret));};});jQuery.each({appendTo:&quot;append&quot;,prependTo:&quot;prepend&quot;,insertBefore:&quot;before&quot;,insertAfter:&quot;after&quot;,replaceAll:&quot;replaceWith&quot;},function(name,original){jQuery.fn[name]=function(){var args=arguments;return this.each(function(){for(var i=0,length=args.length;i&lt;length;i++)jQuery(args[i])[original](this);});};});jQuery.each({removeAttr:function(name){jQuery.attr(this,name,&quot;&quot;);if(this.nodeType==1)this.removeAttribute(name);},addClass:function(classNames){jQuery.className.add(this,classNames);},removeClass:function(classNames){jQuery.className.remove(this,classNames);},toggleClass:function(classNames){jQuery.className[jQuery.className.has(this,classNames)?&quot;remove&quot;:&quot;add&quot;](this,classNames);},remove:function(selector){if(!selector||jQuery.filter(selector,[this]).r.length){jQuery(&quot;*&quot;,this).add(this).each(function(){jQuery.event.remove(this);jQuery.removeData(this);});if(this.parentNode)this.parentNode.removeChild(this);}},empty:function(){jQuery(&quot;&gt;*&quot;,this).remove();while(this.firstChild)this.removeChild(this.firstChild);}},function(name,fn){jQuery.fn[name]=function(){return this.each(fn,arguments);};});jQuery.each([&quot;Height&quot;,&quot;Width&quot;],function(i,name){var type=name.toLowerCase();jQuery.fn[type]=function(size){return this[0]==window?jQuery.browser.opera&amp;&amp;document.body[&quot;client&quot;+name]||jQuery.browser.safari&amp;&amp;window[&quot;inner&quot;+name]||document.compatMode==&quot;CSS1Compat&quot;&amp;&amp;document.documentElement[&quot;client&quot;+name]||document.body[&quot;client&quot;+name]:this[0]==document?Math.max(Math.max(document.body[&quot;scroll&quot;+name],document.documentElement[&quot;scroll&quot;+name]),Math.max(document.body[&quot;offset&quot;+name],document.documentElement[&quot;offset&quot;+name])):size==undefined?(this.length?jQuery.css(this[0],type):null):this.css(type,size.constructor==String?size:size+&quot;px&quot;);};});function num(elem,prop){return elem[0]&amp;&amp;parseInt(jQuery.curCSS(elem[0],prop,true),10)||0;}var chars=jQuery.browser.safari&amp;&amp;parseInt(jQuery.browser.version)&lt;417?&quot;(?:[\\w*_-]|\\\\.)&quot;:&quot;(?:[\\w\u0128-\uFFFF*_-]|\\\\.)&quot;,quickChild=new RegExp(&quot;^&gt;\\s*(&quot;+chars+&quot;+)&quot;),quickID=new RegExp(&quot;^(&quot;+chars+&quot;+)(#)(&quot;+chars+&quot;+)&quot;),quickClass=new RegExp(&quot;^([#.]?)(&quot;+chars+&quot;*)&quot;);jQuery.extend({expr:{&quot;&quot;:function(a,i,m){return m[2]==&quot;*&quot;||jQuery.nodeName(a,m[2]);},&quot;#&quot;:function(a,i,m){return a.getAttribute(&quot;id&quot;)==m[2];},&quot;:&quot;:{lt:function(a,i,m){return i&lt;m[3]-0;},gt:function(a,i,m){return i&gt;m[3]-0;},nth:function(a,i,m){return m[3]-0==i;},eq:function(a,i,m){return m[3]-0==i;},first:function(a,i){return i==0;},last:function(a,i,m,r){return i==r.length-1;},even:function(a,i){return i%2==0;},odd:function(a,i){return i%2;},&quot;first-child&quot;:function(a){return a.parentNode.getElementsByTagName(&quot;*&quot;)[0]==a;},&quot;last-child&quot;:function(a){return jQuery.nth(a.parentNode.lastChild,1,&quot;previousSibling&quot;)==a;},&quot;only-child&quot;:function(a){return!jQuery.nth(a.parentNode.lastChild,2,&quot;previousSibling&quot;);},parent:function(a){return a.firstChild;},empty:function(a){return!a.firstChild;},contains:function(a,i,m){return(a.textContent||a.innerText||jQuery(a).text()||&quot;&quot;).indexOf(m[3])&gt;=0;},visible:function(a){return&quot;hidden&quot;!=a.type&amp;&amp;jQuery.css(a,&quot;display&quot;)!=&quot;none&quot;&amp;&amp;jQuery.css(a,&quot;visibility&quot;)!=&quot;hidden&quot;;},hidden:function(a){return&quot;hidden&quot;==a.type||jQuery.css(a,&quot;display&quot;)==&quot;none&quot;||jQuery.css(a,&quot;visibility&quot;)==&quot;hidden&quot;;},enabled:function(a){return!a.disabled;},disabled:function(a){return a.disabled;},checked:function(a){return a.checked;},selected:function(a){return a.selected||jQuery.attr(a,&quot;selected&quot;);},text:function(a){return&quot;text&quot;==a.type;},radio:function(a){return&quot;radio&quot;==a.type;},checkbox:function(a){return&quot;checkbox&quot;==a.type;},file:function(a){return&quot;file&quot;==a.type;},password:function(a){return&quot;password&quot;==a.type;},submit:function(a){return&quot;submit&quot;==a.type;},image:function(a){return&quot;image&quot;==a.type;},reset:function(a){return&quot;reset&quot;==a.type;},button:function(a){return&quot;button&quot;==a.type||jQuery.nodeName(a,&quot;button&quot;);},input:function(a){return/input|select|textarea|button/i.test(a.nodeName);},has:function(a,i,m){return jQuery.find(m[3],a).length;},header:function(a){return/h\d/i.test(a.nodeName);},animated:function(a){return jQuery.grep(jQuery.timers,function(fn){return a==fn.elem;}).length;}}},parse:[/^(\[) *@?([\w-]+) *([!*$^~=]*) *('?&quot;?)(.*?)\4 *\]/,/^(:)([\w-]+)\(&quot;?'?(.*?(\(.*?\))?[^(]*?)&quot;?'?\)/,new RegExp(&quot;^([:.#]*)(&quot;+chars+&quot;+)&quot;)],multiFilter:function(expr,elems,not){var old,cur=[];while(expr&amp;&amp;expr!=old){old=expr;var f=jQuery.filter(expr,elems,not);expr=f.t.replace(/^\s*,\s*/,&quot;&quot;);cur=not?elems=f.r:jQuery.merge(cur,f.r);}return cur;},find:function(t,context){if(typeof t!=&quot;string&quot;)return[t];if(context&amp;&amp;context.nodeType!=1&amp;&amp;context.nodeType!=9)return[];context=context||document;var ret=[context],done=[],last,nodeName;while(t&amp;&amp;last!=t){var r=[];last=t;t=jQuery.trim(t);var foundToken=false,re=quickChild,m=re.exec(t);if(m){nodeName=m[1].toUpperCase();for(var i=0;ret[i];i++)for(var c=ret[i].firstChild;c;c=c.nextSibling)if(c.nodeType==1&amp;&amp;(nodeName==&quot;*&quot;||c.nodeName.toUpperCase()==nodeName))r.push(c);ret=r;t=t.replace(re,&quot;&quot;);if(t.indexOf(&quot; &quot;)==0)continue;foundToken=true;}else{re=/^([&gt;+~])\s*(\w*)/i;if((m=re.exec(t))!=null){r=[];var merge={};nodeName=m[2].toUpperCase();m=m[1];for(var j=0,rl=ret.length;j&lt;rl;j++){var n=m==&quot;~&quot;||m==&quot;+&quot;?ret[j].nextSibling:ret[j].firstChild;for(;n;n=n.nextSibling)if(n.nodeType==1){var id=jQuery.data(n);if(m==&quot;~&quot;&amp;&amp;merge[id])break;if(!nodeName||n.nodeName.toUpperCase()==nodeName){if(m==&quot;~&quot;)merge[id]=true;r.push(n);}if(m==&quot;+&quot;)break;}}ret=r;t=jQuery.trim(t.replace(re,&quot;&quot;));foundToken=true;}}if(t&amp;&amp;!foundToken){if(!t.indexOf(&quot;,&quot;)){if(context==ret[0])ret.shift();done=jQuery.merge(done,ret);r=ret=[context];t=&quot; &quot;+t.substr(1,t.length);}else{var re2=quickID;var m=re2.exec(t);if(m){m=[0,m[2],m[3],m[1]];}else{re2=quickClass;m=re2.exec(t);}m[2]=m[2].replace(/\\/g,&quot;&quot;);var elem=ret[ret.length-1];if(m[1]==&quot;#&quot;&amp;&amp;elem&amp;&amp;elem.getElementById&amp;&amp;!jQuery.isXMLDoc(elem)){var oid=elem.getElementById(m[2]);if((jQuery.browser.msie||jQuery.browser.opera)&amp;&amp;oid&amp;&amp;typeof oid.id==&quot;string&quot;&amp;&amp;oid.id!=m[2])oid=jQuery('[@id=&quot;'+m[2]+'&quot;]',elem)[0];ret=r=oid&amp;&amp;(!m[3]||jQuery.nodeName(oid,m[3]))?[oid]:[];}else{for(var i=0;ret[i];i++){var tag=m[1]==&quot;#&quot;&amp;&amp;m[3]?m[3]:m[1]!=&quot;&quot;||m[0]==&quot;&quot;?&quot;*&quot;:m[2];if(tag==&quot;*&quot;&amp;&amp;ret[i].nodeName.toLowerCase()==&quot;object&quot;)tag=&quot;param&quot;;r=jQuery.merge(r,ret[i].getElementsByTagName(tag));}if(m[1]==&quot;.&quot;)r=jQuery.classFilter(r,m[2]);if(m[1]==&quot;#&quot;){var tmp=[];for(var i=0;r[i];i++)if(r[i].getAttribute(&quot;id&quot;)==m[2]){tmp=[r[i]];break;}r=tmp;}ret=r;}t=t.replace(re2,&quot;&quot;);}}if(t){var val=jQuery.filter(t,r);ret=r=val.r;t=jQuery.trim(val.t);}}if(t)ret=[];if(ret&amp;&amp;context==ret[0])ret.shift();done=jQuery.merge(done,ret);return done;},classFilter:function(r,m,not){m=&quot; &quot;+m+&quot; &quot;;var tmp=[];for(var i=0;r[i];i++){var pass=(&quot; &quot;+r[i].className+&quot; &quot;).indexOf(m)&gt;=0;if(!not&amp;&amp;pass||not&amp;&amp;!pass)tmp.push(r[i]);}return tmp;},filter:function(t,r,not){var last;while(t&amp;&amp;t!=last){last=t;var p=jQuery.parse,m;for(var i=0;p[i];i++){m=p[i].exec(t);if(m){t=t.substring(m[0].length);m[2]=m[2].replace(/\\/g,&quot;&quot;);break;}}if(!m)break;if(m[1]==&quot;:&quot;&amp;&amp;m[2]==&quot;not&quot;)r=isSimple.test(m[3])?jQuery.filter(m[3],r,true).r:jQuery(r).not(m[3]);else if(m[1]==&quot;.&quot;)r=jQuery.classFilter(r,m[2],not);else if(m[1]==&quot;[&quot;){var tmp=[],type=m[3];for(var i=0,rl=r.length;i&lt;rl;i++){var a=r[i],z=a[jQuery.props[m[2]]||m[2]];if(z==null||/href|src|selected/.test(m[2]))z=jQuery.attr(a,m[2])||'';if((type==&quot;&quot;&amp;&amp;!!z||type==&quot;=&quot;&amp;&amp;z==m[5]||type==&quot;!=&quot;&amp;&amp;z!=m[5]||type==&quot;^=&quot;&amp;&amp;z&amp;&amp;!z.indexOf(m[5])||type==&quot;$=&quot;&amp;&amp;z.substr(z.length-m[5].length)==m[5]||(type==&quot;*=&quot;||type==&quot;~=&quot;)&amp;&amp;z.indexOf(m[5])&gt;=0)^not)tmp.push(a);}r=tmp;}else if(m[1]==&quot;:&quot;&amp;&amp;m[2]==&quot;nth-child&quot;){var merge={},tmp=[],test=/(-?)(\d*)n((?:\+|-)?\d*)/.exec(m[3]==&quot;even&quot;&amp;&amp;&quot;2n&quot;||m[3]==&quot;odd&quot;&amp;&amp;&quot;2n+1&quot;||!/\D/.test(m[3])&amp;&amp;&quot;0n+&quot;+m[3]||m[3]),first=(test[1]+(test[2]||1))-0,last=test[3]-0;for(var i=0,rl=r.length;i&lt;rl;i++){var node=r[i],parentNode=node.parentNode,id=jQuery.data(parentNode);if(!merge[id]){var c=1;for(var n=parentNode.firstChild;n;n=n.nextSibling)if(n.nodeType==1)n.nodeIndex=c++;merge[id]=true;}var add=false;if(first==0){if(node.nodeIndex==last)add=true;}else if((node.nodeIndex-last)%first==0&amp;&amp;(node.nodeIndex-last)/first&gt;=0)add=true;if(add^not)tmp.push(node);}r=tmp;}else{var fn=jQuery.expr[m[1]];if(typeof fn==&quot;object&quot;)fn=fn[m[2]];if(typeof fn==&quot;string&quot;)fn=eval(&quot;false||function(a,i){return &quot;+fn+&quot;;}&quot;);r=jQuery.grep(r,function(elem,i){return fn(elem,i,m,r);},not);}}return{r:r,t:t};},dir:function(elem,dir){var matched=[],cur=elem[dir];while(cur&amp;&amp;cur!=document){if(cur.nodeType==1)matched.push(cur);cur=cur[dir];}return matched;},nth:function(cur,result,dir,elem){result=result||1;var num=0;for(;cur;cur=cur[dir])if(cur.nodeType==1&amp;&amp;++num==result)break;return cur;},sibling:function(n,elem){var r=[];for(;n;n=n.nextSibling){if(n.nodeType==1&amp;&amp;n!=elem)r.push(n);}return r;}});jQuery.event={add:function(elem,types,handler,data){if(elem.nodeType==3||elem.nodeType==8)return;if(jQuery.browser.msie&amp;&amp;elem.setInterval)elem=window;if(!handler.guid)handler.guid=this.guid++;if(data!=undefined){var fn=handler;handler=this.proxy(fn,function(){return fn.apply(this,arguments);});handler.data=data;}var events=jQuery.data(elem,&quot;events&quot;)||jQuery.data(elem,&quot;events&quot;,{}),handle=jQuery.data(elem,&quot;handle&quot;)||jQuery.data(elem,&quot;handle&quot;,function(){if(typeof jQuery!=&quot;undefined&quot;&amp;&amp;!jQuery.event.triggered)return jQuery.event.handle.apply(arguments.callee.elem,arguments);});handle.elem=elem;jQuery.each(types.split(/\s+/),function(index,type){var parts=type.split(&quot;.&quot;);type=parts[0];handler.type=parts[1];var handlers=events[type];if(!handlers){handlers=events[type]={};if(!jQuery.event.special[type]||jQuery.event.special[type].setup.call(elem)===false){if(elem.addEventListener)elem.addEventListener(type,handle,false);else if(elem.attachEvent)elem.attachEvent(&quot;on&quot;+type,handle);}}handlers[handler.guid]=handler;jQuery.event.global[type]=true;});elem=null;},guid:1,global:{},remove:function(elem,types,handler){if(elem.nodeType==3||elem.nodeType==8)return;var events=jQuery.data(elem,&quot;events&quot;),ret,index;if(events){if(types==undefined||(typeof types==&quot;string&quot;&amp;&amp;types.charAt(0)==&quot;.&quot;))for(var type in events)this.remove(elem,type+(types||&quot;&quot;));else{if(types.type){handler=types.handler;types=types.type;}jQuery.each(types.split(/\s+/),function(index,type){var parts=type.split(&quot;.&quot;);type=parts[0];if(events[type]){if(handler)delete events[type][handler.guid];else
+for(handler in events[type])if(!parts[1]||events[type][handler].type==parts[1])delete events[type][handler];for(ret in events[type])break;if(!ret){if(!jQuery.event.special[type]||jQuery.event.special[type].teardown.call(elem)===false){if(elem.removeEventListener)elem.removeEventListener(type,jQuery.data(elem,&quot;handle&quot;),false);else if(elem.detachEvent)elem.detachEvent(&quot;on&quot;+type,jQuery.data(elem,&quot;handle&quot;));}ret=null;delete events[type];}}});}for(ret in events)break;if(!ret){var handle=jQuery.data(elem,&quot;handle&quot;);if(handle)handle.elem=null;jQuery.removeData(elem,&quot;events&quot;);jQuery.removeData(elem,&quot;handle&quot;);}}},trigger:function(type,data,elem,donative,extra){data=jQuery.makeArray(data);if(type.indexOf(&quot;!&quot;)&gt;=0){type=type.slice(0,-1);var exclusive=true;}if(!elem){if(this.global[type])jQuery(&quot;*&quot;).add([window,document]).trigger(type,data);}else{if(elem.nodeType==3||elem.nodeType==8)return undefined;var val,ret,fn=jQuery.isFunction(elem[type]||null),event=!data[0]||!data[0].preventDefault;if(event){data.unshift({type:type,target:elem,preventDefault:function(){},stopPropagation:function(){},timeStamp:now()});data[0][expando]=true;}data[0].type=type;if(exclusive)data[0].exclusive=true;var handle=jQuery.data(elem,&quot;handle&quot;);if(handle)val=handle.apply(elem,data);if((!fn||(jQuery.nodeName(elem,'a')&amp;&amp;type==&quot;click&quot;))&amp;&amp;elem[&quot;on&quot;+type]&amp;&amp;elem[&quot;on&quot;+type].apply(elem,data)===false)val=false;if(event)data.shift();if(extra&amp;&amp;jQuery.isFunction(extra)){ret=extra.apply(elem,val==null?data:data.concat(val));if(ret!==undefined)val=ret;}if(fn&amp;&amp;donative!==false&amp;&amp;val!==false&amp;&amp;!(jQuery.nodeName(elem,'a')&amp;&amp;type==&quot;click&quot;)){this.triggered=true;try{elem[type]();}catch(e){}}this.triggered=false;}return val;},handle:function(event){var val,ret,namespace,all,handlers;event=arguments[0]=jQuery.event.fix(event||window.event);namespace=event.type.split(&quot;.&quot;);event.type=namespace[0];namespace=namespace[1];all=!namespace&amp;&amp;!event.exclusive;handlers=(jQuery.data(this,&quot;events&quot;)||{})[event.type];for(var j in handlers){var handler=handlers[j];if(all||handler.type==namespace){event.handler=handler;event.data=handler.data;ret=handler.apply(this,arguments);if(val!==false)val=ret;if(ret===false){event.preventDefault();event.stopPropagation();}}}return val;},fix:function(event){if(event[expando]==true)return event;var originalEvent=event;event={originalEvent:originalEvent};var props=&quot;altKey attrChange attrName bubbles button cancelable charCode clientX clientY ctrlKey currentTarget data detail eventPhase fromElement handler keyCode metaKey newValue originalTarget pageX pageY prevValue relatedNode relatedTarget screenX screenY shiftKey srcElement target timeStamp toElement type view wheelDelta which&quot;.split(&quot; &quot;);for(var i=props.length;i;i--)event[props[i]]=originalEvent[props[i]];event[expando]=true;event.preventDefault=function(){if(originalEvent.preventDefault)originalEvent.preventDefault();originalEvent.returnValue=false;};event.stopPropagation=function(){if(originalEvent.stopPropagation)originalEvent.stopPropagation();originalEvent.cancelBubble=true;};event.timeStamp=event.timeStamp||now();if(!event.target)event.target=event.srcElement||document;if(event.target.nodeType==3)event.target=event.target.parentNode;if(!event.relatedTarget&amp;&amp;event.fromElement)event.relatedTarget=event.fromElement==event.target?event.toElement:event.fromElement;if(event.pageX==null&amp;&amp;event.clientX!=null){var doc=document.documentElement,body=document.body;event.pageX=event.clientX+(doc&amp;&amp;doc.scrollLeft||body&amp;&amp;body.scrollLeft||0)-(doc.clientLeft||0);event.pageY=event.clientY+(doc&amp;&amp;doc.scrollTop||body&amp;&amp;body.scrollTop||0)-(doc.clientTop||0);}if(!event.which&amp;&amp;((event.charCode||event.charCode===0)?event.charCode:event.keyCode))event.which=event.charCode||event.keyCode;if(!event.metaKey&amp;&amp;event.ctrlKey)event.metaKey=event.ctrlKey;if(!event.which&amp;&amp;event.button)event.which=(event.button&amp;1?1:(event.button&amp;2?3:(event.button&amp;4?2:0)));return event;},proxy:function(fn,proxy){proxy.guid=fn.guid=fn.guid||proxy.guid||this.guid++;return proxy;},special:{ready:{setup:function(){bindReady();return;},teardown:function(){return;}},mouseenter:{setup:function(){if(jQuery.browser.msie)return false;jQuery(this).bind(&quot;mouseover&quot;,jQuery.event.special.mouseenter.handler);return true;},teardown:function(){if(jQuery.browser.msie)return false;jQuery(this).unbind(&quot;mouseover&quot;,jQuery.event.special.mouseenter.handler);return true;},handler:function(event){if(withinElement(event,this))return true;event.type=&quot;mouseenter&quot;;return jQuery.event.handle.apply(this,arguments);}},mouseleave:{setup:function(){if(jQuery.browser.msie)return false;jQuery(this).bind(&quot;mouseout&quot;,jQuery.event.special.mouseleave.handler);return true;},teardown:function(){if(jQuery.browser.msie)return false;jQuery(this).unbind(&quot;mouseout&quot;,jQuery.event.special.mouseleave.handler);return true;},handler:function(event){if(withinElement(event,this))return true;event.type=&quot;mouseleave&quot;;return jQuery.event.handle.apply(this,arguments);}}}};jQuery.fn.extend({bind:function(type,data,fn){return type==&quot;unload&quot;?this.one(type,data,fn):this.each(function(){jQuery.event.add(this,type,fn||data,fn&amp;&amp;data);});},one:function(type,data,fn){var one=jQuery.event.proxy(fn||data,function(event){jQuery(this).unbind(event,one);return(fn||data).apply(this,arguments);});return this.each(function(){jQuery.event.add(this,type,one,fn&amp;&amp;data);});},unbind:function(type,fn){return this.each(function(){jQuery.event.remove(this,type,fn);});},trigger:function(type,data,fn){return this.each(function(){jQuery.event.trigger(type,data,this,true,fn);});},triggerHandler:function(type,data,fn){return this[0]&amp;&amp;jQuery.event.trigger(type,data,this[0],false,fn);},toggle:function(fn){var args=arguments,i=1;while(i&lt;args.length)jQuery.event.proxy(fn,args[i++]);return this.click(jQuery.event.proxy(fn,function(event){this.lastToggle=(this.lastToggle||0)%i;event.preventDefault();return args[this.lastToggle++].apply(this,arguments)||false;}));},hover:function(fnOver,fnOut){return this.bind('mouseenter',fnOver).bind('mouseleave',fnOut);},ready:function(fn){bindReady();if(jQuery.isReady)fn.call(document,jQuery);else
+jQuery.readyList.push(function(){return fn.call(this,jQuery);});return this;}});jQuery.extend({isReady:false,readyList:[],ready:function(){if(!jQuery.isReady){jQuery.isReady=true;if(jQuery.readyList){jQuery.each(jQuery.readyList,function(){this.call(document);});jQuery.readyList=null;}jQuery(document).triggerHandler(&quot;ready&quot;);}}});var readyBound=false;function bindReady(){if(readyBound)return;readyBound=true;if(document.addEventListener&amp;&amp;!jQuery.browser.opera)document.addEventListener(&quot;DOMContentLoaded&quot;,jQuery.ready,false);if(jQuery.browser.msie&amp;&amp;window==top)(function(){if(jQuery.isReady)return;try{document.documentElement.doScroll(&quot;left&quot;);}catch(error){setTimeout(arguments.callee,0);return;}jQuery.ready();})();if(jQuery.browser.opera)document.addEventListener(&quot;DOMContentLoaded&quot;,function(){if(jQuery.isReady)return;for(var i=0;i&lt;document.styleSheets.length;i++)if(document.styleSheets[i].disabled){setTimeout(arguments.callee,0);return;}jQuery.ready();},false);if(jQuery.browser.safari){var numStyles;(function(){if(jQuery.isReady)return;if(document.readyState!=&quot;loaded&quot;&amp;&amp;document.readyState!=&quot;complete&quot;){setTimeout(arguments.callee,0);return;}if(numStyles===undefined)numStyles=jQuery(&quot;style, link[rel=stylesheet]&quot;).length;if(document.styleSheets.length!=numStyles){setTimeout(arguments.callee,0);return;}jQuery.ready();})();}jQuery.event.add(window,&quot;load&quot;,jQuery.ready);}jQuery.each((&quot;blur,focus,load,resize,scroll,unload,click,dblclick,&quot;+&quot;mousedown,mouseup,mousemove,mouseover,mouseout,change,select,&quot;+&quot;submit,keydown,keypress,keyup,error&quot;).split(&quot;,&quot;),function(i,name){jQuery.fn[name]=function(fn){return fn?this.bind(name,fn):this.trigger(name);};});var withinElement=function(event,elem){var parent=event.relatedTarget;while(parent&amp;&amp;parent!=elem)try{parent=parent.parentNode;}catch(error){parent=elem;}return parent==elem;};jQuery(window).bind(&quot;unload&quot;,function(){jQuery(&quot;*&quot;).add(document).unbind();});jQuery.fn.extend({_load:jQuery.fn.load,load:function(url,params,callback){if(typeof url!='string')return this._load(url);var off=url.indexOf(&quot; &quot;);if(off&gt;=0){var selector=url.slice(off,url.length);url=url.slice(0,off);}callback=callback||function(){};var type=&quot;GET&quot;;if(params)if(jQuery.isFunction(params)){callback=params;params=null;}else{params=jQuery.param(params);type=&quot;POST&quot;;}var self=this;jQuery.ajax({url:url,type:type,dataType:&quot;html&quot;,data:params,complete:function(res,status){if(status==&quot;success&quot;||status==&quot;notmodified&quot;)self.html(selector?jQuery(&quot;&lt;div/&gt;&quot;).append(res.responseText.replace(/&lt;script(.|\s)*?\/script&gt;/g,&quot;&quot;)).find(selector):res.responseText);self.each(callback,[res.responseText,status,res]);}});return this;},serialize:function(){return jQuery.param(this.serializeArray());},serializeArray:function(){return this.map(function(){return jQuery.nodeName(this,&quot;form&quot;)?jQuery.makeArray(this.elements):this;}).filter(function(){return this.name&amp;&amp;!this.disabled&amp;&amp;(this.checked||/select|textarea/i.test(this.nodeName)||/text|hidden|password/i.test(this.type));}).map(function(i,elem){var val=jQuery(this).val();return val==null?null:val.constructor==Array?jQuery.map(val,function(val,i){return{name:elem.name,value:val};}):{name:elem.name,value:val};}).get();}});jQuery.each(&quot;ajaxStart,ajaxStop,ajaxComplete,ajaxError,ajaxSuccess,ajaxSend&quot;.split(&quot;,&quot;),function(i,o){jQuery.fn[o]=function(f){return this.bind(o,f);};});var jsc=now();jQuery.extend({get:function(url,data,callback,type){if(jQuery.isFunction(data)){callback=data;data=null;}return jQuery.ajax({type:&quot;GET&quot;,url:url,data:data,success:callback,dataType:type});},getScript:function(url,callback){return jQuery.get(url,null,callback,&quot;script&quot;);},getJSON:function(url,data,callback){return jQuery.get(url,data,callback,&quot;json&quot;);},post:function(url,data,callback,type){if(jQuery.isFunction(data)){callback=data;data={};}return jQuery.ajax({type:&quot;POST&quot;,url:url,data:data,success:callback,dataType:type});},ajaxSetup:function(settings){jQuery.extend(jQuery.ajaxSettings,settings);},ajaxSettings:{url:location.href,global:true,type:&quot;GET&quot;,timeout:0,contentType:&quot;application/x-www-form-urlencoded&quot;,processData:true,async:true,data:null,username:null,password:null,accepts:{xml:&quot;application/xml, text/xml&quot;,html:&quot;text/html&quot;,script:&quot;text/javascript, application/javascript&quot;,json:&quot;application/json, text/javascript&quot;,text:&quot;text/plain&quot;,_default:&quot;*/*&quot;}},lastModified:{},ajax:function(s){s=jQuery.extend(true,s,jQuery.extend(true,{},jQuery.ajaxSettings,s));var jsonp,jsre=/=\?(&amp;|$)/g,status,data,type=s.type.toUpperCase();if(s.data&amp;&amp;s.processData&amp;&amp;typeof s.data!=&quot;string&quot;)s.data=jQuery.param(s.data);if(s.dataType==&quot;jsonp&quot;){if(type==&quot;GET&quot;){if(!s.url.match(jsre))s.url+=(s.url.match(/\?/)?&quot;&amp;&quot;:&quot;?&quot;)+(s.jsonp||&quot;callback&quot;)+&quot;=?&quot;;}else if(!s.data||!s.data.match(jsre))s.data=(s.data?s.data+&quot;&amp;&quot;:&quot;&quot;)+(s.jsonp||&quot;callback&quot;)+&quot;=?&quot;;s.dataType=&quot;json&quot;;}if(s.dataType==&quot;json&quot;&amp;&amp;(s.data&amp;&amp;s.data.match(jsre)||s.url.match(jsre))){jsonp=&quot;jsonp&quot;+jsc++;if(s.data)s.data=(s.data+&quot;&quot;).replace(jsre,&quot;=&quot;+jsonp+&quot;$1&quot;);s.url=s.url.replace(jsre,&quot;=&quot;+jsonp+&quot;$1&quot;);s.dataType=&quot;script&quot;;window[jsonp]=function(tmp){data=tmp;success();complete();window[jsonp]=undefined;try{delete window[jsonp];}catch(e){}if(head)head.removeChild(script);};}if(s.dataType==&quot;script&quot;&amp;&amp;s.cache==null)s.cache=false;if(s.cache===false&amp;&amp;type==&quot;GET&quot;){var ts=now();var ret=s.url.replace(/(\?|&amp;)_=.*?(&amp;|$)/,&quot;$1_=&quot;+ts+&quot;$2&quot;);s.url=ret+((ret==s.url)?(s.url.match(/\?/)?&quot;&amp;&quot;:&quot;?&quot;)+&quot;_=&quot;+ts:&quot;&quot;);}if(s.data&amp;&amp;type==&quot;GET&quot;){s.url+=(s.url.match(/\?/)?&quot;&amp;&quot;:&quot;?&quot;)+s.data;s.data=null;}if(s.global&amp;&amp;!jQuery.active++)jQuery.event.trigger(&quot;ajaxStart&quot;);var remote=/^(?:\w+:)?\/\/([^\/?#]+)/;if(s.dataType==&quot;script&quot;&amp;&amp;type==&quot;GET&quot;&amp;&amp;remote.test(s.url)&amp;&amp;remote.exec(s.url)[1]!=location.host){var head=document.getElementsByTagName(&quot;head&quot;)[0];var script=document.createElement(&quot;script&quot;);script.src=s.url;if(s.scriptCharset)script.charset=s.scriptCharset;if(!jsonp){var done=false;script.onload=script.onreadystatechange=function(){if(!done&amp;&amp;(!this.readyState||this.readyState==&quot;loaded&quot;||this.readyState==&quot;complete&quot;)){done=true;success();complete();head.removeChild(script);}};}head.appendChild(script);return undefined;}var requestDone=false;var xhr=window.ActiveXObject?new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;):new XMLHttpRequest();if(s.username)xhr.open(type,s.url,s.async,s.username,s.password);else
+xhr.open(type,s.url,s.async);try{if(s.data)xhr.setRequestHeader(&quot;Content-Type&quot;,s.contentType);if(s.ifModified)xhr.setRequestHeader(&quot;If-Modified-Since&quot;,jQuery.lastModified[s.url]||&quot;Thu, 01 Jan 1970 00:00:00 GMT&quot;);xhr.setRequestHeader(&quot;X-Requested-With&quot;,&quot;XMLHttpRequest&quot;);xhr.setRequestHeader(&quot;Accept&quot;,s.dataType&amp;&amp;s.accepts[s.dataType]?s.accepts[s.dataType]+&quot;, */*&quot;:s.accepts._default);}catch(e){}if(s.beforeSend&amp;&amp;s.beforeSend(xhr,s)===false){s.global&amp;&amp;jQuery.active--;xhr.abort();return false;}if(s.global)jQuery.event.trigger(&quot;ajaxSend&quot;,[xhr,s]);var onreadystatechange=function(isTimeout){if(!requestDone&amp;&amp;xhr&amp;&amp;(xhr.readyState==4||isTimeout==&quot;timeout&quot;)){requestDone=true;if(ival){clearInterval(ival);ival=null;}status=isTimeout==&quot;timeout&quot;&amp;&amp;&quot;timeout&quot;||!jQuery.httpSuccess(xhr)&amp;&amp;&quot;error&quot;||s.ifModified&amp;&amp;jQuery.httpNotModified(xhr,s.url)&amp;&amp;&quot;notmodified&quot;||&quot;success&quot;;if(status==&quot;success&quot;){try{data=jQuery.httpData(xhr,s.dataType,s.dataFilter);}catch(e){status=&quot;parsererror&quot;;}}if(status==&quot;success&quot;){var modRes;try{modRes=xhr.getResponseHeader(&quot;Last-Modified&quot;);}catch(e){}if(s.ifModified&amp;&amp;modRes)jQuery.lastModified[s.url]=modRes;if(!jsonp)success();}else
+jQuery.handleError(s,xhr,status);complete();if(s.async)xhr=null;}};if(s.async){var ival=setInterval(onreadystatechange,13);if(s.timeout&gt;0)setTimeout(function(){if(xhr){xhr.abort();if(!requestDone)onreadystatechange(&quot;timeout&quot;);}},s.timeout);}try{xhr.send(s.data);}catch(e){jQuery.handleError(s,xhr,null,e);}if(!s.async)onreadystatechange();function success(){if(s.success)s.success(data,status);if(s.global)jQuery.event.trigger(&quot;ajaxSuccess&quot;,[xhr,s]);}function complete(){if(s.complete)s.complete(xhr,status);if(s.global)jQuery.event.trigger(&quot;ajaxComplete&quot;,[xhr,s]);if(s.global&amp;&amp;!--jQuery.active)jQuery.event.trigger(&quot;ajaxStop&quot;);}return xhr;},handleError:function(s,xhr,status,e){if(s.error)s.error(xhr,status,e);if(s.global)jQuery.event.trigger(&quot;ajaxError&quot;,[xhr,s,e]);},active:0,httpSuccess:function(xhr){try{return!xhr.status&amp;&amp;location.protocol==&quot;file:&quot;||(xhr.status&gt;=200&amp;&amp;xhr.status&lt;300)||xhr.status==304||xhr.status==1223||jQuery.browser.safari&amp;&amp;xhr.status==undefined;}catch(e){}return false;},httpNotModified:function(xhr,url){try{var xhrRes=xhr.getResponseHeader(&quot;Last-Modified&quot;);return xhr.status==304||xhrRes==jQuery.lastModified[url]||jQuery.browser.safari&amp;&amp;xhr.status==undefined;}catch(e){}return false;},httpData:function(xhr,type,filter){var ct=xhr.getResponseHeader(&quot;content-type&quot;),xml=type==&quot;xml&quot;||!type&amp;&amp;ct&amp;&amp;ct.indexOf(&quot;xml&quot;)&gt;=0,data=xml?xhr.responseXML:xhr.responseText;if(xml&amp;&amp;data.documentElement.tagName==&quot;parsererror&quot;)throw&quot;parsererror&quot;;if(filter)data=filter(data,type);if(type==&quot;script&quot;)jQuery.globalEval(data);if(type==&quot;json&quot;)data=eval(&quot;(&quot;+data+&quot;)&quot;);return data;},param:function(a){var s=[];if(a.constructor==Array||a.jquery)jQuery.each(a,function(){s.push(encodeURIComponent(this.name)+&quot;=&quot;+encodeURIComponent(this.value));});else
+for(var j in a)if(a[j]&amp;&amp;a[j].constructor==Array)jQuery.each(a[j],function(){s.push(encodeURIComponent(j)+&quot;=&quot;+encodeURIComponent(this));});else
+s.push(encodeURIComponent(j)+&quot;=&quot;+encodeURIComponent(jQuery.isFunction(a[j])?a[j]():a[j]));return s.join(&quot;&amp;&quot;).replace(/%20/g,&quot;+&quot;);}});jQuery.fn.extend({show:function(speed,callback){return speed?this.animate({height:&quot;show&quot;,width:&quot;show&quot;,opacity:&quot;show&quot;},speed,callback):this.filter(&quot;:hidden&quot;).each(function(){this.style.display=this.oldblock||&quot;&quot;;if(jQuery.css(this,&quot;display&quot;)==&quot;none&quot;){var elem=jQuery(&quot;&lt;&quot;+this.tagName+&quot; /&gt;&quot;).appendTo(&quot;body&quot;);this.style.display=elem.css(&quot;display&quot;);if(this.style.display==&quot;none&quot;)this.style.display=&quot;block&quot;;elem.remove();}}).end();},hide:function(speed,callback){return speed?this.animate({height:&quot;hide&quot;,width:&quot;hide&quot;,opacity:&quot;hide&quot;},speed,callback):this.filter(&quot;:visible&quot;).each(function(){this.oldblock=this.oldblock||jQuery.css(this,&quot;display&quot;);this.style.display=&quot;none&quot;;}).end();},_toggle:jQuery.fn.toggle,toggle:function(fn,fn2){return jQuery.isFunction(fn)&amp;&amp;jQuery.isFunction(fn2)?this._toggle.apply(this,arguments):fn?this.animate({height:&quot;toggle&quot;,width:&quot;toggle&quot;,opacity:&quot;toggle&quot;},fn,fn2):this.each(function(){jQuery(this)[jQuery(this).is(&quot;:hidden&quot;)?&quot;show&quot;:&quot;hide&quot;]();});},slideDown:function(speed,callback){return this.animate({height:&quot;show&quot;},speed,callback);},slideUp:function(speed,callback){return this.animate({height:&quot;hide&quot;},speed,callback);},slideToggle:function(speed,callback){return this.animate({height:&quot;toggle&quot;},speed,callback);},fadeIn:function(speed,callback){return this.animate({opacity:&quot;show&quot;},speed,callback);},fadeOut:function(speed,callback){return this.animate({opacity:&quot;hide&quot;},speed,callback);},fadeTo:function(speed,to,callback){return this.animate({opacity:to},speed,callback);},animate:function(prop,speed,easing,callback){var optall=jQuery.speed(speed,easing,callback);return this[optall.queue===false?&quot;each&quot;:&quot;queue&quot;](function(){if(this.nodeType!=1)return false;var opt=jQuery.extend({},optall),p,hidden=jQuery(this).is(&quot;:hidden&quot;),self=this;for(p in prop){if(prop[p]==&quot;hide&quot;&amp;&amp;hidden||prop[p]==&quot;show&quot;&amp;&amp;!hidden)return opt.complete.call(this);if(p==&quot;height&quot;||p==&quot;width&quot;){opt.display=jQuery.css(this,&quot;display&quot;);opt.overflow=this.style.overflow;}}if(opt.overflow!=null)this.style.overflow=&quot;hidden&quot;;opt.curAnim=jQuery.extend({},prop);jQuery.each(prop,function(name,val){var e=new jQuery.fx(self,opt,name);if(/toggle|show|hide/.test(val))e[val==&quot;toggle&quot;?hidden?&quot;show&quot;:&quot;hide&quot;:val](prop);else{var parts=val.toString().match(/^([+-]=)?([\d+-.]+)(.*)$/),start=e.cur(true)||0;if(parts){var end=parseFloat(parts[2]),unit=parts[3]||&quot;px&quot;;if(unit!=&quot;px&quot;){self.style[name]=(end||1)+unit;start=((end||1)/e.cur(true))*start;self.style[name]=start+unit;}if(parts[1])end=((parts[1]==&quot;-=&quot;?-1:1)*end)+start;e.custom(start,end,unit);}else
+e.custom(start,val,&quot;&quot;);}});return true;});},queue:function(type,fn){if(jQuery.isFunction(type)||(type&amp;&amp;type.constructor==Array)){fn=type;type=&quot;fx&quot;;}if(!type||(typeof type==&quot;string&quot;&amp;&amp;!fn))return queue(this[0],type);return this.each(function(){if(fn.constructor==Array)queue(this,type,fn);else{queue(this,type).push(fn);if(queue(this,type).length==1)fn.call(this);}});},stop:function(clearQueue,gotoEnd){var timers=jQuery.timers;if(clearQueue)this.queue([]);this.each(function(){for(var i=timers.length-1;i&gt;=0;i--)if(timers[i].elem==this){if(gotoEnd)timers[i](true);timers.splice(i,1);}});if(!gotoEnd)this.dequeue();return this;}});var queue=function(elem,type,array){if(elem){type=type||&quot;fx&quot;;var q=jQuery.data(elem,type+&quot;queue&quot;);if(!q||array)q=jQuery.data(elem,type+&quot;queue&quot;,jQuery.makeArray(array));}return q;};jQuery.fn.dequeue=function(type){type=type||&quot;fx&quot;;return this.each(function(){var q=queue(this,type);q.shift();if(q.length)q[0].call(this);});};jQuery.extend({speed:function(speed,easing,fn){var opt=speed&amp;&amp;speed.constructor==Object?speed:{complete:fn||!fn&amp;&amp;easing||jQuery.isFunction(speed)&amp;&amp;speed,duration:speed,easing:fn&amp;&amp;easing||easing&amp;&amp;easing.constructor!=Function&amp;&amp;easing};opt.duration=(opt.duration&amp;&amp;opt.duration.constructor==Number?opt.duration:jQuery.fx.speeds[opt.duration])||jQuery.fx.speeds.def;opt.old=opt.complete;opt.complete=function(){if(opt.queue!==false)jQuery(this).dequeue();if(jQuery.isFunction(opt.old))opt.old.call(this);};return opt;},easing:{linear:function(p,n,firstNum,diff){return firstNum+diff*p;},swing:function(p,n,firstNum,diff){return((-Math.cos(p*Math.PI)/2)+0.5)*diff+firstNum;}},timers:[],timerId:null,fx:function(elem,options,prop){this.options=options;this.elem=elem;this.prop=prop;if(!options.orig)options.orig={};}});jQuery.fx.prototype={update:function(){if(this.options.step)this.options.step.call(this.elem,this.now,this);(jQuery.fx.step[this.prop]||jQuery.fx.step._default)(this);if(this.prop==&quot;height&quot;||this.prop==&quot;width&quot;)this.elem.style.display=&quot;block&quot;;},cur:function(force){if(this.elem[this.prop]!=null&amp;&amp;this.elem.style[this.prop]==null)return this.elem[this.prop];var r=parseFloat(jQuery.css(this.elem,this.prop,force));return r&amp;&amp;r&gt;-10000?r:parseFloat(jQuery.curCSS(this.elem,this.prop))||0;},custom:function(from,to,unit){this.startTime=now();this.start=from;this.end=to;this.unit=unit||this.unit||&quot;px&quot;;this.now=this.start;this.pos=this.state=0;this.update();var self=this;function t(gotoEnd){return self.step(gotoEnd);}t.elem=this.elem;jQuery.timers.push(t);if(jQuery.timerId==null){jQuery.timerId=setInterval(function(){var timers=jQuery.timers;for(var i=0;i&lt;timers.length;i++)if(!timers[i]())timers.splice(i--,1);if(!timers.length){clearInterval(jQuery.timerId);jQuery.timerId=null;}},13);}},show:function(){this.options.orig[this.prop]=jQuery.attr(this.elem.style,this.prop);this.options.show=true;this.custom(0,this.cur());if(this.prop==&quot;width&quot;||this.prop==&quot;height&quot;)this.elem.style[this.prop]=&quot;1px&quot;;jQuery(this.elem).show();},hide:function(){this.options.orig[this.prop]=jQuery.attr(this.elem.style,this.prop);this.options.hide=true;this.custom(this.cur(),0);},step:function(gotoEnd){var t=now();if(gotoEnd||t&gt;this.options.duration+this.startTime){this.now=this.end;this.pos=this.state=1;this.update();this.options.curAnim[this.prop]=true;var done=true;for(var i in this.options.curAnim)if(this.options.curAnim[i]!==true)done=false;if(done){if(this.options.display!=null){this.elem.style.overflow=this.options.overflow;this.elem.style.display=this.options.display;if(jQuery.css(this.elem,&quot;display&quot;)==&quot;none&quot;)this.elem.style.display=&quot;block&quot;;}if(this.options.hide)this.elem.style.display=&quot;none&quot;;if(this.options.hide||this.options.show)for(var p in this.options.curAnim)jQuery.attr(this.elem.style,p,this.options.orig[p]);}if(done)this.options.complete.call(this.elem);return false;}else{var n=t-this.startTime;this.state=n/this.options.duration;this.pos=jQuery.easing[this.options.easing||(jQuery.easing.swing?&quot;swing&quot;:&quot;linear&quot;)](this.state,n,0,1,this.options.duration);this.now=this.start+((this.end-this.start)*this.pos);this.update();}return true;}};jQuery.extend(jQuery.fx,{speeds:{slow:600,fast:200,def:400},step:{scrollLeft:function(fx){fx.elem.scrollLeft=fx.now;},scrollTop:function(fx){fx.elem.scrollTop=fx.now;},opacity:function(fx){jQuery.attr(fx.elem.style,&quot;opacity&quot;,fx.now);},_default:function(fx){fx.elem.style[fx.prop]=fx.now+fx.unit;}}});jQuery.fn.offset=function(){var left=0,top=0,elem=this[0],results;if(elem)with(jQuery.browser){var parent=elem.parentNode,offsetChild=elem,offsetParent=elem.offsetParent,doc=elem.ownerDocument,safari2=safari&amp;&amp;parseInt(version)&lt;522&amp;&amp;!/adobeair/i.test(userAgent),css=jQuery.curCSS,fixed=css(elem,&quot;position&quot;)==&quot;fixed&quot;;if(elem.getBoundingClientRect){var box=elem.getBoundingClientRect();add(box.left+Math.max(doc.documentElement.scrollLeft,doc.body.scrollLeft),box.top+Math.max(doc.documentElement.scrollTop,doc.body.scrollTop));add(-doc.documentElement.clientLeft,-doc.documentElement.clientTop);}else{add(elem.offsetLeft,elem.offsetTop);while(offsetParent){add(offsetParent.offsetLeft,offsetParent.offsetTop);if(mozilla&amp;&amp;!/^t(able|d|h)$/i.test(offsetParent.tagName)||safari&amp;&amp;!safari2)border(offsetParent);if(!fixed&amp;&amp;css(offsetParent,&quot;position&quot;)==&quot;fixed&quot;)fixed=true;offsetChild=/^body$/i.test(offsetParent.tagName)?offsetChild:offsetParent;offsetParent=offsetParent.offsetParent;}while(parent&amp;&amp;parent.tagName&amp;&amp;!/^body|html$/i.test(parent.tagName)){if(!/^inline|table.*$/i.test(css(parent,&quot;display&quot;)))add(-parent.scrollLeft,-parent.scrollTop);if(mozilla&amp;&amp;css(parent,&quot;overflow&quot;)!=&quot;visible&quot;)border(parent);parent=parent.parentNode;}if((safari2&amp;&amp;(fixed||css(offsetChild,&quot;position&quot;)==&quot;absolute&quot;))||(mozilla&amp;&amp;css(offsetChild,&quot;position&quot;)!=&quot;absolute&quot;))add(-doc.body.offsetLeft,-doc.body.offsetTop);if(fixed)add(Math.max(doc.documentElement.scrollLeft,doc.body.scrollLeft),Math.max(doc.documentElement.scrollTop,doc.body.scrollTop));}results={top:top,left:left};}function border(elem){add(jQuery.curCSS(elem,&quot;borderLeftWidth&quot;,true),jQuery.curCSS(elem,&quot;borderTopWidth&quot;,true));}function add(l,t){left+=parseInt(l,10)||0;top+=parseInt(t,10)||0;}return results;};jQuery.fn.extend({position:function(){var left=0,top=0,results;if(this[0]){var offsetParent=this.offsetParent(),offset=this.offset(),parentOffset=/^body|html$/i.test(offsetParent[0].tagName)?{top:0,left:0}:offsetParent.offset();offset.top-=num(this,'marginTop');offset.left-=num(this,'marginLeft');parentOffset.top+=num(offsetParent,'borderTopWidth');parentOffset.left+=num(offsetParent,'borderLeftWidth');results={top:offset.top-parentOffset.top,left:offset.left-parentOffset.left};}return results;},offsetParent:function(){var offsetParent=this[0].offsetParent;while(offsetParent&amp;&amp;(!/^body|html$/i.test(offsetParent.tagName)&amp;&amp;jQuery.css(offsetParent,'position')=='static'))offsetParent=offsetParent.offsetParent;return jQuery(offsetParent);}});jQuery.each(['Left','Top'],function(i,name){var method='scroll'+name;jQuery.fn[method]=function(val){if(!this[0])return;return val!=undefined?this.each(function(){this==window||this==document?window.scrollTo(!i?val:jQuery(window).scrollLeft(),i?val:jQuery(window).scrollTop()):this[method]=val;}):this[0]==window||this[0]==document?self[i?'pageYOffset':'pageXOffset']||jQuery.boxModel&amp;&amp;document.documentElement[method]||document.body[method]:this[0][method];};});jQuery.each([&quot;Height&quot;,&quot;Width&quot;],function(i,name){var tl=i?&quot;Left&quot;:&quot;Top&quot;,br=i?&quot;Right&quot;:&quot;Bottom&quot;;jQuery.fn[&quot;inner&quot;+name]=function(){return this[name.toLowerCase()]()+num(this,&quot;padding&quot;+tl)+num(this,&quot;padding&quot;+br);};jQuery.fn[&quot;outer&quot;+name]=function(margin){return this[&quot;inner&quot;+name]()+num(this,&quot;border&quot;+tl+&quot;Width&quot;)+num(this,&quot;border&quot;+br+&quot;Width&quot;)+(margin?num(this,&quot;margin&quot;+tl)+num(this,&quot;margin&quot;+br):0);};});})();/***
 !Layer 4: Support Internet Explorer (Safely remove if not required)
 ***/
 

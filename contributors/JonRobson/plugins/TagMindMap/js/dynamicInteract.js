@@ -6,7 +6,7 @@
 ***/
 {{{
 
-var Tagmindmap = function(divID,settings){
+var Tagmindmap = function(wrapper,settings){
 	if(settings.clickFunction)
 		this.callWhenClickOnNode = settings.clickFunction;
 	else
@@ -16,14 +16,38 @@ var Tagmindmap = function(divID,settings){
 		this.dynamicUpdateFunction = settings.dynamicUpdateFunction;
 	else
 		this.dynamicUpdateFunction = function(node,id){return {};};		
-	this.wrapperID = divID;
-
-	this._setup(settings);
-	this._init_html_elements(divID);
+	this.wrapper = wrapper;
+	this.wrapperID = wrapper.id;
 	
+	this._setup(settings);
+	this._init_html_elements(wrapper.id);
+	
+	this.controlpanel =new EasyMapController(this,wrapper);
+	var x = this.controlpanel;
+	initialT = {translate: {x:0,y:0}, scale: {x:this.settings.zoomLevel,y:this.settings.zoomLevel}};
+	x.setTransformation(initialT);
+	x.addControl("zoom");
+	x.addControl("pan");
+	x.addControl("mousepanning");
+	x.addControl("mousewheelzooming");
+
 };
 
 Tagmindmap.prototype = {
+	transform: function(t){
+		var compute = false;
+		if(this.settings.zoomLevel != t.scale.x) {
+			if(t.scale.x > 0)
+			this.settings.zoomLevel = t.scale.x;
+			compute = true;
+		}
+	
+		if(this.rgraph){
+			this.rgraph.offsetCenter(t.translate.x*t.scale.x,t.translate.y*t.scale.x);
+			if(compute) this.rgraph.compute();
+			this.rgraph.plot();
+		}
+	},
 	_setup: function(settings){
 		
 		
@@ -85,8 +109,9 @@ Tagmindmap.prototype = {
 			this.labelContainer = wrapperID + "_label_container";
 			this.nodeLabelPrefix = this.canvasID +"_";
 			/*setup the divs */
-			var wrapper = document.getElementById(wrapperID);
-			wrapper.onmousedown =  this.wrapperonmousedown;
+			var wrapper = this.wrapper;
+			wrapper.style.position = "relative";
+			//wrapper.onmousedown =  this.wrapperonmousedown;
 			
 			if(!wrapper.style.height){wrapper.style.height = "200px";}
 			if(!wrapper.style.width){wrapper.style.width = "200px";}
@@ -396,23 +421,20 @@ Tagmindmap.prototype = {
 				if(node.id == this.thehiddenbridge) return;
 				var clickfunction = function(e){
 					if(ttmm.rgraph.root == node.id)ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);					
-					
 					ttmm.rgraph.onClick(node.id);
-					//check if root: 
+		
+
 					return false;
 				};
 				
-				var dblclickfunction =function(e){
-					ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);		
-				};
+
 					ttmm.rgraph_currentNode = node.id;	 
 					if(domElement.addEvent){ //for ie
 						domElement.addEvent('click',clickfunction);
-						//domElement.addEvent('dblclick',dblclickfunction);
 						}
 					else {
 						domElement.onclick = clickfunction;
-						domElement.ondblclick = dblclickfunction;
+						
 						}
 			},
 
