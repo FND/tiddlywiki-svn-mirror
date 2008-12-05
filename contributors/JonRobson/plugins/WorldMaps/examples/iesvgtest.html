@@ -2,11 +2,9 @@
 <head>
 
 
-<script src="jquery.js" type="text/javascript"></script>
-
-<script src="ieHack.js" type="text/javascript"></script>
-<script src="canvasMaps3D.js" type="text/javascript"></script>
-<script src="whereLegal.js" type="text/javascript"></script>
+<script src="../jquery.js" type="text/javascript"></script>
+<script src="../ieHack.js" type="text/javascript"></script>
+<script src="../canvasMaps3D.js" type="text/javascript"></script>
 
 <script>
 var eMap = null;
@@ -27,7 +25,7 @@ function init(){
 	//eMap.drawFromSVGFile("europe.svg");	//no sweden :(
 	 //eMap.drawFromSVGFile("blankmapgood.svg"); //bitch of a thing. Not sure how to get this working yet.
 	//eMap.drawFromSVGFile("World982.svg");
-	eMap.drawFromSVGFile("BlankMap-World6.svg");//working :)
+	eMap.drawFromSVGFile("svg/BlankMap-World6.svg");//working :)
 //eMap.drawFromSVGFile("worldmap.svg"); 
 //eMap.controller.setTransformation({'scale':{'x':0.001,'y':0.001}, 'translate': {'x':0,'y':0}})
 	//73481
@@ -45,7 +43,7 @@ function init(){
 </script>
 </head>
 <body onload="window.setTimeout(init,0)">
-<h1>Countries where homosexual acts are legal/illegal</h1>
+<h1>Loading from SVG File</h1>
 
 spin: <a href="javascript:eMap.spin(0,0,-0.1)"><--</a><a href="javascript:eMap.spin(0,0,0.1)">--></a>
 <a href="javascript:eMap.spin(-0.1,0,0)">up</a> <a href="javascript:eMap.spin(0.1,0,0)">down</a>

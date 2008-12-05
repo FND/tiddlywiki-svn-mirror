@@ -2,10 +2,9 @@
 <head>
 
 
-<script src="jquery.js" type="text/javascript"></script>
-
-<script src="ieHack.js" type="text/javascript"></script>
-<script src="canvasMaps3D.js" type="text/javascript"></script>
+<script src="../jquery.js" type="text/javascript"></script>
+<script src="../ieHack.js" type="text/javascript"></script>
+<script src="../canvasMaps3D.js" type="text/javascript"></script>
 
 <script>
 var eMap = null;
@@ -91,16 +90,11 @@ function init(){
 	console.log(eMap.canvas.transformation);
 	eMap.drawFromGeojsonFile('whereLegal.json');
 	
-	var spin = function() {
-
-		window.setTimeout(spin,1000);
-	}
-	spin();
 }
 
 </script>
 </head>
-
+<h1>3D demo</h1>
 <body onload="window.setTimeout(init,0)">
 
 <div id='wrapper' style="width:800; height:400;position:relative;">

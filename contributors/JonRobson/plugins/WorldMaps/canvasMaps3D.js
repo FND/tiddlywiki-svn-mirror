@@ -1,448 +1,7 @@
-
-// Depends on JQuery for offset function
-// Get the current horizontal page scroll position
-function findScrollX()
-{
-	return window.scrollX || document.documentElement.scrollLeft;
-}
-// Get the current vertical page scroll position
-function findScrollY()
-{
-	return window.scrollY || document.documentElement.scrollTop;
-}
-
-if(!window.console) {
-	console = {
-		log:function(message) {
-			var d = document.getElementById('consolelogger');
-			if(d) {
-				d.innerHTML += message+"<<] ";
-			}
-		}
-	};
-}
-
-Array.prototype.contains = function(item)
-{
-	return this.indexOf(item) != -1;
-};
-
-if(!Array.indexOf) {
-	Array.prototype.indexOf = function(item,from)
-	{
-		if(!from)
-			from = 0;
-		for(var i=from; i<this.length; i++) {
-			if(this[i] === item)
-				return i;
-		}
-		return -1;
-	};
-}
-
-// Resolve the target object of an event
-function resolveTarget(e)
-{
-	if(!e) e = window.event;
-	var obj;
-	if(e.target)
-		obj = e.target;
-	else if(e.srcElement)
-		obj = e.srcElement;
-	if(obj.nodeType == 3) // defeat Safari bug
-		obj = obj.parentNode;
-	return obj;
-}
-
-function resolveTargetWithMemory(e)
-{
-	var node = resolveTarget(e);
-	while(node && !node.memory)
-		node = node.parentNode;
-	return node;
-}
-
-var minLon = 1000;
-var maxLon = -1000;
-var minLat = 1000;
-var maxLat = -1000;
-
-var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
-	this.wrapper = elem; //a dom element to detect mouse actions
-	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
-	this.utils = EasyMapUtils; //some utilities that it may find useful
-	
-	var controlDiv = this.wrapper.controlDiv;
-	if(!controlDiv) {
-		controlDiv = document.createElement('div');
-		controlDiv.style.position = "absolute";
-		controlDiv.style.top = "0";
-		controlDiv.style.left = "0";
-		this.wrapper.appendChild(controlDiv);
-		this.wrapper.controlDiv = controlDiv;
-	}
-	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0}};	
-	//looks for specifically named function in targetjs
-	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
-};
-EasyMapController.prototype = {
-	addMouseWheelZooming: function(){
-		var mw = this.wrapper.onmousewheel;
-		var that = this;
-		var onmousewheel = function(e){
-		
-					
-			/* thanks to http://adomas.org/javascript-mouse-wheel */
-			var delta = 0;
-	        	if (!e) /* For IE. */
-	                e = window.event;
-	
-			var t = resolveTarget(e);
-		
-			if(t != that.wrapper && t.parentNode !=that.wrapper) return;
-	       	 	if (e.wheelDelta) { /* IE/Opera. */
-		                delta = e.wheelDelta/120;
-		                /** In Opera 9, delta differs in sign as compared to IE.
-		                 */
-		                if (window.opera)
-		                        delta = -delta;
-		        } else if (e.detail) { /** Mozilla case. */
-		                /** In Mozilla, sign of delta is different than in IE.
-		                 * Also, delta is multiple of 3.
-		                 */
-		                delta = -e.detail/3;
-		        }
-	
-			var sensitivity = 0.3;
-			if(!this.lastdelta) this.lastdelta = delta;
-			
-			if(delta > this.lastdelta + sensitivity || delta < this.lastdelta - sensitivity){
-				var s =that.transformation.scale;
-				var pos = that.utils.getMouseFromEventRelativeToCenter(e);
-				var t=  that.transformation.translate;
-				//t.x = -pos.x / s.x;
-				//t.y = pos.y / s.y;
-				var newx = s.x+ delta;
-				var newy = s.y + delta;
-				if(newx > 0 && newy > 0){
-					s.x = newx;
-					s.y = newy;
-					that.transform();					
-				}
-
-			}
-			
-			this.lastdelta = delta;
-	        
-		}
-
-		if (window.addEventListener)
-		        /** DOMMouseScroll is for mozilla. */
-		        window.addEventListener('DOMMouseScroll', onmousewheel, false);
-		/** IE/Opera. */
-		window.onmousewheel = document.onmousewheel = onmousewheel;
-		
-		
-	},
-
-	addMousePanning: function(){
-		var that = this;
-		var md = that.wrapper.onmousedown;
-		var mu = that.wrapper.onmouseup;	
-		var mm = that.wrapper.onmousemove;
-		var onmousemove = function(e){
-			
-			var p =this.panning;
-			if(!p) return;
-			if(!p) return;
-			var t = resolveTarget(e);
-			if(t.getAttribute("class") == "easyControl") return;
-			var pos = that.utils.getMouseFromEventRelativeTo(e,p.clickpos.x,p.clickpos.y);		
-			if(!pos)return;
-			
-			var t = that.transformation;
-			if(this.transformation) t = this.transformation;
-			var sc = t.scale;
-			
-			var xd =parseFloat(pos.x /sc.x);
-			var yd = parseFloat(pos.y / sc.y);
-			t.translate.x = p.translate.x + xd;
-			t.translate.y =p.translate.y +yd;
-
-			that.transform();
-			
-			if(pos.x > 5 || pos.y > 5) p.isClick = false;
-			if(pos.x < 5 || pos.y < 5) p.isClick = false;
-			return false;	
-		};
-		
-		this.wrapper.onmousedown = function(e){
-			if(md) md(e);
-			var target = resolveTarget(e);
-			if(!target) return;
-			if(target.getAttribute("class") == "easyControl") return;
-			
-			var t = that.transformation.translate;
-			var sc =that.transformation.scale; 
-			var realpos = that.utils.getMouseFromEvent(e);
-			if(!realpos) return;
-
-			this.panning= {clickpos: realpos, translate:{x: t.x,y:t.y},isClick:true};
-			that.wrapper.onmousemove = onmousemove;
-			that.wrapper.style.cursor= "move";
-			this.style.cursor = "move";
-
-		};
-		
-		this.wrapper.onmouseup = function(e){
-			
-			that.wrapper.style.cursor= '';
-			that.wrapper.onmousemove = mm;
-			if(this.panning && this.panning.isClick && mu){ mu(e);}
-			this.panning = null;
-
-			
-			return false;
-		};
-	
-	
-	},
-	setTransformation: function(t){
-		if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
-		this.transformation = t;
-		this.wrapper.transformation = t;
-		this.targetjs.transform(t);
-		//console.log("transformation set to ",t);
-	},
-	drawButtonLabel: function(ctx,r,type){
-		ctx.beginPath();
-		if(type == 'arrow'){
-			ctx.moveTo(0,-r);
-			ctx.lineTo(0,r);
-			ctx.moveTo(0,r);
-			ctx.lineTo(-r,0);
-			ctx.moveTo(0,r);
-			ctx.lineTo(r,0);
-		}
-		else if(type == 'plus'){
-			ctx.moveTo(-r,0);
-			ctx.lineTo(r,0);
-			ctx.moveTo(0,-r);
-			ctx.lineTo(0,r);
-		}
-		else if(type == 'minus'){
-			ctx.moveTo(-r,0);
-			ctx.lineTo(r,0);
-
-		}
-		ctx.stroke();
-		ctx.closePath();
-		
-	},	
-	drawButton: function(canvas,width,angle,offset,properties) {
-		var ctx = canvas.getContext('2d');
-		var rad = angle ? this.utils._degToRad(angle) : 0;
-		var w = width || 100;
-		var r = w/2;
-		var l = w/10;
-		offset = {
-			x: offset.x || 0,
-			y: offset.y || 0
-		};
-		ctx.save();
-		ctx.lineWidth = l;
-		ctx.fillStyle = "rgba(150,150,150,0.8)";
-		ctx.beginPath();
-		ctx.translate(offset.x+r,offset.y+r);
-		ctx.rotate(rad);
-		ctx.moveTo(-r,r);
-		ctx.lineTo(r,r);
-		ctx.lineTo(r,-r);
-		ctx.lineTo(-r,-r);
-		ctx.closePath();
-		ctx.stroke();
-		ctx.fill();
-		this.drawButtonLabel(ctx,r,properties.buttonType);
-		ctx.restore();
-		
-		var coords = [
-			offset.x, offset.y,
-			offset.x + width, offset.y,
-			offset.x + width, offset.y + width,
-			offset.x, offset.y + width
-		];
-		var button = new EasyShape(properties,coords);
-		return button;
-	},	
-	addControl: function(controlType) {
-		switch(controlType) {
-			//case "zoom":
-			case "pan":
-				this.addPanningActions();
-				break;
-			case "zoom":
-				this.addZoomingActions();
-				break;
-			case "mousepanning":
-				this.addMousePanning();
-				break;
-			case "mousewheelzooming":
-				this.addMouseWheelZooming();
-				break;
-			case "rotation":
-		
-				this.addRotatingActions();
-				break;
-			default:
-				break;
-		}
-	
-	},
-	
-	_createcontrollercanvas: function(width,height){
-		var newCanvas = document.createElement('canvas');
-		newCanvas.width = width;
-		newCanvas.height = height;
-		newCanvas.style.position = "absolute";
-		newCanvas.style.left = 0;
-		newCanvas.style.top = 0;
-		newCanvas.style["z-index"] = 3;
-		newCanvas.setAttribute("class","easyControl");
-		this.wrapper.appendChild(newCanvas);
-
-		newCanvas.emap = this;
-		if(!newCanvas.getContext) {
-			G_vmlCanvasManager.init_(document);
-		}
-		newCanvas.memory = [];
-		//return clickableCanvas(newCanvas);
-		return newCanvas;
-	},
-	addPanningActions: function(controlDiv){
-		var panCanvas = this._createcontrollercanvas(44,64);		
-		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'arrow'}));
-		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'arrow'}));
-		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
-		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
-		panCanvas.onclick = this._panzoomClickHandler;		
-
-	},
-	addRotatingActions: function(){
-		
-		var rotateCanvas = this._createcontrollercanvas(44,40);		
-		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'arrow'}));
-		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'arrow'}));
-		rotateCanvas.onclick = this._panzoomClickHandler;
-
-	},	
-	addZoomingActions: function(){
-		var zoomCanvas = this._createcontrollercanvas(20,30);
-
-		var left = 14;
-		var top = 50;
-		zoomCanvas.style.left = left +"px";
-		zoomCanvas.style.top = top + "px";
-		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','name':'zoom in','buttonType': 'plus'}));		
-		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','name':'zoom out','buttonType': 'minus'}));
-		zoomCanvas.onclick = this._panzoomClickHandler;	
-	},	
-	
-	transform: function(){
-		var t = this.transformation;
-		var s = t.scale;
-		var tr = t.translate;
-		var style = this.wrapper.style;
-		
-		
-		var width = parseInt(style.width);
-		var height = parseInt(style.height);
-		if(s.x <= 0) s.x = 0.1;
-		if(s.y <= 0) s.y = 0.1;
-		if(width && height){
-			var max = {};
-			max.x = parseFloat((width) - 10) * s.x;//the maximum possible translation
-			max.y = parseFloat((height) - 10) * s.y;//the maximum possible translation
-	
-			if(tr.x > max.x){
-				tr.x = max.x;
-			}
-			else if(tr.x < -max.x){
-				tr.x= -max.x;
-			}
-		
-			if(tr.y > max.y){
-				tr.y = max.y;
-			}
-			else if(tr.y < -max.y){
-				tr.y= -max.y;
-			}
-		}
-		this.targetjs.transform(this.transformation);
-	},
-	_panzoomClickHandler: function(e) {
-		
-		if(!e) {
-			e = window.event;
-		}
-		var emap = this.emap;
-			
-		var hit = emap.utils.getShapeAtClick(e);
-		if(!hit) {
-		
-			return false;
-		}
-
-		var pan = {};
-		var t =emap.transformation;
-		var scale =t.scale;
-		pan.x = parseFloat(30 / scale.x);
-		pan.y = parseFloat(30 / scale.y);
-		if(!t.scale) t.scale = {x:1,y:1};
-		if(!t.translate) t.translate = {x:0,y:0};
-		if(!t.rotate) t.rotate = {x:0,y:0,z:0};
-		
-
-		switch(hit.properties.actiontype) {
-			case "W":
-				t.translate.x += pan.x;
-				break;
-			case "E":
-				t.translate.x -= pan.x;
-				break;
-			case "N":
-				t.translate.y += pan.y;
-				break;
-			case "S":
-				t.translate.y -= pan.y;
-				break;
-			case "in":
-				scale.x *= 2;
-				scale.y *= 2;
-				break;
-			case "out":
-				scale.x /= 2;
-				scale.y /= 2;			
-				break;
-			case "rotatezright":
-				t.rotate.z -= 0.1;
-				var left =6.28318531;
-				
-				if(t.rotate.z <0 )t.rotate.z =left;
-				break;
-			case "rotatezleft":
-				t.rotate.z += 0.1;
-				break;
-			default:
-				break;
-		}
-		emap.transform();
-
-		return false;
-	}
-};
 /*
-A package for rendering geojsons easily
+A package for rendering geojson polygon and point features easily
 */
+
 var GeoTag = function(longitude,latitude,properties){
 	var geo = {};
 	geo.type = "feature";
@@ -451,8 +10,7 @@ var GeoTag = function(longitude,latitude,properties){
 	geo.geometry.coordinates = [longitude,latitude];
 	geo.properties = properties;
 	return geo;	
-}
-
+};
 
 var EasyMap = function(wrapper){
 
@@ -466,6 +24,8 @@ var EasyMap = function(wrapper){
 	this.wrapper = wrapper;
 	wrapper.style.position = "relative";
 	var that = this;
+	this.settings = {};
+	this.settings.background = "#AFDCEC";
 
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width) || 600;
@@ -534,8 +94,10 @@ var EasyMap = function(wrapper){
 	this.wrapper.onmouseup = _defaultClickHandler;
 	this.wrapper.onmousemove = _defaultMousemoveHandler;	
 	this.controller = new EasyMapController(this,this.wrapper);
-	this.transform(this.controller.transformation); //set initial transformation
 
+	
+	//run stuff
+	this.transform(this.controller.transformation); //set initial transformation
 	this._fittocanvas = true;
 	this.clear();
 };  
@@ -553,6 +115,11 @@ EasyMap.prototype = {
 		this._maxY = 0;
 		// you could replace the next line with this.canvas.width = this.canvas.width, as that resets it (don't know what happens in G_VML though...)
 		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+		if(!this.canvas.transformation.spherical && this.settings.background){
+			ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+			ctx.fillStyle = this.settings.background;
+			ctx.fill();
+		}
 		
 	},
 	
@@ -580,6 +147,9 @@ EasyMap.prototype = {
 			var type =geojson.type.toLowerCase();
 
 			if(geojson.transform && this._fittocanvas){
+				if(this.spherical) {
+					geojson.transform.translate = {x:0,y:0};
+				}
 				this.controller.setTransformation(geojson.transform);		
 			}
 		
@@ -634,8 +204,10 @@ EasyMap.prototype = {
 			this._renderShapes();			
 							
 		}
-	},	
+	},
+		
 	transform: function(transformation){
+
 		this.canvas.transformation = transformation;
 		//set origin
 		var w =parseInt(this.canvas.width);
@@ -648,12 +220,12 @@ EasyMap.prototype = {
 			origin.y =h / 2;
 		}
 		var t =this.canvas.transformation.translate;
+
 		var s = this.canvas.transformation.scale;
 
 		if(this.spherical){
 			if( !this.canvas.transformation.spherical){
 				this.canvas.transformation.spherical = {};
-				this.canvas.transformation.spherical.seaColor = "#AFDCEC";
 			}
 			if(!this.canvas.transformation.rotate){
 				this.canvas.transformation.rotate = {};
@@ -671,7 +243,7 @@ EasyMap.prototype = {
 				this.canvas.transformation.spherical.radius = widthR;
 			}
 		};
-		
+
 		this.redraw();
 	},
 	_buildShapeInMemory: function(easyShape){ //add shape to memory
@@ -685,11 +257,18 @@ EasyMap.prototype = {
 		var ctx = this.canvas.getContext('2d');
 		var rad =t.spherical.radius;
 	
-				
+	  var radgrad = ctx.createRadialGradient(0,0,10,0,0,rad);
+
+	radgrad.addColorStop(0,"#AFDCEC");
+		  //radgrad.addColorStop(0.5, '#00C9FF');
+		radgrad.addColorStop(1, '#00B5E2');
+	  //radgrad.addColorStop(1, 'rgba(0,201,255,0)');
+
+
 		ctx.beginPath();
 		ctx.arc(0, 0, rad, 0, Math.PI*2, true);
 		ctx.closePath();
-		ctx.fillStyle =t.spherical.seaColor;
+		ctx.fillStyle = radgrad;
 		ctx.fill();
 		
 
@@ -703,7 +282,7 @@ EasyMap.prototype = {
 		var tr =t.translate;
 		var s = t.scale;
 		var o = t.origin;
-	
+		
 		ctx.lineWidth = 0.09;
 		ctx.save();	
 		ctx.translate(o.x,o.y);
@@ -743,7 +322,7 @@ EasyMap.prototype = {
 		else{
 			console.log("no idea how to draw" +shape.properties.shape);return;
 		}		
-		if(shapetype != 'point' && shape.grid){ //check if worth drawing
+		if(shapetype != 'point' && shape.grid && !shape._tcoords){ //check if worth drawing
 				var g = shape.grid;
 				if(g.x2 < frame.left) {
 					return;}
@@ -762,65 +341,63 @@ EasyMap.prototype = {
 				delta.y *= scale.y;
 
 				if(delta.x < 5 || delta.y < 5) {return;}//too small
-			}
+		}
 			
 			this.ctx.beginPath();
-			var c;
-	
-			if(this.spherical) c = shape.spherify(this.canvas.transformation);
-			else c = shape.coords;
-	
-			if(c.length == 0) return;
-			
-			var deltas = shape.distanceToNext;
-			var initialX = parseFloat(c[0]);
-			var initialY = parseFloat(c[1]);
+		var c;
 
-			var pathLength = {x: 0, y:0};
-			var threshold = 2;
-			this.ctx.moveTo(initialX,initialY);
+		if(this.spherical) {
+			c = shape.spherify(this.canvas.transformation);
+		}
+		else c = shape.coords;
+
+		if(c.length == 0) return;
+		
+		var deltas = shape._deltas;
+		var initialX = parseFloat(c[0]);
+		var initialY = parseFloat(c[1]);
+
+		var pathLength = {x: 0, y:0};
+		var threshold = 2;
+		this.ctx.moveTo(initialX,initialY);
+
+		if(shape._tcoords) threshold = 0;
+	
+		
+		
+		for(var i=2; i < c.length-1; i+=2){
+			var x = parseFloat(c[i]);
+			var y = parseFloat(c[i+1]);
+		
+			pathLength.x += deltas[i];
+			pathLength.y += deltas[i+1];
+
+			var deltax = parseFloat(pathLength.x) * scale.x;
+			var deltay = parseFloat(pathLength.y)* scale.y;
+			if(shapetype == 'point' ||(deltax > threshold || deltay > threshold)){
+				this.ctx.lineTo(x,y);
+				pathLength.x = 0;
+				pathLength.y = 0;
+			}
+
+		}
+		//connect last to first
+		this.ctx.lineTo(initialX,initialY);
+		this.ctx.closePath();
 
 		
-			
-			
-			for(var i=2; i < c.length-1; i+=2){
-				var x = parseFloat(c[i]);
-				var y = parseFloat(c[i+1]);
-			
-				pathLength.x += deltas[i];
-				pathLength.y += deltas[i+1];
-
-				var deltax = parseFloat(pathLength.x) * scale.x;
-				var deltay = parseFloat(pathLength.y)* scale.y;
+		if(!shape.properties.hidden) {
+			this.ctx.strokeStyle = shape.properties.stroke;
+			if(typeof shape.properties.fill == 'string') 
+				fill = shape.properties.fill;
+			else
+				fill = "#ffffff";
 				
-				if(shapetype == 'point' ||(deltax > threshold || deltay > threshold)){
-					this.ctx.lineTo(x,y);
-					pathLength.x = 0;
-					pathLength.y = 0;
-				}
+			this.ctx.fillStyle = fill;
+			this.ctx.stroke();
+			this.ctx.fill();
+		}
 
-			}
-			//connect last to first
-			this.ctx.lineTo(initialX,initialY);
-			this.ctx.closePath();
-
-			
-			if(!shape.properties.hidden) {
-				if(!shape.properties.fill) {
-					if(shape.properties.stroke){
-						this.ctx.strokeStyle = shape.properties.stroke;
-						this.ctx.stroke();
-					}
-				}
-				else {
-					if(typeof shape.properties.fill == 'string'){
-					this.ctx.fillStyle =shape.properties.fill;
-					this.ctx.stroke();
-					this.ctx.fill();
-					}
-				}
-			}
-	
 		
 	},
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,properties){
@@ -870,6 +447,7 @@ EasyMap.prototype = {
 	}
 };
 
+
 var EasyShape = function(properties,coordinates,sourceType){
 
 	this.grid = {};
@@ -887,34 +465,34 @@ var EasyShape = function(properties,coordinates,sourceType){
 
 };
 EasyShape.prototype={
-	createGrid: function(){
-			this.grid.x1 = this.coords[0];
-			this.grid.y1 = this.coords[1];
-			this.grid.x2 = this.coords[0];
-			this.grid.y2 = this.coords[1];
+	createGrid: function(coords){
+			if(!coords) coords = this.coords;
+			this.grid.x1 = coords[0];
+			this.grid.y1 = coords[1];
+			this.grid.x2 = coords[0];
+			this.grid.y2 = coords[1];
 			
-			this.distanceToNext = []
-			var d = this.distanceToNext;
+			this._deltas = []
+			var d = this._deltas;
 
 			var lastX, lastY;
 			var index = 0;
-			var coordOK;
-			lastX = this.coords[0];
-			lastY = this.coords[1];
-			this.perimeter = 0;
+		
+			lastX = coords[0];
+			lastY = coords[1];
+			//this.perimeter = 0;
 			
 			
-			for(var i=0; i < this.coords.length-1; i+=2){
-				coordOK= true;
-				var xPos = parseFloat(this.coords[i]); //long
-				var yPos = parseFloat(this.coords[i+1]); //lat
+			for(var i=0; i < coords.length-1; i+=2){
+		
+				var xPos = parseFloat(coords[i]); //long
+				var yPos = parseFloat(coords[i+1]); //lat
 				
+
+				
+				//this.perimeter += Math.sqrt((deltax*deltax) + (deltay*deltay));
 				var deltax =xPos - lastX;
 				var deltay= yPos - lastY;
-				
-				
-				this.perimeter += Math.sqrt((deltax*deltax) + (deltay*deltay));
-				
 				if(deltax < 0) deltax = - deltax;
 				if(deltay < 0) deltay = -deltay;
 				d.push(deltax);
@@ -931,6 +509,7 @@ EasyShape.prototype={
 				lastY = yPos;
 			}
 	},
+	
 	constructFromGeoJSONObject: function(properties,coordinates){
 		if(properties.shape == 'polygon'){
 			this.constructFromGeoJSONPolygon(properties,coordinates);	
@@ -997,7 +576,8 @@ EasyShape.prototype={
 				newcoords.push(t.y);
 			}
 		}
-
+		this._tcoords = newcoords;
+		this.createGrid(newcoords);
 		return newcoords;
 	}
 	,transformcoordinates: function(transformation,spherical,radius){		
@@ -1071,12 +651,448 @@ EasyShape.prototype={
 		}
 		return transformedCoords;
 	}
+};var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
+	this.wrapper = elem; //a dom element to detect mouse actions
+	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
+	this.utils = EasyMapUtils; //some utilities that it may find useful
+	
+	var controlDiv = this.wrapper.controlDiv;
+	if(!controlDiv) {
+		controlDiv = document.createElement('div');
+		controlDiv.style.position = "absolute";
+		controlDiv.style.top = "0";
+		controlDiv.style.left = "0";
+		this.wrapper.appendChild(controlDiv);
+		this.wrapper.controlDiv = controlDiv;
+	}
+	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0}};	
+	//looks for specifically named function in targetjs
+	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
+};
+EasyMapController.prototype = {
+	addMouseWheelZooming: function(){
+		var mw = this.wrapper.onmousewheel;
+		var that = this;
+		var onmousewheel = function(e){
+	        	if (!e) /* For IE. */
+	                e = window.event;
+			e.preventDefault();		
+					
+			/* thanks to http://adomas.org/javascript-mouse-wheel */
+			var delta = 0;
+
+	
+	
+			var t = EasyMapUtils.resolveTarget(e);
+		
+			if(t != that.wrapper && t.parentNode !=that.wrapper) return;
+	       	 	if (e.wheelDelta) { /* IE/Opera. */
+		                delta = e.wheelDelta/120;
+		                /** In Opera 9, delta differs in sign as compared to IE.
+		                 */
+		                if (window.opera)
+		                        delta = -delta;
+		        } else if (e.detail) { /** Mozilla case. */
+		                /** In Mozilla, sign of delta is different than in IE.
+		                 * Also, delta is multiple of 3.
+		                 */
+		                delta = -e.detail/3;
+		        }
+	
+			var sensitivity = 0.3;
+			if(!this.lastdelta) this.lastdelta = delta;
+			
+			if(delta > this.lastdelta + sensitivity || delta < this.lastdelta - sensitivity){
+				
+				var s =that.transformation.scale;
+				var pos = that.utils.getMouseFromEventRelativeToCenter(e);
+				var t=  that.transformation.translate;
+				var newx = s.x+ delta;
+				var newy = s.y + delta;
+				if(newx > 0 && newy > 0){
+					s.x = newx;
+					s.y = newy;
+					that.transform();					
+				}
+
+			}
+			
+			this.lastdelta = delta;
+			
+			return false;
+
+		}
+
+		
+		var element = this.wrapper;
+		if (element.addEventListener){
+		        /** DOMMouseScroll is for mozilla. */
+		
+		        element.addEventListener('DOMMouseScroll', onmousewheel, false);
+		
+		}
+		else if(element.attachEvent){
+			element.attachEvent("mousewheel", onmousewheel); //safari
+		}
+		else{ //it's ie.. or something non-standardised. do nowt
+		//window.onmousewheel = document.onmousewheel = onmousewheel;	
+		}
+
+		
+	},
+
+	addMousePanning: function(){
+		var that = this;
+		var md = that.wrapper.onmousedown;
+		var mu = that.wrapper.onmouseup;	
+		var mm = that.wrapper.onmousemove;
+		var onmousemove = function(e){
+			
+			var p =this.panning;
+			if(!p) return;
+			if(!p) return;
+			var t = EasyMapUtils.resolveTarget(e);
+			if(t.getAttribute("class") == "easyControl") return;
+			var pos = that.utils.getMouseFromEventRelativeTo(e,p.clickpos.x,p.clickpos.y);		
+			if(!pos)return;
+			
+			var t = that.transformation;
+			if(this.transformation) t = this.transformation;
+			var sc = t.scale;
+			
+			var xd =parseFloat(pos.x /sc.x);
+			var yd = parseFloat(pos.y / sc.y);
+			t.translate.x = p.translate.x + xd;
+			t.translate.y =p.translate.y +yd;
+
+			that.transform();
+			
+			if(pos.x > 5 || pos.y > 5) p.isClick = false;
+			if(pos.x < 5 || pos.y < 5) p.isClick = false;
+			return false;	
+		};
+		
+		this.wrapper.onmousedown = function(e){
+			if(md) md(e);
+			var target = EasyMapUtils.resolveTarget(e);
+			if(!target) return;
+			if(target.getAttribute("class") == "easyControl") return;
+			
+			var t = that.transformation.translate;
+			var sc =that.transformation.scale; 
+			var realpos = that.utils.getMouseFromEvent(e);
+			if(!realpos) return;
+
+			this.panning= {clickpos: realpos, translate:{x: t.x,y:t.y},isClick:true};
+			that.wrapper.onmousemove = onmousemove;
+			that.wrapper.style.cursor= "move";
+			this.style.cursor = "move";
+
+		};
+		
+		this.wrapper.onmouseup = function(e){
+			
+			that.wrapper.style.cursor= '';
+			that.wrapper.onmousemove = mm;
+			if(this.panning && this.panning.isClick && mu){ mu(e);}
+			this.panning = null;
+
+			
+			return false;
+		};
+	
+	
+	},
+	setTransformation: function(t){
+		if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
+		this.transformation = t;
+		this.wrapper.transformation = t;
+		this.targetjs.transform(t);
+		//console.log("transformation set to ",t);
+	},
+	drawButtonLabel: function(ctx,r,type){
+		ctx.beginPath();
+		if(type == 'arrow'){
+			ctx.moveTo(0,-r);
+			ctx.lineTo(0,r);
+			ctx.moveTo(0,r);
+			ctx.lineTo(-r,0);
+			ctx.moveTo(0,r);
+			ctx.lineTo(r,0);
+		}
+		else if(type == 'plus'){
+			ctx.moveTo(-r,0);
+			ctx.lineTo(r,0);
+			ctx.moveTo(0,-r);
+			ctx.lineTo(0,r);
+		}
+		else if(type == 'minus'){
+			ctx.moveTo(-r,0);
+			ctx.lineTo(r,0);
+
+		}
+		ctx.stroke();
+		ctx.closePath();
+		
+	},	
+	drawButton: function(canvas,width,angle,offset,properties) {
+		var ctx = canvas.getContext('2d');
+		var rad = angle ? EasyMapUtils._degToRad(angle) : 0;
+		var w = width || 100;
+		var r = w/2;
+		var l = w/10;
+		offset = {
+			x: offset.x || 0,
+			y: offset.y || 0
+		};
+		ctx.save();
+		ctx.lineWidth = l;
+		ctx.fillStyle = "rgba(150,150,150,0.8)";
+		ctx.beginPath();
+		ctx.translate(offset.x+r,offset.y+r);
+		ctx.rotate(rad);
+		ctx.moveTo(-r,r);
+		ctx.lineTo(r,r);
+		ctx.lineTo(r,-r);
+		ctx.lineTo(-r,-r);
+		ctx.closePath();
+		ctx.stroke();
+		ctx.fill();
+		this.drawButtonLabel(ctx,r,properties.buttonType);
+		ctx.restore();
+		
+		var coords = [
+			offset.x, offset.y,
+			offset.x + width, offset.y,
+			offset.x + width, offset.y + width,
+			offset.x, offset.y + width
+		];
+		var button = new EasyShape(properties,coords);
+		return button;
+	},	
+	addControl: function(controlType) {
+		switch(controlType) {
+			//case "zoom":
+			case "pan":
+				this.addPanningActions();
+				break;
+			case "zoom":
+				this.addZoomingActions();
+				break;
+			case "mousepanning":
+				this.addMousePanning();
+				break;
+			case "mousewheelzooming":
+				this.addMouseWheelZooming();
+				break;
+			case "rotation":
+		
+				this.addRotatingActions();
+				break;
+			default:
+				break;
+		}
+	
+	},
+	
+	_createcontrollercanvas: function(width,height){
+		var newCanvas = document.createElement('canvas');
+		newCanvas.width = width;
+		newCanvas.height = height;
+		newCanvas.style.position = "absolute";
+		newCanvas.style.left = 0;
+		newCanvas.style.top = 0;
+		newCanvas.style["z-index"] = 3;
+		newCanvas.setAttribute("class","easyControl");
+		this.wrapper.appendChild(newCanvas);
+
+		newCanvas.controller = this;
+		if(!newCanvas.getContext) {
+			G_vmlCanvasManager.init_(document);
+		}
+		newCanvas.memory = [];
+		//return clickableCanvas(newCanvas);
+		return newCanvas;
+	},
+	addPanningActions: function(controlDiv){
+		var panCanvas = this._createcontrollercanvas(44,64);		
+		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
+		panCanvas.onclick = this._panzoomClickHandler;		
+
+	},
+	addRotatingActions: function(){
+		
+		var rotateCanvas = this._createcontrollercanvas(44,40);		
+		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'arrow'}));
+		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'arrow'}));
+		rotateCanvas.onclick = this._panzoomClickHandler;
+
+	},	
+	addZoomingActions: function(){
+		var zoomCanvas = this._createcontrollercanvas(20,30);
+
+		var left = 14;
+		var top = 50;
+		zoomCanvas.style.left = left +"px";
+		zoomCanvas.style.top = top + "px";
+		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','name':'zoom in','buttonType': 'plus'}));		
+		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','name':'zoom out','buttonType': 'minus'}));
+		zoomCanvas.onclick = this._panzoomClickHandler;	
+	},	
+	
+	transform: function(){
+		var t = this.transformation;
+		var s = t.scale;
+		var tr = t.translate;
+		var style = this.wrapper.style;
+		
+		
+		var width = parseInt(style.width);
+		var height = parseInt(style.height);
+		if(s.x <= 0) s.x = 0.1;
+		if(s.y <= 0) s.y = 0.1;
+		if(width && height){
+			var max = {};
+			max.x = parseFloat((width) - 10) * s.x;//the maximum possible translation
+			max.y = parseFloat((height) - 10) * s.y;//the maximum possible translation
+	
+			if(tr.x > max.x){
+				tr.x = max.x;
+			}
+			else if(tr.x < -max.x){
+				tr.x= -max.x;
+			}
+		
+			if(tr.y > max.y){
+				tr.y = max.y;
+			}
+			else if(tr.y < -max.y){
+				tr.y= -max.y;
+			}
+		}
+		this.targetjs.transform(this.transformation);
+	},
+	_panzoomClickHandler: function(e) {
+		
+		if(!e) {
+			e = window.event;
+		}
+		var controller = this.controller;
+			
+		var hit = controller.utils.getShapeAtClick(e);
+		if(!hit) {
+		
+			return false;
+		}
+
+		var pan = {};
+		var t =controller.transformation;
+		var scale =t.scale;
+		pan.x = parseFloat(30 / scale.x);
+		pan.y = parseFloat(30 / scale.y);
+		if(!t.scale) t.scale = {x:1,y:1};
+		if(!t.translate) t.translate = {x:0,y:0};
+		if(!t.rotate) t.rotate = {x:0,y:0,z:0};
+		
+
+		switch(hit.properties.actiontype) {
+			case "W":
+				t.translate.x += pan.x;
+				break;
+			case "E":
+				t.translate.x -= pan.x;
+				break;
+			case "N":
+				t.translate.y += pan.y;
+				break;
+			case "S":
+				t.translate.y -= pan.y;
+				break;
+			case "in":
+				scale.x *= 2;
+				scale.y *= 2;
+				break;
+			case "out":
+				scale.x /= 2;
+				scale.y /= 2;			
+				break;
+			case "rotatezright":
+				t.rotate.z -= 0.1;
+				var left =6.28318531;
+				
+				if(t.rotate.z <0 )t.rotate.z =left;
+				break;
+			case "rotatezleft":
+				t.rotate.z += 0.1;
+				break;
+			default:
+				break;
+		}
+		controller.transform();
+
+		return false;
+	}
 };
 /*
 Some common utils used throughout package 
+depends on jquery
 */
 
+if(!window.console) {
+	console = {
+		log:function(message) {
+			var d = document.getElementById('consolelogger');
+			if(d) {
+				d.innerHTML += message+"<<] ";
+			}
+		}
+	};
+}
+
+Array.prototype.contains = function(item)
+{
+	return this.indexOf(item) != -1;
+};
+
+if(!Array.indexOf) {
+	Array.prototype.indexOf = function(item,from)
+	{
+		if(!from)
+			from = 0;
+		for(var i=from; i<this.length; i++) {
+			if(this[i] === item)
+				return i;
+		}
+		return -1;
+	};
+}
+
+
+
+
+// Depends on JQuery for offset function
+// Get the current horizontal page scroll position
+function findScrollX()
+{
+	return window.scrollX || document.documentElement.scrollLeft;
+}
+// Get the current vertical page scroll position
+function findScrollY()
+{
+	return window.scrollY || document.documentElement.scrollTop;
+}
+
+
 var EasyMapUtils = {
+	_radToDeg: function(rad){
+		return rad / (Math.PI /180);
+	},
+	_degToRad: function(deg) {
+		return deg * Math.PI / 180;
+	},
 	fitgeojsontocanvas: function(json,canvas){
 		var view ={};
 		var f =json.features;
@@ -1159,11 +1175,10 @@ var EasyMapUtils = {
 				
 		pos.x -= tr.x;
 		pos.y -= tr.y;
-		
-
+		/*
 		if(t.spherical) {
 			pos = this._undospherify(pos.x,pos.y,t);
-		}
+		}*/
 
 			
 			
@@ -1203,12 +1218,6 @@ var EasyMapUtils = {
 
 	},	
 	
-	_radToDeg: function(rad){
-		return rad / (Math.PI /180);
-	},
-	_degToRad: function(deg) {
-		return deg * Math.PI / 180;
-	},
 	getMouseFromEventRelativeTo: function (e,x,y){
 		
 		var pos = this.getMouseFromEvent(e);
@@ -1221,7 +1230,7 @@ var EasyMapUtils = {
 	},
 	getMouseFromEventRelativeToCenter: function(e){
 		var w,h;
-		var target = resolveTargetWithMemory(e);
+		var target = this.resolveTargetWithMemory(e);
 		if(!target)return;
 		if(target.style.width)
 			w = parseInt(target.style.width);
@@ -1239,7 +1248,7 @@ var EasyMapUtils = {
 	},
 	getMouseFromEvent : function(e){
 			if(!e) e = window.event;
-			var target = resolveTargetWithMemory(e);
+			var target = this.resolveTargetWithMemory(e);
 			if(!target)return false;
 			
 			var offset = $(target).offset();
@@ -1253,7 +1262,7 @@ var EasyMapUtils = {
 		if(!e) {
 			e = window.event;
 		}
-		var target = resolveTargetWithMemory(e);
+		var target = this.resolveTargetWithMemory(e);
 		if(!target) return;
 		var offset = $(target).offset();
 		
@@ -1279,19 +1288,27 @@ var EasyMapUtils = {
 	
 	_undospherify: function (x,y,transformation){
 		var radius = transformation.spherical.radius;
-		
-		
+		var pos= this._spherifycoordinate(x,y,transformation);
 		var latitude = Math.asin(y / radius);
 		var longitude = Math.asin(parseFloat(x / radius) / Math.cos(latitude));
 
-
 				
-		if(transformation.rotate && longitude != 'NaN')longitude -= transformation.rotate.z;
-		longitude = longitude % 6.28318531;
+	
+		//if(transformation.rotate.z && longitude != 'NaN')longitude -= transformation.rotate.z;
+		//longitude = longitude % (6.28318531);
+		//if(longitude < 0) longitude = longitude 
+
+		if(transformation.rotate) {
+			var r =transformation.rotate.z;
+			console.log("from",longitude);
+			longitude +=r;
 		
-		var lon = this._radToDeg(longitude);
-		var lat = this._radToDeg(latitude);
-		
+			//longitude =longitude% (6.28318531);
+			
+		}
+		var lon = EasyMapUtils._radToDeg(longitude);
+		var lat = EasyMapUtils._radToDeg(latitude);
+		console.log("to",longitude,r,lon);
 		return {x:lon,y:lat};
 	},
 	_spherifycoordinate: function(lon,lat,transformation){//http://board.flashkit.com/board/archive/index.php/t-666832.html
@@ -1299,8 +1316,8 @@ var EasyMapUtils = {
 		var utils = EasyMapUtils;
 		var res = {};
 		
-		var longitude = this._degToRad(lon);
-		var latitude = this._degToRad(lat);
+		var longitude = EasyMapUtils._degToRad(lon);
+		var latitude = EasyMapUtils._degToRad(lat);
  		
  		// assume rotate values given in radians
 		if(transformation && transformation.rotate){
@@ -1338,6 +1355,7 @@ var EasyMapUtils = {
 			
 		}
 		var hitShapes = [];
+		
 		for(var i=0; i < shapes.length; i++){
 			var g = shapes[i].grid;
 			if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
@@ -1389,7 +1407,13 @@ var EasyMapUtils = {
 		/* _inPoly adapted from inpoly.c
 		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
 		http://www.visibone.com/inpoly/inpoly.c.txt */
-		var coords = poly.coords;
+		var coords;
+		if(poly._tcoords){
+			coords = poly._tcoords;
+			//console.log("using tcoords",x,y,poly.coords.length,poly._tcoords.length);
+		}
+		else
+			coords= poly.coords;
 		var npoints = coords.length;
 		if (npoints/2 < 3) {
 			//points don't describe a polygon
@@ -1499,6 +1523,30 @@ var EasyMapUtils = {
 		}
 
 		return doc;	
+	}
+	// Resolve the target object of an event
+	,resolveTarget:function(e)
+	{
+		if(!e) e = window.event;
+		var obj;
+		if(e.target)
+			obj = e.target;
+		else if(e.srcElement)
+			obj = e.srcElement;
+		if(obj.nodeType == 3) // defeat Safari bug
+			obj = obj.parentNode;
+		return obj;
+	},
+
+	resolveTargetWithMemory: function(e)
+	{
+		var node = EasyMapUtils.resolveTarget(e);
+		var first = node;
+		while(node && !node.memory){
+			node = node.parentNode;
+		}
+		if(!node) node = first;
+		return node;
 	}
 };
 /*

@@ -1,0 +1,1 @@
+cat js/EasyMaps.js js/EasyShapes.js js/EasyMapController.js js/EasyMapUtils.js js/EasyMapSVGUtils.js  > canvasMaps3D.js
