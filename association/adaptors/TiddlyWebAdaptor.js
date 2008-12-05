@@ -260,6 +260,7 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = tiddler.title;
+	context.tiddler = tiddler;
 	if(!tiddler.fields["server.tiddlertitle"]) {
 		tiddler.fields["server.tiddlertitle"] = tiddler.title; //# required for detecting subsequent renames
 	} else if(tiddler.title != tiddler.fields["server.tiddlertitle"]) {
@@ -299,9 +300,17 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 };
 
 adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
-	context.status = status;
+	context.status = xhr.status === 204;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
+	if(status) {
+		var rev = context.tiddler.fields["server.page.revision"];
+		if(rev) {
+			context.tiddler.fields["server.page.revision"] = parseInt(rev) + 1; // XXX: should be read from ETag!?
+		} else {
+			context.tiddler.fields["server.page.revision"] = 1;
+		}
+	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
 	}
@@ -335,7 +344,7 @@ adaptor.prototype.deleteTiddler = function(tiddler, context, userParams, callbac
 };
 
 adaptor.deleteTiddlerCallback = function(status, context, responseText, uri, xhr) {
-	context.status = xhr.status === 204 || status;
+	context.status = xhr.status === 204;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(context.callback) {
