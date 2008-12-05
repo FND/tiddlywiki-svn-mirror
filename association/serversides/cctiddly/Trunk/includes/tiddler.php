@@ -399,6 +399,8 @@
 	function tiddler_update_new($oid, $tiddler, $stop=1)
 	{
 		global $tiddlyCfg;
+		
+
 		//updaterecord
 		$result = db_tiddlers_mainUpdate($oid,$tiddler,$stop);
 		if( $result===FALSE )

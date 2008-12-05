@@ -526,7 +526,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 
 		
 		
-		
+		tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10);
 		
 		if(tiddler.fields['server.page.revision']==1)
 			tiddler.fields['server.page.revision'] = 10000;
@@ -600,25 +600,20 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	}
 
 	ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr){
-		
-		displayMessage(responseText);
-		context.status = false;
-		if(status){
-			context.status = true;
+		if(xhr.status != 201){
+			console.log(responseText);
+			ccTiddlyAdaptor.handleError(xhr.status);
 		}else{
-			context.status = false;
-			if(xhr.status == 401 || xhr.status==409){
-				ccTiddlyAdaptor.handleError(xhr.status);
-			}else{
-				ccTiddlyAdaptor.handleError(xhr.status);
-				context.statusText = xhr.statusText;
-			}
+			context.status = true;
 		}
 		if(context.callback){
 			context.callback(context,context.userParams);
 		}
 	};
-
+	
+	
+	
+	
 	ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,callback){	
 		context = this.setContext(context,userParams,callback);
 		context.title = title;

@@ -26,11 +26,8 @@ $tiddler['id'] = $_POST['id'];
 
 if(@$pluginsLoader->events['preSave']) 
 {
-	
 	foreach (@$pluginsLoader->events['preSave'] as $event)
 	{
-	
-		error_log($event);
 		if(is_file($event)) {
 			include($event);
 		}	
@@ -55,7 +52,9 @@ if($tiddler['id']!="undefined")
 		if($otiddler['revision'] !==0)
 			$ntiddler['revision'] = $otiddler['revision']+1;
 		debug("Attempting to update server...", "save");
-		tiddler_update_new($tiddler['id'], $ntiddler);
+	unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
+	if(tiddler_update_new($tiddler['id'], $ntiddler))
+		sendHeader(201);
 	}else{
 		debug("Permissions denied to save.", "save");
 		sendHeader(400);	
@@ -68,8 +67,8 @@ if($tiddler['id']!="undefined")
 		$ntiddler['creator'] = $ntiddler['modifier'];
 		$ntiddler['created'] = $ntiddler['modified'];
 		$ntiddler['revision'] = 1;
-		tiddler_insert_new($ntiddler);
-		sendHeader(201);
+		if(tiddler_insert_new($ntiddler))
+			sendHeader(201);
 	}else{
 		sendHeader(400);
 	}

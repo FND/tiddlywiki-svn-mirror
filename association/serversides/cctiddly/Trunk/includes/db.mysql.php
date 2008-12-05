@@ -397,6 +397,7 @@ function db_tiddlers_backupInsert($tiddler,$stop=1)
 //!	@param $workspace workspace of db
 function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
 {
+	
 	global $tiddlyCfg;
 	//remove primary key (first element in array)
 	//array_shift($tiddler);
