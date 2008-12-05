@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.1.4|
+|''Version''|0.1.5|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/association/|
@@ -304,8 +304,8 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
-		var headers = xhr.getAllResponseHeaders();
-		context.tiddler.fields["server.page.revision"] = headers.match(/ETag:.*\/(\d+)/i)[1];
+		var etag = xhr.getResponseHeader("Etag");
+		context.tiddler.fields["server.page.revision"] = etag.split("/").pop();
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
