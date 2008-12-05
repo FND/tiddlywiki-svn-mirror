@@ -1,16 +1,14 @@
 /***
 |''Name:''|geoPlugin |
-|''Description:''|A psd-patented "Quick Win" to hack JDLR's canvasMaps.js into TiddlyWiki |
-|''Author:''|JonathanLister |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/canvasMapsPlugin.js |
-|''Version:''|0.0.1 |
+|''Description:''|An attempt to bring nice easy to use maps to tiddlywiki using geojson|
+|''Author:''|JonRobson and JonathanLister |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/verticals/GeoTiddlyWiki|
+|''Version:''|0.0.5 |
 |''Date:''|4/11/08 |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4|
-
-NB: This assumes canvasMaps3D.js has been included in the postjs!
-
+|''Dependencies:''|This plugin requires a tiddler geojson containing geojson data eg.[[geojson]]|
 ***/
 
 //{{{
@@ -121,8 +119,12 @@ if(!version.extensions.geoPlugin) {
 		
 		if(id) return id; //there is a geomap in this tiddler
 		for(var i=0; i < geomaps.length; i++){ //find the first geomap 
-			if(geomaps[id]) return id; //should also check the dom element supplied to it is good
+			var wrapper = geomaps[i].wrapper;
+			if(document.getElementById(wrapper.id)) return i;
 		}
+		var msg ="Call to macro failed - tried to access a <<geo>> but none exists in the page!"; 
+		alert(msg);
+	
 		
 	};
 	config.macros.geo.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -165,7 +167,7 @@ if(!version.extensions.geoPlugin) {
 				if(!e) {
 					e = window.event;
 				}
-				var shape = eMap.utils.getShapeAtClick(e);
+				var shape = EasyMapUtils.getShapeAtClick(e);
 				
 				if(!shape) {
 					return false;
