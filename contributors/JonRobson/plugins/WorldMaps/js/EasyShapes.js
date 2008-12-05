@@ -1,13 +1,10 @@
 
-var EasyShape = function(properties,coordinates,sourceType){
+var EasyShape = function(properties,coordinates,geojson){
 
 	this.grid = {};
 	this.coords = [];
-
-	if(sourceType){
-		if(sourceType == "geojson") {
-			this.constructFromGeoJSONObject(properties,coordinates);
-		}
+	if(geojson){
+		this.constructFromGeoJSONObject(properties,coordinates);
 	}
 	else{
 		this.constructBasicPolygon(properties,coordinates);
@@ -97,7 +94,7 @@ EasyShape.prototype={
 				//we ignore any holes in the polygon (for time being.. coords[1][0..n], coords[2][0..n])
 	},	
 	_convertGeoJSONCoords: function(coords){
-
+	//converts [[x1,y1], [x2,y2],...[xn,yn]] to [x1,y1,x2,y2..xn,yn]
 		var res = [];
 		if(!coords) return res;
 		for(var i=0; i < coords.length; i++){
@@ -131,7 +128,7 @@ EasyShape.prototype={
 		this.createGrid(newcoords);
 		return newcoords;
 	}
-	,transformcoordinates: function(transformation,spherical,radius){		
+	/*,transformcoordinates: function(transformation,spherical,radius){		
 		var performScale = true;
 		var performTranslate = true; 
 		var performRotate = false;
@@ -201,5 +198,5 @@ EasyShape.prototype={
 			}
 		}
 		return transformedCoords;
-	}
+	}*/
 };

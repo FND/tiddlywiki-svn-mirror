@@ -10,15 +10,16 @@
 var eMap = null;
 function init(){
 	eMap = new EasyMap('wrapper');
+		eMap.utils = EasyMapUtils;
 	eMap.clickHandler = function(e){
 
-		var s = eMap.utils.getShapeAtClick(e);
+		var s = EasyMapUtils.getShapeAtClick(e);
 		
 		if(s)
 			alert(s.properties.name);
 	};
 	
-	eMap.utils._testCanvas(eMap.canvas.getContext('2d'));
+	EasyMapUtils._testCanvas(eMap.canvas.getContext('2d'));
 
 	//eMap.drawFromSVGFile("sweden.svg");	
 	//eMap.drawFromSVGFile("blue_white_world_map.svg");

@@ -43,8 +43,7 @@ var EasyMap = function(wrapper){
 	}
 	this.spherical = false; //experimental!! fiddle with at your own risk! :)
 
-	this.utils = EasyMapUtils;
-	
+
 	var _defaultMousemoveHandler = function(e){
 		if(!e) {
 			e = window.event;
@@ -58,7 +57,7 @@ var EasyMap = function(wrapper){
 			tt.setAttribute("class","easymaptooltip");
 			that.wrapper.appendChild(tt);
 		}
-		var pos = that.utils.getMouseFromEvent(e);
+		var pos = EasyMapUtils.getMouseFromEvent(e);
 		var x =pos.x;
 		var y = pos.y;
 		var sensitivity = 1;
@@ -69,7 +68,7 @@ var EasyMap = function(wrapper){
 		this.lastMouseMove.x = x;this.lastMouseMove.y = y;
 
 
-		var shape = that.utils.getShapeAtClick(e);
+		var shape = EasyMapUtils.getShapeAtClick(e);
 		if(shape){
 			var text =shape.properties.name;
 
@@ -134,7 +133,7 @@ EasyMap.prototype = {
 				geojson = responseText;
 			
 			if(!geojson.points && this._fittocanvas){
-				geojson = this.utils.fitgeojsontocanvas(geojson,this.canvas);
+				geojson = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
 			}
 			//this.clear();
 			// NB: removing this statustext node so it doesn't mess up offsets in IE
@@ -170,12 +169,12 @@ EasyMap.prototype = {
 		
 			that.drawFromGeojson(responseText);
 		};
-		this.utils.loadRemoteFile(file,callback);
+		EasyMapUtils.loadRemoteFile(file,callback);
 	},	
 	drawFromSVG: function(representation){
-		var xml = this.utils._getXML(representation);
+		var xml = EasyMapUtils._getXML(representation);
 
-		var json = this.utils.convertSVGToMultiPolygonFeatureCollection(xml,this.canvas);
+		var json = EasyMapSVGUtils.convertSVGToMultiPolygonFeatureCollection(xml,this.canvas);
 		this.drawFromGeojson(json);			
 		
 	},
@@ -187,7 +186,7 @@ EasyMap.prototype = {
 			that.drawFromSVG(responseText);
 			
 		};
-		this.utils.loadRemoteFile(file,callback);		
+		EasyMapUtils.loadRemoteFile(file,callback);		
 			
 	},	
 	redraw: function(){
@@ -299,8 +298,8 @@ EasyMap.prototype = {
 
 		var transformedGrid = {};
 		var t= this.canvas.transformation;
-		var topleft = this.utils.undotransformation(left,top,t);
-		var bottomright = this.utils.undotransformation(right,bottom,t);
+		var topleft = EasyMapUtils.undotransformation(left,top,t);
+		var bottomright = EasyMapUtils.undotransformation(right,bottom,t);
 		
 		var frame = {};
 		frame.top = topleft.y;
@@ -448,15 +447,12 @@ EasyMap.prototype = {
 };
 
 
-var EasyShape = function(properties,coordinates,sourceType){
+var EasyShape = function(properties,coordinates,geojson){
 
 	this.grid = {};
 	this.coords = [];
-
-	if(sourceType){
-		if(sourceType == "geojson") {
-			this.constructFromGeoJSONObject(properties,coordinates);
-		}
+	if(geojson){
+		this.constructFromGeoJSONObject(properties,coordinates);
 	}
 	else{
 		this.constructBasicPolygon(properties,coordinates);
@@ -546,7 +542,7 @@ EasyShape.prototype={
 				//we ignore any holes in the polygon (for time being.. coords[1][0..n], coords[2][0..n])
 	},	
 	_convertGeoJSONCoords: function(coords){
-
+	//converts [[x1,y1], [x2,y2],...[xn,yn]] to [x1,y1,x2,y2..xn,yn]
 		var res = [];
 		if(!coords) return res;
 		for(var i=0; i < coords.length; i++){
@@ -580,7 +576,7 @@ EasyShape.prototype={
 		this.createGrid(newcoords);
 		return newcoords;
 	}
-	,transformcoordinates: function(transformation,spherical,radius){		
+	/*,transformcoordinates: function(transformation,spherical,radius){		
 		var performScale = true;
 		var performTranslate = true; 
 		var performRotate = false;
@@ -650,8 +646,10 @@ EasyShape.prototype={
 			}
 		}
 		return transformedCoords;
-	}
-};var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
+	}*/
+};/*requires EasyShapes and EasyController */
+
+var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
 	this.utils = EasyMapUtils; //some utilities that it may find useful
@@ -918,6 +916,8 @@ EasyMapController.prototype = {
 		var panCanvas = this._createcontrollercanvas(44,44);		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:16,y:16},{'actiontype':'O','name':'re-center','buttonType': ''}));
+		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
 		panCanvas.onclick = this._panzoomClickHandler;		
@@ -1002,6 +1002,11 @@ EasyMapController.prototype = {
 			case "W":
 				t.translate.x += pan.x;
 				break;
+			case "O":
+				t.translate.x = 0;
+				t.translate.y = 0;
+				break;
+
 			case "E":
 				t.translate.x -= pan.x;
 				break;
@@ -1184,27 +1189,6 @@ var EasyMapUtils = {
 			
 		return pos;
 	},	
-	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
-		var svgu = EasyMapSVGUtils;
-		var res = new Object();
-		res.type = "FeatureCollection";
-		res.features = [];
-
-		var objs = xml.getElementsByTagName("svg:polygon");
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
-		objs = xml.getElementsByTagName("polygon");
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
-		objs =xml.getElementsByTagName("svg:path");
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
-		objs =xml.getElementsByTagName("path");
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
-		res.transform = {};
-		res.transform.translate = {'x':0, 'y':0};
-		res.transform.scale = {'x':1, 'y':1};
-		
-		res = this.fitgeojsontocanvas(res,canvas)
-		return res;
-	},
 	_testCanvas: function(ctx){
 	ctx.beginPath();
 	ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
@@ -1553,6 +1537,27 @@ var EasyMapUtils = {
 SVG targeted functions withe goal to convert to a geojson structure
 */
 var EasyMapSVGUtils= {
+	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
+		var svgu = EasyMapSVGUtils;
+		var res = new Object();
+		res.type = "FeatureCollection";
+		res.features = [];
+
+		var objs = xml.getElementsByTagName("svg:polygon");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
+		objs = xml.getElementsByTagName("polygon");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
+		objs =xml.getElementsByTagName("svg:path");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
+		objs =xml.getElementsByTagName("path");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
+		res.transform = {};
+		res.transform.translate = {'x':0, 'y':0};
+		res.transform.scale = {'x':1, 'y':1};
+		
+		res = EasyMapUtils.fitgeojsontocanvas(res,canvas)
+		return res;
+	},
 	createFeatureFromSVGPolygonElement: function(svgpoly){
 		
 		var f = {};

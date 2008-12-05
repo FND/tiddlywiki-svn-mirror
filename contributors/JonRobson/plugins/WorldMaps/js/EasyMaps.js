@@ -43,8 +43,7 @@ var EasyMap = function(wrapper){
 	}
 	this.spherical = false; //experimental!! fiddle with at your own risk! :)
 
-	this.utils = EasyMapUtils;
-	
+
 	var _defaultMousemoveHandler = function(e){
 		if(!e) {
 			e = window.event;
@@ -58,7 +57,7 @@ var EasyMap = function(wrapper){
 			tt.setAttribute("class","easymaptooltip");
 			that.wrapper.appendChild(tt);
 		}
-		var pos = that.utils.getMouseFromEvent(e);
+		var pos = EasyMapUtils.getMouseFromEvent(e);
 		var x =pos.x;
 		var y = pos.y;
 		var sensitivity = 1;
@@ -69,7 +68,7 @@ var EasyMap = function(wrapper){
 		this.lastMouseMove.x = x;this.lastMouseMove.y = y;
 
 
-		var shape = that.utils.getShapeAtClick(e);
+		var shape = EasyMapUtils.getShapeAtClick(e);
 		if(shape){
 			var text =shape.properties.name;
 
@@ -134,7 +133,7 @@ EasyMap.prototype = {
 				geojson = responseText;
 			
 			if(!geojson.points && this._fittocanvas){
-				geojson = this.utils.fitgeojsontocanvas(geojson,this.canvas);
+				geojson = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
 			}
 			//this.clear();
 			// NB: removing this statustext node so it doesn't mess up offsets in IE
@@ -170,12 +169,12 @@ EasyMap.prototype = {
 		
 			that.drawFromGeojson(responseText);
 		};
-		this.utils.loadRemoteFile(file,callback);
+		EasyMapUtils.loadRemoteFile(file,callback);
 	},	
 	drawFromSVG: function(representation){
-		var xml = this.utils._getXML(representation);
+		var xml = EasyMapUtils._getXML(representation);
 
-		var json = this.utils.convertSVGToMultiPolygonFeatureCollection(xml,this.canvas);
+		var json = EasyMapSVGUtils.convertSVGToMultiPolygonFeatureCollection(xml,this.canvas);
 		this.drawFromGeojson(json);			
 		
 	},
@@ -187,7 +186,7 @@ EasyMap.prototype = {
 			that.drawFromSVG(responseText);
 			
 		};
-		this.utils.loadRemoteFile(file,callback);		
+		EasyMapUtils.loadRemoteFile(file,callback);		
 			
 	},	
 	redraw: function(){
@@ -299,8 +298,8 @@ EasyMap.prototype = {
 
 		var transformedGrid = {};
 		var t= this.canvas.transformation;
-		var topleft = this.utils.undotransformation(left,top,t);
-		var bottomright = this.utils.undotransformation(right,bottom,t);
+		var topleft = EasyMapUtils.undotransformation(left,top,t);
+		var bottomright = EasyMapUtils.undotransformation(right,bottom,t);
 		
 		var frame = {};
 		frame.top = topleft.y;

@@ -954,25 +954,6 @@ config.macros.LoadMindMap = {label: &quot;loadall&quot;,prompt: &quot;load all t
 
 //macros below will become redundant soon..
 config.macros.ToggleTagMindMap = {label: &quot;toggle&quot;,prompt: &quot;Toggle on or off the tag mind map&quot;};
-config.macros.RecenterMindMap = {label: &quot;re-center&quot;,	prompt: &quot;Center the mind map&quot;};
-
-config.macros.RecenterMindMap.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
-
-	var btn= createTiddlyButton(place,this.label,this.prompt,this.onClick);	
-	if(params[0])btn.wrapperID = params[0];
-};
-
-config.macros.RecenterMindMap.onClick = function(e)
-{
-var ttmm = getAssociatedTiddlyTagMindMapObject(this,true);
-	if(ttmm.rgraph){
-		var t = ttmm.controlpanel.transformation;
-		t.translate.x = 0;
-		t.translate.y = 0;
-		ttmm.controlpanel.setTransformation(t);
-	}
-}
-
 
 /*accepts either name of node or json representing node {id,name,data}*/
 config.macros.TagMindMapEdge.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
@@ -1192,7 +1173,7 @@ config.macros.tiddlytagmindmap.setup_ttmm_html = function(place,settings){
 	if(settings.toolbar[1] == 1) html += &quot;&lt;&lt;ToggleTagMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot; + divider;
 	if(settings.toolbar[2] == 1) html += &quot;&lt;&lt;LoadMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider;
 	//if(settings.toolbar[3] == 1) {html += &quot;&lt;&lt;ZoomMindMapIn  &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider+ &quot;&lt;&lt;ZoomMindMapOut &quot; + newTTMM.id+&quot;&gt;&gt;&quot;+ divider;}
-	if(settings.toolbar[4] == 1){html += &quot;&lt;&lt;RecenterMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot;;}
+	//if(settings.toolbar[4] == 1){html += &quot;&lt;&lt;RecenterMindMap &quot; + newTTMM.id+&quot;&gt;&gt;&quot;;}
 	
 	place.appendChild(toolbar);
 	wikify(html,toolbar);
@@ -1375,6 +1356,7 @@ Tagmindmap.prototype = {
 		}
 	
 		if(this.rgraph){
+			console.log(t.scale.x,t.translate.x, t.translate.x * t.scale.x);
 			this.rgraph.offsetCenter(t.translate.x*t.scale.x,t.translate.y*t.scale.x);
 			if(compute) this.rgraph.compute();
 			this.rgraph.plot();
@@ -1735,6 +1717,7 @@ Tagmindmap.prototype = {
 		  	onBeforeCompute: function(node) {
 									ttmm.createNodeFromJSON(ttmm.dynamicUpdateFunction(node.id));
 									if(ttmm.settings.breadcrumbs) ttmm.setNodeData(node.id, &quot;color&quot;,ttmm.settings.breadcrumb_startcolor);	
+		
 			},
 		  	getName: function(node1, node2) {
 		  		for(var i=0; i&lt;node1.data.length; i++) {
@@ -1754,7 +1737,9 @@ Tagmindmap.prototype = {
 				var clickfunction = function(e){
 					if(ttmm.rgraph.root == node.id)ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);					
 					ttmm.rgraph.onClick(node.id);
-		
+					var t = ttmm.controlpanel.transformation;
+					t.translate = {x:0,y:0};
+					ttmm.controlpanel.setTransformation(t);
 
 					return false;
 				};
@@ -4441,15 +4426,12 @@ GraphPlot.plot= function(viz, opt) {
 
 
 
-var EasyShape = function(properties,coordinates,sourceType){
+var EasyShape = function(properties,coordinates){
 
 	this.grid = {};
 	this.coords = [];
-
-	if(sourceType){
-		if(sourceType == &quot;geojson&quot;) {
-			this.constructFromGeoJSONObject(properties,coordinates);
-		}
+	if(coordinates[0][0]){
+		this.constructFromGeoJSONObject(properties,coordinates);
 	}
 	else{
 		this.constructBasicPolygon(properties,coordinates);
@@ -4539,7 +4521,7 @@ EasyShape.prototype={
 				//we ignore any holes in the polygon (for time being.. coords[1][0..n], coords[2][0..n])
 	},	
 	_convertGeoJSONCoords: function(coords){
-
+	//converts [[x1,y1], [x2,y2],...[xn,yn]] to [x1,y1,x2,y2..xn,yn]
 		var res = [];
 		if(!coords) return res;
 		for(var i=0; i &lt; coords.length; i++){
@@ -4573,7 +4555,7 @@ EasyShape.prototype={
 		this.createGrid(newcoords);
 		return newcoords;
 	}
-	,transformcoordinates: function(transformation,spherical,radius){		
+	/*,transformcoordinates: function(transformation,spherical,radius){		
 		var performScale = true;
 		var performTranslate = true; 
 		var performRotate = false;
@@ -4643,8 +4625,10 @@ EasyShape.prototype={
 			}
 		}
 		return transformedCoords;
-	}
-};var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
+	}*/
+};/*requires EasyShapes and EasyController */
+
+var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
 	this.utils = EasyMapUtils; //some utilities that it may find useful
@@ -4911,6 +4895,8 @@ EasyMapController.prototype = {
 		var panCanvas = this._createcontrollercanvas(44,44);		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:16,y:16},{'actiontype':'O','name':'re-center','buttonType': ''}));
+		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
 		panCanvas.onclick = this._panzoomClickHandler;		
@@ -4995,6 +4981,11 @@ EasyMapController.prototype = {
 			case &quot;W&quot;:
 				t.translate.x += pan.x;
 				break;
+			case &quot;O&quot;:
+				t.translate.x = 0;
+				t.translate.y = 0;
+				break;
+
 			case &quot;E&quot;:
 				t.translate.x -= pan.x;
 				break;
@@ -5177,27 +5168,6 @@ var EasyMapUtils = {
 			
 		return pos;
 	},	
-	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
-		var svgu = EasyMapSVGUtils;
-		var res = new Object();
-		res.type = &quot;FeatureCollection&quot;;
-		res.features = [];
-
-		var objs = xml.getElementsByTagName(&quot;svg:polygon&quot;);
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
-		objs = xml.getElementsByTagName(&quot;polygon&quot;);
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
-		objs =xml.getElementsByTagName(&quot;svg:path&quot;);
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
-		objs =xml.getElementsByTagName(&quot;path&quot;);
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
-		res.transform = {};
-		res.transform.translate = {'x':0, 'y':0};
-		res.transform.scale = {'x':1, 'y':1};
-		
-		res = this.fitgeojsontocanvas(res,canvas)
-		return res;
-	},
 	_testCanvas: function(ctx){
 	ctx.beginPath();
 	ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle

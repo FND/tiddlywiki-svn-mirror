@@ -2,6 +2,27 @@
 SVG targeted functions withe goal to convert to a geojson structure
 */
 var EasyMapSVGUtils= {
+	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
+		var svgu = EasyMapSVGUtils;
+		var res = new Object();
+		res.type = "FeatureCollection";
+		res.features = [];
+
+		var objs = xml.getElementsByTagName("svg:polygon");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
+		objs = xml.getElementsByTagName("polygon");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
+		objs =xml.getElementsByTagName("svg:path");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
+		objs =xml.getElementsByTagName("path");
+		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
+		res.transform = {};
+		res.transform.translate = {'x':0, 'y':0};
+		res.transform.scale = {'x':1, 'y':1};
+		
+		res = EasyMapUtils.fitgeojsontocanvas(res,canvas)
+		return res;
+	},
 	createFeatureFromSVGPolygonElement: function(svgpoly){
 		
 		var f = {};

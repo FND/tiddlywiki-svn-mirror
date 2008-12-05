@@ -1,3 +1,5 @@
+/*requires EasyShapes and EasyController */
+
 var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
@@ -265,6 +267,8 @@ EasyMapController.prototype = {
 		var panCanvas = this._createcontrollercanvas(44,44);		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:16,y:16},{'actiontype':'O','name':'re-center','buttonType': ''}));
+		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
 		panCanvas.onclick = this._panzoomClickHandler;		
@@ -349,6 +353,11 @@ EasyMapController.prototype = {
 			case "W":
 				t.translate.x += pan.x;
 				break;
+			case "O":
+				t.translate.x = 0;
+				t.translate.y = 0;
+				break;
+
 			case "E":
 				t.translate.x -= pan.x;
 				break;

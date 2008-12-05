@@ -147,27 +147,6 @@ var EasyMapUtils = {
 			
 		return pos;
 	},	
-	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
-		var svgu = EasyMapSVGUtils;
-		var res = new Object();
-		res.type = "FeatureCollection";
-		res.features = [];
-
-		var objs = xml.getElementsByTagName("svg:polygon");
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
-		objs = xml.getElementsByTagName("polygon");
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPolygonElements(objs));
-		objs =xml.getElementsByTagName("svg:path");
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
-		objs =xml.getElementsByTagName("path");
-		res.features = res.features.concat(svgu.createFeaturesFromSVGPathElements(objs));
-		res.transform = {};
-		res.transform.translate = {'x':0, 'y':0};
-		res.transform.scale = {'x':1, 'y':1};
-		
-		res = this.fitgeojsontocanvas(res,canvas)
-		return res;
-	},
 	_testCanvas: function(ctx){
 	ctx.beginPath();
 	ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle

@@ -43,6 +43,7 @@ Tagmindmap.prototype = {
 		}
 	
 		if(this.rgraph){
+			console.log(t.scale.x,t.translate.x, t.translate.x * t.scale.x);
 			this.rgraph.offsetCenter(t.translate.x*t.scale.x,t.translate.y*t.scale.x);
 			if(compute) this.rgraph.compute();
 			this.rgraph.plot();
@@ -403,6 +404,7 @@ Tagmindmap.prototype = {
 		  	onBeforeCompute: function(node) {
 									ttmm.createNodeFromJSON(ttmm.dynamicUpdateFunction(node.id));
 									if(ttmm.settings.breadcrumbs) ttmm.setNodeData(node.id, "color",ttmm.settings.breadcrumb_startcolor);	
+		
 			},
 		  	getName: function(node1, node2) {
 		  		for(var i=0; i<node1.data.length; i++) {
@@ -422,7 +424,9 @@ Tagmindmap.prototype = {
 				var clickfunction = function(e){
 					if(ttmm.rgraph.root == node.id)ttmm.callWhenClickOnNode(ttmm.controller.getNode(node.id),ttmm.wrapperID);					
 					ttmm.rgraph.onClick(node.id);
-		
+					var t = ttmm.controlpanel.transformation;
+					t.translate = {x:0,y:0};
+					ttmm.controlpanel.setTransformation(t);
 
 					return false;
 				};

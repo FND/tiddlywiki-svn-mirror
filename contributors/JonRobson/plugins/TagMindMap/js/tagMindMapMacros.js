@@ -30,25 +30,6 @@ config.macros.LoadMindMap = {label: "loadall",prompt: "load all tiddlers into ta
 
 //macros below will become redundant soon..
 config.macros.ToggleTagMindMap = {label: "toggle",prompt: "Toggle on or off the tag mind map"};
-config.macros.RecenterMindMap = {label: "re-center",	prompt: "Center the mind map"};
-
-config.macros.RecenterMindMap.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
-
-	var btn= createTiddlyButton(place,this.label,this.prompt,this.onClick);	
-	if(params[0])btn.wrapperID = params[0];
-};
-
-config.macros.RecenterMindMap.onClick = function(e)
-{
-var ttmm = getAssociatedTiddlyTagMindMapObject(this,true);
-	if(ttmm.rgraph){
-		var t = ttmm.controlpanel.transformation;
-		t.translate.x = 0;
-		t.translate.y = 0;
-		ttmm.controlpanel.setTransformation(t);
-	}
-}
-
 
 /*accepts either name of node or json representing node {id,name,data}*/
 config.macros.TagMindMapEdge.handler = function (place,macroName,params,wikifier,paramString,tiddler) {
@@ -268,7 +249,7 @@ config.macros.tiddlytagmindmap.setup_ttmm_html = function(place,settings){
 	if(settings.toolbar[1] == 1) html += "<<ToggleTagMindMap " + newTTMM.id+">>" + divider;
 	if(settings.toolbar[2] == 1) html += "<<LoadMindMap " + newTTMM.id+">>"+ divider;
 	//if(settings.toolbar[3] == 1) {html += "<<ZoomMindMapIn  " + newTTMM.id+">>"+ divider+ "<<ZoomMindMapOut " + newTTMM.id+">>"+ divider;}
-	if(settings.toolbar[4] == 1){html += "<<RecenterMindMap " + newTTMM.id+">>";}
+	//if(settings.toolbar[4] == 1){html += "<<RecenterMindMap " + newTTMM.id+">>";}
 	
 	place.appendChild(toolbar);
 	wikify(html,toolbar);

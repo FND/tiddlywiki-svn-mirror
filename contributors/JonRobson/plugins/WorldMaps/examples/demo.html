@@ -7,7 +7,7 @@
 var eMap = null;
 function init(){
 	eMap = new EasyMap('wrapper');
-	
+		eMap.utils = EasyMapUtils;
 	var that = eMap;
 	var myElement = document.getElementById('caption');
 	eMap.mouseoverHandler = function(e,shape){

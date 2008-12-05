@@ -133,6 +133,7 @@ if(!version.extensions.geoPlugin) {
 			else
 				version.extensions.geoPlugin.num = 0;
 			var geoid =version.extensions.geoPlugin.num;	
+			tiddler.geoid = geoid; 
 			var prms = paramString.parseParams(null, null, true);
 
 			var id = "wrapper"+geoid;
@@ -157,7 +158,7 @@ if(!version.extensions.geoPlugin) {
 
 			var eMap = new EasyMap(wrapper);
 			geomaps[geoid] = eMap;
-			tiddler.geoid = geoid; 
+		
 						
 
 			var that = eMap;

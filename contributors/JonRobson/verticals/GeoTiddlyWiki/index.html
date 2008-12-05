@@ -593,8 +593,8 @@ If you've clicked to here from London you should see lots of coloured squares on
 For Dopplr future trips are shown in green, past trips in yellow. For Flickr photos that are geotagged these are in blue.
 
 &lt;&lt;geo&gt;&gt;
-&lt;&lt;DopplrMyGeo 'http://www.dopplr.com/traveller/jonrobson/feed/mytrips/b2d5f666ed4d073d72416f3f100ea7e67a34f2b8b1bcc46e931666edf58376c2/all'&gt;&gt;
-&lt;&lt;flickrMyGeo &quot;http://api.flickr.com/services/feeds/geo/?id=24701860@N05&amp;lang=en-us&amp;format=rss_200&quot;&gt;&gt; Your map should soon update with markers.</pre>
+&lt;&lt;DopplrMyGeo 'http://www.jonrobson.me.uk/handle/proxy.php?feed=http://www.dopplr.com/traveller/jonrobson/feed/mytrips/b2d5f666ed4d073d72416f3f100ea7e67a34f2b8b1bcc46e931666edf58376c2/all'&gt;&gt;
+&lt;&lt;flickrMyGeo &quot;http://www.jonrobson.me.uk/handle/proxy.php?feed=http://api.flickr.com/services/feeds/geo/?id=24701860@N05&amp;lang=en-us&amp;format=rss_200&quot;&gt;&gt; Your map should soon update with markers.</pre>
 </div>
 <div title="Easter Egg" modifier="JonRobson" created="200811111722" tags="excludeLists">
 <pre>
@@ -684,13 +684,13 @@ This provides various commonly used functions used throughout the package.
 !!Description
 This is an attempt to convert svg files to geojson files through the function &quot;convertSVGToMultiPolygonFeatureCollection&quot; so svg files can be displayed. Lots of holes but promising results (see [[svg support]]). </pre>
 </div>
-<div title="geoRSSAdaptersPlugin" modifier="JonsRobson" created="200812041440" tags="systemConfig excludeLists">
+<div title="geoRSSAdaptersPlugin" modifier="JonsRobson" created="200812051716" tags="systemConfig excludeLists">
 <pre>config.macros.flickrMyGeo = {};
 config.macros.flickrMyGeo.handler =function(place,macroName,params,wikifier,paramString,tiddler){
 	var url = params[0];
 	//accesses gml
 	var u = EasyMapUtils;
-
+	var tid = tiddler;
 	var callback = function(status,params,responseText,url,xhr){
 		var data = {'type':'FeatureCollection','features':[]};
 		var xml = u._getXML(responseText);
@@ -721,7 +721,7 @@ config.macros.flickrMyGeo.handler =function(place,macroName,params,wikifier,para
 		}	
 	
 		data.points = true;
-		var id = config.macros.geo.getGeoId(tiddler);
+		var id = config.macros.geo.getGeoId(tid);
 		geomaps[id].drawFromGeojson(data);
 		
 	};
@@ -736,8 +736,10 @@ config.macros.DopplrMyGeo.handler =function(place,macroName,params,wikifier,para
 	var url = params[0];
 	//accesses gml
 	var u = EasyMapUtils;
+	var tid = tiddler;
 
 	var callback = function(status,params,responseText,url,xhr){
+		
 		var data = {'type':'FeatureCollection','features':[]};
 		var xml = u._getXML(responseText);
 		var gmls = xml.getElementsByTagName(&quot;entry&quot;);
@@ -788,7 +790,7 @@ config.macros.DopplrMyGeo.handler =function(place,macroName,params,wikifier,para
 		}	
 	
 		data.points = true;
-		var id = config.macros.geo.getGeoId(tiddler);
+		var id = config.macros.geo.getGeoId(tid);
 		geomaps[id].drawFromGeojson(data);
 		
 	};
@@ -933,6 +935,7 @@ if(!version.extensions.geoPlugin) {
 			else
 				version.extensions.geoPlugin.num = 0;
 			var geoid =version.extensions.geoPlugin.num;	
+			tiddler.geoid = geoid; 
 			var prms = paramString.parseParams(null, null, true);
 
 			var id = &quot;wrapper&quot;+geoid;
@@ -957,7 +960,7 @@ if(!version.extensions.geoPlugin) {
 
 			var eMap = new EasyMap(wrapper);
 			geomaps[geoid] = eMap;
-			tiddler.geoid = geoid; 
+		
 						
 
 			var that = eMap;
@@ -1540,11 +1543,11 @@ EasyMap.prototype = {
 };
 
 
-var EasyShape = function(properties,coordinates){
+var EasyShape = function(properties,coordinates,geojson){
 
 	this.grid = {};
 	this.coords = [];
-	if(coordinates[0][0]){
+	if(geojson){
 		this.constructFromGeoJSONObject(properties,coordinates);
 	}
 	else{
