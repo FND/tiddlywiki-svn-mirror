@@ -304,12 +304,8 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
-		var rev = context.tiddler.fields["server.page.revision"];
-		if(rev) {
-			context.tiddler.fields["server.page.revision"] = parseInt(rev) + 1; // XXX: should be read from ETag!?
-		} else {
-			context.tiddler.fields["server.page.revision"] = 1;
-		}
+		var headers = xhr.getAllResponseHeaders();
+		context.tiddler.fields["server.page.revision"] = headers.match(/ETag:.*\/(\d+)/i)[1];
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
