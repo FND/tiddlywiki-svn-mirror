@@ -4,22 +4,6 @@ config.extensions.lazyLoading = {};
 
 (function(plugin) { //# set up alias
 
-// hijack loadMissingTiddler to trigger lazy loading
-plugin.loadMissingTiddler = Story.prototype.loadMissingTiddler;
-Story.prototype.loadMissingTiddler = function(title, fields, tiddlerElem) {
-	console.log("in lMT"); // DEBUG
-	var tiddler = store.getTiddler(title);
-	if(tiddler && tiddler.text) {
-		return true;
-	} else if(tiddler) {
-		console.log("loading missing contents: " + title); // DEBUG
-		return plugin.loadMissingTiddlerContents(tiddler);
-	} else {
-		console.log("loading missing tiddler: " + title); // DEBUG
-		return plugin.loadMissingTiddler.apply(this, arguments);
-	}
-};
-
 Story.prototype.loadMissingTiddlerContents = function(tiddler) {
 	var serverType = tiddler.getServerType();
 	var host = tiddler.fields["server.host"];
@@ -65,6 +49,28 @@ Story.prototype.loadMissingTiddlerContents = function(tiddler) {
 	});
 	sm.go();
 	return config.messages.loadingMissingTiddler.format([title, serverType, host,workspace]);
+};
+
+// override createTiddler to trigger lazy loading of tiddler contents
+Story.prototype.createTiddler = function(place, before, title, template, customFields) {
+	console.log("in cT"); // DEBUG
+	var tiddlerElem = createTiddlyElement(null, "div", this.tiddlerId(title), "tiddler");
+	tiddlerElem.setAttribute("refresh", "tiddler");
+	if(customFields) {
+		tiddlerElem.setAttribute("tiddlyFields", customFields);
+	}
+	place.insertBefore(tiddlerElem, before);
+	var defaultText = null;
+	var tiddler = store.getTiddler(title);
+	if(!store.tiddlerExists(title) && !store.isShadowTiddler(title)) {
+		console.log("loading missing tiddler: " + title); // DEBUG
+		defaultText = this.loadMissingTiddler(title, customFields, tiddlerElem);
+	} else if(!tiddler.text) { // XXX: faulty check!?
+		console.log("loading missing contents: " + title); // DEBUG
+		defaultText = this.loadMissingTiddlerContents(tiddler);
+	}
+	this.refreshTiddler(title, template, false, customFields, defaultText);
+	return tiddlerElem;
 };
 
 })(config.extensions.lazyLoading); //# end of alias
