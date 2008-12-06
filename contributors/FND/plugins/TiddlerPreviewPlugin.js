@@ -3,7 +3,7 @@
 |''Description''|provides a toolbar command for previewing tiddler contents|
 |''Author''|FND|
 |''Contributors''|Saq Imtiaz|
-|''Version''|0.2.4|
+|''Version''|0.2.5|
 |''Status''|@@beta@@|
 |''Source''|<...>|
 |''Source''|http://svn.tiddlywiki.org/contributors/FND/plugins/TiddlerPreviewPlugin.js|
@@ -53,7 +53,11 @@ config.commands.previewTiddler = {
 				this.className + " viewer");
 		}
 		this.displayPreview(pane, tiddlerElem, title);
-		pane.ondblclick = function(ev) { stopEvent(ev); return false; };
+		pane.ondblclick = function(ev) {
+			window.scrollTo(0, ensureVisible(this.parentNode));
+			stopEvent(ev);
+			return false;
+		};
 		window.scrollTo(0, ensureVisible(pane));
 	},
 
@@ -96,11 +100,15 @@ config.commands.previewTiddler = {
 	}
 };
 
-config.shadowTiddlers.StyleSheetPreview = "/*{{{*/\n" +
-	".preview .toolbar {\n" +
+config.shadowTiddlers.StyleSheetPreview = ("/*{{{*/\n" +
+	".%0 {\n" +
+	"\tpadding: 5px;\n" +
+	"\tbackground-color: #eee;\n" +
+	"}\n\n" +
+	".%0 .toolbar {\n" +
 	"\tdisplay: none;\n" +
 	"}\n" +
-	"/*}}}*/";
+	"/*}}}*/").format([config.commands.previewTiddler.className]);
 store.addNotification("StyleSheetPreview", refreshStyles);
 
 } //# end of "install only once"
