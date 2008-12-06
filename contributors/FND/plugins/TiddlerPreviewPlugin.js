@@ -2,7 +2,7 @@
 |''Name''|TiddlerPreviewPlugin|
 |''Description''|provides a toolbar command for previewing tiddler contents|
 |''Author''|FND|
-|''Version''|0.1.1|
+|''Version''|0.2.0|
 |''Status''|@@beta@@|
 |''Source''|<...>|
 |''Source''|http://svn.tiddlywiki.org/contributors/FND/plugins/TiddlerPreviewPlugin.js|
@@ -12,16 +12,18 @@
 <...>
 !Usage
 <...>
+!Configuration Options
+<<option chkPopupPreview>> use popup for preview
 !Revision History
-!!v0.1 (2008-12-06)
+!!v0.2 (2008-12-06)
 * initial release
-!To Do
-* use popup for preview
 !Code
 ***/
 //{{{
 if(!version.extensions.TiddlerPreviewPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TiddlerPreviewPlugin = { installed: true };
+
+config.optionsDesc.chkPopupPreview = "use popup for preview";
 
 config.commands.previewTiddler = {
 	text: "preview",
@@ -30,14 +32,16 @@ config.commands.previewTiddler = {
 
 	handler: function(event, src, title) {
 		var tiddlerElem = story.findContainingTiddler(src);
-		var container = this.getContainer(tiddlerElem);
 		var text = this.getContents(tiddlerElem);
-		wikify(text, container);
-		window.scrollTo(0, ensureVisible(container));
+		if(config.options.chkPopupPreview) {
+			this.generatePopup(event, src, text);
+		} else {
+			this.generateContainer(tiddlerElem, text);
+		}
 		return false;
 	},
 
-	getContainer: function(tiddlerElem) {
+	generateContainer: function(tiddlerElem, text) {
 		var containers = tiddlerElem.getElementsByTagName("div");
 		var container = containers[containers.length - 1]; // XXX: pop method undefined on HTMLCollection!?
 		if(container && hasClass(container, this.className)) {
@@ -46,7 +50,24 @@ config.commands.previewTiddler = {
 			container = createTiddlyElement(tiddlerElem, "div", null,
 				this.className + " viewer");
 		}
+		wikify(text, container);
+		window.scrollTo(0, ensureVisible(container));
 		return container;
+	},
+
+	generatePopup: function(ev, src, text) {
+		var e = ev || window.event; // XXX: already provided by TW framework?
+		var popup = Popup.create(src, "div",
+			this.className + " popupTiddler viewer");
+		wikify(text, popup);
+		Popup.show();
+		if(e) {
+			e.cancelBubble = true;
+		}
+		if(e && e.stopPropagation) {
+			e.stopPropagation();
+		}
+		return false;
 	},
 
 	getContents: function(tiddlerElem) {
