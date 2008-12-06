@@ -2,7 +2,7 @@
 |''Name''|TiddlerPreviewPlugin|
 |''Description''|provides a toolbar command for previewing tiddler contents|
 |''Author''|FND|
-|''Version''|0.2.0|
+|''Version''|0.2.1|
 |''Status''|@@beta@@|
 |''Source''|<...>|
 |''Source''|http://svn.tiddlywiki.org/contributors/FND/plugins/TiddlerPreviewPlugin.js|
@@ -17,6 +17,8 @@
 !Revision History
 !!v0.2 (2008-12-06)
 * initial release
+!To Do
+* use templating mechanism instead of wikifying
 !Code
 ***/
 //{{{
@@ -52,7 +54,6 @@ config.commands.previewTiddler = {
 		}
 		wikify(text, container);
 		window.scrollTo(0, ensureVisible(container));
-		return container;
 	},
 
 	generatePopup: function(ev, src, text) {
@@ -75,6 +76,12 @@ config.commands.previewTiddler = {
 		if(containers[0]) {
 			return containers[0].value;
 		}
+	},
+
+	displayTiddler: function(container, title, tiddler) {
+		var template = story.chooseTemplateForTiddler(title);
+		container.innerHTML = story.getTemplateForTiddler(title, template, tiddler);
+		applyHtmlMacros(container, tiddler);
 	}
 };
 
