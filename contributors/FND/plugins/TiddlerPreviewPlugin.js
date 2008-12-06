@@ -2,7 +2,8 @@
 |''Name''|TiddlerPreviewPlugin|
 |''Description''|provides a toolbar command for previewing tiddler contents|
 |''Author''|FND|
-|''Version''|0.2.3|
+|''Contributors''|Saq Imtiaz|
+|''Version''|0.2.4|
 |''Status''|@@beta@@|
 |''Source''|<...>|
 |''Source''|http://svn.tiddlywiki.org/contributors/FND/plugins/TiddlerPreviewPlugin.js|
@@ -52,7 +53,7 @@ config.commands.previewTiddler = {
 				this.className + " viewer");
 		}
 		this.displayPreview(pane, tiddlerElem, title);
-		pane.ondblclick = function(ev) { suppressEvents(ev); return false; };
+		pane.ondblclick = function(ev) { stopEvent(ev); return false; };
 		window.scrollTo(0, ensureVisible(pane));
 	},
 
@@ -61,7 +62,7 @@ config.commands.previewTiddler = {
 			this.className + " popupTiddler viewer");
 		this.displayPreview(popup, tiddlerElem, title);
 		Popup.show();
-		suppressEvents(ev);
+		stopEvent(ev);
 		return false;
 	},
 
@@ -94,15 +95,6 @@ config.commands.previewTiddler = {
 		}
 	}
 };
-
-suppressEvents = function(ev) {
-	if(ev) {
-		ev.cancelBubble = true;
-	}
-	if(ev && ev.stopPropagation) {
-		ev.stopPropagation();
-	}
-}
 
 config.shadowTiddlers.StyleSheetPreview = "/*{{{*/\n" +
 	".preview .toolbar {\n" +
