@@ -2,7 +2,7 @@
 |''Name''|TiddlerPreviewPlugin|
 |''Description''|provides a toolbar command for previewing tiddler contents|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@beta@@|
 |''Source''|<...>|
 |''Source''|http://svn.tiddlywiki.org/contributors/FND/plugins/TiddlerPreviewPlugin.js|
@@ -30,20 +30,30 @@ config.commands.previewTiddler = {
 
 	handler: function(event, src, title) {
 		var tiddlerElem = story.findContainingTiddler(src);
-		var containers = tiddlerElem.getElementsByTagName("div");
-		var preview = containers[containers.length - 1]; // XXX: pop method undefined on HTMLCollection!?
-		if(preview && hasClass(preview, this.className)) {
-			removeChildren(preview);
-		} else {
-			preview = createTiddlyElement(tiddlerElem, "div", null, this.className + " viewer");
-		}
-		containers = tiddlerElem.getElementsByTagName("textarea");
-		if(containers.length > 0) {
-			var text = containers[0].value;
-			wikify(text, preview);
-			window.scrollTo(0, ensureVisible(preview));
-		}
+		var container = this.getContainer(tiddlerElem);
+		var text = this.getContents(tiddlerElem);
+		wikify(text, container);
+		window.scrollTo(0, ensureVisible(container));
 		return false;
+	},
+
+	getContainer: function(tiddlerElem) {
+		var containers = tiddlerElem.getElementsByTagName("div");
+		var container = containers[containers.length - 1]; // XXX: pop method undefined on HTMLCollection!?
+		if(container && hasClass(container, this.className)) {
+			removeChildren(container);
+		} else {
+			container = createTiddlyElement(tiddlerElem, "div", null,
+				this.className + " viewer");
+		}
+		return container;
+	},
+
+	getContents: function(tiddlerElem) {
+		var containers = tiddlerElem.getElementsByTagName("textarea");
+		if(containers[0]) {
+			return containers[0].value;
+		}
 	}
 };
 
