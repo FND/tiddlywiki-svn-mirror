@@ -1,11 +1,10 @@
 /***
 |''Name''|TiddlerPreviewPlugin|
-|''Description''|provides a toolbar command for previewing tiddler contents|
+|''Description''|provides a toolbar command for previewing tiddlers in edit mode|
 |''Author''|FND|
 |''Contributors''|Saq Imtiaz|
 |''Version''|0.2.5|
 |''Status''|@@beta@@|
-|''Source''|<...>|
 |''Source''|http://svn.tiddlywiki.org/contributors/FND/plugins/TiddlerPreviewPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -17,7 +16,9 @@ Previews are accessed via the {{{previewTiddler}}} command, which must be added 
 !!v0.2 (2008-12-06)
 * initial release
 !To Do
-* styling inconsistencies
+* styling inconsistencies in preview (e.g. tag buttons)
+* disable in view mode
+* smooth scrolling
 !Code
 ***/
 //{{{
