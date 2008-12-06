@@ -2,7 +2,7 @@
 |''Name''|TiddlerPreviewPlugin|
 |''Description''|provides a toolbar command for previewing tiddler contents|
 |''Author''|FND|
-|''Version''|0.2.2|
+|''Version''|0.2.3|
 |''Status''|@@beta@@|
 |''Source''|<...>|
 |''Source''|http://svn.tiddlywiki.org/contributors/FND/plugins/TiddlerPreviewPlugin.js|
@@ -18,7 +18,6 @@
 !!v0.2 (2008-12-06)
 * initial release
 !To Do
-* disable double click on preview
 * styling inconsistencies
 !Code
 ***/
@@ -53,6 +52,7 @@ config.commands.previewTiddler = {
 				this.className + " viewer");
 		}
 		this.displayPreview(pane, tiddlerElem, title);
+		pane.ondblclick = function(ev) { suppressEvents(ev); return false; };
 		window.scrollTo(0, ensureVisible(pane));
 	},
 
@@ -61,20 +61,21 @@ config.commands.previewTiddler = {
 			this.className + " popupTiddler viewer");
 		this.displayPreview(popup, tiddlerElem, title);
 		Popup.show();
-		if(ev) {
-			ev.cancelBubble = true;
-		}
-		if(ev && ev.stopPropagation) {
-			ev.stopPropagation();
-		}
+		suppressEvents(ev);
 		return false;
 	},
 
 	displayPreview: function(container, tiddlerElem, title) {
-		var tiddler = new Tiddler(title);
+		var tiddler = merge(new Tiddler(title), store.getTiddler(title));
+		var newTitle = title;
 		if(tiddlerElem) {
 			var fields = {};
 			story.gatherSaveFields(tiddlerElem, fields);
+			tiddler.fields = store.tiddlerExists(newTitle) ?
+				store.fetchTiddler(newTitle).fields :
+				(newTitle != title && store.tiddlerExists(title) ?
+					store.fetchTiddler(title).fields :
+					merge({}, config.defaultCustomFields));
 			for(var p in fields) {
 				if(TiddlyWiki.isStandardField(p)) {
 					if(p == "tags") {
@@ -94,11 +95,20 @@ config.commands.previewTiddler = {
 	}
 };
 
-config.shadowTiddlers.StyleSheetPreview = "/*{{{*/\n"
-	+ ".preview .toolbar {\n"
-	+ "\tdisplay: none;\n"
-	+ "}\n"
-	+ "/*}}}*/";
+suppressEvents = function(ev) {
+	if(ev) {
+		ev.cancelBubble = true;
+	}
+	if(ev && ev.stopPropagation) {
+		ev.stopPropagation();
+	}
+}
+
+config.shadowTiddlers.StyleSheetPreview = "/*{{{*/\n" +
+	".preview .toolbar {\n" +
+	"\tdisplay: none;\n" +
+	"}\n" +
+	"/*}}}*/";
 store.addNotification("StyleSheetPreview", refreshStyles);
 
 } //# end of "install only once"
