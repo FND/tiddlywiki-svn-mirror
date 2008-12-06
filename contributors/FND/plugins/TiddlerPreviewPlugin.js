@@ -2,7 +2,7 @@
 |''Name''|TiddlerPreviewPlugin|
 |''Description''|provides a toolbar command for previewing tiddler contents|
 |''Author''|FND|
-|''Version''|0.2.1|
+|''Version''|0.2.2|
 |''Status''|@@beta@@|
 |''Source''|<...>|
 |''Source''|http://svn.tiddlywiki.org/contributors/FND/plugins/TiddlerPreviewPlugin.js|
@@ -18,7 +18,8 @@
 !!v0.2 (2008-12-06)
 * initial release
 !To Do
-* use templating mechanism instead of wikifying
+* disable double click on preview
+* styling inconsistencies
 !Code
 ***/
 //{{{
@@ -32,58 +33,73 @@ config.commands.previewTiddler = {
 	tooltip: "preview tiddler contents",
 	className: "preview",
 
-	handler: function(event, src, title) {
+	handler: function(ev, src, title) {
 		var tiddlerElem = story.findContainingTiddler(src);
-		var text = this.getContents(tiddlerElem);
 		if(config.options.chkPopupPreview) {
-			this.generatePopup(event, src, text);
+			this.generatePopup(title, tiddlerElem, src, ev);
 		} else {
-			this.generateContainer(tiddlerElem, text);
+			this.generatePane(title, tiddlerElem);
 		}
 		return false;
 	},
 
-	generateContainer: function(tiddlerElem, text) {
+	generatePane: function(title, tiddlerElem) {
 		var containers = tiddlerElem.getElementsByTagName("div");
-		var container = containers[containers.length - 1]; // XXX: pop method undefined on HTMLCollection!?
-		if(container && hasClass(container, this.className)) {
-			removeChildren(container);
+		var pane = containers[containers.length - 1];
+		if(pane && hasClass(pane, this.className)) {
+			removeChildren(pane);
 		} else {
-			container = createTiddlyElement(tiddlerElem, "div", null,
+			pane = createTiddlyElement(tiddlerElem, "div", null,
 				this.className + " viewer");
 		}
-		wikify(text, container);
-		window.scrollTo(0, ensureVisible(container));
+		this.displayPreview(pane, tiddlerElem, title);
+		window.scrollTo(0, ensureVisible(pane));
 	},
 
-	generatePopup: function(ev, src, text) {
-		var e = ev || window.event; // XXX: already provided by TW framework?
+	generatePopup: function(title, tiddlerElem, src, ev) {
 		var popup = Popup.create(src, "div",
 			this.className + " popupTiddler viewer");
-		wikify(text, popup);
+		this.displayPreview(popup, tiddlerElem, title);
 		Popup.show();
-		if(e) {
-			e.cancelBubble = true;
+		if(ev) {
+			ev.cancelBubble = true;
 		}
-		if(e && e.stopPropagation) {
-			e.stopPropagation();
+		if(ev && ev.stopPropagation) {
+			ev.stopPropagation();
 		}
 		return false;
 	},
 
-	getContents: function(tiddlerElem) {
-		var containers = tiddlerElem.getElementsByTagName("textarea");
-		if(containers[0]) {
-			return containers[0].value;
+	displayPreview: function(container, tiddlerElem, title) {
+		var tiddler = new Tiddler(title);
+		if(tiddlerElem) {
+			var fields = {};
+			story.gatherSaveFields(tiddlerElem, fields);
+			for(var p in fields) {
+				if(TiddlyWiki.isStandardField(p)) {
+					if(p == "tags") {
+						tiddler[p] = fields[p].readBracketedList();
+					} else {
+						tiddler[p] = fields[p];
+					}
+				} else {
+					tiddler.fields[p] = fields[p];
+				}
+			}
+			var template = story.chooseTemplateForTiddler(title, DEFAULT_VIEW_TEMPLATE);
+			container.innerHTML = story.getTemplateForTiddler(title, template, tiddler);
+			applyHtmlMacros(container, tiddler);
+			forceReflow();
 		}
-	},
-
-	displayTiddler: function(container, title, tiddler) {
-		var template = story.chooseTemplateForTiddler(title);
-		container.innerHTML = story.getTemplateForTiddler(title, template, tiddler);
-		applyHtmlMacros(container, tiddler);
 	}
 };
+
+config.shadowTiddlers.StyleSheetPreview = "/*{{{*/\n"
+	+ ".preview .toolbar {\n"
+	+ "\tdisplay: none;\n"
+	+ "}\n"
+	+ "/*}}}*/";
+store.addNotification("StyleSheetPreview", refreshStyles);
 
 } //# end of "install only once"
 //}}}
