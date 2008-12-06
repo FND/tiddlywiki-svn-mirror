@@ -9,10 +9,8 @@
 |''Source''|http://svn.tiddlywiki.org/contributors/FND/plugins/TiddlerPreviewPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-!Notes
-<...>
 !Usage
-<...>
+Previews are accessed via the {{{previewTiddler}}} command, which must be added to the [[tiddler toolbar|http://www.tiddlywiki.org/wiki/Tiddler_Toolbar]].
 !Configuration Options
 <<option chkPopupPreview>> use popup for preview
 !Revision History
