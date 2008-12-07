@@ -963,13 +963,16 @@ fnLog('getTopicListCallback:'+status);
 			for(var i = 0;i<p.length;i++) {
 				var id = String(gev(p,i,'id'));
 				var subject = gev(p,i,'subject');
-				var title = '_topic:' + id + ' parent:' + context.parentTitle+' Subject:' + subject;
+				//var title = '_topic:' + id + ' parent:' + context.parentTitle+' Subject:' + subject;
+				var title = '_topic:' + subject + ' parent:' + context.parentTitle + ' created:' + WikispacesSoapAdaptor.dateFromTimestamp(gev(p,i,'date_created')).convertToYYYYMMDDHHMMSSMMM();
 				//var title = gev(p,i,'subject');
 				if(title.indexOf('._')!=0 && !store.isShadowTiddler(title)) {
 					var tiddler = new Tiddler(title);
 					tiddler.text = gev(p,i,'body');
+					tiddler.fields['discussions.parenttiddler'] = context.parentTitle;
 					tiddler.fields['server.id'] = id;
 					tiddler.fields['server.subject'] = subject;
+					tiddler.fields['discussions.subject'] = subject;
 					tiddler.fields['server.page_id'] = gev(p,i,'page_id');
 					tiddler.fields['server.topic_id'] = gev(p,i,'topic_id');
 					tiddler.fields['server.responses'] = gev(p,i,'responses');
@@ -1014,6 +1017,8 @@ fnLog('getMessageListComplete');
 	var pl = new SOAPClientParameters();
 	pl.add('session',context.sessionToken);
 	pl.add('topicId',context.topicId);
+	var context = merge({},context);
+	context.userParams = userParams;
 	SOAPClient.invoke(uri,'listMessagesInTopic',pl,true,WikispacesSoapAdaptor.getMessageListCallback,context);
 	return true;
 };
@@ -1033,8 +1038,9 @@ fnLog('getMessageListCallback:'+status);
 			for(var i = 0;i<p.length;i++) {
 				var id = String(gev(p,i,'id'));
 				var subject = gev(p,i,'subject');
-				var title = '_message:' + id + ' parent:' + context.parentTitle+' Subject:' + subject;
+				//var title = '_message:' + id + ' parent:' + context.parentTitle+' Subject:' + subject;
 				//var title = '_message:' + String(gev(p,i,'id')) + ' Subject:' + gev(p,i,'subject');
+				var title = "_message:" + subject + " parent:" + context.parentTitle +  " created:" + WikispacesSoapAdaptor.dateFromTimestamp(gev(p,i,'date_created')).convertToYYYYMMDDHHMMSSMMM();
 				fnLog("msg:"+title);
 				//var title = gev(p,i,'subject');
 				if(title.indexOf('._')!=0 && !store.isShadowTiddler(title)) {
@@ -1043,7 +1049,10 @@ fnLog('getMessageListCallback:'+status);
 						var tiddler = new Tiddler(title);
 						tiddler.text = gev(p,i,'body');
 						tiddler.fields['server.id'] = id;
+						tiddler.fields['discussions.topictiddler'] = context.userParams.topic;
+						tiddler.fields['discussions.parenttiddler'] = context.parentTitle;
 						tiddler.fields['server.subject'] = subject;
+						tiddler.fields['discussions.subject'] = subject;
 						tiddler.fields['server.page_id'] = gev(p,i,'page_id');
 						tiddler.fields['server.topic_id'] = gev(p,i,'topic_id');
 						tiddler.fields['server.responses'] = responses;
@@ -1077,3 +1086,4 @@ fnLog('getMessageListCallback:'+status);
 config.adaptors[WikispacesSoapAdaptor.serverType] = WikispacesSoapAdaptor;
 } //# end of 'install only once'
 //}}}
+
