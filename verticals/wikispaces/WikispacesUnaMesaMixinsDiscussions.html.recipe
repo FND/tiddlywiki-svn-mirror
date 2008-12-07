@@ -1,0 +1,30 @@
+## Core
+recipe: ../../core/tiddlywiki.html.recipe
+
+## Shadows
+#recipe: shadows/split.recipe
+tiddler: shadows/SideBarOptionsUnaMesaMixins.tiddler
+tiddler: shadows/ToolbarCommands.tiddler
+
+## CSS
+tiddler: ../../contributors/MartinBudden/mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: ../../contributors/MartinBudden/mystyle/StyleSheetHorizontalMainMenu.tiddler
+
+## Feeds
+tiddler: feeds/WikispacesUnaMesaMixinsFeed.tiddler
+
+## Plugins
+tiddler: plugins/settings-discussions.js
+tiddler: ../../contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js
+tiddler: ../../contributors/MartinBudden/adaptors/AdaptorMacrosPlugin.js
+tiddler: ../../contributors/MartinBudden/adaptors/soapclient.js
+#tiddler: ../../contributors/MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js
+tiddler: ../../contributors/SaqImtiaz/verticals/POLS250/common/plugins/WikispacesSoapAdaptorPlugin.js
+tiddler: ../../contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js
+tiddler: ../../contributors/MartinBudden/adaptors/ImportWorkspacePlugin.js
+#tiddler: ../../contributors/MartinBudden/plugins/ImportWikispacesMessagesPlugin.js
+tiddler: ../../contributors/SaqImtiaz/verticals/POLS250/common/plugins/ImportWikispacesMessagesPlugin.js
+tiddler: ../../contributors/MartinBudden/plugins/QuickSyncPlugin.js
+tiddler: ../../contributors/SaqImtiaz/plugins/DiscussionsTabPlugin.js
+tiddler: ../../contributors/SaqImtiaz/plugins/ToolbarCommandsClassesPlugin.js
+
