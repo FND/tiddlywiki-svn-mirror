@@ -1,5 +1,7 @@
 
-var EasyShape = function(properties,coordinates,geojson){
+var EasyShape = function(properties,coordinates,geojson,projection){
+	if(projection) 
+		this.projection = projection;
 
 	this.grid = {};
 	this.coords = [];
@@ -9,6 +11,8 @@ var EasyShape = function(properties,coordinates,geojson){
 	else{
 		this.constructBasicPolygon(properties,coordinates);
 	}
+	
+	this.setTheProjection();
 	this.createGrid();
 
 };
@@ -110,6 +114,43 @@ EasyShape.prototype={
 		return res;
 	}	
 
+	,setTheProjection: function(){
+		if(!this.projection) return;
+		var c = this.coords;
+		var newc = [];
+		for(var i=0; i < this.coords.length-1; i+=2){
+			var x = parseFloat(this.coords[i]);
+			var y = parseFloat(this.coords[i+1]);
+			
+			if(this.projection.xy){
+				var t = this.projection.xy(c[i],c[i+1]);
+				newx= t.x;
+				newy= t.y;
+			}
+			if(this.projection.x && this.projection.y){
+				newx = this.projection.x(x);
+				newy = this.projection.y(y);
+			}
+			
+			var cok= true;
+			if(i >= 2){ //check against wraparound
+				if(newx > 0 && c[i-2] < 0 ||newx < 0 && c[i-2] > 0){
+					cok= false;
+				}
+				
+				if(newy > 0 && c[i-1] < 0 ||newy < 0 && c[i-1] > 0){
+					cok= false;
+				}
+			}
+			if(cok){
+				newc.push(newx);
+				newc.push(newy);
+			}
+			
+			
+		}	
+		this.coords = newc;
+	}
 	,spherify: function(transformation){
 		var newcoords = [];
 		var radius =transformation.spherical.radius;

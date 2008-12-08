@@ -344,6 +344,7 @@ EasyMapController.prototype = {
 		var scale =t.scale;
 		pan.x = parseFloat(30 / scale.x);
 		pan.y = parseFloat(30 / scale.y);
+
 		if(!t.scale) t.scale = {x:1,y:1};
 		if(!t.translate) t.translate = {x:0,y:0};
 		if(!t.rotate) t.rotate = {x:0,y:0,z:0};

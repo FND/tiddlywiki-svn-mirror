@@ -26,6 +26,7 @@ var EasyMap = function(wrapper){
 	var that = this;
 	this.settings = {};
 	this.settings.background = "#AFDCEC";
+	this.settings.projection = {x:function(x){return x;}, y: function(y){return y;}};
 
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width) || 600;
@@ -219,6 +220,8 @@ EasyMap.prototype = {
 			origin.y =h / 2;
 		}
 		var t =this.canvas.transformation.translate;
+		
+		
 
 		var s = this.canvas.transformation.scale;
 
@@ -272,10 +275,29 @@ EasyMap.prototype = {
 		
 
 	},
-	_renderShapes: function(){
-		var mem =this.canvas.memory;
+	_renderShapes: function(flag){
 		var ctx = this.canvas.getContext('2d');
 		this.ctx = ctx;
+		var that = this;
+		if(!flag && this.settings.backgroundimg){
+			
+			var img = new Image();
+			img.src=this.settings.backgroundimg;
+			img.width = this.canvas.width;
+			img.height = this.canvas.height;
+			img.onload = function(){
+				ctx.globalAlpha = 1;
+				ctx.drawImage(img,0,0);
+				ctx.globalAlpha = 0.4;
+				that._renderShapes(true);
+
+			};
+			return;
+			
+		}
+		
+		var mem =this.canvas.memory;
+
 
 		var t =this.canvas.transformation;
 		var tr =t.translate;
@@ -321,7 +343,7 @@ EasyMap.prototype = {
 		else{
 			console.log("no idea how to draw" +shape.properties.shape);return;
 		}		
-		if(shapetype != 'point' && shape.grid && !shape._tcoords){ //check if worth drawing
+		if(shapetype != 'point' && shape.grid ){ //check if worth drawing
 				var g = shape.grid;
 				if(g.x2 < frame.left) {
 					return;}
@@ -360,7 +382,7 @@ EasyMap.prototype = {
 		var threshold = 2;
 		this.ctx.moveTo(initialX,initialY);
 
-		if(shape._tcoords) threshold = 0;
+		//if(shape._tcoords) threshold = 0;
 	
 		
 		
@@ -410,13 +432,13 @@ EasyMap.prototype = {
 	_drawGeoJsonPolygonFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'polygon';
-		var s = new EasyShape(p,coordinates,"geojson");
+		var s = new EasyShape(p,coordinates,"geojson",this.settings.projection);
 		this._buildShapeInMemory(s);
 	},
 	_drawGeoJsonPointFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'point';
-		var s = new EasyShape(p,coordinates,"geojson");
+		var s = new EasyShape(p,coordinates,"geojson", this.settings.projection);
 		this._buildShapeInMemory(s);
 	},	
 	_drawGeoJsonFeature: function(feature){
@@ -447,7 +469,9 @@ EasyMap.prototype = {
 };
 
 
-var EasyShape = function(properties,coordinates,geojson){
+var EasyShape = function(properties,coordinates,geojson,projection){
+	if(projection) 
+		this.projection = projection;
 
 	this.grid = {};
 	this.coords = [];
@@ -457,6 +481,8 @@ var EasyShape = function(properties,coordinates,geojson){
 	else{
 		this.constructBasicPolygon(properties,coordinates);
 	}
+	
+	this.setTheProjection();
 	this.createGrid();
 
 };
@@ -558,6 +584,43 @@ EasyShape.prototype={
 		return res;
 	}	
 
+	,setTheProjection: function(){
+		if(!this.projection) return;
+		var c = this.coords;
+		var newc = [];
+		for(var i=0; i < this.coords.length-1; i+=2){
+			var x = parseFloat(this.coords[i]);
+			var y = parseFloat(this.coords[i+1]);
+			
+			if(this.projection.xy){
+				var t = this.projection.xy(c[i],c[i+1]);
+				newx= t.x;
+				newy= t.y;
+			}
+			if(this.projection.x && this.projection.y){
+				newx = this.projection.x(x);
+				newy = this.projection.y(y);
+			}
+			
+			var cok= true;
+			if(i >= 2){ //check against wraparound
+				if(newx > 0 && c[i-2] < 0 ||newx < 0 && c[i-2] > 0){
+					cok= false;
+				}
+				
+				if(newy > 0 && c[i-1] < 0 ||newy < 0 && c[i-1] > 0){
+					cok= false;
+				}
+			}
+			if(cok){
+				newc.push(newx);
+				newc.push(newy);
+			}
+			
+			
+		}	
+		this.coords = newc;
+	}
 	,spherify: function(transformation){
 		var newcoords = [];
 		var radius =transformation.spherical.radius;
@@ -993,6 +1056,7 @@ EasyMapController.prototype = {
 		var scale =t.scale;
 		pan.x = parseFloat(30 / scale.x);
 		pan.y = parseFloat(30 / scale.y);
+
 		if(!t.scale) t.scale = {x:1,y:1};
 		if(!t.translate) t.translate = {x:0,y:0};
 		if(!t.rotate) t.rotate = {x:0,y:0,z:0};

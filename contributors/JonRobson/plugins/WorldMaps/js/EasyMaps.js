@@ -26,6 +26,7 @@ var EasyMap = function(wrapper){
 	var that = this;
 	this.settings = {};
 	this.settings.background = "#AFDCEC";
+	this.settings.projection = {x:function(x){return x;}, y: function(y){return y;}};
 
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width) || 600;
@@ -219,6 +220,8 @@ EasyMap.prototype = {
 			origin.y =h / 2;
 		}
 		var t =this.canvas.transformation.translate;
+		
+		
 
 		var s = this.canvas.transformation.scale;
 
@@ -272,10 +275,29 @@ EasyMap.prototype = {
 		
 
 	},
-	_renderShapes: function(){
-		var mem =this.canvas.memory;
+	_renderShapes: function(flag){
 		var ctx = this.canvas.getContext('2d');
 		this.ctx = ctx;
+		var that = this;
+		if(!flag && this.settings.backgroundimg){
+			
+			var img = new Image();
+			img.src=this.settings.backgroundimg;
+			img.width = this.canvas.width;
+			img.height = this.canvas.height;
+			img.onload = function(){
+				ctx.globalAlpha = 1;
+				ctx.drawImage(img,0,0);
+				ctx.globalAlpha = 0.4;
+				that._renderShapes(true);
+
+			};
+			return;
+			
+		}
+		
+		var mem =this.canvas.memory;
+
 
 		var t =this.canvas.transformation;
 		var tr =t.translate;
@@ -321,7 +343,7 @@ EasyMap.prototype = {
 		else{
 			console.log("no idea how to draw" +shape.properties.shape);return;
 		}		
-		if(shapetype != 'point' && shape.grid && !shape._tcoords){ //check if worth drawing
+		if(shapetype != 'point' && shape.grid ){ //check if worth drawing
 				var g = shape.grid;
 				if(g.x2 < frame.left) {
 					return;}
@@ -360,7 +382,7 @@ EasyMap.prototype = {
 		var threshold = 2;
 		this.ctx.moveTo(initialX,initialY);
 
-		if(shape._tcoords) threshold = 0;
+		//if(shape._tcoords) threshold = 0;
 	
 		
 		
@@ -410,13 +432,13 @@ EasyMap.prototype = {
 	_drawGeoJsonPolygonFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'polygon';
-		var s = new EasyShape(p,coordinates,"geojson");
+		var s = new EasyShape(p,coordinates,"geojson",this.settings.projection);
 		this._buildShapeInMemory(s);
 	},
 	_drawGeoJsonPointFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'point';
-		var s = new EasyShape(p,coordinates,"geojson");
+		var s = new EasyShape(p,coordinates,"geojson", this.settings.projection);
 		this._buildShapeInMemory(s);
 	},	
 	_drawGeoJsonFeature: function(feature){
