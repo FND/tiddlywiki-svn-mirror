@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.2.0|
+|''Version''|0.2.1|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/association/|
@@ -205,10 +205,10 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context.tiddler.fields["server.type"] = adaptor.serverType;
 	context.tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
 	context.tiddler.fields["server.tiddlertitle"] = title; //# required for detecting renames
+	context.tiddler.fields["server.workspace"] = context.workspace;
 	var workspace = adaptor.resolveWorkspace(context.workspace);
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
 		workspace.name, title, context.revision]);
-	context.tiddler.fields["server.workspace"] = context.workspace;
 	var req = httpReq("GET", uri, adaptor.getTiddlerCallback,
 		context, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
@@ -252,7 +252,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	}
 	var headers = null;
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
-	var host = context.host ? context.host : this.fullHostName(tiddler.fields["server.host"]);
+	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
 	try {
 		var workspace = adaptor.resolveWorkspace(tiddler.fields["server.workspace"]);
 	} catch(ex) {
@@ -312,7 +312,7 @@ adaptor.prototype.deleteTiddler = function(tiddler, context, userParams, callbac
 	context = this.setContext(context, userParams, callback);
 	context.title = tiddler.title; // XXX: not required!?
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
-	var host = context.host ? context.host : this.fullHostName(tiddler.fields["server.host"]);
+	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
 	try {
 		var workspace = adaptor.resolveWorkspace(tiddler.fields["server.workspace"]);
 	} catch(ex) {
@@ -338,8 +338,7 @@ adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback
 	context = this.setContext(context, userParams, callback);
 	var tiddler = store.getTiddler(title);
 	var uriTemplate = "%0/%1/%2/tiddlers/%3/diff";
-	var host = tiddler.fields["server.host"];
-	host = this.fullHostName(host);
+	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
 	try {
 		var workspace = adaptor.resolveWorkspace(tiddler.fields["server.workspace"]);
 	} catch(ex) {
