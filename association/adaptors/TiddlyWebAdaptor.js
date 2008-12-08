@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.2.1|
+|''Version''|0.2.2|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/association/|
@@ -84,7 +84,7 @@ adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	var params = context.filters ? "?filter=" + context.filters : "";
 	var workspace = adaptor.resolveWorkspace(context.workspace);
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
-		workspace.name, params]);
+		adaptor.normalizeTitle(workspace.name), params]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerListCallback,
 		context, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
@@ -125,7 +125,7 @@ adaptor.prototype.getSearchResults = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/search?q=%1%2";
 	var filterString = context.filters ? ";filter=" + context.filters : "";
-	var uri = uriTemplate.format([context.host, context.query, filterString]);
+	var uri = uriTemplate.format([context.host, context.query, filterString]); // XXX: parameters need escaping?
 	var req = httpReq("GET", uri, adaptor.getSearchResultsCallback,
 		context, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
@@ -141,7 +141,7 @@ adaptor.prototype.getTiddlerRevisionList = function(title, limit, context, userP
 	var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions";
 	var workspace = adaptor.resolveWorkspace(context.workspace);
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
-		workspace.name, title]);
+		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title)]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerRevisionListCallback,
 		context, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
@@ -208,7 +208,8 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context.tiddler.fields["server.workspace"] = context.workspace;
 	var workspace = adaptor.resolveWorkspace(context.workspace);
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
-		workspace.name, title, context.revision]);
+		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title),
+		context.revision]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerCallback,
 		context, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
@@ -259,7 +260,8 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		return adaptor.locationIDErrorMessage;
 	}
 	var uri = uriTemplate.format([host, workspace.type + "s",
-		workspace.name, tiddler.title]);
+		adaptor.normalizeTitle(workspace.name),
+		adaptor.normalizeTitle(tiddler.title)]);
 	if(workspace.type == "bag") { // generat ETag
 		var revision = tiddler.fields["server.page.revision"];
 		if(typeof revision == "undefined") {
@@ -319,7 +321,8 @@ adaptor.prototype.deleteTiddler = function(tiddler, context, userParams, callbac
 		return adaptor.locationIDErrorMessage;
 	}
 	var uri = uriTemplate.format([host, workspace.type + "s",
-		workspace.name, tiddler.title]);
+		adaptor.normalizeTitle(workspace.name),
+		adaptor.normalizeTitle(tiddler.title)]);
 	var req = httpReq("DELETE", uri, adaptor.deleteTiddlerCallback, context);
 	return typeof req == "string" ? req : true;
 };
@@ -345,7 +348,7 @@ adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback
 		return adaptor.locationIDErrorMessage;
 	}
 	var uri = uriTemplate.format([host, workspace.type + "s",
-		workspace.name, title]);
+		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle((title)]);
 	if(context.rev1) {
 		uri += "/" + context.rev1;
 		if(context.rev2) {
@@ -377,7 +380,8 @@ adaptor.prototype.generateTiddlerInfo = function(tiddler) {
 	host = this.fullHostName(host);
 	var workspace = adaptor.resolveWorkspace(tiddler.fields["server.workspace"]);
 	info.uri = uriTemplate.format([context.host, workspace.type + "s",
-		workspace.name, tiddler.title]);
+		adaptor.normalizeTitle(workspace.name),
+		adaptor.normalizeTitle(tiddler.title)]);
 	return info;
 };
 
