@@ -1,17 +1,25 @@
-# switch themes
-tiddler: $TW_ROOT/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js
-
-# Microformat macros
+# Microformat helper macros
 tiddler: $TW_ROOT/contributors/PaulDowney/plugins/MicroformatPlugin.js
 
-# Microformat dates
+# Microformat style dates
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/FormatUTCStringPlugin/FormatUTCStringPlugin.recipe
 
 # Microformat links
 tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
 
+# enable access to tiddlers from the backstage 
+tiddler: $TW_ROOT/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
+
 # group tiddlers into sections 
 tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
 
 # attach a template to a tiddler by the tag name
-tiddler: $TW_ROOT/verticals/RippleRap/core/plugins/TaggedTemplateTweak.js
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/TaggedTemplatePlugin/TaggedTemplatePlugin.recipe
+
+# switch themes UI 
+###using local copy, until Martin Budden applies my supplied patch :)
+###tiddler: $TW_ROOT/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js
+tiddler: ThemeSwitcherPlugin.js
+
+# force refresh on theme switch
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
