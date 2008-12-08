@@ -1,0 +1,346 @@
+<div title="RippleRapSkin" modifier="PhilHawksworth" created="200805061019" tags="systemTheme excludeSearch">
+<pre>/***
+|''Name:''|RippleRapSkin|
+|''Description:''|The basic RippleRap theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/ripplerap/core/RippleRapSkin.tiddler |
+|''Version:''|0.1|
+|''Date:''|April 5th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~sessionViewTemplate:''|##sessionViewTemplate|
+|''~sessionEditTemplate:''|##sessionEditTemplate|
+|''~notesViewTemplate:''|##notesViewTemplate|
+|''~notesEditTemplate:''|##notesEditTemplate|
+|''~speakerViewTemplate:''|##speakerViewTemplate|
+|''~discovered_notesViewTemplate:''|##discovered_notesViewTemplate|
+|''~TrackViewTemplate:''|##TrackViewTemplate|	
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div class='header'>
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div class='headerForeground'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='messageBar'><span id='messageArea'></span></div>
+</div>
+<div id='agendaMenu' refresh='content' force='true' tiddler='AgendaMenu'></div>
+<div id='displayArea'>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+
+
+!ViewTemplate
+<!--{{{-->
+<div class="VanillaView">
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<!-- <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div> 
+</div>
+<!--}}}-->
+
+
+!EditTemplate
+<!--{{{-->
+<div class="VanillaEdit">
+<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler deleteTiddler'></div>
+<div class='title' macro='view title'></div> 
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+</div>
+<!--}}}-->
+
+
+!sessionViewTemplate
+<!--{{{-->
+<div class='session'>
+	<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
+	<div class='title' macro="LinkMaker type:text display:rr_session_title linkto:rr_session_link tooltip:rr_session_tooltip"></div>
+	<span class="time"><span macro="dtstart rr_session_starttime '0hh:0mm'"></span>-<span macro="dtend rr_session_endtime '0hh:0mm'"></span></span>
+	<div class="location" macro="view rr_session_location"></div>
+	<div class="speaker" macro="TiddlifyList rr_session_speakers"></div>
+	<div class="noteOptions"><div macro="RippleRap option:makeNote"></div><div macro="RippleRap option:confabbReview"></div></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!sessionEditTemplate
+<!--{{{-->
+<div class='session_edit'>
+	<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
+	<div class="label">Session title</div><div class="title editor" macro="edit title"></div>
+	<div class="label">Speaker (one or more names, separated by commas)</div><div class="speaker editor" macro="edit rr_session_speaker"></div>
+	<div class="label">Start time (YYYYMMDDHHMM)</div><div class="start editor" macro="edit rr_session_starttime"></div>
+	<div class="label">End time (YYYYMMDDHHMM)</div><div class="end editor" macro="edit rr_session_endtime"></div>
+	<div class="label">Tags (include "session" and a track tag)</div><div class="track editor" macro="edit tags"></div>
+	<div class="label">Synopsis</div><div class='synopsis editor' macro='edit text'></div>
+</div>
+<!--}}}-->
+
+
+!notesViewTemplate
+<!--{{{-->
+<div class='myNotes'>
+	<div class='toolbar' macro='toolbar closeTiddler +editTiddler'></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!notesEditTemplate
+<!--{{{-->
+<div class='myNotes'>
+	<div class='toolbar'></div>
+	<div class='editor' macro='edit text'></div>
+	<div class='editor tags' macro='edit tags'></div>
+	<div class='buttonbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
+</div>
+<!--}}}-->
+
+
+!discovered_notesViewTemplate
+<!--{{{-->
+<div class='discoveredNotes'>
+	<div class='toolbar' macro='toolbar closeTiddler'></div>
+	<div class='title'>notes from <span macro="LinkMaker type:text display:modifier linkto:rr_user_profile tooltip:rr_user_tooltip"></span></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!speakerViewTemplate
+<!--{{{-->
+<div class="VanillaView Speaker">
+<div class='toolbar' macro='toolbar closeTiddler closeOthers > fields syncing permalink references jump'></div>
+<div class='title' macro="LinkMaker type:text display:title linkto:rr_speaker_link tooltip:rr_speaker_tooltip"></div>
+<div class='speakingAt'><span>Speaking at: </span><span macro='SpeakerSessions'></span></span></div>
+<span class="vcard">
+<div class='viewer' macro='view text wikified'><span class='photo' macro='LinkMaker type:image display:rr_speaker_photo linkto:rr_speaker_link'></span></div>
+</span>
+</div>
+<!--}}}-->
+
+
+!TrackViewTemplate
+<!--{{{-->
+<div class='session'>
+	<div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
+	<div class="title" macro="view title"></div>
+	<div class="label">Session tag</div><div class="track editor" macro="view rr_session_tag"></div>
+	<div class="label">Tags</div><div class="track editor" macro="view tags"></div>
+	<div class="label"></div><div style="display:none" macro="view text"></div>
+</div>
+<!--}}}-->
+
+
+
+!StyleSheet
+/*{{{*/
+	
+abbr { border-bottom-style:none; }	
+h1,h2,h3,h4,h5 { color:[[RippleRapColors::Accent]];}
+	
+/* page framework */
+#agendaMenu { position: static;	float: left; width: auto; }
+#displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
+#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 3.2em 0;}
+#tiddlerDisplay { margin:0 1em 2em 1em; }
+
+/* Header */
+div.header { background-color:[[RippleRapColors::Dark]]; height:70px; position:relative; clear:left;}
+#backstageArea,
+#backstageToolbar {background-color:[[RippleRapColors::Darkest]];}
+#backstageToolbar a {background-color:[[RippleRapColors::Darkest]];}
+div.headerShadow { padding:1em 1.5em; position:relative; color:[[RippleRapColors::Brightest]];}
+div.headerForeground {display:none; }
+span.siteTitle { display:inline;}
+span.siteSubtitle {display:inline; margin-left:0.5em;}
+div.headerControls { position:absolute; bottom:20px; right:10px; color:[[ColorPalette::SecondaryDark]]; font-size:1.2em;}
+
+/* Primary Nav Buttons */
+#mainMenu { display:block; position:relative; width:100%; margin:0; background-color:[[RippleRapColors::Darker]]; border-bottom:solid 3px [[RippleRapColors::Mid]]; padding:0; line-height:1.4em; text-align:left;}
+/*#mainMenu a.button { border-style:none; float:left;}*/
+#mainMenu a,
+#mainMenu a.button,
+#mainMenu a.tiddlyLink,
+#mainMenu a.searchButton { font-size:1.1em; margin:0; color:[[RippleRapColors::Brightish]]; padding:0.3em 1em; line-height:1.7em; } 
+#mainMenu a:hover,
+#mainMenu a.button:hover,
+#mainMenu a.tiddlyLink:hover { background-color:[[RippleRapColors::Darkest]]; color:[[RippleRapColors::Brightest]];}
+#mainMenu span.search { position:absolute; right:0px; top:0px; padding:0; margin:0; }
+#mainMenu span.search .txtOptionInput { margin:3px; padding:0px 4px 2px 4px; font-size:0.95em; border-style:none; border-top:2px solid [[RippleRapColors::Bright]];}
+
+
+/* message bar */
+#messageBar {display:block; position:relative; width:100%; margin:0; background-color:[[RippleRapColors::Brighter]]; height:1.6em; font-size:11px; }
+#messageArea { border:solid 1px red; position:absolute; top:0; right:0; padding:0; margin:0; border-style:none; background-color:transparent;} 
+#messageArea div { margin-right:5em; padding:3px 0 0 0;}
+#messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
+#messageArea a { color:[[RippleRapColors::Dark]]; text-decoration:none; }
+#messageArea a:hover { color:[[RippleRapColors::Secondary]]; text-decoration:none; }
+#messageArea .button { float:right; background-color:[[RippleRapColors::Mid]]; color:[[RippleRapColors::Dark]]; margin:0 0 0 1em; padding:3px 6px; }
+#messageArea .button:hover {background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
+
+/* Buttons */
+span.chunkyButton { border:solid 1px [[ColorPalette::SecondaryDarkest]]; display:block; padding:0; margin:0 0 0 0;}
+span.chunkyButton a.button,
+span.chunkyButton a:active.button { white-space:nowrap; font-weight:bold; color:[[RippleRapColors::Brightest]]; background-color:[[ColorPalette::SecondaryDark]]; text-align:center; padding:0.4em 2em; margin:0; border-style:none;  border-top:solid 1px [[ColorPalette::SecondaryBrightest]]; display:block;}
+span.chunkyButton a.button:hover { background-color:[[ColorPalette::SecondaryBright]]; border-style:none; color:[[RippleRapColors::Brightest]];  border-top:solid 1px [[ColorPalette::SecondaryBrightest]];}
+.small {width:20em;}
+
+/* Agenda */
+#agendaMenu { clear:left; width:260px; float:left; padding:0; margin-top:4.1em; background-color:#f6f6f6;}
+#agendaMenu div.tabset { width:100%; overflow:none; display:block; margin:0; padding:0 0 0.8em 0; background-color:[[RippleRapColors::Brightest]]; text-align:center;}
+#agendaMenu div.tabset a.tab { padding:4px 6px; background-color:#ccc; color:#333; font-weight:bold; font-size:11px; margin-left:1px; }
+#agendaMenu div.tabset a.tab:hover { background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
+#agendaMenu div.tabset a.tabSelected,
+#agendaMenu div.tabset a.tabSelected:hover {background-color:[[RippleRapColors::Brighter]]; color:[[RippleRapColors::Darkest]]; border-style:none;}
+#agendaMenu div.tabContents { border-style:none; border-right:solid 1px [[RippleRapColors::Shadow]]; margin:0; padding:0; clear:left;}
+
+#agendaMenu {  border-bottom:solid 1px [[RippleRapColors::Shadow]]; background-color:#f0f0f0; font-family:arial; font-size:12px; }
+#agendaMenu div.listRelatedTiddler { display: inline-block; ; /* IE bugfix: give layout (hasLayout = true) */ }
+#agendaMenu div.listRelatedTiddler { display: block; /* restore proper behavior (see IE bugfix above) */  }
+#agendaMenu div.listRelatedTiddler { padding:8px; border-top:solid 1px #ccc; border-right:solid 1px [[RippleRapColors::Brightest]]; border-left:solid 10px #ccc; position:relative;}	
+#agendaMenu div.listRelatedTiddler span.time {	font-weight:bold; color:#888; font-size:0.9em; letter-spacing:-0.1em; position:absolute; top:8px; left:8px;}
+#agendaMenu div.listRelatedTiddler span.title a { color:#444; display:block; font-weight:bold;	text-decoration:none; margin-left:5em; font-size:12px; }
+
+#agendaMenu div.listRelatedTiddler span.speaker { color:#666; display:block; margin:0.2em 0 0 5em; }
+#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler { text-align:right; }
+/*#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler { display:inline; margin-left:1em; text-align:right; }*/
+#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a { color:#55c; font-size:0.9em; line-height:1.4em; text-decoration:none; }
+#agendaMenu div.listRelatedTiddler div.listRelatedSubTiddler a.tiddlyLink:hover,
+#agendaMenu div.listRelatedTiddler span.title a:hover { color:[[RippleRapColors::Darkest]]; text-decoration:underline;	background-color:#f0f0f0; }
+/*#agendaMenu div.inProgress { border-left:solid 10px #933; background-color:[[RippleRapColors::Brightest]]; }*/
+/*#agendaMenu div.inProgress a.tiddlyLink:hover { background-color:[[RippleRapColors::Brightest]];	}*/
+
+div.tiddler {clear:left; padding:0; margin:0;}
+
+/* Vanilla tiddlers */
+div.tiddler div.VanillaView,
+div.tiddler div.VanillaEdit {margin:30px 0 0 0; font-size:1.3em; }
+div.layoutTable {margin-bottom:0.5em;}
+div.layoutTable table, div.layoutTable table tr, div.layoutTable table td {margin:0; border-style:none; vertical-align:top;}
+input.txtOptionInput, input.pasOptionInput { font-size:1.2em; padding: 0.4em; border-top:solid 1px [[RippleRapColors::Shadow]]; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc;  border-left:solid 1px [[RippleRapColors::Shadow]]; background-color:#f6f6f6;}
+div.tiddler sup {font-size:0.7em;}
+div.tiddler pre {font-size:0.em;}
+div.tiddler div.VanillaView div.title { color:[[RippleRapColors::Accent]]; }
+div.tiddler div.VanillaView .toolbar { font-size:0.9em;}
+div.tiddler div.VanillaView .toolbar a {border-style: none; color:#666;}
+div.tiddler div.VanillaView .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
+
+/* Speaker tiddlers */
+div.Speaker { margin:1em 0;}
+div.Speaker .toolbar { text-align:right; padding:0.2em 0;}
+div.Speaker .toolbar a  {border-style: none; color:#666;}
+div.Speaker .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
+div.Speaker .title a { color:[[RippleRapColors::Accent]];}
+div.Speaker .title a:hover{ color:[[RippleRapColors::Accent]]; background-color:transparent; text-decoration:underline;}
+div.Speaker .speakingAt {margin:0.2em 0 0 0; font-weight:bold; color:#666;display:inline;}
+/*div.Speaker .viewer { clear:left;}*/
+div.Speaker .photo { float:left; margin:0 1em 1em 0;}
+
+/* Session Tiddlers */
+div.session {margin:30px 0 0 0; position:relative;}
+div.session,
+div.session_edit { background-color:[[RippleRapColors::Shadow]]; border:solid 2px #333; border-bottom-width:1px; border-right-width:1px; margin:3em 0 0 0; }
+div.session .toolbar,
+div.session_edit .toolbar {background-color:#aaa; text-align:right; padding:0.2em 0;}
+div.session .toolbar a,
+div.session_edit .toolbar a {border-style: none; color:#333;}
+div.session .toolbar a:hover,
+div.session_edit .toolbar a:hover{border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
+div.session .title { margin:0.2em 8em 0 10px; font-size:1.5em; font-weight:bold; color:[[RippleRapColors::Darkest]];}
+div.session .title a { color:[[RippleRapColors::Darkest]];}
+div.session .title a:hover{ color:[[RippleRapColors::Darkest]]; background-color:transparent; text-decoration:underline;}
+div.session .viewer { padding:10px;}
+div.session .time {margin:0 0.2em 0 10px; font-size:1.2em; font-weight:bold; color:[[RippleRapColors::Brightest]]; display:inline;}
+div.session .location {margin:0 0.2em; font-size:1.2em; font-weight:bold; color:[[RippleRapColors::Dark]]; display:inline;}
+div.session .speaker  {margin:0.2em 0 0 0; font-size:1.2em; font-weight:bold; color:#666;display:inline;}
+div.session .viewer {margin:0 8em 0 0; font-size:1em; color:#222; padding:0.5em 5px 0.5em 10px;}
+/*div.session_edit .editor .fieldsetFix {margin:0; padding:0.5em;}*/
+/*div.session_edit .label {margin:1em 0 0.2em 10px;font-size::0.8em; font-weight:normal; color:[[RippleRapColors::Brightest]];}*/
+/*div.session_edit input {font-size:1em; font-weight:normal; color:[[RippleRapColors::Darkest]]; padding:2px; margin:0 1em; width:auto; border:solid 1px [[RippleRapColors::Dark]]}*/
+/*div.session_edit .fieldsetFix {margin:0; padding:0.5em;}*/
+/*div.session_edit textarea { border:solid 1px [[RippleRapColors::Dark]]; border-top-color:#444; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]];}*/
+div.session div.noteOptions div { text-align:right; }
+div.session div.noteOptions div a{ text-align:right; line-height:2em;}
+
+/* Notes Tiddlers */
+div.myNotes .toolbar,
+div.discoveredNotes .toolbar { text-align:right; padding:0.2em 0;}
+div.myNotes .viewer,
+div.discoveredNotes .viewer { padding:10px;}
+div.myNotes .toolbar a,
+div.myNotes .toolbar a:active,
+div.discoveredNotes .toolbar a:active,
+div.discoveredNotes .toolbar a {border-style: none; color:#666;}
+div.myNotes .toolbar a:hover,
+div.discoveredNotes .toolbar a:hover {border-style: none; color:[[RippleRapColors::Brightest]]; background-color:#333;}
+
+div.myNotes { background-color:#ddd; border:solid 1px #333; border-top-style:none;  border-left-width:2px; margin:0;}
+div.myNotes .toolbar {background-color:#eee; }
+div.myNotes .editor {width:90%;}
+
+div.myNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
+div.myNotes .editor .fieldsetFix textarea { border:solid 1px [[RippleRapColors::Dark]]; border-top-color:#444; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]];overflow:auto;  padding:10px;}
+div.myNotes .tags {display:none;}
+div.myNotes div.buttonbar { padding: 0 0.5em 1em 0.5em; }
+div.myNotes div.buttonbar a.button,
+div.myNotes div.buttonbar a.active { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid #666; margin-right:2px; background-color:[[RippleRapColors::Shadow]]; color:[[RippleRapColors::Brightest]];}
+div.myNotes div.buttonbar a.button:hover { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
+
+div.discoveredNotes { background-color:#ddd; border:solid 1px #333; border-left-width:2px; border-top-style:none; margin:0;}
+div.discoveredNotes .toolbar {background-color:#eee;border-left:solid 40px #ccc;}
+div.discoveredNotes .title,
+div.discoveredNotes .viewer, 
+div.discoveredNotes .editor {border-left:solid 40px #bbb;}
+div.discoveredNotes .editor .fieldsetFix {margin:0; padding:0.5em;}
+div.discoveredNotes .editor .fieldsetFix textarea { border:solid 1px #bbb; border-top-color:#aaa; border-bottom-color:[[RippleRapColors::Brightest]]; background-color:#eee; }
+div.discoveredNotes .title { margin:0; padding:0.5em 10px 0 10px; font-size:1.2em; font-weight:bold; color:#666; }
+
+div.noteOptions { position:absolute; top:2em; right:8px;}
+div.noteOptions a.button,
+div.noteOptions a:active.button {color:[[RippleRapColors::Brightest]]; background-color:#777; border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid #666; }
+div.noteOptions a.button:hover { border-style:none; border-top:1px solid [[RippleRapColors::Brightest]]; border-bottom:1px solid [[RippleRapColors::AccentDark]]; background-color:[[RippleRapColors::Accent]]; color:[[RippleRapColors::Brightest]];}
+
+
+/* Buttons */
+span.chunkyButton { border:solid 1px [[RippleRapColors::AccentDarker]]; display:block; padding:0; margin:0 0 0 0;}
+span.chunkyButton a.button,
+span.chunkyButton a:active.button { white-space:nowrap; font-weight:bold; color:[[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::AccentDark]]; text-align:center; padding:0.4em 2em; margin:0; border-style:none;  border-top:solid 1px [[RippleRapColors::AccentLight]]; display:block;}
+span.chunkyButton a.button:hover { background-color:[[RippleRapColors::Accent]]; border-style:none; color:[[RippleRapColors::Brightest]];  border-top:solid 1px [[RippleRapColors::AccentLight]];}
+.small {width:20em;}
+
+
+span.description {font-size:0.8em; color:[[RippleRapColors::Dark]]; font-weight:normal; display:block;}
+
+.subtleTabs div.tabset { height:1.4em;}
+.subtleTabs div.tabset a.tab {border-style:none;  background-color:transparent; color:[[RippleRapColors::Shadow]]; padding:0.2em 0.6em 0.1em 0.6em;}
+.subtleTabs div.tabset a.tabSelected {border:solid 1px #ccc; border-bottom:solid 3px [[RippleRapColors::Brightest]]; background-color:[[RippleRapColors::Brightest]]; color:#777;}
+.subtleTabs div.tabset a.tabUnselected:hover {color:#444;}
+.subtleTabs div.tabContents {background-color:transparent; border-style:none; border-top:solid 1px #ccc;}
+
+
+/*}}}*/</pre>
+</div>

@@ -1,5 +1,5 @@
 recipe: ../../core/tiddlywiki.html.recipe
-tiddler: home.tiddler
+#tiddler: home.tiddler
 recipe: shadows/split.recipe
 tiddler: shadows/SideBarOptionsUnaMesaMixins.tiddler
 #tiddler: ../../contributors/MartinBudden/shadows/ViewTemplateGetPutRevisionsFields.tiddler
