@@ -1,0 +1,18 @@
+<div title="SnorkTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch">
+<pre>
+<<selectTheme>>
+
+|''snorkViewTemplate''|##snorkViewTemplate|
+
+!snorkViewTemplate
+<!--{{{-->
+<div class="tiddler">
+	<h2>SnorkTheme##snorkViewTemplate</h2>
+	<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+	<div class='title' macro='view title'></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+</pre>
+</div>

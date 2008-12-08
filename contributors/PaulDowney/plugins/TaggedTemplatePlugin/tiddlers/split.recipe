@@ -1,0 +1,20 @@
+tiddler: $TW_ROOT/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js
+
+tiddler: settings.js
+tiddler: DefaultTiddlers.tiddler
+
+tiddler: EmptyTheme.tiddler
+tiddler: BasicTheme.tiddler
+tiddler: FooTheme.tiddler
+tiddler: SnorkTheme.tiddler
+
+tiddler: ViewTemplate.tiddler
+
+tiddler: barViewTemplate.tiddler
+tiddler: foofipViewTemplate.tiddler
+tiddler: snorkViewTemplate.tiddler
+
+tiddler: Tiddler1.tiddler
+tiddler: Tiddler2.tiddler
+tiddler: Tiddler3.tiddler
+tiddler: Tiddler4.tiddler

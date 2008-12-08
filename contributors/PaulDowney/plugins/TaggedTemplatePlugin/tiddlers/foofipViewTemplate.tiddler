@@ -1,0 +1,10 @@
+<div title="foofipViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch template">
+<pre>
+<div class="tiddler">
+	<h2>foofipViewTemplate</h2>
+	<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+	<div class='title' macro='view title'></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+</pre>
+</div>

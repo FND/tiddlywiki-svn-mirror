@@ -1,0 +1,2 @@
+#cook testTaggedTemplatePlugin && ff testTaggedTemplatePlugin.html
+cook && ff index.html

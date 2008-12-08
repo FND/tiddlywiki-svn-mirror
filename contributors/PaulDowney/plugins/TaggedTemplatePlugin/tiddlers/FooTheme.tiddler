@@ -1,0 +1,18 @@
+<div title="FooTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch">
+<pre>
+<<selectTheme>>
+
+|''foofipViewTemplate''|##foofipViewTemplate|
+
+!foofipViewTemplate
+<!--{{{-->
+<div class="tiddler">
+	<h2>FooTheme##foofipViewTemplate</h2>
+	<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+	<div class='title' macro='view title'></div>
+	<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+</pre>
+</div>

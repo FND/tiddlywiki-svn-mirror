@@ -1,0 +1,22 @@
+<div title="EmptyTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch">
+<pre>
+<<selectTheme>>
+
+|''ViewTemplate''|##ViewTemplate|
+|''StyleSheet''|##StyleSheet|
+
+!ViewTemplate
+[[ViewTemplate]]
+
+!StyleSheet
+[[StyleSheet]]
+/*{{{*/
+
+	.title, .profile > .fn {
+		font-size: 1.6em; 
+		font-weight:bold;
+	}
+/*}}}*/
+
+</pre>
+</div>
