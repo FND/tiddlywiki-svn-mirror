@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.3.1|
+|''Version''|0.3.2|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -64,12 +64,7 @@ plugin = {
 			tiddler: tiddler,
 			changecount: tiddler.fields.changecount
 		};
-		var bag = tiddler.fields["server.bag"];
-		if(bag) {
-			context.bag = bag;
-		} else {
-			context.workspace = tiddler.fields["server.workspace"];
-		}
+		context.workspace = tiddler.fields["server.workspace"];
 		var req = adaptor.putTiddler(tiddler, context, {}, this.saveTiddlerCallback);
 		return req ? tiddler : false;
 	},
@@ -91,15 +86,8 @@ plugin = {
 
 	removeTiddler: function(tiddler) {
 		var adaptor = new this.adaptor();
-		context = {
-			tiddler: tiddler
-		};
-		var bag = tiddler.fields["server.bag"];
-		if(bag) {
-			context.bag = bag;
-		} else {
-			context.workspace = tiddler.fields["server.workspace"];
-		}
+		context = { tiddler: tiddler };
+		context.workspace = tiddler.fields["server.workspace"];
 		var req = adaptor.deleteTiddler(tiddler, context, {}, this.removeTiddlerCallback);
 		return req ? tiddler : false;
 	},
