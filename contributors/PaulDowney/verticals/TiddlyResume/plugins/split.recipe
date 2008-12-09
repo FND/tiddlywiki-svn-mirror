@@ -17,9 +17,7 @@ tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/TaggedTemplatePlugin/TaggedTemplatePlugin.recipe
 
 # switch themes UI 
-###using local copy, until Martin Budden applies my supplied patch :)
-###tiddler: $TW_ROOT/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js
-tiddler: ThemeSwitcherPlugin.js
+tiddler: $TW_ROOT/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js
 
 # force refresh on theme switch
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
