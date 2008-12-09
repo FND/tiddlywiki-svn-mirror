@@ -1,8 +1,5 @@
 
-// ccCreateWorkspace //
-
 //{{{
-
 
 config.macros.ccCreateWorkspace = {};
 
@@ -42,9 +39,6 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 	var me = config.macros.ccCreateWorkspace;
 	var w = new Wizard();
 	w.createWizard(place,me.wizardTitle);
-
-
-
 	if(config.macros.ccCreateWorkspace.createWorkspaceAdvanced)
 		me.stepCreateHtml += config.macros.ccCreateWorkspace.createWorkspaceAdvanced();
 
@@ -85,3 +79,5 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 		displayMessage(responseText);	
 	}
 };
+
+//}}}
