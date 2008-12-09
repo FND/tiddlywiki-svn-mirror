@@ -1,4 +1,4 @@
-<div title="ccAssignments" modifier="ccTiddly" tags="systemConfig ccTiddly excludeSearch excludeLists">
+<div title="006_ccAssignments" modifier="ccTiddly" tags="systemConfig ccTiddly excludeSearch excludeLists">
 <pre>
 /*{{{*/
 
@@ -12,7 +12,23 @@ setStylesheet(
 'labelStyles');
 
 
-	
+
+
+config.backstageTasks.remove("upgrade");
+config.backstageTasks.remove("save");
+config.backstageTasks.remove("sync");
+
+
+//  ccAutoSave config//
+
+config.options.chkAutoSave = true;
+
+if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
+config.extensions.ServerSideSavingPlugin = {
+	adaptor: config.adaptors.cctiddly
+};
+
+
 window.ccTiddlyVersion = '<?php echo $tiddlyCfg['version'];?>';
 window.workspacePermission= {};
 window.url = "<?php echo getURL();?>";

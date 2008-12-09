@@ -57,11 +57,12 @@ merge(config.macros.ccAdmin,{
 		{className: 'lowlight', field: 'lowlight'}
 	]}
 });
-
+/*
 merge(ccTiddlyAutoSave,{
 	msgSaved:"Saved ",
 	msgError:"There was an error saving "
 });
+*/
 
 merge(config.macros.ccCreateWorkspace, {
 	wizardTitle:"Create Workspace",

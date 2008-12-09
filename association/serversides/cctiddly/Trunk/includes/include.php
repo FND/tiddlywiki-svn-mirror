@@ -10,7 +10,7 @@ if($_REQUEST['translation'])
 */
 
 
-include_once($cct_base."includes/ccAssignments.php");
+include_once($cct_base."includes/006_ccAssignments.php");
 
 if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1) {
        tiddler_outputOffline();
