@@ -51,7 +51,8 @@ class Plugin {
 					if(substr($file,0,1)!=".") 
 					{ // do not include system/hidden files. 
 						$tiddler = $this->tiddlerFromFile($dir."/".$file);
-						$tiddler = array_merge($tiddler, $data); // allows users to add extra data.
+						if(is_array($data))
+							$tiddler = array_merge($tiddler, $data); // allows users to add extra data.
 						$this->addTiddler($tiddler);			
 					}
 				}

@@ -276,25 +276,18 @@ function getTiddlersWithTags($yesTags,$noTags)
 		$return_tiddlers = array();
 		foreach($tiddlers as $t)
 		{
-			
-			echo "got to here1";
 			if(user_readPrivilege(user_tiddlerPrivilegeOfUser($user,$t['tags'])))
 			{
-				
-				echo "got to here2";
 				$tag = tiddler_breakTag($t['tags']);
 				$tmp = array_merge($tag,$noTags);			
 				if(sizeof($tmp) == sizeof(array_flip(array_flip($tmp))))		//ifno $noTags, continue
 				{
-					
-					echo "got to 3";
 					$tmp = array_merge($tag,$yesTags);
 					//ifno yesTags, assume only want to remove some tag thus all but $noTags are returned
 					//if$yesTags exist, display only if$yesTags is in tiddler
 					if(sizeof($yesTags)==0 || sizeof($tmp) != sizeof(array_flip(array_flip($tmp)))){
 						$return_tiddlers[$t['title']] = $t;
-						echo "got to 4";
-						}
+					}
 				}
 			}
 		}
