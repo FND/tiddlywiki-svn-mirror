@@ -41,7 +41,7 @@ config.macros.lifeStream.display = function (place, params)
 	".textSpace {padding-top:1px}"+
 	".tiddler .button, .tiddler .button:hover {padding:5px; margin:5px}"+
 	".noFloat {float:none; background-color:red;}"+
-	".stream { display: block; padding:1px; margin:1px ; max-width:500px;  min-height:30px; }"+
+	".stream { display: block; padding:1px; margin:1px ; max-width:500px;  min-height:20px; }"+
 	".imgClass {float:left; display:block;padding-right:10px}");
 	var tiddlers = store.reverseLookup("tags","excludeLists",false,"modified");
 	var last = params[1] ? tiddlers.length-Math.min(tiddlers.length,parseInt(params[1])) : 0;
@@ -51,8 +51,8 @@ config.macros.lifeStream.display = function (place, params)
 			case "wordpress" :
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				img.src = "http://www.mrblogger.com/wp-content/wordpress-icon-128.png";
-				img.width = "30";
-				img.height = "30";
+				img.width = "20";
+				img.height = "20";
 				img.style.border ="0px";
 				var slider = config.macros.slider.createSlider(place, "", "");
 				addClass(slider,"slider");
@@ -65,8 +65,8 @@ config.macros.lifeStream.display = function (place, params)
 			case "trac":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				img.src = "http://mousebender.files.wordpress.com/2007/07/trac_logo.png";
-				img.width = "30";
-				img.height = "30";
+				img.width = "20";
+				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
@@ -78,8 +78,8 @@ config.macros.lifeStream.display = function (place, params)
 			case "flickr":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				img.src = tiddlers[t].text;
-				img.width = "30";
-				img.height = "30";
+				img.width = "20";
+				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "");
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
@@ -92,8 +92,8 @@ config.macros.lifeStream.display = function (place, params)
 			case "twitter":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				img.src = tiddlers[t].fields['user_img'];
-				img.width = "30";
-				img.height = "30";
+				img.width = "20";
+				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
@@ -108,8 +108,8 @@ config.macros.lifeStream.display = function (place, params)
 			case "delicious":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				img.src = "http://ransom.redjar.org/images/delicious_icon.gif";
-				img.width = "30";
-				img.height = "30";
+				img.width = "20";
+				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
@@ -119,11 +119,11 @@ config.macros.lifeStream.display = function (place, params)
 				wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created,slider);
 			break;
 			default:
-				if(tiddlers[t].isTagged("Note")){
+				if(tiddlers[t].isTagged("Notes")){
 					var img = createTiddlyElement(null, "img", null, "imgClass");
 					img.src = "http://www.iconspedia.com/uploads/578075880.png";
-					img.width = "30";
-					img.height = "30";
+					img.width = "20";
+					img.height = "20";
 					var slider = config.macros.slider.createSlider(place, "", "");
 					addClass(slider,"slider");
 					var sliderButton = findRelated(slider,"button","className","previousSibling");
