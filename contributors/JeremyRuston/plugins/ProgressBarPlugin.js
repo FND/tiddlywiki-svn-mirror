@@ -23,7 +23,7 @@ if(!version.extensions.ProgressBarPlugin) {
 version.extensions.ProgressBarPlugin = {installed:true};
 
 config.macros.progress = {
-	
+
 	defaultProgressName: "defaultProgress",
 	progressClassPrefix: "progressClass_",
 	width: 100,
@@ -52,15 +52,18 @@ config.macros.progress = {
 	}
 };
 
-function setProgress(progressName,percent)
+window.setProgress = function(progressName,percent)
 {
-	var progressBars = document.getElementsByClassName("progressBar");
+	var byClassName = document.getElementsByClassName;
+	var progressBars = byClassName ? document.getElementsByClassName("progressBar") : document.getElementsByTagName("span");
 	percent = percent < 0 ? 0 : percent;
 	percent = percent > 100 ? 100 : percent;
 	for(var t = 0; t < progressBars.length; t++) {
-		progressBars[t].tick.style.width = (percent/100) * config.macros.progress.width + "px";
+		if(byClassName || hasClass(progressBars[t],"progressBar")) {
+			progressBars[t].tick.style.width = (percent/100) * config.macros.progress.width + "px";
+		}
 	}
-}
+};
 
 } // if(!version.extensions.ProgressBarPlugin)
 
