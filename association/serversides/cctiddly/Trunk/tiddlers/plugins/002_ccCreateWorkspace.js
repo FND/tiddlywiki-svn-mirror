@@ -45,23 +45,10 @@ config.macros.ccCreateWorkspace.handler =  function(place,macroName,params,wikif
 
 
 
-	var tagged = store.getTaggedTiddlers("systemPackage");
+	if(config.macros.ccCreateWorkspace.createWorkspaceAdvanced)
+		me.stepCreateHtml += config.macros.ccCreateWorkspace.createWorkspaceAdvanced();
 
-	var html = "<form>";
-	for(var t=0; t<tagged.length; t++){
-html += "<div id='mid' style='vertical-align:middle'>";
-		if(store.getTiddlerSlice(tagged[t].title,'image')!=undefined)
-			html += "<img src="+store.getTiddlerSlice(tagged[t].title,'image')+" width=50px >";
-		else
-			html += "<img src='http://www.google.co.uk/intl/en_uk/images/logo.gif' width=50px >";
-	
-		   html += "<input tabindex=2 type=radio name='packages' value='"+tagged[t].title+"' >"+tagged[t].title+"<br/>";
-			html +="</div>";
-//		   html +=  store.getTiddlerSlice(tagged[t].title,'Description')+"<br /><br />";
-	}
-	var form =  html+"</form>";
-	
-	w.addStep(me.stepTitle, me.stepCreateHtml+form);
+	w.addStep(me.stepTitle, me.stepCreateHtml);
 	w.formElem["workspace_name"].onkeyup=function() {me.workspaceNameKeyPress(w);};
 	w.formElem.onsubmit = function() { config.macros.ccCreateWorkspace.createWorkspaceOnSubmit(w);  return false;};
 	w.setButtons([
@@ -72,15 +59,6 @@ html += "<div id='mid' style='vertical-align:middle'>";
 config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
 	var params = {}; 
 	params.w = w;	
-	var radios = w.formElem.packages;
-	var packageTiddler;
-	for(var z=0;z<radios.length;z++){
-		if (radios[z].checked){
-
-			params.selectedPackage  = radios[z].value;
-			break;
-		}
-	}
 	if(window.useModRewrite == 1)
 		params.url = url+w.formElem["workspace_name"].value; 
 	else
@@ -91,7 +69,7 @@ config.macros.ccCreateWorkspace.createWorkspaceOnSubmit = function(w){
 
 config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params,responseText,uri,xhr) {
 	if(xhr.status==201){
-		params.w.addStep("Please wait", "This could take afew minutes depending on your internet connection.<img src='http://www.ajaxload.info/cache/FF/FF/FF/00/00/00/37-0.gif'/>"+"<br/><br/><input width='300' name='statusMarker'/><div class='header' macro='progress'>");
+		params.w.addStep("Please wait", "This could take afew minutes depending on your internet connection.<img src='http://www.ajaxload.info/cache/FF/FF/FF/00/00/00/37-0.gif'/>"+"<br/><br/><input width='300' name='statusMarker'/>");
 		params.w.setButtons([]);
 		if(params.selectedPackage) {
 	   		var url = store.getTiddlerSlice(params.selectedPackage,'URL');
@@ -107,45 +85,3 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 		displayMessage(responseText);	
 	}
 };
-
-config.macros.ccCreateWorkspace.checkSaveCount = function (requests, saved) {
-	if(requests == 0)
-		return false;
-	if(requests == saved)
-		return true;
-}	
-
-config.macros.ccCreateWorkspace.doImport = function (params, content) {
-	var importStore = new TiddlyWiki();
-	importStore.importTiddlyWiki(content);
-
-	config.extensions.ServerSideSavingPlugin.saveTiddlerCallback = function(context, userParams) {
-		};
-	window.savedCount = 0;
-	window.savedRequestedCount = 0;
-	importStore.forEachTiddler(function(title,tiddler) {
-		if(!store.getTiddler(title)) {
-			params.w.formElem.statusMarker.value='saving '+title;
-			var progressDiv = createTiddlyElement(null, "div", "", "progressBar");
-			params.w.formElem.statusMarker.appendChild(progressDiv);
-			tiddler.fields['server.workspace'] = params.w.formElem["workspace_name"].value;
-			window.workspace = params.w.formElem["workspace_name"].value; // HORRID HORRID HACK
-						
-			tiddler.fields['server.type'] = 'cctiddly';
-			tiddler.fields['server.host'] = window.url;
-			tiddler.fields['workspace']= window.workspace;
-			store.saveTiddler(title,title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,false,tiddler.created);
-			window.savedRequestedCount ++;
-		}
-	});
-	displayMessage(window.savedRequestedCount);
-	autoSaveChanges();
-}
-
-config.macros.ccCreateWorkspace.fetchFileCallback = function(status,params,responseText,url,xhr){
-	if(status && locateStoreArea(responseText))
-		config.macros.ccCreateWorkspace.doImport(params, responseText);
-	else
-		displayMessage("Package not found.  You will be provieded a standard TiddlyWiki.");
-}
-
