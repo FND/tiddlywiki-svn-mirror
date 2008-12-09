@@ -12,6 +12,8 @@
 !Revision History
 !!v0.1 (2008-11-10)
 * refactoring of previous experimental efforts
+!!v0.2 (2008-12-08)
+* encapsulation of bag/recipe distinction
 !To Do
 * renameTiddler, createWorkspace
 * externalize JSON library
