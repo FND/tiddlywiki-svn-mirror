@@ -119,6 +119,24 @@ config.macros.lifeStream.display = function (place, params)
 				wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created,slider);
 			break;
 			default:
+				if(tiddlers[t].isTagged("Note")){
+					var img = createTiddlyElement(null, "img", null, "imgClass");
+					img.src = "http://www.iconspedia.com/uploads/578075880.png";
+					img.width = "30";
+					img.height = "30";
+					var slider = config.macros.slider.createSlider(place, "", "");
+					addClass(slider,"slider");
+					var sliderButton = findRelated(slider,"button","className","previousSibling");
+					sliderButton.appendChild(img);
+					createTiddlyElement(sliderButton, "div", null, "textSpace", tiddlers[t].title);
+					addClass(sliderButton,"stream deliciousStream");
+					wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created,slider);
+					
+
+				}
+					
+
+			console.log();
 		}
 	}
 };
