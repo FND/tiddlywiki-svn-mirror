@@ -12,6 +12,11 @@ merge(ccTiddlyAdaptor,{
 });
 
 
+if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
+config.extensions.ServerSideSavingPlugin = {
+	adaptor: config.adaptors.cctiddly
+};
+
 //{{{
 	
 	config.commands.revisions = {};
