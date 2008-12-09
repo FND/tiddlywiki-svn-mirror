@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.2.2|
+|''Version''|0.2.3|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -348,7 +348,7 @@ adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback
 		return adaptor.locationIDErrorMessage;
 	}
 	var uri = uriTemplate.format([host, workspace.type + "s",
-		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle((title)]);
+		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title)]);
 	if(context.rev1) {
 		uri += "/" + context.rev1;
 		if(context.rev2) {
