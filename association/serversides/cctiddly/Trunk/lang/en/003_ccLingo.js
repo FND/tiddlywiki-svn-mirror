@@ -224,7 +224,7 @@ config.theme = {
 merge(config.macros.importTiddlers, {
 	wizardTitle: "Import tiddlers",
 	step1Title: "Step 1: Locate the server or TiddlyWiki file",
-	step1Html: "Specify the type of the server: &lt;select name='selTypes'&gt;&lt;option value=''&gt;Choose...&lt;/option&gt;&lt;/select&gt;&lt;br&gt;Enter the URL here: &lt;input type='text' size=50 name='txtPath'&gt;&lt;br&gt;&lt;input type='hidden' size=50 name='txtBrowse'&gt;&lt;br&gt;&lt;hr&gt;...or select a pre-defined feed: &lt;select name='selFeeds'&gt;&lt;option value=''&gt;Choose...&lt;/option&gt;&lt;/select&gt;"
+	step1Html: "Specify the type of the server: <select name='selTypes'><option value=''>Choose...</option></select><br>Enter the URL here: <input type='text' size=50 name='txtPath'><br><input type='hidden' size=50 name='txtBrowse'><br><hr>...or select a pre-defined feed: <select name='selFeeds'><option value=''>Choose...</option></select>"
 });
 
 merge(config.optionsDesc,{
