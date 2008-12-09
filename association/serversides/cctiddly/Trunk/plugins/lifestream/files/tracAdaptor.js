@@ -30,7 +30,7 @@ tracAdaptor.convertTimestamp = function(str) { // TODO: rename
 
 
 tracAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password){
-    return doHttp('GET',window.url+"/handle/proxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
+    return doHttp('GET',window.url+"/plugins/lifestream/files/TRACproxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
 };
 
 tracAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
