@@ -4,8 +4,8 @@
 |''Author:''|FND|
 |''Version''|0.1.1|
 |''Status''|@@experimental@@|
-|''Source''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/TiddlyWebTiddlerSourcePlugin.js|
-|''CodeRepository''|http://svn.tiddlywiki.org/association/serversides/tiddlyweb/client/plugins/|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/serversides/tiddlyweb/client/plugins/TiddlyWebTiddlerSourcePlugin.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/serversides/tiddlyweb/client/plugins/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 !Revision History
 !!v0.1 (2008-11-12)
