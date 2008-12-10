@@ -10,8 +10,9 @@ tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
 # enable access to tiddlers from the backstage 
 tiddler: $TW_ROOT/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 
-# group tiddlers into sections 
-tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
+# place tiddlers it into a section by tag
+#tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
+#tiddler: TaggedSectionPlugin.js
 
 # attach a template to a tiddler by the tag name
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/TaggedTemplatePlugin/TaggedTemplatePlugin.recipe
@@ -21,3 +22,6 @@ tiddler: $TW_ROOT/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js
 
 # force refresh on theme switch
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
+
+# treat DefaultTiddlers as a series of filters, one per line
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/SegmentedFilterPlugin/SegmentedFilterPlugin.recipe
