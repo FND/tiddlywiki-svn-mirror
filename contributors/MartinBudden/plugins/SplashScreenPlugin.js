@@ -3,7 +3,7 @@
 |''Description:''|Provides a splash screen that consists of the rendered default tiddlers|
 |''Author:''|Martin Budden|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SplashScreenPlugin.js |
-|''Version:''|0.1.3|
+|''Version:''|0.1.4|
 |''Date:''|April 17, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -58,6 +58,9 @@ version.extensions.SplashScreenPlugin.setup = function()
 	var er = store.getTiddlerSlice(cp,"Error");
 
 	var sc = store.getTiddlerText("StyleSheetColors");
+	sc += "\n" + store.getTiddlerText("StyleSheetLayout") + "\n";
+	sc += "\n#splashScreen {display:block;}\n";
+
 	sc += "\n" + store.getTiddlerText("StyleSheet") + "\n";
 	sc = sc.replace("[[ColorPalette::Background]]",bg);
 	sc = sc.replace("[[ColorPalette::Foreground]]",fg);
@@ -118,7 +121,10 @@ version.extensions.SplashScreenPlugin.setup = function()
 	pt = pt.replace(/<!--\{\{\{-->/mg,"").replace(/<!--\}\}\}-->/mg,"");
 	text = "";
 	
-	tiddlers = store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"));
+	var filter = store.getTiddlerText("SplashTiddlers");
+	if(!filter)
+		filter = store.getTiddlerText("DefaultTiddlers");
+	tiddlers = store.filterTiddlers(filter);
 	for(i=0;i<tiddlers.length;i++) {
 		tiddler = tiddlers[i];
 		var title = tiddler.title;
