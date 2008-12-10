@@ -10,8 +10,8 @@
 |''~tabs:''|##tabs|
 |''~OptionsPanel:''|##OptionsPanel|
 |''~StyleSheet:''|##StyleSheet|
-|''~taskViewTemplate:''|##taskViewTemplate|
-|''~taskEditTemplate:''|##taskEditTemplate|
+|''~NotesViewTemplate:''|##NotesViewTemplate|
+|''~NotesEditTemplate:''|##NotesEditTemplate|
 |''~EditTemplate:''|##EditTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
 |''~wizardViewTemplate:''|##wizardViewTemplate|
@@ -56,6 +56,33 @@
 <div class='tagClear'></div>
 <!--}}}-->
 
+
+!NotesViewTemplate
+<!--{{{-->
+
+<div  macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' width='20px'/></div>
+
+ <div class='tiddlerInfo' >Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)
+</div>
+</div>
+
+<div class='viewer'  style=' padding:1em; border-right:2px solid [[ColorPalette::ls_background]]; border-left:2px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
+
+<div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
+<!--<h2>Comments</h2>
+<center>
+<div macro='comments'/>
+</center>
+-->
+</div>
+
+
+
+
+<!--}}}-->
+
+
+
 !wizardViewTemplate
 <!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
@@ -77,6 +104,8 @@
 General
 ***/
 /*{{{*/
+
+
 .tiddler .button:hover {
 	background-color:[[ColorPalette::ls_mid]];
 }
@@ -141,6 +170,11 @@ h1 {
 .clearAll{
 	clear:both;
 }
+
+.addComment .button{
+background-color:red !important;
+}
+
 
 .tagClear{
 	clear:none;
@@ -228,7 +262,12 @@ h1 {
 }
 .toolbar {
 	z-index:2;
-	padding-right:34px;
+	float:right;
+	position:relative;
+	width:60%;
+	z-index:2;
+	padding:0.5em;
+	font-size:1.5em;
 }
 #tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, #sidebarOptions .sliderPanel input {
 	background-color:[[ColorPalette::ls_background]];
@@ -249,8 +288,22 @@ a:hover {
 	border:1px solid #000;
 	background-color:[[ColorPalette::ls_background]];
 	color:white;
+		z-index:2;
+
+
 }
 
+#tiddlerDisplay .toolbar a.button {
+background-color:[[ColorPalette::ls_mid]];
+	top:-2em;
+	padding:5px;
+	width:60%;
+	z-index:2;
+	font-size:0.6em;
+}
+	
+	
+	
 #mainMenu a {
 	padding:8px 15px 8px 15px;
 	margin:10px;
@@ -451,6 +504,7 @@ color:#999;
 
 h1,h2,h3,h4,h5 {
 	color: #555; border-color:[[ColorPalette::SecondaryDark]]; background: transparent; padding-bottom:2px; font-family: Arial, Helvetica, sans-serif;
+	border-bottom:0px;
 }
 
 h1 {
@@ -666,6 +720,15 @@ background-color:transparent;
 }
 
 .tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;  margin:1px;background-color:[[ColorPalette::SecondaryDark]];line-height:1.5; }
+
+.addComment {background-color:[[ColorPalette::ls_high]] !important; color:black  !important; border:1px solid black  !important;}
+
+
+
+.tiddlerInfo {
+padding:1em;
+}
+
 .stream {  padding:2px; margin:1px ; width750px;  min-height:53px;}
 .slider { margin-left:20px; margin-top:-2px; padding:2px 10px 10px 30px; width:435px;border:0px solid [[ColorPalette::ls_background]]; padding-left:30px;border-top:0px; color:white; background-color:[[ColorPalette::ls_mid]]; }
 .textSpace {padding-left:25px; line-height:1.5; padding-top:13px}
@@ -678,4 +741,3 @@ background-color:transparent;
 
 </pre>
 </div>
-	
