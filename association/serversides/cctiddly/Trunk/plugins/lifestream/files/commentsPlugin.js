@@ -52,10 +52,19 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
   var newCommentEl = macro.makeTextArea(newCommentArea, macroParams);
 	createTiddlyElement(newCommentArea, "br");
   var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment", "Add Comment");
-  addComment.onclick = function() {
-    var comment = macro.createComment(newCommentEl.value, rootTiddler, macroParams); 
-    newCommentEl.value = "";
+
+if(isLoggedIn()) {
+	addComment.onclick = function() {
+	    var comment = macro.createComment(newCommentEl.value, rootTiddler, macroParams); 
+	    newCommentEl.value = "";
+	  };
+}else {
+	addComment.onclick = function() {
+		config.macros.comments.showLogin();
   };
+}
+
+
 },
 
 makeTextArea: function(container, macroParams) {
@@ -76,7 +85,7 @@ showLogin : function() {
 	setStylesheet(
 	"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
 	"html > body > #backstageCloak {height:"+window.innerHeight*2+"px;}"+
-	"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
+	"#errorBox {border:1px solid #222;background-color: #444; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
 	var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
 	box.style.position = 'absolute';
 	box.style.width= "800px";
@@ -228,7 +237,7 @@ createComment: function(text, daddy, macroParams) {
  store.saveTiddler(newComment.title);
 
 store.saveTiddler(daddy.title);
-  autoSaveChanges(true);
+  autoSaveChanges(false);
   return newComment;
 },
 

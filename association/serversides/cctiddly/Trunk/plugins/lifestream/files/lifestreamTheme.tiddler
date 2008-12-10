@@ -66,7 +66,7 @@
 </div>
 </div>
 
-<div class='viewer'  style=' padding:1em; border-right:2px solid [[ColorPalette::ls_background]]; border-left:2px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
+<div class='viewer'  style='width:95.3%; padding:1em; border-right:2px solid [[ColorPalette::ls_background]]; border-left:2px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
 
 <div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
 <h2>Comments</h2>
