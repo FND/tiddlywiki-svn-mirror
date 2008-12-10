@@ -69,11 +69,10 @@
 <div class='viewer'  style=' padding:1em; border-right:2px solid [[ColorPalette::ls_background]]; border-left:2px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
 
 <div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
-<!--<h2>Comments</h2>
+<h2>Comments</h2>
 <center>
 <div macro='comments'/>
 </center>
--->
 </div>
 
 
@@ -171,9 +170,6 @@ h1 {
 	clear:both;
 }
 
-.addComment .button{
-background-color:red !important;
-}
 
 
 .tagClear{
@@ -188,13 +184,13 @@ background-color:red !important;
 	font-weight: bold;
 	position:relative;
 	top:20px;
-	left :20px;
 	font-size: 32px;
 	color:#eee;
 }
 
 .siteSubtitle {
 	padding-top:15px;
+
 	font-size: 1.0em;
 	display:block; 
 	color: #999; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
@@ -723,8 +719,12 @@ background-color:transparent;
 
 .addComment {background-color:[[ColorPalette::ls_high]] !important; color:black  !important; border:1px solid black  !important;}
 
-
-
+.newCommentArea textarea {
+background-color:[[ColorPalette::SecondaryDark]];
+border:1px solid [[ColorPalette::ls_background]];
+width:50% !important;
+height:10em !important;
+}
 .tiddlerInfo {
 padding:1em;
 }
