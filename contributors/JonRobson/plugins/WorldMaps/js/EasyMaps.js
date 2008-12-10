@@ -136,6 +136,7 @@ EasyMap.prototype = {
 			else
 				geojson = responseText;
 			
+			this._lastgeojson = geojson;
 			if(!geojson.points && this._fittocanvas){
 				geojson = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
 			}

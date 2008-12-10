@@ -67,7 +67,7 @@ EasyShape.prototype={
 		}
 		else if(properties.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
-			var ps = 0.0001
+			var ps = 0.5;
 			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 			newcoords = this._convertGeoJSONCoords(newcoords);
 			this.constructBasicPolygon(properties,newcoords);
