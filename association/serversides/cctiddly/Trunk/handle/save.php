@@ -27,6 +27,7 @@ $tiddler['id'] = $_POST['id'];
 //Will be used from v1.8 - SimonMcManus
 
 
+
 if(@$pluginsLoader->events['preSave']) 
 {
 	foreach (@$pluginsLoader->events['preSave'] as $event)
@@ -60,16 +61,12 @@ if($tiddler['id']!="undefined")
 
 		if(tiddler_update_new($tiddler['id'], $ntiddler)) {
 			sendHeader(201);
-echo "edited";
 		}
 	}else{
 		debug("Permissions denied to save.", "save");
 		sendHeader(400);	
 	}
 }else{
-	
-
-	
 	//This Tiddler does not exist in the database.
 	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) 
 	{

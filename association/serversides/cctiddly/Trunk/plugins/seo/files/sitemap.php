@@ -16,24 +16,13 @@ function recurse($dirname)
 			
 			if($uri_dir)
 				$uri_dir = "/".$uri_dir;
-<<<<<<< .mine
-?><url>	<loc><?php echo "http://".$_SERVER["SERVER_NAME"].$uri_dir."/".$entry;?></loc></url>
-			<?php
-=======
 			$output .= "<url><loc>http://".$_SERVER["SERVER_NAME"].$uri_dir."/".$entry."</loc></url>";
-				
->>>>>>> .r8003
+
 		}
 	}
 	$dir->close();		
 }
 recurse($start_dirname);
-<<<<<<< .mine
-?>		
-</urlset>
-=======
-
 $output .= "</urlset>";
 echo utf8_encode($output);
 ?>		
->>>>>>> .r8003
