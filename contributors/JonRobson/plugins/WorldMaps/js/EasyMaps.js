@@ -349,8 +349,19 @@ EasyMap.prototype = {
 	_renderShape: function(shape,frame){ //is this really a drawPolygon or a drawLines
 		var scale =this.canvas.transformation.scale;
 		var shapetype =shape.properties.shape;
-		if(shapetype=='polygon' || shapetype == 'point'){
+		if(shapetype=='polygon'){}
 		//good shape
+		else if(shapetype == 'point'){
+			//point coords must always be 1 - undo scaling
+			//0.5 pixels each way
+			var x =shape.pointcoords[0];
+			var y =shape.pointcoords[1];
+			shape.coords = [x,y];		
+			var ps = 5 / scale.x;
+			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
+			var c = shape._convertGeoJSONCoords(newcoords);
+			shape.coords = c;
+			console.log(shape.pointcoords, c);
 		} 
 		else{
 			console.log("no idea how to draw" +shape.properties.shape);return;

@@ -46,25 +46,29 @@ var ctx = eMap.canvas.getContext('2d');
 
 
 var p = {};
-p.source = new Proj4js.Proj('WGS84');
+p.source = new Proj4js.Proj('WGS84');//
 p.dest = new Proj4js.Proj('GOOGLE');
 p.inversexy = function(x,y){
 	x /= 0.0000063;
 	y /= 0.0000063;
 	var pointSource = new Proj4js.Point(x ,y);
 	var pointDest = Proj4js.transform(p.dest,p.source, pointSource);
+
 	return pointDest;
 }
 	
 p.xy = function(x,y){
 		var pointSource = new Proj4js.Point(x,y);
 		var pointDest = Proj4js.transform(p.source,p.dest, pointSource);
+
+
 		
 		var newx =pointDest.x;
 		var newy = pointDest.y;
 		//newx /= Math.pow(2,17);
 		//newy /=Math.pow(2,17);
-//19 zoom levels in google
+		//19 zoom levels in google
+		//console.log(newx,newy);
 		newx *= 0.0000063;
 		newy *= 0.0000063;
 
@@ -105,7 +109,6 @@ console.log(this._googlezoomer);
 		this._googlezoomer += 1;
 	}
 	var zoomL = this._googlezoomer;
-	console.log("zooming",zoomL);
 	eMap.settings.backgroundimg = "http://maps.google.com/staticmap?center="+y+","+x+"&zoom="+zoomL+"&size=600x400&key=YOUR_KEY_HERE";
 
 

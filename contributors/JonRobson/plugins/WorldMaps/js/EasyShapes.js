@@ -67,6 +67,7 @@ EasyShape.prototype={
 		}
 		else if(properties.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
+			this.pointcoords = [x,y];
 			var ps = 0.5;
 			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 			newcoords = this._convertGeoJSONCoords(newcoords);
@@ -127,31 +128,34 @@ EasyShape.prototype={
 				newx= t.x;
 				newy= t.y;
 			}
+			
 			if(projection.x && projection.y){
 				newx = projection.x(x);
 				newy = projection.y(y);
 			}
+
+			cok = true;
 			
-			var cok= true;
-			if(!projection.nowrap && i >= 2){ //check against wraparound
-				if(newx > 0 && c[i-2] < 0 ||newx < 0 && c[i-2] > 0){
-					cok= false;
-				}
-				
-				if(newy > 0 && c[i-1] < 0 ||newy < 0 && c[i-1] > 0){
-					cok= false;
-				}
+
+			//check we haven't gone to one extreme from another
+			if(!projection.nowrap){
+				var diff;
+				if(newx > x) diff = newx - x;
+				if(x > newx) diff = x - newx;
+				if(diff > 100) cok = false; //too extreme change
 			}
 			
 			if(cok){
-				if(newx & newy){
-					newc.push(newx);
-					newc.push(newy);
+				if(typeof newx == 'number' && typeof newy =='number'){
+				newc.push(newx);
+				newc.push(newy);
 				}
+	
 			}
 			
 			
 		}	
+
 		this._tcoords = newc;
 		this.createGrid(this._tcoords);
 		return newc;
