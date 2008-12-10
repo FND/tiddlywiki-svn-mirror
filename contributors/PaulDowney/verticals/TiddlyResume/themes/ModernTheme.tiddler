@@ -1,4 +1,4 @@
-<div title="ModernTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResume">
+<div title="ModernTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResumeTheme">
 <pre>
 |''StyleSheet''|##StyleSheet|
 !StyleSheet
@@ -207,6 +207,11 @@
 	float: right;
 	top: 0;
 	}*/
+
+	.photoframe, photo {
+		display: none;
+	}
+
 
 /*}}}*/
 </pre>

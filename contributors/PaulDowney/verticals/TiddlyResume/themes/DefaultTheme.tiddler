@@ -1,32 +1,16 @@
-<div title="DefaultTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResume">
+<div title="DefaultTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResumeTheme">
 <pre>
-|''DefaultTiddlers''|##DefaultTiddlers|
 |''StyleSheet''|##StyleSheet|
-
-!DefaultTiddlers
-[[TiddlyResumeDefaultTiddlers]]
 
 !StyleSheet
 [[StyleSheet]]
 /*{{{*/
 
-	.title, .profile > .fn {
-		color:[[ColorPalette::SecondaryDark]];
-		font-size: 1.6em; 
-		font-weight:bold;
-	}
-
-	.photoframe {
-	}
-
-	img.photo {
-		background-color: [[ColorPalette::PaperShadow]];
-		border: thin solid [[ColorPalette::PaperBorder]];
-		float: right;
-		width: 100px;
-	}
-
+.hresume {
+	padding: 2em;
+}
 
 /*}}}*/
+
 </pre>
 </div>

@@ -1,4 +1,4 @@
-<div title="EssigTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch">
+<div title="EssigTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResumeTheme">
 <pre>
 |''StyleSheet''|##StyleSheet|
 !StyleSheet
@@ -10,10 +10,11 @@
     Creative Commons attribution share-alike noncommercial license.  some rights reserved.  
     http://creativecommons.org/licenses/by-nc-sa/3.0/  
 */
+
 .hresume{
-  width: 652px;
   padding: 0px 10px 0px 10px;
-  font: 11px/1.25 Verdana, Arial, Helvetica, sans-serif; }
+  font: 11px/1.25 Verdana, Arial, Helvetica, sans-serif; 
+}
 
 #main_content {}
 
@@ -200,6 +201,11 @@ ACRONYM, .caps {
 {
     font-style: italic;
 }
+
+.photoframe, photo {
+	display: none;
+}
+
 /*}}}*/
 </pre>
 </div>

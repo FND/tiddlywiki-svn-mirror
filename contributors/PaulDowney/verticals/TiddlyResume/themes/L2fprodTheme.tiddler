@@ -1,4 +1,4 @@
-<div title="L2fprodTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResume">
+<div title="L2fprodTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResumeTheme">
 <pre>
 |''StyleSheet''|##StyleSheet|
 !StyleSheet
@@ -107,6 +107,11 @@
   color: #7f8080;
   font-size: 10px;
 }
+
+.photoframe, photo {
+	display: none;
+}
+
 
 /*}}}*/
 </pre>

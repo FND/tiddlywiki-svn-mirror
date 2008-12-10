@@ -10,21 +10,28 @@ tiddler: settings.js
 tiddler: ColorPalette.tiddler
 tiddler: StyleSheet.tiddler
 tiddler: StyleSheetPrint.tiddler
-tiddler: EditTemplate.tiddler
+tiddler: ToolbarCommands.tiddler
+
+# TBD: make the theme switch this:
+tiddler: DefaultTiddlers.tiddler
+
+# Base theme:
 tiddler: PageTemplate.tiddler
+tiddler: EditTemplate.tiddler
 tiddler: ViewTemplate.tiddler
 
-tiddler: educationViewTemplate.tiddler
-tiddler: educationEditTemplate.tiddler
-tiddler: experienceViewTemplate.tiddler
-tiddler: experienceEditTemplate.tiddler
+tiddler: sectionViewTemplate.tiddler
+tiddler: sectionEditTemplate.tiddler
+
+# hResume sections:
 tiddler: profileEditTemplate.tiddler
 tiddler: profileViewTemplate.tiddler
 
-tiddler: sectionViewTemplate.tiddler
+tiddler: educationsectionViewTemplate.tiddler
+tiddler: educationViewTemplate.tiddler
+tiddler: educationEditTemplate.tiddler
 
-tiddler: ToolbarCommands.tiddler
+tiddler: experiencesectionViewTemplate.tiddler
+tiddler: experienceViewTemplate.tiddler
+tiddler: experienceEditTemplate.tiddler
 
-# Themes switch this:
-
-tiddler: DefaultTiddlers.tiddler

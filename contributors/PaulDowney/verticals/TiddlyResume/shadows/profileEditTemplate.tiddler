@@ -16,6 +16,8 @@
         <div class="label">Locality</div><div class="edit locality" macro="edit locality"></div>
         <div class="label">Region</div><div class="edit region" macro="edit region"></div>
         <div class="label">Postal code</div><div class="edit postal-code" macro="edit postal_code"></div>
+	<div class="label">Summary title</div><div class='edit summary-title' macro='edit summary_title'></div>
+	<div class="label">Summary</div><div class='viewer edit' macro='edit text'></div>
 	<div class="edit title" macro="edit title"></div>
 	<div class="tags edit" macro="edit tags"></div>
 </div>

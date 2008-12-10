@@ -1,8 +1,11 @@
 <div title="ToolbarCommands" modifier="Paul Downey" created="200810061445">
 <pre>
 |~ViewToolbar|+editTiddler deleteTiddler|
+|~ExtendedViewToolbar|+editTiddler deleteTiddler closeTiddler|
 |~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
 |~ProfileEditToolbar|+saveTiddler -cancelTiddler|
 |~ProfileViewToolbar|+editTiddler|
+|~SectionEditToolbar|+saveTiddler -cancelTiddler|
+|~SectionViewToolbar|+editTiddler|
 </pre>
 </div>

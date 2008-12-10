@@ -80,15 +80,19 @@
 		display: block; /* restore proper behavior (see IE bugfix above) */
 		background-color: [[ColorPalette::PaperShadow]];
 		border: thin solid [[ColorPalette::PaperBorder]];
-		padding: 1em;
 		margin: 0.5em auto 0.5em auto;
 		width: 210mm;		/* A4 paper size */
+		padding: 10mm;
 	}
 
+
+
+	/* 
+	 *  hResums
+	 */
 	.hresume {
 		background-color: [[ColorPalette::PaperBackground]];
 		border: thin solid [[ColorPalette::PaperBorder]];
-		padding: 1em;
 	}
 
 	.hresume, span.title {
@@ -99,10 +103,14 @@
 
 	.tiddler div.toolbar {
 		margin: 0;
-		padding: 0;
+		padding: 0 0 0 0;
 		height: 2em;
 		float: right;
 		visibility: hidden;
+	}
+
+	.tiddler {
+		padding: 0 0 0 0;
 	}
 
 	.selected div.toolbar,
@@ -136,6 +144,21 @@
 		content: ":";
 	}
 
+	li.selected a {
+		font-weight: bold;
+	}
+
+	.photoframe {
+		display: block;
+	}
+
+	img.photo {
+		display: block;
+		background-color: [[ColorPalette::PaperShadow]];
+		border: thin solid [[ColorPalette::PaperBorder]];
+		float: right;
+		width: 100px;
+	}
 
 /*}}}*/</pre>
 </div>

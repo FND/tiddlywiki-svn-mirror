@@ -1,0 +1,107 @@
+<div title="EdLauTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResumeTheme">
+<pre>
+|''StyleSheet''|##StyleSheet|
+!StyleSheet
+[[StyleSheet]]
+/*{{{*/
+/*   
+    Adapted from the hResume stylesheet by Ed Lau
+    http://www.edlabs.net/
+*/
+
+
+.hresume {
+    margin: 30px 50px;
+    font-family: Georgia, serif;
+    font-size: 9pt;
+}
+
+abbr {
+    border: none;
+}
+
+.profile {
+    width: 20%;
+    text-align: right;
+    font-size: 10pt;
+    padding-bottom: 2px;
+    font-style: normal;
+}
+.profile .fn,
+.profile .adr,
+.profile .phone {
+    display: block;
+}
+.profile .fn {
+    font-weight: bold;
+}
+
+div.section {
+    margin-top: 15px;
+    margin-bottom: 1em;
+}
+
+.hresume > h2 {
+    font-family: Lucida Grande, Verdana, sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    color: #800;
+    letter-spacing: .1em;
+    text-transform: lowercase;
+    float: left;
+    width: 20%;
+    text-align: right;
+    margin: 0;
+}
+.section div.body {
+    margin-left: 20%;
+    padding-top: 4px;
+    padding-left: 15px;
+}
+.section .body ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1.4em;
+}
+.section .body li.experience {
+    margin: 0 0 1.4em 0;
+    padding: 0;
+}
+.section .body p {
+    margin-top: .1em;
+    margin-bottom: .4em;
+    line-height: 1.4em;
+}
+
+.section .body ul.achieved {
+    list-style-type: disc;
+}
+
+span.com,
+.org {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.section .body label {
+    font-weight: bold;
+}
+
+div.education {
+    margin-bottom: 1em;
+}
+
+.inline {
+    display: inline;
+}
+
+.photoframe, photo {
+    display: none;
+}
+
+
+/*}}}*/
+</pre>
+</div>

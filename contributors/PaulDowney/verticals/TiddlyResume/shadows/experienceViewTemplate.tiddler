@@ -9,7 +9,7 @@
 		<span class='title' macro='view title'></span>
 	</span>
 	<span class='location' macro='view location'></span>
-	<div class='viewer description' macro='view text wikified'></div>
+	<div class='description' macro='view text wikified'></div>
 </div>
 </pre>
 </div>

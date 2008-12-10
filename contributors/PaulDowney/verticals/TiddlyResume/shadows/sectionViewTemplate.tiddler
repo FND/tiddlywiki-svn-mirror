@@ -1,7 +1,6 @@
 <div title="sectionViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
 <pre>
-<div class="section">
-	<div class='title' macro='view title'></div>
-</div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::SectionViewToolbar]]'></div>
+<h2 macro='view title'></h2>
 </pre>
 </div>

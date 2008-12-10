@@ -1,0 +1,158 @@
+<div title="CzerniakTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResumeTheme">
+<pre>
+|''profileViewTemplate''|##profileViewTemplate|
+|''StyleSheet''|##StyleSheet|
+
+!profileViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ProfileViewToolbar]]'></div>
+<div class="address profile vcard">
+	<span class='adr'>
+		<span class="street-address" macro="view street_address"></span>
+		<span class="locality" macro="view locality"></span> |
+		<span class="region" macro="view region"></span>,
+		<span class="postal-code" macro="view postal_code"></span>
+	</span>
+	<br/>
+        <span class="tel" macro="view phone"></span>
+	| <span class='web' macro="LinkMaker type:text display:url linkto:url classname:url"></span>
+        Email: <span class="email" macro="view email"></span>
+	<h1 class="fn n" id="name">
+		<span class="honorific-prefix" macro="view honorific_prefix"></span>
+		<span class="given-name" macro="view given_name"></span>
+		<span class="additional-name" macro="view additional_name"></span>
+		<span class="family-name" macro="view family_name"></span>
+		<span class="honorific-suffix" macro="view honorific_suffix"></span>
+	</h1>
+</div>
+<!--}}}-->
+
+
+!StyleSheet
+[[StyleSheet]]
+/*{{{*/
+
+/* hResume-based stylesheet == Created by Brad Czerniak. Released into the public domain on 1/10/2008 */
+/* http://brad.hawidu.com */
+
+/* Main elements and wrappers */
+#displayArea {
+	background-color:#bbb;
+	font-family:Calibri, Tahoma, Arial, sans-serif;
+	font-size:100%;
+	font-style:normal;
+	font-weight:400;
+	font-size:12pt;
+	}	
+
+.hresume {
+	padding: 4em;
+}
+
+/* Headings */
+h1{
+	font-size: 22pt;
+	letter-spacing: 4pt;
+	font-weight:normal;
+	margin:0;
+	text-transform:uppercase;
+	color:#f78418;
+	}
+h2{
+	border-bottom:1px solid #999;
+	font-size:10pt;
+	font-weight:normal;
+	text-transform:lowercase;
+	margin-bottom:7px;
+	}
+h3{
+	margin:0 0 2px 0;
+	font-size:13pt;
+	}
+h4{
+	margin:0;
+	}
+
+/* Hyperlinks */
+a {
+	text-decoration: none;
+	color:  #004276;
+	}
+a:visited {
+	color:  #004276;
+	border-bottom:1px dashed #ccc;
+	}
+a:active {
+	color:  #f78418;
+	}
+a:hover {
+	color: #f78418;
+	border-bottom:1px solid #ccc;
+	}
+h1 a{
+	color:#f78418;
+	border-bottom:0;
+}
+h1 a:visited{
+	color:#f78418;
+	border-bottom:0;
+}
+h1 a:hover{
+	color:#004276;
+	border-bottom:0;
+}
+
+/* Elementals */
+abbr{
+	border-bottom:0;
+	}
+ul{
+	margin:1px 0 3px 0;
+	}
+	
+/* class-specific styles */
+.address{
+	font-style:normal;
+	font-size: 7.5pt;
+	letter-spacing: 1pt;
+	text-transform:uppercase;
+	}
+.coursework{
+	margin-left:20px;
+	padding-left:5px;
+	border-left:2px solid #444;
+	}
+.datum{
+	float:right;
+	color:#bbb;
+}
+.email{
+	font-weight:bold;
+	text-transform:none;
+	}
+.experience .org{
+	font-weight:bold;
+	}
+.experience .title{
+	font-weight:bold;
+	font-style:italic;
+	}
+#qualifications{
+	margin-left:60px;
+	}
+.quals{
+	margin-left:30px;
+	}
+.quals a{
+	color:#000;
+	}
+.vcalendar{
+	margin-left:60px;
+	}
+.vcalendar .url{
+	font-weight:bold;
+}
+/*}}}*/
+
+</pre>
+</div>

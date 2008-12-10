@@ -1,5 +1,11 @@
-tiddler: ClassicTheme.tiddler
 tiddler: DefaultTheme.tiddler
-tiddler: EssigTheme.tiddler
-tiddler: L2fprodTheme.tiddler
+
+tiddler: CzerniakTheme.tiddler
+
+#tiddler: ClassicTheme.tiddler
+#tiddler: CrowtherTheme.tiddler
+#tiddler: EssigTheme.tiddler
+#tiddler: EdLauTheme.tiddler
+#tiddler: L2fprodTheme.tiddler
+
 tiddler: ModernTheme.tiddler

@@ -1,25 +1,23 @@
-<div title="ClassicTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResume">
+<div title="ClassicTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResumeTheme">
 <pre>
-|''StyleSheet''|##StyleSheet|
+|''~StyleSheet''|##StyleSheet|
+|''~profileViewTemplate''|##profileViewTemplate|
+
 !StyleSheet
 [[StyleSheet]]
 /*{{{*/
-
-	.hresume {
-		font-family: "Times New Roman", Times, serif;
-	}
-	
 	.photoframe, photo {
 		display: none;
 	}
 
-	.title, .profile > .fn {
-		color: #000;
-		font-size: 2.0em; 
-		font-weight:bold;
-	}
-
-
 /*}}}*/
+
+!profileViewTemplate
+<!--{{{-->
+<h2>Contact</h2>
+<span class="given-name" macro="view given_name"></span>
+<span class="family-name" macro="view family_name"></span>
+<!--}}}-->
+
 </pre>
 </div>

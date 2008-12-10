@@ -1,6 +1,7 @@
 <div title="profileViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
 <pre>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ProfileViewToolbar]]'></div>
+<h2 macro='view title'></h2>
 <div class="profile vcard">
         <div class='photoframe' macro="LinkMaker type:img display:photo classname:photo"></div>
 	<span class="fn n" id="name">
@@ -20,5 +21,7 @@
         <div class="email" macro="view email"></div>
         <div class="tel" macro="view phone"></div>
 </div>
+<h2 macro='view summary_title'></h2>
+<div class='summary' macro='view text wikified'></div>
 </pre>
 </div>
