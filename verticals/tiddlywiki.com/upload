@@ -4,7 +4,7 @@
 #  upload [release] [cleanup]
 
 # default values
-DEFAULT_RELEASE="2.4.1"
+DEFAULT_RELEASE="2.4.2"
 RELEASE=${1:-$DEFAULT_RELEASE}
 REMOTE_USER=${2:-$USER}
 DEST=$PWD/../../../cooked/tiddlywiki.com

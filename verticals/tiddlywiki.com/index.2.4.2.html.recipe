@@ -1,6 +1,6 @@
-recipe: ../../core/tiddlywikinonoscript.html.recipe
+recipe: ../../../Tags/core/REL-2.4.2_Beta1/tiddlywikinonoscript.html.recipe
 tiddler: ../../contributors/MartinBudden/plugins/SplashScreenPlugin.js
-tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js tags="systemConfig"
+tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js
 recipe: plugins/split.recipe
 recipe: feeds/split.recipe
 recipe: content/split.recipe
