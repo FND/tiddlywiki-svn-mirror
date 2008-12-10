@@ -1,5 +1,5 @@
 /***
-MasterIncludesPlugin v3.0 beta
+MasterIncludesPlugin v3.0.1 beta
 author: FND
 contributor: Saq Imtiaz
 based on loadExternal by Saq Imtiaz
@@ -212,8 +212,11 @@ MasterIncludes.displayArray = function(chk, arr, prefix) { // DEBUG: rename!?
 SaverBase.prototype.externalize = function(store) {
 	var results = [];
 	var tiddlers = store.getTiddlers("title", MasterIncludes.defaultTag);
-	for(var t = 0; t < tiddlers.length; t++)
-		results.push(this.externalizeTiddler(store, tiddlers[t]));
+	for(var t = 0; t < tiddlers.length; t++) {
+		if(!tiddlers[t].doNotSave()) {
+			results.push(this.externalizeTiddler(store, tiddlers[t]));
+		}
+	}
 	return results.join("\n");
 };
 
