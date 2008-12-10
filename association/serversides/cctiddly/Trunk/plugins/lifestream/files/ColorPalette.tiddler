@@ -1,7 +1,7 @@
 Background: white
 Foreground: #111
-PrimaryPale: #8cf
-PrimaryLight: #679DC2
+PrimaryPale: #222
+PrimaryLight: #222
 PrimaryMid: #005B99
 PrimaryDark: #222
 SecondaryPale: #ffc

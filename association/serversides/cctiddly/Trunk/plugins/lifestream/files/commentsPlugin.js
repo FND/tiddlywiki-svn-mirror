@@ -24,13 +24,7 @@ if(!version.extensions.CommentsPlugin) {
 
   var macro = config.macros.comments = {
 
-//##############################################################################
-//# CONFIG
-//##############################################################################
 
-//################################################################################
-//# MACRO INITIALISATION
-//################################################################################
 
 init: function() {
   var stylesheet = store.getTiddlerText(tiddler.title + "##StyleSheet");
@@ -46,9 +40,6 @@ handler: function(place,macroName,params,wikifier,paramString,tiddler) {
   // var macroParams = macroParams.parsemacroParams(null, "val", true);
 },
 
-//################################################################################
-//# MACRO VIEW - RENDERING COMMENTS
-//################################################################################
 
 buildCommentsArea: function(rootTiddler, place, macroParams) {
   var suffix = "_" + rootTiddler.title.trim();
@@ -57,8 +48,9 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
   var comments = createTiddlyElement(commentsArea, "div", null, "");
   story.getTiddler(rootTiddler.title).commentsEl = comments;
   createTiddlyElement(commentsArea, "div");
-  var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
+  var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "");
   var newCommentEl = macro.makeTextArea(newCommentArea, macroParams);
+	createTiddlyElement(newCommentArea, "br");
   var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment", "Add Comment");
   addComment.onclick = function() {
     var comment = macro.createComment(newCommentEl.value, rootTiddler, macroParams); 
@@ -71,7 +63,27 @@ makeTextArea: function(container, macroParams) {
   textArea.rows = getParam(macroParams, "textRows") || 4;
   textArea.cols = getParam(macroParams, "textCols") || 20;
   textArea.value = getParam(macroParams, "text") || "";
+  if(!isLoggedIn()) {
+	textArea.onclick = function() {
+		config.macros.comments.showLogin();
+	}
+  }
   return textArea;
+},
+
+
+showLogin : function() {
+	setStylesheet(
+	"#errorBox .button {padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
+	"html > body > #backstageCloak {height:"+window.innerHeight*2+"px;}"+
+	"#errorBox {border:1px solid #ccc;background-color: #fff; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
+	var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
+	box.style.position = 'absolute';
+	box.style.width= "800px";
+	var img = createTiddlyElement(box, "img");
+	wikify("<<tiddler Login>>", box);
+	ccTiddlyAdaptor.center(box);
+	ccTiddlyAdaptor.showCloak();
 },
 
 refreshComments: function(daddyCommentsEl, tiddler, macroParams) {
@@ -172,29 +184,6 @@ openReplyLink: function(commentTiddler, commentEl, replyLink, macroParams) {
   commentEl.insertBefore(commentEl.replyEl, commentEl.commentsEl);
 },
 
-//################################################################################
-//# RELATIONSHIP MANAGEMENT
-//#
-//# Children are held in a singly linked list structure.
-//#
-//# The root tiddler (containing comments macro) and all of its comments have
-//# one or more of the following custom fields:
-//#   - daddy: title of parent tiddler ("parent" is already used in DOM, hence "daddy")
-//#   - firstchild: title of first child
-//#   - nextchild: title of next child in the list (ie its sibling). New comments are always
-//#     appended to the list of siblings at the end, if it exists.
-//#
-//# Iff daddy is undefined, this is the root in the hierarchy (ie it's the thing that the 
-//# comments are about)
-//# Iff firstchild is undefined, this tiddler has no children
-//# Iff nextchild is undefined, this tiddler is the most 
-//#
-//# Incidentally, the only redundancy with this structure is with "daddy" field. This field exists only
-//# to give the comment some context in isolation. It's redundant as it could be derived
-//# from inspecting all tiddlers' firstchild and nextchild properties. However, 
-//# that would be exceedingly slow, especially where the tiddlers live on a server.
-//#
-//################################################################################
 
 createComment: function(text, daddy, macroParams) {
 
@@ -232,9 +221,14 @@ createComment: function(text, daddy, macroParams) {
     store.saveTiddler(last.title);
   }
 
-  store.saveTiddler(newComment.title);
-  store.saveTiddler(daddy.title);
-  autoSaveChanges(false);
+ newComment.fields['server.type'] = config.defaultCustomFields['server.type'];
+ newComment.fields['server.workspace'] = config.defaultCustomFields['server.workspace'];
+ newComment.fields['server.host'] = config.defaultCustomFields['server.host'];
+
+ store.saveTiddler(newComment.title);
+
+store.saveTiddler(daddy.title);
+  autoSaveChanges(true);
   return newComment;
 },
 
@@ -265,9 +259,6 @@ deleteTiddlerAndDescendents: function(tiddler, doAutoSave) {
   if (doAutoSave) autoSaveChanges(false); // Should only apply to top level
 },
 
-//##############################################################################
-//# COLLECTION CLOSURES
-//##############################################################################
 
 forEach: function(list, visitor) { for (var i=0; i<list.length; i++) visitor(list[i]); },
 select: function(list, selector) { 
@@ -287,9 +278,6 @@ remove: function(list, unwantedItem) {
         function(currentItem) { return currentItem!=unwantedItem; });
 },
 
-//##############################################################################
-//# GENERAL UTILS
-//##############################################################################
 
 // callers may replace this with their own ID generation algorithm
 createCommentTiddler: function() {
@@ -299,9 +287,6 @@ createCommentTiddler: function() {
 
 log: function() { if (console && console.firebug) console.log.apply(console, arguments); },
 
-//##############################################################################
-//# TIDDLYWIKI UTILS
-//##############################################################################
 
 copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
   for (var i=2; i<arguments.length; i++) {
@@ -312,9 +297,6 @@ copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
 
 }
 
-//################################################################################
-//# CUSTOM STYLESHEET
-//################################################################################
 
 /***
 !StyleSheet
@@ -326,7 +308,7 @@ copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
 .comment { padding: 0 0 1em 0; margin: 1em 0 0; }
 .comment .comment { margin 0; }
 .comment .toolbar .button { border: 0; color: #9a4; }
-.comment .heading { background: [[ColorPalette::PrimaryPale]]; color: [[ColorPalette::PrimaryDark]]; border-bottom: 1px solid [[ColorPalette::PrimaryLight]]; border-right: 1px solid [[ColorPalette::PrimaryLight]]; padding: 0.15em; height: 1.3em; }
+.comment .heading { background: [[ColorPalette::PrimaryPale]]; color: [[ColorPalette::PrimaryDark]]; border-bottom: 1px solid [[ColorPalette::PrimaryLight]]; border-right: 1px solid [[ColorPalette::PrimaryLight]]; padding: 0.15em; height: 1.3em; color:[[ColorPalette::Background]]}
 .commentTitle { float: left; }
 .commentTitle:hover { text-decoration: underline; cursor: pointer; }
 .commentText { clear: both; padding: 1em 0; }

@@ -719,7 +719,7 @@ background-color:transparent;
 
 .addComment {background-color:[[ColorPalette::ls_high]] !important; color:black  !important; border:1px solid black  !important;}
 
-.newCommentArea textarea {
+.newCommentArea textarea, .newReply textarea {
 background-color:[[ColorPalette::SecondaryDark]];
 border:1px solid [[ColorPalette::ls_background]];
 width:50% !important;
