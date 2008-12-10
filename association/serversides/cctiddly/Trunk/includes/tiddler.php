@@ -332,6 +332,7 @@
 			$tiddler['workspace_name'] = $workspace;
 
 		$tiddlers = db_record_select($tiddlyCfg['table']['main'],$tiddler,1);
+
 		//grab record and check if title are the same
 		//this is required since mysql is not binary safe unless deliberately configured in table
 		//result would be empty string if not found, array if found
