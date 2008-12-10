@@ -4,7 +4,7 @@
 <div class="experience vevent vcard">
         <span class="period"><span macro="dtstart dtstart 'MMM  YYYY'"></span><span class="period_break">-</span><span macro="dtend dtend 'MMM YYYY'"></span></span>
 	<span class="htitle">
-		<object data="#name" class="fn include"></object>
+		<a href="#name" class="include"></a>
 		<span class="org" macro='view org'></span> 
 		<span class='title' macro='view title'></span>
 	</span>

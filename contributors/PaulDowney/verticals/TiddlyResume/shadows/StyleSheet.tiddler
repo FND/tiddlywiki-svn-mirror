@@ -170,5 +170,9 @@
 		width: 100px;
 	}
 
+	.include {
+		 display: none;
+	}
+
 /*}}}*/</pre>
 </div>

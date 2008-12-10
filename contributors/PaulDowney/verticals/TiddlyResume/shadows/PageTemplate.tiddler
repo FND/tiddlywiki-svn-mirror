@@ -1,9 +1,10 @@
 <div title="PageTemplate" modifier="PhilHawksworth" created="200709041656" modified="200709111157" tags="excludeLists">
 <pre><!--{{{-->
-<div id="caveat" tiddler='Caveat' refresh='content'></div>
-<div id='controlBar' tiddler='MainMenu' refresh='content'></div>
-<div id='header'><span class='siteTitle' refresh='content' tiddler='SiteTitle'></span></div>
-<div id='messageBar'><span id='messageArea'></span></div>
-<div id='mainArea'><div id='displayArea'><div id='tiddlerDisplay' class='hresume'></div></div></div>
+<div>
+	<div id="caveat" tiddler='Caveat' refresh='content'></div>
+	<div id='controlBar' tiddler='MainMenu' refresh='content'></div>
+	<div id='header'><span class='siteTitle' refresh='content' tiddler='SiteTitle'></span></div>
+	<div id='messageBar'><span id='messageArea'></span></div>
+	<div id='mainArea'><div id='displayArea'><div id='tiddlerDisplay' class='hresume'></div></div></div>
 <!--}}}--></pre>
 </div>

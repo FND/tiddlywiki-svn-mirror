@@ -1,13 +1,11 @@
 <div title="EditTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
 <pre>
 <div class="editor">
-<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-<div class='title edit' macro='edit title'></div>
-<div class='subtitle'></div>
-<div class='viewer edit' macro='edit text'></div>
-<div class='task'>
-</div>
-<div class='tagClear'></div>
+	<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+	<div class='title edit' macro='edit title'></div>
+	<div class='subtitle'></div>
+	<div class='viewer edit' macro='edit text'></div>
+	<div class='tagClear'></div>
 </div>
 </pre>
 </div>

@@ -2,7 +2,7 @@
 <pre>
    <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
    <div class="vcalendar education vevent">
-	<object data="#name" class="fn include"></object>
+	<a href="#name" class="include"></a>
         <span class="time"><span macro="dtend dtend 'YYYY'"></span></span>
 	<span class='summary' macro='view title'></span>
         <span class='org' macro="LinkMaker type:text display:org linkto:url"></span>

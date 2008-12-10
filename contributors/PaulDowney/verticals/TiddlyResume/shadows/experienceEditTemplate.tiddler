@@ -6,7 +6,7 @@
         <div class="label">Establishment</div><div class="edit org" macro="edit org"></div>
         <div class="label">Location</div><div class="edit location" macro="edit location"></div>
         <div class="label">Url</div><div class="edit url" macro="edit url"></div>
-        <div class="label">Start date <span class="hint">YYYYMMDD</hint></div><div class="edit dtstart" macro="edit dtstart"></div>
+        <div class="label">Start date <span class="hint">YYYYMMDD</span></div><div class="edit dtstart" macro="edit dtstart"></div>
         <div class="label">End date <span class="hint">YYYYMMDD</hint></div><div class="edit dtend" macro="edit dtend"></div>
         <div class="label">Description</div><div class='edit description' macro='edit text'></div>
         <div class="edit tags" macro="edit tags"></div>
