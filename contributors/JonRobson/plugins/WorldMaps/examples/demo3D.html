@@ -84,12 +84,28 @@ function init(){
 		if(s)
 			alert(s.properties.name);
 	};
-	eMap.spherical = true;
+	
 	eMap.addControl("zoom");
 	eMap.addControl("rotation");
+	eMap.addControl("mousepanning");
 	console.log(eMap.canvas.transformation);
-	eMap.drawFromGeojsonFile('whereLegal.json');
 	
+	eMap.spherical = true;
+	var proj = {};
+	var that = this;
+	proj.nowrap = true;
+	proj.xy = function(x,y){
+			return EasyMapUtils._spherifycoordinate(x,y,that.canvas.transformation);
+	};
+	eMap.settings.projection = proj;
+		//c = shape.spherify(this.canvas.transformation);
+	
+	
+	
+	eMap.drawFromGeojsonFile('whereLegal2.json');
+
+
+
 }
 
 </script>

@@ -45,37 +45,26 @@ var ctx = eMap.canvas.getContext('2d');
 
 
 
-var img = new Image();
-img.src="http://maps.google.com/staticmap?center=0,0&zoom=-1&size=600x400&key=YOUR_KEY_HERE";
-img.width = 300;
-
-
-
 var p = {};
-
-
-var projHash = {};
-
-  for (var def in Proj4js.defs){
-     projHash[def] = new Proj4js.Proj(def);    //create a Proj for each definition
- }
-
-	p.source = projHash['WGS84'];
-	p.dest = projHash['GOOGLE'];
-
-	p.xy = function(x,y){
+p.source = new Proj4js.Proj('WGS84');
+p.dest = new Proj4js.Proj('GOOGLE');
+	
+p.xy = function(x,y){
 		var pointSource = new Proj4js.Point(x,y);
 		var pointDest = Proj4js.transform(p.source,p.dest, pointSource);
 		
 		var newx =pointDest.x;
 		var newy = pointDest.y;
-		newx *= 0.00000655555;
-		newy *= 0.00000655555;
+		//newx /= Math.pow(2,17);
+		//newy /=Math.pow(2,17);
+//19 zoom levels in google
+		newx *= 0.0000063;
+		newy *= 0.0000064;
+
 		var res = {x:newx , y:newy};
-		
-		
+				
 		return res;
-	}
+}
 
 
 eMap.settings.projection = p;
@@ -84,7 +73,6 @@ eMap.settings.projection = p;
 
 eMap.controller.oldtransform = eMap.controller.transform;
 eMap.controller.transform = function(){
-
 
 var zoomL = 0;
 
@@ -95,20 +83,19 @@ var  t= this.transformation.translate;
 var  scale= this.transformation.scale;
 zoomL = Math.round(Math.sqrt(scale.x));
 
+var res = p.xy(t.x,t.y);
+y = -res.x;
+y = 0;
 
-lo = (t.y * scale.y);
-la = (- t.x * scale.x);
-
-var res = p.xy(lo,la);
-x =res.x;
-y = res.y;
+//zoomL = 1;
 eMap.settings.backgroundimg = "http://maps.google.com/staticmap?center="+x+","+y+"&zoom="+zoomL+"&size=600x400&key=YOUR_KEY_HERE";
 this.oldtransform();
 
 
 };
 
-eMap.controller.setTransformation({translate:{x:1,y:1},scale: {x:1, y:1},rotate: {x:1,y:1}});
+eMap._fittocanvas = false;
+eMap.controller.setTransformation({translate:{x:0,y:0},scale: {x:1, y:1},rotate: {x:1,y:1}});
 eMap.settings.backgroundimg = "http://maps.google.com/staticmap?center=0,0&zoom=0&size=600x400&key=YOUR_KEY_HERE";
 eMap.drawFromGeojson(geojson);
 

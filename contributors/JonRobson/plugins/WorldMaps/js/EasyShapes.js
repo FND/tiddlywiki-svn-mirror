@@ -12,7 +12,6 @@ var EasyShape = function(properties,coordinates,geojson,projection){
 		this.constructBasicPolygon(properties,coordinates);
 	}
 	
-	this.setTheProjection();
 	this.createGrid();
 
 };
@@ -68,7 +67,7 @@ EasyShape.prototype={
 		}
 		else if(properties.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
-			var ps = 0.5;
+			var ps = 0.0001
 			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 			newcoords = this._convertGeoJSONCoords(newcoords);
 			this.constructBasicPolygon(properties,newcoords);
@@ -114,26 +113,27 @@ EasyShape.prototype={
 		return res;
 	}	
 
-	,setTheProjection: function(){
-		if(!this.projection) return;
+	,applyTransformation: function(projection){
 		var c = this.coords;
+		if(!projection) return c;
+		
 		var newc = [];
-		for(var i=0; i < this.coords.length-1; i+=2){
-			var x = parseFloat(this.coords[i]);
-			var y = parseFloat(this.coords[i+1]);
+		for(var i=0; i < c.length-1; i+=2){
+			var x = parseFloat(c[i]);
+			var y = parseFloat(c[i+1]);
 			
-			if(this.projection.xy){
-				var t = this.projection.xy(c[i],c[i+1]);
+			if(projection.xy){
+				var t = projection.xy(c[i],c[i+1]);
 				newx= t.x;
 				newy= t.y;
 			}
-			if(this.projection.x && this.projection.y){
-				newx = this.projection.x(x);
-				newy = this.projection.y(y);
+			if(projection.x && projection.y){
+				newx = projection.x(x);
+				newy = projection.y(y);
 			}
 			
 			var cok= true;
-			if(i >= 2){ //check against wraparound
+			if(!projection.nowrap && i >= 2){ //check against wraparound
 				if(newx > 0 && c[i-2] < 0 ||newx < 0 && c[i-2] > 0){
 					cok= false;
 				}
@@ -142,18 +142,23 @@ EasyShape.prototype={
 					cok= false;
 				}
 			}
+			
 			if(cok){
-				newc.push(newx);
-				newc.push(newy);
+				if(newx & newy){
+					newc.push(newx);
+					newc.push(newy);
+				}
 			}
 			
 			
 		}	
-		this.coords = newc;
+		this._tcoords = newc;
+		this.createGrid(this._tcoords);
+		return newc;
 	}
+	/*
 	,spherify: function(transformation){
 		var newcoords = [];
-		var radius =transformation.spherical.radius;
 		var xPos, yPos;
 		for(var i=0; i < this.coords.length-1; i+=2){
 			coordOK= true;
@@ -168,7 +173,7 @@ EasyShape.prototype={
 		this._tcoords = newcoords;
 		this.createGrid(newcoords);
 		return newcoords;
-	}
+	}*/
 	/*,transformcoordinates: function(transformation,spherical,radius){		
 		var performScale = true;
 		var performTranslate = true; 

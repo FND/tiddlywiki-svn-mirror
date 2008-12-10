@@ -285,6 +285,9 @@ var EasyMapUtils = {
 		if(longitude < 1.57079633 || longitude > 4.71238898){//0-90 (right) or 270-360 (left) then on other side 
 			res.x = (radius) * Math.cos(latitude) * Math.sin(longitude);		
 		}
+		else{
+			res.x = false;
+		}
 	
 		return res;
 	},		

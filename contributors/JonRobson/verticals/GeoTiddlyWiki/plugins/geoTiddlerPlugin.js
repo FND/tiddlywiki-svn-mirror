@@ -127,6 +127,7 @@ if(!version.extensions.geoPlugin) {
 	
 		
 	};
+	
 	config.macros.geo.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 			if(version.extensions.geoPlugin.num >= 0)
 				version.extensions.geoPlugin.num += 1;
@@ -165,9 +166,15 @@ if(!version.extensions.geoPlugin) {
 			var myElement = document.getElementById('caption');
 
 			eMap.wrapper.onmouseup = function(e){
+				
 				if(!e) {
 					e = window.event;
 				}
+				
+				var t = EasyMapUtils.resolveTargetWithMemory(e);
+				console.log(t.tagName);
+				if(t.getAttribute("class") == 'easyControl') return false;
+				
 				var shape = EasyMapUtils.getShapeAtClick(e);
 				
 				if(!shape) {

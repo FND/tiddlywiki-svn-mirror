@@ -12,6 +12,8 @@ var GeoTag = function(longitude,latitude,properties){
 	return geo;	
 };
 
+
+
 var EasyMap = function(wrapper){
 
 	var wrapper;
@@ -26,8 +28,9 @@ var EasyMap = function(wrapper){
 	var that = this;
 	this.settings = {};
 	this.settings.background = "#AFDCEC";
-	this.settings.projection = {x:function(x){return x;}, y: function(y){return y;}};
-
+	//this.settings.projection = {x:function(x){return x;}, y: function(y){return y;}};
+	this.settings.optimisations = false;
+	
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width) || 600;
 	canvas.height = parseInt(wrapper.style.height) || 400;
@@ -105,7 +108,7 @@ EasyMap.prototype = {
 	addControl: function(controlType) {
 		this.controller.addControl(controlType);
 	},
-	
+
 	clear: function(){
 		var mapCanvas = this.canvas;
 		var ctx = mapCanvas.getContext('2d');
@@ -305,12 +308,20 @@ EasyMap.prototype = {
 		var o = t.origin;
 		
 		ctx.lineWidth = 0.09;
+		ctx.lineJoin = 'round'; //miter or bevel or round
 		ctx.save();	
 		ctx.translate(o.x,o.y);
 		ctx.scale(s.x,s.y);
 		ctx.translate(tr.x,tr.y);
 		
 		if(t.spherical){
+			this.settings.projection= {
+					nowrap:true,
+					xy: function(x,y){
+						var res = EasyMapUtils._spherifycoordinate(x,y,t);
+						return res;
+					}
+			};
 			this._createGlobe();
 		}
 		var left = 0;
@@ -343,35 +354,37 @@ EasyMap.prototype = {
 		else{
 			console.log("no idea how to draw" +shape.properties.shape);return;
 		}		
-		if(shapetype != 'point' && shape.grid ){ //check if worth drawing
-				var g = shape.grid;
-				if(g.x2 < frame.left) {
-					return;}
-				if(g.y2 < frame.top) {
-					return;}
-				if(g.x1 > frame.right){
-					return;
-				}
-				if(g.y1 > frame.bottom){
-					return;	
-				}
-				var t1 = g.x2 -g.x1;
-				var t2 =g.y2- g.y1;
-				var delta = {x:t1,y:t2};
-				delta.x *= scale.x;
-				delta.y *= scale.y;
+		
+		if(this.settings.optimisations){
+			if(shapetype != 'point' && shape.grid ){ //check if worth drawing
+					var g = shape.grid;
+					if(g.x2 < frame.left) {
+						return;}
+					if(g.y2 < frame.top) {
+						return;}
+					if(g.x1 > frame.right){
+						return;
+					}
+					if(g.y1 > frame.bottom){
+						return;	
+					}
+					var t1 = g.x2 -g.x1;
+					var t2 =g.y2- g.y1;
+					var delta = {x:t1,y:t2};
+					delta.x *= scale.x;
+					delta.y *= scale.y;
 
-				if(delta.x < 5 || delta.y < 5) {return;}//too small
-		}
-			
+					if(delta.x < 5 || delta.y < 5) {return;}//too small
+			}
+		}	
 			this.ctx.beginPath();
 		var c;
-
-		if(this.spherical) {
-			c = shape.spherify(this.canvas.transformation);
-		}
-		else c = shape.coords;
-
+		
+		if(this.settings.projection)
+			c = shape.applyTransformation(this.settings.projection);
+		else
+			c = shape.coords;
+			
 		if(c.length == 0) return;
 		
 		var deltas = shape._deltas;
@@ -382,10 +395,6 @@ EasyMap.prototype = {
 		var threshold = 2;
 		this.ctx.moveTo(initialX,initialY);
 
-		//if(shape._tcoords) threshold = 0;
-	
-		
-		
 		for(var i=2; i < c.length-1; i+=2){
 			var x = parseFloat(c[i]);
 			var y = parseFloat(c[i+1]);
@@ -395,7 +404,7 @@ EasyMap.prototype = {
 
 			var deltax = parseFloat(pathLength.x) * scale.x;
 			var deltay = parseFloat(pathLength.y)* scale.y;
-			if(shapetype == 'point' ||(deltax > threshold || deltay > threshold)){
+			if(!this.settings.optimisations ||( shapetype == 'point' ||(deltax > threshold || deltay > threshold))){
 				this.ctx.lineTo(x,y);
 				pathLength.x = 0;
 				pathLength.y = 0;

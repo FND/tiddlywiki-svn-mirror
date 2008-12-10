@@ -12,6 +12,8 @@ var GeoTag = function(longitude,latitude,properties){
 	return geo;	
 };
 
+
+
 var EasyMap = function(wrapper){
 
 	var wrapper;
@@ -26,8 +28,9 @@ var EasyMap = function(wrapper){
 	var that = this;
 	this.settings = {};
 	this.settings.background = "#AFDCEC";
-	this.settings.projection = {x:function(x){return x;}, y: function(y){return y;}};
-
+	//this.settings.projection = {x:function(x){return x;}, y: function(y){return y;}};
+	this.settings.optimisations = false;
+	
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width) || 600;
 	canvas.height = parseInt(wrapper.style.height) || 400;
@@ -105,7 +108,7 @@ EasyMap.prototype = {
 	addControl: function(controlType) {
 		this.controller.addControl(controlType);
 	},
-	
+
 	clear: function(){
 		var mapCanvas = this.canvas;
 		var ctx = mapCanvas.getContext('2d');
@@ -305,12 +308,20 @@ EasyMap.prototype = {
 		var o = t.origin;
 		
 		ctx.lineWidth = 0.09;
+		ctx.lineJoin = 'round'; //miter or bevel or round
 		ctx.save();	
 		ctx.translate(o.x,o.y);
 		ctx.scale(s.x,s.y);
 		ctx.translate(tr.x,tr.y);
 		
 		if(t.spherical){
+			this.settings.projection= {
+					nowrap:true,
+					xy: function(x,y){
+						var res = EasyMapUtils._spherifycoordinate(x,y,t);
+						return res;
+					}
+			};
 			this._createGlobe();
 		}
 		var left = 0;
@@ -343,35 +354,37 @@ EasyMap.prototype = {
 		else{
 			console.log("no idea how to draw" +shape.properties.shape);return;
 		}		
-		if(shapetype != 'point' && shape.grid ){ //check if worth drawing
-				var g = shape.grid;
-				if(g.x2 < frame.left) {
-					return;}
-				if(g.y2 < frame.top) {
-					return;}
-				if(g.x1 > frame.right){
-					return;
-				}
-				if(g.y1 > frame.bottom){
-					return;	
-				}
-				var t1 = g.x2 -g.x1;
-				var t2 =g.y2- g.y1;
-				var delta = {x:t1,y:t2};
-				delta.x *= scale.x;
-				delta.y *= scale.y;
+		
+		if(this.settings.optimisations){
+			if(shapetype != 'point' && shape.grid ){ //check if worth drawing
+					var g = shape.grid;
+					if(g.x2 < frame.left) {
+						return;}
+					if(g.y2 < frame.top) {
+						return;}
+					if(g.x1 > frame.right){
+						return;
+					}
+					if(g.y1 > frame.bottom){
+						return;	
+					}
+					var t1 = g.x2 -g.x1;
+					var t2 =g.y2- g.y1;
+					var delta = {x:t1,y:t2};
+					delta.x *= scale.x;
+					delta.y *= scale.y;
 
-				if(delta.x < 5 || delta.y < 5) {return;}//too small
-		}
-			
+					if(delta.x < 5 || delta.y < 5) {return;}//too small
+			}
+		}	
 			this.ctx.beginPath();
 		var c;
-
-		if(this.spherical) {
-			c = shape.spherify(this.canvas.transformation);
-		}
-		else c = shape.coords;
-
+		
+		if(this.settings.projection)
+			c = shape.applyTransformation(this.settings.projection);
+		else
+			c = shape.coords;
+			
 		if(c.length == 0) return;
 		
 		var deltas = shape._deltas;
@@ -382,10 +395,6 @@ EasyMap.prototype = {
 		var threshold = 2;
 		this.ctx.moveTo(initialX,initialY);
 
-		//if(shape._tcoords) threshold = 0;
-	
-		
-		
 		for(var i=2; i < c.length-1; i+=2){
 			var x = parseFloat(c[i]);
 			var y = parseFloat(c[i+1]);
@@ -395,7 +404,7 @@ EasyMap.prototype = {
 
 			var deltax = parseFloat(pathLength.x) * scale.x;
 			var deltay = parseFloat(pathLength.y)* scale.y;
-			if(shapetype == 'point' ||(deltax > threshold || deltay > threshold)){
+			if(!this.settings.optimisations ||( shapetype == 'point' ||(deltax > threshold || deltay > threshold))){
 				this.ctx.lineTo(x,y);
 				pathLength.x = 0;
 				pathLength.y = 0;
@@ -482,7 +491,6 @@ var EasyShape = function(properties,coordinates,geojson,projection){
 		this.constructBasicPolygon(properties,coordinates);
 	}
 	
-	this.setTheProjection();
 	this.createGrid();
 
 };
@@ -538,7 +546,7 @@ EasyShape.prototype={
 		}
 		else if(properties.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
-			var ps = 0.5;
+			var ps = 0.0001
 			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 			newcoords = this._convertGeoJSONCoords(newcoords);
 			this.constructBasicPolygon(properties,newcoords);
@@ -584,26 +592,27 @@ EasyShape.prototype={
 		return res;
 	}	
 
-	,setTheProjection: function(){
-		if(!this.projection) return;
+	,applyTransformation: function(projection){
 		var c = this.coords;
+		if(!projection) return c;
+		
 		var newc = [];
-		for(var i=0; i < this.coords.length-1; i+=2){
-			var x = parseFloat(this.coords[i]);
-			var y = parseFloat(this.coords[i+1]);
+		for(var i=0; i < c.length-1; i+=2){
+			var x = parseFloat(c[i]);
+			var y = parseFloat(c[i+1]);
 			
-			if(this.projection.xy){
-				var t = this.projection.xy(c[i],c[i+1]);
+			if(projection.xy){
+				var t = projection.xy(c[i],c[i+1]);
 				newx= t.x;
 				newy= t.y;
 			}
-			if(this.projection.x && this.projection.y){
-				newx = this.projection.x(x);
-				newy = this.projection.y(y);
+			if(projection.x && projection.y){
+				newx = projection.x(x);
+				newy = projection.y(y);
 			}
 			
 			var cok= true;
-			if(i >= 2){ //check against wraparound
+			if(!projection.nowrap && i >= 2){ //check against wraparound
 				if(newx > 0 && c[i-2] < 0 ||newx < 0 && c[i-2] > 0){
 					cok= false;
 				}
@@ -612,18 +621,23 @@ EasyShape.prototype={
 					cok= false;
 				}
 			}
+			
 			if(cok){
-				newc.push(newx);
-				newc.push(newy);
+				if(newx & newy){
+					newc.push(newx);
+					newc.push(newy);
+				}
 			}
 			
 			
 		}	
-		this.coords = newc;
+		this._tcoords = newc;
+		this.createGrid(this._tcoords);
+		return newc;
 	}
+	/*
 	,spherify: function(transformation){
 		var newcoords = [];
-		var radius =transformation.spherical.radius;
 		var xPos, yPos;
 		for(var i=0; i < this.coords.length-1; i+=2){
 			coordOK= true;
@@ -638,7 +652,7 @@ EasyShape.prototype={
 		this._tcoords = newcoords;
 		this.createGrid(newcoords);
 		return newcoords;
-	}
+	}*/
 	/*,transformcoordinates: function(transformation,spherical,radius){		
 		var performScale = true;
 		var performTranslate = true; 
@@ -983,7 +997,7 @@ EasyMapController.prototype = {
 		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
-		panCanvas.onclick = this._panzoomClickHandler;		
+		panCanvas.onmouseup = this._panzoomClickHandler;		
 
 	},
 	addRotatingActions: function(){
@@ -991,7 +1005,7 @@ EasyMapController.prototype = {
 		var rotateCanvas = this._createcontrollercanvas(44,40);		
 		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'arrow'}));
 		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'arrow'}));
-		rotateCanvas.onclick = this._panzoomClickHandler;
+		rotateCanvas.onmouseup = this._panzoomClickHandler;
 
 	},	
 	addZoomingActions: function(){
@@ -1003,7 +1017,7 @@ EasyMapController.prototype = {
 		zoomCanvas.style.top = top + "px";
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','name':'zoom in','buttonType': 'plus'}));		
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','name':'zoom out','buttonType': 'minus'}));
-		zoomCanvas.onclick = this._panzoomClickHandler;	
+		zoomCanvas.onmouseup = this._panzoomClickHandler;	
 	},	
 	
 	transform: function(){
@@ -1390,6 +1404,9 @@ var EasyMapUtils = {
 		res.y = (radius) * Math.sin(latitude);	
 		if(longitude < 1.57079633 || longitude > 4.71238898){//0-90 (right) or 270-360 (left) then on other side 
 			res.x = (radius) * Math.cos(latitude) * Math.sin(longitude);		
+		}
+		else{
+			res.x = false;
 		}
 	
 		return res;

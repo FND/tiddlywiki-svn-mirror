@@ -271,7 +271,7 @@ EasyMapController.prototype = {
 		
 		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
 		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
-		panCanvas.onclick = this._panzoomClickHandler;		
+		panCanvas.onmouseup = this._panzoomClickHandler;		
 
 	},
 	addRotatingActions: function(){
@@ -279,7 +279,7 @@ EasyMapController.prototype = {
 		var rotateCanvas = this._createcontrollercanvas(44,40);		
 		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'arrow'}));
 		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'arrow'}));
-		rotateCanvas.onclick = this._panzoomClickHandler;
+		rotateCanvas.onmouseup = this._panzoomClickHandler;
 
 	},	
 	addZoomingActions: function(){
@@ -291,7 +291,7 @@ EasyMapController.prototype = {
 		zoomCanvas.style.top = top + "px";
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','name':'zoom in','buttonType': 'plus'}));		
 		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','name':'zoom out','buttonType': 'minus'}));
-		zoomCanvas.onclick = this._panzoomClickHandler;	
+		zoomCanvas.onmouseup = this._panzoomClickHandler;	
 	},	
 	
 	transform: function(){
