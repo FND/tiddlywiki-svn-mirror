@@ -3,7 +3,7 @@
 |''Description:''|Apply a view/edit template based on a tag |
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TaggedTemplatePlugin |
-|''Version:''|0.1|
+|''Version:''|0.2|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -19,7 +19,7 @@ The priority of searching for duplicate templates has been designed to allow par
 #[[foofipViewTemplate]]
 #[[snorkViewTemplate]]
 #[[ViewTemplate]]
-This plugin is based on Eric Shulman's [[TaggedTemplateTweak|http://www.TiddlyTools.com/#TaggedTemplateTweak]] plugin which has different searching behaviour: a tiddler template trumps one in the skin, the tag used for a template is determined by the order it's defined on the tiddler, and the first letter of a tag is treated as being case insensitive.
+This plugin is based on Eric Shulman's [[TaggedTemplateTweak|http://www.TiddlyTools.com/#TaggedTemplateTweak]] plugin which more features and subtly different behaviour.
 !!Code
 ***/
 //{{{
