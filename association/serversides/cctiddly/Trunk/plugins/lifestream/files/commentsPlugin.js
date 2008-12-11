@@ -44,8 +44,8 @@ handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 buildCommentsArea: function(rootTiddler, place, macroParams) {
   var suffix = "_" + rootTiddler.title.trim();
   var commentsArea = createTiddlyElement(place, "div", null, "comments");
-  // var heading = createTiddlyElement(commentsArea, "h2", null, "", "Comments");
-  var comments = createTiddlyElement(commentsArea, "div", null, "");
+  // var heading = createTiddlyElement(commentsArea, "h2", null, "New Comment", "Comments");
+  var comments = createTiddlyElement(commentsArea, "div", null, "Comments");
   story.getTiddler(rootTiddler.title).commentsEl = comments;
   createTiddlyElement(commentsArea, "div");
   var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "");
@@ -182,6 +182,8 @@ openReplyLink: function(commentTiddler, commentEl, replyLink, macroParams) {
   };
 
   var replyText =  macro.makeTextArea(commentEl.replyEl, macroParams)
+createTiddlyElement(commentEl.replyEl, "br");
+
   var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, null, "Reply");
   submitReply.onclick = function() { 
     var newComment = macro.createComment(replyText.value, commentTiddler, macroParams);

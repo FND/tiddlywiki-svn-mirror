@@ -47,13 +47,15 @@
 
 !ViewTemplate
 <!--{{{-->
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='title' macro='view title'></div>
-<div class='viewer' macro='view text wikified'></div>
-<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged' macro='tags'></div>
-<div class='tagClear'></div>
+
+
+<div  macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' width='20px'/></div>
+
+</div>
+
+<div class='viewer'  style='width:95.3%; padding:1em; border-right:2px solid [[ColorPalette::ls_background]]; border-left:2px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
+
+<div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
 <!--}}}-->
 
 
@@ -69,10 +71,7 @@
 <div class='viewer'  style='width:95.3%; padding:1em; border-right:2px solid [[ColorPalette::ls_background]]; border-left:2px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
 
 <div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
-<h2>Comments</h2>
-<center>
 <div macro='comments'/>
-</center>
 </div>
 
 
@@ -719,11 +718,16 @@ background-color:transparent;
 
 .addComment {background-color:[[ColorPalette::ls_high]] !important; color:black  !important; border:1px solid black  !important;}
 
-.newCommentArea textarea, .newReply textarea {
+.newCommentArea textarea, .comments textarea {
 background-color:[[ColorPalette::SecondaryDark]];
 border:1px solid [[ColorPalette::ls_background]];
 width:50% !important;
 height:10em !important;
+color:white;
+}
+
+.replyLink {
+color:#999!important;
 }
 .tiddlerInfo {
 padding:1em;
