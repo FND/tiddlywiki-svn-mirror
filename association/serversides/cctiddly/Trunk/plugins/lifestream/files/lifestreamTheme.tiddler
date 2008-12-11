@@ -49,28 +49,28 @@
 <!--{{{-->
 
 
-<div  macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' width='20px'/></div>
+<div  macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' width='20px'/></div>
 
 </div>
 
-<div class='viewer'  style='width:95.3%; padding:1em; border-right:2px solid [[ColorPalette::ls_background]]; border-left:2px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
+<div class='viewer'  style=' padding:1em; border-right:1px solid [[ColorPalette::ls_background]]; border-left:1px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
 
-<div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
+<div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
 <!--}}}-->
 
 
 !NotesViewTemplate
 <!--{{{-->
 
-<div  macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' width='20px'/></div>
+<div  macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' width='20px'/></div>
 
  <div class='tiddlerInfo' >Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)
 </div>
 </div>
 
-<div class='viewer'  style='width:95.3%; padding:1em; border-right:2px solid [[ColorPalette::ls_background]]; border-left:2px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
+<div class='viewer'  style=' padding:1em; border-right:1px solid [[ColorPalette::ls_background]]; border-left:1px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
 
-<div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:2px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
+<div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
 <div macro='comments'/>
 </div>
 
@@ -265,7 +265,7 @@ h1 {
 	font-size:1.5em;
 }
 #tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, #sidebarOptions .sliderPanel input {
-	background-color:[[ColorPalette::ls_background]];
+	background-color:[[ColorPalette::foreground]];
 	color:#999;
 	border:1px solid [[ColorPalette::ls_background]];
 }
@@ -714,7 +714,7 @@ a.tabUnselected:hover, a.tabSelected:hover {
 background-color:transparent;
 }
 
-.tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;  margin:1px;background-color:[[ColorPalette::SecondaryDark]];line-height:1.5; }
+.tiddler .button, .tiddler .button:hover {background-repeat:no-repeat;  margin:1px;background-color:[[ColorPalette::PrimaryDark]];line-height:1.5; }
 
 .addComment {background-color:[[ColorPalette::ls_high]] !important; color:black  !important; border:1px solid black  !important;}
 
@@ -732,13 +732,29 @@ color:#999!important;
 .tiddlerInfo {
 padding:1em;
 }
+div.comments {
+padding 1em !important;
+}
 
 .stream {  padding:2px; margin:1px ; width750px;  min-height:53px;}
-.slider { margin-left:20px; margin-top:-2px; padding:2px 10px 10px 30px; width:435px;border:0px solid [[ColorPalette::ls_background]]; padding-left:30px;border-top:0px; color:white; background-color:[[ColorPalette::ls_mid]]; }
+.slider { 
+	background-color:#111111;
+	border-color:-moz-use-text-color #222222 #222222;
+	border-style:none solid solid;
+	border-width:0 1px 1px;
+	color:white;
+	margin-left:5px;
+	margin-top:-6px;
+	padding:1em;
+	width:92%;
+}
 .textSpace {padding-left:25px; line-height:1.5; padding-top:13px}
-.tiddler .button:hover,.tiddler .button	 { background-color:[[ColorPalette::ls_background]]; color:white;background-repeat:no-repeat; border:0px solid  [[ColorPalette::ls_mid]];}
+.tiddler .button:hover,.tiddler .button	 { background-color:[[ColorPalette::Foreground]]; color:white;background-repeat:no-repeat; border:1px solid  [[ColorPalette::PrimaryLight]];}
 
 
+.newCommentArea, .reply {
+text-align:center;
+}
 /*}}}*/
 
 [[StyleSheet]]
