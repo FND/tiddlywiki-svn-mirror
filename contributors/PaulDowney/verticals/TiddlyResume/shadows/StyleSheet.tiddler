@@ -8,14 +8,14 @@
 		font-family: Georgia, serif;
 	}
 
-	#caveat {
+	#caveat { 
+		font-family: Helvetica, Arial, sans-serif;
 		background-color: #F88;
-		border-bottom: solid 1px [[ColorPalette::MenuBorder]];
 		color: #FFF;
-		font-size: 0.8em;
-		padding-left: 1em;
-		padding-bottom: 0.2em;
+		padding: 0.5em;
 		text-align: center;
+		border-top: 1px #FFF solid; 
+		border-bottom: 1px #FFF solid; 
 	}
 
 	#controlBar {
