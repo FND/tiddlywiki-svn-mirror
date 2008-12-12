@@ -1,7 +1,7 @@
 <div title="educationEditTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
 <pre>
 <div class="editor education">
-	<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+	<div class='toolbar' macro='toolbar [[ToolbarCommands::ItemEditToolbar]]'></div>
         <div class="label">Title</div><div class="title edit" macro="edit title"></div>
         <div class="label">Establishment</div><div class="edit org" macro="edit org"></div>
         <div class="label">Url</div><div class="edit url" macro="edit url"></div>

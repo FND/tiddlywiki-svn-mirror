@@ -25,3 +25,6 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeS
 
 # treat DefaultTiddlers as a series of filters, one per line
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/SegmentedFilterPlugin/SegmentedFilterPlugin.recipe
+
+# command to add item to a section
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/SectionItemPlugin/SectionItemPlugin.recipe

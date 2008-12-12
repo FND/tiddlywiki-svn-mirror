@@ -1,6 +1,6 @@
 <div title="educationViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
 <pre>
-   <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+   <div class='toolbar' macro='toolbar [[ToolbarCommands::ItemViewToolbar]]'></div>
    <div class="vcalendar education vevent">
 	<a href="#name" class="include"></a>
         <span class="time"><span macro="dtend dtend 'YYYY'"></span></span>

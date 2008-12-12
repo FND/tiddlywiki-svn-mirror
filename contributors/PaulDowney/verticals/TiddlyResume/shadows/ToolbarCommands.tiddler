@@ -1,11 +1,13 @@
 <div title="ToolbarCommands" modifier="Paul Downey" created="200810061445">
 <pre>
-|~ViewToolbar|+editTiddler deleteTiddler|
-|~ExtendedViewToolbar|+editTiddler deleteTiddler closeTiddler|
+|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|
 |~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
 |~ProfileEditToolbar|+saveTiddler -cancelTiddler|
 |~ProfileViewToolbar|+editTiddler|
+|~EducationSectionViewToolbar|newSectionItem +editTiddler|
+|~ExperienceSectionViewToolbar|newSectionItem +editTiddler|
 |~SectionEditToolbar|+saveTiddler -cancelTiddler|
-|~SectionViewToolbar|+editTiddler|
+|~ItemViewToolbar|+editTiddler|
+|~ItemEditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
 </pre>
 </div>

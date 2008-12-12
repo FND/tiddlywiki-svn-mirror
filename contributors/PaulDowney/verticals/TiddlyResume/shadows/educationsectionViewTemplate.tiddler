@@ -1,6 +1,6 @@
 <div title="educationsectionViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
 <pre>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::SectionViewToolbar]]'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EducationSectionViewToolbar]]'></div>
 <div class='education section'>
 	<h2 macro='view displayed'></h2>
 </div>

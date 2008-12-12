@@ -1,7 +1,7 @@
 <div title="DefaultTiddlers" modifier="Paul Downey" created="200811021624" modified="200811171907" changecount="1">
 <pre>[[Profile]]
 [[ExperienceSection]]
-[tag[experience]] [sort[-dtstart]]
+[tag[experience]] [sort[+dtstart]]
 [[EducationSection]]
 [tag[education]] [sort[-dtend]]
 </pre>

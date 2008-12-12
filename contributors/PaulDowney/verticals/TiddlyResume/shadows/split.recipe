@@ -17,8 +17,6 @@ tiddler: DefaultTiddlers.tiddler
 
 # Base theme:
 tiddler: PageTemplate.tiddler
-tiddler: EditTemplate.tiddler
-tiddler: ViewTemplate.tiddler
 
 tiddler: sectionViewTemplate.tiddler
 tiddler: sectionEditTemplate.tiddler

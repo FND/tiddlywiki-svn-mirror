@@ -1,6 +1,6 @@
 <div title="experienceEditTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
 <pre>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ItemEditToolbar]]'></div>
 <div class="editor experience">
         <div class="label">Title</div><div class="edit title" macro="edit title"></div>
         <div class="label">Establishment</div><div class="edit org" macro="edit org"></div>
