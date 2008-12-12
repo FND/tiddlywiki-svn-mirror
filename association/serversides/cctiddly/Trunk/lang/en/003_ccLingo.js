@@ -115,6 +115,7 @@ merge(config.macros.ccFile,{
 	{name: 'wiki text', field: 'wikiText', title: "", type: 'WikiText'},
 	{name: 'Selected', field: 'Selected', rowName: 'name', type: 'Selector'},
 	{name: 'Name', field: 'name', title: "File", type: 'WikiText'},
+	{name: 'URI', field: 'URI', title: "URI", type: 'WikiText'},
 	{name: 'Size', field: 'fileSize', title: "size", type: 'String'}
 	],
 	rowClasses: [

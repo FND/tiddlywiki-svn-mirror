@@ -125,6 +125,7 @@ config.macros.ccFile.listAllCallback = function(status,params,responseText,uri,x
 				htmlName: "<html><a href='"+a[e].url+"' target='new'>"+a[e].filename+"</a></html>",
 				name: a[e].filename,
 				wikiText:'<html><img onclick="config.macros.ccFileImageBox(this)"; src="'+a[e].url+'" style="width: 70px; "/></html>',
+				URI:a[e].url,
 				lastVisit:a[e].lastVisit,
 				fileSize:a[e].fileSize
 			});
