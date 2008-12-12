@@ -1,0 +1,136 @@
+<html>
+<head>
+<script src="jquery.js" type="text/javascript"></script>
+<script src="canvasMaps3D.js" type="text/javascript"></script>
+
+<script>
+if(!window.console) {
+	console = {
+		log:function(message) {
+			var d = document.getElementById('consolelogger');
+			if(d) {
+				d.value += message+"<<] ";
+			}
+		}
+	};
+}
+
+var eMap = null,eMap2 = null;
+function init(size){
+	eMap = new EasyMap('wrapper');
+	eMap.controller.addControl("pan");
+	eMap.controller.addControl("zoom");
+	eMap._fittocanvas = false;
+	
+	eMap2 = new EasyMap('wrapper2');
+	eMap2.controller.addControl("pan");
+	eMap2.controller.addControl("zoom");
+	eMap2._fittocanvas = false;
+	
+	//set up random drawing
+	var s = 10;
+	var maxw = eMap.canvas.width;
+	var maxh = eMap.canvas.height;
+	var maxd2h = maxh/2;
+	var maxd2w = maxw/2;
+	var r,g,b;
+	var shapes = [];
+	for(var i=0; i < size; i++){
+		x = Math.random() * maxw;
+		y = Math.random() * maxh;
+		r = parseInt(Math.random() * 255);
+		g = parseInt(Math.random() * 255);
+		b = parseInt(Math.random() * 255);
+		var fill = "rgb("+r+","+g+","+b+")";
+		if(y > maxd2h) y = maxd2h - y;
+		if(x > maxd2w) x = maxd2w - x;
+		shapes.push(new EasyShape({shape:'polygon', name: i, fill: fill},[x,y,x+s,y,x+s,y+s,x,y+s]));
+	}
+	
+
+	var onclick = function(e){
+
+		var s = EasyMapUtils.getShapeAtClick(e);		
+		if(s)
+			alert(s.properties.name);
+	};
+	
+	eMap.canvas.onclick = onclick;
+	eMap2.canvas.onclick = onclick;
+	
+	for(var j=0; j < shapes.length; j++){
+		eMap._addShapeToMemory(shapes[j]);
+		eMap2._addShapeToMemory(shapes[j]);
+	}
+	
+	eMap.render();
+	eMap2.render();
+}
+
+function normalTranslate(){
+var t1 = new Date();
+eMap.transform({translate:{x:100,y:50}, scale:{x:1,y:1}});
+var t2 = new Date();
+document.getElementById('excanvasTranslate').value = t2 -t1;
+}
+
+function cssTranslate(){
+	var t1 = new Date();
+	console.log("css1:",t1.toUTCString());
+	eMap2.csstransform({translate:{x:100,y:50}, scale:{x:1,y:1}});
+	var t2 = new Date();
+	document.getElementById('cssTranslate').value = t2 -t1;
+}
+
+
+
+function normalTransform(){
+var t1 = new Date();
+	console.log("norm1:",t1.toUTCString());
+eMap.transform({translate:{x:0,y:0}, scale:{x:2,y:2}});
+var t2 = new Date();
+console.log(t2.toUTCString());
+document.getElementById('excanvasTransform').value = t2 -t1;
+}
+
+function cssTransform(){
+	var t1 = new Date();
+	eMap2.csstransform({translate:{x:0,y:0}, scale:{x:2,y:2}});
+
+	var t2 = new Date();
+	document.getElementById('cssTransform').value = t2 -t1;
+}
+
+function reset(){
+eMap.transform({translate:{x:0,y:0}, scale:{x:1,y:1}});
+}
+
+
+function override(){
+	
+eMap2.transform = function(tr){ this.csstransform(tr);}
+}
+</script>
+</head>
+<body onload="window.setTimeout('init(100)',0)">
+how many shapes?<input type='text' id='number'><input type='button' onClick="init(document.getElementById('number').value)">
+<h1>lots of shapes - testing in canvas</h1>
+<div id='wrapper' style="width:800; height:200;position:relative;"></div>
+scale in excanvas<input type='button' onClick='normalTransform()' value='go'><input type='text' id='excanvasTransform'>millisec
+<br>
+translate in excanvas<input type='button' onClick='normalTranslate()' value='go'><input type='text' id='excanvasTranslate'>millisec
+
+<div id='wrapper2' style="width:800; height:200;position:relative;"></div>
+<br>
+scale using css<input type='button' onClick='cssTransform()' value='go'><input type='text' id='cssTransform'>millisec
+
+<br>
+translate using css<input type='button' onClick='cssTranslate()' value='go'><input type='text' id='cssTranslate'>millisec
+
+<input type='button' onClick='override()' value='override'>
+<textarea id='consolelogger'></textarea>
+
+
+
+</body>
+</html>

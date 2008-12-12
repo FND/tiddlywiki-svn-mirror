@@ -19,9 +19,8 @@ if(!version.extensions.geoPlugin) {
 
 
 	config.macros.geo = {};
-	config.macros.geo.getgeojson = function(sourcetiddler){
+	config.macros.geo.getgeojson = function(sourcetiddler,hidegeotiddlerdata){
 		if(!sourcetiddler) sourcetiddler ='geojson';
-
 		if(sourcetiddler.indexOf('.svg') > -1){
 			//svg file.
 			return "svgfile";
@@ -55,8 +54,6 @@ if(!version.extensions.geoPlugin) {
 				if(tiddler.fields.fill){
 					newprop.fill = tiddler.fields.fill;
 				}
-				else
-					newprop.fill = "";
 
 				features[i].properties = newprop;
 				
@@ -67,6 +64,7 @@ if(!version.extensions.geoPlugin) {
 
 		//tiddler.geoproperties
 		//add geotags
+		if(!hidegeotiddlerdata){
 	 	store.forEachTiddler(function(title,tiddler) {
 			//add geotags
 			if(tiddler.fields.geo){
@@ -81,6 +79,7 @@ if(!version.extensions.geoPlugin) {
 			}
 		}	
 		);
+		}
 		return data;
 	};
 	
@@ -94,11 +93,12 @@ if(!version.extensions.geoPlugin) {
 		
 	}
 	
-	var geomaps = [];
+	var geomaps = {};
 	
 	config.macros.geogoto = {};
 	config.macros.geogoto.handler= function(place,macroName,params,wikifier,paramString,tiddler) {
-		var id = config.macros.geo.getGeoId(tiddler);
+		var id = params[3];
+		if(!params[3]) id = 'default';
 		
 		if(!geomaps[id]) {alert("geogoto can only be used if there is a geomap somewhere on the page!");}
 		var lo, la,zoom;
@@ -111,33 +111,15 @@ if(!version.extensions.geoPlugin) {
 		if(zoom){ tran.scale.x = zoom;tran.scale.y = zoom;}
 		geomaps[id].controller.setTransformation(tran);
 	}
-
-	config.macros.geo.getGeoId = function(tiddler){
-		var id;
-		if(tiddler) 
-			id= tiddler.geoid;
-		
-		if(id) return id; //there is a geomap in this tiddler
-		for(var i=0; i < geomaps.length; i++){ //find the first geomap 
-			var wrapper = geomaps[i].wrapper;
-			if(document.getElementById(wrapper.id)) return i;
-		}
-		var msg ="Call to macro failed - tried to access a <<geo>> but none exists in the page!"; 
-		alert(msg);
 	
-		
-	};
-	
-	config.macros.geo.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-			if(version.extensions.geoPlugin.num >= 0)
-				version.extensions.geoPlugin.num += 1;
-			else
-				version.extensions.geoPlugin.num = 0;
-			var geoid =version.extensions.geoPlugin.num;	
+	config.macros.geo.handler = function(place,macroName,params,wikifier,paramString,tiddler) {				
 			tiddler.geoid = geoid; 
 			var prms = paramString.parseParams(null, null, true);
 
-			var id = "wrapper"+geoid;
+			var geoid = getParam(prms,"id");
+			if(!geoid) geoid = "default";
+			
+			var id = "wrapper_"+geoid;
 
 			var wrapper = createTiddlyElement(place,"div",id,"wrapper");
 			wrapper.style.position = "relative";
@@ -172,7 +154,6 @@ if(!version.extensions.geoPlugin) {
 				}
 				
 				var t = EasyMapUtils.resolveTargetWithMemory(e);
-				console.log(t.tagName);
 				if(t.getAttribute("class") == 'easyControl') return false;
 				
 				var shape = EasyMapUtils.getShapeAtClick(e);
@@ -200,22 +181,21 @@ if(!version.extensions.geoPlugin) {
 			};
 			if(getParam(prms,"spherify")) {
 				eMap.spherical = true;
-				eMap.addControl("rotation");
+				eMap.controller.addControl("rotation");
 			 }
 			else{
-				eMap.addControl('pan');
+				eMap.controller.addControl('pan');
 			}
 			
-			eMap.addControl('zoom');
-			if(!config.browser.isIE){
-				eMap.addControl("mousepanning");
-				eMap.addControl("mousewheelzooming");	
-			}	
+			eMap.controller.addControl('zoom');
+			eMap.controller.addControl("mousepanning");
+			eMap.controller.addControl("mousewheelzooming");	
+				
 			var source = null;
 			if(getParam(prms,"source")) source = getParam(prms,"source");
 	
 
-			var geodata = this.getgeojson(source);
+			var geodata = this.getgeojson(source,getParam(prms,"hidegeotiddlerdata"));
 			if(geodata == 'svg'){
 			
 				eMap.drawFromSVG(store.getTiddlerText(source));

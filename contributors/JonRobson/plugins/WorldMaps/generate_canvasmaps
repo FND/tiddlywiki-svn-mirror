@@ -1,1 +1,1 @@
-cat js/EasyMaps.js js/EasyShapes.js js/EasyController.js js/EasyMapUtils.js js/EasyMapSVGUtils.js  > canvasMaps3D.js
+cat ../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMaps.js ../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyShapes.js ../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyController.js ../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMapUtils.js ../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMapSVGUtils.js ../../verticals/GeoTiddlyWiki/EasyThingsLib/ieHack.js  > canvasMaps3D.js
