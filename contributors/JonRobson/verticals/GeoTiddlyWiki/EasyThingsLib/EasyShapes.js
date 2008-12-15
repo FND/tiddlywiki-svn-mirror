@@ -201,16 +201,29 @@ EasyShape.prototype={
 		var shape = document.createElement("g_vml_:shape");
 		var path = "M ";
 		
+		var multiplier = 5;
 		if(this.coords.length < 2) return;
 		var x =o.x+ t.x + this.coords[0];
-		var y =o.y+t.y+this.coords[1];
+		var y =o.y+t.y+this.coords[1];		
+		x *= multiplier;
+		y *= multiplier;
 		x = parseInt(x);
 		y = parseInt(y);
+		
+		
+		var xspace = parseInt(canvas.width);
+		xspace *=multiplier;
+		var yspace =parseInt(canvas.height);
+		yspace *= multiplier;
+		
+		coordsize = xspace +"," + yspace;	
 		
 		path+= x + "," +y + " L";
 		for(var i =2; i < this.coords.length; i+=2){
 			var x =o.x+t.x+this.coords[i];
 			var y =o.y+t.y+this.coords[i+1];
+			x *= multiplier;
+			y *= multiplier;
 			x = parseInt(x);
 			y = parseInt(y);
 			path += x +"," + y;
@@ -232,7 +245,7 @@ EasyShape.prototype={
 		}
 		shape.path = path;
 		shape.strokeweight = ".75pt";
-		shape.coordsize = parseInt(canvas.width)+"," + parseInt(canvas.height);
+		shape.coordsize = coordsize;
 		//console.log(shape.coordsize);
 		shape.easyShape = this;
 		canvas.appendChild(shape);
