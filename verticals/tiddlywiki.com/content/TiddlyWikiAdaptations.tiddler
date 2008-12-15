@@ -1,4 +1,4 @@
-<div title="TiddlyWikiAdaptations" modifier="PhilWhitehouse" created="200512181828" modified="200807101057" tags="adaptations" changecount="18">
+<div title="TiddlyWikiAdaptations" modifier="PhilWhitehouse" created="200512181828" modified="200807101057" tags="adaptations">
 <pre>Before TiddlyWiki supported [[Plugins]], several independent developers created their own extended adaptations to support new features. These can be considered forks of the original core code, and won't necessarily be based on the latest version. For that reason, the trend more recently has been for developers to release new features as [[Plugins]] that can be readily mixed and matched and upgraded to the latest version.
 
 Here's a list of known adaptations - note that many of these are quite old, and the links may be dead (all working as at 10 July 2008):

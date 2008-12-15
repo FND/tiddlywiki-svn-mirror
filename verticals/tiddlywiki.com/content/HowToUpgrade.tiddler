@@ -1,4 +1,4 @@
-<div title="HowToUpgrade" modifier="YourName" created="200508181412" modified="200808181651" tags="instructions" changecount="1">
+<div title="HowToUpgrade" modifier="Osmosoft" created="200508181412" modified="200808181651" tags="instructions">
 <pre>The core TiddlyWiki code is regularly updated with bug fixes and new features. If you're using an earlier revision of TiddlyWiki, you should consider upgrading to the latest version.
 
 The steps you need to take depend on which version of TiddlyWiki you are upgrading from. From version 2.4.0 onwards, you can upgrade to the latest version using the 'Upgrade' tab in the BackstageArea, as described below. If you're using an earlier version of TiddlyWiki, you'll need to follow [[these instructions|HowToUpgradeOlderTiddlyWikis]] instead.

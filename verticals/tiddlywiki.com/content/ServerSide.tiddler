@@ -1,4 +1,4 @@
-<div title="ServerSide" modifier="PhilWhitehouse" created="200508181425" modified="200807101151" tags="concepts community" changecount="3">
+<div title="ServerSide" modifier="PhilWhitehouse" created="200508181425" modified="200807101151" tags="concepts community">
 <pre>Out of the box, ~TiddlyWiki doesn't have a Server Side back end. In many applications that's a great strength because it means that you can work with ~TiddlyWiki without having to be connected to the Internet or, because it's SelfContained, installing any software.
 
 In other applications, a ~ServerSide can be very useful, particularly if you want to edit a ~TiddlyWiki while it's online, or you need lots of people to be able to edit a ~TiddlyWiki at the same time. The development [[Community]] has come up with several ~ServerSide implementations that are suitable for a range of applications. The most popular and up-to-date ones that you can download and install on your own servers are:

@@ -1,4 +1,4 @@
-<div title="TiddlyWikiTools" modifier="PhilWhitehouse" created="200508181333" modified="200807101101" tags="tools" changecount="8">
+<div title="TiddlyWikiTools" modifier="PhilWhitehouse" created="200508181333" modified="200807101101" tags="tools">
 <pre>Saq Imtiaz and Kalle Alm have just released a release candidate of [[TiddlySnip|http://tiddlysnip.com/]], a Firefox extension that lets you use your ~TiddlyWiki as a scrapbook. Simply select text, right click and choose "~TiddlySnip selection". Next time you open your ~TiddlyWiki file, your snippets will be there, already tagged and organised.
 
 The first add-on tool for ~TiddlyWiki was Isao Sonobe's TiddlyWikiPod that let's you transfer the contents of a ~TiddlyWiki to an iPod (well, not an iPod shuffle).

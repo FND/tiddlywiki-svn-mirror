@@ -1,4 +1,4 @@
-<div title="ContentsSlider" modifier="YourName" created="200806121333" modified="200806121409" changecount="3">
+<div title="ContentsSlider" modifier="Osmosoft" created="200806121333" modified="200806121409">
 <pre>@@margin-left:.5em;<<slider chkContents SideBarTabs "contents »" "show
 lists of tiddlers contained in this document">>@@</pre>
 </div>

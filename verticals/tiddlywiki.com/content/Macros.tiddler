@@ -1,4 +1,4 @@
-<div title="Macros" modifier="PhilWhitehouse" created="200510302320" modified="200807101153" tags="macros" changecount="1">
+<div title="Macros" modifier="PhilWhitehouse" created="200510302320" modified="200807101153" tags="macros">
 <pre>[[Macros]] let you write tiddlers containing more exotic objects than just text. Built-in macros include:
 * NewJournalMacro and NewTiddlerMacro
 * GradientMacro

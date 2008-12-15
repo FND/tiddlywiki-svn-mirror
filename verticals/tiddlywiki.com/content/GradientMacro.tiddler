@@ -1,4 +1,4 @@
-<div title="GradientMacro" modifier="PhilWhitehouse" created="200509280036" modified="200807101154" tags="macros" changecount="1">
+<div title="GradientMacro" modifier="PhilWhitehouse" created="200509280036" modified="200807101154" tags="macros">
 <pre><<gradient horiz #bbbbbb #eeeeee #ffffff>>The new GradientMacro allows simple horizontal and vertical coloured gradients. They are constructed from coloured HTML elements, and don't require any images to work.>>
 The GradientMacro is an Extended Macro that processes the text after it up until the next '>>' sequence. It looks like this:
 {{{

@@ -1,4 +1,4 @@
-<div title="Search" modifier="YourName" created="200808121437">
+<div title="Search" modifier="Osmosoft" created="200808121437">
 <pre>The basic version of ~TiddlyWiki includes basic search functionality. Using this basic functionality, when a search term is entered, all tiddlers that contain this term are opened, with the search term highlighted wherever it appears.
 
 However, using the [[plugin architecture|Plugins]] of ~TiddlyWiki, the [[community|Help and Support]] has written a number of search plugins which can be installed on your local ~TiddlyWiki files easily. The most popular search plugins are:
