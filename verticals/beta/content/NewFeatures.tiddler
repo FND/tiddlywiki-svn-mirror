@@ -1,17 +1,19 @@
-<div title="NewFeatures" modifier="JeremyRuston" created="200704141410" modified="200804131835" changecount="15">
-<pre>TiddlyWiki has been improved in several areas for release 2.4. Here are some of the highlights; see the full [[change history at tiddlywiki.org|http://trac.tiddlywiki.org/tiddlywiki/wiki/History]] for more details.
-
-!!!Automated Core Upgrades
-A new backstage button to automatically upgrade to the latest official version of the TiddlyWiki core code. (There's a special [[fake upgrade|http://www.tiddlywiki.com/beta/upgrade.html]] to this beta so that you can test the feature)
-
-!!!Saving in Safari and Opera
-The TiddlySaver java applet is now signed by a proper certificate, finally making it as easy to SaveChanges on Safari and Opera as it has always been in FireFox
-
-!!!Other Improvements
-* Easier customisation of toolbars through the new ToolbarCommands shadow tiddler
-* Usability improvements for ImportTiddlers
-* New date format symbol {{{TZD}}} for ISO timezone support
-* Support for multiple tag selection by holding down the control key
-* Enhanced GradientMacro
-* ...and several bug fixes</pre>
+<div title="NewFeatures" modifier="JeremyRuston" created="200704141410" modified="200812151635">
+<pre>Release 2.4.2 of TiddlyWiki includes some minor enhancements and bug fixes. Here are some of the highlights; see the full change history at [[tiddlywiki.org|http://trac.tiddlywiki.org/wiki/History]] for more details.
+!!!Usability
+* Date-format strings now support escaping of literal characters (ticket #623)
+* PluginManager wizard now displays Description slices (ticket #739)
+* Support for {{{<hr>}}} syntax in wiki markup (ticket #741)
+* Filter expressions no longer omit non-existing tiddlers (ticket #768) 
+!!!Hackability
+* Extended invokeParamifier to process "option paramifiers" (ticket #823)
+* Added support for TiddlyWikis with empty noscript tag (ticket #858) 
+!!!Bug Fixes
+* Improved detection of missing links (ticket #67)
+* Fixed overlapping tiddlers in Firefox (ticket #320)
+* TagChooser macro now supports excludeLists tag (ticket #515)
+* RSS feed now uses proper locale value (ticket #591)
+* Fixed importing under Windows Vista (ticket#635)
+* Various minor fixes and enhancements 
+</pre>
 </div>
