@@ -1,4 +1,5 @@
-<html>
+<html xmlns:vml="urn:schemas-microsoft-com:vml">
+
 <head>
 <script src="jquery.js" type="text/javascript"></script>
 <script src="canvasMaps3D.js" type="text/javascript"></script>
@@ -56,7 +57,9 @@ function init(size){
 	};
 	
 	eMap.canvas.onclick = onclick;
+	eMap.canvas.browser = 'firefox';
 	eMap2.canvas.onclick = onclick;
+	eMap2.canvas.browser = 'ie';
 	
 	for(var j=0; j < shapes.length; j++){
 		eMap._addShapeToMemory(shapes[j]);
@@ -65,6 +68,7 @@ function init(size){
 	
 	eMap.render();
 	eMap2.render();
+	
 }
 
 function normalTranslate(){
@@ -77,7 +81,7 @@ document.getElementById('excanvasTranslate').value = t2 -t1;
 function cssTranslate(){
 	var t1 = new Date();
 	console.log("css1:",t1.toUTCString());
-	eMap2.csstransform({translate:{x:100,y:50}, scale:{x:1,y:1}});
+	eMap2.transform({translate:{x:100,y:50}, scale:{x:1,y:1}});
 	var t2 = new Date();
 	document.getElementById('cssTranslate').value = t2 -t1;
 }
@@ -95,7 +99,7 @@ document.getElementById('excanvasTransform').value = t2 -t1;
 
 function cssTransform(){
 	var t1 = new Date();
-	eMap2.csstransform({translate:{x:0,y:0}, scale:{x:2,y:2}});
+	eMap2.transform({translate:{x:0,y:0}, scale:{x:2,y:2}});
 
 	var t2 = new Date();
 	document.getElementById('cssTransform').value = t2 -t1;
@@ -115,11 +119,13 @@ eMap2.transform = function(tr){ this.csstransform(tr);}
 <body onload="window.setTimeout('init(100)',0)">
 how many shapes?<input type='text' id='number'><input type='button' onClick="init(document.getElementById('number').value)">
 <h1>lots of shapes - testing in canvas</h1>
+The drawing below uses ExplorerCanvas to carry out zooming and panning and rendering.
 <div id='wrapper' style="width:800; height:200;position:relative;"></div>
 scale in excanvas<input type='button' onClick='normalTransform()' value='go'><input type='text' id='excanvasTransform'>millisec
 <br>
 translate in excanvas<input type='button' onClick='normalTranslate()' value='go'><input type='text' id='excanvasTranslate'>millisec
-
+<br>
+The drawing below directly manipulates the vml style attributes to get the same effect at a faster speed.
 <div id='wrapper2' style="width:800; height:200;position:relative;"></div>
 <br>
 scale using css<input type='button' onClick='cssTransform()' value='go'><input type='text' id='cssTransform'>millisec
@@ -129,8 +135,6 @@ translate using css<input type='button' onClick='cssTranslate()' value='go'><inp
 
 <input type='button' onClick='override()' value='override'>
 <textarea id='consolelogger'></textarea>
-
-
 
 </body>
 </html>

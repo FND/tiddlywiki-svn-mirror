@@ -38,19 +38,20 @@ var EasyMap = function(wrapper){
 	if(!wrapper.style.width) wrapper.style.width = canvas.width + "px";
 	if(!wrapper.style.height) wrapper.style.height = canvas.height + "px";
 	canvas.style["z-index"] = 1;
-	wrapper.appendChild(canvas);
 	canvas.style.position = "absolute";
 	this.canvas = canvas;
 
+
 	if(!canvas.getContext) {
 		G_vmlCanvasManager.init_(document);
-		this.browser = 'ie';
+		this.canvas.browser = 'ie';
 	}
 	else
-		this.browser = 'good';
+		this.canvas.browser = 'good';
 	this.spherical = false; //experimental!! fiddle with at your own risk! :)
 
 	this.canvas.memory = [];
+	wrapper.appendChild(canvas);
 	var _defaultMousemoveHandler = function(e){
 		if(!e) {
 			e = window.event;
@@ -102,16 +103,17 @@ var EasyMap = function(wrapper){
 	this.wrapper.onmousemove = _defaultMousemoveHandler;	
 	this.controller = new EasyMapController(this,this.wrapper);
 
-	
+		
 	//run stuff
 	this.transform(this.controller.transformation); //set initial transformation
 	this._fittocanvas = true;
+	
 	this.clear();
 };  
 EasyMap.prototype = {	
 	clear: function(){
-		var mapCanvas = this.canvas;
-		var ctx = mapCanvas.getContext('2d');
+		if(!this.canvas.getContext) {return;}
+		var ctx = this.canvas.getContext('2d');
 
 		this._maxX = 0;
 		this._maxY = 0;
@@ -219,8 +221,7 @@ EasyMap.prototype = {
 				this.canvas.transformation.spherical = {};
 			}
 			if(!this.canvas.transformation.rotate){
-				this.canvas.transformation.rotate = {};
-				this.canvas.transformation.rotate.z =0;
+				this.canvas.transformation.rotate = {z:0};
 			}
 			
 			if(!this.canvas.transformation.spherical.radius){
@@ -233,12 +234,11 @@ EasyMap.prototype = {
 			else
 				this.canvas.transformation.spherical.radius = widthR;
 			}
-		};
-
+		}
 		this.redraw();
 	},
 	
-	csstransform: function(transformation){
+	/*csstransform: function(transformation){
 		this.canvas.transformation = transformation;
 		
 
@@ -299,15 +299,26 @@ EasyMap.prototype = {
 
 			
 		}
-	},
+	},*/
 	_addShapeToMemory: function(easyShape){ //add shape to memory
 		var memory = this.canvas.memory;
 		easyShape.id = memory.length;
 		memory[easyShape.id] = easyShape;	
 	},
 	_createGlobe: function(){
-		var t =this.canvas.transformation;
+		if(!this.canvas.getContext) {return;}
 		var ctx = this.canvas.getContext('2d');
+		if(!ctx) return;
+		var t =this.canvas.transformation;
+		var tr =t.translate;
+		var s = t.scale;
+		var o = t.origin;
+		ctx.save();	
+		ctx.translate(o.x,o.y);
+		ctx.scale(s.x,s.y);
+		ctx.translate(tr.x,tr.y);
+		
+
 		var rad =t.spherical.radius;
 	
 	  var radgrad = ctx.createRadialGradient(0,0,10,0,0,rad);
@@ -323,77 +334,62 @@ EasyMap.prototype = {
 		ctx.closePath();
 		ctx.fillStyle = radgrad;
 		ctx.fill();
-		
+		ctx.restore();
 
 	},
-	render: function(flag){
+	
+	_renderWithBackgroundImage: function(){
+		if(!this.canvas.getContext) return;
 		var ctx = this.canvas.getContext('2d');
-		this.ctx = ctx;
+		
 		var that = this;
-		if(!flag && this.settings.backgroundimg){
-			
-			var img = new Image();
-			img.src=this.settings.backgroundimg;
-			img.width = this.canvas.width;
-			img.height = this.canvas.height;
-			img.onload = function(){
-				ctx.globalAlpha = 1;
-				ctx.drawImage(img,0,0);
-				ctx.globalAlpha = 0.4;
-				that.render(true);
+		var img = new Image();
+		img.src=this.settings.backgroundimg;
+		img.width = this.canvas.width;
+		img.height = this.canvas.height;
+		img.onload = function(){
+			ctx.globalAlpha = 1;
+			ctx.drawImage(img,0,0);
+			ctx.globalAlpha = 0.4;
+			that.render(true);
 
-			};
-			return;
-			
+		};
+		return;		
+	},
+	_setupCanvasEnvironment: function(){
+		if(!this.canvas.getContext) return;
+		var ctx = this.canvas.getContext('2d');
+		var s =this.canvas.transformation.scale;
+		ctx.lineWidth = (1 / s.x);
+		ctx.lineJoin = 'round'; //miter or bevel or round	
+	},
+	render: function(flag){
+
+		if(!flag && this.settings.backgroundimg){
+			this._renderWithBackgroundImage();
+			return;			
 		}
 		
 		var mem =this.canvas.memory;
+		this._setupCanvasEnvironment()
 
 
-		var t =this.canvas.transformation;
-		var tr =t.translate;
-		var s = t.scale;
-		var o = t.origin;
-		
-		ctx.lineWidth = (1 / s.x);
-		ctx.lineJoin = 'round'; //miter or bevel or round
-		ctx.save();	
-		ctx.translate(o.x,o.y);
-		ctx.scale(s.x,s.y);
-		ctx.translate(tr.x,tr.y);
-		
-		if(t.spherical){
+		var tran =this.canvas.transformation;
+
+		if(tran.spherical){
 			this.settings.projection= {
 					nowrap:true,
-					xy: function(x,y){
+					xy: function(x,y,t){
 						var res = EasyMapUtils._spherifycoordinate(x,y,t);
 						return res;
 					}
 			};
 			this._createGlobe();
 		}
-		var left = 0;
-		var top = 0;
-		var right =  parseInt(this.canvas.width) + left; 
-		var bottom = parseInt(this.canvas.height) + top;
 
-		var transformedGrid = {};
-		var t= this.canvas.transformation;
-		var topleft = EasyMapUtils.undotransformation(left,top,t);
-		var bottomright = EasyMapUtils.undotransformation(right,bottom,t);
-		
-		var frame = {};
-		frame.top = topleft.y;
-		frame.bottom = bottomright.y;
-		frame.right = bottomright.x;
-		frame.left = topleft.x;
-
-		for(var i=0; i < mem.length; i++){
-			mem[i].render(ctx,t,this.settings.projection,frame,this.settings.optimisations);
+		for(var i=0; i < mem.length; i++){	
+			mem[i].render(this.canvas,tran,this.settings.projection,this.settings.optimisations);
 		}
-		ctx.restore();
-		
-		//if(this.browser == 'ie') {this.transform = this.csstransform;}
 	},
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,properties){
 		var prop = properties;

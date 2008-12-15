@@ -83,9 +83,9 @@ function init(){
 			alert(s.properties.name);
 	};
 	
-	eMap.addControl("zoom");
-	eMap.addControl("rotation");
-	eMap.addControl("mousepanning");
+	eMap.controller.addControl("zoom");
+	eMap.controller.addControl("rotation");
+	eMap.controller.addControl("mousepanning");
 	console.log(eMap.canvas.transformation);
 	
 	eMap.spherical = true;
@@ -100,7 +100,7 @@ function init(){
 	
 	
 	
-	eMap.drawFromGeojsonFile('geojsons/whereLegal2.json');
+	eMap.drawFromGeojsonFile('geojsons/wherelegal2.json');
 
 
 

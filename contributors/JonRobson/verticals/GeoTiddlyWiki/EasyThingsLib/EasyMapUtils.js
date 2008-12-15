@@ -204,6 +204,9 @@ var EasyMapUtils = {
 		if(!e) {
 			e = window.event;
 		}
+		var node = EasyMapUtils.resolveTarget(e);
+		if(node.getAttribute("class") == 'easyShape') return node.easyShape;
+		
 		var target = this.resolveTargetWithMemory(e);
 		if(!target) return;
 		var offset = $(target).offset();

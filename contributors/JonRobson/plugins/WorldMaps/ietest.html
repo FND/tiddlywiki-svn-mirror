@@ -11,22 +11,25 @@ function init(){
 	eMap = new EasyMap('wrapper');
 	eMap.utils = EasyMapUtils;
 	eMap.wrapper.onmouseup = function(e){
-	
 		console.log("clicked");
 		var s = EasyMapUtils.getShapeAtClick(e);
 		console.log("clicked.");
+		
+		var t = EasyMapUtils.resolveTargetWithMemory(e);
+		if(t.getAttribute("class") == 'easyControl') return false;
+		
 		if(s){
 			alert(s.properties.name);
 			}
 	};
 	
-	eMap.utils._testCanvas(eMap.canvas.getContext('2d'));
+	//eMap.utils._testCanvas(eMap.canvas.getContext('2d'));
 	geojson = eMap.utils.fitgeojsontocanvas(eval(geojson),eMap.canvas);
 
-	eMap.addControl("pan");
-	eMap.addControl("zoom");
-	eMap.addControl("mousepanning");
-	eMap.addControl("mousewheelzooming");
+	eMap.controller.addControl("pan");
+	eMap.controller.addControl("zoom");
+	eMap.controller.addControl("mousepanning");
+	eMap.controller.addControl("mousewheelzooming");
 
 var that = eMap;
 //eMap.mousemoveHandler = function(e,shape){};
