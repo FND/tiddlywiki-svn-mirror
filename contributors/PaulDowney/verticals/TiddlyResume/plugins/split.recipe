@@ -10,10 +10,6 @@ tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/LinkMakerPlugin.js
 # enable access to tiddlers from the backstage 
 tiddler: $TW_ROOT/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 
-# place tiddlers it into a section by tag
-#tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/TiddlerDisplayGroupsPlugin.js
-#tiddler: TaggedSectionPlugin.js
-
 # attach a template to a tiddler by the tag name
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/TaggedTemplatePlugin/TaggedTemplatePlugin.recipe
 
@@ -26,5 +22,11 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeS
 # treat DefaultTiddlers as a series of filters, one per line
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/SegmentedFilterPlugin/SegmentedFilterPlugin.recipe
 
-# command to add item to a section
+# command to add an item to a section
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/SectionItemPlugin/SectionItemPlugin.recipe
+
+# reasserts the DefaultTiddlers whenever a tiddler is saved
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/FixedDisplayPlugin/FixedDisplayPlugin.recipe
+
+# saves current story as HTML for a splash-screen
+#tiddler: $TW_ROOT/contributors/MartinBudden/plugins/SplashScreenPlugin.js
