@@ -24,7 +24,7 @@ class PluginsLoader {
 		if (is_dir($dir)) {		// Open a known directory, and proceed to read its contents
 		    if ($dh = opendir($dir)) {
 		       while (($file = readdir($dh)) !== false) {
-					if( is_dir($dir.$file))
+					if( is_dir($dir.$file) && !in_array($file, $tiddlyCfg['plugins_disabled']))
 					{
 					 	$pluginPath = $dir.$file."/index.php";
 						if (is_file($pluginPath) && $file!=='..')

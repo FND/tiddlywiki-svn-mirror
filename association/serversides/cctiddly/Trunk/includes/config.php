@@ -6,12 +6,18 @@ $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "two";		//db name
+$tiddlyCfg['db']['name'] = "one8";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 $tiddlyCfg['db']['allow_override'] = true;
 
 
 $tiddlyCfg['adminPassword'] = "";
+
+// Allows you to disable a plugin in your plugins directory. 
+$tiddlyCfg['plugins_disabled'] = array("createPackages", "lifestream", "OpenID", "Portlet", "seo", "SkinnyTiddlers", "WordpressMigration");
+
+// By default the RSS plugin is enabled. 
+
 
 // User Managment Information 
 
@@ -40,7 +46,7 @@ $tiddlyCfg['pref']['ldap_connection_string'] = "";
 $tiddlyCfg['pref']['language'] = "en"; // this is the default language which can be overridden. 
 
 
-
+ 
 
 
 //Deligated Session Managment 
