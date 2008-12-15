@@ -10,7 +10,9 @@
 |''~CoreVersion:''|2.4|
 |''Overrides''|Story.prototype.saveTiddler() |
 !!Documentation
-A marvelously naive method of implementing a fixed page display, the DefaultTiddlers are reasserted whenever a tiddler is saved.
+A marvelously naive method of implementing a fixed page display, the DefaultTiddlers are reasserted whenever a tiddler is changed.
+Tiddlers may still be added to a story during reading, but that behavior may be controlled by other plugins. 
+Importantly, this destroys the very "unordered" nature of TiddlyWiki.
 !!Code
 ***/
 //{{{
