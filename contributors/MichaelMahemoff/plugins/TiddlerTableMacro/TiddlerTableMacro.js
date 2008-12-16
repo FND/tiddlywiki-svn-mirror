@@ -21,7 +21,6 @@ if(!version.extensions.TiddlerTableMacro) {
       for (var colCount=0; colCount<headings.length; colCount++) {
         var summaryFunc = (getParam(macroParams, "col"+(colCount+1)));
         if (summaryFunc) summaryFuncs[colCount] = summaryFunc;
-        log("show >"+colCount+">", summaryFunc, summaryFuncs, getParam(macroParams, "col2"));
       }
 
       /* Show Headings */
@@ -34,7 +33,6 @@ if(!version.extensions.TiddlerTableMacro) {
         row = createTiddlyElement(table, "tr");
         var tiddler = tiddlers[rowCount];
         for (var colCount=0; colCount<headings.length; colCount++) {
-          log(colCount, "evaling " + summaryFuncs[colCount], summaryFuncs);
           // createTiddlyElement(row, "td", null, null, eval(summaryFuncs[colCount]));
           var cell = createTiddlyElement(row, "td", null, null);
           wikify(eval(summaryFuncs[colCount])+"", cell);
@@ -43,5 +41,5 @@ if(!version.extensions.TiddlerTableMacro) {
     }
   } // end macro
 } // end of 'install only once'
-function log() { if (console) console.log.apply(console, arguments); }
+// function log() { if (console) console.log.apply(console, arguments); }
 /*}}}*/
