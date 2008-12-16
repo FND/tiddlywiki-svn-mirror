@@ -159,64 +159,52 @@ EasyMapController.prototype = {
 		this.targetjs.transform(t);
 		//console.log("transformation set to ",t);
 	},
-	drawButtonLabel: function(ctx,r,type){
-		ctx.beginPath();
-		if(type == 'arrow'){
-			ctx.moveTo(0,-r);
-			ctx.lineTo(0,r);
-			ctx.moveTo(0,r);
-			ctx.lineTo(-r,0);
-			ctx.moveTo(0,r);
-			ctx.lineTo(r,0);
+	createButtonLabel: function(r,type){
+		var properties=  {'shape':'path', stroke: '#000000',lineWidth: '1'};
+		
+		var coords=[];
+		if(type == 'earrow'){
+			coords =[r,0,-r,0,'M',r,0,0,-r,"M",r,0,0,r];
+		}
+		else if(type =='warrow'){
+			coords =[-r,0,r,0,'M',-r,0,0,r,"M",-r,0,0,-r]; 
+		}
+		else if(type == 'sarrow'){
+			coords =[0,-r,0,r,'M',0,r,-r,0,"M",0,r,r,0];	
+		}
+		else if(type == 'narrow'){
+			coords =[0,-r,0,r,'M',0,-r,r,0,"M",0,-r,-r,0];	
 		}
 		else if(type == 'plus'){
-			ctx.moveTo(-r,0);
-			ctx.lineTo(r,0);
-			ctx.moveTo(0,-r);
-			ctx.lineTo(0,r);
+			coords =[-r,0,r,0,"M",0,-r,0,r];
 		}
 		else if(type == 'minus'){
-			ctx.moveTo(-r,0);
-			ctx.lineTo(r,0);
-
+			coords = [-r,0,r,0];
 		}
-		ctx.stroke();
-		ctx.closePath();
 		
+		return new EasyShape(properties,coords);
 	},	
-	drawButton: function(canvas,width,angle,offset,properties) {
-		var ctx = canvas.getContext('2d');
-		var rad = angle ? EasyMapUtils._degToRad(angle) : 0;
-		var w = width || 100;
-		var r = w/2;
-		var l = w/10;
+	createButton: function(canvas,width,direction,offset,properties) {
+		if(!width) width = 100;
+		var r = width/2;
+
 		offset = {
 			x: offset.x || 0,
 			y: offset.y || 0
 		};
-		ctx.save();
-		ctx.lineWidth = l;
-		ctx.fillStyle = "rgba(150,150,150,0.8)";
-		ctx.beginPath();
-		ctx.translate(offset.x+r,offset.y+r);
-		ctx.rotate(rad);
-		ctx.moveTo(-r,r);
-		ctx.lineTo(r,r);
-		ctx.lineTo(r,-r);
-		ctx.lineTo(-r,-r);
-		ctx.closePath();
-		ctx.stroke();
-		ctx.fill();
-		this.drawButtonLabel(ctx,r,properties.buttonType);
-		ctx.restore();
-		
 		var coords = [
 			offset.x, offset.y,
 			offset.x + width, offset.y,
 			offset.x + width, offset.y + width,
 			offset.x, offset.y + width
 		];
+		properties.shape = 'polygon';
+		properties.fill ='rgba(150,150,150,0.7)';
 		var button = new EasyShape(properties,coords);
+		button.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:0,y:0}});
+		var label = this.createButtonLabel(r,properties.buttonType);
+		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r}});
+		
 		return button;
 	},	
 	addControl: function(controlType) {
@@ -246,6 +234,8 @@ EasyMapController.prototype = {
 	
 	_createcontrollercanvas: function(width,height){
 		var newCanvas = document.createElement('canvas');
+		newCanvas.style.width = width;
+		newCanvas.style.height = height;
 		newCanvas.width = width;
 		newCanvas.height = height;
 		newCanvas.style.position = "absolute";
@@ -257,28 +247,27 @@ EasyMapController.prototype = {
 
 		newCanvas.controller = this;
 		if(!newCanvas.getContext) {
-			G_vmlCanvasManager.init_(document);
+			newCanvas.browser = 'ie';
 		}
 		newCanvas.memory = [];
-		//return clickableCanvas(newCanvas);
 		return newCanvas;
 	},
 	addPanningActions: function(controlDiv){
 		var panCanvas = this._createcontrollercanvas(44,44);		
-		panCanvas.memory.push(this.drawButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'arrow'}));
-		panCanvas.memory.push(this.drawButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'arrow'}));
-		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:16,y:16},{'actiontype':'O','name':'re-center','buttonType': ''}));
+		panCanvas.memory.push(this.createButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'narrow'}));
+		panCanvas.memory.push(this.createButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'earrow'}));
+		panCanvas.memory.push(this.createButton(panCanvas,10,90,{x:16,y:16},{'actiontype':'O','name':'re-center','buttonType': ''}));
 		
-		panCanvas.memory.push(this.drawButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
-		panCanvas.memory.push(this.drawButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
+		panCanvas.memory.push(this.createButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'warrow'}));
+		panCanvas.memory.push(this.createButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'sarrow'}));			
 		panCanvas.onmouseup = this._panzoomClickHandler;		
 
 	},
 	addRotatingActions: function(){
 		
 		var rotateCanvas = this._createcontrollercanvas(44,40);		
-		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'arrow'}));
-		rotateCanvas.memory.push(this.drawButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'arrow'}));
+		rotateCanvas.memory.push(this.createButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'arrow'}));
+		rotateCanvas.memory.push(this.createButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'arrow'}));
 		rotateCanvas.onmouseup = this._panzoomClickHandler;
 
 	},	
@@ -289,8 +278,8 @@ EasyMapController.prototype = {
 		var top = 50;
 		zoomCanvas.style.left = left +"px";
 		zoomCanvas.style.top = top + "px";
-		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','name':'zoom in','buttonType': 'plus'}));		
-		zoomCanvas.memory.push(this.drawButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','name':'zoom out','buttonType': 'minus'}));
+		zoomCanvas.memory.push(this.createButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','name':'zoom in','buttonType': 'plus'}));		
+		zoomCanvas.memory.push(this.createButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','name':'zoom out','buttonType': 'minus'}));
 		zoomCanvas.onmouseup = this._panzoomClickHandler;	
 	},	
 	

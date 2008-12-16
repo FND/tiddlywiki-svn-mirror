@@ -1,55 +1,65 @@
 
+
+
 var EasyShape = function(properties,coordinates,geojson){
 	this.grid = {};
 	this.coords = [];
 	if(geojson){
-		this.constructFromGeoJSONObject(properties,coordinates);
+		this._constructFromGeoJSONObject(properties,coordinates);
 	}
 	else{
-		this.constructBasicPolygon(properties,coordinates);
+		this._constructBasicShape(properties,coordinates);
 	}
-	
+
 	this._calculateBounds();
 
+	this._iemultiplier = 100;
 };
 EasyShape.prototype={
 	_calculateBounds: function(coords){
-			if(!coords) coords = this.coords;
-			this.grid.x1 = coords[0];
-			this.grid.y1 = coords[1];
-			this.grid.x2 = coords[0];
-			this.grid.y2 = coords[1];
-			
-			this._deltas = []
-			var d = this._deltas;
-
-			var lastX, lastY;
-			var index = 0;
+		if(this.properties.shape == 'path'){
+			this.grid = {x1:0,x2:1,y1:0,y2:1};
+			return;
+		}
+		if(!coords) coords = this.coords;
+		this.grid.x1 = coords[0];
+		this.grid.y1 = coords[1];
+		this.grid.x2 = coords[0];
+		this.grid.y2 = coords[1];
 		
-			lastX = coords[0];
-			lastY = coords[1];
-			for(var i=0; i < coords.length-1; i+=2){
-				var xPos = parseFloat(coords[i]); //long
-				var yPos = parseFloat(coords[i+1]); //lat
-				var deltax =xPos - lastX;
-				var deltay= yPos - lastY;
-				if(deltax < 0) deltax = - deltax;
-				if(deltay < 0) deltay = -deltay;
-				d.push(deltax);
-				d.push(deltay);
-				if(xPos < this.grid.x1) this.grid.x1 = xPos;
-				if(yPos < this.grid.y1) this.grid.y1 = yPos;	
-				if(xPos > this.grid.x2) this.grid.x2 = xPos;
-				if(yPos > this.grid.y2) this.grid.y2 = yPos;
-				
-				lastX = xPos;
-				lastY = yPos;
-			}
+		this._deltas = []
+		var d = this._deltas;
+
+		var lastX, lastY;
+		var index = 0;
+	
+		lastX = coords[0];
+		lastY = coords[1];
+		for(var i=0; i < coords.length-1; i+=2){
+			var xPos = parseFloat(coords[i]); //long
+			var yPos = parseFloat(coords[i+1]); //lat
+			var deltax =xPos - lastX;
+			var deltay= yPos - lastY;
+			if(deltax < 0) deltax = - deltax;
+			if(deltay < 0) deltay = -deltay;
+			d.push(deltax);
+			d.push(deltay);
+			if(xPos < this.grid.x1) this.grid.x1 = xPos;
+			if(yPos < this.grid.y1) this.grid.y1 = yPos;	
+			if(xPos > this.grid.x2) this.grid.x2 = xPos;
+			if(yPos > this.grid.y2) this.grid.y2 = yPos;
+			
+			lastX = xPos;
+			lastY = yPos;
+		}
 	},
 	
-	constructFromGeoJSONObject: function(properties,coordinates){
+	_constructFromGeoJSONObject: function(properties,coordinates){
 		if(properties.shape == 'polygon'){
-			this.constructFromGeoJSONPolygon(properties,coordinates);	
+			this._constructFromGeoJSONPolygon(properties,coordinates);	
+		}
+		else if(properties.shape == 'line'){
+			console.log("coming soon..");
 		}
 		else if(properties.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
@@ -57,30 +67,23 @@ EasyShape.prototype={
 			var ps = 0.5;
 			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 			newcoords = this._convertGeoJSONCoords(newcoords);
-			this.constructBasicPolygon(properties,newcoords);
+			this._constructBasicShape(properties,newcoords);
 		}
 		else
 			console.log("don't know what to do with shape " + element.shape);
 	},
-	constructBasicPolygon: function(properties, coordinates){
+	_constructBasicShape: function(properties, coordinates){
 		this.coords = coordinates;
-		this.shape = "polygon";
-		//this.transformedCoords = this.coords;
-		//this.href = "#";
-		if(!properties.stroke)properties.stroke = '#000000';
-		
-
-		
+		if(!properties.stroke)properties.stroke = '#000000';		
 		if(properties.colour){
 			properties.fill =  properties.colour;
-		}
-		
+		}		
 		this.properties = properties;
 		this.grid = {}; //an enclosing grid
 	},	
-	constructFromGeoJSONPolygon: function(properties,coordinates){		
+	_constructFromGeoJSONPolygon: function(properties,coordinates){		
 		var newcoords = this._convertGeoJSONCoords(coordinates[0]);
-		this.constructBasicPolygon(properties,newcoords);
+		this._constructBasicShape(properties,newcoords);
 				//we ignore any holes in the polygon (for time being.. coords[1][0..n], coords[2][0..n])
 	},	
 	_convertGeoJSONCoords: function(coords){
@@ -141,7 +144,10 @@ EasyShape.prototype={
 	}
 	
 
-	,_cssTransform: function(transformation){
+	,_cssTransform: function(transformation,projection){
+		if(this.properties.shape =='point' || projection) {
+			this.vml.path =this._createvmlpathstring(transformation,projection);
+		}
 		var o = transformation.origin;
 		var t = transformation.translate;
 		var s = transformation.scale;
@@ -184,14 +190,122 @@ EasyShape.prototype={
 		style.width = newwidth;
 		style.height = newheight;
 	}
-	,ierender: function(canvas,transformation,projection,optimisations){
+	 
+	,_canvasrender: function(canvas,transformation,projection,optimisations){
+		var c;	
+		var shapetype = this.properties.shape;	
+		if(projection)
+			c = this._applyProjection(projection,transformation);
+		else
+			c = this.coords;
+			
+		if(c.length == 0) return;
 		
-		if(this.vml){
-			this._cssTransform(transformation);
-			return;
+		var initialX = parseFloat(c[0]);
+		var initialY = parseFloat(c[1]);
+
+		var threshold = 2;
+
+		var ctx = canvas.getContext('2d');
+
+		if(this.properties.lineWidth) ctx.lineWidth = this.properties.lineWidth;
+		
+		var o = transformation.origin;
+		var tr = transformation.translate;
+		var s = transformation.scale;
+		var r = transformation.rotate;
+		ctx.save();
+
+		ctx.translate(o.x,o.y);
+		ctx.scale(s.x,s.y);
+		ctx.translate(tr.x,tr.y);
+		//if(r && r.x)ctx.rotate(r.x,o.x,o.y);
+
+		ctx.beginPath();
+		ctx.moveTo(initialX,initialY);
+
+		var move;
+		for(var i=2; i < c.length-1; i+=2){
+			if(c[i]== "M") {
+				i+= 1; 
+				move=true;
+			}
+			var x = parseFloat(c[i]);
+			var y = parseFloat(c[i+1]);
+			if(move){
+				ctx.moveTo(x,y);
+				move = false;
+			}
+			else{
+				ctx.lineTo(x,y);
+			}
 		}
-		var shapetype = this.properties.shape;
-		if(shapetype == 'point'){
+		//connect last to first
+		if(shapetype != 'path') ctx.lineTo(initialX,initialY);
+		ctx.closePath();
+
+		if(!this.properties.hidden) {
+			ctx.strokeStyle = this.properties.stroke;
+			if(typeof this.properties.fill == 'string') 
+				fill = this.properties.fill;
+			else
+				fill = "#ffffff";
+
+			
+			ctx.stroke();
+			if(shapetype != 'path') {
+				ctx.fillStyle = fill;
+				ctx.fill();
+			}
+		}
+		ctx.restore();
+	}
+	,_createvmlpathstring: function(transformation,projection){
+		var o = transformation.origin;
+		var t = transformation.translate;
+		var s = transformation.scale;
+		var path = "M ";
+
+		if(projection)
+			c = this._applyProjection(projection,transformation);
+		else
+			c = this.coords;
+			
+		if(c.length < 2) return;
+		
+
+		
+		var x =o.x  + c[0];
+		var y =o.y+c[1];		
+		x *=this._iemultiplier;
+		y *= this._iemultiplier;
+		x = parseInt(x);
+		y = parseInt(y);
+
+		path+= x + "," +y + " L";
+		for(var i =2; i < c.length; i+=2){
+			if(c[i] == 'M') {
+			path += " M";
+			i+=1;
+			}
+			else path += " L";
+			
+			var x =o.x+c[i];
+			var y =o.y+c[i+1];
+			x *= this._iemultiplier;
+			y *= this._iemultiplier;
+			x = parseInt(x);
+			y = parseInt(y);
+			path += x +"," + y;
+			//if(i < c.length - 2) path += "";
+		}
+		path += " XE";	
+		return path;	
+	}
+	
+	,_ierender: function(canvas,transformation,projection,optimisations){
+		if(this.vml){
+			this._cssTransform(transformation,projection);
 			return;
 		}
 		
@@ -199,39 +313,12 @@ EasyShape.prototype={
 		var t = transformation.translate;
 		var s = transformation.scale;
 		var shape = document.createElement("g_vml_:shape");
-		var path = "M ";
-		
-		var multiplier = 5;
-		if(this.coords.length < 2) return;
-		var x =o.x+ t.x + this.coords[0];
-		var y =o.y+t.y+this.coords[1];		
-		x *= multiplier;
-		y *= multiplier;
-		x = parseInt(x);
-		y = parseInt(y);
-		
-		
-		var xspace = parseInt(canvas.width);
-		xspace *=multiplier;
-		var yspace =parseInt(canvas.height);
-		yspace *= multiplier;
-		
-		coordsize = xspace +"," + yspace;	
-		
-		path+= x + "," +y + " L";
-		for(var i =2; i < this.coords.length; i+=2){
-			var x =o.x+t.x+this.coords[i];
-			var y =o.y+t.y+this.coords[i+1];
-			x *= multiplier;
-			y *= multiplier;
-			x = parseInt(x);
-			y = parseInt(y);
-			path += x +"," + y;
-			if(i < this.coords.length - 2) path += ", ";
-		}
-		path += " XE";
+	
 		//path ="M 0,0 L50,0, 50,50, 0,50 X";
-		shape.setAttribute("class", "easyShape");
+		var nclass= "easyShape";
+		var shapetype =this.properties.shape;
+		if(shapetype == 'path') nclass= "easyShapePath";
+		shape.setAttribute("class", nclass);
 		shape.style.height = canvas.height;
 		shape.style.width = canvas.width;
 		shape.style.position = "absolute";
@@ -239,21 +326,25 @@ EasyShape.prototype={
 		shape.stroked = "t";
 		shape.strokecolor = "#000000";
 		
-		if(this.properties.fill){
+		if(this.properties.fill && shapetype != 'path'){
 			shape.filled = "t";
 			shape.fillcolor = this.properties.fill;			
 		}
-		shape.path = path;
+		shape.path = this._createvmlpathstring(transformation,projection);
 		shape.strokeweight = ".75pt";
+		
+		var xspace = parseInt(canvas.width);
+		xspace *=this._iemultiplier;
+		var yspace =parseInt(canvas.height);
+		yspace *= this._iemultiplier;
+		coordsize = xspace +"," + yspace;
+		
 		shape.coordsize = coordsize;
-		//console.log(shape.coordsize);
 		shape.easyShape = this;
 		canvas.appendChild(shape);
 		this.vml = shape;
 		
 		this._cssTransform(transformation);
-		//console.log("appended");
-		//coming soon!
 	}
 	/*
 	render the shape using canvas ctx 
@@ -276,11 +367,13 @@ EasyShape.prototype={
 		return frame;
 	}
 	
-	,_renderPoint: function(){
+	,_calculatePointCoordinates: function(transformation){
 		var x =this.pointcoords[0];
 		var y =this.pointcoords[1];
 		this.coords = [x,y];		
-		var ps = 5 / s.x;
+		var ps = 5 / transformation.scale.x;
+		var smallest = 1 / this._iemultipler;
+		if(ps < smallest) ps = smallest;
 		var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 		var c = this._convertGeoJSONCoords(newcoords);
 		this.coords = c;
@@ -312,179 +405,56 @@ EasyShape.prototype={
 			return true;
 	}
 	,render: function(canvas,transformation,projection,optimisations){
-		if(canvas.browser == 'ie') {
-			this.ierender(canvas,transformation,projection,optimisations); 
-			return;
-		}
-		var ctx = canvas.getContext('2d');
-		var o = transformation.origin;
-		var tr = transformation.translate;
-		var s = transformation.scale;
-
-		
 		var frame = this._calculateVisibleArea(canvas,transformation);
 		var shapetype = this.properties.shape;
 		if(shapetype == 'point'){
-			this._renderPoint();
+			this._calculatePointCoordinates(transformation);
 		} 
-		else if(shapetype!='polygon'){
+		else if(shapetype == 'path' || shapetype =='polygon'){
+			
+		}
+		else{
 			console.log("no idea how to draw" +this.properties.shape);
 			return;
 		}		
 		
 		if(optimisations){
 			if(shapetype != 'point' && frame){ //check if worth drawing				
-				if(!this._shapeIsTooSmall(transformation)) return;
-				if(!this._shapeIsInVisibleArea(frame))return;		
+				if(!this._shapeIsTooSmall(transformation)) {
+					if(this.vml) this.vml.style.display = "none";
+					return;	
+				}
+				if(!this._shapeIsInVisibleArea(frame)){
+					if(this.vml) this.vml.style.display = "none";
+					return;	
+				}	
 			}
 		}	
 
-		var c;
+		if(this.vml) this.vml.style.display = '';
 		
-		if(projection)
-			c = this._applyProjection(projection,transformation);
-		else
-			c = this.coords;
-			
-		if(c.length == 0) return;
-				
-		var deltas = this._deltas;
-		var initialX = parseFloat(c[0]);
-		var initialY = parseFloat(c[1]);
-
-		var pathLength = {x: 0, y:0};
-		var threshold = 2;
-		
-		ctx.save();
-		ctx.translate(o.x,o.y);
-		ctx.scale(s.x,s.y);
-		ctx.translate(tr.x,tr.y);
-		
-		ctx.beginPath();
-		ctx.moveTo(initialX,initialY);
-
-		for(var i=2; i < c.length-1; i+=2){
-			var x = parseFloat(c[i]);
-			var y = parseFloat(c[i+1]);
-		
-			pathLength.x += deltas[i];
-			pathLength.y += deltas[i+1];
-
-			var deltax = parseFloat(pathLength.x) * s.x;
-			var deltay = parseFloat(pathLength.y)* s.y;
-			if(optimisations ||( shapetype == 'point' ||(deltax > threshold || deltay > threshold))){
-				ctx.lineTo(x,y);
-				pathLength.x = 0;
-				pathLength.y = 0;
+		if(canvas.browser == 'ie') {
+			//this has been taken from Google ExplorerCanvas
+			if (!document.namespaces['g_vml_']) {
+			        document.namespaces.add('g_vml_', 'urn:schemas-microsoft-com:vml');
 			}
 
-		}
-		//connect last to first
-		ctx.lineTo(initialX,initialY);
-		ctx.closePath();
-
-		
-		if(!this.properties.hidden) {
-			ctx.strokeStyle = this.properties.stroke;
-			if(typeof this.properties.fill == 'string') 
-				fill = this.properties.fill;
-			else
-				fill = "#ffffff";
-				
-			ctx.fillStyle = fill;
-			ctx.stroke();
-			ctx.fill();
-		}
-		ctx.restore();
-		
-		
-	}/*
-	,spherify: function(transformation){
-		var newcoords = [];
-		var xPos, yPos;
-		for(var i=0; i < this.coords.length-1; i+=2){
-			coordOK= true;
-			var lon = parseFloat(this.coords[i]);
-			var lat = parseFloat(this.coords[i+1]);
-			var t = EasyMapUtils._spherifycoordinate(lon,lat,transformation);
-			if(t.x && t.y){
-				newcoords.push(t.x);
-				newcoords.push(t.y);
+			  // Setup default CSS.  Only add one style sheet per document
+			 if (!document.styleSheets['ex_canvas_']) {
+			        var ss = document.createStyleSheet();
+			        ss.owningElement.id = 'ex_canvas_';
+			        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
+			            // default size is 300x150 in Gecko and Opera
+			            'text-align:left;width:300px;height:150px}' +
+			            'g_vml_\\:*{behavior:url(#default#VML)}';
 			}
-		}
-		this._tcoords = newcoords;
-		this.createGrid(newcoords);
-		return newcoords;
-	}*/
-	/*,transformcoordinates: function(transformation,spherical,radius){		
-		var performScale = true;
-		var performTranslate = true; 
-		var performRotate = false;
-		if(!transformation){
-			performScale = false;
-			performTranslate = false;
-			performRotate = false;
+			//G_vmlCanvasManager.init_(document);
+			this._ierender(canvas,transformation,projection,optimisations); 
+	
 		}
 		else{
-			var scaling = transformation.scale;
-			var translation = transformation.translate;
-			if(scaling.x == 1 && scaling.y == 1) {
-				performScale = false;
-			}
-			if(translation.x == 0 && translation.y == 0) {
-				performTranslate = false;
-			}
-			if(transformation.rotate) {
-				performRotate = true;
-				var rotate = transformation.rotate;
-			}
+			this._canvasrender(canvas,transformation,projection,optimisations);
 		}
-		var transformedCoords = [];
 		
-		var lastX, lastY;
-		var index = 0;
-		var coordOK;
-		for(var i=0; i < this.coords.length-1; i+=2){
-			coordOK= true;
-			var lon = parseFloat(this.coords[i]);
-			var lat = parseFloat(this.coords[i+1]);
-			var xPos, yPos;
-
-			if(spherical){
-				var t = EasyMapUtils._spherifycoordinate(lon,lat,rotate,radius);
-				xPos = t.x;
-				yPos = t.y;
-			} else {
-				xPos = lon;
-				yPos = lat;
-			}
-
-			
-			if(performTranslate){
-				xPos = xPos + parseFloat(translation.x);
-				yPos = yPos + parseFloat(translation.y);
-			}
-						
-			if(performScale){
-				xPos *= scaling.x;
-				yPos *= scaling.y;
-			}
-
-			//last but not least center if required
-			if(transformation.origin){
-				
-			xPos += transformation.origin.x;
-			yPos +=transformation.origin.y;
-			}
-			
-			
-			if(coordOK){ //draw
-				transformedCoords.push(xPos);
-				transformedCoords.push(yPos);
-				index+=2;
-				lastX = xPos; lastY = yPos;
-			}
-		}
-		return transformedCoords;
-	}*/
+	}
 };

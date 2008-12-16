@@ -135,6 +135,7 @@ if(!version.extensions.geoPlugin) {
 					height += "px";
 				wrapper.style.height = height;		
 			}
+
 			var statustext = createTiddlyElement(wrapper,"div",id+"_statustext");
 			createTiddlyText(statustext,"loading... please wait a little while!");
 			var caption = createTiddlyElement(place,"div","caption","caption");

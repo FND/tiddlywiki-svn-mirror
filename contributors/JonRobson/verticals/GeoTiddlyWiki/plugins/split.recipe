@@ -1,3 +1,3 @@
 tiddler: flickrPlugin.js DopplrPlugin.js
 //tiddler: countries.js
-tiddler: geoTiddlerPlugin.js GeoTiddlerMetaData.js ../EasyThingsLib/EasyShapes.js ../EasyThingsLib/EasyMaps.js ../EasyThingsLib/EasyController.js ../EasyThingsLib/EasyMapUtils.js ../EasyThingsLib/EasyMapSVGUtils.js ../EasyThingsLib/ieHack.js ../../../plugins/WorldMaps/jquery.js
+tiddler: geoTiddlerPlugin.js GeoTiddlerMetaData.js ../EasyThingsLib/EasyShapes.js ../EasyThingsLib/EasyMaps.js ../EasyThingsLib/EasyController.js ../EasyThingsLib/EasyMapUtils.js ../EasyThingsLib/EasyMapSVGUtils.js ../../../plugins/WorldMaps/jquery.js

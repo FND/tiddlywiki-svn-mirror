@@ -15,7 +15,6 @@ var GeoTag = function(longitude,latitude,properties){
 
 
 var EasyMap = function(wrapper){
-
 	var wrapper;
 	if(typeof wrapper == 'string')
 		wrapper = document.getElementById(wrapper);
@@ -31,26 +30,30 @@ var EasyMap = function(wrapper){
 	//this.settings.projection = {x:function(x){return x;}, y: function(y){return y;}};
 	this.settings.optimisations = false;
 	
-	var canvas = document.createElement('canvas');
-	canvas.width = parseInt(wrapper.style.width) || 600;
-	canvas.height = parseInt(wrapper.style.height) || 400;
+	if(!wrapper.style.width) wrapper.style.width = "600px";
+	if(!wrapper.style.height) wrapper.style.height= "200px";
 	
-	if(!wrapper.style.width) wrapper.style.width = canvas.width + "px";
-	if(!wrapper.style.height) wrapper.style.height = canvas.height + "px";
+	var canvas = document.createElement('canvas');
+	canvas.width = parseInt(wrapper.style.width);
+	canvas.height = parseInt(wrapper.style.height);
+	canvas.style.width = wrapper.style.width;
+	canvas.style.height = wrapper.style.height;	
+	
 	canvas.style["z-index"] = 1;
 	canvas.style.position = "absolute";
 	this.canvas = canvas;
 
 
 	if(!canvas.getContext) {
-		G_vmlCanvasManager.init_(document);
 		this.canvas.browser = 'ie';
 	}
 	else
 		this.canvas.browser = 'good';
+		
 	this.spherical = false; //experimental!! fiddle with at your own risk! :)
 
 	this.canvas.memory = [];
+
 	wrapper.appendChild(canvas);
 	var _defaultMousemoveHandler = function(e){
 		if(!e) {
@@ -112,19 +115,21 @@ var EasyMap = function(wrapper){
 };  
 EasyMap.prototype = {	
 	clear: function(){
-		if(!this.canvas.getContext) {return;}
-		var ctx = this.canvas.getContext('2d');
+
 
 		this._maxX = 0;
 		this._maxY = 0;
 		if(!this.canvas.transformation.spherical && this.settings.background){
-			ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
-			ctx.fillStyle = this.settings.background;
-			ctx.fill();
+			this.wrapper.style.background = this.settings.background;
 		}
 		else{
-			ctx.clearRect(0,0,this.canvas.width,this.canvas.height);		
+			this.wrapper.style.background = "";
 		}
+		
+		if(!this.canvas.getContext) {return;}
+		var ctx = this.canvas.getContext('2d');
+		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);		
+		
 		
 	},
 	
@@ -238,68 +243,6 @@ EasyMap.prototype = {
 		this.redraw();
 	},
 	
-	/*csstransform: function(transformation){
-		this.canvas.transformation = transformation;
-		
-
-
-		if(!transformation.origin){
-	
-			var w =parseInt(this.canvas.width);  		
-			var h = parseInt(this.canvas.height);
-			this.canvas.transformation.origin = {};
-			var origin = this.canvas.transformation.origin;
-			origin.x =w / 2;
-			origin.y =h / 2;
-		}
-		var tran = this.canvas.transformation;
-		var s = tran.scale;
-		var o = tran.origin;
-		var t = tran.translate;
-		var shapes = this.canvas.childNodes[0].childNodes;
-		for(var i=0; i < shapes.length; i++){
-			var shape =shapes[i];
-			if(!shape.initialStyle) {
-				var initTop = parseInt(shape.style.top);
-				if(!initTop) initTop = 0;
-				initTop += o.y;
-				var initLeft = parseInt(shape.style.left);
-				if(!initLeft) initLeft = 0;
-				initLeft += o.x;
-				
-				shape.initialStyle = {top: initTop, left: initLeft, width: parseInt(shape.style.width), height: parseInt(shape.style.height)};
-			}
-			
-			var initialStyle= shape.initialStyle;
-			
-			var style = shape.style;			
-			var newtop,newleft;
-			newtop = initialStyle.top;
-			newleft = initialStyle.left;
-
-			//scale
-			var newwidth = initialStyle.width * s.x;
-			var newheight = initialStyle.height * s.y; 	
-			
-			//translate into right place
-			
-			var temp;
-			temp = (t.x - o.x) * s.x;
-			newleft += temp;
-			
-			temp = (t.y - o.y) * s.x;
-			newtop += temp;						
-
-
-			style.left = newleft;
-			style.top = newtop;
-						
-			style.width = newwidth;
-			style.height = newheight;
-
-			
-		}
-	},*/
 	_addShapeToMemory: function(easyShape){ //add shape to memory
 		var memory = this.canvas.memory;
 		easyShape.id = memory.length;

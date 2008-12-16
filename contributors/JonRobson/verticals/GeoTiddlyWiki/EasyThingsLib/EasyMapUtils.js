@@ -117,6 +117,7 @@ var EasyMapUtils = {
 		json.transform.translate.y = view.center.y;//view.center.y;	
 		return json;
 	},
+	/*does not yet support undoing rotating */
 	undotransformation: function(x,y,transformation){
 		
 		var pos = {};
@@ -137,14 +138,7 @@ var EasyMapUtils = {
 		pos.y /= s.y;
 				
 		pos.x -= tr.x;
-		pos.y -= tr.y;
-		/*
-		if(t.spherical) {
-			pos = this._undospherify(pos.x,pos.y,t);
-		}*/
-
-			
-			
+		pos.y -= tr.y;			
 		return pos;
 	},	
 	_testCanvas: function(ctx){
@@ -219,6 +213,7 @@ var EasyMapUtils = {
 		//if(target.style.left) x -= parseInt(target.style.left);
 		//if(target.style.top) y -= parseInt(target.style.top);
 
+		
 		var memory = target.memory;
 		var transformation = target.transformation;
 		//console.log('memory length: '+memory.length);
