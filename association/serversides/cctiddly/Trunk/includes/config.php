@@ -6,7 +6,7 @@ $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "one8";		//db name
+$tiddlyCfg['db']['name'] = "onenine";		//db name
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 $tiddlyCfg['db']['allow_override'] = true;
 
@@ -245,6 +245,8 @@ include_once($cct_base."includes/db.".$tiddlyCfg['db']['type'].".php");
 db_connect_new();
 $workspace_settings = db_workspace_selectSettings();
 // return 404 or create workspace
+
+
 checkWorkspace($workspace_settings, $_POST, $cct_base);
 $tiddlyCfg = array_merge($tiddlyCfg, $workspace_settings);
 handleDebug($_SERVER);

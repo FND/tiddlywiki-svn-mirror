@@ -3,6 +3,7 @@
 include_once($cct_base."includes/header.php");
 //force anonymous due to security concerns
 $user['verified']=0;
+$tiddlyCfg['workspace_name'] = 'test';
 
 $data = db_tiddlers_mainSelectSiteConfig();
 $tmp=array();

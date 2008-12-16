@@ -6,6 +6,7 @@ include_once($cct_base."includes/tiddler.php");
 
 function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 {
+	
 	global $tiddlyCfg;
 	if(!user_session_validate())
 	{
@@ -64,8 +65,7 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 	$owner['username']="admin";
 	db_record_insert($tiddlyCfg['table']['admin'],$owner);
 sendHeader(201);
-exit;
-	header('HTTP/1.0 201 Created');
+
   	return true;
 }
 ?>
