@@ -151,10 +151,7 @@ EasyMap.prototype = {
 			// NB: removing this statustext node so it doesn't mess up offsets in IE
 			// this problem needs to be fixed so that we're either not adding div's in
 			// places where they shouldn't be, or so they don't affect things
-			var t = document.getElementById(this.wrapper.id + "_statustext");
-			if(t) {
-				t.parentNode.removeChild(t);	
-			}
+
 			var type =geojson.type.toLowerCase();
 
 			if(geojson.transform && this._fittocanvas){
@@ -201,9 +198,14 @@ EasyMap.prototype = {
 		EasyMapUtils.loadRemoteFile(file,callback);		
 			
 	},	
+
 	redraw: function(){
-		this.clear();
-		this.render();
+		var that = this;
+		var f = function(){
+			that.clear();
+			that.render();
+		};
+		window.setTimeout(f,0);
 	},
 		
 	transform: function(transformation){
@@ -330,9 +332,18 @@ EasyMap.prototype = {
 			this._createGlobe();
 		}
 
-		for(var i=0; i < mem.length; i++){	
-			mem[i].render(this.canvas,tran,this.settings.projection,this.settings.optimisations);
-		}
+
+		var that = this;
+		var f = function(){
+			for(var i=0; i < mem.length; i++){	
+				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations);
+			}
+			var t = document.getElementById(that.wrapper.id + "_statustext");
+			if(t) {
+				t.parentNode.removeChild(t);	
+			}
+		};
+		window.setTimeout(f,0);
 	},
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,properties){
 		var prop = properties;
@@ -755,6 +766,8 @@ EasyShape.prototype={
 		var y =this.pointcoords[1];
 		this.coords = [x,y];		
 		var ps = 5 / transformation.scale.x;
+		var smallest = 1 / this._iemultipler;
+		if(ps < smallest) ps = smallest;
 		var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 		var c = this._convertGeoJSONCoords(newcoords);
 		this.coords = c;
@@ -830,7 +843,9 @@ EasyShape.prototype={
 			            'g_vml_\\:*{behavior:url(#default#VML)}';
 			}
 			//G_vmlCanvasManager.init_(document);
+			
 			this._ierender(canvas,transformation,projection,optimisations); 
+
 	
 		}
 		else{
@@ -938,12 +953,13 @@ EasyMapController.prototype = {
 		var mm = that.wrapper.onmousemove;
 		var onmousemove = function(e){
 			
-			var p =this.panning;
+			var p =this.easyController.panning_status;
 			if(!p) return;
 			if(!p) return;
 			var t = EasyMapUtils.resolveTarget(e);
+	
 			if(t.getAttribute("class") == "easyControl") return;
-			var pos = that.utils.getMouseFromEventRelativeTo(e,p.clickpos.x,p.clickpos.y);		
+			var pos = that.utils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
 			if(!pos)return;
 			
 			var t = that.transformation;
@@ -973,7 +989,11 @@ EasyMapController.prototype = {
 			var realpos = that.utils.getMouseFromEvent(e);
 			if(!realpos) return;
 
-			this.panning= {clickpos: realpos, translate:{x: t.x,y:t.y},isClick:true};
+			this.easyController = that;
+			
+			var element = EasyMapUtils.resolveTargetWithMemory(e);
+			that.panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
+			
 			that.wrapper.onmousemove = onmousemove;
 			that.wrapper.style.cursor= "move";
 			this.style.cursor = "move";
@@ -981,12 +1001,10 @@ EasyMapController.prototype = {
 		};
 		
 		this.wrapper.onmouseup = function(e){
-			
 			that.wrapper.style.cursor= '';
 			that.wrapper.onmousemove = mm;
-			if(this.panning && this.panning.isClick && mu){ mu(e);}
-			this.panning = null;
-
+			if(this.easyController.panning_status && this.easyController.panning_status.isClick && mu){ mu(e);}
+			this.easyController.panning_status = null;
 			
 			return false;
 		};
@@ -1004,8 +1022,17 @@ EasyMapController.prototype = {
 		var properties=  {'shape':'path', stroke: '#000000',lineWidth: '1'};
 		
 		var coords=[];
-		if(type == 'arrow'){
-			coords =[0,-r,0,r,'M',0,r,-r,0,"M",0,r,r,0]; //down arrow
+		if(type == 'earrow'){
+			coords =[r,0,-r,0,'M',r,0,0,-r,"M",r,0,0,r];
+		}
+		else if(type =='warrow'){
+			coords =[-r,0,r,0,'M',-r,0,0,r,"M",-r,0,0,-r]; 
+		}
+		else if(type == 'sarrow'){
+			coords =[0,-r,0,r,'M',0,r,-r,0,"M",0,r,r,0];	
+		}
+		else if(type == 'narrow'){
+			coords =[0,-r,0,r,'M',0,-r,r,0,"M",0,-r,-r,0];	
 		}
 		else if(type == 'plus'){
 			coords =[-r,0,r,0,"M",0,-r,0,r];
@@ -1016,8 +1043,7 @@ EasyMapController.prototype = {
 		
 		return new EasyShape(properties,coords);
 	},	
-	createButton: function(canvas,width,angle,offset,properties) {
-		var rad = angle ? EasyMapUtils._degToRad(angle) : 0;
+	createButton: function(canvas,width,direction,offset,properties) {
 		if(!width) width = 100;
 		var r = width/2;
 
@@ -1025,8 +1051,6 @@ EasyMapController.prototype = {
 			x: offset.x || 0,
 			y: offset.y || 0
 		};
-		//this.drawButtonLabel(ctx,r,properties.buttonType);
-		
 		var coords = [
 			offset.x, offset.y,
 			offset.x + width, offset.y,
@@ -1038,7 +1062,7 @@ EasyMapController.prototype = {
 		var button = new EasyShape(properties,coords);
 		button.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:0,y:0}});
 		var label = this.createButtonLabel(r,properties.buttonType);
-		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r},rotate:{x:rad}});
+		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r}});
 		
 		return button;
 	},	
@@ -1089,20 +1113,20 @@ EasyMapController.prototype = {
 	},
 	addPanningActions: function(controlDiv){
 		var panCanvas = this._createcontrollercanvas(44,44);		
-		panCanvas.memory.push(this.createButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'arrow'}));
-		panCanvas.memory.push(this.createButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'arrow'}));
+		panCanvas.memory.push(this.createButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'narrow'}));
+		panCanvas.memory.push(this.createButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'earrow'}));
 		panCanvas.memory.push(this.createButton(panCanvas,10,90,{x:16,y:16},{'actiontype':'O','name':'re-center','buttonType': ''}));
 		
-		panCanvas.memory.push(this.createButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'arrow'}));
-		panCanvas.memory.push(this.createButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'arrow'}));			
+		panCanvas.memory.push(this.createButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'warrow'}));
+		panCanvas.memory.push(this.createButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'sarrow'}));			
 		panCanvas.onmouseup = this._panzoomClickHandler;		
 
 	},
 	addRotatingActions: function(){
 		
 		var rotateCanvas = this._createcontrollercanvas(44,40);		
-		rotateCanvas.memory.push(this.createButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'arrow'}));
-		rotateCanvas.memory.push(this.createButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'arrow'}));
+		rotateCanvas.memory.push(this.createButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'earrow'}));
+		rotateCanvas.memory.push(this.createButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'warrow'}));
 		rotateCanvas.onmouseup = this._panzoomClickHandler;
 
 	},	
@@ -1372,6 +1396,26 @@ var EasyMapUtils = {
 
 	},	
 	
+	
+	getMouseFromEventRelativeToElement: function (e,x,y,target){
+		if(!e) e = window.event
+
+		var offset = $(target).offset();
+		if(!offset.left) return false;
+		
+
+		oldx = e.clientX + window.findScrollX() - offset.left;
+		oldy = e.clientY + window.findScrollY() - offset.top;
+		var pos = {'x':oldx, 'y':oldy};
+
+		if(!pos) return false;
+		pos.x -= x;
+		pos.y -= y;
+		
+
+		return pos;
+		
+	},
 	getMouseFromEventRelativeTo: function (e,x,y){
 		
 		var pos = this.getMouseFromEvent(e);

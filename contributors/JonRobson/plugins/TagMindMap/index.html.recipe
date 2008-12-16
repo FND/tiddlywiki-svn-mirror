@@ -9,7 +9,7 @@ tiddler: /tiddlers/PageTemplate.tiddler
 tiddler: /tiddlers/ToolbarCommands.tiddler
 tiddler: /tiddlers/Stylesheet.tiddler
 tiddler: /js/TagMindMapCommands.js
-tiddler: /js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js ../../WorldMaps/js/EasyShapes.js ../../WorldMaps/js/EasyController.js ../../WorldMaps/js/EasyMapUtils.js ../../WorldMaps/jquery.js tagMindMapIEHack.js 
+tiddler: /js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyShapes.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyController.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMapUtils.js tagMindMapIEHack.js ../../WorldMaps/jquery.js 
 
 tiddler: /tiddlers/TiddlyTagMindMap.tiddler
 

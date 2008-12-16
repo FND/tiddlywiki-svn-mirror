@@ -204,8 +204,9 @@ if(!version.extensions.geoPlugin) {
 			else if(geodata == 'svgfile'){
 				eMap.drawFromSVGFile(source);
 			}
-			else
+			else {
 				eMap.drawFromGeojson(geodata);
+			}
 
 			
 	

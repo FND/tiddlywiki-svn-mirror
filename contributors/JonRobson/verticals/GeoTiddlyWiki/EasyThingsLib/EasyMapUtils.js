@@ -154,6 +154,25 @@ var EasyMapUtils = {
 
 	},	
 	
+	
+	getMouseFromEventRelativeToElement: function (e,x,y,target){
+		if(!e) e = window.event;
+
+		var offset = $(target).offset();
+		if(!offset.left) return false;
+		
+		oldx = e.clientX + window.findScrollX() - offset.left;
+		oldy = e.clientY + window.findScrollY() - offset.top;
+		var pos = {'x':oldx, 'y':oldy};
+
+		if(!pos) return false;
+		pos.x -= x;
+		pos.y -= y;
+		
+
+		return pos;
+		
+	},
 	getMouseFromEventRelativeTo: function (e,x,y){
 		
 		var pos = this.getMouseFromEvent(e);

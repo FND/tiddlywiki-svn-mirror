@@ -43,7 +43,7 @@ Tagmindmap.prototype = {
 		}
 	
 		if(this.rgraph){
-			console.log(t.scale.x,t.translate.x, t.translate.x * t.scale.x);
+			//console.log(t.scale.x,t.translate.x, t.translate.x * t.scale.x);
 			this.rgraph.offsetCenter(t.translate.x*t.scale.x,t.translate.y*t.scale.x);
 			if(compute) this.rgraph.compute();
 			this.rgraph.plot();
@@ -310,7 +310,7 @@ Tagmindmap.prototype = {
 		//console.log("start",node,"end");
 		var parents = node.data.parents;
 		var children = node.data.children;
-		console.log(id,parents,children);
+		//console.log(id,parents,children);
 		if(children){
 			//sort out children
 			for(var i=0; i < children.length; i++){

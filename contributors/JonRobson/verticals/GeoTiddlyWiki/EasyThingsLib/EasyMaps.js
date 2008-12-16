@@ -151,10 +151,7 @@ EasyMap.prototype = {
 			// NB: removing this statustext node so it doesn't mess up offsets in IE
 			// this problem needs to be fixed so that we're either not adding div's in
 			// places where they shouldn't be, or so they don't affect things
-			var t = document.getElementById(this.wrapper.id + "_statustext");
-			if(t) {
-				t.parentNode.removeChild(t);	
-			}
+
 			var type =geojson.type.toLowerCase();
 
 			if(geojson.transform && this._fittocanvas){
@@ -201,9 +198,14 @@ EasyMap.prototype = {
 		EasyMapUtils.loadRemoteFile(file,callback);		
 			
 	},	
+
 	redraw: function(){
-		this.clear();
-		this.render();
+		var that = this;
+		var f = function(){
+			that.clear();
+			that.render();
+		};
+		window.setTimeout(f,0);
 	},
 		
 	transform: function(transformation){
@@ -330,9 +332,18 @@ EasyMap.prototype = {
 			this._createGlobe();
 		}
 
-		for(var i=0; i < mem.length; i++){	
-			mem[i].render(this.canvas,tran,this.settings.projection,this.settings.optimisations);
-		}
+
+		var that = this;
+		var f = function(){
+			for(var i=0; i < mem.length; i++){	
+				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations);
+			}
+			var t = document.getElementById(that.wrapper.id + "_statustext");
+			if(t) {
+				t.parentNode.removeChild(t);	
+			}
+		};
+		window.setTimeout(f,0);
 	},
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,properties){
 		var prop = properties;

@@ -97,12 +97,13 @@ EasyMapController.prototype = {
 		var mm = that.wrapper.onmousemove;
 		var onmousemove = function(e){
 			
-			var p =this.panning;
+			var p =this.easyController.panning_status;
 			if(!p) return;
 			if(!p) return;
 			var t = EasyMapUtils.resolveTarget(e);
+	
 			if(t.getAttribute("class") == "easyControl") return;
-			var pos = that.utils.getMouseFromEventRelativeTo(e,p.clickpos.x,p.clickpos.y);		
+			var pos = that.utils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
 			if(!pos)return;
 			
 			var t = that.transformation;
@@ -132,7 +133,11 @@ EasyMapController.prototype = {
 			var realpos = that.utils.getMouseFromEvent(e);
 			if(!realpos) return;
 
-			this.panning= {clickpos: realpos, translate:{x: t.x,y:t.y},isClick:true};
+			this.easyController = that;
+			
+			var element = EasyMapUtils.resolveTargetWithMemory(e);
+			that.panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
+			
 			that.wrapper.onmousemove = onmousemove;
 			that.wrapper.style.cursor= "move";
 			this.style.cursor = "move";
@@ -140,12 +145,10 @@ EasyMapController.prototype = {
 		};
 		
 		this.wrapper.onmouseup = function(e){
-			
 			that.wrapper.style.cursor= '';
 			that.wrapper.onmousemove = mm;
-			if(this.panning && this.panning.isClick && mu){ mu(e);}
-			this.panning = null;
-
+			if(this.easyController.panning_status && this.easyController.panning_status.isClick && mu){ mu(e);}
+			this.easyController.panning_status = null;
 			
 			return false;
 		};

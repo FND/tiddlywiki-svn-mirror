@@ -449,7 +449,9 @@ EasyShape.prototype={
 			            'g_vml_\\:*{behavior:url(#default#VML)}';
 			}
 			//G_vmlCanvasManager.init_(document);
+			
 			this._ierender(canvas,transformation,projection,optimisations); 
+
 	
 		}
 		else{
