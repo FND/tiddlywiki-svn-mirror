@@ -1,0 +1,13 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# The plugin
+tiddler: TiddlerTableMacro.js
+tiddler: TiddlerTableMacro.js.meta
+
+# Demo
+tiddler: DefaultTiddlers.tiddler
+tiddler: cake.tiddler
+tiddler: burger.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler

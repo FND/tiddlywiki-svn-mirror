@@ -1,0 +1,13 @@
+<div title="Welcome" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="" children="" changecount="19">
+<pre>!Welcome
+
+Default table:
+
+<<tiddlerTable>>
+
+Customised table:
+
+<<tiddlerTable headings: "Food,Chef,Summary Length,Eat after dinner?", col1: "'[['+tiddler.title + ']]'", col2: "'//made// by __' + tiddler.modifier+'__'", col3: "tiddler.text.length", col4: "tiddler.fields.food=='dessert' ? '<html><span class=yes>Yes</span></html>' : '<html><span class=no>No</span></html>'", filter: "[tag[food]]" >>
+
+</pre>
+</div>

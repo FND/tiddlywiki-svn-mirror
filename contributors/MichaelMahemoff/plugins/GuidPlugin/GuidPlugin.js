@@ -45,8 +45,10 @@ function Guid(options) {
   this.options = options || {};
   this.chars = this.options.chars || Guid.constants.alphanumerics;
   this.epoch = this.options.epoch || Guid.constants.epoch1970;
-  this.counterSequenceLength = this.options.counterSequenceLength || 1;
-  this.randomSequenceLength = this.options.randomSequenceLength || 2;
+  this.counterSequenceLength = this.options.counterSequenceLength;
+  if (this.counterSequenceLength===undefined) this.counterSequenceLength=2;
+  this.randomSequenceLength = this.options.randomSequenceLength;
+  if (this.randomSequenceLength===undefined) this.randomSequenceLength=2;
 }
 
 Guid.prototype.generate = function() {
