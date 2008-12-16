@@ -11,12 +11,23 @@ $tiddlyCfg['db']['port'] = "3306"; // db port
 $tiddlyCfg['db']['allow_override'] = true;
 
 
-$tiddlyCfg['adminPassword'] = "";
-
+// These plugins are DISABLED
 // Allows you to disable a plugin in your plugins directory. 
-$tiddlyCfg['plugins_disabled'] = array("createPackages", "lifestream", "OpenID", "Portlet", "seo", "SkinnyTiddlers", "WordpressMigration");
+$tiddlyCfg['plugins_disabled'] = array(
+	"createPackages", 
+	"OpenID",
+	"Portlet",
+	"seo",
+	"SkinnyTiddlers",
+	"WordpressMigration"
+);
 
 // By default the RSS plugin is enabled. 
+
+
+
+$tiddlyCfg['adminPassword'] = "";
+
 
 
 // User Managment Information 

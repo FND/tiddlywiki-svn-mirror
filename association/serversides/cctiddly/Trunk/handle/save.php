@@ -27,7 +27,6 @@ $tiddler['id'] = $_POST['id'];
 //Will be used from v1.8 - SimonMcManus
 
 
-
 if(@$pluginsLoader->events['preSave']) 
 {
 	foreach (@$pluginsLoader->events['preSave'] as $event)

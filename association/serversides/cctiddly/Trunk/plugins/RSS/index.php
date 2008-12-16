@@ -2,7 +2,7 @@
 $p = new Plugin('RSS 2.0','0.1','simonmcmanus.com');
 
 // before returning file not found check if the file exists in the uploads/tiddlers/ directory. 
-$tiddler['title'] = "MarkupPostBody";
+$tiddler['title'] = "MarkupPostHead";
 if($tiddlyCfg['use_mod_rewrite'] ==1)
 	$tiddler['body'] = "<link rel='alternate' type='application/rss+xml' title='RSS Feed for ccTiddly workspace : ".$tiddlyCfg['workspace_name']."' href='".getURL()."?workspace='".$tiddlyCfg['workspace_name']."'/>";
 else
