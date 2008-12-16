@@ -1,0 +1,47 @@
+
+# Core Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# Settings
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/settings.js
+
+# Theme
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/TeamTasksSkin.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/TeamTasksColors.tiddler
+
+# Plugins
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: $TW_ROOT/contributors/SaqImtiaz/plugins/TableSortingPlugin/TableSortingPlugin.js
+
+# TeamTasks UI Elements
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/SiteTitle.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/SiteSubtitle.tiddler
+
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/TopMenu.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/MainMenu.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/Listings.tiddler 
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/TaskTiddlerControls.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/TeamTasksMetaData.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/TaskDefinitions.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/TaskViews.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/ToolbarCommands.tiddler
+
+# Starter definitions
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/UserDefinitions.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/PriorityDefinitions.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/ScopeDefinitions.tiddler
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/StatusDefinitions.tiddler
+
+# TiddlerTree Specific 
+tiddler: DefaultTiddlers.tiddler
+tiddler: myDoc.tiddler
+tiddler: bid.tiddler
+tiddler: content/names.tiddler  tags="task"
+tiddler: content/simon.tiddler tags="task"
+tiddler: content/phil.tiddler tags="task"
+tiddler: content/jon.tiddler tags="task"
+tiddler: TaskTiddlerControls.tiddler
+
+#Plugins 
+recipe: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/split.recipe
+tiddler: $TW_ROOT/contributors/SimonMcManus/plugins/tiddlerTree.js tags="systemConfig"

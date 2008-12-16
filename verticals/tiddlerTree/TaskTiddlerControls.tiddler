@@ -1,0 +1,8 @@
+<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task">
+<pre>
+|assigned to |<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions">> |
+|status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
+</pre>
+</div>
+
+
