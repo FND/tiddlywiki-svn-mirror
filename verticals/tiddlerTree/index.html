@@ -3691,7 +3691,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				background-color:#A4ADBC;
 				display:block;
 				float:left;
-				width:100%;
+				width:99%;
 				}
 			
 			h1 > a.tiddlyLink {
@@ -3746,6 +3746,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			div.sort-handle div{
 				border-bottom:1px solid #EDECE8;
 				paddding:1em;
+				margin:0em;
 			}
 		
 		.editLink {
@@ -7895,7 +7896,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c&lt;a?'':e(parseInt(c/a)))+((c=
 				background-color:#A4ADBC;
 				display:block;
 				float:left;
-				width:100%;
+				width:99%;
 				}
 			
 			h1 &gt; a.tiddlyLink {
@@ -7950,6 +7951,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c&lt;a?'':e(parseInt(c/a)))+((c=
 			div.sort-handle div{
 				border-bottom:1px solid #EDECE8;
 				paddding:1em;
+				margin:0em;
 			}
 		
 		.editLink {
@@ -9177,7 +9179,7 @@ Urna curabitur magna litora pretium vestibulum pretium, vivamus fusce dictumst. 
 
 Egestas aliquet integer viverra, luctus in ut morbi in, urna sed sed. Vitae tellus venenatis leo velit viverra, nulla dolor id, curabitur mi ut tristique a nec, felis massa dis habitant cras. Lacinia tristique lorem risus eget arcu. Habitasse etiam ut dui, suscipit venenatis pellentesque diam congue ac nec. Ipsum sed et luctus feugiat nec vitae, viverra lorem in amet libero proin, orci ac cursus proin urna, maecenas id suspendisse arcu amet quisque, proin sed tempor.</pre>
 </div>
-<div title="tiddlerTree" created="200812181658" tags="systemConfig">
+<div title="tiddlerTree" created="200812181737" tags="systemConfig">
 <pre>// tiddlerTree1 //
 
 //{{{
@@ -9214,7 +9216,7 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 			
 	
 			
-			createTiddlyLink(sectionDiv,tiddlerTitle, &quot;edit&quot;,&quot;editLink&quot;);
+			createTiddlyLink(heading,tiddlerTitle, &quot;edit&quot;,&quot;editLink&quot;);
 			log(store.getTiddler(tiddlerTitle).fields['tt_status']);
 			
 			

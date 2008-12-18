@@ -34,7 +34,7 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 			
 	
 			
-			createTiddlyLink(sectionDiv,tiddlerTitle, "edit","editLink");
+			createTiddlyLink(heading,tiddlerTitle, "edit","editLink");
 			log(store.getTiddler(tiddlerTitle).fields['tt_status']);
 			
 			

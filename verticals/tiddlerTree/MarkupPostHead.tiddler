@@ -3638,7 +3638,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				background-color:#A4ADBC;
 				display:block;
 				float:left;
-				width:100%;
+				width:99%;
 				}
 			
 			h1 > a.tiddlyLink {
@@ -3693,6 +3693,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			div.sort-handle div{
 				border-bottom:1px solid #EDECE8;
 				paddding:1em;
+				margin:0em;
 			}
 		
 		.editLink {
