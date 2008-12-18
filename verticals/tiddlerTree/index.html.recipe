@@ -41,7 +41,8 @@ tiddler: content/simon.tiddler tags="task"
 tiddler: content/phil.tiddler tags="task"
 tiddler: content/jon.tiddler tags="task"
 tiddler: TaskTiddlerControls.tiddler
+tiddler: MarkupPostHead.tiddler
+tiddler: tiddlerTree.js tags="systemConfig"
 
 #Plugins 
 recipe: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/split.recipe
-tiddler: $TW_ROOT/contributors/SimonMcManus/plugins/tiddlerTree.js tags="systemConfig"
