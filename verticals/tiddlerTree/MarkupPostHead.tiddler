@@ -9,7 +9,7 @@
 		<style type="text/css">
 			div.wrap {
 				border:1px solid #BBBBBB;
-				padding: 1em 1em 1em 1em;
+		
 			}
 			
 			.page-list {
@@ -23,21 +23,31 @@
 				clear: both;
 			}
 			
-			.page-item1 > div,
-			.page-item2 > div,
-			.page-item3 > div,
-			.page-item4 > div {
+			.page-item1 > div{
 				background: #f8f8f8;
+				border-right : 3em solid red;
 				margin: 0.25em 0 0 0;
 			}
+			
+			.section {
+				padding:0px;
+				margin:0px;
+			}
 
+			.sort-handle {
+		
+			}
+			
+			
+			li.robbie {
+				background-color:blue;
+				padding:0px;
+				
+			margin:0px;			}
 			.left {
 				text-align: left;
 			}
-			
-			.right {
-				text-align: right;
-			}
+
 
 			.sort-handle {
 				cursor:move;
@@ -55,6 +65,25 @@
 				color: red;
 				font-weight: bold;
 			}
+			
+			
+			h1, h2, h3 {
+			margin:0;
+			padding:0;
+		}
+		
+		div.viewer {
+			background-color:#EDECE8;
+			}	
+	html >	body {
+			background:#75747A;
+		}
+		
+		div.sort-handle {
+			background-color:white;
+			padding:1em;
+			margin:1px;
+		}
 			
 		</style>
 		

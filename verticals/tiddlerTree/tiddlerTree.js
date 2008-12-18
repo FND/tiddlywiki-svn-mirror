@@ -30,24 +30,18 @@ var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
 
 	$("#sortableList").NestedSortable({
 		accept: 'page-item1',
-		opacity: .8,
+		opacity: .6,
 		helperclass: 'helper',
 		
 		onChange: function(serialized) {
 			var output = "";
 			$("li").each(function (i) {
-	
 					if($(this).parents(".page-list").length != 0) {
 						var stars = "********************************************************";
 						output += stars.substring(0, $(this).parents(".page-list").length);
 						output += " "+this.id+" \n";
-					}
-			
-			
-			
-			
+					}			
 			 });
-			log(output);
 			store.saveTiddler(params[0], params[0], output);
 			autoSaveChanges();
 		},

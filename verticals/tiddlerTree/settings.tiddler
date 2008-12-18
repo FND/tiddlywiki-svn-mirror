@@ -1,0 +1,14 @@
+<div title="settings" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task">
+<pre>
+
+//{{{
+
+config.options.chkAutoSave = true;
+config.options.chkAnimate = true;
+config.options.chkSaveBackups = false;
+config.options.txtTheme = "Theme";
+
+//}}}
+
+</pre>
+</div>

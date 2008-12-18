@@ -62,7 +62,7 @@ DAMAGE.
 		<style type="text/css">
 			div.wrap {
 				border:1px solid #BBBBBB;
-				padding: 1em 1em 1em 1em;
+		
 			}
 			
 			.page-list {
@@ -76,21 +76,31 @@ DAMAGE.
 				clear: both;
 			}
 			
-			.page-item1 > div,
-			.page-item2 > div,
-			.page-item3 > div,
-			.page-item4 > div {
+			.page-item1 > div{
 				background: #f8f8f8;
+				border-right : 3em solid red;
 				margin: 0.25em 0 0 0;
 			}
+			
+			.section {
+				padding:0px;
+				margin:0px;
+			}
 
+			.sort-handle {
+		
+			}
+			
+			
+			li.robbie {
+				background-color:blue;
+				padding:0px;
+				
+			margin:0px;			}
 			.left {
 				text-align: left;
 			}
-			
-			.right {
-				text-align: right;
-			}
+
 
 			.sort-handle {
 				cursor:move;
@@ -108,6 +118,25 @@ DAMAGE.
 				color: red;
 				font-weight: bold;
 			}
+			
+			
+			h1, h2, h3 {
+			margin:0;
+			padding:0;
+		}
+		
+		div.viewer {
+			background-color:#EDECE8;
+			}	
+	html >	body {
+			background:#75747A;
+		}
+		
+		div.sort-handle {
+			background-color:white;
+			padding:1em;
+			margin:1px;
+		}
 			
 		</style>
 		
@@ -599,7 +628,7 @@ Also see AdvancedOptions</pre>
 		&lt;style type=&quot;text/css&quot;&gt;
 			div.wrap {
 				border:1px solid #BBBBBB;
-				padding: 1em 1em 1em 1em;
+		
 			}
 			
 			.page-list {
@@ -613,21 +642,31 @@ Also see AdvancedOptions</pre>
 				clear: both;
 			}
 			
-			.page-item1 &gt; div,
-			.page-item2 &gt; div,
-			.page-item3 &gt; div,
-			.page-item4 &gt; div {
+			.page-item1 &gt; div{
 				background: #f8f8f8;
+				border-right : 3em solid red;
 				margin: 0.25em 0 0 0;
 			}
+			
+			.section {
+				padding:0px;
+				margin:0px;
+			}
 
+			.sort-handle {
+		
+			}
+			
+			
+			li.robbie {
+				background-color:blue;
+				padding:0px;
+				
+			margin:0px;			}
 			.left {
 				text-align: left;
 			}
-			
-			.right {
-				text-align: right;
-			}
+
 
 			.sort-handle {
 				cursor:move;
@@ -646,14 +685,31 @@ Also see AdvancedOptions</pre>
 				font-weight: bold;
 			}
 			
+			
+			h1, h2, h3 {
+			margin:0;
+			padding:0;
+		}
+		
+		div.viewer {
+			background-color:#EDECE8;
+			}	
+	html &gt;	body {
+			background:#75747A;
+		}
+		
+		div.sort-handle {
+			background-color:white;
+			padding:1em;
+			margin:1px;
+		}
+			
 		&lt;/style&gt;
 		
 		</pre>
 </div>
-<div title="MyDoc" modifier="YourName" created="200709241640" modified="200812181149" changecount="1">
-<pre>&lt;&lt;tiddlerTree1 bid&gt;&gt;
-
-[[bid]]</pre>
+<div title="MyDoc" modifier="PhilHawksworth" created="200709241640" modified="200710231249">
+<pre>&lt;&lt;tiddlerTree1 bid&gt;&gt;</pre>
 </div>
 <div title="NewUserWizardPlugin" modifier="PhilHawksworth" created="200710221620" modified="200710241440" tags="systemConfig">
 <pre>/***
@@ -775,6 +831,14 @@ if(!version.extensions.newUserWizard)
 	};
 }
 //}}}</pre>
+</div>
+<div title="PageTemplate" modifier="PhilHawksworth" created="200709041656" modified="200709111157" tags="excludeLists">
+<pre>&lt;!--{{{--&gt;
+&lt;div&gt;
+	&lt;div id='header'&gt;&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&lt;/div&gt;
+	&lt;div id='messageBar'&gt;&lt;span id='messageArea'&gt;&lt;/span&gt;&lt;/div&gt;
+	&lt;div id='mainArea'&gt;&lt;div id='displayArea'&gt;&lt;div id='tiddlerDisplay' class='hresume viewer'&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;</pre>
 </div>
 <div title="PriorityDefinitions" modifier="PhilHawksworth" created="200708161618" modified="200710221412" tags="TaskDefinitions">
 <pre>High
@@ -1712,40 +1776,60 @@ if(!version.extensions.ValueSwitcher)
 }
 //}}}</pre>
 </div>
-<div title="bid" modifier="YourName" created="200709241640" modified="200812181150" tags="task" changecount="21">
-<pre>* 1   
-* names   
-** robbie   
-*** 1.2.3  
-** simon   
-** phil   
-*** 1.1  
-*** 1.2  
+<div title="bid" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task" changecount="1">
+<pre>** simon 
+** names 
+** robbie 
+** phil 
 </pre>
 </div>
 <div title="jon" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task">
-<pre>balh blah jobn</pre>
+<pre>Lorem ipsum dolor sit amet, vestibulum a alias, a eu, wisi mauris, dictum orci sed lectus ipsum ut. Sed sapien eros suspendisse nunc, vero molestie porttitor eros, consequat vel volutpat platea. Montes ante vel condimentum pellentesque nunc eget, aliquet quam mattis nullam, tellus leo elit. Lectus tellus ac vestibulum rutrum. Turpis feugiat dignissimos ac ligula, cras sed dolor, eu varius sed sit ante. Fringilla ipsum mauris cras orci mauris, ac eu, eu ullam aliquam nunc donec, accumsan neque volutpat laoreet, ac nec cubilia. Sem magna, dui consequat, pellentesque elementum rutrum nonummy ex quaerat. Pellentesque diam. Neque cursus dignissim mus at, donec volutpat tellus, elit aliquet augue augue in malesuada orci.
+
+Elit phasellus lectus ac mauris, dis neque nostra wisi sit sagittis, semper malesuada consequat varius enim eros, duis venenatis nec netus aenean beatae maecenas, morbi purus donec tempora aliquam. Felis est tellus, ullamcorper non aenean arcu elit, penatibus ante cillum praesent nam, ultrices sem eros sed, a cum. A sed nibh aliquet. Nec justo amet vitae tincidunt dapibus sollicitudin. Congue in non sem et, pretium amet consequat. Tincidunt in nibh, laoreet eu aenean, in gravida vel eu molestie. Litora commodo posuere placerat augue vestibulum, cum sed dui, cras rutrum et dolor. Id ac. Sed porttitor donec fringilla nunc curabitur ut, fermentum tortor. Bibendum dolor est pellentesque nulla, placerat pharetra consectetuer nisl ac, praesent eget iaculis augue massa maecenas in. Netus consectetuer eu consequat, aliquam molestie eu morbi, in nonummy pellentesque sodales urna a morbi, eu luctus lacinia libero cum, est enim. Wisi lacus pellentesque eget amet vestibulum.
+
+Urna curabitur magna litora pretium vestibulum pretium, vivamus fusce dictumst. Tortor et tincidunt amet vestibulum gravida, aliquam consectetur, sit at vitae lacinia mi enim amet, libero duis. Eget at at venenatis tincidunt volutpat suspendisse, asperiores feugiat in nonummy, nunc sed. Nec condimentum magna delectus dignissim, mollis sed consectetuer ut aenean molestie, harum nec. Lacinia sed sit massa ac est, ante suscipit sociis condimentum sit, congue duis vitae mauris, metus pellentesque varius ipsum, arcu elit nec curabitur mi in vel. Libero turpis nunc consectetuer sed diam lorem, eu sed consequat a id eu in. Dui arcu nonummy. Mauris quis pretium pede, nulla nunc libero, pellentesque urna, nascetur vitae ridiculus sed viverra urna. Mus ornare iaculis fringilla felis est et, felis lorem, aliquam donec scelerisque ipsum sapien massa commodo, blandit nam venenatis, velit fermentum iaculis. Praesent sed sed suscipit accumsan, quis duis odio vel, eros tincidunt per natoque. Feugiat dis, vitae pede quis.
+
+Egestas aliquet integer viverra, luctus in ut morbi in, urna sed sed. Vitae tellus venenatis leo velit viverra, nulla dolor id, curabitur mi ut tristique a nec, felis massa dis habitant cras. Lacinia tristique lorem risus eget arcu. Habitasse etiam ut dui, suscipit venenatis pellentesque diam congue ac nec. Ipsum sed et luctus feugiat nec vitae, viverra lorem in amet libero proin, orci ac cursus proin urna, maecenas id suspendisse arcu amet quisque, proin sed tempor.</pre>
 </div>
 <div title="names" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task">
-<pre>here asre some naems</pre>
+<pre>Lorem ipsum dolor sit amet, vestibulum a alias, a eu, wisi mauris, dictum orci sed lectus ipsum ut. Sed sapien eros suspendisse nunc, vero molestie porttitor eros, consequat vel volutpat platea. Montes ante vel condimentum pellentesque nunc eget, aliquet quam mattis nullam, tellus leo elit. Lectus tellus ac vestibulum rutrum. Turpis feugiat dignissimos ac ligula, cras sed dolor, eu varius sed sit ante. Fringilla ipsum mauris cras orci mauris, ac eu, eu ullam aliquam nunc donec, accumsan neque volutpat laoreet, ac nec cubilia. Sem magna, dui consequat, pellentesque elementum rutrum nonummy ex quaerat. Pellentesque diam. Neque cursus dignissim mus at, donec volutpat tellus, elit aliquet augue augue in malesuada orci.
+
+Elit phasellus lectus ac mauris, dis neque nostra wisi sit sagittis, semper malesuada consequat varius enim eros, duis venenatis nec netus aenean beatae maecenas, morbi purus donec tempora aliquam. Felis est tellus, ullamcorper non aenean arcu elit, penatibus ante cillum praesent nam, ultrices sem eros sed, a cum. A sed nibh aliquet. Nec justo amet vitae tincidunt dapibus sollicitudin. Congue in non sem et, pretium amet consequat. Tincidunt in nibh, laoreet eu aenean, in gravida vel eu molestie. Litora commodo posuere placerat augue vestibulum, cum sed dui, cras rutrum et dolor. Id ac. Sed porttitor donec fringilla nunc curabitur ut, fermentum tortor. Bibendum dolor est pellentesque nulla, placerat pharetra consectetuer nisl ac, praesent eget iaculis augue massa maecenas in. Netus consectetuer eu consequat, aliquam molestie eu morbi, in nonummy pellentesque sodales urna a morbi, eu luctus lacinia libero cum, est enim. Wisi lacus pellentesque eget amet vestibulum.
+
+Urna curabitur magna litora pretium vestibulum pretium, vivamus fusce dictumst. Tortor et tincidunt amet vestibulum gravida, aliquam consectetur, sit at vitae lacinia mi enim amet, libero duis. Eget at at venenatis tincidunt volutpat suspendisse, asperiores feugiat in nonummy, nunc sed. Nec condimentum magna delectus dignissim, mollis sed consectetuer ut aenean molestie, harum nec. Lacinia sed sit massa ac est, ante suscipit sociis condimentum sit, congue duis vitae mauris, metus pellentesque varius ipsum, arcu elit nec curabitur mi in vel. Libero turpis nunc consectetuer sed diam lorem, eu sed consequat a id eu in. Dui arcu nonummy. Mauris quis pretium pede, nulla nunc libero, pellentesque urna, nascetur vitae ridiculus sed viverra urna. Mus ornare iaculis fringilla felis est et, felis lorem, aliquam donec scelerisque ipsum sapien massa commodo, blandit nam venenatis, velit fermentum iaculis. Praesent sed sed suscipit accumsan, quis duis odio vel, eros tincidunt per natoque. Feugiat dis, vitae pede quis.
+
+Egestas aliquet integer viverra, luctus in ut morbi in, urna sed sed. Vitae tellus venenatis leo velit viverra, nulla dolor id, curabitur mi ut tristique a nec, felis massa dis habitant cras. Lacinia tristique lorem risus eget arcu. Habitasse etiam ut dui, suscipit venenatis pellentesque diam congue ac nec. Ipsum sed et luctus feugiat nec vitae, viverra lorem in amet libero proin, orci ac cursus proin urna, maecenas id suspendisse arcu amet quisque, proin sed tempor.</pre>
 </div>
 <div title="phil" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task">
-<pre>balh blah phil</pre>
+<pre>Lorem ipsum dolor sit amet, vestibulum a alias, a eu, wisi mauris, dictum orci sed lectus ipsum ut. Sed sapien eros suspendisse nunc, vero molestie porttitor eros, consequat vel volutpat platea. Montes ante vel condimentum pellentesque nunc eget, aliquet quam mattis nullam, tellus leo elit. Lectus tellus ac vestibulum rutrum. Turpis feugiat dignissimos ac ligula, cras sed dolor, eu varius sed sit ante. Fringilla ipsum mauris cras orci mauris, ac eu, eu ullam aliquam nunc donec, accumsan neque volutpat laoreet, ac nec cubilia. Sem magna, dui consequat, pellentesque elementum rutrum nonummy ex quaerat. Pellentesque diam. Neque cursus dignissim mus at, donec volutpat tellus, elit aliquet augue augue in malesuada orci.
+
+Elit phasellus lectus ac mauris, dis neque nostra wisi sit sagittis, semper malesuada consequat varius enim eros, duis venenatis nec netus aenean beatae maecenas, morbi purus donec tempora aliquam. Felis est tellus, ullamcorper non aenean arcu elit, penatibus ante cillum praesent nam, ultrices sem eros sed, a cum. A sed nibh aliquet. Nec justo amet vitae tincidunt dapibus sollicitudin. Congue in non sem et, pretium amet consequat. Tincidunt in nibh, laoreet eu aenean, in gravida vel eu molestie. Litora commodo posuere placerat augue vestibulum, cum sed dui, cras rutrum et dolor. Id ac. Sed porttitor donec fringilla nunc curabitur ut, fermentum tortor. Bibendum dolor est pellentesque nulla, placerat pharetra consectetuer nisl ac, praesent eget iaculis augue massa maecenas in. Netus consectetuer eu consequat, aliquam molestie eu morbi, in nonummy pellentesque sodales urna a morbi, eu luctus lacinia libero cum, est enim. Wisi lacus pellentesque eget amet vestibulum.
+
+Urna curabitur magna litora pretium vestibulum pretium, vivamus fusce dictumst. Tortor et tincidunt amet vestibulum gravida, aliquam consectetur, sit at vitae lacinia mi enim amet, libero duis. Eget at at venenatis tincidunt volutpat suspendisse, asperiores feugiat in nonummy, nunc sed. Nec condimentum magna delectus dignissim, mollis sed consectetuer ut aenean molestie, harum nec. Lacinia sed sit massa ac est, ante suscipit sociis condimentum sit, congue duis vitae mauris, metus pellentesque varius ipsum, arcu elit nec curabitur mi in vel. Libero turpis nunc consectetuer sed diam lorem, eu sed consequat a id eu in. Dui arcu nonummy. Mauris quis pretium pede, nulla nunc libero, pellentesque urna, nascetur vitae ridiculus sed viverra urna. Mus ornare iaculis fringilla felis est et, felis lorem, aliquam donec scelerisque ipsum sapien massa commodo, blandit nam venenatis, velit fermentum iaculis. Praesent sed sed suscipit accumsan, quis duis odio vel, eros tincidunt per natoque. Feugiat dis, vitae pede quis.
+
+Egestas aliquet integer viverra, luctus in ut morbi in, urna sed sed. Vitae tellus venenatis leo velit viverra, nulla dolor id, curabitur mi ut tristique a nec, felis massa dis habitant cras. Lacinia tristique lorem risus eget arcu. Habitasse etiam ut dui, suscipit venenatis pellentesque diam congue ac nec. Ipsum sed et luctus feugiat nec vitae, viverra lorem in amet libero proin, orci ac cursus proin urna, maecenas id suspendisse arcu amet quisque, proin sed tempor.</pre>
 </div>
-<div title="settings" modifier="PhilHawksworth" created="200803251627" tags="systemConfig excludeLists excludeSearch">
+<div title="settings" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="systemConfig">
 <pre>//{{{
 
 config.options.chkAutoSave = true;
 config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
-config.options.txtTheme = &quot;TeamTasksSkin&quot;;
+config.options.txtTheme = &quot;Theme&quot;;
 
 //}}}</pre>
 </div>
 <div title="simon" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task">
-<pre>balh blah simon</pre>
+<pre>Lorem ipsum dolor sit amet, vestibulum a alias, a eu, wisi mauris, dictum orci sed lectus ipsum ut. Sed sapien eros suspendisse nunc, vero molestie porttitor eros, consequat vel volutpat platea. Montes ante vel condimentum pellentesque nunc eget, aliquet quam mattis nullam, tellus leo elit. Lectus tellus ac vestibulum rutrum. Turpis feugiat dignissimos ac ligula, cras sed dolor, eu varius sed sit ante. Fringilla ipsum mauris cras orci mauris, ac eu, eu ullam aliquam nunc donec, accumsan neque volutpat laoreet, ac nec cubilia. Sem magna, dui consequat, pellentesque elementum rutrum nonummy ex quaerat. Pellentesque diam. Neque cursus dignissim mus at, donec volutpat tellus, elit aliquet augue augue in malesuada orci.
+
+Elit phasellus lectus ac mauris, dis neque nostra wisi sit sagittis, semper malesuada consequat varius enim eros, duis venenatis nec netus aenean beatae maecenas, morbi purus donec tempora aliquam. Felis est tellus, ullamcorper non aenean arcu elit, penatibus ante cillum praesent nam, ultrices sem eros sed, a cum. A sed nibh aliquet. Nec justo amet vitae tincidunt dapibus sollicitudin. Congue in non sem et, pretium amet consequat. Tincidunt in nibh, laoreet eu aenean, in gravida vel eu molestie. Litora commodo posuere placerat augue vestibulum, cum sed dui, cras rutrum et dolor. Id ac. Sed porttitor donec fringilla nunc curabitur ut, fermentum tortor. Bibendum dolor est pellentesque nulla, placerat pharetra consectetuer nisl ac, praesent eget iaculis augue massa maecenas in. Netus consectetuer eu consequat, aliquam molestie eu morbi, in nonummy pellentesque sodales urna a morbi, eu luctus lacinia libero cum, est enim. Wisi lacus pellentesque eget amet vestibulum.
+
+Urna curabitur magna litora pretium vestibulum pretium, vivamus fusce dictumst. Tortor et tincidunt amet vestibulum gravida, aliquam consectetur, sit at vitae lacinia mi enim amet, libero duis. Eget at at venenatis tincidunt volutpat suspendisse, asperiores feugiat in nonummy, nunc sed. Nec condimentum magna delectus dignissim, mollis sed consectetuer ut aenean molestie, harum nec. Lacinia sed sit massa ac est, ante suscipit sociis condimentum sit, congue duis vitae mauris, metus pellentesque varius ipsum, arcu elit nec curabitur mi in vel. Libero turpis nunc consectetuer sed diam lorem, eu sed consequat a id eu in. Dui arcu nonummy. Mauris quis pretium pede, nulla nunc libero, pellentesque urna, nascetur vitae ridiculus sed viverra urna. Mus ornare iaculis fringilla felis est et, felis lorem, aliquam donec scelerisque ipsum sapien massa commodo, blandit nam venenatis, velit fermentum iaculis. Praesent sed sed suscipit accumsan, quis duis odio vel, eros tincidunt per natoque. Feugiat dis, vitae pede quis.
+
+Egestas aliquet integer viverra, luctus in ut morbi in, urna sed sed. Vitae tellus venenatis leo velit viverra, nulla dolor id, curabitur mi ut tristique a nec, felis massa dis habitant cras. Lacinia tristique lorem risus eget arcu. Habitasse etiam ut dui, suscipit venenatis pellentesque diam congue ac nec. Ipsum sed et luctus feugiat nec vitae, viverra lorem in amet libero proin, orci ac cursus proin urna, maecenas id suspendisse arcu amet quisque, proin sed tempor.</pre>
 </div>
-<div title="tiddlerTree" created="200812181125" tags="systemConfig">
+<div title="tiddlerTree" created="200812181234" tags="systemConfig">
 <pre>// tiddlerTree1 //
 
 //{{{
@@ -1778,24 +1862,18 @@ var sectionDiv = createTiddlyElement(section, &quot;div&quot;, null, &quot;sort-
 
 	$(&quot;#sortableList&quot;).NestedSortable({
 		accept: 'page-item1',
-		opacity: .8,
+		opacity: .6,
 		helperclass: 'helper',
 		
 		onChange: function(serialized) {
 			var output = &quot;&quot;;
 			$(&quot;li&quot;).each(function (i) {
-	
 					if($(this).parents(&quot;.page-list&quot;).length != 0) {
 						var stars = &quot;********************************************************&quot;;
 						output += stars.substring(0, $(this).parents(&quot;.page-list&quot;).length);
 						output += &quot; &quot;+this.id+&quot; \n&quot;;
-					}
-			
-			
-			
-			
+					}			
 			 });
-			log(output);
 			store.saveTiddler(params[0], params[0], output);
 			autoSaveChanges();
 		},
