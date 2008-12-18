@@ -3670,8 +3670,9 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			
 			
 			h1, h2, h3 {
-			margin:0;
-			padding:0;
+			padding:0em !important;
+			margin:0.5em !important;
+			color:white !important;
 		}
 		
 		div.viewer {
@@ -3683,10 +3684,16 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		
 		div.sort-handle {
 			background-color:white;
-			padding:1em;
-			margin:1px;
+			padding:0em;
+			margin:0em;
+			padding-top:0px;
 //			position:relative;
 		}
+		
+			div.sort-handle div{
+				border-bottom:1px solid #EDECE8;
+				paddding:1em;
+			}
 		
 		.editLink {
 			float:right;
@@ -3704,7 +3711,18 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					border-right : 3em solid #A4001D;
 		}
 		
-			
+		li {
+			style:none;
+		}
+		ul {
+			list-style:none;
+		}
+		
+		
+		#tiddlerDisplay {
+			width:75%;
+			text-aign:center;
+		}	
 		</style>
 		
 		</pre>

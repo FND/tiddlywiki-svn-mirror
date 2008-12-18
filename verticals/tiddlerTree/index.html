@@ -3723,8 +3723,9 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			
 			
 			h1, h2, h3 {
-			margin:0;
-			padding:0;
+			padding:0em !important;
+			margin:0.5em !important;
+			color:white !important;
 		}
 		
 		div.viewer {
@@ -3736,10 +3737,16 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		
 		div.sort-handle {
 			background-color:white;
-			padding:1em;
-			margin:1px;
+			padding:0em;
+			margin:0em;
+			padding-top:0px;
 //			position:relative;
 		}
+		
+			div.sort-handle div{
+				border-bottom:1px solid #EDECE8;
+				paddding:1em;
+			}
 		
 		.editLink {
 			float:right;
@@ -3757,7 +3764,18 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					border-right : 3em solid #A4001D;
 		}
 		
-			
+		li {
+			style:none;
+		}
+		ul {
+			list-style:none;
+		}
+		
+		
+		#tiddlerDisplay {
+			width:75%;
+			text-aign:center;
+		}	
 		</style>
 		
 		
@@ -7909,8 +7927,9 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c&lt;a?'':e(parseInt(c/a)))+((c=
 			
 			
 			h1, h2, h3 {
-			margin:0;
-			padding:0;
+			padding:0em !important;
+			margin:0.5em !important;
+			color:white !important;
 		}
 		
 		div.viewer {
@@ -7922,10 +7941,16 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c&lt;a?'':e(parseInt(c/a)))+((c=
 		
 		div.sort-handle {
 			background-color:white;
-			padding:1em;
-			margin:1px;
+			padding:0em;
+			margin:0em;
+			padding-top:0px;
 //			position:relative;
 		}
+		
+			div.sort-handle div{
+				border-bottom:1px solid #EDECE8;
+				paddding:1em;
+			}
 		
 		.editLink {
 			float:right;
@@ -7943,16 +7968,24 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c&lt;a?'':e(parseInt(c/a)))+((c=
 					border-right : 3em solid #A4001D;
 		}
 		
-			
+		li {
+			style:none;
+		}
+		ul {
+			list-style:none;
+		}
+		
+		
+		#tiddlerDisplay {
+			width:75%;
+			text-aign:center;
+		}	
 		&lt;/style&gt;
 		
 		</pre>
 </div>
 <div title="MyDoc" modifier="PhilHawksworth" created="200709241640" modified="200710231249">
-<pre>
-[[bid]]
-
-&lt;&lt;tiddlerTree1 bid&gt;&gt;</pre>
+<pre>&lt;&lt;tiddlerTree1 bid&gt;&gt;</pre>
 </div>
 <div title="NewUserWizardPlugin" modifier="PhilHawksworth" created="200710221620" modified="200710241440" tags="systemConfig">
 <pre>/***
@@ -8911,7 +8944,7 @@ table.sortable thead tr td { background-color: [[TeamTasksColors::LightestShade]
 &lt;!--{{{--&gt;
 &lt;div class='toolbar' macro='toolbar close'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
+&lt;br /&gt;
 &lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
 &lt;div class='tagClear'&gt;&lt;/div&gt;
 &lt;!--}}}--&gt;
@@ -9144,7 +9177,7 @@ Urna curabitur magna litora pretium vestibulum pretium, vivamus fusce dictumst. 
 
 Egestas aliquet integer viverra, luctus in ut morbi in, urna sed sed. Vitae tellus venenatis leo velit viverra, nulla dolor id, curabitur mi ut tristique a nec, felis massa dis habitant cras. Lacinia tristique lorem risus eget arcu. Habitasse etiam ut dui, suscipit venenatis pellentesque diam congue ac nec. Ipsum sed et luctus feugiat nec vitae, viverra lorem in amet libero proin, orci ac cursus proin urna, maecenas id suspendisse arcu amet quisque, proin sed tempor.</pre>
 </div>
-<div title="tiddlerTree" created="200812181613" tags="systemConfig">
+<div title="tiddlerTree" created="200812181658" tags="systemConfig">
 <pre>// tiddlerTree1 //
 
 //{{{
@@ -9185,7 +9218,7 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 			log(store.getTiddler(tiddlerTitle).fields['tt_status']);
 			
 			
-			var body = createTiddlyElement(sectionDiv, &quot;div&quot;, null, null, store.getTiddlerText(tiddlerTitle));
+			var body = createTiddlyElement(sectionDiv, &quot;div&quot;, null, null, wikifyStatic(store.getTiddlerText(tiddlerTitle)));
 			var prevLevel = level;
 
 

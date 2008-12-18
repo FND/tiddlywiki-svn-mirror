@@ -38,7 +38,7 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 			log(store.getTiddler(tiddlerTitle).fields['tt_status']);
 			
 			
-			var body = createTiddlyElement(sectionDiv, "div", null, null, store.getTiddlerText(tiddlerTitle));
+			var body = createTiddlyElement(sectionDiv, "div", null, null, wikifyStatic(store.getTiddlerText(tiddlerTitle)));
 			var prevLevel = level;
 
 

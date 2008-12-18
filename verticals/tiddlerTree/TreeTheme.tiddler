@@ -20,6 +20,7 @@
 <!--{{{-->
 <div class='toolbar' macro='toolbar close'></div>
 <div class='title' macro='view title'></div>
+<br />
 <div class='viewer' macro='view text wikified'></div>
 <div class='tagClear'></div>
 <!--}}}-->
