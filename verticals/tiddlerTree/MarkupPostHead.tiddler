@@ -3697,11 +3697,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		}
 		
 		 li.completed {
-					border-right : 3em solid green;
+					border-right : 3em solid #C0DA5F;
 		}
 		
 		 li.incomplete {
-					border-right : 3em solid red;
+					border-right : 3em solid #A4001D;
 		}
 		
 			

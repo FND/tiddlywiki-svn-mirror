@@ -10,9 +10,20 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
+|''~ViewTemplate:''|##ViewTemplate|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
 ***/
+
+
+!ViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar close'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
 
 
 !taskViewTemplate
@@ -20,8 +31,6 @@
 <div class='toolbar' macro='toolbar [[ToolbarCommands::TaskViewToolbar]]'></div>
 <div class='title' macro='view title'></div>
 <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged' macro='tags'></div>
 <div class='task'>
 	<table>
 	<tr>
@@ -39,8 +48,6 @@
 <div class='toolbar' macro='toolbar [[ToolbarCommands::TaskEditToolbar]]'></div>
 <div class='title edit' macro='edit title'></div>
 <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged edit' macro='tags'></div>
 <div class='task'>
 	<table>
 	<tr>
