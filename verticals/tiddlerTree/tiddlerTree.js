@@ -25,12 +25,14 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 			else 
 				var sectionClass = "incomplete";
 				
-				
 			var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left "+sectionClass);
 			var assignment = store.getTiddler(tiddlerTitle).fields['tt_user'];
 			var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
-			var heading = createTiddlyElement(sectionDiv, "h"+level, null, null, tiddlerTitle+" - "+(assignment ? ("Assigned to: "+assignment) : "Unassigned"));
-
+			var heading = createTiddlyElement(sectionDiv, "h"+level, null, "sectionHeading", tiddlerTitle+" - "+(assignment ? ("Assigned to: "+assignment) : "Unassigned"));
+			log(heading);
+			log("ping", "");
+		
+			
 			createTiddlyLink(heading,tiddlerTitle, "edit","editLink");
 			
 			var body = createTiddlyElement(sectionDiv, "div", null, "sectionBody", store.getTiddlerText(tiddlerTitle));
@@ -53,15 +55,24 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 						output += " "+this.id+"\n";
 					}			
 			 });
-			log(output);
-			
 			store.saveTiddler(params[0], params[0], output);
 			autoSaveChanges();
 		},
 		autoScroll: true,
-		handle: '.sort-handle'
+		handle: '.sort-handle .sectionHeading'
 	});
 
+			
+			$(".sectionHeading").hover(
+				function() {
+					console.log("made the hover");
+					$(this).addClass("draggableOn");
+				}, 
+				function() {
+					console.log("made the unhoverr");
+					$(this).removeClass("draggableOn");
+				}
+			);
 
 
 		}

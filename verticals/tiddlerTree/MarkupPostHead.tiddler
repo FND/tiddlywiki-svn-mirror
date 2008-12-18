@@ -3635,7 +3635,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			
 			
 			.sort-handle > h1, .sort-handle > h2, .sort-handle > h3 {
-				background-color:#A4ADBC;
+		
 				display:block;
 				float:left;
 				width:99%;
@@ -3652,7 +3652,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 
 			.sort-handle {
-				cursor:move;
+//				cursor:move;
 			}
 			
 			.helper {
@@ -3728,6 +3728,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			width:75%;
 			text-aign:center;
 		}	
+		
+		.draggableOn {
+	cursor:move;
+			background-color:blue !important;
+		}
 		</style>
 		
 		</pre>
