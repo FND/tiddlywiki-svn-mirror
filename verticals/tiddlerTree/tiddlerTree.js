@@ -20,25 +20,20 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 				parent = parent.parentNode;
 			}
 			
-			if(store.getTiddler(tiddlerTitle).fields['tt_status'] == "Complete")
+			if(store.getTiddler(tiddlerTitle).fields.tt_status == "Complete")
 				var sectionClass = "completed";
 			else 
 				var sectionClass = "incomplete";
 				
 				
 			var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left "+sectionClass);
-			
+			var assignment = store.getTiddler(tiddlerTitle).fields['tt_user'];
 			var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
-			var heading = createTiddlyElement(sectionDiv, "h"+level, null, null, tiddlerTitle);
-			
-			
-	
-			
+			var heading = createTiddlyElement(sectionDiv, "h"+level, null, null, tiddlerTitle+" - "+(assignment ? ("Assigned to: "+assignment) : "Unassigned"));
+
 			createTiddlyLink(heading,tiddlerTitle, "edit","editLink");
-			log(store.getTiddler(tiddlerTitle).fields['tt_status']);
 			
-			
-			var body = createTiddlyElement(sectionDiv, "div", null, null, wikifyStatic(store.getTiddlerText(tiddlerTitle)));
+			var body = createTiddlyElement(sectionDiv, "div", null, "sectionBody", store.getTiddlerText(tiddlerTitle));
 			var prevLevel = level;
 
 
