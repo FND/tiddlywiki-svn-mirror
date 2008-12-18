@@ -3619,9 +3619,10 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			
 			.page-item1 > div{
 				background: #f8f8f8;
-				border-right : 3em solid #BB5555;
+
 				margin: 0.25em 0 0 0;
 			}
+			
 			
 			.section {
 				padding:0px;
@@ -3694,6 +3695,15 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			background-color:#A4ADBC;
 			color:white;
 		}
+		
+		 li.completed {
+					border-right : 3em solid green;
+		}
+		
+		 li.incomplete {
+					border-right : 3em solid red;
+		}
+		
 			
 		</style>
 		

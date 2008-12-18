@@ -19,13 +19,23 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 			} else if (level < prevLevel) {
 				parent = parent.parentNode;
 			}
-			var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left");
+			
+			if(store.getTiddler(tiddlerTitle).fields['tt_status'] == "Complete")
+				var sectionClass = "completed";
+			else 
+				var sectionClass = "incomplete";
+				
+				
+			var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left "+sectionClass);
 			
 			var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
 			var heading = createTiddlyElement(sectionDiv, "h"+level, null, null, tiddlerTitle);
 			
-			createTiddlyLink(sectionDiv,tiddlerTitle, "edit","editLink");
 			
+	
+			
+			createTiddlyLink(sectionDiv,tiddlerTitle, "edit","editLink");
+			log(store.getTiddler(tiddlerTitle).fields['tt_status']);
 			
 			
 			var body = createTiddlyElement(sectionDiv, "div", null, null, store.getTiddlerText(tiddlerTitle));
@@ -45,9 +55,11 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 						
 						var stars = "********************************************************";
 						output += stars.substring(0, $(this).parents(".page-list").length);
-						output += " "+this.id+" \n";
+						output += " "+this.id+"\n";
 					}			
 			 });
+			log(output);
+			
 			store.saveTiddler(params[0], params[0], output);
 			autoSaveChanges();
 		},
