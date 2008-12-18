@@ -36,15 +36,18 @@ var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
 		onChange: function(serialized) {
 			var output = "";
 			$("li").each(function (i) {
-				if(this.parentNode.parentNode.className == "viewer")
-					output  += "* "+this.id+"\n";     
-				else if(this.parentNode.parentNode.parentNode.parentNode.className == "viewer")
-					output  += "** "+this.id+"\n";     
-				else if(this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.className == "viewer")
-					output  += "*** "+this.id+"\n";     
-				console.log(this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode);
+	
+					if($(this).parents(".page-list").length != 0) {
+						var stars = "********************************************************";
+						output += stars.substring(0, $(this).parents(".page-list").length);
+						output += " "+this.id+" \n";
+					}
+			
+			
+			
+			
 			 });
-			console.log(output);
+			log(output);
 			store.saveTiddler(params[0], params[0], output);
 			autoSaveChanges();
 		},
