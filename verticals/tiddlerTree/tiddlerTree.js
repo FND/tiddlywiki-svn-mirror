@@ -14,16 +14,21 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 		if (matches) {
 			var level = matches[1].length
 			var tiddlerTitle = matches[2];
-			console.log(parent, level, prevLevel);
 			if (level>prevLevel) {
 				parent = createTiddlyElement(parent, "ul","sortableList", "page-list");
 			} else if (level < prevLevel) {
 				parent = parent.parentNode;
 			}
 			var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left");
+			
+			
 var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
 			var heading = createTiddlyElement(sectionDiv, "h"+level, null, null, tiddlerTitle);
-			wikify("[["+tiddlerTitle+"]]", sectionDiv);
+			
+			createTiddlyLink(sectionDiv,tiddlerTitle, "edit","editLink");
+			
+			
+			
 			var body = createTiddlyElement(sectionDiv, "div", null, null, store.getTiddlerText(tiddlerTitle));
 			var prevLevel = level;
 

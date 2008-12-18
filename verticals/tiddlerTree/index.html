@@ -78,7 +78,7 @@ DAMAGE.
 			
 			.page-item1 > div{
 				background: #f8f8f8;
-				border-right : 3em solid red;
+				border-right : 3em solid #BB5555;
 				margin: 0.25em 0 0 0;
 			}
 			
@@ -92,11 +92,18 @@ DAMAGE.
 			}
 			
 			
-			li.robbie {
-				background-color:blue;
-				padding:0px;
-				
-			margin:0px;			}
+			.sort-handle > h1, .sort-handle > h2, .sort-handle > h3 {
+				background-color:#A4ADBC;
+				display:block;
+				float:left;
+				width:100%;
+				}
+			
+			h1 > a.tiddlyLink {
+				background-color:red important!;
+			}
+			
+			
 			.left {
 				text-align: left;
 			}
@@ -136,6 +143,15 @@ DAMAGE.
 			background-color:white;
 			padding:1em;
 			margin:1px;
+//			position:relative;
+		}
+		
+		.editLink {
+			float:right;
+			padding-right:2em;
+			padding-left:2em;
+			background-color:#A4ADBC;
+			color:white;
 		}
 			
 		</style>
@@ -644,7 +660,7 @@ Also see AdvancedOptions</pre>
 			
 			.page-item1 &gt; div{
 				background: #f8f8f8;
-				border-right : 3em solid red;
+				border-right : 3em solid #BB5555;
 				margin: 0.25em 0 0 0;
 			}
 			
@@ -658,11 +674,18 @@ Also see AdvancedOptions</pre>
 			}
 			
 			
-			li.robbie {
-				background-color:blue;
-				padding:0px;
-				
-			margin:0px;			}
+			.sort-handle &gt; h1, .sort-handle &gt; h2, .sort-handle &gt; h3 {
+				background-color:#A4ADBC;
+				display:block;
+				float:left;
+				width:100%;
+				}
+			
+			h1 &gt; a.tiddlyLink {
+				background-color:red important!;
+			}
+			
+			
 			.left {
 				text-align: left;
 			}
@@ -702,6 +725,15 @@ Also see AdvancedOptions</pre>
 			background-color:white;
 			padding:1em;
 			margin:1px;
+//			position:relative;
+		}
+		
+		.editLink {
+			float:right;
+			padding-right:2em;
+			padding-left:2em;
+			background-color:#A4ADBC;
+			color:white;
 		}
 			
 		&lt;/style&gt;
@@ -709,7 +741,10 @@ Also see AdvancedOptions</pre>
 		</pre>
 </div>
 <div title="MyDoc" modifier="PhilHawksworth" created="200709241640" modified="200710231249">
-<pre>&lt;&lt;tiddlerTree1 bid&gt;&gt;</pre>
+<pre>
+[[bid]]
+
+&lt;&lt;tiddlerTree1 bid&gt;&gt;</pre>
 </div>
 <div title="NewUserWizardPlugin" modifier="PhilHawksworth" created="200710221620" modified="200710241440" tags="systemConfig">
 <pre>/***
@@ -1647,6 +1682,60 @@ table.sortable thead tr td { background-color: [[TeamTasksColors::LightestShade]
 <div title="TopMenu" modifier="PhilHawksworth" created="200803280000">
 <pre>&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newTiddler title:&quot;New Task&quot; label:&quot;new task&quot; tag:&quot;task&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;</pre>
 </div>
+<div title="TreeTheme" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TeamTasks">
+<pre>/***
+|''Name:''|TreeTheme|
+|''Description:''|The basic TeamTasks theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
+|''Version:''|0.4|
+|''Date:''|March 28th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~taskViewTemplate:''|##taskViewTemplate|
+|''~taskEditTemplate:''|##taskEditTemplate|
+***/
+
+
+!taskViewTemplate
+&lt;!--{{{--&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::TaskViewToolbar]]'&gt;&lt;/div&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
+&lt;div class='task'&gt;
+	&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td class='taskbody'&gt;&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;&lt;/td&gt;
+		&lt;td class='taskControls'&gt;&lt;div class='taskControls' macro='tiddler TaskTiddlerControls'&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+!taskEditTemplate
+&lt;!--{{{--&gt;
+&lt;div class=&quot;editor&quot;&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::TaskEditToolbar]]'&gt;&lt;/div&gt;
+&lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='tagged edit' macro='tags'&gt;&lt;/div&gt;
+&lt;div class='task'&gt;
+	&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td class='taskbody'&gt;&lt;div class='viewer edit' macro='edit text wikified'&gt;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;
+		&lt;td class='taskControls'&gt;&lt;div class='taskControls' macro='tiddler TaskTiddlerControls'&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;</pre>
+</div>
 <div title="UserDefinitions" modifier="PhilHawksworth" created="200708161718" modified="200710290945" tags="TaskDefinitions TeamTasks">
 <pre>PhilHawksworth
 AnneOther</pre>
@@ -1776,12 +1865,11 @@ if(!version.extensions.ValueSwitcher)
 }
 //}}}</pre>
 </div>
-<div title="bid" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task" changecount="1">
-<pre>** simon 
-** names 
-** robbie 
-** phil 
-</pre>
+<div title="bid" modifier="PhilHawksworth" created="200709241640" modified="200710231249">
+<pre>* names
+** simon
+** robbie
+** phil</pre>
 </div>
 <div title="jon" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task">
 <pre>Lorem ipsum dolor sit amet, vestibulum a alias, a eu, wisi mauris, dictum orci sed lectus ipsum ut. Sed sapien eros suspendisse nunc, vero molestie porttitor eros, consequat vel volutpat platea. Montes ante vel condimentum pellentesque nunc eget, aliquet quam mattis nullam, tellus leo elit. Lectus tellus ac vestibulum rutrum. Turpis feugiat dignissimos ac ligula, cras sed dolor, eu varius sed sit ante. Fringilla ipsum mauris cras orci mauris, ac eu, eu ullam aliquam nunc donec, accumsan neque volutpat laoreet, ac nec cubilia. Sem magna, dui consequat, pellentesque elementum rutrum nonummy ex quaerat. Pellentesque diam. Neque cursus dignissim mus at, donec volutpat tellus, elit aliquet augue augue in malesuada orci.
@@ -1793,7 +1881,8 @@ Urna curabitur magna litora pretium vestibulum pretium, vivamus fusce dictumst. 
 Egestas aliquet integer viverra, luctus in ut morbi in, urna sed sed. Vitae tellus venenatis leo velit viverra, nulla dolor id, curabitur mi ut tristique a nec, felis massa dis habitant cras. Lacinia tristique lorem risus eget arcu. Habitasse etiam ut dui, suscipit venenatis pellentesque diam congue ac nec. Ipsum sed et luctus feugiat nec vitae, viverra lorem in amet libero proin, orci ac cursus proin urna, maecenas id suspendisse arcu amet quisque, proin sed tempor.</pre>
 </div>
 <div title="names" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task">
-<pre>Lorem ipsum dolor sit amet, vestibulum a alias, a eu, wisi mauris, dictum orci sed lectus ipsum ut. Sed sapien eros suspendisse nunc, vero molestie porttitor eros, consequat vel volutpat platea. Montes ante vel condimentum pellentesque nunc eget, aliquet quam mattis nullam, tellus leo elit. Lectus tellus ac vestibulum rutrum. Turpis feugiat dignissimos ac ligula, cras sed dolor, eu varius sed sit ante. Fringilla ipsum mauris cras orci mauris, ac eu, eu ullam aliquam nunc donec, accumsan neque volutpat laoreet, ac nec cubilia. Sem magna, dui consequat, pellentesque elementum rutrum nonummy ex quaerat. Pellentesque diam. Neque cursus dignissim mus at, donec volutpat tellus, elit aliquet augue augue in malesuada orci.
+<pre>
+Lorem ipsum dolor sit amet, vestibulum a alias, a eu, wisi mauris, dictum orci sed lectus ipsum ut. Sed sapien eros suspendisse nunc, vero molestie porttitor eros, consequat vel volutpat platea. Montes ante vel condimentum pellentesque nunc eget, aliquet quam mattis nullam, tellus leo elit. Lectus tellus ac vestibulum rutrum. Turpis feugiat dignissimos ac ligula, cras sed dolor, eu varius sed sit ante. Fringilla ipsum mauris cras orci mauris, ac eu, eu ullam aliquam nunc donec, accumsan neque volutpat laoreet, ac nec cubilia. Sem magna, dui consequat, pellentesque elementum rutrum nonummy ex quaerat. Pellentesque diam. Neque cursus dignissim mus at, donec volutpat tellus, elit aliquet augue augue in malesuada orci.
 
 Elit phasellus lectus ac mauris, dis neque nostra wisi sit sagittis, semper malesuada consequat varius enim eros, duis venenatis nec netus aenean beatae maecenas, morbi purus donec tempora aliquam. Felis est tellus, ullamcorper non aenean arcu elit, penatibus ante cillum praesent nam, ultrices sem eros sed, a cum. A sed nibh aliquet. Nec justo amet vitae tincidunt dapibus sollicitudin. Congue in non sem et, pretium amet consequat. Tincidunt in nibh, laoreet eu aenean, in gravida vel eu molestie. Litora commodo posuere placerat augue vestibulum, cum sed dui, cras rutrum et dolor. Id ac. Sed porttitor donec fringilla nunc curabitur ut, fermentum tortor. Bibendum dolor est pellentesque nulla, placerat pharetra consectetuer nisl ac, praesent eget iaculis augue massa maecenas in. Netus consectetuer eu consequat, aliquam molestie eu morbi, in nonummy pellentesque sodales urna a morbi, eu luctus lacinia libero cum, est enim. Wisi lacus pellentesque eget amet vestibulum.
 
@@ -1810,13 +1899,23 @@ Urna curabitur magna litora pretium vestibulum pretium, vivamus fusce dictumst. 
 
 Egestas aliquet integer viverra, luctus in ut morbi in, urna sed sed. Vitae tellus venenatis leo velit viverra, nulla dolor id, curabitur mi ut tristique a nec, felis massa dis habitant cras. Lacinia tristique lorem risus eget arcu. Habitasse etiam ut dui, suscipit venenatis pellentesque diam congue ac nec. Ipsum sed et luctus feugiat nec vitae, viverra lorem in amet libero proin, orci ac cursus proin urna, maecenas id suspendisse arcu amet quisque, proin sed tempor.</pre>
 </div>
+<div title="robbie" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="task">
+<pre>Lorem ipsum dolor sit amet, vestibulum a alias, a eu, wisi mauris, dictum orci sed lectus ipsum ut. Sed sapien eros suspendisse nunc, vero molestie porttitor eros, consequat vel volutpat platea. Montes ante vel condimentum pellentesque nunc eget, aliquet quam mattis nullam, tellus leo elit. Lectus tellus ac vestibulum rutrum. Turpis feugiat dignissimos ac ligula, cras sed dolor, eu varius sed sit ante. Fringilla ipsum mauris cras orci mauris, ac eu, eu ullam aliquam nunc donec, accumsan neque volutpat laoreet, ac nec cubilia. Sem magna, dui consequat, pellentesque elementum rutrum nonummy ex quaerat. Pellentesque diam. Neque cursus dignissim mus at, donec volutpat tellus, elit aliquet augue augue in malesuada orci.
+
+Elit phasellus lectus ac mauris, dis neque nostra wisi sit sagittis, semper malesuada consequat varius enim eros, duis venenatis nec netus aenean beatae maecenas, morbi purus donec tempora aliquam. Felis est tellus, ullamcorper non aenean arcu elit, penatibus ante cillum praesent nam, ultrices sem eros sed, a cum. A sed nibh aliquet. Nec justo amet vitae tincidunt dapibus sollicitudin. Congue in non sem et, pretium amet consequat. Tincidunt in nibh, laoreet eu aenean, in gravida vel eu molestie. Litora commodo posuere placerat augue vestibulum, cum sed dui, cras rutrum et dolor. Id ac. Sed porttitor donec fringilla nunc curabitur ut, fermentum tortor. Bibendum dolor est pellentesque nulla, placerat pharetra consectetuer nisl ac, praesent eget iaculis augue massa maecenas in. Netus consectetuer eu consequat, aliquam molestie eu morbi, in nonummy pellentesque sodales urna a morbi, eu luctus lacinia libero cum, est enim. Wisi lacus pellentesque eget amet vestibulum.
+
+Urna curabitur magna litora pretium vestibulum pretium, vivamus fusce dictumst. Tortor et tincidunt amet vestibulum gravida, aliquam consectetur, sit at vitae lacinia mi enim amet, libero duis. Eget at at venenatis tincidunt volutpat suspendisse, asperiores feugiat in nonummy, nunc sed. Nec condimentum magna delectus dignissim, mollis sed consectetuer ut aenean molestie, harum nec. Lacinia sed sit massa ac est, ante suscipit sociis condimentum sit, congue duis vitae mauris, metus pellentesque varius ipsum, arcu elit nec curabitur mi in vel. Libero turpis nunc consectetuer sed diam lorem, eu sed consequat a id eu in. Dui arcu nonummy. Mauris quis pretium pede, nulla nunc libero, pellentesque urna, nascetur vitae ridiculus sed viverra urna. Mus ornare iaculis fringilla felis est et, felis lorem, aliquam donec scelerisque ipsum sapien massa commodo, blandit nam venenatis, velit fermentum iaculis. Praesent sed sed suscipit accumsan, quis duis odio vel, eros tincidunt per natoque. Feugiat dis, vitae pede quis.
+
+Egestas aliquet integer viverra, luctus in ut morbi in, urna sed sed. Vitae tellus venenatis leo velit viverra, nulla dolor id, curabitur mi ut tristique a nec, felis massa dis habitant cras. Lacinia tristique lorem risus eget arcu. Habitasse etiam ut dui, suscipit venenatis pellentesque diam congue ac nec. Ipsum sed et luctus feugiat nec vitae, viverra lorem in amet libero proin, orci ac cursus proin urna, maecenas id suspendisse arcu amet quisque, proin sed tempor.</pre>
+</div>
 <div title="settings" modifier="PhilHawksworth" created="200709241640" modified="200710231249" tags="systemConfig">
-<pre>//{{{
+<pre>
+//{{{
 
 config.options.chkAutoSave = true;
 config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
-config.options.txtTheme = &quot;Theme&quot;;
+config.options.txtTheme = &quot;TreeTheme&quot;;
 
 //}}}</pre>
 </div>
@@ -1829,7 +1928,7 @@ Urna curabitur magna litora pretium vestibulum pretium, vivamus fusce dictumst. 
 
 Egestas aliquet integer viverra, luctus in ut morbi in, urna sed sed. Vitae tellus venenatis leo velit viverra, nulla dolor id, curabitur mi ut tristique a nec, felis massa dis habitant cras. Lacinia tristique lorem risus eget arcu. Habitasse etiam ut dui, suscipit venenatis pellentesque diam congue ac nec. Ipsum sed et luctus feugiat nec vitae, viverra lorem in amet libero proin, orci ac cursus proin urna, maecenas id suspendisse arcu amet quisque, proin sed tempor.</pre>
 </div>
-<div title="tiddlerTree" created="200812181234" tags="systemConfig">
+<div title="tiddlerTree" created="200812181512" tags="systemConfig">
 <pre>// tiddlerTree1 //
 
 //{{{
@@ -1846,16 +1945,21 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 		if (matches) {
 			var level = matches[1].length
 			var tiddlerTitle = matches[2];
-			console.log(parent, level, prevLevel);
 			if (level&gt;prevLevel) {
 				parent = createTiddlyElement(parent, &quot;ul&quot;,&quot;sortableList&quot;, &quot;page-list&quot;);
 			} else if (level &lt; prevLevel) {
 				parent = parent.parentNode;
 			}
 			var section = createTiddlyElement(parent, &quot;li&quot;, tiddlerTitle, &quot;section clear-element page-item1 left&quot;);
+			
+			
 var sectionDiv = createTiddlyElement(section, &quot;div&quot;, null, &quot;sort-handle&quot;);
 			var heading = createTiddlyElement(sectionDiv, &quot;h&quot;+level, null, null, tiddlerTitle);
-			wikify(&quot;[[&quot;+tiddlerTitle+&quot;]]&quot;, sectionDiv);
+			
+			createTiddlyLink(sectionDiv,tiddlerTitle, &quot;edit&quot;,&quot;editLink&quot;);
+			
+			
+			
 			var body = createTiddlyElement(sectionDiv, &quot;div&quot;, null, null, store.getTiddlerText(tiddlerTitle));
 			var prevLevel = level;
 

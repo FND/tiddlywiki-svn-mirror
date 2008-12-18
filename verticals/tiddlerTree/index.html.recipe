@@ -37,11 +37,14 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: myDoc.tiddler
 tiddler: bid.tiddler
 tiddler: content/names.tiddler  tags="task"
+tiddler: content/robbie.tiddler  tags="task"
 tiddler: content/simon.tiddler tags="task"
 tiddler: content/phil.tiddler tags="task"
 tiddler: content/jon.tiddler tags="task"
 tiddler: TaskTiddlerControls.tiddler
 tiddler: MarkupPostHead.tiddler
+
+tiddler: TreeTheme.tiddler
 tiddler: tiddlerTree.js tags="systemConfig"
 tiddler: PageTemplate.tiddler
 
