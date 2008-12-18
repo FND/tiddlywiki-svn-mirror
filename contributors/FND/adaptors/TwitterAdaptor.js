@@ -3,7 +3,7 @@
 |''Description''|adaptor for retrieving data from Twitter|
 |''Author''|FND|
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
-|''Version''|0.3.4|
+|''Version''|0.3.5|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptor|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -23,7 +23,7 @@
 if(!version.extensions.TiddlyWebAdaptorPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 
-config.extensions.twitter = function() {};
+config.adaptors.twitter = function() {};
 
 (function(adaptor) { //# set up alias
 
@@ -303,7 +303,7 @@ adaptor.decodeHTMLEntities = function(str) {
 	return el.value;
 };
 
-})(config.extensions.twitter); //# end of alias
+})(config.adaptors.twitter); //# end of alias
 
 } //# end of "install only once"
 //}}}
