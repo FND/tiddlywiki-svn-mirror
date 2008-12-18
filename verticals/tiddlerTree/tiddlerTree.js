@@ -21,8 +21,7 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 			}
 			var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left");
 			
-			
-var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
+			var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
 			var heading = createTiddlyElement(sectionDiv, "h"+level, null, null, tiddlerTitle);
 			
 			createTiddlyLink(sectionDiv,tiddlerTitle, "edit","editLink");
@@ -37,11 +36,13 @@ var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
 		accept: 'page-item1',
 		opacity: .6,
 		helperclass: 'helper',
-		
 		onChange: function(serialized) {
 			var output = "";
 			$("li").each(function (i) {
+				
+				
 					if($(this).parents(".page-list").length != 0) {
+						
 						var stars = "********************************************************";
 						output += stars.substring(0, $(this).parents(".page-list").length);
 						output += " "+this.id+" \n";
