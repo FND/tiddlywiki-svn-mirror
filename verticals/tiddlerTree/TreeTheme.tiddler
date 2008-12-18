@@ -1,0 +1,54 @@
+<div title="TreeTheme" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TeamTasks">
+<pre>
+/***
+|''Name:''|TreeTheme|
+|''Description:''|The basic TeamTasks theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
+|''Version:''|0.4|
+|''Date:''|March 28th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~taskViewTemplate:''|##taskViewTemplate|
+|''~taskEditTemplate:''|##taskEditTemplate|
+***/
+
+
+!taskViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::TaskViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='task'>
+	<table>
+	<tr>
+		<td class='taskbody'><div class='viewer' macro='view text wikified'></div></td>
+		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+</div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!taskEditTemplate
+<!--{{{-->
+<div class="editor">
+<div class='toolbar' macro='toolbar [[ToolbarCommands::TaskEditToolbar]]'></div>
+<div class='title edit' macro='edit title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged edit' macro='tags'></div>
+<div class='task'>
+	<table>
+	<tr>
+		<td class='taskbody'><div class='viewer edit' macro='edit text wikified'></div></div></td>
+		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+</div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
