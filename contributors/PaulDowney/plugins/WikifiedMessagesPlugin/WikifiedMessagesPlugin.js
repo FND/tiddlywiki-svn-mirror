@@ -4,14 +4,13 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/WikifiedMessagesPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/WikifiedMessagesPlugin/ |
-|''Version:''|0.1|
+|''Version:''|0.2|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
 !!Documentation
 A plugin to replace the core displayMessage function with a version which wikifies the message text.
-The created message div is returned for extensibility by other plugins.
-TiddlyWiki initializes plugin tiddlers in collation sequence order, so in order to make the displayMessage() function available for use in other plugins during initialization, the tiddler has been named _WikifiedMessagesPlugin.
+The closeButton is a seperate, overrideable, function and the created message div is returned by displayMessage, for extensibility by other plugins.
 !!Code
 ***/
 //{{{
@@ -19,6 +18,26 @@ if(!version.extensions.WikifiedMessagesPlugin) {
 version.extensions.WikifiedMessagesPlugin = {installed:true};
 
 	config.extensions.WikifiedMessages = {
+
+		closeButton: function(msgArea)
+		{
+			return (msgArea.hasChildNodes())? null :
+				createTiddlyButton(createTiddlyElement(msgArea,"div",null,"messageToolbar"),
+					config.messages.messageClose.text,
+					config.messages.messageClose.tooltip,
+					clearMessage);
+		},
+		getMessageDiv: function()
+		{
+			var msgArea = document.getElementById("messageArea");
+			var me = config.extensions.WikifiedMessages;
+			if(!msgArea){
+				return null;
+			}
+			me.closeButton(msgArea);
+			msgArea.style.display = "block";
+			return createTiddlyElement(msgArea,"div");
+		},
 		displayMessage: function(text,linkText)
 		{
 			var e = getMessageDiv();
@@ -35,6 +54,7 @@ version.extensions.WikifiedMessagesPlugin = {installed:true};
 	};
 
 	displayMessage = config.extensions.WikifiedMessages.displayMessage;
+	getMessageDiv = config.extensions.WikifiedMessages.getMessageDiv;
 
         // macro, useful for testing
         config.macros.DisplayMessage = {
@@ -42,6 +62,5 @@ version.extensions.WikifiedMessagesPlugin = {installed:true};
                         displayMessage(paramString);
                 }
         };
-};
-
+}
 //}}}
