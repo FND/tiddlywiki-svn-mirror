@@ -1,0 +1,5 @@
+<div title="FoodZoneStylesheet" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="" children="" changecount="19"><pre>body { background-color: #ccff88; background-repeat: no-repeat; background-image: url('http://www.japanprobe.com/news/dekai-burger.jpg') }
+  .tiddler { background: red; }
+  #mainMenu { background: #9f9faf; }
+</pre>
+</div>
