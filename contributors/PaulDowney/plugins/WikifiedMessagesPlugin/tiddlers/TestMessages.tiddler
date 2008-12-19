@@ -1,0 +1,8 @@
+<div title="TestMessages">
+<pre>
+<<DisplayMessage hello>>
+<<DisplayMessage ''psd'' has a blog at http://blog.whatfettle.com>>
+<<DisplayMessage An ethnic //Australian// is a type of human>>
+<<DisplayMessage goodbye>>
+</pre>
+</div>
