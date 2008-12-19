@@ -1,0 +1,6 @@
+<div title="TestMessages">
+<pre>
+<<DisplayMessage hello>>
+<<DisplayMessage goodbye>>
+</pre>
+</div>
