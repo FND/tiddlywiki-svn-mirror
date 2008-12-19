@@ -1,5 +1,4 @@
-<div title="TreeTheme" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TeamTasks">
-<pre>
+
 /***
 |''Name:''|TreeTheme|
 |''Description:''|The basic TeamTasks theme |
@@ -13,6 +12,8 @@
 |''~ViewTemplate:''|##ViewTemplate|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
 ***/
 
 

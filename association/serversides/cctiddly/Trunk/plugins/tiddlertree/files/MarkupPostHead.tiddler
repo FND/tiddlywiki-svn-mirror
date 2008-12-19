@@ -2,3 +2,140 @@
 <script type="text/javascript" src="http://www.bernardopadua.com/nestedSortables/externals/released-externals/jquery-1.1.4.js"></script>
 <script type="text/javascript" src="http://www.bernardopadua.com/nestedSortables/externals/released-externals/interface-1.2.js"></script> 
 <script type="text/javascript" src="http://www.bernardopadua.com/nestedSortables/compressed/nested_sortable/inestedsortable.js"></script> 
+
+
+
+		<style type="text/css">
+			div.wrap {
+				border:1px solid #BBBBBB;
+		
+			}
+			
+			.page-list {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: block;
+			}
+			
+			.clear-element {
+				clear: both;
+			}
+			
+			.page-item1 > div{
+				background: #f8f8f8;
+
+				margin: 0.25em 0 0 0;
+			}
+			
+			
+			.section {
+				padding:0px;
+				margin:0px;
+			}
+
+			.sort-handle {
+		
+			}
+			
+			
+			.sort-handle > h1, .sort-handle > h2, .sort-handle > h3 {
+		
+				display:block;
+				float:left;
+				width:99%;
+				}
+			
+			h1 > a.tiddlyLink {
+				background-color:red important!;
+			}
+			
+			
+			.left {
+				text-align: left;
+			}
+
+
+			.sort-handle {
+//				cursor:move;
+			}
+			
+			.helper {
+			border:2px dashed #777777;
+			}
+			
+			.current-nesting {
+				background-color: yellow;
+			}
+			
+			.bold {
+				color: red;
+				font-weight: bold;
+			}
+			
+			
+			h1, h2, h3 {
+			padding:0em !important;
+			margin:0.5em !important;
+			color:white !important;
+		}
+		
+		div.viewer {
+			background-color:#EDECE8;
+			}	
+	html >	body {
+			background:#75747A;
+		}
+		
+		div.sort-handle {
+			background-color:white;
+			padding:0em;
+			margin:0em;
+			padding-top:0px;
+//			position:relative;
+		}
+		
+			div.sort-handle div{
+				border-bottom:1px solid #EDECE8;
+				paddding:1em;
+				margin:0em;
+			}
+		
+		.editLink {
+			float:right;
+			padding-right:2em;
+			padding-left:2em;
+			background-color:#A4ADBC;
+			color:white;
+		}
+		
+		 li.completed {
+					border-right : 3em solid #C0DA5F;
+		}
+		
+		 li.incomplete {
+					border-right : 3em solid #A4001D;
+		}
+		
+		li {
+			style:none;
+		}
+		ul {
+			list-style:none;
+		}
+		
+		.sectionBody {
+			padding:1em;
+		}
+		
+		
+		#tiddlerDisplay {
+			width:75%;
+			text-aign:center;
+		}	
+		
+		.draggableOn {
+	cursor:move;
+			background-color:blue !important;
+		}
+		</style>
