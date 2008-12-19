@@ -1,15 +1,13 @@
 <?php
-//TODO - check for users read access to the tiddler 
+
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 debug($_SERVER['PHP_SELF'], "handle");	
-
 
 $tiddler = db_tiddlers_mainSelectTitle($_REQUEST['title']);
 if( $tiddler === FALSE ) {//not found
 	sendHeader(204);
 }
-
 $tiddlyCfg['workspace_name'] = $_REQUEST['workspace'];
 $tiddler = db_tiddlers_mainSelectTitle($title);
 //use tiddler_id to obtain list of tiddler for revision
