@@ -518,26 +518,26 @@ if(!version.extensions.TiddlerTableMacro) {
 
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
       var macroParams = paramString.parseParams();
-      var filter =  (getParam(macroParams, &quot;filter&quot;)) ?  getParam(macroParams, &quot;filter&quot;) : &quot;&quot;;
-      var tiddlers = store.filterTiddlers(filter);
+      var tiddlers =  store.filterTiddlers(getParam(macroParams, &quot;filter&quot;));
+      console.log(tiddlers);
       var table = createTiddlyElement(place, &quot;table&quot;, null, &quot;tiddlerTable&quot;);
       
       /* Process Defaults - headings */
       headings = [&quot;Tiddler&quot;, &quot;Summary&quot;];
       if (getParam(macroParams, &quot;headings&quot;)) headings = getParam(macroParams, &quot;headings&quot;).split(&quot;,&quot;);
       var row = createTiddlyElement(table, &quot;tr&quot;);
-
-      /* Process Defaults - summaries */
-      var summaryFuncs = [ &quot;tiddler.title&quot;, &quot;tiddler.text.substr(0,50)&quot;];
-      for (var colCount=0; colCount&lt;headings.length; colCount++) {
-        var summaryFunc = (getParam(macroParams, &quot;col&quot;+(colCount+1)));
-        if (summaryFunc) summaryFuncs[colCount] = summaryFunc;
-        log(&quot;show &gt;&quot;+colCount+&quot;&gt;&quot;, summaryFunc, summaryFuncs, getParam(macroParams, &quot;col2&quot;));
-      }
-
       /* Show Headings */
       for (var colCount=0; colCount&lt;headings.length; colCount++) {
         createTiddlyElement(row, &quot;th&quot;, null, null, headings[colCount]);
+      }
+
+      /* Process Defaults - summaries */
+      var defaultSummaryFuncs = [ &quot;'[['+tiddler.title+']]'&quot;, &quot;wikifyPlainText(tiddler.text,50) + ' ...'&quot;];
+      window.summary = {};
+      for (var colCount=0; colCount&lt;headings.length; colCount++) {
+        var summaryFunc = (getParam(macroParams, &quot;col&quot;+(colCount+1))) || defaultSummaryFuncs[colCount];
+        log(&quot;thefunc&quot;, colCount, summaryFunc);
+        eval(&quot;window.summary[&quot;+colCount+&quot;] = function(tiddler) { return &quot;+summaryFunc+&quot;; }&quot;);
       }
 
       /* Show Rows */
@@ -545,10 +545,10 @@ if(!version.extensions.TiddlerTableMacro) {
         row = createTiddlyElement(table, &quot;tr&quot;);
         var tiddler = tiddlers[rowCount];
         for (var colCount=0; colCount&lt;headings.length; colCount++) {
-          log(colCount, &quot;evaling &quot; + summaryFuncs[colCount], summaryFuncs);
-          // createTiddlyElement(row, &quot;td&quot;, null, null, eval(summaryFuncs[colCount]));
           var cell = createTiddlyElement(row, &quot;td&quot;, null, null);
-          wikify(eval(summaryFuncs[colCount])+&quot;&quot;, cell);
+          log(&quot;boom&quot;, cell, tiddler, window.summary[colCount]+&quot;&quot;);
+          // cell.innerHTML = wikify(window.summary[colCount](tiddler)+&quot;&quot;, cell);
+          wikify(window.summary[colCount](tiddler)+&quot;&quot;, cell);
         }
       }
     }
@@ -587,15 +587,15 @@ Coolness</pre>
 <pre>Lists tiddlers in a table</pre>
 </div>
 <div title="Welcome" modifier="Mahemoff" created="200809181254" modified="200809191620" changecount="19" children="">
-<pre>!Welcome
+<pre>!!Default Table
 
-Default table:
+Default table with a few tiddlers specified:
 
-&lt;&lt;tiddlerTable&gt;&gt;
+&lt;&lt;tiddlerTable filter: &quot;cake SiteTitle Welcome&quot;&gt;&gt;
 
-Customised table:
+!!Customised table
 
-&lt;&lt;tiddlerTable headings: &quot;Food,Chef,Summary Length,Eat after dinner?&quot;, col1: &quot;'[['+tiddler.title + ']]'&quot;, col2: &quot;'//made// by __' + tiddler.modifier+'__'&quot;, col3: &quot;tiddler.text.length&quot;, col4: &quot;tiddler.fields.food=='dessert' ? '&lt;html&gt;&lt;span class=yes&gt;Yes&lt;/span&gt;&lt;/html&gt;' : '&lt;html&gt;&lt;span class=no&gt;No&lt;/span&gt;&lt;/html&gt;'&quot;, filter: &quot;[tag[food]]&quot; &gt;&gt;</pre>
+&lt;&lt;atiddlerTable headings: &quot;Food,Chef,Summary Length,Eat after dinner?&quot;, col1: &quot;'[['+tiddler.title + ']]'&quot;, col2: &quot;'//made// by __' + tiddler.modifier+'__'&quot;, col3: &quot;tiddler.text.length&quot;, col4: &quot;tiddler.fields.food=='dessert' ? '&lt;html&gt;&lt;span class=yes&gt;Yes&lt;/span&gt;&lt;/html&gt;' : '&lt;html&gt;&lt;span class=no&gt;No&lt;/span&gt;&lt;/html&gt;'&quot;, filter: &quot;[tag[food]]&quot; &gt;&gt;</pre>
 </div>
 <div title="StyleSheet" modifier="Mahemoff" created="200809181254" modified="200809191620" changecount="19" children="">
 <pre>
