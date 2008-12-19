@@ -19,6 +19,7 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"OpenID",
 	"Portlet",
 	"seo",
+	"SkinnyTiddlers",
 	"WordpressMigration"
 );
 
