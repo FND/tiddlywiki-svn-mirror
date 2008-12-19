@@ -1,6 +1,8 @@
-<div title="DisplayMessage" tags="ticker javaScript" ticker_interval="6">
+<div title="DisplayMessage" tags="ticker javaScript" ticker_interval="1">
 <pre>
-	clearMessage();
+{{{
+	//clearMessage();
 	displayMessage("time:" + new Date());
+}}}
 </pre>
 </div>
