@@ -1,0 +1,105 @@
+#!/bin/sh
+
+#
+#  blank out a new Plugin for psd
+#
+export plugin="$1"
+export now=$(date +%Y%m%d%H%M%S)
+export author="PaulDowney"
+export email="psd (at) osmosoft (dot) com"
+export deployment="pauldowney@amp.dreamhost.com:/home/pauldowney/whatfettle.com/2008/07/$plugin/"
+export source="http://whatfettle.com/2008/07/$plugin/"
+
+if [ -z "$plugin" ]
+then
+	echo "usage: $(basename $0) PluginName" 1>&2
+	exit 1
+fi
+
+if [ ! -d "$plugin" ]
+then
+	mkdir "$plugin"
+fi
+
+cd "$plugin"
+
+function template
+{
+	f="$1"
+	[ -f "$f" ] && return
+	echo "creating $f" 1>&2
+	cat > $f
+}
+
+#
+#  plugin
+#
+template "$plugin.js" <<!
+/***
+|''Name:''|$plugin|
+|''Description:''| @@@Description@@@ |
+|''Author:''|$author ($email) |
+|''Source:''|$source |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/$author/plugins/$plugin/ |
+|''Version:''|0.1|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.4|
+!!Documentation
+@@@blah blah@@@
+!!Code
+***/
+//{{{
+if(!version.extensions.$plugin) {
+version.extensions.$plugin = {installed:true};
+
+	// stuff
+
+};
+//}}}
+!
+
+template "$plugin.js.meta" <<!
+title: $plugin
+modifier: $author
+created: $now
+modified: $now
+tags: systemConfig excludeLists excludeSearch
+!
+
+template "index.html.recipe" <<!
+recipe: \$TW_ROOT/core/tiddlywiki.html.recipe
+recipe: $plugin.recipe
+recipe: tiddlers/split.recipe
+!
+
+template "$plugin.recipe" <<!
+tiddler: $plugin.js
+!
+
+#
+#  example
+#
+template "deploy.sh" <<!
+scp index.html $deployment
+!
+
+template "go" <<!
+cook && ff index.html
+!
+
+[ ! -d "tiddlers" ]&&mkdir tiddlers
+
+template "tiddlers/split.recipe" <<!
+tiddler: DefaultTiddlers.tiddler
+!
+
+template "tiddlers/DefaultTiddlers.tiddler" <<!
+<div title="DefaultTiddlers" modifier="$author" created="$now" modified="$now" changecount="1">
+<pre>[[$plugin]]
+</pre>
+</div>
+!
+
+chmod +x deploy.sh go
+exit
