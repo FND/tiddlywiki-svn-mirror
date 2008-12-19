@@ -40,25 +40,16 @@
 			
 			
 			.sort-handle > h1, .sort-handle > h2, .sort-handle > h3 {
-		
-				display:block;
-				float:left;
-				width:99%;
+//				display:block;
+			//	float:left;
+//				width:99%;
 				}
-			
-			h1 > a.tiddlyLink {
-				background-color:red important!;
-			}
-			
+
 			
 			.left {
 				text-align: left;
 			}
 
-
-			.sort-handle {
-//				cursor:move;
-			}
 			
 			.helper {
 			border:2px dashed #777777;
@@ -76,8 +67,12 @@
 			
 			h1, h2, h3 {
 			padding:0em !important;
-			margin:0.5em !important;
-			color:white !important;
+			margin:0 !important;
+			color:black !important;
+			font-family:tahoma;
+			padding:1em;
+			margin:1em;
+			border-bottom:0px;
 		}
 		
 		div.viewer {
@@ -110,11 +105,13 @@
 		}
 		
 		 li.completed {
-					border-right : 3em solid #C0DA5F;
+					border-right : 10px solid #C0DA5F;
+					padding:1em;
 		}
 		
-		 li.incomplete {
-					border-right : 3em solid #A4001D;
+		 .incomplete {
+					border-right : 10px solid #A4001D;
+									padding:1em;
 		}
 		
 		li {
@@ -123,19 +120,12 @@
 		ul {
 			list-style:none;
 		}
-		
-		.sectionBody {
-			padding:1em;
-		}
-		
-		
-		#tiddlerDisplay {
-			width:75%;
-			text-aign:center;
-		}	
+	
 		
 		.draggableOn {
 	cursor:move;
-			background-color:blue !important;
+	padding:0px;
+	margin:0px;
+			background-color:#eee !important;
 		}
 		</style>

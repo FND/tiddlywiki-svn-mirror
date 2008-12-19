@@ -22,11 +22,8 @@
 !PageTemplate
 <!--{{{-->
 <div id='bodywrapper'>
-<div class='header' macro='gradient vert #ccc #eee'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
-</div>
 <div id='sidebar'>
 <div id='sidebarOptions' refresh='content' force='true' tiddler='purpleTheme##SideBarOptions'></div>
 </div>

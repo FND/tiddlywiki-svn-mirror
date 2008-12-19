@@ -1,0 +1,4 @@
+|assigned to |<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions">> |
+|status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
+
+

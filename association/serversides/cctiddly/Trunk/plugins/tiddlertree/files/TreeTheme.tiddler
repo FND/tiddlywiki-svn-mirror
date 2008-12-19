@@ -9,23 +9,51 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
+|''~EditTemplate:''|##EditTemplate|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
 |''~StyleSheet:''|##StyleSheet|
 
 ***/
 
+!PageTemplate
+<!--{{{-->
+<div id='bodywrapper'>
+<div class='header' macro='gradient vert #ccc #eee'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<div id='contentFooter'  macro='gradient vert #eee #ccc'></div>
+</div>
+<!--}}}-->
+
+
+!EditTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<!--}}}-->
 
 !ViewTemplate
 <!--{{{-->
-<div class='toolbar' macro='toolbar close'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 <div class='title' macro='view title'></div>
-<br />
 <div class='viewer' macro='view text wikified'></div>
+<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
 <div class='tagClear'></div>
 <!--}}}-->
-
 
 
 !taskViewTemplate
@@ -38,6 +66,8 @@
 <div class='viewer' macro='view text wikified'></div>
 <div class='tagClear'></div>
 <!--}}}-->
+
+
 
 !taskEditTemplate
 <!--{{{-->

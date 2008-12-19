@@ -24,36 +24,31 @@ config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,para
 			
 			
 			if(store.getTiddler(tiddlerTitle)){
+			// If the tiddler exists 
 				if(store.getTiddler(tiddlerTitle).fields.tt_status == "Complete")
 					var sectionClass = "completed";
 				else 
 					var sectionClass = "incomplete";
 				
-				var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left "+sectionClass);
+				var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left ");
 				var assignment = store.getTiddler(tiddlerTitle).fields['tt_user'];
 				var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
-				var heading = createTiddlyElement(sectionDiv, "h"+level, null, "sectionHeading", tiddlerTitle+" - "+(assignment ? ("Assigned to: "+assignment) : "Unassigned"));
-		
-			
-				createTiddlyLink(heading,tiddlerTitle, "edit","editLink");
-			
-				var body = createTiddlyElement(sectionDiv, "div", null, "sectionBody", store.getTiddlerText(tiddlerTitle));
+				var heading = createTiddlyElement(sectionDiv, "h"+level, null, "sectionHeading "+sectionClass);
+				var link = createTiddlyLink(heading, tiddlerTitle, "edit", false);
+				createTiddlyText(link, (assignment ? ("  - Assigned to: "+assignment) : "  - Unassigned"));
+				
+			//	createTiddlyLink(heading,tiddlerTitle, "edit","editLink");
+				var body = createTiddlyElement(sectionDiv, "div", null, "sectionBody "+sectionClass, store.getTiddlerText(tiddlerTitle));
 				var prevLevel = level;
 			} else {
-				
-								var sectionClass = "incomplete";
-
-							var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left "+sectionClass);
-							var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
-							var heading = createTiddlyElement(sectionDiv, "h"+level, null, "sectionHeading", tiddlerTitle+" - Not Started");
-
-
-							createTiddlyLink(heading,tiddlerTitle, "edit","editLink");
-
-							var prevLevel = level;
-							
-							
-				
+			// The tiddler does not exist
+				var sectionClass = "incomplete";
+				var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left ");
+				var sectionDiv = createTiddlyElement(section, "div", null, "sort-handle");
+				var heading = createTiddlyElement(sectionDiv, "h"+level, null, "sectionHeading "+sectionClass);
+				var link = createTiddlyLink(heading,tiddlerTitle, "edit",false);
+		
+				var prevLevel = level;
 			}
 
 	$("#sortableList").NestedSortable({
