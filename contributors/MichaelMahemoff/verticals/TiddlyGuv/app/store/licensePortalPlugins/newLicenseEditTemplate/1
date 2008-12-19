@@ -1,0 +1,13 @@
+modifier: MichaelMahemoff
+created: 200508181151
+modified: 200609101232
+tags: 
+
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class="titleLabel">License Title (e.g. "apache_2_0"):</div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor dev' macro='edit text'></div>
+<div class='editor dev' macro='edit tags'></div><div class='editorFooter dev'><span class="dev" macro='message views.editor.tagPrompt'></span><span class="dev" macro='tagChooser'></span></div>
+<!--}}}-->

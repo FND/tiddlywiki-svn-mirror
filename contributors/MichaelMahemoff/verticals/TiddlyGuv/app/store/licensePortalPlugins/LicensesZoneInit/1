@@ -1,0 +1,11 @@
+modifier: MichaelMahemoff
+created: 200508181151
+modified: 200609101232
+tags: 
+
+config.defaultCustomFields = {
+  'server.host': 'http://0.0.0.0:8080/',
+  'server.bag': 'licenses',
+  'server.workspace': 'portal',
+  'server.type': 'tiddlyweb',
+}

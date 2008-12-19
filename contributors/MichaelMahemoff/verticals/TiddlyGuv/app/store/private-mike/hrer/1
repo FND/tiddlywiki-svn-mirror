@@ -1,0 +1,9 @@
+modifier: mike
+created: 
+modified: 200812191817
+type: None
+tags: License
+stage: new
+
+<<license>>
+<<comments fields:'server.bag:comments' inheritedFields:'server.host,server.type,server.workspace'>>

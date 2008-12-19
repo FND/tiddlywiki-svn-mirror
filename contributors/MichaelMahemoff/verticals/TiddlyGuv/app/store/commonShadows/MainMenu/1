@@ -1,0 +1,21 @@
+modifier: MichaelMahemoff
+created: 200508181151
+modified: 200609101232
+tags: 
+
+!!Tiddlyguv
+<<login>>
+
+[[Home]]
+<<tiddler DocumentsMenu>>
+[[Document Index|DocumentsIndex]]
+
+<<search>>
+
+!!Licenses
+[[Licenses Portal|LicensesPortal]]
+
+!!Admin
+[[Documents Menu|DocumentsMenu]]
+<<newTiddler label:"New Document" text:{{"Edit here. This document will be public to everyone, but only editable by admins. Delete this section and make your changes. Retain comments section below if you wish to support comments.\n\n!Comments" + "\n<" + "<comments fields:'server.bag:comments' inheritedFields:'server.host,server.type,server.workspace'>"+">";}} fields:{{"server.workspace:portal server.type:tiddlyweb stage:new server.host:'http://0.0.0.0:8080' server.bag: protected-admins"}} title:"Protected document - edit this title!" tag:document>>
+<<newTiddler label:"New License" text:{{"<"+"<license>"+">"+"\n"+"<"+"<comments fields:'server.bag:comments' inheritedFields:'server.host,server.type,server.workspace'>"+">";}} fields:{{"server.workspace:portal server.type:tiddlyweb stage:new server.host:'http://0.0.0.0:8080' server.bag: private-"+config.options.txtUserName}} title:"New License" tag:License template:newLicenseEditTemplate>>
