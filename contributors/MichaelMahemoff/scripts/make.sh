@@ -2,6 +2,7 @@
 root=`dirname $0`'/..'
 cd $root
 for recipe in `find . -name *.recipe` ; do
+  echo 'COOKING '"$recipe"
   recipebase=`echo $recipe | sed -e s/\.html\.recipe$//g`
   (cd `dirname $recipebase` ; cook `basename $recipebase`)
 done
@@ -12,5 +13,9 @@ if [ -e $pub ] ; then
 fi
 mkdir $pub
 
-cp plugins/CommentsPlugin/CommentsPlugin.html verticals/tiddlyguv/TiddlyGuv.html verticals/tiddlyguv/portal/*.html pub
-rsync -avz --delete -e ssh $pub/* $TIDDLYGUV_PUB
+(exec maketiddler.sh)
+echo 'done maketiddler'
+
+cp plugins/CommentsPlugin/CommentsPlugin.html plugins/PowerTitlePlugin/PowerTitlePlugin.html verticals/tiddlyguv/prototype/TiddlyGuv.html plugins/TiddlerTableMacro/TiddlerTableMacro.html verticals/tiddlyguv/portal/*.html pub
+
+rsync -avz --delete -e ssh pub/* $TIDDLYGUV_PUB
