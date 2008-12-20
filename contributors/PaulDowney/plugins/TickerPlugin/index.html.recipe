@@ -3,6 +3,8 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: TickerPlugin.recipe
 
 recipe: ../FadingMessagesPlugin/FadingMessagesPlugin.recipe
+tiddler: ../FadingMessagesPlugin/tiddlers/StyleSheet.tiddler
+tiddler: ../FadingMessagesPlugin/tiddlers/GrowlStyle.tiddler
 
 tiddler: DefaultTiddlers.tiddler
 tiddler: Today.tiddler
