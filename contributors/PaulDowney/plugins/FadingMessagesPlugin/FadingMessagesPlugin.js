@@ -33,7 +33,7 @@ version.extensions.FadingMessagesPlugin = {installed:true};
 			p.push({style: 'display', atEnd: 'none'});
 			p.push({style: 'opacity', start: 1, end: 0, template: '%0'});
 			p.push({style: 'filter', start: 100, end: 0, template: 'alpha(opacity:%0)'});
-			return new Morpher(e,config.animDuration*10,p,done);
+			return new Morpher(e,config.animDuration,p,done);
 		},  
 		clearMessageBox: function(e)
 		{
