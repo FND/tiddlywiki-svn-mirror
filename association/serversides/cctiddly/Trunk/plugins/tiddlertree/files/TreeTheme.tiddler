@@ -21,8 +21,6 @@
 !PageTemplate
 <!--{{{-->
 <div id='bodywrapper'>
-<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
-<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 <div id='displayArea'>
 <div id='messageArea'></div>

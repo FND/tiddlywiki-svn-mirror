@@ -59,8 +59,9 @@ if(isLoggedIn()) {
 	    newCommentEl.value = "";
 	  };
 }else {
-	addComment.onclick = function() {
-		config.macros.comments.showLogin();
+	addComment.onclick = function(e) {
+		console.log(e);
+//		config.macros.comments.showLogin();
   };
 }
 
@@ -73,8 +74,9 @@ makeTextArea: function(container, macroParams) {
   textArea.cols = getParam(macroParams, "textCols") || 20;
   textArea.value = getParam(macroParams, "text") || "";
   if(!isLoggedIn()) {
-	textArea.onclick = function() {
-		config.macros.comments.showLogin();
+	textArea.onkeyup = function(e) {
+		
+console.log(this);
 	}
   }
   return textArea;

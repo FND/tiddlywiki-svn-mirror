@@ -63,15 +63,12 @@
 <!--{{{-->
 
 <div  macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' width='20px'/></div>
-
- <div class='tiddlerInfo' >Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)
 </div>
+<div class='tiddlerInfo' >Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)
 </div>
-
-<div class='viewer'  style=' padding:1em; border-right:1px solid [[ColorPalette::ls_background]]; border-left:1px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
+<div class='viewer'  macro='view text wikified'></div>
 
 <div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
-<div macro='comments'/>
 </div>
 
 
@@ -647,6 +644,14 @@ body select {
 	margin:0px;
 }
 
+.viewer, .tiddlerInfo {
+	float:none;
+	border-left:1px solid [[ColorPalette::PrimaryLight]];
+	border-right:1px solid [[ColorPalette::PrimaryLight]];
+	color :white;
+	padding:1em;
+}
+
 .viewer .sortable td  {
 	padding:12px;
 	margin:21px;
@@ -731,6 +736,7 @@ color:#999!important;
 }
 .tiddlerInfo {
 padding:1em;
+color:#999;
 }
 div.comments {
 padding 1em !important;
@@ -738,8 +744,8 @@ padding 1em !important;
 
 .stream {  padding:2px; margin:1px ; width750px;  min-height:53px;}
 .slider { 
-	background-color:#111111;
-	border-color:-moz-use-text-color #222222 #222222;
+	background-color:#222;
+	border-color:[[ColorPalette::PrimaryMid]];
 	border-style:none solid solid;
 	border-width:0 1px 1px;
 	color:white;
@@ -749,7 +755,7 @@ padding 1em !important;
 	width:92%;
 }
 .textSpace {padding-left:25px; line-height:1.5; padding-top:13px}
-.tiddler .button:hover,.tiddler .button	 { background-color:[[ColorPalette::Foreground]]; color:white;background-repeat:no-repeat; border:1px solid  [[ColorPalette::PrimaryLight]];}
+.tiddler .button:hover,.tiddler .button	 { background-color:[[ColorPalette::PrimaryLight]]; color:white;background-repeat:no-repeat; border:1px solid  [[ColorPalette::PrimaryMid]];}
 
 
 .newCommentArea, .reply {
@@ -759,5 +765,9 @@ text-align:center;
 
 [[StyleSheet]]
 
+.comment .heading {
+color:red;
+font-color:blue;
+}
 </pre>
 </div>

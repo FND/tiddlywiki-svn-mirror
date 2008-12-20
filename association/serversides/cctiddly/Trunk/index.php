@@ -72,8 +72,6 @@ elseif(isset($_GET['tags']))
 		$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
 	}
 }
-
-
 $tiddlers = array_merge($pluginsLoader->tiddlers, $tiddlers);
 
 recordTime_float("get all tiddlers");
