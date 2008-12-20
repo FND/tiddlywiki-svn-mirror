@@ -1,6 +1,8 @@
 <div title="TestMessages">
 <pre>
 <<DisplayMessage hello>>
+<<DisplayMessage The Black Hawk War, or, How To Demolish An Entire Civilization and Still Feel Good About Yourself in the Morning, or, We Apologize for the Inconvenience But You're Going To Have To Leave Now, or, "I have fought the Big Knives and will continue to fight">>
+<<DisplayMessage goodbye>>
 <<DisplayMessage goodbye>>
 </pre>
 </div>

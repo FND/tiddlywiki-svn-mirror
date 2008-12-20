@@ -1,0 +1,43 @@
+<div title="GrowlStyle" modifier="PaulDowney" created="20081217231111" modified="20081217231111" changecount="1">
+<pre>
+/*{{{*/
+#messageArea {
+	border:none;
+	background: transparent;
+}
+
+#messageArea .messageBox {
+	border:2px solid [[ColorPalette::SecondaryMid]];
+	color:[[ColorPalette::Foreground]];
+	background:[[ColorPalette::SecondaryLight]]; 
+	width:20em;
+	padding:10px;
+	margin-top:5px;
+	margin-bottom:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	filter:alpha(opacity=80);
+}
+
+#messageArea .messageText {
+	display:block;
+	width:15em;
+	margin:0;
+	padding:0;
+}
+
+#messageArea .messageClear {
+	display:block;
+	float:right;
+	width:1em;
+}
+
+#messageArea .messageClear a {
+	text-decoration:none;
+	background-color: transparent;
+	color:[[ColorPalette::Foreground]];
+}
+
+/*}}}*/
+</pre>
+</div>

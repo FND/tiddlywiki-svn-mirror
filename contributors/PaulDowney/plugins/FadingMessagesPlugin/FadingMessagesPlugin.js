@@ -4,14 +4,14 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/FadingMessagesPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/FadingMessagesPlugin/ |
-|''Version:''|0.1|
+|''Version:''|0.2|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
 |''Overrides:''|displayMessage|
 |''Requires:''|WikifiedMessagesPlugin|
 !!Documentation
-Displayed messages automatically fade away after a short interval.
+Displayed messages automatically fade away after a short interval. 
 !!Options
 |<<option txtFadingMessagesTimeout>>|<<message config.optionsDesc.txtFadingMessagesTimeout>>|
 |<<option chkAnimate>>|<<message config.optionsDesc.chkAnimate>>|
@@ -33,29 +33,36 @@ version.extensions.FadingMessagesPlugin = {installed:true};
 			p.push({style: 'display', atEnd: 'none'});
 			p.push({style: 'opacity', start: 1, end: 0, template: '%0'});
 			p.push({style: 'filter', start: 100, end: 0, template: 'alpha(opacity:%0)'});
-			return new Morpher(e,config.animDuration,p,done);
+			return new Morpher(e,config.animDuration*10,p,done);
 		},  
-		clearMessageDiv: function(e)
+		clearMessageBox: function(e)
 		{
-			try { removeNode(e); } catch(ex) {};
+			try { removeNode(e); } catch(ex) {}
 			var msgArea = document.getElementById("messageArea");
 			var n = msgArea.getElementsByTagName('div');
 			if(!(n&&n.length)){
 				msgArea.style.display = "none";
 			}
 		},
-		fadeMessageDiv: function(e)
+		fadeMessageBox: function(e)
 		{
 			var me = config.extensions.FadingMessages;
 			if(config.options.chkAnimate && anim){
-				anim.startAnimating(new me.Fader(e,me.clearMessageDiv));
+				anim.startAnimating(new me.Fader(e,me.clearMessageBox));
 			}else{
-				me.clearMessageDiv(e);
+				me.clearMessageBox(e);
 			}
 		},
-		closeButton: function()
+		createClearAllButton: function(e)
 		{
 			return null;
+		},
+		createClearMessageButton: function(e)
+		{
+			var me = config.extensions.FadingMessages;
+			return createTiddlyButton(createTiddlyElement(e,"span",null,"messageClear"),
+				"×","",
+				function(){me.clearMessageBox(e);});
 		},
 		_displayMessage: displayMessage,
 		displayMessage: function(text,linkText)
@@ -63,13 +70,14 @@ version.extensions.FadingMessagesPlugin = {installed:true};
 			var me = config.extensions.FadingMessages;
 			var e = me._displayMessage(text,linkText);
 			if(e){
-				window.setTimeout(function(){me.fadeMessageDiv(e);},config.options.txtFadingMessagesTimeout*1000);
+				window.setTimeout(function(){me.fadeMessageBox(e);},config.options.txtFadingMessagesTimeout*1000);
 			}
 			return e;
 		}
 	};
 
 	displayMessage = config.extensions.FadingMessages.displayMessage;
-	config.extensions.WikifiedMessages.closeButton = config.extensions.FadingMessages.closeButton;
+	config.extensions.WikifiedMessages.createClearMessageButton = config.extensions.FadingMessages.createClearMessageButton;
+	config.extensions.WikifiedMessages.createClearAllButton = config.extensions.FadingMessages.createClearAllButton;
 }
 //}}}
