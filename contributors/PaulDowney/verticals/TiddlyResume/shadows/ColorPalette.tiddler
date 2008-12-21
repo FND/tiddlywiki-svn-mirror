@@ -19,6 +19,11 @@ PaperColor: #000
 EditorBackground: #888
 EditorBorder: #222
 
+MessageBoxBorder: #222
+MessageBoxBackground: #222
+MessageBoxForeground: #FFF
+MessageBoxClose: #FFF
+
 TextColor: #000
 
 Background: #fff

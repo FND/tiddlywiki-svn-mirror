@@ -1,3 +1,6 @@
+# Fading Messages
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.recipe
+
 # Microformat helper macros
 tiddler: $TW_ROOT/contributors/PaulDowney/plugins/MicroformatPlugin.js
 

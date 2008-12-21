@@ -52,7 +52,39 @@
 	}
 
 	#messageArea {
-		z-index: 9999;
+		border:none;
+		background: transparent;
+		padding-top: 20px;
+	}
+
+	#messageArea .messageBox {
+		font-family: Helvetica, Arial, sans-serif;
+		border:1px solid [[ColorPalette::MessageBoxBorder]];
+		background:[[ColorPalette::MessageBoxBackground]]; 
+		width:12em;
+		padding:10px;
+		margin-top:5px;
+		margin-bottom:5px;
+		-moz-border-radius:5px;
+		-webkit-border-radius:5px;
+		filter:alpha(opacity=90%);
+	}
+
+	#messageArea .messageText {
+		display:block;
+		width:12em;
+		margin:0;
+		padding:0;
+		color:[[ColorPalette::MessageBoxForeground]];
+	}
+
+	#messageArea .messageText a {
+		text-decoration:none;
+		color:[[ColorPalette::MessageBoxForeground]];
+	}
+
+	#messageArea .messageClear {
+		display:none;
 	}
 
 	#mainMenu {
