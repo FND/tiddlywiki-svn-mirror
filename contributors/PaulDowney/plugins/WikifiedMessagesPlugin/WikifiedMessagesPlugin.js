@@ -4,7 +4,7 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/WikifiedMessagesPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/WikifiedMessagesPlugin/ |
-|''Version:''|0.3|
+|''Version:''|0.4|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -16,6 +16,10 @@ The construction of the [close] single message and [close all] buttons has been 
 //{{{
 if(!version.extensions.WikifiedMessagesPlugin) {
 version.extensions.WikifiedMessagesPlugin = {installed:true};
+
+	if(!config.extensions){
+		config.extensions = {};
+	}
 
 	config.extensions.WikifiedMessages = {
 
