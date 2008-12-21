@@ -18,7 +18,7 @@ setTimeout(function(){pumpMessages([
 	"Fading away, by themselves",
 	"You can also click on the cross and delete messages,",
 	"if you want",
-	"The length of time beofre the message disappears is an option.",
+	"The length of time beofore the message disappears is an option.",
 	"See the FadingMessagesPlugin tiddler for more details.",
 	]);},3000);
 
