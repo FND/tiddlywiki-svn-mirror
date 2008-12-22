@@ -29,7 +29,9 @@ def formform(args):
 def listforms(args):
     """List all the forms on the system."""
     # XXX match a pattern eventually
-    print _read_db()
+    forms = _read_db()
+    template = template_env.get_template('forms.txt')
+    print template.render(forms=forms)
 
 
 def _update_db(form_id, source_recipe):
