@@ -6,6 +6,11 @@
 config.options.txtTheme = "DefaultTheme";
 
 /*
+ *  Faster fading messages!
+ */
+config.options.txtFadingMessagesTimeout = 1;
+
+/*
  *  Groups of tiddlers
  */
 
