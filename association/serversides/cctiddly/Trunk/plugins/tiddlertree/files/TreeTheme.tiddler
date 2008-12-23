@@ -20,7 +20,8 @@
 
 !PageTemplate
 <!--{{{-->
-<div id='bodywrapper'>
+
+<div id='bodywrapper' >
 <!--<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>-->
 <div id='displayArea'>
 <div id='messageArea'></div>
@@ -42,10 +43,14 @@
 
 !ViewTemplate
 <!--{{{-->
+<div macro='gradient vert #eee #fff'>
+
 <!--<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>-->
-<div class='title' macro='view title'></div>
-<div class='viewer' macro='view text wikified'></div>
+<div class='title' macro='view title' ></div>
+
+<div class='viewer' macro='view text wikified' ></div>
 <div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+</div>
 <!--}}}-->
 
 

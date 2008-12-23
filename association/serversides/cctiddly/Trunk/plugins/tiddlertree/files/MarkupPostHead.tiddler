@@ -17,7 +17,7 @@
 			#sortableList.page-list {
 				list-style: none;
 				position:relative;
-				top:-10px;
+				//top:-10px;
 			
 				margin: 0 !important;
 				padding: 0 !importan;
@@ -65,7 +65,7 @@
 			padding:0.5em !important;
 			color:#666 !important;
 			font-family:tahoma;
-			background-color:transparent !important;
+			background-color:#fff !important;
 		}
 		
 		
@@ -73,18 +73,29 @@
 		div.subtitle {
 			padding:1em 1em 1em 0.0em;
 		}
+		.viewer .button {
+		top:-1.8em;
+		}
 		.button {
-			//margin:2em;
-			//padding:2em;
-			background-color:#ddd;
-			font-size:1.5em;
+			margin:1em;
+			padding:1em;
+		font-face:arial;
+			background-color:orange;
+			color:white !important;
+			font-size:1.2em;
 			border:1px solid black !important;
 		}
 		
-		div.title {
+		div.title, div.subtitle {
+		padding :1em;
 			color:black;
 		}
 		
+		#buttonHolder {
+		padding:1em;
+		padding-bottom:0px;
+		padding-top :0px;
+		}
 		.sectionBodyEdit {
 			width:98%;
 			hieght:100%;
@@ -94,7 +105,7 @@
 		
 		.sectionBody {
 		border:0px;
-			background-color:#EDECE8;
+			background-color:transparent;
 			width:98%;
 			hieght:100%;
 		}
@@ -103,7 +114,7 @@
 		float:right;
 		position:relative;
 		text-align:right;
-		top:-17px;
+//		top:-17px;
 		}
 		div.sort-handle {
 			padding:0em;
@@ -162,10 +173,13 @@
 		
 		
 		div.tiddler {
-			background-color:#EDECE8;
+			
+			background:transparent;
+			//background-color:#EDECE8;
 			border:1px solid black;
 			color:black;
-			margin:2em;			
+			margin:2em;		
+			padding:0px;	
 		}	
 		
 		
