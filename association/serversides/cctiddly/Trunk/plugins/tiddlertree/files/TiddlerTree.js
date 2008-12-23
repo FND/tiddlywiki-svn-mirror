@@ -18,13 +18,14 @@ function lineBreakCount(str){
 };
 
 config.macros.tiddlerTree1.doneClick=function(){
+	log(this);
 		var tiddlerTitle = this.id.replace("DoneButton","");
 		var form = document.forms[tiddlerTitle+"Form"];
 		var body = $("#"+tiddlerTitle+"BodyDiv");
 		var editDiv = form.parentNode;
 		var viewDiv = form.parentNode.parentNode.firstChild;
-		$(editDiv).hide();
-		$(viewDiv).slideDown();
+		$(editDiv).slideToggle("fast");
+		$(viewDiv).show();
 		//	team tasks specific 
 		var taskStatus = store.getValue(store.getTiddler(tiddlerTitle),"tt_status");
 		if (taskStatus=="Complete") {
@@ -39,9 +40,9 @@ config.macros.tiddlerTree1.doneClick=function(){
 			$(editDiv).removeClass("completed");					
 		}
 		// end team tasks specific
-		body.value = form.body.value;
-		body.rows = lineBreakCount(form.body.value)+6;
-		$("#"+tiddlerTitle+"BodyDiv").replaceWith(form.body.value); 
+		
+		log(wikifyStatic(form.body.value));
+		$(body).html(wikifyStatic(form.body.value));
 		if(!store.tiddlerExists(form.heading.value))
 			var oldTitle = "";
 		else 
@@ -53,15 +54,15 @@ config.macros.tiddlerTree1.doneClick=function(){
 config.macros.tiddlerTree1.editClick=function(){
 //		var tiddlerName = this.parentNode.id.replace("ViewContainer", "");
 
-		$(this.parentNode.nextSibling).slideToggle();
+		$(this.parentNode.nextSibling).slideToggle("fast");
 		$(this.parentNode).hide();
 }
 
 config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	removeChildren(place);
 	createTiddlyElement(place, "br");
-	var showBox = function() {$("#newTiddlerDiv").dialog({"height":"240px", "width":"400px", "dialogClass":"smmStyle", "position":['91100px','11100'],"show":"fadeIn"});};
-//	var showBox = function() {$("#newTiddlerDivContainer").slideToggle();};
+//	var showBox = function() {$("#newTiddlerDiv").dialog({"height":"240px", "width":"400px", "dialogClass":"smmStyle", "position":['91100px','11100'],"show":"fadeIn"});};
+	var showBox = function() {$("#newTiddlerDivContainer").slideToggle();};
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
 	createTiddlyButton(buttonHolder, "New Section", "click to create a new section", showBox);
 //	createTiddlyButton(buttonHolder, "Print");
@@ -121,12 +122,13 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				var heading = createTiddlyElement(sectionDiv, "h"+level,  tiddlerTitle+"HeadingView", "sectionHeading ");
 				createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment) : "  - Unassigned"));
 				createTiddlyButton(sectionDiv, "edit", "Click to edit this section", config.macros.tiddlerTree1.editClick, "right button");
-				var body = createTiddlyElement(sectionDiv, "textarea", tiddlerTitle+"BodyDiv", "sectionBody", store.getTiddlerText(tiddlerTitle));
+				var body = createTiddlyElement(sectionDiv, "div", tiddlerTitle+"BodyDiv", "sectionBody", store.getTiddlerText(tiddlerTitle));
+				$(body).html(wikifyStatic(store.getTiddlerText(tiddlerTitle)));
 				body.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+2;
 				//body.disabled = true;
 				var editDblClick = function(e) {
-					$(e.target.parentNode).slideToggle();
-					$("#"+e.target.id+"EditView").slideToggle();
+					$(e.target.parentNode).slideToggle("fast");
+					$("#"+e.target.id+"EditView").slideToggle("fast");
 				};
 				$(body).dblclick(editDblClick); 				
 				var prevLevel = level;			
@@ -134,10 +136,20 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				sectionEditDiv.style.display = "none";
 
 				var form = createTiddlyElement(sectionEditDiv, "form", null, "editForm");
-				var editButton = createTiddlyButton(form, "done", "Click to Save", config.macros.tiddlerTree1.doneClick, "right button doneButton");
 			 	form.name = tiddlerTitle+"Form";
+
+
 				var headingInput = createTiddlyElement(form, "input",  "heading", "sectionHeading ");
 				headingInput.value = tiddlerTitle;
+
+// create button 
+				var editButton = createTiddlyElement(form, "input", tiddlerTitle+"DoneButton", "button right doneButton");
+				editButton.type = "button";
+editButton.style.float = "right";
+				editButton.value = "done";
+				$(editButton).click(config.macros.tiddlerTree1.doneClick); 
+// end create button
+
 				wikify("<br />\n assigned to <<ValueSwitcher type:'dropdown' valuesSource:'UserDefinitions' tiddler:'"+tiddlerTitle+"'>>  status <<ValueSwitcher type:'dropdown' valuesSource:'StatusDefinitions' tiddler:'"+tiddlerTitle+"'>><br />\n", form);
 				var bodyEdit = createTiddlyElement(form, "textarea", "body", "sectionBodyEdit", store.getTiddlerText(tiddlerTitle));
 				bodyEdit.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+1;
@@ -146,10 +158,15 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				}
 				createTiddlyElement(form, "br");
 				createTiddlyElement(form, "br");
+
+
+// create button 
 				var editButton = createTiddlyElement(form, "input", tiddlerTitle+"DoneButton", "button");
 				editButton.type = "button";
 				editButton.value = "done";
 				$(editButton).click(config.macros.tiddlerTree1.doneClick); 
+// end create button
+
 				//  Make the lists sortable 
 				$("#sortableList").NestedSortable({
 					accept: 'page-item1',
@@ -162,7 +179,7 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 									var stars = "********************************************************";
 									output += stars.substring(0, $(this).parents(".page-list").length);
 									output += " "+this.id+"\n";
-								}			
+								}
 						 });
 					store.saveTiddler(params[0], params[0], output);
 					autoSaveChanges();

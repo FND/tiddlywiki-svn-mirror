@@ -45,8 +45,9 @@ border-bottom : 2px solid #ddd;
 }
 
 .doneButton {
+	float:right;
 	position:relative !important;
-	top:0.1em !important;
+	top:-1.7em !important;
 }
 			div.wrap {
 				border:1px solid #BBBBBB;
@@ -122,7 +123,12 @@ border-bottom : 2px solid #ddd;
 			background-color:orange;
 			color:white !important;
 			font-size:1.2em;
-			border:1px solid black !important;
+			border:1px solid #eee !important;
+		}
+		
+		
+		#backstageButton {
+		display:none !important;
 		}
 		.editForm {
 padding:1em;		}
@@ -130,6 +136,11 @@ padding:1em;		}
 		div.title, div.subtitle {
 		padding :1em;
 			color:black;
+		}
+		div.title {
+			padding:0.5em;
+			padding-bottom:0px;
+			font-size : 3em !important;
 		}
 		
 		#buttonHolder {
@@ -139,16 +150,18 @@ padding:1em;		}
 		}
 		.sectionBodyEdit {
 			width:98%;
-			background-color:#ddd;
+			
+			background-color:#eee;
 			color:black;
-			border:1px solid #222;
+			border:1px solid #ddd;
+			
 			hieght:100%;
 		}
 		
 		input, select {
 			background-color:#eee;
 			color:black;
-			border:1px solid #222;
+			border:1px solid #ddd;
 		
 		}
 		
@@ -157,7 +170,8 @@ padding:1em;		}
 		border:0px;
 			background-color:transparent;
 			width:98%;
-			hieght:100%;
+					padding:1em;
+	
 		}
 		
 		a.right {
@@ -169,13 +183,14 @@ padding:1em;		}
 		div.sort-handle {
 			padding:0em;
 			margin:0em;
+				padding-left :1em;
+			
 			padding-top:0px;
 //			position:relative;
 		}
 		
 			div.sort-handle div{
 				border-bottom:1px solid #EDECE8;
-				paddding:1em;
 				margin:0em;
 			}
 		.editLink {
