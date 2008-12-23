@@ -55,9 +55,9 @@ if($tiddler['id']!="undefined")
 		$ntiddler['created'] = $otiddler['created'];
 		if($otiddler['revision'] !==0)
 			$ntiddler['revision'] = $otiddler['revision']+1;
-		debug("Attempting to update server...", "save");
+		debug("Attempting to update server...");
 		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
-
+		
 		if(tiddler_update_new($tiddler['id'], $ntiddler)) {
 			sendHeader(201);
 		}

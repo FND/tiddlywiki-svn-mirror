@@ -403,6 +403,7 @@
 
 		//updaterecord
 		$result = db_tiddlers_mainUpdate($oid,$tiddler,$stop);
+		debug("res : "+$result, "save");
 		if( $result===FALSE )
 			return FALSE;
 		if( $tiddlyCfg['keep_revision']==1 ) 

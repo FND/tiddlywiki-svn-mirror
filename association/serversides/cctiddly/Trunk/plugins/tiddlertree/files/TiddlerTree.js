@@ -60,8 +60,8 @@ config.macros.tiddlerTree1.editClick=function(){
 config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	removeChildren(place);
 	createTiddlyElement(place, "br");
-//	var showBox = function() {$("#newTiddlerDiv").dialog({"height":"240px", "width":"400px", "dialogClass":"smmStyle", "position":['91100px','11100'],"show":"fadeIn"});};
-	var showBox = function() {$("#newTiddlerDivContainer").slideToggle();};
+	var showBox = function() {$("#newTiddlerDiv").dialog({"height":"240px", "width":"400px", "dialogClass":"smmStyle", "position":['91100px','11100'],"show":"fadeIn"});};
+//	var showBox = function() {$("#newTiddlerDivContainer").slideToggle();};
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
 	createTiddlyButton(buttonHolder, "New Section", "click to create a new section", showBox);
 //	createTiddlyButton(buttonHolder, "Print");
@@ -87,7 +87,7 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 			var newDate = new Date();	
 			store.saveTiddler(params[0], params[0], "* "+this.parentNode.firstChild.value+"\n"+store.getTiddlerText(params[0]), config.options.txtUserName, newDate,"",config.defaultCustomFields);
 			store.saveTiddler(this.parentNode.firstChild.value, this.parentNode.firstChild.value, document.getElementById("newTiddlerContent").value, config.options.txtUserName, newDate,"",config.defaultCustomFields);
-		//	autoSaveChanges();
+			autoSaveChanges();
 			config.macros.tiddlerTree1.refresh(place,macroName,params,wikifier,paramString,tiddler);
 		}
 	};
@@ -122,7 +122,7 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment) : "  - Unassigned"));
 				createTiddlyButton(sectionDiv, "edit", "Click to edit this section", config.macros.tiddlerTree1.editClick, "right button");
 				var body = createTiddlyElement(sectionDiv, "textarea", tiddlerTitle+"BodyDiv", "sectionBody", store.getTiddlerText(tiddlerTitle));
-				body.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+6;
+				body.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+2;
 				//body.disabled = true;
 				var editDblClick = function(e) {
 					$(e.target.parentNode).slideToggle();

@@ -398,7 +398,6 @@ function db_tiddlers_backupInsert($tiddler,$stop=1)
 //!	@param $workspace workspace of db
 function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
 {
-	
 	global $tiddlyCfg;
 	//remove primary key (first element in array)
 	//array_shift($tiddler);
@@ -406,6 +405,7 @@ function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
 	$q = "UPDATE ".$tiddlyCfg['table']['main']." SET ";
 	while((list($k,$v) = each($tiddler)))
 	{
+		if($k!=="id") // hack to avoid updating the id
 		$q .= "`".db_format4SQL($k).'`="'.db_format4SQL($v).'",';
 	}
 	

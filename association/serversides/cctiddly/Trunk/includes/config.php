@@ -25,11 +25,7 @@ $tiddlyCfg['plugins_disabled'] = array(
 
 // By default the RSS plugin is enabled. 
 
-
-
 $tiddlyCfg['adminPassword'] = "";
-
-
 
 // User Managment Information 
 
@@ -156,7 +152,7 @@ $tiddlyCfg['debug']['mysql'] = 1;	 // if set to x1 will output every sql query i
 $tiddlyCfg['debug']['login'] =0;
 $tiddlyCfg['debug']['handle'] = 0;
 $tiddlyCfg['debug']['config'] = 0;
-$tiddlyCfg['debug']['save'] = 0;
+$tiddlyCfg['debug']['save'] = 1;
 $tiddlyCfg['debug']['params'] = 0;
 $tiddlyCfg['debug']['fail'] = 0;
 $tiddlyCfg['debug']['steps'] = 0;

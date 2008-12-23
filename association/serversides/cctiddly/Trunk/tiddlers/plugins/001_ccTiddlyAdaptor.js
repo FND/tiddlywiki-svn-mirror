@@ -533,9 +533,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		if(!tiddler.fields['server.page.revision'])
 			tiddler.fields['server.page.revision'] = 1
 
-		if(tiddler.fields['server.page.revision']==1)
-			tiddler.fields['server.page.revision'] = 10000;
-		else
 			tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10)+1;
 			
 			
