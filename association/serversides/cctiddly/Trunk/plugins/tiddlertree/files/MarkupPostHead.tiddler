@@ -4,7 +4,6 @@
 <script type="text/javascript" src="http://www.bernardopadua.com/nestedSortables/compressed/nested_sortable/inestedsortable.js"></script> 
 
 
-
 <script type="text/javascript" src="http://ui.jquery.com/repository/tags/latest/ui/ui.core.js"></script>
 <script type="text/javascript" src="http://ui.jquery.com/repository/tags/latest/ui/ui.dialog.js"></script>
 <script type="text/javascript" src="http://ui.jquery.com/repository/tags/latest/ui/ui.draggable.js"></script>
@@ -15,21 +14,18 @@
 		
 			}
 			
-			.page-list {
+			#sortableList.page-list {
 				list-style: none;
-				margin: 0;
-				padding: 0;
+				position:relative;
+				top:-10px;
+			
+				margin: 0 !important;
+				padding: 0 !importan;
 				display: block;
 			}
 			
 			.clear-element {
 				clear: both;
-			}
-			
-			.page-item1 > div{
-				background: #f8f8f8;
-
-				margin: 0.25em 0 0 0;
 			}
 			
 			
@@ -43,12 +39,6 @@
 			}
 			
 			
-			.sort-handle > h1, .sort-handle > h2, .sort-handle > h3 {
-//				display:block;
-			//	float:left;
-//				width:99%;
-				padding:0.5em;
-				}
 
 			
 			.left {
@@ -70,35 +60,51 @@
 			}
 			
 			
-			h1, h2, h3 {
-			margin:0 !important;
-			color:black !important;
+			h1, h2, h3, h4, h5, h6, h7, h8 {
+			margin:0em !important;
+			padding:0.5em !important;
+			color:#666 !important;
 			font-family:tahoma;
-	
-			border-bottom:0px;
+			background-color:transparent !important;
 		}
 		
-		div.tiddler {
-			background-color:#EDECE8;
-			border:1px solid black;
-			color:black;
-			margin:2em;			
-		}	
-	html >	body, .header {
-			background:#75747A;
-		}
 		
 
+		div.subtitle {
+			padding:1em 1em 1em 0.0em;
+		}
+		.button {
+			//margin:2em;
+			//padding:2em;
+			background-color:#ddd;
+			font-size:1.5em;
+			border:1px solid black !important;
+		}
 		
 		div.title {
 			color:black;
-			padding:1em;
 		}
+		
+		.sectionBodyEdit {
+			width:98%;
+			hieght:100%;
+		}
+		
+		
 		
 		.sectionBody {
+		border:0px;
 			background-color:#EDECE8;
+			width:98%;
+			hieght:100%;
 		}
 		
+		a.right {
+		float:right;
+		position:relative;
+		text-align:right;
+		top:-17px;
+		}
 		div.sort-handle {
 			padding:0em;
 			margin:0em;
@@ -111,13 +117,19 @@
 				paddding:1em;
 				margin:0em;
 			}
-		
+		input {
+		font-size:2em;
+		}
 		.editLink {
-			float:right;
-			padding-right:2em;
-			padding-left:2em;
+			//float:right;
+			//padding-right:2em;
+		//	padding-left:2em;
 			background-color:#A4ADBC;
 			color:white;
+		}
+		
+		html > body {
+		 background-color:#333;
 		}
 		
 		 .completed {
@@ -127,7 +139,6 @@
 		
 		 .incomplete {
 				border-right : 10px solid #A4001D;
-				padding:1em;
 		}
 		
 		li {
@@ -135,15 +146,27 @@
 		}
 		ul {
 			list-style:none;
+			margin:0em !important;
 		}
 	
 		
 		.draggableOn {
 	cursor:move;
-	padding:0px;
-	margin:0px;
 			background-color:#eee !important;
 		}
+		#messageArea, #messageArea a.button {
+			background:transparent !important;
+			border:transparent !important;
+			color:white !important;
+		}
+		
+		
+		div.tiddler {
+			background-color:#EDECE8;
+			border:1px solid black;
+			color:black;
+			margin:2em;			
+		}	
 		
 		
 		// BOX CSS

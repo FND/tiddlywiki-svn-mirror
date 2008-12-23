@@ -25,10 +25,14 @@ if(!version.extensions.ValueSwitcher)
 			}
 			var params = paramString.parseParams("anon",null,true,false,false);
 			var ctrlType = getParam(params,"type",null);
-			var id = taskTiddler.id;
-			var title = id.substr(7);
-			var tiddler = store.getTiddler(title);
 
+			if(getParam(params,"tiddler",null)){
+				tiddler = store.getTiddler(getParam(params,"tiddler",null));
+			}else{
+				var id = taskTiddler.id;
+				var title = id.substr(7);
+				var tiddler = store.getTiddler(title);				
+			}
 			// build a drop down control
 			if(ctrlType == 'dropdown') {
 				var valueSrc = getParam(params,"valuesSource", null);
@@ -44,7 +48,8 @@ if(!version.extensions.ValueSwitcher)
 				for (var i=0; i < values.length; i++) {
 					options.push({'caption': values[i], 'name': fieldName + '::' + values[i]});				
 				}
-				createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
+				var dropDown = createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
+				dropDown.name = tiddler.title;
 			}
 			// Build a free text box.
 			else if(ctrlType == 'freetext') {
@@ -91,16 +96,14 @@ if(!version.extensions.ValueSwitcher)
 		// Ensure that changes to a dropdown field are stored as an extended field.
 		setDropDownMetaData: function(ev) {
 			var e = ev ? ev : window.event;
-			var taskTiddler = story.findContainingTiddler(this);
-			if(taskTiddler && taskTiddler != undefined) {
-				var title = taskTiddler.getAttribute('tiddler');
-				var tiddler =  store.getTiddler(title);
-				var option = this[this.selectedIndex].value.split('::');
-				var extField = option[0];
-				var extFieldVal = option[1];
-				store.setValue(tiddler,extField,extFieldVal);
-				story.saveTiddler(title);
-			}
+			var title = this.name;
+			var tiddler = store.getTiddler(this.name);
+			var option = this[this.selectedIndex].value.split('::');
+			var extField = option[0];
+			var extFieldVal = option[1];
+			store.setValue(tiddler,extField,extFieldVal);
+			store.saveTiddler(title);
+			autoSaveChanges();
 		},
 
 
