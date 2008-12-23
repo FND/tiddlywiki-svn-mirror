@@ -17,18 +17,14 @@ function lineBreakCount(str){
 	}
 };
 
-
 config.macros.tiddlerTree1.doneClick=function(){
 		var tiddlerTitle = this.id.replace("DoneButton","");
 		var form = document.forms[tiddlerTitle+"Form"];
-		
-
 		var body = $("#"+tiddlerTitle+"BodyDiv");
 		var editDiv = form.parentNode;
 		var viewDiv = form.parentNode.parentNode.firstChild;
-			$(editDiv).hide();
+		$(editDiv).hide();
 		$(viewDiv).slideDown();
-
 		//	team tasks specific 
 		var taskStatus = store.getValue(store.getTiddler(tiddlerTitle),"tt_status");
 		if (taskStatus=="Complete") {
@@ -43,8 +39,6 @@ config.macros.tiddlerTree1.doneClick=function(){
 			$(editDiv).removeClass("completed");					
 		}
 		// end team tasks specific
-		
-
 		body.value = form.body.value;
 		body.rows = lineBreakCount(form.body.value)+6;
 		$("#"+tiddlerTitle+"BodyDiv").replaceWith(form.body.value); 
@@ -57,8 +51,10 @@ config.macros.tiddlerTree1.doneClick=function(){
 };
 
 config.macros.tiddlerTree1.editClick=function(){
-		$(this.parentNode).slideToggle();
-		$(this.parentNode.nextSibling).show();
+//		var tiddlerName = this.parentNode.id.replace("ViewContainer", "");
+
+		$(this.parentNode.nextSibling).slideToggle();
+		$(this.parentNode).hide();
 }
 
 config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
@@ -88,19 +84,16 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 		if(this.parentNode.firstChild.value==""){
 			displayMessage("Please enter a value");
 		}else{
-			if(!store.tiddlerExists(params[0]))
-				store.createTiddler(params[0]);
-			store.saveTiddler(params[0], params[0], "* "+this.parentNode.firstChild.value+"\n"+store.getTiddlerText(params[0]));
-			store.saveTiddler(this.parentNode.firstChild.value, this.parentNode.firstChild.value, document.getElementById("newTiddlerContent").value);
-			autoSaveChanges();
+			var newDate = new Date();	
+			store.saveTiddler(params[0], params[0], "* "+this.parentNode.firstChild.value+"\n"+store.getTiddlerText(params[0]), config.options.txtUserName, newDate,"",config.defaultCustomFields);
+			store.saveTiddler(this.parentNode.firstChild.value, this.parentNode.firstChild.value, document.getElementById("newTiddlerContent").value, config.options.txtUserName, newDate,"",config.defaultCustomFields);
+		//	autoSaveChanges();
 			config.macros.tiddlerTree1.refresh(place,macroName,params,wikifier,paramString,tiddler);
 		}
 	};
+	tiddlerName = createTiddlyElement(newTiddler, "br");
+	
 	var treeSpec = store.getTiddlerText(params[0]); 
-	
-	// editClick removed from here 
-	
-	
 	if(treeSpec){
 		var sections = treeSpec.split("\n");
 		var parent = createTiddlyElement(place, "ul","sortableList", "page-list");
@@ -114,68 +107,49 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				} else if (level < prevLevel) {
 					parent = parent.parentNode;
 				}
-				if(store.getTiddler(tiddlerTitle)){
-				// If the tiddler exists 
-					if(store.getTiddler(tiddlerTitle).fields.tt_status == "Complete")
-						var sectionClass = "completed";
-					else 
-						var sectionClass = "incomplete";
-					var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left ");
-					var assignment = store.getTiddler(tiddlerTitle).fields['tt_user'];
-					var sectionDiv = createTiddlyElement(section, "div", tiddlerTitle+"ViewContainer", "sort-handle " +sectionClass);
-					var heading = createTiddlyElement(sectionDiv, "h"+level,  tiddlerTitle+"HeadingView", "sectionHeading ");
-					createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment) : "  - Unassigned"));
-					createTiddlyButton(sectionDiv, "edit", "Click to edit this section", config.macros.tiddlerTree1.editClick, "right button");
-					var body = createTiddlyElement(sectionDiv, "textarea", tiddlerTitle+"BodyDiv", "sectionBody", store.getTiddlerText(tiddlerTitle));
-					body.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+6;
-					//body.disabled = true;
-						var editDblClick = function(e) {
-							$(e.target.parentNode).slideToggle();
-							$("#"+e.target.id+"EditView").slideToggle();
-						};
-						$(body).dblclick(editDblClick); 
-					
-					var prevLevel = level;
-				} else {
-				// The tiddler does not exist
-					var sectionClass = "incomplete";
-					var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left ");
-					var sectionDiv = createTiddlyElement(section, "div", tiddlerTitle+"ViewContainer", "sort-handle " +sectionClass);
-					var heading = createTiddlyElement(sectionDiv, "h"+level, tiddlerTitle+"HeadingView", "sectionHeading");
-					
-					createTiddlyText(heading, tiddlerTitle+" - Not Started");
-					createTiddlyButton(sectionDiv, "edit", "Click to edit this section", config.macros.tiddlerTree1.editClick, "right button");
-							var body = createTiddlyElement(sectionDiv, "textarea", tiddlerTitle+"BodyDiv", "sectionBody", store.getTiddlerText(tiddlerTitle));
-			
-					var prevLevel = level;
+				if(!store.getTiddler(tiddlerTitle)){
+					var newDate = new Date();
+					store.saveTiddler(tiddlerTitle, tiddlerTitle, "", config.options.txtUserName, newDate,"",config.defaultCustomFields);
 				}
-				
+				if(store.getTiddler(tiddlerTitle).fields.tt_status == "Complete")
+					var sectionClass = "completed";
+				else 
+					var sectionClass = "incomplete";
+				var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left ");
+				var assignment = store.getTiddler(tiddlerTitle).fields['tt_user'];
+				var sectionDiv = createTiddlyElement(section, "div", tiddlerTitle+"ViewContainer", "sort-handle " +sectionClass);
+				var heading = createTiddlyElement(sectionDiv, "h"+level,  tiddlerTitle+"HeadingView", "sectionHeading ");
+				createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment) : "  - Unassigned"));
+				createTiddlyButton(sectionDiv, "edit", "Click to edit this section", config.macros.tiddlerTree1.editClick, "right button");
+				var body = createTiddlyElement(sectionDiv, "textarea", tiddlerTitle+"BodyDiv", "sectionBody", store.getTiddlerText(tiddlerTitle));
+				body.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+6;
+				//body.disabled = true;
+				var editDblClick = function(e) {
+					$(e.target.parentNode).slideToggle();
+					$("#"+e.target.id+"EditView").slideToggle();
+				};
+				$(body).dblclick(editDblClick); 				
+				var prevLevel = level;			
 				var sectionEditDiv = createTiddlyElement(section, "div", tiddlerTitle+"BodyDivEditView", "sort-handle-edit "+sectionClass);
 				sectionEditDiv.style.display = "none";
-				var editButton = createTiddlyButton(sectionEditDiv, "Done", "Click to Save", config.macros.tiddlerTree1.doneClick, "right button");
 
 				var form = createTiddlyElement(sectionEditDiv, "form");
+				var editButton = createTiddlyButton(form, "Done", "Click to Save", config.macros.tiddlerTree1.doneClick, "right button");
 			 	form.name = tiddlerTitle+"Form";
 				var headingInput = createTiddlyElement(form, "input",  "heading", "sectionHeading ");
-				headingInput.style.width = "70%";
-				headingInput.style.size = "2em";
 				headingInput.value = tiddlerTitle;
-	
-				
-		
-	
+				wikify("<br />assigned to <<ValueSwitcher type:'dropdown' valuesSource:'UserDefinitions' tiddler:'"+tiddlerTitle+"'>>  status <<ValueSwitcher type:'dropdown' valuesSource:'StatusDefinitions' tiddler:'"+tiddlerTitle+"'>>", form);
 				var bodyEdit = createTiddlyElement(form, "textarea", "body", "sectionBodyEdit", store.getTiddlerText(tiddlerTitle));
 				bodyEdit.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+1;
 				bodyEdit.onkeyup = function() {
 					this.rows = lineBreakCount(this.value)+1;
 				}
-				wikify("|assigned to |<<ValueSwitcher type:'dropdown' valuesSource:'UserDefinitions' tiddler:'"+tiddlerTitle+"'>> |status |<<ValueSwitcher type:'dropdown' valuesSource:'StatusDefinitions' tiddler:'"+tiddlerTitle+"'>> |", form);
 				createTiddlyElement(sectionEditDiv, "br");
 				var editButton = createTiddlyElement(sectionEditDiv, "input", tiddlerTitle+"DoneButton");
 				editButton.type = "button";
 				editButton.value = "Done";
 				$(editButton).click(config.macros.tiddlerTree1.doneClick); 
-			
+				//  Make the lists sortable 
 				$("#sortableList").NestedSortable({
 					accept: 'page-item1',
 					opacity: .6,
@@ -195,6 +169,7 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 					autoScroll: true,
 					handle: '.sort-handle .sectionHeading'
 				});	
+				// set the style when hovering over each item
 				$(".sectionHeading").hover(
 					function() {
 						$(this).addClass("draggableOn");

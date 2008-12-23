@@ -392,6 +392,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	};
 
 	ccTiddlyAdaptor.prototype.getTiddler = function(title,context,userParams,callback){
+		console.log("made it to the adaptor");
 		context = this.setContext(context,userParams,callback);
 		if(title)
 			context.title = title;

@@ -59,6 +59,7 @@ plugin = {
 	},
 
 	saveTiddler: function(tiddler) {
+		console.log("Here");
 		var adaptor = new this.adaptor();
 		var context = {
 			tiddler: tiddler,
@@ -149,6 +150,7 @@ TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override d
 // override saveTiddler to fix core bug (ticket #769) -- XXX: to be fixed in TiddlyWiki v2.4.2
 Story.prototype.saveTiddler = function(title,minorUpdate)
 {
+	log("sotry here", tiddlerElem, title);
 	var tiddlerElem = this.getTiddler(title);
 	if(tiddlerElem) {
 		var fields = {};
