@@ -10,6 +10,7 @@
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
+|''~wizardViewTemplate:''|##wizardViewTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
 |''~EditTemplate:''|##EditTemplate|
 |''~taskViewTemplate:''|##taskViewTemplate|
@@ -31,6 +32,15 @@
 </div>
 <!--}}}-->
 
+!wizardViewTemplate
+<!--{{{-->
+<div macro='gradient vert #eee #bbb'>
+<!--<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>-->
+<br />
+<div class='viewer' macro='view text wikified' ></div>
+</div>
+<!--}}}-->
+
 
 !EditTemplate
 <!--{{{-->
@@ -43,8 +53,7 @@
 
 !ViewTemplate
 <!--{{{-->
-<div macro='gradient vert #eee #fff'>
-
+<div macro='gradient vert #eee #bbb'>
 <!--<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>-->
 <div class='title' macro='view title' ></div>
 

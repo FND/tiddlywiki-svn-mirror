@@ -64,7 +64,7 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 	var showBox = function() {$("#newTiddlerDivContainer").slideToggle();};
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
 	createTiddlyButton(buttonHolder, "New Section", "click to create a new section", showBox);
-	createTiddlyButton(buttonHolder, "Print");
+//	createTiddlyButton(buttonHolder, "Print");
 	createTiddlyElement(place, "br");
 	var newTiddlerContainerDiv = createTiddlyElement(place, "div", "newTiddlerDivContainer");
 	newTiddlerContainerDiv.style.display = "none";
@@ -133,21 +133,22 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				var sectionEditDiv = createTiddlyElement(section, "div", tiddlerTitle+"BodyDivEditView", "sort-handle-edit "+sectionClass);
 				sectionEditDiv.style.display = "none";
 
-				var form = createTiddlyElement(sectionEditDiv, "form");
-				var editButton = createTiddlyButton(form, "Done", "Click to Save", config.macros.tiddlerTree1.doneClick, "right button");
+				var form = createTiddlyElement(sectionEditDiv, "form", null, "editForm");
+				var editButton = createTiddlyButton(form, "done", "Click to Save", config.macros.tiddlerTree1.doneClick, "right button doneButton");
 			 	form.name = tiddlerTitle+"Form";
 				var headingInput = createTiddlyElement(form, "input",  "heading", "sectionHeading ");
 				headingInput.value = tiddlerTitle;
-				wikify("<br />assigned to <<ValueSwitcher type:'dropdown' valuesSource:'UserDefinitions' tiddler:'"+tiddlerTitle+"'>>  status <<ValueSwitcher type:'dropdown' valuesSource:'StatusDefinitions' tiddler:'"+tiddlerTitle+"'>>", form);
+				wikify("<br />\n assigned to <<ValueSwitcher type:'dropdown' valuesSource:'UserDefinitions' tiddler:'"+tiddlerTitle+"'>>  status <<ValueSwitcher type:'dropdown' valuesSource:'StatusDefinitions' tiddler:'"+tiddlerTitle+"'>><br />\n", form);
 				var bodyEdit = createTiddlyElement(form, "textarea", "body", "sectionBodyEdit", store.getTiddlerText(tiddlerTitle));
 				bodyEdit.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+1;
 				bodyEdit.onkeyup = function() {
 					this.rows = lineBreakCount(this.value)+1;
 				}
-				createTiddlyElement(sectionEditDiv, "br");
-				var editButton = createTiddlyElement(sectionEditDiv, "input", tiddlerTitle+"DoneButton");
+				createTiddlyElement(form, "br");
+				createTiddlyElement(form, "br");
+				var editButton = createTiddlyElement(form, "input", tiddlerTitle+"DoneButton", "button");
 				editButton.type = "button";
-				editButton.value = "Done";
+				editButton.value = "done";
 				$(editButton).click(config.macros.tiddlerTree1.doneClick); 
 				//  Make the lists sortable 
 				$("#sortableList").NestedSortable({

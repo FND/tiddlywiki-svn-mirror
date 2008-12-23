@@ -1,3 +1,4 @@
 <div title="Login" modifier="ccTiddly"  tags="ccTiddly excludeSearch excludeLists wizard">
-<pre><<taggedTabs loginBox>></pre>
+<pre><<taggedTabs loginBox>>
+</pre>
 </div>

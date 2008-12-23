@@ -9,6 +9,45 @@
 <script type="text/javascript" src="http://ui.jquery.com/repository/tags/latest/ui/ui.draggable.js"></script>
 
 		<style type="text/css">
+
+
+div.tiddler .tab {
+background-color:#ddd;
+}
+
+.wizard .button {
+
+	background:#FFFFFF none repeat scroll 0 0 !important;
+	color:black !important;
+	margin:1em !important;
+	padding:0.5em;
+	padding-left:1em !important;
+	padding-right:1em !important;
+}
+
+
+		div.tabContents .wizard, div.wizardFooter, div.wizardStep, .tabsetWrapper .wizard h2 {
+			background:#ddd !important;
+			border:0px !important;
+		}
+
+div.wizardStep {
+padding:0px !important;
+}
+div.wizardFooter {
+margin-left :9.2em;
+}
+
+.sort-handle-edit{
+color:black;
+background-color:#fff;
+border-bottom : 2px solid #ddd; 
+}
+
+.doneButton {
+	position:relative !important;
+	top:0.1em !important;
+}
 			div.wrap {
 				border:1px solid #BBBBBB;
 		
@@ -85,6 +124,8 @@
 			font-size:1.2em;
 			border:1px solid black !important;
 		}
+		.editForm {
+padding:1em;		}
 		
 		div.title, div.subtitle {
 		padding :1em;
@@ -98,9 +139,18 @@
 		}
 		.sectionBodyEdit {
 			width:98%;
+			background-color:#ddd;
+			color:black;
+			border:1px solid #222;
 			hieght:100%;
 		}
 		
+		input, select {
+			background-color:#eee;
+			color:black;
+			border:1px solid #222;
+		
+		}
 		
 		
 		.sectionBody {
@@ -128,9 +178,6 @@
 				paddding:1em;
 				margin:0em;
 			}
-		input {
-		font-size:2em;
-		}
 		.editLink {
 			//float:right;
 			//padding-right:2em;

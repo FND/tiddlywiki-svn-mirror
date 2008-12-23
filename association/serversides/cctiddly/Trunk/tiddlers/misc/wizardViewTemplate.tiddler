@@ -1,6 +1,7 @@
 <div title="wizardViewTemplate" modifier="ccTiddly"  tags="excludeLists excludeSearch">
 <pre>
-<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='toolbar' macro='toolbar closeTiddler closeOthers'></div>
 <div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
 </pre>
 </div>
