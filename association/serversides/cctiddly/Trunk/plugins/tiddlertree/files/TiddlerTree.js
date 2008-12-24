@@ -121,10 +121,17 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				var sectionDiv = createTiddlyElement(section, "div", tiddlerTitle+"ViewContainer", "sort-handle " +sectionClass);
 				var heading = createTiddlyElement(sectionDiv, "h"+level,  tiddlerTitle+"HeadingView", "sectionHeading ");
 				createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment) : "  - Unassigned"));
+				
+			//	createTiddlyButton(sectionDiv, "comments", "Click to view the comments", "", "right button");
+				
+				
 				createTiddlyButton(sectionDiv, "edit", "Click to edit this section", config.macros.tiddlerTree1.editClick, "right button");
 				var body = createTiddlyElement(sectionDiv, "div", tiddlerTitle+"BodyDiv", "sectionBody", store.getTiddlerText(tiddlerTitle));
 				$(body).html(wikifyStatic(store.getTiddlerText(tiddlerTitle)));
 				body.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+2;
+				wikify("<<comments tiddler:'"+tiddlerTitle+"'>>", sectionDiv);
+				
+				
 				//body.disabled = true;
 				var editDblClick = function(e) {
 					$(e.target.parentNode).slideToggle("fast");
