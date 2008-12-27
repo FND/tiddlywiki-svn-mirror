@@ -69,6 +69,9 @@ border-bottom : 2px solid #ddd;
 			}
 			
 			
+			.sectionHeadingInput {
+				width:80%;
+			}
 			.section {
 				padding:0px;
 				margin:0px;
@@ -87,7 +90,7 @@ border-bottom : 2px solid #ddd;
 
 			
 			.helper {
-			border:2px dashed #777777;
+				border:2px dashed #777777;
 			}
 			
 			.current-nesting {
@@ -114,11 +117,9 @@ border-bottom : 2px solid #ddd;
 			padding:1em 1em 1em 0.0em;
 		}
 		.viewer .button {
-		top:-1.8em;
+		top:-1.8em !important;
 		}
 		.button {
-			margin:1em;
-			padding:1em;
 		font-face:arial;
 			background-color:orange;
 			color:white !important;
@@ -130,8 +131,16 @@ border-bottom : 2px solid #ddd;
 		#backstageButton {
 		display:none !important;
 		}
-		.editForm {
-padding:1em;		}
+		
+		.sort-handle-edit {
+			background:orange;
+			padding:1em;
+		}
+		
+		.sort-handle-edit .button {
+			background:white !important;
+			color:black !important;
+		}
 		
 		div.title, div.subtitle {
 		padding :1em;
@@ -173,6 +182,20 @@ padding:1em;		}
 					padding:1em;
 	
 		}
+		
+		div.sort-handle div {
+			border-bottom:0px !important;
+		}
+		
+		.commentText {
+			padding:1em !important;
+		}
+		
+		
+		.comments textarea {
+			width:60% !important;
+		}
+		
 		
 		a.right {
 		float:right;
@@ -226,7 +249,11 @@ padding:1em;		}
 		.draggableOn {
 	cursor:move;
 			background-color:#eee !important;
+
+
 		}
+
+		
 		#messageArea, #messageArea a.button {
 			background:transparent !important;
 			border:transparent !important;

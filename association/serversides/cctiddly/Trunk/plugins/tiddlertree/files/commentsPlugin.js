@@ -96,19 +96,41 @@ refreshComments: function(daddyCommentsEl, tiddler, macroParams, place) {
     removeChildren(daddyCommentsEl);
     refreshedEl = store.getTiddler(tiddler.title);
   }
-
+var count = 0;
   prev=null;
   for (var child = store.getTiddler(tiddler.fields.firstchild); child; child = store.getTiddler(child.fields.nextchild)) {
      if (prev==child) {
         // macro.log(prev, child, "breaking");
         break;
       }
+console.log(count++);
      cmacro.refreshComments(refreshedEl.commentsEl, child, macroParams);
      prev = child;
   }
 
 },
 
+
+countComments : function(tiddlerTitle) {
+
+/*
+	var tiddler = store.getTiddler(tiddlerTitle);
+	var count = 0;
+	  prev=null;
+	  for (var child = store.getTiddler(tiddler.fields.firstchild); child; child = store.getTiddler(child.fields.nextchild)) {
+	     if (prev==child) {
+	     // macro.log(prev, child, "breaking");
+	        break;
+	      }
+		count++;
+ 		//	cmacro.countComments(child.title);
+	     prev = child;
+	}
+	return count;
+	
+*/
+return 1;
+},
 buildCommentEl: function(daddyCommentsEl, comment, macroParams) {
 
   // COMMENT ELEMENT

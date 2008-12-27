@@ -65,18 +65,25 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 	var showBox = function() {$("#newTiddlerDivContainer").slideToggle();};
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
 	createTiddlyButton(buttonHolder, "New Section", "click to create a new section", showBox);
+
+	var hideBody = function() {
+		$(".sectionBody").slideToggle();
+	};
+	createTiddlyButton(buttonHolder, "View Body", "click to create a new section", hideBody);
+
 //	createTiddlyButton(buttonHolder, "Print");
 	createTiddlyElement(place, "br");
-	var newTiddlerContainerDiv = createTiddlyElement(place, "div", "newTiddlerDivContainer");
+	var newTiddlerContainerDiv = createTiddlyElement(place, "div", "newTiddlerDivContainer", "sort-handle-edit incomplete");
 	newTiddlerContainerDiv.style.display = "none";
 	var newTiddler = createTiddlyElement(newTiddlerContainerDiv, "div", "newTiddlerDiv", " flora");
 	newTiddler.title = "Add New Section";
-	tiddlerName = createTiddlyElement(newTiddler, "input");
+	tiddlerName = createTiddlyElement(newTiddler, "input", null, "sectionHeadingInput");
+	tiddlerName.style['font-size'] = "2em";
 	tiddlerName.name = "newTiddlerTitle";
 	tiddlerName = createTiddlyElement(newTiddler, "br");
- 	var textarea = createTiddlyElement(newTiddler, "textarea", "newTiddlerContent");
+ 	var textarea = createTiddlyElement(newTiddler, "textarea", "newTiddlerContent", "sectionBodyEdit");
 	tiddlerName = createTiddlyElement(newTiddler, "br");
-	var button = createTiddlyElement(newTiddler, "input");
+	var button = createTiddlyElement(newTiddler, "input", null, "button right");
 	button.value = "Create Section";
 	button.type = "button";
 	button.onclick = function() {
@@ -121,23 +128,34 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				var sectionDiv = createTiddlyElement(section, "div", tiddlerTitle+"ViewContainer", "sort-handle " +sectionClass);
 				var heading = createTiddlyElement(sectionDiv, "h"+level,  tiddlerTitle+"HeadingView", "sectionHeading ");
 				createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment) : "  - Unassigned"));
-				
-			//	createTiddlyButton(sectionDiv, "comments", "Click to view the comments", "", "right button");
-				
-				
+				var commentButtonClick = function() {
+					
+					$("#"+this.id+"CommentsArea").slideToggle();
+				};
 				createTiddlyButton(sectionDiv, "edit", "Click to edit this section", config.macros.tiddlerTree1.editClick, "right button");
+				createTiddlyButton(sectionDiv, "comments("+config.macros.comments.countComments(tiddlerTitle)+")", "Click to view the comments", commentButtonClick, "right button", null, null, {'id':tiddlerTitle});
+
 				var body = createTiddlyElement(sectionDiv, "div", tiddlerTitle+"BodyDiv", "sectionBody", store.getTiddlerText(tiddlerTitle));
 				$(body).html(wikifyStatic(store.getTiddlerText(tiddlerTitle)));
 				body.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+2;
-				wikify("<<comments tiddler:'"+tiddlerTitle+"'>>", sectionDiv);
+				var commentsDiv = createTiddlyElement(sectionDiv, "div", tiddlerTitle+"CommentsArea");
+				wikify("<<comments tiddler:'"+tiddlerTitle+"'>>", commentsDiv);
+				$(commentsDiv).hide();
 				
 				
 				//body.disabled = true;
+
+				/* double click bits 
 				var editDblClick = function(e) {
-					$(e.target.parentNode).slideToggle("fast");
+				//	$(e.target.parentNode).slideToggle("fast");
+				displayMessage("here again"+e.target.id.replace("BodyDiv", ""));
+					$("#"+e.target.id+"ViewContainer").slideToggle("fast");
 					$("#"+e.target.id+"EditView").slideToggle("fast");
 				};
-				$(body).dblclick(editDblClick); 				
+				$(body).dblclick(editDblClick);
+				*/
+				
+				 				
 				var prevLevel = level;			
 				var sectionEditDiv = createTiddlyElement(section, "div", tiddlerTitle+"BodyDivEditView", "sort-handle-edit "+sectionClass);
 				sectionEditDiv.style.display = "none";
@@ -146,7 +164,7 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 			 	form.name = tiddlerTitle+"Form";
 
 
-				var headingInput = createTiddlyElement(form, "input",  "heading", "sectionHeading ");
+				var headingInput = createTiddlyElement(form, "input",  "heading", "sectionHeadingInput ");
 				headingInput.value = tiddlerTitle;
 
 // create button 

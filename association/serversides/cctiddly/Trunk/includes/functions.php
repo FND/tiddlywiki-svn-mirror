@@ -289,9 +289,9 @@ function getTiddlersWithTags($yesTags,$noTags)
 					$tmp = array_merge($tag,$yesTags);
 					//ifno yesTags, assume only want to remove some tag thus all but $noTags are returned
 					//if$yesTags exist, display only if$yesTags is in tiddler
-					if(sizeof($yesTags)==0 || sizeof($tmp) != sizeof(array_flip(array_flip($tmp)))){
+				//	if(sizeof($yesTags)==0 || sizeof($tmp) != sizeof(array_flip(array_flip($tmp)))){
 						$return_tiddlers[$t['title']] = $t;
-					}
+				//	}
 				}
 			}
 		}
