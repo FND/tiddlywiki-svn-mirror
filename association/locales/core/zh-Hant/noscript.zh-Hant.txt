@@ -1,0 +1,3 @@
+<div id="javascriptWarning">
+此網頁需要 JavaScript 才能正常運作。<br /><br />如果您使用 Microsoft Internet Explorer 您可能需要點擊上方的黃色橫條，並允許被阻止的內容。然後您必須對彈出的安全警告，按一下「是」。
+</div>

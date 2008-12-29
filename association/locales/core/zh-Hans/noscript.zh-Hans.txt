@@ -1,0 +1,3 @@
+<div id="javascriptWarning">
+此网页需要JavaScript才能正常运作。<br /><br />如果您使用 Microsoft Internet Explorer 您可能需要点击上方的黄色栏，并允许被阻止的内容。然后您必须对弹出的安全警告，按一下“是”。
+</div>
