@@ -112,7 +112,7 @@ adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xh
 			var t = tiddlers[i];
 			var tiddler = new Tiddler(t.title);
 			tiddler.assign(t.title, null, t.modifier, t.modified, t.tags, t.created, t.fields);
-			tiddler.fields["server.workspace"] = t.bag ? "bags/" + t.bag : "recipes/" + t.recipe; // XXX: bag is always supplied!?
+			tiddler.fields["server.workspace"] = "bags/" + t.bag;
 			tiddler.fields["server.page.revision"] = t.revision;
 			context.tiddlers.push(tiddler);
 		}
@@ -171,7 +171,7 @@ adaptor.getTiddlerRevisionListCallback = function(status, context, responseText,
 			tiddler.assign(t.title, null, t.modifier, Date.convertFromYYYYMMDDHHMM(t.modified),
 				t.tags, Date.convertFromYYYYMMDDHHMM(t.created), t.fields);
 			tiddler.fields["server.page.revision"] = t.revision;
-			tiddler.fields["server.workspace"] = t.bag ? "bags/" + t.bag : "recipes/" + t.recipe; // XXX: bag is always supplied!?
+			tiddler.fields["server.workspace"] = "bags/" + t.bag;
 			context.revisions.push(tiddler);
 		}
 		var sortField = "server.page.revision";
@@ -269,7 +269,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		if(typeof revision == "undefined") {
 			revision = 1;
 		}
-		var etag = [adaptor.normalizeTitle(bag),
+		var etag = [adaptor.normalizeTitle(tiddler.fields["server.bag"]),
 			adaptor.normalizeTitle(tiddler.title), revision].join("/");
 		headers = { "If-Match": etag };
 	}
