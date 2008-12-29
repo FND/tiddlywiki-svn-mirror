@@ -103,7 +103,7 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 	};
 	createTiddlyButton(buttonHolder, "View Body", "click to create a new section", hideBody);
 	wikify("<<changeOption>>", buttonHolder);
-//	createTiddlyButton(buttonHolder, "Print");
+	createTiddlyButton(buttonHolder, "Print", "print", function() {alert("Print the doc");});
 	createTiddlyElement(place, "br");
 	var newTiddlerContainerDiv = createTiddlyElement(place, "div", "newTiddlerDivContainer", "sort-handle-edit incomplete");
 	newTiddlerContainerDiv.style.display = "none";
