@@ -5,6 +5,7 @@
 config.macros.tiddlerTree1={};
 	
 config.macros.tiddlerTree1.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	config.options.txtOpenType = "inline";
 	config.macros.tiddlerTree1.refresh(place,macroName,params,wikifier,paramString,tiddler);
 };
 
@@ -16,16 +17,33 @@ function lineBreakCount(str){
 		return 0;
 	}
 };
+config.macros.tiddlerTree1.openType = function(showBoxTiddler, showBoxSlide, showBoxPopUp) {
+	if(config.options.txtOpenType=="popup")
+		return showBoxPopUp();
+	if(config.options.txtOpenType=="inline")
+		return showBoxSlide();
+	if(config.options.txtOpenType=="traditional")
+		return showBoxTiddler();
+}
 
 config.macros.tiddlerTree1.doneClick=function(){
-	log(this);
 		var tiddlerTitle = this.id.replace("DoneButton","");
 		var form = document.forms[tiddlerTitle+"Form"];
 		var body = $("#"+tiddlerTitle+"BodyDiv");
 		var editDiv = form.parentNode;
 		var viewDiv = form.parentNode.parentNode.firstChild;
-		$(editDiv).slideToggle("fast");
-		$(viewDiv).show();
+
+// different view types
+		if(config.options.txtOpenType=="popup") {
+				$(editDiv).dialog("close");
+		}
+		if(config.options.txtOpenType=="inline"){
+			$(editDiv).slideToggle("fast");
+			$(viewDiv).show();
+		}
+// end different view types
+		
+		
 		//	team tasks specific 
 		var taskStatus = store.getValue(store.getTiddler(tiddlerTitle),"tt_status");
 		if (taskStatus=="Complete") {
@@ -52,25 +70,39 @@ config.macros.tiddlerTree1.doneClick=function(){
 };
 
 config.macros.tiddlerTree1.editClick=function(){
-//		var tiddlerName = this.parentNode.id.replace("ViewContainer", "");
+		if(config.options.txtOpenType=="popup") {
+		log(this.parentNode.nextSibling);
+		$(this.parentNode.nextSibling).show();
 
-		$(this.parentNode.nextSibling).slideToggle("fast");
-		$(this.parentNode).hide();
+			$(this.parentNode.nextSibling).dialog({});
+		}
+		if(config.options.txtOpenType=="inline"){
+			$(this.parentNode.nextSibling).slideToggle("fast");
+			$(this.parentNode).hide();
+		}
+		if(config.options.txtOpenType=="traditional"){
+			story.displayTiddler(null, this.parentNode.id.replace("ViewContainer", ""));
+		}
 }
 
 config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	removeChildren(place);
 	createTiddlyElement(place, "br");
-//	var showBox = function() {$("#newTiddlerDiv").dialog({"height":"240px", "width":"400px", "dialogClass":"smmStyle", "position":['91100px','11100'],"show":"fadeIn"});};
-	var showBox = function() {$("#newTiddlerDivContainer").slideToggle();};
+
+	
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
-	createTiddlyButton(buttonHolder, "New Section", "click to create a new section", showBox);
+
+
+	var showBoxPopUp = function() {$("#newTiddlerDiv").dialog({"height":"240px", "width":"400px", "dialogClass":"smmStyle", "position":['91100px','11100'],"show":"fadeIn"});};
+	var showBoxSlide = function() {$("#newTiddlerDivContainer").slideToggle();};
+	var showBoxTiddler = function() { alert("do nothing");};
+	createTiddlyButton(buttonHolder, "New Section", "click to create a new section", function() {config.macros.tiddlerTree1.openType(showBoxTiddler, showBoxSlide, showBoxPopUp); });
 
 	var hideBody = function() {
-		$(".sectionBody").slideToggle();
+		$(".sectionBody").slideToggle("fast");
 	};
 	createTiddlyButton(buttonHolder, "View Body", "click to create a new section", hideBody);
-
+	wikify("<<changeOption>>", buttonHolder);
 //	createTiddlyButton(buttonHolder, "Print");
 	createTiddlyElement(place, "br");
 	var newTiddlerContainerDiv = createTiddlyElement(place, "div", "newTiddlerDivContainer", "sort-handle-edit incomplete");
@@ -94,7 +126,7 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 		}else{
 			var newDate = new Date();	
 			store.saveTiddler(params[0], params[0], "* "+this.parentNode.firstChild.value+"\n"+store.getTiddlerText(params[0]), config.options.txtUserName, newDate,"",config.defaultCustomFields);
-			store.saveTiddler(this.parentNode.firstChild.value, this.parentNode.firstChild.value, document.getElementById("newTiddlerContent").value, config.options.txtUserName, newDate,"",config.defaultCustomFields);
+			store.saveTiddler(this.parentNode.firstChild.value, this.parentNode.firstChild.value, document.getElementById("newTiddlerContent").value, config.options.txtUserName, newDate,"task",config.defaultCustomFields);
 			autoSaveChanges();
 			config.macros.tiddlerTree1.refresh(place,macroName,params,wikifier,paramString,tiddler);
 		}
@@ -170,7 +202,7 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 // create button 
 				var editButton = createTiddlyElement(form, "input", tiddlerTitle+"DoneButton", "button right doneButton");
 				editButton.type = "button";
-editButton.style.float = "right";
+				editButton.style.float = "right";
 				editButton.value = "done";
 				$(editButton).click(config.macros.tiddlerTree1.doneClick); 
 // end create button
