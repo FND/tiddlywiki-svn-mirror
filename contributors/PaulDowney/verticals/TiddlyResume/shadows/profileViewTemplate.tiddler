@@ -1,5 +1,5 @@
 <div title="profileViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
-<pre>
+<pre><!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ProfileViewToolbar]]'></div>
 <h2 macro='view title'></h2>
 <div class="profile vcard">
@@ -23,5 +23,5 @@
 </div>
 <h2 macro='view summary_title'></h2>
 <div class='summary' macro='view text wikified'></div>
-</pre>
+<!--}}}--></pre>
 </div>

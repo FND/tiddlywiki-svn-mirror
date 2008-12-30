@@ -1,5 +1,5 @@
 <div title="profileEditTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
-<pre>
+<pre><!--{{{-->
 <div class="editor profile">
 	<div class='toolbar' macro='toolbar [[ToolbarCommands::ProfileEditToolbar]]'></div>
         <div class="label">Honorific prefix</div><div class="edit honorific-prefix" macro="edit honorific_prefix"></div>
@@ -20,6 +20,6 @@
 	<div class="label">Summary</div><div class='viewer edit' macro='edit text'></div>
 	<div class="edit title" macro="edit title"></div>
 	<div class="tags edit" macro="edit tags"></div>
-</div>
+<!--}}}--></pre>
 </pre>
 </div>

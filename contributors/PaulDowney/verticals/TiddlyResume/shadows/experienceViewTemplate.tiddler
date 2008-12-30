@@ -1,15 +1,15 @@
-<div title="experienceViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
-<pre>
-  <div class='toolbar' macro='toolbar [[ToolbarCommands::ItemViewToolbar]]'></div>
-  <div class="experience vevent vcard">
-        <span class="period"><span macro="dtstart dtstart 'MMM  YYYY'"></span><span class="period_break">-</span><span macro="dtend dtend 'MMM YYYY'"></span></span>
+<div title="experienceViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume" section="experienceSection">
+<pre><!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ItemViewToolbar]]'></div>
+<div class="experience vevent vcard">
+	<span class="period"><span macro="dtstart dtstart 'MMM  YYYY'"></span><span class="period_break">-</span><span macro="dtend dtend 'MMM YYYY'"></span></span>
 	<span class="htitle">
-		<a href="#name" class="include"></a>
-		<span class="org" macro='view org'></span> 
-		<span class='title' macro='view title'></span>
+	<a href="#name" class="include"></a>
+	<span class="org" macro='view org'></span> 
+	<span class='title' macro='view title'></span>
 	</span>
 	<span class='location' macro='view location'></span>
 	<div class='description' macro='view text wikified'></div>
-  </div>
-</pre>
+</div>
+<!--}}}--></pre>
 </div>

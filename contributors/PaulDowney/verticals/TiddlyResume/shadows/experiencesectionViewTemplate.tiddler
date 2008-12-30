@@ -1,8 +1,8 @@
 <div title="experiencesectionViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
-<pre>
+<pre><!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ExperienceSectionViewToolbar]]'></div>
 <div class='experience section'>
 	<h2 macro='view displayed'></h2>
 </div>
-</pre>
+<!--}}}--></pre>
 </div>

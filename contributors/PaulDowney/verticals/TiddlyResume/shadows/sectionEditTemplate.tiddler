@@ -1,8 +1,8 @@
 <div title="sectionEditTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch TiddlyResume">
-<pre>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::SectionEditToolbar]]'></div>
-<div class="editor">
+<pre><!--{{{-->
+<div class="editor section">
+	<div class='toolbar' macro='toolbar [[ToolbarCommands::SectionEditToolbar]]'></div>
 	<div class='edit title' macro='edit displayed'></div>
 </div>
-</pre>
+<!--}}}--></pre>
 </div>

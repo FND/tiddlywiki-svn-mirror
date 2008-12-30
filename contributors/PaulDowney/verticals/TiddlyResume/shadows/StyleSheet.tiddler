@@ -145,7 +145,7 @@
 	.tiddler div.toolbar {
 		margin: 0;
 		padding: 0 0 0 0;
-		height: 2em;
+		height: 1em;
 		float: right;
 		visibility: hidden;
 	}
@@ -204,6 +204,8 @@
 	.include {
 		 display: none;
 	}
+
+.section { border: 5px solid red; }
 
 /*}}}*/</pre>
 </div>
