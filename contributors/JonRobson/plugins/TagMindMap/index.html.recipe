@@ -1,17 +1,22 @@
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
-tiddler: /js/TiddlerBar.js
 tiddler: /tiddlers/DIYExample.tiddler
 tiddler: /tiddlers/Example2.tiddler
 tiddler: /tiddlers/Example3.tiddler
 tiddler: /tiddlers/Example4.tiddler
+tiddler: /tiddlers/Example5.tiddler
 tiddler: /tiddlers/PageTemplate.tiddler
 tiddler: /tiddlers/ToolbarCommands.tiddler
+tiddler: /tiddlers/codePackage.tiddler
+tiddler: /tiddlers/optionalCodePackage.tiddler
 tiddler: /tiddlers/Stylesheet.tiddler
 tiddler: /js/TagMindMapCommands.js
-tiddler: /js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyShapes.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyController.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMapUtils.js tagMindMapIEHack.js ../../WorldMaps/jquery.js 
-
+tiddler: /js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyShapes.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyController.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMapUtils.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyClicking.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyClickingUtils.js tagMindMapIEHack.js ../../WorldMaps/jquery.js 
+tiddler: /tiddlers/EditTemplate.tiddler
+tiddler: /tiddlers/tagMindMapExamples.tiddler
+tiddler: /tiddlers/DefaultTiddlers.tiddler
 tiddler: /tiddlers/TiddlyTagMindMap.tiddler
-
-
-
+tiddler: /tiddlers/MainTTMM.tiddler
+tiddler: /tiddlers/ttmmMacros.tiddler
+tiddler: /tiddlers/ttmmParameters.tiddler
+tiddler: /tiddlers/macrotiddlytagmindmap.tiddler

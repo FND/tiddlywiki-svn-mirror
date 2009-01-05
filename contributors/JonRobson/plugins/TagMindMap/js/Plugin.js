@@ -22,10 +22,8 @@ The tagmindmap can be created from a macro call using <<tiddlytagmindmap //param
 alternatively paste <div id='tagmindmap'></div> into your page template.
 
 The following macros may be useful however they can be included in the toolbar settings of the tiddlytagmindmap macro.
-<<ToggleTagMindMap>> (toggle graph on/off)
-<<LoadMindMap>> (load all nodes into mind map)
-<<ZoomMindMapIn>> (zoom into the map (expand the structure as if it was a balloon))
-<<ZoomMindMapOut>> (zoom out of the map (let air out of the structure as if it was a balloon))
+<<ToggleTagMindMap id>> (create button to toggle mind map with id 'id' on/off)
+<<LoadMindMap id>> (create button to load all nodes into mind map  with id 'id')
 
 There are a variety of configuration options in the backstage area under tweak. They all begin with TiddlyTagMindMapPlugin: 
 }}}
@@ -48,14 +46,16 @@ notagcloud:true as a parameter will flatten the nodes to have the same size font
 A parameter zoom allows you to specify an integer representing the initial inflation of the mind map. The smaller it is - the closer the nodes will be together.
 {{{<<tiddlytagmindmap zoom:1000>>}}} will give you a very inflated TagMindMap!
 
+!!!Breadcrumb trail
+You can turn visited nodes red when they are clicked on by using the {{{breadcrumb:true}}} parameter by default this is false.
 !!!The toolbar
 A parameter toolbar is a string of 1s. These signify the buttons. The first digit sets whether the bar should appear vertically or horizontally.
 The following digits turn off or on the other available buttons.
 !!!!The buttons
 The digits preceding the first digit represent these buttons in this order..
-toggle, loadall,zoom+,zoom-,re-center (re-center after panning the map)
+toggle, loadall
 
-{{{<<tiddlytagmindmap toolbar:11010>>}}} would give you a vertical toolbar with toggle and load buttons but no zoom and no re-center buttons.
+{{{<<tiddlytagmindmap toolbar:101>>}}} would give you a vertical toolbar with a loadall button
 
 !!!The Start State
 A parameter can be used to specify how the map looks on start up. 
@@ -67,28 +67,36 @@ the latter is more interesting. Have a look at [[Example 2]]!
 1.5 xx/xx 
 	*Ability to add arrow heads to show direction
 	*better performance
+	*better control panel: replacement of macros for toggle/zoom in and out with built in toolbar to plugin
+	*update to new version of RGraph (JIT)
+	*Ability to set meta-data specific to nodes within a tiddler in optional fields see
+	 http://TiddlyWiki.abego-software.de/#PartTiddlerPlugin (eg. colouring of children/parents/images in node label)
+	*definable meta data (prefix,suffix,label,color)
+	*can turn off click function
 1.4 11/08 tag cloud integration/multiple tag mind maps/ability to call from macro
 1.3 22/10/08 working with ie/packaged up code
 
 !To Do
+*bug: zoomin breaks on more than 1 mind map.. no idea why but scale resets :(
 *fix ie clicking nodes
-*better control panel: replacement of macros for toggle/zoom in and out with built in toolbar to plugin
+*display tiddler loads below the place it;s called from
 *Ability to define your own function for relative sizing (ie. you could weight them on some meta field)
-*Ability to set meta-data specific to nodes within a tiddler in optional fields see http://TiddlyWiki.abego-software.de/#PartTiddlerPlugin (eg. colouring of children/parents/images in node label)
+*color property should become css property
+*ability to resize using %
+*distinguish between tags and tiddlers (see CreateNodeJSON - tiddlers that don't exist in store are tagged in data field)
 *rss hooks - specify where tags and node names come from in feed
-*ability to specify what click function is/ turn off click function
+*ability to specify what click function is
+*ability to stop displayTiddler from loading into graph (*ability to turn off dynamic as you go updates)
 *allow resizing
-*ability to turn off dynamic as you go updates
 *auto spread out messy nodes (ie. zoom out if nodes are too close)
 *node repositioning and saving of state
 *better css support
 *performance issues
 *deleting edges as tiddlers are deleted
 *adapt to parabolic tree mode and other visualisation types
-*update to new version of RGraph (JIT)
 *Self-defined click functions
 *Continued code cleanup
-*define a colour of the breadcrumb trail - make it change colour each click (increment colour, so you can get an idea of path you took to get somewhere)
+*breadcrumbs to become encoded in the node colour (rather than label colour) define a colour of the breadcrumb trail - make it change colour each click (increment colour, so you can get an idea of path you took to get somewhere)
 *add pins to locations in the mind map to jump back to (definable in meta data long term, also short term in tiddler edit menu)
 !Code
 ***/
