@@ -2,7 +2,7 @@
 |Name|SearchOptionsPlugin|
 |Source|http://www.TiddlyTools.com/#SearchOptionsPlugin|
 |Documentation|http://www.TiddlyTools.com/#SearchOptionsPluginInfo|
-|Version|2.9.9|
+|Version|3.0.2|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -23,18 +23,19 @@ Search in:
 <<option chkSearchTitlesFirst>> Show title matches first
 <<option chkSearchByDate>> Sort matching tiddlers by modification date (most recent first)
 <<option chkIncrementalSearch>> Incremental key-by-key search: {{twochar{<<option txtIncrementalSearchMin>>}}} or more characters,  {{threechar{<<option txtIncrementalSearchDelay>>}}} msec delay
+<<option chkSearchExcludeTags>> Exclude tiddlers tagged with:
+{{editor{<<option txtSearchExcludeTags>>}}}
 <<<
 !!!!!Revisions
 <<<
-2008.09.24 [2.9.9] performance improvment to reportSearchResults(): when rendering a real SearchResults tiddler, store.notify() isn't needed since the results tiddler is always explicitly closed and redrawn each time.
-2008.09.20 [2.9.8] corrected createPanel() and renderPanel() so toolbar will be correctly shown/hidden on mouseover/mouseout.
+2009.01.05 [3.0.2] in formatSearchResults_list(), set/clear 'highlightHack' via HTML links so that search term will be highlighted when displaying tiddlers.
 |please see [[SearchOptionsPluginInfo]] for additional revision details|
 2005.10.18 [1.0.0] Initial Release
 <<<
 !!!!!Code
 ***/
 //{{{
-version.extensions.SearchOptionsPlugin= {major: 2, minor: 9, revision: 9, date: new Date(2008,9,24)};
+version.extensions.SearchOptionsPlugin= {major: 3, minor: 0, revision: 2, date: new Date(2009,1,5)};
 
 var co=config.options; // abbrev
 if (co.chkSearchTitles===undefined) co.chkSearchTitles=true;
@@ -49,8 +50,11 @@ if (co.chkIncrementalSearch===undefined) co.chkIncrementalSearch=true;
 if (co.chkSearchShadows===undefined) co.chkSearchShadows=true;
 if (co.txtIncrementalSearchDelay===undefined) co.txtIncrementalSearchDelay=500;
 if (co.txtIncrementalSearchMin===undefined) co.txtIncrementalSearchMin=3;
+if (co.chkSearchExcludeTags===undefined) co.chkSearchExcludeTags=true;
+if (co.txtSearchExcludeTags===undefined) co.txtSearchExcludeTags="excludeSearch";
 if (config.macros.search.reportTitle==undefined)
 	config.macros.search.reportTitle="SearchResults"; // note: not a cookie!
+config.macros.search.label+="\xa0"; // a little bit of space just because it looks better
 //}}}
 // // searchLink: {{{[search[text to find]] OR [search[text to display|text to find]]}}}
 //{{{
@@ -88,7 +92,7 @@ Story.prototype.search = function(text,useCaseSensitive,useRegExp)
 {
 	var co=config.options; // abbrev
 	highlightHack = new RegExp(useRegExp ? text : text.escapeRegExp(),useCaseSensitive ? "mg" : "img");
-	var matches = store.search(highlightHack,co.chkSearchByDate?"modified":"title","excludeSearch");
+	var matches = store.search(highlightHack,co.chkSearchByDate?"modified":"title","");
 	if (co.chkSearchByDate) matches=matches.reverse(); // most recent first
 	var q = useRegExp ? "/" : "'";
 	clearMessage();
@@ -113,6 +117,14 @@ TiddlyWiki.prototype.search = function(searchRegExp,sortField,excludeTag)
 {
 	var co=config.options; // abbrev
 	var tids = this.reverseLookup("tags",excludeTag,false,sortField);
+
+	// eliminate tiddlers tagged with excluded tags
+	if (co.chkSearchExcludeTags&&co.txtSearchExcludeTags.length) {
+		var ex=co.txtSearchExcludeTags.readBracketedList();
+		var temp=[]; for(var t=tids.length-1; t>=0; t--)
+			if (!tids[t].tags.containsAny(ex)) temp.push(tids[t]);
+		tids=temp;
+	}
 
 	// scan for matching titles first...
 	var results = [];
@@ -181,11 +193,13 @@ config.macros.search.handler = function(place,macroName,params)
 //}}}
 // // SearchResults panel handling
 //{{{
+setStylesheet(".searchResults { padding:1em 1em 0 1em; }","searchResults"); // matches std tiddler padding
+
 config.macros.search.createPanel=function(text,matches,body) {
 
 	function getByClass(e,c) { var d=e.getElementsByTagName("div");
 		for (var i=0;i<d.length;i++) if (hasClass(d[i],c)) return d[i]; }
-	var panel=createTiddlyElement(null,"div","searchPanel","tiddler");
+	var panel=createTiddlyElement(null,"div","searchPanel","searchPanel");
 	this.renderPanel(panel,text,matches,body);
 	var oldpanel=document.getElementById("searchPanel");
 	if (!oldpanel) { // insert new panel just above tiddlers
@@ -351,9 +365,11 @@ if (!window.formatSearchResults_again) window.formatSearchResults_again=function
 	body+='	<<option chkCaseSensitiveSearch>>case-sensitive /%\n';
 	body+='	%/<<option chkRegExpSearch>>text patterns /%\n';
 	body+='	%/<<option chkSearchByDate>>sorted by date\n';
-	body+='	<<option chkIncrementalSearch>> Incremental key-by-key search: /%\n';
+	body+='	<<option chkIncrementalSearch>>incremental key-by-key search: /%\n';
 	body+='	%/{{twochar{<<option txtIncrementalSearchMin>>}}} or more characters, /%\n';
-	body+='	%/{{threechar{<<option txtIncrementalSearchDelay>>}}} msec delay/%\n';
+	body+='	%/{{threechar{<<option txtIncrementalSearchDelay>>}}} msec delay\n';
+	body+='	<<option chkSearchExcludeTags>>exclude tiddlers tagged with:\n';
+	body+='	{{editor{<<option txtSearchExcludeTags>>}}}/%\n';
 	body+='%/@@}}}\n\n';
 	return body;
 }
@@ -366,14 +382,14 @@ if (!window.formatSearchResults_summary) window.formatSearchResults_summary=func
 	var title=config.macros.search.reportTitle
 	var q = co.chkRegExpSearch ? "/" : "'";
 	body+="''"+config.macros.search.successMsg.format([matches.length,q+"{{{"+text+"}}}"+q])+"''\n";
-	body+="~~&nbsp; searched in "
-		+(co.chkSearchTitles?"titles ":"")
-		+(co.chkSearchText?"text ":"")
-		+(co.chkSearchTags?"tags ":"")
-		+(co.chkSearchFields?"fields ":"")
-		+(co.chkSearchShadows?"shadows ":"")
-		+"~~\n"
-		+(co.chkCaseSensitiveSearch||co.chkRegExpSearch?"^^&nbsp; using ":"")
+	var opts=[];
+	if (co.chkSearchTitles) opts.push("titles");
+	if (co.chkSearchText) opts.push("text");
+	if (co.chkSearchTags) opts.push("tags");
+	if (co.chkSearchFields) opts.push("fields");
+	if (co.chkSearchShadows) opts.push("shadows");
+	body+="~~&nbsp; searched in "+opts.join(" + ")+"~~\n";
+	body+=(co.chkCaseSensitiveSearch||co.chkRegExpSearch?"^^&nbsp; using ":"")
 		+(co.chkCaseSensitiveSearch?"case-sensitive ":"")
 		+(co.chkRegExpSearch?"pattern ":"")
 		+(co.chkCaseSensitiveSearch||co.chkRegExpSearch?"matching^^\n":"");
@@ -384,9 +400,17 @@ if (!window.formatSearchResults_list) window.formatSearchResults_list=function(t
 {
 	// bullet list of links to matching tiddlers
 	var body='';
+	var pattern=co.chkRegExpSearch?text:text.escapeRegExp();
+	var sensitive=co.chkCaseSensitiveSearch?"mg":"img";
+	var link='{{tiddlyLinkExisting{<html><nowiki><a href="javascript:;" onclick="'
+		+'highlightHack=new RegExp(\x27'+pattern+'\x27,\x27'+sensitive+'\x27);'
+		+'story.displayTiddler(null,\x27%0\x27);'
+		+'highlightHack = null; return false;'
+		+'" title="%1">%0</a></html>}}}';
 	for(var t=0;t<matches.length;t++) {
 		var date=config.options.chkSearchByDate?(matches[t].modified.formatString('YYYY.0MM.0DD 0hh:0mm')+" "):"";
-		body+="* "+date+"[["+matches[t].title+"]]\n";
+		var tid=store.getTiddler(matches[t].title); if (tid) var tip=tid.getSubtitle();
+		body+="* "+date+link.format([matches[t].title,tip||''])+'\n';
 	}
 	return body;
 }

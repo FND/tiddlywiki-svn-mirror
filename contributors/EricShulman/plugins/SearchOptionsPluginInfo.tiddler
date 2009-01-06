@@ -1,9 +1,9 @@
-<div title="SearchOptionsPluginInfo" modifier="ELSDesignStudios" created="200801090140" modified="200809241609" tags="pluginInfo" changecount="17">
+<div title="SearchOptionsPluginInfo" modifier="ELSDesignStudios" created="200801090140" modified="200901052229" tags="pluginInfo" changecount="2">
 <pre>/***
 |Name|SearchOptionsPluginInfo|
 |Source|http://www.TiddlyTools.com/#SearchOptionsPlugin|
 |Documentation|http://www.TiddlyTools.com/#SearchOptionsPluginInfo|
-|Version|2.9.9|
+|Version|3.0.2|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -91,9 +91,14 @@ Search in:
 &lt;&lt;option chkSearchByDate&gt;&gt; Sort matching tiddlers by date {{{(&lt;&lt;option chkSearchByDate&gt;&gt;)}}}
 &lt;&lt;option chkIncrementalSearch&gt;&gt; Incremental key-by-key search: {{twochar{&lt;&lt;option txtIncrementalSearchMin&gt;&gt;}}} or more characters,  {{threechar{&lt;&lt;option txtIncrementalSearchDelay&gt;&gt;}}} msec delay
 {{{&lt;&lt;option chkSearchIncremental&gt;&gt; &lt;&lt;option txtSearchIncrementalMin&gt;&gt; &lt;&lt;option txtSearchIncrementalDelay&gt;&gt;}}}
+&lt;&lt;option chkSearchExcludeTags&gt;&gt; Exclude tiddlers tagged with: {{{&lt;&lt;option chkSearchExcludeTags&gt;&gt;}}}
+{{editor{&lt;&lt;option txtSearchExcludeTags&gt;&gt;}}}{{{&lt;&lt;option txtSearchExcludeTags&gt;&gt;}}}
 &lt;&lt;&lt;
 !!!!!Revisions
 &lt;&lt;&lt;
+2009.01.05 [3.0.2] in formatSearchResults_list(), set/clear 'highlightHack' via HTML links so that search term will be highlighted when displaying tiddlers.
+2008.10.14 [3.0.1] changed panel class from &quot;tiddler&quot; to &quot;searchPanel&quot; and added style definition for &quot;searchPanel&quot;.  Fixes ticket #771 (in IE, links from search results were reporting errors due to &quot;fake&quot; tiddler class wrapper)
+2008.10.02 [3.0.0] added optional list of tags to use for excluding tiddler from searches (default=&quot;excludeLists&quot;).
 2008.09.24 [2.9.9] performance improvment to reportSearchResults(): when rendering a real SearchResults tiddler, store.notify() isn't needed since the results tiddler is always explicitly closed and redrawn each time.
 2008.09.20 [2.9.8] corrected createPanel() and renderPanel() so toolbar will be correctly shown/hidden on mouseover/mouseout.
 2008.09.19 [2.9.7] fixes to panel handling for IE, Safari, and others.  Changed panel id to #searchPanel and added .searchResults CSS class wrapper around panel content.  Fixed fold/unfold handling.
