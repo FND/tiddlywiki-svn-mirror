@@ -2,8 +2,11 @@ config.macros.DopplrMyGeo = {};
 
 config.macros.DopplrMyGeo.handler =function(place,macroName,params,wikifier,paramString,tiddler){
 	var url = params[0];
-	//accesses gml
-	var u = EasyMapUtils;
+	var pastColor = params[2];
+	var currentColor = params[3];
+	var futureColor = params[4];
+
+	var u = EasyFileUtils;
 	var tid = tiddler;
 
 	var id = params[1];
@@ -16,44 +19,31 @@ config.macros.DopplrMyGeo.handler =function(place,macroName,params,wikifier,para
 			var where = getElementChild(gmls[i],'georss:where');
 			var pos = getElementChild(getElementChild(where,'gml:Point'),"gml:pos");
 			var what = getElementChild(gmls[i],'title').firstChild.nodeValue;
-			var whenstring = getElementChild(gmls[i],'gd:when').getAttribute("startTime");
+			var startTime = getElementChild(gmls[i],'gd:when').getAttribute("startTime");
 			var endstring = getElementChild(gmls[i],'gd:when').getAttribute("endTime");
 
-			var colour = "#00FF00";
+			var colour = futureColor;
 			var now= new Date();
 			
 			var when = new Date();
-			var y = whenstring.substring(0,4);
-			var  m = whenstring.substring(5,7);
-			var d = whenstring.substring(8,10);
-			when.setYear(y);
-			when.setMonth(m);
-			when.setDate(d);
-			
-			var when2 = new Date();
-			var y2 = endstring.substring(0,4);
-			var  m2 = endstring.substring(5,7);
-			var d2 = endstring.substring(8,10);
-			when2.setYear(y2);
-			when2.setMonth(m2);
-			when2.setDate(d2);
-			var endstring = d2+"/"+m2+"/"+y2;
-			if(when){
-				what += " ("+d+"/"+m+"/"+y;
-				if(endstring) what += " - "+ endstring;
-				what += ")";
-			 }
+			var y = startTime.substring(0,4);
+			var  m = startTime.substring(5,7);
+			var d = startTime.substring(8,10);
+			when.setYear(parseInt(y));
+			when.setMonth(parseInt(m));
+			when.setDate(parseInt(d));
+
 						
 		//yellow been
 		//green going
-			if(when < now){//gone
-				colour = "#FFFF00";
+			if(when < now){//when is in past
+				colour = pastColor;
 			}
 			var coords = pos.firstChild.nodeValue.split(" ");
 			var la = parseFloat(coords[0]);
 			var lo = parseFloat(coords[1]);
 			var props ={name: what, fill: colour};
-			props.tags = ['dopplr'];
+			props.tags = ['dopplrTrip'];
 			data.features.push(new GeoTag(lo,la,props)); //add the tagging feature
 			
 		}	

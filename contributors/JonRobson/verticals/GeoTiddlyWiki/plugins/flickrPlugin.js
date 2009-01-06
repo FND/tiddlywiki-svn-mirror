@@ -1,9 +1,11 @@
 config.macros.flickrMyGeo = {};
 config.macros.flickrMyGeo.handler =function(place,macroName,params,wikifier,paramString,tiddler){
 	var url = params[0];
-		var id = params[1];
+	var id = params[1];
+	var color = params[2];
+	if(!color) color="#0000FF";	
 	//accesses gml
-	var u = EasyMapUtils;
+	var u = EasyFileUtils;
 	var tid = tiddler;
 	var callback = function(status,params,responseText,url,xhr){
 		var data = {'type':'FeatureCollection','features':[]};
@@ -24,12 +26,12 @@ config.macros.flickrMyGeo.handler =function(place,macroName,params,wikifier,para
 				width = 600;
 				height *= factor;
 			}
-			var colour = "#0000FF";
+	
 			var text = "<html><img src='"+image+"' width='"+width+"' height='"+height+"'></html>";
 		
 			var la = parseFloat(la);
 			var lo = parseFloat(lo);
-			var prop ={name: image, text: text, tags: ['flickr'],fill: colour};
+			var prop ={name: image, text: text, tags: ['flickr'],fill: color};
 			data.features.push(new GeoTag(lo,la,prop)); //add the tagging feature
 			
 		}	
