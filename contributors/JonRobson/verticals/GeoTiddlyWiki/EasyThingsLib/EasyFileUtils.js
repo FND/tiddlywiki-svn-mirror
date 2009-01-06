@@ -4,6 +4,7 @@ var EasyFileUtils= {
 	{
 		return this._httpReq("GET",url,callback,params,null,null,null,null,null,true);
 	},
+	
 	_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
 	{
 		//# Get an xhr object

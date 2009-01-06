@@ -33,7 +33,26 @@ if(!Array.indexOf) {
 }
 
 var EasyMapUtils = {
-	getLongLatFromMouse: function(x,y,easyMap){
+	googlelocalsearchurl: "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="
+	
+	,getLocationsFromQuery: function(query,callback){
+		var that = this;
+		var fileloadedcallback = function(status,params,responseText,url,xhr){
+				var response = eval("("+responseText+")");
+
+				if(response.responseStatus == 200){
+					var results = response.responseData.results;
+					callback(results);
+					
+					return;
+				}
+
+		};
+			
+	
+		EasyFileUtils.loadRemoteFile(that.googlelocalsearchurl+query,fileloadedcallback);
+	}
+	,getLongLatFromMouse: function(x,y,easyMap){
 		
 		var pos = EasyClickingUtils.undotransformation(x,y,easyMap.controller.transformation);
 		return {latitude:-pos.y,longitude:pos.x};

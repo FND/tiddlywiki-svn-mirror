@@ -11,8 +11,6 @@ var EasyShape = function(properties,coordinates,geojson){
 		this._constructBasicShape(properties,coordinates);
 	}
 
-	this._calculateBounds();
-
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 };
 EasyShape.prototype={
@@ -54,7 +52,12 @@ EasyShape.prototype={
 		}
 	},
 	
-	_constructFromGeoJSONObject: function(properties,coordinates){
+	setCoordinates: function(coordinates){
+		this.coords = coordinates;
+		this.grid = {}; //an enclosing grid
+		this._calculateBounds();
+	}
+	,_constructFromGeoJSONObject: function(properties,coordinates){
 		if(properties.shape == 'polygon'){
 			this._constructFromGeoJSONPolygon(properties,coordinates);	
 		}
@@ -70,13 +73,14 @@ EasyShape.prototype={
 			console.log("don't know what to do with shape " + element.shape);
 	},
 	_constructBasicShape: function(properties, coordinates){
-		this.coords = coordinates;
+		this.properties = properties;
+		this.setCoordinates(coordinates);
 		if(!properties.stroke)properties.stroke = '#000000';		
 		if(properties.colour){
 			properties.fill =  properties.colour;
 		}		
-		this.properties = properties;
-		this.grid = {}; //an enclosing grid
+		
+		
 	},	
 	_constructFromGeoJSONPolygon: function(properties,coordinates){		
 		var newcoords = this._convertGeoJSONCoords(coordinates[0]);
@@ -213,7 +217,7 @@ EasyShape.prototype={
 			initialY = parseFloat(c[1]);			
 		}
 
-
+		
 		var threshold = 2;
 
 		var ctx = canvas.getContext('2d');
@@ -232,7 +236,7 @@ EasyShape.prototype={
 		//if(r && r.x)ctx.rotate(r.x,o.x,o.y);
 
 		ctx.beginPath();
-
+		
 		ctx.moveTo(initialX,initialY);
 
 		var move;
@@ -242,14 +246,20 @@ EasyShape.prototype={
 				move=true;
 			}
 			var x = parseFloat(c[i]);
-			var y = parseFloat(c[i+1]);
-			if(move){
-				ctx.moveTo(x,y);
-				move = false;
+			var y = parseFloat(c[i+1]);	
+			if(x == NaN || y == NaN(y)){
+				throw "error in EasyShape render: the coordinates for this EasyShape contain invalid numbers";
 			}
 			else{
-				ctx.lineTo(x,y);
+				if(move){
+					ctx.moveTo(x,y);
+					move = false;
+				}
+				else{
+					ctx.lineTo(x,y);
+				}
 			}
+			
 		}
 		//connect last to first
 		if(shapetype != 'path') ctx.lineTo(initialX,initialY);
@@ -382,16 +392,15 @@ EasyShape.prototype={
 		if(!this.pointcoords) {
 			this.pointcoords = [this.coords[0],this.coords[1]];
 		}
-		var x =this.pointcoords[0];
-		var y =this.pointcoords[1];
-		this.coords = [x,y];		
-		var ps = 3 / transformation.scale.x;
+		var x =parseFloat(this.pointcoords[0]);
+		var y =parseFloat(this.pointcoords[1]);
+		this.setCoordinates([x,y]);
+		var ps = 3 / parseFloat(transformation.scale.x);
 		var smallest = 1 / this._iemultipler;
 		if(ps < smallest) ps = smallest;
 		var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 		var c = this._convertGeoJSONCoords(newcoords);
-		this.coords = c;
-		this._calculateBounds();
+		this.setCoordinates(c);
 	}
 	,_shapeIsInVisibleArea: function(frame){
 		var g = this.grid;
@@ -420,6 +429,7 @@ EasyShape.prototype={
 			return true;
 	}
 	,render: function(canvas,transformation,projection,optimisations, browser){
+	
 		if(!transformation){
 			transformation = {};
 		}
@@ -477,6 +487,7 @@ EasyShape.prototype={
 		}
 		else{
 			this._canvasrender(canvas,transformation,projection,optimisations);
+
 		}
 		
 	}

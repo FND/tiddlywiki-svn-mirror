@@ -82,29 +82,28 @@ var EasyMap = function(wrapper){
 
 
 		var shape = this.easyMaps.easyClicking.getShapeAtClick(e);
+		var text ="";
 		if(shape){
-			var text =shape.properties.name;
+			text =shape.properties.name +"<br>";
+			
+			
 
-			
-			if(shape.properties.content) text += "<p>"+content;
-			
-			var ll =EasyMapUtils.getLongLatFromMouse(x,y,this.easyMaps);
-			
-			text += "<br>(long:"+ll.longitude+",lat:"+ll.latitude+")";
-			tt.innerHTML = text +"</p>";
-			x += 10;
-			y +=10;
-			tt.style.left = x + "px";
-			tt.style.top = y +"px";
-			tt.style.display = "";
-			tt.style["z-index"] = 2;
 
 		}	
-		else
-			tt.style.display = "none";
-
-
-
+		else{
+			
+			//tt.style.display = "none";
+		}
+		
+		var ll =EasyMapUtils.getLongLatFromMouse(x,y,this.easyMaps);
+		var geocoords = "(long:"+ll.longitude+",lat:"+ll.latitude+")";
+		tt.innerHTML = text +geocoords;
+		x += 10;
+		y +=10;
+		tt.style.left = x + "px";
+		tt.style.top = y +"px";
+		tt.style.display = "";
+		tt.style["z-index"] = 2;
 
 	};
 	var _defaultClickHandler = function(e){};	
@@ -191,12 +190,9 @@ EasyMap.prototype = {
 		var that = this;
 
 		var f = function(){
-			//var t = document.createElement("div");
-			//t.innerHTML = "please wait..";
-			//that.wrapper.appendChild(t);
-			
 			that.clear();
 			that.render();
+			
 		};
 		
 		window.setTimeout(f,0);
@@ -304,13 +300,13 @@ EasyMap.prototype = {
 			this._renderWithBackgroundImage();
 			return;			
 		}
-		
+
 		var mem =this.easyClicking.getMemory();
 		this._setupCanvasEnvironment()
 
 
 		var tran =this.controller.transformation;
-
+	
 		if(tran.spherical){
 			this.settings.projection= {
 					nowrap:true,
@@ -325,17 +321,19 @@ EasyMap.prototype = {
 
 		var that = this;
 		var f = function(){
-			var t = document.getElementById(that.wrapper.id + "_statustext");
+			
 
 			for(var i=0; i < mem.length; i++){
 				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser);
 			}
+	
+			var t = document.getElementById(that.wrapper.id + "_statustext");
 			if(t) {
 				t.parentNode.removeChild(t);	
 			}
 		};
 		f();
-		//window.setTimeout(f,0);
+	
 	},
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,properties){
 		var prop = properties;
