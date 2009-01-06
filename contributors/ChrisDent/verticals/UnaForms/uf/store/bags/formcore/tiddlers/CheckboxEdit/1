@@ -1,0 +1,22 @@
+modifier: UnaMesa Academy
+created: 200809160603
+modified: 200809160608
+type: None
+tags: script
+changecount: 6
+title: CheckboxEdit
+
+<html><input type="checkbox" onclick="
+	var field='$1'; if (field=='$'+'1') return;
+	var here=story.findContainingTiddler(this); if (!here) return;
+	var tid=here.getAttribute('tiddler');
+	if (this.checked && !store.tiddlerExists(tid))
+		store.saveTiddler(tid,tid,'',config.options.txtUserName,new Date(),[],{});
+	store.setValue(tid,field,this.checked?'true':'false');
+"></html><script>
+	var field='$1'; if (field=='$'+'1') return;
+	var here=story.findContainingTiddler(place); if (!here) return;
+	var tid=here.getAttribute('tiddler');
+	var c=place.lastChild.firstChild;
+	c.checked=store.getValue(tid,field)=='true';
+</script>

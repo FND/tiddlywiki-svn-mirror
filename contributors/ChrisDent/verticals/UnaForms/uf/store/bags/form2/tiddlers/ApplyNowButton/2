@@ -1,0 +1,25 @@
+modifier: GUEST
+created: 
+modified: 20090105133155
+type: None
+tags: 
+
+{{applyNow nowrap{<<tiddler ApplyNowButton##Apply with: [[apply now!]]>>}}}/%
+
+!Apply
+<script label="$1" title="Submit your application to participate in UnaMesa Academy">
+	var tid="UnaMesa Academy Application";
+	var tag="UMAForm";
+	var template="UMAFormEditTemplate";
+	story.closeAllTiddlers();
+	if (store.tiddlerExists(tid)) {
+		story.displayTiddler(null,tid);
+	} else {
+                story.displayTiddler(null, tid, template, null, null, {"tag": tag});
+		/* var d=document.createElement("div");
+		wikify("<<newTiddler title:[["+tid+"]] tag:[["+tag+"]] tag:[[data]] template:[["+template+"]]>>",d);
+		d.getElementsByTagName("A")[0].onclick(); */
+	}
+</script>
+!end Apply
+%/

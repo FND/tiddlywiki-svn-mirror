@@ -1,0 +1,26 @@
+modifier: ELSDesignStudios
+created: 200712100436
+modified: 200712100438
+type: None
+tags: script
+creator: ELSDesignStudios
+title: MoveTiddlerToTop
+
+/%
+|Name|MoveTiddlerToTop|
+|Source|http://www.TiddlyTools.com/#MoveTiddlerToTop|
+|Version|1.0.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|script|
+|Requires||
+|Overrides||
+|Description|reposition the current tiddler to top of the story column|
+
+Usage: <<tiddler MoveTiddlerToTop>>
+
+%/<script>
+	var here=story.findContainingTiddler(place); if (!here) return;
+	here.parentNode.insertBefore(here,here.parentNode.firstChild); // move to top of column
+</script>

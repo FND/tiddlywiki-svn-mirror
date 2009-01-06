@@ -1,0 +1,33 @@
+modifier: ChrisDent
+created: 
+modified: 20090105172537
+type: None
+tags: 
+
+This is a rudimentary help document for [[Former]].
+
+The system provides two basic pieces of functionality:
+
+# It lets an administrator create a PackageTemplate: the source of a TiddlyWiki which is then used for editing forms (a Package?).
+# It lets a form user (someone who fills in forms) retrieve a Package of their choice and save filled (partial and complete) forms back to the server
+
+
+!!Administration
+
+In TiddlyWeb terms, a PackageTemplate is a Recipe: the tiddlers from one or more Bags. Every package has two of the same bags
+
+# system: The TiddlyWeb client plugins are kept
+# formcore: The default tiddlers required for basic form functionality
+
+and is customized by the content in a package specific bag. This bag contains:
+
+# content and style for customizing the look and feel of the package
+# View and Edit templates specific to the form or forms in the system.
+
+Therefore it is the responsibility of the administrator or an administrative tool to:
+
+# create the package specific bag, including the required custom content
+# create the package template recipe, associating the system and formcore bags with the package specfic bag
+# (maybe: associate a unique identifier with the recipe, identifying a URL for a particular for user)
+
+

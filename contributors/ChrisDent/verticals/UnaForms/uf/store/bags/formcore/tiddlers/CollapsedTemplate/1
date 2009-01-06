@@ -1,0 +1,14 @@
+modifier: UnaMesa Academy
+created: 200807130728
+modified: 200811201507
+type: None
+tags: 
+creator: ELSDesignStudios
+changecount: 1
+title: CollapsedTemplate
+
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::CollapsedToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='tagClear'></div>
+<!--}}}-->

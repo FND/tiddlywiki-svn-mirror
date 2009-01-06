@@ -1,0 +1,17 @@
+modifier: UnaMesa Academy
+created: 200809151743
+modified: 200809160608
+type: None
+tags: script
+changecount: 8
+title: CheckboxView
+
+/%
+usage: <<tiddler CheckboxShow with: fieldname>>
+%/<script>
+	if ('$1'=='$'+'1') return; // no param
+	var here=story.findContainingTiddler(place);
+	if (!here) return; // not in tiddler
+	var checked=store.getValue(here.getAttribute('tiddler'),'$1')=='true';
+	return "<html><input type='checkbox' "+(checked?"checked":"")+" disabled></html>";
+</script>

@@ -1,0 +1,31 @@
+modifier: ELSDesignStudios
+created: 200607170719
+modified: 200709072138
+type: None
+tags: script
+creator: ELSDesignStudios
+title: ReplaceTiddlerTitle
+
+/%
+|Name|ReplaceTiddlerTitle|
+|Source|http://www.TiddlyTools.com/#ReplaceTiddlerTitle|
+|Version|1.0.1|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements <br>and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|script|
+|Requires|InlineJavascriptPlugin|
+|Overrides||
+|Description|replace tiddler's title text with other content - may include wiki syntax|
+
+Usage:
+	<<tiddler ReplaceTiddlerTitle with: "new title text">>
+
+%/<script>
+	// get the tiddler element
+	var here=story.findContainingTiddler(place);
+	if (!here || here.getAttribute("tiddler")=="ReplaceTiddlerTitle") return; // don't change the title on the script itself!
+	var nodes=here.getElementsByTagName("*");
+	for (var i=0; i<nodes.length; i++)
+		if (hasClass(nodes[i],"title")) { removeChildren(nodes[i]); wikify("$1",nodes[i]); break; }
+</script>
