@@ -1,9 +1,9 @@
-<div title="TaggedTemplateTweakInfo" modifier="ELSDesignStudios" created="200801090247" modified="200812181824" tags="pluginInfo" changecount="1">
+<div title="TaggedTemplateTweakInfo" modifier="ELSDesignStudios" created="200801090247" modified="200901061019" tags="pluginInfo" changecount="3">
 <pre>/***
 |Name|TaggedTemplateTweakInfo|
 |Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
 |Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
-|Version|1.5.0|
+|Version|1.5.1|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -20,7 +20,7 @@ To use templates that have proper WikiWord tiddler titles (e.g., [[MediaViewTemp
 
 To use templates contained as //sections// within a systemTheme definition, the plugin also tries prepending the currently selected theme (specified by {{{config.options.txtTheme}}}) plus the 'section separator' (##) to the template name (e.g. ''[[SomeTheme##MediaViewTemplate]]'').
 
-If no matching alternative template can be found by using //any// of the tiddler's tags (either &quot;as-is&quot; or capitalized, with or without a section prefix), the plugin tries one last alternative, using the tiddler's //title// as a prefix (i.e., ''TiddlerNameViewTemplate'' and ''TiddlerNameEditTemplate'').  This allows you to associate a custom template with a specific tiddler, without needing to add any special tag designation to that tiddler.
+In addition to tag matching, the plugin also tries using the tiddler's //title// as a prefix (i.e., ''TiddlerNameViewTemplate'' and ''TiddlerNameEditTemplate'').  This allows you to associate a custom template with a specific tiddler, without needing to add any special tag designation to that tiddler.  Note that, similar to the manner in which //specificity// rules are applied to CSS, a template matching a specific ID (tiddler title) will always take precedence over a template matching a particular class name (tag value).  Thus, [[SomeTitleViewTemplate]] overrides [[someTagViewTemplate]], which overrides the default [[ViewTemplate]].
 
 Finally, if no alternative template is found at all, then the tiddler defaults to using the appropriate standard [[ViewTemplate]] or [[EditTemplate]] definition as determined by the standard TiddlyWiki core handling.
 
@@ -39,6 +39,7 @@ Finally, if no alternative template is found at all, then the tiddler defaults t
 &lt;&lt;&lt;
 !!!!!Revisions
 &lt;&lt;&lt;
+2009.01.06 [1.5.1] reversed logic so that title-as-prefix takes precedence over tag-matched prefix
 2008.12.18 [1.5.0] added handling for using tiddler //title// as prefix (e.g., {{{SomeTiddlerViewTemplate}}}) 
 2008.08.29 [1.4.1] corrected handling for tiddlers with no matching tagged template when non-default theme is in effect (e.g., use &quot;MyTheme##ViewTemplate&quot;).
 2008.05.15 [1.4.0] support use of *shadow* tagged templates (e.g., [[DiscussionViewTemplate]] created by [[DiscussionPlugin]])
