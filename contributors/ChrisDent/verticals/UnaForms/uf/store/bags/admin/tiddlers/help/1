@@ -1,10 +1,10 @@
 modifier: ChrisDent
 created: 
-modified: 20090105172537
+modified: 20090106172537
 type: None
 tags: 
 
-This is a rudimentary help document for [[Former]].
+This is a rudimentary help document for [[Former]]. At the moment it is being used to describe how the system needs to be built.
 
 The system provides two basic pieces of functionality:
 
@@ -14,20 +14,36 @@ The system provides two basic pieces of functionality:
 
 !!Administration
 
-In TiddlyWeb terms, a PackageTemplate is a Recipe: the tiddlers from one or more Bags. Every package has two of the same bags
+In TiddlyWeb terms, a PackageTemplate is a Recipe: the tiddlers from one or more Bags. Every package has two base bags
 
 # system: The TiddlyWeb client plugins are kept
 # formcore: The default tiddlers required for basic form functionality
 
-and is customized by the content in a package specific bag. This bag contains:
+and is customized by the content in a package specific bag. This third bag contains:
 
 # content and style for customizing the look and feel of the package
 # View and Edit templates specific to the form or forms in the system.
 
-Therefore it is the responsibility of the administrator or an administrative tool to:
+It is the responsibility of a server install process to establish the datastore, including system and formcore bags.
+
+It is the responsibility of the administrator or an administrative tool to:
 
 # create the package specific bag, including the required custom content
 # create the package template recipe, associating the system and formcore bags with the package specfic bag
 # (maybe: associate a unique identifier with the recipe, identifying a URL for a particular for user)
 
+!!Use
 
+Once a form user has a URL for getting a form, that user can visit the URL and retrieve a TiddlyWiki which is the "Package" plus sufficient configuration to make the form data be saved to a user specific location.
+
+This implies that each user has at least one bag, and that bag is configured into the outgoing TiddlyWiki in a "Package". One way to do this would be to include a tiddler with the info in the outgoing stack of tiddlers.
+
+There are at least two ways to approach this:
+
+# Require authenticated access to recipe URLs. Use the username to spur the special outgoing information.
+# Create special URLs per user. Use the special URL to spur the special outgoing information.
+
+In either case it needs to be easy for a user to:
+
+# Retrieve form data that has gone before.
+# //Not// retrieve form data that has gone before if they don't want to.
