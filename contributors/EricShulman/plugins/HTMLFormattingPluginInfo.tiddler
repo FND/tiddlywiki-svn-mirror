@@ -1,8 +1,8 @@
-<div title="HTMLFormattingPluginInfo" modifier="ELSDesignStudios" created="200801090044" modified="200809192209" tags="pluginInfo" changecount="1">
+<div title="HTMLFormattingPluginInfo" modifier="ELSDesignStudios" created="200801090044" modified="200901060045" tags="pluginInfo" changecount="2">
 <pre>|Name|HTMLFormattingPluginInfo|
 |Source|http://www.TiddlyTools.com/#HTMLFormattingPlugin|
 |Documentation|http://www.TiddlyTools.com/#HTMLFormattingPluginInfo|
-|Version|2.2.0|
+|Version|2.4.0|
 |Author|Eric Shulman - ELS Design Studios|
 |License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
 |~CoreVersion|2.1|
@@ -18,6 +18,8 @@ The shorthand Wiki-style formatting syntax of ~TiddlyWiki is very convenient and
 When a tiddler is about to be displayed, ~TiddlyWiki looks for tiddler content contained within {{{&lt;html&gt;}}} and {{{&lt;/html&gt;}}} markers.  When present, the TiddlyWiki core simply passes this content directly to the browser's internal &quot;rendering engine&quot; to process as ~HTML-formatted content.  However, TiddlyWiki does not also process the HTML source content for any embedded wiki-formatting syntax it may contain.  This means that while you can use HTML formatted content, you cannot mix wiki-formatted content within the HTML formatting.
 
 This plugin extends the TiddlyWiki core processing so that, after the HTML formatting has been processed, all the pieces of text occuring within the HTML block are then processed one piece at a time, so that normal wiki-style formatting can be applied to the individual text pieces.
+
+Note: To bypass this extended processing for a specific section of HTML content, embed ''{{{&lt;nowiki&gt;}}}'' //anywhere// inside the {{{&lt;html&gt;...&lt;/html&gt;}}} delimiters, and wiki formatting will not be applied to that content.
 &lt;&lt;&lt;
 !!!!!Line breaks
 &lt;&lt;&lt;
@@ -25,7 +27,7 @@ One major difference between Wiki formatting and HTML formatting is how &quot;li
 
 Even though you can use HTML tags within your tiddler content, the default treatment for line breaks still follows the Wiki-style rule (i.e., all new lines are displayed as-is). When adding HTML content to a tiddler (especially if you cut-and-paste it from another web page), you should take care to avoid adding extra line breaks to the text.
 
-If removing all the extra line breaks from your HTML content would be a big hassle, you can quickly //override the default Wiki-style line break rule// so that the line breaks use the standard HTML rules instead.  Placing a ''&lt;{{{hide linebreaks}}}&gt;'' tag within the tiddler's HTML content changes all line breaks to spaces before rendering the content, so that the literal line breaks will be processed as simple word-breaks instead.
+If removing all the extra line breaks from your HTML content would be a big hassle, you can quickly //override the default Wiki-style line break rule// so that the line breaks use the standard HTML rules, by placing ''{{{&lt;hide linebreaks&gt;}}}'' //anywhere// within the HTML content.  This automatically converts all line breaks to spaces before rendering the content, so that the literal line breaks will be processed as simple word-breaks instead.
 
 Note: this does //not// alter the actual tiddler content that is stored in the document, just the manner in which it is displayed. Any line breaks contained in the tiddler will still be there when you edit its content. Also, to include a literal line break when the ''&lt;{{{hide linebreaks}}}&gt;'' tag is present, you will need to use a ''&lt;{{{br}}}&gt;'' or ''&lt;{{{p}}}&gt;'' HTML tag instead of simply typing a line break.
 &lt;&lt;&lt;
@@ -43,6 +45,8 @@ After the browser has done its job, the wiki syntax sequences (including the &qu
 &lt;&lt;&lt;
 !!!!!Revisions
 &lt;&lt;&lt;
+2009.01.05 [2.4.0] in wikifyTextNodes(), pass w.highlightRegExp and w.tiddler to wikify() so that search term highlighting and tiddler-relative macro processing will work
+2008.10.02 [2.3.0] added use of {{{&lt;nowiki&gt;}}} marker to bypass all wikification inside a specific HTML block
 2008.09.19 [2.2.0] in wikifyTextNodes(), don't wikify the contents of STYLE nodes (thanks to MorrisGray for bug report)
 2008.04.26 [*.*.*] plugin size reduction: more documentation moved to HTMLFormattingInfo
 2008.01.08 [*.*.*] plugin size reduction: documentation moved to HTMLFormattingInfo
