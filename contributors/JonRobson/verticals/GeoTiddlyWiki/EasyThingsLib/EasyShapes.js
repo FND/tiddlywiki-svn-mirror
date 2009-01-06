@@ -247,7 +247,7 @@ EasyShape.prototype={
 			}
 			var x = parseFloat(c[i]);
 			var y = parseFloat(c[i+1]);	
-			if(x == NaN || y == NaN(y)){
+			if(x == NaN || y == NaN){
 				throw "error in EasyShape render: the coordinates for this EasyShape contain invalid numbers";
 			}
 			else{
