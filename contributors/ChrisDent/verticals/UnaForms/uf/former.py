@@ -12,8 +12,11 @@ from twplugins import do_html, entitle
 
 from tiddlyweb.manage import make_command
 from tiddlyweb.web.handler.recipe import get_tiddlers
+from tiddlyweb.web.handler.tiddler import get as get_tiddler
 
 YAML_DB = 'formdb.yaml'
+HELP_BAG = 'admin'
+HELP_TIDDLER = 'help'
 
 @make_command()
 def formform(args):
@@ -74,9 +77,16 @@ def form(environ, start_response):
     environ['wsgiorg.routing_args'][1]['recipe_name'] = recipe
     return get_tiddlers(environ, start_response)
 
+def help(environ, start_response):
+    """
+    Show some help at a convenient URL by setting up a request.
+    """
+    environ['wsgiorg.routing_args'][1]['bag_name'] = HELP_BAG
+    environ['wsgiorg.routing_args'][1]['tiddler_name'] = HELP_TIDDLER
+    return get_tiddler(environ, start_response)
+
 
 def init(config):
     config['selector'].add('/forms', GET=forms)
     config['selector'].add('/forms/{formid:segment}', GET=form)
-
-
+    config['selector'].add('/help', GET=help)
