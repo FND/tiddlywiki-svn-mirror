@@ -17,109 +17,152 @@ if(!version.extensions.geoPlugin) {
 	
 	version.extensions.geoPlugin = {installed:true};
 
-
-	config.macros.geo = {};
-	config.macros.geo.getgeojson = function(sourcetiddler,hidegeotiddlerdata){
-		if(!sourcetiddler) sourcetiddler ='geojson';
-		if(sourcetiddler.indexOf('.svg') > -1){
-			//svg file.
-			return "svgfile";
-		}
-		else{
-			var source = store.getTiddler(sourcetiddler);
-			if(!source) return {};
-			var data = source.text;
-		}
-		
-		if(data.indexOf("({") == 0) {
-			data = eval(data);
-		}
-		else if(source.tags.contains("svg")){
-			return "svg";
-		}
-		else{
-			data = {};
-			alert("please define a geojson in tiddler '"+sourcetiddler +"'")
-		}
-		//look for any changes in meta data
-
-		var features = data.features;
-		for(var i=0; i < features.length; i++){
-			var name = features[i].properties.name;
-			var tiddler = store.getTiddler(name);
+	config.macros.geoeditor = {};
 	
-			if(tiddler){
-				var newprop = {};
-				newprop.name = name;
-				if(tiddler.fields.fill){
-					newprop.fill = tiddler.fields.fill;
+	config.macros.geo={	
+		
+		convertSourceToGeoJsonFormat: function(sourcetiddler){
+	
+		}
+		,getGeoJson: function(sourceTiddlerName,easyMap,parameters){
+			if(!sourceTiddlerName) sourceTiddlerName ='geojson';
+			if(sourceTiddlerName.indexOf('.svg') > -1){
+				//svg file.
+				return "svgfile";
+			}
+			else{
+				var sourceTiddler = store.getTiddler(sourceTiddlerName);
+				if(!sourceTiddler) return {};
+				var data = sourceTiddler.text;
+			}
+		
+			if(data.indexOf("({") == 0) {
+				data = eval(data);
+			}
+			else if(sourceTiddler.tags.contains("georss")){
+				data = EasyConversion.geoRssToGeoJson(data);
+			}
+			else if(sourceTiddler.tags.contains("svg")){
+				data = EasyConversion.svgToGeoJson(data,easyMap.wrapper);
+			}
+			else{
+				data = {};
+				alert("please define a geojson in tiddler '"+sourcetiddler +"'")
+			}
+		
+			//look for any overriding changes from the meta data
+
+			var features = data.features;
+			for(var i=0; i < features.length; i++){
+				var geometry = features[i].geometry;
+				var properties = features[i].properties;
+				var name = properties.name;
+				var tiddler = store.getTiddler(name);
+	
+				if(tiddler){
+					var newprop = {};
+					newprop.name = name;
+					if(tiddler.fields.fill){
+						newprop.fill = tiddler.fields.fill;
+					}
+					else if(! tiddler.fields.fill && properties.fill){ //if nothing there in tiddler update
+						tiddler.fields.fill = properties.fill;
+					}
+				
+					/*
+					if(tiddler.fields.geometry){ //might not want to do this in some cases?!
+						features[i].geometry = eval(tiddler.fields.geometry);
+					}				
+					else if(!tiddler.fields.geometry && !config.browser.ie){ //if nothing there in tiddler update
+						tiddler.fields.geometry = geometry.toSource();
+					}
+					*/
+				
+
+					features[i].properties = newprop;				
 				}
-
-				features[i].properties = newprop;
-				
-				
 			}
-		}
 
-
-		//tiddler.geoproperties
-		//add geotags
-		if(!hidegeotiddlerdata){
-	 	store.forEachTiddler(function(title,tiddler) {
+			//tiddler.geoproperties
 			//add geotags
-			if(tiddler.fields.geo){
-				var latlong =tiddler.fields.geo;
-				latlong = latlong.replace(" ","");
-				var ll = latlong.split(";");
-				var longc =parseFloat(ll[1]);
-				var latc =parseFloat(ll[0]);
-				var prop = {name: title,fill:"#ff0000"};
-				var geotagfeature = new GeoTag(longc,latc,prop);
-				data.features.push(geotagfeature); //add the tagging feature
+			data = this.geotag(data,parameters);
+			return data;
+		}
+		/*
+		takes geotagging parameter 
+		if false no geotags added
+		if empty all geotags loaded
+		if a list of tiddlers given only the tags associated with that data will be added
+		*/
+		,geotag: function(geojson,parameters){
+			if(getParam(parameters,"geotagging")){
+				var geo = eval(getParam(parameters,"geotagging"));
+				if(typeof geo == 'boolean' && !geo) return geojson;
+				//else if(typeof geo == 'object') subset
 			}
-		}	
-		);
-		}
-		return data;
-	};
-	
-	
-	function getElementChild(el,tag){
-		var att = el.childNodes;
-		for(var j=0; j <att.length;j++){			
-			if(att[j].tagName == tag) return att[j];
-		}
-		return false;
-		
-	}
-	
-	var geomaps = {};
-	
-	config.macros.geogoto = {};
-	config.macros.geogoto.handler= function(place,macroName,params,wikifier,paramString,tiddler) {
-		var id = params[3];
-		if(!params[3]) id = 'default';
-		
-		if(!geomaps[id]) {alert("geogoto can only be used if there is a geomap somewhere on the page!");}
-		var lo, la,zoom;
-		if(params[0]) lo = parseFloat(params[0]);
-		if(params[1]) la = parseFloat(params[1]);
-		if(params[2]) zoom = parseFloat(params[2]);		 
-		var tran = geomaps[id].controller.transformation;
-		if(lo) tran.translate.x = -la;
-		if(la) tran.translate.y = lo;
-		if(zoom){ tran.scale.x = zoom;tran.scale.y = zoom;}
-		geomaps[id].controller.setTransformation(tran);
-	}
-	
-	config.macros.geo.handler = function(place,macroName,params,wikifier,paramString,tiddler) {				
-			tiddler.geoid = geoid; 
-			var prms = paramString.parseParams(null, null, true);
-
-			var geoid = getParam(prms,"id");
-			if(!geoid) geoid = "default";
 			
-			var id = "wrapper_"+geoid;
+			var data = geojson;
+			var hidegeotiddlerdata = getParam(parameters,"hidegeotiddlerdata")
+			
+			if(!hidegeotiddlerdata){
+		 		store.forEachTiddler(function(title,tiddler) {
+					//add geotags
+					var longc,latc,fill;
+					if(tiddler.fields.geo){
+						var latlong =tiddler.fields.geo;
+						latlong = latlong.replace(" ","");
+						var ll = latlong.split(";");
+						longc =parseFloat(ll[1]);
+						latc =parseFloat(ll[0]);
+
+					}
+					if(tiddler.fields.longitude && tiddler.fields.latitude){
+						longc =parseFloat(tiddler.fields.longitude);
+						latc =parseFloat(tiddler.fields.latitude);
+					}
+			
+					if(tiddler.fields.fill){
+						fill = tiddler.fields.fill;
+					}
+					else{
+						fill = "#ff0000";
+					}
+					if(longc && latc){
+						var prop = {name: title,fill:fill};
+						var geotagfeature = new GeoTag(longc,latc,prop);
+						data.features.push(geotagfeature); //add the tagging feature
+					}
+				}	
+				);
+			}
+			return data;
+		}
+		
+	
+		,addEasyMapControls: function(eMap,prms){
+			if(getParam(prms,"spherify")) {
+				eMap.spherical = true;
+				eMap.controller.addControl("rotation");
+			 }
+			else{
+				eMap.controller.addControl('pan');
+			}
+
+			eMap.controller.addControl('zoom');
+			eMap.controller.addControl("mousepanning");
+			eMap.controller.addControl("mousewheelzooming");
+		}
+		,addEasyMapClickFunction: function(easyMap,clickFunction){
+		
+			easyMap.wrapper.onmouseup = clickFunction;
+		
+		}
+		,createNewEasyMap: function(place,prms){
+			var geoid = getParam(prms,"id");
+			if(!geoid) geoid = "default" + numgeomaps;
+			numgeomaps +=1;
+
+			var id = "geo_"+geoid;
 
 			var wrapper = createTiddlyElement(place,"div",id,"wrapper");
 			wrapper.style.position = "relative";
@@ -142,23 +185,62 @@ if(!version.extensions.geoPlugin) {
 
 			var eMap = new EasyMap(wrapper);
 			geomaps[geoid] = eMap;
-		
-						
+
+
 
 			var that = eMap;
 			var myElement = document.getElementById('caption');
 
-			eMap.wrapper.onmouseup = function(e){
-				
+
+			return eMap;
+		}
+	};
+	
+	
+	function getElementChild(el,tag){
+		var att = el.childNodes;
+		for(var j=0; j <att.length;j++){			
+			if(att[j].tagName == tag) return att[j];
+		}
+		return false;
+		
+	}
+	
+	var geomaps = {};
+	var numgeomaps = 0;
+	
+	config.macros.geogoto = {};
+	config.macros.geogoto.handler= function(place,macroName,params,wikifier,paramString,tiddler) {
+		var id = params[3];
+		if(!params[3]) id = 'default0';
+		
+		if(!geomaps[id]) {alert("geogoto can only be used if it can find a geo mqp try putting an id as third parameter.");}
+		var lo, la,zoom;
+		if(params[0]) lo = parseFloat(params[0]);
+		if(params[1]) la = parseFloat(params[1]);
+		if(params[2]) zoom = parseFloat(params[2]);		 
+		var tran = geomaps[id].controller.transformation;
+		if(lo) tran.translate.x = -la;
+		if(la) tran.translate.y = lo;
+		if(zoom){ tran.scale.x = zoom;tran.scale.y = zoom;}
+		geomaps[id].controller.setTransformation(tran);
+	}
+	
+	config.macros.geo.handler = function(place,macroName,params,wikifier,paramString,tiddler) {				
+		 
+			var prms = paramString.parseParams(null, null, true);
+
+			
+			var onmup = function(e){				
 				if(!e) {
 					e = window.event;
 				}
-				
-				var t = EasyMapUtils.resolveTargetWithMemory(e);
+
+				var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
 				if(t.getAttribute("class") == 'easyControl') return false;
-				
-				var shape = EasyMapUtils.getShapeAtClick(e);
-				
+
+				var shape = eMap.easyClicking.getShapeAtClick(e);
+
 				if(!shape) {
 					return false;
 				}
@@ -167,49 +249,38 @@ if(!version.extensions.geoPlugin) {
 					var tags = [];
 					var text = "";
 					var fields = {};
-					
+					/*
 					if(shape.properties.text) text = shape.properties.text;
 					if(shape.properties.tags) tags = shape.properties.tags;
+					if(shape.properties.fill) fields.fill = shape.properties.fill;
 					var name =shape.properties.name;
 					var userName = config.options.txtUserName ? config.options.txtUserName : "guest";
 
-					fields.fillStyle = shape.properties.fillStyle;
 					store.saveTiddler(shapeName,shapeName,text,userName,new Date(),tags,fields);
+					*/
 				}
 				var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
 				story.displayTiddler(tiddlerElem,shapeName);
 				return false;
-			};
-			if(getParam(prms,"spherify")) {
-				eMap.spherical = true;
-				eMap.controller.addControl("rotation");
-			 }
-			else{
-				eMap.controller.addControl('pan');
-			}
-			
-			eMap.controller.addControl('zoom');
-			eMap.controller.addControl("mousepanning");
-			eMap.controller.addControl("mousewheelzooming");	
-				
-			var source = null;
-			if(getParam(prms,"source")) source = getParam(prms,"source");
+			};			
+			var eMap = this.createNewEasyMap(place,prms);
+			this.addEasyMapClickFunction(eMap,onmup);
+			this.addEasyMapControls(eMap,prms);
 	
+			var source = getParam(prms,"source");
 
-			var geodata = this.getgeojson(source,getParam(prms,"hidegeotiddlerdata"));
-			if(geodata == 'svg'){
-			
-				eMap.drawFromSVG(store.getTiddlerText(source));
+			var geodata = this.getGeoJson(source,eMap,prms);
+			if(geodata == 'svgfile'){
+				var callback = function(status,params,responseText,url,xhr){
+					var svg = responseText;
+					eMap.drawFromGeojson(EasyConversion.svgToGeoJson(svg,eMap.canvas));	
+				};
+				EasyFileUtils.loadRemoteFile(source,callback);	
 			}
-			else if(geodata == 'svgfile'){
-				eMap.drawFromSVGFile(source);
-			}
-			else {
+			else {	
 				eMap.drawFromGeojson(geodata);
 			}
 
-			
-	
 			
 		//}
 	};

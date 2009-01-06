@@ -1,5 +1,5 @@
 
-
+//georss support please
 
 var EasyShape = function(properties,coordinates,geojson){
 	this.grid = {};
@@ -13,7 +13,7 @@ var EasyShape = function(properties,coordinates,geojson){
 
 	this._calculateBounds();
 
-	this._iemultiplier = 100;
+	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 };
 EasyShape.prototype={
 	_calculateBounds: function(coords){
@@ -58,9 +58,6 @@ EasyShape.prototype={
 		if(properties.shape == 'polygon'){
 			this._constructFromGeoJSONPolygon(properties,coordinates);	
 		}
-		else if(properties.shape == 'line'){
-			console.log("coming soon..");
-		}
 		else if(properties.shape == 'point'){
 			var x = coordinates[0]; var y = coordinates[1];
 			this.pointcoords = [x,y];
@@ -91,11 +88,16 @@ EasyShape.prototype={
 		var res = [];
 		if(!coords) return res;
 		for(var i=0; i < coords.length; i++){
-			// x is longitude, y is latitude
+			//geojson says coords order should be longitude,latitude eg. 0,51 for London
+
 			// longitude goes from -180 (W) to 180 (E), latitude from -90 (S) to 90 (N)
 			// in our data, lat goes from 90 (S) to -90 (N), so we negate
+			
 			var x = coords[i][0];
 			var y = - coords[i][1];
+			
+			//var y = -coords[i][0];
+			//var x = coords[i][1];
 			res.push(x);
 			res.push(y);
 		}
@@ -201,8 +203,16 @@ EasyShape.prototype={
 			
 		if(c.length == 0) return;
 		
-		var initialX = parseFloat(c[0]);
-		var initialY = parseFloat(c[1]);
+		var initialX,initialY;
+		if(c[0] == 'M'){//starts with an "M"
+			initialX = parseFloat(c[1]);
+			initialY = parseFloat(c[2]);
+		}
+		else{
+			initialX = parseFloat(c[0]);
+			initialY = parseFloat(c[1]);			
+		}
+
 
 		var threshold = 2;
 
@@ -222,6 +232,7 @@ EasyShape.prototype={
 		//if(r && r.x)ctx.rotate(r.x,o.x,o.y);
 
 		ctx.beginPath();
+
 		ctx.moveTo(initialX,initialY);
 
 		var move;
@@ -357,8 +368,8 @@ EasyShape.prototype={
 		var left = 0,top = 0;
 		var right =  parseInt(canvas.width) + left; 
 		var bottom = parseInt(canvas.height) + top;
-		var topleft = EasyMapUtils.undotransformation(left,top,transformation);
-		var bottomright = EasyMapUtils.undotransformation(right,bottom,transformation);				
+		var topleft =  EasyClickingUtils.undotransformation(left,top,transformation);
+		var bottomright =  EasyClickingUtils.undotransformation(right,bottom,transformation);				
 		var frame = {};
 		frame.top = topleft.y;
 		frame.bottom = bottomright.y;
@@ -368,15 +379,19 @@ EasyShape.prototype={
 	}
 	
 	,_calculatePointCoordinates: function(transformation){
+		if(!this.pointcoords) {
+			this.pointcoords = [this.coords[0],this.coords[1]];
+		}
 		var x =this.pointcoords[0];
 		var y =this.pointcoords[1];
 		this.coords = [x,y];		
-		var ps = 5 / transformation.scale.x;
+		var ps = 3 / transformation.scale.x;
 		var smallest = 1 / this._iemultipler;
 		if(ps < smallest) ps = smallest;
 		var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 		var c = this._convertGeoJSONCoords(newcoords);
 		this.coords = c;
+		this._calculateBounds();
 	}
 	,_shapeIsInVisibleArea: function(frame){
 		var g = this.grid;
@@ -404,7 +419,14 @@ EasyShape.prototype={
 		else
 			return true;
 	}
-	,render: function(canvas,transformation,projection,optimisations){
+	,render: function(canvas,transformation,projection,optimisations, browser){
+		if(!transformation){
+			transformation = {};
+		}
+		if(!transformation.origin)transformation.origin = {x:0,y:0};
+		if(!transformation.scale)transformation.scale = {x:1,y:1};
+		if(!transformation.translate)transformation.translate = {x:0,y:0};
+		
 		var frame = this._calculateVisibleArea(canvas,transformation);
 		var shapetype = this.properties.shape;
 		if(shapetype == 'point'){
@@ -414,7 +436,7 @@ EasyShape.prototype={
 			
 		}
 		else{
-			console.log("no idea how to draw" +this.properties.shape);
+			console.log("no idea how to draw" +this.properties.shape+" must be polygon|path|point");
 			return;
 		}		
 		
@@ -433,7 +455,7 @@ EasyShape.prototype={
 
 		if(this.vml) this.vml.style.display = '';
 		
-		if(canvas.browser == 'ie') {
+		if(!canvas.getContext) {
 			//this has been taken from Google ExplorerCanvas
 			if (!document.namespaces['g_vml_']) {
 			        document.namespaces.add('g_vml_', 'urn:schemas-microsoft-com:vml');
@@ -448,7 +470,6 @@ EasyShape.prototype={
 			            'text-align:left;width:300px;height:150px}' +
 			            'g_vml_\\:*{behavior:url(#default#VML)}';
 			}
-			//G_vmlCanvasManager.init_(document);
 			
 			this._ierender(canvas,transformation,projection,optimisations); 
 

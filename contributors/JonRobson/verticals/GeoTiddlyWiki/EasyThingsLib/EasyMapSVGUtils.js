@@ -2,7 +2,7 @@
 SVG targeted functions withe goal to convert to a geojson structure
 */
 var EasyMapSVGUtils= {
-	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
+	convertSVGToMultiPolygonFeatureCollection: function(xml){			
 		var svgu = EasyMapSVGUtils;
 		var res = new Object();
 		res.type = "FeatureCollection";
@@ -19,8 +19,6 @@ var EasyMapSVGUtils= {
 		res.transform = {};
 		res.transform.translate = {'x':0, 'y':0};
 		res.transform.scale = {'x':1, 'y':1};
-		
-		res = EasyMapUtils.fitgeojsontocanvas(res,canvas)
 		return res;
 	},
 	createFeatureFromSVGPolygonElement: function(svgpoly){

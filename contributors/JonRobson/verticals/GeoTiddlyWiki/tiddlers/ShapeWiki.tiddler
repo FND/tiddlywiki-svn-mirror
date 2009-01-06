@@ -1,0 +1,7 @@
+<div title="ShapeWiki" modifier="JonRobson" created="200811111722">
+<pre>
+ShapeWiki has some good 'shapes' in georss form that you can import into your tiddlywiki. The tiddler [[georss]] is tagged 'georss' telling GeoTiddlyWiki it is in georss form and contains 2 georss items containing details of Vietnam and Italy which are visible below.
+<<geo source:georss>>
+
+</pre>
+</div>

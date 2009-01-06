@@ -1,4 +1,4 @@
-<div title="New York" modifier="JonRobson" created="200811111722" geo="45;-75" tags="excludeLists">
+<div title="New York" modifier="JonRobson" created="200811111722" latitude="45" longitude="-75" tags="excludeLists">
 <pre>
 So what happened there?! The map changed to show New York in the centre and zoomed in. This is for two reasons.
 
@@ -6,8 +6,8 @@ Reason 1: this tiddler is geotagged.
 If you go into edit mode you will notice there is a field for geo data containing 43;-75. This is a latitude coordinate followed by a semicolon followed by a longitude coordinate in it's decimal form. [[Wikipedia|http://en.wikipedia.org/wiki/New_York]] is a great resource for finding these coordinates.
 
 Reason 2: we have fired another macro.
-If you view the source we have made a call to a macro {{{<<geogoto 45 -75 20>>}}}. This has told the map to center on the coordinate 45,-75 and zoom in by a factor of 20.
-<<geogoto 45 -75 20>>
+If you view the source we have made a call to a macro {{{<<geogoto 45 -75 20 world>>}}}. This has told the map to center on the coordinate 45,-75 and zoom in by a factor of 20 in the map created with id 'world'.
+<<geogoto 45 -75 20 world>>
 
 If you click on New York in the map it will load the tiddler it is geotagging. Try closing this tiddler and clicking on the tag to demonstrate this feature.
 

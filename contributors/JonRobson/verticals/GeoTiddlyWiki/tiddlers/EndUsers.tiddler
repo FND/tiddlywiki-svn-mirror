@@ -1,0 +1,10 @@
+<div title="EndUsers">
+<pre>
+If you want to make use of GeoTiddlyWiki please add the plugins [[geoTiddlyWikiPlugin]] and [[geojson]].
+Then to see an example of usage look at [[The Map]].
+
+If you want to make use of the Dopplr and Flickr functionality add [[geoRSSAdaptersPlugin]].
+Then to see an example of usage look at [[Flickr and Dopplr Adaptors]]
+
+</pre>
+</div>

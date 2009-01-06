@@ -14,13 +14,12 @@ var GeoTag = function(longitude,latitude,properties){
 
 
 
-var EasyMap = function(wrapper){
+var EasyMap = function(wrapper){ 
 	var wrapper;
 	if(typeof wrapper == 'string')
 		wrapper = document.getElementById(wrapper);
 	else
 		wrapper = wrapper;
-		
 		
 	this.wrapper = wrapper;
 	wrapper.style.position = "relative";
@@ -45,16 +44,18 @@ var EasyMap = function(wrapper){
 
 
 	if(!canvas.getContext) {
-		this.canvas.browser = 'ie';
+		this.settings.browser = 'ie';
 	}
 	else
-		this.canvas.browser = 'good';
+		this.settings.browser = 'good';
 		
 	this.spherical = false; //experimental!! fiddle with at your own risk! :)
 
-	this.canvas.memory = [];
+	this.easyClicking = new EasyClicking(wrapper);
+	//this.canvas.memory = [];
 
 	wrapper.appendChild(canvas);
+	wrapper.easyMaps = this;
 	var _defaultMousemoveHandler = function(e){
 		if(!e) {
 			e = window.event;
@@ -68,7 +69,7 @@ var EasyMap = function(wrapper){
 			tt.setAttribute("class","easymaptooltip");
 			that.wrapper.appendChild(tt);
 		}
-		var pos = EasyMapUtils.getMouseFromEvent(e);
+		var pos = EasyClickingUtils.getMouseFromEvent(e);
 		var x =pos.x;
 		var y = pos.y;
 		if(!x || !y ) return;
@@ -80,12 +81,17 @@ var EasyMap = function(wrapper){
 		this.lastMouseMove.x = x;this.lastMouseMove.y = y;
 
 
-		var shape = EasyMapUtils.getShapeAtClick(e);
+		var shape = this.easyMaps.easyClicking.getShapeAtClick(e);
 		if(shape){
 			var text =shape.properties.name;
 
-			if(shape.properties.content) text += "<p>"+content+"</p>"
-			tt.innerHTML = text;
+			
+			if(shape.properties.content) text += "<p>"+content;
+			
+			var ll =EasyMapUtils.getLongLatFromMouse(x,y,this.easyMaps);
+			
+			text += "<br>(long:"+ll.longitude+",lat:"+ll.latitude+")";
+			tt.innerHTML = text +"</p>";
 			x += 10;
 			y +=10;
 			tt.style.left = x + "px";
@@ -178,41 +184,29 @@ EasyMap.prototype = {
 		
 			that.drawFromGeojson(responseText);
 		};
-		EasyMapUtils.loadRemoteFile(file,callback);
-	},	
-	drawFromSVG: function(representation){
-		var xml = EasyMapUtils._getXML(representation);
-
-		var json = EasyMapSVGUtils.convertSVGToMultiPolygonFeatureCollection(xml,this.canvas);
-		this.drawFromGeojson(json);			
-		
-	},
-	drawFromSVGFile: function(file){
-		var that = this;
-		var callback = function(status,params,responseText,url,xhr){
-			
-
-			that.drawFromSVG(responseText);
-			
-		};
-		EasyMapUtils.loadRemoteFile(file,callback);		
-			
+		EasyFileUtils.loadRemoteFile(file,callback);
 	},	
 
 	redraw: function(){
 		var that = this;
+
 		var f = function(){
+			//var t = document.createElement("div");
+			//t.innerHTML = "please wait..";
+			//that.wrapper.appendChild(t);
+			
 			that.clear();
 			that.render();
 		};
+		
 		window.setTimeout(f,0);
 	},
 		
 	transform: function(transformation){
 		this.canvas.transformation = transformation;
 		//set origin
-		var w =parseInt(this.canvas.width);
-		var h = parseInt(this.canvas.height);
+		var w =parseInt(this.wrapper.style.width);
+		var h = parseInt(this.wrapper.style.height);
 		
 		if(!transformation.origin){
 			this.canvas.transformation.origin = {};
@@ -232,8 +226,8 @@ EasyMap.prototype = {
 			}
 			
 			if(!this.canvas.transformation.spherical.radius){
-			var heightR = (parseInt(this.canvas.height) / s.y) /2;
-			var widthR= (parseInt(this.canvas.width) / s.x) /2;
+			var heightR = (parseInt(this.wrapper.style.height) / s.y) /2;
+			var widthR= (parseInt(this.wrapper.style.width) / s.x) /2;
 			
 			
 			if(widthR > heightR)
@@ -242,19 +236,16 @@ EasyMap.prototype = {
 				this.canvas.transformation.spherical.radius = widthR;
 			}
 		}
+		this.easyClicking.transformation = this.canvas.transformation;
 		this.redraw();
 	},
 	
-	_addShapeToMemory: function(easyShape){ //add shape to memory
-		var memory = this.canvas.memory;
-		easyShape.id = memory.length;
-		memory[easyShape.id] = easyShape;	
-	},
+
 	_createGlobe: function(){
 		if(!this.canvas.getContext) {return;}
 		var ctx = this.canvas.getContext('2d');
 		if(!ctx) return;
-		var t =this.canvas.transformation;
+		var t =this.controller.transformation;
 		var tr =t.translate;
 		var s = t.scale;
 		var o = t.origin;
@@ -266,13 +257,12 @@ EasyMap.prototype = {
 
 		var rad =t.spherical.radius;
 	
-	  var radgrad = ctx.createRadialGradient(0,0,10,0,0,rad);
+		var radgrad = ctx.createRadialGradient(0,0,10,0,0,rad);
 
-	radgrad.addColorStop(0,"#AFDCEC");
-		  //radgrad.addColorStop(0.5, '#00C9FF');
+		radgrad.addColorStop(0,"#AFDCEC");
+		//radgrad.addColorStop(0.5, '#00C9FF');
 		radgrad.addColorStop(1, '#00B5E2');
-	  //radgrad.addColorStop(1, 'rgba(0,201,255,0)');
-
+		//radgrad.addColorStop(1, 'rgba(0,201,255,0)');
 
 		ctx.beginPath();
 		ctx.arc(0, 0, rad, 0, Math.PI*2, true);
@@ -304,8 +294,8 @@ EasyMap.prototype = {
 	_setupCanvasEnvironment: function(){
 		if(!this.canvas.getContext) return;
 		var ctx = this.canvas.getContext('2d');
-		var s =this.canvas.transformation.scale;
-		ctx.lineWidth = (1 / s.x);
+		var s =this.controller.transformation.scale;
+		if(s && s.x)ctx.lineWidth = (1 / s.x);
 		ctx.lineJoin = 'round'; //miter or bevel or round	
 	},
 	render: function(flag){
@@ -315,11 +305,11 @@ EasyMap.prototype = {
 			return;			
 		}
 		
-		var mem =this.canvas.memory;
+		var mem =this.easyClicking.getMemory();
 		this._setupCanvasEnvironment()
 
 
-		var tran =this.canvas.transformation;
+		var tran =this.controller.transformation;
 
 		if(tran.spherical){
 			this.settings.projection= {
@@ -335,15 +325,17 @@ EasyMap.prototype = {
 
 		var that = this;
 		var f = function(){
-			for(var i=0; i < mem.length; i++){	
-				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations);
-			}
 			var t = document.getElementById(that.wrapper.id + "_statustext");
+
+			for(var i=0; i < mem.length; i++){
+				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser);
+			}
 			if(t) {
 				t.parentNode.removeChild(t);	
 			}
 		};
-		window.setTimeout(f,0);
+		f();
+		//window.setTimeout(f,0);
 	},
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,properties){
 		var prop = properties;
@@ -357,13 +349,15 @@ EasyMap.prototype = {
 		var p = properties;
 		p.shape = 'polygon';
 		var s = new EasyShape(p,coordinates,"geojson",this.settings.projection);
-		this._addShapeToMemory(s);
+		this.easyClicking.addToMemory(s);
+		//this._addShapeToMemory(s);
 	},
 	_drawGeoJsonPointFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'point';
 		var s = new EasyShape(p,coordinates,"geojson", this.settings.projection);
-		this._addShapeToMemory(s);
+		this.easyClicking.addToMemory(s);
+		//this._addShapeToMemory(s);
 	},	
 	_drawGeoJsonFeature: function(feature){
 			var geometry = feature.geometry;

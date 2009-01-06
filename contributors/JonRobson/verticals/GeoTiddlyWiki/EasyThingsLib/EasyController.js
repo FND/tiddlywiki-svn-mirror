@@ -1,10 +1,10 @@
 /*requires EasyShapes and EasyController */
 
 var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
+	if(!elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
-	this.utils = EasyMapUtils; //some utilities that it may find useful
-	
+
 	var controlDiv = this.wrapper.controlDiv;
 	if(!controlDiv) {
 		controlDiv = document.createElement('div');
@@ -17,9 +17,11 @@ var EasyMapController = function(targetjs,elem){ //elem must have style.width an
 	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0}};	
 	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
+	this.wrapper.easyController = this;
+
 };
 EasyMapController.prototype = {
-	addMouseWheelZooming: function(){
+	addMouseWheelZooming: function(){ /*not supported for internet explorer*/
 		var mw = this.wrapper.onmousewheel;
 		var that = this;
 		var onmousewheel = function(e){
@@ -31,9 +33,8 @@ EasyMapController.prototype = {
 			var delta = 0;
 
 	
-	
-			var t = EasyMapUtils.resolveTarget(e);
-		
+			var t = EasyClickingUtils.resolveTarget(e);
+			
 			if(t != that.wrapper && t.parentNode !=that.wrapper) return;
 	       	 	if (e.wheelDelta) { /* IE/Opera. */
 		                delta = e.wheelDelta/120;
@@ -53,11 +54,13 @@ EasyMapController.prototype = {
 			
 			if(delta > this.lastdelta + sensitivity || delta < this.lastdelta - sensitivity){
 				
+			
 				var s =that.transformation.scale;
-				var pos = that.utils.getMouseFromEventRelativeToCenter(e);
+				
+				var pos = EasyClickingUtils.getMouseFromEventRelativeToCenter(e);
 				var t=  that.transformation.translate;
-				var newx = s.x+ delta;
-				var newy = s.y + delta;
+				var newx = parseFloat(s.x)+ delta;
+				var newy = parseFloat(s.y) + delta;
 				if(newx > 0 && newy > 0){
 					s.x = newx;
 					s.y = newy;
@@ -96,18 +99,18 @@ EasyMapController.prototype = {
 		var mu = that.wrapper.onmouseup;	
 		var mm = that.wrapper.onmousemove;
 		var onmousemove = function(e){
-			
+			if(!this.easyController)return;
 			var p =this.easyController.panning_status;
 			if(!p) return;
 			if(!p) return;
-			var t = EasyMapUtils.resolveTarget(e);
+			var t =  EasyClickingUtils.resolveTarget(e);
 	
 			if(t.getAttribute("class") == "easyControl") return;
-			var pos = that.utils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
+			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
 			if(!pos)return;
 			
 			var t = that.transformation;
-			if(this.transformation) t = this.transformation;
+			//if(this.transformation) t = this.transformation;
 			var sc = t.scale;
 			
 			var xd =parseFloat(pos.x /sc.x);
@@ -123,30 +126,33 @@ EasyMapController.prototype = {
 		};
 		
 		this.wrapper.onmousedown = function(e){
+					
 			if(md) md(e);
-			var target = EasyMapUtils.resolveTarget(e);
+			var target =  EasyClickingUtils.resolveTarget(e);
 			if(!target) return;
+
 			if(target.getAttribute("class") == "easyControl") return;
-			
+
 			var t = that.transformation.translate;
 			var sc =that.transformation.scale; 
-			var realpos = that.utils.getMouseFromEvent(e);
+			var realpos = EasyClickingUtils.getMouseFromEvent(e);
 			if(!realpos) return;
-
 			this.easyController = that;
 			
-			var element = EasyMapUtils.resolveTargetWithMemory(e);
+			var element = EasyClickingUtils.resolveTargetWithEasyClicking(e);
 			that.panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			
 			that.wrapper.onmousemove = onmousemove;
 			that.wrapper.style.cursor= "move";
 			this.style.cursor = "move";
-
+		
 		};
 		
 		this.wrapper.onmouseup = function(e){
 			that.wrapper.style.cursor= '';
 			that.wrapper.onmousemove = mm;
+			
+			if(!this.easyController && mu){mu(e); return;};
 			if(this.easyController.panning_status && this.easyController.panning_status.isClick && mu){ mu(e);}
 			this.easyController.panning_status = null;
 			
@@ -158,7 +164,7 @@ EasyMapController.prototype = {
 	setTransformation: function(t){
 		if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
 		this.transformation = t;
-		this.wrapper.transformation = t;
+		//this.wrapper.transformation = t;
 		this.targetjs.transform(t);
 		//console.log("transformation set to ",t);
 	},
@@ -208,6 +214,7 @@ EasyMapController.prototype = {
 		var label = this.createButtonLabel(r,properties.buttonType);
 		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r}});
 		
+		canvas.easyClicking.addToMemory(button);
 		return button;
 	},	
 	addControl: function(controlType) {
@@ -248,29 +255,30 @@ EasyMapController.prototype = {
 		newCanvas.setAttribute("class","easyControl");
 		this.wrapper.appendChild(newCanvas);
 
-		newCanvas.controller = this;
 		if(!newCanvas.getContext) {
 			newCanvas.browser = 'ie';
 		}
-		newCanvas.memory = [];
+		newCanvas.easyController = this;
+		newCanvas.easyClicking = new EasyClicking(newCanvas);
+		
+		//newCanvas.memory = [];
 		return newCanvas;
 	},
 	addPanningActions: function(controlDiv){
 		var panCanvas = this._createcontrollercanvas(44,44);		
-		panCanvas.memory.push(this.createButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'narrow'}));
-		panCanvas.memory.push(this.createButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'earrow'}));
-		panCanvas.memory.push(this.createButton(panCanvas,10,90,{x:16,y:16},{'actiontype':'O','name':'re-center','buttonType': ''}));
-		
-		panCanvas.memory.push(this.createButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'warrow'}));
-		panCanvas.memory.push(this.createButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'sarrow'}));			
+		this.createButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'narrow'});
+		this.createButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'earrow'});
+		this.createButton(panCanvas,10,90,{x:16,y:16},{'actiontype':'O','name':'re-center','buttonType': ''});
+		this.createButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'warrow'});
+		this.createButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'sarrow'});			
 		panCanvas.onmouseup = this._panzoomClickHandler;		
 
 	},
 	addRotatingActions: function(){
 		
 		var rotateCanvas = this._createcontrollercanvas(44,40);		
-		rotateCanvas.memory.push(this.createButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'earrow'}));
-		rotateCanvas.memory.push(this.createButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'warrow'}));
+		this.createButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'earrow'});
+		this.createButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'warrow'});
 		rotateCanvas.onmouseup = this._panzoomClickHandler;
 
 	},	
@@ -281,8 +289,8 @@ EasyMapController.prototype = {
 		var top = 50;
 		zoomCanvas.style.left = left +"px";
 		zoomCanvas.style.top = top + "px";
-		zoomCanvas.memory.push(this.createButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','name':'zoom in','buttonType': 'plus'}));		
-		zoomCanvas.memory.push(this.createButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','name':'zoom out','buttonType': 'minus'}));
+		this.createButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','name':'zoom in','buttonType': 'plus'});		
+		this.createButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','name':'zoom out','buttonType': 'minus'});
 		zoomCanvas.onmouseup = this._panzoomClickHandler;	
 	},	
 	
@@ -316,6 +324,7 @@ EasyMapController.prototype = {
 				tr.y= -max.y;
 			}
 		}
+
 		this.targetjs.transform(this.transformation);
 	},
 	_panzoomClickHandler: function(e) {
@@ -323,11 +332,11 @@ EasyMapController.prototype = {
 		if(!e) {
 			e = window.event;
 		}
-		var controller = this.controller;
-			
-		var hit = controller.utils.getShapeAtClick(e);
-		if(!hit) {
+		var controller = this.easyController;
 		
+		var hit = this.easyClicking.getShapeAtClick(e);	
+		if(!hit) {
+	
 			return false;
 		}
 

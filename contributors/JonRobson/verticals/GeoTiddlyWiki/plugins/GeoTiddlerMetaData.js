@@ -2,8 +2,12 @@
 
 config.macros.geo.metaExtension ="<div macro='edit fill' class='editor'></div>"+
 				"<div class='editorFooter'>fill colour for this tiddler</div>"+
-				"<div macro='edit geo' class='editor'></div>"+
-				"<div class='editorFooter'>apply geo coordinate to the tiddler usage format: 'lat;long' eg. for London use 51.507778; -0.12</div>";
+				//"<div macro='edit geometry' class='editor'></div>"+
+				//"<div class='editorFooter'>edit geojson geometry for this tiddler (not internet explorer)</div>"+
+				"<div macro='edit latitude' class='editor'></div>"+
+				"<div class='editorFooter' >latitude coordinate eg. for London put 51.507778</div>"+
+				"<div macro='edit longitude' class='editor'></div>"+
+				"<div class='editorFooter' >longitude coordinate eg. for London put -0.12</div>";
 				
 				
 

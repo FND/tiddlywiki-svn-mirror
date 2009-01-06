@@ -4,17 +4,17 @@ There are 3 ways to get svg files into your tiddlywiki using canvasMaps. This fu
 
 !Way 1 - from a file
 You can load directly from an external svg file (this loads europe.svg).
-<<canvasMaps source:europe.svg>>
+<<geo source:europe.svg>>
 
 
 !Way 2 - from tiddler text
 Note: For some unknown reason panning and zooming currently do not work for more than 1 canvasmap in a tiddler.
 
-The example below shows how you can point the source to the text of a tiddler. In this case we point to [[svg example 2]].
-<<canvasMaps source:'svg example 2'>>
+The example below shows how you can point the source to the text of a tiddler. In this case we point to [[svg support]].
+<<geo source:'svg support'>>
 
 !Way 3 - tag it svg
-However alternatively, if a tiddler is simply tagged svg it will render differently when you load that tiddler.. see [[svg example 2]]
+However alternatively, if a tiddler is simply tagged svg it will render differently when you load that tiddler.. see [[svg support]]
 
 
 </pre>

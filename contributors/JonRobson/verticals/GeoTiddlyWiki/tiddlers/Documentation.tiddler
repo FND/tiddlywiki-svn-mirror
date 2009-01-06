@@ -1,0 +1,87 @@
+<div title="Developers" created="200811041153" modifier="JonRobson">
+<pre>
+GeoTiddlyWiki consists of several re-usable components. Here you will find documentation of how it all works... if you're interested.
+If you're not a developer probably best you close this as I don't want to confuse you.
+
+If you are interested from a TiddlyWiki plugin level you may want to dive into the plugin code: The tiddlers you will be interested in are [[geoTiddlyWikiPlugin]] for basic geotiddlywiki functionality and for Flickr and Dopplr style adapters see [[geoRSSAdaptersPlugin]]
+!EasyShape
+!!Description
+Takes some coordinates and properties and creates a representation that can be used for click detection
+
+!!Usage
+Provide it with a list of coordinates in form [x1,y1,x2,y2..xn,yn] or in form [[x1,y1], [x2,y2],...[xn,yn]] (geojson format) and a properties json. The properties json can hold any data you require. GeoTiddlyWiki makes use of these properties for rendering and click detection.
+
+!!Configuration
+EasyShapes have various attributes the most interesting defined here..
+!!!coords
+in form [x1,y1,x2,y2...xn,yn]
+
+!!!shape
+the name of the shape created (eg. point or polygon)
+
+!!!grid
+the coordinates for a rectangle that encloses the entire shape.
+
+!!!properties
+This is a json of data containing any information you want. However the following properties are special as they do something in EasyMaps..
+*fill | colour
+This defines a fill colour for a shape.
+*stroke
+This defines a stroke colour
+
+!EasyController
+!!Description
+EasyController takes a dom element and a javascript object you want to manipulate. It creates controls which when clicked execute a transform function in the javascript object passing it the new transformation matrix as an argument to do with as wished. It is thus re-usable and useful.
+
+!!Usage
+!!!addControl method: 
+This method is all you really need to get going. It takes a string as an argument which tells the controller which internal functions should be run. Controls are "pan", "zoom", "mousepanning", "mousewheelzooming" and "rotation" at time of writing.
+!!!setTransformation method:
+If you want to change the initial transformation the function is also highly useful. A transformation at time of writing is of the form.. hopefully straightforward!
+{{{
+{translate: {x:0,y:0}, scale: {x:0,y:0}, rotation: {x:0,y:0,z:0}}
+}}}
+
+!!Configuration
+All done through the initialisation. Create a new function in the javascript object you want to make use of - this should be called "transform" and take one argument. Provide it the dom element you want to associate it with and away you go. To test run addControl("zoom") and see what happens when you click the zoom buttons.
+
+!GeoTag
+!!Description
+Create a geojson feature element that represents a geotag at a given longitude, latitude coordinate with EasyShape properties.
+
+!!Usage
+If you want the geotag to display in your map you will need to push the geotag onto the geojson features array.
+eg.{{{ 
+var geotag = GeoTag(51.507778,-0.12,{name: 'London'});
+geojson.features.push(geotag);
+}}}
+
+!EasyMap
+!!Description
+EasyMap renders geojson polygon, point and multipolygon features in a canvas from a geojson.
+
+!!Usage
+All you need is a dom element to setup. This can be pretty much any sort of element as long as children can be created inside it (the canvas is created on your behalf). To get a geojson displaying you then need to execute one of the two functions drawFromGeojson or drawFromGeojsonFile passing a geojson or a file pointing to a geojson respectively.
+
+!!Configuration
+The class can be configured by modifying or manipulating the following attributes.
+!!!click detection
+The dom element used in setup can be associated with onclick and other event handlers and make use of EasyMapUtils to get the EasyShape that was clicked on eg. {{{var s = EasyMapUtils.getShapeAtClick(e)}}}. The variable s can then be used to access EasyShape properties.
+!!!controller : 
+this is a reference to an EasyController to allow the adding of controls to EasyMaps
+!!!settings: 
+a json containing properties that specify how it is displayed.
+!!!spherical : 
+an experimental setting to make the geojson appear 3d.
+
+!EasyMapUtils
+!!Description
+This provides various commonly used functions used throughout the package.
+
+!EasyMapSVGUtils
+!!Description
+This is an attempt to convert svg files to geojson files through the function "convertSVGToMultiPolygonFeatureCollection" so svg files can be displayed. Lots of holes but promising results (see [[svg support]]). 
+
+
+</pre>
+</div>
