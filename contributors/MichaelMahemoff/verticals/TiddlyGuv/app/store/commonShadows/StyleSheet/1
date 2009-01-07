@@ -15,7 +15,7 @@ body { font-size: 14px; }
 .license h2.recentlyEdited { background: yellow; padding: 0.3em 0; }
 .license .empty { color: #faa; margin-bottom: 0; }
 .license .emptinessMessage { font-style: italic; color: #faa; }
-.adminOnlyMessage { background: #ffe9e9; border: 1px solid #ffcccc; padding: 0.3em; font-size: 80%; line-height: 1em; }
+.adminOnlyMessage { background: [[ColorPalette::PrimaryPale]]; border: 1px solid [[ColorPalette:PrimaryMid]]; padding: 0.3em; font-size: 80%; line-height: 1em; color: [[ColorPalette::PrimaryDark]]; }
 
 .licenseTitle { margin-bottom: 0.5em; color: #999; }
 .licenseLink { font-size: 1.5em; color: [[ColorPalette::PrimaryDark]]; cursor: pointer; text-decoration: underline; }

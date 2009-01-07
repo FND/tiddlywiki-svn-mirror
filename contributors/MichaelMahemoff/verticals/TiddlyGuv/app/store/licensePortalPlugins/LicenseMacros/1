@@ -44,7 +44,7 @@ function changeBag(tiddler, bag, tags) {
   var now=new Date();
   var newTiddler = store.createTiddler(tiddler.title);
   // newFields is a _copy_ of server.* fields overlayed on existing fields
-  var newFields = merge({ "server.host": tiddler.fields["server.host"], "server.type": "tiddlyweb", "server.bag": bag, stage: "public" }, tiddler.fields, true);
+  var newFields = merge({ "server.host": tiddler.fields["server.host"], "server.type": "tiddlyweb", "server.workspace": "bags/"+bag, stage: "public" }, tiddler.fields, true);
   log("newFields", newFields);
   newFields.deleted = false;
   log("existing tags", tiddler, tiddler.tags);
@@ -104,11 +104,11 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
             var fields = clone(config.defaultCustomFields);
             fields["license"] = tiddler.title;
             fields["dimension"] = dimension.id;
-            fields["server.bag"] = "licenses"
+            fields["server.workspace"] = "bags/licenses"
             if (tiddler.fields["stage"]=="new") {
-              fields["server.bag"] = "private-"+config.options.txtUserName;
+              fields["server.workspace"] = "bags/private-"+config.options.txtUserName;
             } else if (dimension.adminOnly) {
-              fields["server.bag"] = "protected-admins";
+              fields["server.workspace"] = "bags/protected-admins";
             }
             dimensionTiddler.set(null, "", config.options.txtUserName, now, ["licenseDimension"], now, fields);
             store.saveTiddler(dimensionTitle);
@@ -123,6 +123,11 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
       var textEl;
       if (licenseDimensionTiddler) {
 
+        if (dimension.adminOnly) {
+          var adminOnlyMessage = createTiddlyElement(contentEl, "div", null, "adminOnlyMessage", "");
+        adminOnlyMessage.innerHTML = "<strong>Official Policy.</strong> This section constitutes official policy and is editable by admins only. If you have any amendements or feedback, please leave a comment about this license at the bottom of the page.";
+        }
+
         var expandLinkArea = createTiddlyElement(contentEl, "div");
         var expandLink = createTiddlyElement(expandLinkArea, "span", "",  "expandLink");
         expandLinkArea.style.display = "none";
@@ -134,17 +139,16 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
           toggleVisibility(expandLink, textEl, wordCount(text), false);
           expandLink.onclick = function() { toggleVisibility(expandLink, textEl, wordCount(text)); };
         }
+
       } else {
         heading.className = "empty";
         textEl = createTiddlyElement(wrapper, "div", null, "emptinessMessage",
-          "This section does not exist, but you can start it yourself.");
+          "This section does not exist" +
+          (dimension.adminOnly ? "" : ", but you can start it yourself") +
+          ".");
       }
-    })(licenseDimensionTiddler, wrapper);
 
-      if (dimension.adminOnly) {
-        var adminOnlyMessage = createTiddlyElement(wrapper, "div", null, "adminOnlyMessage", "");
-      adminOnlyMessage.innerHTML = "<strong>Official Policy.</strong> This section constitutes official policy and is editable by admins only. If you have any amendements or feedback, please leave a comment about this license at the bottom of the page.";
-      }
+    })(licenseDimensionTiddler, wrapper);
 
   }
 
