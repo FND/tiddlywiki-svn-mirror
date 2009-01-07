@@ -16,7 +16,7 @@ if (!version.extensions.tiddlyWebUserPlugin) {
     init: function() {
 
       this.userCookie = this.readCookie("tiddlyweb_user");
-      this.username = this.userCookie.split(":")[0].substr(1);
+      if (this.userCookie) this.username = this.userCookie.split(":")[0].substr(1);
       config.options.txtUserName = this.userCookie ? this.username : "guest";
 
     /*******************************************************************************
@@ -28,13 +28,17 @@ if (!version.extensions.tiddlyWebUserPlugin) {
         handler: function(place,macroName,params,wikifier,paramString,tiddler) {
           var plugin = version.extensions.tiddlyWebUserPlugin;
           var message = createTiddlyElement(place, "div", null, "loginMessage");
-          message.innerHTML = plugin.userCookie ?  "User ID: " + plugin.username : "Not logged in";
           if (plugin.userCookie) {
+            message.innerHTML = "User ID: " + plugin.username;
             var logout = createTiddlyElement(place, "button", null, "logout", "Logout");
             logout.onclick = function() {
               plugin.eraseCookie("tiddlyweb_user");
               window.location.reload(true);
             }
+          } else {
+            message.innerHTML = "Not logged in";
+            var loginLink = createTiddlyElement(place, "a", null, "loginLink", "Log In");
+            loginLink.href="/challenge?tiddlyweb_redirect=/recipes/portal/tiddlers.wiki";
           }
         }
 
