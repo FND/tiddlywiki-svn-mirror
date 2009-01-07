@@ -12,9 +12,17 @@ tiddler: ConfigTweaks.js
 tiddler: ConfigTweaks.js.meta
 tiddler: DefaultTiddlers.tiddler
 tiddler: cake.tiddler
-tiddler: burger.tiddler
+# tiddler: burger.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: ToolbarCommands.tiddler
 tiddler: MainMenu.tiddler
 tiddler: commentViewTemplate.tiddler
+
+tiddler: comment1.tiddler
+tiddler: comment11.tiddler
+tiddler: comment2.tiddler
+tiddler: comment3.tiddler
+tiddler: comment31.tiddler
+tiddler: comment32.tiddler
+tiddler: comment33.tiddler
