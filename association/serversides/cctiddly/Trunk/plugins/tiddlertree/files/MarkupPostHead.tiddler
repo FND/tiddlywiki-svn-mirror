@@ -10,7 +10,9 @@
 
 		<style type="text/css">
 
-
+.newCommentArea {
+	text-align:center;
+}
 div.tiddler .tab {
 background-color:#ddd;
 }
@@ -117,9 +119,14 @@ display:none !important;
 		}
 		
 		
-
+.twtable, .twtable td,  .twtable tr {
+border:0px !important;
+}
 		div.subtitle {
 			padding:1em 1em 1em 0.0em;
+		}
+		.taskViewer {
+			padding:1em;
 		}
 		.viewer .button {
 		top:-2.0em !important;

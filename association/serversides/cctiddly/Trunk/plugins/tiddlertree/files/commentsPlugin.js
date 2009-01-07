@@ -67,10 +67,12 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
 
   store.getTiddler(rootTiddler.title).commentsEl = comments;
 
-  createTiddlyElement(commentsArea, "div");
-  var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
+  var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea");
   var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
+  createTiddlyElement(newCommentArea, "br");
+
   var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment", "Add Comment");
+
   addComment.onclick = function() {
     var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
     newCommentEl.value = "";
