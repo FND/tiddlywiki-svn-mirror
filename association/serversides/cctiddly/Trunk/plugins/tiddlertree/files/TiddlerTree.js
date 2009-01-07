@@ -49,7 +49,7 @@ config.macros.tiddlerTree1.doneClick=function(){
 		//	team tasks specific 
 		var taskStatus = store.getValue(store.getTiddler(tiddlerTitle),"tt_status");
 		if (taskStatus=="Complete") {
-			$(viewDiv).addClass("completed");
+			$(viewDiv).addClass("completed"); 
 			$(viewDiv).removeClass("incomplete");
 			$(editDiv).addClass("completed");
 			$(editDiv).removeClass("incomplete");
@@ -210,11 +210,11 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				headingInput.value = tiddlerTitle;
 
 // create button 
-				var editButton = createTiddlyElement(form, "input", tiddlerTitle+"DoneButton", "button right doneButton");
-				editButton.type = "button";
-				editButton.style.float = "right";
-				editButton.value = "done";
-				$(editButton).click(config.macros.tiddlerTree1.doneClick); 
+//				var editButton = createTiddlyElement(form, "input", tiddlerTitle+"DoneButton", "button right doneButton");
+//				editButton.type = "button";
+//				editButton.style.float = "right";
+//				editButton.value = "done";
+//				$(editButton).click(config.macros.tiddlerTree1.doneClick); 
 // end create button
 
 				wikify("<br />\n assigned to <<ValueSwitcher type:'dropdown' valuesSource:'UserDefinitions' tiddler:'"+tiddlerTitle+"'>>  status <<ValueSwitcher type:'dropdown' valuesSource:'StatusDefinitions' tiddler:'"+tiddlerTitle+"'>><br />\n", form);
