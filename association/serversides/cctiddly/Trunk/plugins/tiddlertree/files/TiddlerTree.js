@@ -38,7 +38,9 @@ config.macros.tiddlerTree1.doneClick=function(){
 				$(editDiv).dialog("close");
 		}
 		if(config.options.txtOpenType=="inline"){
-			$(editDiv).slideToggle("fast");
+//			$(editDiv).slideToggle("fast");
+			$(editDiv).hide();
+
 			$(viewDiv).show();
 		}
 // end different view types
@@ -77,12 +79,20 @@ config.macros.tiddlerTree1.editClick=function(){
 			$(this.parentNode.nextSibling).dialog({});
 		}
 		if(config.options.txtOpenType=="inline"){
-			$(this.parentNode.nextSibling).slideToggle("fast");
+//			$(this.parentNode.nextSibling).slideToggle("fast");
+$(this.parentNode.nextSibling).show();
+
 			$(this.parentNode).hide();
 		}
 		if(config.options.txtOpenType=="traditional"){
 			story.displayTiddler(null, this.parentNode.id.replace("ViewContainer", ""));
 		}
+}
+
+
+
+config.macros.tiddlerTree1.strip=function(s) {
+	return s.replace(" ",  "");
 }
 
 config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
@@ -162,16 +172,16 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment) : "  - Unassigned"));
 				var commentButtonClick = function() {
 					
-					$("#"+this.id+"CommentsArea").slideToggle();
+					$("#"+config.macros.tiddlerTree1.strip(this.id)+"CommentsArea").slideToggle();
 				};
 				createTiddlyButton(sectionDiv, "edit", "Click to edit this section", config.macros.tiddlerTree1.editClick, "right button");
-				createTiddlyButton(sectionDiv, "comments("+config.macros.comments.countComments(tiddlerTitle)+")", "Click to view the comments", commentButtonClick, "right button", null, null, {'id':tiddlerTitle});
+				createTiddlyButton(sectionDiv, "comments("+store.getTaggedTiddlers(tiddlerTitle).length+")", "Click to view the comments", commentButtonClick, "right button", null, null, {'id':tiddlerTitle});
 
 				var body = createTiddlyElement(sectionDiv, "div", tiddlerTitle+"BodyDiv", "sectionBody", store.getTiddlerText(tiddlerTitle));
 				$(body).html(wikifyStatic(store.getTiddlerText(tiddlerTitle)));
 				body.rows = lineBreakCount(store.getTiddlerText(tiddlerTitle))+2;
-				var commentsDiv = createTiddlyElement(sectionDiv, "div", tiddlerTitle+"CommentsArea");
-				wikify("<<comments tiddler:'"+tiddlerTitle+"'>>", commentsDiv);
+				var commentsDiv = createTiddlyElement(sectionDiv, "div", config.macros.tiddlerTree1.strip(tiddlerTitle)+"CommentsArea");
+				wikify("<<comments tiddler:'"+tiddlerTitle+"' tags:'"+tiddlerTitle+"'>>", commentsDiv);
 				$(commentsDiv).hide();
 				
 				
