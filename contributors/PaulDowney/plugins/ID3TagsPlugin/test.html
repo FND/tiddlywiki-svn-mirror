@@ -1,0 +1,76 @@
+<html>
+<head>
+<style type="text/css">
+textarea {
+	background: #000000; 
+	color: #FFFFFF;
+	font-family: Helvetica, sans-serif;
+	width: 30em;
+	height: 14em;
+	padding: 1em;
+}
+</style>
+<script type="text/javascript" src="js/binaryajax.js"></script>
+<script type="text/javascript" src="js/id3.js"></script>
+<script>
+
+var tagnames = ["artist", "title", "album", "year", "comment", "genre", "track"];
+
+function test_file(o) {
+	var out = document.getElementById(o.id);
+	out.value = "Loading [" + o.filename + "]\n";
+	function callback() {
+		var tags = ID3.getAllTags(o.filename);
+		for(var i=0;i<tagnames.length;i++){ 
+			var key = tagnames[i];
+			out.value += "["+key+"]: " + ID3.getTag(o.filename, key) + "\n"
+		}
+	};
+	ID3.loadTags(o.filename, callback);
+}
+
+var testdata = [ 
+	{
+		id: "out1",
+		filename: "data/Intruder-1.0.mp3",
+		version: "1.0",
+	},
+	{
+		id: "out2",
+		filename: "data/Intruder-1.1.mp3",
+		version: "1.1",
+	},
+	{
+		id: "out3",
+		filename: "data/Intruder-2.2.mp3",
+		version: "2.2",
+	},
+	{
+		id: "out4",
+		filename: "data/Intruder-2.3.mp3",
+		version: "2.3",
+	},
+	{
+		id: "out5",
+		filename: "data/Intruder-2.4.mp3",
+		version: "2.4",
+	}
+];
+
+
+window.onload = function() {
+	for(var i=0;i<testdata.length;i++){ 
+		test_file(testdata[i]);
+	}
+};
+
+</script>
+</head>
+<body>
+	<textarea id="out1"></textarea>
+	<textarea id="out2"></textarea>
+	<textarea id="out3"></textarea>
+	<textarea id="out4"></textarea>
+	<textarea id="out5"></textarea>
+</body>
+</html>
