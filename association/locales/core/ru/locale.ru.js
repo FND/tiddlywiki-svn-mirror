@@ -3,7 +3,7 @@
 |''Description:''|Translation of TiddlyWiki into Russian|
 |''Author:''|VitalyPetrov (v31337 (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/ru/locale.ru.js |
-|''Version:''|0.0.1|
+|''Version:''|0.0.2|
 |''Date:''|Dec 19, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -439,9 +439,9 @@ merge(config.commands.fields,{
 			]}});
 
 merge(config.shadowTiddlers,{
-	DefaultTiddlers: "[[TranslatedGettingStarted]]",
-	MainMenu: "[[TranslatedGettingStarted]]\n\n\n^^~TiddlyWiki версия <<version>>\n© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
-	TranslatedGettingStarted: "Чтобы начать работу с пустой TiddlyWiki, вы должны изменить некоторые записи:\n* SiteTitle & SiteSubtitle: Заголовок и подзаголовок сайта, как показано выше (после сохранения они также будут показаны в заголовке сайта)\n* MainMenu: Главное меню (Обычно расположено слева)\n* DefaultTiddlers: Записи которые вы бы хотели видеть при запуске TiddlyWiki\nВы должны ввести ваше имя для обозначения автора записей: <<option txtUserName>>",
+	DefaultTiddlers: "[[СчегоНачать]]",
+	MainMenu: "[[СчегоНачать]]\n\n\n^^~TiddlyWiki версия <<version>>\n© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
+	СчегоНачать: "Чтобы начать работу с пустой TiddlyWiki, вы должны изменить некоторые записи:\n* SiteTitle & SiteSubtitle: Заголовок и подзаголовок сайта, как показано выше (после сохранения они также будут показаны в заголовке сайта)\n* MainMenu: Главное меню (Обычно расположено слева)\n* DefaultTiddlers: Записи которые вы бы хотели видеть при запуске TiddlyWiki\nВы должны ввести ваше имя для обозначения автора записей: <<option txtUserName>>",
 	SiteTitle: "Моя TiddlyWiki",
 	SiteSubtitle: "нелинейный персональный WEB-блокнот",
 	SiteUrl: "http://www.tiddlywiki.com/",
