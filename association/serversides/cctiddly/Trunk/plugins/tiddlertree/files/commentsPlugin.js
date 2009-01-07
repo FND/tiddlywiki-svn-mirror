@@ -161,8 +161,8 @@ buildCommentEl: function(daddyCommentsEl, comment, macroParams) {
 
   // REPLY LINK
   var replyLinkZone = createTiddlyElement(commentEl, "div", null, "replyLinkZone");
-  var replyLink = createTiddlyElement(replyLinkZone, "span", null, "replyLink", "reply to this comment");
-  replyLink.onclick = function() { cmacro.openReplyLink(comment, commentEl, replyLink, macroParams); };
+  //var replyLink = createTiddlyElement(replyLinkZone, "span", null, "replyLink", "reply to this comment");
+ // replyLink.onclick = function() { cmacro.openReplyLink(comment, commentEl, replyLink, macroParams); };
 
   // var clearance = createTiddlyElement(commentEl, "clearance", null, "clearance");
   // clearance.innerHTML = "&nbsp;";

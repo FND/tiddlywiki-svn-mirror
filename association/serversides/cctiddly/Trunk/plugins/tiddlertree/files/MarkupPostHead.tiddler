@@ -95,6 +95,7 @@ display:none !important;
 			
 			.helper {
 				border:2px dashed #777777;
+				margin-left:1em !important;
 			}
 			
 			.current-nesting {
@@ -121,7 +122,8 @@ display:none !important;
 			padding:1em 1em 1em 0.0em;
 		}
 		.viewer .button {
-		top:-1.8em !important;
+		top:-2.0em !important;
+		padding:0.2em  0.4em !important;
 		}
 		.button {
 		font-face:arial;
@@ -174,7 +176,7 @@ display:none !important;
 			hieght:100%;
 		}
 		
-		input, select {
+		input {
 			background-color:#eee;
 			color:black;
 			border:1px solid #ddd;

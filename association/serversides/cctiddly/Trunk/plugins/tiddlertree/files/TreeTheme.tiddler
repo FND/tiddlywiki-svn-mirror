@@ -71,6 +71,8 @@
 <div class='title' macro='view title'></div>
 <div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 <div class='viewer' macro='view text wikified'></div>
+<div macro='comments'></div>
+
 <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 </div>
 <!--}}}-->
@@ -79,6 +81,7 @@
 
 !taskEditTemplate
 <!--{{{-->
+<div macro='gradient vert #eee #bbb'>
 <div class="editor">
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 <div class='title edit' macro='edit title'></div>
@@ -86,11 +89,13 @@
 <div class='task'>
 	<table>
 	<tr>
-		<td class='taskbody'><div class='viewer edit' macro='edit text wikified'></div></div></td>
 		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
 	</tr>
 	</table>
+<div class='viewer edit' macro='edit text wikified'></div>
 </div>
 <div class='tagClear'></div>
 </div>
+</div>
+
 <!--}}}-->

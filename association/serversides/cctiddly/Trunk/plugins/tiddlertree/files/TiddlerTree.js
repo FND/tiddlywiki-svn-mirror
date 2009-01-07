@@ -35,7 +35,8 @@ config.macros.tiddlerTree1.doneClick=function(){
 
 // different view types
 		if(config.options.txtOpenType=="popup") {
-				$(editDiv).dialog("close");
+			// POINT2
+			$(editDiv).dialog("close");
 		}
 		if(config.options.txtOpenType=="inline"){
 //			$(editDiv).slideToggle("fast");
@@ -61,7 +62,6 @@ config.macros.tiddlerTree1.doneClick=function(){
 		}
 		// end team tasks specific
 		
-		log(wikifyStatic(form.body.value));
 		$(body).html(wikifyStatic(form.body.value));
 		if(!store.tiddlerExists(form.heading.value))
 			var oldTitle = "";
@@ -73,10 +73,17 @@ config.macros.tiddlerTree1.doneClick=function(){
 
 config.macros.tiddlerTree1.editClick=function(){
 		if(config.options.txtOpenType=="popup") {
-		log(this.parentNode.nextSibling);
-		$(this.parentNode.nextSibling).show();
-
-			$(this.parentNode.nextSibling).dialog({});
+	//	log(this.parentNode.nextSibling);
+// POINT1
+//				$(this.parentNode.nextSibling).dialog("moveToTop");
+try {
+	$(this.parentNode.nextSibling).show();
+	$(this.parentNode.nextSibling).dialog({'width':'480px', 'height':'300px'});
+} catch(err) {
+	$(this.parentNode.nextSibling).show();
+	
+}
+	
 		}
 		if(config.options.txtOpenType=="inline"){
 //			$(this.parentNode.nextSibling).slideToggle("fast");
@@ -112,8 +119,8 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 		$(".sectionBody").slideToggle("fast");
 	};
 	createTiddlyButton(buttonHolder, "View Body", "click to create a new section", hideBody);
-	wikify("<<changeOption>>", buttonHolder);
-	createTiddlyButton(buttonHolder, "Print", "print", function() {alert("Print the doc");});
+//	wikify("<<changeOption>>", buttonHolder);
+//	createTiddlyButton(buttonHolder, "Print", "print", function() {alert("Print the doc");});
 	createTiddlyElement(place, "br");
 	var newTiddlerContainerDiv = createTiddlyElement(place, "div", "newTiddlerDivContainer", "sort-handle-edit incomplete");
 	newTiddlerContainerDiv.style.display = "none";
@@ -187,15 +194,14 @@ config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,para
 				
 				//body.disabled = true;
 
-				/* double click bits 
+				/* double click bits */
 				var editDblClick = function(e) {
 				//	$(e.target.parentNode).slideToggle("fast");
 				displayMessage("here again"+e.target.id.replace("BodyDiv", ""));
-					$("#"+e.target.id+"ViewContainer").slideToggle("fast");
-					$("#"+e.target.id+"EditView").slideToggle("fast");
+					$("#"+e.target.id.replace("BodyDiv", "")+"ViewContainer").hide();
+					$("#"+e.target.id+"EditView").show();
 				};
 				$(body).dblclick(editDblClick);
-				*/
 				
 				 				
 				var prevLevel = level;			
