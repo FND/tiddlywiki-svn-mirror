@@ -24,6 +24,9 @@ Note:
 In preparation for a release, the following steps need to be taken:
 * set version number in Trunk/core/js/Version.js
 * create recipe in Trunk/core/recipes/
-* tag release to Tags/core/
+* update build and upload scripts to use the respective version number
 * update tiddlywiki.com vertical's recipes
 * update tiddlywiki.com vertical's NewFeatures tiddler
+* tag release to Tags/core/
+
+Immediately after a release, the version number should be increased and marked as alpha.
