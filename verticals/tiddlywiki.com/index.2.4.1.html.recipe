@@ -1,9 +1,0 @@
-recipe: ../../../Tags/core/REL-2.4.1_Final/tiddlywiki.html.recipe
-tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js
-recipe: plugins/split.recipe
-recipe: feeds/split.recipe
-recipe: content/split.recipe
-recipe: shadows/split.recipe
-recipe: images.recipe
-copy: attachments/firstversion.html
-copy: attachments/secondversion.html
