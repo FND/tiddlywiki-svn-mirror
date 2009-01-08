@@ -1,23 +1,19 @@
-<div title="NewFeatures" modifier="PhilWhitehouse" created="200704141410" modified="200807101158">
-<pre>TiddlyWiki has been improved in several areas for release 2.4. Here are some of the highlights; see the full [[release note at tiddlywiki.org|http://trac.tiddlywiki.org/wiki/History#Revision2.4.0]] for more details.
-!!! Usability
-There's several significant usability enhancements including:
-* Much easier saving in [[Safari]] and [[Opera]] using the newly-signed TiddlySaver Java applet
-* Automated TiddlyWiki core code upgrades (see HowToUpgrade) that we can use for future releases
-* Friendlier customisation of ToolbarCommands
-* Improvements to the ImportTiddlers user interface
-* Added warning before closing a dirty tiddler
-* Enhanced GradientMacro
-* Enhanced tag chooser to allow selection of multiple tags by control-clicking on them
-!!! Performance
-* Speeded up ~SHA-1 hash function
-!!! Hackability
-As usual, several of the new features are intended to make life easier for plugin writers and other TiddlyWiki hackers:
-* Several enhancements to the {{{<<view>>}}} macro
-* Support for nested popups
-* Improved SafeMode that now protects the shadow tiddlers
-* Added support for temporary tiddlers via the {{{doNotSave()}}} method on the {{{Tiddler}}} object
-* Added W3C locale specifier
-* Several new CSS classes for easier restyling (eg the "tabsetWrapper" class for tabs)
-TiddlyWiki benefits from an extensive set of [[translations|http://trac.tiddlywiki.org/wiki/Translations]]. There are several enhancements in this release to make it easier to maintain translations.</pre>
+<div title="NewFeatures" modifier="JeremyRuston" created="200704141410" modified="200901080000">
+<pre>Release 2.4.2 of TiddlyWiki includes some minor enhancements and bug fixes. Here are some of the highlights; see the full change history [[at TiddlyWiki.org|http://trac.tiddlywiki.org/wiki/History]] for more details.
+!!!Usability
+* Date-format strings now support escaping of literal characters ([[ticket #623|http://trac.tiddlywiki.org/ticket/623]])
+* PluginManager wizard now displays Description slices ([[ticket #739|http://trac.tiddlywiki.org/ticket/739]])
+* Support for {{{<hr>}}} syntax in wiki markup ([[ticket #741|http://trac.tiddlywiki.org/ticket/741]])
+* Filter expressions no longer omit non-existing tiddlers ([[ticket #768|http://trac.tiddlywiki.org/ticket/768]])
+!!!Hackability
+* Extended invokeParamifier to process "option paramifiers" ([[ticket #823|http://trac.tiddlywiki.org/ticket/823]])
+* Added support for TiddlyWikis with empty {{{noscript}}} tag ([[ticket #858|http://trac.tiddlywiki.org/ticket/858]])
+!!!Bug Fixes
+* Improved detection of missing links ([[ticket #67|http://trac.tiddlywiki.org/ticket/67]])
+* Fixed overlapping tiddlers in Firefox ([[ticket #320|http://trac.tiddlywiki.org/ticket/320]])
+* TagChooser macro now supports //excludeLists// tag ([[ticket #515|http://trac.tiddlywiki.org/ticket/515]])
+* RSS feed now uses proper locale value ([[ticket #591|http://trac.tiddlywiki.org/ticket/591]])
+* Fixed importing under Windows Vista ([[ticket #635|http://trac.tiddlywiki.org/ticket/635]])
+* Various minor fixes and enhancements
+</pre>
 </div>
