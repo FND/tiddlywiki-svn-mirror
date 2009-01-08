@@ -1,13 +1,15 @@
 <div title="NewFeatures" modifier="JeremyRuston" created="200704141410" modified="200901080000">
-<pre>Release 2.4.2 of TiddlyWiki includes some minor enhancements and bug fixes. Here are some of the highlights; see the full change history [[at TiddlyWiki.org|http://trac.tiddlywiki.org/wiki/History]] for more details.
+<pre>Release 2.4.3 of TiddlyWiki includes some minor enhancements and bug fixes. Here are some of the highlights; see the full change history [[at TiddlyWiki.org|http://trac.tiddlywiki.org/wiki/History]] for more details.
 !!!Usability
 * Date-format strings now support escaping of literal characters ([[ticket #623|http://trac.tiddlywiki.org/ticket/623]])
 * PluginManager wizard now displays Description slices ([[ticket #739|http://trac.tiddlywiki.org/ticket/739]])
 * Support for {{{<hr>}}} syntax in wiki markup ([[ticket #741|http://trac.tiddlywiki.org/ticket/741]])
 * Filter expressions no longer omit non-existing tiddlers ([[ticket #768|http://trac.tiddlywiki.org/ticket/768]])
+* Provided access to context variables {{{tiddler}}} and {{{place}}} for evaluated macro parameters ([[ticket #444|http://trac.tiddlywiki.org/ticket/444]])
 !!!Hackability
 * Extended invokeParamifier to process "option paramifiers" ([[ticket #823|http://trac.tiddlywiki.org/ticket/823]])
 * Added support for TiddlyWikis with empty {{{noscript}}} tag ([[ticket #858|http://trac.tiddlywiki.org/ticket/858]])
+* Added {{{removeCookie}}} function ([[ticket #757|http://trac.tiddlywiki.org/ticket/757]])
 !!!Bug Fixes
 * Improved detection of missing links ([[ticket #67|http://trac.tiddlywiki.org/ticket/67]])
 * Fixed overlapping tiddlers in Firefox ([[ticket #320|http://trac.tiddlywiki.org/ticket/320]])
