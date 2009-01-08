@@ -1,76 +1,71 @@
 <html>
 <head>
-<style type="text/css">
-textarea {
-	background: #000000; 
-	color: #FFFFFF;
-	font-family: Helvetica, sans-serif;
-	width: 30em;
-	height: 14em;
-	padding: 1em;
-}
-</style>
+<link rel="stylesheet" href="../../../../core/qunit/qunit/testsuite.css" type="text/css" media="screen"></link>
+<script type="text/javascript" src="../../../../core/jquery/jquery-1.2.6.pack.js"></script>
+<script type="text/javascript" src="../../../../core/qunit/qunit/testrunner.js"></script>
 <script type="text/javascript" src="js/binaryajax.js"></script>
 <script type="text/javascript" src="js/id3.js"></script>
 <script>
 
-var tagnames = ["artist", "title", "album", "year", "comment", "genre", "track"];
+$(document).ready(function(){
 
-function test_file(o) {
-	var out = document.getElementById(o.id);
-	out.value = "Loading [" + o.filename + "]\n";
-	function callback() {
-		var tags = ID3.getAllTags(o.filename);
-		for(var i=0;i<tagnames.length;i++){ 
-			var key = tagnames[i];
-			out.value += "["+key+"]: " + ID3.getTag(o.filename, key) + "\n"
-		}
-	};
-	ID3.loadTags(o.filename, callback);
-}
-
-var testdata = [ 
+	function test_tags(o) 
 	{
-		id: "out1",
-		filename: "data/Intruder-1.0.mp3",
-		version: "1.0",
-	},
-	{
-		id: "out2",
-		filename: "data/Intruder-1.1.mp3",
-		version: "1.1",
-	},
-	{
-		id: "out3",
-		filename: "data/Intruder-2.2.mp3",
-		version: "2.2",
-	},
-	{
-		id: "out4",
-		filename: "data/Intruder-2.3.mp3",
-		version: "2.3",
-	},
-	{
-		id: "out5",
-		filename: "data/Intruder-2.4.mp3",
-		version: "2.4",
+		var callback = function() {
+			var tags = ID3.getAllTags(o.filename) || {};
+			for(var key in o.tags){
+				equals(tags[key], o.tags[key], key + " tag");
+			}
+			start();
+		};
+		ID3.loadTags(o.filename, callback);
+		stop();
 	}
-];
 
+	test("MP3 ID3 Version 1.0", function() {
+		test_tags({
+			filename: "data/Intruder-1.0.mp3",
+			version: "1.0",
+			tags: { artist: "Robot", title: "Intruder Alert", year: "", comment: "test file: ID3#v1.0" }
+		});
+	});
+	test("MP3 ID3 Version 1.1", function() {
+		test_tags({
+			filename: "data/Intruder-1.1.mp3",
+			version: "1.1",
+			tags: { artist: "Robot", title: "Intruder Alert", year: "", comment: "test file: ID3#v1.1" }
+		});
+	});
+	test("MP3 ID3 Version 2.2", function() {
+		test_tags({
+			filename: "data/Intruder-2.2.mp3",
+			version: "2.2",
+			tags: { artist: "Robot", title: "Intruder Alert", year: "", comment: "test file: ID3#v2.2" }
+		});
+	});
+	test("MP3 ID3 Version 2.3", function() {
+		test_tags({
+			filename: "data/Intruder-2.3.mp3",
+			version: "2.3",
+			tags: { artist: "Robot", title: "Intruder Alert", year: "", comment: "test file: ID3#v2.3" }
+		});
+	});
+	test("MP3 ID3 Version 2.4", function() {
+		test_tags({
+			filename: "data/Intruder-2.4.mp3",
+			version: "2.4",
+			tags: { artist: "Robot", title: "Intruder Alert", year: "", comment: "test file: ID3#v2.4" }
+		});
+	});
 
-window.onload = function() {
-	for(var i=0;i<testdata.length;i++){ 
-		test_file(testdata[i]);
-	}
-};
-
+});
 </script>
 </head>
 <body>
-	<textarea id="out1"></textarea>
-	<textarea id="out2"></textarea>
-	<textarea id="out3"></textarea>
-	<textarea id="out4"></textarea>
-	<textarea id="out5"></textarea>
+	<h1>ID3 Tag Parsing</h1>
+	<h2 id="banner"></h2>
+	<h2 id="userAgent"></h2>
+	<ol id="tests"></ol>
+	<div id="main"></div>
 </body>
 </html>

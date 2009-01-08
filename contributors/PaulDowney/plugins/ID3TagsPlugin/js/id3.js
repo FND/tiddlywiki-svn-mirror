@@ -33,7 +33,6 @@ var ID3 = {};
 		"Duet","Punk Rock","Drum Solo","Acapella","Euro-House","Dance Hall"
 	];
 
-
 	var files = [];
 
 	function readFileData(url, callback) {
@@ -49,46 +48,39 @@ var ID3 = {};
 		)
 	}
 
-	function readTagsFromData(data) {
-		var offset = 0;
-
-		var header = data.getStringAt(offset, 3);
-		if (header == "TAG") {
-			var title = data.getStringAt(offset + 3, 30).replace(/\0/g, "");
-			var artist = data.getStringAt(offset + 33, 30).replace(/\0/g, "");
-			var album = data.getStringAt(offset + 63, 30).replace(/\0/g, "");
-			var year = data.getStringAt(offset + 93, 4).replace(/\0/g, "");
-
-			var trackFlag = data.getByteAt(offset + 97 + 28);
-			if (trackFlag == 0) {
-				var comment = data.getStringAt(offset + 97, 28).replace(/\0/g, "");
-				var track = data.getByteAt(offset + 97 + 29);
-			} else {
-				var comment = "";
-				var track = 0;
-			}
-
-			var genreIdx = data.getByteAt(offset + 97 + 30);
-			if (genreIdx < 255) {
-				var genre = ID3.genres[genreIdx];
-			} else {
-				var genre = "";
-			}
-
-			return {
-				title : title,
-				artist : artist,
-				album : album,
-				year : year,
-				comment : comment,
-				track : track,
-				genre : genre
-			}
-		} else {
-			return {};
-		}
+	function normalizeTag(s) {
+		return (s||"").replace(/\0/g, "").replace( /^\s+|\s+$/g, "" );
 	}
 
+	function readTagsFromData1(data,offset) {
+		tags = {};
+		tags.title = normalizeTag(data.getStringAt(offset + 3, 30));
+		tags.artist = normalizeTag(data.getStringAt(offset + 33, 30));
+		tags.album = normalizeTag(data.getStringAt(offset + 63, 30));
+		tags.year = normalizeTag(data.getStringAt(offset + 93, 4));
+		tags.comment = "";
+		tags.genre = "";
+		tags.track = 0;
+
+		var trackFlag = data.getByteAt(offset + 97 + 28);
+		if (trackFlag == 0) {
+			tags.comment = normalizeTag(data.getStringAt(offset + 97, 28));
+			tags.track = data.getByteAt(offset + 97 + 29);
+		}
+
+		var genreIdx = data.getByteAt(offset + 97 + 30);
+		if (genreIdx < 255) {
+			var genre = ID3.genres[genreIdx];
+		} 
+
+		return tags;
+	}
+
+	function readTagsFromData(data) {
+		if (data.getStringAt(0, 3) == "TAG") {
+			return readTagsFromData1(data,0);
+		}
+	}
 
 	ID3.loadTags = function(url, cb) {
 		if (!files[url]) {
