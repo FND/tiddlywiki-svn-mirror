@@ -32,19 +32,27 @@ var EasyClicking = function(element,transformation,easyShapesList){
 EasyClicking.prototype = {
 	addToMemory: function(easyShape){
 		this.memory.push(easyShape);
+		easyShape._easyClickingID = this.memory.length;
 	}
-	,getMemory: function(){
+	
+	,clearMemory: function(){
+		this.memory = [];
+	},
+	getMemory: function(){
 		return this.memory;
 	}
-
+	,getShapeMemoryID: function(easyShape){
+		return easyShape._easyClickingID;
+	}
 	,getShapeAtClick: function(e){
 		if(!e) {
 			e = window.event;
 		}
 		
 		var node = EasyClickingUtils.resolveTarget(e);
-		if(node.getAttribute("class") == 'easyShape') return node.easyShape;
-	
+		if(node.getAttribute("class") == 'easyShape') { //vml easyShape
+			return node.easyShape;
+		}
 		var target = EasyClickingUtils.resolveTargetWithEasyClicking(e);
 	
 		if(!target) return;
@@ -86,12 +94,8 @@ EasyClicking.prototype = {
 				hitShapes.push(shapes[i]);
 			}
 		}
-		var res;	
-		if(hitShapes.length == 1) {
-			res = hitShapes[0];
-		} else {
-			res = this._findNeedleInHaystack(x,y,hitShapes);
-		}
+		var res = this._findNeedleInHaystack(x,y,hitShapes);
+		
 		
 		return res;
 	},

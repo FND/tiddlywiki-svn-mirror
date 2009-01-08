@@ -204,7 +204,7 @@ EasyShape.prototype={
 			c = this._applyProjection(projection,transformation);
 		else
 			c = this.coords;
-			
+		
 		if(c.length == 0) return;
 		
 		var initialX,initialY;
@@ -395,7 +395,8 @@ EasyShape.prototype={
 		var x =parseFloat(this.pointcoords[0]);
 		var y =parseFloat(this.pointcoords[1]);
 		this.setCoordinates([x,y]);
-		var ps = 3 / parseFloat(transformation.scale.x);
+		var ps = 2.5 / parseFloat(transformation.scale.x);
+		//should get bigger with scale increasing
 		var smallest = 1 / this._iemultipler;
 		if(ps < smallest) ps = smallest;
 		var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];

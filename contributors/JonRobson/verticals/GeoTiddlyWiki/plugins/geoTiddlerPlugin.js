@@ -9,7 +9,12 @@
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4|
 |''Dependencies:''|This plugin requires a tiddler geojson containing geojson data eg.[[geojson]]|
+map selector: all tagged ['geojson','georss'] -> drop down, on change clear memory,draw
+merge function: merge countries to become one shape
+
+geo can read from list of tiddlers with features associated
 ***/
+
 
 //{{{
 if(!version.extensions.geoPlugin) {
@@ -244,11 +249,13 @@ if(!version.extensions.geoPlugin) {
 				if(!shape) {
 					return false;
 				}
+				
 				var shapeName = shape.properties.name;
 				if(!store.tiddlerExists(shapeName)) {
 					var tags = [];
 					var text = "";
 					var fields = {};
+				
 					/*
 					if(shape.properties.text) text = shape.properties.text;
 					if(shape.properties.tags) tags = shape.properties.tags;
@@ -260,6 +267,8 @@ if(!version.extensions.geoPlugin) {
 					*/
 				}
 				var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
+				//tiddlerElem.fields._mapgeofeature = eMap.easyClicking.getShapeMemoryID(shape);
+				//eMap._lastgeojson.features[]
 				story.displayTiddler(tiddlerElem,shapeName);
 				return false;
 			};			

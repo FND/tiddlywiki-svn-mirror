@@ -192,7 +192,6 @@ EasyMap.prototype = {
 		var f = function(){
 			that.clear();
 			that.render();
-			
 		};
 		
 		window.setTimeout(f,0);
@@ -218,26 +217,29 @@ EasyMap.prototype = {
 				this.canvas.transformation.spherical = {};
 			}
 			if(!this.canvas.transformation.rotate){
-				this.canvas.transformation.rotate = {z:0};
+				this.canvas.transformation.rotate = {x:0,y:0,z:0};
 			}
 			
 			if(!this.canvas.transformation.spherical.radius){
-			var heightR = (parseInt(this.wrapper.style.height) / s.y) /2;
-			var widthR= (parseInt(this.wrapper.style.width) / s.x) /2;
+				var heightR = (parseInt(this.wrapper.style.height) / s.y) /2;
+				var widthR= (parseInt(this.wrapper.style.width) / s.x) /2;
 			
 			
-			if(widthR > heightR)
-				this.canvas.transformation.spherical.radius = heightR;
-			else
-				this.canvas.transformation.spherical.radius = widthR;
+				if(widthR > heightR)
+					this.canvas.transformation.spherical.radius = heightR;
+				else
+					this.canvas.transformation.spherical.radius = widthR;
 			}
 		}
 		this.easyClicking.transformation = this.canvas.transformation;
 		this.redraw();
 	},
-	
 
-	_createGlobe: function(){
+	getFeatureFromShape: function(){
+		
+	}
+
+	,_createGlobe: function(){
 		if(!this.canvas.getContext) {return;}
 		var ctx = this.canvas.getContext('2d');
 		if(!ctx) return;
@@ -291,7 +293,7 @@ EasyMap.prototype = {
 		if(!this.canvas.getContext) return;
 		var ctx = this.canvas.getContext('2d');
 		var s =this.controller.transformation.scale;
-		if(s && s.x)ctx.lineWidth = (1 / s.x);
+		if(s && s.x)ctx.lineWidth = (1.5 / s.x);
 		ctx.lineJoin = 'round'; //miter or bevel or round	
 	},
 	render: function(flag){
@@ -305,7 +307,7 @@ EasyMap.prototype = {
 		this._setupCanvasEnvironment()
 
 
-		var tran =this.controller.transformation;
+		var tran =this.canvas.transformation;
 	
 		if(tran.spherical){
 			this.settings.projection= {
@@ -316,13 +318,13 @@ EasyMap.prototype = {
 					}
 			};
 			this._createGlobe();
+			//console.log("projection set");
 		}
 
 
 		var that = this;
 		var f = function(){
 			
-
 			for(var i=0; i < mem.length; i++){
 				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser);
 			}

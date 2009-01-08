@@ -164,6 +164,7 @@ EasyMapController.prototype = {
 	setTransformation: function(t){
 		if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
 		this.transformation = t;
+		//console.log("transformation set",t);
 		//this.wrapper.transformation = t;
 		this.targetjs.transform(t);
 		//console.log("transformation set to ",t);
@@ -325,15 +326,19 @@ EasyMapController.prototype = {
 			}
 		}
 
+		//console.log(this.transformation.rotate,"rotate");
 		this.targetjs.transform(this.transformation);
+
+
 	},
 	_panzoomClickHandler: function(e) {
 		
 		if(!e) {
 			e = window.event;
 		}
-		var controller = this.easyController;
 		
+		var controller = this.easyController;
+	
 		var hit = this.easyClicking.getShapeAtClick(e);	
 		if(!hit) {
 	
@@ -342,6 +347,7 @@ EasyMapController.prototype = {
 
 		var pan = {};
 		var t =controller.transformation;
+		//console.log(t.rotate,"hit");
 		var scale =t.scale;
 		pan.x = parseFloat(30 / scale.x);
 		pan.y = parseFloat(30 / scale.y);
@@ -378,12 +384,15 @@ EasyMapController.prototype = {
 				scale.y /= 2;			
 				break;
 			case "rotatezright":
+				if(!t.rotate.z) t.rotate.z = 0;
+				//console.log("right",t.rotate.z);
 				t.rotate.z -= 0.1;
 				var left =6.28318531;
 				
 				if(t.rotate.z <0 )t.rotate.z =left;
 				break;
 			case "rotatezleft":
+				if(!t.rotate.z) t.rotate.z = 0;
 				t.rotate.z += 0.1;
 				break;
 			default:

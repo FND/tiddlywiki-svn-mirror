@@ -163,7 +163,8 @@ var EasyMapUtils = {
 		console.log("to",longitude,r,lon);
 		return {x:lon,y:lat};
 	},
-	_spherifycoordinate: function(lon,lat,transformation){//http://board.flashkit.com/board/archive/index.php/t-666832.html
+	_spherifycoordinate: function(lon,lat,transformation){
+		//http://board.flashkit.com/board/archive/index.php/t-666832.html
 		var radius = transformation.spherical.radius;
 		var utils = EasyMapUtils;
 		var res = {};
@@ -172,9 +173,14 @@ var EasyMapUtils = {
 		var latitude = EasyMapUtils._degToRad(lat);
  		
  		// assume rotate values given in radians
-		if(transformation && transformation.rotate){
+		if(transformation && transformation.rotate && transformation.rotate.z){
 			//latitude += transformation.rotate.x;
-			longitude += transformation.rotate.z
+			var r =parseFloat(transformation.rotate.z);
+			
+			var newl =parseFloat(longitude+r);
+			//console.log(longitude,"->",newl,longitude,r,transformation.rotate.z);
+			
+			longitude +=r;
 			 
 		}
 		// latitude is 90-theta, where theta is the polar angle in spherical coordinates
@@ -196,6 +202,7 @@ var EasyMapUtils = {
 			res.x = (radius) * Math.cos(latitude) * Math.sin(longitude);		
 		}
 		else{
+			//console.log(longitude,"bad",transformation.rotate.z);
 			res.x = false;
 		}
 	
