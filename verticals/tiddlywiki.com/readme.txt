@@ -9,7 +9,7 @@ The above recipes are named assuming the 2.4.2 release, and change according to 
 
 These recipes are used to build the content of www.tiddlywiki.com and an empty tiddlywiki. The script "bld" can be used to cook these recipes.
 
-After building, the TiddlyWiki documents have to be saved in the browser once to set the title and generate the RSS feed.
+After building, the "index" document needs to be saved in the browser once to set the title and generate the RSS feed.
 
 For 2.4.2 these need to be cooked and the resultant TiddlyWikis copied onto the server as follows:
 
@@ -26,3 +26,4 @@ In preparation for a release, the following steps need to be taken:
 * create recipe in Trunk/core/recipes/
 * tag release to Tags/core/
 * update tiddlywiki.com vertical's recipes
+* update tiddlywiki.com vertical's NewFeatures tiddler
