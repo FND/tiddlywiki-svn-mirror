@@ -31,6 +31,10 @@ version.extensions.ServerSideSavingPlugin = { installed: true };
 
 if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
 
+readOnly = false; //# Make editing and related functionality possible. This is a saving plugin after all.
+                  //# We have to set readOnly instead of config.options
+                  //# because readOnly gets set early in bootstrap process.
+
 (function(plugin) { //# set up alias
 
 if(!plugin || !plugin.adaptor) {
