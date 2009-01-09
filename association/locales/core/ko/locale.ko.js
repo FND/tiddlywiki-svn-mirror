@@ -5,8 +5,8 @@
 |''Source:''|http://snooey.net/tiddlywiki/locale.ko.js |
 |'' ''|http://snooey.net/tiddlywiki/#KoreanTranslationPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/ko/locale.ko.js |
-|''Version:''|0.5.1|
-|''Date:''|Dec 1, 2008|
+|''Version:''|0.5.2|
+|''Date:''|Jan 9, 2009|
 |''Comments:''|If you have suggestion about this translation, please make comments at http://blog.snooey.net/guestbook/ or mail to me |
 |'' ''|another suggestion, please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -20,8 +20,8 @@
 |''소스:''|http://snooey.net/tiddlywiki/locale.ko.js |
 |'' ''|http://snooey.net/tiddlywiki/#KoreanTranslationPlugin |
 |''코드 저장소:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/ko/locale.ko.js |
-|''버전:''|0.5.1|
-|''날짜:''|2008년 12월 1일|
+|''버전:''|0.5.2|
+|''날짜:''|2009년 1월 9일|
 |''덧글:''|이 번역에 대한 제안이 있으신 경우, http://blog.snooey.net/guestbook/ 또는 제게 메일을 보내주십시요. |
 |'' ''|다른 제안은 http://groups.google.co.uk/group/TiddlyWikiDev으로 보내주십시요. |
 |''라이센스:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -259,6 +259,7 @@ merge(config.macros.plugins,{
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
+			{name: 'Description', field: 'desc', title: "설명", type: 'String'},
 			{name: 'Tiddler', field: 'tiddler', title: "티들러", type: 'Tiddler'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "크기", type: 'Size'},
 			{name: 'Forced', field: 'forced', title: "강제 실행됨", tag: 'systemConfigForce', type: 'TagCheckbox'},
@@ -462,8 +463,8 @@ merge(config.commands.fields,{
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[처음 사용자용 문서]]",
-	MainMenu: "[[처음 사용자용 문서]]\n\n\n^^~TiddlyWiki 버전 <<version>>\n© 2008 [[UnaMesa|http://www.unamesa.org/]]^^",
-	"처음 사용자용 문서": "이 빈 TiddlyWiki의 사용을 시작하려면 아래 티들러를 수정해야 합니다.\n* SiteTitle & SiteSubtitle: 상단에 보이는 이 사이트에 제목과 부제목입니다. (저장 후에는 브라우저 타이틀 바에도 보입니다.)\n* MainMenu: 메뉴(대개 왼쪽에 있음)\n* DefaultTiddlers: TiddlyWiki가 열렸을 때 띄울 티들러의 이름을 포함하고 있습니다.\n또한 편집한 티들러에 서명할 사용자 이름을 다음 칸에 입력해야 합니다. <<option txtUserName>>",
+	MainMenu: "[[처음 사용자용 문서]]\n\n\n^^~TiddlyWiki 버전 <<version>>\nⓒ 2008 [[UnaMesa|http://www.unamesa.org/]]^^",
+	"처음 사용자용 문서": "이 빈 TiddlyWiki의 사용을 시작하려면 아래 티들러를 수정해야 합니다.\n* SiteTitle & SiteSubtitle: 상단에 보이는 이 사이트에 제목과 부제목입니다. (저장 후에는 브라우저 타이틀 바에도 보입니다.)\n* MainMenu: 메뉴(대개 왼쪽에 있음)\n* DefaultTiddlers: TiddlyWiki가 열렸을 때 띄울 티들러의 이름을 포함하고 있습니다.\n또한 편집한 티들러에 서명할 사용자 이름을 다음 칸에 해야 합니다. <<option txtUserName>>",
 	SiteTitle: "내 TiddlyWiki",
 	SiteSubtitle: "재사용 가능한 줄없는 개인 웹 공책",
 	SiteUrl: "http://www.tiddlywiki.com/",
@@ -471,7 +472,7 @@ merge(config.shadowTiddlers,{
 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "YYYY년 MM월 DD일" "일정">><<saveChanges>><<slider chkSliderOptionsPanel TrOptionsPanel "옵션 \u00bb" "TiddlyWiki의 고급 옵션을 바꿉니다.">>',
 	SideBarTabs: '<<tabs txtMainTab "시간순" "티들러를 시간순으로 나열합니다." TabTimeline "모두" "모든 티들러를 보입니다." TabAll "태그" "모든 태그를 보입니다." TabTags "더보기" "다른 종류의 목록을 보입니다." TabMore>>',
 	TabMore: '<<tabs txtMoreTab "빠짐" "빠진 티들러를 보입니다." TabMoreMissing "홀로섬" "홀로 선 티들러를 보입니다." TabMoreOrphans "숨김" "숨김 티들러를 보입니다." TabMoreShadowed>>'
-	}); 
+	});
 
 merge(config.annotations,{
 	AdvancedOptions: "이 숨김 티들러는 몇 가지 고급 옵션을 추가하여 제공합니다.",
