@@ -8,11 +8,16 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.4.0|
+!Notes
+A small adaptor used to save a set of note tiddlers in the form used by [[confabb.com|http://confabb.com]].
 
-Minimal Adaptor to put a set of notes serialized as RSS/Atom on Confabb.com
+Note tiddlers posted to a URI, typically on [[confabb.com|http://confabb.com]], containing the CGI parameters:
+*''username'' - the service username
+The adaptor may be used to save notes on, an example form exists on [[ripplerap.com|]] 
 
+It is anticpated the adaptor may be swapped for another implementing the puRss function to save notes on other services such as Google Pages, Tumber or to a service implementing WebDAV based on [[RippleRap Edition Configuration]].
+!Code
 ***/
-
 //{{{
 //# Ensure that the plugin is only installed once.
 if(!version.extensions.ConfabbNotesAdaptorPlugin) {
