@@ -22,6 +22,11 @@ config.macros.geoedit={
 			}
 			
 			var tid = store.getTiddler(shapeName);
+			/*
+			if(!config.browser.ie){
+				tiddler.fields._associatedgeofeature = feature.toSource();
+			}*/
+					
 			tid.fields.fill = color;
 			
 			shape.properties.fill = color;
@@ -64,28 +69,43 @@ config.macros.geoedit={
 		wikify("!geotagging \n search and tag",place);
 		var searchtaggerinput = createTiddlyElement(place,"input",null,null);
 		var searchtaggerclick = createTiddlyElement(place,"button",null,null,"search and tag");
-		wikify("\nmanual tagging:",place);
-		var geotagger= createTiddlyElement(place,"button",null,null,"clickAndTag: off");
-		geotagger.value="off";
-		wikify("\ncoloring:",place);
-		var colorinput= createTiddlyElement(place,"input");
-		colorinput.value="#00ff00";
+		wikify("\nTOOL:",place);
+		var clicking= createTiddlyElement(place,"button",null,null,"COLORER");
+		clicking.value="colorer";
+		wikify(" parameters:",place);
+		var clickinput= createTiddlyElement(place,"input");
+		clickinput.value="#00ff00";
 
 		//setup button clicking
-		var onmup = function(e){
-			var color =  colorinput.value;
+		var onmup = function(e,shape,mouse,ll,feature){
+			var color =  clickinput.value;
 			
-			if(geotagger.value=='on'){		
-				var p =EasyClickingUtils.getMouseFromEvent(e);
-				var ll = EasyMapUtils.getLongLatFromMouse(p.x,p.y,eMap);	
+			if(clicking.value=='tagger'){			
 				if(ll.longitude && ll.latitude){
 					var shapeName = "New GeoTiddler ("+ll.longitude+";" + ll.latitude+")";
 					that.addGeoTiddler(eMap,shapeName,ll,color);
-					geotagger.value = "off";
-					geotagger.innerHTML = "clickAndTag: off";
 				}
 				
 			}
+			else if(clicking.value == 'opentiddler'){
+				var name =shape.properties.name;
+				var tags = [];
+				var fields = {};
+				var text = "";
+				if(store.tiddlerExists(name)) {
+					var tid = store.getTiddler(name);
+					text = tid.text;
+					tags = tid.tags;
+					fields = tid.fields;
+				}
+				if(!config.browser.ie){
+					fields.geofeature = feature.toSource();
+				}
+				fields.fill = shape.properties.fill;
+				store.saveTiddler(name,name,text,null,null,tags,fields);
+				story.displayTiddler(story.findContainingTiddler(resolveTarget(e)),name);
+			}
+			
 			else{
 				that.clickColorsCountry(e,eMap,color);
 			}
@@ -98,19 +118,46 @@ config.macros.geoedit={
 					return false;
 				}
 				else{
-					that.addGeoTiddlerFromGoogleLocalSearchResult(eMap,result[0],colorinput.value);
+					that.addGeoTiddlerFromGoogleLocalSearchResult(eMap,result[0],clickinput.value);
 				}
 			};
-			EasyMapUtils.getLocationsFromQuery(searchtaggerinput.value,searchResultToTag,colorinput.value);
+			EasyMapUtils.getLocationsFromQuery(searchtaggerinput.value,searchResultToTag,clickinput.value);
 		
 		};
-		geotagger.onclick = function(){
-			this.value = "on";
-			this.innerHTML = "clickAndTag: on";
+		clicking.onclick = function(){
+			switch(this.value){
+			
+				case "colorer":
+				this.value = "tagger";
+				this.innerHTML = "tagger";			
+				break;
+				
+				case "tagger":
+				this.value = "opentiddler";
+				this.innerHTML = "edit existing geotiddler properties (not IE)";			
+				break;
+				
+				case "opentiddler":
+				this.value = "colorer";
+				this.innerHTML = "colorer";			
+				break;
+			
+			}
+
 		};
+		wikify("/n Paste the code below into a tiddler and point your macro at it to display it in your tiddlywiki/n",place);
+		var sourceBox= createTiddlyElement(place,"textarea",null,null,"");
+		var generateSource= createTiddlyElement(place,"button",null,null,"generate source code (NOT IE)");
+	
+		generateSource.onclick = function(e){
+			if(!config.browser.ie){
+			sourceBox.innerHTML = eMap._lastgeojson.toSource();
+			}
+		};
+		
 		/*setup handling of mouse */
 		
-		config.macros.geo.addEasyMapClickFunction(eMap,onmup);
+		eMap.setMouseFunctions(onmup);
 		config.macros.geo.addEasyMapControls(eMap,prms);
 
 		/*Time to draw */

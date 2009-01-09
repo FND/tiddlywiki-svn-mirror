@@ -42,7 +42,7 @@ var EasyMap = function(wrapper){
 	canvas.style.position = "absolute";
 	this.canvas = canvas;
 
-
+	this.feature_reference = {};
 	if(!canvas.getContext) {
 		this.settings.browser = 'ie';
 	}
@@ -56,69 +56,20 @@ var EasyMap = function(wrapper){
 
 	wrapper.appendChild(canvas);
 	wrapper.easyMaps = this;
-	var _defaultMousemoveHandler = function(e){
-		if(!e) {
-			e = window.event;
-		}
-		var wid =wrapper.id+'_tooltip';
-		var tt =document.getElementById(wid);
-		if(!tt){
-			tt = document.createElement('div');
-			tt.style.position = "absolute";
-			tt.id = wid;
-			tt.setAttribute("class","easymaptooltip");
-			that.wrapper.appendChild(tt);
-		}
-		var pos = EasyClickingUtils.getMouseFromEvent(e);
-		var x =pos.x;
-		var y = pos.y;
-		if(!x || !y ) return;
-		var sensitivity = 1;
-		if(this.lastMouseMove && x < this.lastMouseMove.x + sensitivity && x > this.lastMouseMove.x -sensitivity) {return;}
-		if(this.lastMouseMove &&  y < this.lastMouseMove.y + sensitivity && y > this.lastMouseMove.y -sensitivity) {return;}
-
-		this.lastMouseMove = {};
-		this.lastMouseMove.x = x;this.lastMouseMove.y = y;
 
 
-		var shape = this.easyMaps.easyClicking.getShapeAtClick(e);
-		var text ="";
-		if(shape){
-			text =shape.properties.name +"<br>";
-			
-			
+	this._setupMouseHandlers();
 
-
-		}	
-		else{
-			
-			//tt.style.display = "none";
-		}
-		
-		var ll =EasyMapUtils.getLongLatFromMouse(x,y,this.easyMaps);
-		var geocoords = "(long:"+ll.longitude+",lat:"+ll.latitude+")";
-		tt.innerHTML = text +geocoords;
-		x += 10;
-		y +=10;
-		tt.style.left = x + "px";
-		tt.style.top = y +"px";
-		tt.style.display = "";
-		tt.style["z-index"] = 2;
-
-	};
-	var _defaultClickHandler = function(e){};	
-	this.wrapper.onmouseup = _defaultClickHandler;
-	this.wrapper.onmousemove = _defaultMousemoveHandler;	
 	this.controller = new EasyMapController(this,this.wrapper);
 
 		
 	//run stuff
 	this.transform(this.controller.transformation); //set initial transformation
 	this._fittocanvas = true;
-	
+	this.geofeatures = {};
 	this.clear();
 };  
-EasyMap.prototype = {	
+EasyMap.prototype = {
 	clear: function(){
 
 
@@ -235,10 +186,15 @@ EasyMap.prototype = {
 		this.redraw();
 	},
 
-	getFeatureFromShape: function(){
-		
-	}
 
+	/*onmouseup and onmousemove are functions with following parameters:
+		e,shape,mouse,longitude_latitude,feature
+		
+	*/
+	setMouseFunctions: function(onmouseup,onmousemove){
+			if(onmousemove)this.moveHandler =onmousemove;
+			if(onmouseup)this.clickHandler = onmouseup;
+	}
 	,_createGlobe: function(){
 		if(!this.canvas.getContext) {return;}
 		var ctx = this.canvas.getContext('2d');
@@ -337,41 +293,40 @@ EasyMap.prototype = {
 		f();
 	
 	},
-	_drawGeoJsonMultiPolygonFeature: function(coordinates,properties){
-		var prop = properties;
+	_drawGeoJsonMultiPolygonFeature: function(coordinates,feature){
 		var coords = coordinates;
 		for(var j=0; j< coords.length; j++){//identify and create each polygon	
-			this._drawGeoJsonPolygonFeature(coords[j],prop);
+			this._drawGeoJsonPolygonFeature(coords[j],feature);
 		}
 		
 	},	
-	_drawGeoJsonPolygonFeature: function(coordinates,properties){
-		var p = properties;
+	_drawGeoJsonPolygonFeature: function(coordinates,feature){
+		var p = feature.properties;
 		p.shape = 'polygon';
 		var s = new EasyShape(p,coordinates,"geojson",this.settings.projection);
 		this.easyClicking.addToMemory(s);
-		//this._addShapeToMemory(s);
+		this.geofeatures[this.easyClicking.getMemoryID(s)] = feature;
 	},
-	_drawGeoJsonPointFeature: function(coordinates,properties){
-		var p = properties;
+	_drawGeoJsonPointFeature: function(coordinates,feature){
+		var p = feature.properties;
 		p.shape = 'point';
 		var s = new EasyShape(p,coordinates,"geojson", this.settings.projection);
 		this.easyClicking.addToMemory(s);
-		//this._addShapeToMemory(s);
+		this.geofeatures[this.easyClicking.getMemoryID(s)] = feature;
+
 	},	
 	_drawGeoJsonFeature: function(feature){
 			var geometry = feature.geometry;
 			var type =geometry.type.toLowerCase();
-			var p = feature.properties;
 			
 			if(type == 'multipolygon'){
-				this._drawGeoJsonMultiPolygonFeature(feature.geometry.coordinates,p);
+				this._drawGeoJsonMultiPolygonFeature(feature.geometry.coordinates,feature);
 			}
 			else if(type == 'polygon'){
-				this._drawGeoJsonPolygonFeature(feature.geometry.coordinates,p);
+				this._drawGeoJsonPolygonFeature(feature.geometry.coordinates,feature);
 			}
 			else if(type == 'point'){
-				this._drawGeoJsonPointFeature(feature.geometry.coordinates,p);				
+				this._drawGeoJsonPointFeature(feature.geometry.coordinates,feature);				
 			}
 			else {	
 				console.log("unsupported geojson geometry type " + geometry.type);
@@ -384,5 +339,93 @@ EasyMap.prototype = {
 			}
 
 	}
-};
+
+	,_setupMouseHandlers: function(e){
+		var eMap = this;
+		var _defaultClickHandler = function(e){};	
+		
+		var _defaultMousemoveHandler = function(e,shape,mousepos,ll){
+			if(mousepos){
+				var wid =eMap.wrapper.id+'_tooltip';
+				var tt =document.getElementById(wid);
+				if(!tt){
+					tt = document.createElement('div');
+					tt.style.position = "absolute";
+					tt.id = wid;
+					tt.setAttribute("class","easymaptooltip");
+					eMap.wrapper.appendChild(tt);
+				}
+
+				var text ="";
+				if(shape){
+					text =shape.properties.name +"<br>";
+				}	
+				else{	
+					//tt.style.display = "none";
+				}
+				if(ll){
+					var geocoords = "(long:"+ll.longitude+",lat:"+ll.latitude+")";
+					tt.innerHTML = text +geocoords;
+				}
+			
+				var x = mousepos.x + 10;
+				var y = mousepos.y + 10;
+			
+				tt.style.left = x + "px";
+				tt.style.top = y +"px";
+				tt.style.display = "";
+				tt.style["z-index"] = 2;
+			}
+		};
+		
+		var getParameters = function(e){
+			var result = {};
+			if(!e) {
+				e = window.event;
+			}
+
+			var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
+			if(t.getAttribute("class") == 'easyControl') return false;
+			var shape = eMap.easyClicking.getShapeAtClick(e);
+			if(!shape) {
+				return false;
+			}
+			result.shape = shape;
+			
+			var pos = EasyClickingUtils.getMouseFromEvent(e);
+			var x =pos.x;
+			var y = pos.y;
+			result.mouse = pos;
+			result.longitude_latitude = EasyMapUtils.getLongLatFromMouse(x,y,eMap);
+			result.feature = eMap.geofeatures[eMap.easyClicking.getMemoryID(shape)];
+			return result;
+			
+		};
+		var onmousemove = function(e){
+		
+			var pos = EasyClickingUtils.getMouseFromEvent(e);
+			var x =pos.x;
+			var y = pos.y;
+			if(!x || !y ) return;
+			var sensitivity = 1;
+			if(this.lastMouseMove && x < this.lastMouseMove.x + sensitivity && x > this.lastMouseMove.x -sensitivity) {return;}
+			if(this.lastMouseMove &&  y < this.lastMouseMove.y + sensitivity && y > this.lastMouseMove.y -sensitivity) {return;}
+			this.lastMouseMove = {};
+			this.lastMouseMove.x = x;this.lastMouseMove.y = y;
+			
+			var r = getParameters(e);
+			eMap.moveHandler(e,r.shape,r.mouse,r.longitude_latitude,r.feature);
+		};
+		
+		var onmouseup = function(e){
+			var r = getParameters(e);
+			eMap.clickHandler(e,r.shape,r.mouse,r.longitude_latitude,r.feature);
+		};
+		this.wrapper.onmouseup = onmouseup;
+		this.wrapper.onmousemove = onmousemove;
+		this.setMouseFunctions(_defaultClickHandler,_defaultMousemoveHandler);
+
+		
+	}
+	};
 

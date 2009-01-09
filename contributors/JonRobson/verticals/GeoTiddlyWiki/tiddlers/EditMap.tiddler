@@ -1,5 +1,6 @@
 <div title="Edit the Map" tags="geoTiddlyWiki">
 <pre>
-<<geoedit>>
+<<geoedit source:geojson>>
+<<geoedit source:georss>>
 </pre>
 </div>

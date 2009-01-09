@@ -325,15 +325,24 @@ EasyShape.prototype={
 	}
 	
 	,_ierender: function(canvas,transformation,projection,optimisations){
+		var shape;
 		if(this.vml){
+			shape = this.vml;
+			if(this.properties.fill && shapetype != 'path'){
+			shape.filled = "t";
+			shape.fillcolor = this.properties.fill;			
+			}
 			this._cssTransform(transformation,projection);
 			return;
+		}
+		else{
+			shape = document.createElement("g_vml_:shape");
 		}
 		
 		var o = transformation.origin;
 		var t = transformation.translate;
 		var s = transformation.scale;
-		var shape = document.createElement("g_vml_:shape");
+
 	
 		//path ="M 0,0 L50,0, 50,50, 0,50 X";
 		var nclass= "easyShape";
@@ -365,7 +374,7 @@ EasyShape.prototype={
 		canvas.appendChild(shape);
 		this.vml = shape;
 		
-		this._cssTransform(transformation);
+		this._cssTransform(transformation,projection);
 	}
 	/*
 	render the shape using canvas ctx 

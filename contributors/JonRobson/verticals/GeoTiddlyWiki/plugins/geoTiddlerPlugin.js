@@ -9,9 +9,14 @@
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4|
 |''Dependencies:''|This plugin requires a tiddler geojson containing geojson data eg.[[geojson]]|
+|''Usage:''|
+parameters
+source
+usetiddlermetadata
+geotagging
+todo..
 map selector: all tagged ['geojson','georss'] -> drop down, on change clear memory,draw
 merge function: merge countries to become one shape
-
 geo can read from list of tiddlers with features associated
 ***/
 
@@ -56,38 +61,47 @@ if(!version.extensions.geoPlugin) {
 			}
 		
 			//look for any overriding changes from the meta data
+			var usetiddlermetadata = true;
+			if(getParam(parameters,"usetiddlermetadata")){
+				usetiddlermetadata = eval(getParam(parameters,"usetiddlermetadata"));
+			}
+			if(usetiddlermetadata){
+				var features = data.features;
+				for(var i=0; i < features.length; i++){
+					var geometry = features[i].geometry;
+					var properties = features[i].properties;
+					var name = properties.name;
+					var tiddler = store.getTiddler(name);
+		
+					if(tiddler){
+						var newprop = {};
+						newprop.name = name;
+						
+						if(tiddler.fields.geofeature && tiddler.fields.geofeature != ""){
+							try{
+								var newfeature= eval(tiddler.fields.geofeature);
+								features[i] = newfeature;
+								
+								}
+							catch(e){
+								console.log("invalid feature metadata set in tiddler " + name + "("+e+")");
+							}
+						}
+						if(tiddler.fields.fill){
+							newprop.fill = tiddler.fields.fill;
+						}
+						/*
+						else if(! tiddler.fields.fill && properties.fill){ //if nothing there in tiddler update
+							tiddler.fields.fill = properties.fill;
+						}*/
+					
 
-			var features = data.features;
-			for(var i=0; i < features.length; i++){
-				var geometry = features[i].geometry;
-				var properties = features[i].properties;
-				var name = properties.name;
-				var tiddler = store.getTiddler(name);
-	
-				if(tiddler){
-					var newprop = {};
-					newprop.name = name;
-					if(tiddler.fields.fill){
-						newprop.fill = tiddler.fields.fill;
-					}
-					else if(! tiddler.fields.fill && properties.fill){ //if nothing there in tiddler update
-						tiddler.fields.fill = properties.fill;
-					}
-				
-					/*
-					if(tiddler.fields.geometry){ //might not want to do this in some cases?!
-						features[i].geometry = eval(tiddler.fields.geometry);
-					}				
-					else if(!tiddler.fields.geometry && !config.browser.ie){ //if nothing there in tiddler update
-						tiddler.fields.geometry = geometry.toSource();
-					}
-					*/
-				
+					
 
-					features[i].properties = newprop;				
+						features[i].properties = newprop;				
+					}
 				}
 			}
-
 			//tiddler.geoproperties
 			//add geotags
 			data = this.geotag(data,parameters);
@@ -236,20 +250,7 @@ if(!version.extensions.geoPlugin) {
 			var prms = paramString.parseParams(null, null, true);
 
 			
-			var onmup = function(e){				
-				if(!e) {
-					e = window.event;
-				}
-
-				var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
-				if(t.getAttribute("class") == 'easyControl') return false;
-
-				var shape = eMap.easyClicking.getShapeAtClick(e);
-
-				if(!shape) {
-					return false;
-				}
-				
+			var onmup = function(e,shape,mouse,longitude_latitude,feature){								
 				var shapeName = shape.properties.name;
 				if(!store.tiddlerExists(shapeName)) {
 					var tags = [];
@@ -265,15 +266,18 @@ if(!version.extensions.geoPlugin) {
 
 					store.saveTiddler(shapeName,shapeName,text,userName,new Date(),tags,fields);
 					*/
+	
 				}
 				var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
-				//tiddlerElem.fields._mapgeofeature = eMap.easyClicking.getShapeMemoryID(shape);
-				//eMap._lastgeojson.features[]
+				
+				
+
 				story.displayTiddler(tiddlerElem,shapeName);
 				return false;
 			};			
 			var eMap = this.createNewEasyMap(place,prms);
-			this.addEasyMapClickFunction(eMap,onmup);
+			eMap.setMouseFunctions(onmup,false);
+			
 			this.addEasyMapControls(eMap,prms);
 	
 			var source = getParam(prms,"source");

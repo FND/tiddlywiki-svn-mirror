@@ -1,7 +1,8 @@
 <div title="ShapeWiki" modifier="JonRobson" created="200811111722">
 <pre>
 ShapeWiki has some good 'shapes' in georss form that you can import into your tiddlywiki. The tiddler [[georss]] is tagged 'georss' telling GeoTiddlyWiki it is in georss form and contains 2 georss items containing details of Vietnam and Italy which are visible below.
-<<geo source:georss>>
-
+<<geo source:georss usetiddlermetadata:false geotagging:false>>
+You can prevent geotags from appearing on the map using the parameter {{{geotagging:false}}
+You can also stop data stored in tiddlers from overriding data in the geojson using {{{usetiddlermetadata:false}}}
 </pre>
 </div>

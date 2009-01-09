@@ -41,7 +41,7 @@ EasyClicking.prototype = {
 	getMemory: function(){
 		return this.memory;
 	}
-	,getShapeMemoryID: function(easyShape){
+	,getMemoryID: function(easyShape){
 		return easyShape._easyClickingID;
 	}
 	,getShapeAtClick: function(e){
