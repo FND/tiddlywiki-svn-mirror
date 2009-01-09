@@ -57,7 +57,7 @@ if(!version.extensions.geoPlugin) {
 			}
 			else{
 				data = {};
-				alert("please define a geojson in tiddler '"+sourcetiddler +"'")
+				alert("please define some valid data (eg. geojson or georss) in tiddler '"+sourceTiddler +"'. If data is valid but is not a geojson make sure it is tagged with either 'georss' or 'svg' depending which format it is in.")
 			}
 		
 			//look for any overriding changes from the meta data
@@ -233,7 +233,7 @@ if(!version.extensions.geoPlugin) {
 		var id = params[3];
 		if(!params[3]) id = 'default0';
 		
-		if(!geomaps[id]) {alert("geogoto can only be used if it can find a geo mqp try putting an id as third parameter.");}
+		if(!geomaps[id]) {alert("geogoto can only be used if it can find a geo mqp try putting an id as third parameter which points to a map currently visible on the screen.");}
 		var lo, la,zoom;
 		if(params[0]) lo = parseFloat(params[0]);
 		if(params[1]) la = parseFloat(params[1]);

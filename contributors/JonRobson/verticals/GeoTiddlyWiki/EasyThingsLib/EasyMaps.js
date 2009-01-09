@@ -294,9 +294,8 @@ EasyMap.prototype = {
 	
 	},
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,feature){
-		var coords = coordinates;
-		for(var j=0; j< coords.length; j++){//identify and create each polygon	
-			this._drawGeoJsonPolygonFeature(coords[j],feature);
+		for(var j=0; j< coordinates.length; j++){//identify and create each polygon	
+			this._drawGeoJsonPolygonFeature(coordinates[j],feature);
 		}
 		
 	},	

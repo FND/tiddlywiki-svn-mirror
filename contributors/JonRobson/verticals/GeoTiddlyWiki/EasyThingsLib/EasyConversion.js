@@ -35,7 +35,7 @@ var EasyConversion ={
 						geocoordinates.push([longitude,latitude]);
 					}
 					
-					feature.geometry.coordinates[0].push(geocoordinates);
+					feature.geometry.coordinates.push([geocoordinates]);
 				}
 				
 				if(att[j].tagName == 'title' && att[j].firstChild){
