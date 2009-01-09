@@ -161,6 +161,18 @@ if(!version.extensions.geoPlugin) {
 		,addEasyMapControls: function(eMap,prms){
 			if(getParam(prms,"spherify")) {
 				eMap.spherical = true;
+				if(getParam(prms,"spherify") == "andspin"){
+					var f = function(){
+						var t = eMap.controller.transformation;
+						if(!t.rotate) t.rotate = {};
+						if(!t.rotate.z) t.rotate.z  = 0;
+						
+						t.rotate.z += 0.05;
+						eMap.controller.setTransformation(t);
+						window.setTimeout(f,300);
+					};
+					f();
+				}
 				eMap.controller.addControl("rotation");
 			 }
 			else{
