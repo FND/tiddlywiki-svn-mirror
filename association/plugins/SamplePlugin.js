@@ -50,7 +50,7 @@ config.extensions.SamplePlugin = {
 	}
 };
 
-config.macros.SampleMacro = {
+config.macros.sampleMacro = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		/* ... */
 	}
