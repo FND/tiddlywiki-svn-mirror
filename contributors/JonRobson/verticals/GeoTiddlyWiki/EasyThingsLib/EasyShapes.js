@@ -262,7 +262,7 @@ EasyShape.prototype={
 			
 		}
 		//connect last to first
-		if(shapetype != 'path') ctx.lineTo(initialX,initialY);
+		//if(shapetype != 'path') ctx.lineTo(initialX,initialY);
 		ctx.closePath();
 
 		if(!this.properties.hidden) {

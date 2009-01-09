@@ -79,4 +79,18 @@ var EasyFileUtils= {
 
 		return doc;	
 	}
+
+	,getChildNodeValue: function(ofThisNode){
+		var value= "";
+		if(ofThisNode.childNodes){
+			
+			for(var k=0; k < ofThisNode.childNodes.length; k++){
+			
+				if(ofThisNode.childNodes[k].nodeValue){
+					value += ofThisNode.childNodes[k].nodeValue;
+				}
+			}
+		}
+		return value;
+	}
 };
