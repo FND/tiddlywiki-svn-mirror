@@ -1,0 +1,6 @@
+<div title="The Continents" tags="geoTiddlyWiki">
+<pre>
+<<geo source:Continents width:100 height:100 spherify:andspin id:cont usetiddlermetadata:false geotagging:false>>
+
+</pre>
+</div>
