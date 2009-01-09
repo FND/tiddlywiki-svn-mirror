@@ -38,10 +38,10 @@ var EasyConversion ={
 					feature.geometry.coordinates[0].push(geocoordinates);
 				}
 				
-				if(att[j].tagName == 'title'){
+				if(att[j].tagName == 'title' && att[j].firstChild){
 					feature.properties.name =att[j].firstChild.nodeValue;
 				}
-				if(att[j].tagName == 'description'){
+				if(att[j].tagName == 'description' && att[j].firstChild){
 					feature.properties.description =att[j].firstChild.nodeValue;
 				}
 			}
