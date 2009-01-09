@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.3.2|
+|''Version''|0.3.3|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -31,9 +31,7 @@ version.extensions.ServerSideSavingPlugin = { installed: true };
 
 if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
 
-readOnly = false; //# Make editing and related functionality possible. This is a saving plugin after all.
-                  //# We have to set readOnly instead of config.options
-                  //# because readOnly gets set early in bootstrap process.
+readOnly = false; //# enable editing over HTTP
 
 (function(plugin) { //# set up alias
 
