@@ -9,11 +9,6 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.4|
 
-To make this example into a real TiddlyWiki plugin, you need to:
-
-# Do the actions indicated by the !!TODO comments, namely:
-## Write the documentation for the plugin
-
 !!Description
 Provides a splash screen that consists of the default tiddlers while TiddlyWiki is loading
 
@@ -62,6 +57,7 @@ version.extensions.SplashScreenPlugin.setup = function()
 	sc += "\n#splashScreen {display:block;}\n";
 
 	sc += "\n" + store.getTiddlerText("StyleSheet") + "\n";
+	sc = sc.replace(/#/mg,"#s_");
 	sc = sc.replace("[[ColorPalette::Background]]",bg);
 	sc = sc.replace("[[ColorPalette::Foreground]]",fg);
 	sc = sc.replace("[[ColorPalette::PrimaryPale]]",pp);
@@ -79,34 +75,7 @@ version.extensions.SplashScreenPlugin.setup = function()
 	sc = sc.replace("[[ColorPalette::Error]]",er);
 	
 	text += sc;
-
-	/*
-	text += "body {background:"+bg+"; color:"+fg+";}\n";
-	text += "a {color:"+pm+";}";
-	text += "a:hover {background-color:"+pm+"; color:"+bg+";}";
-	text += ".title {color:"+sd+";}\n";
-	text += ".subtitle {color:"+td+";}\n";
-	text += ".header {background:"+pm+";}\n";
-	text += ".headerShadow {color:"+fg+";}\n";
-	text += ".headerShadow a {font-weight:normal; color:"+fg+";}\n";
-	text += ".headerForeground {color:"+bg+";}\n";
-	text += ".headerForeground a {font-weight:normal; color:"+pp+";}\n";
-	text += ".shadow .title {color:"+td+";}\n";
-	text += ".viewer table, table.twtable {border:2px solid "+td+";}";
-	text += ".viewer th, .viewer thead td, .twtable th, .twtable thead td {background:"+sm+"; border:1px solid "+td+"; color:"+bg+";}";
-	text += ".viewer td, .viewer tr, .twtable td, .twtable tr {border:1px solid "+td+";}";
-	*/
-
-	//#console.log(store.getTiddlerText("StyleSheet"));
-	/*
-	var tiddlers = store.filterTiddlers(store.getTiddlerText("StyleSheet"));
-	console.log("tiddlers",tiddlers);
-	for(var i=0;i<tiddlers.length;i++) {
-		//#console.log(tiddlers[i].text);
-		text += tiddlers[i].text;
-	}
-	*/
-
+	text += "#s_messageArea {display:none;}\n";
 	text += "\n</style>\n";
 	text += "<!--}}}-->\n";
 	var tiddler = store.createTiddler("MarkupPostHead");
@@ -119,11 +88,10 @@ version.extensions.SplashScreenPlugin.setup = function()
 	pt = pt.replace(/<span class='siteTitle' refresh='content' tiddler='SiteTitle'><\/span>/mg,"<span class=\"siteTitle\">"+sitetitle+"</span>");
 	pt = pt.replace(/<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'><\/span>/mg,"<span class=\"siteSubtitle\">"+sitesubtitle+"</span>");
 	pt = pt.replace(/<!--\{\{\{-->/mg,"").replace(/<!--\}\}\}-->/mg,"");
+	pt = pt.replace(/<div id='/mg,"<div id='s_");
+
 	text = "";
-	
-	var filter = store.getTiddlerText("SplashTiddlers");
-	if(!filter)
-		filter = store.getTiddlerText("DefaultTiddlers");
+	var filter = store.getTiddlerText("SplashTiddlers") || store.getTiddlerText("DefaultTiddlers");
 	tiddlers = store.filterTiddlers(filter);
 	for(i=0;i<tiddlers.length;i++) {
 		tiddler = tiddlers[i];
@@ -149,8 +117,8 @@ version.extensions.SplashScreenPlugin.setup = function()
 
 	var splash = "<!--{{{-->\n\n";
 	splash += "<div id=\"splashScreen\">\n";
+	pt = pt.replace(/<div id='s_tiddlerDisplay'><\/div>/mg,"<div id=\"s_tiddlerDisplay\">"+text+"</div>");
 	splash += pt;
-	splash = splash.replace(/<div id='tiddlerDisplay'><\/div>/mg,"<div id=\"s_tiddlerDisplay\">"+text+"</div>");
 
 	splash += "</div>\n";
 	splash += "<!--}}}-->\n\n";
