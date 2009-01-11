@@ -2,7 +2,7 @@
 |''Name''|QuickSavePlugin|
 |''Description''|provides command for staying in edit mode when saving|
 |''Author''|FND|
-|''Version''|0.1.1|
+|''Version''|0.1.2|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#QuickSavePlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -28,7 +28,7 @@ config.commands.quickSaveTiddler = {
 	tooltip: "Save changes to this tiddler",
 
 	handler: function(event, src, title) {
-		var newTitle = story.saveTiddler(title, event.shiftKey, true);
+		story.saveTiddler(title, event.shiftKey, true);
 		return false;
 	}
 };
