@@ -2,7 +2,7 @@
 |''Name''|TiddlyViPlugin|
 |''Description''|enables mouseless navigation|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#TiddlyViPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -54,6 +54,16 @@ var selectNextItem = function(reverse) { // XXX: rename
 };
 
 $(document).bind("keypress", null, function(ev) {
+	// do not intercept keypress when in edit mode -- XXX: hacky
+	var el = $("#displayArea .selected:in-viewport"); // XXX: excessively complicated (performance implications!)
+	if(el.length) {
+		var title = el[0].getAttribute("tiddler");
+		var dirty = story.isDirty(title);
+		if(dirty) {
+			return true;
+		};
+	}
+	// detect keyboard commands
 	var key = ev.charCode || ev.keyCode || 0; // XXX: charCode != keyCode!?
 	switch(key) {
 		case keys.up:
