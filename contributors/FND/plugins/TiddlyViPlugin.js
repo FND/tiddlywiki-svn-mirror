@@ -2,12 +2,13 @@
 |''Name''|TiddlyViPlugin|
 |''Description''|enables mouseless navigation|
 |''Author''|FND|
-|''Version''|0.1.1|
+|''Version''|0.1.2|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#TiddlyViPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''CoreVersion''|2.5|
+|''Requires''|[[Viewport|http://www.appelsiini.net/projects/viewport]]|
 |''Keywords''|navigation usability|
 !Description
 <...>
@@ -25,6 +26,10 @@ The following keyboard commands are supported:
 ***/
 //{{{
 (function() { //# set up local scope
+
+if(!$.inviewport) { // XXX: check for $.expr[":"]["in-viewport"]?
+	throw "Missing dependency: Viewport";
+}
 
 if(!version.extensions.TiddlyViPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TiddlyViPlugin = { installed: true };
