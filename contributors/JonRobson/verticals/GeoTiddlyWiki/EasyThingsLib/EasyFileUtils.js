@@ -1,8 +1,8 @@
 var EasyFileUtils= {
-	
-	loadRemoteFile: function(url,callback,params)
+	loadRemoteFile: function(url,callback,params,data,contentType,username,password,allowCache)
 	{
-		return this._httpReq("GET",url,callback,params,null,null,null,null,null,true);
+		if(!allowCache) allowCache = true;
+		return this._httpReq("GET",url,callback,params,data,contentType,username,password,allowCache);
 	},
 	
 	_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
@@ -51,6 +51,7 @@ var EasyFileUtils= {
 					x.setRequestHeader(n,headers[n]);
 			}
 		//	x.setRequestHeader("X-Requested-With", "TiddlyWiki " + formatVersion());
+		x.overrideMimeType('text/plain; charset=x-user-defined');
 			x.send(data);
 		} catch(ex) {
 			//console.log(ex);

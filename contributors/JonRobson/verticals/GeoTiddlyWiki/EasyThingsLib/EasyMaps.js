@@ -154,8 +154,7 @@ EasyMap.prototype = {
 		else{
 			this.wrapper.style.backgroundImage ="none";
 		}
-		console.log("background defined", this.settings.backgroundimg,this.wrapper.style);
-		
+	
 	}
 	,redraw: function(){
 		var that = this;
@@ -169,6 +168,7 @@ EasyMap.prototype = {
 	},
 		
 	transform: function(transformation){
+		if(this.settings.beforeTransform) this.settings.beforeTransform(transformation);
 		this.canvas.transformation = transformation;
 		//set origin
 		var w =parseInt(this.wrapper.style.width);
@@ -278,6 +278,7 @@ EasyMap.prototype = {
 
 
 		var that = this;
+
 		var f = function(){
 			
 			for(var i=0; i < mem.length; i++){

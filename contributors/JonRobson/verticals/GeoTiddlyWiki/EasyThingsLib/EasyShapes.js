@@ -308,11 +308,12 @@ EasyShape.prototype={
 		var s = transformation.scale;
 		var path = "M ";
 
-		if(projection)
+		if(projection){
 			c = this._applyProjection(projection,transformation);
-		else
+		}
+		else{
 			c = this.coords;
-			
+		}	
 		if(c.length < 2) return;
 		
 
@@ -449,19 +450,22 @@ EasyShape.prototype={
 		return true;
 	}
 	
-	,_shapeIsTooSmall: function(transformation){
+	,_shapeIsTooSmall: function(transformation,projection){
+		var g = this.grid;
+		var s = transformation.scale;
 		var t1 = g.x2 -g.x1;
 		var t2 =g.y2- g.y1;
 		var delta = {x:t1,y:t2};
 		delta.x *= s.x;
 		delta.y *= s.y;
-
-		if(delta.x < 5 || delta.y < 5) {return false;}//too small
+		var area = delta.x * delta.y;
+		if(area < 40) 
+		{return false;}//too small
 		else
 			return true;
 	}
 	,render: function(canvas,transformation,projection,optimisations, browser){
-	
+		var optimisations = true;
 		if(!transformation){
 			transformation = {};
 		}
@@ -483,7 +487,7 @@ EasyShape.prototype={
 		}		
 		
 		if(optimisations){
-			if(shapetype != 'point' && frame){ //check if worth drawing				
+			if(shapetype != 'point' && shapetype != 'path' && frame){ //check if worth drawing				
 				if(!this._shapeIsTooSmall(transformation)) {
 					if(this.vml) this.vml.style.display = "none";
 					return;	

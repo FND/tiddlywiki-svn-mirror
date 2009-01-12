@@ -29,9 +29,119 @@ if(!version.extensions.geoPlugin) {
 
 	config.macros.geoeditor = {};
 	
-	config.macros.geo={	
+	config.macros.geo={
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {				
+			 //this.saveImageLocally("http://maps.google.com/staticmap?center=54.533375257225444,-3.386506031402958&zoom=4&size=600x400&key=YOUR_KEY_HERE","images/blah.gif");
+				var prms = paramString.parseParams(null, null, true);
+
+
+				var onmup = function(e,shape,mouse,longitude_latitude,feature){								
+					if(shape &&shape.properties){
+						var shapeName = shape.properties.name;
+					}
+					else{
+						return;
+					}
+					if(!store.tiddlerExists(shapeName)) {
+						var tags = [];
+						var text = "";
+						var fields = {};
+
+					}
+					var tiddlerElem = null;
+					tiddlerElem = story.findContainingTiddler(resolveTarget(e));	
+					story.displayTiddler(tiddlerElem,shapeName);
+					return false;
+				};			
+				var eMap = this.createNewEasyMap(place,prms);
+				eMap.setMouseFunctions(onmup,false);
+
+				this.addEasyMapControls(eMap,prms);
+
+				var source = getParam(prms,"source");
+
+				var geodata = this.getGeoJson(source,eMap,prms);
+				if(geodata == 'svgfile'){
+					var callback = function(status,params,responseText,url,xhr){
+						var svg = responseText;
+						eMap.drawFromGeojson(EasyConversion.svgToGeoJson(svg,eMap.canvas));	
+					};
+					EasyFileUtils.loadRemoteFile(source,callback);	
+				}
+				else {	
+					eMap.drawFromGeojson(geodata);
+				}
+
+
+			//}
+		}	
+		,getGoogleMercatorProjection: function(){
+			
+			var p = {};
+			p.source = new Proj4js.Proj('WGS84');//
+			p.dest = new Proj4js.Proj('GOOGLE');
+			p.inversexy = function(x,y){
+				x /= 0.0000063;
+				y /= 0.0000063;
+				var pointSource = new Proj4js.Point(x ,y);
+				var pointDest = Proj4js.transform(p.dest,p.source, pointSource);
+
+				return pointDest;
+			}
+
+			p.xy = function(x,y){
+					var pointSource = new Proj4js.Point(x,y);
+					var pointDest = Proj4js.transform(p.source,p.dest, pointSource);
+
+
+
+					var newx =pointDest.x;
+					var newy = pointDest.y;
+					//newx /= Math.pow(2,17);
+					//newy /=Math.pow(2,17);
+					//19 zoom levels in google
+					//console.log(newx,newy);
+					newx *= 0.0000063;
+					newy *= 0.0000063;
+
+					var res = {x:newx , y:newy};
+
+					return res;
+			}
+			return p;
+		}
 		
-		convertSourceToGeoJsonFormat: function(sourcetiddler){
+		,saveImageLocally: function(sourceurl,dest) {
+			
+			
+			var fileCallback = function(status,params,responseText,url,xhr){
+				if(!saveFile && !getLocalPath) {
+					console.log("not in tiddlywiki! Please define getLocalPath and saveFile");
+					return;
+				}
+
+				var localPath = getLocalPath(document.location.toString());
+				var savePath;
+				if((p = localPath.lastIndexOf("/")) != -1) {
+					savePath = localPath.substr(0,p) + "/" + dest;
+				} else {
+					if((p = localPath.lastIndexOf("\\")) != -1) {
+						savePath = localPath.substr(0,p) + "\\" + dest;
+					} else {
+						savePath = localPath + "." + dest;
+					}
+				}
+				console.log(savePath);
+
+				var fileSave = saveFile(savePath,responseText);
+			};
+			
+			EasyFileUtils.loadRemoteFile(sourceurl,fileCallback,null);
+			
+			
+		}
+		
+		,convertSourceToGeoJsonFormat: function(sourcetiddler){
 	
 		}
 		,getGeoJson: function(sourceTiddlerName,easyMap,parameters){
@@ -159,21 +269,22 @@ if(!version.extensions.geoPlugin) {
 		
 	
 		,addEasyMapControls: function(eMap,prms){
-			if(getParam(prms,"spherify")) {
+			var proj = getParam(prms,"projection");
+			if(proj == 'globe' || proj == 'spinnyglobe') {			
 				eMap.spherical = true;
-				if(getParam(prms,"spherify") == "andspin"){
+				eMap.controller.addControl("rotation");
+				if(proj == 'spinnyglobe'){
 					var f = function(){
 						var t = eMap.controller.transformation;
 						if(!t.rotate) t.rotate = {};
 						if(!t.rotate.z) t.rotate.z  = 0;
-						
+					
 						t.rotate.z += 0.05;
 						eMap.controller.setTransformation(t);
 						window.setTimeout(f,50);
 					};
 					f();
 				}
-				eMap.controller.addControl("rotation");
 			 }
 			else{
 				eMap.controller.addControl('pan');
@@ -193,6 +304,7 @@ if(!version.extensions.geoPlugin) {
 			if(!geoid) geoid = "default" + numgeomaps;
 			numgeomaps +=1;
 
+			
 			var id = "geo_"+geoid;
 
 			var wrapper = createTiddlyElement(place,"div",id,"wrapper");
@@ -215,6 +327,10 @@ if(!version.extensions.geoPlugin) {
 			var caption = createTiddlyElement(place,"div","caption","caption");
 
 			var eMap = new EasyMap(wrapper);
+			var proj = getParam(prms,"projection");
+			if(proj && proj == 'google'){
+				eMap.settings.projection = this.getGoogleMercatorProjection();
+			}
 			geomaps[geoid] = eMap;
 
 
@@ -257,64 +373,6 @@ if(!version.extensions.geoPlugin) {
 		geomaps[id].controller.setTransformation(tran);
 	}
 	
-	config.macros.geo.handler = function(place,macroName,params,wikifier,paramString,tiddler) {				
-		 
-			var prms = paramString.parseParams(null, null, true);
-
-			
-			var onmup = function(e,shape,mouse,longitude_latitude,feature){								
-				if(shape &&shape.properties){
-					var shapeName = shape.properties.name;
-				}
-				else{
-					return;
-				}
-				if(!store.tiddlerExists(shapeName)) {
-					var tags = [];
-					var text = "";
-					var fields = {};
-				
-					/*
-					if(shape.properties.text) text = shape.properties.text;
-					if(shape.properties.tags) tags = shape.properties.tags;
-					if(shape.properties.fill) fields.fill = shape.properties.fill;
-					var name =shape.properties.name;
-					var userName = config.options.txtUserName ? config.options.txtUserName : "guest";
-
-					store.saveTiddler(shapeName,shapeName,text,userName,new Date(),tags,fields);
-					*/
-	
-				}
-				var tiddlerElem = null;
-				//tiddlerElem = story.findContainingTiddler(resolveTarget(e));
-				
-				
-
-				story.displayTiddler(tiddlerElem,shapeName);
-				return false;
-			};			
-			var eMap = this.createNewEasyMap(place,prms);
-			eMap.setMouseFunctions(onmup,false);
-			
-			this.addEasyMapControls(eMap,prms);
-	
-			var source = getParam(prms,"source");
-
-			var geodata = this.getGeoJson(source,eMap,prms);
-			if(geodata == 'svgfile'){
-				var callback = function(status,params,responseText,url,xhr){
-					var svg = responseText;
-					eMap.drawFromGeojson(EasyConversion.svgToGeoJson(svg,eMap.canvas));	
-				};
-				EasyFileUtils.loadRemoteFile(source,callback);	
-			}
-			else {	
-				eMap.drawFromGeojson(geodata);
-			}
-
-			
-		//}
-	};
 
 
 } //# end of 'install only once'

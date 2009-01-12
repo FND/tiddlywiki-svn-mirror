@@ -1,5 +1,5 @@
 <div title="Easter Egg" modifier="JonRobson" created="200811111722" tags="excludeLists">
 <pre>
-<<geo spherify:yes width:400 height:400>>
+<<geo projection:globe width:400 height:400>>
 </pre>
 </div>
