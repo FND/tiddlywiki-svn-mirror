@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Usage:
-#  upload [release] [cleanup]
+#  upload [release] [user] [cleanup]
 
 # default values
 DEFAULT_RELEASE="2.4.3"

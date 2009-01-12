@@ -7,7 +7,7 @@ empty.2.4.2.html.recipe
 
 The above recipes are named assuming the 2.4.2 release, and change according to the release.
 
-These recipes are used to build the content of www.tiddlywiki.com and an empty tiddlywiki. The script "bld" can be used to cook these recipes.
+These recipes are used to build the content of www.tiddlywiki.com and an empty tiddlywiki. The script "bld" can be used to cook these recipes. Files are created in /cooked.
 
 After building, the "index" document needs to be saved in the browser once to set the title and generate the RSS feed.
 
