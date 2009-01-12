@@ -82,11 +82,6 @@ EasyClicking.prototype = {
 	getShapeAtPosition: function(x,y) {
 		var shapes = this.memory;
 		if(this.transformation){
-			if(this.projection){
-				var pos = this.projection(x,y);
-				x = pos.x;
-				y = pos.y;
-			}
 			var pos =  EasyClickingUtils.undotransformation(x,y,this.transformation);
 			x = pos.x;
 			y = pos.y;

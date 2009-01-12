@@ -18,6 +18,9 @@ todo..
 map selector: all tagged ['geojson','georss'] -> drop down, on change clear memory,draw
 merge function: merge countries to become one shape
 geo can read from list of tiddlers with features associated
+
+!Credits
+http://spatialreference.org/ref/sr-org/google-projection/ for help with google projection hack
 ***/
 
 
@@ -78,11 +81,12 @@ if(!version.extensions.geoPlugin) {
 		,getGoogleMercatorProjection: function(){
 			
 			var p = {};
+			p.googleHack = 0.000006378137;
 			p.source = new Proj4js.Proj('WGS84');//
 			p.dest = new Proj4js.Proj('GOOGLE');
 			p.inversexy = function(x,y){
-				x /= 0.0000063;
-				y /= 0.0000063;
+				x /= this.googleHack;
+				y /= this.googleHack;
 				var pointSource = new Proj4js.Point(x ,y);
 				var pointDest = Proj4js.transform(p.dest,p.source, pointSource);
 
@@ -101,25 +105,69 @@ if(!version.extensions.geoPlugin) {
 					//newy /=Math.pow(2,17);
 					//19 zoom levels in google
 					//console.log(newx,newy);
-					newx *= 0.0000063;
-					newy *= 0.0000063;
+					newx *= this.googleHack;
+					newy *= this.googleHack;
 
-					var res = {x:newx , y:newy};
+					return {x:newx , y:newy};
 
-					return res;
+					
 			}
 			return p;
 		}
 		
+		,setupGoogleStaticMapLayer: function(eMap){
+			var that = this;
+			eMap.settings.projection = this.getGoogleMercatorProjection();
+			eMap._fittocanvas = false;
+			var s = {};
+			eMap.settings.beforeTransform = function(transformation){
+				var x =0,y =0, t= transformation.translate,scale= transformation.scale;
+			
+				if(s._oldscale > scale.x){
+					s._googlezoomer -= 1;
+				
+				}
+				else if(s._oldscale < scale.x){
+					s._googlezoomer += 1;
+					
+				}
+				else if(!s._oldscale){
+					s._googlezoomer = 1;
+				
+				}
+	
+				var res = eMap.settings.projection.inversexy(t.x,t.y);
+				x = -res.x;
+				y = res.y;
+
+
+				var zoomL = s._googlezoomer;
+
+				var w = parseInt(eMap.wrapper.style.width);
+				var h = parseInt(eMap.wrapper.style.height);
+				var gsmPath ="gsm/"+w+"X"+h+"/"+zoomL+"/"+y+"_"+x+".gif";
+				var gsmURL ="http://maps.google.com/staticmap?center="+y+","+x+"&zoom="+zoomL+"&size="+w+"x"+h+"&key=YOUR_KEY_HERE";
+				that.saveImageLocally(gsmURL,gsmPath);
+				
+				
+				eMap.settings.backgroundimg = gsmPath;
+
+				s._oldscale = scale.x;
+				
+			
+			};
+
+			var w = parseInt(eMap.wrapper.style.width);
+			var h = parseInt(eMap.wrapper.style.height);
+			that.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"x"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"/0/0_0.gif");
+			eMap.settings.backgroundimg = "gsm/"+w+"x"+h+"/0/0_0.gif";
+			s._googlezoomer = 0;
+			//
+		}
 		,saveImageLocally: function(sourceurl,dest) {
 			
 			
 			var fileCallback = function(status,params,responseText,url,xhr){
-				if(!saveFile && !getLocalPath) {
-					console.log("not in tiddlywiki! Please define getLocalPath and saveFile");
-					return;
-				}
-
 				var localPath = getLocalPath(document.location.toString());
 				var savePath;
 				if((p = localPath.lastIndexOf("/")) != -1) {
@@ -131,12 +179,11 @@ if(!version.extensions.geoPlugin) {
 						savePath = localPath + "." + dest;
 					}
 				}
-				console.log(savePath);
 
 				var fileSave = saveFile(savePath,responseText);
 			};
 			
-			EasyFileUtils.loadRemoteFile(sourceurl,fileCallback,null);
+			EasyFileUtils.loadRemoteFile(sourceurl,fileCallback,null,null,null,null,null,null,true);
 			
 			
 		}
@@ -328,9 +375,15 @@ if(!version.extensions.geoPlugin) {
 
 			var eMap = new EasyMap(wrapper);
 			var proj = getParam(prms,"projection");
-			if(proj && proj == 'google'){
-				eMap.settings.projection = this.getGoogleMercatorProjection();
+			if(proj){
+				if(proj == 'google'){
+					eMap.settings.projection = this.getGoogleMercatorProjection();
+				}
+				else if(proj == 'googlestaticmap'){
+					this.setupGoogleStaticMapLayer(eMap);
+				}
 			}
+			
 			geomaps[geoid] = eMap;
 
 

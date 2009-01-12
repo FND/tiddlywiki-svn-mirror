@@ -1,8 +1,7 @@
 var EasyFileUtils= {
-	loadRemoteFile: function(url,callback,params,data,contentType,username,password,allowCache)
+	loadRemoteFile: function(url,callback,params,headers,data,contentType,username,password,allowCache)
 	{
-		if(!allowCache) allowCache = true;
-		return this._httpReq("GET",url,callback,params,data,contentType,username,password,allowCache);
+		return this._httpReq("GET",url,callback,params,headers,data,contentType,username,password,allowCache);
 	},
 	
 	_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
@@ -39,8 +38,12 @@ var EasyFileUtils= {
 		if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
 			window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
 		try {
+			
 			if(!allowCache)
 				url = url + (url.indexOf("?") < 0 ? "?" : "&") + "nocache=" + Math.random();
+			else{
+				url = url + (url.indexOf("?") < 0 ? "?" : "&");
+			}
 			x.open(type,url,true,username,password);
 			if(data)
 				x.setRequestHeader("Content-Type", contentType || "application/x-www-form-urlencoded");

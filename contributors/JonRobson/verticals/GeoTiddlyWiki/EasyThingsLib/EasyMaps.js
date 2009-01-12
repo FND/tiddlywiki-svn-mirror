@@ -135,7 +135,7 @@ EasyMap.prototype = {
 		EasyFileUtils.loadRemoteFile(file,callback);
 	},	
 
-	defineBackgroundImage: function(imgpath){
+	defineBackground: function(imgpath){
 		if(!this.canvas.transformation.spherical && this.settings.background){
 			this.wrapper.style.background=this.settings.background;
 		}
@@ -147,9 +147,7 @@ EasyMap.prototype = {
 		if(imgpath) this.settings.backgroundimg = imgpath;
 		if(!this.canvas.transformation.spherical && this.settings.backgroundimg){
 			this.settings.globalAlpha = 0.2;
-			this.wrapper.style.backgroundImage = "url('"+this.settings.backgroundimg +"')";
-			//+this.settings.backgroundimg+"
-		
+			this.wrapper.style.backgroundImage = "url('"+this.settings.backgroundimg +"')";		
 		}
 		else{
 			this.wrapper.style.backgroundImage ="none";
@@ -168,7 +166,9 @@ EasyMap.prototype = {
 	},
 		
 	transform: function(transformation){
-		if(this.settings.beforeTransform) this.settings.beforeTransform(transformation);
+		if(this.settings.beforeTransform) {
+			this.settings.beforeTransform(transformation);
+		}
 		this.canvas.transformation = transformation;
 		//set origin
 		var w =parseInt(this.wrapper.style.width);
@@ -203,7 +203,17 @@ EasyMap.prototype = {
 			}
 		}
 		this.easyClicking.transformation = this.canvas.transformation;
+		
+
 		this.redraw();
+		if(this.settings.afterTransform) {
+		try{
+			this.settings.afterTransform(transformation);
+		}	
+		catch(e){
+			throw e;
+		}
+		}
 	},
 
 
@@ -292,7 +302,7 @@ EasyMap.prototype = {
 		};
 		if(this.settings.renderPolygonMode)f();
 		this._rendered = true;
-		this.defineBackgroundImage();
+		this.defineBackground();
 	
 	},
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,feature){
@@ -343,7 +353,7 @@ EasyMap.prototype = {
 
 	,_setupMouseHandlers: function(e){
 		var eMap = this;
-		var _defaultClickHandler = function(e){};	
+		var _defaultClickHandler = function(e,shape,mousepos,ll){};	
 		
 		var _defaultMousemoveHandler = function(e,shape,mousepos,ll){
 			if(mousepos){
@@ -384,14 +394,14 @@ EasyMap.prototype = {
 			if(!e) {
 				e = window.event;
 			}
-
+			
 			var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
 			if(t.getAttribute("class") == 'easyControl') return false;
 			var shape = eMap.easyClicking.getShapeAtClick(e);
-			if(!shape) {
-				return false;
+			if(shape) {
+				result.shape = shape;
 			}
-			result.shape = shape;
+		
 			
 			var pos = EasyClickingUtils.getMouseFromEvent(e);
 			var x =pos.x;
@@ -420,6 +430,7 @@ EasyMap.prototype = {
 		
 		var onmouseup = function(e){
 			var r = getParameters(e);
+			console.log("clicked!",r);
 			eMap.clickHandler(e,r.shape,r.mouse,r.longitude_latitude,r.feature);
 		};
 		this.wrapper.onmouseup = onmouseup;

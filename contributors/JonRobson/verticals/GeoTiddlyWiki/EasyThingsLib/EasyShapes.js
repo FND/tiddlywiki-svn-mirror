@@ -152,10 +152,10 @@ EasyShape.prototype={
 
 	,_cssTransform: function(transformation,projection){
 		var d1,d2,t;
-		
+		if(!this.vml) return;
 		
 		if(this.properties.shape =='point' || projection) {
-			this._createvmlpathstring(vml,transformation,projection);
+			this._createvmlpathstring(this.vml,transformation,projection);
 		}
 
 		var o = transformation.origin;
@@ -303,6 +303,7 @@ EasyShape.prototype={
 		ctx.restore();
 	}
 	,_createvmlpathstring: function(vml,transformation,projection){
+		if(!vml) return;
 		var o = transformation.origin;
 		var t = transformation.translate;
 		var s = transformation.scale;
@@ -343,7 +344,7 @@ EasyShape.prototype={
 			//if(i < c.length - 2) path += "";
 		}
 		path += " XE";	
-		vml.path = path;	
+		vml.path = path;
 	}
 	
 	,_ierender: function(canvas,transformation,projection,optimisations){
