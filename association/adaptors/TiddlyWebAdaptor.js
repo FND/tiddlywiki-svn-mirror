@@ -381,7 +381,7 @@ adaptor.prototype.generateTiddlerInfo = function(tiddler) {
 	var host = this.host || tiddler.fields["server.host"]; // XXX: this.host obsolete?
 	host = this.fullHostName(host);
 	var workspace = adaptor.resolveWorkspace(tiddler.fields["server.workspace"]);
-	info.uri = uriTemplate.format([context.host, workspace.type + "s",
+	info.uri = uriTemplate.format([host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name),
 		adaptor.normalizeTitle(tiddler.title)]);
 	return info;
