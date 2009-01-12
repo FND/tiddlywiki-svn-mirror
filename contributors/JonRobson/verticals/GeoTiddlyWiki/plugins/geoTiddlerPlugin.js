@@ -169,7 +169,7 @@ if(!version.extensions.geoPlugin) {
 						
 						t.rotate.z += 0.05;
 						eMap.controller.setTransformation(t);
-						window.setTimeout(f,300);
+						window.setTimeout(f,50);
 					};
 					f();
 				}
@@ -263,7 +263,12 @@ if(!version.extensions.geoPlugin) {
 
 			
 			var onmup = function(e,shape,mouse,longitude_latitude,feature){								
-				var shapeName = shape.properties.name;
+				if(shape &&shape.properties){
+					var shapeName = shape.properties.name;
+				}
+				else{
+					return;
+				}
 				if(!store.tiddlerExists(shapeName)) {
 					var tags = [];
 					var text = "";
@@ -280,7 +285,8 @@ if(!version.extensions.geoPlugin) {
 					*/
 	
 				}
-				var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
+				var tiddlerElem = null;
+				//tiddlerElem = story.findContainingTiddler(resolveTarget(e));
 				
 				
 

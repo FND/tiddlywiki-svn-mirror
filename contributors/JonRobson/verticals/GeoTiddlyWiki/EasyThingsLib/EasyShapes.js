@@ -151,9 +151,13 @@ EasyShape.prototype={
 	
 
 	,_cssTransform: function(transformation,projection){
+		var d1,d2,t;
+		
+		
 		if(this.properties.shape =='point' || projection) {
 			this.vml.path =this._createvmlpathstring(transformation,projection);
 		}
+
 		var o = transformation.origin;
 		var t = transformation.translate;
 		var s = transformation.scale;
@@ -168,7 +172,17 @@ EasyShape.prototype={
 			var h = parseInt(this.vml.style.height)
 			this.initialStyle = {top: initTop, left: initLeft, width: w, height: h};
 		}
+		var scalingRequired = true;
+		var translatingRequired = true;
+		if(this._lastTransformation){
+			if(s.x == this._lastTransformation.scale.x && s.y == this._lastTransformation.scale.y){
+			
+				scalingRequired = false;
+			}
 
+		}
+
+	
 		var initialStyle= this.initialStyle;
 
 		var style = this.vml.style;			
@@ -177,24 +191,31 @@ EasyShape.prototype={
 		newleft = initialStyle.left;
 
 		//scale
-		var newwidth = initialStyle.width * s.x;
-		var newheight = initialStyle.height * s.y; 	
-
+		if(scalingRequired){
+			var newwidth = initialStyle.width * s.x;
+			var newheight = initialStyle.height * s.y; 	
+		}
 		//translate into right place
 
 		var temp;
-		temp = (t.x - o.x) * s.x;
+		temp = (t.x - o.x);
+		temp *= s.x;
 		newleft += temp;
 
-		temp = (t.y - o.y) * s.x;
+		temp = (t.y - o.y);
+		temp *= s.x;
 		newtop += temp;						
-
 
 		style.left = newleft;
 		style.top = newtop;
-
-		style.width = newwidth;
-		style.height = newheight;
+		
+		if(scalingRequired){
+			style.width = newwidth;
+			style.height = newheight;
+		}
+		this._lastTransformation = {scale:{}};
+		this._lastTransformation.scale.x = s.x;
+		this._lastTransformation.scale.y = s.y;
 	}
 	 
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
@@ -329,52 +350,53 @@ EasyShape.prototype={
 		if(this.vml){
 			shape = this.vml;
 			if(this.properties.fill && shapetype != 'path'){
-			shape.filled = "t";
-			shape.fillcolor = this.properties.fill;			
+				shape.filled = "t";
+				shape.fillcolor = this.properties.fill;			
 			}
 			this._cssTransform(transformation,projection);
 			return;
 		}
 		else{
 			shape = document.createElement("g_vml_:shape");
-		}
-		
-		var o = transformation.origin;
-		var t = transformation.translate;
-		var s = transformation.scale;
+			var o = transformation.origin;
+			var t = transformation.translate;
+			var s = transformation.scale;
 
-	
-		//path ="M 0,0 L50,0, 50,50, 0,50 X";
-		var nclass= "easyShape";
-		var shapetype =this.properties.shape;
-		if(shapetype == 'path') nclass= "easyShapePath";
-		shape.setAttribute("class", nclass);
-		shape.style.height = canvas.height;
-		shape.style.width = canvas.width;
-		shape.style.position = "absolute";
-		shape.style['z-index'] = 1;
-		shape.stroked = "t";
-		shape.strokecolor = "#000000";
-		
-		if(this.properties.fill && shapetype != 'path'){
-			shape.filled = "t";
-			shape.fillcolor = this.properties.fill;			
+
+			//path ="M 0,0 L50,0, 50,50, 0,50 X";
+			var nclass= "easyShape";
+			var shapetype =this.properties.shape;
+			if(shapetype == 'path') nclass= "easyShapePath";
+			shape.setAttribute("class", nclass);
+			shape.style.height = canvas.height;
+			shape.style.width = canvas.width;
+			shape.style.position = "absolute";
+			shape.style['z-index'] = 1;
+			shape.stroked = "t";
+			shape.strokecolor = "#000000";
+
+			if(this.properties.fill && shapetype != 'path'){
+				shape.filled = "t";
+				shape.fillcolor = this.properties.fill;			
+			}
+			shape.path = this._createvmlpathstring(transformation,projection);
+			shape.strokeweight = ".75pt";
+
+			var xspace = parseInt(canvas.width);
+			xspace *=this._iemultiplier;
+			var yspace =parseInt(canvas.height);
+			yspace *= this._iemultiplier;
+			coordsize = xspace +"," + yspace;
+
+			shape.coordsize = coordsize;
+			shape.easyShape = this;
+			canvas.appendChild(shape);
+			this.vml = shape;
+
+			this._cssTransform(transformation,projection);	
 		}
-		shape.path = this._createvmlpathstring(transformation,projection);
-		shape.strokeweight = ".75pt";
 		
-		var xspace = parseInt(canvas.width);
-		xspace *=this._iemultiplier;
-		var yspace =parseInt(canvas.height);
-		yspace *= this._iemultiplier;
-		coordsize = xspace +"," + yspace;
-		
-		shape.coordsize = coordsize;
-		shape.easyShape = this;
-		canvas.appendChild(shape);
-		this.vml = shape;
-		
-		this._cssTransform(transformation,projection);
+	
 	}
 	/*
 	render the shape using canvas ctx 

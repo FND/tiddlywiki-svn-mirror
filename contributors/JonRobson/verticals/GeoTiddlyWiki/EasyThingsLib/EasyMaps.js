@@ -26,6 +26,9 @@ var EasyMap = function(wrapper){
 	var that = this;
 	this.settings = {};
 	this.settings.background = "#AFDCEC";
+	this.settings.globalAlpha = 1;
+	this.settings.renderPolygonMode = true;
+	
 	//this.settings.projection = {x:function(x){return x;}, y: function(y){return y;}};
 	this.settings.optimisations = false;
 	
@@ -75,12 +78,7 @@ EasyMap.prototype = {
 
 		this._maxX = 0;
 		this._maxY = 0;
-		if(!this.canvas.transformation.spherical && this.settings.background){
-			this.wrapper.style.background = this.settings.background;
-		}
-		else{
-			this.wrapper.style.background = "";
-		}
+
 		
 		if(!this.canvas.getContext) {return;}
 		var ctx = this.canvas.getContext('2d');
@@ -137,7 +135,29 @@ EasyMap.prototype = {
 		EasyFileUtils.loadRemoteFile(file,callback);
 	},	
 
-	redraw: function(){
+	defineBackgroundImage: function(imgpath){
+		if(!this.canvas.transformation.spherical && this.settings.background){
+			this.wrapper.style.background=this.settings.background;
+		}
+		else{
+			this.wrapper.style.background = "";
+		}
+		
+		//if(!this._rendered) return;
+		if(imgpath) this.settings.backgroundimg = imgpath;
+		if(!this.canvas.transformation.spherical && this.settings.backgroundimg){
+			this.settings.globalAlpha = 0.2;
+			this.wrapper.style.backgroundImage = "url('"+this.settings.backgroundimg +"')";
+			//+this.settings.backgroundimg+"
+		
+		}
+		else{
+			this.wrapper.style.backgroundImage ="none";
+		}
+		console.log("background defined", this.settings.backgroundimg,this.wrapper.style);
+		
+	}
+	,redraw: function(){
 		var that = this;
 
 		var f = function(){
@@ -225,39 +245,18 @@ EasyMap.prototype = {
 		ctx.fill();
 		ctx.restore();
 
-	},
+	}
 	
-	_renderWithBackgroundImage: function(){
-		if(!this.canvas.getContext) return;
-		var ctx = this.canvas.getContext('2d');
-		
-		var that = this;
-		var img = new Image();
-		img.src=this.settings.backgroundimg;
-		img.width = this.canvas.width;
-		img.height = this.canvas.height;
-		img.onload = function(){
-			ctx.globalAlpha = 1;
-			ctx.drawImage(img,0,0);
-			ctx.globalAlpha = 0.4;
-			that.render(true);
-
-		};
-		return;		
-	},
-	_setupCanvasEnvironment: function(){
+	,_setupCanvasEnvironment: function(){
 		if(!this.canvas.getContext) return;
 		var ctx = this.canvas.getContext('2d');
 		var s =this.controller.transformation.scale;
 		if(s && s.x)ctx.lineWidth = (1.5 / s.x);
+		ctx.globalAlpha = this.settings.globalAlpha;
 		ctx.lineJoin = 'round'; //miter or bevel or round	
 	},
 	render: function(flag){
-
-		if(!flag && this.settings.backgroundimg){
-			this._renderWithBackgroundImage();
-			return;			
-		}
+		this._rendered = false;
 
 		var mem =this.easyClicking.getMemory();
 		this._setupCanvasEnvironment()
@@ -290,7 +289,9 @@ EasyMap.prototype = {
 				t.parentNode.removeChild(t);	
 			}
 		};
-		f();
+		if(this.settings.renderPolygonMode)f();
+		this._rendered = true;
+		this.defineBackgroundImage();
 	
 	},
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,feature){

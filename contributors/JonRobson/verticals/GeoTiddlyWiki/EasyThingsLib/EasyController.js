@@ -341,10 +341,10 @@ EasyMapController.prototype = {
 	
 		var hit = this.easyClicking.getShapeAtClick(e);	
 		if(!hit) {
-	
 			return false;
 		}
-
+		if(!hit.properties) return false;
+		
 		var pan = {};
 		var t =controller.transformation;
 		//console.log(t.rotate,"hit");
@@ -355,7 +355,6 @@ EasyMapController.prototype = {
 		if(!t.scale) t.scale = {x:1,y:1};
 		if(!t.translate) t.translate = {x:0,y:0};
 		if(!t.rotate) t.rotate = {x:0,y:0,z:0};
-		
 
 		switch(hit.properties.actiontype) {
 			case "W":
