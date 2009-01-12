@@ -155,7 +155,7 @@ EasyShape.prototype={
 		
 		
 		if(this.properties.shape =='point' || projection) {
-			this.vml.path =this._createvmlpathstring(transformation,projection);
+			this._createvmlpathstring(vml,transformation,projection);
 		}
 
 		var o = transformation.origin;
@@ -302,7 +302,7 @@ EasyShape.prototype={
 		}
 		ctx.restore();
 	}
-	,_createvmlpathstring: function(transformation,projection){
+	,_createvmlpathstring: function(vml,transformation,projection){
 		var o = transformation.origin;
 		var t = transformation.translate;
 		var s = transformation.scale;
@@ -343,7 +343,7 @@ EasyShape.prototype={
 			//if(i < c.length - 2) path += "";
 		}
 		path += " XE";	
-		return path;	
+		vml.path = path;	
 	}
 	
 	,_ierender: function(canvas,transformation,projection,optimisations){
@@ -380,7 +380,7 @@ EasyShape.prototype={
 				shape.filled = "t";
 				shape.fillcolor = this.properties.fill;			
 			}
-			shape.path = this._createvmlpathstring(transformation,projection);
+			this._createvmlpathstring(shape,transformation,projection);
 			shape.strokeweight = ".75pt";
 
 			var xspace = parseInt(canvas.width);
