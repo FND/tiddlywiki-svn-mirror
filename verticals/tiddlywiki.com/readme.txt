@@ -16,8 +16,8 @@ For 2.4.2 these need to be cooked and the resultant TiddlyWikis copied onto the 
 index.2.4.2.html => http://www.tiddlywiki.com/index.html
 empty.2.4.2.html => http://www.tiddlywiki.com/empty.html
 empty.2.4.2.html => http://www.tiddlywiki.com/upgrade/index.html
-
-The script "upload" can be used to upload the index and empty html files onto the tiddlywiki.com server (you will be prompted for your username and password twice).
+nobeta.html => http://www.tiddlywiki.com/beta/index.html
+The script "upload" can be used to upload the index and empty html files onto the tiddlywiki.com server (you will be prompted for your username and password twice).
 Alternatively, the script "uploaddav" can be used, which only requires a single password prompt.
 
 Note:
