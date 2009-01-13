@@ -269,7 +269,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		if(typeof revision == "undefined") {
 			revision = 1;
 		}
-		var etag = [adaptor.normalizeTitle(tiddler.fields["server.bag"]),
+		var etag = [adaptor.normalizeTitle(workspace.name),
 			adaptor.normalizeTitle(tiddler.title), revision].join("/");
 		headers = { "If-Match": etag };
 	}
