@@ -47,14 +47,20 @@ config.macros.lifeStream.display = function (place, params)
 	var last = params[1] ? tiddlers.length-Math.min(tiddlers.length,parseInt(params[1])) : 0;
 	var div = createTiddlyElement(place, "div");
 	lastDay ="";
-	
+	var today = new Date;
+	var yesterday= new Date()
+	yesterday.setDate(yesterday.getDate()-1);
 	for(var t=tiddlers.length-1; t>=last; t--) {
 		var theDay = tiddlers[t]['modified'].convertToLocalYYYYMMDDHHMM().substr(0,8);
 		if(theDay != lastDay) {
-			createTiddlyElement(place, "h1", null, null,  tiddlers[t]['modified'].formatString("DD/MM/YYYY"));
+			if(tiddlers[t]['modified'].formatString("DD/MM/YYYY")==today.formatString("DD/MM/YYYY"))
+				createTiddlyElement(place, "h3", null, null,  "Today");
+			else if(tiddlers[t]['modified'].formatString("DD/MM/YYYY")==yesterday.formatString("DD/MM/YYYY"))
+				createTiddlyElement(place, "h3", null, null,  "Yesterday");
+			else
+				createTiddlyElement(place, "h3", null, null,  tiddlers[t]['modified'].formatString("DD/MM/YYYY"));
 			lastDay = theDay;
 		}
-
 		switch(tiddlers[t].fields['server.type']){
 			case "wordpress" :
 				var img = createTiddlyElement(null, "img", null, "imgClass");
@@ -142,9 +148,6 @@ config.macros.lifeStream.display = function (place, params)
 					
 
 				}
-					
-
-			console.log();
 		}
 	}
 };
