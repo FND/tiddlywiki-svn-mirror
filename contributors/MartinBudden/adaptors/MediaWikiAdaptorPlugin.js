@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.4|
+|''Version:''|0.8.5|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -31,12 +31,22 @@ if(!config.options.txtMediaWikiPassword)
 
 //{{{
 //# Ensure that the plugin is only installed once.
-if(!config.adaptors.MediaWikiAdaptor) {
+if(!config.adaptors.mediawiki) {
 
 if(config.options.txtMediaWikiAdaptorLimit == undefined)
 	{config.options.txtMediaWikiAdaptorLimit = '500';}
 
-config.adaptors.MediaWikiAdaptor = function() {};
+//#config.adaptors.MediaWikiAdaptor.loadMissingTiddler = Story.prototype.loadMissingTiddler;
+//#Story.prototype.loadMissingTiddler = function(title,fields,tiddlerElem)
+//#{
+//#	var i = title.indexOf('#');
+//#	if(i!=-1) {
+//#		title = title.substr(0,i);
+//#	}
+//#	config.adaptors.MediaWikiAdaptor.loadMissingTiddler.apply(this,arguments);
+//#};
+
+config.adaptors.mediawiki = function() {};
 
 (function(adaptor) {
 
@@ -67,8 +77,8 @@ adaptor.normalizedTitle = function(title)
 	return n.replace(/\s/g,'_');
 };
 
-// Convert a MediaWiki timestamp in YYYY-MM-DDThh:mm:ssZ  format into a JavaScript Date object
 adaptor.dateFromTimestamp = function(timestamp)
+// Convert a MediaWiki timestamp in YYYY-MM-DDThh:mm:ssZ  format into a JavaScript Date object
 {
 	var dt = timestamp;
 	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
@@ -84,21 +94,19 @@ adaptor.anyChild = function(obj)
 	return null;
 };
 
-/*
-api.php ? action=login & lgname=Bob & lgpassword=secret
-
-<?xml version="1.0" encoding="utf-8"?>
-<api>
-  <login
-    result="Success"
-    lguserid="12345"
-    lgusername="Bob"
-    lgtoken="b5780b6e2f27e20b450921d9461010b4"
-    cookieprefix="enwiki"
-    sessionid="08nj1ioefhlvmdjfor5to3mvv5"
-  />
-</api
-*/
+//#
+//#api.php ? action=login & lgname=Bob & lgpassword=secret
+//#<?xml version="1.0" encoding="utf-8"?>
+//#<api>
+//#  <login
+//#    result="Success"
+//#    lguserid="12345"
+//#    lgusername="Bob"
+//#    lgtoken="b5780b6e2f27e20b450921d9461010b4"
+//#    cookieprefix="enwiki"
+//#    sessionid="08nj1ioefhlvmdjfor5to3mvv5"
+//#  />
+//#</api
 
 adaptor.prototype.complete = function(context,fn)
 {
@@ -122,7 +130,6 @@ adaptor.prototype.login = function(context)
 //#console.log('uri:'+uri);
 
 	var req = adaptor.doHttpPOST(uri,adaptor.loginCallback,context,{"Content-Length":"1"}," ");
-	//var req = adaptor.doHttpGET(uri,adaptor.loginCallback,context);
 //#console.log('req:'+req);
 	return typeof req == 'string' ? req : true;
 };
@@ -145,7 +152,7 @@ adaptor.prototype.login = function(context)
 //#}
 //#}}
 
-//{"login":{"result":"Success","lguserid":11,"lgusername":"MartinBudden","lgtoken":"9fa40aeb51e083cf4dc0d0f4909c01e3"}}
+//#{"login":{"result":"Success","lguserid":11,"lgusername":"MartinBudden","lgtoken":"9fa40aeb51e083cf4dc0d0f4909c01e3"}}
 adaptor.loginCallback = function(status,context,responseText,uri,xhr)
 {
 //#console.log('loginCallback:'+status);
@@ -307,8 +314,8 @@ adaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 		context.callback(context,context.userParams);
 };
 
-// get a list of the tiddlers in the current workspace
 adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
+// get a list of the tiddlers in the current workspace
 {
 	context = this.setContext(context,userParams,callback);
 //#console.log('getTiddlerList');
@@ -361,8 +368,8 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 			return true;
 		}
 	} else {
-		//context.responseType = 'query.allpages';
-		//uriTemplate = '%0/api.php?format=json&action=query&list=allpages&apfilterredir=nonredirects&apfrom=%4&prop=info';
+		//#context.responseType = 'query.allpages';
+		//#uriTemplate = '%0/api.php?format=json&action=query&list=allpages&apfilterredir=nonredirects&apfrom=%4&prop=info';
 		context.responseType = 'query.pages';
 		uriTemplate = '%0/api.php?format=json&action=query&generator=allpages&gapfilterredir=nonredirects&gapfrom=%4&prop=info';
 		if(this.workspaceId != 0)
@@ -874,7 +881,7 @@ adaptor.deleteTiddlerCallback2 = function(status,context,responseText,uri,xhr)
 		context.callback(context,context.userParams);
 };
 
-config.adaptors[adaptor.serverType] = adaptor;
-})(config.adaptors.MediaWikiAdaptor);
+})(config.adaptors.mediawiki);
+
 } // end of 'install only once'
 //}}}
