@@ -12,8 +12,6 @@ var GeoTag = function(longitude,latitude,properties){
 	return geo;	
 };
 
-
-
 var EasyMap = function(wrapper){ 
 	var wrapper;
 	if(typeof wrapper == 'string')
@@ -266,12 +264,8 @@ EasyMap.prototype = {
 		ctx.lineJoin = 'round'; //miter or bevel or round	
 	},
 	render: function(flag){
-		this._rendered = false;
-
 		var mem =this.easyClicking.getMemory();
 		this._setupCanvasEnvironment()
-
-
 		var tran =this.canvas.transformation;
 	
 		if(tran.spherical){
@@ -283,26 +277,35 @@ EasyMap.prototype = {
 					}
 			};
 			this._createGlobe();
-			//console.log("projection set");
 		}
 
 
 		var that = this;
 
 		var f = function(){
-			
+			var fragment = document.createDocumentFragment();
+			var t1=new Date();
+			//console.log("start" +t1);	
 			for(var i=0; i < mem.length; i++){
-				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser);
+				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser,fragment);
 			}
-	
+			var t2=new Date();
+			var time = t2-t1;
+			//console.log("done!"+time);
+			if(!this._fragment){
+				this._fragment= fragment;
+				that.canvas.appendChild(fragment.cloneNode(true));
+			}
+			
+			
 			var t = document.getElementById(that.wrapper.id + "_statustext");
 			if(t) {
 				t.parentNode.removeChild(t);	
 			}
 		};
 		if(this.settings.renderPolygonMode)f();
-		this._rendered = true;
 		this.defineBackground();
+		
 	
 	},
 	_drawGeoJsonMultiPolygonFeature: function(coordinates,feature){

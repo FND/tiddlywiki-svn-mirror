@@ -57,6 +57,9 @@ EasyShape.prototype={
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
 	}
+	,createPointShape: function(){
+		
+	}
 	,_constructFromGeoJSONObject: function(properties,coordinates){
 		if(properties.shape == 'polygon'){
 			this._constructFromGeoJSONPolygon(properties,coordinates);	
@@ -69,15 +72,22 @@ EasyShape.prototype={
 			newcoords = this._convertGeoJSONCoords(newcoords);
 			this._constructBasicShape(properties,newcoords);
 		}
-		else
+		else{
 			console.log("don't know what to do with shape " + element.shape);
+		}
 	},
 	_constructBasicShape: function(properties, coordinates){
-		this.properties = properties;
-		this.setCoordinates(coordinates);
-		if(!properties.stroke)properties.stroke = '#000000';		
-		if(properties.colour){
-			properties.fill =  properties.colour;
+		if(properties.shape == 'polygon' || properties.shape == 'path'||properties.shape =='point')
+		{
+			this.properties = properties;
+			this.setCoordinates(coordinates);
+			if(!properties.stroke)properties.stroke = '#000000';		
+			if(properties.colour){
+				properties.fill =  properties.colour;
+			}
+		}
+		else{
+			console.log("don't know what to do with shape " + properties.shape);
 		}		
 		
 		
@@ -153,9 +163,10 @@ EasyShape.prototype={
 	,_cssTransform: function(transformation,projection){
 		var d1,d2,t;
 		if(!this.vml) return;
-		
+		var clonedNode = this.vml.cloneNode(true);
 		if(this.properties.shape =='point' || projection) {
 			this._createvmlpathstring(this.vml,transformation,projection);
+		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
 		}
 
 		var o = transformation.origin;
@@ -175,8 +186,7 @@ EasyShape.prototype={
 		var scalingRequired = true;
 		var translatingRequired = true;
 		if(this._lastTransformation){
-			if(s.x == this._lastTransformation.scale.x && s.y == this._lastTransformation.scale.y){
-			
+			if(s.x == this._lastTransformation.scale.x && s.y == this._lastTransformation.scale.y){			
 				scalingRequired = false;
 			}
 
@@ -218,6 +228,9 @@ EasyShape.prototype={
 		this._lastTransformation.scale.y = s.y;
 	}
 	 
+	,_renderTextShape: function(){
+		
+	}
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
 		var shapetype = this.properties.shape;	
@@ -347,7 +360,7 @@ EasyShape.prototype={
 		vml.path = path;
 	}
 	
-	,_ierender: function(canvas,transformation,projection,optimisations){
+	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
 		var shape;
 		if(this.vml){
 			shape = this.vml;
@@ -392,7 +405,10 @@ EasyShape.prototype={
 
 			shape.coordsize = coordsize;
 			shape.easyShape = this;
-			canvas.appendChild(shape);
+			if(!appendTo){
+				appendTo = canvas;
+			}
+			appendTo.appendChild(shape);
 			this.vml = shape;
 
 			this._cssTransform(transformation,projection);	
@@ -486,8 +502,8 @@ EasyShape.prototype={
 			console.log("no idea how to draw" +this.properties.shape+" must be polygon|path|point");
 			return;
 		}		
-		
-		if(optimisations){
+		//optimisations = false;
+		if(!projection && optimisations){
 			if(shapetype != 'point' && shapetype != 'path' && frame){ //check if worth drawing				
 				if(!this._shapeIsTooSmall(transformation)) {
 					if(this.vml) this.vml.style.display = "none";

@@ -34,8 +34,7 @@ if(!version.extensions.geoPlugin) {
 	
 	config.macros.geo={
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {				
-			 //this.saveImageLocally("http://maps.google.com/staticmap?center=54.533375257225444,-3.386506031402958&zoom=4&size=600x400&key=YOUR_KEY_HERE","images/blah.gif");
-				var prms = paramString.parseParams(null, null, true);
+			 var prms = paramString.parseParams(null, null, true);
 
 
 				var onmup = function(e,shape,mouse,longitude_latitude,feature){								
@@ -147,10 +146,13 @@ if(!version.extensions.geoPlugin) {
 				var h = parseInt(eMap.wrapper.style.height);
 				var gsmPath ="gsm/"+w+"X"+h+"/"+zoomL+"/"+y+"_"+x+".gif";
 				var gsmURL ="http://maps.google.com/staticmap?center="+y+","+x+"&zoom="+zoomL+"&size="+w+"x"+h+"&key=YOUR_KEY_HERE";
+				
+				
+				//if file exists point to file
+				
+				//else{
 				that.saveImageLocally(gsmURL,gsmPath);
-				
-				
-				eMap.settings.backgroundimg = gsmPath;
+				eMap.settings.backgroundimg = gsmURL;
 
 				s._oldscale = scale.x;
 				
@@ -162,7 +164,7 @@ if(!version.extensions.geoPlugin) {
 			that.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"x"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"/0/0_0.gif");
 			eMap.settings.backgroundimg = "gsm/"+w+"x"+h+"/0/0_0.gif";
 			s._googlezoomer = 0;
-			//
+		
 		}
 		,saveImageLocally: function(sourceurl,dest) {
 			
@@ -326,9 +328,9 @@ if(!version.extensions.geoPlugin) {
 						if(!t.rotate) t.rotate = {};
 						if(!t.rotate.z) t.rotate.z  = 0;
 					
-						t.rotate.z += 0.05;
+						t.rotate.z += 0.5;
 						eMap.controller.setTransformation(t);
-						window.setTimeout(f,50);
+						window.setTimeout(f,500);
 					};
 					f();
 				}

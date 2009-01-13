@@ -32,8 +32,9 @@ var EasyClicking = function(element,transformation,easyShapesList){
 EasyClicking.prototype = {
 
 	addToMemory: function(easyShape){
-		this.memory.push(easyShape);
+		if(!this.memory) this.memory = [];
 		easyShape._easyClickingID = this.memory.length;
+		this.memory.push(easyShape);
 	}
 	
 	,clearMemory: function(){
@@ -43,7 +44,11 @@ EasyClicking.prototype = {
 		return this.memory;
 	}
 	,getMemoryID: function(easyShape){
-		return easyShape._easyClickingID;
+		if(easyShape && easyShape._easyClickingID)
+			return easyShape._easyClickingID;
+		else{
+			return false;
+		}
 	}
 	,getShapeAtClick: function(e){
 		if(!e) {
