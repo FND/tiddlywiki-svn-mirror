@@ -46,7 +46,15 @@ config.macros.lifeStream.display = function (place, params)
 	var tiddlers = store.reverseLookup("tags","excludeLists",false,"modified");
 	var last = params[1] ? tiddlers.length-Math.min(tiddlers.length,parseInt(params[1])) : 0;
 	var div = createTiddlyElement(place, "div");
+	lastDay ="";
+	
 	for(var t=tiddlers.length-1; t>=last; t--) {
+		var theDay = tiddlers[t]['modified'].convertToLocalYYYYMMDDHHMM().substr(0,8);
+		if(theDay != lastDay) {
+			createTiddlyElement(place, "h1", null, null,  tiddlers[t]['modified'].formatString("DD/MM/YYYY"));
+			lastDay = theDay;
+		}
+
 		switch(tiddlers[t].fields['server.type']){
 			case "wordpress" :
 				var img = createTiddlyElement(null, "img", null, "imgClass");
