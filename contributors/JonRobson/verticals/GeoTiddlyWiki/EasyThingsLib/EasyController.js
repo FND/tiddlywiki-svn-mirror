@@ -1,6 +1,7 @@
 /*requires EasyShapes and EasyController */
 
 var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
+	this.setMaxScaling(5096);
 	if(!elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
@@ -18,6 +19,7 @@ var EasyMapController = function(targetjs,elem){ //elem must have style.width an
 	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 	this.wrapper.easyController = this;
+	
 
 };
 EasyMapController.prototype = {
@@ -59,8 +61,17 @@ EasyMapController.prototype = {
 				
 				var pos = EasyClickingUtils.getMouseFromEventRelativeToCenter(e);
 				var t=  that.transformation.translate;
-				var newx = parseFloat(s.x)+ delta;
-				var newy = parseFloat(s.y) + delta;
+				
+				var newx,newy;
+				if(delta > 0){
+					newx = parseFloat(s.x)+ 1;
+					newy = parseFloat(s.y) + 1;					
+				}
+				else{
+					newx = parseFloat(s.x)- 1;
+					newy = parseFloat(s.y) - 1;
+				}
+
 				if(newx > 0 && newy > 0){
 					s.x = newx;
 					s.y = newy;
@@ -295,7 +306,10 @@ EasyMapController.prototype = {
 		zoomCanvas.onmouseup = this._panzoomClickHandler;	
 	},	
 	
-	transform: function(){
+	setMaxScaling: function(max){
+		this._maxscale = max;
+	}
+	,transform: function(){
 		var t = this.transformation;
 		var s = t.scale;
 		var tr = t.translate;
@@ -304,8 +318,13 @@ EasyMapController.prototype = {
 		
 		var width = parseInt(style.width);
 		var height = parseInt(style.height);
-		if(s.x <= 0) s.x = 0.1;
-		if(s.y <= 0) s.y = 0.1;
+		if(s.x <= 0) s.x = 0.1125;
+		if(s.y <= 0) s.y = 0.1125;
+		
+		if(s.x > this._maxscale) s.x = this._maxscale;
+		if(s.y > this._maxscale) s.y = this._maxscale;
+		
+		
 		if(width && height){
 			var max = {};
 			max.x = parseFloat((width) - 10) * s.x;//the maximum possible translation

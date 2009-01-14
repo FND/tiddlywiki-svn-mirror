@@ -25,7 +25,7 @@ var EasyMap = function(wrapper){
 	this.settings = {};
 	this.settings.background = "#AFDCEC";
 	this.settings.globalAlpha = 1;
-	this.settings.renderPolygonMode = true;
+	this.settings.renderPolygonMode = true; //choose not to render polygon shapes (good if you just want to display points)
 	
 	//this.settings.projection = {x:function(x){return x;}, y: function(y){return y;}};
 	this.settings.optimisations = false;
@@ -133,7 +133,7 @@ EasyMap.prototype = {
 		EasyFileUtils.loadRemoteFile(file,callback);
 	},	
 
-	defineBackground: function(imgpath){
+	attachBackground: function(imgpath){
 		if(!this.canvas.transformation.spherical && this.settings.background){
 			this.wrapper.style.background=this.settings.background;
 		}
@@ -144,7 +144,8 @@ EasyMap.prototype = {
 		//if(!this._rendered) return;
 		if(imgpath) this.settings.backgroundimg = imgpath;
 		if(!this.canvas.transformation.spherical && this.settings.backgroundimg){
-			this.settings.globalAlpha = 0.2;
+			if(this.settings.renderPolygonMode) this.settings.globalAlpha = 0.8;
+			
 			this.wrapper.style.backgroundImage = "url('"+this.settings.backgroundimg +"')";		
 		}
 		else{
@@ -283,28 +284,34 @@ EasyMap.prototype = {
 		var that = this;
 
 		var f = function(){
-			var fragment = document.createDocumentFragment();
+			var newfragment = document.createDocumentFragment();
 			var t1=new Date();
-			//console.log("start" +t1);	
-			for(var i=0; i < mem.length; i++){
-				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser,fragment);
+				
+			 for(var i=0; i < mem.length; i++){
+				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser,newfragment);
 			}
 			var t2=new Date();
 			var time = t2-t1;
 			//console.log("done!"+time);
 			if(!this._fragment){
-				this._fragment= fragment;
-				that.canvas.appendChild(fragment.cloneNode(true));
+				this._fragment= newfragment.cloneNode(true);
+				that.canvas.appendChild(this._fragment);
+			}
+			else{
+				//newfragment.childNodes
+				//for(var i=0; i < newfragment.childNodes; i++){
+					
+				//}
 			}
 			
-			
+			console.log("done in "+ time+"! ");
 			var t = document.getElementById(that.wrapper.id + "_statustext");
 			if(t) {
 				t.parentNode.removeChild(t);	
 			}
 		};
 		if(this.settings.renderPolygonMode)f();
-		this.defineBackground();
+		this.attachBackground();
 		
 	
 	},

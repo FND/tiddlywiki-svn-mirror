@@ -4,7 +4,10 @@ var EasyFileUtils= {
 		return this._httpReq("GET",url,callback,params,headers,data,contentType,username,password,allowCache);
 	},
 	
-	_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
+	fileExists: function(url){
+		
+	}
+	,_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
 	{
 		//# Get an xhr object
 		var x = null;
@@ -58,7 +61,7 @@ var EasyFileUtils= {
 			x.send(data);
 		} catch(ex) {
 			//console.log(ex);
-			return ex;
+			throw ex;
 		}
 		return x;
 	},

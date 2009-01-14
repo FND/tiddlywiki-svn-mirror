@@ -160,73 +160,7 @@ EasyShape.prototype={
 	}
 	
 
-	,_cssTransform: function(transformation,projection){
-		var d1,d2,t;
-		if(!this.vml) return;
-		var clonedNode = this.vml.cloneNode(true);
-		if(this.properties.shape =='point' || projection) {
-			this._createvmlpathstring(this.vml,transformation,projection);
-		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
-		}
 
-		var o = transformation.origin;
-		var t = transformation.translate;
-		var s = transformation.scale;
-		if(!this.initialStyle) {
-			var initTop = parseInt(this.vml.style.top);
-			if(!initTop) initTop = 0;
-			initTop += o.y;
-			var initLeft = parseInt(this.vml.style.left);
-			if(!initLeft) initLeft = 0;
-			initLeft += o.x;
-			var w =parseInt(this.vml.style.width);
-			var h = parseInt(this.vml.style.height)
-			this.initialStyle = {top: initTop, left: initLeft, width: w, height: h};
-		}
-		var scalingRequired = true;
-		var translatingRequired = true;
-		if(this._lastTransformation){
-			if(s.x == this._lastTransformation.scale.x && s.y == this._lastTransformation.scale.y){			
-				scalingRequired = false;
-			}
-
-		}
-
-	
-		var initialStyle= this.initialStyle;
-
-		var style = this.vml.style;			
-		var newtop,newleft;
-		newtop = initialStyle.top;
-		newleft = initialStyle.left;
-
-		//scale
-		if(scalingRequired){
-			var newwidth = initialStyle.width * s.x;
-			var newheight = initialStyle.height * s.y; 	
-		}
-		//translate into right place
-
-		var temp;
-		temp = (t.x - o.x);
-		temp *= s.x;
-		newleft += temp;
-
-		temp = (t.y - o.y);
-		temp *= s.x;
-		newtop += temp;						
-
-		style.left = newleft;
-		style.top = newtop;
-		
-		if(scalingRequired){
-			style.width = newwidth;
-			style.height = newheight;
-		}
-		this._lastTransformation = {scale:{}};
-		this._lastTransformation.scale.x = s.x;
-		this._lastTransformation.scale.y = s.y;
-	}
 	 
 	,_renderTextShape: function(){
 		
@@ -315,13 +249,15 @@ EasyShape.prototype={
 		}
 		ctx.restore();
 	}
-	,_createvmlpathstring: function(vml,transformation,projection){
+	,_createvmlpathstring: function(vml,transformation,projection){ //mr bottleneck
 		if(!vml) return;
 		var o = transformation.origin;
 		var t = transformation.translate;
 		var s = transformation.scale;
-		var path = "M ";
-
+		var path;
+		
+		var buffer = [];
+		
 		if(projection){
 			c = this._applyProjection(projection,transformation);
 		}
@@ -339,36 +275,129 @@ EasyShape.prototype={
 		x = parseInt(x);
 		y = parseInt(y);
 
-		path+= x + "," +y + " L";
+		//path = "M";
+		buffer.push("M");
+		//path+= x + "," +y + " L";
+		buffer.push([x,",",y," L"].join(""))
+		var lineTo = true;
 		for(var i =2; i < c.length; i+=2){
 			if(c[i] == 'M') {
-			path += " M";
-			i+=1;
+				//path += " M";
+				buffer.push(" M");
+				lineTo = false;
+				i+=1;
 			}
-			else path += " L";
-			
+			else if(!lineTo) {
+				//path += " L";
+				buffer.push(" L");
+				lineTo = true;
+			}
+			else if(lineTo){
+				//path += " ";
+				buffer.push(" ");
+			}
 			var x =o.x+c[i];
 			var y =o.y+c[i+1];
 			x *= this._iemultiplier;
 			y *= this._iemultiplier;
 			x = parseInt(x);
 			y = parseInt(y);
-			path += x +"," + y;
+			buffer.push([x, ",",y].join(""));
+			//path += x +"," + y;
+			
 			//if(i < c.length - 2) path += "";
 		}
-		path += " XE";	
-		vml.path = path;
+		//path += " XE";	
+		buffer.push(" XE");
+		//console.log(buffer.join(""));
+
+	//console.log(buffer.join("")+"!**\n**?"+path);
+	path = buffer.join("");
+	//if(path != vml.getAttribute("path")){
+		
+		vml.setAttribute("path", path);	
+//	}
+
 	}
+
+	,_cssTransform: function(vml,transformation,projection){
+		var d1,d2,t;
+		if(!vml) return;
 	
+		if(!vml.path || this.properties.shape =='point' ||projection) {
+			//causes slow down..
+			this._createvmlpathstring(vml,transformation,projection);
+		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
+		}
+
+		var o = transformation.origin;
+		var t = transformation.translate;
+		var s = transformation.scale;
+		if(!this.initialStyle) {
+			var initTop = parseInt(vml.style.top);
+			if(!initTop) initTop = 0;
+			initTop += o.y;
+			var initLeft = parseInt(vml.style.left);
+			if(!initLeft) initLeft = 0;
+			initLeft += o.x;
+			var w =parseInt(vml.style.width);
+			var h = parseInt(vml.style.height)
+			this.initialStyle = {top: initTop, left: initLeft, width: w, height: h};
+		}
+		var scalingRequired = true;
+		var translatingRequired = true;
+		if(this._lastTransformation){
+			if(s.x == this._lastTransformation.scale.x && s.y == this._lastTransformation.scale.y){			
+				scalingRequired = false;
+			}
+
+		}
+
+	
+		var initialStyle= this.initialStyle;
+
+		var style = vml.style;			
+		var newtop,newleft;
+		newtop = initialStyle.top;
+		newleft = initialStyle.left;
+
+		//scale
+		if(scalingRequired){
+			var newwidth = initialStyle.width * s.x;
+			var newheight = initialStyle.height * s.y; 	
+		}
+		//translate into right place
+
+		var temp;
+		temp = (t.x - o.x);
+		temp *= s.x;
+		newleft += temp;
+
+		temp = (t.y - o.y);
+		temp *= s.x;
+		newtop += temp;						
+
+		style.left = newleft;
+		style.top = newtop;
+		
+		if(scalingRequired){
+			style.width = newwidth;
+			style.height = newheight;
+		}
+		this._lastTransformation = {scale:{}};
+		this._lastTransformation.scale.x = s.x;
+		this._lastTransformation.scale.y = s.y;
+	}	
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
 		var shape;
 		if(this.vml){
 			shape = this.vml;
+		
 			if(this.properties.fill && shapetype != 'path'){
 				shape.filled = "t";
 				shape.fillcolor = this.properties.fill;			
 			}
-			this._cssTransform(transformation,projection);
+			this._cssTransform(shape,transformation,projection);
 			return;
 		}
 		else{
@@ -394,7 +423,6 @@ EasyShape.prototype={
 				shape.filled = "t";
 				shape.fillcolor = this.properties.fill;			
 			}
-			this._createvmlpathstring(shape,transformation,projection);
 			shape.strokeweight = ".75pt";
 
 			var xspace = parseInt(canvas.width);
@@ -408,10 +436,11 @@ EasyShape.prototype={
 			if(!appendTo){
 				appendTo = canvas;
 			}
-			appendTo.appendChild(shape);
+			
+			
+			this._cssTransform(shape,transformation,projection);	
 			this.vml = shape;
-
-			this._cssTransform(transformation,projection);	
+			appendTo.appendChild(shape);
 		}
 		
 	

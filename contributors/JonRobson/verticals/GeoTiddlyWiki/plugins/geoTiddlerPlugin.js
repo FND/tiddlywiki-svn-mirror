@@ -83,6 +83,7 @@ if(!version.extensions.geoPlugin) {
 			p.googleHack = 0.000006378137;
 			p.source = new Proj4js.Proj('WGS84');//
 			p.dest = new Proj4js.Proj('GOOGLE');
+			p.resultCache = {};
 			p.inversexy = function(x,y){
 				x /= this.googleHack;
 				y /= this.googleHack;
@@ -93,9 +94,9 @@ if(!version.extensions.geoPlugin) {
 			}
 
 			p.xy = function(x,y){
+					if(this.resultCache[x+"|"+y]) return this.resultCache[x+"|"+y];
 					var pointSource = new Proj4js.Point(x,y);
 					var pointDest = Proj4js.transform(p.source,p.dest, pointSource);
-
 
 
 					var newx =pointDest.x;
@@ -106,9 +107,9 @@ if(!version.extensions.geoPlugin) {
 					//console.log(newx,newy);
 					newx *= this.googleHack;
 					newy *= this.googleHack;
-
-					return {x:newx , y:newy};
-
+					
+					this.resultCache[x+"|"+y] = {x:newx , y:newy};
+					return this.resultCache[x+"|"+y];
 					
 			}
 			return p;
@@ -117,6 +118,7 @@ if(!version.extensions.geoPlugin) {
 		,setupGoogleStaticMapLayer: function(eMap){
 			var that = this;
 			eMap.settings.projection = this.getGoogleMercatorProjection();
+			//eMap.settings.renderPolygonMode = false;
 			eMap._fittocanvas = false;
 			var s = {};
 			eMap.settings.beforeTransform = function(transformation){
@@ -147,12 +149,12 @@ if(!version.extensions.geoPlugin) {
 				var gsmPath ="gsm/"+w+"X"+h+"/"+zoomL+"/"+y+"_"+x+".gif";
 				var gsmURL ="http://maps.google.com/staticmap?center="+y+","+x+"&zoom="+zoomL+"&size="+w+"x"+h+"&key=YOUR_KEY_HERE";
 				
-				
+		
 				//if file exists point to file
 				
 				//else{
-				that.saveImageLocally(gsmURL,gsmPath);
-				eMap.settings.backgroundimg = gsmURL;
+				that.saveImageLocally(gsmURL,gsmPath,eMap);
+				
 
 				s._oldscale = scale.x;
 				
@@ -161,31 +163,46 @@ if(!version.extensions.geoPlugin) {
 
 			var w = parseInt(eMap.wrapper.style.width);
 			var h = parseInt(eMap.wrapper.style.height);
-			that.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"x"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"/0/0_0.gif");
-			eMap.settings.backgroundimg = "gsm/"+w+"x"+h+"/0/0_0.gif";
+			
+	
+			that.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"x"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"/0/0_0.gif",eMap);
+			
 			s._googlezoomer = 0;
 		
 		}
-		,saveImageLocally: function(sourceurl,dest) {
+		,saveImageLocally: function(sourceurl,dest,eMap) {
 			
-			
-			var fileCallback = function(status,params,responseText,url,xhr){
-				var localPath = getLocalPath(document.location.toString());
-				var savePath;
-				if((p = localPath.lastIndexOf("/")) != -1) {
-					savePath = localPath.substr(0,p) + "/" + dest;
+			var localPath = getLocalPath(document.location.toString());
+			var savePath;
+			if((p = localPath.lastIndexOf("/")) != -1) {
+				savePath = localPath.substr(0,p) + "/" + dest;
+			} else {
+				if((p = localPath.lastIndexOf("\\")) != -1) {
+					savePath = localPath.substr(0,p) + "\\" + dest;
 				} else {
-					if((p = localPath.lastIndexOf("\\")) != -1) {
-						savePath = localPath.substr(0,p) + "\\" + dest;
-					} else {
-						savePath = localPath + "." + dest;
-					}
+					savePath = localPath + "." + dest;
 				}
-
-				var fileSave = saveFile(savePath,responseText);
+			}
+			var applyBackground = function(){
+				eMap.attachBackground(dest);
+			}
+			
+			var onloadfromweb = function(status,params,responseText,url,xhr){	
+				saveFile(savePath,responseText);
+				//eMap.attachBackground(dest);
+				window.setTimeout(applyBackground,0);
 			};
 			
-			EasyFileUtils.loadRemoteFile(sourceurl,fileCallback,null,null,null,null,null,null,true);
+			var onloadlocally = function(status,params,responseText,url,xhr){
+			
+				eMap.attachBackground(dest);
+			};
+			try{
+				EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
+			}
+			catch(e){//couldnt load probably doesn't exist!
+				EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
+			}
 			
 			
 		}
@@ -195,17 +212,28 @@ if(!version.extensions.geoPlugin) {
 		}
 		,getGeoJson: function(sourceTiddlerName,easyMap,parameters){
 			if(!sourceTiddlerName) sourceTiddlerName ='geojson';
-			if(sourceTiddlerName.indexOf('.svg') > -1){
-				//svg file.
-				return "svgfile";
+			
+			var data;
+			if(sourceTiddlerName == 'false'){
+				data = {};
+				data.type = "FeatureCollection";
+				data.features = [];
 			}
 			else{
-				var sourceTiddler = store.getTiddler(sourceTiddlerName);
-				if(!sourceTiddler) return {};
-				var data = sourceTiddler.text;
+				if(sourceTiddlerName.indexOf('.svg') > -1){
+					//svg file.
+					return "svgfile";
+				}
+				else{
+					var sourceTiddler = store.getTiddler(sourceTiddlerName);
+					if(!sourceTiddler) return {};
+					data = sourceTiddler.text;
+				}
 			}
-		
-			if(data.indexOf("({") == 0) {
+			if(data.features){
+				//good format!
+			}
+			else if(data.indexOf("({") == 0) {
 				data = eval(data);
 			}
 			else if(sourceTiddler.tags.contains("georss")){
