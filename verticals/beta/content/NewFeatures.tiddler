@@ -1,19 +1,5 @@
-<div title="NewFeatures" modifier="JeremyRuston" created="200704141410" modified="200812151635">
-<pre>Release 2.4.2 of TiddlyWiki includes some minor enhancements and bug fixes. Here are some of the highlights; see the full change history [[at TiddlyWiki.org|http://trac.tiddlywiki.org/wiki/History]] for more details.
-!!!Usability
-* Date-format strings now support escaping of literal characters ([[ticket #623|http://trac.tiddlywiki.org/ticket/623]])
-* PluginManager wizard now displays Description slices ([[ticket #739|http://trac.tiddlywiki.org/ticket/739]])
-* Support for {{{<hr>}}} syntax in wiki markup ([[ticket #741|http://trac.tiddlywiki.org/ticket/741]])
-* Filter expressions no longer omit non-existing tiddlers ([[ticket #768|http://trac.tiddlywiki.org/ticket/768]])
-!!!Hackability
-* Extended invokeParamifier to process "option paramifiers" ([[ticket #823|http://trac.tiddlywiki.org/ticket/823]])
-* Added support for TiddlyWikis with empty {{{noscript}}} tag ([[ticket #858|http://trac.tiddlywiki.org/ticket/858]])
-!!!Bug Fixes
-* Improved detection of missing links ([[ticket #67|http://trac.tiddlywiki.org/ticket/67]])
-* Fixed overlapping tiddlers in Firefox ([[ticket #320|http://trac.tiddlywiki.org/ticket/320]])
-* TagChooser macro now supports //excludeLists// tag ([[ticket #515|http://trac.tiddlywiki.org/ticket/515]])
-* RSS feed now uses proper locale value ([[ticket #591|http://trac.tiddlywiki.org/ticket/591]])
-* Fixed importing under Windows Vista ([[ticket #635|http://trac.tiddlywiki.org/ticket/635]])
-* Various minor fixes and enhancements
+<div title="NewFeatures" modifier="FND" created="200704141410" modified="200901140000">
+<pre>Release 2.5.0 of TiddlyWiki is identical to version 2.4.3, except that it includes the [[jQuery|http://jquery.com]] JavaScript library.
+This allows plugin authors to take advantage of jQuery's advanced features and provides the basis for future core optimisations.
 </pre>
 </div>
