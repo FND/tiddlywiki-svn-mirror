@@ -1,6 +1,10 @@
 
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+
 <script type="text/javascript" src="http://www.bernardopadua.com/nestedSortables/externals/released-externals/interface-1.2.js"></script> 
+
+
+
+
 <script type="text/javascript" src="http://www.bernardopadua.com/nestedSortables/compressed/nested_sortable/inestedsortable.js"></script> 
 
 
@@ -10,9 +14,7 @@
 
 		<style type="text/css">
 
-.newCommentArea {
-	text-align:center;
-}
+
 div.tiddler .tab {
 background-color:#ddd;
 }
@@ -97,7 +99,6 @@ display:none !important;
 			
 			.helper {
 				border:2px dashed #777777;
-				margin-left:1em !important;
 			}
 			
 			.current-nesting {
@@ -119,18 +120,12 @@ display:none !important;
 		}
 		
 		
-.twtable, .twtable td,  .twtable tr {
-border:0px !important;
-}
+
 		div.subtitle {
 			padding:1em 1em 1em 0.0em;
 		}
-		.taskViewer {
-			padding:1em;
-		}
 		.viewer .button {
-		top:-2.0em !important;
-		padding:0.2em  0.4em !important;
+		top:-1.8em !important;
 		}
 		.button {
 		font-face:arial;
@@ -183,7 +178,7 @@ border:0px !important;
 			hieght:100%;
 		}
 		
-		input {
+		input, select {
 			background-color:#eee;
 			color:black;
 			border:1px solid #ddd;
