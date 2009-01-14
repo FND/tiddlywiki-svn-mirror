@@ -2,7 +2,7 @@
 |''Name''|TwitterWizardPlugin|
 |''Description''|interface for retrieving tweets and user data from Twitter|
 |''Author''|FND|
-|''Version''|0.1.3|
+|''Version''|0.1.4|
 |''Status''|@@experimental@@|
 |''Requires''|TwitterAdaptorPlugin|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterArchivePlugin|
@@ -10,7 +10,7 @@
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 !Usage
 {{{
-<<TiddlyTweets [username] [pages]>>
+<<TiddlyTweets [workspace] [pages]>>
 }}}
 {{{
 <<TwitterWizard>>
@@ -19,6 +19,7 @@
 !!v0.1 (2008-11-14)
 * initial release
 !To Do
+* documentation
 * abort conditions: empty response or tweet already archived
 * report when retrieval has been completed
 * disable wiki markup for tweets
@@ -51,8 +52,8 @@ config.macros.TiddlyTweets = {
 		var self = config.macros.TiddlyTweets;
 		var maxPages = params[1] || 1;
 		if(self.pageCount < maxPages) {
-			var username = params[0] || prompt(self.usernamePrompt);
-			self.launcher(username, self.pageCount);
+			var workspace = params[0] || prompt(self.usernamePrompt);
+			self.launcher(workspace, self.pageCount);
 			setTimeout(function() { self.dispatcher(params); },
 				self.requestDelay);
 			self.pageCount++;
@@ -61,11 +62,11 @@ config.macros.TiddlyTweets = {
 		}
 	},
 
-	launcher: function(username, page) { // TODO: rename
+	launcher: function(workspace, page) { // TODO: rename
 		var self = config.macros.TiddlyTweets;
 		var context = {
 			host: self.host,
-			workspace: username,
+			workspace: workspace,
 			page: page
 		};
 		var status = self.adaptor.getTiddlerList(context, null, self.processor);
