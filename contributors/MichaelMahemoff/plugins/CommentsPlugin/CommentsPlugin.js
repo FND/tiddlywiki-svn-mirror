@@ -3,9 +3,7 @@
 
   TODO:
   - Support Cascade comment delete when the top-level tiddler is deleted
-  - Support more than one < <comments> > per tiddler. This will probably entail creating an invisible root tiddler to
-    hold all the comments for a macro together. The user will need to provide an ID for this tiddler.
-  - Don't use global "macro" var (use "macro" param a la jquery)
+  - Don't use global "cmacro" var (use "cmacro" param a la jquery)
 
 */
 
@@ -24,6 +22,8 @@
 if(!version.extensions.CommentsPlugin) {
 
   version.extensions.CommentsPlugin = {installed:true};
+
+  (function() {
 
   var cmacro = config.macros.comments = {
 
@@ -180,7 +180,7 @@ buildCommentEl: function(daddyCommentsEl, comment, macroParams) {
   // HEADING <- METAINFO AND DELETE
   var headingEl = createTiddlyElement(commentEl, "div", null, "heading");
 
-  var metaInfoEl = createTiddlyElement(headingEl, "div", null, "commentTitle",  comment.modifier + '@' + comment.modified.formatString(getParam(macroParams,"dateFormat") || "DDD, MMM DDth, YYYY hh12:0mm:0ss am"));
+  var metaInfoEl = createTiddlyElement(headingEl, "div", null, "commentTitle",  comment.modifier + '@' + comment.modified.formatString(getParam(macroParams,"dateFormat") || "DDD, MMM DDth, YYYY 0hh:0mmam"));
   metaInfoEl.onclick = function() { 
     // story.closeAllTiddlers();
     story.displayTiddler("top", comment.title, null, true);
@@ -446,8 +446,9 @@ copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
 !(end of StyleSheet)
 
 ***/
+  })();
+  config.macros.comments.init();
 
-  cmacro.init();
 
 } // end of 'install only once'
 /*}}}*/
