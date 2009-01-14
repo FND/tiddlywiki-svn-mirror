@@ -2,13 +2,16 @@
 |''Name''|TwitterWizardPlugin|
 |''Description''|interface for retrieving tweets and user data from Twitter|
 |''Author''|FND|
-|''Version''|0.1.1|
+|''Version''|0.1.2|
 |''Status''|@@experimental@@|
 |''Requires''|TwitterAdaptorPlugin|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterArchivePlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 !Usage
+{{{
+<<TiddlyTweets [pages]>>
+}}}
 {{{
 <<TwitterWizard>>
 }}}
@@ -25,7 +28,7 @@
 if(!version.extensions.TwitterWizardPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TwitterWizardPlugin = { installed: true };
 
-if(!config.extensions.TwitterAdaptor) {
+if(!config.adaptors.twitter) {
 	throw "Missing dependency: TwitterAdaptor";
 }
 
@@ -34,9 +37,9 @@ config.macros.TiddlyTweets = {
 	btnTooltip: "retrieve tweets",
 	usernamePrompt: "enter Twitter username",
 
-	host: "http://www.twitter.com",
+	host: "https://www.twitter.com",
 	requestDelay: 1000, // delay between page requests
-	adaptor: new config.extensions.TwitterAdaptor(),
+	adaptor: new config.adaptors.twitter(),
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		this.pageCount = 0; // XXX: means there can only be a single instance!!
@@ -120,7 +123,7 @@ config.macros.TwitterWizard = {
 		w.setButtons([{
 			caption: "Import",
 			tooltip: "click to import",
-			onClick: function() { config.macros.twitter.step3(w); }
+			onClick: function() { config.macros.TwitterWizard.step3(w); }
 		}]);
 	},
 
