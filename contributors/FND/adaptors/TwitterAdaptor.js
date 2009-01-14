@@ -3,7 +3,7 @@
 |''Description''|adaptor for retrieving data from Twitter|
 |''Author''|FND|
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
-|''Version''|0.3.5|
+|''Version''|0.3.6|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptor|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -218,7 +218,7 @@ adaptor.parseTweet = function(tweet) {
 	var tiddler = new Tiddler(tweet.id.toString());
 	tiddler.created = adaptor.convertTimestamp(tweet.created_at);
 	tiddler.modified = tiddler.created;
-	tiddler.modifier = tweet.user.id;
+	tiddler.modifier = tweet.user.id.toString();
 	tiddler.tags = adaptor.tweetTags;
 	tiddler.fields = {
 		source: tweet.source, // TODO: split into appName and appURI
