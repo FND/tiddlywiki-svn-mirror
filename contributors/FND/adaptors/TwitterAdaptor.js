@@ -153,7 +153,8 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	// do not re-request non-truncated tweets
 	if(context.tiddler && (context.tiddler.fields.truncated === false || context.tiddler.fields["server.workspace"] == "users")) {
 		context.status = true;
-		window.setTimeout(function() { callback(context, context.userParams); }, 0);
+		var subcontext = merge({}, context);
+		window.setTimeout(function() { callback(subcontext, context.userParams); }, 0);
 		return true;
 	}
 	// request individual tweet
