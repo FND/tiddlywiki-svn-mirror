@@ -24,6 +24,7 @@ Note:
 In preparation for a release, the following steps need to be taken:
 * set version number in Trunk/core/js/Version.js
 * create recipe in Trunk/core/recipes/
+* if applicable, update copyright notices (in core/html/copyright.txt and verticals/tiddlywiki.com/shadows/MainMenu.tiddler)
 * update build and upload scripts to use the respective version number
 * update tiddlywiki.com vertical's recipes
 * update tiddlywiki.com vertical's NewFeatures tiddler
