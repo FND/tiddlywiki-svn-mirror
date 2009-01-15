@@ -1,11 +1,14 @@
 <div title="London" modifier="JonRobson" created="200811111722" tags="excludeLists" latitude="51.507778" longitude="-0.12" fill="#00ffff">
 <pre>
+!Creating and moving around New Maps and turning off geotags
 Since this tiddler is also geo-tagged our original map of the world will change again to move to London if we do {{{<<geogoto 51.5 -0.12 20 world>>}}}<<geogoto 51.5 -0.12 20 world>>
 
-However, we can also create a new map and pan to that one instead. Below we create a new map by calling the {{{<<geo>>}}} macro again and than following this with a {{{geogoto}}} call. View the source to understand more.
-<<geo id:uk>>
-<<geogoto 51.5 -0.12 20 uk>>
+However, we can also create a new map and pan to that one instead. Below we create a new map by calling the {{{<<geo id:london geotagging:false>>}}} macro. This time we have given it a different id so it's not confused with the previous). We also specify a parameter geotagging as false to tell the map we don't want to show geotags on it.
 
-For one final demo, let's see what happens when we point to rss feeds in Flickr and Dopplr from a tiddler with a map in it. Click through to this [[Flickr and Dopplr Adaptors]].
+We then follow this with a {{{<<geogoto 51.5 -0.12 20 london>>}}} call. View the source to understand more.
+<<geo id:london geotagging:false>><<geogoto 51.5 -0.12 20 london>>
+
+!Next..
+So what if you want to see roads and rivers and are not bothered with colouring countries... [[read on..|Google Style Maps]]
 </pre>
 </div>

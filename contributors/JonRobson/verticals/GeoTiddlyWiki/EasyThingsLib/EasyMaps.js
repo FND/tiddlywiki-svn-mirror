@@ -304,7 +304,7 @@ EasyMap.prototype = {
 				//}
 			}
 			
-			console.log("done in "+ time+"! ");
+			//console.log("done in "+ time+"! ");
 			var t = document.getElementById(that.wrapper.id + "_statustext");
 			if(t) {
 				t.parentNode.removeChild(t);	

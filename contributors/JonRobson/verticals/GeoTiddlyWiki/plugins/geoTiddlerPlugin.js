@@ -51,7 +51,13 @@ if(!version.extensions.geoPlugin) {
 
 					}
 					var tiddlerElem = null;
-					tiddlerElem = story.findContainingTiddler(resolveTarget(e));	
+					try{
+						tiddlerElem = story.findContainingTiddler(resolveTarget(e));	
+					}
+					catch(e){
+						
+					}
+					
 					story.displayTiddler(tiddlerElem,shapeName);
 					return false;
 				};			
@@ -122,6 +128,7 @@ if(!version.extensions.geoPlugin) {
 			eMap._fittocanvas = false;
 			var s = {};
 			eMap.settings.beforeTransform = function(transformation){
+				eMap.attachBackground("none");
 				var x =0,y =0, t= transformation.translate,scale= transformation.scale;
 			
 				if(s._oldscale > scale.x){
@@ -150,11 +157,13 @@ if(!version.extensions.geoPlugin) {
 				var gsmURL ="http://maps.google.com/staticmap?center="+y+","+x+"&zoom="+zoomL+"&size="+w+"x"+h+"&key=YOUR_KEY_HERE";
 				
 		
-				//if file exists point to file
 				
-				//else{
-				that.saveImageLocally(gsmURL,gsmPath,eMap);
-				
+				try{
+					that.saveImageLocally(gsmURL,gsmPath,eMap);
+				}
+				catch(e){
+					console.log("unable to cache static image for this map view. ("+e+")")
+				}
 
 				s._oldscale = scale.x;
 				
@@ -165,8 +174,13 @@ if(!version.extensions.geoPlugin) {
 			var h = parseInt(eMap.wrapper.style.height);
 			
 	
-			that.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"x"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"/0/0_0.gif",eMap);
-			
+	
+			try{
+				that.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"x"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"/0/0_0.gif",eMap);
+			}
+			catch(e){
+				console.log("unable to cache static image for this map view. ("+e+")")
+			}
 			s._googlezoomer = 0;
 		
 		}
@@ -211,10 +225,10 @@ if(!version.extensions.geoPlugin) {
 	
 		}
 		,getGeoJson: function(sourceTiddlerName,easyMap,parameters){
-			if(!sourceTiddlerName) sourceTiddlerName ='geojson';
+			if(sourceTiddlerName == undefined) sourceTiddlerName ='geojson';
 			
 			var data;
-			if(sourceTiddlerName == 'false'){
+			if(!sourceTiddlerName || sourceTiddlerName == 'false'){
 				data = {};
 				data.type = "FeatureCollection";
 				data.features = [];
@@ -386,10 +400,13 @@ if(!version.extensions.geoPlugin) {
 
 			var wrapper = createTiddlyElement(place,"div",id,"wrapper");
 			wrapper.style.position = "relative";
+		
 			if(getParam(prms,"width")){
 				var width = getParam(prms,"width");
-				if(width.indexOf("%") == -1 && width.indexOf("px") == -1)
+			
+				if(width.indexOf("%") == -1 && width.indexOf("px") == -1){
 					width += "px";
+				}
 				wrapper.style.width = width;
 			}
 			if(getParam(prms,"height")){
@@ -410,7 +427,12 @@ if(!version.extensions.geoPlugin) {
 					eMap.settings.projection = this.getGoogleMercatorProjection();
 				}
 				else if(proj == 'googlestaticmap'){
-					this.setupGoogleStaticMapLayer(eMap);
+					if(parseInt(wrapper.style.width)  > 640|| parseInt(wrapper.style.height) > 640){
+						throw "Max resolution for using google static maps is 640 by 640 - your width or height is too big";
+					}
+					else{
+						this.setupGoogleStaticMapLayer(eMap);
+					}
 				}
 			}
 			

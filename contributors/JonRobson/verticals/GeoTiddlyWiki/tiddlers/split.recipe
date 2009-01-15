@@ -6,10 +6,9 @@ tiddler: geojson.tiddler
 tiddler: London.tiddler
 tiddler: NewYork.tiddler
 tiddler: France.tiddler
-//tiddler: ukjson.tiddler
+tiddler: PageTemplate.tiddler
 tiddler: drawingFromSVG.tiddler
 tiddler: svgexample.tiddler
-//tiddler: countrytext.tiddler
 tiddler: rssExample.tiddler
 tiddler: EasterEgg.tiddler
 tiddler: Documentation.tiddler

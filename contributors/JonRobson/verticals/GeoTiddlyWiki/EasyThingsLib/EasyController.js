@@ -1,7 +1,7 @@
 /*requires EasyShapes and EasyController */
 
 var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
-	this.setMaxScaling(5096);
+	this.setMaxScaling(99999999);
 	if(!elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
@@ -64,12 +64,12 @@ EasyMapController.prototype = {
 				
 				var newx,newy;
 				if(delta > 0){
-					newx = parseFloat(s.x)+ 1;
-					newy = parseFloat(s.y) + 1;					
+					newx = parseFloat(s.x) * 2;
+					newy = parseFloat(s.y) * 2;					
 				}
 				else{
-					newx = parseFloat(s.x)- 1;
-					newy = parseFloat(s.y) - 1;
+					newx = parseFloat(s.x) / 2;
+					newy = parseFloat(s.y) / 2;
 				}
 
 				if(newx > 0 && newy > 0){

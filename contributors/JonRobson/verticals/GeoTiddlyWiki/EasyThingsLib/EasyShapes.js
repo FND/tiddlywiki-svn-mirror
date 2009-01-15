@@ -311,7 +311,6 @@ EasyShape.prototype={
 		buffer.push(" XE");
 		//console.log(buffer.join(""));
 
-	//console.log(buffer.join("")+"!**\n**?"+path);
 	path = buffer.join("");
 	//if(path != vml.getAttribute("path")){
 		

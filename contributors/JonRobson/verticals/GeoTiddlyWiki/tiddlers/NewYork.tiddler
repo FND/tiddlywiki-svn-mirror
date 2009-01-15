@@ -1,16 +1,16 @@
 <div title="New York" modifier="JonRobson" created="200811111722" latitude="40.756054" longitude="-73.986951" tags="excludeLists">
 <pre>
-So what happened there?! The map changed to show New York in the centre and zoomed in. This is for two reasons.
+!Moving Around the Map
+So what happened there?! The map changed to show New York in the centre and zoomed in. This is because another macro has been used called {{{geogoto}}}.
 
-Reason 1: this tiddler is geotagged. 
-If you go into edit mode you will notice there is a field for geo data containing 43;-75. This is a latitude coordinate followed by a semicolon followed by a longitude coordinate in it's decimal form. [[Wikipedia|http://en.wikipedia.org/wiki/New_York]] is a great resource for finding these coordinates.
+If you view the source (click eidt) we have made a call to a macro {{{<<geogoto 45 -75 20 world>>}}}. This has told the map to center on the coordinate 40.756054,-73.986951 and zoom in by a factor of 20 in the map created with id 'world'.
+<<geogoto 40.756054 -73.986951 20 world>>
+The tricky bit is knowing how 40.756054 and -73.986951 correspond to New York. [[Wikipedia|http://en.wikipedia.org/wiki/New_York]] is a great resource for finding these coordinates (usually in the top right of the page).
 
-Reason 2: we have fired another macro.
-If you view the source we have made a call to a macro {{{<<geogoto 45 -75 20 world>>}}}. This has told the map to center on the coordinate 45,-75 and zoom in by a factor of 20 in the map created with id 'world'.
-<<geogoto 45 -75 20 world>>
+!Clicking on GeoTags in the map
+If you click on New York in the map it will load the tiddler it is geotagging. Try closing this tiddler and clicking on the tag to demonstrate this feature. The reason it is displayed on the map in the first place is because this tiddler has special properties called longitude and latitude which are used to put points on to the map when it is rendered.
 
-If you click on New York in the map it will load the tiddler it is geotagging. Try closing this tiddler and clicking on the tag to demonstrate this feature.
-
+!Next..
 Hopefully that was interesting. Why not go to [[London]] now and we'll discuss this further?
 </pre>
 </div>

@@ -1,7 +1,12 @@
-<div title="FRANCE" modifier="JonRobson" created="200811111722" tags="excludeLists" fill="#00ff00">
+<div title="FRANCE" modifier="JonRobson" created="200811111722" tags="excludeLists [[coloring countries]]" fill="#00ff00">
 <pre>
-This tiddler has special data inside it that defines a colour for France. This property is called fill and can be edited by clicking edit in the top right. This could be useful if you are planning to show certain data of a certain type about the world. For example you could change the colour depending on the population of a country to have a graphical representation of populous (and non-populous) countries in the world.
+!Colouring Countries..
+This tiddler has special data inside it that defines a colour for France. This property is called fill and can be edited by clicking edit in the top right. This could be useful if you are planning to show certain data of a certain type about the world for example a map of the world showing where coffee is grown (green means yes, red means no for example).
 
-With that demo over lets investigate moving around the map. Lets go to [[New York]]...
+!Try it for yourself
+If you wanted to colour America, click on America in the map and this will open up an empty tiddler. Edit this tiddler and change the fill attribute to "#cccccc". Save and refresh the map (either close and open the tiddler again or refresh the page). Now you will have a grey America.
+
+!Next..
+With that demo over lets investigate navigating around the map. Lets go to [[New York]]...
 </pre>
 </div>
