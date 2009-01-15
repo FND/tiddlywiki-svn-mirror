@@ -1,0 +1,24 @@
+<div title="UploadOptions" modifier="YourName" created="200604052025" modified="200701180210">
+<pre>!Options used by UploadPlugin
+Username: <<option txtUploadUserName>>
+Password: <<option pasUploadPassword>>
+
+Url of the UploadService script^^(1)^^: <<option txtUploadStoreUrl 50>>
+Relative Directory where to store the file^^(2)^^: <<option txtUploadDir 50>>
+Filename of the uploaded file^^(3)^^: <<option txtUploadFilename 40>>
+Directory to backup file on webserver^^(4)^^: <<option txtUploadBackupDir>>
+
+^^(1)^^Mandatory either in UploadOptions or in macro parameter
+^^(2)^^If empty stores in the script directory
+^^(3)^^If empty takes the actual filename
+^^(4)^^If empty existing file with same name on webserver will be overwritten
+
+<<upload>> with these options.
+
+!Upload Macro parameters
+{{{
+<<upload [storeUrl [toFilename [backupDir [uploadDir [username]]]]]>>
+	Optional positional parameters can be passed to overwrite 
+	UploadOptions. 
+}}}</pre>
+</div>

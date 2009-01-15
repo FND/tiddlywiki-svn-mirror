@@ -1,0 +1,10 @@
+<div title="HtmlTables" modifier="NathanBowers" created="200505051342">
+<pre>*sample:
+|!th1111111111|!th2222222222|
+|>| colspan |
+| rowspan |left|
+|~| right|
+|bgcolor(#a0ffa0):colored| center |
+|caption|c
+*another sample: see PeriodicTable.</pre>
+</div>

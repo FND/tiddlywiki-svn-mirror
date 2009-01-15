@@ -1,0 +1,1 @@
+config.options.chkHttpReadOnly = false;

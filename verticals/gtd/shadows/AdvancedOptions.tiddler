@@ -1,0 +1,15 @@
+<div title="AdvancedOptions" modifier="BidiX" created="200604052026">
+<pre><<option chkGenerateAnRssFeed>> GenerateAnRssFeed
+<<option chkOpenInNewWindow>> OpenLinksInNewWindow
+<<option chkSaveEmptyTemplate>> SaveEmptyTemplate
+<<option chkToggleLinks>> Clicking on links to tiddlers that are already open causes them to close
+^^(override with Control or other modifier key)^^
+<<option chkHttpReadOnly>> HideEditingFeatures when viewed over HTTP
+<<option chkForceMinorUpdate>> Treat edits as MinorChanges by preserving date and time
+^^(override with Shift key when clicking 'done' or by pressing Ctrl-Shift-Enter^^
+<<option chkConfirmDelete>> ConfirmBeforeDeleting
+Maximum number of lines in a tiddler edit box: <<option txtMaxEditRows>>
+Folder name for backup files: <<option txtBackupFolder>>
+
+<<tiddler UploadOptions>></pre>
+</div>

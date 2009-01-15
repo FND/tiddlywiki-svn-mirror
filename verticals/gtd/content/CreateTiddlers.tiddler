@@ -1,0 +1,13 @@
+<div title="CreateTiddlers" modifier="NathanBowers" created="200505101758">
+<pre>! Preferred Method
+# Create new Tiddlers directly in the MainMenu by typing them in the MainMenu Tiddler.
+
+! Method 2
+# Click CreateNewTiddler in the MainMenu.
+# Edit the title and content to create.
+
+! Method 3
+# Enter a mixed-case WikiWord (or double square brackets for NonWikiWordLinks) into an existing Tiddler.
+# Click on the new italicized "empty" Tiddler to edit.
+# When you are done editing, the Tiddler is created.</pre>
+</div>

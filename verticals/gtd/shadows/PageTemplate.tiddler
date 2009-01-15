@@ -1,0 +1,20 @@
+<div title="PageTemplate" modifier="ClintChecketts" created="200812180224">
+<pre><div id='header'>
+<div id='titleLine'>
+<span id='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+<span id='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+</div>
+<div id='sidebar'>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div><div id="licensePanel">
+<a rel="license" href="http://shared.snapgrid.com/gtd_tiddlywiki.html#RevisionHistory" target="_new">GTDTW Version <span macro="version"></span></a>
+<a rel="license" href="http://www.tiddlywiki.com" target="_new">
+TiddlyWiki is published by Jeremy Ruston at Osmosoft under a BSD open source license</a>
+<a rel="license" href="http://snapgrid.com" target="_new">GTD TiddlyWiki is a modification by Nathan Bowers at Snapgrid under the same license terms.</a>
+<a rel="license" href="http://davidco.com" target="_new">"Getting Things Done" is &#169; David Allen at Davidco. Davidco has no affiliation with TiddlyWiki or GTD TiddlyWiki.</a></div></div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div></pre>
+</div>

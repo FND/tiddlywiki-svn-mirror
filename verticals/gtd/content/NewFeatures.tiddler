@@ -1,0 +1,12 @@
+<div title="NewFeatures" modifier="NathanBowers" created="200505051210">
+<pre>This ThirdVersion of TiddlyWiki adds:
+* the ability to easily SaveChanges on FireFox and InternetExplorer
+* a new liquid CSS layout that fills the width of the browser window
+* InterfaceOptions revealed by clicking the new 'options' button on the right
+* some BugFixes
+* KeyboardShortcuts so you can finish editing a tiddler with Control-Enter or abandon it with Escape
+* a more flexible OpenSourceLicense
+* a bunch of features from IsaoSonobe's [[adaptation|http://www-gauge.scphys.kyoto-u.ac.jp/~sonobe/OgreKit/OgreKitWiki.html]] of TiddlyWiki including ExtendedFormatting, NonWikiWordLinks, PrettyLinks, [[Headings]], BulletPoints, NumberedLists, HtmlTables, BlockQuotes, HorizontalRules and...
+* ...EmbeddedImages:
+[img[http://img110.echo.cx/img110/139/gorilla8nw.jpg]]</pre>
+</div>

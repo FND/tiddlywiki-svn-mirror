@@ -1,0 +1,11 @@
+<div title="SupportedBrowsers" modifier="NathanBowers" created="200505170223">
+<pre>!Supported
+* Safari (requires [[plugin by Jonathan Paisley|http://www.dcs.gla.ac.uk/~jp/tiddlywiki/]])
+* Firefox
+* Win IE 6 (caveat: see KnownBugs)
+* Camino (I haven't verified this)
+
+!Unsupported
+* ==Safari: Saving doesn't work in Safari, which renders TiddlyWiki useless.== FIXED! Thanks to [[Jonathan Paisley|http://www.dcs.gla.ac.uk/~jp/]].
+* Opera: I've gotten mixed reports.</pre>
+</div>

@@ -1,0 +1,11 @@
+<div title="ServicePack2Problems" modifier="JeremyRuston" created="200504132259">
+<pre>Internet Explorer Windows XP SP2 seems to have a magical ability to keep track of html files that have been downloaded from the internet and saved on an NTFS drive. By storing additional data in an [[alternate data stream|http://www.jsware.net/jsware/sviewer.html]], it manages to keep them in the 'Internet Zone' regardless of attempts to rename or modify the file. But, in order to be able to SaveChanges, TiddlyWiki needs to run in the 'My Computer Zone'.
+
+There are a couple of ways around the problem:
+* save the TiddlyWiki HTML file to a FAT drive (eg a USB thumb drive)
+* open the downloaded file with a text editor and save it again under a different name
+
+In either case, The new file will open in 'My Computer Zone', which in turn causes Internet Explorer to put up it's information bar asking you whether you want to run it. You need to 'Allow blocked content' to let TiddlyWiki do it's stuff.
+
+This is all a bit frustrating. An easy alternative is to use FireFox, which seems to do the trick on all platforms.</pre>
+</div>

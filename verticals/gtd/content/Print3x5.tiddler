@@ -1,0 +1,20 @@
+<div title="Print3x5" modifier="YourName" created="200509091840">
+<pre>The GTD Tiddly Wiki has been designed to print "HipsterPDA" 3x5 index cards. All you have to do is use your browser's "Print" button or shortcut key.
+
+!Print Features:
+* Print directly to 3x5 from your browser. There is no "printer friendly" link.
+* Pagination: Each Tiddler (or GTD list) will print on it's own sheet. You could have all your lists open and print them all at once.
+* If you know any CSS, you can completely customize the print output.
+* List bullets are circles to help you mark off completed tasks in your HipsterPDA.
+
+[img[http://img15.echo.cx/img15/57/lists2jb.jpg]]
+
+!How to customize print style, typeface, or font size:
+* Edit the StyleSheet Tiddler (it helps to know a little CSS).
+
+!KnownBugs with print:
+* Firefox/Mac has no "page properties" interface for removing the page URL, page numbers, etc... from printed pages. This is pretty lame. Try entering about:config in Firefox's URL bar and look for "print" to configure it the hard way.
+* WIN/IE 6 inserts one blank page because it does not recognize the :first-child CSS psuedo element.
+* You'll probably need to tweak your browser print settings to remove the page URL, pagination, timestamp, and ensure that the output is sized and paged correctly.
+* Your mileage may vary because of platform, font, browser, and printer differences. If you find something that's broken or needs help, visit the GTDTWForum.</pre>
+</div>

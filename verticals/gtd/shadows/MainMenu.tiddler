@@ -1,0 +1,23 @@
+<div title="MainMenu" modifier="YourName" created="200505101757" modified="200701180214">
+<pre>*[[@Agenda]]
+*[[@Calls and Emails]]
+*[[@Cleaning-Organizing]]
+*[[@Computer]]
+*[[@Groceries]]
+*[[@Research]]
+*[[@Shopping-Errands]]
+*[[@Skills]]
+*[[@Someday Maybe]]
+*[[@Waiting]]
+*[[@Work]]
+*[[PROJECT LIST]]
+++++![Calendar]
+<<calendar thismonth>>
+===
+*<<upload http://checkettsweb.com/tw/store.php gtd_tiddlywiki.htm backup>>
+
+*FormattingInstructions
+*DefaultTiddlers
+*<<newTiddler>>
+*MainMenu</pre>
+</div>

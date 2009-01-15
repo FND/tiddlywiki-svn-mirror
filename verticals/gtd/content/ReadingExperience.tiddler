@@ -1,0 +1,3 @@
+<div title="ReadingExperience" modifier="JeremyRuston" created="200504132333">
+<pre>The rules governing where a tiddler is displayed sound complicated written down. When you click on a tiddler link within another tiddler, the new one is opened immediately below the current one. If the target tiddler is already open, TiddlyWiki just uses SmoothScrolling to bring it into view. More or less the same thing happens when clicking on a tiddler link within the menu or sidebar, except that the tiddler opens at the top of the page if it is not already open.</pre>
+</div>

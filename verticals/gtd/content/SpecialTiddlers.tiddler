@@ -1,0 +1,5 @@
+<div title="SpecialTiddlers" modifier="NathanBowers" created="200505171601">
+<pre>TiddlyWiki uses several special tiddlers to hold the text used for the MainMenu, the SiteTitle and the SiteSubtitle. DefaultTiddlers is used to store the titles of the tiddlers that are shown at startup. SaveChanges is automatically displayed if there's a problem with saving. StyleSheet is a user defined stylesheet that exists as a Tiddler. 
+
+All except StyleSheet can be edited with the changes taking effect immediately.</pre>
+</div>

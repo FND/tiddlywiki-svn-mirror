@@ -1,0 +1,41 @@
+<div title="About GTD TiddlyWiki" modifier="YourName" created="200509091826" modified="200701310219" tags="intro">
+<pre>!GTD and TW 2.0
+This is TiddlyWiki <<version>> using StyleSheet and PageTemplate tiddlers for the GTD Theme.
+
+GTD Tiddly Wiki is a GettingThingsDone adaptation by NathanBowers of JeremyRuston's Open Source TiddlyWiki. The purpose of GTD Tiddly Wiki is to give users a single repository for their GTD lists and support materials so they can create/edit lists, and then print directly to 3x5 cards for use with the HipsterPDA.
+
+!Features Include:
+* Free and Open Source.
+* Easy to update.
+* Prints directly to 3x5.
+* Searchable.
+* Exists as a single, portable, cross platform file.
+* It runs on your computer, so you can make changes when you're not online. It's not a ServerSide thing.
+!Get started:
+Start by saving GTDTiddlyWiki to your computer (right click on [[this link|http://checkettsweb.com/tw/gtd_tiddlywiki.htm]] and select 'Save link as...' or 'Save target as...' See SaveChanges for details).
+ 
+You can edit entries, or "Tidders", by clicking "edit" or double clicking anywhere on the Tiddler. When you click "done" or press [ctrl+enter] your changes are saved.
+
+There are some pre-populated action lists in the MainMenu on the left. If you want to start with a blank slate, here is an [[empty template|http://checkettsweb.com/tw/gtd_tiddlywiki.htm]].
+
+!!More information:
+*SupportedBrowsers
+*KeyFeatures
+*KeyboardShortcuts
+*[[Print3x5]]
+*FormattingInstructions (create lists, headings, and other formatting)
+*AboutTiddlers
+*CreateTiddlers
+*DeleteTiddlers
+* PermaView
+*KnownBugs
+* HowToUpgrade
+* ServerSide version.
+*Jeremy's original HelloThere.
+
+Thanks to JeremyRuston for creating such a great Open Source project!
+----
+TiddlyWiki and GTD Tiddly Wiki are published under an OpenSourceLicense and carry NoWarranty.
+
+Current Version: <<version>> | RevisionHistory | UpdateNotification</pre>
+</div>

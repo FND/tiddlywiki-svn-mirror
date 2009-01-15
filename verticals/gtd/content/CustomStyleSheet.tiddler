@@ -1,0 +1,7 @@
+<div title="CustomStyleSheet" modifier="NathanBowers" created="200505191659">
+<pre>You can specify your own styles -- that will persist even if you upgrade GTDTW -- in the new special tiddler, StyleSheet.
+
+StyleSheet is pre-populated so you can see how it works. If you want to print to different sizes of paper, or resize the base fonts, or use different fonts, the body style rules are where you'd start. If you are upgrading your version of GTDTW, you'll need to create and populate the StyleSheet for yourself.
+
+StyleSheet suffers from a bug that truncates long entries with many non-alphanumeric characters, so if you try to put the entire set off styles in there, it probably won't work.</pre>
+</div>

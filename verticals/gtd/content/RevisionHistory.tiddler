@@ -1,0 +1,39 @@
+<div title="RevisionHistory" modifier="YourName" created="200509091832">
+<pre>GTDTiddlyWiki will incorporate [[updates|http://www.osmosoft.com/#RevisionHistory]] from the official TiddlyWiki and other contributors as appropriate. If you'd like to contribute to development, go the GTDTWForum.
+
+To see my changes to Javascript, search the source code for "Nathan Edit".
+
+HowToUpgrade | UpdateNotification | VersionArchive
+
+! version 1.0.6 September 3rd 2005
+# Full rebuild based on TiddlyWiki Revision 1.2.32.
+
+! version 1.0.5 May 21st 2005
+# Added version number to footer and VersionArchive (major update soon).
+
+! version 1.0.4 May 17th 2005
+# Added JeremyRuston's CustomStyleSheet feature.
+
+! version 1.0.3 May 17th 2005
+# Now works in Safari (requires [[plugin by Jonathan Paisley|http://www.accela.net/~dankna/tiddlywiki/]]) Thanks Jonathan! 
+# Constrained printed images to fit 3x5 cards (this won't work in IE)
+# Added saving on delete and put a small "save" link back into the sidebar.
+# Added links to GTDTWForum and RSS UpdateNotification
+
+! version 1.0.2 May 13th 2005
+# When "done" button or CRTL+ENTER is pressed to make changes to a Tiddler, entire wiki is saved and a backup is created. This should prevent accidental data loss. (Thanks to Ron, Jamie, and Terminus in the [[group|http://groups-beta.google.com/group/GTD-TiddlyWiki/browse_frm/thread/809f958426038e94?hl=en]])
+# Removed "Save Successful" confirmation dialog.
+# Removed big happy "Save" button (and died a little inside) ;) to avoid user ambiguity about saving. Also removed [alt+s] save.
+# Added Camino compatability ([[Thanks Schlafer|http://tinyurl.com/aeqpt]])
+# Added DevelopmentTips
+
+! version 1.0.1 May 10th 2005
+# Added TiddlyWiki fixes from original version 1.2.6
+
+! version 1.0.0 May 9th, 2005
+# Added print style sheet
+# Overhaul of CSS layout
+# Added alt + s quicksave with a simple accesskey attribute.
+# Changed sidebar "Timeline" and "All" to remove BR tags and extra Spaces. Check the javascript functions refreshTabTimeline() and refreshTabAll()
+# Changed incremental date stamped "backup on save" to a single backup file. See the saveChanges() javscript function in this page's source to re-enable datestamped backup.</pre>
+</div>

@@ -1,0 +1,11 @@
+<div title="ExtendedFormatting" modifier="NathanBowers" created="200505021559">
+<pre>''Bold''
+==Strike==
+__Underline__
+//Italic//
+2^^3^^=8
+a~~ij~~ = -a~~ji~~
+@@highlight@@
+@@color(green):green colored@@
+@@bgcolor(#ff0000):color(#ffffff):red colored@@</pre>
+</div>

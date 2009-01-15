@@ -1,0 +1,11 @@
+<div title="HowToUpgrade" modifier="YourName" created="200509031430">
+<pre>When GTDTiddlyWiki is updated with enhancements and fixes, here's how to upgrade while keeping your data.
+
+* Just to be safe, create a backup of your current file and archive it somewhere.
+
+Okay then:
+* Open your TiddlyWiki file (say it's called "mystuff.html") in a browser.
+* Without closing that page, right-click on [[this link|#]], select 'Save target' or 'Save link' and save it as "mystuff.html", replacing your existing file
+* Now go back to the previously opened copy of "mystuff.html" in your browser and click "save changes" in the sidebar.
+* Refresh the page in the browser to verify that the upgrade has worked</pre>
+</div>

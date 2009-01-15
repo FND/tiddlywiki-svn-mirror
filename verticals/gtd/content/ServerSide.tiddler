@@ -1,0 +1,9 @@
+<div title="ServerSide" modifier="NathanBowers" created="200505122346">
+<pre>"How do I run this on a server?" is the number one question people ask. 
+
+The answer is "You can't, and it's a feature, not a bug." 
+
+The idea behind TiddlyWiki is that you can update it from any device with a capable browser, whether you are connected or not. It's personal, not collaborative, though you could upload your version to your server if you wanted people to see your lists (PermaView is good for this).
+
+The good news is that there are online versions of TiddlyWiki that you can find at [[Jeremy's site|http://www.tiddlywiki.com/#TiddlyWikiAdaptations]], and if you like the things I've done with GTDTiddlyWiki you could merge my version into other TiddlyWiki implementations.</pre>
+</div>

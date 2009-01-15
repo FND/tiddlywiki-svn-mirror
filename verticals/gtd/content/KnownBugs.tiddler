@@ -1,0 +1,14 @@
+<div title="KnownBugs" modifier="YourName" created="200505171559" modified="200512111604">
+<pre>!Bugs
+* ==StyleSheet suffers from a bug that truncates long entries with many non-alphanumeric characters, so if you try to put the entire set of styles in there, it probably won't work.==
+* =="Highlighted" and Hexidecimal colored text formatting is broken==
+* When printing WIN/IE 6 inserts one blank page because it does not recognize the :first-child CSS psuedo element.
+* ==WIN/IE 6 messes up list items when you edit a Tiddler with multiple headings.==
+
+!Annoyances
+* You have to do alot to customize your browser print settings to remove the page URL, pagination, timestamp, and ensure that the output is sized and paged correctly.
+* Firefox/Mac has no "page properties" interface for removing the page URL, page numbers, etc... from printed pages. This is pretty lame. Try entering about:config in Firefox's URL bar and look for "print" to configure it the hard way. Ask the Firefox development team to fix this.
+
+!Help out
+* If you you encounter new bugs, can help fix bugs, or can help make this usable in other browsers, or handhelds, go to the GTDTWForum. Thanks!</pre>
+</div>

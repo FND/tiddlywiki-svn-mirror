@@ -1,0 +1,10 @@
+<div title="ToolbarButtons" modifier="NathanBowers" created="200505130038">
+<pre>A row of ToolbarButtons appears to the right of a tiddler title when the mouse is hovered over it. The buttons are:
+* ''close'' - close the current tiddler
+* ''edit'' - edit the current tiddler
+* ''permalink'' - puts a link direct to the current tiddler into the address bar
+* ''references'' - displays all the tiddlers that link to the current tiddler
+* ''done'' - save all changes and create a backup
+* ''cancel'' - cancel changes to a tiddler being edited
+* ''delete'' - delete the current tiddler</pre>
+</div>

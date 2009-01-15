@@ -1,0 +1,141 @@
+<div title="StyleSheetPrint" modifier="ClintChecketts" created="200512062222" modified="200610040406" tags="systemTiddlers">
+<pre>/*{{{*/
+
+@media print {
+#mainMenu, #sidebar, #messageArea {display: none !important;}
+#displayArea {margin: 1em 1em 0em 1em;}
+
+
+/* LAYOUT ELEMENTS ========================================================== */
+*
+{
+ margin: 0;
+ padding: 0;
+}
+
+#contentWrapper
+{
+ margin: 0;
+width: 100%;
+position: static;
+}
+
+body {
+ background: #fff;
+ color: #000;
+ font-size: 6.2pt;
+ font-family: "Lucida Grande", "Bitstream Vera Sans", Helvetica, Verdana, Arial, sans-serif;
+}
+
+img {
+ max-width: 2.2in;
+ max-height: 4.3in;
+}
+
+#header, #side_container, #storeArea, #copyright, #floater, #messageArea, .save_accesskey, .site_description, #saveTest, .toolbar, .footer
+{
+ display: none;
+}
+
+#tiddlerDisplay, #displayArea
+{
+ display: inline;
+}
+
+.tiddler {
+ margin: 0 0 2em 0;
+ border-top: 1px solid #000;
+ page-break-before: always;
+}
+
+.tiddler:first-child {
+ page-break-before: avoid;
+}
+
+.IEFirstChild{
+ page-break-before: auto;
+}
+
+.title {
+ font-size: 1.6em;
+ font-weight: bold;
+ margin-bottom: .3em;
+ padding: .2em 0;
+ border-bottom: 1px dotted #000;
+}
+
+p, blockquote, ul, li, ol, dt, dd, dl, table
+{
+ margin: 0 0 .3em 0;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+ margin: .2em 0;
+} 
+
+h1
+{
+ font-size: 1.5em;
+}
+
+h2
+{
+ font-size: 1.3em;
+}
+
+h3
+{
+ font-size: 1.25em;
+}
+
+h4
+{
+ font-size: 1.15em;
+}
+
+h5
+{
+ font-size: 1.1em;
+}
+
+blockquote
+{
+ margin: .6em;
+ padding-left: .6em;
+ border-left: 1px solid #ccc;
+}
+
+ul
+{
+ list-style-type: circle;
+}
+
+li
+{
+ margin: .1em 0 .1em 2em;
+ line-height: 1.4em; 
+}
+
+table
+{
+ border-collapse: collapse;
+ font-size: 1em;
+}
+
+td, th
+{
+ border: 1px solid #999;
+ padding: .2em;
+}
+
+hr {
+ border: none;
+ border-top: dotted 1px #777;
+ height: 1px;
+ color: #777;
+ margin: .6em 0;
+}
+}
+/*}}}*/</pre>
+</div>

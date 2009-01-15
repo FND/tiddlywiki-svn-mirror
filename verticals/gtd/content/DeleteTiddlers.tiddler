@@ -1,0 +1,7 @@
+<div title="DeleteTiddlers" modifier="NathanBowers" created="200505101753">
+<pre>Enter Tiddler edit mode and click "delete" 
+
+If you delete a Tiddler that lives in MainMenu or DefaultTiddlers, you'll need to manually remove them from those SpecialTiddlers.
+
+See also: RenameTiddlers </pre>
+</div>

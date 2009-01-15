@@ -1,0 +1,69 @@
+<div title="StyleSheetHolder" modifier="YourName" created="200603272254" modified="200603272255">
+<pre>/***
+!Calendar CSS
+***/
+/*{{{*/
+.calendar{
+ border-bottom: 1px solid #550000;
+}
+
+.viewer .calendar{
+ width: 220px;
+}
+
+#mainMenu .calendar{
+ font-size: 8px;
+ cursor: pointer;
+ width: 100%;
+ border: 0;
+ border-collapse: collapse;
+}
+
+#mainMenu .calendar .button{
+ border: 0;
+}
+
+#mainMenu .calendar td{
+ font-size: 8pt;
+ padding: 0;
+ background: #fff;
+ border: 0;
+}
+
+#mainMenu .calendar a{
+ margin: 0;
+ color: #000;
+ background: transparent;
+}
+
+#mainMenu .calendar a:hover{
+ color: #000;
+ background: transparent;
+}
+
+#mainMenu .calendarMonthname,
+#mainMenu .calendar .calendarMonthTitle td a{
+ color: #fff;
+}
+
+#mainMenu .calendarDaysOfWeek td{
+ background: #500;
+ color: #fff;
+}
+
+/*}}}*/
+
+/***
+!GTD Style
+
+!Generic rules /%==================================================================== %/
+***/
+/*{{{*/
+body {
+ background: #464646 url('http://shared.snapgrid.com/images/tiddlywiki/bodygradient.png') repeat-x top fixed;
+ color: #000;
+ font: .82em/1.25em "Bitstream Vera Sans", Verdana, Helvetica, Arial, sans-serif;
+/*"Lucida Sans Unicode", "Lucida Grande","Trebuchet MS", */
+}
+/*}}}*/</pre>
+</div>

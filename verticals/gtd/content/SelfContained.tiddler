@@ -1,0 +1,3 @@
+<div title="SelfContained" modifier="JeremyRuston" created="200409201452">
+<pre>One of the neatest features of TiddlyWiki is that it is entirely self-contained in a single HTML file. It contains the actual hypertext document, and the JavaScript, CascadingStyleSheets and HTML necessary to both view and edit the document. This means that it is trivial to host a TiddlyWiki on a website, or to distribute one by email. And anyone with a reasonably recent web browser will be able to read and edit it.</pre>
+</div>

@@ -1,0 +1,3 @@
+<div title="BugFixes" modifier="NathanBowers" created="200505051612">
+<pre>This ThirdVersion of TiddlyWiki fixes a problem with line breaks within tiddlers under InternetExplorer. It also tries to avoid closing tiddlers while they are being edited. There's a bunch of smaller BugFixes as well, but they are somewhat balanced by the KnownBugs.</pre>
+</div>

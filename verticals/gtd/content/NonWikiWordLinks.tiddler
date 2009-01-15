@@ -1,0 +1,3 @@
+<div title="NonWikiWordLinks" modifier="JeremyRuston" created="200504132137">
+<pre>To make a tiddler that doesn't have a WikiWord as it's name, you can enclose the name in [[double square brackets]] - edit this tiddler to see an example. After saving the tiddler you can then click on the link to create the new tiddler. NonWikiWordLinks permits tiddlers to be created with names that are made from character sets that don't have upper and lower case.</pre>
+</div>

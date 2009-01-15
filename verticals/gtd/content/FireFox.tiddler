@@ -1,0 +1,3 @@
+<div title="FireFox" modifier="JeremyRuston" created="200504091848">
+<pre>FireFox lets you SaveChanges in TiddlyWiki, but you will see up to three dialogs asking your permission for the local file operations. You must allow all three operations for it to work properly. Note that you can select the //Remember this decision// option to avoid seeing the dialogs in future. </pre>
+</div>

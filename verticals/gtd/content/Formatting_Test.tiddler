@@ -1,0 +1,130 @@
+<div title="Formatting Test" modifier="YourName" created="200512020007" modified="200512071855">
+<pre>StyleSheetLayout
+StyleSheetColors
+SideBarTabs
+
+[[internal link(not existing)]]
+[[internal link(exists)|StyleSheet]]
+[[external link|http://www.tiddlywiki.com]]
+[[a pretty link that doesn't exist|blahBlueBlah]]
+
+<<newTiddler>>
+
+!Header 1
+!!Header 2
+!!!Header 3
+!!!!Header 4
+!!!!!Header 5
+
+''Bold''
+==Strike==
+__Underline__
+//Italic//
+2^^3^^=8
+a~~ij~~ = -a~~ji~~
+@@highlight@@
+@@color(green):green colored@@
+@@bgcolor(#ff0000):color(#ffffff):red colored@@
+
+[img[Selectutorial|http://css.maxdesign.com.au/selectutorial/images/header.gif][http://css.maxdesign.com.au/selectutorial/]]
+
+{{{
+ Preformated text
+}}}
+
+I think this is {{{rendered as code}}}.
+
+To make quoted bits of text stand out, you can use BlockQuotes within your [[tiddler]]s, like this:
+
+JeremyRuston said:
+<<<
+A TiddlyWiki is like a blog because it's divided up into neat little chunks, but it encourages you to read it by hyperlinking rather than sequentially: if you like, a non-linear blog analogue that binds the individual microcontent items into a cohesive whole.
+<<<
+
+Like BulletPoints and NumberedBulletPoints, you can have three different levels of BlockQuotes. Just [[edit]] this tiddler to see how it's done.
+
+>level 1
+>level 1
+>>level 2
+>>level 2
+>>>level 3
+>>>level 3
+>>level 2
+>level 1
+
+Creating BulletPoints is simple.
+* Just add an asterisk
+* at the beginning of a line.
+** If you want to create sub-bullets
+** start the line with two asterisks
+*** And if you want yet another level
+*** use three asterisks
+* Edit this tiddler to see how it's done
+* You can also do NumberedBulletPoints
+
+It's easy to create NumberedBulletPoints.
+# Use a single '#' at the start of each line
+# and the tiddler will automatically
+# start numbering your list.
+## If you want a sub-list
+## within any bullets
+## add two '#'s at the start of the lines.
+# When you go back to a single '#'
+# the main numbered list will start up
+# where it left off.
+It's just as simple to do normal BulletPoints.
+
+Edit this tiddler to see how to insert images.
+[img[Fractal vegetable|fractalveg.jpg]]
+(This curious vegetable is called 'Romanesque broccoli' and is one of [[my photos|http://www.flickr.com/photos/jermy/]])
+
+You can divide a tiddler into
+----
+sections by typing four dashes on a line by themselves
+
+*sample:
+|!th1111111111|!th2222222222|
+|>| colspan |
+| rowspan |left|
+|~| right|
+|bgcolor(#a0ffa0):colored| center |
+|caption|c
+
+*sample (changed caption and table headers):
+|caption|c
+|th1111111111|th2222222222|h
+|>| colspan |
+| rowspan |left|
+|~| right|
+|bgcolor(#a0ffa0):colored| center |
+
+|Standard Periodic Table (ref. Wikipedia)|c
+|| !1 | !2 |!| !3 | !4 | !5 | !6 | !7 | !8 | !9 | !10 | !11 | !12 | !13 | !14 | !15 | !16 | !17 | !18 |
+|!1|bgcolor(#a0ffa0): @@color(red):H@@ |>|>|>|>|>|>|>|>|>|>|>|>|>|>|>|>||bgcolor(#c0ffff): @@color(red):He@@ |
+|!2|bgcolor(#ff6666): Li |bgcolor(#ffdead): Be |>|>|>|>|>|>|>|>|>|>||bgcolor(#cccc99): B |bgcolor(#a0ffa0): C |bgcolor(#a0ffa0): @@color(red):N@@ |bgcolor(#a0ffa0): @@color(red):O@@ |bgcolor(#ffff99): @@color(red):F@@ |bgcolor(#c0ffff): @@color(red):Ne@@ |
+|!3|bgcolor(#ff6666): Na |bgcolor(#ffdead): Mg |>|>|>|>|>|>|>|>|>|>||bgcolor(#cccccc): Al |bgcolor(#cccc99): Si |bgcolor(#a0ffa0): P |bgcolor(#a0ffa0): S |bgcolor(#ffff99): @@color(red):Cl@@ |bgcolor(#c0ffff): @@color(red):Ar@@ |
+|!4|bgcolor(#ff6666): K |bgcolor(#ffdead): Ca ||bgcolor(#ffc0c0): Sc |bgcolor(#ffc0c0): Ti |bgcolor(#ffc0c0): V |bgcolor(#ffc0c0): Cr |bgcolor(#ffc0c0): Mn |bgcolor(#ffc0c0): Fe |bgcolor(#ffc0c0): Co |bgcolor(#ffc0c0): Ni |bgcolor(#ffc0c0): Cu |bgcolor(#ffc0c0): Zn |bgcolor(#cccccc): Ga |bgcolor(#cccc99): Ge |bgcolor(#cccc99): As |bgcolor(#a0ffa0): Se |bgcolor(#ffff99): @@color(green):Br@@ |bgcolor(#c0ffff): @@color(red):Kr@@ |
+|!5|bgcolor(#ff6666): Rb |bgcolor(#ffdead): Sr ||bgcolor(#ffc0c0): Y |bgcolor(#ffc0c0): Zr |bgcolor(#ffc0c0): Nb |bgcolor(#ffc0c0): Mo |bgcolor(#ffc0c0): Tc |bgcolor(#ffc0c0): Ru |bgcolor(#ffc0c0): Rh |bgcolor(#ffc0c0): Pd |bgcolor(#ffc0c0): Ag |bgcolor(#ffc0c0): Cd |bgcolor(#cccccc): In |bgcolor(#cccccc): Sn |bgcolor(#cccc99): Sb |bgcolor(#cccc99): Te |bgcolor(#ffff99): I |bgcolor(#c0ffff): @@color(red):Xe@@ |
+|!6|bgcolor(#ff6666): Cs |bgcolor(#ffdead): Ba |bgcolor(#ffbfff):^^*1^^|bgcolor(#ffc0c0): Lu |bgcolor(#ffc0c0): Hf |bgcolor(#ffc0c0): Ta |bgcolor(#ffc0c0): W |bgcolor(#ffc0c0): Re |bgcolor(#ffc0c0): Os |bgcolor(#ffc0c0): Ir |bgcolor(#ffc0c0): Pt |bgcolor(#ffc0c0): Au |bgcolor(#ffc0c0): @@color(green):Hg@@ |bgcolor(#cccccc): Tl |bgcolor(#cccccc): Pb |bgcolor(#cccccc): Bi |bgcolor(#cccc99): Po |bgcolor(#ffff99): At |bgcolor(#c0ffff): @@color(red):Rn@@ |
+|!7|bgcolor(#ff6666): Fr |bgcolor(#ffdead): Ra |bgcolor(#ff99cc):^^*2^^|bgcolor(#ffc0c0): Lr |bgcolor(#ffc0c0): Rf |bgcolor(#ffc0c0): Db |bgcolor(#ffc0c0): Sq |bgcolor(#ffc0c0): Bh |bgcolor(#ffc0c0): Hs |bgcolor(#ffc0c0): Mt |bgcolor(#ffc0c0): Ds |bgcolor(#ffc0c0): Rg |bgcolor(#ffc0c0): @@color(green):Uub@@ |bgcolor(#cccccc): Uut |bgcolor(#cccccc): Uuq |bgcolor(#cccccc): Uup |bgcolor(#cccccc): Uuh |bgcolor(#fcfecc): @@color(#cccccc):Uus@@ |bgcolor(#ecfefc): @@color(#cccccc):Uuo@@ |
+
+| !Lanthanides^^*1^^|bgcolor(#ffbfff): La |bgcolor(#ffbfff): Ce |bgcolor(#ffbfff): Pr |bgcolor(#ffbfff): Nd |bgcolor(#ffbfff): Pm |bgcolor(#ffbfff): Sm |bgcolor(#ffbfff): Eu |bgcolor(#ffbfff): Gd |bgcolor(#ffbfff): Tb |bgcolor(#ffbfff): Dy |bgcolor(#ffbfff): Ho |bgcolor(#ffbfff): Er |bgcolor(#ffbfff): Tm |bgcolor(#ffbfff): Yb |
+| !Actinides^^*2^^|bgcolor(#ff99cc): Ac |bgcolor(#ff99cc): Th |bgcolor(#ff99cc): Pa |bgcolor(#ff99cc): U |bgcolor(#ff99cc): Np |bgcolor(#ff99cc): Pu |bgcolor(#ff99cc): Am |bgcolor(#ff99cc): Cm |bgcolor(#ff99cc): Bk |bgcolor(#ff99cc): Cf |bgcolor(#ff99cc): Es |bgcolor(#ff99cc): Fm |bgcolor(#ff99cc): Md |bgcolor(#ff99cc): No |
+
+*Chemical Series of the Periodic Table
+**@@bgcolor(#ff6666): Alkali metals@@
+**@@bgcolor(#ffdead): Alkaline earth metals@@
+**@@bgcolor(#ffbfff): Lanthanides@@
+**@@bgcolor(#ff99cc): Actinides@@
+**@@bgcolor(#ffc0c0): Transition metals@@
+**@@bgcolor(#cccccc): Poor metals@@
+**@@bgcolor(#cccc99): Metalloids@@
+**@@bgcolor(#a0ffa0): Nonmetals@@
+**@@bgcolor(#ffff99): Halogens@@
+**@@bgcolor(#c0ffff): Noble gases@@
+
+*State at standard temperature and pressure
+**those in @@color(red):red@@ are gases
+**those in @@color(green):green@@ are liquids
+**those in black are solids</pre>
+</div>

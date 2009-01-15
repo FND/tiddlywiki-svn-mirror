@@ -1,0 +1,3 @@
+<div title="InternetExplorer" modifier="JeremyRuston" created="200504120008">
+<pre>InternetExplorer on Windows allows you to SaveChanges in TiddlyWiki. It will give you an ActiveX warning, and ask for your permission to proceed each time. It should work from version 4, but I have only extensively tested against version 6. I have found some annoying difficulties with XpServicePack2, but there's always FireFox.</pre>
+</div>

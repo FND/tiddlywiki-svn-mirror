@@ -1,0 +1,3 @@
+<div title="InterfaceOptions" modifier="NathanBowers" created="200505021559">
+<pre>InterfaceOptions are displayed when you click the 'options' button on the right. They are saved in a cookie on your browser, making them sticky between visits. RegExpSearch allows more complex search expressions; CaseSensitiveSearch does as it's name implies. The user name for edits should be set //before// starting to edit things (ouch. another bug).</pre>
+</div>

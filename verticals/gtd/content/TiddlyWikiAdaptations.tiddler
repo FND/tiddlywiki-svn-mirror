@@ -1,0 +1,13 @@
+<div title="TiddlyWikiAdaptations" modifier="JeremyRuston" created="200504170958">
+<pre>The first and original was [[PhpTiddlyWiki|http://www.patrickcurry.com/tiddly/]] from PatrickCurry and GabrielJeffrey that adds a simple ServerSide in PHP with MySQL. Patrick's site allows anyone to create and edit tiddlers, and has become the de facto community site around TiddlyWiki.
+
+Some of the other adaptations include:
+* HenrikAastedSorensen's at http://aasted.org/wiki
+* IsaoSonobe's OgreKitWiki at http://www-gauge.scphys.kyoto-u.ac.jp/~sonobe/OgreKit/OgreKitWiki.html 
+* JacquesTurbé's TidliPo, in French at http://avm.free.fr/IMG/html/carnet_gt_BigCo.html
+* ChristianHauck's at http://www.christianhauck.net/html/14300.html
+* TonyLownds's at http://tony.lownds.com/home/
+* PoulStaugaard and IvanMetalnikov's at http://poul.staugaard.dk/IeWiki.htm
+
+* There's also KevemBuangga's TiddlyWikiClone at http://www.kevembuangga.com/hwk/hailiwiki.htm (caution: on Safari, it seems to get locked up with error alerts)</pre>
+</div>

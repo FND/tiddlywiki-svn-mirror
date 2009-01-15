@@ -1,0 +1,7 @@
+<div title="ViewTemplate" modifier="Clint Checketts" created="200601051233" modified="200601100755" tags="systemTiddlers">
+<pre><div class='toolbar' macro='toolbar -closeTiddler closeOthers +editTiddler permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='subtitle'>by <span macro='view modifier link'></span>, <span macro='view modified date [[DD MMM YYYY]]'></span> (created <span macro='view created date [[DD MMM YYYY]]'></span>)</div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='footer' macro='tags'></div></pre>
+</div>

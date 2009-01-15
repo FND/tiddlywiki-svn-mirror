@@ -1,0 +1,80 @@
+<div title="FormattingInstructions" modifier="YourName" created="200505061502" modified="200512012147">
+<pre>TiddlyWiki uses Wiki style markup, a way of lightly "tagging" plain text so it can be transformed into HTML. Edit this Tiddler to see samples.
+
+! Header Samples
+!Header 1
+!!Header 2
+!!!Header 3
+!!!!Header 4
+!!!!!Header 5
+
+! Unordered Lists:
+* Lists are where it's at
+* Just use an asterisk and you're set
+** To nest lists just add more asterisks...
+***...like this
+* The circle makes a great bullet because once you've printed a list you can mark off completed items
+* You can also nest mixed list types
+## Like this
+
+! Ordered Lists
+# Ordered lists are pretty neat too
+# If you're handy with HTML and CSS you could customize the [[numbering scheme|http://www.w3schools.com/css/pr_list-style-type.asp]]
+## To nest, just add more octothorpes (pound signs)...
+### Like this
+* You can also
+** Mix list types
+*** like this
+# Pretty neat don't you think?
+
+! Tiddler links
+To create a Tiddler link, just use mixed-case WikiWord, or use [[brackets]] for NonWikiWordLinks. This is how the GTD style [[@Action]] lists are created. 
+
+Note that existing Tiddlers are in bold and empty Tiddlers are in italics. See CreatingTiddlers for details.
+
+! External Links
+You can link to [[external sites|http://google.com]] with brackets. You can also LinkToFolders on your machine or network shares.
+
+! Images
+Edit this tiddler to see how it's done.
+[img[http://img110.echo.cx/img110/139/gorilla8nw.jpg]]
+
+!Tables
+|!th1111111111|!th2222222222|
+|>| colspan |
+| rowspan |left|
+|~| right|
+|colored| center |
+|caption|c
+
+For a complex table example, see PeriodicTable.
+
+! Horizontal Rules
+You can divide a tiddler into
+----
+sections by typing four dashes on a line by themselves.
+
+! Blockquotes
+<<<
+This is how you do an extended, wrapped blockquote so you don't have to put angle quotes on every line.
+<<<
+>level 1
+>level 1
+>>level 2
+>>level 2
+>>>level 3
+>>>level 3
+>>level 2
+>level 1
+
+! Other Formatting
+''Bold''
+==Strike==
+__Underline__
+//Italic//
+Superscript: 2^^3^^=8
+Subscript: a~~ij~~ = -a~~ji~~
+@@highlight@@
+@@color(green):green colored@@
+@@bgcolor(#ff0000):color(#ffffff):red colored@@</pre>
+</div>
