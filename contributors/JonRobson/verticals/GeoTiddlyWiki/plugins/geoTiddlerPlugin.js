@@ -3,19 +3,30 @@
 |''Description:''|An attempt to bring nice easy to use maps to tiddlywiki using geojson|
 |''Author:''|JonRobson and JonathanLister |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/verticals/GeoTiddlyWiki|
-|''Version:''|0.0.5 |
+|''Version:''|0.7 |
 |''Date:''|4/11/08 |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4|
 |''Dependencies:''|This plugin requires a tiddler geojson containing geojson data eg.[[geojson]]|
 |''Usage:''|
-parameters
-source
-usetiddlermetadata
-geotagging
-todo..
-map selector: all tagged ['geojson','georss'] -> drop down, on change clear memory,draw
+
+macro <<geo>>
+parameters are..
+source {false|<tiddlername containing geodata and tagged with format>}
+usetiddlermetadata {false|true}
+geotagging {false|true}
+id {<identifier name of the map>}
+projection {google|googlestaticmap|globe|spinnyglobe} leave empty for normal projection
+
+macro <<geogoto {longitude} {latitude} {zoomLevel} {geo id}>>
+
+|''To Do:''|
+easier navigation around map and searching in map (search bar)
+caching of saved places
+
+a map selector that shows all available maps in the geotiddlywiki: all tagged ['geojson','georss'] -> drop down, on change clear memory,draw
+better editing:
 merge function: merge countries to become one shape
 geo can read from list of tiddlers with features associated
 
@@ -128,7 +139,7 @@ if(!version.extensions.geoPlugin) {
 			eMap._fittocanvas = false;
 			var s = {};
 			eMap.settings.beforeTransform = function(transformation){
-				eMap.attachBackground("none");
+				//eMap.attachBackground("none");
 				var x =0,y =0, t= transformation.translate,scale= transformation.scale;
 			
 				if(s._oldscale > scale.x){
@@ -201,8 +212,14 @@ if(!version.extensions.geoPlugin) {
 				eMap.attachBackground(dest);
 			}
 			
-			var onloadfromweb = function(status,params,responseText,url,xhr){	
-				saveFile(savePath,responseText);
+			var onloadfromweb = function(status,params,responseText,url,xhr){
+				console.log("loaded from web");	
+				try{
+					saveFile(savePath,responseText);
+				}
+				catch(e){
+					console.log("error saving locally..");
+				}
 				//eMap.attachBackground(dest);
 				window.setTimeout(applyBackground,0);
 			};
@@ -215,6 +232,7 @@ if(!version.extensions.geoPlugin) {
 				EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
 			}
 			catch(e){//couldnt load probably doesn't exist!
+				console.log("loading from web..");
 				EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
 			}
 			

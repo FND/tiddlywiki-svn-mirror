@@ -419,6 +419,7 @@ EasyMap.prototype = {
 			result.mouse = pos;
 			result.longitude_latitude = EasyMapUtils.getLongLatFromMouse(x,y,eMap);
 			result.feature = eMap.geofeatures[eMap.easyClicking.getMemoryID(shape)];
+			result.event = e;
 			return result;
 			
 		};
@@ -435,13 +436,13 @@ EasyMap.prototype = {
 			this.lastMouseMove.x = x;this.lastMouseMove.y = y;
 			
 			var r = getParameters(e);
-			eMap.moveHandler(e,r.shape,r.mouse,r.longitude_latitude,r.feature);
+			eMap.moveHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature);
 		};
 		
 		var onmouseup = function(e){
 			var r = getParameters(e);
-			console.log("clicked!",r);
-			eMap.clickHandler(e,r.shape,r.mouse,r.longitude_latitude,r.feature);
+			
+			eMap.clickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature);
 		};
 		this.wrapper.onmouseup = onmouseup;
 		this.wrapper.onmousemove = onmousemove;
