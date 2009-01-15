@@ -17,7 +17,7 @@ The specific nature of this plugins depends on the respective server.
 * added support for local saving
 !!v0.3 (2008-12-03)
 * added Save to Web macro for manual synchronization
-!!v0.4 (2008-01-15)
+!!v0.4 (2009-01-15)
 * removed ServerConfig dependency by detecting server type from the respective tiddlers
 !To Do
 * conflict detection/resolution
