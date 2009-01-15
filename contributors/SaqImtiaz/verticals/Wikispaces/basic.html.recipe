@@ -1,0 +1,4 @@
+recipe:		common-base/common-base.html.recipe
+tiddler:	../POLS250/common/plugins/WikispacesSoapAdaptorPlugin.js
+tiddler:	../POLS250/common/plugins/QuickSyncPlugin.js
+tiddler:	../POLS250/common/License.tiddler
