@@ -2,11 +2,10 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.3.3|
+|''Version''|0.4.0|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''Requires''|[[ServerConfig]]|
 |''Keywords''|serverSide|
 !Notes
 This plugin relies on a dedicated configuration plugin to be present.
@@ -18,11 +17,12 @@ The specific nature of this plugins depends on the respective server.
 * added support for local saving
 !!v0.3 (2008-12-03)
 * added Save to Web macro for manual synchronization
+!!v0.4 (2008-01-15)
+* removed ServerConfig dependency by detecting server type from the respective tiddlers
 !To Do
 * conflict detection/resolution
 * rename to ServerLinkPlugin?
-* attempt to determine default adaptor (and defaultCustomFields) from systemServer tiddlers
-* handle deleting/renaming (e.g. by hijacking the respective commands and creating a log)
+* document deletion/renaming convention
 !Code
 ***/
 //{{{
@@ -35,12 +35,7 @@ readOnly = false; //# enable editing over HTTP
 
 (function(plugin) { //# set up alias
 
-if(!plugin || !plugin.adaptor) {
-	throw "Missing dependency: ServerConfig";
-}
-
 plugin = {
-	adaptor: plugin.adaptor, //# N.B.: expects config.extensions.ServerSideSavingPlugin.adaptor to be set
 	locale: {
 		saved: "%0 saved successfully",
 		saveError: "Error saving %0: %1",
@@ -61,7 +56,11 @@ plugin = {
 	},
 
 	saveTiddler: function(tiddler) {
-		var adaptor = new this.adaptor();
+		try {
+			var adaptor = this.getTiddlerServerAdaptor(tiddler);
+		} catch(ex) {
+			return false;
+		}
 		var context = {
 			tiddler: tiddler,
 			changecount: tiddler.fields.changecount
@@ -87,7 +86,11 @@ plugin = {
 	},
 
 	removeTiddler: function(tiddler) {
-		var adaptor = new this.adaptor();
+		try {
+			var adaptor = this.getTiddlerServerAdaptor(tiddler);
+		} catch(ex) {
+			return false;
+		}
 		context = { tiddler: tiddler };
 		context.workspace = tiddler.fields["server.workspace"];
 		var req = adaptor.deleteTiddler(tiddler, context, {}, this.removeTiddlerCallback);
@@ -107,6 +110,11 @@ plugin = {
 		} else {
 			displayMessage(plugin.locale.deleteLocalError.format([tiddler.title, context.statusText]));
 		}
+	},
+
+	getTiddlerServerAdaptor: function(tiddler) { // XXX: rename?
+		var type = tiddler.fields["server.type"] || config.defaultCustomFields["server.type"];
+		return new config.adaptors[type]();
 	}
 };
 
