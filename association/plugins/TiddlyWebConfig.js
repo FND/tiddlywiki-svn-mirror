@@ -2,11 +2,10 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWeb|
 |''Author''|FND|
-|''Version''|0.1.2|
+|''Version''|0.1.3|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''Requires''|[[TiddlyWebAdaptor]]|
 |''Keywords''|serverSide TiddlyWeb|
 !Notes
 This plugin should reside in a tiddler called [[ServerConfig]].
@@ -20,11 +19,6 @@ if(!version.extensions.TiddlyWebConfig) { //# ensure that the plugin is only ins
 version.extensions.TiddlyWebConfig = { installed: true };
 
 config.options.chkAutoSave = true;
-
-if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
-config.extensions.ServerSideSavingPlugin = {
-	adaptor: config.adaptors.tiddlyweb
-};
 
 config.defaultCustomFields = {
 	"server.type": "tiddlyweb",
