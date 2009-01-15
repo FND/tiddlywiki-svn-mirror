@@ -1,0 +1,30 @@
+recipe: ../Wikispaces/basic.html.recipe
+#
+#
+# 	Plugins
+tiddler: ../POLS250/studentnotebook/plugins/ReadOnlyTiddlersPlugin.js
+tiddler: ../../plugins/TiddlerNotesPlugin/TiddlerNotesPlugin.js
+tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfig excludeLists excludeSearch"
+tiddler: ../../plugins/batchNavigationMacro.js
+tiddler: ../../plugins/NavigationMacro/NavigationMacro.js
+#
+#
+# 	Content
+tiddler: ../POLS250/studentnotebook/content/FormattingHelp.tiddler
+tiddler: ../POLS250/studentnotebook/content/GettingStarted.tiddler
+#
+#
+# 	Shadows
+tiddler: ../POLS250/studentnotebook/shadows/ViewTemplate.tiddler
+tiddler: ../POLS250/studentnotebook/shadows/PageTemplate.tiddler
+#tiddler: ../POLS250/studentnotebook/shadows/space.menu.tiddler
+tiddler: ../POLS250/studentnotebook/shadows/DefaultTiddlers.tiddler
+#
+#
+#	Framework
+tiddler: ../POLS250/studentnotebook/framework/excludeLists.tiddler
+tiddler: ../POLS250/studentnotebook/framework/excludeSearch.tiddler
+tiddler: ../POLS250/studentnotebook/framework/systemConfig.tiddler
+tiddler: ../POLS250/studentnotebook/framework/systemConfigDisable.tiddler
+tiddler: ../POLS250/studentnotebook/framework/systemServer.tiddler
+tiddler: ../POLS250/studentnotebook/framework/MyNotes.tiddler
