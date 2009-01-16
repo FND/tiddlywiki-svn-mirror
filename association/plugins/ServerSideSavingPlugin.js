@@ -47,7 +47,7 @@ plugin = {
 
 	sync: function() {
 		store.forEachTiddler(function(title, tiddler) {
-			if(tiddler.fields.deleted === "true") {
+			if(tiddler.fields.deleted) {
 				plugin.removeTiddler(tiddler);
 			} else if(tiddler.isTouched() && tiddler.getServerType() && tiddler.fields["server.host"]) {
 				plugin.saveTiddler(tiddler);
@@ -100,7 +100,7 @@ plugin = {
 	removeTiddlerCallback: function(context, userParams) {
 		var tiddler = context.tiddler;
 		if(context.status) {
-			if(tiddler.fields.deleted === "true") {
+			if(tiddler.fields.deleted) {
 				store.deleteTiddler(tiddler.title);
 			} else {
 				displayMessage(plugin.locale.deleteError.format([tiddler.title]));
@@ -147,7 +147,7 @@ TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override d
 	if(tiddler) {
 		tiddler.tags = ["excludeLists", "excludeSearch", "excludeMissing"];
 		tiddler.text = plugin.locale.removedNotice;
-		tiddler.fields.deleted = "true"; // XXX: rename to removed/tiddlerRemoved?
+		tiddler.fields.deleted = true; // XXX: rename to removed/tiddlerRemoved?
 		tiddler.incChangeCount();
 		this.notify(title, true);
 		this.setDirty(true);

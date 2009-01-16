@@ -4,10 +4,10 @@
 |''Author''|FND|
 |''Version''|<#.#.#>|
 |''Status''|<//unknown//; @@experimental@@; @@beta@@; //obsolete//; stable>|
-|''Source''|http://fnd.tiddlyspot.com/#<...>|
+|''Source''|http://devpad.tiddlyspot.com/#<...>|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
-|''CoreVersion''|2.5|
+|''CoreVersion''|<...>|
 |''Requires''|<...>|
 |''Keywords''|<...>|
 !Description
@@ -32,7 +32,7 @@
 !Code
 ***/
 //{{{
-(function($) { //# set up local scope
+(function() { //# set up local scope
 
 if(!window.<...>) {
 	throw "Missing dependency: <...>";
@@ -41,7 +41,9 @@ if(!window.<...>) {
 if(!version.extensions.<...>) { //# ensure that the plugin is only installed once
 version.extensions.<...> = { installed: true };
 
-$.tw.<...> = {
+if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
+
+config.extensions.<...> = {
 	sampleFunction: function() {
 		/* ... */
 	}
@@ -55,5 +57,5 @@ config.macros.<...> = {
 
 } //# end of "install only once"
 
-})(jQuery); //# end of local scope
+})(); //# end of local scope
 //}}}
