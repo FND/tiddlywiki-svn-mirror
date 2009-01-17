@@ -1,0 +1,44 @@
+<style type="text/css">
+	#mp .hilites li{
+		padding:0.4em;
+	};
+</style>
+
+<script>
+
+var yurl = "http://www.theyworkforyou.com/mp/lee_scott/ilford_north";
+var furl = "http://127.0.0.1/twfy/proxy.php";
+    $.get(furl,
+      {url:escape(yurl)},
+      function(data) {
+
+$(data).find('.blockbody').each(function(i) {
+
+	switch(this.parentNode.id)
+	{
+		case 'mp':
+		  $("#personSearchResults").html("<h2>"+$(this.parentNode.innerHTML).filter("h4").text()+"</h2>");
+		  $("#personSearchResults").html($("#personSearchResults").html()+"<div id='mp'><div class='blockbody'>" + this.innerHTML + "</div></div><br />");			
+		break;
+		case 'help':
+		  break;    
+		case 'topics':
+		break;
+		case "mpsearch":
+		  break;
+		case "numbers":
+		  break;
+		case "":
+		break;
+		case "votingrecord":
+		  $("#personSearchResults").html($("#personSearchResults").html()+"<div class='blockbody'><h2>Voting Record</h2>" + this.innerHTML + "</div><br />");
+		break;
+		default:
+		  $("#personSearchResults").html($("#personSearchResults").html()+"<div class='blockbody'><h2>"+this.parentNode.id+"</h2>" + this.innerHTML + "</div><br />");
+	}
+});
+});
+
+</script>
+
+<div id="personSearchResults"></div>

@@ -1,0 +1,93 @@
+<script>
+function call_api(fn, callback, vars) {
+    var s = document.createElement('script');
+    var url = 'http://www.theyworkforyou.com/api/'
+        + fn + '?key=BxaVyKCbNWdMBZkqwMD2YwSx&callback=' + callback;
+    for (var i in vars) {
+        url += '&' + i + '=' + encodeURIComponent(vars[i]);
+    }
+    s.setAttribute('src', url);
+    s.setAttribute('type', 'text/javascript');
+    document.getElementsByTagName('head')[0].appendChild(s);
+}
+
+function screenScrapeSearch(search) {
+	var yurl = "http://www.theyworkforyou.com/search/?s="+search;
+	var furl = "http://127.0.0.1/twfy/proxy.php";
+	$.get(furl,
+	{url:escape(yurl), 'search':search},
+	function(data) {
+		$(data).find('#searchresults dt').each(function(i) {		
+			$("#hansardResult").html($("#hansardResult").html() + this.innerHTML + "<br />"+$(this).next().html());
+		});
+		
+		$(data).find('#people_results li').each(function(i) {
+			
+		console.log(this.firstChild, i);	
+		//    call_api('getMP', 'mp_received', { constituency: name } );
+		
+		
+		$("#peopleResult").html($("#peopleResult").html()+"<li class='personResult'>"+$(this).html()+"</li><br/>");
+
+		});	
+		
+	});
+}
+
+function lookup(pc) {
+	$("#peopleResult").html("<h2>People</h2>");
+	$("#hansardResult").html("<h2>Hansard</h2>");
+	screenScrapeSearch(pc);
+	$("#searchButton").val("searching....");
+   call_api('getConstituency', 'const_received', { postcode: pc } );
+}
+
+function const_received(r) {
+   if (r.error) {
+        display('<i>Error:</i> ' + r.error, 'white', 'red');
+        return;
+    }
+console.log(r);
+    name = r.name;
+    call_api('getMP', 'mp_received', { constituency: name } );
+}
+
+function mp_received(r) {
+    if (r.error) {
+        display('<i>Error:</i> ' + r.error, 'white', 'red');
+        return;
+    }	
+	var text ='<img src="'+r.image+'"/>'+r.full_name+' '+r.party+' MP for '+r.constituency+'<a href=\"http://www.theyworkforyou.com/mp/?c='
+        + encodeURIComponent(name) + '\">' + 'TheyWorkForYou</a>';
+    if (r.party == 'Labour') {
+        display(text, '#ffcccc', '#ff0000');
+    } else if (r.party == 'Conservative') {
+        display(text, '#ccccff', '#9999ff');
+    } else if (r.party == 'Liberal Democrat') {
+        display(text,'#ffffcc', '#ffff00');
+    } else {
+        display(text, 'white', 'black');
+    }
+}
+
+function display(text, bg, border) {
+    var d = document.getElementById('peopleResult');
+    d.innerHTML = d.innerHTML + text;
+    d.style.backgroundColor = bg;
+    d.style.borderColor = border;        
+    d.style.display = 'block';
+}
+</script>
+<p>
+	<form onsubmit="lookup(this.s.value); return false;" method="get" action="http://www.theyworkforyou.com/mp/">
+		<input type="text" name="s" id="s" size="15" maxlength="100" class="bigInput" value="">
+		<input type="submit" value="SEARCH" id="searchButton" class="bigInput">
+	</form>
+	<br/>
+	<div id="peopleResult">
+		
+	</div>
+
+	<div id="hansardResult">
+	</div>
+</p>
