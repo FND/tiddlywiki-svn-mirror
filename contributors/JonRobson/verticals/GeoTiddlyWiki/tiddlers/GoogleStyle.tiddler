@@ -1,0 +1,28 @@
+<div title="Google Style Maps">
+<pre>
+Note this particular example has not been tested on Internet Explorer, however works in Safari and Firefox. You may however need to save your TiddlyWiki first as this will attempt to save files locally to your machine!
+
+If you want to have an offline map with meaningful map details such as rivers and roads, geometry becomes less useful as these details would require lots of dynamically drawn graphics. However geotags in your tiddlywiki might be more useful with this data. The solution proposed is as follows (however note this will not work online):
+{{{<<geo projection:googlestaticmap id:gsm source:false>>}}}
+
+The macro call uses a parameter "projection" defined as "googlestaticmap" and specifies the ''source'' as being ''false'' (this means an empty geojson will be loaded into the map). The projection googlestaticmap is essentially converting coordinates to a Google Mercator projection and then loading the static image for that configuration. The static image is then saved locally so that when you go offline the map data will still be available.
+<<geo projection:googlestaticmap id:gsm source:false>>
+
+Note there are plans to use OpenStreetMap rather than Google Static Image server as the source of images. So far this is just an experimentation, so make sure you look at the relevant license to see in what ways you are limited in its usage.
+
+!Next..
+There are a few more demos which are just for fun and are not as mature as the previous examples.
+
+!!Loading from georss and finding new geodata
+See [[ShapeWiki]]
+
+!!Loading geodata from RSS feeds
+For example let's see what happens when we point to rss feeds in Flickr and Dopplr from a tiddler with a map in it. Click through to this [[Flickr and Dopplr Adaptors]].
+
+!!Mapping on a globe
+See [[The Continents]] or [[Easter Egg]] (latter is terribly slow in Internet Explorer)
+
+!!Experiments in drawing from SVG
+It's a bit broken but it's worth mentioning my playing around with svg. See [[documentation (svg support)]]
+</pre>
+</div>

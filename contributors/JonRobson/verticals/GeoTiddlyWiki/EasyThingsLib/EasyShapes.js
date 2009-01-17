@@ -15,7 +15,7 @@ var EasyShape = function(properties,coordinates,geojson){
 };
 EasyShape.prototype={
 	_calculateBounds: function(coords){
-		if(this.properties.shape == 'path'){
+		if(this.properties.shape == 'path' | this.properties.shape =='text'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
@@ -50,54 +50,76 @@ EasyShape.prototype={
 			lastX = xPos;
 			lastY = yPos;
 		}
-	},
+	}
 	
-	setCoordinates: function(coordinates){
+	,setCoordinates: function(coordinates){
 		this.coords = coordinates;
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
+		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
-	,createPointShape: function(){
+
+
+	,_constructPointShape: function(properties,coordinates){
+		var x = coordinates[0]; var y = coordinates[1];
+		this.pointcoords = [x,y];
+		var ps = 0.5;
+		var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, y+ps];
+		this._constructPolygonShape(properties,newcoords);
+	}
+	,_constructTextShape: function(properties,coordinates){
+		this.properties = properties;
+		var t = document.createElement("div");
+		t.className = "easyShape";
+		t.style.position = "absolute";
+		this._textLabel = t;
+		this.setCoordinates(coordinates);
+	}
+	
+	,_constructPolygonShape: function(properties,coordinates){
+		this.properties = properties;
+		this.setCoordinates(coordinates);
+		if(!properties.stroke)properties.stroke = '#000000';		
+		if(properties.colour){
+			properties.fill =  properties.colour;
+		}
+	}
+	,_constructBasicShape: function(properties, coordinates){
+		if(properties.shape == 'text'){
+			this._constructTextShape(properties,coordinates);
+		}
+		else if(properties.shape == 'point'){
+			this._constructPointShape(properties,coordinates);
+		}
+		else if(properties.shape == 'polygon' || properties.shape == 'path')
+		{
+			this._constructPolygonShape(properties,coordinates);
+		}
+		else{
+			console.log("don't know how to construct basic shape " + properties.shape);
+		}		
 		
-	}
+		
+	}	
+	
+	 /*following 3 functions may be better in EasyMaps*/
 	,_constructFromGeoJSONObject: function(properties,coordinates){
 		if(properties.shape == 'polygon'){
 			this._constructFromGeoJSONPolygon(properties,coordinates);	
 		}
 		else if(properties.shape == 'point'){
-			var x = coordinates[0]; var y = coordinates[1];
-			this.pointcoords = [x,y];
-			var ps = 0.5;
-			var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
-			newcoords = this._convertGeoJSONCoords(newcoords);
-			this._constructBasicShape(properties,newcoords);
+			this._constructPointShape(properties,coordinates);
 		}
 		else{
 			console.log("don't know what to do with shape " + element.shape);
 		}
-	},
-	_constructBasicShape: function(properties, coordinates){
-		if(properties.shape == 'polygon' || properties.shape == 'path'||properties.shape =='point')
-		{
-			this.properties = properties;
-			this.setCoordinates(coordinates);
-			if(!properties.stroke)properties.stroke = '#000000';		
-			if(properties.colour){
-				properties.fill =  properties.colour;
-			}
-		}
-		else{
-			console.log("don't know what to do with shape " + properties.shape);
-		}		
-		
-		
-	},	
-	_constructFromGeoJSONPolygon: function(properties,coordinates){		
+	}
+	,_constructFromGeoJSONPolygon: function(properties,coordinates){		
 		var newcoords = this._convertGeoJSONCoords(coordinates[0]);
 		this._constructBasicShape(properties,newcoords);
 				//we ignore any holes in the polygon (for time being.. coords[1][0..n], coords[2][0..n])
-	},	
-	_convertGeoJSONCoords: function(coords){
+	}	
+	,_convertGeoJSONCoords: function(coords){
 	//converts [[x1,y1], [x2,y2],...[xn,yn]] to [x1,y1,x2,y2..xn,yn]
 		var res = [];
 		if(!coords) return res;
@@ -119,51 +141,24 @@ EasyShape.prototype={
 		return res;
 	}	
 
-	,_applyProjection: function(projection,transformation){
-		var c = this.coords;
-		if(!projection) return c;
-		
-		var newc = [];
-		for(var i=0; i < c.length-1; i+=2){
-			var x = parseFloat(c[i]);
-			var y = parseFloat(c[i+1]);
-			
-			if(projection.xy){
-				var t = projection.xy(c[i],c[i+1],transformation);
-				newx= t.x;
-				newy= t.y;
-			}
 
-			cok = true;
-			//check we haven't wrapped around world (For flat projections sss)
-			if(!projection.nowrap){
-				var diff;
-				if(newx > x) diff = newx - x;
-				if(x > newx) diff = x - newx;
-				if(diff > 100) cok = false; //too extreme change
-			}
-			
-			if(cok){
-				if(typeof newx == 'number' && typeof newy =='number'){
-				newc.push(newx);
-				newc.push(newy);
-				}
-	
-			}
-			
-			
-		}	
-
-		this._tcoords = newc;
-		this._calculateBounds(this._tcoords);
-		return newc;
-	}
 	
 
 
-	 
-	,_renderTextShape: function(){
+	 /*RENDERING */
+	,_renderTextShape: function(canvas,transformation){
+		var t =this._textLabel;
+		var coordinates = this.coords;
+		var x= coordinates[0];
+		var y =coordinates[1];
+		t.innerHTML = this.properties.name;
+		t.style.left = 100 + parseInt(x) +"px";
+		t.style.top = 100 +parseInt(y)+"px";
+		this._cssTransform(t,transformation,false);
 		
+		if(t.parentNode == null){
+			canvas.appendChild(this._textLabel);
+		}
 	}
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
@@ -323,7 +318,7 @@ EasyShape.prototype={
 		var d1,d2,t;
 		if(!vml) return;
 	
-		if(!vml.path || this.properties.shape =='point' ||projection) {
+		if(vml.tagName == 'shape' && (!vml.path || this.properties.shape =='point' ||projection)) {
 			//causes slow down..
 			this._createvmlpathstring(vml,transformation,projection);
 		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
@@ -387,6 +382,8 @@ EasyShape.prototype={
 		this._lastTransformation.scale.x = s.x;
 		this._lastTransformation.scale.y = s.y;
 	}	
+	
+	
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
 		var shape;
 		if(this.vml){
@@ -444,13 +441,47 @@ EasyShape.prototype={
 		
 	
 	}
-	/*
-	render the shape using canvas ctx 
-	using ctx and a given transformation in form {translate: {x:<num>, y:<num>}, scale:{translate: {x:<num>, y:<num>}}
-	projection: a function that takes xy coordinates and spits out a new x and y
-	in a given viewableArea 
-	optimisations: boolean - apply optimisations if required
-	*/
+
+	
+	,_applyProjection: function(projection,transformation){
+		var c = this.coords;
+		if(!projection) return c;
+		
+		var newc = [];
+		for(var i=0; i < c.length-1; i+=2){
+			var x = parseFloat(c[i]);
+			var y = parseFloat(c[i+1]);
+			
+			if(projection.xy){
+				var t = projection.xy(c[i],c[i+1],transformation);
+				newx= t.x;
+				newy= t.y;
+			}
+
+			cok = true;
+			//check we haven't wrapped around world (For flat projections sss)
+			if(!projection.nowrap){
+				var diff;
+				if(newx > x) diff = newx - x;
+				if(x > newx) diff = x - newx;
+				if(diff > 100) cok = false; //too extreme change
+			}
+			
+			if(cok){
+				if(typeof newx == 'number' && typeof newy =='number'){
+				newc.push(newx);
+				newc.push(newy);
+				}
+	
+			}
+			
+			
+		}	
+
+		this._tcoords = newc;
+		this._calculateBounds(this._tcoords);
+		return newc;
+	}
 	,_calculateVisibleArea: function(canvas,transformation){
 		var left = 0,top = 0;
 		var right =  parseInt(canvas.width) + left; 
@@ -509,6 +540,14 @@ EasyShape.prototype={
 		else
 			return true;
 	}
+	
+	/*
+	render the shape using canvas ctx 
+	using ctx and a given transformation in form {translate: {x:<num>, y:<num>}, scale:{translate: {x:<num>, y:<num>}}
+	projection: a function that takes xy coordinates and spits out a new x and y
+	in a given viewableArea 
+	optimisations: boolean - apply optimisations if required
+	*/
 	,render: function(canvas,transformation,projection,optimisations, browser){
 		var optimisations = true;
 		if(!transformation){
@@ -520,14 +559,17 @@ EasyShape.prototype={
 		
 		var frame = this._calculateVisibleArea(canvas,transformation);
 		var shapetype = this.properties.shape;
-		if(shapetype == 'point'){
+		if(shapetype == 'text'){
+			this._renderTextShape(canvas,transformation);
+		}
+		else if(shapetype == 'point'){
 			this._calculatePointCoordinates(transformation);
 		} 
 		else if(shapetype == 'path' || shapetype =='polygon'){
 			
 		}
 		else{
-			console.log("no idea how to draw" +this.properties.shape+" must be polygon|path|point");
+			console.log("no idea how to render" +this.properties.shape+" must be polygon|path|point");
 			return;
 		}		
 		//optimisations = false;
@@ -546,7 +588,10 @@ EasyShape.prototype={
 
 		if(this.vml) this.vml.style.display = '';
 		
-		if(!canvas.getContext) {
+		if(shapetype == 'text'){
+			//special treatment!
+		}
+		else if(!canvas.getContext) {
 			//this has been taken from Google ExplorerCanvas
 			if (!document.namespaces['g_vml_']) {
 			        document.namespaces.add('g_vml_', 'urn:schemas-microsoft-com:vml');
