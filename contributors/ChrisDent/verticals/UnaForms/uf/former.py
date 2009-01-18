@@ -10,7 +10,7 @@ template_env = Environment(loader=FileSystemLoader('templates'))
 
 from uuid import uuid4 as uuid
 
-from twplugins import do_html, entitle
+from twplugins import do_html, entitle, require_role
 
 from tiddlyweb.manage import make_command
 from tiddlyweb.web.handler.recipe import get_tiddlers
@@ -62,6 +62,7 @@ def _read_db():
 
 @do_html()
 @entitle('Available Forms')
+@require_role('ADMIN')
 def forms(environ, start_response):
     """
     List the available forms to the web.
