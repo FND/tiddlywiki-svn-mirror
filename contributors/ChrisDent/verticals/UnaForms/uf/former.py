@@ -2,7 +2,9 @@
 Present forms at a good address.
 """
 
+import Cookie
 import sys
+import time
 import yaml
 
 from jinja2 import Environment, FileSystemLoader
@@ -90,8 +92,26 @@ def help(environ, start_response):
     return get_tiddler(environ, start_response)
 
 
+def logout(environ, start_response):
+    """
+    Break the web by allowing a logout on a GET request.
+    And then break it further by sending a bad redirect.
+    """
+    uri='/'
+    cookie = Cookie.SimpleCookie()
+    cookie['tiddlyweb_user'] = ''
+    cookie['tiddlyweb_user']['path'] = '/'
+    cookie['tiddlyweb_user']['expires'] = '%s' % (time.ctime(time.time()-6000))
+    start_response('303 See Other', [
+        ('Set-Cookie', cookie.output(header='')),
+        ('Location', uri)
+        ])
+    return [uri]
+
+
 def init(config):
     if 'selector' in config:
         config['selector'].add('/forms', GET=forms)
         config['selector'].add('/forms/{formid:segment}', GET=form)
         config['selector'].add('/help', GET=help)
+        config['selector'].add('/logout', GET=logout)
