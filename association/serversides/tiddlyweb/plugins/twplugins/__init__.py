@@ -6,6 +6,8 @@ Essentially this is a way to raise duplication to a common
 core without encumbering the TiddlyWeb core.
 """
 
+from tiddlyweb.model.policy import UserRequiredError
+
 
 def entitle(title):
     """
@@ -37,14 +39,17 @@ def do_html():
 
 def require_role(role):
     """
-    Decorator that requires the current user has role ADMIN.
+    Decorator that requires the current user has role <role>.
     """
+    role = unicode(role)
     def entangle(f):
         def require_role(environ, start_response, *args, **kwds):
-            admin = role in environ['tiddlyweb.usersign']['roles']
-            if admin:
-                return f(environ, start_response)
-            else:
+            try:
+                if role in environ['tiddlyweb.usersign']['roles']:
+                    return f(environ, start_response)
+                else:
+                    raise(UserRequiredError, 'insufficient permissions')
+            except KeyError:
                 raise(UserRequiredError, 'insufficient permissions')
         return require_role
     return entangle
