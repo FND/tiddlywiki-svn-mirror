@@ -8,6 +8,8 @@ import yaml
 from jinja2 import Environment, FileSystemLoader
 template_env = Environment(loader=FileSystemLoader('templates'))
 
+from uuid import uuid4 as uuid
+
 from twplugins import do_html, entitle
 
 from tiddlyweb.manage import make_command
@@ -20,13 +22,14 @@ HELP_TIDDLER = 'help'
 
 @make_command()
 def formform(args):
-    """Establish a known form based on something or other."""
+    """Establish a known form based on a recipe name. <recipe name>"""
     try:
-        form_id, source_recipe = args[0:]
+        form_id = str(uuid())
+        source_recipe = args[0]
         _update_db(form_id, source_recipe)
         print "form %s created using source %s" % (form_id, source_recipe)
     except ValueError:
-        print >> sys.stderr, "two arguments required: form id and source_recipe"
+        print >> sys.stderr, "one argument required: source_recipe"
 
 @make_command()
 def listforms(args):
@@ -44,7 +47,7 @@ def _update_db(form_id, source_recipe):
     # XXX locking!
     forms = _read_db()
     forms[form_id] = source_recipe
-    yaml.dump(forms, open(YAML_DB, 'w'))
+    yaml.dump(forms, open(YAML_DB, 'w'), default_flow_style=False)
 
 
 def _read_db():
@@ -87,6 +90,7 @@ def help(environ, start_response):
 
 
 def init(config):
-    config['selector'].add('/forms', GET=forms)
-    config['selector'].add('/forms/{formid:segment}', GET=form)
-    config['selector'].add('/help', GET=help)
+    if 'selector' in config:
+        config['selector'].add('/forms', GET=forms)
+        config['selector'].add('/forms/{formid:segment}', GET=form)
+        config['selector'].add('/help', GET=help)
