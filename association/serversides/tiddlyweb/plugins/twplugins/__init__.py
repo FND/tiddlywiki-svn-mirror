@@ -53,3 +53,19 @@ def require_role(role):
                 raise(UserRequiredError, 'insufficient permissions')
         return require_role
     return entangle
+
+def require_any_user():
+    """
+    Decorator that requires the current user be someone other than 'GUEST'.
+    """
+    def entangle(f):
+        def require_any_user(environ, start_response, *args, **kwds):
+            try:
+                if environ['tiddlyweb.usersign']['name'] == 'GUEST':
+                    raise(UserRequiredError, 'user must be logged in')
+                else:
+                    return f(environ, start_response)
+            except KeyError:
+                raise(UserRequiredError, 'user must be logged in')
+        return require_any_user
+    return entangle
