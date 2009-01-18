@@ -12,7 +12,7 @@ template_env = Environment(loader=FileSystemLoader('templates'))
 
 from uuid import uuid4 as uuid
 
-from twplugins import do_html, entitle, require_role
+from twplugins import do_html, entitle, require_role, require_any_user
 
 from tiddlyweb.manage import make_command
 from tiddlyweb.web.handler.recipe import get_tiddlers
@@ -42,26 +42,6 @@ def listforms(args):
     print template.render(forms=forms)
 
 
-def _update_db(form_id, source_recipe):
-    """
-    Update the yaml file, pairing a form_id with a source_recipe.
-    """
-    # XXX locking!
-    forms = _read_db()
-    forms[form_id] = source_recipe
-    yaml.dump(forms, open(YAML_DB, 'w'), default_flow_style=False)
-
-
-def _read_db():
-    """
-    Read the db into a dict.
-    """
-    try:
-        return yaml.load(open(YAML_DB))
-    except IOError:
-        return {}
-
-
 @do_html()
 @entitle('Available Forms')
 @require_role('ADMIN')
@@ -74,6 +54,7 @@ def forms(environ, start_response):
     return template.generate(form_ids=form_ids)
 
 
+@require_any_user()
 def form(environ, start_response):
     """
     Produce this named form to the web.
@@ -115,3 +96,24 @@ def init(config):
         config['selector'].add('/forms/{formid:segment}', GET=form)
         config['selector'].add('/help', GET=help)
         config['selector'].add('/logout', GET=logout)
+
+def _update_db(form_id, source_recipe):
+    """
+    Update the yaml file, pairing a form_id with a source_recipe.
+    """
+    # XXX locking!
+    forms = _read_db()
+    forms[form_id] = source_recipe
+    yaml.dump(forms, open(YAML_DB, 'w'), default_flow_style=False)
+
+
+def _read_db():
+    """
+    Read the db into a dict.
+    """
+    try:
+        return yaml.load(open(YAML_DB))
+    except IOError:
+        return {}
+
+
