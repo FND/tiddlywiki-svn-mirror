@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.4.0|
+|''Version''|0.4.1|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -47,7 +47,7 @@ plugin = {
 
 	sync: function() {
 		store.forEachTiddler(function(title, tiddler) {
-			if(tiddler.fields.deleted) {
+			if(tiddler.fields.deleted === "true") {
 				plugin.removeTiddler(tiddler);
 			} else if(tiddler.isTouched() && tiddler.getServerType() && tiddler.fields["server.host"]) {
 				plugin.saveTiddler(tiddler);
@@ -100,7 +100,7 @@ plugin = {
 	removeTiddlerCallback: function(context, userParams) {
 		var tiddler = context.tiddler;
 		if(context.status) {
-			if(tiddler.fields.deleted) {
+			if(tiddler.fields.deleted === "true") {
 				store.deleteTiddler(tiddler.title);
 			} else {
 				displayMessage(plugin.locale.deleteError.format([tiddler.title]));
@@ -147,7 +147,7 @@ TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override d
 	if(tiddler) {
 		tiddler.tags = ["excludeLists", "excludeSearch", "excludeMissing"];
 		tiddler.text = plugin.locale.removedNotice;
-		tiddler.fields.deleted = true; // XXX: rename to removed/tiddlerRemoved?
+		tiddler.fields.deleted = "true"; // XXX: rename to removed/tiddlerRemoved?
 		tiddler.incChangeCount();
 		this.notify(title, true);
 		this.setDirty(true);
