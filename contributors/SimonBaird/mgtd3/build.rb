@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 
 require 'pathname'
 Dir.chdir Pathname.new(File.dirname(__FILE__)).realpath
@@ -20,14 +21,14 @@ required = [
   ['Contact', 'GTDComponent'],
   ['Realm', 'GTDComponent'],
 
- 	['Starred',       ''],
+  ['Starred',       ''],
 
- 	['Next',          'ActionStatus',  "order:1\nbutton:n\nbuttonLong:next\n"],
-	['Waiting For',   'ActionStatus',  "order:2\nbutton:w\nbuttonLong:waiting for\n"],
-	['Future',        'ActionStatus',  "order:3\nbutton:f\nbuttonLong:future\n"],
+  ['Next',          'ActionStatus',  "order:1\nbutton:n\nbuttonLong:next\n"],
+  ['Waiting For',   'ActionStatus',  "order:2\nbutton:w\nbuttonLong:waiting for\n"],
+  ['Future',        'ActionStatus',  "order:3\nbutton:f\nbuttonLong:future\n"],
 
-	['Active',        'ProjectStatus', "order:1\nbutton:a\nbuttonLong:active\n"],
-	['Someday/Maybe', 'ProjectStatus', "order:2\nbutton:s/m\nbuttonLong:someday/maybe\n"],
+  ['Active',        'ProjectStatus', "order:1\nbutton:a\nbuttonLong:active\n"],
+  ['Someday/Maybe', 'ProjectStatus', "order:2\nbutton:s/m\nbuttonLong:someday/maybe\n"],
 
   ['Once',        'TicklerRepeatType', "order:1\nbutton:none\nbuttonLong:one time\n"],
   ['Daily',       'TicklerRepeatType', "order:1\nbutton:none\nbuttonLong:daily\n"],
@@ -71,14 +72,14 @@ demo = [
   ['Miss Piggy',     "Contact"],
   ['Kermit',         "Contact"],
 
-	['Mow Lawn',              "Project [[Home Maintenance]] Personal Active"],
-	['Get some mower fuel',   "Action Next Personal [[Mow Lawn]] Errand"],
-	['Pick up palm branches', "Action Next Personal [[Mow Lawn]] Weekend"],
-	['Mow the lawn already',  "Action Future Personal [[Mow Lawn]] Weekend"],
-
-	['Buy snowboard',                          "Project Recreation Personal Someday/Maybe"],
-	['Look in phone book for local ski shops', "Action Next Personal [[Buy snowboard]] Home"],
-	['Ask Ben for recommendations',            "Action Next Personal [[Buy snowboard]] Call"],
+  ['Mow Lawn',              "Project [[Home Maintenance]] Personal Active"],
+  ['Get some mower fuel',   "Action Next Personal [[Mow Lawn]] Errand"],
+  ['Pick up palm branches', "Action Next Personal [[Mow Lawn]] Weekend"],
+  ['Mow the lawn already',  "Action Future Personal [[Mow Lawn]] Weekend"],
+  
+  ['Buy snowboard',                          "Project Recreation Personal Someday/Maybe"],
+  ['Look in phone book for local ski shops', "Action Next Personal [[Buy snowboard]] Home"],
+  ['Ask Ben for recommendations',            "Action Next Personal [[Buy snowboard]] Call"],
 
   ['Hang up bedroom curtains', "Project [[Home Maintenance]] Personal Active"],
   ['Buy curtain rail and screws', "Action Next Personal [[Hang up bedroom curtains]] Errand"],
@@ -89,7 +90,7 @@ demo = [
   ['Ring Sue: decide play and dates', "Action Next Personal [[Go to theatre with Sue]] Call"],
   ['Ring ticket office and book places', "Action Future Personal [[Go to theatre with Sue]] Call"],
   
-	['A project-less task',   "Action Next Personal"],
+  ['A project-less task',   "Action Next Personal"],
 
 ]
 
@@ -152,7 +153,7 @@ make_tw {
   add_tiddler_from_scratch ({'tiddler' => 'TitleButtonsSelector', 'text' => content });
 
   # use secret timestamp format for version number. note, can't do two releases in same ten minute period
-  get_tiddler('MgtdConf').fields['text'].sub!(/__REV__/,Time.now.strftime('%m%d%H%M')[1..-2])
+  get_tiddler('MgtdConf').fields['text'].sub!(/__REV__/,Time.now.strftime('%y%m%d%H%M')[0..-2])
 
   %w[systemConfig systemTheme].each do |tag|
     #tiddlers_with_tag(tag).each{ |t| t.add_tags(['excludeSearch','excludeLists']) } # makes it too hard to find plugins etc
@@ -166,21 +167,15 @@ make_tw {
   # add required tiddlers and write upgrade file.
   required.each { |t| add_tiddler_from_scratch('tiddler' => t[0], 'tags' => t[1], 'text' => t[2]||'') }
 
-  # some we don't want in upgrade file... FIXME
+  # some we don't want in upgrade file...
   temp1 = get_tiddler('MptwUserConfigPlugin')
-  temp2 = get_tiddler('ColorPalette')
-  temp3 = get_tiddler('DefaultTiddlers')
 
   remove_tiddler('MptwUserConfigPlugin')
-  remove_tiddler('ColorPalette')
-  remove_tiddler('DefaultTiddlers')
 
   store_to_file          "upload/upgrade3.html" unless ARGV[0] == 'fast'
 
   # put it back again
   add_tiddler(temp1)
-  add_tiddler(temp2)
-  add_tiddler(temp3)
 
   # add a MgtdUserConf tiddler
   add_tiddler_from_scratch('tiddler'=>'MgtdUserConf','tags'=>'systemConfig','text'=>"// won't be overwritten by updates\n\n // eg:\n\n//// config.options.txtTheme = 'MonkeyGTDPrint3x5';")
