@@ -105,7 +105,26 @@ config.macros.tiddlerTree1.strip=function(s) {
 config.macros.tiddlerTree1.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	removeChildren(place);
 	createTiddlyElement(place, "br");
+	var div = createTiddlyElement(place, "div", "example", "flora");
+	var ul = createTiddlyElement(div, "ul");
+	var li = createTiddlyElement(ul, "li");
+	var a = createTiddlyElement(li, "a");
+	a.href = "#frag1";
+	createTiddlyElement(a, "span", null, null, "frag1");
 
+	var li = createTiddlyElement(ul, "li");
+	var a = createTiddlyElement(li, "a");
+	a.href = "#frag2";
+	createTiddlyElement(a, "span", null, null, "frag2");
+
+
+
+	var frag1 = createTiddlyElement(div, "div", "frag1", null, "frag 1 content");
+
+	createTiddlyElement(div, "div", "frag2", null, "frag 2 content ");
+
+	log($('#example >ul').tabs());
+	//$(ul).tabs();
 	
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
 

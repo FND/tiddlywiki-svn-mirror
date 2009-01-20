@@ -123,7 +123,21 @@
 </div>
 
 !StyleSheet 
+.editor input, .editor textarea {
+border:1px dotted orange;
+width:99%;
 
+}
+
+
+.editRightButton{
+
+	display:block;
+	left:30em;
+	position:relative;
+	top:-2.1em;
+	
+}
 
 #mainMenu {
 height:100%;
@@ -134,13 +148,16 @@ width:30%;
 #tiddlerDisplay {
 float:right;
 height:100%;
-left:27em;
+left:55em;
 position:absolute;
-top:2em;
-width:70%;
+top:3em;
+width:55%;
 }
 
-
+.toolbar {
+	position:relative;
+	padding:1em !important;
+}
 a.right {
 float:none;
 top:-30px;
@@ -179,7 +196,7 @@ margin-left :9.2em;
 .sort-handle-edit{
 color:black;
 background-color:#fff;
-border-bottom : 2px solid #ddd; 
+border-bottom : 0px solid #ddd; 
 }
 
 .doneButton {
@@ -250,7 +267,8 @@ border-bottom : 2px solid #ddd;
 			padding:0.5em !important;
 			color:#666 !important;
 			font-family:tahoma;
-			background-color:#fff !important;
+//			background-color:#fff !important;
+			border:0px !important;
 		}
 		
 		
@@ -259,6 +277,7 @@ border-bottom : 2px solid #ddd;
 			padding:1em 1em 1em 0.0em;
 		}
 		.viewer .button {
+ 
 		top:-1.8em !important;
 		}
 		.button {
@@ -267,9 +286,13 @@ border-bottom : 2px solid #ddd;
 			color:black !important;
 			font-size:1.2em;
 			border:1px solid orange !important;
+			margin:0.5em;	
+			top:1em !important;
 		}
 		
-		
+		.tiddler .button {
+			margin-top:-2em !important;
+		}
 		#backstageButton {
 		display:none !important;
 		}
@@ -358,7 +381,7 @@ border-bottom : 2px solid #ddd;
 		}
 		
 			div.sort-handle div{
-				border-bottom:1px solid #EDECE8;
+				//border-bottom:1px solid #EDECE8;
 				margin:0em;
 			}
 		.editLink {
@@ -408,12 +431,11 @@ border-bottom : 2px solid #ddd;
 		
 		div.tiddler {
 			
-			background:transparent;
-			//background-color:#EDECE8;
-			border:0px solid black;
+			background-color:white;
+			border:1px solid black;
 			color:black;
 			margin:2em;		
-			padding:0px;	
+			padding:0.5em !important;	
 		}	
 		
 		
@@ -428,7 +450,7 @@ border-bottom : 2px solid #ddd;
 
 		.flora .ui-dialog .ui-dialog-titlebar,
 		.flora.ui-dialog .ui-dialog-titlebar {
-			border-bottom: 1px solid #d8d2aa;
+			//border-bottom: 1px solid #d8d2aa;
 			background: #fff;
 			color:black;
 			padding: 0px;

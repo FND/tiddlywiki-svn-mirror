@@ -112,10 +112,10 @@ console.log("here1", place);
 				var sectionDiv = createTiddlyElement(section, "div", tiddlerTitle+"ViewContainer", "sort-handle " +sectionClass);
 				var heading = createTiddlyElement(sectionDiv, "h"+level,  tiddlerTitle+"HeadingView", "sectionHeading ");
 				
+				createTiddlyText(heading, tiddlerTitle);
 				
-				
-				createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment+" ") : "  - Unassigned "));
-				createTiddlyButton(heading, "edit", "Click to edit this section", config.macros.SplitView.editClick, "right");
+				//createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment+" ") : "  - Unassigned "));
+				createTiddlyButton(heading,  "edit", "Click to edit this section", config.macros.SplitView.editClick, "button");
 	
 			 				
 				var prevLevel = level;			
