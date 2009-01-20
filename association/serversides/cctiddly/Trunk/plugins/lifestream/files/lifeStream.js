@@ -51,16 +51,25 @@ config.macros.lifeStream.display = function (place, params)
 	var yesterday= new Date()
 	yesterday.setDate(yesterday.getDate()-1);
 	for(var t=tiddlers.length-1; t>=last; t--) {
-		var theDay = tiddlers[t]['modified'].convertToLocalYYYYMMDDHHMM().substr(0,8);
-		if(theDay != lastDay) {
-			if(tiddlers[t]['modified'].formatString("DD/MM/YYYY")==today.formatString("DD/MM/YYYY"))
-				createTiddlyElement(place, "h3", null, null,  "Today");
-			else if(tiddlers[t]['modified'].formatString("DD/MM/YYYY")==yesterday.formatString("DD/MM/YYYY"))
-				createTiddlyElement(place, "h3", null, null,  "Yesterday");
-			else
-				createTiddlyElement(place, "h3", null, null,  tiddlers[t]['modified'].formatString("DD/MM/YYYY"));
-			lastDay = theDay;
-		}
+		
+		if(tiddlers[t].isTagged("Notes") ||["flickr", "twitter", "wordpress", "delicious", 
+"trac"].contains(tiddlers[t].fields["server.type"])) {
+
+			if(typeof(tiddlers[t]['modified'])!='undefined')
+				var theDay = tiddlers[t]['modified'].convertToLocalYYYYMMDDHHMM().substr(0,8);
+
+
+			if(theDay != lastDay) {
+				if(tiddlers[t]['modified'].formatString("DD/MM/YYYY")==today.formatString("DD/MM/YYYY"))
+					createTiddlyElement(place, "h3", null, null,  "Today");
+				else if(tiddlers[t]['modified'].formatString("DD/MM/YYYY")==yesterday.formatString("DD/MM/YYYY"))
+					createTiddlyElement(place, "h3", null, null,  "Yesterday");
+				else
+					createTiddlyElement(place, "h3", null, null,  
+tiddlers[t]['modified'].formatString("DD/MM/YYYY"));
+				lastDay = theDay;
+			}	
+	}
 		switch(tiddlers[t].fields['server.type']){
 			case "wordpress" :
 				var img = createTiddlyElement(null, "img", null, "imgClass");
