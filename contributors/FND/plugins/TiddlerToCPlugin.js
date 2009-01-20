@@ -2,7 +2,7 @@
 |''Name''|TiddlerToCPlugin|
 |''Description''|generates a table of contents for headings within a tiddler|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#TableOfContentsPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -26,6 +26,7 @@ This plugin supersedes an earlier plugin of the same name.
 !!v0.1 (2009-01-19)
 * initial release
 !To Do
+* nested ULs based on heading level
 * documentation (e.g. macro has to be below the last heading)
 * optional marker for ToC position
 !Code
@@ -35,19 +36,26 @@ This plugin supersedes an earlier plugin of the same name.
 
 $.tw.fn.extend({
 	ToC: function(args) {
-		var names = [];
+		var headings = [];
 		// add anchors to headings
 		var tiddlerElem = story.findContainingTiddler(this[0]);
-		$(tiddlerElem).find("h1, h2, h3, h4, h5, h6").attr("name", function() {
-			var name = this.nodeName + "_" + $(this).text().replace(" ", "_"); // XXX: replacing spaces not sufficient!?
-			names.push(name);
+		$(tiddlerElem).find("h1, h2, h3, h4, h5, h6").attr("id", function() {
+			var tag = this.nodeName;
+			var label = $(this).text();
+			var name = tag + "_" + label.replace(" ", "_"); // XXX: replacing spaces not sufficient!?
+			headings.push({
+				level: parseInt(tag.substr(1), 10),
+				label: label,
+				name: name
+			});
 			return name;
 		});
 		// generate table of contents
-		var container = $(tiddlerElem).find(".viewer").prepend("<ul class='ToC'></ul>"); // XXX: don't use string!? -- does not return prepended element
-		console.log(container, container[0]);
-		$.each(names, function() {
-			container.append("<li><a href='#" + this + "'>" + this + "</a></li>"); // XXX: don't use string!? -- does not scroll to anchor
+		var parent = $(tiddlerElem).find(".viewer");
+		var container = $("<ul />").addClass("ToC").prependTo(parent);
+		$.each(headings, function(i, item) {
+			var li = $("<li />").appendTo(container);
+			$("<a />").attr("href", "#" + item.name).text(item.label).appendTo(li);
 		});
 		return this;
 	}
