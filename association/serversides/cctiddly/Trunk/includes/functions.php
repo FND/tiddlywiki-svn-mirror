@@ -409,7 +409,7 @@ function cookie_get($k)
 function formatParameters($str)
 {
 	$result = (get_magic_quotes_gpc()?stripslashes($str):$str);
-	return rawurldecode($result);
+	return utf8RawUrlDecode($result);
 }
 
 //!	@fn formatParametersGET($str)

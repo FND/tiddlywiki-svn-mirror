@@ -55,7 +55,9 @@ console.log("here1", place);
 	var showBoxTiddler = function() { alert("do nothing");};
 	var showBoxPopUp = function() {$("#newTiddlerDiv").dialog({"height":"240px", "width":"400px", "dialogClass":"smmStyle", "position":['91100px','11100'],"show":"fadeIn"});};
 	
-	createTiddlyButton(buttonHolder, "New Section", "click to create a new section", function() {config.macros.SplitView.openType(showBoxTiddler, showBoxSlide, showBoxPopUp); });
+//	createTiddlyButton(buttonHolder, "New Section", "click to create a new section", function() {config.macros.SplitView.openType(showBoxTiddler, showBoxSlide, showBoxPopUp); });
+
+	wikify("<<newTiddler>>", buttonHolder);
 
 	var newTiddlerContainerDiv = createTiddlyElement(place, "div", "newTiddlerDivContainer", "sort-handle-edit incomplete");
 	newTiddlerContainerDiv.style.display = "none";
@@ -103,7 +105,7 @@ console.log("here1", place);
 					var newDate = new Date();
 					store.saveTiddler(tiddlerTitle, tiddlerTitle, "", config.options.txtUserName, newDate,"",config.defaultCustomFields);
 				}
-				if(store.getTiddler(tiddlerTitle).fields.tt_status == "Complete")
+				if(store.getTiddler(tiddlerTitle).fields.tt_status == "Accepted")
 					var sectionClass = "completed";
 				else 
 					var sectionClass = "incomplete";

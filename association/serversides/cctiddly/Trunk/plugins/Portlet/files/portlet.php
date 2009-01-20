@@ -37,7 +37,7 @@ $tasks =  getTiddlersWithTagsNoPerm(array('task'), array());
 $loc = dirname(dirname(dirname(getURL())));
 foreach($tasks as $task)
 {
-	if(!stristr($task['fields'], "tt_status='Complete") && stristr($task['fields'], "tt_user='".$_REQUEST['user']."'"))
+	if(!stristr($task['fields'], "tt_status='Accepted") && stristr($task['fields'], "tt_user='".$_REQUEST['user']."'"))
 	{
 		$links .= "<a href='".$loc."/".$tiddlyCfg['workspace_name']."#[[".$task['title']."]]' target=".rand().">".$task['title']."</a><br />";
 		$count++;

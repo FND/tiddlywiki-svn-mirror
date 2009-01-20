@@ -77,13 +77,16 @@
 
 !ViewTemplate
 <!--{{{-->
-<!--<div macro='gradient vert #eee #bbb'>-->
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='title' macro='view title' ></div>
+	<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+	<div class='title' macro='view title'></div>
+	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+	<div class='viewer taskViewer' macro='view text wikified'></div>
+	
+	<center>
+	<div macro='comments'></div>
+</center>
+	<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 
-<div class='viewer' macro='view text wikified' ></div>
-<div class='subtitle'>Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<!--</div>-->
 <!--}}}-->
 
 	
@@ -129,6 +132,12 @@ width:99%;
 
 }
 
+.sectionHeading a{
+	display:none;
+}
+.sectionHeading:hover a{
+	display:inline;
+}
 
 .editRightButton{
 
@@ -146,12 +155,12 @@ width:30%;
 }
 
 #tiddlerDisplay {
-float:right;
-height:100%;
-left:55em;
-position:absolute;
-top:3em;
-width:55%;
+	float:right;
+	height:100%;
+	left:30%;
+	position:absolute;
+	top:3em;
+	width:70%;
 }
 
 .toolbar {
