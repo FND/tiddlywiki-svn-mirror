@@ -60,7 +60,7 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		item.title = title[0].replace(/^<title>|<\/title>$/mg,"");
 		item.title = item.title.htmlDecode();
 		item.created = created[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
-		item.created = wordpressAdaptor.convertTimestamp(item.created).convertToLocalYYYYMMDDHHMM().toString();
+		item.created = new Date(item.created);
 		desc = item_match[i].match(regex_desc);
 		var link = item_match[i].match(regex_link);
 		link = link[0].replace(/^<link>|<\/link>$/mg,"");
@@ -71,7 +71,7 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 		t.text = t.text.replace("]]]>", "");
 		t.fields["url"] = link;
 		t.fields["server.type"] = "wordpress";
-		t.set(item.title,t.text,"modifier",item.created,null,t.fields);
+		t.set(item.title,t.text,"modifier",item.created,null,item.created,t.fields);
 		store.addTiddler(t);
 	}
 	context.status = true;
