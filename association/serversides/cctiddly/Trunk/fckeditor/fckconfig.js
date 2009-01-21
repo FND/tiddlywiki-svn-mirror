@@ -24,8 +24,6 @@
  * http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_Options
  */
 
-
-alert("config");
 FCKConfig.CustomConfigurationsPath = '' ;
 
 FCKConfig.EditorAreaCSS = FCKConfig.BasePath + 'css/fck_editorarea.css' ;
@@ -39,7 +37,7 @@ FCKConfig.BaseHref = '' ;
 FCKConfig.FullPage = false ;
 
 // The following option determines whether the "Show Blocks" feature is enabled or not at startup.
-FCKConfig.StartupShowBlocks = false ;
+FCKConfig.StartupShowBlocks = true;
 
 FCKConfig.Debug = false ;
 FCKConfig.AllowQueryStringDebug = true ;
@@ -89,7 +87,7 @@ FCKConfig.ForceSimpleAmpersand	= false ;
 FCKConfig.TabSpaces		= 0 ;
 FCKConfig.ShowBorders	= true ;
 FCKConfig.SourcePopup	= false ;
-FCKConfig.ToolbarStartExpanded	= false ;
+FCKConfig.ToolbarStartExpanded	= true;
 FCKConfig.ToolbarCanCollapse	= true ;
 FCKConfig.IgnoreEmptyParagraphValue = true ;
 FCKConfig.FloatingPanelsZIndex = 10000 ;
@@ -117,9 +115,22 @@ FCKConfig.ToolbarSets["Default"] = [
 	['FitWindow','ShowBlocks','-','About']		// No comma for the last row.
 ] ;
 
-
-
 FCKConfig.ToolbarSets["Default"] = [
+	['PasteText','PasteWord','-','SpellCheck'],
+	['Find','Replace','RemoveFormat'],
+	['Bold','Italic','Underline'],
+	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
+	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
+	['Link','Unlink','Anchor'],
+	['Image', 'Table','Rule'],
+	['FontName','FontSize'],
+	['TextColor','BGColor']
+];
+
+
+
+
+FCKConfig.ToolbarSets["Basic"] = [
 	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
 ] ;
 
