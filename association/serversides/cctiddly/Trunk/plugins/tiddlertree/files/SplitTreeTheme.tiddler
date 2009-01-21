@@ -21,7 +21,7 @@
 
 !PageTemplate
 <!--{{{-->
-
+<div class='right topBanner'>TiddlerTree 0.2 provided by <a href='http://osmosoft.com' target='new_window'>Osmosoft</a> using <a href='http://tiddlywiki.com/' target='new_window'>TiddlyWiki</a> and <a href='http://jquery.com/' target='new_window'>jQuery</a></div>
 <div id='bodywrapper' >
 <div id='displayArea'>
 <div id='messageArea'></div>
@@ -107,6 +107,13 @@
 
 !StyleSheet 
 
+.topBanner {
+	text-align:right;
+	padding:0.5em;
+}
+
+
+
 #layoutContainer {
 background-color:#ccc;
 }
@@ -165,7 +172,7 @@ width:30%;
 	height:100%;
 	left:30%;
 	position:absolute;
-	top:0em;
+	top:2em;
 	width:70%;
 }
 
