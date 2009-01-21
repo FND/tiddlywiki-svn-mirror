@@ -31,7 +31,9 @@ config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramSt
 	createTiddlyElement(place, "br");
 	//top nav 
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
-	wikify("<<newTiddler>> [["+params[0]+"]]", buttonHolder);
+	wikify("<<newTiddler>> {{button{[["+params[0]+"]]}}}", buttonHolder);
+	createTiddlyElement(place, "br");
+
 	var treeSpec = store.getTiddlerText(params[0]); 
 	if(treeSpec){
 		var sections = treeSpec.split("\n");

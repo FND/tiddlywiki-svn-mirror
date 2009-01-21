@@ -25,31 +25,9 @@
 <div id='bodywrapper' >
 <div id='displayArea'>
 <div id='messageArea'></div>
-
-
-<!--
-<div id="example" class="flora">
-      <ul>
-
-          <li><a id='f1' href="#fragment-1" onkeyup="tabClick(this);"><span>One</span></a></li>
-          <li><a id='f2' href="#fragment-2" onkeyup="tabClick(this);"><span>Two</span></a></li>
-          <li><a  id='f3' href="#fragment-3" onkeyup="tabClick(this);"><span>Three</span></a></li>
-      </ul>
-      <div id="fragment-1">
-      </div>
-      <div id="fragment-2">
-      </div>
-      <div id="fragment-3">
-      </div>
-  </div>
--->
-
-
-
-<div id='layoutContainer' macro='gradient vert #eee #bbb'>
+<div id='layoutContainer'>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 <div id='tiddlerDisplay'></div>
-
 </div>
 </div>
 <div id='contentFooter'  macro='gradient vert #eee #ccc'></div>
@@ -129,8 +107,9 @@
 
 !StyleSheet 
 
-
-
+#layoutContainer {
+background-color:#ccc;
+}
 .comments {
 	width:100% !important;
 	padding:0.5em;
@@ -175,7 +154,7 @@ border:	2px solid transparent !important;
 }
 
 #mainMenu {
-font-size:0.8em;
+font-size:0.9em;
 height:100%;
 position:relative;
 width:30%;
@@ -186,7 +165,7 @@ width:30%;
 	height:100%;
 	left:30%;
 	position:absolute;
-	top:3em;
+	top:0em;
 	width:70%;
 }
 
@@ -204,6 +183,10 @@ top:-30px;
 div.tiddler .tab {
 background-color:#ddd;
 
+}
+
+#displayArea {
+margin:0px !important;
 }
 
 .wizard .button {
@@ -352,6 +335,9 @@ background-color:#fff;
 		padding-bottom:0px;
 		padding-top :0px;
 		}
+		#buttonHolder .button {
+		padding:0.5em;
+		}
 		.sectionBodyEdit {
 			width:98%;
 			
@@ -423,7 +409,7 @@ background-color:#fff;
 		}
 		
 		html > body {
-		 background-color:#333;
+		 background-color:#ddd;
 		}
 		
 		 .completed {
