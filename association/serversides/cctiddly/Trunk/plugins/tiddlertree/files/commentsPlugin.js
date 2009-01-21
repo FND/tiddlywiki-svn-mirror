@@ -354,7 +354,6 @@ copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
 
 /***
 !StyleSheet
-
 .comments h1 { margin-bottom: 0; padding-bottom: 0; }
 .comments { padding: 0; }
 .comment .comments { margin-left: 1em; }

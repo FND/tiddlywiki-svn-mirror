@@ -77,16 +77,18 @@
 
 !ViewTemplate
 <!--{{{-->
-	<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+
 	<div class='title' macro='view title'></div>
+	<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 	<div class='viewer taskViewer' macro='view text wikified'></div>
 	
-	<center>
-	<div macro='comments'></div>
-</center>
-	<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 
+	<div macro='gradient vert #fff #eee'>
+	<div macro='comments'></div>
+	
+	<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+	</div>
 <!--}}}-->
 
 	
@@ -126,10 +128,26 @@
 </div>
 
 !StyleSheet 
+
+
+
+.comments {
+	width:100% !important;
+	padding:0.5em;
+}
+
+.comments .newCommentArea {
+	text-align:center;
+}
+
 .editor input, .editor textarea {
 border:1px dotted orange;
 width:99%;
 
+}
+
+.tiddler .toolbar {
+	text-align:left;
 }
 
 .sectionHeading a{
@@ -139,12 +157,20 @@ width:99%;
 	display:inline;
 }
 
+.sectionHeading{
+border:	2px solid transparent !important;
+
+	padding-left:0.3em !important;
+	
+}
+
+
 .editRightButton{
 
 	display:block;
 	left:30em;
 	position:relative;
-	top:-2.1em;
+	//top:-2.1em;
 	
 }
 
@@ -205,7 +231,7 @@ margin-left :9.2em;
 .sort-handle-edit{
 color:black;
 background-color:#fff;
-border-bottom : 0px solid #ddd; 
+//border-bottom : 0px solid #ddd; 
 }
 
 .doneButton {
@@ -258,6 +284,8 @@ border-bottom : 0px solid #ddd;
 
 			
 			.helper {
+				margin-left:1em !important;
+			
 				border:2px dashed #777777;
 			}
 			
@@ -345,13 +373,16 @@ border-bottom : 0px solid #ddd;
 		}
 		
 		input, select {
-			background-color:#eee;
-			color:black;
-			border:1px solid #ddd;
-			font-size:1.5em;
+			font-size:1.2em;
+		}
+		.viewer table, table.twtable, .viewer td, .viewer tr, .twtable td, .twtable tr {
+		border:0px !important;
 		}
 		
-		
+		.viewer {
+			padding:0.5em;
+		}
+
 		.sectionBody {
 		border:0px;
 			background-color:transparent;
@@ -361,7 +392,7 @@ border-bottom : 0px solid #ddd;
 		}
 		
 		div.sort-handle div {
-			border-bottom:0px !important;
+			//border-bottom:0px !important;
 		}
 		
 		.commentText {
@@ -424,8 +455,12 @@ border-bottom : 0px solid #ddd;
 	
 		
 		.draggableOn {
-	cursor:move;
-			background-color:#eee !important;
+			cursor:move;
+			
+			border:2px dashed #777777 !important;
+			border-bottom:2px dashed #777777 !important;
+
+			//background-color:#eee !important;
 
 
 		}
@@ -444,8 +479,9 @@ border-bottom : 0px solid #ddd;
 			border:1px solid black;
 			color:black;
 			margin:2em;		
-			padding:0.5em !important;	
+			padding:0em !important;	
 		}	
+		
 		
 		
 		// BOX CSS
