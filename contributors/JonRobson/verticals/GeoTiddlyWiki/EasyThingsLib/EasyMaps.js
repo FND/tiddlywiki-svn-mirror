@@ -131,9 +131,20 @@ EasyMap.prototype = {
 			that.drawFromGeojson(responseText);
 		};
 		EasyFileUtils.loadRemoteFile(file,callback);
-	},	
+	}
 
-	attachBackground: function(imgpath){
+
+	,moveTo: function(latitude,longitude,zoom){
+		var newt = {translate:{},scale:{}};
+		newt.translate.x = -latitude;
+		newt.translate.y = longitude;
+		
+		newt.scale.x = zoom;
+		newt.scale.y = zoom;
+		this.controller.setTransformation(newt)
+		
+	}
+	,attachBackground: function(imgpath){
 		if(!this.canvas.transformation.spherical && this.settings.background){
 			this.wrapper.style.background=this.settings.background;
 		}

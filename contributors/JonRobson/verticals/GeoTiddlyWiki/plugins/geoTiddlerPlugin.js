@@ -484,16 +484,16 @@ if(!version.extensions.geoPlugin) {
 		var id = params[3];
 		if(!params[3]) id = 'default0';
 		
-		if(!geomaps[id]) {alert("geogoto can only be used if it can find a geo mqp try putting an id as third parameter which points to a map currently visible on the screen.");}
+		if(!geomaps[id]) {
+		throw "exception in geogoto - map with id '"+ id+"' doesn't exist in page";
+		}
 		var lo, la,zoom;
 		if(params[0]) lo = parseFloat(params[0]);
 		if(params[1]) la = parseFloat(params[1]);
 		if(params[2]) zoom = parseFloat(params[2]);		 
-		var tran = geomaps[id].controller.transformation;
-		if(lo) tran.translate.x = -la;
-		if(la) tran.translate.y = lo;
-		if(zoom){ tran.scale.x = zoom;tran.scale.y = zoom;}
-		geomaps[id].controller.setTransformation(tran);
+
+		geomaps[id].moveTo(la,lo,zoom);
+	
 	}
 	
 

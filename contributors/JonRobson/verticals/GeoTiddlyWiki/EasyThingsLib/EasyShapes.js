@@ -152,13 +152,21 @@ EasyShape.prototype={
 		var x= coordinates[0];
 		var y =coordinates[1];
 		t.innerHTML = this.properties.name;
-		t.style.left = 100 + parseInt(x) +"px";
-		t.style.top = 100 +parseInt(y)+"px";
-		this._cssTransform(t,transformation,false);
+
+
 		
 		if(t.parentNode == null){
+			t.style.left =   parseInt(x) +"px";
+			t.style.top = parseInt(y)+"px";
+			t.style.width =  "200px";
+			t.style.height = "200px";
+			t.style.textAlign = "center";
+			
 			canvas.appendChild(this._textLabel);
 		}
+		
+		this._cssTransform(t,transformation,false);
+		t.style.lineHeight = t.style.height;
 	}
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
@@ -371,12 +379,12 @@ EasyShape.prototype={
 		temp *= s.x;
 		newtop += temp;						
 
-		style.left = newleft;
-		style.top = newtop;
+		style.left = newleft +"px";
+		style.top = newtop +"px";
 		
 		if(scalingRequired){
-			style.width = newwidth;
-			style.height = newheight;
+			style.width = newwidth +"px";
+			style.height = newheight + "px";
 		}
 		this._lastTransformation = {scale:{}};
 		this._lastTransformation.scale.x = s.x;
