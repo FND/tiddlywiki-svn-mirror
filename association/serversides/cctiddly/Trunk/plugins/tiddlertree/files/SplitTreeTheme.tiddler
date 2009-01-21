@@ -112,8 +112,8 @@
 <!--{{{-->
 <div macro='gradient vert #eee #bbb'>
 <div class="editor">
-<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 <div class='title edit' macro='edit title'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 <div class='task'>
 	<table border="0">
@@ -175,6 +175,7 @@ border:	2px solid transparent !important;
 }
 
 #mainMenu {
+font-size:0.8em;
 height:100%;
 position:relative;
 width:30%;
@@ -247,17 +248,6 @@ background-color:#fff;
 			#messageArea {
 //display:none !important;
 			}
-			
-			#sortableList.page-list {
-				list-style: none;
-				position:relative;
-				//top:-10px;
-			
-				margin: 0 !important;
-				padding: 0 !important;
-				display: block;
-			}
-			
 			.clear-element {
 				clear: both;
 			}
@@ -446,10 +436,10 @@ background-color:#fff;
 		}
 		
 		li {
-			style:none;
+//			style:none;
 		}
 		ul {
-			list-style:none;
+			padding-left:0px;
 			margin:0em !important;
 		}
 	

@@ -1,2 +1,2 @@
-|~ViewToolbar|a +editHtml externalize easyEdit > syncing permalink revisions references jump|
+|~ViewToolbar|closeTiddler closeOthers +editHtml externalize easyEdit > fields syncing permalink revisions references jump|
 |~EditToolbar|+saveTiddler -cancelTiddler deleteTiddlerHosted|

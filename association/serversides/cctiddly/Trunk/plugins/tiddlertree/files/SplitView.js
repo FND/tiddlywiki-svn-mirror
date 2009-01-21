@@ -11,7 +11,12 @@ var tabClick = function(e) {
 };
 */
 
+
 config.macros.SplitView={};
+
+config.macros.SplitView.editClick=function(){
+			story.displayTiddler(null, this.parentNode.id.replace("HeadingView", ""));
+}
 config.macros.SplitView.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	config.options.txtOpenType = "inline";
 	config.macros.SplitView.refresh(place,macroName,params,wikifier,paramString,tiddler);
@@ -26,17 +31,20 @@ config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramSt
 	createTiddlyElement(place, "br");
 	//top nav 
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
-	wikify("<<newTiddler>>", buttonHolder);
+	wikify("<<newTiddler>> [["+params[0]+"]]", buttonHolder);
 	var treeSpec = store.getTiddlerText(params[0]); 
 	if(treeSpec){
 		var sections = treeSpec.split("\n");
 		var parent = createTiddlyElement(place, "ul","sortableList", "page-list");
 		for(var i = 0; i < sections.length; i++) {
+			
 			var matches = sections[i].match(/^(\*+) (.*)/)
 			if (matches) {
 				var level = matches[1].length;
 				var tiddlerTitle = matches[2];
 				if (level>prevLevel) {
+						log("n", level, "pl", prevLevel);
+					
 					parent = createTiddlyElement(parent, "ul","sortableList", "page-list");
 				} else if (level < prevLevel) {
 					parent = parent.parentNode;
@@ -55,7 +63,7 @@ config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramSt
 				var heading = createTiddlyElement(sectionDiv, "div",  tiddlerTitle+"HeadingView", "sectionHeading ");		
 				createTiddlyText(heading, tiddlerTitle);
 				//	createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment+" ") : "  - Unassigned "));
-				//	createTiddlyButton(heading,  "edit", "Click to edit this section", config.macros.SplitView.editClick, "button");			
+				createTiddlyButton(heading,  "edit", "Click to edit this section", config.macros.SplitView.editClick, "button right");			
 				var prevLevel = level;			
 				//  Make the lists sortable 
 				$("#sortableList").NestedSortable({
