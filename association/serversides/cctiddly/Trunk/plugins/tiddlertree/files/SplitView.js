@@ -56,7 +56,7 @@ config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramSt
 				var heading = createTiddlyElement(sectionDiv, "div",  tiddlerTitle+"HeadingView", "sectionHeading ");		
 				createTiddlyText(heading, tiddlerTitle);
 				//	createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment+" ") : "  - Unassigned "));
-				createTiddlyButton(heading,  "edit", "Click to edit this section", config.macros.SplitView.editClick, "button right");			
+//				createTiddlyButton(heading,  "edit", "Click to edit this section", config.macros.SplitView.editClick, "button");			
 				var prevLevel = level;			
 				//  Make the lists sortable 
 				$("#sortableList").NestedSortable({
@@ -76,8 +76,14 @@ config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramSt
 					autoSaveChanges();
 					},
 					autoScroll: true,
-					handle: '.sort-handle .sectionHeading'
+					handle: '.sort-handle '
 				});	
+				
+					$("#sortableList li").mouseup(function() {
+					//	log("mouseup", this.id, config.macros.SplitView.dragged);
+					story.displayTiddler(null, this.id)
+					});
+		
 				// set the style when hovering over each item
 				$(".sectionHeading").hover(
 					function() {
