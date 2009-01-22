@@ -22,7 +22,7 @@ config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramSt
 	createTiddlyElement(place, "br");
 	//top nav 
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
-	wikify("<<newTiddler>> {{button{[["+params[0]+"]]}}}", buttonHolder);
+	wikify("<<printTree "+params[0]+">> <<newTiddler>> {{button{[["+params[0]+"]]}}}", buttonHolder);
 	createTiddlyElement(place, "br");
 
 	var treeSpec = store.getTiddlerText(params[0]); 
