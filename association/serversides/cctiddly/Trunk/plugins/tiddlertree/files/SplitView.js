@@ -2,29 +2,20 @@
 
 //{{{
 
-/* not currently being used 
-var tabClick = function(e) {
-	var div = createTiddlyElement(null, "div");
-	wikify( "<<SplitView "+e.id+">>", div);
-	$("#mainMenu").html("updared  "+div.innerHtml);
-//document.getElementById("mainMenu").appendChild(div);
-};
-*/
-
-
 config.macros.SplitView={};
 
 config.macros.SplitView.editClick=function(){
 			story.displayTiddler(null, this.parentNode.id.replace("HeadingView", ""));
 }
-config.macros.SplitView.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	config.options.txtOpenType = "inline";
-	config.macros.SplitView.refresh(place,macroName,params,wikifier,paramString,tiddler);
-};
 
 config.macros.SplitView.strip=function(s) {
 	return s.replace(" ",  "");
 }
+
+config.macros.SplitView.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	config.options.txtOpenType = "inline";
+	config.macros.SplitView.refresh(place,macroName,params,wikifier,paramString,tiddler);
+};
 
 config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	removeChildren(place);

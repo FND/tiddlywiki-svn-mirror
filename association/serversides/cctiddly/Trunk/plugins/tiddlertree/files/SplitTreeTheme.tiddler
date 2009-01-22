@@ -27,6 +27,7 @@
 <div id='messageArea'></div>
 <div id='layoutContainer'>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<br />
 <div id='tiddlerDisplay'></div>
 </div>
 </div>
@@ -108,8 +109,11 @@
 !StyleSheet 
 
 .topBanner {
+	background:#ddd none repeat scroll 0 0;
+	padding:1em;
+	position:absolute;
 	text-align:right;
-	padding:0.5em;
+	width:96%;
 }
 
 
