@@ -31,7 +31,6 @@
 </div>
 </div>
 <div id='contentFooter'  macro='gradient vert #eee #ccc'></div>
-
 <!--}}}-->
 
 !wizardViewTemplate
@@ -55,20 +54,15 @@
 
 !ViewTemplate
 <!--{{{-->
-<div style='background-color:white; border:1px solid black'>
-	<div class='title' macro='view title'></div>
 	<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+	<div class='title' macro='view title'></div>
 	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 	<div class='viewer taskViewer' macro='view text wikified'></div>
-	
-
 	<div macro='gradient vert #fff #eee'>
+	<center>
 	<div macro='comments'></div>
-	
+	</center>
 	<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-	</div>
-	
-	
 	</div>
 <!--}}}-->
 
@@ -214,6 +208,16 @@ body {
 /* END tiddlerTree CSS */		
 	
 /* TIDDLYWIKI CSS */	
+
+	body #messageArea {
+		bottom:0;
+		right:0;
+		top:90% !important;
+		width:92%;
+		height:100px;
+		background-color:white;
+		border:1px solid #222;
+	}
 	#mainMenu {
 		font-size:0.9em;
 		height:100%;
@@ -229,11 +233,20 @@ body {
 		width:70%;
 	}
 	.toolbar {
-		position:relative;
+		float:right;
 		padding:1em !important;
+		position:relative;
+		right:0.5em;
 	}
 	#displayArea {
 		margin:0px !important;
+	}
+	div.tiddler {
+		background-color:white;
+		border:1px solid black;
+		padding:0px;
+		margin:2em;
+		margin-top:0.5em;
 	}
 	div.tiddler .tab {
 		background-color:#ddd;
@@ -283,16 +296,29 @@ body {
 	}
 	/*  END TEAM TASKS CSS */ 
 		
-	/*  COMMENTS CSS */	
+	/*  COMMENTS CSS */
+	
+	.comment .heading {
+	background:#eee none repeat scroll 0 0;
+	padding:0.5em;
+	
+	}
+	.deleteComment {
+		display:none;
+	}	
 		.comments {
-			width:100% !important;
+			width:80% !important;
 			padding:0.5em;
+			text-align:left;
 		}
 		.comments .newCommentArea {
 			text-align:center;
 		}		
 		.commentText {
 			padding:1em !important;
+			background-color:#fff;
+			border:1px solid #eee;
+			border-top:0px;
 		}
 		.comments textarea {
 			width:60% !important;
