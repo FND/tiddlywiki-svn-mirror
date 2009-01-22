@@ -136,11 +136,22 @@ EasyMap.prototype = {
 
 	,moveTo: function(latitude,longitude,zoom){
 		var newt = {translate:{},scale:{}};
-		newt.translate.x = -latitude;
-		newt.translate.y = longitude;
+
+		var newxy={};
+		newxy.x = - parseFloat(latitude);
+		newxy.y = parseFloat(longitude);
 		
+		
+		if(this.settings.projection){
+		 	newxy = this.settings.projection.xy(newxy.x,newxy.y);
+		}
+		newt.translate.x = newxy.x;
+		newt.translate.y = newxy.y;
+		
+		zoom = parseFloat(zoom);
 		newt.scale.x = zoom;
 		newt.scale.y = zoom;
+		
 		this.controller.setTransformation(newt)
 		
 	}

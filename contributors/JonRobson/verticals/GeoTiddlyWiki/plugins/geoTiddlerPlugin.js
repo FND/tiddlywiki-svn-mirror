@@ -44,7 +44,10 @@ if(!version.extensions.geoPlugin) {
 	config.macros.geoeditor = {};
 	
 	config.macros.geo={
-		handler: function(place,macroName,params,wikifier,paramString,tiddler) {				
+		getMap: function(id){
+			return geomaps[id];
+		}
+		,handler: function(place,macroName,params,wikifier,paramString,tiddler) {				
 			 var prms = paramString.parseParams(null, null, true);
 
 
@@ -111,13 +114,17 @@ if(!version.extensions.geoPlugin) {
 			}
 
 			p.xy = function(x,y){
-					if(this.resultCache[x+"|"+y]) return this.resultCache[x+"|"+y];
+
+					if(this.resultCache[x+"|"+y]) {
+						return this.resultCache[x+"|"+y];
+					}
 					var pointSource = new Proj4js.Point(x,y);
 					var pointDest = Proj4js.transform(p.source,p.dest, pointSource);
 
 
 					var newx =pointDest.x;
 					var newy = pointDest.y;
+			
 					//newx /= Math.pow(2,17);
 					//newy /=Math.pow(2,17);
 					//19 zoom levels in google

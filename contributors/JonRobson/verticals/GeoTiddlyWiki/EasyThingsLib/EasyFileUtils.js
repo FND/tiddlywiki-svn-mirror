@@ -1,6 +1,7 @@
 var EasyFileUtils= {
 	loadRemoteFile: function(url,callback,params,headers,data,contentType,username,password,allowCache)
 	{
+		//callback parameters: status,params,responseText,url,xhr
 		return this._httpReq("GET",url,callback,params,headers,data,contentType,username,password,allowCache);
 	},
 	
@@ -65,6 +66,8 @@ var EasyFileUtils= {
 		}
 		return x;
 	},
+	
+
 	_getXML:function(str) {
 		if(!str)
 			return null;

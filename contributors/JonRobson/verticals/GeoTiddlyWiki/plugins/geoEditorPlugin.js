@@ -66,9 +66,17 @@ config.macros.geoedit={
 				
 		var eMap = config.macros.geo.createNewEasyMap(place,prms);
 	
-		wikify("!geotagging \n search and tag",place);
-		var searchtaggerinput = createTiddlyElement(place,"input",null,null);
-		var searchtaggerclick = createTiddlyElement(place,"button",null,null,"search and tag");
+		wikify("!geotagging \n",place);
+		var searchResultToTag = function(result) {
+			if(result.length ==0) {
+				return false;
+			}
+			else{
+				that.addGeoTiddlerFromGoogleLocalSearchResult(eMap,result[0],clickinput.value);
+			}
+		};
+		config.macros.googlelocalsearcher.setup(place,searchResultToTag);
+		
 		wikify("\nTOOL:",place);
 		var clicking= createTiddlyElement(place,"button",null,null,"COLORER");
 		clicking.value="colorer";
@@ -111,19 +119,7 @@ config.macros.geoedit={
 			}
 			return false;
 		};
-		searchtaggerclick.onclick = function(){
-			
-			var searchResultToTag = function(result) {
-				if(result.length ==0) {
-					return false;
-				}
-				else{
-					that.addGeoTiddlerFromGoogleLocalSearchResult(eMap,result[0],clickinput.value);
-				}
-			};
-			EasyMapUtils.getLocationsFromQuery(searchtaggerinput.value,searchResultToTag,clickinput.value);
-		
-		};
+
 		clicking.onclick = function(){
 			switch(this.value){
 			
@@ -145,8 +141,9 @@ config.macros.geoedit={
 			}
 
 		};
-		wikify("/n Paste the code below into a tiddler and point your macro at it to display it in your tiddlywiki/n",place);
+		wikify("\n Paste the code below into a tiddler and point your macro at it to display it in your tiddlywiki\n",place);
 		var sourceBox= createTiddlyElement(place,"textarea",null,null,"");
+		wikify("\n");
 		var generateSource= createTiddlyElement(place,"button",null,null,"generate source code (NOT IE)");
 	
 		generateSource.onclick = function(e){
@@ -176,4 +173,77 @@ config.macros.geoedit={
 		
 	}
 		
+};
+
+config.macros.geosearchandgoto = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler) {				
+	 
+		var prms = paramString.parseParams(null, null, true);
+		var mapid = getParam(prms,"id");
+		var map = config.macros.geo.getMap(mapid);
+		var tagit =document.createElement("button");
+		var f = function(results){
+			var la = results[0].lat;
+			var lo = results[0].lng;
+			var zoom;
+			
+			if(map.controller.transformation.scale.x)
+				zoom = map.controller.transformation.scale.x;
+			else
+				zoom = 1;
+			map.moveTo(lo,la,zoom);
+		/*	
+			tagit.title = results[0].titleNoFormatting;
+			tagit.longitude = lo;
+			tagit.latitude = la;
+			*/
+		};
+		config.macros.googlelocalsearcher.setup(place,f,true);
+
+/*
+		tagit.onclick = function(e){
+			if(this.latitude && this.longitude && this.title){
+				config.macros.addGeoTiddler(map,this.title,{longitude:this.longitude,latitude:this.latitude},"#cccccc");
+			}
+		}
+		place.appendChild(tagit);
+*/		
+		
+	}
+}
+config.macros.googlelocalsearcher = {
+
+	setup: function(place,f,dontconfirm){
+	
+		var newplace = createTiddlyElement(place,"div");
+		wikify("''find location'': ",newplace);
+		var searchtaggerinput = createTiddlyElement(newplace,"input",null,null);
+		var suggestions = createTiddlyElement(newplace,"span");
+		var searchtaggerclick = createTiddlyElement(newplace,"button",null,null,"go");		
+		wikify("\n tips: for San Francisco search for San Francisco, California,USA - the more specific the more accurate",newplace);
+		var handler = function(results){
+			
+			var title =results[0].titleNoFormatting;
+			var answer;
+			if(!dontconfirm){
+				answer = confirm(title + " sound good?");
+			}
+			else{
+			answer = true;
+			}
+			if(answer){
+				
+				searchtaggerinput.value = title;
+				f(results);
+			}
+		
+			
+		}
+		
+		searchtaggerclick.onclick = function(e){
+			EasyMapUtils.getLocationsFromQuery(searchtaggerinput.value,handler);
+		};		
+	}
+	
+	
 };
