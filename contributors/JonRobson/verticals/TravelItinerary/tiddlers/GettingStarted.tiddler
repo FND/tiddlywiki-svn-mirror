@@ -1,0 +1,15 @@
+<div title="GettingStarted">
+<pre>
+So you're going on holiday and you would like a travel itinerary for your trip? You've come to the right place!
+
+Simply tell me where you are going:
+<<itineraryMaker>>
+<<include http://en.wikipedia.org/wiki/England>>
+And hit the button.
+
+We'll talk to various websites including TravelWiki and pull together a really cool travel itinerary for you.
+
+Then you can click [[The Map]].
+
+</pre>
+</div>
