@@ -1,2 +1,3 @@
 tiddler: ../../../../association/adaptors/TiddlyWebAdaptor.js
 tiddler: ../../../../association/plugins/ServerSideSavingPlugin.js
+tiddler: ../../../../association/plugins/TiddlyWebConfig.js
