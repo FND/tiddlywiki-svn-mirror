@@ -8,9 +8,6 @@
 <div class='tagged' macro='tags'></div>
 <div class='viewer' macro='view text wikified'></div>
 <div class='tagClear'></div>
-<!-- geo microformat can go here -->
-
-
 <!--}}}-->
 </pre>
 </div>
