@@ -6,5 +6,6 @@ config = {
         'instance_tiddlers': [
             'http://svn.tiddlywiki.org/Trunk/contributors/ChrisDent/verticals/UnaForms/forms.recipe',
             ],
-        'debug_level': 'DEBUG'
+        'debug_level': 'DEBUG',
+        'base_tiddlywiki': 'base_tiddlywiki.html'
 }
