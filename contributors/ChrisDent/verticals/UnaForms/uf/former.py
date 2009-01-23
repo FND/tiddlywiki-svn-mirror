@@ -16,13 +16,20 @@ from uuid import uuid4 as uuid
 
 from twplugins import do_html, entitle, require_role, require_any_user, ensure_bag
 
+from tiddlyweb import control
 from tiddlyweb.manage import make_command
+from tiddlyweb.model.bag import Bag
+from tiddlyweb.model.recipe import Recipe
+from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.web.handler.recipe import get_tiddlers
 from tiddlyweb.web.handler.tiddler import get as get_tiddler
+from tiddlyweb.web.sendtiddlers import send_tiddlers
 
 YAML_DB = 'formdb.yaml'
 HELP_BAG = 'admin'
 HELP_TIDDLER = 'help'
+CONFIG_TIDDLER = 'TiddlyWebConfig'
+SYSTEM_BAG = 'system'
 
 @make_command()
 def formform(args):
@@ -64,10 +71,36 @@ def form(environ, start_response):
     form_id = environ['wsgiorg.routing_args'][1]['formid']
     recipe = _read_db()[form_id]
     logging.debug('getting form %s leading to recipe %s' % (form_id, recipe))
-    bag = _user_form_bag(environ['tiddlyweb.store'],
-            environ['tiddlyweb.usersign']['name'], form_id)
-    environ['wsgiorg.routing_args'][1]['recipe_name'] = recipe
-    return get_tiddlers(environ, start_response)
+    store = environ['tiddlyweb.store']
+    bag = _user_form_bag(store, environ['tiddlyweb.usersign']['name'], form_id)
+    _process_config_tiddler(environ['tiddlyweb.store'], bag)
+    recipe = Recipe(recipe)
+    store.get(recipe)
+    base_tiddlers = control.get_tiddlers_from_recipe(recipe)
+    # read the bag (again) to make sure we have all the tiddlers
+    store.get(bag)
+    custom_tiddlers = bag.list_tiddlers()
+    tiddlers = base_tiddlers + custom_tiddlers
+    tmp_bag = Bag('tmp', tmpbag=True)
+    for tiddler in tiddlers:
+        store.get(tiddler)
+        tmp_bag.add_tiddler(tiddler)
+    environ['tiddlyweb.type'] = 'text/x-tiddlywiki'
+    return send_tiddlers(environ, start_response, tmp_bag)
+
+
+def _process_config_tiddler(store, bag):
+    """
+    If the user's bag does not have the config tiddler,
+    copy the config tiddler from its known location,
+    to the user's bag.
+    """
+    if not CONFIG_TIDDLER in [tiddler.title for tiddler in bag.list_tiddlers()]:
+        logging.debug('copying %s into bag %s' % (CONFIG_TIDDLER, bag.name))
+        config_tiddler = Tiddler(CONFIG_TIDDLER, SYSTEM_BAG)
+        store.get(config_tiddler)
+        config_tiddler.bag = bag.name
+        store.put(config_tiddler)
 
 
 def _user_form_bag(store, username, form_id):
