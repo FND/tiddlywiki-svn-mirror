@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.3.0|
+|''Version''|0.3.1|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -279,7 +279,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	if(!tiddler.fields["server.tiddlertitle"]) {
 		tiddler.fields["server.tiddlertitle"] = tiddler.title; //# required for detecting subsequent renames
 	} else if(tiddler.title != tiddler.fields["server.tiddlertitle"]) {
-		return this.renameTiddler(tiddler, context, userParams, callback);
+		return this.renameTiddler(tiddler.fields["server.tiddlertitle"], tiddler.title, context, userParams, callback);
 	}
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
 	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
