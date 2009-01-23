@@ -6,7 +6,9 @@ Essentially this is a way to raise duplication to a common
 core without encumbering the TiddlyWeb core.
 """
 
+from tiddlyweb.model.bag import Bag
 from tiddlyweb.model.policy import UserRequiredError
+from tiddlyweb.store import NoBagError
 
 
 def entitle(title):
@@ -54,6 +56,7 @@ def require_role(role):
         return require_role
     return entangle
 
+
 def require_any_user():
     """
     Decorator that requires the current user be someone other than 'GUEST'.
@@ -69,3 +72,23 @@ def require_any_user():
                 raise(UserRequiredError, 'user must be logged in')
         return require_any_user
     return entangle
+
+
+def ensure_bag(bag_name, store, policy_dict={}, description='', owner=None):
+    """
+    Ensure that bag with name bag_name exists in store.
+    If not, create it with owner, policy and description optionally
+    provided. In either case return the bag object.
+    """
+    bag = Bag(bag_name)
+    try:
+        store.get(bag)
+    except NoBagError:
+        bag.desc = description
+        if owner:
+            bag.policy.owner = owner
+            bag.policy.manage = [owner]
+        for key in policy_dict:
+            bag.policy.__setattr__(key, policy_dict[key])
+        store.put(bag)
+    return bag
