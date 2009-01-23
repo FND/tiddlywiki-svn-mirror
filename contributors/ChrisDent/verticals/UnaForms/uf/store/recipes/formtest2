@@ -1,6 +1,0 @@
-desc: 
-policy: {"read": [], "create": [], "manage": [], "write": [], "owner": null, "delete": []}
-
-/bags/system/tiddlers
-/bags/formcore/tiddlers
-/bags/form2/tiddlers
