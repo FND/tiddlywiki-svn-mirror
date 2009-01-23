@@ -78,7 +78,7 @@ adaptor.normalizedTitle = function(title)
 };
 
 adaptor.dateFromTimestamp = function(timestamp)
-// Convert a MediaWiki timestamp in YYYY-MM-DDThh:mm:ssZ  format into a JavaScript Date object
+// Convert a MediaWiki timestamp in ISO 8601 (YYYY-MM-DDThh:mm:ssZ)  format into a JavaScript Date object
 {
 	var dt = timestamp;
 	return new Date(Date.UTC(dt.substr(0,4),dt.substr(5,2)-1,dt.substr(8,2),dt.substr(11,2),dt.substr(14,2)));
