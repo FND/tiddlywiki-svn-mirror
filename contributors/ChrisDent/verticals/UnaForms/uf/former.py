@@ -3,6 +3,7 @@ Present forms at a good address.
 """
 
 import Cookie
+import logging
 import sys
 import time
 import yaml
@@ -10,9 +11,10 @@ import yaml
 from jinja2 import Environment, FileSystemLoader
 template_env = Environment(loader=FileSystemLoader('templates'))
 
+from sha import sha
 from uuid import uuid4 as uuid
 
-from twplugins import do_html, entitle, require_role, require_any_user
+from twplugins import do_html, entitle, require_role, require_any_user, ensure_bag
 
 from tiddlyweb.manage import make_command
 from tiddlyweb.web.handler.recipe import get_tiddlers
@@ -61,8 +63,26 @@ def form(environ, start_response):
     """
     form_id = environ['wsgiorg.routing_args'][1]['formid']
     recipe = _read_db()[form_id]
+    logging.debug('getting form %s leading to recipe %s' % (form_id, recipe))
+    bag = _user_form_bag(environ['tiddlyweb.store'],
+            environ['tiddlyweb.usersign']['name'], form_id)
     environ['wsgiorg.routing_args'][1]['recipe_name'] = recipe
     return get_tiddlers(environ, start_response)
+
+
+def _user_form_bag(store, username, form_id):
+    """
+    Ensure a bag exists for this user's use of this form.
+    """
+    policy_dict = {
+            'read': [username, 'R:ADMIN'],
+            'write': [username, 'R:ADMIN'],
+            'create': [username, 'R:ADMIN'],
+            'delete': [username, 'R:ADMIN'],
+            }
+    name = sha(form_id + username).hexdigest()
+    return ensure_bag(name, store, policy_dict=policy_dict, owner=username)
+
 
 def help(environ, start_response):
     """
