@@ -21,11 +21,11 @@ config.macros.printTree.handler=function(place,macroName,params,wikifier,paramSt
 			doHttp('POST',url+'plugins/tiddlertree/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0],null,null,null,config.macros.printTree.saveCallback,params);		
 		}
 	};
-createTiddlyButton(place, "print", "Print the entire document", onClickPrint);
+	createTiddlyButton(place, "print", "Print the entire document", onClickPrint);
 };
 
 config.macros.printTree.saveCallback=function(status,context,responseText,uri,xhr) {
-	log(responseText);
+	window.open(responseText,'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
 }
 
 function log() { if (console) console.log.apply(console, arguments); };
