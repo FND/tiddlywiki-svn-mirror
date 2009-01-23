@@ -1,9 +1,9 @@
 <?php
-
+echo "dfd";
 $cct_base = "../../../";
 include_once($cct_base."includes/header.php");
-$dir = dirname(dirname(dirname($tiddlyCfg['pref']['upload_dir']))).'/uploads/documents';
-@mkdir($dir, 0777, true);
+echo $dir = dirname(dirname(dirname($tiddlyCfg['pref']['upload_dir']))).'/uploads/documents';
+mkdir($dir, 0777, true);
 formatParametersPOST($_POST['html']);
 
 $myFile = $dir."/".$_REQUEST['compositionTiddler'].".html";
