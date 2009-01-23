@@ -134,7 +134,7 @@ EasyMap.prototype = {
 	}
 
 
-	,moveTo: function(latitude,longitude,zoom){
+	,moveTo: function(longitude,latitude,zoom){
 		var newt = {translate:{},scale:{}};
 
 		var newxy={};
@@ -148,10 +148,14 @@ EasyMap.prototype = {
 		newt.translate.x = newxy.x;
 		newt.translate.y = newxy.y;
 		
-		zoom = parseFloat(zoom);
-		newt.scale.x = zoom;
-		newt.scale.y = zoom;
-		
+		if(!zoom){
+			zoom =this.canvas.transformation.scale.x;
+		}
+		else{
+			zoom = parseFloat(zoom);
+			newt.scale.x = zoom;
+			newt.scale.y = zoom;
+		}
 		this.controller.setTransformation(newt)
 		
 	}
@@ -187,9 +191,7 @@ EasyMap.prototype = {
 	},
 		
 	transform: function(transformation){
-		if(this.settings.beforeTransform) {
-			this.settings.beforeTransform(transformation);
-		}
+
 		this.canvas.transformation = transformation;
 		//set origin
 		var w =parseInt(this.wrapper.style.width);
@@ -227,14 +229,7 @@ EasyMap.prototype = {
 		
 
 		this.redraw();
-		if(this.settings.afterTransform) {
-		try{
-			this.settings.afterTransform(transformation);
-		}	
-		catch(e){
-			throw e;
-		}
-		}
+
 	},
 
 
@@ -287,9 +282,13 @@ EasyMap.prototype = {
 		ctx.lineJoin = 'round'; //miter or bevel or round	
 	},
 	render: function(flag){
+		var tran =this.canvas.transformation;
+		if(this.settings.beforeRender) {
+			this.settings.beforeRender(tran);
+		}
 		var mem =this.easyClicking.getMemory();
 		this._setupCanvasEnvironment()
-		var tran =this.canvas.transformation;
+		
 	
 		if(tran.spherical){
 			this.settings.projection= {

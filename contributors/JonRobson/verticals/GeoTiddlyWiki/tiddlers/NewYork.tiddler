@@ -1,10 +1,11 @@
 <div title="New York" modifier="JonRobson" created="200811111722" latitude="40.756054" longitude="-73.986951" tags="excludeLists">
 <pre>
-!Moving Around the Map
+!GeoTiddlers
+This tiddler has geo data.
 So what happened there?! The map changed to show New York in the centre and zoomed in. This is because another macro has been used called {{{geogoto}}}.
 
 If you view the source (click eidt) we have made a call to a macro {{{<<geogoto 45 -75 20 world>>}}}. This has told the map to center on the coordinate 40.756054,-73.986951 and zoom in by a factor of 20 in the map created with id 'world'.
-<<geogoto 40.756054 -73.986951 20 world>>
+<<geogoto latitude:40.756054 longitude:-73.986951 zoom:16 id:world>>
 The tricky bit is knowing how 40.756054 and -73.986951 correspond to New York. [[Wikipedia|http://en.wikipedia.org/wiki/New_York]] is a great resource for finding these coordinates (usually in the top right of the page).
 
 !Clicking on GeoTags in the map

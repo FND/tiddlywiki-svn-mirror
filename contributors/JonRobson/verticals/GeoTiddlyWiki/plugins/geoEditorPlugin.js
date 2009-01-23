@@ -35,9 +35,9 @@ config.macros.geoedit={
 			return false;
 	}
 
-	,addGeoTiddler: function(easyMap,name,ll,fill){
-		var tags = [];
-		var text = "";
+	,addGeoTiddler: function(easyMap,name,ll,fill,text,tags){
+		if(!tags) var tags = [];
+		if(text) var text = "";
 		var fields= {longitude:ll.longitude,latitude:ll.latitude,fill:"#000000"};
 		if(fill) fields.fill = fill;
 			
@@ -180,9 +180,10 @@ config.macros.geosearchandgoto = {
 	 
 		var prms = paramString.parseParams(null, null, true);
 		var mapid = getParam(prms,"id");
-		var map = config.macros.geo.getMap(mapid);
+		
 		var tagit =document.createElement("button");
 		var f = function(results){
+			var map = config.macros.geo.getMap(mapid);
 			var la = results[0].lat;
 			var lo = results[0].lng;
 			var zoom;
@@ -191,7 +192,7 @@ config.macros.geosearchandgoto = {
 				zoom = map.controller.transformation.scale.x;
 			else
 				zoom = 1;
-			map.moveTo(lo,la,zoom);
+			map.moveTo(la,lo,zoom);
 		/*	
 			tagit.title = results[0].titleNoFormatting;
 			tagit.longitude = lo;

@@ -113,6 +113,28 @@ if(!version.extensions.geoPlugin) {
 				return pointDest;
 			}
 
+			p.calculatescalefactor= function(easymapscale,res){
+				
+				if(!res){ 
+					if(easymapscale <= 1){
+						return 0;
+					}
+					else{
+						res = 0;
+					}
+				}
+				
+				if(easymapscale <= 1){
+					//console.log("Yes", easymapscale,"returning",res);
+					
+					return res;
+				}
+				else{
+					var news = easymapscale / 2;
+					res +=1 ;
+					return this.calculatescalefactor(news,res);
+				}
+			};
 			p.xy = function(x,y){
 
 					if(this.resultCache[x+"|"+y]) {
@@ -141,34 +163,29 @@ if(!version.extensions.geoPlugin) {
 		
 		,setupGoogleStaticMapLayer: function(eMap){
 			var that = this;
+		
 			eMap.settings.projection = this.getGoogleMercatorProjection();
 			//eMap.settings.renderPolygonMode = false;
 			eMap._fittocanvas = false;
-			var s = {};
-			eMap.settings.beforeTransform = function(transformation){
+
+			eMap.settings.beforeRender = function(transformation){
 				//eMap.attachBackground("none");
 				var x =0,y =0, t= transformation.translate,scale= transformation.scale;
 			
-				if(s._oldscale > scale.x){
-					s._googlezoomer -= 1;
+				var okScales = [1,2,4,8,16,32,64,128,256,512,1024,2048, 4096, 8192];
 				
-				}
-				else if(s._oldscale < scale.x){
-					s._googlezoomer += 1;
-					
-				}
-				else if(!s._oldscale){
-					s._googlezoomer = 1;
+				if(!okScales.contains(scale.x)){ //cant work under these conditions!!!
+					eMap.settings.backgroundimg = "none";
+					eMap.wrapper.style.backgroundImage = "none";
 				
+					return;
 				}
-	
 				var res = eMap.settings.projection.inversexy(t.x,t.y);
 				x = -res.x;
 				y = res.y;
 
 
-				var zoomL = s._googlezoomer;
-
+				var zoomL = eMap.settings.projection.calculatescalefactor(scale.x);
 				var w = parseInt(eMap.wrapper.style.width);
 				var h = parseInt(eMap.wrapper.style.height);
 				var gsmPath ="gsm/"+w+"X"+h+"/"+zoomL+"/"+y+"_"+x+".gif";
@@ -183,8 +200,7 @@ if(!version.extensions.geoPlugin) {
 					console.log("unable to cache static image for this map view. ("+e+")")
 				}
 
-				s._oldscale = scale.x;
-				
+			
 			
 			};
 
@@ -199,7 +215,7 @@ if(!version.extensions.geoPlugin) {
 			catch(e){
 				console.log("unable to cache static image for this map view. ("+e+")")
 			}
-			s._googlezoomer = 0;
+			
 		
 		}
 		,saveImageLocally: function(sourceurl,dest,eMap) {
@@ -220,7 +236,6 @@ if(!version.extensions.geoPlugin) {
 			}
 			
 			var onloadfromweb = function(status,params,responseText,url,xhr){
-				console.log("loaded from web");	
 				try{
 					saveFile(savePath,responseText);
 				}
@@ -239,7 +254,6 @@ if(!version.extensions.geoPlugin) {
 				EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
 			}
 			catch(e){//couldnt load probably doesn't exist!
-				console.log("loading from web..");
 				EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
 			}
 			
@@ -486,20 +500,54 @@ if(!version.extensions.geoPlugin) {
 	var geomaps = {};
 	var numgeomaps = 0;
 	
+	
+	config.macros.geogotobutton = {
+		handler: function(place,macroName,params,wikifier,paramString,tiddler){
+		
+		var lo,la,zoom,id;
+		lo = tiddler.fields.longitude;
+		la = tiddler.fields.latitude;
+		zoom = 512;
+		if(!params[0]){return;}
+		id = params[0];
+		var handler = function(){
+			if(!geomaps[id]){
+				alert("Looks like you don't have a map called " + id + " please modify your ViewTemplate for this to work.")
+			}
+			else{
+				geomaps[id].moveTo(la,lo,zoom);
+			}
+			
+		}
+		
+		if(lo && la && geomaps[id]){
+			createTiddlyButton(place,"go here", "jump to longitude:" + lo + ", latitude:"+la, handler);
+		}
+		
+		}
+	};
 	config.macros.geogoto = {};
+	/*zoom should be 1,2,4,8,16,32..*/
 	config.macros.geogoto.handler= function(place,macroName,params,wikifier,paramString,tiddler) {
-		var id = params[3];
+		var prms = paramString.parseParams(null, null, true);
+
+		var id = getParam(prms,"id");
 		if(!params[3]) id = 'default0';
 		
 		if(!geomaps[id]) {
 		throw "exception in geogoto - map with id '"+ id+"' doesn't exist in page";
 		}
-		var lo, la,zoom;
-		if(params[0]) lo = parseFloat(params[0]);
-		if(params[1]) la = parseFloat(params[1]);
-		if(params[2]) zoom = parseFloat(params[2]);		 
-
-		geomaps[id].moveTo(la,lo,zoom);
+		else{
+			
+			var lo, la,zoom;
+			var lo = getParam(prms,"longitude");
+			var la = getParam(prms,"latitude");
+			var zoom;
+			if(getParam(prms,"zoom")){
+				zoom = getParam(prms,"zoom");		 
+			}
+			geomaps[id].moveTo(la,lo,zoom);
+		}
 	
 	}
 	

@@ -5,7 +5,7 @@ Welcome to GeoTiddlyWiki. This page is designed to give you a quick outline of w
 
 !Basic Usage
 First things first to use straight away just fire the macro {{{<<geo id:world source:geojson>>}}} where id is the name you want to associate with that map and source is the location of geographical geometry data that will be displayed on the map. Don't worry about any of this just yet.. it will make more sense later.  The important thing is this will give you a basic map which reads in data stored within geotiddlers within this TiddlyWiki.
-<<geo id:world source:geojson>>
+<<geo id:world source:false projection:googlestaticmap>>
 <<geosearchandgoto id:world>>
 !Advanced Users
 More advanced users may feel free to dive into where the data for this map is coming from. If that's you please have a look at this tiddler containing a geojson file which defines the data for this visualisation: [[geojson]].

@@ -511,9 +511,9 @@ EasyShape.prototype={
 		var x =parseFloat(this.pointcoords[0]);
 		var y =parseFloat(this.pointcoords[1]);
 		this.setCoordinates([x,y]);
-		var ps = 2.5 / parseFloat(transformation.scale.x);
+		var ps = 5 / parseFloat(transformation.scale.x);
 		//should get bigger with scale increasing
-		var smallest = 1 / this._iemultipler;
+		var smallest = 1 / this._iemultiplier;
 		if(ps < smallest) ps = smallest;
 		var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
 		var c = this._convertGeoJSONCoords(newcoords);

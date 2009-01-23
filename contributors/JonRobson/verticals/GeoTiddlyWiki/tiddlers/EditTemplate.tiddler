@@ -1,4 +1,4 @@
-<div title="EditTemplate" tags="geoTiddlyWiki">
+<div title="EditTemplate" tags="geoTiddlyWiki excludeLists excludeSearch">
 <pre>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 <div class='title' macro='view title'></div>
