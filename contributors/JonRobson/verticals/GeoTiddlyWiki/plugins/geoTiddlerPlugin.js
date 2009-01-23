@@ -172,7 +172,7 @@ if(!version.extensions.geoPlugin) {
 				//eMap.attachBackground("none");
 				var x =0,y =0, t= transformation.translate,scale= transformation.scale;
 			
-				var okScales = [1,2,4,8,16,32,64,128,256,512,1024,2048, 4096, 8192];
+				var okScales = [1,2,4,8,16,32,64,128,256,512,1024,2048, 4096, 8192,16384,32768];
 				
 				if(!okScales.contains(scale.x)){ //cant work under these conditions!!!
 					eMap.settings.backgroundimg = "none";
@@ -507,7 +507,7 @@ if(!version.extensions.geoPlugin) {
 		var lo,la,zoom,id;
 		lo = tiddler.fields.longitude;
 		la = tiddler.fields.latitude;
-		zoom = 512;
+		//zoom = 512;
 		if(!params[0]){return;}
 		id = params[0];
 		var handler = function(){
@@ -515,6 +515,7 @@ if(!version.extensions.geoPlugin) {
 				alert("Looks like you don't have a map called " + id + " please modify your ViewTemplate for this to work.")
 			}
 			else{
+				
 				geomaps[id].moveTo(la,lo,zoom);
 			}
 			

@@ -14,7 +14,85 @@ var EasyShape = function(properties,coordinates,geojson){
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 };
 EasyShape.prototype={
-	_calculateBounds: function(coords){
+	
+	render: function(canvas,transformation,projection,optimisations, browser){
+		var optimisations = true;
+		if(!transformation){
+			transformation = {};
+		}
+		if(!transformation.origin)transformation.origin = {x:0,y:0};
+		if(!transformation.scale)transformation.scale = {x:1,y:1};
+		if(!transformation.translate)transformation.translate = {x:0,y:0};
+		
+		var frame = this._calculateVisibleArea(canvas,transformation);
+		var shapetype = this.properties.shape;
+		if(shapetype == 'text'){
+			this._renderTextShape(canvas,transformation);
+		}
+		else if(shapetype == 'point'){
+			this._calculatePointCoordinates(transformation);
+		} 
+		else if(shapetype == 'path' || shapetype =='polygon'){
+			
+		}
+		else{
+			console.log("no idea how to render" +this.properties.shape+" must be polygon|path|point");
+			return;
+		}		
+		//optimisations = false;
+		if(!projection && optimisations){
+			if(shapetype != 'point' && shapetype != 'path' && frame){ //check if worth drawing				
+				if(!this._optimisation_shapeIsTooSmall(transformation)) {
+					if(this.vml) this.vml.style.display = "none";
+					return;	
+				}
+				if(!this._optimisation_shapeIsInVisibleArea(frame)){
+					if(this.vml) this.vml.style.display = "none";
+					return;	
+				}	
+			}
+		}	
+
+		if(this.vml) this.vml.style.display = '';
+		
+		if(shapetype == 'text'){
+			//special treatment!
+		}
+		else if(!canvas.getContext) {
+			//this has been taken from Google ExplorerCanvas
+			if (!document.namespaces['g_vml_']) {
+			        document.namespaces.add('g_vml_', 'urn:schemas-microsoft-com:vml');
+			}
+
+			  // Setup default CSS.  Only add one style sheet per document
+			 if (!document.styleSheets['ex_canvas_']) {
+			        var ss = document.createStyleSheet();
+			        ss.owningElement.id = 'ex_canvas_';
+			        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
+			            // default size is 300x150 in Gecko and Opera
+			            'text-align:left;width:300px;height:150px}' +
+			            'g_vml_\\:*{behavior:url(#default#VML)}';
+			}
+			
+			this._ierender(canvas,transformation,projection,optimisations); 
+
+	
+		}
+		else{
+			this._canvasrender(canvas,transformation,projection,optimisations);
+
+		}
+		
+	}
+	
+	,setCoordinates: function(coordinates){
+		this.coords = coordinates;
+		this.grid = {}; //an enclosing grid
+		this._calculateBounds();
+		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
+	}
+
+	,_calculateBounds: function(coords){
 		if(this.properties.shape == 'path' | this.properties.shape =='text'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
@@ -51,15 +129,6 @@ EasyShape.prototype={
 			lastY = yPos;
 		}
 	}
-	
-	,setCoordinates: function(coordinates){
-		this.coords = coordinates;
-		this.grid = {}; //an enclosing grid
-		this._calculateBounds();
-		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
-	}
-
-
 	,_constructPointShape: function(properties,coordinates){
 		var x = coordinates[0]; var y = coordinates[1];
 		this.pointcoords = [x,y];
@@ -140,9 +209,6 @@ EasyShape.prototype={
 
 		return res;
 	}	
-
-
-	
 
 
 	 /*RENDERING */
@@ -252,146 +318,10 @@ EasyShape.prototype={
 		}
 		ctx.restore();
 	}
+	
+	/*IE SPECIFIC */
 	,_createvmlpathstring: function(vml,transformation,projection){ //mr bottleneck
-		if(!vml) return;
-		var o = transformation.origin;
-		var t = transformation.translate;
-		var s = transformation.scale;
-		var path;
-		
-		var buffer = [];
-		
-		if(projection){
-			c = this._applyProjection(projection,transformation);
-		}
-		else{
-			c = this.coords;
-		}	
-		if(c.length < 2) return;
-		
-
-		
-		var x =o.x  + c[0];
-		var y =o.y+c[1];		
-		x *=this._iemultiplier;
-		y *= this._iemultiplier;
-		x = parseInt(x);
-		y = parseInt(y);
-
-		//path = "M";
-		buffer.push("M");
-		//path+= x + "," +y + " L";
-		buffer.push([x,",",y," L"].join(""))
-		var lineTo = true;
-		for(var i =2; i < c.length; i+=2){
-			if(c[i] == 'M') {
-				//path += " M";
-				buffer.push(" M");
-				lineTo = false;
-				i+=1;
-			}
-			else if(!lineTo) {
-				//path += " L";
-				buffer.push(" L");
-				lineTo = true;
-			}
-			else if(lineTo){
-				//path += " ";
-				buffer.push(" ");
-			}
-			var x =o.x+c[i];
-			var y =o.y+c[i+1];
-			x *= this._iemultiplier;
-			y *= this._iemultiplier;
-			x = parseInt(x);
-			y = parseInt(y);
-			buffer.push([x, ",",y].join(""));
-			//path += x +"," + y;
-			
-			//if(i < c.length - 2) path += "";
-		}
-		//path += " XE";	
-		buffer.push(" XE");
-		//console.log(buffer.join(""));
-
-	path = buffer.join("");
-	//if(path != vml.getAttribute("path")){
-		
-		vml.setAttribute("path", path);	
-//	}
-
-	}
-
 	,_cssTransform: function(vml,transformation,projection){
-		var d1,d2,t;
-		if(!vml) return;
-	
-		if(vml.tagName == 'shape' && (!vml.path || this.properties.shape =='point' ||projection)) {
-			//causes slow down..
-			this._createvmlpathstring(vml,transformation,projection);
-		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
-		}
-
-		var o = transformation.origin;
-		var t = transformation.translate;
-		var s = transformation.scale;
-		if(!this.initialStyle) {
-			var initTop = parseInt(vml.style.top);
-			if(!initTop) initTop = 0;
-			initTop += o.y;
-			var initLeft = parseInt(vml.style.left);
-			if(!initLeft) initLeft = 0;
-			initLeft += o.x;
-			var w =parseInt(vml.style.width);
-			var h = parseInt(vml.style.height)
-			this.initialStyle = {top: initTop, left: initLeft, width: w, height: h};
-		}
-		var scalingRequired = true;
-		var translatingRequired = true;
-		if(this._lastTransformation){
-			if(s.x == this._lastTransformation.scale.x && s.y == this._lastTransformation.scale.y){			
-				scalingRequired = false;
-			}
-
-		}
-
-	
-		var initialStyle= this.initialStyle;
-
-		var style = vml.style;			
-		var newtop,newleft;
-		newtop = initialStyle.top;
-		newleft = initialStyle.left;
-
-		//scale
-		if(scalingRequired){
-			var newwidth = initialStyle.width * s.x;
-			var newheight = initialStyle.height * s.y; 	
-		}
-		//translate into right place
-
-		var temp;
-		temp = (t.x - o.x);
-		temp *= s.x;
-		newleft += temp;
-
-		temp = (t.y - o.y);
-		temp *= s.x;
-		newtop += temp;						
-
-		style.left = newleft +"px";
-		style.top = newtop +"px";
-		
-		if(scalingRequired){
-			style.width = newwidth +"px";
-			style.height = newheight + "px";
-		}
-		this._lastTransformation = {scale:{}};
-		this._lastTransformation.scale.x = s.x;
-		this._lastTransformation.scale.y = s.y;
-	}	
-	
-	
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
 		var shape;
 		if(this.vml){
@@ -503,7 +433,7 @@ EasyShape.prototype={
 		frame.left = topleft.x;
 		return frame;
 	}
-	
+
 	,_calculatePointCoordinates: function(transformation){
 		if(!this.pointcoords) {
 			this.pointcoords = [this.coords[0],this.coords[1]];
@@ -519,7 +449,7 @@ EasyShape.prototype={
 		var c = this._convertGeoJSONCoords(newcoords);
 		this.setCoordinates(c);
 	}
-	,_shapeIsInVisibleArea: function(frame){
+	,_optimisation_shapeIsInVisibleArea: function(frame){
 		var g = this.grid;
 		if(g.x2 < frame.left) {
 			return false;}
@@ -534,7 +464,7 @@ EasyShape.prototype={
 		return true;
 	}
 	
-	,_shapeIsTooSmall: function(transformation,projection){
+	,_optimisation_shapeIsTooSmall: function(transformation,projection){
 		var g = this.grid;
 		var s = transformation.scale;
 		var t1 = g.x2 -g.x1;
@@ -556,73 +486,4 @@ EasyShape.prototype={
 	in a given viewableArea 
 	optimisations: boolean - apply optimisations if required
 	*/
-	,render: function(canvas,transformation,projection,optimisations, browser){
-		var optimisations = true;
-		if(!transformation){
-			transformation = {};
-		}
-		if(!transformation.origin)transformation.origin = {x:0,y:0};
-		if(!transformation.scale)transformation.scale = {x:1,y:1};
-		if(!transformation.translate)transformation.translate = {x:0,y:0};
-		
-		var frame = this._calculateVisibleArea(canvas,transformation);
-		var shapetype = this.properties.shape;
-		if(shapetype == 'text'){
-			this._renderTextShape(canvas,transformation);
-		}
-		else if(shapetype == 'point'){
-			this._calculatePointCoordinates(transformation);
-		} 
-		else if(shapetype == 'path' || shapetype =='polygon'){
-			
-		}
-		else{
-			console.log("no idea how to render" +this.properties.shape+" must be polygon|path|point");
-			return;
-		}		
-		//optimisations = false;
-		if(!projection && optimisations){
-			if(shapetype != 'point' && shapetype != 'path' && frame){ //check if worth drawing				
-				if(!this._shapeIsTooSmall(transformation)) {
-					if(this.vml) this.vml.style.display = "none";
-					return;	
-				}
-				if(!this._shapeIsInVisibleArea(frame)){
-					if(this.vml) this.vml.style.display = "none";
-					return;	
-				}	
-			}
-		}	
-
-		if(this.vml) this.vml.style.display = '';
-		
-		if(shapetype == 'text'){
-			//special treatment!
-		}
-		else if(!canvas.getContext) {
-			//this has been taken from Google ExplorerCanvas
-			if (!document.namespaces['g_vml_']) {
-			        document.namespaces.add('g_vml_', 'urn:schemas-microsoft-com:vml');
-			}
-
-			  // Setup default CSS.  Only add one style sheet per document
-			 if (!document.styleSheets['ex_canvas_']) {
-			        var ss = document.createStyleSheet();
-			        ss.owningElement.id = 'ex_canvas_';
-			        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
-			            // default size is 300x150 in Gecko and Opera
-			            'text-align:left;width:300px;height:150px}' +
-			            'g_vml_\\:*{behavior:url(#default#VML)}';
-			}
-			
-			this._ierender(canvas,transformation,projection,optimisations); 
-
-	
-		}
-		else{
-			this._canvasrender(canvas,transformation,projection,optimisations);
-
-		}
-		
-	}
 };

@@ -153,9 +153,9 @@ EasyMap.prototype = {
 		}
 		else{
 			zoom = parseFloat(zoom);
-			newt.scale.x = zoom;
-			newt.scale.y = zoom;
 		}
+		newt.scale.x = zoom;
+		newt.scale.y = zoom;
 		this.controller.setTransformation(newt)
 		
 	}
