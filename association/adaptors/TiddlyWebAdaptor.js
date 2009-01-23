@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.2.3|
+|''Version''|0.3.0|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -14,9 +14,11 @@
 * refactoring of previous experimental efforts
 !!v0.2 (2008-12-08)
 * encapsulation of bag/recipe distinction
+!!v0.3 (2008-01-23)
+* implemented renaming via "fat" tiddlers
 !To Do
 * renameTiddler, createWorkspace
-* externalize JSON library
+* externalize JSON library (use jQuery?)
 * document custom/optional context attributes (e.g. filters, query, revision)
 !Code
 ***/
@@ -243,6 +245,32 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	}
 };
 
+// retrieve "fat" tiddler -- TODO: remame "fat" to tiddler history?
+adaptor.prototype.getFatTiddler = function(title, context, userParams, callback) {
+	context = this.setContext(context, userParams, callback);
+	context.title = title;
+	var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions.json?fat=1";
+	var workspace = adaptor.resolveWorkspace(context.workspace);
+	var uri = uriTemplate.format([context.host, workspace.type + "s",
+		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title)]);
+	var req = httpReq("GET", uri, adaptor.getFatTiddlerCallback,
+		context, { accept: adaptor.mimeType });
+	return typeof req == "string" ? req : true;
+};
+
+adaptor.getFatTiddlerCallback = function(status, context, responseText, uri, xhr) {
+	context.status = status;
+	context.statusText = xhr.statusText;
+	context.httpStatus = xhr.status;
+	context.etag = xhr.getResponseHeader("Etag");
+	if(status) {
+		context.responseText = responseText;
+	}
+	if(context.callback) {
+		context.callback(context, context.userParams);
+	}
+};
+
 // store an individual tiddler
 adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
@@ -253,7 +281,6 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	} else if(tiddler.title != tiddler.fields["server.tiddlertitle"]) {
 		return this.renameTiddler(tiddler, context, userParams, callback);
 	}
-	var headers = null;
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
 	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
 	try {
@@ -264,15 +291,8 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	var uri = uriTemplate.format([host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name),
 		adaptor.normalizeTitle(tiddler.title)]);
-	if(workspace.type == "bag") { // generat ETag
-		var revision = tiddler.fields["server.page.revision"];
-		if(typeof revision == "undefined") {
-			revision = 1;
-		}
-		var etag = [adaptor.normalizeTitle(workspace.name),
-			adaptor.normalizeTitle(tiddler.title), revision].join("/");
-		headers = { "If-Match": etag };
-	}
+	var etag = adaptor.generateETag(workspace, tiddler);
+	var headers = etag ? { "If-Match": etag } : null;
 	var payload = {
 		title: tiddler.title,
 		text: tiddler.text,
@@ -302,13 +322,66 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	}
 };
 
-// rename an individual tiddler
-adaptor.prototype.renameTiddler = function(tiddler, context, userParams, callback) {
-	return; // TODO
+// store a "fat" tiddler -- XXX: rename "fat"
+adaptor.prototype.putFatTiddler = function(revisions, context, userParams, callback) {
+	context = this.setContext(context, userParams, callback);
+	context.title = revisions[0].title;
+	var headers = null;
+	var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions.json";
+	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
+	var workspace = adaptor.resolveWorkspace(context.workspace);
+	var uri = uriTemplate.format([host, workspace.type + "s",
+		adaptor.normalizeTitle(workspace.name),
+		adaptor.normalizeTitle(context.title)]);
+	if(workspace.type == "bag") { // generat ETag
+		var etag = [adaptor.normalizeTitle(workspace.name),
+			adaptor.normalizeTitle(context.title), 0].join("/");
+		headers = { "If-Match": etag };
+	}
+	var payload = JSON.stringify(revisions);
+	var req = httpReq("POST", uri, adaptor.putFatTiddlerCallback,
+		context, headers, payload, adaptor.mimeType);
+	return typeof req == "string" ? req : true;
 };
 
-adaptor.renameTiddlerCallback = function(status, context, responseText, uri, xhr) {
-	return; // TODO
+adaptor.putFatTiddlerCallback = function(status, context, responseText, uri, xhr) {
+	context.status = xhr.status === 204;
+	context.statusText = xhr.statusText;
+	context.httpStatus = xhr.status;
+	if(status) {
+		var etag = xhr.getResponseHeader("Etag");
+	}
+	if(context.callback) {
+		context.callback(context, context.userParams);
+	}
+};
+
+// rename an individual tiddler
+adaptor.prototype.renameTiddler = function(fromTitle, toTitle, context, userParams, callback) {
+	var me = this; // XXX: rename?
+	var getFatTiddler = function(title, context, userParams, callback) {
+		context.fat = true;
+		return me.getFatTiddler(title, context, userParams, callback);
+	};
+	var putFatTiddler = function(context, userParams) {
+		eval("var revisions = " + context.responseText); // XXX: error handling?
+		// add new revision
+		var rev = merge({}, revisions[0]);
+		rev.title = toTitle;
+		rev.revision++;
+		rev.modified = new Date().convertToYYYYMMDDHHMM();
+		revisions.unshift(rev);
+		return me.putFatTiddler(revisions, context, context.userParams, deleteTiddler);
+	};
+	var deleteTiddler = function(context, userParams) {
+		var tiddler = store.getTiddler(fromTitle);
+		context.callback = null;
+		return me.deleteTiddler(tiddler, context, context.userParams, callback);
+	};
+	// XXX: retain fromTitle as tiddler.fields.previousTitle? or just retain the previous title in the revisions' tiddler.title?
+	context = this.setContext(context, userParams);
+	context.workspace = store.getTiddler(fromTitle).fields["server.workspace"];
+	return getFatTiddler(fromTitle, context, userParams, putFatTiddler);
 };
 
 // delete an individual tiddler
@@ -325,7 +398,9 @@ adaptor.prototype.deleteTiddler = function(tiddler, context, userParams, callbac
 	var uri = uriTemplate.format([host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name),
 		adaptor.normalizeTitle(tiddler.title)]);
-	var req = httpReq("DELETE", uri, adaptor.deleteTiddlerCallback, context);
+	var etag = context.etag || adaptor.generateETag(workspace, tiddler);
+	var headers = etag ? { "If-Match": etag } : null;
+	var req = httpReq("DELETE", uri, adaptor.deleteTiddlerCallback, context, headers);
 	return typeof req == "string" ? req : true;
 };
 
@@ -393,6 +468,18 @@ adaptor.resolveWorkspace = function(workspace) {
 		type: components[0] == "bags" ? "bag" : "recipe",
 		name: components[1]
 	};
+};
+
+adaptor.generateETag = function(workspace, tiddler) {
+	if(workspace.type == "bag") { // XXX: what about recipes?
+		var revision = tiddler.fields["server.page.revision"];
+		if(typeof revision == "undefined") {
+			revision = 1;
+		}
+		return [adaptor.normalizeTitle(workspace.name),
+			adaptor.normalizeTitle(tiddler.title), revision].join("/");
+	}
+	return null;
 };
 
 adaptor.normalizeTitle = function(title) {
