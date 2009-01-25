@@ -1,4 +1,5 @@
 <!--{{{-->
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml'/>
+<link rel="stylesheet" href="http://ui.jquery.com/latest/themes/flora/flora.all.css" type="text/css" media="screen" title="Flora (Default)">
 <script type="text/javascript" src="fckeditor/fckeditor.js"></script>
 <!--}}}-->

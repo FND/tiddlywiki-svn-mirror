@@ -18,13 +18,34 @@ config.macros.printTree.handler=function(place,macroName,params,wikifier,paramSt
 			}
 			htmlStack.push("</body></html>")
 			var htmlString = htmlStack.join("\n");
+			store.saveTiddler(params[0]+' Print Preview', params[0]+' Print Preview', htmlString, config.options.txtUserName, newDate,"",config.defaultCustomFields);
+			story.displayTiddler(null, params[0]+' Print Preview');
 			doHttp('POST',url+'plugins/tiddlertree/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0],null,null,null,config.macros.printTree.saveCallback,params);		
+			var newDate = new Date();
+
 		}
 	};
-	createTiddlyButton(place, "print", "Print the entire document", onClickPrint);
+
+
+
+// print button 
+		var btn = createTiddlyElement(place, "a", null, "button");
+		btn.onclick = onClickPrint;
+		var img = createTiddlyElement(btn, "img");
+		img.style.width = "10px";
+		img.style.height="10px";
+		img.src = "http://www.iconspedia.com/uploads/1543439043.png";
+		createTiddlyText(btn, " Print");
+		btn.setAttribute("href","javascript:;");
+
+
+
+//	createTiddlyButton(place, "print", "Print the entire document", onClickPrint);
 };
 
 config.macros.printTree.saveCallback=function(status,context,responseText,uri,xhr) {
+	
+		
 	window.open(responseText,'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
 }
 

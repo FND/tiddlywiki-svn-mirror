@@ -105,7 +105,8 @@
 !StyleSheet 
 
 body {
-	background-color:#ccc;
+font-family:Helvetica;
+	background-color:#555;
 }
 .topBanner {
 	background:#ddd none repeat scroll 0 0;
@@ -121,8 +122,9 @@ body {
 }
 
 .editor input, .editor textarea {
-	border:1px dotted orange;
-	width:99%;
+	border:1px solid orange;
+	width:98%;
+	margin:0.5em;
 }
 
 .left {
@@ -168,6 +170,20 @@ body {
 		
 /* tiddlerTree CSS */	
 
+
+
+.heading1 {
+	font-weight:bold;
+}
+
+
+.heading2 {
+}
+
+.heading3 {
+	font-style:italic;
+}
+
 li.page-item1 {
 list-style:none;
 
@@ -177,21 +193,22 @@ ul.page-list {
 }
 
 	#mainMenu {
-		background-color:#fff;
-		border:1px solid black;
+		
+		background-color:#ccc;
+		border:1px solid white;
 		font-size:0.9em;
 		height:100%;
 		margin:2.8em 2em 2em;
 		position:relative;
 		width:27% !important;
+		padding-top:1em;
 	}
 	div.title, div.subtitle {
 		padding :1em;
 		color:black;
 	}
 	div.title {
-		padding:0.5em;
-		padding-bottom:0px;
+		padding:0.2em 0.5em 0 0.2em;
 	}
 
 	
@@ -200,7 +217,7 @@ ul.page-list {
 	}
 		
 	#buttonHolder .button {
-		padding:0.5em;
+		padding:0.2em 0.6em;
 	}
 	
 	.completed {
@@ -226,7 +243,7 @@ ul.page-list {
 /* TIDDLYWIKI CSS */	
 
 	body #messageArea {
-display:none !important;
+	display:none !important;
 		bottom:0;
 		right:0;
 		top:90% !important;
@@ -251,7 +268,10 @@ display:none !important;
 	}
 	.toolbar {
 		float:right;
-		padding:1em !important;
+		padding-bottom:1em !important;
+		padding-left:1em !important;
+		padding-right:0;
+		padding-top:1.1em;
 		position:relative;
 		right:0.5em;
 	}
@@ -260,7 +280,7 @@ display:none !important;
 	}
 	div.tiddler {
 		background-color:white;
-		border:1px solid black;
+		border:1px solid #fff;
 		padding:0px;
 		margin:2em;
 		margin-top:0.5em;

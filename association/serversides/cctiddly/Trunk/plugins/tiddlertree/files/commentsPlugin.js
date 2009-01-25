@@ -37,7 +37,6 @@ if(!version.extensions.CommentsPlugin) {
 
 init: function() {
   var stylesheet = store.getTiddlerText(tiddler.title + "##StyleSheet");
-  cmacro.log("init", tiddler.title, store.getTiddlerText, typeof(stylesheet));
   if (stylesheet) { // check necessary because it happens more than once for some reason
     config.shadowTiddlers["StyleSheetCommentsPlugin"] = stylesheet;
     store.addNotification("StyleSheetCommentsPlugin", refreshStyles);
@@ -45,7 +44,6 @@ init: function() {
 },
 
 handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-  cmacro.log("handing macro for tiddler", tiddler);
   var macroParams = paramString.parseParams();
   cmacro.buildCommentsArea(tiddler, place, macroParams);
   cmacro.refreshCommentsFromRoot(story.getTiddler(tiddler.title).commentsEl, tiddler, macroParams);
@@ -126,15 +124,12 @@ treeifyComments: function(rootTiddler) {
 logComments: function(comments) {
   for (var i=0; i<comments.length; i++) {
     var comment = comments[i];
-    console.log("comment", i, comments[i]);
   }
 },
 
 findCommentsFromRoot: function(rootTiddler) {
   var comments = [];
-  cmacro.log("starting from root tiddler", rootTiddler);
   store.forEachTiddler(function(title,tiddler) {
-    cmacro.log(title, tiddler);
     if (tiddler.fields.root==rootTiddler.title) comments.push(tiddler);
   });
   return comments;
@@ -284,14 +279,12 @@ createComment: function(text, daddy, macroParams) {
   newComment.set(null, text, config.options.txtUserName, now, tagsParam.split(","), now, fields);
 
   var youngestSibling = cmacro.findYoungestChild(daddy)
-  log("youungest", youngestSibling);
   if (youngestSibling) newComment.fields.prev = youngestSibling.title;
   newComment.fields.daddy = daddy.title;
   newComment.fields.root = daddy.fields.root ? daddy.fields.root : daddy.title;
     // second case is the situation where daddy *is* root
-
-  story.saveTiddler(newComment.title);
-  autoSaveChanges(true);
+  store.saveTiddler(newComment.title, newComment.title, text);
+  autoSaveChanges(false);
   return newComment;
 },
 
@@ -337,10 +330,10 @@ deleteTiddlerAndDescendents: function(tiddler) {
   // used saved info
   if (next) {
     next.fields.prev = prev;
-    store.saveTiddler(next.title);
+    story.saveTiddler(next.title);
   }
 
-  autoSaveChanges(true);
+  autoSaveChanges(false);
 
 },
 
