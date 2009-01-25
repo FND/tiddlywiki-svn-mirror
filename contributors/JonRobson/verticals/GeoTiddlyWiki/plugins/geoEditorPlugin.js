@@ -91,6 +91,7 @@ config.macros.geoedit={
 			else if(tooltoggler.value=='tagger'){			
 				if(ll.longitude && ll.latitude){
 					var shapeName = "New GeoTiddler ("+ll.longitude+";" + ll.latitude+")";
+					
 					that.addGeoTiddler(eMap,shapeName,ll,color);
 				}
 				

@@ -211,6 +211,7 @@ EasyShape.prototype={
 	}	
 
 
+
 	 /*RENDERING */
 	,_renderTextShape: function(canvas,transformation){
 		var t =this._textLabel;
@@ -318,10 +319,146 @@ EasyShape.prototype={
 		}
 		ctx.restore();
 	}
-	
-	/*IE SPECIFIC */
 	,_createvmlpathstring: function(vml,transformation,projection){ //mr bottleneck
+		if(!vml) return;
+		var o = transformation.origin;
+		var t = transformation.translate;
+		var s = transformation.scale;
+		var path;
+		
+		var buffer = [];
+		
+		if(projection){
+			c = this._applyProjection(projection,transformation);
+		}
+		else{
+			c = this.coords;
+		}	
+		if(c.length < 2) return;
+		
+
+		
+		var x =o.x  + c[0];
+		var y =o.y+c[1];		
+		x *=this._iemultiplier;
+		y *= this._iemultiplier;
+		x = parseInt(x);
+		y = parseInt(y);
+
+		//path = "M";
+		buffer.push("M");
+		//path+= x + "," +y + " L";
+		buffer.push([x,",",y," L"].join(""))
+		var lineTo = true;
+		for(var i =2; i < c.length; i+=2){
+			if(c[i] == 'M') {
+				//path += " M";
+				buffer.push(" M");
+				lineTo = false;
+				i+=1;
+			}
+			else if(!lineTo) {
+				//path += " L";
+				buffer.push(" L");
+				lineTo = true;
+			}
+			else if(lineTo){
+				//path += " ";
+				buffer.push(" ");
+			}
+			var x =o.x+c[i];
+			var y =o.y+c[i+1];
+			x *= this._iemultiplier;
+			y *= this._iemultiplier;
+			x = parseInt(x);
+			y = parseInt(y);
+			buffer.push([x, ",",y].join(""));
+			//path += x +"," + y;
+			
+			//if(i < c.length - 2) path += "";
+		}
+		//path += " XE";	
+		buffer.push(" XE");
+		//console.log(buffer.join(""));
+
+	path = buffer.join("");
+	//if(path != vml.getAttribute("path")){
+		
+		vml.setAttribute("path", path);	
+//	}
+
+	}
+
 	,_cssTransform: function(vml,transformation,projection){
+		var d1,d2,t;
+		if(!vml) return;
+	
+		if(vml.tagName == 'shape' && (!vml.path || this.properties.shape =='point' ||projection)) {
+			//causes slow down..
+			this._createvmlpathstring(vml,transformation,projection);
+		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
+		}
+
+		var o = transformation.origin;
+		var t = transformation.translate;
+		var s = transformation.scale;
+		if(!this.initialStyle) {
+			var initTop = parseInt(vml.style.top);
+			if(!initTop) initTop = 0;
+			initTop += o.y;
+			var initLeft = parseInt(vml.style.left);
+			if(!initLeft) initLeft = 0;
+			initLeft += o.x;
+			var w =parseInt(vml.style.width);
+			var h = parseInt(vml.style.height)
+			this.initialStyle = {top: initTop, left: initLeft, width: w, height: h};
+		}
+		var scalingRequired = true;
+		var translatingRequired = true;
+		if(this._lastTransformation){
+			if(s.x == this._lastTransformation.scale.x && s.y == this._lastTransformation.scale.y){			
+				scalingRequired = false;
+			}
+
+		}
+
+	
+		var initialStyle= this.initialStyle;
+
+		var style = vml.style;			
+		var newtop,newleft;
+		newtop = initialStyle.top;
+		newleft = initialStyle.left;
+
+		//scale
+		if(scalingRequired){
+			var newwidth = initialStyle.width * s.x;
+			var newheight = initialStyle.height * s.y; 	
+		}
+		//translate into right place
+
+		var temp;
+		temp = (t.x - o.x);
+		temp *= s.x;
+		newleft += temp;
+
+		temp = (t.y - o.y);
+		temp *= s.x;
+		newtop += temp;						
+
+		style.left = newleft +"px";
+		style.top = newtop +"px";
+		
+		if(scalingRequired){
+			style.width = newwidth +"px";
+			style.height = newheight + "px";
+		}
+		this._lastTransformation = {scale:{}};
+		this._lastTransformation.scale.x = s.x;
+		this._lastTransformation.scale.y = s.y;
+	}	
+	
+	
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
 		var shape;
 		if(this.vml){
@@ -433,7 +570,7 @@ EasyShape.prototype={
 		frame.left = topleft.x;
 		return frame;
 	}
-
+	
 	,_calculatePointCoordinates: function(transformation){
 		if(!this.pointcoords) {
 			this.pointcoords = [this.coords[0],this.coords[1]];

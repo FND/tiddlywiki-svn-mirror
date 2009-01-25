@@ -53,8 +53,14 @@ var EasyMapUtils = {
 		EasyFileUtils.loadRemoteFile(that.googlelocalsearchurl+query,fileloadedcallback);
 	}
 	,getLongLatFromMouse: function(x,y,easyMap){
-		
-		var pos = EasyClickingUtils.undotransformation(x,y,easyMap.controller.transformation);
+
+
+
+				
+		var pos = EasyClickingUtils.undotransformation(x,y,easyMap.controller.transformation);	
+		if(easyMap.settings.projection) {
+			pos = easyMap.settings.projection.inversexy(pos.x,pos.y);
+		}
 		return {latitude:-pos.y,longitude:pos.x};
 	}
 	,_radToDeg: function(rad){
