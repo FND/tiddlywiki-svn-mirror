@@ -103,7 +103,7 @@ Story.prototype.gatherSaveFields = function(e,fields){
 config.shadowTiddlers.EditHtmlTemplate = config.shadowTiddlers.EditTemplate.replace(/macro='edit text'/,"macro='editHtml text'");
 
 config.commands.editHtml={
-	text: "wysiwyg",
+	text: "edit",
 	tooltip: "Edit this tiddler with a rich text editor",
 	readOnlyText: "",
 	handler : function(event,src,title) {

@@ -25,6 +25,7 @@
 <div id='bodywrapper' >
 <div id='displayArea'>
 <div id='messageArea'></div>
+
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 <br />
 <div id='tiddlerDisplay'></div>
@@ -46,6 +47,8 @@
 !EditTemplate
 <!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<br />
+<br />
 <div class='editor' macro='edit title'></div>
 <div macro='annotations'></div>
 <div class='editor' macro='edit text'></div>
@@ -56,27 +59,24 @@
 <!--{{{-->
 	<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 	<div class='title' macro='view title'></div>
-	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 	<div class='viewer taskViewer' macro='view text wikified'></div>
-	<div macro='gradient vert #fff #eee'>
-	<center>
-	<div macro='comments'></div>
-	</center>
 	<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-	</div>
 <!--}}}-->
 
 	
 !taskViewTemplate
 <!--{{{-->
+<div macro='gradient vert #eee #fff'>
 
-<div macro='gradient vert #eee #bbb'>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-
+<div class='toolbar' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>
+<div class='title' macro='view title'><img src='http://www.iconspedia.com/uploads/578075880.png' width='24px' style='top:0.4em' /></div>
 <div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+</div>
 <div class='viewer taskViewer' macro='view text wikified'></div>
+<div macro='gradient vert #fff #eee'>
+<center>
 <div macro='comments'></div>
-
+</center>
 <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 </div>
 <!--}}}-->
@@ -167,6 +167,24 @@ body {
 /* END nestedSortable CSS */
 		
 /* tiddlerTree CSS */	
+
+li.page-item1 {
+list-style:none;
+
+}
+
+ul.page-list {
+}
+
+	#mainMenu {
+		background-color:#fff;
+		border:1px solid black;
+		font-size:0.9em;
+		height:100%;
+		margin:2.8em 2em 2em;
+		position:relative;
+		width:27% !important;
+	}
 	div.title, div.subtitle {
 		padding :1em;
 		color:black;
@@ -178,9 +196,7 @@ body {
 
 	
 	#buttonHolder {
-		padding:1em;
-		padding-bottom:0px;
-		padding-top :1em;
+		padding:0em;
 	}
 		
 	#buttonHolder .button {
@@ -210,6 +226,7 @@ body {
 /* TIDDLYWIKI CSS */	
 
 	body #messageArea {
+display:none !important;
 		bottom:0;
 		right:0;
 		top:90% !important;
@@ -298,9 +315,14 @@ body {
 		
 	/*  COMMENTS CSS */
 	
+	
 	.comment .heading {
-	background:#eee none repeat scroll 0 0;
+	background:#eee none repeat scroll 0 0 !important;
 	padding:0.5em;
+	background:#eee;
+	border-bottom:1px solid #eee !important;
+	border-right:1px solid #eee !important;
+	
 	
 	}
 	.deleteComment {

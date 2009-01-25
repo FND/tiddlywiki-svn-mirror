@@ -19,10 +19,9 @@ config.macros.SplitView.handler=function(place,macroName,params,wikifier,paramSt
 
 config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	removeChildren(place);
-	createTiddlyElement(place, "br");
 	//top nav 
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
-	wikify("<<printTree "+params[0]+">> <<newTiddler>> {{button{[["+params[0]+"]]}}}", buttonHolder);
+	wikify("<<printTree "+params[0]+">> <<newTiddler title:'New Section' label:'new section' text:'type text here'>> {{button{[[users|UserDefinitions]]}}}  {{button{[[spec|"+params[0]+"]]}}}", buttonHolder);
 	createTiddlyElement(place, "br");
 
 	var treeSpec = store.getTiddlerText(params[0]); 
@@ -44,7 +43,7 @@ config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramSt
 				}
 				if(!store.getTiddler(tiddlerTitle)){
 					var newDate = new Date();
-					store.saveTiddler(tiddlerTitle, tiddlerTitle, "", config.options.txtUserName, newDate,"",config.defaultCustomFields);
+					store.saveTiddler(tiddlerTitle, tiddlerTitle, "", config.options.txtUserName, newDate,"task",config.defaultCustomFields);
 				}
 				if(store.getTiddler(tiddlerTitle).fields.tt_status == "Accepted")
 					var sectionClass = "completed";
@@ -55,7 +54,6 @@ config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramSt
 				var sectionDiv = createTiddlyElement(section, "div", tiddlerTitle+"ViewContainer", "sort-handle " +sectionClass);
 				var heading = createTiddlyElement(sectionDiv, "div",  tiddlerTitle+"HeadingView", "sectionHeading ");		
 				createTiddlyText(heading, tiddlerTitle);
-				//	createTiddlyText(heading, tiddlerTitle+(assignment ? ("  - Assigned to: "+assignment+" ") : "  - Unassigned "));
 //				createTiddlyButton(heading,  "edit", "Click to edit this section", config.macros.SplitView.editClick, "button");			
 				var prevLevel = level;			
 				//  Make the lists sortable 
