@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.3.2|
+|''Version''|0.3.3|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -17,7 +17,7 @@
 !!v0.3 (2008-01-23)
 * implemented renaming via "fat" tiddlers
 !To Do
-* renameTiddler, createWorkspace
+* createWorkspace
 * externalize JSON library (use jQuery?)
 * document custom/optional context attributes (e.g. filters, query, revision)
 !Code
@@ -279,7 +279,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	if(!tiddler.fields["server.title"]) {
 		tiddler.fields["server.title"] = tiddler.title; //# required for detecting subsequent renames
 	} else if(tiddler.title != tiddler.fields["server.title"]) {
-		return this.renameTiddler(tiddler.fields["server.title"], tiddler.title, context, userParams, callback);
+		return this.moveTiddler(tiddler.fields["server.title"], tiddler.title, context, userParams, callback);
 	}
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
 	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
@@ -356,39 +356,43 @@ adaptor.putFatTiddlerCallback = function(status, context, responseText, uri, xhr
 	}
 };
 
-// rename an individual tiddler -- TODO: support for moving between workspaces
-adaptor.prototype.renameTiddler = function(fromTitle, toTitle, context, userParams, callback) {
-	var me = this; // XXX: rename?
+// rename an individual tiddler
+//# @param {String} from source tiddler; members title and workspace (optional)
+//# @param {Object} to target tiddler; members title and workspace (optional)
+adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters?
+	var me = this;
 	var getFatTiddler = function(title, context, userParams, callback) {
 		context.fat = true;
 		return me.getFatTiddler(title, context, userParams, callback);
 	};
 	var putFatTiddler = function(context, userParams) {
 		eval("var revisions = " + context.responseText); // XXX: error handling?
-		// change current title while retaining previous title
+		// change current title while retaining previous title -- XXX: also retain previous workspace?
 		for(var i = 0; i < revisions.length; i++) {
 			if(!revisions[i].fields.previousTitle) {
 				revisions[i].fields.previousTitle = revisions[i].title;
 			}
-			revisions[i].title = toTitle;
+			revisions[i].title = to.title;
 		}
 		// add new revision
 		var rev = merge({}, revisions[0]);
-		rev.title = toTitle;
+		rev.title = to.title;
 		rev.revision++;
 		rev.modified = new Date().convertToYYYYMMDDHHMM();
 		revisions.unshift(rev);
+		if(to.workspace) {
+			context.workspace = to.workspace;
+		}
 		return me.putFatTiddler(revisions, context, context.userParams, deleteTiddler);
 	};
 	var deleteTiddler = function(context, userParams) {
-		var tiddler = store.getTiddler(fromTitle);
+		var tiddler = store.getTiddler(from.title);
 		context.callback = null;
 		return me.deleteTiddler(tiddler, context, context.userParams, callback);
 	};
-	// XXX: retain fromTitle as tiddler.fields.previousTitle? or just retain the previous title in the revisions' tiddler.title?
 	context = this.setContext(context, userParams);
-	context.workspace = store.getTiddler(fromTitle).fields["server.workspace"];
-	return getFatTiddler(fromTitle, context, userParams, putFatTiddler);
+	context.workspace = from.workspace || store.getTiddler(from.title).fields["server.workspace"];
+	return getFatTiddler(from.title, context, userParams, putFatTiddler);
 };
 
 // delete an individual tiddler
