@@ -335,7 +335,7 @@ adaptor.prototype.putFatTiddler = function(revisions, context, userParams, callb
 		adaptor.normalizeTitle(context.title)]);
 	if(workspace.type == "bag") { // generat ETag
 		var etag = [adaptor.normalizeTitle(workspace.name),
-			adaptor.normalizeTitle(context.title), 0].join("/");
+			adaptor.normalizeTitle(context.title), 0].join("/"); //# zero-revision prevents overwriting existing contents
 		headers = { "If-Match": etag };
 	}
 	var payload = JSON.stringify(revisions);
