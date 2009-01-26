@@ -356,7 +356,7 @@ adaptor.putFatTiddlerCallback = function(status, context, responseText, uri, xhr
 	}
 };
 
-// rename an individual tiddler
+// rename an individual tiddler or move it to a different workspace
 //# @param {Object} from source tiddler; members title and workspace (optional)
 //# @param {Object} to target tiddler; members title and workspace (optional)
 adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters?
