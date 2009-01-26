@@ -279,7 +279,8 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	if(!tiddler.fields["server.title"]) {
 		tiddler.fields["server.title"] = tiddler.title; //# required for detecting subsequent renames
 	} else if(tiddler.title != tiddler.fields["server.title"]) {
-		return this.moveTiddler(tiddler.fields["server.title"], tiddler.title, context, userParams, callback);
+		return this.moveTiddler({ title: tiddler.fields["server.title"] },
+			{ title: tiddler.title }, context, userParams, callback);
 	}
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
 	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
@@ -361,11 +362,11 @@ adaptor.putFatTiddlerCallback = function(status, context, responseText, uri, xhr
 //# @param {Object} to target tiddler; members title and workspace (optional)
 adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters?
 	var me = this;
-	var getFatTiddler = function(title, context, userParams, callback) {
+	var _getFatTiddler = function(title, context, userParams, callback) {
 		context.fat = true;
 		return me.getFatTiddler(title, context, userParams, callback);
 	};
-	var putFatTiddler = function(context, userParams) {
+	var _putFatTiddler = function(context, userParams) {
 		eval("var revisions = " + context.responseText); // XXX: error handling?
 		// change current title while retaining previous title -- XXX: also retain previous workspace?
 		for(var i = 0; i < revisions.length; i++) {
@@ -383,16 +384,16 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		if(to.workspace) {
 			context.workspace = to.workspace;
 		}
-		return me.putFatTiddler(revisions, context, context.userParams, deleteTiddler);
+		return me.putFatTiddler(revisions, context, context.userParams, _deleteTiddler);
 	};
-	var deleteTiddler = function(context, userParams) {
+	var _deleteTiddler = function(context, userParams) {
 		var tiddler = store.getTiddler(from.title);
 		context.callback = null;
 		return me.deleteTiddler(tiddler, context, context.userParams, callback);
 	};
 	context = this.setContext(context, userParams);
 	context.workspace = from.workspace || store.getTiddler(from.title).fields["server.workspace"];
-	return getFatTiddler(from.title, context, userParams, putFatTiddler);
+	return _getFatTiddler(from.title, context, userParams, _putFatTiddler);
 };
 
 // delete an individual tiddler
