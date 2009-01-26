@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.3.1|
+|''Version''|0.3.2|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -356,7 +356,7 @@ adaptor.putFatTiddlerCallback = function(status, context, responseText, uri, xhr
 	}
 };
 
-// rename an individual tiddler
+// rename an individual tiddler -- TODO: support for moving between workspaces
 adaptor.prototype.renameTiddler = function(fromTitle, toTitle, context, userParams, callback) {
 	var me = this; // XXX: rename?
 	var getFatTiddler = function(title, context, userParams, callback) {
@@ -365,6 +365,13 @@ adaptor.prototype.renameTiddler = function(fromTitle, toTitle, context, userPara
 	};
 	var putFatTiddler = function(context, userParams) {
 		eval("var revisions = " + context.responseText); // XXX: error handling?
+		// change current title while retaining previous title
+		for(var i = 0; i < revisions.length; i++) {
+			if(!revisions[i].fields.previousTitle) {
+				revisions[i].fields.previousTitle = revisions[i].title;
+			}
+			revisions[i].title = toTitle;
+		}
 		// add new revision
 		var rev = merge({}, revisions[0]);
 		rev.title = toTitle;
