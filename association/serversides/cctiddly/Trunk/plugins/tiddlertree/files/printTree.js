@@ -21,6 +21,7 @@ config.macros.printTree.handler=function(place,macroName,params,wikifier,paramSt
 			store.saveTiddler(params[0]+' Print Preview', params[0]+' Print Preview', htmlString, config.options.txtUserName, newDate,"",config.defaultCustomFields);
 			story.displayTiddler(null, params[0]+' Print Preview');
 			doHttp('POST',url+'plugins/tiddlertree/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0],null,null,null,config.macros.printTree.saveCallback,params);		
+
 			var newDate = new Date();
 
 		}

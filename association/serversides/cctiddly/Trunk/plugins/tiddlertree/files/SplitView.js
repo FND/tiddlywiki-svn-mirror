@@ -31,10 +31,8 @@ config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramSt
 	img.style.width = "10px";
 	img.style.height="10px";
 	img.src = "http://www.iconspedia.com/uploads/578075880.png";
-	createTiddlyText(btn, " New Section");
+	createTiddlyText(btn, " New");
 	btn.setAttribute("href","javascript:;");
-	createTiddlyElement(buttonHolder, "br");
-	createTiddlyElement(buttonHolder, "br");
 /// users button
 	var btn = createTiddlyElement(buttonHolder, "a", null, "button");
 	btn.onclick = function () {
@@ -47,17 +45,23 @@ config.macros.SplitView.refresh=function(place,macroName,params,wikifier,paramSt
 	createTiddlyText(btn, " Users");
 	btn.setAttribute("href","javascript:;");		
 /// document specification button
-	var btn = createTiddlyElement(buttonHolder, "a", null, "button");
+		/*
+		
+		var btn = createTiddlyElement(buttonHolder, "a", null, "button");
 	btn.onclick = function () {
 		story.displayTiddler(null, params[0]);
 	};
+
 	var img = createTiddlyElement(btn, "img");
 	img.style.width = "10px";
 	img.style.height="10px";
 	img.src = "http://ib.berkeley.edu/labs/dawson/calender/theme/icons/bullet_point_50x50.gif";
-	createTiddlyText(btn, " Document Specification");
+	createTiddlyText(btn, " Doc");
 	btn.setAttribute("href","javascript:;");	
-	createTiddlyElement(place, "br");
+
+	
+	*/
+		createTiddlyElement(place, "br");
 	/*
 	var div = createTiddlyElement(place, "div", "example", "flora");
 	var ul = createTiddlyElement(div, "ul");
