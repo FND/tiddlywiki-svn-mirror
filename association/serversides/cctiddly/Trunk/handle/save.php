@@ -19,7 +19,11 @@ $tiddlyCfg['workspace_name'] = formatParametersPOST($_POST['workspace']);
 $ntiddler['modifier'] = formatParametersPOST($_POST['modifier']);
 $ntiddler['modified'] = formatParametersPOST($_POST['modified']);
 $ntiddler['created'] = formatParametersPOST($_POST['created']); 
+error_log("TAGS".$_POST['tags']);
+
 $ntiddler['tags'] = formatParametersPOST($_POST['tags']);
+
+
 $ntiddler['body'] =  formatParametersPOST($_POST['body']);
 $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);

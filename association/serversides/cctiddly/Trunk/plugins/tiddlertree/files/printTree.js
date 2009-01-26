@@ -18,12 +18,10 @@ config.macros.printTree.handler=function(place,macroName,params,wikifier,paramSt
 			}
 			htmlStack.push("</body></html>")
 			var htmlString = htmlStack.join("\n");
+			newDate = new Date();
 			store.saveTiddler(params[0]+' Print Preview', params[0]+' Print Preview', htmlString, config.options.txtUserName, newDate,"",config.defaultCustomFields);
 			story.displayTiddler(null, params[0]+' Print Preview');
 			doHttp('POST',url+'plugins/tiddlertree/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0],null,null,null,config.macros.printTree.saveCallback,params);		
-
-			var newDate = new Date();
-
 		}
 	};
 
@@ -46,7 +44,7 @@ config.macros.printTree.handler=function(place,macroName,params,wikifier,paramSt
 
 config.macros.printTree.saveCallback=function(status,context,responseText,uri,xhr) {
 	
-		
+		log(responseText);
 	window.open(responseText,'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
 }
 
