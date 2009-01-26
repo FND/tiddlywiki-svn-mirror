@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.3.3|
+|''Version''|0.3.4|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -362,6 +362,7 @@ adaptor.putFatTiddlerCallback = function(status, context, responseText, uri, xhr
 //# @param {Object} to target tiddler; members title and workspace (optional)
 adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters?
 	var me = this;
+	var tiddler = store.getTiddler(from.title) || store.getTiddler(to.title); //# local rename might already have occurred
 	var _getFatTiddler = function(title, context, userParams, callback) {
 		context.fat = true;
 		return me.getFatTiddler(title, context, userParams, callback);
@@ -387,12 +388,11 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		return me.putFatTiddler(revisions, context, context.userParams, _deleteTiddler);
 	};
 	var _deleteTiddler = function(context, userParams) {
-		var tiddler = store.getTiddler(from.title);
 		context.callback = null;
 		return me.deleteTiddler(tiddler, context, context.userParams, callback);
 	};
 	context = this.setContext(context, userParams);
-	context.workspace = from.workspace || store.getTiddler(from.title).fields["server.workspace"];
+	context.workspace = from.workspace || tiddler.fields["server.workspace"];
 	return _getFatTiddler(from.title, context, userParams, _putFatTiddler);
 };
 
