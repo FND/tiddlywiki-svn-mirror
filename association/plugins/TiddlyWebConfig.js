@@ -12,7 +12,7 @@
 * initial release
 !!v0.2 (2009-01-15)
 * removed obsolete dependencies
-* !Code
+!Code
 ***/
 //{{{
 if(!version.extensions.TiddlyWebConfig) { //# ensure that the plugin is only installed once
