@@ -14,10 +14,10 @@ $tiddlyCfg['db']['allow_override'] = true;
 // These plugins are DISABLED
 // Allows you to disable a plugin in your plugins directory. 
 $tiddlyCfg['plugins_disabled'] = array(
-	"createPackages",
 	"lifestream",
 	"OpenID",
-	"Portlet", 
+	"Portlet",
+	"tiddlertree", 
 	"seo",
 	"SkinnyTiddlers",
 	"WordpressMigration"

@@ -1,14 +1,9 @@
-Welcome to ccTiddly 1.7
+Welcome to ccTiddly 1.8
 
 
-For the most up to date file and to see known issues with the latest releases please see the URL : 
-
-http://www.tiddlywiki.org/wiki/CcTiddly/Releases
-
-
-we have taken out some features from the original ccTiddly version to get this version released.  If you cant find a particular feature please ask for help on the ccTiddly google groups. 
-
-http://groups.google.com/group/ccTiddly
+For information on the latest release please see the following sites : 
+* http://www.tiddlywiki.org/wiki/CcTiddly/Releases
+* http://groups.google.com/group/ccTiddly
 
 We have not written the install script yet so you will need to create the database manually.
 
@@ -26,6 +21,22 @@ STEPS FOR INSTALLATION :
 4 .. Then you should be able to access ccTiddly over HTTP. eg : 
 
 http://127.0.0.1/cctiddly
+
+
+Serverside Plugins (NEW to version 1.8)
+
+By default all the serverside plugins are disabled. To enable a plugin you need edit config.php and REMOVE the plugin name from the $tiddlyCfg['plugins_disabled'] array.  It can be found at aproximately line 19.
+
+$tiddlyCfg['plugins_disabled'] = array(
+	"createPackages",
+	"lifestream",
+	"OpenID",
+	"Portlet", 
+	"seo",
+	"SkinnyTiddlers",
+	"WordpressMigration"
+);
+
 
 If you have any questions please contact : 
 

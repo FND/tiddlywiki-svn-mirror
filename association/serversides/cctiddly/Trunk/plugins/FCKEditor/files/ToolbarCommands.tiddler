@@ -1,4 +1,3 @@
 |~ViewToolbar|+editHtml editTidder|
 |~taskViewToolbar|+editHtml editTidder|
-
 |~EditToolbar|+saveTiddler -cancelTiddler deleteTiddlerHosted|
