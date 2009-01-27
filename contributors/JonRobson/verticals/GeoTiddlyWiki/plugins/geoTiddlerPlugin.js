@@ -278,15 +278,20 @@ if(!version.extensions.geoPlugin) {
 					var n = Math.pow(2,zoomL);
 					
 					var t;
-					for(t in tiles){//clear tiles
+					for(t in tiles){//clear existing tiles
 						tiles[t].backgroundImage = "none";
-						var newtop = tiles[t].store.top + (translate.y * scale.y);
+						var newtop = tiles[t].store.top + (translate.y * scale.y); //mod new top?
 						tiles[t].style.top = newtop +"px";
 						var newleft = tiles[t].store.left + (translate.x * scale.x);
 						tiles[t].style.left = newleft +"px";
 						console.log(tiles[t].style,tiles[t].store);
 					}
-						
+
+					var a = ((lo + 180) / 360) * n;
+					la =EasyMapUtils._degToRad(la);
+					var b = (1 - (Math.log(Math.tan(la) + 1/(Math.cos(la))) / Math.PI)) / 2 * n;
+					
+					console.log("start tile is", a,b);
 					for(t in tiles){
 						 var tileIndex = t.split("|");
 						
