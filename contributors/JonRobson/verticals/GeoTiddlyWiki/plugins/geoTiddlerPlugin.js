@@ -165,9 +165,10 @@ if(!version.extensions.geoPlugin) {
 			var that = this;
 		
 			eMap.settings.projection = this.getGoogleMercatorProjection();
-			//eMap.settings.renderPolygonMode = false;
 			eMap._fittocanvas = false;
-
+			var useLocalImage = function(dest){
+				eMap.attachBackground(dest);
+			};
 			eMap.settings.beforeRender = function(transformation){
 				//eMap.attachBackground("none");
 				var x =0,y =0, t= transformation.translate,scale= transformation.scale;
@@ -191,10 +192,10 @@ if(!version.extensions.geoPlugin) {
 				var gsmPath ="gsm/"+w+"X"+h+"/"+zoomL+"/"+y+"_"+x+".gif";
 				var gsmURL ="http://maps.google.com/staticmap?center="+y+","+x+"&zoom="+zoomL+"&size="+w+"x"+h+"&key=YOUR_KEY_HERE";
 				
-		
+
 				
 				try{
-					that.saveImageLocally(gsmURL,gsmPath,eMap);
+					that.saveImageLocally(gsmURL,gsmPath,useLocalImage);
 				}
 				catch(e){
 					console.log("unable to cache static image for this map view. ("+e+")")
@@ -210,7 +211,7 @@ if(!version.extensions.geoPlugin) {
 	
 	
 			try{
-				that.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"x"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"/0/0_0.gif",eMap);
+				that.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"x"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"/0/0_0.gif",useLocalImage);
 			}
 			catch(e){
 				console.log("unable to cache static image for this map view. ("+e+")")
@@ -218,7 +219,117 @@ if(!version.extensions.geoPlugin) {
 			
 		
 		}
-		,saveImageLocally: function(sourceurl,dest,eMap) {
+		,_createTiles: function(eMap,numtiles){
+			eMap.wrapper.style.overflow = "hidden";
+			
+			var res = {};
+			
+			var tiley =  - (parseInt(eMap.wrapper.style.height) /2);		
+			var y= 0;
+			for(var y = 0; y < numtiles; y++){
+				var tilex = - (parseInt(eMap.wrapper.style.width) /2);
+				for(var x = 0; x < numtiles; x++){
+					var tile = document.createElement("div");
+					tile.style.position = "absolute";
+					tile.style.width = "256px";
+					tile.style.height = "256px";
+					tile.style.left = tilex+"px";
+					tile.style.top = tiley+"px";
+					tile.store = {};
+					tile.store.left= tilex
+					tile.store.top= tiley;
+					eMap.wrapper.appendChild(tile);
+					res[x+"|"+y] = tile;
+					tilex += 256; //size of a tile
+				}
+				tiley += 256;
+			}
+			return res;
+			
+
+			
+		}
+		,setupSlippyStaticMapLayer: function(eMap){
+			/*Filename(url) format is /zoom/x/y.png */
+			eMap.settings.projection = this.getGoogleMercatorProjection();
+			eMap._fittocanvas = false;
+			var that = this;
+			var tiles = this._createTiles(eMap,2);
+
+			
+			eMap.settings.beforeRender = function(transformation){
+					//eMap.attachBackground("none");
+					var x =0,y =0, translate= transformation.translate,scale= transformation.scale;
+
+					eMap.settings.backgroundimg = "none";
+					eMap.wrapper.style.backgroundImage = "none";
+					var res = eMap.settings.projection.inversexy(translate.x,translate.y);
+					var la = -res.x;
+					var lo = res.y;
+					
+					//lo= -89
+					//la = 66;
+					//console.log("topleft=",-89,66)
+					
+					var zoomL = eMap.settings.projection.calculatescalefactor(scale.x);
+					x = 0;
+					y = 0;
+					
+					var n = Math.pow(2,zoomL);
+					
+					var t;
+					for(t in tiles){//clear tiles
+						tiles[t].backgroundImage = "none";
+						var newtop = tiles[t].store.top + (translate.y * scale.y);
+						tiles[t].style.top = newtop +"px";
+						var newleft = tiles[t].store.left + (translate.x * scale.x);
+						tiles[t].style.left = newleft +"px";
+						console.log(tiles[t].style,tiles[t].store);
+					}
+						
+					for(t in tiles){
+						 var tileIndex = t.split("|");
+						
+						//work out top tile
+						x = (n/2) + (tileIndex[0] -1);
+						x = Math.round(x);
+						y= (n/2) + (tileIndex[1] -1);
+						y = Math.round(y);
+		
+	
+						
+						var tile;
+						if(zoomL == 0){
+							tile = eMap.wrapper;
+							x = 0;
+							y = 0;
+						}
+						else{
+							tile =tiles[t];
+						}
+						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
+						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
+						that.renderTile(slippyurl,localurl,tile);
+					}
+
+			};
+			
+			
+		}
+		,renderTile: function(weburl,localurl,tile){
+			var renderTile = function(dest){
+					tile.style.backgroundImage = "url('"+dest+"')";
+					//var numtiles = Math.pw(2,zoomL);
+	
+			};
+			try{
+				this.saveImageLocally(weburl,localurl,renderTile);
+			}
+			catch(e){
+				console.log("unable to cache static image for this map view. ("+e+")")
+			}
+		}
+		,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally) {
 			
 			var localPath = getLocalPath(document.location.toString());
 			var savePath;
@@ -231,9 +342,7 @@ if(!version.extensions.geoPlugin) {
 					savePath = localPath + "." + dest;
 				}
 			}
-			var applyBackground = function(){
-				eMap.attachBackground(dest);
-			}
+
 			
 			var onloadfromweb = function(status,params,responseText,url,xhr){
 				try{
@@ -243,12 +352,15 @@ if(!version.extensions.geoPlugin) {
 					console.log("error saving locally..");
 				}
 				//eMap.attachBackground(dest);
-				window.setTimeout(applyBackground,0);
+				var f = function(){
+					dothiswhensavedlocally(dest);
+				};
+				window.setTimeout(f,0);
 			};
 			
 			var onloadlocally = function(status,params,responseText,url,xhr){
 			
-				eMap.attachBackground(dest);
+				dothiswhensavedlocally(dest);
 			};
 			try{
 				EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
@@ -454,16 +566,23 @@ if(!version.extensions.geoPlugin) {
 					height += "px";
 				wrapper.style.height = height;		
 			}
-
+			var proj = getParam(prms,"projection");
+			if(proj == 'slippystaticmap'){
+				wrapper.style.height = "256px";
+				wrapper.style.width= "256px";
+			}
 			var statustext = createTiddlyElement(wrapper,"div",id+"_statustext");
 			createTiddlyText(statustext,"loading... please wait a little while!");
 			var caption = createTiddlyElement(place,"div","caption","caption");
 
 			var eMap = new EasyMap(wrapper);
-			var proj = getParam(prms,"projection");
+
 			if(proj){
 				if(proj == 'google'){
 					eMap.settings.projection = this.getGoogleMercatorProjection();
+				}
+				else if(proj == 'slippystaticmap'){
+					this.setupSlippyStaticMapLayer(eMap);					
 				}
 				else if(proj == 'googlestaticmap'){
 					if(parseInt(wrapper.style.width)  > 640|| parseInt(wrapper.style.height) > 640){

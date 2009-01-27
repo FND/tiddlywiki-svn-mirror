@@ -60,18 +60,18 @@ EasyShape.prototype={
 		}
 		else if(!canvas.getContext) {
 			//this has been taken from Google ExplorerCanvas
-			if (!document.namespaces['g_vml_']) {
-			        document.namespaces.add('g_vml_', 'urn:schemas-microsoft-com:vml');
+			if (!document.namespaces['easyShapeVml_']) {
+			        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
 			}
 
 			  // Setup default CSS.  Only add one style sheet per document
-			 if (!document.styleSheets['ex_canvas_']) {
+			 if (!document.styleSheets['easyShape']) {
 			        var ss = document.createStyleSheet();
-			        ss.owningElement.id = 'ex_canvas_';
+			        ss.owningElement.id = 'easyShape';
 			        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
 			            // default size is 300x150 in Gecko and Opera
-			            'text-align:left;width:300px;height:150px}' +
-			            'g_vml_\\:*{behavior:url(#default#VML)}';
+			            'text-align:left;}' +
+			            'easyShapeVml_\\:*{behavior:url(#default#VML)}';
 			}
 			
 			this._ierender(canvas,transformation,projection,optimisations); 
@@ -372,7 +372,7 @@ EasyShape.prototype={
 			y *= this._iemultiplier;
 			x = parseInt(x);
 			y = parseInt(y);
-			buffer.push([x, ",",y].join(""));
+			buffer.push([x,",",y].join(""));
 			//path += x +"," + y;
 			
 			//if(i < c.length - 2) path += "";
@@ -472,7 +472,7 @@ EasyShape.prototype={
 			return;
 		}
 		else{
-			shape = document.createElement("g_vml_:shape");
+			shape = document.createElement("easyShapeVml_:shape");
 			var o = transformation.origin;
 			var t = transformation.translate;
 			var s = transformation.scale;

@@ -39,7 +39,7 @@ var EasyMap = function(wrapper){
 	canvas.style.width = wrapper.style.width;
 	canvas.style.height = wrapper.style.height;	
 	
-	canvas.style["z-index"] = 1;
+	canvas.style.zIndex = 1;
 	canvas.style.position = "absolute";
 	this.canvas = canvas;
 
@@ -394,6 +394,7 @@ EasyMap.prototype = {
 					tt = document.createElement('div');
 					tt.style.position = "absolute";
 					tt.id = wid;
+					tt.style.zIndex = 4;
 					tt.setAttribute("class","easymaptooltip");
 					eMap.wrapper.appendChild(tt);
 				}

@@ -263,7 +263,7 @@ EasyMapController.prototype = {
 		newCanvas.style.position = "absolute";
 		newCanvas.style.left = 0;
 		newCanvas.style.top = 0;
-		newCanvas.style["z-index"] = 3;
+		newCanvas.style.zIndex = 3;
 		newCanvas.setAttribute("class","easyControl");
 		this.wrapper.appendChild(newCanvas);
 
