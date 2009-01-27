@@ -17,8 +17,7 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"createPackages",
 	"lifestream",
 	"OpenID",
-	"Portlet",
-	"tiddlertree", 
+	"Portlet", 
 	"seo",
 	"SkinnyTiddlers",
 	"WordpressMigration"
