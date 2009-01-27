@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.3.4|
+|''Version''|0.3.5|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -15,7 +15,7 @@
 !!v0.2 (2008-12-08)
 * encapsulation of bag/recipe distinction
 !!v0.3 (2008-01-23)
-* implemented renaming via "fat" tiddlers
+* implemented renaming via tiddler chronicles
 !To Do
 * createWorkspace
 * externalize JSON library (use jQuery?)
@@ -245,20 +245,20 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	}
 };
 
-// retrieve "fat" tiddler -- TODO: remame "fat" to tiddler history?
-adaptor.prototype.getFatTiddler = function(title, context, userParams, callback) {
+// retrieve tiddler chronicle (all revisions)
+adaptor.prototype.getTiddlerChronicle = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = title;
 	var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions.json?fat=1";
 	var workspace = adaptor.resolveWorkspace(context.workspace);
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title)]);
-	var req = httpReq("GET", uri, adaptor.getFatTiddlerCallback,
+	var req = httpReq("GET", uri, adaptor.getTiddlerChronicleCallback,
 		context, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
 };
 
-adaptor.getFatTiddlerCallback = function(status, context, responseText, uri, xhr) {
+adaptor.getTiddlerChronicleCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -322,8 +322,8 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	}
 };
 
-// store a "fat" tiddler -- XXX: rename "fat"
-adaptor.prototype.putFatTiddler = function(revisions, context, userParams, callback) {
+// store a tiddler chronicle
+adaptor.prototype.putTiddlerChronicle = function(revisions, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = revisions[0].title;
 	var headers = null;
@@ -339,12 +339,12 @@ adaptor.prototype.putFatTiddler = function(revisions, context, userParams, callb
 		headers = { "If-Match": etag };
 	}
 	var payload = JSON.stringify(revisions);
-	var req = httpReq("POST", uri, adaptor.putFatTiddlerCallback,
+	var req = httpReq("POST", uri, adaptor.putTiddlerChronicleCallback,
 		context, headers, payload, adaptor.mimeType);
 	return typeof req == "string" ? req : true;
 };
 
-adaptor.putFatTiddlerCallback = function(status, context, responseText, uri, xhr) {
+adaptor.putTiddlerChronicleCallback = function(status, context, responseText, uri, xhr) {
 	context.status = xhr.status === 204;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
@@ -362,11 +362,10 @@ adaptor.putFatTiddlerCallback = function(status, context, responseText, uri, xhr
 adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters?
 	var me = this;
 	var tiddler = store.getTiddler(from.title) || store.getTiddler(to.title); //# local rename might already have occurred
-	var _getFatTiddler = function(title, context, userParams, callback) {
-		context.fat = true;
-		return me.getFatTiddler(title, context, userParams, callback);
+	var _getTiddlerChronicle = function(title, context, userParams, callback) {
+		return me.getTiddlerChronicle(title, context, userParams, callback);
 	};
-	var _putFatTiddler = function(context, userParams) {
+	var _putTiddlerChronicle = function(context, userParams) {
 		eval("var revisions = " + context.responseText); // XXX: error handling?
 		// change current title while retaining previous title -- XXX: also retain previous workspace?
 		for(var i = 0; i < revisions.length; i++) {
@@ -384,7 +383,7 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		if(to.workspace) {
 			context.workspace = to.workspace;
 		}
-		return me.putFatTiddler(revisions, context, context.userParams, _deleteTiddler);
+		return me.putTiddlerChronicle(revisions, context, context.userParams, _deleteTiddler);
 	};
 	var _deleteTiddler = function(context, userParams) {
 		context.callback = null;
@@ -393,7 +392,7 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 	};
 	context = this.setContext(context, userParams);
 	context.workspace = from.workspace || tiddler.fields["server.workspace"];
-	return _getFatTiddler(from.title, context, userParams, _putFatTiddler);
+	return _getTiddlerChronicle(from.title, context, userParams, _putTiddlerChronicle);
 };
 
 // delete an individual tiddler
