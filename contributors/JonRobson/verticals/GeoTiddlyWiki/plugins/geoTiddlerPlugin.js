@@ -287,8 +287,8 @@ if(!version.extensions.geoPlugin) {
 					focus.x = b;
 					focus.y =a;			
 					
-					focus.offsety =(translate.y * scale.y) % 256;
-					focus.offsetx = (translate.x * scale.x) % 256;
+					focus.offsety =(translate.y * scale.y);
+					focus.offsetx = (translate.x * scale.x);
 					for(t in tiles){//clear existing tiles
 						tiles[t].style.backgroundImage = "none";
 					
