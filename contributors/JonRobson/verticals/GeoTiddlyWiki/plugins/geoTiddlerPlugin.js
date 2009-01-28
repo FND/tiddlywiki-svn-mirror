@@ -308,7 +308,7 @@ if(!version.extensions.geoPlugin) {
 					var zoomL = eMap.settings.projection.calculatescalefactor(scale.x);
 					var n = Math.pow(2,zoomL);
 					//var topleft = eMap.settings.projection.xy(translate.x,translate.y);
-					var bottomright =EasyMapUtils.getLongLatFromMouse(200,200,eMap);
+					var bottomright =EasyMapUtils.getLongLatFromMouse(200,-200,eMap);
 					var lo = bottomright.longitude;
 					var la = bottomright.latitude;
 					bottomright = eMap.settings.projection.xy(lo,-la);
