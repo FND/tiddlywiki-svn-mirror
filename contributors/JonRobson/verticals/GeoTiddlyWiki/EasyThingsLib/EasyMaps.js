@@ -206,6 +206,11 @@ EasyMap.prototype = {
 		var t =this.canvas.transformation.translate;
 		var s = this.canvas.transformation.scale;
 
+		if(t.y  > 85.0511) t.y = 85.0511;
+		if(t.y < -85.0511) t.y = -85.0511;
+		if(t.x < -180) t.x =-180;
+		if(t.x > 180) t.x = 180;
+		
 		if(this.spherical){
 			if( !this.canvas.transformation.spherical){
 				this.canvas.transformation.spherical = {};

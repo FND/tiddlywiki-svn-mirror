@@ -253,6 +253,7 @@ if(!version.extensions.geoPlugin) {
 			/*Filename(url) format is /zoom/x/y.png */
 			eMap.settings.projection = this.getGoogleMercatorProjection();
 			eMap._fittocanvas = false;
+			//eMap.settings.renderPolygonMode = false;
 			var that = this;
 			var tiles = this._createTiles(eMap,2);
 
@@ -263,46 +264,62 @@ if(!version.extensions.geoPlugin) {
 
 					eMap.settings.backgroundimg = "none";
 					eMap.wrapper.style.backgroundImage = "none";
-					var res = eMap.settings.projection.inversexy(translate.x,translate.y);
-					var la = -res.x;
-					var lo = res.y;
 					
-					//lo= -89
-					//la = 66;
-					//console.log("topleft=",-89,66)
+					//stop wrap around
+					
+					var res = eMap.settings.projection.xy(translate.x,translate.y);
+					la = res.x;
+					lo = -res.y;
 					
 					var zoomL = eMap.settings.projection.calculatescalefactor(scale.x);
-					x = 0;
-					y = 0;
 					
 					var n = Math.pow(2,zoomL);
-					
 					var t;
-					for(t in tiles){//clear existing tiles
-						tiles[t].backgroundImage = "none";
-						var newtop = tiles[t].store.top + (translate.y * scale.y); //mod new top?
-						tiles[t].style.top = newtop +"px";
-						var newleft = tiles[t].store.left + (translate.x * scale.x);
-						tiles[t].style.left = newleft +"px";
-						console.log(tiles[t].style,tiles[t].store);
-					}
-
+					
+					//work out bottom right tile
+					var focus ={};
 					var a = ((lo + 180) / 360) * n;
 					la =EasyMapUtils._degToRad(la);
-					var b = (1 - (Math.log(Math.tan(la) + 1/(Math.cos(la))) / Math.PI)) / 2 * n;
+					var b = ((1.0 - (la / Math.PI)) / 2.0) * n;
+					console.log("ab before",a,b);
+					a = Math.round(a);
+					b = Math.round(b);
+					focus.x = b;
+					focus.y =a;			
 					
-					console.log("start tile is", a,b);
+					focus.offsety =(translate.y * scale.y) % 256;
+					focus.offsetx = (translate.x * scale.x) % 256;
+					for(t in tiles){//clear existing tiles
+						tiles[t].style.backgroundImage = "none";
+					
+						var newtop = (tiles[t].store.top + focus.offsety); //mod new top?
+						tiles[t].style.top = newtop +"px";
+						
+					
+						var newleft = (tiles[t].store.left + focus.offsetx);
+				
+						tiles[t].style.left = newleft +"px";
+						
+						
+						
+					}
+
+
+
+					//b =0;
+					console.log("translate",translate.x,translate.y,"zoomL",zoomL,"tiles=",n,"long lat is ", lo, la,"i am in tiles", focus.x,focus.y,focus.offsetx, focus.offsety);
+				
+					var incx, incy;
+					incx = -1; incy = -1;
+					
 					for(t in tiles){
 						 var tileIndex = t.split("|");
 						
 						//work out top tile
-						x = (n/2) + (tileIndex[0] -1);
-						x = Math.round(x);
-						y= (n/2) + (tileIndex[1] -1);
-						y = Math.round(y);
-		
-	
-						
+						x = focus.x + parseInt(tileIndex[0]) + incx;
+						y= focus.y + parseInt(tileIndex[1]) +incy;
+				
+			
 						var tile;
 						if(zoomL == 0){
 							tile = eMap.wrapper;

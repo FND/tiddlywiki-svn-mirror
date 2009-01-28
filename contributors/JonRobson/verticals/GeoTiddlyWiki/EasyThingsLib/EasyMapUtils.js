@@ -61,7 +61,16 @@ var EasyMapUtils = {
 		if(easyMap.settings.projection) {
 			pos = easyMap.settings.projection.inversexy(pos.x,pos.y);
 		}
-		return {latitude:-pos.y,longitude:pos.x};
+		
+		var la = -pos.y;
+		var lo = pos.x;
+		
+		if(la > 85.0511) la =null;
+		if(la < -85.0511) la = null;
+		if(lo < -180) lo = null;
+		if(lo > 180) lo=null;
+		
+		return {latitude: la, longitude: lo};
 	}
 	,_radToDeg: function(rad){
 		return rad / (Math.PI /180);
