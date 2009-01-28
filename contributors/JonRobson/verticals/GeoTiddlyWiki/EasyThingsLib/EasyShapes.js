@@ -581,7 +581,7 @@ EasyShape.prototype={
 		var ps = 5 / parseFloat(transformation.scale.x);
 		//should get bigger with scale increasing
 		var smallest = 1 / this._iemultiplier;
-		var largest = 5;
+		var largest = 2.5;
 		if(ps < smallest) ps = smallest;
 		if(ps > largest) ps = largest;
 		var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];

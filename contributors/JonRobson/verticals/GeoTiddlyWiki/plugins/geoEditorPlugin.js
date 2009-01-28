@@ -83,20 +83,25 @@ config.macros.geoedit={
 		var clickinput= createTiddlyElement(place,"input");
 		clickinput.value="rgb(255,0,0)";
 
-		var onmup = function(e,shape,mouse,ll,feature){
+		var geotag = function(e,shape,mouse,ll,feature,key){
+			var color = "rgb(255,0,0)";
+			if(ll.longitude && ll.latitude){
+				var shapeName = "New GeoTiddler ("+ll.longitude+";" + ll.latitude+")";
+				
+				that.addGeoTiddler(eMap,shapeName,ll,color);
+			}	
+		}
+		var onmup = function(e,shape,mouse,ll,feature,key){
 			var color =  clickinput.value;
-			if(tooltoggler.value == 'viewer'){
+			console.log("key pressed is, ",key);
+			if(!key){
 				if(shape) story.displayTiddler(story.findContainingTiddler(resolveTarget(e)),shape.properties.name);
 			}
-			else if(tooltoggler.value=='tagger'){			
-				if(ll.longitude && ll.latitude){
-					var shapeName = "New GeoTiddler ("+ll.longitude+";" + ll.latitude+")";
-					
-					that.addGeoTiddler(eMap,shapeName,ll,color);
-				}
+			else if(key == 'g'){			
+				geotag(e,shape,mouse,ll,feature,key);
 				
 			}
-			else if(tooltoggler.value == 'opentiddler'){
+			else if(key = 'e'){
 				var name =shape.properties.name;
 				var tags = [];
 				var fields = {};
@@ -115,7 +120,7 @@ config.macros.geoedit={
 				story.displayTiddler(story.findContainingTiddler(resolveTarget(e)),name);
 			}
 			
-			else if(tooltoggler.value == 'colorer'){
+			else if(key == 'c'){
 				that.clickColorsCountry(e,eMap,color);
 			}
 			return false;
@@ -162,7 +167,7 @@ config.macros.geoedit={
 		
 		/*setup handling of mouse */
 		
-		eMap.setMouseFunctions(onmup);
+		eMap.setMouseFunctions(onmup,null);
 		config.macros.geo.addEasyMapControls(eMap,prms);
 
 		/*Time to draw */

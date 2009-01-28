@@ -1,6 +1,6 @@
 tiddler: flickrPlugin.js DopplrPlugin.js
 //tiddler: countries.js
-tiddler: geoTiddlerPlugin.js ../EasyThingsLib/EasyShapes.js ../EasyThingsLib/EasyMaps.js ../EasyThingsLib/EasyController.js ../EasyThingsLib/EasyMapUtils.js ../EasyThingsLib/EasyMapSVGUtils.js ../EasyThingsLib/EasyFileUtils.js ../EasyThingsLib/EasyConversion.js ../EasyThingsLib/EasyClickingUtils.js ../EasyThingsLib/EasyClicking.js ../Proj4js/proj4js.js ../Proj4js/merc.js ../../../plugins/WorldMaps/jquery.js 
+tiddler: geoTiddlerPlugin.js ../EasyThingsLib/EasyShapes.js ../EasyThingsLib/EasyMaps.js ../EasyThingsLib/EasyController.js ../EasyThingsLib/EasyMapUtils.js ../EasyThingsLib/EasyMapSVGUtils.js ../EasyThingsLib/EasyFileUtils.js ../EasyThingsLib/EasyConversion.js ../EasyThingsLib/EasyClickingUtils.js ../EasyThingsLib/EasyClicking.js ../Proj4js/proj4js.js ../Proj4js/merc.js 
 tiddler: geoEditorPlugin.js
 tiddler: DHTMLColorPickr.js
 tiddler: ../tiddlers/GeoCore.tiddler

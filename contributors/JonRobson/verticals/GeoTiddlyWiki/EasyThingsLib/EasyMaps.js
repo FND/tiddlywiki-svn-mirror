@@ -211,6 +211,8 @@ EasyMap.prototype = {
 		if(t.x < -180) t.x =-180;
 		if(t.x > 180) t.x = 180;
 		
+		if(s.x < 1) s.x = 1;
+		if(s.y < 1) s.y = 1;
 		if(this.spherical){
 			if( !this.canvas.transformation.spherical){
 				this.canvas.transformation.spherical = {};
@@ -242,9 +244,11 @@ EasyMap.prototype = {
 		e,shape,mouse,longitude_latitude,feature
 		
 	*/
-	setMouseFunctions: function(onmouseup,onmousemove){
+	setMouseFunctions: function(onmouseup,onmousemove,onrightclick){
 			if(onmousemove)this.moveHandler =onmousemove;
 			if(onmouseup)this.clickHandler = onmouseup;
+			//if(ondblclick)this.dblclickHandler = ondblclick;
+			if(onrightclick) this.rightclickHandler = onrightclick;
 	}
 	,_createGlobe: function(){
 		if(!this.canvas.getContext) {return;}
@@ -432,6 +436,16 @@ EasyMap.prototype = {
 				e = window.event;
 			}
 			
+			var code;
+			//console.log(e.keyCode,e.which);
+			if (e.which) code = e.which;
+			else if (e.keyCode) code = e.keyCode;
+			
+			
+			var character = String.fromCharCode(code);
+			
+			
+			
 			var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
 			if(t.getAttribute("class") == 'easyControl') return false;
 			var shape = eMap.easyClicking.getShapeAtClick(e);
@@ -447,6 +461,7 @@ EasyMap.prototype = {
 			result.longitude_latitude = EasyMapUtils.getLongLatFromMouse(x,y,eMap);
 			result.feature = eMap.geofeatures[eMap.easyClicking.getMemoryID(shape)];
 			result.event = e;
+			result.keypressed = character;
 			return result;
 			
 		};
@@ -468,12 +483,23 @@ EasyMap.prototype = {
 		
 		var onmouseup = function(e){
 			var r = getParameters(e);
+			var button = e.button;
 			
-			eMap.clickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature);
+			if(!button || button == 0){ //left click
+				eMap.clickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+			}
+			else if(button == 2){ //right click
+				if(eMap.rightclickHandler){
+					var r = getParameters(e);
+					eMap.rightclickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+				}	
+			}
+			
 		};
+
 		this.wrapper.onmouseup = onmouseup;
 		this.wrapper.onmousemove = onmousemove;
-		this.setMouseFunctions(_defaultClickHandler,_defaultMousemoveHandler);
+		this.setMouseFunctions(_defaultClickHandler,_defaultMousemoveHandler,null);
 
 		
 	}
