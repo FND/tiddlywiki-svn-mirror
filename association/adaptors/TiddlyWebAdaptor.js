@@ -369,8 +369,8 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		eval("var revisions = " + context.responseText); // XXX: error handling?
 		// change current title while retaining previous title -- XXX: also retain previous workspace?
 		for(var i = 0; i < revisions.length; i++) {
-			if(!revisions[i].fields.previousTitle) {
-				revisions[i].fields.previousTitle = revisions[i].title;
+			if(!revisions[i].fields.previoustitle) {
+				revisions[i].fields.previoustitle = revisions[i].title;
 			}
 			revisions[i].title = to.title;
 		}
