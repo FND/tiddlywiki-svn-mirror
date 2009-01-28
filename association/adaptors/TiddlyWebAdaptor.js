@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.3.5|
+|''Version''|0.3.6|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -387,8 +387,9 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 	};
 	var _deleteTiddler = function(context, userParams) {
 		context.callback = null;
-		tiddler.title = from.title; //# required for original tiddler's ETag -- XXX: dirty hack?
-		return me.deleteTiddler(tiddler, context, context.userParams, callback);
+		var origTiddler = merge({}, tiddler);
+		origTiddler.title = from.title; //# required for original tiddler's ETag -- XXX: dirty hack?
+		return me.deleteTiddler(origTiddler, context, context.userParams, callback);
 	};
 	context = this.setContext(context, userParams);
 	context.workspace = from.workspace || tiddler.fields["server.workspace"];
