@@ -198,8 +198,6 @@
 			$id = "server.id='".$tiddler["id"]."'";
 		else
 			$id = ""; // must be a system tiddler
-			
-		echo "pollyt".$tiddler["tags"];
 		echo "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"]." ".$id.">\r\n<pre>".htmlspecialchars($tiddler['body'])."</pre>\r\n</div>\n\r";	
 	return;
 	}
@@ -274,6 +272,7 @@
 		global $tiddlyCfg;
 		$result = db_record_insert($tiddlyCfg['table']['main'], $tiddler);
 		print db_error();
+		
 		if( $result===FALSE )
 		{
 			return FALSE;
@@ -382,7 +381,7 @@
 			$tiddler = tiddler_backup_create($tiddler, db_insert_id());
 			$result = db_tiddlers_backupInsert($tiddler,$stop);
 		}
-		return TRUE;
+		return mysql_insert_id();
 	}
 	
 	//!	@fn bool tiddler_delete($tiddler)

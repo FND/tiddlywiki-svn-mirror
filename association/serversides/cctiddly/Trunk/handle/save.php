@@ -64,6 +64,7 @@ if($tiddler['id']!="undefined")
 		
 		if(tiddler_update_new($tiddler['id'], $ntiddler)) {
 			sendHeader(201);
+			echo $tiddler['id'];
 		}
 	}else{
 		debug("Permissions denied to save.", "save");
@@ -71,6 +72,7 @@ if($tiddler['id']!="undefined")
 	}
 }else{
 	//This Tiddler does not exist in the database.
+	error_log("tiddler does not exist in the database");
 	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) 
 	{
 		debug("Inserting New Tiddler...", "save");
@@ -78,8 +80,11 @@ if($tiddler['id']!="undefined")
 		$ntiddler['created'] = $ntiddler['modified'];
 		$ntiddler['revision'] = 1;
 		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
-		if(tiddler_insert_new($ntiddler))
+		if($id = tiddler_insert_new($ntiddler))
+		{
 			sendHeader(201);
+			echo $id;
+		}
 	}else{
 		sendHeader(400);
 	}

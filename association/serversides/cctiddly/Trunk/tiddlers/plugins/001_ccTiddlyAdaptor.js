@@ -551,7 +551,19 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		return typeof req == 'string' ? req : true;
 	};
 
-
+	ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr){
+		if(xhr.status != 201){
+			ccTiddlyAdaptor.handleError(xhr.status);
+		}else{
+			context.status = true;
+			context.tiddler.fields['server.id'] = responseText;
+		}
+		if(context.callback){
+			context.callback(context,context.userParams);
+		}
+	};
+	
+	
 	ccTiddlyAdaptor.center  = function(el){
 		var size = this.getsize(el);
 		el.style.left = (Math.round(findWindowWidth()/2) - (size.width /2) + findScrollX())+'px';
@@ -607,21 +619,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		ccTiddlyAdaptor.showCloak();
 	}
 
-	ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr){
-		if(xhr.status != 201){
-			console.log(responseText);
-			ccTiddlyAdaptor.handleError(xhr.status);
-		}else{
-			context.status = true;
-		}
-		if(context.callback){
-			context.callback(context,context.userParams);
-		}
-	};
-	
-	
-	
-	
 	ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,callback){	
 		context = this.setContext(context,userParams,callback);
 		context.title = title;
