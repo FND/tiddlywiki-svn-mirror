@@ -544,6 +544,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 			var otitle = tiddler.title;
 		else
 			var otitle = context.otitle;
+			console.log("setting id aws "+tiddler.fields['server.id']);
 		var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+encodeURIComponent(tiddler.getTags())+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
 	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id']+"&"+postParams+"&revision="+tiddler.fields['server.page.revision'];
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
@@ -623,10 +624,14 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		context = this.setContext(context,userParams,callback);
 		context.title = title;
 		title = encodeURIComponent(title);
-		var host = this && this.host ? this.host : this.fullHostName(tiddler.fields['server.host']);
-		var uriTemplate = '%0/handle/delete.php?workspace=%1&title=%2';
-		var uri = uriTemplate.format([host,context.workspace,title]);
-		var req = httpReq('POST', uri,ccTiddlyAdaptor.deleteTiddlerCallback,context);
+		console.log(title);
+//		var host = this && this.host ? this.host : this.fullHostName(tiddler.fields['server.host']);
+		var host = tiddler.fields['server.host'];
+	//`		console.log("h:"+tiddler.fields['server.host']);
+		var uri = tiddler.fields['server.host']+'/handle/delete.php';
+		var data = "?workspace='"+context.workspace+"'&title="+title;
+		console.log("data is : "+data);
+//		var req = httpReq('POST', uri,ccTiddlyAdaptor.deleteTiddlerCallback,context, null, data);
 		return typeof req == 'string' ? req : true;
 	};
 

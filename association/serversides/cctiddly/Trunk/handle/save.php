@@ -49,8 +49,6 @@ if($tiddler['id']!="undefined")
 		sendHeader(409);
 		exit;
 	}
-	
-
 	//require edit privilege on new and old tags			
 	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
 	{

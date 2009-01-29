@@ -4,7 +4,10 @@ include_once($cct_base."includes/header.php");
 debug($_SERVER['PHP_SELF'], "handle");	
 
 //return result/message
-$title = formatParameters($_REQUEST['title']);
+
+error_log("title is : ".$_POST['title']);
+
+$title = formatParametersPOST($_POST['title']);
 
 //check for markup
 if( !tiddler_markupCheck($user,$title) )
@@ -14,10 +17,9 @@ if( !tiddler_markupCheck($user,$title) )
 //get tiddler to check for privilege
 $tiddler = db_tiddlers_mainSelectTitle($title);
 if( $tiddler===FALSE ) {
-	sendHeader(404);
+//	sendHeader(404);
 }
 
-echo user_deletePrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags']));
 if(user_deletePrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags']))) {
 	tiddler_delete_new($tiddler['id']);		//delete current tiddler
 	sendHeader(200);
