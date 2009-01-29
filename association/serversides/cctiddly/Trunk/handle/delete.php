@@ -5,8 +5,6 @@ debug($_SERVER['PHP_SELF'], "handle");
 
 //return result/message
 
-error_log("title is : ".$_POST['title']);
-
 $title = formatParametersPOST($_POST['title']);
 
 //check for markup

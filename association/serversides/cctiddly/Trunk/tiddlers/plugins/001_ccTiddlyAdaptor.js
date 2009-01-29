@@ -193,10 +193,8 @@ config.commands.deleteTiddlerHosted.handler = function(event,src,title)
 		if(deleteIt) {
 			var ret = invokeAdaptor('deleteTiddler',title,null,null,null,config.commands.deleteTiddlerHosted.callback,tiddler.fields);
 			if(ret){
-			store.removeTiddler(title);
-			story.closeTiddler(title,true);
-			autoSaveChanges();
-			store.setDirty(false);
+				store.removeTiddler(title);
+				story.closeTiddler(title,true);
 			}
 		}
 		return false;
@@ -624,14 +622,9 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		context = this.setContext(context,userParams,callback);
 		context.title = title;
 		title = encodeURIComponent(title);
-		console.log(title);
-//		var host = this && this.host ? this.host : this.fullHostName(tiddler.fields['server.host']);
-		var host = tiddler.fields['server.host'];
-	//`		console.log("h:"+tiddler.fields['server.host']);
 		var uri = tiddler.fields['server.host']+'/handle/delete.php';
 		var data = "?workspace='"+context.workspace+"'&title="+title;
-		console.log("data is : "+data);
-//		var req = httpReq('POST', uri,ccTiddlyAdaptor.deleteTiddlerCallback,context, null, data);
+		var req = httpReq('POST', uri,ccTiddlyAdaptor.deleteTiddlerCallback,context, null, data);
 		return typeof req == 'string' ? req : true;
 	};
 
