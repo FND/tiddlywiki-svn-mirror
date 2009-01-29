@@ -205,11 +205,14 @@ EasyMap.prototype = {
 		}
 		var t =this.canvas.transformation.translate;
 		var s = this.canvas.transformation.scale;
-
-		if(t.y  > 85.0511) t.y = 85.0511;
-		if(t.y < -85.0511) t.y = -85.0511;
-		if(t.x < -180) t.x =-180;
-		if(t.x > 180) t.x = 180;
+		
+		//console.log(t.x,t.y);
+	
+		
+		//if(t.y * s.y  > 85.0511) t.y = 85.0511;
+		//if(t.y * s.y < -85.0511) t.y = -85.0511;
+		//if(t.x *s.x < -180) t.x =-180;
+		//if(t.x *s.x > 180) t.x = 180;
 		
 		if(s.x < 1) s.x = 1;
 		if(s.y < 1) s.y = 1;

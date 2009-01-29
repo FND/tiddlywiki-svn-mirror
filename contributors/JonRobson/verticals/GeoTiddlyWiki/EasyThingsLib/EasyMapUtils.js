@@ -35,6 +35,37 @@ if(!Array.indexOf) {
 var EasyMapUtils = {
 	googlelocalsearchurl: "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="
 	
+	,getLongLatAtXY: function(x,y,eMap){
+		
+		var res = {};
+		res.longitude = 0;
+		res.latitude = 0;
+		
+		var res = EasyMapUtils.getLongLatFromMouse(x,y,eMap);
+	
+		
+		return res;
+	}
+	,getSlippyTileNumber: function(lo,la,zoomL,eMap){
+		var n = Math.pow(2,zoomL);
+	
+	
+		var lat_rad = EasyMapUtils._degToRad(la);
+		
+		var x = lo;
+		var y = Math.log(Math.tan(lat_rad) + (1/Math.cos(lat_rad)))
+		var tilex = ((lo + 180)/360) *n;
+		//var tilex = lon_rad * n;
+		
+		var tiley = ((1- (y / Math.PI) ))/2;
+	
+		tiley *= n;
+		
+		tilex = Math.floor(tilex);
+		
+		tiley = Math.floor(tiley);
+		return {x: tilex, y:tiley};
+	}
 	,getLocationsFromQuery: function(query,callback){
 		var that = this;
 		var fileloadedcallback = function(status,params,responseText,url,xhr){
@@ -76,6 +107,7 @@ var EasyMapUtils = {
 		return rad / (Math.PI /180);
 	},
 	_degToRad: function(deg) {
+		//return ((deg + 180)/360) ;
 		return deg * Math.PI / 180;
 	},
 	fitgeojsontocanvas: function(json,canvas){ /*canvas must have style width and height properties*/

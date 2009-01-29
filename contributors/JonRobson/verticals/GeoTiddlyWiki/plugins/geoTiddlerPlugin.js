@@ -228,6 +228,11 @@ if(!version.extensions.geoPlugin) {
 			var y= 0;
 		
 		
+			var tiles = document.createElement("div");
+			tiles.style.overflow = "hidden";
+			tiles.style.position= "absolute";
+			tiles.style.width = "256px";
+			tiles.style.height = "256px";
 			var maintile = document.createElement("div");
 			maintile.style.position = "absolute";
 			maintile.style.width = "256px";
@@ -237,7 +242,7 @@ if(!version.extensions.geoPlugin) {
 			maintile.store = {};
 			maintile.store.left= 0;
 			maintile.store.top= 0;
-			
+			tiles.appendChild(maintile);
 			for(var y = 0; y < numtiles; y++){
 				var tilex = - (parseInt(eMap.wrapper.style.width) /2);
 				for(var x = 0; x < numtiles; x++){
@@ -250,14 +255,14 @@ if(!version.extensions.geoPlugin) {
 					tile.store = {};
 					tile.store.left= tilex
 					tile.store.top= tiley;
-					maintile.appendChild(tile);
+					tiles.appendChild(tile);
 					res[x+"|"+y] = tile;
 					tilex += 256; //size of a tile
 				}
 				tiley += 256;
 			}
 			
-			eMap.wrapper.appendChild(maintile);
+			eMap.wrapper.appendChild(tiles);
 			
 			res['main'] = maintile;
 			return res;
@@ -306,27 +311,28 @@ if(!version.extensions.geoPlugin) {
 					var b = ((1.0 - (rla / Math.PI)) / 2.0) * n;
 					*/
 					var zoomL = eMap.settings.projection.calculatescalefactor(scale.x);
-					var n = Math.pow(2,zoomL);
-					//var topleft = eMap.settings.projection.xy(translate.x,translate.y);
-					var bottomright =EasyMapUtils.getLongLatFromMouse(200,-200,eMap);
-					var lo = bottomright.longitude;
-					var la = bottomright.latitude;
-					bottomright = eMap.settings.projection.xy(lo,-la);
-					la = -bottomright.y;
-					lo = bottomright.x;
-					//var lo = topleft.x;
-					//var la = - topleft.y;
-					var lat_rad = EasyMapUtils._degToRad(la);
-					var tilex = ((lo + 180) / 360) * n
-					var tiley = (1 - (Math.log(Math.tan(lat_rad) + (1/Math.cos(lat_rad))) / Math.PI)) / 2 * n
-					tilex = Math.round(tilex);
-					tiley = Math.round(tiley);
 					
-					console.log(tilex,tiley);
+					
+					//var topleft = eMap.settings.projection.xy(translate.x,translate.y);
+					var br = EasyMapUtils.getLongLatAtXY(256,256,eMap);
+					console.log(br.longitude,"lat,",br.latitude);
+					var br =EasyMapUtils.getSlippyTileNumber(br.longitude,br.latitude,zoomL,eMap);
+					
+					tilex = br.x;
+					tiley = br.y;
+					var i;
+					for(i in tiles){
+						tiles[i].style.backgroundImage ="none";
+					}
+				
 					if(zoomL == 0){
 						var tile = tiles["main"];
 						zoomL = 0;
 						tilex = 0;tiley=0;
+						var left = (scale.x * translate.x) % 256;
+						var top = (scale.y * translate.y) % 256;
+						tile.style.top = top + "px";
+						tile.style.left = left + "px";
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+tilex+"/"+tiley+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ tilex + "/" + tiley + ".png";
 						that.renderTile(slippyurl,localurl,tile);					
@@ -334,23 +340,51 @@ if(!version.extensions.geoPlugin) {
 					else{
 						tiles.main.style.backgroundImage = "none";
 						var bottomtile = tiles["1|1"];
-						var newtop = 128 + (scale.y * translate.y) %256;
-						bottomtile.style.top = newtop + "px";
+						var brtop = (128 +(scale.y * translate.y)) %256;
+						var brleft = (128 +(scale.x * translate.x)) %256;
+						if(brleft < 0) brleft += 256;
+						//if(newtop < 128)
+
+						
+					
+						var tile = tiles["1|0"];						
+						bottomtile.style.left = brleft +"px";
+						bottomtile.style.top = brtop + "px";
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+tilex+"/"+tiley+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ tilex + "/" + tiley + ".png";
 						that.renderTile(slippyurl,localurl,bottomtile);
 						
 						/*top tile*/
-						/*
-						var tile = tiles["1|0"];
-						var t = newtop - 256;
+						var t =  -256 +brtop;
 						tile.style.top = t + "px";
+						tile.style.left = brleft +"px";
 						var x = tilex;
 						var y = tiley -1;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
 						that.renderTile(slippyurl,localurl,tile);
-						*/
+						
+						
+						/*bottom left tile*/
+						tile = tiles["0|1"];
+						var l = brleft - 256
+						tile.style.top = brtop + "px";
+						tile.style.left = l +"px";
+						x = tilex - 1;
+						y = tiley;
+						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
+						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
+						that.renderTile(slippyurl,localurl,tile);
+
+						/*top left tile */
+						tile = tiles["0|0"];
+						tile.style.top = t + "px";
+						tile.style.left = l +"px";
+						x = tilex - 1;
+						y = tiley -1;
+						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
+						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
+						that.renderTile(slippyurl,localurl,tile);	
 						
 				
 					}
