@@ -2,7 +2,7 @@
 |''Name''|TiddlyViPlugin|
 |''Description''|mouseless navigation and editing|
 |''Author''|FND|
-|''Version''|0.2.0|
+|''Version''|0.2.1|
 |''Status''|@@experimental@@|
 |''Source''|http://fnd.tiddlyspot.com/#TiddlyViPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -31,6 +31,7 @@ The following commands are supported:
 * commands for triggering toolbar commands
 * command aliases
 * implement as generic jQuery plugin
+* CLI styling
 !Code
 ***/
 //{{{
@@ -44,13 +45,12 @@ if(!version.extensions.TiddlyViPlugin) { //# ensure that the plugin is only inst
 version.extensions.TiddlyViPlugin = { installed: true };
 
 var keys = {
-	up: 75, // k
-	down: 74 // j
+	up: 107, // k (charCode)
+	down: 106, // j (charCode)
+	confirm: 13, // ENTER (keyCode) -- XXX: TiddlyWiki also uses keycode 10!?
+	abort: 27, // ESC (keyCode)
+	cmd: 58 // colon (charCode)
 };
-var chars = {
-	up: 107, // k
-	down: 106 // j
-}; // XXX: hacky!?
 
 var commandMode = {
 	cmds: {
@@ -67,19 +67,23 @@ var commandMode = {
 		if(!container.length) {
 			container = $("<div id='CLI' />").appendTo(document.body);
 			$("<input type='text' />").keypress(function(e) {
-					if(e.which == 13) { // ENTER -- XXX: TiddlyWiki also says keycode 10?
+				var key = e.keyCode || e.which; // XXX: keyCode required for ESC!?
+				switch(key) {
+					case keys.confirm:
 						commandMode.dispatch(this.value);
+					case keys.confirm:
+					case keys.abort:
 						$(this).parent().remove();
-					} else if(e.which === 0) { // ESC -- XXX: TiddlyWiki says keycode 27?
-						$(this).parent().remove();
-					}
-				}).appendTo(container).focus();
+						break;
+					default:
+						break;
+				}
+			}).appendTo(container).focus();
 		} // XXX: else focus CLI?
 	},
 
 	dispatch: function(cmd) {
 		var params = String.prototype.readBracketedList ? cmd.readBracketedList() : cmd.split(" "); // XXX: required only if fully TW-agnostic
-		console.log(this);
 		cmd = this.cmds[params.shift()];
 		if(cmd) {
 			cmd(params);
@@ -102,30 +106,32 @@ var selectNextItem = function(reverse) { // XXX: rename
 	window.scrollTo(0, ensureVisible(el)); // TODO: use jQuery (animations?)
 };
 
-$(document).bind("keypress", null, function(ev) {
-	// do not intercept keypress when in edit mode -- XXX: hacky
+// detect active edit session
+var editing = function() { // XXX: rename
 	if($("#displayArea .selected[dirty=true]:in-viewport").length) { // XXX: excessively complicated (performance implications!)
 		return true;
+	} else {
+		return false;
 	}
-	// detect keyboard commands
-	var key = ev.charCode || ev.keyCode || 0; // XXX: charCode != keyCode!?
-	switch(key) {
+};
+
+// keyboard initialization
+$(document).bind("keypress", null, function(e) {
+	if(editing()) { // XXX: hacky?
+		return true;
+	}
+	switch(e.which) {
 		case keys.up:
-		case chars.up:
 			selectNextItem(true);
 			break;
 		case keys.down:
-		case chars.down:
 			selectNextItem(false);
+			break;
+		case keys.cmd:
+			commandMode.init();
 			break;
 		default:
 			break;
-	}
-});
-
-$(window).keypress(function(e) { // XXX: performance imact!?
-	if(e.which == 58) { // colon -- XXX: interferes with editing -- XXX: cross-browser?
-		commandMode.init();
 	}
 });
 
