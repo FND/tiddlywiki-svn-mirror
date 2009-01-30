@@ -1,10 +1,10 @@
 /***
 |''Name''|TiddlyViPlugin|
-|''Description''|enables mouseless navigation|
+|''Description''|mouseless navigation and editing|
 |''Author''|FND|
-|''Version''|0.1.2|
+|''Version''|0.2.0|
 |''Status''|@@experimental@@|
-|''Source''|http://devpad.tiddlyspot.com/#TiddlyViPlugin|
+|''Source''|http://fnd.tiddlyspot.com/#TiddlyViPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''CoreVersion''|2.5|
@@ -16,16 +16,25 @@
 The following keyboard commands are supported:
 * {{{k}}}: previous tiddler
 * {{{j}}}: next tiddler
+* {{{:}}}: enter command mode
+* {{{ESC}}}: exit command mode
+!!Command Mode
+The following commands are supported:
+* {{{open <tiddler>}}}
+* {{{close <tiddler>}}}
 !Revision History
 !!v0.1 (2009-01-11)
 * initial release
+!!v0.2 (2009-01-30)
+* implemented command mode
 !To Do
-* trigger for edit mode
-* Ex-like commands for triggering toolbar commands
+* commands for triggering toolbar commands
+* command aliases
+* implement as generic jQuery plugin
 !Code
 ***/
 //{{{
-(function() { //# set up local scope
+(function($) { //# set up local scope
 
 if(!$.inviewport) { // XXX: check for $.expr[":"]["in-viewport"]?
 	throw "Missing dependency: Viewport";
@@ -42,6 +51,41 @@ var chars = {
 	up: 107, // k
 	down: 106 // j
 }; // XXX: hacky!?
+
+var commandMode = {
+	cmds: {
+		open: function(params) {
+			story.displayTiddler(null, params[0], null, true, null, null, false, document.body);
+		},
+		close: function(params) {
+			story.closeTiddler(params[0], true);
+		}
+	},
+
+	init: function() {
+		var container = $("#CLI");
+		if(!container.length) {
+			container = $("<div id='CLI' />").appendTo(document.body);
+			$("<input type='text' />").keypress(function(e) {
+					if(e.which == 13) { // ENTER -- XXX: TiddlyWiki also says keycode 10?
+						commandMode.dispatch(this.value);
+						$(this).parent().remove();
+					} else if(e.which === 0) { // ESC -- XXX: TiddlyWiki says keycode 27?
+						$(this).parent().remove();
+					}
+				}).appendTo(container).focus();
+		} // XXX: else focus CLI?
+	},
+
+	dispatch: function(cmd) {
+		var params = String.prototype.readBracketedList ? cmd.readBracketedList() : cmd.split(" "); // XXX: required only if fully TW-agnostic
+		console.log(this);
+		cmd = this.cmds[params.shift()];
+		if(cmd) {
+			cmd(params);
+		} // XXX: else?
+	}
+};
 
 var selectNextItem = function(reverse) { // XXX: rename
 	var el = $("#displayArea .selected:in-viewport");
@@ -79,7 +123,13 @@ $(document).bind("keypress", null, function(ev) {
 	}
 });
 
+$(window).keypress(function(e) { // XXX: performance imact!?
+	if(e.which == 58) { // colon -- XXX: interferes with editing -- XXX: cross-browser?
+		commandMode.init();
+	}
+});
+
 } //# end of "install only once"
 
-})(); //# end of local scope
+})(jQuery); //# end of local scope
 //}}}
