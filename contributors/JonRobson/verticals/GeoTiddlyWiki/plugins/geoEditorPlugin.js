@@ -93,7 +93,7 @@ config.macros.geoedit={
 		}
 		var onmup = function(e,shape,mouse,ll,feature,key){
 			var color =  clickinput.value;
-			console.log("key pressed is, ",key);
+	
 			if(!key){
 				if(shape) story.displayTiddler(story.findContainingTiddler(resolveTarget(e)),shape.properties.name);
 			}
@@ -237,7 +237,11 @@ config.macros.googlelocalsearcher = {
 		var searchtaggerclick = createTiddlyElement(newplace,"button",null,null,"go");		
 		wikify("\n tips: for San Francisco search for San Francisco, California,USA - the more specific the more accurate",newplace);
 		var handler = function(results){
-			
+			if(!results || !results[0]){
+				alert("Never heard of that place.. are you sure it exists?");
+				f(false);
+			 	return false;
+			}
 			var title =results[0].titleNoFormatting;
 			var answer;
 			if(!dontconfirm){

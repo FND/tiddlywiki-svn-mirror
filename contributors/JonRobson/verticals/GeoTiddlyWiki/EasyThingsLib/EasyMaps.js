@@ -454,6 +454,7 @@ EasyMap.prototype = {
 			var shape = eMap.easyClicking.getShapeAtClick(e);
 			if(shape) {
 				result.shape = shape;
+				result.feature = eMap.geofeatures[eMap.easyClicking.getMemoryID(shape)];
 			}
 		
 			
@@ -462,7 +463,7 @@ EasyMap.prototype = {
 			var y = pos.y;
 			result.mouse = pos;
 			result.longitude_latitude = EasyMapUtils.getLongLatFromMouse(x,y,eMap);
-			result.feature = eMap.geofeatures[eMap.easyClicking.getMemoryID(shape)];
+			
 			result.event = e;
 			result.keypressed = character;
 			return result;

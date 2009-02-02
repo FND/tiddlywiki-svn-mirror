@@ -237,24 +237,27 @@ if(!version.extensions.geoPlugin) {
 			maintile.style.position = "absolute";
 			maintile.style.width = "256px";
 			maintile.style.height = "256px";
-			maintile.style.left = "0px";
+			/*maintile.style.left = "0px";
 			maintile.style.top = "0px";
 			maintile.store = {};
 			maintile.store.left= 0;
 			maintile.store.top= 0;
+			*/
 			tiles.appendChild(maintile);
 			for(var y = 0; y < numtiles; y++){
 				var tilex = - (parseInt(eMap.wrapper.style.width) /2);
 				for(var x = 0; x < numtiles; x++){
 					var tile = document.createElement("div");
+					tile.setAttribute("class",x + "-" +y);
 					tile.style.position = "absolute";
 					tile.style.width = "256px";
 					tile.style.height = "256px";
-					tile.style.left = tilex+"px";
+					tile.style.border = "1px solid black";
+					/*tile.style.left = tilex+"px";
 					tile.style.top = tiley+"px";
 					tile.store = {};
 					tile.store.left= tilex
-					tile.store.top= tiley;
+					tile.store.top= tiley;*/
 					tiles.appendChild(tile);
 					res[x+"|"+y] = tile;
 					tilex += 256; //size of a tile
@@ -272,11 +275,13 @@ if(!version.extensions.geoPlugin) {
 		}
 		,setupSlippyStaticMapLayer: function(eMap){
 			/*Filename(url) format is /zoom/x/y.png */
-			eMap.settings.projection = this.getGoogleMercatorProjection();
+			var projection = this.getGoogleMercatorProjection();
+			eMap.settings.projection = projection;
 			eMap._fittocanvas = false;
 			//eMap.settings.renderPolygonMode = false;
 			var that = this;
 			var tiles = this._createTiles(eMap,2);
+			var eMap = eMap;
 
 			
 			eMap.settings.beforeRender = function(transformation){
@@ -310,56 +315,133 @@ if(!version.extensions.geoPlugin) {
 					var rla =EasyMapUtils._degToRad(la);
 					var b = ((1.0 - (rla / Math.PI)) / 2.0) * n;
 					*/
-					var zoomL = eMap.settings.projection.calculatescalefactor(scale.x);
+					var zoomL = projection.calculatescalefactor(scale.x);
 					
 					
 					//var topleft = eMap.settings.projection.xy(translate.x,translate.y);
-					var br = EasyMapUtils.getLongLatAtXY(256,256,eMap);
-					console.log(br.longitude,"lat,",br.latitude);
-					var br =EasyMapUtils.getSlippyTileNumber(br.longitude,br.latitude,zoomL,eMap);
-					
-					tilex = br.x;
-					tiley = br.y;
+				
 					var i;
 					for(i in tiles){
 						tiles[i].style.backgroundImage ="none";
 					}
 				
-					if(zoomL == 0){
+					
 						var tile = tiles["main"];
-						zoomL = 0;
-						tilex = 0;tiley=0;
+					
 						var left = (scale.x * translate.x) % 256;
 						var top = (scale.y * translate.y) % 256;
 						tile.style.top = top + "px";
 						tile.style.left = left + "px";
+					if(zoomL == 0){
+							zoomL = 0;
+							tilex = 0;tiley=0;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+tilex+"/"+tiley+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ tilex + "/" + tiley + ".png";
 						that.renderTile(slippyurl,localurl,tile);					
 					}
 					else{
+						//get range
+
+/* n tiles spread from -180 to 180.
+If n = 4, tiles start at -180, -90, 90,180
+if center of map is 0,0 then bottom right tile is at 0
+
+(- 90 + 90) / 2 
+
+
+
+If center of map is 0,30 then bottom right tile is at
+
+30/90 * 256?
+(-90 + 90)
+each tile is 256px height
+
+*/
+						
 						tiles.main.style.backgroundImage = "none";
 						var bottomtile = tiles["1|1"];
-						var brtop = (128 +(scale.y * translate.y)) %256;
-						var brleft = (128 +(scale.x * translate.x)) %256;
-						if(brleft < 0) brleft += 256;
-						//if(newtop < 128)
-
+						
+						var temp ={x: (translate.x),y:(translate.y)};
+						//temp =eMap.settings.projection.xy(temp.x,temp.y);
+						
+						
+						//difference between centre and top left corner of bottom right tile  * scale = ?
+						var newxy = eMap.settings.projection.xy(temp.x,temp.y);
+					
+				
+						temp.x *= scale.x;
 						
 					
-						var tile = tiles["1|0"];						
+						var top = EasyMapUtils.getLongLatAtXY(0.001, 0.001,eMap);
+						var center = EasyMapUtils.getLongLatAtXY(128,128,eMap);
+						var bottom =EasyMapUtils.getLongLatAtXY(256+128,256+128,eMap);
+						var diff = bottom.latitude - top.latitude;
+						//diff /= 2;
+						
+						console.log(top.latitude,center.latitude,bottom.latitude,"diff",diff);
+						//temp.y *= diff;
+						
+						temp.y *= scale.y;
+						
+						temp.x -= 128;
+						temp.y -= 128;
+					
+						var left = temp.x;
+						var top =temp.y;
+					
+						//some weird hacks seem to work above equator..
+						if(zoomL == 10 || zoomL == 14){
+					
+							top += 64;
+							left += 256;
+						}
+						else if(zoomL == 9 || zoomL == 13){
+							top += 32;
+						}
+						else if(zoomL == 11){
+							top -= 128;
+						}
+						else if(zoomL == 15){
+							top -= 96;
+						}
+						
+						
+						var brtop = Math.floor(top)%256.0;
+						var brleft = Math.floor(left) %256.0;
+							
+						if(brtop < 0) brtop += 256;
+						if(brleft < 0) brleft += 256;
+						
+
+						//if(brtop < 128) brtop -=128;				
+						
+						var lola = EasyMapUtils.getLongLatAtXY(brleft+128,brtop+128,eMap);
+						//console.log("its", lola.longitude,lola.latitude,scale.x,scale.y);
+						/*var t = eMap.settings.projection.xy(lola.longitude,lola.latitude);
+						lola.longitude = t.x;
+						lola.latitude = t.y;*/
+						
+						var br =EasyMapUtils.getSlippyTileNumber(lola.longitude,lola.latitude,zoomL,eMap);
+						
+						tilex = br.x;
+						tiley = br.y;
+							
+												
 						bottomtile.style.left = brleft +"px";
 						bottomtile.style.top = brtop + "px";
+						bottomtile.innerHTML = tilex + "," + tiley;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+tilex+"/"+tiley+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ tilex + "/" + tiley + ".png";
 						that.renderTile(slippyurl,localurl,bottomtile);
 						
 						/*top tile*/
-						var t =  -256 +brtop;
+						var tile = tiles["1|0"];
+						var t =  brtop - 256;
 						tile.style.top = t + "px";
 						tile.style.left = brleft +"px";
 						var x = tilex;
 						var y = tiley -1;
+						tile.innerHTML = x + "," + y;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
 						that.renderTile(slippyurl,localurl,tile);
@@ -371,7 +453,11 @@ if(!version.extensions.geoPlugin) {
 						tile.style.top = brtop + "px";
 						tile.style.left = l +"px";
 						x = tilex - 1;
+						 
 						y = tiley;
+						var n = Math.pow(2,zoomL);
+						if(x == -1) x = n-1;
+						if(y == -1) y = n-1;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
 						that.renderTile(slippyurl,localurl,tile);
@@ -382,6 +468,9 @@ if(!version.extensions.geoPlugin) {
 						tile.style.left = l +"px";
 						x = tilex - 1;
 						y = tiley -1;
+						if(x == -1) x = n-1;
+						if(y == -1) y = n-1;
+						tile.innerHTML = x + "," + y;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
 						that.renderTile(slippyurl,localurl,tile);	
@@ -701,8 +790,11 @@ if(!version.extensions.geoPlugin) {
 		handler: function(place,macroName,params,wikifier,paramString,tiddler){
 		
 		var lo,la,zoom,id;
-		lo = tiddler.fields.longitude;
-		la = tiddler.fields.latitude;
+		if(tiddler && tiddler.fields)lo = tiddler.fields.longitude;
+		if(tiddler && tiddler.fields)la = tiddler.fields.latitude;
+		
+		if(params[1]) lo =params[1];
+		if(params[2])la =params[2];
 		//zoom = 512;
 		if(!params[0]){return;}
 		id = params[0];
@@ -717,9 +809,10 @@ if(!version.extensions.geoPlugin) {
 			
 		}
 		
-		if(lo && la && geomaps[id]){
+		if(lo && la){
 			createTiddlyButton(place,"go here", "jump to longitude:" + lo + ", latitude:"+la, handler);
 		}
+	
 		
 		}
 	};

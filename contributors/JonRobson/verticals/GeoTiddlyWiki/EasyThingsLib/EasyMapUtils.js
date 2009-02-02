@@ -32,14 +32,13 @@ if(!Array.indexOf) {
 	};
 }
 
+
+
+
 var EasyMapUtils = {
 	googlelocalsearchurl: "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="
 	
 	,getLongLatAtXY: function(x,y,eMap){
-		
-		var res = {};
-		res.longitude = 0;
-		res.latitude = 0;
 		
 		var res = EasyMapUtils.getLongLatFromMouse(x,y,eMap);
 	
@@ -47,23 +46,31 @@ var EasyMapUtils = {
 		return res;
 	}
 	,getSlippyTileNumber: function(lo,la,zoomL,eMap){
+		/*if(eMap && eMap.settings.projection){
+			var lola= eMap.settings.projection.xy(lo,la);
+			lo = lola.x;
+			la =lola.y;
+		}
+		*/
 		var n = Math.pow(2,zoomL);
+		
 	
-	
-		var lat_rad = EasyMapUtils._degToRad(la);
 		
 		var x = lo;
-		var y = Math.log(Math.tan(lat_rad) + (1/Math.cos(lat_rad)))
-		var tilex = ((lo + 180)/360) *n;
-		//var tilex = lon_rad * n;
 		
+		/*var y = Math.log(Math.tan(lat_rad) + (1/Math.cos(lat_rad)));
 		var tiley = ((1- (y / Math.PI) ))/2;
-	
 		tiley *= n;
-		
-		tilex = Math.floor(tilex);
-		
 		tiley = Math.floor(tiley);
+		*/
+		
+		var tilex = ((lo + 180)/360) *n;
+
+		tilex = Math.floor(tilex);
+		tiley =(Math.floor((1-Math.log(Math.tan(la*Math.PI/180) + 1/Math.cos(la*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoomL)));
+		
+		
+		
 		return {x: tilex, y:tiley};
 	}
 	,getLocationsFromQuery: function(query,callback){
@@ -89,17 +96,19 @@ var EasyMapUtils = {
 
 				
 		var pos = EasyClickingUtils.undotransformation(x,y,easyMap.controller.transformation);	
+		
 		if(easyMap.settings.projection) {
 			pos = easyMap.settings.projection.inversexy(pos.x,pos.y);
 		}
-		
-		var la = -pos.y;
+
 		var lo = pos.x;
+		var la = -pos.y;
 		
-		if(la > 85.0511) la =null;
-		if(la < -85.0511) la = null;
-		if(lo < -180) lo = null;
-		if(lo > 180) lo=null;
+		
+		if(la > 85.0511) la =85;
+		if(la < -85.0511) la = -85;
+		if(lo < -180) lo = -179;
+		if(lo > 180) lo=179;
 		
 		return {latitude: la, longitude: lo};
 	}
@@ -108,7 +117,8 @@ var EasyMapUtils = {
 	},
 	_degToRad: function(deg) {
 		//return ((deg + 180)/360) ;
-		return deg * Math.PI / 180;
+		
+		return (deg * Math.PI) / 180.0;
 	},
 	fitgeojsontocanvas: function(json,canvas){ /*canvas must have style width and height properties*/
 		var view ={};
@@ -257,3 +267,10 @@ var EasyMapUtils = {
 	}
 
 };
+var s = EasyMapUtils.getSlippyTileNumber(0.422812,51.642283,10);
+if(s.x == 513 && s.y == 339){
+	console.log("ok");
+}
+else{
+	throw "problem with slippy tile number";
+}

@@ -16,8 +16,11 @@ var EasyClickingUtils = {
 		pos.x -= o.x;
 		pos.y -= o.y;
 
-		pos.x /= s.x;
-		pos.y /= s.y;
+		if(pos.x != 0)
+			pos.x /= s.x;
+		
+		if(pos.y != 0)
+			pos.y /= s.y;
 			
 		pos.x -= tr.x;
 		pos.y -= tr.y;			
