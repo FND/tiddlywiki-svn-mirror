@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.3.6|
+|''Version''|0.4.0|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -14,8 +14,10 @@
 * refactoring of previous experimental efforts
 !!v0.2 (2008-12-08)
 * encapsulation of bag/recipe distinction
-!!v0.3 (2008-01-23)
+!!v0.3 (2009-01-23)
 * implemented renaming via tiddler chronicles
+!!v0.4 (2009-02-03)
+* added support for importing TiddlyWiki documents
 !To Do
 * createWorkspace
 * externalize JSON library (use jQuery?)
@@ -351,6 +353,28 @@ adaptor.putTiddlerChronicleCallback = function(status, context, responseText, ur
 	if(status) {
 		var etag = xhr.getResponseHeader("Etag");
 	}
+	if(context.callback) {
+		context.callback(context, context.userParams);
+	}
+};
+
+// store a collection of tiddlers (import TiddlyWiki HTML store)
+adaptor.prototype.putTiddlerStore = function(store, context, userParams, callback) {
+	context = this.setContext(context, userParams, callback);
+	var uriTemplate = "%0/%1/%2/tiddlers";
+	var host = context.host;
+	var workspace = adaptor.resolveWorkspace(context.workspace);
+	var uri = uriTemplate.format([host, workspace.type + "s",
+		adaptor.normalizeTitle(workspace.name)]);
+	var req = httpReq("POST", uri, adaptor.putTiddlerStoreCallback,
+		context, null, store, "text/x-tiddlywiki");
+	return typeof req == "string" ? req : true;
+};
+
+adaptor.putTiddlerStoreCallback = function(status, context, responseText, uri, xhr) {
+	context.status = xhr.status === 204;
+	context.statusText = xhr.statusText;
+	context.httpStatus = xhr.status;
 	if(context.callback) {
 		context.callback(context, context.userParams);
 	}
