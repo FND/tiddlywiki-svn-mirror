@@ -4,5 +4,6 @@ window.restart = function(){
 	story.displayDefaultTiddlers();
 	invokeParamifier(params,"onstart");
 	window.scrollTo(0,0); 
+	});
 };
 */
