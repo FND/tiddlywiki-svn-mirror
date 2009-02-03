@@ -55,7 +55,8 @@ config.macros.lifeStream.display = function (place, params)
 		if(tiddlers[t].isTagged("Notes") ||["flickr", "twitter", "wordpress", "delicious", 
 "trac"].contains(tiddlers[t].fields["server.type"])) {
 
-			if(typeof(tiddlers[t]['modified'])!='undefined')
+			if(typeof(tiddlers[t]['modified'])!='undefined'){
+			//	console.log(tiddlers[t]['created']+tiddlers[t].fields["server.type"]);
 				var theDay = tiddlers[t]['modified'].convertToLocalYYYYMMDDHHMM().substr(0,8);
 
 
@@ -69,6 +70,8 @@ config.macros.lifeStream.display = function (place, params)
 tiddlers[t]['modified'].formatString("DD/MM/YYYY"));
 				lastDay = theDay;
 			}	
+			
+			}
 	}
 		switch(tiddlers[t].fields['server.type']){
 			case "wordpress" :

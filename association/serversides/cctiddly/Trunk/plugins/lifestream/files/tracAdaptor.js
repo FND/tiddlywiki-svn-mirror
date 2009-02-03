@@ -66,6 +66,8 @@ tracAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,
 					if(author == "simonmcmanus") {
 						item.created = created[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
 						item.created = tracAdaptor.convertTimestamp(item.created);
+						console.log("trac: ", item.created);
+						
 						desc = item_match[i].match(regex_desc);
 						var link = item_match[i].match(regex_link);
 						link = link[0].replace(/^<link>|<\/link>$/mg,"");

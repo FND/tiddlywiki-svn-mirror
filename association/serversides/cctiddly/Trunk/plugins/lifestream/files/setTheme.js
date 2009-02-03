@@ -1,1 +1,0 @@
-config.options.txtTheme = "lifestreamTheme";

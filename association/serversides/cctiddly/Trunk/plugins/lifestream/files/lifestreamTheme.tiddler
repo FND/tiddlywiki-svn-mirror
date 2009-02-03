@@ -47,14 +47,9 @@
 
 !ViewTemplate
 <!--{{{-->
-
-
 <div  macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' width='20px'/></div>
-
 </div>
-
 <div class='viewer'  style=' padding:1em; border-right:1px solid [[ColorPalette::ls_background]]; border-left:1px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
-
 <div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
 <!--}}}-->
 
