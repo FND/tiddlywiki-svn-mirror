@@ -269,7 +269,7 @@ h1 {
 }
 
 a:hover {
-	background-color:[[ColorPalette::ls_mid]];
+	background-color:transparent;
 	color:#eee
 }
 
@@ -277,9 +277,7 @@ a:hover {
 	border:1px solid #000;
 	background-color:[[ColorPalette::ls_background]];
 	color:white;
-		z-index:2;
-
-
+	z-index:2;
 }
 
 #tiddlerDisplay .toolbar a.button {
@@ -290,8 +288,6 @@ background-color:[[ColorPalette::ls_mid]];
 	z-index:2;
 	font-size:0.6em;
 }
-	
-	
 	
 #mainMenu a {
 	padding:8px 15px 8px 15px;
