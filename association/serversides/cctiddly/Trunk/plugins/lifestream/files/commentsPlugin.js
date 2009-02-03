@@ -60,7 +60,6 @@ if(isLoggedIn()) {
 	  };
 }else {
 	addComment.onclick = function(e) {
-		console.log(e);
 //		config.macros.comments.showLogin();
   };
 }

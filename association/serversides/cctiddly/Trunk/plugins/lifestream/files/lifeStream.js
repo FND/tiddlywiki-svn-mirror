@@ -11,10 +11,10 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	twitter.openHost();
 	twitter.getWorkspaceList(context);
 	
-//	var flickr = new flickrAdaptor();
-//	flickr.openHost();
-//	context.host = "http://api.flickr.com/services/feeds/photos_public.gne?ids=22127230@N08";
-//	flickr.getWorkspaceList(context);
+	var flickr = new flickrAdaptor();
+	flickr.openHost();
+	context.host = "http://api.flickr.com/services/feeds/photos_public.gne?ids=22127230@N08";
+	flickr.getWorkspaceList(context);
 	
 	var delicious = new deliciousAdaptor();
 	delicious.openHost();
@@ -51,27 +51,19 @@ config.macros.lifeStream.display = function (place, params)
 	var yesterday= new Date()
 	yesterday.setDate(yesterday.getDate()-1);
 	for(var t=tiddlers.length-1; t>=last; t--) {
-		
-		if(tiddlers[t].isTagged("Notes") ||["flickr", "twitter", "wordpress", "delicious", 
-"trac"].contains(tiddlers[t].fields["server.type"])) {
-
+		if(tiddlers[t].isTagged("Notes") ||["flickr", "twitter", "wordpress", "delicious", "trac"].contains(tiddlers[t].fields["server.type"])) {
 			if(typeof(tiddlers[t]['modified'])!='undefined'){
-			//	console.log(tiddlers[t]['created']+tiddlers[t].fields["server.type"]);
 				var theDay = tiddlers[t]['modified'].convertToLocalYYYYMMDDHHMM().substr(0,8);
-
-
 			if(theDay != lastDay) {
 				if(tiddlers[t]['modified'].formatString("DD/MM/YYYY")==today.formatString("DD/MM/YYYY"))
 					createTiddlyElement(place, "h3", null, null,  "Today");
 				else if(tiddlers[t]['modified'].formatString("DD/MM/YYYY")==yesterday.formatString("DD/MM/YYYY"))
 					createTiddlyElement(place, "h3", null, null,  "Yesterday");
 				else
-					createTiddlyElement(place, "h3", null, null,  
-tiddlers[t]['modified'].formatString("DD/MM/YYYY"));
+					createTiddlyElement(place, "h3", null, null, tiddlers[t]['modified'].formatString("DD/MM/YYYY"));
 				lastDay = theDay;
-			}	
-			
-			}
+			}		
+		}
 	}
 		switch(tiddlers[t].fields['server.type']){
 			case "wordpress" :
@@ -157,9 +149,7 @@ tiddlers[t]['modified'].formatString("DD/MM/YYYY"));
 					createTiddlyElement(sliderButton, "div", null, "textSpace", tiddlers[t].title);
 					addClass(sliderButton,"stream deliciousStream");
 					wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created,slider);
-					
-
-				}
+			}
 		}
 	}
 };
