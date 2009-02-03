@@ -47,7 +47,7 @@ DAMAGE.
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' />
 <!--}}}-->
 <!--PRE-HEAD-END-->
-<title> My TiddlyWiki - a reusable non-linear personal web notebook </title>
+<title> TiddlyWeb Loading </title>
 <style id="styleArea" type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -1378,6 +1378,936 @@ config.macros.wikify={
 // define alternative macroName for triggering pre-rendering call to eval()
 config.macros.wikiCalc=config.macros.wikify;
 //}}}</pre>
+</div>
+<div title="TaggedTemplateTweak" modifier="UnaMesa Academy" modified="200808290824" created="200808290824" tags="systemConfig excludeLists excludeSearch" >
+<pre>/***
+|Name|TaggedTemplateTweak|
+|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
+|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
+|Version|1.4.1|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides|Story.prototype.chooseTemplateForTiddler()|
+|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
+This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
+!!!!!Documentation
+&gt;see [[TaggedTemplateTweakInfo]]
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.08.29 [1.4.1] corrected handling for tiddlers with no matching tagged template when non-default theme is in effect (e.g., use "MyTheme##ViewTemplate").
+| please see [[TaggedTemplateTweakInfo]] for previous revision details |
+2007.06.11 [1.0.0] initial release
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.TaggedTemplateTweak= {major: 1, minor: 4, revision: 1, date: new Date(2008,8,29)};
+
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.chooseTemplateForTiddler = function(title,template)
+{
+	// get default template from core
+	var coreTemplate=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+
+	// if the tiddler doesn't exist yet or is untagged, return core result
+	var tiddler=store.getTiddler(title);
+	if (!tiddler || !tiddler.tags.length)
+		return coreTemplate;
+
+	// split core template into theme prefix and template name
+	var theme="";
+	var template=coreTemplate;
+	var parts=template.split(config.textPrimitives.sectionSeparator);
+	if (parts[1]) { theme=parts[0]; template=parts[1]; }
+	else theme=config.options.txtTheme||""; // fallback if theme is not specified
+	theme+=config.textPrimitives.sectionSeparator;
+
+	// look for template whose prefix matches a tag on this tiddler (if any)
+	for (i=0; i&lt;tiddler.tags.length; i++) {
+		var t=tiddler.tags[i]+template; // add tag prefix to template
+		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
+		if (store.getTiddlerText(theme+t))	{ return theme+t; } // theme##tagTemplate
+		if (store.getTiddlerText(theme+c))	{ return theme+c; } // theme##TagTemplate
+		if (store.getTiddlerText(t)) 		{ return t; }	     // tagTemplate
+		if (store.getTiddlerText(c))		{ return c; }	     // TagTemplate
+	}
+	return coreTemplate; // no matching tag, return core result
+}
+//}}}</pre>
+</div>
+<div title="EditFieldPlugin" modifier="UnaMesa Academy" modified="200708221524" created="200708221524" tags="systemConfig excludeLists excludeSearch" foobar="test" creator="ELSDesignStudios">
+<pre>/***
+|Name|EditFieldPlugin|
+|Source|http://www.TiddlyTools.com/#EditFieldPlugin|
+|Version|1.0.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides||
+|Description|extend core edit macro for use in ViewTemplates or direct embedding in tiddler content|
+This plugin extends the core {{{&lt;&lt;edit fieldname #OfLines&gt;&gt;}}} macro for use in a ViewTemplate or directly embedded in tiddler content.
+!!!!!Usage
+&lt;&lt;&lt;
+Normally, when you edit a tiddler, any changes you make are saved (or discarded) when you press the "done" (or "cancel") command in the tiddler editor's toolbar.  However, when in a 'view mode' context, these command items are not available, and so the TiddlyWiki core commands cannot be used to trigger the 'save/discard' handling once you have decided that your input activities are complete.
+
+This plugin extends the core's input field handling, so that when:
+{{{
+&lt;&lt;edit fieldname numberOfLines&gt;&gt;
+}}}
+is used in tiddler content, or:
+{{{
+&lt;span macro='edit fieldname numberOfLines'&gt;&lt;/span&gt;
+}}}
+is used in a ViewTemplate definition, you will be automatically prompted to save/discard your changes (if any) as soon as you press ENTER or move away ('onBlur' handling) from that input field (if the content has been changed).  You can also abandon your changes to input field content by pressing ESCAPE (you will be asked to confirm before discarding changes).
+
+You can change the browser-defined default width of an input field by surrounding the edit field by using custom CSS class wrappers, defined in the StyleSheet tiddler.  For example:
+{{{
+.stretch input { width:99%; }
+.stretch textarea { width:99%; }
+.onechar input { width:1em; }
+.twochar input { width:2em; }
+.threechar input { width:3em; }
+.fourchar input { width:4em; }
+.fivechar input { width:5em; }
+}}}
+&gt;Note: the 'fixed' width values in the above example are only approximate.  The actual width rendered by your browser will vary based on the current font-family and font-size that is applied to the field.
+&lt;&lt;&lt;
+!!!!!Examples
+&lt;&lt;&lt;
+*"""&lt;&lt;edit foobar&gt;&gt;"""&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;&lt;edit foobar&gt;&gt;
+*"""{{threechar{&lt;&lt;edit foobar&gt;&gt;}}}"""&lt;br&gt;&amp;nbsp;&amp;nbsp;{{threechar{&lt;&lt;edit foobar&gt;&gt;}}}
+*"""&lt;&lt;edit tags&gt;&gt;"""&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;&lt;edit tags&gt;&gt;
+*"""{{stretch{&lt;&lt;edit text 10&gt;&gt;}}}"""&lt;br&gt;&amp;nbsp;&amp;nbsp;{{stretch{&lt;&lt;edit text 10&gt;&gt;}}}
+&lt;&lt;&lt;
+!!!!!Revisions
+&lt;&lt;&lt;
+2007.08.22 [1.0.0] initial release
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.EditFieldPlugin= {major: 1, minor: 0, revision: 0, date: new Date(2007,8,22)};
+
+config.macros.edit.editFieldPlugin_savedHandler=config.macros.edit.handler;
+config.macros.edit.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	// let core create edit field
+	config.macros.edit.editFieldPlugin_savedHandler.apply(this,arguments);
+	// get edit field or textarea
+	var fieldType=params[0]=="text"||params[1]?'textarea':'input';
+	var ins=place.getElementsByTagName(fieldType);
+	var e=ins[ins.length-1];
+	if (fieldType=="textarea" &amp;&amp; params[1]) e.style.height=params[1]+"em"; // force height for textarea field
+	// if viewing tiddler, add autosave handlers
+	var here=story.findContainingTiddler(place);
+	if (here &amp;&amp; here.getAttribute("template").indexOf("ViewTemplate")!=-1) {
+		story.setDirty(tiddler.title,false); // clear tiddler ("dirty") flag set by core when field was created
+		var field=e.getAttribute("edit");
+		var val=store.getValue(tiddler.title,field); if (!val) val="";
+		e.setAttribute("currval",val); // remember starting value
+		e.setAttribute("tiddler",tiddler.title); // remember target tiddler
+		e.onkeydown=function(ev) { // ENTER key=save (for single-line edit fields only)
+			var event=ev?ev:window.event;
+			this.setAttribute("keyCode",event.keyCode); // save last keyCode for blur() handler
+			if (event.keyCode==13 &amp;&amp; this.nodeName.toUpperCase()!="TEXTAREA")
+				this.saveField(); // save input to tiddler field
+		}
+		e.onblur=function(ev) { // accept or reject input when focus moves away from field
+			var event=ev?ev:window.event;
+			var tid=this.getAttribute("tiddler"); if (!tid || !tid.length) return;
+			var field=this.getAttribute("edit");
+			if (this.value!=this.getAttribute("currval")) { // if value has changed
+				if (this.getAttribute("keyCode")=="27") { // if user pressed ESC
+					var msg="Abandon changes to %0@%1?".format([field,tid]);
+					if (confirm(msg)) this.value=this.getAttribute("currval"); // reset to starting value
+					this.id=new Date().getTime(); // set unique ID
+					setTimeout("document.getElementById('"+this.id+"').focus()",1); // restore focus (after blur completes)
+				} else { // other focus change events
+					var msg="Save changes to %0@%1?".format([field,tid]);
+					if (confirm(msg)) this.saveField(); // save input to tiddler field, then continue blur
+					else this.value=this.getAttribute("currval"); // reset to starting value, then continue blur
+				}
+			}
+		};
+		e.saveField=function() { // save input value to tiddler field (create, touch or rename tiddler as needed)
+			var tid=this.getAttribute("tiddler"); if (!tid || !tid.length) return;
+			var field=this.getAttribute("edit");
+			var title=(field=="title")?this.value:tid;
+			if (!title.length) { // prevent blank tiddler title from being used
+				this.value=this.getAttribute("currval"); // reset to starting value
+				this.id=new Date().getTime(); // set unique ID
+				setTimeout("displayMessage('Please enter a non-blank value')",1); // notify user
+				setTimeout("document.getElementById('"+this.id+"').focus()",2); // set focus to continue editing
+				return;
+			}
+			var t=store.getTiddler(tid);
+			store.suspendNotifications();
+			var anim=config.options.chkAnimate; config.options.chkAnimate=false; // suspend animation
+			var who=t&amp;&amp;config.options.chkForceMinorUpdate?t.modifier:config.options.txtUserName;
+			var when=t&amp;&amp;config.options.chkForceMinorUpdate?t.modified:new Date();
+			store.saveTiddler(t?tid:title,title,t?t.text:"",who,when,t?t.tags:[],t?t.fields:null);
+			store.setValue(title,field,this.value); // save value in tiddler field
+			this.setAttribute("currval",this.value); // remember new starting value
+			if (tid!=title) // if title changed, display renamed tiddler in place of current one
+				{ story.displayTiddler(story.findContainingTiddler(this),title); story.closeTiddler(tid); }
+			if (field=="text") // if tiddler content changed, refresh tiddler display
+				{ story.refreshTiddler(title,null,true); }
+			config.options.chkAnimate=anim; // resume animation
+			store.resumeNotifications();
+			store.notify(title,true);
+		};
+	}
+}
+//}}}</pre>
+</div>
+<div title="List of forms" modifier="Saq" modified="200901311043" created="200901311043" tags="excludeLists excludeSearch" changecount="10">
+<pre>Forms in this document:
+&lt;&lt;list filter [tag[_form]]&gt;&gt;</pre>
+</div>
+<div title="CheckboxEdit" modifier="UnaMesa Academy" modified="200809160608" created="200809160608" tags="script excludeLists excludeSearch" changecount="6">
+<pre>&lt;html&gt;&lt;input type="checkbox" onclick="
+	var field='$1'; if (field=='$'+'1') return;
+	var here=story.findContainingTiddler(this); if (!here) return;
+	var tid=here.getAttribute('tiddler');
+	if (this.checked &amp;&amp; !store.tiddlerExists(tid))
+		store.saveTiddler(tid,tid,'',config.options.txtUserName,new Date(),[],{});
+	store.setValue(tid,field,this.checked?'true':'false');
+"&gt;&lt;/html&gt;&lt;script&gt;
+	var field='$1'; if (field=='$'+'1') return;
+	var here=story.findContainingTiddler(place); if (!here) return;
+	var tid=here.getAttribute('tiddler');
+	var c=place.lastChild.firstChild;
+	c.checked=store.getValue(tid,field)=='true';
+&lt;/script&gt;</pre>
+</div>
+<div title="MainMenu" modifier="Saq" modified="200901311111" created="200901311111" tags="excludeLists excludeSearch" changecount="430" creator="ELSDesignStudios">
+<pre>&lt;&lt;newUniqueTiddler 
+	label:[[new form]]
+	title:[[UnaMesa Academy Application]]
+	template:[[UMAFormEditTemplate]]
+	tag:[[UMAForm]]
+	tag:[[_form]]
+&gt;&gt;
+[[list forms|List of forms]]</pre>
+</div>
+<div title="ListboxPlugin" modifier="UnaMesa Academy" modified="200807290333" created="200807290333" tags="systemConfig excludeLists excludeSearch" color="#00FF00" thing="meenie" size="34">
+<pre>/***
+|Name|ListboxPlugin|
+|Source|http://www.TiddlyTools.com/#ListboxPlugin|
+|Documentation|http://www.TiddlyTools.com/#ListboxPluginInfo|
+|Version|1.1.0|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides||
+|Description|set tiddler fields by selecting enumerated values from a listbox or droplist|
+The {{{&lt;&lt;select&gt;&gt;}}} macro allows you to set tiddler field values by selecting pre-configured enumerated values from a listbox/droplist control.  
+!!!!!Documentation
+&gt;see [[ListboxPluginInfo]]
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.07.22 [1.1.0] added "=cookiename" syntax for storing selected value in cookie instead of a tiddler field
+|please see [[ListboxPluginInfo]] for additional revision details|
+2007.05.12 [0.5.0] started
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.ListboxPlugin= {major: 1, minor: 1, revision: 0, date: new Date(2008,7,22)};
+
+config.macros.select = {
+	tooltip: "select a value for %0@%1",
+	blankTooltip: "set %0@%1=[null] (delete field value)",
+	valueTooltip: "set %0@%1=%2",
+	otherLabel: "other",
+	otherTooltip: "set %0@%1=[???] (enter custom value)",
+	otherPrompt: "enter a value for '%0'",
+	editLabel: "edit list...",
+	editTooltip: "edit '%0' list definition (%1)",
+	changeMsg: "setting %0@%1=%2",
+	verbose: false,
+	hereKeyword: "here",
+	defaultTarget: "SiteFields",
+	handler:
+	function(place,macroName,params,wikifier,paramString,tiddler) {
+
+		// get containing tiddler (or use default "SiteFields" catch-all tiddler)
+		var here=story.findContainingTiddler(place);
+		var targetID=here?here.getAttribute("tiddler"):this.defaultTarget;
+		// get field name
+		var field=params.shift();
+		var pos=field.indexOf("@"); // if non-default target ("field@tiddler" syntax)
+		if(pos!=-1) { // split field into field and tiddlername.
+			if (field.substr(pos+1)!=this.hereKeyword) // "here" == use default target
+				targetID=field.substr(pos+1); // switch to different target tiddler
+			field=field.substr(0,pos);
+		}
+
+		// if no field name, do nothing
+		if(!field || !field.length) return;
+		// if field starts with "=", it is an option cookie instead of a tiddler field
+		if (field.substr(0,1)=="=") targetID="(system)";
+
+		var p=params.shift();
+		var rows="0"; if (p.substr(0,5)=="rows:") { rows=p.substr(5); p=params.shift(); } // optional list height in lines
+		var width="auto"; if (p.substr(0,6)=="width:") { width=p.substr(6); p=params.shift(); } // optional CSS width
+		var autosave=(p.toLowerCase()=="autosave"); if (autosave) p=params.shift(); // optional autosave
+		var allowBlank=(p.toLowerCase()=="allowblank"); if (allowBlank) p=params.shift(); // add optional empty item
+		var allowOther=(p.toLowerCase()=="allowother"); if (allowOther) p=params.shift(); // add optional "other: ____" item
+
+		if (tiddler &amp;&amp; !story.isDirty(tiddler.title)) autosave=true; // if tiddler is in VIEW mode, force autosave
+
+		var list=[];
+		if (p.substr(0,1)=="+"||p.substr(0,1)=="*") { // get list from HR-separated tiddler (* means wikify source first)
+			var listsrc=p.substr(1);
+			var listtxt=store.getTiddlerText(listsrc);
+			var wikifyData=p.substr(0,1)=="*"; if (wikifyData) listtxt=this.getWikifiedData(listtxt);
+			var separator="\n";
+			if (listtxt &amp;&amp; listtxt.indexOf("\n----\n")!=-1) separator="\n----\n";
+			if (listtxt &amp;&amp; listtxt.length) var list=listtxt.split(separator);
+			var allowEdit=(params[0] &amp;&amp; params[0].toLowerCase()=="allowedit"); // add optional "edit list..." item
+			if (allowEdit) p=params.shift();
+		}
+		else if (p.substr(0,1)=="=") { // get list from tagged tiddlers
+			var tids=store.getTaggedTiddlers(p.substr(1));
+			for (var t=0; t&lt;tids.length; t++) list.push(tids[t].title);
+		}
+		else { // get list from macro params: "value value value ..." or "label=value label=value label=value ..."
+			while (p) {
+				var parts=p.split("=");
+				var label=parts[0]; var v=parts[1]?parts[1]:parts[0];
+				list.push(label+"="+v);
+				p=params.shift();
+			}
+		}
+		// register notification handler for ALL tiddler changes (to sync lists)
+		store.addNotification(null,this.refresh);
+		// render the control
+		this.render(createTiddlyElement(place,"span"), null, targetID, field, list, listsrc, wikifyData, rows, width, autosave, allowBlank, allowOther, allowEdit);
+	},
+	getWikifiedData: // wikify tiddler content, then extract text WITH newlines and HRs included
+	function(txt) {
+		var e=createTiddlyElement(document.body,"div"); wikify(txt,e);
+		var breaks=e.getElementsByTagName("br");
+		for (var b=0; b&lt;breaks.length; b++) breaks[b].parentNode.insertBefore(document.createTextNode("\n"),breaks[b]);
+		var lines=e.getElementsByTagName("hr");
+		for (var l=0; l&lt;lines.length; l++) lines[l].parentNode.insertBefore(document.createTextNode("----\n"),lines[l]);
+		var items=e.getElementsByTagName("li");
+		for (var i=0; i&lt;items.length; i++) items[i].parentNode.insertBefore(document.createTextNode("\n"),items[i]);
+		var txt=getPlainText(e); removeNode(e); return txt;
+	},
+	refresh:
+	function (title) {
+		var lists=document.getElementsByTagName("select");
+		for (i=0; i&lt;lists.length; i++) {
+			if (lists[i].getAttribute("listsrc")==title) {
+				var here=lists[i];
+				var place=here.parentNode;
+				var targetID=here.getAttribute("tiddler");
+				var field=here.getAttribute("edit");
+				var listsrc=here.getAttribute("listsrc");
+				var rows=here.getAttribute("rows");
+				var width=here.getAttribute("width");
+				var autosave=here.getAttribute("autosave")=="true";
+				var allowBlank=here.getAttribute("allowBlank")=="true";
+				var allowOther=here.getAttribute("allowOther")=="true";
+				var allowEdit=here.getAttribute("allowEdit")=="true";
+				var wikifyData=here.getAttribute("wikifyData")=="true";
+				// get the list
+				var listtxt=store.getTiddlerText(listsrc,""); if (wikifyData) listtxt=config.macros.select.getWikifiedData(listtxt);
+				var separator="\n"; if (listtxt &amp;&amp; listtxt.indexOf("\n----\n")!=-1) separator="\n----\n";
+				var list=[]; if (listtxt &amp;&amp; listtxt.length) var list=listtxt.split(separator);
+				// re-render control
+				config.macros.select.render(place, here, targetID, field, list, listsrc, wikifyData, rows, width, autosave, allowBlank, allowOther, allowEdit);
+			}
+		}
+	},
+	render:
+	function (place, here, targetID, field, list, listsrc, wikifyData, rows, width, autosave, allowBlank, allowOther, allowEdit) {
+		// use selected value from existing listbox (except for "edit list..." item)
+		if (here &amp;&amp; here.selectedIndex!=-1 &amp;&amp; here.options[here.selectedIndex].text!=config.macros.select.editLabel)
+			{ var val=here.value; if (val &amp;&amp; !val.length) val=undefined; }
+		// if listbox doesn't yet exist, or 'edit list' item was selected, use existing value from field (if any)
+		if (!val) var val=(field.substr(0,1)=='=')?
+			config.options[field.substr(1)]:store.getValue(targetID,field);
+		var count=0; var options="";
+		// add default 'undefined' item
+		if (val==undefined || allowBlank) {
+			var title=this.blankTooltip.format([field,targetID]);
+			options+='&lt;option value="" title="'+title+'"&gt;&lt;/option&gt;';
+			count++;
+		}
+		// add enumerated items
+		var isOther=(val!=undefined);
+		for (opt=0; opt&lt;list.length; opt++) {
+			var lines=list[opt].split("\n"); var parts=lines[0].split("=");
+			var label=parts[0];
+			var v=parts[1]?parts[1]:parts[0];
+			var title=lines[1]?lines[1]:this.valueTooltip.format([field,targetID,v]);
+			options+='&lt;option value="'+v+'" '+(val==v?'selected':'')+' title="'+title+'"&gt;'+label+'&lt;/option&gt;';
+			if (val==v) isOther=false; // found matching value in list
+			count++;
+		}
+		// add other... item
+		if (isOther||allowOther) {
+			var label="other"+(isOther?(": "+val):"...");
+			var v=isOther?val:"";
+			var title=this.otherTooltip.format([field,targetID]);
+			options+='&lt;option value="'+v+'" '+(isOther?'selected':'')+' title="'+title+'"&gt;'+label+'&lt;/option&gt;';
+			count++;
+		}
+		// add edit list... item
+		if (listsrc &amp;&amp; (!store.getTiddlerText(listsrc) || allowEdit)) {
+			var title=this.editTooltip.format([field,listsrc]);
+			options+='&lt;option value="'+listsrc+'" title="'+title+'"&gt;'+this.editLabel+'&lt;/option&gt;';
+			count++;
+
+		}
+		// construct full HTML
+		var html='&lt;select ';
+		html+=(val!=undefined?'value="'+val+'" ':'')+'" edit="'+field+'" ';
+		html+='onclick="return config.macros.select.onClick(this,event)" ';
+		html+='onchange="return config.macros.select.onChange(this,event)" ';
+		html+='ondblclick="return false" ';
+		html+='autosave="'+autosave+'" allowBlank="'+allowBlank+'" ';
+		html+='allowOther="'+allowOther+'" allowEdit="'+allowEdit+'" ';
+		html+='rows="'+rows+'" size="'+(rows!=0?rows:count)+'" ';
+		html+='tiddler="'+targetID+'" '+'" listsrc="'+listsrc+'" wikifyData="'+wikifyData+'" ';
+		html+='title="'+this.tooltip.format([field,targetID])+'" style="width:'+width+'"&gt;'+options+'&lt;/select&gt;';
+		// pass to browser for rendering
+		place.innerHTML=html;
+	},
+	onClick:
+	function(here,event) {
+		var label=config.macros.select.otherLabel;
+		if (here.getAttribute("allowother")=="true" &amp;&amp; here.options[here.selectedIndex].text.substr(0,label.length)==label)
+			here.onchange.apply(here,arguments);
+	},
+	onChange:
+	function(here,event) {
+		if (here.options[here.selectedIndex].text==config.macros.select.editLabel) {
+			story.displayTiddler(story.findContainingTiddler(here),here.value,DEFAULT_EDIT_TEMPLATE);
+			return false;
+		}
+		var label=config.macros.select.otherLabel;
+		if (here.getAttribute("allowother")=="true" &amp;&amp; here.options[here.selectedIndex].text.substr(0,label.length)==label) {
+			var newval=prompt(config.macros.select.otherPrompt.format([here.getAttribute("edit")]),here.value);
+			if (!newval) {// user cancelled
+				var v=store.getValue(here.getAttribute("tiddler"),here.getAttribute("edit"));
+				{ here.value=v; if (v==undefined) here.selectedIndex=0; return false; }
+			};
+			here.options[here.selectedIndex].value=newval;
+			here.options[here.selectedIndex].text=config.macros.select.otherLabel+": "+newval;
+			here.value=newval;
+		}
+		if (here.getAttribute("autosave")=="true") config.macros.select.setFieldValue(here);
+		return false;
+	},
+	setFieldValue: function(here) {
+		var tid=here.getAttribute("tiddler"); if (!tid || !tid.length) return; // no target, do nothing
+		var field=here.getAttribute("edit");
+		if (field.substr(0,1)=='=') { // option cookie instead of tiddler field
+			config.macros.option.propagateOption(field.substr(1),"value",here.value,"input");
+			return;
+		}
+		// if tiddler doesn't exist, create it...
+		if (!store.tiddlerExists(tid)) store.saveTiddler(tid,tid,"",config.options.txtUserName,new Date(),[]);
+		// set the field value in the target tiddler
+		store.setValue(tid,field,here.value.length?here.value:null); // if value is blank, delete field
+		// touch target tiddler so that modified and modifier are updated
+		var t=store.getTiddler(tid);
+		store.saveTiddler(tid,tid,t.body,config.options.txtUserName,new Date(),t.tags,t.fields);
+		if (config.macros.select.verbose) // tell user what happened
+			{ clearMessage(); displayMessage(config.macros.select.changeMsg.format([field,tid,here.value])); }
+	}
+}
+//}}}</pre>
+</div>
+<div title="WikifyPlugin" modifier="UnaMesa Academy" server.type="tiddlyweb" modified="200803091508" created="200803091508" tags="systemConfig excludeLists excludeSearch" >
+<pre>/***
+|Name|WikifyPlugin|
+|Source|http://www.TiddlyTools.com/#WikifyPlugin|
+|Documentation|http://www.TiddlyTools.com/#WikifyPluginInfo|
+|Version|1.1.1|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides||
+|Description|substitute fields, slices, or computed values into a wiki-syntax format string and render results dynamically|
+The {{{&lt;&lt;wikify&gt;&gt;}}} macro allows you to easily retrieve values from custom tiddler fields, tiddler slices, computed values (using javascript) or just plain old literals, and assemble them into small bits of generated wiki-syntax text content that can be rendered directly into a tiddler, or used in the ViewTemplate or EditTemplate to add dynamically-generated content to each tiddler.
+
+The {{{&lt;&lt;wikiCalc&gt;&gt;}}} macro performs the same processing as {{{&lt;&lt;wikify&gt;&gt;}}} and, in addition, passes the assembled text content through javascript's {{{eval()}}} function before rendering the results.  This allows you to, for example, construct and compute mathematical expressions that use input values extracted from tiddler fields or slices.
+!!!!!Documentation
+&gt; see [[WikifyPluginInfo]]
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.03.08 [1.1.1] size reduction: documentation moved to [[WikifyPluginInfo]]
+|please see [[WikifyPluginInfo]] for additional revision details|
+2007.06.22 [1.0.0] initial release
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.wikify= {major: 1, minor: 1, revision: 1, date: new Date(2008,3,8)};
+
+config.macros.wikify={
+	handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+		var fmt=params.shift();
+		var values=[];
+		var out="";
+		if (!fmt.match(/\%[0-9]/g) &amp;&amp; params.length) // format has no markers, just join all params with spaces
+			out=fmt+" "+params.join(" ");
+		else { // format param has markers, get values and perform substitution
+			while (p=params.shift()) values.push(this.getFieldReference(place,p));
+			out=fmt.format(values);
+		}
+		if (macroName=="wikiCalc") out=eval(out).toString();
+		wikify(out,place);
+	},
+	getFieldReference: function(place,p) { // "slicename::tiddlername" or "fieldname@tiddlername" or "fieldname"
+		if (typeof p != "string") return p; // literal non-string value... just return it...
+		var parts=p.split(config.textPrimitives.sliceSeparator);
+		if (parts.length==2) {// maybe a slice reference?
+			var tid=parts[0]; var slice=parts[1];
+			if (!tid || !tid.length || tid=="here") { // no target (or "here"), use containing tiddler
+				tid=story.findContainingTiddler(place);
+				if (tid) tid=tid.getAttribute("tiddler")
+				else tid="SiteSlices"; // fallback for 'non-tiddler' areas (e.g, header, sidebar, etc.)
+			}
+			var val=store.getTiddlerSlice(tid,slice);  // get tiddler slice value
+		}
+		if (val==undefined) {// not a slice, or slice not found, maybe a field reference?
+			var parts=p.split("@");
+			var field=parts[0];
+			if (!field || !field.length) field="checked"; // missing fieldname, fallback: checked@tiddlername
+			var tid=parts[1];
+			if (!tid || !tid.length || tid=="here") { // no target (or "here"), use containing tiddler
+				tid=story.findContainingTiddler(place);
+				if (tid) tid=tid.getAttribute("tiddler")
+				else tid="SiteFields"; // fallback for 'non-tiddler' areas (e.g, header, sidebar, etc.)
+			}
+			var val=store.getValue(tid,field);
+		}
+		// not a slice or field, or slice/field not found... use param value as-is
+		return val===undefined?p:val;
+	}
+}
+//}}}
+//{{{
+// define alternative macroName for triggering pre-rendering call to eval()
+config.macros.wikiCalc=config.macros.wikify;
+//}}}</pre>
+</div>
+<div title="CheckboxView" modifier="UnaMesa Academy" modified="200809160608" created="200809160608" tags="script excludeLists excludeSearch" changecount="8">
+<pre>/%
+usage: &lt;&lt;tiddler CheckboxShow with: fieldname&gt;&gt;
+%/&lt;script&gt;
+	if ('$1'=='$'+'1') return; // no param
+	var here=story.findContainingTiddler(place);
+	if (!here) return; // not in tiddler
+	var checked=store.getValue(here.getAttribute('tiddler'),'$1')=='true';
+	return "&lt;html&gt;&lt;input type='checkbox' "+(checked?"checked":"")+" disabled&gt;&lt;/html&gt;";
+&lt;/script&gt;</pre>
+</div>
+<div title="InlineJavascriptPlugin" modifier="UnaMesa Academy" modified="200806111415" created="200806111415" tags="systemConfig excludeLists excludeSearch" >
+<pre>/***
+|Name|InlineJavascriptPlugin|
+|Source|http://www.TiddlyTools.com/#InlineJavascriptPlugin|
+|Documentation|http://www.TiddlyTools.com/#InlineJavascriptPluginInfo|
+|Version|1.9.3|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides||
+|Description|Insert Javascript executable code directly into your tiddler content.|
+''Call directly into TW core utility routines, define new functions, calculate values, add dynamically-generated TiddlyWiki-formatted output'' into tiddler content, or perform any other programmatic actions each time the tiddler is rendered.
+!!!!!Documentation
+&gt;see [[InlineJavascriptPluginInfo]]
+!!!!!Revisions
+&lt;&lt;&lt;
+2008.06.11 [1.9.3] added $(...) function as 'shorthand' convenience syntax for document.getElementById()
+2008.03.03 [1.9.2] corrected declaration of wikifyPlainText() for 'TW 2.1.x compatibility fallback' (fixes Safari "parse error")
+2008.02.23 [1.9.1] in onclick function, use string instead of array for 'bufferedHTML' attribute on link element (fixes IE errors)
+2008.02.21 [1.9.0] 'onclick' scripts now allow returned text (or document.write() calls) to be wikified into a span that immediately follows the onclick link.  Also, added default 'return false' handling if no return value provided (prevents HREF from being triggered -- return TRUE to allow HREF to be processed).  Thanks to Xavier Verges for suggestion and preliminary code.
+|please see [[InlineJavascriptPluginInfo]] for additional revision details|
+2005.11.08 [1.0.0] initial release
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.inlineJavascript= {major: 1, minor: 9, revision: 3, date: new Date(2008,6,11)};
+
+config.formatters.push( {
+	name: "inlineJavascript",
+	match: "\\&lt;script",
+	lookahead: "\\&lt;script(?: src=\\\"((?:.|\\n)*?)\\\")?(?: label=\\\"((?:.|\\n)*?)\\\")?(?: title=\\\"((?:.|\\n)*?)\\\")?(?: key=\\\"((?:.|\\n)*?)\\\")?( show)?\\&gt;((?:.|\\n)*?)\\&lt;/script\\&gt;",
+
+	handler: function(w) {
+		var lookaheadRegExp = new RegExp(this.lookahead,"mg");
+		lookaheadRegExp.lastIndex = w.matchStart;
+		var lookaheadMatch = lookaheadRegExp.exec(w.source)
+		if(lookaheadMatch &amp;&amp; lookaheadMatch.index == w.matchStart) {
+			var src=lookaheadMatch[1];
+			var label=lookaheadMatch[2];
+			var tip=lookaheadMatch[3];
+			var key=lookaheadMatch[4];
+			var show=lookaheadMatch[5];
+			var code=lookaheadMatch[6];
+			if (src) { // load a script library
+				// make script tag, set src, add to body to execute, then remove for cleanup
+				var script = document.createElement("script"); script.src = src;
+				document.body.appendChild(script); document.body.removeChild(script);
+			}
+			if (code) { // there is script code
+				if (show) // show inline script code in tiddler output
+					wikify("{{{\n"+lookaheadMatch[0]+"\n}}}\n",w.output);
+				if (label) { // create a link to an 'onclick' script
+					// add a link, define click handler, save code in link (pass 'place'), set link attributes
+					var link=createTiddlyElement(w.output,"a",null,"tiddlyLinkExisting",wikifyPlainText(label));
+					var fixup=code.replace(/document.write\s*\(/gi,'place.bufferedHTML+=(');
+					link.code="function _out(place){"+fixup+"\n};_out(this);"
+					link.tiddler=w.tiddler;
+					link.onclick=function(){
+						this.bufferedHTML="";
+						try{ var r=eval(this.code);
+							if(this.bufferedHTML.length || (typeof(r)==="string")&amp;&amp;r.length)
+								var s=this.parentNode.insertBefore(document.createElement("span"),this.nextSibling);
+							if(this.bufferedHTML.length)
+								s.innerHTML=this.bufferedHTML;
+							if((typeof(r)==="string")&amp;&amp;r.length) {
+								wikify(r,s,null,this.tiddler);
+								return false;
+							} else return r!==undefined?r:false;
+						} catch(e){alert(e.description||e.toString());return false;}
+					};
+					link.setAttribute("title",tip||"");
+					var URIcode='javascript:void(eval(decodeURIComponent(%22(function(){try{';
+					URIcode+=encodeURIComponent(encodeURIComponent(code.replace(/\n/g,' ')));
+					URIcode+='}catch(e){alert(e.description||e.toString())}})()%22)))';
+					link.setAttribute("href",URIcode);
+					link.style.cursor="pointer";
+					if (key) link.accessKey=key.substr(0,1); // single character only
+				}
+				else { // run inline script code
+					var fixup=code.replace(/document.write\s*\(/gi,'place.innerHTML+=(');
+					var code="function _out(place){"+fixup+"\n};_out(w.output);"
+					try { var out=eval(code); } catch(e) { out=e.description?e.description:e.toString(); }
+					if (out &amp;&amp; out.length) wikify(out,w.output,w.highlightRegExp,w.tiddler);
+				}
+			}
+			w.nextMatch = lookaheadMatch.index + lookaheadMatch[0].length;
+		}
+	}
+} )
+//}}}
+
+// // Backward-compatibility for TW2.1.x and earlier
+//{{{
+if (typeof(wikifyPlainText)=="undefined") window.wikifyPlainText=function(text,limit,tiddler) {
+	if(limit &gt; 0) text = text.substr(0,limit);
+	var wikifier = new Wikifier(text,formatter,null,tiddler);
+	return wikifier.wikifyPlain();
+}
+//}}}
+
+// // $(...) function: 'shorthand' convenience syntax for document.getElementById()
+//{{{
+if (typeof($)=="undefined") { // avoid redefinition
+function $() {
+	var elements=new Array();
+	for (var i=0; i&lt;arguments.length; i++) {
+		var element=arguments[i];
+		if (typeof element=='string') element=document.getElementById(element);
+		if (arguments.length==1) return element;
+		elements.push(element);
+	}
+	return elements;
+}
+}
+//}}}</pre>
+</div>
+<div title="StyleSheetShortcuts" modifier="ELSDesignStudios" modified="200809200212" created="200809200212" tags="excludeLists excludeSearch" changecount="4">
+<pre>/***
+|Name|StyleSheetShortcuts|
+|Source|http://www.TiddlyTools.com/#StyleSheetShortcuts|
+|Version||
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|CSS|
+|Requires||
+|Overrides||
+|Description|'convenience' classes for common formatting, alignment, boxes, tables, etc.|
+
+These 'style tweaks' can be easily included in other stylesheet tiddler so they can share a baseline look-and-feel that can then be customized to create a wide variety of 'flavors'.
+***/
+/*{{{*/
+
+/* text alignments */
+.left
+	{ display:block;text-align:left; }
+.center
+	{ display:block;text-align:center; }
+.right	
+	{ display:block;text-align:right; }
+.justify
+	{ display:block;text-align:justify; }
+.indent
+	{ display:block;margin:0;padding:0;border:0;margin-left:2em; }
+.floatleft
+	{ float:left; }
+.floatright
+	{ float:right; }
+.valignTop, .valignTop table, .valignTop tbody, .valignTop th, .valignTop tr, .valignTop td
+	{ vertical-align:top; }
+.valignBottom, .valignBottom table, .valignBottom tbody, .valignBottom th, .valignBottom tr, .valignBottom td
+	{ vertical-align:bottom; }
+.clear
+	{ clear:both; }
+.wrap
+	{ white-space:normal; }
+.nowrap
+	{ white-space:nowrap; }
+.hidden
+	{ display:none; }
+.show
+	{ display:inline !important; }
+.span
+	{ display:span; }
+.block
+	{ display:block; }
+.relative
+	{ position:relative; }
+.absolute
+	{ position:absolute; }
+
+/* font sizes */
+.big
+	{ font-size:14pt;line-height:120% }
+.medium
+	{ font-size:12pt;line-height:120% }
+.normal
+	{ font-size:9pt;line-height:120% }
+.small
+	{ font-size:8pt;line-height:120% }
+.fine
+	{ font-size:7pt;line-height:120% }
+.tiny
+	{ font-size:6pt;line-height:120% }
+.larger
+	{ font-size:120%; }
+.smaller
+	{ font-size:80%; }
+
+/* font styles */
+.bold
+	{ font-weight:bold; }
+.italic
+	{ font-style:italic; }
+.underline
+	{ text-decoration:underline; }
+
+/* plain list items (no bullets or indent) */
+.nobullets li { list-style-type: none; margin-left:-2em; }
+
+/* multi-column tiddler content (not supported in Internet Explorer) */
+.twocolumns { display:block;
+	-moz-column-count:2; -moz-column-gap:1em; -moz-column-width:50%; /* FireFox */
+	-webkit-column-count:2; -webkit-column-gap:1em; -webkit-column-width:50%; /* Safari */
+	column-count:2; column-gap:1em; column-width:50%; /* Opera */
+}
+.threecolumns { display:block;
+	-moz-column-count:3; -moz-column-gap:1em; -moz-column-width:33%; /* FireFox */
+	-webkit-column-count:3; -webkit-column-gap:1em; -webkit-column-width:33%; /* Safari */
+	column-count:3; column-gap:1em; column-width:33%; /* Opera */
+}
+.fourcolumns { display:block;
+	-moz-column-count:4; -moz-column-gap:1em; -moz-column-width:25%; /* FireFox */
+	-webkit-column-count:4; -webkit-column-gap:1em; -webkit-column-width:25%; /* Safari */
+	column-count:4; column-gap:1em; column-width:25%; /* Opera */
+}
+
+/* show/hide browser-specific content for InternetExplorer vs. non-IE ("moz") browsers */
+*[class="ieOnly"]
+	{ display:none; } /* hide in moz (uses CSS selector) */
+* html .mozOnly, *:first-child+html .mozOnly
+	{ display: none; } /* hide in IE (uses IE6/IE7 CSS hacks) */
+
+/* borderless tables */
+.borderless, .borderless table, .borderless td, .borderless tr, .borderless th, .borderless tbody
+	{ border:0 !important; margin:0 !important; padding:0 !important; }
+.widetable, .widetable table
+	{ width:100%; }
+
+/* thumbnail images (fixed-sized scaled images) */
+.thumbnail img { height:5em !important; }
+
+/* stretchable images (auto-size to fit tiddler) */
+.stretch img { width:95%; }
+
+/* grouped content */
+.outline
+	{ display:block; padding:1em; -moz-border-radius:1em; border:1px solid; }
+.menubox
+	{ display:block; padding:1em; -moz-border-radius:1em; border:1px solid; background:#fff; color:#000; }
+.menubox .button, .menubox .tiddlyLinkExisting, .menubox .tiddlyLinkNonExisting
+	{ color:#009 !important; }
+.groupbox
+	{ display:block; padding:1em; -moz-border-radius:1em; border:1px solid; background:#ffe; color:#000; }
+.groupbox a, .groupbox .button, .groupbox .tiddlyLinkExisting, .groupbox .tiddlyLinkNonExisting
+	{ color:#009 !important; }
+.groupbox code
+	{ color:#333 !important; }
+.borderleft
+	{ margin:0;padding:0;border:0;margin-left:1em; border-left:1px dotted; padding-left:.5em; }
+.borderright
+	{ margin:0;padding:0;border:0;margin-right:1em; border-right:1px dotted; padding-right:.5em; }
+.borderbottom
+	{ margin:0;padding:1px 0;border:0;border-bottom:1px dotted; margin-bottom:1px; padding-bottom:1px; }
+.bordertop
+	{ margin:0;padding:0;border:0;border-top:1px dotted; margin-top:1px; padding-top:1px; }
+
+/* compact form */
+.smallform
+	{ white-space:nowrap; }
+.smallform input, .smallform textarea, .smallform button, .smallform checkbox, .smallform radio, .smallform select
+	{ font-size:8pt; }
+
+/* stretchable edit fields and textareas (auto-size to fit tiddler) */
+.stretch input { width:99%; }
+.stretch textarea { width:99%; }
+
+/* compact input fields (limited to a few characters for entering percentages and other small values) */
+.onechar input { width:1em; }
+.twochar input { width:2em; }
+.threechar input { width:3em; }
+.fourchar input { width:4em; }
+.fivechar input { width:5em; }
+
+/* text colors */
+.green, .green a { color:#0c0 !important }
+.red, .red a { color:#f00 !important }
+.blue, .blue a { color:#99f !important }
+.gray, .gray a { color:#999 !important }
+
+/* rollover highlighting */
+.mouseover 
+	{color:[[ColorPalette::TertiaryLight]] !important;}
+.mouseover a
+	{color:[[ColorPalette::TertiaryLight]] !important;}
+.selected .mouseover
+	{color:[[ColorPalette::Foreground]] !important;}
+.selected .mouseover .button, .selected .mouseover a
+	{color:[[ColorPalette::PrimaryDark]] !important;}
+
+/* rollover zoom text */
+.zoomover
+	{ font-size:80% !important; }
+.selected .zoomover
+	{ font-size:100% !important; }
+
+/*}}}*/</pre>
+</div>
+<div title="SearchResults" modifier="ELSDesignStudios" modified="200809252108" created="200809252108" tags="excludeLists excludeSearch" >
+<pre>{{span{&lt;&lt;search "test"&gt;&gt; /%
+%/&lt;html&gt;&lt;input type="button" value="search again" onclick="var t=this.parentNode.parentNode.getElementsByTagName('input')[0]; config.macros.search.doSearch(t); return false;"&gt; &lt;a href="javascript:;" onclick=" var e=this.parentNode.nextSibling; var show=e.style.display!='block'; if(!config.options.chkAnimate) e.style.display=show?'block':'none'; else anim.startAnimating(new Slider(e,show,false,'none')); return false;"&gt;options...&lt;/a&gt;&lt;/html&gt;@@display:none;border-left:1px dotted;margin-left:1em;padding:0;padding-left:.5em;font-size:90%;/%
+	%/&lt;&lt;option chkSearchTitles&gt;&gt;titles /%
+	%/&lt;&lt;option chkSearchText&gt;&gt;text /%
+	%/&lt;&lt;option chkSearchTags&gt;&gt;tags /%
+	%/&lt;&lt;option chkSearchFields&gt;&gt;fields /%
+	%/&lt;&lt;option chkSearchShadows&gt;&gt;shadows
+	&lt;&lt;option chkCaseSensitiveSearch&gt;&gt;case-sensitive /%
+	%/&lt;&lt;option chkRegExpSearch&gt;&gt;text patterns /%
+	%/&lt;&lt;option chkSearchByDate&gt;&gt;sorted by date
+	&lt;&lt;option chkIncrementalSearch&gt;&gt; Incremental key-by-key search: /%
+	%/{{twochar{&lt;&lt;option txtIncrementalSearchMin&gt;&gt;}}} or more characters, /%
+	%/{{threechar{&lt;&lt;option txtIncrementalSearchDelay&gt;&gt;}}} msec delay/%
+%/@@}}}
+
+''7 tiddlers found matching '{{{test}}}'''
+~~&amp;nbsp; searched in titles text tags fields shadows ~~
+* [[DisableWikiLinksPlugin]]
+* [[EditFieldPlugin]]
+* [[FAQ_TypesOfOrganizations]]
+* [[MatchTagsPlugin]]
+* [[PageTemplate]]
+* [[SaveAsPlugin]]
+* [[UMAFormEmailSubject]]
+@@diplay:block;&lt;html&gt;&lt;input type="button" href="javascript:;" onclick="story.displayTiddlers(null,['DisableWikiLinksPlugin', 'EditFieldPlugin', 'FAQ_TypesOfOrganizations', 'MatchTagsPlugin', 'PageTemplate', 'SaveAsPlugin', 'UMAFormEmailSubject'],1);" accesskey="O" value="open all matching tiddlers"&gt;&lt;/html&gt; &lt;html&gt;&lt;input type="button" href="javascript:;" onclick="discardSearchResults()" value="discard SearchResults"&gt;&lt;/html&gt;@@</pre>
+</div>
+<div title="newUniqueTiddlerMacro" modifier="Saq" modified="200901310956" created="200901310956" tags="systemConfig excludeLists excludeSearch" changecount="13">
+<pre>//{{{
+//Generate unique tiddler titles by appending a timestamp to the specified title parameter
+config.macros.newUniqueTiddler = merge({},config.macros.newTiddler);
+config.macros.newUniqueTiddler.onClickNewTiddler = function()
+{
+	var title = this.getAttribute("newTitle") + " - " + (new Date()).formatString("YYYY0MM0DD0hh0mm0ss");
+	if(this.getAttribute("isJournal") == "true") {
+		title = new Date().formatString(title.trim());
+	}
+	var params = this.getAttribute("params");
+	var tags = params ? params.split("|") : [];
+	var focus = this.getAttribute("newFocus");
+	var template = this.getAttribute("newTemplate");
+	var customFields = this.getAttribute("customFields");
+	if(!customFields &amp;&amp; !store.isShadowTiddler(title))
+		customFields = String.encodeHashMap(config.defaultCustomFields);
+	story.displayTiddler(null,title,template,false,null,null);
+	var tiddlerElem = story.getTiddler(title);
+	if(customFields)
+		story.addCustomFields(tiddlerElem,customFields);
+	var text = this.getAttribute("newText");
+	if(typeof text == "string" &amp;&amp; story.getTiddlerField(title,"text"))
+		story.getTiddlerField(title,"text").value = text.format([title]);
+	for(var t=0;t&lt;tags.length;t++)
+		story.setTiddlerTag(title,tags[t],+1);
+	story.focusTiddler(title,focus);
+	return false;
+};
+
+//}}}</pre>
+</div>
+<div title="CloseOnCancelPlugin" modifier="Saq" modified="20090203135716" created="20090203135716" tags="excludeLists excludeSearch systemConfig" changecount="1">
+<pre>/***
+|Name:|CloseOnCancelPlugin|
+|Description:|Closes the tiddler if you click new tiddler then cancel. Default behaviour is to leave it open|
+|Version:|3.0.1 ($Rev: 3861 $)|
+|Date:|$Date: 2008-03-08 10:53:09 +1000 (Sat, 08 Mar 2008) $|
+|Source:|http://mptw.tiddlyspot.com/#CloseOnCancelPlugin|
+|Author:|Simon Baird &lt;simon.baird@gmail.com&gt;|
+|License:|http://mptw.tiddlyspot.com/#TheBSDLicense|
+***/
+//{{{
+merge(config.commands.cancelTiddler,{
+
+	handler_mptw_orig_closeUnsaved: config.commands.cancelTiddler.handler,
+
+	handler: function(event,src,title) {
+		this.handler_mptw_orig_closeUnsaved(event,src,title);
+		if (!store.tiddlerExists(title) &amp;&amp; !store.isShadowTiddler(title))
+			story.closeTiddler(title,true);
+	 	return false;
+	}
+
+});
+
+//}}}</pre>
+</div>
+<div title="GettingStarted" modifier="Saq" modified="200901311012" created="200901311012" tags="excludeLists excludeSearch" changecount="3">
+<pre>UnaMesa forms</pre>
+</div>
+<div title="StyleSheet" modifier="ELSDesignStudios" modified="20090203135716" created="20090203135716" tags="excludeLists excludeSearch" changecount="1" creator="ELSDesignStudios">
+<pre>[[StyleSheetShortcuts]] /* convenient formatting shortcuts */</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
