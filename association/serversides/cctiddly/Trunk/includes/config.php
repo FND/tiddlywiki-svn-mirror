@@ -12,15 +12,13 @@ $tiddlyCfg['db']['allow_override'] = true;
 
 
 // These plugins are DISABLED
-// Allows you to disable a plugin in your plugins directory. 
+// Allows you to disable a plugin in your /plugins/ directory. 
 $tiddlyCfg['plugins_disabled'] = array(
 	"createPackages",
-	"lifestream",
 	"OpenID",
 	"Portlet",
 	"tiddlertree",
-	"FCKEditor", 
-	"seo",
+	"FCKEditor",
 	"SkinnyTiddlers",
 	"WordpressMigration"
 );
@@ -41,11 +39,10 @@ $tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an ac
 $tiddlyCfg['allow_workspace_creation'] = 1;		//0=disable, 1=allow by public, ( 2=allow by user - not implemented yet) 
 $tiddlyCfg['create_workspace'] = 1;  // allow users to create a workspace 
 $tiddlyCfg['extract_admin_from_url']=0;// The admin user for each workspace when create will be taken from the URL.  If turned on it means the user SimonMcManus owns the workspace /SimonMcManus/.
-$tiddlyCfg['use_mod_rewrite'] = 0;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
+$tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via ?workspace=name
 
 $tiddlyCfg['GettingStartedText'] = "To get started with this workspace, you'll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the workspace is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the worksace is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] and [[Permissions]] tiddlers.<<ccEditWorkspace>>";
 
-	
 //LDAP
 
 $tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
@@ -54,10 +51,6 @@ $tiddlyCfg['pref']['ldap_username']	= "CN=,OU=functional,OU=btplc,DC=iuser,DC=ir
 $tiddlyCfg['pref']['ldap_password'] = "";
 $tiddlyCfg['pref']['ldap_connection_string'] = "";
 $tiddlyCfg['pref']['language'] = "en"; // this is the default language which can be overridden. 
-
-
- 
-
 
 //Deligated Session Managment 
  
@@ -294,8 +287,8 @@ Notes :
 */
 
 //default privileges
-$tiddlyCfg['privilege_misc']['undefined_privilege'] = "A";		//defined what should undefined (U) be treated as
-$tiddlyCfg['privilege_misc']['default_privilege'] = "AAAA";		//default privilege for all group and tags
+$tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what should undefined (U) be treated as
+$tiddlyCfg['privilege_misc']['default_privilege'] = "ADDD";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
 $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['default_anonymous_perm'];
@@ -322,7 +315,7 @@ $tiddlyCfg['privilege']['anonymous']['comments'] = "AAAA";		//allow comments to 
 $tiddlyCfg['privilege']['non_admin']['comments'] = "AAAA";	
 // END OF PERMISSIONS 
 
-$tiddlyCfg['version']="1.7.5";	//set ccTiddly Version number
+$tiddlyCfg['version']="1.8.unreleased";	//set ccTiddly Version number
 $tiddlyCfg['session_expire'] = ($tiddlyCfg['session_expire']==0?9999999:$tiddlyCfg['session_expire']);
 $tiddlyCfg['session_expire'] = $tiddlyCfg['session_expire'] * 60;  // Converts minutes to seconds to be added to an epoch value 
 
