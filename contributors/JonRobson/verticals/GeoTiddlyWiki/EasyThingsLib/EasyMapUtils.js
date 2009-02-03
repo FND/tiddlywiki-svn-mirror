@@ -37,6 +37,14 @@ if(!Array.indexOf) {
 
 var EasyMapUtils = {
 	googlelocalsearchurl: "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="
+
+	 ,tile2long: function(x,z) {
+	  return (x/Math.pow(2,z)*360-180);
+	 }
+	 ,tile2lat: function(y,z) {
+	  var n=Math.PI-2*Math.PI*y/Math.pow(2,z);
+	  return (180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n))));
+	 }
 	
 	,getLongLatAtXY: function(x,y,eMap){
 		
