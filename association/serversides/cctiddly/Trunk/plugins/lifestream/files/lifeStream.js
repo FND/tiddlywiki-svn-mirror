@@ -68,7 +68,7 @@ config.macros.lifeStream.display = function (place, params)
 		switch(tiddlers[t].fields['server.type']){
 			case "wordpress" :
 				var img = createTiddlyElement(null, "img", null, "imgClass");
-				img.src = "http://www.mrblogger.com/wp-content/wordpress-icon-128.png";
+				img.src = "http://bhc3.files.wordpress.com/2008/05/wordpress-icon-128.png";
 				img.width = "20";
 				img.height = "20";
 				img.style.border ="0px";

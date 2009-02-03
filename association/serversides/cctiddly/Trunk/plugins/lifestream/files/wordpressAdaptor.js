@@ -30,7 +30,7 @@ wordpressAdaptor.convertTimestamp = function(str) { // TODO: rename
 
 
 wordpressAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password){
-    return doHttp('GET',window.url+"/handle/proxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
+    return doHttp('GET',window.url+"/plugins/lifestream/files/wordpressProxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
 };
 
 wordpressAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
@@ -45,6 +45,7 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 	if(!context)
 		context = {};
 	context.tiddlers = [];
+	console.log(responseText);
 	responseText = responseText.replace(/\r+/mg,"");
 	var regex_item = /<item>(.|\n)*?<\/item>/mg;
 	var regex_title = /<title>(.|\n)*?<\/title>/mg;
