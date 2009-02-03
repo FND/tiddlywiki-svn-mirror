@@ -59,15 +59,12 @@ tracAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,
 		var title = item_match[i].match(regex_title);	
 		var created = item_match[i].match(regex_created);
 		item.title = title[0].replace(/^<title>|<\/title>$/mg,"");
-
 			if(item_match[i].match(regex_author)) {
 				var author = item_match[i].match(regex_author);		
 				author = author[0].replace(/^<dc:creator>|<\/dc:creator>$/mg,"");
 					if(author == "simonmcmanus") {
 						item.created = created[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
 						item.created = tracAdaptor.convertTimestamp(item.created);
-						console.log("trac: ", item.created);
-						
 						desc = item_match[i].match(regex_desc);
 						var link = item_match[i].match(regex_link);
 						link = link[0].replace(/^<link>|<\/link>$/mg,"");
@@ -79,11 +76,9 @@ tracAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,
 						t.set(item.title,item.text,"modifier",item.created,null,item.created, t.fields);
 						store.addTiddler(t);
 					}
-			}
-		
+			}	
 	}
 	context.status = true;
-	
 	if(context.callback)
 		context.callback(context,context.userParams);
 };
