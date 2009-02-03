@@ -43,27 +43,42 @@ class Challenger(ChallengerInterface):
             password = query['password'][0]
             valid=self._validate_and_redirect(environ, start_response, user, password, redirect)
             if valid:
-              self._ensure_bag(environ, user)
+              self._ensure_bags(environ, user)
               self._ensure_recipe(environ, user)
             return valid
         except KeyError:
             return self._send_cookie_form(environ, start_response, redirect, '401 Unauthorized')
 
-    def _ensure_bag(self, environ, username):
-      bag = Bag("private-"+username)
-      store = environ['tiddlyweb.store']
-      try:
-          store.get(bag)
-          return
-      except NoBagError:
-          bag.desc = 'tiddlyguv private user bag'
-          bag.policy.owner = username
-          bag.policy.manage = [username]
-          bag.policy.read = ["admin", username]
-          bag.policy.write = ["admin", username]
-          bag.policy.create = ["admin", username]
-          bag.policy.delete = ["admin", username]
-          store.put(bag)
+    def _ensure_bags(self, environ, username):
+
+      # for privacy in ["public", "protected", "private"]:
+      for privacy in ["private", "protected"]:
+
+        only_user = ["admin", username]
+        if privacy=="public":
+          readPerms = []
+          writePerms = []
+        elif privacy=="protected":
+          readPerms = []
+          writePerms = only_user
+        elif privacy=="private":
+          readPerms = only_user
+          writePerms = only_user
+
+        bag = Bag(privacy+"-"+username)
+        store = environ['tiddlyweb.store']
+        try:
+            store.get(bag)
+            return
+        except NoBagError:
+            bag.desc = 'tiddlyguv private user bag'
+            bag.policy.owner = username
+            bag.policy.manage = ["admin", username]
+            bag.policy.read = readPerms
+            bag.policy.write = writePerms
+            bag.policy.create = ["admin", username]
+            bag.policy.delete = ["admin", username]
+            store.put(bag)
 
     def _ensure_recipe(self, environ, username):
       store = environ['tiddlyweb.store']
@@ -81,6 +96,8 @@ class Challenger(ChallengerInterface):
       print "THE LIST"
       print private_recipe_list
       private_recipe_list.append(['private-'+username, ""])
+      private_recipe_list.append(['protected-'+username, ""])
+      # private_recipe_list.append(['public-'+username, ""])
       print "THE LIST"
       print private_recipe_list
       private_recipe.set_recipe(private_recipe_list)
@@ -97,14 +114,20 @@ class Challenger(ChallengerInterface):
         environ['tiddlyweb.title'] = 'TiddlyGuv Login'
         return [
 """
+<style>
+body { padding: 0; }
+body, pre { font-family: sans-serif; }
+#header { color: white; background: red; padding: 1em 0.5em; border-bottom: purple; margin: 0; }
+h1 { margin: 0; }
+</style>
 <pre>
 %s
 <form action="" method="POST">
 <table>
-<tr><td>User</td><td><input name="user" size="40" /></td></tr>
+<tr><td>Username</td><td><input name="user" size="40" /></td></tr>
 <tr><td>Password</td><td><input type="password" name="password" size="40" /></td></tr>
 <input type="hidden" name="tiddlyweb_redirect" value="%s" />
-<tr><td>&nbsp;</td><td><input type="submit" value="submit" /></td></tr>
+<tr><td>&nbsp;</td><td><input type="submit" value="login" /></td></tr>
 </form>
 </pre>
 """ % (message, redirect)]

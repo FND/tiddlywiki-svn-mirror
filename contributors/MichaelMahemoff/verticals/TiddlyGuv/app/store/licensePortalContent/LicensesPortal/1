@@ -1,7 +1,0 @@
-modifier: MichaelMahemoff
-created: 200508181151
-modified: 200609101232
-tags: 
-
-Information about <<countTagged License>> licenses is available. You may also add a new license from the New License link in the main menu.
-<<tiddlerTable filter:[tag[License]] headings:License,Summary,Stage col2:"store.getTiddler(tiddler.title+'_plain') ? wikifyPlainText(store.getTiddlerText(tiddler.title+'_plain').substr(0,40))+'...' : '---'" col3:"tiddler.fields.stage">>

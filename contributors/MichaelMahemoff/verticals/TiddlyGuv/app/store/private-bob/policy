@@ -1,1 +1,0 @@
-{"read": ["admin", "bob"], "create": ["admin", "bob"], "manage": ["bob"], "write": ["admin", "bob"], "owner": "bob", "delete": ["admin", "bob"]}
