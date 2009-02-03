@@ -26,8 +26,6 @@ config.macros.saveChanges.handler=function(place,macroName,params,wikifier,param
 		},null,null,this.accessKey);
 	}
 };
-	
-
 
 var loginState=null;
 var registerState=null;
@@ -90,7 +88,8 @@ config.macros.ccLogin.refresh=function(place, error){
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	},null, null, null,  {tabindex:'3'});
-	
+
+
 	if(config.macros.register!==undefined){		
 		var li_register = createTiddlyElement(w.footElem, "li");
 		createTiddlyButton(li_register,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
