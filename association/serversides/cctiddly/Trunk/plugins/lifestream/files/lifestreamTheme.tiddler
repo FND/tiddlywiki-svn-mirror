@@ -120,6 +120,8 @@ body{
 	background-color:[[ColorPalette::ls_background]];
 //	 background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
 //	 background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
+
+	font-size:0.7em;
 }
 
 #backstageCloak {
@@ -151,7 +153,7 @@ h1 {
 	width:600px;
 	line-height: 1.6em;
 	border:1px solid [[ColorPalette::ls_background]];
-	font-size: 11px;
+	font-size: 0.9em;
 	font-family: Lucida Grande, Tahoma, Arial, Helvetica, sans-serif;
 	height:1%;
 	background-color:[[ColorPalette::ls_mid]];
@@ -692,7 +694,7 @@ table.sortable td.sortedCol {
 	width:100px;
 	float:right;
 	z-index:9000;
-	background:url(http://75.101.136.11/simon.png);
+	background:url(plugins/lifestream/files/simon.png);
 	background-repeat:no-repeat;
 	left :440px;
 	background-position: top right;
