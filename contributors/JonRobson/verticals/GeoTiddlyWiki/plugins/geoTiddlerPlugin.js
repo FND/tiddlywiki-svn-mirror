@@ -100,7 +100,7 @@ if(!version.extensions.geoPlugin) {
 		,getGoogleMercatorProjection: function(){
 			
 			var p = {};
-			p.googleHack = 0.000006378137;
+			p.googleHack = 0.000006378137; //radius of earth
 			p.source = new Proj4js.Proj('WGS84');//
 			p.dest = new Proj4js.Proj('GOOGLE');
 			p.resultCache = {};
@@ -135,8 +135,8 @@ if(!version.extensions.geoPlugin) {
 					return this.calculatescalefactor(news,res);
 				}
 			};
-			p.xy = function(x,y){
-
+			p.xy = function(x,y,t){
+					
 					if(this.resultCache[x+"|"+y]) {
 						return this.resultCache[x+"|"+y];
 					}
@@ -340,56 +340,24 @@ if(!version.extensions.geoPlugin) {
 						that.renderTile(slippyurl,localurl,tile);					
 					}
 					else{
-						//get range
-
-/* n tiles spread from -180 to 180.
-If n = 4, tiles start at -180, -90, 90,180
-if center of map is 0,0 then bottom right tile is at 0
-
-(- 90 + 90) / 2 
-
-
-
-If center of map is 0,30 then bottom right tile is at
-
-30/90 * 256?
-(-90 + 90)
-each tile is 256px height
-
-*/
 						
 						tiles.main.style.backgroundImage = "none";
 						var bottomtile = tiles["1|1"];
 						
 						var temp ={x: (translate.x),y:(translate.y)};
-						//temp =eMap.settings.projection.xy(temp.x,temp.y);
-						
-						
-						//difference between centre and top left corner of bottom right tile  * scale = ?
-						var newxy = eMap.settings.projection.xy(temp.x,temp.y);
 					
-				
+						
 						temp.x *= scale.x;
-						
-					
-						var top = EasyMapUtils.getLongLatAtXY(0.001, 0.001,eMap);
-						var center = EasyMapUtils.getLongLatAtXY(128,128,eMap);
-						var bottom =EasyMapUtils.getLongLatAtXY(256+128,256+128,eMap);
-						var diff = bottom.latitude - top.latitude;
-						//diff /= 2;
-						
-						console.log(top.latitude,center.latitude,bottom.latitude,"diff",diff);
-						//temp.y *= diff;
 						
 						temp.y *= scale.y;
 						
 						temp.x -= 128;
 						temp.y -= 128;
 					
-						var left = temp.x;
-						var top =temp.y;
+						var brleft = temp.x;
+						var brtop =temp.y;
 					
-						//some weird hacks seem to work above equator..
+						/* some weird hacks seem to work for uk
 						if(zoomL == 10 || zoomL == 14){
 					
 							top += 64;
@@ -404,29 +372,19 @@ each tile is 256px height
 						else if(zoomL == 15){
 							top -= 96;
 						}
-						
-						
-						var brtop = Math.floor(top)%256.0;
-						var brleft = Math.floor(left) %256.0;
+						*/
+						brtop = brtop%256.0;
+						brleft= brleft %256.0;
 							
 						if(brtop < 0) brtop += 256;
 						if(brleft < 0) brleft += 256;
 						
-
-						//if(brtop < 128) brtop -=128;				
-						
 						var lola = EasyMapUtils.getLongLatAtXY(brleft+128,brtop+128,eMap);
-						//console.log("its", lola.longitude,lola.latitude,scale.x,scale.y);
-						/*var t = eMap.settings.projection.xy(lola.longitude,lola.latitude);
-						lola.longitude = t.x;
-						lola.latitude = t.y;*/
-						
 						var br =EasyMapUtils.getSlippyTileNumber(lola.longitude,lola.latitude,zoomL,eMap);
 						
 						tilex = br.x;
 						tiley = br.y;
-							
-												
+													
 						bottomtile.style.left = brleft +"px";
 						bottomtile.style.top = brtop + "px";
 						bottomtile.innerHTML = tilex + "," + tiley;
