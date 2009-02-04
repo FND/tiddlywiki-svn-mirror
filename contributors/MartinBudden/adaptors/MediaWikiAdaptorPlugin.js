@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.5|
+|''Version:''|0.8.6|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -203,6 +203,7 @@ adaptor.prototype.openWorkspace = function(workspace,context,userParams,callback
 		workspace = "";
 //#console.log("openWorkspace:"+workspace);
 	this.workspace = workspace;
+	this.workspaceId = null;
 	context = this.setContext(context,userParams,callback);
 	if(workspace) {
 		if(context.workspaces) {
