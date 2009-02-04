@@ -1,0 +1,194 @@
+modifier: MichaelMahemoff
+created: 200508181151
+modified: 200609101232
+tags: systemConfig
+
+if (!version.extensions.tiddlyWebUserPlugin) {
+
+  version.extensions.tiddlyWebUserPlugin = {
+
+    installed:true,
+
+  /*******************************************************************************
+     Wiki Initialisation
+   ******************************************************************************/
+
+    init: function() {
+
+      this.userCookie = this.readCookie("tiddlyweb_user");
+      if (this.userCookie) this.username = this.userCookie.split(":")[0].substr(1);
+      config.options.txtUserName = this.userCookie ? this.username : "guest";
+
+    /*******************************************************************************
+       Login Macro
+     ******************************************************************************/
+
+      config.macros.login = {
+
+        handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+          var plugin = version.extensions.tiddlyWebUserPlugin;
+          var message = createTiddlyElement(place, "div", null, "loginMessage");
+          if (plugin.userCookie) {
+            message.innerHTML = "User ID: " + plugin.username;
+            var logout = createTiddlyElement(place, "button", null, "logout", "Logout");
+            logout.onclick = function() {
+              plugin.eraseCookie("tiddlyweb_user");
+              window.location.reload(true);
+            }
+          } else {
+            message.innerHTML = "Not logged in";
+            var loginLink = createTiddlyElement(place, "a", null, "loginLink", "Log In");
+            loginLink.href="/challenge?tiddlyweb_redirect=/recipes/portal/tiddlers.wiki";
+          }
+        }
+
+      };
+
+      config.macros.bagChoiceView = {
+        handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+          var username = config.options.txtUserName;
+          var messages = config.macros.bagChoice.MESSAGES;
+          var bag = tiddler.fields["server.workspace"].replace("bags/", "");
+          if (bag=="private-"+username) privacyP = "xprivate";
+          else if (bag=="protected-admin") privacyP = "xprotected";
+          else if (bag=="documents") privacyP = "xpublic";
+          createTiddlyElement(place, "div", "bagChoice"+tiddler.title.replace(" ",""), "bagChoiceView", messages[privacyP]);
+        }
+      };
+
+      config.macros.bagChoice = {
+        handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+
+          var username = config.options.txtUserName;
+          var messages = config.macros.bagChoice.MESSAGES;
+
+          var select = createTiddlyElement(place, "select", "bagChoice"+tiddler.title.replace(" ",""), "bagChoice");
+          createTiddlyElement(select, "option", null, "backChoiceOption", messages.xprivate, {bag:"private-"+username} );
+          if (isAdmin()) {
+            createTiddlyElement(select, "option", null, "backChoiceOption", messages.xprotected, {bag:"protected-admin"} );
+          }
+          createTiddlyElement(select, "option", null, "backChoiceOption", messages.xpublic, {bag:"documents"} );
+          if (tiddler.fields["server.workspace"]) {
+            var selectedBag = tiddler.fields["server.workspace"].replace("bags/","");
+            if (selectedBag=="private-"+username) select.selectedIndex = 0;
+            else if (selectedBag=="protected-admin") select.selectedIndex = 1;
+            else if (selectedBag=="documents") select.selectedIndex = select.options.length-1;
+            else console.log("unknown selectedBag", selectedBag);
+          }
+
+        }
+      };
+
+      config.macros.bagChoice.MESSAGES = {
+        xprivate: "Private: Only I can read and write",
+        xprotected:"Protected: Everyone can read, only admins can write",
+        xpublic: "Public: Everyone can read and write"
+      };
+
+      config.macros.newTiddler.handler = function(place,macroName,params,wikifier,paramString)
+      {
+        if(!readOnly) {
+          params = paramString.parseParams("anon",null,true,false,false);
+          var title = params[1] && params[1].name == "anon" ? params[1].value : this.title;
+          title = getParam(params,"title",title);
+          this.createNewTiddlerButton(place,title,params,this.label,this.prompt,this.accessKey,"title",false);
+        }
+      };
+
+      // var origHandler = config.commands.saveTiddler.handler;
+      config.commands.saveTiddler.handler = function(event,src,title) {
+
+        var select = document.getElementById("bagChoice"+title.replace(" ", ""));
+        if (select) {
+          console.log("select", select);
+          var wantedBag = select.options[select.selectedIndex].getAttribute("bag");
+          console.log("NEW BAG", wantedBag, "title", title, "tiddler", store.getTiddler(title));
+        }
+
+        // copied from original handler, so we can retain the title
+        var newTitle = story.saveTiddler(title,event.shiftKey);
+        if(newTitle)
+          story.displayTiddler(null,newTitle);
+        // END of copy
+ 
+        var newTiddler = store.getTiddler(newTitle);
+        if (!select || !newTiddler) return;
+        var newBag = newTiddler.fields["server.workspace"].replace("bags/", "");
+        console.log("cyecking", "title", newTitle, "saved", newTiddler, "new bag", newBag, "wanted bag", wantedBag);
+        if (newTiddler && newBag!=wantedBag) {
+            changeBag(newTiddler, wantedBag, newTiddler.tags);
+        }
+      }
+
+    }, /* init */
+
+    /*******************************************************************************
+     Permissions tests based on permissions of known tiddlers
+     ******************************************************************************/
+
+    isAdmin: function() {
+      var homeTiddler = store.getTiddler("Home");
+      return /write/.test(homeTiddler.fields["server.permissions"]);
+    },
+
+    /*******************************************************************************
+       Generic
+     ******************************************************************************/
+    // http://www.quirksmode.org/js/cookies.html
+    readCookie: function(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ)==0) return c.substring(nameEQ.length,c.length);
+      }
+      return null;
+    },
+
+    createCookie: function(name,value,days) {
+      if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+      }
+      else var expires = "";
+      document.cookie = name+"="+value+expires+"; path=/";
+    },
+
+    eraseCookie: function(name) {
+      this.createCookie(name,"",-1);
+    }
+
+  }
+
+  version.extensions.tiddlyWebUserPlugin.init();
+
+} // end of 'install only once'
+
+// shortcut and obNamespaceStomping
+function isAdmin() { return version.extensions.tiddlyWebUserPlugin.isAdmin(); }
+
+// quick fix until FND implements rename
+// tags param necessary because "remove" will tag as exclude etc
+function changeBag(tiddler, bag, tags) {
+  console.log("changinng tiddler " + tiddler.title + " to bag " + bag);
+
+  var tiddlerText = tiddler.text;
+  store.removeTiddler(tiddler.title);
+  autoSaveChanges();
+
+  var now=new Date();
+  var newTiddler = store.createTiddler(tiddler.title);
+  // newFields is a _copy_ of server.* fields overlayed on existing fields
+  var newFields = merge({ "server.host": tiddler.fields["server.host"], "server.type": "tiddlyweb", "server.workspace": "bags/"+bag, stage: "public" }, tiddler.fields, true);
+  log("newFields", newFields);
+  delete newFields.deleted; // TODO change when fred updates
+  log("existing tags", tiddler, tiddler.tags);
+  newTiddler.set(null, tiddlerText, config.options.txtUserName, now, tags, now, newFields);
+  store.saveTiddler(newTiddler.title);
+  autoSaveChanges(false);
+
+  return newTiddler;
+    
+}

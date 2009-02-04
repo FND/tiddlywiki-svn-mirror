@@ -1,0 +1,29 @@
+modifier: mike
+created: 
+modified: 20090203164229
+type: None
+tags: 
+
+body { font-size: 14px; }
+
+.headerForeground, .headerShadow { padding-top: 1em; }
+.siteTitle { font-size: 2em; font-family: serif; }
+.siteSubtitle { color: [[ColorPalette::TertiaryLight]]; }
+.headerShadow .siteSubtitle { display: none; }
+
+.license h2 { border-bottom-width: 0; }
+.license h2 .editLink { margin-left: 0.5em; font-size: 80%; border-bottom: 1px solid #faa; cursor: pointer; }
+.license h2.recentlyEdited { background: yellow; padding: 0.3em 0; }
+.license .empty { color: #faa; margin-bottom: 0; }
+.license .emptinessMessage { font-style: italic; color: #faa; }
+.adminOnlyMessage { background: [[ColorPalette::PrimaryPale]]; border: 1px solid [[ColorPalette:PrimaryMid]]; padding: 0.3em; font-size: 80%; line-height: 1em; color: [[ColorPalette::PrimaryDark]]; }
+
+.licenseTitle { margin-bottom: 0.5em; color: #999; }
+.licenseLink { font-size: 1.5em; color: [[ColorPalette::PrimaryDark]]; cursor: pointer; text-decoration: underline; }
+.licenseDimensionName { font-size: 1.5em; color: [[ColorPalette::PrimaryDark]]; }
+.bagChoiceView { background: [[ColorPalette::PrimaryPale]]; padding: 0.3em; margin: 0.2em 0; }
+
+.dev { display: none; }
+
+.tagging { clear: both; float: right; }
+.tagged { clear: both; float: right; }

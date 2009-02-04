@@ -1,0 +1,18 @@
+modifier: MichaelMahemoff
+created: 200508181151
+modified: 200609101232
+tags: 
+
+!!Tiddlyguv
+<<login>>
+
+[[Home]]
+[[Licenses|LicensesPortal]]
+<<tiddler DocumentsMenu>>
+[[All Documents|DocumentsIndex]]
+
+<<search>>
+
+!!Admin
+[[Edit Menu|DocumentsMenu]]
+<<newTiddler label:"New Document" text:{{"This document is public to everyone, but only editable by admins. Click 'edit' above to edit this document. Delete this section and make your changes. Retain comments section below if you wish to support comments.\n\n!Comments" + "\n<" + "<tiddlyWebComments>"+">";}} fields:{{"server.workspace:bags/private-"+config.options.txtUserName + " server.type:tiddlyweb stage:new server.host:'http://0.0.0.0:8080'"}} title:{{"Document " + (new Guid({chars:Guid.constants.numbers})).generate()}}" template:documentEditTemplate tag:document>>
