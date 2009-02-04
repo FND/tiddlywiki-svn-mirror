@@ -2,13 +2,13 @@
 |''Name''|TiddlyViPlugin|
 |''Description''|mouseless navigation and editing|
 |''Author''|FND|
-|''Version''|0.2.1|
+|''Version''|0.3.0|
 |''Status''|@@experimental@@|
 |''Source''|http://fnd.tiddlyspot.com/#TiddlyViPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''CoreVersion''|2.5|
-|''Requires''|[[Viewport|http://www.appelsiini.net/projects/viewport]]|
+|''Requires''|[[Viewport|http://www.appelsiini.net/projects/viewport]] [[jQuery.CLI|http://github.com/FND/jquery/]]|
 |''Keywords''|navigation usability|
 !Description
 <...>
@@ -27,11 +27,14 @@ The following commands are supported:
 * initial release
 !!v0.2 (2009-01-30)
 * implemented command mode
+!!v0.3 (2009-02-04)
+* refactored to use jQuery.CLI for command mode
 !To Do
 * commands for triggering toolbar commands
 * command aliases
-* implement as generic jQuery plugin
+* implement navigation as generic jQuery plugin
 * CLI styling
+* re-implement $.inviewport to avoid Viewport dependency
 !Code
 ***/
 //{{{
@@ -40,58 +43,45 @@ The following commands are supported:
 if(!$.inviewport) { // XXX: check for $.expr[":"]["in-viewport"]?
 	throw "Missing dependency: Viewport";
 }
+if(!$.CLI) {
+	throw "Missing dependency: jQuery.CLI";
+}
 
 if(!version.extensions.TiddlyViPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TiddlyViPlugin = { installed: true };
 
-var keys = {
-	up: 107, // k (charCode)
-	down: 106, // j (charCode)
-	confirm: 13, // ENTER (keyCode) -- XXX: TiddlyWiki also uses keycode 10!?
-	abort: 27, // ESC (keyCode)
-	cmd: 58 // colon (charCode)
-};
+/*
+ * command mode
+ */
 
-var commandMode = {
-	cmds: {
-		open: function(params) {
-			story.displayTiddler(null, params[0], null, true, null, null, false, document.body);
-		},
-		close: function(params) {
-			story.closeTiddler(params[0], true);
-		}
+var commands = { // XXX: expose as non-private
+	open: function(params) {
+		story.displayTiddler(null, params[0], null, true, null, null, false, document.body);
 	},
-
-	init: function() {
-		var container = $("#CLI");
-		if(!container.length) {
-			container = $("<div id='CLI' />").appendTo(document.body);
-			$("<input type='text' />").keypress(function(e) {
-				var key = e.keyCode || e.which; // XXX: keyCode required for ESC!?
-				switch(key) {
-					case keys.confirm:
-						commandMode.dispatch(this.value);
-					case keys.confirm:
-					case keys.abort:
-						$(this).parent().remove();
-						break;
-					default:
-						break;
-				}
-			}).appendTo(container).focus();
-		} // XXX: else focus CLI?
-	},
-
-	dispatch: function(cmd) {
-		var params = String.prototype.readBracketedList ? cmd.readBracketedList() : cmd.split(" "); // XXX: required only if fully TW-agnostic
-		cmd = this.cmds[params.shift()];
-		if(cmd) {
-			cmd(params);
-		} // XXX: else?
+	close: function(params) {
+		story.closeTiddler(params[0], true);
 	}
 };
 
-var selectNextItem = function(reverse) { // XXX: rename
+// hijack restart to initialize command mode -- XXX: hijack refreshDisplay?
+var restart_orig = restart;
+restart = function() {
+	restart_orig.apply(this, arguments);
+	jQuery.CLI(commands);
+};
+
+// TODO: hijack edit macro to suppress custom keyboard events for dynamically-created input fields
+
+/*
+ * navigation mode
+ */
+
+var keys = {
+	up: 107, // k (charCode)
+	down: 106, // j (charCode)
+};
+
+var selectNextItem = function(reverse) { // TODO: rename
 	var el = $("#displayArea .selected:in-viewport");
 	if(el.length === 0) { // select top element
 		$("#displayArea .tiddler:in-viewport:first").addClass("selected"); // first element isn't necessarily the top element!? -- XXX: includes elements partially above the fold
@@ -107,7 +97,7 @@ var selectNextItem = function(reverse) { // XXX: rename
 };
 
 // detect active edit session
-var editing = function() { // XXX: rename
+var editing = function() { // TODO: rename
 	if($("#displayArea .selected[dirty=true]:in-viewport").length) { // XXX: excessively complicated (performance implications!)
 		return true;
 	} else {
@@ -126,9 +116,6 @@ $(document).bind("keypress", null, function(e) {
 			break;
 		case keys.down:
 			selectNextItem(false);
-			break;
-		case keys.cmd:
-			commandMode.init();
 			break;
 		default:
 			break;
