@@ -4,4 +4,5 @@ modified: 200609101232
 tags: document
 
 There are <<countTagged document>> documents available:
-<<tiddlerTable filter:[tag[document]] col2:'wikifyPlain(tiddler.title).replace("<<","{{").substr(0,50) + " ..."'>>
+<<tiddlerTable filter:[tag[document]]>>
+

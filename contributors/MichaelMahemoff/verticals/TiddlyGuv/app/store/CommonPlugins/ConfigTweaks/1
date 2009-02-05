@@ -23,3 +23,8 @@ config.shadowTiddlers["StyleSheetLicensePortal"] =
 ".expandLink { cursor: pointer; text-decoration: underline; color: #008; }" +
 ".expandLink:hover { background: #bbf; }";
 store.addNotification("StyleSheetLicensePortal", refreshStyles);
+
+config.defaultCustomFields = {
+  server.host: 'http://0.0.0.0:8080/',
+  server.type: 'tiddlyweb'
+}
