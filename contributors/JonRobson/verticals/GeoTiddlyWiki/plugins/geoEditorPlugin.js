@@ -44,7 +44,7 @@ config.macros.geoedit={
 		store.saveTiddler(name,name,text,null,new Date(),tags,fields);
 	
 		var tag =GeoTag(ll.longitude,ll.latitude,{name: name,fill: fields.fill});
-		easyMap._drawGeoJsonFeature(tag);
+		easyMap.drawGeoJsonFeature(tag);
 		easyMap.redraw();	
 	}
 	
@@ -77,12 +77,12 @@ config.macros.geoedit={
 		config.macros.googlelocalsearcher.setup(place,searchResultToTag, false,"tag location:");
 	
 	/*tool toggler */
-		var tooltoggler= createTiddlyElement(place,"button",null,null,"viewer");
-		tooltoggler.value="viewer";
-		wikify(" parameters:",place);
+		
+		var tooltoggler= createTiddlyElement(place,"button",null,null,"color: off");
+		tooltoggler.value="v";
 		var clickinput= createTiddlyElement(place,"input");
 		clickinput.value="rgb(255,0,0)";
-
+		clickinput.style.display = "none";
 		var geotag = function(e,shape,mouse,ll,feature,key){
 			var color = "rgb(255,0,0)";
 			if(ll.longitude && ll.latitude){
@@ -91,17 +91,22 @@ config.macros.geoedit={
 				that.addGeoTiddler(eMap,shapeName,ll,color);
 			}	
 		}
-		var onmup = function(e,shape,mouse,ll,feature,key){
+		var onmup = function(e,shape,mouse,ll,feature,keypressed){
 			var color =  clickinput.value;
-	
-			if(!key){
+			if(e.shiftKey) {
+				key = 'g';
+			 }
+			else{
+				key = tooltoggler.value;
+			}
+			if(key == 'v'){
 				if(shape) story.displayTiddler(story.findContainingTiddler(resolveTarget(e)),shape.properties.name);
 			}
 			else if(key == 'g'){			
 				geotag(e,shape,mouse,ll,feature,key);
 				
 			}
-			else if(key = 'e'){
+			else if(key == 'e'){
 				var name =shape.properties.name;
 				var tags = [];
 				var fields = {};
@@ -128,44 +133,21 @@ config.macros.geoedit={
 
 		tooltoggler.onclick = function(){
 			switch(this.value){
-				case "viewer":
-				this.value = "colorer";
-				this.innerHTML = "colorer";
+				case "v":
+				this.value = "c";
+				this.innerHTML = "color:";
+				clickinput.style.display = "";
 				break;
-				case "colorer":
-				this.value = "tagger";
-				this.innerHTML = "tagger";			
-				break;
-				
-				case "tagger":
-				this.value = "opentiddler";
-				this.innerHTML = "edit existing geotiddler properties (not IE)";			
-				break;
-				
-				case "opentiddler":
-				this.value = "viewer";
-				this.innerHTML = "viewer";			
-				break;
-			
+				case "c":
+				this.value = "v";
+				this.innerHTML = "color: off";	
+				clickinput.style.display = "none";		
+				break;			
 			}
 
 		};
 		
-
-	/*source code generator */		
-		wikify("\n Paste the code below into a tiddler and point your macro at it to display it in your tiddlywiki\n",place);
-		var sourceBox= createTiddlyElement(place,"textarea",null,null,"");
-		wikify("\n ",place);
-		var generateSource= createTiddlyElement(place,"button",null,null,"generate source code (NOT IE)");
-	
-
-		generateSource.onclick = function(e){
-			if(!config.browser.ie){
-			sourceBox.innerHTML = eMap._lastgeojson.toSource();
-			}
-		};
-		
-		/*setup handling of mouse */
+/*setup handling of mouse */
 		
 		eMap.setMouseFunctions(onmup,null);
 		config.macros.geo.addEasyMapControls(eMap,prms);
@@ -188,6 +170,32 @@ config.macros.geoedit={
 		
 };
 
+config.macros.geosourcecodegenerator ={
+
+	handler: function(place,macroName,params,wikifier,paramString,tiddler) {				
+	 
+		var prms = paramString.parseParams(null, null, true);
+		var that = this;
+		var id = getParam(prms, "id");
+
+	/*source code generator */		
+		wikify("\n Paste the code below into a tiddler and point your macro at it to display it in your tiddlywiki\n",place);
+		var sourceBox= createTiddlyElement(place,"textarea",null,null,"");
+		wikify("\n ",place);
+		var generateSource= createTiddlyElement(place,"button",null,null,"generate source code (NOT IE)");
+	
+
+		generateSource.onclick = function(e){
+			if(!config.browser.ie){
+				var eMap = config.macros.geo.getMap(id);
+				sourceBox.innerHTML = eMap._lastgeojson.toSource();
+			}
+		};
+	}
+		
+
+	
+};
 config.macros.geosearchandgoto = {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler) {				
 	 

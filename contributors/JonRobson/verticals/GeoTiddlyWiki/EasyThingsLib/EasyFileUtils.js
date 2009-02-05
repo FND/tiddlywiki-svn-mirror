@@ -1,11 +1,55 @@
+
 var EasyFileUtils= {
 	loadRemoteFile: function(url,callback,params,headers,data,contentType,username,password,allowCache)
 	{
 		//callback parameters: status,params,responseText,url,xhr
 		return this._httpReq("GET",url,callback,params,headers,data,contentType,username,password,allowCache);
-	},
-	
-	fileExists: function(url){
+	}
+	/*currently doesnt work with jpg files - ok formats:gifs pngs*/
+	,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally) {
+		
+		var localPath = getLocalPath(document.location.toString());
+		var savePath;
+		if((p = localPath.lastIndexOf("/")) != -1) {
+			savePath = localPath.substr(0,p) + "/" + dest;
+		} else {
+			if((p = localPath.lastIndexOf("\\")) != -1) {
+				savePath = localPath.substr(0,p) + "\\" + dest;
+			} else {
+				savePath = localPath + "." + dest;
+			}
+		}
+
+		
+		var onloadfromweb = function(status,params,responseText,url,xhr){
+			try{
+				saveFile(savePath,responseText);
+			}
+			catch(e){
+				console.log("error saving locally..");
+			}
+			//eMap.attachBackground(dest);
+			var f = function(){
+				if(dothiswhensavedlocally)
+				dothiswhensavedlocally(dest);
+			};
+			window.setTimeout(f,0);
+		};
+		
+		var onloadlocally = function(status,params,responseText,url,xhr){
+			if(dothiswhensavedlocally)
+				dothiswhensavedlocally(dest);
+		};
+		try{
+			EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
+		}
+		catch(e){//couldnt load probably doesn't exist!
+			EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
+		}
+		
+		
+	}
+	,fileExists: function(url){
 		
 	}
 	,_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
@@ -104,3 +148,5 @@ var EasyFileUtils= {
 		return value;
 	}
 };
+
+EasyFileUtils.saveImageLocally("http://l.yimg.com/g/images/spaceball.gif","blah.jpg");

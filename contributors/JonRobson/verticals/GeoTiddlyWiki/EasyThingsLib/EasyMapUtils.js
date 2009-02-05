@@ -45,7 +45,6 @@ var EasyMapUtils = {
 	  var n=Math.PI-2*Math.PI*y/Math.pow(2,z);
 	  return (180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n))));
 	 }
-	
 	,getLongLatAtXY: function(x,y,eMap){
 		
 		var res = EasyMapUtils.getLongLatFromMouse(x,y,eMap);
@@ -102,11 +101,11 @@ var EasyMapUtils = {
 
 
 
-				
-		var pos = EasyClickingUtils.undotransformation(x,y,easyMap.controller.transformation);	
+		var t =easyMap.controller.transformation;
+		var pos = EasyClickingUtils.undotransformation(x,y,t);	
 		
 		if(easyMap.settings.projection) {
-			pos = easyMap.settings.projection.inversexy(pos.x,pos.y);
+			pos = easyMap.settings.projection.inversexy(pos.x,pos.y,t);
 		}
 
 		var lo = pos.x;
@@ -203,8 +202,7 @@ var EasyMapUtils = {
 	ctx.stroke();
 
 	},	
-	_undospherify: function (x,y,transformation){
-		var radius = transformation.spherical.radius;
+	_undospherify: function (x,y,transformation,radius){
 		var pos= this._spherifycoordinate(x,y,transformation);
 		var latitude = Math.asin(y / radius);
 		var longitude = Math.asin(parseFloat(x / radius) / Math.cos(latitude));
@@ -217,7 +215,7 @@ var EasyMapUtils = {
 
 		if(transformation.rotate) {
 			var r =transformation.rotate.z;
-			console.log("from",longitude);
+			//console.log("from",longitude);
 			longitude +=r;
 		
 			//longitude =longitude% (6.28318531);
@@ -225,12 +223,11 @@ var EasyMapUtils = {
 		}
 		var lon = EasyMapUtils._radToDeg(longitude);
 		var lat = EasyMapUtils._radToDeg(latitude);
-		console.log("to",longitude,r,lon);
+		//console.log("to",longitude,r,lon);
 		return {x:lon,y:lat};
 	},
-	_spherifycoordinate: function(lon,lat,transformation){
+	_spherifycoordinate: function(lon,lat,transformation,radius){
 		//http://board.flashkit.com/board/archive/index.php/t-666832.html
-		var radius = transformation.spherical.radius;
 		var utils = EasyMapUtils;
 		var res = {};
 		
@@ -238,15 +235,23 @@ var EasyMapUtils = {
 		var latitude = EasyMapUtils._degToRad(lat);
  		
  		// assume rotate values given in radians
-		if(transformation && transformation.rotate && transformation.rotate.z){
+		if(transformation && transformation.rotate){
 			//latitude += transformation.rotate.x;
-			var r =parseFloat(transformation.rotate.z);
 			
-			var newl =parseFloat(longitude+r);
-			//console.log(longitude,"->",newl,longitude,r,transformation.rotate.z);
+			var rotation =transformation.rotate.z;
+			//rotation = transformation.translate.x;
+			if(rotation){
+				var r =parseFloat(rotation);
 			
-			longitude +=r;
-			 
+				var newl =parseFloat(longitude+r);
+			
+				//console.log(longitude,"->",newl,longitude,r,transformation.rotate.z);
+			
+				longitude +=r;
+			}
+			if(transformation.rotate.y){
+				//latitude += parseFloat(transformation.rotate.y);
+			} 
 		}
 		// latitude is 90-theta, where theta is the polar angle in spherical coordinates
 		// cos(90-theta) = sin(theta)
@@ -261,8 +266,26 @@ var EasyMapUtils = {
 		//   it does not matter whether we multiply by sin or cos of longitude	
 	
 		longitude = longitude % 6.28318531; //360 degrees		
-
+		latitude = latitude % 6.28318531;
+		
+		
+		
 		res.y = (radius) * Math.sin(latitude);	
+		
+	
+		/*
+		
+		if(latitude > 85.0511){
+			res.y = (-radius) * Math.sin(latitude);	
+		}
+		else{
+		res.y = (radius) * Math.sin(latitude);		
+		}
+		*/
+		
+		//if(latitude > 85.0511)
+		
+		
 		if(longitude < 1.57079633 || longitude > 4.71238898){//0-90 (right) or 270-360 (left) then on other side 
 			res.x = (radius) * Math.cos(latitude) * Math.sin(longitude);		
 		}

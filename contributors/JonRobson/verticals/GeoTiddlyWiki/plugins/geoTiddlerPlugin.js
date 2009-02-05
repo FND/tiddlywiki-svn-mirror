@@ -170,6 +170,8 @@ if(!version.extensions.geoPlugin) {
 				eMap.attachBackground(dest);
 			};
 			eMap.settings.beforeRender = function(transformation){
+				
+
 				//eMap.attachBackground("none");
 				var x =0,y =0, t= transformation.translate,scale= transformation.scale;
 			
@@ -231,8 +233,8 @@ if(!version.extensions.geoPlugin) {
 			var tiles = document.createElement("div");
 			tiles.style.overflow = "hidden";
 			tiles.style.position= "absolute";
-			tiles.style.width = "256px";
-			tiles.style.height = "256px";
+			tiles.style.width = eMap.wrapper.style.width;
+			tiles.style.height = eMap.wrapper.style.height;
 			var maintile = document.createElement("div");
 			maintile.style.position = "absolute";
 			maintile.style.width = "256px";
@@ -285,6 +287,26 @@ if(!version.extensions.geoPlugin) {
 
 			
 			eMap.settings.beforeRender = function(transformation){
+				
+				var zoomOut = false;
+				if(eMap.settings.lastScale > transformation.scale.x)
+					zoomOut = true;
+				
+				console.log(transformation.scale.x);
+				/*					
+				while(transformation.scale.x >= 512&& transformation.scale.x <= 65536){
+					if(zoomOut){ //zooming out
+						transformation.scale.x /= 2;
+						transformation.scale.y /= 2;
+					}
+					else{
+						transformation.scale.x *= 2;
+						transformation.scale.y *= 2;
+					}
+					
+				}*/
+				
+				eMap.settings.lastScale = transformation.scale.x;
 					//eMap.attachBackground("none");
 					var x =0,y =0,lo,la, translate= transformation.translate,scale= transformation.scale;
 
@@ -357,22 +379,7 @@ if(!version.extensions.geoPlugin) {
 						var brleft = temp.x;
 						var brtop =temp.y;
 					
-						/* some weird hacks seem to work for uk
-						if(zoomL == 10 || zoomL == 14){
-					
-							top += 64;
-							left += 256;
-						}
-						else if(zoomL == 9 || zoomL == 13){
-							top += 32;
-						}
-						else if(zoomL == 11){
-							top -= 128;
-						}
-						else if(zoomL == 15){
-							top -= 96;
-						}
-						*/
+						
 						brtop = brtop%256.0;
 						brleft= brleft %256.0;
 							
@@ -637,7 +644,7 @@ if(!version.extensions.geoPlugin) {
 		,addEasyMapControls: function(eMap,prms){
 			var proj = getParam(prms,"projection");
 			if(proj == 'globe' || proj == 'spinnyglobe') {			
-				eMap.spherical = true;
+				eMap.setProjection("GLOBE");
 				eMap.controller.addControl("rotation");
 				if(proj == 'spinnyglobe'){
 					var f = function(){
@@ -645,9 +652,9 @@ if(!version.extensions.geoPlugin) {
 						if(!t.rotate) t.rotate = {};
 						if(!t.rotate.z) t.rotate.z  = 0;
 					
-						t.rotate.z += 0.5;
+						t.rotate.z += 0.3;
 						eMap.controller.setTransformation(t);
-						window.setTimeout(f,500);
+						window.setTimeout(f,600);
 					};
 					f();
 				}
@@ -692,8 +699,8 @@ if(!version.extensions.geoPlugin) {
 			}
 			var proj = getParam(prms,"projection");
 			if(proj == 'slippystaticmap'){
-				wrapper.style.height = "256px";
-				wrapper.style.width= "256px";
+				//wrapper.style.height = "256px";
+				//wrapper.style.width= "256px";
 			}
 			var statustext = createTiddlyElement(wrapper,"div",id+"_statustext");
 			createTiddlyText(statustext,"loading... please wait a little while!");

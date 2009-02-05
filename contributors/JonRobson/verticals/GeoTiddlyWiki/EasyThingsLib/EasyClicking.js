@@ -77,7 +77,10 @@ EasyClicking.prototype = {
 		//var transformation = target.transformation;
 		//console.log('memory length: '+memory.length);
 		if(this.memory.length > 0){
-			var shape = target.easyClicking.getShapeAtPosition(x,y);
+			var shape = false;
+			if(target.easyClicking){
+			shape = target.easyClicking.getShapeAtPosition(x,y);
+			}
 			return shape;
 		} else{
 			//console.log("no shapes in memory");

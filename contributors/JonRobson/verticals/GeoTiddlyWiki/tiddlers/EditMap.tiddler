@@ -1,6 +1,11 @@
 <div title="Edit the Map" tags="geoTiddlyWiki">
 <pre>
-<<geoedit source:geojson>>
-<<geoedit source:georss>>
+
+Hold shift and click to add a tag
+<<geoedit source:geojson id:edit1>>
+
+
+<<geoedit source:georss id:edit2>>
+<<geosourcecodegenerator id:edit2>>
 </pre>
 </div>

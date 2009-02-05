@@ -288,7 +288,10 @@ EasyMapController.prototype = {
 	},
 	addRotatingActions: function(){
 		
-		var rotateCanvas = this._createcontrollercanvas(44,40);		
+		var rotateCanvas = this._createcontrollercanvas(44,40);	
+		this.createButton(rotateCanvas,10,180,{x:16,y:2},{'actiontype':'rotatezup','name':'pan north','buttonType': 'narrow'});
+		this.createButton(rotateCanvas,10,0,{x:16,y:30},{'actiontype':'rotatezdown','name':'pan south','buttonType': 'sarrow'});			
+			
 		this.createButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'earrow'});
 		this.createButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'warrow'});
 		rotateCanvas.onmouseup = this._panzoomClickHandler;
@@ -408,6 +411,14 @@ EasyMapController.prototype = {
 				var left =6.28318531;
 				
 				if(t.rotate.z <0 )t.rotate.z =left;
+				break;
+			case "rotatezup":
+				if(!t.rotate.y) t.rotate.y = 0;
+				t.rotate.y += 0.1;
+				break;
+			case "rotatezdown":
+				if(!t.rotate.y) t.rotate.y = 0;
+				t.rotate.y -= 0.1;
 				break;
 			case "rotatezleft":
 				if(!t.rotate.z) t.rotate.z = 0;

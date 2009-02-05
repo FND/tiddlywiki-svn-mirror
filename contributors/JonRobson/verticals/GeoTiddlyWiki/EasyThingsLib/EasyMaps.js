@@ -12,7 +12,7 @@ var GeoTag = function(longitude,latitude,properties){
 	return geo;	
 };
 
-var EasyMap = function(wrapper){ 
+var EasyMap = function(wrapper){  
 	var wrapper;
 	if(typeof wrapper == 'string')
 		wrapper = document.getElementById(wrapper);
@@ -49,12 +49,8 @@ var EasyMap = function(wrapper){
 	}
 	else
 		this.settings.browser = 'good';
-		
-	this.spherical = false; //experimental!! fiddle with at your own risk! :)
-
+	
 	this.easyClicking = new EasyClicking(wrapper);
-	//this.canvas.memory = [];
-
 	wrapper.appendChild(canvas);
 	wrapper.easyMaps = this;
 
@@ -71,7 +67,51 @@ var EasyMap = function(wrapper){
 	this.clear();
 };  
 EasyMap.prototype = {
-	clear: function(){
+	getProjection: function(){
+		return this.settings.projection;
+	}
+	,setProjection: function(projection){
+		var easymap = this;
+		if(projection == 'GLOBE'){
+			this.settings.beforeRender = function(t){
+					easymap._createGlobe(easymap.getProjection().getRadius(t.scale ));
+			};
+			
+			
+			this.settings.projection= {
+					name: "GLOBE",
+					nowrap:true,
+					radius: 10,
+					getRadius: function(){
+						return this.radius;
+					}
+					,inversexy: function(x,y,t){
+							var radius =this.getRadius(t.scale);
+							var res = EasyMapUtils._undospherify(x,y,t,radius);
+							return res;
+					}
+					,xy: function(x,y,t){
+						var radius =this.getRadius(t.scale);
+						var res = EasyMapUtils._spherifycoordinate(x,y,t,radius);
+						return res;
+					}
+			};
+			
+			var heightR = parseInt(easymap.wrapper.style.height)  /2;
+			var widthR= parseInt(easymap.wrapper.style.width) /2;
+			if(widthR > heightR){
+				this.settings.projection.radius = heightR;
+			}
+			else{
+				this.settings.projection.radius = widthR;
+			}
+			
+		}
+		else{
+			this.settings.projection = projection;
+		}
+	}
+	,clear: function(){
 
 
 		this._maxX = 0;
@@ -85,29 +125,19 @@ EasyMap.prototype = {
 		
 	},
 	
-	drawFromGeojson: function(responseText){
-
-			var geojson;
-			if(typeof responseText == 'string'){
-				geojson = eval('(' +responseText + ')');
-				//console.log("eval done: ",geojson);
-			}
-			else
-				geojson = responseText;
-			
+	drawFromGeojson: function(geojson){
+			if(typeof geojson == 'string'){
+				geojson = eval('(' +geojson+ ')');
+			}		
 			this._lastgeojson = geojson;
 			if(!geojson.points && this._fittocanvas){
 				geojson = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
 			}
-			//this.clear();
-			// NB: removing this statustext node so it doesn't mess up offsets in IE
-			// this problem needs to be fixed so that we're either not adding div's in
-			// places where they shouldn't be, or so they don't affect things
 
 			var type =geojson.type.toLowerCase();
 
 			if(geojson.transform && this._fittocanvas){
-				if(this.spherical) {
+				if(this.getProjection().name == "GLOBE") {
 					geojson.transform.translate = {x:0,y:0};
 				}
 				this.controller.setTransformation(geojson.transform);		
@@ -116,9 +146,9 @@ EasyMap.prototype = {
 
 			if(type == "featurecollection"){
 				var features = geojson.features;
-				this._drawGeoJsonFeatures(features);
+				this.drawGeoJsonFeatures(features);
 			}  else if(type =='feature') {
-				this._drawGeoJsonFeature(geojson);
+				this.drawGeoJsonFeature(geojson);
 			} else {
 				console.log("only feature collections currently supported");
 			}
@@ -133,23 +163,51 @@ EasyMap.prototype = {
 		EasyFileUtils.loadRemoteFile(file,callback);
 	}
 
-
+	,getTransformation: function(){
+		return this.canvas.transformation;
+	}
+	,setTransformation: function(transformation){
+		var w =parseInt(this.wrapper.style.width);
+		var h = parseInt(this.wrapper.style.height);
+		var t =transformation.translate;
+		var s = transformation.scale;
+	
+		this.canvas.transformation = transformation;
+		if(!transformation.origin){
+			this.canvas.transformation.origin = {};
+			var origin = this.canvas.transformation.origin;
+			origin.x =w / 2;
+			origin.y =h / 2;
+		}
+		
+		if(s.x < 1) s.x = 1;
+		if(s.y < 1) s.y = 1;
+		var p =this.getProjection();
+		if(p && p.name == "GLOBE"){
+			if(!this.canvas.transformation.rotate){
+				this.canvas.transformation.rotate = {x:0,y:0,z:0};
+			}
+			this.easyClicking.transformation = this.canvas.transformation;
+		}
+		
+		
+	}
 	,moveTo: function(longitude,latitude,zoom){
 		var newt = {translate:{},scale:{}};
-
+		var transformation =this.getTransformation();
+		
 		var newxy={};
 		newxy.x = - parseFloat(latitude);
 		newxy.y = parseFloat(longitude);
 		
-		
 		if(this.settings.projection){
-		 	newxy = this.settings.projection.xy(newxy.x,newxy.y);
+		 	newxy = this.settings.projection.xy(newxy.x,newxy.y,transformation);
 		}
 		newt.translate.x = newxy.x;
 		newt.translate.y = newxy.y;
 		
 		if(!zoom){
-			zoom =this.canvas.transformation.scale.x;
+			zoom =transformation.scale.x;
 		}
 		else{
 			zoom = parseFloat(zoom);
@@ -160,18 +218,16 @@ EasyMap.prototype = {
 		
 	}
 	,attachBackground: function(imgpath){
-		if(!this.canvas.transformation.spherical && this.settings.background){
+		if(this.settings.background){
 			this.wrapper.style.background=this.settings.background;
 		}
 		else{
 			this.wrapper.style.background = "";
 		}
-		
-		//if(!this._rendered) return;
+
 		if(imgpath) this.settings.backgroundimg = imgpath;
-		if(!this.canvas.transformation.spherical && this.settings.backgroundimg){
-			if(this.settings.renderPolygonMode) this.settings.globalAlpha = 0.8;
-			
+		if(this.settings.backgroundimg){
+			if(this.settings.renderPolygonMode) this.settings.globalAlpha = 0.8;	
 			this.wrapper.style.backgroundImage = "url('"+this.settings.backgroundimg +"')";		
 		}
 		else{
@@ -192,52 +248,7 @@ EasyMap.prototype = {
 		
 	transform: function(transformation){
 
-		this.canvas.transformation = transformation;
-		//set origin
-		var w =parseInt(this.wrapper.style.width);
-		var h = parseInt(this.wrapper.style.height);
-		
-		if(!transformation.origin){
-			this.canvas.transformation.origin = {};
-			var origin = this.canvas.transformation.origin;
-			origin.x =w / 2;
-			origin.y =h / 2;
-		}
-		var t =this.canvas.transformation.translate;
-		var s = this.canvas.transformation.scale;
-		
-		//console.log(t.x,t.y);
-	
-		
-		//if(t.y * s.y  > 85.0511) t.y = 85.0511;
-		//if(t.y * s.y < -85.0511) t.y = -85.0511;
-		//if(t.x *s.x < -180) t.x =-180;
-		//if(t.x *s.x > 180) t.x = 180;
-		
-		if(s.x < 1) s.x = 1;
-		if(s.y < 1) s.y = 1;
-		if(this.spherical){
-			if( !this.canvas.transformation.spherical){
-				this.canvas.transformation.spherical = {};
-			}
-			if(!this.canvas.transformation.rotate){
-				this.canvas.transformation.rotate = {x:0,y:0,z:0};
-			}
-			
-			if(!this.canvas.transformation.spherical.radius){
-				var heightR = (parseInt(this.wrapper.style.height) / s.y) /2;
-				var widthR= (parseInt(this.wrapper.style.width) / s.x) /2;
-			
-			
-				if(widthR > heightR)
-					this.canvas.transformation.spherical.radius = heightR;
-				else
-					this.canvas.transformation.spherical.radius = widthR;
-			}
-		}
-		this.easyClicking.transformation = this.canvas.transformation;
-		
-
+		this.setTransformation(transformation);
 		this.redraw();
 
 	},
@@ -247,13 +258,14 @@ EasyMap.prototype = {
 		e,shape,mouse,longitude_latitude,feature
 		
 	*/
-	setMouseFunctions: function(onmouseup,onmousemove,onrightclick){
+	setMouseFunctions: function(onmouseup,onmousemove,onrightclick,onkeypress){
 			if(onmousemove)this.moveHandler =onmousemove;
 			if(onmouseup)this.clickHandler = onmouseup;
 			//if(ondblclick)this.dblclickHandler = ondblclick;
 			if(onrightclick) this.rightclickHandler = onrightclick;
+			if(onkeypress) this.keyHandler = onkeypress;
 	}
-	,_createGlobe: function(){
+	,_createGlobe: function(radius){
 		if(!this.canvas.getContext) {return;}
 		var ctx = this.canvas.getContext('2d');
 		if(!ctx) return;
@@ -265,11 +277,9 @@ EasyMap.prototype = {
 		ctx.translate(o.x,o.y);
 		ctx.scale(s.x,s.y);
 		ctx.translate(tr.x,tr.y);
-		
-
-		var rad =t.spherical.radius;
 	
-		var radgrad = ctx.createRadialGradient(0,0,10,0,0,rad);
+	
+		var radgrad = ctx.createRadialGradient(0,0,10,0,0,radius);
 
 		radgrad.addColorStop(0,"#AFDCEC");
 		//radgrad.addColorStop(0.5, '#00C9FF');
@@ -277,7 +287,7 @@ EasyMap.prototype = {
 		//radgrad.addColorStop(1, 'rgba(0,201,255,0)');
 
 		ctx.beginPath();
-		ctx.arc(0, 0, rad, 0, Math.PI*2, true);
+		ctx.arc(0, 0, radius, 0, Math.PI*2, true);
 		ctx.closePath();
 		ctx.fillStyle = radgrad;
 		ctx.fill();
@@ -295,22 +305,12 @@ EasyMap.prototype = {
 	},
 	render: function(flag){
 		var tran =this.canvas.transformation;
-		if(this.settings.beforeRender) {
-			this.settings.beforeRender(tran);
-		}
+
 		var mem =this.easyClicking.getMemory();
 		this._setupCanvasEnvironment()
-		
-	
-		if(tran.spherical){
-			this.settings.projection= {
-					nowrap:true,
-					xy: function(x,y,t){
-						var res = EasyMapUtils._spherifycoordinate(x,y,t);
-						return res;
-					}
-			};
-			this._createGlobe();
+		var that = this;
+		if(this.settings.beforeRender) {
+			this.settings.beforeRender(tran);
 		}
 
 
@@ -369,7 +369,7 @@ EasyMap.prototype = {
 		this.geofeatures[this.easyClicking.getMemoryID(s)] = feature;
 
 	},	
-	_drawGeoJsonFeature: function(feature){
+	drawGeoJsonFeature: function(feature){
 			var geometry = feature.geometry;
 			var type =geometry.type.toLowerCase();
 			
@@ -386,10 +386,10 @@ EasyMap.prototype = {
 				console.log("unsupported geojson geometry type " + geometry.type);
 			}
 	},
-	_drawGeoJsonFeatures: function(features){
+	drawGeoJsonFeatures: function(features){
 			var avg1 = 0;
 			for(var i=0; i < features.length; i++){
-				this._drawGeoJsonFeature(features[i]);
+				this.drawGeoJsonFeature(features[i]);
 			}
 
 	}
@@ -441,12 +441,13 @@ EasyMap.prototype = {
 			
 			var code;
 			//console.log(e.keyCode,e.which);
-			if (e.which) code = e.which;
+			if (e.which) code =e.which;
 			else if (e.keyCode) code = e.keyCode;
 			
 			
-			var character = String.fromCharCode(code);
-			
+		
+			var character;
+			if(code) character = String.fromCharCode(code);
 			
 			
 			var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
@@ -482,7 +483,10 @@ EasyMap.prototype = {
 			this.lastMouseMove.x = x;this.lastMouseMove.y = y;
 			
 			var r = getParameters(e);
+			try{
 			eMap.moveHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature);
+			}
+			catch(e){};
 		};
 		
 		var onmouseup = function(e){
@@ -490,20 +494,53 @@ EasyMap.prototype = {
 			var button = e.button;
 			
 			if(!button || button == 0){ //left click
-				eMap.clickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+				try{eMap.clickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+				}
+				catch(e){}
 			}
 			else if(button == 2){ //right click
 				if(eMap.rightclickHandler){
 					var r = getParameters(e);
-					eMap.rightclickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+					try{eMap.rightclickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+					}
+					catch(e){};
 				}	
 			}
 			
 		};
 
-		this.wrapper.onmouseup = onmouseup;
+
+		var onkeypress = function(e){
+			var r = getParameters(e);
+			if(eMap.keyHandler){
+				try{
+				eMap.keyHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+				}
+				catch(e){};
+			}
+		};
+		var keypressed = function(event,shape,mouse,lola,feature,key){
+			//console.log(key + " was pressed");
+		};
+		
+		var dblclick = function(e){
+			
+		}
+		$(this.wrapper).click(function(e) {
+			onmouseup(e);
+		});
+		
+		/*
+		$(this.wrapper).dblclick(function(e) {
+			alert("Dblclicked!");
+			//onmouseup(e);
+		});
+		*/
+		
+		document.onkeypress = onkeypress;
+		//this.wrapper.onmouseup = onmouseup;
 		this.wrapper.onmousemove = onmousemove;
-		this.setMouseFunctions(_defaultClickHandler,_defaultMousemoveHandler,null);
+		this.setMouseFunctions(_defaultClickHandler,_defaultMousemoveHandler,false,keypressed);
 
 		
 	}
