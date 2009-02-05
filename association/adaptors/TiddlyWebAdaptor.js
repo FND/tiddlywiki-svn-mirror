@@ -9,6 +9,7 @@
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''CoreVersion''|2.4.1|
+|''Keywords''|serverSide TiddlyWeb|
 !Revision History
 !!v0.1 (2008-11-10)
 * refactoring of previous experimental efforts
