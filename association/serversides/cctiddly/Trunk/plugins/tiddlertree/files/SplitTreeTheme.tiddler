@@ -23,7 +23,7 @@
 <!--{{{-->
 
 
-	<div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
+	<div class='header' macro='gradient vert #444 #555555'>
 	<div class='headerShadow'>
 	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
 	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
@@ -113,6 +113,11 @@
 </div>
 
 !StyleSheet 
+
+
+.siteTitle, .siteSubtitle {
+	color:white !important;
+}
 
 body {
 font-family:Helvetica;
@@ -272,10 +277,11 @@ ul.page-list {
 	}
 	#tiddlerDisplay {
 		float:right;
+		color:white;
 		height:100%;
 		left:30%;
 		position:absolute;
-		top:2em;
+		top:10.5em;
 		width:70%;
 	}
 	.toolbar {
