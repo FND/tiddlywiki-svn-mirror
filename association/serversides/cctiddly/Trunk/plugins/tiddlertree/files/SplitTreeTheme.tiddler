@@ -116,7 +116,7 @@
 
 
 .siteTitle, .siteSubtitle {
-	color:white !important;
+	color:white ;
 }
 
 body {
@@ -277,7 +277,6 @@ ul.page-list {
 	}
 	#tiddlerDisplay {
 		float:right;
-		color:white;
 		height:100%;
 		left:30%;
 		position:absolute;
