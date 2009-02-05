@@ -89,8 +89,6 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
             }
             dimensionTiddler.set(null, "", config.options.txtUserName, now, ["licenseDimension"], now, fields);
             store.saveTiddler(dimensionTitle);
-            autoSaveChanges(false);
-            console.log("saved tiddler", dimensionTitle);
           }
           story.displayTiddler("top", dimensionTitle, "LicenseDimensionEditTemplate"); // template showing main license
         }
