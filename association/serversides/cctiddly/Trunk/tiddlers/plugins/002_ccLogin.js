@@ -88,7 +88,7 @@ config.macros.ccLogin.refresh=function(place, error){
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	},null, null, null,  {tabindex:'3'});
-	
+/*	
 	if(config.macros.register!==undefined){		
 		var li_register = createTiddlyElement(w.footElem, "li");
 		createTiddlyButton(li_register,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
@@ -99,7 +99,7 @@ config.macros.ccLogin.refresh=function(place, error){
 	createTiddlyButton(li_forgotten,this.buttonForgottenPassword,this.buttonForgottenPasswordToolTip,function() {
 		config.macros.ccLogin.displayForgottenPassword(this, place);
 	},"nobox", null, null,  {tabindex:5});
-
+*/
 };
 
 config.macros.ccLogin.doLogin=function(username, password, item, place){
