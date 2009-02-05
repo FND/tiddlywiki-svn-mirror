@@ -1,8 +1,18 @@
 <html>
 <head>
 
+
 <script src="jquery.js" type="text/javascript"></script>
-<script src="canvasMaps3D.js" type="text/javascript"></script>
+
+<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyController.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMaps.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyShapes.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyClickingUtils.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyFileUtils.js" type="text/javascript"></script>
+
+<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMapUtils.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyClicking.js" type="text/javascript"></script>
+<script src="geojsons/whereLegal.js" type="text/javascript"></script>
 
 <script>
 var eMap = null;
@@ -67,43 +77,42 @@ function init(){
 		}
 
 	};
-	eMap.mousemoveHandler = function(e){
-			//var shape =eMap.getShapeAtClick(e);
-			
-	//		if(shape)
-	//		document.getElementById('time').innerHTML ="long: " + shape.longitudes + " lat:" + shape.latitudes;			
-	};
 
-	eMap.canvas.onclick = function(e){
+	eMap.wrapper.onclick = function(e){
 
-		var s = eMap.utils.getShapeAtClick(e);
+		var s = eMap.easyClicking.getShapeAtClick(e);
 		console.log(s);
 		
 		if(s)
 			alert(s.properties.name);
 	};
-	
+
 	eMap.controller.addControl("zoom");
 	eMap.controller.addControl("rotation");
 	eMap.controller.addControl("mousepanning");
 	console.log(eMap.canvas.transformation);
 	
-	eMap.spherical = true;
-	var proj = {};
-	var that = this;
-	proj.nowrap = true;
-	proj.xy = function(x,y){
-			return EasyMapUtils._spherifycoordinate(x,y,that.canvas.transformation);
-	};
-	eMap.settings.projection = proj;
+	eMap.setProjection("GLOBE");
 		//c = shape.spherify(this.canvas.transformation);
 	
 	
 	
 	eMap.drawFromGeojsonFile('geojsons/wherelegal2.json');
 
-
-
+	function spin(){
+	
+		var transformation = eMap.controller.transformation;
+		transformation.rotate.z += 0.1;
+		if(transformation.rotate.z > EasyMapUtils._degToRad(360))
+		transformation.rotate.z = 0;
+		
+	
+		//transformation.rotate= {x:0,y:0};
+		eMap.controller.setTransformation(transformation);
+	
+		window.setTimeout(spin,1000);
+	}
+	window.setTimeout(spin,10);
 }
 
 </script>

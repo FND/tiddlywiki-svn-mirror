@@ -1,3 +1,7 @@
+tiddler: TiddlersBarPlugin.js
+tiddler: YourSearchPlugin.js
 tiddler: ItineraryMakerPlugin.js
+tiddler: DatePlugin.js
+
 #tiddler: MediaWiki.js
-tiddler: ../../../../MartinBudden/formatters/MediaWikiFormatterPlugin.js
+#tiddler: ../../../../MartinBudden/formatters/MediaWikiFormatterPlugin.js

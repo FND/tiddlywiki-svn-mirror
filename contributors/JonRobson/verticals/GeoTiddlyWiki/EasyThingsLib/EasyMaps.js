@@ -73,6 +73,7 @@ EasyMap.prototype = {
 	,setProjection: function(projection){
 		var easymap = this;
 		if(projection == 'GLOBE'){
+			easymap._fittocanvas = false;
 			this.settings.beforeRender = function(t){
 					easymap._createGlobe(easymap.getProjection().getRadius(t.scale ));
 			};
@@ -137,7 +138,8 @@ EasyMap.prototype = {
 			var type =geojson.type.toLowerCase();
 
 			if(geojson.transform && this._fittocanvas){
-				if(this.getProjection().name == "GLOBE") {
+				var p =this.getProjection();
+				if(p && p.name == "GLOBE") {
 					geojson.transform.translate = {x:0,y:0};
 				}
 				this.controller.setTransformation(geojson.transform);		

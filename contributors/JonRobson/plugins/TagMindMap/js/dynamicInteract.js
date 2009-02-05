@@ -39,6 +39,8 @@ var Tagmindmap = function(wrapper,settings){
 	
 	
 	this.controlpanel =new EasyMapController(this,wrapper);
+	this._init_html_elements();
+	
 	var x = this.controlpanel;
 	initialT = {translate: {x:0,y:0}, scale: {x:this.settings.zoomLevel,y:this.settings.zoomLevel}};
 	x.setTransformation(initialT);
@@ -47,7 +49,9 @@ var Tagmindmap = function(wrapper,settings){
 	x.addControl("mousepanning");
 	x.addControl("mousewheelzooming");
 
-	this._init_html_elements();
+
+	this.children = {};
+	this.parents = {};
 };
 
 Tagmindmap.prototype = {
@@ -217,7 +221,6 @@ Tagmindmap.prototype = {
 	},
 
 	drawEdge: function(id_a,id_b,name_a,name_b,data_a,data_b){
-
 		if(this._nodeInExcludeList(id_a) || this._nodeInExcludeList(id_b)) return false;
 		plotNeeded=false;
 
@@ -258,16 +261,16 @@ Tagmindmap.prototype = {
 	
 			  if(!node1.adjacentTo(node2)){
 
-	
+		
 				this.controller.addAdjacence(node1,node2);
 				
 				node1 = this.controller.getNode(a);
 			  	node2 = this.controller.getNode(b);
 			
-				if(!node1.data.children) node1.data.children = [];
-				if(!node2.data.parents) node2.data.parents = [];
-				node1.data.children.push(b);
-				node2.data.parents.push(a);
+				if(!this.children[a]) this.children[a] = [];
+				if(!this.parents[b]) this.parents[b] = [];
+				this.children[a].push(b);
+				this.parents[b].push(a);
 
 				return true;
 			 }
@@ -435,9 +438,9 @@ Tagmindmap.prototype = {
 			}
 			,getMaxChildren: function(){
 				var max =0,num;
-				for(var i in ttmm.rgraph.graph.nodes){
-					if(ttmm.rgraph.graph.nodes[i].data.children)
-						num = ttmm.rgraph.graph.nodes[i].data.children.length;
+				for(var i in ttmm.children){
+					if(ttmm.children[i])
+						num = ttmm.children[i].length;
 					else
 						num =0;
 					if(num > max) max = num;
@@ -453,21 +456,31 @@ Tagmindmap.prototype = {
 					u =parseFloat(ttmm.settings.tagcloud.upper);
 				}
 				else{ //just take number of children
-					if(node.data.children)
-						weight = node.data.children.length;
+					
+					if(ttmm.children[node.id]){
+						weight = ttmm.children[node.id].length;
+					}
 					u = this.getMaxChildren();
 				}
 				
 				var s,l;
 				
-				if(ttmm.settings.tagcloud.smallest) s = parseFloat(ttmm.settings.tagcloud.smallest);
-				else s = 1;
-				
-				if(ttmm.settings.tagcloud.largest) l =parseFloat(ttmm.settings.tagcloud.largest);
-				else l = 1;
+				if(ttmm.settings.tagcloud.smallest){
+					s = parseFloat(ttmm.settings.tagcloud.smallest);
+				}
+				else{	
+					s = 0.5;
+				} 
+				if(ttmm.settings.tagcloud.largest) {
+					l =parseFloat(ttmm.settings.tagcloud.largest);
+				}
+				else{
+					l = 2;
+				}
 				
 				var fontsize = s + ((l - s) * parseFloat(weight / u));	
-		
+				//console.log(s,l,weight,u,fontsize);
+				
 				return fontsize;
 			},
 			onPlaceLabel: function(domElement, node) {
@@ -503,12 +516,10 @@ Tagmindmap.prototype = {
 						if(!ttmm.settings.tagcloud.off){
 							var fontsize = this.calculateNodeWeight(node);
 
-							if(!nodeLabel.style) nodeLabel.style ={};
-					
-							if(fontsize != "NaN"){
+						
 							
-								nodeLabel.style['fontSize'] = fontsize + "em";
-							}
+							nodeLabel.style.fontSize = fontsize + "em";
+							
 						}
 					
 						nodeLabel.setAttribute("class","nodeLabel");

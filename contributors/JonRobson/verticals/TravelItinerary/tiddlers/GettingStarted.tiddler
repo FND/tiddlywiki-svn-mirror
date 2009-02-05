@@ -1,15 +1,14 @@
-<div title="GettingStarted">
+<div title="Getting Started" tags="excludeLists excludeSearch">
 <pre>
-So you're going on holiday and you would like a travel itinerary for your trip? You've come to the right place!
+!Warning
+Please read the [[Terms and Conditions]] before using this app.
 
-Simply tell me where you are going:
+!How to use
+So you're going on holiday and you would like a travel itinerary for your trip? Maybe your lacking inspiration for that trip you are going on, are worried you'll miss something cool. Let Topsy Travel Guide do lots of the hard work for you then just explore the data.
+
+Simply tell me where you are going, how many days and we will pull down useful things for you and set up a notebook you can explore. Once it's done, delete what doesn't interest you, edit what does, make notes based on things you read and see and soon enough you will have a lovely little travel guide to read on the plane during your flight!
+
+!Use
 <<itineraryMaker>>
-<<include http://en.wikipedia.org/wiki/England>>
-And hit the button.
-
-We'll talk to various websites including TravelWiki and pull together a really cool travel itinerary for you.
-
-Then you can click [[The Map]].
-
 </pre>
 </div>

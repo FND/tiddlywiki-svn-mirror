@@ -1,5 +1,6 @@
-<div title='The Map'>
+<div title="The Map" tags="excludeLists excludeSearch">
 <pre>
-Placeholder for your travel map.
+<<geo width:500 height:300 projection:googlestaticmap id:mytrip source:false>>
+<<geosearchandgoto id:mytrip>>
 </pre>
 </div>

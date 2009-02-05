@@ -1,6 +1,16 @@
 tiddler: DefaultTiddlers.tiddler
 tiddler: GettingStarted.tiddler
 tiddler: Map.tiddler
-tiddler: ../../GeoTiddlyWiki/tiddlers/ViewTemplate.tiddler
+tiddler: PageTemplate.tiddler
+tiddler: MainMenu.tiddler
+tiddler: StyleSheet.tiddler
+tiddler: ViewTemplate.tiddler
 tiddler: ../../GeoTiddlyWiki/tiddlers/EditTemplate.tiddler
 tiddler: ../../GeoTiddlyWiki/tiddlers/ToolbarCommands.tiddler
+tiddler: ListPhotos.tiddler
+tiddler: TimeLine.tiddler
+tiddler: ToolbarCommands.tiddler
+tiddler: Banner.tiddler
+tiddler: TermConditions.tiddler
+tiddler: Help.tiddler
+tiddler: TopBanner.tiddler
