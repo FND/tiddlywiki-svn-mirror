@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.6|
+|''Version:''|0.8.7|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -319,6 +319,8 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 // get a list of the tiddlers in the current workspace
 {
 	context = this.setContext(context,userParams,callback);
+	if(!context.filter)
+		context.filter = filter;
 //#console.log('getTiddlerList');
 //# http://meta.wikimedia.org/w/api.php?action=query&list=allpages&aplimit=5&format=jsonfm
 //# http://www.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=wiki
@@ -337,8 +339,9 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 	var limit = context.tiddlerLimit;
 	if(limit>500)
 		limit = 500;
+	filter = context.filter;
 	if(filter) {
-		var re = /\[(\w+)\[([ \w]+)\]\]/;
+		var re = /\[(\w+)\[([ \w\.\:]+)\]\]/;
 		var match = re.exec(filter);
 		if(match) {
 			var filterParams = adaptor.normalizedTitle(match[2]);
@@ -349,7 +352,13 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 				break;
 			case 'template':
 				context.responseType = 'query.embeddedin';
-				uriTemplate = '%0/api.php?format=json&action=query&list=embeddedin&einamespace=0&eititle=Template:%3';
+				uriTemplate = '%0/api.php?format=json&action=query&list=embeddedin&einamespace=%1&eititle=Template:%3';
+				if(limit)
+					uriTemplate += '&eilimit=%2';
+				break;
+			case 'wikipedia':
+				context.responseType = 'query.embeddedin';
+				uriTemplate = '%0/api.php?format=json&action=query&list=embeddedin&einamespace=1&eititle=Wikipedia:%3';
 				if(limit)
 					uriTemplate += '&eilimit=%2';
 				break;
@@ -427,9 +436,9 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 adaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 {
 //#console.log('getTiddlerListCallback status:'+status);
+//#console.log(context);
 //#console.log(context.responseType);
 //#console.log(responseText.substr(0,400));
-//#console.log(context.responseType);
 	context.status = false;
 	context.statusText = adaptor.errorInFunctionMessage.format(['getTiddlerListCallback']);
 	if(status) {
@@ -454,13 +463,19 @@ adaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 						c = null;
 				}
 			}
+			var useMain = false;
+			if(context.workspace=="Talk" && context.filter)
+				useMain = true;
 			for(i in pages) {
 				var title = pages[i].title;
+				if(useMain&&title)
+					title = title.replace(/^Talk:/g,"")
 				if(title && !store.isShadowTiddler(title)) {
 					//# avoid overwriting shadow tiddlers
 					tiddler = new Tiddler(title);
-					tiddler.fields.workspaceId = pages[i].ns;
-					tiddler.fields['temp.size'] = pages[i].length;
+					tiddler.fields.workspaceId = useMain ? 0 : pages[i].ns;
+					if(!useMain)
+						tiddler.fields['temp.size'] = pages[i].length;
 					context.tiddlers.push(tiddler);
 				}
 			}
