@@ -22,6 +22,16 @@
 !PageTemplate
 <!--{{{-->
 
+
+	<div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
+	<div class='headerShadow'>
+	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+	</div>
+</div>
+
+
+
 <div id='bodywrapper' >
 <div id='displayArea'>
 <div id='messageArea'></div>

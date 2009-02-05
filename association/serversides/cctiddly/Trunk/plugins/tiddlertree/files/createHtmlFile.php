@@ -5,9 +5,6 @@ $dir = dirname(dirname(dirname($tiddlyCfg['pref']['upload_dir']))).'/uploads/doc
 @mkdir($dir, 0777, true);
 formatParametersPOST($_POST['html']);
 
-
-
-echo $_POST['html'];
 $myFile = $dir."/".$_REQUEST['compositionTiddler'].".html";
 
 
