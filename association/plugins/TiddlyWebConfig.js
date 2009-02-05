@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWeb|
 |''Author''|FND|
-|''Version''|0.2.0|
+|''Version''|0.2.1|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -18,7 +18,9 @@
 if(!version.extensions.TiddlyWebConfig) { //# ensure that the plugin is only installed once
 version.extensions.TiddlyWebConfig = { installed: true };
 
-config.options.chkAutoSave = true;
+if(window.location.protocol == "file:") {
+	config.options.chkAutoSave = true;
+}
 
 config.defaultCustomFields = {
 	"server.type": "tiddlyweb",
