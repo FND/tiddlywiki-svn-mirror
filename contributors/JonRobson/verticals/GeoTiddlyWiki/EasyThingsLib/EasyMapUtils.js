@@ -180,14 +180,16 @@ var EasyMapUtils = {
 		var tempy = parseFloat(canvasy/view.height);
 
 		if(tempx < tempy) temp = tempx; else temp = tempy;
-		json.transform.scale.x = temp;
-		json.transform.scale.y = temp;
+		
+		var transform = {scale:{},translate:{}};
+		transform.scale.x = temp;
+		transform.scale.y = temp;
 
-		json.boundingBox = view;
+		transform.boundingBox = view;
 
-		json.transform.translate.x = -view.center.x;
-		json.transform.translate.y = view.center.y;//view.center.y;	
-		return json;
+		transform.translate.x = -view.center.x;
+		transform.translate.y = view.center.y;//view.center.y;	
+		return transform;
 	},
 	/*does not yet support undoing rotating */
 	_testCanvas: function(ctx){

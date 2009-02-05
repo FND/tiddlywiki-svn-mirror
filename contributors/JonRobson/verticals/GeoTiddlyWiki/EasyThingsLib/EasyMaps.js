@@ -132,19 +132,16 @@ EasyMap.prototype = {
 			}		
 			this._lastgeojson = geojson;
 			if(!geojson.points && this._fittocanvas){
-				geojson = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
-			}
-
-			var type =geojson.type.toLowerCase();
-
-			if(geojson.transform && this._fittocanvas){
+			 	var t = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
+			
 				var p =this.getProjection();
 				if(p && p.name == "GLOBE") {
-					geojson.transform.translate = {x:0,y:0};
+					t.translate = {x:0,y:0};
 				}
-				this.controller.setTransformation(geojson.transform);		
+				this.controller.setTransformation(t);
 			}
-		
+
+			var type =geojson.type.toLowerCase();		
 
 			if(type == "featurecollection"){
 				var features = geojson.features;
@@ -189,9 +186,9 @@ EasyMap.prototype = {
 			if(!this.canvas.transformation.rotate){
 				this.canvas.transformation.rotate = {x:0,y:0,z:0};
 			}
-			this.easyClicking.transformation = this.canvas.transformation;
+			
 		}
-		
+		this.easyClicking.transformation = this.canvas.transformation;
 		
 	}
 	,moveTo: function(longitude,latitude,zoom){

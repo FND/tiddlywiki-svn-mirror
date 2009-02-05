@@ -148,5 +148,3 @@ var EasyFileUtils= {
 		return value;
 	}
 };
-
-EasyFileUtils.saveImageLocally("http://l.yimg.com/g/images/spaceball.gif","blah.jpg");
