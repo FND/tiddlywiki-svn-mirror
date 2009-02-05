@@ -4,7 +4,12 @@
 config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
 //config.options.txtTheme = "TreeTheme";
-config.options.txtTheme = "SplitTreeTheme";
+
+if(isLoggedIn())
+	config.options.txtTheme = "SplitTreeTheme";
+else
+	config.options.txtTheme = "SplitTreeThemeAnon";
+
 config.options.chkSinglePageMode = true;
 config.options.chkBackstage = false;
 
