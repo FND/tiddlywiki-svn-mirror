@@ -96,7 +96,7 @@ var selectNextItem = function(reverse) { // TODO: rename
 	window.scrollTo(0, ensureVisible(el)); // TODO: use jQuery (animations?)
 };
 
-// detect active edit session
+// detect active edit session -- XXX: obsolete (cf. input-field detection in jQuery.CLI)
 var editing = function() { // TODO: rename
 	if($("#displayArea .selected[dirty=true]:in-viewport").length) { // XXX: excessively complicated (performance implications!)
 		return true;

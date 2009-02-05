@@ -39,7 +39,7 @@ $.tw.fn.extend({
 		var headings = [];
 		// add anchors to headings
 		var tiddlerElem = story.findContainingTiddler(this[0]);
-		$(tiddlerElem).find("h1, h2, h3, h4, h5, h6").attr("id", function() {
+		$(tiddlerElem).find("h1, h2, h3, h4, h5, h6").attr("id", function() { // XXX: use A element with name instead of id?
 			var tag = this.nodeName;
 			var label = $(this).text();
 			var name = tag + "_" + label.replace(" ", "_"); // XXX: replacing spaces not sufficient!?
