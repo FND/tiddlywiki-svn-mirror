@@ -23,6 +23,7 @@ export hash=$(echo "$uri"|md5sum|awk '{print $1}')
 #  log uri etc.
 #
 env > $dir/$hash.txt
+exec 2>> $dir/$hash.txt
 
 #
 #  grab document from URI
