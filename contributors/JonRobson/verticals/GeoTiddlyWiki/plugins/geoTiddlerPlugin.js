@@ -104,7 +104,8 @@ if(!version.extensions.geoPlugin) {
 		,getGoogleMercatorProjection: function(){
 			
 			var p = {};
-			p.googleHack = 0.000006378137; //radius of earth
+			p.googleHack = 1/((2 * Math.PI * 6378137) / 256);
+			//0.000006378137; //radius of earth
 			p.source = new Proj4js.Proj('WGS84');//
 			p.dest = new Proj4js.Proj('GOOGLE');
 			p.resultCache = {};
@@ -140,7 +141,7 @@ if(!version.extensions.geoPlugin) {
 				}
 			};
 			p.xy = function(x,y,t){
-					
+				
 					if(this.resultCache[x+"|"+y]) {
 						return this.resultCache[x+"|"+y];
 					}
@@ -284,7 +285,6 @@ if(!version.extensions.geoPlugin) {
 			var projection = this.getGoogleMercatorProjection();
 			eMap.settings.projection = projection;
 			eMap._fittocanvas = false;
-			//eMap.settings.renderPolygonMode = false;
 			var that = this;
 			var tiles = this._createTiles(eMap,2);
 			var eMap = eMap;
@@ -703,8 +703,8 @@ if(!version.extensions.geoPlugin) {
 			}
 			var proj = getParam(prms,"projection");
 			if(proj == 'slippystaticmap'){
-				//wrapper.style.height = "256px";
-				//wrapper.style.width= "256px";
+				wrapper.style.height = "256px";
+				wrapper.style.width= "256px";
 			}
 			var statustext = createTiddlyElement(wrapper,"div",id+"_statustext");
 			createTiddlyText(statustext,"loading... please wait a little while!");

@@ -2,7 +2,7 @@
 <pre>
 
 sydney<<geogotobutton world 151.211111 -33.859972>>newyork<<geogotobutton world -73.986951 40.756054>>singapore <<geogotobutton world 103.8 1.366667>>
-<<geo id:world source:georss width:600 height:400 projection:globe>>
+<<geo id:world width:600 height:400 source:false projection:slippystaticmap>>
 < <geogoto latitude:1.366667 longitude:103.8 zoom:2048 id:world>>
 !What is GeoTiddlyWiki
 Welcome to GeoTiddlyWiki. This page is designed to give you a quick outline of what GeoTiddlyWiki can do for you. Essentially GeoTiddlyWiki allows you (or could allow you in future :)) to do pretty much any thing related to visualising geographical data. By installing GeoTiddlyWiki your tiddlers become geotiddlers allowing you to associate them with countries, cities, your favourite pubs.. anything you can think of. If you are interested in creating coloured maps of data, or planning a travel itinerary or simply creating a map of ''YOUR'' world I suggest you read on and find out what this plugin can.
