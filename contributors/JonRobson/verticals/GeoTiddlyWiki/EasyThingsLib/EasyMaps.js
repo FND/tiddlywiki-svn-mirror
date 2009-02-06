@@ -422,11 +422,11 @@ EasyMap.prototype = {
 
 	,_setupMouseHandlers: function(e){
 		var eMap = this;
-		var _defaultClickHandler = function(e,shape,mousepos,ll){};	
+		var _defaultClickHandler = function(e,shape,mousepos,ll,easymap){};	
 		
-		var _defaultMousemoveHandler = function(e,shape,mousepos,ll){
+		var _defaultMousemoveHandler = function(e,shape,mousepos,ll,feature,easymap){
 			if(mousepos){
-				var wid =eMap.wrapper.id+'_tooltip';
+				var wid =easymap.wrapper.id+'_tooltip';
 				var tt =document.getElementById(wid);
 				if(!tt){
 					tt = document.createElement('div');
@@ -434,7 +434,7 @@ EasyMap.prototype = {
 					tt.id = wid;
 					tt.style.zIndex = 4;
 					tt.setAttribute("class","easymaptooltip");
-					eMap.wrapper.appendChild(tt);
+					easymap.wrapper.appendChild(tt);
 				}
 
 				var text ="";
@@ -510,7 +510,7 @@ EasyMap.prototype = {
 			
 			var r = getParameters(e);
 			try{
-			eMap.moveHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature);
+			eMap.moveHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,eMap);
 			}
 			catch(e){};
 		};
@@ -520,14 +520,14 @@ EasyMap.prototype = {
 			var button = e.button;
 			
 			if(!button || button == 0){ //left click
-				try{eMap.clickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+				try{eMap.clickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
 				}
 				catch(e){}
 			}
 			else if(button == 2){ //right click
 				if(eMap.rightclickHandler){
 					var r = getParameters(e);
-					try{eMap.rightclickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+					try{eMap.rightclickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
 					}
 					catch(e){};
 				}	

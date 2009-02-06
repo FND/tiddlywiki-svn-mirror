@@ -397,7 +397,7 @@ EasyShape.prototype={
 		var d1,d2,t;
 		if(!vml) return;
 	
-		if(vml.tagName == 'shape' && (!vml.path || this.properties.shape =='point' ||projection)) {
+		if(vml.tagName == 'shape' && (!vml.path || this.properties.shape =='point' ||aion)) {
 			//causes slow down..
 			this._createvmlpathstring(vml,transformation,projection);
 		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
@@ -549,14 +549,14 @@ EasyShape.prototype={
 
 			cok = true;
 			//check we haven't wrapped around world (For flat projections sss)
-			/*
+			
 			if(!projection.nowrap){
 				var diff;
 				if(newx > x) diff = newx - x;
 				if(x > newx) diff = x - newx;
 				if(diff > 100) cok = false; //too extreme change
 			}
-			*/
+			
 			if(cok){
 				if(typeof newx == 'number' && typeof newy =='number'){
 					if(moved){
