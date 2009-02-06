@@ -92,3 +92,16 @@ def ensure_bag(bag_name, store, policy_dict={}, description='', owner=None):
             bag.policy.__setattr__(key, policy_dict[key])
         store.put(bag)
     return bag
+
+
+def replace_handler(selector, path, new_handler):
+    """
+    Replace an existing path handler in the selector
+    map with a new handler. Usually we want to add a
+    new one, but sometimes we just want to replace.
+    This makes replacing easy. Courtesy of arno,
+    the selector author.
+    """
+    for index, (regex, handler) in enumerate(selector.mappings):
+        if regex.match(path) is not None:
+            selector.mappings[index] = (regex, new_handler)
