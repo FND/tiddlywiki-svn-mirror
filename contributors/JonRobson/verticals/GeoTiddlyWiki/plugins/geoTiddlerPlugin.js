@@ -39,7 +39,7 @@ http://spatialreference.org/ref/sr-org/google-projection/ for help with google p
 	
 
 if(!version.extensions.geoPlugin) {
-	console.log("$!!",$);
+
 	setStylesheet(".wrapper {border:1px solid} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'geo');
 	
 	version.extensions.geoPlugin = {installed:true};
@@ -51,7 +51,7 @@ if(!version.extensions.geoPlugin) {
 			return geomaps[id];
 		}
 		,handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-			console.log("handling..",$);				
+					
 			 var prms = paramString.parseParams(null, null, true);
 
 
@@ -101,11 +101,10 @@ if(!version.extensions.geoPlugin) {
 
 			//}
 		}	
-		,getGoogleMercatorProjection: function(){
+		,getGoogleMercatorProjection: function(easymap){
 			
 			var p = {};
-			p.googleHack = 1/((2 * Math.PI * 6378137) / 256);
-			//0.000006378137; //radius of earth
+			p.googleHack = 1/((2 * Math.PI * 6378137) / parseInt(easymap.wrapper.style.width));
 			p.source = new Proj4js.Proj('WGS84');//
 			p.dest = new Proj4js.Proj('GOOGLE');
 			p.resultCache = {};
@@ -169,7 +168,7 @@ if(!version.extensions.geoPlugin) {
 		,setupGoogleStaticMapLayer: function(eMap){
 			var that = this;
 		
-			eMap.settings.projection = this.getGoogleMercatorProjection();
+			eMap.settings.projection = this.getGoogleMercatorProjection(eMap);
 			eMap._fittocanvas = false;
 			var useLocalImage = function(dest){
 				eMap.attachBackground(dest);
@@ -259,7 +258,6 @@ if(!version.extensions.geoPlugin) {
 					tile.style.position = "absolute";
 					tile.style.width = "256px";
 					tile.style.height = "256px";
-					tile.style.border = "1px solid black";
 					/*tile.style.left = tilex+"px";
 					tile.style.top = tiley+"px";
 					tile.store = {};
@@ -282,7 +280,7 @@ if(!version.extensions.geoPlugin) {
 		}
 		,setupSlippyStaticMapLayer: function(eMap){
 			/*Filename(url) format is /zoom/x/y.png */
-			var projection = this.getGoogleMercatorProjection();
+			var projection = this.getGoogleMercatorProjection(eMap);
 			eMap.settings.projection = projection;
 			eMap._fittocanvas = false;
 			var that = this;
@@ -296,20 +294,6 @@ if(!version.extensions.geoPlugin) {
 				if(eMap.settings.lastScale > transformation.scale.x)
 					zoomOut = true;
 				
-				console.log(transformation.scale.x);
-				/*					
-				while(transformation.scale.x >= 512&& transformation.scale.x <= 65536){
-					if(zoomOut){ //zooming out
-						transformation.scale.x /= 2;
-						transformation.scale.y /= 2;
-					}
-					else{
-						transformation.scale.x *= 2;
-						transformation.scale.y *= 2;
-					}
-					
-				}*/
-				
 				eMap.settings.lastScale = transformation.scale.x;
 					//eMap.attachBackground("none");
 					var x =0,y =0,lo,la, translate= transformation.translate,scale= transformation.scale;
@@ -317,35 +301,9 @@ if(!version.extensions.geoPlugin) {
 					eMap.settings.backgroundimg = "none";
 					eMap.wrapper.style.backgroundImage = "none";
 					
-					//stop wrap around
-					//find longitude latitude of bottom right corner.
-					
-					/*
-					bottomright.x = translate.x;
-					bottomright.y = translate.y;
-					
-					
-					la = topleft.latitude;
-					lo = topleft.longitude;
-					*/
-					/*var res = eMap.settings.projection.xy(translate.x,translate.y);
-					lo = res.x;
-					la = res.y;
-					
-					
-					var t;
-					
-					//work out bottom right tile
-					var focus ={};
-					var a = ((lo + 180) / 360) * n;
-					var rla =EasyMapUtils._degToRad(la);
-					var b = ((1.0 - (rla / Math.PI)) / 2.0) * n;
-					*/
 					var zoomL = projection.calculatescalefactor(scale.x);
 					
 					
-					//var topleft = eMap.settings.projection.xy(translate.x,translate.y);
-				
 					var i;
 					for(i in tiles){
 						tiles[i].style.backgroundImage ="none";

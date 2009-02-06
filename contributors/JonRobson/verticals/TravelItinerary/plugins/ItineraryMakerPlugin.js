@@ -1,12 +1,30 @@
 /*To do:
 Limit additions to within a certain radius of start */
 
-config.macros.search.label = "search your itinerary";
-config.macros.newTiddler.label = "New Note";
+config.macros.search.label = "find a travel note";
+config.macros.newTiddler.label = "Add Note";
 config.macros.newTiddler.prompt = "Add a new travel note";
+
+config.macros.addDay = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler){
+		createTiddlyButton(place,"Add Day","add a day to your itinerary",this.handle);
+	}
+	,handle: function(){
+		var daynum = prompt("What is the day number?");
+		
+		daynum = parseInt(daynum);
+		
+		if(daynum < 10) daynum = "00"+ daynum;
+		if(daynum >= 10) daynum = "0" + daynum;
+		var title ="Day " + daynum;
+		store.saveTiddler(title,title,"What are you going to do today?",null,null,['day'],{});
+		story.displayTiddler(null,title,DEFAULT_EDIT_TEMPLATE);
+		story.refreshTiddler("timeline");
+	}
+};
 config.macros.itineraryMaker={
 	visitedurls: {}
-	,mapString: "<<geoedit width:500 height:400 projection:googlestaticmap id:mytrip source:false>>"
+	,mapString: "<<geoedit width:500 height:300 projection:slippystaticmap id:mytrip source:false>>"
 	
 	,visiturl: function(url, callback){
 		
@@ -220,54 +238,68 @@ config.macros.itineraryMaker={
 				return;
 			}
 			if(results){
-				console.log("have result!",results);
 				var topresult = results[0];
 				var title = topresult.titleNoFormatting;
 				var friendlytitle = that.getFriendlyTitle(title);	
 				var lo = topresult.lng;
 				var la = topresult.lat;
-			
-				/*var georange = {};
-				georange.longitudeMax = lo + 10;
-				georange.longitudeMin = lo - 10; 
-			*/
-				var travelwikibaseurl ="http://wikitravel.org";
-				var relativeurl ="/en/"+friendlytitle;
-			
-				that.createTravelTiddlerFromMediaWikiPage(travelwikibaseurl,relativeurl,1,true);
-				that.pullFromRSS("http://api.flickr.com/services/feeds/geo/?lang=en-us&format=rss_200&tags="+friendlytitle,['flickr',friendlytitle]);
-				
 				var countrycode = topresult.country;
-				that.pullFromRSS("http://www.dopplr.com/place/"+countrycode + "/", ['dopplr'])
-				
-
+			
+				config.macros.addDestination.addLocation(friendlytitle,lo,la,countrycode,1);
 				//sort out map
-				var mapString ="<<geoedit width:500 height:400 projection:googlestaticmap id:mytrip source:false>>";
-				var wikiText = mapString +"<<geogoto latitude:"+ la + " longitude:" +lo + " zoom:256 id:mytrip>><<geosearchandgoto id:mytrip>>";
+				var mapString =that.mapString;
+				var wikiText = mapString +"<<geogoto latitude:"+ la + " longitude:" +lo + " zoom:256 id:mytrip>>";
 				store.saveTiddler("The Map","The Map",wikiText,null,null,['excludeSearch', 'excludeLists'],{});
 			}
+			var prefix ="";
 			for(var i =1; i <= days.value; i++){
-				var title ="Day " + i;
+				if(i < 10){
+					prefix = "Day 00"
+				}
+				else if(i>= 10 && i < 100){
+					prefix = "Day 0"
+				}
+				var title =prefix + i;
 				if(!store.tiddlerExists(title)){
 					store.saveTiddler(title,title, "So what are you going to do today?",null,null, ['day']);
 				}
 			}
 			
-			var dateText = "<<list filter [tag[day]]>>";
-			store.saveTiddler("timeline","timeline", dateText,null,null, ['when']);
-
+			
 		}
 		
 		wikify("''how many days?''",place);
-		//from =config.macros.calendarPopup.handler(place,null,['from date']);
-		//to =config.macros.calendarPopup.handler(place,null,['until date']);
 		days = createTiddlyElement(place,"input");	
 		days.value = 1;
 		config.macros.googlelocalsearcher.setup(place,handler,false,"''where are you going?''");
 	}	
 };
 
-
+config.macros.addDestination = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler){
+		var handler = function(results){
+			if(!results || !results[0]){
+				return;
+			}
+			var topresult = results[0];
+			var title = topresult.titleNoFormatting;
+			var friendlytitle = config.macros.itineraryMaker.getFriendlyTitle(title);	
+			var lo = topresult.lng;
+			var la = topresult.lat;
+			var countrycode = topresult.country;
+			
+			config.macros.addDestination.addLocation(title,lo,la,countrycode,0);
+		}
+		config.macros.googlelocalsearcher.setup(place,handler,false,"add destination:");
+	}
+	,addLocation: function(name,longitude,latitude,countrycode,crawlDepth){
+		var travelwikibaseurl ="http://wikitravel.org";
+		var relativeurl ="/en/"+name;
+		config.macros.itineraryMaker.createTravelTiddlerFromMediaWikiPage(travelwikibaseurl,relativeurl,crawlDepth,true);
+		config.macros.itineraryMaker.pullFromRSS("http://api.flickr.com/services/feeds/geo/?lang=en-us&format=rss_200&tags="+name,['flickr',name]);
+		config.macros.itineraryMaker.pullFromRSS("http://www.dopplr.com/place/"+countrycode + "/", ['dopplr'])
+	}
+};
 config.macros.addRssToItinerary = {
 	
 	handler: function(place,macroName,params,wikifier,paramString,tiddler) {

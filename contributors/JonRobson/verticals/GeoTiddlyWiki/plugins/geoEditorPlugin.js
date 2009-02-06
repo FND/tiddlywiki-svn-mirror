@@ -201,7 +201,7 @@ config.macros.geosearchandgoto = {
 	 
 		var prms = paramString.parseParams(null, null, true);
 		var mapid = getParam(prms,"id");
-		
+		var label = getParam(prms,"label");
 		var tagit =document.createElement("button");
 		var f = function(results){
 			var map = config.macros.geo.getMap(mapid);
@@ -220,7 +220,7 @@ config.macros.geosearchandgoto = {
 			tagit.latitude = la;
 			*/
 		};
-		config.macros.googlelocalsearcher.setup(place,f,true);
+		config.macros.googlelocalsearcher.setup(place,f,true,label);
 
 /*
 		tagit.onclick = function(e){
@@ -243,7 +243,7 @@ config.macros.googlelocalsearcher = {
 		var searchtaggerinput = createTiddlyElement(newplace,"input",null,null);
 		var suggestions = createTiddlyElement(newplace,"span");
 		var searchtaggerclick = createTiddlyElement(newplace,"button",null,null,"go");		
-		wikify("\n tips: for San Francisco search for San Francisco, California,USA - the more specific the more accurate",newplace);
+		searchtaggerinput.title = "tips: for San Francisco search for San Francisco, California,USA - the more specific the more accurate";
 		var handler = function(results){
 			if(!results || !results[0]){
 				alert("Never heard of that place.. are you sure it exists?");
