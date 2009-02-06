@@ -1,6 +1,6 @@
+//geojson should be handled here - maybe create from geojson
 
-//georss support please
-
+/*coordinates are a string consisting of floats and move commands (M)*/
 var EasyShape = function(properties,coordinates,geojson){
 	this.grid = {};
 	this.coords = [];
@@ -245,15 +245,18 @@ EasyShape.prototype={
 		
 		if(c.length == 0) return;
 		
-		var initialX,initialY;
+		/*var initialX,initialY;
+		var start;
 		if(c[0] == 'M'){//starts with an "M"
 			initialX = parseFloat(c[1]);
 			initialY = parseFloat(c[2]);
+			start = 3;
 		}
 		else{
 			initialX = parseFloat(c[0]);
-			initialY = parseFloat(c[1]);			
-		}
+			initialY = parseFloat(c[1]);
+			start = 2;			
+		}*/
 
 		
 		var threshold = 2;
@@ -275,10 +278,10 @@ EasyShape.prototype={
 
 		ctx.beginPath();
 		
-		ctx.moveTo(initialX,initialY);
+		//ctx.moveTo(initialX,initialY);
 
-		var move;
-		for(var i=2; i < c.length-1; i+=2){
+		var move = true;
+		for(var i=0; i < c.length-1; i+=2){
 			if(c[i]== "M") {
 				i+= 1; 
 				move=true;
@@ -291,16 +294,17 @@ EasyShape.prototype={
 			else{
 				if(move){
 					ctx.moveTo(x,y);
+					
+					//console.log("i found and moved to",x,y);
 					move = false;
 				}
 				else{
+					//console.log("line to", x,y);
 					ctx.lineTo(x,y);
 				}
 			}
 			
 		}
-		//connect last to first
-		//if(shapetype != 'path') ctx.lineTo(initialX,initialY);
 		ctx.closePath();
 
 		if(!this.properties.hidden) {
@@ -521,37 +525,52 @@ EasyShape.prototype={
 	,_applyProjection: function(projection,transformation){
 		var c = this.coords;
 		if(!projection) return c;
-		
+		if(!projection.xy){
+			return;
+		}	
+		if(projection.init) projection.init();
 		var newc = [];
 		for(var i=0; i < c.length-1; i+=2){
+			var moved = false;
+			if(c[i] == "M"){
+				i+= 1;
+			}
 			var x = parseFloat(c[i]);
 			var y = parseFloat(c[i+1]);
 			
-			if(projection.xy){
-				var t = projection.xy(c[i],c[i+1],transformation);
-				newx= t.x;
-				newy= t.y;
+			var projectedCoordinate = projection.xy(c[i],c[i+1],transformation);
+			newx= projectedCoordinate.x;
+			newy= projectedCoordinate.y;
+			
+			if(projectedCoordinate.move){
+				moved  =true;
 			}
+			
 
 			cok = true;
 			//check we haven't wrapped around world (For flat projections sss)
+			/*
 			if(!projection.nowrap){
 				var diff;
 				if(newx > x) diff = newx - x;
 				if(x > newx) diff = x - newx;
 				if(diff > 100) cok = false; //too extreme change
 			}
-			
+			*/
 			if(cok){
 				if(typeof newx == 'number' && typeof newy =='number'){
-				newc.push(newx);
-				newc.push(newy);
+					if(moved){
+						newc.push("M");
+					}
+					newc.push(newx);
+					newc.push(newy);
 				}
 	
 			}
 			
 			
 		}	
+
 
 		this._tcoords = newc;
 		this._calculateBounds(this._tcoords);

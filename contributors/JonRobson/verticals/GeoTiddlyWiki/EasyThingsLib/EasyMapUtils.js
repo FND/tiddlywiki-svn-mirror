@@ -235,7 +235,7 @@ var EasyMapUtils = {
 		
 		var longitude = EasyMapUtils._degToRad(lon);
 		var latitude = EasyMapUtils._degToRad(lat);
- 		
+ 		var wraplat = false;
  		// assume rotate values given in radians
 		if(transformation && transformation.rotate){
 			//latitude += transformation.rotate.x;
@@ -252,7 +252,24 @@ var EasyMapUtils = {
 				longitude +=r;
 			}
 			if(transformation.rotate.y){
-				//latitude += parseFloat(transformation.rotate.y);
+				latitude += parseFloat(transformation.rotate.y);
+				/*var limit =EasyMapUtils._degToRad(85);
+				if(latitude <-limit){
+					latitude += (2 * limit);
+					res.movedNorth = true;
+					
+				}
+				
+				if(latitude > limit){
+					latitude -= (2 * limit);
+					res.movedSouth = true;
+					
+					
+				}
+				*/	
+				
+				//latitude = latitude % 6.28318531;
+				
 			} 
 		}
 		// latitude is 90-theta, where theta is the polar angle in spherical coordinates
@@ -268,13 +285,13 @@ var EasyMapUtils = {
 		//   it does not matter whether we multiply by sin or cos of longitude	
 	
 		longitude = longitude % 6.28318531; //360 degrees		
-		latitude = latitude % 6.28318531;
+	
 		
 		
 		
 		res.y = (radius) * Math.sin(latitude);	
-		
-	
+		//console.log(latitude);
+		//if(wraplat) res.y = ["M",res.y];
 		/*
 		
 		if(latitude > 85.0511){

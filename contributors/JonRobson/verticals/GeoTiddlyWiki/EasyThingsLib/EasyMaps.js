@@ -78,12 +78,15 @@ EasyMap.prototype = {
 					easymap._createGlobe(easymap.getProjection().getRadius(t.scale ));
 			};
 			
-			
 			this.settings.projection= {
 					name: "GLOBE",
 					nowrap:true,
 					radius: 10,
-					getRadius: function(){
+					direction: 0
+					,init: function(){
+						this.direction = 0;
+					}
+					,getRadius: function(){
 						return this.radius;
 					}
 					,inversexy: function(x,y,t){
@@ -94,6 +97,20 @@ EasyMap.prototype = {
 					,xy: function(x,y,t){
 						var radius =this.getRadius(t.scale);
 						var res = EasyMapUtils._spherifycoordinate(x,y,t,radius);
+						/*
+						if(res.movedNorth && this.direction >= 0){
+							this.direction = -1;
+							res.move= true;
+						}
+						else if(res.movedSouth && this.direction <= 0){
+							this.direction = 1;
+							res.move = true;
+						}
+						
+						if(res.y > radius - 10 || res.y < 10-radius){
+							
+							res.y = false;
+						}*/
 						return res;
 					}
 			};
@@ -112,14 +129,17 @@ EasyMap.prototype = {
 			this.settings.projection = projection;
 		}
 	}
-	,clear: function(){
+	,clear: function(){ /* does this work in IE? */
 
 
 		this._maxX = 0;
 		this._maxY = 0;
 
 		
-		if(!this.canvas.getContext) {return;}
+		if(!this.canvas.getContext) {
+			
+			return;
+		}
 		var ctx = this.canvas.getContext('2d');
 		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);		
 		
@@ -131,7 +151,7 @@ EasyMap.prototype = {
 				geojson = eval('(' +geojson+ ')');
 			}		
 			this._lastgeojson = geojson;
-			if(!geojson.points && this._fittocanvas){
+			if(this._fittocanvas){
 			 	var t = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
 			
 				var p =this.getProjection();
@@ -181,6 +201,13 @@ EasyMap.prototype = {
 		
 		if(s.x < 1) s.x = 1;
 		if(s.y < 1) s.y = 1;
+		
+		if(t.x > 180) t.x = 180;
+		if(t.x < -180) t.x = -180;
+		
+		if(t.y > 85.0511) t.y = 85.0511;
+		if(t.y < -85.0511) t.y = -85.0511;
+		
 		var p =this.getProjection();
 		if(p && p.name == "GLOBE"){
 			if(!this.canvas.transformation.rotate){
@@ -525,7 +552,7 @@ EasyMap.prototype = {
 		var dblclick = function(e){
 			
 		}
-		$(this.wrapper).click(function(e) {
+		jQuery(this.wrapper).click(function(e) {
 			onmouseup(e);
 		});
 		

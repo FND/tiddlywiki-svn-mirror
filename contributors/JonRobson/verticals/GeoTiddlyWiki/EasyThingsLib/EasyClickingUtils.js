@@ -39,13 +39,13 @@ var EasyClickingUtils = {
 		return obj;
 	}
 	
+	
 	,getMouseFromEvent : function(e){
 			if(!e) e = window.event;
 			var target = this.resolveTargetWithEasyClicking(e);
 			if(!target)return false;
-		
 
-			var offset = $(target).offset();
+			var offset = jQuery(target).offset();
 
 			
 			if(!offset.left) return false;
@@ -69,7 +69,7 @@ var EasyClickingUtils = {
 	,getMouseFromEventRelativeToElement: function (e,x,y,target){
 		if(!e) e = window.event;
 
-		var offset = $(target).offset();
+		var offset = jQuery(target).offset();
 		if(!offset.left) return false;
 		
 		oldx = e.clientX + window.findScrollX() - offset.left;

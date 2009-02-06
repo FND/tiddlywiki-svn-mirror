@@ -62,7 +62,7 @@ EasyClicking.prototype = {
 		var target = EasyClickingUtils.resolveTargetWithEasyClicking(e);
 	
 		if(!target) return;
-		var offset = $(target).offset();
+		var offset = jQuery(target).offset();
 	
 
 		x = e.clientX + window.findScrollX() - offset.left;
