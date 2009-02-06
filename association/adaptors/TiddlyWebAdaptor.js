@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.4.1|
+|''Version''|0.5.0|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -19,10 +19,12 @@
 * implemented renaming via tiddler chronicles
 !!v0.4 (2009-02-03)
 * added support for importing TiddlyWiki documents
+!!v0.5 (2009-02-06)
+* keeping track of previous location when renaming/moving tiddlers
 !To Do
 * createWorkspace
 * externalize JSON library (use jQuery?)
-* document custom/optional context attributes (e.g. filters, query, revision)
+* document custom/optional context attributes (e.g. filters, query, revision) and tiddler fields (e.g. server.title, origin)
 !Code
 ***/
 //{{{
@@ -391,10 +393,10 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 	};
 	var _putTiddlerChronicle = function(context, userParams) {
 		eval("var revisions = " + context.responseText); // XXX: error handling?
-		// change current title while retaining previous title -- XXX: also retain previous workspace?
+		// change current title while retaining previous location
 		for(var i = 0; i < revisions.length; i++) {
-			if(!revisions[i].fields.previoustitle) {
-				revisions[i].fields.previoustitle = revisions[i].title;
+			if(!revisions[i].fields.origin) { // N.B.: origin = "<workspace>/<title>"
+				revisions[i].fields.origin = ["bags", revisions[i].bag, revisions[i].title].join("/");
 			}
 			revisions[i].title = to.title;
 		}
