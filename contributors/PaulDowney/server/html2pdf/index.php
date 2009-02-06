@@ -2,8 +2,10 @@
 
 if ($_GET['uri']) 
 {
-	header('Content-Type: application/pdf');
-	passthru("./html2pdf.sh '" . $_GET['uri'] . "'");
+	$host  = $_SERVER['HTTP_HOST'];
+	$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	$file = exec("./html2pdf.sh '" . $_GET['uri'] . "'");
+	header("Location: http://$host$uri/$file",TRUE,302);
 	exit(0);
 } else {
 ?>

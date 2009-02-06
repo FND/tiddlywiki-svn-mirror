@@ -49,6 +49,6 @@ fop/fop $dir/$hash.fo $dir/$hash.pdf
 #
 #  return PDF
 #
-cat $dir/$hash.pdf
+echo $dir/$hash.pdf
 
 exit 0
