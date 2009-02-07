@@ -22,6 +22,8 @@ config.macros.addDay = {
 		story.refreshTiddler("timeline");
 	}
 };
+
+
 config.macros.itineraryMaker={
 	visitedurls: {}
 	,mapString: "<<geoedit width:500 height:300 projection:slippystaticmap id:mytrip source:false>>"
@@ -290,7 +292,7 @@ config.macros.addDestination = {
 			
 			config.macros.addDestination.addLocation(title,lo,la,countrycode,0);
 		}
-		config.macros.googlelocalsearcher.setup(place,handler,false,"add destination:");
+		config.macros.googlelocalsearcher.setup(place,handler,false,"add destination:\n");
 	}
 	,addLocation: function(name,longitude,latitude,countrycode,crawlDepth){
 		var travelwikibaseurl ="http://wikitravel.org";
@@ -326,3 +328,20 @@ config.macros.addRssToItinerary = {
 	}
 	
 };
+
+config.macros.createBanner = {
+	handler: function(place,macroName,params,wikifier,paramString,tiddler){
+		
+		var html = "<html>";
+		
+		html += "<span id='block1'></span><span id='block2'></span><span id='block3'></span>The Web Is Your Oyster";
+		html += "</html>";
+		
+		wikify(html,place);
+		
+		document.getElementById("block1").style.backgroundColor = config.macros.itineraryMaker.getRandomColour();
+		document.getElementById("block2").style.backgroundColor = config.macros.itineraryMaker.getRandomColour();
+		document.getElementById("block3").style.backgroundColor = config.macros.itineraryMaker.getRandomColour();
+		
+	}
+}

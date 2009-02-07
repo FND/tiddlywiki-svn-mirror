@@ -129,8 +129,6 @@ if(!version.extensions.geoPlugin) {
 				}
 				
 				if(easymapscale <= 1){
-					//console.log("Yes", easymapscale,"returning",res);
-					
 					return res;
 				}
 				else{
@@ -150,11 +148,6 @@ if(!version.extensions.geoPlugin) {
 
 					var newx =pointDest.x;
 					var newy = pointDest.y;
-			
-					//newx /= Math.pow(2,17);
-					//newy /=Math.pow(2,17);
-					//19 zoom levels in google
-					//console.log(newx,newy);
 					newx *= this.googleHack;
 					newy *= this.googleHack;
 					
@@ -254,15 +247,9 @@ if(!version.extensions.geoPlugin) {
 				var tilex = - (parseInt(eMap.wrapper.style.width) /2);
 				for(var x = 0; x < numtiles; x++){
 					var tile = document.createElement("div");
-					tile.setAttribute("class",x + "-" +y);
 					tile.style.position = "absolute";
 					tile.style.width = "256px";
 					tile.style.height = "256px";
-					/*tile.style.left = tilex+"px";
-					tile.style.top = tiley+"px";
-					tile.store = {};
-					tile.store.left= tilex
-					tile.store.top= tiley;*/
 					tiles.appendChild(tile);
 					res[x+"|"+y] = tile;
 					tilex += 256; //size of a tile
@@ -308,14 +295,13 @@ if(!version.extensions.geoPlugin) {
 					for(i in tiles){
 						tiles[i].style.backgroundImage ="none";
 					}
+						
+					var tile = tiles["main"];
 				
-					
-						var tile = tiles["main"];
-					
-						var left = (scale.x * translate.x) % 256;
-						var top = (scale.y * translate.y) % 256;
-						tile.style.top = top + "px";
-						tile.style.left = left + "px";
+					var left = (scale.x * translate.x) % 256;
+					var top = (scale.y * translate.y) % 256;
+					tile.style.top = top + "px";
+					tile.style.left = left + "px";
 					if(zoomL == 0){
 							zoomL = 0;
 							tilex = 0;tiley=0;
@@ -326,7 +312,7 @@ if(!version.extensions.geoPlugin) {
 					else{
 						
 						tiles.main.style.backgroundImage = "none";
-						var bottomtile = tiles["1|1"];
+						var bottomrtile = tiles["1|1"];
 						
 						var temp ={x: (translate.x),y:(translate.y)};
 					
@@ -354,13 +340,14 @@ if(!version.extensions.geoPlugin) {
 						tilex = br.x;
 						tiley = br.y;
 													
-						bottomtile.style.left = brleft +"px";
-						bottomtile.style.top = brtop + "px";
-						bottomtile.innerHTML = tilex + "," + tiley;
+						bottomrtile.style.left = brleft +"px";
+						bottomrtile.style.top = brtop + "px";
+						bottomrtile.title = zoomL+"/"+tilex + "/" + tiley;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+tilex+"/"+tiley+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ tilex + "/" + tiley + ".png";
-						that.renderTile(slippyurl,localurl,bottomtile);
+						that.renderTile(slippyurl,localurl,bottomrtile);
 						
+						//below code to be done dynamically so can have more than 4 tiles
 						/*top tile*/
 						var tile = tiles["1|0"];
 						var t =  brtop - 256;
@@ -368,7 +355,7 @@ if(!version.extensions.geoPlugin) {
 						tile.style.left = brleft +"px";
 						var x = tilex;
 						var y = tiley -1;
-						tile.innerHTML = x + "," + y;
+						tile.title =zoomL+"/"+x + "/" + y;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
 						that.renderTile(slippyurl,localurl,tile);
@@ -397,7 +384,7 @@ if(!version.extensions.geoPlugin) {
 						y = tiley -1;
 						if(x == -1) x = n-1;
 						if(y == -1) y = n-1;
-						tile.innerHTML = x + "," + y;
+						tile.title =zoomL+"/"+x + "/" + y;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
 						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
 						that.renderTile(slippyurl,localurl,tile);	

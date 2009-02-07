@@ -1,6 +1,6 @@
+//geojson should be handled here - maybe create from geojson
 
-//georss support please
-
+/*coordinates are a string consisting of floats and move commands (M)*/
 var EasyShape = function(properties,coordinates,geojson){
 	this.grid = {};
 	this.coords = [];
@@ -245,15 +245,18 @@ EasyShape.prototype={
 		
 		if(c.length == 0) return;
 		
-		var initialX,initialY;
+		/*var initialX,initialY;
+		var start;
 		if(c[0] == 'M'){//starts with an "M"
 			initialX = parseFloat(c[1]);
 			initialY = parseFloat(c[2]);
+			start = 3;
 		}
 		else{
 			initialX = parseFloat(c[0]);
-			initialY = parseFloat(c[1]);			
-		}
+			initialY = parseFloat(c[1]);
+			start = 2;			
+		}*/
 
 		
 		var threshold = 2;
@@ -275,10 +278,10 @@ EasyShape.prototype={
 
 		ctx.beginPath();
 		
-		ctx.moveTo(initialX,initialY);
+		//ctx.moveTo(initialX,initialY);
 
-		var move;
-		for(var i=2; i < c.length-1; i+=2){
+		var move = true;
+		for(var i=0; i < c.length-1; i+=2){
 			if(c[i]== "M") {
 				i+= 1; 
 				move=true;
@@ -291,16 +294,17 @@ EasyShape.prototype={
 			else{
 				if(move){
 					ctx.moveTo(x,y);
+					
+					//console.log("i found and moved to",x,y);
 					move = false;
 				}
 				else{
+					//console.log("line to", x,y);
 					ctx.lineTo(x,y);
 				}
 			}
 			
 		}
-		//connect last to first
-		//if(shapetype != 'path') ctx.lineTo(initialX,initialY);
 		ctx.closePath();
 
 		if(!this.properties.hidden) {
@@ -521,37 +525,52 @@ EasyShape.prototype={
 	,_applyProjection: function(projection,transformation){
 		var c = this.coords;
 		if(!projection) return c;
-		
+		if(!projection.xy){
+			return;
+		}	
+		if(projection.init) projection.init();
 		var newc = [];
 		for(var i=0; i < c.length-1; i+=2){
+			var moved = false;
+			if(c[i] == "M"){
+				i+= 1;
+			}
 			var x = parseFloat(c[i]);
 			var y = parseFloat(c[i+1]);
 			
-			if(projection.xy){
-				var t = projection.xy(c[i],c[i+1],transformation);
-				newx= t.x;
-				newy= t.y;
+			var projectedCoordinate = projection.xy(c[i],c[i+1],transformation);
+			newx= projectedCoordinate.x;
+			newy= projectedCoordinate.y;
+			
+			if(projectedCoordinate.move){
+				moved  =true;
 			}
+			
 
 			cok = true;
 			//check we haven't wrapped around world (For flat projections sss)
+			/*
 			if(!projection.nowrap){
 				var diff;
 				if(newx > x) diff = newx - x;
 				if(x > newx) diff = x - newx;
 				if(diff > 100) cok = false; //too extreme change
 			}
-			
+			*/
 			if(cok){
 				if(typeof newx == 'number' && typeof newy =='number'){
-				newc.push(newx);
-				newc.push(newy);
+					if(moved){
+						newc.push("M");
+					}
+					newc.push(newx);
+					newc.push(newy);
 				}
 	
 			}
 			
 			
 		}	
+
 
 		this._tcoords = newc;
 		this._calculateBounds(this._tcoords);
@@ -1241,14 +1260,16 @@ var EasyMapUtils = {
 		var tempy = parseFloat(canvasy/view.height);
 
 		if(tempx < tempy) temp = tempx; else temp = tempy;
-		json.transform.scale.x = temp;
-		json.transform.scale.y = temp;
+		
+		var transform = {scale:{},translate:{}};
+		transform.scale.x = temp;
+		transform.scale.y = temp;
 
-		json.boundingBox = view;
+		transform.boundingBox = view;
 
-		json.transform.translate.x = -view.center.x;
-		json.transform.translate.y = view.center.y;//view.center.y;	
-		return json;
+		transform.translate.x = -view.center.x;
+		transform.translate.y = view.center.y;//view.center.y;	
+		return transform;
 	},
 	/*does not yet support undoing rotating */
 	_testCanvas: function(ctx){
@@ -1294,7 +1315,7 @@ var EasyMapUtils = {
 		
 		var longitude = EasyMapUtils._degToRad(lon);
 		var latitude = EasyMapUtils._degToRad(lat);
- 		
+ 		var wraplat = false;
  		// assume rotate values given in radians
 		if(transformation && transformation.rotate){
 			//latitude += transformation.rotate.x;
@@ -1311,7 +1332,24 @@ var EasyMapUtils = {
 				longitude +=r;
 			}
 			if(transformation.rotate.y){
-				//latitude += parseFloat(transformation.rotate.y);
+				latitude += parseFloat(transformation.rotate.y);
+				/*var limit =EasyMapUtils._degToRad(85);
+				if(latitude <-limit){
+					latitude += (2 * limit);
+					res.movedNorth = true;
+					
+				}
+				
+				if(latitude > limit){
+					latitude -= (2 * limit);
+					res.movedSouth = true;
+					
+					
+				}
+				*/	
+				
+				//latitude = latitude % 6.28318531;
+				
 			} 
 		}
 		// latitude is 90-theta, where theta is the polar angle in spherical coordinates
@@ -1327,13 +1365,13 @@ var EasyMapUtils = {
 		//   it does not matter whether we multiply by sin or cos of longitude	
 	
 		longitude = longitude % 6.28318531; //360 degrees		
-		latitude = latitude % 6.28318531;
+	
 		
 		
 		
 		res.y = (radius) * Math.sin(latitude);	
-		
-	
+		//console.log(latitude);
+		//if(wraplat) res.y = ["M",res.y];
 		/*
 		
 		if(latitude > 85.0511){
@@ -1872,13 +1910,13 @@ var EasyClickingUtils = {
 		return obj;
 	}
 	
+	
 	,getMouseFromEvent : function(e){
 			if(!e) e = window.event;
 			var target = this.resolveTargetWithEasyClicking(e);
 			if(!target)return false;
-		
 
-			var offset = $(target).offset();
+			var offset = jQuery(target).offset();
 
 			
 			if(!offset.left) return false;
@@ -1902,7 +1940,7 @@ var EasyClickingUtils = {
 	,getMouseFromEventRelativeToElement: function (e,x,y,target){
 		if(!e) e = window.event;
 
-		var offset = $(target).offset();
+		var offset = jQuery(target).offset();
 		if(!offset.left) return false;
 		
 		oldx = e.clientX + window.findScrollX() - offset.left;
@@ -2014,7 +2052,7 @@ EasyClicking.prototype = {
 		var target = EasyClickingUtils.resolveTargetWithEasyClicking(e);
 	
 		if(!target) return;
-		var offset = $(target).offset();
+		var offset = jQuery(target).offset();
 	
 
 		x = e.clientX + window.findScrollX() - offset.left;
@@ -2218,12 +2256,15 @@ EasyMap.prototype = {
 					easymap._createGlobe(easymap.getProjection().getRadius(t.scale ));
 			};
 			
-			
 			this.settings.projection= {
 					name: "GLOBE",
 					nowrap:true,
 					radius: 10,
-					getRadius: function(){
+					direction: 0
+					,init: function(){
+						this.direction = 0;
+					}
+					,getRadius: function(){
 						return this.radius;
 					}
 					,inversexy: function(x,y,t){
@@ -2234,6 +2275,20 @@ EasyMap.prototype = {
 					,xy: function(x,y,t){
 						var radius =this.getRadius(t.scale);
 						var res = EasyMapUtils._spherifycoordinate(x,y,t,radius);
+						/*
+						if(res.movedNorth && this.direction >= 0){
+							this.direction = -1;
+							res.move= true;
+						}
+						else if(res.movedSouth && this.direction <= 0){
+							this.direction = 1;
+							res.move = true;
+						}
+						
+						if(res.y > radius - 10 || res.y < 10-radius){
+							
+							res.y = false;
+						}*/
 						return res;
 					}
 			};
@@ -2252,14 +2307,17 @@ EasyMap.prototype = {
 			this.settings.projection = projection;
 		}
 	}
-	,clear: function(){
+	,clear: function(){ /* does this work in IE? */
 
 
 		this._maxX = 0;
 		this._maxY = 0;
 
 		
-		if(!this.canvas.getContext) {return;}
+		if(!this.canvas.getContext) {
+			
+			return;
+		}
 		var ctx = this.canvas.getContext('2d');
 		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);		
 		
@@ -2271,20 +2329,17 @@ EasyMap.prototype = {
 				geojson = eval('(' +geojson+ ')');
 			}		
 			this._lastgeojson = geojson;
-			if(!geojson.points && this._fittocanvas){
-				geojson = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
-			}
-
-			var type =geojson.type.toLowerCase();
-
-			if(geojson.transform && this._fittocanvas){
+			if(this._fittocanvas){
+			 	var t = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
+			
 				var p =this.getProjection();
 				if(p && p.name == "GLOBE") {
-					geojson.transform.translate = {x:0,y:0};
+					t.translate = {x:0,y:0};
 				}
-				this.controller.setTransformation(geojson.transform);		
+				this.controller.setTransformation(t);
 			}
-		
+
+			var type =geojson.type.toLowerCase();		
 
 			if(type == "featurecollection"){
 				var features = geojson.features;
@@ -2324,14 +2379,21 @@ EasyMap.prototype = {
 		
 		if(s.x < 1) s.x = 1;
 		if(s.y < 1) s.y = 1;
+		
+		if(t.x > 180) t.x = 180;
+		if(t.x < -180) t.x = -180;
+		
+		if(t.y > 85.0511) t.y = 85.0511;
+		if(t.y < -85.0511) t.y = -85.0511;
+		
 		var p =this.getProjection();
 		if(p && p.name == "GLOBE"){
 			if(!this.canvas.transformation.rotate){
 				this.canvas.transformation.rotate = {x:0,y:0,z:0};
 			}
-			this.easyClicking.transformation = this.canvas.transformation;
+			
 		}
-		
+		this.easyClicking.transformation = this.canvas.transformation;
 		
 	}
 	,moveTo: function(longitude,latitude,zoom){
@@ -2668,7 +2730,7 @@ EasyMap.prototype = {
 		var dblclick = function(e){
 			
 		}
-		$(this.wrapper).click(function(e) {
+		jQuery(this.wrapper).click(function(e) {
 			onmouseup(e);
 		});
 		
