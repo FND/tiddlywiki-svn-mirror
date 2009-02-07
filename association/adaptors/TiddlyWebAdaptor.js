@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.5.1|
+|''Version''|0.5.2|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -385,9 +385,12 @@ adaptor.putTiddlerStoreCallback = function(status, context, responseText, uri, x
 // rename an individual tiddler or move it to a different workspace
 //# @param {Object} from source tiddler; members title and workspace (optional)
 //# @param {Object} to target tiddler; members title and workspace (optional)
-adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters?
+adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters (old/new)?
 	var me = this;
-	var tiddler = store.getTiddler(from.title) || store.getTiddler(to.title); //# local rename might already have occurred
+	var newTiddler = store.getTiddler(from.title) || store.getTiddler(to.title); //# local rename might already have occurred
+	var oldTiddler = merge({}, newTiddler); //# required for eventual deletion
+	oldTiddler.fields = merge({}, newTiddler.fields); // TODO: use jQuery.extend for deep copy above
+	oldTiddler.title = from.title; //# required for original tiddler's ETag
 	var _getTiddlerChronicle = function(title, context, userParams, callback) {
 		return me.getTiddlerChronicle(title, context, userParams, callback);
 	};
@@ -409,18 +412,19 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		if(to.workspace) {
 			context.workspace = to.workspace;
 		}
-		return me.putTiddlerChronicle(revisions, context, context.userParams, _deleteTiddler);
+		var callback = function(context, userparams) {
+			var rev = "server.page.revision";
+			newTiddler.fields[rev] = parseInt(newTiddler.fields[rev], 10) + 1; // XXX: extended fields' values should be strings!?
+			_deleteTiddler(context, userparams);
+		};
+		return me.putTiddlerChronicle(revisions, context, context.userParams, callback);
 	};
 	var _deleteTiddler = function(context, userParams) {
 		context.callback = null;
-		var origTiddler = merge({}, tiddler);
-		origTiddler.title = from.title; //# required for original tiddler's ETag -- XXX: dirty hack?
-		var status = me.deleteTiddler(origTiddler, context, context.userParams, callback);
-		tiddler.fields["server.page.revision"] = parseInt(tiddler.fields["server.page.revision"], 10) + 1; // XXX: hacky; does not belong here!?
-		return status;
+		return me.deleteTiddler(oldTiddler, context, context.userParams, callback);
 	};
 	context = this.setContext(context, userParams);
-	context.workspace = from.workspace || tiddler.fields["server.workspace"];
+	context.workspace = from.workspace || oldTiddler.fields["server.workspace"];
 	return _getTiddlerChronicle(from.title, context, userParams, _putTiddlerChronicle);
 };
 
