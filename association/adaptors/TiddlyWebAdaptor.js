@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.5.2|
+|''Version''|0.5.3|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -382,7 +382,7 @@ adaptor.putTiddlerStoreCallback = function(status, context, responseText, uri, x
 	}
 };
 
-// rename an individual tiddler or move it to a different workspace
+// rename an individual tiddler or move it to a different workspace -- TODO: make (from|to).title optional
 //# @param {Object} from source tiddler; members title and workspace (optional)
 //# @param {Object} to target tiddler; members title and workspace (optional)
 adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters (old/new)?
@@ -415,6 +415,7 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		var callback = function(context, userparams) {
 			var rev = "server.page.revision";
 			newTiddler.fields[rev] = parseInt(newTiddler.fields[rev], 10) + 1; // XXX: extended fields' values should be strings!?
+			newTiddler.fields["server.title"] = to.title;
 			_deleteTiddler(context, userparams);
 		};
 		return me.putTiddlerChronicle(revisions, context, context.userParams, callback);
