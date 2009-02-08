@@ -11,6 +11,5 @@ config = {
     #'system_plugins': ['logout', 'static', 'gzipper'],
     'system_plugins': ['static','logout', 'osmosoft'],
     'static_dir': 'images',
-		'auth_systems': ['openid'],
-
+    'auth_systems': ['openid'],
 }
