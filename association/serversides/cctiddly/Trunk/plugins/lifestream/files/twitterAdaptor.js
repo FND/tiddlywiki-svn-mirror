@@ -63,6 +63,7 @@ twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,u
 		fields["original_server.type"] = "twitter";
 		fields["url"] = "http://twitter.com/"+tweets[i]['user']['name']+"/statuses/"+tweets[i]['id'];
 		fields["user_img"] = tweets[i]['user']['profile_image_url'];
+		fields["prettyDate"] = humane_date(created);
 		tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",created,"",created,fields);
 		store.addTiddler(tiddler);
 		if(context.save==true)

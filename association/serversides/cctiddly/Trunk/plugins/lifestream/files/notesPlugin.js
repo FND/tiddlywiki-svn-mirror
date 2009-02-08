@@ -21,20 +21,6 @@ config.macros.notesPlugin.handler = function(place,macroName,params)
 	var yesterday= new Date()
 	yesterday.setDate(yesterday.getDate()-1);
 	for(var t=tiddlers.length-1; t>=last; t--) {
-		if(tiddlers[t].isTagged("note")) {
-			if(typeof(tiddlers[t]['modified'])!='undefined'){
-				var theDay = tiddlers[t]['modified'].convertToLocalYYYYMMDDHHMM().substr(0,8);
-			if(theDay != lastDay) {
-				if(tiddlers[t]['modified'].formatString("DD/MM/YYYY")==today.formatString("DD/MM/YYYY"))
-					createTiddlyElement(place, "h3", null, null,  "Today");
-				else if(tiddlers[t]['modified'].formatString("DD/MM/YYYY")==yesterday.formatString("DD/MM/YYYY"))
-					createTiddlyElement(place, "h3", null, null,  "Yesterday");
-				else
-					createTiddlyElement(place, "h3", null, null, tiddlers[t]['modified'].formatString("DD/MM/YYYY"));
-				lastDay = theDay;
-			}		
-		}
-	}	
 		if(tiddlers[t].isTagged("note")){
 			var img = createTiddlyElement(null, "img", null, "imgClass");
 			img.src = "http://www.iconspedia.com/uploads/578075880.png";

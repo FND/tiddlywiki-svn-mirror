@@ -39,6 +39,7 @@ deliciousAdaptor.createTiddler = function(data) {
 	var tiddler = new Tiddler(data.d);
 	fields = {};
 	fields["original_server.type"] = "delicious";
+	fields["prettyDate"] = humane_date(date);
 	tiddler.set(data.d,data.u+"\n\rTags:"+data.t,"modifier",date,"",date, merge(fields, config.defaultCustomFields));
 	store.addTiddler(tiddler);
 	if(context.save==true)

@@ -72,6 +72,7 @@ wordpressAdaptor.getWorkspaceListCallback = function(status,context,responseText
 			t.text = t.text.replace("]]]>", "");
 			t.fields["url"] = link;
 			t.fields["original_server.type"] = "wordpress";
+			t.fields["prettyDate"] = humane_date(item.created);
 			t.set(item.title,t.text,"modifier",item.created,null,item.created,t.fields);
 			store.addTiddler(t);
 			if(context.save==true)

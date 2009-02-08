@@ -40,6 +40,8 @@
 !EditTemplate
 <!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<br/>
+<br/>
 <div class='editor' macro='edit title'></div>
 <div macro='annotations'></div>
 <div class='editor' macro='edit text'></div>
@@ -273,7 +275,7 @@ a:hover {
 }
 
 #tiddlerDisplay .toolbar a.button {
-background-color:[[ColorPalette::ls_mid]];
+background-color:[[ColorPalette::PrimaryLight]];
 	top:-2em;
 	padding:5px;
 	width:60%;
@@ -303,8 +305,8 @@ background-color:[[ColorPalette::ls_mid]];
 
 
 .editor textarea, .editor input,  input, body select {
-	border:1px solid [[ColorPalette::ls_mid]];
-	background-color:[[ColorPalette::SecondaryDark]];
+	border:1px solid [[ColorPalette::ls_background]];
+	background-color:[[ColorPalette::PrimaryLight]];
 	color:#999;
 	padding:3px;
 	margin:3px;
@@ -572,7 +574,9 @@ body .wizard {
 	border:solid 0px #292929;
 	margin-top:1px;
 }
-
+.viewer {
+color:[[ColorPalette::Foreground]];
+}
 .viewer .wizard, body .wizard{
 	background:[[ColorPalette::ls_background]];
 	margin:2em;
@@ -676,7 +680,7 @@ table.sortable td.sortedCol {
 	width:100px;
 	float:right;
 	z-index:9;
-	background:url(plugins/lifestream/files/simon.png);
+<!--	background:url(plugins/lifestream/files/simon.png);-->
 	background-repeat:no-repeat;
 	left :440px;
 	background-position: top right;
@@ -724,7 +728,7 @@ padding 1em !important;
 .stream {  padding:2px; margin:1px ; width750px;  min-height:53px;}
 .slider { 
 	background-color:[[ColorPalette::ls_background]];
-	
+	line-height:2em;
 	border-color:[[ColorPalette::PrimaryMid]];
 	border-style:none solid solid;
 	border-width:0 1px 1px;
@@ -732,10 +736,13 @@ padding 1em !important;
 	margin-top:-6px;
 	padding:1em;
 	width:91.7%;
+	color:[[ColorPalette::ls_high]];
 }
 .textSpace {padding-left:25px; line-height:1.5; padding-top:13px}
 .tiddler .button:hover,.tiddler .button	 { background-color:[[ColorPalette::PrimaryLight]]; color:[[ColorPalette::ls_high]];background-repeat:no-repeat; border:1px solid  [[ColorPalette::PrimaryMid]];}
-
+.tiddler .button:hover {
+border : 1px solid [[ColorPalette::ls_foreground]];
+}
 
 .newCommentArea, .reply {
 text-align:center;

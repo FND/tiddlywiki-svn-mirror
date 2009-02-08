@@ -74,6 +74,7 @@ tracAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,
 							item.text = "'''" + item.text.htmlDecode() + "'''";	
 							t.fields["original_server.type"] = "trac";
 							t.fields["url"] = link;
+							t.fields["prettyDate"] = humane_date(item.created);
 							t.set(item.title,item.text,"modifier",item.created,null,item.created, t.fields);
 							store.addTiddler(t);
 							if(context.save==true)

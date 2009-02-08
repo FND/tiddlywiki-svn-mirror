@@ -44,6 +44,7 @@ function createTiddler(i){
 	fields = {};
 	fields["link"] = i.link;
 	fields["original_server.type"] = "flickr";
+	fields["prettyDate"] = humane_date(date);
 	tiddler.set(i.title, i.media.m,"modifier",date,"",date,fields);
 	store.addTiddler(tiddler);
 	if(context.save==true)
