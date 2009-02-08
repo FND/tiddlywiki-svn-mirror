@@ -45,19 +45,28 @@ twitterAdaptor.prototype.getWorkspaceList = function(context,userParams,callback
 };
 
 twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr){
+	if(!context)
+		context = {};
 	context.status = false;
-	eval('var tweets=' + responseText);
+	try {
+		eval('var tweets=' + responseText);
+	} catch(ex) {
+		displayMessage("Twitter could not be contacted");
+		return false;
+	}
 	var list = [];
 	for (var i=0; i < tweets.length; i++) {
 		var tiddler = new Tiddler(tweets[i]['id']);
 		var timestamp = tweets[i]['created_at'];
 		var created = convertTimestamp(timestamp);
 		fields = {};
-		fields["server.type"] = "twitter";
+		fields["original_server.type"] = "twitter";
 		fields["url"] = "http://twitter.com/"+tweets[i]['user']['name']+"/statuses/"+tweets[i]['id'];
 		fields["user_img"] = tweets[i]['user']['profile_image_url'];
 		tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",created,"",created,fields);
 		store.addTiddler(tiddler);
+		if(context.save==true)
+			store.saveTiddler("tweet_"+tweets[i]['id'], "tweet_"+tweets[i]['id'], tweets[i]['text'], "ccTiddly", created, "lifestream", merge(fields, config.defaultCustomFields));					
 	}			
 	context.tiddlers = list;
 	context.status = true;		

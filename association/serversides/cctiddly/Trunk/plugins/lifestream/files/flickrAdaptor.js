@@ -37,13 +37,17 @@ flickrAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 };
 
 function createTiddler(i){
+	if(!context)
+		var context = {};
 	var date = convertISOTimestamp1(i.published);
 	var tiddler = new Tiddler(i.title);
 	fields = {};
 	fields["link"] = i.link;
-	fields["server.type"] = "flickr";
+	fields["original_server.type"] = "flickr";
 	tiddler.set(i.title, i.media.m,"modifier",date,"",date,fields);
 	store.addTiddler(tiddler);
+	if(context.save==true)
+		store.saveTiddler(i.title, i.title, i.media.m, "ccTiddly", date, "lifestream", merge(fields, config.defaultCustomFields));					
 }
 
 function jsonFlickrFeed(o){
@@ -51,7 +55,12 @@ function jsonFlickrFeed(o){
 }
 
 flickrAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr){
-	var pics = eval(" { " + responseText + " } ");
+	try {
+		var pics = eval(" { " + responseText + " } ");
+	} catch(ex) {
+		displayMessage("Flickr could not be contacted.");
+		return false;
+	}
 	var i=0;
   	while(pics.items[i]){
 		createTiddler(pics.items[i]);

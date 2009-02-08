@@ -45,39 +45,46 @@ tracAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,
 	if(!context)
 		context = {};
 	context.tiddlers = [];
-	responseText = responseText.replace(/\r+/mg,"");
-	var regex_item = /<item>(.|\n)*?<\/item>/mg;
-	var regex_title = /<title>(.|\n)*?<\/title>/mg;
-	var regex_created = /<pubDate>(.|\n)*?<\/pubDate>/mg;
-	var regex_link = /<link>(.|\n)*?<\/link>/mg;
-	var regex_guid = /<guid>(.|\n)*?<\/guid>/mg;
-	var regex_author = /<dc:creator>(.|\n)*?<\/dc:creator>/mg;
-	var regex_desc = /<description>(.|\n)*?<\/description>/mg;
-	var item_match = responseText.match(regex_item);
-	for (var i=0;i<item_match.length;i++) {
-		item = {};
-		var title = item_match[i].match(regex_title);	
-		var created = item_match[i].match(regex_created);
-		item.title = title[0].replace(/^<title>|<\/title>$/mg,"");
-			if(item_match[i].match(regex_author)) {
-				var author = item_match[i].match(regex_author);		
-				author = author[0].replace(/^<dc:creator>|<\/dc:creator>$/mg,"");
-					if(author == "simonmcmanus") {
-						item.created = created[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
-						item.created = tracAdaptor.convertTimestamp(item.created);
-						desc = item_match[i].match(regex_desc);
-						var link = item_match[i].match(regex_link);
-						link = link[0].replace(/^<link>|<\/link>$/mg,"");
-						if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
-						var t = new Tiddler(item.title);
-						item.text = "'''" + item.text.htmlDecode() + "'''";	
-						t.fields["server.type"] = "trac";
-						t.fields["url"] = link;
-						t.set(item.title,item.text,"modifier",item.created,null,item.created, t.fields);
-						store.addTiddler(t);
-					}
-			}	
+	try {
+		responseText = responseText.replace(/\r+/mg,"");
+		var regex_item = /<item>(.|\n)*?<\/item>/mg;
+		var regex_title = /<title>(.|\n)*?<\/title>/mg;
+		var regex_created = /<pubDate>(.|\n)*?<\/pubDate>/mg;
+		var regex_link = /<link>(.|\n)*?<\/link>/mg;
+		var regex_guid = /<guid>(.|\n)*?<\/guid>/mg;
+		var regex_author = /<dc:creator>(.|\n)*?<\/dc:creator>/mg;
+		var regex_desc = /<description>(.|\n)*?<\/description>/mg;
+		var item_match = responseText.match(regex_item);
+		for (var i=0;i<item_match.length;i++) {
+			item = {};
+			var title = item_match[i].match(regex_title);	
+			var created = item_match[i].match(regex_created);
+			item.title = title[0].replace(/^<title>|<\/title>$/mg,"");
+				if(item_match[i].match(regex_author)) {
+					var author = item_match[i].match(regex_author);		
+					author = author[0].replace(/^<dc:creator>|<\/dc:creator>$/mg,"");
+						if(author == "simonmcmanus") {
+							item.created = created[0].replace(/^<pubDate>|<\/pubDate>$/mg,"");
+							item.created = tracAdaptor.convertTimestamp(item.created);
+							desc = item_match[i].match(regex_desc);
+							var link = item_match[i].match(regex_link);
+							link = link[0].replace(/^<link>|<\/link>$/mg,"");
+							if (desc) item.text = desc[0].replace(/^<description>|<\/description>$/mg,"");
+							var t = new Tiddler(item.title);
+							item.text = "'''" + item.text.htmlDecode() + "'''";	
+							t.fields["original_server.type"] = "trac";
+							t.fields["url"] = link;
+							t.set(item.title,item.text,"modifier",item.created,null,item.created, t.fields);
+							store.addTiddler(t);
+							if(context.save==true)
+								store.saveTiddler(item.title, item.title, item.text, "ccTiddly", item.created, "lifestream", merge(t.fields, config.defaultCustomFields));											
+						}
+				}	
+		}
+	} catch(ex) {
+		displayMessage("Trac server could not be contacted.");
 	}
+	
 	context.status = true;
 	if(context.callback)
 		context.callback(context,context.userParams);

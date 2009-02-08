@@ -51,7 +51,7 @@ config.macros.lifeStream.display = function (place, params)
 	var yesterday= new Date()
 	yesterday.setDate(yesterday.getDate()-1);
 	for(var t=tiddlers.length-1; t>=last; t--) {
-		if(tiddlers[t].isTagged("Notes") ||["flickr", "twitter", "wordpress", "delicious", "trac"].contains(tiddlers[t].fields["server.type"])) {
+		if(tiddlers[t].isTagged("note") ||["flickr", "twitter", "wordpress", "delicious", "trac"].contains(tiddlers[t].fields["original_server.type"])) {
 			if(typeof(tiddlers[t]['modified'])!='undefined'){
 				var theDay = tiddlers[t]['modified'].convertToLocalYYYYMMDDHHMM().substr(0,8);
 			if(theDay != lastDay) {
@@ -65,7 +65,7 @@ config.macros.lifeStream.display = function (place, params)
 			}		
 		}
 	}
-		switch(tiddlers[t].fields['server.type']){
+		switch(tiddlers[t].fields['original_server.type']){
 			case "wordpress" :
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				img.src = "http://bhc3.files.wordpress.com/2008/05/wordpress-icon-128.png";
@@ -78,7 +78,8 @@ config.macros.lifeStream.display = function (place, params)
 				addClass(sliderButton,"stream wordpressStream");
 				sliderButton.appendChild(img);
 				createTiddlyElement(sliderButton, "div", null, "textSpace", tiddlers[t].title);
-				wikify("'''"+tiddlers[t].text+"'''\n\r"+tiddlers[t].fields["url"],slider);			
+			//	wikify("'''"+tiddlers[t].text+"'''\n\r"+tiddlers[t].fields["url"],slider);	
+				wikify(tiddlers[t].fields["url"],slider);	
 			break;
 			case "trac":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
@@ -92,12 +93,15 @@ config.macros.lifeStream.display = function (place, params)
 				sliderButton.appendChild(img);
 				createTiddlyElement(sliderButton, "div", null, "textSpace", tiddlers[t].title);
 				wikify(tiddlers[t].fields["url"],slider);			
+				
+	
 			break;
 			case "flickr":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				img.src = tiddlers[t].text;
 				img.width = "20";
 				img.height = "20";
+				
 				var slider = config.macros.slider.createSlider(place, "");
 				addClass(slider,"slider");
 				var sliderButton = findRelated(slider,"button","className","previousSibling");
@@ -109,7 +113,8 @@ config.macros.lifeStream.display = function (place, params)
 			break;
 			case "twitter":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
-				img.src = tiddlers[t].fields['user_img'];
+				//img.src = tiddlers[t].fields['user_img'];
+				img.src= "http://graphical.ilyfe.net/wp-content/themes/Graphicalicious/images/twitter-icon.png";
 				img.width = "20";
 				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
@@ -118,14 +123,14 @@ config.macros.lifeStream.display = function (place, params)
 				sliderButton.appendChild(img);
 				
 				var div = createTiddlyElement(sliderButton, "div", null, "textSpace");
-				div.innerHTML =  wikifyStatic(tiddlers[t].text);
+				div.innerHTML =  tiddlers[t].text;
 				addClass(sliderButton,"stream twitterStream");
 				createTiddlyElement(sliderButton, "div", null, "noFloat");
 				wikify(tiddlers[t].fields['url']+""+"\n\r"+tiddlers[t].created,slider);
 			break;
 			case "delicious":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
-				img.src = "http://ransom.redjar.org/images/delicious_icon.gif";
+				img.src = "http://www.iconspedia.com/uploads/927159536.png";
 				img.width = "20";
 				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
@@ -137,7 +142,7 @@ config.macros.lifeStream.display = function (place, params)
 				wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created,slider);
 			break;
 			default:
-				if(tiddlers[t].isTagged("Notes")){
+				if(tiddlers[t].isTagged("note")){
 					var img = createTiddlyElement(null, "img", null, "imgClass");
 					img.src = "http://www.iconspedia.com/uploads/578075880.png";
 					img.width = "20";
@@ -151,5 +156,6 @@ config.macros.lifeStream.display = function (place, params)
 					wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created,slider);
 			}
 		}
+		
 	}
 };

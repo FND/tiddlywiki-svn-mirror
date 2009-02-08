@@ -33,16 +33,25 @@ deliciousAdaptor.prototype.getWorkspaceList = function(context,userParams,callba
 };
 
 deliciousAdaptor.createTiddler = function(data) {
+	if(!context)
+		var context = {};
 	var date = convertISOTimestamp1(data.dt);
 	var tiddler = new Tiddler(data.d);
 	fields = {};
-	fields["server.type"] = "delicious";
-	tiddler.set(data.d,data.u+"\n\rTags:"+data.t,"modifier",date,"",date,fields);
+	fields["original_server.type"] = "delicious";
+	tiddler.set(data.d,data.u+"\n\rTags:"+data.t,"modifier",date,"",date, merge(fields, config.defaultCustomFields));
 	store.addTiddler(tiddler);
+	if(context.save==true)
+		store.saveTiddler(data.d, data.d, data.u, "ccTiddly", date, "lifestream", merge(fields, config.defaultCustomFields));					
 }
 
 deliciousAdaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr){
-	var links = eval(" { " + responseText + " } ");
+	try {
+		var links = eval(" { " + responseText + " } ");
+	} catch(ex) {
+		displayMessage("Delicious could not be contacted");
+		return false;
+	}
 	var i=0;
 	while(links[i]){
 		deliciousAdaptor.createTiddler(links[i]);

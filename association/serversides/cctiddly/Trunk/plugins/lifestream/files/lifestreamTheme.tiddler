@@ -14,7 +14,8 @@
 |''~NotesEditTemplate:''|##NotesEditTemplate|
 |''~EditTemplate:''|##EditTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
-|''~wizardViewTemplate:''|##wizardViewTemplate|
+|''~aboutViewTemplate:''|##aboutViewTemplate|
+|''~recentViewTemplate:''|##recentViewTemplate|
 ***/
 
 
@@ -47,39 +48,31 @@
 
 !ViewTemplate
 <!--{{{-->
-<div  macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' width='20px'/></div>
+<div  macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::ls_mid]]'  style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' class='tiddlerIcon' width='20px'/></div>
+</div>
+<div class='viewer'  style=' padding:1em; border-right:1px solid [[ColorPalette::ls_background]]; border-left:1px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
+<div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
+<!--}}}-->
+
+!aboutViewTemplate
+<!--{{{-->
+<div  macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::ls_mid]]'  style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://icons-search.com/img/vistaicons/vista_alarm_icons.zip/PNG-Question-Shield.png-256x256.png'  class='tiddlerIcon'  width='20px'/></div>
+</div>
+<div class='viewer'  style=' padding:1em; border-right:1px solid [[ColorPalette::ls_background]]; border-left:1px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
+<div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
+<!--}}}-->
+
+!recentViewTemplate
+<!--{{{-->
+<div  macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::ls_mid]]'  style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconarchive.com/icons/studiomx/leomx/Web-256x256.png' class='tiddlerIcon'  width='20px'/></div>
 </div>
 <div class='viewer'  style=' padding:1em; border-right:1px solid [[ColorPalette::ls_background]]; border-left:1px solid [[ColorPalette::ls_background]]; padding-bottom:2em;' macro='view text wikified'></div>
 <div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
 <!--}}}-->
 
 
-!NotesViewTemplate
-<!--{{{-->
-
-<div  macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-bottom:0px'><div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div><div  class='title' macro='view title'> <img src='http://www.iconspedia.com/uploads/578075880.png' width='20px'/></div>
-</div>
-<div class='tiddlerInfo' >Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)
-</div>
-<div class='viewer'  macro='view text wikified'></div>
-
-<div class='subtitle' style='background-color:[[ColorPalette::ls_background]]; border:1px solid [[ColorPalette::ls_background]]; border-top:0px; margin:0px'  macro='gradient vert [[ColorPalette::ls_mid]] [[ColorPalette::ls_background]]' style='margin:0px; padding:0px; background-color:[[ColorPalette::ls_background]]' >
-</div>
 
 
-
-
-<!--}}}-->
-
-
-
-!wizardViewTemplate
-<!--{{{-->
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='title' macro='view title'></div>
-<div class='viewer' macro='view text wikified'></div>
-<div class='tagClear'></div>
-<!--}}}-->
 !OptionsPanel
 [[help|Help]] <br />[[settings|AdvancedOptions]]<br /><<ccOptions>>
 
@@ -95,12 +88,16 @@ General
 ***/
 /*{{{*/
 
+img.tiddlerIcon {
+	position:relative;
+	top:0.2em;
+	padding-right:0.3em;
+}
 
 .tiddler .button:hover {
 	background-color:[[ColorPalette::ls_mid]];
 }
 .tiddler .button {
-//	border:1px solid black;
 	line-height:4;
 	margin:5px;
 	padding:8px;
@@ -118,9 +115,6 @@ body .chkOptionInput {
 body{
 	color:[[ColorPalette::ls_foreground]];
 	background-color:[[ColorPalette::ls_background]];
-//	 background-image:url(http://friendster.bigoo.ws/content/layout/film-cartoon/film-cartoon_111.jpg);
-//	 background-image:url(http://g.editingmyspace.com/shay773/halloweenbackgrounds/BG1.gif);
-
 	font-size:0.7em;
 }
 
@@ -178,7 +172,7 @@ h1 {
 	position:relative;
 	top:20px;
 	font-size: 32px;
-	color:#eee;
+	color:[[ColorPalette::ls_foreground]];
 }
 
 .siteSubtitle {
@@ -186,7 +180,7 @@ h1 {
 
 	font-size: 1.0em;
 	display:block; 
-	color: #999; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
+	color: [[ColorPalette::ls_high]]; margin-top:0.5em !important; margin-top:1em; margin-left:3em;
 }
 
 #displayArea {
@@ -259,7 +253,7 @@ h1 {
 	font-size:1.5em;
 }
 #tiddlerDisplay .toolbar a.button, #sidebarOptions a, .toolbar .popup li a, #mainMenu a, #sidebarOptions .sliderPanel input {
-	background-color:[[ColorPalette::foreground]];
+	background-color:[[ColorPalette::PrimaryLight]];
 	color:#999;
 	border:1px solid [[ColorPalette::ls_background]];
 }
@@ -270,14 +264,12 @@ h1 {
 
 a:hover {
 	background-color:transparent;
-	color:#eee
 }
 
 #tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover, #mainMenu a:hover, #sidebarOptions .sliderPanel input:hover {
-	border:1px solid #000;
-	background-color:[[ColorPalette::ls_background]];
-	color:white;
+	border:1px solid [[ColorPalette::ls_foreground]];
 	z-index:2;
+	color:[[ColorPalette::ls_foreground]];
 }
 
 #tiddlerDisplay .toolbar a.button {
@@ -290,7 +282,7 @@ background-color:[[ColorPalette::ls_mid]];
 }
 	
 #mainMenu a {
-	padding:8px 15px 8px 15px;
+	padding:8px 15px 8px 8px;
 	margin:10px;
 	line-height:40px;
 	border:1px solid [[ColorPalette::ls_background]];
@@ -359,9 +351,6 @@ textarea {
 	display:none;
 }
 
-.title {
-	color:#C0C0C0;
-}
 
 .subtitle, .subtitle a {
 	color: #999;
@@ -397,10 +386,12 @@ textarea {
 	width: 98%;
 }
 
-a,#sidebarOptions .sliderPanel a, #topMenu a, #topMenu .button {
+a, #topMenu a, #topMenu .button {
 	color:[[ColorPalette::ls_high]];
 	background-color:transparent;
+	
 }
+
 
 #sidebarOptions .sliderPanel a:hover, #topMenu a, #topMenu .button:hover {
 	background-color:transparent;
@@ -637,13 +628,6 @@ body select {
 	margin:0px;
 }
 
-.viewer, .tiddlerInfo {
-	float:none;
-	border-left:1px solid [[ColorPalette::PrimaryLight]];
-	border-right:1px solid [[ColorPalette::PrimaryLight]];
-	color :white;
-	padding:1em;
-}
 
 .viewer .sortable td  {
 	padding:12px;
@@ -651,8 +635,10 @@ body select {
 }
 
 .title {
-	color:#C0C0C0;
-	padding:10px;
+color:[[ColorPalette::ls_foreground]];
+position:relative;
+top:0;
+padding:0.2em 0.4em;
 }
 
 .viewer table, table.twtable {
@@ -689,7 +675,7 @@ table.sortable td.sortedCol {
 	position:absolute;
 	width:100px;
 	float:right;
-	z-index:9000;
+	z-index:9;
 	background:url(plugins/lifestream/files/simon.png);
 	background-repeat:no-repeat;
 	left :440px;
@@ -716,7 +702,7 @@ background-color:transparent;
 
 .addComment {background-color:[[ColorPalette::ls_high]] !important; color:black  !important; border:1px solid black  !important;}
 
-.newCommentArea textarea, .comments textarea {
+.newCommentArea textarea, .comments textarea {	
 background-color:[[ColorPalette::SecondaryDark]];
 border:1px solid [[ColorPalette::ls_background]];
 width:50% !important;
@@ -737,18 +723,18 @@ padding 1em !important;
 
 .stream {  padding:2px; margin:1px ; width750px;  min-height:53px;}
 .slider { 
-	background-color:#222;
+	background-color:[[ColorPalette::ls_background]];
+	
 	border-color:[[ColorPalette::PrimaryMid]];
 	border-style:none solid solid;
 	border-width:0 1px 1px;
-	color:white;
 	margin-left:5px;
 	margin-top:-6px;
 	padding:1em;
-	width:92%;
+	width:91.7%;
 }
 .textSpace {padding-left:25px; line-height:1.5; padding-top:13px}
-.tiddler .button:hover,.tiddler .button	 { background-color:[[ColorPalette::PrimaryLight]]; color:white;background-repeat:no-repeat; border:1px solid  [[ColorPalette::PrimaryMid]];}
+.tiddler .button:hover,.tiddler .button	 { background-color:[[ColorPalette::PrimaryLight]]; color:[[ColorPalette::ls_high]];background-repeat:no-repeat; border:1px solid  [[ColorPalette::PrimaryMid]];}
 
 
 .newCommentArea, .reply {
