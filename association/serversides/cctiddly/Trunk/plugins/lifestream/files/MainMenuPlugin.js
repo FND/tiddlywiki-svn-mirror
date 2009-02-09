@@ -12,7 +12,7 @@ config.macros.MainMenuPlugin.handler = function(place,macroName,params)
 		img.style.height="20px";
 		img.style.position="relative";
 		img.style.top="0.5em";
-		img.src = "http://www.iconarchive.com/icons/studiomx/leomx/Web-256x256.png";
+		img.src = "plugins/lifestream/files/images/recent.png";
 		createTiddlyText(btn, " My Recent Activity");
 		btn.setAttribute("href","javascript:;");
 		
@@ -28,7 +28,7 @@ config.macros.MainMenuPlugin.handler = function(place,macroName,params)
 		img.style.height="20px";
 		img.style.position="relative";
 		img.style.top="0.5em";
-		img.src = "http://www.iconspedia.com/uploads/578075880.png";
+		img.src = "plugins/lifestream/files/images/note.png";
 		createTiddlyText(btn, " Notes");
 		btn.setAttribute("href","javascript:;");
 		
@@ -44,7 +44,7 @@ config.macros.MainMenuPlugin.handler = function(place,macroName,params)
 		img.style.height="20px";
 		img.style.position="relative";
 		img.style.top="0.5em";
-		img.src = "http://icons-search.com/img/vistaicons/vista_alarm_icons.zip/PNG-Question-Shield.png-256x256.png";
+		img.src = "plugins/lifestream/files/images/about.png";
 		createTiddlyText(btn, " About");
 		btn.setAttribute("href","javascript:;");
 }

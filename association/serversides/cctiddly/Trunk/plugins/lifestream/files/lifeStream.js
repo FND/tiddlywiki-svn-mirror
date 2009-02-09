@@ -144,7 +144,7 @@ config.macros.lifeStream.display = function (place, params)
 		switch(tiddlers[t].fields['original_server.type']){
 			case "wordpress" :
 				var img = createTiddlyElement(null, "img", null, "imgClass");
-				img.src = "http://bhc3.files.wordpress.com/2008/05/wordpress-icon-128.png";
+				img.src = "plugins/lifestream/files/images/wordpress.jpg";
 				img.width = "20";
 				img.height = "20";
 				img.style.border ="0px";
@@ -159,7 +159,7 @@ config.macros.lifeStream.display = function (place, params)
 			break;
 			case "trac":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
-				img.src = "http://mousebender.files.wordpress.com/2007/07/trac_logo.png";
+				img.src = "plugins/lifestream/files/images/trac.jpg";
 				img.width = "20";
 				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
@@ -189,7 +189,7 @@ config.macros.lifeStream.display = function (place, params)
 			case "twitter":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				//img.src = tiddlers[t].fields['user_img'];
-				img.src= "http://graphical.ilyfe.net/wp-content/themes/Graphicalicious/images/twitter-icon.png";
+				img.src= "plugins/lifestream/files/images/twitter.png";
 				img.width = "20";
 				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
@@ -205,7 +205,7 @@ config.macros.lifeStream.display = function (place, params)
 			break;
 			case "delicious":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
-				img.src = "http://www.iconspedia.com/uploads/927159536.png";
+				img.src = "plugins/lifestream/files/images/delicious.png";
 				img.width = "20";
 				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
@@ -219,7 +219,7 @@ config.macros.lifeStream.display = function (place, params)
 			default:
 				if(tiddlers[t].isTagged("note")){
 					var img = createTiddlyElement(null, "img", null, "imgClass");
-					img.src = "http://www.iconspedia.com/uploads/578075880.png";
+					img.src = "plugins/lifestream/files/images/wordpress.png";
 					img.width = "20";
 					img.height = "20";
 					var slider = config.macros.slider.createSlider(place, "", "");
