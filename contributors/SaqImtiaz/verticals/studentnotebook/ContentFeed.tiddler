@@ -1,4 +1,4 @@
-<div title="%(wiki_title)s" tags="systemServer excludeLists excludeSearch">
+<div title="Notebook content feed" tags="systemServer excludeLists excludeSearch excludeSync">
 <pre>|''Description:''|%(wiki_title)s|
 |''Type:''|wikispaces|
 |''URL:''|%(wiki_url)s|

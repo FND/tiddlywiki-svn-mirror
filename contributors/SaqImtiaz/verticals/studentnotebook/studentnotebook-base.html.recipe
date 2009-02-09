@@ -25,6 +25,7 @@ tiddler: ../POLS250/studentnotebook/shadows/DefaultTiddlers.tiddler
 #	Framework
 tiddler: ../POLS250/studentnotebook/framework/excludeLists.tiddler
 tiddler: ../POLS250/studentnotebook/framework/excludeSearch.tiddler
+tiddler: ../POLS250/studentnotebook/framework/excludeSync.tiddler
 tiddler: ../POLS250/studentnotebook/framework/systemConfig.tiddler
 tiddler: ../POLS250/studentnotebook/framework/systemConfigDisable.tiddler
 tiddler: ../POLS250/studentnotebook/framework/systemServer.tiddler

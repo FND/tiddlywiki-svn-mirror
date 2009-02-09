@@ -3,7 +3,7 @@ recipe: studentnotebook-base.html.recipe
 #
 # 	Feeds
 tiddler: ContentFeed.tiddler
-#tiddler: StructureFeed.tiddler
+tiddler: VerticalUpgradeURL.tiddler
 #
 #
 #	Shadows
