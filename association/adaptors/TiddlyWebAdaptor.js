@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.5.3|
+|''Version''|0.5.4|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -406,6 +406,11 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		// add new revision
 		var rev = merge({}, revisions[0]);
 		rev.title = to.title;
+		for(i in newTiddler) { // TODO: use jQuery.extend
+			if(typeof i != "function") {
+				rev[i] = newTiddler[i];
+			}
+		}
 		rev.revision++;
 		rev.modified = new Date().convertToYYYYMMDDHHMM();
 		revisions.unshift(rev);
