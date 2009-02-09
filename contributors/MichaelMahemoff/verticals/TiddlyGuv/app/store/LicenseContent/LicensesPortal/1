@@ -8,6 +8,6 @@ tags:
   message1: "Information about %s license is available"
   message:  "Information about %s licenses is available">>
 
-<<newTiddler label:"New License" text:{{"<"+"<license>"+">"+"\n"+"<"+"<tiddlyWebComments>"+">";}} fields:{{"server.workspace:bags/private-"+config.options.txtUserName+" server.type:tiddlyweb stage:new server.host:'http://0.0.0.0:8080'"}} title:"New License" tag:License template:newLicenseEditTemplate>>
+<<newTiddler label:"New License" text:{{"<"+"<license>"+">"+"\n"+"<"+"<tiddlyWebComments>"+">";}} fields:{{"server.workspace:bags/private-"+config.options.txtUserName+" server.type:tiddlyweb stage:new"}} title:"New License" tag:License template:newLicenseEditTemplate>>
 
 <<tiddlerTable filter:[tag[License]] headings:License,Summary,Stage col2:"store.getTiddler(tiddler.title+'_plain') ? wikifyPlainText(store.getTiddlerText(tiddler.title+'_plain').substr(0,40))+'...' : '---'" col3:"tiddler.fields.stage">>
