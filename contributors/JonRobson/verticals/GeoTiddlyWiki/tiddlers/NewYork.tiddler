@@ -1,10 +1,9 @@
 <div title="New York" modifier="JonRobson" created="200811111722" latitude="40.756054" longitude="-73.986951" tags="excludeLists">
 <pre>
-!GeoTiddlers
-This tiddler has geo data.
-So what happened there?! The map changed to show New York in the centre and zoomed in. This is because another macro has been used called {{{geogoto}}}.
+!Geo tiddlers
+This tiddler has geo data. Have a look at the map in [[The Map]]. The map has now changed to show New York in the centre and zoomed in. This is because another macro has been used called {{{geogoto}}}.
 
-If you view the source (click eidt) we have made a call to a macro {{{<<geogoto 45 -75 20 world>>}}}. This has told the map to center on the coordinate 40.756054,-73.986951 and zoom in by a factor of 20 in the map created with id 'world'.
+If you view the source (click edit) we have made a call to a macro {{{<<geogoto 45 -75 20 world>>}}}. This has told the map to center on the coordinate 40.756054,-73.986951 and zoom in by a factor of 20 in the map created with id 'world'.
 <<geogoto latitude:40.756054 longitude:-73.986951 zoom:16 id:world>>
 The tricky bit is knowing how 40.756054 and -73.986951 correspond to New York. [[Wikipedia|http://en.wikipedia.org/wiki/New_York]] is a great resource for finding these coordinates (usually in the top right of the page).
 
@@ -12,6 +11,6 @@ The tricky bit is knowing how 40.756054 and -73.986951 correspond to New York. [
 If you click on New York in the map it will load the tiddler it is geotagging. Try closing this tiddler and clicking on the tag to demonstrate this feature. The reason it is displayed on the map in the first place is because this tiddler has special properties called longitude and latitude which are used to put points on to the map when it is rendered.
 
 !Next..
-Hopefully that was interesting. Why not go to [[London]] now and we'll discuss this further?
+Hopefully that was interesting. Why not go to [[London]] now and see the other things that can be done?
 </pre>
 </div>

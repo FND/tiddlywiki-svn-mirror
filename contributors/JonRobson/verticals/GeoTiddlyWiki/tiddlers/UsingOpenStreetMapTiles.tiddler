@@ -1,0 +1,28 @@
+<div title="Using OpenStreetMap Tiles" tags="excludeLists">
+<pre>
+You can make use of openstreetmap tiles if you would like to see things such as city locations, rivers as well as your coloured data.
+<<geo id:osm1 projection:slippystaticmap>>
+
+You can also turn off the geojson layer using the parameter source:false alongside the projection slippystaticmap - this is good if you are just trying to make use of your geotags.
+<<geo id:osm2 projection:slippystaticmap source:false>>
+
+As you load the map tiles are saved locally and will be loaded in preference to web-based tiles in future, meaning as you view the map, it becomes available in offline (although notice there are some compatibility issues we are working on for Windows machines and in Internet Explorer).
+
+!Next..
+In a similar vein, I've also been experimenting with the Google static map server so take a look at [[Google Style Maps]] although it takes up alot more memory then this example.
+
+There are a few more demos which are just for fun and are not as mature as the previous examples.
+
+!!Loading from georss and finding new geodata
+See [[ShapeWiki]]
+
+!!Loading geodata from RSS feeds
+For example let's see what happens when we point to rss feeds in Flickr and Dopplr from a tiddler with a map in it. Click through to this [[Flickr and Dopplr Adaptors]].
+
+!!Mapping on a globe
+See [[The Continents]] or [[Easter Egg]] (latter is terribly slow in Internet Explorer)
+
+!!Experiments in drawing from SVG
+It's a bit broken but it's worth mentioning my playing around with svg. See [[documentation (svg support)]]
+</pre>
+</div>

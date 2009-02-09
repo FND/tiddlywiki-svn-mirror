@@ -1,12 +1,14 @@
 <div title="London" modifier="JonRobson" created="200811111722" tags="excludeLists" latitude="51.507778" longitude="-0.12" fill="#00ffff">
 <pre>
-!Creating and moving around New Maps and turning off geotags
-Since this tiddler is also geo-tagged our original map of the world will change again to move to London if we do {{{<<geogoto latitude:51.5 longitude:-0.12 zoom:20 id:world>>}}}<<geogoto latitude:51.5 longitude:-0.12 zoom:20 id:world>>
+!Creating and moving around Maps
+This tiddler is also geo-tagged. You may notice under the title of this tiddler is a "go here" button - try clicking it, then take a look at the [[The Map]] This is invoking a macro which looks like this {{{<<geogotobutton world>>}}} where the argument is the id of the map to go to. Clicking this button retains the current zoom level it just moves the focus point in the map.
 
-However, we can also create a new map and pan to that one instead. Below we create a new map by calling the {{{<<geo id:london geotagging:false>>}}} macro. This time we have given it a different id so it's not confused with the previous). We also specify a parameter geotagging as false to tell the map we don't want to show geotags on it.
+!Turning off geotags
+We can also create a new map and pan to that one instead. Below we create a new map by calling the {{{<<geo id:london geotagging:false>>}}} macro. This time we have given it a different id so it's not confused with the previous). We also specify a parameter geotagging as false to tell the map we don't want to show geotags on it.
 
+<<geo id:london geotagging:false>>
 
 !Next..
-So what if you want to see roads and rivers and are not bothered with colouring countries... [[read on..|Google Style Maps]]
+So what if you want to see roads and rivers and are not bothered with colouring countries... [[read on..|Using OpenStreetMap Tiles]]
 </pre>
 </div>
