@@ -1,4 +1,5 @@
-recipe: ../../../../../core/tiddlywiki.html.recipe
+#recipe: ../../../../../core/tiddlywiki.html.recipe
+recipe: ../../../../../../Tags/core/REL-2.4.3_Final/tiddlywiki.html.recipe
 recipe: shadows/split.recipe
 recipe: plugins/split.recipe
 #recipe: feeds/split.recipe
