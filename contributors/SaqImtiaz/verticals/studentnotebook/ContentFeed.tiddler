@@ -1,7 +1,7 @@
-<div title="POLS250 content feed" tags="systemServer excludeLists excludeSearch">
-<pre>|''Description:''|POLS250 content feed|
+<div title="%(wiki_title)s" tags="systemServer excludeLists excludeSearch">
+<pre>|''Description:''|%(wiki_title)s|
 |''Type:''|wikispaces|
-|''URL:''|http://pols250-2008.projects.unamesa.org/ |
-|''Workspace:''|pols250-2008|
+|''URL:''|%(wiki_url)s|
+|''Workspace:''|%(wiki_workspace)s|
 </pre>
 </div>
