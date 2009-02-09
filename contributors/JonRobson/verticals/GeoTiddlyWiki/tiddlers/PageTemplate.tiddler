@@ -3,8 +3,8 @@
 <!--{{{-->
 <div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
 <div class='headerShadow'>
-<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+<div class='siteTitle' refresh='content' tiddler='SiteTitle'></div>&nbsp;
+<div class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></div>
 </div>
 <div class='headerForeground'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;

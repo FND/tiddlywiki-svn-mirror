@@ -32,7 +32,15 @@ var EasyMap = function(wrapper){
 	
 	if(!wrapper.style.width) wrapper.style.width = "600px";
 	if(!wrapper.style.height) wrapper.style.height= "200px";
-	
+	this.settings.wrapper = {};
+	this.settings.wrapper.width = wrapper.style.width;
+	this.settings.wrapper.height = wrapper.style.height;
+	this.settings.wrapper.offset = jQuery(this.wrapper).offset();
+	this.settings.wrapper.center = {};
+	this.settings.wrapper.center.x = this.settings.wrapper.offset.left + (parseInt(this.settings.wrapper.width) / 2);
+	this.settings.wrapper.center.y = this.settings.wrapper.offset.top + (parseInt(this.settings.wrapper.height) / 2);
+	this.settings.wrapper.offset.right = this.settings.wrapper.offset.left + (parseInt(this.settings.wrapper.width));
+	this.settings.wrapper.offset.bottom =	this.settings.wrapper.offset.top + (parseInt(this.settings.wrapper.height));		
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width);
 	canvas.height = parseInt(wrapper.style.height);
@@ -535,17 +543,25 @@ EasyMap.prototype = {
 			
 		};
 
-
+/*
+		var offset = jQuery(target).offset();
+		var centerWrapper = {}
+		centerWrapper.x = 
+		*/
 		var onkeypress = function(e){
 			var r = getParameters(e);
+			
+			//find center of wrapper
+			//console.log(eMap.settings.wrapper.center);
 			if(eMap.keyHandler){
 				try{
-				eMap.keyHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+					eMap.keyHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
 				}
 				catch(e){};
 			}
 		};
 		var keypressed = function(event,shape,mouse,lola,feature,key){
+			//console.log("cool");
 			//console.log(key + " was pressed");
 		};
 		

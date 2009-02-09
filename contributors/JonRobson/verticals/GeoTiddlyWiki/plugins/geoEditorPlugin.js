@@ -239,7 +239,7 @@ config.macros.googlelocalsearcher = {
 	
 		var newplace = createTiddlyElement(place,"div");
 		if(!alternativePretext) alternativePretext ="''find location'': ";
-		wikify(alternativePretext,newplace);
+		wikify(alternativePretext + "\n",newplace);
 		var searchtaggerinput = createTiddlyElement(newplace,"input",null,null);
 		var suggestions = createTiddlyElement(newplace,"span");
 		var searchtaggerclick = createTiddlyElement(newplace,"button",null,null,"go");		

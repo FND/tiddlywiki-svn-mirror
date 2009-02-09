@@ -402,14 +402,36 @@ if(!version.extensions.geoPlugin) {
 					//var numtiles = Math.pw(2,zoomL);
 	
 			};
-			try{
-				this.saveImageLocally(weburl,localurl,renderTile);
+			var renderTileWeb = function(url){
+					tile.style.backgroundImage = "url('"+url+"')";
+					//var numtiles = Math.pw(2,zoomL);
+	
+			};
+			try{	
+				var localPath = getLocalPath(document.location.toString());
+				var savePath;
+				if((p = localPath.lastIndexOf("/")) != -1) {
+					savePath = localPath.substr(0,p) + "/" + localurl;
+				} else {
+					if((p = localPath.lastIndexOf("\\")) != -1) {
+						savePath = localPath.substr(0,p) + "\\" + localurl;
+					} else {
+						savePath = localPath + "." + localurl;
+					}
+				}
+				//savePath = encodeURIComponent( escape(savePath.replace("\\", "\/")));
+				
+				//savePath =decodeURIComponent(savePath);
+				//weburl =decodeURIComponent(weburl);
+				//EasyFileUtils.saveImageLocally(weburl,savePath,renderTile,renderTileWeb); 
+				//console.log(savePath,"saved");
+				this.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
 			}
 			catch(e){
 				console.log("unable to cache static image for this map view. ("+e+")")
 			}
 		}
-		,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally) {
+		,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally,renderTileWeb) {
 			
 			var localPath = getLocalPath(document.location.toString());
 			var savePath;
@@ -422,7 +444,8 @@ if(!version.extensions.geoPlugin) {
 					savePath = localPath + "." + dest;
 				}
 			}
-
+			savePath =decodeURIComponent( escape(savePath));
+			sourceurl =decodeURIComponent( escape(sourceurl));
 			
 			var onloadfromweb = function(status,params,responseText,url,xhr){
 				try{
@@ -431,11 +454,7 @@ if(!version.extensions.geoPlugin) {
 				catch(e){
 					console.log("error saving locally..");
 				}
-				//eMap.attachBackground(dest);
-				var f = function(){
-					dothiswhensavedlocally(dest);
-				};
-				window.setTimeout(f,0);
+				renderTileWeb(url);
 			};
 			
 			var onloadlocally = function(status,params,responseText,url,xhr){
@@ -446,6 +465,7 @@ if(!version.extensions.geoPlugin) {
 				EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
 			}
 			catch(e){//couldnt load probably doesn't exist!
+			
 				EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
 			}
 			

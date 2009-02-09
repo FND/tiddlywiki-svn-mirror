@@ -1,9 +1,12 @@
 <div title="Getting Started" tags="excludeLists excludeSearch">
 <pre>
 !How to use
-So you're going on holiday and you would like a travel itinerary for your trip? Maybe your lacking inspiration for that trip you are going on, are worried you'll miss something cool. Let Topsy Travel Guide do lots of the hard work for you then just explore the data.
+So you're going on holiday and you would like a travel itinerary for your trip? Maybe your lacking inspiration for that trip you are going on, are worried you'll miss something cool. Let The World Is Your Oyster do lots of the hard work for you then just explore the data.
 
 Simply tell me where you are going, how many days and we will pull down useful things for you and set up a notebook you can explore. Once it's done, delete what doesn't interest you, edit what does, make notes based on things you read and see and soon enough you will have a lovely little travel guide to read on the plane during your flight!
+
+!How does it work?
+The World Is Your Oyster pulls down OpenStreetMap tiles you view locally so your map works offline however isn't too big. It adds geotags of places it thinks might be of interest based on what it can find on the WikiTravel.org website and using longitude and latitude coordinates it gets from google local searches. You can also read in any georss feeds you have including the ability to pull down photos from Flickr about a certain subject for some inspiration.
 
 !Use
 <<itineraryMaker>>

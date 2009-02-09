@@ -6,7 +6,7 @@ var EasyFileUtils= {
 		return this._httpReq("GET",url,callback,params,headers,data,contentType,username,password,allowCache);
 	}
 	/*currently doesnt work with jpg files - ok formats:gifs pngs*/
-	,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally) {
+	,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally,dothiswhenloadedfromweb) {
 		
 		var localPath = getLocalPath(document.location.toString());
 		var savePath;
@@ -23,17 +23,15 @@ var EasyFileUtils= {
 		
 		var onloadfromweb = function(status,params,responseText,url,xhr){
 			try{
+				if(dothiswhenloadedfromweb){
+					dothiswhenloadedfromweb(url);
+				}
 				saveFile(savePath,responseText);
 			}
 			catch(e){
 				console.log("error saving locally..");
 			}
-			//eMap.attachBackground(dest);
-			var f = function(){
-				if(dothiswhensavedlocally)
-				dothiswhensavedlocally(dest);
-			};
-			window.setTimeout(f,0);
+
 		};
 		
 		var onloadlocally = function(status,params,responseText,url,xhr){

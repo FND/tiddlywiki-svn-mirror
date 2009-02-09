@@ -318,9 +318,3 @@ var EasyMapUtils = {
 
 };
 var s = EasyMapUtils.getSlippyTileNumber(0.422812,51.642283,10);
-if(s.x == 513 && s.y == 339){
-	console.log("ok");
-}
-else{
-	throw "problem with slippy tile number";
-}
