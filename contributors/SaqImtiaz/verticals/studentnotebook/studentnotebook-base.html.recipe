@@ -7,6 +7,7 @@ tiddler: ../../plugins/TiddlerNotesPlugin/TiddlerNotesPlugin.js
 tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfig excludeLists excludeSearch"
 tiddler: ../../plugins/batchNavigationMacro.js
 tiddler: ../../plugins/NavigationMacro/NavigationMacro.js
+tiddler: ../../plugins/VerticalUpdatePlugin.js
 #
 #
 # 	Content
