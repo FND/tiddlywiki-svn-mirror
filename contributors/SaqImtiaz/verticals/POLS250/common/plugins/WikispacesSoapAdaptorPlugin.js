@@ -174,6 +174,11 @@ WikispacesSoapAdaptor.loginCallback = function(r,x,context)//status,context,resp
 		context.adaptor.sessionToken = r;
 	} else {
 		context.statusText = "Error at login";
+		alert("Your username or password was incorrect. Please try again");
+		config.options.txtWikispacesUsername = undefined;
+		config.options.txtWikispacesPassword = undefined;
+		context.adaptor.login(context);
+		return false;
 	}
 	if(context.complete)
 		context.complete(context,context.userParams);
