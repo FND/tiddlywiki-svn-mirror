@@ -6,10 +6,17 @@ config = {
         'host': 'labs.osmosoft.com',
         'port': '80',
     },
-    #'server_prefix': '/demo',
     'debug_level': 'DEBUG',
-    #'system_plugins': ['logout', 'static', 'gzipper'],
+    #'system_plugins': ['logout', 'static', 'gzipper', 'osmosoft'],
     'system_plugins': ['static','logout', 'osmosoft'],
     'static_dir': 'images',
     'auth_systems': ['openid'],
+    'css_uri': 'http://peermore.com/tiddlyweb.css',
+    'extension_types': {
+        'atom': 'application/atom+xml',
+        },
+    'serializers': {
+        'application/atom+xml': ['atom.atom', 'application/atom+xml; charset=UTF-8'],
+        'text/html': ['atom.htmlatom', 'text/html; charset=UTF-8'],
+        },
 }
