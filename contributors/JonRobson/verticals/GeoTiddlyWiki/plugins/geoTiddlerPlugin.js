@@ -306,8 +306,7 @@ if(!version.extensions.geoPlugin) {
 							zoomL = 0;
 							tilex = 0;tiley=0;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+tilex+"/"+tiley+".png";
-						var localurl = "slippy/"+zoomL+ "/"+ tilex + "/" + tiley + ".png";
-						that.renderTile(slippyurl,localurl,tile);					
+						that.renderTile(slippyurl,zoomL,tilex,tiley,tile);					
 					}
 					else{
 						
@@ -344,8 +343,8 @@ if(!version.extensions.geoPlugin) {
 						bottomrtile.style.top = brtop + "px";
 						bottomrtile.title = zoomL+"/"+tilex + "/" + tiley;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+tilex+"/"+tiley+".png";
-						var localurl = "slippy/"+zoomL+ "/"+ tilex + "/" + tiley + ".png";
-						that.renderTile(slippyurl,localurl,bottomrtile);
+
+						that.renderTile(slippyurl,zoomL,tilex,tiley,bottomrtile);
 						
 						//below code to be done dynamically so can have more than 4 tiles
 						/*top tile*/
@@ -357,8 +356,7 @@ if(!version.extensions.geoPlugin) {
 						var y = tiley -1;
 						tile.title =zoomL+"/"+x + "/" + y;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
-						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
-						that.renderTile(slippyurl,localurl,tile);
+						that.renderTile(slippyurl,zoomL,x,y,tile);
 						
 						
 						/*bottom left tile*/
@@ -373,8 +371,7 @@ if(!version.extensions.geoPlugin) {
 						if(x == -1) x = n-1;
 						if(y == -1) y = n-1;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
-						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
-						that.renderTile(slippyurl,localurl,tile);
+						that.renderTile(slippyurl,zoomL,x,y,tile);
 
 						/*top left tile */
 						tile = tiles["0|0"];
@@ -386,8 +383,7 @@ if(!version.extensions.geoPlugin) {
 						if(y == -1) y = n-1;
 						tile.title =zoomL+"/"+x + "/" + y;
 						var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+x+"/"+y+".png";
-						var localurl = "slippy/"+zoomL+ "/"+ x + "/" + y + ".png";
-						that.renderTile(slippyurl,localurl,tile);	
+						that.renderTile(slippyurl,zoomL,x,y,tile);	
 						
 				
 					}
@@ -396,7 +392,7 @@ if(!version.extensions.geoPlugin) {
 			
 			
 		}
-		,renderTile: function(weburl,localurl,tile){
+		,renderTile: function(weburl,zoomlevel,x,y,tile){
 			var renderTile = function(dest){
 					tile.style.backgroundImage = "url('"+dest+"')";
 					//var numtiles = Math.pw(2,zoomL);
@@ -408,69 +404,14 @@ if(!version.extensions.geoPlugin) {
 	
 			};
 			try{	
-				var localPath = getLocalPath(document.location.toString());
-				var savePath;
-				if((p = localPath.lastIndexOf("/")) != -1) {
-					savePath = localPath.substr(0,p) + "/" + localurl;
-				} else {
-					if((p = localPath.lastIndexOf("\\")) != -1) {
-						savePath = localPath.substr(0,p) + "\\" + localurl;
-					} else {
-						savePath = localPath + "." + localurl;
-					}
-				}
-				//savePath = encodeURIComponent( escape(savePath.replace("\\", "\/")));
-				
-				//savePath =decodeURIComponent(savePath);
-				//weburl =decodeURIComponent(weburl);
-				//EasyFileUtils.saveImageLocally(weburl,savePath,renderTile,renderTileWeb); 
-				//console.log(savePath,"saved");
-				this.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
+				var localurl = zoomlevel+ "_"+ x + "_" + y + ".png";
+				EasyFileUtils.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
 			}
 			catch(e){
 				console.log("unable to cache static image for this map view. ("+e+")")
 			}
 		}
-		,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally,renderTileWeb) {
-			
-			var localPath = getLocalPath(document.location.toString());
-			var savePath;
-			if((p = localPath.lastIndexOf("/")) != -1) {
-				savePath = localPath.substr(0,p) + "/" + dest;
-			} else {
-				if((p = localPath.lastIndexOf("\\")) != -1) {
-					savePath = localPath.substr(0,p) + "\\" + dest;
-				} else {
-					savePath = localPath + "." + dest;
-				}
-			}
-			savePath =decodeURIComponent( escape(savePath));
-			sourceurl =decodeURIComponent( escape(sourceurl));
-			
-			var onloadfromweb = function(status,params,responseText,url,xhr){
-				try{
-					saveFile(savePath,responseText);
-				}
-				catch(e){
-					console.log("error saving locally..");
-				}
-				renderTileWeb(url);
-			};
-			
-			var onloadlocally = function(status,params,responseText,url,xhr){
-			
-				dothiswhensavedlocally(dest);
-			};
-			try{
-				EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
-			}
-			catch(e){//couldnt load probably doesn't exist!
-			
-				EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
-			}
-			
-			
-		}
+
 		
 		,convertSourceToGeoJsonFormat: function(sourcetiddler){
 	

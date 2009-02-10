@@ -14,9 +14,13 @@ var EasyShape = function(properties,coordinates,geojson){
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 };
 EasyShape.prototype={
-	
-	render: function(canvas,transformation,projection,optimisations, browser){
+	getBoundingBox: function(){ /* returns untransformed bounding box */
+		return this.grid;
+	}
+
+	,render: function(canvas,transformation,projection,optimisations, browser){
 		var optimisations = true;
+		
 		if(!transformation){
 			transformation = {};
 		}

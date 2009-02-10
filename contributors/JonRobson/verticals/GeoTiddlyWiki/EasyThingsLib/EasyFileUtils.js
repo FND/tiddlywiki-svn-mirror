@@ -19,7 +19,6 @@ var EasyFileUtils= {
 				savePath = localPath + "." + dest;
 			}
 		}
-
 		
 		var onloadfromweb = function(status,params,responseText,url,xhr){
 			try{
