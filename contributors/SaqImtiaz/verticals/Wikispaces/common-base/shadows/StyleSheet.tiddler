@@ -248,6 +248,12 @@ margin-left:0.7em;
     padding-top:0.5em;
 }
 
+.viewer.navbar {
+	margin:0;
+	border-top:0;
+	border-bottom:0;
+}
+
 .tagged, .tiddler.selected .tagged{
 	position:relative;
 	float:none;
