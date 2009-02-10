@@ -7,7 +7,8 @@ recipe: actions/split.recipe
 recipe: help/split.recipe
 recipe: content/split.recipe
 #tiddler: ../../../adaptors/WikispacesAdaptor.js
-tiddler: ../../../../MartinBudden/formatters/WikispacesFormatterPlugin.js
+#tiddler: ../../../../MartinBudden/formatters/WikispacesFormatterPlugin.js
+tiddler:	../../POLS250/common/plugins/WikispacesFormatterPlugin.js
 tiddler: ../../../../MartinBudden/adaptors/soapclient.js
 #tiddler: ../../../MartinBudden/adaptors/WikispacesSoapAdaptorPlugin.js
 #tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js

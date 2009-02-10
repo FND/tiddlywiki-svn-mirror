@@ -8,6 +8,7 @@ tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfi
 tiddler: ../../plugins/batchNavigationMacro.js
 tiddler: ../../plugins/NavigationMacro/NavigationMacro.js
 tiddler: ../../plugins/VerticalUpdatePlugin.js
+tiddler: ../../plugins/TagsMacroTweak.js
 #
 #
 # 	Content
