@@ -71,6 +71,25 @@
 		
 		return $tiddler;
 	}
+	
+	
+	
+	
+	// takes a path to a .tid file and returns a tiddler object.
+	function tiddler_parse_tid_file($file)
+	{
+		$tiddly_body = file_get_contents(getCWD().$file);		
+		$tiddler['title'] = "parseTiddler";	
+		$position = strpos($tiddly_body, "\n\n");
+		$top = substr($tiddly_body, 0, $position);
+		$fields = explode("\n", $top);
+		foreach($fields as $field)
+		{
+			$pairs = explode(":", $field);
+			$tiddler[$pairs[0]] = trim($pairs[1]);
+		}
+		return $tiddler;
+	}
 	///////////////////////////////////////////////////////////////encoding and formatting//////////////////////////////////////////////////
 
 	//!	@fn array tiddler_breakTag($tagStr)
@@ -112,15 +131,17 @@
 		{
 		    if ($dh = opendir($dir)) 
 			{
+				echo "powerpape".$file;
 		       while (($file = readdir($dh)) !== false) 
 				{
+					echo $full."tolly";
 					$full  = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder']."/".$dir."/".$file;
 					if(is_dir($full))
 						getDir($full, $file); 
 					$ext = substr($file, strrpos($file, '.') + 1); 
 					if ($ext == "js")			
 						echo tiddler_outputJsFile($dir."/".$file, $cct_base);
-					 		else if ($ext == "tiddler")
+					 else if ($ext == "tiddler")
 						echo tiddler_outputTiddlerFile($dir."/".$file, $cct_base);
 		    	}
 		        closedir($dh);
@@ -192,13 +213,16 @@
 			$server = dirname(getURL());
 		else
 			$server = getURL();
+			
 		if(is_array($tiddler["tags"]))
 			$tiddler["tags"] = implode(" ", $tiddler["tags"]);
 		if($tiddler["id"])
 			$id = "server.id='".$tiddler["id"]."'";
 		else
 			$id = ""; // must be a system tiddler
+
 		echo "<div title='".$tiddler["title"]."' modifier='".$tiddler["modifier"]."' modified='".$tiddler["modified"]."' created='".$tiddler["created"]."' tags='".$tiddler["tags"]."' server.page.revision='".$tiddler["revision"]."' server.host='".$server."' server.type='cctiddly'  server.workspace='".$tiddlyCfg['workspace_name']."' ".$tiddler["fields"]." ".$id.">\r\n<pre>".htmlspecialchars($tiddler['body'])."</pre>\r\n</div>\n\r";	
+
 	return;
 	}
 	

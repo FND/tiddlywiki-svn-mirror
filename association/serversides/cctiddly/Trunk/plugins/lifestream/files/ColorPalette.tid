@@ -1,0 +1,27 @@
+modifier: Simon McManus
+created: 
+modified: 200708091500
+tags:
+
+
+Background: #999
+Foreground: #333
+PrimaryPale: #222
+PrimaryLight: #fff
+PrimaryMid: #ccc
+PrimaryDark: #222
+SecondaryPale: #ffc
+SecondaryLight: #fe8
+SecondaryMid: #db4
+SecondaryDark: #333
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #blue
+TertiaryDark: #666
+Error: #f88
+
+ls_foreground: #aaa
+ls_background: #ddd
+ls_mid:#eee
+ls_high:#666
+

@@ -38,6 +38,10 @@ class Plugin {
 			$tiddler['tags'] = "";
 		elseif($ext=='js') 
 			$tiddler['tags'] = "systemConfig";
+		elseif($ext=='.tid') {
+				$tiddler['body'] = "";
+			$tiddler = tiddler_parse_tid_file($file);
+		}
 		return $tiddler;
 	}
 	

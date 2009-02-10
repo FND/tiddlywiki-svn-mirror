@@ -37,8 +37,6 @@ function getTiddlersWithTagsNoPerm($yesTags,$noTags)
 	return array();
 }
 
-
-
 $tasks =  getTiddlersWithTagsNoPerm(array('task'), array());
 
 $loc = dirname(dirname(dirname(getURL())));
@@ -52,7 +50,7 @@ foreach($tasks as $task)
 	}
 }
 
-echo "<h1>".$count." Sections Assigned to You.</h1>";
+echo "<h1>".$count." Sections Assigned to You</h1>";
 echo $links;
 echo "<br /><a href='".$loc."/".$tiddlyCfg['workspace_name']."#newTiddler:NewTask'  target=".rand().">new task</a>";
 ?>
