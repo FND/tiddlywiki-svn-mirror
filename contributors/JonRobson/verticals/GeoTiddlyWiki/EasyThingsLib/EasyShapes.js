@@ -26,10 +26,7 @@ EasyShape.prototype={
 		
 		var frame = this._calculateVisibleArea(canvas,transformation);
 		var shapetype = this.properties.shape;
-		if(shapetype == 'text'){
-			this._renderTextShape(canvas,transformation);
-		}
-		else if(shapetype == 'point'){
+		if(shapetype == 'point'){
 			this._calculatePointCoordinates(transformation);
 		} 
 		else if(shapetype == 'path' || shapetype =='polygon'){
@@ -55,10 +52,7 @@ EasyShape.prototype={
 
 		if(this.vml) this.vml.style.display = '';
 		
-		if(shapetype == 'text'){
-			//special treatment!
-		}
-		else if(!canvas.getContext) {
+		if(!canvas.getContext) {
 			//this has been taken from Google ExplorerCanvas
 			if (!document.namespaces['easyShapeVml_']) {
 			        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
@@ -93,7 +87,7 @@ EasyShape.prototype={
 	}
 
 	,_calculateBounds: function(coords){
-		if(this.properties.shape == 'path' | this.properties.shape =='text'){
+		if(this.properties.shape == 'path'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
@@ -136,14 +130,6 @@ EasyShape.prototype={
 		var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, y+ps];
 		this._constructPolygonShape(properties,newcoords);
 	}
-	,_constructTextShape: function(properties,coordinates){
-		this.properties = properties;
-		var t = document.createElement("div");
-		t.className = "easyShape";
-		t.style.position = "absolute";
-		this._textLabel = t;
-		this.setCoordinates(coordinates);
-	}
 	
 	,_constructPolygonShape: function(properties,coordinates){
 		this.properties = properties;
@@ -154,10 +140,7 @@ EasyShape.prototype={
 		}
 	}
 	,_constructBasicShape: function(properties, coordinates){
-		if(properties.shape == 'text'){
-			this._constructTextShape(properties,coordinates);
-		}
-		else if(properties.shape == 'point'){
+		if(properties.shape == 'point'){
 			this._constructPointShape(properties,coordinates);
 		}
 		else if(properties.shape == 'polygon' || properties.shape == 'path')
@@ -213,28 +196,6 @@ EasyShape.prototype={
 
 
 	 /*RENDERING */
-	,_renderTextShape: function(canvas,transformation){
-		var t =this._textLabel;
-		var coordinates = this.coords;
-		var x= coordinates[0];
-		var y =coordinates[1];
-		t.innerHTML = this.properties.name;
-
-
-		
-		if(t.parentNode == null){
-			t.style.left =   parseInt(x) +"px";
-			t.style.top = parseInt(y)+"px";
-			t.style.width =  "200px";
-			t.style.height = "200px";
-			t.style.textAlign = "center";
-			
-			canvas.appendChild(this._textLabel);
-		}
-		
-		this._cssTransform(t,transformation,false);
-		t.style.lineHeight = t.style.height;
-	}
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
 		var shapetype = this.properties.shape;	

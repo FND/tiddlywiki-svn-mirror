@@ -223,7 +223,7 @@ EasyMap.prototype = {
 			}
 			
 		}
-		this.easyClicking.transformation = this.canvas.transformation;
+		this.easyClicking.setTransformation(this.canvas.transformation);
 		
 	}
 	,moveTo: function(longitude,latitude,zoom){

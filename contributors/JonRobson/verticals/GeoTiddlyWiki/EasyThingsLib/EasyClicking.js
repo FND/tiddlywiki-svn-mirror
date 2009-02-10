@@ -15,9 +15,9 @@ function findScrollY()
 	return window.scrollY || document.documentElement.scrollTop;
 }
 
-var EasyClicking = function(element,transformation,easyShapesList){
+/*Turn a dom element into one where you can find EasyShapes based on clicks */
+var EasyClicking = function(element,easyShapesList){
 	if(element.easyClicking) {
-		console.log("already has easyClicking");
 		var update = element.easyClicking;
 		return update;
 	}
@@ -25,13 +25,16 @@ var EasyClicking = function(element,transformation,easyShapesList){
 	this.memory = [];
 	element.easyClicking = this;
 	if(easyShapesList) this.memory = easyShapesList;
-	if(transformation) this.transformation = transformation;
+	
 	
 };
 
 EasyClicking.prototype = {
 
-	addToMemory: function(easyShape){
+	setTransformation: function(transformation){
+		if(transformation) this.transformation = transformation;	
+	}
+	,addToMemory: function(easyShape){
 		if(!this.memory) this.memory = [];
 		easyShape._easyClickingID = this.memory.length;
 		this.memory.push(easyShape);
