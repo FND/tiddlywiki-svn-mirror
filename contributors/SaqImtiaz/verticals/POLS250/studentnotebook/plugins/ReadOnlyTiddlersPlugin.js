@@ -6,7 +6,7 @@ Tiddler.prototype.isReadOnly = function()
 		return true;
 //	else if (!store.getTiddler(this.title) && !store.isShadowTiddler(this.title))
 //		return true;
-	else if (this.tags.containsAny(['systemConfig','systemConfigDisable','systemServer','excludeLists','excludeSearch']))
+	else if (this.tags.containsAny(['systemConfig','systemConfigDisable','systemServer','readOnly']))
 		return true;
 	else
 		return this.wikispaces_oldIsReadOnly();
