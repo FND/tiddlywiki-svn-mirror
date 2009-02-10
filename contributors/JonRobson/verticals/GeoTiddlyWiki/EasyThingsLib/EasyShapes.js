@@ -397,7 +397,7 @@ EasyShape.prototype={
 		var d1,d2,t;
 		if(!vml) return;
 	
-		if(vml.tagName == 'shape' && (!vml.path || this.properties.shape =='point' ||aion)) {
+		if(vml.tagName == 'shape' && (!vml.path || this.properties.shape =='point')) {
 			//causes slow down..
 			this._createvmlpathstring(vml,transformation,projection);
 		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
@@ -600,7 +600,7 @@ EasyShape.prototype={
 		var ps = 5 / parseFloat(transformation.scale.x);
 		//should get bigger with scale increasing
 		var smallest = 1 / this._iemultiplier;
-		var largest = 2.5;
+		var largest = 2.5 * transformation.scale.x;
 		if(ps < smallest) ps = smallest;
 		if(ps > largest) ps = largest;
 		var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];

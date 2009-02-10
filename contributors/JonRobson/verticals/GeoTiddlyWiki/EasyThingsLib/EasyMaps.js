@@ -568,10 +568,9 @@ EasyMap.prototype = {
 		var dblclick = function(e){
 			
 		}
-		jQuery(this.wrapper).click(function(e) {
-			onmouseup(e);
-		});
+
 		
+		this.wrapper.onmouseup= 	onmouseup;
 		/*
 		$(this.wrapper).dblclick(function(e) {
 			alert("Dblclicked!");

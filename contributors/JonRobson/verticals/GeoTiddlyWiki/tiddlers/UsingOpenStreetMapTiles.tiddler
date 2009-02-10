@@ -1,6 +1,7 @@
 <div title="Using OpenStreetMap Tiles" tags="excludeLists">
 <pre>
-You can make use of openstreetmap tiles if you would like to see things such as city locations, rivers as well as your coloured data.
+You can make use of openstreetmap tiles if you would like to see things such as city locations, rivers as well as your coloured data. However you must be using this file offline, so make sure you download it rather than viewing it from a website. 
+
 <<geo id:osm1 projection:slippystaticmap>>
 
 You can also turn off the geojson layer using the parameter source:false alongside the projection slippystaticmap - this is good if you are just trying to make use of your geotags.
