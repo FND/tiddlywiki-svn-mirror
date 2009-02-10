@@ -1,0 +1,10 @@
+<div title="addcontent" tags=" excludeSearch excludeLists">
+<pre>
+<<newTiddler>>
+<<addDestination>>
+grab geotagged flickr photos about:
+<<addRssToItinerary http://api.flickr.com/services/feeds/geo/?lang=en-us&format=rss_200&tags= {{['photo']}}>>
+add a georss feed:
+<<addRssToItinerary {{['rss']}}>>
+</pre>
+</div>

@@ -1,0 +1,6 @@
+<div title="findthings" tags=" excludeSearch excludeLists">
+<pre>
+<<geosearchandgoto id:mytrip label:'go to destination:'>>
+<<search>>
+</pre>
+</div>

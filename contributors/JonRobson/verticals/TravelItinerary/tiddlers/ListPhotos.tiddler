@@ -1,0 +1,6 @@
+<div title="List of Photos">
+<pre>
+<<list filter [tag[photo]]>>
+If you want to add a new photo to this list, add a note and tag it photo!
+</pre>
+</div>

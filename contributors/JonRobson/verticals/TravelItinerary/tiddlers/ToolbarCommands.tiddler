@@ -1,0 +1,8 @@
+<div title="ToolbarCommands" tags=" excludeSearch excludeLists">
+<pre>
+
+|~ViewToolbar|closeTiddler editTiddler deleteTiddler closeOthers more > fields syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
+
+</pre>
+</div>

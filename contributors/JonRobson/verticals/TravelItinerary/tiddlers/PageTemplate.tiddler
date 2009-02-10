@@ -1,0 +1,38 @@
+<div title="PageTemplate"  tags="excludeSearch excludeLists">
+<pre>
+<!--{{{-->
+
+<div class='header'>
+
+<div id='sidebar'>
+ <div id='sidebarOptions' refresh='content' tiddler='MainMenu'></div>
+</div>
+	<div class='titleLine' >
+		<div class='siteTitle' refresh='content' tiddler='TopBanner'></div>
+		<div class='siteSubTitle' refresh='content' tiddler='SiteSubTitle'></div>
+	</div>
+
+
+	<div id='topMenu'>
+		<div tiddler='The Map' refresh='content'></div>
+	</div>
+</div>
+
+ 
+
+
+
+
+	<div class='travelmap'>
+
+	</div>
+
+	<div id='tiddlersBar' refresh='none' ondblclick='config.macros.tiddlersBar.onTiddlersBarAction(event)'></div>
+	<div id='displayArea'>
+		<div id='messageArea'></div>
+		<div id='tiddlerDisplay'></div>
+	</div>
+
+<!--}}}-->
+</pre>
+</div>

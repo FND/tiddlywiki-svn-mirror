@@ -1,0 +1,14 @@
+<div title="Terms and Conditions" tags="excludeSearch excludeLists">
+<pre>
+This tool should be taken as a proof of concept and not be used for anything else!
+This is because... Google static maps api comes with the following term and condition.
+{{{
+10.3 pre-fetch, cache, or store any Content, except that you may store limited amounts of Content for the purpose of improving the performance of your Maps API Implementation if you do so temporarily, securely, and in a manner that does not permit use of the Content outside of the Service;
+}}}
+As a result you should not use this for long term use in case of invalidating Google's licensing restrictions. You should thus delete this after trying it out.
+
+I am fully aware of this and looking for a solution using OpenStreetMaps Mapnik tiles however I'm not quite there yet :)
+
+Currently the tool makes use of the TravelWiki site and Flickr to pull down it's information but I am open to suggestions especially in terms of grabbing good pubs, good hotels etc.. to design the perfect holiday! Feel free to contact me, provide feedback and add suggestions through [[my website|http://www.jonrobson.me.uk]]
+</pre>
+</div>

@@ -1,0 +1,9 @@
+<div title="MainMenu" tags="excludeSearch excludeLists">
+<pre>
+<<saveChanges>>
+<<slider tiddler: 'findthings' 'Find things'>>
+<<slider tiddler: 'timeline' 'Your Itinerary'>>
+<<slider tiddler: 'addcontent' 'Add Content'>>
+[[Help]]
+</pre>
+</div>
