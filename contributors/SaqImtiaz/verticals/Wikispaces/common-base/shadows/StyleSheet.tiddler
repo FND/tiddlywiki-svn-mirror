@@ -247,5 +247,37 @@ margin-left:0.7em;
     font-size:90%;
     padding-top:0.5em;
 }
+
+.tagged, .tiddler.selected .tagged{
+	position:relative;
+	float:none;
+	margin: 0;
+	padding:6px 4px;
+	background : #fff;
+	border: 1px solid #ccc;
+	border-top:0;
+	border-bottom:0;
+}
+
+.tagged li, .tagging li, .tagging ul, .tagged ul{
+	display:inline;
+}
+
+.tagged li, .tagging li {
+	margin-right:0.5em;
+}
+
+.tagged .button, .tagged .button:hover {
+	color: #0044BB;
+	background:transparent;
+}
+
+.popup {
+	background : #fff;
+}
+
+.popup li a, .popup li a:hover {
+	background:transparent;
+}
 /*}}}*/</pre>
 </div>

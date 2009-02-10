@@ -4,8 +4,9 @@
 <div class='toolbar' macro='toolbar +editTiddler'></div>
 <div class='tagClear'></div>
 <div class='viewer viewernotes' macro='view text wikified'></div>
+<div class='tagged' macro='tags'></div>
 <div macro='hideWhen tiddler.fields["server.type"] != "wikispaces"'>
-	<div class='viewer notes viewernotes' macro='batchNavigation lectures'></div>
+	<div  macro='batchNavigation lectures'></div>
 	<div class='viewer notes' macro='notes heading:"My Notes" tag:"MyNotes excludeLists" suffix:"Notes"'></div>
 </div>
 <!--}}}--></pre>
