@@ -1,4 +1,6 @@
 /***
+11/02/09 GOOGLE STATIC MAPS currently broken
+
 |''Name:''|geoPlugin |
 |''Description:''|An attempt to bring nice easy to use maps to tiddlywiki using geojson|
 |''Author:''|JonRobson and JonathanLister |
@@ -188,13 +190,13 @@ if(!version.extensions.geoPlugin) {
 				var zoomL = eMap.settings.projection.calculatescalefactor(scale.x);
 				var w = parseInt(eMap.wrapper.style.width);
 				var h = parseInt(eMap.wrapper.style.height);
-				var gsmPath ="gsm/"+w+"X"+h+"/"+zoomL+"/"+y+"_"+x+".gif";
+				var gsmPath ="gsm/"+w+"X"+h+"_"+zoomL+"_"+y+"_"+x+".gif";
 				var gsmURL ="http://maps.google.com/staticmap?center="+y+","+x+"&zoom="+zoomL+"&size="+w+"x"+h+"&key=YOUR_KEY_HERE";
 				
 
 				
 				try{
-					that.saveImageLocally(gsmURL,gsmPath,useLocalImage);
+					EasyFileUtils.saveImageLocally(gsmURL,gsmPath,useLocalImage);
 				}
 				catch(e){
 					console.log("unable to cache static image for this map view. ("+e+")")
@@ -208,9 +210,8 @@ if(!version.extensions.geoPlugin) {
 			var h = parseInt(eMap.wrapper.style.height);
 			
 	
-	
 			try{
-				that.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"x"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"/0/0_0.gif",useLocalImage);
+				EasyFileUtils.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"X"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"_0_0_0.gif",useLocalImage);
 			}
 			catch(e){
 				console.log("unable to cache static image for this map view. ("+e+")")

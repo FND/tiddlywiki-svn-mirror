@@ -113,17 +113,18 @@ EasyMapController.prototype = {
 			if(!this.easyController)return;
 			var p =this.easyController.panning_status;
 			if(!p) return;
-			if(!p) return;
 			var t =  EasyClickingUtils.resolveTarget(e);
 	
 			if(t.getAttribute("class") == "easyControl") return;
+			
 			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
 			if(!pos)return;
 			
 			var t = that.transformation;
 			//if(this.transformation) t = this.transformation;
 			var sc = t.scale;
-			
+
+			/* work out deltas */
 			var xd =parseFloat(pos.x /sc.x);
 			var yd = parseFloat(pos.y / sc.y);
 			t.translate.x = p.translate.x + xd;
@@ -316,39 +317,9 @@ EasyMapController.prototype = {
 		var t = this.transformation;
 		var s = t.scale;
 		var tr = t.translate;
-		var style = this.wrapper.style;
-		
-		
-		var width = parseInt(style.width);
-		var height = parseInt(style.height);
 		if(s.x <= 0) s.x = 0.1125;
 		if(s.y <= 0) s.y = 0.1125;
-		
-		if(s.x > this._maxscale) s.x = this._maxscale;
-		if(s.y > this._maxscale) s.y = this._maxscale;
-		
-		
-		if(width && height){
-			var max = {};
-			max.x = parseFloat((width) - 10) * s.x;//the maximum possible translation
-			max.y = parseFloat((height) - 10) * s.y;//the maximum possible translation
-	
-			if(tr.x > max.x){
-				tr.x = max.x;
-			}
-			else if(tr.x < -max.x){
-				tr.x= -max.x;
-			}
-		
-			if(tr.y > max.y){
-				tr.y = max.y;
-			}
-			else if(tr.y < -max.y){
-				tr.y= -max.y;
-			}
-		}
 
-		//console.log(this.transformation.rotate,"rotate");
 		this.targetjs.transform(this.transformation);
 
 

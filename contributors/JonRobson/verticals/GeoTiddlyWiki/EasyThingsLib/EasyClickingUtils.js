@@ -1,6 +1,6 @@
 
 var EasyClickingUtils = {
-	undotransformation: function(x,y,transformation){
+	undotransformation: function(x,y,transformation){ //porting to EasyTransformations?
 	
 		var pos = {};
 		var t =transformation;
