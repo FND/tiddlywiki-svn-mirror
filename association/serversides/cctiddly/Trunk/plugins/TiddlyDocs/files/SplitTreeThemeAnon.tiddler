@@ -1,0 +1,413 @@
+
+/***
+|''Name:''|TreeTheme|
+|''Description:''|The basic TeamTasks theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
+|''Version:''|0.4|
+|''Date:''|March 28th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~wizardViewTemplate:''|##wizardViewTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~taskViewTemplate:''|##taskViewTemplate|
+|''~taskEditTemplate:''|##taskEditTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+	
+
+		<div class='header' macro='gradient vert #444 #555555'>
+		<div class='headerShadow'>
+		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+		</div>
+	</div>
+
+
+<div id='bodywrapper' >
+<div id='displayArea'>
+<div id='messageArea'></div>
+
+<div id='mainMenu' >
+<h1>
+Welcome to the TiddlerTree demo
+</h1>
+
+You can log in with 
+<p>
+username : demo 
+<br />
+password : demo
+</p>
+</div>
+<br />
+<div id='tiddlerDisplay'></div>
+</div>
+</div>
+<div id='contentFooter'  macro='gradient vert #eee #ccc'></div>
+<!--}}}-->
+
+!wizardViewTemplate
+<!--{{{-->
+<div macro='gradient vert #eee #bbb'>
+<!--<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>-->
+<br />
+<div class='viewer' macro='view text wikified' ></div>
+</div>
+<!--}}}-->
+
+
+!EditTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<br />
+<br />
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+	<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+	<div class='title' macro='view title'></div>
+	<div class='viewer taskViewer' macro='view text wikified'></div>
+	<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<!--}}}-->
+
+	
+!taskViewTemplate
+<!--{{{-->
+<div macro='gradient vert #eee #fff'>
+
+<div class='toolbar' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>
+<div class='title' macro='view title'><img src='http://www.iconspedia.com/uploads/578075880.png' width='24px' style='top:0.4em' /></div>
+<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+</div>
+<div class='viewer taskViewer' macro='view text wikified'></div>
+<div macro='gradient vert #fff #eee'>
+<center>
+<div macro='comments'></div>
+</center>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+</div>
+<!--}}}-->
+
+
+
+!taskEditTemplate
+<!--{{{-->
+<div macro='gradient vert #eee #bbb'>
+<div class="editor">
+<div class='title edit' macro='edit title'></div>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='task'>
+	<table border="0">
+	<tr>
+		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
+	</tr>
+	</table>
+<div class='viewer edit' macro='edit text wikified'></div>
+</div>
+<div class='tagClear'></div>
+</div>
+</div>
+
+!StyleSheet 
+
+.siteTitle, .siteSubtitle {
+	color:white !important;
+}
+
+
+body {
+font-family:Helvetica;
+	background-color:#555;
+}
+.topBanner {
+	background:#ddd none repeat scroll 0 0;
+	padding:1em;
+	margin-bottom:0.5em;
+	position:absolute;
+	text-align:right;
+	width:96%;
+}
+
+#layoutContainer {
+	background-color:#ccc;
+}
+
+.editor input, .editor textarea {
+	border:1px solid orange;
+	width:98%;
+	margin:0.5em;
+}
+
+.left {
+	text-align: left;
+}
+	
+/* nestedSortable CSS */
+	.sectionHeading a{
+		/*	display:none; 
+		visibility:hidden;
+		*/
+	}
+	.sectionHeading a:hover {
+	/*	display:inline; 
+		visibility:visible;
+		border: 1px solid red;
+	 */
+	}
+	.current-nesting {
+		background-color: yellow;
+	}
+	.helper {
+	/*	margin-left:1em !important;*/
+		border:2px dashed #777777;
+	}
+	.sort-handle-edit {
+		border:1px solid orange;
+		background:white;
+		padding:1em;
+		margin-bottom:1em;
+	}	
+	.sort-handle-edit .button {
+		border:1px solid orange;
+		background:white !important;
+		color:black !important;
+	}	
+	.draggableOn {
+		cursor:move;
+		/*	background-color:#eee !important; */
+	}
+	
+/* END nestedSortable CSS */
+		
+/* tiddlerTree CSS */	
+
+
+
+.heading1 {
+	font-weight:bold;
+}
+
+
+.heading2 {
+}
+
+.heading3 {
+	font-style:italic;
+}
+
+li.page-item1 {
+list-style:none;
+
+}
+
+ul.page-list {
+}
+
+	#mainMenu {
+		
+		background-color:#ccc;
+		border:1px solid white;
+		font-size:0.9em;
+		height:100%;
+		margin:2.8em 2em 2em;
+		position:relative;
+		width:27% !important;
+		padding-top:1em;
+	}
+	div.title, div.subtitle {
+		padding :1em;
+		color:black;
+	}
+	div.title {
+		padding:0.2em 0.5em 0 0.2em;
+	}
+
+	
+	#buttonHolder {
+		padding:0em;
+	}
+		
+	#buttonHolder .button {
+	padding:0.3em 0.6em 0.2em;
+		background:#eee;
+		border:#888;
+	}
+	
+	.completed {
+		border-right : 10px solid #C0DA5F;
+		padding:1em;
+	}
+
+	.incomplete {
+		border-right : 10px solid #A4001D;
+	}
+
+	li {
+		/*		style:none;*/
+	}
+
+	ul {
+		padding-left:0px;
+		margin:0em !important;
+	}
+
+/* END tiddlerTree CSS */		
+	
+/* TIDDLYWIKI CSS */	
+
+	body #messageArea {
+	display:none !important;
+		bottom:0;
+		right:0;
+		top:90% !important;
+		width:92%;
+		height:100px;
+		background-color:white;
+		border:1px solid #222;
+	}
+	#mainMenu {
+		font-size:0.9em;
+		height:100%;
+		position:relative;
+		width:30%;
+	}
+	#tiddlerDisplay {
+		float:right;
+		height:100%;
+		left:30%;
+		position:absolute;
+		top:10.5em;
+		width:70%;
+	}
+	.toolbar {
+		float:right;
+		padding-bottom:1em !important;
+		padding-left:1em !important;
+		padding-right:0;
+		padding-top:1.1em;
+		position:relative;
+		right:0.5em;
+	}
+	#displayArea {
+		margin:0px !important;
+	}
+	div.tiddler {
+		background-color:white;
+		border:1px solid #fff;
+		padding:0px;
+		margin:2em;
+		margin-top:0.5em;
+	}
+	div.tiddler .tab {
+		background-color:#ddd;
+	}
+	 /*WIZARD*/
+		.wizard .button {
+			background:#FFFFFF none repeat scroll 0 0 !important;
+			color:black !important;
+			margin:1em !important;
+			padding:0.5em;
+			padding-left:1em !important;
+			padding-right:1em !important;
+		}
+
+		div.tabContents .wizard, div.wizardFooter, div.wizardStep, .tabsetWrapper .wizard h2 {
+			background:#ddd !important;
+			border:0px !important;
+		}
+
+		div.wizardStep {
+			padding:0px !important;
+		}
+		div.wizardFooter {
+			margin-left :9.2em;
+		}
+	/*ENDWIZARD*/
+		.button {
+			font-face:arial;
+			background-color:white;
+			color:black !important;
+			font-size:1.2em;
+			border:1px solid orange !important;
+			margin:0.5em;	
+			top:1em !important;
+		}
+		#backstageButton {
+			display:none !important;
+		}
+		.viewer {
+			padding:0.5em;
+		}
+	/* END TIDDLYWIKI CS */
+
+	/*  TEAK TASKS CSS */
+	.viewer table, table.twtable, .viewer td, .viewer tr, .twtable td, .twtable tr {
+		border:0px !important;
+	}
+	/*  END TEAM TASKS CSS */ 
+		
+	/*  COMMENTS CSS */
+	
+	
+	.comment .heading {
+	background:#eee none repeat scroll 0 0 !important;
+	padding:0.5em;
+	background:#eee;
+	border-bottom:1px solid #eee !important;
+	border-right:1px solid #eee !important;
+	
+	
+	}
+	.deleteComment {
+		display:none;
+	}	
+		.comments {
+			width:80% !important;
+			padding:0.5em;
+			text-align:left;
+		}
+		.comments .newCommentArea {
+			text-align:center;
+		}		
+		.commentText {
+			padding:1em !important;
+			background-color:#fff;
+			border:1px solid #eee;
+			border-top:0px;
+		}
+		.comments textarea {
+			width:60% !important;
+		}
+	/*  END COMMENTS CSS */
+			
+	/*  NESTED SORTABLE CSS */
+		div.sort-handle {
+			padding:0em;
+			margin:0em;
+			padding-left :1em;
+			padding-top:0px;
+		}		
+		div.sort-handle div{
+			margin:0em;
+		}
+		div.sort-handle:hover {
+			background-color:#333;
+			color:white;
+		}
+	// END NESTED SORTABLE CSS 
+
+<!--}}}-->

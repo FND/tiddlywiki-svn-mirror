@@ -1,0 +1,3 @@
+|~ViewToolbar|+editTiddler|
+|~taskViewToolbar|+editHtml|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddlerHosted|
