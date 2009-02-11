@@ -2,6 +2,25 @@
 global $Plugins;
 global $tiddlyCfg;
 $Plugins = array();
+	
+	// takes a path to a .tid file and returns a tiddler object.
+	function tiddler_parse_tid_file($file)
+	{
+		$tiddly_body = file_get_contents($file);		
+		$position = strpos($tiddly_body, "\n\n");
+		$top = substr($tiddly_body, 0, $position);
+	 	$file_slash_position = strrpos($file, "/");
+		$tiddler['title'] = substr($file,$file_slash_position+1,-4);
+		$tiddler['body'] = substr($tiddly_body, $position);
+		$fields = explode("\n", $top);
+		foreach($fields as $field)
+		{
+			$pairs = explode(":", $field);
+			$tiddler[$pairs[0]] = trim($pairs[1]);
+		}
+		return $tiddler;
+	}
+	
 class Plugin {
 	public $phpEvents;
 	public $tiddlers;
@@ -26,20 +45,20 @@ class Plugin {
 		$this->tiddlers[$tiddler['title']] = $tiddler;
 	}
 	
-	public function tiddlerFromFile($file) {
+	function tiddlerFromFile($file) {
 		$tiddler['created'] = epochToTiddlyTime(mktime());
 		$tiddler['modified'] = epochToTiddlyTime(mktime());
 		$tiddler['modifier'] = "ccTiddly";
 		$tiddler['creator'] = epochToTiddlyTime(mktime());
 		$ext = substr($file, strrpos($file, '.') + 1);
 		$tiddler['title'] = substr($file, strrpos($file, '/')+1, -strlen($ext)-1); 
-		$tiddler['body'] = file_get_contents($dir."/".$file);
-		if($ext=='tiddler')
+		if($ext=='tiddler') {
+			$tiddler['body'] = file_get_contents($dir."/".$file);	
 			$tiddler['tags'] = "";
-		elseif($ext=='js') 
+		} elseif($ext=='js') {
+			$tiddler['body'] = file_get_contents($dir."/".$file);	
 			$tiddler['tags'] = "systemConfig";
-		elseif($ext=='.tid') {
-				$tiddler['body'] = "";
+		} elseif($ext=='tid') {
 			$tiddler = tiddler_parse_tid_file($file);
 		}
 		return $tiddler;

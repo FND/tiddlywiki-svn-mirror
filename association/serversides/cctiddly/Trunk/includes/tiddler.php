@@ -74,22 +74,7 @@
 	
 	
 	
-	
-	// takes a path to a .tid file and returns a tiddler object.
-	function tiddler_parse_tid_file($file)
-	{
-		$tiddly_body = file_get_contents(getCWD().$file);		
-		$tiddler['title'] = "parseTiddler";	
-		$position = strpos($tiddly_body, "\n\n");
-		$top = substr($tiddly_body, 0, $position);
-		$fields = explode("\n", $top);
-		foreach($fields as $field)
-		{
-			$pairs = explode(":", $field);
-			$tiddler[$pairs[0]] = trim($pairs[1]);
-		}
-		return $tiddler;
-	}
+
 	///////////////////////////////////////////////////////////////encoding and formatting//////////////////////////////////////////////////
 
 	//!	@fn array tiddler_breakTag($tagStr)

@@ -89,9 +89,6 @@ function checkWorkspace($workspace_settings, $_POST, $cct_base)
 		if(strlen($tiddlyCfg['workspace_name'])==0)
 		{//do install
 			include_once("../includes/workspace.php");
-			
-			echo "herer";
-			exit;
 			workspace_create($tiddlyCfg['workspace_name'], $_POST['ccAnonPerm']);
 		} else {	//ifnot empty, check ifinstallation can be done
 			if($tiddlyCfg['allow_workspace_creation']>0)
