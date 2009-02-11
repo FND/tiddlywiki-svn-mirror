@@ -1,0 +1,7 @@
+modifier: Simon McManus
+created: 
+modified: 200708091500
+
+|~ViewToolbar|+editTiddler|
+|~taskViewToolbar|+editHtml|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddlerHosted|
