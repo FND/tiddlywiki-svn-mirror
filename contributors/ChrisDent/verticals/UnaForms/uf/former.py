@@ -58,9 +58,9 @@ def forms(environ, start_response):
     """
     List the available forms to the web.
     """
-    form_ids = _read_db().keys()
+    forms = _read_db()
     template = template_env.get_template('forms.html')
-    return template.generate(form_ids=form_ids)
+    return template.generate(forms=forms)
 
 
 @require_any_user()

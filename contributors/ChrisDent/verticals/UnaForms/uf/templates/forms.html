@@ -1,5 +1,5 @@
 <ul>
-{% for id in form_ids %}
-<li><a href="/forms/{{ id }}">{{ id }}</a></li>
+{% for form in forms %}
+<li><a href="/forms/{{ form }}">{{ form }}:{{ forms[form] }}</a></li>
 {% endfor %}
 </ul>
