@@ -1,5 +1,9 @@
 <div title="Release Notes" modifier="PhilHawksworth" created="200710241224" modified="200710241439" tags="help" changecount="23">
 <pre>
+!Version 0.4.2
+!!!Comments
+*Freetext option available as a field on tasks via an update to the ValueSwitcherPlugin
+
 !Version 0.4.1
 !!!Comments
 *Minor bug fix to address the poor rendering of the Task Edit view.
