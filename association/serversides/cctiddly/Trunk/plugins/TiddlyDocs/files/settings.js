@@ -11,7 +11,7 @@ else
 	config.options.txtTheme = "SplitTreeThemeAnon";
 
 
-//config.options.txtTheme = "TreeTheme";
+config.options.txtTheme = "gTheme";
 config.options.chkSinglePageMode = true;
 config.options.chkBackstage = false;
 
