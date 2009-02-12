@@ -28,7 +28,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	var btn = createTiddlyElement(buttonHolder, "a", null, "button");
 	btn.onclick = config.macros.newTiddler.onClickNewTiddler;
 	btn.setAttribute("newTitle","New Section");
-	btn.setAttribute("newTemplate",DEFAULT_EDIT_TEMPLATE);
+	btn.setAttribute("newTemplate","gTheme##taskEditTemplate");
 	var img = createTiddlyElement(btn, "img");
 	img.style.width = "10px";
 	img.style.height="10px";

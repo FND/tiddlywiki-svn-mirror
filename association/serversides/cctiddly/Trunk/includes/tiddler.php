@@ -119,7 +119,6 @@
 				echo "powerpape".$file;
 		       while (($file = readdir($dh)) !== false) 
 				{
-					echo $full."tolly";
 					$full  = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder']."/".$dir."/".$file;
 					if(is_dir($full))
 						getDir($full, $file); 

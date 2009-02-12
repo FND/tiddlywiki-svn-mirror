@@ -26,7 +26,6 @@ tags : systemTheme
 !PageTemplate
 <!--{{{-->
 
-
 <div macro='gradient vert #fbfbfb #f0f0f0'>
 <!--
 <div id='topBar'>
@@ -40,13 +39,9 @@ tags : systemTheme
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 </div>
 
-
-
 <div id='bodywrapper' >
 <div id='displayArea'>
 <div id='messageArea'></div>
-
-
 <div class='leftColumn' width="100px">
 
 	<div class="portletContainer" width="100px">
@@ -88,7 +83,6 @@ tags : systemTheme
 
 !EditTemplate
 <!--{{{-->
-
 <div class="portletContainerEdit">
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
@@ -96,18 +90,14 @@ tags : systemTheme
 		<div class="portletTitle">
 			<div class='title' macro='view title'>editing : </div>
 		</div>
-
-
-
-		<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a>
-</div>
-	</div>
 	<div class="portletContent">
 	
 
 			<div class='taskControls' macro='tiddler TaskTiddlerControls'>
 		</div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
 		<div class='editor' macro='edit text' ></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	
 	</div>
@@ -128,14 +118,10 @@ tags : systemTheme
 		<div class="portletTitle">
 			<div class='title' macro='view title'></div>
 		</div>
-
-
-
-		<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></a>
-</div>
 	</div>
 	<div class="portletContent">
 		<div class='viewer' macro='view text wikified'></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></a></div>	
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	</div>
 	<div class="portletFooter">
@@ -155,13 +141,13 @@ tags : systemTheme
 		<div class="portletTitle">
 			<div class='title' macro='view title'></div>
 		</div>
-		<div class='toolbar' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a>
-</div>
 	</div>
 	<div class="portletContent">
 		<div class='taskControls' macro='tiddler TaskTiddlerControls'>
 		</div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
 		<div class='viewer' macro='view text wikified'></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	
 	</div>
@@ -172,8 +158,7 @@ tags : systemTheme
 </div>
 <!--}}}-->
 
-
-
+ 
 !taskEditTemplate
 <!--{{{-->
 <div class="portletContainerEdit">
@@ -183,18 +168,11 @@ tags : systemTheme
 		<div class="portletTitle">
 			<div class='title' macro='view title'>editing : </div>
 		</div>
-
-
-
-		<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a>
-</div>
-	</div>
 	<div class="portletContent">
-	
-
 			<div class='taskControls' macro='tiddler TaskTiddlerControls'>
 		</div>
-		<div class='editor' macro='edit text' ></div>
+		<div class='editor' macro='editHtml text' ></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	
 	</div>
@@ -204,9 +182,9 @@ tags : systemTheme
 	</div>
 </div>
 
+<!--}}}-->
 
 
- 
 !StyleSheet 
 
 .taskControls {
@@ -361,7 +339,7 @@ ul.page-list {
 	}
 
 	#buttonHolder .button:hover {
-		background-color:#61a9cf;
+		background-color:#5586b6;
 		color:white;	
 	}	
 	.completed {
@@ -416,8 +394,11 @@ width:98.5%;
 		float:right;
 		height:100%;
 		position:relative;
-		top:-1.3em;
-		width:70%;
+		top:-1.25em;
+		width:66%;
+	}
+	.toolbar a, .toolbar:hover{
+	color:white;
 	}
 	.toolbar {
 		font-size:0.6em;
@@ -461,16 +442,22 @@ width:98.5%;
 	/*ENDWIZARD*/
 		.button {
 			font-face:arial;
-			background-color:white;
-			font-size:1.2em;
+			background-color:#5586b6;
 			border:1px solid #fff !important;
-			margin:0.5em;	
+			margin:1.5em;	
+			font-size:2em;
 			top:1em !important;
+			color:#fff;
+			padding: 1em;
 		}
 		.button:hover  {
 			background-color:#ddd;
 			border:1px solid #888;
 			
+		}
+		#buttonHolder .button{
+			font-size:0.9em;
+			padding:0em 2em;
 		}
 		#backstageButton {
 			display:none !important;
@@ -531,7 +518,7 @@ width:98.5%;
 			margin:0em;
 		}
 		div.sort-handle:hover {
-			background-color:#333;
+			background-color:#5586b6;
 			color:white;
 		}
 	// END NESTED SORTABLE CSS 
@@ -647,6 +634,8 @@ width:98.5%;
 		background-position:bottom right;
 	}
 	.leftColumn{
+		padding-left:2em;
+		text-align:left;
 		width:30%;
 		float:left;
 		text-align:left;

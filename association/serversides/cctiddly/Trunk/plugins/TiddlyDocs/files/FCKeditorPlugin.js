@@ -37,11 +37,12 @@ config.options.txtFCKheight = config.options.txtFCKheight ? config.options.txtFC
 config.macros.editHtml = {
 	handler : function(place,macroName,params,wikifier,paramString,tiddler) {
 		var field = params[0];
+		
+		console.log("her");
 		var height = params[1] ? params[1] : config.options.txtFCKheight;
 		if (typeof FCKeditor=="undefined"){
 			displayMessage(config.macros.editHtml.FCKeditorUnavailable);
 			config.macros.edit.handler(place,macroName,params,wikifier,paramString,tiddler);
-
 		}
 		else if (field) {
 			var e = createTiddlyElement(null,"div");
@@ -110,7 +111,7 @@ config.commands.editHtml={
 		clearMessage();
 		var tiddlerElem = document.getElementById(story.idPrefix + title);
 		var fields = tiddlerElem.getAttribute("tiddlyFields");
-		story.displayTiddler(null,title,"EditHtmlTemplate",false,null,fields);
+		story.displayTiddler(null,title,"gTheme##taskEditTemplate",false,null,fields);
 		return false;
 	}
 }
