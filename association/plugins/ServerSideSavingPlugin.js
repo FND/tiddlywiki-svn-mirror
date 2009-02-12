@@ -2,14 +2,14 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.4.2|
+|''Version''|0.4.3|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''CoreVersion''|2.4.2|
 |''Keywords''|serverSide|
 !Notes
-This plugin relies on a dedicated configuration plugin to be present.
+This plugin relies on a dedicated adaptor to be present.
 The specific nature of this plugins depends on the respective server.
 !Revision History
 !!v0.1 (2008-11-24)
@@ -133,16 +133,16 @@ config.macros.saveToWeb = { // XXX: hijack existing sync macro?
 };
 
 // hijack saveChanges to trigger remote saving
-plugin.saveChanges = saveChanges;
+plugin._saveChanges = saveChanges;
 saveChanges = function(onlyIfDirty, tiddlers) {
 	if(window.location.protocol == "file:") {
-		plugin.saveChanges.apply(this, arguments);
+		plugin._saveChanges.apply(this, arguments);
 	} else {
 		plugin.sync();
 	}
 };
 
-// override removeTiddler to flag tiddler as deleted
+// override removeTiddler to flag tiddler as deleted -- XXX: use hijack to preserve compatibility?
 TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override deleteTiddler instance method?
 	var tiddler = this.fetchTiddler(title);
 	if(tiddler) {
@@ -153,6 +153,50 @@ TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override d
 		this.notify(title, true);
 		this.setDirty(true);
 	}
+};
+
+// override saveTiddler to fix core bug (ticket #912) -- XXX: temporary
+Story.prototype.saveTiddler = function(title,minorUpdate)
+{
+	var tiddlerElem = this.getTiddler(title);
+	if(tiddlerElem) {
+		var fields = {};
+		this.gatherSaveFields(tiddlerElem,fields);
+		var newTitle = fields.title || title;
+		if(!store.tiddlerExists(newTitle))
+			newTitle = newTitle.trim();
+		if(store.tiddlerExists(newTitle) && newTitle != title) {
+			var overwrite = true;
+			if(!confirm(config.messages.overwriteWarning.format([newTitle.toString()])))
+				return null;
+		}
+		if(newTitle != title)
+			this.closeTiddler(newTitle,false);
+		tiddlerElem.id = this.tiddlerId(newTitle);
+		tiddlerElem.setAttribute("tiddler",newTitle);
+		tiddlerElem.setAttribute("template",DEFAULT_VIEW_TEMPLATE);
+		tiddlerElem.setAttribute("dirty","false");
+		if(config.options.chkForceMinorUpdate)
+			minorUpdate = !minorUpdate;
+		if(!store.tiddlerExists(newTitle))
+			minorUpdate = false;
+		var newDate = new Date();
+		var extendedFields = store.tiddlerExists(newTitle) && !overwrite ?
+			store.fetchTiddler(newTitle).fields :
+			(
+				newTitle!=title && store.tiddlerExists(title) ?
+					store.fetchTiddler(title).fields :
+					merge({},config.defaultCustomFields)
+			);
+		for(var n in fields) {
+			if(!TiddlyWiki.isStandardField(n))
+				extendedFields[n] = fields[n];
+		}
+		var tiddler = store.saveTiddler(title,newTitle,fields.text,minorUpdate ? undefined : config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags,extendedFields);
+		autoSaveChanges(null,[tiddler]);
+		return newTitle;
+	}
+	return null;
 };
 
 })(config.extensions.ServerSideSavingPlugin); //# end of alias
