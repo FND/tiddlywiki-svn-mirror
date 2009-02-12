@@ -25,6 +25,9 @@ tags : systemTheme
 
 !PageTemplate
 <!--{{{-->
+
+
+<div macro='gradient vert #fbfbfb #f0f0f0'>
 <!--
 <div id='topBar'>
 
@@ -32,13 +35,12 @@ tags : systemTheme
 </div>
 
 --> 
+<div class='headerShadow'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
 
-	<div class='header' macro='gradient vert #fbfbfb #f0f0f0'>
 
-	<div class='headerShadow'>
-	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-	</div>
 
 <div id='bodywrapper' >
 <div id='displayArea'>
@@ -71,10 +73,7 @@ tags : systemTheme
 </div>
 </div>
 
-
-<div id='contentFooter'  macro='gradient vert #eee #ccc'></div>
 </div>
-
 <!--}}}-->
 
 !wizardViewTemplate
@@ -89,13 +88,35 @@ tags : systemTheme
 
 !EditTemplate
 <!--{{{-->
-<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-<br />
-<br />
-<div class='editor' macro='edit title'></div>
-<div macro='annotations'></div>
-<div class='editor' macro='edit text'></div>
-<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+
+<div class="portletContainerEdit">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'>editing : </div>
+		</div>
+
+
+
+		<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a>
+</div>
+	</div>
+	<div class="portletContent">
+	
+
+			<div class='taskControls' macro='tiddler TaskTiddlerControls'>
+		</div>
+		<div class='editor' macro='edit text' ></div>
+		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+	
+	</div>
+	<div class="portletFooterEdit">
+		<div class="portletBotLeft"></div>
+		<div class="portletBotRight"></div>
+	</div>
+</div>
+
 <!--}}}-->
 
 !ViewTemplate
@@ -134,13 +155,12 @@ tags : systemTheme
 		<div class="portletTitle">
 			<div class='title' macro='view title'></div>
 		</div>
-
-
-
-		<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></a>
+		<div class='toolbar' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a>
 </div>
 	</div>
 	<div class="portletContent">
+		<div class='taskControls' macro='tiddler TaskTiddlerControls'>
+		</div>
 		<div class='viewer' macro='view text wikified'></div>
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	
@@ -156,24 +176,43 @@ tags : systemTheme
 
 !taskEditTemplate
 <!--{{{-->
-<div macro='gradient vert #eee #bbb'>
-<div class="editor">
-<div class='title edit' macro='edit title'></div>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='task'>
-	<table border="0">
-	<tr>
-		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></td>
-	</tr>
-	</table>
-<div class='viewer edit' macro='edit text wikified'></div>
+<div class="portletContainerEdit">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'>editing : </div>
+		</div>
+
+
+
+		<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a>
 </div>
-<div class='tagClear'></div>
-</div>
+	</div>
+	<div class="portletContent">
+	
+
+			<div class='taskControls' macro='tiddler TaskTiddlerControls'>
+		</div>
+		<div class='editor' macro='edit text' ></div>
+		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+	
+	</div>
+	<div class="portletFooterEdit">
+		<div class="portletBotLeft"></div>
+		<div class="portletBotRight"></div>
+	</div>
 </div>
 
+
+
+ 
 !StyleSheet 
+
+.taskControls {
+	padding:0px;
+	margin:0px;
+}
 
 .headerShadow {
 	padding:0px;
@@ -190,7 +229,7 @@ color:#999
 
 body {
 font-family:Lucida Grande;
-	background-color:#555;
+	background-color:#white;
 	color:#787878;
 }
 .topBanner {
@@ -207,8 +246,7 @@ font-family:Lucida Grande;
 }
 
 .editor input, .editor textarea {
-	border:1px solid orange;
-	width:98%;
+	border:1px solid #C7C7C7;
 	margin:0.5em;
 }
 
@@ -225,7 +263,7 @@ font-family:Lucida Grande;
 	.sectionHeading a:hover {
 	/*	display:inline; 
 		visibility:visible;
-		border: 1px solid red;
+		border: 1px solid #ddd;
 	 */
 	}
 	.current-nesting {
@@ -236,13 +274,13 @@ font-family:Lucida Grande;
 		border:2px dashed #777777;
 	}
 	.sort-handle-edit {
-		border:1px solid orange;
+		border:1px solid #C7C7C7;
 		background:white;
 		padding:1em;
 		margin-bottom:1em;
 	}	
 	.sort-handle-edit .button {
-		border:1px solid orange;
+		border:1px solid #C7C7C7;
 		background:white !important;
 		color:black !important;
 	}	
@@ -284,9 +322,13 @@ ul.page-list {
 		height:95%;
 		position:relative;
 	}
-	div.title, div.subtitle {
+	div.title {
 		padding :1em;
-		color:black;
+	}
+	
+	div.subtitle {
+		font-size:0.7em;
+		padding-left:0.8em;
 	}
 	div.title {
 		font-size:0.7em;
@@ -310,20 +352,25 @@ ul.page-list {
 		border:1px solid #ccc !important;
 	
 		border-top:0px !important;
+		border-right:0px !important;
 		border-bottom:0px !important;
 		padding-left:1em;
 		padding-right:1em;
 		color:#676767;
 
 	}
-	
+
+	#buttonHolder .button:hover {
+		background-color:#61a9cf;
+		color:white;	
+	}	
 	.completed {
-		border-right : 10px solid #C0DA5F;
+		border-right : 10px solid #698066;
 		padding:1em;
 	}
 
 	.incomplete {
-		border-right : 10px solid #A4001D;
+		border-right : 0px solid #d3bebe;
 	}
 
 	li {
@@ -341,6 +388,13 @@ ul.page-list {
 /* END tiddlerTree CSS */		
 	
 /* TIDDLYWIKI CSS */	
+
+
+.editor textarea {
+background-color:#fff;
+width:98.5%;
+}
+
 
 	body #messageArea {
 	display:none !important;
@@ -361,19 +415,14 @@ ul.page-list {
 	#tiddlerDisplay {
 		float:right;
 		height:100%;
-		left:30%;
-		position:absolute;
-		top:7em;
+		position:relative;
+		top:-1.3em;
 		width:70%;
 	}
 	.toolbar {
-		float:right;
-		padding-bottom:1em !important;
-		padding-left:1em !important;
-		padding-right:0;
-		padding-top:1.1em;
-		position:relative;
-		right:0.5em;
+		font-size:0.6em;
+		margin:0;
+		padding:0.7em 0 0;
 	}
 	#displayArea {
 		margin:0px !important;
@@ -414,9 +463,14 @@ ul.page-list {
 			font-face:arial;
 			background-color:white;
 			font-size:1.2em;
-			border:1px solid orange !important;
+			border:1px solid #fff !important;
 			margin:0.5em;	
 			top:1em !important;
+		}
+		.button:hover  {
+			background-color:#ddd;
+			border:1px solid #888;
+			
 		}
 		#backstageButton {
 			display:none !important;
@@ -504,58 +558,23 @@ ul.page-list {
 	#myfaceheadercontainer #logo-right{
 		margin:15px 30px 0 0;
 	}
-	#headertabbar{
-		float:left;
-		width:100%;
-		background:url("https://www.mybt.bt.com/dana-na/auth/url_default/imgs/background-header-fade.gif") repeat-x right bottom;
-	}
-	#headertabbar ul, #headertabbar li{
-		padding:0;
-		margin:0;
-	}
-	#headertabbar ul{
-		list-style:none;
-	}
-	#headertabbar #headerTabActive{
-		background-image:url("https://www.mybt.bt.com/dana-na/auth/url_default/imgs/background-tab-right-active.gif");
-	}
-	#headertabbar #headerTabActive a{
-		background-image:url("https://www.mybt.bt.com/dana-na/auth/url_default/imgs/background-tab-left-active.gif");
-		padding:4px 20px 4px 20px;
-		text-decoration:none;
-		font-weight:bold;
-		color:#51268a;
-	}
-	#headertabbar a{
-		display:block;
-		background:url("https://www.mybt.bt.com/dana-na/auth/url_default/imgs/background-tab-left.gif") no-repeat left top;
-		padding:4px 20px 4px 20px;
-	}
-	#headertabbar li{
-		background:url("https://www.mybt.bt.com/dana-na/auth/url_default/imgs/background-tab-right.gif") no-repeat right top;
-		float:left;
-	}
+
 	#footer{
 		border-top:1px solid #51268a;
 		clear:both;
 		padding:10px 20px;
 		text-align:center;
 	}
-	#errorContainer{
-		border:1px solid #ff0000;
-		background-color:#ffcccc;
-		width:700px;
-		margin:0 auto;
-	}
-	#errorMessage{
-		padding:10px;
-		text-align:center;
-		font-weight:bold;
-	}
+
 	.portletContainer{
 		background-color:#ffffff;
 		margin:10px 5px;
 	}
+	.portletContainerEdit{
+		background-color:#eee;
+		margin:10px 5px;
+	}
+
 	.portletToolbar{
 		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-center.jpg");
 		width:100%;
@@ -563,7 +582,7 @@ ul.page-list {
 		background-repeat:repeat-x;
 	}
 	.portletCornerLeft{
-		background-image:url("https://www.mybt.bt.com/dana-na/auth/url_default/imgs/background-portlet-header-left.gif");
+		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-left.jpg");
 		clear:left;
 		float:left;
 		width:8px;
@@ -587,11 +606,21 @@ ul.page-list {
 	}
 	.portletContent{
 		clear:left;
-		border-left:1px solid #938f96;
-		border-right:1px solid #938f96;
+		border-left:1px solid #c7c7c7;
+		border-right:1px solid #c7c7c7;
 	}
 	.portletFooter{
 		background-color:white;
+		line-height:6px;
+		font-size:6px;
+		height:6px;
+		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-center.jpg");
+		background-repeat:repeat-x;
+		background-position:bottom;
+		width:100%;
+	}
+	.portletFooterEdit {
+		background-color:#eee;
 		line-height:6px;
 		font-size:6px;
 		height:6px;
