@@ -3,14 +3,14 @@
 <head>
 <script id="versionArea" type="text/javascript">
 //<![CDATA[
-var version = {title: "TiddlyWiki", major: 2, minor: 4, revision: 1, date: new Date("Aug 4, 2008"), extensions: {}};
+var version = {title: "TiddlyWiki", major: 2, minor: 5, revision: 0, beta: 1, date: new Date("Jan 14, 2009"), extensions: {}};
 //]]>
 </script>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="copyright" content="
 TiddlyWiki created by Jeremy Ruston, (jeremy [at] osmosoft [dot] com)
 
-Copyright (c) UnaMesa Association 2004-2008
+Copyright (c) UnaMesa Association 2004-2009
 
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -37,14 +37,28 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
 ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGE.
 " />
+<script id="jsheadArea" type="text/javascript">
+//<![CDATA[
+/*
+ * jQuery 1.2.6 - New Wave Javascript
+ *
+ * Copyright (c) 2008 John Resig (jquery.com)
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ *
+ * $Date: 2008-05-24 14:22:17 -0400 (Sat, 24 May 2008) $
+ * $Rev: 5685 $
+ */
+eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('(H(){J w=1b.4M,3m$=1b.$;J D=1b.4M=1b.$=H(a,b){I 2B D.17.5j(a,b)};J u=/^[^<]*(<(.|\\s)+>)[^>]*$|^#(\\w+)$/,62=/^.[^:#\\[\\.]*$/,12;D.17=D.44={5j:H(d,b){d=d||S;G(d.16){7[0]=d;7.K=1;I 7}G(1j d=="23"){J c=u.2D(d);G(c&&(c[1]||!b)){G(c[1])d=D.4h([c[1]],b);N{J a=S.61(c[3]);G(a){G(a.2v!=c[3])I D().2q(d);I D(a)}d=[]}}N I D(b).2q(d)}N G(D.1D(d))I D(S)[D.17.27?"27":"43"](d);I 7.6Y(D.2d(d))},5w:"1.2.6",8G:H(){I 7.K},K:0,3p:H(a){I a==12?D.2d(7):7[a]},2I:H(b){J a=D(b);a.5n=7;I a},6Y:H(a){7.K=0;2p.44.1p.1w(7,a);I 7},P:H(a,b){I D.P(7,a,b)},5i:H(b){J a=-1;I D.2L(b&&b.5w?b[0]:b,7)},1K:H(c,a,b){J d=c;G(c.1q==56)G(a===12)I 7[0]&&D[b||"1K"](7[0],c);N{d={};d[c]=a}I 7.P(H(i){R(c 1n d)D.1K(b?7.V:7,c,D.1i(7,d[c],b,i,c))})},1g:H(b,a){G((b==\'2h\'||b==\'1Z\')&&3d(a)<0)a=12;I 7.1K(b,a,"2a")},1r:H(b){G(1j b!="49"&&b!=U)I 7.4E().3v((7[0]&&7[0].2z||S).5F(b));J a="";D.P(b||7,H(){D.P(7.3t,H(){G(7.16!=8)a+=7.16!=1?7.76:D.17.1r([7])})});I a},5z:H(b){G(7[0])D(b,7[0].2z).5y().39(7[0]).2l(H(){J a=7;1B(a.1x)a=a.1x;I a}).3v(7);I 7},8Y:H(a){I 7.P(H(){D(7).6Q().5z(a)})},8R:H(a){I 7.P(H(){D(7).5z(a)})},3v:H(){I 7.3W(19,M,Q,H(a){G(7.16==1)7.3U(a)})},6F:H(){I 7.3W(19,M,M,H(a){G(7.16==1)7.39(a,7.1x)})},6E:H(){I 7.3W(19,Q,Q,H(a){7.1d.39(a,7)})},5q:H(){I 7.3W(19,Q,M,H(a){7.1d.39(a,7.2H)})},3l:H(){I 7.5n||D([])},2q:H(b){J c=D.2l(7,H(a){I D.2q(b,a)});I 7.2I(/[^+>] [^+>]/.11(b)||b.1h("..")>-1?D.4r(c):c)},5y:H(e){J f=7.2l(H(){G(D.14.1f&&!D.4n(7)){J a=7.6o(M),5h=S.3h("1v");5h.3U(a);I D.4h([5h.4H])[0]}N I 7.6o(M)});J d=f.2q("*").5c().P(H(){G(7[E]!=12)7[E]=U});G(e===M)7.2q("*").5c().P(H(i){G(7.16==3)I;J c=D.L(7,"3w");R(J a 1n c)R(J b 1n c[a])D.W.1e(d[i],a,c[a][b],c[a][b].L)});I f},1E:H(b){I 7.2I(D.1D(b)&&D.3C(7,H(a,i){I b.1k(a,i)})||D.3g(b,7))},4Y:H(b){G(b.1q==56)G(62.11(b))I 7.2I(D.3g(b,7,M));N b=D.3g(b,7);J a=b.K&&b[b.K-1]!==12&&!b.16;I 7.1E(H(){I a?D.2L(7,b)<0:7!=b})},1e:H(a){I 7.2I(D.4r(D.2R(7.3p(),1j a==\'23\'?D(a):D.2d(a))))},3F:H(a){I!!a&&D.3g(a,7).K>0},7T:H(a){I 7.3F("."+a)},6e:H(b){G(b==12){G(7.K){J c=7[0];G(D.Y(c,"2A")){J e=c.64,63=[],15=c.15,2V=c.O=="2A-2V";G(e<0)I U;R(J i=2V?e:0,2f=2V?e+1:15.K;i<2f;i++){J d=15[i];G(d.2W){b=D.14.1f&&!d.at.2x.an?d.1r:d.2x;G(2V)I b;63.1p(b)}}I 63}N I(7[0].2x||"").1o(/\\r/g,"")}I 12}G(b.1q==4L)b+=\'\';I 7.P(H(){G(7.16!=1)I;G(b.1q==2p&&/5O|5L/.11(7.O))7.4J=(D.2L(7.2x,b)>=0||D.2L(7.34,b)>=0);N G(D.Y(7,"2A")){J a=D.2d(b);D("9R",7).P(H(){7.2W=(D.2L(7.2x,a)>=0||D.2L(7.1r,a)>=0)});G(!a.K)7.64=-1}N 7.2x=b})},2K:H(a){I a==12?(7[0]?7[0].4H:U):7.4E().3v(a)},7b:H(a){I 7.5q(a).21()},79:H(i){I 7.3s(i,i+1)},3s:H(){I 7.2I(2p.44.3s.1w(7,19))},2l:H(b){I 7.2I(D.2l(7,H(a,i){I b.1k(a,i,a)}))},5c:H(){I 7.1e(7.5n)},L:H(d,b){J a=d.1R(".");a[1]=a[1]?"."+a[1]:"";G(b===12){J c=7.5C("9z"+a[1]+"!",[a[0]]);G(c===12&&7.K)c=D.L(7[0],d);I c===12&&a[1]?7.L(a[0]):c}N I 7.1P("9u"+a[1]+"!",[a[0],b]).P(H(){D.L(7,d,b)})},3b:H(a){I 7.P(H(){D.3b(7,a)})},3W:H(g,f,h,d){J e=7.K>1,3x;I 7.P(H(){G(!3x){3x=D.4h(g,7.2z);G(h)3x.9o()}J b=7;G(f&&D.Y(7,"1T")&&D.Y(3x[0],"4F"))b=7.3H("22")[0]||7.3U(7.2z.3h("22"));J c=D([]);D.P(3x,H(){J a=e?D(7).5y(M)[0]:7;G(D.Y(a,"1m"))c=c.1e(a);N{G(a.16==1)c=c.1e(D("1m",a).21());d.1k(b,a)}});c.P(6T)})}};D.17.5j.44=D.17;H 6T(i,a){G(a.4d)D.3Y({1a:a.4d,31:Q,1O:"1m"});N D.5u(a.1r||a.6O||a.4H||"");G(a.1d)a.1d.37(a)}H 1z(){I+2B 8J}D.1l=D.17.1l=H(){J b=19[0]||{},i=1,K=19.K,4x=Q,15;G(b.1q==8I){4x=b;b=19[1]||{};i=2}G(1j b!="49"&&1j b!="H")b={};G(K==i){b=7;--i}R(;i<K;i++)G((15=19[i])!=U)R(J c 1n 15){J a=b[c],2w=15[c];G(b===2w)6M;G(4x&&2w&&1j 2w=="49"&&!2w.16)b[c]=D.1l(4x,a||(2w.K!=U?[]:{}),2w);N G(2w!==12)b[c]=2w}I b};J E="4M"+1z(),6K=0,5r={},6G=/z-?5i|8B-?8A|1y|6B|8v-?1Z/i,3P=S.3P||{};D.1l({8u:H(a){1b.$=3m$;G(a)1b.4M=w;I D},1D:H(a){I!!a&&1j a!="23"&&!a.Y&&a.1q!=2p&&/^[\\s[]?H/.11(a+"")},4n:H(a){I a.1C&&!a.1c||a.2j&&a.2z&&!a.2z.1c},5u:H(a){a=D.3k(a);G(a){J b=S.3H("6w")[0]||S.1C,1m=S.3h("1m");1m.O="1r/4t";G(D.14.1f)1m.1r=a;N 1m.3U(S.5F(a));b.39(1m,b.1x);b.37(1m)}},Y:H(b,a){I b.Y&&b.Y.2r()==a.2r()},1Y:{},L:H(c,d,b){c=c==1b?5r:c;J a=c[E];G(!a)a=c[E]=++6K;G(d&&!D.1Y[a])D.1Y[a]={};G(b!==12)D.1Y[a][d]=b;I d?D.1Y[a][d]:a},3b:H(c,b){c=c==1b?5r:c;J a=c[E];G(b){G(D.1Y[a]){2U D.1Y[a][b];b="";R(b 1n D.1Y[a])1X;G(!b)D.3b(c)}}N{1U{2U c[E]}1V(e){G(c.5l)c.5l(E)}2U D.1Y[a]}},P:H(d,a,c){J e,i=0,K=d.K;G(c){G(K==12){R(e 1n d)G(a.1w(d[e],c)===Q)1X}N R(;i<K;)G(a.1w(d[i++],c)===Q)1X}N{G(K==12){R(e 1n d)G(a.1k(d[e],e,d[e])===Q)1X}N R(J b=d[0];i<K&&a.1k(b,i,b)!==Q;b=d[++i]){}}I d},1i:H(b,a,c,i,d){G(D.1D(a))a=a.1k(b,i);I a&&a.1q==4L&&c=="2a"&&!6G.11(d)?a+"2X":a},1F:{1e:H(c,b){D.P((b||"").1R(/\\s+/),H(i,a){G(c.16==1&&!D.1F.3T(c.1F,a))c.1F+=(c.1F?" ":"")+a})},21:H(c,b){G(c.16==1)c.1F=b!=12?D.3C(c.1F.1R(/\\s+/),H(a){I!D.1F.3T(b,a)}).6s(" "):""},3T:H(b,a){I D.2L(a,(b.1F||b).6r().1R(/\\s+/))>-1}},6q:H(b,c,a){J e={};R(J d 1n c){e[d]=b.V[d];b.V[d]=c[d]}a.1k(b);R(J d 1n c)b.V[d]=e[d]},1g:H(d,e,c){G(e=="2h"||e=="1Z"){J b,3X={30:"5x",5g:"1G",18:"3I"},35=e=="2h"?["5e","6k"]:["5G","6i"];H 5b(){b=e=="2h"?d.8f:d.8c;J a=0,2C=0;D.P(35,H(){a+=3d(D.2a(d,"57"+7,M))||0;2C+=3d(D.2a(d,"2C"+7+"4b",M))||0});b-=29.83(a+2C)}G(D(d).3F(":4j"))5b();N D.6q(d,3X,5b);I 29.2f(0,b)}I D.2a(d,e,c)},2a:H(f,l,k){J e,V=f.V;H 3E(b){G(!D.14.2k)I Q;J a=3P.54(b,U);I!a||a.52("3E")==""}G(l=="1y"&&D.14.1f){e=D.1K(V,"1y");I e==""?"1":e}G(D.14.2G&&l=="18"){J d=V.50;V.50="0 7Y 7W";V.50=d}G(l.1I(/4i/i))l=y;G(!k&&V&&V[l])e=V[l];N G(3P.54){G(l.1I(/4i/i))l="4i";l=l.1o(/([A-Z])/g,"-$1").3y();J c=3P.54(f,U);G(c&&!3E(f))e=c.52(l);N{J g=[],2E=[],a=f,i=0;R(;a&&3E(a);a=a.1d)2E.6h(a);R(;i<2E.K;i++)G(3E(2E[i])){g[i]=2E[i].V.18;2E[i].V.18="3I"}e=l=="18"&&g[2E.K-1]!=U?"2F":(c&&c.52(l))||"";R(i=0;i<g.K;i++)G(g[i]!=U)2E[i].V.18=g[i]}G(l=="1y"&&e=="")e="1"}N G(f.4g){J h=l.1o(/\\-(\\w)/g,H(a,b){I b.2r()});e=f.4g[l]||f.4g[h];G(!/^\\d+(2X)?$/i.11(e)&&/^\\d/.11(e)){J j=V.1A,66=f.65.1A;f.65.1A=f.4g.1A;V.1A=e||0;e=V.aM+"2X";V.1A=j;f.65.1A=66}}I e},4h:H(l,h){J k=[];h=h||S;G(1j h.3h==\'12\')h=h.2z||h[0]&&h[0].2z||S;D.P(l,H(i,d){G(!d)I;G(d.1q==4L)d+=\'\';G(1j d=="23"){d=d.1o(/(<(\\w+)[^>]*?)\\/>/g,H(b,a,c){I c.1I(/^(aK|4f|7E|aG|4T|7A|aB|3n|az|ay|av)$/i)?b:a+"></"+c+">"});J f=D.3k(d).3y(),1v=h.3h("1v");J e=!f.1h("<au")&&[1,"<2A 7w=\'7w\'>","</2A>"]||!f.1h("<ar")&&[1,"<7v>","</7v>"]||f.1I(/^<(aq|22|am|ak|ai)/)&&[1,"<1T>","</1T>"]||!f.1h("<4F")&&[2,"<1T><22>","</22></1T>"]||(!f.1h("<af")||!f.1h("<ad"))&&[3,"<1T><22><4F>","</4F></22></1T>"]||!f.1h("<7E")&&[2,"<1T><22></22><7q>","</7q></1T>"]||D.14.1f&&[1,"1v<1v>","</1v>"]||[0,"",""];1v.4H=e[1]+d+e[2];1B(e[0]--)1v=1v.5T;G(D.14.1f){J g=!f.1h("<1T")&&f.1h("<22")<0?1v.1x&&1v.1x.3t:e[1]=="<1T>"&&f.1h("<22")<0?1v.3t:[];R(J j=g.K-1;j>=0;--j)G(D.Y(g[j],"22")&&!g[j].3t.K)g[j].1d.37(g[j]);G(/^\\s/.11(d))1v.39(h.5F(d.1I(/^\\s*/)[0]),1v.1x)}d=D.2d(1v.3t)}G(d.K===0&&(!D.Y(d,"3V")&&!D.Y(d,"2A")))I;G(d[0]==12||D.Y(d,"3V")||d.15)k.1p(d);N k=D.2R(k,d)});I k},1K:H(d,f,c){G(!d||d.16==3||d.16==8)I 12;J e=!D.4n(d),40=c!==12,1f=D.14.1f;f=e&&D.3X[f]||f;G(d.2j){J g=/5Q|4d|V/.11(f);G(f=="2W"&&D.14.2k)d.1d.64;G(f 1n d&&e&&!g){G(40){G(f=="O"&&D.Y(d,"4T")&&d.1d)7p"O a3 a1\'t 9V 9U";d[f]=c}G(D.Y(d,"3V")&&d.7i(f))I d.7i(f).76;I d[f]}G(1f&&e&&f=="V")I D.1K(d.V,"9T",c);G(40)d.9Q(f,""+c);J h=1f&&e&&g?d.4G(f,2):d.4G(f);I h===U?12:h}G(1f&&f=="1y"){G(40){d.6B=1;d.1E=(d.1E||"").1o(/7f\\([^)]*\\)/,"")+(3r(c)+\'\'=="9L"?"":"7f(1y="+c*7a+")")}I d.1E&&d.1E.1h("1y=")>=0?(3d(d.1E.1I(/1y=([^)]*)/)[1])/7a)+\'\':""}f=f.1o(/-([a-z])/9H,H(a,b){I b.2r()});G(40)d[f]=c;I d[f]},3k:H(a){I(a||"").1o(/^\\s+|\\s+$/g,"")},2d:H(b){J a=[];G(b!=U){J i=b.K;G(i==U||b.1R||b.4I||b.1k)a[0]=b;N 1B(i)a[--i]=b[i]}I a},2L:H(b,a){R(J i=0,K=a.K;i<K;i++)G(a[i]===b)I i;I-1},2R:H(a,b){J i=0,T,2S=a.K;G(D.14.1f){1B(T=b[i++])G(T.16!=8)a[2S++]=T}N 1B(T=b[i++])a[2S++]=T;I a},4r:H(a){J c=[],2o={};1U{R(J i=0,K=a.K;i<K;i++){J b=D.L(a[i]);G(!2o[b]){2o[b]=M;c.1p(a[i])}}}1V(e){c=a}I c},3C:H(c,a,d){J b=[];R(J i=0,K=c.K;i<K;i++)G(!d!=!a(c[i],i))b.1p(c[i]);I b},2l:H(d,a){J c=[];R(J i=0,K=d.K;i<K;i++){J b=a(d[i],i);G(b!=U)c[c.K]=b}I c.7d.1w([],c)}});J v=9B.9A.3y();D.14={5B:(v.1I(/.+(?:9y|9x|9w|9v)[\\/: ]([\\d.]+)/)||[])[1],2k:/75/.11(v),2G:/2G/.11(v),1f:/1f/.11(v)&&!/2G/.11(v),42:/42/.11(v)&&!/(9s|75)/.11(v)};J y=D.14.1f?"7o":"72";D.1l({71:!D.14.1f||S.70=="6Z",3X:{"R":"9n","9k":"1F","4i":y,72:y,7o:y,9h:"9f",9e:"9d",9b:"99"}});D.P({6W:H(a){I a.1d},97:H(a){I D.4S(a,"1d")},95:H(a){I D.3a(a,2,"2H")},91:H(a){I D.3a(a,2,"4l")},8Z:H(a){I D.4S(a,"2H")},8X:H(a){I D.4S(a,"4l")},8W:H(a){I D.5v(a.1d.1x,a)},8V:H(a){I D.5v(a.1x)},6Q:H(a){I D.Y(a,"8U")?a.8T||a.8S.S:D.2d(a.3t)}},H(c,d){D.17[c]=H(b){J a=D.2l(7,d);G(b&&1j b=="23")a=D.3g(b,a);I 7.2I(D.4r(a))}});D.P({6P:"3v",8Q:"6F",39:"6E",8P:"5q",8O:"7b"},H(c,b){D.17[c]=H(){J a=19;I 7.P(H(){R(J i=0,K=a.K;i<K;i++)D(a[i])[b](7)})}});D.P({8N:H(a){D.1K(7,a,"");G(7.16==1)7.5l(a)},8M:H(a){D.1F.1e(7,a)},8L:H(a){D.1F.21(7,a)},8K:H(a){D.1F[D.1F.3T(7,a)?"21":"1e"](7,a)},21:H(a){G(!a||D.1E(a,[7]).r.K){D("*",7).1e(7).P(H(){D.W.21(7);D.3b(7)});G(7.1d)7.1d.37(7)}},4E:H(){D(">*",7).21();1B(7.1x)7.37(7.1x)}},H(a,b){D.17[a]=H(){I 7.P(b,19)}});D.P(["6N","4b"],H(i,c){J b=c.3y();D.17[b]=H(a){I 7[0]==1b?D.14.2G&&S.1c["5t"+c]||D.14.2k&&1b["5s"+c]||S.70=="6Z"&&S.1C["5t"+c]||S.1c["5t"+c]:7[0]==S?29.2f(29.2f(S.1c["4y"+c],S.1C["4y"+c]),29.2f(S.1c["2i"+c],S.1C["2i"+c])):a==12?(7.K?D.1g(7[0],b):U):7.1g(b,a.1q==56?a:a+"2X")}});H 25(a,b){I a[0]&&3r(D.2a(a[0],b,M),10)||0}J C=D.14.2k&&3r(D.14.5B)<8H?"(?:[\\\\w*3m-]|\\\\\\\\.)":"(?:[\\\\w\\8F-\\8E*3m-]|\\\\\\\\.)",6L=2B 4v("^>\\\\s*("+C+"+)"),6J=2B 4v("^("+C+"+)(#)("+C+"+)"),6I=2B 4v("^([#.]?)("+C+"*)");D.1l({6H:{"":H(a,i,m){I m[2]=="*"||D.Y(a,m[2])},"#":H(a,i,m){I a.4G("2v")==m[2]},":":{8D:H(a,i,m){I i<m[3]-0},8C:H(a,i,m){I i>m[3]-0},3a:H(a,i,m){I m[3]-0==i},79:H(a,i,m){I m[3]-0==i},3o:H(a,i){I i==0},3S:H(a,i,m,r){I i==r.K-1},6D:H(a,i){I i%2==0},6C:H(a,i){I i%2},"3o-4u":H(a){I a.1d.3H("*")[0]==a},"3S-4u":H(a){I D.3a(a.1d.5T,1,"4l")==a},"8z-4u":H(a){I!D.3a(a.1d.5T,2,"4l")},6W:H(a){I a.1x},4E:H(a){I!a.1x},8y:H(a,i,m){I(a.6O||a.8x||D(a).1r()||"").1h(m[3])>=0},4j:H(a){I"1G"!=a.O&&D.1g(a,"18")!="2F"&&D.1g(a,"5g")!="1G"},1G:H(a){I"1G"==a.O||D.1g(a,"18")=="2F"||D.1g(a,"5g")=="1G"},8w:H(a){I!a.3R},3R:H(a){I a.3R},4J:H(a){I a.4J},2W:H(a){I a.2W||D.1K(a,"2W")},1r:H(a){I"1r"==a.O},5O:H(a){I"5O"==a.O},5L:H(a){I"5L"==a.O},5p:H(a){I"5p"==a.O},3Q:H(a){I"3Q"==a.O},5o:H(a){I"5o"==a.O},6A:H(a){I"6A"==a.O},6z:H(a){I"6z"==a.O},2s:H(a){I"2s"==a.O||D.Y(a,"2s")},4T:H(a){I/4T|2A|6y|2s/i.11(a.Y)},3T:H(a,i,m){I D.2q(m[3],a).K},8t:H(a){I/h\\d/i.11(a.Y)},8s:H(a){I D.3C(D.3O,H(b){I a==b.T}).K}}},6x:[/^(\\[) *@?([\\w-]+) *([!*$^~=]*) *(\'?"?)(.*?)\\4 *\\]/,/^(:)([\\w-]+)\\("?\'?(.*?(\\(.*?\\))?[^(]*?)"?\'?\\)/,2B 4v("^([:.#]*)("+C+"+)")],3g:H(a,c,b){J d,1t=[];1B(a&&a!=d){d=a;J f=D.1E(a,c,b);a=f.t.1o(/^\\s*,\\s*/,"");1t=b?c=f.r:D.2R(1t,f.r)}I 1t},2q:H(t,o){G(1j t!="23")I[t];G(o&&o.16!=1&&o.16!=9)I[];o=o||S;J d=[o],2o=[],3S,Y;1B(t&&3S!=t){J r=[];3S=t;t=D.3k(t);J l=Q,3j=6L,m=3j.2D(t);G(m){Y=m[1].2r();R(J i=0;d[i];i++)R(J c=d[i].1x;c;c=c.2H)G(c.16==1&&(Y=="*"||c.Y.2r()==Y))r.1p(c);d=r;t=t.1o(3j,"");G(t.1h(" ")==0)6M;l=M}N{3j=/^([>+~])\\s*(\\w*)/i;G((m=3j.2D(t))!=U){r=[];J k={};Y=m[2].2r();m=m[1];R(J j=0,3i=d.K;j<3i;j++){J n=m=="~"||m=="+"?d[j].2H:d[j].1x;R(;n;n=n.2H)G(n.16==1){J g=D.L(n);G(m=="~"&&k[g])1X;G(!Y||n.Y.2r()==Y){G(m=="~")k[g]=M;r.1p(n)}G(m=="+")1X}}d=r;t=D.3k(t.1o(3j,""));l=M}}G(t&&!l){G(!t.1h(",")){G(o==d[0])d.4s();2o=D.2R(2o,d);r=d=[o];t=" "+t.6v(1,t.K)}N{J h=6J;J m=h.2D(t);G(m){m=[0,m[2],m[3],m[1]]}N{h=6I;m=h.2D(t)}m[2]=m[2].1o(/\\\\/g,"");J f=d[d.K-1];G(m[1]=="#"&&f&&f.61&&!D.4n(f)){J p=f.61(m[2]);G((D.14.1f||D.14.2G)&&p&&1j p.2v=="23"&&p.2v!=m[2])p=D(\'[@2v="\'+m[2]+\'"]\',f)[0];d=r=p&&(!m[3]||D.Y(p,m[3]))?[p]:[]}N{R(J i=0;d[i];i++){J a=m[1]=="#"&&m[3]?m[3]:m[1]!=""||m[0]==""?"*":m[2];G(a=="*"&&d[i].Y.3y()=="49")a="3n";r=D.2R(r,d[i].3H(a))}G(m[1]==".")r=D.5m(r,m[2]);G(m[1]=="#"){J e=[];R(J i=0;r[i];i++)G(r[i].4G("2v")==m[2]){e=[r[i]];1X}r=e}d=r}t=t.1o(h,"")}}G(t){J b=D.1E(t,r);d=r=b.r;t=D.3k(b.t)}}G(t)d=[];G(d&&o==d[0])d.4s();2o=D.2R(2o,d);I 2o},5m:H(r,m,a){m=" "+m+" ";J c=[];R(J i=0;r[i];i++){J b=(" "+r[i].1F+" ").1h(m)>=0;G(!a&&b||a&&!b)c.1p(r[i])}I c},1E:H(t,r,h){J d;1B(t&&t!=d){d=t;J p=D.6x,m;R(J i=0;p[i];i++){m=p[i].2D(t);G(m){t=t.8r(m[0].K);m[2]=m[2].1o(/\\\\/g,"");1X}}G(!m)1X;G(m[1]==":"&&m[2]=="4Y")r=62.11(m[3])?D.1E(m[3],r,M).r:D(r).4Y(m[3]);N G(m[1]==".")r=D.5m(r,m[2],h);N G(m[1]=="["){J g=[],O=m[3];R(J i=0,3i=r.K;i<3i;i++){J a=r[i],z=a[D.3X[m[2]]||m[2]];G(z==U||/5Q|4d|2W/.11(m[2]))z=D.1K(a,m[2])||\'\';G((O==""&&!!z||O=="="&&z==m[5]||O=="!="&&z!=m[5]||O=="^="&&z&&!z.1h(m[5])||O=="$="&&z.6v(z.K-m[5].K)==m[5]||(O=="*="||O=="~=")&&z.1h(m[5])>=0)^h)g.1p(a)}r=g}N G(m[1]==":"&&m[2]=="3a-4u"){J e={},g=[],11=/(-?)(\\d*)n((?:\\+|-)?\\d*)/.2D(m[3]=="6D"&&"2n"||m[3]=="6C"&&"2n+1"||!/\\D/.11(m[3])&&"8q+"+m[3]||m[3]),3o=(11[1]+(11[2]||1))-0,d=11[3]-0;R(J i=0,3i=r.K;i<3i;i++){J j=r[i],1d=j.1d,2v=D.L(1d);G(!e[2v]){J c=1;R(J n=1d.1x;n;n=n.2H)G(n.16==1)n.4q=c++;e[2v]=M}J b=Q;G(3o==0){G(j.4q==d)b=M}N G((j.4q-d)%3o==0&&(j.4q-d)/3o>=0)b=M;G(b^h)g.1p(j)}r=g}N{J f=D.6H[m[1]];G(1j f=="49")f=f[m[2]];G(1j f=="23")f=6u("Q||H(a,i){I "+f+";}");r=D.3C(r,H(a,i){I f(a,i,m,r)},h)}}I{r:r,t:t}},4S:H(b,c){J a=[],1t=b[c];1B(1t&&1t!=S){G(1t.16==1)a.1p(1t);1t=1t[c]}I a},3a:H(a,e,c,b){e=e||1;J d=0;R(;a;a=a[c])G(a.16==1&&++d==e)1X;I a},5v:H(n,a){J r=[];R(;n;n=n.2H){G(n.16==1&&n!=a)r.1p(n)}I r}});D.W={1e:H(f,i,g,e){G(f.16==3||f.16==8)I;G(D.14.1f&&f.4I)f=1b;G(!g.24)g.24=7.24++;G(e!=12){J h=g;g=7.3M(h,H(){I h.1w(7,19)});g.L=e}J j=D.L(f,"3w")||D.L(f,"3w",{}),1H=D.L(f,"1H")||D.L(f,"1H",H(){G(1j D!="12"&&!D.W.5k)I D.W.1H.1w(19.3L.T,19)});1H.T=f;D.P(i.1R(/\\s+/),H(c,b){J a=b.1R(".");b=a[0];g.O=a[1];J d=j[b];G(!d){d=j[b]={};G(!D.W.2t[b]||D.W.2t[b].4p.1k(f)===Q){G(f.3K)f.3K(b,1H,Q);N G(f.6t)f.6t("4o"+b,1H)}}d[g.24]=g;D.W.26[b]=M});f=U},24:1,26:{},21:H(e,h,f){G(e.16==3||e.16==8)I;J i=D.L(e,"3w"),1L,5i;G(i){G(h==12||(1j h=="23"&&h.8p(0)=="."))R(J g 1n i)7.21(e,g+(h||""));N{G(h.O){f=h.2y;h=h.O}D.P(h.1R(/\\s+/),H(b,a){J c=a.1R(".");a=c[0];G(i[a]){G(f)2U i[a][f.24];N R(f 1n i[a])G(!c[1]||i[a][f].O==c[1])2U i[a][f];R(1L 1n i[a])1X;G(!1L){G(!D.W.2t[a]||D.W.2t[a].4A.1k(e)===Q){G(e.6p)e.6p(a,D.L(e,"1H"),Q);N G(e.6n)e.6n("4o"+a,D.L(e,"1H"))}1L=U;2U i[a]}}})}R(1L 1n i)1X;G(!1L){J d=D.L(e,"1H");G(d)d.T=U;D.3b(e,"3w");D.3b(e,"1H")}}},1P:H(h,c,f,g,i){c=D.2d(c);G(h.1h("!")>=0){h=h.3s(0,-1);J a=M}G(!f){G(7.26[h])D("*").1e([1b,S]).1P(h,c)}N{G(f.16==3||f.16==8)I 12;J b,1L,17=D.1D(f[h]||U),W=!c[0]||!c[0].32;G(W){c.6h({O:h,2J:f,32:H(){},3J:H(){},4C:1z()});c[0][E]=M}c[0].O=h;G(a)c[0].6m=M;J d=D.L(f,"1H");G(d)b=d.1w(f,c);G((!17||(D.Y(f,\'a\')&&h=="4V"))&&f["4o"+h]&&f["4o"+h].1w(f,c)===Q)b=Q;G(W)c.4s();G(i&&D.1D(i)){1L=i.1w(f,b==U?c:c.7d(b));G(1L!==12)b=1L}G(17&&g!==Q&&b!==Q&&!(D.Y(f,\'a\')&&h=="4V")){7.5k=M;1U{f[h]()}1V(e){}}7.5k=Q}I b},1H:H(b){J a,1L,38,5f,4m;b=19[0]=D.W.6l(b||1b.W);38=b.O.1R(".");b.O=38[0];38=38[1];5f=!38&&!b.6m;4m=(D.L(7,"3w")||{})[b.O];R(J j 1n 4m){J c=4m[j];G(5f||c.O==38){b.2y=c;b.L=c.L;1L=c.1w(7,19);G(a!==Q)a=1L;G(1L===Q){b.32();b.3J()}}}I a},6l:H(b){G(b[E]==M)I b;J d=b;b={8o:d};J c="8n 8m 8l 8k 2s 8j 47 5d 6j 5E 8i L 8h 8g 4K 2y 5a 59 8e 8b 58 6f 8a 88 4k 87 86 84 6d 2J 4C 6c O 82 81 35".1R(" ");R(J i=c.K;i;i--)b[c[i]]=d[c[i]];b[E]=M;b.32=H(){G(d.32)d.32();d.80=Q};b.3J=H(){G(d.3J)d.3J();d.7Z=M};b.4C=b.4C||1z();G(!b.2J)b.2J=b.6d||S;G(b.2J.16==3)b.2J=b.2J.1d;G(!b.4k&&b.4K)b.4k=b.4K==b.2J?b.6c:b.4K;G(b.58==U&&b.5d!=U){J a=S.1C,1c=S.1c;b.58=b.5d+(a&&a.2e||1c&&1c.2e||0)-(a.6b||0);b.6f=b.6j+(a&&a.2c||1c&&1c.2c||0)-(a.6a||0)}G(!b.35&&((b.47||b.47===0)?b.47:b.5a))b.35=b.47||b.5a;G(!b.59&&b.5E)b.59=b.5E;G(!b.35&&b.2s)b.35=(b.2s&1?1:(b.2s&2?3:(b.2s&4?2:0)));I b},3M:H(a,b){b.24=a.24=a.24||b.24||7.24++;I b},2t:{27:{4p:H(){55();I},4A:H(){I}},3D:{4p:H(){G(D.14.1f)I Q;D(7).2O("53",D.W.2t.3D.2y);I M},4A:H(){G(D.14.1f)I Q;D(7).4e("53",D.W.2t.3D.2y);I M},2y:H(a){G(F(a,7))I M;a.O="3D";I D.W.1H.1w(7,19)}},3N:{4p:H(){G(D.14.1f)I Q;D(7).2O("51",D.W.2t.3N.2y);I M},4A:H(){G(D.14.1f)I Q;D(7).4e("51",D.W.2t.3N.2y);I M},2y:H(a){G(F(a,7))I M;a.O="3N";I D.W.1H.1w(7,19)}}}};D.17.1l({2O:H(c,a,b){I c=="4X"?7.2V(c,a,b):7.P(H(){D.W.1e(7,c,b||a,b&&a)})},2V:H(d,b,c){J e=D.W.3M(c||b,H(a){D(7).4e(a,e);I(c||b).1w(7,19)});I 7.P(H(){D.W.1e(7,d,e,c&&b)})},4e:H(a,b){I 7.P(H(){D.W.21(7,a,b)})},1P:H(c,a,b){I 7.P(H(){D.W.1P(c,a,7,M,b)})},5C:H(c,a,b){I 7[0]&&D.W.1P(c,a,7[0],Q,b)},2m:H(b){J c=19,i=1;1B(i<c.K)D.W.3M(b,c[i++]);I 7.4V(D.W.3M(b,H(a){7.4Z=(7.4Z||0)%i;a.32();I c[7.4Z++].1w(7,19)||Q}))},7X:H(a,b){I 7.2O(\'3D\',a).2O(\'3N\',b)},27:H(a){55();G(D.2Q)a.1k(S,D);N D.3A.1p(H(){I a.1k(7,D)});I 7}});D.1l({2Q:Q,3A:[],27:H(){G(!D.2Q){D.2Q=M;G(D.3A){D.P(D.3A,H(){7.1k(S)});D.3A=U}D(S).5C("27")}}});J x=Q;H 55(){G(x)I;x=M;G(S.3K&&!D.14.2G)S.3K("69",D.27,Q);G(D.14.1f&&1b==1S)(H(){G(D.2Q)I;1U{S.1C.7V("1A")}1V(3e){3B(19.3L,0);I}D.27()})();G(D.14.2G)S.3K("69",H(){G(D.2Q)I;R(J i=0;i<S.4W.K;i++)G(S.4W[i].3R){3B(19.3L,0);I}D.27()},Q);G(D.14.2k){J a;(H(){G(D.2Q)I;G(S.3f!="68"&&S.3f!="1J"){3B(19.3L,0);I}G(a===12)a=D("V, 7A[7U=7S]").K;G(S.4W.K!=a){3B(19.3L,0);I}D.27()})()}D.W.1e(1b,"43",D.27)}D.P(("7R,7Q,43,85,4y,4X,4V,7P,"+"7O,7N,89,53,51,7M,2A,"+"5o,7L,7K,8d,3e").1R(","),H(i,b){D.17[b]=H(a){I a?7.2O(b,a):7.1P(b)}});J F=H(a,c){J b=a.4k;1B(b&&b!=c)1U{b=b.1d}1V(3e){b=c}I b==c};D(1b).2O("4X",H(){D("*").1e(S).4e()});D.17.1l({67:D.17.43,43:H(g,d,c){G(1j g!=\'23\')I 7.67(g);J e=g.1h(" ");G(e>=0){J i=g.3s(e,g.K);g=g.3s(0,e)}c=c||H(){};J f="2P";G(d)G(D.1D(d)){c=d;d=U}N{d=D.3n(d);f="6g"}J h=7;D.3Y({1a:g,O:f,1O:"2K",L:d,1J:H(a,b){G(b=="1W"||b=="7J")h.2K(i?D("<1v/>").3v(a.4U.1o(/<1m(.|\\s)*?\\/1m>/g,"")).2q(i):a.4U);h.P(c,[a.4U,b,a])}});I 7},aL:H(){I D.3n(7.7I())},7I:H(){I 7.2l(H(){I D.Y(7,"3V")?D.2d(7.aH):7}).1E(H(){I 7.34&&!7.3R&&(7.4J||/2A|6y/i.11(7.Y)||/1r|1G|3Q/i.11(7.O))}).2l(H(i,c){J b=D(7).6e();I b==U?U:b.1q==2p?D.2l(b,H(a,i){I{34:c.34,2x:a}}):{34:c.34,2x:b}}).3p()}});D.P("7H,7G,7F,7D,7C,7B".1R(","),H(i,o){D.17[o]=H(f){I 7.2O(o,f)}});J B=1z();D.1l({3p:H(d,b,a,c){G(D.1D(b)){a=b;b=U}I D.3Y({O:"2P",1a:d,L:b,1W:a,1O:c})},aE:H(b,a){I D.3p(b,U,a,"1m")},aD:H(c,b,a){I D.3p(c,b,a,"3z")},aC:H(d,b,a,c){G(D.1D(b)){a=b;b={}}I D.3Y({O:"6g",1a:d,L:b,1W:a,1O:c})},aA:H(a){D.1l(D.60,a)},60:{1a:5Z.5Q,26:M,O:"2P",2T:0,7z:"4R/x-ax-3V-aw",7x:M,31:M,L:U,5Y:U,3Q:U,4Q:{2N:"4R/2N, 1r/2N",2K:"1r/2K",1m:"1r/4t, 4R/4t",3z:"4R/3z, 1r/4t",1r:"1r/as",4w:"*/*"}},4z:{},3Y:H(s){s=D.1l(M,s,D.1l(M,{},D.60,s));J g,2Z=/=\\?(&|$)/g,1u,L,O=s.O.2r();G(s.L&&s.7x&&1j s.L!="23")s.L=D.3n(s.L);G(s.1O=="4P"){G(O=="2P"){G(!s.1a.1I(2Z))s.1a+=(s.1a.1I(/\\?/)?"&":"?")+(s.4P||"7u")+"=?"}N G(!s.L||!s.L.1I(2Z))s.L=(s.L?s.L+"&":"")+(s.4P||"7u")+"=?";s.1O="3z"}G(s.1O=="3z"&&(s.L&&s.L.1I(2Z)||s.1a.1I(2Z))){g="4P"+B++;G(s.L)s.L=(s.L+"").1o(2Z,"="+g+"$1");s.1a=s.1a.1o(2Z,"="+g+"$1");s.1O="1m";1b[g]=H(a){L=a;1W();1J();1b[g]=12;1U{2U 1b[g]}1V(e){}G(i)i.37(h)}}G(s.1O=="1m"&&s.1Y==U)s.1Y=Q;G(s.1Y===Q&&O=="2P"){J j=1z();J k=s.1a.1o(/(\\?|&)3m=.*?(&|$)/,"$ap="+j+"$2");s.1a=k+((k==s.1a)?(s.1a.1I(/\\?/)?"&":"?")+"3m="+j:"")}G(s.L&&O=="2P"){s.1a+=(s.1a.1I(/\\?/)?"&":"?")+s.L;s.L=U}G(s.26&&!D.4O++)D.W.1P("7H");J n=/^(?:\\w+:)?\\/\\/([^\\/?#]+)/;G(s.1O=="1m"&&O=="2P"&&n.11(s.1a)&&n.2D(s.1a)[1]!=5Z.al){J i=S.3H("6w")[0];J h=S.3h("1m");h.4d=s.1a;G(s.7t)h.aj=s.7t;G(!g){J l=Q;h.ah=h.ag=H(){G(!l&&(!7.3f||7.3f=="68"||7.3f=="1J")){l=M;1W();1J();i.37(h)}}}i.3U(h);I 12}J m=Q;J c=1b.7s?2B 7s("ae.ac"):2B 7r();G(s.5Y)c.6R(O,s.1a,s.31,s.5Y,s.3Q);N c.6R(O,s.1a,s.31);1U{G(s.L)c.4B("ab-aa",s.7z);G(s.5S)c.4B("a9-5R-a8",D.4z[s.1a]||"a7, a6 a5 a4 5N:5N:5N a2");c.4B("X-9Z-9Y","7r");c.4B("9W",s.1O&&s.4Q[s.1O]?s.4Q[s.1O]+", */*":s.4Q.4w)}1V(e){}G(s.7m&&s.7m(c,s)===Q){s.26&&D.4O--;c.7l();I Q}G(s.26)D.W.1P("7B",[c,s]);J d=H(a){G(!m&&c&&(c.3f==4||a=="2T")){m=M;G(f){7k(f);f=U}1u=a=="2T"&&"2T"||!D.7j(c)&&"3e"||s.5S&&D.7h(c,s.1a)&&"7J"||"1W";G(1u=="1W"){1U{L=D.6X(c,s.1O,s.9S)}1V(e){1u="5J"}}G(1u=="1W"){J b;1U{b=c.5I("7g-5R")}1V(e){}G(s.5S&&b)D.4z[s.1a]=b;G(!g)1W()}N D.5H(s,c,1u);1J();G(s.31)c=U}};G(s.31){J f=4I(d,13);G(s.2T>0)3B(H(){G(c){c.7l();G(!m)d("2T")}},s.2T)}1U{c.9P(s.L)}1V(e){D.5H(s,c,U,e)}G(!s.31)d();H 1W(){G(s.1W)s.1W(L,1u);G(s.26)D.W.1P("7C",[c,s])}H 1J(){G(s.1J)s.1J(c,1u);G(s.26)D.W.1P("7F",[c,s]);G(s.26&&!--D.4O)D.W.1P("7G")}I c},5H:H(s,a,b,e){G(s.3e)s.3e(a,b,e);G(s.26)D.W.1P("7D",[a,s,e])},4O:0,7j:H(a){1U{I!a.1u&&5Z.9O=="5p:"||(a.1u>=7e&&a.1u<9N)||a.1u==7c||a.1u==9K||D.14.2k&&a.1u==12}1V(e){}I Q},7h:H(a,c){1U{J b=a.5I("7g-5R");I a.1u==7c||b==D.4z[c]||D.14.2k&&a.1u==12}1V(e){}I Q},6X:H(a,c,b){J d=a.5I("9J-O"),2N=c=="2N"||!c&&d&&d.1h("2N")>=0,L=2N?a.9I:a.4U;G(2N&&L.1C.2j=="5J")7p"5J";G(b)L=b(L,c);G(c=="1m")D.5u(L);G(c=="3z")L=6u("("+L+")");I L},3n:H(a){J s=[];G(a.1q==2p||a.5w)D.P(a,H(){s.1p(3u(7.34)+"="+3u(7.2x))});N R(J j 1n a)G(a[j]&&a[j].1q==2p)D.P(a[j],H(){s.1p(3u(j)+"="+3u(7))});N s.1p(3u(j)+"="+3u(D.1D(a[j])?a[j]():a[j]));I s.6s("&").1o(/%20/g,"+")}});D.17.1l({1N:H(c,b){I c?7.2g({1Z:"1N",2h:"1N",1y:"1N"},c,b):7.1E(":1G").P(H(){7.V.18=7.5D||"";G(D.1g(7,"18")=="2F"){J a=D("<"+7.2j+" />").6P("1c");7.V.18=a.1g("18");G(7.V.18=="2F")7.V.18="3I";a.21()}}).3l()},1M:H(b,a){I b?7.2g({1Z:"1M",2h:"1M",1y:"1M"},b,a):7.1E(":4j").P(H(){7.5D=7.5D||D.1g(7,"18");7.V.18="2F"}).3l()},78:D.17.2m,2m:H(a,b){I D.1D(a)&&D.1D(b)?7.78.1w(7,19):a?7.2g({1Z:"2m",2h:"2m",1y:"2m"},a,b):7.P(H(){D(7)[D(7).3F(":1G")?"1N":"1M"]()})},9G:H(b,a){I 7.2g({1Z:"1N"},b,a)},9F:H(b,a){I 7.2g({1Z:"1M"},b,a)},9E:H(b,a){I 7.2g({1Z:"2m"},b,a)},9D:H(b,a){I 7.2g({1y:"1N"},b,a)},9M:H(b,a){I 7.2g({1y:"1M"},b,a)},9C:H(c,a,b){I 7.2g({1y:a},c,b)},2g:H(k,j,i,g){J h=D.77(j,i,g);I 7[h.36===Q?"P":"36"](H(){G(7.16!=1)I Q;J f=D.1l({},h),p,1G=D(7).3F(":1G"),46=7;R(p 1n k){G(k[p]=="1M"&&1G||k[p]=="1N"&&!1G)I f.1J.1k(7);G(p=="1Z"||p=="2h"){f.18=D.1g(7,"18");f.33=7.V.33}}G(f.33!=U)7.V.33="1G";f.45=D.1l({},k);D.P(k,H(c,a){J e=2B D.28(46,f,c);G(/2m|1N|1M/.11(a))e[a=="2m"?1G?"1N":"1M":a](k);N{J b=a.6r().1I(/^([+-]=)?([\\d+-.]+)(.*)$/),2b=e.1t(M)||0;G(b){J d=3d(b[2]),2M=b[3]||"2X";G(2M!="2X"){46.V[c]=(d||1)+2M;2b=((d||1)/e.1t(M))*2b;46.V[c]=2b+2M}G(b[1])d=((b[1]=="-="?-1:1)*d)+2b;e.3G(2b,d,2M)}N e.3G(2b,a,"")}});I M})},36:H(a,b){G(D.1D(a)||(a&&a.1q==2p)){b=a;a="28"}G(!a||(1j a=="23"&&!b))I A(7[0],a);I 7.P(H(){G(b.1q==2p)A(7,a,b);N{A(7,a).1p(b);G(A(7,a).K==1)b.1k(7)}})},9X:H(b,c){J a=D.3O;G(b)7.36([]);7.P(H(){R(J i=a.K-1;i>=0;i--)G(a[i].T==7){G(c)a[i](M);a.7n(i,1)}});G(!c)7.5A();I 7}});J A=H(b,c,a){G(b){c=c||"28";J q=D.L(b,c+"36");G(!q||a)q=D.L(b,c+"36",D.2d(a))}I q};D.17.5A=H(a){a=a||"28";I 7.P(H(){J q=A(7,a);q.4s();G(q.K)q[0].1k(7)})};D.1l({77:H(b,a,c){J d=b&&b.1q==a0?b:{1J:c||!c&&a||D.1D(b)&&b,2u:b,41:c&&a||a&&a.1q!=9t&&a};d.2u=(d.2u&&d.2u.1q==4L?d.2u:D.28.5K[d.2u])||D.28.5K.74;d.5M=d.1J;d.1J=H(){G(d.36!==Q)D(7).5A();G(D.1D(d.5M))d.5M.1k(7)};I d},41:{73:H(p,n,b,a){I b+a*p},5P:H(p,n,b,a){I((-29.9r(p*29.9q)/2)+0.5)*a+b}},3O:[],48:U,28:H(b,c,a){7.15=c;7.T=b;7.1i=a;G(!c.3Z)c.3Z={}}});D.28.44={4D:H(){G(7.15.2Y)7.15.2Y.1k(7.T,7.1z,7);(D.28.2Y[7.1i]||D.28.2Y.4w)(7);G(7.1i=="1Z"||7.1i=="2h")7.T.V.18="3I"},1t:H(a){G(7.T[7.1i]!=U&&7.T.V[7.1i]==U)I 7.T[7.1i];J r=3d(D.1g(7.T,7.1i,a));I r&&r>-9p?r:3d(D.2a(7.T,7.1i))||0},3G:H(c,b,d){7.5V=1z();7.2b=c;7.3l=b;7.2M=d||7.2M||"2X";7.1z=7.2b;7.2S=7.4N=0;7.4D();J e=7;H t(a){I e.2Y(a)}t.T=7.T;D.3O.1p(t);G(D.48==U){D.48=4I(H(){J a=D.3O;R(J i=0;i<a.K;i++)G(!a[i]())a.7n(i--,1);G(!a.K){7k(D.48);D.48=U}},13)}},1N:H(){7.15.3Z[7.1i]=D.1K(7.T.V,7.1i);7.15.1N=M;7.3G(0,7.1t());G(7.1i=="2h"||7.1i=="1Z")7.T.V[7.1i]="9m";D(7.T).1N()},1M:H(){7.15.3Z[7.1i]=D.1K(7.T.V,7.1i);7.15.1M=M;7.3G(7.1t(),0)},2Y:H(a){J t=1z();G(a||t>7.15.2u+7.5V){7.1z=7.3l;7.2S=7.4N=1;7.4D();7.15.45[7.1i]=M;J b=M;R(J i 1n 7.15.45)G(7.15.45[i]!==M)b=Q;G(b){G(7.15.18!=U){7.T.V.33=7.15.33;7.T.V.18=7.15.18;G(D.1g(7.T,"18")=="2F")7.T.V.18="3I"}G(7.15.1M)7.T.V.18="2F";G(7.15.1M||7.15.1N)R(J p 1n 7.15.45)D.1K(7.T.V,p,7.15.3Z[p])}G(b)7.15.1J.1k(7.T);I Q}N{J n=t-7.5V;7.4N=n/7.15.2u;7.2S=D.41[7.15.41||(D.41.5P?"5P":"73")](7.4N,n,0,1,7.15.2u);7.1z=7.2b+((7.3l-7.2b)*7.2S);7.4D()}I M}};D.1l(D.28,{5K:{9l:9j,9i:7e,74:9g},2Y:{2e:H(a){a.T.2e=a.1z},2c:H(a){a.T.2c=a.1z},1y:H(a){D.1K(a.T.V,"1y",a.1z)},4w:H(a){a.T.V[a.1i]=a.1z+a.2M}}});D.17.2i=H(){J b=0,1S=0,T=7[0],3q;G(T)ao(D.14){J d=T.1d,4a=T,1s=T.1s,1Q=T.2z,5U=2k&&3r(5B)<9c&&!/9a/i.11(v),1g=D.2a,3c=1g(T,"30")=="3c";G(T.7y){J c=T.7y();1e(c.1A+29.2f(1Q.1C.2e,1Q.1c.2e),c.1S+29.2f(1Q.1C.2c,1Q.1c.2c));1e(-1Q.1C.6b,-1Q.1C.6a)}N{1e(T.5X,T.5W);1B(1s){1e(1s.5X,1s.5W);G(42&&!/^t(98|d|h)$/i.11(1s.2j)||2k&&!5U)2C(1s);G(!3c&&1g(1s,"30")=="3c")3c=M;4a=/^1c$/i.11(1s.2j)?4a:1s;1s=1s.1s}1B(d&&d.2j&&!/^1c|2K$/i.11(d.2j)){G(!/^96|1T.*$/i.11(1g(d,"18")))1e(-d.2e,-d.2c);G(42&&1g(d,"33")!="4j")2C(d);d=d.1d}G((5U&&(3c||1g(4a,"30")=="5x"))||(42&&1g(4a,"30")!="5x"))1e(-1Q.1c.5X,-1Q.1c.5W);G(3c)1e(29.2f(1Q.1C.2e,1Q.1c.2e),29.2f(1Q.1C.2c,1Q.1c.2c))}3q={1S:1S,1A:b}}H 2C(a){1e(D.2a(a,"6V",M),D.2a(a,"6U",M))}H 1e(l,t){b+=3r(l,10)||0;1S+=3r(t,10)||0}I 3q};D.17.1l({30:H(){J a=0,1S=0,3q;G(7[0]){J b=7.1s(),2i=7.2i(),4c=/^1c|2K$/i.11(b[0].2j)?{1S:0,1A:0}:b.2i();2i.1S-=25(7,\'94\');2i.1A-=25(7,\'aF\');4c.1S+=25(b,\'6U\');4c.1A+=25(b,\'6V\');3q={1S:2i.1S-4c.1S,1A:2i.1A-4c.1A}}I 3q},1s:H(){J a=7[0].1s;1B(a&&(!/^1c|2K$/i.11(a.2j)&&D.1g(a,\'30\')==\'93\'))a=a.1s;I D(a)}});D.P([\'5e\',\'5G\'],H(i,b){J c=\'4y\'+b;D.17[c]=H(a){G(!7[0])I;I a!=12?7.P(H(){7==1b||7==S?1b.92(!i?a:D(1b).2e(),i?a:D(1b).2c()):7[c]=a}):7[0]==1b||7[0]==S?46[i?\'aI\':\'aJ\']||D.71&&S.1C[c]||S.1c[c]:7[0][c]}});D.P(["6N","4b"],H(i,b){J c=i?"5e":"5G",4f=i?"6k":"6i";D.17["5s"+b]=H(){I 7[b.3y()]()+25(7,"57"+c)+25(7,"57"+4f)};D.17["90"+b]=H(a){I 7["5s"+b]()+25(7,"2C"+c+"4b")+25(7,"2C"+4f+"4b")+(a?25(7,"6S"+c)+25(7,"6S"+4f):0)}})})();',62,669,'|||||||this|||||||||||||||||||||||||||||||||||if|function|return|var|length|data|true|else|type|each|false|for|document|elem|null|style|event||nodeName|||test|undefined||browser|options|nodeType|fn|display|arguments|url|window|body|parentNode|add|msie|css|indexOf|prop|typeof|call|extend|script|in|replace|push|constructor|text|offsetParent|cur|status|div|apply|firstChild|opacity|now|left|while|documentElement|isFunction|filter|className|hidden|handle|match|complete|attr|ret|hide|show|dataType|trigger|doc|split|top|table|try|catch|success|break|cache|height||remove|tbody|string|guid|num|global|ready|fx|Math|curCSS|start|scrollTop|makeArray|scrollLeft|max|animate|width|offset|tagName|safari|map|toggle||done|Array|find|toUpperCase|button|special|duration|id|copy|value|handler|ownerDocument|select|new|border|exec|stack|none|opera|nextSibling|pushStack|target|html|inArray|unit|xml|bind|GET|isReady|merge|pos|timeout|delete|one|selected|px|step|jsre|position|async|preventDefault|overflow|name|which|queue|removeChild|namespace|insertBefore|nth|removeData|fixed|parseFloat|error|readyState|multiFilter|createElement|rl|re|trim|end|_|param|first|get|results|parseInt|slice|childNodes|encodeURIComponent|append|events|elems|toLowerCase|json|readyList|setTimeout|grep|mouseenter|color|is|custom|getElementsByTagName|block|stopPropagation|addEventListener|callee|proxy|mouseleave|timers|defaultView|password|disabled|last|has|appendChild|form|domManip|props|ajax|orig|set|easing|mozilla|load|prototype|curAnim|self|charCode|timerId|object|offsetChild|Width|parentOffset|src|unbind|br|currentStyle|clean|float|visible|relatedTarget|previousSibling|handlers|isXMLDoc|on|setup|nodeIndex|unique|shift|javascript|child|RegExp|_default|deep|scroll|lastModified|teardown|setRequestHeader|timeStamp|update|empty|tr|getAttribute|innerHTML|setInterval|checked|fromElement|Number|jQuery|state|active|jsonp|accepts|application|dir|input|responseText|click|styleSheets|unload|not|lastToggle|outline|mouseout|getPropertyValue|mouseover|getComputedStyle|bindReady|String|padding|pageX|metaKey|keyCode|getWH|andSelf|clientX|Left|all|visibility|container|index|init|triggered|removeAttribute|classFilter|prevObject|submit|file|after|windowData|inner|client|globalEval|sibling|jquery|absolute|clone|wrapAll|dequeue|version|triggerHandler|oldblock|ctrlKey|createTextNode|Top|handleError|getResponseHeader|parsererror|speeds|checkbox|old|00|radio|swing|href|Modified|ifModified|lastChild|safari2|startTime|offsetTop|offsetLeft|username|location|ajaxSettings|getElementById|isSimple|values|selectedIndex|runtimeStyle|rsLeft|_load|loaded|DOMContentLoaded|clientTop|clientLeft|toElement|srcElement|val|pageY|POST|unshift|Bottom|clientY|Right|fix|exclusive|detachEvent|cloneNode|removeEventListener|swap|toString|join|attachEvent|eval|substr|head|parse|textarea|reset|image|zoom|odd|even|before|prepend|exclude|expr|quickClass|quickID|uuid|quickChild|continue|Height|textContent|appendTo|contents|open|margin|evalScript|borderTopWidth|borderLeftWidth|parent|httpData|setArray|CSS1Compat|compatMode|boxModel|cssFloat|linear|def|webkit|nodeValue|speed|_toggle|eq|100|replaceWith|304|concat|200|alpha|Last|httpNotModified|getAttributeNode|httpSuccess|clearInterval|abort|beforeSend|splice|styleFloat|throw|colgroup|XMLHttpRequest|ActiveXObject|scriptCharset|callback|fieldset|multiple|processData|getBoundingClientRect|contentType|link|ajaxSend|ajaxSuccess|ajaxError|col|ajaxComplete|ajaxStop|ajaxStart|serializeArray|notmodified|keypress|keydown|change|mouseup|mousedown|dblclick|focus|blur|stylesheet|hasClass|rel|doScroll|black|hover|solid|cancelBubble|returnValue|wheelDelta|view|round|shiftKey|resize|screenY|screenX|relatedNode|mousemove|prevValue|originalTarget|offsetHeight|keyup|newValue|offsetWidth|eventPhase|detail|currentTarget|cancelable|bubbles|attrName|attrChange|altKey|originalEvent|charAt|0n|substring|animated|header|noConflict|line|enabled|innerText|contains|only|weight|font|gt|lt|uFFFF|u0128|size|417|Boolean|Date|toggleClass|removeClass|addClass|removeAttr|replaceAll|insertAfter|prependTo|wrap|contentWindow|contentDocument|iframe|children|siblings|prevAll|wrapInner|nextAll|outer|prev|scrollTo|static|marginTop|next|inline|parents|able|cellSpacing|adobeair|cellspacing|522|maxLength|maxlength|readOnly|400|readonly|fast|600|class|slow|1px|htmlFor|reverse|10000|PI|cos|compatible|Function|setData|ie|ra|it|rv|getData|userAgent|navigator|fadeTo|fadeIn|slideToggle|slideUp|slideDown|ig|responseXML|content|1223|NaN|fadeOut|300|protocol|send|setAttribute|option|dataFilter|cssText|changed|be|Accept|stop|With|Requested|Object|can|GMT|property|1970|Jan|01|Thu|Since|If|Type|Content|XMLHTTP|th|Microsoft|td|onreadystatechange|onload|cap|charset|colg|host|tfoot|specified|with|1_|thead|leg|plain|attributes|opt|embed|urlencoded|www|area|hr|ajaxSetup|meta|post|getJSON|getScript|marginLeft|img|elements|pageYOffset|pageXOffset|abbr|serialize|pixelLeft'.split('|'),0,{}));
+
+//]]>
+</script>
 <!--PRE-HEAD-START-->
 <!--{{{-->
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' />
 <!--}}}-->
 <!--PRE-HEAD-END-->
-<title>
-//''sample''tasks// - a sample edition of ~TeamTasks (v0.4)
-</title>
+<title> sampletasks - a sample edition of TeamTasks (v0.4) </title>
 <style id="styleArea" type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -55,16 +69,20 @@ DAMAGE.
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
+
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
 <!--PRE-BODY-START-->
+
 <!--PRE-BODY-END-->
 <div id="copyright">
 Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa Association
 </div>
 <noscript>
-	<div id="javascriptWarning">This page requires JavaScript to function properly.<br /><br />If you are using Microsoft Internet Explorer you may need to click on the yellow bar above and select 'Allow Blocked Content'. You must then click 'Yes' on the following security warning.</div>
+<div id="javascriptWarning">
+This page requires JavaScript to function properly.<br /><br />If you are using Microsoft Internet Explorer you may need to click on the yellow bar above and select 'Allow Blocked Content'. You must then click 'Yes' on the following security warning.
+</div>
 </noscript>
 <div id="saveTest"></div>
 <div id="backstageCloak"></div>
@@ -150,7 +168,7 @@ h2,h3 {border-bottom:1px solid [[ColorPalette::TertiaryLight]];}
 .wizard .button:hover {color:[[ColorPalette::Foreground]]; background:[[ColorPalette::Background]];}
 .wizard .button:active {color:[[ColorPalette::Background]]; background:[[ColorPalette::Foreground]]; border: 1px solid;
 	border-color:[[ColorPalette::PrimaryDark]] [[ColorPalette::PrimaryPale]] [[ColorPalette::PrimaryPale]] [[ColorPalette::PrimaryDark]];}
-	
+
 .wizard .notChanged {background:transparent;}
 .wizard .changedLocally {background:#80ff80;}
 .wizard .changedServer {background:#8080ff;}
@@ -332,9 +350,16 @@ a.tiddlyLinkNonExisting.shadow {font-weight:bold;}
 .tabset {padding:1em 0em 0em 0.5em;}
 .tab {margin:0em 0em 0em 0.25em; padding:2px;}
 .tabContents {padding:0.5em;}
+
+.tabset {padding:0 0em 0em 0.5em;} 
+.tabsetWrapper {padding:1em 0 0 0;} 
+.tab {margin:0em 0em 0em 2px; padding:2px; float:left; white-space:nowrap;} 
+.tabContents {padding:0.5em; clear:left;}
+
 .tabContents ul, .tabContents ol {margin:0; padding:0;}
 .txtMainTab .tabContents li {list-style:none;}
 .tabContents li.listLink { margin-left:.75em;}
+
 
 #contentWrapper {display:block;}
 #splashScreen {display:none;}
@@ -475,7 +500,7 @@ noscript {display:none;}
 &lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;
 &lt;div macro='annotations'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
-&lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser excludeLists'&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;!--}}}--&gt;</pre>
 </div>
 <div title="GettingStarted">
@@ -506,264 +531,157 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="settings" modifier="PhilHawksworth" created="200803251627" modified="" tags="systemConfig excludeLists excludeSearch">
-<pre>//{{{
+<div title="About TeamTasks" modifier="PhilHawksworth" created="200709171222" modified="200710241354" tags="help" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709181250" server.type="file">
+<pre>A quick start guide is provided in the [[Getting Started with TeamTasks]] tiddler.
 
-config.options.chkAutoSave = true;
-config.options.chkAnimate = true;
-config.options.chkSaveBackups = false;
-config.options.txtTheme = &quot;TeamTasksSkin&quot;;
+This application has been built using TiddlyWiki and requires several plugins to function.  For an up-to-date list of the plugins used, and other building blocks required to build TeamTasks, take a look at the [[Release Notes]].
 
-//}}}</pre>
+TeamTasks also require some definitions, which you can modify and add to as required:
+UserDefinitions
+PriorityDefinitions
+ScopeDefinitions
+StatusDefinitions</pre>
 </div>
-<div title="TeamTasksSkin" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TeamTasks">
-<pre>
-/***
-|''Name:''|TeamTasksSkin |
-|''Description:''|The basic TeamTasks theme |
-|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
-|''Version:''|0.4|
-|''Date:''|March 28th, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''~CoreVersion:''|2.4.0|
-|''~PageTemplate:''|##PageTemplate|
-|''~EditTemplate:''|##EditTemplate|
-|''~taskViewTemplate:''|##taskViewTemplate|
-|''~taskEditTemplate:''|##taskEditTemplate|
-|''~StyleSheet:''|##StyleSheet|
-***/
-
-!PageTemplate
-&lt;!--{{{--&gt;
-&lt;div id='messageBar'&gt;&lt;span id='messageArea'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class='header'&gt;
-&lt;div class='headerShadow'&gt;
-&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;div id='topMenu' refresh='content' tiddler='TopMenu'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
-&lt;div id='displayArea'&gt;
-	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
+<div title="AnneOther" modifier="PhilHawksworth" created="200710290946">
+<pre>&lt;html&gt;
+&lt;div class='vcard'&gt;
+&lt;a class='url fn n' href='undefined'&gt;&lt;span class='given-name'&gt;Anne&lt;/span&gt;&lt;span class='family-name'&gt;Other&lt;/span&gt;&lt;/a&gt;
+&lt;div class='email'&gt;&lt;span&gt;&lt;a href='mailto:anneother@nowhere.com'&gt;anneother@nowhere.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/html&gt;</pre>
+</div>
+<div title="CreatingTaskReportViews" modifier="PhilHawksworth" created="200710221513">
+<pre>You can create your own custom views of the tasks using the ~TeamTask Report View Plugin (TTReportViewPlugin).
 
 
-!EditTemplate
-&lt;!--{{{--&gt;
-&lt;div class=&quot;editor&quot;&gt;
-&lt;div class='toolbar'&gt;[[ToolbarCommands::EditToolbar]]&lt;/div&gt;
-&lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
-&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
-&lt;div class='tagged edit' macro='edit tags'&gt;&lt;/div&gt;
-&lt;div class='viewer edit' macro='edit text'&gt;&lt;/div&gt;
-&lt;div class='tagClear'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
+The general form for calling the plugin is like this:
+{{{
+&lt;&lt;TTReportView&gt;&gt;
+}}}
 
 
-!taskViewTemplate
-&lt;!--{{{--&gt;
-&lt;div class='toolbar'&gt;[[ToolbarCommands::TaskViewToolbar]]&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
-&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
-&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
-&lt;div class='task'&gt;
-	&lt;table&gt;
-	&lt;tr&gt;
-		&lt;td class='taskbody'&gt;&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;&lt;/td&gt;
-		&lt;td class='taskControls'&gt;&lt;div class='taskControls' macro='tiddler TaskTiddlerControls'&gt;&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class='tagClear'&gt;&lt;/div&gt;
-&lt;!--}}}--&gt;
-
-!taskEditTemplate
-&lt;!--{{{--&gt;
-&lt;div class=&quot;editor&quot;&gt;
-&lt;div class='toolbar'&gt;[[ToolbarCommands::TaskEditToolbar]]&lt;/div&gt;
-&lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
-&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
-&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
-&lt;div class='tagged edit' macro='tags'&gt;&lt;/div&gt;
-&lt;div class='task'&gt;
-	&lt;table&gt;
-	&lt;tr&gt;
-		&lt;td class='taskbody'&gt;&lt;div class='viewer edit' macro='edit text wikified'&gt;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;
-		&lt;td class='taskControls'&gt;&lt;div class='taskControls' macro='tiddler TaskTiddlerControls'&gt;&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class='tagClear'&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;!--}}}--&gt;
+You can also specify which fields to display in your report like this:
+{{{
+&lt;&lt;TTReportView DisplayFields:&quot;fieldName,fieldName,fieldName&quot;&gt;&gt;
+}}}
+for example:
+{{{
+&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot;&gt;&gt;
+}}}
 
 
-!StyleSheet
-/*{{{*/
-body { color:[[TeamTasksColors::Darkest]];}
-a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
-h1,h2,h3,h4,h5,h6 {color:[[TeamTasksColors::Accent]];}
+In addition, you can choose to order your results by a given field like this:
+{{{
+&lt;&lt;TTReportView OrderBy:&quot;fieldName,[asc|desc]&quot;&gt;&gt;
+}}}
+for example:
+{{{
+&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot; OrderBy:&quot;Status,asc&quot;&gt;&gt;
+}}}
+
+
+You can also specify field values to include and exclude tasks and create filtered reports:
+{{{
+&lt;&lt;TTReportView FieldName:&quot;value&quot;&gt;&gt;
+}}}
+{{{
+&lt;&lt;TTReportView FieldName:&quot;!value&quot;&gt;&gt;
+}}}
+
+for example:
+{{{
+&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot; OrderBy:&quot;Status,asc&quot; Priority:&quot;high&quot; Status:&quot;!closed&quot;&gt;&gt;
+}}}</pre>
+</div>
+<div title="CreatingTasks" modifier="PhilHawksworth" created="200710221506" modified="200710241431">
+<pre>Creating a task is easy. Any tiddler that you tag with the word 'task' will become a task tiddler. When you exit edit mode of a task tiddler, you will see that it is presented as a task and has controls on it to allow you to set some of your [[pre-defined|TaskDefinitions]] values on it.
+
+Alternatively, you can create a new task by clicking the &lt;&lt;newTiddler label:'new task' title:NewTask tag:task text:'Type some text and then press DONE to view the task controls'&gt;&gt; button in the control bar towards the top of the screen.</pre>
+</div>
+<div title="Customise" modifier="PhilHawksworth" created="200709241547">
+<pre>[[Modify the task control fields|TaskTiddlerControls]][[ScopeDefinitions]][[UserDefinitions]][[PriorityDefinitions]][[StatusDefinitions]][[Modify this menu|MainMenu]][[Options|OptionsPanel]]</pre>
+</div>
+<div title="DefaultReportView" modifier="PhilHawksworth" created="200803130000" changecount="2">
+<pre>&lt;&lt;TTReportView&gt;&gt;</pre>
+</div>
+<div title="DefaultTiddlers" modifier="PhilHawksworth" created="200709241640" modified="200710231249">
+<pre>	[[Getting Started with TeamTasks]]</pre>
+</div>
+<div title="DefineScopes" modifier="PhilHawksworth" created="200710221448" modified="200710221449" tags="help">
+<pre>To make it easy to organise tasks by the appropriate projects, products or whatever sensible unit best fits your needs, you can define a set of 'Scopes' in the ScopeDefinitions tiddler. This works in the same way as [[defining users|DefineUsers]].</pre>
+</div>
+<div title="DefineUsers" modifier="PhilHawksworth" created="200710221403" modified="200710241215" tags="help">
+<pre>In TeamTasks, you can assign tasks to users. If you are using TeamTasks individually and don't need to have different users set up, you can easily remove this functionality to make things appear even simpler in the user interface.
+
+Defining a user is really simple. All you need to do is add user's names to the UserDefinitions tiddler.  Each name should occupy a single line in the tiddler.  All of the names in the UserDefinitions tiddler will be available for you to assign a task to.</pre>
+</div>
+<div title="Getting Started with TeamTasks" modifier="PhilHawksworth" created="200710231248" modified="200710241425" tags="help">
+<pre>TeamTasks is intended to support you in managing your task lists.  It can be heavily customised to be used in many different ways, but I am presuming that most users will want to do the following to get up and running quickly:
+*[[Define some users|DefineUsers]]
+*[[Define some projects or tasks|DefineScopes]]
+*[[Start creating Tasks|CreatingTasks]]
+*[[Build some task views|CreatingTaskReportViews]]
+and then may wish to make further customisations by editing the [[TaskDefinition|TaskDefinitions]] tiddlers
+
+[[More information|About TeamTasks]] about what components go into TeamTasks. </pre>
+</div>
+<div title="HighPriorityTask" modifier="PhilHawksworth" created="200709241437" modified="200709251049" tags="task" prioritydefinitions="High" userdefinitions="PhilHawksworth">
+<pre>A sample high priority task</pre>
+</div>
+<div title="Listings" modifier="PhilHawksworth" created="200805081121">
+<pre>&lt;&lt;tabs txtMainTab &quot;Timeline&quot; &quot;Timeline&quot; TabTimeline &quot;A - Z&quot; &quot;All tiddlers in alphabetical order&quot; TabAll &quot;Tags&quot; &quot;All tags&quot; TabTags &quot;Missing&quot; &quot;Missing tiddlers&quot; TabMoreMissing &quot;Shadowed&quot; &quot;Shadowed tiddlers&quot; TabMoreShadowed&gt;&gt;</pre>
+</div>
+<div title="LowPriorityTasks" modifier="PhilHawksworth" created="200709241637" modified="200709251051" tags="task" prioritydefinitions="Low">
+<pre>LowPriorityTasks</pre>
+</div>
+<div title="MainMenu" modifier="PhilHawksworth" created="200708051914">
+<pre>{{search{&lt;&lt;search&gt;&gt;}}}
+[[Listings]]
+[[Getting Started with TeamTasks]]
+[[Release Notes]]
+[[Migrating to the latest version]]
+&lt;&lt;slider chkSliderOptionsPanel UserDefinitions 'Users Â»' 'A list of users'&gt;&gt;
+&lt;&lt;slider chkSliderOptionsPanel TaskViews 'Task views Â»' 'A selection of task views'&gt;&gt;
+&lt;&lt;slider chkSliderOptionsPanel Customise 'Customise Â»' 'Edit and fiddle and poke to create a system that works best for you'&gt;&gt;
+[[about|About TeamTasks]]
+[[download|index.html]]
+{{meta{
+	&lt;&lt;tiddler TeamTasksMetaData&gt;&gt;
+}}}</pre>
+</div>
+<div title="MediumPriorityTask" modifier="PhilHawksworth" created="200709241550" modified="200709251050" tags="task" prioritydefinitions="Medium">
+<pre>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</pre>
+</div>
+<div title="Migrating to the latest version" modifier="PhilHawksworth" created="200803061053" modified="200803061054" tags="help">
+<pre>Since TeamTasks is built using TiddlyWiki, it contains all of the application logic, the styling, the content, and all of your tasks in a single file. This means that upgrading your instance of TeamTasks might seem like a fiddly task. Don't panic. It's simple when you know how!
 	
-/* Page Framework */
-body {background-color:[[TeamTasksColors::Background]]; border-top:3px solid [[TeamTasksColors::Accent]]; }
-#displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
-#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 20px 0 0 0; padding:0; border-style:none;}
-#tiddlerDisplay { margin:0 10px 20px 0; padding:0;  border:none;}
-#sidebar {display:none;}
-#messageArea { position:inherit;  margin:0 20px 1em 10px; padding:6px; border-style:none; }
+!Downloading an empty copy of the latest ~TeamTasks version and then importing your tasks and views.
+The process of upgrading a TiddlyWiki is well documented at [[www.tiddlywiki.com/#HowToUpgrade|http://www.tiddlywiki.com/#HowToUpgrade]]. Refer to that documentation to help you upgrade, but rather then downloading a fresh version of Tiddlywiki as your starting point, you should download a fresh version of TeamTasks by right-clicking on [[this link|http://www.hawksworx.com/playground/TeamTasks/index.html]], selecting 'Save target' or 'Save link' and saving it in a convenient location. You can then import your tasks into that file.
+	
+!Perhaps you would prefer to import the updated and new plugins into your existing ~TeamTasks file.
+If this is the case, you should refer to the [[HowToUpgrade|www.tiddlywiki.com/#HowToUpgrade]] documentation as above, but rather than importing your tasks and views into a fresh teamTasks file, you should import into your exisiting TeamTasks file. You will need to import the following tiddlers from http://www.hawksworx.com/playground/TeamTasks in order to upgrade to version 0.4 of TeamTasks:
+*[[FullScreenPlugin|http://www.hawksworx.com/playground/TeamTasks/#FullScreenPlugin]]
+*[[NewUserWizardPlugin|http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin]]
+*[[TableSortingPlugin|http://www.hawksworx.com/playground/TeamTasks/#TableSortingPlugin]]
+*[[TaggedTemplateTweak|http://www.hawksworx.com/playground/TeamTasks/#TaggedTemplateTweak]]
+*[[TTReportViewPlugin|http://www.hawksworx.com/playground/TeamTasks/#TTReportViewPlugin]]
+*[[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]]
+*[[ValueSwitcherPlugin|http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin]]
 
-/* message bar */
-#messageBar {display:block; position:relative; width:100%; margin:0; background-color:[[TeamTasksColors::LightShade]]; height:1.6em; font-size:11px;  border-top:solid 1px [[TeamTasksColors::TiddlerBackground]];}
-#messageArea { position:absolute; top:0; left:0; padding:0; margin:0; border-style:none; background-color:transparent;} 
-#messageArea div { margin-left:20px; padding:3px 0 0 0;}
-#messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
-#messageArea a { color:[[TeamTasksColors::Dark]]; text-decoration:none; }
-#messageArea a:hover { color:[[TeamTasksColors::Secondary]]; text-decoration:none; }
-#messageArea .button { float:right; background-color:[[TeamTasksColors::Shade]]; color:[[TeamTasksColors::TiddlerBackground]]; margin:0 0 0 1em; padding:3px 6px; }
-#messageArea .button:hover {background-color:[[TeamTasksColors::Dark]]; color:[[TeamTasksColors::TiddlerBackground]];}
+!Incompatible task tiddlers.
+Version 0.4 employs a slightly different format for storing information on the task tiddlers to previous versions. A macro to upgrade all of your task tiddlers to adopt this new format is available in this plugin: [[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]]
 
-
-/* Header */
-div.header,
-div.headerShadow { margin:0; padding:0; top:auto;}
-div.header {height:5em; background-color:[[TeamTasksColors::Background]]; position:relative;}
-div.headerShadow {position:absolute; left:20px; bottom:0; height:auto;}
-div.headerShadow span.siteTitle {color::[[TeamTasksColors::Darkest]]; font-size:3em; line-height:1em; letter-spacing:-2px;}
-div.headerShadow span.siteSubtitle {color:[[TeamTasksColors::Dark]]; white-space:nowrap; font-size:1em;}
-div.header #topMenu { position:absolute; right:20px; bottom:0;}
-
-/* Backstage */
-#backstageArea,
-#backstageToolbar { background-color:[[TeamTasksColors::TiddlerBackground]]; padding-top:0;}
-#backstageToolbar a.backstageTab { background-color:transparent; color:[[TeamTasksColors::Dark]]; font-weight:normal;line-height:1.5em; }
-#backstageToolbar a.backstageTab:hover { background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];  }
-
-/* Popup */
-#popup {background-color:[[TeamTasksColors::Darkest]]; border:1px solid [[TeamTasksColors::Shade]]; border-bottom:2px solid [[TeamTasksColors::Shade]];}
-#popup li a { color:[[TeamTasksColors::Accent]];}
-#popup li a:hover {background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
-#popup li.listBreak div{ border-bottom:solid 1px [[TeamTasksColors::Darker]];}
-
-/* Top Menu*/
-#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]]; display:block; float: right;}
-#topMenu a.button:hover,
-#mainMenu a:hover  { border-style:none; background-color:[[TeamTasksColors::Darkest]]; color:[[TeamTasksColors::Accent]];}
-#topMenu a.button:active,
-#mainMenu a:active  { border-style:none; background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::Background]];}
-
-/* MainMenu */
-#mainMenu { position: static; float: left; width:18em; padding: 20px 0 10px 20px; margin:0;}
-#mainMenu br { display:none; }
-#mainMenu a { display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; color:[[TeamTasksColors::Darkest]];  }
-#mainMenu div {  width:auto; }
-#mainMenu div a {display:block;  font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
-#mainMenu span.search { padding:6px 6px 6px 0px; margin-bottom:10px; display:block; background-color:[[TeamTasksColors::Darkest]]; text-align:left;}
-#mainMenu span.search .searchField { padding:2px 6px; border:solid 1px [[TeamTasksColors::DarkShade]]; border-top-color:[[TeamTasksColors::Dark]];  border-bottom-color:[[TeamTasksColors::TiddlerBackground]]; background-color:[[TeamTasksColors::Background]]; }
-#mainMenu span.search a.searchButton { display:inline; color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
-#mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
-
-/* MetaData section */
-#mainMenu div.meta { font-size:0.9em; line-height:1.1em;}
-#mainMenu div.meta span { display: block; width:20em; text-align:right;}
-#mainMenu div.meta a {color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:1.4em 1em 0.2em 3em; padding:0;}
-#mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
-
-/* Vanilla Tiddlers */
-.tiddler { background-color:[[TeamTasksColors::TiddlerBackground]]; margin:0 1em 2em 1em; padding:0 0 1em 0; border-bottom:1px solid[[TeamTasksColors::DarkShade]]; 	}
-
-.tiddler div.toolbar { margin:0; padding:0; height:2em; visibility:hidden;}
-.tiddler div.toolbar a.button:first-child {  border-left:1px solid [[TeamTasksColors::LightShade]];}
-.tiddler div.toolbar a.button { background-color:[[TeamTasksColors::TiddlerBackground]]; padding:4px 1em 4px 1em; border-style:none; border-left:1px solid [[TeamTasksColors::LightShade]]; border-bottom:1px solid [[TeamTasksColors::LightShade]];  border-top:3px solid [[TeamTasksColors::Background]]; line-height:2.3em;}
-.tiddler div.toolbar a.button:hover { background-color:[[TeamTasksColors::LightestShade]]; border-bottom-color:[[TeamTasksColors::DarkShade]]; color:[[TeamTasksColors::Darkest]];}
-.tiddler div.toolbar a.button:active { background-color:[[TeamTasksColors::Accent]]; border-bottom-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
-
-.tiddler div.title { color:[[TeamTasksColors::Accent]]; margin:4px 20px 3px 20px;}
-.tiddler div.subtitle,
-.tiddler div.tagged,
-.tiddler div.tagging { float:none; border-style:none; background-color:[[TeamTasksColors::TiddlerBackground]]; margin:3px 20px 0 20px; padding:0; font:italic 0.95em/1em &quot;Lucida Sans&quot;,&quot;Lucida Grande&quot;,Verdana,&quot;Bitstream Vera Sans&quot;,Arial,sans-serif; color:[[TeamTasksColors::DarkShade]];}
-.tiddler div.tagged ul,
-.tiddler div.tagging ul {margin:0; padding:0;}
-.tiddler div.tagged li,
-.tiddler div.tagging li {display:inline; margin:0 0.4em 0 0; color:[[TeamTasksColors::DarkShade]]; }
-.tiddler div.tagged li.listTitle,
-.tiddler div.tagging li.listTitle {margin:0 0.1em 0 0; }
-.tiddler div.tagged a.button,
-.tiddler div.tagging a.button {padding:0;}
-.tiddler div.subtitle a,
-.tiddler div.tagged a,
-.tiddler div.tagging a {color:[[TeamTasksColors::DarkestShade]]; font-weight:normal; white-space:nowrap; border-bottom:solid 1px [[TeamTasksColors::Background]];}
-.tiddler div.subtitle a:hover,
-.tiddler div.tagged a:hover,
-.tiddler div.tagging a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];  border-bottom-color:[[TeamTasksColors::Accent]];}
-.tiddler div.viewer { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
-
-.viewer pre {background-color:[[TeamTasksColors::Background]]; color:[[TeamTasksColors::Darker]]; border:solid 1px [[TeamTasksColors::DarkShade]]; padding:1em 2em;}
-.selected div.toolbar { visibility:visible;}
-
-/* Task Tiddlers */
-.tiddler div.task { clear:left; margin:10px 20px; border-top:solid 0px [[TeamTasksColors::Background]];}
-.tiddler div.task table { width:100%; margin:0; padding:0; }
-.tiddler div.task table * { vertical-align:top; }
-.tiddler div.task table td.taskbody { width:100%; }
-.tiddler div.task table td.taskControls { width:auto; }
-.tiddler div.task div.viewer { display:block; padding:1em; margin:10px 0; border:solid 1px [[TeamTasksColors::TaskBorder]]; background-color:[[TeamTasksColors::TaskBackground]]; font:italic 1.1em/1.5em &quot;Lucida Sans&quot;,&quot;Lucida Grande&quot;,Verdana,&quot;Bitstream Vera Sans&quot;,Arial,sans-serif; }
-.tiddler div.task div.taskControls { float:right; white-space:nowrap; margin:0 0 0 10px;}
-.tiddler div.task div.taskControls table { border-style:none; margin: 10px 0;}
-.tiddler div.task div.taskControls table tr { border-style:none;}
-.tiddler div.task div.taskControls table tr td { border-style:none;}
-.tiddler div.task div.taskControls select {width: 150px; font-size:0.9em;}
-.tiddler div.task div.dependencies { padding:1em; background-color:[[TeamTasksColors::LightestShade]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
-.tiddler div.task .label {font-size:0.9em; color:[[TeamTasksColors::DarkestShade]]; margin-bottom:0.4em;}
-
-/* tiddler Edit mode  */
-.tiddler .edit { padding:4px; background-color:[[TeamTasksColors::TiddlerBackground]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
-.tiddler .edit * { background-color:[[TeamTasksColors::TiddlerBackground]]; border-style:none; }
-.tiddler div.editor div.title { color:[[TeamTasksColors::Dark]]; margin:10px 20px 10px 20px;}
-.tiddler div.editor div.viewer {  padding: none; background-color:[[TeamTasksColors::TiddlerBackground]];}
-
-/* New User Wizard */ 
-#createTeamTaskUserForm { background-color:#f0f0f0; padding:1em; border:solid 1px #ccc;}
-#createTeamTaskUserForm label { margin-bottom:10px; display:block; clear:left; font-size:0.9em;}
-#createTeamTaskUserForm label input {float:left; border:1px solid #ddd; border-top:1px solid #999; padding:2px 4px; font-size:1em; width:30em;}
-
-/* TT Report Views */
-table.sortable { margin:0.5em 0; border-style:none; }
-table.sortable tr {border-left-width:0; border-right-width:0;}
-table.sortable * td {border-top:solid 1px [[TeamTasksColors::LightShade]]; border-bottom:solid 1px [[TeamTasksColors::LightShade]]; border-left-width:0; border-right-width:0;}
-table.sortable thead tr td { background-color: [[TeamTasksColors::LightestShade]]; color:[[TeamTasksColors::Darkest]];}
-
-/*}}}*/</pre>
+!!!Using the macro.
+Using the macro is simple. 
+#Import the [[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]] as described above.
+#Save your file and reload it to make sure that the macro is available to run.
+#Create a new tiddler in your document and edit it to include a call to the migration macro like this {{{&lt;&lt;TTMigrateTasks0304&gt;&gt;}}}
+#Click {{{done}}} to finish editing your new tiddler. The macro will run, converting all of your existing tasks to the latest version.
+#Save your TeamTasks document in the usual way.
+#Reload and if you wish, delete the TTMigrateTasks0304Plugin tiddler and the new tiddler you created to run the macro - you won't need them again.
+	
+	</pre>
 </div>
-<div title="TeamTasksColors" modifier="PhilHawksworth" created="200803280000">
-<pre>
-Accent: #9BBE2E
-
-TaskBorder: #EC6
-TaskBackground: #FEFFA8
-
-CodeBackground:#000
-CodeColor:#23CC07
-
-Background: #E7E7DE
-Darkest: #172322
-Darker: #2F403F
-Dark: #77776E
-LightestShade: #F3F3F3
-LightShade: #DFDFD5
-Shade: #d7d7cE
-DarkShade: #A6A59E
-DarkestShade: #757570
-TiddlerBackground: #ffffff
-
-LinkHover: transparent</pre>
-</div>
-<div title="NewUserWizardPlugin" modifier="PhilHawksworth" created="200710221620" modified="200710241440" tags="systemConfig" changecount="6">
+<div title="NewUserWizardPlugin" modifier="PhilHawksworth" created="200710221620" modified="200710241440" tags="systemConfig">
 <pre>/***
 |''Name:''|NewUserWizardPlugin|
 |''Description:''|Create a new user for the TeamTasks system |
@@ -884,129 +802,218 @@ if(!version.extensions.newUserWizard)
 }
 //}}}</pre>
 </div>
-<div title="ValueSwitcherPlugin" modifier="PhilHawksworth" created="200708161629" modified="200709251214" tags="systemConfig">
+<div title="PhilHawksworth" modifier="PhilHawksworth" created="200710290942" modified="200711091615">
+<pre>&lt;html&gt;
+&lt;div class=&quot;vcard&quot;&gt;
+&lt;a class=&quot;url fn n&quot; href=&quot;&quot;&gt;&lt;span class=&quot;given-name&quot;&gt;Phil&lt;/span&gt;&lt;span class=&quot;family-name&quot;&gt;Hawksworth&lt;/span&gt;&lt;/a&gt;
+&lt;div class=&quot;org&quot;&gt;&lt;span class=&quot;organization-name&quot;&gt;Osmosoft&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span&gt;&lt;a href=&quot;http://www.hawksworx.com&quot;&gt;www.hawksworx.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;email&quot;&gt;&lt;span&gt;&lt;a href=&quot;mailto:ph@osmosoft.com&quot;&gt;ph@osmosoft.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;photos&quot;&gt;&lt;span&gt;&lt;a href=&quot;http://flickr/photos/philhawksworth&quot;&gt;flickr/photos/philhawksworth&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;twitter&quot;&gt;&lt;span&gt;&lt;a href=&quot;http://twitter.com/philhawksworth&quot;&gt;twitter.com/philhawksworth&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/html&gt;</pre>
+</div>
+<div title="PriorityDefinitions" modifier="PhilHawksworth" created="200708161618" modified="200710221412" tags="TaskDefinitions">
+<pre>High
+Medium
+Low</pre>
+</div>
+<div title="Release Notes" modifier="PhilHawksworth" created="200710241224" modified="200710241439" tags="help">
+<pre>!Version 0.4.1
+!!!Comments
+*Minor bug fix to address the poor rendering of the Task Edit view.
+*Inclusion of the new TiddlyWiki toolbar macro for organising and rendering the toolbars on all tiddlers.
+
+!Version 0.4
+!!!Comments
+*The macro for producing task list views has been replaced with the TTReportViewPlugin which uses named prameters and outputs sortable table views of your data.
+*Task metadata is now stored on the task tiddlers in a much more friendly way. All TeamTasks fields on a tiddler are of the form {{{tt_fieldName='value'}}}
+*For those wishing to upgrade their previous tasks to make use of the new structure, there is a [[Task Migration Tool|TTMigrateTasks0304Plugin]] to ease the pain.
+*There is now [[documentation to assist in upgrading TeamTasks|Migrating to the latest version]]
+*Task Reports now refresh automatically as Tasks are updated.
+*The new theme is defined by just two tiddlers: TeamTasksSkin and TeamTasksColors
+!!!Comprehensive Plugin List
+|TableSortingPlugin |by SaqImtiaz |http://tw.lewcid.org/#TableSortingPlugin |
+|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
+|TTReportViewPlugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#TTReportViewPlugin |
+|TTMigrateTasks0304Plugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#TTMigrateTasks0304Plugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#ValueSwitcherPlugin |
+
+!Version 0.3
+!!!Comments
+*Lots more documentation and help is evolving
+*Introduction of UserSetupWizard which speeds up the setting up of users and automates some associated tasks.
+!!!Plugins
+|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
+|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
+|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+|NewUserWizardPlugin|by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin |
+!!Tiddlers providing UI styling
+PageTemplate
+StyleSheet
+ColorPalette
+ViewTemplate
+TaskViewTemplate
+!!Tiddlers providing other functionality
+ControlsContainer
+[[Listings]]
+TaskTiddlerControls
+SampleTaskListTemplate
+UserDetailsTemplate
+UserSetupWizard
+!!Tiddlers providing documentation
+[[About TeamTasks]]
+CreatingTaskListViews
+CreatingTasks
+DefineScopes
+DefineUsers
+[[Getting Started with TeamTasks]]
+[[Release Notes]]
+TaskListView
+TeamTasks
+!Version 0.2
+!!!Comments
+*Task visualisation improved
+*TaskViewBuilderPlugin syntax employs {{{ = }}} rather than {{{ _ }}}
+!!!Plugins
+|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
+|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
+|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+!!Tiddlers providing UI styling
+PageTemplate
+StyleSheet
+ColorPalette
+ViewTemplate
+TaskViewTemplate
+!!Tiddlers providing other functionality
+ControlsContainer
+[[Listings]]
+TaskTiddlerControls
+
+!Version 0.1
+!!!Comments
+*Basic UI structure established
+*Task generation using tagging mechanism
+*Basic task list views.
+!!!Plugins
+|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
+|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
+|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
+!!Tiddlers providing UI styling
+PageTemplate
+StyleSheet
+ColorPalette
+ViewTemplate
+!!Tiddlers providing other functionality
+ControlsContainer
+[[Listings]]</pre>
+</div>
+<div title="ScopeDefinitions" modifier="PhilHawksworth" created="200709041507" modified="200710221449" tags="TaskDefinitions">
+<pre>Work
+Play</pre>
+</div>
+<div title="SiteSubtitle" modifier="PhilHawksworth" created="200708161547" modified="200710241355">
+<pre>a sample edition of ~TeamTasks (v0.4)</pre>
+</div>
+<div title="SiteTitle" modifier="PhilHawksworth" created="200708161546" modified="200709241632">
+<pre>//''sample''tasks//</pre>
+</div>
+<div title="StatusDefinitions" modifier="PhilHawksworth" created="200708161721" modified="200710221413" tags="TaskDefinitions">
+<pre>Pending
+InProgress
+OnHold
+Complete</pre>
+</div>
+<div title="TTMigrateTasks0304Plugin" modifier="PhilHawksworth" created="200803110000" tags="systemConfig">
 <pre>/***
-|''Name:''|ValueSwitcherPlugin|
-|''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
-|''Version:''|0.2|
-|''Date:''|25 Sept, 2007|
-|''Source:''|http://www.hawksworx.com/playground/TeamTasks/#ValueTogglerPlugin|
-|''Author:''|PhilHawksworth (phawksworth (at) gmail (dot) com)|
-|''License:''|[[BSD open source license]]|
-|''CoreVersion:''|2.3|
+|''Name:''|TTMigrateTasks0304Plugin|
+|''Description:''|Migrate task tiddler from TeamTasks v0.3 to TeamTasks v0.4 format|
+|''Author:''|PhilHawksworth|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/Verticals/TeamTasks/teamtasks/plugins/TTMigrateTasks0304Plugin.js |
+|''Version:''|0.1|
+|''Date:''|Mar 13, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3|
+
+''About this tool''
+The migration tool is designed to be run once in order to update the metadata on older TeamTasks task tiddler.
+
+After running the migration tool, the TiddlyWiki document should be saved in order to retain the modified tiddlers.
+
+After going through this process, this migration tool need not be used again and the call to the macro should then be removed.
+
+''Usage:''
+Migrate all v0.3 tasks to the v0.4 format
+{{{
+&lt;&lt;TTMigrateTasks0304&gt;&gt;
+}}}
+
 ***/
 
 //{{{
-// Ensure that this Plugin is only installed once.
-if(!version.extensions.ValueSwitcher) 
-{
-	version.extensions.ValueSwitcher = {installed:true};
-	config.macros.ValueSwitcher = {
+if(!version.extensions.TTMigrateTasks0304Plugin) {
+version.extensions.TTMigrateTasks0304Plugin = {installed:true};
+	
+	config.macros.TTMigrateTasks0304 = {};
+	config.macros.TTMigrateTasks0304.converted = 0;
+	config.macros.TTMigrateTasks0304.problemTiddlers = 0;
+	config.macros.TTMigrateTasks0304.place;
+	config.macros.TTMigrateTasks0304.targetMetaVersion = 0.4;
+	
 
-		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+	config.macros.TTMigrateTasks0304.log = function(str) {
+		createTiddlyElement(config.macros.TTMigrateTasks0304.place,&quot;div&quot;,null,null,str);
+	};
 
-			var fieldPrefix = &quot;tt_&quot;;
-			var taskTiddler = story.findContainingTiddler(place);
-			if(!(taskTiddler &amp;&amp; taskTiddler != 'undefined')) {
-				return;
+
+	config.macros.TTMigrateTasks0304.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+
+		config.macros.TTMigrateTasks0304.place = place;
+		config.macros.TTMigrateTasks0304.log(&quot;Converting tasks tiddlers...&quot;);		
+
+		var taskTiddlers = store.getTaggedTiddlers(&quot;task&quot;);					
+		for(var t=0; t&lt;taskTiddlers.length; t++) {
+
+			// Find the extended fields to convert.
+			store.forEachField(taskTiddlers[t], config.macros.TTMigrateTasks0304.convert, true);
+
+			// Test the result for quality assurance.
+			var tt_meta_version = store.getValue(taskTiddlers[t],&quot;tt_tasks_metadata_format_version&quot;);
+			if(tt_meta_version == config.macros.TTMigrateTasks0304.targetMetaVersion) {
+				config.macros.TTMigrateTasks0304.log(&quot;Converted to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format: &quot; + taskTiddlers[t].title);
+				config.macros.TTMigrateTasks0304.converted++;
 			}
-			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
-			var ctrlType = getParam(params,&quot;type&quot;,null);
-			var id = taskTiddler.id;
-			var title = id.substr(7);
-			var tiddler = store.getTiddler(title);
-
-			// build a drop down control
-			if(ctrlType == 'dropdown') {
-				var valueSrc = getParam(params,&quot;valuesSource&quot;, null);
-				if(!valueSrc) {
-					displayMessage(&quot;No definition tiddler defined for a TeamTasks dropdown.&quot;);
-					return;
-				}
-				var fieldName = fieldPrefix + valueSrc.toLowerCase().substr(0,valueSrc.length-11);
-				var selected = fieldName + '::' + store.getValue(tiddler,fieldName);
-				var values = this.getDefValues(valueSrc);
-				var options = [];
-				options.push({'caption': 'Please select', 'name': null});
-				for (var i=0; i &lt; values.length; i++) {
-					options.push({'caption': values[i], 'name': fieldName + '::' + values[i]});				
-				}
-				createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
+			else {
+				config.macros.TTMigrateTasks0304.log(&quot;... Error. There was a problem converting &quot; + taskTiddlers[t].title + &quot; to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format.&quot;);
+				config.macros.TTMigrateTasks0304.problemTiddlers++;
 			}
-			// Build a free text box.
-			else if(ctrlType == 'freetext') {
-				var metaDataName = getParam(params,&quot;metaDataName&quot;, null);
-				if(!metaDataName) {
-					displayMessage(&quot;No metaDataName defined for a TeamTasks free text box.&quot;);
-					return;
-				}	
-				var fieldName = fieldPrefix + metaDataName.toLowerCase();
-				var text = store.getValue(tiddler,fieldName);
-				if(text == undefined) text = &quot;&quot;;	
-				var i = createTiddlyElement(place,&quot;input&quot;,null,null,null,{&quot;value&quot;:text, &quot;type&quot;:&quot;input&quot;, &quot;ttname&quot;:fieldName});
-				i.onblur = config.macros.ValueSwitcher.changeFreetext;
-			}
+		}
 
-			/*
-				TODO: Build in deadline support
-			*/
-		},
+		// Brag about the success / apologise for the failure.
+		config.macros.TTMigrateTasks0304.log(config.macros.TTMigrateTasks0304.converted + &quot; task tiddlers successfully converted to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format.&quot;);	
+		if(config.macros.TTMigrateTasks0304.problemTiddlers != 0) {
+			config.macros.TTMigrateTasks0304.log(&quot;Uh-oh! We had a poblem converting &quot; + config.macros.TTMigrateTasks0304.problemTiddlers + &quot; naughty tiddlers.&quot;);
+		}
+		else
+			config.macros.TTMigrateTasks0304.log(&quot;No problems. Everything is tickertyboo.&quot;);
+	};
 
 
-		//Get definition values for populating UI from definition tiddlers.
-		getDefValues: function(src) {
-			var text = store.getTiddlerText(src).split('\n');
-			var output = [];
-			for(var t=0; t&lt;text.length; t++) {
-				//support calling the old TaskViewBuilder macro to list the tasks here too.
-				var blob = wikifyStatic(text[t],null,tiddler,null);				
-				var linktitle = /tiddlylink=&quot;[^&quot;]*&quot;/mg;
-				var titles = blob.match(linktitle);
-				if(titles) {
-					for(var n=0; n&lt;titles.length; n++) {
-						output.push(titles[n].replace(/tiddlylink=&quot;([^&quot;]*)&quot;/,'$1'));
-					}
-				}
-				else {
-					output.push(text[t]);
-				}
-			}
-			return (output);	
-		},
-
-
-		// Ensure that changes to a dropdown field are stored as an extended field.
-		setDropDownMetaData: function(ev) {
-			var e = ev ? ev : window.event;
-			var taskTiddler = story.findContainingTiddler(this);
-			if(taskTiddler &amp;&amp; taskTiddler != undefined) {
-				var title = taskTiddler.getAttribute('tiddler');
-				var tiddler =  store.getTiddler(title);
-				var option = this[this.selectedIndex].value.split('::');
-				var extField = option[0];
-				var extFieldVal = option[1];
-				store.setValue(tiddler,extField,extFieldVal);
-				story.saveTiddler(title);
-			}
-		},
-
-
-		// Ensure that changes to a free text field are stored as an extended field.
-		changeFreetext: function(ev) {
-			var e = ev ? ev : window.event;
-			var ttField = this.getAttribute('ttname');
-			var value = this.value;
-			if(ttField) {
-				var t = story.findContainingTiddler(this);
-				var title = t.getAttribute('tiddler');
-				var tiddler =  store.getTiddler(title);
-				store.setValue(tiddler,ttField,value);
-				story.saveTiddler(tiddler);
-			}
-			return false;
+	config.macros.TTMigrateTasks0304.convert = function(tiddler,fieldName,value){
+		// Convert the task metadatafields from the form 'fielddefinitions' to 'tt_field'
+		// and add a &quot;tt_tasks_metadata_format_version&quot; field for easier future migrations.
+		if(fieldName.substring(fieldName.length-11) == 'definitions'){
+		 	var newFieldName = &quot;tt_&quot; + fieldName.substring(0, fieldName.length-11);
+			store.setValue(tiddler,newFieldName,value);
+			store.setValue(tiddler,fieldName,null);
+			store.setValue(tiddler,&quot;tt_tasks_metadata_format_version&quot;,config.macros.TTMigrateTasks0304.targetMetaVersion);
 		}
 	};
-}
+
+} //# end of 'install only once'
 //}}}</pre>
 </div>
 <div title="TTReportViewPlugin" modifier="PhilHawksworth" created="200803110000" tags="systemConfig">
@@ -1177,155 +1184,6 @@ version.extensions.TTReportViewPlugin = {installed:true};
 } //# end of 'install only once'
 //}}}</pre>
 </div>
-<div title="TTMigrateTasks0304Plugin" modifier="PhilHawksworth" created="200803110000" tags="systemConfig">
-<pre>/***
-|''Name:''|TTMigrateTasks0304Plugin|
-|''Description:''|Migrate task tiddler from TeamTasks v0.3 to TeamTasks v0.4 format|
-|''Author:''|PhilHawksworth|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/Verticals/TeamTasks/teamtasks/plugins/TTMigrateTasks0304Plugin.js |
-|''Version:''|0.1|
-|''Date:''|Mar 13, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
-|''~CoreVersion:''|2.3|
-
-''About this tool''
-The migration tool is designed to be run once in order to update the metadata on older TeamTasks task tiddler.
-
-After running the migration tool, the TiddlyWiki document should be saved in order to retain the modified tiddlers.
-
-After going through this process, this migration tool need not be used again and the call to the macro should then be removed.
-
-''Usage:''
-Migrate all v0.3 tasks to the v0.4 format
-{{{
-&lt;&lt;TTMigrateTasks0304&gt;&gt;
-}}}
-
-***/
-
-//{{{
-if(!version.extensions.TTMigrateTasks0304Plugin) {
-version.extensions.TTMigrateTasks0304Plugin = {installed:true};
-	
-	config.macros.TTMigrateTasks0304 = {};
-	config.macros.TTMigrateTasks0304.converted = 0;
-	config.macros.TTMigrateTasks0304.problemTiddlers = 0;
-	config.macros.TTMigrateTasks0304.place;
-	config.macros.TTMigrateTasks0304.targetMetaVersion = 0.4;
-	
-
-	config.macros.TTMigrateTasks0304.log = function(str) {
-		createTiddlyElement(config.macros.TTMigrateTasks0304.place,&quot;div&quot;,null,null,str);
-	};
-
-
-	config.macros.TTMigrateTasks0304.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
-		config.macros.TTMigrateTasks0304.place = place;
-		config.macros.TTMigrateTasks0304.log(&quot;Converting tasks tiddlers...&quot;);		
-
-		var taskTiddlers = store.getTaggedTiddlers(&quot;task&quot;);					
-		for(var t=0; t&lt;taskTiddlers.length; t++) {
-
-			// Find the extended fields to convert.
-			store.forEachField(taskTiddlers[t], config.macros.TTMigrateTasks0304.convert, true);
-
-			// Test the result for quality assurance.
-			var tt_meta_version = store.getValue(taskTiddlers[t],&quot;tt_tasks_metadata_format_version&quot;);
-			if(tt_meta_version == config.macros.TTMigrateTasks0304.targetMetaVersion) {
-				config.macros.TTMigrateTasks0304.log(&quot;Converted to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format: &quot; + taskTiddlers[t].title);
-				config.macros.TTMigrateTasks0304.converted++;
-			}
-			else {
-				config.macros.TTMigrateTasks0304.log(&quot;... Error. There was a problem converting &quot; + taskTiddlers[t].title + &quot; to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format.&quot;);
-				config.macros.TTMigrateTasks0304.problemTiddlers++;
-			}
-		}
-
-		// Brag about the success / apologise for the failure.
-		config.macros.TTMigrateTasks0304.log(config.macros.TTMigrateTasks0304.converted + &quot; task tiddlers successfully converted to TeamTask v&quot;+ config.macros.TTMigrateTasks0304.targetMetaVersion +&quot; task format.&quot;);	
-		if(config.macros.TTMigrateTasks0304.problemTiddlers != 0) {
-			config.macros.TTMigrateTasks0304.log(&quot;Uh-oh! We had a poblem converting &quot; + config.macros.TTMigrateTasks0304.problemTiddlers + &quot; naughty tiddlers.&quot;);
-		}
-		else
-			config.macros.TTMigrateTasks0304.log(&quot;No problems. Everything is tickertyboo.&quot;);
-	};
-
-
-	config.macros.TTMigrateTasks0304.convert = function(tiddler,fieldName,value){
-		// Convert the task metadatafields from the form 'fielddefinitions' to 'tt_field'
-		// and add a &quot;tt_tasks_metadata_format_version&quot; field for easier future migrations.
-		if(fieldName.substring(fieldName.length-11) == 'definitions'){
-		 	var newFieldName = &quot;tt_&quot; + fieldName.substring(0, fieldName.length-11);
-			store.setValue(tiddler,newFieldName,value);
-			store.setValue(tiddler,fieldName,null);
-			store.setValue(tiddler,&quot;tt_tasks_metadata_format_version&quot;,config.macros.TTMigrateTasks0304.targetMetaVersion);
-		}
-	};
-
-} //# end of 'install only once'
-//}}}</pre>
-</div>
-<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200808290824" tags="systemConfig BookmarkPackage MediaPackage TaskPackage IFramePackage DiscussionPackage">
-<pre>/***
-|Name|TaggedTemplateTweak|
-|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
-|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
-|Version|1.4.1|
-|Author|Eric Shulman - ELS Design Studios|
-|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
-|~CoreVersion|2.1|
-|Type|plugin|
-|Requires||
-|Overrides|Story.prototype.chooseTemplateForTiddler()|
-|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
-This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
-!!!!!Documentation
-&gt;see [[TaggedTemplateTweakInfo]]
-!!!!!Revisions
-&lt;&lt;&lt;
-2008.08.29 [1.4.1] corrected handling for tiddlers with no matching tagged template when non-default theme is in effect (e.g., use &quot;MyTheme##ViewTemplate&quot;).
-| please see [[TaggedTemplateTweakInfo]] for previous revision details |
-2007.06.11 [1.0.0] initial release
-&lt;&lt;&lt;
-!!!!!Code
-***/
-//{{{
-version.extensions.TaggedTemplateTweak= {major: 1, minor: 4, revision: 1, date: new Date(2008,8,29)};
-
-Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
-Story.prototype.chooseTemplateForTiddler = function(title,template)
-{
-	// get default template from core
-	var coreTemplate=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
-
-	// if the tiddler doesn't exist yet or is untagged, return core result
-	var tiddler=store.getTiddler(title);
-	if (!tiddler || !tiddler.tags.length)
-		return coreTemplate;
-
-	// split core template into theme prefix and template name
-	var theme=&quot;&quot;;
-	var template=coreTemplate;
-	var parts=template.split(config.textPrimitives.sectionSeparator);
-	if (parts[1]) { theme=parts[0]; template=parts[1]; }
-	else theme=config.options.txtTheme||&quot;&quot;; // fallback if theme is not specified
-	theme+=config.textPrimitives.sectionSeparator;
-
-	// look for template whose prefix matches a tag on this tiddler (if any)
-	for (i=0; i&lt;tiddler.tags.length; i++) {
-		var t=tiddler.tags[i]+template; // add tag prefix to template
-		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
-		if (store.getTiddlerText(theme+t))	{ return theme+t; } // theme##tagTemplate
-		if (store.getTiddlerText(theme+c))	{ return theme+c; } // theme##TagTemplate
-		if (store.getTiddlerText(t)) 		{ return t; }	     // tagTemplate
-		if (store.getTiddlerText(c))		{ return c; }	     // TagTemplate
-	}
-	return coreTemplate; // no matching tag, return core result
-}
-//}}}</pre>
-</div>
 <div title="TableSortingPlugin" modifier="SaqImtiaz" created="200806181748" modified="200804011417" tags="systemConfig">
 <pre>/***
 |''Name:''|TableSortingPlugin|
@@ -1359,9 +1217,9 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 |Bloggs, Fred |$12000.00 |1353 |01.20 |6.156Mb |08/17/2003 05:43 |
 |Turvey, Kevin |$191200.00 |2342 |-33 |1b |02/05/1979 |
 |Mbogo, Arnold |$32010.12 |2755 |-21.673 |1.2Gb |09/08/1998 |
-|Shakespeare, Bill |£122000.00|3211 |6 |33.22Gb |12/11/1961 |
-|Shakespeare, Hamlet |£9000 |9005 |-8 |3Gb |01/01/2002 |
-|Fitz, Marvin |€3300.30 |5554 |+5 |4Kb |05/22/1995 |
+|Shakespeare, Bill |ï¿½122000.00|3211 |6 |33.22Gb |12/11/1961 |
+|Shakespeare, Hamlet |ï¿½9000 |9005 |-8 |3Gb |01/01/2002 |
+|Fitz, Marvin |ï¿½3300.30 |5554 |+5 |4Kb |05/22/1995 |
 
 ***/
 // /%
@@ -1396,7 +1254,7 @@ config.tableSorting = {
 		c.fn = c.sortAlpha; 
 		if(!isNaN(Date.parse(itm)))
 			c.fn = c.sortDate; 
-		else if(itm.match(/^[$|£|€|\+|\-]{0,1}\d*\.{0,1}\d+$/)) 
+		else if(itm.match(/^[$|ï¿½|ï¿½|\+|\-]{0,1}\d*\.{0,1}\d+$/)) 
 			c.fn = c.sortNumber; 
 		else if(itm.match(/^\d*\.{0,1}\d+[K|M|G]{0,1}b$/)) 
 			c.fn = c.sortFile; 
@@ -1521,288 +1379,90 @@ config.macros.autosort={
 //!END-PLUGIN-CODE
 // %/</pre>
 </div>
-<div title="SiteTitle" modifier="PhilHawksworth" created="200708161546" modified="200709241632">
-<pre>//''team''tasks//</pre>
-</div>
-<div title="SiteSubtitle" modifier="PhilHawksworth" created="200708161547" modified="200710241355">
-<pre>a simple extensible task management tool</pre>
-</div>
-<div title="DefaultTiddlers" modifier="PhilHawksworth" created="200709241640" modified="200710231249">
-<pre>
-	[[Getting Started with TeamTasks]]</pre>
-</div>
-<div title="TopMenu" modifier="PhilHawksworth" created="200803280000" changecount="1">
-<pre>&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newTiddler title:&quot;New Task&quot; label:&quot;new task&quot; tag:&quot;task&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;</pre>
-</div>
-<div title="MainMenu" modifier="PhilHawksworth" created="200708051914">
-<pre>
-{{search{&lt;&lt;search&gt;&gt;}}}
-[[Listings]]
-[[Getting Started with TeamTasks]]
-[[Release Notes]]
-[[Migrating to the latest version]]
-&lt;&lt;slider chkSliderOptionsPanel UserDefinitions 'Users Â»' 'A list of users'&gt;&gt;
-&lt;&lt;slider chkSliderOptionsPanel TaskViews 'Task views Â»' 'A selection of task views'&gt;&gt;
-&lt;&lt;slider chkSliderOptionsPanel Customise 'Customise Â»' 'Edit and fiddle and poke to create a system that works best for you'&gt;&gt;
-[[about|About TeamTasks]]
-[[download|index.html]]
-{{meta{
-	&lt;&lt;tiddler TeamTasksMetaData&gt;&gt;
-}}}</pre>
-</div>
-<div title="Listings" modifier="PhilHawksworth" created="200805081121">
-<pre>&lt;&lt;tabs txtMainTab &quot;Timeline&quot; &quot;Timeline&quot; TabTimeline &quot;A - Z&quot; &quot;All tiddlers in alphabetical order&quot; TabAll &quot;Tags&quot; &quot;All tags&quot; TabTags &quot;Missing&quot; &quot;Missing tiddlers&quot; TabMoreMissing &quot;Shadowed&quot; &quot;Shadowed tiddlers&quot; TabMoreShadowed&gt;&gt;</pre>
-</div>
-<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200709131152">
-<pre>
-|scope |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;ScopeDefinitions&quot;&gt;&gt; |
-|priority |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;PriorityDefinitions&quot;&gt;&gt; |
-|assigned to |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;UserDefinitions&quot;&gt;&gt; |
-|status |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;StatusDefinitions&quot;&gt;&gt; |</pre>
-</div>
-<div title="TeamTasksMetaData" modifier="PhilHawksworth" created="200804019000" tags="TeamTasks help">
-<pre>
-[[Get your own copy of TeamTasks at getteamtasks.com|http://getteamtasks.com]]
-[[TeamTasks is a vertical edition of TiddlyWiki|TiddlyWiki]]
-[[TeamTasks is opensource software distributed under the BSD license|License]]
-[[TeamTasks version 0.4|Release Notes]]</pre>
+<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200901061019" tags="systemConfig BookmarkPackage MediaPackage TaskPackage IFramePackage DiscussionPackage">
+<pre>/***
+|Name|TaggedTemplateTweak|
+|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
+|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
+|Version|1.5.1|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides|Story.prototype.chooseTemplateForTiddler()|
+|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
+This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
+!!!!!Documentation
+&gt;see [[TaggedTemplateTweakInfo]]
+!!!!!Revisions
+&lt;&lt;&lt;
+2009.01.06 [1.5.1] reversed logic so that title-as-prefix takes precedence over tag-matched prefix
+2008.12.18 [1.5.0] added handling for using tiddler //title// as prefix (e.g., {{{SomeTiddlerViewTemplate}}}) 
+| please see [[TaggedTemplateTweakInfo]] for previous revision details |
+2007.06.11 [1.0.0] initial release
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.TaggedTemplateTweak= {major: 1, minor: 5, revision: 1, date: new Date(2009,1,6)};
+
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.chooseTemplateForTiddler = function(title,template)
+{
+	// get default template from core
+	var coreTemplate=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+
+	// if the tiddler doesn't exist yet, return core result
+	var tiddler=store.getTiddler(title); if (!tiddler) return coreTemplate;
+
+	// split core template into theme prefix and template name
+	var theme=&quot;&quot;;
+	var template=coreTemplate;
+	var parts=template.split(config.textPrimitives.sectionSeparator);
+	if (parts[1]) { theme=parts[0]; template=parts[1]; }
+	else theme=config.options.txtTheme||&quot;&quot;; // fallback if theme is not specified
+	theme+=config.textPrimitives.sectionSeparator;
+
+	// look for template whose prefix matches the *title* of this tiddler
+	if (!store.getTaggedTiddlers(title).length) { // if tiddler is not a tag
+		if (store.getTiddlerText(theme+title+template)) { return theme+title+template; } // theme##TitleTemplate
+		if (store.getTiddlerText(title+template)) 	{ return title+template; }	 // TitleTemplate
+	}
+
+	// look for template whose prefix matches a *tag* on this tiddler (if any)
+	for (i=0; i&lt;tiddler.tags.length; i++) {
+		var t=tiddler.tags[i]+template; // add tag prefix to template
+		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
+		if (store.getTiddlerText(theme+t))	{ return theme+t; } // theme##tagTemplate
+		if (store.getTiddlerText(theme+c))	{ return theme+c; } // theme##TagTemplate
+		if (store.getTiddlerText(t)) 		{ return t; }	    // tagTemplate
+		if (store.getTiddlerText(c))		{ return c; }	    // TagTemplate
+	}
+
+	// no matching tag OR title prefix... return core result
+	return coreTemplate;
+}
+//}}}</pre>
 </div>
 <div title="TaskDefinitions" modifier="PhilHawksworth" created="200709241547">
-<pre>
-ScopeDefinitions
+<pre>ScopeDefinitions
 UserDefinitions
 PriorityDefinitions
 StatusDefinitions</pre>
+</div>
+<div title="TaskTiddlerControls" modifier="PhilHawksworth" created="200709111402" modified="200709131152">
+<pre>|scope |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;ScopeDefinitions&quot;&gt;&gt; |
+|priority |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;PriorityDefinitions&quot;&gt;&gt; |
+|assigned to |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;UserDefinitions&quot;&gt;&gt; |
+|status |&lt;&lt;ValueSwitcher type:&quot;dropdown&quot; valuesSource:&quot;StatusDefinitions&quot;&gt;&gt; |
+|alias |&lt;&lt;ValueSwitcher type:&quot;freetext&quot; metaDataName:&quot;alias&quot;&gt;&gt; |</pre>
 </div>
 <div title="TaskViews" modifier="PhilHawksworth" created="200709241546" modified="200805081143">
-<pre>
-DefaultReportView
+<pre>DefaultReportView
 [[(create your own task view)|CreatingTaskReportViews]]</pre>
 </div>
-<div title="ToolbarCommands" modifier="PhilHawksworth" created="200810061445">
-<pre>
-|~ViewToolbar|closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump|
-|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
-|~TaskViewToolbar|closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump|
-|~TaskEditToolbar|+saveTiddler -cancelTiddler deleteTiddler|</pre>
-</div>
-<div title="AnneOther" modifier="PhilHawksworth" created="200710290946" changecount="1">
-<pre>&lt;html&gt;
-&lt;div class='vcard'&gt;
-&lt;a class='url fn n' href='undefined'&gt;&lt;span class='given-name'&gt;Anne&lt;/span&gt;&lt;span class='family-name'&gt;Other&lt;/span&gt;&lt;/a&gt;
-&lt;div class='email'&gt;&lt;span&gt;&lt;a href='mailto:anneother@nowhere.com'&gt;anneother@nowhere.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;/div&gt;&lt;/html&gt;</pre>
-</div>
-<div title="About TeamTasks" modifier="PhilHawksworth" created="200709171222" modified="200710241354" tags="help" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200709181250" server.type="file" changecount="27">
-<pre>A quick start guide is provided in the [[Getting Started with TeamTasks]] tiddler.
-
-This application has been built using TiddlyWiki and requires several plugins to function.  For an up-to-date list of the plugins used, and other building blocks required to build TeamTasks, take a look at the [[Release Notes]].
-
-TeamTasks also require some definitions, which you can modify and add to as required:
-UserDefinitions
-PriorityDefinitions
-ScopeDefinitions
-StatusDefinitions</pre>
-</div>
-<div title="CreatingTaskReportViews" modifier="PhilHawksworth" created="200710221513" changecount="1">
-<pre>You can create your own custom views of the tasks using the ~TeamTask Report View Plugin (TTReportViewPlugin).
-
-
-The general form for calling the plugin is like this:
-{{{
-&lt;&lt;TTReportView&gt;&gt;
-}}}
-
-
-You can also specify which fields to display in your report like this:
-{{{
-&lt;&lt;TTReportView DisplayFields:&quot;fieldName,fieldName,fieldName&quot;&gt;&gt;
-}}}
-for example:
-{{{
-&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot;&gt;&gt;
-}}}
-
-
-In addition, you can choose to order your results by a given field like this:
-{{{
-&lt;&lt;TTReportView OrderBy:&quot;fieldName,[asc|desc]&quot;&gt;&gt;
-}}}
-for example:
-{{{
-&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot; OrderBy:&quot;Status,asc&quot;&gt;&gt;
-}}}
-
-
-You can also specify field values to include and exclude tasks and create filtered reports:
-{{{
-&lt;&lt;TTReportView FieldName:&quot;value&quot;&gt;&gt;
-}}}
-{{{
-&lt;&lt;TTReportView FieldName:&quot;!value&quot;&gt;&gt;
-}}}
-
-for example:
-{{{
-&lt;&lt;TTReportView DisplayFields:&quot;Title,Priority,Status&quot; OrderBy:&quot;Status,asc&quot; Priority:&quot;high&quot; Status:&quot;!closed&quot;&gt;&gt;
-}}}</pre>
-</div>
-<div title="CreatingTasks" modifier="PhilHawksworth" created="200710221506" modified="200710241431">
-<pre>Creating a task is easy. Any tiddler that you tag with the word 'task' will become a task tiddler. When you exit edit mode of a task tiddler, you will see that it is presented as a task and has controls on it to allow you to set some of your [[pre-defined|TaskDefinitions]] values on it.
-
-Alternatively, you can create a new task by clicking the &lt;&lt;newTiddler label:'new task' title:NewTask tag:task text:'Type some text and then press DONE to view the task controls'&gt;&gt; button in the control bar towards the top of the screen.</pre>
-</div>
-<div title="Customise" modifier="PhilHawksworth" created="200709241547">
-<pre>[[Modify the task control fields|TaskTiddlerControls]][[ScopeDefinitions]][[UserDefinitions]][[PriorityDefinitions]][[StatusDefinitions]][[Modify this menu|MainMenu]][[Options|OptionsPanel]]</pre>
-</div>
-<div title="DefineUsers" modifier="PhilHawksworth" created="200710221403" modified="200710241215" tags="help" changecount="9">
-<pre>In TeamTasks, you can assign tasks to users. If you are using TeamTasks individually and don't need to have different users set up, you can easily remove this functionality to make things appear even simpler in the user interface.
-
-Defining a user is really simple. All you need to do is add user's names to the UserDefinitions tiddler.  Each name should occupy a single line in the tiddler.  All of the names in the UserDefinitions tiddler will be available for you to assign a task to.</pre>
-</div>
-<div title="DefineScopes" modifier="PhilHawksworth" created="200710221448" modified="200710221449" tags="help">
-<pre>To make it easy to organise tasks by the appropriate projects, products or whatever sensible unit best fits your needs, you can define a set of 'Scopes' in the ScopeDefinitions tiddler. This works in the same way as [[defining users|DefineUsers]].</pre>
-</div>
-<div title="Getting Started with TeamTasks" modifier="PhilHawksworth" created="200710231248" modified="200710241425" tags="help" changecount="7">
-<pre>TeamTasks is intended to support you in managing your task lists.  It can be heavily customised to be used in many different ways, but I am presuming that most users will want to do the following to get up and running quickly:
-*[[Define some users|DefineUsers]]
-*[[Define some projects or tasks|DefineScopes]]
-*[[Start creating Tasks|CreatingTasks]]
-*[[Build some task views|CreatingTaskReportViews]]
-and then may wish to make further customisations by editing the [[TaskDefinition|TaskDefinitions]] tiddlers
-
-[[More information|About TeamTasks]] about what components go into TeamTasks. </pre>
-</div>
-<div title="Migrating to the latest version" modifier="PhilHawksworth" created="200803061053" modified="200803061054" tags="help" changecount="7">
-<pre>
-Since TeamTasks is built using TiddlyWiki, it contains all of the application logic, the styling, the content, and all of your tasks in a single file. This means that upgrading your instance of TeamTasks might seem like a fiddly task. Don't panic. It's simple when you know how!
-	
-!Downloading an empty copy of the latest ~TeamTasks version and then importing your tasks and views.
-The process of upgrading a TiddlyWiki is well documented at [[www.tiddlywiki.com/#HowToUpgrade|http://www.tiddlywiki.com/#HowToUpgrade]]. Refer to that documentation to help you upgrade, but rather then downloading a fresh version of Tiddlywiki as your starting point, you should download a fresh version of TeamTasks by right-clicking on [[this link|http://www.hawksworx.com/playground/TeamTasks/index.html]], selecting 'Save target' or 'Save link' and saving it in a convenient location. You can then import your tasks into that file.
-	
-!Perhaps you would prefer to import the updated and new plugins into your existing ~TeamTasks file.
-If this is the case, you should refer to the [[HowToUpgrade|www.tiddlywiki.com/#HowToUpgrade]] documentation as above, but rather than importing your tasks and views into a fresh teamTasks file, you should import into your exisiting TeamTasks file. You will need to import the following tiddlers from http://www.hawksworx.com/playground/TeamTasks in order to upgrade to version 0.4 of TeamTasks:
-*[[FullScreenPlugin|http://www.hawksworx.com/playground/TeamTasks/#FullScreenPlugin]]
-*[[NewUserWizardPlugin|http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin]]
-*[[TableSortingPlugin|http://www.hawksworx.com/playground/TeamTasks/#TableSortingPlugin]]
-*[[TaggedTemplateTweak|http://www.hawksworx.com/playground/TeamTasks/#TaggedTemplateTweak]]
-*[[TTReportViewPlugin|http://www.hawksworx.com/playground/TeamTasks/#TTReportViewPlugin]]
-*[[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]]
-*[[ValueSwitcherPlugin|http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin]]
-
-!Incompatible task tiddlers.
-Version 0.4 employs a slightly different format for storing information on the task tiddlers to previous versions. A macro to upgrade all of your task tiddlers to adopt this new format is available in this plugin: [[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]]
-
-!!!Using the macro.
-Using the macro is simple. 
-#Import the [[TTMigrateTasks0304Plugin|http://www.hawksworx.com/playground/TeamTasks/#TTMigrateTasks0304Plugin]] as described above.
-#Save your file and reload it to make sure that the macro is available to run.
-#Create a new tiddler in your document and edit it to include a call to the migration macro like this {{{&lt;&lt;TTMigrateTasks0304&gt;&gt;}}}
-#Click {{{done}}} to finish editing your new tiddler. The macro will run, converting all of your existing tasks to the latest version.
-#Save your TeamTasks document in the usual way.
-#Reload and if you wish, delete the TTMigrateTasks0304Plugin tiddler and the new tiddler you created to run the macro - you won't need them again.
-	
-	</pre>
-</div>
-<div title="PhilHawksworth" modifier="PhilHawksworth" created="200710290942" modified="200711091615" changecount="4">
-<pre>&lt;html&gt;
-&lt;div class=&quot;vcard&quot;&gt;
-&lt;a class=&quot;url fn n&quot; href=&quot;&quot;&gt;&lt;span class=&quot;given-name&quot;&gt;Phil&lt;/span&gt;&lt;span class=&quot;family-name&quot;&gt;Hawksworth&lt;/span&gt;&lt;/a&gt;
-&lt;div class=&quot;org&quot;&gt;&lt;span class=&quot;organization-name&quot;&gt;Osmosoft&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span&gt;&lt;a href=&quot;http://www.hawksworx.com&quot;&gt;www.hawksworx.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class=&quot;email&quot;&gt;&lt;span&gt;&lt;a href=&quot;mailto:ph@osmosoft.com&quot;&gt;ph@osmosoft.com&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class=&quot;photos&quot;&gt;&lt;span&gt;&lt;a href=&quot;http://flickr/photos/philhawksworth&quot;&gt;flickr/photos/philhawksworth&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div class=&quot;twitter&quot;&gt;&lt;span&gt;&lt;a href=&quot;http://twitter.com/philhawksworth&quot;&gt;twitter.com/philhawksworth&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;/div&gt;&lt;/html&gt;</pre>
-</div>
-<div title="Release Notes" modifier="PhilHawksworth" created="200710241224" modified="200710241439" tags="help" changecount="23">
-<pre>!Version 0.4
-!!!Comments
-*The macro for producing task list views has been replaced with the TTReportViewPlugin which uses named prameters and outputs sortable table views of your data.
-*Task metadata is now stored on the task tiddlers in a much more friendly way. All TeamTasks fields on a tiddler are of the form {{{tt_fieldName='value'}}}
-*For those wishing to upgrade their previous tasks to make use of the new structure, there is a [[Task Migration Tool|TTMigrateTasks0304Plugin]] to ease the pain.
-*There is now [[documentation to assist in upgrading TeamTasks|Migrating to the latest version]]
-*Task Reports now refresh automatically as Tasks are updated.
-*The new theme is defined by just two tiddlers: TeamTasksSkin and TeamTasksColors
-!!!Comprehensive Plugin List
-|TableSortingPlugin |by SaqImtiaz |http://tw.lewcid.org/#TableSortingPlugin |
-|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|TTReportViewPlugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#TTReportViewPlugin |
-|TTMigrateTasks0304Plugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#TTMigrateTasks0304Plugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.getteamtasks.com/teamtasks.html#ValueSwitcherPlugin |
-
-!Version 0.3
-!!!Comments
-*Lots more documentation and help is evolving
-*Introduction of UserSetupWizard which speeds up the setting up of users and automates some associated tasks.
-!!!Plugins
-|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
-|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
-|NewUserWizardPlugin|by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#NewUserWizardPlugin |
-!!Tiddlers providing UI styling
-PageTemplate
-StyleSheet
-ColorPalette
-ViewTemplate
-TaskViewTemplate
-!!Tiddlers providing other functionality
-ControlsContainer
-[[Listings]]
-TaskTiddlerControls
-SampleTaskListTemplate
-UserDetailsTemplate
-UserSetupWizard
-!!Tiddlers providing documentation
-[[About TeamTasks]]
-CreatingTaskListViews
-CreatingTasks
-DefineScopes
-DefineUsers
-[[Getting Started with TeamTasks]]
-[[Release Notes]]
-TaskListView
-TeamTasks
-!Version 0.2
-!!!Comments
-*Task visualisation improved
-*TaskViewBuilderPlugin syntax employs {{{ = }}} rather than {{{ _ }}}
-!!!Plugins
-|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
-|TaggedTemplateTweak |by EricShulman |http://www.TiddlyTools.com/#TaggedTemplateTweak |
-|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
-!!Tiddlers providing UI styling
-PageTemplate
-StyleSheet
-ColorPalette
-ViewTemplate
-TaskViewTemplate
-!!Tiddlers providing other functionality
-ControlsContainer
-[[Listings]]
-TaskTiddlerControls
-
-!Version 0.1
-!!!Comments
-*Basic UI structure established
-*Task generation using tagging mechanism
-*Basic task list views.
-!!!Plugins
-|FullScreenPlugin |by SaqImtiaz |http://tw.lewcid.org/#FullScreenPlugin |
-|TaskViewBuilderPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#TaskViewBuilderPlugin |
-|ValueSwitcherPlugin |by PhilHawksworth |http://www.hawksworx.com/playground/TeamTasks/#ValueSwitcherPlugin |
-!!Tiddlers providing UI styling
-PageTemplate
-StyleSheet
-ColorPalette
-ViewTemplate
-!!Tiddlers providing other functionality
-ControlsContainer
-[[Listings]]</pre>
-</div>
-<div title="TeamTasks" modifier="PhilHawksworth" created="200710221151" changecount="2">
+<div title="TeamTasks" modifier="PhilHawksworth" created="200710221151">
 <pre>The TeamTasks TiddlyWiki is an edition of TiddlyWiki which has been modified by including various plugins to provide a simple task management system.
 
 It is flexible and extensible and can be heavily customised for your needs. For more information about how TeamTasks has been constructed take a look at the [[about|About TeamTasks]] section.
@@ -1811,50 +1471,8 @@ Visit the main TeamTasks site at [[www.hawksworx.com/playground/TeamTasks|http:/
 
 Comments and suggestions are very welcome and should be directed to ph [at] osmosoft.com</pre>
 </div>
-<div title="TiddlyWiki" modifier="PhilWhitehouse" created="200708171616" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200708171616" server.type="file">
-<pre>TiddlyWiki is a website on a stick! In one single HTML file, TiddlyWiki gives you the ability to publish and organize information in a whole manner of different ways. If you can't do what you want to, you can write plugins to change the way TiddlyWiki works. A thriving community of developers have generated huge number of plugins that turn TiddlyWiki into a number of different things, from a CD organizer to an online collaboration tool.
-
-TiddlyWiki is a piece of open source software created by Jeremy Ruston. The copyright is now owned by the not-for-profit organisation [[UnaMesa|http://www.unamesa.com]]. TiddlyWiki has always been free and open source and will remain free and open source. Edit mode.</pre>
-</div>
-<div title="UserDefinitions" modifier="PhilHawksworth" created="200708161718" modified="200710290945" tags="TaskDefinitions TeamTasks">
-<pre>
-PhilHawksworth
-AnneOther</pre>
-</div>
-<div title="PriorityDefinitions" modifier="PhilHawksworth" created="200708161618" modified="200710221412" tags="TaskDefinitions">
-<pre>
-High
-Medium
-Low</pre>
-</div>
-<div title="ScopeDefinitions" modifier="PhilHawksworth" created="200709041507" modified="200710221449" tags="TaskDefinitions">
-<pre>
-Work
-Play</pre>
-</div>
-<div title="StatusDefinitions" modifier="PhilHawksworth" created="200708161721" modified="200710221413" tags="TaskDefinitions">
-<pre>Pending
-InProgress
-OnHold
-Complete</pre>
-</div>
-<div title="DefaultReportView" modifier="PhilHawksworth" created="200803130000" created="200803130000"changecount="2">
-<pre>
-&lt;&lt;TTReportView&gt;&gt;</pre>
-</div>
-<div title="settings" modifier="PhilHawksworth" created="200803251627" modified="" tags="systemConfig excludeLists excludeSearch">
-<pre>//{{{
-
-config.options.chkAutoSave = true;
-config.options.chkAnimate = true;
-config.options.chkSaveBackups = false;
-config.options.txtTheme = &quot;TeamTasksSkin&quot;;
-
-//}}}</pre>
-</div>
 <div title="TeamTasksColors" modifier="PhilHawksworth" created="200803280000">
-<pre>
-Accent: #6A92D6;
+<pre>Accent: #6A92D6;
 
 TaskBorder: #EDE6C3
 TaskBackground: #FEFFA8
@@ -1875,24 +1493,399 @@ TiddlerBackground: #ffffff
 
 LinkHover: transparent</pre>
 </div>
-<div title="SiteTitle" modifier="PhilHawksworth" created="200708161546" modified="200709241632">
-<pre>//''sample''tasks//</pre>
+<div title="TeamTasksMetaData" modifier="PhilHawksworth" created="200804041800" tags="TeamTasks help">
+<pre>[[Get your own copy of TeamTasks at getteamtasks.com|http://getteamtasks.com]]
+[[TeamTasks is a vertical edition of TiddlyWiki|TiddlyWiki]]
+[[TeamTasks is opensource software distributed under the BSD license|License]]
+[[TeamTasks version 0.4.1|Release Notes]]</pre>
 </div>
-<div title="SiteSubtitle" modifier="PhilHawksworth" created="200708161547" modified="200710241355">
-<pre>a sample edition of ~TeamTasks (v0.4)</pre>
+<div title="TeamTasksSkin" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TeamTasks">
+<pre>/***
+|''Name:''|TeamTasksSkin |
+|''Description:''|The basic TeamTasks theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
+|''Version:''|0.4|
+|''Date:''|March 28th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~taskViewTemplate:''|##taskViewTemplate|
+|''~taskEditTemplate:''|##taskEditTemplate|
+|''~StyleSheet:''|##StyleSheet|
+***/
+
+!PageTemplate
+&lt;!--{{{--&gt;
+&lt;div id='messageBar'&gt;&lt;span id='messageArea'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class='header'&gt;
+&lt;div class='headerShadow'&gt;
+&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;div id='topMenu' refresh='content' tiddler='TopMenu'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
+&lt;div id='sideBar' refresh='content' tiddler='SideBar'&gt;&lt;/div&gt;
+&lt;div id='displayArea'&gt;
+	&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+
+!EditTemplate
+&lt;!--{{{--&gt;
+&lt;div class=&quot;editor&quot;&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'&gt;&lt;/div&gt;
+&lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
+&lt;div class='tagged edit' macro='edit tags'&gt;&lt;/div&gt;
+&lt;div class='viewer edit' macro='edit text'&gt;&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+
+!taskViewTemplate
+&lt;!--{{{--&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::TaskViewToolbar]]'&gt;&lt;/div&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
+&lt;div class='task'&gt;
+	&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td class='taskbody'&gt;&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;&lt;/td&gt;
+		&lt;td class='taskControls'&gt;&lt;div class='taskControls' macro='tiddler TaskTiddlerControls'&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+!taskEditTemplate
+&lt;!--{{{--&gt;
+&lt;div class=&quot;editor&quot;&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::TaskEditToolbar]]'&gt;&lt;/div&gt;
+&lt;div class='title edit' macro='edit title'&gt;&lt;/div&gt;
+&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
+&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
+&lt;div class='tagged edit' macro='tags'&gt;&lt;/div&gt;
+&lt;div class='task'&gt;
+	&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td class='taskbody'&gt;&lt;div class='viewer edit' macro='edit text wikified'&gt;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;
+		&lt;td class='taskControls'&gt;&lt;div class='taskControls' macro='tiddler TaskTiddlerControls'&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class='tagClear'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--}}}--&gt;
+
+
+!StyleSheet
+/*{{{*/
+body { color:[[TeamTasksColors::Darkest]];}
+a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
+h1,h2,h3,h4,h5,h6 {color:[[TeamTasksColors::Accent]];}
+	
+/* Page Framework */
+body {background-color:[[TeamTasksColors::Background]]; border-top:3px solid [[TeamTasksColors::Accent]]; }
+#displayArea { display: inline-block; /* IE bugfix: give layout (hasLayout = true) */ }
+#displayArea { display: block; /* restore proper behavior (see IE bugfix above) */ overflow: hidden; margin: 20px 0 0 0; padding:0; border-style:none;}
+#tiddlerDisplay { margin:0 10px 20px 0; padding:0;  border:none;}
+#sidebar {display:none;}
+#messageArea { position:inherit;  margin:0 20px 1em 10px; padding:6px; border-style:none; }
+
+/* message bar */
+#messageBar {display:block; position:relative; width:100%; margin:0; background-color:[[TeamTasksColors::LightShade]]; height:1.6em; font-size:11px;  border-top:solid 1px [[TeamTasksColors::TiddlerBackground]];}
+#messageArea { position:absolute; top:0; left:0; padding:0; margin:0; border-style:none; background-color:transparent;} 
+#messageArea div { margin-left:20px; padding:3px 0 0 0;}
+#messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
+#messageArea a { color:[[TeamTasksColors::Dark]]; text-decoration:none; }
+#messageArea a:hover { color:[[TeamTasksColors::Secondary]]; text-decoration:none; }
+#messageArea .button { float:right; background-color:[[TeamTasksColors::Shade]]; color:[[TeamTasksColors::TiddlerBackground]]; margin:0 0 0 1em; padding:3px 6px; }
+#messageArea .button:hover {background-color:[[TeamTasksColors::Dark]]; color:[[TeamTasksColors::TiddlerBackground]];}
+
+
+/* Header */
+div.header,
+div.headerShadow { margin:0; padding:0; top:auto;}
+div.header {height:5em; background-color:[[TeamTasksColors::Background]]; position:relative;}
+div.headerShadow {position:absolute; left:20px; bottom:0; height:auto;}
+div.headerShadow span.siteTitle {color::[[TeamTasksColors::Darkest]]; font-size:3em; line-height:1em; letter-spacing:-2px;}
+div.headerShadow span.siteSubtitle {color:[[TeamTasksColors::Dark]]; white-space:nowrap; font-size:1em;}
+div.header #topMenu { position:absolute; right:20px; bottom:0;}
+
+/* Backstage */
+#backstageArea,
+#backstageToolbar { background-color:[[TeamTasksColors::TiddlerBackground]]; padding-top:0;}
+#backstageToolbar a.backstageTab { background-color:transparent; color:[[TeamTasksColors::Dark]]; font-weight:normal;line-height:1.5em; }
+#backstageToolbar a.backstageTab:hover { background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];  }
+
+/* Popup */
+#popup {background-color:[[TeamTasksColors::Darkest]]; border:1px solid [[TeamTasksColors::Shade]]; border-bottom:2px solid [[TeamTasksColors::Shade]];}
+#popup li a { color:[[TeamTasksColors::Accent]];}
+#popup li a:hover {background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
+#popup li.listBreak div{ border-bottom:solid 1px [[TeamTasksColors::Darker]];}
+
+/* Top Menu*/
+#topMenu a.button { border-style:none; background-color:[[TeamTasksColors::Background]]; padding:0.3em 1em; margin:0 0 0 1px; color:[[TeamTasksColors::Accent]]; display:block; float: right;}
+#topMenu a.button:hover,
+#mainMenu a:hover  { border-style:none; background-color:[[TeamTasksColors::Darkest]]; color:[[TeamTasksColors::Accent]];}
+#topMenu a.button:active,
+#mainMenu a:active  { border-style:none; background-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::Background]];}
+
+/* MainMenu */
+#mainMenu { position: static; float: left; width:18em; padding: 20px 0 10px 20px; margin:0;}
+#mainMenu br { display:none; }
+#mainMenu a { display:block; font-size:0.94em; text-align:left; margin:0 0 1px 0; border-style:none; background-color:[[TeamTasksColors::Shade]]; padding:0.3em 1em; color:[[TeamTasksColors::Darkest]];  }
+#mainMenu div {  width:auto; }
+#mainMenu div a {display:block;  font-size:0.9em; text-align:right; margin:0 0 1px 0; background-color:[[TeamTasksColors::LightShade]];}
+#mainMenu span.search { padding:6px 6px 6px 0px; margin-bottom:10px; display:block; background-color:[[TeamTasksColors::Darkest]]; text-align:left;}
+#mainMenu span.search .searchField { padding:2px 6px; border:solid 1px [[TeamTasksColors::DarkShade]]; border-top-color:[[TeamTasksColors::Dark]];  border-bottom-color:[[TeamTasksColors::TiddlerBackground]]; background-color:[[TeamTasksColors::Background]]; }
+#mainMenu span.search a.searchButton { display:inline; color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::Darkest]];}
+#mainMenu span.search a.searchButton:hover { color:[[TeamTasksColors::TiddlerBackground]]; }
+
+/* MetaData section */
+#mainMenu div.meta { font-size:0.9em; line-height:1.1em;}
+#mainMenu div.meta span { display: block; width:20em; text-align:right;}
+#mainMenu div.meta a {color:[[TeamTasksColors::DarkestShade]]; background-color:[[TeamTasksColors::LinkHover]]; margin:1.4em 1em 0.2em 3em; padding:0;}
+#mainMenu div.meta a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];}
+
+/* Vanilla Tiddlers */
+.tiddler { background-color:[[TeamTasksColors::TiddlerBackground]]; margin:0 1em 2em 1em; padding:0 0 1em 0; border-bottom:1px solid[[TeamTasksColors::DarkShade]]; 	}
+
+.tiddler div.toolbar { margin:0; padding:0; height:2em; visibility:hidden;}
+.tiddler div.toolbar a.button:first-child {  border-left:1px solid [[TeamTasksColors::LightShade]];}
+.tiddler div.toolbar a.button { background-color:[[TeamTasksColors::TiddlerBackground]]; padding:4px 1em 4px 1em; border-style:none; border-left:1px solid [[TeamTasksColors::LightShade]]; border-bottom:1px solid [[TeamTasksColors::LightShade]];  border-top:3px solid [[TeamTasksColors::Background]]; line-height:2.3em;}
+.tiddler div.toolbar a.button:hover { background-color:[[TeamTasksColors::LightestShade]]; border-bottom-color:[[TeamTasksColors::DarkShade]]; color:[[TeamTasksColors::Darkest]];}
+.tiddler div.toolbar a.button:active { background-color:[[TeamTasksColors::Accent]]; border-bottom-color:[[TeamTasksColors::Accent]]; color:[[TeamTasksColors::TiddlerBackground]];}
+
+.tiddler div.title { color:[[TeamTasksColors::Accent]]; margin:4px 20px 3px 20px;}
+.tiddler div.subtitle,
+.tiddler div.tagged,
+.tiddler div.tagging { float:none; border-style:none; background-color:[[TeamTasksColors::TiddlerBackground]]; margin:3px 20px 0 20px; padding:0; font:italic 0.95em/1em &quot;Lucida Sans&quot;,&quot;Lucida Grande&quot;,Verdana,&quot;Bitstream Vera Sans&quot;,Arial,sans-serif; color:[[TeamTasksColors::DarkShade]];}
+.tiddler div.tagged ul,
+.tiddler div.tagging ul {margin:0; padding:0;}
+.tiddler div.tagged li,
+.tiddler div.tagging li {display:inline; margin:0 0.4em 0 0; color:[[TeamTasksColors::DarkShade]]; }
+.tiddler div.tagged li.listTitle,
+.tiddler div.tagging li.listTitle {margin:0 0.1em 0 0; }
+.tiddler div.tagged a.button,
+.tiddler div.tagging a.button {padding:0;}
+.tiddler div.subtitle a,
+.tiddler div.tagged a,
+.tiddler div.tagging a {color:[[TeamTasksColors::DarkestShade]]; font-weight:normal; white-space:nowrap; border-bottom:solid 1px [[TeamTasksColors::Background]];}
+.tiddler div.subtitle a:hover,
+.tiddler div.tagged a:hover,
+.tiddler div.tagging a:hover {color:[[TeamTasksColors::Accent]]; background-color:[[TeamTasksColors::LinkHover]];  border-bottom-color:[[TeamTasksColors::Accent]];}
+.tiddler div.viewer { clear:left; margin:10px 20px; border-top:solid 1px [[TeamTasksColors::Background]];}
+
+.viewer pre {background-color:[[TeamTasksColors::Background]]; color:[[TeamTasksColors::Darker]]; border:solid 1px [[TeamTasksColors::DarkShade]]; padding:1em 2em;}
+.selected div.toolbar { visibility:visible;}
+
+/* Task Tiddlers */
+.tiddler div.task { clear:left; margin:10px 20px; border-top:solid 0px [[TeamTasksColors::Background]];}
+.tiddler div.task table { width:100%; margin:0; padding:0; }
+.tiddler div.task table * { vertical-align:top; }
+.tiddler div.task table td.taskbody { width:100%; }
+.tiddler div.task table td.taskControls { width:auto; }
+.tiddler div.task div.viewer { display:block; padding:1em; margin:10px 0; border:solid 1px [[TeamTasksColors::TaskBorder]]; background-color:[[TeamTasksColors::TaskBackground]]; font:italic 1.1em/1.5em &quot;Lucida Sans&quot;,&quot;Lucida Grande&quot;,Verdana,&quot;Bitstream Vera Sans&quot;,Arial,sans-serif; }
+.tiddler div.task div.taskControls { float:right; white-space:nowrap; margin:0 0 0 10px;}
+.tiddler div.task div.taskControls table { border-style:none; margin: 10px 0;}
+.tiddler div.task div.taskControls table tr { border-style:none;}
+.tiddler div.task div.taskControls table tr td { border-style:none;}
+.tiddler div.task div.taskControls select {width: 150px; font-size:0.9em;}
+.tiddler div.task div.dependencies { padding:1em; background-color:[[TeamTasksColors::LightestShade]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
+.tiddler div.task .label {font-size:0.9em; color:[[TeamTasksColors::DarkestShade]]; margin-bottom:0.4em;}
+
+/* tiddler Edit mode  */
+
+.tiddler .edit { padding:4px; background-color:[[TeamTasksColors::TiddlerBackground]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
+.tiddler .edit * { background-color:[[TeamTasksColors::TiddlerBackground]]; border-style:none; }
+.tiddler div.editor div.title { color:[[TeamTasksColors::Dark]]; margin:10px 20px 10px 20px;}
+.tiddler div.editor div.viewer {  padding: none; background-color:[[TeamTasksColors::TiddlerBackground]];}
+.tiddler div.editor textarea {font-size:0.9em; width:100%; }
+
+
+
+/* New User Wizard */ 
+#createTeamTaskUserForm { background-color:#f0f0f0; padding:1em; border:solid 1px #ccc;}
+#createTeamTaskUserForm label { margin-bottom:10px; display:block; clear:left; font-size:0.9em;}
+#createTeamTaskUserForm label input {float:left; border:1px solid #ddd; border-top:1px solid #999; padding:2px 4px; font-size:1em; width:30em;}
+
+/* TT Report Views */
+table.sortable { margin:0.5em 0; border-style:none; }
+table.sortable tr {border-left-width:0; border-right-width:0;}
+table.sortable * td {border-top:solid 1px [[TeamTasksColors::LightShade]]; border-bottom:solid 1px [[TeamTasksColors::LightShade]]; border-left-width:0; border-right-width:0;}
+table.sortable thead tr td { background-color: [[TeamTasksColors::LightestShade]]; color:[[TeamTasksColors::Darkest]];}
+
+/*}}}*/</pre>
 </div>
-<div title="HighPriorityTask" modifier="PhilHawksworth" created="200709241437" modified="200709251049" tags="task" prioritydefinitions="High" changecount="10" userdefinitions="PhilHawksworth">
-<pre>A sample high priority task</pre>
+<div title="TiddlyWiki" modifier="PhilWhitehouse" created="200708171616" server.host="file:///Users/PhilH/Sites/tiddlywikis/osworld/osworld.html" server.page.revision="200708171616" server.type="file">
+<pre>TiddlyWiki is a website on a stick! In one single HTML file, TiddlyWiki gives you the ability to publish and organize information in a whole manner of different ways. If you can't do what you want to, you can write plugins to change the way TiddlyWiki works. A thriving community of developers have generated huge number of plugins that turn TiddlyWiki into a number of different things, from a CD organizer to an online collaboration tool.
+
+TiddlyWiki is a piece of open source software created by Jeremy Ruston. The copyright is now owned by the not-for-profit organisation [[UnaMesa|http://www.unamesa.com]]. TiddlyWiki has always been free and open source and will remain free and open source. Edit mode.</pre>
 </div>
-<div title="LowPriorityTasks" modifier="PhilHawksworth" created="200709241637" modified="200709251051" tags="task" prioritydefinitions="Low" changecount="7">
-<pre>LowPriorityTasks</pre>
+<div title="ToolbarCommands" modifier="PhilHawksworth" created="200810061445">
+<pre>|~ViewToolbar|closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
+|~TaskViewToolbar|closeTiddler closeOthers +editTiddler &gt; fields syncing permalink references jump|
+|~TaskEditToolbar|+saveTiddler -cancelTiddler deleteTiddler|</pre>
 </div>
-<div title="MediumPriorityTask" modifier="PhilHawksworth" created="200709241550" modified="200709251050" tags="task" prioritydefinitions="Medium" changecount="8">
-<pre>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</pre>
+<div title="TopMenu" modifier="PhilHawksworth" created="200803280000">
+<pre>&lt;&lt;closeAll&gt;&gt;&lt;&lt;permaview&gt;&gt;&lt;&lt;newTiddler&gt;&gt;&lt;&lt;newTiddler title:&quot;New Task&quot; label:&quot;new task&quot; tag:&quot;task&quot;&gt;&gt;&lt;&lt;saveChanges&gt;&gt;</pre>
 </div>
-<div title="DefaultReportView" modifier="PhilHawksworth" created="200803130000" created="200803130000"changecount="2">
-<pre>
-&lt;&lt;TTReportView&gt;&gt;</pre>
+<div title="UserDefinitions" modifier="PhilHawksworth" created="200708161718" modified="200710290945" tags="TaskDefinitions TeamTasks">
+<pre>PhilHawksworth
+AnneOther</pre>
+</div>
+<div title="ValueSwitcherPlugin" modifier="PhilHawksworth" created="200708161629" modified="200709251214" tags="systemConfig">
+<pre>/***
+|''Name:''|ValueSwitcherPlugin|
+|''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
+|''Version:''|0.2|
+|''Date:''|25 Sept, 2007|
+|''Source:''|http://www.hawksworx.com/playground/TeamTasks/#ValueTogglerPlugin|
+|''Author:''|PhilHawksworth (phawksworth (at) gmail (dot) com)|
+|''License:''|[[BSD open source license]]|
+|''CoreVersion:''|2.3|
+***/
+
+//{{{
+// Ensure that this Plugin is only installed once.
+if(!version.extensions.ValueSwitcher) 
+{
+	version.extensions.ValueSwitcher = {installed:true};
+	config.macros.ValueSwitcher = {
+
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+
+			var fieldPrefix = &quot;tt_&quot;;
+			var taskTiddler = story.findContainingTiddler(place);
+			if(!(taskTiddler &amp;&amp; taskTiddler != 'undefined')) {
+				return;
+			}
+			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
+			var ctrlType = getParam(params,&quot;type&quot;,null);
+			var id = taskTiddler.id;
+			var title = id.substr(7);
+			var tiddler = store.getTiddler(title);
+
+			// build a drop down control
+			if(ctrlType == 'dropdown') {
+				var valueSrc = getParam(params,&quot;valuesSource&quot;, null);
+				if(!valueSrc) {
+					displayMessage(&quot;No definition tiddler defined for a TeamTasks dropdown.&quot;);
+					return;
+				}
+				var fieldName = fieldPrefix + valueSrc.toLowerCase().substr(0,valueSrc.length-11);
+				var selected = fieldName + '::' + store.getValue(tiddler,fieldName);
+				var values = this.getDefValues(valueSrc);
+				var options = [];
+				options.push({'caption': 'Please select', 'name': null});
+				for (var i=0; i &lt; values.length; i++) {
+					options.push({'caption': values[i], 'name': fieldName + '::' + values[i]});				
+				}
+				createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
+			}
+			// Build a free text box.
+			else if(ctrlType == 'freetext') {
+				var metaDataName = getParam(params,&quot;metaDataName&quot;, null);
+				if(!metaDataName) {
+					displayMessage(&quot;No metaDataName defined for a TeamTasks free text box.&quot;);
+					return;
+				}	
+				var ttField = fieldPrefix + metaDataName;
+				// var ttname = fieldPrefix + tiddler
+				var text = store.getValue(tiddler,ttField);
+				if(text == undefined) text = &quot;&quot;;	
+				var i = createTiddlyElement(place,&quot;input&quot;,null,null,null,{&quot;value&quot;:text, &quot;type&quot;:&quot;input&quot;, &quot;ttname&quot;:ttField});
+				i.onblur = config.macros.ValueSwitcher.changeFreetext;
+			}
+
+			/*
+				TODO: Build in deadline support
+			*/
+		},
+
+
+		//Get definition values for populating UI from definition tiddlers.
+		getDefValues: function(src) {
+			var text = store.getTiddlerText(src).split('\n');
+			var output = [];
+			for(var t=0; t&lt;text.length; t++) {
+				//support calling the old TaskViewBuilder macro to list the tasks here too.
+				var blob = wikifyStatic(text[t],null,tiddler,null);				
+				var linktitle = /tiddlylink=&quot;[^&quot;]*&quot;/mg;
+				var titles = blob.match(linktitle);
+				if(titles) {
+					for(var n=0; n&lt;titles.length; n++) {
+						output.push(titles[n].replace(/tiddlylink=&quot;([^&quot;]*)&quot;/,'$1'));
+					}
+				}
+				else {
+					output.push(text[t]);
+				}
+			}
+			return (output);	
+		},
+
+
+		// Ensure that changes to a dropdown field are stored as an extended field.
+		setDropDownMetaData: function(ev) {
+			var e = ev ? ev : window.event;
+			var taskTiddler = story.findContainingTiddler(this);
+			if(taskTiddler &amp;&amp; taskTiddler != undefined) {
+				var title = taskTiddler.getAttribute('tiddler');
+				var tiddler =  store.getTiddler(title);
+				var option = this[this.selectedIndex].value.split('::');
+				var extField = option[0];
+				var extFieldVal = option[1];
+				store.setValue(tiddler,extField,extFieldVal);
+				story.saveTiddler(title);
+			}
+		},
+
+
+		// Ensure that changes to a free text field are stored as an extended field.
+		changeFreetext: function(ev) {
+			var e = ev ? ev : window.event;
+			var ttField = this.getAttribute('ttname');
+			var value = this.value;
+			if(ttField) {
+				var t = story.findContainingTiddler(this);
+				var title = t.getAttribute('tiddler');
+				var tiddler =  store.getTiddler(title);
+				store.setValue(tiddler,ttField,value);
+				story.saveTiddler(title);
+			}
+			return false;
+		}
+	};
+}
+//}}}</pre>
+</div>
+<div title="sdad" modifier="YourName" created="200902121204" modified="200902121205" tags="task" changecount="2" tt_alias="sdad">
+<pre>The tiddler 'New Task' doesn't yet exist. Double-click to create it</pre>
+</div>
+<div title="settings" modifier="PhilHawksworth" created="200803251627" tags="systemConfig excludeLists excludeSearch">
+<pre>//{{{
+
+config.options.chkAutoSave = true;
+config.options.chkAnimate = true;
+config.options.chkSaveBackups = false;
+config.options.txtTheme = &quot;TeamTasksSkin&quot;;
+
+//}}}</pre>
+</div>
+<div title="wee" modifier="YourName" created="200902121205" modified="200902121205" tags="task" changecount="2" tt_alias="weeee">
+<pre>The tiddler 'New Task' doesn't yet exist. Double-click to create it</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
@@ -2056,7 +2049,9 @@ config.commands = {
 	references: {type: "popup"},
 	jump: {type: "popup"},
 	syncing: {type: "popup"},
-	fields: {type: "popup"}
+	fields: {type: "popup"},
+	more: {},
+	less: {}
 };
 
 // Browser detection... In a very few places, there's nothing else for it but to know what browser we're using.
@@ -2146,7 +2141,7 @@ config.shadowTiddlers = {
 	TabMoreShadowed: '<<list shadowed>>',
 	AdvancedOptions: '<<options>>',
 	PluginManager: '<<plugins>>',
-	ToolbarCommands: '|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump|\n|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|'
+	ToolbarCommands: '|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink references jump less|\n|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|'
 };
 
 //--
@@ -2195,7 +2190,7 @@ merge(config.messages,{
 	pluginForced: "Executed because forced via 'systemConfigForce' tag",
 	pluginVersionError: "Not executed because this plugin needs a newer version of TiddlyWiki",
 	nothingSelected: "Nothing is selected. You must select one or more items first",
-	savedSnapshotError: "It appears that this TiddlyWiki has been incorrectly saved. Please see http://www.tiddlywiki.com/#DownloadSoftware for details",
+	savedSnapshotError: "It appears that this TiddlyWiki has been incorrectly saved. Please see http://www.tiddlywiki.com/#Download for details",
 	subtitleUnknown: "(unknown)",
 	undefinedTiddlerToolTip: "The tiddler '%0' doesn't yet exist",
 	shadowedTiddlerToolTip: "The tiddler '%0' doesn't yet exist, but has a pre-defined shadow value",
@@ -2377,6 +2372,7 @@ merge(config.macros.plugins,{
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
+			{name: 'Description', field: 'desc', title: "Description", type: 'String'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "Size", type: 'Size'},
 			{name: 'Forced', field: 'forced', title: "Forced", tag: 'systemConfigForce', type: 'TagCheckbox'},
 			{name: 'Disabled', field: 'disabled', title: "Disabled", tag: 'systemConfigDisable', type: 'TagCheckbox'},
@@ -2553,6 +2549,14 @@ merge(config.commands.jump,{
 	text: "jump",
 	tooltip: "Jump to another open tiddler"});
 
+merge(config.commands.more,{
+	text: "more",
+	tooltip: "Show additional commands"});
+
+merge(config.commands.less,{
+	text: "less",
+	tooltip: "Hide additional commands"});
+		
 merge(config.commands.syncing,{
 	text: "syncing",
 	tooltip: "Control synchronisation of this tiddler with a server or external file",
@@ -2641,6 +2645,7 @@ var showBackstage; // Whether to include the backstage area
 var installedPlugins = []; // Information filled in when plugins are executed
 var startingUp = false; // Whether we're in the process of starting up
 var pluginInfo,tiddler; // Used to pass information to plugins in loadPlugins()
+var jq = jQuery.noConflict(); // the global jQuery object
 
 // Whether to use the JavaSaver applet
 var useJavaSaver = (config.browser.isSafari || config.browser.isOpera) && (document.location.toString().substr(0,4) != "http");
@@ -2677,20 +2682,20 @@ function main()
 	story.switchTheme(config.options.txtTheme);
 	showBackstage = !readOnly;
 	t6 = new Date();
-	store.notifyAll();
-	t7 = new Date();
-	restart();
-	refreshDisplay();
-	t8 = new Date();
-	if(pluginProblem) {
-		story.displayTiddler(null,"PluginManager");
-		displayMessage(config.messages.customConfigError);
-	}
 	for(var m in config.macros) {
 		if(config.macros[m].init)
 			config.macros[m].init();
 	}
+	t7 = new Date();
+	store.notifyAll();
+	t8 = new Date();
+	restart();
+	refreshDisplay();
 	t9 = new Date();
+	if(pluginProblem) {
+		story.displayTiddler(null,"PluginManager");
+		displayMessage(config.messages.customConfigError);
+	}
 	if(showBackstage)
 		backstage.init();
 	t10 = new Date();
@@ -2698,9 +2703,9 @@ function main()
 		displayMessage("LoadShadows " + (t2-t1) + " ms");
 		displayMessage("LoadFromDiv " + (t3-t2) + " ms");
 		displayMessage("LoadPlugins " + (t5-t4) + " ms");
-		displayMessage("Notify " + (t7-t6) + " ms");
-		displayMessage("Restart " + (t8-t7) + " ms");
-		displayMessage("Macro init " + (t9-t8) + " ms");
+		displayMessage("Macro init " + (t7-t6) + " ms");
+		displayMessage("Notify " + (t8-t7) + " ms");
+		displayMessage("Restart " + (t9-t8) + " ms");
 		displayMessage("Total: " + (t10-t0) + " ms");
 	}
 	startingUp = false;
@@ -2775,8 +2780,10 @@ function loadPlugins()
 				p.executed = true;
 				var startTime = new Date();
 				try {
-					if(tiddler.text)
-						window.eval(tiddler.text);
+					var js = p.tiddler.text;
+					if(js) {
+						window.eval(js);
+					}
 					nLoaded++;
 				} catch(ex) {
 					p.log.push(config.messages.pluginError.format([exceptionText(ex)]));
@@ -2837,10 +2844,14 @@ function invokeMacro(place,macro,params,wikifier,tiddler)
 {
 	try {
 		var m = config.macros[macro];
-		if(m && m.handler)
+		var j = jQuery()["tw_"+macro];
+		if(j) {
+			j.call(jq(place),jq.tw.expandMacroParams(params),{"macro":macro,"wikifier":wikifier,"tiddler":tiddler,"paramString":params,"store":store,"story":story});
+		} else if(m && m.handler) {
 			m.handler(place,macro,params.readMacroParams(),wikifier,params,tiddler);
-		else
+		} else {
 			createTiddlyError(place,config.messages.macroError.format([macro]),config.messages.macroErrorDetails.format([macro,config.messages.missingMacro]));
+		}
 	} catch(ex) {
 		createTiddlyError(place,config.messages.macroError.format([macro]),config.messages.macroErrorDetails.format([macro,ex.toString()]));
 	}
@@ -2865,10 +2876,15 @@ function invokeParamifier(params,handler)
 {
 	if(!params || params.length == undefined || params.length <= 1)
 		return;
-	for(var t=1; t<params.length; t++) {
-		var p = config.paramifiers[params[t].name];
+	for(var i=1; i<params.length; i++) {
+		var p = config.paramifiers[params[i].name];
 		if(p && p[handler] instanceof Function)
-			p[handler](params[t].value);
+			p[handler](params[i].value);
+		else {
+			var h = config.optionHandlers[params[i].name.substr(0,3)];
+			if(h && h.set instanceof Function)
+				h.set(params[i].name,params[i].value);
+		}
 	}
 }
 
@@ -3286,7 +3302,7 @@ config.formatters = [
 
 {
 	name: "rule",
-	match: "^----+$\\n?",
+	match: "^----+$\\n?|<hr ?/?>\\n?",
 	handler: function(w)
 	{
 		createTiddlyElement(w.output,"hr");
@@ -4056,7 +4072,7 @@ config.macros.gradient.handler = function(place,macroName,params,wikifier,paramS
 	params = paramString.parseParams("color");
 	var locolors = [], hicolors = [];
 	for(var t=2; t<params.length; t++) {
-		var c = new RGB(params[t].value);
+		var c = params[t].value;
 		if(params[t].name == "snap") {
 			hicolors[hicolors.length-1] = c;
 		} else {
@@ -4169,7 +4185,7 @@ config.macros.tagChooser.onClick = function(ev)
 	var e = ev || window.event;
 	var lingo = config.views.editor.tagChooser;
 	var popup = Popup.create(this);
-	var tags = store.getTags("excludeLists");
+	var tags = store.getTags(this.getAttribute("tags"));
 	if(tags.length == 0)
 		createTiddlyText(createTiddlyElement(popup,"li"),lingo.popupNone);
 	for(var t=0; t<tags.length; t++) {
@@ -4200,6 +4216,7 @@ config.macros.tagChooser.handler = function(place,macroName,params,wikifier,para
 		var lingo = config.views.editor.tagChooser;
 		var btn = createTiddlyButton(place,lingo.text,lingo.tooltip,this.onClick);
 		btn.setAttribute("tiddler",tiddler.title);
+		btn.setAttribute("tags",params[0]);
 	}
 };
 
@@ -4275,7 +4292,7 @@ config.macros.newTiddler.onClickNewTiddler = function()
 	if(customFields)
 		story.addCustomFields(tiddlerElem,customFields);
 	var text = this.getAttribute("newText");
-	if(typeof text == "string")
+	if(typeof text == "string" && story.getTiddlerField(title,"text"))
 		story.getTiddlerField(title,"text").value = text.format([title]);
 	for(var t=0;t<tags.length;t++)
 		story.setTiddlerTag(title,tags[t],+1);
@@ -4537,21 +4554,13 @@ config.macros.toolbar.invokeCommand = function(place,className,event)
 	}
 };
 
-config.macros.toolbar.onClickMore = function(ev)
-{
-	var e = this.nextSibling;
-	e.style.display = "inline";
-	removeNode(this);
-	return false;
-};
-
 config.macros.toolbar.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	for(var t=0; t<params.length; t++) {
 		var c = params[t];
 		switch(c) {
 		case '>':
-			var btn = createTiddlyButton(place,this.moreLabel,this.morePrompt,config.macros.toolbar.onClickMore);
+			var btn = createTiddlyButton(place,this.moreLabel,this.morePrompt,config.commands.more.handler);
 			addClass(btn,"moreCommand");
 			var e = createTiddlyElement(place,"span",null,"moreCommand");
 			e.style.display = "none";
@@ -4668,6 +4677,24 @@ config.commands.jump.handlePopup = function(popup,title)
 		});
 };
 
+config.commands.more.handler = function(event,src,title)
+{
+	var e = this.nextSibling;
+	e.style.display = "inline";
+	this.style.display = 'none';
+	return false;
+};
+
+config.commands.less.handler = function(event,src,title)
+{
+	var e = resolveTarget(event).parentNode;
+	var m = e.previousSibling;
+	e.style.display = "none";
+	m.style.display = "inline";
+	return false;
+};
+
+
 config.commands.syncing.handlePopup = function(popup,title)
 {
 	var tiddler = store.fetchTiddler(title);
@@ -4739,12 +4766,8 @@ config.commands.fields.handlePopup = function(popup,title)
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return;
-	var fields = {};
-	store.forEachField(tiddler,function(tiddler,fieldName,value) {fields[fieldName] = value;},true);
 	var items = [];
-	for(var t in fields) {
-		items.push({field: t,value: fields[t]});
-	}
+	store.forEachField(tiddler,function(tiddler,fieldName,value){items.push({field:fieldName,value:value});},true);
 	items.sort(function(a,b) {return a.field < b.field ? -1 : (a.field == b.field ? 0 : +1);});
 	if(items.length > 0)
 		ListView.create(popup,items,this.listViewTemplate);
@@ -4819,25 +4842,6 @@ Tiddler.prototype.isTouched = function()
 	return changeCount > 0;
 };
 
-// Return the tiddler as an RSS item
-Tiddler.prototype.toRssItem = function(uri)
-{
-	var s = [];
-	s.push("<title" + ">" + this.title.htmlEncode() + "</title" + ">");
-	s.push("<description>" + wikifyStatic(this.text,null,this).htmlEncode() + "</description>");
-	for(var t=0; t<this.tags.length; t++)
-		s.push("<category>" + this.tags[t] + "</category>");
-	s.push("<link>" + uri + "#" + encodeURIComponent(String.encodeTiddlyLink(this.title)) + "</link>");
-	s.push("<pubDate>" + this.modified.toGMTString() + "</pubDate>");
-	return s.join("\n");
-};
-
-// Format the text for storage in an RSS item
-Tiddler.prototype.saveToRss = function(uri)
-{
-	return "<item>\n" + this.toRssItem(uri) + "\n</item>";
-};
-
 // Change the text and other attributes of a tiddler
 Tiddler.prototype.set = function(title,text,modifier,modified,tags,created,fields)
 {
@@ -4896,10 +4900,18 @@ Tiddler.prototype.escapeLineBreaks = function()
 Tiddler.prototype.changed = function()
 {
 	this.links = [];
+	var text = this.text;
+	// remove 'quoted' text before scanning tiddler source
+	text = text.replace(/\/%((?:.|\n)*?)%\//g,"").
+		replace(/\{{3}((?:.|\n)*?)\}{3}/g,"").
+		replace(/"""((?:.|\n)*?)"""/g,"").
+		replace(/\<nowiki\>((?:.|\n)*?)\<\/nowiki\>/g,"").
+		replace(/\<html\>((?:.|\n)*?)\<\/html\>/g,"").
+		replace(/\<script((?:.|\n)*?)\<\/script\>/g,"");
 	var t = this.autoLinkWikiWords() ? 0 : 1;
 	var tiddlerLinkRegExp = t==0 ? config.textPrimitives.tiddlerAnyLinkRegExp : config.textPrimitives.tiddlerForcedLinkRegExp;
 	tiddlerLinkRegExp.lastIndex = 0;
-	var formatMatch = tiddlerLinkRegExp.exec(this.text);
+	var formatMatch = tiddlerLinkRegExp.exec(text);
 	while(formatMatch) {
 		var lastIndex = tiddlerLinkRegExp.lastIndex;
 		if(t==0 && formatMatch[1] && formatMatch[1] != this.title) {
@@ -4907,7 +4919,7 @@ Tiddler.prototype.changed = function()
 			if(formatMatch.index > 0) {
 				var preRegExp = new RegExp(config.textPrimitives.unWikiLink+"|"+config.textPrimitives.anyLetter,"mg");
 				preRegExp.lastIndex = formatMatch.index-1;
-				var preMatch = preRegExp.exec(this.text);
+				var preMatch = preRegExp.exec(text);
 				if(preMatch.index != formatMatch.index-1)
 					this.links.pushUnique(formatMatch[1]);
 			} else {
@@ -4919,7 +4931,7 @@ Tiddler.prototype.changed = function()
 		else if(formatMatch[4-t] && formatMatch[4-t] != this.title) // brackettedLink
 			this.links.pushUnique(formatMatch[4-t]);
 		tiddlerLinkRegExp.lastIndex = lastIndex;
-		formatMatch = tiddlerLinkRegExp.exec(this.text);
+		formatMatch = tiddlerLinkRegExp.exec(text);
 	}
 	this.linksUpdated = true;
 };
@@ -5122,7 +5134,7 @@ TiddlyWiki.prototype.getRecursiveTiddlerText = function(title,defaultText,depth)
 	return textOut.join("");
 };
 
-TiddlyWiki.prototype.slicesRE = /(?:^([\'\/]{0,2})~?([\.\w]+)\:\1\s*([^\n]+)\s*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|\s*([^\|\n]+)\s*\|$)/gm;
+TiddlyWiki.prototype.slicesRE = /(?:^([\'\/]{0,2})~?([\.\w]+)\:\1[\t\x20]*([^\n]+)[\t\x20]*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|[\t\x20]*([^\n]+)[\t\x20]*\|$)/gm;
 
 // @internal
 TiddlyWiki.prototype.calcAllSlices = function(title)
@@ -5240,7 +5252,7 @@ TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag)
 		if(status)
 			tiddler.tags.push(tag);
 		tiddler.changed();
-		tiddler.incChangeCount(title);
+		tiddler.incChangeCount();
 		this.notify(title,true);
 		this.setDirty(true);
 	}
@@ -5253,7 +5265,7 @@ TiddlyWiki.prototype.addTiddlerFields = function(title,fields)
 		return;
 	merge(tiddler.fields,fields);
 	tiddler.changed();
-	tiddler.incChangeCount(title);
+	tiddler.incChangeCount();
 	this.notify(title,true);
 	this.setDirty(true);
 };
@@ -5531,6 +5543,8 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 					tiddler = new Tiddler();
 					tiddler.set(title,this.getTiddlerText(title));
 					results.pushUnique(tiddler);
+				} else {
+					results.pushUnique(new Tiddler(title));
 				}
 			} else if(match[2]) {
 				switch(match[2]) {
@@ -5921,7 +5935,8 @@ Story.prototype.refreshTiddler = function(title,template,force,customFields,defa
 			if(!tiddler) {
 				tiddler = new Tiddler();
 				if(store.isShadowTiddler(title)) {
-					tiddler.set(title,store.getTiddlerText(title),config.views.wikified.shadowModifier,version.date,[],version.date);
+					var tags = [];
+					tiddler.set(title,store.getTiddlerText(title),config.views.wikified.shadowModifier,version.date,tags,version.date);
 				} else {
 					var text = template=="EditTemplate" ?
 								config.views.editor.defaultText.format([title]) :
@@ -6243,7 +6258,7 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 		if(!store.tiddlerExists(newTitle))
 			minorUpdate = false;
 		var newDate = new Date();
-		var extendedFields = store.tiddlerExists(newTitle) ? store.fetchTiddler(newTitle).fields : (newTitle!=title && store.tiddlerExists(title) ? store.fetchTiddler(title).fields : config.defaultCustomFields);
+		var extendedFields = store.tiddlerExists(newTitle) ? store.fetchTiddler(newTitle).fields : (newTitle!=title && store.tiddlerExists(title) ? store.fetchTiddler(title).fields : merge({},config.defaultCustomFields));
 		for(var n in fields) {
 			if(!TiddlyWiki.isStandardField(n))
 				extendedFields[n] = fields[n];
@@ -6783,6 +6798,7 @@ config.macros.importTiddlers.onGetTiddlerList = function(context,wizard)
 	markList.parentNode.insertBefore(listWrapper,markList);
 	var listView = ListView.create(listWrapper,listedTiddlers,config.macros.importTiddlers.listViewTemplate);
 	wizard.setValue("listView",listView);
+	wizard.setValue("context",context);
 	var txtSaveTiddler = wizard.getElement("txtSaveTiddler");
 	txtSaveTiddler.value = config.macros.importTiddlers.generateSystemServerName(wizard);
 	wizard.setButtons([
@@ -6848,10 +6864,14 @@ config.macros.importTiddlers.doImport = function(e)
 	wizard.setButtons([
 			{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel}
 		],config.macros.importTiddlers.statusDoingImport);
+	var wizardContext = wizard.getValue("context");
+	var tiddlers = wizardContext ? wizardContext.tiddlers : [];
 	for(t=0; t<rowNames.length; t++) {
-		var context = {};
-		context.allowSynchronous = true;
-		var inbound = adaptor.getTiddler(rowNames[t],context,wizard,config.macros.importTiddlers.onGetTiddler);
+		var context = {
+			allowSynchronous:true,
+			tiddler:tiddlers[tiddlers.findByField("title",rowNames[t])]
+		};
+		adaptor.getTiddler(rowNames[t],context,wizard,config.macros.importTiddlers.onGetTiddler);
 	}
 	return false;
 };
@@ -7318,6 +7338,7 @@ config.macros.plugins.refresh = function(listWrapper,params)
 		p.forced = p.tiddler.isTagged("systemConfigForce");
 		p.disabled = p.tiddler.isTagged("systemConfigDisable");
 		p.Selected = selectedRows.indexOf(plugins[t].title) != -1;
+		p.desc = store.getTiddlerSlice(p.tiddler.title,"Description");
 	}
 	if(plugins.length == 0) {
 		createTiddlyElement(listWrapper,"em",null,null,this.noPluginText);
@@ -7637,6 +7658,11 @@ function saveOptionCookie(name)
 		c += config.optionHandlers[optType].get(name);
 	c += "; expires=Fri, 1 Jan 2038 12:00:00 UTC; path=/";
 	document.cookie = c;
+}
+
+function removeCookie(name)
+{
+	document.cookie = name + "=; expires=Thu, 01-Jan-1970 00:00:01 UTC; path=/;";
 }
 
 function encodeCookie(s)
@@ -8015,6 +8041,17 @@ function saveRss(localPath)
 		alert(config.messages.rssFailed);
 }
 
+tiddlerToRssItem = function(tiddler,uri)
+{
+	var s = "<title" + ">" + tiddler.title.htmlEncode() + "</title" + ">\n";
+	s += "<description>" + wikifyStatic(tiddler.text,null,tiddler).htmlEncode() + "</description>\n";
+	for(var i=0; i<tiddler.tags.length; i++)
+		s += "<category>" + tiddler.tags[i] + "</category>\n";
+	s += "<link>" + uri + "#" + encodeURIComponent(String.encodeTiddlyLink(tiddler.title)) + "</link>\n";
+	s +="<pubDate>" + tiddler.modified.toGMTString() + "</pubDate>\n";
+	return s;
+};
+
 function generateRss()
 {
 	var s = [];
@@ -8037,8 +8074,8 @@ function generateRss()
 	// The body
 	var tiddlers = store.getTiddlers("modified","excludeLists");
 	var n = config.numRssItems > tiddlers.length ? 0 : tiddlers.length-config.numRssItems;
-	for(var t=tiddlers.length-1; t>=n; t--) {
-		s.push("<item>\n" + tiddlers[t].toRssItem(u) + "\n</item>");
+	for(var i=tiddlers.length-1; i>=n; i--) {
+		s.push("<item>\n" + tiddlerToRssItem(tiddlers[i],u) + "\n</item>");
 	}
 	// And footer
 	s.push("</channel>");
@@ -8357,7 +8394,7 @@ AdaptorBase.prototype.fullHostName = function(host)
 	if(!host.match(/:\/\//))
 		host = 'http://' + host;
 	if(host.substr(host.length-1) == '/')
-		host = host.substr(0,host.length-1)
+		host = host.substr(0,host.length-1);
 	return host;
 };
 
@@ -8912,7 +8949,7 @@ function glyph(name)
 }
 
 if(!window.console) {
-	console = {log:function(message) {displayMessage(message);}};
+	console = {tiddlywiki:true,log:function(message) {displayMessage(message);}};
 }
 
 //-
@@ -10236,7 +10273,13 @@ function drawGradient(place,horiz,locolors,hicolors)
 		bar.style.height = horiz ? "100%" : (101-t) + "%";
 		bar.style.zIndex = -1;
 		var p = t/100*(locolors.length-1);
-		bar.style.backgroundColor = hicolors[Math.floor(p)].mix(locolors[Math.ceil(p)],p-Math.floor(p)).toString();
+		var hc = hicolors[Math.floor(p)];
+		if(typeof hc == "string")
+			hc = new RGB(hc);
+		var lc = locolors[Math.ceil(p)];
+		if(typeof lc == "string")
+			lc = new RGB(lc);
+		bar.style.backgroundColor = hc.mix(lc,p-Math.floor(p)).toString();
 	}
 }
 
@@ -10724,6 +10767,98 @@ TW21Saver.prototype.externalizeTiddler = function(store,tiddler)
 
 //]]>
 </script>
+<script id="jsdeprecatedArea" type="text/javascript">
+//<![CDATA[
+//--
+//-- Deprecated Tiddler code
+//--
+
+// @Deprecated: Use tiddlerToRssItem(tiddler,uri) instead
+Tiddler.prototype.toRssItem = function(uri)
+{
+	return tiddlerToRssItem(this,uri);
+};
+
+// @Deprecated: Use "<item>\n" + tiddlerToRssItem(tiddler,uri)  + "\n</item>" instead
+Tiddler.prototype.saveToRss = function(uri)
+{
+	return "<item>\n" + tiddlerToRssItem(this,uri) + "\n</item>";
+};
+
+//]]>
+</script>
+<script id="jqueryArea" type="text/javascript">
+//<![CDATA[
+/*
+jquery.tw.js
+addition of tw 'namespace'
+*/
+(function($) {
+	if(!$.tw) {
+		$.tw = {};
+		$.tw.extend = $.extend;
+	}
+})(jQuery);
+/*
+jquery.tw.macro.js
+macro parameter expansion
+*/
+(function($) {
+	$.tw.extend({
+		expandMacroParams: function(params) {
+			// expand the macro parameters into a name:value hash
+			// all parameters are also given a numeric name, starting at 1
+			var opts = {};
+			var unnamed = 1;
+			var name,val;
+			var t = $.trim(params);
+			var s = 0;
+			var i = findNakedSpace(t,s);
+			var param = i==-1 ? t.substr(s) : t.substring(s,i);
+			while(true) {
+				var ci = param.indexOf(':');
+				if(ci==-1) {
+					// parameter is unnamed
+					name = param ? unnamed++ : null;
+					val = param;
+				} else {
+					name = param.substr(0,ci);
+					val = param.substr(ci+1);
+				}
+				val = $.trim(val);
+				if(val.charAt(0)=='"' && val.charAt(val.length-1)=='"') {
+					val = val.substr(1,val.length-2);
+				}
+				if(name)
+					opts[name] = val;
+				if(i==-1)
+					break;
+				s = i+1;
+				i = findNakedSpace(t,s);
+				param = i==-1 ? t.substr(s) : t.substring(s,i);
+			}
+			return opts;
+		}
+	});
+
+	// Private functions.
+	function findNakedSpace(text,start) {
+		// find the next space not surrounded by quotes
+		var d = text.indexOf(' ',start);
+		if(d==-1)
+			return -1;
+		var qs = text.indexOf('"',start);
+		if(qs==-1 || qs > d)
+			return d;
+		var qe = text.indexOf('"',qs+1);
+		if(qe==-1)
+			return d;
+		return findNakedSpace(text,qe+1);
+	}
+
+})(jQuery);
+//]]>
+</script>
 <script type="text/javascript">
 //<![CDATA[
 if(useJavaSaver)
@@ -10731,6 +10866,7 @@ if(useJavaSaver)
 //]]>
 </script>
 <!--POST-SCRIPT-START-->
+
 <!--POST-SCRIPT-END-->
 </body>
 </html>

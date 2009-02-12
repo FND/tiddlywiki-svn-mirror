@@ -4,5 +4,6 @@
 |priority |<<ValueSwitcher type:"dropdown" valuesSource:"PriorityDefinitions">> |
 |assigned to |<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions">> |
 |status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
+|alias |<<ValueSwitcher type:"freetext" metaDataName:"alias">> |
 </pre>
 </div>

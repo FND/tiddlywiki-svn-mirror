@@ -28,6 +28,7 @@
 <div id='topMenu' refresh='content' tiddler='TopMenu'></div>
 </div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sideBar' refresh='content' tiddler='SideBar'></div>
 <div id='displayArea'>
 	<div id='tiddlerDisplay'></div>
 </div>
@@ -204,10 +205,14 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 .tiddler div.task .label {font-size:0.9em; color:[[TeamTasksColors::DarkestShade]]; margin-bottom:0.4em;}
 
 /* tiddler Edit mode  */
+
 .tiddler .edit { padding:4px; background-color:[[TeamTasksColors::TiddlerBackground]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
 .tiddler .edit * { background-color:[[TeamTasksColors::TiddlerBackground]]; border-style:none; }
 .tiddler div.editor div.title { color:[[TeamTasksColors::Dark]]; margin:10px 20px 10px 20px;}
 .tiddler div.editor div.viewer {  padding: none; background-color:[[TeamTasksColors::TiddlerBackground]];}
+.tiddler div.editor textarea {font-size:0.9em; width:100%; }
+
+
 
 /* New User Wizard */ 
 #createTeamTaskUserForm { background-color:#f0f0f0; padding:1em; border:solid 1px #ccc;}

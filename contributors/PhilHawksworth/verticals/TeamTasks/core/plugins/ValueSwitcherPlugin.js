@@ -53,10 +53,11 @@ if(!version.extensions.ValueSwitcher)
 					displayMessage("No metaDataName defined for a TeamTasks free text box.");
 					return;
 				}	
-				var fieldName = fieldPrefix + metaDataName.toLowerCase();
-				var text = store.getValue(tiddler,fieldName);
+				var ttField = fieldPrefix + metaDataName;
+				// var ttname = fieldPrefix + tiddler
+				var text = store.getValue(tiddler,ttField);
 				if(text == undefined) text = "";	
-				var i = createTiddlyElement(place,"input",null,null,null,{"value":text, "type":"input", "ttname":fieldName});
+				var i = createTiddlyElement(place,"input",null,null,null,{"value":text, "type":"input", "ttname":ttField});
 				i.onblur = config.macros.ValueSwitcher.changeFreetext;
 			}
 
@@ -114,7 +115,7 @@ if(!version.extensions.ValueSwitcher)
 				var title = t.getAttribute('tiddler');
 				var tiddler =  store.getTiddler(title);
 				store.setValue(tiddler,ttField,value);
-				story.saveTiddler(tiddler);
+				story.saveTiddler(title);
 			}
 			return false;
 		}
