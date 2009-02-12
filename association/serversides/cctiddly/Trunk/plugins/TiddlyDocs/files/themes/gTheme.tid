@@ -171,6 +171,7 @@ tags : systemTheme
 	<div class="portletContent">
 			<div class='taskControls' macro='tiddler TaskTiddlerControls'>
 		</div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div><br/>
 		<div class='editor' macro='editHtml text' ></div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
@@ -198,6 +199,8 @@ tags : systemTheme
 
 
 .siteTitle {
+padding:2em;
+padding-right:0px;
 	color:#777;
 }
 
@@ -395,7 +398,7 @@ width:98.5%;
 		height:100%;
 		position:relative;
 		top:-1.25em;
-		width:66%;
+		width:68%;
 	}
 	.toolbar a, .toolbar:hover{
 	color:white;
