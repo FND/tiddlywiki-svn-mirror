@@ -194,37 +194,10 @@ EasyMap.prototype = {
 		return this.canvas.transformation;
 	}
 	,setTransformation: function(transformation){
-		var w =parseInt(this.wrapper.style.width);
-		var h = parseInt(this.wrapper.style.height);
-		var t =transformation.translate;
-		var s = transformation.scale;
-	
-		this.canvas.transformation = transformation;
-		if(!transformation.origin){
-			this.canvas.transformation.origin = {};
-			var origin = this.canvas.transformation.origin;
-			origin.x =w / 2;
-			origin.y =h / 2;
-		}
+		if(typeof transformation.translate.x != 'number'||typeof transformation.translate.y != 'number') throw "bad transformation translate given ";
+		if(typeof transformation.scale.x != 'number'||typeof transformation.scale.y != 'number') throw "bad transformation scale given ";
 		
-		if(s.x < 1) s.x = 1;
-		if(s.y < 1) s.y = 1;
-		
-		if(t.x > 180) t.x = 180;
-		if(t.x < -180) t.x = -180;
-		
-		if(t.y > 85.0511) t.y = 85.0511;
-		if(t.y < -85.0511) t.y = -85.0511;
-		
-		var p =this.getProjection();
-		if(p && p.name == "GLOBE"){
-			if(!this.canvas.transformation.rotate){
-				this.canvas.transformation.rotate = {x:0,y:0,z:0};
-			}
-			
-		}
-		this.easyClicking.setTransformation(this.canvas.transformation);
-		
+		this.controller.setTransformation(transformation);
 	}
 	,moveTo: function(longitude,latitude,zoom){
 		var newt = {translate:{},scale:{}};
@@ -281,8 +254,38 @@ EasyMap.prototype = {
 	},
 		
 	transform: function(transformation){
-
-		this.setTransformation(transformation);
+		
+		var w =parseInt(this.wrapper.style.width);
+		var h = parseInt(this.wrapper.style.height);
+		var t =transformation.translate;
+		var s = transformation.scale;
+	
+		this.canvas.transformation = transformation;
+		if(!transformation.origin){
+			this.canvas.transformation.origin = {};
+			var origin = this.canvas.transformation.origin;
+			origin.x =w / 2;
+			origin.y =h / 2;
+		}
+		
+		if(s.x < 1) s.x = 1;
+		if(s.y < 1) s.y = 1;
+		
+		if(t.x > 180) t.x = 180;
+		if(t.x < -180) t.x = -180;
+		
+		if(t.y > 85.0511) t.y = 85.0511;
+		if(t.y < -85.0511) t.y = -85.0511;
+		
+		var p =this.getProjection();
+		if(p && p.name == "GLOBE"){
+			if(!this.canvas.transformation.rotate){
+				this.canvas.transformation.rotate = {x:0,y:0,z:0};
+			}
+			
+		}
+		
+		this.easyClicking.setTransformation(this.canvas.transformation);
 		this.redraw();
 
 	},
@@ -333,7 +336,7 @@ EasyMap.prototype = {
 		if(!this.canvas.getContext) return;
 		var ctx = this.canvas.getContext('2d');
 		var s =this.controller.transformation.scale;
-		if(s && s.x)ctx.lineWidth = (1.5 / s.x);
+		if(s && s.x)ctx.lineWidth = (0.5 / s.x);
 		ctx.globalAlpha = this.settings.globalAlpha;
 		ctx.lineJoin = 'round'; //miter or bevel or round	
 	},
@@ -432,7 +435,7 @@ EasyMap.prototype = {
 		var eMap = this;
 		var _defaultClickHandler = function(e,shape,mousepos,ll,easymap){};	
 		
-		var _defaultMousemoveHandler = function(e,shape,mousepos,ll,feature,easymap){
+		var _defaultMousemoveHandler = function(e,shape,mousepos,ll,feature,key,easymap){
 			if(mousepos){
 				var wid =easymap.wrapper.id+'_tooltip';
 				var tt =document.getElementById(wid);
@@ -518,21 +521,31 @@ EasyMap.prototype = {
 			
 			var r = getParameters(e);
 			try{
-			eMap.moveHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,eMap);
+			eMap.moveHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed, eMap);
 			}
 			catch(e){};
 		};
 		
 		var onmouseup = function(e){
+	
 			var r = getParameters(e);
-			var button = e.button;
 			
-			if(!button || button == 0){ //left click
-				try{eMap.clickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
+			e = r.event;
+			var button =1;
+			if(e && e.button){
+				button = e.button;	
+			}
+			if(!button || button <= 1){ //left click
+		
+				try{
+					eMap.clickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
 				}
-				catch(e){}
+				catch(e){
+					
+				}
 			}
 			else if(button == 2){ //right click
+		
 				if(eMap.rightclickHandler){
 					var r = getParameters(e);
 					try{eMap.rightclickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
