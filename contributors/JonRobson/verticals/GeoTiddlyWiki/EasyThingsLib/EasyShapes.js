@@ -89,7 +89,9 @@ EasyShape.prototype={
 		this._calculateBounds();
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
-
+	,getCoordinates: function(){
+		return this.coords;
+	}
 	,_calculateBounds: function(coords){
 		if(this.properties.shape == 'path'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};

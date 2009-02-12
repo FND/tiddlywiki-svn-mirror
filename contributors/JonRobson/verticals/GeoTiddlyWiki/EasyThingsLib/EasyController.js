@@ -114,7 +114,8 @@ EasyMapController.prototype = {
 			var p =this.easyController.panning_status;
 			if(!p) return;
 			var t =  EasyClickingUtils.resolveTarget(e);
-	
+
+			if(t.tagName == "INPUT") return;
 			if(t.getAttribute("class") == "easyControl") return;
 			
 			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		

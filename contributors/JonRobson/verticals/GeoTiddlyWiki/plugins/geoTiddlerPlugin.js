@@ -680,7 +680,7 @@ if(!version.extensions.geoPlugin) {
 			}
 			else{
 				
-				geomaps[id].moveTo(la,lo,zoom);
+				geomaps[id].moveTo(lo,la,zoom);
 			}
 			
 		}
@@ -712,7 +712,7 @@ if(!version.extensions.geoPlugin) {
 			if(getParam(prms,"zoom")){
 				zoom = getParam(prms,"zoom");		 
 			}
-			geomaps[id].moveTo(la,lo,zoom);
+			geomaps[id].moveTo(lo,la,zoom);
 		}
 	
 	}

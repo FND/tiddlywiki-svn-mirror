@@ -231,13 +231,13 @@ EasyMap.prototype = {
 		var transformation =this.getTransformation();
 		
 		var newxy={};
-		newxy.x = - parseFloat(latitude);
-		newxy.y = parseFloat(longitude);
+		newxy.x = parseFloat(longitude);
+		newxy.y = parseFloat(latitude);
 		
 		if(this.settings.projection){
 		 	newxy = this.settings.projection.xy(newxy.x,newxy.y,transformation);
 		}
-		newt.translate.x = newxy.x;
+		newt.translate.x = - newxy.x;
 		newt.translate.y = newxy.y;
 		
 		if(!zoom){

@@ -30,7 +30,6 @@ var EasyClicking = function(element,easyShapesList){
 };
 
 EasyClicking.prototype = {
-
 	setTransformation: function(transformation){
 		if(transformation) this.transformation = transformation;	
 	}

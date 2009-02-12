@@ -1,6 +1,12 @@
 
 var EasyClickingUtils = {
-	undotransformation: function(x,y,transformation){ //porting to EasyTransformations?
+	getRealXYFromMouse: function(e,t){
+		var newpos =EasyClickingUtils.getMouseFromEvent(e);
+		newpos = EasyClickingUtils.undotransformation(newpos.x,newpos.y,t);
+		return newpos;
+	}
+	
+	,undotransformation: function(x,y,transformation){ //porting to EasyTransformations?
 	
 		var pos = {};
 		var t =transformation;
