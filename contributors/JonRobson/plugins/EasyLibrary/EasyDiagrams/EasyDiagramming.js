@@ -63,8 +63,13 @@ EasyDiagram.prototype = {
 		delete this.tempshapes[name];
 	}
 	,setDrawingCommand: function(json){
+		if(!json){
+			json = {type:'false'};
+		}
+		
 		if(!json.type) throw "json must have a type property!";
 		this.toolCommand = json;
+	
 	}
 	,getDrawingCommand: function(){
 		if(!this.toolCommand) this.toolCommand = {type:false};
@@ -141,7 +146,7 @@ EasyDiagram.prototype = {
 		var command =this.getDrawingCommand();
 		var easyDiagram = this;
 		if(s && !easyDiagram.selectedShape){//highlight with box?
-			if(command.type == 'editlabel') return;
+			if(command.type == 'editlabel' || command.type == 'drawEdge') return;
 						
 			easyDiagram.selectedShape = s;
 			easyDiagram.selectedShape.properties.fill = "rgb(0,255,0)";
@@ -227,7 +232,6 @@ EasyDiagram.prototype = {
 			if(target.className == "easyControl") return;
 			if(e.button <= 1){//left mouse
 				var command = easyDiagram.getDrawingCommand();
-				console.log("command is ", command);
 				if(command){
 					if(s){			
 						
@@ -265,6 +269,7 @@ EasyDiagram.prototype = {
 	}
 
 	,transform: function(matrix){
+		if(this.getDrawingCommand().type == 'editlabel') return;
 		var o1 = parseInt(this.canvas.width) /2;
 		var o2 = parseInt(this.canvas.height) /2;
 		this.tmatrix = EasyTransformations.clone(matrix);
@@ -384,11 +389,12 @@ EasyDiagram.prototype = {
 			var easyDiagram = this;
 			nodelabeledit.onblur = function(e){
 				node.setProperty("mode",0); //?
-				easyDiagram.setDrawingCommand({type:false});
+				easyDiagram.setDrawingCommand(false);
 				nodelabeledit.style.display = "none";
 				nodelabel.style.display = "";
-				easyDiagram.controller.renderLabel(nodelabel,nodelabeledit.value)
 				node.setProperty("label",nodelabeledit.value);
+				easyDiagram.controller.renderLabel(nodelabel,nodelabeledit.value);
+				
 			}
 			nodelabel.ondblclick = function(e){
 				easyDiagram.setDrawingCommand({type:'editlabel'});
