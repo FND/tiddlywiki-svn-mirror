@@ -4856,9 +4856,13 @@ var EasyShape = function(properties,coordinates,geojson){
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 };
 EasyShape.prototype={
-	
-	render: function(canvas,transformation,projection,optimisations, browser){
+	getBoundingBox: function(){ /* returns untransformed bounding box */
+		return this.grid;
+	}
+
+	,render: function(canvas,transformation,projection,optimisations, browser){
 		var optimisations = true;
+		
 		if(!transformation){
 			transformation = {};
 		}
@@ -4868,10 +4872,7 @@ EasyShape.prototype={
 		
 		var frame = this._calculateVisibleArea(canvas,transformation);
 		var shapetype = this.properties.shape;
-		if(shapetype == 'text'){
-			this._renderTextShape(canvas,transformation);
-		}
-		else if(shapetype == 'point'){
+		if(shapetype == 'point'){
 			this._calculatePointCoordinates(transformation);
 		} 
 		else if(shapetype == 'path' || shapetype =='polygon'){
@@ -4897,10 +4898,7 @@ EasyShape.prototype={
 
 		if(this.vml) this.vml.style.display = '';
 		
-		if(shapetype == 'text'){
-			//special treatment!
-		}
-		else if(!canvas.getContext) {
+		if(!canvas.getContext) {
 			//this has been taken from Google ExplorerCanvas
 			if (!document.namespaces['easyShapeVml_']) {
 			        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
@@ -4933,9 +4931,11 @@ EasyShape.prototype={
 		this._calculateBounds();
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
-
+	,getCoordinates: function(){
+		return this.coords;
+	}
 	,_calculateBounds: function(coords){
-		if(this.properties.shape == 'path' | this.properties.shape =='text'){
+		if(this.properties.shape == 'path'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
@@ -4978,14 +4978,6 @@ EasyShape.prototype={
 		var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, y+ps];
 		this._constructPolygonShape(properties,newcoords);
 	}
-	,_constructTextShape: function(properties,coordinates){
-		this.properties = properties;
-		var t = document.createElement(&quot;div&quot;);
-		t.className = &quot;easyShape&quot;;
-		t.style.position = &quot;absolute&quot;;
-		this._textLabel = t;
-		this.setCoordinates(coordinates);
-	}
 	
 	,_constructPolygonShape: function(properties,coordinates){
 		this.properties = properties;
@@ -4996,10 +4988,7 @@ EasyShape.prototype={
 		}
 	}
 	,_constructBasicShape: function(properties, coordinates){
-		if(properties.shape == 'text'){
-			this._constructTextShape(properties,coordinates);
-		}
-		else if(properties.shape == 'point'){
+		if(properties.shape == 'point'){
 			this._constructPointShape(properties,coordinates);
 		}
 		else if(properties.shape == 'polygon' || properties.shape == 'path')
@@ -5055,28 +5044,6 @@ EasyShape.prototype={
 
 
 	 /*RENDERING */
-	,_renderTextShape: function(canvas,transformation){
-		var t =this._textLabel;
-		var coordinates = this.coords;
-		var x= coordinates[0];
-		var y =coordinates[1];
-		t.innerHTML = this.properties.name;
-
-
-		
-		if(t.parentNode == null){
-			t.style.left =   parseInt(x) +&quot;px&quot;;
-			t.style.top = parseInt(y)+&quot;px&quot;;
-			t.style.width =  &quot;200px&quot;;
-			t.style.height = &quot;200px&quot;;
-			t.style.textAlign = &quot;center&quot;;
-			
-			canvas.appendChild(this._textLabel);
-		}
-		
-		this._cssTransform(t,transformation,false);
-		t.style.lineHeight = t.style.height;
-	}
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
 		var shapetype = this.properties.shape;	
@@ -5239,7 +5206,7 @@ EasyShape.prototype={
 		var d1,d2,t;
 		if(!vml) return;
 	
-		if(vml.tagName == 'shape' &amp;&amp; (!vml.path || this.properties.shape =='point' ||projection)) {
+		if(vml.tagName == 'shape' &amp;&amp; (!vml.path || this.properties.shape =='point')) {
 			//causes slow down..
 			this._createvmlpathstring(vml,transformation,projection);
 		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
@@ -5391,14 +5358,14 @@ EasyShape.prototype={
 
 			cok = true;
 			//check we haven't wrapped around world (For flat projections sss)
-			/*
+			
 			if(!projection.nowrap){
 				var diff;
 				if(newx &gt; x) diff = newx - x;
 				if(x &gt; newx) diff = x - newx;
 				if(diff &gt; 100) cok = false; //too extreme change
 			}
-			*/
+			
 			if(cok){
 				if(typeof newx == 'number' &amp;&amp; typeof newy =='number'){
 					if(moved){
@@ -5442,7 +5409,7 @@ EasyShape.prototype={
 		var ps = 5 / parseFloat(transformation.scale.x);
 		//should get bigger with scale increasing
 		var smallest = 1 / this._iemultiplier;
-		var largest = 2.5;
+		var largest = 2.5 * transformation.scale.x;
 		if(ps &lt; smallest) ps = smallest;
 		if(ps &gt; largest) ps = largest;
 		var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
@@ -5602,17 +5569,19 @@ EasyMapController.prototype = {
 			if(!this.easyController)return;
 			var p =this.easyController.panning_status;
 			if(!p) return;
-			if(!p) return;
 			var t =  EasyClickingUtils.resolveTarget(e);
-	
+
+			if(t.tagName == &quot;INPUT&quot;) return;
 			if(t.getAttribute(&quot;class&quot;) == &quot;easyControl&quot;) return;
+			
 			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
 			if(!pos)return;
 			
 			var t = that.transformation;
 			//if(this.transformation) t = this.transformation;
 			var sc = t.scale;
-			
+
+			/* work out deltas */
 			var xd =parseFloat(pos.x /sc.x);
 			var yd = parseFloat(pos.y / sc.y);
 			t.translate.x = p.translate.x + xd;
@@ -5805,39 +5774,9 @@ EasyMapController.prototype = {
 		var t = this.transformation;
 		var s = t.scale;
 		var tr = t.translate;
-		var style = this.wrapper.style;
-		
-		
-		var width = parseInt(style.width);
-		var height = parseInt(style.height);
 		if(s.x &lt;= 0) s.x = 0.1125;
 		if(s.y &lt;= 0) s.y = 0.1125;
-		
-		if(s.x &gt; this._maxscale) s.x = this._maxscale;
-		if(s.y &gt; this._maxscale) s.y = this._maxscale;
-		
-		
-		if(width &amp;&amp; height){
-			var max = {};
-			max.x = parseFloat((width) - 10) * s.x;//the maximum possible translation
-			max.y = parseFloat((height) - 10) * s.y;//the maximum possible translation
-	
-			if(tr.x &gt; max.x){
-				tr.x = max.x;
-			}
-			else if(tr.x &lt; -max.x){
-				tr.x= -max.x;
-			}
-		
-			if(tr.y &gt; max.y){
-				tr.y = max.y;
-			}
-			else if(tr.y &lt; -max.y){
-				tr.y= -max.y;
-			}
-		}
 
-		//console.log(this.transformation.rotate,&quot;rotate&quot;);
 		this.targetjs.transform(this.transformation);
 
 
@@ -6240,12 +6179,7 @@ var EasyMapUtils = {
 
 };
 var s = EasyMapUtils.getSlippyTileNumber(0.422812,51.642283,10);
-if(s.x == 513 &amp;&amp; s.y == 339){
-	console.log(&quot;ok&quot;);
-}
-else{
-	throw &quot;problem with slippy tile number&quot;;
-}/*
+/*
 EasyClicking adds the ability to associate a dom element with lots of EasyShapes using addToMemory function
 The getShapeAtClick function allows click detection on this dom element when used in a dom mouse event handler
 */
@@ -6262,9 +6196,9 @@ function findScrollY()
 	return window.scrollY || document.documentElement.scrollTop;
 }
 
-var EasyClicking = function(element,transformation,easyShapesList){
+/*Turn a dom element into one where you can find EasyShapes based on clicks */
+var EasyClicking = function(element,easyShapesList){
 	if(element.easyClicking) {
-		console.log(&quot;already has easyClicking&quot;);
 		var update = element.easyClicking;
 		return update;
 	}
@@ -6272,13 +6206,15 @@ var EasyClicking = function(element,transformation,easyShapesList){
 	this.memory = [];
 	element.easyClicking = this;
 	if(easyShapesList) this.memory = easyShapesList;
-	if(transformation) this.transformation = transformation;
+	
 	
 };
 
 EasyClicking.prototype = {
-
-	addToMemory: function(easyShape){
+	setTransformation: function(transformation){
+		if(transformation) this.transformation = transformation;	
+	}
+	,addToMemory: function(easyShape){
 		if(!this.memory) this.memory = [];
 		easyShape._easyClickingID = this.memory.length;
 		this.memory.push(easyShape);
@@ -6435,7 +6371,13 @@ EasyClicking.prototype = {
 
 
 var EasyClickingUtils = {
-	undotransformation: function(x,y,transformation){
+	getRealXYFromMouse: function(e,t){
+		var newpos =EasyClickingUtils.getMouseFromEvent(e);
+		newpos = EasyClickingUtils.undotransformation(newpos.x,newpos.y,t);
+		return newpos;
+	}
+	
+	,undotransformation: function(x,y,transformation){ //porting to EasyTransformations?
 	
 		var pos = {};
 		var t =transformation;
