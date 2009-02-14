@@ -213,7 +213,7 @@ config.macros.geosearchandgoto = {
 				zoom = map.controller.transformation.scale.x;
 			else
 				zoom = 1;
-			map.moveTo(la,lo,zoom);
+			map.moveTo(lo,la,zoom);
 		/*	
 			tagit.title = results[0].titleNoFormatting;
 			tagit.longitude = lo;

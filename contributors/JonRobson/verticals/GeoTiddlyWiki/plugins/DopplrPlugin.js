@@ -52,6 +52,7 @@ config.macros.DopplrMyGeo.handler =function(place,macroName,params,wikifier,para
 		var geoid = id;
 		if(!geoid) geoid = "default";
 		
+
 		geomaps[geoid].drawFromGeojson(data);
 		
 	};

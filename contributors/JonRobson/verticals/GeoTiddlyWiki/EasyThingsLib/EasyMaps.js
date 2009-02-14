@@ -159,7 +159,7 @@ EasyMap.prototype = {
 				geojson = eval('(' +geojson+ ')');
 			}		
 			this._lastgeojson = geojson;
-			if(this._fittocanvas){
+			if(!geojson.points && this._fittocanvas){
 			 	var t = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
 			
 				var p =this.getProjection();
