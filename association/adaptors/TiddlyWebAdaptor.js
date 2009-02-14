@@ -394,6 +394,9 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		return me.getTiddlerChronicle(title, context, userParams, callback);
 	};
 	var _putTiddlerChronicle = function(context, userParams) {
+		if(!context.status) {
+			return callback(context, userParams);
+		}
 		eval("var revisions = " + context.responseText); // XXX: error handling?
 		// change current title while retaining previous location
 		for(var i = 0; i < revisions.length; i++) {
@@ -425,6 +428,9 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		return me.putTiddlerChronicle(revisions, context, context.userParams, callback);
 	};
 	var _deleteTiddler = function(context, userParams) {
+		if(!context.status) {
+			return callback(context, userParams);
+		}
 		context.callback = null;
 		return me.deleteTiddler(oldTiddler, context, context.userParams, callback);
 	};
