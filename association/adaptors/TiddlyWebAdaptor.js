@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.5.4|
+|''Version''|0.5.5|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -303,8 +303,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		text: tiddler.text,
 		modifier: tiddler.modifier,
 		tags: tiddler.tags,
-		fields: tiddler.fields,
-		revision: tiddler["server.page.revision"]
+		fields: tiddler.fields
 	};
 	delete payload.fields.changecount;
 	payload = JSON.stringify(payload);
@@ -463,7 +462,7 @@ adaptor.deleteTiddlerCallback = function(status, context, responseText, uri, xhr
 	}
 };
 
-// retrieve a diff of tiddler revisions
+// retrieve a diff of tiddler revisions -- XXX: incomplete!?
 adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var tiddler = store.getTiddler(title);
