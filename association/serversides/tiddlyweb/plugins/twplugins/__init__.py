@@ -82,7 +82,7 @@ def ensure_bag(bag_name, store, policy_dict={}, description='', owner=None):
     """
     bag = Bag(bag_name)
     try:
-        store.get(bag)
+        bag = store.get(bag)
     except NoBagError:
         bag.desc = description
         if owner:
