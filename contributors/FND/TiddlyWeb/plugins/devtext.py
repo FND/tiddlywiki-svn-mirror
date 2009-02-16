@@ -24,6 +24,7 @@ class Store(Text):
 
     def __init__(self, environ={}):
         self.environ = environ
+        self.serializer = Serializer('text')
         if not os.path.exists(self._store_root()):
             os.mkdir(self._store_root())
 
@@ -77,11 +78,19 @@ class Store(Text):
         except StoreEncodingError, exc:
             raise NoTiddlerError(exc)
 
+    def _tiddler_full_filename(self, tiddler, revision):
+        """
+        Return the full path to the respective tiddler file.
+        """
+
+        return os.path.join(self._tiddlers_dir(tiddler.bag),
+            "%s.tid" % _encode_filename(tiddler.title))
+
     def _tiddler_revision_filename(self, tiddler, index=0):
         """
         <TBD>
         """
-        return "%s.tid" % tiddler.title
+        return 1
 
     def list_tiddler_revisions(self, tiddler):
         """
@@ -91,54 +100,6 @@ class Store(Text):
 
     def _files_in_dir(self, path):
         return [x for x in os.listdir(path) if not x.startswith('.') and not x == 'policy' and not x == 'description']
-
-    def tiddler_put(self, tiddler):
-        """
-        Write a tiddler into the store. We only write if
-        the bag already exists. Bag creation is a
-        separate action from writing to a bag.
-        """
-
-        tiddler_base_filename = self._tiddler_base_filename(tiddler)
-        if not os.path.exists(tiddler_base_filename):
-            os.mkdir(tiddler_base_filename)
-        locked = 0
-        lock_attempts = 0
-        while (not locked):
-            try:
-                lock_attempts = lock_attempts + 1
-                self.write_lock(tiddler_base_filename)
-                locked = 1
-            except StoreLockError, exc:
-                if lock_attempts > 4:
-                    raise StoreLockError(exc)
-                time.sleep(.1)
-
-		print "rev", tiddler.revision
-		repr(tiddler.revision)
-
-        tiddler_filename = os.path.join(
-            tiddler_base_filename,
-            self._tiddler_revision_filename(
-                tiddler,
-                1
-            )
-        )
-        tiddler_file = codecs.open(tiddler_filename, 'w', encoding='utf-8')
-
-        if tiddler.type and tiddler.type != 'None':
-            tiddler.text = b64encode(tiddler.text)
-
-        serializer = Serializer('text')
-        serializer.object = tiddler
-
-        tiddler_file.write(serializer.to_string())
-
-        self.write_unlock(tiddler_base_filename)
-        tiddler.revision = 1
-        print "revision:", tiddler.revision
-        tiddler_file.close()
-        self.tiddler_written(tiddler)
 
     def bag_get(self, bag):
         """
@@ -165,3 +126,38 @@ class Store(Text):
         bag.policy = self._read_policy(bag_path)
 
         return bag
+
+    def tiddler_put(self, tiddler):
+        """
+        Write a tiddler into the store. We only write if
+        the bag already exists. Bag creation is a
+        separate action from writing to a bag.
+        """
+
+        tiddler_base_filename = self._tiddler_base_filename(tiddler)
+        if not os.path.exists(tiddler_base_filename):
+            os.mkdir(tiddler_base_filename)
+        locked = 0
+        lock_attempts = 0
+        while (not locked):
+            try:
+                lock_attempts = lock_attempts + 1
+                self.write_lock(tiddler_base_filename)
+                locked = 1
+            except StoreLockError, exc:
+                if lock_attempts > 4:
+                    raise StoreLockError(exc)
+                time.sleep(.1)
+
+        revision = 1
+        tiddler_filename = self._tiddler_full_filename(tiddler, revision)
+        tiddler_file = codecs.open(tiddler_filename, 'w', encoding='utf-8')
+
+        if tiddler.type and tiddler.type != 'None':
+            tiddler.text = b64encode(tiddler.text)
+        self.serializer.object = tiddler
+        tiddler_file.write(self.serializer.to_string())
+        self.write_unlock(tiddler_base_filename)
+        tiddler.revision = revision
+        tiddler_file.close()
+        self.tiddler_written(tiddler)
