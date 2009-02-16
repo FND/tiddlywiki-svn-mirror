@@ -11,8 +11,7 @@ else
 	config.options.txtTheme = "SplitTreeThemeAnon";
 
 
-config.options.txtTheme = "gTheme";
-config.options.chkSinglePageMode = true;
+config.options.txtTheme = "mpTheme";
 config.options.chkBackstage = false;
 
 //}}}

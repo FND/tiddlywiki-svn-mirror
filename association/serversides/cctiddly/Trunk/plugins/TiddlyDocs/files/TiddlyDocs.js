@@ -28,7 +28,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	var btn = createTiddlyElement(buttonHolder, "a", null, "button");
 	btn.onclick = config.macros.newTiddler.onClickNewTiddler;
 	btn.setAttribute("newTitle","New Section");
-	btn.setAttribute("newTemplate","gTheme##taskEditTemplate");
+	btn.setAttribute("newTemplate","mpTheme##taskEditTemplate");
 	var img = createTiddlyElement(btn, "img");
 	img.style.width = "10px";
 	img.style.height="10px";
@@ -38,13 +38,13 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 /// users button
 	var btn = createTiddlyElement(buttonHolder, "a", null, "button");
 	btn.onclick = function () {
-		story.displayTiddler(null, "UserDefinitions");
+		story.displayTiddler(null, "Settings");
 	};
 	var img = createTiddlyElement(btn, "img");
 	img.style.width = "10px";
 	img.style.height="10px";
 	img.src = "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png";
-	createTiddlyText(btn, " Users");
+	createTiddlyText(btn, " Settings");
 	btn.setAttribute("href","javascript:;");		
 /// document specification button
 		/*
@@ -78,7 +78,6 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	var frag1 = createTiddlyElement(div, "div", "frag1", null, "frag 1 content");
 	createTiddlyElement(div, "div", "frag2", null, "frag 2 content ");
 	*/
-	log($('#example >ul').tabs());
 	var treeSpec = store.getTiddlerText(params[0]); 
 	if(treeSpec){
 		var sections = treeSpec.split("\n");
@@ -140,10 +139,12 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					handle: '.sort-handle '
 				});	
 
-					$("#sortableList li").mouseup(function() {
-					//	log("mouseup", this.id, config.macros.docOutline.dragged);
-					story.displayTiddler(null, this.id)
-					});
+				$("#sortableList li").mouseup(function() {
+					if(config.options.chkOpenEditView==true)
+						story.displayTiddler(null, this.id, "mpTheme##taskEditTemplate");
+					else
+						story.displayTiddler(null, this.id);
+				});
 
 				// set the style when hovering over each item
 				$(".sectionHeading").hover(

@@ -1,0 +1,5 @@
+<<selectTheme>>
+User Values : [[UserDefinitions]]
+Status Values : [[StatusDefinitions]]
+Open in Edit Mode :<<option chkOpenEditView>>
+Single Section Mode :<<option chkSinglePageMode>>

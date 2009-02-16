@@ -32,9 +32,9 @@ body
 	background-color: #ffffff;
 }
 
-#xEditingArea
+s
 {
-	border: #696969 1px solid;
+	border:0px;
 }
 
 .SourceField
@@ -51,14 +51,13 @@ body
 .TB_ToolbarSet, .TB_Expand, .TB_Collapse
 {
     cursor: default;
-	background-color: #f7f7f7;
+	background-color: #fff;
 }
 
 .TB_ToolbarSet
 {
 	padding: 1px;
-	border-top: red 1px outset;
-	border-bottom: red 1px outset;
+	border:0px !important;
 }
 
 .TB_ToolbarSet TD
@@ -116,12 +115,12 @@ body
 .TB_Expand, .TB_Collapse
 {
 	padding: 2px 2px 2px 2px;
-	border: red 1px outset;
+	border: 0px;
 }
 
 .TB_Collapse
 {
-	border: red 1px outset;
+	border: 0px;
 	width: 5px;
 }
 
