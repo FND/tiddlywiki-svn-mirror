@@ -106,7 +106,6 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	var w = new Wizard(item);
 	var me = config.macros.ccLogin;
 	var userParams = {};
-	console.log(config.adaptors);
 	userParams.place = place;
 	var adaptor = new config.adaptors[config.defaultCustomFields['server.type']];
 	var context = {};

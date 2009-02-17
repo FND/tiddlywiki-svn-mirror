@@ -5,8 +5,6 @@ config.macros.switchColours.doSwitch = function(place)
 	store.saveTiddler("alternative_ColorPalette", "alternative_ColorPalette", store.getTiddlerText("ColorPalette"));
 	store.saveTiddler("ColorPalette", "ColorPalette", tempColorPalette);
 	var container = story.findContainingTiddler(place);
-//	console.log(container);
-
 }
 config.macros.switchColours.handler = function(place,macroName,params){
 	

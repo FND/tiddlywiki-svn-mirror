@@ -37,8 +37,6 @@ config.options.txtFCKheight = config.options.txtFCKheight ? config.options.txtFC
 config.macros.editHtml = {
 	handler : function(place,macroName,params,wikifier,paramString,tiddler) {
 		var field = params[0];
-		
-		console.log("her");
 		var height = params[1] ? params[1] : config.options.txtFCKheight;
 		if (typeof FCKeditor=="undefined"){
 			displayMessage(config.macros.editHtml.FCKeditorUnavailable);

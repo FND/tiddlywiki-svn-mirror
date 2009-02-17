@@ -621,8 +621,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	ccTiddlyAdaptor.prototype.deleteTiddler = function(title,context,userParams,callback){	
 		context = this.setContext(context,userParams,callback);
 		context.title = title;
-		console.log(context);
-		
 		title = encodeURIComponent(title);
 		var uri = tiddler.fields['server.host']+'/handle/delete.php';
 		var data = "?workspace='"+context.workspace+"'&title="+title;
