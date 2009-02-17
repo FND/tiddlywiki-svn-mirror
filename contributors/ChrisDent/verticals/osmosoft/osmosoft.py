@@ -62,6 +62,18 @@ EDITOR_ROLE = 'osmo'
 WIKI_CACHE_DIR = '.wiki_cache'
 
 
+def tiddler_written_handler(self, tiddler):
+    try:
+        logging.debug('attempting to unlink cache')
+        [os.unlink(os.path.join(WIKI_CACHE_DIR, file)) for file in
+                os.listdir(WIKI_CACHE_DIR) if not file.startswith('.')]
+    except IOError, exc:
+        logging.warn('unable to unlink in %s: %s' % (WIKI_CACHE_DIR, exc))
+
+# note this is a dependency on the text store, which is _bad_
+tiddlyweb.stores.text.Store.tiddler_written = tiddler_written_handler
+
+
 def osmo_home(environ, start_response):
     """
     If we have a user with role osmo,
@@ -96,34 +108,6 @@ def osmo_home(environ, start_response):
     return output
 
 
-def tiddler_written_handler(self, tiddler):
-    try:
-        logging.debug('attempting to unlink cache')
-        [os.unlink(os.path.join(WIKI_CACHE_DIR, file)) for file in
-                os.listdir(WIKI_CACHE_DIR) if not file.startswith('.')]
-    except IOError, exc:
-        logging.warn('unable to unlink in %s: %s' % (WIKI_CACHE_DIR, exc))
-
-tiddlyweb.stores.text.tiddler_written = tiddler_written_handler
-
-
-def init(config):
-    try:
-        os.mkdir(WIKI_CACHE_DIR)
-    except OSError, exc:
-        logging.warn('unable to create %s: %s' % (WIKI_CACHE_DIR, exc))
-    replace_handler(config['selector'], '/', dict(GET=osmo_home))
-
-
-def _header_value(headers, name):
-    name = name.lower()
-    try:
-        found_value = [value for header,value in headers if header.lower() == name][0]
-    except IndexError:
-        found_value = None
-    return found_value
-
-
 def _validate_cache(etag):
     if not etag:
         return
@@ -150,3 +134,21 @@ def _write_cache(name, etag, output):
     file.close()
     logging.debug('attempt to write %s to cache' % name)
     os.symlink(os.path.abspath(etag_filename), os.path.abspath(link_filename))
+
+
+def init(config):
+    try:
+        os.mkdir(WIKI_CACHE_DIR)
+    except OSError, exc:
+        logging.warn('unable to create %s: %s' % (WIKI_CACHE_DIR, exc))
+    replace_handler(config['selector'], '/', dict(GET=osmo_home))
+
+
+def _header_value(headers, name):
+    name = name.lower()
+    try:
+        found_value = [value for header,value in headers if header.lower() == name][0]
+    except IndexError:
+        found_value = None
+    return found_value
+
