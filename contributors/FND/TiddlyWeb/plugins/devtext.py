@@ -4,6 +4,9 @@ A StorageInterface intended to ease client-side plugin development
 * no revisions
 * uses .tid files for non-JavaScript content
 * supports JavaScript (.js) files
+
+To Do:
+* optional policy file
 """
 
 import os
@@ -18,6 +21,7 @@ from tiddlyweb.model.bag import Bag
 from tiddlyweb.model.recipe import Recipe
 from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.model.user import User
+from tiddlyweb.store import NoBagError, NoTiddlerError
 
 
 class Store(Text):
@@ -77,17 +81,23 @@ class Store(Text):
 
     def _tiddler_full_filename(self, tiddler, revision):
         return os.path.join(self._tiddlers_dir(tiddler.bag),
-            "%s.tid" % _encode_filename(tiddler.title))
+            '%s.tid' % _encode_filename(tiddler.title))
 
     def _tiddler_revision_filename(self, tiddler, index=0):
         return 1
 
     def _read_tiddler_file(self, tiddler, tiddler_filename):
-        tiddler_file = codecs.open(tiddler_filename, encoding='utf-8')
+        try:
+            tiddler_file = codecs.open(tiddler_filename, encoding='utf-8')
+        except IOError:
+            tiddler_filename = tiddler_filename.replace('.tid', '.js')
+            tiddler_file = codecs.open(tiddler_filename, encoding='utf-8')
         tiddler_string = tiddler_file.read()
         tiddler_file.close()
         if tiddler_filename.endswith('.js'):
-            tiddler_string = 'tags: systemConfig\n\n' + tiddler_string
+            header = 'tags: systemConfig'
+            notice = '/***\n> source: {{{%s}}}\n***/' % tiddler_filename
+            tiddler_string = '%s\n\n%s\n%s' % (header, notice, tiddler_string)
         self.serializer.object = tiddler
         tiddler = self.serializer.from_string(tiddler_string)
         return tiddler
@@ -145,3 +155,14 @@ class Store(Text):
         tiddler.revision = revision
         tiddler_file.close()
         self.tiddler_written(tiddler)
+
+    def tiddler_delete(self, tiddler):
+        try:
+            tiddler_full_filename = self._tiddler_full_filename(tiddler, 1)
+            if not os.path.exists(tiddler_full_filename):
+                raise NoTiddlerError('%s not present' % tiddler_full_filename)
+            os.unlink(tiddler_full_filename)
+        except NoTiddlerError:
+            raise
+        except Exception, exc:
+            raise IOError('unable to delete %s: %s' % (tiddler.title, exc))
