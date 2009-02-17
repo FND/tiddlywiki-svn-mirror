@@ -62,9 +62,6 @@ class Store(Text):
         return self._bag_path(bag_name)
 
     def _tiddler_base_filename(self, tiddler):
-        """
-        <TBD>
-        """
         # should we get a Bag or a name here?
         bag_name = tiddler.bag
 
@@ -79,61 +76,48 @@ class Store(Text):
             raise NoTiddlerError(exc)
 
     def _tiddler_full_filename(self, tiddler, revision):
-        """
-        Return the full path to the respective tiddler file.
-        """
-
         return os.path.join(self._tiddlers_dir(tiddler.bag),
             "%s.tid" % _encode_filename(tiddler.title))
 
     def _tiddler_revision_filename(self, tiddler, index=0):
-        """
-        <TBD>
-        """
         return 1
 
+    def _read_tiddler_file(self, tiddler, tiddler_filename):
+        tiddler_file = codecs.open(tiddler_filename, encoding='utf-8')
+        tiddler_string = tiddler_file.read()
+        tiddler_file.close()
+        if tiddler_filename.endswith('.js'):
+            tiddler_string = 'tags: systemConfig\n\n' + tiddler_string
+        self.serializer.object = tiddler
+        tiddler = self.serializer.from_string(tiddler_string)
+        return tiddler
+
     def list_tiddler_revisions(self, tiddler):
-        """
-        <TBD>
-        """
         return [self._tiddler_revision_filename(tiddler)]
 
     def _files_in_dir(self, path):
         return [x for x in os.listdir(path) if not x.startswith('.') and not x == 'policy' and not x == 'description']
 
     def bag_get(self, bag):
-        """
-        Read a bag from the store and get a list
-        of its tiddlers.
-        """
         bag_path = self._bag_path(bag.name)
         tiddlers_dir = self._tiddlers_dir(bag.name)
-
         try:
             tiddlers = self._files_in_dir(tiddlers_dir)
         except OSError, exc:
             raise NoBagError('unable to list tiddlers in bag: %s' % exc)
         for filename in tiddlers:
             title = None
-            if filename.endswith(".tid"):
+            if filename.endswith('.tid'):
                 title = urllib.unquote(filename[:-4]).decode('utf-8')
-            elif filename.endswith(".js"):
+            elif filename.endswith('.js'):
                 title = urllib.unquote(filename[:-3]).decode('utf-8')
             if title:
                 bag.add_tiddler(Tiddler(title))
-
         bag.desc = self._read_bag_description(bag_path)
         bag.policy = self._read_policy(bag_path)
-
         return bag
 
     def tiddler_put(self, tiddler):
-        """
-        Write a tiddler into the store. We only write if
-        the bag already exists. Bag creation is a
-        separate action from writing to a bag.
-        """
-
         tiddler_base_filename = self._tiddler_base_filename(tiddler)
         if not os.path.exists(tiddler_base_filename):
             os.mkdir(tiddler_base_filename)
