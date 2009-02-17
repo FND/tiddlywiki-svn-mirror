@@ -408,8 +408,6 @@ function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
 		if($k!=="id") // hack to avoid updating the id
 		$q .= "`".db_format4SQL($k).'`="'.db_format4SQL($v).'",';
 	}
-	
-
 	$q = substr($q,0,(strlen($q)-1));		//remove last ","
 	$q .= " WHERE `id` = '".$oid."'";
 	debug($q, "mysql");

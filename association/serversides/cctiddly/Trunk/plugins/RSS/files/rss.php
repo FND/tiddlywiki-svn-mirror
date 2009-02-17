@@ -3,7 +3,7 @@
 include_once($cct_base."includes/header.php");
 //force anonymous due to security concerns
 $user['verified']=0;
-$tag = "";
+$tag = ""; // if a tag is specified the RSS feed will only return tiddler with that tag. 
 
 if($tiddlyCfg['workspace_name'] == "index.xml")
 	$tiddlyCfg['workspace_name'] = '';
@@ -16,9 +16,8 @@ while( $d=db_fetch_assoc($data) ) {
 	$tmp[$d['title']] = $d;
 }
 $data = $tmp;
-
 //$siteUrl = isset($data['SiteUrl'])?htmlspecialchars($data['SiteUrl']['body']):"http://www.tiddlywiki.com/";
-$siteUrl = dirname(dirname(dirname(getUrl())))."/".$tiddlyCfg['workspace_name'];
+$siteUrl = getUrl().$tiddlyCfg['workspace_name'];
 $result = '<?xml version="1.0"?><rss version="2.0"><channel>
 <title>'.(isset($data['SiteTitle'])?htmlspecialchars($data['SiteTitle']['body']):"My TiddlyWiki").'</title>
 <link>'.$siteUrl.'</link>

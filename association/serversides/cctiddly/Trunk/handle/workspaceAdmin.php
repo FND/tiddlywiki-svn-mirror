@@ -1,5 +1,8 @@
 <?php
 // THIS WILL BECOME A MODULE IN 1.7
+
+
+
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 debug($_SERVER['PHP_SELF'], "handle");	
@@ -24,7 +27,7 @@ if (!user_isAdmin($user['username'], $w))
 	sendHeader("401", null, null, 1);
 if($a == "DELETEADMIN")
 {
-	$users = explode( ",", $u);
+	$users = explode( ",", $_POST['username']);
 	foreach($users as $user)
 	{
 		if ($user)
@@ -38,6 +41,8 @@ if($a == "DELETEADMIN")
 }
 if ($a == "addNew" && $u)
 {
+	echo "sss";
+	
 	$data['username'] = $u;
 	$data['workspace_name'] = $w;
 	$res = db_record_insert($tiddlyCfg['table']['admin'],$data);
@@ -45,6 +50,7 @@ if ($a == "addNew" && $u)
 		sendHeader(304, null, null, 1);
 	else
 		sendHeader("201");
+		echo "s";
 	exit;
 }
 if ($a =="LISTALL")
