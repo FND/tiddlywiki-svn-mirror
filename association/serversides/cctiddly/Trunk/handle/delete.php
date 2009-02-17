@@ -4,7 +4,6 @@ include_once($cct_base."includes/header.php");
 debug($_SERVER['PHP_SELF'], "handle");	
 
 //return result/message
-
 $title = formatParametersPOST($_POST['title']);
 
 //check for markup
@@ -19,6 +18,7 @@ if( $tiddler===FALSE ) {
 }
 
 if(user_deletePrivilege(user_tiddlerPrivilegeOfUser($user,$tiddler['tags']))) {
+echo "tryin";
 	tiddler_delete_new($tiddler['id']);		//delete current tiddler
 	sendHeader(200);
 }else{

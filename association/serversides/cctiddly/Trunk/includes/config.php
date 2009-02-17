@@ -18,6 +18,8 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"OpenID",
 	"Portlet",
 	"lifestream",
+	"TiddlyDocs",
+	"FCKEditor", 
 	"seo",
 	"SkinnyTiddlers",
 	"WordpressMigration"
@@ -84,6 +86,7 @@ array(	'wikipedia.org',
 		'agilecookbook.com',
 		'trac.tiddlywiki.org',
 		'www.myopenid.com',
+		'tiddlywiki.abego-software.de',
 		'tiddlyhome.bidix.info',
 		'phiffer.org/projects/tiddly/',
 		'monkeygtd.tiddlyspot.com',
@@ -287,8 +290,8 @@ Notes :
 */
 
 //default privileges
-$tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what should undefined (U) be treated as
-$tiddlyCfg['privilege_misc']['default_privilege'] = "ADDD";		//default privilege for all group and tags
+$tiddlyCfg['privilege_misc']['undefined_privilege'] = "A";		//defined what should undefined (U) be treated as
+$tiddlyCfg['privilege_misc']['default_privilege'] = "AAAA";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
 $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['default_anonymous_perm'];

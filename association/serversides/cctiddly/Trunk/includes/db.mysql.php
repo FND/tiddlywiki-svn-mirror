@@ -261,11 +261,11 @@ function db_tiddlers_mainSelectSkin($skin)
 
 //!	@fn array db_tiddlers_mainSelect4RSS()
 //!	@brief select query for RSS
-function db_tiddlers_mainSelect4RSS()
+function db_tiddlers_mainSelect4RSS($tag)
 {
 	global $tiddlyCfg;
 	$query= "SELECT * FROM ".$tiddlyCfg['table']['main']
-		." WHERE workspace_name='".$tiddlyCfg['workspace_name']."' AND tags LIKE '%Notes%'"
+		." WHERE workspace_name='".$tiddlyCfg['workspace_name']."' AND tags LIKE '%".$tags."%'"
 		." ORDER BY modified DESC LIMIT 20";
 	debug("db_tiddlers_mainSelect4RSS: ".$query, "mysql");
 	$result = mysql_query($query) or die(mysql_error());
@@ -426,7 +426,7 @@ function db_tiddlers_mainUpdate($oid,$tiddler,$stop=1)
 function db_tiddlers_mainDelete($id)
 {
 	global $tiddlyCfg;
-	$q = "DELETE FROM ".$tiddlyCfg['table']['main']." WHERE `id` = '".$id."'";
+echo 	$q = "DELETE FROM ".$tiddlyCfg['table']['main']." WHERE `id` = '".$id."'";
 	//send query
 	debug($q, "mysql");
 	$result = mysql_query($q)

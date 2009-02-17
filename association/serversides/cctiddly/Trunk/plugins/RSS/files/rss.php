@@ -3,9 +3,14 @@
 include_once($cct_base."includes/header.php");
 //force anonymous due to security concerns
 $user['verified']=0;
-$tiddlyCfg['workspace_name'] = 'test';
+$tag = "";
+
+if($tiddlyCfg['workspace_name'] == "index.xml")
+	$tiddlyCfg['workspace_name'] = '';
+
 
 $data = db_tiddlers_mainSelectSiteConfig();
+
 $tmp=array();
 while( $d=db_fetch_assoc($data) ) {
 	$tmp[$d['title']] = $d;
@@ -23,7 +28,7 @@ $result = '<?xml version="1.0"?><rss version="2.0"><channel>
 <generator>ccTiddly '.$tiddlyCfg['version'].'</generator>';
 
 //get required data from database
-$data = db_tiddlers_mainSelect4RSS();
+$data = db_tiddlers_mainSelect4RSS($tag);
 $count=0;
 while( $d=db_fetch_assoc($data) ) 
 {

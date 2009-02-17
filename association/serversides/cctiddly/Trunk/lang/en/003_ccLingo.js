@@ -74,7 +74,7 @@ merge(config.macros.ccCreateWorkspace, {
 	msgWorkspaceAvailable:"Workspace name is available.",
 	errorWorkspaceNameInUse:"Workspace name is already in use.",
 	stepTitle:"Please enter workspace name",
-	stepCreateHtml:"<input class='input' id='workspace_name' name='workspace_name' value='"+window.workspace+"' tabindex='1' /><span></span><input type='hidden' name='workspace_error'></input><h2></h2><input type='hidden' name='workspace_url'></input>"
+	stepCreateHtml:"<input class='input' id='workspace_name' name='workspace_name' value='' tabindex='1' /><span></span><input type='hidden' name='workspace_error'></input><h2></h2><input type='hidden' name='workspace_url'></input>"
 });
 
 merge(config.macros.ccEditWorkspace,{

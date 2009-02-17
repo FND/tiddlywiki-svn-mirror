@@ -22,7 +22,7 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 	{
 		header('HTTP/1.0 403  Forbidden');
 		exit;
-	}
+	}	
 	$data['name'] = $workspace;
 	$data['twLanguage'] = 'en';
 	$data['keep_revision'] = 1;
@@ -64,8 +64,7 @@ function workspace_create($workspace, $anonPerm="ADDD", $admin="")
 	db_record_insert($tiddlyCfg['table']['admin'],$owner);
 	$owner['username']="admin";
 	db_record_insert($tiddlyCfg['table']['admin'],$owner);
-sendHeader(201);
-
-  	return true;
-}
+	sendHeader("201");
+	exit;
+	}
 ?>
