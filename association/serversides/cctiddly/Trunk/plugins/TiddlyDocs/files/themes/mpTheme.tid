@@ -24,13 +24,27 @@ tags:systemTheme
 
 !PageTemplate
 <!--{{{-->
-<div id=topBar style='background:#333;width:99%; height:2em;text-align:right; padding:0.2em;'>
-blah balh balh bl
+<div id=topBar>
+	<a href=''>HOMEPAGE</a> | 
+	<a href=''>PRODUCTS</a> | 
+	<a href=''>APPLICATIONS</a> | 
+	<a href=''>CUSTOMER ZONE</a> | 
+	<a href=''>NETWORK INFO</a> | 
+	<a href=''>NEWS AND BRIEFINGS</a> | 
+	<a href=''>PRICING AND CONTRACTS</a> | 
 </div>
 
 
-<div id=topBar1 style='background:#999;width:99%; height:2em;text-align:right; padding:0.2em;'>
-<div macro='search'>
+<div id=topBar2 style='background:#e6e6e6;width:99%; height:1.5em; padding:0.2em;'>
+	<a href=''>BROADBAND</a> | 
+	<a href=''>21CN & CONSULT 21</a> | 
+	<a href=''>COMMUNICATIONS PROVIDER</a> | 
+
+<div macro='search' style="	float:right;
+	position:relative;
+	text-align:right;
+	top:-1.1em;	font-size:0.8em;">
+
 </div>
 <div class="left">
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
@@ -215,6 +229,30 @@ blah balh balh bl
 
 !StyleSheet 
 
+#topBar {
+	background:#666;
+	width:99%;
+	height:1.5em;
+	padding:0.2em;
+	color:white;
+}
+
+#topBar a {
+font-size:0.8em;
+ color:#ccc;
+}
+
+#topBar2 a{
+	color:#767676;
+	top:1.5em;
+	height:1.5em;
+}
+
+#topBar2 input {
+	font-size:0.9em;
+	position:inherit;
+	top:-0.6em;
+}
 
 .imgBar {
 height:50px;
