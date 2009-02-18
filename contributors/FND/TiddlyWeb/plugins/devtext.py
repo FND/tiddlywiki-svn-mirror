@@ -4,20 +4,19 @@ A StorageInterface intended to ease client-side plugin development
 * no revisions
 * uses .tid files for non-JavaScript content
 * supports JavaScript (.js) files
-
-To Do:
-* optional policy file
 """
 
 import os
 import os.path
 import urllib
 import codecs
+import simplejson
 
 from tiddlyweb.serializer import Serializer
 
 from tiddlyweb.stores.text import Store as Text, _encode_filename
 from tiddlyweb.model.bag import Bag
+from tiddlyweb.model.policy import Policy
 from tiddlyweb.model.recipe import Recipe
 from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.model.user import User
@@ -166,3 +165,17 @@ class Store(Text):
             raise
         except Exception, exc:
             raise IOError('unable to delete %s: %s' % (tiddler.title, exc))
+
+    def _read_policy(self, bag_path):
+        policy_filename = os.path.join(bag_path, 'policy')
+        try:
+            policy_file = codecs.open(policy_filename, encoding='utf-8')
+            policy = policy_file.read()
+            policy_file.close()
+            policy_data = simplejson.loads(policy)
+            policy = Policy()
+            for key, value in policy_data.items():
+                policy.__setattr__(key, value)
+        except IOError:
+            policy = Policy()
+        return policy
