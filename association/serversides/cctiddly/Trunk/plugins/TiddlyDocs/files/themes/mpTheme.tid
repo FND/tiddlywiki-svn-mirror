@@ -24,13 +24,52 @@ tags:systemTheme
 
 !PageTemplate
 <!--{{{-->
+<div id=topBar style='background:#333;width:99%; height:2em;text-align:right; padding:0.2em;'>
+blah balh balh bl
+</div>
+
+
+<div id=topBar1 style='background:#999;width:99%; height:2em;text-align:right; padding:0.2em;'>
+<div macro='search'>
+</div>
+<div class="left">
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div id='picBar' style="float:right;position:absolute;text-align:right;top:6em;width:99%;">
+
+	<img src='http://www.essex.ac.uk/wehia05/Pictures/BT_logo.jpg' width="100px"/>
+	<img src='plugins/TiddlyDocs/files/images/osmosoft.png' width="100px" />
+
+</div>
+
+
+<div id='randomPicBar'  class="left">
+<br />
+
+	<img src='http://farm3.static.flickr.com/2112/2093338087_a7de7372fa.jpg' class="imgBar"/>
+	<img src='http://farm2.static.flickr.com/1090/1433067037_2628a4a934_m.jpg' class="imgBar" />
+	<img src='http://farm2.static.flickr.com/1291/1401313796_e924f3bdf8_m.jpg'  class="imgBar" />
+	<img src='http://farm1.static.flickr.com/57/192178596_bd0752440d_m.jpg' class="imgBar" />
+	<img src='http://farm1.static.flickr.com/229/472902822_d4b8a1b80c_m.jpg'  class="imgBar"/>
+	<img src='http://farm3.static.flickr.com/2235/1858568495_9c88019e78_m.jpg' class="imgBar"/>
+	<img src='http://farm3.static.flickr.com/2311/1740024898_91901bc5cf_m.jpg' class="imgBar"/>
+	<img src='http://farm1.static.flickr.com/65/196634893_10ad2d5693_m.jpg' class="imgBar"/>
+	
+
+	
+
+</div>
+
+
 <div macro='gradient vert #fff #f0f0f0'>
 
-<div id='bodywrapper' >
+
+
+<div id='bodywrapper'>
 <div id='displayArea'>
 <div id='messageArea'></div>
+
 <div class='leftColumn'>
 
 	<div class="portletContainer">
@@ -175,6 +214,13 @@ tags:systemTheme
 
 
 !StyleSheet 
+
+
+.imgBar {
+height:50px;
+width:100px;
+border:1px solid black;
+}
 
 .taskControls {
 	padding:0px;

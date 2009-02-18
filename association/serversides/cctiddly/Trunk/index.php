@@ -50,7 +50,7 @@ if( isset($_GET['title']) )
 	$t = array();
 	foreach($tiddlers as $tid)
 	{
-		$tid['title'] .= " revision ".$tid['revision'];
+	$tid['title'] .= " revision ".$tid['revision'];
 		$t[] = $tid;
 	}
 	$tiddlers = $t;
