@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.4.3|
+|''Version''|0.4.4|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -165,13 +165,15 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 		var newTitle = fields.title || title;
 		if(!store.tiddlerExists(newTitle))
 			newTitle = newTitle.trim();
-		if(store.tiddlerExists(newTitle) && newTitle != title) {
-			var overwrite = true;
-			if(!confirm(config.messages.overwriteWarning.format([newTitle.toString()])))
-				return null;
-		}
-		if(newTitle != title)
+		var rename = false;
+		if(newTitle != title) {
+			rename = true;
+			if(store.tiddlerExists(newTitle)) {
+				if(!confirm(config.messages.overwriteWarning.format([newTitle.toString()])))
+					return null;
+			}
 			this.closeTiddler(newTitle,false);
+		}
 		tiddlerElem.id = this.tiddlerId(newTitle);
 		tiddlerElem.setAttribute("tiddler",newTitle);
 		tiddlerElem.setAttribute("template",DEFAULT_VIEW_TEMPLATE);
@@ -181,13 +183,11 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 		if(!store.tiddlerExists(newTitle))
 			minorUpdate = false;
 		var newDate = new Date();
-		var extendedFields = store.tiddlerExists(newTitle) && !overwrite ?
-			store.fetchTiddler(newTitle).fields :
-			(
-				newTitle!=title && store.tiddlerExists(title) ?
-					store.fetchTiddler(title).fields :
-					merge({},config.defaultCustomFields)
-			);
+		if(store.tiddlerExists(newTitle) && !rename) {
+			var extendedFields = store.fetchTiddler(newTitle).fields
+		} else {
+			extendedFields = rename && store.tiddlerExists(title) ? store.fetchTiddler(title).fields : merge({},config.defaultCustomFields)
+		}
 		for(var n in fields) {
 			if(!TiddlyWiki.isStandardField(n))
 				extendedFields[n] = fields[n];
