@@ -35,54 +35,52 @@ tags:systemTheme
 </div>
 
 
-<div id=topBar2 style='background:#e6e6e6;width:99%; height:1.5em; padding:0.2em;'>
+<div id='topBar2' style='background:#e6e6e6;width:99%; font-size:0.8em;height:1.5em; padding:0.2em;'>
 	<a href=''>BROADBAND</a> | 
 	<a href=''>21CN & CONSULT 21</a> | 
 	<a href=''>COMMUNICATIONS PROVIDER</a> | 
 
-<div macro='search' style="	float:right;
-	position:relative;
-	text-align:right;
-	top:-1.1em;	font-size:0.8em;">
 
-</div>
-<div class="left">
-<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-</div>
-<div id='picBar' style="float:right;position:absolute;text-align:right;top:6em;width:99%;">
-
-	<img src='http://www.essex.ac.uk/wehia05/Pictures/BT_logo.jpg' width="100px"/>
-	<img src='plugins/TiddlyDocs/files/images/osmosoft.png' width="100px" />
-
+	<div macro='search' style="	float:right;
+		position:relative;
+		text-align:right;
+		top:-1.1em;	font-size:0.8em;"></div>
 </div>
 
 
-<div id='randomPicBar'  class="left">
-<br />
+<div id="headContainer">
+	<div class="left">
+	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+	</div>
+	<div id='picBar' style="float:right;position:absolute;text-align:right;top:6em;width:95%;">
 
-	<img src='http://farm3.static.flickr.com/2112/2093338087_a7de7372fa.jpg' class="imgBar"/>
-	<img src='http://farm2.static.flickr.com/1090/1433067037_2628a4a934_m.jpg' class="imgBar" />
-	<img src='http://farm2.static.flickr.com/1291/1401313796_e924f3bdf8_m.jpg'  class="imgBar" />
-	<img src='http://farm1.static.flickr.com/57/192178596_bd0752440d_m.jpg' class="imgBar" />
-	<img src='http://farm1.static.flickr.com/229/472902822_d4b8a1b80c_m.jpg'  class="imgBar"/>
-	<img src='http://farm3.static.flickr.com/2235/1858568495_9c88019e78_m.jpg' class="imgBar"/>
-	<img src='http://farm3.static.flickr.com/2311/1740024898_91901bc5cf_m.jpg' class="imgBar"/>
-	<img src='http://farm1.static.flickr.com/65/196634893_10ad2d5693_m.jpg' class="imgBar"/>
-	
-
-	
-
+		<img src='http://www.essex.ac.uk/wehia05/Pictures/BT_logo.jpg' width="100px"/>
+		<img src='plugins/TiddlyDocs/files/images/osmosoft.png' width="100px" />
+	</div>
+	<div id='randomPicBar'  class="left">
+	<br />
+		<img src='http://farm3.static.flickr.com/2112/2093338087_a7de7372fa.jpg' class="imgBar"/>
+		<img src='http://farm2.static.flickr.com/1090/1433067037_2628a4a934_m.jpg' class="imgBar" />
+		<img src='http://farm2.static.flickr.com/1291/1401313796_e924f3bdf8_m.jpg'  class="imgBar" />
+		<img src='http://farm1.static.flickr.com/57/192178596_bd0752440d_m.jpg' class="imgBar" />
+		<img src='http://farm1.static.flickr.com/229/472902822_d4b8a1b80c_m.jpg'  class="imgBar"/>
+		<img src='http://farm3.static.flickr.com/2235/1858568495_9c88019e78_m.jpg' class="imgBar"/>
+		<img src='http://farm3.static.flickr.com/2311/1740024898_91901bc5cf_m.jpg' class="imgBar"/>
+		<img src='http://farm1.static.flickr.com/65/196634893_10ad2d5693_m.jpg' class="imgBar"/>
+	</div>
 </div>
 
-
-<div macro='gradient vert #fff #f0f0f0'>
+<div macro='gradient vert #fff #f0f0f0' style="top:-6em">
 
 
 
 <div id='bodywrapper'>
 <div id='displayArea'>
+
 <div id='messageArea'></div>
+</div>
+</div>
 
 <div class='leftColumn'>
 
@@ -107,8 +105,6 @@ tags:systemTheme
 </div>
 <br />
 <div id='tiddlerDisplay'></div>
-</div>
-</div>
 
 </div>
 <!--}}}-->
@@ -229,6 +225,13 @@ tags:systemTheme
 
 !StyleSheet 
 
+#headContainer{	
+	position:relative;
+	padding:2em;
+	top:-4em;
+}
+
+
 #topBar {
 	background:#666;
 	width:99%;
@@ -271,7 +274,6 @@ border:1px solid black;
 
 
 .siteTitle {
-	margin:1em;
 	color:#777;
 }
 
@@ -633,7 +635,6 @@ width:98.5%;
 	}
 	.portletContainerEdit{
 		background-color:#eee;
-		margin:10px 5px;
 	}
 
 	.portletToolbar{
