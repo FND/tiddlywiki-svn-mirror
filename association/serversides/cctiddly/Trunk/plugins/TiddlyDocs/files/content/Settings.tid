@@ -1,7 +1,6 @@
 tags: wizard
 
-<<editDefinitions UserDefinitions>>
-<<editDefinitions StatusDefinitions>>
-!Look and Feel 
+|<<editDefinitions UserDefinitions>>|<<editDefinitions StatusDefinitions>>|
+
 Open in Edit Mode :<<option chkOpenEditView>>
 Single Section Mode :<<option chkSinglePageMode>>

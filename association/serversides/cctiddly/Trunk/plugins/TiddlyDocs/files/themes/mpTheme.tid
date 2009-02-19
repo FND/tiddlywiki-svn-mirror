@@ -35,7 +35,7 @@ tags:systemTheme
 </div>
 
 
-<div id='topBar2' style='background:#e6e6e6;width:99%; font-size:0.8em;height:1.9em; padding:0.2em;top:2em'>
+<div id='topBar2' style='background:#e6e6e6;width:99%; font-size:0.8em;height:1.9em; padding:0.2em;padding-top:0.4em'>
 	<a href=''>BROADBAND</a> | 
 	<a href=''>21CN & CONSULT 21</a> | 
 	<a href=''>COMMUNICATIONS PROVIDER</a> | 
