@@ -65,7 +65,9 @@ DAMAGE.
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' />
 <!--}}}-->
 <!--PRE-HEAD-END-->
-<title> My TiddlyWiki - a reusable non-linear personal web notebook </title>
+<title>
+
+</title>
 <style id="styleArea" type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -76,12 +78,10 @@ DAMAGE.
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
-
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.checkUnsavedChanges) checkUnsavedChanges(); if(window.scrubNodes) scrubNodes(document.body);">
 <!--PRE-BODY-START-->
-
 <!--PRE-BODY-END-->
 <div id="copyright">
 Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa Association
@@ -528,19 +528,22 @@ Also see AdvancedOptions</pre>
 <div title="ImportTiddlers">
 <pre>&lt;&lt;importTiddlers&gt;&gt;</pre>
 </div>
+<div title="EditTemplate">
+<pre>&lt;!--{{{--&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'&gt;&lt;/div&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;
+&lt;div macro='annotations'&gt;&lt;/div&gt;
+&lt;div class=&quot;label&quot;&gt;Latitude:&lt;/div&gt;&lt;div class=&quot;latitude edit&quot; macro=&quot;edit latitude&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;label&quot;&gt;Longitude:&lt;/div&gt;&lt;div class=&quot;longitude edit&quot; macro=&quot;edit longitude&quot;&gt;&lt;/div&gt;
+&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
+&lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser excludeLists'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;</pre>
+</div>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="BTC" modifier="PaulDowney" created="200902182102" latitude="51.516074" longitude="-0.097954">
-<pre>BT Centre,
-81 Newgate Street,
-London,
-~EC1A 7AJ</pre>
-</div>
-<div title="DefaultTiddlers" modifier="PaulDowney" created="200902182102">
-<pre>[[GeoRSSPlugin]]</pre>
-</div>
-<div title="GeoRSSPlugin" modifier="PaulDowney" created="200902182102" tags="systemConfig excludeLists excludeSearch">
+<div title="GeoRSSPlugin" modifier="PaulDowney" created="20090218210257" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
 |''Name:''|GeoRSSPlugin|
 |''Description:''| add georss to TiddlyWiki's RSS feed for tiddlers with longitude and latitude fields |
@@ -552,6 +555,8 @@ London,
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
 !!Documentation
+This plugin extends the core RSS saving to include [[W3C GeoRSS|http://en.wikipedia.org/wiki/GeoRSS]] values for tiddlers with latitude and longitude values as [[extended fields|http://www.tiddlywiki.org/wiki/Extended_fields]].  Coordinates are taken to be in the [[WGS|http://en.wikipedia.org/wiki/World_Geodetic_System]].  For example output see [[index.xml|http://whatfettle.com/2008/07/GeoRSSPlugin/index.xml]], and the result on [[Google Maps|http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fwhatfettle.com%2F2008%2F07%2FGeoRSSPlugin%2Findex.xml&amp;ie=UTF8&amp;t=h&amp;z=14]].
+For more examples on using geo data in TiddlyWiki, see [[Jon Robson|http://www.jonrobson.me.uk/]]'s [[The Web is Your Oyster|http://www.jonrobson.me.uk/workspaces//tiddlers/The%20Web%20Is%20Your%20Oyster%20-%20create%20and%20tweak%20travel%20itineraries%20for%20your%20trip%20through%20the%20web/]].
 !!Code
 ***/
 //{{{
@@ -565,7 +570,6 @@ version.extensions.GeoRSSPlugin = {installed:true};
         config.extensions.geoRSS = {
 
 		geo: &quot;http://www.w3.org/2003/01/geo/wgs84_pos#&quot;,
-		georss: &quot;http://www.georss.org/georss&quot;,
 
                 _tiddlerToRssItem: tiddlerToRssItem,
 		tiddlerToRssItem: function(tiddler,uri)
@@ -573,11 +577,11 @@ version.extensions.GeoRSSPlugin = {installed:true};
 			var me = config.extensions.geoRSS;
 			var s = me._tiddlerToRssItem(tiddler,uri);
 			var lat = store.getValue(tiddler.title,&quot;latitude&quot;);
-			var long = store.getValue(tiddler.title,&quot;longitude&quot;);
-			if(lat&amp;&amp;long){
-				lat=lat.htmlEncode();
-				long=long.htmlEncode();
-				s = s + &quot;&lt;georss:point&gt;&quot;+lat+&quot; &quot;+long+&quot;&lt;/georss:point&gt;&quot;+&quot;&lt;geo:lat&gt;&quot;+lat+&quot;&lt;/geo:lat&gt;&quot;+&quot;&lt;geo:long&gt;&quot;+long+&quot;&lt;/geo:long&gt;&quot;;
+			if(lat){
+				var long = store.getValue(tiddler.title,&quot;longitude&quot;);
+				if(long){
+					s = s + &quot;&lt;geo:lat&gt;&quot;+lat.htmlEncode()+&quot;&lt;/geo:lat&gt;&quot;+&quot;&lt;geo:long&gt;&quot;+long.htmlEncode()+&quot;&lt;/geo:long&gt;&quot;;
+				}
 			}
 			return s;
 		},
@@ -593,11 +597,13 @@ version.extensions.GeoRSSPlugin = {installed:true};
 
         tiddlerToRssItem = config.extensions.geoRSS.tiddlerToRssItem;
         generateRss = config.extensions.geoRSS.generateRss;
-
 }
 //}}}</pre>
 </div>
-<div title="OsmosoftTowers" modifier="PaulDowney" created="200902182102" latitude="51.498303" longitude="-0.134029">
+<div title="DefaultTiddlers" modifier="PaulDowney" created="20090218210257">
+<pre>[[GeoRSSPlugin]]</pre>
+</div>
+<div title="OsmosoftTowers" modifier="PaulDowney" created="20090218210257" latitude="51.498303" longitude="-0.134029">
 <pre>Osmosoft
 Room 404 (no, really!)
 Westminster Telephone Exchange,
@@ -611,6 +617,19 @@ The nearest station is St James Park. Exit onto Broadway and follow the road tow
 &lt;html&gt;
 &lt;iframe width=&quot;425&quot; height=&quot;350&quot; frameborder=&quot;0&quot; scrolling=&quot;no&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; src=&quot;http://maps.google.co.uk/maps/ms?hl=en&amp;amp;geocode=&amp;amp;near=w1&amp;amp;ie=UTF8&amp;amp;om=1&amp;amp;oe=UTF8&amp;amp;msa=0&amp;amp;msid=110460987146491014064.00045e0415158c8c4023e&amp;amp;ll=51.498303,-0.134029&amp;amp;spn=0,0&amp;amp;output=embed&amp;amp;s=AARTsJprSZFLZIACyNLpP5Ao_VDhnIhxuA&quot;&gt;&lt;/iframe&gt;&lt;br /&gt;&lt;small&gt;&lt;a href=&quot;http://maps.google.co.uk/maps/ms?hl=en&amp;amp;geocode=&amp;amp;near=w1&amp;amp;ie=UTF8&amp;amp;om=1&amp;amp;oe=UTF8&amp;amp;msa=0&amp;amp;msid=110460987146491014064.00045e0415158c8c4023e&amp;amp;ll=51.498303,-0.134029&amp;amp;spn=0,0&amp;amp;source=embed&quot;&gt;View Larger Map&lt;/a&gt;&lt;/small&gt;
 &lt;/html&gt;</pre>
+</div>
+<div title="BTC" modifier="PaulDowney" created="20090218210257" latitude="51.516074" longitude="-0.097954">
+<pre>BT Centre,
+81 Newgate Street,
+London,
+~EC1A 7AJ</pre>
+</div>
+<div title="BTTower" modifier="PaulDowney" created="20090218210257" latitude="51.521982" longitude="-0.139164">
+<pre>BT Tower,
+60 Cleveland Street, 
+Fitzrovia, 
+London
+~W1T 4BG</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
@@ -9574,7 +9593,6 @@ if(useJavaSaver)
 //]]>
 </script>
 <!--POST-SCRIPT-START-->
-
 <!--POST-SCRIPT-END-->
 </body>
 </html>
