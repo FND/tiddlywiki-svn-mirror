@@ -1,9 +1,7 @@
-foo: bar
+tags: wizard
 
+<<editDefinitions UserDefinitions>>
+<<editDefinitions StatusDefinitions>>
 !Look and Feel 
 Open in Edit Mode :<<option chkOpenEditView>>
 Single Section Mode :<<option chkSinglePageMode>>
-!User Definitions
-<<editDefinitions UserDefinitions>>
-!Status Definitions
-<<editDefinitions StatusDefinitions>>

@@ -12,7 +12,7 @@ config.macros.editDefinitions.refresh = function(place, paramString){
 	w.place = place;
 	w.paramString = paramString;
 	var me = config.macros.editDefinitions;
-	w.createWizard(place, null);
+	w.createWizard(place, paramString.replace("Definitions", " ")+"Definitions");
 	var defList = store.getTiddlerText(paramString);
 	var items = defList.split("\n");
 	w.setValue("defList", defList);
@@ -22,7 +22,6 @@ config.macros.editDefinitions.refresh = function(place, paramString){
 	select.name = "definitions";
 	select.size = "7";
 	select.style.width = "14.5em";
-
 	for(var i=0; i<items.length; i++) {
 		createTiddlyElement(select, "option", null, null, items[i]);
 	}
