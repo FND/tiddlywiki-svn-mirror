@@ -505,23 +505,32 @@ width:98.5%;
 		background-color:#ddd;
 	}
 	 /*WIZARD*/
+	
+	
+form.wizard, .wizard .wizardFooter{
+		background:#FFFFFF none repeat scroll 0 0 !important;
+		border:0px;
+	}
+	div.wizardBody div.wizardStep {
+		border:1px solid #eee;
+		background:#fff;
+		padding:1em;
+	}
 		.wizard .button {
-			background:#FFFFFF none repeat scroll 0 0 !important;
-			color:black !important;
-			margin:1em !important;
-			padding:0.5em;
-			padding-left:1em !important;
-			padding-right:1em !important;
+			background:#5586B6 none repeat scroll 0 0 !important;
+			color:white !important;
+			padding:0.2em;
+			padding-left:0.4em !important;
+			padding-right:0.4em !important;
+			font-weight:bold;
+
 		}
 
-		div.tabContents .wizard, div.wizardFooter, div.wizardStep, .tabsetWrapper .wizard h2 {
+		div.tabContents .wizard, div.wizardFooter, .tabsetWrapper .wizard h2 {
 			background:#ddd !important;
 			border:0px !important;
 		}
 
-		div.wizardStep {
-			padding:0px !important;
-		}
 		div.wizardFooter {
 			margin-left :9.2em;
 		}

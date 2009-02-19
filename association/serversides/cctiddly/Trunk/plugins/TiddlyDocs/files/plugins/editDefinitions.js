@@ -2,9 +2,9 @@
 config.macros.editDefinitions={};
 
 config.macros.editDefinitions.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	config.macros.editDefinitions.refresh(place, paramString);
+	var defContainer = createTiddlyElement(place, "div", null, "definitionsContainer");
+	config.macros.editDefinitions.refresh(defContainer, paramString);
 }
-
 
 config.macros.editDefinitions.refresh = function(place, paramString){
 	removeChildren(place);
@@ -12,38 +12,39 @@ config.macros.editDefinitions.refresh = function(place, paramString){
 	w.place = place;
 	w.paramString = paramString;
 	var me = config.macros.editDefinitions;
-	w.createWizard(place, "Edit Definitions");
+	w.createWizard(place, null);
 	var defList = store.getTiddlerText(paramString);
 	var items = defList.split("\n");
 	w.setValue("defList", defList);
-	w.addStep(null, "add/remove a user <input name='definitionsListMarker' type='hidden'></input>");
-
+	w.addStep(null, "<input name='definitionsListMarker' type='hidden'></input>");
 	var listMarker = w.getElement("definitionsListMarker");
 	var select = createTiddlyElement(null, "select");
 	select.name = "definitions";
-	select.size = "4";
+	select.size = "7";
+	select.style.width = "14.5em";
+
 	for(var i=0; i<items.length; i++) {
 		createTiddlyElement(select, "option", null, null, items[i]);
 	}
-var newDef = createTiddlyElement(null, "input");
-newDef.name = "newName";
-var newButton = createTiddlyButton(null, "add User", "click to add a new user", function() { config.macros.editDefinitions.add(w); }); 
+	var newDef = createTiddlyElement(null, "input");
+	newDef.name = "newName";
+	var newButton = createTiddlyButton(null, "add", "click to add ", function() { config.macros.editDefinitions.add(w); }); 
 	listMarker.parentNode.appendChild(newDef);
+	listMarker.parentNode.appendChild(newButton);
+	listMarker.parentNode.appendChild(createTiddlyElement(null, "br"));
 	listMarker.parentNode.appendChild(select);
-		listMarker.parentNode.appendChild(newButton);
-	var button = createTiddlyButton(null, "Remove User", "click to remove users", function() { config.macros.editDefinitions.remove(w); });
+	var button = createTiddlyButton(null, "remove", "click to remove", function() { config.macros.editDefinitions.remove(w); });
 	listMarker.parentNode.appendChild(button);
-	
 }
-
 
 config.macros.editDefinitions.add = function(w){
-	w.setValue("defList",  w.getValue("defList")+"\n"+w.formElem.newName.value+"\n")
-	store.saveTiddler("UserDefinitions", "UserDefinitions", w.getValue("defList"));
-	autoSaveChanges();
-		config.macros.editDefinitions.refresh(w.place, w.paramString);
+	if(w.formElem.newName.value !="") {
+		w.setValue("defList",  w.formElem.newName.value+"\n"+w.getValue("defList"));
+		store.saveTiddler(w.paramString, w.paramString, w.getValue("defList"));
+		autoSaveChanges();
+	}
+	config.macros.editDefinitions.refresh(w.place, w.paramString);
 }
-
 
 config.macros.editDefinitions.remove = function(w){
 	var items = w.getValue("defList").split("\n");
@@ -58,6 +59,6 @@ config.macros.editDefinitions.remove = function(w){
 	}
 	w.formElem.definitionsListMarker.value = outString;
 	w.setValue("defList", outString);
-	store.saveTiddler("UserDefinitions", "UserDefinitions", outString);
+	store.saveTiddler(w.paramString, w.paramString, outString);
 	autoSaveChanges();
 }
