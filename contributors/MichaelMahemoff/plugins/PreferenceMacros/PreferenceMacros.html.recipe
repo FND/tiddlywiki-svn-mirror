@@ -6,5 +6,6 @@ tiddler: preferenceMacros.js.meta
 
 # Demo
 tiddler: DefaultTiddlers.tiddler
-tiddler: hello.tiddler
+tiddler: checkin.tiddler
 tiddler: meals.tiddler
+tiddler: luggageOptions.tiddler

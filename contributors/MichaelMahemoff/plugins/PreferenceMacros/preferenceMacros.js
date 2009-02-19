@@ -34,15 +34,31 @@ version.extensions.preferenceMacros = {installed:true};
     }
   }
 
+  /* You can specify options in three ways. In increasing complexity:
+     (1) explicit comma-sep'd tiddler argument - e.g. <<dropdown luggage none,1 bag,2 bags>>
+     (2) tiddler argument <<dropdown luggage luggageOptions>> , where luggageOptions looks like:
+         none
+         1 bag
+         2 bags
+         (the option value is the same as the display value)
+     (3) tiddler argument <<dropdown luggage luggageOptions>> , where luggageOptions looks like:
+         none: I will take no bags on-board
+         1 bag: I will check in at the desk and take one bag
+         2 bags: I will check in at the desk and take two bags
+         (flexible display value, using TiddlyWiki slice mechanism)
+  */
   config.macros.dropdown = {
     handler: function(place,macroname,params,wikifier,paramstring,tiddler) {
 
-      var field = params[0], optionsSpec = params[1], options = [];
+      var field = params[0], optionsSpec = params[1], options = [], optionNames = [];
       if (store.getTiddler(optionsSpec)) {
         var slices = store.calcAllSlices(optionsSpec);
-        for (var key in slices) {options.push({name: key, caption: slices[key]});}
+        for (var key in slices) { options.push({name: key, caption: slices[key]}); }
+        if (!options.length) optionNames = store.getTiddler(optionsSpec).text.split("\n");
       } else {
         optionNames = optionsSpec.split(",");
+      }
+      if (optionNames) {
         for (var i=0; i<optionNames.length; i++)
           options.push( {name: optionNames[i], caption: optionNames[i]} );
       }
