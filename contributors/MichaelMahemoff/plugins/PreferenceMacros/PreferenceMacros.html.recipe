@@ -1,0 +1,10 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+tiddler: preferenceMacros.js
+tiddler: preferenceMacros.js.meta
+
+# Demo
+tiddler: DefaultTiddlers.tiddler
+tiddler: hello.tiddler
+tiddler: meals.tiddler

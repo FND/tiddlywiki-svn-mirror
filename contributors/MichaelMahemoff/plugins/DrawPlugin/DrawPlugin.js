@@ -157,7 +157,7 @@ if(!version.extensions.DrawPlugin) {
       var sessionID = paramString.trim().length ? paramString : tiddler.fields.sessionid;
       var data =    "API_KEY=" + plugin.apiKey() +
                     "&SESSIONID=" + encodeURIComponent(sessionID);
-      // var usesvg = (tiddler.fields.usesvg.toLowerCase()=="true");
+      // var usesvg = (tidler.fields.usesvg.toLowerCase()=="true");
       if (drawingMacro.useSVG()) {
         var url = "http://draw.labs.autodesk.com/ADDraw/api/get/xml";
         var xhr = httpReq("POST",url,config.macros.drawing.onGetXMLResponse,null,null,data);
