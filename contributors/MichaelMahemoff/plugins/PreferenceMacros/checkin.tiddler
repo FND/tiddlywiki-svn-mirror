@@ -1,0 +1,14 @@
+<div title="checkin" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="" changecount="1" mood="happy" important="true" meal="lunch" seat="beanbag" luggage="Two bags">
+<pre>Hello. Please check in for your flight.
+
+Mood: <<edit mood>>
+
+Important? <<checkbox important>>
+
+Seat: <<dropdown seat beanbag,couch,floor>>
+
+Luggage: <<dropdown luggage luggageOptions>>
+
+Meal: <<dropdown meal meals>>
+</pre>
+</div>
