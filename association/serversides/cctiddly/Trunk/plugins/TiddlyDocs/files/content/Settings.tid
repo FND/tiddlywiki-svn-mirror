@@ -1,5 +1,8 @@
 foo: bar
 
+
+
+<<editDefinitions UserDefinitions>>
 <<selectTheme>>
 User Values : [[UserDefinitions]]
 Status Values : [[StatusDefinitions]]

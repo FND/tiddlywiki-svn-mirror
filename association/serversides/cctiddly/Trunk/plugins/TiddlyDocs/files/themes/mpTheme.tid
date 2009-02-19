@@ -39,12 +39,13 @@ tags:systemTheme
 	<a href=''>BROADBAND</a> | 
 	<a href=''>21CN & CONSULT 21</a> | 
 	<a href=''>COMMUNICATIONS PROVIDER</a> | 
+<div class="right">
 
-
-	<div macro='search' style="	float:right;
-		position:relative;
-		text-align:right;
-		top:-1.1em;	font-size:0.8em;"></div>
+</div>
+<div id="searchRight">
+Logout | Profile 
+	<div macro='search'></div><input type='button'/>
+</div>
 </div>
 
 
@@ -257,6 +258,14 @@ font-size:0.8em;
 	top:-0.6em;
 }
 
+
+#searchRight {
+	float:right;
+	position:relative;
+	text-align:right;
+	top:-1.1em;	
+	font-size:0.8em;
+}
 .imgBar {
 height:50px;
 width:100px;
