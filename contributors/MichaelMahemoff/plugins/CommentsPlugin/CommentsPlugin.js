@@ -3,7 +3,9 @@
 
   TODO:
   - Support Cascade comment delete when the top-level tiddler is deleted
-  - Don't use global "cmacro" var (use "cmacro" param a la jquery)
+  - Support more than one < <comments> > per tiddler. This will probably entail creating an invisible root tiddler to
+    hold all the comments for a macro together. The user will need to provide an ID for this tiddler.
+  - Don't use global "macro" var (use "macro" param a la jquery)
 
 */
 
@@ -23,8 +25,6 @@ if(!version.extensions.CommentsPlugin) {
 
   version.extensions.CommentsPlugin = {installed:true};
 
-  (function() {
-
   var cmacro = config.macros.comments = {
 
 //##############################################################################
@@ -37,7 +37,6 @@ if(!version.extensions.CommentsPlugin) {
 
 init: function() {
   var stylesheet = store.getTiddlerText(tiddler.title + "##StyleSheet");
-  cmacro.log("init", tiddler.title, store.getTiddlerText, typeof(stylesheet));
   if (stylesheet) { // check necessary because it happens more than once for some reason
     config.shadowTiddlers["StyleSheetCommentsPlugin"] = stylesheet;
     store.addNotification("StyleSheetCommentsPlugin", refreshStyles);
@@ -45,7 +44,6 @@ init: function() {
 },
 
 handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-  cmacro.log("handing macro for tiddler", tiddler);
   var macroParams = paramString.parseParams();
   cmacro.buildCommentsArea(tiddler, place, macroParams);
   cmacro.refreshCommentsFromRoot(story.getTiddler(tiddler.title).commentsEl, tiddler, macroParams);
@@ -58,6 +56,8 @@ handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 buildCommentsArea: function(rootTiddler, place, macroParams) {
   var suffixUSELESSREMOVE = "_" + rootTiddler.title.trim();
   var commentsArea = createTiddlyElement(place, "div", null, "comments");
+  var heading = getParam(macroParams, "heading");
+  if (heading) createTiddlyElement(commentsArea, "h1", null, null, heading);
   // var heading = createTiddlyElement(commentsArea, "h2", null, "", "Comments");
   var comments = createTiddlyElement(commentsArea, "div", null, "");
   story.getTiddler(rootTiddler.title).commentsEl = comments;
@@ -108,7 +108,6 @@ refreshComments: function(daddyCommentsEl, tiddler, macroParams) {
 treeifyComments: function(rootTiddler) {
 
   var comments = cmacro.findCommentsFromRoot(rootTiddler);
-  cmacro.logComments(comments);
 
   cmacro.forEach(comments, function(comment) {
     var prev = comment.fields.prev;
@@ -125,15 +124,12 @@ treeifyComments: function(rootTiddler) {
 logComments: function(comments) {
   for (var i=0; i<comments.length; i++) {
     var comment = comments[i];
-    console.log("comment", i, comments[i]);
   }
 },
 
 findCommentsFromRoot: function(rootTiddler) {
   var comments = [];
-  cmacro.log("starting from root tiddler", rootTiddler);
   store.forEachTiddler(function(title,tiddler) {
-    cmacro.log(title, tiddler);
     if (tiddler.fields.root==rootTiddler.title) comments.push(tiddler);
   });
   return comments;
@@ -162,7 +158,6 @@ refreshCommentsOld: function(daddyCommentsEl, tiddler, macroParams) {
   prev=null;
   for (var child = store.getTiddler(tiddler.fields.firstchild); child; child = store.getTiddler(child.fields.nextchild)) {
      if (prev==child) {
-        // macro.log(prev, child, "breaking");
         break;
       }
      cmacro.refreshComments(refreshedEl.commentsEl, child, macroParams);
@@ -180,7 +175,7 @@ buildCommentEl: function(daddyCommentsEl, comment, macroParams) {
   // HEADING <- METAINFO AND DELETE
   var headingEl = createTiddlyElement(commentEl, "div", null, "heading");
 
-  var metaInfoEl = createTiddlyElement(headingEl, "div", null, "commentTitle",  comment.modifier + '@' + comment.modified.formatString(getParam(macroParams,"dateFormat") || "DDD, MMM DDth, YYYY 0hh:0mmam"));
+  var metaInfoEl = createTiddlyElement(headingEl, "div", null, "commentTitle",  comment.modifier + '@' + comment.modified.formatString(getParam(macroParams,"dateFormat") || "DDD, MMM DDth, YYYY hh12:0mm:0ss am"));
   metaInfoEl.onclick = function() { 
     // story.closeAllTiddlers();
     story.displayTiddler("top", comment.title, null, true);
@@ -283,7 +278,6 @@ createComment: function(text, daddy, macroParams) {
   newComment.set(null, text, config.options.txtUserName, now, tagsParam.split(","), now, fields);
 
   var youngestSibling = cmacro.findYoungestChild(daddy)
-  log("youungest", youngestSibling);
   if (youngestSibling) newComment.fields.prev = youngestSibling.title;
   newComment.fields.daddy = daddy.title;
   newComment.fields.root = daddy.fields.root ? daddy.fields.root : daddy.title;
@@ -296,24 +290,19 @@ createComment: function(text, daddy, macroParams) {
 
 findYoungestChild: function(daddy) {
 
-  cmacro.log("findYoungest", daddy);
   var siblingCount = 0;
   var elderSiblings = cmacro.mapize(cmacro.selectTiddlers(function(tiddler) {
     isChild = (tiddler.fields.daddy==daddy.title);
     if (isChild) siblingCount++;
     return isChild;
   }));
-  cmacro.log("elderSiblings", elderSiblings.length, elderSiblings, "daddy", daddy);
-  cmacro.log("sib", siblingCount);
   if (!siblingCount) return null;
 
   // Find the only sibling that doesn't have a prev pointing at it
   var youngestSiblings = cmacro.clone(elderSiblings) // as a starting point
   cmacro.forEachMap(elderSiblings, function(tiddler) {
-    log("has previous", tiddler, "prev:", tiddler.fields.prev);
     delete youngestSiblings[tiddler.fields.prev];
   });
-  log("youngest", youngestSiblings);
 
   for (title in youngestSiblings) { return youngestSiblings[title]; }
 
@@ -363,7 +352,6 @@ select: function(list, selector) {
 },
 selectTiddlers: function(selector) { 
   var tiddlers = [];
-  log("selector", selector);
   store.forEachTiddler(function(title, tiddler) {
     var wanted = selector(tiddler);
     if (wanted) tiddlers.push(tiddler);
@@ -409,8 +397,14 @@ copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
     if (fromTiddler.fields[fieldKey]) toTiddler.fields[fieldKey] = fromTiddler.fields[fieldKey];
   }
 }
-
 }
+
+config.macros.tiddlyWebComments = {};
+config.macros.tiddlyWebComments.handler =
+  function(place,macroName,params,wikifier,paramString,tiddler) {
+    paramString = "fields:'server.workspace:bags/comments' inheritedFields:'server.host,server.type'";
+    config.macros.comments.handler(place,macroName,params,wikifier, paramString,tiddler);
+  };
 
 //################################################################################
 //# CUSTOM STYLESHEET
@@ -446,11 +440,10 @@ copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
 !(end of StyleSheet)
 
 ***/
-  })();
-  config.macros.comments.init();
 
+  cmacro.init();
 
 } // end of 'install only once'
 /*}}}*/
 
-function log() { if (console && console.firebug) console.log.apply(console, arguments); }
+// function log() { if (console && console.firebug) console.log.apply(console, arguments); }

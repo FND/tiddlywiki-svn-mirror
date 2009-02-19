@@ -1,13 +1,9 @@
 <div title="burger" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="" changecount="19" food="meal">
 <pre>Burgers. They rock. Do you like them too?
 
-!Comments with custom options
+This demo auto-adds tags and fields and other goodies to the comment. Create a comment and click on its title to inspect tags and fields.
 
-Auto-adds tags and fields and other goodies to the comment. Create a comment and click on its title to inspect tags and fields.
-
-</pre>
-
-<<comments text:"My name: 
+<<comments heading:"Commments With Custom Options" text:"My name: 
 My job: 
 Comments:
 

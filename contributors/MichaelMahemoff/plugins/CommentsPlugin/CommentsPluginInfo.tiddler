@@ -5,9 +5,16 @@
 There are various options available as illustrated below. All are optional:
 &lt;&lt;comments text:"initial text" textRows:10 textCols:20 tags:specialComment,brilliant,amazing fields:"testField:done foo:bar" inheritedFields:"healthy,food,nonExistent" dateFormat:"MMM DD hh:0mm"&gt;&gt;
 
-For use with TiddlyWeb, you want something like:
-&lt;&lt;comments fields:"server.bag:comments" inheritedFields:"server.host,server.type,server.workspace"&gt;&gt;
-
 You may only include a single &lt;&lt;comments&gt;&gt; macro per tiddler. If you wish to include more than one, you could create new container tiddlers, each with a &lt;&lt;comments&gt;&gt; tag, and then collect them in a single tiddler using &lt;&lt;tiddler&gt;&gt; tags. (Note that this is an intrinsic limitation of the manner in which comments refer to the tiddler in which they are contained, and vice-versa. The only way to get around it would be to require the caller to include a unique ID for each comments block, and this would be virtually the same thing as the workaround mentioned here.)
+
+There's a special additional macro included for TiddlyWeb developers:
+
+&lt;&lt;tiddlywebComments&gt;&gt; 
+
+which does the right thing, as long as you are happy to put all comments into a bag you have made called "comments". It effectively does the following:
+
+&lt;&lt;comments fields:"server.workspace:bag/comments" inheritedFields:"server.host,server.type"&gt;&gt;
+
+A typical tiddlyweb setup would be for the comments bag's policy to be set with all users having only "create" permissions. All other permissions should be admin-only. This is how comments typically work on a public website - users can append, but not edit or delete.
 
 </pre>
