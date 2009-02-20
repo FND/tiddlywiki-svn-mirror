@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.5.5|
+|''Version''|0.5.6|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -419,13 +419,13 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		if(to.workspace) {
 			context.workspace = to.workspace;
 		}
-		var callback = function(context, userparams) {
+		var subCallback = function(context, userparams) {
 			var rev = "server.page.revision";
 			newTiddler.fields[rev] = parseInt(newTiddler.fields[rev], 10) + 1; // XXX: extended fields' values should be strings!?
 			newTiddler.fields["server.title"] = to.title;
 			_deleteTiddler(context, userparams);
 		};
-		return me.putTiddlerChronicle(revisions, context, context.userParams, callback);
+		return me.putTiddlerChronicle(revisions, context, context.userParams, subCallback);
 	};
 	var _deleteTiddler = function(context, userParams) {
 		if(!context.status) {
@@ -434,6 +434,7 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		context.callback = null;
 		return me.deleteTiddler(oldTiddler, context, context.userParams, callback);
 	};
+	callback = callback || function() {};
 	context = this.setContext(context, userParams);
 	context.workspace = from.workspace || oldTiddler.fields["server.workspace"];
 	return _getTiddlerChronicle(from.title, context, userParams, _putTiddlerChronicle);
