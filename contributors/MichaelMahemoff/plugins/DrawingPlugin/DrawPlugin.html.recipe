@@ -1,0 +1,11 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+tiddler: DrawPlugin.js
+tiddler: DrawPlugin.js.meta
+tiddler: Example.tiddler
+
+tiddler: DefaultTiddlers.tiddler
+tiddler: MainMenu.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
