@@ -1,0 +1,10 @@
+<div title="GuidPluginInfo" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="" changecount="1">
+<pre>Generates tiddlers with globally unique ids.
+
+createGuidTiddler() will build a new tiddler with a random title.
+(e.g. Open Firebug console and type "(store.createGuidTiddler()).title")
+
+More info on the underlying Guid0 library in http://softwareas.com/guid0-a-javascript-guid-generator
+
+</pre>
+</div>

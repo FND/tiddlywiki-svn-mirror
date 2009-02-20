@@ -45,22 +45,22 @@ function Guid(options) {
   this.options = options || {};
   this.chars = this.options.chars || Guid.constants.alphanumerics;
   this.epoch = this.options.epoch || Guid.constants.epoch1970;
-  this.counterSequenceLength = this.options.counterSequenceLength;
-  if (this.counterSequenceLength===undefined) this.counterSequenceLength=2;
-  this.randomSequenceLength = this.options.randomSequenceLength;
-  if (this.randomSequenceLength===undefined) this.randomSequenceLength=2;
+  this.counterSequenceLength = this.options.counterSequenceLength || 1;
+  this.randomSequenceLength = this.options.randomSequenceLength || 2;
 }
 
 Guid.prototype.generate = function() {
   var now = (new Date()).getTime() - this.epoch;
   var guid = this.baseN(now);
 
-  this.counterSeq = (now==this.lastTime ? this.counterSeq+1 : 1);
+  this.counterSeq = (now==this.lastTimestampUsed ? this.counterSeq+1 : 1);
   guid += this.counterSeq;
 
   for (var i=0; i<this.randomSequenceLength; i++) {
-    guid += this.chars[Math.floor(Math.random() * this.chars.length)];
+    guid += this.chars.charAt(Math.floor(Math.random() * this.chars.length));
   }
+
+  this.lastTimestampUsed = now;
 
   return guid;
 }
@@ -68,7 +68,7 @@ Guid.prototype.generate = function() {
 Guid.prototype.baseN = function(val) {
   if (val==0) return "";
   var rightMost = val % this.chars.length;
-  var rightMostChar = this.chars[rightMost];
+  var rightMostChar = this.chars.charAt(rightMost);
   var remaining = Math.floor(val / this.chars.length);
   return this.baseN(remaining) + rightMostChar;
 }
@@ -82,10 +82,9 @@ Guid.constants.alphanumerics = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL
 Guid.constants.base85 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&()*+-;<=>?@^_`{|}~";
 
 Guid.constants.epoch1970 = (new Date(0));
-// Guid.constants.epoch2008 = (new Date("Jan 1 2008")).getTime();
 Guid.constants.epoch = function(year) { return (new Date("Jan 1 " + year)).getTime(); }
 
-function log() { console.log.apply(null, arguments); }
+// function log() { if (console) console.log.apply(console, arguments); }
 
 
 version.extensions.GuidPlugin = { installed: true };

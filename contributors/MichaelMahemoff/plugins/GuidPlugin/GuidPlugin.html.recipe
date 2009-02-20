@@ -1,0 +1,7 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# Comments plugin
+tiddler: GuidPlugin.js
+tiddler: GuidPluginInfo.tiddler
+tiddler: DefaultTiddlers.tiddler
