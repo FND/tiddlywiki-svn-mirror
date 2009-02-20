@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
 |''Contributors''|FND, MartinBudden|
-|''Version''|0.5.6|
+|''Version''|0.5.7|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -280,6 +280,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	context = this.setContext(context, userParams, callback);
 	context.title = tiddler.title;
 	context.tiddler = tiddler;
+	context.host = context.host || this.fullHostName(tiddler.fields["server.host"]);
 	if(!tiddler.fields["server.title"]) {
 		tiddler.fields["server.title"] = tiddler.title; //# required for detecting subsequent renames
 	} else if(tiddler.title != tiddler.fields["server.title"]) {
@@ -287,13 +288,12 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 			{ title: tiddler.title }, context, userParams, callback);
 	}
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
-	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
 	try {
 		var workspace = adaptor.resolveWorkspace(tiddler.fields["server.workspace"]);
 	} catch(ex) {
 		return adaptor.locationIDErrorMessage;
 	}
-	var uri = uriTemplate.format([host, workspace.type + "s",
+	var uri = uriTemplate.format([context.host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name),
 		adaptor.normalizeTitle(tiddler.title)]);
 	var etag = adaptor.generateETag(workspace, tiddler);
