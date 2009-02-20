@@ -77,6 +77,7 @@ $tiddlyCfg['pref']['offline']['js'] = array("plugins/ccTiddlyAdaptor");
 
 $tiddlyCfg['allowed_proxy_list'] = 
 array(	'wikipedia.org', 
+		'project.dahukanna.net',
 		'aiddlywiki.sourceforge.net',
 		'tiddlywiki.org',
 		'nathanbowers.com',

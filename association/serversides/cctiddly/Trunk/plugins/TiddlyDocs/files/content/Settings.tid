@@ -4,3 +4,4 @@ tags: wizard
 
 Open in Edit Mode :<<option chkOpenEditView>>
 Single Section Mode :<<option chkSinglePageMode>>
+Animate : <<option chkAnimate>>

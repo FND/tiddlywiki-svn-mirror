@@ -11,7 +11,7 @@ $Plugins = array();
 		$top = substr($tiddly_body, 0, $position);
 	 	$file_slash_position = strrpos($file, "/");
 		$tiddler['title'] = substr($file,$file_slash_position+1,-4);
-		$tiddler['body'] = substr($tiddly_body, $position);
+		$tiddler['body'] = substr($tiddly_body, $position+1);
 		$fields = explode("\n", $top);
 		foreach($fields as $field)
 		{

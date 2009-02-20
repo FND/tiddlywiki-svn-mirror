@@ -152,6 +152,8 @@
 			echo tiddler_outputJsFile("tiddlers/".$tf.".js", $cct_base);
 		}
 	}
+	
+	// Puts JS file into a tiddler with the same name as the file. The tiddler will be tagged systemConfig which means its loaded as a plugin.
 	function tiddler_outputJsFile($file, $cct_base)
 	{
 			$file_parts=explode("/", $file);
@@ -162,7 +164,12 @@
 			else
 				return false;
 	}
-	
+	/* a .tiddler file takes the following format. 
+		<div title="titlehere" modifier="me" modified="200804011417" created="200706181748" tags="ccTiddly excludeSearch excludeLists">
+		<pre>
+		CONTENT HERE 
+		</pre>
+		</div>	*/
 	function tiddler_outputTiddlerFile($file, $cct_base)
 	{
 		$tiddler = file_get_contents($cct_base.$file);

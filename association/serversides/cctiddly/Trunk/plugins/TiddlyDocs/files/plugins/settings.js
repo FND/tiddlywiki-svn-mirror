@@ -12,6 +12,6 @@ else
 
 
 config.options.txtTheme = "mpTheme";
-config.options.chkBackstage = false;
+config.options.chkBackstage = true;
 
 //}}}

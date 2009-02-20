@@ -74,7 +74,6 @@ elseif(isset($_GET['tags']))
 	}
 }
 $tiddlers = array_merge($pluginsLoader->tiddlers, $tiddlers);
-
 recordTime_float("get all tiddlers");
 	
 // log the workspace viewing : 
@@ -142,7 +141,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 //]]>
 </script>
 <!--PRE-HEAD-START-->
-<!--{{{-->
+<!--{{{-->	
 <?php
 	print tiddler_bodyDecode($tiddlers['MarkupPreHead']['body']);
 ?>	
@@ -197,10 +196,11 @@ This page requires JavaScript to function properly.<br /><br />If you are using 
 <div id="contentStash"></div>
 <div id="shadowArea">
 <div title="MarkupPreHead">
-<pre>&lt;!--{{{--&gt;
-&lt;link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' /&gt;
-&lt;!--}}}--&gt;</pre>
-
+<pre>	
+<?php
+	print tiddler_bodyDecode($tiddlers['MarkupPreHead']['body']);
+?>
+</pre>
 </div>
 <div title="ColorPalette">
 <pre>Background: #fff
