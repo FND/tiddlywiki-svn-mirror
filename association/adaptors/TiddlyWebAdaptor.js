@@ -1,8 +1,8 @@
 /***
 |''Name''|TiddlyWebAdaptor|
 |''Description''|adaptor for interacting with TiddlyWeb|
-|''Author:''|Chris Dent (cdent (at) peermore (dot) com)|
-|''Contributors''|FND, MartinBudden|
+|''Author:''|FND|
+|''Contributors''|Chris Dent, Martin Budden|
 |''Version''|0.5.7|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
