@@ -7,7 +7,7 @@ config = {
         'host': 'labs.osmosoft.com',
         'port': '80',
     },
-    'debug_level': 'DEBUG',
+    'log_level': 'DEBUG',
     'system_plugins': ['logout', 'cachinghoster'],
     'css_uri': 'http://peermore.com/tiddlyweb.css',
     'extension_types': {
