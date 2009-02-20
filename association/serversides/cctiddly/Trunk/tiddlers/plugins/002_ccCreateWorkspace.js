@@ -76,7 +76,7 @@ config.macros.ccCreateWorkspace.createWorkspaceCallback = function(status,params
 	}else if(xhr.status == 403){
 		displayMessage(config.macros.ccCreateWorkspace.errorPermissions);	
 	}else{
-		displayMessage("sd"+responseText);	
+			displayMessage("sd"+responseText);	
 	}
 };
 

@@ -94,7 +94,7 @@ tags:systemTheme
 		</div>
 		<div class="portletContent">
 		<br />
-		<div id='mainMenu' macro='docOutline bid1' ></div>
+		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
 		</div>
 		<div class="portletFooter">
 			<div class="portletBotLeft"></div>

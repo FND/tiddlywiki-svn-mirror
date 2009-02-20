@@ -74,8 +74,6 @@ makeTextArea: function(container, macroParams) {
   textArea.value = getParam(macroParams, "text") || "";
   if(!isLoggedIn()) {
 	textArea.onkeyup = function(e) {
-		
-console.log(this);
 	}
   }
   return textArea;
