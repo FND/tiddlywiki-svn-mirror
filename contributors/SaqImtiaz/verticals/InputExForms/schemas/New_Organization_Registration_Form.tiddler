@@ -1,0 +1,73 @@
+<div title="New Organization Registration Form" modifier="test" created="200902181557" modified="200902201123" tags="_schema excludeLists excludeSearch" server.bag="regform" server.host="http://peermore.com:9998/" server.page.revision="2" server.title="New Organization Registration Form" server.permissions="read, write, create, delete" server.recipe="" server.type="tiddlyweb" server.workspace="bags/regform">
+<pre>//{{{
+{
+	"legend" : "User",
+	"collapsible" : true,
+	"fields" : [
+		{
+			"type" : "string",
+			"inputParams" : {
+				"label" : "Firstname",
+				"name" : "firstname",
+				"typeInvite" : "firstname",
+				"value" : ""
+			}
+		},
+		{
+			"type" : "string",
+			"inputParams" : {
+				"label" : "Lastname",
+				"name" : "lastname",
+				"typeInvite" : "lastname",
+				"value" : ""
+			}
+		},
+		{
+			"type" : "email",
+			"inputParams" : {
+				"label" : "Email",
+				"value" : ""
+			}
+		},
+		{
+			"type" : "group",
+			"inputParams" : {
+				"legend" : "Organization",
+				"collapsible" : true,
+				"fields" : [
+
+				],
+				"value" : {
+
+				}
+			}
+		},
+		{
+			"type" : "string",
+			"inputParams" : {
+				"label" : "Name",
+				"name" : "org_name",
+				"value" : ""
+			}
+		},
+		{
+			"type" : "string",
+			"inputParams" : {
+				"label" : "Address",
+				"name" : "org_address",
+				"value" : ""
+			}
+		},
+		{
+			"type" : "boolean",
+			"inputParams" : {
+				"label" : "Non-profit",
+				"name" : "nonprofit",
+				"rightLabel" : "",
+				"value" : true
+			}
+		}
+	]
+}
+//}}}</pre>
+</div>

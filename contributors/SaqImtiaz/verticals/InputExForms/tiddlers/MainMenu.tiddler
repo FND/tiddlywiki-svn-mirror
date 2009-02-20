@@ -1,0 +1,6 @@
+<div title="MainMenu" modifier="test" created="200902181405" modified="200902201123" tags="excludeLists excludeSearch" server.bag="formtools" server.host="http://peermore.com:9998/" server.page.revision="2" server.title="MainMenu" server.permissions="read, write, create, delete" server.recipe="" server.type="tiddlyweb" server.workspace="bags/formtools">
+<pre><<newForm>>
+[[List Forms]]
+
+<<newTiddler label:"new template" tag:"_schema" title:"new form template" text:"paste json template for form here">></pre>
+</div>

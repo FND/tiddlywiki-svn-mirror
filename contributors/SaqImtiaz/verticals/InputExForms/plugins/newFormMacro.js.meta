@@ -1,0 +1,13 @@
+title: newFormMacro
+modifier: test
+created: 200902191753
+modified: 200902201210
+tags: systemConfig excludeLists excludeSearch
+server.bag: formtools
+server.host: http://peermore.com:9998/
+server.page.revision: 5
+server.title: newFormMacro
+server.permissions: read, write, create, delete
+server.recipe: 
+server.type: tiddlyweb
+server.workspace: bags/formtools

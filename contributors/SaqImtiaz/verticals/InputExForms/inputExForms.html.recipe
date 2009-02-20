@@ -1,0 +1,8 @@
+#TiddlyWiki core
+recipe: ../../../../core/tiddlywiki.html.recipe
+#
+#InputEx specific tiddlers
+recipe: inputEx-subrecipe.recipe
+#
+#sample forms
+recipe: schemas/split.recipe

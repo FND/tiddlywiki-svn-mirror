@@ -1,0 +1,8 @@
+<div title="StyleSheet" modifier="test" created="200902191749" modified="200902201329" tags="excludeLists excludeSearch" server.bag="formtools" server.host="http://peermore.com:9998/" server.page.revision="7" server.title="StyleSheet" server.permissions="read, write, create, delete" server.recipe="" server.type="tiddlyweb" server.workspace="bags/formtools">
+<pre>.formListTitle {font-weight:bold;}
+.inputEx-Form-buttonBar .savebutton {display:none;}
+.inputEx-Form-buttonBar.dirty .savebutton {display:inline;}
+[[YUI-ResetFonts StyleSheet]]
+[[YUI-skin StyleSheet]]
+[[inputEx StyleSheet]]</pre>
+</div>

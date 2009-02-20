@@ -1,0 +1,11 @@
+<div title="_formViewTemplate" modifier="test" created="200902191631" modified="200902201123" tags="excludeLists excludeSearch" server.bag="formtools" server.host="http://peermore.com:9998/" server.page.revision="2" server.title="_formViewTemplate" server.permissions="read, write, create, delete" server.recipe="" server.type="tiddlyweb" server.workspace="bags/formtools">
+<pre><!--{{{-->
+<div class='toolbar' macro='toolbar [[FormToolbarCommands::ViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div class='viewer' macro='renderFormInputEx'></div>
+<div class='tagClear'></div>
+<!--}}}--></pre>
+</div>

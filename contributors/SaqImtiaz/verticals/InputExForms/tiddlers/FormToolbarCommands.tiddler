@@ -1,0 +1,4 @@
+<div title="FormToolbarCommands" modifier="test" created="200902191634" modified="200902201123" tags="excludeLists excludeSearch" server.bag="formtools" server.host="http://peermore.com:9998/" server.page.revision="2" server.title="FormToolbarCommands" server.permissions="read, write, create, delete" server.recipe="" server.type="tiddlyweb" server.workspace="bags/formtools">
+<pre>|~ViewToolbar|closeTiddler closeOthers deleteTiddler +editTiddler > fields syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|</pre>
+</div>

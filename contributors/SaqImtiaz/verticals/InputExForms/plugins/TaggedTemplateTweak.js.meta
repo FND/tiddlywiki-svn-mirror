@@ -1,0 +1,13 @@
+title: TaggedTemplateTweak
+modifier: test
+created: 200902201039
+modified: 200902201123
+tags: excludeLists systemConfig excludeSearch
+server.bag: formtools
+server.host: http://peermore.com:9998/
+server.page.revision: 2
+server.title: TaggedTemplateTweak
+server.permissions: read, write, create, delete
+server.recipe: 
+server.type: tiddlyweb
+server.workspace: bags/formtools
