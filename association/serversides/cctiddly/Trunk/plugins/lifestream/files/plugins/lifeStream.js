@@ -219,7 +219,7 @@ config.macros.lifeStream.display = function (place, params)
 			default:
 				if(tiddlers[t].isTagged("note")){
 					var img = createTiddlyElement(null, "img", null, "imgClass");
-					img.src = "plugins/lifestream/files/images/wordpress.png";
+					img.src = "plugins/lifestream/files/images/note.png";
 					img.width = "20";
 					img.height = "20";
 					var slider = config.macros.slider.createSlider(place, "", "");
