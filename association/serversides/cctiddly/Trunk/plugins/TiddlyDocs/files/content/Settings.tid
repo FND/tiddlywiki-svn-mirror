@@ -1,7 +1,7 @@
 tags: wizard
 
 |<<editDefinitions UserDefinitions>>|<<editDefinitions StatusDefinitions>>|
-
-Open in Edit Mode :<<option chkOpenEditView>>
-Single Section Mode :<<option chkSinglePageMode>>
-Animate : <<option chkAnimate>>
+| Open in Edit Mode:|<<option chkOpenEditView>> |
+| Single Section Mode:|<<option chkSinglePageMode>> |
+| Animate:|<<option chkAnimate>> |
+| Show Backstage:|<<option chkBackstage>> |

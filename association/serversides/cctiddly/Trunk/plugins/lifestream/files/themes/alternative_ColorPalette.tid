@@ -1,8 +1,10 @@
+modifier: Simon McManus
+
 Background: #999
-Foreground: #111
-PrimaryPale: #111
-PrimaryLight: #222
-PrimaryMid: #333
+Foreground: #333
+PrimaryPale: #222
+PrimaryLight: #fff
+PrimaryMid: #ccc
 PrimaryDark: #222
 SecondaryPale: #ffc
 SecondaryLight: #fe8
@@ -14,7 +16,8 @@ TertiaryMid: #blue
 TertiaryDark: #666
 Error: #f88
 
-ls_foreground: white
-ls_background: #222
-ls_mid:#111
-ls_high:white
+ls_foreground: #aaa
+ls_background: #ddd
+ls_mid:#eee
+ls_high:#666
+

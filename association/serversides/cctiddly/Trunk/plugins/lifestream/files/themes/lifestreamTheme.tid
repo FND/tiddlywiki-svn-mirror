@@ -1,5 +1,8 @@
-<div title="lifestreamTheme" modifier="Simon McManus" modified="200708091500" tags="systemTheme excludeSearch excludeLists">
-<pre>
+modifier: Simon McManus
+created: 
+modified: 200708091500
+tags:systemTheme excludeSearch excludeLists
+
 /***
 |''Name:''|lifestreamTheme|
 |''Author:''|Saq Imtiaz and Simon McManus|
@@ -21,12 +24,12 @@
 
 !PageTemplate
 <!--{{{-->
-	
-	
-	<div class='header' macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]'>
+<div class='header' macro='gradient vert [[ColorPalette::ls_background]] [[ColorPalette::ls_mid]]'>
+<div class='backgroundHeader'>
+</div>
+
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 	</div>
 	
@@ -274,7 +277,7 @@ a:hover {
 }
 
 #tiddlerDisplay .toolbar a.button:hover, #sidebarOptions a:hover, #mainMenu a:hover, #sidebarOptions .sliderPanel input:hover {
-	border:1px solid [[ColorPalette::ls_foreground]];
+	border:1px solid #333;
 	z-index:2;
 	color:[[ColorPalette::ls_foreground]];
 }
@@ -300,15 +303,8 @@ background-color:[[ColorPalette::PrimaryLight]];
 	width:100%;
 	float:left;
 	text-align:left;
-	padding-top:20px;
-
-
+	padding-top:20px;	
 }
-
-
-
-
-
 .editor textarea, .editor input,  input, body select {
 	border:1px solid [[ColorPalette::ls_background]];
 	background-color:[[ColorPalette::PrimaryLight]];
@@ -580,7 +576,7 @@ body .wizard {
 	margin-top:1px;
 }
 .viewer {
-color:[[ColorPalette::Foreground]];
+color:[[ColorPalette::Background]];
 }
 .viewer .wizard, body .wizard{
 	background:[[ColorPalette::ls_background]];
@@ -679,13 +675,12 @@ table.sortable td.sortedCol {
 }
 
 #contentWrapper .backgroundHeader {
-	
 	height:140px;
 	position:absolute;
 	width:100px;
 	float:right;
 	z-index:9;
-<!--	background:url(plugins/lifestream/files/simon.png);-->
+	background:url(plugins/lifestream/files/images/simon.png);
 	background-repeat:no-repeat;
 	left :440px;
 	background-position: top right;
@@ -732,7 +727,7 @@ padding 1em !important;
 
 .stream {  padding:2px; margin:1px ; width750px;  min-height:53px;}
 .slider { 
-	background-color:[[ColorPalette::ls_background]];
+	background-color:[[ColorPalette::PrimaryMid]];
 	line-height:2em;
 	border-color:[[ColorPalette::PrimaryMid]];
 	border-style:none solid solid;
@@ -740,13 +735,13 @@ padding 1em !important;
 	margin-left:5px;
 	margin-top:-6px;
 	padding:1em;
-	width:91.7%;
+	width:91.9%;
 	color:[[ColorPalette::ls_high]];
 }
 .textSpace {padding-left:25px; line-height:1.5; padding-top:13px}
 .tiddler .button:hover,.tiddler .button	 { background-color:[[ColorPalette::PrimaryLight]]; color:[[ColorPalette::ls_high]];background-repeat:no-repeat; border:1px solid  [[ColorPalette::PrimaryMid]];}
 .tiddler .button:hover {
-border : 1px solid [[ColorPalette::ls_foreground]];
+border : 1px solid #555;
 }
 
 .newCommentArea, .reply {
@@ -760,5 +755,3 @@ text-align:center;
 color:red;
 font-color:blue;
 }
-</pre>
-</div>

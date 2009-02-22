@@ -53,7 +53,7 @@ tags:systemTheme
 	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
 	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 	</div>
-	<div id='picBar' style="float:right;position:absolute;text-align:right;top:3em;width:95%;">
+	<div id='picBar' style="float:right;position:absolute;text-align:right;top:1em;width:98%;">
 
 		<img src='http://www.essex.ac.uk/wehia05/Pictures/BT_logo.jpg' width="100px"/>
 		<img src='plugins/TiddlyDocs/files/images/osmosoft.png' width="100px" />
@@ -133,7 +133,7 @@ tags:systemTheme
 
 !EditTemplate
 <!--{{{-->
-<div class="portletContainerEdit">
+<div class="portletContainer">
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
@@ -214,7 +214,7 @@ tags:systemTheme
  
 !taskEditTemplate
 <!--{{{-->
-<div class="portletContainerEdit">
+<div class="portletContainer">
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
@@ -277,7 +277,7 @@ font-size:0.8em;
 
 #searchRight {
 	float:right;
-	z-index:2000;
+	z-index:19;
 	position:relative;
 	text-align:right;
 	top:-1.7em;	
@@ -375,19 +375,6 @@ font-family:Lucida Grande;
 /* tiddlerTree CSS */	
 
 
-
-.heading1 {
-	font-weight:bold;
-}
-
-
-.heading2 {
-}
-
-.heading3 {
-	font-style:italic;
-}
-
 li.page-item1 {
 list-style:none;
 
@@ -396,6 +383,13 @@ list-style:none;
 ul.page-list {
 }
 
+#backstageArea, #backstageArea a {
+background:#444444 none repeat scroll 0 0;
+}
+
+#backstageArea {
+	border-bottom:1px solid #777;
+}
 	#mainMenu {
 		padding:0px;	
 		border:0px solid white;
@@ -572,10 +566,18 @@ form.wizard, .wizard .wizardFooter{
 			padding:0em 2em;
 		}
 		#backstageButton {
-			display:none !important;
+			font-size:0.4em;
+			background:transparent;
 		}
 		.viewer {
 			padding:0.5em;
+		}
+		.viewer th, .viewer thead td, .twtable th, .twtable thead td  {
+		 background:#5586B6 none repeat scroll 0 0;
+		}
+		
+		.viewer th, .viewer thead td, .twtable th, .twtable thead td {
+			border:1px solid #5586B6;
 		}
 	/* END TIDDLYWIKI CS */
 

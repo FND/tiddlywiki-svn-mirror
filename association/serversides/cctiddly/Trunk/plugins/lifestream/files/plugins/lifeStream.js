@@ -144,7 +144,7 @@ config.macros.lifeStream.display = function (place, params)
 		switch(tiddlers[t].fields['original_server.type']){
 			case "wordpress" :
 				var img = createTiddlyElement(null, "img", null, "imgClass");
-				img.src = "plugins/lifestream/files/images/wordpress.jpg";
+				img.src = "plugins/lifestream/files/images/wordpress.png";
 				img.width = "20";
 				img.height = "20";
 				img.style.border ="0px";
@@ -159,7 +159,7 @@ config.macros.lifeStream.display = function (place, params)
 			break;
 			case "trac":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
-				img.src = "plugins/lifestream/files/images/trac.jpg";
+				img.src = "plugins/lifestream/files/images/trac.png";
 				img.width = "20";
 				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
