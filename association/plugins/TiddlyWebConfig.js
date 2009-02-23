@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWeb|
 |''Author''|FND|
-|''Version''|0.2.4|
+|''Version''|0.2.5|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -25,7 +25,6 @@ if(window.location.protocol != "file:") {
 }
 
 var adaptor = new config.adaptors.tiddlyweb();
-var tiddler = store.getTiddler("TiddlyWebConfig"); // XXX: dynamically determine tiddler name?
 var host = tiddler.fields["server.host"];
 var recipe = tiddler.fields["server.recipe"];
 var workspace = recipe ? "recipes/" + recipe : "bags/common";
