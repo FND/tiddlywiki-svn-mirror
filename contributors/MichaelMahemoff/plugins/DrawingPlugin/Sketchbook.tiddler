@@ -1,0 +1,8 @@
+<div title="Sketchbook" modifier="Mahemoff" created="200809181254" modified="200809191620" children="" changecount="19"><pre>
+This is a demo for the drawing macro.
+
+This tiddler embeds a drawing using the &lt;&;lt;drawing&gt;&gt; macro, with the right parameters following it (with a deliberately short height setting).
+
+<<drawing width:220 height:200 3DjYqbPKx9CSze227nuRVQ==>>
+
+</pre>
