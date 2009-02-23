@@ -44,10 +44,7 @@ if($tiddler['id']!="undefined")
 		sendHeader(409);
 		exit;
 	}
-	
-	error_log("ntitleRev lalala ".$ntiddler['revision']);
-	
-	//require edit privilege on new and old tags			
+		//require edit privilege on new and old tags			
 	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
 	{
 		$ntiddler['modified'] = $ntiddler['modified']; 
@@ -55,9 +52,7 @@ if($tiddler['id']!="undefined")
 		$ntiddler['created'] = $otiddler['created'];
 		debug("Attempting to update server...");
 		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
-		error_log("me id is : ".$ntiddler['revision']);
 		if(tiddler_update_new($tiddler['id'], $ntiddler)) {
-			error_log("trying");
 			sendHeader(201);
 			echo $tiddler['id'];
 		}
@@ -67,7 +62,6 @@ if($tiddler['id']!="undefined")
 	}
 }else{
 	//This Tiddler does not exist in the database.
-	error_log("tiddler does not exist in the database");
 	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) 
 	{
 		debug("Inserting New Tiddler...", "save");
