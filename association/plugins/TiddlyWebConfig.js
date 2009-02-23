@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWeb|
 |''Author''|FND|
-|''Version''|0.2.3|
+|''Version''|0.2.4|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -25,11 +25,14 @@ if(window.location.protocol != "file:") {
 }
 
 var adaptor = new config.adaptors.tiddlyweb();
-var minhost = store.getTiddler("TiddlyWebConfig").fields["server.host"];
+var tiddler = store.getTiddler("TiddlyWebConfig"); // XXX: dynamically determine tiddler name?
+var host = tiddler.fields["server.host"];
+var recipe = tiddler.fields["server.recipe"];
+var workspace = recipe ? "recipes/" + recipe : "bags/common";
 config.defaultCustomFields = {
 	"server.type": "tiddlyweb",
-	"server.host": adaptor.fullHostName(minhost),
-	"server.workspace": "bags/common"
+	"server.host": adaptor.fullHostName(host),
+	"server.workspace": workspace
 };
 
 })(); //# end of local scope
