@@ -4,7 +4,7 @@
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
 |''Version''|0.5.8|
-|''Status''|@@beta@@|
+|''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|

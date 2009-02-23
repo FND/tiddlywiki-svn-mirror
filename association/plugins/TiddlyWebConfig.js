@@ -3,7 +3,7 @@
 |''Description''|configuration settings for TiddlyWeb|
 |''Author''|FND|
 |''Version''|0.2.3|
-|''Status''|@@experimental@@|
+|''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''Keywords''|serverSide TiddlyWeb|

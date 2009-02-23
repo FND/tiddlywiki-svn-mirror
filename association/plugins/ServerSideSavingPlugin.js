@@ -3,7 +3,7 @@
 |''Description''|server-side saving|
 |''Author''|FND|
 |''Version''|0.4.4|
-|''Status''|@@experimental@@|
+|''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''CoreVersion''|2.4.2|
