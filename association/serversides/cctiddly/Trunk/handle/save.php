@@ -10,7 +10,7 @@ if(!user_session_validate())
 	sendHeader("401");
 	exit;	
 }
-$ntiddler = db_tiddlers_mainSelectTitle($_POST['title']);
+$tiddler = db_tiddlers_mainSelectTitle($_POST['title']);
 $ntiddler['title'] = formatParametersPOST($_POST['title']);
 
 $tiddlyCfg['workspace_name'] = formatParametersPOST($_POST['workspace']);
@@ -36,9 +36,10 @@ if(@$pluginsLoader->events['preSave'])
 		
 	}
 }				
-
 if($tiddler['id']!="undefined")
 {
+	error_log("prev r is : ".$ntiddler['revision']);
+	
 	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
 		debug($ccT_msg['debug']['reloadRequired'], "save");
 		sendHeader(409);
