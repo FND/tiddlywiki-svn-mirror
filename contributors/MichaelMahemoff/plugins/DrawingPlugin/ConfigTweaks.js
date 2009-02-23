@@ -1,4 +1,4 @@
 //{{{
-// config.options.chkAutoSave = true;
-// config.options.chkSaveBackups = true;
+config.options.chkAutoSave = true;
+config.options.chkSaveBackups = false;
 //}}}
