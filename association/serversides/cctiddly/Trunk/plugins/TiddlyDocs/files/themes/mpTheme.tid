@@ -56,7 +56,7 @@ tags:systemTheme
 	<div id='picBar' style="float:right;position:absolute;text-align:right;top:1em;width:98%;">
 
 		<img src='http://www.essex.ac.uk/wehia05/Pictures/BT_logo.jpg' width="100px"/>
-		<img src='plugins/TiddlyDocs/files/images/osmosoft.png' width="100px" />
+		<img src='http://farm4.static.flickr.com/3496/3302865397_263cb2a238_m.jpg' width="100px" />
 	</div>
 	<div id='randomPicBar'  class="left">
 	<br />
@@ -671,13 +671,15 @@ form.wizard, .wizard .wizardFooter{
 		background-color:#ffffff;
 	}
 	.portletToolbar{
-		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-center.jpg");
+		background-image:url("http://farm4.static.flickr.com/3332/3302865599_59612e2fa1_m.jpg");
+	<!--	background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-center.jpg");
 		width:100%;
 		height:21px;
 		background-repeat:repeat-x;
 	}
 	.portletCornerLeft{
-		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-left.jpg");
+		background-image:url("http://farm4.static.flickr.com/3663/3302865679_3be54aef31_m.jpg");		
+			<!--	background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-left.jpg");-->
 		clear:left;
 		float:left;
 		width:8px;
@@ -692,7 +694,8 @@ form.wizard, .wizard .wizardFooter{
 		background-repeat:no-repeat;
 		margin:0;
 		padding:0;
-		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-right.jpg");
+		background-image:url("http://farm4.static.flickr.com/3244/3302865639_9abe7ac0da_m.jpg");
+		<!--background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-right.jpg");-->
 	}
 	.portletTitle{
 		float:left;
@@ -710,7 +713,8 @@ form.wizard, .wizard .wizardFooter{
 		line-height:6px;
 		font-size:6px;
 		height:6px;
-		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-center.jpg");
+		background-image:url("http://farm4.static.flickr.com/3412/3302865549_526a7cdc34_m.jpg");
+		<!-- background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-center.jpg");-->
 		background-repeat:repeat-x;
 		background-position:bottom;
 		width:100%;
@@ -720,7 +724,8 @@ form.wizard, .wizard .wizardFooter{
 		line-height:6px;
 		font-size:6px;
 		height:6px;
-		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-center.jpg");
+		background-image:url("http://farm4.static.flickr.com/3412/3302865549_526a7cdc34_m.jpg");
+<!--		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-center.jpg");-->
 		background-repeat:repeat-x;
 		background-position:bottom;
 		width:100%;
@@ -730,7 +735,9 @@ form.wizard, .wizard .wizardFooter{
 		float:left;
 		width:6px;
 		height:6px;
-		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-left.gif.png");
+		background-image:url("http://farm4.static.flickr.com/3563/3302865501_7b1e814cd1_m.jpg");
+
+		<!-- background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-left.gif.png");-->
 		background-repeat:no-repeat;
 		background-position:bottom left;
 	}
@@ -738,7 +745,8 @@ form.wizard, .wizard .wizardFooter{
 		float:right;
 		width:6px;
 		height:6px;
-		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-right.jpg");
+<!--		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-right.jpg");-->
+		background-image:url("http://farm4.static.flickr.com/3406/3302865427_ac45364db5_m.jpg");
 		background-repeat:no-repeat;
 		background-position:bottom right;
 	}

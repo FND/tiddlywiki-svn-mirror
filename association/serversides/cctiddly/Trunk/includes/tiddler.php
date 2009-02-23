@@ -67,8 +67,7 @@
 		//$tiddler['created'] = (int)$created;
 		$tiddler['tags'] = $tiddler_create['tags'];
 		$tiddler['fields'] = $tiddler_create['fields'];
-		$tiddler['revision'] = preg_replace("![^0-9]!","",$tiddler_create['revision']);
-		
+		$tiddler['revision'] = $tiddler_create['revision'];
 		return $tiddler;
 	}
 	

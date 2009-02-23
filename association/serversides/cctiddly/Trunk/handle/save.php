@@ -4,8 +4,6 @@ $cct_base = "../";
 include_once($cct_base."includes/header.php");
 debug($_SERVER['PHP_SELF'], "handle");	
 
-
-
 if(!user_session_validate())
 {
 	debug("failed to validate session.", "save");
@@ -19,17 +17,14 @@ $tiddlyCfg['workspace_name'] = formatParametersPOST($_POST['workspace']);
 $ntiddler['modifier'] = formatParametersPOST($_POST['modifier']);
 $ntiddler['modified'] = formatParametersPOST($_POST['modified']);
 $ntiddler['created'] = formatParametersPOST($_POST['created']); 
-error_log("TAGS".$_POST['tags']);
 
 $ntiddler['tags'] = formatParametersPOST($_POST['tags']);
 
-
 $ntiddler['body'] =  formatParametersPOST($_POST['body']);
 $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
+
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
 $tiddler['id'] = $_POST['id'];
-//Will be used from v1.8 - SimonMcManus
-
 
 if(@$pluginsLoader->events['preSave']) 
 {
@@ -49,18 +44,20 @@ if($tiddler['id']!="undefined")
 		sendHeader(409);
 		exit;
 	}
+	
+	error_log("ntitleRev lalala ".$ntiddler['revision']);
+	
 	//require edit privilege on new and old tags			
 	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
 	{
 		$ntiddler['modified'] = $ntiddler['modified']; 
 		$ntiddler['creator'] = $otiddler['creator'];
 		$ntiddler['created'] = $otiddler['created'];
-		if($otiddler['revision'] !==0)
-			$ntiddler['revision'] = $otiddler['revision']+1;
 		debug("Attempting to update server...");
 		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
-		
+		error_log("me id is : ".$ntiddler['revision']);
 		if(tiddler_update_new($tiddler['id'], $ntiddler)) {
+			error_log("trying");
 			sendHeader(201);
 			echo $tiddler['id'];
 		}
