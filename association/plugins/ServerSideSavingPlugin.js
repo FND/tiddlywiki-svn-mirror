@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.4.4|
+|''Version''|0.4.5|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -40,6 +40,7 @@ plugin = {
 	locale: {
 		saved: "%0 saved successfully",
 		saveError: "Error saving %0: %1",
+		saveConflict: "Error saving %0: edit conflict",
 		deleted: "Removed %0",
 		deleteError: "Error removing %0: %1",
 		deleteLocalError: "Error removing %0 locally",
@@ -82,7 +83,11 @@ plugin = {
 			displayMessage(plugin.locale.saved.format([tiddler.title]));
 			store.setDirty(false);
 		} else {
-			displayMessage(plugin.locale.saveError.format([tiddler.title, context.statusText]));
+			if(context.httpStatus == 412) {
+				displayMessage(plugin.locale.saveConflict.format([tiddler.title]));
+			} else {
+				displayMessage(plugin.locale.saveError.format([tiddler.title, context.statusText]));
+			}
 		}
 	},
 
