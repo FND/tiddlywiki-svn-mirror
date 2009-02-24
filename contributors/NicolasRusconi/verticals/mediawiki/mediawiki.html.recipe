@@ -1,6 +1,8 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: ../../../MartinBudden/mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/ImportMediaWikiWizard.js
+tiddler: ../../adaptors/MediaWikiAdaptorWithTemplatePlugin.js
+tiddler: ../../formatters/MediaWikiFormatterWithTemplatePlugin.js
 tiddler: settings.js
 tiddler: MediaWikiFeed.tiddler
 tiddler: SideBarOptions.tiddler

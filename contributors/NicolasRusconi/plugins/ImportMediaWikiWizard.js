@@ -8,6 +8,7 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.2.0|
 |''Type''|plugin|
+|''Requires''|MediaWikiAdaptorPlugin|
 |''Usage''|{{{<<importMediaWiki>>}}}|
 ***/
 /*{{{*/
@@ -181,6 +182,7 @@ config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callba
 config.macros.importMediaWiki.onGetTiddlerList = function(context, wizard) {
 	var macro = config.macros.importMediaWiki;
 	if(context.status !== true) {
+		macro.getClearWikiPagesList();
 		wizard.setButtons([macro.getResetButton()], macro.errorGettingTiddlerList);
 		return;
 	}
@@ -233,84 +235,90 @@ config.macros.importMediaWiki.doImport = function(wizard, tiddlerNames, serverTi
 	merge(config.defaultCustomFields, {
         'server.host': wizard.getValue(macro.hostField)
     });
-}
+};
 
 config.macros.importMediaWiki.doImportWithWizard = function(wizard, rowNames)
 {
 	var macro = config.macros.importMediaWiki;
+	var place = wizard.getElement(macro.markReportFieldName);
+	for(t=0; t<rowNames.length && place; t++) {
+		var link = document.createElement("div");
+		createTiddlyLink(link, rowNames[t], true);
+		place.parentNode.insertBefore(link, place);
+	}
+	wizard.setButtons([{caption: macro.cancelLabel,
+						tooltip: macro.cancelPrompt,
+			 			onClick: macro.onCancel}
+		    		  ], macro.statusDoingImport);
+	var wizardContext = wizard.getValue(macro.contextField);
+	wizardContext[macro.keepTiddlersSyncField] = wizard.getValue(macro.keepTiddlersSyncField);
 	var serverTiddlerName = wizard.getValue(macro.serverTiddlerNameField);
 	if (serverTiddlerName) {
 		macro.saveServerTiddler(wizard, serverTiddlerName, [macro.mediaWikiFeedTag]);
 	}
-	var adaptor = wizard.getValue(macro.adaptorField);
-	var overwrite = [];
-	var t;
-	for(t=0; t<rowNames.length; t++) {
-		if(store.tiddlerExists(rowNames[t]))
-			overwrite.push(rowNames[t]);
-	}
-	if(overwrite.length > 0) {
-		if(!confirm(macro.confirmOverwriteText.format([overwrite.join(", ")])))
-			return false;
-	}
-	var place = wizard.getElement(macro.markReportFieldName);
-	for(t=0; t<rowNames.length && place; t++) {
-		var link = document.createElement("div");
-		createTiddlyLink(link,rowNames[t],true);
-		place.parentNode.insertBefore(link,place);
-	}
-	wizard.setValue(macro.remainingImportsField,rowNames.length);
-	wizard.setButtons([{caption: macro.cancelLabel,
-						tooltip: macro.cancelPrompt,
-			 			onClick: macro.onCancel}
-		    		  ],macro.statusDoingImport);
-
-	var wizardContext = wizard.getValue(macro.contextField);
-	var tiddlers = wizardContext ? wizardContext.tiddlers : [];
-	for(t=0; t<rowNames.length; t++) {
-		var context = {
-			allowSynchronous:true,
-			tiddler:tiddlers[tiddlers.findByField(macro.titleField,rowNames[t])]
-		};
-		context.host = wizard.getValue(macro.hostField);
-		adaptor.getTiddler(rowNames[t],context,wizard,macro.onGetTiddler);
-	}
+	var callback = function(){
+		wizard.setButtons([{caption: macro.doneLabel,
+							tooltip: macro.donePrompt,
+							onClick: wizard.getValue(macro.importCompletedHandlerField)
+						   }], macro.statusDoneImport)};
+	macro.doImportTiddlers(wizard.getValue(macro.adaptorField), wizardContext, rowNames, callback);
 	return false;
 };
 
-config.macros.importMediaWiki.onGetTiddler = function(context,wizard)
+config.macros.importMediaWiki.doImportTiddlers = function (adaptor, importContext, tiddlersNames, callback)
 {
 	var macro = config.macros.importMediaWiki;
-	if (!context.status) {
-		displayMessage(macro.errorGettingTiddler + context.statusText);
+	var overwrite = [];
+	var t;
+	for(t=0; t<tiddlersNames.length; t++) {
+		if (store.tiddlerExists(tiddlersNames[t])) {
+			overwrite.push(tiddlersNames[t]);
+		}
 	}
-	var tiddler = context.tiddler;
+	if(overwrite.length > 0) {
+		if (!confirm(macro.confirmOverwriteText.format([overwrite.join(", ")]))) {
+			return false;
+		}
+	}
+	importContext[macro.remainingImports] = tiddlersNames.length;
+	var tiddlers = importContext && importContext.tiddlers ? importContext.tiddlers : [];
+	importContext.callback = callback;
+	for(t=0; t<tiddlersNames.length; t++) {
+		var tiddlerContext = {
+			allowSynchronous:true,
+			tiddler:tiddlers[tiddlers.findByField(macro.titleField, tiddlersNames[t])],
+			host: importContext.host,
+		};
+		adaptor.getTiddler(tiddlersNames[t],tiddlerContext,importContext,macro.onGetTiddler);
+	}
+}
+
+config.macros.importMediaWiki.onGetTiddler = function(tiddlerContext, importContext)
+{
+	var macro = config.macros.importMediaWiki;
+	if(!tiddlerContext.status)
+		displayMessage("Error in importTiddlers.onGetTiddler: " + tiddlerContext.statusText);
+	var tiddler = tiddlerContext.tiddler;
 	store.suspendNotifications();
 	tags = tiddler.tags;
-	var importTags = wizard.getValue(macro.importTagsField);
-	if (importTags) {
-		merge(tags,importTags);
-	}
-	store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tags, tiddler.fields, true, tiddler.created);
-	if(!wizard.getValue(macro.keepTiddlersSyncField)) {
+	merge(tags,importContext.tags);
+	store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier,
+					  tiddler.modified, tags, tiddler.fields, true, tiddler.created);
+	if(!importContext[macro.keepTiddlersSyncField]) {
 		store.setValue(tiddler.title,'server',null);
 	}
 	store.resumeNotifications();
-	if (!context.isSynchronous) {
-		store.notify(tiddler.title, true);
-	}
-	var remainingImports = wizard.getValue(macro.remainingImportsField) - 1;
-	wizard.setValue(macro.remainingImportsField,remainingImports);
+	if(!tiddlerContext.isSynchronous)
+		store.notify(tiddler.title,true);
+	var remainingImports = importContext[macro.remainingImports] - 1;
+	importContext[macro.remainingImports] = remainingImports;
 	if(remainingImports == 0) {
-		if(context.isSynchronous) {
+		if(tiddlerContext.isSynchronous) {
 			store.notifyAll();
 			refreshDisplay();
 		}
-		wizard.setButtons([{caption: macro.doneLabel,
-							tooltip: macro.donePrompt,
-							onClick: wizard.getValue(macro.importCompletedHandlerField)}
-						  ],macro.statusDoneImport);
 		autoSaveChanges();
+		importContext.callback();
 	}
 };
 
@@ -357,8 +365,7 @@ config.macros.importMediaWiki.restart = function(wizard)
 	wizard.setButtons([macro.getResetButton(),
 					   {caption: macro.next,
 						tooltip: macro.nextTooltip,
-						onClick: macro.openHost},
-					   ]);
+						onClick: macro.openHost}]);
 	wizard.formElem.action = "javascript:;";
 	wizard.formElem.onsubmit = function() {
 		if (this.txtWikiHost.value.length) {
