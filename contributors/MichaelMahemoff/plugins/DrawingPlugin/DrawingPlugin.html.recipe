@@ -1,0 +1,13 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+tiddler: DrawingPlugin.js
+tiddler: DrawingPluginInfo.tiddler
+# tiddler: firebug-lite-compressed.js
+tiddler: Example.tiddler
+tiddler: Sketchbook.tiddler
+
+tiddler: DefaultTiddlers.tiddler
+tiddler: MainMenu.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
