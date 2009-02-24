@@ -74,18 +74,6 @@ if(!version.extensions.DrawPlugin) {
 
   // adapted from TaggedTemplateTweak
   // decided to copy and modify to avoid dependence
-  var origChooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler;
-  Story.prototype.chooseTemplateForTiddler = function(title,template) {
-    // TODO FIX this
-    origTemplate = origChooseTemplateForTiddler.apply(null, arguments);
-    var tiddler = store.getTiddler(title);
-    if (!tiddler) return origTemplate;
-    if (tiddler.isTagged("Drawing")) {
-      return (template==DEFAULT_EDIT_TEMPLATE) ? "DrawingEditTemplate" : "DrawingViewTemplate";
-    }
-
-    return origTemplate;
-  };
 
   //################################################################################
   //# NEW DRAWING MACRO
@@ -131,11 +119,11 @@ if(!version.extensions.DrawPlugin) {
         drawingTiddler.fields.width = "300";
         drawingTiddler.fields.height = "400";
         drawingTiddler.fields.usesvg = "true";
-
-        autoSaveChanges(false);
+	
+        autoSaveChanges(true);
         // story.displayTiddler(DEFAULT_EDIT_TEMPLATE, drawingTiddler);
         config.macros.newDrawing.newestSessionID = sessionID;
-        story.displayTiddler("top", drawingTiddler, DEFAULT_EDIT_TEMPLATE);
+        story.displayTiddler(null, title, DEFAULT_EDIT_TEMPLATE);
       } else {
         displayMessage("Cannot open drawing editor. Please try later.");
       }

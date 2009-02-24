@@ -27,6 +27,7 @@ version.extensions.TaggedTemplateTweak= {major: 1, minor: 4, revision: 1, date: 
 Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
 Story.prototype.chooseTemplateForTiddler = function(title,template)
 {
+	console.log("ttw");
 	// get default template from core
 	var coreTemplate=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
 
@@ -34,6 +35,7 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 	var tiddler=store.getTiddler(title);
 	if (!tiddler || !tiddler.tags.length)
 		return coreTemplate;
+		console.log("ttw2");
 
 	// split core template into theme prefix and template name
 	var theme="";
@@ -46,6 +48,8 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 	// look for template whose prefix matches a tag on this tiddler (if any)
 	for (i=0; i<tiddler.tags.length; i++) {
 		var t=tiddler.tags[i]+template; // add tag prefix to template
+		
+		console.log("got to here "+theme);
 		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
 		if (store.getTiddlerText(theme+t))	{ return theme+t; } // theme##tagTemplate
 		if (store.getTiddlerText(theme+c))	{ return theme+c; } // theme##TagTemplate

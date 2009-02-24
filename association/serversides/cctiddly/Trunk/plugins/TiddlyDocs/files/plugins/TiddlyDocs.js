@@ -23,7 +23,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	removeChildren(place);
 //top nav 
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
-	wikify("<<newDrawing>><<docPrint "+params[0]+">>", buttonHolder);
+	wikify("[[Drawing]]<<newDrawing>><<docPrint "+params[0]+">>", buttonHolder);
 /// new tiddler button 
 	var btn = createTiddlyElement(buttonHolder, "a", null, "button");
 	btn.onclick = config.macros.newTiddler.onClickNewTiddler;

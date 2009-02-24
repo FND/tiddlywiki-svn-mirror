@@ -1,5 +1,3 @@
-modifier: Simon McManus
-
 /***
 |''Name:''|FCKeditorPlugin|
 |''Description:''|Wysiwyg editor for TiddlyWiki using FCKeditor.|
