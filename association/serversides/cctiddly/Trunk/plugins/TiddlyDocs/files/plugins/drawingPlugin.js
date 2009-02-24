@@ -43,6 +43,7 @@ if(!version.extensions.DrawPlugin) {
         (checkbox.checked = true) : delete checkbox.checked;
       checkbox.onclick = checkbox.onchange = function() {
         tiddler.fields[field] = ""+(checkbox.checked);
+displayMessage("bol");
         store.saveTiddler(tiddler.title);
         autoSaveChanges(false);
       }
