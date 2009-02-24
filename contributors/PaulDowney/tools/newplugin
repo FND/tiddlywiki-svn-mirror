@@ -7,7 +7,8 @@ export plugin="$1"
 export now=$(date +%Y%m%d%H%M%S)
 export author="PaulDowney"
 export email="psd (at) osmosoft (dot) com"
-export deployment="pauldowney@amp.dreamhost.com:/home/pauldowney/whatfettle.com/2008/07/$plugin/"
+export deploy_host="pauldowney@amp.dreamhost.com"
+export deploy_dir="/home/pauldowney/whatfettle.com/2008/07/$plugin/"
 export source="http://whatfettle.com/2008/07/$plugin/"
 
 if [ -z "$plugin" ]
@@ -27,6 +28,7 @@ function template
 {
 	f="$1"
 	[ -f "$f" ] && return
+	[ -f "$2" ] && return
 	echo "creating $f" 1>&2
 	cat > $f
 }
@@ -55,7 +57,7 @@ version.extensions.$plugin = {installed:true};
 
 	// stuff
 
-};
+}
 //}}}
 !
 
@@ -71,6 +73,7 @@ template "index.html.recipe" <<!
 recipe: \$TW_ROOT/core/tiddlywiki.html.recipe
 recipe: $plugin.recipe
 recipe: tiddlers/split.recipe
+recipe: shadows/split.recipe
 !
 
 template "$plugin.recipe" <<!
@@ -81,7 +84,8 @@ tiddler: $plugin.js
 #  example
 #
 template "deploy.sh" <<!
-scp index.html $deployment
+ssh $deploy_host mkdir $deploy_dir
+scp index.html $deploy_host:$deploy_dir
 !
 
 template "go" <<!
@@ -91,15 +95,75 @@ cook && ff index.html
 [ ! -d "tiddlers" ]&&mkdir tiddlers
 
 template "tiddlers/split.recipe" <<!
-tiddler: DefaultTiddlers.tiddler
 !
 
-template "tiddlers/DefaultTiddlers.tiddler" <<!
+#
+#  shadows
+#
+[ ! -d "shadows" ]&&mkdir shadows
+template "shadows/split.recipe" <<!
+tiddler: DefaultTiddlers.tiddler
+tiddler: MainMenu.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: SiteUrl.tiddler
+tiddler: settings.js
+!
+
+template "shadows/DefaultTiddlers.tiddler" "tiddlers/DefaultTiddlers.tiddler" <<!
 <div title="DefaultTiddlers" modifier="$author" created="$now" modified="$now" changecount="1">
 <pre>[[$plugin]]
 </pre>
 </div>
 !
+
+template "shadows/MainMenu.tiddler" "tiddlers/MainMenu.tiddler" <<!
+<div title="MainMenu" modifier="$author" created="$now" modified="$now" changecount="1">
+<pre>[[$plugin]]
+</pre>
+</div>
+!
+
+
+template "shadows/settings.js" <<!
+//{{{
+
+//}}}
+!
+
+template "shadows/settings.js.meta" <<!
+title: settings
+modifier: Paul Downey
+created: $now
+modified: $now
+tags: systemConfig excludeLists excludeSearch
+!
+
+template "shadows/DefaultTiddlers.tiddler" <<!
+<div title="DefaultTiddlers" modifier="$author" created="$now" modified="$now" changecount="1">
+<pre>[[$plugin]]
+</pre>
+</div>
+!
+
+template "shadows/SiteTitle.tiddler" <<!
+<div title="SiteTitle" modifier="$author" created="$now" modified="$now" changecount="1">
+<pre>TiddlyWiki</pre>
+</div>
+!
+
+template "shadows/SiteSubtitle.tiddler" <<!
+<div title="SiteSubtitle" modifier="$author" created="$now" modified="$now" changecount="1">
+<pre>$plugin</pre>
+</div>
+!
+
+template "shadows/SiteUrl.tiddler" <<!
+<div title="SiteUrl" modifier="$author" created="$now" modified="$now" changecount="1">
+<pre>$source</pre>
+</div>
+!
+
 
 chmod +x deploy.sh go
 exit
