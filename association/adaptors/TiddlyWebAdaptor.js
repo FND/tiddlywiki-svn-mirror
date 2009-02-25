@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.5.8|
+|''Version''|0.5.9|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -31,9 +31,9 @@
 if(!version.extensions.TiddlyWebAdaptorPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 
-config.adaptors.tiddlyweb = function() {};
+(function() { //# set up local scope
 
-(function(adaptor) { //# set up alias
+var adaptor = config.adaptors.tiddlyweb = function() {}; //# set up alias
 
 adaptor.prototype = new AdaptorBase();
 adaptor.serverType = "tiddlyweb";
@@ -543,7 +543,7 @@ adaptor.normalizeTitle = function(title) {
 	return encodeURIComponent(title);
 };
 
-})(config.adaptors.tiddlyweb); //# end of alias
+})(); //# end of local scope
 
 /***
 !JSON Code, used to serialize the data
