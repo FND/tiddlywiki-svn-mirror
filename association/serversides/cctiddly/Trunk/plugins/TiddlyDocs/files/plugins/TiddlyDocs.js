@@ -83,38 +83,8 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	img.src = "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png";
 	createTiddlyText(btn, " Settings");
 	btn.setAttribute("href","javascript:;");		
-/// document specification button
-		/*
 
-		var btn = createTiddlyElement(buttonHolder, "a", null, "button");
-	btn.onclick = function () {
-		story.displayTiddler(null, params[0]);
-	};
-
-	var img = createTiddlyElement(btn, "img");
-	img.style.width = "10px";
-	img.style.height="10px";
-	img.src = "http://ib.berkeley.edu/labs/dawson/calender/theme/icons/bullet_point_50x50.gif";
-	createTiddlyText(btn, " Doc");
-	btn.setAttribute("href","javascript:;");	
-
-
-	*/
-		createTiddlyElement(place, "br");
-	/*
-	var div = createTiddlyElement(place, "div", "example", "flora");
-	var ul = createTiddlyElement(div, "ul");
-	var li = createTiddlyElement(ul, "li");
-	var a = createTiddlyElement(li, "a");
-	a.href = "#frag1";
-	createTiddlyElement(a, "span", null, null, "frag1");
-	var li = createTiddlyElement(ul, "li");
-	var a = createTiddlyElement(li, "a");
-	a.href = "#frag2";
-	createTiddlyElement(a, "span", null, null, "frag2");
-	var frag1 = createTiddlyElement(div, "div", "frag1", null, "frag 1 content");
-	createTiddlyElement(div, "div", "frag2", null, "frag 2 content ");
-	*/
+	createTiddlyElement(place, "br");
 	var treeSpec = store.getTiddlerText(params[0]); 
 	if(treeSpec){
 		var sections = treeSpec.split("\n");
@@ -178,6 +148,9 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					accept: 'page-item1',
 					opacity: .6,
 					helperclass: 'helper',
+					//onOut: function(a, b, c) {
+					//	console.log(arguments, this);
+					//}, 
 					onChange: function(serialized) {
 						var output = "";
 						$("li").each(function (i) {
@@ -193,6 +166,9 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					autoScroll: true,
 					handle: '.sort-handle '
 				});	
+
+
+
 
 				$("#sortableList li").mouseup(function() {
 					if(config.options.chkOpenEditView==true)
@@ -213,6 +189,27 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 			}
 		}
 	}
+	
+	///  DOING IT ALL AGAIN
+	createTiddlyElement(place, "hr");
+	
+	var div = createTiddlyElement(place, "div","dropzone1", null, "DELETE STUFF");
+	div.style.width = "100%";
+	div.style.height = "200px";
+
+	div.style.background = "red";
+
+	$("#dropzone1").Droppable(
+      {
+		accept:"page-item1",
+			ondrop:	function (drag) {
+				var stars = "********************************************************";
+				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");
+				store.saveTiddler(window.activeDocument, window.activeDocument, spec);
+				autoSaveChanges();
+			}
+  });
+
 }	
 
 //}}}

@@ -817,5 +817,8 @@ form.wizard, .wizard .wizardFooter{
 	}
 	.statusMessageGood{
 	}
+	.dropzoneactive { background: pink; }
+	.dropzonehover { background: orange; }
+	
 
 <!--}}}-->
