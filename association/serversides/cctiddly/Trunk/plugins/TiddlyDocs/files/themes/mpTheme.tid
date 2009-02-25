@@ -57,7 +57,7 @@ tags:systemTheme
 	<div id='picBar' style="float:right;position:absolute;text-align:right;top:1em;width:98%;">
 
 		<img src='http://www.essex.ac.uk/wehia05/Pictures/BT_logo.jpg' width="100px"/>
-		<img src='http://farm4.static.flickr.com/3496/3302865397_263cb2a238_m.jpg' width="100px" />
+		<img src='http://farm4.static.flickr.com/3496/3302865397_263cb2a238_m.jpg' width="125px" />
 	</div>
 	<div id='randomPicBar'  class="left">
 	<br />

@@ -17,7 +17,7 @@ config.commands.saveSection.handler = function(event,src,title)
 	if(!store.tiddlerExists(newTitle)) {
 		var spec = "* "+newTitle+"\n"+store.getTiddlerText(window.activeDocument);
 	}
-	store.saveTiddler(newTitle, newTitle, fields.text);
+	store.saveTiddler(newTitle, newTitle, fields.text, config.options.txtUserName, new Date(), "task");
 	store.saveTiddler(window.activeDocument, window.activeDocument, spec);
 	autoSaveChanges();
 	story.closeTiddler(title);
