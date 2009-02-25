@@ -391,6 +391,8 @@ color:white;
 		background-image : url(http://www.combell.com/en/sharepoint-hosting/img/ico/tray.png);
 		background-repeat: no-repeat;
 		background-position:bottom left;
+		text-align:left;
+		border:1px solid #eee;
 		
 	}
 	

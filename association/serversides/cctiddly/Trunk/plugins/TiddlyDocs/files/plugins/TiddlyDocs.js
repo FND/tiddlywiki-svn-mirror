@@ -81,44 +81,29 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	if(treeSpec){
 		var sections = treeSpec.split("\n");
 		var parent = createTiddlyElement(place, "ul","sortableList", "page-list");
-		var counth1 = 1;
-		var counth2 = 1;
-		var counth3 = 1;
 		
-		var lcount = {1:1, 2:1};
-			
-		for(var i = 0; i < sections.length; i++) {
+		var levelCount = [1];
 
+		
+  		for(var i = 0; i < sections.length; i++) {
 			var matches = sections[i].match(/^(\*+) (.*)/)
 			if (matches) {
 				var level = matches[1].length;
 				var tiddlerTitle = matches[2];
 				
-				
-				
-				
-				if(level==1){
-					levelCount = counth1++;
-					
-					lcount[1]++
-					console.log("num : "+lcount[1]);
-				}
-				if(level==2){
-					if(lcount[1] != 1)
-						lcount[2] = 1;
-					else
-						lcount[2]++
-					levelCount = lcount[1]-1+"."+lcount[2]++;
-				}
-				if(level==3)
-					levelCount = counth1-1+"."+counth2-1+"."+counth3++;
+
 				if (level>prevLevel) {
-					parent = createTiddlyElement(parent, "ul","sortableList", "page-list");
-					
-					
+					parent = createTiddlyElement(parent, "ul","sortableList", "page-list");	
+					levelCount.push(1);				
 				} else if (level < prevLevel) {
 					parent = parent.parentNode;
-				}
+					levelCount.pop();				
+					levelCount[levelCount.length-1]++;
+				} else if (level==prevLevel) {
+					levelCount[levelCount.length-1]++;
+				};
+				
+				
 				if(!store.getTiddler(tiddlerTitle)){
 					var newDate = new Date();
 					store.saveTiddler(tiddlerTitle, tiddlerTitle, "", config.options.txtUserName, newDate,"task",config.defaultCustomFields);
@@ -131,7 +116,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 				var assignment = store.getTiddler(tiddlerTitle).fields['tt_user'];
 				var sectionDiv = createTiddlyElement(section, "div", tiddlerTitle+"ViewContainer", "sort-handle " +sectionClass);
 				var heading = createTiddlyElement(sectionDiv, "div",  tiddlerTitle+"HeadingView", "sectionHeading heading"+level);		
-				createTiddlyText(heading, levelCount+" : "+tiddlerTitle);
+				createTiddlyText(heading, levelCount.join(".")+" : "+tiddlerTitle);
 //				createTiddlyText(heading, levelCount+ " - " +tiddlerTitle); // show number count 
 //				createTiddlyButton(heading,  "edit", "Click to edit this section", config.macros.docOutline.editClick, "button");	// show edit button		
 				var prevLevel = level;			
