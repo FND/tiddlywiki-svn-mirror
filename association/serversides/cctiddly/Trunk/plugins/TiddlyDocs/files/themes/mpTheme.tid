@@ -143,11 +143,8 @@ tags:systemTheme
 		</div>
 	<div class="portletContent">
 	
-
-			<div class='taskControls' macro='tiddler TaskTiddlerControls'>
-		</div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
-		<div class='editor' macro='edit text' ></div>
+		<div class='editor' macro='editHtml text' ></div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	
@@ -159,6 +156,33 @@ tags:systemTheme
 </div>
 
 <!--}}}-->
+
+!newEditTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'>editing : </div>
+		</div>
+	<div class="portletContent">
+	<div class='editor' macro='edit title'></div>
+	
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
+		<div class='editor' macro='editHtml text' ></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
+		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+	
+	</div>
+	<div class="portletFooterEdit">
+		<div class="portletBotLeft"></div>
+		<div class="portletBotRight"></div>
+	</div>
+</div>
+
+<!--}}}-->
+
 
 !ViewTemplate
 <!--{{{-->

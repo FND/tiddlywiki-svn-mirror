@@ -1,6 +1,40 @@
-//docOutline //
+config.commands.saveSection = {};
 
- // docOutline //
+merge(config.commands.saveSection,{
+	text: "save section",
+	tooltip: "Save changes to this section"});
+
+config.commands.saveSection.handler = function(event,src,title)
+{
+	var tiddlerElem = story.getTiddler(title);
+	if(tiddlerElem) {
+		var fields = {};
+		story.gatherSaveFields(tiddlerElem,fields);
+		var newTitle = fields.title || title;
+		if(!store.tiddlerExists(newTitle))
+			newTitle = newTitle.trim();
+	}
+	var spec = "* "+newTitle+"\n"+store.getTiddlerText(window.activeDocument);
+	story.saveTiddler(newTitle);
+
+	store.saveTiddler(window.activeDocument, window.activeDocument, spec);
+	store.saveTiddler(newTitle, newTitle, fields.text);
+	autoSaveChanges();
+//	story.displayTiddler(null,newTitle);
+	
+				story.closeTiddler(title);
+				
+				story.displayTiddler(null, newTitle);
+				
+	
+	
+	
+	return false;
+	
+};
+
+
+//docOutline //
 
 //{{{
 
@@ -23,12 +57,15 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	removeChildren(place);
 //top nav 
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
-	wikify("[[Drawing]]<<newDrawing>><<docPrint "+params[0]+">>", buttonHolder);
+	if(config.options.chkDrawings)
+		wikify("[[Drawing]]<<newDrawing>>", buttonHolder);
+	wikify("<<docPrint "+params[0]+">>", buttonHolder);
+	window.activeDocument = params[0];
 /// new tiddler button 
 	var btn = createTiddlyElement(buttonHolder, "a", null, "button");
 	btn.onclick = config.macros.newTiddler.onClickNewTiddler;
-	btn.setAttribute("newTitle","New Section");
-	btn.setAttribute("newTemplate","mpTheme##taskEditTemplate");
+	btn.setAttribute("newTitle","New Section123");
+	btn.setAttribute("newTemplate","mpTheme##newEditTemplate");
 	var img = createTiddlyElement(btn, "img");
 	img.style.width = "10px";
 	img.style.height="10px";
