@@ -14,23 +14,15 @@ config.commands.saveSection.handler = function(event,src,title)
 		if(!store.tiddlerExists(newTitle))
 			newTitle = newTitle.trim();
 	}
-	var spec = "* "+newTitle+"\n"+store.getTiddlerText(window.activeDocument);
-	story.saveTiddler(newTitle);
-
+	if(!store.tiddlerExists(newTitle)) {
+		var spec = "* "+newTitle+"\n"+store.getTiddlerText(window.activeDocument);
+		store.saveTiddler(newTitle, newTitle, fields.text);
+	}
 	store.saveTiddler(window.activeDocument, window.activeDocument, spec);
-	store.saveTiddler(newTitle, newTitle, fields.text);
 	autoSaveChanges();
-//	story.displayTiddler(null,newTitle);
-	
-				story.closeTiddler(title);
-				
-				story.displayTiddler(null, newTitle);
-				
-	
-	
-	
+	story.closeTiddler(title);
+	story.displayTiddler(null, newTitle);
 	return false;
-	
 };
 
 
@@ -193,17 +185,21 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	///  DOING IT ALL AGAIN
 	createTiddlyElement(place, "hr");
 	
-	var div = createTiddlyElement(place, "div","dropzone1", null);
+	var div = createTiddlyElement(place, "div","deleteZone", "deleteZoneClass");
 	div.innerHTML = "<h2>DELETE STUFF </h2>"+store.getTiddlerText(window.activeDocument+"_bin");
 	div.style.width = "100%";
-	div.style.height = "200px";
+	div.style.height = "100px";
 
-	div.style.background = "red";
 
-	$("#dropzone1").Droppable(
+	$("#deleteZone").Droppable(
       {
 		accept:"page-item1",
+		helperclass: 'helper',
+		activeClass: 'different',
 			ondrop:	function (drag) {
+				console.log(this);
+				$(this).removeClass("deleteZoneClass");
+				console.log(this);
 				binContents = drag.id+" <br />"+store.getTiddlerText(window.activeDocument+"_bin");  // build up the bin
 				store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents); // save the bin
 				// remove the item from the orginal spec.
@@ -213,7 +209,6 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 				autoSaveChanges();
 			}
   });
-
 }	
 
 //}}}
