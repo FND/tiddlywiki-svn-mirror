@@ -1,6 +1,6 @@
 /***
 |''Name:''|ValueSwitcherPlugin|
-|''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
+|''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extended field |
 |''Version:''|0.2|
 |''Date:''|25 Sept, 2007|
 |''Source:''|http://www.hawksworx.com/playground/TeamTasks/#ValueTogglerPlugin|
@@ -44,7 +44,7 @@ if(!version.extensions.ValueSwitcher)
 				for (var i=0; i < values.length; i++) {
 					options.push({'caption': values[i], 'name': fieldName + '::' + values[i]});				
 				}
-				createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
+         createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
 			}
 			// Build a free text box.
 			else if(ctrlType == 'freetext') {
@@ -58,6 +58,12 @@ if(!version.extensions.ValueSwitcher)
 				var text = store.getValue(tiddler,ttField);
 				if(text == undefined) text = "";	
 				var i = createTiddlyElement(place,"input",null,null,null,{"value":text, "type":"input", "ttname":ttField});
+        var autoCompleteParam = (getParam(params,"autoComplete"));
+        if (autoCompleteParam && autoCompleteParam.trim().length) {
+          // NOTE matchContains doesn't seem to work, not sure why
+          var autoCompleteOptions = (autoCompleteParam=="anywhere" ? {matchContains:true} : {});
+          jQuery(i).autocompleteArray(config.macros.ValueSwitcher.findAllFreeTextValues(ttField), autoCompleteOptions);
+        }
 				i.onblur = config.macros.ValueSwitcher.changeFreetext;
 			}
 
@@ -66,6 +72,15 @@ if(!version.extensions.ValueSwitcher)
 			*/
 		},
 
+    findAllFreeTextValues: function(ttField) {
+      var allValues = [];
+      var tasks = store.getTaggedTiddlers("task");
+      for (var i=0; i<tasks.length; i++) {
+        var value = tasks[i].fields[ttField];
+        if (value && value.trim().length) allValues.push(value);
+      }
+      return allValues;
+    },
 
 		//Get definition values for populating UI from definition tiddlers.
 		getDefValues: function(src) {
@@ -87,7 +102,6 @@ if(!version.extensions.ValueSwitcher)
 			}
 			return (output);	
 		},
-
 
 		// Ensure that changes to a dropdown field are stored as an extended field.
 		setDropDownMetaData: function(ev) {
