@@ -356,10 +356,12 @@ font-family:Lucida Grande;
 	border:1px solid #C7C7C7;
 	margin:0.5em;
 }
- .different {
-background-color:blue;
-border:1em solid black;
-font-weight:bold;
+
+
+ .deleteHelper {
+background-color:red;
+border:2px dashed #777777;
+color:white;
 }
 .left {
 	text-align: left;
@@ -386,8 +388,9 @@ font-weight:bold;
 	}
 	
 	.deleteZoneClass {
-		background-image : url(http://www.scottkellam.com/wp-content/uploads/2007/03/app-delete-icon.png);
-		background-repeat: no-repeat;}
+		background-image : url(http://www.combell.com/en/sharepoint-hosting/img/ico/tray.png);
+		background-repeat: no-repeat;
+		background-position:bottom left;
 		
 	}
 	

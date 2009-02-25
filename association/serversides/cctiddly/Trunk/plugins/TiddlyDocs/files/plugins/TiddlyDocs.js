@@ -182,25 +182,32 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 		}
 	}
 	
-	///  DOING IT ALL AGAIN
-	createTiddlyElement(place, "hr");
-	
 	var div = createTiddlyElement(place, "div","deleteZone", "deleteZoneClass");
-	div.innerHTML = "<h2>DELETE STUFF </h2>"+store.getTiddlerText(window.activeDocument+"_bin");
-	div.style.width = "100%";
+	
+	
+	var binContents = store.getTiddlerText(window.activeDocument+"_bin");
+	
+	
+	
+	if(binContents)
+		div.innerHTML = "<h4>Recycle Bin</h4>"+binContents;
+	else
+		div.innerHTML = "<h4>Recycle Bin</h4> You have an empty bin.";
+	
 	div.style.height = "100px";
 
 
 	$("#deleteZone").Droppable(
       {
+		activeclass : "deleteHelper",
 		accept:"page-item1",
-		helperclass: 'helper',
-		activeClass: 'different',
 			ondrop:	function (drag) {
-				console.log(this);
-				$(this).removeClass("deleteZoneClass");
-				console.log(this);
-				binContents = drag.id+" <br />"+store.getTiddlerText(window.activeDocument+"_bin");  // build up the bin
+				var binText = store.getTiddlerText(window.activeDocument+"_bin");
+				if(binText)
+					binContents = drag.id+" <br />"+binText;  // build up the bin
+				else
+					binContents = drag.id+" <br />";  // build up the bin
+				
 				store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents); // save the bin
 				// remove the item from the orginal spec.
 				var stars = "********************************************************";
