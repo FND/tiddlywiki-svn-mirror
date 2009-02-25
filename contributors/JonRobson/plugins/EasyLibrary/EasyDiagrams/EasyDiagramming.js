@@ -1,4 +1,6 @@
 var EasyDiagram = function(wrapper,easyGraph,controller){
+	
+	
 	if(!easyGraph){
 		easyGraph = new EasyGraph();
 	}
@@ -20,6 +22,7 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	this.wrapper = wrapper;
 	this.easyGraph = easyGraph;	
 	wrapper.style.position = "relative";
+	wrapper.className = "easyDiagram";
 	var width = 600;
 	var height = 400;
 	wrapper.style.width = width + "px";
@@ -31,6 +34,8 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	this.canvas.style.border = "solid 1px black";
 	
 	this.wrapper.appendChild(this.canvas);
+	this.easyDrawingTools = new EasyDrawingTools(this.wrapper);
+	
 	this.easyClicking = new EasyClicking(this.wrapper);
 	this.setupMouseHandlers();
 		
@@ -41,13 +46,96 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	this.easyController.addControl("zoom");
 	this.transform({});
 		
-	this.createDrawingControls();
+	
+	this._setDrawingCommands();
 	
 	
 };
 
 EasyDiagram.prototype = {
-	getEasyGraph: function(){
+	_setDrawingCommands: function(){
+		/*helpers*/		
+		var getshape = function(e){
+			var s = easyDiagram.easyClicking.getShapeAtClick(e);
+			if(!s) return false;
+			var target = EasyClickingUtils.resolveTarget(e);
+			if(target.className == "easyControl") return false;
+			if(target.className == "easyDrawingTools") return false;
+			return s;
+		};
+		
+		/*saving */
+		var easyDiagram = this;
+		var easyGraph = this.getEasyGraph();
+		var saveaction = function(){
+			easyDiagram.controller.saveHandler(easyDiagram,easyGraph.burntojson());
+		};
+		this.easyDrawingTools.setCommandAction("save",saveaction);
+		
+		/* move around shapes */
+		var nocommand = function(e){
+			
+			var s = getshape(e);
+			if(s)easyDiagram.selectShape(s);
+		};
+		this.easyDrawingTools.setCommandAction("none",nocommand);
+		
+		/*right click*/
+		var rightclick = function(e){
+		
+			easyDiagram.selectShape(false);
+			easyDiagram.deleteTemporaryShape("pathinprogress");	
+		};	
+		this.easyDrawingTools.setCommandAction("rightmouse",rightclick);
+		
+		/*start line*/
+		var startLine = function(e){
+			var s = getshape(e);
+		
+			if(!s) return;
+			var t = easyDiagram.getTransformation();
+			var startpos =EasyClickingUtils.getRealXYFromMouse(e,t);
+			var p = new EasyShape({shape:"path",stroke: '#000000',lineWidth: '1'},[startpos.x,startpos.y,startpos.x,startpos.y]);
+			easyDiagram.addTemporaryShape("pathinprogress",p);
+			
+			return s.properties.id;
+		};
+		this.easyDrawingTools.setCommandAction("lineStart",startLine);
+		
+		/*end line */
+		var endLine = function(e,command){
+			var s = getshape(e); 
+			if(!s) return;
+			easyGraph.addEdge(command.start, s.properties.id);	
+			easyDiagram.deleteTemporaryShape("pathinprogress");
+			easyDiagram.render();
+		}
+		this.easyDrawingTools.setCommandAction("lineEnd",endLine);
+		
+		/*shape Start */
+		var newnode = function(e){
+			var uniqueid = Math.random();
+			easyGraph.addNode({id:uniqueid,properties:{label: "new node",shape:'polygon'}});
+			s = easyGraph.getNode(uniqueid).getEasyShape();	
+			easyDiagram.selectShape(s);
+			easyDiagram.render();
+		};
+		this.easyDrawingTools.setCommandAction("shapeStart",newnode);
+		
+		var laynode = function(e){
+			easyDiagram.selectShape(false);
+		}
+		this.easyDrawingTools.setCommandAction("shapeEnd",laynode);
+		/*delete */
+		var deleteCommand = function(e){
+			var s = getshape(e);
+			if(s)easyDiagram.deleteShape(s);	
+		}
+		this.easyDrawingTools.setCommandAction("delete",deleteCommand);
+		
+		
+	}
+	,getEasyGraph: function(){
 		return this.easyGraph;
 	}
 	,getTemporaryShape: function(name){
@@ -61,80 +149,7 @@ EasyDiagram.prototype = {
 	}
 	,deleteTemporaryShape: function(name){
 		delete this.tempshapes[name];
-	}
-	,setDrawingCommand: function(json){
-		if(!json){
-			json = {type:'false'};
-		}
 		
-		if(!json.type) throw "json must have a type property!";
-		this.toolCommand = json;
-	
-	}
-	,getDrawingCommand: function(){
-		if(!this.toolCommand) this.toolCommand = {type:false};
-		return this.toolCommand;
-	}
-	,createDrawingControls: function(){
-		
-		var tooltip = document.createElement("div");
-		tooltip.style.position = "absolute";	
-		//tooltip.style.zIndex = 30;
-		tooltip.innerHTML = "..";
-		this.tooltip = tooltip;
-		
-		var drawNode = document.createElement("button");
-		drawNode.style.position = "absolute";
-		drawNode.innerHTML = "new node";
-		drawNode.style.top = 0;
-		drawNode.style.left = this.wrapper.style.width;
-		
-		var drawEdge = document.createElement("button");
-		drawEdge.style.position = "absolute";
-		drawEdge.innerHTML = "new edge";
-		drawEdge.style.top = 40+"px";
-		drawEdge.style.left = this.wrapper.style.width;
-		
-		
-		var deleteNode = document.createElement("button");
-		deleteNode.style.position = "absolute";
-		deleteNode.innerHTML = "delete";
-		deleteNode.style.top = 80+"px";
-		deleteNode.style.left = this.wrapper.style.width;
-		
-		 var save = document.createElement("button");
-		save.style.position = "absolute";
-		save.innerHTML = "save";
-		save.style.top = 120+"px";
-		save.style.left = this.wrapper.style.width;
-		
-		var easyGraph = this.easyGraph;
-		var easyDiagram = this;
-		easyDiagram.toolCommand = false;
-		
-		save.onclick = function(e){
-
-			easyDiagram.controller.saveHandler(easyDiagram,easyGraph.burntojson());
-		}
-		deleteNode.onclick = function(e){
-			easyDiagram.setDrawingCommand({type: "delete"});
-		}
-		drawEdge.onclick = function(e){
-			easyDiagram.setDrawingCommand({type: "drawEdge",start: false, end: false});
-		};
-		drawNode.onclick = function(e){
-			var uniqueid = Math.random();
-			easyDiagram.setDrawingCommand({type: "newNode"});
-			easyGraph.addNode({id:uniqueid,properties:{label: "new node",shape:'polygon'}});
-			easyDiagram.selectedShape = easyGraph.getNode(uniqueid).getEasyShape();	
-			easyDiagram.render();
-		}
-		
-		this.wrapper.appendChild(tooltip);
-		this.wrapper.appendChild(drawEdge);
-		this.wrapper.appendChild(drawNode);
-		this.wrapper.appendChild(deleteNode);
-		this.wrapper.appendChild(save);
 	}
 	,getNodeFromShape: function(easyShape){
 		if(this.easyShapeToNode[easyShape.properties.id])
@@ -143,11 +158,10 @@ EasyDiagram.prototype = {
 			return false;
 	}
 	,selectShape: function(s){
-		var command =this.getDrawingCommand();
+		var command =this.easyDrawingTools.getCurrentCommand();
 		var easyDiagram = this;
 		if(s && !easyDiagram.selectedShape){//highlight with box?
 			if(command.type == 'editlabel' || command.type == 'drawEdge') return;
-						
 			easyDiagram.selectedShape = s;
 			easyDiagram.selectedShape.properties.fill = "rgb(0,255,0)";
 		}
@@ -163,22 +177,7 @@ EasyDiagram.prototype = {
 		easyDiagram.render();
 		
 	}
-	,setTooltip: function(e){
-		
-		var newpos =EasyClickingUtils.getMouseFromEvent(e);
-		newpos.x + 20;
-		newpos.y + 20;
-		//this.tooltip.style.left = newpos.x + "px";
-		//this.tooltip.style.top = newpos.y + "px";
-		
-		var command = this.getDrawingCommand();
-		if(command.type){
-		this.tooltip.innerHTML =command.type;
-		}
-		else
-		this.tooltip.innerHTML = "";
-	
-	}
+
 	,drawTemporaryLines: function(x,y){
 		var line =this.getTemporaryShape("pathinprogress");
 		if(line){
@@ -188,12 +187,15 @@ EasyDiagram.prototype = {
 			line.setCoordinates(c);
 		}
 	}
+	
+
 	,moveSelectedShapes: function(x,y){
 		if(this.selectedShape) {
 			var shape = this.selectedShape;
 			var node = this.getNodeFromShape(shape);
-			node.setPosition(x - 20,y - 20);
+			if(node)node.setPosition(x - 20,y - 20);
 		}
+		this.render();
 	}
 	,deleteShape: function(easyShape){
 		var n = this.getNodeFromShape(easyShape);
@@ -217,59 +219,23 @@ EasyDiagram.prototype = {
 	,setupMouseHandlers: function(){
 		var easyDiagram = this;
 		var easyGraph = this.easyGraph;
-		this.wrapper.onmousemove = function(e){						
+		var easyDrawingTools = this.easyDrawingTools;
+		var omm = this.wrapper.onmousemove;
+		var omd = this.wrapper.onmousedown;
+		
+		this.wrapper.onmousemove = function(e){		
+			//if(omm) omm(e);				
 			var t = easyDiagram.getTransformation();
 			var newpos =EasyClickingUtils.getRealXYFromMouse(e,t);
 			easyDiagram.moveSelectedShapes(newpos.x,newpos.y);
 			easyDiagram.drawTemporaryLines(newpos.x,newpos.y);
-			easyDiagram.setTooltip(e);
 			easyDiagram.render();
 		}
-		this.wrapper.onmousedown = function(e){
-			if(!e) e = window.event;
-			var s = easyDiagram.easyClicking.getShapeAtClick(e);
-			var target = EasyClickingUtils.resolveTarget(e);
-			if(target.className == "easyControl") return;
-			if(e.button <= 1){//left mouse
-				var command = easyDiagram.getDrawingCommand();
-				if(command){
-					if(s){			
-						
-						if(command.type == 'drawEdge'){
-							if(!command.start){
-								command.start = s.properties.id;
-								var t = easyDiagram.getTransformation();
-								var startpos =EasyClickingUtils.getRealXYFromMouse(e,t);
-								var p = new EasyShape({shape:"path",stroke: '#000000',lineWidth: '1'},[startpos.x,startpos.y,startpos.x,startpos.y]);
-								easyDiagram.addTemporaryShape("pathinprogress",p);					
-							}
-							else if(!command.end){
-								easyGraph.addEdge(command.start, s.properties.id);
-								easyDiagram.setDrawingCommand(false);
-								easyDiagram.deleteTemporaryShape("pathinprogress");
-								easyDiagram.render();
-							}
-						}
-						else if(command.type == 'delete'){
-							easyDiagram.deleteShape(s);
-						}
-					}
-				}
-				easyDiagram.selectShape(s);
-			}
-			else{//right mouse
-				console.log("clicked right mouse");
-				easyDiagram.selectedShape = false;
-				easyDiagram.toolCommand.start = false;
-				easyDiagram.deleteTemporaryShape("pathinprogress");
-				
-			}
-		}
-
+	
 	}
 
 	,transform: function(matrix){
-		if(this.getDrawingCommand().type == 'editlabel') return;
+		if(this.easyDrawingTools.getCurrentCommand().type == 'editlabel') return;
 		var o1 = parseInt(this.canvas.width) /2;
 		var o2 = parseInt(this.canvas.height) /2;
 		this.tmatrix = EasyTransformations.clone(matrix);
@@ -351,6 +317,39 @@ EasyDiagram.prototype = {
 						edgeCoords.push(npos.y);
 						edgeCoords.push(cpos.x);
 						edgeCoords.push(cpos.y);
+						
+						/*draw arrowhead */
+						/*
+						var o = parseFloat(cpos.y-npos.y);
+						var a = parseFloat(cpos.x -npos.x);
+					
+						var rad = Math.atan2(o,a);
+						var r = 50;
+					
+						var rotate = function(x,y,degrees){
+							degrees =  (degrees * Math.PI) / 180.0;
+							var res = {};
+							res.x = x * Math.cos(degrees) + y *  Math.sin(degrees);
+							res.y = -y * Math.sin(degrees) + y * Math.cos(degrees);
+							return res;
+						};
+						var rotatedcoords= {};
+						edgeCoords.push("M");
+						edgeCoords.push(cpos.x);
+						edgeCoords.push(cpos.y);
+						
+			
+						rotatedcoords = rotate(cpos.x-5,cpos.y-10,rad);
+						edgeCoords.push(rotatedcoords.x);
+						edgeCoords.push(rotatedcoords.y);
+						edgeCoords.push("M");
+						edgeCoords.push(cpos.x);
+						edgeCoords.push(cpos.y);
+				
+						rotatedcoords = rotate(cpos.x+5,cpos.y+10,rad);
+						edgeCoords.push(rotatedcoords.x);
+						edgeCoords.push(rotatedcoords.y);
+						*/
 					}
 				}
 				//update coordinates using children
@@ -387,9 +386,10 @@ EasyDiagram.prototype = {
 			this.setLabelHolder(node.id,"editlabel",nodelabeledit);
 			
 			var easyDiagram = this;
+			var easyDrawingTools = this.easyDrawingTools;
 			nodelabeledit.onblur = function(e){
 				node.setProperty("mode",0); //?
-				easyDiagram.setDrawingCommand(false);
+				easyDrawingTools.setCurrentCommand(false);
 				nodelabeledit.style.display = "none";
 				nodelabel.style.display = "";
 				node.setProperty("label",nodelabeledit.value);
@@ -397,7 +397,7 @@ EasyDiagram.prototype = {
 				
 			}
 			nodelabel.ondblclick = function(e){
-				easyDiagram.setDrawingCommand({type:'editlabel'});
+				easyDrawingTools.setCurrentCommand({type:'editlabel'});
 				node.setProperty("mode",1);//?
 				nodelabeledit.style.display = "";
 				nodelabel.style.display = "none";

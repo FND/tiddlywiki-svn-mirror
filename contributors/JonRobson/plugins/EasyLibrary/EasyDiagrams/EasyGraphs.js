@@ -7,9 +7,13 @@ var EasyGraph = function(positionCalculationFunction){
 	var easyGraph = this;
 	if(!positionCalculationFunction){
 		this.positionCalculationFunction = function(node){
+			
+		
 			var oldpos = node.getPosition();
 			if(oldpos.x && oldpos.y) return oldpos;
 			
+			return {x:1,y:1};
+			/*
 			var range = 200;
 			var nodepos = {};
 			var parents =easyGraph.getNodeParents(node.id);
@@ -54,11 +58,12 @@ var EasyGraph = function(positionCalculationFunction){
 			}
 		
 			nodepos.y = Math.random() * 400;
-			
-			
-			
-			
 			return nodepos;
+			*/
+			
+			
+			
+			
 		};
 	}
 
