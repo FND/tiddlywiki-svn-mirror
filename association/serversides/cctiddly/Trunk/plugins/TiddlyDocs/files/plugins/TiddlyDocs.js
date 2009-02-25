@@ -193,7 +193,8 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	///  DOING IT ALL AGAIN
 	createTiddlyElement(place, "hr");
 	
-	var div = createTiddlyElement(place, "div","dropzone1", null, "DELETE STUFF");
+	var div = createTiddlyElement(place, "div","dropzone1", null);
+	div.innerHTML = "<h2>DELETE STUFF </h2>"+store.getTiddlerText(window.activeDocument+"_bin");
 	div.style.width = "100%";
 	div.style.height = "200px";
 
@@ -203,6 +204,9 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
       {
 		accept:"page-item1",
 			ondrop:	function (drag) {
+				binContents = drag.id+" <br />"+store.getTiddlerText(window.activeDocument+"_bin");  // build up the bin
+				store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents); // save the bin
+				// remove the item from the orginal spec.
 				var stars = "********************************************************";
 				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");
 				store.saveTiddler(window.activeDocument, window.activeDocument, spec);
