@@ -75,7 +75,7 @@ if(!version.extensions.ValueSwitcher)
     // this happens each time the list is shown - we could improve performance
     // by maintaining a cached version of the list
     findAllFreeTextValues: function(ttField) {
-      var valuesHash = [], allValues = [];
+      var valuesHash = {}, allValues = [];
       var tasks = store.getTaggedTiddlers("task");
       for (var i=0; i<tasks.length; i++) {
         var value = tasks[i].fields[ttField];
