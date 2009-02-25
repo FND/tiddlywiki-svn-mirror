@@ -36,7 +36,10 @@ if(!version.extensions.ValueSwitcher)
 					displayMessage("No definition tiddler defined for a TeamTasks dropdown.");
 					return;
 				}
-				var fieldName = fieldPrefix + valueSrc.toLowerCase().substr(0,valueSrc.length-11);
+				var fieldName = getParam(params,"field", null);
+        if (!fieldName) { // revert to older convention of using name of values source
+				  fieldName = fieldPrefix + valueSrc.toLowerCase().substr(0,valueSrc.length-11);
+        }
 				var selected = fieldName + '::' + store.getValue(tiddler,fieldName);
 				var values = this.getDefValues(valueSrc);
 				var options = [];
@@ -48,12 +51,12 @@ if(!version.extensions.ValueSwitcher)
 			}
 			// Build a free text box.
 			else if(ctrlType == 'freetext') {
-				var metaDataName = getParam(params,"metaDataName", null);
-				if(!metaDataName) {
-					displayMessage("No metaDataName defined for a TeamTasks free text box.");
+				var field = getParam(params,"field", null);
+				if(!field) {
+					displayMessage("No field defined for a TeamTasks free text box.");
 					return;
 				}	
-				var ttField = fieldPrefix + metaDataName;
+				var ttField = fieldPrefix + field;
 				// var ttname = fieldPrefix + tiddler
 				var text = store.getValue(tiddler,ttField);
 				if(text == undefined) text = "";	
