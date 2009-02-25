@@ -5,4 +5,5 @@ tags: wizard
 | Single Section Mode:|<<option chkSinglePageMode>> |
 | Animate:|<<option chkAnimate>> |
 | Show Backstage:|<<option chkBackstage>> |
-| Enable Drawing:|<<option chkDrawings>> |
+| Enable Drawing (refresh required):|<<option chkDrawings>> |
+| Store deleted sections in recycle bin:|<<option chkRecycle>> |

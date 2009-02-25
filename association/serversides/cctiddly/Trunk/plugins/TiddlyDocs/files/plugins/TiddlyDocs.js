@@ -16,8 +16,8 @@ config.commands.saveSection.handler = function(event,src,title)
 	}
 	if(!store.tiddlerExists(newTitle)) {
 		var spec = "* "+newTitle+"\n"+store.getTiddlerText(window.activeDocument);
-		store.saveTiddler(newTitle, newTitle, fields.text);
 	}
+	store.saveTiddler(newTitle, newTitle, fields.text);
 	store.saveTiddler(window.activeDocument, window.activeDocument, spec);
 	autoSaveChanges();
 	story.closeTiddler(title);
@@ -50,13 +50,13 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 //top nav 
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
 	if(config.options.chkDrawings)
-		wikify("[[Drawing]]<<newDrawing>>", buttonHolder);
+		wikify("| [[Drawings]] | <<newDrawing>>  ", buttonHolder);
 	wikify("<<docPrint "+params[0]+">>", buttonHolder);
 	window.activeDocument = params[0];
 /// new tiddler button 
 	var btn = createTiddlyElement(buttonHolder, "a", null, "button");
 	btn.onclick = config.macros.newTiddler.onClickNewTiddler;
-	btn.setAttribute("newTitle","New Section123");
+	btn.setAttribute("newTitle","New Section");
 	btn.setAttribute("newTemplate","mpTheme##newEditTemplate");
 	var img = createTiddlyElement(btn, "img");
 	img.style.width = "10px";
@@ -166,21 +166,14 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 			}
 		}
 	}
-	
-	var div = createTiddlyElement(place, "div","deleteZone", "deleteZoneClass");
-	
-	
-	var binContents = store.getTiddlerText(window.activeDocument+"_bin");
-	
-	
-	
-	if(binContents)
-		div.innerHTML = "<h4>Recycle Bin</h4>"+binContents;
-	else
-		div.innerHTML = "<h4>Recycle Bin</h4> You have an empty bin.";
-	
-	div.style.height = "100px";
 
+	var div = createTiddlyElement(place, "div","deleteZone", "deleteZoneClass");
+	var binContents = store.getTiddlerText(window.activeDocument+"_bin");
+	if(binContents)
+		div.innerHTML = "<b>Recycle Bin</b><br /><br />"+binContents;
+	else
+		div.innerHTML = "<b>Recycle Bin</b><br /><br /> You have an empty bin.";
+	div.style.height = "110px";
 
 	$("#deleteZone").Droppable(
       {
@@ -192,8 +185,8 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					binContents = drag.id+" <br />"+binText;  // build up the bin
 				else
 					binContents = drag.id+" <br />";  // build up the bin
-				
-				store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents); // save the bin
+				if(config.options.chkRecycle)
+					store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents); // save the bin
 				// remove the item from the orginal spec.
 				var stars = "********************************************************";
 				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");

@@ -388,17 +388,19 @@ color:white;
 	}
 	
 	.deleteZoneClass {
-		background-image : url(http://www.combell.com/en/sharepoint-hosting/img/ico/tray.png);
+		background-image : url(http://nokiathemes.no.funpic.de/themeicons/xpcandy/Recycle%20Bin%20Empty1.png);
 		background-repeat: no-repeat;
-		background-position:bottom left;
+		background-position:bottom right;
 		text-align:left;
-		border:1px solid #eee;
-		
+		padding:0.5em 1em 1em;
+		margin:1em;
+		border:1px solid #ddd;
 	}
 	
 	.deleteHelper {
-		background-color:red;
+		background-color:#FA5858;
 		font-weight:bold;
+		border:0.5em solid #ddd;
 	}
 	.sort-handle-edit {
 		border:1px solid #C7C7C7;
