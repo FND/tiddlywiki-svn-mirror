@@ -1,6 +1,4 @@
 var EasyDiagram = function(wrapper,easyGraph,controller){
-	
-	
 	if(!easyGraph){
 		easyGraph = new EasyGraph();
 	}
@@ -388,15 +386,17 @@ EasyDiagram.prototype = {
 			var easyDiagram = this;
 			var easyDrawingTools = this.easyDrawingTools;
 			nodelabeledit.onblur = function(e){
-				node.setProperty("mode",0); //?
-				easyDrawingTools.setCurrentCommand(false);
+				easyDrawingTools.setCurrentCommand(false);		
 				nodelabeledit.style.display = "none";
 				nodelabel.style.display = "";
+				node.setProperty("mode",0); //?
+				easyDiagram.closeNodeEditor(e,node);
 				node.setProperty("label",nodelabeledit.value);
 				easyDiagram.controller.renderLabel(nodelabel,nodelabeledit.value);
 				
 			}
 			nodelabel.ondblclick = function(e){
+				easyDiagram.openNodeEditor(e,node);
 				easyDrawingTools.setCurrentCommand({type:'editlabel'});
 				node.setProperty("mode",1);//?
 				nodelabeledit.style.display = "";
@@ -437,5 +437,31 @@ EasyDiagram.prototype = {
 				editlabel.style.display = "none";	
 			}
 		}
+	}
+	,openNodeEditor: function(event,node){
+
+		var changer = function(newcolor){
+			node.setProperty("fill",newcolor);
+		};
+		
+		if(!this.editorWindow){
+			this.editorWindow = document.createElement("div");
+			this.wrapper.appendChild(this.editorWindow);
+			this.editorWindow.style.position = "absolute";
+			this.editorWindow.easyColorSlider =new EasyColorSlider(this.editorWindow,100,20,changer);
+		
+		}
+		this.editorWindow.easyColorSlider.setChangeFunction(changer);
+		
+		var editorPos =node.getPosition();
+		editorPos = EasyTransformations.applyTransformation(editorPos.x,editorPos.y,this.getTransformation());
+		console.log(editorPos);
+		this.editorWindow.style.left = editorPos.x + "px";
+		this.editorWindow.style.top = parseInt(20 + editorPos.y) + "px";
+		this.editorWindow.style.display = "";
+	}
+	,closeNodeEditor: function(event,node){
+
+		this.editorWindow.style.display = "none";
 	}
 };
