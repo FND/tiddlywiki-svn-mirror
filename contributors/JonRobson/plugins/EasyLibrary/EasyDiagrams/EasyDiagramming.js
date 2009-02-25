@@ -161,12 +161,12 @@ EasyDiagram.prototype = {
 		if(s && !easyDiagram.selectedShape){//highlight with box?
 			if(command.type == 'editlabel' || command.type == 'drawEdge') return;
 			easyDiagram.selectedShape = s;
-			easyDiagram.selectedShape.properties.fill = "rgb(0,255,0)";
+			easyDiagram.selectedShape.properties.stroke = "rgb(255,0,0)";
 		}
 		else{
 
 			if(easyDiagram.selectedShape){
-				easyDiagram.selectedShape.properties.fill = "rgb(255,0,0)";
+				easyDiagram.selectedShape.properties.fill = "rgb(255,255,255)";
 			}
 			easyDiagram.selectedShape= false;
 
