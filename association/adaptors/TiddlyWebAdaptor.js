@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.5.9|
+|''Version''|0.5.10|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -33,7 +33,8 @@ version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 
 (function() { //# set up local scope
 
-var adaptor = config.adaptors.tiddlyweb = function() {}; //# set up alias
+var adaptor;
+adaptor = config.adaptors.tiddlyweb = function() {}; //# set up alias
 
 adaptor.prototype = new AdaptorBase();
 adaptor.serverType = "tiddlyweb";
