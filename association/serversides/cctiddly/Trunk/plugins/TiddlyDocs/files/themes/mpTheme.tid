@@ -223,20 +223,18 @@ tags:systemTheme
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
-			<div class='title' macro='view title'>editing : </div>
+			<div class='title' macro='view title'></div>
 		</div>
+	</div>
 	<div class="portletContent">
-			<div class='taskControls' macro='tiddler TaskTiddlerControls'>
+		<div class='taskControls' macro='tiddler TaskTiddlerControls'>
 		</div>
 		<div class='editor' macro='editHtml text'></div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 		<div class='commentsArea' macro='comments'></div>
-	
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-	
 	</div>
 </div>
-
 <!--}}}-->
 
 
@@ -540,7 +538,6 @@ width:98.5%;
 		border:0px;
 		padding:0 0 1em;
 		margin-right:1em;
-		border-bottom:1px solid #C7C7C7 !important;
 		padding-bottom:0.1em;
 		
 	}
@@ -618,7 +615,7 @@ form.wizard, .wizard .wizardFooter{
 	/*  COMMENTS CSS */
 	
 	.commentsArea {
-		width:100%;
+		width:115%;
 		padding:2em;
 		text-align:center;
 	}
@@ -628,7 +625,6 @@ form.wizard, .wizard .wizardFooter{
 	padding:0.5em;
 	background:#eee;
 	border-bottom:1px solid #eee !important;
-	border-right:1px solid #eee !important;
 	
 	
 	}
@@ -741,7 +737,7 @@ form.wizard, .wizard .wizardFooter{
 		border-right:1px solid #c7c7c7;
 		background:#fff;	
 		border-bottom:1px solid #c7c7c7;
-		margin:0 0 4px;
+		margin:0 0 5px;
 	}
 	.portletBotLeft{
 		clear:left;
