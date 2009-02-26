@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.12|
+|''Version:''|0.5.13|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -332,7 +332,7 @@ config.mediawiki.formatters = [
 {
 	name: 'mediaWikiHeading',
 	match: '^={1,6}(?!=) *\\n?',
-	termRegExp: /(={1,6}.*\n)/mg,
+	termRegExp: /(={1,6} *\n)/mg,
 	handler: function(w)
 	{
 		//#var output = w.output.nodeType==1 && w.output.nodeName=='P' ? w.output.parentNode : w.output;
@@ -345,6 +345,7 @@ config.mediawiki.formatters = [
 		while(w.source.substr(w.nextMatch+len-1,1)=='=') {
 			len--;
 		}
+		//#console.log('aa',w.source.substr(w.nextMatch,len));
 		a.setAttribute('name',t+MediaWikiFormatter.normalizedTitle(w.source.substr(w.nextMatch,len)));
 		w.subWikifyTerm(e,this.termRegExp);
 		//#w.output = createTiddlyElement2(output,'p');
