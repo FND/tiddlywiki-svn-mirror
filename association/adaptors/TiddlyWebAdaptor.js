@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.5.10|
+|''Version''|0.5.11|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -243,7 +243,7 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 		context.tiddler.assign(context.tiddler.title, t.text, t.modifier,
 			Date.convertFromYYYYMMDDHHMM(t.modified), t.tags || [],
 			Date.convertFromYYYYMMDDHHMM(t.created), context.tiddler.fields); // XXX: merge extended fields!?
-		tiddler.fields["server.workspace"] = t.bag ? "bags/" + t.bag : "recipes/" + t.recipe; // XXX: bag is always supplied!?
+		context.tiddler.fields["server.workspace"] = t.bag ? "bags/" + t.bag : "recipes/" + t.recipe; // XXX: bag is always supplied!?
 		context.tiddler.fields["server.page.revision"] = t.revision;
 	}
 	if(context.callback) {
