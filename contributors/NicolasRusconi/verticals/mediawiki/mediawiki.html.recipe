@@ -2,7 +2,6 @@ recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: ../../../MartinBudden/mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/ImportMediaWikiWizard.js
 tiddler: ../../adaptors/MediaWikiAdaptorWithTemplatePlugin.js
-tiddler: ../../formatters/MediaWikiFormatterWithTemplatePlugin.js
 tiddler: settings.js
 tiddler: MediaWikiFeed.tiddler
 tiddler: SideBarOptions.tiddler
@@ -21,6 +20,7 @@ tiddler: ../../../MartinBudden/adaptors/AdaptorMacrosPlugin.js
 tiddler: ../../../MartinBudden/adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../../MartinBudden/adaptors/MediaWikiAdaptorPlugin.js
 tiddler: ../../../MartinBudden/formatters/MediaWikiFormatterPlugin.js
+tiddler: ../../../MartinBudden/formatters/MediaWikiTemplatePlugin.js
 tiddler: ../../../MartinBudden/plugins/DisableWikiLinksPlugin.js
 tiddler: ../../../MartinBudden/styles/wikipedia.MediaWiki.Common.css.js
 tiddler: ../../../MartinBudden/styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
