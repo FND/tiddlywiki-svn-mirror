@@ -283,8 +283,8 @@ createComment: function(text, daddy, macroParams) {
   newComment.fields.daddy = daddy.title;
   newComment.fields.root = daddy.fields.root ? daddy.fields.root : daddy.title;
     // second case is the situation where daddy *is* root
-  store.saveTiddler(newComment.title, newComment.title, text);
-  autoSaveChanges(false);
+  store.saveTiddler(newComment.title, newComment.title, text, config.options.txtUserName, new Date(), "", merge(newComment.fields,config.defaultCustomFields));
+  autoSaveChanges();
   return newComment;
 },
 
@@ -333,7 +333,7 @@ deleteTiddlerAndDescendents: function(tiddler) {
     story.saveTiddler(next.title);
   }
 
-  autoSaveChanges(false);
+  autoSaveChanges();
 
 },
 

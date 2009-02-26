@@ -17,8 +17,9 @@ config.commands.saveSection.handler = function(event,src,title)
 	if(!store.tiddlerExists(newTitle)) {
 		var spec = "* "+newTitle+"\n"+store.getTiddlerText(window.activeDocument);
 	}
-	store.saveTiddler(newTitle, newTitle, fields.text, config.options.txtUserName, new Date(), "task");
-	store.saveTiddler(window.activeDocument, window.activeDocument, spec);
+
+	store.saveTiddler(newTitle, newTitle, fields.text, config.options.txtUserName, new Date());
+	store.saveTiddler(window.activeDocument, window.activeDocument, spec, config.options.txtUserName, new Date(), "documentBin", config.defaultCustomFields);
 	autoSaveChanges();
 	story.closeTiddler(title);
 	story.displayTiddler(null, newTitle);
@@ -186,7 +187,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 				else
 					binContents = drag.id+" <br />";  // build up the bin
 				if(config.options.chkRecycle)
-					store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents); // save the bin
+					store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents, config.options.txtUserName, new Date(), "documentBin", config.defaultCustomFields); // save the bin
 				// remove the item from the orginal spec.
 				var stars = "********************************************************";
 				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");
