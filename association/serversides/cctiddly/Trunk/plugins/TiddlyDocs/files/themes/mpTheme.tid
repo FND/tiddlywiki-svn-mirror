@@ -99,10 +99,6 @@ tags:systemTheme
 		<br />
 		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
 		</div>
-		<div class="portletFooter">
-			<div class="portletBotLeft"></div>
-			<div class="portletBotRight"></div>
-		</div>
 	</div>
 
 </div>
@@ -124,13 +120,10 @@ tags:systemTheme
 		</div>
 	</div>
 	<div class="portletContent">
+		<div class='taskControls' macro='tiddler TaskTiddlerControls'>
 		</div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
 		<div class='viewer' macro='view text wikified'></div>
-	
-	</div>
-	<div class="portletFooter">
-		<div class="portletBotLeft"></div>
-		<div class="portletBotRight"></div>
 	</div>
 </div>
 <!--}}}-->
@@ -153,10 +146,6 @@ tags:systemTheme
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	
 	</div>
-	<div class="portletFooterEdit">
-		<div class="portletBotLeft"></div>
-		<div class="portletBotRight"></div>
-	</div>
 </div>
 
 <!--}}}-->
@@ -175,12 +164,7 @@ tags:systemTheme
 	
 		<div class='editor' macro='editHtml text' ></div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
-		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-	
-	</div>
-	<div class="portletFooterEdit">
-		<div class="portletBotLeft"></div>
-		<div class="portletBotRight"></div>
+<br />	
 	</div>
 </div>
 
@@ -204,10 +188,6 @@ tags:systemTheme
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	
 	</div>
-	<div class="portletFooter">
-		<div class="portletBotLeft"></div>
-		<div class="portletBotRight"></div>
-	</div>
 </div>
 <!--}}}-->
 
@@ -230,12 +210,7 @@ tags:systemTheme
 		<div class='viewer' macro='view text wikified'></div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
 		<div class='commentsArea' macro='comments'></div>
-
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-	</div>
-	<div class="portletFooter">
-		<div class="portletBotLeft"></div>
-		<div class="portletBotRight"></div>
 	</div>
 </div>
 <!--}}}-->
@@ -259,10 +234,6 @@ tags:systemTheme
 	
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	
-	</div>
-	<div class="portletFooterEdit">
-		<div class="portletBotLeft"></div>
-		<div class="portletBotRight"></div>
 	</div>
 </div>
 
@@ -403,7 +374,12 @@ color:white;
 	}
 	
 	.deleteHelper {
-		background-color:#FA5858;
+		background-color:red;
+		background-image : url(plugins/TiddlyDocs/files/images/bin-empty-128x128.png);
+		
+		
+		
+		
 		font-weight:bold;
 		border:0.5em solid #ddd;
 	}
@@ -456,7 +432,7 @@ background:#444444 none repeat scroll 0 0;
 	
 	div.subtitle {
 		font-size:0.7em;
-		padding-left:0.8em;
+		padding:0.5em;
 	}
 	div.title {
 		font-size:0.7em;
@@ -564,6 +540,9 @@ width:98.5%;
 		border:0px;
 		padding:0 0 1em;
 		margin-right:1em;
+		border-bottom:1px solid #C7C7C7 !important;
+		padding-bottom:0.1em;
+		
 	}
 	div.tiddler .tab {
 		background-color:#ddd;
@@ -760,29 +739,9 @@ form.wizard, .wizard .wizardFooter{
 		clear:left;
 		border-left:1px solid #c7c7c7;
 		border-right:1px solid #c7c7c7;
-		background:#fff;
-	}
-	.portletFooter{
-		background-color:white;
-		line-height:6px;
-		font-size:6px;
-		height:6px;
-		background-image:url("http://farm4.static.flickr.com/3412/3302865549_526a7cdc34_m.jpg");
-		<!-- background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-center.jpg");-->
-		background-repeat:repeat-x;
-		background-position:bottom;
-		width:100%;
-	}
-	.portletFooterEdit {
-		background-color:#fff;
-		line-height:6px;
-		font-size:6px;
-		height:6px;
-		background-image:url("http://farm4.static.flickr.com/3412/3302865549_526a7cdc34_m.jpg");
-<!--		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-center.jpg");-->
-		background-repeat:repeat-x;
-		background-position:bottom;
-		width:100%;
+		background:#fff;	
+		border-bottom:1px solid #c7c7c7;
+		margin:0 0 4px;
 	}
 	.portletBotLeft{
 		clear:left;
