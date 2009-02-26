@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.4.6|
+|''Version''|0.4.7|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -30,13 +30,12 @@ The specific nature of this plugins depends on the respective server.
 if(!version.extensions.ServerSideSavingPlugin) { //# ensure that the plugin is only installed once
 version.extensions.ServerSideSavingPlugin = { installed: true };
 
-if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
-
 readOnly = false; //# enable editing over HTTP
 
-config.extensions.ServerSideSavingPlugin = {};
+(function() { //# set up local scope
 
-(function(plugin) { //# set up alias
+var plugin;
+plugin = config.extensions.ServerSideSavingPlugin = {};
 
 plugin.locale = {
 	saved: "%0 saved successfully",
@@ -204,7 +203,7 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 	return null;
 };
 
-})(config.extensions.ServerSideSavingPlugin); //# end of alias
+})(); //# end of local scope
 
 } //# end of "install only once"
 //}}}
