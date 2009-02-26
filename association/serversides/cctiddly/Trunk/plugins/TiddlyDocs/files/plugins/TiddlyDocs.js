@@ -171,21 +171,21 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	var div = createTiddlyElement(place, "div","deleteZone", "deleteZoneClass");
 	var binContents = store.getTiddlerText(window.activeDocument+"_bin");
 	if(binContents)
-		div.innerHTML = "<b>Recycle Bin</b><br /><br />"+binContents;
+		wikify("Bin \n"+binContents, div);
 	else
 		div.innerHTML = "<b>Recycle Bin</b><br /><br /> You have an empty bin.";
-	div.style.height = "110px";
+	div.style.height = "auto";
 
 	$("#deleteZone").Droppable(
       {
-		activeclass : "deleteHelper",
+		hoverclass : "deleteHelper",
 		accept:"page-item1",
 			ondrop:	function (drag) {
 				var binText = store.getTiddlerText(window.activeDocument+"_bin");
 				if(binText)
-					binContents = drag.id+" <br />"+binText;  // build up the bin
+					binContents = "[["+drag.id+"]] <br />"+binText;  // build up the bin
 				else
-					binContents = drag.id+" <br />";  // build up the bin
+					binContents = "[["+drag.id+"]] <br />";  // build up the bin
 				if(config.options.chkRecycle)
 					store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents, config.options.txtUserName, new Date(), "documentBin", config.defaultCustomFields); // save the bin
 				// remove the item from the orginal spec.

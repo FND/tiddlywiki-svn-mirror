@@ -59,8 +59,9 @@ tags:systemTheme
 		<img src='http://www.essex.ac.uk/wehia05/Pictures/BT_logo.jpg' width="100px"/>
 		<img src='http://farm4.static.flickr.com/3496/3302865397_263cb2a238_m.jpg' width="125px" />
 	</div>
-	<div id='randomPicBar'  class="left">
 	<br />
+
+<!--	<div id='randomPicBar'  class="left">
 		<img src='http://farm3.static.flickr.com/2112/2093338087_a7de7372fa.jpg' class="imgBar"/>
 		<img src='http://farm2.static.flickr.com/1090/1433067037_2628a4a934_m.jpg' class="imgBar" />
 		<img src='http://farm2.static.flickr.com/1291/1401313796_e924f3bdf8_m.jpg'  class="imgBar" />
@@ -70,6 +71,7 @@ tags:systemTheme
 		<img src='http://farm3.static.flickr.com/2311/1740024898_91901bc5cf_m.jpg' class="imgBar"/>
 		<img src='http://farm1.static.flickr.com/65/196634893_10ad2d5693_m.jpg' class="imgBar"/>
 	</div>
+-->
 </div>
 
 <div macro='gradient vert #fff #f0f0f0' style="top:-3em">
@@ -112,6 +114,7 @@ tags:systemTheme
 
 !wizardViewTemplate
 <!--{{{-->
+
 <div class="portletContainer">
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
@@ -121,6 +124,7 @@ tags:systemTheme
 		</div>
 	</div>
 	<div class="portletContent">
+		</div>
 		<div class='viewer' macro='view text wikified'></div>
 	
 	</div>
@@ -558,7 +562,7 @@ width:98.5%;
 	div.tiddler {
 		background-color:transparent;
 		border:0px;
-		padding:0px;
+		padding:0 0 1em;
 		margin-right:1em;
 	}
 	div.tiddler .tab {
@@ -586,10 +590,6 @@ form.wizard, .wizard .wizardFooter{
 
 		}
 
-		div.tabContents .wizard, div.wizardFooter, .tabsetWrapper .wizard h2 {
-			background:#ddd !important;
-			border:0px !important;
-		}
 
 		div.wizardFooter {
 			margin-left :9.2em;
