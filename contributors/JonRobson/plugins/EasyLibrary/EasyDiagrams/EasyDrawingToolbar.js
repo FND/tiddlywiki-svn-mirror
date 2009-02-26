@@ -24,6 +24,7 @@ EasyDrawingTools.prototype = {
 			if(!e) e = window.event;
 			if(e.button <= 1){//left mouse
 				var command = easyDrawingTools.getCurrentCommand();
+				console.log(command.type);
 				if(command && command.type){
 					if(command.type == 'drawEdge'){
 						if(!command.start){
@@ -42,11 +43,13 @@ EasyDrawingTools.prototype = {
 						}
 					}
 					else if(command.type == 'delete'){
+						//easyDrawingTools.wrapper.style.cursor = "crosshair";
 						var c = easyDrawingTools.getCommandAction("delete");
 						if(c){c(e);}
-						easyDrawingTools.setCurrentCommand(false);
+					
 					}
 					else if(command.type == 'newNode'){
+					//	easyDrawingTools.wrapper.style.cursor = "move";
 							command.type = 'shapeEnd';
 					}
 					else if(command.type == 'shapeEnd'){
@@ -58,7 +61,7 @@ EasyDrawingTools.prototype = {
 					}
 					else{
 						//unrecognised command
-						console.log("dont recognise",command.type);
+						//console.log("dont recognise",command.type);
 					}
 
 				
@@ -68,6 +71,7 @@ EasyDrawingTools.prototype = {
 					if(c){
 						c(e);
 					}
+					easyDrawingTools.wrapper.style.cursor = "hand";
 				}
 			
 			}

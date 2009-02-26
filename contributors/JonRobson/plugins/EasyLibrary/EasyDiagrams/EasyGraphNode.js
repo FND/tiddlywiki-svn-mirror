@@ -14,8 +14,7 @@ var EasyGraphNode = function(json){
 	var w = this.getProperty("width") /2 ;
 	var h = this.getProperty("height") /2;
 	//console.log(x,y);
-	this.easyShape = new EasyShape(properties,[x-w,y-h,x+w,y-h, x+w,y+h,x - w,y+h]);
-	
+	this.easyShape = new EasyShape(properties,[x-w,y-h,x+w,y-h, x+w,y+h,x - w,y+h]);	
 	return false;
 };
 
@@ -24,6 +23,12 @@ EasyGraphNode.prototype = {
 		var json = {};
 		json.id = this.id;
 		json.properties = this.properties;
+		var i;
+		for(i in json.properties){
+			if(i.indexOf("_") == 0){
+				delete json.properties[i];
+			}
+		}
 		return json;
 	}
 	,completeProperties: function(properties){

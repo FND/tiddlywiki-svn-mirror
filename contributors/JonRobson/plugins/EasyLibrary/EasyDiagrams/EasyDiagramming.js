@@ -21,10 +21,21 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	this.easyGraph = easyGraph;	
 	wrapper.style.position = "relative";
 	wrapper.className = "easyDiagram";
-	var width = 600;
-	var height = 400;
-	wrapper.style.width = width + "px";
-	wrapper.style.height = height + "px";
+	var width,height;
+	if(!wrapper.style.width){
+		width= 600;
+		height = 400;	
+		wrapper.style.width = width + "px";
+		wrapper.style.height = height + "px";
+		
+	}
+	else{
+		width = parseInt(wrapper.style.width);
+	 	height= parseInt(wrapper.style.height);
+		
+	}
+
+
 	this.canvas = document.createElement("canvas");
 	this.canvas.width = width;
 	this.canvas.height = height;
@@ -161,12 +172,13 @@ EasyDiagram.prototype = {
 		if(s && !easyDiagram.selectedShape){//highlight with box?
 			if(command.type == 'editlabel' || command.type == 'drawEdge') return;
 			easyDiagram.selectedShape = s;
-			easyDiagram.selectedShape.properties.stroke = "rgb(255,0,0)";
+			s.setProperty("_oldcolor",s.getProperty("fill"));
+			easyDiagram.selectedShape.properties.fill = "rgb(255,255,255)";
 		}
 		else{
 
 			if(easyDiagram.selectedShape){
-				easyDiagram.selectedShape.properties.fill = "rgb(255,255,255)";
+				easyDiagram.selectedShape.properties.fill = easyDiagram.selectedShape.getProperty("_oldcolor");
 			}
 			easyDiagram.selectedShape= false;
 
@@ -199,9 +211,7 @@ EasyDiagram.prototype = {
 		var n = this.getNodeFromShape(easyShape);
 		
 		if(n.properties.shape != 'path'){
-			var edit = this.getLabelHolder(n.id,"editlabel");
-			var view =this.getLabelHolder(n.id,"label");
-			edit.style.display = "none";
+			var view =n.getProperty("_labelHolder");
 			view.style.display = "none";
 			this.getEasyGraph().deleteNode(n);
 			this.render();
@@ -272,21 +282,7 @@ EasyDiagram.prototype = {
 		return true;
 	}
 	
-	,getLabelHolder: function(id,reference){
-		if(this.labelHolders[id]){
-			if(this.labelHolders[id][reference]){
-				return this.labelHolders[id][reference]
-			}
-			else
-				return false;
-		}
-		else
-			return false;
-	}
-	,setLabelHolder: function(id,reference,domElement){
-		if(!this.labelHolders[id]) this.labelHolders[id] = {};
-		this.labelHolders[id][reference] = domElement;
-	}
+
 	,_renderEdges: function(directed){
 		var edgeCoords = [];
 		for(i in this.easyGraph.nodes){
@@ -368,39 +364,17 @@ EasyDiagram.prototype = {
 		var shape = node.easyShape;
 		this.easyShapeToNode[shape.properties.id] = node;
 
-		if(!this.getLabelHolder(node.id,"label")){
+		if(!node.getProperty("_labelHolder")){
 			var nodelabel = document.createElement("div");
-			var nodelabeledit = document.createElement("input");
 			nodelabel.style.display = "";
-			nodelabeledit.style.display = "none";
 			this.controller.renderLabel(nodelabel,node.getProperty("label"))
-			nodelabeledit.value = node.getProperty("label");
 			nodelabel.style.position = "absolute";
-			nodelabeledit.style.position = "absolute";
-			
-			this.wrapper.appendChild(nodelabeledit);
 			this.wrapper.appendChild(nodelabel);
-			this.setLabelHolder(node.id,"label",nodelabel);
-			this.setLabelHolder(node.id,"editlabel",nodelabeledit);
-			
+			//this.setLabelHolder(node.id,"label",nodelabel);
+			node.setProperty("_labelHolder",nodelabel);
 			var easyDiagram = this;
-			var easyDrawingTools = this.easyDrawingTools;
-			nodelabeledit.onblur = function(e){
-				easyDrawingTools.setCurrentCommand(false);		
-				nodelabeledit.style.display = "none";
-				nodelabel.style.display = "";
-				node.setProperty("mode",0); //?
-				easyDiagram.closeNodeEditor(e,node);
-				node.setProperty("label",nodelabeledit.value);
-				easyDiagram.controller.renderLabel(nodelabel,nodelabeledit.value);
-				
-			}
 			nodelabel.ondblclick = function(e){
 				easyDiagram.openNodeEditor(e,node);
-				easyDrawingTools.setCurrentCommand({type:'editlabel'});
-				node.setProperty("mode",1);//?
-				nodelabeledit.style.display = "";
-				nodelabel.style.display = "none";
 			};
 		}
 		var bb = shape.getBoundingBox();
@@ -410,58 +384,74 @@ EasyDiagram.prototype = {
 		
 		label = EasyTransformations.applyTransformation(label.x, label.y,this.tmatrix);
 		
-		var viewlabel = this.getLabelHolder(node.id,"label");
-		var editlabel = this.getLabelHolder(node.id,"editlabel");
-		if(viewlabel && editlabel){
-			if(this.isNodeVisible(label.x,label.y)){			
-				if(node.getProperty("mode") == 1){
-					viewlabel.style.display = "none";
-					editlabel.style.display = "";				
-				}
-				else{
-					viewlabel.style.display = "";
-					editlabel.style.display = "none";	
-				}
-
-
-			
+		var viewlabel = node.getProperty("_labelHolder");
+		if(viewlabel){
+			if(this.isNodeVisible(label.x,label.y)){
+				viewlabel.style.display = "";				
 				viewlabel.style.top = label.y + "px";
 				viewlabel.style.left = label.x + "px";
-				editlabel.style.top = label.y + "px";
-				editlabel.style.left = label.x + "px";
 				this.easyClicking.addToMemory(shape);
 				shape.render(this.canvas,this.tmatrix);
 			}
 			else{
-				viewlabel.style.display = "none";
-				editlabel.style.display = "none";	
+				viewlabel.style.display = "none";	
 			}
 		}
 	}
 	,openNodeEditor: function(event,node){
-
+		var easyDrawingTools = this.easyDrawingTools;
+		easyDrawingTools.setCurrentCommand({type:'editlabel'});
+		var easyDiagram = this;
 		var changer = function(newcolor){
 			node.setProperty("fill",newcolor);
 		};
 		
 		if(!this.editorWindow){
+			/* setup edit window */
 			this.editorWindow = document.createElement("div");
 			this.wrapper.appendChild(this.editorWindow);
 			this.editorWindow.style.position = "absolute";
-			this.editorWindow.easyColorSlider =new EasyColorSlider(this.editorWindow,100,20,changer);
-		
+			this.editorWindow.className = "editorWindow";
+			this.editorColor = document.createElement("div");
+			this.editorWindow.appendChild(this.editorColor);
+			this.editorColor.style.position = "relative";
+			var nodelabeledit = document.createElement("textarea");
+			nodelabeledit.style.position = "relative";
+			this.editorWindow.appendChild(nodelabeledit);
+			this.editorLabel  =nodelabeledit;
+			this.editorColor.easyColorSlider =new EasyColorSlider(this.editorColor,100,20,changer);
+			var savebutton = document.createElement("button");
+			savebutton.innerHTML = "Save";
+			this.editorSave = savebutton;
+			savebutton.style.position = "relative";
+			savebutton.style.top = "90px";
+			this.editorWindow.appendChild(savebutton);
 		}
-		this.editorWindow.easyColorSlider.setChangeFunction(changer);
 		
+		this.editorSave.onclick = function(e){
+			easyDiagram.closeNodeEditor(e,node);
+		};
+		
+		this.editorLabel.value = node.getProperty("label");
+		this.editorColor.easyColorSlider.setChangeFunction(changer);
+		this.editorColor.easyColorSlider.setColor(node.getProperty("fill"));
 		var editorPos =node.getPosition();
 		editorPos = EasyTransformations.applyTransformation(editorPos.x,editorPos.y,this.getTransformation());
-		console.log(editorPos);
 		this.editorWindow.style.left = editorPos.x + "px";
-		this.editorWindow.style.top = parseInt(20 + editorPos.y) + "px";
+		this.editorWindow.style.top = parseInt(editorPos.y) + "px";
+		this.editorColor.style.top = "60px";
 		this.editorWindow.style.display = "";
+		node.setProperty("_mode",1);//?
 	}
 	,closeNodeEditor: function(event,node){
+		var easyDrawingTools = this.easyDrawingTools;
+		easyDrawingTools.setCurrentCommand(false);		
 
 		this.editorWindow.style.display = "none";
+		
+		node.setProperty("_mode",0); //?
+		node.setProperty("label",this.editorLabel.value);
+		var nodelabel =node.getProperty("_labelHolder");
+		this.controller.renderLabel(nodelabel,this.editorLabel.value);
 	}
 };
