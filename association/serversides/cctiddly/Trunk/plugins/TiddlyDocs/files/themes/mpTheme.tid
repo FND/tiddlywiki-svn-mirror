@@ -56,8 +56,8 @@ tags:systemTheme
 	</div>
 	<div id='picBar' style="float:right;position:absolute;text-align:right;top:1em;width:98%;">
 
-		<img src='http://www.essex.ac.uk/wehia05/Pictures/BT_logo.jpg' width="100px"/>
-		<img src='http://farm4.static.flickr.com/3496/3302865397_263cb2a238_m.jpg' width="125px" />
+		<img src='http://www.essex.ac.uk/wehia05/Pictures/BT_logo.jpg' width="80px"/>
+		<img src='http://farm4.static.flickr.com/3496/3302865397_263cb2a238_m.jpg' width="105px" />
 	</div>
 	<br />
 
@@ -120,9 +120,6 @@ tags:systemTheme
 		</div>
 	</div>
 	<div class="portletContent">
-		<div class='taskControls' macro='tiddler TaskTiddlerControls'>
-		</div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
 		<div class='viewer' macro='view text wikified'></div>
 	</div>
 </div>
