@@ -56,6 +56,7 @@ config.macros.editDefinitions.remove = function(w){
 			outString += items[i]+"\n";
 		}
 	}
+	outString = outString.substring(0, outString.length-1);
 	w.formElem.definitionsListMarker.value = outString;
 	w.setValue("defList", outString);
 	store.saveTiddler(w.paramString, w.paramString, outString);
