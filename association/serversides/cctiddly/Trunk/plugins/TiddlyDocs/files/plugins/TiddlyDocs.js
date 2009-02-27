@@ -225,7 +225,7 @@ config.macros.docPrint.handler=function(place,macroName,params,wikifier,paramStr
 			newDate = new Date();
 			store.saveTiddler(params[0]+' Print Preview', params[0]+' Print Preview', htmlString, config.options.txtUserName, newDate,"",config.defaultCustomFields);
 			story.displayTiddler(null, params[0]+' Print Preview');
-			doHttp('POST',url+'plugins/tiddlertree/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0],null,null,null,config.macros.docPrint.saveCallback,params);		
+			doHttp('POST',url+'plugins/TiddlyDocs/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0],null,null,null,config.macros.docPrint.saveCallback,params);		
 		}
 	};
 	// print button 
@@ -240,6 +240,7 @@ config.macros.docPrint.handler=function(place,macroName,params,wikifier,paramStr
 };
 
 config.macros.docPrint.saveCallback=function(status,context,responseText,uri,xhr) {
+	console.log(responseText);
 	window.open(responseText,'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
 }
 

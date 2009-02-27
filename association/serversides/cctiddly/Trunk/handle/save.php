@@ -10,37 +10,32 @@ if(!user_session_validate())
 	sendHeader("401");
 	exit;	
 }
-$tiddler = db_tiddlers_mainSelectTitle($_POST['title']);
-$ntiddler['title'] = formatParametersPOST($_POST['title']);
-
 $tiddlyCfg['workspace_name'] = formatParametersPOST($_POST['workspace']);
+$tiddler = db_tiddlers_mainSelectTitle($_POST['title']);
+$tiddler['id'] = $_POST['id'];
+
+$ntiddler['title'] = formatParametersPOST($_POST['title']);
 $ntiddler['modifier'] = formatParametersPOST($_POST['modifier']);
 $ntiddler['modified'] = formatParametersPOST($_POST['modified']);
 $ntiddler['created'] = formatParametersPOST($_POST['created']); 
-
 $ntiddler['tags'] = formatParametersPOST($_POST['tags']);
-
 $ntiddler['body'] =  formatParametersPOST($_POST['body']);
 $ntiddler['revision'] = formatParametersPOST($_POST['revision']);
-
 $ntiddler['fields'] = formatParametersPOST($_POST['fields']);
-$tiddler['id'] = $_POST['id'];
 
-if(@$pluginsLoader->events['preSave']) 
-{
-	foreach (@$pluginsLoader->events['preSave'] as $event)
-	{
-		if(is_file($event)) {
+
+// Plugin preSave Event.
+if(@$pluginsLoader->events['preSave']) {
+	foreach (@$pluginsLoader->events['preSave'] as $event) {
+		if(is_file($event)) 
 			include($event);
-		}	
-		
 	}
 }				
 
 if($tiddler['id']!="undefined")
 {
-	
-	if($tiddler['revision']+1 >= $_POST['revision'] ) {		//ask to reload if modified date differs
+	error_log("REVCHECK :: ".$tiddler['revision']. "::".$_POST['revision']);
+	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
 		debug($ccT_msg['debug']['reloadRequired'], "save");
 		sendHeader(409);
 		exit;

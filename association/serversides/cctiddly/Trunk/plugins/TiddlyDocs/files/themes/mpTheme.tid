@@ -149,19 +149,24 @@ tags:systemTheme
 
 !newEditTemplate
 <!--{{{-->
+
+
 <div class="portletContainer">
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
-			<div class='title' macro='view title'>editing : </div>
+			<div class='title' macro='view title'></div>
 		</div>
+	</div>
 	<div class="portletContent">
-	<div class='editor' macro='edit title'></div>
 	
-		<div class='editor' macro='editHtml text' ></div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
-<br />	
+		<div class='editor' macro='edit title'>
+		</div>
+		<div class='editor' macro='editHtml text'></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<div class='commentsArea' macro='comments'></div>
+		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	</div>
 </div>
 
@@ -206,8 +211,8 @@ tags:systemTheme
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
 		<div class='viewer' macro='view text wikified'></div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
-		<div class='commentsArea' macro='comments'></div>
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+		<div class='commentsArea' macro='comments'></div>
 	</div>
 </div>
 <!--}}}-->
@@ -228,8 +233,8 @@ tags:systemTheme
 		</div>
 		<div class='editor' macro='editHtml text'></div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='commentsArea' macro='comments'></div>
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+		<div class='commentsArea' macro='comments'></div>
 	</div>
 </div>
 <!--}}}-->
