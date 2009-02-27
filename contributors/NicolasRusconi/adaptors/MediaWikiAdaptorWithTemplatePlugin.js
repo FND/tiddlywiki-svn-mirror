@@ -69,14 +69,15 @@ adaptor.prototype.onGetTemplatesForPages = function (status,context,responseText
 			var titles = [];
 			if (info.query) {
 				for (var key in info.query.pages) {
-					titles.push(info.query.pages[key].title)
+					titles.push(info.query.pages[key].title);
 				}
 			}
 			context.templates = titles;
 		} catch (ex) {
 			context.statusText = exceptionText(ex,adaptor.serverParsingErrorMessage);
-			if(context.callback)
+			if(context.callback) {
 				context.callback(context,context.userParams);
+			}
 			return;
 		}
 		context.status = true;
@@ -109,7 +110,7 @@ adaptor.prototype.getTemplateTiddlersCallback = function(context, wizard) {
 		var templateContext = {
 			host: context.nestedContext.host,
 			adaptor: adaptor,
-			template:true,
+			template:true
 		}
 		templateContext[macro.keepTiddlersSyncField] = wizard && wizard[macro.keepTiddlersSyncField];
 		macro.doImportTiddlers(adaptor, templateContext, templateNames, callback);
