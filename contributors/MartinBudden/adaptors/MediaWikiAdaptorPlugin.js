@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.7|
+|''Version:''|0.8.8|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -300,7 +300,7 @@ adaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 		var namespaces = info.query.namespaces;
 		var list = [];
 		for(var i in namespaces) {
-			item = {};
+			var item = {};
 			item.id = namespaces[i]['id'];
 			item.title = namespaces[i]['*'];
 			item.name = item.title;
