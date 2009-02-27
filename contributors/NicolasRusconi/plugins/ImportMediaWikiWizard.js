@@ -155,10 +155,11 @@ config.macros.importMediaWiki.showPages = function(context, wizard)
 					   {caption: macro.importLabel,
 					    tooltip: macro.importPrompt,
 						onClick: macro.doImportSelectedPages}]);
-}
+};
 
 // select the specified workspace
-config.macros.importMediaWiki.selectedWorkspace = function(wizard, workspace) {
+config.macros.importMediaWiki.selectedWorkspace = function(wizard, workspace)
+{
 	var macro = config.macros.importMediaWiki;
 	wizard.setValue(macro.workspaceField, workspace);
 	var listWrapper = macro.getClearWikiPagesList();
@@ -167,9 +168,10 @@ config.macros.importMediaWiki.selectedWorkspace = function(wizard, workspace) {
 	var context = wizard.getValue(macro.contextField);
 	handleAdaptorReturn(adaptor.openWorkspace(workspace, context, wizard, macro.onOpenWorkspace));
 	wizard.setButtons([macro.getResetButton()], macro.statusOpenWorkspace);
-}
+};
 
-config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callback) {
+config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callback)
+{
 	var macro = config.macros.importMediaWiki;
 	if(context.status !== true) {
 		displayMessage("Error in importMediaWiki.onOpenWorkspace: " + context.statusText);
@@ -179,7 +181,8 @@ config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callba
 	wizard.setButtons([macro.getResetButton()], macro.statusGetTiddlerList);
 }
 
-config.macros.importMediaWiki.onGetTiddlerList = function(context, wizard) {
+config.macros.importMediaWiki.onGetTiddlerList = function(context, wizard)
+{
 	var macro = config.macros.importMediaWiki;
 	if(context.status !== true) {
 		macro.getClearWikiPagesList();
@@ -287,7 +290,7 @@ config.macros.importMediaWiki.doImportTiddlers = function (adaptor, importContex
 		var tiddlerContext = {
 			allowSynchronous:true,
 			tiddler:tiddlers[tiddlers.findByField(macro.titleField, tiddlersNames[t])],
-			host: importContext.host,
+			host: importContext.host
 		};
 		adaptor.getTiddler(tiddlersNames[t],tiddlerContext,importContext,macro.onGetTiddler);
 	}
@@ -576,10 +579,9 @@ merge(config.macros.importMediaWiki, {
 	listViewTemplate: {
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
+			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'}
 			],
-		rowClasses: [
-			]}
+		rowClasses: []}
 	});
 
 merge(config.macros.importMediaWiki,{
