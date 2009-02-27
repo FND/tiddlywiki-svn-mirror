@@ -5,4 +5,4 @@ tags: wizard
 | <<option chkOpenEditView>>|Open in Edit Mode | <<option chkBackstage>>|Show Backstage |
 | <<option chkSinglePageMode>>|Single Section Mode | <<option chkDrawings>>|Enable Drawing (refresh required): |
 | <<option chkAnimate>>|Animate | <<option chkRecycle>>|Store deleted sections in recycle bin |
-| Edit window height:|<<option txtFCKheight>>| Toolbar type:|<<option txtFCKToolbar>> - enter Default or Basic|
+||| Toolbar type:|<<option txtFCKToolbar>> - enter Default or Basic|

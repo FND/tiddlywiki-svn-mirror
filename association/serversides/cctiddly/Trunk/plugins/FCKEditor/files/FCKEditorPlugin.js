@@ -111,7 +111,8 @@ config.commands.editHtml={
 		clearMessage();
 		var tiddlerElem = document.getElementById(story.idPrefix + title);
 		var fields = tiddlerElem.getAttribute("tiddlyFields");
-		story.displayTiddler(null,title,"EditHtmlTemplate",false,null,fields);
+		story.displayTiddler(null,title,"EditTemplate",false,null,fields);
+//		story.displayTiddler(null,title,"EditHtmlTemplate",false,null,fields);
 		return false;
 	}
 }

@@ -395,7 +395,7 @@ body
     opacity: 0.75; /* Safari, Opera and Mozilla */
     filter: alpha(opacity=70); /* IE */ /* -moz-opacity: 0.75; Mozilla (Old) */
     height: 23px;
-   	background-color: #d6dff7;  /* Needed because of a bug on ClearType */
+   	background-color: #fff;  /* Needed because of a bug on ClearType */
 	background-image: url(images/toolbar.bg.gif);
 	background-repeat: repeat-x;
 /*    background-color:  inherit;     Maybe this is needed wait to check */

@@ -165,8 +165,7 @@ tags:systemTheme
 		</div>
 		<div class='editor' macro='editHtml text'></div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='commentsArea' macro='comments'></div>
-		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+		<br />
 	</div>
 </div>
 
@@ -186,6 +185,7 @@ tags:systemTheme
 	<div class="portletContent">
 		</div>
 		<div class='viewer' macro='view text wikified'></div>
+		
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	
@@ -202,7 +202,7 @@ tags:systemTheme
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
+			<div class='title' macro='view title'><a onClick='function() { config.macros.docOutline.addSection(this.nextSibling)}' />[add]</a></div>
 		</div>
 	</div>
 	<div class="portletContent">
@@ -241,9 +241,6 @@ tags:systemTheme
 
 
 !StyleSheet 
-
-
-
 #headContainer{	
 	position:relative;
 	padding:2em;
@@ -805,5 +802,10 @@ form.wizard, .wizard .wizardFooter{
 	.dropzoneactive { background: pink; }
 	.dropzonehover { background: orange; }
 	
+
+	div.editor input {
+		width:98%;
+	}
+
 
 <!--}}}-->

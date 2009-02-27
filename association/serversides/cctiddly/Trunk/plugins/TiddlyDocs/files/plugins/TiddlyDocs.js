@@ -49,6 +49,10 @@ config.macros.docOutline.handler=function(place,macroName,params,wikifier,paramS
 config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	removeChildren(place);
 //top nav 
+
+
+
+
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
 	if(config.options.chkDrawings)
 		wikify("| [[Drawings]] | <<newDrawing>>  ", buttonHolder);

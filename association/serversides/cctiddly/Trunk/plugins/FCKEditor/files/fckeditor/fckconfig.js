@@ -87,9 +87,9 @@ FCKConfig.ForceSimpleAmpersand	= false ;
 FCKConfig.TabSpaces		= 0 ;
 FCKConfig.ShowBorders	= true ;
 FCKConfig.SourcePopup	= false ;
-FCKConfig.ToolbarStartExpanded	= true;
-FCKConfig.ToolbarCanCollapse	= true ;
-FCKConfig.IgnoreEmptyParagraphValue = true ;
+FCKConfig.ToolbarStartExpanded = true;
+FCKConfig.ToolbarCanCollapse = true;
+FCKConfig.IgnoreEmptyParagraphValue = true;
 FCKConfig.FloatingPanelsZIndex = 10000 ;
 FCKConfig.HtmlEncodeOutput = false ;
 
@@ -116,22 +116,16 @@ FCKConfig.ToolbarSets["Default"] = [
 ] ;
 
 FCKConfig.ToolbarSets["Default"] = [
-	['PasteText','PasteWord','-','SpellCheck'],
-	['Find','Replace','RemoveFormat'],
-	['Bold','Italic','Underline'],
+	['SpellCheck', 'Find','Replace','RemoveFormat'],
+	['Bold','Italic','Underline', 'TextColor','BGColor', 'FontName','FontSize'],
 	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 	['Link','Unlink','Anchor'],
-	['Image', 'Table','Rule'],
-	['FontName','FontSize'],
-	['TextColor','BGColor']
+	['Image', 'Table','Rule']
 ];
 
-
-
-
 FCKConfig.ToolbarSets["Basic"] = [
-	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
+	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink']
 ] ;
 
 FCKConfig.EnterMode = 'p' ;			// p | div | br
