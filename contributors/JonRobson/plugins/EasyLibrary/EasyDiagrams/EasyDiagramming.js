@@ -17,7 +17,7 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	this.tempshapes = {};
 	this.easyShapeToNode = {};
 	this.labelContainer = document.createElement("div");
-	this.labelContainer.style.overflow = "auto";
+	this.labelContainer.style.overflow = "hidden";
 	this.labelContainer.style.position = "absolute";
 	this.labelContainer.style.width = this.wrapper.style.width;
 	this.labelContainer.style.height = this.wrapper.style.height;
@@ -261,10 +261,12 @@ EasyDiagram.prototype = {
 				easyDiagram.resizing = {};
 				easyDiagram.easyController.enable();
 			}
-			var s = easyDiagram.easyClicking.getShapeAtClick(e);
-			if(s){	
-				if(s.getProperty("_resizer")){
-					easyDiagram.startResizing(s);
+			else{
+				var s = easyDiagram.easyClicking.getShapeAtClick(e);
+				if(s){	
+					if(s.getProperty("_resizer")){
+						easyDiagram.startResizing(s);
+					}
 				}
 			}
 			
@@ -282,7 +284,7 @@ EasyDiagram.prototype = {
 			if(w > 0 && h > 0){
 				this.resizing.onNode.setDimensions(w,h);	
 				this.resizing.bb =this.resizing.onNode.easyShape.getBoundingBox();
-				var resizerpos = {x: this.resizing.bb.x2, y: this.resizing.bb.y2};
+				var resizerpos = {x: this.resizing.bb.x2-5, y: this.resizing.bb.y2-5};
 				resizer.setCoordinates([resizerpos.x,resizerpos.y,resizerpos.x + 15,resizerpos.y, resizerpos.x + 15,resizerpos.y + 15,resizerpos.x, resizerpos.y + 15]);
 				
 			}
@@ -291,7 +293,7 @@ EasyDiagram.prototype = {
 		var s =this.easyClicking.getShapeAtClick(e);
 		if(s && !s.getProperty("_temp") && t.className != "easyDrawingTools"){
 			var bb = s.getBoundingBox();
-			var resizerpos = {x: bb.x2, y:bb.y2};
+			var resizerpos = {x: bb.x2-5, y:bb.y2-5};
 			
 			if(!resizer){
 				var resizer = new EasyShape({_resizer:true,shape:"polygon", fill: "rgb(0,0,0)"},[resizerpos.x,resizerpos.y,resizerpos.x + 15,resizerpos.y, resizerpos.x + 15,resizerpos.y + 15,resizerpos.x, resizerpos.y + 15]);
@@ -466,6 +468,13 @@ EasyDiagram.prototype = {
 				viewlabel.style.display = "";				
 				viewlabel.style.top = label.y + "px";
 				viewlabel.style.left = label.x + "px";
+				
+				var t = this.getTransformation();
+				viewlabel.style.fontSize = parseFloat(1 * t.scale.x) + "em";
+				var w = node.getProperty("width") * t.scale.x;
+				var h = node.getProperty("height") * t.scale.y;
+				viewlabel.style.width =  w+ "px";
+				viewlabel.style.height = h + "px";
 				this.easyClicking.addToMemory(shape);
 				shape.render(this.canvas,this.getTransformation());
 			}

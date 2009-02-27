@@ -11,10 +11,10 @@ var EasyGraphNode = function(json){
 	var pos = this.getProperty("position");
 	var x = pos.x;
 	var y = pos.y;
-	var w = this.getProperty("width") /2 ;
-	var h = this.getProperty("height") /2;
+	var w = this.getProperty("width") ;
+	var h = this.getProperty("height");
 	//console.log(x,y);
-	this.easyShape = new EasyShape(properties,[x-w,y-h,x+w,y-h, x+w,y+h,x - w,y+h]);	
+	this.easyShape = new EasyShape(properties,[x,y,x+w,y, x+w,y+h,x,y+h]);	
 	return false;
 };
 
@@ -67,11 +67,11 @@ EasyGraphNode.prototype = {
 	}
 	,setPosition: function(x,y){
 		//setCoords();
-		var w = this.getProperty("width") /2 ;
-		var h = this.getProperty("height") /2;
+		var w = this.getProperty("width") ;
+		var h = this.getProperty("height") ;
 		//console.log(x,y);
 		this.setProperty("position",{x:x,y:y});
-		this.easyShape.setCoordinates([x-w,y-h,x+w,y-h, x+w,y+h,x - w,y+h]);
+		this.easyShape.setCoordinates([x,y,x+w,y, x+w,y+h,x,y+h]);
 		
 	}
 };

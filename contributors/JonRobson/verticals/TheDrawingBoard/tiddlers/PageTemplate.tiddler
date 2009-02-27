@@ -1,0 +1,12 @@
+<div title="PageTemplate">
+<pre>
+<!--{{{-->
+
+<div id='displayArea'>
+<div refresh='content' force='true' tiddler='TheDrawingBoard'></div>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+</pre>
+</div>
