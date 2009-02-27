@@ -36,11 +36,11 @@ if(@$pluginsLoader->events['preSave'])
 		
 	}
 }				
+
 if($tiddler['id']!="undefined")
 {
-	error_log("prev r is : ".$ntiddler['revision']);
 	
-	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
+	if($tiddler['revision']+1 >= $_POST['revision'] ) {		//ask to reload if modified date differs
 		debug($ccT_msg['debug']['reloadRequired'], "save");
 		sendHeader(409);
 		exit;
