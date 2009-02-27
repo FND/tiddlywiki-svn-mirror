@@ -19,7 +19,13 @@ var EasyGraphNode = function(json){
 };
 
 EasyGraphNode.prototype = {
-	burntojson: function(){
+	setDimensions: function(width,height){
+		this.setProperty("width",width);
+		this.setProperty("height",height);
+		var p = this.getPosition();
+		this.setPosition(p.x,p.y);
+	}
+	,burntojson: function(){
 		var json = {};
 		json.id = this.id;
 		json.properties = this.properties;

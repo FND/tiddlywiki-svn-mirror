@@ -12,13 +12,21 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 			}
 		};
 	}
-	
-	this.labelHolders = {};
+	this.wrapper = wrapper;
 	this.controller = controller;
 	this.tempshapes = {};
 	this.easyShapeToNode = {};
-	this.wrapper = wrapper;
-	this.easyGraph = easyGraph;	
+	this.labelContainer = document.createElement("div");
+	this.labelContainer.style.overflow = "auto";
+	this.labelContainer.style.position = "absolute";
+	this.labelContainer.style.width = this.wrapper.style.width;
+	this.labelContainer.style.height = this.wrapper.style.height;
+	this.labelContainer.className = "annotations";
+	wrapper.appendChild(this.labelContainer);
+	
+	
+	this.easyGraph = easyGraph;
+	this.resizing = {};	
 	wrapper.style.position = "relative";
 	wrapper.className = "easyDiagram";
 	var width,height;
@@ -67,6 +75,7 @@ EasyDiagram.prototype = {
 		var getshape = function(e){
 			var s = easyDiagram.easyClicking.getShapeAtClick(e);
 			if(!s) return false;
+			if(s.getProperty("_temp")) return false;
 			var target = EasyClickingUtils.resolveTarget(e);
 			if(target.className == "easyControl") return false;
 			if(target.className == "easyDrawingTools") return false;
@@ -83,7 +92,7 @@ EasyDiagram.prototype = {
 		
 		/* move around shapes */
 		var nocommand = function(e){
-			
+			if(easyDiagram.resizing.onNode)return;
 			var s = getshape(e);
 			if(s)easyDiagram.selectShape(s);
 		};
@@ -153,8 +162,12 @@ EasyDiagram.prototype = {
 		else
 			return this.tempshapes[name];
 	}
-	,addTemporaryShape: function(name,easyShape){
+	,addTemporaryShape: function(name,easyShape,clickable){
 		this.tempshapes[name] = easyShape;
+		if(clickable){			
+			easyShape.setProperty("_clickable",true);
+		}
+	
 	}
 	,deleteTemporaryShape: function(name){
 		delete this.tempshapes[name];
@@ -198,7 +211,6 @@ EasyDiagram.prototype = {
 		}
 	}
 	
-
 	,moveSelectedShapes: function(x,y){
 		if(this.selectedShape) {
 			var shape = this.selectedShape;
@@ -236,12 +248,67 @@ EasyDiagram.prototype = {
 			var t = easyDiagram.getTransformation();
 			var newpos =EasyClickingUtils.getRealXYFromMouse(e,t);
 			easyDiagram.moveSelectedShapes(newpos.x,newpos.y);
+			easyDiagram.performResizing(e);
+			
 			easyDiagram.drawTemporaryLines(newpos.x,newpos.y);
 			easyDiagram.render();
 		}
-	
-	}
+		
+		var omd = this.wrapper.onmousedown;
+		this.wrapper.onmousedown = function(e){
+			if(omd)omd(e);
+			if(easyDiagram.resizing.onNode){
+				easyDiagram.resizing = {};
+				easyDiagram.easyController.enable();
+			}
+			var s = easyDiagram.easyClicking.getShapeAtClick(e);
+			if(s){	
+				if(s.getProperty("_resizer")){
+					easyDiagram.startResizing(s);
+				}
+			}
+			
 
+		};
+		
+	}
+	,performResizing: function(e){
+		var resizer = this.getTemporaryShape("resizer");
+		if(this.resizing.onNode){
+			var t = this.getTransformation();
+			var newcorner = EasyClickingUtils.getRealXYFromMouse(e,t);
+			var w = newcorner.x - this.resizing.bb.x1;
+			var h = newcorner.y - this.resizing.bb.y1;
+			if(w > 0 && h > 0){
+				this.resizing.onNode.setDimensions(w,h);	
+				this.resizing.bb =this.resizing.onNode.easyShape.getBoundingBox();
+				var resizerpos = {x: this.resizing.bb.x2, y: this.resizing.bb.y2};
+				resizer.setCoordinates([resizerpos.x,resizerpos.y,resizerpos.x + 15,resizerpos.y, resizerpos.x + 15,resizerpos.y + 15,resizerpos.x, resizerpos.y + 15]);
+				
+			}
+		}		
+		var t = EasyClickingUtils.resolveTarget(e);
+		var s =this.easyClicking.getShapeAtClick(e);
+		if(s && !s.getProperty("_temp") && t.className != "easyDrawingTools"){
+			var bb = s.getBoundingBox();
+			var resizerpos = {x: bb.x2, y:bb.y2};
+			
+			if(!resizer){
+				var resizer = new EasyShape({_resizer:true,shape:"polygon", fill: "rgb(0,0,0)"},[resizerpos.x,resizerpos.y,resizerpos.x + 15,resizerpos.y, resizerpos.x + 15,resizerpos.y + 15,resizerpos.x, resizerpos.y + 15]);
+				this.addTemporaryShape("resizer",resizer,true);
+				
+			}
+			resizer.setCoordinates([resizerpos.x,resizerpos.y,resizerpos.x + 15,resizerpos.y, resizerpos.x + 15,resizerpos.y + 15,resizerpos.x, resizerpos.y + 15]);
+			resizer.actingOn = s;
+		}
+	}
+	,startResizing: function(easyShape){
+		if(!this.resizing.onNode){
+			this.easyController.disable();
+			this.resizing.onNode = this.getNodeFromShape(easyShape.actingOn);	
+			this.resizing.bb =this.resizing.onNode.easyShape.getBoundingBox();
+		}
+	}
 	,transform: function(matrix){
 		if(this.easyDrawingTools.getCurrentCommand().type == 'editlabel') return;
 		var o1 = parseInt(this.canvas.width) /2;
@@ -272,11 +339,20 @@ EasyDiagram.prototype = {
 
 	,_renderTemporaryShapes: function(){
 		for(i in this.tempshapes){
-			this.tempshapes[i].render(this.canvas, this.tmatrix);
+			shape =this.tempshapes[i];
+			shape.setProperty("_temp",true);
+			if(shape.getProperty("_clickable")){
+				this.easyClicking.addToMemory(shape);
+			}
+			shape.render(this.canvas, this.getTransformation());
 		}
 	}
-	,isNodeVisible: function(x,y){
-		if(x < 0 || x > this.canvas.width || y >this.canvas.height || y < 0)
+	,isNodeVisible: function(node){
+		
+		var bb = node.easyShape.getBoundingBox();
+		var topleft  =EasyTransformations.applyTransformation(bb.x1, bb.y1,this.tmatrix);
+		var bottomRight  =EasyTransformations.applyTransformation(bb.x2, bb.y2,this.tmatrix);
+		if((bottomRight.x < 0 || bottomRight.x > this.canvas.width || bottomRight.y >this.canvas.height || bottomRight.y < 0)&& (topleft.x < 0 || topleft.x > this.canvas.width || topleft.y >this.canvas.height || topleft.y < 0))
 		return false;
 		else
 		return true;
@@ -369,7 +445,7 @@ EasyDiagram.prototype = {
 			nodelabel.style.display = "";
 			this.controller.renderLabel(nodelabel,node.getProperty("label"))
 			nodelabel.style.position = "absolute";
-			this.wrapper.appendChild(nodelabel);
+			this.labelContainer.appendChild(nodelabel);
 			//this.setLabelHolder(node.id,"label",nodelabel);
 			node.setProperty("_labelHolder",nodelabel);
 			var easyDiagram = this;
@@ -386,12 +462,12 @@ EasyDiagram.prototype = {
 		
 		var viewlabel = node.getProperty("_labelHolder");
 		if(viewlabel){
-			if(this.isNodeVisible(label.x,label.y)){
+			if(this.isNodeVisible(node)){
 				viewlabel.style.display = "";				
 				viewlabel.style.top = label.y + "px";
 				viewlabel.style.left = label.x + "px";
 				this.easyClicking.addToMemory(shape);
-				shape.render(this.canvas,this.tmatrix);
+				shape.render(this.canvas,this.getTransformation());
 			}
 			else{
 				viewlabel.style.display = "none";	

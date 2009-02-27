@@ -24,7 +24,6 @@ EasyDrawingTools.prototype = {
 			if(!e) e = window.event;
 			if(e.button <= 1){//left mouse
 				var command = easyDrawingTools.getCurrentCommand();
-				console.log(command.type);
 				if(command && command.type){
 					if(command.type == 'drawEdge'){
 						if(!command.start){
@@ -150,7 +149,7 @@ EasyDrawingTools.prototype = {
 		newCanvas.className ="easyDrawingToolbar";
 		newCanvas.height = height;
 		newCanvas.style.position = "absolute";
-		newCanvas.style.left = parseInt(this.wrapper.width);
+		newCanvas.style.left =this.wrapper.width;
 		newCanvas.style.top = 0;
 		newCanvas.style.zIndex = 3;
 		newCanvas.setAttribute("class","easyDrawingTools");

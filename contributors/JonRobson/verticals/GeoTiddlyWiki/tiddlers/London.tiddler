@@ -4,7 +4,7 @@
 This tiddler is also geo-tagged. You may notice under the title of this tiddler is a "go here" button - try clicking it, then take a look at the [[The Map]] This is invoking a macro which looks like this {{{<<geogotobutton world>>}}} where the argument is the id of the map to go to. Clicking this button retains the current zoom level it just moves the focus point in the map.
 
 !Turning off geotags
-We can also create a new map and pan to that one instead. Below we create a new map by calling the {{{<<geo id:london geotagging:false>>}}} macro. This time we have given it a different id so it's not confused with the previous). We also specify a parameter geotagging as false to tell the map we don't want to show geotags on it.
+We can also create a new map inside a tiddler. Below we create a new map by calling the {{{<<geo id:london geotagging:false>>}}} macro. This time we have given it a different id so it's not confused with the previous). We also specify a parameter geotagging as false to tell the map we don't want to show geotags on it.
 
 <<geo id:london geotagging:false>>
 

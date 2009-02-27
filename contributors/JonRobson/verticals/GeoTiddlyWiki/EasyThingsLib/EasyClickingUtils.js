@@ -60,7 +60,19 @@ var EasyClickingUtils = {
 			return {'x':x, 'y':y};		
 			
 	}
+	,getMouseFromEventRelativeToTarget : function(e,target){
+			if(!e) e = window.event;
+			if(!target)return false;
 
+			var offset = jQuery(target).offset();
+
+			
+			if(!offset.left) return false;
+			x = e.clientX + window.findScrollX() - offset.left;
+			y = e.clientY + window.findScrollY() - offset.top;
+			return {'x':x, 'y':y};		
+			
+	}
 
 	,resolveTargetWithEasyClicking: function(e)
 	{

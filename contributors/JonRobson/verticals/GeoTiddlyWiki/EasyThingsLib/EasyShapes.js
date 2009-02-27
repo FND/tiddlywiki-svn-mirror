@@ -1,4 +1,4 @@
-//geojson should be handled here - maybe create from geojson
+//geojson should be handled here - maybe create from geojson FEATURE
 
 /*coordinates are a string consisting of floats and move commands (M)*/
 var EasyShape = function(properties,coordinates,geojson){
@@ -487,7 +487,12 @@ EasyShape.prototype={
 		
 	
 	}
-
+	,setProperty: function(name,value){
+		this.properties[name] = value;
+	}
+	,getProperty: function(name){
+		return this.properties[name];
+	}
 	
 	,_applyProjection: function(projection,transformation){
 		var c = this.coords;

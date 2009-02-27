@@ -19,7 +19,7 @@ var EasyMapController = function(targetjs,elem){ //elem must have style.width an
 	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 	this.wrapper.easyController = this;
-	
+	this.enabled = true;
 
 };
 EasyMapController.prototype = {
@@ -102,9 +102,15 @@ EasyMapController.prototype = {
 		}
 
 		
-	},
-
-	addMousePanning: function(){
+	}
+	,disable: function(){
+		this.enabled = false;
+	}
+	,enable: function(){
+		this.enabled = true;
+	}
+	
+	,addMousePanning: function(){
 		var that = this;
 		var md = that.wrapper.onmousedown;
 		var mu = that.wrapper.onmouseup;	
@@ -175,11 +181,11 @@ EasyMapController.prototype = {
 	
 	},
 	setTransformation: function(t){
-		if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
-		this.transformation = t;
-		//console.log("transformation set",t);
-		//this.wrapper.transformation = t;
-		this.targetjs.transform(t);
+		if(this.enabled){
+			if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
+			this.transformation = t;
+			this.targetjs.transform(t);
+		}
 		//console.log("transformation set to ",t);
 	},
 	createButtonLabel: function(r,type){
@@ -315,15 +321,16 @@ EasyMapController.prototype = {
 		this._maxscale = max;
 	}
 	,transform: function(){
-		var t = this.transformation;
-		var s = t.scale;
-		var tr = t.translate;
-		if(s.x <= 0) s.x = 0.1125;
-		if(s.y <= 0) s.y = 0.1125;
+		if(this.enabled){
+			var t = this.transformation;
+			var s = t.scale;
+			var tr = t.translate;
+			if(s.x <= 0) s.x = 0.1125;
+			if(s.y <= 0) s.y = 0.1125;
 
-		this.targetjs.transform(this.transformation);
+			this.targetjs.transform(this.transformation);
 
-
+		}
 	},
 	_panzoomClickHandler: function(e) {
 		
