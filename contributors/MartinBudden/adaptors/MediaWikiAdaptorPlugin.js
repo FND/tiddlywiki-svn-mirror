@@ -10,7 +10,7 @@
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.4.1|
 
-|''Max number of tiddlers to download''|<<option txtMediaAdaptorLimit>>|
+|''Max number of tiddlers to download''|<<option txtMediaWikiAdaptorLimit>>|
 
 
 MediaWiki REST documentation is at:
@@ -89,7 +89,8 @@ adaptor.anyChild = function(obj)
 //# such as children of pages subobjects, whose keys are numeric page ids
 {
 	for(var key in obj) {
-		return obj[key];
+		if(typeof obj[key]!='function')
+			return obj[key];
 	}
 	return null;
 };
@@ -335,7 +336,7 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 	context.uri = null;
 	var host = this.fullHostName(context.host);
 	if(!context.tiddlerLimit)
-		context.tiddlerLimit = !config.options.txtMediaAdaptorLimit ? config.maxTiddlerImportCount : config.options.txtMediaAdaptorLimit;
+		context.tiddlerLimit = !config.options.txtMediaWikiAdaptorLimit ? config.maxTiddlerImportCount : config.options.txtMediaWikiAdaptorLimit;
 	var limit = context.tiddlerLimit;
 	if(limit>500)
 		limit = 500;
