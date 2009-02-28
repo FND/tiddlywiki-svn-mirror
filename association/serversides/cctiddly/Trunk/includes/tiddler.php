@@ -393,9 +393,11 @@
 		if( $tiddlyCfg['keep_revision']==1 ) 
 		{
 			$tiddler = tiddler_backup_create($tiddler, db_insert_id());
+			$id = mysql_insert_id();
 			$result = db_tiddlers_backupInsert($tiddler,$stop);
 		}
-		return mysql_insert_id();
+		error_log("here2".$id);
+		return $id;
 	}
 	
 	//!	@fn bool tiddler_delete($tiddler)

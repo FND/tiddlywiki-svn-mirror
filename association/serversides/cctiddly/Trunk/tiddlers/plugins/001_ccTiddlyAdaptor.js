@@ -526,13 +526,15 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		// End Freds SEO Code 
 
 		if(!tiddler.fields['server.page.revision'])
-			tiddler.fields['server.page.revision'] = 1		
+			tiddler.fields['server.page.revision'] = 0;		
 		else
 			tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10);
 		if(!context.otitle)
 			var otitle = tiddler.title;
 		else
 			var otitle = context.otitle;
+			
+			displayMessage("sending id : "+tiddler.fields['server.id']);
 		var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+encodeURIComponent(tiddler.getTags())+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
 	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id']+"&"+postParams;
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
