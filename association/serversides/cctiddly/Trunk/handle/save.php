@@ -35,7 +35,7 @@ if(@$pluginsLoader->events['preSave']) {
 if($tiddler['id']!="undefined")
 {
 	error_log("REVCHECK :: ".$tiddler['revision']. "::".$_POST['revision']);
-	if($tiddler['revision'] >= $_POST['revision'] ) {		//ask to reload if modified date differs
+	if($tiddler['revision'] != $_POST['revision'] ) {		//ask to reload if modified date differs
 		debug($ccT_msg['debug']['reloadRequired'], "save");
 		sendHeader(409);
 		exit;
@@ -43,6 +43,7 @@ if($tiddler['id']!="undefined")
 		//require edit privilege on new and old tags			
 	if(user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) && user_editPrivilege(user_tiddlerPrivilegeOfUser($user,$otiddler['tags'])))
 	{
+		$ntiddler['revision'] = $ntiddler['revision'] +1;
 		$ntiddler['modified'] = $ntiddler['modified']; 
 		$ntiddler['creator'] = $otiddler['creator'];
 		$ntiddler['created'] = $otiddler['created'];

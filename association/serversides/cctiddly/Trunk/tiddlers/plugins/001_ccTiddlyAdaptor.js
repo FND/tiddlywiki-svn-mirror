@@ -528,7 +528,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		if(!tiddler.fields['server.page.revision'])
 			tiddler.fields['server.page.revision'] = 1		
 		else
-			tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10)+1;
+			tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10);
 		if(!context.otitle)
 			var otitle = tiddler.title;
 		else
@@ -546,6 +546,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		}else{
 			context.status = true;
 			context.tiddler.fields['server.id'] = responseText;
+			context.tiddler.fields['server.page.revision']++;
 		}
 		if(context.callback){
 			context.callback(context,context.userParams);
