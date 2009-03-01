@@ -413,7 +413,7 @@ copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
 .comment { padding: 0 0 1em 0; margin: 1em 0 0; }
 .comment .comment { margin 0; }
 .comment .toolbar .button { border: 0; color: #9a4; }
-.comment .heading { background: [[ColorPalette::PrimaryPale]]; color: [[ColorPalette::PrimaryDark]]; border-bottom: 1px solid [[ColorPalette::PrimaryLight]]; border-right: 1px solid [[ColorPalette::PrimaryLight]]; padding: 0.15em; height: 1.3em; }
+.comment .heading { background: [[ColorPalette::PrimaryPale]]; color: [[ColorPalette::PrimaryDark]]; border-bottom: 1px solid [[ColorPalette::PrimaryLight]]; border-right: 0px solid [[ColorPalette::PrimaryLight]]; padding: 0.15em; height: 1.3em; }
 .commentTitle { float: left; }
 .commentTitle:hover { text-decoration: underline; cursor: pointer; }
 .commentText { clear: both; padding: 1em 0; }

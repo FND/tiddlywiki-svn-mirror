@@ -16,8 +16,6 @@ $tiddler = db_tiddlers_mainSelectTitle($_POST['title']);
 if($_POST['id']!="undefined")  // if the tiddler is being renamed we need ensure the id is correct. 
 	$tiddler['id'] = $_POST['id']; 
 
-error_log("recieved ID : ".$_POST['id']);
-
 $otiddler['revision'] = formatParametersPOST($_POST['revision']);
 
 $ntiddler['title'] = formatParametersPOST($_POST['title']);
@@ -42,14 +40,9 @@ if(@$pluginsLoader->events['preSave']) {
 error_log("revision : "+$_POST['revision']+" id : "+ $tiddler['id']);
 if($_POST['revision'] && $_POST['revision']!=0 && $tiddler['id']!="undefined")
 {
-	
-
-
-//sendHeader(406); // not acceptable
-//exit;	
 	if($tiddler['revision'] !== $_POST['revision'] ) {		//ask to reload if the tiddler has been edited it was last downloaded
 		debug($ccT_msg['debug']['reloadRequired'], "save");
-		error_log("!!! tidldler revisions are ".$tiddler['revision']." and this was posted : ". $_POST['revision']);
+		error_log("!!! tidldler revisions are ".$tiddler['revision']." and this was posted : ". $_POST['revision']." on tiddler ".$ntiddler['title']);
 		sendHeader(409);
 		exit;
 	}

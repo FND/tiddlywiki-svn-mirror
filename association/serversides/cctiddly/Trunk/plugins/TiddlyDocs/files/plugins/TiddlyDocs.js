@@ -20,7 +20,7 @@ config.commands.saveSection.handler = function(event,src,title)
 
 	store.saveTiddler(newTitle, newTitle, fields.text, config.options.txtUserName, new Date(), "task");
 	store.saveTiddler(window.activeDocument, window.activeDocument, spec, config.options.txtUserName, new Date(), "document");
-	autoSaveChanges();
+	autoSaveChanges(false);
 	story.closeTiddler(title);
 	story.displayTiddler(null, newTitle);
 	return false;
@@ -192,12 +192,26 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					binContents = "[["+drag.id+"]] <br />"+binText;  // build up the bin
 				else
 					binContents = "[["+drag.id+"]] <br />";  // build up the bin
-				if(config.options.chkRecycle)
-					store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents, config.options.txtUserName, new Date(), "documentBin"); // save the bin
+				if(config.options.chkRecycle) {
+					var specBinTiddler = store.getTiddler(window.activeDocument+"_bin");
+					console.log(specBinTiddler)
+
+					if(config.options.chkRecycle) {
+						if(specBinTiddler!=null)
+							store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents); // save the bin
+						else 
+							store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents, config.options.txtUserName, new Date(), "documentBin", config.defaultCustomFields); // save the bin
+					}	
+				}
 				// remove the item from the orginal spec.
 				var stars = "********************************************************";
+				var specTiddler = store.getTiddler(window.activeDocument);
 				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");
-			//	store.saveTiddler(window.activeDocument, window.activeDocument, spec);
+				store.saveTiddler(window.activeDocument, window.activeDocument, spec, config.options.txtUserName, new Date(), "documentBin", specTiddler.fields);
+				
+				
+				
+				
 				autoSaveChanges(false);
 			}
   });
