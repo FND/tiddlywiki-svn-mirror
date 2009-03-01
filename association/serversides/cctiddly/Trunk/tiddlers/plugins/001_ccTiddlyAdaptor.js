@@ -494,11 +494,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		var d = new Date();
 		d.setTime(Date.parse(tiddler['modified']));
 		d = d.convertToYYYYMMDDHHMM();
-		var fieldString = "";
-		for (var name in tiddler.fields){
-			if (String(tiddler.fields[name]) && name != "changecount")
-				fieldString += name +"='"+tiddler.fields[name]+"' ";
-		}
 
 		// Freds SEO Code
 
@@ -525,16 +520,28 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		}	
 		// End Freds SEO Code 
 
+
+		var fieldString = "";
+		for (var name in tiddler.fields){
+			if (String(tiddler.fields[name]) && name != "server.page.revision" && name != "changecount")
+				fieldString += name +"='"+tiddler.fields[name]+"' ";
+		}
 		if(!tiddler.fields['server.page.revision'])
 			tiddler.fields['server.page.revision'] = 0;		
 		else
 			tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10);
+		context.revision = tiddler.fields['server.page.revision'];
+
+//console.log("Tiddler - ", tiddler);
+			
+			
+			
 		if(!context.otitle)
 			var otitle = tiddler.title;
 		else
 			var otitle = context.otitle;
-			
-			displayMessage("sending id : "+tiddler.fields['server.id']);
+
+		displayMessage("sending rev : "+tiddler.fields['server.page.revision']+" for "+tiddler.title +" with id of "+tiddler.fields['server.id']);
 		var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+encodeURIComponent(tiddler.getTags())+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
 	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id']+"&"+postParams;
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
@@ -543,12 +550,26 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	};
 
 	ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr){
+		
+		if(xhr.status == 406){
+			
+			displayMessage(responseText);
+			
+			
+		}
 		if(xhr.status != 201){
 			ccTiddlyAdaptor.handleError(xhr.status);
 		}else{
 			context.status = true;
-			context.tiddler.fields['server.id'] = responseText;
-			context.tiddler.fields['server.page.revision']++;
+			if(responseText!="") {
+				context.tiddler.fields['server.id'] = responseText;
+				console.log("ID is  "+responseText+" for  tid :"+context.tiddler.title);
+			}
+			
+//			console.log("revison is : "+context.tiddler.fields['server.page.revision']);
+//			console.log(context.tiddler);
+			context.tiddler.fields['server.page.revision'] = context.revision + 1;
+	//		console.log("rev set to : "+context.tiddler.fields['server.page.revision']);
 		}
 		if(context.callback){
 			context.callback(context,context.userParams);

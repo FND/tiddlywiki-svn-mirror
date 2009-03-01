@@ -18,8 +18,8 @@ config.commands.saveSection.handler = function(event,src,title)
 		var spec = "* "+newTitle+"\n"+store.getTiddlerText(window.activeDocument);
 	}
 
-	store.saveTiddler(newTitle, newTitle, fields.text, config.options.txtUserName, new Date());
-	store.saveTiddler(window.activeDocument, window.activeDocument, spec, config.options.txtUserName, new Date(), "documentBin", config.defaultCustomFields);
+	store.saveTiddler(newTitle, newTitle, fields.text, config.options.txtUserName, new Date(), "task");
+	store.saveTiddler(window.activeDocument, window.activeDocument, spec, config.options.txtUserName, new Date(), "document");
 	autoSaveChanges();
 	story.closeTiddler(title);
 	story.displayTiddler(null, newTitle);
@@ -41,6 +41,10 @@ config.macros.docOutline.strip=function(s) {
 	return s.replace(" ",  "");
 }
 
+config.macros.docOutline.addSection = function(section) {
+	alert("mf"+section);
+}
+
 config.macros.docOutline.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	config.options.txtOpenType = "inline";
 	config.macros.docOutline.refresh(place,macroName,params,wikifier,paramString,tiddler);
@@ -49,10 +53,6 @@ config.macros.docOutline.handler=function(place,macroName,params,wikifier,paramS
 config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	removeChildren(place);
 //top nav 
-
-
-
-
 	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
 	if(config.options.chkDrawings)
 		wikify("| [[Drawings]] | <<newDrawing>>  ", buttonHolder);
@@ -142,8 +142,10 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 									output += " "+this.id+"\n";
 								}
 						 });
+					
+					
 					store.saveTiddler(params[0], params[0], output);
-					autoSaveChanges();
+					autoSaveChanges(false);
 					},
 					autoScroll: true,
 					handle: '.sort-handle '
@@ -191,12 +193,12 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 				else
 					binContents = "[["+drag.id+"]] <br />";  // build up the bin
 				if(config.options.chkRecycle)
-					store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents, config.options.txtUserName, new Date(), "documentBin", config.defaultCustomFields); // save the bin
+					store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents, config.options.txtUserName, new Date(), "documentBin"); // save the bin
 				// remove the item from the orginal spec.
 				var stars = "********************************************************";
 				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");
-				store.saveTiddler(window.activeDocument, window.activeDocument, spec);
-				autoSaveChanges();
+			//	store.saveTiddler(window.activeDocument, window.activeDocument, spec);
+				autoSaveChanges(false);
 			}
   });
 }	

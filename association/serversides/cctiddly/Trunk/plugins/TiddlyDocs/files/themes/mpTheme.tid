@@ -48,7 +48,9 @@ tags:systemTheme
 </div>
 </div>
 
-
+<div id='displayArea'>
+<div id='messageArea'></div>
+</div>
 <div id="headContainer">
 	<div class="left">
 	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
@@ -75,15 +77,6 @@ tags:systemTheme
 </div>
 
 <div macro='gradient vert #fff #f0f0f0' style="top:-3em">
-
-
-
-<div id='bodywrapper'>
-<div id='displayArea'>
-
-<div id='messageArea'></div>
-</div>
-</div>
 
 <div class='leftColumn'>
 
@@ -493,7 +486,10 @@ background:#444444 none repeat scroll 0 0;
 	
 /* TIDDLYWIKI CSS */	
 
-
+#messageArea .button {
+background:transparent !important;
+font-size:0.5em;
+}
 .editor textarea {
 background-color:#fff;
 width:98.5%;
@@ -501,14 +497,8 @@ width:98.5%;
 
 
 	body #messageArea {
-	display:none !important;
-		bottom:0;
-		right:0;
-		top:90% !important;
-		width:92%;
-		height:100px;
-		background-color:white;
-		border:1px solid #222;
+		background-color: silver;opacity:.70;filter: alpha(opacity=70);
+	border:1px solid #222;
 	}
 	#mainMenu {
 		font-size:0.9em;
@@ -539,10 +529,8 @@ width:98.5%;
 	div.tiddler {
 		background-color:transparent;
 		border:0px;
-		padding:0 0 1em;
-		margin-right:1em;
-		padding-bottom:0.1em;
-		
+		padding:0 0 0.6em;
+		margin-right:1em;	
 	}
 	div.tiddler .tab {
 		background-color:#ddd;

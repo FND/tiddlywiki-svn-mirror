@@ -12,7 +12,11 @@ if(!user_session_validate())
 }
 $tiddlyCfg['workspace_name'] = formatParametersPOST($_POST['workspace']);
 $tiddler = db_tiddlers_mainSelectTitle($_POST['title']);
-$tiddler['id'] = $_POST['id'];
+
+if($_POST['id']!="undefined")  // if the tiddler is being renamed we need ensure the id is correct. 
+	$tiddler['id'] = $_POST['id']; 
+
+error_log("recieved ID : ".$_POST['id']);
 
 $otiddler['revision'] = formatParametersPOST($_POST['revision']);
 
@@ -33,14 +37,19 @@ if(@$pluginsLoader->events['preSave']) {
 	}
 }				
 
+//if($tiddler['id']!="undefined")
 
-//error_log(print_r($tiddler, true));
-//error_log($tiddler['revision'] ." :: " . $_POST['revision'] );
-
-if($tiddler['id']!="undefined")
+error_log("revision : "+$_POST['revision']+" id : "+ $tiddler['id']);
+if($_POST['revision'] && $_POST['revision']!=0 && $tiddler['id']!="undefined")
 {
-	if($tiddler['revision'] != $_POST['revision'] ) {		//ask to reload if modified date differs
+	
+
+
+//sendHeader(406); // not acceptable
+//exit;	
+	if($tiddler['revision'] !== $_POST['revision'] ) {		//ask to reload if the tiddler has been edited it was last downloaded
 		debug($ccT_msg['debug']['reloadRequired'], "save");
+		error_log("!!! tidldler revisions are ".$tiddler['revision']." and this was posted : ". $_POST['revision']);
 		sendHeader(409);
 		exit;
 	}
@@ -53,17 +62,18 @@ if($tiddler['id']!="undefined")
 	//	error_log(print_r($ntiddler))
 		debug("Attempting to update server for tiddler...");
 		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
+		
+		error_log("sSSending SQL ids : ".$tiddler['id'] ." for ".$ntiddler['title']);
 		if(tiddler_update_new($tiddler['id'], $ntiddler)) {
 			sendHeader(201);
-			echo $tiddler['id'];
-			//error_log("setting id to : ".$tiddler['id']);
+			error_log("setting id to : ".$tiddler['id']);
 		}
 	}else{
 		debug("Permissions denied to save.", "save");
 		sendHeader(400);	
 	}
-}else{	
-	//This Tiddler does not exist in the database.
+}else
+{	//This Tiddler does not exist in the database.
 	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) 
 	{
 		debug("Inserting New Tiddler...", "save");
@@ -75,8 +85,11 @@ if($tiddler['id']!="undefined")
 		{
 			sendHeader(201);
 			echo $id;
+			error_log("TIS IS A NEW ~TIDLER - setting id to ".$id);
+			
 		}
 	}else{
+		debug("Permissions denied to save.", "save");
 		sendHeader(400);
 	}
 }
