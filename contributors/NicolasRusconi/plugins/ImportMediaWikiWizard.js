@@ -214,6 +214,10 @@ config.macros.importMediaWiki.doImportSelectedPages = function(e)
 	var macro = config.macros.importMediaWiki;
 	var wizard = new Wizard(this);
 	var tiddlerNames = ListView.getSelectedRows(wizard.getValue(macro.listViewField));
+	if (!tiddlerNames || tiddlerNames.length == 0) {
+		wizard.setButtons([macro.getResetButton()], macro.noPageSelected);
+		return;
+	}
 	var chkSave = wizard.getElement(macro.chkSaveName);
 	var serverTiddlerName;
 	if (chkSave.checked) {
@@ -569,6 +573,7 @@ merge(config.macros.importMediaWiki, {
 	loadingTiddlersMessage: "<i>loading tiddlers...</i>",
 	statusOpenWorkspace: "Opening the workspace",
 	statusGetTiddlerList: "Getting the list of available tiddlers",
+	noPageSelected: "You must select at least one page to import.",
 	errorGettingTiddlerList: "Error getting list of tiddlers, click Cancel to try again",
 	importLabel: "import",
 	importPrompt: "Import these tiddlers",
