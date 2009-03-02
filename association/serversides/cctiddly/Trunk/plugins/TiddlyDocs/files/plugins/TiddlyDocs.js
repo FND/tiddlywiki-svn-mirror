@@ -194,8 +194,6 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					binContents = "[["+drag.id+"]] <br />";  // build up the bin
 				if(config.options.chkRecycle) {
 					var specBinTiddler = store.getTiddler(window.activeDocument+"_bin");
-					console.log(specBinTiddler)
-
 					if(config.options.chkRecycle) {
 							displayMessage("adding item to the recycle bin");
 							store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents); // save the bin
