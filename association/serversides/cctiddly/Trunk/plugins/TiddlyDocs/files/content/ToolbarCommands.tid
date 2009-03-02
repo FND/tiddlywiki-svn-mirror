@@ -3,5 +3,6 @@ created:
 modified: 200708091500
 
 |~ViewToolbar|+editTiddler|
-|~taskViewToolbar|+editHtml|
 |~EditToolbar| +saveSection -cancelTiddler deleteTiddlerHosted|
+|~taskViewToolbar|+editHtml|
+|~drawingEditToolbar| +saveTiddler -cancelTiddler deleteTiddlerHosted|

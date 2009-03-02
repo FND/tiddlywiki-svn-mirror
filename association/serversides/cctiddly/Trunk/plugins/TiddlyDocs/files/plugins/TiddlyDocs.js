@@ -197,10 +197,8 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					console.log(specBinTiddler)
 
 					if(config.options.chkRecycle) {
-						if(specBinTiddler!=null)
+							displayMessage("adding item to the recycle bin");
 							store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents); // save the bin
-						else 
-							store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents, config.options.txtUserName, new Date(), "documentBin", config.defaultCustomFields); // save the bin
 					}	
 				}
 				// remove the item from the orginal spec.

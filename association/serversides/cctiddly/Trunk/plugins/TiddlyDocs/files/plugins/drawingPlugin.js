@@ -283,7 +283,7 @@ Use SVG? <<option chkDrawingSVG>>
 /***
 !DrawingEditTemplate
 
-<div class='editDrawing'><div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='editDrawing'><div class='toolbar' macro='toolbar [[ToolbarCommands::drawingEditToolbar]]'></div>
 <div class='title' macro='view title'></div>
 <div class='editor' macro='edit title'></div>
 <div class='annotations'></div>
