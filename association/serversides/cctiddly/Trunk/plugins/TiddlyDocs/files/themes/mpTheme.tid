@@ -56,9 +56,8 @@ tags:systemTheme
 	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
 	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 	</div>
-	<div id='picBar' style="float:right;position:absolute;text-align:right;top:1em;width:98%;">
+	<div id='picBar' style="float:right;position:absolute;text-align:right;top:1em;width:95%;">
 
-		<img src='http://www.essex.ac.uk/wehia05/Pictures/BT_logo.jpg' width="80px"/>
 		<img src='http://farm4.static.flickr.com/3496/3302865397_263cb2a238_m.jpg' width="105px" />
 	</div>
 	<br />
@@ -180,8 +179,8 @@ tags:systemTheme
 		<div class='viewer' macro='view text wikified'></div>
 		
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
-		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-	
+<!--		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+	-->
 	</div>
 </div>
 <!--}}}-->
@@ -195,16 +194,18 @@ tags:systemTheme
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
-			<div class='title' macro='view title'><a onClick='function() { config.macros.docOutline.addSection(this.nextSibling)}' />[add]</a></div>
+			<div class='title' macro='view title'>Viewing Section : </div>
 		</div>
 	</div>
 	<div class="portletContent">
 		<div class='taskControls' macro='tiddler TaskTiddlerControls'>
+		
+			<!--	<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
 		</div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
 		<div class='viewer' macro='view text wikified'></div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
-		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+
 		<div class='commentsArea' macro='comments'></div>
 	</div>
 </div>
@@ -218,15 +219,17 @@ tags:systemTheme
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
+			<div class='title' macro='view title'>Editing Section : </div>
 		</div>
 	</div>
 	<div class="portletContent">
+
 		<div class='taskControls' macro='tiddler TaskTiddlerControls'>
 		</div>
 		<div class='editor' macro='editHtml text'></div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+		<!--
+		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
 		<div class='commentsArea' macro='comments'></div>
 	</div>
 </div>
@@ -234,6 +237,10 @@ tags:systemTheme
 
 
 !StyleSheet 
+
+.wizard h1 {
+	line-height:1.1em;
+}
 #headContainer{	
 	position:relative;
 	padding:2em;
@@ -282,7 +289,7 @@ border:1px solid black;
 }
 
 .taskControls {
-	padding:0.5em;
+	padding:0em;
 	margin:0px;
 }
 
@@ -636,9 +643,14 @@ form.wizard, .wizard .wizardFooter{
 			border:1px solid #eee;
 			border-top:0px;
 		}
-		.comments textarea {
-			width:60% !important;
+		
+		.tiddler .button {
+			margin:0.1em  1em;
+			padding:0.2em 0.3em;
 		}
+		
+		
+		
 	/*  END COMMENTS CSS */
 			
 	/*  NESTED SORTABLE CSS */

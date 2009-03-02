@@ -33,7 +33,7 @@ config.options.txtFCKeditorPath = "plugins/FCKEditor/files/fckeditor/";
 config.options.txtFCKeditorPath = config.options.txtFCKeditorPath ? config.options.txtFCKeditorPath : "fckeditor/";
 config.options.txtFCKCustomConfigScript = config.options.txtFCKCustomConfigScript ? config.options.txtFCKCustomConfigScript : "";
 config.options.txtFCKToolbar = config.options.txtFCKToolbar ? config.options.txtFCKToolbar : "";
-config.options.txtFCKheight = config.options.txtFCKheight ? config.options.txtFCKheight : "500px";
+config.options.txtFCKheight = config.options.txtFCKheight ? config.options.txtFCKheight : "200px";
 
 config.macros.editHtml = {
 	handler : function(place,macroName,params,wikifier,paramString,tiddler) {

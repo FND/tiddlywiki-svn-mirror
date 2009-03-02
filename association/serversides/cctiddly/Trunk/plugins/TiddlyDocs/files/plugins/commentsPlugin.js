@@ -63,7 +63,7 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
   var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "");
   var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
 createTiddlyElement(newCommentArea, "br");
-  var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment", "Add Comment");
+  var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
   addComment.onclick = function() {
     var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
     newCommentEl.value = "";
@@ -230,7 +230,7 @@ openReplyLink: function(commentTiddler, commentEl, replyLink, macroParams) {
   };
 
   var replyText =  cmacro.makeTextArea(commentEl.replyEl, macroParams);
-  var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, null, "Reply");
+  var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, "button", "Reply");
   submitReply.onclick = function() { 
     var newComment = cmacro.createComment(replyText.value, commentTiddler, macroParams);
     replyText.value = "";
@@ -409,6 +409,10 @@ copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
 .comments h1 { margin-bottom: 0; padding-bottom: 0; }
 .comments { padding: 0; }
 .comment .comments { margin-left: 1em; }
+button.button {
+	font-size : 1.1em;
+	font-weight: bold;
+}
 
 .comment { padding: 0 0 1em 0; margin: 1em 0 0; }
 .comment .comment { margin 0; }

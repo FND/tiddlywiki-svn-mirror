@@ -52,7 +52,7 @@ FCKConfig.PluginsPath = FCKConfig.BasePath + 'plugins/' ;
 
  FCKConfig.Plugins.Add( 'autogrow' ) ;
  FCKConfig.Plugins.Add( 'dragresizetable' );
-FCKConfig.AutoGrowMax = 900 ;
+FCKConfig.AutoGrowMax = 400 ;
 
 // FCKConfig.ProtectedSource.Add( /<%[\s\S]*?%>/g ) ;	// ASP style server side code <%...%>
 // FCKConfig.ProtectedSource.Add( /<\?[\s\S]*?\?>/g ) ;	// PHP style server side code
@@ -117,7 +117,8 @@ FCKConfig.ToolbarSets["Default"] = [
 
 FCKConfig.ToolbarSets["Default"] = [
 	['SpellCheck', 'Find','Replace','RemoveFormat'],
-	['Bold','Italic','Underline', 'TextColor','BGColor', 'FontName','FontSize'],
+	['Bold','Italic','Underline', 'TextColor','BGColor'],
+	['FontName','FontSize'],
 	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 	['Link','Unlink','Anchor'],
