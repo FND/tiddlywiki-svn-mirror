@@ -11,7 +11,7 @@ if ($_GET['uri'])
 ?>
 	<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 		<label for="uri">HTML URI:</label>
-		<input type="text" size="80" name="uri" value='http://wiki.osmosoft.com/tiddlerTree2/uploads/documents/bid1.html'>
+		<input type="text" size="80" name="uri" value='http://osmosoft.com/~psd/html2pdf/example.html'>
 		<input id="submit" type="submit" value="Generate PDF"/>
 	</form>
 	<p>
