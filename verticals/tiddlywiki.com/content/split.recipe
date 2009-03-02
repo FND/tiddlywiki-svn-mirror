@@ -83,7 +83,6 @@ tiddler: MonospacedText.tiddler
 tiddler: MoreTab.tiddler
 tiddler: NestedStyleSheets.tiddler
 tiddler: NestedTemplates.tiddler
-tiddler: NewFeatures.tiddler
 tiddler: NewJournalMacro.tiddler
 tiddler: NewTiddlerMacro.tiddler
 tiddler: NonWikiWordLinks.tiddler
@@ -107,6 +106,7 @@ tiddler: Raves.tiddler
 tiddler: ReferencesButton.tiddler
 tiddler: ReferencesCommand.tiddler
 tiddler: RegExpSearch.tiddler
+tiddler: Release_2.4.3.tiddler
 tiddler: RssFeed.tiddler
 tiddler: Safari.tiddler
 tiddler: SafeMode.tiddler
