@@ -365,9 +365,10 @@ color:white;
 	}
 	
 	.deleteZoneClass {
-		background-image : url(http://nokiathemes.no.funpic.de/themeicons/xpcandy/Recycle%20Bin%20Empty1.png);
+		background-image : url(plugins/TiddlyDocs/files/images/bin_closed.png);
 		background-repeat: no-repeat;
 		background-position:bottom right;
+		color:black;
 		text-align:left;
 		padding:0.5em 1em 1em;
 		margin:1em;
@@ -375,14 +376,14 @@ color:white;
 	}
 	
 	.deleteHelper {
-		background-color:red;
-		background-image : url(plugins/TiddlyDocs/files/images/bin-empty-128x128.png);
+		background-color:#eee;
+		background-image : url(plugins/TiddlyDocs/files/images/bin_empty.png);
 		
 		
 		
 		
 		font-weight:bold;
-		border:0.5em solid #ddd;
+		border:1px solid red;
 	}
 	.sort-handle-edit {
 		border:1px solid #C7C7C7;
@@ -657,7 +658,6 @@ form.wizard, .wizard .wizardFooter{
 		div.sort-handle {
 			padding:0em;
 			margin:0em;
-			padding-left :1em;
 			padding-top:0px;
 		}		
 		div.sort-handle div{
