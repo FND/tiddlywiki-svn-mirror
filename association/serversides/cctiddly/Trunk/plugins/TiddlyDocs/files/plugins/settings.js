@@ -3,6 +3,7 @@
 //config.options.chkAutoSave = true;
 config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
+
 //config.options.txtTheme = "TreeTheme";
 
 if(isLoggedIn())
@@ -11,7 +12,7 @@ else
 	config.options.txtTheme = "SplitTreeThemeAnon";
 
 
-config.options.txtTheme = "mpTheme";
-config.options.chkBackstage = true;
+config.options.txtTheme = "mpBarTheme";
+config.options.chkBackstage = false;
 
 //}}}

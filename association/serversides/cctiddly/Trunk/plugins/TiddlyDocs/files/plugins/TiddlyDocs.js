@@ -175,7 +175,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	}
 
 	var div = createTiddlyElement(place, "div","deleteZone", "deleteZoneClass");
-	var binContents = store.getTiddlerText(window.activeDocument+"_bin");
+	var binContents = store.getTiddlerText(window.activeDocument+"Bin");
 	if(binContents)
 		wikify("Bin \n"+binContents, div);
 	else
@@ -187,28 +187,35 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 		hoverclass : "deleteHelper",
 		accept:"page-item1",
 			ondrop:	function (drag) {
-				var binText = store.getTiddlerText(window.activeDocument+"_bin");
+				var binText = store.getTiddlerText(window.activeDocument+"Bin");
 				if(binText)
 					binContents = "[["+drag.id+"]] <br />"+binText;  // build up the bin
 				else
 					binContents = "[["+drag.id+"]] <br />";  // build up the bin
+
+/*
 				if(config.options.chkRecycle) {
-					var specBinTiddler = store.getTiddler(window.activeDocument+"_bin");
+					var specBinTiddler = store.getTiddler(window.activeDocument+"Bin");
 					if(config.options.chkRecycle) {
-							displayMessage("adding item to the recycle bin");
-							store.saveTiddler(window.activeDocument+"_bin", window.activeDocument+"_bin", binContents); // save the bin
+							displayMessage("adding item to the recycle bin :"+window.activeDocument+"Bin");
+//						store.saveTiddler(window.activeDocument+"Bin", window.activeDocument+"Bin", binContents); // save the bin
+						
+						autoSaveChanges(false);
+
+							
 					}	
 				}
+				*/
+
+				
+				store.saveTiddler("a", "a", "b"); // save the bin
+					autoSaveChanges(true);
 				// remove the item from the orginal spec.
 				var stars = "********************************************************";
 				var specTiddler = store.getTiddler(window.activeDocument);
 				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");
 				store.saveTiddler(window.activeDocument, window.activeDocument, spec, config.options.txtUserName, new Date(), "documentBin", specTiddler.fields);
-				
-				
-				
-				
-				autoSaveChanges(false);
+				autoSaveChanges(true);
 			}
   });
 }	

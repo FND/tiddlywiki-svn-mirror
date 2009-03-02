@@ -96,7 +96,7 @@ FCKConfig.HtmlEncodeOutput = false ;
 FCKConfig.TemplateReplaceAll = true ;
 FCKConfig.TemplateReplaceCheckbox = true ;
 
-FCKConfig.ToolbarLocation = 'In' ;
+FCKConfig.ToolbarLocation = 'Out:fixedBar' ;
 
 FCKConfig.ToolbarSets["Default"] = [
 	['DocProps','-','Save','NewPage','Preview','-','Templates'],

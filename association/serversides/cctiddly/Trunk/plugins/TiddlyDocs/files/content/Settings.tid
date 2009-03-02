@@ -2,7 +2,7 @@ tags: wizard
 
 ||<<editDefinitions UserDefinitions>>||<<editDefinitions StatusDefinitions>>|
 	
-| <<option chkOpenEditView>>|Open in Edit Mode | <<option chkBackstage>>|Show Backstage |
+| <<option chkOpenEditView>>|Open in Edit Mode |  |
 | <<option chkSinglePageMode>>|Single Section Mode | <<option chkDrawings>>|Enable Drawing (refresh required): |
 | <<option chkAnimate>>|Animate | <<option chkRecycle>>|Store deleted sections in recycle bin |
 ||| Toolbar type:|<<option txtFCKToolbar>> - enter Default or Basic|
