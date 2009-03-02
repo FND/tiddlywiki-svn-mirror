@@ -11,7 +11,7 @@ tiddler: /tiddlers/codePackage.tiddler
 tiddler: /tiddlers/optionalCodePackage.tiddler
 tiddler: /tiddlers/Stylesheet.tiddler
 tiddler: /js/TagMindMapCommands.js
-tiddler: /js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyShapes.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyController.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMapUtils.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyClicking.js ../../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyClickingUtils.js tagMindMapIEHack.js 
+tiddler: /js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js ../../../plugins/EasyLibrary/EasyShapes.js ../../../plugins/EasyLibrary/EasyController.js ../../../plugins/EasyLibrary/EasyMapUtils.js ../../../plugins/EasyLibrary/EasyClicking.js ../../../plugins/EasyLibrary/EasyClickingUtils.js tagMindMapIEHack.js 
 tiddler: /tiddlers/EditTemplate.tiddler
 tiddler: /tiddlers/tagMindMapExamples.tiddler
 tiddler: /tiddlers/DefaultTiddlers.tiddler

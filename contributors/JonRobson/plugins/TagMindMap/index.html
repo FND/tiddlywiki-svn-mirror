@@ -4840,7 +4840,7 @@ GraphPlot.plot= function(viz, opt) {
 };
 
 
-//geojson should be handled here - maybe create from geojson
+//geojson should be handled here - maybe create from geojson FEATURE
 
 /*coordinates are a string consisting of floats and move commands (M)*/
 var EasyShape = function(properties,coordinates,geojson){
@@ -5329,7 +5329,12 @@ EasyShape.prototype={
 		
 	
 	}
-
+	,setProperty: function(name,value){
+		this.properties[name] = value;
+	}
+	,getProperty: function(name){
+		return this.properties[name];
+	}
 	
 	,_applyProjection: function(projection,transformation){
 		var c = this.coords;
@@ -5475,7 +5480,7 @@ var EasyMapController = function(targetjs,elem){ //elem must have style.width an
 	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert(&quot;no transform function defined in &quot; + targetjs+&quot;!&quot;);
 	this.wrapper.easyController = this;
-	
+	this.enabled = true;
 
 };
 EasyMapController.prototype = {
@@ -5558,9 +5563,15 @@ EasyMapController.prototype = {
 		}
 
 		
-	},
-
-	addMousePanning: function(){
+	}
+	,disable: function(){
+		this.enabled = false;
+	}
+	,enable: function(){
+		this.enabled = true;
+	}
+	
+	,addMousePanning: function(){
 		var that = this;
 		var md = that.wrapper.onmousedown;
 		var mu = that.wrapper.onmouseup;	
@@ -5631,11 +5642,11 @@ EasyMapController.prototype = {
 	
 	},
 	setTransformation: function(t){
-		if(!t.scale &amp;&amp; !t.translate &amp;&amp; !t.rotate) alert(&quot;bad transformation applied - any call to setTransformation must contain translate,scale and rotate&quot;);
-		this.transformation = t;
-		//console.log(&quot;transformation set&quot;,t);
-		//this.wrapper.transformation = t;
-		this.targetjs.transform(t);
+		if(this.enabled){
+			if(!t.scale &amp;&amp; !t.translate &amp;&amp; !t.rotate) alert(&quot;bad transformation applied - any call to setTransformation must contain translate,scale and rotate&quot;);
+			this.transformation = t;
+			this.targetjs.transform(t);
+		}
 		//console.log(&quot;transformation set to &quot;,t);
 	},
 	createButtonLabel: function(r,type){
@@ -5771,15 +5782,16 @@ EasyMapController.prototype = {
 		this._maxscale = max;
 	}
 	,transform: function(){
-		var t = this.transformation;
-		var s = t.scale;
-		var tr = t.translate;
-		if(s.x &lt;= 0) s.x = 0.1125;
-		if(s.y &lt;= 0) s.y = 0.1125;
+		if(this.enabled){
+			var t = this.transformation;
+			var s = t.scale;
+			var tr = t.translate;
+			if(s.x &lt;= 0) s.x = 0.1125;
+			if(s.y &lt;= 0) s.y = 0.1125;
 
-		this.targetjs.transform(this.transformation);
+			this.targetjs.transform(this.transformation);
 
-
+		}
 	},
 	_panzoomClickHandler: function(e) {
 		
@@ -6431,7 +6443,19 @@ var EasyClickingUtils = {
 			return {'x':x, 'y':y};		
 			
 	}
+	,getMouseFromEventRelativeToTarget : function(e,target){
+			if(!e) e = window.event;
+			if(!target)return false;
 
+			var offset = jQuery(target).offset();
+
+			
+			if(!offset.left) return false;
+			x = e.clientX + window.findScrollX() - offset.left;
+			y = e.clientY + window.findScrollY() - offset.top;
+			return {'x':x, 'y':y};		
+			
+	}
 
 	,resolveTargetWithEasyClicking: function(e)
 	{
