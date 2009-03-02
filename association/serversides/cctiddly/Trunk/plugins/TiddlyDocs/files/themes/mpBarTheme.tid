@@ -31,9 +31,8 @@ tags:systemTheme
 </div>
 
 <div id='topBar2'>
-	<a href=''>BROADBAND</a> | 
-	<a href=''>21CN & CONSULT 21</a> | 
-	<a href=''>COMMUNICATIONS PROVIDER</a> | 
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 <div class="right">
 
 </div>
@@ -58,8 +57,7 @@ tags:systemTheme
 </div>
 <div id="headContainer">
 	<div class="left">
-	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+	
 	</div>
 	<div id='picBar' style="float:right;position:absolute;text-align:right;top:1em;width:95%;">
 
@@ -265,6 +263,7 @@ height:auto;
 	padding:1.5em;
 	padding-top:2.5em;
 	background:#fff;
+	height:4em;
 }
 
 
@@ -283,11 +282,10 @@ font-size:0.8em;
 
 #topBar2 {
 	background:#666;
-	width:99%;
+	width:100%;
 	font-size:0.8em;
 	height:1.9em;
-	padding:0.2em;
-	padding-top:0.4em;
+	padding:0.3em;
 	color:#eee;
 }
 #topBar2 a{
@@ -309,7 +307,8 @@ font-size:0.8em;
 	z-index:19;
 	position:relative;
 	text-align:right;
-	top:-1.7em;	
+	top:-2.1em;	
+	margin-right:1em;
 	font-size:0.8em;
 }
 .imgBar {
@@ -329,10 +328,13 @@ border:1px solid black;
 
 
 .siteTitle {
-	color:#777;
+font-size:1.2em;
+	color:#ddd;
 }
 
 .siteSubtitle{
+font-size:1em;
+
 color:#999
 }
 
@@ -537,6 +539,8 @@ width:98.5%;
 	body #messageArea {
 		background-color: silver;opacity:.70;filter: alpha(opacity=70);
 	border:1px solid #222;
+	position:fixed;
+	top:5em;
 	}
 	#mainMenu {
 		font-size:0.9em;
