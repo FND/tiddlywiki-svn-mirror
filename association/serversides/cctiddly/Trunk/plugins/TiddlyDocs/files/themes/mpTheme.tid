@@ -25,6 +25,8 @@ tags:systemTheme
 
 !PageTemplate
 <!--{{{-->
+
+<!--
 <div id=topBar>
 	<a href=''>HOMEPAGE</a> | 
 	<a href=''>PRODUCTS</a> | 
@@ -34,7 +36,7 @@ tags:systemTheme
 	<a href=''>NEWS AND BRIEFINGS</a> | 
 	<a href=''>PRICING AND CONTRACTS</a> | 
 </div>
-
+-->
 
 <div id='topBar2' style='background:#e6e6e6;width:99%; font-size:0.8em;height:1.9em; padding:0.2em;padding-top:0.4em'>
 	<a href=''>BROADBAND</a> | 
@@ -204,7 +206,6 @@ tags:systemTheme
 		</div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
 		<div class='viewer' macro='view text wikified'></div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
 
 		<div class='commentsArea' macro='comments'></div>
 	</div>
@@ -243,7 +244,7 @@ tags:systemTheme
 }
 #headContainer{	
 	position:relative;
-	padding:2em;
+	padding:1.4em;
 	background:#fff;
 }
 
@@ -307,7 +308,7 @@ color:#999
 }
 
 body {
-font-family:Lucida Grande;
+	font-family:Lucida Grande;
 	background-color:#F0F0F0;
 	color:#787878;
 }
