@@ -3,9 +3,6 @@
 
 	convert XHTML to XSL-FO
 
-	includes templates based on Doug Tidwell's eveloperWorks articles:
-	http://www.ibm.com/developerworks/xml/library/x-xslfo/
-
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xhtml="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:output method="xml"/>
@@ -20,8 +17,8 @@
 			</fo:layout-master-set>
 
 			<fo:page-sequence master-reference="only">
-				<fo:static-content flow-name="xsl-region-after">
-					<fo:block line-height="20pt" font-size="12pt" text-align="center">Page <fo:page-number/> of <fo:page-number-citation ref-id="TheEnd"/></fo:block>
+				<fo:static-content flow-name="xsl-region-after" font="Times">
+					<fo:block line-height="20pt" font-size="8pt" text-align="right" margin-bottom="12pt" margin-right="12pt">Page <fo:page-number/> of <fo:page-number-citation ref-id="TheEnd"/></fo:block>
 				</fo:static-content>
 
 				<fo:flow flow-name="xsl-region-body">
@@ -40,28 +37,35 @@
           space-before.conditionality="retain" 
           font="24pt Times bold" 
           text-align="center">
-	<xsl:value-of select="."/>
+	<xsl:choose>
+		<xsl:when test="not(normalize-space(.))">
+			=Missing Title=
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:value-of select="."/>
+		</xsl:otherwise>
+	</xsl:choose>
 </fo:block>
 	</xsl:template>
 
 	<!-- headings -->
 	<xsl:template match="xhtml:h1">
-		<fo:block font-family="Times" font-size="24pt" font-weight="bold" space-before="24pt" space-after="24pt" text-align="left">
+		<fo:block font-family="Times" font-size="24pt" font-weight="bold" space-before="24pt" space-after="12pt" text-align="left">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
 	<xsl:template match="xhtml:h2">
-		<fo:block font-family="Times" font-size="18pt" font-weight="bold" space-before="18pt" space-after="18pt" text-align="left">
+		<fo:block font-family="Times" font-size="18pt" font-weight="bold" space-before="18pt" text-align="left">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
 	<xsl:template match="xhtml:h3">
-		<fo:block font-family="Times" font-size="14pt" font-weight="bold" space-before="14pt" space-after="14pt" text-align="left">
+		<fo:block font-family="Times" font-size="14pt" font-weight="bold" space-before="14pt" text-align="left">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
 	<xsl:template match="xhtml:h4">
-		<fo:block font-family="Times" font-size="12pt" font-weight="bold" space-before="12pt" space-after="12pt" text-align="left">
+		<fo:block font-family="Times" font-size="12pt" font-weight="bold" space-before="12pt" text-align="left">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
@@ -203,13 +207,13 @@
 	</xsl:template>
 
 	<xsl:template match="xhtml:img">
-		<fo:block space-after="12pt">
+		<fo:block>
 			<fo:external-graphic src="{@src}" content-width="scale-to-fit" content-height="100%" width="100%" scaling="uniform"/>
 		</fo:block>
 	</xsl:template>
 
 	<xsl:template match="xhtml:object">
-		<fo:block> 
+		<fo:block>
 			<fo:external-graphic src="{@data}" content-width="scale-to-fit" content-height="100%" width="100%" scaling="uniform"/>
 		</fo:block> 
 	</xsl:template>
