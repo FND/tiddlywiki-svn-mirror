@@ -39,7 +39,7 @@
           text-align="center">
 	<xsl:choose>
 		<xsl:when test="not(normalize-space(.))">
-			=Missing Title=
+			=TiddlyDocs=
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:value-of select="."/>
