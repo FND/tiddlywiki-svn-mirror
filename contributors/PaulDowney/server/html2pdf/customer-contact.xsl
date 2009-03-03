@@ -18,20 +18,30 @@
 					<fo:region-after region-name="xsl-region-after" display-align="after" extent="0.7in"/>
 				</fo:simple-page-master>
 			</fo:layout-master-set>
+
 			<fo:page-sequence master-reference="only">
 				<fo:static-content flow-name="xsl-region-after">
-					<fo:block line-height="20pt" font-size="12pt" text-align="center">Page <fo:page-number/> <!--of <fo:page-number-citation ref-id="end"/> --> </fo:block>
+					<fo:block line-height="20pt" font-size="12pt" text-align="center">Page <fo:page-number/> of <fo:page-number-citation ref-id="TheEnd"/></fo:block>
 				</fo:static-content>
+
 				<fo:flow flow-name="xsl-region-body">
 					<xsl:apply-templates/>
+					<fo:block id="TheEnd"/>
 				</fo:flow>
 			</fo:page-sequence>
 		</fo:root>
 	</xsl:template>
-	<xsl:template match="section">
-		<fo:block id="{generate-id}">
-			<xsl:apply-templates/>
-		</fo:block>
+
+	<xsl:template match="xhtml:head/xhtml:title">
+<fo:block break-before="page" 
+        break-after="page"
+          space-after="4in" 
+          space-before="3in" 
+          space-before.conditionality="retain" 
+          font="24pt Times bold" 
+          text-align="center">
+	<xsl:value-of select="."/>
+</fo:block>
 	</xsl:template>
 
 	<!-- headings -->
