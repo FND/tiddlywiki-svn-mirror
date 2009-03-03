@@ -212,40 +212,23 @@ EasyShape.prototype={
 		
 		if(c.length == 0) return;
 		
-		/*var initialX,initialY;
-		var start;
-		if(c[0] == 'M'){//starts with an "M"
-			initialX = parseFloat(c[1]);
-			initialY = parseFloat(c[2]);
-			start = 3;
-		}
-		else{
-			initialX = parseFloat(c[0]);
-			initialY = parseFloat(c[1]);
-			start = 2;			
-		}*/
-
-		
 		var threshold = 2;
 
 		var ctx = canvas.getContext('2d');
 
-		if(this.properties.lineWidth) ctx.lineWidth = this.properties.lineWidth;
-		
 		var o = transformation.origin;
 		var tr = transformation.translate;
 		var s = transformation.scale;
 		var r = transformation.rotate;
 		ctx.save();
-
+		if(this.properties.lineWidth){
+			ctx.lineWidth = this.properties.lineWidth;
+		}
 		ctx.translate(o.x,o.y);
 		ctx.scale(s.x,s.y);
 		ctx.translate(tr.x,tr.y);
-		//if(r && r.x)ctx.rotate(r.x,o.x,o.y);
 
 		ctx.beginPath();
-		
-		//ctx.moveTo(initialX,initialY);
 
 		var move = true;
 		for(var i=0; i < c.length-1; i+=2){
@@ -289,6 +272,7 @@ EasyShape.prototype={
 			}
 		}
 		ctx.restore();
+	
 	}
 	,_createvmlpathstring: function(vml,transformation,projection){ //mr bottleneck
 		if(!vml) return;
@@ -465,8 +449,13 @@ EasyShape.prototype={
 				shape.filled = "t";
 				shape.fillcolor = this.properties.fill;			
 			}
-			shape.strokeweight = ".75pt";
-
+			
+			if(this.properties.lineWidth) {
+				shape.strokeweight = this.properties.lineWidth + "pt";
+			}
+			else {
+				shape.strokeweight = ".75pt";
+			}
 			var xspace = parseInt(canvas.width);
 			xspace *=this._iemultiplier;
 			var yspace =parseInt(canvas.height);

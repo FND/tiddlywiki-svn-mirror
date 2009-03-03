@@ -154,12 +154,12 @@ EasyMap.prototype = {
 		
 	},
 	
-	drawFromGeojson: function(geojson){
+	drawFromGeojson: function(geojson,autosize){
 			if(typeof geojson == 'string'){
 				geojson = eval('(' +geojson+ ')');
 			}		
 			this._lastgeojson = geojson;
-			if(!geojson.points && this._fittocanvas){
+			if(autosize){
 			 	var t = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
 			
 				var p =this.getProjection();
@@ -191,7 +191,11 @@ EasyMap.prototype = {
 	}
 
 	,getTransformation: function(){
-		return this.canvas.transformation;
+		if(!this.canvas.transformation){
+			return false;
+		}
+		else
+			return this.canvas.transformation;
 	}
 	,setTransformation: function(transformation){
 		if(typeof transformation.translate.x != 'number'||typeof transformation.translate.y != 'number') throw "bad transformation translate given ";

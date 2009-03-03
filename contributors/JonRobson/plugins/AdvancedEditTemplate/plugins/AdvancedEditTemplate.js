@@ -40,6 +40,17 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				this.createDropDownMenu(place,metaDataName,values,this.setDropDownMetaData,selected);
 				
 			}
+			else if(ctrlType == 'search'){
+				var valueSrc = getParam(params,"valuesSource", null);
+				if(!valueSrc) {
+					displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
+					return;
+				}
+				var selected = store.getValue(tiddler,metaDataName);
+				var values = this.getDefValues(valueSrc);
+				this.createSearchBox(place,metaDataName,values,this.setDropDownMetaData);
+	
+			}
 			else if(ctrlType == 'checkbox'){					
 					var c = createTiddlyElement(place,"input");
 					c.type = 'checkbox';
@@ -84,6 +95,65 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var slider = new EasyColorSlider(container,200,15,changefunction);
 			slider.setColor(curValue);
 		}
+		,createSearchBox: function(place,fieldName,values,action){
+			var holder = document.createElement("div");
+			holder.style.position = "relative";
+			var input = document.createElement("input");
+			input.style.position = "relative";
+			var suggestions = document.createElement("div");
+			suggestions.style.position = "relative";
+			
+			var possibleSuggestions = values;
+			
+			for(var i=0; i < possibleSuggestions.length; i ++){
+				possibleSuggestions[i]=possibleSuggestions[i].replace(/[>|<]/ig, "");
+			}
+			
+			var selectValue = function(val){
+				if(val){
+					input.value = val;
+				}
+				suggestions.innerHTML = "";
+				if(action){
+					action(val);
+				}
+			}
+
+			
+			var makesuggestions = function(value){
+					
+					suggestions.innerHTML = "";
+					var list = document.createElement("ul");
+					list.className = "suggestions";
+					if(value.length < 1) return;
+					for(var i=0; i<possibleSuggestions.length; i++){
+						if(possibleSuggestions[i].indexOf(value) != -1){
+							var suggestion = document.createElement("li");
+							suggestion.innerHTML =possibleSuggestions[i];
+							suggestion.onmousedown = function(e){
+								selectValue(this.innerHTML,suggestions);
+							}
+							list.appendChild(suggestion)
+
+						}
+					}
+					suggestions.appendChild(list);
+			};
+			
+			
+			window.onkeypress = function(e){
+				makesuggestions(input.value);
+			};
+			input.onchange = function(e){
+				makesuggestions(this.value);
+			}
+			holder.appendChild(input);
+			holder.appendChild(suggestions);
+			
+			
+			place.appendChild(holder);
+		}
+
 		,createDropDownMenu: function(place,fieldName,values,handler,selected){
 				if(!selected) selected = "";
 	

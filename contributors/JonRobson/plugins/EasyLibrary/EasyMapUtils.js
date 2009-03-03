@@ -37,13 +37,42 @@ if(!Array.indexOf) {
 
 var EasyMapUtils = {
 	googlelocalsearchurl: "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="
+	,addBoundingBoxes: function(geojson){ //currently MultiPolygon only..
+		var geojsonbb = geojson;
+		for(var i=0; i < ilga.mapdata.legal.features.length; i++){
+			var f = ilga.mapdata.legal.features[i];
 
+			var g = f.geometry;
+			var c = g.coordinates;
+
+			var x1,y1,x2,y2;
+			if(g.type.toLowerCase() == 'multipolygon'){
+				for(var j=0; j < c.length; j++){
+					for(var k=0; k < c[j].length; k++){
+						var x = c[j][k][0];
+						var y = c[j][k][1];
+
+						if(!x1) x1= x;
+						if(!x2) x2 =x;
+						if(!y1) y1 = y;
+						if(!y2) y2 = y;
+						if(y > y2) y2 = y;
+						if(y < y1) y1 = y;
+						if(x < x1) x1 = x;
+						if(x > x2) x2= x;
+					}
+				}
+			}
+			g.bbox = [x1,y1,x2,y2];
+		}
+		return geojsonbb;
+	}
 	 ,tile2long: function(x,z) {
-	  return (x/Math.pow(2,z)*360-180);
+	  	return (x/Math.pow(2,z)*360-180);
 	 }
 	 ,tile2lat: function(y,z) {
-	  var n=Math.PI-2*Math.PI*y/Math.pow(2,z);
-	  return (180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n))));
+	  	var n=Math.PI-2*Math.PI*y/Math.pow(2,z);
+	  	return (180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n))));
 	 }
 	,getLongLatAtXY: function(x,y,eMap){
 		
@@ -53,31 +82,13 @@ var EasyMapUtils = {
 		return res;
 	}
 	,getSlippyTileNumber: function(lo,la,zoomL,eMap){
-		/*if(eMap && eMap.settings.projection){
-			var lola= eMap.settings.projection.xy(lo,la);
-			lo = lola.x;
-			la =lola.y;
-		}
-		*/
 		var n = Math.pow(2,zoomL);
-		
-	
-		
 		var x = lo;
-		
-		/*var y = Math.log(Math.tan(lat_rad) + (1/Math.cos(lat_rad)));
-		var tiley = ((1- (y / Math.PI) ))/2;
-		tiley *= n;
-		tiley = Math.floor(tiley);
-		*/
-		
+
 		var tilex = ((lo + 180)/360) *n;
 
 		tilex = Math.floor(tilex);
-		tiley =(Math.floor((1-Math.log(Math.tan(la*Math.PI/180) + 1/Math.cos(la*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoomL)));
-		
-		
-		
+		tiley =(Math.floor((1-Math.log(Math.tan(la*Math.PI/180) + 1/Math.cos(la*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoomL)));		
 		return {x: tilex, y:tiley};
 	}
 	,getLocationsFromQuery: function(query,callback){
@@ -98,9 +109,6 @@ var EasyMapUtils = {
 		EasyFileUtils.loadRemoteFile(that.googlelocalsearchurl+query,fileloadedcallback);
 	}
 	,getLongLatFromMouse: function(x,y,easyMap){
-
-
-
 		var t =easyMap.controller.transformation;
 		var pos = EasyClickingUtils.undotransformation(x,y,t);	
 		
@@ -127,7 +135,7 @@ var EasyMapUtils = {
 		
 		return (deg * Math.PI) / 180.0;
 	},
-	fitgeojsontocanvas: function(json,canvas){ /*canvas must have style width and height properties*/
+	fitgeojsontocanvas: function(json,canvas){ /*canvas must have style width and height properties, returns an EasyTransformation*/
 		var view ={};
 		var f =json.features;
 		for(var i=0; i < f.length; i++){
@@ -193,15 +201,15 @@ var EasyMapUtils = {
 	},
 	/*does not yet support undoing rotating */
 	_testCanvas: function(ctx){
-	ctx.beginPath();
-	ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
-	ctx.moveTo(110,75);
-	ctx.arc(75,75,35,0,Math.PI,false);   // Mouth (clockwise)
-	ctx.moveTo(65,65);
-	ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
-	ctx.moveTo(95,65);
-	ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
-	ctx.stroke();
+		ctx.beginPath();
+		ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
+		ctx.moveTo(110,75);
+		ctx.arc(75,75,35,0,Math.PI,false);   // Mouth (clockwise)
+		ctx.moveTo(65,65);
+		ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+		ctx.moveTo(95,65);
+		ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+		ctx.stroke();
 
 	},	
 	_undospherify: function (x,y,transformation,radius){
@@ -317,4 +325,3 @@ var EasyMapUtils = {
 	}
 
 };
-var s = EasyMapUtils.getSlippyTileNumber(0.422812,51.642283,10);
