@@ -249,10 +249,10 @@ config.macros.docPrint.handler=function(place,macroName,params,wikifier,paramStr
 			store.saveTiddler(params[0]+' Print Preview', params[0]+' Print Preview', htmlString, config.options.txtUserName, newDate,"",config.defaultCustomFields);
 			story.displayTiddler(null, params[0]+' Print Preview');
 		doHttp('POST',url+'plugins/TiddlyDocs/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0],null,null,null,config.macros.docPrint.saveCallback,params);		
-displayMessage("made it to here1");
+//displayMessage("made it to here1");
 
 //			doHttp('GET',"http://wiki.osmosoft.com/TiddlyDocs/plugins/tiddlertree/files/createHtmlFile.php",'workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0]+"3",null,null,null,config.macros.docPrint.saveCallback,params);		
-displayMessage("made it to here2");
+//displayMessage("made it to here2");
 
 		}
 	};
@@ -268,8 +268,8 @@ displayMessage("made it to here2");
 };
 
 config.macros.docPrint.saveCallback=function(status,context,responseText,uri,xhr) {
-	console.log(responseText);
-	window.open(responseText,'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
+//	console.log(responseText);
+	window.open("http://osmosoft.com/~psd/html2pdf/?uri="+responseText,'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
 }
 
 //}}}
