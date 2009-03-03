@@ -38,9 +38,10 @@ config.macros.TiddlyTweets = {
 	btnTooltip: "retrieve tweets",
 	usernamePrompt: "enter Twitter username",
 
-	host: "https://www.twitter.com",
+	host: "http://www.twitter.com",
 	requestDelay: 1000, // delay between page requests
 	adaptor: new config.adaptors.twitter(),
+	startTime: new Date(),
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		this.pageCount = 0; // XXX: means there can only be a single instance!!
@@ -51,23 +52,28 @@ config.macros.TiddlyTweets = {
 	dispatcher: function(params) { // TODO: rename
 		var self = config.macros.TiddlyTweets;
 		var maxPages = params[1] || 1;
-		if(self.pageCount < maxPages) {
-			var workspace = params[0] || prompt(self.usernamePrompt);
-			self.launcher(workspace, self.pageCount);
+		var count = params[2];
+		console.log(maxPages);
+		if(self.pageCount <= maxPages) {
+			var username = params[0] || prompt(self.usernamePrompt);
+			self.launcher(username, self.pageCount, count);
 			setTimeout(function() { self.dispatcher(params); },
 				self.requestDelay);
 			self.pageCount++;
 		} else {
-			self.pageCount = 0;
+			self.pageCount = 1;
 		}
 	},
 
-	launcher: function(workspace, page) { // TODO: rename
+	launcher: function(username, page, count) { // TODO: rename
 		var self = config.macros.TiddlyTweets;
+		console.log("launching for page "+page+" at:",new Date() - self.startTime);
 		var context = {
 			host: self.host,
-			workspace: workspace,
-			page: page
+			workspace: "user_timeline",
+			userID: username,
+			page: page,
+			count: count
 		};
 		var status = self.adaptor.getTiddlerList(context, null, self.processor);
 		if(status) {
@@ -81,7 +87,7 @@ config.macros.TiddlyTweets = {
 		var self = config.macros.TiddlyTweets;
 		for(var i = 0; i < context.tiddlers.length; i++) {
 			context.tiddler = context.tiddlers[i];
-			self.adaptor.getTiddler(null, context, null, self.saver);
+			self.adaptor.getTiddler(context.tiddler.title, context, null, self.saver);
 		}
 	},
 
@@ -90,6 +96,101 @@ config.macros.TiddlyTweets = {
 		store.saveTiddler(tiddler.title, tiddler.title, tiddler.text,
 			tiddler.modifier, tiddler.modified, tiddler.tags,
 			tiddler.fields, false, tiddler.created);
+	},
+	
+	handleWizard: function(w) {
+		var self = config.macros.TiddlyTweets;
+		self.pageCount = 1;
+		var params = [
+			w.username,
+			w.maxPages,
+			w.count
+		];
+		self.dispatcher(params);
+		w.addStep("Downloading...","");
+		w.setButtons([{
+			caption: "Save To RSS",
+			tooltip: "Save to RSS",
+			onClick: function() { TiddlyTemplating.templateAndPublish('tweets.xml','RssTemplate'); }
+		}]);
+	}
+};
+
+// like the more ambitious TwitterWizard below, but only for your tweets
+// includes a step to check how many tweets you have and work out maxPages from that
+config.macros.TwitterBackupWizard = {	
+	handler: function(place, macroName, params, wikifier, paramString, tiddler, errorMsg) {
+		var self = config.macros.TwitterBackupWizard;
+		var w = new Wizard();
+		w.createWizard(place, "Twitter Backup Wizard");
+		w.addStep("Twitter username", "<input name='username'>");
+		w.setButtons([{
+			caption: "Import",
+			tooltip: "click to import",
+			onClick: function() {
+				w.username = w.getValue('username').value;
+				self.step2(w);
+			}
+		}]);
+	},
+	
+	step2: function(w) {
+		var self = config.macros.TwitterBackupWizard;
+		var step2html = "That's because if you've got more than 3200 we'll have to use a different method";
+		w.addStep("Hello "+w.username+", let's check for how many tweets you have",step2html);
+		w.setButtons([{
+			caption: "Go",
+			tooltip: "Check for how many tweets you have",
+			onClick: function() { self.countUpdates(w); }
+		}]);
+	},
+	
+	handleProfilePageToCountUpdates: function(status, context, responseText, uri, xhr) {
+		var self = config.macros.TwitterBackupWizard;
+		var w = context.wizard;
+		var i = responseText.indexOf('id="update_count"');
+		if(i!==-1) {
+			i = responseText.indexOf('>',i);
+			var j = responseText.indexOf('<',i);
+			var updateCount = responseText.substring(i+1,j);
+			self.step3(w,updateCount);
+		} else {
+			self.errorFunc(w,'No updates found - check Twitter is up! <a href="'+uri+'">'+uri+'</a>');
+		}
+	},
+	
+	countUpdates: function(w) {
+		w.addStep("Counting tweets...","<span>Hold your horses!</span>");
+		w.setButtons([]);
+		var self = config.macros.TwitterBackupWizard;
+		var host = "http://www.twitter.com";
+		var url = host+"/"+w.username;
+		var context = {
+			wizard:w
+		};
+		var req = httpReq("GET", url, self.handleProfilePageToCountUpdates, context);
+		if(typeof req == "string") {
+			self.error("Problem getting to Twitter: "+req.statusText);
+		}
+	},
+	
+	step3: function(w,updateCount) {
+		var step3html = "This might take a moment (isn't that &#0153; Microsoft?)";
+		w.addStep("You've got "+updateCount+" tweets! Let's download them",step3html);
+		updateCount = updateCount.replace(",","");
+		var count = 200;
+		w.count = count;
+		w.maxPages = Math.ceil(parseInt(updateCount,10) / count);
+		console.log(w.maxPages,updateCount,Math.ceil(updateCount/count));
+		w.setButtons([{
+			caption: "Go",
+			tooltip: "Download "+updateCount+" tweets",
+			onClick: function() { config.macros.TiddlyTweets.handleWizard(w); }
+		}]);
+	},
+	
+	errorFunc: function(w,message) {
+		w.addStep("There has been a wee problem...","<span>"+message+"</span>");
 	}
 };
 

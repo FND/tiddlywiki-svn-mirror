@@ -57,6 +57,8 @@ adaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var page = context.page || 0;
+	var count = context.count || 20;
+	console.log(context.workspace,count);
 	switch(context.workspace) {
 		case "public":
 			var uriTemplate = "%0/statuses/public_timeline.json";
@@ -95,9 +97,16 @@ adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 			uriTemplate = "%0/users/show/%1.format";
 			uri = uriTemplate.format([context.host, context.userID]);
 			break;
+		case "user_timeline":
 		default: // user timeline
-			uriTemplate = "%0/statuses/user_timeline/%1.json?page=%2";
-			uri = uriTemplate.format([context.host, context.workspace, page]);
+			if (context.userID) {
+				uriTemplate = "%0/statuses/user_timeline/%1.json?page=%2&count=%3";
+				uri = uriTemplate.format([context.host, context.userID, page, count]);
+				console.log(uri);
+			} else {
+				uriTemplate = "%0/statuses/user_timline.json?page=%1&count=%2";
+				uri = uriTemplate.format([context.host, page, count]);
+			}
 			break;
 	}
 	var req = httpReq("GET", uri, adaptor.getTiddlerListCallback,
@@ -106,12 +115,14 @@ adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 };
 
 adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xhr) {
+	console.log('in getTiddlerListCallback');
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
 		context.tiddlers = [];
 		var users = {};
+		console.log('starting to eval and parse response for page '+context.page);
 		eval("var tweets = " + responseText); // evaluate JSON response -- TODO: catch parsing errors (cf. TiddlyWeb adaptor)?
 		for(var i = 0; i < tweets.length; i++) {
 			var tiddler = adaptor.parseTweet(tweets[i]);
@@ -129,6 +140,7 @@ adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xh
 				}
 			}
 		}
+		console.log('done eval and parse for page '+context.page);
 		for(user in users) { // XXX: should be for each, but JSLint doesn't recognize that
 			context.tiddlers.push(users[user]);
 		}
@@ -165,6 +177,7 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	}
 	var uriTemplate = "%0/statuses/show/%1.json";
 	var uri = uriTemplate.format([context.host, title]);
+	console.log('getting a truncated tiddler',uri,title);
 	var req = httpReq("GET", uri, adaptor.getTiddlerCallback,
 		context, null, null, { accept: adaptor.mimeType });
 	return typeof req == "string" ? req : true;
@@ -182,9 +195,9 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	}
 	if(context.callback) {
 		if(context.tiddler.fields.truncated) {
-			var subContext = {
-				tiddler: context.tiddler
-			};
+			var subContext = merge({},context);
+			subContext.tiddler = context.tiddler;
+			console.log('calling getFullTweet with context:',subContext);
 			context.adaptor.getFullTweet(subContext, context.userParams, context.callback);
 		} else {
 			context.callback(context, context.userParams);
@@ -196,7 +209,8 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 adaptor.prototype.getFullTweet = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/%1/status/%2";
-	var uri = uriTemplate.format([context.host, context.workspace, context.tiddler.title]);
+	var uri = uriTemplate.format([context.host, context.userID, context.tiddler.title]);
+	console.log('getting a "really" truncated tiddler', uri);
 	var req = httpReq("GET", uri, adaptor.getFullTweetCallback, context);
 	return typeof req == "string" ? req : true;
 };
@@ -205,8 +219,10 @@ adaptor.getFullTweetCallback = function(status, context, responseText, uri, xhr)
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
+	console.log('trying to get at full tiddler text',status);
 	if(status) {
 		context.tiddler.text = adaptor.scrapeTweet(responseText);
+		console.log('scrapeTweet has returned',context.tiddler.text);
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
@@ -265,18 +281,24 @@ adaptor.scrapeTweet = function(html) {
 	} else if(ifrm.contentWindow) { // IE
 		doc = ifrm.contentWindow.document;
 	}
+	console.log('going to load into iframe');
 	doc.open();
 	doc.writeln(html);
 	doc.close();
+	console.log('loaded into iframe');
 	// retrieve status message
-	var containers = doc.getElementsByTagName("div");
-	for(i = 0; i < containers.length; i++) {
-		if(containers[i].className == "desc-inner") {
-			var tweet = containers[i].getElementsByTagName("p")[0];
+	var container = doc.getElementById("permalink");
+	console.log('container:',container);
+	var spans = container.getElementsByTagName("span");
+	for(i = 0; i < spans.length; i++) {
+		if(spans[i].className == "entry-content") {
+			var tweet = spans[i];
+			console.log('tweet:',tweet);
 			var text = tweet.text || tweet.textContent; // strip descendants' markup -- XXX: cross-browser compatible?
 			break;
 		}
 	}
+	console.log('going to return this trimmed:',text);
 	removeNode(ifrm);
 	return adaptor.decodeHTMLEntities(text.trim());
 };

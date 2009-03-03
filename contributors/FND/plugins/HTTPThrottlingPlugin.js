@@ -23,7 +23,7 @@ if(!config.extensions) { config.extensions = {}; }
 
 config.extensions.HTTPThrottlingPlugin = {
 	XHRCount: 0,
-	throttleAmount: 5,
+	throttleAmount: 2, // maximum concurrent HTTP requests for browers
 	throttleDelay: 1000,
 
 	init: function() {
