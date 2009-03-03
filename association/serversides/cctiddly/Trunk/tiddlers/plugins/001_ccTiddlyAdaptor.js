@@ -541,7 +541,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		else
 			var otitle = context.otitle;
 
-		displayMessage("sending rev : "+tiddler.fields['server.page.revision']+" for "+tiddler.title +" with id of "+tiddler.fields['server.id']);
+//		displayMessage("sending rev : "+tiddler.fields['server.page.revision']+" for "+tiddler.title +" with id of "+tiddler.fields['server.id']);
 		var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+encodeURIComponent(tiddler.getTags())+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
 	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id']+"&"+postParams;
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");

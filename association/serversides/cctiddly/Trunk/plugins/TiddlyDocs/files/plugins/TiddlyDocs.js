@@ -17,10 +17,10 @@ config.commands.saveSection.handler = function(event,src,title)
 	if(!store.tiddlerExists(newTitle)) {
 		var spec = "* "+newTitle+"\n"+store.getTiddlerText(window.activeDocument);
 	}
-
-	store.saveTiddler(newTitle, newTitle, fields.text, config.options.txtUserName, new Date(), "task");
+console.log(fields);
+	store.saveTiddler(newTitle, newTitle,  fields.text, config.options.txtUserName, new Date(), "task");
 	store.saveTiddler(window.activeDocument, window.activeDocument, spec, config.options.txtUserName, new Date(), "document");
-	autoSaveChanges(false);
+	autoSaveChanges(true);
 	story.closeTiddler(title);
 	story.displayTiddler(null, newTitle);
 	return false;
@@ -248,7 +248,12 @@ config.macros.docPrint.handler=function(place,macroName,params,wikifier,paramStr
 			newDate = new Date();
 			store.saveTiddler(params[0]+' Print Preview', params[0]+' Print Preview', htmlString, config.options.txtUserName, newDate,"",config.defaultCustomFields);
 			story.displayTiddler(null, params[0]+' Print Preview');
-			doHttp('POST',url+'plugins/TiddlyDocs/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0],null,null,null,config.macros.docPrint.saveCallback,params);		
+		doHttp('POST',url+'plugins/TiddlyDocs/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0],null,null,null,config.macros.docPrint.saveCallback,params);		
+displayMessage("made it to here1");
+
+//			doHttp('GET',"http://wiki.osmosoft.com/TiddlyDocs/plugins/tiddlertree/files/createHtmlFile.php",'workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0]+"3",null,null,null,config.macros.docPrint.saveCallback,params);		
+displayMessage("made it to here2");
+
 		}
 	};
 	// print button 

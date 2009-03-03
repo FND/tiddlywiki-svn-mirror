@@ -12,7 +12,7 @@ else
 	config.options.txtTheme = "SplitTreeThemeAnon";
 
 
-config.options.txtTheme = "mpBarTheme";
+config.options.txtTheme = "mpTheme";
 config.options.chkBackstage = false;
 
 //}}}
