@@ -123,11 +123,16 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var makesuggestions = function(value){
 					
 					suggestions.innerHTML = "";
+					if(value.length < 1) return;
 					var list = document.createElement("ul");
 					list.className = "suggestions";
-					if(value.length < 1) return;
+					
+					var regexp = new RegExp(value,"i");
+					
 					for(var i=0; i<possibleSuggestions.length; i++){
-						if(possibleSuggestions[i].indexOf(value) != -1){
+						
+						var trythis =possibleSuggestions[i];
+						if(trythis.search(regexp) != -1){
 							var suggestion = document.createElement("li");
 							suggestion.innerHTML =possibleSuggestions[i];
 							suggestion.onmousedown = function(e){

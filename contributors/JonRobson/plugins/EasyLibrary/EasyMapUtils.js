@@ -45,25 +45,35 @@ var EasyMapUtils = {
 			var g = f.geometry;
 			var c = g.coordinates;
 
-			var x1,y1,x2,y2;
+			
 			if(g.type.toLowerCase() == 'multipolygon'){
+				var x1,y1,x2,y2;
 				for(var j=0; j < c.length; j++){
 					for(var k=0; k < c[j].length; k++){
-						var x = c[j][k][0];
-						var y = c[j][k][1];
+						
+						for(var l=0; l < c[j][k].length; l++){
+							var x = c[j][k][l][0];
+							var y = c[j][k][l][1];
 
-						if(!x1) x1= x;
-						if(!x2) x2 =x;
-						if(!y1) y1 = y;
-						if(!y2) y2 = y;
-						if(y > y2) y2 = y;
-						if(y < y1) y1 = y;
-						if(x < x1) x1 = x;
-						if(x > x2) x2= x;
+							if(!x1) x1= x;
+							if(!x2) x2 =x;
+							if(!y1) y1 = y;
+							if(!y2) y2 = y;
+							if(y > y2) y2 = y;
+							if(y < y1) y1 = y;
+							if(x < x1) x1 = x;
+							if(x > x2) x2= x;
+						}
 					}
 				}
+				g.bbox = [];
+				g.bbox.push(x1);
+				g.bbox.push(y1);
+				g.bbox.push(x2);
+				g.bbox.push(y2);
+				x1 = false; x2=false;y1=false;y2=false;
 			}
-			g.bbox = [x1,y1,x2,y2];
+			
 		}
 		return geojsonbb;
 	}
