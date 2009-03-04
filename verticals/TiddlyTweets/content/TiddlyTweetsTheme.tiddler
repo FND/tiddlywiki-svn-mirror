@@ -16,6 +16,10 @@
 
 !StyleSheet
 /*{{{*/
+div.headerShadow {
+	background-color: #DF4141;
+}
+
 div.header {
 	margin:0em 17em 0 14em;
 }
@@ -44,6 +48,15 @@ div.viewer {
 	display:none;
 }
 
+.wizard, .wizardFooter {
+	background-color:#eeeeee;
+	border:none;
+}
+
+.wizardStep {
+	border-color:#4D294D;
+}
+
 .progress {
 	background-color: #8A2BE2;
 	display: block;
@@ -61,7 +74,7 @@ div.viewer {
 
 !PageTemplate
 <!--{{{-->
-<div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'>
+<div class='header'>
 <div class='headerShadow'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
