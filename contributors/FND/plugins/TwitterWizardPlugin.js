@@ -1,8 +1,8 @@
 /***
 |''Name''|TwitterWizardPlugin|
 |''Description''|interface for retrieving tweets and user data from Twitter|
-|''Author''|FND|
-|''Version''|0.1.5|
+|''Author''|FND, JonathanLister|
+|''Version''|0.2|
 |''Status''|@@experimental@@|
 |''Requires''|TwitterAdaptorPlugin|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterArchivePlugin|
@@ -16,6 +16,7 @@
 <<TwitterWizard>>
 }}}
 !Revision History
+!!v0.2 (2009-03-04)
 !!v0.1 (2008-11-14)
 * initial release
 !To Do
@@ -59,6 +60,7 @@ config.macros.TiddlyTweets = {
 				self.requestDelay);
 			self.pageCount++;
 		} else {
+			displayMessage('done all the requests');
 			self.pageCount = 1;
 		}
 	},
@@ -89,22 +91,30 @@ config.macros.TiddlyTweets = {
 	},
 
 	saver: function(context, userParams) { // TODO: rename
+		var self = config.macros.TiddlyTweets;
 		var tiddler = context.tiddler;
 		store.saveTiddler(tiddler.title, tiddler.title, tiddler.text,
 			tiddler.modifier, tiddler.modified, tiddler.tags,
 			tiddler.fields, false, tiddler.created);
+		self.launchCount--;
+		if(self.launchCount === 0) {
+			displayMessage('done all the saving!');
+		}
 	},
 
+	// this function could probably move out to the TwitterBackWizard macro
+	// then TiddlyTweets macro should have some instantiation with params like pageCount and launchCount
 	handleWizard: function(w) {
 		var self = config.macros.TiddlyTweets;
 		self.pageCount = 1;
+		self.launchCount = w.maxPages;
 		var params = [
 			w.username,
 			w.maxPages,
 			w.count
 		];
 		self.dispatcher(params);
-		w.addStep("Downloading...","");
+		w.addStep("Downloading...","<span class='progress'></span>");
 		w.setButtons([{
 			caption: "Save To RSS",
 			tooltip: "Save to RSS",
@@ -134,25 +144,14 @@ config.macros.TwitterBackupWizard = {
 		}]);
 	},
 
-	step2: function(w) {
-		var self = config.macros.TwitterBackupWizard;
-		var step2html = "That's because if you've got more than 3200 we'll have to use a different method";
-		w.addStep("Hello " + w.username + ", let's check for how many tweets you have", step2html);
-		w.setButtons([{
-			caption: "Go",
-			tooltip: "Check for how many tweets you have",
-			onClick: function() { self.countUpdates(w); }
-		}]);
-	},
-
 	handleProfilePageToCountUpdates: function(status, context, responseText, uri, xhr) {
 		var updateCount = status.statuses_count;
 		var w = this.wizard;
 		config.macros.TwitterBackupWizard.step3(w, updateCount);
 	},
 
-	countUpdates: function(w) {
-		w.addStep("Counting tweets...", "<span>Hold your horses!</span>");
+	step2: function(w) {
+		w.addStep("Hello " + w.username + ", counting your tweets...", "<span>Hold your horses!</span>");
 		w.setButtons([]);
 		var self = config.macros.TwitterBackupWizard;
 		var host = "http://www.twitter.com";
