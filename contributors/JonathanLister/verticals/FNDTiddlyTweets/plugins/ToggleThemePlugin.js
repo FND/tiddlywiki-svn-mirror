@@ -36,7 +36,6 @@ config.macros.toggleTheme = {
 	},
 	
 	handler: function(place,macroName,params,wikfier,paramString,tiddler) {
-		console.log('starting handler, cookie is',config.options.txtTheme);
 		var theme1 = params[0];
 		var theme2 = params[1];
 		if(!(theme1 && theme2)) {

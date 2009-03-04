@@ -8,6 +8,6 @@ tiddler: $TW_ROOT/contributors/FND/plugins/TwitterWizardPlugin.js
 tiddler: ../../plugins/TemplatePlugin.js
 tiddler: ../../plugins/TemplatingMacrosPlugin.js
 tiddler: ../../plugins/TiddlyTemplatingMacro.js
-tiddler: ../../../MartinBudden/experimental/TemplateFormatterPlugin.js
+tiddler: ../../../MartinBudden/experimental/TemplateFormatterPlugin.js tags="systemConfig"
 tiddler: ../../templates/RssItemTemplate.tiddler
 tiddler: ../../templates/RssItemCategoryTemplate.tiddler
