@@ -116,11 +116,11 @@ TiddlyTemplating.saveToFile = function(filename,content)
 	}
 };
 
-TiddlyTemplating.saveToWindow = function(window,content)
+TiddlyTemplating.saveToWindow = function(name,content)
 {
-	var newwindow = window.open(null,window);
+	var newwindow = window.open(null,name);
 	var doc = newwindow.document;
-	if(ifrm.contentDocument) { // NS6
+	if(doc.contentDocument) { // NS6
 		doc = newwindow.contentDocument;
 	} else if(newwindow.contentWindow) { // IE
 		doc = newwindow.contentWindow.document;
