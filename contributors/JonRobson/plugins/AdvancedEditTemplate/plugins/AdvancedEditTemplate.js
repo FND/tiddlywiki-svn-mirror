@@ -132,13 +132,14 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					list.className = "suggestions";
 					
 					var regexp = new RegExp(value,"i");
-					
+					suggestions.style.display="none";
 					for(var i=0; i<possibleSuggestions.length; i++){
 						
 						var trythis =possibleSuggestions[i];
 						if(trythis.search(regexp) != -1){
 							var suggestion = document.createElement("li");
 							suggestion.innerHTML =possibleSuggestions[i];
+							suggestions.style.display = "";
 							suggestion.onmousedown = function(e){
 								selectValue(this.innerHTML,suggestions);
 							}
