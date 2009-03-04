@@ -1,0 +1,14 @@
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+recipe: shadows/split.recipe
+recipe: content/split.recipe
+js: settings.js
+tiddler: $TW_ROOT/contributors/FND/plugins/HTTPThrottlingPlugin.js
+tiddler: $TW_ROOT/contributors/FND/adaptors/TwitterAdaptor.js
+tiddler: $TW_ROOT/contributors/FND/plugins/TwitterWizardPlugin.js
+tiddler: $TW_ROOT/contributors/JonathanLister/plugins/TemplatePlugin.js
+tiddler: $TW_ROOT/contributors/JonathanLister/plugins/TemplatingMacrosPlugin.js
+tiddler: $TW_ROOT/contributors/JonathanLister/plugins/TiddlyTemplatingMacro.js
+tiddler: $TW_ROOT/contributors/JonathanLister/plugins/ToggleThemePlugin.js
+tiddler: $TW_ROOT/contributors/JonathanLister/templates/RssItemTemplate.tiddler
+tiddler: $TW_ROOT/contributors/JonathanLister/templates/RssItemCategoryTemplate.tiddler
+tiddler: $TW_ROOT/contributors/MartinBudden/experimental/TemplateFormatterPlugin.js tags="systemConfig"
