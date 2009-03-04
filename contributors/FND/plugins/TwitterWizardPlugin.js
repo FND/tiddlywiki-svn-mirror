@@ -134,7 +134,20 @@ config.macros.TiddlyTweets = {
 		w.setButtons([{
 			caption: "Save To RSS",
 			tooltip: "Save to RSS",
-			onClick: function() { TiddlyTemplating.templateAndPublish('tweets.xml','RssTemplate'); }
+			onClick: function() {
+				TiddlyTemplating.templateAndPublish('tweets.xml','RssTemplate');
+				return false;
+			}
+		},
+		{
+			caption: "Go back",
+			tooltip: "Go back to start",
+			onClick: function() {
+				var w = new Wizard(this);
+				var place = w.clear();
+				config.macros.TwitterBackupWizard.restart(w);
+				return false;
+			}
 		}]);
 		self.progressBar = w.bodyElem.getElementsByTagName('span')[0];
 		self.dispatcher(params);
@@ -145,19 +158,23 @@ config.macros.TiddlyTweets = {
 // includes a step to check how many tweets you have and work out maxPages from that
 config.macros.TwitterBackupWizard = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler, errorMsg) {
-		var self = config.macros.TwitterBackupWizard;
 		var w = new Wizard();
+		w.createWizard(place, "Twitter Backup Wizard");
+		this.restart(w);
+	},
+	
+	restart: function(w) {
+		var self = config.macros.TwitterBackupWizard;
 		var onClick = function() {
 			w.username = w.getValue('username').value;
 			self.step2(w);
 			return false;
 		};
-		w.createWizard(place, "Twitter Backup Wizard");
 		w.addStep("Twitter username", "<input name='username'>");
 		w.formElem.onsubmit = onClick;
 		w.setButtons([{
-			caption: "Import",
-			tooltip: "click to import",
+			caption: "Let's go",
+			tooltip: "First thing, click to count your tweets",
 			onClick: onClick
 		}]);
 	},
@@ -190,13 +207,23 @@ config.macros.TwitterBackupWizard = {
 
 	step3: function(w, updateCount) {
 		var step3html = "This might take a moment (isn't that &#0153; Microsoft?)";
-		w.addStep("You've got " + updateCount + " tweets! Let's download them", step3html);
+		w.addStep(w.username+", you've got " + updateCount + " tweets! Let's download them", step3html);
 		w.count = updateCount;
 		w.maxPages = Math.ceil(parseInt(updateCount, 10) / w.count);
 		w.setButtons([{
-			caption: "Go",
+			caption: "Download tweets",
 			tooltip: "Download " + updateCount + " tweets",
 			onClick: function() { config.macros.TiddlyTweets.handleWizard(w); }
+		},
+		{
+			caption: "Go back",
+			tooltip: "Oops! Wrong username, take me back",
+			onClick: function() {
+				var w = new Wizard(this);
+				var place = w.clear();
+				config.macros.TwitterBackupWizard.restart(w);
+				return false;
+			}
 		}]);
 	},
 
