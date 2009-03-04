@@ -2,7 +2,7 @@
 |''Name''|TwitterWizardPlugin|
 |''Description''|interface for retrieving tweets and user data from Twitter|
 |''Author''|FND|
-|''Version''|0.1.4|
+|''Version''|0.1.5|
 |''Status''|@@experimental@@|
 |''Requires''|TwitterAdaptorPlugin|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterArchivePlugin|

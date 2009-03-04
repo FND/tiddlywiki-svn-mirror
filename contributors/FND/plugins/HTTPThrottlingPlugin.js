@@ -2,7 +2,7 @@
 |''Name''|HTTPThrottlingPlugin|
 |''Description''|limit the amount of simultaneous XMLHttpRequests|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#HTTPThrottlingPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -23,7 +23,7 @@ if(!config.extensions) { config.extensions = {}; }
 
 config.extensions.HTTPThrottlingPlugin = {
 	XHRCount: 0,
-	throttleAmount: 2, // maximum concurrent HTTP requests for browers
+	throttleAmount: 2, // browsers' max. number of concurrent HTTP connections
 	throttleDelay: 1000,
 
 	init: function() {
