@@ -1,3 +1,4 @@
 #!/bin/sh
-../cook
-scp index.html osmodot@osmosoft.com:~/tiddlytweets/
+cd ..
+cook
+scp index.html osmodot@osmosoft.com:~/html/tiddlytweets/

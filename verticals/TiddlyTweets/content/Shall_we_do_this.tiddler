@@ -1,5 +1,6 @@
 <div title="Shall we do this?" modifier="JonathanLister" created="200903031911">
 <pre>!Things we might want to do
+* favicon
 * pressing return after entering a username refreshes the page to http://osmosoft.com/tiddlytweets/?username=username and blanked the username box
 * have to press "Go" several times, not a lot of feedback about whether this is expected
 * Change the colours

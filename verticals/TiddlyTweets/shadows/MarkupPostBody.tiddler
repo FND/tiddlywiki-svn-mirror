@@ -1,0 +1,28 @@
+<div title="MarkupPostBody" modifier="JonathanLister" created="200903041837">
+<pre><script type="text/javascript">
+var uservoiceJsHost = ("https:" == document.location.protocol) ? "https://uservoice.com" : "http://cdn.uservoice.com"
+document.write(unescape("%3Cscript src='" + uservoiceJsHost + "/javascripts/widgets/tab.js' type='text/javascript'%3E%3C/script%3E"))
+</script>
+<script type="text/javascript">
+UserVoice.Popin.url = function() {
+	if ("https:" == document.location.protocol && this.options.key != null) {
+		  // HTTPS requests should always go to xxx.uservoice.com
+		  var url = document.location.protocol + '//' + this.options.key + '.uservoice.com/pages/' + this.options.forum
+    } else {
+	  	var url = 'http://' + this.options.host + '/pages/' + this.options.forum
+    }
+    return url
+};
+
+UserVoice.Tab.show({ 
+  key: 'tiddlytweets',
+  host: 'tiddlytweets.uservoice.com', 
+  forum: 'general', 
+  alignment: 'left', // 'left', 'right'
+  background_color:'#f00', 
+  text_color: 'white', // 'white', 'black'
+  hover_color: '#06C',
+  lang: 'en' // 'en', 'de', 'nl', 'es', 'fr'
+})
+</script></pre>
+</div>
