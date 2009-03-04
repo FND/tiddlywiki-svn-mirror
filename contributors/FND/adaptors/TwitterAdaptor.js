@@ -3,7 +3,7 @@
 |''Description''|adaptor for retrieving data from Twitter|
 |''Author''|FND|
 |''Contributors''|[[Simon McManus|http://simonmcmanus.com]], MartinBudden|
-|''Version''|0.3.7|
+|''Version''|0.3.6|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterAdaptor|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -15,10 +15,8 @@
 !!v0.3 (2008-11-03)
 * major refactoring
 !To Do
-* implement count parameter for all URI templates
 * parsing of replies, DMs etc.
 * document custom/optional context attributes (userID, userName, page, suppressUsers)
-* use JSONP?
 !Code
 ***/
 //{{{
@@ -35,6 +33,11 @@ adaptor.serverLabel = "Twitter";
 adaptor.mimeType = "application/json";
 adaptor.tweetTags = ["tweets"];
 adaptor.userTags = ["users"];
+
+adaptor.errorFunc = function(XMLHttpRequest, textStatus, errorThrown) {
+	var message = this.message;
+	displayMessage("There has been a wee problem..."+message+". Status: "+textStatus);
+};
 
 adaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
@@ -98,9 +101,9 @@ adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 			uriTemplate = "%0/users/show/%1.format";
 			uri = uriTemplate.format([context.host, context.userID]);
 			break;
-		case "user_timeline": // TODO: should be separate from default
-		default: // user timeline -- TODO: set workspace from userID
-			if(context.userID) {
+		case "user_timeline":
+		default: // user timeline
+			if (context.userID) {
 				uriTemplate = "%0/statuses/user_timeline/%1.json?page=%2&count=%3";
 				uri = uriTemplate.format([context.host, context.userID, page, count]);
 			} else {
@@ -109,38 +112,42 @@ adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 			}
 			break;
 	}
-	var req = httpReq("GET", uri, adaptor.getTiddlerListCallback,
-		context, null, null, { accept: adaptor.mimeType });
+	/*var req = httpReq("GET", uri, adaptor.getTiddlerListCallback,
+		context, null, null, { accept: adaptor.mimeType });*/
+	var req = jQuery.ajax({
+		url: uri,
+		dataType: 'jsonp',
+		success: adaptor.getTiddlerListCallback,
+		error: adaptor.errorFunc,
+		errorMessage: "Problem getting data from Twitter",
+		context: context
+	});
 	return typeof req == "string" ? req : true;
 };
 
-adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xhr) {
-	context.status = status;
-	context.statusText = xhr.statusText;
-	context.httpStatus = xhr.status;
-	if(status) {
-		context.tiddlers = [];
-		var users = {};
-		eval("var tweets = " + responseText); // evaluate JSON response -- TODO: catch parsing errors (cf. TiddlyWeb adaptor)?
-		for(var i = 0; i < tweets.length; i++) {
-			var tiddler = adaptor.parseTweet(tweets[i]);
-			context.tiddlers.push(tiddler);
-			if(!context.suppressUsers) { // retain user info
-				var user = tweets[i].user;
-				user.updated = adaptor.convertTimestamp(tweets[i].created_at);
-				if(!(users[user.id] && user.updated > users[user.id].modified)) {
-					users[user.id] = adaptor.parseUser(user);
-					users[user.id].fields = {
-						"server.type": adaptor.serverType,
-						"server.host": AdaptorBase.minHostName(context.host),
-						"server.workspace": "users"
-					};
-				}
+adaptor.getTiddlerListCallback = function(data, textStatus) {
+	var context = this.context;
+	var tweets = data;
+	context.tiddlers = [];
+	var users = {};
+	for(var i = 0; i < tweets.length; i++) {
+		var tiddler = adaptor.parseTweet(tweets[i]);
+		context.tiddlers.push(tiddler);
+		if(!context.suppressUsers) { // retain user info
+			var user = tweets[i].user;
+			user.updated = adaptor.convertTimestamp(tweets[i].created_at);
+			if(!(users[user.id] && user.updated > users[user.id].modified)) {
+				users[user.id] = adaptor.parseUser(user);
+				users[user.id].fields = {
+					"server.type": adaptor.serverType,
+					"server.host": AdaptorBase.minHostName(context.host),
+					"server.workspace": "users"
+				};
 			}
 		}
-		for(user in users) { // XXX: should be for each, but JSLint doesn't recognize that
-			context.tiddlers.push(users[user]);
-		}
+	}
+	for(user in users) { // XXX: should be for each, but JSLint doesn't recognize that
+		context.tiddlers.push(users[user]);
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
@@ -174,33 +181,43 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	}
 	var uriTemplate = "%0/statuses/show/%1.json";
 	var uri = uriTemplate.format([context.host, title]);
-	var req = httpReq("GET", uri, adaptor.getTiddlerCallback,
-		context, null, null, { accept: adaptor.mimeType });
+	/*var req = httpReq("GET", uri, adaptor.getTiddlerCallback,
+		context, null, null, { accept: adaptor.mimeType });*/
+	var req = jQuery.ajax({
+		url: uri,
+		dataType: 'jsonp',
+		success: adaptor.getTiddlerCallback,
+		error: adaptor.errorFunc,
+		errorMessage: "Problem getting data from Twitter",
+		context: context
+	});
 	return typeof req == "string" ? req : true;
 };
 
-adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
-	context.status = status;
-	context.statusText = xhr.statusText;
-	context.httpStatus = xhr.status;
-	if(status) {
-		eval("var tweet = " + responseText); // evaluate JSON response -- TODO: catch parsing errors (cf. TiddlyWeb adaptor)?
-		var tiddler = adaptor.parseTweet(tweet);
-		tiddler.fields = merge(context.tiddler.fields, tiddler.fields, true);
-		context.tiddler = tiddler;
-	}
+adaptor.getTiddlerCallback = function(data, textStatus) {
+	var context = this.context;
+	var tweet = data;
+	var tiddler = adaptor.parseTweet(tweet);
+	tiddler.fields = merge(context.tiddler.fields, tiddler.fields, true);
+	context.tiddler = tiddler;
 	if(context.callback) {
 		if(context.tiddler.fields.truncated) {
-			var subContext = merge({}, context);
+			var subContext = merge({},context);
 			subContext.tiddler = context.tiddler;
-			context.adaptor.getFullTweet(subContext, context.userParams, context.callback);
+			if(window.location.protocol!=='file') {
+				// do pass on truncated tweet to callback even though we can't request full tweet
+				context.callback(context, context.userParams);
+			} else {
+				context.callback(context, context.userParams);
+				context.adaptor.getFullTweet(subContext, context.userParams, context.callback);
+			}
 		} else {
 			context.callback(context, context.userParams);
 		}
 	}
 };
 
-// re-request truncated tweet
+// re-request truncated tweet - need to be offline for this
 adaptor.prototype.getFullTweet = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/%1/status/%2";
@@ -276,7 +293,7 @@ adaptor.scrapeTweet = function(html) {
 	doc.open();
 	doc.writeln(html);
 	doc.close();
-	// retrieve status message -- TODO: refactor using jQuery
+	// retrieve status message
 	var container = doc.getElementById("permalink");
 	var spans = container.getElementsByTagName("span");
 	for(i = 0; i < spans.length; i++) {

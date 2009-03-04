@@ -143,17 +143,9 @@ config.macros.TwitterBackupWizard = {
 	},
 
 	handleProfilePageToCountUpdates: function(status, context, responseText, uri, xhr) {
-		var self = config.macros.TwitterBackupWizard;
-		var w = context.wizard;
-		var i = responseText.indexOf('id="update_count"');
-		if(i!==-1) {
-			i = responseText.indexOf(">", i);
-			var j = responseText.indexOf("<", i);
-			var updateCount = responseText.substring(i + 1, j);
-			self.step3(w, updateCount);
-		} else {
-			self.errorFunc(w, 'No updates found - check Twitter is up! <a href="' + uri + '">' + uri + '</a>');
-		}
+		var updateCount = status.statuses_count;
+		var w = this.wizard;
+		config.macros.TwitterBackupWizard.step3(w, updateCount);
 	},
 
 	countUpdates: function(w) {
@@ -161,20 +153,24 @@ config.macros.TwitterBackupWizard = {
 		w.setButtons([]);
 		var self = config.macros.TwitterBackupWizard;
 		var host = "http://www.twitter.com";
-		var url = host + "/" + w.username;
+		var url = host + "/users/show/" + w.username + ".json";
 		var context = {
 			wizard: w
 		};
-		var req = httpReq("GET", url, self.handleProfilePageToCountUpdates, context);
-		if(typeof req == "string") {
-			self.error("Problem getting to Twitter: " + req.statusText);
-		}
+		//var req = httpReq("GET", url, self.handleProfilePageToCountUpdates, context);
+		var req = jQuery.ajax({
+			url: url,
+			dataType: 'jsonp',
+			success: self.handleProfilePageToCountUpdates,
+			error: self.errorFunc,
+			errorMessage: "Problem getting to Twitter",
+			wizard: w
+		});
 	},
 
 	step3: function(w, updateCount) {
 		var step3html = "This might take a moment (isn't that &#0153; Microsoft?)";
 		w.addStep("You've got " + updateCount + " tweets! Let's download them", step3html);
-		updateCount = updateCount.replace(",", "");
 		w.count = 200;
 		w.maxPages = Math.ceil(parseInt(updateCount, 10) / w.count);
 		w.setButtons([{
@@ -184,8 +180,10 @@ config.macros.TwitterBackupWizard = {
 		}]);
 	},
 
-	errorFunc: function(w, message) {
-		w.addStep("There has been a wee problem...", "<span>"+message+"</span>");
+	errorFunc: function(XMLHttpRequest, textStatus, errorThrown) {
+		var message = this.message;
+		var w = this.w;
+		w.addStep("There has been a wee problem...", "<span>"+message+". Status: "+textStatus+"</span>");
 	}
 };
 
