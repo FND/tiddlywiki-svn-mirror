@@ -85,10 +85,14 @@ TiddlyTemplating.getTiddlers = function(p)
 TiddlyTemplating.templateAndPublish = function(filename,template,tiddlers,isWikitext)
 {
 	var content = expandTemplate(template,tiddlers,isWikitext);
-	this.save(filename,content);
+	if(window.location.protocol === 'file:') {
+		this.saveToFile(filename,content);
+	} else {
+		this.saveToWindow(filename,content);
+	}
 };
 
-TiddlyTemplating.save = function(filename,content)
+TiddlyTemplating.saveToFile = function(filename,content)
 {
 	config.messages.fileSaved = "file successfully saved";
 	config.messages.fileFailed = "file save failed";
@@ -110,6 +114,20 @@ TiddlyTemplating.save = function(filename,content)
 	} else {
 		alert(config.messages.fileFailed,"file://"+savePath);
 	}
+};
+
+TiddlyTemplating.saveToWindow = function(window,content)
+{
+	var newwindow = window.open(null,window);
+	var doc = newwindow.document;
+	if(ifrm.contentDocument) { // NS6
+		doc = newwindow.contentDocument;
+	} else if(newwindow.contentWindow) { // IE
+		doc = newwindow.contentWindow.document;
+	}
+	doc.open();
+	doc.write(content);
+	doc.close();
 };
 
 } //# end of 'install only once'

@@ -141,10 +141,12 @@ HttpManager.setHttpReq = function(func) {
 	this.origHttp = func;
 };
 
-HttpManager.setHttpReq(Http.intercept(window,'httpReq',function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
-	HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
-	HttpManager.showStats();
-}));
+HttpManager.setHttpReq(
+	Http.intercept(window,'httpReq',function(type,url,callback,params,headers,data,contentType,username,password,allowCache) {
+		HttpManager.addRequest(type,url,callback,params,headers,data,contentType,username,password,allowCache);
+		HttpManager.showStats();
+	})
+);
 
 FeedListManager.prototype.logResponse = function(uri,xhr) {
 	var p = this.registered(uri);

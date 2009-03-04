@@ -3,8 +3,8 @@
 |''Description:''|Collection of functions to support rendering of tiddlers through HTML templates |
 |''Author:''|JonathanLister |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/plugins/TemplatePlugin.js |
-|''Version:''|0.0.4 |
-|''Date:''|25/3/08 |
+|''Version:''|0.0.5 |
+|''Date:''|3/3/08 |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.3|
@@ -90,7 +90,11 @@ config.macros.templateTiddlers.handler = function(place,macroName,params,wikifie
 		tiddlers.push(tiddler ? tiddler : new Tiddler("temp"));
 	}
 	var output = expandTemplate(template,tiddlers,wikitext);
+	/* I'm not sure this 'raw' thing is actually useful... if you don't do the htmlEncode before adding the output to the innerHTML, nested template content could be broken by the htmlDecode in expandTemplate. I think I've used the 'raw' control before to style a tiddler, but maybe this can still be done without using this method. It's probably safe if used right at the top-level of templating... */
 	place.innerHTML += raw ? output : output.htmlEncode();
+	if(raw) {
+		/* Gotta refresh the tiddlerlinks! The wikifyStatic just plops a line of HTML in - the onclick is attached to different element */
+	}
 };
 
 config.macros.templateTags = {};
