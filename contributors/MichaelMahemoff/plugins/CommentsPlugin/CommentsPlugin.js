@@ -64,7 +64,7 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
   createTiddlyElement(commentsArea, "div");
   var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
   var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
-  var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment", "Add Comment");
+  var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
   addComment.onclick = function() {
     var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
     newCommentEl.value = "";
@@ -229,7 +229,7 @@ openReplyLink: function(commentTiddler, commentEl, replyLink, macroParams) {
   };
 
   var replyText =  cmacro.makeTextArea(commentEl.replyEl, macroParams);
-  var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, null, "Reply");
+  var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, "button", "Reply");
   submitReply.onclick = function() { 
     var newComment = cmacro.createComment(replyText.value, commentTiddler, macroParams);
     replyText.value = "";
@@ -426,6 +426,7 @@ config.macros.tiddlyWebComments.handler =
 .commentText { clear: both; padding: 1em 0; }
 .deleteComment { float: right; cursor: pointer; text-decoration:underline; color:[[ColorPalette::SecondaryDark]]; padding-right: 0.3em; }
 .comment .reply { margin-left: 1em; }
+.comment .reply button { margin-left: 0; }
 .comment .replyLink { color:[[ColorPalette::SecondaryDark]]; font-style: italic; 
                      cursor: pointer; text-decoration: underline; margin: 0 0.0em; }
 .comment .created { }
@@ -433,7 +434,8 @@ config.macros.tiddlyWebComments.handler =
 .newReplyLabel { float: left; }
 .closeNewReply { cursor: pointer; float: right; text-decoration: underline; }
 .comments textarea { width: 100%; }
-.comments button { margin-top: 0.3em; }
+.comments button { margin-top: 0.3em; padding }
+.comments button.addComment { margin-top: 0.3em; margin-left: 0; }
 
 .clearance { clear: both; }
 
