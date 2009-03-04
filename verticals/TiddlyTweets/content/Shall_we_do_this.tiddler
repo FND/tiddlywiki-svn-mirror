@@ -1,6 +1,10 @@
 <div title="Shall we do this?" modifier="JonathanLister" created="200903031911">
 <pre>!Things we might want to do
+* pressing return after entering a username refreshes the page to http://osmosoft.com/tiddlytweets/?username=username and blanked the username box
+* have to press "Go" several times, not a lot of feedback about whether this is expected
 * Change the colours
+* for large amounts of tweets, pressing "Save To RSS" creates the XML in a new tab, but view-source was blank
+* unstyled XML is not pretty
 * ---Simplify the TiddlyWiki layout---
 * ---Add button to switch back to standard TiddlyWiki---
 * Add some dev text: TiddlyWiki, TwitterAdaptor, TiddlyTemplating, Twitter API vs. "web API"
