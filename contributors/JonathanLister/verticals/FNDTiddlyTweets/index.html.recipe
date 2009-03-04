@@ -1,4 +1,5 @@
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+recipe: plugins/split.recipe
 recipe: shadows/split.recipe
 recipe: content/split.recipe
 tiddler: $TW_ROOT/contributors/FND/plugins/HTTPThrottlingPlugin.js

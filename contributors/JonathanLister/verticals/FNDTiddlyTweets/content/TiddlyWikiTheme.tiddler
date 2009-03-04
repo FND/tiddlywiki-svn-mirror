@@ -1,0 +1,31 @@
+<div title="TiddlyWikiTheme" modifier="JonathanLister" tags="systemTheme">
+<pre>
+|''Name:''|DefaultTheme|
+|''Description:''|Empty theme which resets to the defaults, leaving the ThemeSwitcher tiddler styled|
+
+|''StyleSheet:''|##StyleSheet|
+
+!StyleSheet
+#tiddlerThemeSwitcher {
+	position:absolute;
+	top:0.6em;
+	right:0;
+}
+
+#tiddlerThemeSwitcher div {
+	display:none;
+}
+
+#tiddlerThemeSwitcher div.viewer {
+	display:block;
+}
+
+#tiddlerThemeSwitcher div.viewer .button {
+	background-color:#ffffff;
+	border:#ffffff
+}
+
+#tiddlerThemeSwitcher div.viewer .button:hover {
+	background-color:orange;
+}</pre>
+</div>
