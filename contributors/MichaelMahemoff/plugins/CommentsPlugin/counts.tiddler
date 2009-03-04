@@ -1,0 +1,5 @@
+<div title="counts" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="" changecount="19" food="meal">
+<pre>Cake has been enriched with <<commentsCount cake>> comments, while Burger managed to attract <<commentsCount burger>> of them.
+
+This demontrates the &lt;&lt;commentsCount&gt;&gt; macro. Given no parameters, it refers to comments in the containing tiddler (&lt;&lt;commentsCount&gt;&gt;). Given a parameter, it refers to comments in the tiddler by that name (&lt;&lt;commentsCount&gt;&gt;).
+</pre>

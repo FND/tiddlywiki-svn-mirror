@@ -25,6 +25,7 @@ if(!version.extensions.CommentsPlugin) {
 
   version.extensions.CommentsPlugin = {installed:true};
 
+  (function(plugin) {
   var cmacro = config.macros.comments = {
 
 //##############################################################################
@@ -399,12 +400,23 @@ copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
 }
 }
 
+config.macros.commentsCount = {
+  handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+    var rootTiddler = paramString.length ? paramString : tiddler.title;
+    var count = config.macros.comments.findCommentsFromRoot(store.getTiddler(rootTiddler)).length;
+    createTiddlyElement(place, "span", null, "commentCount", count);
+  }
+}
+
 config.macros.tiddlyWebComments = {};
 config.macros.tiddlyWebComments.handler =
   function(place,macroName,params,wikifier,paramString,tiddler) {
     paramString = "fields:'server.workspace:bags/comments' inheritedFields:'server.host,server.type'";
     config.macros.comments.handler(place,macroName,params,wikifier, paramString,tiddler);
   };
+
+
+})(version.extensions.CommentsPlugin);
 
 //################################################################################
 //# CUSTOM STYLESHEET
@@ -443,7 +455,7 @@ config.macros.tiddlyWebComments.handler =
 
 ***/
 
-  cmacro.init();
+  config.macros.comments.init();
 
 } // end of 'install only once'
 /*}}}*/

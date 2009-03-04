@@ -3,7 +3,7 @@
 
 This demo auto-adds tags and fields and other goodies to the comment. Create a comment and click on its title to inspect tags and fields.
 
-<<comments heading:"Commments With Custom Options" text:"My name: 
+<<comments heading:"Comments With Custom Options" text:"My name: 
 My job: 
 Comments:
 
