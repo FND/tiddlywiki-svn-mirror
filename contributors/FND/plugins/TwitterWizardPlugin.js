@@ -54,7 +54,6 @@ config.macros.TiddlyTweets = {
 		var maxPages = params[1] || 1;
 		self.maxPages = maxPages;
 		var count = params[2];
-		self.tweetCount = count;
 		if(self.pageCount <= maxPages) {
 			var username = params[0] || prompt(self.usernamePrompt);
 			setTimeout(function() { self.dispatcher(params); },
@@ -75,7 +74,6 @@ config.macros.TiddlyTweets = {
 			page: page,
 			count: count
 		};
-		displayMessage('retrieving tweets from page '+context.page);
 		var status = self.adaptor.getTiddlerList(context, null, self.processor);
 		if(status !== true) {
 			displayMessage("error retrieving page " + context.page); // TODO: i18n
@@ -122,10 +120,11 @@ config.macros.TiddlyTweets = {
 		self.doneRequestCount = 0;
 		self.totalReturnedTiddlers = 0;
 		self.savedTweets = 0;
+		self.tweetCount = w.tweetCount;
 		var params = [
 			w.username,
 			w.maxPages,
-			w.count
+			200
 		];
 		w.addStep("Downloading...","<span class='progress'></span>");
 		var stepElem = w.bodyElem.getElementsByTagName('div')[1];
@@ -170,7 +169,7 @@ config.macros.TwitterBackupWizard = {
 			self.step2(w);
 			return false;
 		};
-		w.addStep("Twitter username", "<input name='username'>");
+		w.addStep("Type in your Twitter username and hit the button", "<input name='username'>");
 		w.formElem.onsubmit = onClick;
 		w.setButtons([{
 			caption: "Let's go",
@@ -180,9 +179,9 @@ config.macros.TwitterBackupWizard = {
 	},
 
 	handleProfilePageToCountUpdates: function(status, context, responseText, uri, xhr) {
-		var updateCount = status.statuses_count;
+		var tweetCount = status.statuses_count;
 		var w = this.wizard;
-		config.macros.TwitterBackupWizard.step3(w, updateCount);
+		config.macros.TwitterBackupWizard.step3(w, tweetCount);
 	},
 
 	step2: function(w) {
@@ -205,14 +204,14 @@ config.macros.TwitterBackupWizard = {
 		});
 	},
 
-	step3: function(w, updateCount) {
+	step3: function(w, tweetCount) {
 		var step3html = "This might take a moment (isn't that &#0153; Microsoft?)";
-		w.addStep(w.username+", you've got " + updateCount + " tweets! Let's download them", step3html);
-		w.count = updateCount;
-		w.maxPages = Math.ceil(parseInt(updateCount, 10) / w.count);
+		w.addStep(w.username+", you've got " + tweetCount + " tweets! Let's download them", step3html);
+		w.tweetCount = tweetCount;
+		w.maxPages = Math.ceil(parseInt(tweetCount, 10) / 200);
 		w.setButtons([{
 			caption: "Download tweets",
-			tooltip: "Download " + updateCount + " tweets",
+			tooltip: "Download " + tweetCount + " tweets",
 			onClick: function() { config.macros.TiddlyTweets.handleWizard(w); }
 		},
 		{

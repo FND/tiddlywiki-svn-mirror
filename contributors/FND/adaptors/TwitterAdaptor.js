@@ -35,7 +35,6 @@ adaptor.tweetTags = ["tweets"];
 adaptor.userTags = ["users"];
 
 adaptor.errorFunc = function(XMLHttpRequest, textStatus, errorThrown) {
-	console.log('in errorFunc',arguments);
 	var message = this.errorMessage;
 	displayMessage("There has been a wee problem..."+message+". Status: "+textStatus);
 };
