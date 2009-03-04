@@ -166,8 +166,8 @@ config.macros.importMediaWiki.selectedWorkspace = function(wizard, workspace)
 	listWrapper.innerHTML = macro.loadingTiddlersMessage;
 	var adaptor = wizard.getValue(macro.adaptorField);
 	var context = wizard.getValue(macro.contextField);
-	handleAdaptorReturn(adaptor.openWorkspace(workspace, context, wizard, macro.onOpenWorkspace));
 	wizard.setButtons([macro.getResetButton()], macro.statusOpenWorkspace);
+	handleAdaptorReturn(adaptor.openWorkspace(workspace, context, wizard, macro.onOpenWorkspace));
 };
 
 config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callback)
@@ -177,8 +177,8 @@ config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callba
 		displayMessage("Error in importMediaWiki.onOpenWorkspace: " + context.statusText);
 	}
 	var adaptor = wizard.getValue(macro.adaptorField);
-	handleAdaptorReturn(adaptor.getTiddlerList(context, wizard, macro.onGetTiddlerList));
 	wizard.setButtons([macro.getResetButton()], macro.statusGetTiddlerList);
+	handleAdaptorReturn(adaptor.getTiddlerList(context, wizard, macro.onGetTiddlerList));
 }
 
 config.macros.importMediaWiki.onGetTiddlerList = function(context, wizard)
@@ -267,7 +267,8 @@ config.macros.importMediaWiki.doImportWithWizard = function(wizard, rowNames)
 		wizard.setButtons([{caption: macro.doneLabel,
 							tooltip: macro.donePrompt,
 							onClick: wizard.getValue(macro.importCompletedHandlerField)
-						   }], macro.statusDoneImport)};
+						   }], macro.statusDoneImport);
+		};
 	macro.doImportTiddlers(wizard.getValue(macro.adaptorField), wizardContext, rowNames, callback);
 	return false;
 };
