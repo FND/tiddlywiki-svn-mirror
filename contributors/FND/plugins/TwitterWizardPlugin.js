@@ -52,15 +52,16 @@ config.macros.TiddlyTweets = {
 	dispatcher: function(params) { // TODO: rename
 		var self = config.macros.TiddlyTweets;
 		var maxPages = params[1] || 1;
+		self.maxPages = maxPages;
 		var count = params[2];
+		self.tweetCount = count;
 		if(self.pageCount <= maxPages) {
 			var username = params[0] || prompt(self.usernamePrompt);
-			self.launcher(username, self.pageCount, count);
 			setTimeout(function() { self.dispatcher(params); },
 				self.requestDelay);
+			self.launcher(username, self.pageCount, count);
 			self.pageCount++;
 		} else {
-			displayMessage('done all the requests');
 			self.pageCount = 1;
 		}
 	},
@@ -74,17 +75,27 @@ config.macros.TiddlyTweets = {
 			page: page,
 			count: count
 		};
+		displayMessage('retrieving tweets from page '+context.page);
 		var status = self.adaptor.getTiddlerList(context, null, self.processor);
-		if(status) {
-			displayMessage("retrieving tweets from page " + context.page); // TODO: i18n
-		} else {
-			displayMessage("error retrieving tweets from page " + context.page); // TODO: i18n
+		if(status !== true) {
+			displayMessage("error retrieving page " + context.page); // TODO: i18n
 		}
 	},
 
 	processor: function(context, userParams) { // TODO: rename
 		var self = config.macros.TiddlyTweets;
-		for(var i = 0; i < context.tiddlers.length; i++) {
+		self.doneRequestCount++;
+		self.totalReturnedTiddlers += context.tweets;
+		if(self.doneRequestCount === self.maxPages) {
+			displayMessage('all the page requests have returned and been processed!');
+			if(self.totalReturnedTiddlers!==self.tweetCount) {
+				var difference = self.tweetCount - self.totalReturnedTiddlers;
+				displayMessage('total tweets doesn\'t match predicted number, there are '+difference+' missing tweets');
+			} else {
+				displayMessage('all expected tweets returned');
+			}
+		}
+		for(var i = 0; i < context.tweets; i++) {
 			context.tiddler = context.tiddlers[i];
 			self.adaptor.getTiddler(context.tiddler.title, context, null, self.saver);
 		}
@@ -96,9 +107,10 @@ config.macros.TiddlyTweets = {
 		store.saveTiddler(tiddler.title, tiddler.title, tiddler.text,
 			tiddler.modifier, tiddler.modified, tiddler.tags,
 			tiddler.fields, false, tiddler.created);
-		self.launchCount--;
-		if(self.launchCount === 0) {
-			displayMessage('done all the saving!');
+		self.savedTweets++;
+		self.progressBar.style.width = (self.savedTweets / self.tweetCount)*100 +'%';
+		if(self.savedTweets === self.tweetCount) {
+			displayMessage('saved all tweets! finished!');
 		}
 	},
 
@@ -107,19 +119,25 @@ config.macros.TiddlyTweets = {
 	handleWizard: function(w) {
 		var self = config.macros.TiddlyTweets;
 		self.pageCount = 1;
-		self.launchCount = w.maxPages;
+		self.doneRequestCount = 0;
+		self.totalReturnedTiddlers = 0;
+		self.savedTweets = 0;
 		var params = [
 			w.username,
 			w.maxPages,
 			w.count
 		];
-		self.dispatcher(params);
 		w.addStep("Downloading...","<span class='progress'></span>");
+		var stepElem = w.bodyElem.getElementsByTagName('div')[1];
+		stepElem.style.padding = 0;
+		stepElem.style.paddingBottom = "2em";
 		w.setButtons([{
 			caption: "Save To RSS",
 			tooltip: "Save to RSS",
 			onClick: function() { TiddlyTemplating.templateAndPublish('tweets.xml','RssTemplate'); }
 		}]);
+		self.progressBar = w.bodyElem.getElementsByTagName('span')[0];
+		self.dispatcher(params);
 	}
 };
 
@@ -173,7 +191,7 @@ config.macros.TwitterBackupWizard = {
 	step3: function(w, updateCount) {
 		var step3html = "This might take a moment (isn't that &#0153; Microsoft?)";
 		w.addStep("You've got " + updateCount + " tweets! Let's download them", step3html);
-		w.count = 200;
+		w.count = updateCount;
 		w.maxPages = Math.ceil(parseInt(updateCount, 10) / w.count);
 		w.setButtons([{
 			caption: "Go",

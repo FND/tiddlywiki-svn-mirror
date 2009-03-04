@@ -35,7 +35,8 @@ adaptor.tweetTags = ["tweets"];
 adaptor.userTags = ["users"];
 
 adaptor.errorFunc = function(XMLHttpRequest, textStatus, errorThrown) {
-	var message = this.message;
+	console.log('in errorFunc',arguments);
+	var message = this.errorMessage;
 	displayMessage("There has been a wee problem..."+message+". Status: "+textStatus);
 };
 
@@ -146,6 +147,7 @@ adaptor.getTiddlerListCallback = function(data, textStatus) {
 			}
 		}
 	}
+	context.tweets = context.tiddlers.length;
 	for(user in users) { // XXX: should be for each, but JSLint doesn't recognize that
 		context.tiddlers.push(users[user]);
 	}
