@@ -119,15 +119,18 @@ config.macros.TwitterBackupWizard = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler, errorMsg) {
 		var self = config.macros.TwitterBackupWizard;
 		var w = new Wizard();
+		var onClick = function() {
+			w.username = w.getValue('username').value;
+			self.step2(w);
+			return false;
+		};
 		w.createWizard(place, "Twitter Backup Wizard");
 		w.addStep("Twitter username", "<input name='username'>");
+		w.formElem.onsubmit = onClick;
 		w.setButtons([{
 			caption: "Import",
 			tooltip: "click to import",
-			onClick: function() {
-				w.username = w.getValue('username').value;
-				self.step2(w);
-			}
+			onClick: onClick
 		}]);
 	},
 
