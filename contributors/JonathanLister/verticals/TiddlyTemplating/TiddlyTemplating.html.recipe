@@ -11,4 +11,4 @@ tiddler: ../../templates/RssItemCategoryTemplate.tiddler
 tiddler: ../../templates/RssItemTemplate.tiddler
 tiddler: ../../templates/RssTemplate.tiddler
 tiddler: ../../../EricShulman/plugins/TaggedTemplateTweak.js
-tiddler: ../../../MartinBudden/experimental/TemplateFormatterPlugin.js tags+="TiddlyTemplating"
+tiddler: ../../../MartinBudden/experimental/TemplateFormatterPlugin.js tags+="TiddlyTemplatingPackage"
