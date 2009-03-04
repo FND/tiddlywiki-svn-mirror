@@ -531,7 +531,7 @@ Also see AdvancedOptions</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903021819" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903040922" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -582,7 +582,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				}
 				var selected = store.getValue(tiddler,metaDataName);
 				var values = this.getDefValues(valueSrc);
-				this.createSearchBox(place,metaDataName,values,this.setDropDownMetaData);
+				var handler= function(value){
+					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
+				}
+				this.createSearchBox(place,metaDataName,values,selected,handler);
 	
 			}
 			else if(ctrlType == 'checkbox'){					
@@ -629,11 +632,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var slider = new EasyColorSlider(container,200,15,changefunction);
 			slider.setColor(curValue);
 		}
-		,createSearchBox: function(place,fieldName,values,handler,action){
+		,createSearchBox: function(place,fieldName,values,initialValue,action){
 			var holder = document.createElement(&quot;div&quot;);
 			holder.style.position = &quot;relative&quot;;
 			var input = document.createElement(&quot;input&quot;);
 			input.style.position = &quot;relative&quot;;
+			if(initialValue) input.value = initialValue;
 			var suggestions = document.createElement(&quot;div&quot;);
 			suggestions.style.position = &quot;relative&quot;;
 			
@@ -657,10 +661,16 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var makesuggestions = function(value){
 					
 					suggestions.innerHTML = &quot;&quot;;
+					if(value.length &lt; 3) return;
 					var list = document.createElement(&quot;ul&quot;);
-					if(value.length &lt; 1) return;
+					list.className = &quot;suggestions&quot;;
+					
+					var regexp = new RegExp(value,&quot;i&quot;);
+					
 					for(var i=0; i&lt;possibleSuggestions.length; i++){
-						if(possibleSuggestions[i].indexOf(value) != -1){
+						
+						var trythis =possibleSuggestions[i];
+						if(trythis.search(regexp) != -1){
 							var suggestion = document.createElement(&quot;li&quot;);
 							suggestion.innerHTML =possibleSuggestions[i];
 							suggestion.onmousedown = function(e){
@@ -1239,6 +1249,7 @@ Paul Downey</pre>
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
 &lt;div&gt;assigned to: &lt;span macro='view assignee'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;assigned by: &lt;span macro='view assignby'&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;approved?: &lt;span macro='view approved'&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;color:&lt;span macro='view color'&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;

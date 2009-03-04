@@ -48,7 +48,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				}
 				var selected = store.getValue(tiddler,metaDataName);
 				var values = this.getDefValues(valueSrc);
-				this.createSearchBox(place,metaDataName,values,this.setDropDownMetaData);
+				var handler= function(value){
+					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
+				}
+				this.createSearchBox(place,metaDataName,values,selected,handler);
 	
 			}
 			else if(ctrlType == 'checkbox'){					
@@ -95,11 +98,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var slider = new EasyColorSlider(container,200,15,changefunction);
 			slider.setColor(curValue);
 		}
-		,createSearchBox: function(place,fieldName,values,action){
+		,createSearchBox: function(place,fieldName,values,initialValue,action){
 			var holder = document.createElement("div");
 			holder.style.position = "relative";
 			var input = document.createElement("input");
 			input.style.position = "relative";
+			if(initialValue) input.value = initialValue;
 			var suggestions = document.createElement("div");
 			suggestions.style.position = "relative";
 			
@@ -123,7 +127,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var makesuggestions = function(value){
 					
 					suggestions.innerHTML = "";
-					if(value.length < 1) return;
+					if(value.length < 3) return;
 					var list = document.createElement("ul");
 					list.className = "suggestions";
 					
