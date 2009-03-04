@@ -43,6 +43,14 @@ div.viewer {
 #backstageButton {
 	display:none;
 }
+
+.progress {
+	background-color: #8A2BE2;
+	display: block;
+	height: 2em;
+	margin-bottom: -2em;
+	width: 0%;
+}
 /*}}}*/
 
 !ViewTemplate
