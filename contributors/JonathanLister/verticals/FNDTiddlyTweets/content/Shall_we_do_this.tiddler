@@ -1,0 +1,19 @@
+<div title="Shall we do this?">
+<pre>!Things we might want to do
+* Change the colours
+* ---Simplify the TiddlyWiki layout---
+* Add some dev text: TiddlyWiki, TwitterAdaptor, TiddlyTemplating, Twitter API vs. "web API"
+* Need logo based around Twitter logo
+* Blues clash
+* Gradient looks "default blog theme"
+* Add some explanatory text
+* Lots of steps
+* Put up a UserVoice
+* Put the code up on GitHub
+* Change the second step so you don't have to press 'Go', but it just does the tweet counting
+* Count saved tweets against predicted number of tweets
+* Move displayMessage notifications into Wizard
+* Show a progress display of what's going on during long downloads, such as
+** getFullTidder (which is screen-scraping)
+** many requests for different pages (which seems to spiral up in time taken per request, if you include processing)</pre>
+</div>
