@@ -2,12 +2,13 @@
 |''Name''|TwitterWizardPlugin|
 |''Description''|interface for retrieving tweets and user data from Twitter|
 |''Author''|FND, JonathanLister|
-|''Version''|0.2|
+|''Version''|0.2.0|
 |''Status''|@@experimental@@|
 |''Requires''|TwitterAdaptorPlugin|
 |''Source''|http://devpad.tiddlyspot.com/#TwitterArchivePlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''CoreVersion''|2.5.0|
 !Usage
 {{{
 <<TiddlyTweets [workspace] [pages]>>
@@ -17,6 +18,8 @@
 }}}
 !Revision History
 !!v0.2 (2009-03-04)
+* jsonp
+* made it work
 !!v0.1 (2008-11-14)
 * initial release
 !To Do
