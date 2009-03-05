@@ -53,10 +53,10 @@ class Plugin {
 		$ext = substr($file, strrpos($file, '.') + 1);
 		$tiddler['title'] = substr($file, strrpos($file, '/')+1, -strlen($ext)-1); 
 		if($ext=='tiddler') {
-			$tiddler['body'] = file_get_contents($dir."/".$file);	
+			$tiddler['body'] = file_get_contents($file);	
 			$tiddler['tags'] = "";
 		} elseif($ext=='js') {
-			$tiddler['body'] = file_get_contents($dir."/".$file);	
+			$tiddler['body'] = file_get_contents($file);	
 			$tiddler['tags'] = "systemConfig";
 		} elseif($ext=='tid') {
 			$tiddler = tiddler_parse_tid_file($file);
