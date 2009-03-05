@@ -1,0 +1,23 @@
+<div title="How to hack this" modifier="JonathanLister" created="200905031220">
+<pre>Under the hood, TiddlyTweets is a plugin-extended ~TiddlyWiki (hence the name). ~TiddlyWiki is an open source project that Osmosoft has a lot of involvement with. Everything about TiddlyTweets is controlled by plugins written in JavaScript, a breakdown of which is below. If you want to get into exploring the guts, hit the "switch theme" button in the top-right to change into the ~TiddlyWiki theme, which makes it easier to navigate between tiddlers (did I mention those? A tiddler is a bit of content, or a plugin).
+
+|Plugin |What's it for? |
+|TwitterAdaptor |Handles communication with Twitter's API and converts returned tweets into tiddlers |
+|TwitterWizardPlugin |Provides the user interface and uses the TwitterAdaptor |
+|TemplatePlugin |Provides the mechanism for turning tiddlers into other data formats using templates |
+|TemplatingMacrosPlugin |Adds some macros you can use inside templates to get at tiddler data |
+|TemplateFormatterPlugin |Parses templates and calls macros inside them |
+|TiddlyTemplatingMacro |Uses the above three plugins to generate the output XML and either save it to a file (if offline) or pop up a window with it in |
+|ToggleThemePlugin |Adds the "switch theme" button |
+
+|Tiddler |What's it for? |
+|[[How to hack this]] |What you're reading. |
+|RssTemplate |Template for creating an RSS feed from tiddlers |
+|RssItemTemplate |Sub-template for each item in the RSS feed |
+|RssItemCategoryTemplate |Sub-template for the tags on an RSS item |
+|ThemeSwitcher |Contains a call to the toggleTheme macro to generate the "switch theme" button |
+|TiddlyTweets |Information about TiddlyTweets |
+|TiddlyTweetsTheme |The stylesheet, page template and tiddler view template for the default web app look |
+|TiddlyWikiTheme |The stylesheet, page template and tiddler view template for the standard ~TiddlyWiki theme (plus the "switch theme" button) |
+|TwitterBackupWizard |Contains a call to the TwitterBackupWizard macro to generate the Tweet Archiver interface |</pre>
+</div>

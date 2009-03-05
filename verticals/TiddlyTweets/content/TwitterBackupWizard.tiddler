@@ -1,7 +1,4 @@
 <div title="TwitterBackupWizard" modifier="JonathanLister" created="200903031413">
-<pre>Yo!
-
-Twitter has your tweets. Some people think Java is the way to build an app to get at them and save them to your computer. We only really believe in HTML, CSS and JavaScript, so here you go - the Twitter Archiver.
-
-<<TwitterBackupWizard>></pre>
+<pre><<TwitterBackupWizard>>
+[[What's this?|TiddlyTweets]]</pre>
 </div>

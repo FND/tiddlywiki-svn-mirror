@@ -1,0 +1,7 @@
+<div title="TiddlyTweets" modifier="JonathanLister" created="200905031148">
+<pre>You might be wondering what this is all about.
+
+TiddlyTweets is the work of [[Fred|http://osmosoft.com/#%5B%5BFrederik%20Dohr%5D%5D]] and [[Jonathan|http://osmosoft.com/#%5B%5BJon%20Lister%5D%5D]] from [[Osmosoft|http://osmosoft.com]]. It serves as an example of a client-side mashup, creating a useful application in a web-friendly way, using only HTML, CSS and ~JavaScript.
+
+If you're interested, you might like to know how this application is put together. It's really a [[TiddlyWiki|http://www.tiddlywiki.com]] loaded up with plugins. Read on for [[how to hack this|How to hack this]].</pre>
+</div>
