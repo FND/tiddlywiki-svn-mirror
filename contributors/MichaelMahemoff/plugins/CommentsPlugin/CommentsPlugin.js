@@ -55,22 +55,22 @@ handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 //################################################################################
 
 buildCommentsArea: function(rootTiddler, place, macroParams) {
-  var suffixUSELESSREMOVE = "_" + rootTiddler.title.trim();
   var commentsArea = createTiddlyElement(place, "div", null, "comments");
   var heading = getParam(macroParams, "heading");
   if (heading) createTiddlyElement(commentsArea, "h1", null, null, heading);
-  // var heading = createTiddlyElement(commentsArea, "h2", null, "", "Comments");
   var comments = createTiddlyElement(commentsArea, "div", null, "");
   story.getTiddler(rootTiddler.title).commentsEl = comments;
-  createTiddlyElement(commentsArea, "div");
-  var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
-  var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
-  var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
-  addComment.onclick = function() {
-    var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
-    newCommentEl.value = "";
-    cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
-  };
+  // REMOVE? createTiddlyElement(commentsArea, "div");
+  if (cmacro.editable(macroParams)) {
+    var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
+    var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
+    var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
+    addComment.onclick = function() {
+      var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
+      newCommentEl.value = "";
+      cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
+    };
+  }
 },
 
 makeTextArea: function(container, macroParams) {
@@ -196,9 +196,11 @@ buildCommentEl: function(daddyCommentsEl, comment, macroParams) {
   wikify(comment.text, commentEl.text);
 
   // REPLY LINK
-  var replyLinkZone = createTiddlyElement(commentEl, "div", null, "replyLinkZone");
-  var replyLink = createTiddlyElement(replyLinkZone, "span", null, "replyLink", "reply to this comment");
-  replyLink.onclick = function() { cmacro.openReplyLink(comment, commentEl, replyLink, macroParams); };
+  if (cmacro.editable(macroParams)) {
+    var replyLinkZone = createTiddlyElement(commentEl, "div", null, "replyLinkZone");
+    var replyLink = createTiddlyElement(replyLinkZone, "span", null, "replyLink", "reply to this comment");
+    replyLink.onclick = function() { cmacro.openReplyLink(comment, commentEl, replyLink, macroParams); };
+  }
 
   // var clearance = createTiddlyElement(commentEl, "clearance", null, "clearance");
   // clearance.innerHTML = "&nbsp;";
@@ -374,6 +376,15 @@ mapize: function(tiddlerList) {
   return map;
 },
 clone: function(map) { return merge({}, map); },
+
+//##############################################################################
+//# PARAMS
+//##############################################################################
+
+editable: function(params) {
+  var editable = getParam(params, "editable");
+  return (!editable || editable!="false");
+},
 
 //##############################################################################
 //# GENERAL UTILS
