@@ -1,17 +1,20 @@
 /***
 |''Name:''|HTMLParserPlugin|
 |''Description:''|parse a HTML string into a DOM|
-|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/HTMLParserPlugin |
-|''Version:''|0.1|
-|''License:''|[[BSD open source license]]|
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
+|''Source:''|http://whatfettle.com/2008/07/HTMLParserPlugin/ |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/HTMLParserPlugin/ |
+|''Version:''|0.2|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''~CoreVersion:''|2.2|
-
+|''~CoreVersion:''|2.4|
+!!Documentation
+Provides a JavaScript ~HTMLParser class intended to be used by other plugins to parse HTML files into a DOM object.
+Much of the code and idea for this plugin originates from Jon Lister's experimentations with [iframes|http://en.wikipedia.org/wiki/IFrame].
+!!Code
 ***/
-
 //{{{
-if(!version.extensions.HTMLParser){
+if(!version.extensions.HTMLParserPlugin) {
 version.extensions.HTMLParserPlugin = {installed:true};
 
 HTMLParser = {};
@@ -21,28 +24,30 @@ HTMLParser.removeScripts = function (str) {
 		str = str.replace(/<script(.*?)>.*?<\/script>/ig,"");
 		str = str.replace(/(onload|onunload)(=.)/ig,"$1$2\/\/");
 	}
-        return str;
-}
+	return str;
+};
 
 HTMLParser.iframeDocument = function (iframe)
 {
-	if(iframe.contentDocument)
+	if(iframe.contentDocument) {
 		return iframe.contentDocument; 
-	if(iframe.contentWindow)
+	}
+	if(iframe.contentWindow) {
 		return iframe.contentWindow.document; // IE5.5 and IE6
+	}
 	return iframe.document;
 };
 
 HTMLParser.parseText = function (text,handler,context)
 {
 	// create hidden iframe to hold HTML
-        var iframe = document.createElement("iframe");
+	var iframe = document.createElement("iframe");
 	var id = "parseHTML-iframe";
 	iframe.setAttribute("id", id);
 	iframe.setAttribute("name", id);
 	iframe.setAttribute("type", "content");
-        iframe.style.display = "none";
-        document.body.appendChild(iframe);
+	iframe.style.display = "none";
+	document.body.appendChild(iframe);
 
 	// callback fired when iframe HTML has been parsed
 	var onload = function (event) {
@@ -80,17 +85,17 @@ HTMLParser.parseText = function (text,handler,context)
 	onload.context = context;
 
 	// write HTML text into the iframe
-        var doc = HTMLParser.iframeDocument(iframe);
+	var doc = HTMLParser.iframeDocument(iframe);
 	text = HTMLParser.removeScripts(text);
-        doc.open();
-        doc.writeln(text);
-        doc.close();
+	doc.open();
+	doc.writeln(text);
+	doc.close();
 
 	// IE6 and Opera don't support onload event for iframe ..
 	window.setTimeout(onload,10);
 
-        return;
+	return;
 };
 
-} //# end of 'install only once'
+}
 //}}}
