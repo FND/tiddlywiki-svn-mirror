@@ -20,6 +20,7 @@ var EasyMap = function(wrapper){
 		wrapper = wrapper;
 		
 	this.wrapper = wrapper;
+	wrapper.easyMap = this;
 	wrapper.style.position = "relative";
 	var that = this;
 	this.settings = {};
