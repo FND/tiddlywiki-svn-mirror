@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.5.11|
+|''Version''|0.5.12|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -386,13 +386,13 @@ adaptor.putTiddlerStoreCallback = function(status, context, responseText, uri, x
 //# @param {Object} from source tiddler; members title and workspace (optional)
 //# @param {Object} to target tiddler; members title and workspace (optional)
 adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters (old/new)?
-	var me = this;
+	var self = this;
 	var newTiddler = store.getTiddler(from.title) || store.getTiddler(to.title); //# local rename might already have occurred
 	var oldTiddler = merge({}, newTiddler); //# required for eventual deletion
 	oldTiddler.fields = merge({}, newTiddler.fields); // TODO: use jQuery.extend for deep copy above
 	oldTiddler.title = from.title; //# required for original tiddler's ETag
 	var _getTiddlerChronicle = function(title, context, userParams, callback) {
-		return me.getTiddlerChronicle(title, context, userParams, callback);
+		return self.getTiddlerChronicle(title, context, userParams, callback);
 	};
 	var _putTiddlerChronicle = function(context, userParams) {
 		if(!context.status) {
@@ -426,14 +426,14 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 			newTiddler.fields["server.title"] = to.title;
 			_deleteTiddler(context, userparams);
 		};
-		return me.putTiddlerChronicle(revisions, context, context.userParams, subCallback);
+		return self.putTiddlerChronicle(revisions, context, context.userParams, subCallback);
 	};
 	var _deleteTiddler = function(context, userParams) {
 		if(!context.status) {
 			return callback(context, userParams);
 		}
 		context.callback = null;
-		return me.deleteTiddler(oldTiddler, context, context.userParams, callback);
+		return self.deleteTiddler(oldTiddler, context, context.userParams, callback);
 	};
 	callback = callback || function() {};
 	context = this.setContext(context, userParams);
