@@ -17,8 +17,21 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 {
 	version.extensions.AdvancedEditTemplatePlugin = {installed:true};
 	config.macros.AdvancedEditTemplate = {
+		getVariableFromQueryString:function(varName){
+			var qs = window.location.search.substring(1);
+			var atts = qs.split("&");
 
-		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+			for(var i =0; i <atts.length; i++){
+				var varVal = atts[i].split("=");
+				if(varVal[0]==varName){
+
+					return decodeURI(varVal[1]);
+				}
+			}
+			return false;
+
+		}
+		,handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 			
 			var tiddlerDom = story.findContainingTiddler(place);
 			var params = paramString.parseParams("anon",null,true,false,false);
@@ -36,6 +49,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					return;
 				}
 				var selected = store.getValue(tiddler,metaDataName);
+				
+				if(!selected){
+					var qsvalue =this.getVariableFromQueryString(metaDataName);
+					if(qsvalue) selected = qsvalue;
+				}
 				var values = this.getDefValues(valueSrc);
 				this.createDropDownMenu(place,metaDataName,values,this.setDropDownMetaData,selected);
 				
@@ -47,6 +65,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					return;
 				}
 				var selected = store.getValue(tiddler,metaDataName);
+				if(!selected){
+					var qsvalue =this.getVariableFromQueryString(metaDataName);
+					if(qsvalue) selected = qsvalue;
+				}
 				var values = this.getDefValues(valueSrc);
 				var handler= function(value){
 					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
@@ -59,7 +81,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					c.type = 'checkbox';
 					c.value = true;
 	
-					if(this.getMetaData(title,metaDataName)){
+					var selected =this.getMetaData(title,metaDataName);
+					if(!selected){
+						var qsvalue =this.getVariableFromQueryString(metaDataName);
+						if(qsvalue) selected = qsvalue;
+					}
+					
+					if(selected){
 						c.checked = true;
 					}
 					else{
@@ -159,8 +187,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 			holder.appendChild(input);
 			holder.appendChild(suggestions);
-			
-			
+		
 			place.appendChild(holder);
 		}
 
@@ -177,23 +204,23 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					if(!menus[menuid]){
 						menus[menuid] = {};
 						menus[menuid].options= [];
-						menus[menuid].options.push({'caption': 'Please select', 'value': "", 'name': null});
+						menus[menuid].options.push({'caption': 'Please select', 'value': 'null', 'name': null});
 					 }
 					if(value.indexOf(">") != -1){
 						lastmenuid = menuid;
 						value = value.replace(">","");
 						var newmenuid =menus.length;
-						menus[menuid].options.push({'caption': value, 'name': fieldName + '::' + value,'childMenu': newmenuid});
+						menus[menuid].options.push({'caption': value, 'value':value, 'name': fieldName + '::' + value,'childMenu': newmenuid});
 						menuid = newmenuid;
 					
 					}
 					else if(value.indexOf("<") != -1){
 						value = value.replace("<","");
-						menus[menuid].options.push({'caption': value, 'name': fieldName + '::' + value});
+						menus[menuid].options.push({'caption': value,'value':value,  'name': fieldName + '::' + value});
 						menuid = lastmenuid;
 					}
 					else{
-						menus[menuid].options.push({'caption': value, 'name': fieldName + '::' + value});
+						menus[menuid].options.push({'caption': value, 'value':value, 'name': fieldName + '::' + value});
 					}
 							
 	
@@ -227,10 +254,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 							if(opt.value){
 								optionEl.value = opt.value;
 							}
-							else{
-							optionEl.value = opt.caption;
-							}
-						
+			
 							if(nowtselected && optionEl.value.replace(" ","") ==selected.replace(" ","")){
 								optionEl.selected = true;
 								newMenu.style.display = "";
@@ -353,6 +377,16 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				var selected = el[el.selectedIndex];
 				var fieldname = selected.parentNode.name;
 				var fieldvalue = selected.value;
+				if(selected.value == 'null'){
+					console.log("mm..");
+					var parent = selected.parentNode.parentOption;
+					console.log(parent);
+					if(parent){
+						selected = parent;
+						fieldvalue = selected.value;	
+					}
+				}
+				
 				config.macros.AdvancedEditTemplate.setMetaData(title,fieldname,fieldvalue);
 			}
 		},
@@ -373,7 +407,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		}
 		
 		,setMetaData: function(title,extField,extFieldVal){
-		
+			if(extFieldVal == 'null') extFieldVal = "";
 			var tiddler =  store.getTiddler(title);
 			if(!tiddler) {
 				var fields = {};
