@@ -45,7 +45,6 @@ init: function() {
 },
 
 handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-  place.id = "Place"; //  debugging
   var macroParams = paramString.parseParams();
   var tiddlerParam = getParam(macroParams, "tiddler");
   tiddler = tiddlerParam ? store.getTiddler(tiddlerParam) : tiddler;
@@ -66,9 +65,7 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
   if (heading) createTiddlyElement(commentsArea, "h1", null, null, heading);
   var comments = createTiddlyElement(commentsArea, "div", null, "");
   cmacro.log("comments", comments);
-  // story.getTiddler(rootTiddler.title).commentsEl = comments;
   place.commentsEl = comments;
-  // REMOVE? createTiddlyElement(commentsArea, "div");
   if (cmacro.editable(macroParams)) {
     var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
     var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
@@ -154,29 +151,6 @@ findChildren: function(daddyTiddler) {
     if (tiddler.fields.daddy==daddyTiddler.title) comments.push(tiddler);
   });
   return comments;
-},
-
-refreshCommentsOld: function(daddyCommentsEl, tiddler, macroParams) {
-
-  var refreshedEl;
-  if (tiddler.fields.daddy) {
-    var commentEl = cmacro.buildCommentEl(daddyCommentsEl, tiddler, macroParams);
-    daddyCommentsEl.appendChild(commentEl);
-    refreshedEl = commentEl;
-  } else {
-    removeChildren(daddyCommentsEl);
-    refreshedEl = story.getTiddler(tiddler.title);
-  }
-
-  prev=null;
-  for (var child = store.getTiddler(tiddler.fields.firstchild); child; child = store.getTiddler(child.fields.nextchild)) {
-     if (prev==child) {
-        break;
-      }
-     cmacro.refreshComments(refreshedEl.commentsEl, child, macroParams);
-     prev = child;
-  }
-
 },
 
 buildCommentEl: function(daddyCommentsEl, comment, macroParams) {
@@ -458,20 +432,21 @@ function log() { if (console && console.firebug) console.log.apply(console, argu
 .comment { padding: 0; margin: 1em 0 0; }
 .comment .comment { margin 0; }
 .comment .toolbar .button { border: 0; color: #9a4; }
-.comment .heading { background: [[ColorPalette::PrimaryPale]]; color: [[ColorPalette::PrimaryDark]]; border-bottom: 1px solid [[ColorPalette::PrimaryLight]]; border-right: 1px solid [[ColorPalette::PrimaryLight]]; padding: 0.15em; height: 1.3em; }
+.comment .heading { background: [[ColorPalette::PrimaryPale]]; color: [[ColorPalette::PrimaryDark]]; border-bottom: 1px solid [[ColorPalette::PrimaryLight]]; border-right: 1px solid [[ColorPalette::PrimaryLight]]; padding: 0.5em; height: 1.3em; }
 .commentTitle { float: left; }
 .commentTitle:hover { text-decoration: underline; cursor: pointer; }
-.commentText { clear: both; padding: 1em 0; }
+.commentText { clear: both; padding: 1em 1em; }
 .deleteComment { float: right; cursor: pointer; text-decoration:underline; color:[[ColorPalette::SecondaryDark]]; padding-right: 0.3em; }
 .comment .reply { margin-left: 1em; }
 .comment .replyLink { color:[[ColorPalette::SecondaryDark]]; font-style: italic; 
-                     cursor: pointer; text-decoration: underline; margin: 0 0.0em; }
+                     cursor: pointer; text-decoration: underline; margin: 0 1em; }
 .comment .created { }
 .comment .newReply { color:[[ColorPalette::SecondaryDark]]; margin-top: 1em; }
 .newReplyLabel { float: left; }
 .closeNewReply { cursor: pointer; float: right; text-decoration: underline; }
-.comments textarea { width: 100%; }
-.comments button { margin-top: 0.3em; }
+.comments textarea { width: 100%; padding: 0.3em; }
+.comments .button { margin-top: 0.3em; margin-left: 0; }
+.newCommentArea { margin-top: 0.5em; }
 
 .clearance { clear: both; }
 
