@@ -1,16 +1,19 @@
 /***
 |''Name:''|HTMLParserPlugin|
 |''Description:''|parse a HTML string into a DOM|
-|''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
-|''Source:''|http://whatfettle.com/2008/07/HTMLParserPlugin/ |
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/HTMLParserPlugin/ |
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
+|''Source:''|http://whatfettle.com/2008/07/HTMLParserPlugin/|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/HTMLParserPlugin/|
 |''Version:''|0.2|
-|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''~CoreVersion:''|2.4|
 !!Documentation
 Provides a JavaScript ~HTMLParser class intended to be used by other plugins to parse HTML files into a DOM object.
-Much of the code and idea for this plugin originates from Jon Lister's experimentations with [iframes|http://en.wikipedia.org/wiki/IFrame].
+
+Much of the code and idea for this plugin originates from Jon Lister's experimentations with [[iframes|http://en.wikipedia.org/wiki/IFrame]].
+
+There is a simple [[standalone test|simple.html]] for this library, which ideally should be rewritten using [[QUnit|http://docs.jquery.com/QUnit]].
 !!Code
 ***/
 //{{{
