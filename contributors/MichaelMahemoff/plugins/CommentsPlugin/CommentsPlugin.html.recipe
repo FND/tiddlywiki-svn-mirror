@@ -14,6 +14,7 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: cake.tiddler
 tiddler: burger.tiddler
 tiddler: counts.tiddler
+tiddler: syndicated.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: ToolbarCommands.tiddler

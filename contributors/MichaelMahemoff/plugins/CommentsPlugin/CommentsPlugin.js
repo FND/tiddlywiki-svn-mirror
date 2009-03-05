@@ -45,9 +45,14 @@ init: function() {
 },
 
 handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+  place.id = "Place"; //  debugging
   var macroParams = paramString.parseParams();
+  var tiddlerParam = getParam(macroParams, "tiddler");
+  tiddler = tiddlerParam ? store.getTiddler(tiddlerParam) : tiddler;
+  log("COMMENTS FOR ", tiddler);
   cmacro.buildCommentsArea(tiddler, place, macroParams);
-  cmacro.refreshCommentsFromRoot(story.getTiddler(tiddler.title).commentsEl, tiddler, macroParams);
+  // cmacro.refreshCommentsFromRoot(story.getTiddler(tiddler.title).commentsEl, tiddler, macroParams);
+  cmacro.refreshCommentsFromRoot(place.commentsEl, tiddler, macroParams);
 },
 
 //################################################################################
@@ -55,11 +60,14 @@ handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 //################################################################################
 
 buildCommentsArea: function(rootTiddler, place, macroParams) {
+  console.log("buildCommentsArea");
   var commentsArea = createTiddlyElement(place, "div", null, "comments");
   var heading = getParam(macroParams, "heading");
   if (heading) createTiddlyElement(commentsArea, "h1", null, null, heading);
   var comments = createTiddlyElement(commentsArea, "div", null, "");
-  story.getTiddler(rootTiddler.title).commentsEl = comments;
+  cmacro.log("comments", comments);
+  // story.getTiddler(rootTiddler.title).commentsEl = comments;
+  place.commentsEl = comments;
   // REMOVE? createTiddlyElement(commentsArea, "div");
   if (cmacro.editable(macroParams)) {
     var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
@@ -68,6 +76,7 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
     addComment.onclick = function() {
       var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
       newCommentEl.value = "";
+      cmacro.log("comments2", comments);
       cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
     };
   }
@@ -81,27 +90,30 @@ makeTextArea: function(container, macroParams) {
   return textArea;
 },
 
-refreshCommentsFromRoot: function(daddyCommentsEl, rootTiddler, macroParams) {
+refreshCommentsFromRoot: function(rootCommentsEl, rootTiddler, macroParams) {
+  cmacro.log("refresh root comments", rootCommentsEl);
   cmacro.treeifyComments(rootTiddler);
-  cmacro.refreshComments.apply(null, arguments);
+  cmacro.refreshComments(rootCommentsEl, rootTiddler, macroParams);
 },
 
 refreshComments: function(daddyCommentsEl, tiddler, macroParams) {
+  // cmacro.log("refreshComments - root", rootCommentsEl, "daddy", daddyCommentsEl,
+    // "tiddler ", tiddler, "macroParams ", macroParams);
+  // cmacro.log("refreshComments", arguments);
 
-  var refreshedEl;
+  var commentsEl;
   if (tiddler.fields.daddy) {
     var commentEl = cmacro.buildCommentEl(daddyCommentsEl, tiddler, macroParams);
-    // var commentEl = createTiddlyElement(daddyCommentsEl, "div", "", "", tiddler.text);
-    // commentEl.commentsEl = createTiddlyElement(commentEl, "div");
     daddyCommentsEl.appendChild(commentEl);
-    refreshedEl = commentEl;
+    commentsEl = commentEl.commentsEl;
   } else { // root element
     removeChildren(daddyCommentsEl);
-    refreshedEl = story.getTiddler(tiddler.title);
+    // refreshedEl = story.getTiddler(tiddler.title);
+    commentsEl = daddyCommentsEl;
   }
 
   for (var child = tiddler.firstChild; child; child = child.next) {
-     cmacro.refreshComments(refreshedEl.commentsEl, child, macroParams);
+     cmacro.refreshComments(commentsEl, child, macroParams);
   }
 
 },
@@ -168,6 +180,8 @@ refreshCommentsOld: function(daddyCommentsEl, tiddler, macroParams) {
 },
 
 buildCommentEl: function(daddyCommentsEl, comment, macroParams) {
+
+  log("buildCommentEl", arguments);
 
   // COMMENT ELEMENT
   var commentEl = document.createElement("div");
@@ -426,6 +440,7 @@ config.macros.tiddlyWebComments.handler =
     config.macros.comments.handler(place,macroName,params,wikifier, paramString,tiddler);
   };
 
+function log() { if (console && console.firebug) console.log.apply(console, arguments); }
 
 })(version.extensions.CommentsPlugin);
 
@@ -449,7 +464,6 @@ config.macros.tiddlyWebComments.handler =
 .commentText { clear: both; padding: 1em 0; }
 .deleteComment { float: right; cursor: pointer; text-decoration:underline; color:[[ColorPalette::SecondaryDark]]; padding-right: 0.3em; }
 .comment .reply { margin-left: 1em; }
-.comment .reply button { margin-left: 0; }
 .comment .replyLink { color:[[ColorPalette::SecondaryDark]]; font-style: italic; 
                      cursor: pointer; text-decoration: underline; margin: 0 0.0em; }
 .comment .created { }
@@ -457,10 +471,10 @@ config.macros.tiddlyWebComments.handler =
 .newReplyLabel { float: left; }
 .closeNewReply { cursor: pointer; float: right; text-decoration: underline; }
 .comments textarea { width: 100%; }
-.comments button { margin-top: 0.3em; padding }
-.comments button.addComment { margin-top: 0.3em; margin-left: 0; }
+.comments button { margin-top: 0.3em; }
 
 .clearance { clear: both; }
+
 
 !(end of StyleSheet)
 

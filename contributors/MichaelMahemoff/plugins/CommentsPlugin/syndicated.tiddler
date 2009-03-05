@@ -1,0 +1,8 @@
+<div title="syndicated" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="" changecount="19"><pre>Here are the comments some people left about cake (&lt;&lt;comments tiddler:cake editable:false&gt;&gt;):
+
+<<comments tiddler:cake editable:false>>
+Here is a full list of comments for burger, and it's editable so you can add your own (&lt;&lt;comments tiddler:burger&gt;&gt;).
+<<comments tiddler:burger>>
+
+This demonstrates "syndication" where you can use a "tiddler" parameter to show comments for another tiddler. It also demonstrates the "editable" flag, which defaults true and can be turned off by specifying "editable:false".
+</pre>
