@@ -7,7 +7,7 @@
 
 /*{{{*/
 config.views.editor.defaultText = '';
-config.options.chkAnimate = true;
+config.options.chkAnimate = false;
 config.options.chkSaveBackups = false;
 config.options.chkAutoSave = false;
 config.options.txtBackupFolder = "backup";

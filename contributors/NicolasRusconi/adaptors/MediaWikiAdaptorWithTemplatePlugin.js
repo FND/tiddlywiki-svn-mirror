@@ -39,6 +39,7 @@ adaptor.prototype.getTiddlerPostProcess = function(context)
 		var adaptor = context.adaptor;
 		var callback = context.callback;
 		context.callback = null;
+		context.status = true;
 		adaptor.getTemplatesForPage.call(adaptor,context.tiddler.title, context, context.userParams, callback);
 	}
 	return context.tiddler;

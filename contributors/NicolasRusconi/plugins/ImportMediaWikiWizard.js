@@ -304,8 +304,9 @@ config.macros.importMediaWiki.doImportTiddlers = function (adaptor, importContex
 config.macros.importMediaWiki.onGetTiddler = function(tiddlerContext, importContext)
 {
 	var macro = config.macros.importMediaWiki;
-	if(!tiddlerContext.status)
+	if (!tiddlerContext.status) {
 		displayMessage("Error in importTiddlers.onGetTiddler: " + tiddlerContext.statusText);
+	}
 	var tiddler = tiddlerContext.tiddler;
 	store.suspendNotifications();
 	tags = tiddler.tags;
