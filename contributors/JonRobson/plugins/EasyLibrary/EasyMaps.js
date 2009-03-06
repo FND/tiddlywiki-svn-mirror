@@ -1,10 +1,6 @@
 /*
 A package for rendering geojson polygon and point features easily
 */
-document.onkeydown = function(e){
-	geomaps['world'].resize(200,200);
-};
-
 var GeoTag = function(longitude,latitude,properties){
 	var geo = {};
 	geo.type = "feature";
