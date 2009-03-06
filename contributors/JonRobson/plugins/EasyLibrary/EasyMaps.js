@@ -1,6 +1,9 @@
 /*
 A package for rendering geojson polygon and point features easily
 */
+document.onkeydown = function(e){
+	geomaps['world'].resize(200,200);
+};
 
 var GeoTag = function(longitude,latitude,properties){
 	var geo = {};
@@ -33,15 +36,7 @@ var EasyMap = function(wrapper){
 	
 	if(!wrapper.style.width) wrapper.style.width = "600px";
 	if(!wrapper.style.height) wrapper.style.height= "200px";
-	this.settings.wrapper = {};
-	this.settings.wrapper.width = wrapper.style.width;
-	this.settings.wrapper.height = wrapper.style.height;
-	this.settings.wrapper.offset = jQuery(this.wrapper).offset();
-	this.settings.wrapper.center = {};
-	this.settings.wrapper.center.x = this.settings.wrapper.offset.left + (parseInt(this.settings.wrapper.width) / 2);
-	this.settings.wrapper.center.y = this.settings.wrapper.offset.top + (parseInt(this.settings.wrapper.height) / 2);
-	this.settings.wrapper.offset.right = this.settings.wrapper.offset.left + (parseInt(this.settings.wrapper.width));
-	this.settings.wrapper.offset.bottom =	this.settings.wrapper.offset.top + (parseInt(this.settings.wrapper.height));		
+		
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width);
 	canvas.height = parseInt(wrapper.style.height);
@@ -61,7 +56,6 @@ var EasyMap = function(wrapper){
 	
 	this.easyClicking = new EasyClicking(wrapper);
 	wrapper.appendChild(canvas);
-	wrapper.easyMaps = this;
 
 
 	this._setupMouseHandlers();
@@ -74,9 +68,35 @@ var EasyMap = function(wrapper){
 	this._fittocanvas = true;
 	this.geofeatures = {};
 	this.clear();
+	/*this.settings.wrapper = {};
+	this.settings.wrapper.width = wrapper.style.width;
+	this.settings.wrapper.height = wrapper.style.height;
+	this.settings.wrapper.offset = jQuery(this.wrapper).offset();
+	this.settings.wrapper.center = {};
+	this.settings.wrapper.center.x = this.settings.wrapper.offset.left + (parseInt(this.settings.wrapper.width) / 2);
+	this.settings.wrapper.center.y = this.settings.wrapper.offset.top + (parseInt(this.settings.wrapper.height) / 2);
+	this.settings.wrapper.offset.right = this.settings.wrapper.offset.left + (parseInt(this.settings.wrapper.width));
+	this.settings.wrapper.offset.bottom =	this.settings.wrapper.offset.top + (parseInt(this.settings.wrapper.height));
+	*/
 };  
 EasyMap.prototype = {
-	getProjection: function(){
+	resize: function(width,height){
+		this.wrapper.style.width = width+"px";
+		this.wrapper.style.height = height +"px";
+		var  t=this.getTransformation();
+		t.origin.x = width / 2;
+		t.origin.y = height / 2;
+		this.setTransformation(t);
+		if(this.canvas.getAttribute("width")){
+			this.canvas.width = width;
+			this.canvas.height = height;
+		}
+		this.canvas.style.height = height+"px";
+		this.canvas.style.width = width +"px";
+		this.clear();
+
+	}
+	,getProjection: function(){
 		return this.settings.projection;
 	}
 	,setProjection: function(projection){
@@ -296,7 +316,7 @@ EasyMap.prototype = {
 	},
 
 
-	/*onmouseup and onmousemove are functions with following parameters:
+	/*onmouseup and ove are functions with following parameters:
 		e,shape,mouse,longitude_latitude,feature
 		
 	*/

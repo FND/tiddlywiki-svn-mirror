@@ -26,6 +26,7 @@ EasyMapController.prototype = {
 	addMouseWheelZooming: function(){ /*not supported for internet explorer*/
 		var mw = this.wrapper.onmousewheel;
 		var that = this;
+	
 		var onmousewheel = function(e){
 	        	if (!e) /* For IE. */
 	                e = window.event;
@@ -88,14 +89,13 @@ EasyMapController.prototype = {
 
 		
 		var element = this.wrapper;
-		if (element.addEventListener){
-		        /** DOMMouseScroll is for mozilla. */
-		
-		        element.addEventListener('DOMMouseScroll', onmousewheel, false);
-		
+		if(element.attachEvent){ 	
+			element.attachEvent("onmousewheel", onmousewheel); //safari
 		}
-		else if(element.attachEvent){
-			element.attachEvent("mousewheel", onmousewheel); //safari
+		else if (element.addEventListener){
+			element.onmousewheel = onmousewheel; //safari
+		        element.addEventListener('DOMMouseScroll', onmousewheel, false);/** DOMMouseScroll is for mozilla. */
+		
 		}
 		else{ //it's ie.. or something non-standardised. do nowt
 		//window.onmousewheel = document.onmousewheel = onmousewheel;	

@@ -133,8 +133,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			input.style.position = "relative";
 			if(initialValue) input.value = initialValue;
 			var suggestions = document.createElement("div");
-			suggestions.style.position = "relative";
-			
+			suggestions.className = "suggestions"
+			suggestions.style.display = "none";
 			var possibleSuggestions = values;
 			
 			for(var i=0; i < possibleSuggestions.length; i ++){
@@ -157,8 +157,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					suggestions.innerHTML = "";
 					if(value.length < 3) return;
 					var list = document.createElement("ul");
-					list.className = "suggestions";
-					
+					list.className = "suggestion";
+					suggestions.style.display = "none";
 					var regexp = new RegExp(value,"i");
 					suggestions.style.display="none";
 					for(var i=0; i<possibleSuggestions.length; i++){

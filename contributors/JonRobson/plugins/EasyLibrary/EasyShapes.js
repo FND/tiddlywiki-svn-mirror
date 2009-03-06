@@ -224,6 +224,7 @@ EasyShape.prototype={
 		if(this.properties.lineWidth){
 			ctx.lineWidth = this.properties.lineWidth;
 		}
+	
 		ctx.translate(o.x,o.y);
 		ctx.scale(s.x,s.y);
 		ctx.translate(tr.x,tr.y);
@@ -292,9 +293,9 @@ EasyShape.prototype={
 		if(c.length < 2) return;
 		
 
-		
-		var x =o.x  + c[0];
-		var y =o.y+c[1];		
+		var x,y;
+		x = c[0];
+		y =c[1];		
 		x *=this._iemultiplier;
 		y *= this._iemultiplier;
 		x = parseInt(x);
@@ -321,8 +322,8 @@ EasyShape.prototype={
 				//path += " ";
 				buffer.push(" ");
 			}
-			var x =o.x+c[i];
-			var y =o.y+c[i+1];
+			var x =c[i];
+			var y =c[i+1];
 			x *= this._iemultiplier;
 			y *= this._iemultiplier;
 			x = parseInt(x);
@@ -353,17 +354,15 @@ EasyShape.prototype={
 			this._createvmlpathstring(vml,transformation,projection);
 		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
 		}
-
 		var o = transformation.origin;
+	
 		var t = transformation.translate;
 		var s = transformation.scale;
 		if(!this.initialStyle) {
 			var initTop = parseInt(vml.style.top);
 			if(!initTop) initTop = 0;
-			initTop += o.y;
 			var initLeft = parseInt(vml.style.left);
 			if(!initLeft) initLeft = 0;
-			initLeft += o.x;
 			var w =parseInt(vml.style.width);
 			var h = parseInt(vml.style.height)
 			this.initialStyle = {top: initTop, left: initLeft, width: w, height: h};
@@ -385,6 +384,8 @@ EasyShape.prototype={
 		newtop = initialStyle.top;
 		newleft = initialStyle.left;
 
+		newleft += o.x;
+		newtop += o.y;
 		//scale
 		if(scalingRequired){
 			var newwidth = initialStyle.width * s.x;
@@ -393,11 +394,11 @@ EasyShape.prototype={
 		//translate into right place
 
 		var temp;
-		temp = (t.x - o.x);
+		temp = (t.x);
 		temp *= s.x;
 		newleft += temp;
 
-		temp = (t.y - o.y);
+		temp = (t.y);
 		temp *= s.x;
 		newtop += temp;						
 
