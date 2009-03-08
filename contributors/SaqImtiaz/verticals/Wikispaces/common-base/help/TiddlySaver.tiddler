@@ -1,4 +1,4 @@
-<div title="TiddlySaver" modifier="SaqImtiaz" created="200712031349" tags="excludeLists excludeSearch readOnly">
+<div title="TiddlySaver" modifier="SaqImtiaz" created="200903021350" tags="excludeLists excludeSearch readOnly">
 <pre>The TiddlySaver Java applet allows TiddlyWiki from a {{{file://}}} URL to save changes Safari, Opera and other browsers.
 
 It is a small file named [["TiddlySaver.jar"|TiddlySaver.jar]] that must be placed in the same directory as your TiddlyWiki file. Before you can use it, you need to give it the necessary privileges by editting your {{{.java.policy}}} file.

@@ -3,15 +3,19 @@ recipe: POLS250-common.html.recipe
 #
 # 	Plugins
 tiddler: studentnotebook/plugins/ReadOnlyTiddlersPlugin.js
+tiddler: studentnotebook/plugins/fixUpdates.js
 tiddler: ../../plugins/TiddlerNotesPlugin/TiddlerNotesPlugin.js
 tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfig excludeLists excludeSearch"
 tiddler: ../../plugins/batchNavigationMacro.js
 tiddler: ../../plugins/NavigationMacro/NavigationMacro.js
+tiddler: ../../plugins/TagsMacroTweak.js
+tiddler: ../../plugins/VerticalUpdatePlugin.js
 #
 #
 # 	Feeds
 tiddler: studentnotebook/feeds/POLS250-ContentFeed.tiddler
-tiddler: studentnotebook/feeds/POLS250-StructureFeed.tiddler
+#tiddler: studentnotebook/feeds/POLS250-StructureFeed.tiddler
+tiddler: studentnotebook/feeds/VerticalUpgradeURL.tiddler
 #
 #
 # 	Content
@@ -34,3 +38,5 @@ tiddler: studentnotebook/framework/systemConfig.tiddler
 tiddler: studentnotebook/framework/systemConfigDisable.tiddler
 tiddler: studentnotebook/framework/systemServer.tiddler
 tiddler: studentnotebook/framework/MyNotes.tiddler
+tiddler: studentnotebook/framework/readOnly.tiddler
+tiddler: studentnotebook/framework/excludeSync.tiddler

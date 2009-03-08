@@ -1,7 +1,7 @@
-<div title="ViewTemplate" modifier="SaqImtiaz" created="200802260834" modified="200802261350" tags="excludeSearch excludeLists">
+<div title="ViewTemplate" modifier="SaqImtiaz" created="200802260834" modified="200903021350" tags="excludeSearch excludeLists">
 <pre><!--{{{-->
 <div class='title' macro='view title'></div>
-<div class='toolbar' macro='toolbar +editTiddler'></div>
+<div class='toolbar' macro='toolbar +editTiddler references'></div>
 <div class='tagClear'></div>
 <div class='viewer viewernotes' macro='view text wikified'></div>
 <div class='viewer navbar' macro='hideWhen tiddler.fields["server.type"] != "wikispaces"'>

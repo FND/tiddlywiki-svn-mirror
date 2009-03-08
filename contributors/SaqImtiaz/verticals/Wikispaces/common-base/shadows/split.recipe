@@ -5,6 +5,6 @@ shadow: PageTemplate.tiddler
 tiddler: SideBarOptions.tiddler
 shadow: SiteSubtitle.tiddler
 shadow: SiteTitle.tiddler
-shadow: StyleSheet.tiddler
+tiddler: StyleSheet.tiddler
 shadow: ViewTemplate.tiddler
-shadow: StyleSheetPrint.tiddler
+tiddler: StyleSheetPrint.tiddler
