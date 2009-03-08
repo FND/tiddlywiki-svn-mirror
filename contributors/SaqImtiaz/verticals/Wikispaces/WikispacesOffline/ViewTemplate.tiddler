@@ -3,7 +3,7 @@
 <div class='title' macro='view title'></div>
 <div class='toolbar'>
 	<span macro='toolbar +editTiddler references'></span>
-	<span macro='hideWhen tiddler.isReadOnly()'>
+	<span macro='hideWhen (tiddler.isReadOnly())||(!! tiddler.fields["server.page.revision"])'>
 		<span style="padding-left:0.5em;" macro='toggleField server.host {{config.defaultCustomFields["server.host"]}} private "" true {{window.setPrivatePageTag}}'></span>
 	</span>
 </div>
