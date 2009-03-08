@@ -4,6 +4,7 @@ window.setDefaultCustomFields = function(){
 	var cf = {};	
 	if(t) {
 		cf['server.type'] = store.getTiddlerSlice(t.title,'Type');
+		cf['wikiformat'] = store.getTiddlerSlice(t.title,'Type');
 		cf['server.host'] = store.getTiddlerSlice(t.title,'URL');
 		cf['server.workspace'] = store.getTiddlerSlice(t.title,'Workspace');
 	}

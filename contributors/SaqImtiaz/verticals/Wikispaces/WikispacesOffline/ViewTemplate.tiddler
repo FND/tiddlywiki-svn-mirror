@@ -1,0 +1,17 @@
+<div title="ViewTemplate" modifier="SaqImtiaz" created="200802260834" modified="200903021350" tags="excludeSearch excludeLists">
+<pre><!--{{{-->
+<div class='title' macro='view title'></div>
+<div class='toolbar'>
+	<span macro='toolbar +editTiddler references'></span>
+	<span macro='hideWhen tiddler.isReadOnly()'>
+		<span style="padding-left:0.5em;" macro='toggleField server.host {{config.defaultCustomFields["server.host"]}} private "" true {{window.setPrivatePageTag}}'></span>
+	</span>
+</div>
+<div class='tagClear'></div>
+<div class='viewer viewernotes' macro='view text wikified'></div>
+<div class='tagged' macro='tags exclude:true'></div>
+<div macro='hideWhen tiddler.fields["server.type"] != "wikispaces"'>
+	<div class='viewer notes' macro='notes heading:"My Notes" tag:"MyNotes excludeLists" suffix:"Notes"'></div>
+</div>
+<!--}}}--></pre>
+</div>

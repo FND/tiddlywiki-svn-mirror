@@ -1,0 +1,37 @@
+recipe: basic.html.recipe
+#
+#
+# Plugins
+tiddler: ../../plugins/VerticalUpdatePlugin.js
+tiddler: ../../plugins/TagsMacroTweak.js
+#tiddler: ../POLS250/studentnotebook/plugins/ReadOnlyTiddlersPlugin.js
+tiddler: ../../../SimonBaird/mptw/trunk/core/HideWhenPlugin.js tags="systemConfig excludeLists excludeSearch"
+tiddler: ../../plugins/TiddlerNotesPlugin/TiddlerNotesPlugin.js
+tiddler: ../../plugins/defaultCustomFieldsPlugin.js
+tiddler: WikispacesOffline/settingsNotebookPlugin.js
+tiddler: ../../plugins/toggleFieldPlugin.js
+tiddler: ../POLS250/instructorsnotebook/plugins/setPrivatePageTagsScript.js
+#
+#
+#Shadows
+tiddler: WikispacesOffline/ViewTemplate.tiddler
+tiddler: WikispacesOffline/DefaultTiddlers.tiddler
+tiddler: WikispacesOffline/SiteTitle.tiddler
+tiddler: WikispacesOffline/GettingStarted.tiddler
+#
+#
+#	Framework
+tiddler: ../POLS250/studentnotebook/framework/excludeLists.tiddler
+tiddler: ../POLS250/studentnotebook/framework/excludeSearch.tiddler
+tiddler: ../POLS250/studentnotebook/framework/excludeSync.tiddler
+tiddler: ../POLS250/studentnotebook/framework/systemConfig.tiddler
+tiddler: ../POLS250/studentnotebook/framework/systemConfigDisable.tiddler
+tiddler: ../POLS250/studentnotebook/framework/systemServer.tiddler
+#tiddler: ../POLS250/studentnotebook/framework/MyNotes.tiddler
+tiddler: ../POLS250/studentnotebook/framework/readOnly.tiddler
+tiddler: ../POLS250/instructorsnotebook/framework/systemServerDefault.tiddler
+#
+#
+# Feeds
+tiddler: WikispacesOffline/ContentFeed.tiddler
+tiddler: WikispacesOffline/VerticalUpgradeURL.tiddler
