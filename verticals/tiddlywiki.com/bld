@@ -4,9 +4,9 @@ RELEASE=${1:-$DEFAULT_RELEASE}
 DEST=$PWD/../../../cooked/tiddlywiki.com
 mkdir $PWD/../../../cooked
 mkdir $PWD/../../../cooked/tiddlywiki.com
-RECIPE=$PWD/index.$RELEASE.html.recipe
+RECIPE=$PWD/recipes/index.$RELEASE.html.recipe
 ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
-RECIPE=$PWD/empty.$RELEASE.html.recipe
+RECIPE=$PWD/recipes/empty.$RELEASE.html.recipe
 ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
 cp $DEST/empty.$RELEASE.html /tmp/empty.html
 rm $DEST/empty.$RELEASE.zip
