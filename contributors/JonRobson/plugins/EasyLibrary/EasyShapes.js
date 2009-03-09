@@ -1,6 +1,7 @@
 //geojson should be handled here - maybe create from geojson FEATURE
 
 /*coordinates are a string consisting of floats and move commands (M)*/
+
 var EasyShape = function(properties,coordinates,geojson){
 	this.grid = {};
 	this.coords = [];
@@ -11,10 +12,61 @@ var EasyShape = function(properties,coordinates,geojson){
 		this._constructBasicShape(properties,coordinates);
 	}
 
+	this._optimisedcoords = {};
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
+	this._maxScaleFactor = 4096;
 };
 EasyShape.prototype={
-	getBoundingBox: function(){ /* returns untransformed bounding box */
+	_optimiseCoordinates: function(transformation){
+	
+		var c = this.getCoordinates();
+		if(!this._resolution){
+			var bb = this.getBoundingBox();
+			var perimeter = ((bb.x2 - bb.x1)*2) + ((bb.y2 - bb.y1)*2);
+	
+			this._resolution = (c.length /2 ) / perimeter;			
+		}
+
+	
+			
+		var lastcoord = {x:false,y:false};
+		var bettercoords = [];
+		for(var i=0; i < c.length-1; i+=2){
+			if(c[i]=== "M") {
+				bettercoords.push("M");
+				i+= 1; 
+			}
+			var x = parseFloat(c[i]);
+			var y = parseFloat(c[i+1]);	
+			if(x == NaN || y == NaN){
+				throw "error in EasyShape render: the coordinates for this EasyShape contain invalid numbers";
+			}
+			else{
+				if(this._optimisation_worthDrawingPoint(x,y,lastcoord,transformation)){
+					bettercoords.push(x);
+					bettercoords.push(y);
+					lastcoord.x = x;
+					lastcoord.y = y;
+				}
+						
+			}	
+		}
+		
+		this.setOptimisedCoords(transformation,bettercoords);
+		
+		
+		
+	}
+	,getOptimisedCoords: function(transformation){
+		var index = transformation.scale.x + ","+transformation.scale.y;
+		if(this._optimisedcoords[index]) return this._optimisedcoords[index];
+		else return false;
+	}
+	,setOptimisedCoords: function(transformation,coords){
+		var index = transformation.scale.x + ","+transformation.scale.y;
+		this._optimisedcoords[index] = coords;
+	}
+	,getBoundingBox: function(){ /* returns untransformed bounding box */
 		return this.grid;
 	}
 
@@ -84,9 +136,11 @@ EasyShape.prototype={
 	}
 	
 	,setCoordinates: function(coordinates){
+		this._optimisedcoords = {};
 		this.coords = coordinates;
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
+		
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
 	,getCoordinates: function(){
@@ -204,16 +258,24 @@ EasyShape.prototype={
 	 /*RENDERING */
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
-		var shapetype = this.properties.shape;	
-		if(projection)
+		var shapetype = this.properties.shape;
+			
+		var opt =this.getOptimisedCoords(transformation);
+		if(!opt){	 
+			for(var h=transformation.scale.x,i=transformation.scale.y; h < 1024; h*=2, i *=2){
+				var t= {scale:{x:h,y:i}};
+				this._optimiseCoordinates(t);
+			}
+		}
+		
+		c =this.getOptimisedCoords(transformation);
+		
+		if(projection){
 			c = this._applyProjection(projection,transformation);
-		else
-			c = this.coords;
-		
-		if(c.length == 0) return;
-		
-		var threshold = 2;
+		}
 
+	
+		if(c.length == 0) return;
 		var ctx = canvas.getContext('2d');
 
 		var o = transformation.origin;
@@ -232,7 +294,6 @@ EasyShape.prototype={
 		ctx.beginPath();
 
 		var move = true;
-		var lastcoord = {x:false,y:false};
 		for(var i=0; i < c.length-1; i+=2){
 			if(c[i]=== "M") {
 				i+= 1; 
@@ -240,27 +301,19 @@ EasyShape.prototype={
 			}
 			var x = parseFloat(c[i]);
 			var y = parseFloat(c[i+1]);	
-			if(x == NaN || y == NaN){
-				throw "error in EasyShape render: the coordinates for this EasyShape contain invalid numbers";
+		
+			if(move){
+				ctx.moveTo(x,y);
+				move = false;
 			}
 			else{
-				if(move){
-					ctx.moveTo(x,y);
-					move = false;
-				}
-				else{
-					if(this._optimisation_worthDrawingPoint(x,y,lastcoord,transformation)){
-						ctx.lineTo(x,y);
-							lastcoord.x = x;
-							lastcoord.y = y;
-					}
-				}
+				ctx.lineTo(x,y);
+			}			
 			
-			}
 			
 		}
 		ctx.closePath();
-
+		
 		if(!this.properties.hidden) {
 			ctx.strokeStyle = this.properties.stroke;
 			if(typeof this.properties.fill == 'string') 
@@ -486,9 +539,21 @@ EasyShape.prototype={
 	,getProperty: function(name){
 		return this.properties[name];
 	}
-	
+	,_applyProjectionToXY: function(x,y,projection,transformation){
+		if(projection && projection.xy){
+			return projection.xy(x,y,transformation);
+		}
+	}
 	,_applyProjection: function(projection,transformation){
-		var c = this.coords;
+		var c;
+		var opt =this.getOptimisedCoords(transformation);
+		if(opt){
+			c = opt;
+		}
+		else{
+			c = this.getCoordinates();
+		}
+		
 		if(!projection) return c;
 		if(!projection.xy){
 			return;
@@ -595,17 +660,25 @@ EasyShape.prototype={
 		var delta = {x:t1,y:t2};
 		delta.x *= s.x;
 		delta.y *= s.y;
-		if(delta.x < 1 && delta.y < 1) 
+		if(delta.x < 5 && delta.y < 5) 
 			{return false;}//too small
 		else
 			return true;
 	}
 	,_optimisation_worthDrawingPoint: function(x,y,lastcoord,transformation){
-		var xd =(x - lastcoord.x);
-		var yd= (y - lastcoord.y);
+
+
 		if(!lastcoord.x || !lastcoord.y) return true;
-		var delta = Math.sqrt((xd * xd) + (yd*yd));
-		if(delta * transformation.scale.x < 1){
+		var delta = {};
+		delta.x =(x - lastcoord.x);
+		delta.y =(y - lastcoord.y);
+		if(delta.x < 0) delta.x = -delta.x;
+		if(delta.y < 0) delta.y = -delta.y;	
+		var dx =delta.x* transformation.scale.x;
+		var dy = delta.y*  transformation.scale.y;
+		var compare =  this._resolution /  transformation.scale.x;
+	      	
+		if(dx <compare&& dy < compare){
 			return false;
 		}
 		else{

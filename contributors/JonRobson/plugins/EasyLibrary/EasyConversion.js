@@ -15,7 +15,9 @@ var EasyConversion ={
 	_kmlPolygonToFeature: function(xmlNode,feature){
 		var geocoordinates = [];
 		var polyChildren =xmlNode.childNodes;
+		
 		for(var k=0; k < polyChildren.length; k++){
+			var fail = true;
 			if(polyChildren[k].tagName =='outerBoundaryIs'){
 				
 				var outerChildren =polyChildren[k].childNodes;
@@ -31,7 +33,7 @@ var EasyConversion ={
 								geometry = geometry.trim();
 						
 								
-								var coords = geometry.split("\n");
+								var coords = geometry.split(" "); //\n?
 								for(var n=0; n < coords.length; n+= 1){
 									var values = coords[n].split(",");
 									var longitude= parseFloat(values[0]);
@@ -40,8 +42,11 @@ var EasyConversion ={
 									geocoordinates.push([longitude,latitude]);
 								
 								}
-								if(coords.length == 0){
+								if(coords.length ==0){
 									return false;
+								}
+								else{
+									fail = false;
 								}
 								feature.geometry.coordinates.push([geocoordinates]);			
 								
@@ -53,23 +58,39 @@ var EasyConversion ={
                                                 
 			}
 		}
-		
-		return feature;
+		if(!feature){
+			fail  = true;
+		}
+		else if(feature.geometry.coordinates[0].length == 0){
+			fail = true;
+		}
+		else if(feature.geometry.coordinates[0][0].length == 1){
+			fail = true;
+		}
+	
+		if(fail) {
+			return false;
+		}
+		else{
+				
+			return feature;
+		}
 	}
 	,kmlToGeoJson: function(kml){
 		var geojson = {type:"FeatureCollection", features:[]};
 		
 		var xml =EasyFileUtils._getXML(kml);
 		var items = xml.getElementsByTagName("Placemark");
-		for(var i=0; i < items.length; i++){
 		
+		for(var i=0; i < items.length; i++){
+	
 			var feature = {type:'Feature', geometry:{type:'MultiPolygon', coordinates:[]},properties:{'name':'georss'}};
 						
-			var fail = true;
+			
 			var att = items[i].childNodes;
 			
 			for(var j=0; j < att.length; j++){
-				
+				var fail = false;
 				
 				if(att[j].tagName == 'name' && att[j].firstChild){
 					feature.properties.name =att[j].firstChild.nodeValue;
@@ -77,10 +98,13 @@ var EasyConversion ={
 				
 				if(att[j].tagName == 'Polygon'){
 					
-					succeeded = this._kmlPolygonToFeature(att[j],feature);
-					
+					var succeeded = this._kmlPolygonToFeature(att[j],feature);
+
 					if(succeeded){
 						feature = succeeded;
+					}
+					else{
+						fail = true;
 					}
 				}
 				if(att[j].tagName == 'MultiGeometry'){
@@ -89,10 +113,13 @@ var EasyConversion ={
 					for(var k=0; k < children.length; k++){
 						if(children[k].tagName == 'Polygon'){
 
-							succeeded = this._kmlPolygonToFeature(children[k],feature);
-
+							var succeeded = this._kmlPolygonToFeature(children[k],feature);
+						
 							if(succeeded){
 								feature = succeeded;
+							}
+							else{
+								fail = true;
 							}
 						}	
 					}
@@ -101,10 +128,12 @@ var EasyConversion ={
 			}
 			//console.log("ere",fail);
 			//if(!fail)
-			if(feature)geojson.features.push(feature);
-			
+	//console.log(feature.geometry.coordinates.length);
+			if(!fail && feature && feature.geometry.coordinates.length > 0) {
+					geojson.features.push(feature);
+			}
 		}
-		console.log(geojson);
+		//console.log(geojson.toSource());
 		return geojson;
 	}
 	,geoRssToGeoJson : function (georss){
@@ -161,6 +190,7 @@ var EasyConversion ={
 				//console.log("Unable to construct feature " +feature.properties.name+". Invalid georss coordinates: first and last coordinates should be same. ");
 			}
 		}
+		
 		return geojson;
 	}
 
