@@ -4,7 +4,7 @@
 #  uploadbeta [release] [cleanup]
 
 # default values
-DEFAULT_RELEASE="2.4.2"
+DEFAULT_RELEASE="2.5.0"
 RELEASE=${1:-$DEFAULT_RELEASE}
 HOST="webdav.tiddlywiki.com"
 USER="releasemanager"
