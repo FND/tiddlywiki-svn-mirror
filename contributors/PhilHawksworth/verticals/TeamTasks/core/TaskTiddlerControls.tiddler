@@ -3,7 +3,6 @@
 |scope |<<ValueSwitcher type:"dropdown" valuesSource:"ScopeDefinitions">> |
 |priority |<<ValueSwitcher type:"dropdown" valuesSource:"PriorityDefinitions">> |
 |assigned by |<<ValueSwitcher type:"dropdown" field:"assignedBy" valuesSource:"UserDefinitions">> |
-|assigned by |<<ValueSwitcher type:"dropdown" field:"assignedTo" valuesSource:"UserDefinitions">> |
 |status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
 |alias |<<ValueSwitcher type:"freetext" field:"alias">> |
 |dept |<<ValueSwitcher type:"freetext" field:"dept" autoComplete:"true">> |
