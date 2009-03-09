@@ -4,7 +4,7 @@
 |''Description:''|Wikispaces Formatter|
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/WikispacesFormatterPlugin.js |
-|''Version:''|0.1.1|
+|''Version:''|0.1.2|
 |''Date:''|Nov 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
@@ -26,6 +26,28 @@ wikispacesDebug = function(out,str)
 {
 	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
 	createTiddlyElement(out,'br');
+};
+
+wikispacesFormatter.Tiddler_changed = Tiddler.prototype.changed;
+Tiddler.prototype.changed = function()
+{
+	if((this.fields.wikiformat==config.parsers.wikispacesFormatter.format) || this.isTagged(config.parsers.wikispacesFormatter.formatTag)) {
+		//# update the links array, by checking for wikispaces format links
+		this.links = [];
+		var tiddlerLinkRegExp = /\[\[(.*?)(?:\|(.*?))?\]\]/mg;
+		tiddlerLinkRegExp.lastIndex = 0;
+		var match = tiddlerLinkRegExp.exec(this.text);
+		while(match) {
+			var link = match[1];
+			if(link.indexOf(':')==-1)
+				this.links.pushUnique(link);
+			match = tiddlerLinkRegExp.exec(this.text);
+		}
+	} else if(!this.isTagged('systemConfig')) {
+		wikispacesFormatter.Tiddler_changed.apply(this,arguments);
+		return;
+	}
+	this.linksUpdated = true;
 };
 
 wikispacesFormatter.normalizedTitle = function(title)
