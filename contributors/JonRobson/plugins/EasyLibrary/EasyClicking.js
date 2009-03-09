@@ -40,7 +40,13 @@ EasyClicking.prototype = {
 	}
 	
 	,clearMemory: function(){
+		for(var i=0; i < this.memory.length; i++){
+			if(this.memory[i].vml){
+				this.memory[i].vml.parentNode.removeChild(this.memory[i].vml);
+			}
+		}
 		this.memory = [];
+
 	},
 	getMemory: function(){
 		return this.memory;

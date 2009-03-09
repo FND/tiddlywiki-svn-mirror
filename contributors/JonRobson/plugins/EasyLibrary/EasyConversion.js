@@ -12,7 +12,102 @@ var EasyConversion ={
 		//work out here where origin should be (half of the maximum width of the svg coordinate space should be 0)
 		return res;
 	},
-	geoRssToGeoJson : function (georss){
+	_kmlPolygonToFeature: function(xmlNode,feature){
+		var geocoordinates = [];
+		var polyChildren =xmlNode.childNodes;
+		for(var k=0; k < polyChildren.length; k++){
+			if(polyChildren[k].tagName =='outerBoundaryIs'){
+				
+				var outerChildren =polyChildren[k].childNodes;
+				for(var l=0; l < outerChildren.length; l++){
+					if(outerChildren[l].tagName == 'LinearRing'){
+						
+						var ringChildren =outerChildren[l].childNodes;
+						for(var m=0; m < ringChildren.length; m++){
+							if(ringChildren[m].tagName == 'coordinates'){
+							
+								
+								var geometry = EasyFileUtils.getChildNodeValue(ringChildren[m]);
+								geometry = geometry.trim();
+						
+								
+								var coords = geometry.split("\n");
+								for(var n=0; n < coords.length; n+= 1){
+									var values = coords[n].split(",");
+									var longitude= parseFloat(values[0]);
+									var latitude = parseFloat(values[1]);
+									var altitude = parseFloat(values[2]);
+									geocoordinates.push([longitude,latitude]);
+								
+								}
+								if(coords.length == 0){
+									return false;
+								}
+								feature.geometry.coordinates.push([geocoordinates]);			
+								
+							}	
+						}
+					}
+				}
+
+                                                
+			}
+		}
+		
+		return feature;
+	}
+	,kmlToGeoJson: function(kml){
+		var geojson = {type:"FeatureCollection", features:[]};
+		
+		var xml =EasyFileUtils._getXML(kml);
+		var items = xml.getElementsByTagName("Placemark");
+		for(var i=0; i < items.length; i++){
+		
+			var feature = {type:'Feature', geometry:{type:'MultiPolygon', coordinates:[]},properties:{'name':'georss'}};
+						
+			var fail = true;
+			var att = items[i].childNodes;
+			
+			for(var j=0; j < att.length; j++){
+				
+				
+				if(att[j].tagName == 'name' && att[j].firstChild){
+					feature.properties.name =att[j].firstChild.nodeValue;
+				}
+				
+				if(att[j].tagName == 'Polygon'){
+					
+					succeeded = this._kmlPolygonToFeature(att[j],feature);
+					
+					if(succeeded){
+						feature = succeeded;
+					}
+				}
+				if(att[j].tagName == 'MultiGeometry'){
+					
+					var children = att[j].childNodes;
+					for(var k=0; k < children.length; k++){
+						if(children[k].tagName == 'Polygon'){
+
+							succeeded = this._kmlPolygonToFeature(children[k],feature);
+
+							if(succeeded){
+								feature = succeeded;
+							}
+						}	
+					}
+				}
+				
+			}
+			//console.log("ere",fail);
+			//if(!fail)
+			if(feature)geojson.features.push(feature);
+			
+		}
+		console.log(geojson);
+		return geojson;
+	}
+	,geoRssToGeoJson : function (georss){
 	
 		var geojson = {type:"FeatureCollection", features:[]};
 		
@@ -40,21 +135,20 @@ var EasyConversion ={
 					//console.log(att[j].innerHTML,att[j].firstChild,"inner");
 
 					var geometry = EasyFileUtils.getChildNodeValue(att[j]);
-					
-
+					geometry = geometry.trim();
+					geometry = geometry.replace(/  +/g, " ");
+					geometry = geometry.replace(/\n/g, "");
 					var values = geometry.split(" ");
+				
 					if(values[0] != values[values.length-2] |values[1] != values[values.length-1]){
-						fail = true;
-						console.log("Fail!",geometry.length,geometry);
-					
-					
+						values.push(values[0]);
+						values.push(values[1]);
 					}
 					for(var k=0; k < values.length - 1; k+= 2){
 						var latitude = parseFloat(values[k]);
 						var longitude= parseFloat(values[k+1]);
 						geocoordinates.push([longitude,latitude]);
 					}
-					//console.log(geocoordinates);
 					feature.geometry.coordinates.push([geocoordinates]);
 				}
 				
@@ -63,10 +157,10 @@ var EasyConversion ={
 				geojson.features.push(feature);
 			}
 			else{
-				console.log("Unable to construct feature " +feature.properties.name+". Invalid georss coordinates: first and last coordinates should be same. ");
+				
+				//console.log("Unable to construct feature " +feature.properties.name+". Invalid georss coordinates: first and last coordinates should be same. ");
 			}
 		}
-
 		return geojson;
 	}
 

@@ -76,7 +76,10 @@ var EasyMap = function(wrapper){
 	*/
 };  
 EasyMap.prototype = {
-	resize: function(width,height){
+	getEasyShapes: function(){
+		return this.easyClicking.getMemory();
+	}
+	,resize: function(width,height){
 		this.wrapper.style.width = width+"px";
 		this.wrapper.style.height = height +"px";
 		var  t=this.getTransformation();
@@ -154,9 +157,10 @@ EasyMap.prototype = {
 			this.settings.projection = projection;
 		}
 	}
-	,clear: function(){ /* does this work in IE? */
-
-
+	,clear: function(deleteMemory){ /* does this work in IE? */
+		if(deleteMemory){
+			this.easyClicking.clearMemory();
+		}
 		this._maxX = 0;
 		this._maxY = 0;
 
@@ -478,7 +482,7 @@ EasyMap.prototype = {
 				}
 				if(ll){
 					var geocoords = "(long:"+ll.longitude+",lat:"+ll.latitude+")";
-					tt.innerHTML = text +geocoords;
+					tt.innerHTML = text;// +geocoords;
 				}
 			
 				var x = mousepos.x + 10;

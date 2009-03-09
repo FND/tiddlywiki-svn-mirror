@@ -237,7 +237,12 @@ EasyMapController.prototype = {
 		canvas.easyClicking.addToMemory(button);
 		return button;
 	},	
-	addControl: function(controlType) {
+	addControls: function(list){
+		for(var i= 0; i < list.length; i++){
+			this.addControl(list[i]);
+		}
+	}
+	,addControl: function(controlType) {
 		switch(controlType) {
 			//case "zoom":
 			case "pan":

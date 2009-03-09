@@ -256,6 +256,12 @@ EasyDiagram.prototype = {
 		
 		var omd = this.wrapper.onmousedown;
 		this.wrapper.onmousedown = function(e){
+			var target = EasyClickingUtils.resolveTarget(e);
+	
+			if(target.tagName == "A"){	
+				return;
+			}
+			
 			if(omd)omd(e);
 			if(easyDiagram.resizing.onNode){
 				easyDiagram.resizing = {};
@@ -284,7 +290,7 @@ EasyDiagram.prototype = {
 			if(w > 0 && h > 0){
 				this.resizing.onNode.setDimensions(w,h);	
 				this.resizing.bb =this.resizing.onNode.easyShape.getBoundingBox();
-				var resizerpos = {x: this.resizing.bb.x2-5, y: this.resizing.bb.y2-5};
+				var resizerpos = {x: this.resizing.bb.x2-1, y: this.resizing.bb.y2-1};
 				resizer.setCoordinates([resizerpos.x,resizerpos.y,resizerpos.x + 15,resizerpos.y, resizerpos.x + 15,resizerpos.y + 15,resizerpos.x, resizerpos.y + 15]);
 				
 			}
@@ -293,7 +299,7 @@ EasyDiagram.prototype = {
 		var s =this.easyClicking.getShapeAtClick(e);
 		if(s && !s.getProperty("_temp") && t.className != "easyDrawingTools"){
 			var bb = s.getBoundingBox();
-			var resizerpos = {x: bb.x2-5, y:bb.y2-5};
+			var resizerpos = {x: bb.x2-2, y:bb.y2-2};
 			
 			if(!resizer){
 				var resizer = new EasyShape({_resizer:true,shape:"polygon", fill: "rgb(0,0,0)"},[resizerpos.x,resizerpos.y,resizerpos.x + 15,resizerpos.y, resizerpos.x + 15,resizerpos.y + 15,resizerpos.x, resizerpos.y + 15]);
@@ -434,7 +440,8 @@ EasyDiagram.prototype = {
 
 
 		var e = new EasyShape({shape:"path",stroke: '#000000',lineWidth: '1'},edgeCoords);
-		this.edgeShape = e;		
+		this.edgeShape = e;
+				
 		this.edgeShape.render(this.canvas, this.tmatrix);
 	}
 	,_renderNode: function(node){	

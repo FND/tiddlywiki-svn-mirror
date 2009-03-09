@@ -232,8 +232,9 @@ EasyShape.prototype={
 		ctx.beginPath();
 
 		var move = true;
+		var lastcoord = {x:false,y:false};
 		for(var i=0; i < c.length-1; i+=2){
-			if(c[i]== "M") {
+			if(c[i]=== "M") {
 				i+= 1; 
 				move=true;
 			}
@@ -245,14 +246,16 @@ EasyShape.prototype={
 			else{
 				if(move){
 					ctx.moveTo(x,y);
-					
-					//console.log("i found and moved to",x,y);
 					move = false;
 				}
 				else{
-					//console.log("line to", x,y);
-					ctx.lineTo(x,y);
+					if(this._optimisation_worthDrawingPoint(x,y,lastcoord,transformation)){
+						ctx.lineTo(x,y);
+							lastcoord.x = x;
+							lastcoord.y = y;
+					}
 				}
+			
 			}
 			
 		}
@@ -592,13 +595,23 @@ EasyShape.prototype={
 		var delta = {x:t1,y:t2};
 		delta.x *= s.x;
 		delta.y *= s.y;
-		var area = delta.x * delta.y;
-		if(area < 40) 
-		{return false;}//too small
+		if(delta.x < 1 && delta.y < 1) 
+			{return false;}//too small
 		else
 			return true;
 	}
-	
+	,_optimisation_worthDrawingPoint: function(x,y,lastcoord,transformation){
+		var xd =(x - lastcoord.x);
+		var yd= (y - lastcoord.y);
+		if(!lastcoord.x || !lastcoord.y) return true;
+		var delta = Math.sqrt((xd * xd) + (yd*yd));
+		if(delta * transformation.scale.x < 1){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
 	/*
 	render the shape using canvas ctx 
 	using ctx and a given transformation in form {translate: {x:<num>, y:<num>}, scale:{translate: {x:<num>, y:<num>}}
