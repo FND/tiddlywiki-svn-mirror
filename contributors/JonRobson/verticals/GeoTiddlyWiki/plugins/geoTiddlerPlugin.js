@@ -39,7 +39,12 @@ http://spatialreference.org/ref/sr-org/google-projection/ for help with google p
 
 //{{{
 	
-
+if(!version){
+	var version = {extensions:{}};
+}
+if(!config){
+	var config = {macros:{}};
+}
 if(!version.extensions.geoPlugin) {
 
 	setStylesheet(".wrapper {border:1px solid} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'geo');
@@ -442,6 +447,9 @@ if(!version.extensions.geoPlugin) {
 			}
 			else if(data.indexOf("({") == 0) {
 				data = eval(data);
+			}
+			else if(sourceTiddler.tags.contains("kml")){
+				data = EasyConversion.kmlToGeoJson(data);
 			}
 			else if(sourceTiddler.tags.contains("georss")){
 				data = EasyConversion.geoRssToGeoJson(data);
