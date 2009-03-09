@@ -1,6 +1,0 @@
-<div title="TiddlyWiki and jQuery" modifier="Osmosoft" created="200902190000" tags="blog">
-<pre>Release 2.5.0 of TiddlyWiki is the first to include the [[jQuery|http://jquery.com/]] library. There are no changes to the core other than the inclusion of the jQuery library: the intention is that release 2.5.0 is a baseline from which we can both refactor and add functionality based on jQuery.
-
-See [[jQuery roadmap|http://tiddlywiki.org/wiki/Dev:Roadmap]] for details about how we are planning to use jQuery in the future.
-</pre>
-</div>
