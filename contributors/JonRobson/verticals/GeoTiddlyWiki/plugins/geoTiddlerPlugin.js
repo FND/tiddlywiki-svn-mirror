@@ -45,6 +45,7 @@ if(!version){
 if(!config){
 	var config = {macros:{}};
 }
+
 if(!version.extensions.geoPlugin) {
 
 	setStylesheet(".wrapper {border:1px solid} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'geo');
@@ -52,7 +53,7 @@ if(!version.extensions.geoPlugin) {
 	version.extensions.geoPlugin = {installed:true};
 
 	config.macros.geoeditor = {};
-	
+
 	config.macros.geo={
 		getMap: function(id){
 			return geomaps[id];

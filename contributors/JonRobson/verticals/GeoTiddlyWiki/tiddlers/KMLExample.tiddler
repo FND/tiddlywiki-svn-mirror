@@ -1,5 +1,6 @@
 <div title="KMLExample" tags="">
 <pre>
-<<geo projection:slippystaticmap source:KMLUK geotagging:false>>
+<<geo projection:slippystaticmap source:KMLUK geotagging:false id:kml>>
+
 </pre>
 </div>
