@@ -1,0 +1,20 @@
+<div title="Release 2.4.3" modifier="Osmosoft"  created="200901080000">
+<pre>Release 2.4.3 of TiddlyWiki includes some minor enhancements and bug fixes. Here are some of the highlights; see the full change history [[at TiddlyWiki.org|http://trac.tiddlywiki.org/wiki/History]] for more details.
+!!!Usability
+* Date-format strings now support escaping of literal characters ([[ticket #623|http://trac.tiddlywiki.org/ticket/623]])
+* PluginManager wizard now displays Description slices ([[ticket #739|http://trac.tiddlywiki.org/ticket/739]])
+* Support for {{{<hr>}}} syntax in wiki markup ([[ticket #741|http://trac.tiddlywiki.org/ticket/741]])
+* Filter expressions no longer omit non-existing tiddlers ([[ticket #768|http://trac.tiddlywiki.org/ticket/768]])
+* Provided access to context variables {{{tiddler}}} and {{{place}}} for evaluated macro parameters ([[ticket #444|http://trac.tiddlywiki.org/ticket/444]])
+!!!Hackability
+* Extended invokeParamifier to process "option paramifiers" ([[ticket #823|http://trac.tiddlywiki.org/ticket/823]])
+* Added support for TiddlyWikis with empty {{{noscript}}} tag ([[ticket #858|http://trac.tiddlywiki.org/ticket/858]])
+* Added {{{removeCookie}}} function ([[ticket #757|http://trac.tiddlywiki.org/ticket/757]])
+!!!Bug Fixes
+* Improved detection of missing links ([[ticket #67|http://trac.tiddlywiki.org/ticket/67]])
+* Fixed overlapping tiddlers in Firefox ([[ticket #320|http://trac.tiddlywiki.org/ticket/320]])
+* TagChooser macro now supports //excludeLists// tag ([[ticket #515|http://trac.tiddlywiki.org/ticket/515]])
+* RSS feed now uses proper locale value ([[ticket #591|http://trac.tiddlywiki.org/ticket/591]])
+* Fixed importing under Windows Vista ([[ticket #635|http://trac.tiddlywiki.org/ticket/635]])
+* Various minor fixes and enhancements</pre>
+</div>
