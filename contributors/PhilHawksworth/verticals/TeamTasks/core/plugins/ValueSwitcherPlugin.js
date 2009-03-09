@@ -35,7 +35,7 @@ if(!version.extensions.ValueSwitcher)
 			// build a drop down control
 			if (control == 'dropdown') {
         config.macros.ValueSwitcher.makeDropdown(place, field, params, title, tiddler);
-			} else if (control == 'freetext' || control == 'textarea') {
+			} else if (control == 'text' || control == 'textarea') {
         config.macros.ValueSwitcher.makeText
           (place, params, title, tiddler, control=='textarea');
 			} else {
@@ -64,6 +64,9 @@ if(!version.extensions.ValueSwitcher)
         options.push({'caption': values[i], 'name': field + '::' + values[i]});				
       }
       createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
+
+      invokeMacro
+
     },
 
     makeText: function(place, params, title, tiddler, isTextArea) {
@@ -87,16 +90,16 @@ if(!version.extensions.ValueSwitcher)
           // NOTE matchContains doesn't seem to work, not sure why
           var autoCompleteOptions = (autoCompleteParam=="anywhere" ? {matchContains:true} : {});
           jQuery(control).autocompleteArray
-            (config.macros.ValueSwitcher.findAllFreeTextValues(ttField), autoCompleteOptions);
+            (config.macros.ValueSwitcher.findAllTextValues(ttField), autoCompleteOptions);
         }
  
       }
-      control.onblur = config.macros.ValueSwitcher.changeFreetext;
+      control.onblur = config.macros.ValueSwitcher.changeText;
     },
 
     // this happens each time the list is shown - we could improve performance
     // by maintaining a cached version of the list
-    findAllFreeTextValues: function(ttField) {
+    findAllTextValues: function(ttField) {
       var valuesHash = {}, allValues = [];
       var tasks = store.getTaggedTiddlers("task");
       for (var i=0; i<tasks.length; i++) {
@@ -145,12 +148,10 @@ if(!version.extensions.ValueSwitcher)
 
 
 		// Ensure that changes to a free text field are stored as an extended field.
-		changeFreetext: function(ev) {
-      console.log("changeFreetext", this);
+		changeText: function(ev) {
 			var e = ev ? ev : window.event;
 			var ttField = this.getAttribute('ttname');
 			var value = this.value;
-      console.log("ttfield", ttField, "val", value);
 			if(ttField) {
 				var t = story.findContainingTiddler(this);
 				var title = t.getAttribute('tiddler');

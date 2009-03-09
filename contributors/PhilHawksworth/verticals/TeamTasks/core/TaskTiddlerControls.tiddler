@@ -4,8 +4,8 @@
 |priority |<<ValueSwitcher type:"dropdown" valuesSource:"PriorityDefinitions">> |
 |assigned by |<<ValueSwitcher type:"dropdown" field:"assignedBy" valuesSource:"UserDefinitions">> |
 |status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
-|alias |<<ValueSwitcher type:"freetext" field:"alias">> |
-|dept |<<ValueSwitcher type:"freetext" field:"dept" autoComplete:"true">> |
+|alias |<<ValueSwitcher type:"text" field:"alias">> |
+|dept |<<ValueSwitcher type:"text" field:"dept" autoComplete:"true">> |
 |notes |<<ValueSwitcher type:"textarea" field:"notes">> |
 </pre>
 </div>
