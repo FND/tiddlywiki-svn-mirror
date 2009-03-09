@@ -65,8 +65,6 @@ if(!version.extensions.ValueSwitcher)
       }
       createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
 
-      invokeMacro
-
     },
 
     makeText: function(place, params, title, tiddler, isTextArea) {
