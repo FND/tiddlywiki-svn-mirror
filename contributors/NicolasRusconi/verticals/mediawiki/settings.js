@@ -21,20 +21,5 @@ merge(config.defaultCustomFields,{
 	wikiformat:'mediawiki'
 });
 
-merge(config.macros.option.onChangeHandler,{'txtServerHost':function() {
-	updateHostOnAllWikiTiddlers();
-}});
-
-function updateHostOnAllWikiTiddlers() {
-    store.forEachTiddler(function(title, tiddler){
-        var host = tiddler.fields['server.host'];
-        if (host) {
-            tiddler.fields['server.host'] = config.options.txtServerHost;
-        }
-    });
-    merge(config.defaultCustomFields, {
-        'server.host': config.options.txtServerHost
-    });
-}
 //#config.displayStartupTime = true;
 /*}}}*/
