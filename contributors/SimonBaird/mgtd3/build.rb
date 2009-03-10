@@ -98,7 +98,7 @@ demo = [
 # TODO put into r4tw
 class Tiddler
   def get_sections
-    @fields['text'].scan(/^!([^\n]+)$/m).map { |m| m[0] }
+    @fields['text'].scan(/^!([^\n]+)$/m).map { |m| m[0].chomp } # chomp is a kludge because i don't know what is going on with line breaks atm..
   end
 end 
 
@@ -141,6 +141,7 @@ make_tw {
   #end
 
   get_tiddler('TagDashboards').get_sections.each do |s|
+    # dammit there is some broken shit in r4tw to do with line breaks
     content += "<div macro=\"showWhenTagged '#{s}'\">[[TagDashboards###{s}]]</div>\n"
   end
 

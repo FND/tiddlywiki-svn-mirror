@@ -3,10 +3,17 @@ merge(config.macros,{
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 
 			var shortHand = {
-				'W': 'Waiting For',
-				'N': 'Next',
-				'F': 'Future',
-				'S': 'Starred'
+				Action: {
+					'W': 'Waiting For',
+					'N': 'Next',
+					'F': 'Future',
+					'S': 'Starred'
+				},
+				Project: {
+					'A': 'Active',
+					'SM': 'Someday/Maybe',
+					'S': 'Starred'
+				}
 			};
 
 			wikify("Quick add projects and actions (See [[About Quick Add]] for more info):\n",place);
@@ -29,7 +36,7 @@ merge(config.macros,{
 
 				for (var i=0;i<lines.length;i++) {
 
-					var fields_and_text = lines[i].trim().split(/\|\|/); // anything after || is to become tiddler content
+					var fields_and_text = lines[i].trim().split(/[|;]{2}/); // anything after || is to become tiddler content
 					
 
 					var fields = fields_and_text[0].trim().split(/[|;]/);
@@ -49,7 +56,7 @@ merge(config.macros,{
 
 						if (title.substr(0,1) != '.') {
 
-							//alert("project "+title);
+							alert("project "+title);
 
 							currentProject = title;
 
@@ -57,7 +64,18 @@ merge(config.macros,{
 								displayThese.push(title);
 
 							fields.push("Project"); // make it a project
-							fields.push("Active"); // make it active
+							//fields.push("Active"); // make it active
+
+							if (!fields.containsAny(['SM','A']))
+								fields.push('A');
+
+							fields = fields.map(function(f) {
+								if (shortHand['Project'][f])
+									return shortHand['Project'][f];
+								else
+									return f;
+							});
+
 							if (store.tiddlerExists(title))
 								alert("Warning: '"+title+"' already exists, did not create");
 							else
@@ -71,15 +89,15 @@ merge(config.macros,{
 								);
 						}
 						else {
-							//alert("action "+title);
+							alert("action "+title);
 
 							// default to next actions
 							if (!fields.containsAny(['N','F','W']))
 								fields.push('N');
 
 							fields = fields.map(function(f) {
-								if (shortHand[f] && shortHand[f] != '')
-									return shortHand[f];
+								if (shortHand['Action'][f])
+									return shortHand['Action'][f];
 								else
 									return f;
 							});
@@ -133,6 +151,4 @@ merge(config.macros,{
 		}
 	}
 });
-
-
 

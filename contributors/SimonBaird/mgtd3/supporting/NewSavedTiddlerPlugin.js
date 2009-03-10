@@ -62,6 +62,11 @@ config.macros.newSavedTiddler.onClick = function(e) {
 		var fields = getParam(p,"fields","").decodeHashMap();
 		tags = tags.replace(/\[\(/g,'[[');
 		tags = tags.replace(/\)\]/g,']]');
+
+                // Oveek: a fix for TiddlyWeb
+                // http://groups.google.com/group/TiddlyWikiDev/browse_thread/thread/edff49f9a9e9f47b/e02cb3c4ba88f819?pli=1
+                merge(fields, config.defaultCustomFields, true); 
+
 		store.saveTiddler(title,title,text,config.options.txtUserName,new Date(),tags,fields);
 		story.displayTiddler(this,title);
 	}
