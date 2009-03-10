@@ -40,13 +40,24 @@ http://spatialreference.org/ref/sr-org/google-projection/ for help with google p
 //{{{
 	
 if(!version){
-	var version = {extensions:{}};
+	version = {extensions:{}};
 }
 if(!config){
-	var config = {macros:{}};
+	config = {macros:{}};
+}
+function getElementChild(el,tag){
+	var att = el.childNodes;
+	for(var j=0; j <att.length;j++){			
+		if(att[j].tagName == tag) return att[j];
+	}
+	return false;
+	
 }
 
-if(!version.extensions.geoPlugin) {
+	var geomaps = {};
+	var numgeomaps = 0;
+	
+	
 
 	setStylesheet(".wrapper {border:1px solid} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'geo');
 	
@@ -621,75 +632,60 @@ if(!version.extensions.geoPlugin) {
 		}
 	};
 	
-	
-	function getElementChild(el,tag){
-		var att = el.childNodes;
-		for(var j=0; j <att.length;j++){			
-			if(att[j].tagName == tag) return att[j];
-		}
-		return false;
-		
-	}
-	
-	var geomaps = {};
-	var numgeomaps = 0;
-	
-	
+
 	config.macros.geogotobutton = {
-		handler: function(place,macroName,params,wikifier,paramString,tiddler){
+		handler: function(place,macroName,params,wikifier,paramString,tiddler){	
+			var lo,la,zoom,id;
+			if(tiddler && tiddler.fields)lo = tiddler.fields.longitude;
+			if(tiddler && tiddler.fields)la = tiddler.fields.latitude;
 		
-		var lo,la,zoom,id;
-		if(tiddler && tiddler.fields)lo = tiddler.fields.longitude;
-		if(tiddler && tiddler.fields)la = tiddler.fields.latitude;
-		
-		if(params[1]) lo =params[1];
-		if(params[2])la =params[2];
-		//zoom = 512;
-		if(!params[0]){return;}
-		id = params[0];
-		var handler = function(){
-			if(!geomaps[id]){
-				alert("Looks like you don't have a map called " + id + " please modify your ViewTemplate for this to work.")
-			}
-			else{
+			if(params[1]) lo =params[1];
+			if(params[2])la =params[2];
+			//zoom = 512;
+			if(!params[0]){return;}
+			id = params[0];
+			var handler = function(){
+				if(!geomaps[id]){
+					alert("Looks like you don't have a map called " + id + " please modify your ViewTemplate for this to work.")
+				}
+				else{
 				
-				geomaps[id].moveTo(lo,la,zoom);
-			}
+					geomaps[id].moveTo(lo,la,zoom);
+				}
 			
-		}
+			}
 		
-		if(lo && la){
-			createTiddlyButton(place,"go here", "jump to longitude:" + lo + ", latitude:"+la, handler);
-		}
-	
+			if(lo && la){
+				createTiddlyButton(place,"go here", "jump to longitude:" + lo + ", latitude:"+la, handler);
+			}
 		
 		}
 	};
-	config.macros.geogoto = {};
-	/*zoom should be 1,2,4,8,16,32..*/
-	config.macros.geogoto.handler= function(place,macroName,params,wikifier,paramString,tiddler) {
-		var prms = paramString.parseParams(null, null, true);
+	config.macros.geogoto = {/*zoom should be 1,2,4,8,16,32..*/
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+			var prms = paramString.parseParams(null, null, true);
 
-		var id = getParam(prms,"id");
-		if(!params[3]) id = 'default0';
-		
-		if(!geomaps[id]) {
-		throw "exception in geogoto - map with id '"+ id+"' doesn't exist in page";
-		}
-		else{
-			
-			var lo, la,zoom;
-			var lo = getParam(prms,"longitude");
-			var la = getParam(prms,"latitude");
-			var zoom;
-			if(getParam(prms,"zoom")){
-				zoom = getParam(prms,"zoom");		 
+			var id = getParam(prms,"id");
+			if(!params[3]) id = 'default0';
+
+			if(!geomaps[id]) {
+			throw "exception in geogoto - map with id '"+ id+"' doesn't exist in page";
 			}
-			geomaps[id].moveTo(lo,la,zoom);
-		}
-	
-	}
+			else{
 
-} //# end of 'install only once'
+				var lo, la,zoom;
+				var lo = getParam(prms,"longitude");
+				var la = getParam(prms,"latitude");
+				var zoom;
+				if(getParam(prms,"zoom")){
+					zoom = getParam(prms,"zoom");		 
+				}
+				geomaps[id].moveTo(lo,la,zoom);
+			}
+
+		}
+	};
 
 //}}}
+	
+	

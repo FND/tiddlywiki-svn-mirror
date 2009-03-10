@@ -22,5 +22,5 @@ tiddler: drawcont.tiddler
 tiddler: GoogleStyle.tiddler
 tiddler: Sydney.tiddler
 tiddler: UsingOpenStreetMapTiles.tiddler
-tiddler: KML.tiddler
-tiddler: KMLExample.tiddler
+#tiddler: KML.tiddler
+#tiddler: KMLExample.tiddler
