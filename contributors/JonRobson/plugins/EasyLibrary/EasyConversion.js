@@ -1,7 +1,87 @@
 
 /*some conversion functions that convert to geojson */
 var EasyConversion ={
-	svgToGeoJson: function(svg,canvas){
+	_optimisation_worthDrawingPoint: function(x,y,lastcoord,threshold){
+		if(!lastcoord.x || !lastcoord.y) return true;
+		var delta = {};
+		delta.x =(x - lastcoord.x);
+		delta.y =(y - lastcoord.y);
+		if(delta.x < 0) delta.x = -delta.x;
+		if(delta.y < 0) delta.y = -delta.y;	
+		var compare =  threshold;
+		
+		if(delta.x <compare && delta.y < compare){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	,calculatePerimeter: function(coords){
+		
+		var lastcoord = {x:false,y:false};
+		var perimeter = 0;
+		for(var k=0; k < coords.length; k++){
+
+			var c = coords[k];
+
+
+			var x = parseFloat(c[0]);
+			var y = parseFloat(c[1]);	
+
+		
+			if(lastcoord.x){
+				var delta = {};
+				delta.x =(x - lastcoord.x);
+				delta.y =(y - lastcoord.y);
+				perimeter += Math.sqrt((delta.x *delta.x) + (delta.y * delta.y));
+			}
+			lastcoord.x = x;
+			lastcoord.y = y;				
+		}
+		return perimeter;
+		
+	}
+	,optimiseGeoJsonToZoomFactor: function(geojson,threshold){
+		var newdata = geojson;
+		var coordsDropped = 0;
+		for(var i=0; i < newdata.features.length; i++){
+			var g = newdata.features[i].geometry;
+		
+			if(g.type == 'MultiPolygon'){
+				for(var ij =0; ij < g.coordinates.length; ij++){
+					for(var j=0; j < g.coordinates[ij].length; j++){
+						var lastcoord = {x:false,y:false};
+						var bettercoords = [];
+						var perim =this.calculatePerimeter(g.coordinates[ij][j]);
+						var thethreshold =  (perim)/g.coordinates[ij][j].length;
+						for(var k=0; k < g.coordinates[ij][j].length; k++){
+
+							var c = g.coordinates[ij][j][k];
+
+
+							var x = parseFloat(c[0]);
+							var y = parseFloat(c[1]);	
+
+							if(this._optimisation_worthDrawingPoint(x,y,lastcoord,thethreshold)){
+								bettercoords.push([x,y]);
+								lastcoord.x = x;
+								lastcoord.y = y;
+							}	
+
+
+						}	
+						coordsDropped += (g.coordinates[ij][j].length - bettercoords.length);
+						g.coordinates[ij][j] = bettercoords;
+					}				
+			
+				}
+			}
+		}
+		console.log(coordsDropped,"dropped");
+		return newdata;
+	}
+	,svgToGeoJson: function(svg,canvas){
 		var svgxml = EasyFileUtils._getXML(svg);
 		var res = EasyMapSVGUtils.convertSVGToMultiPolygonFeatureCollection(svgxml);
 		
@@ -133,7 +213,6 @@ var EasyConversion ={
 					geojson.features.push(feature);
 			}
 		}
-		//console.log(geojson.toSource());
 		return geojson;
 	}
 	,geoRssToGeoJson : function (georss){
