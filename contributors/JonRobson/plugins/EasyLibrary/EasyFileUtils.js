@@ -1,5 +1,6 @@
 
 var EasyFileUtils= {
+
 	loadRemoteFile: function(url,callback,params,headers,data,contentType,username,password,allowCache)
 	{
 		//callback parameters: status,params,responseText,url,xhr
@@ -8,18 +9,29 @@ var EasyFileUtils= {
 	/*currently doesnt work with jpg files - ok formats:gifs pngs*/
 	,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally,dothiswhenloadedfromweb) {
 		
-		var localPath = getLocalPath(document.location.toString());
-		var savePath;
-		if((p = localPath.lastIndexOf("/")) != -1) {
-			savePath = localPath.substr(0,p) + "/" + dest;
-		} else {
-			if((p = localPath.lastIndexOf("\\")) != -1) {
-				savePath = localPath.substr(0,p) + "\\" + dest;
+		var localPath,tiddlyWiki;
+		
+		try{
+			getLocalPath();
+			tiddlyWiki = true;
+		}
+		catch(e){
+			tiddlyWiki = false;
+		}
+		if(tiddlyWiki){ 
+			localPath = getLocalPath(document.location.toString());
+		
+			var savePath;
+			if((p = localPath.lastIndexOf("/")) != -1) {
+				savePath = localPath.substr(0,p) + "/" + dest;
 			} else {
-				savePath = localPath + "." + dest;
+				if((p = localPath.lastIndexOf("\\")) != -1) {
+					savePath = localPath.substr(0,p) + "\\" + dest;
+				} else {
+					savePath = localPath + "." + dest;
+				}
 			}
 		}
-		
 		var onloadfromweb = function(status,params,responseText,url,xhr){
 			try{
 				if(dothiswhenloadedfromweb){
@@ -37,11 +49,17 @@ var EasyFileUtils= {
 			if(dothiswhensavedlocally)
 				dothiswhensavedlocally(dest);
 		};
-		try{
-			EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
+		
+		if(savePath){
+			try{
+				EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
+			}
+			catch(e){//couldnt load probably doesn't exist!
+				EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
+			}
 		}
-		catch(e){//couldnt load probably doesn't exist!
-			EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
+		else{
+			EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);
 		}
 		
 		

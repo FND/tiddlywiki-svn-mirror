@@ -1,0 +1,129 @@
+<html>
+<head>
+	<style type="text/css">
+	textarea {width:100%;height:100px;}
+	    </style>
+	
+<script src='jquery-1.3.2.min.js' type="text/javascript"></script>	
+<script src='coloringrules.js' type="text/javascript"></script>
+<script src='choropleth.js' type="text/javascript"></script>
+<script src='data.js.data' type="text/javascript"></script>
+<script type="text/javascript">
+var map,data,currentSubject;
+function colorData(data,rule,params){
+	if(typeof rule == 'string'){
+		if(rule == "") return;
+		rule = library.rules[rule];
+	}
+	
+	if(!data.features) return;
+	for(var i=0; i < data.features.length;i++){
+		var p =data.features[i].properties;
+		p.fill = rule(p,params);
+	}
+	return data;
+}
+
+function mergeData(data,mydata){
+	mydata = eval("("+mydata+")");
+	
+	var datatomerge = {};
+	for(var j=0; j <mydata.length;j++){
+		var name;
+		if(mydata[j].name){
+			name = mydata[j].name
+		}
+		else if(mydata[j].id){
+			name = mydata[j].id;
+		}
+		
+		if(name)datatomerge[name] = mydata[j];
+	}
+	
+
+	for(var i=0; i < data.features.length;i++){
+		var p =data.features[i].properties;
+		var j;
+		if(datatomerge[p.name]){
+			for(j in datatomerge[p.name]){
+				p[j] = datatomerge[p.name][j];
+			}
+		}
+	}	
+	return data;
+}
+function drawData(drawdata,subject,clearNeeded){
+	if(clearNeeded){
+		map.clear(true);
+		map.drawFromGeojson(drawdata,true);
+	}
+	else{
+		map.redraw();
+	}
+}
+function doForm(){
+	var subject = document.getElementById('mapsubject').value;
+	var params =document.getElementById('params').value;
+	var color =document.getElementById('colorer').value;
+	var mydata =document.getElementById('mydata').value;
+	var clearNeeded = false;
+	if(subject != currentSubject){
+		setSubject(subject);
+		clearNeeded = true;
+	}
+	var newdata = colorData(data,color,params);	
+	newdata = mergeData(newdata,mydata);
+	drawData(newdata,subject,clearNeeded);
+}
+function setSubject(newsubject){
+	if(newsubject == currentSubject) return;
+	data = library.geojsons[newsubject];
+	currentSubject = newsubject;
+}
+
+function init(){
+	var subject = document.getElementById('mapsubject').value;	
+	setSubject(subject);
+	map = new EasyMap(document.getElementById('map'));
+	map.controller.addControls(["pan","zoom","mousewheelzooming","mousepanning"]);
+	map.drawFromGeojson(data,true);
+}
+</script>
+</head>
+<body onload= "init()">
+	
+	<div id='map' style="width:800px; height:350px;"></div>
+	<form action="#">
+	coloring algorithm:<br>
+	<select id='mapsubject'>
+		<option value=''>-please select-</option>
+		<option value='counciluk' selected>of uk councils</option>
+		<option value='world'>of world</option>
+		<option value='london'>of London</option>
+	</select><br>
+	<select id='colorer'>
+		<option value='' selected>-please select-</option>
+		<option value='mono'>monocolor</option>
+		<option value='random'>random (no parameters)</option>
+		<option value='fieldenumerator'>color by properties (use params {color:X,enumerator:{choice1:color,choice2:color}})</option>
+			</select><br>
+	<p>my data:<br>
+	<textarea id='mydata'>
+		[{name:'Barnet',party: 'conservative'}, {name:'Enfield', party:'labour'}]
+	</textarea>
+</p>
+	parameters:<br>
+	<textarea id='params'>
+		{
+			color: 'party',
+			enumerator:{
+				'conservative':'rgb(255,0,0)',
+					'labour':'rgb(0,0,255)'
+			}
+		}
+		
+	</textarea><br>
+	<button onClick="doForm()">color</button>
+	</form>
+</body>
+</html>

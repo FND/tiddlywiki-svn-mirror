@@ -17,66 +17,29 @@ var EasyShape = function(properties,coordinates,geojson){
 
 };
 EasyShape.prototype={
-	_optimiseCoordinates: function(transformation,coordinates){
-		var c;
-		if(!coordinates){
-			c = this.getCoordinates();	
-		}
-		else{
-			c = coordinates;
-		}
+	_simplifiedCoordinates: function(scaleFactor,coordinates){
+		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
+		if(!coordinates) throw "give me some coordinates!";
 		
-		if(!this._resolution){
-			var bb = this.getBoundingBox();
-			var perimeter = ((bb.x2 - bb.x1)*2) + ((bb.y2 - bb.y1)*2);
-	
-			this._resolution =perimeter /c.length;			
-		}
-
-	
-			
-		var lastcoord = {x:false,y:false};
-		var bettercoords = [];
-		for(var i=0; i < c.length-1; i+=2){
-			if(c[i]=== "M") {
-				bettercoords.push("M");
-				i+= 1; 
-			}
-			var x = parseFloat(c[i]);
-			var y = parseFloat(c[i+1]);	
-			if(x == NaN || y == NaN){
-				throw "error in EasyShape render: the coordinates for this EasyShape contain invalid numbers";
-			}
-			else{
-				if(EasyConversion._optimisation_worthDrawingPoint(x,y,lastcoord,this._resolution)){
-					bettercoords.push(x);
-					bettercoords.push(y);
-					lastcoord.x = x;
-					lastcoord.y = y;
-				}
-						
-			}	
-		}
-		
-		
-		return bettercoords;
-		
-		
+		var tolerance = 1/ scaleFactor;
+		return coordinates;		
 	}
-	,getOptimisedCoords: function(transformation){
-		var index = parseInt(transformation.scale.x) + ","+parseInt(transformation.scale.x);
-		if(this._optimisedcoords[index]) return this._optimisedcoords[index];
+	,getOptimisedCoords: function(scaleFactor){
+		var index = parseInt(scaleFactor);
+		if(this._optimisedcoords[index]) {
+			return this._optimisedcoords[index];
+		}
 		else {
-			var res =this._optimisedcoords[this._maxScaleFactor.x+","+this._maxScaleFactor.y];
+			var res =this._optimisedcoords[this._maxScaleFactor.x];
 			if(res)
 				return res;
 			else{
-				return this.getCoordinates();
+				throw "no optimised coordinates found";
 			}
 		}
 	}
-	,setOptimisedCoords: function(transformation,coords){
-		var index = transformation.scale.x + ","+transformation.scale.y;
+	,setOptimisedCoords: function(scaleFactor,coords){
+		var index = scaleFactor;
 		this._optimisedcoords[index] = coords;
 	}
 	,getBoundingBox: function(){ /* returns untransformed bounding box */
@@ -153,12 +116,11 @@ EasyShape.prototype={
 		this.coords = coordinates;
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
-		
-		var t= {scale:{x:this._maxScaleFactor.x,y:this._maxScaleFactor.y}};	 
-		var optimalcoords = this._optimiseCoordinates(t)
+	 
+		var optimalcoords = this._simplifiedCoordinates(this._maxScaleFactor.x,this.getCoordinates());
 		for(var h=1; h < this._maxScaleFactor.x; h*=2){
 			var t = {scale:{x:h,y:h}};
-			this.setOptimisedCoords(t,optimalcoords);
+			this.setOptimisedCoords(this._maxScaleFactor.x,optimalcoords);
 		}
 		
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
@@ -212,6 +174,7 @@ EasyShape.prototype={
 	}
 	
 	,_constructPolygonShape: function(properties,coordinates){
+		var properties =EasyUtils.clone(properties);
 		this.properties = properties;
 		this.setCoordinates(coordinates);
 		if(!properties.stroke)properties.stroke = '#000000';		
@@ -272,9 +235,6 @@ EasyShape.prototype={
 
 		return res;
 	}	
-
-
-
 	 /*RENDERING */
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
@@ -301,7 +261,7 @@ EasyShape.prototype={
 		ctx.translate(o.x,o.y);
 		ctx.scale(s.x,s.y);
 		ctx.translate(tr.x,tr.y);
-
+		if(r && r.x)ctx.rotate(r.x);
 		ctx.beginPath();
 
 		var move = true;
@@ -421,9 +381,10 @@ EasyShape.prototype={
 		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
 		}
 		var o = transformation.origin;
-	
+		
 		var t = transformation.translate;
 		var s = transformation.scale;
+		
 		if(!this.initialStyle) {
 			var initTop = parseInt(vml.style.top);
 			if(!initTop) initTop = 0;
@@ -475,6 +436,9 @@ EasyShape.prototype={
 			style.width = newwidth +"px";
 			style.height = newheight + "px";
 		}
+		
+		
+		if(transformation.rotate && transformation.rotate.x)style.rotation = EasyMapUtils._radToDeg(transformation.rotate.x);
 		this._lastTransformation = {scale:{}};
 		this._lastTransformation.scale.x = s.x;
 		this._lastTransformation.scale.y = s.y;
@@ -675,11 +639,5 @@ EasyShape.prototype={
 		else
 			return true;
 	}
-	/*
-	render the shape using canvas ctx 
-	using ctx and a given transformation in form {translate: {x:<num>, y:<num>}, scale:{translate: {x:<num>, y:<num>}}
-	projection: a function that takes xy coordinates and spits out a new x and y
-	in a given viewableArea 
-	optimisations: boolean - apply optimisations if required
-	*/
+
 };

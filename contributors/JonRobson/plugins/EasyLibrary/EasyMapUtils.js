@@ -1,6 +1,7 @@
 
 /*
 Some common utils used throughout package 
+Clone function courtesy of http://keithdevens.com/weblog/archive/2007/Jun/07/javascript.clone
 */
 
 if(!window.console) {
@@ -32,6 +33,24 @@ if(!Array.indexOf) {
 	};
 }
 
+var EasyUtils = {
+	clone: function(obj){
+
+	    if(obj == null || typeof(obj) != 'object')
+
+	        return obj;
+
+	    var temp = new obj.constructor(); // changed (twice)
+
+	    for(var key in obj){
+	        temp[key] = EasyUtils.clone(obj[key]);
+	    }
+
+
+	    return temp;
+
+	}
+}
 
 
 

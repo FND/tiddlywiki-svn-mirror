@@ -166,7 +166,6 @@ EasyMap.prototype = {
 
 		
 		if(!this.canvas.getContext) {
-			
 			return;
 		}
 		var ctx = this.canvas.getContext('2d');
@@ -371,11 +370,11 @@ EasyMap.prototype = {
 		var mem =this.easyClicking.getMemory();
 		this._setupCanvasEnvironment()
 		var that = this;
+
+
 		if(this.settings.beforeRender) {
 			this.settings.beforeRender(tran);
 		}
-
-
 		var that = this;
 
 		var f = function(){
@@ -406,6 +405,9 @@ EasyMap.prototype = {
 			}
 		};
 		if(this.settings.renderPolygonMode)f();
+		if(this.settings.afterRender) {
+			this.settings.afterRender(tran);
+		}
 		this.attachBackground();
 		
 	
@@ -419,14 +421,14 @@ EasyMap.prototype = {
 	_drawGeoJsonPolygonFeature: function(coordinates,feature){
 		var p = feature.properties;
 		p.shape = 'polygon';
-		var s = new EasyShape(p,coordinates,"geojson",this.settings.projection);
+		var s = new EasyShape(p,coordinates,"geojson");
 		this.easyClicking.addToMemory(s);
 		this.geofeatures[this.easyClicking.getMemoryID(s)] = feature;
 	},
 	_drawGeoJsonPointFeature: function(coordinates,feature){
 		var p = feature.properties;
 		p.shape = 'point';
-		var s = new EasyShape(p,coordinates,"geojson", this.settings.projection);
+		var s = new EasyShape(p,coordinates,"geojson");
 		this.easyClicking.addToMemory(s);
 		this.geofeatures[this.easyClicking.getMemoryID(s)] = feature;
 
