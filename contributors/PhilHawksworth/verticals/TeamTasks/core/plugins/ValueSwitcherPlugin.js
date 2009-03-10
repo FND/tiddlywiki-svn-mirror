@@ -32,19 +32,23 @@ if(!version.extensions.ValueSwitcher)
 
       var field = getParam(params,"field", null);
 
+      var containerEl = createTiddlyElement(place,"div",null,"fieldContainer",null);
+
 			// build a drop down control
 			if (control == 'dropdown') {
-        config.macros.ValueSwitcher.makeDropdown(place, field, params, title, tiddler);
+        config.macros.ValueSwitcher.makeDropdown(containerEl, field, params, title, tiddler);
 			} else if (control == 'text' || control == 'textarea') {
+        var autoComplete = (getParam(params,"autoComplete"));
+        // var autoComplete = (autoCompleteParam && autoCompleteParam.trim().length);
         config.macros.ValueSwitcher.makeText
-          (place, params, title, tiddler, control=='textarea');
+          (containerEl, field, title, tiddler, control=='textarea', autoComplete);
 			} else {
         displayMessage("Control type '" + control + "' unknown");
       }
 
 		},
 
-    makeDropdown: function(place, field, params, title, tiddler) {
+    makeDropdown: function(fieldContainer, field, params, title, tiddler) {
       var valueSrc = getParam(params,"valuesSource", null);
       if(!valueSrc) {
         displayMessage("No definition tiddler defined for a TeamTasks dropdown.");
@@ -63,36 +67,41 @@ if(!version.extensions.ValueSwitcher)
       for (var i=0; i < values.length; i++) {
         options.push({'caption': values[i], 'name': field + '::' + values[i]});				
       }
-      createTiddlyDropDown(place,this.setDropDownMetaData,options,selected);
+      var control = createTiddlyDropDown(fieldContainer,this.setDropDownMetaData,options,selected);
 
+      var note = getParam(params,"note", null);
+      if (note && note=="text"||note=="textarea") {
+        // params.field = field + "_note";
+        var control = config.macros.ValueSwitcher.makeText(fieldContainer, field+"_note", title, tiddler, note=="textarea");
+        control.className += " fieldNote";
+      }
+      return control;
     },
 
-    makeText: function(place, params, title, tiddler, isTextArea) {
-      var field = getParam(params,"field", null);
+    makeText: function(fieldContainer, field, title, tiddler, isTextArea, autoComplete) {
       if(!field) {
         displayMessage("No field defined for a TeamTasks free text box.");
         return;
       }	
-      var ttField = config.macros.ValueSwitcher.fieldPrefix + field;
       // var ttname = fieldPrefix + tiddler
-      var text = store.getValue(tiddler,ttField);
+      var text = store.getValue(tiddler,field);
       if(!text) text = "";	
       var control;
       if (isTextArea) {
-        control = createTiddlyElement(place,"textarea",null,null,null,{rows: 4, cols: 40, ttname:ttField});
+        control = createTiddlyElement(fieldContainer,"textarea",null,null,null,{rows: 4, cols: 40, ttname:field});
         control.innerHTML = text;
      } else {
-        control = createTiddlyElement(place,"input",null,null,null,{"value":text, "type":"text", "ttname":ttField});
-        var autoCompleteParam = (getParam(params,"autoComplete"));
-        if (autoCompleteParam && autoCompleteParam.trim().length) {
+        control = createTiddlyElement(fieldContainer,"input",null,null,null,{"value":text, "type":"text", "ttname":field});
+        if (autoComplete) {
           // NOTE matchContains doesn't seem to work, not sure why
-          var autoCompleteOptions = (autoCompleteParam=="anywhere" ? {matchContains:true} : {});
+          // var autoCompleteOptions = (autoCompleteParam=="anywhere" ? {matchContains:true} : {});
           jQuery(control).autocompleteArray
-            (config.macros.ValueSwitcher.findAllTextValues(ttField), autoCompleteOptions);
+            (config.macros.ValueSwitcher.findAllTextValues(field), "anywhere");
         }
  
       }
       control.onblur = config.macros.ValueSwitcher.changeText;
+      return control;
     },
 
     // this happens each time the list is shown - we could improve performance

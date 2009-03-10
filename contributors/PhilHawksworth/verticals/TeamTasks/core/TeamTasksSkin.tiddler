@@ -201,6 +201,7 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 .tiddler div.task div.taskControls table tr { border-style:none;}
 .tiddler div.task div.taskControls table tr td { border-style:none;}
 .tiddler div.task div.taskControls select {width: 150px; font-size:0.9em;}
+.tiddler div.task div.taskControls .fieldNote {display: block; width:100%; margin-top: 0.2em; }
 .tiddler div.task div.dependencies { padding:1em; background-color:[[TeamTasksColors::LightestShade]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
 .tiddler div.task .label {font-size:0.9em; color:[[TeamTasksColors::DarkestShade]]; margin-bottom:0.4em;}
 

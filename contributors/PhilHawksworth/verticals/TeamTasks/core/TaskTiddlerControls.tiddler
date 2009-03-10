@@ -2,8 +2,8 @@
 <pre>
 |scope |<<ValueSwitcher type:"dropdown" valuesSource:"ScopeDefinitions">> |
 |priority |<<ValueSwitcher type:"dropdown" valuesSource:"PriorityDefinitions">> |
-|assigned by |<<ValueSwitcher type:"dropdown" field:"assignedBy" valuesSource:"UserDefinitions">> |
-|status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions" annotation:"text">> |
+|assigned by |<<ValueSwitcher type:"dropdown" field:"assignedby" valuesSource:"UserDefinitions" note:"textarea">> |
+|status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions" note:"text">> |
 |alias |<<ValueSwitcher type:"text" field:"alias">> |
 |dept |<<ValueSwitcher type:"text" field:"dept" autoComplete:"true">> |
 |notes |<<ValueSwitcher type:"textarea" field:"notes">> |
