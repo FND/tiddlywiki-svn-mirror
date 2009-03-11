@@ -583,8 +583,7 @@ form.wizard, .wizard .wizardFooter{
 			padding:0em 2em;
 		}
 		#backstageButton {
-			font-size:0.4em;
-			background:transparent;
+			display:none !important;
 		}
 		.viewer {
 			padding:0.5em;

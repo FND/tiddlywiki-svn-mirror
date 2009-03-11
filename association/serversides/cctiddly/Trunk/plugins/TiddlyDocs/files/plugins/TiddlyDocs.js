@@ -17,7 +17,6 @@ config.commands.saveSection.handler = function(event,src,title)
 	if(!store.tiddlerExists(newTitle)) {
 		var spec = "* "+newTitle+"\n"+store.getTiddlerText(window.activeDocument);
 	}
-console.log(fields);
 	store.saveTiddler(newTitle, newTitle,  fields.text, config.options.txtUserName, new Date(), "task");
 	store.saveTiddler(window.activeDocument, window.activeDocument, spec, config.options.txtUserName, new Date(), "document");
 	autoSaveChanges(true);
@@ -80,23 +79,17 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	img.src = "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png";
 	createTiddlyText(btn, " Settings");
 	btn.setAttribute("href","javascript:;");		
-
 	createTiddlyElement(place, "br");
 	var treeSpec = store.getTiddlerText(params[0]); 
 	if(treeSpec){
 		var sections = treeSpec.split("\n");
 		var parent = createTiddlyElement(place, "ul","sortableList", "page-list");
-		
 		var levelCount = [1];
-
-		
   		for(var i = 0; i < sections.length; i++) {
 			var matches = sections[i].match(/^(\*+) (.*)/)
 			if (matches) {
 				var level = matches[1].length;
 				var tiddlerTitle = matches[2];
-				
-
 				if (level>prevLevel) {
 					parent = createTiddlyElement(parent, "ul","sortableList", "page-list");	
 					levelCount.push(1);				
@@ -107,8 +100,6 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 				} else if (level==prevLevel) {
 					levelCount[levelCount.length-1]++;
 				};
-				
-				
 				if(!store.getTiddler(tiddlerTitle)){
 					store.saveTiddler(tiddlerTitle, tiddlerTitle, "", config.options.txtUserName, new Date(),"task" );
 					autoSaveChanges(false, tiddlerTitle);
@@ -142,18 +133,12 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 									output += " "+this.id+"\n";
 								}
 						 });
-					
-					
 					store.saveTiddler(params[0], params[0], output);
 					autoSaveChanges(true, params[0]	);
 					},
 					autoScroll: true,
 					handle: '.sort-handle '
 				});	
-
-
-
-
 				$("#sortableList li").mouseup(function() {
 					if(config.options.chkOpenEditView==true)
 						story.displayTiddler(null, this.id, "mpTheme##taskEditTemplate");
@@ -192,13 +177,18 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					binContents = "[["+drag.id+"]] <br />"+binText;  // build up the bin
 				else
 					binContents = "[["+drag.id+"]] <br />";  // build up the bin
-
-		// remove the item from the orginal spec.
+				if(config.options.chkRecycle) {
+					var specBinTiddler = store.getTiddler(window.activeDocument+"Bin");
+					if(config.options.chkRecycle) {
+							displayMessage("adding item to the recycle bin :"+window.activeDocument+"Bin");
+						store.saveTiddler(window.activeDocument+"Bin", window.activeDocument+"Bin", binContents); // save the bin
+						autoSaveChanges(true, window.activeDocument+"Bin");
+					}	
+				}
+				// remove the item from the orginal spec.
 				var stars = "********************************************************";
 				var specTiddler = store.getTiddler(window.activeDocument);
-				console.log(specTiddler.fields['server.page.revision']);
 				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");
-					console.log("sending save for : "+window.activeDocument);
 				store.saveTiddler(window.activeDocument, window.activeDocument, spec);
 			}
   });
