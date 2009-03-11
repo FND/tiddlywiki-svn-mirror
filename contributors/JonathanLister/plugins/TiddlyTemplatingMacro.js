@@ -126,8 +126,12 @@ TiddlyTemplating.saveToWindow = function(name,content)
 		doc = newwindow.contentWindow.document;
 	}
 	doc.open();
-	doc.write(content);
+	doc.write("<html><head></head><body><textarea id='source' rows='20' cols='80'>(source code goes here)</textarea></body></html>");
 	doc.close();
+	var theTextBox = doc.getElementById("source");
+	theTextBox.value = content;
+	theTextBox.focus();
+	theTextBox.select();
 };
 
 } //# end of 'install only once'
