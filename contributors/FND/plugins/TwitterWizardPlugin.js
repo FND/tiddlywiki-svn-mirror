@@ -134,10 +134,10 @@ config.macros.TiddlyTweets = {
 		stepElem.style.padding = 0;
 		stepElem.style.paddingBottom = "2em";
 		w.setButtons([{
-			caption: "Save To RSS",
-			tooltip: "Save to RSS",
+			caption: "Save To CSV",
+			tooltip: "Save to CSV",
 			onClick: function() {
-				TiddlyTemplating.templateAndPublish('tweets.xml','RssTemplate');
+				TiddlyTemplating.templateAndPublish(w.username+'.csv','CsvTemplate');
 				return false;
 			}
 		},
