@@ -253,6 +253,7 @@ EasyMap.prototype = {
 			this.wrapper.style.background=this.settings.background;
 		}
 
+
 		if(imgpath) this.settings.backgroundimg = imgpath;
 		if(this.settings.backgroundimg){
 			if(this.settings.renderPolygonMode) this.settings.globalAlpha = 0.8;	

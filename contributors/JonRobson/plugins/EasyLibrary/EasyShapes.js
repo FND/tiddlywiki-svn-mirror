@@ -17,12 +17,25 @@ var EasyShape = function(properties,coordinates,geojson){
 
 };
 EasyShape.prototype={
-	_simplifiedCoordinates: function(scaleFactor,coordinates){
+	getProperties: function(){
+		return this.properties;
+	}
+	,_simplifyCoordinates: function(scaleFactor,coordinates){
+		if(this.getProperty("shape") == 'path') return coordinates;
 		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
 		if(!coordinates) throw "give me some coordinates!";
 		
-		var tolerance = 1/ scaleFactor;
-		return coordinates;		
+		var tolerance = 5 / scaleFactor;
+		coordinates = EasyOptimisations.packCoordinates(coordinates);
+		coordinates = EasyOptimisations.douglasPeucker(coordinates,tolerance);
+		
+		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
+		var originals =this.getCoordinates();
+		var diff = originals.length - coordinates.length;
+		
+		if(diff < 10) return originals;
+		else 
+		return coordinates;	
 	}
 	,getOptimisedCoords: function(scaleFactor){
 		var index = parseInt(scaleFactor);
@@ -30,12 +43,9 @@ EasyShape.prototype={
 			return this._optimisedcoords[index];
 		}
 		else {
-			var res =this._optimisedcoords[this._maxScaleFactor.x];
-			if(res)
-				return res;
-			else{
-				throw "no optimised coordinates found";
-			}
+			var res = this._simplifyCoordinates(scaleFactor,this.getCoordinates());
+			this.setOptimisedCoords(scaleFactor,res);
+			return res;
 		}
 	}
 	,setOptimisedCoords: function(scaleFactor,coords){
@@ -117,12 +127,7 @@ EasyShape.prototype={
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
 	 
-		var optimalcoords = this._simplifiedCoordinates(this._maxScaleFactor.x,this.getCoordinates());
-		for(var h=1; h < this._maxScaleFactor.x; h*=2){
-			var t = {scale:{x:h,y:h}};
-			this.setOptimisedCoords(this._maxScaleFactor.x,optimalcoords);
-		}
-		
+
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
 	,getCoordinates: function(){
@@ -239,7 +244,7 @@ EasyShape.prototype={
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
 		var shapetype = this.properties.shape;
-		c =this.getOptimisedCoords(transformation);
+		c =this.getOptimisedCoords(transformation.scale.x);
 		
 		if(projection){
 			c = this._applyProjection(projection,transformation);
@@ -310,7 +315,7 @@ EasyShape.prototype={
 		var path;
 		
 		var buffer = [];
-		var c =this.getOptimisedCoords(transformation);
+		var c =this.getOptimisedCoords(transformation.scale.x);
 	
 		if(projection){
 			c = this._applyProjection(projection,transformation);
@@ -521,7 +526,7 @@ EasyShape.prototype={
 	}
 	,_applyProjection: function(projection,transformation){
 		var c;
-		var opt =this.getOptimisedCoords(transformation);
+		var opt =this.getOptimisedCoords(transformation.scale.x);
 		if(opt){
 			c = opt;
 		}

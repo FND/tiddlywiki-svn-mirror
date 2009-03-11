@@ -1,6 +1,4 @@
-
 /*some conversion functions that convert to geojson */
-
 var EasyConversion ={
 	niaveGeoJsonFlatten: function(geojson,niaveness){
 		

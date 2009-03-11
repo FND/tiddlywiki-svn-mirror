@@ -176,6 +176,7 @@ EasySlippyMap.prototype = {
 	,renderTile: function(weburl,zoomlevel,x,y,tile){
 		var that = this;
 		var renderTile = function(dest){
+			tile.style.backgroundImage = "none";
 				var style ="url('"+dest+"')";
 				if(style == tile.style.backgroundImage) return;
 				tile.style.backgroundImage = style;
@@ -184,6 +185,7 @@ EasySlippyMap.prototype = {
 		};
 		var renderTileWeb = function(url){
 			var style ="url('"+url+"')";
+			tile.style.backgroundImage = "none";
 			if(style == tile.style.backgroundImage) return;
 			tile.style.backgroundImage = style;
 
@@ -202,7 +204,7 @@ EasySlippyMap.prototype = {
 		}
 		catch(e){
 			tile.style.backgroundImage = "none";
-			console.log("unable to cache static image for this map view. ("+e+")")
+			//console.log("unable to cache static image for this map view. ("+e+")")
 		}
 	}
 	,_createTiles: function(eMap,numtilesx,numtilesy){
