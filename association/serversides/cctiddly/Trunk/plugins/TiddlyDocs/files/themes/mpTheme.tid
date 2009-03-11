@@ -51,7 +51,7 @@ tags:systemTheme
 </div>
 
 <div id='displayArea'>
-<div id='messageArea'></div>
+<div id='messageArea'></div>	
 </div>
 <div id="headContainer">
 	<div class="left">
@@ -813,7 +813,6 @@ form.wizard, .wizard .wizardFooter{
 	border:2px solid silver;
 	color:#666;
 	background:white; 
-	width:20em;
 	padding:10px;
 	margin-top:5px;
 	margin-bottom:5px;
@@ -827,6 +826,12 @@ form.wizard, .wizard .wizardFooter{
 	width:15em;
 	margin:0;
 	padding:0;
+}
+
+#errorBox .button {
+	line-height:2em;
+	font-size:1.3em;
+	
 }
 
 #messageArea .messageClear {

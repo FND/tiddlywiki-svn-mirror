@@ -110,8 +110,8 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 				
 				
 				if(!store.getTiddler(tiddlerTitle)){
-					var newDate = new Date();
-					store.saveTiddler(tiddlerTitle, tiddlerTitle, "", config.options.txtUserName, newDate,"task",config.defaultCustomFields);
+					store.saveTiddler(tiddlerTitle, tiddlerTitle, "", config.options.txtUserName, new Date(),"task" );
+					autoSaveChanges(false, tiddlerTitle);
 				}
 				if(store.getTiddler(tiddlerTitle).fields.tt_status == "Accepted")
 					var sectionClass = "completed";
@@ -145,7 +145,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					
 					
 					store.saveTiddler(params[0], params[0], output);
-					autoSaveChanges(false);
+					autoSaveChanges(true);
 					},
 					autoScroll: true,
 					handle: '.sort-handle '
@@ -212,8 +212,9 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 				var specTiddler = store.getTiddler(window.activeDocument);
 				console.log(specTiddler.fields['server.page.revision']);
 				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");
-				store.saveTiddler(window.activeDocument, window.activeDocument, spec, config.options.txtUserName, new Date(), "documentBin", specTiddler.fields);
-				autoSaveChanges();
+					console.log("sending save for : "+window.activeDocument);
+				store.saveTiddler(window.activeDocument, window.activeDocument, spec);
+				autoSaveChanges(true, window.activeDocument);
 			}
   });
 }	
@@ -342,7 +343,7 @@ config.macros.docView.doneClick=function(){
 		else 
 			var oldTitle = form.heading.value;
 		store.saveTiddler(oldTitle, form.heading.value, form.body.value);
-		autoSaveChanges();	
+		autoSaveChanges(false);	
 };
 
 config.macros.docView.editClick=function(){
@@ -416,7 +417,7 @@ config.macros.docView.refresh=function(place,macroName,params,wikifier,paramStri
 			var newDate = new Date();	
 			store.saveTiddler(params[0], params[0], "* "+this.parentNode.firstChild.value+"\n"+store.getTiddlerText(params[0]), config.options.txtUserName, newDate,"",config.defaultCustomFields);
 			store.saveTiddler(this.parentNode.firstChild.value, this.parentNode.firstChild.value, document.getElementById("newTiddlerContent").value, config.options.txtUserName, newDate,"task",config.defaultCustomFields);
-			autoSaveChanges();
+			autoSaveChanges(false);
 			config.macros.docView.refresh(place,macroName,params,wikifier,paramString,tiddler);
 		}
 	};
@@ -527,7 +528,7 @@ config.macros.docView.refresh=function(place,macroName,params,wikifier,paramStri
 								}
 						 });
 					store.saveTiddler(params[0], params[0], output);
-					autoSaveChanges();
+					autoSaveChanges(false);
 					},
 					autoScroll: true,
 					handle: '.sort-handle .sectionHeading'

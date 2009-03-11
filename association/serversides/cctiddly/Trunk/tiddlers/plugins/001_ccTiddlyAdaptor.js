@@ -551,12 +551,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 
 	ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr){
 		
-		if(xhr.status == 406){
-			
-			displayMessage(responseText);
-			
-			
-		}
 		if(xhr.status != 201){
 			ccTiddlyAdaptor.handleError(xhr.status);
 		}else{
@@ -612,15 +606,17 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		"#errorBox{border:1px solid #ccc;background-color: #eee; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
 		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
 		var error = ccTiddlyAdaptor.errorTitleNotSaved;
+console.log("ERROR CODE IS : "+error_code);
 		switch(error_code){
 			case 401:
 				error += ccTiddlyAdaptor.errorTextSessionExpired;
 				break;
 			case 409:
-				error += ccTiddlyAdaptor.errorTextConflict;
+				error += "\n\n"+ccTiddlyAdaptor.errorTextConfig+"\n \n error code : "+error_code+" \n";
 				break;
+
 			default:
-				error += ccTiddlyAdaptor.errorTextUnknown+"<br />"+ccTiddlyAdaptor.msgErrorCode+error_code;
+				error += ccTiddlyAdaptor.errorTextUnknown+"<br />"+error_code;
 		}
 		box.innerHTML = " <a style='float:right' href='javascript:onclick=ccTiddlyAdaptor.hideError()'>"+ccTiddlyAdaptor.errorClose+"</a><p>"+error+"</p><br/><br/>";
 		createTiddlyButton(box,ccTiddlyAdaptor.buttonOpenNewWindow,null,function(e){ window.open (window.location,"mywindow");	 return false;});
