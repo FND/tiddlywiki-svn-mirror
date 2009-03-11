@@ -37,7 +37,7 @@ var EasyOptimisations = {
 			var deltax = midpoint.x - x;
 			var deltay= midpoint.y - y;
 			
-			var perpendicular_d = Math.sqrt((deltax * deltax ) + (deltay *deltay));
+			var perpendicular_d = Math.sqrt((deltax * deltax ) + (deltay *deltay)); //this is not perpendicular distancd.. i think!
 			if(perpendicular_d > bestPoint.distance){
 				bestPoint.index = i;
 				bestPoint.distance = perpendicular_d;

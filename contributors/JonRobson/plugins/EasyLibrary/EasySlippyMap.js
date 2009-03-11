@@ -88,10 +88,7 @@ EasySlippyMap.prototype = {
 			eMap.settings.backgroundimg = "none";
 			eMap.wrapper.style.backgroundImage = "none";
 			var zoomL = projection.calculatescalefactor(scale.x);	
-			var i;
-			for(i in tiles){
-				//tiles[i].style.backgroundImage ="none";
-			}
+	
 				
 			var mapheight =parseInt(eMap.wrapper.style.height);
 			var mapwidth =parseInt(eMap.wrapper.style.width);
@@ -104,6 +101,10 @@ EasySlippyMap.prototype = {
 			tile.style.top = top + "px";
 			tile.style.left = left + "px";
 			if(zoomL == 0){
+				var i;
+				for(i in tiles){
+					tiles[i].style.backgroundImage ="none";
+				}
 				zoomL = 0;
 				tilex = 0;tiley=0;
 				var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+tilex+"/"+tiley+".png";
@@ -177,10 +178,10 @@ EasySlippyMap.prototype = {
 		var that = this;
 		var renderTile = function(dest){
 			tile.style.backgroundImage = "none";
-				var style ="url('"+dest+"')";
-				if(style == tile.style.backgroundImage) return;
-				tile.style.backgroundImage = style;
-				//var numtiles = Math.pw(2,zoomL);
+			var style ="url('"+dest+"')";
+			if(style == tile.style.backgroundImage) return;
+			tile.style.backgroundImage = style;
+			//var numtiles = Math.pw(2,zoomL);
 
 		};
 		var renderTileWeb = function(url){
@@ -197,6 +198,7 @@ EasySlippyMap.prototype = {
 					renderTile(localurl);
 				}
 				else{
+					tile.style.backgroundImage = "none";
 					EasyFileUtils.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
 					that.loadedurls[localurl] = true;
 				}

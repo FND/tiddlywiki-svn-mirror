@@ -113,7 +113,7 @@ var EasyClickingUtils = {
 		return pos;
 	
 	}
-	,getMouseFromEventRelativeToCenter: function(e){
+	,getMouseFromEventRelativeToElementCenter: function(e){ /*redundant?? */
 		var w,h;
 		var target = this.resolveTargetWithEasyClicking(e);
 		if(!target)return;
