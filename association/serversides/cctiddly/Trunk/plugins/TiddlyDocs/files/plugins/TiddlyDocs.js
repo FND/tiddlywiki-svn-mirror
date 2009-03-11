@@ -145,7 +145,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					
 					
 					store.saveTiddler(params[0], params[0], output);
-					autoSaveChanges(true);
+					autoSaveChanges(true, params[0]	);
 					},
 					autoScroll: true,
 					handle: '.sort-handle '
@@ -193,28 +193,13 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 				else
 					binContents = "[["+drag.id+"]] <br />";  // build up the bin
 
-/*
-				if(config.options.chkRecycle) {
-					var specBinTiddler = store.getTiddler(window.activeDocument+"Bin");
-					if(config.options.chkRecycle) {
-							displayMessage("adding item to the recycle bin :"+window.activeDocument+"Bin");
-//						store.saveTiddler(window.activeDocument+"Bin", window.activeDocument+"Bin", binContents); // save the bin
-						
-						autoSaveChanges(false);
-
-							
-					}	
-				}
-				*/
-
-				// remove the item from the orginal spec.
+		// remove the item from the orginal spec.
 				var stars = "********************************************************";
 				var specTiddler = store.getTiddler(window.activeDocument);
 				console.log(specTiddler.fields['server.page.revision']);
 				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");
 					console.log("sending save for : "+window.activeDocument);
 				store.saveTiddler(window.activeDocument, window.activeDocument, spec);
-				autoSaveChanges(true, window.activeDocument);
 			}
   });
 }	
