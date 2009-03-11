@@ -252,9 +252,6 @@ EasyMap.prototype = {
 		if(this.settings.background){
 			this.wrapper.style.background=this.settings.background;
 		}
-		else{
-			this.wrapper.style.background = "";
-		}
 
 		if(imgpath) this.settings.backgroundimg = imgpath;
 		if(this.settings.backgroundimg){

@@ -1,6 +1,8 @@
 var EasySlippyMap = function(easyMap){	
 	easyMap.resize(256,256);
+	this.loadedurls = {};
 	this.setupSlippyStaticMapLayer(easyMap);
+
 	return easyMap;
 };
 
@@ -88,7 +90,7 @@ EasySlippyMap.prototype = {
 			var zoomL = projection.calculatescalefactor(scale.x);	
 			var i;
 			for(i in tiles){
-				tiles[i].style.backgroundImage ="none";
+				//tiles[i].style.backgroundImage ="none";
 			}
 				
 			var mapheight =parseInt(eMap.wrapper.style.height);
@@ -172,21 +174,34 @@ EasySlippyMap.prototype = {
 		
 	}
 	,renderTile: function(weburl,zoomlevel,x,y,tile){
+		var that = this;
 		var renderTile = function(dest){
-				tile.style.backgroundImage = "url('"+dest+"')";
+				var style ="url('"+dest+"')";
+				if(style == tile.style.backgroundImage) return;
+				tile.style.backgroundImage = style;
 				//var numtiles = Math.pw(2,zoomL);
 
 		};
 		var renderTileWeb = function(url){
-				tile.style.backgroundImage = "url('"+url+"')";
-				//var numtiles = Math.pw(2,zoomL);
+			var style ="url('"+url+"')";
+			if(style == tile.style.backgroundImage) return;
+			tile.style.backgroundImage = style;
 
 		};
 		try{	
 			var localurl = zoomlevel+ "_"+ x + "_" + y + ".png";
-			EasyFileUtils.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
+			if(localurl != tile.style.backgroundImage){
+				if(that.loadedurls[localurl]){
+					renderTile(localurl);
+				}
+				else{
+					EasyFileUtils.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
+					that.loadedurls[localurl] = true;
+				}
+			}
 		}
 		catch(e){
+			tile.style.backgroundImage = "none";
 			console.log("unable to cache static image for this map view. ("+e+")")
 		}
 	}

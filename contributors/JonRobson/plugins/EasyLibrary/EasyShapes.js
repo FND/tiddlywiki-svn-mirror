@@ -446,10 +446,11 @@ EasyShape.prototype={
 	
 	
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
+		
 		var shape;
 		if(this.vml){
 			shape = this.vml;
-		
+			shape.chromakey = 0.7; //sets transparency
 			if(this.properties.fill && shapetype != 'path'){
 				shape.filled = "t";
 				shape.fillcolor = this.properties.fill;			

@@ -1,7 +1,84 @@
 
 var EasyFileUtils= {
+	saveFile: function(fileUrl,content)
+	{
+		var r = EasyFileUtils.mozillaSaveFile(fileUrl,content);
 
-	loadRemoteFile: function(url,callback,params,headers,data,contentType,username,password,allowCache)
+		return r;
+	}
+	,mozillaSaveFile:function(filePath,content)
+	{
+		if(window.Components) {
+			try {
+				netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+				var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+				file.initWithPath(filePath);
+				if(!file.exists())
+					file.create(0,0664);
+				var out = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
+				out.init(file,0x20|0x02,00004,null);
+				out.write(content,content.length);
+				out.flush();
+				out.close();
+				return true;
+			} catch(ex) {
+				return false;
+			}
+		}
+		return null;
+	}
+
+	
+	
+	,convertUriToUTF8:function(uri,charSet)
+	{
+		if(window.netscape == undefined || charSet == undefined || charSet == "")
+			return uri;
+		try {
+			netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+			var converter = Components.classes["@mozilla.org/intl/utf8converterservice;1"].getService(Components.interfaces.nsIUTF8ConverterService);
+		} catch(ex) {
+			return uri;
+		}
+		return converter.convertURISpecToUTF8(uri,charSet);
+	}
+	
+	,getLocalPath:function(origPath)
+	{
+		var originalPath = EasyFileUtils.convertUriToUTF8(origPath,"UTF-8");
+		
+		// Remove any location or query part of the URL
+		var argPos = originalPath.indexOf("?");
+		if(argPos != -1)
+			originalPath = originalPath.substr(0,argPos);
+		var hashPos = originalPath.indexOf("#");
+		if(hashPos != -1)
+			originalPath = originalPath.substr(0,hashPos);
+		// Convert file://localhost/ to file:///
+		if(originalPath.indexOf("file://localhost/") == 0)
+			originalPath = "file://" + originalPath.substr(16);
+		// Convert to a native file format
+		var localPath;
+
+		if(originalPath.charAt(9) == ":") // pc local file
+			localPath = unescape(originalPath.substr(8)).replace(new RegExp("/","g"),"\\");
+		else if(originalPath.indexOf("file://///") == 0) // FireFox pc network file
+			localPath = "\\\\" + unescape(originalPath.substr(10)).replace(new RegExp("/","g"),"\\");
+		else if(originalPath.indexOf("file:///") == 0) // mac/unix local file
+			localPath = unescape(originalPath.substr(7));
+		else if(originalPath.indexOf("file:/") == 0) // mac/unix local file
+			localPath = unescape(originalPath.substr(5));
+		else if(originalPath.indexOf("http") == 0){ //jon hack for online
+
+			var end =originalPath.lastIndexOf("/");
+			localPath = unescape(originalPath.substr(0,end+1));
+		}
+		else // pc network file
+			localPath = "\\\\" + unescape(originalPath.substr(7)).replace(new RegExp("/","g"),"\\");
+		return localPath;
+	}
+
+	,loadRemoteFile: function(url,callback,params,headers,data,contentType,username,password,allowCache)
 	{
 		//callback parameters: status,params,responseText,url,xhr
 		return this._httpReq("GET",url,callback,params,headers,data,contentType,username,password,allowCache);
@@ -9,62 +86,51 @@ var EasyFileUtils= {
 	/*currently doesnt work with jpg files - ok formats:gifs pngs*/
 	,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally,dothiswhenloadedfromweb) {
 		
-		var localPath,tiddlyWiki;
-		
-		try{
-			getLocalPath();
-			tiddlyWiki = true;
-		}
-		catch(e){
-			tiddlyWiki = false;
-		}
-		if(tiddlyWiki){ 
-			localPath = getLocalPath(document.location.toString());
-		
-			var savePath;
-			if((p = localPath.lastIndexOf("/")) != -1) {
-				savePath = localPath.substr(0,p) + "/" + dest;
+		var localPath = EasyFileUtils.getLocalPath(document.location.toString());
+	
+		var savePath;
+		if((p = localPath.lastIndexOf("/")) != -1) {
+			savePath = localPath.substr(0,p) + "/" + dest;
+		} else {
+			if((p = localPath.lastIndexOf("\\")) != -1) {
+				savePath = localPath.substr(0,p) + "\\" + dest;
 			} else {
-				if((p = localPath.lastIndexOf("\\")) != -1) {
-					savePath = localPath.substr(0,p) + "\\" + dest;
-				} else {
-					savePath = localPath + "." + dest;
-				}
+				savePath = localPath + "." + dest;
 			}
 		}
+		
 		var onloadfromweb = function(status,params,responseText,url,xhr){
 			try{
 				if(dothiswhenloadedfromweb){
 					dothiswhenloadedfromweb(url);
 				}
-				saveFile(savePath,responseText);
+				if(location.protocol != "http:")EasyFileUtils.saveFile(savePath,responseText);
 			}
 			catch(e){
-				console.log("error saving locally..");
+				console.log("error saving locally.."+ e);
 			}
 
 		};
 		
-		var onloadlocally = function(status,params,responseText,url,xhr){
-			if(dothiswhensavedlocally)
-				dothiswhensavedlocally(dest);
+		var onloadlocally = function(responseText,url,xhr){		
+		
+				if(dothiswhensavedlocally){
+					dothiswhensavedlocally(dest);
+				}
+			
 		};
 		
-		if(savePath){
-			try{
-				EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
-			}
-			catch(e){//couldnt load probably doesn't exist!
-				EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
-			}
-		}
-		else{
-			EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);
-		}
+
+		try{
+			var r = jQuery.get(dest,null,onloadlocally);
+			if(r.status == 404) throw "404 error";
 		
+		}
+		catch(e){//couldnt load probably doesn't exist!
+			EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
+		}
+
 		
-	}
-	,fileExists: function(url){
 		
 	}
 	,_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
@@ -91,8 +157,10 @@ var EasyFileUtils= {
 			if(x.readyState == 4 && callback && (status !== undefined)) {
 				if([0, 200, 201, 204, 207].contains(status))
 					callback(true,params,x.responseText,url,x);
-				else
+				else{
 					callback(false,params,null,url,x);
+			
+				}
 				x.onreadystatechange = function(){};
 				x = null;
 			}
