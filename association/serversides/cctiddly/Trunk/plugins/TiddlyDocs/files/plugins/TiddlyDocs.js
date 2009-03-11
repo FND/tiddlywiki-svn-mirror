@@ -207,15 +207,13 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 				}
 				*/
 
-				
-				store.saveTiddler("a", "a", "b"); // save the bin
-					autoSaveChanges(true);
 				// remove the item from the orginal spec.
 				var stars = "********************************************************";
 				var specTiddler = store.getTiddler(window.activeDocument);
+				console.log(specTiddler.fields['server.page.revision']);
 				var spec = store.getTiddlerText(window.activeDocument).replace(stars.substring(0, drag.firstChild.firstChild.className.match(/heading[0-9]+/)[0].replace("heading",""))+" "+drag.id+"\n", "");
 				store.saveTiddler(window.activeDocument, window.activeDocument, spec, config.options.txtUserName, new Date(), "documentBin", specTiddler.fields);
-				autoSaveChanges(true);
+				autoSaveChanges();
 			}
   });
 }	

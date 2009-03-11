@@ -6,3 +6,7 @@ tags: wizard
 | <<option chkSinglePageMode>>|Single Section Mode | <<option chkDrawings>>|Enable Drawing (refresh required): |
 | <<option chkAnimate>>|Animate | <<option chkRecycle>>|Store deleted sections in recycle bin |
 ||| Toolbar type:|<<option txtFCKToolbar>> - enter Default or Basic|
+
+
+|<<option txtFadingMessagesTimeout>>|<<message config.optionsDesc.txtFadingMessagesTimeout>>|
+|<<option chkAnimate>>|<<message config.optionsDesc.chkAnimate>>|

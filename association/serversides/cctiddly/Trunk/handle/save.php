@@ -38,11 +38,15 @@ if(@$pluginsLoader->events['preSave']) {
 //if($tiddler['id']!="undefined")
 
 error_log("revision : "+$_POST['revision']+" id : "+ $tiddler['id']);
-if($_POST['revision'] && $_POST['revision']!=0 && $tiddler['id']!="undefined")
+
+// does the tiddler already exists?
+
+
+if(db_tiddlers_mainSelectTitle($ntiddler['title']) || is_numeric($_POST['id']))
 {
-	if($tiddler['revision'] !== $_POST['revision'] ) {		//ask to reload if the tiddler has been edited it was last downloaded
+	if($tiddler['revision'] !== $_POST['revision']) {		//ask to reload if the tiddler has been edited it was last downloaded
 		debug($ccT_msg['debug']['reloadRequired'], "save");
-		error_log("!!! tidldler revisions are ".$tiddler['revision']." and this was posted : ". $_POST['revision']." on tiddler ".$ntiddler['title']);
+		error_log("!!! tidldler revisions are ".$tiddler['revision']." and this was posted : ". $_POST['revision']." on tiddler ".$ntiddler['title']." with id ".$ntiddler['id']);
 		sendHeader(409);
 		exit;
 	}
@@ -67,6 +71,13 @@ if($_POST['revision'] && $_POST['revision']!=0 && $tiddler['id']!="undefined")
 	}
 }else
 {	//This Tiddler does not exist in the database.
+	
+	
+	error_log("TIS IS A NEW ~TIDLER posted rev was :  ".$_POST['revision']." and title is : ".$ntiddler['title']);
+	
+	
+	
+	
 	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) 
 	{
 		debug("Inserting New Tiddler...", "save");
@@ -74,13 +85,14 @@ if($_POST['revision'] && $_POST['revision']!=0 && $tiddler['id']!="undefined")
 		$ntiddler['created'] = $ntiddler['modified'];
 		$ntiddler['revision'] = 1;
 		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
-		if($id = tiddler_insert_new($ntiddler))
-		{
-			sendHeader(201);
-			echo $id;
-			error_log("TIS IS A NEW ~TIDLER - setting id to ".$id);
+		
+			if($id = tiddler_insert_new($ntiddler))
+			{
+				sendHeader(201);
+				echo $id;
 			
-		}
+			}
+		
 	}else{
 		debug("Permissions denied to save.", "save");
 		sendHeader(400);
