@@ -2,7 +2,7 @@
 |''Name''|ListNavMacro|
 |''Description''|letter-based navigation for lists|
 |''Author''|FND|
-|''Version''|0.2.0|
+|''Version''|0.3.0|
 |''Status''|@@experimental@@|
 |''Source''|<...>|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -15,23 +15,25 @@
 <...>
 !Usage
 {{{
-<list>
-<<listnav>>
+<<listnav [items] [source:title] [filter:expression] [links:true] [wikified:true]>>
 }}}
 !!Parameters
 <...>
 !!Examples
-* foo
-* bar
-* baz
-<<listnav>>
+<<listnav foo bar baz lorem ipsum dolor sit amet source:ColorPalette filter:[tag[systemConfig]]>>
 !Revision History
 !!v0.1 (2009-03-11)
 * initial release
 !!v0.2 (2009-03-12)
 * refactored to make more generic (apply to any preceding list)
+!!v0.3 (2009-03-12)
+* refactored to operate on list of items passed into the macro call
 !To Do
-* ignore preceding {{{BR}}} elements
+* support multiple source and filter parameters
+* support transclusion and macros within source tiddler
+* support linkification and wikification
+* support listing tags
+* include default styling
 !Code
 ***/
 //{{{
@@ -39,18 +41,56 @@
 
 config.macros.listnav = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-		// get preceding list element
-		var list = $(place).find("> :last");
-		console.log("last element", list[0]);
-		list = list.filter("ul, ol");
-		console.log("last list", list[0]);
-		// create pseudo-unique ID if necessary
-		var id = list.attr("id") || new Date().formatString("YYYY0MM0DD0hh0mm0ss");
+		var prms = paramString.parseParams("anon", null, true);
+		// use positional parameters as items
+		var items = $.map(prms, function(itm, i) { // XXX: excessively complicated?
+			if(itm.name == "anon") {
+				return itm.value;
+			}
+		});
+		// extend items with lines extracted from given tiddler
+		var source = getParam(prms, "source");
+		if(source) {
+			items = items.concat(this.getItemsFromTiddler(source));
+		}
+		// extend items with filter matches
+		var filter = getParam(prms, "filter");
+		if(filter) {
+			items = items.concat(this.getFilteredItems(filter));
+		}
+		// generate list from items
+		this.generateList(items, place, {
+			links: getParam(prms, "links") == "true" ? true : false,
+			wikified: getParam(prms, "wikified") == "true" ? true : false
+		});
+	},
+
+	generateList: function(items, container, options) {
+		// create pseudo-unique ID
+		var id = new Date().formatString("YYYY0MM0DD0hh0mm0ss"); // XXX: should include milliseconds
 		// generate nav bar
-		var nav = $("<div />").attr("id", id + "-nav").insertBefore(list);
-		console.log("nav", nav[0]);
+		$("<div />").attr("id", id + "-nav").appendTo(container);
+		// generate list
+		var list = $("<ul />").attr("id", id).appendTo(container);
+		$.each(items, function(i, itm) {
+			$("<li />").text(itm).appendTo(list); // TODO: optional linkification or wikification
+		});
 		// apply listnav
 		list.attr("id", id).listnav();
+	},
+
+	getItemsFromTiddler: function(title) {
+		var text = store.getTiddlerText(title);
+		if(text) {
+			return text.replace(/^[*#]\s*/gm, "").split("\n"); // N.B.: strips list markup
+		} else {
+			return [];
+		}
+	},
+
+	getFilteredItems: function(filter) {
+		var tiddlers = store.filterTiddlers(filter);
+		return $.map(tiddlers, function(t, i) { return t.title; }); // XXX: excessively complicated?
 	}
 };
 
