@@ -1,18 +1,16 @@
 /***
 |''Name''|ListNavMacro|
-|''Description''|letter-based navigation for lists|
+|''Description''|dynamic list filtering|
 |''Author''|FND|
-|''Version''|0.3.1|
+|''Version''|0.3.2|
 |''Status''|@@experimental@@|
 |''Source''|<...>|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''CoreVersion''|2.5|
 |''Requires''|[[jquery.listnav|http://www.ihwy.com/Labs/jquery-listnav-plugin.aspx]]|
-!Description
-<...>
 !Notes
-<...>
+Heavily relies on [[jquery.listnav|http://www.ihwy.com/Labs/jquery-listnav-plugin.aspx]].
 !Usage
 {{{
 <<listnav [items] [source:title] [filter:expression] [links:true] [wikified:true]>>
@@ -21,19 +19,21 @@
 <...>
 !!Examples
 <<listnav foo bar baz lorem ipsum dolor sit amet source:ColorPalette filter:[tag[systemConfig]]>>
+!Configuration Options
+* styling can be customized via [[StyleSheetListNav]]
 !Revision History
 !!v0.1 (2009-03-11)
 * initial release
 !!v0.2 (2009-03-12)
-* refactored to make more generic (apply to any preceding list)
+* refactored to be more generic (apply to any preceding list)
 !!v0.3 (2009-03-12)
-* refactored to operate on list of items passed into the macro call
+* refactored to operate on items/references passed into the macro call
 !To Do
+* documentation (esp. parameters)
 * support multiple source and filter parameters
 * support transclusion and macros within source tiddler
 * support linkification and wikification
 * support listing tags
-* include default styling
 !Code
 ***/
 //{{{
@@ -95,13 +95,15 @@ config.macros.listnav = {
 };
 
 // add default styles (adapted from http://www.ihwy.com/labs/downloads/jquery-listnav/2.0/listnav.css)
-config.shadowTiddlers.StyleSheetListNav = ".listNav { margin: 0 0 10px; }\n" +
+config.shadowTiddlers.StyleSheetListNav = "/*{{{*/\n" +
+	".listNav { margin: 0 0 10px; }\n" +
 	".ln-letters { overflow: hidden; }\n" +
 	".ln-letters a { font-size: 0.9em; display: block; float: left; padding: 2px 6px; border: 1px solid #eee; border-right: none; text-decoration: none; }\n"+
 	".ln-letters a.ln-last { border-right: 1px solid #eee; }\n" +
 	".ln-letters a:hover, .ln-letters a.ln-selected { background-color: #eaeaea; }\n" +
 	".ln-letters a.ln-disabled { color: #ccc; }\n" +
-	".ln-letter-count { text-align: center; font-size: 0.8em; line-height: 1; margin-bottom: 3px; color: #336699; }";
+	".ln-letter-count { text-align: center; font-size: 0.8em; line-height: 1; margin-bottom: 3px; color: #336699; }\n" +
+	"/*}}}*/";
 store.addNotification("StyleSheetListNav", refreshStyles);
 
 })(jQuery);
