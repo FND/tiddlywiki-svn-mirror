@@ -824,7 +824,7 @@ form.wizard, .wizard .wizardFooter{
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	filter:alpha(opacity=80);
-	width:18em;
+	width:10em;
 }
 
 #messageArea .messageText {
