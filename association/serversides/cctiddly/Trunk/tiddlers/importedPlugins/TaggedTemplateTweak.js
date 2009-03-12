@@ -27,7 +27,6 @@ version.extensions.TaggedTemplateTweak= {major: 1, minor: 4, revision: 1, date: 
 Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
 Story.prototype.chooseTemplateForTiddler = function(title,template)
 {
-	console.log("ttw");
 	// get default template from core
 	var coreTemplate=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
 
@@ -35,8 +34,6 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 	var tiddler=store.getTiddler(title);
 	if (!tiddler || !tiddler.tags.length)
 		return coreTemplate;
-		console.log("ttw2");
-
 	// split core template into theme prefix and template name
 	var theme="";
 	var template=coreTemplate;

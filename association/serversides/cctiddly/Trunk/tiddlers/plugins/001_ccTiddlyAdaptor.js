@@ -557,7 +557,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 			context.status = true;
 			if(responseText!="") {
 				context.tiddler.fields['server.id'] = responseText;
-				console.log("ID is  "+responseText+" for  tid :"+context.tiddler.title);
 			}
 			
 //			console.log("revison is : "+context.tiddler.fields['server.page.revision']);
@@ -606,7 +605,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		"#errorBox{border:1px solid #ccc;background-color: #eee; color:#111;padding:1em 2em; z-index:9999;}",'errorBoxStyles');
 		var box = document.getElementById('errorBox') || createTiddlyElement(document.body,'div','errorBox');
 		var error = ccTiddlyAdaptor.errorTitleNotSaved;
-console.log("ERROR CODE IS : "+error_code);
 		switch(error_code){
 			case 401:
 				error += ccTiddlyAdaptor.errorTextSessionExpired;
