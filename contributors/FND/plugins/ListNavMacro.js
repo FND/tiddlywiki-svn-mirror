@@ -2,7 +2,7 @@
 |''Name''|ListNavMacro|
 |''Description''|letter-based navigation for lists|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.2.0|
 |''Status''|@@experimental@@|
 |''Source''|<...>|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -15,17 +15,23 @@
 <...>
 !Usage
 {{{
-<<listnav [options]>>
+<list>
+<<listnav>>
 }}}
 !!Parameters
 <...>
 !!Examples
-<<listnav all>>
+* foo
+* bar
+* baz
+<<listnav>>
 !Revision History
 !!v0.1 (2009-03-11)
 * initial release
+!!v0.2 (2009-03-12)
+* refactored to make more generic (apply to any preceding list)
 !To Do
-* make macro work on preceding element to be more generic
+* ignore preceding {{{BR}}} elements
 !Code
 ***/
 //{{{
@@ -33,11 +39,18 @@
 
 config.macros.listnav = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-		var id = new Date().formatString("YYYY0MM0DD0hh0mm0ss"); // create pseudo-unique ID
-		$("<div />").attr("id", id + "-nav").appendTo(place);
-		var el = $("<div class='listnav' />").appendTo(place);
-		invokeMacro(el[0], "list", paramString, wikifier, tiddler);
-		el.find("ul").attr("id", id).listnav();
+		// get preceding list element
+		var list = $(place).find("> :last");
+		console.log("last element", list[0]);
+		list = list.filter("ul, ol");
+		console.log("last list", list[0]);
+		// create pseudo-unique ID if necessary
+		var id = list.attr("id") || new Date().formatString("YYYY0MM0DD0hh0mm0ss");
+		// generate nav bar
+		var nav = $("<div />").attr("id", id + "-nav").insertBefore(list);
+		console.log("nav", nav[0]);
+		// apply listnav
+		list.attr("id", id).listnav();
 	}
 };
 
