@@ -48,8 +48,6 @@ Story.prototype.chooseTemplateForTiddler = function(title,template)
 	// look for template whose prefix matches a tag on this tiddler (if any)
 	for (i=0; i<tiddler.tags.length; i++) {
 		var t=tiddler.tags[i]+template; // add tag prefix to template
-		
-		console.log("got to here "+theme);
 		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
 		if (store.getTiddlerText(theme+t))	{ return theme+t; } // theme##tagTemplate
 		if (store.getTiddlerText(theme+c))	{ return theme+c; } // theme##TagTemplate
