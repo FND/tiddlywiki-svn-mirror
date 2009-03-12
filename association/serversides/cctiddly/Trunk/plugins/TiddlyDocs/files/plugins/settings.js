@@ -7,12 +7,10 @@ config.options.chkSaveBackups = false;
 //config.options.txtTheme = "TreeTheme";
 
 if(isLoggedIn())
-	config.options.txtTheme = "SplitTreeTheme";
+	config.options.txtTheme = "mpTheme";
 else
-	config.options.txtTheme = "SplitTreeThemeAnon";
+	config.options.txtTheme = "AnonMpTheme";
 
-
-config.options.txtTheme = "mpTheme";
 config.options.chkBackstage = false;
 
 //}}}
