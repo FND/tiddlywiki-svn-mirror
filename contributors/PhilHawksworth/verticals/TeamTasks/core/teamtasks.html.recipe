@@ -1,5 +1,5 @@
 # Core Tiddlywiki
-recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+recipe: $TW_ROOT/../Tags/core/REL-2.5.0_Final/tiddlywiki.html.recipe
 
 # Settings
 tiddler: settings.js
