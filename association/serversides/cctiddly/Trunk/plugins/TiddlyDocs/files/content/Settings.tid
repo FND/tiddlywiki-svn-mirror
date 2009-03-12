@@ -1,12 +1,15 @@
 tags: wizard
 
-||<<editDefinitions UserDefinitions>>||<<editDefinitions StatusDefinitions>>|
-	
-| <<option chkOpenEditView>>|Open in Edit Mode |  |
-| <<option chkSinglePageMode>>|Single Section Mode | <<option chkDrawings>>|Enable Drawing (refresh required): |
-| <<option chkAnimate>>|Animate | <<option chkRecycle>>|Store deleted sections in recycle bin |
-||| Toolbar type:|<<option txtFCKToolbar>> - enter Default or Basic|
 
+!Configuration Options	
+| <<option chkOpenEditView>>|''Open section in Edit Mode'' |//When you click on a section in the table of contents it will automatically open in edit mode.// |
+| <<option chkSinglePageMode>>|''Single Section Mode'' |//When enabled you will only ever see one section open on the screen at a time.  (all other sections are closed on opening a new section.)// |
+| <<option chkRecycle>>|''Store deleted sections in recycle bin'' |//Will show deleted items in the bin untill the page is refreshed.// |
 
-|<<option txtFadingMessagesTimeout>>|<<message config.optionsDesc.txtFadingMessagesTimeout>>|
-|<<option chkAnimate>>|<<message config.optionsDesc.chkAnimate>>|
+!Definitions
+|<<editDefinitions UserDefinitions>>||<<editDefinitions StatusDefinitions>>|
+
+!Experimental Configuration Options 
+| <<option chkDrawings>>|''Enable Drawing (refresh required)'' |//Very Experimental method for adding SVG images into ~TiddlyDocs.// |
+| <<option txtFCKToolbar>>|''Toolbar type'' | //Enter Default or Basic to change the type of toolbar which is used.// |
+| <<option txtFadingMessagesTimeout>>|''<<message config.optionsDesc.txtFadingMessagesTimeout>>'' |
