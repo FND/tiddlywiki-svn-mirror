@@ -202,8 +202,10 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 .tiddler div.task div.taskControls table tr td { border-style:none;}
 .tiddler div.task div.taskControls select, 
 .tiddler div.task div.taskControls input, 
-.tiddler div.task div.taskControls textarea { width: 250px; }
-.tiddler div.task div.taskControls .fieldContainer {display: block; margin-top: 0.2em; }
+.tiddler div.task div.taskControls textarea { width: 258px;  font-family:helvetica, Arial;}
+.tiddler div.task div.taskControls textarea { width: 250px; padding:4px; border:1px solid #ccc; border-top-color:#777; font-size:1em;}
+.tiddler div.task div.taskControls input {width:254px;}
+.tiddler div.task div.taskControls .fieldContainer {display: block; margin-bottom: 0.4em; }
 .tiddler div.task div.taskControls .fieldNote {display: block;  margin-top: 0.4em; }
 .tiddler div.task div.dependencies { padding:1em; background-color:[[TeamTasksColors::LightestShade]]; border:solid 1px [[TeamTasksColors::LightShade]]; border-top-color:[[TeamTasksColors::DarkShade]];}
 .tiddler div.task .label {font-size:0.9em; color:[[TeamTasksColors::DarkestShade]]; margin-bottom:0.4em;}
