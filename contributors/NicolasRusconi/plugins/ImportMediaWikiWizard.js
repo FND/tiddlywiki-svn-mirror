@@ -190,7 +190,6 @@ config.macros.importMediaWiki.showPages = function(context, wizard)
 	markList.parentNode.insertBefore(listWrapper, markList);
 	var listView = ListView.create(listWrapper, listedTiddlers, macro.listViewTemplate);
 	wizard.setValue(macro.listViewField, listView);
-	wizard.getElement(macro.serverTiddlerNameField).value = macro.generateSystemServerName(wizard);
 	wizard.setButtons([macro.getResetButton(),
 					   {caption: macro.importLabel,
 					    tooltip: macro.importPrompt,
@@ -240,7 +239,7 @@ config.macros.importMediaWiki.onGetTiddlerList = function(context, wizard)
 	}
 	if (listedTiddlers.findByField(macro.titleField, fullPageName) != null) {
 		wizard.setValue(macro.keepTiddlersSyncField, true);
-		macro.doImport(wizard, [fullPageName], macro.generateSystemServerName(wizard));
+		macro.doImport(wizard, [fullPageName], false);
 	}else {
 		var markList = wizard.getElement(macro.markListName);
 		if (markList) {
@@ -260,14 +259,9 @@ config.macros.importMediaWiki.doImportSelectedPages = function(e)
 		macro.showErrorMessage(wizard, macro.noPageSelected);
 		return;
 	}
-	var chkSave = wizard.getElement(macro.chkSaveName);
-	var serverTiddlerName;
-	if (chkSave.checked) {
-		serverTiddlerName = wizard.getElement(macro.serverTiddlerNameField).value;
-	}
 	wizard.setValue(macro.keepTiddlersSyncField,
 					wizard.getElement(macro.chkSyncFieldName).checked);
-	macro.doImport(wizard, tiddlerNames, serverTiddlerName);
+	macro.doImport(wizard, tiddlerNames, true);
 }
 
 config.macros.importMediaWiki.showMessage = function(wizard, message) {
@@ -292,14 +286,28 @@ config.macros.importMediaWiki.showErrorMessage = function(wizard, message) {
 	messageBar.style.background ='#FF0000 none repeat scroll';
 }
 
-config.macros.importMediaWiki.doImport = function(wizard, tiddlerNames, serverTiddlerName)
+config.macros.importMediaWiki.doImport = function(wizard, tiddlerNames, selectedManually)
 {
 	var macro = config.macros.importMediaWiki;
 	wizard.setValue(macro.importCompletedHandlerField, macro.onDone);
 	wizard.setValue(macro.importTagsField, [macro.mediaWikiTiddlersTag]);
-	wizard.addStep(macro.lastStepTitle.format([tiddlerNames.length]), macro.lastStepHtml);
-	if (serverTiddlerName) {
-		wizard.setValue(macro.serverTiddlerNameField, serverTiddlerName);
+	var html;
+	var generatedServerName = macro.generateSystemServerName(wizard);
+	var feedTiddlers = store.getTaggedTiddlers(macro.mediaWikiFeedTag);
+	if (feedTiddlers.length == 0) {
+		if (selectedManually == true) {
+			html = macro.lastStepHtml + macro.serverTiddlerInputHtml;
+		} else {
+			wizard.setValue(macro.serverTiddlerNameField, generatedServerName);
+			html = macro.lastStepHtml;
+		}
+	} else {
+		html = macro.lastStepHtml;
+	}
+	wizard.addStep(macro.lastStepTitle.format([tiddlerNames.length]), html);
+	var servetName = wizard.getElement(macro.serverTiddlerNameTxtField);
+	if (servetName) {
+		servetName.value = generatedServerName;
 	}
 	config.macros.importMediaWiki.doImportWithWizard(wizard, tiddlerNames);
 	// set the default host(used for new tiddlers)
@@ -323,10 +331,6 @@ config.macros.importMediaWiki.doImportWithWizard = function(wizard, rowNames)
 		    		  ], macro.statusDoingImport);
 	var wizardContext = wizard.getValue(macro.contextField);
 	wizardContext[macro.keepTiddlersSyncField] = wizard.getValue(macro.keepTiddlersSyncField);
-	var serverTiddlerName = wizard.getValue(macro.serverTiddlerNameField);
-	if (serverTiddlerName) {
-		macro.saveServerTiddler(wizard, serverTiddlerName, [macro.mediaWikiFeedTag]);
-	}
 	var callback = function(){
 		config.macros.importMediaWiki.showMessage(wizard, macro.statusDoneImport);
 		wizard.setButtons([{caption: macro.doneLabel,
@@ -401,6 +405,14 @@ config.macros.importMediaWiki.onDone = function (e)
 {
 	var macro = config.macros.importMediaWiki;
 	var wizard = new Wizard(this);
+	var serverTiddlerName = wizard.getValue(macro.serverTiddlerNameField);
+	var chkSave = wizard.getElement(macro.chkSaveName);
+	if (chkSave && chkSave.checked) {
+		serverTiddlerName = wizard.getElement(macro.serverTiddlerNameTxtField).value;
+	}
+	if (serverTiddlerName) {
+		macro.saveServerTiddler(wizard, serverTiddlerName, [macro.mediaWikiFeedTag]);
+	}
 	var main = wizard.formElem.parentNode;
 	main.removeChild(wizard.formElem);
 	macro.handler(main);
@@ -589,7 +601,7 @@ config.macros.importMediaWiki.saveServerTiddlerWithDetails = function(txtSaveTid
 			tags.push(extraTags[n]);
 		}
 	}
-	store.saveTiddler(txtSaveTiddler,txtSaveTiddler,text,config.macros.importMediaWiki.serverSaveModifier,new Date(),tags);
+	store.saveTiddler(txtSaveTiddler,txtSaveTiddler,text,macro.serverSaveModifier,new Date(),tags);
 };
 
 function handleAdaptorReturn(returnValue) {
@@ -626,6 +638,7 @@ merge(config.macros.importMediaWiki, {
 	importedTiddlersMessageId : "importedTiddlersMessage",
 	serverSaveTemplate: "|''Description:''|%0|\n|''Type:''|%1|\n|''URL:''|%2|\n|''Workspace:''|%3|\n\nThis tiddler was automatically created to record the details of this server",
 	URLSlice : "URL",
+	serverTiddlerNameTxtField:"serverTiddlerNameTxtField",
 	//User messages
 	errorLookingForWiki:"Unable to connect to the wiki server. Unknown error (id:%0)",
 	errorLookingForWikiHost: "Unable to connect to the wiki server, please check you are connected to the network and there is no typo.",
@@ -666,14 +679,13 @@ merge(config.macros.importMediaWiki, {
 
 merge(config.macros.importMediaWiki,{
 	lastStepTitle: "Importing %0 tiddler(s)",
-	lastStepHtml: "<input type='hidden' name='" + config.macros.importMediaWiki.markReportFieldName
-	              + "'></input>", // DO NOT TRANSLATE
+	lastStepHtml: "<input type='hidden' name='" + config.macros.importMediaWiki.markReportFieldName + "'></input>",
+	serverTiddlerInputHtml: "<br/><input type='checkbox' checked='true' name='" + config.macros.importMediaWiki.chkSaveName + "'>Save the details of this wiki server for future operations, alias:</input>"
+		 + "<input type='text' size=25 name='" + config.macros.importMediaWiki.serverTiddlerNameTxtField + "'>", // DO NOT TRANSLATE
 	step2Title: "Select pages",
 	step2Html: "workspace: <select name='" + config.macros.importMediaWiki.selWorkspaceName + "'></select><br>"
 		 + "<input type='hidden' name='" + config.macros.importMediaWiki.markListName + "'><br>"
-		 + "<input type='checkbox' checked='true' name='" + config.macros.importMediaWiki.chkSyncFieldName + "'>Keep these tiddlers linked to this server so that you can synchronise subsequent changes</input><br>"
-		 + "<input type='checkbox' name='" + config.macros.importMediaWiki.chkSaveName + "'>Save the details of this wiki server for future operations, alias:</input>"
-		 + "<input type='text' size=25 name='" + config.macros.importMediaWiki.serverTiddlerNameField + "'>",
+		 + "<input type='checkbox' checked='true' name='" + config.macros.importMediaWiki.chkSyncFieldName + "'>Keep these tiddlers linked to this server so that you can synchronise subsequent changes</input><br>",
  	step1Title: "Locate the server ",
 	step1Html: "Enter the wiki server or page URL here: <input type='text' size=50 name='" + config.macros.importMediaWiki.hostInputName + "' ><br>"
 	});
