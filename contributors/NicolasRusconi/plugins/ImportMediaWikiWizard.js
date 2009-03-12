@@ -129,7 +129,10 @@ config.macros.importMediaWiki.onGetWorkspaceList = function(context, wizard)
 				message = macro.errorLookingForWikiApi;
 			}
 			macro.showErrorMessage(wizard,message);
-			wizard.setButtons([macro.getResetButton()]);
+			wizard.setButtons([macro.getResetButton(),
+						{caption: macro.next,
+						 tooltip: macro.nextTooltip,
+						 onClick: macro.openHost}]);
 		}
 		return;
 	}
