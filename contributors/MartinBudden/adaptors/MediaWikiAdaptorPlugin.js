@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.8|
+|''Version:''|0.8.9|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -311,6 +311,7 @@ adaptor.getWorkspaceListCallback = function(status,context,responseText,uri,xhr)
 		context.status = true;
 	} else {
 		context.statusText = xhr.statusText;
+		context.statusCode = xhr.status;
 	}
 	if(context.callback)
 		context.callback(context,context.userParams);
@@ -470,7 +471,7 @@ adaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 			for(i in pages) {
 				var title = pages[i].title;
 				if(useMain&&title)
-					title = title.replace(/^Talk:/g,"")
+					title = title.replace(/^Talk:/g,"");
 				if(title && !store.isShadowTiddler(title)) {
 					//# avoid overwriting shadow tiddlers
 					tiddler = new Tiddler(title);
