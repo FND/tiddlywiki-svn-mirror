@@ -180,7 +180,6 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 				if(config.options.chkRecycle) {
 					var specBinTiddler = store.getTiddler(window.activeDocument+"Bin");
 					if(config.options.chkRecycle) {
-							displayMessage("adding item to the recycle bin :"+window.activeDocument+"Bin");
 						store.saveTiddler(window.activeDocument+"Bin", window.activeDocument+"Bin", binContents); // save the bin
 						autoSaveChanges(true, window.activeDocument+"Bin");
 					}	

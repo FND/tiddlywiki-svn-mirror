@@ -251,7 +251,7 @@ font-size:0.8em;
  color:#white;
 }
 #topBar2 {
-	background-color	:#aaa;
+	background-color:#aaa;
 	width:99%; 
 	color:white;
 	font-size:0.8em;
@@ -264,9 +264,14 @@ font-size:0.8em;
 }
 
 #topBar2 a{
-	color:#fff;
+	color:#eee;
 	top:1.5em;
 	height:1.5em;
+}
+#topBar2 a:hover{
+background-color:transparent;
+	color:#fff !important;
+	
 }
 
 #topBar2 input {
@@ -819,11 +824,12 @@ form.wizard, .wizard .wizardFooter{
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	filter:alpha(opacity=80);
+	width:18em;
 }
 
 #messageArea .messageText {
 	display:block;
-	width:15em;
+	width:5em;
 	margin:0;
 	padding:0;
 }
