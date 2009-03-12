@@ -2,7 +2,7 @@
 |''Name''|ListNavMacro|
 |''Description''|letter-based navigation for lists|
 |''Author''|FND|
-|''Version''|0.3.0|
+|''Version''|0.3.1|
 |''Status''|@@experimental@@|
 |''Source''|<...>|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -93,6 +93,16 @@ config.macros.listnav = {
 		return $.map(tiddlers, function(t, i) { return t.title; }); // XXX: excessively complicated?
 	}
 };
+
+// add default styles (adapted from http://www.ihwy.com/labs/downloads/jquery-listnav/2.0/listnav.css)
+config.shadowTiddlers.StyleSheetListNav = ".listNav { margin: 0 0 10px; }\n" +
+	".ln-letters { overflow: hidden; }\n" +
+	".ln-letters a { font-size: 0.9em; display: block; float: left; padding: 2px 6px; border: 1px solid #eee; border-right: none; text-decoration: none; }\n"+
+	".ln-letters a.ln-last { border-right: 1px solid #eee; }\n" +
+	".ln-letters a:hover, .ln-letters a.ln-selected { background-color: #eaeaea; }\n" +
+	".ln-letters a.ln-disabled { color: #ccc; }\n" +
+	".ln-letter-count { text-align: center; font-size: 0.8em; line-height: 1; margin-bottom: 3px; color: #336699; }";
+store.addNotification("StyleSheetListNav", refreshStyles);
 
 })(jQuery);
 //}}}
