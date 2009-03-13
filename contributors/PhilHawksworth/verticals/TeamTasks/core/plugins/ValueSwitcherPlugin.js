@@ -1,17 +1,19 @@
 /***
 |''Name:''|ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extended field |
-|''Version:''|0.2|
-|''Date:''|25 Sept, 2007|
+|''Version:''|0.2.1|
+|''Date:''|13 Mar, 2009|
 |''Source:''|http://www.hawksworx.com/playground/TeamTasks/#ValueTogglerPlugin|
 |''Author:''|PhilHawksworth (phawksworth (at) gmail (dot) com)|
 |''License:''|[[BSD open source license]]|
-|''CoreVersion:''|2.3|
+|''CoreVersion:''|2.5|
 ***/
 
 //{{{
+(function($) {
+
 // Ensure that this Plugin is only installed once.
-if(!version.extensions.ValueSwitcher) 
+if(!version.extensions.ValueSwitcher)
 {
 	version.extensions.ValueSwitcher = {installed:true};
 	config.macros.ValueSwitcher = {
@@ -65,7 +67,7 @@ if(!version.extensions.ValueSwitcher)
       var options = [];
       options.push({'caption': 'Please select', 'name': null});
       for (var i=0; i < values.length; i++) {
-        options.push({'caption': values[i], 'name': field + '::' + values[i]});				
+        options.push({'caption': values[i], 'name': field + '::' + values[i]});
       }
       var control = createTiddlyDropDown(fieldContainer,this.setDropDownMetaData,options,selected);
 
@@ -82,10 +84,10 @@ if(!version.extensions.ValueSwitcher)
       if(!field) {
         displayMessage("No field defined for a TeamTasks free text box.");
         return;
-      }	
+      }
       // var ttname = fieldPrefix + tiddler
       var text = store.getValue(tiddler,field);
-      if(!text) text = "";	
+      if(!text) text = "";
       var control;
       if (isTextArea) {
         control = createTiddlyElement(fieldContainer,"textarea",null,null,null,{rows: 4, cols: 40, ttname:field});
@@ -98,7 +100,7 @@ if(!version.extensions.ValueSwitcher)
           jQuery(control).autocompleteArray
             (config.macros.ValueSwitcher.findAllTextValues(field), "anywhere");
         }
- 
+
       }
       control.onblur = config.macros.ValueSwitcher.changeText;
       return control;
@@ -123,7 +125,7 @@ if(!version.extensions.ValueSwitcher)
 			var output = [];
 			for(var t=0; t<text.length; t++) {
 				//support calling the old TaskViewBuilder macro to list the tasks here too.
-				var blob = wikifyStatic(text[t],null,tiddler,null);				
+				var blob = wikifyStatic(text[t],null,tiddler,null);
 				var linktitle = /tiddlylink="[^"]*"/mg;
 				var titles = blob.match(linktitle);
 				if(titles) {
@@ -135,7 +137,7 @@ if(!version.extensions.ValueSwitcher)
 					output.push(text[t]);
 				}
 			}
-			return (output);	
+			return (output);
 		},
 
 		// Ensure that changes to a dropdown field are stored as an extended field.
@@ -170,4 +172,6 @@ if(!version.extensions.ValueSwitcher)
 		}
 	};
 }
+
+})(jQuery);
 //}}}
