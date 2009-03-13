@@ -21,7 +21,7 @@ config.macros.importMediaWiki.handler = function(place,macroName,params,wikifier
 	if (tiddlersFromMediaWiki && tiddlersFromMediaWiki.length > 0) {
 		var container = createTiddlyElement(place, "div", this.importedTiddlersMessageId);
 		container.appendChild(this.getImportedTiddlersView(tiddlersFromMediaWiki));
-		container.appendChild(this.getImportMoreTiddlersButton(place));
+		container.appendChild(this.getImportMoreTiddlersButton());
 		return;
 	}
 	if(readOnly) {
@@ -40,17 +40,16 @@ config.macros.importMediaWiki.resetWizard = function(place)
 	return w;
 };
 
-config.macros.importMediaWiki.getImportMoreTiddlersButton = function(place)
+config.macros.importMediaWiki.getImportMoreTiddlersButton = function()
 {
 		var macro = config.macros.importMediaWiki;
-		var button = createTiddlyElement(null, "div", null, "button", macro.importMoreTiddlersButtonLabel);
-		button.style.width = '120px';
-		button.onclick = function() {
+		var action = function() {
 			var container = document.getElementById(macro.importedTiddlersMessageId);
+			var button = document.getElementById(macro.importeMoreTiddlersButtonId);
 			if (container) {
-				place.removeChild(container);
+				container.removeChild(button);
 			}
-			var w = macro.resetWizard(place);
+			var w = macro.resetWizard(container);
 			var feedTiddlers = store.getTaggedTiddlers(macro.mediaWikiFeedTag);
 			if (feedTiddlers.length > 0) {
 				w.getElement(macro.hostInputName).value =
@@ -58,6 +57,9 @@ config.macros.importMediaWiki.getImportMoreTiddlersButton = function(place)
 				w.formElem.onsubmit();
 			}
 		}
+		var button = createTiddlyButton(null, macro.importMoreTiddlersButtonLabel,
+			macro.importMoreTiddlersButtonTooltip,action,null,macro.importeMoreTiddlersButtonId);
+		button.style.background = '#FFEE88';
 		return button;
 }
 
@@ -324,9 +326,12 @@ config.macros.importMediaWiki.doImportWithWizard = function(wizard, rowNames)
 	var macro = config.macros.importMediaWiki;
 	var place = wizard.getElement(macro.markReportFieldName);
 	for(t=0; t<rowNames.length && place; t++) {
-		var link = document.createElement("div");
+		var link = document.createElement("span");
 		createTiddlyLink(link, rowNames[t], true);
 		place.parentNode.insertBefore(link, place);
+		if (t +1 < rowNames.length) {
+			createTiddlyText(link, ", ");
+		}
 	}
 	wizard.setButtons([{caption: macro.cancelLabel,
 						tooltip: macro.cancelPrompt,
@@ -334,7 +339,7 @@ config.macros.importMediaWiki.doImportWithWizard = function(wizard, rowNames)
 		    		  ], macro.statusDoingImport);
 	var wizardContext = wizard.getValue(macro.contextField);
 	wizardContext[macro.keepTiddlersSyncField] = wizard.getValue(macro.keepTiddlersSyncField);
-	var callback = function(){
+	var callback = function() {
 		config.macros.importMediaWiki.showMessage(wizard, macro.statusDoneImport);
 		wizard.setButtons([{caption: macro.doneLabel,
 							tooltip: macro.donePrompt,
@@ -416,18 +421,26 @@ config.macros.importMediaWiki.onDone = function (e)
 	if (serverTiddlerName) {
 		macro.saveServerTiddler(wizard, serverTiddlerName, [macro.mediaWikiFeedTag]);
 	}
-	var main = wizard.formElem.parentNode;
-	main.removeChild(wizard.formElem);
-	macro.handler(main);
+	config.macros.importMediaWiki.reinvoke(wizard);
 }
 
+config.macros.importMediaWiki.reinvoke = function(wizard) {
+	var macro = config.macros.importMediaWiki;
+	var main = wizard.formElem.parentNode;
+	main.removeChild(wizard.formElem);
+	var place = document.getElementById(macro.importedTiddlersMessageId);
+	if (place != null) {
+		parent = place.parentNode;
+		parent.removeChild(place);
+		macro.handler(parent);
+	} else {
+		macro.handler(main);
+	}
+
+}
 config.macros.importMediaWiki.onReset = function()
 {
-	var macro = config.macros.importMediaWiki;
-	var wizard = new Wizard(this);
-	var place = wizard.clear();
-	macro.restart(wizard);
-	return false;
+	config.macros.importMediaWiki.reinvoke(new Wizard(this));
 };
 
 config.macros.importMediaWiki.onCancel = function(e)
@@ -639,6 +652,7 @@ merge(config.macros.importMediaWiki, {
 	chkSaveName: "chkSave",
 	hostInputName: "txtWikiHost",
 	importedTiddlersMessageId : "importedTiddlersMessage",
+	importeMoreTiddlersButtonId : "importeMoreTiddlersButton" ,
 	serverSaveTemplate: "|''Description:''|%0|\n|''Type:''|%1|\n|''URL:''|%2|\n|''Workspace:''|%3|\n\nThis tiddler was automatically created to record the details of this server",
 	URLSlice : "URL",
 	serverTiddlerNameTxtField:"serverTiddlerNameTxtField",
@@ -648,6 +662,7 @@ merge(config.macros.importMediaWiki, {
 	errorLookingForWikiApi: "Error connecting to the wiki server, please make sure the wiki supports mediawiki api",
 	errorGettingTiddler: "Error in importMediaWiki.onGetTiddler: ",
 	importMoreTiddlersButtonLabel : "Import more tiddlers...",
+	importMoreTiddlersButtonTooltip : "click here to import more tiddlers",
 	lookingUpPages: "Looking up pages...",
 	readOnlyWarning: "You cannot import into a read-only TiddlyWiki file. Try opening it from a file:// URL",
 	wizardTitle: "Import content from your wiki",
@@ -682,8 +697,8 @@ merge(config.macros.importMediaWiki, {
 
 merge(config.macros.importMediaWiki,{
 	lastStepTitle: "Importing %0 tiddler(s)",
-	lastStepHtml: "<input type='hidden' name='" + config.macros.importMediaWiki.markReportFieldName + "'></input>",
-	serverTiddlerInputHtml: "<br/><input type='checkbox' checked='true' name='" + config.macros.importMediaWiki.chkSaveName + "'>Save the details of this wiki server for future operations, alias:</input>"
+	lastStepHtml: "<br/><input type='hidden' name='" + config.macros.importMediaWiki.markReportFieldName + "'></input><br/><br/>",
+	serverTiddlerInputHtml: "<input type='checkbox' checked='true' name='" + config.macros.importMediaWiki.chkSaveName + "'>Save the details of this wiki server for future operations, alias:</input>"
 		 + "<input type='text' size=25 name='" + config.macros.importMediaWiki.serverTiddlerNameTxtField + "'>", // DO NOT TRANSLATE
 	step2Title: "Select pages",
 	step2Html: "workspace: <select name='" + config.macros.importMediaWiki.selWorkspaceName + "'></select><br>"
