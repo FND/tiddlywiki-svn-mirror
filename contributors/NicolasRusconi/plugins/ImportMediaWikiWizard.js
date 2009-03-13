@@ -92,7 +92,8 @@ config.macros.importMediaWiki.openHost = function()
 	wizard.setValue(macro.originalUrlField, url);
 	wizard.setValue(macro.possibleFoldersField, macro.getPossibleFolders(url.substring(host.length)));
 	wizard.setValue(macro.pageField, macro.getPage(url));
-	wizard.setButtons([macro.getResetButton()], macro.openingHost);
+	macro.showMessage(wizard, macro.openingHost);
+	wizard.setButtons([macro.getResetButton()]);
 	handleAdaptorReturn(adaptor.openHost(host, null, wizard, macro.onOpen));
 }
 
@@ -103,7 +104,8 @@ config.macros.importMediaWiki.onOpen = function(context, wizard)
 		macro.showErrorMessage(wizard,macro.errorOpeningHost);
 		return;
 	}
-	wizard.setButtons([macro.getResetButton()],macro.lookingUpPages);
+	macro.showMessage(wizard, macro.lookingUpPages);
+	wizard.setButtons([macro.getResetButton()]);
 	handleAdaptorReturn(wizard.getValue(macro.adaptorField)
 		.getWorkspaceList(context, wizard, macro.onGetWorkspaceList));
 }
@@ -210,7 +212,8 @@ config.macros.importMediaWiki.selectedWorkspace = function(wizard, workspace)
 	listWrapper.innerHTML = macro.loadingTiddlersMessage;
 	var adaptor = wizard.getValue(macro.adaptorField);
 	var context = wizard.getValue(macro.contextField);
-	wizard.setButtons([macro.getResetButton()], macro.statusOpenWorkspace);
+	macro.showMessage(wizard, macro.statusOpenWorkspace);
+	wizard.setButtons([macro.getResetButton()]);
 	handleAdaptorReturn(adaptor.openWorkspace(workspace, context, wizard, macro.onOpenWorkspace));
 };
 
@@ -222,12 +225,14 @@ config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callba
 		return;
 	}
 	var adaptor = wizard.getValue(macro.adaptorField);
-	wizard.setButtons([macro.getResetButton()], macro.statusGetTiddlerList);
+	macro.showProgressMessage(wizard, macro.statusGetTiddlerList);
+	wizard.setButtons([macro.getResetButton()]);
 	handleAdaptorReturn(adaptor.getTiddlerList(context, wizard, macro.onGetTiddlerList));
 }
 
 config.macros.importMediaWiki.onGetTiddlerList = function(context, wizard)
 {
+	macro.removeProgressMessage(wizard);
 	var macro = config.macros.importMediaWiki;
 	if(context.status !== true) {
 		macro.getClearWikiPagesList();
@@ -270,11 +275,12 @@ config.macros.importMediaWiki.doImportSelectedPages = function(e)
 }
 
 config.macros.importMediaWiki.showMessage = function(wizard, message) {
-	var messageBar = document.getElementById('wizardMessageBar');
+	var macro = config.macros.importMediaWiki;
+	var messageBar = document.getElementById(macro.wizardMessageBarId);
 	if (!messageBar) {
 		var container = createTiddlyElement(null,'div');
 		container.align = 'center';
-		messageBar = createTiddlyElement(container,'div','wizardMessageBar','tiddler');
+		messageBar = createTiddlyElement(container,'div',macro.wizardMessageBarId,'tiddler');
 		wizard.bodyElem.firstChild.insertBefore(container,wizard.bodyElem.firstChild.firstChild);
 		messageBar.style.background ='#FFEE88 none repeat scroll';
 		messageBar.style.paddingTop = '0px';
@@ -284,6 +290,22 @@ config.macros.importMediaWiki.showMessage = function(wizard, message) {
 	}
 	messageBar.textContent = message;
 	return messageBar;
+}
+config.macros.importMediaWiki.showProgressMessage = function(wizard, message) {
+	var messageBar = config.macros.importMediaWiki.showMessage(wizard, message);
+	config.macros.importMediaWiki.progressAnimation.show(messageBar);
+}
+
+config.macros.importMediaWiki.removeProgressMessage = function(wizard) {
+	config.macros.importMediaWiki.progressAnimation.stop();
+	config.macros.importMediaWiki.removeMessage(wizard);
+}
+
+config.macros.importMediaWiki.removeMessage = function(wizard) {
+	var messageBar = document.getElementById(config.macros.importMediaWiki.wizardMessageBarId);
+	if (messageBar) {
+		messageBar.parentNode.removeChild(messageBar);
+	}
 }
 
 config.macros.importMediaWiki.showErrorMessage = function(wizard, message) {
@@ -333,13 +355,15 @@ config.macros.importMediaWiki.doImportWithWizard = function(wizard, rowNames)
 			createTiddlyText(link, ", ");
 		}
 	}
+	macro.showProgressMessage(wizard, macro.importingTiddlers);
 	wizard.setButtons([{caption: macro.cancelLabel,
 						tooltip: macro.cancelPrompt,
 			 			onClick: macro.onCancel}
-		    		  ], macro.statusDoingImport);
+		    		  ]);
 	var wizardContext = wizard.getValue(macro.contextField);
 	wizardContext[macro.keepTiddlersSyncField] = wizard.getValue(macro.keepTiddlersSyncField);
 	var callback = function() {
+		config.macros.importMediaWiki.progressAnimation.stop();
 		config.macros.importMediaWiki.showMessage(wizard, macro.statusDoneImport);
 		wizard.setButtons([{caption: macro.doneLabel,
 							tooltip: macro.donePrompt,
@@ -620,6 +644,44 @@ config.macros.importMediaWiki.saveServerTiddlerWithDetails = function(txtSaveTid
 	store.saveTiddler(txtSaveTiddler,txtSaveTiddler,text,macro.serverSaveModifier,new Date(),tags);
 };
 
+config.macros.importMediaWiki.progressAnimation = {};
+config.macros.importMediaWiki.progressAnimation.chars = ['-','\\','|','/'];
+config.macros.importMediaWiki.progressAnimation.content;
+config.macros.importMediaWiki.progressAnimation.place;
+config.macros.importMediaWiki.progressAnimation.stopFlag = false;
+config.macros.importMediaWiki.progressAnimation.currentChar = 0;
+config.macros.importMediaWiki.progressAnimation.show = function(place) {
+	this.content = place.textContent;
+	this.place = place;
+	config.macros.importMediaWiki.progressAnimation.stopFlag = false;
+	window.setTimeout(config.macros.importMediaWiki.progressAnimation.nextChar,0);
+}
+
+config.macros.importMediaWiki.progressAnimation.nextChar = function() {
+	var macro = config.macros.importMediaWiki.progressAnimation;
+	if (macro.stopFlag == true) {
+		return;
+	}
+	var nextChar = macro.chars[macro.currentChar];
+	macro.place.textContent = nextChar + ' ' + macro.content;
+	macro.currentChar++;
+	if (macro.currentChar >= macro.chars.length) {
+		macro.currentChar = 0;
+	} else {
+		macro.currentChar = macro.currentChar;//just for timing
+	}
+	if (!macro.stopFlag) {
+		window.setTimeout(config.macros.importMediaWiki.progressAnimation.nextChar,300);
+	}
+}
+
+config.macros.importMediaWiki.progressAnimation.stop = function() {
+	var macro = config.macros.importMediaWiki.progressAnimation;
+	macro.stopFlag = true;
+	macro.place = null;
+	macro.content = null;
+}
+
 function handleAdaptorReturn(returnValue) {
 	if (returnValue !== true) {
 		displayMessage(returnValue);
@@ -653,6 +715,7 @@ merge(config.macros.importMediaWiki, {
 	hostInputName: "txtWikiHost",
 	importedTiddlersMessageId : "importedTiddlersMessage",
 	importeMoreTiddlersButtonId : "importeMoreTiddlersButton" ,
+	wizardMessageBarId : "wizardMessageBar",
 	serverSaveTemplate: "|''Description:''|%0|\n|''Type:''|%1|\n|''URL:''|%2|\n|''Workspace:''|%3|\n\nThis tiddler was automatically created to record the details of this server",
 	URLSlice : "URL",
 	serverTiddlerNameTxtField:"serverTiddlerNameTxtField",
@@ -664,6 +727,7 @@ merge(config.macros.importMediaWiki, {
 	importMoreTiddlersButtonLabel : "Import more tiddlers...",
 	importMoreTiddlersButtonTooltip : "click here to import more tiddlers",
 	lookingUpPages: "Looking up pages...",
+	importingTiddlers: "importing tiddlers...",
 	readOnlyWarning: "You cannot import into a read-only TiddlyWiki file. Try opening it from a file:// URL",
 	wizardTitle: "Import content from your wiki",
 	openingHost: "Opening host...",
