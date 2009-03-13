@@ -330,12 +330,13 @@ EasyMap.prototype = {
 		e,shape,mouse,longitude_latitude,feature
 		
 	*/
-	setMouseFunctions: function(onmouseup,onmousemove,onrightclick,onkeypress){
+	setMouseFunctions: function(onmouseup,onmousemove,onrightclick,onkeypress,dblClick){
 			if(onmousemove)this.moveHandler =onmousemove;
 			if(onmouseup)this.clickHandler = onmouseup;
 			//if(ondblclick)this.dblclickHandler = ondblclick;
 			if(onrightclick) this.rightclickHandler = onrightclick;
 			if(onkeypress) this.keyHandler = onkeypress;
+			if(dblClick) this.dblClickHandler = dblClick;
 	}
 	,_createGlobe: function(radius){
 		if(!this.canvas.getContext) {return;}
@@ -608,7 +609,7 @@ EasyMap.prototype = {
 			//console.log(eMap.settings.wrapper.center);
 			if(eMap.keyHandler){
 				try{
-					eMap.keyHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed);
+					eMap.keyHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
 				}
 				catch(e){};
 			}
@@ -621,15 +622,17 @@ EasyMap.prototype = {
 		var dblclick = function(e){
 			
 		}
-
+		this.wrapper.ondblclick = function(e){
+		
+				var r = getParameters(e);
+				eMap.dblClickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
+		
+		};
 		
 		this.wrapper.onmouseup= 	onmouseup;
-		/*
-		$(this.wrapper).dblclick(function(e) {
-			alert("Dblclicked!");
-			//onmouseup(e);
-		});
-		*/
+		
+
+		
 		
 		document.onkeypress = onkeypress;
 		//this.wrapper.onmouseup = onmouseup;
