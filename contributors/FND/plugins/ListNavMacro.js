@@ -2,7 +2,7 @@
 |''Name''|ListNavMacro|
 |''Description''|dynamic list filtering|
 |''Author''|FND|
-|''Version''|0.3.2|
+|''Version''|0.3.3|
 |''Status''|@@experimental@@|
 |''Source''|<...>|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -69,7 +69,7 @@ config.macros.listnav = {
 		// create pseudo-unique ID
 		var id = new Date().formatString("YYYY0MM0DD0hh0mm0ss"); // XXX: should include milliseconds
 		// generate nav bar
-		$("<div />").attr("id", id + "-nav").appendTo(container);
+		$("<div />").attr("id", id + "-nav").addClass("listnav").appendTo(container);
 		// generate list
 		var list = $("<ul />").attr("id", id).appendTo(container);
 		$.each(items, function(i, itm) {
@@ -96,7 +96,7 @@ config.macros.listnav = {
 
 // add default styles (adapted from http://www.ihwy.com/labs/downloads/jquery-listnav/2.0/listnav.css)
 config.shadowTiddlers.StyleSheetListNav = "/*{{{*/\n" +
-	".listNav { margin: 0 0 10px; }\n" +
+	".listnav { margin: 20px 0 10px; }\n" +
 	".ln-letters { overflow: hidden; }\n" +
 	".ln-letters a { font-size: 0.9em; display: block; float: left; padding: 2px 6px; border: 1px solid #eee; border-right: none; text-decoration: none; }\n"+
 	".ln-letters a.ln-last { border-right: 1px solid #eee; }\n" +
