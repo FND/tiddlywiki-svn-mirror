@@ -1,3 +1,5 @@
+/*Extends EasyMaps to provide tiled background */
+
 var EasySlippyMap = function(easyMap){	
 	easyMap.resize(256,256);
 	this.loadedurls = {};

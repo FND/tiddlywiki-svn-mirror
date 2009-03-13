@@ -1,5 +1,5 @@
 /*
-A package for rendering geojson polygon and point features easily
+A package for rendering geojson polygon and point features easily to create maps
 */
 var GeoTag = function(longitude,latitude,properties){
 	var geo = {};
@@ -177,20 +177,23 @@ EasyMap.prototype = {
 	drawFromGeojson: function(geojson,autosize){
 			if(typeof geojson == 'string'){
 				geojson = eval('(' +geojson+ ')');
-			}		
+			}
+							
 			this._lastgeojson = geojson;
 			if(autosize){
-			 	var t = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
-			
+				
+			 	var t = EasyMapUtils.fitgeojsontocanvas(geojson,this.wrapper);
+
 				var p =this.getProjection();
 				if(p && p.name == "GLOBE") {
 					t.translate = {x:0,y:0};
 				}
+					
 				this.controller.setTransformation(t);
 			}
-
+		
 			var type =geojson.type.toLowerCase();		
-
+	 
 			if(type == "featurecollection"){
 				var features = geojson.features;
 				this.drawGeoJsonFeatures(features);
@@ -199,6 +202,7 @@ EasyMap.prototype = {
 			} else {
 				console.log("only feature collections currently supported");
 			}
+
 			this.render();
 	},
 	drawFromGeojsonFile: function(file){
@@ -256,7 +260,9 @@ EasyMap.prototype = {
 
 		if(imgpath) this.settings.backgroundimg = imgpath;
 		if(this.settings.backgroundimg){
-			if(this.settings.renderPolygonMode) this.settings.globalAlpha = 0.8;	
+			if(this.settings.renderPolygonMode && this.settings.globalAlpha) {
+				this.settings.globalAlpha = 0.8;	
+			}
 			this.wrapper.style.backgroundImage = "url('"+this.settings.backgroundimg +"')";		
 		}
 		else{
@@ -266,13 +272,20 @@ EasyMap.prototype = {
 	}
 	,redraw: function(){
 		var that = this;
+		if(this.canvas.getContext){
+			var f = function(){
+				that.clear();
+				that.render();
+			};
+			window.setTimeout(f,0);		
+		}
+		else{
+			this.clear();
+			this.render();
+		}
 
-		var f = function(){
-			that.clear();
-			that.render();
-		};
 		
-		window.setTimeout(f,0);
+		
 	},
 		
 	transform: function(transformation){
@@ -381,6 +394,7 @@ EasyMap.prototype = {
 				
 			 for(var i=0; i < mem.length; i++){
 				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser,newfragment);
+				if(mem[i].vmlfill && that.settings.globalAlpha) mem[i].vmlfill.opacity =that.settings.globalAlpha;
 			}
 			var t2=new Date();
 			var time = t2-t1;
@@ -451,6 +465,7 @@ EasyMap.prototype = {
 	drawGeoJsonFeatures: function(features){
 			var avg1 = 0;
 			for(var i=0; i < features.length; i++){
+			
 				this.drawGeoJsonFeature(features[i]);
 			}
 

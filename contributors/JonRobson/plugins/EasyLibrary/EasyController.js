@@ -1,4 +1,6 @@
-/*requires EasyShapes and EasyController */
+/*requires EasyShapes
+Adds controls such as panning and zooming to a given dom element.
+ */
 
 var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
 	this.setMaxScaling(99999999);
@@ -60,7 +62,7 @@ EasyMapController.prototype = {
 			
 				var s =that.transformation.scale;
 				
-				var pos = EasyClickingUtils.getMouseFromEventRelativeToCenter(e);
+				var pos = EasyClickingUtils.getMouseFromEventRelativeToElementCenter(e);
 				var t=  that.transformation.translate;
 				
 				var newx,newy;
@@ -74,6 +76,8 @@ EasyMapController.prototype = {
 				}
 
 				if(newx > 0 && newy > 0){
+					//t.x = pos.x;
+					//t.y = pos.y;
 					s.x = newx;
 					s.y = newy;
 					that.transform();					

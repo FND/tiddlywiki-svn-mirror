@@ -1,5 +1,27 @@
-/* I am not very happy with the code that follows. It is not of the best standard and needs much improvement */
+/* 
+Creates shapes which map slightly to geojson features - only currently a shape can only consist of one shape
+cross browser rendering mode
+
+I am not very happy with the code that follows. It is not of the best standard and needs much improvement */
 /*coordinates are a string consisting of floats and move commands (M)*/
+var EasyUtils = {
+	clone: function(obj){
+
+	    if(obj == null || typeof(obj) != 'object')
+
+	        return obj;
+
+	    var temp = new obj.constructor(); // changed (twice)
+
+	    for(var key in obj){
+	        temp[key] = EasyUtils.clone(obj[key]);
+	    }
+
+
+	    return temp;
+
+	}
+};
 
 var EasyShape = function(properties,coordinates,geojson){
 	this.grid = {};
@@ -25,7 +47,7 @@ EasyShape.prototype={
 		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
 		if(!coordinates) throw "give me some coordinates!";
 		
-		var tolerance = 5 / scaleFactor;
+		var tolerance = 3 / scaleFactor;
 		coordinates = EasyOptimisations.packCoordinates(coordinates);
 		coordinates = EasyOptimisations.douglasPeucker(coordinates,tolerance);
 		
@@ -37,18 +59,18 @@ EasyShape.prototype={
 		else 
 		return coordinates;	
 	}
-	,getOptimisedCoords: function(scaleFactor){
+	,_getOptimisedCoords: function(scaleFactor){
 		var index = parseInt(scaleFactor);
 		if(this._optimisedcoords[index]) {
 			return this._optimisedcoords[index];
 		}
 		else {
 			var res = this._simplifyCoordinates(scaleFactor,this.getCoordinates());
-			this.setOptimisedCoords(scaleFactor,res);
+			this._setOptimisedCoords(scaleFactor,res);
 			return res;
 		}
 	}
-	,setOptimisedCoords: function(scaleFactor,coords){
+	,_setOptimisedCoords: function(scaleFactor,coords){
 		var index = scaleFactor;
 		this._optimisedcoords[index] = coords;
 	}
@@ -244,7 +266,7 @@ EasyShape.prototype={
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
 		var shapetype = this.properties.shape;
-		c =this.getOptimisedCoords(transformation.scale.x);
+		c =this._getOptimisedCoords(transformation.scale.x);
 		
 		if(projection){
 			c = this._applyProjection(projection,transformation);
@@ -315,7 +337,7 @@ EasyShape.prototype={
 		var path;
 		
 		var buffer = [];
-		var c =this.getOptimisedCoords(transformation.scale.x);
+		var c =this._getOptimisedCoords(transformation.scale.x);
 	
 		if(projection){
 			c = this._applyProjection(projection,transformation);
@@ -455,10 +477,13 @@ EasyShape.prototype={
 		var shape;
 		if(this.vml){
 			shape = this.vml;
-			shape.chromakey = 0.7; //sets transparency
 			if(this.properties.fill && shapetype != 'path'){
 				shape.filled = "t";
-				shape.fillcolor = this.properties.fill;			
+				if(!this.vmlfill){
+					this.vmlfill =document.createElement("easyShapeVml_:fill");
+					shape.appendChild(this.vmlfill); 
+				}
+				this.vmlfill.color = this.properties.fill;					
 			}
 			this._cssTransform(shape,transformation,projection);
 			return;
@@ -526,7 +551,7 @@ EasyShape.prototype={
 	}
 	,_applyProjection: function(projection,transformation){
 		var c;
-		var opt =this.getOptimisedCoords(transformation.scale.x);
+		var opt =this._getOptimisedCoords(transformation.scale.x);
 		if(opt){
 			c = opt;
 		}

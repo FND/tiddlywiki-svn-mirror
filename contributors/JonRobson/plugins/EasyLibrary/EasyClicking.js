@@ -1,5 +1,5 @@
 /*
-EasyClicking adds the ability to associate a dom element with lots of EasyShapes using addToMemory function
+EasyClicking adds the ability to associate a dom element with a collection of EasyShapes using addToMemory function
 The getShapeAtClick function allows click detection on this dom element when used in a dom mouse event handler
 */
 

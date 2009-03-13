@@ -33,24 +33,6 @@ if(!Array.indexOf) {
 	};
 }
 
-var EasyUtils = {
-	clone: function(obj){
-
-	    if(obj == null || typeof(obj) != 'object')
-
-	        return obj;
-
-	    var temp = new obj.constructor(); // changed (twice)
-
-	    for(var key in obj){
-	        temp[key] = EasyUtils.clone(obj[key]);
-	    }
-
-
-	    return temp;
-
-	}
-}
 
 
 
@@ -58,8 +40,8 @@ var EasyMapUtils = {
 	googlelocalsearchurl: "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="
 	,addBoundingBoxes: function(geojson){ //currently MultiPolygon only..
 		var geojsonbb = geojson;
-		for(var i=0; i < ilga.mapdata.legal.features.length; i++){
-			var f = ilga.mapdata.legal.features[i];
+		for(var i=0; i < geojson.features.length; i++){
+			var f = geojson.features[i];
 
 			var g = f.geometry;
 			var c = g.coordinates;
@@ -67,13 +49,21 @@ var EasyMapUtils = {
 			
 			if(g.type.toLowerCase() == 'multipolygon'){
 				var x1,y1,x2,y2;
+				
+				var horizontal = {belowzero:0,abovezero:0};
+				var vertical = {belowzero:0,abovezero:0};
 				for(var j=0; j < c.length; j++){
 					for(var k=0; k < c[j].length; k++){
 						
 						for(var l=0; l < c[j][k].length; l++){
 							var x = c[j][k][l][0];
 							var y = c[j][k][l][1];
-
+							if(x < 0 && horizontal.abovezero > horizontal.belowzero){
+								x = 180;
+							}
+							else if(x > 0 && horizontal.abovezero < horizontal.belowzero){
+								x = -180;
+							}
 							if(!x1) x1= x;
 							if(!x2) x2 =x;
 							if(!y1) y1 = y;
@@ -82,9 +72,30 @@ var EasyMapUtils = {
 							if(y < y1) y1 = y;
 							if(x < x1) x1 = x;
 							if(x > x2) x2= x;
+							
+							if(x > 0){
+								horizontal.abovezero +=1;
+							}
+							else{
+								horizontal.belowzero +=1;
+							}
+							
+							if(y > 0){
+								vertical.abovezero +=1;
+							}
+							else{
+								vertical.belowzero +=1;
+							}
+							
+									
+										
 						}
 					}
 				}
+				
+				//if(f.properties.name == "RUSSIAN FEDERATION")
+				//console.log(x1,x2);
+	
 				g.bbox = [];
 				g.bbox.push(x1);
 				g.bbox.push(y1);

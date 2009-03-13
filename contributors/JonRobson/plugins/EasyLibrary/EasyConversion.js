@@ -171,6 +171,7 @@ var EasyConversion ={
 					geojson.features.push(feature);
 			}
 		}
+	
 		return geojson;
 	}
 	,geoRssToGeoJson : function (georss){
