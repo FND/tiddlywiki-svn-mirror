@@ -32,7 +32,7 @@ version.extensions.ServerSideSavingPlugin = { installed: true };
 
 readOnly = false; //# enable editing over HTTP
 
-(function() { //# set up local scope
+(function($) { //# set up local scope
 
 var plugin;
 plugin = config.extensions.ServerSideSavingPlugin = {};
@@ -203,7 +203,7 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 	return null;
 };
 
-})(); //# end of local scope
+})(jQuery); //# end of local scope
 
 } //# end of "install only once"
 //}}}
