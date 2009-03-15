@@ -3,13 +3,15 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.5.13|
+|''Version''|0.6.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''CoreVersion''|2.4.1|
+|''CoreVersion''|2.5|
 |''Keywords''|serverSide TiddlyWeb|
+!Notes
+This plugin includes [[jQuery JSON|http://code.google.com/p/jquery-json/]].
 !Revision History
 !!v0.1 (2008-11-10)
 * refactoring of previous experimental efforts
@@ -21,9 +23,11 @@
 * added support for importing TiddlyWiki documents
 !!v0.5 (2009-02-06)
 * keeping track of previous location when renaming/moving tiddlers
+!!v0.6 (2009-03-15)
+* refactored to take advantage of jQuery
+* replaced JSON serialization with jQuery JSON plugin
 !To Do
 * createWorkspace
-* externalize JSON library (use jQuery?)
 * document custom/optional context attributes (e.g. filters, query, revision) and tiddler fields (e.g. server.title, origin)
 !Code
 ***/
@@ -31,7 +35,7 @@
 if(!version.extensions.TiddlyWebAdaptorPlugin) { //# ensure that the plugin is only installed once
 version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
 
-(function() { //# set up local scope
+(function($) { //# set up local scope
 
 var adaptor;
 adaptor = config.adaptors.tiddlyweb = function() {}; //# set up alias
@@ -71,7 +75,7 @@ adaptor.getWorkspaceListCallback = function(status, context, responseText, uri, 
 	context.httpStatus = xhr.status;
 	if(status) {
 		try {
-			eval("var workspaces = " + responseText);
+			var workspaces = $.evalJSON(responseText);
 		} catch(ex) {
 			context.status = false; // XXX: correct?
 			context.statusText = exceptionText(ex, adaptor.parsingErrorMessage);
@@ -107,7 +111,7 @@ adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xh
 	if(status) {
 		context.tiddlers = [];
 		try {
-			eval("var tiddlers = " + responseText); //# N.B.: not actual tiddler instances
+			var tiddlers = $.evalJSON(responseText); //# N.B.: not actual tiddler instances
 		} catch(ex) {
 			context.status = false; // XXX: correct?
 			context.statusText = exceptionText(ex, adaptor.parsingErrorMessage);
@@ -164,7 +168,7 @@ adaptor.getTiddlerRevisionListCallback = function(status, context, responseText,
 	if(status) {
 		context.revisions = [];
 		try {
-			eval("var tiddlers = " + responseText); //# N.B.: not actual tiddler instances
+			var tiddlers = $.evalJSON(responseText); //# N.B.: not actual tiddler instances
 		} catch(ex) {
 			context.status = false; // XXX: correct?
 			context.statusText = exceptionText(ex, adaptor.parsingErrorMessage);
@@ -231,7 +235,7 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.httpStatus = xhr.status;
 	if(status) {
 		try {
-			eval("var t = " + responseText); //# N.B.: not an actual tiddler instance
+			var t = $.evalJSON(responseText); //# N.B.: not an actual tiddler instance
 		} catch(ex) {
 			context.status = false; // XXX: correct?
 			context.statusText = exceptionText(ex, adaptor.parsingErrorMessage);
@@ -304,10 +308,10 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		text: tiddler.text,
 		modifier: tiddler.modifier,
 		tags: tiddler.tags,
-		fields: merge({}, tiddler.fields)
+		fields: $.extend({}, tiddler.fields)
 	};
 	delete payload.fields.changecount;
-	payload = JSON.stringify(payload);
+	payload = $.toJSON(payload);
 	var req = httpReq("PUT", uri, adaptor.putTiddlerCallback,
 		context, headers, payload, adaptor.mimeType);
 	return typeof req == "string" ? req : true;
@@ -342,7 +346,7 @@ adaptor.prototype.putTiddlerChronicle = function(revisions, context, userParams,
 			adaptor.normalizeTitle(context.title), 0].join("/"); //# zero-revision prevents overwriting existing contents
 		headers = { "If-Match": etag };
 	}
-	var payload = JSON.stringify(revisions);
+	var payload = $.toJSON(revisions);
 	var req = httpReq("POST", uri, adaptor.putTiddlerChronicleCallback,
 		context, headers, payload, adaptor.mimeType);
 	return typeof req == "string" ? req : true;
@@ -388,8 +392,7 @@ adaptor.putTiddlerStoreCallback = function(status, context, responseText, uri, x
 adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters (old/new)?
 	var _this = this;
 	var newTiddler = store.getTiddler(from.title) || store.getTiddler(to.title); //# local rename might already have occurred
-	var oldTiddler = merge({}, newTiddler); //# required for eventual deletion
-	oldTiddler.fields = merge({}, newTiddler.fields); // TODO: use jQuery.extend for deep copy above
+	var oldTiddler = $.extend(true, {}, newTiddler); //# required for eventual deletion
 	oldTiddler.title = from.title; //# required for original tiddler's ETag
 	var _getTiddlerChronicle = function(title, context, userParams, callback) {
 		return _this.getTiddlerChronicle(title, context, userParams, callback);
@@ -398,7 +401,7 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		if(!context.status) {
 			return callback(context, userParams);
 		}
-		eval("var revisions = " + context.responseText); // XXX: error handling?
+		var revisions = $.evalJSON(context.responseText); // XXX: error handling?
 		// change current title while retaining previous location
 		for(var i = 0; i < revisions.length; i++) {
 			if(!revisions[i].fields.origin) { // N.B.: origin = "<workspace>/<title>"
@@ -407,13 +410,13 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 			revisions[i].title = to.title;
 		}
 		// add new revision
-		var rev = merge({}, revisions[0]);
+		var rev = $.extend({}, revisions[0]);
 		rev.title = to.title;
-		for(i in newTiddler) { // TODO: use jQuery.extend
-			if(typeof i != "function") {
-				rev[i] = newTiddler[i];
+		$.each(newTiddler, function(i, item) {
+			if(!$.isFunction(item)) {
+				rev[i] = item;
 			}
-		}
+		});
 		rev.revision++;
 		rev.created = rev.created.convertToYYYYMMDDHHMM();
 		rev.modified = new Date().convertToYYYYMMDDHHMM();
@@ -545,247 +548,51 @@ adaptor.normalizeTitle = function(title) {
 	return encodeURIComponent(title);
 };
 
-})(); //# end of local scope
+})(jQuery); //# end of local scope
 
-/***
-!JSON Code, used to serialize the data
-***/
-/*
-Copyright (c) 2005 JSON.org
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The Software shall be used for Good, not Evil.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
 
 /*
-	The global object JSON contains two methods.
-
-	JSON.stringify(value) takes a JavaScript value and produces a JSON text.
-	The value must not be cyclical.
-
-	JSON.parse(text) takes a JSON text and produces a JavaScript value. It will
-	throw a 'JSONError' exception if there is an error.
-*/
-var JSON = {
-	copyright: '(c)2005 JSON.org',
-	license: 'http://www.crockford.com/JSON/license.html',
-
-	/*
-	 * Stringify a JavaScript value, producing a JSON text.
-	 */
-	stringify: function (v) {
-	var a = [];
-
-	/*
-	 * Emit a string.
-	 */
-	function e(s) {
-		a[a.length] = s;
-	}
-
-	/*
-	 * Convert a value.
-	 */
-	function g(x) {
-		var c, i, l, v;
-
-		switch (typeof x) {
-		case 'object':
-		if (x) {
-			if (x instanceof Array) {
-			e('[');
-			l = a.length;
-			for (i = 0; i < x.length; i += 1) {
-				v = x[i];
-				if (typeof v != 'undefined' &&
-					typeof v != 'function') {
-				if (l < a.length) {
-					e(',');
-				}
-				g(v);
-				}
-			}
-			e(']');
-			return;
-			} else if (typeof x.toString != 'undefined') {
-			e('{');
-			l = a.length;
-			for (i in x) {
-				v = x[i];
-				if (x.hasOwnProperty(i) &&
-					typeof v != 'undefined' &&
-					typeof v != 'function') {
-				if (l < a.length) {
-					e(',');
-				}
-				g(i);
-				e(':');
-				g(v);
-				}
-			}
-			return e('}');
-			}
-		}
-		e('null');
-		return;
-		case 'number':
-		e(isFinite(x) ? +x : 'null');
-		return;
-		case 'string':
-		l = x.length;
-		e('"');
-		for (i = 0; i < l; i += 1) {
-			c = x.charAt(i);
-			if (c >= ' ') {
-			if (c == '\\' || c == '"') {
-				e('\\');
-			}
-			e(c);
-			} else {
-			switch (c) {
-				case '\b':
-				e('\\b');
-				break;
-				case '\f':
-				e('\\f');
-				break;
-				case '\n':
-				e('\\n');
-				break;
-				case '\r':
-				e('\\r');
-				break;
-				case '\t':
-				e('\\t');
-				break;
-				default:
-				c = c.charCodeAt();
-				e('\\u00' + Math.floor(c / 16).toString(16) +
-					(c % 16).toString(16));
-			}
-			}
-		}
-		e('"');
-		return;
-		case 'boolean':
-		e(String(x));
-		return;
-		default:
-		e('null');
-		return;
-		}
-	}
-	g(v);
-	return a.join('');
-	},
-
-	/*
-	 * Parse a JSON text, producing a JavaScript value.
-	 */
-	parse: function (text) {
-	var p = /^\s*(([,:{}\[\]])|"(\\.|[^\x00-\x1f"\\])*"|-?\d+(\.\d*)?([eE][+-]?\d+)?|true|false|null)\s*/,
-		token,
-		operator;
-
-	function error(m, t) {
-		throw {
-		name: 'JSONError',
-		message: m,
-		text: t || operator || token
-		};
-	}
-
-	function next(b) {
-		if (b && b != operator) {
-		error("Expected '" + b + "'");
-		}
-		if (text) {
-		var t = p.exec(text);
-		if (t) {
-			if (t[2]) {
-			token = null;
-			operator = t[2];
-			} else {
-			operator = null;
-			try {
-				token = eval(t[1]);
-			} catch (e) {
-				error("Bad token", t[1]);
-			}
-			}
-			text = text.substring(t[0].length);
-		} else {
-			error("Unrecognized token", text);
-		}
-		} else {
-		token = operator = undefined;
-		}
-	}
-
-	function val() {
-		var k, o;
-		switch (operator) {
-		case '{':
-		next('{');
-		o = {};
-		if (operator != '}') {
-			for (;;) {
-			if (operator || typeof token != 'string') {
-				error("Missing key");
-			}
-			k = token;
-			next();
-			next(':');
-			o[k] = val();
-			if (operator != ',') {
-				break;
-			}
-			next(',');
-			}
-		}
-		next('}');
-		return o;
-		case '[':
-		next('[');
-		o = [];
-		if (operator != ']') {
-			for (;;) {
-			o.push(val());
-			if (operator != ',') {
-				break;
-			}
-			next(',');
-			}
-		}
-		next(']');
-		return o;
-		default:
-		if (operator !== null) {
-			error("Missing value");
-		}
-		k = token;
-		next();
-		return k;
-		}
-	}
-	next();
-	return val();
-	}
-};
+ * jQuery JSON Plugin
+ * version: 1.3
+ * source: http://code.google.com/p/jquery-json/
+ * license: MIT (http://www.opensource.org/licenses/mit-license.php)
+ */
+(function($){function toIntegersAtLease(n)
+{return n<10?'0'+n:n;}
+Date.prototype.toJSON=function(date)
+{return this.getUTCFullYear()+'-'+
+toIntegersAtLease(this.getUTCMonth())+'-'+
+toIntegersAtLease(this.getUTCDate());};var escapeable=/["\\\x00-\x1f\x7f-\x9f]/g;var meta={'\b':'\\b','\t':'\\t','\n':'\\n','\f':'\\f','\r':'\\r','"':'\\"','\\':'\\\\'};$.quoteString=function(string)
+{if(escapeable.test(string))
+{return'"'+string.replace(escapeable,function(a)
+{var c=meta[a];if(typeof c==='string'){return c;}
+c=a.charCodeAt();return'\\u00'+Math.floor(c/16).toString(16)+(c%16).toString(16);})+'"';}
+return'"'+string+'"';};$.toJSON=function(o,compact)
+{var type=typeof(o);if(type=="undefined")
+return"undefined";else if(type=="number"||type=="boolean")
+return o+"";else if(o===null)
+return"null";if(type=="string")
+{return $.quoteString(o);}
+if(type=="object"&&typeof o.toJSON=="function")
+return o.toJSON(compact);if(type!="function"&&typeof(o.length)=="number")
+{var ret=[];for(var i=0;i<o.length;i++){ret.push($.toJSON(o[i],compact));}
+if(compact)
+return"["+ret.join(",")+"]";else
+return"["+ret.join(", ")+"]";}
+if(type=="function"){throw new TypeError("Unable to convert object of type 'function' to json.");}
+var ret=[];for(var k in o){var name;type=typeof(k);if(type=="number")
+name='"'+k+'"';else if(type=="string")
+name=$.quoteString(k);else
+continue;var val=$.toJSON(o[k],compact);if(typeof(val)!="string"){continue;}
+if(compact)
+ret.push(name+":"+val);else
+ret.push(name+": "+val);}
+return"{"+ret.join(", ")+"}";};$.compactJSON=function(o)
+{return $.toJSON(o,true);};$.evalJSON=function(src)
+{return eval("("+src+")");};$.secureEvalJSON=function(src)
+{var filtered=src;filtered=filtered.replace(/\\["\\\/bfnrtu]/g,'@');filtered=filtered.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']');filtered=filtered.replace(/(?:^|:|,)(?:\s*\[)+/g,'');if(/^[\],:{}\s]*$/.test(filtered))
+return eval("("+src+")");else
+throw new SyntaxError("Error parsing JSON, source is not valid.");};})(jQuery);
 
 } //# end of "install only once"
 //}}}
