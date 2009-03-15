@@ -2,11 +2,11 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.4.8|
+|''Version''|0.4.9|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''CoreVersion''|2.4.2|
+|''CoreVersion''|2.5.0|
 |''Keywords''|serverSide|
 !Notes
 This plugin relies on a dedicated adaptor to be present.
@@ -190,7 +190,7 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 		if(store.tiddlerExists(newTitle) && !rename) {
 			var extendedFields = store.fetchTiddler(newTitle).fields
 		} else {
-			extendedFields = rename && store.tiddlerExists(title) ? store.fetchTiddler(title).fields : merge({},config.defaultCustomFields)
+			extendedFields = rename && store.tiddlerExists(title) ? store.fetchTiddler(title).fields : $.extend({},config.defaultCustomFields)
 		}
 		for(var n in fields) {
 			if(!TiddlyWiki.isStandardField(n))
