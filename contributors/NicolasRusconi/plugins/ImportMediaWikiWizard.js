@@ -232,8 +232,8 @@ config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callba
 
 config.macros.importMediaWiki.onGetTiddlerList = function(context, wizard)
 {
-	macro.removeProgressMessage(wizard);
 	var macro = config.macros.importMediaWiki;
+	macro.removeProgressMessage(wizard);
 	if(context.status !== true) {
 		macro.getClearWikiPagesList();
 		macro.showErrorMessage(wizard,macro.errorGettingTiddlerList);
