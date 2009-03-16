@@ -183,7 +183,7 @@ EasySlippyMap.prototype = {
 		/*Filename(url) format is /zoom/x/y.png */
 		
 		var projection = this.getGoogleMercatorProjection(eMap);
-		eMap.setShapeTransparency(0.7);
+		eMap.setTransparency(0.7);
 		eMap.settings.projection = projection;
 		eMap._fittocanvas = false;
 		var that = this;

@@ -21,22 +21,27 @@ var EasyUtils = {
 	    return temp;
 
 	}
+	,invertYCoordinates: function(coords){
+		var res = [];
+		for(var i=0; i < coords.length; i++){
+			var x = coords[i][0];
+			var y = coords[i][1];
+			res.push([x,-y]);
+		}
+		return res;
+	}
 };
 
-var EasyShape = function(properties,coordinates,geojson){
+var EasyShape = function(properties,coordinates){
 	this.grid = {};
 	this.coords = [];
 	this._maxScaleFactor = {x:1024,y:1024};
 	
-	
-	if(geojson){
-		this._constructFromGeoJSONObject(properties,coordinates);
-	}
-	else{
-		this._constructBasicShape(properties,coordinates);
+	if(coordinates[0] && coordinates[0].length == 2){
+		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
 	}
 
-
+	this._constructBasicShape(properties,coordinates);
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 
 };
@@ -225,45 +230,7 @@ EasyShape.prototype={
 		
 		
 	}	
-	
-	 /*following 3 functions may be better in EasyMaps*/
-	,_constructFromGeoJSONObject: function(properties,coordinates){
-		if(properties.shape == 'polygon'){
-			this._constructFromGeoJSONPolygon(properties,coordinates);	
-		}
-		else if(properties.shape == 'point'){
-			this._constructPointShape(properties,coordinates);
-		}
-		else{
-			console.log("don't know what to do with shape " + element.shape);
-		}
-	}
-	,_constructFromGeoJSONPolygon: function(properties,coordinates){		
-		var newcoords = this._convertGeoJSONCoords(coordinates[0]);
-		this._constructBasicShape(properties,newcoords);
-				//we ignore any holes in the polygon (for time being.. coords[1][0..n], coords[2][0..n])
-	}	
-	,_convertGeoJSONCoords: function(coords){
-	//converts [[x1,y1], [x2,y2],...[xn,yn]] to [x1,y1,x2,y2..xn,yn]
-		var res = [];
-		if(!coords) return res;
-		for(var i=0; i < coords.length; i++){
-			//geojson says coords order should be longitude,latitude eg. 0,51 for London
 
-			// longitude goes from -180 (W) to 180 (E), latitude from -90 (S) to 90 (N)
-			// in our data, lat goes from 90 (S) to -90 (N), so we negate
-			
-			var x = coords[i][0];
-			var y = - coords[i][1];
-			
-			//var y = -coords[i][0];
-			//var x = coords[i][1];
-			res.push(x);
-			res.push(y);
-		}
-
-		return res;
-	}	
 	 /*RENDERING */
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
@@ -640,9 +607,8 @@ EasyShape.prototype={
 		var largest = 2.5 * transformation.scale.x;
 		if(ps < smallest) ps = smallest;
 		if(ps > largest) ps = largest;
-		var newcoords =[[x-ps,y-ps],[x+ps,y-ps],[x+ps,y+ps],[x-ps, y+ps]];
-		var c = this._convertGeoJSONCoords(newcoords);
-		this.setCoordinates(c);
+		var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, y+ps];
+		this.setCoordinates(newcoords);
 	}
 	,_optimisation_shapeIsInVisibleArea: function(frame){
 		var g = this.grid;
