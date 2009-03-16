@@ -96,15 +96,20 @@ EasyShape.prototype={
 		if(!transformation.translate)transformation.translate = {x:0,y:0};
 		
 		var frame = this._calculateVisibleArea(canvas,transformation);
-		var shapetype = this.properties.shape;
+		var shapetype = this.getProperty("shape");
 		if(shapetype == 'point'){
-			this._calculatePointCoordinates(transformation);
+			var ps = 5 / parseFloat(transformation.scale.x);
+			var smallest = 1 / this._iemultiplier;
+			var largest = 2.5 * transformation.scale.x;
+			if(ps < smallest) ps = smallest;
+			if(ps > largest) ps = largest;
+			this._constructPointShape(this.pointcoords,ps);
 		} 
-		else if(shapetype == 'path' || shapetype =='polygon'){
+		else if(shapetype == 'path' || shapetype =='polygon' | shapetype == 'circle'){
 			
 		}
 		else{
-			console.log("no idea how to render" +this.properties.shape+" must be polygon|path|point");
+			console.log("no idea how to render" +shapetype+" must be polygon|path|point");
 			return;
 		}		
 		//optimisations = false;
@@ -163,7 +168,7 @@ EasyShape.prototype={
 		return this.coords;
 	}
 	,_calculateBounds: function(coords){
-		if(this.properties.shape == 'path'){
+		if(this.getProperty("shape") == 'path'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
@@ -198,31 +203,47 @@ EasyShape.prototype={
 			lastX = xPos;
 			lastY = yPos;
 		}
+		
+		this.grid.center = {};
+		this.grid.center.x = (this.grid.x2 - this.grid.x1) / 2 + this.grid.x1;
+		this.grid.center.y = (this.grid.y2 - this.grid.y1) / 2 + this.grid.y1;
 	}
-	,_constructPointShape: function(properties,coordinates){
+	,_constructPointShape: function(coordinates,radius){
 		var x = coordinates[0]; var y = coordinates[1];
-		this.pointcoords = [x,y];
-		var ps = 0.5;
-		var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, y+ps];
-		this._constructPolygonShape(properties,newcoords);
+		var coords = [x,y,radius];
+		this._constructCircleShape(coords);
 	}
 	
-	,_constructPolygonShape: function(properties,coordinates){
-		var properties =EasyUtils.clone(properties);
-		this.properties = properties;
+	,_constructCircleShape: function(coordinates){ /* x y radius */
+		var x = coordinates[0]; var y = coordinates[1];
+		this.radius = coordinates[2];
+		var radius= this.radius;
+		this.pointcoords = [x,y,radius];
+		var newcoords =[x-radius,y-radius,x+radius,y-radius,x+radius,y+radius,x-radius, y+radius];
+		this.setCoordinates(newcoords);
+	}
+	,_constructPolygonShape: function(coordinates){
 		this.setCoordinates(coordinates);
-		if(!properties.stroke)properties.stroke = '#000000';		
-		if(properties.colour){
-			properties.fill =  properties.colour;
-		}
 	}
 	,_constructBasicShape: function(properties, coordinates){
+		var properties =EasyUtils.clone(properties);
+		this.properties = properties;
+		if(!properties.stroke){
+			this.setProperty("stroke",'#000000');		
+		}
+		if(properties.colour){
+			this.setProperty("fill",properties.colour);
+			delete properties.colour;
+		}
 		if(properties.shape == 'point'){
-			this._constructPointShape(properties,coordinates);
+			this._constructPointShape(coordinates,0.5);
 		}
 		else if(properties.shape == 'polygon' || properties.shape == 'path')
 		{
-			this._constructPolygonShape(properties,coordinates);
+			this._constructPolygonShape(coordinates);
+		}
+		else if(properties.shape == 'circle'){
+			this._constructCircleShape(coordinates);
 		}
 		else{
 			console.log("don't know how to construct basic shape " + properties.shape);
@@ -259,28 +280,34 @@ EasyShape.prototype={
 		ctx.translate(tr.x,tr.y);
 		if(r && r.x)ctx.rotate(r.x);
 		ctx.beginPath();
-
-		var move = true;
-		for(var i=0; i < c.length-1; i+=2){
-			if(c[i]=== "M") {
-				i+= 1; 
-				move=true;
-			}
-			var x = parseFloat(c[i]);
-			var y = parseFloat(c[i+1]);	
+		if(this.getProperty("shape") == 'point'){
+			var bb =this.getBoundingBox();
+			ctx.arc(bb.center.x, bb.center.y, this.radius, 0, Math.PI*2,true);
+		}
+		else{
+			
+			var move = true;
+			for(var i=0; i < c.length-1; i+=2){
+				if(c[i]=== "M") {
+					i+= 1; 
+					move=true;
+				}
+				var x = parseFloat(c[i]);
+				var y = parseFloat(c[i+1]);	
 		
-			if(move){
-				ctx.moveTo(x,y);
-				move = false;
+				if(move){
+					ctx.moveTo(x,y);
+					move = false;
+				}
+				else{
+					ctx.lineTo(x,y);
+				}			
+			
+			
 			}
-			else{
-				ctx.lineTo(x,y);
-			}			
-			
-			
+		
 		}
 		ctx.closePath();
-		
 		if(!this.properties.hidden) {
 			ctx.strokeStyle = this.properties.stroke;
 			if(typeof this.properties.fill == 'string') 
@@ -513,11 +540,7 @@ EasyShape.prototype={
 	,getProperty: function(name){
 		return this.properties[name];
 	}
-	,_applyProjectionToXY: function(x,y,projection,transformation){
-		if(projection && projection.xy){
-			return projection.xy(x,y,transformation);
-		}
-	}
+
 	,_applyProjection: function(projection,transformation){
 		var c;
 		var opt =this._getOptimisedCoords(transformation.scale.x);
@@ -594,22 +617,6 @@ EasyShape.prototype={
 		return frame;
 	}
 	
-	,_calculatePointCoordinates: function(transformation){
-		if(!this.pointcoords) {
-			this.pointcoords = [this.coords[0],this.coords[1]];
-		}
-		var x =parseFloat(this.pointcoords[0]);
-		var y =parseFloat(this.pointcoords[1]);
-		this.setCoordinates([x,y]);
-		var ps = 5 / parseFloat(transformation.scale.x);
-		//should get bigger with scale increasing
-		var smallest = 1 / this._iemultiplier;
-		var largest = 2.5 * transformation.scale.x;
-		if(ps < smallest) ps = smallest;
-		if(ps > largest) ps = largest;
-		var newcoords =[x-ps,y-ps,x+ps,y-ps,x+ps,y+ps,x-ps, y+ps];
-		this.setCoordinates(newcoords);
-	}
 	,_optimisation_shapeIsInVisibleArea: function(frame){
 		var g = this.grid;
 		if(g.x2 < frame.left) {
