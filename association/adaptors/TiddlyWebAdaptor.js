@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.6.1|
+|''Version''|0.6.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -48,15 +48,25 @@ adaptor.mimeType = "application/json";
 adaptor.parsingErrorMessage = "Error parsing result from server";
 adaptor.locationIDErrorMessage = "no bag or recipe specified for tiddler"; // TODO: rename
 
-// perform a login -- XXX: experimental; currently limited to cookie_form
-adaptor.prototype.login = function(context, userParams, callback) {
+// retrieve current status
+adaptor.prototype.getStatus = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
-	var uriTemplate = "%0/challenge/cookie_form";
+	var uriTemplate = "%0/status";
 	var uri = uriTemplate.format([context.host]);
-	var payload = "user=" + encodeURIComponent(context.username) +
-		"&password=" + encodeURIComponent(context.password);
-	var req = httpReq("POST", uri, callback, context, null, payload);
+	var req = httpReq("GET", uri, adaptor.getStatusCallback, context);
 	return typeof req == "string" ? req : true;
+};
+
+adaptor.getStatusCallback = function(status, context, responseText, uri, xhr) {
+	context.status = status;
+	context.statusText = xhr.statusText;
+	context.httpStatus = xhr.status;
+	if(status) {
+		context.serverStatus = $.evalJSON(responseText); // XXX: error handling!?
+	}
+	if(context.callback) {
+		context.callback(context, context.userParams);
+	}
 };
 
 // retrieve a list of workspaces
