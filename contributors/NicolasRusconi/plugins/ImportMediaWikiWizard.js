@@ -187,11 +187,36 @@ config.macros.importMediaWiki.showWorkspacesAndPages = function(context, wizard)
 	};
 }
 
+config.macros.importMediaWiki.filterAlreadyImportedTiddlers = function(tiddlers)
+{
+	var macro = config.macros.importMediaWiki;
+	var filteredList = [];
+	for (var i=0; i<tiddlers.length; i++) {
+		var tiddler = tiddlers[i];
+		var localTiddler = store.getTiddler(tiddler.title);
+		if (localTiddler == null || !localTiddler.isTagged(macro.mediaWikiTiddlersTag)) {
+			filteredList.push(tiddler);
+		}
+	};
+	return filteredList;
+};
+
 // show the pages for the current workspace
 config.macros.importMediaWiki.showPages = function(context, wizard)
 {
 	var macro = config.macros.importMediaWiki;
 	var listedTiddlers = macro.getTiddlers(context.tiddlers);
+	var retrievedTiddlers = listedTiddlers.length;
+	listedTiddlers = macro.filterAlreadyImportedTiddlers(listedTiddlers);
+	var filteredTiddlersCount = retrievedTiddlers - listedTiddlers.length;
+	if (listedTiddlers.length == 0) {
+		var errorMessage = macro.noTiddlerToImport;
+		if (filteredTiddlersCount > 0) {
+			errorMessage += macro.filteredTiddlers.format([filteredTiddlersCount]);
+		}
+		macro.showErrorMessage(wizard, errorMessage);
+		return;
+	}
 	var markList = wizard.getElement(macro.markListName);
 	var listWrapper = macro.getClearWikiPagesList();
 	markList.parentNode.insertBefore(listWrapper, markList);
@@ -732,6 +757,8 @@ merge(config.macros.importMediaWiki, {
 	wizardTitle: "Import content from your wiki",
 	openingHost: "Opening host...",
 	errorOpeningHost: "Error opening host",
+	noTiddlerToImport: "No tiddler to import in this workspace.",
+	filteredTiddlers: "(%0 tiddlers were filtered because they are already imported)",
 	next: "next",
 	nextTootltip: "click to go to the next step",
 	reset: "reset",
