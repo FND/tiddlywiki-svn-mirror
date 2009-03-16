@@ -12,11 +12,11 @@ var GeoTag = function(longitude,latitude,properties){
 };
 
 var EasyMap = function(wrapper){  
-	var wrapper;
 	if(typeof wrapper == 'string')
 		wrapper = document.getElementById(wrapper);
 	else
 		wrapper = wrapper;
+	// replace all with "if (typeof wrapper == 'string') wrapper = doc.get...."
 		
 	this.wrapper = wrapper;
 	wrapper.easyMap = this;
@@ -41,21 +41,15 @@ var EasyMap = function(wrapper){
 	canvas.style.zIndex = 1;
 	canvas.style.position = "absolute";
 	this.canvas = canvas;
-
-	this.feature_reference = {};
-	if(!canvas.getContext) {
-		this.settings.browser = 'ie';
-	}
-	else
-		this.settings.browser = 'good';
-	
-	this.easyClicking = new EasyClicking(wrapper);
 	wrapper.appendChild(canvas);
+	this.feature_reference = {};
+ 	this.settings.browser = canvas.getContext ? 'ie' : 'good'
 
-
+		
+	this.easyClicking = new EasyClicking(wrapper);
 	this._setupMouseHandlers();
 
-	this.controller = new EasyMapController(this,this.wrapper);
+	this.controller = new EasyController(this,this.wrapper);
 
 		
 	//run stuff
@@ -162,11 +156,11 @@ EasyMap.prototype = {
 	}
 
 	,getTransformation: function(){
-		if(!this.canvas.transformation){
+		if(!this.transformation){
 			return false;
 		}
 		else
-			return this.canvas.transformation;
+			return this.transformation;
 	}
 	,setTransformation: function(transformation){
 		if(typeof transformation.translate.x != 'number'||typeof transformation.translate.y != 'number') throw "bad transformation translate given ";
@@ -219,16 +213,16 @@ EasyMap.prototype = {
 	},
 		
 	transform: function(transformation){
-		
+		console.log(arguments);
 		var w =parseInt(this.wrapper.style.width);
 		var h = parseInt(this.wrapper.style.height);
 		var t =transformation.translate;
 		var s = transformation.scale;
 	
-		this.canvas.transformation = transformation;
+		this.transformation = transformation;
 		if(!transformation.origin){
-			this.canvas.transformation.origin = {};
-			var origin = this.canvas.transformation.origin;
+			this.transformation.origin = {};
+			var origin = this.transformation.origin;
 			origin.x =w / 2;
 			origin.y =h / 2;
 		}
@@ -236,21 +230,19 @@ EasyMap.prototype = {
 		if(s.x < 1) s.x = 1;
 		if(s.y < 1) s.y = 1;
 		
-		if(t.x > 180) t.x = 180;
+		if(t.x > 180) t.x = 180; //t.x=Math.min(t.x, 180)
 		if(t.x < -180) t.x = -180;
 		
 		if(t.y > 85.0511) t.y = 85.0511;
 		if(t.y < -85.0511) t.y = -85.0511;
 		
-		var p =this.getProjection();
-		if(p && p.name == "GLOBE"){
-			if(!this.canvas.transformation.rotate){
-				this.canvas.transformation.rotate = {x:0,y:0,z:0};
-			}
-			
+		if(!this.transformation.rotate){
+				this.transformation.rotate = {x:0,y:0,z:0};
 		}
+			
 		
-		this.easyClicking.setTransformation(this.canvas.transformation);
+		
+		this.easyClicking.setTransformation(this.transformation);
 		this.redraw();
 
 	},
@@ -278,7 +270,7 @@ EasyMap.prototype = {
 		ctx.lineJoin = 'round'; //miter or bevel or round	
 	},
 	render: function(flag){
-		var tran =this.canvas.transformation;
+		var tran =this.transformation;
 
 		var mem =this.easyClicking.getMemory();
 		this._setupCanvasEnvironment()

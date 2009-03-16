@@ -1,10 +1,11 @@
 /*requires EasyShapes
 Adds controls such as panning and zooming to a given dom element.
 
+Mousewheel zooming currently not working as should - should center on location where mousewheel occurs
 Will be changed to take a handler parameter rather then a targetjs
  */
 
-var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height 
+var EasyController = function(targetjs,elem){ //elem must have style.width and style.height etM
 	this.setMaxScaling(99999999);
 	if(!elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions
@@ -26,7 +27,7 @@ var EasyMapController = function(targetjs,elem){ //elem must have style.width an
 	this.enabled = true;
 
 };
-EasyMapController.prototype = {
+EasyController.prototype = {
 	addMouseWheelZooming: function(){ /*not supported for internet explorer*/
 		var mw = this.wrapper.onmousewheel;
 		var that = this;
@@ -95,13 +96,14 @@ EasyMapController.prototype = {
 
 		
 		var element = this.wrapper;
-		if(element.attachEvent){ 	
-			element.attachEvent("onmousewheel", onmousewheel); //safari
-		}
-		else if (element.addEventListener){
+
+		if (element.addEventListener){
 			element.onmousewheel = onmousewheel; //safari
 		        element.addEventListener('DOMMouseScroll', onmousewheel, false);/** DOMMouseScroll is for mozilla. */
 		
+		}
+		else if(element.attachEvent){ 	
+			element.attachEvent("onmousewheel", onmousewheel); //safari
 		}
 		else{ //it's ie.. or something non-standardised. do nowt
 		//window.onmousewheel = document.onmousewheel = onmousewheel;	
@@ -338,7 +340,7 @@ EasyMapController.prototype = {
 			var tr = t.translate;
 			if(s.x <= 0) s.x = 0.1125;
 			if(s.y <= 0) s.y = 0.1125;
-
+console.log(this.transformation);
 			this.targetjs.transform(this.transformation);
 
 		}

@@ -1,9 +1,3 @@
-/* 
-Creates shapes which map slightly to geojson features - only currently a shape can only consist of one shape
-cross browser rendering mode
-
-I am not very happy with the code that follows. It is not of the best standard and needs much improvement */
-/*coordinates are a string consisting of floats and move commands (M)*/
 var EasyUtils = {
 	clone: function(obj){
 
@@ -32,18 +26,21 @@ var EasyUtils = {
 	}
 };
 
+
+/* 
+Creates primitive shapes that can be rendered across most browsers
+I am not very happy with the code that follows. It is not of the best standard and needs much improvement
+coordinates are a string consisting of floats and move commands (M)
+*/
+
 var EasyShape = function(properties,coordinates){
 	this.grid = {};
 	this.coords = [];
-	this._maxScaleFactor = {x:1024,y:1024};
-	
 	if(coordinates[0] && coordinates[0].length == 2){
 		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
 	}
-
 	this._constructBasicShape(properties,coordinates);
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
-
 };
 EasyShape.prototype={
 	getProperties: function(){
@@ -466,8 +463,7 @@ EasyShape.prototype={
 		this._lastTransformation.scale.x = s.x;
 		this._lastTransformation.scale.y = s.y;
 	}	
-	
-	
+		
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
 		
 		var shape;
@@ -646,4 +642,13 @@ EasyShape.prototype={
 			return true;
 	}
 
+};
+
+
+EasyShape.renderer = function(){
+	
+};
+
+EasyShape.renderer.prototype = {
+	
 };

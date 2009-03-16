@@ -38,7 +38,7 @@ var Tagmindmap = function(wrapper,settings){
 	//this._init_html_elements(wrapper.id);
 	
 	
-	this.controlpanel =new EasyMapController(this,wrapper);
+	this.controlpanel =new EasyController(this,wrapper);
 	this._init_html_elements();
 	
 	var x = this.controlpanel;

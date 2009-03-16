@@ -56,7 +56,7 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	this.easyClicking = new EasyClicking(this.wrapper);
 	this.setupMouseHandlers();
 		
-	this.easyController = new EasyMapController(this,this.wrapper);
+	this.easyController = new EasyController(this,this.wrapper);
 	this.easyController.addControl("pan");
 	this.easyController.addControl("mousepanning");
 	this.easyController.addControl("mousewheelzooming");

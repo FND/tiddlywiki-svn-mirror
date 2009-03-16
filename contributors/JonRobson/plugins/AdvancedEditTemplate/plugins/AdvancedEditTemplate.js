@@ -55,7 +55,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					if(qsvalue) selected = qsvalue;
 				}
 				var values = this.getDefValues(valueSrc);
-				this.createDropDownMenu(place,metaDataName,values,this.setDropDownMetaData,selected);
+				this.createDropDownMenu(place,metaDataName,values,false,this.setDropDownMetaData,selected);
 				
 			}
 			else if(ctrlType == 'search'){
@@ -178,9 +178,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					suggestions.appendChild(list);
 			};
 			
-			
+			var old = window.onkeypress;
 			window.onkeypress = function(e){
-				makesuggestions(input.value);
+				var t = EasyClickingUtils.resolveTarget(e);
+				if(t == input){
+					makesuggestions(t.value);
+				}
+				if(old) old(e);
 			};
 			input.onchange = function(e){
 				makesuggestions(this.value);
@@ -191,9 +195,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			place.appendChild(holder);
 		}
 
-		,createDropDownMenu: function(place,fieldName,values,handler,selected){
+		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected){
 				if(!selected) selected = "";
-	
+				if(!initialValue){
+					initialValue = "Please select.. ";
+				}
 				var menuid = 0;
 				var lastmenuid = 0;
 				var menus = [];
@@ -204,7 +210,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					if(!menus[menuid]){
 						menus[menuid] = {};
 						menus[menuid].options= [];
-						menus[menuid].options.push({'caption': 'Please select', 'value': 'null', 'name': null});
+						menus[menuid].options.push({'caption': initialValue, 'value': 'null', 'name': null});
 					 }
 					if(value.indexOf(">") != -1){
 						lastmenuid = menuid;
