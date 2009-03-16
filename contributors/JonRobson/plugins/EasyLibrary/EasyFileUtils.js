@@ -2,33 +2,8 @@
 var EasyFileUtils= {
 	saveFile: function(fileUrl,content)
 	{
-		var r = EasyFileUtils.mozillaSaveFile(fileUrl,content);
-
-		return r;
+		return jQuery.file.save({fileUrl:fileUrl,content:content});
 	}
-	,mozillaSaveFile:function(filePath,content)
-	{
-		if(window.Components) {
-			try {
-				netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-				var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
-				file.initWithPath(filePath);
-				if(!file.exists())
-					file.create(0,0664);
-				var out = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
-				out.init(file,0x20|0x02,00004,null);
-				out.write(content,content.length);
-				out.flush();
-				out.close();
-				return true;
-			} catch(ex) {
-				return false;
-			}
-		}
-		return null;
-	}
-
-	
 	
 	,convertUriToUTF8:function(uri,charSet)
 	{
