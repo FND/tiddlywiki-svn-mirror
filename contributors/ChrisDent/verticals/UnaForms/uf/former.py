@@ -14,7 +14,7 @@ template_env = Environment(loader=FileSystemLoader('templates'))
 from sha import sha
 from uuid import uuid4 as uuid
 
-from twplugins import do_html, entitle, require_role, require_any_user, ensure_bag
+from tiddlywebplugins import do_html, entitle, require_role, require_any_user, ensure_bag
 
 from tiddlyweb import control
 from tiddlyweb.manage import make_command
