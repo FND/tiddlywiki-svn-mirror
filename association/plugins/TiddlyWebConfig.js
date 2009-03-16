@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWeb|
 |''Author''|FND|
-|''Version''|0.2.5|
+|''Version''|0.3.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -12,6 +12,8 @@
 * initial release
 !!v0.2 (2009-01-15)
 * removed obsolete dependencies
+!!v0.3 (2009-03-16)
+* sync username with server
 !Code
 ***/
 //{{{
@@ -24,6 +26,7 @@ if(window.location.protocol != "file:") {
 	config.options.chkAutoSave = true;
 }
 
+// initialize configuration
 var adaptor = new config.adaptors.tiddlyweb();
 var host = tiddler.fields["server.host"];
 var recipe = tiddler.fields["server.recipe"];
@@ -33,6 +36,15 @@ config.defaultCustomFields = {
 	"server.host": adaptor.fullHostName(host),
 	"server.workspace": workspace
 };
+
+// set username
+var statusCallback = function(context, userParams) {
+	if(context.serverStatus && context.serverStatus.username) {
+ 		config.macros.option.propagateOption("txtUserName",
+			"value", context.serverStatus.username, "input");
+	}
+};
+adaptor.getStatus(null, null, statusCallback);
 
 })(); //# end of local scope
 
