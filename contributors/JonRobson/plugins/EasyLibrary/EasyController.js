@@ -1,8 +1,10 @@
 /*requires EasyShapes
 Adds controls such as panning and zooming to a given dom element.
+
+Will be changed to take a handler parameter rather then a targetjs
  */
 
-var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
+var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height 
 	this.setMaxScaling(99999999);
 	if(!elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions

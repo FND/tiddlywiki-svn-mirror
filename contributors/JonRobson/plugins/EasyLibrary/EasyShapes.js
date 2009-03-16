@@ -27,6 +27,8 @@ var EasyShape = function(properties,coordinates,geojson){
 	this.grid = {};
 	this.coords = [];
 	this._maxScaleFactor = {x:1024,y:1024};
+	
+	
 	if(geojson){
 		this._constructFromGeoJSONObject(properties,coordinates);
 	}

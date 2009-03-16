@@ -23,7 +23,6 @@ var EasyMap = function(wrapper){
 	wrapper.style.position = "relative";
 	var that = this;
 	this.settings = {};
-	this.settings.background = "#AFDCEC";
 	this.settings.globalAlpha = 1;
 	this.settings.renderPolygonMode = true; //choose not to render polygon shapes (good if you just want to display points)
 	
@@ -76,7 +75,10 @@ var EasyMap = function(wrapper){
 	*/
 };  
 EasyMap.prototype = {
-	getEasyShapes: function(){
+	setShapeTransparency: function(alpha){
+		this.settings.globalAlpha = alpha;
+	}
+	,getEasyShapes: function(){
 		return this.easyClicking.getMemory();
 	}
 	,resize: function(width,height){
@@ -99,63 +101,8 @@ EasyMap.prototype = {
 		return this.settings.projection;
 	}
 	,setProjection: function(projection){
-		var easymap = this;
-		if(projection == 'GLOBE'){
-			easymap._fittocanvas = false;
-			this.settings.beforeRender = function(t){
-					easymap._createGlobe(easymap.getProjection().getRadius(t.scale ));
-			};
-			
-			this.settings.projection= {
-					name: "GLOBE",
-					nowrap:true,
-					radius: 10,
-					direction: 0
-					,init: function(){
-						this.direction = 0;
-					}
-					,getRadius: function(){
-						return this.radius;
-					}
-					,inversexy: function(x,y,t){
-							var radius =this.getRadius(t.scale);
-							var res = EasyMapUtils._undospherify(x,y,t,radius);
-							return res;
-					}
-					,xy: function(x,y,t){
-						var radius =this.getRadius(t.scale);
-						var res = EasyMapUtils._spherifycoordinate(x,y,t,radius);
-						/*
-						if(res.movedNorth && this.direction >= 0){
-							this.direction = -1;
-							res.move= true;
-						}
-						else if(res.movedSouth && this.direction <= 0){
-							this.direction = 1;
-							res.move = true;
-						}
-						
-						if(res.y > radius - 10 || res.y < 10-radius){
-							
-							res.y = false;
-						}*/
-						return res;
-					}
-			};
-			
-			var heightR = parseInt(easymap.wrapper.style.height)  /2;
-			var widthR= parseInt(easymap.wrapper.style.width) /2;
-			if(widthR > heightR){
-				this.settings.projection.radius = heightR;
-			}
-			else{
-				this.settings.projection.radius = widthR;
-			}
-			
-		}
-		else{
-			this.settings.projection = projection;
-		}
+		this.settings.projection = projection;
+
 	}
 	,clear: function(deleteMemory){ /* does this work in IE? */
 		if(deleteMemory){
@@ -252,24 +199,7 @@ EasyMap.prototype = {
 		this.controller.setTransformation(newt)
 		
 	}
-	,attachBackground: function(imgpath){
-		if(this.settings.background){
-			this.wrapper.style.background=this.settings.background;
-		}
 
-
-		if(imgpath) this.settings.backgroundimg = imgpath;
-		if(this.settings.backgroundimg){
-			if(this.settings.renderPolygonMode && this.settings.globalAlpha) {
-				this.settings.globalAlpha = 0.8;	
-			}
-			this.wrapper.style.backgroundImage = "url('"+this.settings.backgroundimg +"')";		
-		}
-		else{
-			this.wrapper.style.backgroundImage ="none";
-		}
-	
-	}
 	,redraw: function(){
 		var that = this;
 		if(this.canvas.getContext){
@@ -330,43 +260,14 @@ EasyMap.prototype = {
 		e,shape,mouse,longitude_latitude,feature
 		
 	*/
-	setMouseFunctions: function(onmouseup,onmousemove,onrightclick,onkeypress,dblClick){
+	setMouseFunctions: function(onmouseup,onmousemove,onrightclick,onkeypress,ondblClick){
 			if(onmousemove)this.moveHandler =onmousemove;
 			if(onmouseup)this.clickHandler = onmouseup;
-			//if(ondblclick)this.dblclickHandler = ondblclick;
 			if(onrightclick) this.rightclickHandler = onrightclick;
 			if(onkeypress) this.keyHandler = onkeypress;
-			if(dblClick) this.dblClickHandler = dblClick;
+			if(ondblClick) this.dblClickHandler = ondblClick;
 	}
-	,_createGlobe: function(radius){
-		if(!this.canvas.getContext) {return;}
-		var ctx = this.canvas.getContext('2d');
-		if(!ctx) return;
-		var t =this.controller.transformation;
-		var tr =t.translate;
-		var s = t.scale;
-		var o = t.origin;
-		ctx.save();	
-		ctx.translate(o.x,o.y);
-		ctx.scale(s.x,s.y);
-		ctx.translate(tr.x,tr.y);
-	
-	
-		var radgrad = ctx.createRadialGradient(0,0,10,0,0,radius);
 
-		radgrad.addColorStop(0,"#AFDCEC");
-		//radgrad.addColorStop(0.5, '#00C9FF');
-		radgrad.addColorStop(1, '#00B5E2');
-		//radgrad.addColorStop(1, 'rgba(0,201,255,0)');
-
-		ctx.beginPath();
-		ctx.arc(0, 0, radius, 0, Math.PI*2, true);
-		ctx.closePath();
-		ctx.fillStyle = radgrad;
-		ctx.fill();
-		ctx.restore();
-
-	}
 	
 	,_setupCanvasEnvironment: function(){
 		if(!this.canvas.getContext) return;
@@ -395,7 +296,9 @@ EasyMap.prototype = {
 				
 			 for(var i=0; i < mem.length; i++){
 				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser,newfragment);
-				if(mem[i].vmlfill && that.settings.globalAlpha) mem[i].vmlfill.opacity =that.settings.globalAlpha;
+				if(mem[i].vmlfill && that.settings.globalAlpha) {
+					mem[i].vmlfill.opacity =that.settings.globalAlpha;
+				}
 			}
 			var t2=new Date();
 			var time = t2-t1;
@@ -421,7 +324,6 @@ EasyMap.prototype = {
 		if(this.settings.afterRender) {
 			this.settings.afterRender(tran);
 		}
-		this.attachBackground();
 		
 	
 	},
@@ -615,11 +517,9 @@ EasyMap.prototype = {
 			}
 		};
 		var keypressed = function(event,shape,mouse,lola,feature,key){
-			//console.log("cool");
-			//console.log(key + " was pressed");
 		};
 		
-		var dblclick = function(e){
+		var dblClickHandler = function(event,shape,mouse,lola,feature,key){
 			
 		}
 		this.wrapper.ondblclick = function(e){
@@ -629,7 +529,7 @@ EasyMap.prototype = {
 		
 		};
 		
-		this.wrapper.onmouseup= 	onmouseup;
+		this.wrapper.onmouseup= onmouseup;
 		
 
 		
@@ -637,9 +537,9 @@ EasyMap.prototype = {
 		document.onkeypress = onkeypress;
 		//this.wrapper.onmouseup = onmouseup;
 		this.wrapper.onmousemove = onmousemove;
-		this.setMouseFunctions(_defaultClickHandler,_defaultMousemoveHandler,false,keypressed);
+		this.setMouseFunctions(_defaultClickHandler,_defaultMousemoveHandler,false,keypressed,dblClickHandler);
 
 		
 	}
-	};
+};
 
