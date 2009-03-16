@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.6.0|
+|''Version''|0.6.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -420,6 +420,7 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		rev.revision++;
 		rev.created = rev.created.convertToYYYYMMDDHHMM();
 		rev.modified = new Date().convertToYYYYMMDDHHMM();
+		delete rev.fields.changecount;
 		revisions.unshift(rev);
 		if(to.workspace) {
 			context.workspace = to.workspace;
