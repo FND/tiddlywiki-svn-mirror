@@ -99,7 +99,7 @@ function getElementChild(el,tag){
 					return false;
 				};			
 				var eMap = this.createNewEasyMap(place,prms);
-				eMap.setMouseFunctions(onmup,false);
+				eMap.setMouseFunctions(false,false,false,false,onmup);
 
 				this.addEasyMapControls(eMap,prms);
 
