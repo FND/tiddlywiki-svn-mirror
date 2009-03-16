@@ -59,7 +59,7 @@ function getElementChild(el,tag){
 	
 	
 
-	setStylesheet(".wrapper {border:1px solid} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'geo');
+	setStylesheet(".wrapper {border:1px solid; background-color:#AFDCEC;} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'geo');
 	
 	version.extensions.geoPlugin = {installed:true};
 
@@ -182,10 +182,6 @@ function getElementChild(el,tag){
 		
 		}
 
-
-		,convertSourceToGeoJsonFormat: function(sourcetiddler){
-	
-		}
 		,getGeoJson: function(sourceTiddlerName,easyMap,parameters){
 			if(sourceTiddlerName == undefined) sourceTiddlerName ='geojson';
 			
@@ -327,20 +323,8 @@ function getElementChild(el,tag){
 		,addEasyMapControls: function(eMap,prms){
 			var proj = getParam(prms,"projection");
 			if(proj == 'globe' || proj == 'spinnyglobe') {			
-				eMap.setProjection("GLOBE");
 				eMap.controller.addControl("rotation");
-				if(proj == 'spinnyglobe'){
-					var f = function(){
-						var t = eMap.controller.transformation;
-						if(!t.rotate) t.rotate = {};
-						if(!t.rotate.z) t.rotate.z  = 0;
-					
-						t.rotate.z += 0.3;
-						eMap.controller.setTransformation(t);
-						window.setTimeout(f,600);
-					};
-					f();
-				}
+
 			 }
 			else{
 				eMap.controller.addControl('pan');
@@ -381,10 +365,6 @@ function getElementChild(el,tag){
 				wrapper.style.height = height;		
 			}
 			var proj = getParam(prms,"projection");
-			if(proj == 'slippystaticmap'){
-				wrapper.style.height = "256px";
-				wrapper.style.width= "256px";
-			}
 			var statustext = createTiddlyElement(wrapper,"div",id+"_statustext");
 			createTiddlyText(statustext,"loading... please wait a little while!");
 			var caption = createTiddlyElement(place,"div","caption","caption");
@@ -392,6 +372,12 @@ function getElementChild(el,tag){
 			var eMap = new EasyMap(wrapper);
 
 			if(proj){
+				if(proj == 'globe' || proj == 'spinnyglobe'){
+					eMap = new EasyGlobe(eMap);
+					if(proj == 'spinnyglobe'){
+						eMap.toggleSpin();
+					}
+				}
 				if(proj == 'google'){
 					eMap.settings.projection = this.getGoogleMercatorProjection();
 				}

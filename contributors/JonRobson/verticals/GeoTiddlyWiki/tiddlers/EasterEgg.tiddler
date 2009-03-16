@@ -1,5 +1,5 @@
 <div title="Easter Egg" modifier="JonRobson" created="200811111722" tags="excludeLists" longitude="103.8" latitude="1.366667">
 <pre>
-<<geo projection:globe width:400 height:400>>
+<<geo projection:spinnyglobe width:400 height:400>>
 </pre>
 </div>
