@@ -11,7 +11,7 @@ foreach($systemConfigTiddlers as $sysTiddler)
 	$defaults[] = $sysTiddler['title'];
 
 $autoLoad = array_merge($systemConfigTiddlers, $autoLoad);
-$autoLoad = array_merge($defaults, $autoLoad);
+//$autoLoad = array_merge($defaults, $autoLoad);
 
 if(!in_array($t['title'], $autoLoad)) // remove the body of all tiddlers which should be skinily loaded. 
 	$t['body'] = "";
