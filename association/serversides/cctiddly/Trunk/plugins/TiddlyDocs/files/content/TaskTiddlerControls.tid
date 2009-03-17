@@ -1,8 +1,3 @@
 creator: Simon McManus
 
 |assigned to |<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions" tidd>> |status |<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
-
-
-| ID|<<ValueSwitcher type:"freetext" metaDataName:"alias">> |
-| Owner|<<ValueSwitcher type:"dropdown" valuesSource:"UserDefinitions" tidd>> | Code|<<ValueSwitcher type:"dropdown" valuesSource:"StatusDefinitions">> |
-| Due Date|<<ValueSwitcher type:"freetext" metaDataName:"alias">> | |

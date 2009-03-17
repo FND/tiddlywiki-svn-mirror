@@ -104,7 +104,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					store.saveTiddler(tiddlerTitle, tiddlerTitle, "", config.options.txtUserName, new Date(),"task" );
 					autoSaveChanges(false, tiddlerTitle);
 				}
-				if(store.getTiddler(tiddlerTitle).fields.tt_status == "Accepted")
+				if(store.getTiddler(tiddlerTitle).fields.tt_status == "Complete")
 					var sectionClass = "completed";
 				else 
 					var sectionClass = "incomplete";
