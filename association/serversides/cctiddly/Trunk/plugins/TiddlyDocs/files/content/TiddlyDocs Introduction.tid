@@ -1,22 +1,16 @@
 creator: Simon McManus
 tags: wizard
 
-~TiddlyDocs is designed to help you and your team collaborate on large documents. 
 
-By breaking your document down into a number of sections those sections can be assigned to users and then have statuss set against them. 
+~TiddlyDocs is designed to help you and your team collaborate on large documents.
 
-TiddlyDocs is still being built and is currently only being tested in Firefox although we do eventually intend to support all browsers with Javascript enabled. 
+A document can take several people to write, so ~TiddlyDocs lets you break it into sections and spread the bits out across your team.
 
-Please use the following details to log in : 
+~TiddlyDocs is still being built and currently only being tested in Firefox. We intend to eventually support all browsers.
 
-username : demo 
-password : demo 
-
-[img[http://farm4.static.flickr.com/3634/3349184910_e79dd1d2e5.jpg]] 
+!!!!username : demo 
+!!!!password : demo 
 
 
-For more information about TiddlyDocs please watch this screencast: 
-
-|<html><object width="400" height="302"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=3109248&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=3109248&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="302"></embed></object><br /><a href="http://vimeo.com/3109248">TiddlyDocs - Early Prototype</a> from <a href="http://vimeo.com/user960717">Michael Mahemoff</a> on <a href="http://vimeo.com">Vimeo</a>.</html>
-
-
+ 	[img[http://farm4.static.flickr.com/3634/3349184910_e79dd1d2e5.jpg]] 
+ 

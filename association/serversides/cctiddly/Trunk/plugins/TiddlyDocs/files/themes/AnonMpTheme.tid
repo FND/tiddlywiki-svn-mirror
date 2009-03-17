@@ -26,27 +26,16 @@ tags:systemTheme
 !PageTemplate
 <!--{{{-->
 
-<!--
-<div id=topBar>
-	<a href=''>HOMEPAGE</a> | 
-	<a href=''>PRODUCTS</a> | 
-	<a href=''>APPLICATIONS</a> | 
-	<a href=''>CUSTOMER ZONE</a> | 
-	<a href=''>NETWORK INFO</a> | 
-	<a href=''>NEWS AND BRIEFINGS</a> | 
-	<a href=''>PRICING AND CONTRACTS</a> | 
-</div>
--->
+
 
 <div id='topBar2' style='background:#e6e6e6;width:99%; font-size:0.8em;height:1.9em; padding:0.2em;padding-top:0.4em'>
-	<a href=''>BROADBAND</a> | 
-	<a href=''>21CN & CONSULT 21</a> | 
-	<a href=''>COMMUNICATIONS PROVIDER</a> | 
+<a href='http://osmosoft.com'>Osmosoft</a> | 
+<a href='http://bt.com'>BT</a> | 
+<a href='http://www.unamesa.org/'>UnaMesa</a> |
 <div class="right">
 
 </div>
 <div id="searchRight">
-	<div macro='search'></div>
 </div>
 </div>
 
@@ -64,17 +53,7 @@ tags:systemTheme
 	</div>
 	<br />
 
-<!--	<div id='randomPicBar'  class="left">
-		<img src='http://farm3.static.flickr.com/2112/2093338087_a7de7372fa.jpg' class="imgBar"/>
-		<img src='http://farm2.static.flickr.com/1090/1433067037_2628a4a934_m.jpg' class="imgBar" />
-		<img src='http://farm2.static.flickr.com/1291/1401313796_e924f3bdf8_m.jpg'  class="imgBar" />
-		<img src='http://farm1.static.flickr.com/57/192178596_bd0752440d_m.jpg' class="imgBar" />
-		<img src='http://farm1.static.flickr.com/229/472902822_d4b8a1b80c_m.jpg'  class="imgBar"/>
-		<img src='http://farm3.static.flickr.com/2235/1858568495_9c88019e78_m.jpg' class="imgBar"/>
-		<img src='http://farm3.static.flickr.com/2311/1740024898_91901bc5cf_m.jpg' class="imgBar"/>
-		<img src='http://farm1.static.flickr.com/65/196634893_10ad2d5693_m.jpg' class="imgBar"/>
-	</div>
--->
+
 </div>
 
 <div macro='gradient vert #fff #f0f0f0' style="top:-3em">
