@@ -330,7 +330,7 @@ EasyShape.prototype={
 		var path;
 		
 		var buffer = [];
-		var c =this._getOptimisedCoords(transformation.scale.x);
+		var c =this.getCoordinates();
 	
 		if(projection){
 			c = this._applyProjection(projection,transformation);

@@ -1,26 +1,33 @@
 var library = {examples:{},rules:{},geojsons:{},data:{}};
 library.rules = {
-	councilRule: function(p,params){
+	createColorFromValue: function(value){
+		if(value == -1){
+			r = 125; g=125;b =125;
+		}
+		else {
+			var lower = 400;
+			var upper = 1600;
+			var rel = (value-lower)/(upper -lower);
+			r = parseInt((rel * 255));
+			b = parseInt(((1-rel) * 255));
+			g = 0;		
+		}
+		rgb = "rgb("+r+","+g+"," + b+")";
+		return rgb;
+	}
+	,councilRule: function(p,params){
 		var r=0,g=0,b=0,rgb;
 		var data =library.data.councilTax[p.name];
 		var year = params[0];
+		var price;
 		if(data && data[year] && data[year].length > 0){
-			var price = data[year][1];
-			var lower = 500;
-			var upper = 1000;
-			var rel = (price-lower)/(upper -lower);
-			
-			r = parseInt((rel * 255));
-			b = parseInt(((1-rel) * 255));
+			price = data[year][1];
+
 		}
 		else{
-			r = 125; g=125;b =125;
+			price = -1;
 		}
-		
-		
-		rgb = "rgb("+r+","+g+"," + b+")";
-		return rgb;
-		
+		return library.rules.createColorFromValue(price);		
 	}
 	,random: function(p,params){
 		var rgb,r,g,b;

@@ -1,5 +1,27 @@
-/* I am not very happy with the code that follows. It is not of the best standard and needs much improvement */
+/* 
+Creates shapes which map slightly to geojson features - only currently a shape can only consist of one shape
+cross browser rendering mode
+
+I am not very happy with the code that follows. It is not of the best standard and needs much improvement */
 /*coordinates are a string consisting of floats and move commands (M)*/
+var EasyUtils = {
+	clone: function(obj){
+
+	    if(obj == null || typeof(obj) != 'object')
+
+	        return obj;
+
+	    var temp = new obj.constructor(); // changed (twice)
+
+	    for(var key in obj){
+	        temp[key] = EasyUtils.clone(obj[key]);
+	    }
+
+
+	    return temp;
+
+	}
+};
 
 var EasyShape = function(properties,coordinates,geojson){
 	this.grid = {};
@@ -17,28 +39,38 @@ var EasyShape = function(properties,coordinates,geojson){
 
 };
 EasyShape.prototype={
-	_simplifiedCoordinates: function(scaleFactor,coordinates){
+	getProperties: function(){
+		return this.properties;
+	}
+	,_simplifyCoordinates: function(scaleFactor,coordinates){
+		if(this.getProperty("shape") == 'path') return coordinates;
 		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
 		if(!coordinates) throw "give me some coordinates!";
 		
-		var tolerance = 1/ scaleFactor;
-		return coordinates;		
+		var tolerance = 3 / scaleFactor;
+		coordinates = EasyOptimisations.packCoordinates(coordinates);
+		coordinates = EasyOptimisations.douglasPeucker(coordinates,tolerance);
+		
+		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
+		var originals =this.getCoordinates();
+		var diff = originals.length - coordinates.length;
+		
+		if(diff < 10) return originals;
+		else 
+		return coordinates;	
 	}
-	,getOptimisedCoords: function(scaleFactor){
+	,_getOptimisedCoords: function(scaleFactor){
 		var index = parseInt(scaleFactor);
 		if(this._optimisedcoords[index]) {
 			return this._optimisedcoords[index];
 		}
 		else {
-			var res =this._optimisedcoords[this._maxScaleFactor.x];
-			if(res)
-				return res;
-			else{
-				throw "no optimised coordinates found";
-			}
+			var res = this._simplifyCoordinates(scaleFactor,this.getCoordinates());
+			this._setOptimisedCoords(scaleFactor,res);
+			return res;
 		}
 	}
-	,setOptimisedCoords: function(scaleFactor,coords){
+	,_setOptimisedCoords: function(scaleFactor,coords){
 		var index = scaleFactor;
 		this._optimisedcoords[index] = coords;
 	}
@@ -117,12 +149,7 @@ EasyShape.prototype={
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
 	 
-		var optimalcoords = this._simplifiedCoordinates(this._maxScaleFactor.x,this.getCoordinates());
-		for(var h=1; h < this._maxScaleFactor.x; h*=2){
-			var t = {scale:{x:h,y:h}};
-			this.setOptimisedCoords(this._maxScaleFactor.x,optimalcoords);
-		}
-		
+
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
 	,getCoordinates: function(){
@@ -239,7 +266,7 @@ EasyShape.prototype={
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
 		var c;	
 		var shapetype = this.properties.shape;
-		c =this.getOptimisedCoords(transformation);
+		c =this._getOptimisedCoords(transformation.scale.x);
 		
 		if(projection){
 			c = this._applyProjection(projection,transformation);
@@ -310,7 +337,7 @@ EasyShape.prototype={
 		var path;
 		
 		var buffer = [];
-		var c =this.getOptimisedCoords(transformation);
+		var c =this._getOptimisedCoords(transformation.scale.x);
 	
 		if(projection){
 			c = this._applyProjection(projection,transformation);
@@ -446,13 +473,17 @@ EasyShape.prototype={
 	
 	
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
+		
 		var shape;
 		if(this.vml){
 			shape = this.vml;
-		
 			if(this.properties.fill && shapetype != 'path'){
 				shape.filled = "t";
-				shape.fillcolor = this.properties.fill;			
+				if(!this.vmlfill){
+					this.vmlfill =document.createElement("easyShapeVml_:fill");
+					shape.appendChild(this.vmlfill); 
+				}
+				this.vmlfill.color = this.properties.fill;					
 			}
 			this._cssTransform(shape,transformation,projection);
 			return;
@@ -520,7 +551,7 @@ EasyShape.prototype={
 	}
 	,_applyProjection: function(projection,transformation){
 		var c;
-		var opt =this.getOptimisedCoords(transformation);
+		var opt =this._getOptimisedCoords(transformation.scale.x);
 		if(opt){
 			c = opt;
 		}
@@ -641,7 +672,9 @@ EasyShape.prototype={
 	}
 
 };
-/*requires EasyShapes and EasyController */
+/*requires EasyShapes
+Adds controls such as panning and zooming to a given dom element.
+ */
 
 var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
 	this.setMaxScaling(99999999);
@@ -703,7 +736,7 @@ EasyMapController.prototype = {
 			
 				var s =that.transformation.scale;
 				
-				var pos = EasyClickingUtils.getMouseFromEventRelativeToCenter(e);
+				var pos = EasyClickingUtils.getMouseFromEventRelativeToElementCenter(e);
 				var t=  that.transformation.translate;
 				
 				var newx,newy;
@@ -717,6 +750,8 @@ EasyMapController.prototype = {
 				}
 
 				if(newx > 0 && newy > 0){
+					//t.x = pos.x;
+					//t.y = pos.y;
 					s.x = newx;
 					s.y = newy;
 					that.transform();					
@@ -1093,24 +1128,6 @@ if(!Array.indexOf) {
 	};
 }
 
-var EasyUtils = {
-	clone: function(obj){
-
-	    if(obj == null || typeof(obj) != 'object')
-
-	        return obj;
-
-	    var temp = new obj.constructor(); // changed (twice)
-
-	    for(var key in obj){
-	        temp[key] = EasyUtils.clone(obj[key]);
-	    }
-
-
-	    return temp;
-
-	}
-}
 
 
 
@@ -1127,13 +1144,21 @@ var EasyMapUtils = {
 			
 			if(g.type.toLowerCase() == 'multipolygon'){
 				var x1,y1,x2,y2;
+				
+				var horizontal = {belowzero:0,abovezero:0};
+				var vertical = {belowzero:0,abovezero:0};
 				for(var j=0; j < c.length; j++){
 					for(var k=0; k < c[j].length; k++){
 						
 						for(var l=0; l < c[j][k].length; l++){
 							var x = c[j][k][l][0];
 							var y = c[j][k][l][1];
-
+							if(x < 0 && horizontal.abovezero > horizontal.belowzero){
+								x = 180;
+							}
+							else if(x > 0 && horizontal.abovezero < horizontal.belowzero){
+								x = -180;
+							}
 							if(!x1) x1= x;
 							if(!x2) x2 =x;
 							if(!y1) y1 = y;
@@ -1142,9 +1167,30 @@ var EasyMapUtils = {
 							if(y < y1) y1 = y;
 							if(x < x1) x1 = x;
 							if(x > x2) x2= x;
+							
+							if(x > 0){
+								horizontal.abovezero +=1;
+							}
+							else{
+								horizontal.belowzero +=1;
+							}
+							
+							if(y > 0){
+								vertical.abovezero +=1;
+							}
+							else{
+								vertical.belowzero +=1;
+							}
+							
+									
+										
 						}
 					}
 				}
+				
+				//if(f.properties.name == "RUSSIAN FEDERATION")
+				//console.log(x1,x2);
+	
 				g.bbox = [];
 				g.bbox.push(x1);
 				g.bbox.push(y1);
@@ -1660,8 +1706,85 @@ var EasyMapSVGUtils= {
 	}	
 };
 var EasyFileUtils= {
+	saveFile: function(fileUrl,content)
+	{
+		var r = EasyFileUtils.mozillaSaveFile(fileUrl,content);
 
-	loadRemoteFile: function(url,callback,params,headers,data,contentType,username,password,allowCache)
+		return r;
+	}
+	,mozillaSaveFile:function(filePath,content)
+	{
+		if(window.Components) {
+			try {
+				netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+				var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+				file.initWithPath(filePath);
+				if(!file.exists())
+					file.create(0,0664);
+				var out = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
+				out.init(file,0x20|0x02,00004,null);
+				out.write(content,content.length);
+				out.flush();
+				out.close();
+				return true;
+			} catch(ex) {
+				return false;
+			}
+		}
+		return null;
+	}
+
+	
+	
+	,convertUriToUTF8:function(uri,charSet)
+	{
+		if(window.netscape == undefined || charSet == undefined || charSet == "")
+			return uri;
+		try {
+			netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+			var converter = Components.classes["@mozilla.org/intl/utf8converterservice;1"].getService(Components.interfaces.nsIUTF8ConverterService);
+		} catch(ex) {
+			return uri;
+		}
+		return converter.convertURISpecToUTF8(uri,charSet);
+	}
+	
+	,getLocalPath:function(origPath)
+	{
+		var originalPath = EasyFileUtils.convertUriToUTF8(origPath,"UTF-8");
+		
+		// Remove any location or query part of the URL
+		var argPos = originalPath.indexOf("?");
+		if(argPos != -1)
+			originalPath = originalPath.substr(0,argPos);
+		var hashPos = originalPath.indexOf("#");
+		if(hashPos != -1)
+			originalPath = originalPath.substr(0,hashPos);
+		// Convert file://localhost/ to file:///
+		if(originalPath.indexOf("file://localhost/") == 0)
+			originalPath = "file://" + originalPath.substr(16);
+		// Convert to a native file format
+		var localPath;
+
+		if(originalPath.charAt(9) == ":") // pc local file
+			localPath = unescape(originalPath.substr(8)).replace(new RegExp("/","g"),"\\");
+		else if(originalPath.indexOf("file://///") == 0) // FireFox pc network file
+			localPath = "\\\\" + unescape(originalPath.substr(10)).replace(new RegExp("/","g"),"\\");
+		else if(originalPath.indexOf("file:///") == 0) // mac/unix local file
+			localPath = unescape(originalPath.substr(7));
+		else if(originalPath.indexOf("file:/") == 0) // mac/unix local file
+			localPath = unescape(originalPath.substr(5));
+		else if(originalPath.indexOf("http") == 0){ //jon hack for online
+
+			var end =originalPath.lastIndexOf("/");
+			localPath = unescape(originalPath.substr(0,end+1));
+		}
+		else // pc network file
+			localPath = "\\\\" + unescape(originalPath.substr(7)).replace(new RegExp("/","g"),"\\");
+		return localPath;
+	}
+
+	,loadRemoteFile: function(url,callback,params,headers,data,contentType,username,password,allowCache)
 	{
 		//callback parameters: status,params,responseText,url,xhr
 		return this._httpReq("GET",url,callback,params,headers,data,contentType,username,password,allowCache);
@@ -1669,62 +1792,51 @@ var EasyFileUtils= {
 	/*currently doesnt work with jpg files - ok formats:gifs pngs*/
 	,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally,dothiswhenloadedfromweb) {
 		
-		var localPath,tiddlyWiki;
-		
-		try{
-			getLocalPath();
-			tiddlyWiki = true;
-		}
-		catch(e){
-			tiddlyWiki = false;
-		}
-		if(tiddlyWiki){ 
-			localPath = getLocalPath(document.location.toString());
-		
-			var savePath;
-			if((p = localPath.lastIndexOf("/")) != -1) {
-				savePath = localPath.substr(0,p) + "/" + dest;
+		var localPath = EasyFileUtils.getLocalPath(document.location.toString());
+	
+		var savePath;
+		if((p = localPath.lastIndexOf("/")) != -1) {
+			savePath = localPath.substr(0,p) + "/" + dest;
+		} else {
+			if((p = localPath.lastIndexOf("\\")) != -1) {
+				savePath = localPath.substr(0,p) + "\\" + dest;
 			} else {
-				if((p = localPath.lastIndexOf("\\")) != -1) {
-					savePath = localPath.substr(0,p) + "\\" + dest;
-				} else {
-					savePath = localPath + "." + dest;
-				}
+				savePath = localPath + "." + dest;
 			}
 		}
+		
 		var onloadfromweb = function(status,params,responseText,url,xhr){
 			try{
 				if(dothiswhenloadedfromweb){
 					dothiswhenloadedfromweb(url);
 				}
-				saveFile(savePath,responseText);
+				if(location.protocol != "http:")EasyFileUtils.saveFile(savePath,responseText);
 			}
 			catch(e){
-				console.log("error saving locally..");
+				console.log("error saving locally.."+ e);
 			}
 
 		};
 		
-		var onloadlocally = function(status,params,responseText,url,xhr){
-			if(dothiswhensavedlocally)
-				dothiswhensavedlocally(dest);
+		var onloadlocally = function(responseText,url,xhr){		
+		
+				if(dothiswhensavedlocally){
+					dothiswhensavedlocally(dest);
+				}
+			
 		};
 		
-		if(savePath){
-			try{
-				EasyFileUtils.loadRemoteFile(savePath,onloadlocally,null,null,null,null,null,null,true);
-			}
-			catch(e){//couldnt load probably doesn't exist!
-				EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
-			}
-		}
-		else{
-			EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);
-		}
+
+		try{
+			var r = jQuery.get(dest,null,onloadlocally);
+			if(r.status == 404) throw "404 error";
 		
+		}
+		catch(e){//couldnt load probably doesn't exist!
+			EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
+		}
+
 		
-	}
-	,fileExists: function(url){
 		
 	}
 	,_httpReq: function (type,url,callback,params,headers,data,contentType,username,password,allowCache)
@@ -1751,8 +1863,10 @@ var EasyFileUtils= {
 			if(x.readyState == 4 && callback && (status !== undefined)) {
 				if([0, 200, 201, 204, 207].contains(status))
 					callback(true,params,x.responseText,url,x);
-				else
+				else{
 					callback(false,params,null,url,x);
+			
+				}
 				x.onreadystatechange = function(){};
 				x = null;
 			}
@@ -1822,9 +1936,7 @@ var EasyFileUtils= {
 		}
 		return value;
 	}
-};
-/*some conversion functions that convert to geojson */
-
+};/*some conversion functions that convert to geojson */
 var EasyConversion ={
 	niaveGeoJsonFlatten: function(geojson,niaveness){
 		
@@ -1997,6 +2109,7 @@ var EasyConversion ={
 					geojson.features.push(feature);
 			}
 		}
+	
 		return geojson;
 	}
 	,geoRssToGeoJson : function (georss){
@@ -2172,7 +2285,7 @@ var EasyClickingUtils = {
 		return pos;
 	
 	}
-	,getMouseFromEventRelativeToCenter: function(e){
+	,getMouseFromEventRelativeToElementCenter: function(e){ /*redundant?? */
 		var w,h;
 		var target = this.resolveTargetWithEasyClicking(e);
 		if(!target)return;
@@ -2195,7 +2308,7 @@ var EasyClickingUtils = {
 };
 
 /*
-EasyClicking adds the ability to associate a dom element with lots of EasyShapes using addToMemory function
+EasyClicking adds the ability to associate a dom element with a collection of EasyShapes using addToMemory function
 The getShapeAtClick function allows click detection on this dom element when used in a dom mouse event handler
 */
 
@@ -2390,9 +2503,13 @@ EasyClicking.prototype = {
 
 };
 
+/*Extends EasyMaps to provide tiled background */
+
 var EasySlippyMap = function(easyMap){	
 	easyMap.resize(256,256);
+	this.loadedurls = {};
 	this.setupSlippyStaticMapLayer(easyMap);
+
 	return easyMap;
 };
 
@@ -2478,10 +2595,7 @@ EasySlippyMap.prototype = {
 			eMap.settings.backgroundimg = "none";
 			eMap.wrapper.style.backgroundImage = "none";
 			var zoomL = projection.calculatescalefactor(scale.x);	
-			var i;
-			for(i in tiles){
-				tiles[i].style.backgroundImage ="none";
-			}
+	
 				
 			var mapheight =parseInt(eMap.wrapper.style.height);
 			var mapwidth =parseInt(eMap.wrapper.style.width);
@@ -2494,6 +2608,10 @@ EasySlippyMap.prototype = {
 			tile.style.top = top + "px";
 			tile.style.left = left + "px";
 			if(zoomL == 0){
+				var i;
+				for(i in tiles){
+					tiles[i].style.backgroundImage ="none";
+				}
 				zoomL = 0;
 				tilex = 0;tiley=0;
 				var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+tilex+"/"+tiley+".png";
@@ -2564,22 +2682,38 @@ EasySlippyMap.prototype = {
 		
 	}
 	,renderTile: function(weburl,zoomlevel,x,y,tile){
+		var that = this;
 		var renderTile = function(dest){
-				tile.style.backgroundImage = "url('"+dest+"')";
-				//var numtiles = Math.pw(2,zoomL);
+			tile.style.backgroundImage = "none";
+			var style ="url('"+dest+"')";
+			if(style == tile.style.backgroundImage) return;
+			tile.style.backgroundImage = style;
+			//var numtiles = Math.pw(2,zoomL);
 
 		};
 		var renderTileWeb = function(url){
-				tile.style.backgroundImage = "url('"+url+"')";
-				//var numtiles = Math.pw(2,zoomL);
+			var style ="url('"+url+"')";
+			tile.style.backgroundImage = "none";
+			if(style == tile.style.backgroundImage) return;
+			tile.style.backgroundImage = style;
 
 		};
 		try{	
 			var localurl = zoomlevel+ "_"+ x + "_" + y + ".png";
-			EasyFileUtils.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
+			if(localurl != tile.style.backgroundImage){
+				if(that.loadedurls[localurl]){
+					renderTile(localurl);
+				}
+				else{
+					tile.style.backgroundImage = "none";
+					EasyFileUtils.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
+					that.loadedurls[localurl] = true;
+				}
+			}
 		}
 		catch(e){
-			console.log("unable to cache static image for this map view. ("+e+")")
+			tile.style.backgroundImage = "none";
+			//console.log("unable to cache static image for this map view. ("+e+")")
 		}
 	}
 	,_createTiles: function(eMap,numtilesx,numtilesy){
@@ -2618,6 +2752,71 @@ EasySlippyMap.prototype = {
 		
 	}
 	
+};var EasyOptimisations = {
+	packCoordinates: function(coordlist){
+		var res = [];
+		for(var i=0; i < coordlist.length-1; i+=2){
+			res.push([coordlist[i],coordlist[i+1]]);
+		}
+		
+		return res;
+	}
+	,unpackCoordinates: function(coordlist){
+		var res = [];
+		for(var i=0; i < coordlist.length; i+=1){
+			res.push(coordlist[i][0]);
+			res.push(coordlist[i][1]);
+		}
+		return res;	
+	}
+	//coords in form [[x1,y1],[x2,y2]]
+	,douglasPeucker: function(coords,tolerance, start,end){
+		var results = [];
+
+		if(!start) start = 0;
+		if(!end) end = coords.length - 1;
+		if(start >= coords.length || end >= coords.length || start == end -1){
+			return [];
+		}	
+		var midpoint = {};
+	
+	
+		midpoint.x = (coords[end][0] + coords[start][0]) /2;
+		midpoint.y = (coords[end][1] + coords[start][1]) /2;
+		
+		var bestPoint = {distance:-1, index:-1};
+		for(var i=start+1; i < end; i++){
+			var x = coords[i][0];
+			var y = coords[i][1];
+			var deltax = midpoint.x - x;
+			var deltay= midpoint.y - y;
+			
+			var perpendicular_d = Math.sqrt((deltax * deltax ) + (deltay *deltay)); //this is not perpendicular distancd.. i think!
+			if(perpendicular_d > bestPoint.distance){
+				bestPoint.index = i;
+				bestPoint.distance = perpendicular_d;
+			}
+		}
+	
+		if(bestPoint.index ==-1 || bestPoint.distance<tolerance){
+			var res = [];
+			res.push(coords[start]);
+			//res.push(coords[end])
+			return res; //none of these points are interesting except last
+		}
+		else{
+			results.push(coords[start]);
+			var ref = bestPoint.index;
+			var splice1 = EasyOptimisations.douglasPeucker(coords,tolerance,start+1,ref);
+			var splice2 = EasyOptimisations.douglasPeucker(coords,tolerance,ref,end);
+			results = results.concat(splice1);
+			results = results.concat(splice2);
+			results.push(coords[end]);
+			return results;
+		}
+		
+	}
+   
 };/*
   proj4js.js -- Javascript reprojection library. 
   
@@ -7243,7 +7442,7 @@ Proj4js.Proj.moll = {
 };
 
 /*
-A package for rendering geojson polygon and point features easily
+A package for rendering geojson polygon and point features easily to create maps
 */
 var GeoTag = function(longitude,latitude,properties){
 	var geo = {};
@@ -7421,20 +7620,23 @@ EasyMap.prototype = {
 	drawFromGeojson: function(geojson,autosize){
 			if(typeof geojson == 'string'){
 				geojson = eval('(' +geojson+ ')');
-			}		
+			}
+							
 			this._lastgeojson = geojson;
 			if(autosize){
-			 	var t = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
-			
+				
+			 	var t = EasyMapUtils.fitgeojsontocanvas(geojson,this.wrapper);
+
 				var p =this.getProjection();
 				if(p && p.name == "GLOBE") {
 					t.translate = {x:0,y:0};
 				}
+					
 				this.controller.setTransformation(t);
 			}
-
+		
 			var type =geojson.type.toLowerCase();		
-
+	 
 			if(type == "featurecollection"){
 				var features = geojson.features;
 				this.drawGeoJsonFeatures(features);
@@ -7443,6 +7645,7 @@ EasyMap.prototype = {
 			} else {
 				console.log("only feature collections currently supported");
 			}
+
 			this.render();
 	},
 	drawFromGeojsonFile: function(file){
@@ -7496,13 +7699,13 @@ EasyMap.prototype = {
 		if(this.settings.background){
 			this.wrapper.style.background=this.settings.background;
 		}
-		else{
-			this.wrapper.style.background = "";
-		}
+
 
 		if(imgpath) this.settings.backgroundimg = imgpath;
 		if(this.settings.backgroundimg){
-			if(this.settings.renderPolygonMode) this.settings.globalAlpha = 0.8;	
+			if(this.settings.renderPolygonMode && this.settings.globalAlpha) {
+				this.settings.globalAlpha = 0.8;	
+			}
 			this.wrapper.style.backgroundImage = "url('"+this.settings.backgroundimg +"')";		
 		}
 		else{
@@ -7512,13 +7715,20 @@ EasyMap.prototype = {
 	}
 	,redraw: function(){
 		var that = this;
+		if(this.canvas.getContext){
+			var f = function(){
+				that.clear();
+				that.render();
+			};
+			window.setTimeout(f,0);		
+		}
+		else{
+			this.clear();
+			this.render();
+		}
 
-		var f = function(){
-			that.clear();
-			that.render();
-		};
 		
-		window.setTimeout(f,0);
+		
 	},
 		
 	transform: function(transformation){
@@ -7627,6 +7837,7 @@ EasyMap.prototype = {
 				
 			 for(var i=0; i < mem.length; i++){
 				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser,newfragment);
+				if(mem[i].vmlfill && that.settings.globalAlpha) mem[i].vmlfill.opacity =that.settings.globalAlpha;
 			}
 			var t2=new Date();
 			var time = t2-t1;
@@ -7697,6 +7908,7 @@ EasyMap.prototype = {
 	drawGeoJsonFeatures: function(features){
 			var avg1 = 0;
 			for(var i=0; i < features.length; i++){
+			
 				this.drawGeoJsonFeature(features[i]);
 			}
 

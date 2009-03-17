@@ -22,6 +22,12 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	this.labelContainer.style.width = this.wrapper.style.width;
 	this.labelContainer.style.height = this.wrapper.style.height;
 	this.labelContainer.className = "annotations";
+	
+	this.tooltip = document.createElement("div");
+	this.tooltip.style.position = "absolute";
+	this.tooltip.className = "tooltip";
+	this.tooltip.innerHTML = "annoying paperclip type thing";
+	wrapper.appendChild(this.tooltip);
 	wrapper.appendChild(this.labelContainer);
 	
 	
@@ -133,7 +139,7 @@ EasyDiagram.prototype = {
 		/*shape Start */
 		var newnode = function(e){
 			var uniqueid = Math.random();
-			easyGraph.addNode({id:uniqueid,properties:{label: "new node",shape:'polygon'}});
+			easyGraph.addNode({id:uniqueid,properties:{label: "new node",fill:"rgb(255,255,255)",shape:'polygon'}});
 			s = easyGraph.getNode(uniqueid).getEasyShape();	
 			easyDiagram.selectShape(s);
 			easyDiagram.render();
@@ -212,7 +218,7 @@ EasyDiagram.prototype = {
 	}
 	
 	,moveSelectedShapes: function(x,y){
-		if(this.selectedShape) {
+		if(this.selectedShape && !this.editing) {
 			var shape = this.selectedShape;
 			var node = this.getNodeFromShape(shape);
 			if(node)node.setPosition(x - 20,y - 20);
@@ -246,13 +252,17 @@ EasyDiagram.prototype = {
 		this.wrapper.onmousemove = function(e){		
 			//if(omm) omm(e);				
 			var t = easyDiagram.getTransformation();
+			var xy =EasyClickingUtils.getMouseFromEvent(e);
 			var newpos =EasyClickingUtils.getRealXYFromMouse(e,t);
 			easyDiagram.moveSelectedShapes(newpos.x,newpos.y);
 			easyDiagram.performResizing(e);
 			
 			easyDiagram.drawTemporaryLines(newpos.x,newpos.y);
 			easyDiagram.render();
-		}
+			
+			easyDiagram.tooltip.style.left = parseInt(xy.x +10) + "px";
+			easyDiagram.tooltip.style.top = parseInt(xy.y + 10) + "px";
+		};
 		
 		var omd = this.wrapper.onmousedown;
 		this.wrapper.onmousedown = function(e){
@@ -444,7 +454,8 @@ EasyDiagram.prototype = {
 				
 		this.edgeShape.render(this.canvas, this.tmatrix);
 	}
-	,_renderNode: function(node){	
+	,_renderNode: function(node){
+	
 		var npos = node.getPosition();
 		var shape = node.easyShape;
 		this.easyShapeToNode[shape.properties.id] = node;
@@ -491,11 +502,14 @@ EasyDiagram.prototype = {
 		}
 	}
 	,openNodeEditor: function(event,node){
+		this.editing = true;
+		this.selectedShape = false;
 		var easyDrawingTools = this.easyDrawingTools;
 		easyDrawingTools.setCurrentCommand({type:'editlabel'});
 		var easyDiagram = this;
 		var changer = function(newcolor){
 			node.setProperty("fill",newcolor);
+			easyDiagram.render();
 		};
 		
 		if(!this.editorWindow){
@@ -533,7 +547,7 @@ EasyDiagram.prototype = {
 		this.editorWindow.style.top = parseInt(editorPos.y) + "px";
 		this.editorColor.style.top = "60px";
 		this.editorWindow.style.display = "";
-		node.setProperty("_mode",1);//?
+
 	}
 	,closeNodeEditor: function(event,node){
 		var easyDrawingTools = this.easyDrawingTools;
@@ -541,9 +555,10 @@ EasyDiagram.prototype = {
 
 		this.editorWindow.style.display = "none";
 		
-		node.setProperty("_mode",0); //?
+		
 		node.setProperty("label",this.editorLabel.value);
 		var nodelabel =node.getProperty("_labelHolder");
 		this.controller.renderLabel(nodelabel,this.editorLabel.value);
+		this.editing = false;
 	}
 };

@@ -33,8 +33,8 @@ EasyController.prototype = {
 		var that = this;
 	
 		var onmousewheel = function(e){
-	        	if (!e) /* For IE. */
-	                e = window.event;
+	        	if (!e) return;/* For IE. */
+	                
 			e.preventDefault();		
 					
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
@@ -58,15 +58,28 @@ EasyController.prototype = {
 		        }
 	
 			var sensitivity = 0.3;
-			if(!this.lastdelta) this.lastdelta = delta;
-			
+			if(!this.lastdelta) {
+				this.lastdelta = delta;
+				var translate =that.transformation.translate;
+				var pos =EasyClickingUtils.getMouseFromEvent(e);
+				pos =EasyTransformations.undoTransformation(pos.x,pos.y,that.transformation);
+				translate.x = -pos.x;
+				translate.y = -pos.y;
+				
+				var el = this;
+				var clear = function(){
+					el.lastdelta = false;
+				}
+				window.setTimeout(clear,500);
+	
+			}
+
 			if(delta > this.lastdelta + sensitivity || delta < this.lastdelta - sensitivity){
 				
 			
 				var s =that.transformation.scale;
 				
-				var pos = EasyClickingUtils.getMouseFromEventRelativeToElementCenter(e);
-				var t=  that.transformation.translate;
+				
 				
 				var newx,newy;
 				if(delta > 0){
@@ -79,8 +92,11 @@ EasyController.prototype = {
 				}
 
 				if(newx > 0 && newy > 0){
-					//t.x = pos.x;
-					//t.y = pos.y;
+					
+					
+				
+
+				
 					s.x = newx;
 					s.y = newy;
 					that.transform();					
@@ -340,7 +356,7 @@ EasyController.prototype = {
 			var tr = t.translate;
 			if(s.x <= 0) s.x = 0.1125;
 			if(s.y <= 0) s.y = 0.1125;
-console.log(this.transformation);
+
 			this.targetjs.transform(this.transformation);
 
 		}

@@ -213,7 +213,7 @@ EasyMap.prototype = {
 	},
 		
 	transform: function(transformation){
-		console.log(arguments);
+		//console.log(arguments);
 		var w =parseInt(this.wrapper.style.width);
 		var h = parseInt(this.wrapper.style.height);
 		var t =transformation.translate;

@@ -21,6 +21,9 @@ var EasyColorSlider = function(wrapper,width,height,changefunction){
 	
 	this.mixbox =this._createMixBox(wrapper,height,height);
 	this.mixbox.style.left = parseInt(width + 5) + "px";
+	
+	this.inputfield = this._createInputField(wrapper,width,height);
+	this.inputfield.style.top = parseInt((sliderheight * 3) + 5) + "px";
 	this.rgb= {'red':0,'green':0,'blue':0};
 	
 };
@@ -28,6 +31,18 @@ var EasyColorSlider = function(wrapper,width,height,changefunction){
 EasyColorSlider.prototype = {
 	setChangeFunction:function(change){
 		this.changefunction = change;
+	}
+	,_createInputField: function(wrapper,width,height){
+		var input= document.createElement("input");
+		input.style.width = width + "px";
+		input.style.height = height + "px";
+		var ecs = this;
+		input.onblur = function(e){
+			ecs.setColor(this.value);
+		}
+		input.style.position = "absolute";
+		wrapper.appendChild(input);
+		return input;
 	}
 	/* thank you http://www.javascripter.net/faq/hextorgb.htm*/
 	,_cutHex: function(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
@@ -73,6 +88,7 @@ EasyColorSlider.prototype = {
 		var rgb  = "rgb("+this.rgb.red+","+ this.rgb.green+","+this.rgb.blue+")";
 		this.currentColor = rgb;
 		this.mixbox.style.background = rgb;
+		this.inputfield.value = rgb;
 		if(this.changefunction)this.changefunction(rgb);
 	}
 	,_createMixBox: function(wrapper,width,height){

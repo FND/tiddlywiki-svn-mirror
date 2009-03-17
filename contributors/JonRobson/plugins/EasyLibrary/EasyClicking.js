@@ -112,7 +112,10 @@ EasyClicking.prototype = {
 			}
 		}
 		var res = this._findNeedleInHaystack(x,y,hitShapes);
-		
+	
+	
+		// var shapesInsideBox = _findShapesInsideBoundingBox(shapes, ..) TODO RENAME
+		// var points = _findPointsInsideShapes(..)
 		
 		return res;
 	},

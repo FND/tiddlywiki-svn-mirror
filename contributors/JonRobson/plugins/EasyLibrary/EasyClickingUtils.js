@@ -7,30 +7,7 @@ var EasyClickingUtils = {
 	}
 	
 	,undotransformation: function(x,y,transformation){ //porting to EasyTransformations?
-	
-		var pos = {};
-		var t =transformation;
-		var tr =t.translate;
-		var s = t.scale;
-		var o = t.origin;
-		if(!x || !y) 
-			return false;
-		pos.x = x;
-		pos.y = y;
-	
-
-		pos.x -= o.x;
-		pos.y -= o.y;
-
-		if(pos.x != 0)
-			pos.x /= s.x;
-		
-		if(pos.y != 0)
-			pos.y /= s.y;
-			
-		pos.x -= tr.x;
-		pos.y -= tr.y;			
-		return pos;
+		return EasyTransformations.undoTransformation(x,y,transformation);
 	}	
 	,resolveTarget:function(e)
 	{
