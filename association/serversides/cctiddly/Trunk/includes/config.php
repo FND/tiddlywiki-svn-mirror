@@ -18,8 +18,8 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"OpenID",
 	"Portlet",
 	"lifestream",
+	"TiddlyDocs",
 	"seo",
-	"SkinnyTiddlers",
 	"WordpressMigration"
 );
 
@@ -118,7 +118,8 @@ array(	'wikipedia.org',
 		'getteamtasks.com', 
 		'mptw.tiddlyspot.com',
 		'plugins.tiddlywiki.org',
-		'tiddlywiki.abego-software.de'
+		'tiddlywiki.abego-software.de',
+		'jonrobson.me.uk'
 );
 						
 // Allowed file upload types	
