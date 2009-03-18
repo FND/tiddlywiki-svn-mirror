@@ -54,6 +54,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					var qsvalue =this.getVariableFromQueryString(metaDataName);
 					if(qsvalue) selected = qsvalue;
 				}
+			
 				var values = this.getDefValues(valueSrc);
 				this.createDropDownMenu(place,metaDataName,values,false,this.setDropDownMetaData,selected);
 				
@@ -114,7 +115,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 		}
 		,createColorBar: function(place,tiddlerTitle,metaDataName){
-			console.log(place.style.width, " is width");
+
 			var aet = this;
 			var curValue = this.getMetaData(tiddlerTitle,metaDataName);
 			var changefunction = function(newcolor){
@@ -203,31 +204,45 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				var menuid = 0;
 				var lastmenuid = 0;
 				var menus = [];
-				
+			
+				var myparents = [];
 				for (var i=0; i < values.length; i++) {
 					
 					var value = values[i];
+					var caption = values[i];
+					
+					caption = caption.replace("<","");
+					caption = caption.replace(">","");
+					if(caption.indexOf(":") > -1){
+						caption = caption.split(":")[0];
+					}
+					
 					if(!menus[menuid]){
 						menus[menuid] = {};
 						menus[menuid].options= [];
 						menus[menuid].options.push({'caption': initialValue, 'value': 'null', 'name': null});
 					 }
+					
 					if(value.indexOf(">") != -1){
 						lastmenuid = menuid;
 						value = value.replace(">","");
 						var newmenuid =menus.length;
-						menus[menuid].options.push({'caption': value, 'value':value, 'name': fieldName + '::' + value,'childMenu': newmenuid});
+						menus[menuid].options.push({'caption': caption, 'value':myparents.toString() +value, 'name': fieldName + '::' + value,'childMenu': newmenuid});
 						menuid = newmenuid;
-					
+						myparents.push(value+">");	
+				
 					}
 					else if(value.indexOf("<") != -1){
 						value = value.replace("<","");
-						menus[menuid].options.push({'caption': value,'value':value,  'name': fieldName + '::' + value});
+					
+						menus[menuid].options.push({'caption': caption,'value':myparents.toString() + value,  'name': fieldName + '::' + value});
 						menuid = lastmenuid;
+						myparents.pop();	
 					}
 					else{
-						menus[menuid].options.push({'caption': value, 'value':value, 'name': fieldName + '::' + value});
+						menus[menuid].options.push({'caption': caption, 'value':myparents.toString() +value, 'name': fieldName + '::' + value});
 					}
+				
 							
 	
 									
@@ -246,7 +261,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					}
 					newMenu.name = fieldName;
 					
-					var menuoptions = menus[j].options
+					var menuoptions = menus[j].options;
+				
 					for(var k=0; k <menuoptions.length; k++){
 						var opt =menuoptions[k];
 						
@@ -352,22 +368,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		//Get definition values for populating UI from definition tiddlers.
 		,getDefValues: function(src) {
 			var text = store.getTiddlerText(src).split('\n');
-			var output = [];
-			for(var t=0; t<text.length; t++) {
-				//support calling the old TaskViewBuilder macro to list the tasks here too.
-				var blob = wikifyStatic(text[t],null,tiddler,null);				
-				var linktitle = /tiddlylink="[^"]*"/mg;
-				var titles = blob.match(linktitle);
-				if(titles) {
-					for(var n=0; n<titles.length; n++) {
-						output.push(titles[n].replace(/tiddlylink="([^"]*)"/,'$1'));
-					}
-				}
-				else {
-					output.push(text[t]);
-				}
-			}
-			return (output);	
+			return text;
 		},
 
 
@@ -384,9 +385,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				var fieldname = selected.parentNode.name;
 				var fieldvalue = selected.value;
 				if(selected.value == 'null'){
-					console.log("mm..");
 					var parent = selected.parentNode.parentOption;
-					console.log(parent);
 					if(parent){
 						selected = parent;
 						fieldvalue = selected.value;	
