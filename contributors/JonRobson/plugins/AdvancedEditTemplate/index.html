@@ -534,7 +534,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903181503" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903181658" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -735,14 +735,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected){
 				if(!selected) selected = &quot;&quot;;
-				var selectedPath = selected.split(&quot;&gt;&quot;);
 				if(!initialValue){
 					initialValue = &quot;Please select.. &quot;;
 				}
 				var menuid = 0;
 				var lastmenuid = 0;
 				var menus = [];
-			
+		
 				var myparents = [];
 				for (var i=0; i &lt; values.length; i++) {
 					
@@ -758,11 +757,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					if(!menus[menuid]){
 						menus[menuid] = {};
 						menus[menuid].options= [];
-						menus[menuid].options.push({'caption': initialValue, 'value': 'null', 'name': null});
-					 }
+					}
 					var parentValue = &quot;&quot;;
-					for(var i=0; i &lt; myparents.length; i++){
-						parentValue += myparents[i].toString();
+					for(var j=0; j &lt; myparents.length; j++){
+						parentValue += myparents[j].toString();
 					}
 					if(value.indexOf(&quot;&gt;&quot;) != -1){
 						lastmenuid = menuid;
@@ -788,10 +786,14 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 	
 									
 				}
+				
+						
 				var lastMenu;
 				var allMenus = [];
 				var selectedItem = false;
 				var nowtselected = true;
+				
+				
 				for(var j=menus.length-1; j &gt;-1; j--){
 					//var newMenu =createTiddlyDropDown(place,this.setDropDownMetaData,menus[j].options,selected);
 					
@@ -803,7 +805,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					newMenu.name = fieldName;
 					
 					var menuoptions = menus[j].options;
-				
+					var sorter = function(a,b){if(a.caption &lt; b.caption) return -1; else return 1;};
+					var topitem = [{'caption': initialValue, 'value': 'null', 'name': null}];
+					
+					menuoptions.sort(sorter);
+					menuoptions = topitem.concat(menuoptions);
+					
 					for(var k=0; k &lt;menuoptions.length; k++){
 						var opt =menuoptions[k];
 						

@@ -220,8 +220,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					if(!menus[menuid]){
 						menus[menuid] = {};
 						menus[menuid].options= [];
-						menus[menuid].options.push({'caption': initialValue, 'value': 'null', 'name': null});
-					 }
+					}
 					var parentValue = "";
 					for(var j=0; j < myparents.length; j++){
 						parentValue += myparents[j].toString();
@@ -256,6 +255,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				var allMenus = [];
 				var selectedItem = false;
 				var nowtselected = true;
+				
+				
 				for(var j=menus.length-1; j >-1; j--){
 					//var newMenu =createTiddlyDropDown(place,this.setDropDownMetaData,menus[j].options,selected);
 					
@@ -267,7 +268,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					newMenu.name = fieldName;
 					
 					var menuoptions = menus[j].options;
-				
+					var sorter = function(a,b){if(a.caption < b.caption) return -1; else return 1;};
+					var topitem = [{'caption': initialValue, 'value': 'null', 'name': null}];
+					
+					menuoptions.sort(sorter);
+					menuoptions = topitem.concat(menuoptions);
+					
 					for(var k=0; k <menuoptions.length; k++){
 						var opt =menuoptions[k];
 						
