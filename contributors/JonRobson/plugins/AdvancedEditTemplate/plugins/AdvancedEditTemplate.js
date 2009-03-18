@@ -204,7 +204,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				var menuid = 0;
 				var lastmenuid = 0;
 				var menus = [];
-			
+		
 				var myparents = [];
 				for (var i=0; i < values.length; i++) {
 					
@@ -222,12 +222,15 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 						menus[menuid].options= [];
 						menus[menuid].options.push({'caption': initialValue, 'value': 'null', 'name': null});
 					 }
-					
+					var parentValue = "";
+					for(var j=0; j < myparents.length; j++){
+						parentValue += myparents[j].toString();
+					}
 					if(value.indexOf(">") != -1){
 						lastmenuid = menuid;
 						value = value.replace(">","");
 						var newmenuid =menus.length;
-						menus[menuid].options.push({'caption': caption, 'value':myparents.toString() +value, 'name': fieldName + '::' + value,'childMenu': newmenuid});
+						menus[menuid].options.push({'caption': caption, 'value': parentValue+value, 'name': fieldName + '::' + value,'childMenu': newmenuid});
 						menuid = newmenuid;
 						myparents.push(value+">");	
 				
@@ -235,18 +238,20 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					else if(value.indexOf("<") != -1){
 						value = value.replace("<","");
 					
-						menus[menuid].options.push({'caption': caption,'value':myparents.toString() + value,  'name': fieldName + '::' + value});
+						menus[menuid].options.push({'caption': caption,'value':parentValue + value,  'name': fieldName + '::' + value});
 						menuid = lastmenuid;
 						myparents.pop();	
 					}
 					else{
-						menus[menuid].options.push({'caption': caption, 'value':myparents.toString() +value, 'name': fieldName + '::' + value});
+						menus[menuid].options.push({'caption': caption, 'value':parentValue+value, 'name': fieldName + '::' + value});
 					}
 				
 							
 	
 									
 				}
+				
+						
 				var lastMenu;
 				var allMenus = [];
 				var selectedItem = false;

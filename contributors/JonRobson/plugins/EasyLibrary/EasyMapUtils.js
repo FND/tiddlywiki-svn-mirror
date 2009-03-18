@@ -52,18 +52,19 @@ var EasyMapUtils = {
 				
 				var horizontal = {belowzero:0,abovezero:0};
 				var vertical = {belowzero:0,abovezero:0};
+			
 				for(var j=0; j < c.length; j++){
 					for(var k=0; k < c[j].length; k++){
 						
 						for(var l=0; l < c[j][k].length; l++){
 							var x = c[j][k][l][0];
 							var y = c[j][k][l][1];
-							if(x < 0 && horizontal.abovezero > horizontal.belowzero){
+							/*if(x < 0 && horizontal.abovezero > horizontal.belowzero){
 								x = 180;
 							}
 							else if(x > 0 && horizontal.abovezero < horizontal.belowzero){
 								x = -180;
-							}
+							}*/
 							if(!x1) x1= x;
 							if(!x2) x2 =x;
 							if(!y1) y1 = y;

@@ -534,7 +534,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903181453" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903181503" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -735,6 +735,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected){
 				if(!selected) selected = &quot;&quot;;
+				var selectedPath = selected.split(&quot;&gt;&quot;);
 				if(!initialValue){
 					initialValue = &quot;Please select.. &quot;;
 				}
@@ -759,12 +760,15 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 						menus[menuid].options= [];
 						menus[menuid].options.push({'caption': initialValue, 'value': 'null', 'name': null});
 					 }
-					
+					var parentValue = &quot;&quot;;
+					for(var i=0; i &lt; myparents.length; i++){
+						parentValue += myparents[i].toString();
+					}
 					if(value.indexOf(&quot;&gt;&quot;) != -1){
 						lastmenuid = menuid;
 						value = value.replace(&quot;&gt;&quot;,&quot;&quot;);
 						var newmenuid =menus.length;
-						menus[menuid].options.push({'caption': caption, 'value':myparents.toString() +value, 'name': fieldName + '::' + value,'childMenu': newmenuid});
+						menus[menuid].options.push({'caption': caption, 'value': parentValue+value, 'name': fieldName + '::' + value,'childMenu': newmenuid});
 						menuid = newmenuid;
 						myparents.push(value+&quot;&gt;&quot;);	
 				
@@ -772,12 +776,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					else if(value.indexOf(&quot;&lt;&quot;) != -1){
 						value = value.replace(&quot;&lt;&quot;,&quot;&quot;);
 					
-						menus[menuid].options.push({'caption': caption,'value':myparents.toString() + value,  'name': fieldName + '::' + value});
+						menus[menuid].options.push({'caption': caption,'value':parentValue + value,  'name': fieldName + '::' + value});
 						menuid = lastmenuid;
 						myparents.pop();	
 					}
 					else{
-						menus[menuid].options.push({'caption': caption, 'value':myparents.toString() +value, 'name': fieldName + '::' + value});
+						menus[menuid].options.push({'caption': caption, 'value':parentValue+value, 'name': fieldName + '::' + value});
 					}
 				
 							
@@ -799,9 +803,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					newMenu.name = fieldName;
 					
 					var menuoptions = menus[j].options;
-					console.log(menuoptions);
-					menuoptions = menuoptions.sort();
-					console.log(menuoptions);
+				
 					for(var k=0; k &lt;menuoptions.length; k++){
 						var opt =menuoptions[k];
 						

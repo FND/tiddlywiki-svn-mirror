@@ -42,12 +42,12 @@ var Tagmindmap = function(wrapper,settings){
 	this._init_html_elements();
 	
 	var x = this.controlpanel;
-	initialT = {translate: {x:0,y:0}, scale: {x:this.settings.zoomLevel,y:this.settings.zoomLevel}};
+	initialT = {translate: {x:0,y:0}, scale: {x:1,y:1}};
 	x.setTransformation(initialT);
 	x.addControl("zoom");
 	x.addControl("pan");
 	x.addControl("mousepanning");
-	x.addControl("mousewheelzooming");
+	//x.addControl("mousewheelzooming");
 
 
 	this.children = {};
@@ -60,14 +60,14 @@ Tagmindmap.prototype = {
 		var compute = false;
 		if(this.settings.zoomLevel != t.scale.x) {
 			if(t.scale.x > 0){			
-			this.settings.zoomLevel = parseFloat(t.scale.x);
+			this.settings.zoomLevel = parseFloat(t.scale.x * 100);
 		
 			}
 			compute = true;
 		}
 	
 		if(this.rgraph){
-			var c= {x:t.translate.x*t.scale.x, y:t.translate.y*t.scale.y};
+			var c= {x:t.translate.x, y:t.translate.y};
 		
 			this.rgraph.offsetCenter(c.x,c.y);
 			if(compute) this.rgraph.compute();

@@ -32,7 +32,7 @@ tiddlytagmindmap takes several (but all optional) parameters. Some examples can 
 
 !!!Nodes and Edges
 !!!!Directional edges 
-The directed parameter allows you to add arrowheads to your edges. usage: <<tiddlytagmindmap directed:true>>
+The directed parameter allows you to add arrowheads to your edges. usage: {{{<< tiddlytagmindmap directed:true>>}}}
 !!!!Name Length
 nodeNameLength:x where x is an integer will shorten the name of any node with a name longer than x. If x =0, the labels will disappear so you can rely on tooltips.
 

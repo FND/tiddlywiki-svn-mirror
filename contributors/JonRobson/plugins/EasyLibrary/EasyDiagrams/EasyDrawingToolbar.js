@@ -3,8 +3,13 @@ var EasyDrawingTools = function(wrapper){
 	this._setup(wrapper);
 	this.toolCommand = false;
 	this.commands = {};
-	this.setupMouseHandlers();
 	
+	this.tooltip = document.createElement("div");
+	this.tooltip.style.position = "absolute";
+	this.tooltip.className = "tooltip";
+	this.wrapper.appendChild(this.tooltip);
+	this.setupMouseHandlers();
+	this.innerHTML = "love me!";
 };
 
 
@@ -89,20 +94,21 @@ EasyDrawingTools.prototype = {
 	}
 	,setTooltip: function(e){
 		
-		var newpos =EasyClickingUtils.getMouseFromEvent(e);
-		newpos.x + 20;
-		newpos.y + 20;
-		//this.tooltip.style.left = newpos.x + "px";
-		//this.tooltip.style.top = newpos.y + "px";
 		
-		var command = this.easyDrawingTools.getCurrentCommand();
-		if(command.type){
-		this.tooltip.innerHTML =command.type;
-		}
-		else
-		this.tooltip.innerHTML = "";
+		var xy =EasyClickingUtils.getMouseFromEvent(e);
+		this.tooltip.style.left = parseInt(xy.x +10) + "px";
+		this.tooltip.style.top = parseInt(xy.y + 10) + "px";
+		var command = this.getCurrentCommand();
 	
-	}
+				switch(command.type){
+						case "drawEdge":
+							this.tooltip.innerHTML ="&larr;";
+							break;
+						default:
+							this.tooltip.innerHTML = "";
+				}
+		
+	}	
 	
 	,setCurrentCommand: function(json){
 		if(!json){
@@ -213,34 +219,12 @@ EasyDrawingTools.prototype = {
 			p.easyShapeLabel =new EasyShape({shape:'path'}, [left+padding,top+w,left+width-padding,top+w]);			
 		}
 		else if(p.label == 'box'){
-			p.easyShapeLabel =new EasyShape({shape:'path'}, [left+padding,top+height-padding,left-padding+width,top+height-padding,left+width-padding,top+padding,left+padding,top+padding]);			
+			p.easyShapeLabel =new EasyShape({shape:'image',src:'icons/poly.png',width:width,height:height}, [left,top]);			
 		}
 		else if(p.label == 'save'){
-			p.easyShapeLabel =new EasyShape({shape:'path'}, 
-			[
-			left+padding,top+height-padding,
-			left+width-padding,top+height-padding,
-			left+width-padding,top+padding,
-			left+padding,top+padding,
-			left+padding,top+height-padding,
-			
-			"M",
-			left+padding+2,top+padding+2,
-			left+width-padding-2,top+padding+2,
-			left+width-padding-2,top+height-padding-8,
-			left+padding+2,top+height-padding-8,
-			left+padding+2,top+padding+2
-			
-			,"M",
-			left+padding+2,top+height-padding-2,
-			left+width-padding-2,top+height-padding-2,
-			left+width-padding-2,top+height-padding-8,
-			left+padding+2,top+height-padding-8,
-			left+padding+2,top+height-padding-2
-		
-
-
-			]);									
+			p.easyShapeLabel =new EasyShape({shape:'image',src:'icons/save.png', alt:'save'}, 
+			[left,top,left+width,top,left+width,top+height,left,top+height]);
+												
 		}
 		else if(p.label == 'cross'){
 			p.easyShapeLabel =new EasyShape({shape:'path',stroke:'rgb(255,0,0)'}, [left+padding,top+height-padding,left+width-padding,top+padding,"M",left+padding,top+padding,left+width-padding,top+height-padding]);			

@@ -23,11 +23,6 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	this.labelContainer.style.height = this.wrapper.style.height;
 	this.labelContainer.className = "annotations";
 	
-	this.tooltip = document.createElement("div");
-	this.tooltip.style.position = "absolute";
-	this.tooltip.className = "tooltip";
-	this.tooltip.innerHTML = "annoying paperclip type thing";
-	wrapper.appendChild(this.tooltip);
 	wrapper.appendChild(this.labelContainer);
 	
 	
@@ -250,18 +245,15 @@ EasyDiagram.prototype = {
 		var omd = this.wrapper.onmousedown;
 		
 		this.wrapper.onmousemove = function(e){		
-			//if(omm) omm(e);				
+			if(omm) omm(e);				
 			var t = easyDiagram.getTransformation();
-			var xy =EasyClickingUtils.getMouseFromEvent(e);
+		
 			var newpos =EasyClickingUtils.getRealXYFromMouse(e,t);
 			easyDiagram.moveSelectedShapes(newpos.x,newpos.y);
 			easyDiagram.performResizing(e);
 			
 			easyDiagram.drawTemporaryLines(newpos.x,newpos.y);
 			easyDiagram.render();
-			
-			easyDiagram.tooltip.style.left = parseInt(xy.x +10) + "px";
-			easyDiagram.tooltip.style.top = parseInt(xy.y + 10) + "px";
 		};
 		
 		var omd = this.wrapper.onmousedown;
@@ -329,8 +321,8 @@ EasyDiagram.prototype = {
 	}
 	,transform: function(matrix){
 		if(this.easyDrawingTools.getCurrentCommand().type == 'editlabel') return;
-		var o1 = parseInt(this.canvas.width) /2;
-		var o2 = parseInt(this.canvas.height) /2;
+		var o1 = parseInt(this.wrapper.style.width) /2;
+		var o2 = parseInt(this.wrapper.style.height) /2;
 		this.tmatrix = EasyTransformations.clone(matrix);
 		this.tmatrix.origin={x:o1,y:o2};
 		this.easyClicking.setTransformation(this.tmatrix);

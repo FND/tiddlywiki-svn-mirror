@@ -70,15 +70,15 @@ var EasyTransformations= {
 		var tr =t.translate;
 		var s = t.scale;
 		var o = t.origin;
+		if(!s || !o || !tr) return false;
+		
 		if(!x || !y) 
 			return false;
 		pos.x = x;
 		pos.y = y;
-	
-
 		pos.x -= o.x;
 		pos.y -= o.y;
-
+		
 		if(pos.x != 0)
 			pos.x /= s.x;
 		

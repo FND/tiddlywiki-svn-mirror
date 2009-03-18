@@ -1082,7 +1082,7 @@ config.commands.newParent.handler = function(event,src,title){
 
 }</pre>
 </div>
-<div title="TiddlyTagMindMapPlugin" modifier="JonRobson" created="200812281832" tags="systemConfig [[TiddlyTagMindMap Code]]">
+<div title="TiddlyTagMindMapPlugin" modifier="JonRobson" created="200903171557" tags="systemConfig [[TiddlyTagMindMap Code]]">
 <pre>/***
 |''Name''|TiddlyTagMindMap|
 |''Description''|Bring your tiddlers to life in a radial graph which displays all your tiddlywiki tiddlers and the relationships between them. (A bit like The Brain)|
@@ -1117,7 +1117,7 @@ tiddlytagmindmap takes several (but all optional) parameters. Some examples can 
 
 !!!Nodes and Edges
 !!!!Directional edges 
-The directed parameter allows you to add arrowheads to your edges. usage: &lt;&lt;tiddlytagmindmap directed:true&gt;&gt;
+The directed parameter allows you to add arrowheads to your edges. usage: {{{&lt;&lt; tiddlytagmindmap directed:true&gt;&gt;}}}
 !!!!Name Length
 nodeNameLength:x where x is an integer will shorten the name of any node with a name longer than x. If x =0, the labels will disappear so you can rely on tooltips.
 
@@ -1761,12 +1761,12 @@ var Tagmindmap = function(wrapper,settings){
 	this._init_html_elements();
 	
 	var x = this.controlpanel;
-	initialT = {translate: {x:0,y:0}, scale: {x:this.settings.zoomLevel,y:this.settings.zoomLevel}};
+	initialT = {translate: {x:0,y:0}, scale: {x:1,y:1}};
 	x.setTransformation(initialT);
 	x.addControl(&quot;zoom&quot;);
 	x.addControl(&quot;pan&quot;);
 	x.addControl(&quot;mousepanning&quot;);
-	x.addControl(&quot;mousewheelzooming&quot;);
+	//x.addControl(&quot;mousewheelzooming&quot;);
 
 
 	this.children = {};
@@ -1779,14 +1779,14 @@ Tagmindmap.prototype = {
 		var compute = false;
 		if(this.settings.zoomLevel != t.scale.x) {
 			if(t.scale.x &gt; 0){			
-			this.settings.zoomLevel = parseFloat(t.scale.x);
+			this.settings.zoomLevel = parseFloat(t.scale.x * 100);
 		
 			}
 			compute = true;
 		}
 	
 		if(this.rgraph){
-			var c= {x:t.translate.x*t.scale.x, y:t.translate.y*t.scale.y};
+			var c= {x:t.translate.x, y:t.translate.y};
 		
 			this.rgraph.offsetCenter(c.x,c.y);
 			if(compute) this.rgraph.compute();
@@ -5189,7 +5189,7 @@ EasyShape.prototype={
 		var path;
 		
 		var buffer = [];
-		var c =this._getOptimisedCoords(transformation.scale.x);
+		var c =this.getCoordinates();
 	
 		if(projection){
 			c = this._applyProjection(projection,transformation);
@@ -5611,8 +5611,8 @@ EasyController.prototype = {
 		var that = this;
 	
 		var onmousewheel = function(e){
-	        	if (!e) /* For IE. */
-	                e = window.event;
+	        	if (!e) return;/* For IE. */
+	                
 			e.preventDefault();		
 					
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
@@ -5636,15 +5636,28 @@ EasyController.prototype = {
 		        }
 	
 			var sensitivity = 0.3;
-			if(!this.lastdelta) this.lastdelta = delta;
-			
+			if(!this.lastdelta) {
+				this.lastdelta = delta;
+				var translate =that.transformation.translate;
+				var pos =EasyClickingUtils.getMouseFromEvent(e);
+				pos =EasyTransformations.undoTransformation(pos.x,pos.y,that.transformation);
+				translate.x = -pos.x;
+				translate.y = -pos.y;
+				
+				var el = this;
+				var clear = function(){
+					el.lastdelta = false;
+				}
+				window.setTimeout(clear,500);
+	
+			}
+
 			if(delta &gt; this.lastdelta + sensitivity || delta &lt; this.lastdelta - sensitivity){
 				
 			
 				var s =that.transformation.scale;
 				
-				var pos = EasyClickingUtils.getMouseFromEventRelativeToElementCenter(e);
-				var t=  that.transformation.translate;
+				
 				
 				var newx,newy;
 				if(delta &gt; 0){
@@ -5657,8 +5670,11 @@ EasyController.prototype = {
 				}
 
 				if(newx &gt; 0 &amp;&amp; newy &gt; 0){
-					//t.x = pos.x;
-					//t.y = pos.y;
+					
+					
+				
+
+				
 					s.x = newx;
 					s.y = newy;
 					that.transform();					
@@ -5918,7 +5934,7 @@ EasyController.prototype = {
 			var tr = t.translate;
 			if(s.x &lt;= 0) s.x = 0.1125;
 			if(s.y &lt;= 0) s.y = 0.1125;
-console.log(this.transformation);
+
 			this.targetjs.transform(this.transformation);
 
 		}
@@ -6000,6 +6016,98 @@ console.log(this.transformation);
 		controller.transform();
 
 		return false;
+	}
+};var EasyTransformations= {
+	clone: function(transformation){
+	
+		var t = {};
+		t.translate = {x:0,y:0};
+		t.scale = {x:1,y:1};
+
+		if(transformation.translate &amp;&amp; transformation.translate.x){
+			t.translate.x = transformation.translate.x;
+			t.translate.y = transformation.translate.y;
+		}
+		
+		if(transformation.scale &amp;&amp; transformation.scale.x){
+			t.scale.x = transformation.scale.x;
+			t.scale.y = transformation.scale.y;		
+		}
+		
+		return t;
+	}
+	,applyTransformation: function(x,y,t){
+		var res= {};
+		res.x = x;
+		res.y = y;
+
+
+
+		if(t.translate){
+			res.x +=  t.translate.x;
+			res.y += t.translate.y;
+		}
+		if(t.scale){
+			res.x *= t.scale.x;
+			res.y *= t.scale.y;
+		}
+
+		if(t.origin){
+			res.x += t.origin.x;
+			res.y += t.origin.y;
+		}
+		return res;
+		
+	}
+	,mergeTransformations: function(a,b){
+		if(!b) return a;
+		if(!a) return b;
+		
+		var result = {};
+		var i;
+		for(i in a){
+			result[i] = a[i];
+		}
+		
+		for(i in b){
+			if(result[i]){
+				var oldt = result[i];
+				var newt = b[i];
+				
+				result[i].x = oldt.x + newt.x;
+				result[i].y = oldt.y + newt.y;
+			}
+			else{
+				result[i] = b[i];
+			}
+		}
+		return result;
+	}
+	,undoTransformation: function(x,y,transformation){
+		var pos = {};
+		var t =transformation;
+		var tr =t.translate;
+		var s = t.scale;
+		var o = t.origin;
+	
+		if(!x || !y) 
+			return false;
+		pos.x = x;
+		pos.y = y;
+	
+		if(o){
+		pos.x -= o.x;
+		pos.y -= o.y;
+		}
+		if(pos.x != 0)
+			pos.x /= s.x;
+		
+		if(pos.y != 0)
+			pos.y /= s.y;
+			
+		pos.x -= tr.x;
+		pos.y -= tr.y;			
+		return pos;	
 	}
 };
 /*
@@ -6481,7 +6589,10 @@ EasyClicking.prototype = {
 			}
 		}
 		var res = this._findNeedleInHaystack(x,y,hitShapes);
-		
+	
+	
+		// var shapesInsideBox = _findShapesInsideBoundingBox(shapes, ..) TODO RENAME
+		// var points = _findPointsInsideShapes(..)
 		
 		return res;
 	},
@@ -6572,30 +6683,7 @@ var EasyClickingUtils = {
 	}
 	
 	,undotransformation: function(x,y,transformation){ //porting to EasyTransformations?
-	
-		var pos = {};
-		var t =transformation;
-		var tr =t.translate;
-		var s = t.scale;
-		var o = t.origin;
-		if(!x || !y) 
-			return false;
-		pos.x = x;
-		pos.y = y;
-	
-
-		pos.x -= o.x;
-		pos.y -= o.y;
-
-		if(pos.x != 0)
-			pos.x /= s.x;
-		
-		if(pos.y != 0)
-			pos.y /= s.y;
-			
-		pos.x -= tr.x;
-		pos.y -= tr.y;			
-		return pos;
+		return EasyTransformations.undoTransformation(x,y,transformation);
 	}	
 	,resolveTarget:function(e)
 	{

@@ -58,37 +58,36 @@ EasyController.prototype = {
 		        }
 	
 			var sensitivity = 0.3;
+			var scale =that.transformation.scale;
 			if(!this.lastdelta) {
-				this.lastdelta = delta;
-				var translate =that.transformation.translate;
-				var pos =EasyClickingUtils.getMouseFromEvent(e);
-				pos =EasyTransformations.undoTransformation(pos.x,pos.y,that.transformation);
-				translate.x = -pos.x;
-				translate.y = -pos.y;
+				/*
+				if(scale.x > 1){
+					this.lastdelta = delta;
+					var translate =that.transformation.origin;
+					var pos =EasyClickingUtils.getMouseFromEvent(e);
+					pos =EasyTransformations.undoTransformation(pos.x,pos.y,that.transformation);
+					translate.x = -pos.x;
+					translate.y = -pos.y;
+				}*/
 				
-				var el = this;
-				var clear = function(){
-					el.lastdelta = false;
-				}
-				window.setTimeout(clear,500);
-	
+		
 			}
 
 			if(delta > this.lastdelta + sensitivity || delta < this.lastdelta - sensitivity){
 				
 			
-				var s =that.transformation.scale;
+			
 				
 				
 				
 				var newx,newy;
 				if(delta > 0){
-					newx = parseFloat(s.x) * 2;
-					newy = parseFloat(s.y) * 2;					
+					newx = parseFloat(scale.x) * 2;
+					newy = parseFloat(scale.y) * 2;					
 				}
 				else{
-					newx = parseFloat(s.x) / 2;
-					newy = parseFloat(s.y) / 2;
+					newx = parseFloat(scale.x) / 2;
+					newy = parseFloat(scale.y) / 2;
 				}
 
 				if(newx > 0 && newy > 0){
@@ -97,14 +96,19 @@ EasyController.prototype = {
 				
 
 				
-					s.x = newx;
-					s.y = newy;
+					scale.x = newx;
+					scale.y = newy;
 					that.transform();					
 				}
 
 			}
 			
 			this.lastdelta = delta;
+			var el = this;
+			var clear = function(){
+				el.lastdelta = false;
+			}
+			window.setTimeout(clear,5000);
 			
 			return false;
 
