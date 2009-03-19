@@ -534,7 +534,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903181658" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903181708" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -805,10 +805,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					newMenu.name = fieldName;
 					
 					var menuoptions = menus[j].options;
-					var sorter = function(a,b){if(a.caption &lt; b.caption) return -1; else return 1;};
+		 
+					var sorter = function(a,b){if(a.caption &lt; b.caption){ return -1; }else return 1;};
 					var topitem = [{'caption': initialValue, 'value': 'null', 'name': null}];
 					
-					menuoptions.sort(sorter);
+					sorter =menuoptions.sort(sorter);
 					menuoptions = topitem.concat(menuoptions);
 					
 					for(var k=0; k &lt;menuoptions.length; k++){

@@ -268,10 +268,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					newMenu.name = fieldName;
 					
 					var menuoptions = menus[j].options;
-					var sorter = function(a,b){if(a.caption < b.caption) return -1; else return 1;};
+		 
+					var sorter = function(a,b){if(a.caption < b.caption){ return -1; }else return 1;};
 					var topitem = [{'caption': initialValue, 'value': 'null', 'name': null}];
 					
-					menuoptions.sort(sorter);
+					sorter =menuoptions.sort(sorter);
 					menuoptions = topitem.concat(menuoptions);
 					
 					for(var k=0; k <menuoptions.length; k++){

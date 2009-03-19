@@ -20,18 +20,42 @@ var EasyController = function(targetjs,elem){ //elem must have style.width and s
 		this.wrapper.appendChild(controlDiv);
 		this.wrapper.controlDiv = controlDiv;
 	}
-	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0}};	
+	
+	
+	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0},origin:{}};	
+	this.transformation.origin.x = parseInt(elem.style.width) / 2;
+	this.transformation.origin.y = parseInt(elem.style.height) / 2;
 	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 	this.wrapper.easyController = this;
 	this.enabled = true;
 
+
 };
 EasyController.prototype = {
-	addMouseWheelZooming: function(){ /*not supported for internet explorer*/
+	getTransformation: function(){
+		return this.transformation;
+	}
+	,addMouseWheelZooming: function(){ /*not supported for internet explorer*/
+		this.crosshair = {lastdelta:0};
+		this.crosshair.pos = {x:0,y:0};
+		this.crosshair.el =document.createElement("div");
+		this.crosshair.el.style.position = "absolute";
+		this.crosshair.el.className = "easyController_crosshair";
+		this.crosshair.el.appendChild(document.createTextNode("+"));
+		this.crosshair.el.style.zIndex = 3000;
+		var t = this.getTransformation();
+		this.crosshair.el.style.left = t.origin.x + "px";
+		this.crosshair.el.style.top = t.origin.y + "px";
+		this.wrapper.appendChild(this.crosshair.el);
 		var mw = this.wrapper.onmousewheel;
+		
+
 		var that = this;
-	
+		var mm = this.wrapper.onmousemove;
+		
+
+
 		var onmousewheel = function(e){
 	        	if (!e) return;/* For IE. */
 	                
@@ -57,29 +81,29 @@ EasyController.prototype = {
 		                delta = -e.detail/3;
 		        }
 	
-			var sensitivity = 0.3;
+			var sensitivity = 0.8;
 			var scale =that.transformation.scale;
-			if(!this.lastdelta) {
-				/*
-				if(scale.x > 1){
-					this.lastdelta = delta;
-					var translate =that.transformation.origin;
-					var pos =EasyClickingUtils.getMouseFromEvent(e);
-					pos =EasyTransformations.undoTransformation(pos.x,pos.y,that.transformation);
-					translate.x = -pos.x;
-					translate.y = -pos.y;
-				}*/
-				
-		
+			var origin = that.transformation.origin;
+			
+			//var pos =EasyTransformations.applyTransformation(that.crosshair.pos.x,that.crosshair.pos.y,that.transformation);
+			var pos = that.getTransformation().origin;
+
+			that.crosshair.el.style.left =  pos.x + "px";
+			that.crosshair.el.style.top = pos.y + "px";
+			
+			if(!that.crosshair.lastdelta) {
+				that.crosshair.lastdelta = delta;
+				/*var pos =EasyClickingUtils.getMouseFromEvent(e);
+				pos =EasyTransformations.undoTransformation(pos.x,pos.y,that.getTransformation());
+				that.crosshair.pos = pos;
+				var translate =that.transformation.translate;
+				translate.x = -(pos.x );
+				translate.y = -(pos.y );	*/	
+			
+			
 			}
 
-			if(delta > this.lastdelta + sensitivity || delta < this.lastdelta - sensitivity){
-				
-			
-			
-				
-				
-				
+			if(delta > that.crosshair.lastdelta + sensitivity || delta < that.crosshair.lastdelta - sensitivity){	
 				var newx,newy;
 				if(delta > 0){
 					newx = parseFloat(scale.x) * 2;
@@ -91,11 +115,6 @@ EasyController.prototype = {
 				}
 
 				if(newx > 0 && newy > 0){
-					
-					
-				
-
-				
 					scale.x = newx;
 					scale.y = newy;
 					that.transform();					
@@ -103,12 +122,8 @@ EasyController.prototype = {
 
 			}
 			
-			this.lastdelta = delta;
-			var el = this;
-			var clear = function(){
-				el.lastdelta = false;
-			}
-			window.setTimeout(clear,5000);
+
+
 			
 			return false;
 

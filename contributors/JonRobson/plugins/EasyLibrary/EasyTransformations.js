@@ -18,9 +18,10 @@ var EasyTransformations= {
 		return t;
 	}
 	,applyTransformation: function(x,y,t){
+
 		var res= {};
-		res.x = x;
-		res.y = y;
+		res.x = parseFloat(x);
+		res.y = parseFloat(y);
 
 
 
@@ -74,15 +75,15 @@ var EasyTransformations= {
 		
 		if(!x || !y) 
 			return false;
-		pos.x = x;
-		pos.y = y;
+		pos.x = parseFloat(x);
+		pos.y = parseFloat(y);
 		pos.x -= o.x;
 		pos.y -= o.y;
 		
-		if(pos.x != 0)
+		if(pos.x > 0)
 			pos.x /= s.x;
 		
-		if(pos.y != 0)
+		if(pos.y > 0)
 			pos.y /= s.y;
 			
 		pos.x -= tr.x;
