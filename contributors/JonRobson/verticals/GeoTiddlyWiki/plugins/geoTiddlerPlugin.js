@@ -59,7 +59,7 @@ function getElementChild(el,tag){
 	
 	
 
-	setStylesheet(".wrapper {border:1px solid; background-color:#AFDCEC;} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'geo');
+	setStylesheet(".easyController_crosshair{} .wrapper {border:1px solid; background-color:#AFDCEC;} .easymaptooltip {border:1px solid;background-color: rgb(255,255,255)}",'geo');
 	
 	version.extensions.geoPlugin = {installed:true};
 

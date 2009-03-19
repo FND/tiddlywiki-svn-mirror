@@ -43,10 +43,15 @@ EasyController.prototype = {
 		this.crosshair.el.style.position = "absolute";
 		this.crosshair.el.className = "easyController_crosshair";
 		this.crosshair.el.appendChild(document.createTextNode("+"));
-		this.crosshair.el.style.zIndex = 3000;
+		this.crosshair.el.style.zIndex = 3;
 		var t = this.getTransformation();
-		this.crosshair.el.style.left = t.origin.x + "px";
-		this.crosshair.el.style.top = t.origin.y + "px";
+		this.crosshair.el.style.left = parseInt(t.origin.x-5) + "px";
+		this.crosshair.el.style.top = parseInt(t.origin.y-5) + "px";
+		this.crosshair.el.style.width = "10px";
+		this.crosshair.el.style.height = "10px";
+		this.crosshair.el.style.display = "table";
+		this.crosshair.el.style.verticalAlign = "middle";
+		this.crosshair.el.style.textAlign = "center";
 		this.wrapper.appendChild(this.crosshair.el);
 		var mw = this.wrapper.onmousewheel;
 		
@@ -88,9 +93,9 @@ EasyController.prototype = {
 			//var pos =EasyTransformations.applyTransformation(that.crosshair.pos.x,that.crosshair.pos.y,that.transformation);
 			var pos = that.getTransformation().origin;
 
-			that.crosshair.el.style.left =  pos.x + "px";
-			that.crosshair.el.style.top = pos.y + "px";
-			
+			that.crosshair.el.style.left =  parseInt(pos.x - 5) + "px";
+			that.crosshair.el.style.top = parseInt(pos.y - 5) + "px";
+
 			if(!that.crosshair.lastdelta) {
 				that.crosshair.lastdelta = delta;
 				/*var pos =EasyClickingUtils.getMouseFromEvent(e);
