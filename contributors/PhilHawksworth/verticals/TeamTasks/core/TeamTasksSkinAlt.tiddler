@@ -1,12 +1,12 @@
-<div title="TeamTasksSkin" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TeamTasks">
+<div title="TeamTasksSkinAlt" modifier="PhilHawksworth" created="200903201420" tags="systemTheme excludeSearch TeamTasks">
 <pre>
 /***
-|''Name:''|TeamTasksSkin |
-|''Description:''|The basic TeamTasks theme |
+|''Name:''|TeamTasksSkinAlt |
+|''Description:''|The basic TeamTasks theme with an alternative layout for the task tiddlers. |
 |''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
 |''Version:''|0.4|
-|''Date:''|March 28th, 2008|
+|''Date:''|March 20th, 2009 |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
@@ -56,12 +56,8 @@
 <div class='tagging' macro='tagging'></div>
 <div class='tagged' macro='tags'></div>
 <div class='task'>
-	<table>
-	<tr>
-		<td class='taskbody'><div class='viewer' macro='view text wikified'></div></td>
-		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></div></td>
-	</tr>
-	</table>
+	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+	<div class='viewer' macro='view text wikified'></div>
 </div>
 <div class='tagClear'></div>
 <!--}}}-->
@@ -75,12 +71,8 @@
 <div class='tagging' macro='tagging'></div>
 <div class='tagged edit' macro='tags'></div>
 <div class='task'>
-	<table>
-	<tr>
-		<td class='taskbody'><div class='viewer edit' macro='edit text wikified'></div></td>
-		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></div></td>
-	</tr>
-	</table>
+	<div class='viewer edit' macro='edit text wikified'></div></div>
+	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 </div>
 <div class='tagClear'></div>
 </div>

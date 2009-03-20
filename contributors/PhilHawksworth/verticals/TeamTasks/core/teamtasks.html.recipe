@@ -6,6 +6,7 @@ tiddler: settings.js
 
 # Theme
 tiddler: TeamTasksSkin.tiddler
+tiddler: TeamTasksSkinAlt.tiddler
 tiddler: TeamTasksColors.tiddler
 
 # Plugins

@@ -1,9 +1,11 @@
+
+
 jQuery.autocomplete = function(input, options) {
 	// Create a link to self
 	var me = this;
 
 	// Create jQuery object for input element
-	var $input = $(input).attr("autocomplete", "off");
+	var $input = jQuery(input).attr("autocomplete", "off");
 
 	// Apply inputClass if necessary
 	if (options.inputClass) $input.addClass(options.inputClass);
@@ -11,12 +13,12 @@ jQuery.autocomplete = function(input, options) {
 	// Create results
 	var results = document.createElement("div");
 	// Create jQuery object for results
-	var $results = $(results);
+	var $results = jQuery(results);
 	$results.hide().addClass(options.resultsClass).css("position", "absolute");
 	if( options.width > 0 ) $results.css("width", options.width);
 
 	// Add to body element
-	$("body").append(results);
+	jQuery("body").append(results);
 
 	input.autocompleter = me;
 
@@ -127,7 +129,7 @@ jQuery.autocomplete = function(input, options) {
 
  	function moveSelect(step) {
 
-		var lis = $("li", results);
+		var lis = jQuery("li", results);
 		if (!lis) return;
 
 		active += step;
@@ -140,7 +142,7 @@ jQuery.autocomplete = function(input, options) {
 
 		lis.removeClass("ac_over");
 
-		$(lis[active]).addClass("ac_over");
+		jQuery(lis[active]).addClass("ac_over");
 
 		// Weird behaviour in IE
 		// if (lis[active] && lis[active].scrollIntoView) {
@@ -150,9 +152,9 @@ jQuery.autocomplete = function(input, options) {
 	};
 
 	function selectCurrent() {
-		var li = $("li.ac_over", results)[0];
+		var li = jQuery("li.ac_over", results)[0];
 		if (!li) {
-			var $li = $("li", results);
+			var $li = jQuery("li", results);
 			if (options.selectOnly) {
 				if ($li.length == 1) li = $li[0];
 			} else if (options.selectFirst) {
@@ -179,7 +181,7 @@ jQuery.autocomplete = function(input, options) {
 		$results.html("");
 		$input.val(v);
 		hideResultsNow();
-		if (options.onItemSelect) setTimeout(function() { options.onItemSelect(li) }, 1);
+		if (options.onItemSelect) setTimeout(function() { options.onItemSelect(li); }, 1);
 	};
 
 	// selects a portion of the input string
@@ -307,10 +309,10 @@ jQuery.autocomplete = function(input, options) {
 			}
 			li.extra = extra;
 			ul.appendChild(li);
-			$(li).hover(
-				function() { $("li", ul).removeClass("ac_over"); $(this).addClass("ac_over"); active = $("li", ul).indexOf($(this).get(0)); },
-				function() { $(this).removeClass("ac_over"); }
-			).click(function(e) { e.preventDefault(); e.stopPropagation(); selectItem(this) });
+			jQuery(li).hover(
+				function() { jQuery("li", ul).removeClass("ac_over"); jQuery(this).addClass("ac_over"); active = jQuery("li", ul).indexOf(jQuery(this).get(0)); },
+				function() { jQuery(this).removeClass("ac_over"); }
+			).click(function(e) { e.preventDefault(); e.stopPropagation(); selectItem(this); });
 		}
 		return ul;
 	};
@@ -389,7 +391,7 @@ jQuery.autocomplete = function(input, options) {
 			findValueCallback(q, data);
 		} else if( (typeof options.url == "string") && (options.url.length > 0) ){
 			$.get(makeUrl(q), function(data) {
-				data = parseData(data)
+				data = parseData(data);
 				addToCache(q, data);
 				findValueCallback(q, data);
 			});
@@ -397,7 +399,7 @@ jQuery.autocomplete = function(input, options) {
 			// no matches
 			findValueCallback(q, null);
 		}
-	}
+	};
 
 	function findValueCallback(q, data){
 		if (data) $input.removeClass(options.loadingClass);
@@ -428,7 +430,7 @@ jQuery.autocomplete = function(input, options) {
 			}
 		}
 
-		if( options.onFindValue ) setTimeout(function() { options.onFindValue(li) }, 1);
+		if( options.onFindValue ) setTimeout(function() { options.onFindValue(li); }, 1);
 	}
 
 	function addToCache(q, data) {
@@ -446,12 +448,12 @@ jQuery.autocomplete = function(input, options) {
 		var curleft = obj.offsetLeft || 0;
 		var curtop = obj.offsetTop || 0;
 		while (obj = obj.offsetParent) {
-			curleft += obj.offsetLeft
-			curtop += obj.offsetTop
+			curleft += obj.offsetLeft;
+			curtop += obj.offsetTop;
 		}
 		return {x:curleft,y:curtop};
 	}
-}
+};
 
 jQuery.fn.autocomplete = function(url, options, data) {
 	// Make sure options exists
@@ -488,11 +490,11 @@ jQuery.fn.autocomplete = function(url, options, data) {
 
 	// Don't break the chain
 	return this;
-}
+};
 
 jQuery.fn.autocompleteArray = function(data, options) {
 	return this.autocomplete(null, options, data);
-}
+};
 
 jQuery.fn.indexOf = function(e){
 	for( var i=0; i<this.length; i++ ){
