@@ -34,51 +34,35 @@ coordinates are a string consisting of floats and move commands (M)
 */
 
 var EasyShape = function(properties,coordinates){
+	this.coordinates = {
+		normal: [],
+		optimised: {},
+		incurrentprojection:false
+	};
 	this.grid = {};
-	this.coords = [];
+	this.setProperties(properties);
 	if(coordinates[0] && coordinates[0].length == 2){
 		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
 	}
+	
 	this._constructBasicShape(properties,coordinates);
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
+	this.browser =false;
+
 };
 
 
 EasyShape.prototype={
-	getProperties: function(){
-		return this.properties;
-	}
-	,_simplifyCoordinates: function(scaleFactor,coordinates){
-		if(this.getProperty("shape") == 'path') return coordinates;
-		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
-		if(!coordinates) throw "give me some coordinates!";
-		
-		var tolerance = 3 / scaleFactor;
-		coordinates = EasyOptimisations.packCoordinates(coordinates);
-		coordinates = EasyOptimisations.douglasPeucker(coordinates,tolerance);
-		
-		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
-		var originals =this.getCoordinates();
-		var diff = originals.length - coordinates.length;
-		
-		if(diff < 10) return originals;
-		else 
-		return coordinates;	
-	}
-	,_getOptimisedCoords: function(scaleFactor){
-		var index = parseInt(scaleFactor);
-		if(this._optimisedcoords[index]) {
-			return this._optimisedcoords[index];
+	setProperties: function(properties){
+		this.properties = EasyUtils.clone(properties);
+		if(!properties.stroke){
+			this.setProperty("stroke",'#000000');		
 		}
-		else {
-			var res = this._simplifyCoordinates(scaleFactor,this.getCoordinates());
-			this._setOptimisedCoords(scaleFactor,res);
-			return res;
+		if(properties.colour){
+			this.setProperty("fill",properties.colour);
+			delete properties.colour;
 		}
-	}
-	,_setOptimisedCoords: function(scaleFactor,coords){
-		var index = scaleFactor;
-		this._optimisedcoords[index] = coords;
+		
 	}
 	,getBoundingBox: function(){ /* returns untransformed bounding box */
 		return this.grid;
@@ -95,77 +79,124 @@ EasyShape.prototype={
 		if(!transformation.translate)transformation.translate = {x:0,y:0};
 		
 		
-		var shapetype = this.getProperty("shape");
-		if(shapetype == 'point'){
-			var ps = 5 / parseFloat(transformation.scale.x);
-			var smallest = 1 / this._iemultiplier;
-			var largest = 2.5 * transformation.scale.x;
-			if(ps < smallest) ps = smallest;
-			if(ps > largest) ps = largest;
-			this._constructPointShape(this.pointcoords,ps);
-		} 
-		else if(shapetype == 'image'){
-		
-		}
-		else if(shapetype == 'path' || shapetype =='polygon' | shapetype == 'circle' |shapetype == 'image'){
-			
-		}
-		else{
-			console.log("no idea how to render " +shapetype+" must be polygon|path|point");
-			return;
-		}		
-		//optimisations = false;
-		if(!projection && optimisations){
-			this.optimise(canvas,transformation);
-		}	
-
-		if(this.vml) this.vml.style.display = '';
-		
-		if(!canvas.getContext) {
-			//this has been taken from Google ExplorerCanvas
-			if (!document.namespaces['easyShapeVml_']) {
-			        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
+		if(this._prepareShape(canvas,transformation,projection,optimisations)){			
+			if(this.getRenderMode(canvas) == 'ie'){
+				this._ierender(canvas,transformation,projection,optimisations); 
 			}
-
-			  // Setup default CSS.  Only add one style sheet per document
-			 if (!document.styleSheets['easyShape']) {
-			        var ss = document.createStyleSheet();
-			        ss.owningElement.id = 'easyShape';
-			        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
-			            // default size is 300x150 in Gecko and Opera
-			            'text-align:left;}' +
-			            'easyShapeVml_\\:*{behavior:url(#default#VML)}';
+			else{
+				this._canvasrender(canvas,transformation,projection,optimisations);
 			}
-			
-			this._ierender(canvas,transformation,projection,optimisations); 
-
-	
-		}
-		else{
-			this._canvasrender(canvas,transformation,projection,optimisations);
-
 		}
 		
 	}
 	
 	,setCoordinates: function(coordinates){
-		this._optimisedcoords = {};
-		this.coords = coordinates;
+		this.coordinates.normal = coordinates;
+		this.coordinates.projected= false;
+		coordinates.optimised = {};
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
-	 
-
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
-	,getCoordinates: function(){
-		return this.coords;
+	,getProjectedCoordinates: function(){
+		if(this.coordinates.incurrentprojection) return this.coordinates.incurrentprojection;
+		else return false;
 	}
+	,getCoordinates: function(){
+		return this.coordinates.normal;
+	}
+	,getOptimisedCoords: function(scaleFactor){
+		var index = parseInt(scaleFactor);
+		if(this.coordinates.optimised[index]) {
+			return this.coordinates.optimised[index];
+		}
+		else {
+			var res = this._simplifyCoordinates(scaleFactor,this.getCoordinates());
+			this._setOptimisedCoords(scaleFactor,res);
+			return res;
+		}
+	}
+	,getProperties: function(){
+		return this.properties;
+	}
+	,getRenderMode: function(canvas){
+		if(!this.browser){
+			if(!canvas.getContext) this._setRenderMode("ie");
+			else this._setRenderMode("good");
+		}
+	}
+	
+	,setProperty: function(name,value){
+		this.properties[name] = value;
+	}
+	,getProperty: function(name){
+		return this.properties[name];
+	}
+
+	,optimise: function(canvas,transformation){
+		var shapetype = this.getProperty("shape");
+		if(shapetype != 'point' && shapetype != 'path'){ //check if worth drawing				
+			if(!this._optimisation_shapeIsTooSmall(transformation)) {
+				if(this.vml) this.vml.style.display = "none";
+				return;	
+			}
+			if(!this._optimisation_shapeIsInVisibleArea(canvas,transformation)){
+				if(this.vml) this.vml.style.display = "none";
+				return;	
+			}	
+		}
+	}
+	,_setRenderMode: function(browser){
+		if(browser == 'ie'){
+			if(!this.browser){				
+				//this has been taken from Google ExplorerCanvas
+				if (!document.namespaces['easyShapeVml_']) {
+				        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
+				}
+
+				  // Setup default CSS.  Only add one style sheet per document
+				 if (!document.styleSheets['easyShape']) {
+				        var ss = document.createStyleSheet();
+				        ss.owningElement.id = 'easyShape';
+				        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
+				            // default size is 300x150 in Gecko and Opera
+				            'text-align:left;}' +
+				            'easyShapeVml_\\:*{behavior:url(#default#VML)}';
+				}
+				this.browser = "ie";
+			}
+		}
+	}
+
+	,_simplifyCoordinates: function(scaleFactor,coordinates){
+		if(this.getProperty("shape") == 'path') return coordinates;
+		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
+		if(!coordinates) throw "give me some coordinates!";
+		var originals =coordinates;
+		var tolerance = 5 / scaleFactor;
+		coordinates = EasyOptimisations.packCoordinates(coordinates);
+		coordinates = EasyOptimisations.douglasPeucker(coordinates,tolerance);
+		
+		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
+		
+		var diff = originals.length - coordinates.length;
+		
+		if(diff < 10) return originals;
+		else 
+		return coordinates;	
+	}
+
+	,_setOptimisedCoords: function(scaleFactor,coords){
+		var index = scaleFactor;
+		this.coordinates.optimised[index] = coords;
+	}
+
 	,_calculateBounds: function(coords){
 		if(this.getProperty("shape") == 'path'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
-		if(!coords) coords = this.coords;
+		if(!coords) coords = this.getCoordinates();
 		this.grid.x1 = coords[0];
 		this.grid.y1 = coords[1];
 		this.grid.x2 = coords[0];
@@ -201,7 +232,7 @@ EasyShape.prototype={
 		this.grid.center.x = (this.grid.x2 - this.grid.x1) / 2 + this.grid.x1;
 		this.grid.center.y = (this.grid.y2 - this.grid.y1) / 2 + this.grid.y1;
 	}
-	,_constructPointShape: function(coordinates,radius){
+	,_preparePointShape: function(coordinates,radius){
 		var x = coordinates[0]; var y = coordinates[1];
 		var coords = [x,y,radius];
 		this._constructCircleShape(coords);
@@ -222,30 +253,19 @@ EasyShape.prototype={
 	,_constructCircleShape: function(coordinates){ /* x y radius */
 		var x = coordinates[0]; var y = coordinates[1];
 		this.radius = coordinates[2];
-		var radius= this.radius;
-		this.pointcoords = [x,y,radius];
-		var newcoords =[x-radius,y-radius,x+radius,y-radius,x+radius,y+radius,x-radius, y+radius];
+		this.pointcoords = [x,y,this.radius];
+		var newcoords =[x-this.radius,y-this.radius,x+this.radius,y-this.radius,x+this.radius,y+this.radius,x-this.radius, y+this.radius];
 		this.setCoordinates(newcoords);
 	}
-	,_constructPolygonShape: function(coordinates){
-		this.setCoordinates(coordinates);
-	}
 	,_constructBasicShape: function(properties, coordinates){
-		var properties =EasyUtils.clone(properties);
-		this.properties = properties;
-		if(!properties.stroke){
-			this.setProperty("stroke",'#000000');		
-		}
-		if(properties.colour){
-			this.setProperty("fill",properties.colour);
-			delete properties.colour;
-		}
+
+
 		if(properties.shape == 'point'){
-			this._constructPointShape(coordinates,0.5);
+			this._preparePointShape(coordinates,0.5);
 		}
 		else if(properties.shape == 'polygon' || properties.shape == 'path')
 		{
-			this._constructPolygonShape(coordinates);
+			this.setCoordinates(coordinates);
 		}
 		else if(properties.shape == 'circle'){
 			this._constructCircleShape(coordinates);
@@ -257,36 +277,32 @@ EasyShape.prototype={
 				var y = coordinates[1];
 				coordinates = coordinates.concat([x+w,y, x+w,y+h, x,y+h]);
 			}
-			this._constructPolygonShape(coordinates);
+			this.setCoordinates(coordinates);
 		}
 		else{
 			console.log("don't know how to construct basic shape " + properties.shape);
-		}		
-		
+		}			
 		
 	}	
 
 	 /*RENDERING */
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
-		var c;	
-		var shapetype = this.properties.shape;
-		c =this._getOptimisedCoords(transformation.scale.x);
-		
+		var c;
 		if(projection){
 			c = this._applyProjection(projection,transformation);
 		}
-
-	
+		else{
+			c =this.getOptimisedCoords(transformation.scale.x);
+		}
 		if(c.length == 0) return;
 		var ctx = canvas.getContext('2d');
-
 		var o = transformation.origin;
 		var tr = transformation.translate;
 		var s = transformation.scale;
 		var r = transformation.rotate;
 		ctx.save();
 		if(this.properties.lineWidth){
-			ctx.lineWidth = this.properties.lineWidth;
+			ctx.lineWidth = this.properties.lineWidth/ transformation.scale.x;
 		}
 	
 		ctx.translate(o.x,o.y);
@@ -500,11 +516,10 @@ EasyShape.prototype={
 				}
 		/*look for rgba fill for transparency*/
 				if(fill.indexOf("rgba") != -1 &&fill.match(/rgba\([0-9]*,[0-9]*,[0-9]*,(.*)\)/)){
-					var match =fill.match(/(rgba\([0-9]*,[0-9]*,[0-9]*),(.*)\)/);
-				
-					if(match[2]){
-						fill = match[1] +")";
-						this.vmlfill.opacity = match[2];
+					var match =fill.match(/(rgb)a(\([0-9]*,[0-9]*,[0-9]*),(.*)\)/);
+					if(match[3]){
+						fill = match[1] + match[2] +")";
+						this.vmlfill.opacity = match[3];
 					}
 				}
 				this.vmlfill.color = fill;					
@@ -561,31 +576,18 @@ EasyShape.prototype={
 		}	
 	}	
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
+		if(this.vml) this.vml.style.display = '';
 		if(this.getProperty("shape") != "image"){
 			this._ierenderVML(canvas,transformation,projection,optimisations,appendTo);
 		}
 	}
-	,setProperty: function(name,value){
-		this.properties[name] = value;
-	}
-	,getProperty: function(name){
-		return this.properties[name];
-	}
+
 
 	,_applyProjection: function(projection,transformation){
-		var c;
-		var opt =this._getOptimisedCoords(transformation.scale.x);
-		if(opt){
-			c = opt;
-		}
-		else{
-			c = this.getCoordinates();
-		}
-		
-		if(!projection) return c;
-		if(!projection.xy){
-			return;
-		}	
+	
+		var c = this.getCoordinates();
+		if(!projection || !projection.xy) return c;
+	
 		if(projection.init) projection.init();
 		var newc = [];
 		for(var i=0; i < c.length-1; i+=2){
@@ -604,10 +606,8 @@ EasyShape.prototype={
 				moved  =true;
 			}
 			
-
 			cok = true;
 			//check we haven't wrapped around world (For flat projections sss)
-			
 			if(!projection.nowrap){
 				var diff;
 				if(newx > x) diff = newx - x;
@@ -624,30 +624,14 @@ EasyShape.prototype={
 					newc.push(newy);
 				}
 	
-			}
-			
-			
+			}	
 		}	
-
-
-		this._tcoords = newc;
-		this._calculateBounds(this._tcoords);
+		newc = this._simplifyCoordinates(transformation.scale.x,newc);
+		this.coordinates.incurrentprojection = newc;
+		this._calculateBounds(this.coordinates.incurrentprojection);
 		return newc;
 	}
 
-	,optimise: function(canvas,transformation){
-		var shapetype = this.getProperty("shape");
-		if(shapetype != 'point' && shapetype != 'path'){ //check if worth drawing				
-			if(!this._optimisation_shapeIsTooSmall(transformation)) {
-				if(this.vml) this.vml.style.display = "none";
-				return;	
-			}
-			if(!this._optimisation_shapeIsInVisibleArea(canvas,transformation)){
-				if(this.vml) this.vml.style.display = "none";
-				return;	
-			}	
-		}
-	}
 	,_optimisation_shapeIsInVisibleArea: function(canvas,transformation){
 		var left = 0,top = 0;
 		var right =  parseInt(canvas.width) + left; 
@@ -687,5 +671,32 @@ EasyShape.prototype={
 			return true;
 	}
 
+	,_prepareShape: function(canvas,transformation,projection,optimisations){
+		
+			var shapetype = this.getProperty("shape");
+			if(shapetype == 'point'){
+				var ps = 5 / parseFloat(transformation.scale.x);
+				var smallest = 1 / this._iemultiplier;
+				var largest = 2.5 * transformation.scale.x;
+				if(ps < smallest) ps = smallest;
+				if(ps > largest) ps = largest;
+				this._preparePointShape(this.pointcoords,ps);
+			} 
+			else if(shapetype == 'image'){
+
+			}
+			else if(shapetype == 'path' || shapetype =='polygon' | shapetype == 'circle' |shapetype == 'image'){
+
+			}
+			else{
+				console.log("no idea how to render " +shapetype+" must be polygon|path|point");
+				return false;
+			}
+			
+			if(!projection && optimisations){
+				this.optimise(canvas,transformation);
+			}
+			return true;
+	}
 };
 

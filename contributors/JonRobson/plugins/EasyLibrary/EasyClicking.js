@@ -151,17 +151,17 @@ EasyClicking.prototype = {
 		}
 
 	},                     
-	_inPoly: function(x,y,poly) {
+	_inPoly: function(x,y,easyShape) {
 		/* _inPoly adapted from inpoly.c
 		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
 		http://www.visibone.com/inpoly/inpoly.c.txt */
 		var coords;
-		if(poly._tcoords){
-			coords = poly._tcoords;
-			//console.log("using tcoords",x,y,poly.coords.length,poly._tcoords.length);
+		if(easyShape.getProjectedCoordinates()){
+			coords = easyShape.getProjectedCoordinates();
 		}
-		else
-			coords= poly.coords;
+		else{
+			coords = easyShape.getCoordinates();
+		}
 		var npoints = coords.length;
 		if (npoints/2 < 3) {
 			//points don't describe a polygon
