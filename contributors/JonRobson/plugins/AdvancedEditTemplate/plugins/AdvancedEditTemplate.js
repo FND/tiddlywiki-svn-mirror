@@ -41,27 +41,29 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var tiddler = store.getTiddler(title);
 			var metaDataName = getParam(params,"metaDataName", null);
 			// build a drop down control
+			var valueSource = getParam(params,"valuesSource", null);
 			if(ctrlType == 'dropdown') {
 				
-				var valueSrc = getParam(params,"valuesSource", null);
-				if(!valueSrc) {
+				
+				if(!valueSource) {
 					displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
 					return;
 				}
 				var selected = store.getValue(tiddler,metaDataName);
-				
 				if(!selected){
 					var qsvalue =this.getVariableFromQueryString(metaDataName);
 					if(qsvalue) selected = qsvalue;
 				}
-			
-				var values = this.getDefValues(valueSrc);
-				this.createDropDownMenu(place,metaDataName,values,false,this.setDropDownMetaData,selected);
+				var tiddler =store.getTiddler(valueSource);
 				
+				if(tiddler){
+					var values = tiddler.text.split('\n');
+					var sorted = tiddler.tags.contains("sorted");
+					this.createDropDownMenu(place,metaDataName,values,false,this.setDropDownMetaData,selected,sorted);
+				}
 			}
 			else if(ctrlType == 'search'){
-				var valueSrc = getParam(params,"valuesSource", null);
-				if(!valueSrc) {
+				if(!valueSource) {
 					displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
 					return;
 				}
@@ -70,12 +72,14 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					var qsvalue =this.getVariableFromQueryString(metaDataName);
 					if(qsvalue) selected = qsvalue;
 				}
-				var values = this.getDefValues(valueSrc);
-				var handler= function(value){
-					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
+				var tiddler =store.getTiddler(valueSource);
+				if(tiddler){
+					var values = tiddler.text.split('\n');
+					var handler= function(value){
+						config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
+					}
+					this.createSearchBox(place,metaDataName,values,selected,handler);
 				}
-				this.createSearchBox(place,metaDataName,values,selected,handler);
-	
 			}
 			else if(ctrlType == 'checkbox'){					
 					var c = createTiddlyElement(place,"input");
@@ -196,7 +200,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			place.appendChild(holder);
 		}
 
-		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected){
+		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected,sort){
 				if(!selected) selected = "";
 				if(!initialValue){
 					initialValue = "Please select.. ";
@@ -268,11 +272,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					newMenu.name = fieldName;
 					
 					var menuoptions = menus[j].options;
-		 
-					var sorter = function(a,b){if(a.caption < b.caption){ return -1; }else return 1;};
-					var topitem = [{'caption': initialValue, 'value': 'null', 'name': null}];
 					
-					sorter =menuoptions.sort(sorter);
+					if(sort){		 
+						var sorter = function(a,b){if(a.caption < b.caption){ return -1; }else return 1;};
+						sorter =menuoptions.sort(sorter);
+					}
+					var topitem = [{'caption': initialValue, 'value': 'null', 'name': null}];
 					menuoptions = topitem.concat(menuoptions);
 					
 					for(var k=0; k <menuoptions.length; k++){
@@ -377,15 +382,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			//containingmenu.parentMenu.style.display = "";
 		}
-		//Get definition values for populating UI from definition tiddlers.
-		,getDefValues: function(src) {
-			var text = store.getTiddlerText(src).split('\n');
-			return text;
-		},
+
 
 
 		// Ensure that changes to a dropdown field are stored as an extended field.
-		setDropDownMetaData: function(ev,el) {
+		,setDropDownMetaData: function(ev,el) {
 			
 			var e = ev ? ev : window.event;
 			var taskTiddler = story.findContainingTiddler(el);

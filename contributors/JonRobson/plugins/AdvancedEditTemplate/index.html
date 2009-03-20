@@ -534,7 +534,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903181708" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903201000" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -578,27 +578,29 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var tiddler = store.getTiddler(title);
 			var metaDataName = getParam(params,&quot;metaDataName&quot;, null);
 			// build a drop down control
+			var valueSource = getParam(params,&quot;valuesSource&quot;, null);
 			if(ctrlType == 'dropdown') {
 				
-				var valueSrc = getParam(params,&quot;valuesSource&quot;, null);
-				if(!valueSrc) {
+				
+				if(!valueSource) {
 					displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
 					return;
 				}
 				var selected = store.getValue(tiddler,metaDataName);
-				
 				if(!selected){
 					var qsvalue =this.getVariableFromQueryString(metaDataName);
 					if(qsvalue) selected = qsvalue;
 				}
-			
-				var values = this.getDefValues(valueSrc);
-				this.createDropDownMenu(place,metaDataName,values,false,this.setDropDownMetaData,selected);
+				var tiddler =store.getTiddler(valueSource);
 				
+				if(tiddler){
+					var values = tiddler.text.split('\n');
+					var sorted = tiddler.tags.contains(&quot;sorted&quot;);
+					this.createDropDownMenu(place,metaDataName,values,false,this.setDropDownMetaData,selected,sorted);
+				}
 			}
 			else if(ctrlType == 'search'){
-				var valueSrc = getParam(params,&quot;valuesSource&quot;, null);
-				if(!valueSrc) {
+				if(!valueSource) {
 					displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
 					return;
 				}
@@ -607,12 +609,14 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					var qsvalue =this.getVariableFromQueryString(metaDataName);
 					if(qsvalue) selected = qsvalue;
 				}
-				var values = this.getDefValues(valueSrc);
-				var handler= function(value){
-					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
+				var tiddler =store.getTiddler(valueSource);
+				if(tiddler){
+					var values = tiddler.text.split('\n');
+					var handler= function(value){
+						config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
+					}
+					this.createSearchBox(place,metaDataName,values,selected,handler);
 				}
-				this.createSearchBox(place,metaDataName,values,selected,handler);
-	
 			}
 			else if(ctrlType == 'checkbox'){					
 					var c = createTiddlyElement(place,&quot;input&quot;);
@@ -733,7 +737,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			place.appendChild(holder);
 		}
 
-		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected){
+		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected,sort){
 				if(!selected) selected = &quot;&quot;;
 				if(!initialValue){
 					initialValue = &quot;Please select.. &quot;;
@@ -805,11 +809,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					newMenu.name = fieldName;
 					
 					var menuoptions = menus[j].options;
-		 
-					var sorter = function(a,b){if(a.caption &lt; b.caption){ return -1; }else return 1;};
-					var topitem = [{'caption': initialValue, 'value': 'null', 'name': null}];
 					
-					sorter =menuoptions.sort(sorter);
+					if(sort){		 
+						var sorter = function(a,b){if(a.caption &lt; b.caption){ return -1; }else return 1;};
+						sorter =menuoptions.sort(sorter);
+					}
+					var topitem = [{'caption': initialValue, 'value': 'null', 'name': null}];
 					menuoptions = topitem.concat(menuoptions);
 					
 					for(var k=0; k &lt;menuoptions.length; k++){
@@ -914,15 +919,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			//containingmenu.parentMenu.style.display = &quot;&quot;;
 		}
-		//Get definition values for populating UI from definition tiddlers.
-		,getDefValues: function(src) {
-			var text = store.getTiddlerText(src).split('\n');
-			return text;
-		},
+
 
 
 		// Ensure that changes to a dropdown field are stored as an extended field.
-		setDropDownMetaData: function(ev,el) {
+		,setDropDownMetaData: function(ev,el) {
 			
 			var e = ev ? ev : window.event;
 			var taskTiddler = story.findContainingTiddler(el);
@@ -1278,7 +1279,7 @@ color: &lt;div macro='AdvancedEditTemplate type:color metaDataName:color'&gt;&lt
 
 </pre>
 </div>
-<div title="DropDownData">
+<div title="DropDownData" tags="sorted">
 <pre>
 Team 1&gt;
 Andrew Back:AB
