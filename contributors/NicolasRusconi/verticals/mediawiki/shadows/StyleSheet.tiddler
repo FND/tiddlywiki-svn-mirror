@@ -1,0 +1,25 @@
+<div title="StyleSheet">
+<pre>/***
+Place your custom CSS here.
+See http://www.w3schools.com/css/css_colors.asp for a color chart.
+***/
+[[Styles HorizontalMainMenu]]
+[[wikipediaStyle]]
+[[wikipediaAbridged/Skins-1.5.monobook/main.css]]
+[[wikipedia.MediaWiki.Common.css]]
+/*{{{*/
+.header {background:#007766;}
+#mainMenu {background:#007777;}
+table.listView {font-size:0.85em; margin:0em 0em 0em 0em;width: 100%}
+table.listView th, table.listView td, table.listView tr {padding:0px 0px 0px 0px;}
+table.paginated {width:98%}
+.paginated {border: 0 none!important;}
+.paginated tr , .paginated td{padding:0px 0px 0px 0px!important;}
+.pageControl {border: 0 none !important;}
+.pageControl td {padding:10px 0px 10px 0px!important;border: 0 none}
+.pageControl a {cursor:pointer;cursor:hand; padding:0px 5px 0px 5px;}
+.backwardsLinks {align: right; text-align: right;}
+.pageSelect {width: 10%}
+/*}}}*/
+</pre>
+</div>

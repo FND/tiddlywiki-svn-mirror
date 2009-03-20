@@ -220,7 +220,7 @@ config.macros.importMediaWiki.showPages = function(context, wizard)
 	var markList = wizard.getElement(macro.markListName);
 	var listWrapper = macro.getClearWikiPagesList();
 	markList.parentNode.insertBefore(listWrapper, markList);
-	var listView = ListView.create(listWrapper, listedTiddlers, macro.listViewTemplate);
+	var listView = PaginatedListView.create(listWrapper, listedTiddlers, macro.listViewTemplate, null, null, 3);
 	wizard.setValue(macro.listViewField, listView);
 	wizard.setButtons([macro.getResetButton(),
 					   {caption: macro.importLabel,
@@ -289,7 +289,8 @@ config.macros.importMediaWiki.doImportSelectedPages = function(e)
 {
 	var macro = config.macros.importMediaWiki;
 	var wizard = new Wizard(this);
-	var tiddlerNames = ListView.getSelectedRows(wizard.getValue(macro.listViewField));
+	var view = wizard.getValue(macro.listViewField);
+	var tiddlerNames = view.getSelectedRows();
 	if (!tiddlerNames || tiddlerNames.length == 0) {
 		macro.showErrorMessage(wizard, macro.noPageSelected);
 		return;
@@ -670,7 +671,8 @@ config.macros.importMediaWiki.saveServerTiddlerWithDetails = function(txtSaveTid
 };
 
 config.macros.importMediaWiki.progressAnimation = {};
-config.macros.importMediaWiki.progressAnimation.chars = ['-','\\','|','/'];
+
+config.macros.importMediaWiki.progressAnimation.chars = ['•···','·•··','··•·','···•','··•·','·•··']
 config.macros.importMediaWiki.progressAnimation.content;
 config.macros.importMediaWiki.progressAnimation.place;
 config.macros.importMediaWiki.progressAnimation.stopFlag = false;
