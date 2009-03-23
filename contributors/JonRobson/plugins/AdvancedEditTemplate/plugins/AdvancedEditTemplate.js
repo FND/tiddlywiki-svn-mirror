@@ -42,6 +42,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var metaDataName = getParam(params,"metaDataName", null);
 			// build a drop down control
 			var valueSource = getParam(params,"valuesSource", null);
+			if(!valueSource) valueSource = metaDataName + "Definition";
 			if(ctrlType == 'dropdown') {
 				
 				
