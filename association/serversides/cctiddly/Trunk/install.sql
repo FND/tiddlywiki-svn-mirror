@@ -130,9 +130,10 @@ CREATE TABLE `tiddler` (
 -- 
 
 INSERT INTO `tiddler` (`id`, `workspace_name`, `title`, `body`, `fields`, `tags`, `modifier`, `creator`, `modified`, `created`, `revision`) VALUES 
-(6, '', 'GettingStarted', 'Welcome to ccTiddly 1.7. To get started please read the [[Help]]', '', '', 'ccTiddly', 'ccTiddly', '200802151654', '200712281715', 11),
+(6, '', 'GettingStarted', 'To get started with this workspace, you''ll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the workspace is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the worksace is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] and [[Permissions]] tiddlers.<<ccEditWorkspace>>', '', '', 'ccTiddly', 'ccTiddly', '200802151654', '200712281715', 11),
 (40, '', 'SiteTitle', 'ccTiddly', '', '', 'ccTiddly', 'ccTiddly', '200802151311', '200802151311', 0),
 (42, '', 'SiteSubtitle', 'Provided by [[Osmosoft]] using TiddlyWiki - The Wiki with a silly name', '', '', 'ccTiddly', 'ccTiddly', '200802151311', '200802151311', 0);
+
 
 
 -- --------------------------------------------------------
