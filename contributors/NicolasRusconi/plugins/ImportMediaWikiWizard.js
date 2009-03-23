@@ -161,6 +161,7 @@ config.macros.importMediaWiki.showWorkspacesAndPages = function(context, wizard)
 {
 	var macro = config.macros.importMediaWiki;
 	wizard.addStep(macro.step2Title, macro.step2Html);
+	macro.hideWizardBody(wizard)
 	var workspaceSelector = wizard.getElement(macro.selWorkspaceName);
 	var defaultWorkspaceTitle = macro.defaultWorkspaceTitle;
 	var workspaces = wizard.getValue(macro.workspacesField);
@@ -205,6 +206,7 @@ config.macros.importMediaWiki.filterAlreadyImportedTiddlers = function(tiddlers)
 config.macros.importMediaWiki.showPages = function(context, wizard)
 {
 	var macro = config.macros.importMediaWiki;
+	macro.showWizardBody(wizard);
 	var listedTiddlers = macro.getTiddlers(context.tiddlers);
 	var retrievedTiddlers = listedTiddlers.length;
 	listedTiddlers = macro.filterAlreadyImportedTiddlers(listedTiddlers);
@@ -275,7 +277,7 @@ config.macros.importMediaWiki.onGetTiddlerList = function(context, wizard)
 	if (listedTiddlers.findByField(macro.titleField, fullPageName) != null) {
 		wizard.setValue(macro.keepTiddlersSyncField, true);
 		macro.doImport(wizard, [fullPageName], false);
-	}else {
+	} else {
 		var markList = wizard.getElement(macro.markListName);
 		if (markList) {
 			macro.showPages(context, wizard);
@@ -327,17 +329,39 @@ config.macros.importMediaWiki.removeProgressMessage = function(wizard) {
 	config.macros.importMediaWiki.removeMessage(wizard);
 }
 
-config.macros.importMediaWiki.removeMessage = function(wizard) {
+config.macros.importMediaWiki.removeMessage = function(wizard)
+{
 	var messageBar = document.getElementById(config.macros.importMediaWiki.wizardMessageBarId);
 	if (messageBar) {
 		messageBar.parentNode.removeChild(messageBar);
 	}
-}
+};
 
-config.macros.importMediaWiki.showErrorMessage = function(wizard, message) {
+config.macros.importMediaWiki.showErrorMessage = function(wizard, message)
+{
 	var messageBar = config.macros.importMediaWiki.showMessage(wizard, message);
 	messageBar.style.background ='#FF0000 none repeat scroll';
-}
+};
+
+config.macros.importMediaWiki.hideWizardBody = function(wizard)
+{
+	wizard.bodyElem.firstChild.lastChild.style.visibility = 'hidden';
+	wizard.bodyElem.firstChild.lastChild.style.height = '0px';
+	wizard.bodyElem.firstChild.lastChild.style.width = '0px';
+	wizard.bodyElem.firstChild.firstChild.style.visibility = 'hidden';
+	wizard.bodyElem.firstChild.firstChild.style.height = '0px';
+	wizard.bodyElem.firstChild.firstChild.style.width = '0px';
+};
+
+config.macros.importMediaWiki.showWizardBody = function(wizard)
+{
+	wizard.bodyElem.firstChild.lastChild.style.visibility = '';
+	wizard.bodyElem.firstChild.lastChild.style.height = '';
+	wizard.bodyElem.firstChild.lastChild.style.width = '';
+	wizard.bodyElem.firstChild.childNodes[1].style.visibility = '';
+	wizard.bodyElem.firstChild.childNodes[1].style.height = '';
+	wizard.bodyElem.firstChild.childNodes[1].style.width = '';
+};
 
 config.macros.importMediaWiki.doImport = function(wizard, tiddlerNames, selectedManually)
 {
