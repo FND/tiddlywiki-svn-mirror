@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWeb|
 |''Author''|FND|
-|''Version''|0.3.1|
+|''Version''|0.3.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -49,7 +49,7 @@ var statusCallback = function(context, userParams) {
 			"value", context.serverStatus.username, "input");
 	}
 };
-adaptor.getStatus(null, null, statusCallback);
+adaptor.getStatus({ host: host }, null, statusCallback);
 
 })(); //# end of local scope
 
