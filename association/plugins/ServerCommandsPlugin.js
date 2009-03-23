@@ -2,7 +2,7 @@
 |''Name''|ServerCommandsPlugin|
 |''Description''|provides access to server-specific commands|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.1.1|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#ServerCommandsPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -44,18 +44,19 @@ version.extensions.ServerCommandsPlugin = { installed: true };
 
 var cmd; //# alias
 cmd = config.commands.revisions = {
-	type: "popup", // XXX: move to locale object?
-	text: "revisions", // XXX: move to locale object?
-	tooltip: "display tiddler revisions", // XXX: move to locale object?
-	revLabel: "%0 [%2: %1]", // XXX: move to locale object?
-	revTooltip: "tooltip", // TODO -- XXX: move to locale object?
+	type: "popup",
+	text: "revisions",
+	tooltip: "display tiddler revisions",
+	revLabel: "#%2 %1: %0 (%3)",
+	revTooltip: "tooltip",
 	revSuffix: " [rev. #%0]",
+	dateFormat: "YYYY-0MM-0DD 0hh:0mm",
 
 	handlePopup: function(popup, title) {
 		var tiddler = store.getTiddler(title);
 		var type = this._getField("server.type", tiddler);
 		var adaptor = new config.adaptors[type]();
-		var limit = null; // TODO: customizable?
+		var limit = null; // TODO: customizable
 		var context = {
 			host: this._getField("server.host", tiddler),
 			workspace: this._getField("server.workspace", tiddler)
@@ -65,16 +66,18 @@ cmd = config.commands.revisions = {
 
 	displayRevisions: function(context, userParams) {
 		var list = userParams.popup; // XXX: popup already is an OL!?
+		var callback = function(ev) {
+			var e = ev || window.event;
+			var revision = resolveTarget(e).getAttribute("revision");
+			cmd.getTiddlerRevision(tiddler.title, revision, context, userParams);
+		};
 		for(var i = 0; i < context.revisions.length; i++) {
 			var tiddler = context.revisions[i];
 			var item = createTiddlyElement(list, "li");
-			createTiddlyButton(item,
-				cmd.revLabel.format([tiddler.title, tiddler.modifier, tiddler.modified]),
-				cmd.revTooltip, function() {
-					cmd.getTiddlerRevision(tiddler.title,
-						tiddler.fields["server.page.revision"],
-						context, userParams);
-				});
+			var timestamp = tiddler.modified.formatString(cmd.dateFormat);
+			var revision = tiddler.fields["server.page.revision"];
+			var label = cmd.revLabel.format([tiddler.title, tiddler.modifier, revision, timestamp]);
+			createTiddlyButton(item, label, cmd.revTooltip, callback, null, null, null, { revision: revision });
 		}
 	},
 
@@ -85,7 +88,7 @@ cmd = config.commands.revisions = {
 	displayTiddlerRevision: function(context, userParams) {
 		var tiddler = context.tiddler;
 		var src = null; // TODO: pass through via userParams
-		tiddler.fields.donotsave = "true"; // XXX: correct?
+		tiddler.fields.doNotSave = "true"; // XXX: correct?
 		tiddler.title += cmd.revSuffix.format([tiddler.fields["server.page.revision"]]);
 		if(!store.getTiddler(tiddler.title)) {
 			store.addTiddler(tiddler);
