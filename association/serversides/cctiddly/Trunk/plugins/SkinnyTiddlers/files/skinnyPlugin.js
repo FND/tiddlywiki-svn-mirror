@@ -10,7 +10,6 @@ Story.prototype.loadMissingTiddlerContents = function(tiddler) {
 	var host = tiddler.fields["server.host"];
 	var workspace = tiddler.fields["server.workspace"]; // XXX: bag?
 	if(!serverType || !host) {
-		console.log("ignoring " + title);
 		return null;
 	}
 	var sm = new SyncMachine(serverType, {
@@ -54,7 +53,6 @@ Story.prototype.loadMissingTiddlerContents = function(tiddler) {
 
 // override createTiddler to trigger lazy loading of tiddler contents
 Story.prototype.createTiddler = function(place, before, title, template, customFields) {
-	console.log("in cT"); // DEBUG
 	var tiddlerElem = createTiddlyElement(null, "div", this.tiddlerId(title), "tiddler");
 	tiddlerElem.setAttribute("refresh", "tiddler");
 	if(customFields) {

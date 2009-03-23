@@ -18,6 +18,8 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"OpenID",
 	"Portlet",
 	"lifestream",
+	"SkinnyTiddlers",
+	"FCKEditor",
 	"TiddlyDocs",
 	"seo",
 	"WordpressMigration"
@@ -31,7 +33,7 @@ $tiddlyCfg['adminPassword'] = "";
 
 $tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 $tiddlyCfg['pref']['renew_session_on_each_request']  = 1; // if enabled will renew users session time on each save request
-$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
+$tiddlyCfg['users_required_in_db']=1; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
 $tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an account 
 
 // Workspaces
@@ -146,7 +148,7 @@ $tiddlyCfg['txtTheme'] = 'purpleTheme';  // The default TiddlyWiki theme to use.
 
 // Debugging Information 
 
-$tiddlyCfg['developing'] = 1;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
+$tiddlyCfg['developing'] = 0;		//developing mode. If set to 2 will override debug setting below and output everything into the debug file. 
 $tiddlyCfg['debug']['mysql'] = 0;	 // if set to x1 will output every sql query into the logfile 
 $tiddlyCfg['debug']['login'] =0;
 $tiddlyCfg['debug']['handle'] = 0;
@@ -319,7 +321,7 @@ $tiddlyCfg['privilege']['anonymous']['comments'] = "AAAA";		//allow comments to 
 $tiddlyCfg['privilege']['non_admin']['comments'] = "AAAA";	
 // END OF PERMISSIONS 
 
-$tiddlyCfg['version']="1.8.unreleased";	//set ccTiddly Version number
+$tiddlyCfg['version']="1.8";	//set ccTiddly Version number
 $tiddlyCfg['session_expire'] = ($tiddlyCfg['session_expire']==0?9999999:$tiddlyCfg['session_expire']);
 $tiddlyCfg['session_expire'] = $tiddlyCfg['session_expire'] * 60;  // Converts minutes to seconds to be added to an epoch value 
 
