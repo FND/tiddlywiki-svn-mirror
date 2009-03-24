@@ -33,11 +33,11 @@ echo -e "config.update($tiddlywebconfig)" >> tiddlywebconfig.py # XXX: odd way t
 
 # create sample tiddler
 twanager bag content < /dev/null
-echo -e "lorem ipsum dolor sit amet" | twanager tiddler lipsum content
+echo -e "tags: tmp test\n\nlorem ipsum dolor sit amet" | twanager tiddler lipsum content
 # create sample plugin
 twanager bag plugins < /dev/null
 echo -e 'alert("Hello world!");' > store/plugins/helloworld.js
 # create sample recipe
 echo -e "/bags/system/tiddlers\n/bags/plugins/tiddlers\n/bags/content/tiddlers" | twanager recipe sample
 
-echo 'dev instance created; run "twanager server"'
+echo -e '\ninstance created; run "twanager server" from instance directory to start server'
