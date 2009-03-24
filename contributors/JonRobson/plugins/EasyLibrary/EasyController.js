@@ -98,12 +98,7 @@ EasyController.prototype = {
 
 			if(!that.crosshair.lastdelta) {
 				that.crosshair.lastdelta = delta;
-				/*var pos =EasyClickingUtils.getMouseFromEvent(e);
-				pos =EasyTransformations.undoTransformation(pos.x,pos.y,that.getTransformation());
-				that.crosshair.pos = pos;
-				var translate =that.transformation.translate;
-				translate.x = -(pos.x );
-				translate.y = -(pos.y );	*/	
+	
 			
 			
 			}

@@ -93,7 +93,10 @@ EasyShape.prototype={
 	,setCoordinates: function(coordinates){
 		this.coordinates.normal = coordinates;
 		this.coordinates.projected= false;
-		coordinates.optimised = {};
+		var i;
+		for(i in this.coordinates.optimised){
+			delete this.coordinates[i];
+		}
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
@@ -106,6 +109,7 @@ EasyShape.prototype={
 		return this.coordinates.normal;
 	}
 	,getOptimisedCoords: function(scaleFactor){
+		return this.getCoordinates();//until i fix
 		var index = parseInt(scaleFactor);
 		if(this.coordinates.optimised[index]) {
 			return this.coordinates.optimised[index];

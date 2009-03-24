@@ -1,0 +1,17 @@
+# TiddlyWiki components
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# jQuery
+recipe: $TW_ROOT/core/jquery/split.recipe
+
+# test framework
+recipe: qunit/split.recipe
+recipe: jqMock/split.recipe
+recipe: html/split.recipe
+
+#My Plugins
+recipe: ../plugins/AdvancedEditTemplate/plugins/split.recipe
+
+# tests
+recipe: js/split.recipe
+

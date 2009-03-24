@@ -4893,49 +4893,35 @@ coordinates are a string consisting of floats and move commands (M)
 */
 
 var EasyShape = function(properties,coordinates){
+	this.coordinates = {
+		normal: [],
+		optimised: {},
+		incurrentprojection:false
+	};
 	this.grid = {};
-	this.coords = [];
+	this.setProperties(properties);
 	if(coordinates[0] &amp;&amp; coordinates[0].length == 2){
 		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
 	}
+	
 	this._constructBasicShape(properties,coordinates);
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
+	this.browser =false;
+
 };
+
+
 EasyShape.prototype={
-	getProperties: function(){
-		return this.properties;
-	}
-	,_simplifyCoordinates: function(scaleFactor,coordinates){
-		if(this.getProperty(&quot;shape&quot;) == 'path') return coordinates;
-		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
-		if(!coordinates) throw &quot;give me some coordinates!&quot;;
-		
-		var tolerance = 3 / scaleFactor;
-		coordinates = EasyOptimisations.packCoordinates(coordinates);
-		coordinates = EasyOptimisations.douglasPeucker(coordinates,tolerance);
-		
-		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
-		var originals =this.getCoordinates();
-		var diff = originals.length - coordinates.length;
-		
-		if(diff &lt; 10) return originals;
-		else 
-		return coordinates;	
-	}
-	,_getOptimisedCoords: function(scaleFactor){
-		var index = parseInt(scaleFactor);
-		if(this._optimisedcoords[index]) {
-			return this._optimisedcoords[index];
+	setProperties: function(properties){
+		this.properties = EasyUtils.clone(properties);
+		if(!properties.stroke){
+			this.setProperty(&quot;stroke&quot;,'#000000');		
 		}
-		else {
-			var res = this._simplifyCoordinates(scaleFactor,this.getCoordinates());
-			this._setOptimisedCoords(scaleFactor,res);
-			return res;
+		if(properties.colour){
+			this.setProperty(&quot;fill&quot;,properties.colour);
+			delete properties.colour;
 		}
-	}
-	,_setOptimisedCoords: function(scaleFactor,coords){
-		var index = scaleFactor;
-		this._optimisedcoords[index] = coords;
+		
 	}
 	,getBoundingBox: function(){ /* returns untransformed bounding box */
 		return this.grid;
@@ -4951,84 +4937,125 @@ EasyShape.prototype={
 		if(!transformation.scale)transformation.scale = {x:1,y:1};
 		if(!transformation.translate)transformation.translate = {x:0,y:0};
 		
-		var frame = this._calculateVisibleArea(canvas,transformation);
-		var shapetype = this.getProperty(&quot;shape&quot;);
-		if(shapetype == 'point'){
-			var ps = 5 / parseFloat(transformation.scale.x);
-			var smallest = 1 / this._iemultiplier;
-			var largest = 2.5 * transformation.scale.x;
-			if(ps &lt; smallest) ps = smallest;
-			if(ps &gt; largest) ps = largest;
-			this._constructPointShape(this.pointcoords,ps);
-		} 
-		else if(shapetype == 'path' || shapetype =='polygon' | shapetype == 'circle'){
-			
-		}
-		else{
-			console.log(&quot;no idea how to render&quot; +shapetype+&quot; must be polygon|path|point&quot;);
-			return;
-		}		
-		//optimisations = false;
-		if(!projection &amp;&amp; optimisations){
-			if(shapetype != 'point' &amp;&amp; shapetype != 'path' &amp;&amp; frame){ //check if worth drawing				
-				if(!this._optimisation_shapeIsTooSmall(transformation)) {
-					if(this.vml) this.vml.style.display = &quot;none&quot;;
-					return;	
-				}
-				if(!this._optimisation_shapeIsInVisibleArea(frame)){
-					if(this.vml) this.vml.style.display = &quot;none&quot;;
-					return;	
-				}	
-			}
-		}	
-
-		if(this.vml) this.vml.style.display = '';
 		
-		if(!canvas.getContext) {
-			//this has been taken from Google ExplorerCanvas
-			if (!document.namespaces['easyShapeVml_']) {
-			        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
+		if(this._prepareShape(canvas,transformation,projection,optimisations)){			
+			if(this.getRenderMode(canvas) == 'ie'){
+				this._ierender(canvas,transformation,projection,optimisations); 
 			}
-
-			  // Setup default CSS.  Only add one style sheet per document
-			 if (!document.styleSheets['easyShape']) {
-			        var ss = document.createStyleSheet();
-			        ss.owningElement.id = 'easyShape';
-			        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
-			            // default size is 300x150 in Gecko and Opera
-			            'text-align:left;}' +
-			            'easyShapeVml_\\:*{behavior:url(#default#VML)}';
+			else{
+				this._canvasrender(canvas,transformation,projection,optimisations);
 			}
-			
-			this._ierender(canvas,transformation,projection,optimisations); 
-
-	
-		}
-		else{
-			this._canvasrender(canvas,transformation,projection,optimisations);
-
 		}
 		
 	}
 	
 	,setCoordinates: function(coordinates){
-		this._optimisedcoords = {};
-		this.coords = coordinates;
+		this.coordinates.normal = coordinates;
+		this.coordinates.projected= false;
+		coordinates.optimised = {};
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
-	 
-
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
-	,getCoordinates: function(){
-		return this.coords;
+	,getProjectedCoordinates: function(){
+		if(this.coordinates.incurrentprojection) return this.coordinates.incurrentprojection;
+		else return false;
 	}
+	,getCoordinates: function(){
+		return this.coordinates.normal;
+	}
+	,getOptimisedCoords: function(scaleFactor){
+		var index = parseInt(scaleFactor);
+		if(this.coordinates.optimised[index]) {
+			return this.coordinates.optimised[index];
+		}
+		else {
+			var res = this._simplifyCoordinates(scaleFactor,this.getCoordinates());
+			this._setOptimisedCoords(scaleFactor,res);
+			return res;
+		}
+	}
+	,getProperties: function(){
+		return this.properties;
+	}
+	,getRenderMode: function(canvas){
+		if(!this.browser){
+			if(!canvas.getContext) this._setRenderMode(&quot;ie&quot;);
+			else this._setRenderMode(&quot;good&quot;);
+		}
+	}
+	
+	,setProperty: function(name,value){
+		this.properties[name] = value;
+	}
+	,getProperty: function(name){
+		return this.properties[name];
+	}
+
+	,optimise: function(canvas,transformation){
+		var shapetype = this.getProperty(&quot;shape&quot;);
+		if(shapetype != 'point' &amp;&amp; shapetype != 'path'){ //check if worth drawing				
+			if(!this._optimisation_shapeIsTooSmall(transformation)) {
+				if(this.vml) this.vml.style.display = &quot;none&quot;;
+				return;	
+			}
+			if(!this._optimisation_shapeIsInVisibleArea(canvas,transformation)){
+				if(this.vml) this.vml.style.display = &quot;none&quot;;
+				return;	
+			}	
+		}
+	}
+	,_setRenderMode: function(browser){
+		if(browser == 'ie'){
+			if(!this.browser){				
+				//this has been taken from Google ExplorerCanvas
+				if (!document.namespaces['easyShapeVml_']) {
+				        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
+				}
+
+				  // Setup default CSS.  Only add one style sheet per document
+				 if (!document.styleSheets['easyShape']) {
+				        var ss = document.createStyleSheet();
+				        ss.owningElement.id = 'easyShape';
+				        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
+				            // default size is 300x150 in Gecko and Opera
+				            'text-align:left;}' +
+				            'easyShapeVml_\\:*{behavior:url(#default#VML)}';
+				}
+				this.browser = &quot;ie&quot;;
+			}
+		}
+	}
+
+	,_simplifyCoordinates: function(scaleFactor,coordinates){
+		if(this.getProperty(&quot;shape&quot;) == 'path') return coordinates;
+		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
+		if(!coordinates) throw &quot;give me some coordinates!&quot;;
+		var originals =coordinates;
+		var tolerance = 5 / scaleFactor;
+		coordinates = EasyOptimisations.packCoordinates(coordinates);
+		coordinates = EasyOptimisations.douglasPeucker(coordinates,tolerance);
+		
+		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
+		
+		var diff = originals.length - coordinates.length;
+		
+		if(diff &lt; 10) return originals;
+		else 
+		return coordinates;	
+	}
+
+	,_setOptimisedCoords: function(scaleFactor,coords){
+		var index = scaleFactor;
+		this.coordinates.optimised[index] = coords;
+	}
+
 	,_calculateBounds: function(coords){
 		if(this.getProperty(&quot;shape&quot;) == 'path'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
-		if(!coords) coords = this.coords;
+		if(!coords) coords = this.getCoordinates();
 		this.grid.x1 = coords[0];
 		this.grid.y1 = coords[1];
 		this.grid.x2 = coords[0];
@@ -5064,71 +5091,77 @@ EasyShape.prototype={
 		this.grid.center.x = (this.grid.x2 - this.grid.x1) / 2 + this.grid.x1;
 		this.grid.center.y = (this.grid.y2 - this.grid.y1) / 2 + this.grid.y1;
 	}
-	,_constructPointShape: function(coordinates,radius){
+	,_preparePointShape: function(coordinates,radius){
 		var x = coordinates[0]; var y = coordinates[1];
 		var coords = [x,y,radius];
 		this._constructCircleShape(coords);
 	}
 	
+	,_ierenderImageShape: function(canvas,transformation,projection,optimisations){
+		if(!this.imageEl){
+			this.imageEl =document.createElement(&quot;img&quot;);
+			this.imageEl.style.position =&quot;absolute&quot;;
+			this.imageEl.src= this.getProperty(&quot;src&quot;);
+			this.imageEl.alt = this.getProperty(&quot;alt&quot;);
+			this.imageEl.title = this.getProperty(&quot;title&quot;);
+			canvas.appendChild(this.imageEl);
+		}
+		this._cssTransform(this.imageEl,transformation,projection);
+			
+	}
 	,_constructCircleShape: function(coordinates){ /* x y radius */
 		var x = coordinates[0]; var y = coordinates[1];
 		this.radius = coordinates[2];
-		var radius= this.radius;
-		this.pointcoords = [x,y,radius];
-		var newcoords =[x-radius,y-radius,x+radius,y-radius,x+radius,y+radius,x-radius, y+radius];
+		this.pointcoords = [x,y,this.radius];
+		var newcoords =[x-this.radius,y-this.radius,x+this.radius,y-this.radius,x+this.radius,y+this.radius,x-this.radius, y+this.radius];
 		this.setCoordinates(newcoords);
 	}
-	,_constructPolygonShape: function(coordinates){
-		this.setCoordinates(coordinates);
-	}
 	,_constructBasicShape: function(properties, coordinates){
-		var properties =EasyUtils.clone(properties);
-		this.properties = properties;
-		if(!properties.stroke){
-			this.setProperty(&quot;stroke&quot;,'#000000');		
-		}
-		if(properties.colour){
-			this.setProperty(&quot;fill&quot;,properties.colour);
-			delete properties.colour;
-		}
+
+
 		if(properties.shape == 'point'){
-			this._constructPointShape(coordinates,0.5);
+			this._preparePointShape(coordinates,0.5);
 		}
 		else if(properties.shape == 'polygon' || properties.shape == 'path')
 		{
-			this._constructPolygonShape(coordinates);
+			this.setCoordinates(coordinates);
 		}
 		else if(properties.shape == 'circle'){
 			this._constructCircleShape(coordinates);
 		}
+		else if(properties.shape == 'image'){
+			var w = this.getProperty(&quot;width&quot;); h=  this.getProperty(&quot;height&quot;);
+			if(coordinates.length == 2 &amp;&amp; w &amp;&amp; h){
+				var x = coordinates[0];
+				var y = coordinates[1];
+				coordinates = coordinates.concat([x+w,y, x+w,y+h, x,y+h]);
+			}
+			this.setCoordinates(coordinates);
+		}
 		else{
 			console.log(&quot;don't know how to construct basic shape &quot; + properties.shape);
-		}		
-		
+		}			
 		
 	}	
 
 	 /*RENDERING */
 	,_canvasrender: function(canvas,transformation,projection,optimisations){
-		var c;	
-		var shapetype = this.properties.shape;
-		c =this._getOptimisedCoords(transformation.scale.x);
-		
+		var c;
 		if(projection){
 			c = this._applyProjection(projection,transformation);
 		}
-
-	
+		else{
+			c =this.getOptimisedCoords(transformation.scale.x);
+		}
 		if(c.length == 0) return;
 		var ctx = canvas.getContext('2d');
-
 		var o = transformation.origin;
 		var tr = transformation.translate;
 		var s = transformation.scale;
 		var r = transformation.rotate;
 		ctx.save();
 		if(this.properties.lineWidth){
-			ctx.lineWidth = this.properties.lineWidth;
+			ctx.lineWidth = this.properties.lineWidth/ transformation.scale.x;
 		}
 	
 		ctx.translate(o.x,o.y);
@@ -5136,9 +5169,19 @@ EasyShape.prototype={
 		ctx.translate(tr.x,tr.y);
 		if(r &amp;&amp; r.x)ctx.rotate(r.x);
 		ctx.beginPath();
-		if(this.getProperty(&quot;shape&quot;) == 'point'){
+		var shapetype =this.getProperty(&quot;shape&quot;);
+		if(shapetype == 'point'){
 			var bb =this.getBoundingBox();
 			ctx.arc(bb.center.x, bb.center.y, this.radius, 0, Math.PI*2,true);
+		}
+		else if(shapetype =='image'){
+			var img = new Image();  
+			img.src = this.getProperty(&quot;src&quot;);
+			var bb= this.getBoundingBox();
+			img.onload = function(){
+				ctx.drawImage(img, c[0], c[1],bb.x2 - bb.x1,bb.y2 - bb.y1);
+			};
+			
 		}
 		else{
 			
@@ -5257,7 +5300,6 @@ EasyShape.prototype={
 		if(vml.tagName == 'shape' &amp;&amp; (!vml.path || this.properties.shape =='point')) {
 			//causes slow down..
 			this._createvmlpathstring(vml,transformation,projection);
-		//	this.vml.parentNode.replaceChild(clonedNode,this.vml);
 		}
 		var o = transformation.origin;
 		
@@ -5281,10 +5323,7 @@ EasyShape.prototype={
 			}
 
 		}
-
-	
 		var initialStyle= this.initialStyle;
-
 		var style = vml.style;			
 		var newtop,newleft;
 		newtop = initialStyle.top;
@@ -5322,19 +5361,27 @@ EasyShape.prototype={
 		this._lastTransformation.scale.x = s.x;
 		this._lastTransformation.scale.y = s.y;
 	}	
-		
-	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
-		
+	
+	,_ierenderVML: function(canvas,transformation,projection,optimisations,appendTo){
 		var shape;
 		if(this.vml){
+			fill =this.getProperty(&quot;fill&quot;);
 			shape = this.vml;
-			if(this.properties.fill &amp;&amp; shapetype != 'path'){
+			if(fill &amp;&amp; shapetype != 'path'){
 				shape.filled = &quot;t&quot;;
 				if(!this.vmlfill){
 					this.vmlfill =document.createElement(&quot;easyShapeVml_:fill&quot;);
 					shape.appendChild(this.vmlfill); 
 				}
-				this.vmlfill.color = this.properties.fill;					
+		/*look for rgba fill for transparency*/
+				if(fill.indexOf(&quot;rgba&quot;) != -1 &amp;&amp;fill.match(/rgba\([0-9]*,[0-9]*,[0-9]*,(.*)\)/)){
+					var match =fill.match(/(rgb)a(\([0-9]*,[0-9]*,[0-9]*),(.*)\)/);
+					if(match[3]){
+						fill = match[1] + match[2] +&quot;)&quot;;
+						this.vmlfill.opacity = match[3];
+					}
+				}
+				this.vmlfill.color = fill;					
 			}
 			this._cssTransform(shape,transformation,projection);
 			return;
@@ -5362,7 +5409,7 @@ EasyShape.prototype={
 				shape.filled = &quot;t&quot;;
 				shape.fillcolor = this.properties.fill;			
 			}
-			
+
 			if(this.properties.lineWidth) {
 				shape.strokeweight = this.properties.lineWidth + &quot;pt&quot;;
 			}
@@ -5380,36 +5427,26 @@ EasyShape.prototype={
 			if(!appendTo){
 				appendTo = canvas;
 			}
-			
-			
+
+
 			this._cssTransform(shape,transformation,projection);	
 			this.vml = shape;
 			appendTo.appendChild(shape);
+		}	
+	}	
+	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
+		if(this.vml) this.vml.style.display = '';
+		if(this.getProperty(&quot;shape&quot;) != &quot;image&quot;){
+			this._ierenderVML(canvas,transformation,projection,optimisations,appendTo);
 		}
-		
-	
-	}
-	,setProperty: function(name,value){
-		this.properties[name] = value;
-	}
-	,getProperty: function(name){
-		return this.properties[name];
 	}
 
+
 	,_applyProjection: function(projection,transformation){
-		var c;
-		var opt =this._getOptimisedCoords(transformation.scale.x);
-		if(opt){
-			c = opt;
-		}
-		else{
-			c = this.getCoordinates();
-		}
-		
-		if(!projection) return c;
-		if(!projection.xy){
-			return;
-		}	
+	
+		var c = this.getCoordinates();
+		if(!projection || !projection.xy) return c;
+	
 		if(projection.init) projection.init();
 		var newc = [];
 		for(var i=0; i &lt; c.length-1; i+=2){
@@ -5428,10 +5465,8 @@ EasyShape.prototype={
 				moved  =true;
 			}
 			
-
 			cok = true;
 			//check we haven't wrapped around world (For flat projections sss)
-			
 			if(!projection.nowrap){
 				var diff;
 				if(newx &gt; x) diff = newx - x;
@@ -5448,17 +5483,15 @@ EasyShape.prototype={
 					newc.push(newy);
 				}
 	
-			}
-			
-			
+			}	
 		}	
-
-
-		this._tcoords = newc;
-		this._calculateBounds(this._tcoords);
+		newc = this._simplifyCoordinates(transformation.scale.x,newc);
+		this.coordinates.incurrentprojection = newc;
+		this._calculateBounds(this.coordinates.incurrentprojection);
 		return newc;
 	}
-	,_calculateVisibleArea: function(canvas,transformation){
+
+	,_optimisation_shapeIsInVisibleArea: function(canvas,transformation){
 		var left = 0,top = 0;
 		var right =  parseInt(canvas.width) + left; 
 		var bottom = parseInt(canvas.height) + top;
@@ -5469,10 +5502,6 @@ EasyShape.prototype={
 		frame.bottom = bottomright.y;
 		frame.right = bottomright.x;
 		frame.left = topleft.x;
-		return frame;
-	}
-	
-	,_optimisation_shapeIsInVisibleArea: function(frame){
 		var g = this.grid;
 		if(g.x2 &lt; frame.left) {
 			return false;}
@@ -5487,7 +5516,7 @@ EasyShape.prototype={
 		return true;
 	}
 	
-	,_optimisation_shapeIsTooSmall: function(transformation,projection){
+	,_optimisation_shapeIsTooSmall: function(transformation){
 		var g = this.grid;
 		var s = transformation.scale;
 		var t1 = g.x2 -g.x1;
@@ -5501,16 +5530,35 @@ EasyShape.prototype={
 			return true;
 	}
 
+	,_prepareShape: function(canvas,transformation,projection,optimisations){
+		
+			var shapetype = this.getProperty(&quot;shape&quot;);
+			if(shapetype == 'point'){
+				var ps = 5 / parseFloat(transformation.scale.x);
+				var smallest = 1 / this._iemultiplier;
+				var largest = 2.5 * transformation.scale.x;
+				if(ps &lt; smallest) ps = smallest;
+				if(ps &gt; largest) ps = largest;
+				this._preparePointShape(this.pointcoords,ps);
+			} 
+			else if(shapetype == 'image'){
+
+			}
+			else if(shapetype == 'path' || shapetype =='polygon' | shapetype == 'circle' |shapetype == 'image'){
+
+			}
+			else{
+				console.log(&quot;no idea how to render &quot; +shapetype+&quot; must be polygon|path|point&quot;);
+				return false;
+			}
+			
+			if(!projection &amp;&amp; optimisations){
+				this.optimise(canvas,transformation);
+			}
+			return true;
+	}
 };
 
-
-EasyShape.renderer = function(){
-	
-};
-
-EasyShape.renderer.prototype = {
-	
-};
 var EasyOptimisations = {
 	packCoordinates: function(coordlist){
 		var res = [];
@@ -5598,18 +5646,47 @@ var EasyController = function(targetjs,elem){ //elem must have style.width and s
 		this.wrapper.appendChild(controlDiv);
 		this.wrapper.controlDiv = controlDiv;
 	}
-	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0}};	
+	
+	
+	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0},origin:{}};	
+	this.transformation.origin.x = parseInt(elem.style.width) / 2;
+	this.transformation.origin.y = parseInt(elem.style.height) / 2;
 	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert(&quot;no transform function defined in &quot; + targetjs+&quot;!&quot;);
 	this.wrapper.easyController = this;
 	this.enabled = true;
 
+
 };
 EasyController.prototype = {
-	addMouseWheelZooming: function(){ /*not supported for internet explorer*/
+	getTransformation: function(){
+		return this.transformation;
+	}
+	,addMouseWheelZooming: function(){ /*not supported for internet explorer*/
+		this.crosshair = {lastdelta:0};
+		this.crosshair.pos = {x:0,y:0};
+		this.crosshair.el =document.createElement(&quot;div&quot;);
+		this.crosshair.el.style.position = &quot;absolute&quot;;
+		this.crosshair.el.className = &quot;easyController_crosshair&quot;;
+		this.crosshair.el.appendChild(document.createTextNode(&quot;+&quot;));
+		this.crosshair.el.style.zIndex = 3;
+		var t = this.getTransformation();
+		this.crosshair.el.style.left = parseInt(t.origin.x-5) + &quot;px&quot;;
+		this.crosshair.el.style.top = parseInt(t.origin.y-5) + &quot;px&quot;;
+		this.crosshair.el.style.width = &quot;10px&quot;;
+		this.crosshair.el.style.height = &quot;10px&quot;;
+		this.crosshair.el.style.display = &quot;table&quot;;
+		this.crosshair.el.style.verticalAlign = &quot;middle&quot;;
+		this.crosshair.el.style.textAlign = &quot;center&quot;;
+		this.wrapper.appendChild(this.crosshair.el);
 		var mw = this.wrapper.onmousewheel;
+		
+
 		var that = this;
-	
+		var mm = this.wrapper.onmousemove;
+		
+
+
 		var onmousewheel = function(e){
 	        	if (!e) return;/* For IE. */
 	                
@@ -5635,54 +5712,49 @@ EasyController.prototype = {
 		                delta = -e.detail/3;
 		        }
 	
-			var sensitivity = 0.3;
-			if(!this.lastdelta) {
-				this.lastdelta = delta;
+			var sensitivity = 0.8;
+			var scale =that.transformation.scale;
+			var origin = that.transformation.origin;
+			
+			//var pos =EasyTransformations.applyTransformation(that.crosshair.pos.x,that.crosshair.pos.y,that.transformation);
+			var pos = that.getTransformation().origin;
+
+			that.crosshair.el.style.left =  parseInt(pos.x - 5) + &quot;px&quot;;
+			that.crosshair.el.style.top = parseInt(pos.y - 5) + &quot;px&quot;;
+
+			if(!that.crosshair.lastdelta) {
+				that.crosshair.lastdelta = delta;
+				/*var pos =EasyClickingUtils.getMouseFromEvent(e);
+				pos =EasyTransformations.undoTransformation(pos.x,pos.y,that.getTransformation());
+				that.crosshair.pos = pos;
 				var translate =that.transformation.translate;
-				var pos =EasyClickingUtils.getMouseFromEvent(e);
-				pos =EasyTransformations.undoTransformation(pos.x,pos.y,that.transformation);
-				translate.x = -pos.x;
-				translate.y = -pos.y;
-				
-				var el = this;
-				var clear = function(){
-					el.lastdelta = false;
-				}
-				window.setTimeout(clear,500);
-	
+				translate.x = -(pos.x );
+				translate.y = -(pos.y );	*/	
+			
+			
 			}
 
-			if(delta &gt; this.lastdelta + sensitivity || delta &lt; this.lastdelta - sensitivity){
-				
-			
-				var s =that.transformation.scale;
-				
-				
-				
+			if(delta &gt; that.crosshair.lastdelta + sensitivity || delta &lt; that.crosshair.lastdelta - sensitivity){	
 				var newx,newy;
 				if(delta &gt; 0){
-					newx = parseFloat(s.x) * 2;
-					newy = parseFloat(s.y) * 2;					
+					newx = parseFloat(scale.x) * 2;
+					newy = parseFloat(scale.y) * 2;					
 				}
 				else{
-					newx = parseFloat(s.x) / 2;
-					newy = parseFloat(s.y) / 2;
+					newx = parseFloat(scale.x) / 2;
+					newy = parseFloat(scale.y) / 2;
 				}
 
 				if(newx &gt; 0 &amp;&amp; newy &gt; 0){
-					
-					
-				
-
-				
-					s.x = newx;
-					s.y = newy;
+					scale.x = newx;
+					scale.y = newy;
 					that.transform();					
 				}
 
 			}
 			
-			this.lastdelta = delta;
+
+
 			
 			return false;
 
@@ -6037,6 +6109,7 @@ EasyController.prototype = {
 		return t;
 	}
 	,applyTransformation: function(x,y,t){
+
 		var res= {};
 		res.x = x;
 		res.y = y;
@@ -6089,16 +6162,15 @@ EasyController.prototype = {
 		var tr =t.translate;
 		var s = t.scale;
 		var o = t.origin;
-	
+		if(!s || !o || !tr) return false;
+		
 		if(!x || !y) 
 			return false;
 		pos.x = x;
 		pos.y = y;
-	
-		if(o){
 		pos.x -= o.x;
 		pos.y -= o.y;
-		}
+		
 		if(pos.x != 0)
 			pos.x /= s.x;
 		
@@ -6163,18 +6235,19 @@ var EasyMapUtils = {
 				
 				var horizontal = {belowzero:0,abovezero:0};
 				var vertical = {belowzero:0,abovezero:0};
+			
 				for(var j=0; j &lt; c.length; j++){
 					for(var k=0; k &lt; c[j].length; k++){
 						
 						for(var l=0; l &lt; c[j][k].length; l++){
 							var x = c[j][k][l][0];
 							var y = c[j][k][l][1];
-							if(x &lt; 0 &amp;&amp; horizontal.abovezero &gt; horizontal.belowzero){
+							/*if(x &lt; 0 &amp;&amp; horizontal.abovezero &gt; horizontal.belowzero){
 								x = 180;
 							}
 							else if(x &gt; 0 &amp;&amp; horizontal.abovezero &lt; horizontal.belowzero){
 								x = -180;
-							}
+							}*/
 							if(!x1) x1= x;
 							if(!x2) x2 =x;
 							if(!y1) y1 = y;
@@ -6628,17 +6701,17 @@ EasyClicking.prototype = {
 		}
 
 	},                     
-	_inPoly: function(x,y,poly) {
+	_inPoly: function(x,y,easyShape) {
 		/* _inPoly adapted from inpoly.c
 		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
 		http://www.visibone.com/inpoly/inpoly.c.txt */
 		var coords;
-		if(poly._tcoords){
-			coords = poly._tcoords;
-			//console.log(&quot;using tcoords&quot;,x,y,poly.coords.length,poly._tcoords.length);
+		if(easyShape.getProjectedCoordinates()){
+			coords = easyShape.getProjectedCoordinates();
 		}
-		else
-			coords= poly.coords;
+		else{
+			coords = easyShape.getCoordinates();
+		}
 		var npoints = coords.length;
 		if (npoints/2 &lt; 3) {
 			//points don't describe a polygon
@@ -8499,6 +8572,7 @@ function main()
 		displayMessage("Total: " + (t10-t0) + " ms");
 	}
 	startingUp = false;
+	jQuery().trigger('startup');
 }
 
 // Restarting
@@ -8525,6 +8599,7 @@ function loadShadowTiddlers()
 	shadows.loadFromDiv("shadowArea","shadows",true);
 	shadows.forEachTiddler(function(title,tiddler){config.shadowTiddlers[title] = tiddler.text;});
 	delete shadows;
++	jQuery().trigger('loadShadows');
 }
 
 function loadPlugins()
@@ -8585,6 +8660,7 @@ function loadPlugins()
 			p.warning = true;
 		}
 	}
+	jQuery().trigger('loadPlugins');
 	return nLoaded != nPlugins;
 }
 
@@ -11106,6 +11182,7 @@ TiddlyWiki.prototype.loadFromDiv = function(src,idPrefix,noUpdate)
 		for(var i = 0;i<tiddlers.length; i++)
 			tiddlers[i].changed();
 	}
+	jQuery().trigger('loadTiddlers');
 };
 
 // Load contents of a TiddlyWiki from a string
@@ -16359,14 +16436,14 @@ TW21Saver.prototype.externalizeTiddler = function(store,tiddler)
 //-- Use the jQuery.file functions directly instead
 //--
 
-function saveFile(fileUrl,content)
+function saveFile(filePath,content)
 {
-	return jQuery.file.save({fileUrl:fileUrl,content:content});
+	return jQuery.file.save(filePath,content);
 }
 
-function loadFile(fileUrl)
+function loadFile(filePath)
 {
-	return jQuery.file.load({fileUrl:fileUrl});
+	return jQuery.file.load(filePath);
 }
 
 function copyFile(dest,source)
@@ -16408,21 +16485,16 @@ jQuery plugin for loading a file
 (function($) {
 
 	if(!$.file) {
-		$.file = $.extend({});
+		$.file = {};
 	}
 
-	$.file.extend({
-		defaults : {
-			fileUrl: null,
-			verbose: false
-		},
-		load: function(args) {
-			var opts = $.extend({},this.defaults,args);
-			var r = mozillaLoadFile(opts.fileUrl);
+	$.extend($.file,{
+		load: function(filePath) {
+			var r = mozillaLoadFile(filePath);
 			if((r == null) || (r == false))
-				r = ieLoadFile(opts.fileUrl);
+				r = ieLoadFile(filePath);
 			if((r == null) || (r == false))
-				r = javaLoadFile(opts.fileUrl);
+				r = javaLoadFile(filePath);
 			return r;
 		}
 	});
@@ -16501,26 +16573,16 @@ jQuery plugin for saving data to a file
 (function($) {
 
 	if(!$.file) {
-		$.file = $.extend({});
+		$.file = {};
 	}
 
-	$.file.extend({
-		defaults : {
-			fileUrl: null,
-			content: null,
-			verbose: false
-		},
-		setDefaults: function(path,filename) {
-			this.defaults.path = path;
-			this.defaults.filename = filename;
-		},
-		save: function(args) {
-			var opts = $.extend({},this.defaults,args);
-			var r = mozillaSaveFile(opts.fileUrl,opts.content);
+	$.extend($.file,{
+		save: function(filePath,content) {
+			var r = mozillaSaveFile(filePath,content);
 			if(!r)
-				r = ieSaveFile(opts.fileUrl,opts.content);
+				r = ieSaveFile(filePath,content);
 			if(!r)
-				r = javaSaveFile(opts.fileUrl,opts.content);
+				r = javaSaveFile(filePath,content);
 			return r;
 		},
 		copy: function(dest,source) {

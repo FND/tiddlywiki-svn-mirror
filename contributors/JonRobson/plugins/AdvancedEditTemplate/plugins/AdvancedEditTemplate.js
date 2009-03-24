@@ -201,59 +201,64 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			place.appendChild(holder);
 		}
 
+		,_createMenus: function(menutextrepresentation){
+			var chain = [0];
+			var menus = [];
+			var values = menutextrepresentation;
+			var myparents = [];
+			for (var i=0; i < values.length; i++) {
+				
+				var value = values[i];
+				var caption = values[i];
+				
+				caption = caption.replace("<","");
+				caption = caption.replace(">","");
+				if(caption.indexOf(":") > -1){
+					caption = caption.split(":")[0];
+				}
+				
+				var chainid = chain.length -1;
+				if(!menus[chain[chainid]]){
+					menus[chain[chainid]] = {};
+					menus[chain[chainid]].options= [];
+				}
+				var parentValue = "";
+				for(var j=0; j < myparents.length; j++){
+					parentValue += myparents[j].toString();
+				}
+
+				if(value.indexOf(">") != -1){
+				
+					value = value.replace(">","");
+					var newmenuid = menus.length;
+					menus[chain[chainid]].options.push({'caption': caption, 'value': parentValue+value,'childMenu': newmenuid});
+					chain.push(newmenuid);
+					myparents.push(value+">");	
+			
+				}
+				else if(value.indexOf("<") != -1){			
+					value = value.replace("<","");
+
+					menus[chain[chainid]].options.push({'caption': caption,'value':parentValue + value});
+					myparents.pop();
+					chain.pop();	
+				}
+				else{
+					menus[chain[chainid]].options.push({'caption': caption, 'value':parentValue+value});
+				}
+			
+						
+
+								
+			}
+			return menus;
+		}
 		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected,sort){
 				if(!selected) selected = "";
 				if(!initialValue){
 					initialValue = "Please select.. ";
 				}
-				var menuid = 0;
-				var lastmenuid = 0;
-				var menus = [];
-		
-				var myparents = [];
-				for (var i=0; i < values.length; i++) {
-					
-					var value = values[i];
-					var caption = values[i];
-					
-					caption = caption.replace("<","");
-					caption = caption.replace(">","");
-					if(caption.indexOf(":") > -1){
-						caption = caption.split(":")[0];
-					}
-					
-					if(!menus[menuid]){
-						menus[menuid] = {};
-						menus[menuid].options= [];
-					}
-					var parentValue = "";
-					for(var j=0; j < myparents.length; j++){
-						parentValue += myparents[j].toString();
-					}
-					if(value.indexOf(">") != -1){
-						lastmenuid = menuid;
-						value = value.replace(">","");
-						var newmenuid =menus.length;
-						menus[menuid].options.push({'caption': caption, 'value': parentValue+value, 'name': fieldName + '::' + value,'childMenu': newmenuid});
-						menuid = newmenuid;
-						myparents.push(value+">");	
-				
-					}
-					else if(value.indexOf("<") != -1){
-						value = value.replace("<","");
-					
-						menus[menuid].options.push({'caption': caption,'value':parentValue + value,  'name': fieldName + '::' + value});
-						menuid = lastmenuid;
-						myparents.pop();	
-					}
-					else{
-						menus[menuid].options.push({'caption': caption, 'value':parentValue+value, 'name': fieldName + '::' + value});
-					}
-				
-							
-	
-									
-				}
+				var menus = this._createMenus(values);
 				
 						
 				var lastMenu;
@@ -307,9 +312,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					}
 					newMenu.onchange = function(e){
 						
+
 						/*toggle menu*/
 						var opt =this[this.selectedIndex];
-
+			
 						if(opt.childMenu){
 							opt.childMenu.style.display=""
 							if(this.expandedMenu) this.expandedMenu.style.display = "none";
@@ -322,6 +328,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 						
 						handler(e,this);
 					};
+					
 					allMenus[j] = newMenu;
 
 					if(lastMenu){
@@ -342,13 +349,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					this._revealSelectMenus(selectedItem);
 				}
 		}
-		,_handleOptionChange: function(){
-			
-		}
+
 		,_revealSelectMenus: function(selecteditem){
 			if(!selecteditem.selected) selecteditem.selected = true;
 			
-
 			var containingmenu = selecteditem.parentNode;
 			
 			
@@ -411,6 +415,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		},
 		
 		getMetaData: function(title,extField){
+			extField = extField.toLowerCase();
 			var tiddler =  store.getTiddler(title);
 			if(!tiddler) {
 				return false;
@@ -426,29 +431,18 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		}
 		
 		,setMetaData: function(title,extField,extFieldVal){
-			if(extFieldVal == 'null') extFieldVal = "";
+			extField = extField.toLowerCase();
+			if(extFieldVal == "null") {
+				extFieldVal = "";
+			}
 			var tiddler =  store.getTiddler(title);
 			if(!tiddler) {
-				var fields = {};
-				fields[extField] = extFieldVal;
-				store.saveTiddler(title,title,null,true,null,[],fields,null);
+				store.saveTiddler(title,title,null,true,null,[],{},null);
+				tiddler =  store.getTiddler(title);
 			}
-			else{
 			store.setValue(tiddler,extField,extFieldVal);	
-			}
+			
 		
-		}
-		// Ensure that changes to a free text field are stored as an extended field.
-		,changeFreetext: function(ev) {
-			var e = ev ? ev : window.event;
-			var ttField = this.getAttribute('ttname');
-			var value = this.value;
-			if(ttField) {
-				var t = story.findContainingTiddler(this);
-				var title = t.getAttribute('tiddler');
-				config.macros.ValueSwitcher.setMetaData(title,ttField,value);
-			}
-			return false;
 		}
 	};
 }

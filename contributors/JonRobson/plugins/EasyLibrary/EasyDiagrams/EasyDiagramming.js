@@ -213,12 +213,15 @@ EasyDiagram.prototype = {
 	}
 	
 	,moveSelectedShapes: function(x,y){
+
 		if(this.selectedShape && !this.editing) {
 			var shape = this.selectedShape;
+			 
 			var node = this.getNodeFromShape(shape);
+			console.log(node);
 			if(node)node.setPosition(x - 20,y - 20);
 		}
-		this.render();
+
 	}
 	,deleteShape: function(easyShape){
 		var n = this.getNodeFromShape(easyShape);

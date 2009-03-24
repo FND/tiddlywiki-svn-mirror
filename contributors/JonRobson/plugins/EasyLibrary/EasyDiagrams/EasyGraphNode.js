@@ -6,16 +6,15 @@ var EasyGraphNode = function(json){
 	var id = json.id;
 	var properties = json.properties;
 	this.id = id;		
-	this.properties = this.completeProperties(properties);
+	properties = this.completeProperties(properties);
 	
-	var pos = this.getProperty("position");
+	var pos = properties.position;
 	var x = pos.x;
 	var y = pos.y;
-	var w = this.getProperty("width") ;
-	var h = this.getProperty("height");
-	//console.log(x,y);
-	this.easyShape = new EasyShape(this.properties,[x,y,x+w,y, x+w,y+h,x,y+h]);
-	this.properties = this.easyShape.properties;	
+	var w = properties.width;
+	var h = properties.height;
+	
+	this.easyShape = new EasyShape(properties,[x,y,x+w,y, x+w,y+h,x,y+h]);
 	return false;
 };
 
@@ -55,13 +54,13 @@ EasyGraphNode.prototype = {
 		return this.easyShape;
 	}
 	,getProperty: function(name){
-		if(!this.properties[name]) 
+		if(!this.easyShape.getProperty(name)) 
 			return false;
 		else
-			return this.properties[name];
+			return this.easyShape.getProperty(name);
 	}
 	,setProperty: function(name,value){
-		this.properties[name] = value;
+		this.easyShape.setProperty(name,value);
 	}
 	,getPosition: function(){
 		return this.getProperty("position");
@@ -73,6 +72,7 @@ EasyGraphNode.prototype = {
 		//console.log(x,y);
 		this.setProperty("position",{x:x,y:y});
 		this.easyShape.setCoordinates([x,y,x+w,y, x+w,y+h,x,y+h]);
+		console.log("cool");
 		
 	}
 };

@@ -60,8 +60,7 @@ Tagmindmap.prototype = {
 		var compute = false;
 		if(this.settings.zoomLevel != t.scale.x) {
 			if(t.scale.x > 0){			
-			this.settings.zoomLevel = parseFloat(t.scale.x * 100);
-		
+				this.settings.zoomLevel = parseFloat(t.scale.x * 100);
 			}
 			compute = true;
 		}

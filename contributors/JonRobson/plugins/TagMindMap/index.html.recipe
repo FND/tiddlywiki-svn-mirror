@@ -1,5 +1,4 @@
-recipe: $TW_ROOT/core/tiddlywiki.html.recipe
-
+recipe: ../../../../core/tiddlywiki.html.recipe
 tiddler: /tiddlers/DIYExample.tiddler
 tiddler: /tiddlers/Example2.tiddler
 tiddler: /tiddlers/Example3.tiddler
