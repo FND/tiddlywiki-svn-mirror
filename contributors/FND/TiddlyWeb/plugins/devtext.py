@@ -20,7 +20,8 @@ from tiddlyweb.model.policy import Policy
 from tiddlyweb.model.recipe import Recipe
 from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.model.user import User
-from tiddlyweb.store import NoBagError, NoTiddlerError
+from tiddlyweb.store import NoBagError, NoTiddlerError, StoreLockError
+from tiddlyweb.util import write_lock, write_unlock
 
 
 class Store(Text):
@@ -36,11 +37,13 @@ class Store(Text):
         return [Bag(urllib.unquote(bag).decode('utf-8')) for bag in bags]
 
     def list_recipes(self):
-        recipes = [file.replace('.recipe', '') for file in self._files_in_dir(self._store_root()) if file.endswith('.recipe')]
+        recipes = [file.replace('.recipe', '') for file in self._files_in_dir(self._store_root())
+			if file.endswith('.recipe')]
         return [Recipe(urllib.unquote(recipe).decode('utf-8')) for recipe in recipes]
 
     def list_users(self):
-        users = [file.replace('.user', '') for file in self._files_in_dir(self._store_root()) if file.endswith('.user')]
+        users = [file.replace('.user', '') for file in self._files_in_dir(self._store_root())
+			if file.endswith('.user')]
         return [User(urllib.unquote(user).decode('utf-8')) for user in users]
 
     def list_tiddler_revisions(self, tiddler):
@@ -74,7 +77,7 @@ class Store(Text):
         while (not locked):
             try:
                 lock_attempts = lock_attempts + 1
-                self.write_lock(tiddler_base_filename)
+                write_lock(tiddler_base_filename)
                 locked = 1
             except StoreLockError, exc:
                 if lock_attempts > 4:
@@ -87,7 +90,7 @@ class Store(Text):
             tiddler.text = b64encode(tiddler.text)
         self.serializer.object = tiddler
         tiddler_file.write(self.serializer.to_string())
-        self.write_unlock(tiddler_base_filename)
+        write_unlock(tiddler_base_filename)
         tiddler.revision = revision
         tiddler_file.close()
         self.tiddler_written(tiddler)
@@ -169,4 +172,5 @@ class Store(Text):
         return [dir for dir in self._files_in_dir(path) if os.path.isdir(os.path.join(path, dir))]
 
     def _files_in_dir(self, path):
-        return [x for x in os.listdir(path) if not x.startswith('.') and not x == 'policy' and not x == 'description']
+        return [x for x in os.listdir(path) if
+			not x.startswith('.') and not x == 'policy' and not x == 'description']
