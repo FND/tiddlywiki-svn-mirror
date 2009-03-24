@@ -9,7 +9,7 @@
 <<slider chkSliderOptionsPanel TaskViews 'Task views »' 'A selection of task views'>>
 <<slider chkSliderOptionsPanel Customise 'Customise »' 'Edit and fiddle and poke to create a system that works best for you'>>
 [[about|About TeamTasks]]
-[[download|index.html]]
+<<selectTheme>>
 {{meta{
 	<<tiddler TeamTasksMetaData>>
 }}}

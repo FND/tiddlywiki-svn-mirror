@@ -188,8 +188,8 @@ div.header #topMenu { position:absolute; right:20px; bottom:0;}
 .tiddler div.task table td.taskbody { width:100%; }
 .tiddler div.task table td.taskControls { width:auto; }
 .tiddler div.task div.viewer { display:block; padding:1em; margin:10px 0; border:solid 1px [[TeamTasksColors::TaskBorder]]; background-color:[[TeamTasksColors::TaskBackground]]; font:italic 1.1em/1.5em "Lucida Sans","Lucida Grande",Verdana,"Bitstream Vera Sans",Arial,sans-serif; }
-.tiddler div.task div.taskControls { float:right; white-space:nowrap; margin:0 0 0 10px;}
-.tiddler div.task div.taskControls table { border-style:none; margin: 10px 0;}
+.tiddler div.task div.taskControls { white-space:nowrap; margin:0 0 0 10px;}
+.tiddler div.task div.taskControls table { border-style:none; margin: 10px 0; width:auto;}
 .tiddler div.task div.taskControls table tr { border-style:none;}
 .tiddler div.task div.taskControls table tr td { border-style:none;}
 .tiddler div.task div.taskControls select, 

@@ -13,6 +13,8 @@ tiddler: TeamTasksColors.tiddler
 recipe: plugins/split.recipe
 tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: $TW_ROOT/contributors/SaqImtiaz/plugins/TableSortingPlugin/TableSortingPlugin.js
+tiddler: $TW_ROOT/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js
+
 
 # TeamTasks UI Elements
 tiddler: SiteTitle.tiddler
