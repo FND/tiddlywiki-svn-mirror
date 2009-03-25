@@ -5,6 +5,8 @@ A StorageInterface that stores in another TiddlyWeb.
 import sys
 sys.path.append('/Users/cdent/src/osmo/TiddlyWeb')
 
+sys.exit(1)
+
 import httplib2
 import simplejson
 import urllib

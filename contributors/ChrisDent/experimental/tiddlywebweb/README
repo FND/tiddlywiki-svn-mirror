@@ -1,4 +1,12 @@
 
+This version of tiddlywebweb has been superceeded by a better version
+kept in:
+
+   http://svn.tiddlywiki.org/Trunk/contributors/ChrisDent/experimental/tiddlyweb-plugins/tiddlywebweb/
+
+Please use it.
+
+======================================================================
 tiddlywebweb is a version of TiddlyWeb that uses TiddlyWeb
 as its datastore. It is being created for several reasons:
 
