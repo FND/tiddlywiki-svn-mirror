@@ -2,7 +2,7 @@
 |''Name''|TiddlyViPlugin|
 |''Description''|mouseless navigation and editing|
 |''Author''|FND|
-|''Version''|0.3.0|
+|''Version''|0.3.1|
 |''Status''|@@experimental@@|
 |''Source''|http://fnd.tiddlyspot.com/#TiddlyViPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -78,7 +78,7 @@ restart = function() {
 
 var keys = {
 	up: 107, // k (charCode)
-	down: 106, // j (charCode)
+	down: 106 // j (charCode)
 };
 
 var selectNextItem = function(reverse) { // TODO: rename
