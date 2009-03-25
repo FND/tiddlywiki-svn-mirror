@@ -7,9 +7,14 @@ PasswordPrompt ={
 		box.innerHTML = store.getTiddlerText('PasswordPromptTemplate');
 		box.style.position = 'absolute';		this.center(box);
 		this.showCloak();
-		var el = document.getElementById("passwordInputField");
-		if(el) {
-			el.onkeyup = function(ev) {
+		var passwordEl = document.getElementById("passwordInputField");
+		var usernameEl = document.getElementById("usernameInputField");
+		if(context.username)
+			usernameEl.value = context.username;
+		if(context.password)
+			passwordEl.value = context.password;
+		if(passwordEl) {
+			passwordEl.onkeyup = function(ev) {
 				var e = ev || window.event;
 				if(e.keyCode == 10 || e.keyCode == 13) { // Enter
 					PasswordPrompt.submit(callback, context);
