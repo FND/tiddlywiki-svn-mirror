@@ -48,6 +48,7 @@ WikispacesSoapAdaptor.errorInFunctionMessage = "Error in function WikispacesSoap
 WikispacesSoapAdaptor.tiddlerNotFoundMessage = "Tiddler %0 not found";
 WikispacesSoapAdaptor.createdWithTiddlyWikiMessage = "Created with TiddlyWiki";
 WikispacesSoapAdaptor.couldNotLoginMessage = "Could not log in";
+WikispacesSoapAdaptor.authenticated = false;
 
 WikispacesSoapAdaptor.soapTemplate = '<?xml version=\"1.0\" encoding="utf-8"?>' +
 	'<soap:Envelope ' +
@@ -138,9 +139,9 @@ WikispacesSoapAdaptor.prototype.complete = function(context,fn)
 WikispacesSoapAdaptor.prototype.login = function(context)
 {
 //#fnLog('login:'+context.host);
-	if(config.options.txtWikispacesUsername && config.options.txtWikispacesPassword) {
-		context.username = config.options.txtWikispacesUsername;
-		context.password = config.options.txtWikispacesPassword;
+	context.username = config.options.txtWikispacesUsername;
+	context.password = config.options.txtWikispacesPassword
+	if(config.options.txtWikispacesUsername && config.options.txtWikispacesPassword && WikispacesSoapAdaptor.authenticated) {
 		WikispacesSoapAdaptor.loginPromptCallback(context);
 	} else if(context.loginPromptFn) {
 		context.loginPromptCallback = WikispacesSoapAdaptor.loginPromptCallback;
@@ -157,8 +158,6 @@ WikispacesSoapAdaptor.loginPromptCallback = function(context)
 	var uri = WikispacesSoapAdaptor.SoapUri(context,'%0site/api');
 //#fnLog('uri:'+uri);
 	var pl = new SOAPClientParameters();
-	config.options.txtWikispacesUsername = context.username;
-	config.options.txtWikispacesPassword = context.password;
 	pl.add('username',context.username);
 	pl.add('password',context.password);
 	SOAPClient.invoke(uri,'login',pl,true,WikispacesSoapAdaptor.loginCallback,context);
@@ -172,11 +171,14 @@ WikispacesSoapAdaptor.loginCallback = function(r,x,context)//status,context,resp
 	if(context.status) {
 		context.sessionToken = r;
 		context.adaptor.sessionToken = r;
+		WikispacesSoapAdaptor.authenticated = true;
+		config.options.txtWikispacesUsername = context.username;
+		config.options.txtWikispacesPassword = context.password;
 	} else {
 		context.statusText = "Error at login";
 		alert("Your username or password was incorrect. Please try again");
-		config.options.txtWikispacesUsername = undefined;
-		config.options.txtWikispacesPassword = undefined;
+		//config.options.txtWikispacesUsername = undefined;
+		//config.options.txtWikispacesPassword = undefined;
 		context.adaptor.login(context);
 		return false;
 	}
