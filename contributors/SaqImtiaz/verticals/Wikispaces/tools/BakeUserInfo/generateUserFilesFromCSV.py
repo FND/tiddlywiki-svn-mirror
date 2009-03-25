@@ -7,7 +7,7 @@ Usage:
  $ ./generateUserFilesFromCSV.py <CSV> <HTML> <targetDir> <targetFile>
  * CSV       : CSV filename
  * HTML      : template HTML file
- * targetDir : output dir, must exist
+ * targetDir : output dir
  * targetFile: output filename
 """
 
@@ -15,7 +15,13 @@ Usage:
 import sys
 import os
 import csv
+import re
 
+tiddlertemplate="""<div title="ServerCredentials" tags="excludeLists excludeSearch systemConfig excludeSync">
+<pre>config.options.txtWikispacesUsername="%s";
+config.options.txtWikispacesPassword="%s";
+</pre>
+</div>"""
 
 def main(args=None):
 	csvfile = args[1]
@@ -32,14 +38,20 @@ def main(args=None):
 		password = row[2]
 		f = open(template)
 		inputtext = f.read()
-		outputtext = inputtext.replace("%(wikispaces_username)s", username).
-			replace("%(wikispaces_password)s", password)
+		marker = r"</div>\n<!--POST-STOREAREA-->"
+		pattern = re.compile(marker)
+		tiddler = getTiddler([username,password])
+		#print foo
+		outputtext = pattern.sub("%s\n%s" % (tiddler,marker),inputtext)
 		f.close()
 		output = open("%s/%s-%s.html" % (dir, output_name, username), "w")
 		output.write(outputtext)
 		output.close()
 	return True
 
+
+def getTiddler(arg):
+	return tiddlertemplate % (arg[0],arg[1])
 
 if __name__ == "__main__":
 	status = not main(sys.argv)

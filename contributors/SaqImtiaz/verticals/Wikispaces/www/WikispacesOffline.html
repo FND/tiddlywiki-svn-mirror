@@ -1,0 +1,107 @@
+<html><head>
+
+<title>Wikispaces Offline Notebook generator - get your own</title>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+		function requestNotebook() {
+			var generator = "http://studentnotebook.lewcid.org/WikispacesOfflineGenerator.cgi?wikiurl="
+			var wikiurl = document.getElementById("wikispaceURL").value;
+			if (wikiurl == ''){
+				alert('please enter the URL for your wikispace.\nEg:http://mywiki.wikispaces.com');
+				return false;
+			}
+			var wikititle = document.getElementById("wikispaceTitle").value;
+			var url = generator + wikiurl +(wikititle == ""? "" : "&wikititle=" + wikititle );
+			
+			/*
+			if (! recipe.match(/http:\/\/(svn|trac).tiddlywiki.org(.*?).recipe/)){
+				alert('please enter a valid URL for a recipe file at tiddlywiki.org');
+				return false;
+			}
+			
+			var options = '';
+			
+			
+			var cb_stripcomments = document.getElementById('cb_stripcomments');
+			if (cb_stripcomments.checked)
+				options += '&stripcomments=true';
+			
+			//var cb_compress = document.getElementById('cb_compress');
+			//if (cb_compress.checked)
+			//	options +=  '&compress=true'
+				
+			var cb_keepallcomments = document.getElementById('cb_keepallcomments');
+			if (cb_keepallcomments.checked)
+				options +=  '&keepallcomments=true'
+			
+			var url = chef + recipe + options;
+			//console.log(url);
+			*/
+			
+			window.location.href = url;
+		}
+		
+</script>
+<style type="text/css">
+       h1 { padding:0em; margin:0em; padding:0 0em; font-size:180%;}
+       h2 {padding:0 0.3em;}
+       h3{visibility:visible; margin-left: 0.9em; margin-top:0.25em}
+       h4 {margin:-0.5em; padding:0; visibility:hidden;}
+       body { font-family:'Trebuchet MS' sans-serif; background-color:white; color:#222; font-size:150%; padding:2em 3em; width:500px; margin: 0 auto;}
+       li {padding-bottom:0.5em;}
+       .small {font-size:60%; margin-left:1em; margin-bottom:1em;}
+       .medium {font-size:80%;}
+       a {color:#333;}
+       #main {padding:0 1em; visibility:none;}
+       .box {border:1px solid #ccc; background:#eee; clear:both; padding:1.5em 1.5em 0 1.5em; }
+	   #advancedoptionsbox {border:1px solid #ccc; background:#fff; display:none;clear:both; padding:0.5em; width:355px; margin-top: 0.5em;}
+	   .box input#wikispaceURL, .box input#wikispaceTitle {width:390px; padding:0.25em; margin: 0.5em 0;}
+       #counterbox {float:left; font-weight:bold;clear:both; margin-left:2em; margin-bottom:1em; margin-top:0em; font-size:200%;}
+       .red {color:red;}
+       *html #counterbox {margin-left:1em;}
+       #topbox {float:left;clear:both; color:#777;text-align:center;margin-top:0.9em;}
+       #title {float:left;}
+       #ratio {margin-left:0.3em;font-size:60%; color:red; display:none;}
+	   .logo {float:left;}
+	   .createbutton {font-weight:bold; font-size:100%; padding: 1.5em; margin: 1em auto;}
+</style></head><body>
+      <div style="position: static;" id="main">
+           <div id="title">
+<!--
+                <img class='logo' src='chef.jpg'/>
+-->
+				<h1>WikispacesOffline Notebook Generator</h1>
+           </div>
+          <div id="topbox">
+                <h3>Get an offline notebook for your wikispace</h3>
+           </div>
+		   
+
+		   
+		   
+           <div style="display: block; opacity: 0.9999;" class='box medium'>
+			   
+
+
+					<label for="wikispaceurl">URL of your wikispace:</label><br>
+					<input type="text" name="wikispaceurl" id="wikispaceURL"><br>
+					<span class='small'>Eg: http://studentnotebookdemo.projects.unamesa.org<br><br>
+					</span>
+					<label for="wikispacetitle">Title for your notebook:</label><br>
+					<input type="text" name="wikispacetitle" id="wikispaceTitle"><br>
+					<span class='small'>Eg: My notebook
+					</span>				
+
+					<div style="text-align:center"><input type="button" class="createbutton" name="create" value="create my Notebook!" onclick="requestNotebook()"></div>
+           </div>
+	        </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-7341702-8");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body></html>
