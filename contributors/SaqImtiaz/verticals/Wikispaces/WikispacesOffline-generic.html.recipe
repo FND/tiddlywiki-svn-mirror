@@ -2,6 +2,7 @@ recipe: basic.html.recipe
 #
 #
 # Plugins
+tiddler: ../../plugins/SaveServerCredentialsPlugin.js
 tiddler: ../../plugins/VerticalUpdatePlugin.js
 tiddler: ../../plugins/TagsMacroTweak.js
 #tiddler: ../POLS250/studentnotebook/plugins/ReadOnlyTiddlersPlugin.js
