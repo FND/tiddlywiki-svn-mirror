@@ -31,8 +31,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			return false;
 
 		}
-		,handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+		,advancedDropdown: function(){
 			
+		}
+		,handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 			var tiddlerDom = story.findContainingTiddler(place);
 			var params = paramString.parseParams("anon",null,true,false,false);
 			var ctrlType = getParam(params,"type",null);
@@ -40,6 +42,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var title = tiddlerDom.getAttribute("tiddler");
 			var tiddler = store.getTiddler(title);
 			var metaDataName = getParam(params,"metaDataName", null);
+			
 			// build a drop down control
 			var valueSource = getParam(params,"valuesSource", null);
 			if(!valueSource) valueSource = metaDataName + "Definition";
@@ -50,9 +53,20 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
 					return;
 				}
-				var selected = store.getValue(tiddler,metaDataName);
+				
+				if(metaDataName.indexOf(",") > -1){
+					fields = metaDataName.split(",");
+					for(var j=0; j < fields.length; j++){
+						fields[j] = jQuery.trim(fields[j]);
+					}
+				}
+				else{
+					fields = [metaDataName];
+				}
+				
+				var selected = store.getValue(tiddler,fields[fields.length -1]);
 				if(!selected){
-					var qsvalue =this.getVariableFromQueryString(metaDataName);
+					var qsvalue =this.getVariableFromQueryString(fields[fields.length-1]);
 					if(qsvalue) selected = qsvalue;
 				}
 				var tiddler =store.getTiddler(valueSource);
@@ -60,7 +74,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				if(tiddler){
 					var values = tiddler.text.split('\n');
 					var sorted = tiddler.tags.contains("sorted");
-					this.createDropDownMenu(place,metaDataName,values,false,this.setDropDownMetaData,selected,sorted);
+					this.createDropDownMenu(place,fields,values,false,this.setDropDownMetaData,selected,sorted);
 				}
 			}
 			else if(ctrlType == 'search'){
@@ -206,45 +220,46 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var menus = [];
 			var values = menutextrepresentation;
 			var myparents = [];
+			var depth = 0;
 			for (var i=0; i < values.length; i++) {
 				
 				var value = values[i];
 				var caption = values[i];
-				
+		
 				caption = caption.replace("<","");
 				caption = caption.replace(">","");
 				if(caption.indexOf(":") > -1){
-					caption = caption.split(":")[0];
+					var splitstr= caption.split(":");
+					caption = splitstr[0];
+					value = splitstr[1];
 				}
 				
 				var chainid = chain.length -1;
 				if(!menus[chain[chainid]]){
-					menus[chain[chainid]] = {};
+					menus[chain[chainid]] = {depth: depth};
 					menus[chain[chainid]].options= [];
 				}
-				var parentValue = "";
-				for(var j=0; j < myparents.length; j++){
-					parentValue += myparents[j].toString();
-				}
+	
 
 				if(value.indexOf(">") != -1){
-				
 					value = value.replace(">","");
 					var newmenuid = menus.length;
-					menus[chain[chainid]].options.push({'caption': caption, 'value': parentValue+value,'childMenu': newmenuid});
+					menus[chain[chainid]].options.push({'caption': caption, 'value': value,'childMenu': newmenuid});
 					chain.push(newmenuid);
-					myparents.push(value+">");	
+					myparents.push(value+">");
+					depth += 1;	
 			
 				}
 				else if(value.indexOf("<") != -1){			
 					value = value.replace("<","");
 
-					menus[chain[chainid]].options.push({'caption': caption,'value':parentValue + value});
+					menus[chain[chainid]].options.push({'caption': caption,'value': value});
 					myparents.pop();
-					chain.pop();	
+					chain.pop();
+					depth -= 1;	
 				}
 				else{
-					menus[chain[chainid]].options.push({'caption': caption, 'value':parentValue+value});
+					menus[chain[chainid]].options.push({'caption': caption, 'value':value});
 				}
 			
 						
@@ -254,29 +269,41 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			return menus;
 		}
 		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected,sort){
+				if(typeof fieldName == 'object'){
+					fields = fieldName;
+				}
+				else{
+					fields = [fieldName];
+				}
+				this.associatedFields = fields;
+				
 				if(!selected) selected = "";
 				if(!initialValue){
 					initialValue = "Please select.. ";
 				}
 				var menus = this._createMenus(values);
 				
-						
-				var lastMenu;
+				var lastMenu, fieldid;
 				var allMenus = [];
 				var selectedItem = false;
 				var nowtselected = true;
 				
 				
 				for(var j=menus.length-1; j >-1; j--){
-					//var newMenu =createTiddlyDropDown(place,this.setDropDownMetaData,menus[j].options,selected);
-					
 					var newMenu = document.createElement("select");
 					
 					if(j > 0){
 						newMenu.style.display = "none";
 					}
-					newMenu.name = fieldName;
-					
+					if(fields.length == 1){
+						fieldid = 0;
+					}
+					else{
+						fieldid = menus[j].depth;
+					}
+			
+					newMenu.name = fields[fieldid];
+					newMenu.aet = this;
 					var menuoptions = menus[j].options;
 					
 					if(sort){		 
@@ -300,7 +327,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 								optionEl.value = opt.value;
 							}
 			
-							if(nowtselected && optionEl.value.replace(" ","") ==selected.replace(" ","")){
+							if(nowtselected && optionEl.value ==selected){
 								optionEl.selected = true;
 								newMenu.style.display = "";
 								selectedItem = optionEl;
@@ -395,22 +422,35 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			var e = ev ? ev : window.event;
 			var taskTiddler = story.findContainingTiddler(el);
+			
 			if(taskTiddler && taskTiddler != undefined) {
 				var title = taskTiddler.getAttribute('tiddler');
 
 				
 				var selected = el[el.selectedIndex];
+				var aet = el.aet;
+
+				
 				var fieldname = selected.parentNode.name;
 				var fieldvalue = selected.value;
+				for(var i=0; i < aet.associatedFields.length; i++){
+					var fieldname =aet.associatedFields[i];
+					aet.setMetaData(title,fieldname,fieldvalue);
+				}	
+				var parent = selected.parentNode.parentOption;
+				
 				if(selected.value == 'null'){
-					var parent = selected.parentNode.parentOption;
 					if(parent){
 						selected = parent;
 						fieldvalue = selected.value;	
 					}
 				}
 				
-				config.macros.AdvancedEditTemplate.setMetaData(title,fieldname,fieldvalue);
+				if(parent){
+					aet.setDropDownMetaData(ev,parent.parentNode);
+				}
+				
+				aet.setMetaData(title,fieldname,fieldvalue);
 			}
 		},
 		
