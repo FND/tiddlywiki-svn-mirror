@@ -81,7 +81,7 @@ PasswordPrompt ={
 			 "        <dd><input type=\"text\" tabindex=\"1\" id=\"usernameInputField\" class=\"input\"/></dd>\n"+
 			 "        <dt>Password:</dt>\n"+
 			 "        <dd><input type=\"password\" tabindex=\"2\" class=\"input\" id=\"passwordInputField\"/></dd>\n"+
-			 "        <dd class=\"submit\">\n"+
+			 "        <dd id=\"passwordPromptSubmitDD\" class=\"submit\">\n"+
 			 "            <a tabindex=\"3\" href=\"javascript:;\" class=\"button\" id=\"passwordpromptSubmitBtn\">OK</a>\n"+
 			 "			  <a tabindex=\"4\" href=\"javascript:;\" class=\"button\" id=\"passwordpromptCancelBtn\">Cancel</a>\n"+
 			 "        </dd>\n"+
