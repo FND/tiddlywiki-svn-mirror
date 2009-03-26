@@ -37,8 +37,8 @@ EasyController.prototype = {
 		return this.transformation;
 	}
 	,addMouseWheelZooming: function(){ /*not supported for internet explorer*/
-		if(EasyUtils.browser.isIE) return
-		this.crosshair = {lastdelta:0};
+		if(EasyUtils.browser.isIE) return;
+		this.crosshair = {lastdelta:false};
 		this.crosshair.pos = {x:0,y:0};
 		this.crosshair.el =document.createElement("div");
 		this.crosshair.el.style.position = "absolute";
@@ -90,16 +90,25 @@ EasyController.prototype = {
 			var sensitivity = 0.8;
 			var scale =that.transformation.scale;
 			var origin = that.transformation.origin;
+
+
+			var mousepos = EasyClickingUtils.getMouseFromEvent(e);
+	
+			var w = parseInt(that.wrapper.style.width) / 2;
+			var h = parseInt(that.wrapper.style.height) / 2;
+			var translation =  EasyTransformations.undoTransformation(mousepos.x,mousepos.y,that.transformation);
+			that.transformation.translate= {x: -translation.x, y: -translation.y};
+			//{x: -mousepos.x + w,y: -mousepos.y + h};
+			that.transformation.origin = {
+											x: mousepos.x,
+											y: mousepos.y
+										};
 			
-			//var pos =EasyTransformations.applyTransformation(that.crosshair.pos.x,that.crosshair.pos.y,that.transformation);
-			var pos = that.getTransformation().origin;
-
-			that.crosshair.el.style.left =  parseInt(pos.x - 5) + "px";
-			that.crosshair.el.style.top = parseInt(pos.y - 5) + "px";
-
+			that.crosshair.el.style.left = mousepos.x + "px";
+			that.crosshair.el.style.top = mousepos.y + "px";
 			if(!that.crosshair.lastdelta) {
 				that.crosshair.lastdelta = delta;
-	
+			
 			
 			
 			}

@@ -66,7 +66,10 @@ var EasyShape = function(properties,coordinates){
 
 
 EasyShape.prototype={
-	setProperties: function(properties){
+	getShape: function(){
+		return this.getProperty("shape");
+	}
+	,setProperties: function(properties){
 		this.properties = EasyUtils.clone(properties);
 		if(!properties.stroke){
 			this.setProperty("stroke",'#000000');		

@@ -159,14 +159,6 @@ EasyClicking.prototype = {
 		x = e.clientX + window.findScrollX() - offset.left;
 		y = e.clientY + window.findScrollY() - offset.top;
 
-		//counter any positioning
-		//if(target.style.left) x -= parseInt(target.style.left);
-		//if(target.style.top) y -= parseInt(target.style.top);
-
-	
-		//var memory = target.memory;
-		//var transformation = target.transformation;
-		//console.log('memory length: '+memory.length);
 		if(this.memory.length > 0){
 			var shape = false;
 			if(target.easyClicking){
@@ -189,10 +181,13 @@ EasyClicking.prototype = {
 		var hitShapes = [];
 	
 		for(var i=0; i < shapes.length; i++){
-			var g = shapes[i].getBoundingBox();
-			if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
-				hitShapes.push(shapes[i]);
-			}
+			var shape = shapes[i];
+			var st = shape.getShape();
+				var g = shape.getBoundingBox();
+				if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
+					hitShapes.push(shapes[i]);
+				}
+
 		}
 		var res = this._findNeedleInHaystack(x,y,hitShapes);
 	
