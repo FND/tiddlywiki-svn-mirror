@@ -531,21 +531,18 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		else
 			tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10);
 		context.revision = tiddler.fields['server.page.revision'];
-
-//console.log("Tiddler - ", tiddler);
-			
-			
-			
 		if(!context.otitle)
 			var otitle = tiddler.title;
 		else
 			var otitle = context.otitle;
-
-//		displayMessage("sending rev : "+tiddler.fields['server.page.revision']+" for "+tiddler.title +" with id of "+tiddler.fields['server.id']);
 		var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+encodeURIComponent(tiddler.getTags())+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
 	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id']+"&"+postParams;
+		
+		console.log(payload);
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 		removeNode(el);
+		
+		
 		return typeof req == 'string' ? req : true;
 	};
 
@@ -558,11 +555,8 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 			if(responseText!="") {
 				context.tiddler.fields['server.id'] = responseText;
 			}
-			
-//			console.log("revison is : "+context.tiddler.fields['server.page.revision']);
-//			console.log(context.tiddler);
+			console.log(context.revision);
 			context.tiddler.fields['server.page.revision'] = context.revision + 1;
-	//		console.log("rev set to : "+context.tiddler.fields['server.page.revision']);
 		}
 		if(context.callback){
 			context.callback(context,context.userParams);
