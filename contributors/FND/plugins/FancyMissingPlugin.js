@@ -12,7 +12,7 @@ TiddlyWiki.prototype.getMissingLinks = function(sortField) {
 		};
 	});
 	return index.sort(function(a, b) {
-		return a.count - b.count;
+		return b.count - a.count;
 	}).map(function(item, i) {
 		return item.title;
 	});
