@@ -296,6 +296,32 @@ function db_tiddlers_mainSearchAll($term)
 	return $result;
 }
 
+
+
+
+//!	@fn array db_tiddlers_selectId($id)
+//!	@brief select tiddler with particular id
+//!	@param $id id of tiddler
+function db_tiddlers_mainSelectId($id)
+{
+	global $tiddlyCfg;
+	$q = "SELECT * FROM `".$tiddlyCfg['table']['main']
+		."` WHERE workspace_name='".$tiddlyCfg['workspace_name']
+		."' AND id='".db_format4SQL($id)."'";
+	debug("db_tiddlers_mainSelectTitle: ".$q, "mysql");
+	$result = mysql_query($q) or die(mysql_error());
+	//grab record and check if title are the same
+	//this is required since mysql is not binary safe unless deliberately configured in table
+	//result would be empty string if not found, array if found
+	while($t = mysql_fetch_assoc($result))
+	{
+		if(strcmp($t['id'],$id)==0)
+			return $t;
+	}
+	return FALSE;
+}
+
+
 //!	@fn array db_tiddlers_selectTitle($title,$workspace)
 //!	@brief select tiddler with particular title
 //!	@param $table table name
