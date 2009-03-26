@@ -16,12 +16,28 @@ function findScrollY()
 }
 
 /*Turn a dom element into one where you can find EasyShapes based on clicks */
+/*
+Following to be renamed as EasyClickableCanvas
+*/
 var EasyClicking = function(element,easyShapesList){
 	if(element.easyClicking) {
 		var update = element.easyClicking;
 		return update;
 	}
-
+	var wrapper = element;
+	var canvas = document.createElement('canvas');
+	canvas.width = parseInt(wrapper.style.width);
+	canvas.height = parseInt(wrapper.style.height);
+	canvas.style.width = wrapper.style.width;
+	canvas.style.height = wrapper.style.height;	
+	
+	canvas.style.zIndex = 1;
+	canvas.style.position = "absolute";
+	element.appendChild(canvas);
+	this.canvas = canvas;
+	this.settings = {};
+	 this.settings.browser = canvas.getContext ? 'good' : 'ie'
+	this.settings.globalAlpha = 1;
 	this.memory = [];
 	element.easyClicking = this;
 	if(easyShapesList) this.memory = easyShapesList;
@@ -30,7 +46,74 @@ var EasyClicking = function(element,easyShapesList){
 };
 
 EasyClicking.prototype = {
-	setTransformation: function(transformation){
+	setTransparency: function(alpha){	
+		this.settings.globalAlpha = alpha
+	}
+	,_setupCanvasEnvironment: function(){
+		if(!this.canvas.getContext) return;
+		var ctx = this.canvas.getContext('2d');
+		var s =this.getTransformation().scale;
+		if(s && s.x)ctx.lineWidth = (0.5 / s.x);
+		ctx.globalAlpha = this.settings.globalAlpha;
+		ctx.lineJoin = 'round'; //miter or bevel or round	
+	}
+	,clear: function(deleteMemory){
+		if(deleteMemory){
+			this.clearMemory();
+		}
+		this._maxX = 0;
+		this._maxY = 0;
+
+		
+		if(!this.canvas.getContext) {
+			return;
+		}
+		var ctx = this.canvas.getContext('2d');
+		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);		
+		
+			
+		
+	}
+	
+	,render: function(projection){
+
+		this._setupCanvasEnvironment();
+		if(this.settings.browser == 'good'){
+			this.clear();
+		}
+			
+
+		var that = this;
+		var tran = this.getTransformation();
+		var f = function(){
+			
+			var newfragment = document.createDocumentFragment();
+			var mem =that.getMemory();
+			if(mem.length > 0){
+		
+				 for(var i=0; i < mem.length; i++){
+				 			
+					mem[i].render(that.canvas,tran,projection,true,that.settings.browser,newfragment);
+				
+					if(mem[i].vmlfill && that.settings.globalAlpha) {
+						mem[i].vmlfill.opacity =that.settings.globalAlpha;
+					}
+				
+				}
+					
+				if(!that.settings.browser == 'ie'){
+					that._fragment= newfragment.cloneNode(true);
+					that.canvas.appendChild(that._fragment);
+				}
+			}
+		};
+		f();
+	}
+	,getTransformation: function(){
+		return this.transformation;
+	}
+	
+	,setTransformation: function(transformation){
 		if(transformation) this.transformation = transformation;	
 	}
 	,addToMemory: function(easyShape){
@@ -106,7 +189,7 @@ EasyClicking.prototype = {
 		var hitShapes = [];
 	
 		for(var i=0; i < shapes.length; i++){
-			var g = shapes[i].grid;
+			var g = shapes[i].getBoundingBox();
 			if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
 				hitShapes.push(shapes[i]);
 			}
@@ -150,8 +233,12 @@ EasyClicking.prototype = {
 		
 		}
 
-	},                     
-	_inPoly: function(x,y,easyShape) {
+	},
+	_inPoint: function(x,y,easyShape,transformation){
+		
+	
+	}
+	,_inPoly: function(x,y,easyShape) {
 		/* _inPoly adapted from inpoly.c
 		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
 		http://www.visibone.com/inpoly/inpoly.c.txt */
@@ -194,6 +281,8 @@ EasyClicking.prototype = {
 		 }
 		 return inside;
 	}
-
+	,_inCircle: function(x,y,easyShape){
+	
+	}
 };
 

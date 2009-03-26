@@ -1,4 +1,5 @@
 var EasyUtils = {
+	userAgent: navigator.userAgent.toLowerCase(),
 	clone: function(obj){
 
 	    if(obj == null || typeof(obj) != 'object')
@@ -26,7 +27,19 @@ var EasyUtils = {
 	}
 };
 
-
+EasyUtils.browser= {
+		isIE: EasyUtils.userAgent.indexOf("msie") != -1 && EasyUtils.userAgent.indexOf("opera") == -1,
+		isGecko: EasyUtils.userAgent.indexOf("gecko") != -1,
+		ieVersion: /MSIE (\d.\d)/i.exec(EasyUtils.userAgent), // config.browser.ieVersion[1], if it exists, will be the IE version string, eg "6.0"
+		isSafari: EasyUtils.userAgent.indexOf("applewebkit") != -1,
+		isBadSafari: !((new RegExp("[\u0150\u0170]","g")).test("\u0150")),
+		firefoxDate: /gecko\/(\d{8})/i.exec(EasyUtils.userAgent), // config.browser.firefoxDate[1], if it exists, will be Firefox release date as "YYYYMMDD"
+		isOpera: EasyUtils.userAgent.indexOf("opera") != -1,
+		isLinux: EasyUtils.userAgent.indexOf("linux") != -1,
+		isUnix: EasyUtils.userAgent.indexOf("x11") != -1,
+		isMac: EasyUtils.userAgent.indexOf("mac") != -1,
+		isWindows: EasyUtils.userAgent.indexOf("win") != -1
+	};
 /* 
 Creates primitive shapes that can be rendered across most browsers
 I am not very happy with the code that follows. It is not of the best standard and needs much improvement
@@ -78,12 +91,15 @@ EasyShape.prototype={
 		if(!transformation.scale)transformation.scale = {x:1,y:1};
 		if(!transformation.translate)transformation.translate = {x:0,y:0};
 		
+	
+		if(this._prepareShape(canvas,transformation,projection,optimisations)){
 		
-		if(this._prepareShape(canvas,transformation,projection,optimisations)){			
 			if(this.getRenderMode(canvas) == 'ie'){
+				
 				this._ierender(canvas,transformation,projection,optimisations); 
 			}
 			else{
+			
 				this._canvasrender(canvas,transformation,projection,optimisations);
 			}
 		}
@@ -128,6 +144,7 @@ EasyShape.prototype={
 			if(!canvas.getContext) this._setRenderMode("ie");
 			else this._setRenderMode("good");
 		}
+		return this.browser;
 	}
 	
 	,setProperty: function(name,value){

@@ -37,6 +37,7 @@ EasyController.prototype = {
 		return this.transformation;
 	}
 	,addMouseWheelZooming: function(){ /*not supported for internet explorer*/
+		if(EasyUtils.browser.isIE) return
 		this.crosshair = {lastdelta:0};
 		this.crosshair.pos = {x:0,y:0};
 		this.crosshair.el =document.createElement("div");

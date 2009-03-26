@@ -12,39 +12,25 @@ var GeoTag = function(longitude,latitude,properties){
 };
 
 var EasyMap = function(wrapper){  
-	if(typeof wrapper == 'string')
-		wrapper = document.getElementById(wrapper);
-	else
-		wrapper = wrapper;
-	// replace all with "if (typeof wrapper == 'string') wrapper = doc.get...."
+	if(typeof wrapper == 'string') wrapper = document.getElementById(wrapper);
+	else wrapper = wrapper;
 		
 	this.wrapper = wrapper;
 	wrapper.easyMap = this;
 	wrapper.style.position = "relative";
 	var that = this;
 	this.settings = {};
-	this.settings.globalAlpha = 1;
-	this.settings.renderPolygonMode = true; //choose not to render polygon shapes (good if you just want to display points)
-	
-	//this.settings.projection = {x:function(x){return x;}, y: function(y){return y;}};
-	this.settings.optimisations = false;
-	
 	if(!wrapper.style.width) wrapper.style.width = "600px";
 	if(!wrapper.style.height) wrapper.style.height= "200px";
 		
-	var canvas = document.createElement('canvas');
-	canvas.width = parseInt(wrapper.style.width);
-	canvas.height = parseInt(wrapper.style.height);
-	canvas.style.width = wrapper.style.width;
-	canvas.style.height = wrapper.style.height;	
-	
-	canvas.style.zIndex = 1;
-	canvas.style.position = "absolute";
-	this.canvas = canvas;
-	wrapper.appendChild(canvas);
 	this.feature_reference = {};
- 	this.settings.browser = canvas.getContext ? 'ie' : 'good'
-
+	this.settings.afterRender=  function(transformation){
+				var t = document.getElementById(that.wrapper.id + "_statustext");
+			if(t) {
+				t.parentNode.removeChild(t);	
+			}
+	};
+		
 		
 	this.easyClicking = new EasyClicking(wrapper);
 	this._setupMouseHandlers();
@@ -56,21 +42,15 @@ var EasyMap = function(wrapper){
 	this.transform(this.controller.transformation); //set initial transformation
 	this._fittocanvas = true;
 	this.geofeatures = {};
-	this.clear();
-	/*this.settings.wrapper = {};
-	this.settings.wrapper.width = wrapper.style.width;
-	this.settings.wrapper.height = wrapper.style.height;
-	this.settings.wrapper.offset = jQuery(this.wrapper).offset();
-	this.settings.wrapper.center = {};
-	this.settings.wrapper.center.x = this.settings.wrapper.offset.left + (parseInt(this.settings.wrapper.width) / 2);
-	this.settings.wrapper.center.y = this.settings.wrapper.offset.top + (parseInt(this.settings.wrapper.height) / 2);
-	this.settings.wrapper.offset.right = this.settings.wrapper.offset.left + (parseInt(this.settings.wrapper.width));
-	this.settings.wrapper.offset.bottom =	this.settings.wrapper.offset.top + (parseInt(this.settings.wrapper.height));
-	*/
+	
+		this.clear();
+	
+	
+
 };  
 EasyMap.prototype = {
 	setTransparency: function(alpha){
-		this.settings.globalAlpha = alpha;
+		this.easyClicking.setTransparency(alpha);
 	}
 	,getEasyShapes: function(){
 		return this.easyClicking.getMemory();
@@ -82,12 +62,12 @@ EasyMap.prototype = {
 		t.origin.x = width / 2;
 		t.origin.y = height / 2;
 		this.setTransformation(t);
-		if(this.canvas.getAttribute("width")){
+		/*if(this.canvas.getAttribute("width")){
 			this.canvas.width = width;
 			this.canvas.height = height;
 		}
 		this.canvas.style.height = height+"px";
-		this.canvas.style.width = width +"px";
+		this.canvas.style.width = width +"px";*/
 		this.clear();
 
 	}
@@ -99,23 +79,11 @@ EasyMap.prototype = {
 
 	}
 	,clear: function(deleteMemory){ /* does this work in IE? */
-		if(deleteMemory){
-			this.easyClicking.clearMemory();
-		}
-		this._maxX = 0;
-		this._maxY = 0;
-
-		
-		if(!this.canvas.getContext) {
-			return;
-		}
-		var ctx = this.canvas.getContext('2d');
-		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);		
-		
-		
+		this.easyClicking.clear(deleteMemory);
 	},
 	
 	drawFromGeojson: function(geojson,autosize){
+
 			if(typeof geojson == 'string'){
 				geojson = eval('(' +geojson+ ')');
 			}
@@ -145,6 +113,7 @@ EasyMap.prototype = {
 			}
 
 			this.render();
+			
 	},
 	drawFromGeojsonFile: function(file){
 		var that = this;
@@ -195,21 +164,7 @@ EasyMap.prototype = {
 	}
 
 	,redraw: function(){
-		var that = this;
-		if(this.canvas.getContext){
-			var f = function(){
-				that.clear();
-				that.render();
-			};
-			window.setTimeout(f,0);		
-		}
-		else{
-			this.clear();
-			this.render();
-		}
-
-		
-		
+		this.render();	
 	},
 		
 	transform: function(transformation){
@@ -261,59 +216,17 @@ EasyMap.prototype = {
 	}
 
 	
-	,_setupCanvasEnvironment: function(){
-		if(!this.canvas.getContext) return;
-		var ctx = this.canvas.getContext('2d');
-		var s =this.controller.transformation.scale;
-		if(s && s.x)ctx.lineWidth = (0.5 / s.x);
-		ctx.globalAlpha = this.settings.globalAlpha;
-		ctx.lineJoin = 'round'; //miter or bevel or round	
-	},
-	render: function(flag){
+
+	,render: function(flag){
 		var tran =this.transformation;
 
-		var mem =this.easyClicking.getMemory();
-		this._setupCanvasEnvironment()
 		var that = this;
 
 
 		if(this.settings.beforeRender) {
 			this.settings.beforeRender(tran);
 		}
-		var that = this;
-
-		var f = function(){
-			var newfragment = document.createDocumentFragment();
-			var t1=new Date();
-				
-			 for(var i=0; i < mem.length; i++){
-				mem[i].render(that.canvas,tran,that.settings.projection,that.settings.optimisations,that.settings.browser,newfragment);
-				if(mem[i].vmlfill && that.settings.globalAlpha) {
-					mem[i].vmlfill.opacity =that.settings.globalAlpha;
-				}
-			
-			}
-			var t2=new Date();
-			var time = t2-t1;
-			//console.log("done!"+time);
-			if(!this._fragment){
-				this._fragment= newfragment.cloneNode(true);
-				that.canvas.appendChild(this._fragment);
-			}
-			else{
-				//newfragment.childNodes
-				//for(var i=0; i < newfragment.childNodes; i++){
-					
-				//}
-			}
-			
-			//console.log("done in "+ time+"! ");
-			var t = document.getElementById(that.wrapper.id + "_statustext");
-			if(t) {
-				t.parentNode.removeChild(t);	
-			}
-		};
-		if(this.settings.renderPolygonMode)f();
+		this.easyClicking.render();
 		if(this.settings.afterRender) {
 			this.settings.afterRender(tran);
 		}
@@ -329,9 +242,11 @@ EasyMap.prototype = {
 			this.easyClicking.addToMemory(s[i]);
 			this.geofeatures[this.easyClicking.getMemoryID(s[i])] = feature;
 		}	
+
 	},
 	drawGeoJsonFeatures: function(features){
 			var avg1 = 0;
+				
 			for(var i=0; i < features.length; i++){
 			
 				this.drawGeoJsonFeature(features[i]);
@@ -559,6 +474,7 @@ EasyMap.Feature.prototype = {
 		
 	},	
 	_drawGeoJsonPolygonFeature: function(coordinates,feature){
+
 		var p = feature.properties;
 		p.shape = 'polygon';
 		//console.log(coordinates[0]);
