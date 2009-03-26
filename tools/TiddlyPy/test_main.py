@@ -3,7 +3,7 @@ import main
 import unittest
 
 
-class getTiddlerNodesTestCase(unittest.TestCase):
+class getTiddlersTestCase(unittest.TestCase):
 
 	def setUp(self):
 		pass
@@ -11,14 +11,36 @@ class getTiddlerNodesTestCase(unittest.TestCase):
 	def tearDown(self):
 		pass
 
-	def testExpectsArgument(self):
-		"""_get_tiddler_elements expects exactly one argument"""
-		actual = [main._get_tiddler_elements]
-		expected = TypeError
+	def testExpectsTiddlyWiki(self):
+		"""get_tiddlers throws exception if not passed a TiddlyWiki"""
+		doc = "<html></html>"
+		actual = [main.get_tiddlers, doc]
+		expected = AttributeError
 		self.assertRaises(expected, *actual)
-		actual = [main._get_tiddler_elements, "", None]
-		expected = TypeError
-		self.assertRaises(expected, *actual)
+
+	def testReturnsList(self):
+		"""get_tiddlers returns empty list if no tiddlers in store"""
+		doc = _getTiddlyWiki()
+		actual = main.get_tiddlers(doc)
+		expected = []
+		self.assertEqual(actual, expected)
+
+	def testReturnsTiddlers(self):
+		"""get_tiddlers returns Tiddler objects"""
+		doc = _getTiddlyWiki("modern")
+		tiddlers = main.get_tiddlers(doc)
+		actual = tiddlers[0]["title"]
+		expected = "Foo"
+		self.assertEqual(actual, expected)
+
+
+class getTiddlerElementsTestCase(unittest.TestCase):
+
+	def setUp(self):
+		pass
+
+	def tearDown(self):
+		pass
 
 	def testExpectsTiddlyWiki(self):
 		"""_get_tiddler_elements throws exception if not passed a TiddlyWiki"""
@@ -51,7 +73,7 @@ class getTiddlerNodesTestCase(unittest.TestCase):
 		self.assertEqual(actual, expected)
 
 
-class getTiddlerTextTestCase(unittest.TestCase):
+class generateTiddlerTestCase(unittest.TestCase):
 
 	def setUp(self):
 		pass
@@ -59,50 +81,100 @@ class getTiddlerTextTestCase(unittest.TestCase):
 	def tearDown(self):
 		pass
 
-	def testExpectsArgument(self):
-		"""_get_tiddler_text expects exactly one argument"""
-		actual = [main._get_tiddler_text]
-		expected = TypeError
-		self.assertRaises(expected, *actual)
-		actual = [main._get_tiddler_text, "", None]
-		expected = TypeError
-		self.assertRaises(expected, *actual)
+	def testReturnsTiddler(self):
+		"""_generate_tiddler returns Tiddler object"""
+		doc = _getTiddlyWiki("modern")
+		tiddlers = main._get_tiddler_elements(doc)
+		actual = main._generate_tiddler(tiddlers[1])
+		expected = {
+			"title": "Bar",
+			"text": "consectetur adipisicing elit"
+		}
+		self.assertEqual(actual, expected)
+
+
+class getTitleTestCase(unittest.TestCase):
+
+	def setUp(self):
+		pass
+
+	def tearDown(self):
+		pass
 
 	def testExpectsElementNode(self):
-		"""_get_tiddler_text throws exception if not passed an element node"""
-		actual = [main._get_tiddler_text, {}]
+		"""_get_title throws exception if not passed an element node"""
+		actual = [main._get_text, {}]
 		expected = AttributeError
 		self.assertRaises(expected, *actual)
 
 	def testReturnsTiddlerContents(self):
-		"""_get_tiddler_text returns tiddler elements' contents"""
+		"""_get_title returns tiddler name"""
 		doc = _getTiddlyWiki("modern")
 		tiddlers = main._get_tiddler_elements(doc)
-		actual = main._get_tiddler_text(tiddlers[1])
+		actual = main._get_title(tiddlers[1])
+		expected = "Bar"
+		self.assertEqual(expected, actual)
+
+	def testSupportsModernStore(self):
+		"""_get_title supports modern (v2.2+) store format"""
+		doc = _getTiddlyWiki("modern")
+		tiddlers = main._get_tiddler_elements(doc)
+		actual = main._get_title(tiddlers[0])
+		expected = "Foo"
+		self.assertEqual(expected, actual)
+
+	def testSupportsLegacyStore(self):
+		"""_get_title supports legacy (pre-v2.2) store format"""
+		doc = _getTiddlyWiki("legacy")
+		tiddlers = main._get_tiddler_elements(doc)
+		actual = main._get_title(tiddlers[0])
+		expected = "Foo"
+		self.assertEqual(expected, actual)
+
+
+class getTextTestCase(unittest.TestCase):
+
+	def setUp(self):
+		pass
+
+	def tearDown(self):
+		pass
+
+	def testExpectsElementNode(self):
+		"""_get_text throws exception if not passed an element node"""
+		actual = [main._get_text, {}]
+		expected = AttributeError
+		self.assertRaises(expected, *actual)
+
+	def testReturnsTiddlerContents(self):
+		"""_get_text returns tiddler elements' contents"""
+		doc = _getTiddlyWiki("modern")
+		tiddlers = main._get_tiddler_elements(doc)
+		actual = main._get_text(tiddlers[1])
 		expected = "consectetur adipisicing elit"
 		self.assertEqual(expected, actual)
 
 	def testSupportsModernStore(self):
-		"""_get_tiddler_text supports modern (v2.2+) store format"""
+		"""_get_text supports modern (v2.2+) store format"""
 		doc = _getTiddlyWiki("modern")
 		tiddlers = main._get_tiddler_elements(doc)
-		actual = main._get_tiddler_text(tiddlers[0])
+		actual = main._get_text(tiddlers[0])
 		expected = "lorem ipsum\n\ndolor sit\namet"
 		self.assertEqual(expected, actual)
 
 	def testSupportsLegacyStore(self):
-		"""_get_tiddler_text supports legacy (v2.2+) store format"""
+		"""_get_text supports legacy (pre-v2.2) store format"""
 		doc = _getTiddlyWiki("legacy")
 		tiddlers = main._get_tiddler_elements(doc)
-		actual = main._get_tiddler_text(tiddlers[1])
+		actual = main._get_text(tiddlers[1])
 		expected = "consectetur adipisicing elit"
 		self.assertEqual(expected, actual)
 
 	def testDecodesLegacyTiddlers(self):
-		"""_get_tiddler_text decodes legacy-store tiddlers' contents"""
+		"""_get_text decodes legacy-store tiddlers' contents"""
 		doc = _getTiddlyWiki("legacy")
 		tiddlers = main._get_tiddler_elements(doc)
-		actual = main._get_tiddler_text(tiddlers[0])
+		actual = main._get_text(tiddlers[0])
 		expected = "lorem ipsum\n\ndolor sit\namet"
 		self.assertEqual(expected, actual)
 
