@@ -26,10 +26,10 @@ class getTiddlersTestCase(unittest.TestCase):
 		self.assertEqual(actual, expected)
 
 	def testReturnsTiddlers(self):
-		"""get_tiddlers returns Tiddler objects"""
+		"""get_tiddlers returns Tiddler instances"""
 		doc = _getTiddlyWiki("modern")
 		tiddlers = main.get_tiddlers(doc)
-		actual = tiddlers[0]["title"]
+		actual = tiddlers[0].title
 		expected = "Foo"
 		self.assertEqual(actual, expected)
 
@@ -64,7 +64,7 @@ class getTiddlerElementsTestCase(unittest.TestCase):
 		expected = 2
 		self.assertEqual(actual, expected)
 
-	def testReturnsTiddlerNodes(self):
+	def testReturnsTiddlerElements(self):
 		"""_get_tiddler_elements returns element nodes"""
 		doc = _getTiddlyWiki("modern")
 		nodes = main._get_tiddler_elements(doc)
@@ -82,14 +82,30 @@ class generateTiddlerTestCase(unittest.TestCase):
 		pass
 
 	def testReturnsTiddler(self):
-		"""_generate_tiddler returns Tiddler object"""
+		"""_generate_tiddler returns Tiddler instance"""
 		doc = _getTiddlyWiki("modern")
-		tiddlers = main._get_tiddler_elements(doc)
-		actual = main._generate_tiddler(tiddlers[1])
-		expected = {
-			"title": "Bar",
-			"text": "consectetur adipisicing elit"
-		}
+		tiddlerElements = main._get_tiddler_elements(doc)
+		tiddler = main._generate_tiddler(tiddlerElements[0])
+		actual = tiddler.title
+		expected = "Foo"
+		self.assertEqual(actual, expected)
+
+	def testProvidesTiddlerTitle(self):
+		"""_generate_tiddler returns Tiddler with title attribute"""
+		doc = _getTiddlyWiki("modern")
+		tiddlerElements = main._get_tiddler_elements(doc)
+		tiddler = main._generate_tiddler(tiddlerElements[1])
+		actual = tiddler.title
+		expected = "Bar"
+		self.assertEqual(actual, expected)
+
+	def testProvidesTiddlerText(self):
+		"""_generate_tiddler returns Tiddler with text attribute"""
+		doc = _getTiddlyWiki("legacy")
+		tiddlerElements = main._get_tiddler_elements(doc)
+		tiddler = main._generate_tiddler(tiddlerElements[0])
+		actual = tiddler.text
+		expected = "lorem ipsum\n\ndolor sit\namet"
 		self.assertEqual(actual, expected)
 
 

@@ -1,10 +1,11 @@
 """
-library translating between TiddlyWiki documents and Tiddler objects
+library translating between TiddlyWiki documents and Tiddler instances
 
 TODO:
-* Tiddler class
 * retrieve all tiddler attributes
 * TiddlyWiki class
+* investigate commonalities with TiddlyWeb
+* extend Tiddler class (e.g. defaults, timestamp validation)
 * full CRUD API
 """
 
@@ -27,13 +28,17 @@ def get_tiddlers(document):
 	While the new canonical store format was introduced in
 	TiddlyWiki v2.2 final, various v2.2 beta releases are still
 	using the legacy store format.
-	However, this function determines the correct format based on
-	the element structure.
+	However, this module determines the correct format based on
+	the element node structure.
 
 	@param document: TiddlyWiki document (string or file-like object)
-	@return: Tiddler objects
+	@return: Tiddler instances
 	"""
 	return [_generate_tiddler(node) for node in _get_tiddler_elements(document)]
+
+
+class Tiddler(object): # TODO
+	pass
 
 
 def _get_tiddler_elements(document):
@@ -55,12 +60,13 @@ def _generate_tiddler(node):
 	generate tiddler from element node
 
 	@param tiddler: element node
-	@return: Tiddler object
+	@return: Tiddler instance
 	"""
-	return {
-		"title": _get_title(node),
-		"text": _get_text(node)
-	} # TODO: remaining attributes, Tiddler object instead of dict
+	tiddler = Tiddler()
+	tiddler.title = _get_title(node)
+	tiddler.text = _get_text(node)
+	# TODO: remaining attributes
+	return tiddler
 
 
 def _get_title(tiddler):
