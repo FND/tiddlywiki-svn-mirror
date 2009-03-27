@@ -85,7 +85,7 @@ EasyClicking.prototype = {
 
 		var that = this;
 		var transformation = this.getTransformation();
-		var f = function(){
+		//var f = function(){
 			
 			
 			var newfragment = document.createDocumentFragment();
@@ -132,8 +132,7 @@ EasyClicking.prototype = {
 				}
 			}
 			if(ctx)ctx.restore();
-		};
-		f();
+	//	};f();
 	}
 	,getTransformation: function(){
 		return this.transformation;
