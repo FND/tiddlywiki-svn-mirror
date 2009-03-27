@@ -11,6 +11,6 @@ config = {
                 'http://svn.tiddlywiki.org/Trunk/contributors/SaqImtiaz/verticals/InputExForms/inputEx-subrecipe.recipe',
                 ])
             ],
-        'log_level': 'DEBUG',
+        #'log_level': 'DEBUG',
         'css_uri': 'http://peermore.com/tiddlyweb.css',
 }
