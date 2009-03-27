@@ -26,8 +26,6 @@ from tiddlyweb.web.handler.tiddler import get as get_tiddler
 from tiddlyweb.web.sendtiddlers import send_tiddlers
 
 YAML_DB = 'formdb.yaml'
-HELP_BAG = 'admin'
-HELP_TIDDLER = 'help'
 CONFIG_TIDDLER = 'TiddlyWebConfig'
 SYSTEM_BAG = 'system'
 
@@ -117,20 +115,10 @@ def _user_form_bag(store, username, form_id):
     return ensure_bag(name, store, policy_dict=policy_dict, owner=username)
 
 
-def help(environ, start_response):
-    """
-    Show some help at a convenient URL by setting up a request.
-    """
-    environ['wsgiorg.routing_args'][1]['bag_name'] = HELP_BAG
-    environ['wsgiorg.routing_args'][1]['tiddler_name'] = HELP_TIDDLER
-    return get_tiddler(environ, start_response)
-
-
 def init(config):
     if 'selector' in config:
         config['selector'].add('/forms', GET=forms)
         config['selector'].add('/forms/{formid:segment}', GET=form)
-        config['selector'].add('/help', GET=help)
 
 def _update_db(form_id, source_recipe):
     """
