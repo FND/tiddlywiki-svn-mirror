@@ -70,7 +70,7 @@ EasyController.prototype = {
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
 
-	
+			if(!that.goodToTransform(e)) return;
 			var t = EasyClickingUtils.resolveTarget(e);
 			
 			if(t != that.wrapper && t.parentNode !=that.wrapper) return;
@@ -163,6 +163,23 @@ EasyController.prototype = {
 		this.enabled = true;
 	}
 	
+	,goodToTransform: function(e){
+		var t =  EasyClickingUtils.resolveTarget(e);
+
+		switch(t.tagName){
+			case "INPUT":
+				return false;
+			case "SELECT":
+				return false;
+			case "OPTION":
+				return false;
+		}
+		
+		if(t.getAttribute("class") == "easyControl") return false;
+		
+		return true;
+		
+	}
 	,addMousePanning: function(){
 		var that = this;
 		var md = that.wrapper.onmousedown;
@@ -172,11 +189,7 @@ EasyController.prototype = {
 			if(!this.easyController)return;
 			var p =this.easyController.panning_status;
 			if(!p) return;
-			var t =  EasyClickingUtils.resolveTarget(e);
-
-			if(t.tagName == "INPUT") return;
-			if(t.getAttribute("class") == "easyControl") return;
-			
+			if(!that.goodToTransform(e)) return;
 			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
 			if(!pos)return;
 			
