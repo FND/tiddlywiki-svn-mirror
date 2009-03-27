@@ -11,6 +11,7 @@ recipe: html/split.recipe
 
 #My Plugins
 recipe: ../plugins/AdvancedEditTemplate/plugins/split.recipe
+recipe: ../verticals/GeoTiddlyWiki/plugins/split.recipe
 
 # tests
 recipe: js/split.recipe
