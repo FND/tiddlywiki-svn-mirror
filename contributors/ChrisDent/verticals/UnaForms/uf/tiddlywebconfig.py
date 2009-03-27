@@ -1,5 +1,5 @@
 config = {
-        'system_plugins': ['former'],
+        'system_plugins': ['former', 'logout'],
         'twanager_plugins': ['former', 'lister'],
         'instance_tiddlers': [
             ('system', [
