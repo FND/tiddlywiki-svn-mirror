@@ -84,13 +84,38 @@ EasyClicking.prototype = {
 			
 
 		var that = this;
-		var tran = this.getTransformation();
+		var transformation = this.getTransformation();
 		var f = function(){
+			
 			
 			var newfragment = document.createDocumentFragment();
 			var mem =that.getMemory();
 			if(mem.length > 0){
-		
+				var tran;
+				if(that.settings.browser == 'good'){
+					var ctx = that.canvas.getContext('2d');
+					ctx.save();
+					tran = false;
+
+					if(transformation){
+						
+						var o = transformation.origin;
+						var tr = transformation.translate;
+						var s = transformation.scale;
+						var r = transformation.rotate;
+						if(o && s && tr){
+							ctx.translate(o.x,o.y);
+							ctx.scale(s.x,s.y);
+							ctx.translate(tr.x,tr.y);
+						}
+						if(r && r.x)ctx.rotate(r.x);
+					}
+					
+				}
+				else{
+					tran = transformation;
+				}
+				
 				 for(var i=0; i < mem.length; i++){
 				 			
 					mem[i].render(that.canvas,tran,projection,true,that.settings.browser,newfragment);
@@ -106,6 +131,7 @@ EasyClicking.prototype = {
 					that.canvas.appendChild(that._fragment);
 				}
 			}
+			if(ctx)ctx.restore();
 		};
 		f();
 	}

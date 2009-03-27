@@ -223,9 +223,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var depth = 0;
 			for (var i=0; i < values.length; i++) {
 				
-				var value = values[i];
+				var value;
 				var caption = values[i];
-		
+				if(caption.indexOf("##") > -1){ //remove any commenting
+					caption = caption.substring(0,caption.indexOf("##"));
+				}
+				value = caption;
 				caption = caption.replace("<","");
 				caption = caption.replace(">","");
 				if(caption.indexOf(":") > -1){

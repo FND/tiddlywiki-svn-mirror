@@ -143,8 +143,25 @@ EasyShape.prototype={
 	}
 	,getRenderMode: function(canvas){
 		if(!this.browser){
-			if(!canvas.getContext) this._setRenderMode("ie");
-			else this._setRenderMode("good");
+			if(!canvas.getContext) {				
+						//this has been taken from Google ExplorerCanvas
+						if (!document.namespaces['easyShapeVml_']) {
+						        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
+						}
+
+						  // Setup default CSS.  Only add one style sheet per document
+						 if (!document.styleSheets['easyShape']) {
+						        var ss = document.createStyleSheet();
+						        ss.owningElement.id = 'easyShape';
+						        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
+						            // default size is 300x150 in Gecko and Opera
+						            'text-align:left;}' +
+						            'easyShapeVml_\\:*{behavior:url(#default#VML)}';
+						}
+						this.browser = "ie";
+			}
+				
+			else 	this.browser = "good";
 		}
 		return this.browser;
 	}
@@ -170,27 +187,7 @@ EasyShape.prototype={
 			}	
 		}
 	}
-	,_setRenderMode: function(browser){
-		if(browser == 'ie'){
-			if(!this.browser){				
-				//this has been taken from Google ExplorerCanvas
-				if (!document.namespaces['easyShapeVml_']) {
-				        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
-				}
 
-				  // Setup default CSS.  Only add one style sheet per document
-				 if (!document.styleSheets['easyShape']) {
-				        var ss = document.createStyleSheet();
-				        ss.owningElement.id = 'easyShape';
-				        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
-				            // default size is 300x150 in Gecko and Opera
-				            'text-align:left;}' +
-				            'easyShapeVml_\\:*{behavior:url(#default#VML)}';
-				}
-				this.browser = "ie";
-			}
-		}
-	}
 
 	,_simplifyCoordinates: function(scaleFactor,coordinates){
 		if(this.getProperty("shape") == 'path') return coordinates;
@@ -309,19 +306,22 @@ EasyShape.prototype={
 		}
 		if(c.length == 0) return;
 		var ctx = canvas.getContext('2d');
-		var o = transformation.origin;
-		var tr = transformation.translate;
-		var s = transformation.scale;
-		var r = transformation.rotate;
 		ctx.save();
 		if(this.properties.lineWidth){
 			ctx.lineWidth = this.properties.lineWidth/ transformation.scale.x;
 		}
-	
-		ctx.translate(o.x,o.y);
-		ctx.scale(s.x,s.y);
-		ctx.translate(tr.x,tr.y);
-		if(r && r.x)ctx.rotate(r.x);
+		if(transformation){
+			var o = transformation.origin;
+			var tr = transformation.translate;
+			var s = transformation.scale;
+			var r = transformation.rotate;
+			if(o && s && tr){
+				ctx.translate(o.x,o.y);
+				ctx.scale(s.x,s.y);
+				ctx.translate(tr.x,tr.y);
+			}
+			if(r && r.x)ctx.rotate(r.x);
+		}
 		ctx.beginPath();
 		var shapetype =this.getProperty("shape");
 		if(shapetype == 'point'){
