@@ -4,7 +4,8 @@ library translating between TiddlyWiki documents and Tiddler instances
 TODO:
 * retrieve all tiddler attributes
 * TiddlyWiki class
-* investigate commonalities with TiddlyWeb
+* support for slices/sections
+* investigate commonalities with TiddlyWeb (cf. ticket #995)
 * extend Tiddler class (e.g. defaults, timestamp validation)
 * full CRUD API
 """
@@ -29,7 +30,7 @@ def get_tiddlers(document):
 	TiddlyWiki v2.2 final, various v2.2 beta releases are still
 	using the legacy store format.
 	However, this module determines the correct format based on
-	the element node structure.
+	the element structure.
 
 	@param document: TiddlyWiki document (string or file-like object)
 	@return: Tiddler instances

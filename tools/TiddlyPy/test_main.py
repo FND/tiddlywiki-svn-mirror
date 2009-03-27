@@ -2,8 +2,11 @@ import main
 
 import unittest
 
+#from unittest import TestCase # TODO: make conditional (exitFirst)
+from testsuite import TestCase
 
-class getTiddlersTestCase(unittest.TestCase):
+
+class getTiddlersTestCase(TestCase):
 
 	def setUp(self):
 		pass
@@ -34,7 +37,7 @@ class getTiddlersTestCase(unittest.TestCase):
 		self.assertEqual(actual, expected)
 
 
-class getTiddlerElementsTestCase(unittest.TestCase):
+class getTiddlerElementsTestCase(TestCase):
 
 	def setUp(self):
 		pass
@@ -73,7 +76,7 @@ class getTiddlerElementsTestCase(unittest.TestCase):
 		self.assertEqual(actual, expected)
 
 
-class generateTiddlerTestCase(unittest.TestCase):
+class generateTiddlerTestCase(TestCase):
 
 	def setUp(self):
 		pass
@@ -109,7 +112,7 @@ class generateTiddlerTestCase(unittest.TestCase):
 		self.assertEqual(actual, expected)
 
 
-class getTitleTestCase(unittest.TestCase):
+class getTitleTestCase(TestCase):
 
 	def setUp(self):
 		pass
@@ -148,7 +151,7 @@ class getTitleTestCase(unittest.TestCase):
 		self.assertEqual(expected, actual)
 
 
-class getTextTestCase(unittest.TestCase):
+class getTextTestCase(TestCase):
 
 	def setUp(self):
 		pass
@@ -195,7 +198,7 @@ class getTextTestCase(unittest.TestCase):
 		self.assertEqual(expected, actual)
 
 
-class decodeLegacyTextTestCase(unittest.TestCase):
+class decodeLegacyTextTestCase(TestCase):
 
 	def setUp(self):
 		pass

@@ -37,7 +37,7 @@ def run(modules):
 	testModules = ["test_" + module for module in modules]
 	initCoverage()
 	suite = unittest.TestLoader().loadTestsFromNames(testModules)
-	runner = TestRunner(sys.stdout, verbosity=2)
+	runner = unittest.TextTestRunner(sys.stdout, verbosity=2)
 	results = runner.run(suite)
 	endCoverage()
 	print "\n%s\n" % ("=" * 70)
@@ -66,22 +66,16 @@ def reportCoverage(modules):
 	coverage.report(modules, ignore_errors=0, show_missing=1)
 
 
-class TestRunner(unittest.TextTestRunner): # XXX: incomplete
+class TestCase(unittest.TestCase):
 	"""
-	enhanced test runner to support aborting after the first failure
+	alternative test case which aborts after the first failure
 	"""
 
-	def run(self, test):
-		"""
-		run given test case or test suite
-
-		aborts on first failure/error
-		"""
-		if not hasattr(self, "abort"):
-			result = super(TestRunner, self).run(test) # XXX: runs the entire set; granularity required
-			if result.failures or result.errors:
-				self.abort = True
-		return result
+	def run(self, result=None):
+		if result.failures or result.errors:
+			print "aborted"
+		else:
+			super(TestCase, self).run(result)
 
 
 if __name__ == "__main__":
