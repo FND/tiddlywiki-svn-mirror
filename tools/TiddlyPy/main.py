@@ -4,6 +4,7 @@ library translating between TiddlyWiki documents and Tiddler instances
 TODO:
 * retrieve all tiddler attributes
 * TiddlyWiki class
+* convert store format before parsing
 * support for slices/sections
 * investigate commonalities with TiddlyWeb (cf. ticket #995)
 * extend Tiddler class (e.g. defaults, timestamp validation)
@@ -12,6 +13,8 @@ TODO:
 
 
 import html5lib
+
+from datetime import datetime
 
 
 def get_tiddlers(document):
@@ -38,8 +41,41 @@ def get_tiddlers(document):
 	return [_generate_tiddler(node) for node in _get_tiddler_elements(document)]
 
 
-class Tiddler(object): # TODO
-	pass
+class Tiddler(object):
+	"""
+	content unit
+	"""
+	# TODO
+	# * documentation
+	# * convert timestamps
+	# * convert tags
+
+	standard_fields = [ # XXX: rename? CamelCase?
+		"title",
+		"text",
+		"created",
+		"modified",
+		"modifier",
+		"tags"
+	]
+
+	def __init__(self, title):
+		"""
+		initialize defaults
+
+		@param title: tiddler name
+		"""
+		self.title = title
+		self.text = None
+		self.created = datetime.utcnow()
+		self.modified = None
+		self.modifier = None
+		self.tags = []
+		self.fields = {}
+
+
+def readBracketedList(string):
+	return string.split(" ") # TODO: proper implementation
 
 
 def _get_tiddler_elements(document):
@@ -58,15 +94,21 @@ def _get_tiddler_elements(document):
 
 def _generate_tiddler(node):
 	"""
-	generate tiddler from element node
+	generate Tiddler instance from element node
 
 	@param tiddler: element node
 	@return: Tiddler instance
 	"""
-	tiddler = Tiddler()
-	tiddler.title = _get_title(node)
+	tiddler = Tiddler(_get_title(node))
+	for attr, value in node.attrs:
+		if attr in Tiddler.standard_fields:
+			if attr == "tags": # XXX: move into Tiddler class!?
+				value = readBracketedList(value)
+			tiddler.__setattr__(attr, value) # XXX: avoid __setattr__?
+		else: # extended field (excluding legacy format's tiddler attribute)
+			if not attr == "tiddler" or "title" in node.attrMap:
+				tiddler.fields[attr] = value
 	tiddler.text = _get_text(node)
-	# TODO: remaining attributes
 	return tiddler
 
 

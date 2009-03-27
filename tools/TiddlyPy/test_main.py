@@ -2,8 +2,8 @@ import main
 
 import unittest
 
-#from unittest import TestCase # TODO: make conditional (exitFirst)
-from testsuite import TestCase
+from unittest import TestCase # TODO: make conditional (exitFirst)
+#from testsuite import TestCase
 
 
 class getTiddlersTestCase(TestCase):
@@ -94,7 +94,7 @@ class generateTiddlerTestCase(TestCase):
 		self.assertEqual(actual, expected)
 
 	def testProvidesTiddlerTitle(self):
-		"""_generate_tiddler returns Tiddler with title attribute"""
+		"""_generate_tiddler returns Tiddler's title"""
 		doc = _getTiddlyWiki("modern")
 		tiddlerElements = main._get_tiddler_elements(doc)
 		tiddler = main._generate_tiddler(tiddlerElements[1])
@@ -103,12 +103,57 @@ class generateTiddlerTestCase(TestCase):
 		self.assertEqual(actual, expected)
 
 	def testProvidesTiddlerText(self):
-		"""_generate_tiddler returns Tiddler with text attribute"""
+		"""_generate_tiddler returns Tiddler's text"""
 		doc = _getTiddlyWiki("legacy")
 		tiddlerElements = main._get_tiddler_elements(doc)
 		tiddler = main._generate_tiddler(tiddlerElements[0])
 		actual = tiddler.text
 		expected = "lorem ipsum\n\ndolor sit\namet"
+		self.assertEqual(actual, expected)
+
+	def testProvidesTiddlerCreated(self):
+		"""_generate_tiddler returns Tiddler's created attribute"""
+		doc = _getTiddlyWiki("legacy")
+		tiddlerElements = main._get_tiddler_elements(doc)
+		tiddler = main._generate_tiddler(tiddlerElements[1])
+		actual = tiddler.created
+		expected = "200903261042"
+		self.assertEqual(actual, expected)
+
+	def testProvidesTiddlerModified(self):
+		"""_generate_tiddler returns Tiddler's modified attribute"""
+		doc = _getTiddlyWiki("modern")
+		tiddlerElements = main._get_tiddler_elements(doc)
+		tiddler = main._generate_tiddler(tiddlerElements[0])
+		actual = tiddler.modified
+		expected = "200903261043"
+		self.assertEqual(actual, expected)
+
+	def testProvidesTiddlerModifier(self):
+		"""_generate_tiddler returns Tiddler's modifier"""
+		doc = _getTiddlyWiki("modern")
+		tiddlerElements = main._get_tiddler_elements(doc)
+		tiddler = main._generate_tiddler(tiddlerElements[1])
+		actual = tiddler.modifier
+		expected = "FND"
+		self.assertEqual(actual, expected)
+
+	def testProvidesTiddlerTags(self):
+		"""_generate_tiddler returns Tiddler's tags"""
+		doc = _getTiddlyWiki("legacy")
+		tiddlerElements = main._get_tiddler_elements(doc)
+		tiddler = main._generate_tiddler(tiddlerElements[0])
+		actual = tiddler.tags
+		expected = ["test", "tmp"]
+		self.assertEqual(actual, expected)
+
+	def testProvidesTiddlerFields(self):
+		"""_generate_tiddler returns Tiddler's extended fields"""
+		doc = _getTiddlyWiki("legacy")
+		tiddlerElements = main._get_tiddler_elements(doc)
+		tiddler = main._generate_tiddler(tiddlerElements[1])
+		actual = tiddler.fields
+		expected = { "changecount": "1" }
 		self.assertEqual(actual, expected)
 
 
