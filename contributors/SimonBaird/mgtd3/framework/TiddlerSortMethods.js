@@ -3,7 +3,9 @@
 
 merge(Tiddler.prototype,{
 
-	sort_tickleDate: function() { return this.fields['mgtd_date']; }, // todo 
+	sort_tickleDate: function() {
+		return this.fields['mgtd_date'] || 'ZZZZZZZZ'; // i think that's enought to make undated tiddlers sort to the end
+	},
 
 	sort_orderSlice: function() {
 		var orderSlice = store.getTiddlerSlice(this.title,"order");

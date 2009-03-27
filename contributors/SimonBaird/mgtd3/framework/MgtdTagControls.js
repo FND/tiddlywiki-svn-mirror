@@ -49,6 +49,25 @@ merge(Tiddler.prototype,{
 		return this.getByIndex(tag);
 	},
 
+	// experimental
+	getGrandParent: function(parentTag,grandParentTag) {
+		// eg tiddler.getGrandParent('Project','Area') ??
+		var result = [];
+		this.getByIndex(parentTag).each(function(parentTiddler){
+			// because can be multiple
+			store.fetchTiddler(parentTiddler).getByIndex(grandParentTag).each(function(grandParentTiddler){
+				result.push(grandParentTiddler);
+			});
+		});
+		return result;
+	},
+
+	// experimental. does this belong elsewhere?
+	actionInArea: function(area) {
+		//return this.getParent(area).contains(area) || this.getGrandParent('Project','Area').contains(area);
+		return this.getGrandParent('Project','Area').contains(area);
+	},
+
 	hasParent: function(tag) {
 		return this.getParent(tag).length > 0;
 	},
@@ -402,10 +421,18 @@ merge(config.macros,{
 			}
 			if (tiddler.tags.containsAny(['Action','Project'])) {
 				createTiddlyButton(place, "make tickler", "make this item into a tickler", function(e) {
+						if (tiddler.hasTag("Project")) {
+							// a little trick. it makes any actions associated with this project disappear from action lists
+							// thanks to Jorge A. Ramos M.
+							tiddler.setTagFromGroup("ProjectStatus",'Someday/Maybe');
+						}
 						tiddler.removeTag("Action");
 						tiddler.removeTag("Project");
 						tiddler.addTag("Tickler");                          
-						tiddler.addTag("Once");                          
+						if (!tiddler.tags.containsAny(['Daily','Weekly','Monthly'])) {
+							// thanks Kyle Baker
+							tiddler.addTag("Once");
+						}
 						return false;
 					});
 			}

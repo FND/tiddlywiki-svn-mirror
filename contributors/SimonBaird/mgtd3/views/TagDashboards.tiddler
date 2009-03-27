@@ -160,6 +160,26 @@
 	<div macro="mgtdList title:'Active Projects' tags:'Project && !Complete && !Someday/Maybe' view:Project newButtonTags:'Project Active'
 		ignoreRealm:yes
 		"></div>
+
+	<!--
+	for those who wanted actions in their area view
+	comment the following out if you don't want it
+
+	NB under construction, doesn't work at all...
+
+	<div macro="mgtdList title:'Next Actions'
+		mode:global
+		startTag:Action
+		tags:'!Done'
+		group:ActionStatus
+		gView:bold
+		newButtonTags:'Action'
+		view:Action
+		where:{{'tiddler.actionInArea('+tiddler.title+')'}}
+		ignoreRealm:yes
+		"></div>
+	-->
+	
 </div>
 <div class="col">
 	<div macro="mgtdList title:'Someday/Maybe Projects' tags:'Project && !Complete && Someday/Maybe' view:Project newButtonTags:'Project Someday/Maybe'

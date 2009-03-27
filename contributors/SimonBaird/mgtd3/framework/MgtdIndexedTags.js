@@ -42,6 +42,9 @@ config.indexedTags = {
 	},
 
 	setTiddlerTagHijack: function(title,status,tag) {
+
+		clearMessage(); // unrelated to indexedTags but....
+
 		var before = store.getTiddler(title);
 		var oldTags = before ? [].concat(before.tags) : null;  // concat so we get a dup
 

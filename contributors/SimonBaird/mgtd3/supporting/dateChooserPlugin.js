@@ -10,6 +10,7 @@ if (DatePicker){
         calendarPopup: {
             handler: function(place,macroName,params,wikifier,paramString,tiddler) {
                 var dateBox = createTiddlyButton(place,params[0],params[1]);            
+                dateBox.style.cursor='pointer';
                 DatePicker.create(dateBox,(new Date()),function(el,objDate) {
 					// mostly copy/pasted from NewSavedTiddler. refactor please
 					var title = prompt("Enter name for new Tickler","");
