@@ -81,12 +81,16 @@ EasyClicking.prototype = {
 		if(this.settings.browser == 'good'){
 			this.clear();
 		}
-			
+	
 
 		var that = this;
 		var transformation = this.getTransformation();
 		//var f = function(){
-			
+		var ps = 5 / parseFloat(transformation.scale.x);
+		var smallest = 1 / this._iemultiplier;
+		var largest = 2.5 * transformation.scale.x;
+		if(ps < smallest) ps = smallest;
+		if(ps > largest) ps = largest;	
 			
 			var newfragment = document.createDocumentFragment();
 			var mem =that.getMemory();
@@ -118,18 +122,18 @@ EasyClicking.prototype = {
 				
 				 for(var i=0; i < mem.length; i++){
 				 			
-					mem[i].render(that.canvas,tran,projection,true,that.settings.browser,newfragment);
+					mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
 				
 					if(mem[i].vmlfill && that.settings.globalAlpha) {
 						mem[i].vmlfill.opacity =that.settings.globalAlpha;
 					}
 				
 				}
-					
+				/*	
 				if(!that.settings.browser == 'ie'){
 					that._fragment= newfragment.cloneNode(true);
 					that.canvas.appendChild(that._fragment);
-				}
+				}*/
 			}
 			if(ctx)ctx.restore();
 	//	};f();

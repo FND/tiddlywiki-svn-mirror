@@ -83,7 +83,10 @@ EasyShape.prototype={
 		return this.grid;
 	}
 
-	,render: function(canvas,transformation,projection,optimisations, browser){
+	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
+		this.pointradius = 2;
+		if(pointradius) this.pointradius =pointradius;
+		
 		var optimisations = true;
 		
 		if(!transformation){
@@ -296,7 +299,7 @@ EasyShape.prototype={
 	}	
 
 	 /*RENDERING */
-	,_canvasrender: function(canvas,transformation,projection,optimisations){
+	,_canvasrender: function(canvas,transformation,projection,optimisations, pointsize){
 		var c;
 		if(projection){
 			c = this._applyProjection(projection,transformation);
@@ -486,11 +489,7 @@ EasyShape.prototype={
 		
 			var shapetype = this.getProperty("shape");
 			if(shapetype == 'point'){
-				var ps = 5 / parseFloat(transformation.scale.x);
-				var smallest = 1 / this._iemultiplier;
-				var largest = 2.5 * transformation.scale.x;
-				if(ps < smallest) ps = smallest;
-				if(ps > largest) ps = largest;
+				var ps = this.pointradius;
 				this._preparePointShape(this.pointcoords,ps);
 			} 
 			else if(shapetype == 'image'){
