@@ -2,7 +2,6 @@
 library translating between TiddlyWiki documents and Tiddler instances
 
 TODO:
-* retrieve all tiddler attributes
 * TiddlyWiki class
 * convert store format before parsing
 * support for slices/sections
@@ -50,7 +49,7 @@ class Tiddler(object):
 	# * convert timestamps
 	# * convert tags
 
-	standard_fields = [ # XXX: rename? CamelCase?
+	standard_fields = [
 		"title",
 		"text",
 		"created",
@@ -104,9 +103,9 @@ def _generate_tiddler(node):
 		if attr in Tiddler.standard_fields:
 			if attr == "tags": # XXX: move into Tiddler class!?
 				value = readBracketedList(value)
-			tiddler.__setattr__(attr, value) # XXX: avoid __setattr__?
-		else: # extended field (excluding legacy format's tiddler attribute)
-			if not attr == "tiddler" or "title" in node.attrMap:
+			setattr(tiddler, attr, value)
+		else: # extended field
+			if not (attr == "tiddler" and "title" in node.attrMap): # non-legacy attribute
 				tiddler.fields[attr] = value
 	tiddler.text = _get_text(node)
 	return tiddler
