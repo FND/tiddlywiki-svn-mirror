@@ -352,6 +352,45 @@ jQuery(document).ready(function() {
 		
 	});
 	
+	test("ignore syntax that follows ## in an option definition", function(){
+		/*setup */
+		var text,title,expected,actual;
+		var mockf = function(el){
+			var mockdom = document.createElement("div");
+			mockdom.setAttribute("title","test111");
+			mockdom.setAttribute("tiddler","test111");
+			return mockdom;
+		};
+		story.findContainingTiddler = mockf;
+		title = "test111";
+		store.saveTiddler(title,title,text,true,null,[],{dave:"2"},null);
+		
+		text = "1\n2\n3##ignore me \n4:value## and me! \n";
+		title = "simpledef";
+		store.saveTiddler(title,title,text,true,null,[],{},null);
+		
+		var initialValue = "MM..";
+		var handler = config.macros.AdvancedEditTemplate.setDropDownMetaData;
+		var place = document.createElement("div");
+		/* run */
+		var paramString = "type:dropdown valuesSource:simpledef metaDataName:dave";
+		config.macros.AdvancedEditTemplate.handler(place,false,params,false,paramString,false);
+		
+		/* verify */
+		actual = place.firstChild.childNodes[3].innerHTML;
+		expected = "3";
+		same(actual, expected, "syntax ## has been ignored in menu item with text '3'");
+		
+		actual = place.firstChild.childNodes[4].innerHTML;
+		expected = "4";
+		same(actual, expected, "syntax ## has been ignored in menu item with text '4'");
+
+		actual = place.firstChild.childNodes[4].value;
+		expected = "value";
+		same(actual, expected, "syntax ## has been ignored in menu item with text '4' and value is correct.");
+		
+	});
+	
 	test("handler for tiddlywiki (option menu depth 2)", function(){
 		/*setup */
 		var text,title,expected,actual;
