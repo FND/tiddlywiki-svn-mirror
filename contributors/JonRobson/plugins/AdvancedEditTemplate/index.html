@@ -534,7 +534,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903251152" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903271202" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -760,9 +760,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var depth = 0;
 			for (var i=0; i &lt; values.length; i++) {
 				
-				var value = values[i];
+				var value;
 				var caption = values[i];
-		
+				if(caption.indexOf(&quot;##&quot;) &gt; -1){ //remove any commenting
+					caption = caption.substring(0,caption.indexOf(&quot;##&quot;));
+				}
+				value = caption;
 				caption = caption.replace(&quot;&lt;&quot;,&quot;&quot;);
 				caption = caption.replace(&quot;&gt;&quot;,&quot;&quot;);
 				if(caption.indexOf(&quot;:&quot;) &gt; -1){

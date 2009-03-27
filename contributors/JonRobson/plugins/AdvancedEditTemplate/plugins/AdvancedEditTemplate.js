@@ -229,14 +229,15 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					caption = caption.substring(0,caption.indexOf("##"));
 				}
 				value = caption;
-				caption = caption.replace("<","");
-				caption = caption.replace(">","");
+
 				if(caption.indexOf(":") > -1){
 					var splitstr= caption.split(":");
 					caption = splitstr[0];
 					value = splitstr[1];
 				}
-				
+				caption = caption.replace("<","");
+				caption = caption.replace(">","");
+		
 				var chainid = chain.length -1;
 				if(!menus[chain[chainid]]){
 					menus[chain[chainid]] = {depth: depth};
@@ -269,6 +270,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 								
 			}
+	
 			return menus;
 		}
 		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected,sort){
@@ -278,7 +280,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				else{
 					fields = [fieldName];
 				}
-				this.associatedFields = fields;
+				
 				
 				if(!selected) selected = "";
 				if(!initialValue){
@@ -306,7 +308,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					}
 			
 					newMenu.name = fields[fieldid];
-					newMenu.aet = this;
+					newMenu.associatedFields = fields;
 					var menuoptions = menus[j].options;
 					
 					if(sort){		 
@@ -431,13 +433,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 				
 				var selected = el[el.selectedIndex];
-				var aet = el.aet;
+				var aet = config.macros.AdvancedEditTemplate;
 
 				
 				var fieldname = selected.parentNode.name;
 				var fieldvalue = selected.value;
-				for(var i=0; i < aet.associatedFields.length; i++){
-					var fieldname =aet.associatedFields[i];
+				for(var i=0; i < el.associatedFields.length; i++){
+					var fieldname =el.associatedFields[i];
 					aet.setMetaData(title,fieldname,fieldvalue);
 				}	
 				var parent = selected.parentNode.parentOption;

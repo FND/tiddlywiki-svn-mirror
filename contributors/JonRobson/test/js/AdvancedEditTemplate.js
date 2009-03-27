@@ -229,7 +229,7 @@ jQuery(document).ready(function() {
 		
 		
 	});
-	
+
 	test("setDropDownMetaData: Multifield saving", function(){
 		/*setup */
 		var mockf = function(el){
@@ -365,7 +365,7 @@ jQuery(document).ready(function() {
 		title = "test111";
 		store.saveTiddler(title,title,text,true,null,[],{dave:"2"},null);
 		
-		text = "1\n2\n3##ignore me \n4:value## and me! \n";
+		text = "1\n2\n3##>ignore me \n4:value## and me! \n";
 		title = "simpledef";
 		store.saveTiddler(title,title,text,true,null,[],{},null);
 		
@@ -427,4 +427,78 @@ jQuery(document).ready(function() {
 		
 	});
 	
+	test("handler for tiddlywiki - run twice", function(){
+		/*setup */
+		var text,title,expected,actual;
+		var mockf = function(el){
+			var mockdom = document.createElement("div");
+			mockdom.setAttribute("title","salut");
+			mockdom.setAttribute("tiddler","salut");
+			return mockdom;
+		};
+		story.findContainingTiddler = mockf;
+		title = "salut";
+		store.saveTiddler(title,title,text,true,null,[],{frank:"3.1"},null);
+		
+		text = "1\n2\n3>\n3.1\n3.2<\n4\n";
+		title = "depth2";
+		store.saveTiddler(title,title,text,true,null,[],{},null);
+		
+		var initialValue = "MM..";
+		var handler = config.macros.AdvancedEditTemplate.setDropDownMetaData;
+		var place = document.createElement("div");
+		var place2 = document.createElement("div");
+		
+		/* run */
+		var paramString = "type:dropdown valuesSource:depth2 metaDataName:frank";
+		config.macros.AdvancedEditTemplate.handler(place,false,params,false,paramString,false);
+	
+		var paramString = "type:dropdown valuesSource:depth2 metaDataName:james";
+		config.macros.AdvancedEditTemplate.handler(place2,false,params,false,paramString,false);
+		
+			
+		/* verify */
+		place.firstChild.selectedIndex = 1;
+		place.firstChild.onchange();
+		
+		place2.firstChild.selectedIndex = 3;
+		place2.firstChild.onchange();
+		
+		expected = "1" 
+		actual = config.macros.AdvancedEditTemplate.getMetaData("salut","frank")
+		same(actual, expected, "when more than one dropdown are associated with one tiddler and manipulated both values save (frank field set ok)");
+		
+		expected = "3" 
+		actual = config.macros.AdvancedEditTemplate.getMetaData("salut","james")
+		same(actual, expected, "when more than one dropdown are associated with one tiddler and manipulated both values save (james field set ok)");
+
+
+		
+	});
+	
+	test("macro test ", function(){
+		/*setup */
+		var mockf = function(el){
+			var mockdom = document.createElement("div");
+			mockdom.setAttribute("title","bonjour");
+			mockdom.setAttribute("tiddler","bonjour");
+			return mockdom;
+		};
+		story.findContainingTiddler = mockf;	
+		var text,title;
+		title = "bonjour";
+		store.saveTiddler(title,title,"",true,null,[],{assignee: 'JR'},null);
+		
+		text = "Team 1>\nAndrew Back:AB\nMichael Mahemoff:MM<\nTeam 2>\nPhil Hawksworth:PH\nJeremy Ruston:JR<\nTeam 3>\nJon Robson:JDLR\nJon Lister:JRL\nResources>\nSimon McManus:SM\nPaul Downey:PD<";
+		title = "DropDownData";
+		store.saveTiddler(title,title,text,true,null,[],{},null);
+		var place = document.createElement("div");
+		var paramString = "type:dropdown metaDataName:assignee valuesSource:DropDownData";
+		config.macros.AdvancedEditTemplate.handler(place,false,params,false,paramString,false);	
+		
+		/* run */
+		actual = place.childNodes.length;
+		expected = 5;
+		same(actual, expected, "right number of dropdowns created");
+	});
 });

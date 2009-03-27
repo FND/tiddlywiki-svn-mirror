@@ -1720,7 +1720,7 @@ jQuery(document).ready(function() {
 		
 		
 	});
-	
+
 	test("setDropDownMetaData: Multifield saving", function(){
 		/*setup */
 		var mockf = function(el){
@@ -1843,6 +1843,45 @@ jQuery(document).ready(function() {
 		
 	});
 	
+	test("ignore syntax that follows ## in an option definition", function(){
+		/*setup */
+		var text,title,expected,actual;
+		var mockf = function(el){
+			var mockdom = document.createElement("div");
+			mockdom.setAttribute("title","test111");
+			mockdom.setAttribute("tiddler","test111");
+			return mockdom;
+		};
+		story.findContainingTiddler = mockf;
+		title = "test111";
+		store.saveTiddler(title,title,text,true,null,[],{dave:"2"},null);
+		
+		text = "1\n2\n3##>ignore me \n4:value## and me! \n";
+		title = "simpledef";
+		store.saveTiddler(title,title,text,true,null,[],{},null);
+		
+		var initialValue = "MM..";
+		var handler = config.macros.AdvancedEditTemplate.setDropDownMetaData;
+		var place = document.createElement("div");
+		/* run */
+		var paramString = "type:dropdown valuesSource:simpledef metaDataName:dave";
+		config.macros.AdvancedEditTemplate.handler(place,false,params,false,paramString,false);
+		
+		/* verify */
+		actual = place.firstChild.childNodes[3].innerHTML;
+		expected = "3";
+		same(actual, expected, "syntax ## has been ignored in menu item with text '3'");
+		
+		actual = place.firstChild.childNodes[4].innerHTML;
+		expected = "4";
+		same(actual, expected, "syntax ## has been ignored in menu item with text '4'");
+
+		actual = place.firstChild.childNodes[4].value;
+		expected = "value";
+		same(actual, expected, "syntax ## has been ignored in menu item with text '4' and value is correct.");
+		
+	});
+	
 	test("handler for tiddlywiki (option menu depth 2)", function(){
 		/*setup */
 		var text,title,expected,actual;
@@ -1879,6 +1918,81 @@ jQuery(document).ready(function() {
 		
 	});
 	
+	test("handler for tiddlywiki - run twice", function(){
+		/*setup */
+		var text,title,expected,actual;
+		var mockf = function(el){
+			var mockdom = document.createElement("div");
+			mockdom.setAttribute("title","salut");
+			mockdom.setAttribute("tiddler","salut");
+			return mockdom;
+		};
+		story.findContainingTiddler = mockf;
+		title = "salut";
+		store.saveTiddler(title,title,text,true,null,[],{frank:"3.1"},null);
+		
+		text = "1\n2\n3>\n3.1\n3.2<\n4\n";
+		title = "depth2";
+		store.saveTiddler(title,title,text,true,null,[],{},null);
+		
+		var initialValue = "MM..";
+		var handler = config.macros.AdvancedEditTemplate.setDropDownMetaData;
+		var place = document.createElement("div");
+		var place2 = document.createElement("div");
+		
+		/* run */
+		var paramString = "type:dropdown valuesSource:depth2 metaDataName:frank";
+		config.macros.AdvancedEditTemplate.handler(place,false,params,false,paramString,false);
+	
+		var paramString = "type:dropdown valuesSource:depth2 metaDataName:james";
+		config.macros.AdvancedEditTemplate.handler(place2,false,params,false,paramString,false);
+		
+			
+		/* verify */
+		place.firstChild.selectedIndex = 1;
+		place.firstChild.onchange();
+		
+		place2.firstChild.selectedIndex = 3;
+		place2.firstChild.onchange();
+		
+		expected = "1" 
+		actual = config.macros.AdvancedEditTemplate.getMetaData("salut","frank")
+		same(actual, expected, "when more than one dropdown are associated with one tiddler and manipulated both values save (frank field set ok)");
+		
+		expected = "3" 
+		actual = config.macros.AdvancedEditTemplate.getMetaData("salut","james")
+		same(actual, expected, "when more than one dropdown are associated with one tiddler and manipulated both values save (james field set ok)");
+
+
+		
+	});
+	
+	test("macro test ", function(){
+		/*setup */
+		var mockf = function(el){
+			var mockdom = document.createElement("div");
+			mockdom.setAttribute("title","bonjour");
+			mockdom.setAttribute("tiddler","bonjour");
+			return mockdom;
+		};
+		story.findContainingTiddler = mockf;	
+		var text,title;
+		title = "bonjour";
+		store.saveTiddler(title,title,"",true,null,[],{assignee: 'JR'},null);
+		
+		text = "Team 1>\nAndrew Back:AB\nMichael Mahemoff:MM<\nTeam 2>\nPhil Hawksworth:PH\nJeremy Ruston:JR<\nTeam 3>\nJon Robson:JDLR\nJon Lister:JRL\nResources>\nSimon McManus:SM\nPaul Downey:PD<";
+		title = "DropDownData";
+		store.saveTiddler(title,title,text,true,null,[],{},null);
+		var place = document.createElement("div");
+		var paramString = "type:dropdown metaDataName:assignee valuesSource:DropDownData";
+		config.macros.AdvancedEditTemplate.handler(place,false,params,false,paramString,false);	
+		console.log(place);
+		
+		/* run */
+		actual = place.childNodes.length;
+		expected = 5;
+		same(actual, expected, "right number of dropdowns created");
+	});
 });jQuery(document).ready(function() {
 	module("EasyShapes");
 
@@ -2538,7 +2652,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903251152" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903271436" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -2764,17 +2878,21 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var depth = 0;
 			for (var i=0; i &lt; values.length; i++) {
 				
-				var value = values[i];
+				var value;
 				var caption = values[i];
-		
-				caption = caption.replace(&quot;&lt;&quot;,&quot;&quot;);
-				caption = caption.replace(&quot;&gt;&quot;,&quot;&quot;);
+				if(caption.indexOf(&quot;##&quot;) &gt; -1){ //remove any commenting
+					caption = caption.substring(0,caption.indexOf(&quot;##&quot;));
+				}
+				value = caption;
+
 				if(caption.indexOf(&quot;:&quot;) &gt; -1){
 					var splitstr= caption.split(&quot;:&quot;);
 					caption = splitstr[0];
 					value = splitstr[1];
 				}
-				
+				caption = caption.replace(&quot;&lt;&quot;,&quot;&quot;);
+				caption = caption.replace(&quot;&gt;&quot;,&quot;&quot;);
+		
 				var chainid = chain.length -1;
 				if(!menus[chain[chainid]]){
 					menus[chain[chainid]] = {depth: depth};
@@ -2807,6 +2925,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 								
 			}
+	
 			return menus;
 		}
 		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected,sort){
@@ -2816,7 +2935,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				else{
 					fields = [fieldName];
 				}
-				this.associatedFields = fields;
+				
 				
 				if(!selected) selected = &quot;&quot;;
 				if(!initialValue){
@@ -2844,7 +2963,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					}
 			
 					newMenu.name = fields[fieldid];
-					newMenu.aet = this;
+					newMenu.associatedFields = fields;
 					var menuoptions = menus[j].options;
 					
 					if(sort){		 
@@ -2969,13 +3088,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 				
 				var selected = el[el.selectedIndex];
-				var aet = el.aet;
+				var aet = config.macros.AdvancedEditTemplate;
 
 				
 				var fieldname = selected.parentNode.name;
 				var fieldvalue = selected.value;
-				for(var i=0; i &lt; aet.associatedFields.length; i++){
-					var fieldname =aet.associatedFields[i];
+				for(var i=0; i &lt; el.associatedFields.length; i++){
+					var fieldname =el.associatedFields[i];
 					aet.setMetaData(title,fieldname,fieldvalue);
 				}	
 				var parent = selected.parentNode.parentOption;
@@ -4025,7 +4144,10 @@ EasyShape.prototype={
 		return this.grid;
 	}
 
-	,render: function(canvas,transformation,projection,optimisations, browser){
+	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
+		this.pointradius = 2;
+		if(pointradius) this.pointradius =pointradius;
+		
 		var optimisations = true;
 		
 		if(!transformation){
@@ -4085,8 +4207,25 @@ EasyShape.prototype={
 	}
 	,getRenderMode: function(canvas){
 		if(!this.browser){
-			if(!canvas.getContext) this._setRenderMode(&quot;ie&quot;);
-			else this._setRenderMode(&quot;good&quot;);
+			if(!canvas.getContext) {				
+						//this has been taken from Google ExplorerCanvas
+						if (!document.namespaces['easyShapeVml_']) {
+						        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
+						}
+
+						  // Setup default CSS.  Only add one style sheet per document
+						 if (!document.styleSheets['easyShape']) {
+						        var ss = document.createStyleSheet();
+						        ss.owningElement.id = 'easyShape';
+						        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
+						            // default size is 300x150 in Gecko and Opera
+						            'text-align:left;}' +
+						            'easyShapeVml_\\:*{behavior:url(#default#VML)}';
+						}
+						this.browser = &quot;ie&quot;;
+			}
+				
+			else 	this.browser = &quot;good&quot;;
 		}
 		return this.browser;
 	}
@@ -4112,27 +4251,7 @@ EasyShape.prototype={
 			}	
 		}
 	}
-	,_setRenderMode: function(browser){
-		if(browser == 'ie'){
-			if(!this.browser){				
-				//this has been taken from Google ExplorerCanvas
-				if (!document.namespaces['easyShapeVml_']) {
-				        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
-				}
 
-				  // Setup default CSS.  Only add one style sheet per document
-				 if (!document.styleSheets['easyShape']) {
-				        var ss = document.createStyleSheet();
-				        ss.owningElement.id = 'easyShape';
-				        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
-				            // default size is 300x150 in Gecko and Opera
-				            'text-align:left;}' +
-				            'easyShapeVml_\\:*{behavior:url(#default#VML)}';
-				}
-				this.browser = &quot;ie&quot;;
-			}
-		}
-	}
 
 	,_simplifyCoordinates: function(scaleFactor,coordinates){
 		if(this.getProperty(&quot;shape&quot;) == 'path') return coordinates;
@@ -4241,7 +4360,7 @@ EasyShape.prototype={
 	}	
 
 	 /*RENDERING */
-	,_canvasrender: function(canvas,transformation,projection,optimisations){
+	,_canvasrender: function(canvas,transformation,projection,optimisations, pointsize){
 		var c;
 		if(projection){
 			c = this._applyProjection(projection,transformation);
@@ -4251,19 +4370,22 @@ EasyShape.prototype={
 		}
 		if(c.length == 0) return;
 		var ctx = canvas.getContext('2d');
-		var o = transformation.origin;
-		var tr = transformation.translate;
-		var s = transformation.scale;
-		var r = transformation.rotate;
 		ctx.save();
 		if(this.properties.lineWidth){
 			ctx.lineWidth = this.properties.lineWidth/ transformation.scale.x;
 		}
-	
-		ctx.translate(o.x,o.y);
-		ctx.scale(s.x,s.y);
-		ctx.translate(tr.x,tr.y);
-		if(r &amp;&amp; r.x)ctx.rotate(r.x);
+		if(transformation){
+			var o = transformation.origin;
+			var tr = transformation.translate;
+			var s = transformation.scale;
+			var r = transformation.rotate;
+			if(o &amp;&amp; s &amp;&amp; tr){
+				ctx.translate(o.x,o.y);
+				ctx.scale(s.x,s.y);
+				ctx.translate(tr.x,tr.y);
+			}
+			if(r &amp;&amp; r.x)ctx.rotate(r.x);
+		}
 		ctx.beginPath();
 		var shapetype =this.getProperty(&quot;shape&quot;);
 		if(shapetype == 'point'){
@@ -4428,11 +4550,7 @@ EasyShape.prototype={
 		
 			var shapetype = this.getProperty(&quot;shape&quot;);
 			if(shapetype == 'point'){
-				var ps = 5 / parseFloat(transformation.scale.x);
-				var smallest = 1 / this._iemultiplier;
-				var largest = 2.5 * transformation.scale.x;
-				if(ps &lt; smallest) ps = smallest;
-				if(ps &gt; largest) ps = largest;
+				var ps = this.pointradius;
 				this._preparePointShape(this.pointcoords,ps);
 			} 
 			else if(shapetype == 'image'){
@@ -7367,33 +7485,62 @@ EasyClicking.prototype = {
 		if(this.settings.browser == 'good'){
 			this.clear();
 		}
-			
+	
 
 		var that = this;
-		var tran = this.getTransformation();
-		var f = function(){
+		var transformation = this.getTransformation();
+		//var f = function(){
+		var ps = 5 / parseFloat(transformation.scale.x);
+		var smallest = 1 / this._iemultiplier;
+		var largest = 2.5 * transformation.scale.x;
+		if(ps &lt; smallest) ps = smallest;
+		if(ps &gt; largest) ps = largest;	
 			
 			var newfragment = document.createDocumentFragment();
 			var mem =that.getMemory();
 			if(mem.length &gt; 0){
-		
+				var tran;
+				if(that.settings.browser == 'good'){
+					var ctx = that.canvas.getContext('2d');
+					ctx.save();
+					tran = false;
+
+					if(transformation){
+						
+						var o = transformation.origin;
+						var tr = transformation.translate;
+						var s = transformation.scale;
+						var r = transformation.rotate;
+						if(o &amp;&amp; s &amp;&amp; tr){
+							ctx.translate(o.x,o.y);
+							ctx.scale(s.x,s.y);
+							ctx.translate(tr.x,tr.y);
+						}
+						if(r &amp;&amp; r.x)ctx.rotate(r.x);
+					}
+					
+				}
+				else{
+					tran = transformation;
+				}
+				
 				 for(var i=0; i &lt; mem.length; i++){
 				 			
-					mem[i].render(that.canvas,tran,projection,true,that.settings.browser,newfragment);
+					mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
 				
 					if(mem[i].vmlfill &amp;&amp; that.settings.globalAlpha) {
 						mem[i].vmlfill.opacity =that.settings.globalAlpha;
 					}
 				
 				}
-					
+				/*	
 				if(!that.settings.browser == 'ie'){
 					that._fragment= newfragment.cloneNode(true);
 					that.canvas.appendChild(that._fragment);
-				}
+				}*/
 			}
-		};
-		f();
+			if(ctx)ctx.restore();
+	//	};f();
 	}
 	,getTransformation: function(){
 		return this.transformation;
