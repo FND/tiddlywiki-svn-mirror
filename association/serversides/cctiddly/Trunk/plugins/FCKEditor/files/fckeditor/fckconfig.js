@@ -52,8 +52,8 @@ FCKConfig.PluginsPath = FCKConfig.BasePath + 'plugins/' ;
 
  FCKConfig.Plugins.Add( 'autogrow' ) ;
  FCKConfig.Plugins.Add( 'dragresizetable' );
-FCKConfig.AutoGrowMax = 400 ;
-//FCKConfig.AutoGrowMax = 20000 ;
+//FCKConfig.AutoGrowMax = 400 ;
+FCKConfig.AutoGrowMax = 20000 ;
 
 
 // FCKConfig.ProtectedSource.Add( /<%[\s\S]*?%>/g ) ;	// ASP style server side code <%...%>
@@ -98,9 +98,9 @@ FCKConfig.HtmlEncodeOutput = false ;
 FCKConfig.TemplateReplaceAll = true ;
 FCKConfig.TemplateReplaceCheckbox = true ;
 
-FCKConfig.ToolbarLocation = 'In';
+//FCKConfig.ToolbarLocation = 'In';
 
-//FCKConfig.ToolbarLocation = 'Out:fixedBar' ;
+FCKConfig.ToolbarLocation = 'Out:fixedBar' ;
 
 FCKConfig.ToolbarSets["Default"] = [
 	['DocProps','-','Save','NewPage','Preview','-','Templates'],

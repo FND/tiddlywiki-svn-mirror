@@ -63,7 +63,7 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
   var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "");
   var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
 createTiddlyElement(newCommentArea, "br");
-  var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
+  var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment roundButton", "Add Comment");
   addComment.onclick = function() {
     var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
     newCommentEl.value = "";
@@ -230,7 +230,7 @@ openReplyLink: function(commentTiddler, commentEl, replyLink, macroParams) {
   };
 
   var replyText =  cmacro.makeTextArea(commentEl.replyEl, macroParams);
-  var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, "button", "Reply");
+  var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, "roundButton", "Reply");
   submitReply.onclick = function() { 
     var newComment = cmacro.createComment(replyText.value, commentTiddler, macroParams);
     replyText.value = "";

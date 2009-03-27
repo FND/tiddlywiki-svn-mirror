@@ -30,6 +30,42 @@ config.commands.saveSection.handler = function(event,src,title)
 
 //{{{
 
+
+
+
+
+/// HACK TO ROUND OF THE EDGES OF EACH BUTTON
+function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey,attribs)
+{
+	var btn = document.createElement("a");
+	if(action) {
+		btn.onclick = action;
+		btn.setAttribute("href","javascript:;");
+	}
+	if(tooltip)
+		btn.setAttribute("title",tooltip);
+	if(text){
+		var span = createTiddlyElement(btn, "span");
+		span.appendChild(document.createTextNode(text));
+	}
+	btn.className = className || "roundButton";
+	if(id)
+		btn.id = id;
+	if(attribs) {
+		for(var i in attribs) {
+			btn.setAttribute(i,attribs[i]);
+		}
+	}
+	if(parent)
+		parent.appendChild(btn);
+	if(accessKey)
+		btn.setAttribute("accessKey",accessKey);
+	return btn;
+}
+
+
+
+
 config.macros.docOutline={};
 
 config.macros.docOutline.editClick=function(){
@@ -58,27 +94,30 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	wikify("<<docPrint "+params[0]+">>", buttonHolder);
 	window.activeDocument = params[0];
 /// new tiddler button 
-	var btn = createTiddlyElement(buttonHolder, "a", null, "button");
+	var btn = createTiddlyElement(buttonHolder, "a", null, "roundButton");
+	var span = createTiddlyElement(btn, "span");
 	btn.onclick = config.macros.newTiddler.onClickNewTiddler;
 	btn.setAttribute("newTitle","New Section");
 	btn.setAttribute("newTemplate","mpTheme##newEditTemplate");
-	var img = createTiddlyElement(btn, "img");
+	var img = createTiddlyElement(span, "img");
 	img.style.width = "10px";
 	img.style.height="10px";
 	img.src = "http://www.iconspedia.com/uploads/578075880.png";
-	createTiddlyText(btn, " New");
+	createTiddlyText(span, " New");
 	btn.setAttribute("href","javascript:;");
 /// users button
-	var btn = createTiddlyElement(buttonHolder, "a", null, "button");
+	var btn = createTiddlyElement(buttonHolder, "a", null, "roundButton");
 	btn.onclick = function () {
 		story.displayTiddler(null, "Settings");
 	};
-	var img = createTiddlyElement(btn, "img");
+	var span = createTiddlyElement(btn, "span");
+	var img = createTiddlyElement(span, "img");
 	img.style.width = "10px";
 	img.style.height="10px";
 	img.src = "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png";
-	createTiddlyText(btn, " Settings");
+	createTiddlyText(span, " Settings");
 	btn.setAttribute("href","javascript:;");		
+	createTiddlyElement(place, "br");
 	createTiddlyElement(place, "br");
 	var treeSpec = store.getTiddlerText(params[0]); 
 	if(treeSpec){
@@ -230,13 +269,16 @@ config.macros.docPrint.handler=function(place,macroName,params,wikifier,paramStr
 		}
 	};
 	// print button 
-	var btn = createTiddlyElement(place, "a", null, "button");
+	
+	var btn = createTiddlyElement(place, "a", null, "roundButton");
+	var span = createTiddlyElement(btn, "span");
+
 	btn.onclick = onClickPrint;
-	var img = createTiddlyElement(btn, "img");
+	var img = createTiddlyElement(span, "img");
 	img.style.width = "10px";
 	img.style.height="10px";
 	img.src = "http://www.iconspedia.com/uploads/1543439043.png";
-	createTiddlyText(btn, " Print");
+	createTiddlyText(span, " Print");
 	btn.setAttribute("href","javascript:;");
 };
 

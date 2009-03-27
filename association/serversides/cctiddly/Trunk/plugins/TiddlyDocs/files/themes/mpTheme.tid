@@ -27,7 +27,6 @@ tags:systemTheme
 <!--{{{-->
 
 
-
 <div id='topBar2'>
 	<a href='http://osmosoft.com'>Osmosoft</a> | 
 	<a href='http://bt.com'>BT</a> | 
@@ -38,6 +37,9 @@ tags:systemTheme
 <div id="searchRight">
 	<div macro='search'></div>
 </div>
+
+<div id='fixedBar'></div> 
+
 </div>
 
 <div id='displayArea'>
@@ -216,6 +218,7 @@ tags:systemTheme
 
 		<div class='taskControls' macro='tiddler TaskTiddlerControls'>
 		</div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 		<div class='editor' macro='editHtml text'></div>
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 		<!--
@@ -227,6 +230,23 @@ tags:systemTheme
 
 
 !StyleSheet 
+
+
+
+#fixedBar, #topBar2 {
+position:fixed;
+width:100%;
+z-index:89999;
+}
+#fixedBar {
+ border-top:1px solid #eee;
+ border-bottom:1px solid #eee;
+height:auto;
+	background:#ddd;
+	top:2em;
+
+}
+
 
 .wizard h1 {
 	line-height:1.1em;
@@ -569,24 +589,127 @@ form.wizard, .wizard .wizardFooter{
 			margin-left :9.2em;
 		}
 	/*ENDWIZARD*/
-		.button {
-			font-face:arial;
-			background-color:#5586b6;
-			border:1px solid #fff !important;
-			margin:1.5em;	
-			font-size:2em;
-			top:1em !important;
-			color:#fff;
-			padding: 1em;
+
+		
+		
+		
+		
+		
+		
+		
+		.clear { /* generic container (i.e. div) for floating buttons */
+		    overflow: hidden;
+		    width: 100%;
 		}
+		a.roundButton {
+		    background: transparent url('http://www.oscaralexander.com/tutorials/img/bg_button_a.gif') no-repeat scroll top right;
+		    color: #444;
+		 
+		    float: left;
+		    font: normal 12px arial, sans-serif;
+		    height: 24px;
+		    margin-right: 6px;
+		    padding-right: 18px; /* sliding doors padding */
+		    text-decoration: none;
+		}
+
+		a.roundButton span {
+		    background: transparent url('http://www.oscaralexander.com/tutorials/img/bg_button_span.gif') no-repeat;
+		    display: block;
+		    line-height: 14px;
+		    padding: 5px 0 5px 18px;
+		}
+		
+		a.roundButton:hover {
+		    background-position: bottom right;
+		    color: #000;
+		    outline: none; /* hide dotted outline in Firefox */
+		}
+
+		a.roundButton:hover span {
+		    background-position: bottom left;
+		    padding: 6px 0 4px 18px; /* push text down 1px */
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		a.button {
+		    background: transparent url('http://www.oscaralexander.com/tutorials/img/bg_button_a.gif') no-repeat scroll top right;
+		    color: #444;
+		    display: block;
+		    float: left;
+		    font: normal 12px arial, sans-serif;
+		    height: 24px;
+		    margin-right: 6px;
+		    padding-right: 18px; /* sliding doors padding */
+		    text-decoration: none;
+		}
+
+		a.button span {
+		    background: transparent url('http://www.oscaralexander.com/tutorials/img/bg_button_span.gif') no-repeat;
+		    display: block;
+		    line-height: 14px;
+		    padding: 5px 0 5px 18px;
+		}
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		#buttonHolder {
+		background-color:transparent;
+		border:0px;
+		text-align:right;
+		float:right;
+		}
+		
+		
+		
+		
 		.button:hover  {
 			background-color:#ddd;
 			border:1px solid #888;
 			
-		}
-		#buttonHolder .button{
-			font-size:0.9em;
-			padding:0em 2em;
 		}
 		#backstageButton {
 			display:none !important;
@@ -600,6 +723,13 @@ form.wizard, .wizard .wizardFooter{
 		
 		.viewer th, .viewer thead td, .twtable th, .twtable thead td {
 			border:1px solid #5586B6;
+		}
+		
+		
+		.toolbar {
+		padding-left:3em;
+		padding-bottom:3em;
+		padding-top:0.5em;
 		}
 	/* END TIDDLYWIKI CS */
 

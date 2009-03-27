@@ -241,7 +241,8 @@ tags:systemTheme
 !StyleSheet 
 
 
-#fixedBar, #topBar2 {
+#
+, #topBar2 {
 position:fixed;
 width:100%;
 z-index:89999;
