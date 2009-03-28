@@ -1,6 +1,25 @@
 """
 library translating between TiddlyWiki documents and Tiddler instances
 
+
++------------------+     +-----------------------+     +---------------------+
+| TiddlyWiki       |     | tiddler element       |     | Tiddler             |
++------------------+     +-----------------------+     +---------------------+
+| store area       |     | title (str)           |     | title (str)         |
+|  +------------+  |     | text (str)            |     | text (str)          |
+|  | tiddler    |  | <=> | created (timestamp)   | <=> | created (datetime)  |
+|  |            |  |     | modified (timestamp)  |     | modified (datetime) |
+|  |            |  |     | modifier (str)        |     | modifier (str)      |
+|  +------------+  |     | tags (bracketed list) |     | tags (list; str)    |
+|  +------------+  |     | <custom> (str)        |     | fields (dict; str)  |
+|  | tiddler    |  |     +-----------------------+     | <custom> (*)        |
++------------------+                                   +---------------------+
+
+* timestamp: date string; YYYYMMDDHHMM format
+* bracketed list: space-separated list; individual items optionally enclosed
+  in double brackets
+
+
 TODO:
 * TiddlyWiki class
 * convert store format before parsing
