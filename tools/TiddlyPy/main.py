@@ -105,7 +105,7 @@ def _generate_tiddler(node):
 				value = readBracketedList(value)
 			setattr(tiddler, attr, value)
 		else: # extended field
-			if not (attr == "tiddler" and "title" in node.attrMap): # non-legacy attribute
+			if not attr == "tiddler" or "title" in node.attrMap: # non-legacy attribute
 				tiddler.fields[attr] = value
 	tiddler.text = _get_text(node)
 	return tiddler
