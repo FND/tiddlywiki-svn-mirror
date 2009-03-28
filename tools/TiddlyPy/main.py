@@ -8,7 +8,7 @@ library translating between TiddlyWiki documents and Tiddler instances
 | store area       |     | title (str)           |     | title (str)         |
 |  +------------+  |     | text (str)            |     | text (str)          |
 |  | tiddler    |  | <=> | created (timestamp)   | <=> | created (datetime)  |
-|  |            |  |     | modified (timestamp)  |     | modified (datetime) |
+|  | element    |  |     | modified (timestamp)  |     | modified (datetime) |
 |  |            |  |     | modifier (str)        |     | modifier (str)      |
 |  +------------+  |     | tags (bracketed list) |     | tags (list; str)    |
 |  +------------+  |     | <custom> (str)        |     | fields (dict; str)  |
@@ -26,6 +26,8 @@ TODO:
 * support for slices/sections
 * investigate commonalities with TiddlyWeb (cf. ticket #995)
 * extend Tiddler class (e.g. defaults, timestamp validation)
+* split into separate modules
+* make __init__.py provide API
 * full CRUD API
 """
 
@@ -154,6 +156,8 @@ def _get_text(tiddler):
 		return tiddler.find("pre").contents[0] # XXX: use .string!?
 	except AttributeError: # legacy format
 		return _decodeLegacyText(tiddler.contents[0]) # XXX: use .string!?
+	except IndexError: # empty tiddler
+		return None
 
 
 def _decodeLegacyText(text):
