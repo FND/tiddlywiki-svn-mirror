@@ -2,6 +2,8 @@ import main
 
 import unittest
 
+from datetime import datetime
+
 from unittest import TestCase # TODO: make conditional (exitFirst)
 #from testsuite import TestCase
 
@@ -117,7 +119,7 @@ class generateTiddlerTestCase(TestCase):
 		tiddlerElements = main._get_tiddler_elements(doc)
 		tiddler = main._generate_tiddler(tiddlerElements[1])
 		actual = tiddler.created
-		expected = "200903261042"
+		expected = datetime(2009, 03, 26, 10, 42)
 		self.assertEqual(actual, expected)
 
 	def testProvidesTiddlerModified(self):
@@ -126,7 +128,7 @@ class generateTiddlerTestCase(TestCase):
 		tiddlerElements = main._get_tiddler_elements(doc)
 		tiddler = main._generate_tiddler(tiddlerElements[0])
 		actual = tiddler.modified
-		expected = "200903261043"
+		expected = datetime(2009, 03, 26, 10, 43)
 		self.assertEqual(actual, expected)
 
 	def testProvidesTiddlerModifier(self):

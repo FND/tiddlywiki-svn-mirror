@@ -22,14 +22,12 @@ library translating between TiddlyWiki documents and Tiddler instances
 
 TODO:
 * TiddlyWiki class
-* convert tiddler timestamps
 * convert store format before parsing
 * investigate commonalities with TiddlyWeb (cf. ticket #995)
-* extend Tiddler class (e.g. defaults, timestamp validation)
 * split into separate modules
 * make __init__.py provide API
-* full CRUD API
-* support for sections
+* full CRUD functionality
+* support for tiddler sections
 """
 
 
@@ -37,10 +35,10 @@ import re
 
 import html5lib
 
-from datetime import datetime
+from datetime import datetime # XXX: use time module?
 
 
-def get_tiddlers(document): # XXX: move into TiddlyWiki class
+def get_tiddlers(document): # TODO: move into TiddlyWiki class
 	"""
 	retrieve tiddlers from TiddlyWiki document
 
@@ -117,14 +115,23 @@ class Tiddler(object):
 		"""
 		use tiddler name in string representation
 		"""
-		return self.title + object.__repr__(self) # XXX: insert separator?
+		return self.title + object.__repr__(self) # TODO: insert separator?
 
+def convert_tiddler_timestamp(t): # TODO: rename? move into TiddlyWiki class? -- XXX: private?
+	"""
+	convert tiddler timestamp to datetime object
 
-def readBracketedList(string): # XXX: move into TiddlyWiki class?
+	@param t: tiddler timestamp (YYYYMMDDhhmm format)
+	@return: datetime object
+	"""
+	return datetime(int(t[0:4]), int(t[4:6]), int(t[6:8]),
+		int(t[8:10]), int(t[10:12])) # TODO: use strptime?
+
+def readBracketedList(string): # TODO: move into TiddlyWiki class? -- XXX: private?
 	return string.split(" ") # TODO: proper implementation
 
 
-def _get_tiddler_elements(document): # XXX: move into TiddlyWiki class
+def _get_tiddler_elements(document): # TODO: move into TiddlyWiki class
 	"""
 	retrieve tiddler elements from TiddlyWiki document
 
@@ -138,7 +145,7 @@ def _get_tiddler_elements(document): # XXX: move into TiddlyWiki class
 	return store.findChildren("div")
 
 
-def _generate_tiddler(node): # XXX: move into TiddlyWiki class
+def _generate_tiddler(node): # TODO: move into TiddlyWiki class
 	"""
 	generate Tiddler instance from element node
 
@@ -148,7 +155,9 @@ def _generate_tiddler(node): # XXX: move into TiddlyWiki class
 	tiddler = Tiddler(_get_title(node))
 	for attr, value in node.attrs:
 		if attr in Tiddler.standard_fields:
-			if attr == "tags":
+			if attr == "created" or attr == "modified":
+				value = convert_tiddler_timestamp(value)
+			elif attr == "tags":
 				value = readBracketedList(value)
 			setattr(tiddler, attr, value)
 		else: # extended field
@@ -158,7 +167,7 @@ def _generate_tiddler(node): # XXX: move into TiddlyWiki class
 	return tiddler
 
 
-def _get_title(tiddler): # XXX: move into TiddlyWiki class
+def _get_title(tiddler): # TODO: move into TiddlyWiki class
 	"""
 	retrieve tiddler name from tiddler element
 
@@ -171,7 +180,7 @@ def _get_title(tiddler): # XXX: move into TiddlyWiki class
 		return tiddler["title"]
 
 
-def _get_text(tiddler): # XXX: move into TiddlyWiki class
+def _get_text(tiddler): # TODO: move into TiddlyWiki class
 	"""
 	retrieve contents from tiddler element
 
@@ -186,7 +195,7 @@ def _get_text(tiddler): # XXX: move into TiddlyWiki class
 		return None
 
 
-def _decodeLegacyText(text): # XXX: move into TiddlyWiki class
+def _decodeLegacyText(text): # TODO: move into TiddlyWiki class
 	"""
 	decode tiddler text from legacy store format
 
