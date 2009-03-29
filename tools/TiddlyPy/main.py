@@ -22,13 +22,14 @@ library translating between TiddlyWiki documents and Tiddler instances
 
 TODO:
 * TiddlyWiki class
+* convert tiddler timestamps
 * convert store format before parsing
-* support for slices/sections
 * investigate commonalities with TiddlyWeb (cf. ticket #995)
 * extend Tiddler class (e.g. defaults, timestamp validation)
 * split into separate modules
 * make __init__.py provide API
 * full CRUD API
+* support for sections
 """
 
 
@@ -39,7 +40,7 @@ import html5lib
 from datetime import datetime
 
 
-def get_tiddlers(document):
+def get_tiddlers(document): # XXX: move into TiddlyWiki class
 	"""
 	retrieve tiddlers from TiddlyWiki document
 
@@ -66,11 +67,7 @@ def get_tiddlers(document):
 class Tiddler(object):
 	"""
 	content unit
-	"""
-	# TODO
-	# * convert timestamps
-	# * convert tags
-	# * documentation
+	""" # TODO
 
 	standard_fields = [
 		"title",
@@ -82,7 +79,7 @@ class Tiddler(object):
 	]
 
 	_slices_pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1[\t\x20]*([^\n]+)[\t\x20]*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|[\t\x20]*([^\n]+)[\t\x20]*\|$)" # tweaked version of TiddlyWiki core RegEx -- TODO: update to latest version
-	_slices_pattern = re.compile(_slices_pattern, re.M + re.I) # XXX: rename?
+	_slices_pattern = re.compile(_slices_pattern, re.M + re.I)
 
 	def __init__(self, title):
 		"""
@@ -98,15 +95,15 @@ class Tiddler(object):
 		self.tags = []
 		self.fields = {}
 
-	def get_slices(self): # XXX: option to capitalize slice names?
+	def get_slices(self): # TODO: optional parameters for text and name?
 		"""
-		retrieve slices from tiddler
+		retrieve all slices from tiddler
 
 		@return: slices dictionary
 		"""
 		slices = {}
 		try:
-			matches = self.__class__._slices_pattern.findall(self.text) # XXX: don't use __class__? optional parameters for text and name?
+			matches = self.__class__._slices_pattern.findall(self.text) # XXX: don't use __class__?
 		except TypeError: # empty tiddler
 			return slices
 		for match in matches:
@@ -117,14 +114,17 @@ class Tiddler(object):
 		return slices
 
 	def __repr__(self): # XXX: move below __init__?
+		"""
+		use tiddler name in string representation
+		"""
 		return self.title + object.__repr__(self) # XXX: insert separator?
 
 
-def readBracketedList(string):
+def readBracketedList(string): # XXX: move into TiddlyWiki class?
 	return string.split(" ") # TODO: proper implementation
 
 
-def _get_tiddler_elements(document):
+def _get_tiddler_elements(document): # XXX: move into TiddlyWiki class
 	"""
 	retrieve tiddler elements from TiddlyWiki document
 
@@ -138,7 +138,7 @@ def _get_tiddler_elements(document):
 	return store.findChildren("div")
 
 
-def _generate_tiddler(node):
+def _generate_tiddler(node): # XXX: move into TiddlyWiki class
 	"""
 	generate Tiddler instance from element node
 
@@ -148,7 +148,7 @@ def _generate_tiddler(node):
 	tiddler = Tiddler(_get_title(node))
 	for attr, value in node.attrs:
 		if attr in Tiddler.standard_fields:
-			if attr == "tags": # XXX: move into Tiddler class!?
+			if attr == "tags":
 				value = readBracketedList(value)
 			setattr(tiddler, attr, value)
 		else: # extended field
@@ -158,7 +158,7 @@ def _generate_tiddler(node):
 	return tiddler
 
 
-def _get_title(tiddler):
+def _get_title(tiddler): # XXX: move into TiddlyWiki class
 	"""
 	retrieve tiddler name from tiddler element
 
@@ -171,7 +171,7 @@ def _get_title(tiddler):
 		return tiddler["title"]
 
 
-def _get_text(tiddler):
+def _get_text(tiddler): # XXX: move into TiddlyWiki class
 	"""
 	retrieve contents from tiddler element
 
@@ -186,7 +186,7 @@ def _get_text(tiddler):
 		return None
 
 
-def _decodeLegacyText(text):
+def _decodeLegacyText(text): # XXX: move into TiddlyWiki class
 	"""
 	decode tiddler text from legacy store format
 
