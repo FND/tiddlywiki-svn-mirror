@@ -32,6 +32,8 @@ TODO:
 """
 
 
+import re
+
 import html5lib
 
 from datetime import datetime
@@ -66,9 +68,9 @@ class Tiddler(object):
 	content unit
 	"""
 	# TODO
-	# * documentation
 	# * convert timestamps
 	# * convert tags
+	# * documentation
 
 	standard_fields = [
 		"title",
@@ -78,6 +80,9 @@ class Tiddler(object):
 		"modifier",
 		"tags"
 	]
+
+	_slices_pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1[\t\x20]*([^\n]+)[\t\x20]*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|[\t\x20]*([^\n]+)[\t\x20]*\|$)" # tweaked version of TiddlyWiki core RegEx -- TODO: update to latest version
+	_slices_pattern = re.compile(_slices_pattern, re.M + re.I) # XXX: rename?
 
 	def __init__(self, title):
 		"""
@@ -92,6 +97,27 @@ class Tiddler(object):
 		self.modifier = None
 		self.tags = []
 		self.fields = {}
+
+	def get_slices(self): # XXX: option to capitalize slice names?
+		"""
+		retrieve slices from tiddler
+
+		@return: slices dictionary
+		"""
+		slices = {}
+		try:
+			matches = self.__class__._slices_pattern.findall(self.text) # XXX: don't use __class__? optional parameters for text and name?
+		except TypeError: # empty tiddler
+			return slices
+		for match in matches:
+			if match[1]: # colon notation
+				slices[match[1]] = match[2]
+			else: # table notation
+				slices[match[4]] = match[5]
+		return slices
+
+	def __repr__(self): # XXX: move below __init__?
+		return self.title + object.__repr__(self) # XXX: insert separator?
 
 
 def readBracketedList(string):
