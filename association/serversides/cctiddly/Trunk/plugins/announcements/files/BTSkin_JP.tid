@@ -17,7 +17,6 @@ modifier: Simon McManus
 
 !PageTemplate
 <!--{{{-->
-<div id='messageBar'><span id='messageArea'></span></div>
 
 
 <div id='pageTitleSection' class='constrain'>
@@ -35,7 +34,6 @@ modifier: Simon McManus
 <div id='displayArea'>
 	<div id='tiddlerDisplay'></div>
 </div>
-<div id='footer' refresh='content' tiddler='Footer'></div>
 <!--}}}-->
 
 !ViewTemplate
@@ -114,10 +112,6 @@ div.header {height:50px; margin:1em 2em 1em 2em; background-color:#fff;  }
 #mainMenu a:active { background-color:transparent; color:#000; font-weight:bold;}
 #mainMenu br { display:none;}
 
-/* Footer */
-#footer {clear:left; display:block; width:100%; margin:2em 0; text-align:right; border-top:solid 1px #ccc; padding:1em 0; border-bottom:1px solid #CCCCCC;border-top:0 none;}
-#footer a {margin-right:2em; color:#6B4999; text-decoration:none;}
-#footer a:hover {color:#6B4999; text-decoration:underline;}
 
 
 .tiddler .title {color:#555; position:relative; top:-1em; z-index:1;width:70%}

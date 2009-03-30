@@ -38,7 +38,7 @@ config.macros.announcementPlugin.handler = function(place,macroName,params)
 
 			addClass(commentSlider,"commentSlider");
 
-wikify("<<comments tiddler:'"+tiddlers[t].title+"'>>", commentSlider,null,tiddlers[t]);
+wikify("<<comments loginPrompt:'list all' tiddler:'"+tiddlers[t].title+"'>>", commentSlider,null,tiddlers[t]);
 		//	createTiddlyElement(commentSlider, "div", null, "textSpace", "blah blah blah ");
 
 
