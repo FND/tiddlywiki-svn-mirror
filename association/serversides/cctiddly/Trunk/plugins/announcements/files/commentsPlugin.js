@@ -70,7 +70,7 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
 
   if (cmacro.editable(macroParams)) {
     var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
-    
+
 	if(isLoggedIn())
 	{
 		var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);

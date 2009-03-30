@@ -26,19 +26,14 @@ config.macros.announcementPlugin.handler = function(place,macroName,params)
 			img.src = "http://www.iconspedia.com/uploads/578075880.png";
 			img.width = "20";
 			img.height = "20";
-			var slider = config.macros.slider.createSlider(place, "", "");
+			var slider = config.macros.slider.createSlider(place, "chkSlider"+tiddlers[t].title, "");
 			addClass(slider,"slider");
 			var sliderButton = findRelated(slider,"button","className","previousSibling");
 			sliderButton.appendChild(img);
 			createTiddlyElement(sliderButton, "div", null, "textSpace", tiddlers[t].title);
 			addClass(sliderButton,"stream deliciousStream");
 			wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created+"\n\n",slider,null,tiddlers[t]);
-
-
-
-
-
-			var commentSlider = config.macros.slider.createSlider(slider, "", "comments ("+wikifyStatic('<<commentsCount '+tiddlers[t].title+'>>')+")");
+			var commentSlider = config.macros.slider.createSlider(slider, "chkSlider"+tiddlers[t].title, "comments ("+wikifyStatic('<<commentsCount '+tiddlers[t].title+'>>')+")");
 			addClass(commentSlider,"slider");
 
 			addClass(commentSlider,"commentSlider");
