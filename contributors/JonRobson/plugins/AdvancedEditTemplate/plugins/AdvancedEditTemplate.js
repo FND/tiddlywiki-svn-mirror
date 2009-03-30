@@ -15,6 +15,7 @@ Allows the adding of multiple level drop down menus and checkboxes to the edit t
 // Ensure that this Plugin is only installed once.
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
+
 	version.extensions.AdvancedEditTemplatePlugin = {installed:true};
 	config.macros.AdvancedEditTemplate = {
 		getVariableFromQueryString:function(varName){
@@ -47,8 +48,6 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var valueSource = getParam(params,"valuesSource", null);
 			if(!valueSource) valueSource = metaDataName + "Definition";
 			if(ctrlType == 'dropdown') {
-				
-				
 				if(!valueSource) {
 					displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
 					return;
@@ -130,6 +129,15 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 			else if(ctrlType == 'color'){
 				this.createColorBar(place,title,metaDataName);
+			}
+			else if(ctrlType == 'image'){
+				var that = this;
+				var handler = function(value){
+					that.setMetaData(title,metaDataName,value);
+				};
+				var initialValue = "";
+				initialValue = this.getMetaData(title,metaDataName);
+				var image = new config.macros.AdvancedEditTemplate.EditTemplateImage(place, initialValue,handler);
 			}
 
 		}
@@ -459,7 +467,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 		},
 		
-		getMetaData: function(title,extField){
+		getMetaData: function(title,extField){ 
 			extField = extField.toLowerCase();
 			var tiddler =  store.getTiddler(title);
 			if(!tiddler) {
@@ -488,6 +496,32 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			store.setValue(tiddler,extField,extFieldVal);	
 			
 		
+		}
+	};
+	
+	
+	config.macros.AdvancedEditTemplate.EditTemplateImage = function(place,initial,handler){
+		this.init(place,initial,handler);
+	};
+	config.macros.AdvancedEditTemplate.EditTemplateImage.prototype = {
+		init: function(place,initial,handler){
+			var holder = document.createElement("div");
+			holder.className = "AdvancedEditTemplateImage";
+			var input = document.createElement("input");
+			if(initial)input.value = initial;
+			var image = document.createElement("img");
+			image.src = initial;
+			var button = document.createElement("button");
+			
+			input.onchange = function(e){
+				var newsrc = this.value;
+				image.src = newsrc;
+				handler(newsrc);
+			};
+			holder.appendChild(image);
+			holder.appendChild(input);
+			holder.appendChild(button);
+			place.appendChild(holder);
 		}
 	};
 }

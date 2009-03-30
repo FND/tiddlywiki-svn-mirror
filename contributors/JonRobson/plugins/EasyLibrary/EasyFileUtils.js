@@ -70,7 +70,7 @@ var EasyFileUtils= {
 			if((p = localPath.lastIndexOf("\\")) != -1) {
 				savePath = localPath.substr(0,p) + "\\" + dest;
 			} else {
-				savePath = localPath + "." + dest;
+				savePath = localPath + "/" + dest;
 			}
 		}
 		
@@ -79,7 +79,9 @@ var EasyFileUtils= {
 				if(dothiswhenloadedfromweb){
 					dothiswhenloadedfromweb(url);
 				}
-				if(location.protocol != "http:")EasyFileUtils.saveFile(savePath,responseText);
+				console.log("EasyFileUtil.saveFile doesnt work for iamges it might seem",savePath);
+				EasyFileUtils.saveFile(savePath,responseText);
+		
 			}
 			catch(e){
 				console.log("error saving locally.."+ e);
@@ -141,9 +143,9 @@ var EasyFileUtils= {
 			}
 		};
 		//# Send request
-		if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
-			window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
 		try {
+			if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
+			window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
 			
 			if(!allowCache)
 				url = url + (url.indexOf("?") < 0 ? "?" : "&") + "nocache=" + Math.random();
@@ -164,7 +166,7 @@ var EasyFileUtils= {
 			x.send(data);
 		} catch(ex) {
 			//console.log(ex);
-			throw ex;
+			//throw ex;
 		}
 		return x;
 	},

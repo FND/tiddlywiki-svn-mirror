@@ -24,12 +24,7 @@ var EasyMap = function(wrapper){
 	if(!wrapper.style.height) wrapper.style.height= "200px";
 		
 	this.feature_reference = {};
-	this.settings.afterRender=  function(transformation){
-				var t = document.getElementById(that.wrapper.id + "_statustext");
-			if(t) {
-				t.parentNode.removeChild(t);	
-			}
-	};
+
 		
 		
 	this.easyClicking = new EasyClicking(wrapper);
@@ -62,12 +57,8 @@ EasyMap.prototype = {
 		t.origin.x = width / 2;
 		t.origin.y = height / 2;
 		this.setTransformation(t);
-		/*if(this.canvas.getAttribute("width")){
-			this.canvas.width = width;
-			this.canvas.height = height;
-		}
-		this.canvas.style.height = height+"px";
-		this.canvas.style.width = width +"px";*/
+		this.easyClicking.resize(width,height);
+
 		this.clear();
 
 	}
@@ -226,9 +217,14 @@ EasyMap.prototype = {
 		if(this.settings.beforeRender) {
 			this.settings.beforeRender(tran);
 		}
-		this.easyClicking.render();
+		this.easyClicking.render(this.settings.projection);
 		if(this.settings.afterRender) {
 			this.settings.afterRender(tran);
+			
+		}
+		var t = document.getElementById(that.wrapper.id + "_statustext");
+		if(t) {
+			t.parentNode.removeChild(t);	
 		}
 		
 	

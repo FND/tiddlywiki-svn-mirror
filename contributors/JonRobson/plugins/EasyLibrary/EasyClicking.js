@@ -46,7 +46,15 @@ var EasyClicking = function(element,easyShapesList){
 };
 
 EasyClicking.prototype = {
-	setTransparency: function(alpha){	
+	resize: function(width,height){
+		if(this.canvas.getAttribute("width")){
+			this.canvas.width = width;
+			this.canvas.height = height;
+		}
+		this.canvas.style.height = height+"px";
+		this.canvas.style.width = width +"px";
+	}
+	,setTransparency: function(alpha){	
 		this.settings.globalAlpha = alpha
 	}
 	,_setupCanvasEnvironment: function(){

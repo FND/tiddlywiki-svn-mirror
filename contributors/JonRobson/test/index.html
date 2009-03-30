@@ -1491,7 +1491,7 @@ var jqMock = jqMock || {};
 }) (jQuery);
 
 jQuery(document).ready(function() {
-	module("AdvancedEditTemplate");
+	module("AdvancedEditTemplate-DropDownMenu");
 
 	test("setMetaData and getMetaData", function() {
 		var actual, expected;
@@ -1985,14 +1985,107 @@ jQuery(document).ready(function() {
 		store.saveTiddler(title,title,text,true,null,[],{},null);
 		var place = document.createElement("div");
 		var paramString = "type:dropdown metaDataName:assignee valuesSource:DropDownData";
-		config.macros.AdvancedEditTemplate.handler(place,false,params,false,paramString,false);	
-		console.log(place);
-		
 		/* run */
+		config.macros.AdvancedEditTemplate.handler(place,false,params,false,paramString,false);	
+		
+		/* verify */
 		actual = place.childNodes.length;
 		expected = 5;
 		same(actual, expected, "right number of dropdowns created");
 	});
+	
+	module("AdvancedEditTemplate-Image");
+	
+	test("macro test ", function(){
+		/*setup */
+		var place = document.createElement("div");
+		var paramString = "type:image metaDataName:photo";
+		/* run */
+		config.macros.AdvancedEditTemplate.handler(place,false,false,false,paramString,false);	
+		
+		/*verify */
+		actual = place.firstChild.childNodes.length;
+		expected = 3;
+		same(actual, expected, "macro creates an image and a text box for the source and a button to look up");
+	});
+	
+	
+	test("input field changes ", function(){
+		/*setup */
+		var place = document.createElement("div");
+		var paramString = "type:image metaDataName:photo";
+		/* run */
+		config.macros.AdvancedEditTemplate.handler(place,false,false,false,paramString,false);	
+		place.firstChild.childNodes[1].value = "foo.gif";
+		place.firstChild.childNodes[1].onchange();
+		
+		/*verify */
+		actual = place.firstChild.childNodes[1].value;
+		expected = "foo.gif";
+		same(actual, expected, "when the input field changes the image src updates.");
+	});
+	
+	test("getting/saving from meta field ", function(){
+		var mockf = function(el){
+			var mockdom = document.createElement("div");
+			mockdom.setAttribute("title","bonjour");
+			mockdom.setAttribute("tiddler","bonjour");
+			return mockdom;
+		};
+		story.findContainingTiddler = mockf;
+		var title = "bonjour";
+		store.saveTiddler(title,title,"",true,null,[],{photo:"bar.jpg"},null);
+		/*setup */
+		var place = document.createElement("div");
+		var paramString = "type:image metaDataName:photo";
+		
+		/* run */
+		config.macros.AdvancedEditTemplate.handler(place,false,false,false,paramString,false);
+		
+		/* verify */	
+		actual = place.firstChild.childNodes[1].value;
+		expected = "bar.jpg";
+		same(actual, expected, "initial value set correctly");
+		
+		/*run (2) */
+		place.firstChild.childNodes[1].value = "foobar.gif";
+		place.firstChild.childNodes[1].onchange();
+		
+		/*verify (2) */
+		actual = store.getValue("bonjour","photo");
+		expected = "foobar.gif";
+		same(actual, expected, "on a change to the field, tiddler was updated correctly");
+	});
+	
+	test(" new tiddler / empty field value is initialised to empty string ", function(){
+		var mockf = function(el){
+			var mockdom = document.createElement("div");
+			mockdom.setAttribute("title","noexist");
+			mockdom.setAttribute("tiddler","noexist");
+			return mockdom;
+		};
+		story.findContainingTiddler = mockf;
+		/*setup */
+		var place = document.createElement("div");
+		var paramString = "type:image metaDataName:photo";
+		
+		/* run */
+		config.macros.AdvancedEditTemplate.handler(place,false,false,false,paramString,false);
+		
+		/* verify */	
+		actual = place.firstChild.childNodes[1].value;
+		expected = "";
+		same(actual, expected, "initial value set correctly");
+		
+		/*run (2) */
+		place.firstChild.childNodes[1].value = "foobar.gif";
+		place.firstChild.childNodes[1].onchange();
+		
+		/*verify (2) */
+		actual = store.getValue("noexist","photo");
+		expected = "foobar.gif";
+		same(actual, expected, "on a change to the field, tiddler was updated correctly even though it didnt exist before");
+	});	
 });jQuery(document).ready(function() {
 	module("EasyShapes");
 
@@ -2652,7 +2745,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903271436" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903301144" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -2670,6 +2763,7 @@ Allows the adding of multiple level drop down menus and checkboxes to the edit t
 // Ensure that this Plugin is only installed once.
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
+
 	version.extensions.AdvancedEditTemplatePlugin = {installed:true};
 	config.macros.AdvancedEditTemplate = {
 		getVariableFromQueryString:function(varName){
@@ -2702,8 +2796,6 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var valueSource = getParam(params,&quot;valuesSource&quot;, null);
 			if(!valueSource) valueSource = metaDataName + &quot;Definition&quot;;
 			if(ctrlType == 'dropdown') {
-				
-				
 				if(!valueSource) {
 					displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
 					return;
@@ -2785,6 +2877,15 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 			else if(ctrlType == 'color'){
 				this.createColorBar(place,title,metaDataName);
+			}
+			else if(ctrlType == 'image'){
+				var that = this;
+				var handler = function(value){
+					that.setMetaData(title,metaDataName,value);
+				};
+				var initialValue = &quot;&quot;;
+				initialValue = this.getMetaData(title,metaDataName);
+				var image = new config.macros.AdvancedEditTemplate.EditTemplateImage(place, initialValue,handler);
 			}
 
 		}
@@ -3114,7 +3215,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 		},
 		
-		getMetaData: function(title,extField){
+		getMetaData: function(title,extField){ 
 			extField = extField.toLowerCase();
 			var tiddler =  store.getTiddler(title);
 			if(!tiddler) {
@@ -3143,6 +3244,32 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			store.setValue(tiddler,extField,extFieldVal);	
 			
 		
+		}
+	};
+	
+	
+	config.macros.AdvancedEditTemplate.EditTemplateImage = function(place,initial,handler){
+		this.init(place,initial,handler);
+	};
+	config.macros.AdvancedEditTemplate.EditTemplateImage.prototype = {
+		init: function(place,initial,handler){
+			var holder = document.createElement(&quot;div&quot;);
+			holder.className = &quot;AdvancedEditTemplateImage&quot;;
+			var input = document.createElement(&quot;input&quot;);
+			if(initial)input.value = initial;
+			var image = document.createElement(&quot;img&quot;);
+			image.src = initial;
+			var button = document.createElement(&quot;button&quot;);
+			
+			input.onchange = function(e){
+				var newsrc = this.value;
+				image.src = newsrc;
+				handler(newsrc);
+			};
+			holder.appendChild(image);
+			holder.appendChild(input);
+			holder.appendChild(button);
+			place.appendChild(holder);
 		}
 	};
 }
@@ -4828,12 +4955,7 @@ var EasyMap = function(wrapper){
 	if(!wrapper.style.height) wrapper.style.height= &quot;200px&quot;;
 		
 	this.feature_reference = {};
-	this.settings.afterRender=  function(transformation){
-				var t = document.getElementById(that.wrapper.id + &quot;_statustext&quot;);
-			if(t) {
-				t.parentNode.removeChild(t);	
-			}
-	};
+
 		
 		
 	this.easyClicking = new EasyClicking(wrapper);
@@ -4866,12 +4988,8 @@ EasyMap.prototype = {
 		t.origin.x = width / 2;
 		t.origin.y = height / 2;
 		this.setTransformation(t);
-		/*if(this.canvas.getAttribute(&quot;width&quot;)){
-			this.canvas.width = width;
-			this.canvas.height = height;
-		}
-		this.canvas.style.height = height+&quot;px&quot;;
-		this.canvas.style.width = width +&quot;px&quot;;*/
+		this.easyClicking.resize(width,height);
+
 		this.clear();
 
 	}
@@ -5030,9 +5148,14 @@ EasyMap.prototype = {
 		if(this.settings.beforeRender) {
 			this.settings.beforeRender(tran);
 		}
-		this.easyClicking.render();
+		this.easyClicking.render(this.settings.projection);
 		if(this.settings.afterRender) {
 			this.settings.afterRender(tran);
+			
+		}
+		var t = document.getElementById(that.wrapper.id + &quot;_statustext&quot;);
+		if(t) {
+			t.parentNode.removeChild(t);	
 		}
 		
 	
@@ -5748,7 +5871,7 @@ EasyController.prototype = {
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
 
-	
+			if(!that.goodToTransform(e)) return;
 			var t = EasyClickingUtils.resolveTarget(e);
 			
 			if(t != that.wrapper &amp;&amp; t.parentNode !=that.wrapper) return;
@@ -5841,6 +5964,23 @@ EasyController.prototype = {
 		this.enabled = true;
 	}
 	
+	,goodToTransform: function(e){
+		var t =  EasyClickingUtils.resolveTarget(e);
+
+		switch(t.tagName){
+			case &quot;INPUT&quot;:
+				return false;
+			case &quot;SELECT&quot;:
+				return false;
+			case &quot;OPTION&quot;:
+				return false;
+		}
+		
+		if(t.getAttribute(&quot;class&quot;) == &quot;easyControl&quot;) return false;
+		
+		return true;
+		
+	}
 	,addMousePanning: function(){
 		var that = this;
 		var md = that.wrapper.onmousedown;
@@ -5850,11 +5990,7 @@ EasyController.prototype = {
 			if(!this.easyController)return;
 			var p =this.easyController.panning_status;
 			if(!p) return;
-			var t =  EasyClickingUtils.resolveTarget(e);
-
-			if(t.tagName == &quot;INPUT&quot;) return;
-			if(t.getAttribute(&quot;class&quot;) == &quot;easyControl&quot;) return;
-			
+			if(!that.goodToTransform(e)) return;
 			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
 			if(!pos)return;
 			
@@ -6830,7 +6966,7 @@ var EasyFileUtils= {
 			if((p = localPath.lastIndexOf(&quot;\\&quot;)) != -1) {
 				savePath = localPath.substr(0,p) + &quot;\\&quot; + dest;
 			} else {
-				savePath = localPath + &quot;.&quot; + dest;
+				savePath = localPath + &quot;/&quot; + dest;
 			}
 		}
 		
@@ -6839,7 +6975,9 @@ var EasyFileUtils= {
 				if(dothiswhenloadedfromweb){
 					dothiswhenloadedfromweb(url);
 				}
-				if(location.protocol != &quot;http:&quot;)EasyFileUtils.saveFile(savePath,responseText);
+				console.log(&quot;EasyFileUtil.saveFile doesnt work for iamges it might seem&quot;,savePath);
+				EasyFileUtils.saveFile(savePath,responseText);
+		
 			}
 			catch(e){
 				console.log(&quot;error saving locally..&quot;+ e);
@@ -6898,9 +7036,9 @@ var EasyFileUtils= {
 				x = null;
 			}
 		};
-		if(window.Components &amp;&amp; window.netscape &amp;&amp; window.netscape.security &amp;&amp; document.location.protocol.indexOf(&quot;http&quot;) == -1)
-			window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
 		try {
+			if(window.Components &amp;&amp; window.netscape &amp;&amp; window.netscape.security &amp;&amp; document.location.protocol.indexOf(&quot;http&quot;) == -1)
+			window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
 			
 			if(!allowCache)
 				url = url + (url.indexOf(&quot;?&quot;) &lt; 0 ? &quot;?&quot; : &quot;&amp;&quot;) + &quot;nocache=&quot; + Math.random();
@@ -6921,7 +7059,7 @@ var EasyFileUtils= {
 			x.send(data);
 		} catch(ex) {
 			//console.log(ex);
-			throw ex;
+			//throw ex;
 		}
 		return x;
 	},
@@ -7450,7 +7588,15 @@ var EasyClicking = function(element,easyShapesList){
 };
 
 EasyClicking.prototype = {
-	setTransparency: function(alpha){	
+	resize: function(width,height){
+		if(this.canvas.getAttribute(&quot;width&quot;)){
+			this.canvas.width = width;
+			this.canvas.height = height;
+		}
+		this.canvas.style.height = height+&quot;px&quot;;
+		this.canvas.style.width = width +&quot;px&quot;;
+	}
+	,setTransparency: function(alpha){	
 		this.settings.globalAlpha = alpha
 	}
 	,_setupCanvasEnvironment: function(){

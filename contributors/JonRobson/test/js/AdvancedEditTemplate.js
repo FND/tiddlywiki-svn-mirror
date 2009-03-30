@@ -1,6 +1,6 @@
 
 jQuery(document).ready(function() {
-	module("AdvancedEditTemplate");
+	module("AdvancedEditTemplate-DropDownMenu");
 
 	test("setMetaData and getMetaData", function() {
 		var actual, expected;
@@ -494,11 +494,105 @@ jQuery(document).ready(function() {
 		store.saveTiddler(title,title,text,true,null,[],{},null);
 		var place = document.createElement("div");
 		var paramString = "type:dropdown metaDataName:assignee valuesSource:DropDownData";
+		/* run */
 		config.macros.AdvancedEditTemplate.handler(place,false,params,false,paramString,false);	
 		
-		/* run */
+		/* verify */
 		actual = place.childNodes.length;
 		expected = 5;
 		same(actual, expected, "right number of dropdowns created");
 	});
+	
+	module("AdvancedEditTemplate-Image");
+	
+	test("macro test ", function(){
+		/*setup */
+		var place = document.createElement("div");
+		var paramString = "type:image metaDataName:photo";
+		/* run */
+		config.macros.AdvancedEditTemplate.handler(place,false,false,false,paramString,false);	
+		
+		/*verify */
+		actual = place.firstChild.childNodes.length;
+		expected = 3;
+		same(actual, expected, "macro creates an image and a text box for the source and a button to look up");
+	});
+	
+	
+	test("input field changes ", function(){
+		/*setup */
+		var place = document.createElement("div");
+		var paramString = "type:image metaDataName:photo";
+		/* run */
+		config.macros.AdvancedEditTemplate.handler(place,false,false,false,paramString,false);	
+		place.firstChild.childNodes[1].value = "foo.gif";
+		place.firstChild.childNodes[1].onchange();
+		
+		/*verify */
+		actual = place.firstChild.childNodes[1].value;
+		expected = "foo.gif";
+		same(actual, expected, "when the input field changes the image src updates.");
+	});
+	
+	test("getting/saving from meta field ", function(){
+		var mockf = function(el){
+			var mockdom = document.createElement("div");
+			mockdom.setAttribute("title","bonjour");
+			mockdom.setAttribute("tiddler","bonjour");
+			return mockdom;
+		};
+		story.findContainingTiddler = mockf;
+		var title = "bonjour";
+		store.saveTiddler(title,title,"",true,null,[],{photo:"bar.jpg"},null);
+		/*setup */
+		var place = document.createElement("div");
+		var paramString = "type:image metaDataName:photo";
+		
+		/* run */
+		config.macros.AdvancedEditTemplate.handler(place,false,false,false,paramString,false);
+		
+		/* verify */	
+		actual = place.firstChild.childNodes[1].value;
+		expected = "bar.jpg";
+		same(actual, expected, "initial value set correctly");
+		
+		/*run (2) */
+		place.firstChild.childNodes[1].value = "foobar.gif";
+		place.firstChild.childNodes[1].onchange();
+		
+		/*verify (2) */
+		actual = store.getValue("bonjour","photo");
+		expected = "foobar.gif";
+		same(actual, expected, "on a change to the field, tiddler was updated correctly");
+	});
+	
+	test(" new tiddler / empty field value is initialised to empty string ", function(){
+		var mockf = function(el){
+			var mockdom = document.createElement("div");
+			mockdom.setAttribute("title","noexist");
+			mockdom.setAttribute("tiddler","noexist");
+			return mockdom;
+		};
+		story.findContainingTiddler = mockf;
+		/*setup */
+		var place = document.createElement("div");
+		var paramString = "type:image metaDataName:photo";
+		
+		/* run */
+		config.macros.AdvancedEditTemplate.handler(place,false,false,false,paramString,false);
+		
+		/* verify */	
+		actual = place.firstChild.childNodes[1].value;
+		expected = "";
+		same(actual, expected, "initial value set correctly");
+		
+		/*run (2) */
+		place.firstChild.childNodes[1].value = "foobar.gif";
+		place.firstChild.childNodes[1].onchange();
+		
+		/*verify (2) */
+		actual = store.getValue("noexist","photo");
+		expected = "foobar.gif";
+		same(actual, expected, "on a change to the field, tiddler was updated correctly even though it didnt exist before");
+	});	
 });
