@@ -1,6 +1,5 @@
 tags: wizard
 
-
 !Configuration Options	
 | <<option chkOpenEditView>>|''Open section in Edit Mode'' |//When you click on a section in the table of contents it will automatically open in edit mode.// |
 | <<option chkSinglePageMode>>|''Single Section Mode'' |//When enabled you will only ever see one section open on the screen at a time.  (all other sections are closed on opening a new section.)// |

@@ -537,8 +537,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 			var otitle = context.otitle;
 		var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+encodeURIComponent(tiddler.getTags())+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
 	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id']+"&"+postParams;
-		
-		console.log(payload);
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 		removeNode(el);
 		
@@ -555,7 +553,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 			if(responseText!="") {
 				context.tiddler.fields['server.id'] = responseText;
 			}
-			console.log(context.revision);
 			context.tiddler.fields['server.page.revision'] = context.revision + 1;
 		}
 		if(context.callback){

@@ -62,6 +62,7 @@ body
 
 .TB_ToolbarSet TD
 {
+	float:right;
     font-size: 11px;
     font-family: 'Microsoft Sans Serif' , Tahoma, Arial, Verdana, Sans-Serif;
 }

@@ -28,9 +28,15 @@ tags:systemTheme
 
 
 <div id='topBar2'>
+<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+
+<!--
 	<a href='http://osmosoft.com'>Osmosoft</a> | 
 	<a href='http://bt.com'>BT</a> | 
 	<a href='http://www.unamesa.org/'>UnaMesa</a> | 
+-->
+
 <div class="right">
 
 </div>
@@ -47,8 +53,7 @@ tags:systemTheme
 </div>
 <div id="headContainer">
 	<div class="left">
-	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+
 	</div>
 	<div id='picBar' style="float:right;position:absolute;text-align:right;top:1em;width:95%;">
 
@@ -191,13 +196,9 @@ tags:systemTheme
 		</div>
 	</div>
 	<div class="portletContent">
-		<div class='taskControls' macro='tiddler TaskTiddlerControls'>
-		
-			<!--	<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
-		</div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
+			<div  style='z-index:2;' class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
-
+		<div  style='z-index:2;' class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='commentsArea' macro='comments'></div>
 	</div>
 </div>
@@ -216,11 +217,8 @@ tags:systemTheme
 	</div>
 	<div class="portletContent">
 
-		<div class='taskControls' macro='tiddler TaskTiddlerControls'>
-		</div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='editor' macro='editHtml text'></div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>	<div class='taskControls editTaskControls' macro='tiddler TaskTiddlerControls'></div>
+		<div class='editor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 		<!--
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
 		<div class='commentsArea' macro='comments'></div>
@@ -243,10 +241,17 @@ z-index:89999;
  border-bottom:1px solid #eee;
 height:auto;
 	background:#ddd;
-	top:2em;
+	top:2.5em;
 
 }
-
+h1 {
+border-bottom:1px solid #EEEEEE;
+font-size:1.2em;
+}
+h1, h2, h3, h4, h5, h6 {
+background:transparent none repeat scroll 0 0;
+color:#666;
+}
 
 .wizard h1 {
 	line-height:1.1em;
@@ -316,9 +321,18 @@ border:1px solid black;
 }
 
 .taskControls {
-	padding:0em;
-	margin:0px;
+	left:4em;
+	margin:0;
+	padding:0;
+	position:relative;
+	top:-1.5em;
 }
+.editTaskControls {
+	margin-left:18em;
+	top:-1.3em;
+}
+
+
 
 .headerShadow {
 	padding:0px;
@@ -326,11 +340,13 @@ border:1px solid black;
 
 
 .siteTitle {
-	color:#777;
+font-size:1em;
+	color:#fff;
 }
 
 .siteSubtitle{
-color:#999
+font-size:0.8em;
+color:#ddd;
 }
 
 body {
@@ -477,6 +493,9 @@ background:#444444 none repeat scroll 0 0;
 	border-top:1px solid #CCCCCC;
 	padding:0;
 	width:100%;
+	margin-left:0em;
+	position:absolute;
+	top:-1em;
 	}
 		
 	#buttonHolder .button {
@@ -539,7 +558,7 @@ width:98.5%;
 		margin:0;
 		padding:0;
 		position:relative;
-		top:0.75em;
+		top:3.4em;
 		width:68%;
 	}
 	.toolbar a, .toolbar:hover{
@@ -662,6 +681,7 @@ form.wizard, .wizard .wizardFooter{
 		    margin-right: 6px;
 		    padding-right: 18px; /* sliding doors padding */
 		    text-decoration: none;
+		z-index:333;
 		}
 
 		a.button span {
@@ -715,6 +735,9 @@ form.wizard, .wizard .wizardFooter{
 		}
 		.viewer {
 			padding:0.5em;
+			padding-top:0em;
+			position:static;
+			top:1em;
 		}
 		.viewer th, .viewer thead td, .twtable th, .twtable thead td  {
 		 background:#5586B6 none repeat scroll 0 0;
@@ -726,9 +749,13 @@ form.wizard, .wizard .wizardFooter{
 		
 		
 		.toolbar {
-		padding-left:3em;
-		padding-bottom:3em;
+		padding-left:0em;
+		padding-bottom:0.5em;
 		padding-top:0.5em;
+		z-index:999;
+		}
+		.toolbar  > a {
+		z-index:99999;
 		}
 	/* END TIDDLYWIKI CS */
 
@@ -891,7 +918,7 @@ form.wizard, .wizard .wizardFooter{
 	}
 	.leftColumn{
 		padding-left:1em;
-		padding-top:2em;
+		padding-top:4.6em;
 		text-align:left;
 		width:30%;
 		float:left;
@@ -933,12 +960,16 @@ form.wizard, .wizard .wizardFooter{
 	.dropzoneactive { background: pink; }
 	.dropzonehover { background: orange; }
 	
-
+	.editor {
+		position:relative;
+		top:-2em;
+	}
 	div.editor input {
 		width:98%;
 	}
 
 #messageArea {
+padding-top:2.2em;
 	border:none;
 	background: transparent;
 }

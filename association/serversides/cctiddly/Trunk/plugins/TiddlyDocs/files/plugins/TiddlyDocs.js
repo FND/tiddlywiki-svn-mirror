@@ -118,7 +118,6 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	createTiddlyText(span, " Settings");
 	btn.setAttribute("href","javascript:;");		
 	createTiddlyElement(place, "br");
-	createTiddlyElement(place, "br");
 	var treeSpec = store.getTiddlerText(params[0]); 
 	if(treeSpec){
 		var sections = treeSpec.split("\n");
