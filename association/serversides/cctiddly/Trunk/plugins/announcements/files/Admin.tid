@@ -1,0 +1,10 @@
+modifier: Simon McManus
+
+[[Permissions]]
+[[SideBarTabs]]
+[[MainMenu]]
+<<ccUpload>>
+
+<<newTiddler>>
+
+<<newTiddler title:"New Announcement" label:"New Announcement" tag:"announcement">>

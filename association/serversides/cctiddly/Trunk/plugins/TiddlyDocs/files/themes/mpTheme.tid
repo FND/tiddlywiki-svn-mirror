@@ -78,7 +78,7 @@ tags:systemTheme
 	</div>
 	
 	<div class='providedBy'>
-	<h5> Provided By </h5>
+	<h5> Crafted By </h5>
 	<img src='http://farm4.static.flickr.com/3461/3348345219_37d4d5ecd3.jpg' height="23px" />
 	<img src='http://labs.bt.com/projects/agents/zeus/images/BT_200pix_pos.gif' height="23px" />
 	<img src='http://www.projects.unamesa.org/space/showlogo/1234912128/logo.gif' height="23px" />
@@ -546,7 +546,6 @@ width:98.5%;
 	color:white;
 	}
 	.toolbar {
-		font-size:0.6em;
 		margin:0;
 		padding:0.7em 0 0;
 	}
@@ -602,22 +601,22 @@ form.wizard, .wizard .wizardFooter{
 		    width: 100%;
 		}
 		a.roundButton {
-		    background: transparent url('http://www.oscaralexander.com/tutorials/img/bg_button_a.gif') no-repeat scroll top right;
+		    background: transparent url('plugins/TiddlyDocs/files/images/bg_button_a.png') no-repeat scroll top right;
 		    color: #444;
 		 
 		    float: left;
-		    font: normal 12px arial, sans-serif;
+		    font-size:0.9em;
 		    height: 24px;
-		    margin-right: 6px;
-		    padding-right: 18px; /* sliding doors padding */
+		    margin-left: 6px;
+		    padding-right: 12px; /* sliding doors padding */
 		    text-decoration: none;
 		}
 
 		a.roundButton span {
-		    background: transparent url('http://www.oscaralexander.com/tutorials/img/bg_button_span.gif') no-repeat;
+		    background: transparent url('plugins/TiddlyDocs/files/images/bg_button_span.png') no-repeat;
 		    display: block;
 		    line-height: 14px;
-		    padding: 5px 0 5px 18px;
+		    padding: 5px 0 5px 12px;
 		}
 		
 		a.roundButton:hover {
@@ -628,7 +627,7 @@ form.wizard, .wizard .wizardFooter{
 
 		a.roundButton:hover span {
 		    background-position: bottom left;
-		    padding: 6px 0 4px 18px; /* push text down 1px */
+		    padding: 5px 0 5px 12px; /* push text down 1px */
 		}
 		
 		

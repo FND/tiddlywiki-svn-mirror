@@ -1,0 +1,209 @@
+modifier: Simon McManus
+
+/***
+|''Name:''|BTSkin_JP|
+|''Description:''|The basic BT theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com  modified by simon [@] osmosoft [dot] com|
+|''Version:''|0.1|
+|''Date:''|July 28th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~announcementViewTemplate:''|##announcementViewTemplate|
+|''~StyleSheet:''|##StyleSheet|
+***/
+
+!PageTemplate
+<!--{{{-->
+<div id='messageBar'><span id='messageArea'></span></div>
+
+
+<div id='pageTitleSection' class='constrain'>
+	<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+
+</div>
+<div class='logoContainer'>
+<a href='http://bt.com' class='floatRight'>
+<img src="http://homepage.intra.bt.com/home/v2-btlogo-ani.gif" />
+</a>
+</div>
+<div id='topMenu' refresh='content' tiddler='TopMenu'></div>
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='displayArea'>
+	<div id='tiddlerDisplay'></div>
+</div>
+<div id='footer' refresh='content' tiddler='Footer'></div>
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!announcementViewTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar closeTiddler closeOthers +editTiddler > fields syncing permalink references jump'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+
+<div class='viewer' macro='comments'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!StyleSheet
+/*{{{*/
+body { color:#333;}
+a { color:#660099; text-decoration:none;}
+a:hover {color:#660099; background-color:transparent; text-decoration:underline;}
+h1,h2,h3,h4,h5,h6 {color:#444;}
+	
+/* Page Framework */
+body {background-color:#fff; }
+#displayArea { 
+margin:0 2em 2em 220px;
+position:relative;
+top:-6em;
+}
+
+.toolbar  a.button{ 
+z-index:888;
+color:#555;
+}
+.toolbar  a.button:hover{ 
+background-color:white;
+color:#555;
+}
+
+/* message bar */
+#messageBar {display:block; position:relative; width:100%; margin:0; background-color:transparent; height:1.6em; font-size:11px;}
+#messageArea { position:absolute; top:0; left:0; padding:0; margin:0; border-style:none; background-color:transparent;} 
+#messageArea div { margin-left:20px; padding:3px 0 0 0;}
+#messageArea div.messageToolbar { position:absolute; top:0; right:0; padding:0; margin:0;}
+#messageArea a { color:#666; text-decoration:none; }
+#messageArea a:hover { color:#777; text-decoration:none; }
+#messageArea .button { float:right; background-color:#eee; color:#444; margin:0 0 0 1em; padding:3px 6px; }
+#messageArea .button:hover {background-color:#ddd; color:#333;}
+
+
+/* Header */
+div.header {height:50px; margin:1em 2em 1em 2em; background-color:#fff;  }
+#pageTitleSection span {color:#777; padding:0; margin:0; white-space:nowrap;}
+#pageTitleSection span.siteTitle { margin-left:20px;}
+#pageTitleSection span.siteSubtitle { margin-left:0.5em;}
+#pageTitleSection {margin:0px !important; padding:0px !important;}
+
+/* search */
+.searchButton {margin-right:0.5em;}
+
+/* Top Menu*/
+#topMenu { display:block; font-size:1.3em; height:auto; background-color:#aaa; text-align:center; }
+#topMenu a { border-style:none; font-weight:normal; background-color:transparent; color:#fff; margin:0; display:inline; padding:0 1em; text-decoration:none;}
+#topMenu a:hover { border-style:none; background-color:#f90; color:#fff;}
+#topMenu a:active { border-style:none; background-color:#000; color:#fff;}
+
+/* MainMenu */
+#mainMenu { margin:2em 0 20px 20px; padding:0; text-align:left; width:200px; top:7em;}
+#mainMenu a { border-style:none; font-size:0.9em; font-weight:normal; background-color:transparent; color:#000; margin:0; display:block; padding:0 1em; border-left:solid 8px #E8D7F7;}
+#mainMenu a:hover { background-color:transparent; color:#000; text-decoration:underline;}
+#mainMenu a:active { background-color:transparent; color:#000; font-weight:bold;}
+#mainMenu br { display:none;}
+
+/* Footer */
+#footer {clear:left; display:block; width:100%; margin:2em 0; text-align:right; border-top:solid 1px #ccc; padding:1em 0; border-bottom:1px solid #CCCCCC;border-top:0 none;}
+#footer a {margin-right:2em; color:#6B4999; text-decoration:none;}
+#footer a:hover {color:#6B4999; text-decoration:underline;}
+
+
+.tiddler .title {color:#555; position:relative; top:-1em; z-index:1;width:70%}
+div#tiddlerDisplay  div.tiddler {margin:1.5em; padding:1em; border:1px solid #CCCCCC; position:relative; top:2em; background-color:#eee}
+
+
+div.layoutTable table {border-style:none; margin:0;}
+div.layoutTable tr {border-style:none; margin:0;}
+div.layoutTable td {border-style:none; vertical-align:top; padding:1em 2em 0 0;}
+div.layoutTable td strong {clear:left; font-weight:normal; float:left; margin-top:0.4em; color:#777;}
+
+div.productsTable table {border-style:none; margin:2em 0;}
+div.productsTable tr {border-style:none; margin:0 0 1em 0;}
+div.productsTable td {border-style:none;}
+div.productsTable td a.tiddlyLink {margin:0 5em 0 1em;}
+
+div.contributorsTable table {border-style:none; margin:2em 0;}
+div.contributorsTable tr {border-style:none; margin:0 0 1em 0;}
+div.contributorsTable td {border-style:none; vertical-align:top; padding:1em 2em;}
+
+
+
+span.siteTitle {width:100%;}
+
+.stream {
+background:#FFFFFF none repeat scroll 0 0;
+border:1px solid #CCCCCC !important;
+}
+
+
+.stream:hover {
+background:#ddd none repeat scroll 0 0;
+border:1px solid #ddd !important;
+}
+
+.sliderPanel {background:#CCCCCC none repeat scroll 0 0;
+border:1px solid #BBBBBB;
+color:#444444;
+left:1px;
+margin-bottom:0.8em;
+margin-left:5px;
+padding:0.5em;
+position:relative;
+width:96.2%;
+top:-0.4em;
+}
+
+.commentSlider {
+top:0.4em;
+}
+
+.siteTitle a, .externalLink {
+text-decoration: none !important;
+}
+div.constrain {width:100% !important; margin:0;}
+
+.floatRight {
+text-align:right;
+width:100%;
+top:-4em;
+}
+
+
+
+.logoContainer {
+position:relative;
+text-align:right;
+top:-4em;
+width:100%;
+}
+
+#backstageButton a {
+
+
+}
+
+.tiddler .sliderPanel .button, .tiddler .sliderPanel .button:active{
+background:white none repeat scroll 0 0;
+color:black;
+border:1px solid #888888;
+margin:5px;
+padding:5px;
+}
+html body div#backstageButton {
+top:-100px;
+}
+
+
+/*}}}*/

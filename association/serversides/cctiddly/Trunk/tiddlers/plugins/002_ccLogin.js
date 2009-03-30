@@ -31,12 +31,15 @@ var loginState=null;
 var registerState=null;
 
 config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	config.macros.ccLogin.refresh(place);
+	var params = paramString.parseParams('reload',null,true);
+	config.macros.ccLogin.refresh(place, params[0].reload);
 };
  
-config.macros.ccLogin.refresh=function(place, error){
+config.macros.ccLogin.refresh=function(place, reload, error){
 	removeChildren(place);
 	var w = new Wizard();
+
+
 	if (isLoggedIn()){
 		w.createWizard(place,this.stepLogoutTitle);
 		w.addStep(null, this.stepLogoutText+decodeURIComponent(cookieString(document.cookie).txtUserName)+"<br /><br />");
@@ -46,6 +49,9 @@ config.macros.ccLogin.refresh=function(place, error){
 		return true;
 	}
 	w.createWizard(place,this.WizardTitleText);
+	w.setValue('reload', reload);
+
+
 	var me=config.macros.ccLogin;
 	var oldForm = w.formElem.innerHTML;
 	var form = w.formElem;
@@ -109,6 +115,7 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	userParams.place = place;
 	var adaptor = new config.adaptors[config.defaultCustomFields['server.type']];
 	var context = {};
+	context.reload = w.getValue("reload");
 	context.host = window.url;
 	context.username = username;
 	context.password = password;
@@ -122,7 +129,13 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 
 config.macros.ccLogin.loginCallback=function(context,userParams){
 	if(context.status){
-		window.location.reload();
+		if(context.reload==true){
+			window.location.reload();
+		}else{
+			window.loggedIn = true;
+			story.refreshTiddler("Announcements", null, true);
+			console.log("You have been logged in.");
+		}
 	}else{
 		config.macros.ccLogin.refresh(userParams.place, config.macros.ccLogin.msgLoginFailed);
 	} 
