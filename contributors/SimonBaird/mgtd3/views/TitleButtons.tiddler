@@ -52,6 +52,7 @@
  <div>
   <div class="floatright" macro="convertToFromTickler"><br/></div>
   <div class="floatright" macro="convertActionToSubProj"><br/></div>
+  <div class="floatright" macro="convertActionToReference"><br/></div>
   <div class="floatleft" macro="else"><span class="label">Context:</span><br/><span macro="multiSelectTag Context allowNone:on"></span><span macro="linkToParent Context"></span></div>
   <div class="floatleft"><span class="label">Project:</span><br/><span macro="multiSelectTag Project allowNone:on"></span><span macro="linkToParent Project"></span></div>
   <div macro="hideWhen tiddler.hasParent('Project')" class="floatleft"><span class="label">Area:</span><br><span macro="multiSelectTag Area allowNone:on"></span><span macro="linkToParent Area"></span></div>

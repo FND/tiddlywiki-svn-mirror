@@ -459,6 +459,25 @@ merge(config.macros,{
 	},
 
 
+	convertActionToReference: {
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+			if (tiddler.tags.contains('Action')) {
+
+				createTiddlyButton(place, "make reference", "make this action into a reference item", function(e) {
+						tiddler.removeTag("Action");                      
+						tiddler.removeTag("Next");                     
+						tiddler.removeTag("Future");                     
+						tiddler.removeTag("Waiting For");                     
+						tiddler.removeTag("Done");                     
+						tiddler.addTag("Reference");                      
+						return false;
+					});
+
+			}
+		}
+	},
+
+
 	linkToParent: {
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 			var label = params[1] ? params[1] : '>>';

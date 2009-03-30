@@ -140,6 +140,24 @@ config.indexedTags = {
 			return false;
 		},
 
+		hasStarredProject: function() {
+			// similar to hasActiveProject
+			// thanks to Bernhardt Rainer
+			var projs = this.getByIndex("Project");
+
+			if (projs.length == 0)
+				return false;
+
+			for (var i=0;i<projs.length;i++)
+				if (
+					(config.indexedTags.indexes[projs[i]]['ProjectStatus'].contains('Starred'))
+					&&
+					!store.fetchTiddler(projs[i]).tags.contains('Complete') // seems stupid
+					)
+					return true;
+			return false;
+		},
+
 		getAreasForAction: function() {
 			// we will go to some trouble to permit actions in multiple areas
 			// either explicitly or via their project...

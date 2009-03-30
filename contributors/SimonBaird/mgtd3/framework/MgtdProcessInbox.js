@@ -56,7 +56,7 @@ merge(config.macros,{
 
 						if (title.substr(0,1) != '.') {
 
-							alert("project "+title);
+							//alert("project "+title);
 
 							currentProject = title;
 
@@ -89,7 +89,7 @@ merge(config.macros,{
 								);
 						}
 						else {
-							alert("action "+title);
+							//alert("action "+title);
 
 							// default to next actions
 							if (!fields.containsAny(['N','F','W']))

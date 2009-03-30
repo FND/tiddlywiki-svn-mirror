@@ -271,8 +271,10 @@ hr {
 
 [[MptwTheme##StyleSheet]]
 
+
+
 .header2 {
-	background:url(http://simonbaird.com/images/monkeygtd/logo-trans.gif) no-repeat -15px 2px transparent;
+	background:url(http://randomibis.com/images/monkeygtd/logo-trans.gif) no-repeat -15px 2px transparent;
 	padding:5px;
 	padding-left:80px;
 	color:white;
@@ -282,8 +284,12 @@ hr {
 
 #backstageShow { color:[[ColorPalette::PrimaryLight]] ! important; }
 
-/* the png is superior due to alpha transparency. stupid IE */
-html>body .header2 {background-image:url(http://simonbaird.com/images/monkeygtd/logo-trans.png)}
+/* the png is superior due to alpha transparency. but IE can't do it */
+/* html>body .header2 {background-image:url(http://randomibis.com/images/monkeygtd/logo-trans.png)} */
+/* try this trick (also firefox only)... */
+html>body .header2 {
+	background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFkAAABxBAMAAABM2hLHAAAAA3NCSVQICAjb4U/gAAAAMFBMVEX///////////////////////////////////////////////////////////////9Or7hAAAAAEHRSTlMAESIzRFVmd4iZqrvM3e7/dpUBFQAAAAlwSFlzAAGaAAABmgABJU9lCwAAABZ0RVh0Q3JlYXRpb24gVGltZQAwMy8xNS8wNszogUoAAAAldEVYdFNvZnR3YXJlAE1hY3JvbWVkaWEgRmlyZXdvcmtzIE1YIDIwMDSHdqzPAAAEIElEQVR4nK1Yz2sTURB+2SZtYm2o+OtS6x7Vg/UgSBVtD16k0Fbw5o/oH1CiHkSM2uKpIJL642wDevLQRlARRFMPejSKoCJIbD1oVXxYq7Umu+Pb3azNzpudpOB3eM2+fkzn+2be5k2FINDydhu1TeK0SELlRINkA/6kAeybjbHj4OFVeyPsDYtDHv1zI8mnPvjR/zTALuTbqmyoTzbk4ECVbNVnJ6z2dJW9WJ+d/C12+5k8rWvLwJyInPXIEmbNOuzilBAxj713AirHWLIBg0KsqOxS5IowzoF9g2MnbLW0LYhxgAX1qY9PvtPhdM0Z8sSl287z+hLMhtc0Na2W4efKx+pGdAK+hiZfyKulONazsKREJX+FJqtKChGRvZPTNZt9Ep6Q7LiTQbO92nFmCZskfDIJ9obfamktr0AtEi3Cl/06OzWjluSvPb9whpfAuqCxi47I1PfJx/gXkYPSvoecN2SvEDvlSzmI2Sr5EvQGd1ybS9YZi6rfOsxOOiJLL7FIDy2WGdxIfVfLEWsUR3HRhk+HK7JZAslWnR9Ak8fa8u01lcnkVPA5wZ1bQx4NbnQukDwPcRsZlZ5h2ElNZI5hh4gMQWEq+EwXpQoDUDfwInGo9DTJ8+B2fi1KOYadQn5FeZH54DMvErd8Jz5etUjglh/mRCaxSLaSbufXoAm477AiFllhyAb2aytXSfdFXYthrl07tUqOMWzcFFFeZC74vDyRdSqJNthKap3Ptis+3v9RpHa8t/5k2JrILNuumki2kstqV+xXHZEoFFtJ7XjzlcSh2EriUHwlcajWZYncyFVS82v4PcPGIiNsJbHImP3fRGp+se2qhcq+YNiaX6URho39ioIZTtb8ChG5y700an510SLfZRxiaxltZ99T5OY50Z8j/JIjFLs1L+J53a8YLTJpX1g5pkSiUCtxZh4ODEFhmxKJQnXNU+TIR7GvTITKPqfYLeryskr3S8vMQ5vt3nKxX1pmHgYycMe5uKNQmv0eMqJbmurijr7e94S26xolEk+N42S7RkbdH5pf8jjF7ij3Oz01jvyKATkrnTcflh2RKFRIJe+L+YwznZjB7R6ykuKBMG8RIrO0JekbMfXS6fmBt+nBJwGgTtgkbgo1+JR7CfqOU47Io3jbuA7WSY180flHhFZJhcgh/b8OTRW4rDqLnP83l+B1MEo0360EDmCRHtY9g3LgRdCxaApCpP+XVfK1E+r5QrmdEuljKDBejxqZdtFCiPSxUy6N101wTRDDUy1qx+tuORUq0o84AZZ/b14/os8VCBE1Xl/996QNTxr6wL7rJ68NTzpU8m9M7yMrsoq1j6DiJY+HJxJqvPZePHVE+ugD58WjDU9h2CRV8nF85Q5FrAhfDuMrdzhU8sDd3hHUEck1zhZiO1Gbv3NR7MzF6giHAAAAAElFTkSuQmCC)
+}
 
 .headerShadow, .headerForeground {
 	padding:0;
