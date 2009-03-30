@@ -642,6 +642,137 @@ config.macros.importMediaWiki.getTiddlers = function(tiddlers) {
 	return listedTiddlers;
 };
 
+config.macros.importMediaWikiSync = {};
+
+config.macros.importMediaWikiSync.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	var action = function() {
+		config.macros.importMediaWiki.sync.doSync();
+	}
+	var macro = config.macros.importMediaWiki;
+	createTiddlyButton(place, macro.syncNow, macro.syncNowTooltip,action,null,macro.syncButtonId);
+}
+
+config.macros.importMediaWiki.sync = {};
+
+config.macros.importMediaWiki.sync.hijackedUpdateSyncStatus = config.macros.sync.updateSyncStatus;
+config.macros.sync.updateSyncStatus = function(syncItem)
+{
+	var macro = config.macros.importMediaWiki.sync;
+	if (syncItem.colElements) {
+		macro.hijackedUpdateSyncStatus(syncItem);
+	}
+	else {
+		var getTiddlerCallback = function(context, syncItem){
+			if (syncItem) {
+				var tiddler = context.tiddler;
+				store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier,
+					tiddler.modified, tiddler.tags, tiddler.fields, true, tiddler.created);
+				syncItem.syncStatus = config.macros.sync.syncStatusList.gotFromServer;
+			}
+			macro.showResultIfFinished();
+		};
+		var sl = config.macros.sync.syncStatusList;
+		var si = syncItem;
+		var r = true;
+		switch (si.syncStatus) {
+			case sl.changedServer:
+				macro.status.updated.push(si.title);
+				r = si.adaptor.getTiddler(si.title, null, si, getTiddlerCallback);
+				break;
+			case sl.notFound:
+			case sl.changedBoth:
+				macro.status.conflics.push(si.title);
+				macro.showResultIfFinished();
+				break;
+			default:
+				macro.status.unchanged.push(si.title);
+				macro.showResultIfFinished();
+				break;
+		}
+		if (!r) {
+			displayMessage("Error in doSync: " + r);
+		}
+	}
+};
+
+config.macros.importMediaWiki.sync.showResultIfFinished = function() {
+	var status = config.macros.importMediaWiki.sync.status;
+	var macro = config.macros.importMediaWiki;
+	var totalStatus = status.count();
+	if (totalStatus == currSync.syncList.length) {
+		if (totalStatus > status.unchanged.length) {
+			displayMessage(macro.syncedTiddlersMessage.format([status.updated.length]));
+			if (status.conflics.length > 0) {
+				var text = status.conflics[0];
+				for (var i = 1; i < status.conflics.length; i++) {
+					text += ', ' + status.conflics[0];
+				};
+				displayMessage(macro.conflictDetected + text);
+			}
+		}
+		status.reset();
+	} 
+}
+
+config.macros.importMediaWiki.sync.status = {};
+config.macros.importMediaWiki.sync.status.count = function()
+{
+	var macro = config.macros.importMediaWiki.sync.status;
+	return macro.updated.length + macro.conflics.length + macro.unchanged.length;
+};
+
+config.macros.importMediaWiki.sync.status.reset = function()
+{
+	var macro = config.macros.importMediaWiki.sync.status;	
+	macro.updated = [];
+	macro.conflics = [];
+	macro.unchanged = [];
+};
+
+config.macros.importMediaWiki.sync.status.updated = [];
+config.macros.importMediaWiki.sync.status.conflics = [];
+config.macros.importMediaWiki.sync.status.unchanged = [];
+
+// run at startup
+jQuery().bind('startup', function() {
+	config.macros.importMediaWiki.sync.check();
+}); 
+
+config.macros.importMediaWiki.sync.check = function() {
+	config.macros.importMediaWiki.sync.doSync();
+	//run every 15 minutes
+	window.setTimeout(config.macros.importMediaWiki.sync.check, 1000 * 60 * 15 );	
+};
+
+config.macros.importMediaWiki.sync.doSync = function()
+{
+	if(currSync)
+		config.macros.sync.cancelSync();
+	currSync = {};
+	var macro = config.macros.importMediaWiki;
+	var syncMacro = config.macros.sync;
+	currSync.syncList = macro.sync.filterMediaWikiTiddlers(syncMacro.getSyncableTiddlers());
+	syncMacro.preProcessSyncableTiddlers(currSync.syncList);
+	currSync.syncTask = syncMacro.createSyncTasks(currSync.syncList);
+	return false;
+};
+
+config.macros.importMediaWiki.sync.filterMediaWikiTiddlers = function(list)
+{
+	var filteredList = [];
+	var tiddlersToSync = store.getTaggedTiddlers(
+		config.macros.importMediaWiki.mediaWikiTiddlersTag);
+	for (var i=0; i<list.length; i++) {
+		var indx = tiddlersToSync.findByField('field', list[i].title);
+		if (indx != -1 ) {
+			filteredList.push(list[i]);
+			list[i].adaptor.host = list[i].serverHost;
+		}
+	};
+	return filteredList;
+};
+
 config.macros.importMediaWiki.getClearWikiPagesList = function()
 {
 	var id = "pagesList";
@@ -770,6 +901,7 @@ merge(config.macros.importMediaWiki, {
 	serverSaveTemplate: "|''Description:''|%0|\n|''Type:''|%1|\n|''URL:''|%2|\n|''Workspace:''|%3|\n\nThis tiddler was automatically created to record the details of this server",
 	URLSlice : "URL",
 	serverTiddlerNameTxtField:"serverTiddlerNameTxtField",
+	syncButtonId: 'syncButtonId',
 	//User messages
 	errorLookingForWiki:"Unable to connect to the wiki server. Unknown error (id:%0)",
 	errorLookingForWikiHost: "Unable to connect to the wiki server, please check you are connected to the network and there is no typo.",
@@ -802,6 +934,10 @@ merge(config.macros.importMediaWiki, {
 	importPrompt: "Import these tiddlers",
 	importedTiddlersTitle: "Imported tiddlers:",
 	confirmOverwriteText: "Are you sure you want to overwrite these tiddlers:\n\n%0",
+	syncNow: "sync with wiki",
+	syncNowTooltip: "click here to sync all the tiddlers",
+	syncedTiddlersMessage: "Sync finished. %0 tiddlers updated.",
+	conflictDetected: "conflic detected in the following tiddlers:",
 	mediaWikiFeedTag: "mediaWikiFeed",
 	mediaWikiTiddlersTag: "mediaWikiPage",
 	listViewTemplate: {
