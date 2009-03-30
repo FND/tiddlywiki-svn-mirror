@@ -101,7 +101,7 @@ class Tiddler(object):
 		"""
 		slices = {}
 		try:
-			matches = self.__class__._slices_pattern.findall(self.text) # XXX: don't use __class__?
+			matches = _slices_pattern.findall(self.text)
 		except TypeError: # empty tiddler
 			return slices
 		for match in matches:
