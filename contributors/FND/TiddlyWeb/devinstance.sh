@@ -3,14 +3,17 @@
 # set up TiddlyWeb instance using devtext store
 #
 # Usage:
-#  $ ./devinstance targetDir
+#  $ ./devinstance.sh targetDir
+#
+# TODO:
+# * make devtext store optional
+
+instance="dev"
 
 function quit {
 	echo "aborting: $1"
 	exit
 }
-
-instance="dev"
 
 if [ $# -gt 0 ]; then
 	cd $1 || quit "invalid target directory"
