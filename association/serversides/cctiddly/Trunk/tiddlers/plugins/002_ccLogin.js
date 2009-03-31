@@ -58,19 +58,18 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 	if (error!==undefined)
 		this.stepLoginTitle=error;	
 	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
-	txtPassword = findRelated(w.formElem.password,"txtPassword","className","previousSibling");
+	txtPassword = w.formElem.txtPassword;
 	w.formElem.password.style.display="none";
 	txtPassword.onkeyup = function() {
 		if(me.sha1 == true){
-			w.formElem.password.value = Crypto.hexSha1Str(txtPassword.value);
-			console.log("SHA1 in"+w.formElem.password.value);
-			
+			w.formElem.password.value = Crypto.hexSha1Str(w.formElem.txtPassword.value);
 		} else { 
-			w.formElem.password.value = txtPassword.value;
+			w.formElem.password.value = w.formElem.txtPassword.value;
 		}
 	};
 	txtPassword.onchange = txtPassword.onkeyup;
 	w.formElem.method ="POST";
+	console.log("sending : "+w.formElem["password"].value);
 	w.formElem.onsubmit = function() {config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place); return false;};
 	var submit = createTiddlyElement(null, "input");
 	submit.type="submit";
@@ -140,7 +139,7 @@ config.macros.ccLogin.loginCallback=function(context,userParams){
 		if(context.reload=="false"){
 				window.loggedIn = true;
 				var $ = jQuery;
-				story.refreshTiddler(story.findContainingTiddler($(".foo")[0]).getAttribute("tiddler"), null, true);			
+				story.refreshTiddler(story.findContainingTiddler(userParams.place).id.replace("tiddler", ""), null, true);			
 		}else{
 							window.location.reload();	
 		}
