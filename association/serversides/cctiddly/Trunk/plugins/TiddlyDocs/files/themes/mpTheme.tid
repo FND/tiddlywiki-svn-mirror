@@ -100,13 +100,12 @@ tags:systemTheme
 
 !wizardViewTemplate
 <!--{{{-->
-
 <div class="portletContainer">
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
+			<div class='title' macro='view title'>Viewing Section : </div>
 		</div>
 	</div>
 	<div class="portletContent">
@@ -114,6 +113,7 @@ tags:systemTheme
 	</div>
 </div>
 <!--}}}-->
+
 
 
 !EditTemplate
@@ -547,6 +547,7 @@ width:98.5%;
 
 
 	#mainMenu {
+		top:0.5em;
 		font-size:0.9em;
 		height:100%;
 		position:relative;
@@ -720,6 +721,7 @@ form.wizard, .wizard .wizardFooter{
 		border:0px;
 		text-align:right;
 		float:right;
+		top:-1.5em;
 		}
 		
 		
