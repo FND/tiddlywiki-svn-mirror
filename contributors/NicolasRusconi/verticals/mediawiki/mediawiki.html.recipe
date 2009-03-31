@@ -7,6 +7,7 @@ tiddler: ../../adaptors/MediaWikiAdaptorWithTemplatePlugin.js
 tiddler: settings.js
 tiddler: MediaWikiFeed.tiddler
 tiddler: SideBarOptions.tiddler
+tiddler: mediaWikiPage.tiddler
 tiddler: shadows/DefaultTiddlers.tiddler
 shadow: shadows/StyleSheet.tiddler
 tiddler: ../../../MartinBudden/verticals/MediaWikiContent/DownloadThisTiddlyWiki.tiddler

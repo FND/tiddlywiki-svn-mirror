@@ -69,11 +69,13 @@ config.macros.importMediaWiki.getImportedTiddlersView = function(tiddlers)
 	var view = document.createElement("div");
 	view.innerHTML = macro.importedTiddlersTitle + "<br/>";
 	for (var i=0; i<tiddlers.length && i < 10; i++) {
-		createTiddlyText(view, " ");
+		insertSpacer(view);
 		createTiddlyLink(view, tiddlers[i].title, true);
 	};
 	if (tiddlers.length >= 10) {
-		createTiddlyText(view, " and " + (tiddlers.length - 10) + " more...");
+		insertSpacer(view);
+		var message = macro.moreTiddlers.format([tiddlers.length - 10]);
+		createTagButton(view,macro.mediaWikiTiddlersTag,null,message);
 	}
 	return view;
 }
@@ -941,6 +943,7 @@ merge(config.macros.importMediaWiki, {
 	syncNowTooltip: "click here to sync all the tiddlers",
 	syncedTiddlersMessage: "Sync finished. %0 tiddlers updated.",
 	conflictDetected: "conflic detected in the following tiddlers:",
+	moreTiddlers: 'and %0 more...',
 	mediaWikiFeedTag: "mediaWikiFeed",
 	mediaWikiTiddlersTag: "mediaWikiPage",
 	listViewTemplate: {
