@@ -10,6 +10,8 @@ function quit {
 	exit
 }
 
+instance="dev"
+
 if [ $# -gt 0 ]; then
 	cd $1 || quit "invalid target directory"
 else
@@ -22,9 +24,9 @@ tiddlywebconfig='{\n	"server_store": ["devtext", { "store_root": "store" }]\n}'
 echo -e "config = $tiddlywebconfig" > tiddlywebconfig.py
 
 #  create instance
-twanager instance dev &&
+twanager instance $instance &&
 	rm tiddlywebconfig.py tiddlyweb.log *.pyc &&
-	cd dev ||
+	cd $instance ||
 	quit "failed to create instance"
 
 # configure instance
@@ -40,4 +42,4 @@ echo -e 'alert("Hello world!");' > store/plugins/helloworld.js
 # create sample recipe
 echo -e "/bags/system/tiddlers\n/bags/plugins/tiddlers\n/bags/content/tiddlers" | twanager recipe sample
 
-echo -e '\ninstance created; run "twanager server" from instance directory to start server'
+echo -e "\ninstance created; run \"twanager server\" from $1$instance to start server"
