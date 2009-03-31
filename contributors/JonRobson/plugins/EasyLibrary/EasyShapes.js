@@ -84,8 +84,7 @@ EasyShape.prototype={
 	}
 
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
-		this.pointradius = 2;
-		if(pointradius) this.pointradius =pointradius;
+		if(pointradius) this.setRadius(pointradius);
 		
 		var optimisations = true;
 		
@@ -96,19 +95,18 @@ EasyShape.prototype={
 		if(!transformation.scale)transformation.scale = {x:1,y:1};
 		if(!transformation.translate)transformation.translate = {x:0,y:0};
 		
-	
-		if(this._prepareShape(canvas,transformation,projection,optimisations)){
-		
-			if(this.getRenderMode(canvas) == 'ie'){
-				
-				this._ierender(canvas,transformation,projection,optimisations); 
-			}
-			else{
-			
-				this._canvasrender(canvas,transformation,projection,optimisations);
-			}
+		if(!projection && optimisations){
+			var ok =this.optimise(canvas,transformation);
+			if(!ok) return;
 		}
 		
+		if(this.getRenderMode(canvas) == 'ie'){
+			this._ierender(canvas,transformation,projection,optimisations); 
+		}
+		else{	
+			this._canvasrender(canvas,transformation,projection,optimisations);
+		}
+			
 	}
 	
 	,setCoordinates: function(coordinates){
@@ -180,15 +178,16 @@ EasyShape.prototype={
 		var shapetype = this.getProperty("shape");
 		
 		if(shapetype != 'point' && shapetype != 'path'){ //check if worth drawing				
-			if(!this._optimisation_shapeIsTooSmall(transformation)) {
+			if(this._optimisation_shapeIsTooSmall(transformation)) {
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
-				return;	
+				return false;	
 			}
 			if(!this._optimisation_shapeIsInVisibleArea(canvas,transformation)){
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
-				return;	
+				return false;	
 			}	
 		}
+		return true;
 	}
 
 
@@ -219,6 +218,12 @@ EasyShape.prototype={
 		if(this.getProperty("shape") == 'path'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
+		}
+		else if(this.getShape() == 'point'){
+				coords = this.getCoordinates();
+				var x = coords[0]; var y = coords[1]; var radius = this.radius;
+				this.grid ={x1: x - this.radius,x2: x + this.radius, y1: y - radius, y2: y + radius,center:{x:x,y:y}};	
+				return;
 		}
 		if(!coords) coords = this.getCoordinates();
 		this.grid.x1 = coords[0];
@@ -256,34 +261,27 @@ EasyShape.prototype={
 		this.grid.center.x = (this.grid.x2 - this.grid.x1) / 2 + this.grid.x1;
 		this.grid.center.y = (this.grid.y2 - this.grid.y1) / 2 + this.grid.y1;
 	}
-	,_preparePointShape: function(coordinates,radius){
-		var x = coordinates[0]; var y = coordinates[1];
-		var coords = [x,y,radius];
-		this._constructCircleShape(coords);
-	}
+
 	
 
-	,_constructCircleShape: function(coordinates){ /* x y radius */
-		var x = coordinates[0]; var y = coordinates[1];
-		this.radius = coordinates[2];
-		this.pointcoords = [x,y,this.radius];
-		var newcoords =[x-this.radius,y-this.radius,x+this.radius,y-this.radius,x+this.radius,y+this.radius,x-this.radius, y+this.radius];
-		this.setCoordinates(newcoords);
+	,setRadius: function(r){
+		this.radius = r;
+		this._calculateBounds();
+	}
+	,getRadius: function(){
+		return this.radius;
 	}
 	,_constructBasicShape: function(properties, coordinates){
-
-
-		if(properties.shape == 'point'){
-			this._preparePointShape(coordinates,0.5);
+		var shapetype =properties.shape; 
+		if(shapetype == 'point' || shapetype == 'circle'){
+			this.setCoordinates(coordinates);
+			this.setRadius(0.5);
 		}
-		else if(properties.shape == 'polygon' || properties.shape == 'path')
+		else if(shapetype == 'polygon' || shapetype == 'path')
 		{
 			this.setCoordinates(coordinates);
 		}
-		else if(properties.shape == 'circle'){
-			this._constructCircleShape(coordinates);
-		}
-		else if(properties.shape == 'image'){
+		else if(shapetype == 'image'){
 			var w = this.getProperty("width"); h=  this.getProperty("height");
 			if(coordinates.length == 2 && w && h){
 				var x = coordinates[0];
@@ -301,85 +299,42 @@ EasyShape.prototype={
 	 /*RENDERING */
 	,_canvasrender: function(canvas,transformation,projection,optimisations, pointsize){
 		var c;
-		if(projection){
-			c = this._applyProjection(projection,transformation);
-		}
-		else{
-			c =this.getOptimisedCoords(transformation.scale.x);
-		}
-		if(c.length == 0) return;
-		var ctx = canvas.getContext('2d');
-		ctx.save();
-		if(this.properties.lineWidth){
-			ctx.lineWidth = this.properties.lineWidth/ transformation.scale.x;
-		}
-		if(transformation){
-			var o = transformation.origin;
-			var tr = transformation.translate;
-			var s = transformation.scale;
-			var r = transformation.rotate;
-			if(o && s && tr){
-				ctx.translate(o.x,o.y);
-				ctx.scale(s.x,s.y);
-				ctx.translate(tr.x,tr.y);
+		var easyShape = this;
+		var shapetype =easyShape.getProperty("shape");
+			var ctx = canvas.getContext('2d');
+			ctx.save();
+			if(easyShape.getProperty("lineWidth")){
+				ctx.lineWidth = easyShape.getProperty("lineWidth")/ transformation.scale.x;
 			}
-			if(r && r.x)ctx.rotate(r.x);
-		}
-		ctx.beginPath();
-		var shapetype =this.getProperty("shape");
-		if(shapetype == 'point'){
-			var bb =this.getBoundingBox();
-			ctx.arc(bb.center.x, bb.center.y, this.radius, 0, Math.PI*2,true);
-		}
-		else if(shapetype =='image'){
-			var img = new Image();  
-			img.src = this.getProperty("src");
-			var bb= this.getBoundingBox();
-			img.onload = function(){
-				ctx.drawImage(img, c[0], c[1],bb.x2 - bb.x1,bb.y2 - bb.y1);
-			};
-			
-		}
-		else{
-			
-			var move = true;
-			for(var i=0; i < c.length-1; i+=2){
-				if(c[i]=== "M") {
-					i+= 1; 
-					move=true;
+			if(transformation){
+				var o = transformation.origin;
+				var tr = transformation.translate;
+				var s = transformation.scale;
+				var r = transformation.rotate;
+				if(o && s && tr){
+					ctx.translate(o.x,o.y);
+					ctx.scale(s.x,s.y);
+					ctx.translate(tr.x,tr.y);
 				}
-				var x = parseFloat(c[i]);
-				var y = parseFloat(c[i+1]);	
-		
-				if(move){
-					ctx.moveTo(x,y);
-					move = false;
-				}
-				else{
-					ctx.lineTo(x,y);
-				}			
-			
-			
+				if(r && r.x)ctx.rotate(r.x);
 			}
-		
-		}
-		ctx.closePath();
-		if(!this.properties.hidden) {
-			ctx.strokeStyle = this.properties.stroke;
-			if(typeof this.properties.fill == 'string') 
-				fill = this.properties.fill;
-			else
-				fill = "#ffffff";
+			EasyCanvasRenderer.renderShape(ctx,easyShape);
+			
+			if(!easyShape.getProperty("hidden")) {
+				ctx.strokeStyle = easyShape.getProperty("stroke")
+				if(typeof easyShape.getProperty("fill") == 'string') 
+					fill = easyShape.getProperty("fill");
+				else
+					fill = "#ffffff";
 
-			
-			ctx.stroke();
-			if(shapetype != 'path') {
-				ctx.fillStyle = fill;
-				ctx.fill();
+				
+				ctx.stroke();
+				if(shapetype != 'path') {
+					ctx.fillStyle = fill;
+					ctx.fill();
+				}
 			}
-		}
-		ctx.restore();
-	
+			ctx.restore();
 	}
 	
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
@@ -480,82 +435,102 @@ EasyShape.prototype={
 		delta.x *= s.x;
 		delta.y *= s.y;
 		if(delta.x < 5 && delta.y < 5) 
-			{return false;}//too small
+			{return true;}//too small
 		else
-			return true;
+			return false;
 	}
 
-	,_prepareShape: function(canvas,transformation,projection,optimisations){
-		
-			var shapetype = this.getProperty("shape");
-			if(shapetype == 'point'){
-				var ps = this.pointradius;
-				this._preparePointShape(this.pointcoords,ps);
-			} 
-			else if(shapetype == 'image'){
 
-			}
-			else if(shapetype == 'path' || shapetype =='polygon' | shapetype == 'circle' |shapetype == 'image'){
-
-			}
-			else{
-				console.log("no idea how to render " +shapetype+" must be polygon|path|point");
-				return false;
-			}
-			
-			if(!projection && optimisations){
-				this.optimise(canvas,transformation);
-			}
-			return true;
-	}
 };
 
+var EasyCanvasRenderer = {
+	renderShape: function(ctx,easyShape){
+		var shapetype =easyShape.getProperty("shape");
+		ctx.beginPath();
+		
+		if(shapetype == 'point'){
+			this.renderPoint(ctx,easyShape);
+		}
+		else{		
+			this.renderPolygon(ctx,easyShape);	
+		}
+		ctx.closePath();
+	}
+	,renderPolygon: function(ctx,easyShape){
+		var move = true;
+		var c = easyShape.getCoordinates();
+		for(var i=0; i < c.length-1; i+=2){
+			if(c[i]=== "M") {
+				i+= 1; 
+				move=true;
+			}
+			var x = parseFloat(c[i]);
+			var y = parseFloat(c[i+1]);	
+			
+			if(move){
+				ctx.moveTo(x,y);
+				move = false;
+			}
+			else{
+				ctx.lineTo(x,y);
+			}			
+				
+				
+		}
+	}
+	,renderPoint: function(ctx,easyShape){
+		var bb =easyShape.getBoundingBox();
+		ctx.arc(bb.center.x, bb.center.y, easyShape.radius, 0, Math.PI*2,true);
+	}
+}
 var EasyVML = function(easyShape,canvas){
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
-
-			this.easyShape=  easyShape;
-			var shape = document.createElement("easyShapeVml_:shape");
-	this.el = shape;
-			//path ="M 0,0 L50,0, 50,50, 0,50 X";
-			var nclass= "easyShape";
-			
+	this.easyShape=  easyShape;
+	var shapetype =easyShape.getShape();
 	
-			var shapetype =easyShape.getShape();
-				
-			if(shapetype == 'path') nclass= "easyShapePath";
-			shape.setAttribute("class", nclass);
-			shape.style.height = canvas.height;
-			shape.style.width = canvas.width;
-			shape.style.position = "absolute";
-			shape.style['z-index'] = 1;
-			shape.stroked = "t";
-			shape.strokecolor = "#000000";
+	if(shapetype == 'point'){
+		this._initPoint(easyShape,canvas);
+	}
+	else{
+		this._initPoly(easyShape,canvas);
+	}
 
 
-			if(this.easyShape.getProperty("lineWidth")) {
-				shape.strokeweight = this.easyShape.getProperty("lineWidth") + "px";
-			}
-			else {
-				shape.strokeweight = "1px";
-			}
-			var xspace = parseInt(canvas.width);
-			xspace *=this._iemultiplier;
-			var yspace =parseInt(canvas.height);
-			yspace *= this._iemultiplier;
-			coordsize = xspace +"," + yspace;
 
-			shape.coordsize = coordsize;
-			shape.easyShape = this.easyShape;	
-			
+	var xspace = parseInt(canvas.width);
+	xspace *=this._iemultiplier;
+	var yspace =parseInt(canvas.height);
+	yspace *= this._iemultiplier;
+	coordsize = xspace +"," + yspace;
 
-			this.style();
+	this.el.coordsize = coordsize;
+	this.el.easyShape = this.easyShape;
+	var nclass= "easyShape";			
+	if(shapetype == 'path') nclass= "easyShapePath";
+	this.el.setAttribute("class", nclass);
+	this.style();
 				
 		
 			
 };
 
 EasyVML.prototype = {
-	getVMLElement: function(){
+	_initPoint: function(easyShape,canvas){
+		var shape = document.createElement("easyShapeVml_:arc");
+		shape.startAngle = 0;
+		shape.endAngle = 360;
+		var radius = easyShape.radius;
+		this.el = shape;	
+		jQuery(this.el).css({"height": radius, "width": radius,"position":"absolute","z-index":1});			
+	}
+	,_initPoly: function(easyShape,canvas){
+		var shape = document.createElement("easyShapeVml_:shape");
+		this.el = shape;
+	
+		jQuery(this.el).css({"height": canvas.height, "width": canvas.width,"position":"absolute","z-index":1});
+	
+	}
+	,getVMLElement: function(){
 		return this.el;
 	}
 	,_createvmlpathstring: function(transformation,projection){ //mr bottleneck
@@ -627,20 +602,32 @@ EasyVML.prototype = {
 	
 	}
 
+	,_transformArc: function(transformation,projection){
+	
+		var o = transformation.origin, t = transformation.translate,s = transformation.scale;
+		var top,left,width,height;
+
+		var bb = this.easyShape.getBoundingBox();
+		
+		var top = o.y + ((bb.center.y + t.y) * s.y);
+		var left = o.x + ((bb.center.x + t.x) * s.x);
+		width = this.easyShape.getRadius() * s.x;
+		height = this.easyShape.getRadius() * s.y;
+		jQuery(this.el).css({'top':top, 'left': left, 'width':width,'height': height});
+	}
 	,_cssTransform: function(transformation,projection){
 		
 		var vml = this.el;
 		var d1,d2,t;
-
+		if(vml.tagName == 'arc'){
+			this._transformArc(transformation,projection);
+			return;
+		}
 		if(vml.tagName == 'shape' && (!vml.path || this.easyShape.getShape() =='point')) {
 			//causes slow down..
-			
 			this._createvmlpathstring(transformation,projection);	
 		}
-		var o = transformation.origin;
-		
-		var t = transformation.translate;
-		var s = transformation.scale;
+		var o = transformation.origin, t = transformation.translate,s = transformation.scale;
 		
 		if(!this.initialStyle) {
 			var initTop = parseInt(vml.style.top);
@@ -672,25 +659,19 @@ EasyVML.prototype = {
 			var newwidth = initialStyle.width * s.x;
 			var newheight = initialStyle.height * s.y; 	
 		}
-		//translate into right place
-
-		var temp;
-		temp = (t.x);
-		temp *= s.x;
-		newleft += temp;
-
-		temp = (t.y);
-		temp *= s.x;
-		newtop += temp;						
-
-		style.left = newleft +"px";
-		style.top = newtop +"px";
+		var temp,left,top;
+		newleft += ((t.x) * s.x);
+		newtop += ((t.y) * s.y);						
+		left = newleft +"px";
+		top = newtop +"px";
 		
+
 		if(scalingRequired){
-			style.width = newwidth +"px";
-			style.height = newheight + "px";
+			width = newwidth +"px";
+			height = newheight + "px";
 		}
 		
+		jQuery(this.el).css({'left': left, 'top': top, 'width': width, 'height': height});
 		
 		if(transformation.rotate && transformation.rotate.x)style.rotation = EasyMapUtils._radToDeg(transformation.rotate.x);
 		this._lastTransformation = {scale:{}};
@@ -714,10 +695,18 @@ EasyVML.prototype = {
 		var shapetype = this.easyShape.getShape();
 
 		var shape = this.el;
-	
-				if(!this.easyShape.getProperty("fill") || shapetype == 'path'){
+		shape.stroked = "t";
+		shape.strokecolor = "#000000";
+		if(this.easyShape.getProperty("lineWidth")) {
+			shape.strokeweight = this.easyShape.getProperty("lineWidth") + "px";
+		}
+		else {
+			shape.strokeweight = "1px";
+		}
+		
+		if(!this.easyShape.getProperty("fill") || shapetype == 'path'){
 					return
-				}
+		}
 				var fill = this.easyShape.getProperty("fill");
 
 				shape.filled = "t";

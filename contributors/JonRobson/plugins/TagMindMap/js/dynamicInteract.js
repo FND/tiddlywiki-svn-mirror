@@ -44,9 +44,7 @@ var Tagmindmap = function(wrapper,settings){
 	var x = this.controlpanel;
 	initialT = {translate: {x:0,y:0}, scale: {x:1,y:1}};
 	x.setTransformation(initialT);
-	x.addControl("zoom");
-	x.addControl("pan");
-	x.addControl("mousepanning");
+	x.addControls(["pan","zoom","mousepanning"]);
 	//x.addControl("mousewheelzooming");
 
 

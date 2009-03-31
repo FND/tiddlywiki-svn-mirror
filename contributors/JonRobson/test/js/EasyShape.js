@@ -58,5 +58,76 @@ jQuery(document).ready(function() {
 	});
 	
 	
+	test("check setup of point", function() {
+		/*setup */
+		var actual, expected;
+		var properties = {shape:'point', fill: 'rgb(255,400,0)'};
+		var coords = [0,0];
+		
+		/* run */
+		var s = new EasyShape(properties,coords);
+		var result = s.getProperties();
+		
+		/*verify */
+		same(result.shape, "point", "Shape Property for polygon has been set correctly");
+		same(result.fill, "rgb(255,400,0)", "Fill Property for polygon has been set correctly");
+
+	});
+
+	
+	test("check bounding box of a point without a specifically defined radius", function() {
+		/*setup */
+		var actual, expected;
+		var properties = {shape:'point', fill: 'rgb(255,400,0)'};
+		var coords = [20,30];
+		var s = new EasyShape(properties,coords);
+
+		/* run */
+		var actual = s.getBoundingBox();
+		expected = {x1: 19.5, x2: 20.5, y1: 29.5, y2: 30.5, center: {x: 20, y: 30}};
+		/*verify */
+		same(actual,expected, "radius should default to 0.5 and bounding box should be correct");
+	});
+	
+	test("check a change in radius to a point effects the bounding box", function() {
+		/*setup */
+		var actual, expected;
+		var properties = {shape:'point', fill: 'rgb(255,400,0)'};
+		var coords = [20,30];
+		var s = new EasyShape(properties,coords);
+
+		/* run */
+		s.setRadius(10);
+
+		/*verify */
+		var actual = s.getBoundingBox();
+		expected = {x1: 10, x2: 30, y1: 20, y2: 40, center: {x: 20, y: 30}};
+		same(actual,expected, "check radius change has propogated to the bounding box");
+	});
+	
+	
+	test("EasyShape optimise a polygon which is too small for the eye to see", function() {
+		/*setup */
+		var actual, expected;
+		var properties = {shape:'polygon', fill: 'rgb(255,400,0)'};
+		var coords = [20,30];
+		EasyShape.prototype._optimisation_shapeIsTooSmall = function(t) { return true; };
+		var s = new EasyShape(properties,coords);
+		
+
+		/* run */
+		actual = s.optimise(false,{});
+
+		/*verify */
+		expected = false;
+		same(actual,expected, " optimise should return false when the shape is too small to be drawn");
+	});
+	
+
+
+
+	
+	
+
 	
 });
