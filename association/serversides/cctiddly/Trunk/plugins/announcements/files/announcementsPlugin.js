@@ -36,7 +36,7 @@ config.macros.announcementPlugin.handler = function(place,macroName,params)
 			var commentSlider = config.macros.slider.createSlider(slider, "chkSlider"+tiddlers[t].title, "comments ("+wikifyStatic('<<commentsCount '+tiddlers[t].title+'>>')+")");
 			addClass(commentSlider,"slider");
 			addClass(commentSlider,"commentSlider");
-			wikify("<<comments loginCheck:'isLoggedIn' loginPrompt:'ccLogin reload:'false'' tiddler:'"+tiddlers[t].title+"'>>", commentSlider,null,tiddlers[t]);
+			wikify("<<comments loginCheck:'isLoggedIn' loginPrompt:'ccLogin reload:false' tiddler:'"+tiddlers[t].title+"'>>", commentSlider,null,tiddlers[t]);
 		}	
 	}
 };

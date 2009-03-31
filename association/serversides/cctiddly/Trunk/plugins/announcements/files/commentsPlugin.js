@@ -80,7 +80,6 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
     	addComment.onclick = function() {
 	      var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
 	      newCommentEl.value = "";
-	      cmacro.log("comments2", comments);
 	      cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
 	    };
 	}else{

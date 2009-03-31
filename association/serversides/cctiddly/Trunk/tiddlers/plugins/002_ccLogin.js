@@ -31,6 +31,8 @@ var loginState=null;
 var registerState=null;
 
 config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	
+	console.log("STRING IS : "+paramString);
 	var params = paramString.parseParams('reload',null,true);
 	config.macros.ccLogin.refresh(place, params[0].reload);
 };
@@ -38,8 +40,6 @@ config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramStri
 config.macros.ccLogin.refresh=function(place, reload, error){
 	removeChildren(place);
 	var w = new Wizard();
-
-
 	if (isLoggedIn()){
 		w.createWizard(place,this.stepLogoutTitle);
 		w.addStep(null, this.stepLogoutText+decodeURIComponent(cookieString(document.cookie).txtUserName)+"<br /><br />");
@@ -59,7 +59,7 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 		this.stepLoginTitle=error;	
 	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
 	txtPassword = findRelated(w.formElem.password,"txtPassword","className","previousSibling");
-//	w.formElem.password.style.display="none";
+	w.formElem.password.style.display="none";
 	txtPassword.onkeyup = function() {
 		if(me.sha1 == true){
 			w.formElem.password.value = Crypto.hexSha1Str(txtPassword.value);
@@ -119,10 +119,10 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	var adaptor = new config.adaptors[config.defaultCustomFields['server.type']];
 	var context = {};
 	context.reload = w.getValue("reload");
+	console.log("SET CON", context.reload);
 	context.host = window.url;
 	context.username = username;
 	context.password = password;
-	console.log("sending password : "+context.password);
 	adaptor.login(context,userParams,config.macros.ccLogin.loginCallback)
 	var html = me.stepDoLoginIntroText; 
 	w.addStep(me.stepDoLoginTitle,html);
@@ -132,21 +132,17 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 }
 
 config.macros.ccLogin.loginCallback=function(context,userParams){
-	console.log("GOT TO HERE", context, context.reload);
 
 	if(!context.status)
 	{
-			console.log("STATUS WAS FALSE");
-			config.macros.ccLogin.refresh(userParams.place, config.macros.ccLogin.msgLoginFailed);
+		config.macros.ccLogin.refresh(userParams.place, config.macros.ccLogin.msgLoginFailed);
 	}else{
-		if(context.reload==false){
+		if(context.reload=="false"){
 				window.loggedIn = true;
-				console.log("You have been logged in - NO REFRESH.", context);
-				//story.refreshTiddler("Announcements", null, true);
+				var $ = jQuery;
+				story.refreshTiddler(story.findContainingTiddler($(".foo")[0]).getAttribute("tiddler"), null, true);			
 		}else{
-			console.log("You have been logged in - WITH REFRESH.", context);
-
-			//			window.location.reload();	
+							window.location.reload();	
 		}
 	}	 
 };
