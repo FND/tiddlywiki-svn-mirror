@@ -35,14 +35,8 @@ config.macros.announcementPlugin.handler = function(place,macroName,params)
 			wikify(tiddlers[t].text+"\n\r"+tiddlers[t].created+"\n\n",slider,null,tiddlers[t]);
 			var commentSlider = config.macros.slider.createSlider(slider, "chkSlider"+tiddlers[t].title, "comments ("+wikifyStatic('<<commentsCount '+tiddlers[t].title+'>>')+")");
 			addClass(commentSlider,"slider");
-
 			addClass(commentSlider,"commentSlider");
-
-wikify("<<comments loginPrompt:'list all' tiddler:'"+tiddlers[t].title+"'>>", commentSlider,null,tiddlers[t]);
-		//	createTiddlyElement(commentSlider, "div", null, "textSpace", "blah blah blah ");
-
-
-
+			wikify("<<comments loginCheck:'isLoggedIn' loginPrompt:'ccLogin reload:'false'' tiddler:'"+tiddlers[t].title+"'>>", commentSlider,null,tiddlers[t]);
 		}	
 	}
 };

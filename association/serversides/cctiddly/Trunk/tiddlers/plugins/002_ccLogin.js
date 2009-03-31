@@ -59,12 +59,15 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 		this.stepLoginTitle=error;	
 	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
 	txtPassword = findRelated(w.formElem.password,"txtPassword","className","previousSibling");
-	w.formElem.password.style.display="none";
+//	w.formElem.password.style.display="none";
 	txtPassword.onkeyup = function() {
-		if(me.sha1 == true)
+		if(me.sha1 == true){
 			w.formElem.password.value = Crypto.hexSha1Str(txtPassword.value);
-		else 
+			console.log("SHA1 in"+w.formElem.password.value);
+			
+		} else { 
 			w.formElem.password.value = txtPassword.value;
+		}
 	};
 	txtPassword.onchange = txtPassword.onkeyup;
 	w.formElem.method ="POST";
@@ -119,6 +122,7 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	context.host = window.url;
 	context.username = username;
 	context.password = password;
+	console.log("sending password : "+context.password);
 	adaptor.login(context,userParams,config.macros.ccLogin.loginCallback)
 	var html = me.stepDoLoginIntroText; 
 	w.addStep(me.stepDoLoginTitle,html);
@@ -128,17 +132,23 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 }
 
 config.macros.ccLogin.loginCallback=function(context,userParams){
-	if(context.status){
-		if(context.reload==true){
-			window.location.reload();
-		}else{
-			window.loggedIn = true;
-			story.refreshTiddler("Announcements", null, true);
-			console.log("You have been logged in.");
-		}
+	console.log("GOT TO HERE", context, context.reload);
+
+	if(!context.status)
+	{
+			console.log("STATUS WAS FALSE");
+			config.macros.ccLogin.refresh(userParams.place, config.macros.ccLogin.msgLoginFailed);
 	}else{
-		config.macros.ccLogin.refresh(userParams.place, config.macros.ccLogin.msgLoginFailed);
-	} 
+		if(context.reload==false){
+				window.loggedIn = true;
+				console.log("You have been logged in - NO REFRESH.", context);
+				//story.refreshTiddler("Announcements", null, true);
+		}else{
+			console.log("You have been logged in - WITH REFRESH.", context);
+
+			//			window.location.reload();	
+		}
+	}	 
 };
 
 config.macros.ccLogin.displayForgottenPassword=function(item, place){	

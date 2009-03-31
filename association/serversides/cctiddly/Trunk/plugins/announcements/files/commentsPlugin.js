@@ -71,11 +71,8 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
   if (cmacro.editable(macroParams)) {
     var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
 
-
- console.log("HERE >>>>> ",getParam(macroParams, "loginPrompt"));
-
-	
-	if(isLoggedIn())
+	var loginCheck = getParam(macroParams, "loginCheck");
+	if(loginCheck && window[loginCheck]())
 	{
 		var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
     	var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
@@ -87,7 +84,7 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
 	      cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
 	    };
 	}else{
-		wikify("<<ccLogin reload:'false'>>", newCommentArea);
+		wikify("<<"+getParam(macroParams, "loginPrompt")+">>", newCommentArea);
 	}
   }
 
