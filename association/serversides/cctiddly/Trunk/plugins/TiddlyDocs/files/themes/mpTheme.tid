@@ -736,6 +736,7 @@ form.wizard, .wizard .wizardFooter{
 		.viewer {
 			padding:0.5em;
 			padding-top:0em;
+			padding-bottom:2em;
 			position:static;
 			top:1em;
 		}
