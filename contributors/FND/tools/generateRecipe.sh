@@ -33,7 +33,7 @@ if [ -f "$filepath" ]; then
 fi
 
 # add tiddlers
-find . -name "*.tid" | sed -e 's/^\.\/\(.*\)/tiddler: \1 tag="systemConfig"/' >> $filepath
+find . -name "*.tid" | sed -e "s/^\.\/\(.*\)/tiddler: \1/" >> $filepath
 
 # add plugins
 find . -name "*.js" | sed -e 's/^\.\/\(.*\)/tiddler: \1 tags="systemConfig"/' >> $filepath
