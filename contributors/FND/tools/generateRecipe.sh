@@ -25,6 +25,8 @@ else
 	quit "target directory not specified"
 fi
 
+filename=$1$filename
+
 rm $filename # XXX: throws error if file does not exist
 
 # add tiddlers

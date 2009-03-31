@@ -1,47 +1,47 @@
-tiddler: ./content/TiddlyDocs Introduction.tid
-tiddler: ./content/Settings.tid
-tiddler: ./content/UserDefinitions.tid
-tiddler: ./content/TaskTiddlerControls.tid
-tiddler: ./content/MyDocument.tid
-tiddler: ./content/AnonDefaultTiddlers.tid
-tiddler: ./content/DefaultTiddlers.tid
-tiddler: ./content/MarkupPreHead.tid
-tiddler: ./content/SiteSubtitle.tid
-tiddler: ./content/SiteTitle.tid
-tiddler: ./content/Drawing.tid
-tiddler: ./content/MainMenu.tid
-tiddler: ./content/listDrawingPlugin.tid
-tiddler: ./content/wonderland/WHO STOLE THE TARTS.tid
-tiddler: ./content/wonderland/AliceInWonderLand.tid
-tiddler: ./content/wonderland/A MAD TEA-PARTY.tid
-tiddler: ./content/wonderland/A CAUCUS-RACE AND A LONG TALE.tid
-tiddler: ./content/wonderland/THE RABBIT SENDS IN A LITTLE BILL.tid
-tiddler: ./content/wonderland/DOWN THE RABBIT-HOLE.tid
-tiddler: ./content/wonderland/ALICE'S EVIDENCE.tid
-tiddler: ./content/wonderland/THE POOL OF TEARS.tid
-tiddler: ./content/wonderland/PIG AND PEPPER.tid
-tiddler: ./content/wonderland/ADVICE FROM A CATERPILLAR.tid
-tiddler: ./content/wonderland/THE QUEEN'S CROQUET GROUND.tid
-tiddler: ./content/StatusDefinitions.tid
-tiddler: ./content/ToolbarCommands.tid
-tiddler: ./themes/AnonMpTheme.tid
-tiddler: ./themes/mpBarTheme.tid
-tiddler: ./themes/SplitTreeThemeAnon.tid
-tiddler: ./themes/TreeTheme.tid
-tiddler: ./themes/SplitTreeTheme.tid
-tiddler: ./themes/mpTheme.tid
-tiddler: ./plugins/simpleSearchPlugin.js tags="systemConfig"
-tiddler: ./plugins/jqueryIncludes.js tags="systemConfig"
-tiddler: ./plugins/reportViewPlugin.js tags="systemConfig"
-tiddler: ./plugins/listDrawingPlugin.js tags="systemConfig"
-tiddler: ./plugins/FadingMessagesPlugin.js tags="systemConfig"
-tiddler: ./plugins/settings.js tags="systemConfig"
-tiddler: ./plugins/singlePageModePlugin.js tags="systemConfig"
-tiddler: ./plugins/themeSwitcher.js tags="systemConfig"
-tiddler: ./plugins/ValueSwitcherPlugin.js tags="systemConfig"
-tiddler: ./plugins/HTMLFormattingPlugin.js tags="systemConfig"
-tiddler: ./plugins/commentsPlugin.js tags="systemConfig"
-tiddler: ./plugins/WikifiedMessagesPlugin.js tags="systemConfig"
-tiddler: ./plugins/drawingPlugin.js tags="systemConfig"
-tiddler: ./plugins/editDefinitions.js tags="systemConfig"
-tiddler: ./plugins/TiddlyDocs.js tags="systemConfig"
+tiddler: content/TiddlyDocs Introduction.tid tag="systemConfig"
+tiddler: content/Settings.tid tag="systemConfig"
+tiddler: content/UserDefinitions.tid tag="systemConfig"
+tiddler: content/TaskTiddlerControls.tid tag="systemConfig"
+tiddler: content/MyDocument.tid tag="systemConfig"
+tiddler: content/AnonDefaultTiddlers.tid tag="systemConfig"
+tiddler: content/DefaultTiddlers.tid tag="systemConfig"
+tiddler: content/MarkupPreHead.tid tag="systemConfig"
+tiddler: content/SiteSubtitle.tid tag="systemConfig"
+tiddler: content/SiteTitle.tid tag="systemConfig"
+tiddler: content/Drawing.tid tag="systemConfig"
+tiddler: content/MainMenu.tid tag="systemConfig"
+tiddler: content/listDrawingPlugin.tid tag="systemConfig"
+tiddler: content/wonderland/WHO STOLE THE TARTS.tid tag="systemConfig"
+tiddler: content/wonderland/AliceInWonderLand.tid tag="systemConfig"
+tiddler: content/wonderland/A MAD TEA-PARTY.tid tag="systemConfig"
+tiddler: content/wonderland/A CAUCUS-RACE AND A LONG TALE.tid tag="systemConfig"
+tiddler: content/wonderland/THE RABBIT SENDS IN A LITTLE BILL.tid tag="systemConfig"
+tiddler: content/wonderland/DOWN THE RABBIT-HOLE.tid tag="systemConfig"
+tiddler: content/wonderland/ALICE'S EVIDENCE.tid tag="systemConfig"
+tiddler: content/wonderland/THE POOL OF TEARS.tid tag="systemConfig"
+tiddler: content/wonderland/PIG AND PEPPER.tid tag="systemConfig"
+tiddler: content/wonderland/ADVICE FROM A CATERPILLAR.tid tag="systemConfig"
+tiddler: content/wonderland/THE QUEEN'S CROQUET GROUND.tid tag="systemConfig"
+tiddler: content/StatusDefinitions.tid tag="systemConfig"
+tiddler: content/ToolbarCommands.tid tag="systemConfig"
+tiddler: themes/AnonMpTheme.tid tag="systemConfig"
+tiddler: themes/mpBarTheme.tid tag="systemConfig"
+tiddler: themes/SplitTreeThemeAnon.tid tag="systemConfig"
+tiddler: themes/TreeTheme.tid tag="systemConfig"
+tiddler: themes/SplitTreeTheme.tid tag="systemConfig"
+tiddler: themes/mpTheme.tid tag="systemConfig"
+tiddler: plugins/simpleSearchPlugin.js tags="systemConfig"
+tiddler: plugins/jqueryIncludes.js tags="systemConfig"
+tiddler: plugins/reportViewPlugin.js tags="systemConfig"
+tiddler: plugins/listDrawingPlugin.js tags="systemConfig"
+tiddler: plugins/FadingMessagesPlugin.js tags="systemConfig"
+tiddler: plugins/settings.js tags="systemConfig"
+tiddler: plugins/singlePageModePlugin.js tags="systemConfig"
+tiddler: plugins/themeSwitcher.js tags="systemConfig"
+tiddler: plugins/ValueSwitcherPlugin.js tags="systemConfig"
+tiddler: plugins/HTMLFormattingPlugin.js tags="systemConfig"
+tiddler: plugins/commentsPlugin.js tags="systemConfig"
+tiddler: plugins/WikifiedMessagesPlugin.js tags="systemConfig"
+tiddler: plugins/drawingPlugin.js tags="systemConfig"
+tiddler: plugins/editDefinitions.js tags="systemConfig"
+tiddler: plugins/TiddlyDocs.js tags="systemConfig"
