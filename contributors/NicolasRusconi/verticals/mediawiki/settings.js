@@ -4,6 +4,7 @@
 |''~CoreVersion:''|2.2.0|
 |''MediaWiki Host''|<<option txtServerHost>>|
 |''MediaWiki sync interval (in minutes)''|<<option txtMediawikiSyncIterval>>|
+|''Elements to display per page''|<<option txtElementsPerPage>>|
 ***/
 
 /*{{{*/

@@ -38,7 +38,7 @@ PaginatedListView = function(place, table, listObject, columnCount)
 PaginatedListView.create = function(place, listObject, listTemplate, callback, className, columnCount)
 {
 	var table = ListView.create(null,listObject,listTemplate,callback,className, columnCount);
-	if (listObject.length > PaginatedListView.prototype.elementsPerPage * columnCount) {
+	if (listObject.length > PaginatedListView.prototype.getElementsPerPage() * columnCount) {
 		return new PaginatedListView(place, table, listObject, columnCount);
 	} else {
 		place.appendChild(table);
@@ -54,14 +54,15 @@ PaginatedListView.prototype.getPageControlRow = function(table, listObject, colu
 	this.elements = [];
 	this.page = 0;
 	this.table = table;
+	var elementsPerPage = this.getElementsPerPage();
 	// get the first displayed rows
-	for (var i = 0; i < table.rows.length && i < this.elementsPerPage; i++) {
+	for (var i = 0; i < table.rows.length && i < elementsPerPage; i++) {
 		this.elements.push(table.rows[i]);
 	};
 	// get the rest and remove them from the table
-	for (var i = this.elementsPerPage; table.rows.length > this.elementsPerPage; i++) {
-		this.elements.push(table.rows[this.elementsPerPage]);
-		table.removeChild(table.rows[this.elementsPerPage]);
+	for (var i = elementsPerPage; table.rows.length > elementsPerPage; i++) {
+		this.elements.push(table.rows[elementsPerPage]);
+		table.removeChild(table.rows[elementsPerPage]);
 	};
 	var paggingRow = createTiddlyElement(null, 'tr', null, PaginatedListView.pageControlStyle);
 	//add Backward Links
@@ -98,11 +99,12 @@ PaginatedListView.prototype.addPageSelector = function(listObject, columnCount)
 {
 	var pageCell = createTiddlyElement(null, 'td', null, PaginatedListView.pageControlStyle + PaginatedListView.pageSelectStyle);
 	var pageSelect = createTiddlyElement(pageCell, 'select');
-	var pageCount = this.elements.length / this.elementsPerPage;
+	var elementsPerPage = this.getElementsPerPage();
+	var pageCount = this.elements.length / elementsPerPage;
 	for (var i = 0; i < pageCount; i++) {
-		var fromItemIndex = i * this.elementsPerPage * columnCount;
+		var fromItemIndex = i * elementsPerPage * columnCount;
 		var previousItemIndex = fromItemIndex - 1;
-		var toItemIndex = fromItemIndex + (this.elementsPerPage * columnCount) - 1;
+		var toItemIndex = fromItemIndex + (elementsPerPage * columnCount) - 1;
 		var nextItemIndex = toItemIndex + 1;
 		if (toItemIndex >= listObject.length) {
 			toItemIndex = listObject.length - 1;
@@ -150,14 +152,15 @@ PaginatedListView.prototype.getLetters = function(previousText, text, nextText)
 PaginatedListView.prototype.showPage = function(pageNumpber)
 {
 		var table = this.table;
-		var startIndex = (pageNumpber) * this.elementsPerPage;
+		var elementsPerPage = this.getElementsPerPage();
+		var startIndex = (pageNumpber) * elementsPerPage;
 		//remove all rows
 		for (; 0 < table.rows.length;) {
 			table.removeChild(table.rows[0]);
 		};
 		var elementsCount = this.elements.length - startIndex;
-		if (elementsCount > 10 ) {
-			elementsCount = 10;
+		if (elementsCount > elementsPerPage) {
+			elementsCount = elementsPerPage;
 		}
 		for (var i = 0; i < elementsCount; i++) {
 			table.appendChild(this.elements[i + startIndex]);
@@ -234,7 +237,13 @@ PaginatedListView.prototype.goToPage = function(pageIndex)
 PaginatedListView.prototype.elements = [];
 PaginatedListView.prototype.page = 0;
 PaginatedListView.prototype.pageSelect;
-PaginatedListView.prototype.elementsPerPage = 10;
+PaginatedListView.prototype.getElementsPerPage = function() {
+	return parseInt(config.options.txtElementsPerPage);
+};
+
+if (!config.options.txtElementsPerPage) {
+	config.options.txtElementsPerPage = '10';
+}
 PaginatedListView.prototype.columnCount = 1;
 PaginatedListView.pageControlStyle = 'pageControl';
 PaginatedListView.prototypetable;
