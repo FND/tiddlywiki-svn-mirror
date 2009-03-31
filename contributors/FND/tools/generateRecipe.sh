@@ -6,10 +6,11 @@
 #  $ ./generateRecipe.sh targetDir
 #
 # TODO:
+# * add trailing slash to targetDir
+# * recursiveness optional
 # * prompt for overwriting
 # * plugins to use plugin prefix instead of tags argument?
-# * recursiveness optional
-# * remove leading "./" from recipe entries
+# * create .meta files instead of using tags attribute
 
 filename="split.recipe"
 
@@ -27,7 +28,10 @@ fi
 rm $filename # XXX: throws error if file does not exist
 
 # add tiddlers
-find . -name "*.tid" -exec echo -e 'tiddler: {}' >> $filename \;
+find . -name "*.tid" | sed -e 's/^\.\/\(.*\)/tiddler: \1 tag="systemConfig"/' >> $filename
 
 # add plugins
-find . -name "*.js" -exec echo -e 'tiddler: {} tags="systemConfig"' >> $filename \;
+find . -name "*.js" | sed -e 's/^\.\/\(.*\)/tiddler: \1 tags="systemConfig"/' >> $filename
+
+echo "recipe created:"
+cat $1$filename

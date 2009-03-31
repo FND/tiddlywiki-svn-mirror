@@ -6,6 +6,7 @@
 #  $ ./devinstance.sh targetDir
 #
 # TODO:
+# * add trailing slash to targetDir
 # * make devtext store optional
 
 instance="dev"
