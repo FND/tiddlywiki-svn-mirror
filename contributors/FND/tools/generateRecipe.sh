@@ -6,9 +6,7 @@
 #  $ ./generateRecipe.sh targetDir
 #
 # TODO:
-# * add trailing slash to targetDir
 # * recursiveness optional
-# * prompt for overwriting
 # * plugins to use plugin prefix instead of tags argument?
 # * create .meta files instead of using tags attribute
 
@@ -25,15 +23,20 @@ else
 	quit "target directory not specified"
 fi
 
-filename=$1$filename
+# remove trailing slash
+dir=`echo $1 | sed -e "s/\/$//"`
 
-rm $filename # XXX: throws error if file does not exist
+filepath="$dir/$filename"
+
+if [ -f "$filepath" ]; then
+	rm $filepath
+fi
 
 # add tiddlers
-find . -name "*.tid" | sed -e 's/^\.\/\(.*\)/tiddler: \1 tag="systemConfig"/' >> $filename
+find . -name "*.tid" | sed -e 's/^\.\/\(.*\)/tiddler: \1 tag="systemConfig"/' >> $filepath
 
 # add plugins
-find . -name "*.js" | sed -e 's/^\.\/\(.*\)/tiddler: \1 tags="systemConfig"/' >> $filename
+find . -name "*.js" | sed -e 's/^\.\/\(.*\)/tiddler: \1 tags="systemConfig"/' >> $filepath
 
 echo "recipe created:"
-cat $1$filename
+cat $filepath

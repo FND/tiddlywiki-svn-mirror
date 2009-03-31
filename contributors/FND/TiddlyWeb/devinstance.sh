@@ -6,7 +6,6 @@
 #  $ ./devinstance.sh targetDir
 #
 # TODO:
-# * add trailing slash to targetDir
 # * make devtext store optional
 
 instance="dev"
@@ -21,6 +20,9 @@ if [ $# -gt 0 ]; then
 else
 	quit "target directory not specified"
 fi
+
+# remove trailing slash
+dir=`echo $1 | sed -e "s/\/$//"`
 
 # initialize configuration
 wget http://svn.tiddlywiki.org/Trunk/contributors/FND/TiddlyWeb/plugins/devtext.py
@@ -46,4 +48,4 @@ echo -e 'alert("Hello world!");' > store/plugins/helloworld.js
 # create sample recipe
 echo -e "/bags/system/tiddlers\n/bags/plugins/tiddlers\n/bags/content/tiddlers" | twanager recipe sample
 
-echo -e "\ninstance created; run \"twanager server\" from $1$instance to start server"
+echo -e "\ninstance created; run \"twanager server\" from $dir/$instance to start server"
