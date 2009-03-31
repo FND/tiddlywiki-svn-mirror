@@ -105,18 +105,44 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	img.src = "http://www.iconspedia.com/uploads/578075880.png";
 	createTiddlyText(span, " New");
 	btn.setAttribute("href","javascript:;");
+
+
 /// users button
 	var btn = createTiddlyElement(buttonHolder, "a", null, "roundButton");
 	btn.onclick = function () {
 		story.displayTiddler(null, "Settings");
 	};
+
+
 	var span = createTiddlyElement(btn, "span");
 	var img = createTiddlyElement(span, "img");
 	img.style.width = "10px";
 	img.style.height="10px";
 	img.src = "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png";
 	createTiddlyText(span, " Settings");
-	btn.setAttribute("href","javascript:;");		
+	btn.setAttribute("href","javascript:;");	
+	
+	
+
+	/// new tiddler button 
+		var btn = createTiddlyElement(buttonHolder, "a", null, "roundButton");
+		var span = createTiddlyElement(btn, "span");
+		btn.onclick = function() {
+			if (window.fullUrl.indexOf('?') > 0)
+				window.location = window.fullUrl+'&logout=1';
+			else
+				window.location = window.fullUrl+'?logout=1';
+		};
+		btn.setAttribute("newTitle","Logout");
+		var img = createTiddlyElement(span, "img");
+		img.style.width = "10px";
+		img.style.height="10px";
+		img.src = "http://www.iconspedia.com/uploads/578075880.png";
+		createTiddlyText(span, " Logout");
+		btn.setAttribute("href","javascript:;");
+
+	
+
 	createTiddlyElement(place, "br");
 	var treeSpec = store.getTiddlerText(params[0]); 
 	if(treeSpec){
