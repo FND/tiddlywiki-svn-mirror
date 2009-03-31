@@ -24,7 +24,7 @@ jQuery(document).ready(function() {
 		var coords = [0,0,100,0,100,100,0,300];
 		var s = new EasyShape(properties,coords);
 		actual = s.getBoundingBox();
-		expected = {x1: 0, x2:100, y1:0,y2:300,"center": { "x": 50, "y": 150 }};
+		expected = {x1: 0, x2:100, y1:0,y2:300,width: 100, height:300,"center": { "x": 50, "y": 150 }};
 		same(actual,expected, "bounding box for polygon has been set correctly");
 	
 	});
@@ -51,7 +51,7 @@ jQuery(document).ready(function() {
 		s.setCoordinates([0,0,50,0,50,50,0,200])
 		
 		/*verify */
-		expected = {x1: 0, x2:50, y1:0, y2: 200,"center": { "x": 25, "y": 100 }};
+		expected = {x1: 0, x2:50, y1:0, y2: 200,width: 50, height: 200,"center": { "x": 25, "y": 100 }};
 		actual = s.getBoundingBox();
 		same(actual,expected, "setCoordinates of polygon changes bounding box");
 	
@@ -84,7 +84,7 @@ jQuery(document).ready(function() {
 
 		/* run */
 		var actual = s.getBoundingBox();
-		expected = {x1: 19.5, x2: 20.5, y1: 29.5, y2: 30.5, center: {x: 20, y: 30}};
+		expected = {x1: 19.5, x2: 20.5, y1: 29.5, y2: 30.5, width: 1, height:1, center: {x: 20, y: 30}};
 		/*verify */
 		same(actual,expected, "radius should default to 0.5 and bounding box should be correct");
 	});
@@ -101,7 +101,7 @@ jQuery(document).ready(function() {
 
 		/*verify */
 		var actual = s.getBoundingBox();
-		expected = {x1: 10, x2: 30, y1: 20, y2: 40, center: {x: 20, y: 30}};
+		expected = {x1: 10, x2: 30, y1: 20, y2: 40, width: 20, height:20 center: {x: 20, y: 30}};
 		same(actual,expected, "check radius change has propogated to the bounding box");
 	});
 	
@@ -111,7 +111,7 @@ jQuery(document).ready(function() {
 		var actual, expected;
 		var properties = {shape:'polygon', fill: 'rgb(255,400,0)'};
 		var coords = [20,30];
-		EasyShape.prototype._optimisation_shapeIsTooSmall = function(t) { return true; };
+		EasyOptimisations.easyShapeIsTooSmall = function(shape,t) { return true; };
 		var s = new EasyShape(properties,coords);
 		
 

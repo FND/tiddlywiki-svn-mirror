@@ -62,5 +62,46 @@ var EasyOptimisations = {
 		}
 		
 	}
-   
+  
+	,easyShapeIsInVisibleArea: function(easyShape,canvas,transformation){
+
+		var left = 0,top = 0;
+		var right =  parseInt(canvas.width) + left; 
+		var bottom = parseInt(canvas.height) + top;
+		var topleft =  EasyClickingUtils.undotransformation(left,top,transformation);
+		var bottomright =  EasyClickingUtils.undotransformation(right,bottom,transformation);				
+		var frame = {};
+		frame.top = topleft.y;
+		frame.bottom = bottomright.y;
+		frame.right = bottomright.x;
+		frame.left = topleft.x;
+		var g = easyShape.getBoundingBox();
+		if(g.x2 < frame.left) {
+			return false;}
+		if(g.y2 < frame.top) {
+			return false;}
+		if(g.x1 > frame.right){
+			return false;
+		}
+		if(g.y1 > frame.bottom){
+			return false;	
+		}
+		
+		return true;
+	}
+	
+	,easyShapeIsTooSmall: function(easyShape,transformation){
+		var g = easyShape.getBoundingBox();
+		var s = transformation.scale;
+		var t1 = g.x2 -g.x1;
+		var t2 =g.y2- g.y1;
+		var delta = {x:t1,y:t2};
+		delta.x *= s.x;
+		delta.y *= s.y;
+		if(delta.x < 5 && delta.y < 5) 
+			{return true;}//too small
+		else
+			return false;
+	}
+
 };
