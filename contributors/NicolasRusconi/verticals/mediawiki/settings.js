@@ -3,6 +3,7 @@
 |''Description:''|set preferences|
 |''~CoreVersion:''|2.2.0|
 |''MediaWiki Host''|<<option txtServerHost>>|
+|''MediaWiki sync interval (in minutes)''|<<option txtMediawikiSyncIterval>>|
 ***/
 
 /*{{{*/

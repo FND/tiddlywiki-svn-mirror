@@ -739,10 +739,13 @@ jQuery().bind('startup', function() {
 	config.macros.importMediaWiki.sync.check();
 }); 
 
+if (!config.options.txtMediawikiSyncIterval) {
+	config.options.txtMediawikiSyncIterval = '' + 15;
+}
+
 config.macros.importMediaWiki.sync.check = function() {
 	config.macros.importMediaWiki.sync.doSync();
-	//run every 15 minutes
-	window.setTimeout(config.macros.importMediaWiki.sync.check, 1000 * 60 * 15 );	
+	window.setTimeout(config.macros.importMediaWiki.sync.check, 1000 * 60 * parseInt(config.options.txtMediawikiSyncIterval));	
 };
 
 config.macros.importMediaWiki.sync.doSync = function()
