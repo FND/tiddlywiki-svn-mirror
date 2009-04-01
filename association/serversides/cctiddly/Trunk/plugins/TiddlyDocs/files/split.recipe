@@ -29,18 +29,18 @@ tiddler: themes/SplitTreeThemeAnon.tid
 tiddler: themes/TreeTheme.tid
 tiddler: themes/SplitTreeTheme.tid
 tiddler: themes/mpTheme.tid
-tiddler: plugins/simpleSearchPlugin.js tags="systemConfig"
-tiddler: plugins/jqueryIncludes.js tags="systemConfig"
-tiddler: plugins/reportViewPlugin.js tags="systemConfig"
-tiddler: plugins/listDrawingPlugin.js tags="systemConfig"
-tiddler: plugins/FadingMessagesPlugin.js tags="systemConfig"
-tiddler: plugins/settings.js tags="systemConfig"
-tiddler: plugins/singlePageModePlugin.js tags="systemConfig"
-tiddler: plugins/themeSwitcher.js tags="systemConfig"
-tiddler: plugins/ValueSwitcherPlugin.js tags="systemConfig"
-tiddler: plugins/HTMLFormattingPlugin.js tags="systemConfig"
-tiddler: plugins/commentsPlugin.js tags="systemConfig"
-tiddler: plugins/WikifiedMessagesPlugin.js tags="systemConfig"
-tiddler: plugins/drawingPlugin.js tags="systemConfig"
-tiddler: plugins/editDefinitions.js tags="systemConfig"
-tiddler: plugins/TiddlyDocs.js tags="systemConfig"
+plugin: plugins/simpleSearchPlugin.js
+plugin: plugins/jqueryIncludes.js
+plugin: plugins/reportViewPlugin.js
+plugin: plugins/listDrawingPlugin.js
+plugin: plugins/FadingMessagesPlugin.js
+plugin: plugins/settings.js
+plugin: plugins/singlePageModePlugin.js
+plugin: plugins/themeSwitcher.js
+plugin: plugins/ValueSwitcherPlugin.js
+plugin: plugins/HTMLFormattingPlugin.js
+plugin: plugins/commentsPlugin.js
+plugin: plugins/WikifiedMessagesPlugin.js
+plugin: plugins/drawingPlugin.js
+plugin: plugins/editDefinitions.js
+plugin: plugins/TiddlyDocs.js
