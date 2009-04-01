@@ -206,5 +206,10 @@ EasyGraph.prototype = {
 		}
 		
 	}
+
+
+	,burnToEasyShapes: function(){
+		return [];
+	}
 };
 

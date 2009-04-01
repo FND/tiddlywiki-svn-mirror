@@ -162,7 +162,7 @@ EasyDrawingTools.prototype = {
 		this.wrapper.appendChild(newCanvas);
 
 		newCanvas.easyDrawingTools = this;
-		newCanvas.easyClicking = new EasyClicking(newCanvas);
+		newCanvas.easyClicking = new EasyClickableCanvas(newCanvas);
 		
 		var easyDrawingTools = this;
 		newCanvas.onmousedown = function(e){
@@ -213,8 +213,9 @@ EasyDrawingTools.prototype = {
 		var width = p.width;
 		var height = p.height;
 		var padding = p.padding;
-		
+
 		var w = width / 2;
+	/*
 		if(p.label == 'line'){
 			p.easyShapeLabel =new EasyShape({shape:'path'}, [left+padding,top+w,left+width-padding,top+w]);			
 		}
@@ -222,8 +223,7 @@ EasyDrawingTools.prototype = {
 			p.easyShapeLabel =new EasyShape({shape:'image',src:'icons/poly.png',width:width,height:height}, [left,top]);			
 		}
 		else if(p.label == 'save'){
-			p.easyShapeLabel =new EasyShape({shape:'image',src:'icons/save.png', alt:'save'}, 
-			[left,top,left+width,top,left+width,top+height,left,top+height]);
+			p.easyShapeLabel =new EasyShape({shape:'image',src:'icons/save.png', alt:'save'}, [left,top,left+width,top,left+width,top+height,left,top+height]);
 												
 		}
 		else if(p.label == 'cross'){
@@ -231,13 +231,13 @@ EasyDrawingTools.prototype = {
 		}
 		else if(p.label == 'dropdown'){
 			p.easyShapeLabel = new EasyShape({shape:'path'}, [left+padding,top+height - 5,left+w,top+height-padding,left+width-padding,top+height - 5]);
-		}
+		}*/
 		
 		
 		var c = [left,top, left + width,top,left+width,top+height, left,top+height];
 		var s = new EasyShape(p,c);
 		s.render(canvas);
-		if(p.easyShapeLabel) p.easyShapeLabel.render(canvas);
+		//if(p.easyShapeLabel) p.easyShapeLabel.render(canvas);
 		return s;
 	}
 	,_setup: function(wrapper){
@@ -246,12 +246,12 @@ EasyDrawingTools.prototype = {
 		var width = 20;
 		var height = 20;
 		var padding = 5;
-		easyClicking.addToMemory(this._createButton(canvas,5,5,{action:"newShape",label:"box",title: "new node"}));
-		easyClicking.addToMemory(this._createButton(canvas,5+(height+padding),5,{action: "newLine", label:"line", title: "new edge"}));
-		easyClicking.addToMemory(this._createButton(canvas,5+height+padding,10+width,{action:"changeEdgeType",label:"dropdown2",width:10,height:10,padding:1, title: "edge options"}));
+		easyClicking.add(this._createButton(canvas,5,5,{action:"newShape",label:"box",title: "new node"}));
+		easyClicking.add(this._createButton(canvas,5+(height+padding),5,{action: "newLine", label:"line", title: "new edge"}));
+		easyClicking.add(this._createButton(canvas,5+height+padding,10+width,{action:"changeEdgeType",label:"dropdown2",width:10,height:10,padding:1, title: "edge options"}));
 		
-		easyClicking.addToMemory(this._createButton(canvas,5+((height+padding)*2),5,{action: "delete", label:"cross",title: "delete node"}));
-		easyClicking.addToMemory(this._createButton(canvas,5+((height+padding) *3),5,{action: "save", label: "save",title: "save drawing"}));
+		easyClicking.add(this._createButton(canvas,5+((height+padding)*2),5,{action: "delete", label:"cross",title: "delete node"}));
+		easyClicking.add(this._createButton(canvas,5+((height+padding) *3),5,{action: "save", label: "save",title: "save drawing"}));
 				
 		var tooltip = document.createElement("div");
 		tooltip.style.position = "absolute";	

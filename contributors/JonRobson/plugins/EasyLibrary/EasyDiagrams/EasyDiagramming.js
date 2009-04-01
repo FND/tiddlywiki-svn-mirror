@@ -54,7 +54,7 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	this.wrapper.appendChild(this.canvas);
 	this.easyDrawingTools = new EasyDrawingTools(this.wrapper);
 	
-	this.easyClicking = new EasyClicking(this.wrapper);
+	this.easyClicking = new EasyClickableCanvas(this.wrapper);
 	this.setupMouseHandlers();
 		
 	this.easyController = new EasyController(this,this.wrapper);
@@ -218,7 +218,6 @@ EasyDiagram.prototype = {
 			var shape = this.selectedShape;
 			 
 			var node = this.getNodeFromShape(shape);
-			console.log(node);
 			if(node)node.setPosition(x - 20,y - 20);
 		}
 
@@ -355,7 +354,7 @@ EasyDiagram.prototype = {
 			shape =this.tempshapes[i];
 			shape.setProperty("_temp",true);
 			if(shape.getProperty("_clickable")){
-				this.easyClicking.addToMemory(shape);
+				this.easyClicking.add(shape);
 			}
 			shape.render(this.canvas, this.getTransformation());
 		}
@@ -371,7 +370,7 @@ EasyDiagram.prototype = {
 		return true;
 	}
 	
-
+/*these should be moved out */
 	,_renderEdges: function(directed){
 		var edgeCoords = [];
 		for(i in this.easyGraph.nodes){
@@ -488,7 +487,7 @@ EasyDiagram.prototype = {
 				var h = node.getProperty("height") * t.scale.y;
 				viewlabel.style.width =  w+ "px";
 				viewlabel.style.height = h + "px";
-				this.easyClicking.addToMemory(shape);
+				this.easyClicking.add(shape);
 				shape.render(this.canvas,this.getTransformation());
 			}
 			else{
@@ -496,6 +495,7 @@ EasyDiagram.prototype = {
 			}
 		}
 	}
+/*move to diagram editor */
 	,openNodeEditor: function(event,node){
 		this.editing = true;
 		this.selectedShape = false;
