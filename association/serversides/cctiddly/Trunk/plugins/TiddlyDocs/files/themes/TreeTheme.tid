@@ -1,6 +1,6 @@
 modifier: Simon McManus
-modified:200708091500
-tags:systemTheme
+modified: 200708091500
+tags: systemTheme
 
 /***
 |''Name:''|TreeTheme|
@@ -70,7 +70,7 @@ tags:systemTheme
 </div>
 <!--}}}-->
 
-	
+
 !taskViewTemplate
 <!--{{{-->
 
@@ -143,7 +143,7 @@ margin-left :9.2em;
 .sort-handle-edit{
 color:black;
 background-color:#fff;
-border-bottom : 2px solid #ddd; 
+border-bottom : 2px solid #ddd;
 }
 
 .doneButton {
@@ -153,28 +153,28 @@ border-bottom : 2px solid #ddd;
 }
 			div.wrap {
 				border:1px solid #BBBBBB;
-		
+
 			}
-			
+
 			#messageArea {
 display:none !important;
 			}
-			
+
 			#sortableList.page-list {
 				list-style: none;
 				position:relative;
 				//top:-10px;
-			
+
 				margin: 0 !important;
 				padding: 0 !important;
 				display: block;
 			}
-			
+
 			.clear-element {
 				clear: both;
 			}
-			
-			
+
+
 			.sectionHeadingInput {
 				width:99%;
 			}
@@ -184,31 +184,31 @@ display:none !important;
 			}
 
 			.sort-handle {
-		
-			}
-			
-			
 
-			
+			}
+
+
+
+
 			.left {
 				text-align: left;
 			}
 
-			
+
 			.helper {
 				border:2px dashed #777777;
 			}
-			
+
 			.current-nesting {
 				background-color: yellow;
 			}
-			
+
 			.bold {
 				color: red;
 				font-weight: bold;
 			}
-			
-			
+
+
 			h1, h2, h3, h4, h5, h6, h7, h8 {
 			margin:0em !important;
 			padding:0.5em !important;
@@ -216,8 +216,8 @@ display:none !important;
 			font-family:tahoma;
 			background-color:#fff !important;
 		}
-		
-		
+
+
 
 		div.subtitle {
 			padding:1em 1em 1em 0.0em;
@@ -232,25 +232,25 @@ display:none !important;
 			font-size:1.2em;
 			border:1px solid orange !important;
 		}
-		
-		
+
+
 		#backstageButton {
 		display:none !important;
 		}
-		
+
 		.sort-handle-edit {
 			border:1px solid orange;
 			background:white;
 			padding:1em;
 			margin-bottom:1em;
 		}
-		
+
 		.sort-handle-edit .button {
 			border:1px solid orange;
 			background:white !important;
 			color:black !important;
 		}
-		
+
 		div.title, div.subtitle {
 		padding :1em;
 			color:black;
@@ -260,7 +260,7 @@ display:none !important;
 			padding-bottom:0px;
 			font-size : 3em !important;
 		}
-		
+
 		#buttonHolder {
 		padding:1em;
 		padding-bottom:0px;
@@ -268,44 +268,44 @@ display:none !important;
 		}
 		.sectionBodyEdit {
 			width:98%;
-			
+
 			background-color:#eee;
 			color:black;
 			border:1px solid #ddd;
-			
+
 			hieght:100%;
 		}
-		
+
 		input, select {
 			background-color:#eee;
 			color:black;
 			border:1px solid #ddd;
 			font-size:1.5em;
 		}
-		
-		
+
+
 		.sectionBody {
 		border:0px;
 			background-color:transparent;
 			width:98%;
 					padding:1em;
-	
+
 		}
-		
+
 		div.sort-handle div {
 			border-bottom:0px !important;
 		}
-		
+
 		.commentText {
 			padding:1em !important;
 		}
-		
-		
+
+
 		.comments textarea {
 			width:60% !important;
 		}
-		
-		
+
+
 		a.right {
 		float:right;
 		position:relative;
@@ -316,11 +316,11 @@ display:none !important;
 			padding:0em;
 			margin:0em;
 				padding-left :1em;
-			
+
 			padding-top:0px;
 //			position:relative;
 		}
-		
+
 			div.sort-handle div{
 				border-bottom:1px solid #EDECE8;
 				margin:0em;
@@ -332,20 +332,20 @@ display:none !important;
 			background-color:#A4ADBC;
 			color:white;
 		}
-		
+
 		html > body {
 		 background-color:#333;
 		}
-		
+
 		 .completed {
 					border-right : 10px solid #C0DA5F;
 					padding:1em;
 		}
-		
+
 		 .incomplete {
 				border-right : 10px solid #A4001D;
 		}
-		
+
 		li {
 			style:none;
 		}
@@ -353,8 +353,8 @@ display:none !important;
 			list-style:none;
 			margin:0em !important;
 		}
-	
-		
+
+
 		.draggableOn {
 	cursor:move;
 			background-color:#eee !important;
@@ -362,27 +362,27 @@ display:none !important;
 
 		}
 
-		
+
 		#messageArea, #messageArea a.button {
 			background:transparent !important;
 			border:transparent !important;
 			color:white !important;
 		}
-		
-		
+
+
 		div.tiddler {
-			
+
 			background:transparent;
 			//background-color:#EDECE8;
 			border:1px solid black;
 			color:black;
-			margin:2em;		
-			padding:0px;	
-		}	
-		
-		
+			margin:2em;
+			padding:0px;
+		}
+
+
 		// BOX CSS
-		
+
 		/* This file skins dialog */
 
 		.flora .ui-dialog,
@@ -494,10 +494,10 @@ display:none !important;
 	smmStyle > .header {
 			color:red;
 		}
-		
-		
-		
-		// tabs 
-		
-		
+
+
+
+		// tabs
+
+
 
