@@ -86,20 +86,6 @@ EasyShape.prototype={
 
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
 		if(pointradius) this.setRadius(pointradius);
-		
-		var optimisations = true;
-		
-		if(!transformation){
-			transformation = {};
-		}
-		if(!transformation.origin)transformation.origin = {x:0,y:0};
-		if(!transformation.scale)transformation.scale = {x:1,y:1};
-		if(!transformation.translate)transformation.translate = {x:0,y:0};
-		
-		if(!projection && optimisations){
-			var ok =this.optimise(canvas,transformation);
-			if(!ok) return;
-		}
 			
 		if(this.getRenderMode(canvas) == 'ie'){
 		

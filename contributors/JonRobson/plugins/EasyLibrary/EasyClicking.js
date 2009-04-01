@@ -133,11 +133,12 @@ EasyClickableCanvas.prototype = {
 				}
 				
 				 for(var i=0; i < mem.length; i++){
-				 			
-					mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
-			
-					if(mem[i].vmlfill && that.settings.globalAlpha) {
-						mem[i].vmlfill.opacity =that.settings.globalAlpha;
+				 	if(mem[i].optimise(that.canvas,transformation)){
+						mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
+					
+						if(mem[i].vmlfill && that.settings.globalAlpha) {
+							mem[i].vmlfill.opacity =that.settings.globalAlpha;
+						}
 					}
 				
 				}
