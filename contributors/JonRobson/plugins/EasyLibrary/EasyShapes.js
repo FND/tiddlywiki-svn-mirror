@@ -48,12 +48,14 @@ coordinates are a string consisting of floats and move commands (M)
 
 var EasyShape = function(properties,coordinates){
 	this.coordinates = {
+		projected: false,
 		normal: [],
 		optimised: {},
-		incurrentprojection:false,
-		resolutionIs: {}
+		optimisedandprojected:{}
 	};
 	this.grid = {};
+	this.width = 0;
+	this.height =0;
 	this.setProperties(properties);
 	if(coordinates[0] && coordinates[0].length == 2){
 		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
@@ -61,7 +63,7 @@ var EasyShape = function(properties,coordinates){
 	
 	this._construct(properties,coordinates);
 	this.browser =false;
-
+	this.currentResolution = false;
 };
 
 
@@ -87,9 +89,7 @@ EasyShape.prototype={
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
 		var st = this.getShape();
 		if(pointradius && st == 'point') this.setRadius(pointradius);
-
 		if(this.getRenderMode(canvas) == 'ie'){
-		
 			this._ierender(canvas,transformation,projection,optimisations); 
 		}
 		else{	
@@ -98,35 +98,45 @@ EasyShape.prototype={
 			
 	}
 	
-	,setCoordinates: function(coordinates){
+	,setCoordinates: function(coordinates,type){
+		if(type == 'projected'){ this.coordinates.projected = coordinates;
+		return;}
+		
 		this.coordinates.normal = coordinates;
 		this.coordinates.projected= false;
 		var i;
 		for(i in this.coordinates.optimised){
-			delete this.coordinates[i];
+			delete this.coordinates.optimised[i];
 		}
+		var j;
+		for(j in this.coordinates.optimisedandprojected){
+			delete this.coordinates.optimisedandprojected[j];
+		}		
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
-	,getProjectedCoordinates: function(){ // **
-		if(this.coordinates.incurrentprojection) return this.coordinates.incurrentprojection;
-		else return false;
-	}
-	,getCoordinates: function(){
-		/* return the coordinates at the current resolution and projection */
-		return this.coordinates.normal;
-	}
-	,getOptimisedCoords: function(scaleFactor){// **
-		return this.getCoordinates();//until i fix
-		var index = parseInt(scaleFactor);
-		if(this.coordinates.optimised[index]) {
-			return this.coordinates.optimised[index];
+
+	,getCoordinates: function(type){
+		if(type == 'normal') return this.coordinates.normal;
+		if(type == 'projected') return this.coordinates.projected;
+		
+		var resolution = this.currentResolution;
+		if(this.coordinates.projected) {
+			if(this.browser != 'ie' && resolution){
+				var opt=this.coordinates.optimisedandprojected;
+				if(!opt[resolution]) opt[resolution] =  this._simplifyCoordinates(resolution,this.coordinates.projected);
+				else return opt[resolution];
+			}		
+		return this.coordinates.projected;
 		}
-		else {
-			var res = this._simplifyCoordinates(scaleFactor,this.getCoordinates());
-			this._setOptimisedCoords(scaleFactor,res);
-			return res;
+		else{
+			if(this.browser != 'ie' && resolution){
+				var opt=this.coordinates.optimised;
+				if(!opt[resolution]) opt[resolution] =  this._simplifyCoordinates(resolution,this.coordinates.normal);
+				else return opt[resolution];
+			}	
+			return this.coordinates.normal;
 		}
 	}
 	,getProperties: function(){
@@ -164,8 +174,10 @@ EasyShape.prototype={
 		return this.properties[name];
 	}
 
-	,optimise: function(canvas,transformation){
+	,optimise: function(canvas,transformation,projection){
+		if(transformation && transformation.scale) this.currentResolution = Math.min(transformation.scale.x, transformation.scale.y);
 		var shapetype = this.getProperty("shape");
+		if(projection) this._applyProjection(projection,transformation);
 		
 		if(shapetype != 'point' && shapetype != 'path'){ //check if worth drawing				
 			if(EasyOptimisations.easyShapeIsTooSmall(this,transformation)) {
@@ -179,7 +191,6 @@ EasyShape.prototype={
 		}
 		return true;
 	}
-
 
 	,_simplifyCoordinates: function(scaleFactor,coordinates){// **
 		if(this.getProperty("shape") == 'path') return coordinates;
@@ -199,22 +210,19 @@ EasyShape.prototype={
 		return coordinates;	
 	}
 
-	,_setOptimisedCoords: function(scaleFactor,coords){// **
-		var index = scaleFactor;
-		this.coordinates.optimised[index] = coords;
-	}
-
 	,_calculateBounds: function(coords){
 		var st = this.getShape();
 		if(st == 'path'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
-		else if(st == 'point' || st == 'circle'){
+		else if(st == 'point' || st == 'circle' | st == 'image'){
 				coords = this.getCoordinates();
-				var x = coords[0]; var y = coords[1]; var radius = this.radius;
-				var diameter = radius * 2;
-				this.grid ={x1: x - this.radius,x2: x + this.radius, y1: y - radius, y2: y + radius,center:{x:x,y:y},width: diameter,height:diameter};	
+				var x = coords[0]; var y = coords[1]; 
+				var dim = this.getDimensions();
+				var radiusw = dim.width / 2;
+				var radiush = dim.height / 2;
+				this.grid ={x1: x -radiusw ,x2: x + radiusw, y1: y - radiush, y2: y + radiush,center:{x:x,y:y},width: dim.width,height:dim.height};	
 				return;
 		}
 		if(!coords) coords = this.getCoordinates();
@@ -255,20 +263,27 @@ EasyShape.prototype={
 		this.grid.center.y = (this.grid.y2 - this.grid.y1) / 2 + this.grid.y1;
 	}
 
-	
-
 	,setRadius: function(r){
-		this.radius = r;
+		this.setDimensions(r*2,r*2);
 		this._calculateBounds();
 	}
 	,getRadius: function(){
-		return this.radius;
+		return this.width / 2;
 	}
+	,setDimensions: function(width,height){
+		this.width = width;
+		this.height = height;
+	}
+	,getDimensions: function(){
+		return {width: this.width, height: this.height};
+	}
+	
 	,_construct: function(properties, coordinates){
 		var shapetype =properties.shape; 
 		if(!shapetype) shapetype = 'polygon';
 		if(shapetype == 'point' || shapetype == 'circle'){
-			var radius;if(coordinates[2]) radius = coordinates[2]; else radius = 0.5;
+			var radius;
+			if(coordinates[2]) radius = coordinates[2]; else radius = 0.5;
 			this.setCoordinates([coordinates[0],coordinates[1]]);
 			this.setRadius(radius);
 		}
@@ -277,13 +292,28 @@ EasyShape.prototype={
 			this.setCoordinates(coordinates);
 		}
 		else if(shapetype == 'image'){
-			var w = this.getProperty("width"); h=  this.getProperty("height");
-			if(coordinates.length == 2 && w && h){
-				var x = coordinates[0];
-				var y = coordinates[1];
-				coordinates = coordinates.concat([x+w,y, x+w,y+h, x,y+h]);
+			var src = this.getProperty("src");
+			if(!src) throw "all images must carry a property src at minimum";
+			var image = new Image();
+			image.src= src;
+			this.image = image;
+			var easyShape = this;
+			var w = easyShape.getProperty("width"); h=  easyShape.getProperty("height");
+			if(coordinates.length > 2){
+				w = coordinates[2]; h = coordinates[3];
 			}
-			this.setCoordinates(coordinates);
+			image.onload = function(){
+				if(!w && !h){
+					w = easyShape.image.width;
+					h = easyShape.image.height;
+					easyShape.setDimensions(w,h);
+					easyShape.setCoordinates([coordinates[0],coordinates[1]]);
+				}
+			};
+	
+			easyShape.setDimensions(w,h);
+			easyShape.setCoordinates([coordinates[0],coordinates[1]]);	
+			
 		}
 		else{
 			console.log("don't know how to construct basic shape " + properties.shape);
@@ -346,10 +376,9 @@ EasyShape.prototype={
 		}	
 	}
 
-
 	,_applyProjection: function(projection,transformation){
 	
-		var c = this.getCoordinates();
+		var c = this.getCoordinates('normal');
 		if(!projection || !projection.xy) return c;
 	
 		if(projection.init) projection.init();
@@ -390,9 +419,8 @@ EasyShape.prototype={
 	
 			}	
 		}	
-		newc = this._simplifyCoordinates(transformation.scale.x,newc);
-		this.coordinates.incurrentprojection = newc;
-		this._calculateBounds(this.coordinates.incurrentprojection);
+		this.setCoordinates(newc,"projected");
+		this._calculateBounds(newc);
 		return newc;
 	}
 
@@ -407,6 +435,9 @@ var EasyCanvasRenderer = {
 		
 		if(shapetype == 'point' || shapetype =='circle'){
 			this.renderPoint(ctx,easyShape);
+		}
+		else if(shapetype =='image'){
+			this.renderImage(ctx,easyShape);
 		}
 		else{		
 			this.renderPolygon(ctx,easyShape);	
@@ -437,7 +468,14 @@ var EasyCanvasRenderer = {
 	}
 	,renderPoint: function(ctx,easyShape){
 		var bb =easyShape.getBoundingBox();
-		ctx.arc(bb.center.x, bb.center.y, easyShape.radius, 0, Math.PI*2,true);
+		ctx.arc(bb.center.x, bb.center.y, easyShape.getRadius(), 0, Math.PI*2,true);
+	}
+	,renderImage: function(ctx,easyShape){
+		var c = easyShape.getCoordinates();
+		var bb = easyShape.getBoundingBox();
+		ctx.drawImage(easyShape.image,bb.center.x,bb.center.y,bb.width,bb.height);
+	
+
 	}
 }
 var EasyVML = function(easyShape,canvas){
@@ -445,11 +483,11 @@ var EasyVML = function(easyShape,canvas){
 	this.easyShape=  easyShape;
 	var shapetype =easyShape.getShape();
 
-	if(shapetype == 'point'){
+	if(shapetype == 'point' || shapetype == 'circle'){
 		this._initArc(easyShape,canvas);
 	}
-	else if(shapetype == 'circle'){
-		this._initArc(easyShape,canvas);
+	else if(shapetype == 'image'){
+		this._initImage(easyShape,canvas);
 	}
 	else{
 		this._initPoly(easyShape,canvas);
@@ -459,7 +497,6 @@ var EasyVML = function(easyShape,canvas){
 	var yspace =parseInt(canvas.height);
 	yspace *= this._iemultiplier;
 	coordsize = xspace +"," + yspace;
-
 	this.el.coordsize = coordsize;
 	this.el.easyShape = this.easyShape;
 	var nclass= "easyShape";			
@@ -472,11 +509,19 @@ var EasyVML = function(easyShape,canvas){
 };
 
 EasyVML.prototype = {
-	_initArc: function(easyShape,canvas){
+	_initImage: function(easyShape,canvas){
+		var shape = document.createElement("img");
+		this.el = shape;
+		shape.src = easyShape.getProperty("src");
+		var dim = easyShape.getDimensions();
+
+		jQuery(this.el).css({"height": dim.height, "width": dim.width,"position":"absolute","z-index":4});		
+	}
+	,_initArc: function(easyShape,canvas){
 		var shape = document.createElement("easyShapeVml_:arc");
 		shape.startAngle = 0;
 		shape.endAngle = 360;
-		var radius = easyShape.radius;
+		var radius =  easyShape.getRadius();
 		this.el = shape;	
 		jQuery(this.el).css({"height": radius, "width": radius,"position":"absolute","z-index":4});			
 	}
@@ -565,7 +610,7 @@ EasyVML.prototype = {
 		var top,left,width,height;
 
 		var bb = this.easyShape.getBoundingBox();
-		
+	
 		var top = o.y + ((bb.center.y + t.y) * s.y);
 		var left = o.x + ((bb.center.x + t.x) * s.x);
 		width = bb.width * s.x;
@@ -576,7 +621,7 @@ EasyVML.prototype = {
 		
 		var vml = this.el;
 		var d1,d2,t;
-		if(vml.tagName == 'arc'){
+		if(vml.tagName == 'arc' || vml.tagName == 'IMG'){
 			this._transformDomElement(transformation,projection);
 			return;
 		}
@@ -640,8 +685,9 @@ EasyVML.prototype = {
 			if(el) el.style.display = '';
 	}
 	,render: function(canvas,appendTo){
-
+		
 			var shape = this.getVMLElement();
+			shape.style.display = "";
 			if(!appendTo){
 				appendTo = canvas;
 			}

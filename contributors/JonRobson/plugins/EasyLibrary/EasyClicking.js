@@ -132,7 +132,7 @@ EasyClickableCanvas.prototype = {
 				}
 				
 				 for(var i=0; i < mem.length; i++){
-				 	if(mem[i].optimise(that.canvas,transformation)){
+				 	if(mem[i].optimise(that.canvas,transformation,projection)){
 						mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
 					
 						if(mem[i].vmlfill && that.settings.globalAlpha) {
@@ -168,7 +168,10 @@ EasyClickableCanvas.prototype = {
 		easyShape._easyClickingID = this.memory.length;
 		this.memory.push(easyShape);
 	}
-	
+	,transform: function(t){
+		this.setTransformation(t);
+		this.render();
+	}
 	,clearMemory: function(){
 		for(var i=0; i < this.memory.length; i++){
 			if(this.memory[i].vml){
@@ -285,12 +288,8 @@ EasyClickableCanvas.prototype = {
 		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
 		http://www.visibone.com/inpoly/inpoly.c.txt */
 		var coords;
-		if(easyShape.getProjectedCoordinates()){
-			coords = easyShape.getProjectedCoordinates();
-		}
-		else{
-			coords = easyShape.getCoordinates();
-		}
+		coords = easyShape.getCoordinates();
+		
 		var npoints = coords.length;
 		if (npoints/2 < 3) {
 			//points don't describe a polygon

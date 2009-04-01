@@ -5,7 +5,10 @@ Mousewheel zooming currently not working as should - should center on location w
 Will be changed to take a handler parameter rather then a targetjs
  */
 
-var EasyController = function(targetjs,elem){ //elem must have style.width and style.height etM
+var EasyController = function(targetjs,elem,options){ //elem must have style.width and style.height etM
+	if(!options) options = ['pan','zoom','mousepanning','mousewheelzooming'];
+
+	if(typeof elem == 'string') elem= document.getElementById(elem);
 	this.setMaxScaling(99999999);
 	if(!elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions
@@ -17,6 +20,7 @@ var EasyController = function(targetjs,elem){ //elem must have style.width and s
 		controlDiv.style.position = "absolute";
 		controlDiv.style.top = "0";
 		controlDiv.style.left = "0";
+		controlDiv.className = 'easyControls'
 		this.wrapper.appendChild(controlDiv);
 		this.wrapper.controlDiv = controlDiv;
 	}
@@ -29,7 +33,7 @@ var EasyController = function(targetjs,elem){ //elem must have style.width and s
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 	this.wrapper.easyController = this;
 	this.enabled = true;
-
+	this.addControls(options);
 
 };
 EasyController.prototype = {

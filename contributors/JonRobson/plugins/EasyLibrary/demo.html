@@ -6,13 +6,17 @@
 <script type='text/javascript' src='EasyOptimisations.js'></script>
 <script type='text/javascript' src='EasyClickingUtils.js'></script>
 <script type='text/javascript' src='EasyTransformations.js'></script>
+<script type='text/javascript' src='EasyController.js'></script>
 <script type='text/javascript'>
+
 function start(){
 var x = new EasyClickableCanvas('xbrowsercanvas');
+var c = new EasyController(x,'xbrowsercanvas');
 x.add(new EasyShape({shape:'polygon',fill:'rgb(255,0,0)'},[0,0,200,0,200,200,0,200]));
+x.add(new EasyShape({shape:'image',src:'test.jpg',width:20,height:20},[-50,20]));
 x.add(new EasyShape({shape:'point',fill:'rgb(0,255,0)'},[-50,-80]));
-x.add(new EasyShape({shape:'circle',fill:'rgb(0,0,255)'},[0,0,20]));
-x.add(new EasyShape({shape:'image',src:'test.jpg',width:100,height:100},[-180,-20]));
+x.add(new EasyShape({shape:'circle',fill:'rgb(0,0,255)'},[-40,0,20]));
+
 
 
 x.render();

@@ -23,6 +23,8 @@ jQuery(document).ready(function() {
 		var coords = [20,30];
 		var beforehijack = EasyOptimisations.easyShapeIsTooSmall;
 		EasyOptimisations.easyShapeIsTooSmall = function(shape,t) { return true; };
+		var beforehijacktwo = EasyOptimisations.easyShapeIsInVisibleArea;
+		EasyOptimisations.easyShapeIsInVisibleArea = function(a,b,c) { return true; };
 		var s = new EasyShape(properties,coords);
 		
 
@@ -34,6 +36,7 @@ jQuery(document).ready(function() {
 		same(actual,expected, " optimise should return false when the shape is too small to be drawn");
 		
 		EasyOptimisations.easyShapeIsTooSmall = beforehijack;
+		EasyOptimisations.easyShapeIsInVisibleArea = beforehijacktwo;
 	});
 	
 
@@ -134,7 +137,63 @@ jQuery(document).ready(function() {
 	});
 	
 	
+	module("EasyShape:image");
+	test("check setup of image", function(){
+		var c = new EasyShape({shape:'image',src:'test.jpg',width:100,height:40},[-180,-20]);
+		var expected,actual;
+		
+		expected = [-180,-20];
+		actual = c.getCoordinates();
+		same(actual,expected,"coordinates has correctly been set");	
+
+		expected = "image";
+		actual = c.getShape();
+		same(actual,expected,"shape type is correct");				
+		
+		expected  = 100;
+		actual = c.getDimensions().width;
+		same(actual,expected,"dimensions set correctly width");			
+		expected  = 40;
+		actual = c.getDimensions().height;
+		same(actual,expected,"dimensions set correctly height");	
+		
+		expected = {x1:-230,x2:-130, y1:-40,y2: 0,center:{x:-180,y:-20}, width:100, height:40};
+		actual = c.getBoundingBox();
+		same(actual,expected,"shape bounding box is correct");		
+		
+	});
 	
+	
+	test("ie vml transforming (tests _transformDomElement and _csstransform)", function(){
+		var shape = new EasyShape({shape:'image',src:'test.jpg',width:100,height:40},[-180,-20]);
+		var canvas = document.createElement("div");
+		var expected,actual;
+		var vml = new EasyVML(shape,canvas);
+		var t=  {translate:{x:100,y:100},scale:{x:2,y:2},origin:{x:300,y:300}};
+		//run
+		vml._cssTransform(t,canvas);
+		var el = vml.getVMLElement();
+		
+		console.log("it",el);
+		//verify
+		expected = "200px";
+		actual = el.style.width;
+		same(actual,expected,"width set correctly");
+		
+		expected = "80px";
+		actual = el.style.height;
+		same(actual,expected,"height set correctly");
+		
+		expected = 300 + (2 * (-20+100));
+		actual = el.style.top;
+		same(actual,expected+"px","top set correctly");
+		
+		expected = 300 + (2 * (-180 +100));
+		actual = el.style.left;
+		same(actual,expected+"px","left set correctly");		
+		
+	});
+
 
 	
 });
