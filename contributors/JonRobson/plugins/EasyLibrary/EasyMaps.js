@@ -27,7 +27,7 @@ var EasyMap = function(wrapper){
 
 		
 		
-	this.easyClicking = new EasyClicking(wrapper);
+	this.easyClicking = new EasyClickableCanvas(wrapper);
 	this._setupMouseHandlers();
 
 	this.controller = new EasyController(this,this.wrapper);
@@ -235,7 +235,7 @@ EasyMap.prototype = {
 		var s = feature.getEasyShapes();		
 		for(var i=0; i < s.length; i++){
 			
-			this.easyClicking.addToMemory(s[i]);
+			this.easyClicking.add(s[i]);
 			this.geofeatures[this.easyClicking.getMemoryID(s[i])] = feature;
 		}	
 

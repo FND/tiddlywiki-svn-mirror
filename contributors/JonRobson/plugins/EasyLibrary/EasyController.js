@@ -300,7 +300,7 @@ EasyController.prototype = {
 		var label = this.createButtonLabel(r,properties.buttonType);
 		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r}});
 		
-		canvas.easyClicking.addToMemory(button);
+		canvas.easyClicking.add(button);
 		return button;
 	},	
 	addControls: function(list){
@@ -350,7 +350,7 @@ EasyController.prototype = {
 			newCanvas.browser = 'ie';
 		}
 		newCanvas.easyController = this;
-		newCanvas.easyClicking = new EasyClicking(newCanvas);
+		newCanvas.easyClicking = new EasyClickableCanvas(newCanvas);
 		
 		//newCanvas.memory = [];
 		return newCanvas;

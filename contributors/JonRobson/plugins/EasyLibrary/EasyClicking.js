@@ -19,7 +19,9 @@ function findScrollY()
 /*
 Following to be renamed as EasyClickableCanvas
 */
-var EasyClicking = function(element,easyShapesList){
+var EasyClickableCanvas = function(element,easyShapesList){
+	if(typeof element == 'string') element= document.getElementById(element);
+	if(!element) throw "Element doesn't exist!";
 	if(element.easyClicking) {
 		var update = element.easyClicking;
 		return update;
@@ -36,16 +38,20 @@ var EasyClicking = function(element,easyShapesList){
 	element.appendChild(canvas);
 	this.canvas = canvas;
 	this.settings = {};
-	 this.settings.browser = canvas.getContext ? 'good' : 'ie'
+	this.settings.browser = !EasyUtils.browser.isIE ? 'good' : 'ie'
 	this.settings.globalAlpha = 1;
 	this.memory = [];
 	element.easyClicking = this;
-	if(easyShapesList) this.memory = easyShapesList;
-	
+
+	if(easyShapesList) {
+		for(var i=0; i < easyShapesList.length; i++){
+			this.add(easyShapesList[i]);
+		}
+	}
 	
 };
 
-EasyClicking.prototype = {
+EasyClickableCanvas.prototype = {
 	resize: function(width,height){
 		if(this.canvas.getAttribute("width")){
 			this.canvas.width = width;
@@ -58,11 +64,12 @@ EasyClicking.prototype = {
 		this.settings.globalAlpha = alpha
 	}
 	,_setupCanvasEnvironment: function(){
-		if(!this.canvas.getContext) return;
+		if(EasyUtils.browser.isIE) return;
 		var ctx = this.canvas.getContext('2d');
 		var s =this.getTransformation().scale;
 		if(s && s.x)ctx.lineWidth = (0.5 / s.x);
 		ctx.globalAlpha = this.settings.globalAlpha;
+		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 		ctx.lineJoin = 'round'; //miter or bevel or round	
 	}
 	,clear: function(deleteMemory){
@@ -84,15 +91,12 @@ EasyClicking.prototype = {
 	}
 	
 	,render: function(projection){
-
+		
 		this._setupCanvasEnvironment();
-		if(this.settings.browser == 'good'){
-			this.clear();
-		}
-	
 
 		var that = this;
 		var transformation = this.getTransformation();
+	
 		//var f = function(){
 		var ps = 5 / parseFloat(transformation.scale.x);
 		var smallest = 1 / this._iemultiplier;
@@ -131,7 +135,7 @@ EasyClicking.prototype = {
 				 for(var i=0; i < mem.length; i++){
 				 			
 					mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
-				
+			
 					if(mem[i].vmlfill && that.settings.globalAlpha) {
 						mem[i].vmlfill.opacity =that.settings.globalAlpha;
 					}
@@ -147,13 +151,19 @@ EasyClicking.prototype = {
 	//	};f();
 	}
 	,getTransformation: function(){
+		if(!this.transformation) {
+		var ox = parseInt(this.canvas.style.width);
+		var oy = parseInt(this.canvas.style.height);
+		this.transformation = {scale:{x:1,y:1},translate:{x:0,y:0},origin:{x: ox/2, y: oy/2}};
+		//this.transformation = EasyTransformation.getBlankTransformation(this.canvas);
+		}
 		return this.transformation;
 	}
 	
 	,setTransformation: function(transformation){
 		if(transformation) this.transformation = transformation;	
 	}
-	,addToMemory: function(easyShape){
+	,add: function(easyShape){
 		if(!this.memory) this.memory = [];
 		easyShape._easyClickingID = this.memory.length;
 		this.memory.push(easyShape);

@@ -1,2 +1,3 @@
 jshead: AdvancedEditTemplate.js
 jshead: EasyShape.js
+jshead: EasyClickableCanvas.js

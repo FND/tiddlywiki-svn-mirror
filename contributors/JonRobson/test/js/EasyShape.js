@@ -21,10 +21,10 @@ jQuery(document).ready(function() {
 	test("check bounding box of polygon (getBoundingBox)", function() {
 		var actual, expected;
 		var properties = {shape:'polygon', fill: 'rgb(255,0,0)'};
-		var coords = [0,0,100,0,100,100,0,300];
+		var coords = [300,0,100,0,100,100,0,300];
 		var s = new EasyShape(properties,coords);
 		actual = s.getBoundingBox();
-		expected = {x1: 0, x2:100, y1:0,y2:300,width: 100, height:300,"center": { "x": 50, "y": 150 }};
+		expected = {x1: 0, x2:300, y1:0,y2:300,width: 300, height:300,"center": { "x": 150, "y": 150 }};
 		same(actual,expected, "bounding box for polygon has been set correctly");
 	
 	});
@@ -89,21 +89,8 @@ jQuery(document).ready(function() {
 		same(actual,expected, "radius should default to 0.5 and bounding box should be correct");
 	});
 	
-	test("check a change in radius to a point effects the bounding box", function() {
-		/*setup */
-		var actual, expected;
-		var properties = {shape:'point', fill: 'rgb(255,400,0)'};
-		var coords = [20,30];
-		var s = new EasyShape(properties,coords);
 
-		/* run */
-		s.setRadius(10);
 
-		/*verify */
-		var actual = s.getBoundingBox();
-		expected = {x1: 10, x2: 30, y1: 20, y2: 40, width: 20, height:20 center: {x: 20, y: 30}};
-		same(actual,expected, "check radius change has propogated to the bounding box");
-	});
 	
 	
 	test("EasyShape optimise a polygon which is too small for the eye to see", function() {
@@ -111,6 +98,7 @@ jQuery(document).ready(function() {
 		var actual, expected;
 		var properties = {shape:'polygon', fill: 'rgb(255,400,0)'};
 		var coords = [20,30];
+		var beforehijack = EasyOptimisations.easyShapeIsTooSmall;
 		EasyOptimisations.easyShapeIsTooSmall = function(shape,t) { return true; };
 		var s = new EasyShape(properties,coords);
 		
@@ -121,9 +109,10 @@ jQuery(document).ready(function() {
 		/*verify */
 		expected = false;
 		same(actual,expected, " optimise should return false when the shape is too small to be drawn");
+		
+		EasyOptimisations.easyShapeIsTooSmall = beforehijack;
 	});
 	
-
 
 
 	

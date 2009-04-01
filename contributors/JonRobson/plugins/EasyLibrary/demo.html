@@ -1,0 +1,23 @@
+<html>
+<head>
+<script type='text/javascript' src='jquery.js'></script>
+<script type='text/javascript' src='EasyShapes.js'></script>
+<script type='text/javascript' src='EasyClicking.js'></script>
+<script type='text/javascript' src='EasyOptimisations.js'></script>
+<script type='text/javascript' src='EasyClickingUtils.js'></script>
+<script type='text/javascript' src='EasyTransformations.js'></script>
+<script type='text/javascript'>
+function start(){
+var x = new EasyClickableCanvas('xbrowsercanvas');
+x.add(new EasyShape({shape:'polygon',fill:'rgb(255,0,0)'},[0,0,200,0,200,200,0,200]));
+x.render();
+}
+
+</script>
+</head>
+<body>
+
+<div id='xbrowsercanvas' style='width:300px; height:300px; border:solid 1px black;'></div>
+<script>start()</script>
+</body>
+</html>

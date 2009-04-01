@@ -98,7 +98,7 @@ var EasyOptimisations = {
 		var delta = {x:t1,y:t2};
 		delta.x *= s.x;
 		delta.y *= s.y;
-		if(delta.x < 5 && delta.y < 5) 
+		if(delta.x < 10 && delta.y < 10) 
 			{return true;}//too small
 		else
 			return false;

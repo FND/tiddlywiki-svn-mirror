@@ -100,8 +100,9 @@ EasyShape.prototype={
 			var ok =this.optimise(canvas,transformation);
 			if(!ok) return;
 		}
-		
+			
 		if(this.getRenderMode(canvas) == 'ie'){
+		
 			this._ierender(canvas,transformation,projection,optimisations); 
 		}
 		else{	
@@ -182,7 +183,7 @@ EasyShape.prototype={
 		if(shapetype != 'point' && shapetype != 'path'){ //check if worth drawing				
 			if(EasyOptimisations.easyShapeIsTooSmall(this,transformation)) {
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
-				return true;	
+				return false;	
 			}
 			if(!EasyOptimisations.easyShapeIsInVisibleArea(this,canvas,transformation)){
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
@@ -277,6 +278,7 @@ EasyShape.prototype={
 	}
 	,_constructBasicShape: function(properties, coordinates){
 		var shapetype =properties.shape; 
+		if(!shapetype) shapetype = 'polygon';
 		if(shapetype == 'point' || shapetype == 'circle'){
 			this.setCoordinates(coordinates);
 			this.setRadius(0.5);
@@ -486,13 +488,14 @@ EasyVML.prototype = {
 		shape.endAngle = 360;
 		var radius = easyShape.radius;
 		this.el = shape;	
-		jQuery(this.el).css({"height": radius, "width": radius,"position":"absolute","z-index":1});			
+		jQuery(this.el).css({"height": radius, "width": radius,"position":"absolute","z-index":4});			
 	}
 	,_initPoly: function(easyShape,canvas){
 		var shape = document.createElement("easyShapeVml_:shape");
 		this.el = shape;
 	
-		jQuery(this.el).css({"height": canvas.height, "width": canvas.width,"position":"absolute","z-index":1});
+		
+		jQuery(this.el).css({"height": canvas.style.height, "width": canvas.style.width,"position":"absolute","z-index":1});
 	
 	}
 	,getVMLElement: function(){
