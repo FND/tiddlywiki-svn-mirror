@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-	module("EasyShapes");
+	module("EasyShapes:Polygons");
 
 	test("check setup of polygon", function() {
 		var actual, expected;
@@ -15,9 +15,28 @@ jQuery(document).ready(function() {
 
 	});
 
-
-
 	
+	test("EasyShape optimise a polygon which is too small for the eye to see", function() {
+		/*setup */
+		var actual, expected;
+		var properties = {shape:'polygon', fill: 'rgb(255,400,0)'};
+		var coords = [20,30];
+		var beforehijack = EasyOptimisations.easyShapeIsTooSmall;
+		EasyOptimisations.easyShapeIsTooSmall = function(shape,t) { return true; };
+		var s = new EasyShape(properties,coords);
+		
+
+		/* run */
+		actual = s.optimise(false,{});
+
+		/*verify */
+		expected = false;
+		same(actual,expected, " optimise should return false when the shape is too small to be drawn");
+		
+		EasyOptimisations.easyShapeIsTooSmall = beforehijack;
+	});
+	
+
 	test("check bounding box of polygon (getBoundingBox)", function() {
 		var actual, expected;
 		var properties = {shape:'polygon', fill: 'rgb(255,0,0)'};
@@ -58,6 +77,7 @@ jQuery(document).ready(function() {
 	});
 	
 	
+	module("EasyShape:points");
 	test("check setup of point", function() {
 		/*setup */
 		var actual, expected;
@@ -90,31 +110,29 @@ jQuery(document).ready(function() {
 	});
 	
 
-
-	
-	
-	test("EasyShape optimise a polygon which is too small for the eye to see", function() {
-		/*setup */
-		var actual, expected;
-		var properties = {shape:'polygon', fill: 'rgb(255,400,0)'};
-		var coords = [20,30];
-		var beforehijack = EasyOptimisations.easyShapeIsTooSmall;
-		EasyOptimisations.easyShapeIsTooSmall = function(shape,t) { return true; };
-		var s = new EasyShape(properties,coords);
+	module("EasyShape:circle");
+	test("check setup of circle", function(){
+		var c = new EasyShape({shape:'circle',fill:'rgb(0,255,0)'},[50,75,80]);
+		var expected,actual;
 		
-
-		/* run */
-		actual = s.optimise(false,{});
-
-		/*verify */
-		expected = false;
-		same(actual,expected, " optimise should return false when the shape is too small to be drawn");
+		expected = 80;
+		actual = c.getRadius();
+		same(actual,expected,"Radius has correctly been set");
 		
-		EasyOptimisations.easyShapeIsTooSmall = beforehijack;
+		expected = [50,75];
+		actual = c.getCoordinates();
+		same(actual,expected,"coordiantes has correctly been set");	
+
+		expected = "circle";
+		actual = c.getShape();
+		same(actual,expected,"shape type is correct");				
+		
+		expected = {x1:-30,x2:130, y1:-5,y2: 155,center:{x:50,y:75}, width:160, height:160};
+		actual = c.getBoundingBox();
+		same(actual,expected,"shape bounding box is correct");		
+		
 	});
 	
-
-
 	
 	
 

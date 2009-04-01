@@ -28,13 +28,12 @@ var EasyClickableCanvas = function(element,easyShapesList){
 	}
 	var wrapper = element;
 	var canvas = document.createElement('canvas');
-	canvas.width = parseInt(wrapper.style.width);
-	canvas.height = parseInt(wrapper.style.height);
-	canvas.style.width = wrapper.style.width;
-	canvas.style.height = wrapper.style.height;	
 	
-	canvas.style.zIndex = 1;
-	canvas.style.position = "absolute";
+	
+		canvas.width = parseInt(wrapper.style.width);
+		canvas.height = parseInt(wrapper.style.height);
+	
+	jQuery(canvas).css({width:wrapper.style.width, height:wrapper.style.height,'z-index':1,position:'absolute'});
 	element.appendChild(canvas);
 	this.canvas = canvas;
 	this.settings = {};

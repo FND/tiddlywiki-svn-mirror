@@ -59,7 +59,7 @@ var EasyShape = function(properties,coordinates){
 		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
 	}
 	
-	this._constructBasicShape(properties,coordinates);
+	this._construct(properties,coordinates);
 	this.browser =false;
 
 };
@@ -85,8 +85,9 @@ EasyShape.prototype={
 	}
 
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
-		if(pointradius) this.setRadius(pointradius);
-			
+		var st = this.getShape();
+		if(pointradius && st == 'point') this.setRadius(pointradius);
+
 		if(this.getRenderMode(canvas) == 'ie'){
 		
 			this._ierender(canvas,transformation,projection,optimisations); 
@@ -204,11 +205,12 @@ EasyShape.prototype={
 	}
 
 	,_calculateBounds: function(coords){
-		if(this.getProperty("shape") == 'path'){
+		var st = this.getShape();
+		if(st == 'path'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
-		else if(this.getShape() == 'point'){
+		else if(st == 'point' || st == 'circle'){
 				coords = this.getCoordinates();
 				var x = coords[0]; var y = coords[1]; var radius = this.radius;
 				var diameter = radius * 2;
@@ -262,12 +264,13 @@ EasyShape.prototype={
 	,getRadius: function(){
 		return this.radius;
 	}
-	,_constructBasicShape: function(properties, coordinates){
+	,_construct: function(properties, coordinates){
 		var shapetype =properties.shape; 
 		if(!shapetype) shapetype = 'polygon';
 		if(shapetype == 'point' || shapetype == 'circle'){
-			this.setCoordinates(coordinates);
-			this.setRadius(0.5);
+			var radius;if(coordinates[2]) radius = coordinates[2]; else radius = 0.5;
+			this.setCoordinates([coordinates[0],coordinates[1]]);
+			this.setRadius(radius);
 		}
 		else if(shapetype == 'polygon' || shapetype == 'path')
 		{
@@ -289,6 +292,7 @@ EasyShape.prototype={
 	}	
 
 	,_canvasrender: function(canvas,transformation,projection,optimisations, pointsize){
+
 		var c;
 		var easyShape = this;
 		var shapetype =easyShape.getProperty("shape");
@@ -401,7 +405,7 @@ var EasyCanvasRenderer = {
 		var shapetype =easyShape.getProperty("shape");
 		ctx.beginPath();
 		
-		if(shapetype == 'point'){
+		if(shapetype == 'point' || shapetype =='circle'){
 			this.renderPoint(ctx,easyShape);
 		}
 		else{		
@@ -440,16 +444,16 @@ var EasyVML = function(easyShape,canvas){
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 	this.easyShape=  easyShape;
 	var shapetype =easyShape.getShape();
-	
+
 	if(shapetype == 'point'){
-		this._initPoint(easyShape,canvas);
+		this._initArc(easyShape,canvas);
+	}
+	else if(shapetype == 'circle'){
+		this._initArc(easyShape,canvas);
 	}
 	else{
 		this._initPoly(easyShape,canvas);
 	}
-
-
-
 	var xspace = parseInt(canvas.width);
 	xspace *=this._iemultiplier;
 	var yspace =parseInt(canvas.height);
@@ -468,7 +472,7 @@ var EasyVML = function(easyShape,canvas){
 };
 
 EasyVML.prototype = {
-	_initPoint: function(easyShape,canvas){
+	_initArc: function(easyShape,canvas){
 		var shape = document.createElement("easyShapeVml_:arc");
 		shape.startAngle = 0;
 		shape.endAngle = 360;
@@ -479,9 +483,8 @@ EasyVML.prototype = {
 	,_initPoly: function(easyShape,canvas){
 		var shape = document.createElement("easyShapeVml_:shape");
 		this.el = shape;
-	
-		
-		jQuery(this.el).css({"height": canvas.style.height, "width": canvas.style.width,"position":"absolute","z-index":1});
+		this.el.setAttribute("name",easyShape.getProperty("name"));
+		jQuery(this.el).css({"height": canvas.style.height,"width": canvas.style.width,"position":"absolute","z-index":1});
 	
 	}
 	,getVMLElement: function(){
