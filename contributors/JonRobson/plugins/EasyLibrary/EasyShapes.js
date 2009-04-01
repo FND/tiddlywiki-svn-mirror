@@ -182,7 +182,7 @@ EasyShape.prototype={
 		if(shapetype != 'point' && shapetype != 'path'){ //check if worth drawing				
 			if(EasyOptimisations.easyShapeIsTooSmall(this,transformation)) {
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
-				return false;	
+				return true;	
 			}
 			if(!EasyOptimisations.easyShapeIsInVisibleArea(this,canvas,transformation)){
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}

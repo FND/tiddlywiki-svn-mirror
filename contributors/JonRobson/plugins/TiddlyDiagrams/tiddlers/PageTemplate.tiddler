@@ -1,0 +1,8 @@
+<div title="PageTemplate">
+<pre>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+</pre>
+</div>

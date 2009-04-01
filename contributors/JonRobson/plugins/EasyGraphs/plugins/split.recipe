@@ -1,3 +1,0 @@
-tiddler: TiddlyDiagramPlugin.js ../../EasyLibrary/EasyDiagrams/EasyDiagramming.js ../../EasyLibrary/EasyDiagrams/EasyColorSlider.js ../../EasyLibrary/EasyDiagrams/EasyDrawingToolbar.js ../../EasyLibrary/EasyDiagrams/EasyGraphs.js ../../EasyLibrary/EasyDiagrams/EasyGraphNode.js  ../../EasyLibrary/EasyDiagrams/EasyGraphUtils.js ../../EasyLibrary/EasyTransformations.js ../../../plugins/EasyLibrary/EasyController.js ../../../plugins/EasyLibrary/EasyShapes.js ../../../plugins/EasyLibrary/EasyClicking.js ../../../plugins/EasyLibrary/EasyClickingUtils.js
-tiddler: ../tiddlers/ViewTemplate.tiddler
-#../../EasyLibrary/EasyDiagrams/EasyDiagramEditor.js
