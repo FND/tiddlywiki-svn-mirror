@@ -4,12 +4,12 @@
 |''Author:''|Jeremy Ruston (jeremy (at) osmosoft (dot) com)|
 |''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/CecilyPlugin.js|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/CecilyPlugin.js|
-|''Version:''|0.0.9|
+|''Version:''|0.1.1|
 |''Status:''|Under Development|
-|''Date:''|July 20, 2008|
+|''Date:''|Apr 1, 2009|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|BSD|
-|''~CoreVersion:''|2.4.0|
+|''~CoreVersion:''|2.5.0|
 ***/
 
 //{{{
@@ -26,7 +26,7 @@ function interpolateLinear(t,a,b) {
 }
 
 function interpolateQuad(t,a,b,c) {
-	return Math.pow(1 - t,2) * a + 2 * t * (1 -t) * b + t * t * c;
+	return Math.pow(1 - t,2) * a + 2 * t * (1 - t) * b + t * t * c;
 }
 
 // Point class {x:,y:}
@@ -103,19 +103,21 @@ Rect.prototype.midPoint = function() {
 }
 
 //-----------------------------------------------------------------------------------
-// Generic helper functions
+// Generic DOM helper functions
 //-----------------------------------------------------------------------------------
 
 // Given a point in the coordinates of a target element, compute the coordinates relative to a specified base element
 function normalisePoint(base,target,pt) {
 	var e = target;
-	var parent = target.offsetParent;
 	var r = new Point(pt.x,pt.y);
-	while(e !== base && parent) {
-		r.x += parent.offsetLeft;
-		r.y += parent.offsetTop;
-		e = parent;
-		parent = e.offsetParent;
+	var parent = target.offsetParent;
+	while(e && e !== base) {
+		if(e == parent) {
+			r.x += parent.offsetLeft;
+			r.y += parent.offsetTop;
+			parent = parent.offsetParent;
+		}
+		e = e.parentNode;
 	}
 	if(e == base)
 		return r;
@@ -124,7 +126,7 @@ function normalisePoint(base,target,pt) {
 }
 
 // Checks which of an array of classes are applied to a given element. Returns an array of the classes that are found
-function hasAnyClass(e,classNames)
+function hasClasses(e,classNames)
 {
 	var classes = e.className ? e.className.split(" ") : [];
 	var results = [];
@@ -216,6 +218,85 @@ cecilyTransform.prototype.getFlowedBounds = function() {
 };
 
 //-----------------------------------------------------------------------------------
+// cecilyViewer mechanism
+//-----------------------------------------------------------------------------------
+
+// Set up a zoomable viewer
+//   frameElement - frame element that contains the zoomable sheet
+//   sheetElement - child element of frame that is panned and zoomed within the frame
+//	 backgroundName - name of background to use
+function cecilyViewer(frameElement,sheetElement,backgroundName)
+{
+	addClass(frameElement,"cecilyViewer");
+	frameElement.cecilyViewer = this;
+	this.frameElement = frameElement;
+	this.sheetElement = sheetElement;
+	this.viewBounds = new Rect(0,0,100,100);
+	this.createBackground();
+	this.setBackground(backgroundName);
+	this.drawBackground(this.viewBounds);
+}
+
+// Moves the viewport to accommodate the specified rectangle
+cecilyViewer.prototype.setView = function(newBounds) {
+	this.viewBounds = newBounds;
+	var w = this.frameElement.offsetWidth;
+	var h = this.frameElement.offsetHeight;
+	var centre = newBounds.midPoint();
+	this.viewBounds = new Rect(newBounds);
+	if((w/h) > (newBounds.w/newBounds.h)) {
+		this.viewBounds.w = newBounds.h * (w/h);
+	} else {
+		this.viewBounds.h = newBounds.w * (h/w);
+	}
+	this.viewBounds.x = centre.x - this.viewBounds.w/2;
+	this.viewBounds.y = centre.y - this.viewBounds.h/2;
+	var s = w/this.viewBounds.w;
+	var transform = "scale(" + s + ") translate(" + -this.viewBounds.x + "px," + -this.viewBounds.y + "px)";
+	this.sheetElement.style[Cecily.cssTransform] = transform;
+	config.macros.cecilyZoom.propagate(s);
+	this.drawBackground();
+}
+
+// Resize the viewer
+cecilyViewer.prototype.onResize = function() {
+	this.canvasElement.width = this.frameElement.offsetWidth;
+	this.canvasElement.height = this.frameElement.offsetHeight;
+}
+
+// Set up a background canvas
+cecilyViewer.prototype.createBackground = function()
+{
+	var w = this.frameElement.offsetWidth;
+	var h = this.frameElement.offsetHeight;
+	this.canvasElement = createTiddlyElement(null,"canvas",null,"cecilyCanvas");
+	this.canvasElement.width = w;
+	this.canvasElement.height = h;
+	this.frameElement.insertBefore(this.canvasElement,this.frameElement.firstChild);
+}
+
+// Sets a new background
+cecilyViewer.prototype.setBackground = function(backgroundName) {
+	this.backgroundName = backgroundName;
+	this.background = Cecily.backgrounds[backgroundName];
+}
+
+cecilyViewer.prototype.getBackground = function() {
+	return this.backgroundName;
+}
+
+// Draws the current background
+cecilyViewer.prototype.drawBackground = function() {
+	if(this.background && this.background.drawBackground) {
+		this.background.drawBackground(this.canvasElement,this.viewBounds);
+	} else {
+		var ctx = this.canvasElement.getContext('2d');
+		ctx.fillStyle = "#eecccc";
+		ctx.fillRect(0, 0, this.canvasElement.width, this.canvasElement.height);
+	}
+};
+
+//-----------------------------------------------------------------------------------
 // Zoom macro
 //-----------------------------------------------------------------------------------
 
@@ -240,12 +321,12 @@ config.macros.cecilyZoom.handler = function(place,macroName,params,wikifier,para
 			if(cecily) {
 				var w = cecily.frame.offsetWidth;
 				var h = cecily.frame.offsetHeight;
-				var cx = cecily.view.x + cecily.view.w/2;
-				var cy = cecily.view.y + cecily.view.h/2;
+				var cx = cecily.viewer.viewBounds.x + cecily.viewer.viewBounds.w/2;
+				var cy = cecily.viewer.viewBounds.y + cecily.viewer.viewBounds.h/2;
 				var newView = new Rect(0,0,w / value,h / value);
 				newView.x = cx - newView.w/2;
 				newView.y = cy - newView.h/2;
-				cecily.setView(newView);
+				cecily.viewer.setView(newView);
 			}
 		}
 	});
@@ -283,7 +364,7 @@ config.macros.cecilyBackground.handler = function(place,macroName,params,wikifie
 		createTiddlyElement(place,"span",null,"cecilyLabel","background ");
 		var onchange = function(ev) {
 			var sel = this.options[this.selectedIndex].value;
-			if(sel != cecily.background) {
+			if(sel != cecily.viewer.getBackground()) {
 				cecily.setBackground(sel);
 			}
 		};
@@ -291,7 +372,7 @@ config.macros.cecilyBackground.handler = function(place,macroName,params,wikifie
 		for(var t in Cecily.backgrounds) {
 			options.push({name: t, caption: Cecily.backgrounds[t].title});
 		}
-		var d = createTiddlyDropDown(place,onchange,options,cecily.background);
+		var d = createTiddlyDropDown(place,onchange,options,cecily.viewer.getBackground());
 		addClass(d,"cecilyBackground");
 	}
 };
@@ -351,7 +432,6 @@ config.macros.cecilyMap.propagate = function(map) {
 
 function Cecily()
 {
-	this.background = config.options.txtCecilyBackground ? config.options.txtCecilyBackground : "plain";
 	this.mapTitle = config.options.txtCecilyMap ? config.options.txtCecilyMap : "MyMap";
 	this.drag = null;
 	this.map = null;
@@ -364,10 +444,13 @@ Cecily.prototype.createDisplay = function() {
 	this.container = document.getElementById(story.containerId());
 	this.frame = this.container.parentNode;
 	addClass(this.frame,"cecily");
-	this.canvas = createTiddlyElement(null,"canvas",null,"cecilyCanvas");
-	this.frame.insertBefore(this.canvas,this.frame.firstChild);
 	this.setViewSize();
-	this.setView(new Rect(0,0,25000,12000));
+	
+	var background = config.options.txtCecilyBackground ? config.options.txtCecilyBackground : "plain";
+	this.viewer = new cecilyViewer(this.frame,this.container,background);
+	
+	this.viewer.setView(new Rect(0,0,250,120));
+	
 	this.initScroller();
 	var me = this;
 	this.addEventHandler(window,"resize",this.onWindowResize,false);
@@ -384,17 +467,17 @@ Cecily.prototype.createDisplay = function() {
 Cecily.prototype.setViewSize = function() {
 	var h = findWindowHeight();
 	this.frame.style.height = h + "px";
-	this.canvas.width = this.frame.offsetWidth;
-	this.canvas.height = this.frame.offsetHeight;
 }
 
 Cecily.prototype.addEventHandler = function(element,type,handler,capture) {
 	var me = this;
 	element.addEventListener(type,function (ev) {
+		// Safari has offsetX/Y
+		// Firefox has layerX/Y
 		if(ev.offsetX === undefined)
-			ev.offsetX = ev.clientX;
+			ev.offsetX = ev.layerX;
 		if(ev.offsetY === undefined)
-			ev.offsetY = ev.clientY;
+			ev.offsetY = ev.layerY;
 		if(ev.toElement === undefined)
 			ev.toElement = ev.relatedTarget;
 		return handler.call(me,ev);
@@ -403,21 +486,22 @@ Cecily.prototype.addEventHandler = function(element,type,handler,capture) {
 
 Cecily.prototype.onWindowResize = function(ev) {
 	this.setViewSize();
-	this.drawBackground();
+	this.viewer.onResize();
+	this.viewer.drawBackground();
 	return false;
 }
 
 Cecily.prototype.onMouseWheel = function(ev) {
-	var newView = new Rect(this.view);
-	newView.x -= (ev.wheelDeltaX/120) * (this.view.w/16);
-	newView.y -= (ev.wheelDeltaY/120) * (this.view.w/16);
-	this.setView(newView);
+	var newView = new Rect(this.viewer.viewBounds);
+	newView.x -= (ev.wheelDeltaX/120) * (this.viewer.viewBounds.w/16);
+	newView.y -= (ev.wheelDeltaY/120) * (this.viewer.viewBounds.w/16);
+	this.viewer.setView(newView);
 	return false;
 };
 
 Cecily.prototype.onMouseClickBubble = function(ev) {
 	var tiddler = story.findContainingTiddler(ev.target);
-	if(tiddler && this.drag === null && hasAnyClass(ev.target,["tiddlyLink","toolbar","title","tagged"]).length == 0) {
+	if(tiddler && this.drag === null && hasClasses(ev.target,["tiddlyLink","toolbar","title","tagged"]).length == 0) {
 		// The next bit is equivalent to tiddler.parentNode.insertBefore(tiddler,null); but avoids moving
 		// the element that was clicked on
 		while(tiddler.nextSibling) {
@@ -485,8 +569,7 @@ Cecily.draggers.tiddlerDragger = {
 	dragMove: function(cecily,target,ev) {
 		var dragThis = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
 		if(dragThis) {
-			var s = cecily.frame.offsetWidth/cecily.view.w;
-			console.log(cecily.drag.tiddler.cecilyTransform.bounds.x);
+			var s = cecily.frame.offsetWidth/cecily.viewer.viewBounds.w;
 			var pos = new Rect(cecily.drag.tiddler.cecilyTransform.bounds.x + (dragThis.x - cecily.drag.lastPoint.x) / s,
 								cecily.drag.tiddler.cecilyTransform.bounds.y + (dragThis.y - cecily.drag.lastPoint.y) / s,
 								cecily.drag.tiddler.cecilyTransform.bounds.w, cecily.drag.tiddler.cecilyTransform.bounds.h);
@@ -514,7 +597,7 @@ Cecily.draggers.tiddlerResizer = {
 		addClass(tiddler,"drag");
 	},
 	dragMove: function(cecily,target,ev) {
-		var s = cecily.frame.offsetWidth/cecily.view.w;
+		var s = cecily.frame.offsetWidth/cecily.viewer.viewBounds.w;
 		var dragThis = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
 		if(dragThis) {
 			var pos = new Rect(cecily.drag.tiddler.cecilyTransform.bounds);
@@ -532,18 +615,18 @@ Cecily.draggers.tiddlerResizer = {
 
 Cecily.draggers.backgroundDragger = {
 	isDrag: function(cecily,target,ev) {
-		return target === cecily.canvas;
+		return target === cecily.viewer.canvasElement;
 	},
 	dragDown: function(cecily,target,ev) {
 		cecily.drag.lastPoint = {x: ev.offsetX, y: ev.offsetY};
 	},
 	dragMove: function(cecily,target,ev) {
-		var s = cecily.frame.offsetWidth/cecily.view.w;
-		var newView = new Rect(cecily.view);
+		var s = cecily.frame.offsetWidth/cecily.viewer.viewBounds.w;
+		var newView = new Rect(cecily.viewer.viewBounds);
 		newView.x -= (ev.offsetX - cecily.drag.lastPoint.x)/s;
 		newView.y -= (ev.offsetY - cecily.drag.lastPoint.y)/s;
 		cecily.drag.lastPoint = {x: ev.offsetX, y: ev.offsetY};
-		cecily.setView(newView);
+		cecily.viewer.setView(newView);
 	},
 	dragUp: function(cecily,target,ev) {
 	}
@@ -680,29 +763,9 @@ Cecily.prototype.setMap = function(title)
 		var pos = me.getTiddlerPosition(tiddler);
 		elem.cecilyTransform.transform({bounds: pos});
 	});
-	this.drawBackground();
+	this.viewer.drawBackground();
 	config.macros.cecilyMap.propagate(title);
 }
-
-// Moves the viewport to accommodate the specified rectangle
-Cecily.prototype.setView = function(newView) {
-	var w = this.frame.offsetWidth;
-	var h = this.frame.offsetHeight;
-	var centre = newView.midPoint();
-	this.view = new Rect(newView);
-	if((w/h) > (newView.w/newView.h)) {
-		this.view.w = newView.h * (w/h);
-	} else {
-		this.view.h = newView.w * (h/w);
-	}
-	this.view.x = centre.x - this.view.w/2;
-	this.view.y = centre.y - this.view.h/2;
-	var s = w/this.view.w;
-	var transform = "scale(" + s + ") translate(" + -this.view.x + "px," + -this.view.y + "px)";
-	this.container.style[Cecily.cssTransform] = transform;
-	config.macros.cecilyZoom.propagate(s);
-	this.drawBackground();
-};
 
 Cecily.prototype.startHightlight = function(elem) {
 	var me = this;
@@ -748,10 +811,10 @@ Cecily.prototype.scrollToTiddler = function(tiddler) {
 	if(tiddlerElem) {
 		this.startHightlight(tiddlerElem);
 		var targetRect = new Rect(tiddlerElem.cecilyTransform.getFlowedBounds());
-		if(this.view.contains(targetRect)) {
+		if(this.viewer.viewBounds.contains(targetRect)) {
 			this.startScroller([targetRect.scale(1.2)]);
 		} else {
-			var passingRect = this.view.union(targetRect);
+			var passingRect = this.viewer.viewBounds.union(targetRect);
 			this.startScroller([passingRect.scale(1.1),targetRect.scale(1.2)]);
 		}
 	}
@@ -770,10 +833,10 @@ Cecily.prototype.initScroller = function() {
 			t = 1;
 		switch(s.rectList.length) {
 			case 2:
-				me.setView(s.rectList[0].interpolateLinear(t,s.rectList[1]));
+				me.viewer.setView(s.rectList[0].interpolateLinear(t,s.rectList[1]));
 				break;
 			case 3:
-				me.setView(s.rectList[0].interpolateQuad(t,s.rectList[2],s.rectList[1]));
+				me.viewer.setView(s.rectList[0].interpolateQuad(t,s.rectList[2],s.rectList[1]));
 				break;
 		}
 		if(t == 1) {
@@ -786,7 +849,7 @@ Cecily.prototype.initScroller = function() {
 
 Cecily.prototype.startScroller = function(rectList,duration) { // One or more rectangles to scroll to in turn
 	var s = this.scroller;
-	s.rectList = [this.view];
+	s.rectList = [this.viewer.viewBounds];
 	for(var r = 0; r < Math.min(rectList.length,2); r++)
 		s.rectList.push(rectList[r]);
 	s.animationStart = new Date();
@@ -799,22 +862,11 @@ Cecily.prototype.startScroller = function(rectList,duration) { // One or more re
 };
 
 Cecily.prototype.setBackground = function(background) {
-	cecily.background = background;
 	config.options.txtCecilyBackground = background;
 	saveOptionCookie("txtCecilyBackground");
-	cecily.drawBackground();
+	this.viewer.setBackground(background);
+	this.viewer.drawBackground();
 	config.macros.cecilyBackground.propagate(background);
-};
-
-Cecily.prototype.drawBackground = function() {
-	var b = Cecily.backgrounds[this.background];
-	if(b) {
-		b.drawBackground(this.canvas,this.view);
-	} else {
-		var ctx = this.canvas.getContext('2d');
-		ctx.fillStyle = "#cccccc";
-		ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-	}
 };
 
 //-----------------------------------------------------------------------------------
@@ -998,7 +1050,6 @@ Cecily.backgrounds.experimental = {
 			y = y * h;
 			r = r * w;
 			drawCircle(x,y,r);
-				ctx.drawWindow(window, 0, 0, 100, 200, "rgb(0,0,0)");
 		}
 };
 
@@ -1013,10 +1064,10 @@ Cecily.backgrounds.honeycomb = {
 			t = Math.max(t,0);
 			t = Math.min(t,1);
 			var ctx = canvas.getContext('2d');
-			ctx.fillStyle = "#cccc88";
+			ctx.fillStyle = "#eeeecc";
 			ctx.fillRect(0, 0, w, h);
 			var drawCircle = function(x,y,r,c) {
-				ctx.fillStyle = c ? c : '#bbbb66';
+				ctx.fillStyle = c ? c : '#88ff88';
 				ctx.beginPath();
 				ctx.arc(x,y,r,0,2*Math.PI,0);
 				ctx.fill();
@@ -1024,10 +1075,10 @@ Cecily.backgrounds.honeycomb = {
 			var modulo = function(num,denom) {
 				return num-Math.floor(num/denom)*denom;
 			}
-			var gapX = 2000 * scale;
+			var gapX = 200 * scale;
 			var yscale = Math.sin(Math.PI/3)*2;
 			var gapY = gapX * yscale;
-			var radius = 600 * scale;
+			var radius = 60 * scale;
 			if(gapX < 15) {
 				gapX = 15;
 				gapY = 15;
@@ -1038,8 +1089,8 @@ Cecily.backgrounds.honeycomb = {
 			
 			for(var y = -modulo(view.y * scale,gapY) - gapY; y < h + gapY; y += gapY) {
 				for(var x = -modulo(view.x * scale,gapX) - gapX; x < w + gapX; x += gapX) {
-					drawCircle(x,y,radius);
-					drawCircle(x + gapX/2,y + gapY/2,radius);
+					drawCircle(x,y,radius,"#ddddbb");
+					drawCircle(x + gapX/2,y + gapY/2,radius,"#ddddbb");
 					/*
 					drawCircle(x,y,radius/2,"#555577");
 					drawCircle(x + gapX/4,y + gapY/4,radius/2,"#555577");
