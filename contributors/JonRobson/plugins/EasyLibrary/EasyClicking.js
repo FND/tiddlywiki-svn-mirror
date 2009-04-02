@@ -223,7 +223,8 @@ EasyClickableCanvas.prototype = {
 		}
 		
 		var node = EasyClickingUtils.resolveTarget(e);
-		if(node.getAttribute("class") == 'easyShape') { //vml easyShape
+		//alert(node.tagName);
+		if(node.tagName.toUpperCase() == 'SHAPE') { //vml easyShape
 			return node.easyShape;
 		}
 		var target = EasyClickingUtils.resolveTargetWithEasyClicking(e);

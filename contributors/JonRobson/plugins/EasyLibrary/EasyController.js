@@ -233,7 +233,7 @@ EasyController.prototype = {
 			
 			that.wrapper.onmousemove = onmousemove;
 			that.wrapper.style.cursor= "move";
-			this.style.cursor = "move";
+
 		
 		};
 		
@@ -260,24 +260,24 @@ EasyController.prototype = {
 	},
 	createButtonLabel: function(r,type){
 		var properties=  {'shape':'path', stroke: '#000000',lineWidth: '1'};
-		
+		properties.actiontype = type;
 		var coords=[];
-		if(type == 'earrow'){
+		if(type == 'E'){
 			coords =[r,0,-r,0,'M',r,0,0,-r,"M",r,0,0,r];
 		}
-		else if(type =='warrow'){
+		else if(type =='W'){
 			coords =[-r,0,r,0,'M',-r,0,0,r,"M",-r,0,0,-r]; 
 		}
-		else if(type == 'sarrow'){
+		else if(type == 'S'){
 			coords =[0,-r,0,r,'M',0,r,-r,0,"M",0,r,r,0];	
 		}
-		else if(type == 'narrow'){
+		else if(type == 'N'){
 			coords =[0,-r,0,r,'M',0,-r,r,0,"M",0,-r,-r,0];	
 		}
-		else if(type == 'plus'){
+		else if(type == 'in'){
 			coords =[-r,0,r,0,"M",0,-r,0,r];
 		}
-		else if(type == 'minus'){
+		else if(type == 'out'){
 			coords = [-r,0,r,0];
 		}
 		
@@ -301,9 +301,8 @@ EasyController.prototype = {
 		properties.fill ='rgba(150,150,150,0.7)';
 		var button = new EasyShape(properties,coords);
 		button.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:0,y:0}});
-		var label = this.createButtonLabel(r,properties.buttonType);
+		var label = this.createButtonLabel(r,properties.actiontype);
 		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r}});
-		
 		canvas.easyClicking.add(button);
 		return button;
 	},	
@@ -431,7 +430,6 @@ EasyController.prototype = {
 		if(!t.scale) t.scale = {x:1,y:1};
 		if(!t.translate) t.translate = {x:0,y:0};
 		if(!t.rotate) t.rotate = {x:0,y:0,z:0};
-
 		switch(hit.properties.actiontype) {
 			case "W":
 				t.translate.x += pan.x;
