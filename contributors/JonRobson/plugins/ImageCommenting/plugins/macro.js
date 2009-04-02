@@ -142,7 +142,12 @@ config.macros.ImageComment = {
 
 				cc.render();
 				var control = new EasyController(cc,newel);
-							cc.setOnMouse(down,false,move,dblclick);	
+
+				box.onmousedown= function(e){box.style.display = "none";newel.onmousedown(e); box.style.display = "";}
+
+				cc.setOnMouse(down,false,move,dblclick);	
+							
+
 				newel.appendChild(box);
 				place.appendChild(newel);	
 				config.macros.ImageComment.loadComments(cc,title,src);			
