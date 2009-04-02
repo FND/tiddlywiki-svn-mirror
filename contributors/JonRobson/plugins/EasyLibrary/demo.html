@@ -15,9 +15,9 @@ var c = new EasyController(x,'xbrowsercanvas');
 x.add(new EasyShape({shape:'polygon',fill:'rgb(255,0,0)'},[0,0,200,0,200,200,0,200]));
 x.add(new EasyShape({shape:'image',src:'test.jpg',width:20,height:20},[-50,20]));
 x.add(new EasyShape({shape:'point',fill:'rgb(0,255,0)'},[-50,-80]));
-x.add(new EasyShape({shape:'circle',fill:'rgb(0,0,255)'},[-40,0,20]));
+x.add(new EasyShape({shape:'circle',fill:'rgb(0,0,255)',onmousedown: function(e,s){if(s)document.getElementById('shapetype').innerHTML = "special " + s.getProperty("shape");}},[-40,0,20]));
 
-x.setOnMouse(function(e,s){if(s)console.log(s.getProperty("shape"));});
+x.setOnMouse(function(e,s){if(s)document.getElementById('shapetype').innerHTML = s.getProperty("shape");});
 
 x.render();
 }
@@ -27,6 +27,7 @@ x.render();
 <body>
 
 <div id='xbrowsercanvas' style='width:300px; height:300px; border:solid 1px black;'></div>
+you clicked on a <span id='shapetype'></span>
 <script>start()</script>
 </body>
 </html>

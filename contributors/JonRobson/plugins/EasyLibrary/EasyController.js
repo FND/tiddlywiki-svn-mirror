@@ -338,24 +338,13 @@ EasyController.prototype = {
 	
 	_createcontrollercanvas: function(width,height){
 		var newCanvas = document.createElement('canvas');
-		newCanvas.style.width = width;
-		newCanvas.style.height = height;
+		jQuery(newCanvas).css({width: width, height:height,position:"absolute",left:0,top:0,'z-index': 3});
 		newCanvas.width = width;
 		newCanvas.height = height;
-		newCanvas.style.position = "absolute";
-		newCanvas.style.left = 0;
-		newCanvas.style.top = 0;
-		newCanvas.style.zIndex = 3;
 		newCanvas.setAttribute("class","easyControl");
 		this.wrapper.appendChild(newCanvas);
-
-		if(!newCanvas.getContext) {
-			newCanvas.browser = 'ie';
-		}
 		newCanvas.easyController = this;
 		newCanvas.easyClicking = new EasyClickableCanvas(newCanvas);
-		
-		//newCanvas.memory = [];
 		return newCanvas;
 	},
 	addPanningActions: function(controlDiv){
@@ -418,8 +407,6 @@ EasyController.prototype = {
 		if(!hit) {
 			return false;
 		}
-		if(!hit.properties) return false;
-		
 		var pan = {};
 		var t =controller.transformation;
 		//console.log(t.rotate,"hit");

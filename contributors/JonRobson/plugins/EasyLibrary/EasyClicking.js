@@ -71,11 +71,16 @@ EasyClickableCanvas.prototype = {
 		this.onmousemove = function(e,s){};
 		var down = this.wrapper.onmousedown;
 		var that = this;
-		this.wrapper.onmousedown = function(e){ var s = newbehaviour(e); if(down)down(e,s); that.onmousedown(e,s);}
+		this.wrapper.onmousedown = function(e){ 
+			var s = newbehaviour(e); 
+			if(down)down(e,s);
+			if(s && s.getProperty("onmousedown"))s.getProperty("onmousedown")(e,s);		
+			else that.onmousedown(e,s);
+		}
 		var up = this.wrapper.onmouseup;
-		this.wrapper.onmouseup = function(e){ var s = newbehaviour(e); if(up)up(e,s); that.onmouseup(e,s);}
+		this.wrapper.onmouseup = function(e){ var s = newbehaviour(e); if(up)up(e,s);	if(s && s.getProperty("onmouseup"))s.getProperty("onmouseup")(e,s);else that.onmouseup(e,s);}
 		var mv = this.wrapper.onmousemove;
-		this.wrapper.onmousemove = function(e){ var s = newbehaviour(e); if(mv)mv(e,s); that.onmousemove(e,s);}
+		this.wrapper.onmousemove = function(e){ var s = newbehaviour(e); if(mv)mv(e,s); if(s && s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);else that.onmousemove(e,s);}
 	}
 	,resize: function(width,height){
 		if(this.canvas.getAttribute("width")){
