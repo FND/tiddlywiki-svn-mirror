@@ -62,7 +62,7 @@ tags: systemTheme
 
 </div>
 
-<div macro='gradient vert #fff #f0f0f0' style="top:-3em">
+<div macro='gradient vert #FBFAF8 #f0f0f0' style="top:-3em">
 
 <div class='leftColumn'>
 
@@ -81,16 +81,27 @@ tags: systemTheme
 		</div>
 
 	</div>
+	
+	<div class="portletContainer">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+		<div class='title'>Crafted by</div>
+			</div>
+		</div>
+		<div class="portletContent">
+		<center><br/>
+		<img src='http://farm4.static.flickr.com/3461/3348345219_37d4d5ecd3.jpg' height="23px" /><br/><br/>
+		<img src='http://labs.bt.com/projects/agents/zeus/images/BT_200pix_pos.gif' height="33px" /><br/><br/>
+		<img src='http://www.projects.unamesa.org/space/showlogo/1234912128/logo.gif' height="43px" /><br /><br/>
+		</center>
 
-	<div class='providedBy'>
-	<h5> Crafted By </h5>
-	<img src='http://farm4.static.flickr.com/3461/3348345219_37d4d5ecd3.jpg' height="23px" />
-	<img src='http://labs.bt.com/projects/agents/zeus/images/BT_200pix_pos.gif' height="23px" />
-	<img src='http://www.projects.unamesa.org/space/showlogo/1234912128/logo.gif' height="23px" />
-
-
+		</div>
 
 	</div>
+	
+
 </div>
 <br />
 <div id='tiddlerDisplay'></div>
@@ -276,7 +287,7 @@ font-size:0.8em;
  color:#white;
 }
 #topBar2 {
-	background-color:#aaa;
+	background-color:#061f40;
 	width:99%;
 	color:white;
 	font-size:0.8em;
@@ -340,12 +351,12 @@ border:1px solid black;
 
 
 .siteTitle {
-font-size:1em;
+font-size:1.3em;
 	color:#fff;
 }
 
 .siteSubtitle{
-font-size:0.8em;
+font-size:1em;
 color:#ddd;
 }
 
@@ -622,7 +633,7 @@ form.wizard, .wizard .wizardFooter{
 		}
 		a.roundButton {
 		    background: transparent url('plugins/TiddlyDocs/files/images/bg_button_a.png') no-repeat scroll top right;
-		    color: #444;
+		    color: black;
 
 		    float: left;
 		    font-size:0.9em;

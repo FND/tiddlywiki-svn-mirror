@@ -40,11 +40,16 @@ config.macros.editHtml = {
 		var field = params[0];
 		var height = params[1] ? params[1] : config.options.txtFCKheight;
 		if (typeof FCKeditor=="undefined"){
+			
+			
 			displayMessage(config.macros.editHtml.FCKeditorUnavailable);
 			config.macros.edit.handler(place,macroName,params,wikifier,paramString,tiddler);
 
 		}
 		else if (field) {
+
+			console.log("got to here");
+
 			var e = createTiddlyElement(null,"div");
 			var fckName = "FCKeditor"+ Math.random();
 			if(tiddler.isReadOnly())
@@ -65,10 +70,13 @@ config.macros.editHtml = {
 			value=value.replace(/\[\[([^|\]]*)\|([^\]]*)]]/g,'<a href="#$2">$1</a>');
 			config.macros.editHtml.FCKvalues[fckName]=value;
 			e.innerHTML = fck.CreateHtml();
+			
+			console.log("reached the end", fck);
 		}
 	},
         gather : function(e) {
             var name = e.getAttribute("fckName");
+
             var oEditor = window.FCKeditorAPI ? FCKeditorAPI.GetInstance(name) : null;
             if (oEditor) {
                         var html = oEditor.GetHTML();
