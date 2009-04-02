@@ -17,7 +17,7 @@ x.add(new EasyShape({shape:'image',src:'test.jpg',width:20,height:20},[-50,20]))
 x.add(new EasyShape({shape:'point',fill:'rgb(0,255,0)'},[-50,-80]));
 x.add(new EasyShape({shape:'circle',fill:'rgb(0,0,255)'},[-40,0,20]));
 
-
+x.setOnMouse(function(e,s){if(s)console.log(s.getProperty("shape"));});
 
 x.render();
 }

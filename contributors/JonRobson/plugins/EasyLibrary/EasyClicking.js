@@ -32,7 +32,7 @@ var EasyClickableCanvas = function(element,easyShapesList){
 	
 		canvas.width = parseInt(wrapper.style.width);
 		canvas.height = parseInt(wrapper.style.height);
-	
+	if(!element.className)element.className = "EasyClickableCanvas";
 	jQuery(canvas).css({width:wrapper.style.width, height:wrapper.style.height,'z-index':1,position:'absolute'});
 	element.appendChild(canvas);
 	this.canvas = canvas;
@@ -47,11 +47,37 @@ var EasyClickableCanvas = function(element,easyShapesList){
 			this.add(easyShapesList[i]);
 		}
 	}
-	
+	this.wrapper = wrapper;
+	this._setupMouse();
 };
 
 EasyClickableCanvas.prototype = {
-	resize: function(width,height){
+	setOnMouse: function(down,up,move){
+		if(down)this.onmousedown = down;
+		if(up)this.onmouseup = up;
+		if(move)this.onmousemove=  move;
+	}
+	,_setupMouse: function(){
+		var that = this;
+		var newbehaviour = function(e){
+				var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
+				if(t.getAttribute("class") == 'easyControl') return false;
+				var shape = that.getShapeAtClick(e);
+				return shape;
+			
+		};
+		this.onmousedown = function(e,s){};
+		this.onmouseup = function(e,s){};
+		this.onmousemove = function(e,s){};
+		var down = this.wrapper.onmousedown;
+		var that = this;
+		this.wrapper.onmousedown = function(e){ var s = newbehaviour(e); if(down)down(e,s); that.onmousedown(e,s);}
+		var up = this.wrapper.onmouseup;
+		this.wrapper.onmouseup = function(e){ var s = newbehaviour(e); if(up)up(e,s); that.onmouseup(e,s);}
+		var mv = this.wrapper.onmousemove;
+		this.wrapper.onmousemove = function(e){ var s = newbehaviour(e); if(mv)mv(e,s); that.onmousemove(e,s);}
+	}
+	,resize: function(width,height){
 		if(this.canvas.getAttribute("width")){
 			this.canvas.width = width;
 			this.canvas.height = height;
@@ -250,9 +276,21 @@ EasyClickableCanvas.prototype = {
 	_findNeedleInHaystack: function(x,y,shapes){
 		var hits = [];
 		for(var i=0; i < shapes.length; i++){
-			if(this._inPoly(x,y,shapes[i])) {
+			var st = shapes[i].getShape();
+			var itsahit = false;
+			if(st == 'polygon'){
+				itsahit = this._inPoly(x,y,shapes[i]);
+			}
+			else if(st == 'image'){
+				itsahit = true;
+			}
+			else if(st == 'point' || st == 'circle'){
+				itsahit = this._inCircle(x,y,shapes[i]);
+			}
+			if(itsahit) {
 				hits.push(shapes[i]);
 			}
+			
 		}
 
 		if(hits.length == 0){
@@ -278,9 +316,15 @@ EasyClickableCanvas.prototype = {
 		
 		}
 
-	},
-	_inPoint: function(x,y,easyShape,transformation){
-		
+	}
+	,_inCircle: function(x,y,easyShape){
+		var bb = easyShape.getBoundingBox();
+
+		var a =((x - bb.center.x)*(x - bb.center.x)) + ((y - bb.center.y)*(y - bb.center.y));
+		var b = easyShape.getRadius();
+		b *= b;
+		if (a <= b) return true;
+		else return false;
 	
 	}
 	,_inPoly: function(x,y,easyShape) {
@@ -322,8 +366,6 @@ EasyClickableCanvas.prototype = {
 		 }
 		 return inside;
 	}
-	,_inCircle: function(x,y,easyShape){
-	
-	}
+
 };
 

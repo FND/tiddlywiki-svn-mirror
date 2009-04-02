@@ -260,8 +260,9 @@ EasyDiagram.prototype = {
 		
 		var omd = this.wrapper.onmousedown;
 		this.wrapper.onmousedown = function(e){
+			this.selectedShape = false;
 			var target = EasyClickingUtils.resolveTarget(e);
-	
+			
 			if(target.tagName == "A"){	
 				return;
 			}
@@ -280,7 +281,7 @@ EasyDiagram.prototype = {
 				}
 			}
 			
-
+	
 		};
 		
 	}

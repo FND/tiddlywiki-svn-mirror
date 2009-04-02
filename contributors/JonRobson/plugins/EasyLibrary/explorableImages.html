@@ -1,0 +1,53 @@
+<html>
+<head>
+<link type="text/css" rel="stylesheet" href="somestyle.css" />
+<title> Making normal images more exciting</title>
+<script type='text/javascript' src='jquery.js'></script>
+<script type='text/javascript' src='EasyShapes.js'></script>
+<script type='text/javascript' src='EasyClicking.js'></script>
+<script type='text/javascript' src='EasyOptimisations.js'></script>
+<script type='text/javascript' src='EasyClickingUtils.js'></script>
+<script type='text/javascript' src='EasyTransformations.js'></script>
+<script type='text/javascript' src='EasyController.js'></script>
+<script type='text/javascript'>
+
+
+function init(){
+
+var images = jQuery("img");
+
+for(var i=0; i < images.length; i++){
+var newel = document.createElement("div");
+newel.className = "zoomyimg";
+var el = images[i];
+var width = jQuery(el).width();
+var height = jQuery(el).height();
+jQuery(newel).css({width: el.width, height: height});
+el.parentNode.appendChild(newel);
+el.parentNode.replaceChild(newel, el);
+var imgproperties = {shape:'image',src:el.src,width:width,height:height};
+var x = new EasyClickableCanvas(newel,[new EasyShape(imgproperties,[-width/2,-height/2])]);
+var c = new EasyController(x,newel);
+x.render();
+}
+
+}
+
+
+</script>
+</head>
+<body onload='init()'>
+<p>
+Here are some photos I've taken. I've created a page with normal images in. 
+I then use Javascript unobtrusifely to inject some life into each of them by using a jquery img tag selector.
+The drawings are done in either canvas or vml depending on the browser and ta da nice zoomy panny images to explore. 
+Try it without javascript and you won't notice much difference.
+</p> 
+
+<img src='http://farm4.static.flickr.com/3310/3308174543_b5e66fa225_b.jpg'>
+<img src='http://farm4.static.flickr.com/3479/3308174037_f824dbdcb3_b.jpg'>
+<img src='http://farm4.static.flickr.com/3345/3309001938_2730083f3e_b.jpg'>
+<img src='http://farm4.static.flickr.com/3580/3309238925_d7100fb1d3_b.jpg'>
+
+</body>
+</html>

@@ -119,6 +119,7 @@ EasyDrawingTools.prototype = {
 		if(!json.type) throw "json must have a type property!";
 		if(json.type == 'false') json.type = false;
 		this.toolCommand = json;
+		
 	
 	}
 	,getCurrentCommand: function(){
