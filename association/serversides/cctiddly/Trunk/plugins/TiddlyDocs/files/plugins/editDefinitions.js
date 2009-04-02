@@ -28,12 +28,15 @@ config.macros.editDefinitions.refresh = function(place, paramString){
 	var newDef = createTiddlyElement(null, "input");
 	newDef.name = "newName";
 	var newButton = createTiddlyButton(null, "add", "click to add ", function() { config.macros.editDefinitions.add(w); }); 
+
 	listMarker.parentNode.appendChild(newDef);
 	listMarker.parentNode.appendChild(newButton);
+
 	listMarker.parentNode.appendChild(createTiddlyElement(null, "br"));
-	listMarker.parentNode.appendChild(select);
 	var button = createTiddlyButton(null, "remove", "click to remove", function() { config.macros.editDefinitions.remove(w); });
 	listMarker.parentNode.appendChild(button);
+
+	listMarker.parentNode.appendChild(select);
 }
 
 config.macros.editDefinitions.add = function(w){

@@ -81,7 +81,6 @@ tags: systemTheme
 		</div>
 
 	</div>
-	
 	<div class="portletContainer">
 		<div class="portletToolbar">
 			<div class="portletCornerLeft"></div>
@@ -287,7 +286,8 @@ font-size:0.8em;
  color:#white;
 }
 #topBar2 {
-	background-color:#061f40;
+
+background-color:#A5ABDC;
 	width:99%;
 	color:white;
 	font-size:0.8em;
@@ -322,7 +322,7 @@ background-color:transparent;
 	z-index:19;
 	position:relative;
 	text-align:right;
-	top:-1.7em;
+	top:-2.2em;
 	font-size:0.8em;
 }
 .imgBar {
@@ -352,12 +352,12 @@ border:1px solid black;
 
 .siteTitle {
 font-size:1.3em;
-	color:#fff;
+	color:white;
 }
 
 .siteSubtitle{
 font-size:1em;
-color:#ddd;
+color:#eee;
 }
 
 body {
@@ -481,6 +481,7 @@ background:#444444 none repeat scroll 0 0;
 		font-size:0.9em;
 		height:95%;
 		position:relative;
+		color:#333;
 	}
 	div.title {
 		padding :1em;
@@ -491,7 +492,7 @@ background:#444444 none repeat scroll 0 0;
 		padding:0.5em;
 	}
 	div.title {
-		font-size:0.7em;
+		font-size:1.2em;
 		font-weight:none;
 		padding:0.2em 0.5em 0 0.2em;
 		color:#676767;
@@ -571,7 +572,7 @@ width:98.5%;
 		padding:0;
 		position:relative;
 		top:3.4em;
-		width:68%;
+		width:68.5%;
 	}
 	.toolbar a, .toolbar:hover{
 	color:white;
@@ -633,7 +634,7 @@ form.wizard, .wizard .wizardFooter{
 		}
 		a.roundButton {
 		    background: transparent url('plugins/TiddlyDocs/files/images/bg_button_a.png') no-repeat scroll top right;
-		    color: black;
+		    color: #eee;
 
 		    float: left;
 		    font-size:0.9em;
@@ -788,15 +789,20 @@ form.wizard, .wizard .wizardFooter{
 	}
 
 	.comment .heading {
-	background:#eee none repeat scroll 0 0 !important;
+	background:#F0E1FF none repeat scroll 0 0 !important;
 	padding:0.5em;
 	background:#eee;
 	border-bottom:1px solid #eee !important;
-
-
+	}
+	
+	.commentTitle {
+		color:#333;
 	}
 	.deleteComment {
 		display:none;
+	}
+	.comment {
+	border:1px solid #F0E1FF;
 	}
 		.comments {
 			width:80% !important;
@@ -809,8 +815,6 @@ form.wizard, .wizard .wizardFooter{
 		.commentText {
 			padding:1em !important;
 			background-color:#fff;
-			border:1px solid #eee;
-			border-top:0px;
 		}
 
 		.tiddler .button {
@@ -832,7 +836,7 @@ form.wizard, .wizard .wizardFooter{
 			margin:0em;
 		}
 		div.sort-handle:hover {
-			background-color:#5586b6;
+			background-color:#A5ABDC;
 			color:white;
 		}
 	// END NESTED SORTABLE CSS
@@ -871,31 +875,28 @@ form.wizard, .wizard .wizardFooter{
 		background-color:#ffffff;
 	}
 	.portletToolbar{
-		background-image:url("http://farm4.static.flickr.com/3332/3302865599_59612e2fa1_m.jpg");
-	<!--	background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-center.jpg");
+		background-image:url("plugins/TiddlyDocs/files/images/top.png");
 		width:100%;
-		height:21px;
+		height:35px;
 		background-repeat:repeat-x;
 	}
 	.portletCornerLeft{
-		background-image:url("http://farm4.static.flickr.com/3663/3302865679_3be54aef31_m.jpg");
-			<!--	background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-left.jpg");-->
+		background-image:url("plugins/TiddlyDocs/files/images/corner_top_left.png");
 		clear:left;
 		float:left;
 		width:8px;
-		height:21px;
+		height:35px;
 		background-repeat:no-repeat;
 	}
 	.portletCornerRight{
 		float:right;
 		width:8px;
-		height:21px;
+		height:35px;
 		position:relative;
 		background-repeat:no-repeat;
 		margin:0;
 		padding:0;
-		background-image:url("http://farm4.static.flickr.com/3244/3302865639_9abe7ac0da_m.jpg");
-		<!--background-image:url("plugins/TiddlyDocs/files/images/background-portlet-header-right.jpg");-->
+			background-image:url("plugins/TiddlyDocs/files/images/corner_top_right.png");
 	}
 	.portletTitle{
 		float:left;
@@ -904,10 +905,10 @@ form.wizard, .wizard .wizardFooter{
 	}
 	.portletContent{
 		clear:left;
-		border-left:1px solid #c7c7c7;
-		border-right:1px solid #c7c7c7;
+		border-left:1px solid #888;
+		border-right:1px solid #888;
 		background:#fff;
-		border-bottom:1px solid #c7c7c7;
+		border-bottom:1px solid #888;
 		margin:0 0 5px;
 	}
 	.portletBotLeft{
