@@ -117,7 +117,7 @@ def _user_form_bag(store, username, form_id):
 
 def init(config):
     if 'selector' in config:
-        config['selector'].add('/forms', GET=forms)
+        config['selector'].add('/forms[/]', GET=forms)
         config['selector'].add('/forms/{formid:segment}', GET=form)
 
 def _update_db(form_id, source_recipe):
