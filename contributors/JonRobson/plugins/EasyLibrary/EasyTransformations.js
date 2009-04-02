@@ -90,4 +90,8 @@ var EasyTransformations= {
 		pos.y -= tr.y;			
 		return pos;	
 	}
+	,getXY: function(e,t){
+		var pos =EasyClickingUtils.getMouseFromEvent(e);
+		return this.undoTransformation(pos.x,pos.y,t);
+	}
 };

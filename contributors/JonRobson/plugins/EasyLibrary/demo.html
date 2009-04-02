@@ -17,7 +17,19 @@ x.add(new EasyShape({shape:'image',src:'test.jpg',width:20,height:20},[-50,20]))
 x.add(new EasyShape({shape:'point',fill:'rgb(0,255,0)'},[-50,-80]));
 x.add(new EasyShape({shape:'circle',fill:'rgb(0,0,255)',onmousedown: function(e,s){if(s)document.getElementById('shapetype').innerHTML = "special " + s.getProperty("shape");}},[-40,0,20]));
 
-x.setOnMouse(function(e,s){if(s)document.getElementById('shapetype').innerHTML = s.getProperty("shape");});
+var down = function(e,s){if(s)document.getElementById('shapetype').innerHTML = s.getProperty("shape");};
+var tags = 0;
+var dblclick = function(e,s){
+	var pos = x.getXY(e);
+	var up = function(e,s){
+		document.getElementById('shapetype').innerHTML = " user created tag with id "+ s.getProperty("id");
+	}
+	var point = new EasyShape({shape:'point', id: tags,fill:'rgb(0,0,0)',onmouseup: up},[pos.x,pos.y]);
+	x.add(point);
+	x.render();
+	tags += 1;
+};
+x.setOnMouse(down,false,false,dblclick);
 
 x.render();
 }

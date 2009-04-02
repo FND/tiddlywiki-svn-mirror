@@ -52,10 +52,14 @@ var EasyClickableCanvas = function(element,easyShapesList){
 };
 
 EasyClickableCanvas.prototype = {
-	setOnMouse: function(down,up,move){
+	getXY: function(e){
+		return EasyTransformations.getXY(e,this.getTransformation());
+	}
+	,setOnMouse: function(down,up,move,dblclick){
 		if(down)this.onmousedown = down;
 		if(up)this.onmouseup = up;
 		if(move)this.onmousemove=  move;
+		if(dblclick) this.ondblclick = dblclick;
 	}
 	,_setupMouse: function(){
 		var that = this;
@@ -66,20 +70,27 @@ EasyClickableCanvas.prototype = {
 				return shape;
 			
 		};
-		this.onmousedown = function(e,s){};
-		this.onmouseup = function(e,s){};
-		this.onmousemove = function(e,s){};
+		this.onmousedown = function(e,s,pos){};
+		this.onmouseup = function(e,s,pos){};
+		this.onmousemove = function(e,s,pos){};
+		this.ondblclick = function(e,s,pos){};
 		var down = this.wrapper.onmousedown;
+		var up = this.wrapper.onmouseup;
+		var mv = this.wrapper.onmousemove;
+		var dblclick = this.wrapper.ondblclick;
 		var that = this;
+		
 		this.wrapper.onmousedown = function(e){ 
 			var s = newbehaviour(e); 
+			//var pos = EasyTransformations.getXY(e,that.getTransformation());
 			if(down)down(e,s);
 			if(s && s.getProperty("onmousedown"))s.getProperty("onmousedown")(e,s);		
 			else that.onmousedown(e,s);
 		}
-		var up = this.wrapper.onmouseup;
+
+		this.wrapper.ondblclick = function(e){var s = newbehaviour(e); if(dblclick)dbclick(e,s);if(s && s.getProperty("ondblclick"))s.getProperty("ondblclick")(e,s);else that.ondblclick(e,s);};
 		this.wrapper.onmouseup = function(e){ var s = newbehaviour(e); if(up)up(e,s);	if(s && s.getProperty("onmouseup"))s.getProperty("onmouseup")(e,s);else that.onmouseup(e,s);}
-		var mv = this.wrapper.onmousemove;
+		
 		this.wrapper.onmousemove = function(e){ var s = newbehaviour(e); if(mv)mv(e,s); if(s && s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);else that.onmousemove(e,s);}
 	}
 	,resize: function(width,height){
@@ -236,7 +247,6 @@ EasyClickableCanvas.prototype = {
 	
 		if(!target) return;
 		var offset = jQuery(target).offset();
-	
 
 		x = e.clientX + window.findScrollX() - offset.left;
 		y = e.clientY + window.findScrollY() - offset.top;

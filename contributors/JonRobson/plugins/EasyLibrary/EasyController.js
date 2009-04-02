@@ -396,7 +396,7 @@ EasyController.prototype = {
 		}
 	},
 	_panzoomClickHandler: function(e) {
-		
+
 		if(!e) {
 			e = window.event;
 		}
@@ -407,6 +407,7 @@ EasyController.prototype = {
 		if(!hit) {
 			return false;
 		}
+	
 		var pan = {};
 		var t =controller.transformation;
 		//console.log(t.rotate,"hit");
