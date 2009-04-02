@@ -1,0 +1,5 @@
+<div title="Tube Example">
+<pre>
+<<TubeStatusDisplay src:tub-map-large-print-london.gif width:400 fill:rgba(0,0,0,1)  radius:5>>
+</pre>
+</div>

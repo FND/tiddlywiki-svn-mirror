@@ -473,7 +473,7 @@ var EasyCanvasRenderer = {
 	,renderImage: function(ctx,easyShape){
 		var c = easyShape.getCoordinates();
 		var bb = easyShape.getBoundingBox();
-		ctx.drawImage(easyShape.image,bb.center.x,bb.center.y,bb.width,bb.height);
+		ctx.drawImage(easyShape.image,bb.x1,bb.y1,bb.width,bb.height);
 	
 
 	}

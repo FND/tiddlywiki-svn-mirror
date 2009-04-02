@@ -83,15 +83,21 @@ EasyClickableCanvas.prototype = {
 		this.wrapper.onmousedown = function(e){ 
 			var s = newbehaviour(e); 
 			//var pos = EasyTransformations.getXY(e,that.getTransformation());
-			if(down)down(e,s);
-			if(s && s.getProperty("onmousedown"))s.getProperty("onmousedown")(e,s);		
-			else that.onmousedown(e,s);
+			if(s){
+				if(s.getProperty("onmousedown"))s.getProperty("onmousedown")(e,s);		
+				else that.onmousedown(e,s);
+			}
+			else {if(down)down(e,s);}
 		}
 
-		this.wrapper.ondblclick = function(e){var s = newbehaviour(e); if(dblclick)dbclick(e,s);if(s && s.getProperty("ondblclick"))s.getProperty("ondblclick")(e,s);else that.ondblclick(e,s);};
-		this.wrapper.onmouseup = function(e){ var s = newbehaviour(e); if(up)up(e,s);	if(s && s.getProperty("onmouseup"))s.getProperty("onmouseup")(e,s);else that.onmouseup(e,s);}
+		this.wrapper.ondblclick = function(e){var s = newbehaviour(e); 
+		if(s) {if(s.getProperty("ondblclick"))s.getProperty("ondblclick")(e,s);else that.ondblclick(e,s);}
+		else {if(dblclick)dblclick(e,s);}
 		
-		this.wrapper.onmousemove = function(e){ var s = newbehaviour(e); if(mv)mv(e,s); if(s && s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);else that.onmousemove(e,s);}
+		};
+		this.wrapper.onmouseup = function(e){ var s = newbehaviour(e); if(s){if(s.getProperty("onmouseup"))s.getProperty("onmouseup")(e,s);else that.onmouseup(e,s);}else{if(up)up(e,s);}}
+		
+		this.wrapper.onmousemove = function(e){ var s = newbehaviour(e);if(s){if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);else that.onmousemove(e,s);}else{ if(mv)mv(e,s);}}
 	}
 	,resize: function(width,height){
 		if(this.canvas.getAttribute("width")){
@@ -271,11 +277,11 @@ EasyClickableCanvas.prototype = {
 		
 		}
 		var hitShapes = [];
-	
 		for(var i=0; i < shapes.length; i++){
 			var shape = shapes[i];
 			var st = shape.getShape();
 				var g = shape.getBoundingBox();
+				
 				if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
 					hitShapes.push(shapes[i]);
 				}
@@ -315,20 +321,20 @@ EasyClickableCanvas.prototype = {
 		else if(hits.length == 1) 
 			return hits[0];
 		else {//the click is in a polygon which is inside another polygon
+			var g = hits[0].getBoundingBox();
+			var mindist = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
 		
-			var g = hits[0].grid;
-			var min = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
-		
-			var closerEdge = {id:0, closeness:min};
+			var closerEdge = {id:0, closeness:mindist};
 			for(var i=1; i < hits.length; i++){
-				g = hits[i].grid;
-			var min = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
+				var g = hits[i].getBoundingBox();
+				var mindist = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
 			
-				if(closerEdge.closeness > min) {
-					closerEdge.id = i; closerEdge.closeness = min;
+				if(closerEdge.closeness > mindist) {
+					closerEdge.id = i; closerEdge.closeness = mindist;
 				}
-				return hits[closerEdge.id];
+				
 			}
+			return hits[closerEdge.id];
 		
 		}
 

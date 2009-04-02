@@ -1,0 +1,23 @@
+<div title="EditTemplate">
+<pre>
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+
+<div class='editor' macro='edit fill'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser excludeLists'></span></div>
+<div>
+x: <span class='editor' macro='edit tagx'></span>
+y: <span class='editor' macro='edit tagy'></span>
+<div class='editorFooter'>edit the position of the comments on the corresponding image</span></div>
+fill: <span class='editor' macro='edit fill'></span>
+<div class='editorFooter'>edit the color of the tag for the comments on the corresponding image</span></div>
+
+</div>
+
+<!--}}}-->
+</pre>
+</div>

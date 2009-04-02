@@ -1,0 +1,7 @@
+<div title="GettingStarted">
+<pre>
+Image commenting has arrived!! Double Click on the map to add a tag!
+
+<<ImageComment src:osmo.jpg height:300 maxwidth:400px>>
+</pre>
+</div>

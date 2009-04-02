@@ -209,14 +209,14 @@ EasyController.prototype = {
 
 			that.transform();
 			
-			if(pos.x > 5 || pos.y > 5) p.isClick = false;
-			if(pos.x < 5 || pos.y < 5) p.isClick = false;
+			if(pos.x > 5 && pos.x < 100 || pos.y > 5) p.isClick = false;
+			if(pos.x < 5 && pos.x < 100|| pos.y < 5) p.isClick = false;
 			return false;	
 		};
 		
 		this.wrapper.onmousedown = function(e){
 					
-			if(md) md(e);
+	
 			var target =  EasyClickingUtils.resolveTarget(e);
 			if(!target) return;
 
@@ -233,7 +233,8 @@ EasyController.prototype = {
 			
 			that.wrapper.onmousemove = onmousemove;
 			that.wrapper.style.cursor= "move";
-
+	
+			if(md) md(e);
 		
 		};
 		
@@ -338,7 +339,7 @@ EasyController.prototype = {
 	
 	_createcontrollercanvas: function(width,height){
 		var newCanvas = document.createElement('canvas');
-		jQuery(newCanvas).css({width: width, height:height,position:"absolute",left:0,top:0,'z-index': 3});
+		jQuery(newCanvas).css({width: width, height:height,position:"absolute",left:0,top:0,'z-index': 15});
 		newCanvas.width = width;
 		newCanvas.height = height;
 		newCanvas.setAttribute("class","easyControl");
