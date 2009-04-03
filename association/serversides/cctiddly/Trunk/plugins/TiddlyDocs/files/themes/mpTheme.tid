@@ -281,7 +281,7 @@ label {
 	text-shadow:1px 1px 0 #444444;
 	vertical-align:top;
 }
-#searchform fieldset #s, .txtOptionInput {
+#searchform fieldset #s, .txtOptionInput, input {
 	-moz-border-radius-bottomleft:2px;
 	-moz-border-radius-bottomright:2px;
 	-moz-border-radius-topleft:2px;
@@ -449,7 +449,7 @@ border:1px solid black;
 }
 .editTaskControls {
 	margin-left:18em;
-	top:-1.3em;
+	top:-3.3em;
 }
 
 
@@ -616,13 +616,16 @@ background:#444444 none repeat scroll 0 0;
 
 
 	#buttonHolder {
-	background:#555 none repeat scroll 0 0;
-	border-bottom:1px solid #CCCCCC;
-	border-top:1px solid #CCCCCC;
-	padding:0;
-	width:100%;
-	margin-left:0em;
+		padding-left:0em;
+		padding-bottom:0.5em;
+		padding-top:0.5em;
+		z-index:999;
+		background-color:#555555;
+		border-top:1px solid #333;
+		border-bottom:1px solid #333;
+		height:2em;
 	position:absolute;
+	width:100%;
 	}
 
 	#buttonHolder .button {
