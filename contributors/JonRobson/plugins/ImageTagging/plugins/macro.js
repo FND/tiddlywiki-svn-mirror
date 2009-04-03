@@ -2,6 +2,7 @@ config.macros.ImageComment = {
 		properties: {
 			'src':{}
 		}
+		,loadedImages:{}
 		,addNewComment: function(properties){
 
 			var src= properties.src;
@@ -12,7 +13,7 @@ config.macros.ImageComment = {
 			if(!properties.fill&& config.macros.ImageComment.properties[src]) properties.fill = config.macros.ImageComment.properties[src].fill; 
 			if(!properties.radius && config.macros.ImageComment.properties[src]) properties.radius = config.macros.ImageComment.properties[src].radius/cc.getTransformation().scale.x; 
 			var radius = properties.radius;
-			if(!properties.fill) properties.fill = 'rgba(255,0,0,0.2)';
+			if(!properties.fill) properties.fill = 'rgba(100,100,100,0.2)';
 			if(!properties.text) properties.text = "";
 			if(properties.event){
 				pos = cc.getXY(properties.event);
@@ -46,7 +47,7 @@ config.macros.ImageComment = {
 			};
 			var x = parseFloat(pos.x);
 			var y = parseFloat(pos.y);
-			var point = new EasyShape({shape:'circle', 'id':id,fill:properties.fill},[x,y,radius]);
+			var point = new EasyShape({lineWidth:'2',shape:'circle', 'id':id,fill:properties.fill},[x,y,radius]);
 			cc.add(point);
 			cc.render();	
 		}
@@ -89,7 +90,10 @@ config.macros.ImageComment = {
 			var tags = 0;
 			var numcomments = store.getValue(store.getTiddler(title),"imagecomments");	
 			if(numcomments) tags = numcomments;
-			img.onload = function(){
+			
+			
+			var setup = function(){
+				config.macros.ImageComment.loadedImages[src] = true;
 				var width,height;
 				var ratio;
 				if(requestedwidth && requestedheight){
@@ -126,6 +130,7 @@ config.macros.ImageComment = {
 				
 				
 				var dblclick = function(e,s){
+					if(!e) e= window.event;
 					config.macros.ImageComment.addNewComment({event: e, canvas:cc,tiddler:title,src:src});
 				};
 				
@@ -134,8 +139,13 @@ config.macros.ImageComment = {
 				var move = function(e,s){
 					var pos = EasyClickingUtils.getMouseFromEvent(e);
 					jQuery(box).css({top:pos.y-(radius),left:pos.x -(radius)});
-					if(s && s.getProperty("id"))newel.title = s.getProperty("id");
-					else newel.title = "";
+					if(s && s.getProperty("id")){
+					box.title = s.getProperty("id");
+					box.style.cursor = "pointer";
+					}else {
+					box.style.cursor = "move";
+					box.title = "";
+					}
 				}
 				var down = function(e,s){if(s && s.getProperty("id"))story.displayTiddler(null,s.getProperty("id"));}
 				
@@ -144,16 +154,37 @@ config.macros.ImageComment = {
 				var control = new EasyController(cc,newel);
 
 				box.onmousedown= function(e){box.style.display = "none";newel.onmousedown(e); box.style.display = "";}
-
-				cc.setOnMouse(down,false,move,dblclick);	
+				box.ondblclick = function(e){box.style.display = "none";newel.ondblclick(e); box.style.display = "";}
+				
+				var key = function(e){
+				
+					console.log(e.which);
+					if(e.which === 45){//zoom out
+					config.macros.ImageComment.properties[src].radius -=5;
+					}
+					
+					if(e.which == 61){//zoom in
+					config.macros.ImageComment.properties[src].radius +=5;
+					
+					}
+					console.log(config.macros.ImageComment.properties[src].radius);
+				}
+				cc.setOnMouse(down,false,move,dblclick,key);	
 							
 
 				newel.appendChild(box);
 				place.appendChild(newel);	
-				config.macros.ImageComment.loadComments(cc,title,src);			
-				
+				config.macros.ImageComment.loadComments(cc,title,src);
+			};
+			if(img.complete){
+				setup();
 			}
+			else{
+				img.onload = function(){	
+					setup();
+				}
 			
+			}
 		}
 };
 
