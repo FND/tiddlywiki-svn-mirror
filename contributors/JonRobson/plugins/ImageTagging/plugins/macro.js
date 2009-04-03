@@ -138,6 +138,7 @@ config.macros.ImageComment = {
 				jQuery(box).css({border:'solid 1px black',position:"absolute",width:radius*2,height:radius*2,'z-index': 2});
 				var move = function(e,s){
 					var pos = EasyClickingUtils.getMouseFromEvent(e);
+					var radius = config.macros.ImageComment.properties[src].radius;
 					jQuery(box).css({top:pos.y-(radius),left:pos.x -(radius)});
 					if(s && s.getProperty("id")){
 					box.title = s.getProperty("id");
@@ -157,17 +158,22 @@ config.macros.ImageComment = {
 				box.ondblclick = function(e){box.style.display = "none";newel.ondblclick(e); box.style.display = "";}
 				
 				var key = function(e){
-				
-					console.log(e.which);
-					if(e.which === 45){//zoom out
+	
+					var code;
+					if(e.which)code = e.which;
+					if(e.keyCode) code = e.keyCode;
+									
+					if(code === 45){//zoom out
+					if(config.macros.ImageComment.properties[src].radius <= 5) return;
 					config.macros.ImageComment.properties[src].radius -=5;
 					}
 					
-					if(e.which == 61){//zoom in
+					if(code == 61){//zoom in
 					config.macros.ImageComment.properties[src].radius +=5;
 					
 					}
-					console.log(config.macros.ImageComment.properties[src].radius);
+					var diameter = config.macros.ImageComment.properties[src].radius * 2;
+					jQuery(box).css({width: diameter, height: diameter});
 				}
 				cc.setOnMouse(down,false,move,dblclick,key);	
 							

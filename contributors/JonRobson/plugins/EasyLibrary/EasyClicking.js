@@ -89,16 +89,19 @@ EasyClickableCanvas.prototype = {
 		var up = el.onmouseup;
 		var mv = el.onmousemove;
 		var dblclick =el.ondblclick;
-		this.initialKeyPress = document.onkeypress;
+		this.initialKeyPress = window.onkeypress;
 		
 		el.onmouseover = function(e){
 				if(!that.keypressactive) {
 					that.keypressactive =  true;
-					jQuery(document).keypress(that.onkeypress);
+					window.onkeypress = that.onkeypress;
+					document.onkeypress = function(e){if(!e) e= window.event;
+							that.onkeypress(e)};
 				}
 		}
+		el.onmouseout = function(e){that.keypressactive = false;};
 
-		el.onmousedown = function(e){ 
+		el.onmousedown = function(e){		
 			var s = newbehaviour(e); 
 			//var pos = EasyTransformations.getXY(e,that.getTransformation());
 			if(s){
