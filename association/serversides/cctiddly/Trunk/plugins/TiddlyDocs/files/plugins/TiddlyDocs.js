@@ -98,6 +98,8 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	var span = createTiddlyElement(btn, "span");
 	btn.onclick = config.macros.newTiddler.onClickNewTiddler;
 	btn.setAttribute("newTitle","New Section");
+	config.views.wikified.defaultText = "<html><h3>Empty Section</h3><img src='http://tbn1.google.com/images?q=tbn:26PhIrrfSwHKXM:http://www.nps.gov/plants/sos/training/typicalshipment/images/Step%2001%20Empty%20Box.jpg' />Please enter some text</html>";
+	
 	btn.setAttribute("newTemplate","mpTheme##newEditTemplate");
 	var img = createTiddlyElement(span, "img");
 	img.style.width = "10px";
