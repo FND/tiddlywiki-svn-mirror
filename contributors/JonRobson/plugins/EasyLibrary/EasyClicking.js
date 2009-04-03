@@ -55,14 +55,27 @@ EasyClickableCanvas.prototype = {
 	getXY: function(e){
 		return EasyTransformations.getXY(e,this.getTransformation());
 	}
-	,setOnMouse: function(down,up,move,dblclick){
+	,setOnMouse: function(down,up,move,dblclick,keypress){
 		if(down)this.onmousedown = down;
 		if(up)this.onmouseup = up;
 		if(move)this.onmousemove=  move;
 		if(dblclick) this.ondblclick = dblclick;
+		if(keypress) this.onkeypress = keypress;
 	}
 	,_setupMouse: function(){
 		var that = this;
+		this.onmousedown = function(e,s,pos){};
+		this.onmouseup = function(e,s,pos){};
+		this.onmousemove = function(e,s,pos){};
+		this.ondblclick = function(e,s,pos){};
+		this.onkeypress = function(e){};
+		
+
+		this._applyMouseBehaviours(this.wrapper);
+		
+	
+	}
+	,_applyMouseBehaviours: function(el){
 		var newbehaviour = function(e){
 				var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
 				if(t.getAttribute("class") == 'easyControl') return false;
@@ -70,17 +83,22 @@ EasyClickableCanvas.prototype = {
 				return shape;
 			
 		};
-		this.onmousedown = function(e,s,pos){};
-		this.onmouseup = function(e,s,pos){};
-		this.onmousemove = function(e,s,pos){};
-		this.ondblclick = function(e,s,pos){};
-		var down = this.wrapper.onmousedown;
-		var up = this.wrapper.onmouseup;
-		var mv = this.wrapper.onmousemove;
-		var dblclick = this.wrapper.ondblclick;
 		var that = this;
 		
-		this.wrapper.onmousedown = function(e){ 
+		var down = el.onmousedown;
+		var up = el.onmouseup;
+		var mv = el.onmousemove;
+		var dblclick =el.ondblclick;
+		this.initialKeyPress = document.onkeypress;
+		
+		el.onmouseover = function(e){
+				if(!that.keypressactive) {
+					that.keypressactive =  true;
+					jQuery(document).keypress(that.onkeypress);
+				}
+		}
+
+		el.onmousedown = function(e){ 
 			var s = newbehaviour(e); 
 			//var pos = EasyTransformations.getXY(e,that.getTransformation());
 			if(s){
@@ -90,14 +108,14 @@ EasyClickableCanvas.prototype = {
 			else {if(down)down(e,s);}
 		}
 
-		this.wrapper.ondblclick = function(e){var s = newbehaviour(e); 
+		el.ondblclick = function(e){var s = newbehaviour(e); 
 		if(s) {if(s.getProperty("ondblclick"))s.getProperty("ondblclick")(e,s);else that.ondblclick(e,s);}
 		else {if(dblclick)dblclick(e,s);}
 		
 		};
-		this.wrapper.onmouseup = function(e){ var s = newbehaviour(e); if(s){if(s.getProperty("onmouseup"))s.getProperty("onmouseup")(e,s);else that.onmouseup(e,s);}else{if(up)up(e,s);}}
-		
-		this.wrapper.onmousemove = function(e){ var s = newbehaviour(e);if(s){if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);else that.onmousemove(e,s);}else{ if(mv)mv(e,s);}}
+		el.onmouseup = function(e){ var s = newbehaviour(e); if(s){if(s.getProperty("onmouseup"))s.getProperty("onmouseup")(e,s);else that.onmouseup(e,s);}else{if(up)up(e,s);}}
+		el.onmousemove = function(e){ var s = newbehaviour(e);if(s){if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);else that.onmousemove(e,s);}else{ if(mv)mv(e,s);}}
+
 	}
 	,resize: function(width,height){
 		if(this.canvas.getAttribute("width")){

@@ -329,7 +329,7 @@ EasyShape.prototype={
 			var ctx = canvas.getContext('2d');
 			ctx.save();
 			if(easyShape.getProperty("lineWidth")){
-				ctx.lineWidth = easyShape.getProperty("lineWidth")/ transformation.scale.x;
+				ctx.lineWidth = easyShape.getProperty("lineWidth");
 			}
 			if(transformation){
 				var o = transformation.origin;
@@ -611,8 +611,16 @@ EasyVML.prototype = {
 
 		var bb = this.easyShape.getBoundingBox();
 	
-		var top = o.y + ((bb.center.y + t.y) * s.y);
-		var left = o.x + ((bb.center.x + t.x) * s.x);
+		if(this.easyShape.getShape() == 'image'){
+			dx = bb.x1;
+			dy = bb.y1;
+		}
+		else{
+			dy = bb.center.y;
+			dx = bb.center.x;
+		}
+		var top = o.y + ((dy + t.y) * s.y);
+		var left = o.x + ((dx + t.x) * s.x);
 		width = bb.width * s.x;
 		height = bb.height * s.y;
 		jQuery(this.el).css({'top':top, 'left': left, 'width':width,'height': height});

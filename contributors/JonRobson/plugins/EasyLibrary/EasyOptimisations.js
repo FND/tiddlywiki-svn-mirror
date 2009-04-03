@@ -91,7 +91,7 @@ var EasyOptimisations = {
 	}
 	
 	,easyShapeIsTooSmall: function(easyShape,transformation){
-		if(!transformation) return false;
+		if(!transformation ||!transformation.scale) return false;
 		var g = easyShape.getBoundingBox();
 		var s = transformation.scale;
 		var t1 = g.x2 -g.x1;
