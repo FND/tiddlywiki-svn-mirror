@@ -189,9 +189,10 @@ EasyController.prototype = {
 		var md = that.wrapper.onmousedown;
 		var mu = that.wrapper.onmouseup;	
 		var mm = that.wrapper.onmousemove;
+			var panningstatus = {};	
 		var onmousemove = function(e){
 			if(!this.easyController)return;
-			var p =this.easyController.panning_status;
+			var p =panning_status;
 			if(!p) return;
 			if(!that.goodToTransform(e)) return;
 			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
@@ -209,8 +210,8 @@ EasyController.prototype = {
 
 			that.transform();
 			
-			if(pos.x > 5 && pos.x < 100 || pos.y > 5) p.isClick = false;
-			if(pos.x < 5 && pos.x < 100|| pos.y < 5) p.isClick = false;
+			if(pos.x > 5  || pos.y > 5) p.isClick = false;
+			if(pos.x < 5|| pos.y < 5) p.isClick = false;
 			return false;	
 		};
 		
@@ -229,7 +230,7 @@ EasyController.prototype = {
 			this.easyController = that;
 			
 			var element = EasyClickingUtils.resolveTargetWithEasyClicking(e);
-			that.panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
+			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			
 			that.wrapper.onmousemove = onmousemove;
 			that.wrapper.style.cursor= "move";
@@ -238,17 +239,30 @@ EasyController.prototype = {
 		
 		};
 		
-		this.wrapper.onmouseup = function(e){
+
+		
+		var cancelPanning = function(e){
 			that.wrapper.style.cursor= '';
 			that.wrapper.onmousemove = mm;
-			
-			if(!this.easyController && mu){mu(e); return;};
-			if(this.easyController.panning_status && this.easyController.panning_status.isClick && mu){ mu(e);}
-			this.easyController.panning_status = null;
-			
+			if(panning_status && panning_status.isClick && mu){ mu(e);}
+			panning_status = null;
+			if(mu){mu(e); return;};
 			return false;
 		};
-	
+		this.wrapper.onmouseup = function(e){
+			cancelPanning(e);
+		};
+		
+		var goodbye = function(){
+			var e = window.event;
+			if(e){
+			var t= EasyClickingUtils.resolveTargetWithEasyClicking(e);
+			if(t != that.wrapper)cancelPanning(e);
+			}
+		};
+		this.wrapper.onmouseout = function(e){
+			window.setTimeout(goodbye,200);
+		}
 	
 	},
 	setTransformation: function(t){

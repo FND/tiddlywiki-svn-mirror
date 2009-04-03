@@ -144,7 +144,7 @@ config.macros.ImageComment = {
 					box.title = s.getProperty("id");
 					box.style.cursor = "pointer";
 					}else {
-					box.style.cursor = "move";
+					box.style.cursor = "";
 					box.title = "";
 					}
 				}
