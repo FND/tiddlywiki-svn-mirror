@@ -1,4 +1,4 @@
-config.macros.ImageComment = {
+config.macros.TagImage = {
 		properties: {
 			'src':{}
 		}
@@ -10,8 +10,8 @@ config.macros.ImageComment = {
 			var id = properties.id;
 			var pos = properties.position;
 			var cc = properties.canvas;
-			if(!properties.fill&& config.macros.ImageComment.properties[src]) properties.fill = config.macros.ImageComment.properties[src].fill; 
-			if(!properties.radius && config.macros.ImageComment.properties[src]) properties.radius = config.macros.ImageComment.properties[src].radius/cc.getTransformation().scale.x; 
+			if(!properties.fill&& config.macros.TagImage.properties[src]) properties.fill = config.macros.TagImage.properties[src].fill; 
+			if(!properties.radius && config.macros.TagImage.properties[src]) properties.radius = config.macros.TagImage.properties[src].radius/cc.getTransformation().scale.x; 
 			var radius = properties.radius;
 			if(!properties.fill) properties.fill = 'rgba(100,100,100,0.2)';
 			if(!properties.text) properties.text = "";
@@ -30,8 +30,11 @@ config.macros.ImageComment = {
 			var x= pos.x;
 			var y = pos.y;
 			
-			if(x && y)
-				store.saveTiddler(id,id,properties.text,false,new Date(),"comment",{radius:radius+"",fill:properties.fill, tagx: ""+x, tagy: ""+y, daddyimage: src});
+			if(x && y){
+				var fields = merge({radius:radius+"",fill:properties.fill, tagx: ""+x, tagy: ""+y, parentimage: src},config.defaultCustomFields);
+				store.saveTiddler(id,id,properties.text,false,new Date(),"comment",fields);
+				autoSaveChanges();
+			}
 			properties.id = id;
 			this.addComment(properties);
 			
@@ -56,27 +59,35 @@ config.macros.ImageComment = {
 			var comments = store.getTaggedTiddlers("comment");
 			for(var i=0; i < comments.length; i++){
 				var c =comments[i];
-				if(c.fields.daddyimage && c.fields.daddyimage == src){
+				if(c.fields.parentimage && c.fields.parentimage == src){
 					var args = {position:{x: c.fields.tagx,y:c.fields.tagy},fill:c.fields.fill,radius:c.fields.radius,canvas:canvas,id:c.title};
 					this.addComment(args);
 					
 				}
 			}
 		}	
-		,handler: function(place,macroName,params,wikifier,paramString,tiddler){
+		,handler: function(place,macroName,paramlist,wikifier,paramString,tiddler){
 			var tiddlerDom = story.findContainingTiddler(place);
+
+			
+			var src,requestedwidth,requestedheight, maxwidth,maxheight;
 			var params = paramString.parseParams("anon",null,true,false,false);
-			var src= getParam(params,"src");
-			var requestedwidth= getParam(params,"width");
-			var requestedheight= getParam(params,"height");
-			var maxwidth= parseInt(getParam(params,"maxwidth"));
-			var maxheight= parseInt(getParam(params,"maxheight"));
-			config.macros.ImageComment.properties[src] = {};
-			config.macros.ImageComment.properties[src].fill = getParam(params,"fill");
+			if(!getParam(params,"src")) {
+				src = paramlist[0];
+			}else{
+				src= getParam(params,"src");
+			}
+			
+			requestedwidth= getParam(params,"width");
+			requestedheight= getParam(params,"height");
+			maxwidth= parseInt(getParam(params,"maxwidth"));
+			maxheight= parseInt(getParam(params,"maxheight"));
+			config.macros.TagImage.properties[src] = {};
+			config.macros.TagImage.properties[src].fill = getParam(params,"fill");
 			
 			var radius = getParam(params,"radius");
 			if(!radius) radius = 12.5;
-			config.macros.ImageComment.properties[src].radius =radius;
+			config.macros.TagImage.properties[src].radius =radius;
 
 			var id= parseInt(getParam(params,"id"));
 			var title = tiddlerDom.getAttribute("tiddler");
@@ -93,7 +104,7 @@ config.macros.ImageComment = {
 			
 			
 			var setup = function(){
-				config.macros.ImageComment.loadedImages[src] = true;
+				config.macros.TagImage.loadedImages[src] = true;
 				var width,height;
 				var ratio;
 				if(requestedwidth && requestedheight){
@@ -114,6 +125,7 @@ config.macros.ImageComment = {
 				}
 				height = img.height;
 				width = img.width;
+			
 				var ewidth = width;
 				var eheight = height;
 				if(maxwidth && maxwidth < width) {
@@ -124,21 +136,21 @@ config.macros.ImageComment = {
 				}
 	
 	
-				jQuery(newel).css({width: ewidth, height: eheight});
+				jQuery(newel).css({width: ewidth, height: eheight,overflow:"hidden"});
 				var imgproperties = {shape:'image',src:src,width:width,height:height};
 				var cc = new EasyClickableCanvas(newel,[new EasyShape(imgproperties,[0,0])]);
 				
 				
 				var dblclick = function(e,s){
 					if(!e) e= window.event;
-					config.macros.ImageComment.addNewComment({event: e, canvas:cc,tiddler:title,src:src});
+					config.macros.TagImage.addNewComment({event: e, canvas:cc,tiddler:title,src:src});
 				};
 				
 				var box = document.createElement("span");
 				jQuery(box).css({border:'solid 1px black',position:"absolute",width:radius*2,height:radius*2,'z-index': 2});
 				var move = function(e,s){
 					var pos = EasyClickingUtils.getMouseFromEvent(e);
-					var radius = config.macros.ImageComment.properties[src].radius;
+					var radius = config.macros.TagImage.properties[src].radius;
 					jQuery(box).css({top:pos.y-(radius),left:pos.x -(radius)});
 					if(s && s.getProperty("id")){
 					box.title = s.getProperty("id");
@@ -164,23 +176,23 @@ config.macros.ImageComment = {
 					if(e.keyCode) code = e.keyCode;
 									
 					if(code === 45){//zoom out
-					if(config.macros.ImageComment.properties[src].radius <= 5) return;
-					config.macros.ImageComment.properties[src].radius -=5;
+					if(config.macros.TagImage.properties[src].radius <= 5) return;
+					config.macros.TagImage.properties[src].radius -=5;
 					}
 					
 					if(code == 61){//zoom in
-					config.macros.ImageComment.properties[src].radius +=5;
+					config.macros.TagImage.properties[src].radius +=5;
 					
 					}
-					var diameter = config.macros.ImageComment.properties[src].radius * 2;
+					var diameter = config.macros.TagImage.properties[src].radius * 2;
 					jQuery(box).css({width: diameter, height: diameter});
 				}
 				cc.setOnMouse(down,false,move,dblclick,key);	
 							
-
+				
 				newel.appendChild(box);
 				place.appendChild(newel);	
-				config.macros.ImageComment.loadComments(cc,title,src);
+				config.macros.TagImage.loadComments(cc,title,src);
 			};
 			if(img.complete){
 				setup();
@@ -198,7 +210,7 @@ config.macros.TubeStatusDisplay = {
 	
 	handler: function(place,macroName,params,wikifier,paramString,tiddler){
 
-		config.macros.ImageComment.handler(place,macroName,params,wikifier,paramString,tiddler);
+		config.macros.TagImage.handler(place,macroName,params,wikifier,paramString,tiddler);
 	}
 	
 };
