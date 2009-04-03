@@ -189,13 +189,20 @@ EasyController.prototype = {
 		var md = that.wrapper.onmousedown;
 		var mu = that.wrapper.onmouseup;	
 		var mm = that.wrapper.onmousemove;
-			var panningstatus = {};	
+		var panning_status = false;	
+		
+		var cancelPanning = function(e){
+			panning_status = false;
+			that.wrapper.style.cursor= '';
+			that.wrapper.onmousemove = mm;
+			return false;
+		};
 		var onmousemove = function(e){
-			if(!this.easyController)return;
-			var p =panning_status;
-			if(!p) return;
+			if(!panning_status) {
+				return;
+			}
 			if(!that.goodToTransform(e)) return;
-			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
+			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,panning_status.clickpos.x,panning_status.clickpos.y,panning_status.elem);		
 			if(!pos)return;
 			
 			var t = that.transformation;
@@ -205,19 +212,21 @@ EasyController.prototype = {
 			/* work out deltas */
 			var xd =parseFloat(pos.x /sc.x);
 			var yd = parseFloat(pos.y / sc.y);
-			t.translate.x = p.translate.x + xd;
-			t.translate.y =p.translate.y +yd;
+			t.translate.x = panning_status.translate.x + xd;
+			t.translate.y =panning_status.translate.y +yd;
 
 			that.transform();
 			
-			if(pos.x > 5  || pos.y > 5) p.isClick = false;
-			if(pos.x < 5|| pos.y < 5) p.isClick = false;
+			if(pos.x > 5  || pos.y > 5) panning_status.isClick = false;
+			if(pos.x < 5|| pos.y < 5) panning_status.isClick = false;
 			return false;	
 		};
-		
-		this.wrapper.onmousedown = function(e){
-					
 	
+		this.wrapper.onmousedown = function(e){
+			if(panning_status){
+				return;
+			}
+			if(md) {md(e);}
 			var target =  EasyClickingUtils.resolveTarget(e);
 			if(!target) return;
 
@@ -230,39 +239,23 @@ EasyController.prototype = {
 			this.easyController = that;
 			
 			var element = EasyClickingUtils.resolveTargetWithEasyClicking(e);
-			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			
+			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			that.wrapper.onmousemove = onmousemove;
-			that.wrapper.style.cursor= "move";
-	
-			if(md) md(e);
-		
+			that.wrapper.style.cursor= "move";	
 		};
 		
-
-		
-		var cancelPanning = function(e){
-			that.wrapper.style.cursor= '';
-			that.wrapper.onmousemove = mm;
-			if(panning_status && panning_status.isClick && mu){ mu(e);}
-			panning_status = null;
-			if(mu){mu(e); return;};
-			return false;
-		};
 		this.wrapper.onmouseup = function(e){
 			cancelPanning(e);
+			if(mu){mu(e);};
 		};
 		
-		var goodbye = function(){
-			var e = window.event;
-			if(e){
-			var t= EasyClickingUtils.resolveTargetWithEasyClicking(e);
-			if(t != that.wrapper)cancelPanning(e);
+		jQuery(document).mousemove(function(e){
+			if(panning_status){
+				var t= EasyClickingUtils.resolveTargetWithEasyClicking(e);
+				if(t != that.wrapper)cancelPanning(e);
 			}
-		};
-		this.wrapper.onmouseout = function(e){
-			window.setTimeout(goodbye,200);
-		}
+		});
 	
 	},
 	setTransformation: function(t){

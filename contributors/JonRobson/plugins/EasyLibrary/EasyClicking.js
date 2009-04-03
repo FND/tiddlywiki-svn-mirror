@@ -95,7 +95,7 @@ EasyClickableCanvas.prototype = {
 				if(!that.keypressactive) {
 					that.keypressactive =  true;
 					window.onkeypress = that.onkeypress;
-					document.onkeypress = function(e){this.initialKeyPress(e);if(!e) e= window.event;that.onkeypress(e)};
+					document.onkeypress = function(e){if(that.initialKeyPress)that.initialKeyPress(e);if(!e) e= window.event;that.onkeypress(e)};
 				}
 		}
 		el.onmouseout = function(e){that.keypressactive = false;};
