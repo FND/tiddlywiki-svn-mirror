@@ -1,5 +1,7 @@
+
 config.macros.TagImage = {
-		properties: {
+		renamedTiddlers:{}
+		,properties: {
 			'src':{}
 		}
 		,loadedImages:{}
@@ -37,6 +39,7 @@ config.macros.TagImage = {
 			}
 			properties.id = id;
 			this.addComment(properties);
+			story.displayTiddler(null,id,DEFAULT_EDIT_TEMPLATE);
 			
 		}
 		,addComment: function(properties){
@@ -93,7 +96,7 @@ config.macros.TagImage = {
 			var title = tiddlerDom.getAttribute("tiddler");
 			var newel = document.createElement("div");
 			//newel.style.overflow = "hidden";
-			newel.className = "zoomyimg";
+			newel.className = "TagImage";
 			if(id)newel.id = id;
 			var img = new Image();
 			img.src = src;
@@ -148,23 +151,38 @@ config.macros.TagImage = {
 				
 				var box = document.createElement("span");
 				jQuery(box).css({border:'solid 1px black',position:"absolute",width:radius*2,height:radius*2,'z-index': 2});
+				
+				
+				var lookuptiddler = function(id){
+					var tiddler =store.getTiddler(id);
+					if(tiddler)return tiddler;
+					var newname = config.macros.TagImage.renamedTiddlers[id];
+					if(!newname) return false;
+					else return lookuptiddler(newname);
+				}
 				var move = function(e,s){
 					var pos = EasyClickingUtils.getMouseFromEvent(e);
 					var radius = config.macros.TagImage.properties[src].radius;
 					jQuery(box).css({top:pos.y-(radius),left:pos.x -(radius)});
 					if(s && s.getProperty("id")){
-					box.title = s.getProperty("id");
-					box.style.cursor = "pointer";
+						var tiddler = lookuptiddler(s.getProperty("id"));
+						if(tiddler) box.title = tiddler.title;
+						box.style.cursor = "pointer";
 					}else {
 					box.style.cursor = "";
 					box.title = "";
 					}
 				}
-				var down = function(e,s){if(s && s.getProperty("id"))story.displayTiddler(null,s.getProperty("id"));}
+				var up = function(e,s){
+					if(s && s.getProperty("id")){
+						var tiddler = lookuptiddler(s.getProperty("id"));
+						if(tiddler)story.displayTiddler(null,tiddler.title);
+					}
+				};
 				
-
+			
 				cc.render();
-				var control = new EasyController(cc,newel);
+
 
 				box.onmousedown= function(e){box.style.display = "none";newel.onmousedown(e); box.style.display = "";}
 				box.ondblclick = function(e){box.style.display = "none";newel.ondblclick(e); box.style.display = "";}
@@ -187,9 +205,9 @@ config.macros.TagImage = {
 					var diameter = config.macros.TagImage.properties[src].radius * 2;
 					jQuery(box).css({width: diameter, height: diameter});
 				}
-				cc.setOnMouse(down,false,move,dblclick,key);	
+				cc.setOnMouse(false,up,move,dblclick,key);	
 							
-				
+				var control = new EasyController(cc,newel);	
 				newel.appendChild(box);
 				place.appendChild(newel);	
 				config.macros.TagImage.loadComments(cc,title,src);
@@ -206,11 +224,13 @@ config.macros.TagImage = {
 		}
 };
 
-config.macros.TubeStatusDisplay = {
-	
-	handler: function(place,macroName,params,wikifier,paramString,tiddler){
 
-		config.macros.TagImage.handler(place,macroName,params,wikifier,paramString,tiddler);
-	}
-	
+store.oldSaveTiddler = store.saveTiddler;
+store.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created){
+	if(newTitle && title != newTitle)config.macros.TagImage.renamedTiddlers[title] = newTitle;
+	this.oldSaveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);
+
 };
+
+
+

@@ -246,8 +246,9 @@ EasyController.prototype = {
 		};
 		
 		this.wrapper.onmouseup = function(e){
+			if(panning_status.isClick && mu){mu(e);};
 			cancelPanning(e);
-			if(mu){mu(e);};
+
 		};
 		
 		jQuery(document).mousemove(function(e){
