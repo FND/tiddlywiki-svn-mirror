@@ -2,7 +2,7 @@
 <pre>
 Image commenting has arrived!! Double Click on the map to add a tag!
 
-<<TagImage blank.jpg filter:Yes width:400 height:200>>
+<<TagImage blank.jpg fill:rgb(255,0,0) filter:Yes width:400 height:200>>
 <<TagImage src:osmo.jpg height:300 maxwidth:400px>>
 
 </pre>

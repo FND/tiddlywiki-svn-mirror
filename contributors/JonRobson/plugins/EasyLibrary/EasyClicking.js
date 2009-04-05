@@ -52,7 +52,10 @@ var EasyClickableCanvas = function(element,easyShapesList){
 };
 
 EasyClickableCanvas.prototype = {
-	getXY: function(e){
+	getDomElement: function(){
+		return this.wrapper;
+	}
+	,getXY: function(e){
 		return EasyTransformations.getXY(e,this.getTransformation());
 	}
 	,setOnMouse: function(down,up,move,dblclick,keypress){
@@ -99,7 +102,7 @@ EasyClickableCanvas.prototype = {
 				}
 		}
 		el.onmouseout = function(e){that.keypressactive = false;};
-		el.onclick = function(e){ return false;}
+
 		el.onmousedown = function(e){
 			e.preventDefault();			
 			var s = newbehaviour(e); 
@@ -114,9 +117,15 @@ EasyClickableCanvas.prototype = {
 			return false;
 		}
 
-		el.ondblclick = function(e){var s = newbehaviour(e); 
-		if(s) {if(s.getProperty("ondblclick"))s.getProperty("ondblclick")(e,s);else that.ondblclick(e,s);}
-		else {if(dblclick)dblclick(e,s);}
+		el.ondblclick = function(e){
+			var s = newbehaviour(e); 				
+			if(s) {
+				if(s.getProperty("ondblclick"))s.getProperty("ondblclick")(e,s);
+				else {
+					that.ondblclick(e,s);
+				}
+			}
+			else {if(dblclick)dblclick(e,s);}
 		
 		};
 		el.onmouseup = function(e){ var s = newbehaviour(e); if(s){if(s.getProperty("onmouseup"))s.getProperty("onmouseup")(e,s);else that.onmouseup(e,s);}else{if(up)up(e,s);}}

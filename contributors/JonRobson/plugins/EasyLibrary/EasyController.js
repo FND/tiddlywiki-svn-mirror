@@ -112,9 +112,6 @@ EasyController.prototype = {
 			that.crosshair.el.style.top = mousepos.y + "px";
 			if(!that.crosshair.lastdelta) {
 				that.crosshair.lastdelta = delta;
-			
-			
-			
 			}
 
 			if(delta > that.crosshair.lastdelta + sensitivity || delta < that.crosshair.lastdelta - sensitivity){	
@@ -141,7 +138,7 @@ EasyController.prototype = {
 			
 			return false;
 
-		}
+		};
 
 		
 		var element = this.wrapper;
@@ -198,6 +195,9 @@ EasyController.prototype = {
 			return false;
 		};
 		var onmousemove = function(e){
+
+			if(mm)mm(e);
+			if(!that.enabled) return;
 			if(!panning_status) {
 				return;
 			}
@@ -227,6 +227,7 @@ EasyController.prototype = {
 				return;
 			}
 			if(md) {md(e);}
+			if(!that.enabled) return;
 			var target =  EasyClickingUtils.resolveTarget(e);
 			if(!target) return;
 

@@ -41,7 +41,7 @@ config.macros.TagImage = {
 				radius /= image.width;
 				var fields = merge({radius:radius+"",fill:properties.fill, tagx: ""+x, tagy: ""+y, parentimage: src},config.defaultCustomFields);
 				store.saveTiddler(id,id,properties.text,false,new Date(),"imagetag",fields);
-				story.displayTiddler(null,id,DEFAULT_EDIT_TEMPLATE);
+				story.displayTiddler(resolveTarget(properties.event),id,DEFAULT_EDIT_TEMPLATE);
 				autoSaveChanges();
 				properties.radius = radius;
 				properties.position = {x:x,y:y};
@@ -81,14 +81,13 @@ config.macros.TagImage = {
 			var offsettop = (dim.height * 0.5);
 			for(var i=0; i < tids.length; i++){
 				var c =tids[i];
-				if(!c.fields.parentimage){
+				if(!c.fields.parentimage||src == c.fields.parentimage){
 					if(!c.fields.tagx) c.fields.tagx = (Math.random() * offsetleft) /dim.width;
 					if(!c.fields.tagy) c.fields.tagy =  (Math.random() * offsettop) /dim.height;
 
 					if(!c.fields.radius) c.fields.radius = 12.5 / dim.width;					
-					if(!c.fields.fill) c.fields.fill = "rgba(255,0,0,0.1)";
+					if(!c.fields.fill) c.fields.fill = config.macros.TagImage.properties[src];
 					var args = {position:{x: c.fields.tagx,y:c.fields.tagy},fill:c.fields.fill,radius:c.fields.radius,image:image,canvas:canvas,id:c.title}
-					console.log(args);
 					this.addComment(args);	
 				}
 			}
@@ -104,7 +103,127 @@ config.macros.TagImage = {
 					
 				}
 			}
-		}	
+		}
+		,setupMouse: function(clickablecanvas,src,title,img){
+			var cc = clickablecanvas;
+			var el = clickablecanvas.getDomElement();
+			var radius = config.macros.TagImage.properties[src].radius;	
+			var controller = new EasyController(cc,el);		
+			var lookuptiddler = function(id){
+				var tiddler =store.getTiddler(id);
+				if(tiddler)return tiddler;
+				var newname = config.macros.TagImage.renamedTiddlers[id];
+				if(!newname) return false;
+				else return lookuptiddler(newname);
+			}
+			var dblclick = function(e,s){
+
+				if(!e) e= window.event;
+				if(s){
+					var tiddler = lookuptiddler(s.getProperty("id"));
+					if(tiddler){story.displayTiddler(resolveTarget(e),tiddler.title); return;}
+				}
+				if(s && s.getShape() != 'circle') config.macros.TagImage.addNewComment({event: e, canvas:cc,tiddler:title,src:src,image:img});
+
+				
+			};
+			var box = document.createElement("span");
+			jQuery(box).css({border:'solid 1px black',position:"absolute",width:radius*2,height:radius*2,'z-index': 2});
+			
+			
+
+
+			var key = function(e){
+
+				var code;
+				if(e.which)code = e.which;
+				if(e.keyCode) code = e.keyCode;
+								
+				if(code === 45){//zoom out
+				if(config.macros.TagImage.properties[src].radius <= 5) return;
+				config.macros.TagImage.properties[src].radius -=5;
+				}
+				
+				if(code == 61){//zoom in
+				config.macros.TagImage.properties[src].radius +=5;
+				
+				}
+				var diameter = config.macros.TagImage.properties[src].radius * 2;
+				jQuery(box).css({width: diameter, height: diameter});
+			};
+
+
+			var selectedshape = false;
+			var beginmoving = false;
+			var checkformouseup= function(){
+				if(!selectedshape) return;
+				if(selectedshape.getShape() == 'image') return;
+				beginmoving = true;
+				box.style.display = "none";
+				controller.disable();
+			};
+			
+			var cancel = function(){
+				controller.enable();
+				box.style.display = "";
+				autoSaveChanges();
+				beginmoving = false;selectedshape = false;
+			};
+			var oldclick = el.onclick;
+			el.onclick = function(e){cancel();if(oldclick)oldclick(e);};
+			var curpos;
+			var moveit = function(){
+				var pos = curpos;
+				if(selectedshape){
+					s = selectedshape;
+					s.setCoordinates([pos.x,pos.y,s.getRadius()]); 
+					clickablecanvas.render();
+				
+					var x = pos.x/ img.width;
+					var y = pos.y / img.height;
+					var tid = store.getTiddler(s.getProperty("id"));
+					tid.fields.tagx = x+"";
+					tid.fields.tagy = y+"";
+					
+				}
+			};
+			var movethoseshapes = function(e,s,pos){
+				if(!beginmoving) {return true;}
+				curpos = EasyTransformations.undoTransformation(pos.x,pos.y,clickablecanvas.getTransformation());
+				window.setTimeout(moveit,100);
+				return false;
+			};
+			
+			
+			var move = function(e,s){
+				var pos = EasyClickingUtils.getMouseFromEvent(e);
+				var cont = movethoseshapes(e,s,pos);
+				if(!cont) return;
+				var radius = config.macros.TagImage.properties[src].radius;
+
+				jQuery(box).css({top:pos.y-(radius),left:pos.x -(radius)});
+				if(s && s.getProperty("id")){
+					var tiddler = lookuptiddler(s.getProperty("id"));
+					if(tiddler) box.title = tiddler.title;
+					box.style.cursor = "pointer";
+				}else {
+				box.style.cursor = "";
+				box.title = "";
+				}
+			};
+			
+			
+			//box.onmousedown= function(e){box.style.display = "none";el.onmousedown(e); };
+			//box.ondblclick = function(e){box.style.display = "none";el.ondblclick(e); box.style.display = "";};	
+			//box.onclick = function(e){cancel();};
+			//box.onmouseup = function(e){cancel();box.style.display = "";};
+			//box.style.display = "none";
+			var onmousedown = function(e,s){ beginmoving = false;selectedshape = s; window.setTimeout(checkformouseup,20);};
+			var onmouseup = function(e,s){cancel(); window.setTimeout(cancel,200);};
+			el.appendChild(box);
+			clickablecanvas.setOnMouse(onmousedown,onmouseup,move,dblclick,key);
+
+		}
 		,handler: function(place,macroName,paramlist,wikifier,paramString,tiddler){
 			var tiddlerDom = story.findContainingTiddler(place);
 
@@ -147,7 +266,7 @@ config.macros.TagImage = {
 			if(numcomments) tags = numcomments;
 			
 			
-			var setup = function(){
+			var setup = function(filter){
 				config.macros.TagImage.loadedImages[src] = true;
 				var width,height;
 				var ratio;
@@ -188,7 +307,7 @@ config.macros.TagImage = {
 					cc.add(new EasyShape(imgproperties,[0,0]));					
 				}
 				else{
-					src= "GLOBAL";
+					src= "false";
 
 				}
 
@@ -196,72 +315,13 @@ config.macros.TagImage = {
 				config.macros.TagImage.properties[src] = {};
 				config.macros.TagImage.properties[src].fill = getParam(params,"fill");
 				config.macros.TagImage.properties[src].radius =radius;				
-				var dblclick = function(e,s){
-					if(!e) e= window.event;
-					if(s.getShape() != 'circle') config.macros.TagImage.addNewComment({event: e, canvas:cc,tiddler:title,src:src,image:img});
-				};
-				
-				var box = document.createElement("span");
-				jQuery(box).css({border:'solid 1px black',position:"absolute",width:radius*2,height:radius*2,'z-index': 2});
-				
-				
-				var lookuptiddler = function(id){
-					var tiddler =store.getTiddler(id);
-					if(tiddler)return tiddler;
-					var newname = config.macros.TagImage.renamedTiddlers[id];
-					if(!newname) return false;
-					else return lookuptiddler(newname);
-				}
-				var move = function(e,s){
-					var pos = EasyClickingUtils.getMouseFromEvent(e);
-					var radius = config.macros.TagImage.properties[src].radius;
 	
-					jQuery(box).css({top:pos.y-(radius),left:pos.x -(radius)});
-					if(s && s.getProperty("id")){
-						var tiddler = lookuptiddler(s.getProperty("id"));
-						if(tiddler) box.title = tiddler.title;
-						box.style.cursor = "pointer";
-					}else {
-					box.style.cursor = "";
-					box.title = "";
-					}
-				}
-				var up = function(e,s){
-					if(s && s.getProperty("id")){
-						var tiddler = lookuptiddler(s.getProperty("id"));
-						if(tiddler)story.displayTiddler(null,tiddler.title);
-					}
-				};
-				
 			
 				cc.render();
 
 
-				box.onmousedown= function(e){box.style.display = "none";newel.onmousedown(e); box.style.display = "";}
-				box.ondblclick = function(e){box.style.display = "none";newel.ondblclick(e); box.style.display = "";}
 				
-				var key = function(e){
-	
-					var code;
-					if(e.which)code = e.which;
-					if(e.keyCode) code = e.keyCode;
-									
-					if(code === 45){//zoom out
-					if(config.macros.TagImage.properties[src].radius <= 5) return;
-					config.macros.TagImage.properties[src].radius -=5;
-					}
-					
-					if(code == 61){//zoom in
-					config.macros.TagImage.properties[src].radius +=5;
-					
-					}
-					var diameter = config.macros.TagImage.properties[src].radius * 2;
-					jQuery(box).css({width: diameter, height: diameter});
-				}
-		
-				cc.setOnMouse(false,up,move,dblclick,key);
-				var control = new EasyController(cc,newel);	
-				newel.appendChild(box);
+				config.macros.TagImage.setupMouse(cc,src,title,img);
 				place.appendChild(newel);
 				
 				if(!filter)config.macros.TagImage.loadComments(cc,title,src,img);
