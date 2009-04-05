@@ -1,4 +1,5 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
+noscript: noscript.zh-Hans.txt
 tiddler: locale.zh-Hans.js
 tiddler: Credits.tiddler
 tiddler: DefaultTiddlers.tiddler

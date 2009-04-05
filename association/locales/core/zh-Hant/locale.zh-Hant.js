@@ -4,10 +4,10 @@
 |''Source:''|http://tiddlywiki-zh.googlecode.com/svn/trunk/|
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hant/locale.zh-Hant.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
-|''Version:''|2.4.2|
-|''Date:''|Dec 29, 2008|
-|''Comments:''|Please make comments at http://groups-beta.google.com/group/TiddlyWiki-zh/|
-|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''Version:''|2.5.1|
+|''Date:''|Mar 26, 2009|
+|''Comments:''|Please make comments at http://groups.google.com/group/TiddlyWiki-zh/|
+|''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.4.1|
 ***/
 
@@ -246,6 +246,7 @@ merge(config.macros.plugins,{
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Tiddler', field: 'tiddler', title: "套件", type: 'Tiddler'},
 			{name: 'Description', field: 'desc', title: "說明", type: 'String'},
+			{name: 'Version', field: 'Version', title: "版本", type: 'String'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "大小", type: 'Size'},
 			{name: 'Forced', field: 'forced', title: "強制執行", tag: 'systemConfigForce', type: 'TagCheckbox'},
 			{name: 'Disabled', field: 'disabled', title: "停用", tag: 'systemConfigDisable', type: 'TagCheckbox'},
@@ -351,7 +352,7 @@ merge(config.macros.sync,{
 			{name: 'Server Host', field: 'serverHost', title: "伺服器主機", type: 'String'},
 			{name: 'Server Workspace', field: 'serverWorkspace', title: "伺服器工作區", type: 'String'},
 			{name: 'Status', field: 'status', title: "同步情形", type: 'String'},
-			{name: 'Server URL', field: 'serverUrl', title: "伺服器網址", text: "View", type: 'Link'}
+			{name: 'Server URL', field: 'serverUrl', title: "伺服器網址", text: "檢視", type: 'Link'}
 			],
 		rowClasses: [
 			],
