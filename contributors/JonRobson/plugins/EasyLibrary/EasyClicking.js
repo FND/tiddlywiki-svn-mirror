@@ -90,7 +90,7 @@ EasyClickableCanvas.prototype = {
 		var mv = el.onmousemove;
 		var dblclick =el.ondblclick;
 		this.initialKeyPress = window.onkeypress;
-		
+		el.oncontextmenu=function() {  return false}; 		
 		el.onmouseover = function(e){
 				if(!that.keypressactive) {
 					that.keypressactive =  true;
@@ -99,8 +99,9 @@ EasyClickableCanvas.prototype = {
 				}
 		}
 		el.onmouseout = function(e){that.keypressactive = false;};
-
-		el.onmousedown = function(e){		
+		el.onclick = function(e){ return false;}
+		el.onmousedown = function(e){
+			e.preventDefault();			
 			var s = newbehaviour(e); 
 			//var pos = EasyTransformations.getXY(e,that.getTransformation());
 			if(s){
@@ -108,6 +109,9 @@ EasyClickableCanvas.prototype = {
 				else that.onmousedown(e,s);
 			}
 			else {if(down)down(e,s);}
+			
+
+			return false;
 		}
 
 		el.ondblclick = function(e){var s = newbehaviour(e); 
@@ -119,13 +123,17 @@ EasyClickableCanvas.prototype = {
 		el.onmousemove = function(e){ var s = newbehaviour(e);if(s){if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);else that.onmousemove(e,s);}else{ if(mv)mv(e,s);}}
 
 	}
+	,getDimensions: function(){
+		return {width: parseInt(this.canvas.style.width), height: parseInt(this.canvas.style.height)};
+	}
 	,resize: function(width,height){
+		
 		if(this.canvas.getAttribute("width")){
 			this.canvas.width = width;
 			this.canvas.height = height;
 		}
-		this.canvas.style.height = height+"px";
-		this.canvas.style.width = width +"px";
+		jQuery(this.wrapper).css({height:height,width:width});
+		jQuery(this.canvas).css({height:height,width:width});
 	}
 	,setTransparency: function(alpha){	
 		this.settings.globalAlpha = alpha

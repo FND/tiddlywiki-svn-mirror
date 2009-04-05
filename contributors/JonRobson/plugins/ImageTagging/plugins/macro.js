@@ -10,6 +10,7 @@ config.macros.TagImage = {
 			var src= properties.src;
 			var title = properties.tiddler;
 			var id = properties.id;
+			var image = properties.image;
 			var pos = properties.position;
 			var cc = properties.canvas;
 			if(!properties.fill&& config.macros.TagImage.properties[src]) properties.fill = config.macros.TagImage.properties[src].fill; 
@@ -31,39 +32,74 @@ config.macros.TagImage = {
 			}
 			var x= pos.x;
 			var y = pos.y;
+			var dim = cc.getDimensions();
 			
 			if(x && y){
+				//currently have position from center, want position from top left,radius is also effected by dimensions of image
+				x /= image.width;
+				y /= image.height;
+				radius /= image.width;
 				var fields = merge({radius:radius+"",fill:properties.fill, tagx: ""+x, tagy: ""+y, parentimage: src},config.defaultCustomFields);
-				store.saveTiddler(id,id,properties.text,false,new Date(),"comment",fields);
+				store.saveTiddler(id,id,properties.text,false,new Date(),"imagetag",fields);
+				story.displayTiddler(null,id,DEFAULT_EDIT_TEMPLATE);
 				autoSaveChanges();
+				properties.radius = radius;
+				properties.position = {x:x,y:y};
 			}
 			properties.id = id;
 			this.addComment(properties);
-			story.displayTiddler(null,id,DEFAULT_EDIT_TEMPLATE);
+			
 			
 		}
 		,addComment: function(properties){
 			var pos = properties.position;
 			var cc = properties.canvas;
+			var image = properties.image;
 			var id = properties.id;	
 			var radius = properties.radius;
-			if(!pos || !id ||!cc |!radius) {throw "I'm not happy - you haven't given me enough to work with";return;  }
+			if(!pos || !id ||!cc ||!radius) {throw "I'm not happy - you haven't given me enough to work with";return;  }
 			var move = function(e,s){
 					if(s)cc.title = id;
 			};
-			var x = parseFloat(pos.x);
-			var y = parseFloat(pos.y);
+			var w,h;
+			var dim = cc.getDimensions();
+			if(image) w =image.width; else w = dim.width;
+			if(image) h = image.height; else h = dim.height;
+			
+			var x = parseFloat(pos.x *w);
+			var y = parseFloat(pos.y * h);
+			radius *= image.width;
 			var point = new EasyShape({lineWidth:'2',shape:'circle', 'id':id,fill:properties.fill},[x,y,radius]);
 			cc.add(point);
 			cc.render();	
 		}
-		,loadComments: function(canvas,tiddler,src){
+		
+		,loadTiddlers: function(canvas,tiddler,src,image){
+			var tids = store.getTiddlers();
+			var dim = canvas.getDimensions();
+			var offsetleft = (dim.width * 0.5);
+			var offsettop = (dim.height * 0.5);
+			for(var i=0; i < tids.length; i++){
+				var c =tids[i];
+				if(!c.fields.parentimage){
+					if(!c.fields.tagx) c.fields.tagx = (Math.random() * offsetleft) /dim.width;
+					if(!c.fields.tagy) c.fields.tagy =  (Math.random() * offsettop) /dim.height;
+
+					if(!c.fields.radius) c.fields.radius = 12.5 / dim.width;					
+					if(!c.fields.fill) c.fields.fill = "rgba(255,0,0,0.1)";
+					var args = {position:{x: c.fields.tagx,y:c.fields.tagy},fill:c.fields.fill,radius:c.fields.radius,image:image,canvas:canvas,id:c.title}
+					console.log(args);
+					this.addComment(args);	
+				}
+			}
+		}
+		,loadComments: function(canvas,tiddler,src,image){
 			var tid = store.getTiddler(tiddler);
-			var comments = store.getTaggedTiddlers("comment");
+			var comments = store.getTaggedTiddlers("imagetag");
 			for(var i=0; i < comments.length; i++){
 				var c =comments[i];
 				if(c.fields.parentimage && c.fields.parentimage == src){
-					var args = {position:{x: c.fields.tagx,y:c.fields.tagy},fill:c.fields.fill,radius:c.fields.radius,canvas:canvas,id:c.title};
+					var args = {position:{x: c.fields.tagx,y:c.fields.tagy},fill:c.fields.fill,radius:c.fields.radius,image:image,canvas:canvas,id:c.title};
 					this.addComment(args);
 					
 				}
@@ -75,31 +111,36 @@ config.macros.TagImage = {
 			
 			var src,requestedwidth,requestedheight, maxwidth,maxheight;
 			var params = paramString.parseParams("anon",null,true,false,false);
-			if(!getParam(params,"src")) {
-				src = paramlist[0];
-			}else{
+			if(getParam(params,"src")) {
 				src= getParam(params,"src");
+			}else{
+				src = paramlist[0];
 			}
+
 			
 			requestedwidth= getParam(params,"width");
 			requestedheight= getParam(params,"height");
 			maxwidth= parseInt(getParam(params,"maxwidth"));
 			maxheight= parseInt(getParam(params,"maxheight"));
-			config.macros.TagImage.properties[src] = {};
-			config.macros.TagImage.properties[src].fill = getParam(params,"fill");
-			
-			var radius = getParam(params,"radius");
-			if(!radius) radius = 12.5;
-			config.macros.TagImage.properties[src].radius =radius;
+			filter = getParam(params,"filter");
 
+			
 			var id= parseInt(getParam(params,"id"));
 			var title = tiddlerDom.getAttribute("tiddler");
 			var newel = document.createElement("div");
 			//newel.style.overflow = "hidden";
 			newel.className = "TagImage";
+			
+			var w = 100,h = 100;
+			if(requestedwidth) w = parseInt(requestedwidth);
+			if(requestedheight)h = parseInt(requestedheight);
+			jQuery(newel).css({width: w, height: h,overflow:"hidden"});
+			
+			var cc = new EasyClickableCanvas(newel);
+
 			if(id)newel.id = id;
 			var img = new Image();
-			img.src = src;
+			if(src)img.src = src;
 
 			var tags = 0;
 			var numcomments = store.getValue(store.getTiddler(title),"imagecomments");	
@@ -110,43 +151,54 @@ config.macros.TagImage = {
 				config.macros.TagImage.loadedImages[src] = true;
 				var width,height;
 				var ratio;
-				if(requestedwidth && requestedheight){
+				var radius = getParam(params,"radius");
+				if(!radius) radius = 12.5;
+
+				if(img.width > 0 && img.height > 0){
+					if(requestedwidth && requestedheight){
+							img.width = requestedwidth;
+							img.height = requestedheight;
+					}
+					else if(requestedwidth && !requestedheight) {
+						var original = img.width;
+						ratio = original /  requestedwidth;
 						img.width = requestedwidth;
+						img.height = img.height / ratio;
+					}
+					else if(requestedheight && !requestedwidth) {
+						var original = img.height;
+						ratio = original /  requestedheight;
 						img.height = requestedheight;
+						img.width = img.width / ratio;
+					}
+					height = img.height;
+					width = img.width;
+					
+					var ewidth = width;
+					var eheight = height;
+					if(maxwidth && maxwidth < width) {
+						ewidth = maxwidth;
+					}
+					if(maxheight && maxheight < height) {
+						eheight = maxheight;
+					}
+					cc.resize(ewidth,eheight);
+
+					var imgproperties = {shape:'image',src:src,width:width,height:height};
+					cc.add(new EasyShape(imgproperties,[0,0]));					
 				}
-				else if(requestedwidth && !requestedheight) {
-					var original = img.width;
-					ratio = original /  requestedwidth;
-					img.width = requestedwidth;
-					img.height = img.height / ratio;
+				else{
+					src= "GLOBAL";
+
 				}
-				else if(requestedheight && !requestedwidth) {
-					var original = img.height;
-					ratio = original /  requestedheight;
-					img.height = requestedheight;
-					img.width = img.width / ratio;
-				}
-				height = img.height;
-				width = img.width;
-			
-				var ewidth = width;
-				var eheight = height;
-				if(maxwidth && maxwidth < width) {
-					ewidth = maxwidth;
-				}
-				if(maxheight && maxheight < height) {
-					eheight = maxheight;
-				}
-	
-	
-				jQuery(newel).css({width: ewidth, height: eheight,overflow:"hidden"});
-				var imgproperties = {shape:'image',src:src,width:width,height:height};
-				var cc = new EasyClickableCanvas(newel,[new EasyShape(imgproperties,[0,0])]);
-				
-				
+
+
+				config.macros.TagImage.properties[src] = {};
+				config.macros.TagImage.properties[src].fill = getParam(params,"fill");
+				config.macros.TagImage.properties[src].radius =radius;				
 				var dblclick = function(e,s){
 					if(!e) e= window.event;
-					config.macros.TagImage.addNewComment({event: e, canvas:cc,tiddler:title,src:src});
+					if(s.getShape() != 'circle') config.macros.TagImage.addNewComment({event: e, canvas:cc,tiddler:title,src:src,image:img});
 				};
 				
 				var box = document.createElement("span");
@@ -163,6 +215,7 @@ config.macros.TagImage = {
 				var move = function(e,s){
 					var pos = EasyClickingUtils.getMouseFromEvent(e);
 					var radius = config.macros.TagImage.properties[src].radius;
+	
 					jQuery(box).css({top:pos.y-(radius),left:pos.x -(radius)});
 					if(s && s.getProperty("id")){
 						var tiddler = lookuptiddler(s.getProperty("id"));
@@ -205,21 +258,24 @@ config.macros.TagImage = {
 					var diameter = config.macros.TagImage.properties[src].radius * 2;
 					jQuery(box).css({width: diameter, height: diameter});
 				}
-				cc.setOnMouse(false,up,move,dblclick,key);	
-							
+		
+				cc.setOnMouse(false,up,move,dblclick,key);
 				var control = new EasyController(cc,newel);	
 				newel.appendChild(box);
-				place.appendChild(newel);	
-				config.macros.TagImage.loadComments(cc,title,src);
+				place.appendChild(newel);
+				
+				if(!filter)config.macros.TagImage.loadComments(cc,title,src,img);
+				else config.macros.TagImage.loadTiddlers(cc,title,src,img);
 			};
+	
 			if(img.complete){
-				setup();
+					setup(filter);
 			}
 			else{
-				img.onload = function(){	
-					setup();
-				}
-			
+					img.onload = function(){	
+						setup(filter);
+					}
+				
 			}
 		}
 };
