@@ -24,18 +24,16 @@ TODO:
 * TiddlyWiki class
 * convert store format before parsing
 * investigate commonalities with TiddlyWeb (cf. ticket #995)
-* split into separate modules
 * make __init__.py provide API
 * full CRUD functionality
-* support for tiddler sections
 """
 
 
-import re
-
 import html5lib
 
-from datetime import datetime # XXX: use time module?
+from datetime import datetime
+
+from tiddler import Tiddler
 
 
 def get_tiddlers(document): # TODO: move into TiddlyWiki class
@@ -62,61 +60,6 @@ def get_tiddlers(document): # TODO: move into TiddlyWiki class
 	return [_generate_tiddler(node) for node in _get_tiddler_elements(document)]
 
 
-class Tiddler(object):
-	"""
-	content unit
-	""" # TODO
-
-	standard_fields = [
-		"title",
-		"text",
-		"created",
-		"modified",
-		"modifier",
-		"tags"
-	]
-
-	_slices_pattern = r"(?:^([\'\/]{0,2})~?([\.\w]+)\:\1[\t\x20]*([^\n]+)[\t\x20]*$)|(?:^\|([\'\/]{0,2})~?([\.\w]+)\:?\4\|[\t\x20]*([^\n]+)[\t\x20]*\|$)" # tweaked version of TiddlyWiki core RegEx -- TODO: update to latest version
-	_slices_pattern = re.compile(_slices_pattern, re.M + re.I)
-
-	def __init__(self, title):
-		"""
-		initialize defaults
-
-		@param title: tiddler name
-		"""
-		self.title = title
-		self.text = None
-		self.created = datetime.utcnow()
-		self.modified = None
-		self.modifier = None
-		self.tags = []
-		self.fields = {}
-
-	def get_slices(self): # TODO: optional parameters for text and name?
-		"""
-		retrieve all slices from tiddler
-
-		@return: slices dictionary
-		"""
-		slices = {}
-		try:
-			matches = _slices_pattern.findall(self.text)
-		except TypeError: # empty tiddler
-			return slices
-		for match in matches:
-			if match[1]: # colon notation
-				slices[match[1]] = match[2]
-			else: # table notation
-				slices[match[4]] = match[5]
-		return slices
-
-	def __repr__(self): # XXX: move below __init__?
-		"""
-		use tiddler name in string representation
-		"""
-		return self.title + object.__repr__(self) # TODO: insert separator?
-
 def convert_tiddler_timestamp(t): # TODO: rename? move into TiddlyWiki class? -- XXX: private?
 	"""
 	convert tiddler timestamp to datetime object
@@ -127,7 +70,14 @@ def convert_tiddler_timestamp(t): # TODO: rename? move into TiddlyWiki class? --
 	return datetime(int(t[0:4]), int(t[4:6]), int(t[6:8]),
 		int(t[8:10]), int(t[10:12])) # TODO: use strptime?
 
+
 def readBracketedList(string): # TODO: move into TiddlyWiki class? -- XXX: private?
+	"""
+	retrieve items from bracketed list
+
+	@param string: bracketed list
+	@return: list of items
+	"""
 	return string.split(" ") # TODO: proper implementation
 
 
