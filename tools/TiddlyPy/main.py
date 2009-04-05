@@ -70,6 +70,14 @@ def convert_tiddler_timestamp(t): # TODO: rename? move into TiddlyWiki class? --
 	return datetime(int(t[0:4]), int(t[4:6]), int(t[6:8]),
 		int(t[8:10]), int(t[10:12])) # TODO: use strptime?
 
+def generate_tiddler_timestamp(t): # TODO: rename? move into TiddlyWiki class? -- XXX: private?
+	"""
+	convert datetime object to tiddler timestamp
+
+	@param t: datetime object
+	@return: tiddler timestamp (YYYYMMDDhhmm format)
+	"""
+	return t.strftime("%Y%m%d%H%M")
 
 def read_bracketed_list(string): # TODO: move into TiddlyWiki class? -- XXX: private?
 	"""
@@ -154,3 +162,30 @@ def _decode_legacy_text(text): # TODO: move into TiddlyWiki class
 	"""
 	return text.replace(r"\n", "\n").replace(r"\b", " "). \
 		replace(r"\s", "\\").replace("\r", "")
+
+
+def create_tiddler_element(tiddler):
+	"""
+	create tiddler element from Tiddler instance
+
+	@param tiddler: Tiddler instance
+	@return: markup string
+	"""
+	template = """\
+	<div title="%s" created="%s" modified="%s" modifier="%s" tags="%s"%s>
+		<pre>%s</pre>
+	</div>
+	""" # TODO: generate element node instead of string stitching
+	title = tiddler.title
+	created = generate_tiddler_timestamp(tiddler.created) # XXX: should be entirely optional!?
+	try:
+		modified = generate_tiddler_timestamp(tiddler.modified) # XXX: should be entirely optional
+	except AttributeError:
+		modified = ""
+	modifier = tiddler.modifier or "" # XXX: should be entirely optional!?
+	tags = " ".join(tiddler.tags) # TODO: generate bracketed list -- XXX: should be entirely optional!?
+	fields = ['%s="%s"' % (k, v) for k, v in tiddler.fields.items()]
+	fields = " ".join(fields) if fields else ""
+	text = tiddler.text or ""
+	# TODO: escape double quotes!?
+	return template % (title, created, modified, modifier, tags, fields, text)
