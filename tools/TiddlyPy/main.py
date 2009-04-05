@@ -70,6 +70,7 @@ def convert_tiddler_timestamp(t): # TODO: rename? move into TiddlyWiki class? --
 	return datetime(int(t[0:4]), int(t[4:6]), int(t[6:8]),
 		int(t[8:10]), int(t[10:12])) # TODO: use strptime?
 
+
 def generate_tiddler_timestamp(t): # TODO: rename? move into TiddlyWiki class? -- XXX: private?
 	"""
 	convert datetime object to tiddler timestamp
@@ -78,6 +79,7 @@ def generate_tiddler_timestamp(t): # TODO: rename? move into TiddlyWiki class? -
 	@return: tiddler timestamp (YYYYMMDDhhmm format)
 	"""
 	return t.strftime("%Y%m%d%H%M")
+
 
 def read_bracketed_list(string): # TODO: move into TiddlyWiki class? -- XXX: private?
 	"""
