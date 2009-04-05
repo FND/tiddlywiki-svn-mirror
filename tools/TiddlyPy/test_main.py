@@ -255,25 +255,25 @@ class decodeLegacyTextTestCase(TestCase):
 
 	def testConvertsLineBreaks(self):
 		"""_decode_legacy_text converts line break markers"""
-		actual = main._decodeLegacyText(r"foo\nbar")
+		actual = main._decode_legacy_text(r"foo\nbar")
 		expected = "foo\nbar"
 		self.assertEqual(expected, actual)
 
 	def testConvertsSpaces(self):
 		"""_decode_legacy_text converts space markers"""
-		actual = main._decodeLegacyText(r"foo\bbar")
+		actual = main._decode_legacy_text(r"foo\bbar")
 		expected = "foo bar"
 		self.assertEqual(expected, actual)
 
 	def testConvertsSlashMarkers(self):
 		"""_decode_legacy_text converts slash markers"""
-		actual = main._decodeLegacyText(r"foo\sbar")
+		actual = main._decode_legacy_text(r"foo\sbar")
 		expected = "foo\\bar"
 		self.assertEqual(expected, actual)
 
 	def testStripsCarriageReturns(self):
 		"""_decode_legacy_text removes carriage returns"""
-		actual = main._decodeLegacyText("foo\r")
+		actual = main._decode_legacy_text("foo\r")
 		expected = "foo"
 		self.assertEqual(expected, actual)
 

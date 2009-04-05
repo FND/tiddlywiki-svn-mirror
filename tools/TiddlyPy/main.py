@@ -71,7 +71,7 @@ def convert_tiddler_timestamp(t): # TODO: rename? move into TiddlyWiki class? --
 		int(t[8:10]), int(t[10:12])) # TODO: use strptime?
 
 
-def readBracketedList(string): # TODO: move into TiddlyWiki class? -- XXX: private?
+def read_bracketed_list(string): # TODO: move into TiddlyWiki class? -- XXX: private?
 	"""
 	retrieve items from bracketed list
 
@@ -108,7 +108,7 @@ def _generate_tiddler(node): # TODO: move into TiddlyWiki class
 			if attr == "created" or attr == "modified":
 				value = convert_tiddler_timestamp(value)
 			elif attr == "tags":
-				value = readBracketedList(value)
+				value = read_bracketed_list(value)
 			setattr(tiddler, attr, value)
 		else: # extended field
 			if not attr == "tiddler" or "title" in node.attrMap: # non-legacy attribute
@@ -140,17 +140,17 @@ def _get_text(tiddler): # TODO: move into TiddlyWiki class
 	try: # modern format
 		return tiddler.find("pre").contents[0] # XXX: use .string!?
 	except AttributeError: # legacy format
-		return _decodeLegacyText(tiddler.contents[0]) # XXX: use .string!?
+		return _decode_legacy_text(tiddler.contents[0]) # XXX: use .string!?
 	except IndexError: # empty tiddler
 		return None
 
 
-def _decodeLegacyText(text): # TODO: move into TiddlyWiki class
+def _decode_legacy_text(text): # TODO: move into TiddlyWiki class
 	"""
 	decode tiddler text from legacy store format
 
-	@param text (str): encoded contents
-	@return (str): decoded contents
+	@param text: encoded content string
+	@return: decoded contents
 	"""
 	return text.replace(r"\n", "\n").replace(r"\b", " "). \
 		replace(r"\s", "\\").replace("\r", "")
