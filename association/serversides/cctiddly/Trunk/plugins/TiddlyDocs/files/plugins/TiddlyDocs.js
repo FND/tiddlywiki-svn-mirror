@@ -31,41 +31,6 @@ config.commands.saveSection.handler = function(event,src,title)
 //{{{
 
 
-
-
-
-/// HACK TO ROUND OF THE EDGES OF EACH BUTTON
-function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey,attribs)
-{
-	var btn = document.createElement("a");
-	if(action) {
-		btn.onclick = action;
-		btn.setAttribute("href","javascript:;");
-	}
-	if(tooltip)
-		btn.setAttribute("title",tooltip);
-	if(text){
-		var span = createTiddlyElement(btn, "span");
-		span.appendChild(document.createTextNode(text));
-	}
-	btn.className = className || "roundButton";
-	if(id)
-		btn.id = id;
-	if(attribs) {
-		for(var i in attribs) {
-			btn.setAttribute(i,attribs[i]);
-		}
-	}
-	if(parent)
-		parent.appendChild(btn);
-	if(accessKey)
-		btn.setAttribute("accessKey",accessKey);
-	return btn;
-}
-
-
-
-
 config.macros.docOutline={};
 
 config.macros.docOutline.editClick=function(){
@@ -93,58 +58,19 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 		wikify("| [[Drawings]] | <<newDrawing>>  ", buttonHolder);
 	wikify("<<docPrint "+params[0]+">>", buttonHolder);
 	window.activeDocument = params[0];
-/// new tiddler button 
-	var btn = createTiddlyElement(buttonHolder, "a", null, "roundButton");
-	var span = createTiddlyElement(btn, "span");
-	btn.onclick = config.macros.newTiddler.onClickNewTiddler;
-	btn.setAttribute("newTitle","New Section");
-	config.views.wikified.defaultText = "<html><h3>Empty Section</h3><img src='http://tbn1.google.com/images?q=tbn:26PhIrrfSwHKXM:http://www.nps.gov/plants/sos/training/typicalshipment/images/Step%2001%20Empty%20Box.jpg' />Please enter some text</html>";
-	
-	btn.setAttribute("newTemplate","mpTheme##newEditTemplate");
-	var img = createTiddlyElement(span, "img");
-	img.style.width = "10px";
-	img.style.height="10px";
-	img.src = "http://www.iconspedia.com/uploads/578075880.png";
-	createTiddlyText(span, " New");
-	btn.setAttribute("href","javascript:;");
-
-
-/// users button
-	var btn = createTiddlyElement(buttonHolder, "a", null, "roundButton");
-	btn.onclick = function () {
+	createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
+//	btn.setAttribute("newTemplate","mpTheme##newEditTemplate");
+	var displaySettings= function () {
 		story.displayTiddler(null, "Settings");
 	};
-
-
-	var span = createTiddlyElement(btn, "span");
-	var img = createTiddlyElement(span, "img");
-	img.style.width = "10px";
-	img.style.height="10px";
-	img.src = "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png";
-	createTiddlyText(span, " Settings");
-	btn.setAttribute("href","javascript:;");	
-	
-	
-
-	/// new tiddler button 
-		var btn = createTiddlyElement(buttonHolder, "a", null, "roundButton");
-		var span = createTiddlyElement(btn, "span");
-		btn.onclick = function() {
-			if (window.fullUrl.indexOf('?') > 0)
-				window.location = window.fullUrl+'&logout=1';
-			else
-				window.location = window.fullUrl+'?logout=1';
-		};
-		btn.setAttribute("newTitle","Logout");
-		var img = createTiddlyElement(span, "img");
-		img.style.width = "10px";
-		img.style.height="10px";
-		img.src = "http://www.iconspedia.com/uploads/578075880.png";
-		createTiddlyText(span, " Logout");
-		btn.setAttribute("href","javascript:;");
-
-	
-
+	createTiddlyButton(buttonHolder, "setting", "Personalise TiddlyDocs", displaySettings, null, null, null, null, "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png");
+	var logout = function() {
+		if (window.fullUrl.indexOf('?') > 0)
+			window.location = window.fullUrl+'&logout=1';
+		else
+			window.location = window.fullUrl+'?logout=1';
+	};
+	createTiddlyButton(buttonHolder, "logout", "Logout of TiddlyDocs", logout, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
 	createTiddlyElement(place, "br");
 	var treeSpec = store.getTiddlerText(params[0]); 
 	if(treeSpec){
@@ -296,17 +222,8 @@ config.macros.docPrint.handler=function(place,macroName,params,wikifier,paramStr
 		}
 	};
 	// print button 
-	
-	var btn = createTiddlyElement(place, "a", null, "roundButton");
-	var span = createTiddlyElement(btn, "span");
+	createTiddlyButton(place, "print", "Download a printable PDF version of the document.", onClickPrint, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
 
-	btn.onclick = onClickPrint;
-	var img = createTiddlyElement(span, "img");
-	img.style.width = "10px";
-	img.style.height="10px";
-	img.src = "http://www.iconspedia.com/uploads/1543439043.png";
-	createTiddlyText(span, " Print");
-	btn.setAttribute("href","javascript:;");
 };
 
 config.macros.docPrint.saveCallback=function(status,context,responseText,uri,xhr) {

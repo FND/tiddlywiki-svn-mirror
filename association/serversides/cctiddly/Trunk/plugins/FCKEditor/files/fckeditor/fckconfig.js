@@ -98,7 +98,6 @@ FCKConfig.HtmlEncodeOutput = false ;
 FCKConfig.TemplateReplaceAll = true ;
 FCKConfig.TemplateReplaceCheckbox = true ;
 
-//FCKConfig.ToolbarLocation = 'Out:fixedBar' ;
 FCKConfig.ToolbarLocation = 'In';
 
 

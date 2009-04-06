@@ -27,15 +27,15 @@ tags: systemTheme
 <!--{{{-->
 
 
-
-<div class="head-applinks">
+<div id='top-banner-container' class='banner'>
+	<div id='top-banner-left'  class='banner'><div>
+	<div id='top-banner-mid-left' class='banner'>
     <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-	
-		<div  class="searchPosition" macro='search'></div>
-
-	
- </div>
+	<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span><div>
+	<div id='top-banner-mid-right' class='banner'><div  class="searchPosition" macro='search'></div>
+	<div>
+	<div id='top-banner-right' class='banner'><div>
+</div>
 
 
 
@@ -75,11 +75,17 @@ tags: systemTheme
 			<div class="portletCornerLeft"></div>
 			<div class="portletCornerRight"></div>
 			<div class="portletTitle">
-		<div class='title'>Crafted by</div>
+		<div class='title'>About TiddlyDocs</div>
 			</div>
 		</div>
 		<div class="portletContent leftColumnItem">
 		<center><br/>
+		<p>
+		TiddlyDocs is designed to help you and your team collaborate on large documents.
+		</p>
+		<p>
+			A document can take several people to write, so TiddlyDocs lets you break it into sections and spread the bits out across your team.
+		</p>
 		<!--
 		<img src='http://farm4.static.flickr.com/3461/3348345219_37d4d5ecd3.jpg' height="30px" /><br/><br/>
 		<img src='http://labs.bt.com/projects/agents/zeus/images/BT_200pix_pos.gif' height="40px" /><br/><br/>
@@ -245,17 +251,13 @@ html body .leftColumnItem {
 
 
 .searchPosition {
+	background:transparent url(plugins/TiddlyDocs/files/images/top-banner-search.png) no-repeat scroll 0 0;
+	float:right;
+	padding:1em;
 	position:relative;
-	top:-0.7em;
-	width:59%;
-}
-
-#searchform {
-	background:transparent url(http://tapbots.com/images-global/blog/bg_search_bot.png) no-repeat scroll 0 bottom;
-	margin-bottom:1.5em;
-	margin-top:3px;
-	padding:0;
-	background:red;
+	right:1em;
+	top:1.5em;	
+	z-index:10;
 }
 
 label {
@@ -353,16 +355,39 @@ label {
 }
 
 
+.banner {
+	height:50px;
+}
+
+#top-banner-container {
+	width:75%;
+	padding:1em;
+	margin:1em;
+	height:45px;
+}
+
+#top-banner-mid-left {
+	background:transparent url(plugins/TiddlyDocs/files/images/banner-mid.png) repeat-x scroll 0 0;
+}
+
+
+#top-banner-left {
+	
+	background:transparent url(plugins/TiddlyDocs/files/images/top-banner-short.png) repeat-x scroll 0 0;
+	}
+
+
+
 
 .head-applinks {
-	background:transparent url(http://tapbots.com/images-global/ui/bg_applinks.png) no-repeat scroll 0 0;
+	background:transparent url(plugins/TiddlyDocs/files/images/top-banner-short.png) repeat-x scroll 0 0;
 	float:left;
 	height:50px;
-	width:100%;
-	top:1.5em;
-	position:relative;
 	left:1em;
-	
+	position:relative;
+	top:-4em;
+	width:100%;
+	z-index:1;
 }
 
 h1 {
@@ -382,48 +407,6 @@ h1, h2, h3, h4, h5, h6 {
 	position:relative;
 }
 
-#topBar {
-	background:#666;
-	width:99%;
-	height:1.5em;
-	padding:0.2em;
-	color:white;
-}
-
-#topBar a {
-	font-size:0.8em;
- 	color:#white;
-}
-
-#topBar2 {
-	background-color:#7185C2;
-	width:99%;
-	color:white;
-	font-size:0.8em;
-	border-bottom:1px solid #ccc;
-	border-right:1px solid #ccc;
-	height:2.2em;
-	padding:0.2em;
-	padding-top:0.4em
-}
-
-#topBar2 a{
-	color:#eee;
-	top:1.5em;
-	height:1.5em;
-}
-#topBar2 a:hover{
-background-color:transparent;
-	color:#fff !important;
-
-}
-
-#topBar2 input {
-	font-size:0.9em;
-	position:inherit;
-	top:-0.6em;
-}
-
 
 #searchRight {
 	float:right;
@@ -432,11 +415,6 @@ background-color:transparent;
 	text-align:right;
 	top:-3.2em;
 	font-size:0.8em;
-}
-.imgBar {
-height:50px;
-width:100px;
-border:1px solid black;
 }
 
 .taskControls {
@@ -546,7 +524,7 @@ body {
 		text-align:left;
 		padding:0.5em 1em 1em;
 		margin:1em;
-		border:1px solid #ddd;
+		border:1px solid #555;
 	}
 
 	.deleteHelper {
@@ -616,10 +594,6 @@ background:#444444 none repeat scroll 0 0;
 
 
 	#buttonHolder {
-		padding-left:0em;
-		padding-bottom:0.5em;
-		padding-top:0.5em;
-		z-index:999;
 		background-color:#555555;
 		border-top:1px solid #333;
 		border-bottom:1px solid #333;
@@ -628,23 +602,6 @@ background:#444444 none repeat scroll 0 0;
 	width:100%;
 	}
 
-	#buttonHolder .button {
-		margin:0px;
-		background:#eee;
-		border:1px solid #ccc !important;
-		border-top:0px !important;
-		border-right:0px !important;
-		border-bottom:0px !important;
-		padding-left:1em;
-		padding-right:1em;
-		color:#676767;
-
-	}
-
-	#buttonHolder .button:hover {
-		background-color:#5586b6;
-		color:white;
-	}
 	.completed {
 		border-right : 10px solid #698066;
 		padding:1em;
@@ -689,7 +646,7 @@ width:98.5%;
 		margin:0;
 		padding:0;
 		position:relative;
-		top:3em;
+		top:-3em;
 		width:68.5%;
 	}
 	.toolbar a, .toolbar:hover{
@@ -746,83 +703,87 @@ form.wizard, .wizard .wizardFooter{
 		    overflow: hidden;
 		    width: 100%;
 		}
-		a.roundButton {
-		    background: transparent url('plugins/TiddlyDocs/files/images/bg_button_a.png') no-repeat scroll top right;
-		    color: #333;
+		/* Start custom button CSS here
+	    ---------------------------------------- */
+	    .btn {
+	      display:inline-block;
+	      background:none;
+	      margin:0;
+	      padding:3px;
+	      border-width:0;
+	      overflow:visible;
+	      font:100%/1.2 Arial,Sans-serif;
+	      text-decoration:none;
+	      color:#333;
+	      }
+	    * html button.btn {
+	      padding-bottom:1px;
+	      }
+	    /* Immediately below is a temporary hack to serve the 
+	       following margin values only to Gecko browsers
+	       Gecko browsers add an extra 3px of left/right 
+	       padding to button elements which can't be overriden.
+	       Thus, we use -3px of left/right margin to overcome this. */
+	    html:not([lang*=""]) button.btn {
+	      margin:0 -3px;
+	      }
+	    .btn span {
+		  background:#eee url(img/bg-button.gif) repeat-x 0 0;
+	      margin:0;
+	      padding:3px 0;
+	      border-left:1px solid #bbb;
+	      border-right:1px solid #aaa;
+	      }
+	    * html .btn span {
+	      padding-top:0;
+	      }
+	    .btn span span {
+	      position:relative;
+	      padding:3px .4em;
+	      border-width:0;
+	      border-top:1px solid #bbb;
+	      border-bottom:1px solid #aaa;
+			color:black;
+	      }
 
-		    float: left;
-		    font-size:0.9em;
-		    height: 24px;
-		    margin-left: 6px;
-		    padding-right: 12px; /* sliding doors padding */
-		    text-decoration: none;
-		}
+	    /* only needed if implementing separate hover/focus/active state for buttons */
+	    .btn:hover span, .btn:hover span span, .btn:focus span, .btn:focus span span {
+	      cursor:pointer; /* important for any clickable/pressable element */
+	      border-color:#fff !important;
+	      color:#000;
+	      }
+	    .btn:active span {
+	      background-position:0 -400px;
+	      outline:none;
+	      }
+	    .btn:focus, .btn:active {
+	      outline:none; /* doesn't seem to be respected for <button>, only <a> */
+	      }
 
-		a.roundButton span {
-		    background: transparent url('plugins/TiddlyDocs/files/images/bg_button_span.png') no-repeat;
-		    display: block;
-		    line-height: 14px;
-		    padding: 5px 0 5px 12px;
-		}
-
-		a.roundButton:hover {
-		    background-position: bottom right;
-		    color: white;
-		    outline: none; /* hide dotted outline in Firefox */
-		}
-
-		a.roundButton:hover span {
-		    background-position: bottom left;
-		    padding: 5px 0 5px 12px; /* push text down 1px */
-		}
-
-
-
-
-		a.button {
-		    background: transparent url('http://www.oscaralexander.com/tutorials/img/bg_button_a.gif') no-repeat scroll top right;
-		    color: #444;
-		    display: block;
-		    float: left;
-		    font: normal 12px arial, sans-serif;
-		    height: 24px;
-		    margin-right: 6px;
-		    padding-right: 18px; /* sliding doors padding */
-		    text-decoration: none;
-		z-index:333;
-		}
-
-		a.button span {
-		    background: transparent url('http://www.oscaralexander.com/tutorials/img/bg_button_span.gif') no-repeat;
-		    display: block;
-		    line-height: 14px;
-		    padding: 5px 0 5px 18px;
-		}
-
-
-
-
-
-
+	    /* use if one button should be the 'primary' button */
+	    .primary {
+	      font-weight:bold;
+	      color:#000;
+	      }
+	 
+	
+	    
+	
 
 		#buttonHolder {
 			background-color:#555555;
 			border-color:-moz-use-text-color -moz-use-text-color #333333;
 			border-style:none none solid;
 			float:right;
-			padding-bottom:0.3em;
+			padding:0.3em;
 			text-align:right;
 			top:-1.5em;
-	}
+			width:98%;
+			}
 
 
 
 
-		.button:hover  {
-			background-color:#ddd;
-			border:1px solid #888;
-
-		}
 		#backstageButton {
 			display:none !important;
 		}
@@ -846,20 +807,20 @@ form.wizard, .wizard .wizardFooter{
 		
 		
 		.toolbar {
-			padding-left:0em;
-			padding-bottom:0.5em;
-			padding-top:0.5em;
+			padding:0.3em;
 			z-index:999;
 			background-color:#555555;
 			border-top:1px solid #333;
 			border-bottom:1px solid #333;
-			height:2em;
+			height:2.1em;
 		}
 
 
 
 		.toolbar  > a {
 		z-index:99999;
+		top:1px;
+		position:relative;
 		}
 	/* END TIDDLYWIKI CS */
 
@@ -872,7 +833,7 @@ form.wizard, .wizard .wizardFooter{
 	/*  COMMENTS CSS */
 
 	.commentsArea {
-		width:115%;
+		width:100%;
 		padding:2em;
 		text-align:center;
 	}
@@ -934,9 +895,7 @@ form.wizard, .wizard .wizardFooter{
 			margin:0em;
 		}
 		div.sort-handle:hover {
-			background-color:#FFF;
-			color:black;
-
+			background-color:#555;
 		}
 	// END NESTED SORTABLE CSS
 
@@ -1005,10 +964,10 @@ form.wizard, .wizard .wizardFooter{
 	}
 	.portletContent{
 		clear:left;
-		border-left:1px solid black;
-		border-right:1px solid black;
+		border-left:1px solid #434343;
+		border-right:1px solid #434343;
 		background:#fff;
-		border-bottom:1px solid black;
+		border-bottom:1px solid #434343;
 		margin:0 0 5px;
 	}
 	.portletBotLeft{
@@ -1039,7 +998,7 @@ form.wizard, .wizard .wizardFooter{
 		float:left;
 		text-align:left;
 		position:relative;
-		top:2em;
+		top:1em;
 	}
 	.middleColumn{
 		margin:0 auto;
