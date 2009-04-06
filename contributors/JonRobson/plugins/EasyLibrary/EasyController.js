@@ -14,6 +14,15 @@ var EasyController = function(targetjs,elem,options){ //elem must have style.wid
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
 
+	var md = elem.onmousedown;
+	var mu = elem.onmouseup;
+	var mm = elem.onmousemove;
+	for(var i=0; i < elem.childNodes.length; i++){
+		var child = elem.childNodes[i];
+		child.onmousedown = function(e){if(md)md(e);}
+		child.onmouseup = function(e){if(mu)mu(e);}
+		child.onmousemove = function(e){if(mm)mm(e);}
+	}
 	var controlDiv = this.wrapper.controlDiv;
 	if(!controlDiv) {
 		controlDiv = document.createElement('div');

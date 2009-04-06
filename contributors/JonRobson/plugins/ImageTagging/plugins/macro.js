@@ -40,9 +40,12 @@ config.macros.TagImage = {
 				y /= image.height;
 				radius /= image.width;
 				var fields = merge({radius:radius+"",fill:properties.fill, tagx: ""+x, tagy: ""+y, parentimage: src},config.defaultCustomFields);
-				store.saveTiddler(id,id,properties.text,false,new Date(),"imagetag",fields);
+				try{
+					store.saveTiddler(id,id,properties.text,false,new Date(),"imagetag",fields);
+					autoSaveChanges();
+				}catch(e){};
 				story.displayTiddler(resolveTarget(properties.event),id,DEFAULT_EDIT_TEMPLATE);
-				autoSaveChanges();
+				
 				properties.radius = radius;
 				properties.position = {x:x,y:y};
 			}
@@ -65,16 +68,22 @@ config.macros.TagImage = {
 			var dim = cc.getDimensions();
 			if(image) w =image.width; else w = dim.width;
 			if(image) h = image.height; else h = dim.height;
-			
+	
 			var x = parseFloat(pos.x *w);
 			var y = parseFloat(pos.y * h);
-			radius *= image.width;
-			var point = new EasyShape({lineWidth:'2',shape:'circle', 'id':id,fill:properties.fill},[x,y,radius]);
+			radius *= w;
+			
+			var props = {'shape':'circle', 'id':id,'lineWidth':'2'};
+			if(properties.fill) props.fill = properties.fill;
+			var point = new EasyShape(props,[x,y,radius]);
+			
 			cc.add(point);
-			cc.render();	
+			cc.render();
+			
 		}
 		
 		,loadTiddlers: function(canvas,tiddler,src,image){
+		
 			var tids = store.getTiddlers();
 			var dim = canvas.getDimensions();
 			var offsetleft = (dim.width * 0.5);
@@ -86,15 +95,17 @@ config.macros.TagImage = {
 					if(!c.fields.tagy) c.fields.tagy =  (Math.random() * offsettop) /dim.height;
 
 					if(!c.fields.radius) c.fields.radius = 12.5 / dim.width;					
-					if(!c.fields.fill) c.fields.fill = config.macros.TagImage.properties[src];
+					if(!c.fields.fill) c.fields.fill = config.macros.TagImage.properties[src].fill;
 					var args = {position:{x: c.fields.tagx,y:c.fields.tagy},fill:c.fields.fill,radius:c.fields.radius,image:image,canvas:canvas,id:c.title}
-					this.addComment(args);	
+					this.addComment(args);
+				
 				}
 			}
+			
 		}
 		,loadComments: function(canvas,tiddler,src,image){
 			var tid = store.getTiddler(tiddler);
-			var comments = store.getTaggedTiddlers("imagetag");
+			var comments = store.getTiddlers();
 			for(var i=0; i < comments.length; i++){
 				var c =comments[i];
 				if(c.fields.parentimage && c.fields.parentimage == src){
@@ -117,11 +128,9 @@ config.macros.TagImage = {
 				else return lookuptiddler(newname);
 			}
 			var dblclick = function(e,s){
-
-				if(!e) e= window.event;
 				if(s){
 					var tiddler = lookuptiddler(s.getProperty("id"));
-					if(tiddler){story.displayTiddler(resolveTarget(e),tiddler.title); return;}
+					if(tiddler){story.displayTiddler(resolveTarget(e),tiddler.title);return false;}
 				}
 				if(s && s.getShape() != 'circle') config.macros.TagImage.addNewComment({event: e, canvas:cc,tiddler:title,src:src,image:img});
 
@@ -159,6 +168,7 @@ config.macros.TagImage = {
 				if(!selectedshape) return;
 				if(selectedshape.getShape() == 'image') return;
 				beginmoving = true;
+				el.style.cursor = 'move';
 				box.style.display = "none";
 				controller.disable();
 			};
@@ -214,11 +224,11 @@ config.macros.TagImage = {
 			
 			
 			//box.onmousedown= function(e){box.style.display = "none";el.onmousedown(e); };
-			//box.ondblclick = function(e){box.style.display = "none";el.ondblclick(e); box.style.display = "";};	
+			//box.ondblclick = function(e){el.ondblclick(e);};	
 			//box.onclick = function(e){cancel();};
 			//box.onmouseup = function(e){cancel();box.style.display = "";};
 			//box.style.display = "none";
-			var onmousedown = function(e,s){ beginmoving = false;selectedshape = s; window.setTimeout(checkformouseup,20);};
+			var onmousedown = function(e,s){ beginmoving = false;selectedshape = s; window.setTimeout(checkformouseup,100);};
 			var onmouseup = function(e,s){cancel(); window.setTimeout(cancel,200);};
 			el.appendChild(box);
 			clickablecanvas.setOnMouse(onmousedown,onmouseup,move,dblclick,key);
@@ -236,7 +246,6 @@ config.macros.TagImage = {
 				src = paramlist[0];
 			}
 
-			
 			requestedwidth= getParam(params,"width");
 			requestedheight= getParam(params,"height");
 			maxwidth= parseInt(getParam(params,"maxwidth"));
@@ -322,12 +331,12 @@ config.macros.TagImage = {
 
 				
 				config.macros.TagImage.setupMouse(cc,src,title,img);
-				place.appendChild(newel);
+				
 				
 				if(!filter)config.macros.TagImage.loadComments(cc,title,src,img);
 				else config.macros.TagImage.loadTiddlers(cc,title,src,img);
 			};
-	
+			place.appendChild(newel);
 			if(img.complete){
 					setup(filter);
 			}

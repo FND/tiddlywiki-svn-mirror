@@ -38,33 +38,30 @@ var Tagmindmap = function(wrapper,settings){
 	//this._init_html_elements(wrapper.id);
 	
 	
-	this.controlpanel =new EasyController(this,wrapper);
+
 	this._init_html_elements();
-	
-	var x = this.controlpanel;
-	initialT = {translate: {x:0,y:0}, scale: {x:1,y:1}};
-	x.setTransformation(initialT);
-	x.addControls(["pan","zoom","mousepanning"]);
-	//x.addControl("mousewheelzooming");
-
-
+	this.controlpanel =new EasyController(this,wrapper,["pan","zoom"]);
+	this.ready = false;
 	this.children = {};
 	this.parents = {};
+	this.ready = true;
+	this.controlpanel.setTransformation({translate:{x:0,y:0}, scale:{x: this.settings.zoomLevel,y: this.settings.zoomLevel}});
+	
 };
 
 Tagmindmap.prototype = {
 	transform: function(t){
-
+		if(!this.ready) return false;
 		var compute = false;
 		if(this.settings.zoomLevel != t.scale.x) {
 			if(t.scale.x > 0){			
-				this.settings.zoomLevel = parseFloat(t.scale.x * 100);
+				this.settings.zoomLevel = parseFloat(t.scale.x);
 			}
 			compute = true;
 		}
 	
 		if(this.rgraph){
-			var c= {x:t.translate.x, y:t.translate.y};
+			var c= {x:t.translate.x * t.scale.x, y:t.translate.y* t.scale.y};
 		
 			this.rgraph.offsetCenter(c.x,c.y);
 			if(compute) this.rgraph.compute();

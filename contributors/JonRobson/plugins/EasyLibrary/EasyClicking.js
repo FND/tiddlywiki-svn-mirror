@@ -75,7 +75,10 @@ EasyClickableCanvas.prototype = {
 		
 
 		this._applyMouseBehaviours(this.wrapper);
-		
+		for(var i =0; i < this.wrapper.childNodes.length; i++){
+			var child = this.wrapper.childNodes[i];
+			//this._applyMouseBehaviours(child);
+		}
 	
 	}
 	,_applyMouseBehaviours: function(el){
@@ -98,13 +101,13 @@ EasyClickableCanvas.prototype = {
 				if(!that.keypressactive) {
 					that.keypressactive =  true;
 					window.onkeypress = that.onkeypress;
-					document.onkeypress = function(e){if(that.initialKeyPress)that.initialKeyPress(e);if(!e) e= window.event;that.onkeypress(e)};
+					document.onkeypress = function(e){if(!e) e= window.event;if(that.initialKeyPress)that.initialKeyPress(e);if(!e) e= window.event;that.onkeypress(e)};
 				}
 		}
-		el.onmouseout = function(e){that.keypressactive = false;};
+		el.onmouseout = function(e){if(!e) e= window.event;that.keypressactive = false;};
 
 		el.onmousedown = function(e){
-			e.preventDefault();			
+			if(!e) e= window.event;
 			var s = newbehaviour(e); 
 			//var pos = EasyTransformations.getXY(e,that.getTransformation());
 			if(s){
@@ -118,6 +121,7 @@ EasyClickableCanvas.prototype = {
 		}
 
 		el.ondblclick = function(e){
+			if(!e) e= window.event;
 			var s = newbehaviour(e); 				
 			if(s) {
 				if(s.getProperty("ondblclick"))s.getProperty("ondblclick")(e,s);
@@ -128,8 +132,8 @@ EasyClickableCanvas.prototype = {
 			else {if(dblclick)dblclick(e,s);}
 		
 		};
-		el.onmouseup = function(e){ var s = newbehaviour(e); if(s){if(s.getProperty("onmouseup"))s.getProperty("onmouseup")(e,s);else that.onmouseup(e,s);}else{if(up)up(e,s);}}
-		el.onmousemove = function(e){ var s = newbehaviour(e);if(s){if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);else that.onmousemove(e,s);}else{ if(mv)mv(e,s);}}
+		el.onmouseup = function(e){ if(!e) e= window.event;var s = newbehaviour(e); if(s){if(s.getProperty("onmouseup"))s.getProperty("onmouseup")(e,s);else that.onmouseup(e,s);}else{if(up)up(e,s);}}
+		el.onmousemove = function(e){ if(!e) e= window.event;var s = newbehaviour(e);if(s){if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);else that.onmousemove(e,s);}else{ if(mv)mv(e,s);}}
 
 	}
 	,getDimensions: function(){
@@ -177,22 +181,24 @@ EasyClickableCanvas.prototype = {
 	,render: function(projection){
 		
 		this._setupCanvasEnvironment();
-
+		
 		var that = this;
 		var transformation = this.getTransformation();
 	
-		//var f = function(){
-		var ps = 5 / parseFloat(transformation.scale.x);
+		if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
+		var ps = 5 / parseFloat(sc);
 		var smallest = 1 / this._iemultiplier;
-		var largest = 2.5 * transformation.scale.x;
+		var largest = 2.5 * sc;
 		if(ps < smallest) ps = smallest;
 		if(ps > largest) ps = largest;	
 			
 			var newfragment = document.createDocumentFragment();
 			var mem =that.getMemory();
 			if(mem.length > 0){
+				
 				var tran;
 				if(that.settings.browser == 'good'){
+				
 					var ctx = that.canvas.getContext('2d');
 					ctx.save();
 					tran = false;
@@ -215,8 +221,8 @@ EasyClickableCanvas.prototype = {
 				else{
 					tran = transformation;
 				}
-				
 				 for(var i=0; i < mem.length; i++){
+				
 				 	if(mem[i].optimise(that.canvas,transformation,projection)){
 						mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
 					
@@ -233,6 +239,7 @@ EasyClickableCanvas.prototype = {
 				}*/
 			}
 			if(ctx)ctx.restore();
+			
 	//	};f();
 	}
 	,getTransformation: function(){
@@ -250,8 +257,8 @@ EasyClickableCanvas.prototype = {
 	}
 	,add: function(easyShape){
 		if(!this.memory) this.memory = [];
-		easyShape._easyClickingID = this.memory.length;
 		this.memory.push(easyShape);
+		easyShape._easyClickingID = this.memory.length;
 	}
 	,transform: function(t){
 		this.setTransformation(t);
