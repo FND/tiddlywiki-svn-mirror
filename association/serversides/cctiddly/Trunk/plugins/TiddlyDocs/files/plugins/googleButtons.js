@@ -35,65 +35,71 @@ function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey,at
 	return btn;
 }
 
-
 config.shadowTiddlers.StyleSheetGoogleButton = store.getTiddlerText(tiddler.title + "##StyleSheet");
 store.addNotification("StyleSheetGoogleButton", refreshStyles);
 
 /***
 !StyleSheet
 
-    .btn {
-      display:inline-block;
-      background:none;
-      margin:0;
-      padding:3px;
-      border-width:0;
-      overflow:visible;
-      font:100%/1.2 Arial,Sans-serif;
-      text-decoration:none;
-      color:#333;
-      }
-    * html button.btn {
-      padding-bottom:1px;
-      }
-    html:not([lang*=""]) button.btn {
-      margin:0 -3px;
-      }
-    .btn span {
-	  background:#eee url(img/bg-button.gif) repeat-x 0 0;
-      margin:0;
-      padding:3px 0;
-      border-left:1px solid #bbb;
-      border-right:1px solid #aaa;
-      }
-    * html .btn span {
-      padding-top:0;
-      }
-    .btn span span {
-      position:relative;
-      padding:3px .4em;
-      border-width:0;
-      border-top:1px solid #bbb;
-      border-bottom:1px solid #aaa;
-		color:black;
-      }
+.btn {
+	display:inline-block;
+	background:none;
+	margin:0;
+	padding:3px;
+	border-width:0;
+	overflow:visible;
+	font:100%/1.2 Arial,Sans-serif;
+	text-decoration:none;
+	color:#333;
+}
 
-    .btn:hover span, .btn:hover span span, .btn:focus span, .btn:focus span span {
-      cursor:pointer; 
-      border-color:#fff !important;
-      color:#000;
-      }
-    .btn:active span {
-      background-position:0 -400px;
-      outline:none;
-      }
-    .btn:focus, .btn:active {
-      outline:none; 
-      }
+* html button.btn {
+	padding-bottom:1px;
+}
 
-    .primary {
-      font-weight:bold;
-      color:#000;
-      }
+html:not([lang*=""]) button.btn {
+	margin:0 -3px;
+}
+
+.btn span {
+	background:#eee url(img/bg-button.gif) repeat-x 0 0;
+	margin:0;
+	padding:3px 0;
+	border-left:1px solid #bbb;
+	border-right:1px solid #aaa;
+}
+
+* html .btn span {
+	padding-top:0;
+}
+
+.btn span span {
+	position:relative;
+	padding:3px .4em;
+	border-width:0;
+	border-top:1px solid #bbb;
+	border-bottom:1px solid #aaa;
+	color:black;
+}
+
+.btn:hover span, .btn:hover span span, .btn:focus span, .btn:focus span span {
+	cursor:pointer; 
+	border-color:#fff !important;
+	color:#000;
+}
+
+.btn:active span {
+	background-position:0 -400px;
+	outline:none;
+}
+
+.btn:focus, .btn:active {
+	outline:none; 
+}
+
+.primary {
+	font-weight:bold;
+	color:#000;
+}
 
 ****/
