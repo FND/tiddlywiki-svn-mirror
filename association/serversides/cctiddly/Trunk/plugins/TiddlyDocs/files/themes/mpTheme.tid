@@ -75,7 +75,8 @@ tags: systemTheme
 			</div>
 		</div>
 		<div class="portletContent leftColumnItem">
-		<br />
+		
+		<div class='about-tiddlydocs'>
 		TiddlyDocs is designed to help you and your team collaborate on large documents.
 		<p>
 			A document can take several people to write, so TiddlyDocs lets you break it into sections and spread the bits out across your team.
@@ -86,7 +87,7 @@ tags: systemTheme
 		<img src='http://www.projects.unamesa.org/space/showlogo/1234912128/logo.gif' height="56px" /><br /><br/>
 		
 		-->
-
+		</div>
 
 		</div>
 
@@ -108,6 +109,9 @@ tags: systemTheme
 
 !StyleSheet
 
+.about-tiddlydocs {
+	padding:1em;
+}
 
 #header {
 	overflow:auto;
@@ -117,24 +121,23 @@ tags: systemTheme
 .banner-left {
 	float:left;
 	background:transparent url(plugins/TiddlyDocs/files/images/banner-top-left.png) repeat-x scroll 0 0;
-	width:15px;
-	height:35px;	
+	width:30px;
+	height:47px;	
 }
 
 .banner-right {
-	width:15px;
-	height:35px;
+	width:30px;
+	height:47px;
 	background:transparent url(plugins/TiddlyDocs/files/images/banner-top-right.png) repeat-x scroll 0 0;
 }
 
 .banner-search, .banner-right {
 	float:right;
-	padding-top:0.5em;
 }
 
 .banner-title, .banner-search {
-	height:35px;
-	padding-top:0.5em;
+	height:47px;
+	padding-top:1em;
 }
 
 .banner-title {
@@ -621,7 +624,7 @@ form.wizard, .wizard .wizardFooter{
 			padding-top:0em;
 			padding-bottom:2em;
 			position:relative;
-			top:-5em;
+			top:-3em;
 		}
 		.viewer th, .viewer thead td, .twtable th, .twtable thead td  {
 		 background:#5586B6 none repeat scroll 0 0;
@@ -662,9 +665,10 @@ form.wizard, .wizard .wizardFooter{
 	/*  COMMENTS CSS */
 
 	.commentsArea {
-		width:100%;
+	
 		padding:2em;
 		text-align:center;
+		background:#333;
 	}
 
 	.comment .heading {
@@ -882,7 +886,7 @@ padding-top:2.2em;
 #messageArea .messageBox {
 	border:1px solid black;
 	color:#fff;
-	background:#666;
+	background:#333;
 	padding:10px;
 	margin-top:5px;
 	margin-bottom:5px;
