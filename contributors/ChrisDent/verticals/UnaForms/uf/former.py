@@ -26,7 +26,7 @@ from tiddlyweb.web.handler.tiddler import get as get_tiddler
 from tiddlyweb.web.sendtiddlers import send_tiddlers
 
 YAML_DB = 'formdb.yaml'
-CONFIG_TIDDLER = 'TiddlyWebConfig'
+CONFIG_TIDDLER = 'unaformsSetDefaultBagPlugin'
 SYSTEM_BAG = 'system'
 
 @make_command()

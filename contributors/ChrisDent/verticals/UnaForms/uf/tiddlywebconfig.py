@@ -6,6 +6,7 @@ config = {
                 'http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js',
                 'http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js',
                 'http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js'
+                'http://svn.tiddlywiki.org/Trunk/contributors/SaqImtiaz/verticals/unaforms/unaformsSetDefaultBagPlugin.js'
                 ]),
             ('formtools', [
                 'http://svn.tiddlywiki.org/Trunk/contributors/SaqImtiaz/verticals/InputExForms/inputEx-subrecipe.recipe',
