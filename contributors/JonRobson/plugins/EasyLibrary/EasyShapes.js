@@ -304,13 +304,11 @@ EasyShape.prototype={
 			}
 			image.onload = function(){
 				if(!w && !h){
-					w = easyShape.image.width;
-					h = easyShape.image.height;
 					easyShape.setDimensions(w,h);
 					easyShape.setCoordinates([coordinates[0],coordinates[1]]);
 				}
 			};
-	
+		
 			easyShape.setDimensions(w,h);
 			easyShape.setCoordinates([coordinates[0],coordinates[1]]);	
 			
@@ -510,12 +508,26 @@ var EasyVML = function(easyShape,canvas){
 
 EasyVML.prototype = {
 	_initImage: function(easyShape,canvas){
-		var shape = document.createElement("img");
-		this.el = shape;
-		shape.src = easyShape.getProperty("src");
-		var dim = easyShape.getDimensions();
 
-		jQuery(this.el).css({"height": dim.height, "width": dim.width,"position":"absolute","z-index":4});		
+		var that = this;
+		var dim = easyShape.getDimensions();
+		var setup = function(){
+			var shape = document.createElement("img");
+			that.el = shape;
+			shape.src = easyShape.getProperty("src");	
+			jQuery(shape).css({"height": dim.height, "width": dim.width,"position":"absolute","z-index":4});		
+
+		};
+
+		var image = new Image();
+		image.src = easyShape.getProperty("src");
+		image.onload = function(e){
+			setup();
+		};
+		if(image.complete){
+			setup();
+		}
+		
 	}
 	,_initArc: function(easyShape,canvas){
 		var shape = document.createElement("easyShapeVml_:arc");

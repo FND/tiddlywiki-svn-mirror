@@ -77,7 +77,7 @@ EasyClickableCanvas.prototype = {
 		this._applyMouseBehaviours(this.wrapper);
 		for(var i =0; i < this.wrapper.childNodes.length; i++){
 			var child = this.wrapper.childNodes[i];
-			//this._applyMouseBehaviours(child);
+			this._applyMouseBehaviours(child);
 		}
 	
 	}
@@ -108,6 +108,7 @@ EasyClickableCanvas.prototype = {
 
 		el.onmousedown = function(e){
 			if(!e) e= window.event;
+			if(e.preventDefault)e.preventDefault(e);
 			var s = newbehaviour(e); 
 			//var pos = EasyTransformations.getXY(e,that.getTransformation());
 			if(s){

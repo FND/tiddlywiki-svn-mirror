@@ -336,7 +336,7 @@ config.macros.TagImage = {
 				if(!filter)config.macros.TagImage.loadComments(cc,title,src,img);
 				else config.macros.TagImage.loadTiddlers(cc,title,src,img);
 			};
-			place.appendChild(newel);
+	place.appendChild(newel);
 			if(img.complete){
 					setup(filter);
 			}
