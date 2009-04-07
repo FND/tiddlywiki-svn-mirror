@@ -1,4 +1,10 @@
-/// HACK TO ROUND OF THE EDGES OF EACH BUTTON
+/*
+
+Taken from this blog post : 
+
+http://stopdesign.com/archive/2009/02/04/recreating-the-button.html
+
+*/
 function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey,attribs,image)
 {
 	var btn = document.createElement("a");

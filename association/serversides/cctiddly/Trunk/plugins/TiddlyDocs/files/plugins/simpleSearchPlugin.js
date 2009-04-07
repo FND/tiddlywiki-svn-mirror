@@ -48,8 +48,12 @@ config.extensions.SimpleSearchPlugin = {
 			msg += "''" + config.macros.search.successMsg.format([matches.length.toString(), query]) + ":''\n";
 			this.results = [];
 			for(var i = 0 ; i < matches.length; i++) {
-				this.results.push(matches[i].title);
-				msg += "* [[" + matches[i].title + "]]\n";
+				var t = store.getTiddler(matches[i].title);
+				if(t.isTagged("task"))
+				{
+					this.results.push(matches[i].title);
+					msg += "# [[" + matches[i].title + "]]\n";
+				}
 			}
 		} else {
 			msg += "''" + config.macros.search.failureMsg.format([query]) + "''"; // XXX: do not use bold here!?

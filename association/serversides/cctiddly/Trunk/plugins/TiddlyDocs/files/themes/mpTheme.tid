@@ -137,7 +137,7 @@ tags: systemTheme
 
 .banner-title, .banner-search {
 	height:47px;
-	padding-top:1em;
+	padding-top:1.1em;
 }
 
 .banner-title {
@@ -153,6 +153,7 @@ tags: systemTheme
 		width:68.5%;
 		position:relative;
 		top:-1em;
+		overflow:hidden;
 	}
 
 
@@ -170,7 +171,6 @@ html body .leftColumnItem {
 
 
 .searchPosition {
-	background:transparent url(plugins/TiddlyDocs/files/images/top-banner-search.png) no-repeat scroll 0 0;
 	float:right;
 }
 
@@ -191,9 +191,9 @@ label {
 	background:#444444 none repeat scroll 0 0;
 	border:1px solid #666666;
 	color:#FFFFFF;
-	font-weight:bold;
+	font-size:0.8em;
 	line-height:1.5em;
-	padding:3px 6px;
+	padding:2px 4px;
 	text-shadow:1px 1px 0 #444444;
 	vertical-align:top;
 }
@@ -405,10 +405,8 @@ body {
 	}
 
 	.deleteZoneClass {
-		background-image : url(plugins/TiddlyDocs/files/images/bin_closed.png);
-		background-repeat: no-repeat;
-		background-position:bottom right;
-		color:black;
+		background: #3f3f3f url(plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat bottom right;
+		color:#eee;
 		text-align:left;
 		padding:0.5em 1em 1em;
 		margin:1em;
@@ -640,7 +638,6 @@ form.wizard, .wizard .wizardFooter{
 		
 		.toolbar {
 			padding:0.3em;
-			z-index:999;
 			background-color:#555555;
 			border-top:1px solid #333;
 			border-bottom:1px solid #333;
@@ -650,7 +647,6 @@ form.wizard, .wizard .wizardFooter{
 
 
 		.toolbar  > a {
-		z-index:99999;
 		top:1px;
 		position:relative;
 		}
@@ -672,10 +668,10 @@ form.wizard, .wizard .wizardFooter{
 	}
 
 	.comment .heading {
-	background:#7185C2 none repeat scroll 0 0 !important;
+	background:#222 none repeat scroll 0 0 !important;
 	padding:0.5em;
-	background:#eee;
-	border-bottom:1px solid #eee !important;
+	background:transparent;
+	border-bottom:1px solid #222 !important;
 	}
 	
 	.replyLink {
@@ -692,11 +688,10 @@ form.wizard, .wizard .wizardFooter{
 		display:none;
 	}
 	.comment {
-	border:1px solid #7185C2;
+	border:1px solid #222;
 	}
 		.comments {
-			width:80% !important;
-			padding:0.5em;
+a			padding:0.5em;
 			text-align:left;
 		}
 		.comments .newCommentArea {
@@ -705,7 +700,8 @@ form.wizard, .wizard .wizardFooter{
 		}
 		.commentText {
 			padding:1em !important;
-			background-color:#fff;
+			background-color:transparent;
+			color:#eee
 		}
 
 		.tiddler .button {
@@ -871,7 +867,7 @@ form.wizard, .wizard .wizardFooter{
 
 	.editor {
 		position:relative;
-		top:-2em;
+		top:-3.5em;
 	}
 	div.editor input {
 		width:98%;
@@ -893,7 +889,7 @@ padding-top:2.2em;
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	filter:alpha(opacity=80);
-	width:10em;
+	width:16em;
 }
 
 #messageArea .messageText {
@@ -956,7 +952,7 @@ padding-top:0em;
 	
 	<div  style='z-index:2;' class='toolbar' ></div>
 	
-		<div class='viewer' macro='view text wikified'></div>
+		<div class='wizardViewer' macro='view text wikified'></div>
 	</div>
 </div>
 <!--}}}-->
@@ -1048,7 +1044,7 @@ padding-top:0em;
 				
 		<div  style='z-index:2;' class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
-		<div  style='z-index:2;' class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+		<div  style='z-index:2;' class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>
 		<div class='commentsArea' macro='comments'></div>
 	</div>
 

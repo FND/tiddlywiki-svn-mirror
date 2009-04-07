@@ -29,14 +29,24 @@ config.macros.editDefinitions.refresh = function(place, paramString){
 	newDef.name = "newName";
 	var newButton = createTiddlyButton(null, "add", "click to add ", function() { config.macros.editDefinitions.add(w); }); 
 
-	listMarker.parentNode.appendChild(newDef);
-	listMarker.parentNode.appendChild(newButton);
+	var table = createTiddlyElement(listMarker.parentNode, "table", "", "definitionsTable");
+	var tr = createTiddlyElement(table, "tr");
+	var td = createTiddlyElement(tr, "td");
+	td.appendChild(newDef);
+	var td = createTiddlyElement(tr, "td");
+	td.appendChild(newButton);
 
+	
 	listMarker.parentNode.appendChild(createTiddlyElement(null, "br"));
 	var button = createTiddlyButton(null, "remove", "click to remove", function() { config.macros.editDefinitions.remove(w); });
-	listMarker.parentNode.appendChild(button);
+	
 
-	listMarker.parentNode.appendChild(select);
+
+	var tr = createTiddlyElement(table, "tr");
+	var td = createTiddlyElement(tr, "td");
+	td.appendChild(select);
+	var td = createTiddlyElement(tr, "td");
+	td.appendChild(button);	
 }
 
 config.macros.editDefinitions.add = function(w){
@@ -65,3 +75,17 @@ config.macros.editDefinitions.remove = function(w){
 	store.saveTiddler(w.paramString, w.paramString, outString);
 	autoSaveChanges();
 }
+
+
+config.shadowTiddlers.StyleSheetEditDefinitions = store.getTiddlerText(tiddler.title + "##StyleSheet");
+store.addNotification("StyleSheetEditDefinitions", refreshStyles);
+
+/***
+!StyleSheet
+
+.definitionsTable {
+	padding:0.1em;
+	vertical-align:top;
+}
+
+****/

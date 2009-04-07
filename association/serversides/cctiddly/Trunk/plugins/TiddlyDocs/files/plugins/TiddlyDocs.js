@@ -63,14 +63,14 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	var displaySettings= function () {
 		story.displayTiddler(null, "Settings");
 	};
-	createTiddlyButton(buttonHolder, "setting", "Personalise TiddlyDocs", displaySettings, null, null, null, null, "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png");
+	createTiddlyButton(buttonHolder, "settings", "Personalise TiddlyDocs", displaySettings, null, null, null, null, "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png");
 	var logout = function() {
 		if (window.fullUrl.indexOf('?') > 0)
 			window.location = window.fullUrl+'&logout=1';
 		else
 			window.location = window.fullUrl+'?logout=1';
 	};
-	createTiddlyButton(buttonHolder, "logout", "Logout of TiddlyDocs", logout, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
+	createTiddlyButton(buttonHolder, "logout", "Logout of TiddlyDocs", logout, null, null, null, null, "http://ftpvweb.com/file_transfer/skins/blue/images/actions/exit.png");
 	createTiddlyElement(place, "br");
 	var treeSpec = store.getTiddlerText(params[0]); 
 	if(treeSpec){
@@ -222,7 +222,7 @@ config.macros.docPrint.handler=function(place,macroName,params,wikifier,paramStr
 		}
 	};
 	// print button 
-	createTiddlyButton(place, "print", "Download a printable PDF version of the document.", onClickPrint, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
+	createTiddlyButton(place, "print", "Download a printable PDF version of the document.", onClickPrint, null, null, null, null, "http://www.medici.com.au/img/print_icon.png");
 
 };
 
