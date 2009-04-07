@@ -88,17 +88,6 @@ html:not([lang*=""]) button.btn {
 	color:black;
 }
 
-.btn:hover span, .btn:hover span span, .btn:focus span, .btn:focus span span {
-	cursor:pointer; 
-	border-color:#fff !important;
-	color:#000;
-}
-
-.btn:active span {
-	background-position:0 -400px;
-	outline:none;
-}
-
 .btn:focus, .btn:active {
 	outline:none; 
 }
