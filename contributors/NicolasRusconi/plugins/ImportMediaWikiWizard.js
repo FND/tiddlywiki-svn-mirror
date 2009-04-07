@@ -608,6 +608,7 @@ config.macros.importMediaWiki.getPossibleFolders = function(urlWithoutHost) {
 	var hosts = [];
 	//standard folders
 	hosts.push('/wiki');
+	hosts.push('/w');
 	var index = url.lastIndexOf("/");
 	var last = url.substring(index);
 	if (last) {
