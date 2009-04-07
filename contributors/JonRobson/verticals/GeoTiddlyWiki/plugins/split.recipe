@@ -1,6 +1,6 @@
 tiddler: flickrPlugin.js DopplrPlugin.js
 //tiddler: countries.js
-tiddler: geoTiddlerPlugin.js ../../../plugins/EasyLibrary/EasyOptimisations.js ../../../plugins/EasyLibrary/EasyShapes.js ../../../plugins/EasyLibrary/EasyMaps.js ../../../plugins/EasyLibrary/EasySlippyMap.js ../../../plugins/EasyLibrary/EasyController.js ../../../plugins/EasyLibrary/EasyMapUtils.js ../../../plugins/EasyLibrary/EasyMapSVGUtils.js ../../../plugins/EasyLibrary/EasyFileUtils.js ../../../plugins/EasyLibrary/EasyConversion.js ../../../plugins/EasyLibrary/EasyClickingUtils.js ../../../plugins/EasyLibrary/EasyTransformations.js ../../../plugins/EasyLibrary/EasyClicking.js ../Proj4js/proj4js-combined.js
+tiddler: geoTiddlerPlugin.js ../../../plugins/VismoLibrary/VismoOptimisations.js ../../../plugins/VismoLibrary/VismoShapes.js ../../../plugins/VismoLibrary/VismoMaps.js ../../../plugins/VismoLibrary/VismoSlippyMap.js ../../../plugins/VismoLibrary/VismoController.js ../../../plugins/VismoLibrary/VismoMapUtils.js ../../../plugins/VismoLibrary/VismoMapSVGUtils.js ../../../plugins/VismoLibrary/VismoFileUtils.js ../../../plugins/VismoLibrary/VismoConversion.js ../../../plugins/VismoLibrary/VismoClickingUtils.js ../../../plugins/VismoLibrary/VismoTransformations.js ../../../plugins/VismoLibrary/VismoClicking.js ../Proj4js/proj4js-combined.js
 tiddler: geoEditorPlugin.js
 recipe: ../../../../PaulDowney/plugins/GeoRSSPlugin/GeoRSSPlugin.recipe
 #tiddler: DHTMLColorPickr.js

@@ -40,7 +40,7 @@ var Tagmindmap = function(wrapper,settings){
 	
 
 	this._init_html_elements();
-	this.controlpanel =new EasyController(this,wrapper,["pan","zoom"]);
+	this.controlpanel =new VismoController(this,wrapper,["pan","zoom"]);
 	this.ready = false;
 	this.children = {};
 	this.parents = {};

@@ -75,7 +75,7 @@ config.macros.TagImage = {
 			
 			var props = {'shape':'circle', 'id':id,'lineWidth':'2'};
 			if(properties.fill) props.fill = properties.fill;
-			var point = new EasyShape(props,[x,y,radius]);
+			var point = new VismoShape(props,[x,y,radius]);
 			
 			cc.add(point);
 			cc.render();
@@ -119,7 +119,7 @@ config.macros.TagImage = {
 			var cc = clickablecanvas;
 			var el = clickablecanvas.getDomElement();
 			var radius = config.macros.TagImage.properties[src].radius;	
-			var controller = new EasyController(cc,el);		
+			var controller = new VismoController(cc,el);		
 			var lookuptiddler = function(id){
 				var tiddler =store.getTiddler(id);
 				if(tiddler)return tiddler;
@@ -199,14 +199,14 @@ config.macros.TagImage = {
 			};
 			var movethoseshapes = function(e,s,pos){
 				if(!beginmoving) {return true;}
-				curpos = EasyTransformations.undoTransformation(pos.x,pos.y,clickablecanvas.getTransformation());
+				curpos = VismoTransformations.undoTransformation(pos.x,pos.y,clickablecanvas.getTransformation());
 				window.setTimeout(moveit,100);
 				return false;
 			};
 			
 			
 			var move = function(e,s){
-				var pos = EasyClickingUtils.getMouseFromEvent(e);
+				var pos = VismoClickingUtils.getMouseFromEvent(e);
 				var cont = movethoseshapes(e,s,pos);
 				if(!cont) return;
 				var radius = config.macros.TagImage.properties[src].radius;
@@ -264,7 +264,7 @@ config.macros.TagImage = {
 			if(requestedheight)h = parseInt(requestedheight);
 			jQuery(newel).css({width: w, height: h,overflow:"hidden"});
 			
-			var cc = new EasyClickableCanvas(newel);
+			var cc = new VismoClickableCanvas(newel);
 
 			if(id)newel.id = id;
 			var img = new Image();
@@ -313,7 +313,7 @@ config.macros.TagImage = {
 					cc.resize(ewidth,eheight);
 
 					var imgproperties = {shape:'image',src:src,width:width,height:height};
-					cc.add(new EasyShape(imgproperties,[0,0]));					
+					cc.add(new VismoShape(imgproperties,[0,0]));					
 				}
 				else{
 					src= "false";

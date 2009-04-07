@@ -1,11 +1,11 @@
 jQuery(document).ready(function() {
-	module("EasyShapes:Polygons");
+	module("VismoShapes:Polygons");
 
 	test("check setup of polygon", function() {
 		var actual, expected;
 		var properties = {shape:'polygon', fill: 'rgb(255,0,0)'};
 		var coords = [0,0,100,0,100,100,0,100];
-		var s = new EasyShape(properties,coords);
+		var s = new VismoShape(properties,coords);
 
 		var result = s.getProperties();
 		
@@ -16,16 +16,16 @@ jQuery(document).ready(function() {
 	});
 
 	
-	test("EasyShape optimise a polygon which is too small for the eye to see", function() {
+	test("VismoShape optimise a polygon which is too small for the eye to see", function() {
 		/*setup */
 		var actual, expected;
 		var properties = {shape:'polygon', fill: 'rgb(255,400,0)'};
 		var coords = [20,30];
-		var beforehijack = EasyOptimisations.easyShapeIsTooSmall;
-		EasyOptimisations.easyShapeIsTooSmall = function(shape,t) { return true; };
-		var beforehijacktwo = EasyOptimisations.easyShapeIsInVisibleArea;
-		EasyOptimisations.easyShapeIsInVisibleArea = function(a,b,c) { return true; };
-		var s = new EasyShape(properties,coords);
+		var beforehijack = VismoOptimisations.easyShapeIsTooSmall;
+		VismoOptimisations.easyShapeIsTooSmall = function(shape,t) { return true; };
+		var beforehijacktwo = VismoOptimisations.easyShapeIsInVisibleArea;
+		VismoOptimisations.easyShapeIsInVisibleArea = function(a,b,c) { return true; };
+		var s = new VismoShape(properties,coords);
 		
 
 		/* run */
@@ -35,8 +35,8 @@ jQuery(document).ready(function() {
 		expected = false;
 		same(actual,expected, " optimise should return false when the shape is too small to be drawn");
 		
-		EasyOptimisations.easyShapeIsTooSmall = beforehijack;
-		EasyOptimisations.easyShapeIsInVisibleArea = beforehijacktwo;
+		VismoOptimisations.easyShapeIsTooSmall = beforehijack;
+		VismoOptimisations.easyShapeIsInVisibleArea = beforehijacktwo;
 	});
 	
 
@@ -44,7 +44,7 @@ jQuery(document).ready(function() {
 		var actual, expected;
 		var properties = {shape:'polygon', fill: 'rgb(255,0,0)'};
 		var coords = [300,0,100,0,100,100,0,300];
-		var s = new EasyShape(properties,coords);
+		var s = new VismoShape(properties,coords);
 		actual = s.getBoundingBox();
 		expected = {x1: 0, x2:300, y1:0,y2:300,width: 300, height:300,"center": { "x": 150, "y": 150 }};
 		same(actual,expected, "bounding box for polygon has been set correctly");
@@ -54,7 +54,7 @@ jQuery(document).ready(function() {
 		var actual, expected;
 		var properties = {shape:'polygon', fill: 'rgb(255,0,0)'};
 		var coords = [0,0,100,0,100,100,0,300];
-		var s = new EasyShape(properties,coords);
+		var s = new VismoShape(properties,coords);
 		/* run */
 		s.setProperty("fill","rgb(255,0,255)")
 		/*verify */
@@ -68,7 +68,7 @@ jQuery(document).ready(function() {
 		var actual, expected;
 		var properties = {shape:'polygon', fill: 'rgb(255,0,0)'};
 		var coords = [0,0,100,0,100,100,0,300];
-		var s = new EasyShape(properties,coords);
+		var s = new VismoShape(properties,coords);
 		/* run */
 		s.setCoordinates([0,0,50,0,50,50,0,200])
 		
@@ -80,7 +80,7 @@ jQuery(document).ready(function() {
 	});
 	
 	
-	module("EasyShape:points");
+	module("VismoShape:points");
 	test("check setup of point", function() {
 		/*setup */
 		var actual, expected;
@@ -88,7 +88,7 @@ jQuery(document).ready(function() {
 		var coords = [0,0];
 		
 		/* run */
-		var s = new EasyShape(properties,coords);
+		var s = new VismoShape(properties,coords);
 		var result = s.getProperties();
 		
 		/*verify */
@@ -103,7 +103,7 @@ jQuery(document).ready(function() {
 		var actual, expected;
 		var properties = {shape:'point', fill: 'rgb(255,400,0)'};
 		var coords = [20,30];
-		var s = new EasyShape(properties,coords);
+		var s = new VismoShape(properties,coords);
 
 		/* run */
 		var actual = s.getBoundingBox();
@@ -113,9 +113,9 @@ jQuery(document).ready(function() {
 	});
 	
 
-	module("EasyShape:circle");
+	module("VismoShape:circle");
 	test("check setup of circle", function(){
-		var c = new EasyShape({shape:'circle',fill:'rgb(0,255,0)'},[50,75,80]);
+		var c = new VismoShape({shape:'circle',fill:'rgb(0,255,0)'},[50,75,80]);
 		var expected,actual;
 		
 		expected = 80;
@@ -137,9 +137,9 @@ jQuery(document).ready(function() {
 	});
 	
 	
-	module("EasyShape:image");
+	module("VismoShape:image");
 	test("check setup of image", function(){
-		var c = new EasyShape({shape:'image',src:'test.jpg',width:100,height:40},[-180,-20]);
+		var c = new VismoShape({shape:'image',src:'test.jpg',width:100,height:40},[-180,-20]);
 		var expected,actual;
 		
 		expected = [-180,-20];
@@ -165,10 +165,10 @@ jQuery(document).ready(function() {
 	
 	
 	test("ie vml transforming (tests _transformDomElement and _csstransform)", function(){
-		var shape = new EasyShape({shape:'image',src:'test.jpg',width:100,height:40},[-180,-20]);
+		var shape = new VismoShape({shape:'image',src:'test.jpg',width:100,height:40},[-180,-20]);
 		var canvas = document.createElement("div");
 		var expected,actual;
-		var vml = new EasyVML(shape,canvas);
+		var vml = new VismoVML(shape,canvas);
 		var t=  {translate:{x:100,y:100},scale:{x:2,y:2},origin:{x:300,y:300}};
 		//run
 		vml._cssTransform(t,canvas);

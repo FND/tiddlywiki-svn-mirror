@@ -1,19 +1,19 @@
 <html>
 <head>
 <script src="jquery.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyController.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMaps.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyShapes.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyClickingUtils.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyFileUtils.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoController.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoMaps.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoShapes.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoClickingUtils.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoFileUtils.js" type="text/javascript"></script>
 
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMapUtils.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyClicking.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoMapUtils.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoClicking.js" type="text/javascript"></script>
 <script>
 var eMap = null;
 function init(){
-	eMap = new EasyMap('wrapper');
-		eMap.utils = EasyMapUtils;
+	eMap = new VismoMap('wrapper');
+		eMap.utils = VismoMapUtils;
 	var that = eMap;
 	var myElement = document.getElementById('caption');
 	eMap.mouseoverHandler = function(e,shape){

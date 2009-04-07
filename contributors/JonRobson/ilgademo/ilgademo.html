@@ -1304,7 +1304,7 @@ config.defaultCustomFields[&quot;server.type&quot;] = &quot;tiddlyweb&quot;;
 If you're not a developer probably best you close this as I don't want to confuse you.
 
 If you are interested from a TiddlyWiki plugin level you may want to dive into the plugin code: The tiddlers you will be interested in are [[geoTiddlyWikiPlugin]] for basic geotiddlywiki functionality and for Flickr and Dopplr style adapters see [[geoRSSAdaptersPlugin]]
-!EasyShape
+!VismoShape
 !!Description
 Takes some coordinates and properties and creates a representation that can be used for click detection
 
@@ -1312,7 +1312,7 @@ Takes some coordinates and properties and creates a representation that can be u
 Provide it with a list of coordinates in form [x1,y1,x2,y2..xn,yn] or in form [[x1,y1], [x2,y2],...[xn,yn]] (geojson format) and a properties json. The properties json can hold any data you require. GeoTiddlyWiki makes use of these properties for rendering and click detection.
 
 !!Configuration
-EasyShapes have various attributes the most interesting defined here..
+VismoShapes have various attributes the most interesting defined here..
 !!!coords
 in form [x1,y1,x2,y2...xn,yn]
 
@@ -1323,15 +1323,15 @@ the name of the shape created (eg. point or polygon)
 the coordinates for a rectangle that encloses the entire shape.
 
 !!!properties
-This is a json of data containing any information you want. However the following properties are special as they do something in EasyMaps..
+This is a json of data containing any information you want. However the following properties are special as they do something in VismoMaps..
 *fill | colour
 This defines a fill colour for a shape.
 *stroke
 This defines a stroke colour
 
-!EasyController
+!VismoController
 !!Description
-EasyController takes a dom element and a javascript object you want to manipulate. It creates controls which when clicked execute a transform function in the javascript object passing it the new transformation matrix as an argument to do with as wished. It is thus re-usable and useful.
+VismoController takes a dom element and a javascript object you want to manipulate. It creates controls which when clicked execute a transform function in the javascript object passing it the new transformation matrix as an argument to do with as wished. It is thus re-usable and useful.
 
 !!Usage
 !!!addControl method: 
@@ -1347,7 +1347,7 @@ All done through the initialisation. Create a new function in the javascript obj
 
 !GeoTag
 !!Description
-Create a geojson feature element that represents a geotag at a given longitude, latitude coordinate with EasyShape properties.
+Create a geojson feature element that represents a geotag at a given longitude, latitude coordinate with VismoShape properties.
 
 !!Usage
 If you want the geotag to display in your map you will need to push the geotag onto the geojson features array.
@@ -1356,9 +1356,9 @@ var geotag = GeoTag(51.507778,-0.12,{name: 'London'});
 geojson.features.push(geotag);
 }}}
 
-!EasyMap
+!VismoMap
 !!Description
-EasyMap renders geojson polygon, point and multipolygon features in a canvas from a geojson.
+VismoMap renders geojson polygon, point and multipolygon features in a canvas from a geojson.
 
 !!Usage
 All you need is a dom element to setup. This can be pretty much any sort of element as long as children can be created inside it (the canvas is created on your behalf). To get a geojson displaying you then need to execute one of the two functions drawFromGeojson or drawFromGeojsonFile passing a geojson or a file pointing to a geojson respectively.
@@ -1366,19 +1366,19 @@ All you need is a dom element to setup. This can be pretty much any sort of elem
 !!Configuration
 The class can be configured by modifying or manipulating the following attributes.
 !!!click detection
-The dom element used in setup can be associated with onclick and other event handlers and make use of EasyMapUtils to get the EasyShape that was clicked on eg. {{{var s = EasyMapUtils.getShapeAtClick(e)}}}. The variable s can then be used to access EasyShape properties.
+The dom element used in setup can be associated with onclick and other event handlers and make use of VismoMapUtils to get the VismoShape that was clicked on eg. {{{var s = VismoMapUtils.getShapeAtClick(e)}}}. The variable s can then be used to access VismoShape properties.
 !!!controller : 
-this is a reference to an EasyController to allow the adding of controls to EasyMaps
+this is a reference to an VismoController to allow the adding of controls to VismoMaps
 !!!settings: 
 a json containing properties that specify how it is displayed.
 !!!spherical : 
 an experimental setting to make the geojson appear 3d.
 
-!EasyMapUtils
+!VismoMapUtils
 !!Description
 This provides various commonly used functions used throughout the package.
 
-!EasyMapSVGUtils
+!VismoMapSVGUtils
 !!Description
 This is an attempt to convert svg files to geojson files through the function &quot;convertSVGToMultiPolygonFeatureCollection&quot; so svg files can be displayed. Lots of holes but promising results (see [[svg support]]). </pre>
 </div>
@@ -3464,7 +3464,7 @@ createTiddlyDropDown(place,onchange,options,first);
 config.macros.flickrMyGeo.handler =function(place,macroName,params,wikifier,paramString,tiddler){
 	var url = params[0];
 	//accesses gml
-	var u = EasyMapUtils;
+	var u = VismoMapUtils;
 	var tid = tiddler;
 	var callback = function(status,params,responseText,url,xhr){
 		var data = {'type':'FeatureCollection','features':[]};
@@ -3510,7 +3510,7 @@ config.macros.DopplrMyGeo = {};
 config.macros.DopplrMyGeo.handler =function(place,macroName,params,wikifier,paramString,tiddler){
 	var url = params[0];
 	//accesses gml
-	var u = EasyMapUtils;
+	var u = VismoMapUtils;
 	var tid = tiddler;
 
 	var callback = function(status,params,responseText,url,xhr){
@@ -3699,7 +3699,7 @@ if(!version.extensions.geoPlugin) {
 			createTiddlyText(statustext,&quot;loading... please wait a little while!&quot;);
 			var caption = createTiddlyElement(place,&quot;div&quot;,&quot;caption&quot;,&quot;caption&quot;);
 
-			var eMap = new EasyMap(wrapper);
+			var eMap = new VismoMap(wrapper);
 			geomaps[geoid] = eMap;
 		
 						
@@ -3711,7 +3711,7 @@ if(!version.extensions.geoPlugin) {
 				if(!e) {
 					e = window.event;
 				}
-				var shape = EasyMapUtils.getShapeAtClick(e);
+				var shape = VismoMapUtils.getShapeAtClick(e);
 				
 				if(!shape) {
 					return false;
@@ -3849,7 +3849,7 @@ var GeoTag = function(longitude,latitude,properties){
 	return geo;	
 };
 
-var EasyMap = function(wrapper){
+var VismoMap = function(wrapper){
 
 	var wrapper;
 	if(typeof wrapper == 'string')
@@ -3896,7 +3896,7 @@ var EasyMap = function(wrapper){
 			tt.setAttribute(&quot;class&quot;,&quot;easymaptooltip&quot;);
 			that.wrapper.appendChild(tt);
 		}
-		var pos = EasyMapUtils.getMouseFromEvent(e);
+		var pos = VismoMapUtils.getMouseFromEvent(e);
 		var x =pos.x;
 		var y = pos.y;
 		var sensitivity = 1;
@@ -3907,7 +3907,7 @@ var EasyMap = function(wrapper){
 		this.lastMouseMove.x = x;this.lastMouseMove.y = y;
 
 
-		var shape = EasyMapUtils.getShapeAtClick(e);
+		var shape = VismoMapUtils.getShapeAtClick(e);
 		if(shape){
 			var text =shape.properties.name;
 
@@ -3931,7 +3931,7 @@ var EasyMap = function(wrapper){
 	var _defaultClickHandler = function(e){};	
 	this.wrapper.onmouseup = _defaultClickHandler;
 	this.wrapper.onmousemove = _defaultMousemoveHandler;	
-	this.controller = new EasyMapController(this,this.wrapper);
+	this.controller = new VismoMapController(this,this.wrapper);
 
 	
 	//run stuff
@@ -3939,7 +3939,7 @@ var EasyMap = function(wrapper){
 	this._fittocanvas = true;
 	this.clear();
 };  
-EasyMap.prototype = {	
+VismoMap.prototype = {	
 	addControl: function(controlType) {
 		this.controller.addControl(controlType);
 	},
@@ -3972,7 +3972,7 @@ EasyMap.prototype = {
 				geojson = responseText;
 			
 			if(!geojson.points &amp;&amp; this._fittocanvas){
-				geojson = EasyMapUtils.fitgeojsontocanvas(geojson,this.canvas);
+				geojson = VismoMapUtils.fitgeojsontocanvas(geojson,this.canvas);
 			}
 			//this.clear();
 			// NB: removing this statustext node so it doesn't mess up offsets in IE
@@ -4008,12 +4008,12 @@ EasyMap.prototype = {
 		
 			that.drawFromGeojson(responseText);
 		};
-		EasyMapUtils.loadRemoteFile(file,callback);
+		VismoMapUtils.loadRemoteFile(file,callback);
 	},	
 	drawFromSVG: function(representation){
-		var xml = EasyMapUtils._getXML(representation);
+		var xml = VismoMapUtils._getXML(representation);
 
-		var json = EasyMapSVGUtils.convertSVGToMultiPolygonFeatureCollection(xml,this.canvas);
+		var json = VismoMapSVGUtils.convertSVGToMultiPolygonFeatureCollection(xml,this.canvas);
 		this.drawFromGeojson(json);			
 		
 	},
@@ -4025,7 +4025,7 @@ EasyMap.prototype = {
 			that.drawFromSVG(responseText);
 			
 		};
-		EasyMapUtils.loadRemoteFile(file,callback);		
+		VismoMapUtils.loadRemoteFile(file,callback);		
 			
 	},	
 	redraw: function(){
@@ -4158,8 +4158,8 @@ EasyMap.prototype = {
 
 		var transformedGrid = {};
 		var t= this.canvas.transformation;
-		var topleft = EasyMapUtils.undotransformation(left,top,t);
-		var bottomright = EasyMapUtils.undotransformation(right,bottom,t);
+		var topleft = VismoMapUtils.undotransformation(left,top,t);
+		var bottomright = VismoMapUtils.undotransformation(right,bottom,t);
 		
 		var frame = {};
 		frame.top = topleft.y;
@@ -4279,13 +4279,13 @@ EasyMap.prototype = {
 	_drawGeoJsonPolygonFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'polygon';
-		var s = new EasyShape(p,coordinates,&quot;geojson&quot;,this.settings.projection);
+		var s = new VismoShape(p,coordinates,&quot;geojson&quot;,this.settings.projection);
 		this._buildShapeInMemory(s);
 	},
 	_drawGeoJsonPointFeature: function(coordinates,properties){
 		var p = properties;
 		p.shape = 'point';
-		var s = new EasyShape(p,coordinates,&quot;geojson&quot;, this.settings.projection);
+		var s = new VismoShape(p,coordinates,&quot;geojson&quot;, this.settings.projection);
 		this._buildShapeInMemory(s);
 	},	
 	_drawGeoJsonFeature: function(feature){
@@ -4316,7 +4316,7 @@ EasyMap.prototype = {
 };
 
 
-var EasyShape = function(properties,coordinates,geojson,projection){
+var VismoShape = function(properties,coordinates,geojson,projection){
 	if(projection) 
 		this.projection = projection;
 
@@ -4332,7 +4332,7 @@ var EasyShape = function(properties,coordinates,geojson,projection){
 	this.createGrid();
 
 };
-EasyShape.prototype={
+VismoShape.prototype={
 	createGrid: function(coords){
 			if(!coords) coords = this.coords;
 			this.grid.x1 = coords[0];
@@ -4480,7 +4480,7 @@ EasyShape.prototype={
 			coordOK= true;
 			var lon = parseFloat(this.coords[i]);
 			var lat = parseFloat(this.coords[i+1]);
-			var t = EasyMapUtils._spherifycoordinate(lon,lat,transformation);
+			var t = VismoMapUtils._spherifycoordinate(lon,lat,transformation);
 			if(t.x &amp;&amp; t.y){
 				newcoords.push(t.x);
 				newcoords.push(t.y);
@@ -4525,7 +4525,7 @@ EasyShape.prototype={
 			var xPos, yPos;
 
 			if(spherical){
-				var t = EasyMapUtils._spherifycoordinate(lon,lat,rotate,radius);
+				var t = VismoMapUtils._spherifycoordinate(lon,lat,rotate,radius);
 				xPos = t.x;
 				yPos = t.y;
 			} else {
@@ -4561,12 +4561,12 @@ EasyShape.prototype={
 		}
 		return transformedCoords;
 	}*/
-};/*requires EasyShapes and EasyController */
+};/*requires VismoShapes and VismoController */
 
-var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
+var VismoMapController = function(targetjs,elem){ //elem must have style.width and style.height
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
-	this.utils = EasyMapUtils; //some utilities that it may find useful
+	this.utils = VismoMapUtils; //some utilities that it may find useful
 	
 	var controlDiv = this.wrapper.controlDiv;
 	if(!controlDiv) {
@@ -4581,7 +4581,7 @@ var EasyMapController = function(targetjs,elem){ //elem must have style.width an
 	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert(&quot;no transform function defined in &quot; + targetjs+&quot;!&quot;);
 };
-EasyMapController.prototype = {
+VismoMapController.prototype = {
 	addMouseWheelZooming: function(){
 		var mw = this.wrapper.onmousewheel;
 		var that = this;
@@ -4595,7 +4595,7 @@ EasyMapController.prototype = {
 
 	
 	
-			var t = EasyMapUtils.resolveTarget(e);
+			var t = VismoMapUtils.resolveTarget(e);
 		
 			if(t != that.wrapper &amp;&amp; t.parentNode !=that.wrapper) return;
 	       	 	if (e.wheelDelta) { /* IE/Opera. */
@@ -4663,7 +4663,7 @@ EasyMapController.prototype = {
 			var p =this.panning;
 			if(!p) return;
 			if(!p) return;
-			var t = EasyMapUtils.resolveTarget(e);
+			var t = VismoMapUtils.resolveTarget(e);
 			if(t.getAttribute(&quot;class&quot;) == &quot;easyControl&quot;) return;
 			var pos = that.utils.getMouseFromEventRelativeTo(e,p.clickpos.x,p.clickpos.y);		
 			if(!pos)return;
@@ -4686,7 +4686,7 @@ EasyMapController.prototype = {
 		
 		this.wrapper.onmousedown = function(e){
 			if(md) md(e);
-			var target = EasyMapUtils.resolveTarget(e);
+			var target = VismoMapUtils.resolveTarget(e);
 			if(!target) return;
 			if(target.getAttribute(&quot;class&quot;) == &quot;easyControl&quot;) return;
 			
@@ -4749,7 +4749,7 @@ EasyMapController.prototype = {
 	},	
 	drawButton: function(canvas,width,angle,offset,properties) {
 		var ctx = canvas.getContext('2d');
-		var rad = angle ? EasyMapUtils._degToRad(angle) : 0;
+		var rad = angle ? VismoMapUtils._degToRad(angle) : 0;
 		var w = width || 100;
 		var r = w/2;
 		var l = w/10;
@@ -4779,7 +4779,7 @@ EasyMapController.prototype = {
 			offset.x + width, offset.y + width,
 			offset.x, offset.y + width
 		];
-		var button = new EasyShape(properties,coords);
+		var button = new VismoShape(properties,coords);
 		return button;
 	},	
 	addControl: function(controlType) {
@@ -5006,7 +5006,7 @@ function findScrollY()
 }
 
 
-var EasyMapUtils = {
+var VismoMapUtils = {
 	_radToDeg: function(rad){
 		return rad / (Math.PI /180);
 	},
@@ -5205,18 +5205,18 @@ var EasyMapUtils = {
 			//longitude =longitude% (6.28318531);
 			
 		}
-		var lon = EasyMapUtils._radToDeg(longitude);
-		var lat = EasyMapUtils._radToDeg(latitude);
+		var lon = VismoMapUtils._radToDeg(longitude);
+		var lat = VismoMapUtils._radToDeg(latitude);
 		console.log(&quot;to&quot;,longitude,r,lon);
 		return {x:lon,y:lat};
 	},
 	_spherifycoordinate: function(lon,lat,transformation){//http://board.flashkit.com/board/archive/index.php/t-666832.html
 		var radius = transformation.spherical.radius;
-		var utils = EasyMapUtils;
+		var utils = VismoMapUtils;
 		var res = {};
 		
-		var longitude = EasyMapUtils._degToRad(lon);
-		var latitude = EasyMapUtils._degToRad(lat);
+		var longitude = VismoMapUtils._degToRad(lon);
+		var latitude = VismoMapUtils._degToRad(lat);
  		
  		// assume rotate values given in radians
 		if(transformation &amp;&amp; transformation.rotate){
@@ -5439,7 +5439,7 @@ var EasyMapUtils = {
 
 	resolveTargetWithMemory: function(e)
 	{
-		var node = EasyMapUtils.resolveTarget(e);
+		var node = VismoMapUtils.resolveTarget(e);
 		var first = node;
 		while(node &amp;&amp; !node.memory){
 			node = node.parentNode;
@@ -5451,9 +5451,9 @@ var EasyMapUtils = {
 /*
 SVG targeted functions withe goal to convert to a geojson structure
 */
-var EasyMapSVGUtils= {
+var VismoMapSVGUtils= {
 	convertSVGToMultiPolygonFeatureCollection: function(xml,canvas){			
-		var svgu = EasyMapSVGUtils;
+		var svgu = VismoMapSVGUtils;
 		var res = new Object();
 		res.type = &quot;FeatureCollection&quot;;
 		res.features = [];
@@ -5470,7 +5470,7 @@ var EasyMapSVGUtils= {
 		res.transform.translate = {'x':0, 'y':0};
 		res.transform.scale = {'x':1, 'y':1};
 		
-		res = EasyMapUtils.fitgeojsontocanvas(res,canvas)
+		res = VismoMapUtils.fitgeojsontocanvas(res,canvas)
 		return res;
 	},
 	createFeatureFromSVGPolygonElement: function(svgpoly){

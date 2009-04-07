@@ -4,7 +4,7 @@ config.macros.geoedit={
 				e = window.event;
 			}
 
-			var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
+			var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
 			if(t.getAttribute("class") == 'easyControl') return false;
 
 			var shape = easyMap.easyClicking.getShapeAtClick(e);
@@ -64,7 +64,7 @@ config.macros.geoedit={
 		var that = this;
 
 				
-		var eMap = config.macros.geo.createNewEasyMap(place,prms);
+		var eMap = config.macros.geo.createNewVismoMap(place,prms);
 		/*Geotagging */
 		var searchResultToTag = function(result) {
 			if(result.length ==0) {
@@ -150,7 +150,7 @@ config.macros.geoedit={
 /*setup handling of mouse */
 		
 		eMap.setMouseFunctions(onmup,null);
-		config.macros.geo.addEasyMapControls(eMap,prms);
+		config.macros.geo.addVismoMapControls(eMap,prms);
 
 		/*Time to draw */
 		var source = getParam(prms,"source");
@@ -158,9 +158,9 @@ config.macros.geoedit={
 		if(geodata == 'svgfile'){
 			var callback = function(status,params,responseText,url,xhr){
 				var svg = responseText;
-				eMap.drawFromGeojson(EasyConversion.svgToGeoJson(svg,eMap.canvas));	
+				eMap.drawFromGeojson(VismoConversion.svgToGeoJson(svg,eMap.canvas));	
 			};
-			EasyFileUtils.loadRemoteFile(source,callback);	
+			VismoFileUtils.loadRemoteFile(source,callback);	
 		}
 		else {	
 			eMap.drawFromGeojson(geodata);
@@ -268,7 +268,7 @@ config.macros.googlelocalsearcher = {
 		}
 		
 		searchtaggerclick.onclick = function(e){
-			EasyMapUtils.getLocationsFromQuery(searchtaggerinput.value,handler);
+			VismoMapUtils.getLocationsFromQuery(searchtaggerinput.value,handler);
 		};		
 	}
 	

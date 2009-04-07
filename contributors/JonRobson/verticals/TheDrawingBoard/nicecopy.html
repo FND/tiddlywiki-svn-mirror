@@ -593,7 +593,7 @@ config.macros.TiddlyDiagram = {
 			}
 		}		
 
-		var x = new EasyGraph();
+		var x = new VismoGraph();
 		
 		var json = {};
 		if(tiddler.fields.tiddlydiagram){
@@ -634,7 +634,7 @@ config.macros.TiddlyDiagram = {
 			place.style.width = width + &quot;px&quot;;
 		}
 		
-		var mydiagram = new EasyDiagram(place,x,controller);
+		var mydiagram = new VismoDiagram(place,x,controller);
 		if(json.transformation)mydiagram.setTransformation(json.transformation);
 		mygraph = mydiagram;
 		mygraph.render();
@@ -642,9 +642,9 @@ config.macros.TiddlyDiagram = {
 	}
 };
 
-var EasyDiagram = function(wrapper,easyGraph,controller){
+var VismoDiagram = function(wrapper,easyGraph,controller){
 	if(!easyGraph){
-		easyGraph = new EasyGraph();
+		easyGraph = new VismoGraph();
 	}
 	if(!controller){
 		controller = {
@@ -695,12 +695,12 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	this.canvas.style.border = &quot;solid 1px black&quot;;
 	
 	this.wrapper.appendChild(this.canvas);
-	this.easyDrawingTools = new EasyDrawingTools(this.wrapper);
+	this.easyDrawingTools = new VismoDrawingTools(this.wrapper);
 	
-	this.easyClicking = new EasyClicking(this.wrapper);
+	this.easyClicking = new VismoClicking(this.wrapper);
 	this.setupMouseHandlers();
 		
-	this.easyController = new EasyMapController(this,this.wrapper);
+	this.easyController = new VismoMapController(this,this.wrapper);
 	this.easyController.addControl(&quot;pan&quot;);
 	this.easyController.addControl(&quot;mousepanning&quot;);
 	this.easyController.addControl(&quot;mousewheelzooming&quot;);
@@ -713,14 +713,14 @@ var EasyDiagram = function(wrapper,easyGraph,controller){
 	
 };
 
-EasyDiagram.prototype = {
+VismoDiagram.prototype = {
 	_setDrawingCommands: function(){
 		/*helpers*/		
 		var getshape = function(e){
 			var s = easyDiagram.easyClicking.getShapeAtClick(e);
 			if(!s) return false;
 			if(s.getProperty(&quot;_temp&quot;)) return false;
-			var target = EasyClickingUtils.resolveTarget(e);
+			var target = VismoClickingUtils.resolveTarget(e);
 			if(target.className == &quot;easyControl&quot;) return false;
 			if(target.className == &quot;easyDrawingTools&quot;) return false;
 			return s;
@@ -728,7 +728,7 @@ EasyDiagram.prototype = {
 		
 		/*saving */
 		var easyDiagram = this;
-		var easyGraph = this.getEasyGraph();
+		var easyGraph = this.getVismoGraph();
 		var saveaction = function(){
 			easyDiagram.controller.saveHandler(easyDiagram,easyGraph.burntojson());
 		};
@@ -756,8 +756,8 @@ EasyDiagram.prototype = {
 		
 			if(!s) return;
 			var t = easyDiagram.getTransformation();
-			var startpos =EasyClickingUtils.getRealXYFromMouse(e,t);
-			var p = new EasyShape({shape:&quot;path&quot;,stroke: '#000000',lineWidth: '1'},[startpos.x,startpos.y,startpos.x,startpos.y]);
+			var startpos =VismoClickingUtils.getRealXYFromMouse(e,t);
+			var p = new VismoShape({shape:&quot;path&quot;,stroke: '#000000',lineWidth: '1'},[startpos.x,startpos.y,startpos.x,startpos.y]);
 			easyDiagram.addTemporaryShape(&quot;pathinprogress&quot;,p);
 			
 			return s.properties.id;
@@ -778,7 +778,7 @@ EasyDiagram.prototype = {
 		var newnode = function(e){
 			var uniqueid = Math.random();
 			easyGraph.addNode({id:uniqueid,properties:{label: &quot;new node&quot;,shape:'polygon'}});
-			s = easyGraph.getNode(uniqueid).getEasyShape();	
+			s = easyGraph.getNode(uniqueid).getVismoShape();	
 			easyDiagram.selectShape(s);
 			easyDiagram.render();
 		};
@@ -797,7 +797,7 @@ EasyDiagram.prototype = {
 		
 		
 	}
-	,getEasyGraph: function(){
+	,getVismoGraph: function(){
 		return this.easyGraph;
 	}
 	,getTemporaryShape: function(name){
@@ -869,7 +869,7 @@ EasyDiagram.prototype = {
 		if(n.properties.shape != 'path'){
 			var view =n.getProperty(&quot;_labelHolder&quot;);
 			view.style.display = &quot;none&quot;;
-			this.getEasyGraph().deleteNode(n);
+			this.getVismoGraph().deleteNode(n);
 			this.render();
 		}
 	}
@@ -890,7 +890,7 @@ EasyDiagram.prototype = {
 		this.wrapper.onmousemove = function(e){		
 			//if(omm) omm(e);				
 			var t = easyDiagram.getTransformation();
-			var newpos =EasyClickingUtils.getRealXYFromMouse(e,t);
+			var newpos =VismoClickingUtils.getRealXYFromMouse(e,t);
 			easyDiagram.moveSelectedShapes(newpos.x,newpos.y);
 			easyDiagram.performResizing(e);
 			
@@ -922,7 +922,7 @@ EasyDiagram.prototype = {
 		var resizer = this.getTemporaryShape(&quot;resizer&quot;);
 		if(this.resizing.onNode){
 			var t = this.getTransformation();
-			var newcorner = EasyClickingUtils.getRealXYFromMouse(e,t);
+			var newcorner = VismoClickingUtils.getRealXYFromMouse(e,t);
 			var w = newcorner.x - this.resizing.bb.x1;
 			var h = newcorner.y - this.resizing.bb.y1;
 			if(w &gt; 0 &amp;&amp; h &gt; 0){
@@ -933,14 +933,14 @@ EasyDiagram.prototype = {
 				
 			}
 		}		
-		var t = EasyClickingUtils.resolveTarget(e);
+		var t = VismoClickingUtils.resolveTarget(e);
 		var s =this.easyClicking.getShapeAtClick(e);
 		if(s &amp;&amp; !s.getProperty(&quot;_temp&quot;) &amp;&amp; t.className != &quot;easyDrawingTools&quot;){
 			var bb = s.getBoundingBox();
 			var resizerpos = {x: bb.x2-5, y:bb.y2-5};
 			
 			if(!resizer){
-				var resizer = new EasyShape({_resizer:true,shape:&quot;polygon&quot;, fill: &quot;rgb(0,0,0)&quot;},[resizerpos.x,resizerpos.y,resizerpos.x + 15,resizerpos.y, resizerpos.x + 15,resizerpos.y + 15,resizerpos.x, resizerpos.y + 15]);
+				var resizer = new VismoShape({_resizer:true,shape:&quot;polygon&quot;, fill: &quot;rgb(0,0,0)&quot;},[resizerpos.x,resizerpos.y,resizerpos.x + 15,resizerpos.y, resizerpos.x + 15,resizerpos.y + 15,resizerpos.x, resizerpos.y + 15]);
 				this.addTemporaryShape(&quot;resizer&quot;,resizer,true);
 				
 			}
@@ -959,7 +959,7 @@ EasyDiagram.prototype = {
 		if(this.easyDrawingTools.getCurrentCommand().type == 'editlabel') return;
 		var o1 = parseInt(this.canvas.width) /2;
 		var o2 = parseInt(this.canvas.height) /2;
-		this.tmatrix = EasyTransformations.clone(matrix);
+		this.tmatrix = VismoTransformations.clone(matrix);
 		this.tmatrix.origin={x:o1,y:o2};
 		this.easyClicking.setTransformation(this.tmatrix);
 		this.render();
@@ -996,8 +996,8 @@ EasyDiagram.prototype = {
 	,isNodeVisible: function(node){
 		
 		var bb = node.easyShape.getBoundingBox();
-		var topleft  =EasyTransformations.applyTransformation(bb.x1, bb.y1,this.tmatrix);
-		var bottomRight  =EasyTransformations.applyTransformation(bb.x2, bb.y2,this.tmatrix);
+		var topleft  =VismoTransformations.applyTransformation(bb.x1, bb.y1,this.tmatrix);
+		var bottomRight  =VismoTransformations.applyTransformation(bb.x2, bb.y2,this.tmatrix);
 		if((bottomRight.x &lt; 0 || bottomRight.x &gt; this.canvas.width || bottomRight.y &gt;this.canvas.height || bottomRight.y &lt; 0)&amp;&amp; (topleft.x &lt; 0 || topleft.x &gt; this.canvas.width || topleft.y &gt;this.canvas.height || topleft.y &lt; 0))
 		return false;
 		else
@@ -1077,7 +1077,7 @@ EasyDiagram.prototype = {
 		}
 
 
-		var e = new EasyShape({shape:&quot;path&quot;,stroke: '#000000',lineWidth: '1'},edgeCoords);
+		var e = new VismoShape({shape:&quot;path&quot;,stroke: '#000000',lineWidth: '1'},edgeCoords);
 		this.edgeShape = e;		
 		this.edgeShape.render(this.canvas, this.tmatrix);
 	}
@@ -1104,7 +1104,7 @@ EasyDiagram.prototype = {
 		label.x = bb.x1 + 5;//parseFloat((bb.x2 - bb.x1) / 2);
 		label.y = bb.y1 + 5;//parseFloat((bb.y2 - bb.y1) / 2);
 		
-		label = EasyTransformations.applyTransformation(label.x, label.y,this.tmatrix);
+		label = VismoTransformations.applyTransformation(label.x, label.y,this.tmatrix);
 		
 		var viewlabel = node.getProperty(&quot;_labelHolder&quot;);
 		if(viewlabel){
@@ -1143,7 +1143,7 @@ EasyDiagram.prototype = {
 			nodelabeledit.style.position = &quot;relative&quot;;
 			this.editorWindow.appendChild(nodelabeledit);
 			this.editorLabel  =nodelabeledit;
-			this.editorColor.easyColorSlider =new EasyColorSlider(this.editorColor,100,20,changer);
+			this.editorColor.easyColorSlider =new VismoColorSlider(this.editorColor,100,20,changer);
 			var savebutton = document.createElement(&quot;button&quot;);
 			savebutton.innerHTML = &quot;Save&quot;;
 			this.editorSave = savebutton;
@@ -1160,7 +1160,7 @@ EasyDiagram.prototype = {
 		this.editorColor.easyColorSlider.setChangeFunction(changer);
 		this.editorColor.easyColorSlider.setColor(node.getProperty(&quot;fill&quot;));
 		var editorPos =node.getPosition();
-		editorPos = EasyTransformations.applyTransformation(editorPos.x,editorPos.y,this.getTransformation());
+		editorPos = VismoTransformations.applyTransformation(editorPos.x,editorPos.y,this.getTransformation());
 		this.editorWindow.style.left = editorPos.x + &quot;px&quot;;
 		this.editorWindow.style.top = parseInt(editorPos.y) + &quot;px&quot;;
 		this.editorColor.style.top = &quot;60px&quot;;
@@ -1180,7 +1180,7 @@ EasyDiagram.prototype = {
 	}
 };document.styleSheets['easyColorSlider'] = {cssText: &quot;.easyColorSliderMixBox {border:solid 1px black;}&quot;};
 
-var EasyColorSlider = function(wrapper,width,height,changefunction){	
+var VismoColorSlider = function(wrapper,width,height,changefunction){	
 	if(!changefunction){
 		changefunction = function(newcolor){
 			alert(newcolor + &quot;is the new color. Please define a change function to replace this default function.&quot;);
@@ -1204,7 +1204,7 @@ var EasyColorSlider = function(wrapper,width,height,changefunction){
 	
 };
 
-EasyColorSlider.prototype = {
+VismoColorSlider.prototype = {
 	setChangeFunction:function(change){
 		this.changefunction = change;
 	}
@@ -1280,7 +1280,7 @@ EasyColorSlider.prototype = {
 		s.className = &quot;easyColorSlider&quot;;
 		var easycolorslider = this;
 		s.onmousedown = function(e){
-			var pos =EasyClickingUtils.getMouseFromEventRelativeToTarget(e,this);
+			var pos =VismoClickingUtils.getMouseFromEventRelativeToTarget(e,this);
 			var newleft =pos.x + this.style.left;
 			slidebar.style.left = newleft + &quot;px&quot;;
 			var percentage = (pos.x / width)
@@ -1312,7 +1312,7 @@ EasyColorSlider.prototype = {
 		return s;
 	}
 	
-};var EasyDrawingTools = function(wrapper){
+};var VismoDrawingTools = function(wrapper){
 	this.wrapper =wrapper;
 	this._setup(wrapper);
 	this.toolCommand = false;
@@ -1322,7 +1322,7 @@ EasyColorSlider.prototype = {
 };
 
 
-EasyDrawingTools.prototype = {
+VismoDrawingTools.prototype = {
 
 	setupMouseHandlers: function(){
 		var easyDrawingTools = this;
@@ -1403,7 +1403,7 @@ EasyDrawingTools.prototype = {
 	}
 	,setTooltip: function(e){
 		
-		var newpos =EasyClickingUtils.getMouseFromEvent(e);
+		var newpos =VismoClickingUtils.getMouseFromEvent(e);
 		newpos.x + 20;
 		newpos.y + 20;
 		//this.tooltip.style.left = newpos.x + &quot;px&quot;;
@@ -1470,7 +1470,7 @@ EasyDrawingTools.prototype = {
 		this.wrapper.appendChild(newCanvas);
 
 		newCanvas.easyDrawingTools = this;
-		newCanvas.easyClicking = new EasyClicking(newCanvas);
+		newCanvas.easyClicking = new VismoClicking(newCanvas);
 		
 		var easyDrawingTools = this;
 		newCanvas.onmousedown = function(e){
@@ -1524,13 +1524,13 @@ EasyDrawingTools.prototype = {
 		
 		var w = width / 2;
 		if(p.label == 'line'){
-			p.easyShapeLabel =new EasyShape({shape:'path'}, [left+padding,top+w,left+width-padding,top+w]);			
+			p.easyShapeLabel =new VismoShape({shape:'path'}, [left+padding,top+w,left+width-padding,top+w]);			
 		}
 		else if(p.label == 'box'){
-			p.easyShapeLabel =new EasyShape({shape:'path'}, [left+padding,top+height-padding,left-padding+width,top+height-padding,left+width-padding,top+padding,left+padding,top+padding]);			
+			p.easyShapeLabel =new VismoShape({shape:'path'}, [left+padding,top+height-padding,left-padding+width,top+height-padding,left+width-padding,top+padding,left+padding,top+padding]);			
 		}
 		else if(p.label == 'save'){
-			p.easyShapeLabel =new EasyShape({shape:'path'}, 
+			p.easyShapeLabel =new VismoShape({shape:'path'}, 
 			[
 			left+padding,top+height-padding,
 			left+width-padding,top+height-padding,
@@ -1557,15 +1557,15 @@ EasyDrawingTools.prototype = {
 			]);									
 		}
 		else if(p.label == 'cross'){
-			p.easyShapeLabel =new EasyShape({shape:'path',stroke:'rgb(255,0,0)'}, [left+padding,top+height-padding,left+width-padding,top+padding,&quot;M&quot;,left+padding,top+padding,left+width-padding,top+height-padding]);			
+			p.easyShapeLabel =new VismoShape({shape:'path',stroke:'rgb(255,0,0)'}, [left+padding,top+height-padding,left+width-padding,top+padding,&quot;M&quot;,left+padding,top+padding,left+width-padding,top+height-padding]);			
 		}
 		else if(p.label == 'dropdown'){
-			p.easyShapeLabel = new EasyShape({shape:'path'}, [left+padding,top+height - 5,left+w,top+height-padding,left+width-padding,top+height - 5]);
+			p.easyShapeLabel = new VismoShape({shape:'path'}, [left+padding,top+height - 5,left+w,top+height-padding,left+width-padding,top+height - 5]);
 		}
 		
 		
 		var c = [left,top, left + width,top,left+width,top+height, left,top+height];
-		var s = new EasyShape(p,c);
+		var s = new VismoShape(p,c);
 		s.render(canvas);
 		if(p.easyShapeLabel) p.easyShapeLabel.render(canvas);
 		return s;
@@ -1591,7 +1591,7 @@ EasyDrawingTools.prototype = {
 
 	}
 };
-var EasyGraph = function(positionCalculationFunction){
+var VismoGraph = function(positionCalculationFunction){
 
 	this.nodes = {};
 	this.nodeParents = {};
@@ -1610,8 +1610,8 @@ var EasyGraph = function(positionCalculationFunction){
 			var range = 200;
 			var nodepos = {};
 			var parents =easyGraph.getNodeParents(node.id);
-			var partners =EasyGraphUtils.getPartners(node.id,easyGraph);
-			var siblings = EasyGraphUtils.getSiblings(node.id,easyGraph);
+			var partners =VismoGraphUtils.getPartners(node.id,easyGraph);
+			var siblings = VismoGraphUtils.getSiblings(node.id,easyGraph);
 			for(var i=0; i &lt; siblings.length; i++){
 				var sib = easyGraph.getNode(siblings[i]);
 				var pos = sib.getPosition();
@@ -1663,7 +1663,7 @@ var EasyGraph = function(positionCalculationFunction){
 	return false;
 };
 
-EasyGraph.prototype = {
+VismoGraph.prototype = {
 
 	/*querying */
 	getNode: function(id){
@@ -1689,7 +1689,7 @@ EasyGraph.prototype = {
 	/*manipulating */
 
 	,addNode: function(nodejson){
-		this.nodes[nodejson.id] = new EasyGraphNode(nodejson);
+		this.nodes[nodejson.id] = new VismoGraphNode(nodejson);
 		return false;
 	}
 	,deleteNode: function(nodejson){
@@ -1801,7 +1801,7 @@ EasyGraph.prototype = {
 	}
 };
 
-var EasyGraphNode = function(json){
+var VismoGraphNode = function(json){
 	/*recognised/reserved properties are:
 	fill, label, position,shape,width,height
 	*/
@@ -1817,11 +1817,11 @@ var EasyGraphNode = function(json){
 	var w = this.getProperty(&quot;width&quot;) ;
 	var h = this.getProperty(&quot;height&quot;);
 	//console.log(x,y);
-	this.easyShape = new EasyShape(properties,[x,y,x+w,y, x+w,y+h,x,y+h]);	
+	this.easyShape = new VismoShape(properties,[x,y,x+w,y, x+w,y+h,x,y+h]);	
 	return false;
 };
 
-EasyGraphNode.prototype = {
+VismoGraphNode.prototype = {
 	setDimensions: function(width,height){
 		this.setProperty(&quot;width&quot;,width);
 		this.setProperty(&quot;height&quot;,height);
@@ -1853,7 +1853,7 @@ EasyGraphNode.prototype = {
 		
 		return properties;
 	}
-	,getEasyShape: function(){
+	,getVismoShape: function(){
 		return this.easyShape;
 	}
 	,getProperty: function(name){
@@ -1878,7 +1878,7 @@ EasyGraphNode.prototype = {
 		
 	}
 };
-var EasyGraphUtils = {
+var VismoGraphUtils = {
 
 	getPartners: function(id,easyGraph){
 		var partners = [];
@@ -1932,7 +1932,7 @@ var EasyGraphUtils = {
 		
 	}
 };
-var EasyTransformations= {
+var VismoTransformations= {
 	clone: function(transformation){
 	
 		var t = {};
@@ -1999,9 +1999,9 @@ var EasyTransformations= {
 		return result;
 	}
 	
-};/*requires EasyShapes and EasyController */
+};/*requires VismoShapes and VismoController */
 
-var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
+var VismoMapController = function(targetjs,elem){ //elem must have style.width and style.height
 	this.setMaxScaling(99999999);
 	if(!elem.style.position) elem.style.position = &quot;relative&quot;;
 	this.wrapper = elem; //a dom element to detect mouse actions
@@ -2023,7 +2023,7 @@ var EasyMapController = function(targetjs,elem){ //elem must have style.width an
 	this.enabled = true;
 
 };
-EasyMapController.prototype = {
+VismoMapController.prototype = {
 	addMouseWheelZooming: function(){ /*not supported for internet explorer*/
 		var mw = this.wrapper.onmousewheel;
 		var that = this;
@@ -2036,7 +2036,7 @@ EasyMapController.prototype = {
 			var delta = 0;
 
 	
-			var t = EasyClickingUtils.resolveTarget(e);
+			var t = VismoClickingUtils.resolveTarget(e);
 			
 			if(t != that.wrapper &amp;&amp; t.parentNode !=that.wrapper) return;
 	       	 	if (e.wheelDelta) { /* IE/Opera. */
@@ -2060,7 +2060,7 @@ EasyMapController.prototype = {
 			
 				var s =that.transformation.scale;
 				
-				var pos = EasyClickingUtils.getMouseFromEventRelativeToCenter(e);
+				var pos = VismoClickingUtils.getMouseFromEventRelativeToCenter(e);
 				var t=  that.transformation.translate;
 				
 				var newx,newy;
@@ -2120,12 +2120,12 @@ EasyMapController.prototype = {
 			if(!this.easyController)return;
 			var p =this.easyController.panning_status;
 			if(!p) return;
-			var t =  EasyClickingUtils.resolveTarget(e);
+			var t =  VismoClickingUtils.resolveTarget(e);
 
 			if(t.tagName == &quot;INPUT&quot;) return;
 			if(t.getAttribute(&quot;class&quot;) == &quot;easyControl&quot;) return;
 			
-			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
+			var pos =  VismoClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
 			if(!pos)return;
 			
 			var t = that.transformation;
@@ -2148,18 +2148,18 @@ EasyMapController.prototype = {
 		this.wrapper.onmousedown = function(e){
 					
 			if(md) md(e);
-			var target =  EasyClickingUtils.resolveTarget(e);
+			var target =  VismoClickingUtils.resolveTarget(e);
 			if(!target) return;
 
 			if(target.getAttribute(&quot;class&quot;) == &quot;easyControl&quot;) return;
 
 			var t = that.transformation.translate;
 			var sc =that.transformation.scale; 
-			var realpos = EasyClickingUtils.getMouseFromEvent(e);
+			var realpos = VismoClickingUtils.getMouseFromEvent(e);
 			if(!realpos) return;
 			this.easyController = that;
 			
-			var element = EasyClickingUtils.resolveTargetWithEasyClicking(e);
+			var element = VismoClickingUtils.resolveTargetWithVismoClicking(e);
 			that.panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			
 			that.wrapper.onmousemove = onmousemove;
@@ -2212,7 +2212,7 @@ EasyMapController.prototype = {
 			coords = [-r,0,r,0];
 		}
 		
-		return new EasyShape(properties,coords);
+		return new VismoShape(properties,coords);
 	},	
 	createButton: function(canvas,width,direction,offset,properties) {
 		if(!width) width = 100;
@@ -2230,7 +2230,7 @@ EasyMapController.prototype = {
 		];
 		properties.shape = 'polygon';
 		properties.fill ='rgba(150,150,150,0.7)';
-		var button = new EasyShape(properties,coords);
+		var button = new VismoShape(properties,coords);
 		button.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:0,y:0}});
 		var label = this.createButtonLabel(r,properties.buttonType);
 		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r}});
@@ -2280,7 +2280,7 @@ EasyMapController.prototype = {
 			newCanvas.browser = 'ie';
 		}
 		newCanvas.easyController = this;
-		newCanvas.easyClicking = new EasyClicking(newCanvas);
+		newCanvas.easyClicking = new VismoClicking(newCanvas);
 		
 		//newCanvas.memory = [];
 		return newCanvas;
@@ -2414,7 +2414,7 @@ EasyMapController.prototype = {
 };//geojson should be handled here - maybe create from geojson FEATURE
 
 /*coordinates are a string consisting of floats and move commands (M)*/
-var EasyShape = function(properties,coordinates,geojson){
+var VismoShape = function(properties,coordinates,geojson){
 	this.grid = {};
 	this.coords = [];
 	if(geojson){
@@ -2426,7 +2426,7 @@ var EasyShape = function(properties,coordinates,geojson){
 
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 };
-EasyShape.prototype={
+VismoShape.prototype={
 	getBoundingBox: function(){ /* returns untransformed bounding box */
 		return this.grid;
 	}
@@ -2573,7 +2573,7 @@ EasyShape.prototype={
 		
 	}	
 	
-	 /*following 3 functions may be better in EasyMaps*/
+	 /*following 3 functions may be better in VismoMaps*/
 	,_constructFromGeoJSONObject: function(properties,coordinates){
 		if(properties.shape == 'polygon'){
 			this._constructFromGeoJSONPolygon(properties,coordinates);	
@@ -2669,7 +2669,7 @@ EasyShape.prototype={
 			var x = parseFloat(c[i]);
 			var y = parseFloat(c[i+1]);	
 			if(x == NaN || y == NaN){
-				throw &quot;error in EasyShape render: the coordinates for this EasyShape contain invalid numbers&quot;;
+				throw &quot;error in VismoShape render: the coordinates for this VismoShape contain invalid numbers&quot;;
 			}
 			else{
 				if(move){
@@ -2965,8 +2965,8 @@ EasyShape.prototype={
 		var left = 0,top = 0;
 		var right =  parseInt(canvas.width) + left; 
 		var bottom = parseInt(canvas.height) + top;
-		var topleft =  EasyClickingUtils.undotransformation(left,top,transformation);
-		var bottomright =  EasyClickingUtils.undotransformation(right,bottom,transformation);				
+		var topleft =  VismoClickingUtils.undotransformation(left,top,transformation);
+		var bottomright =  VismoClickingUtils.undotransformation(right,bottom,transformation);				
 		var frame = {};
 		frame.top = topleft.y;
 		frame.bottom = bottomright.y;
@@ -3031,7 +3031,7 @@ EasyShape.prototype={
 	*/
 };
 /*
-EasyClicking adds the ability to associate a dom element with lots of EasyShapes using addToMemory function
+VismoClicking adds the ability to associate a dom element with lots of VismoShapes using addToMemory function
 The getShapeAtClick function allows click detection on this dom element when used in a dom mouse event handler
 */
 
@@ -3047,8 +3047,8 @@ function findScrollY()
 	return window.scrollY || document.documentElement.scrollTop;
 }
 
-/*Turn a dom element into one where you can find EasyShapes based on clicks */
-var EasyClicking = function(element,easyShapesList){
+/*Turn a dom element into one where you can find VismoShapes based on clicks */
+var VismoClicking = function(element,easyShapesList){
 	if(element.easyClicking) {
 		var update = element.easyClicking;
 		return update;
@@ -3061,7 +3061,7 @@ var EasyClicking = function(element,easyShapesList){
 	
 };
 
-EasyClicking.prototype = {
+VismoClicking.prototype = {
 	setTransformation: function(transformation){
 		if(transformation) this.transformation = transformation;	
 	}
@@ -3089,11 +3089,11 @@ EasyClicking.prototype = {
 			e = window.event;
 		}
 		
-		var node = EasyClickingUtils.resolveTarget(e);
+		var node = VismoClickingUtils.resolveTarget(e);
 		if(node.getAttribute(&quot;class&quot;) == 'easyShape') { //vml easyShape
 			return node.easyShape;
 		}
-		var target = EasyClickingUtils.resolveTargetWithEasyClicking(e);
+		var target = VismoClickingUtils.resolveTargetWithVismoClicking(e);
 	
 		if(!target) return;
 		var offset = jQuery(target).offset();
@@ -3124,7 +3124,7 @@ EasyClicking.prototype = {
 	getShapeAtPosition: function(x,y) {
 		var shapes = this.memory;
 		if(this.transformation){
-			var pos =  EasyClickingUtils.undotransformation(x,y,this.transformation);
+			var pos =  VismoClickingUtils.undotransformation(x,y,this.transformation);
 			x = pos.x;
 			y = pos.y;
 		
@@ -3221,14 +3221,14 @@ EasyClicking.prototype = {
 };
 
 
-var EasyClickingUtils = {
+var VismoClickingUtils = {
 	getRealXYFromMouse: function(e,t){
-		var newpos =EasyClickingUtils.getMouseFromEvent(e);
-		newpos = EasyClickingUtils.undotransformation(newpos.x,newpos.y,t);
+		var newpos =VismoClickingUtils.getMouseFromEvent(e);
+		newpos = VismoClickingUtils.undotransformation(newpos.x,newpos.y,t);
 		return newpos;
 	}
 	
-	,undotransformation: function(x,y,transformation){ //porting to EasyTransformations?
+	,undotransformation: function(x,y,transformation){ //porting to VismoTransformations?
 	
 		var pos = {};
 		var t =transformation;
@@ -3270,7 +3270,7 @@ var EasyClickingUtils = {
 	
 	,getMouseFromEvent : function(e){
 			if(!e) e = window.event;
-			var target = this.resolveTargetWithEasyClicking(e);
+			var target = this.resolveTargetWithVismoClicking(e);
 			if(!target)return false;
 
 			var offset = jQuery(target).offset();
@@ -3296,9 +3296,9 @@ var EasyClickingUtils = {
 			
 	}
 
-	,resolveTargetWithEasyClicking: function(e)
+	,resolveTargetWithVismoClicking: function(e)
 	{
-		var node = EasyClickingUtils.resolveTarget(e);
+		var node = VismoClickingUtils.resolveTarget(e);
 		var first = node;
 		while(node &amp;&amp; !node.easyClicking){
 			node = node.parentNode;
@@ -3337,7 +3337,7 @@ var EasyClickingUtils = {
 	}
 	,getMouseFromEventRelativeToCenter: function(e){
 		var w,h;
-		var target = this.resolveTargetWithEasyClicking(e);
+		var target = this.resolveTargetWithVismoClicking(e);
 		if(!target)return;
 		if(target.style.width)
 			w = parseInt(target.style.width);

@@ -3,23 +3,23 @@
 
 <script src="jquery.js" type="text/javascript"></script>
 
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyController.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMaps.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyShapes.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyClickingUtils.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyMapUtils.js" type="text/javascript"></script>
-<script src="../../verticals/GeoTiddlyWiki/EasyThingsLib/EasyClicking.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoController.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoMaps.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoShapes.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoClickingUtils.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoMapUtils.js" type="text/javascript"></script>
+<script src="../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoClicking.js" type="text/javascript"></script>
 <script src="geojsons/whereLegal.js" type="text/javascript"></script>
 
 <script>
 var eMap = null;
 function init(){
-	eMap = new EasyMap('wrapper');
+	eMap = new VismoMap('wrapper');
 
 	eMap.wrapper.onmouseup = function(e){
 		var s = eMap.easyClicking.getShapeAtClick(e);
 		
-		var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
+		var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
 		if(t.getAttribute("class") == 'easyControl') return false;
 		
 		if(s){
@@ -28,7 +28,7 @@ function init(){
 	};
 
 	//eMap.utils._testCanvas(eMap.canvas.getContext('2d'));
-	geojson = EasyMapUtils.fitgeojsontocanvas(eval(geojson),eMap.canvas);
+	geojson = VismoMapUtils.fitgeojsontocanvas(eval(geojson),eMap.canvas);
 
 	eMap.controller.addControl("pan");
 	eMap.controller.addControl("zoom");

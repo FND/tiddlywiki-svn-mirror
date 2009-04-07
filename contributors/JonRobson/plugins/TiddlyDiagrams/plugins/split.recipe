@@ -1,0 +1,3 @@
+tiddler: TiddlyDiagramPlugin.js ../../VismoLibrary/VismoOptimisations.js ../../VismoLibrary/VismoDiagrams/VismoDiagramming.js ../../VismoLibrary/VismoDiagrams/VismoColorSlider.js ../../VismoLibrary/VismoDiagrams/VismoDrawingToolbar.js ../../VismoLibrary/VismoDiagrams/VismoGraphs.js ../../VismoLibrary/VismoDiagrams/VismoGraphNode.js  ../../VismoLibrary/VismoDiagrams/VismoGraphUtils.js ../../VismoLibrary/VismoTransformations.js ../../../plugins/VismoLibrary/VismoController.js ../../../plugins/VismoLibrary/VismoShapes.js ../../../plugins/VismoLibrary/VismoClicking.js ../../../plugins/VismoLibrary/VismoClickingUtils.js
+tiddler: ../tiddlers/ViewTemplate.tiddler
+#../../VismoLibrary/VismoDiagrams/VismoDiagramEditor.js

@@ -5,7 +5,7 @@ config.macros.flickrMyGeo.handler =function(place,macroName,params,wikifier,para
 	var color = params[2];
 	if(!color) color="#0000FF";	
 	//accesses gml
-	var u = EasyFileUtils;
+	var u = VismoFileUtils;
 	var tid = tiddler;
 	var callback = function(status,params,responseText,url,xhr){
 		var data = {'type':'FeatureCollection','features':[]};

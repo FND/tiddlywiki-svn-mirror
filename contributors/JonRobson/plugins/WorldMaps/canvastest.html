@@ -18,12 +18,12 @@ if(!window.console) {
 
 var eMap = null,eMap2 = null;
 function init(size){
-	eMap = new EasyMap('wrapper');
+	eMap = new VismoMap('wrapper');
 	eMap.controller.addControl("pan");
 	eMap.controller.addControl("zoom");
 	eMap._fittocanvas = false;
 	
-	eMap2 = new EasyMap('wrapper2');
+	eMap2 = new VismoMap('wrapper2');
 	eMap2.controller.addControl("pan");
 	eMap2.controller.addControl("zoom");
 	eMap2._fittocanvas = false;
@@ -45,13 +45,13 @@ function init(size){
 		var fill = "rgb("+r+","+g+","+b+")";
 		if(y > maxd2h) y = maxd2h - y;
 		if(x > maxd2w) x = maxd2w - x;
-		shapes.push(new EasyShape({shape:'polygon', name: i, fill: fill},[x,y,x+s,y,x+s,y+s,x,y+s]));
+		shapes.push(new VismoShape({shape:'polygon', name: i, fill: fill},[x,y,x+s,y,x+s,y+s,x,y+s]));
 	}
 	
 
 	var onclick = function(e){
 
-		var s = EasyMapUtils.getShapeAtClick(e);		
+		var s = VismoMapUtils.getShapeAtClick(e);		
 		if(s)
 			alert(s.properties.name);
 	};

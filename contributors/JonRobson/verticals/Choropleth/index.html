@@ -89,7 +89,7 @@ var list;
 function init(){
 	var subject = document.getElementById('mapsubject').value;	
 	setSubject(subject);
-	map = new EasyMap(document.getElementById('map'));
+	map = new VismoMap(document.getElementById('map'));
 	map.controller.addControls(["pan","zoom","mousewheelzooming","mousepanning"]);
 	
 	var newfeatures = [];

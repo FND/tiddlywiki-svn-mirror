@@ -4,7 +4,7 @@ cross browser rendering mode
 
 I am not very happy with the code that follows. It is not of the best standard and needs much improvement */
 /*coordinates are a string consisting of floats and move commands (M)*/
-var EasyUtils = {
+var VismoUtils = {
 	clone: function(obj){
 
 	    if(obj == null || typeof(obj) != 'object')
@@ -14,7 +14,7 @@ var EasyUtils = {
 	    var temp = new obj.constructor(); // changed (twice)
 
 	    for(var key in obj){
-	        temp[key] = EasyUtils.clone(obj[key]);
+	        temp[key] = VismoUtils.clone(obj[key]);
 	    }
 
 
@@ -23,7 +23,7 @@ var EasyUtils = {
 	}
 };
 
-var EasyShape = function(properties,coordinates,geojson){
+var VismoShape = function(properties,coordinates,geojson){
 	this.grid = {};
 	this.coords = [];
 	this._maxScaleFactor = {x:1024,y:1024};
@@ -38,7 +38,7 @@ var EasyShape = function(properties,coordinates,geojson){
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 
 };
-EasyShape.prototype={
+VismoShape.prototype={
 	getProperties: function(){
 		return this.properties;
 	}
@@ -48,10 +48,10 @@ EasyShape.prototype={
 		if(!coordinates) throw "give me some coordinates!";
 		
 		var tolerance = 3 / scaleFactor;
-		coordinates = EasyOptimisations.packCoordinates(coordinates);
-		coordinates = EasyOptimisations.douglasPeucker(coordinates,tolerance);
+		coordinates = VismoOptimisations.packCoordinates(coordinates);
+		coordinates = VismoOptimisations.douglasPeucker(coordinates,tolerance);
 		
-		coordinates = EasyOptimisations.unpackCoordinates(coordinates);	
+		coordinates = VismoOptimisations.unpackCoordinates(coordinates);	
 		var originals =this.getCoordinates();
 		var diff = originals.length - coordinates.length;
 		
@@ -201,7 +201,7 @@ EasyShape.prototype={
 	}
 	
 	,_constructPolygonShape: function(properties,coordinates){
-		var properties =EasyUtils.clone(properties);
+		var properties =VismoUtils.clone(properties);
 		this.properties = properties;
 		this.setCoordinates(coordinates);
 		if(!properties.stroke)properties.stroke = '#000000';		
@@ -224,7 +224,7 @@ EasyShape.prototype={
 		
 	}	
 	
-	 /*following 3 functions may be better in EasyMaps*/
+	 /*following 3 functions may be better in VismoMaps*/
 	,_constructFromGeoJSONObject: function(properties,coordinates){
 		if(properties.shape == 'polygon'){
 			this._constructFromGeoJSONPolygon(properties,coordinates);	
@@ -465,7 +465,7 @@ EasyShape.prototype={
 		}
 		
 		
-		if(transformation.rotate && transformation.rotate.x)style.rotation = EasyMapUtils._radToDeg(transformation.rotate.x);
+		if(transformation.rotate && transformation.rotate.x)style.rotation = VismoMapUtils._radToDeg(transformation.rotate.x);
 		this._lastTransformation = {scale:{}};
 		this._lastTransformation.scale.x = s.x;
 		this._lastTransformation.scale.y = s.y;
@@ -615,8 +615,8 @@ EasyShape.prototype={
 		var left = 0,top = 0;
 		var right =  parseInt(canvas.width) + left; 
 		var bottom = parseInt(canvas.height) + top;
-		var topleft =  EasyClickingUtils.undotransformation(left,top,transformation);
-		var bottomright =  EasyClickingUtils.undotransformation(right,bottom,transformation);				
+		var topleft =  VismoClickingUtils.undotransformation(left,top,transformation);
+		var bottomright =  VismoClickingUtils.undotransformation(right,bottom,transformation);				
 		var frame = {};
 		frame.top = topleft.y;
 		frame.bottom = bottomright.y;
@@ -672,11 +672,11 @@ EasyShape.prototype={
 	}
 
 };
-/*requires EasyShapes
+/*requires VismoShapes
 Adds controls such as panning and zooming to a given dom element.
  */
 
-var EasyMapController = function(targetjs,elem){ //elem must have style.width and style.height
+var VismoMapController = function(targetjs,elem){ //elem must have style.width and style.height
 	this.setMaxScaling(99999999);
 	if(!elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions
@@ -698,7 +698,7 @@ var EasyMapController = function(targetjs,elem){ //elem must have style.width an
 	this.enabled = true;
 
 };
-EasyMapController.prototype = {
+VismoMapController.prototype = {
 	addMouseWheelZooming: function(){ /*not supported for internet explorer*/
 		var mw = this.wrapper.onmousewheel;
 		var that = this;
@@ -712,7 +712,7 @@ EasyMapController.prototype = {
 			var delta = 0;
 
 	
-			var t = EasyClickingUtils.resolveTarget(e);
+			var t = VismoClickingUtils.resolveTarget(e);
 			
 			if(t != that.wrapper && t.parentNode !=that.wrapper) return;
 	       	 	if (e.wheelDelta) { /* IE/Opera. */
@@ -736,7 +736,7 @@ EasyMapController.prototype = {
 			
 				var s =that.transformation.scale;
 				
-				var pos = EasyClickingUtils.getMouseFromEventRelativeToElementCenter(e);
+				var pos = VismoClickingUtils.getMouseFromEventRelativeToElementCenter(e);
 				var t=  that.transformation.translate;
 				
 				var newx,newy;
@@ -797,12 +797,12 @@ EasyMapController.prototype = {
 			if(!this.easyController)return;
 			var p =this.easyController.panning_status;
 			if(!p) return;
-			var t =  EasyClickingUtils.resolveTarget(e);
+			var t =  VismoClickingUtils.resolveTarget(e);
 
 			if(t.tagName == "INPUT") return;
 			if(t.getAttribute("class") == "easyControl") return;
 			
-			var pos =  EasyClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
+			var pos =  VismoClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
 			if(!pos)return;
 			
 			var t = that.transformation;
@@ -825,18 +825,18 @@ EasyMapController.prototype = {
 		this.wrapper.onmousedown = function(e){
 					
 			if(md) md(e);
-			var target =  EasyClickingUtils.resolveTarget(e);
+			var target =  VismoClickingUtils.resolveTarget(e);
 			if(!target) return;
 
 			if(target.getAttribute("class") == "easyControl") return;
 
 			var t = that.transformation.translate;
 			var sc =that.transformation.scale; 
-			var realpos = EasyClickingUtils.getMouseFromEvent(e);
+			var realpos = VismoClickingUtils.getMouseFromEvent(e);
 			if(!realpos) return;
 			this.easyController = that;
 			
-			var element = EasyClickingUtils.resolveTargetWithEasyClicking(e);
+			var element = VismoClickingUtils.resolveTargetWithVismoClicking(e);
 			that.panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			
 			that.wrapper.onmousemove = onmousemove;
@@ -889,7 +889,7 @@ EasyMapController.prototype = {
 			coords = [-r,0,r,0];
 		}
 		
-		return new EasyShape(properties,coords);
+		return new VismoShape(properties,coords);
 	},	
 	createButton: function(canvas,width,direction,offset,properties) {
 		if(!width) width = 100;
@@ -907,7 +907,7 @@ EasyMapController.prototype = {
 		];
 		properties.shape = 'polygon';
 		properties.fill ='rgba(150,150,150,0.7)';
-		var button = new EasyShape(properties,coords);
+		var button = new VismoShape(properties,coords);
 		button.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:0,y:0}});
 		var label = this.createButtonLabel(r,properties.buttonType);
 		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r}});
@@ -962,7 +962,7 @@ EasyMapController.prototype = {
 			newCanvas.browser = 'ie';
 		}
 		newCanvas.easyController = this;
-		newCanvas.easyClicking = new EasyClicking(newCanvas);
+		newCanvas.easyClicking = new VismoClicking(newCanvas);
 		
 		//newCanvas.memory = [];
 		return newCanvas;
@@ -1131,7 +1131,7 @@ if(!Array.indexOf) {
 
 
 
-var EasyMapUtils = {
+var VismoMapUtils = {
 	googlelocalsearchurl: "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="
 	,addBoundingBoxes: function(geojson){ //currently MultiPolygon only..
 		var geojsonbb = geojson;
@@ -1211,7 +1211,7 @@ var EasyMapUtils = {
 	 }
 	,getLongLatAtXY: function(x,y,eMap){
 		
-		var res = EasyMapUtils.getLongLatFromMouse(x,y,eMap);
+		var res = VismoMapUtils.getLongLatFromMouse(x,y,eMap);
 	
 		
 		return res;
@@ -1241,11 +1241,11 @@ var EasyMapUtils = {
 		};
 			
 	
-		EasyFileUtils.loadRemoteFile(that.googlelocalsearchurl+query,fileloadedcallback);
+		VismoFileUtils.loadRemoteFile(that.googlelocalsearchurl+query,fileloadedcallback);
 	}
 	,getLongLatFromMouse: function(x,y,easyMap){
 		var t =easyMap.controller.transformation;
-		var pos = EasyClickingUtils.undotransformation(x,y,t);	
+		var pos = VismoClickingUtils.undotransformation(x,y,t);	
 		
 		if(easyMap.settings.projection) {
 			pos = easyMap.settings.projection.inversexy(pos.x,pos.y,t);
@@ -1270,7 +1270,7 @@ var EasyMapUtils = {
 		
 		return (deg * Math.PI) / 180.0;
 	},
-	fitgeojsontocanvas: function(json,canvas){ /*canvas must have style width and height properties, returns an EasyTransformation*/
+	fitgeojsontocanvas: function(json,canvas){ /*canvas must have style width and height properties, returns an VismoTransformation*/
 		var view ={};
 		var f =json.features;
 		for(var i=0; i < f.length; i++){
@@ -1366,18 +1366,18 @@ var EasyMapUtils = {
 			//longitude =longitude% (6.28318531);
 			
 		}
-		var lon = EasyMapUtils._radToDeg(longitude);
-		var lat = EasyMapUtils._radToDeg(latitude);
+		var lon = VismoMapUtils._radToDeg(longitude);
+		var lat = VismoMapUtils._radToDeg(latitude);
 		//console.log("to",longitude,r,lon);
 		return {x:lon,y:lat};
 	},
 	_spherifycoordinate: function(lon,lat,transformation,radius){
 		//http://board.flashkit.com/board/archive/index.php/t-666832.html
-		var utils = EasyMapUtils;
+		var utils = VismoMapUtils;
 		var res = {};
 		
-		var longitude = EasyMapUtils._degToRad(lon);
-		var latitude = EasyMapUtils._degToRad(lat);
+		var longitude = VismoMapUtils._degToRad(lon);
+		var latitude = VismoMapUtils._degToRad(lat);
  		var wraplat = false;
  		// assume rotate values given in radians
 		if(transformation && transformation.rotate){
@@ -1396,7 +1396,7 @@ var EasyMapUtils = {
 			}
 			if(transformation.rotate.y){
 				latitude += parseFloat(transformation.rotate.y);
-				/*var limit =EasyMapUtils._degToRad(85);
+				/*var limit =VismoMapUtils._degToRad(85);
 				if(latitude <-limit){
 					latitude += (2 * limit);
 					res.movedNorth = true;
@@ -1462,9 +1462,9 @@ var EasyMapUtils = {
 };/*
 SVG targeted functions withe goal to convert to a geojson structure
 */
-var EasyMapSVGUtils= {
+var VismoMapSVGUtils= {
 	convertSVGToMultiPolygonFeatureCollection: function(xml){			
-		var svgu = EasyMapSVGUtils;
+		var svgu = VismoMapSVGUtils;
 		var res = new Object();
 		res.type = "FeatureCollection";
 		res.features = [];
@@ -1705,10 +1705,10 @@ var EasyMapSVGUtils= {
 		return points;
 	}	
 };
-var EasyFileUtils= {
+var VismoFileUtils= {
 	saveFile: function(fileUrl,content)
 	{
-		var r = EasyFileUtils.mozillaSaveFile(fileUrl,content);
+		var r = VismoFileUtils.mozillaSaveFile(fileUrl,content);
 
 		return r;
 	}
@@ -1751,7 +1751,7 @@ var EasyFileUtils= {
 	
 	,getLocalPath:function(origPath)
 	{
-		var originalPath = EasyFileUtils.convertUriToUTF8(origPath,"UTF-8");
+		var originalPath = VismoFileUtils.convertUriToUTF8(origPath,"UTF-8");
 		
 		// Remove any location or query part of the URL
 		var argPos = originalPath.indexOf("?");
@@ -1792,7 +1792,7 @@ var EasyFileUtils= {
 	/*currently doesnt work with jpg files - ok formats:gifs pngs*/
 	,saveImageLocally: function(sourceurl,dest,dothiswhensavedlocally,dothiswhenloadedfromweb) {
 		
-		var localPath = EasyFileUtils.getLocalPath(document.location.toString());
+		var localPath = VismoFileUtils.getLocalPath(document.location.toString());
 	
 		var savePath;
 		if((p = localPath.lastIndexOf("/")) != -1) {
@@ -1810,7 +1810,7 @@ var EasyFileUtils= {
 				if(dothiswhenloadedfromweb){
 					dothiswhenloadedfromweb(url);
 				}
-				if(location.protocol != "http:")EasyFileUtils.saveFile(savePath,responseText);
+				if(location.protocol != "http:")VismoFileUtils.saveFile(savePath,responseText);
 			}
 			catch(e){
 				console.log("error saving locally.."+ e);
@@ -1833,7 +1833,7 @@ var EasyFileUtils= {
 		
 		}
 		catch(e){//couldnt load probably doesn't exist!
-			EasyFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
+			VismoFileUtils.loadRemoteFile(sourceurl,onloadfromweb,null,null,null,null,null,null,true);		
 		}
 
 		
@@ -1937,7 +1937,7 @@ var EasyFileUtils= {
 		return value;
 	}
 };/*some conversion functions that convert to geojson */
-var EasyConversion ={
+var VismoConversion ={
 	niaveGeoJsonFlatten: function(geojson,niaveness){
 		
 		var newdata = geojson;
@@ -1978,11 +1978,11 @@ var EasyConversion ={
 		return newdata;
 	}
 	,svgToGeoJson: function(svg,canvas){
-		var svgxml = EasyFileUtils._getXML(svg);
-		var res = EasyMapSVGUtils.convertSVGToMultiPolygonFeatureCollection(svgxml);
+		var svgxml = VismoFileUtils._getXML(svg);
+		var res = VismoMapSVGUtils.convertSVGToMultiPolygonFeatureCollection(svgxml);
 		
 		
-		//res = EasyMapUtils.fitgeojsontocanvas(res,canvas);
+		//res = VismoMapUtils.fitgeojsontocanvas(res,canvas);
 		//console.log(res.boundingBox);
 		//res
 		//work out here where origin should be (half of the maximum width of the svg coordinate space should be 0)
@@ -2005,7 +2005,7 @@ var EasyConversion ={
 							if(ringChildren[m].tagName == 'coordinates'){
 							
 								
-								var geometry = EasyFileUtils.getChildNodeValue(ringChildren[m]);
+								var geometry = VismoFileUtils.getChildNodeValue(ringChildren[m]);
 								geometry = geometry.trim();
 						
 								
@@ -2055,7 +2055,7 @@ var EasyConversion ={
 	,kmlToGeoJson: function(kml){
 		var geojson = {type:"FeatureCollection", features:[]};
 		
-		var xml =EasyFileUtils._getXML(kml);
+		var xml =VismoFileUtils._getXML(kml);
 		var items = xml.getElementsByTagName("Placemark");
 		
 		for(var i=0; i < items.length; i++){
@@ -2116,7 +2116,7 @@ var EasyConversion ={
 	
 		var geojson = {type:"FeatureCollection", features:[]};
 		
-		var xml =EasyFileUtils._getXML(georss);
+		var xml =VismoFileUtils._getXML(georss);
 		var items = xml.getElementsByTagName("item");
 		
 		for(var i=0; i < items.length; i++){
@@ -2139,7 +2139,7 @@ var EasyConversion ={
 					var geocoordinates = [];
 					//console.log(att[j].innerHTML,att[j].firstChild,"inner");
 
-					var geometry = EasyFileUtils.getChildNodeValue(att[j]);
+					var geometry = VismoFileUtils.getChildNodeValue(att[j]);
 					geometry = geometry.trim();
 					geometry = geometry.replace(/  +/g, " ");
 					geometry = geometry.replace(/\n/g, "");
@@ -2171,14 +2171,14 @@ var EasyConversion ={
 	}
 
 };
-var EasyClickingUtils = {
+var VismoClickingUtils = {
 	getRealXYFromMouse: function(e,t){
-		var newpos =EasyClickingUtils.getMouseFromEvent(e);
-		newpos = EasyClickingUtils.undotransformation(newpos.x,newpos.y,t);
+		var newpos =VismoClickingUtils.getMouseFromEvent(e);
+		newpos = VismoClickingUtils.undotransformation(newpos.x,newpos.y,t);
 		return newpos;
 	}
 	
-	,undotransformation: function(x,y,transformation){ //porting to EasyTransformations?
+	,undotransformation: function(x,y,transformation){ //porting to VismoTransformations?
 	
 		var pos = {};
 		var t =transformation;
@@ -2220,7 +2220,7 @@ var EasyClickingUtils = {
 	
 	,getMouseFromEvent : function(e){
 			if(!e) e = window.event;
-			var target = this.resolveTargetWithEasyClicking(e);
+			var target = this.resolveTargetWithVismoClicking(e);
 			if(!target)return false;
 
 			var offset = jQuery(target).offset();
@@ -2246,9 +2246,9 @@ var EasyClickingUtils = {
 			
 	}
 
-	,resolveTargetWithEasyClicking: function(e)
+	,resolveTargetWithVismoClicking: function(e)
 	{
-		var node = EasyClickingUtils.resolveTarget(e);
+		var node = VismoClickingUtils.resolveTarget(e);
 		var first = node;
 		while(node && !node.easyClicking){
 			node = node.parentNode;
@@ -2287,7 +2287,7 @@ var EasyClickingUtils = {
 	}
 	,getMouseFromEventRelativeToElementCenter: function(e){ /*redundant?? */
 		var w,h;
-		var target = this.resolveTargetWithEasyClicking(e);
+		var target = this.resolveTargetWithVismoClicking(e);
 		if(!target)return;
 		if(target.style.width)
 			w = parseInt(target.style.width);
@@ -2308,7 +2308,7 @@ var EasyClickingUtils = {
 };
 
 /*
-EasyClicking adds the ability to associate a dom element with a collection of EasyShapes using addToMemory function
+VismoClicking adds the ability to associate a dom element with a collection of VismoShapes using addToMemory function
 The getShapeAtClick function allows click detection on this dom element when used in a dom mouse event handler
 */
 
@@ -2324,8 +2324,8 @@ function findScrollY()
 	return window.scrollY || document.documentElement.scrollTop;
 }
 
-/*Turn a dom element into one where you can find EasyShapes based on clicks */
-var EasyClicking = function(element,easyShapesList){
+/*Turn a dom element into one where you can find VismoShapes based on clicks */
+var VismoClicking = function(element,easyShapesList){
 	if(element.easyClicking) {
 		var update = element.easyClicking;
 		return update;
@@ -2338,7 +2338,7 @@ var EasyClicking = function(element,easyShapesList){
 	
 };
 
-EasyClicking.prototype = {
+VismoClicking.prototype = {
 	setTransformation: function(transformation){
 		if(transformation) this.transformation = transformation;	
 	}
@@ -2372,11 +2372,11 @@ EasyClicking.prototype = {
 			e = window.event;
 		}
 		
-		var node = EasyClickingUtils.resolveTarget(e);
+		var node = VismoClickingUtils.resolveTarget(e);
 		if(node.getAttribute("class") == 'easyShape') { //vml easyShape
 			return node.easyShape;
 		}
-		var target = EasyClickingUtils.resolveTargetWithEasyClicking(e);
+		var target = VismoClickingUtils.resolveTargetWithVismoClicking(e);
 	
 		if(!target) return;
 		var offset = jQuery(target).offset();
@@ -2407,7 +2407,7 @@ EasyClicking.prototype = {
 	getShapeAtPosition: function(x,y) {
 		var shapes = this.memory;
 		if(this.transformation){
-			var pos =  EasyClickingUtils.undotransformation(x,y,this.transformation);
+			var pos =  VismoClickingUtils.undotransformation(x,y,this.transformation);
 			x = pos.x;
 			y = pos.y;
 		
@@ -2503,9 +2503,9 @@ EasyClicking.prototype = {
 
 };
 
-/*Extends EasyMaps to provide tiled background */
+/*Extends VismoMaps to provide tiled background */
 
-var EasySlippyMap = function(easyMap){	
+var VismoSlippyMap = function(easyMap){	
 	easyMap.resize(256,256);
 	this.loadedurls = {};
 	this.setupSlippyStaticMapLayer(easyMap);
@@ -2513,7 +2513,7 @@ var EasySlippyMap = function(easyMap){
 	return easyMap;
 };
 
-EasySlippyMap.prototype = {
+VismoSlippyMap.prototype = {
 	
 	getGoogleMercatorProjection: function(easymap){
 		
@@ -2640,8 +2640,8 @@ EasySlippyMap.prototype = {
 					brleft += (mapwidth);
 				}
 		
-				var lola = EasyMapUtils.getLongLatAtXY(brleft+128,brtop+128,eMap);
-				var btilexy =EasyMapUtils.getSlippyTileNumber(lola.longitude,lola.latitude,zoomL,eMap);
+				var lola = VismoMapUtils.getLongLatAtXY(brleft+128,brtop+128,eMap);
+				var btilexy =VismoMapUtils.getSlippyTileNumber(lola.longitude,lola.latitude,zoomL,eMap);
 				
 				for(var idX=0; idX < tileGridDimension.x; idX++){
 					for(var idY=0; idY < tileGridDimension.y; idY++){
@@ -2706,7 +2706,7 @@ EasySlippyMap.prototype = {
 				}
 				else{
 					tile.style.backgroundImage = "none";
-					EasyFileUtils.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
+					VismoFileUtils.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
 					that.loadedurls[localurl] = true;
 				}
 			}
@@ -2752,7 +2752,7 @@ EasySlippyMap.prototype = {
 		
 	}
 	
-};var EasyOptimisations = {
+};var VismoOptimisations = {
 	packCoordinates: function(coordlist){
 		var res = [];
 		for(var i=0; i < coordlist.length-1; i+=2){
@@ -2807,8 +2807,8 @@ EasySlippyMap.prototype = {
 		else{
 			results.push(coords[start]);
 			var ref = bestPoint.index;
-			var splice1 = EasyOptimisations.douglasPeucker(coords,tolerance,start+1,ref);
-			var splice2 = EasyOptimisations.douglasPeucker(coords,tolerance,ref,end);
+			var splice1 = VismoOptimisations.douglasPeucker(coords,tolerance,start+1,ref);
+			var splice2 = VismoOptimisations.douglasPeucker(coords,tolerance,ref,end);
 			results = results.concat(splice1);
 			results = results.concat(splice2);
 			results.push(coords[end]);
@@ -7454,7 +7454,7 @@ var GeoTag = function(longitude,latitude,properties){
 	return geo;	
 };
 
-var EasyMap = function(wrapper){  
+var VismoMap = function(wrapper){  
 	var wrapper;
 	if(typeof wrapper == 'string')
 		wrapper = document.getElementById(wrapper);
@@ -7493,13 +7493,13 @@ var EasyMap = function(wrapper){
 	else
 		this.settings.browser = 'good';
 	
-	this.easyClicking = new EasyClicking(wrapper);
+	this.easyClicking = new VismoClicking(wrapper);
 	wrapper.appendChild(canvas);
 
 
 	this._setupMouseHandlers();
 
-	this.controller = new EasyMapController(this,this.wrapper);
+	this.controller = new VismoMapController(this,this.wrapper);
 
 		
 	//run stuff
@@ -7518,8 +7518,8 @@ var EasyMap = function(wrapper){
 	this.settings.wrapper.offset.bottom =	this.settings.wrapper.offset.top + (parseInt(this.settings.wrapper.height));
 	*/
 };  
-EasyMap.prototype = {
-	getEasyShapes: function(){
+VismoMap.prototype = {
+	getVismoShapes: function(){
 		return this.easyClicking.getMemory();
 	}
 	,resize: function(width,height){
@@ -7562,12 +7562,12 @@ EasyMap.prototype = {
 					}
 					,inversexy: function(x,y,t){
 							var radius =this.getRadius(t.scale);
-							var res = EasyMapUtils._undospherify(x,y,t,radius);
+							var res = VismoMapUtils._undospherify(x,y,t,radius);
 							return res;
 					}
 					,xy: function(x,y,t){
 						var radius =this.getRadius(t.scale);
-						var res = EasyMapUtils._spherifycoordinate(x,y,t,radius);
+						var res = VismoMapUtils._spherifycoordinate(x,y,t,radius);
 						/*
 						if(res.movedNorth && this.direction >= 0){
 							this.direction = -1;
@@ -7625,7 +7625,7 @@ EasyMap.prototype = {
 			this._lastgeojson = geojson;
 			if(autosize){
 				
-			 	var t = EasyMapUtils.fitgeojsontocanvas(geojson,this.wrapper);
+			 	var t = VismoMapUtils.fitgeojsontocanvas(geojson,this.wrapper);
 
 				var p =this.getProjection();
 				if(p && p.name == "GLOBE") {
@@ -7654,7 +7654,7 @@ EasyMap.prototype = {
 		
 			that.drawFromGeojson(responseText);
 		};
-		EasyFileUtils.loadRemoteFile(file,callback);
+		VismoFileUtils.loadRemoteFile(file,callback);
 	}
 
 	,getTransformation: function(){
@@ -7876,14 +7876,14 @@ EasyMap.prototype = {
 	_drawGeoJsonPolygonFeature: function(coordinates,feature){
 		var p = feature.properties;
 		p.shape = 'polygon';
-		var s = new EasyShape(p,coordinates,"geojson");
+		var s = new VismoShape(p,coordinates,"geojson");
 		this.easyClicking.addToMemory(s);
 		this.geofeatures[this.easyClicking.getMemoryID(s)] = feature;
 	},
 	_drawGeoJsonPointFeature: function(coordinates,feature){
 		var p = feature.properties;
 		p.shape = 'point';
-		var s = new EasyShape(p,coordinates,"geojson");
+		var s = new VismoShape(p,coordinates,"geojson");
 		this.easyClicking.addToMemory(s);
 		this.geofeatures[this.easyClicking.getMemoryID(s)] = feature;
 
@@ -7970,7 +7970,7 @@ EasyMap.prototype = {
 			if(code) character = String.fromCharCode(code);
 			
 			
-			var t = EasyClickingUtils.resolveTargetWithEasyClicking(e);
+			var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
 			if(t.getAttribute("class") == 'easyControl') return false;
 			var shape = eMap.easyClicking.getShapeAtClick(e);
 			if(shape) {
@@ -7979,11 +7979,11 @@ EasyMap.prototype = {
 			}
 		
 			
-			var pos = EasyClickingUtils.getMouseFromEvent(e);
+			var pos = VismoClickingUtils.getMouseFromEvent(e);
 			var x =pos.x;
 			var y = pos.y;
 			result.mouse = pos;
-			result.longitude_latitude = EasyMapUtils.getLongLatFromMouse(x,y,eMap);
+			result.longitude_latitude = VismoMapUtils.getLongLatFromMouse(x,y,eMap);
 			
 			result.event = e;
 			result.keypressed = character;
@@ -7992,7 +7992,7 @@ EasyMap.prototype = {
 		};
 		var onmousemove = function(e){
 		
-			var pos = EasyClickingUtils.getMouseFromEvent(e);
+			var pos = VismoClickingUtils.getMouseFromEvent(e);
 			var x =pos.x;
 			var y = pos.y;
 			if(!x || !y ) return;

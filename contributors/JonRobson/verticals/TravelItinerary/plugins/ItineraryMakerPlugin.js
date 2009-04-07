@@ -32,7 +32,7 @@ config.macros.itineraryMaker={
 		
 		if(!this.visitedurls[url]){
 			this.visitedurls[url] = true;
-			EasyFileUtils.loadRemoteFile(url,callback,null,null,null,null,null,null,true);
+			VismoFileUtils.loadRemoteFile(url,callback,null,null,null,null,null,null,true);
 			
 		}
 	}
@@ -46,7 +46,7 @@ config.macros.itineraryMaker={
 		var x= temp.match(imageRule);
 		while(x){
 			
-			EasyFileUtils.saveImageLocally("http://"+x[1],x[1]+x[2])
+			VismoFileUtils.saveImageLocally("http://"+x[1],x[1]+x[2])
 			
 			temp =temp.replace(imageRule,"<img src='$1$2'>");
 			x= temp.match(imageRule);
@@ -60,7 +60,7 @@ config.macros.itineraryMaker={
 			var color =this.getRandomColour();
 		}
 		var callback = function(status,params,responseText,url,xhr){
-			var xml = EasyFileUtils._getXML(responseText);
+			var xml = VismoFileUtils._getXML(responseText);
 			var gmls = xml.getElementsByTagName("item");
 		
 			for(var i=0; i <gmls.length;i++){
@@ -222,7 +222,7 @@ config.macros.itineraryMaker={
 		
 		if(!fields.longitude){
 			var query = title.replace("/"," ");
-			EasyMapUtils.getLocationsFromQuery(query,callback);
+			VismoMapUtils.getLocationsFromQuery(query,callback);
 		}
 		else{
 			store.saveTiddler(title,title,text,null,null,tags,fields);

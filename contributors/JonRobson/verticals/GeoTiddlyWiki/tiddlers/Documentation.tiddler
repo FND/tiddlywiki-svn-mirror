@@ -4,7 +4,7 @@ GeoTiddlyWiki consists of several re-usable components. Here you will find docum
 If you're not a developer probably best you close this as I don't want to confuse you.
 
 If you are interested from a TiddlyWiki plugin level you may want to dive into the plugin code: The tiddlers you will be interested in are [[geoTiddlyWikiPlugin]] for basic geotiddlywiki functionality and for Flickr and Dopplr style adapters see [[geoRSSAdaptersPlugin]]
-!EasyShape
+!VismoShape
 !!Description
 Takes some coordinates and properties and creates a representation that can be used for click detection
 
@@ -12,7 +12,7 @@ Takes some coordinates and properties and creates a representation that can be u
 Provide it with a list of coordinates in form [x1,y1,x2,y2..xn,yn] or in form [[x1,y1], [x2,y2],...[xn,yn]] (geojson format) and a properties json. The properties json can hold any data you require. GeoTiddlyWiki makes use of these properties for rendering and click detection.
 
 !!Configuration
-EasyShapes have various attributes the most interesting defined here..
+VismoShapes have various attributes the most interesting defined here..
 !!!coords
 in form [x1,y1,x2,y2...xn,yn]
 
@@ -23,15 +23,15 @@ the name of the shape created (eg. point or polygon)
 the coordinates for a rectangle that encloses the entire shape.
 
 !!!properties
-This is a json of data containing any information you want. However the following properties are special as they do something in EasyMaps..
+This is a json of data containing any information you want. However the following properties are special as they do something in VismoMaps..
 *fill | colour
 This defines a fill colour for a shape.
 *stroke
 This defines a stroke colour
 
-!EasyController
+!VismoController
 !!Description
-EasyController takes a dom element and a javascript object you want to manipulate. It creates controls which when clicked execute a transform function in the javascript object passing it the new transformation matrix as an argument to do with as wished. It is thus re-usable and useful.
+VismoController takes a dom element and a javascript object you want to manipulate. It creates controls which when clicked execute a transform function in the javascript object passing it the new transformation matrix as an argument to do with as wished. It is thus re-usable and useful.
 
 !!Usage
 !!!addControl method: 
@@ -47,7 +47,7 @@ All done through the initialisation. Create a new function in the javascript obj
 
 !GeoTag
 !!Description
-Create a geojson feature element that represents a geotag at a given longitude, latitude coordinate with EasyShape properties.
+Create a geojson feature element that represents a geotag at a given longitude, latitude coordinate with VismoShape properties.
 
 !!Usage
 If you want the geotag to display in your map you will need to push the geotag onto the geojson features array.
@@ -56,9 +56,9 @@ var geotag = GeoTag(51.507778,-0.12,{name: 'London'});
 geojson.features.push(geotag);
 }}}
 
-!EasyMap
+!VismoMap
 !!Description
-EasyMap renders geojson polygon, point and multipolygon features in a canvas from a geojson.
+VismoMap renders geojson polygon, point and multipolygon features in a canvas from a geojson.
 
 !!Usage
 All you need is a dom element to setup. This can be pretty much any sort of element as long as children can be created inside it (the canvas is created on your behalf). To get a geojson displaying you then need to execute one of the two functions drawFromGeojson or drawFromGeojsonFile passing a geojson or a file pointing to a geojson respectively.
@@ -66,19 +66,19 @@ All you need is a dom element to setup. This can be pretty much any sort of elem
 !!Configuration
 The class can be configured by modifying or manipulating the following attributes.
 !!!click detection
-The dom element used in setup can be associated with onclick and other event handlers and make use of EasyMapUtils to get the EasyShape that was clicked on eg. {{{var s = EasyMapUtils.getShapeAtClick(e)}}}. The variable s can then be used to access EasyShape properties.
+The dom element used in setup can be associated with onclick and other event handlers and make use of VismoMapUtils to get the VismoShape that was clicked on eg. {{{var s = VismoMapUtils.getShapeAtClick(e)}}}. The variable s can then be used to access VismoShape properties.
 !!!controller : 
-this is a reference to an EasyController to allow the adding of controls to EasyMaps
+this is a reference to an VismoController to allow the adding of controls to VismoMaps
 !!!settings: 
 a json containing properties that specify how it is displayed.
 !!!spherical : 
 an experimental setting to make the geojson appear 3d.
 
-!EasyMapUtils
+!VismoMapUtils
 !!Description
 This provides various commonly used functions used throughout the package.
 
-!EasyMapSVGUtils
+!VismoMapSVGUtils
 !!Description
 This is an attempt to convert svg files to geojson files through the function "convertSVGToMultiPolygonFeatureCollection" so svg files can be displayed. Lots of holes but promising results (see [[svg support]]). 
 

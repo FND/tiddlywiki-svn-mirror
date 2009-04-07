@@ -13,6 +13,7 @@ Allows the adding of multiple level drop down menus and checkboxes to the edit t
 
 //{{{
 // Ensure that this Plugin is only installed once.
+var fooble;
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
 
@@ -151,7 +152,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			var container = document.createElement("span");
 			place.appendChild(container);
-			var slider = new EasyColorSlider(container,200,15,changefunction);
+			var slider = new VismoColorSlider(container,200,15,changefunction);
 			slider.setColor(curValue);
 		}
 		,createSearchBox: function(place,fieldName,values,initialValue,action){
@@ -208,7 +209,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			var old = window.onkeypress;
 			window.onkeypress = function(e){
-				var t = EasyClickingUtils.resolveTarget(e);
+				var t = VismoClickingUtils.resolveTarget(e);
 				if(t == input){
 					makesuggestions(t.value);
 				}
@@ -511,16 +512,27 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			if(initial)input.value = initial;
 			var image = document.createElement("img");
 			image.src = initial;
-			var button = document.createElement("button");
+			var browser = document.createElement("div");
+			browser.className = "filebrowser";
 			
+			var home = "http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/";
 			input.onchange = function(e){
 				var newsrc = this.value;
+				image.src=  "";
 				image.src = newsrc;
 				handler(newsrc);
 			};
+			
+
+				
 			holder.appendChild(image);
 			holder.appendChild(input);
-			holder.appendChild(button);
+			holder.appendChild(browser);
+			jQuery(browser).fileTree({ root: 'images/', script: home + 'jqueryFileTree.php'}, function(file) { 
+						input.value = home + file;
+						input.onchange();
+						handler(file);
+			});
 			place.appendChild(holder);
 		}
 	};

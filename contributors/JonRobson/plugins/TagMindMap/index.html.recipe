@@ -1,4 +1,4 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: tiddlers/split.recipe
 tiddler: js/TagMindMapCommands.js
-tiddler: js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js ../../../plugins/EasyLibrary/EasyShapes.js ../../../plugins/EasyLibrary/EasyOptimisations.js  ../../../plugins/EasyLibrary/EasyController.js ../../../plugins/EasyLibrary/EasyTransformations.js ../../../plugins/EasyLibrary/EasyMapUtils.js ../../../plugins/EasyLibrary/EasyClicking.js ../../../plugins/EasyLibrary/EasyClickingUtils.js tagMindMapIEHack.js 
+tiddler: js/Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js ../../../plugins/VismoLibrary/VismoShapes.js ../../../plugins/VismoLibrary/VismoOptimisations.js  ../../../plugins/VismoLibrary/VismoController.js ../../../plugins/VismoLibrary/VismoTransformations.js ../../../plugins/VismoLibrary/VismoMapUtils.js ../../../plugins/VismoLibrary/VismoClicking.js ../../../plugins/VismoLibrary/VismoClickingUtils.js tagMindMapIEHack.js 

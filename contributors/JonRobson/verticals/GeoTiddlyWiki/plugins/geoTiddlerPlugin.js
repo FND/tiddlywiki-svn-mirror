@@ -98,10 +98,10 @@ function getElementChild(el,tag){
 					story.displayTiddler(tiddlerElem,shapeName);
 					return false;
 				};			
-				var eMap = this.createNewEasyMap(place,prms);
+				var eMap = this.createNewVismoMap(place,prms);
 				eMap.setMouseFunctions(false,false,false,false,onmup);
 
-				this.addEasyMapControls(eMap,prms);
+				this.addVismoMapControls(eMap,prms);
 
 				var source = getParam(prms,"source");
 
@@ -109,9 +109,9 @@ function getElementChild(el,tag){
 				if(geodata == 'svgfile'){
 					var callback = function(status,params,responseText,url,xhr){
 						var svg = responseText;
-						eMap.drawFromGeojson(EasyConversion.svgToGeoJson(svg,eMap.canvas));	
+						eMap.drawFromGeojson(VismoConversion.svgToGeoJson(svg,eMap.canvas));	
 					};
-					EasyFileUtils.loadRemoteFile(source,callback);	
+					VismoFileUtils.loadRemoteFile(source,callback);	
 				}
 				else {	
 					eMap.drawFromGeojson(geodata);
@@ -158,7 +158,7 @@ function getElementChild(el,tag){
 
 				
 				try{
-					EasyFileUtils.saveImageLocally(gsmURL,gsmPath,useLocalImage);
+					VismoFileUtils.saveImageLocally(gsmURL,gsmPath,useLocalImage);
 				}
 				catch(e){
 					console.log("unable to cache static image for this map view. ("+e+")")
@@ -173,7 +173,7 @@ function getElementChild(el,tag){
 			
 	
 			try{
-				EasyFileUtils.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"X"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"_0_0_0.gif",useLocalImage);
+				VismoFileUtils.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"X"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"_0_0_0.gif",useLocalImage);
 			}
 			catch(e){
 				console.log("unable to cache static image for this map view. ("+e+")")
@@ -209,13 +209,13 @@ function getElementChild(el,tag){
 				data = eval(data);
 			}
 			else if(sourceTiddler.tags.contains("kml")){
-				data = EasyConversion.kmlToGeoJson(data);
+				data = VismoConversion.kmlToGeoJson(data);
 			}
 			else if(sourceTiddler.tags.contains("georss")){
-				data = EasyConversion.geoRssToGeoJson(data);
+				data = VismoConversion.geoRssToGeoJson(data);
 			}
 			else if(sourceTiddler.tags.contains("svg")){
-				data = EasyConversion.svgToGeoJson(data,easyMap.wrapper);
+				data = VismoConversion.svgToGeoJson(data,easyMap.wrapper);
 			}
 			else{
 				data = {};
@@ -320,7 +320,7 @@ function getElementChild(el,tag){
 		}
 		
 	
-		,addEasyMapControls: function(eMap,prms){
+		,addVismoMapControls: function(eMap,prms){
 			var proj = getParam(prms,"projection");
 			if(proj == 'globe' || proj == 'spinnyglobe') {			
 				eMap.controller.addControl("rotation");
@@ -334,12 +334,12 @@ function getElementChild(el,tag){
 			eMap.controller.addControl("mousepanning");
 			eMap.controller.addControl("mousewheelzooming");
 		}
-		,addEasyMapClickFunction: function(easyMap,clickFunction){
+		,addVismoMapClickFunction: function(easyMap,clickFunction){
 		
 			easyMap.wrapper.onmouseup = clickFunction;
 		
 		}
-		,createNewEasyMap: function(place,prms){
+		,createNewVismoMap: function(place,prms){
 			var geoid = getParam(prms,"id");
 			if(!geoid) geoid = "default" + numgeomaps;
 			numgeomaps +=1;
@@ -369,11 +369,11 @@ function getElementChild(el,tag){
 			createTiddlyText(statustext,"loading... please wait a little while!");
 			var caption = createTiddlyElement(place,"div","caption","caption");
 
-			var eMap = new EasyMap(wrapper);
+			var eMap = new VismoMap(wrapper);
 
 			if(proj){
 				if(proj == 'globe' || proj == 'spinnyglobe'){
-					eMap = new EasyGlobe(eMap);
+					eMap = new VismoGlobe(eMap);
 					if(proj == 'spinnyglobe'){
 						eMap.toggleSpin();
 					}
@@ -382,7 +382,7 @@ function getElementChild(el,tag){
 					eMap.settings.projection = this.getGoogleMercatorProjection();
 				}
 				else if(proj == 'slippystaticmap'){
-					eMap = new EasySlippyMap(eMap);					
+					eMap = new VismoSlippyMap(eMap);					
 				}
 				else if(proj == 'googlestaticmap'){
 					if(parseInt(wrapper.style.width)  > 640|| parseInt(wrapper.style.height) > 640){

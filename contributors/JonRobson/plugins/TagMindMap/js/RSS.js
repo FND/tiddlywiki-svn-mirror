@@ -112,7 +112,7 @@ config.macros.rsstomap.feedToTagMindMap = function(feedurl, tagRule){
  
 	this.boringtags.push("interesting");
 	this.boringtags.push("boring");
-	var u = new EasyMapUtils();
+	var u = new VismoMapUtils();
 		var that = u;
 
 	var keywords = this.interestingkeywords;
@@ -234,9 +234,9 @@ config.macros.rsstomap.feedToTagMindMap = function(feedurl, tagRule){
 	u.loadRemoteFile(feedurl,callback);
 }
 
-var EasyMapUtils = function(){	
+var VismoMapUtils = function(){	
 };
-EasyMapUtils.prototype = {
+VismoMapUtils.prototype = {
 	loadRemoteFile: function(url,callback,params)
 	{
 		return this._httpReq("GET",url,callback,params,null,null,null,null,null,true);

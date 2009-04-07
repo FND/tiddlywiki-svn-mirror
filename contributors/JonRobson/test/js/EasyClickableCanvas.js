@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-	module("EasyClickableCanvas");
+	module("VismoClickableCanvas");
 
 	test("check setup with string", function() {
 		var actual, expected;
@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
 		el.id = "myel";
 		document.body.appendChild(el);
 		/* run */
-		var s = new EasyClickableCanvas("myel");
+		var s = new VismoClickableCanvas("myel");
 
 		
 		expected = s;

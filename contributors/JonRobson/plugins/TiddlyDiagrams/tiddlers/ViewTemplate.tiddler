@@ -1,0 +1,6 @@
+<div title="ToolbarCommands">
+<pre>
+|~ViewToolbar|closeTiddler closeOthers editTiddler > fields syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
+</pre>
+</div>

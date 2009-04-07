@@ -76,7 +76,75 @@ DAMAGE.
 #storeArea div {padding:0.5em; margin:1em 0em 0em 0em; border-color:#fff #666 #444 #ddd; border-style:solid; border-width:2px; overflow:auto;}
 #shadowArea {display:none;}
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
-</style>
+/*JQUERYCSS */
+UL.jqueryFileTree{font-family:Verdana,sans-serif;font-size:11px;line-height:18px;padding:0px;margin:0px;}
+UL.jqueryFileTree LI{list-style:none;padding:0px;padding-left:20px;margin:0px;white-space:nowrap;}
+UL.jqueryFileTree A{color:#333;text-decoration:none;display:block;padding:0px 2px;} 
+UL.jqueryFileTree A:hover{background:#BDF;}
+/* Core Styles */
+.jqueryFileTree LI.directory { background: url(images/directory.png) left top no-repeat; }
+.jqueryFileTree LI.expanded { background: url(images/folder_open.png) left top no-repeat; }
+.jqueryFileTree LI.file { background: url(images/file.png) left top no-repeat; }
+.jqueryFileTree LI.wait { background: url(images/spinner.gif) left top no-repeat; }
+/* File Extensions*/
+.jqueryFileTree LI.ext_3gp { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_afp { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_afpa { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_asp { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_aspx { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_avi { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_bat { background: url(images/application.png) left top no-repeat; }
+.jqueryFileTree LI.ext_bmp { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_c { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_cfm { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_cgi { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_com { background: url(images/application.png) left top no-repeat; }
+.jqueryFileTree LI.ext_cpp { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_css { background: url(images/css.png) left top no-repeat; }
+.jqueryFileTree LI.ext_doc { background: url(images/doc.png) left top no-repeat; }
+.jqueryFileTree LI.ext_exe { background: url(images/application.png) left top no-repeat; }
+.jqueryFileTree LI.ext_gif { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_fla { background: url(images/flash.png) left top no-repeat; }
+.jqueryFileTree LI.ext_h { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_htm { background: url(images/html.png) left top no-repeat; }
+.jqueryFileTree LI.ext_html { background: url(images/html.png) left top no-repeat; }
+.jqueryFileTree LI.ext_jar { background: url(images/java.png) left top no-repeat; }
+.jqueryFileTree LI.ext_jpg { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_jpeg { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_js { background: url(images/script.png) left top no-repeat; }
+.jqueryFileTree LI.ext_lasso { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_log { background: url(images/txt.png) left top no-repeat; }
+.jqueryFileTree LI.ext_m4p { background: url(images/music.png) left top no-repeat; }
+.jqueryFileTree LI.ext_mov { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_mp3 { background: url(images/music.png) left top no-repeat; }
+.jqueryFileTree LI.ext_mp4 { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_mpg { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_mpeg { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_ogg { background: url(images/music.png) left top no-repeat; }
+.jqueryFileTree LI.ext_pcx { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_pdf { background: url(images/pdf.png) left top no-repeat; }
+.jqueryFileTree LI.ext_php { background: url(images/php.png) left top no-repeat; }
+.jqueryFileTree LI.ext_png { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_ppt { background: url(images/ppt.png) left top no-repeat; }
+.jqueryFileTree LI.ext_psd { background: url(images/psd.png) left top no-repeat; }
+.jqueryFileTree LI.ext_pl { background: url(images/script.png) left top no-repeat; }
+.jqueryFileTree LI.ext_py { background: url(images/script.png) left top no-repeat; }
+.jqueryFileTree LI.ext_rb { background: url(images/ruby.png) left top no-repeat; }
+.jqueryFileTree LI.ext_rbx { background: url(images/ruby.png) left top no-repeat; }
+.jqueryFileTree LI.ext_rhtml { background: url(images/ruby.png) left top no-repeat; }
+.jqueryFileTree LI.ext_rpm { background: url(images/linux.png) left top no-repeat; }
+.jqueryFileTree LI.ext_ruby { background: url(images/ruby.png) left top no-repeat; }
+.jqueryFileTree LI.ext_sql { background: url(images/db.png) left top no-repeat; }
+.jqueryFileTree LI.ext_swf { background: url(images/flash.png) left top no-repeat; }
+.jqueryFileTree LI.ext_tif { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_tiff { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_txt { background: url(images/txt.png) left top no-repeat; }
+.jqueryFileTree LI.ext_vb { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_wav { background: url(images/music.png) left top no-repeat; }
+.jqueryFileTree LI.ext_wmv { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_xls { background: url(images/xls.png) left top no-repeat; }
+.jqueryFileTree LI.ext_xml { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_zip { background: url(images/zip.png) left top no-repeat; }</style>
 <!--POST-HEAD-START-->
 <!--POST-HEAD-END-->
 </head>
@@ -534,7 +602,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903271202" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200904071741" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -550,8 +618,10 @@ Allows the adding of multiple level drop down menus and checkboxes to the edit t
 
 //{{{
 // Ensure that this Plugin is only installed once.
+var fooble;
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
+
 	version.extensions.AdvancedEditTemplatePlugin = {installed:true};
 	config.macros.AdvancedEditTemplate = {
 		getVariableFromQueryString:function(varName){
@@ -584,8 +654,6 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var valueSource = getParam(params,&quot;valuesSource&quot;, null);
 			if(!valueSource) valueSource = metaDataName + &quot;Definition&quot;;
 			if(ctrlType == 'dropdown') {
-				
-				
 				if(!valueSource) {
 					displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
 					return;
@@ -668,6 +736,15 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			else if(ctrlType == 'color'){
 				this.createColorBar(place,title,metaDataName);
 			}
+			else if(ctrlType == 'image'){
+				var that = this;
+				var handler = function(value){
+					that.setMetaData(title,metaDataName,value);
+				};
+				var initialValue = &quot;&quot;;
+				initialValue = this.getMetaData(title,metaDataName);
+				var image = new config.macros.AdvancedEditTemplate.EditTemplateImage(place, initialValue,handler);
+			}
 
 		}
 		,createColorBar: function(place,tiddlerTitle,metaDataName){
@@ -680,7 +757,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			var container = document.createElement(&quot;span&quot;);
 			place.appendChild(container);
-			var slider = new EasyColorSlider(container,200,15,changefunction);
+			var slider = new VismoColorSlider(container,200,15,changefunction);
 			slider.setColor(curValue);
 		}
 		,createSearchBox: function(place,fieldName,values,initialValue,action){
@@ -737,7 +814,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			var old = window.onkeypress;
 			window.onkeypress = function(e){
-				var t = EasyClickingUtils.resolveTarget(e);
+				var t = VismoClickingUtils.resolveTarget(e);
 				if(t == input){
 					makesuggestions(t.value);
 				}
@@ -766,14 +843,15 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					caption = caption.substring(0,caption.indexOf(&quot;##&quot;));
 				}
 				value = caption;
-				caption = caption.replace(&quot;&lt;&quot;,&quot;&quot;);
-				caption = caption.replace(&quot;&gt;&quot;,&quot;&quot;);
+
 				if(caption.indexOf(&quot;:&quot;) &gt; -1){
 					var splitstr= caption.split(&quot;:&quot;);
 					caption = splitstr[0];
 					value = splitstr[1];
 				}
-				
+				caption = caption.replace(&quot;&lt;&quot;,&quot;&quot;);
+				caption = caption.replace(&quot;&gt;&quot;,&quot;&quot;);
+		
 				var chainid = chain.length -1;
 				if(!menus[chain[chainid]]){
 					menus[chain[chainid]] = {depth: depth};
@@ -806,6 +884,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 								
 			}
+	
 			return menus;
 		}
 		,createDropDownMenu: function(place,fieldName,values,initialValue,handler,selected,sort){
@@ -815,7 +894,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				else{
 					fields = [fieldName];
 				}
-				this.associatedFields = fields;
+				
 				
 				if(!selected) selected = &quot;&quot;;
 				if(!initialValue){
@@ -843,7 +922,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					}
 			
 					newMenu.name = fields[fieldid];
-					newMenu.aet = this;
+					newMenu.associatedFields = fields;
 					var menuoptions = menus[j].options;
 					
 					if(sort){		 
@@ -968,13 +1047,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 				
 				var selected = el[el.selectedIndex];
-				var aet = el.aet;
+				var aet = config.macros.AdvancedEditTemplate;
 
 				
 				var fieldname = selected.parentNode.name;
 				var fieldvalue = selected.value;
-				for(var i=0; i &lt; aet.associatedFields.length; i++){
-					var fieldname =aet.associatedFields[i];
+				for(var i=0; i &lt; el.associatedFields.length; i++){
+					var fieldname =el.associatedFields[i];
 					aet.setMetaData(title,fieldname,fieldvalue);
 				}	
 				var parent = selected.parentNode.parentOption;
@@ -994,7 +1073,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 		},
 		
-		getMetaData: function(title,extField){
+		getMetaData: function(title,extField){ 
 			extField = extField.toLowerCase();
 			var tiddler =  store.getTiddler(title);
 			if(!tiddler) {
@@ -1025,11 +1104,48 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		
 		}
 	};
+	
+	
+	config.macros.AdvancedEditTemplate.EditTemplateImage = function(place,initial,handler){
+		this.init(place,initial,handler);
+	};
+	config.macros.AdvancedEditTemplate.EditTemplateImage.prototype = {
+		init: function(place,initial,handler){
+			var holder = document.createElement(&quot;div&quot;);
+			holder.className = &quot;AdvancedEditTemplateImage&quot;;
+			var input = document.createElement(&quot;input&quot;);
+			if(initial)input.value = initial;
+			var image = document.createElement(&quot;img&quot;);
+			image.src = initial;
+			var browser = document.createElement(&quot;div&quot;);
+			browser.className = &quot;filebrowser&quot;;
+			
+			var home = &quot;http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/&quot;;
+			input.onchange = function(e){
+				var newsrc = this.value;
+				image.src=  &quot;&quot;;
+				image.src = newsrc;
+				handler(newsrc);
+			};
+			
+
+				
+			holder.appendChild(image);
+			holder.appendChild(input);
+			holder.appendChild(browser);
+			jQuery(browser).fileTree({ root: 'images/', script: home + 'jqueryFileTree.php'}, function(file) { 
+						input.value = home + file;
+						input.onchange();
+						handler(file);
+			});
+			place.appendChild(holder);
+		}
+	};
 }
 //}}}
 document.styleSheets['easyColorSlider'] = {cssText: &quot;.easyColorSliderMixBox {border:solid 1px black;}&quot;};
 
-var EasyColorSlider = function(wrapper,width,height,changefunction){	
+var VismoColorSlider = function(wrapper,width,height,changefunction){	
 	wrapper.style.position = &quot;absolute&quot;;
 	if(!changefunction){
 		changefunction = function(newcolor){
@@ -1057,7 +1173,7 @@ var EasyColorSlider = function(wrapper,width,height,changefunction){
 	
 };
 
-EasyColorSlider.prototype = {
+VismoColorSlider.prototype = {
 	setChangeFunction:function(change){
 		this.changefunction = change;
 	}
@@ -1146,7 +1262,7 @@ EasyColorSlider.prototype = {
 		s.className = &quot;easyColorSlider&quot;;
 		var easycolorslider = this;
 		s.onmousedown = function(e){
-			var pos =EasyClickingUtils.getMouseFromEventRelativeToTarget(e,this);
+			var pos =VismoClickingUtils.getMouseFromEventRelativeToTarget(e,this);
 			var newleft =pos.x + this.style.left;
 			slidebar.style.left = newleft + &quot;px&quot;;
 			var percentage = (pos.x / width)
@@ -1179,15 +1295,15 @@ EasyColorSlider.prototype = {
 	}
 	
 };
-var EasyClickingUtils = {
+var VismoClickingUtils = {
 	getRealXYFromMouse: function(e,t){
-		var newpos =EasyClickingUtils.getMouseFromEvent(e);
-		newpos = EasyClickingUtils.undotransformation(newpos.x,newpos.y,t);
+		var newpos =VismoClickingUtils.getMouseFromEvent(e);
+		newpos = VismoClickingUtils.undotransformation(newpos.x,newpos.y,t);
 		return newpos;
 	}
 	
-	,undotransformation: function(x,y,transformation){ //porting to EasyTransformations?
-		return EasyTransformations.undoTransformation(x,y,transformation);
+	,undotransformation: function(x,y,transformation){ //porting to VismoTransformations?
+		return VismoTransformations.undoTransformation(x,y,transformation);
 	}	
 	,resolveTarget:function(e)
 	{
@@ -1205,7 +1321,7 @@ var EasyClickingUtils = {
 	
 	,getMouseFromEvent : function(e){
 			if(!e) e = window.event;
-			var target = this.resolveTargetWithEasyClicking(e);
+			var target = this.resolveTargetWithVismoClicking(e);
 			if(!target)return false;
 
 			var offset = jQuery(target).offset();
@@ -1231,9 +1347,9 @@ var EasyClickingUtils = {
 			
 	}
 
-	,resolveTargetWithEasyClicking: function(e)
+	,resolveTargetWithVismoClicking: function(e)
 	{
-		var node = EasyClickingUtils.resolveTarget(e);
+		var node = VismoClickingUtils.resolveTarget(e);
 		var first = node;
 		while(node &amp;&amp; !node.easyClicking){
 			node = node.parentNode;
@@ -1272,7 +1388,7 @@ var EasyClickingUtils = {
 	}
 	,getMouseFromEventRelativeToElementCenter: function(e){ /*redundant?? */
 		var w,h;
-		var target = this.resolveTargetWithEasyClicking(e);
+		var target = this.resolveTargetWithVismoClicking(e);
 		if(!target)return;
 		if(target.style.width)
 			w = parseInt(target.style.width);
@@ -1294,15 +1410,138 @@ var EasyClickingUtils = {
 
 </pre>
 </div>
+<div title="JQueryFileTreePlugin" created="200904071725" tags="systemConfig">
+<pre>// create macro object
+(function($) { // set up alias
+
+config.macros.FileTree = { 
+ 
+  // Add a handler function to be invoked by &lt;&lt;listnav TiddlerTitle&gt;&gt; 
+  handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+ 	var el = document.createElement(&quot;div&quot;);
+	try{
+		
+	$(el).fileTree({ root: 'images/', script: 'http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php'}, function(file) { 
+				alert(file);
+			});
+	}
+	catch(e){
+		console.log(e);
+	}		
+	place.appendChild(el);
+  }
+};// jQuery File Tree Plugin
+//
+// Version 1.01
+//
+// Cory S.N. LaViska
+// A Beautiful Site (http://abeautifulsite.net/)
+// 24 March 2008
+//
+// Visit http://abeautifulsite.net/notebook.php?article=58 for more information
+//
+// Usage: $('.fileTreeDemo').fileTree( options, callback )
+//
+// Options:  root           - root folder to display; default = /
+//           script         - location of the serverside AJAX file to use; default = jqueryFileTree.php
+//           folderEvent    - event to trigger expand/collapse; default = click
+//           expandSpeed    - default = 500 (ms); use -1 for no animation
+//           collapseSpeed  - default = 500 (ms); use -1 for no animation
+//           expandEasing   - easing function to use on expand (optional)
+//           collapseEasing - easing function to use on collapse (optional)
+//           multiFolder    - whether or not to limit the browser to one subfolder at a time
+//           loadMessage    - Message to display while initial tree loads (can be HTML)
+//
+// History:
+//
+// 1.01 - updated to work with foreign characters in directory/file names (12 April 2008)
+// 1.00 - released (24 March 2008)
+//
+// TERMS OF USE
+// 
+// This plugin is dual-licensed under the GNU General Public License and the MIT License and
+// is copyright 2008 A Beautiful Site, LLC. 
+//
+if(jQuery) (function($){
+	
+	$.extend($.fn, {
+		fileTree: function(o, h) {
+			// Defaults
+			if( !o ) var o = {};
+			if( o.root == undefined ) o.root = '/';
+			if( o.script == undefined ) o.script = 'jqueryFileTree.php';
+			if( o.folderEvent == undefined ) o.folderEvent = 'click';
+			if( o.expandSpeed == undefined ) o.expandSpeed= 500;
+			if( o.collapseSpeed == undefined ) o.collapseSpeed= 500;
+			if( o.expandEasing == undefined ) o.expandEasing = null;
+			if( o.collapseEasing == undefined ) o.collapseEasing = null;
+			if( o.multiFolder == undefined ) o.multiFolder = true;
+			if( o.loadMessage == undefined ) o.loadMessage = 'Loading...';
+			
+			$(this).each( function() {
+				
+				function showTree(c, t) {
+					$(c).addClass('wait');
+					$(&quot;.jqueryFileTree.start&quot;).remove();
+					
+					if(window.Components &amp;&amp; window.netscape &amp;&amp; window.netscape.security &amp;&amp; document.location.protocol.indexOf(&quot;http&quot;) == -1)
+						window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
+					
+					$.post(o.script, { dir: t }, function(data) {
+						$(c).find('.start').html('');
+						$(c).removeClass('wait').append(data);
+						if( o.root == t ) $(c).find('UL:hidden').show(); else $(c).find('UL:hidden').slideDown({ duration: o.expandSpeed, easing: o.expandEasing });
+						bindTree(c);
+					});
+				}
+				
+				function bindTree(t) {
+					$(t).find('LI A').bind(o.folderEvent, function() {
+						if( $(this).parent().hasClass('directory') ) {
+							if( $(this).parent().hasClass('collapsed') ) {
+								// Expand
+								if( !o.multiFolder ) {
+									$(this).parent().parent().find('UL').slideUp({ duration: o.collapseSpeed, easing: o.collapseEasing });
+									$(this).parent().parent().find('LI.directory').removeClass('expanded').addClass('collapsed');
+								}
+								$(this).parent().find('UL').remove(); // cleanup
+								showTree( $(this).parent(), escape($(this).attr('rel').match( /.*\// )) );
+								$(this).parent().removeClass('collapsed').addClass('expanded');
+							} else {
+								// Collapse
+								$(this).parent().find('UL').slideUp({ duration: o.collapseSpeed, easing: o.collapseEasing });
+								$(this).parent().removeClass('expanded').addClass('collapsed');
+							}
+						} else {
+							h($(this).attr('rel'));
+						}
+						return false;
+					});
+					// Prevent A from triggering the # on non-click events
+					if( o.folderEvent.toLowerCase != 'click' ) $(t).find('LI A').bind('click', function() { return false; });
+				}
+				// Loading message
+				$(this).html('&lt;ul class=&quot;jqueryFileTree start&quot;&gt;&lt;li class=&quot;wait&quot;&gt;' + o.loadMessage + '&lt;li&gt;&lt;/ul&gt;');
+				// Get the initial file list
+				showTree( $(this), escape(o.root) );
+			});
+		}
+	});
+	
+})(jQuery);
+
+})(jQuery); //end alias</pre>
+</div>
 <div title="EditTemplate">
 <pre>
 &lt;!--{{{--&gt;
 &lt;div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;
+Logo: &lt;span macro='AdvancedEditTemplate type:image metaDataName:logo'&gt;&lt;/span&gt;
+
 assign this to:
 &lt;span macro='AdvancedEditTemplate type:dropdown metaDataName:assignee valuesSource:DropDownData'&gt;&lt;/span&gt;
-
 &lt;div&gt;
 assigned by:
 &lt;span macro='AdvancedEditTemplate type:search metaDataName:assignby valuesSource:DropDownData'&gt;&lt;/span&gt;
@@ -1332,7 +1571,7 @@ Jon Robson:JDLR
 Jon Lister:JRL
 Resources&gt;
 Simon McManus:SM
-Paul Downey:PD
+Paul Downey:PD&lt;
 </pre>
 </div>
 <div title="ViewTemplate">
@@ -1357,7 +1596,7 @@ For demo purposes: &lt;span macro='view abc'&gt;&lt;/span&gt;
 </div>
 <div title="GettingStarted" approved="true" color="rgb(0,255,0)" assignee="Team 3>Jon Robson:JDLR">
 <pre>
-AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together!
+AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together! &lt;&lt;FileTree&gt;&gt;
 </pre>
 </div>
 <div title="abcDefinition" tags="sorted">

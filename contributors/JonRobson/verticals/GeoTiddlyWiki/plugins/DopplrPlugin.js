@@ -6,7 +6,7 @@ config.macros.DopplrMyGeo.handler =function(place,macroName,params,wikifier,para
 	var currentColor = params[3];
 	var futureColor = params[4];
 
-	var u = EasyFileUtils;
+	var u = VismoFileUtils;
 	var tid = tiddler;
 
 	var id = params[1];
