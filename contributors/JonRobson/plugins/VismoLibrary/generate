@@ -1,0 +1,1 @@
+cat pannyzoomyimageshead.js VismoShapes.js VismoClicking.js VismoOptimisations.js VismoClickingUtils.js VismoTransformations.js VismoController.js > pannyzoomyimages.js

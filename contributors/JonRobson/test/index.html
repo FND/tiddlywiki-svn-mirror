@@ -2087,7 +2087,7 @@ jQuery(document).ready(function() {
 		same(actual, expected, "on a change to the field, tiddler was updated correctly even though it didnt exist before");
 	});	
 });jQuery(document).ready(function() {
-	module("VismoShapes");
+	module("VismoShapes:Polygons");
 
 	test("check setup of polygon", function() {
 		var actual, expected;
@@ -2103,16 +2103,38 @@ jQuery(document).ready(function() {
 
 	});
 
-
-
 	
+	test("VismoShape optimise a polygon which is too small for the eye to see", function() {
+		/*setup */
+		var actual, expected;
+		var properties = {shape:'polygon', fill: 'rgb(255,400,0)'};
+		var coords = [20,30];
+		var beforehijack = VismoOptimisations.easyShapeIsTooSmall;
+		VismoOptimisations.easyShapeIsTooSmall = function(shape,t) { return true; };
+		var beforehijacktwo = VismoOptimisations.easyShapeIsInVisibleArea;
+		VismoOptimisations.easyShapeIsInVisibleArea = function(a,b,c) { return true; };
+		var s = new VismoShape(properties,coords);
+		
+
+		/* run */
+		actual = s.optimise(false,{});
+
+		/*verify */
+		expected = false;
+		same(actual,expected, " optimise should return false when the shape is too small to be drawn");
+		
+		VismoOptimisations.easyShapeIsTooSmall = beforehijack;
+		VismoOptimisations.easyShapeIsInVisibleArea = beforehijacktwo;
+	});
+	
+
 	test("check bounding box of polygon (getBoundingBox)", function() {
 		var actual, expected;
 		var properties = {shape:'polygon', fill: 'rgb(255,0,0)'};
-		var coords = [0,0,100,0,100,100,0,300];
+		var coords = [300,0,100,0,100,100,0,300];
 		var s = new VismoShape(properties,coords);
 		actual = s.getBoundingBox();
-		expected = {x1: 0, x2:100, y1:0,y2:300,"center": { "x": 50, "y": 150 }};
+		expected = {x1: 0, x2:300, y1:0,y2:300,width: 300, height:300,"center": { "x": 150, "y": 150 }};
 		same(actual,expected, "bounding box for polygon has been set correctly");
 	
 	});
@@ -2139,16 +2161,153 @@ jQuery(document).ready(function() {
 		s.setCoordinates([0,0,50,0,50,50,0,200])
 		
 		/*verify */
-		expected = {x1: 0, x2:50, y1:0, y2: 200,"center": { "x": 25, "y": 100 }};
+		expected = {x1: 0, x2:50, y1:0, y2: 200,width: 50, height: 200,"center": { "x": 25, "y": 100 }};
 		actual = s.getBoundingBox();
 		same(actual,expected, "setCoordinates of polygon changes bounding box");
 	
 	});
 	
 	
+	module("VismoShape:points");
+	test("check setup of point", function() {
+		/*setup */
+		var actual, expected;
+		var properties = {shape:'point', fill: 'rgb(255,400,0)'};
+		var coords = [0,0];
+		
+		/* run */
+		var s = new VismoShape(properties,coords);
+		var result = s.getProperties();
+		
+		/*verify */
+		same(result.shape, "point", "Shape Property for polygon has been set correctly");
+		same(result.fill, "rgb(255,400,0)", "Fill Property for polygon has been set correctly");
+
+	});
+
+	
+	test("check bounding box of a point without a specifically defined radius", function() {
+		/*setup */
+		var actual, expected;
+		var properties = {shape:'point', fill: 'rgb(255,400,0)'};
+		var coords = [20,30];
+		var s = new VismoShape(properties,coords);
+
+		/* run */
+		var actual = s.getBoundingBox();
+		expected = {x1: 19.5, x2: 20.5, y1: 29.5, y2: 30.5, width: 1, height:1, center: {x: 20, y: 30}};
+		/*verify */
+		same(actual,expected, "radius should default to 0.5 and bounding box should be correct");
+	});
+	
+
+	module("VismoShape:circle");
+	test("check setup of circle", function(){
+		var c = new VismoShape({shape:'circle',fill:'rgb(0,255,0)'},[50,75,80]);
+		var expected,actual;
+		
+		expected = 80;
+		actual = c.getRadius();
+		same(actual,expected,"Radius has correctly been set");
+		
+		expected = [50,75];
+		actual = c.getCoordinates();
+		same(actual,expected,"coordiantes has correctly been set");	
+
+		expected = "circle";
+		actual = c.getShape();
+		same(actual,expected,"shape type is correct");				
+		
+		expected = {x1:-30,x2:130, y1:-5,y2: 155,center:{x:50,y:75}, width:160, height:160};
+		actual = c.getBoundingBox();
+		same(actual,expected,"shape bounding box is correct");		
+		
+	});
+	
+	
+	module("VismoShape:image");
+	test("check setup of image", function(){
+		var c = new VismoShape({shape:'image',src:'test.jpg',width:100,height:40},[-180,-20]);
+		var expected,actual;
+		
+		expected = [-180,-20];
+		actual = c.getCoordinates();
+		same(actual,expected,"coordinates has correctly been set");	
+
+		expected = "image";
+		actual = c.getShape();
+		same(actual,expected,"shape type is correct");				
+		
+		expected  = 100;
+		actual = c.getDimensions().width;
+		same(actual,expected,"dimensions set correctly width");			
+		expected  = 40;
+		actual = c.getDimensions().height;
+		same(actual,expected,"dimensions set correctly height");	
+		
+		expected = {x1:-230,x2:-130, y1:-40,y2: 0,center:{x:-180,y:-20}, width:100, height:40};
+		actual = c.getBoundingBox();
+		same(actual,expected,"shape bounding box is correct");		
+		
+	});
+	
+	
+	test("ie vml transforming (tests _transformDomElement and _csstransform)", function(){
+		var shape = new VismoShape({shape:'image',src:'test.jpg',width:100,height:40},[-180,-20]);
+		var canvas = document.createElement("div");
+		var expected,actual;
+		var vml = new VismoVML(shape,canvas);
+		var t=  {translate:{x:100,y:100},scale:{x:2,y:2},origin:{x:300,y:300}};
+		//run
+		vml._cssTransform(t,canvas);
+		var el = vml.getVMLElement();
+		
+		console.log("it",el);
+		//verify
+		expected = "200px";
+		actual = el.style.width;
+		same(actual,expected,"width set correctly");
+		
+		expected = "80px";
+		actual = el.style.height;
+		same(actual,expected,"height set correctly");
+		
+		expected = 300 + (2 * (-20+100));
+		actual = el.style.top;
+		same(actual,expected+"px","top set correctly");
+		
+		expected = 300 + (2 * (-180 +100));
+		actual = el.style.left;
+		same(actual,expected+"px","left set correctly");		
+		
+	});
+
+
 	
 });
+jQuery(document).ready(function() {
+	module("VismoClickableCanvas");
 
+	test("check setup with string", function() {
+		var actual, expected;
+		var el = document.createElement("div");
+		el.id = "myel";
+		document.body.appendChild(el);
+		/* run */
+		var s = new VismoClickableCanvas("myel");
+
+		
+		expected = s;
+		actual = el.easyClicking;
+		same(actual,expected, "dom element tied to easyclickablecanvas js variable");	
+		expected = "CANVAS";
+		actual = el.childNodes[0].tagName;
+		/*verify */
+		same(actual,expected, "canvas has been created as child");
+
+	});
+	
+});
 //]]>
 </script>
 <!--PRE-HEAD-START-->
@@ -2287,7 +2446,75 @@ div.chain.out { background: green; }
 div.chain.out div { background: red; display: none; }
 
 div#show-tests * { display: none; }
-</style>
+/*JQUERYCSS */
+UL.jqueryFileTree{font-family:Verdana,sans-serif;font-size:11px;line-height:18px;padding:0px;margin:0px;}
+UL.jqueryFileTree LI{list-style:none;padding:0px;padding-left:20px;margin:0px;white-space:nowrap;}
+UL.jqueryFileTree A{color:#333;text-decoration:none;display:block;padding:0px 2px;} 
+UL.jqueryFileTree A:hover{background:#BDF;}
+/* Core Styles */
+.jqueryFileTree LI.directory { background: url(images/directory.png) left top no-repeat; }
+.jqueryFileTree LI.expanded { background: url(images/folder_open.png) left top no-repeat; }
+.jqueryFileTree LI.file { background: url(images/file.png) left top no-repeat; }
+.jqueryFileTree LI.wait { background: url(images/spinner.gif) left top no-repeat; }
+/* File Extensions*/
+.jqueryFileTree LI.ext_3gp { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_afp { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_afpa { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_asp { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_aspx { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_avi { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_bat { background: url(images/application.png) left top no-repeat; }
+.jqueryFileTree LI.ext_bmp { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_c { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_cfm { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_cgi { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_com { background: url(images/application.png) left top no-repeat; }
+.jqueryFileTree LI.ext_cpp { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_css { background: url(images/css.png) left top no-repeat; }
+.jqueryFileTree LI.ext_doc { background: url(images/doc.png) left top no-repeat; }
+.jqueryFileTree LI.ext_exe { background: url(images/application.png) left top no-repeat; }
+.jqueryFileTree LI.ext_gif { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_fla { background: url(images/flash.png) left top no-repeat; }
+.jqueryFileTree LI.ext_h { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_htm { background: url(images/html.png) left top no-repeat; }
+.jqueryFileTree LI.ext_html { background: url(images/html.png) left top no-repeat; }
+.jqueryFileTree LI.ext_jar { background: url(images/java.png) left top no-repeat; }
+.jqueryFileTree LI.ext_jpg { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_jpeg { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_js { background: url(images/script.png) left top no-repeat; }
+.jqueryFileTree LI.ext_lasso { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_log { background: url(images/txt.png) left top no-repeat; }
+.jqueryFileTree LI.ext_m4p { background: url(images/music.png) left top no-repeat; }
+.jqueryFileTree LI.ext_mov { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_mp3 { background: url(images/music.png) left top no-repeat; }
+.jqueryFileTree LI.ext_mp4 { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_mpg { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_mpeg { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_ogg { background: url(images/music.png) left top no-repeat; }
+.jqueryFileTree LI.ext_pcx { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_pdf { background: url(images/pdf.png) left top no-repeat; }
+.jqueryFileTree LI.ext_php { background: url(images/php.png) left top no-repeat; }
+.jqueryFileTree LI.ext_png { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_ppt { background: url(images/ppt.png) left top no-repeat; }
+.jqueryFileTree LI.ext_psd { background: url(images/psd.png) left top no-repeat; }
+.jqueryFileTree LI.ext_pl { background: url(images/script.png) left top no-repeat; }
+.jqueryFileTree LI.ext_py { background: url(images/script.png) left top no-repeat; }
+.jqueryFileTree LI.ext_rb { background: url(images/ruby.png) left top no-repeat; }
+.jqueryFileTree LI.ext_rbx { background: url(images/ruby.png) left top no-repeat; }
+.jqueryFileTree LI.ext_rhtml { background: url(images/ruby.png) left top no-repeat; }
+.jqueryFileTree LI.ext_rpm { background: url(images/linux.png) left top no-repeat; }
+.jqueryFileTree LI.ext_ruby { background: url(images/ruby.png) left top no-repeat; }
+.jqueryFileTree LI.ext_sql { background: url(images/db.png) left top no-repeat; }
+.jqueryFileTree LI.ext_swf { background: url(images/flash.png) left top no-repeat; }
+.jqueryFileTree LI.ext_tif { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_tiff { background: url(images/picture.png) left top no-repeat; }
+.jqueryFileTree LI.ext_txt { background: url(images/txt.png) left top no-repeat; }
+.jqueryFileTree LI.ext_vb { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_wav { background: url(images/music.png) left top no-repeat; }
+.jqueryFileTree LI.ext_wmv { background: url(images/film.png) left top no-repeat; }
+.jqueryFileTree LI.ext_xls { background: url(images/xls.png) left top no-repeat; }
+.jqueryFileTree LI.ext_xml { background: url(images/code.png) left top no-repeat; }
+.jqueryFileTree LI.ext_zip { background: url(images/zip.png) left top no-repeat; }</style>
 <!--POST-HEAD-START-->
 <!--POST-HEAD-END-->
 </head>
@@ -2745,7 +2972,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200903301144" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200904071741" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -2761,6 +2988,7 @@ Allows the adding of multiple level drop down menus and checkboxes to the edit t
 
 //{{{
 // Ensure that this Plugin is only installed once.
+var fooble;
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
 
@@ -3259,16 +3487,27 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			if(initial)input.value = initial;
 			var image = document.createElement(&quot;img&quot;);
 			image.src = initial;
-			var button = document.createElement(&quot;button&quot;);
+			var browser = document.createElement(&quot;div&quot;);
+			browser.className = &quot;filebrowser&quot;;
 			
+			var home = &quot;http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/&quot;;
 			input.onchange = function(e){
 				var newsrc = this.value;
+				image.src=  &quot;&quot;;
 				image.src = newsrc;
 				handler(newsrc);
 			};
+			
+
+				
 			holder.appendChild(image);
 			holder.appendChild(input);
-			holder.appendChild(button);
+			holder.appendChild(browser);
+			jQuery(browser).fileTree({ root: 'images/', script: home + 'jqueryFileTree.php'}, function(file) { 
+						input.value = home + file;
+						input.onchange();
+						handler(file);
+			});
 			place.appendChild(holder);
 		}
 	};
@@ -3541,7 +3780,129 @@ var VismoClickingUtils = {
 
 </pre>
 </div>
-<div title="geoRSSAdaptersPlugin" modifier="JonsRobson" created="200902121344" tags="systemConfig excludeLists">
+<div title="JQueryFileTreePlugin" created="200904071725" tags="systemConfig">
+<pre>// create macro object
+(function($) { // set up alias
+
+config.macros.FileTree = { 
+ 
+  // Add a handler function to be invoked by &lt;&lt;listnav TiddlerTitle&gt;&gt; 
+  handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+ 	var el = document.createElement(&quot;div&quot;);
+	try{
+		
+	$(el).fileTree({ root: 'images/', script: 'http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php'}, function(file) { 
+				alert(file);
+			});
+	}
+	catch(e){
+		console.log(e);
+	}		
+	place.appendChild(el);
+  }
+};// jQuery File Tree Plugin
+//
+// Version 1.01
+//
+// Cory S.N. LaViska
+// A Beautiful Site (http://abeautifulsite.net/)
+// 24 March 2008
+//
+// Visit http://abeautifulsite.net/notebook.php?article=58 for more information
+//
+// Usage: $('.fileTreeDemo').fileTree( options, callback )
+//
+// Options:  root           - root folder to display; default = /
+//           script         - location of the serverside AJAX file to use; default = jqueryFileTree.php
+//           folderEvent    - event to trigger expand/collapse; default = click
+//           expandSpeed    - default = 500 (ms); use -1 for no animation
+//           collapseSpeed  - default = 500 (ms); use -1 for no animation
+//           expandEasing   - easing function to use on expand (optional)
+//           collapseEasing - easing function to use on collapse (optional)
+//           multiFolder    - whether or not to limit the browser to one subfolder at a time
+//           loadMessage    - Message to display while initial tree loads (can be HTML)
+//
+// History:
+//
+// 1.01 - updated to work with foreign characters in directory/file names (12 April 2008)
+// 1.00 - released (24 March 2008)
+//
+// TERMS OF USE
+// 
+// This plugin is dual-licensed under the GNU General Public License and the MIT License and
+// is copyright 2008 A Beautiful Site, LLC. 
+//
+if(jQuery) (function($){
+	
+	$.extend($.fn, {
+		fileTree: function(o, h) {
+			// Defaults
+			if( !o ) var o = {};
+			if( o.root == undefined ) o.root = '/';
+			if( o.script == undefined ) o.script = 'jqueryFileTree.php';
+			if( o.folderEvent == undefined ) o.folderEvent = 'click';
+			if( o.expandSpeed == undefined ) o.expandSpeed= 500;
+			if( o.collapseSpeed == undefined ) o.collapseSpeed= 500;
+			if( o.expandEasing == undefined ) o.expandEasing = null;
+			if( o.collapseEasing == undefined ) o.collapseEasing = null;
+			if( o.multiFolder == undefined ) o.multiFolder = true;
+			if( o.loadMessage == undefined ) o.loadMessage = 'Loading...';
+			
+			$(this).each( function() {
+				
+				function showTree(c, t) {
+					$(c).addClass('wait');
+					$(&quot;.jqueryFileTree.start&quot;).remove();
+					
+					if(window.Components &amp;&amp; window.netscape &amp;&amp; window.netscape.security &amp;&amp; document.location.protocol.indexOf(&quot;http&quot;) == -1)
+						window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
+					
+					$.post(o.script, { dir: t }, function(data) {
+						$(c).find('.start').html('');
+						$(c).removeClass('wait').append(data);
+						if( o.root == t ) $(c).find('UL:hidden').show(); else $(c).find('UL:hidden').slideDown({ duration: o.expandSpeed, easing: o.expandEasing });
+						bindTree(c);
+					});
+				}
+				
+				function bindTree(t) {
+					$(t).find('LI A').bind(o.folderEvent, function() {
+						if( $(this).parent().hasClass('directory') ) {
+							if( $(this).parent().hasClass('collapsed') ) {
+								// Expand
+								if( !o.multiFolder ) {
+									$(this).parent().parent().find('UL').slideUp({ duration: o.collapseSpeed, easing: o.collapseEasing });
+									$(this).parent().parent().find('LI.directory').removeClass('expanded').addClass('collapsed');
+								}
+								$(this).parent().find('UL').remove(); // cleanup
+								showTree( $(this).parent(), escape($(this).attr('rel').match( /.*\// )) );
+								$(this).parent().removeClass('collapsed').addClass('expanded');
+							} else {
+								// Collapse
+								$(this).parent().find('UL').slideUp({ duration: o.collapseSpeed, easing: o.collapseEasing });
+								$(this).parent().removeClass('expanded').addClass('collapsed');
+							}
+						} else {
+							h($(this).attr('rel'));
+						}
+						return false;
+					});
+					// Prevent A from triggering the # on non-click events
+					if( o.folderEvent.toLowerCase != 'click' ) $(t).find('LI A').bind('click', function() { return false; });
+				}
+				// Loading message
+				$(this).html('&lt;ul class=&quot;jqueryFileTree start&quot;&gt;&lt;li class=&quot;wait&quot;&gt;' + o.loadMessage + '&lt;li&gt;&lt;/ul&gt;');
+				// Get the initial file list
+				showTree( $(this), escape(o.root) );
+			});
+		}
+	});
+	
+})(jQuery);
+
+})(jQuery); //end alias</pre>
+</div>
+<div title="geoRSSAdaptersPlugin" modifier="JonsRobson" created="200904071442" tags="systemConfig excludeLists">
 <pre>config.macros.flickrMyGeo = {};
 config.macros.flickrMyGeo.handler =function(place,macroName,params,wikifier,paramString,tiddler){
 	var url = params[0];
@@ -4185,7 +4546,49 @@ var VismoOptimisations = {
 		}
 		
 	}
-   
+  
+	,easyShapeIsInVisibleArea: function(easyShape,canvas,transformation){
+
+		var left = 0,top = 0;
+		var right =  parseInt(canvas.width) + left; 
+		var bottom = parseInt(canvas.height) + top;
+		var topleft =  VismoClickingUtils.undotransformation(left,top,transformation);
+		var bottomright =  VismoClickingUtils.undotransformation(right,bottom,transformation);				
+		var frame = {};
+		frame.top = topleft.y;
+		frame.bottom = bottomright.y;
+		frame.right = bottomright.x;
+		frame.left = topleft.x;
+		var g = easyShape.getBoundingBox();
+		if(g.x2 &lt; frame.left) {
+			return false;}
+		if(g.y2 &lt; frame.top) {
+			return false;}
+		if(g.x1 &gt; frame.right){
+			return false;
+		}
+		if(g.y1 &gt; frame.bottom){
+			return false;	
+		}
+		
+		return true;
+	}
+	
+	,easyShapeIsTooSmall: function(easyShape,transformation){
+		if(!transformation ||!transformation.scale) return false;
+		var g = easyShape.getBoundingBox();
+		var s = transformation.scale;
+		var t1 = g.x2 -g.x1;
+		var t2 =g.y2- g.y1;
+		var delta = {x:t1,y:t2};
+		delta.x *= s.x;
+		delta.y *= s.y;
+		if(delta.x &lt; 5 &amp;&amp; delta.y &lt; 5) 
+			{return true;}//too small
+		else
+			return false;
+	}
+
 };var VismoUtils = {
 	userAgent: navigator.userAgent.toLowerCase(),
 	clone: function(obj){
@@ -4236,19 +4639,22 @@ coordinates are a string consisting of floats and move commands (M)
 
 var VismoShape = function(properties,coordinates){
 	this.coordinates = {
+		projected: false,
 		normal: [],
 		optimised: {},
-		incurrentprojection:false
+		optimisedandprojected:{}
 	};
 	this.grid = {};
+	this.width = 0;
+	this.height =0;
 	this.setProperties(properties);
 	if(coordinates[0] &amp;&amp; coordinates[0].length == 2){
 		coordinates = VismoOptimisations.unpackCoordinates(coordinates);	
 	}
 	
-	this._constructBasicShape(properties,coordinates);
+	this._construct(properties,coordinates);
 	this.browser =false;
-
+	this.currentResolution = false;
 };
 
 
@@ -4272,61 +4678,56 @@ VismoShape.prototype={
 	}
 
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
-		this.pointradius = 2;
-		if(pointradius) this.pointradius =pointradius;
-		
-		var optimisations = true;
-		
-		if(!transformation){
-			transformation = {};
+		var st = this.getShape();
+		if(pointradius &amp;&amp; st == 'point') this.setRadius(pointradius);
+		if(this.getRenderMode(canvas) == 'ie'){
+			this._ierender(canvas,transformation,projection,optimisations); 
 		}
-		if(!transformation.origin)transformation.origin = {x:0,y:0};
-		if(!transformation.scale)transformation.scale = {x:1,y:1};
-		if(!transformation.translate)transformation.translate = {x:0,y:0};
-		
-	
-		if(this._prepareShape(canvas,transformation,projection,optimisations)){
-		
-			if(this.getRenderMode(canvas) == 'ie'){
-				
-				this._ierender(canvas,transformation,projection,optimisations); 
-			}
-			else{
+		else{	
+			this._canvasrender(canvas,transformation,projection,optimisations);
+		}
 			
-				this._canvasrender(canvas,transformation,projection,optimisations);
-			}
-		}
-		
 	}
 	
-	,setCoordinates: function(coordinates){
+	,setCoordinates: function(coordinates,type){
+		if(type == 'projected'){ this.coordinates.projected = coordinates;
+		return;}
+		
 		this.coordinates.normal = coordinates;
 		this.coordinates.projected= false;
 		var i;
 		for(i in this.coordinates.optimised){
-			delete this.coordinates[i];
+			delete this.coordinates.optimised[i];
 		}
+		var j;
+		for(j in this.coordinates.optimisedandprojected){
+			delete this.coordinates.optimisedandprojected[j];
+		}		
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
-	,getProjectedCoordinates: function(){
-		if(this.coordinates.incurrentprojection) return this.coordinates.incurrentprojection;
-		else return false;
-	}
-	,getCoordinates: function(){
-		return this.coordinates.normal;
-	}
-	,getOptimisedCoords: function(scaleFactor){
-		return this.getCoordinates();//until i fix
-		var index = parseInt(scaleFactor);
-		if(this.coordinates.optimised[index]) {
-			return this.coordinates.optimised[index];
+
+	,getCoordinates: function(type){
+		if(type == 'normal') return this.coordinates.normal;
+		if(type == 'projected') return this.coordinates.projected;
+		
+		var resolution = this.currentResolution;
+		if(this.coordinates.projected) {
+			if(this.browser != 'ie' &amp;&amp; resolution){
+				var opt=this.coordinates.optimisedandprojected;
+				if(!opt[resolution]) opt[resolution] =  this._simplifyCoordinates(resolution,this.coordinates.projected);
+				else return opt[resolution];
+			}		
+		return this.coordinates.projected;
 		}
-		else {
-			var res = this._simplifyCoordinates(scaleFactor,this.getCoordinates());
-			this._setOptimisedCoords(scaleFactor,res);
-			return res;
+		else{
+			if(this.browser != 'ie' &amp;&amp; resolution){
+				var opt=this.coordinates.optimised;
+				if(!opt[resolution]) opt[resolution] =  this._simplifyCoordinates(resolution,this.coordinates.normal);
+				else return opt[resolution];
+			}	
+			return this.coordinates.normal;
 		}
 	}
 	,getProperties: function(){
@@ -4364,23 +4765,25 @@ VismoShape.prototype={
 		return this.properties[name];
 	}
 
-	,optimise: function(canvas,transformation){
+	,optimise: function(canvas,transformation,projection){
+		if(transformation &amp;&amp; transformation.scale) this.currentResolution = Math.min(transformation.scale.x, transformation.scale.y);
 		var shapetype = this.getProperty(&quot;shape&quot;);
+		if(projection) this._applyProjection(projection,transformation);
 		
 		if(shapetype != 'point' &amp;&amp; shapetype != 'path'){ //check if worth drawing				
-			if(!this._optimisation_shapeIsTooSmall(transformation)) {
+			if(VismoOptimisations.easyShapeIsTooSmall(this,transformation)) {
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = &quot;none&quot;;}
-				return;	
+				return false;	
 			}
-			if(!this._optimisation_shapeIsInVisibleArea(canvas,transformation)){
+			if(!VismoOptimisations.easyShapeIsInVisibleArea(this,canvas,transformation)){
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = &quot;none&quot;;}
-				return;	
+				return false;	
 			}	
 		}
+		return true;
 	}
 
-
-	,_simplifyCoordinates: function(scaleFactor,coordinates){
+	,_simplifyCoordinates: function(scaleFactor,coordinates){// **
 		if(this.getProperty(&quot;shape&quot;) == 'path') return coordinates;
 		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
 		if(!coordinates) throw &quot;give me some coordinates!&quot;;
@@ -4398,15 +4801,20 @@ VismoShape.prototype={
 		return coordinates;	
 	}
 
-	,_setOptimisedCoords: function(scaleFactor,coords){
-		var index = scaleFactor;
-		this.coordinates.optimised[index] = coords;
-	}
-
 	,_calculateBounds: function(coords){
-		if(this.getProperty(&quot;shape&quot;) == 'path'){
+		var st = this.getShape();
+		if(st == 'path'){
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
+		}
+		else if(st == 'point' || st == 'circle' | st == 'image'){
+				coords = this.getCoordinates();
+				var x = coords[0]; var y = coords[1]; 
+				var dim = this.getDimensions();
+				var radiusw = dim.width / 2;
+				var radiush = dim.height / 2;
+				this.grid ={x1: x -radiusw ,x2: x + radiusw, y1: y - radiush, y2: y + radiush,center:{x:x,y:y},width: dim.width,height:dim.height};	
+				return;
 		}
 		if(!coords) coords = this.getCoordinates();
 		this.grid.x1 = coords[0];
@@ -4439,46 +4847,62 @@ VismoShape.prototype={
 			lastX = xPos;
 			lastY = yPos;
 		}
-		
+		this.grid.width = this.grid.x2 - this.grid.x1;
+		this.grid.height = this.grid.y2 - this.grid.y1;
 		this.grid.center = {};
 		this.grid.center.x = (this.grid.x2 - this.grid.x1) / 2 + this.grid.x1;
 		this.grid.center.y = (this.grid.y2 - this.grid.y1) / 2 + this.grid.y1;
 	}
-	,_preparePointShape: function(coordinates,radius){
-		var x = coordinates[0]; var y = coordinates[1];
-		var coords = [x,y,radius];
-		this._constructCircleShape(coords);
+
+	,setRadius: function(r){
+		this.setDimensions(r*2,r*2);
+		this._calculateBounds();
+	}
+	,getRadius: function(){
+		return this.width / 2;
+	}
+	,setDimensions: function(width,height){
+		this.width = width;
+		this.height = height;
+	}
+	,getDimensions: function(){
+		return {width: this.width, height: this.height};
 	}
 	
-
-	,_constructCircleShape: function(coordinates){ /* x y radius */
-		var x = coordinates[0]; var y = coordinates[1];
-		this.radius = coordinates[2];
-		this.pointcoords = [x,y,this.radius];
-		var newcoords =[x-this.radius,y-this.radius,x+this.radius,y-this.radius,x+this.radius,y+this.radius,x-this.radius, y+this.radius];
-		this.setCoordinates(newcoords);
-	}
-	,_constructBasicShape: function(properties, coordinates){
-
-
-		if(properties.shape == 'point'){
-			this._preparePointShape(coordinates,0.5);
+	,_construct: function(properties, coordinates){
+		var shapetype =properties.shape; 
+		if(!shapetype) shapetype = 'polygon';
+		if(shapetype == 'point' || shapetype == 'circle'){
+			var radius;
+			if(coordinates[2]) radius = coordinates[2]; else radius = 0.5;
+			this.setCoordinates([coordinates[0],coordinates[1]]);
+			this.setRadius(radius);
 		}
-		else if(properties.shape == 'polygon' || properties.shape == 'path')
+		else if(shapetype == 'polygon' || shapetype == 'path')
 		{
 			this.setCoordinates(coordinates);
 		}
-		else if(properties.shape == 'circle'){
-			this._constructCircleShape(coordinates);
-		}
-		else if(properties.shape == 'image'){
-			var w = this.getProperty(&quot;width&quot;); h=  this.getProperty(&quot;height&quot;);
-			if(coordinates.length == 2 &amp;&amp; w &amp;&amp; h){
-				var x = coordinates[0];
-				var y = coordinates[1];
-				coordinates = coordinates.concat([x+w,y, x+w,y+h, x,y+h]);
+		else if(shapetype == 'image'){
+			var src = this.getProperty(&quot;src&quot;);
+			if(!src) throw &quot;all images must carry a property src at minimum&quot;;
+			var image = new Image();
+			image.src= src;
+			this.image = image;
+			var easyShape = this;
+			var w = easyShape.getProperty(&quot;width&quot;); h=  easyShape.getProperty(&quot;height&quot;);
+			if(coordinates.length &gt; 2){
+				w = coordinates[2]; h = coordinates[3];
 			}
-			this.setCoordinates(coordinates);
+			image.onload = function(){
+				if(!w &amp;&amp; !h){
+					easyShape.setDimensions(w,h);
+					easyShape.setCoordinates([coordinates[0],coordinates[1]]);
+				}
+			};
+		
+			easyShape.setDimensions(w,h);
+			easyShape.setCoordinates([coordinates[0],coordinates[1]]);	
+			
 		}
 		else{
 			console.log(&quot;don't know how to construct basic shape &quot; + properties.shape);
@@ -4486,88 +4910,45 @@ VismoShape.prototype={
 		
 	}	
 
-	 /*RENDERING */
 	,_canvasrender: function(canvas,transformation,projection,optimisations, pointsize){
-		var c;
-		if(projection){
-			c = this._applyProjection(projection,transformation);
-		}
-		else{
-			c =this.getOptimisedCoords(transformation.scale.x);
-		}
-		if(c.length == 0) return;
-		var ctx = canvas.getContext('2d');
-		ctx.save();
-		if(this.properties.lineWidth){
-			ctx.lineWidth = this.properties.lineWidth/ transformation.scale.x;
-		}
-		if(transformation){
-			var o = transformation.origin;
-			var tr = transformation.translate;
-			var s = transformation.scale;
-			var r = transformation.rotate;
-			if(o &amp;&amp; s &amp;&amp; tr){
-				ctx.translate(o.x,o.y);
-				ctx.scale(s.x,s.y);
-				ctx.translate(tr.x,tr.y);
-			}
-			if(r &amp;&amp; r.x)ctx.rotate(r.x);
-		}
-		ctx.beginPath();
-		var shapetype =this.getProperty(&quot;shape&quot;);
-		if(shapetype == 'point'){
-			var bb =this.getBoundingBox();
-			ctx.arc(bb.center.x, bb.center.y, this.radius, 0, Math.PI*2,true);
-		}
-		else if(shapetype =='image'){
-			var img = new Image();  
-			img.src = this.getProperty(&quot;src&quot;);
-			var bb= this.getBoundingBox();
-			img.onload = function(){
-				ctx.drawImage(img, c[0], c[1],bb.x2 - bb.x1,bb.y2 - bb.y1);
-			};
-			
-		}
-		else{
-			
-			var move = true;
-			for(var i=0; i &lt; c.length-1; i+=2){
-				if(c[i]=== &quot;M&quot;) {
-					i+= 1; 
-					move=true;
-				}
-				var x = parseFloat(c[i]);
-				var y = parseFloat(c[i+1]);	
-		
-				if(move){
-					ctx.moveTo(x,y);
-					move = false;
-				}
-				else{
-					ctx.lineTo(x,y);
-				}			
-			
-			
-			}
-		
-		}
-		ctx.closePath();
-		if(!this.properties.hidden) {
-			ctx.strokeStyle = this.properties.stroke;
-			if(typeof this.properties.fill == 'string') 
-				fill = this.properties.fill;
-			else
-				fill = &quot;#ffffff&quot;;
 
-			
-			ctx.stroke();
-			if(shapetype != 'path') {
-				ctx.fillStyle = fill;
-				ctx.fill();
+		var c;
+		var easyShape = this;
+		var shapetype =easyShape.getProperty(&quot;shape&quot;);
+			var ctx = canvas.getContext('2d');
+			ctx.save();
+			if(easyShape.getProperty(&quot;lineWidth&quot;)){
+				ctx.lineWidth = easyShape.getProperty(&quot;lineWidth&quot;);
 			}
-		}
-		ctx.restore();
-	
+			if(transformation){
+				var o = transformation.origin;
+				var tr = transformation.translate;
+				var s = transformation.scale;
+				var r = transformation.rotate;
+				if(o &amp;&amp; s &amp;&amp; tr){
+					ctx.translate(o.x,o.y);
+					ctx.scale(s.x,s.y);
+					ctx.translate(tr.x,tr.y);
+				}
+				if(r &amp;&amp; r.x)ctx.rotate(r.x);
+			}
+			VismoCanvasRenderer.renderShape(ctx,easyShape);
+			
+			if(!easyShape.getProperty(&quot;hidden&quot;)) {
+				ctx.strokeStyle = easyShape.getProperty(&quot;stroke&quot;)
+				if(typeof easyShape.getProperty(&quot;fill&quot;) == 'string') 
+					fill = easyShape.getProperty(&quot;fill&quot;);
+				else
+					fill = &quot;#ffffff&quot;;
+
+				
+				ctx.stroke();
+				if(shapetype != 'path') {
+					ctx.fillStyle = fill;
+					ctx.fill();
+				}
+			}
+			ctx.restore();
 	}
 	
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
@@ -4584,10 +4965,9 @@ VismoShape.prototype={
 		}	
 	}
 
-
 	,_applyProjection: function(projection,transformation){
 	
-		var c = this.getCoordinates();
+		var c = this.getCoordinates('normal');
 		if(!projection || !projection.xy) return c;
 	
 		if(projection.init) projection.init();
@@ -4628,122 +5008,134 @@ VismoShape.prototype={
 	
 			}	
 		}	
-		newc = this._simplifyCoordinates(transformation.scale.x,newc);
-		this.coordinates.incurrentprojection = newc;
-		this._calculateBounds(this.coordinates.incurrentprojection);
+		this.setCoordinates(newc,&quot;projected&quot;);
+		this._calculateBounds(newc);
 		return newc;
 	}
 
-	,_optimisation_shapeIsInVisibleArea: function(canvas,transformation){
-		var left = 0,top = 0;
-		var right =  parseInt(canvas.width) + left; 
-		var bottom = parseInt(canvas.height) + top;
-		var topleft =  VismoClickingUtils.undotransformation(left,top,transformation);
-		var bottomright =  VismoClickingUtils.undotransformation(right,bottom,transformation);				
-		var frame = {};
-		frame.top = topleft.y;
-		frame.bottom = bottomright.y;
-		frame.right = bottomright.x;
-		frame.left = topleft.x;
-		var g = this.grid;
-		if(g.x2 &lt; frame.left) {
-			return false;}
-		if(g.y2 &lt; frame.top) {
-			return false;}
-		if(g.x1 &gt; frame.right){
-			return false;
-		}
-		if(g.y1 &gt; frame.bottom){
-			return false;	
-		}
-		return true;
-	}
-	
-	,_optimisation_shapeIsTooSmall: function(transformation){
-		var g = this.grid;
-		var s = transformation.scale;
-		var t1 = g.x2 -g.x1;
-		var t2 =g.y2- g.y1;
-		var delta = {x:t1,y:t2};
-		delta.x *= s.x;
-		delta.y *= s.y;
-		if(delta.x &lt; 5 &amp;&amp; delta.y &lt; 5) 
-			{return false;}//too small
-		else
-			return true;
-	}
 
-	,_prepareShape: function(canvas,transformation,projection,optimisations){
-		
-			var shapetype = this.getProperty(&quot;shape&quot;);
-			if(shapetype == 'point'){
-				var ps = this.pointradius;
-				this._preparePointShape(this.pointcoords,ps);
-			} 
-			else if(shapetype == 'image'){
 
-			}
-			else if(shapetype == 'path' || shapetype =='polygon' | shapetype == 'circle' |shapetype == 'image'){
-
-			}
-			else{
-				console.log(&quot;no idea how to render &quot; +shapetype+&quot; must be polygon|path|point&quot;);
-				return false;
-			}
-			
-			if(!projection &amp;&amp; optimisations){
-				this.optimise(canvas,transformation);
-			}
-			return true;
-	}
 };
 
+var VismoCanvasRenderer = {
+	renderShape: function(ctx,easyShape){
+		var shapetype =easyShape.getProperty(&quot;shape&quot;);
+		ctx.beginPath();
+		
+		if(shapetype == 'point' || shapetype =='circle'){
+			this.renderPoint(ctx,easyShape);
+		}
+		else if(shapetype =='image'){
+			this.renderImage(ctx,easyShape);
+		}
+		else{		
+			this.renderPolygon(ctx,easyShape);	
+		}
+		ctx.closePath();
+	}
+	,renderPolygon: function(ctx,easyShape){
+		var move = true;
+		var c = easyShape.getCoordinates();
+		for(var i=0; i &lt; c.length-1; i+=2){
+			if(c[i]=== &quot;M&quot;) {
+				i+= 1; 
+				move=true;
+			}
+			var x = parseFloat(c[i]);
+			var y = parseFloat(c[i+1]);	
+			
+			if(move){
+				ctx.moveTo(x,y);
+				move = false;
+			}
+			else{
+				ctx.lineTo(x,y);
+			}			
+				
+				
+		}
+	}
+	,renderPoint: function(ctx,easyShape){
+		var bb =easyShape.getBoundingBox();
+		ctx.arc(bb.center.x, bb.center.y, easyShape.getRadius(), 0, Math.PI*2,true);
+	}
+	,renderImage: function(ctx,easyShape){
+		var c = easyShape.getCoordinates();
+		var bb = easyShape.getBoundingBox();
+		ctx.drawImage(easyShape.image,bb.x1,bb.y1,bb.width,bb.height);
+	
+
+	}
+}
 var VismoVML = function(easyShape,canvas){
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
+	this.easyShape=  easyShape;
+	var shapetype =easyShape.getShape();
 
-			this.easyShape=  easyShape;
-			var shape = document.createElement(&quot;easyShapeVml_:shape&quot;);
-	this.el = shape;
-			//path =&quot;M 0,0 L50,0, 50,50, 0,50 X&quot;;
-			var nclass= &quot;easyShape&quot;;
-			
-	
-			var shapetype =easyShape.getShape();
-				
-			if(shapetype == 'path') nclass= &quot;easyShapePath&quot;;
-			shape.setAttribute(&quot;class&quot;, nclass);
-			shape.style.height = canvas.height;
-			shape.style.width = canvas.width;
-			shape.style.position = &quot;absolute&quot;;
-			shape.style['z-index'] = 1;
-			shape.stroked = &quot;t&quot;;
-			shape.strokecolor = &quot;#000000&quot;;
-
-
-			if(this.easyShape.getProperty(&quot;lineWidth&quot;)) {
-				shape.strokeweight = this.easyShape.getProperty(&quot;lineWidth&quot;) + &quot;px&quot;;
-			}
-			else {
-				shape.strokeweight = &quot;1px&quot;;
-			}
-			var xspace = parseInt(canvas.width);
-			xspace *=this._iemultiplier;
-			var yspace =parseInt(canvas.height);
-			yspace *= this._iemultiplier;
-			coordsize = xspace +&quot;,&quot; + yspace;
-
-			shape.coordsize = coordsize;
-			shape.easyShape = this.easyShape;	
-			
-
-			this.style();
+	if(shapetype == 'point' || shapetype == 'circle'){
+		this._initArc(easyShape,canvas);
+	}
+	else if(shapetype == 'image'){
+		this._initImage(easyShape,canvas);
+	}
+	else{
+		this._initPoly(easyShape,canvas);
+	}
+	var xspace = parseInt(canvas.width);
+	xspace *=this._iemultiplier;
+	var yspace =parseInt(canvas.height);
+	yspace *= this._iemultiplier;
+	coordsize = xspace +&quot;,&quot; + yspace;
+	this.el.coordsize = coordsize;
+	this.el.easyShape = this.easyShape;
+	var nclass= &quot;easyShape&quot;;			
+	if(shapetype == 'path') nclass= &quot;easyShapePath&quot;;
+	this.el.setAttribute(&quot;class&quot;, nclass);
+	this.style();
 				
 		
 			
 };
 
 VismoVML.prototype = {
-	getVMLElement: function(){
+	_initImage: function(easyShape,canvas){
+
+		var that = this;
+		var dim = easyShape.getDimensions();
+		var setup = function(){
+			var shape = document.createElement(&quot;img&quot;);
+			that.el = shape;
+			shape.src = easyShape.getProperty(&quot;src&quot;);	
+			jQuery(shape).css({&quot;height&quot;: dim.height, &quot;width&quot;: dim.width,&quot;position&quot;:&quot;absolute&quot;,&quot;z-index&quot;:4});		
+
+		};
+
+		var image = new Image();
+		image.src = easyShape.getProperty(&quot;src&quot;);
+		image.onload = function(e){
+			setup();
+		};
+		if(image.complete){
+			setup();
+		}
+		
+	}
+	,_initArc: function(easyShape,canvas){
+		var shape = document.createElement(&quot;easyShapeVml_:arc&quot;);
+		shape.startAngle = 0;
+		shape.endAngle = 360;
+		var radius =  easyShape.getRadius();
+		this.el = shape;	
+		jQuery(this.el).css({&quot;height&quot;: radius, &quot;width&quot;: radius,&quot;position&quot;:&quot;absolute&quot;,&quot;z-index&quot;:4});			
+	}
+	,_initPoly: function(easyShape,canvas){
+		var shape = document.createElement(&quot;easyShapeVml_:shape&quot;);
+		this.el = shape;
+		this.el.setAttribute(&quot;name&quot;,easyShape.getProperty(&quot;name&quot;));
+		jQuery(this.el).css({&quot;height&quot;: canvas.style.height,&quot;width&quot;: canvas.style.width,&quot;position&quot;:&quot;absolute&quot;,&quot;z-index&quot;:1});
+	
+	}
+	,getVMLElement: function(){
 		return this.el;
 	}
 	,_createvmlpathstring: function(transformation,projection){ //mr bottleneck
@@ -4815,20 +5207,40 @@ VismoVML.prototype = {
 	
 	}
 
+	,_transformDomElement: function(transformation,projection){
+	
+		var o = transformation.origin, t = transformation.translate,s = transformation.scale;
+		var top,left,width,height;
+
+		var bb = this.easyShape.getBoundingBox();
+	
+		if(this.easyShape.getShape() == 'image'){
+			dx = bb.x1;
+			dy = bb.y1;
+		}
+		else{
+			dy = bb.center.y;
+			dx = bb.center.x;
+		}
+		var top = o.y + ((dy + t.y) * s.y);
+		var left = o.x + ((dx + t.x) * s.x);
+		width = bb.width * s.x;
+		height = bb.height * s.y;
+		jQuery(this.el).css({'top':top, 'left': left, 'width':width,'height': height});
+	}
 	,_cssTransform: function(transformation,projection){
 		
 		var vml = this.el;
 		var d1,d2,t;
-
+		if(vml.tagName == 'arc' || vml.tagName == 'IMG'){
+			this._transformDomElement(transformation,projection);
+			return;
+		}
 		if(vml.tagName == 'shape' &amp;&amp; (!vml.path || this.easyShape.getShape() =='point')) {
 			//causes slow down..
-			
 			this._createvmlpathstring(transformation,projection);	
 		}
-		var o = transformation.origin;
-		
-		var t = transformation.translate;
-		var s = transformation.scale;
+		var o = transformation.origin, t = transformation.translate,s = transformation.scale;
 		
 		if(!this.initialStyle) {
 			var initTop = parseInt(vml.style.top);
@@ -4860,25 +5272,19 @@ VismoVML.prototype = {
 			var newwidth = initialStyle.width * s.x;
 			var newheight = initialStyle.height * s.y; 	
 		}
-		//translate into right place
-
-		var temp;
-		temp = (t.x);
-		temp *= s.x;
-		newleft += temp;
-
-		temp = (t.y);
-		temp *= s.x;
-		newtop += temp;						
-
-		style.left = newleft +&quot;px&quot;;
-		style.top = newtop +&quot;px&quot;;
+		var temp,left,top;
+		newleft += ((t.x) * s.x);
+		newtop += ((t.y) * s.y);						
+		left = newleft +&quot;px&quot;;
+		top = newtop +&quot;px&quot;;
 		
+
 		if(scalingRequired){
-			style.width = newwidth +&quot;px&quot;;
-			style.height = newheight + &quot;px&quot;;
+			width = newwidth +&quot;px&quot;;
+			height = newheight + &quot;px&quot;;
 		}
 		
+		jQuery(this.el).css({'left': left, 'top': top, 'width': width, 'height': height});
 		
 		if(transformation.rotate &amp;&amp; transformation.rotate.x)style.rotation = VismoMapUtils._radToDeg(transformation.rotate.x);
 		this._lastTransformation = {scale:{}};
@@ -4890,8 +5296,9 @@ VismoVML.prototype = {
 			if(el) el.style.display = '';
 	}
 	,render: function(canvas,appendTo){
-
+		
 			var shape = this.getVMLElement();
+			shape.style.display = &quot;&quot;;
 			if(!appendTo){
 				appendTo = canvas;
 			}
@@ -4902,10 +5309,18 @@ VismoVML.prototype = {
 		var shapetype = this.easyShape.getShape();
 
 		var shape = this.el;
-	
-				if(!this.easyShape.getProperty(&quot;fill&quot;) || shapetype == 'path'){
+		shape.stroked = &quot;t&quot;;
+		shape.strokecolor = &quot;#000000&quot;;
+		if(this.easyShape.getProperty(&quot;lineWidth&quot;)) {
+			shape.strokeweight = this.easyShape.getProperty(&quot;lineWidth&quot;) + &quot;px&quot;;
+		}
+		else {
+			shape.strokeweight = &quot;1px&quot;;
+		}
+		
+		if(!this.easyShape.getProperty(&quot;fill&quot;) || shapetype == 'path'){
 					return
-				}
+		}
 				var fill = this.easyShape.getProperty(&quot;fill&quot;);
 
 				shape.filled = &quot;t&quot;;
@@ -4958,7 +5373,7 @@ var VismoMap = function(wrapper){
 
 		
 		
-	this.easyClicking = new VismoClicking(wrapper);
+	this.easyClicking = new VismoClickableCanvas(wrapper);
 	this._setupMouseHandlers();
 
 	this.controller = new VismoController(this,this.wrapper);
@@ -5166,7 +5581,7 @@ VismoMap.prototype = {
 		var s = feature.getVismoShapes();		
 		for(var i=0; i &lt; s.length; i++){
 			
-			this.easyClicking.addToMemory(s[i]);
+			this.easyClicking.add(s[i]);
 			this.geofeatures[this.easyClicking.getMemoryID(s[i])] = feature;
 		}	
 
@@ -5806,18 +6221,31 @@ Mousewheel zooming currently not working as should - should center on location w
 Will be changed to take a handler parameter rather then a targetjs
  */
 
-var VismoController = function(targetjs,elem){ //elem must have style.width and style.height etM
+var VismoController = function(targetjs,elem,options){ //elem must have style.width and style.height etM
+	if(!options) options = ['pan','zoom','mousepanning','mousewheelzooming'];
+
+	if(typeof elem == 'string') elem= document.getElementById(elem);
 	this.setMaxScaling(99999999);
 	if(!elem.style.position) elem.style.position = &quot;relative&quot;;
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
 
+	var md = elem.onmousedown;
+	var mu = elem.onmouseup;
+	var mm = elem.onmousemove;
+	for(var i=0; i &lt; elem.childNodes.length; i++){
+		var child = elem.childNodes[i];
+		child.onmousedown = function(e){if(md)md(e);}
+		child.onmouseup = function(e){if(mu)mu(e);}
+		child.onmousemove = function(e){if(mm)mm(e);}
+	}
 	var controlDiv = this.wrapper.controlDiv;
 	if(!controlDiv) {
 		controlDiv = document.createElement('div');
 		controlDiv.style.position = &quot;absolute&quot;;
 		controlDiv.style.top = &quot;0&quot;;
 		controlDiv.style.left = &quot;0&quot;;
+		controlDiv.className = 'easyControls'
 		this.wrapper.appendChild(controlDiv);
 		this.wrapper.controlDiv = controlDiv;
 	}
@@ -5830,7 +6258,7 @@ var VismoController = function(targetjs,elem){ //elem must have style.width and 
 	if(!this.targetjs.transform) alert(&quot;no transform function defined in &quot; + targetjs+&quot;!&quot;);
 	this.wrapper.easyController = this;
 	this.enabled = true;
-
+	this.addControls(options);
 
 };
 VismoController.prototype = {
@@ -5909,9 +6337,6 @@ VismoController.prototype = {
 			that.crosshair.el.style.top = mousepos.y + &quot;px&quot;;
 			if(!that.crosshair.lastdelta) {
 				that.crosshair.lastdelta = delta;
-			
-			
-			
 			}
 
 			if(delta &gt; that.crosshair.lastdelta + sensitivity || delta &lt; that.crosshair.lastdelta - sensitivity){	
@@ -5938,7 +6363,7 @@ VismoController.prototype = {
 			
 			return false;
 
-		}
+		};
 
 		
 		var element = this.wrapper;
@@ -5986,12 +6411,23 @@ VismoController.prototype = {
 		var md = that.wrapper.onmousedown;
 		var mu = that.wrapper.onmouseup;	
 		var mm = that.wrapper.onmousemove;
+		var panning_status = false;	
+		
+		var cancelPanning = function(e){
+			panning_status = false;
+			that.wrapper.style.cursor= '';
+			that.wrapper.onmousemove = mm;
+			return false;
+		};
 		var onmousemove = function(e){
-			if(!this.easyController)return;
-			var p =this.easyController.panning_status;
-			if(!p) return;
+
+			if(mm)mm(e);
+			if(!that.enabled) return;
+			if(!panning_status) {
+				return;
+			}
 			if(!that.goodToTransform(e)) return;
-			var pos =  VismoClickingUtils.getMouseFromEventRelativeToElement(e,p.clickpos.x,p.clickpos.y,p.elem);		
+			var pos =  VismoClickingUtils.getMouseFromEventRelativeToElement(e,panning_status.clickpos.x,panning_status.clickpos.y,panning_status.elem);		
 			if(!pos)return;
 			
 			var t = that.transformation;
@@ -6001,19 +6437,22 @@ VismoController.prototype = {
 			/* work out deltas */
 			var xd =parseFloat(pos.x /sc.x);
 			var yd = parseFloat(pos.y / sc.y);
-			t.translate.x = p.translate.x + xd;
-			t.translate.y =p.translate.y +yd;
+			t.translate.x = panning_status.translate.x + xd;
+			t.translate.y =panning_status.translate.y +yd;
 
 			that.transform();
 			
-			if(pos.x &gt; 5 || pos.y &gt; 5) p.isClick = false;
-			if(pos.x &lt; 5 || pos.y &lt; 5) p.isClick = false;
+			if(pos.x &gt; 5  || pos.y &gt; 5) panning_status.isClick = false;
+			if(pos.x &lt; 5|| pos.y &lt; 5) panning_status.isClick = false;
 			return false;	
 		};
-		
+	
 		this.wrapper.onmousedown = function(e){
-					
-			if(md) md(e);
+			if(panning_status){
+				return;
+			}
+			if(md) {md(e);}
+			if(!that.enabled) return;
 			var target =  VismoClickingUtils.resolveTarget(e);
 			if(!target) return;
 
@@ -6026,25 +6465,24 @@ VismoController.prototype = {
 			this.easyController = that;
 			
 			var element = VismoClickingUtils.resolveTargetWithVismoClicking(e);
-			that.panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			
+			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			that.wrapper.onmousemove = onmousemove;
-			that.wrapper.style.cursor= &quot;move&quot;;
-			this.style.cursor = &quot;move&quot;;
-		
+			that.wrapper.style.cursor= &quot;move&quot;;	
 		};
 		
 		this.wrapper.onmouseup = function(e){
-			that.wrapper.style.cursor= '';
-			that.wrapper.onmousemove = mm;
-			
-			if(!this.easyController &amp;&amp; mu){mu(e); return;};
-			if(this.easyController.panning_status &amp;&amp; this.easyController.panning_status.isClick &amp;&amp; mu){ mu(e);}
-			this.easyController.panning_status = null;
-			
-			return false;
+			if(panning_status.isClick &amp;&amp; mu){mu(e);};
+			cancelPanning(e);
+
 		};
-	
+		
+		jQuery(document).mousemove(function(e){
+			if(panning_status){
+				var t= VismoClickingUtils.resolveTargetWithVismoClicking(e);
+				if(t != that.wrapper)cancelPanning(e);
+			}
+		});
 	
 	},
 	setTransformation: function(t){
@@ -6057,24 +6495,24 @@ VismoController.prototype = {
 	},
 	createButtonLabel: function(r,type){
 		var properties=  {'shape':'path', stroke: '#000000',lineWidth: '1'};
-		
+		properties.actiontype = type;
 		var coords=[];
-		if(type == 'earrow'){
+		if(type == 'E'){
 			coords =[r,0,-r,0,'M',r,0,0,-r,&quot;M&quot;,r,0,0,r];
 		}
-		else if(type =='warrow'){
+		else if(type =='W'){
 			coords =[-r,0,r,0,'M',-r,0,0,r,&quot;M&quot;,-r,0,0,-r]; 
 		}
-		else if(type == 'sarrow'){
+		else if(type == 'S'){
 			coords =[0,-r,0,r,'M',0,r,-r,0,&quot;M&quot;,0,r,r,0];	
 		}
-		else if(type == 'narrow'){
+		else if(type == 'N'){
 			coords =[0,-r,0,r,'M',0,-r,r,0,&quot;M&quot;,0,-r,-r,0];	
 		}
-		else if(type == 'plus'){
+		else if(type == 'in'){
 			coords =[-r,0,r,0,&quot;M&quot;,0,-r,0,r];
 		}
-		else if(type == 'minus'){
+		else if(type == 'out'){
 			coords = [-r,0,r,0];
 		}
 		
@@ -6098,10 +6536,9 @@ VismoController.prototype = {
 		properties.fill ='rgba(150,150,150,0.7)';
 		var button = new VismoShape(properties,coords);
 		button.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:0,y:0}});
-		var label = this.createButtonLabel(r,properties.buttonType);
+		var label = this.createButtonLabel(r,properties.actiontype);
 		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r}});
-		
-		canvas.easyClicking.addToMemory(button);
+		canvas.easyClicking.add(button);
 		return button;
 	},	
 	addControls: function(list){
@@ -6136,24 +6573,13 @@ VismoController.prototype = {
 	
 	_createcontrollercanvas: function(width,height){
 		var newCanvas = document.createElement('canvas');
-		newCanvas.style.width = width;
-		newCanvas.style.height = height;
+		jQuery(newCanvas).css({width: width, height:height,position:&quot;absolute&quot;,left:0,top:0,'z-index': 15});
 		newCanvas.width = width;
 		newCanvas.height = height;
-		newCanvas.style.position = &quot;absolute&quot;;
-		newCanvas.style.left = 0;
-		newCanvas.style.top = 0;
-		newCanvas.style.zIndex = 3;
 		newCanvas.setAttribute(&quot;class&quot;,&quot;easyControl&quot;);
 		this.wrapper.appendChild(newCanvas);
-
-		if(!newCanvas.getContext) {
-			newCanvas.browser = 'ie';
-		}
 		newCanvas.easyController = this;
-		newCanvas.easyClicking = new VismoClicking(newCanvas);
-		
-		//newCanvas.memory = [];
+		newCanvas.easyClicking = new VismoClickableCanvas(newCanvas);
 		return newCanvas;
 	},
 	addPanningActions: function(controlDiv){
@@ -6205,7 +6631,7 @@ VismoController.prototype = {
 		}
 	},
 	_panzoomClickHandler: function(e) {
-		
+
 		if(!e) {
 			e = window.event;
 		}
@@ -6216,8 +6642,7 @@ VismoController.prototype = {
 		if(!hit) {
 			return false;
 		}
-		if(!hit.properties) return false;
-		
+	
 		var pan = {};
 		var t =controller.transformation;
 		//console.log(t.rotate,&quot;hit&quot;);
@@ -6228,7 +6653,6 @@ VismoController.prototype = {
 		if(!t.scale) t.scale = {x:1,y:1};
 		if(!t.translate) t.translate = {x:0,y:0};
 		if(!t.rotate) t.rotate = {x:0,y:0,z:0};
-
 		switch(hit.properties.actiontype) {
 			case &quot;W&quot;:
 				t.translate.x += pan.x;
@@ -6283,6 +6707,7 @@ VismoController.prototype = {
 		return false;
 	}
 };
+
 /*
 Some common utils used throughout package 
 Clone function courtesy of http://keithdevens.com/weblog/archive/2007/Jun/07/javascript.clone
@@ -6895,12 +7320,36 @@ var VismoMapSVGUtils= {
 		return points;
 	}	
 };
+
+function mozillaSaveFile(filePath,content)
+{
+	if(window.Components) {
+		try {
+			netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalXPConnect&quot;);
+			var file = Components.classes[&quot;@mozilla.org/file/local;1&quot;].createInstance(Components.interfaces.nsILocalFile);
+			file.initWithPath(filePath);
+			if(!file.exists())
+				file.create(0,0664);
+			var out = Components.classes[&quot;@mozilla.org/network/file-output-stream;1&quot;].createInstance(Components.interfaces.nsIFileOutputStream);
+			out.init(file,0x20|0x02,00004,null);
+			out.write(content,content.length);
+			out.flush();
+			out.close();
+			return true;
+		} catch(ex) {
+			return false;
+		}
+	}
+	return null;
+}
+
+
 var VismoFileUtils= {
 	saveFile: function(fileUrl,content)
 	{
-		return jQuery.file.save({fileUrl:fileUrl,content:content});
-	}
-	
+		mozillaSaveFile(fileUrl,content); return;
+		jQuery.file.save({fileUrl:fileUrl,content:content});
+	}	
 	,convertUriToUTF8:function(uri,charSet)
 	{
 		if(window.netscape == undefined || charSet == undefined || charSet == &quot;&quot;)
@@ -7540,6 +7989,10 @@ var VismoTransformations= {
 		pos.y -= tr.y;			
 		return pos;	
 	}
+	,getXY: function(e,t){
+		var pos =VismoClickingUtils.getMouseFromEvent(e);
+		return this.undoTransformation(pos.x,pos.y,t);
+	}
 };/*
 VismoClicking adds the ability to associate a dom element with a collection of VismoShapes using addToMemory function
 The getShapeAtClick function allows click detection on this dom element when used in a dom mouse event handler
@@ -7561,50 +8014,146 @@ function findScrollY()
 /*
 Following to be renamed as VismoClickableCanvas
 */
-var VismoClicking = function(element,easyShapesList){
+var VismoClickableCanvas = function(element,easyShapesList){
+	if(typeof element == 'string') element= document.getElementById(element);
+	if(!element) throw &quot;Element doesn't exist!&quot;;
 	if(element.easyClicking) {
 		var update = element.easyClicking;
 		return update;
 	}
 	var wrapper = element;
 	var canvas = document.createElement('canvas');
-	canvas.width = parseInt(wrapper.style.width);
-	canvas.height = parseInt(wrapper.style.height);
-	canvas.style.width = wrapper.style.width;
-	canvas.style.height = wrapper.style.height;	
 	
-	canvas.style.zIndex = 1;
-	canvas.style.position = &quot;absolute&quot;;
+	
+		canvas.width = parseInt(wrapper.style.width);
+		canvas.height = parseInt(wrapper.style.height);
+	if(!element.className)element.className = &quot;VismoClickableCanvas&quot;;
+	jQuery(canvas).css({width:wrapper.style.width, height:wrapper.style.height,'z-index':1,position:'absolute'});
 	element.appendChild(canvas);
 	this.canvas = canvas;
 	this.settings = {};
-	 this.settings.browser = canvas.getContext ? 'good' : 'ie'
+	this.settings.browser = !VismoUtils.browser.isIE ? 'good' : 'ie'
 	this.settings.globalAlpha = 1;
 	this.memory = [];
 	element.easyClicking = this;
-	if(easyShapesList) this.memory = easyShapesList;
-	
-	
+
+	if(easyShapesList) {
+		for(var i=0; i &lt; easyShapesList.length; i++){
+			this.add(easyShapesList[i]);
+		}
+	}
+	this.wrapper = wrapper;
+	this._setupMouse();
 };
 
-VismoClicking.prototype = {
-	resize: function(width,height){
+VismoClickableCanvas.prototype = {
+	getDomElement: function(){
+		return this.wrapper;
+	}
+	,getXY: function(e){
+		return VismoTransformations.getXY(e,this.getTransformation());
+	}
+	,setOnMouse: function(down,up,move,dblclick,keypress){
+		if(down)this.onmousedown = down;
+		if(up)this.onmouseup = up;
+		if(move)this.onmousemove=  move;
+		if(dblclick) this.ondblclick = dblclick;
+		if(keypress) this.onkeypress = keypress;
+	}
+	,_setupMouse: function(){
+		var that = this;
+		this.onmousedown = function(e,s,pos){};
+		this.onmouseup = function(e,s,pos){};
+		this.onmousemove = function(e,s,pos){};
+		this.ondblclick = function(e,s,pos){};
+		this.onkeypress = function(e){};
+		
+
+		this._applyMouseBehaviours(this.wrapper);
+		for(var i =0; i &lt; this.wrapper.childNodes.length; i++){
+			var child = this.wrapper.childNodes[i];
+			this._applyMouseBehaviours(child);
+		}
+	
+	}
+	,_applyMouseBehaviours: function(el){
+		var newbehaviour = function(e){
+				var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+				if(t.getAttribute(&quot;class&quot;) == 'easyControl') return false;
+				var shape = that.getShapeAtClick(e);
+				return shape;
+			
+		};
+		var that = this;
+		
+		var down = el.onmousedown;
+		var up = el.onmouseup;
+		var mv = el.onmousemove;
+		var dblclick =el.ondblclick;
+		this.initialKeyPress = window.onkeypress;
+		el.oncontextmenu=function() {  return false}; 		
+		el.onmouseover = function(e){
+				if(!that.keypressactive) {
+					that.keypressactive =  true;
+					window.onkeypress = that.onkeypress;
+					document.onkeypress = function(e){if(!e) e= window.event;if(that.initialKeyPress)that.initialKeyPress(e);if(!e) e= window.event;that.onkeypress(e)};
+				}
+		}
+		el.onmouseout = function(e){if(!e) e= window.event;that.keypressactive = false;};
+
+		el.onmousedown = function(e){
+			if(!e) e= window.event;
+			if(e.preventDefault)e.preventDefault(e);
+			var s = newbehaviour(e); 
+			//var pos = VismoTransformations.getXY(e,that.getTransformation());
+			if(s){
+				if(s.getProperty(&quot;onmousedown&quot;))s.getProperty(&quot;onmousedown&quot;)(e,s);		
+				else that.onmousedown(e,s);
+			}
+			else {if(down)down(e,s);}
+			
+
+			return false;
+		}
+
+		el.ondblclick = function(e){
+			if(!e) e= window.event;
+			var s = newbehaviour(e); 				
+			if(s) {
+				if(s.getProperty(&quot;ondblclick&quot;))s.getProperty(&quot;ondblclick&quot;)(e,s);
+				else {
+					that.ondblclick(e,s);
+				}
+			}
+			else {if(dblclick)dblclick(e,s);}
+		
+		};
+		el.onmouseup = function(e){ if(!e) e= window.event;var s = newbehaviour(e); if(s){if(s.getProperty(&quot;onmouseup&quot;))s.getProperty(&quot;onmouseup&quot;)(e,s);else that.onmouseup(e,s);}else{if(up)up(e,s);}}
+		el.onmousemove = function(e){ if(!e) e= window.event;var s = newbehaviour(e);if(s){if(s.getProperty(&quot;onmousemove&quot;))s.getProperty(&quot;onmousemove&quot;)(e,s);else that.onmousemove(e,s);}else{ if(mv)mv(e,s);}}
+
+	}
+	,getDimensions: function(){
+		return {width: parseInt(this.canvas.style.width), height: parseInt(this.canvas.style.height)};
+	}
+	,resize: function(width,height){
+		
 		if(this.canvas.getAttribute(&quot;width&quot;)){
 			this.canvas.width = width;
 			this.canvas.height = height;
 		}
-		this.canvas.style.height = height+&quot;px&quot;;
-		this.canvas.style.width = width +&quot;px&quot;;
+		jQuery(this.wrapper).css({height:height,width:width});
+		jQuery(this.canvas).css({height:height,width:width});
 	}
 	,setTransparency: function(alpha){	
 		this.settings.globalAlpha = alpha
 	}
 	,_setupCanvasEnvironment: function(){
-		if(!this.canvas.getContext) return;
+		if(VismoUtils.browser.isIE) return;
 		var ctx = this.canvas.getContext('2d');
 		var s =this.getTransformation().scale;
 		if(s &amp;&amp; s.x)ctx.lineWidth = (0.5 / s.x);
 		ctx.globalAlpha = this.settings.globalAlpha;
+		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 		ctx.lineJoin = 'round'; //miter or bevel or round	
 	}
 	,clear: function(deleteMemory){
@@ -7626,27 +8175,26 @@ VismoClicking.prototype = {
 	}
 	
 	,render: function(projection){
-
+		
 		this._setupCanvasEnvironment();
-		if(this.settings.browser == 'good'){
-			this.clear();
-		}
-	
-
+		
 		var that = this;
 		var transformation = this.getTransformation();
-		//var f = function(){
-		var ps = 5 / parseFloat(transformation.scale.x);
+	
+		if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
+		var ps = 5 / parseFloat(sc);
 		var smallest = 1 / this._iemultiplier;
-		var largest = 2.5 * transformation.scale.x;
+		var largest = 2.5 * sc;
 		if(ps &lt; smallest) ps = smallest;
 		if(ps &gt; largest) ps = largest;	
 			
 			var newfragment = document.createDocumentFragment();
 			var mem =that.getMemory();
 			if(mem.length &gt; 0){
+				
 				var tran;
 				if(that.settings.browser == 'good'){
+				
 					var ctx = that.canvas.getContext('2d');
 					ctx.save();
 					tran = false;
@@ -7669,13 +8217,14 @@ VismoClicking.prototype = {
 				else{
 					tran = transformation;
 				}
-				
 				 for(var i=0; i &lt; mem.length; i++){
-				 			
-					mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
 				
-					if(mem[i].vmlfill &amp;&amp; that.settings.globalAlpha) {
-						mem[i].vmlfill.opacity =that.settings.globalAlpha;
+				 	if(mem[i].optimise(that.canvas,transformation,projection)){
+						mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
+					
+						if(mem[i].vmlfill &amp;&amp; that.settings.globalAlpha) {
+							mem[i].vmlfill.opacity =that.settings.globalAlpha;
+						}
 					}
 				
 				}
@@ -7686,21 +8235,31 @@ VismoClicking.prototype = {
 				}*/
 			}
 			if(ctx)ctx.restore();
+			
 	//	};f();
 	}
 	,getTransformation: function(){
+		if(!this.transformation) {
+		var ox = parseInt(this.canvas.style.width);
+		var oy = parseInt(this.canvas.style.height);
+		this.transformation = {scale:{x:1,y:1},translate:{x:0,y:0},origin:{x: ox/2, y: oy/2}};
+		//this.transformation = VismoTransformation.getBlankTransformation(this.canvas);
+		}
 		return this.transformation;
 	}
 	
 	,setTransformation: function(transformation){
 		if(transformation) this.transformation = transformation;	
 	}
-	,addToMemory: function(easyShape){
+	,add: function(easyShape){
 		if(!this.memory) this.memory = [];
-		easyShape._easyClickingID = this.memory.length;
 		this.memory.push(easyShape);
+		easyShape._easyClickingID = this.memory.length;
 	}
-	
+	,transform: function(t){
+		this.setTransformation(t);
+		this.render();
+	}
 	,clearMemory: function(){
 		for(var i=0; i &lt; this.memory.length; i++){
 			if(this.memory[i].vml){
@@ -7726,14 +8285,14 @@ VismoClicking.prototype = {
 		}
 		
 		var node = VismoClickingUtils.resolveTarget(e);
-		if(node.getAttribute(&quot;class&quot;) == 'easyShape') { //vml easyShape
+		//alert(node.tagName);
+		if(node.tagName.toUpperCase() == 'SHAPE') { //vml easyShape
 			return node.easyShape;
 		}
 		var target = VismoClickingUtils.resolveTargetWithVismoClicking(e);
 	
 		if(!target) return;
 		var offset = jQuery(target).offset();
-	
 
 		x = e.clientX + window.findScrollX() - offset.left;
 		y = e.clientY + window.findScrollY() - offset.top;
@@ -7758,11 +8317,11 @@ VismoClicking.prototype = {
 		
 		}
 		var hitShapes = [];
-	
 		for(var i=0; i &lt; shapes.length; i++){
 			var shape = shapes[i];
 			var st = shape.getShape();
 				var g = shape.getBoundingBox();
+				
 				if(x &gt;= g.x1 &amp;&amp; x &lt;= g.x2 &amp;&amp; y &gt;=  g.y1 &amp;&amp; y &lt;=g.y2){
 					hitShapes.push(shapes[i]);
 				}
@@ -7779,9 +8338,21 @@ VismoClicking.prototype = {
 	_findNeedleInHaystack: function(x,y,shapes){
 		var hits = [];
 		for(var i=0; i &lt; shapes.length; i++){
-			if(this._inPoly(x,y,shapes[i])) {
+			var st = shapes[i].getShape();
+			var itsahit = false;
+			if(st == 'polygon'){
+				itsahit = this._inPoly(x,y,shapes[i]);
+			}
+			else if(st == 'image'){
+				itsahit = true;
+			}
+			else if(st == 'point' || st == 'circle'){
+				itsahit = this._inCircle(x,y,shapes[i]);
+			}
+			if(itsahit) {
 				hits.push(shapes[i]);
 			}
+			
 		}
 
 		if(hits.length == 0){
@@ -7790,26 +8361,32 @@ VismoClicking.prototype = {
 		else if(hits.length == 1) 
 			return hits[0];
 		else {//the click is in a polygon which is inside another polygon
+			var g = hits[0].getBoundingBox();
+			var mindist = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
 		
-			var g = hits[0].grid;
-			var min = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
-		
-			var closerEdge = {id:0, closeness:min};
+			var closerEdge = {id:0, closeness:mindist};
 			for(var i=1; i &lt; hits.length; i++){
-				g = hits[i].grid;
-			var min = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
+				var g = hits[i].getBoundingBox();
+				var mindist = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
 			
-				if(closerEdge.closeness &gt; min) {
-					closerEdge.id = i; closerEdge.closeness = min;
+				if(closerEdge.closeness &gt; mindist) {
+					closerEdge.id = i; closerEdge.closeness = mindist;
 				}
-				return hits[closerEdge.id];
+				
 			}
+			return hits[closerEdge.id];
 		
 		}
 
-	},
-	_inPoint: function(x,y,easyShape,transformation){
-		
+	}
+	,_inCircle: function(x,y,easyShape){
+		var bb = easyShape.getBoundingBox();
+
+		var a =((x - bb.center.x)*(x - bb.center.x)) + ((y - bb.center.y)*(y - bb.center.y));
+		var b = easyShape.getRadius();
+		b *= b;
+		if (a &lt;= b) return true;
+		else return false;
 	
 	}
 	,_inPoly: function(x,y,easyShape) {
@@ -7817,12 +8394,8 @@ VismoClicking.prototype = {
 		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
 		http://www.visibone.com/inpoly/inpoly.c.txt */
 		var coords;
-		if(easyShape.getProjectedCoordinates()){
-			coords = easyShape.getProjectedCoordinates();
-		}
-		else{
-			coords = easyShape.getCoordinates();
-		}
+		coords = easyShape.getCoordinates();
+		
 		var npoints = coords.length;
 		if (npoints/2 &lt; 3) {
 			//points don't describe a polygon
@@ -7855,9 +8428,7 @@ VismoClicking.prototype = {
 		 }
 		 return inside;
 	}
-	,_inCircle: function(x,y,easyShape){
-	
-	}
+
 };
 
 /*
