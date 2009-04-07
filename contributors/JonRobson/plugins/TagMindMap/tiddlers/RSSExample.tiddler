@@ -1,0 +1,15 @@
+<div title="Example 5 (RSS)" modifier="JonRobson" tags="tagMindMapExamples excludingTags">
+<pre>
+
+RSS is when it becomes fun. You can define your favourite rss feeds and specify a rule which tells tagmindmap how to tag the feed. An easy thing to do is specify a certain field in that rss feed contains your tags. eg. a <category> in an <item> is a tag.
+
+If you set the stateState to all on top of this - you will be able to define new relationships personal to you and thus see straight away items of interest.. hope you think this is cool!
+
+Reads in my twitter: creating tags based on @ tags and the name of the twitter-er.
+Reads in digg - using digg defined categories
+Reads in reddit - bit of a hack to get category but looks in description and takes 2nd instance of &gt tag to get the where posted to category.
+
+<<tiddlytagmindmap width:500 height:400 toolbar:01011 startState:all exclude:["excludeLists","tagMindMapExamples","tagMindMapCodePackage"] maxNodeNameLength:10>>
+<<rsstomap "http://twitter.com/statuses/friends_timeline/16467495.rss" title>>
+</pre>
+</div>

@@ -1,0 +1,25 @@
+<div title="Example 1" modifier="JonRobson" tags="Examples [[parameter directed]] [[parameter toolbar]] [[parameter startState]][[macro TagMindMapEdge]] [[parameter maxNodeNameLength]] [[parameter click]] [[parameter emptyTiddlerColor]]">
+<pre>
+This demonstrates how to customise exactly what we want to see in our visualisation. We do this by defining a tag mind map (initially empty) and following it up with various TagMindMapEdge macro commands. In this example we also show off the parameter maxNodeNameLength which allows you to shorten the node name. In this example we also make it so that when a node is clicked on it will only open the tiddler if one exists. In this example all greyed node names are non-openable.
+
+<<tiddlytagmindmap width:400 height:400 toolbar:111 id:example1 startState:{{['Example 1']}} maxNodeNameLength:10 click:existing directed:true emptyTiddlerColor:#cccfff>>
+<<TagMindMapEdge "Example 1" "The Solar System">>
+<<TagMindMapEdge "The Solar System" "The Earth">>
+<<TagMindMapEdge "The Earth" "Africa">>
+<<TagMindMapEdge "The Earth" "Europe">>
+<<TagMindMapEdge "Europe" "France">>
+<<TagMindMapEdge "Europe" "UK">>
+<<TagMindMapEdge "The Earth" "Asia">>
+<<TagMindMapEdge "The Earth" "Americas">>
+<<TagMindMapEdge "Asia" "Japan">>
+<<TagMindMapEdge "Asia" "Vietnam">>
+<<TagMindMapEdge "Japan" "Kyoto">>
+<<TagMindMapEdge "Japan" "Tokyo">>
+<<TagMindMapEdge "Japan" "Nagano">>
+<<TagMindMapEdge "Japan" "Matsumoto">>
+<<TagMindMapEdge "Japan" "Hiroshima">>
+<<TagMindMapEdge commit>>
+
+
+</pre>
+</div>

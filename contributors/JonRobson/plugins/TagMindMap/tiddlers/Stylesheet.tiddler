@@ -1,0 +1,8 @@
+<div title="StyleSheet" modifier="JonRobson" tags="[[Optional Code]]">
+<pre>
+.nodeLabel {cursor:pointer;}
+.nodeLabel:hover {color:#ff0000;}
+.ttmm {border: solid;border_width : 1px;}
+.ttmm_toolbar {}
+</pre>
+</div>

@@ -1,0 +1,7 @@
+<div title="ToolbarCommands" modifier="JonRobson" tags="[[Optional Code]]">
+<pre>
+|~ViewToolbar|closeTiddler newChild newParent editTiddler > closeOthers fields syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
+
+</pre>
+</div>

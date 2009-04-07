@@ -1,0 +1,7 @@
+<div title="Example 3" modifier="JonRobson" tags="Examples [[parameter exclude]] [[parameter notagcloud]] [[parameter ignoreLoneNodes]]">
+<pre>
+This visualisation example shows how you can exclude certain elements. This particular one will show ALL tiddlers EXCEPT those which are or are tagged 'Examples' or 'Optional Code' (set in the parameter exclude). These tags and any of their children therefore do not appear in the visualisation.
+
+<<tiddlytagmindmap id:example3 width:400 height:400 toolbar:01011 startState:all exclude:{{['Examples','Optional Code']}} ignoreLoneNodes:false notagcloud:true>>
+</pre>
+</div>

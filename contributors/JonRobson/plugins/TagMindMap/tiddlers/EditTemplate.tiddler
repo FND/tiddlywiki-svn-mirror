@@ -1,0 +1,23 @@
+<div title="EditTemplate" modifier="JonRobson" tags="[[Optional Code]]">
+<pre>
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'>
+<span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+<hr>
+<div class='subtitle'>TiddlyTagMindMap Node Settings</div>
+<hr>
+<div class='editor' macro='edit nodetooltip'></div><div class='editorFooter'>set the tooltip shown for this node</div>
+<div class='editor' macro='edit nodeLabel'></div><div class='editorFooter'>set alternative label for node instead of node name (this will be wikified)</div>
+<div class='editor' macro='edit nodeprefix'></div><div class='editorFooter'>this will appear wikified and before the node name on the label</div>
+<div class='editor' macro='edit nodesuffix'></div><div class='editorFooter'>this will appear wikified and after the node name on the label</div>
+<div class='editor' macro='edit nodeColor'></div><div class='editorFooter'>set color of this node</div>
+<div class='editor' macro='edit parentColor'></div><div class='editorFooter'>set color of all parents of this node</div>
+<div class='editor' macro='edit childrenColor'></div><div class='editorFooter'>set color of all children of this node</div>
+<!--}}}-->
+</pre>
+</div>
