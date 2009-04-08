@@ -3,7 +3,7 @@ modifier: Simon McManus
 Background: #999
 Foreground: #111
 PrimaryDark: #222
-SecondaryPale: #ffc
+SecondaryPale: #fff
 SecondaryLight: #fe8
 SecondaryMid: #db4
 SecondaryDark: #fff
