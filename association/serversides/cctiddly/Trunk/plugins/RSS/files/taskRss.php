@@ -44,8 +44,8 @@ while( $d=db_fetch_assoc($data) )
 				<category>'.$t.'</category>';
 			}
 			$result .= '
-			<link>'.htmlspecialchars(urlencode($siteUrl.'#'.$d['title'])).'</link>
-			<pubDate>'.gmdate("D, j M Y h:i:s",TiddlyTimeToEpoch($d['modified'])).'</pubDate>
+			<link>'.$siteUrl.'#'.htmlspecialchars(urlencode($d['title'])).'</link>
+			<pubDate>Wed, 02 Oct 2002 13:00:00 GMT</pubDate>
 			</item>';
 			$count++;
 		}
