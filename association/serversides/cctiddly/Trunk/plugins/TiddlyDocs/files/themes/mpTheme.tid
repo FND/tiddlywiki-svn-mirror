@@ -81,12 +81,12 @@ tags: systemTheme
 		<p>
 			A document can take several people to write, so TiddlyDocs lets you break it into sections and spread the bits out across your team.
 		</p>
-		<!--
+	 
 		<img src='http://farm4.static.flickr.com/3461/3348345219_37d4d5ecd3.jpg' height="30px" /><br/><br/>
 		<img src='http://labs.bt.com/projects/agents/zeus/images/BT_200pix_pos.gif' height="40px" /><br/><br/>
 		<img src='http://www.projects.unamesa.org/space/showlogo/1234912128/logo.gif' height="56px" /><br /><br/>
 		
-		-->
+	
 		</div>
 
 		</div>
@@ -152,7 +152,7 @@ tags: systemTheme
 		height:100%;
 		margin:0;
 		padding:0;
-		width:67.5%;
+		width:70%;
 		position:relative;
 		top:-2.5em;
 		overflow:hidden;
@@ -822,7 +822,8 @@ a			padding:0.5em;
 		background-position:bottom right;
 	}
 	.leftColumn{
-		padding:1em;
+		padding:0em;
+		margin:0em;
 		text-align:left;
 		width:30%;
 		float:left;
@@ -830,6 +831,17 @@ a			padding:0.5em;
 		position:relative;
 		top:-2.5em;
 	}
+	
+	.leftColumn > .portletContainer {
+		margin-left:1em;
+		margin-right:1em;
+		margin-top:1em;
+		
+	}
+	
+	
+	
+	
 	.middleColumn{
 		margin:0 auto;
 		text-align:left
