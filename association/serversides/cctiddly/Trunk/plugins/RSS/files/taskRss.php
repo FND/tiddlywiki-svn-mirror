@@ -22,8 +22,8 @@ $result = '<?xml version="1.0"?><rss version="2.0"><channel>
 <title>'.(isset($data['SiteTitle'])?htmlspecialchars($data['SiteTitle']['body']):"My TiddlyWiki").'</title>
 <link>'.$siteUrl.'</link>
 <description>'.(isset($data['SiteSubtitle'])?htmlspecialchars($data['SiteSubtitle']['body']):"a reusable non-linear personal web notebook").'</description>
-<pubDate>'.gmdate("D, j M Y h:i:s e").'</pubDate>
-<lastBuildDate>'.gmdate("D, j M Y h:i:s e").'</lastBuildDate>
+<pubDate>Wed, 02 Oct 2002 13:00:00 GMT</pubDate>
+<lastBuildDate>Wed, 02 Oct 2002 13:00:00 GMT</lastBuildDate>
 <generator>ccTiddly '.$tiddlyCfg['version'].'</generator>';
 
 //get required data from database
@@ -44,7 +44,7 @@ while( $d=db_fetch_assoc($data) )
 				<category>'.$t.'</category>';
 			}
 			$result .= '
-			<link>'.$siteUrl.'#'.htmlspecialchars($d['title']).'</link>
+			<link>'.htmlspecialchars(urlencode($siteUrl.'#'.$d['title'])).'</link>
 			<pubDate>'.gmdate("D, j M Y h:i:s",TiddlyTimeToEpoch($d['modified'])).'</pubDate>
 			</item>';
 			$count++;
