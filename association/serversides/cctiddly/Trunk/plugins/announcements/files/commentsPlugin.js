@@ -59,7 +59,6 @@ handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 //################################################################################
 
 buildCommentsArea: function(rootTiddler, place, macroParams) {
-  console.log("buildCommentsArea");
   var commentsArea = createTiddlyElement(place, "div", null, "comments");
   var heading = getParam(macroParams, "heading");
   if (heading) createTiddlyElement(commentsArea, "h1", null, null, heading);

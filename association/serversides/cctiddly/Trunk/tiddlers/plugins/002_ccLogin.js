@@ -31,8 +31,6 @@ var loginState=null;
 var registerState=null;
 
 config.macros.ccLogin.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	
-	console.log("STRING IS : "+paramString);
 	var params = paramString.parseParams('reload',null,true);
 	config.macros.ccLogin.refresh(place, params[0].reload);
 };
@@ -69,7 +67,6 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 	};
 	txtPassword.onchange = txtPassword.onkeyup;
 	w.formElem.method ="POST";
-	console.log("sending : "+w.formElem["password"].value);
 	w.formElem.onsubmit = function() {config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place); return false;};
 	var submit = createTiddlyElement(null, "input");
 	submit.type="submit";
@@ -118,7 +115,6 @@ config.macros.ccLogin.doLogin=function(username, password, item, place){
 	var adaptor = new config.adaptors[config.defaultCustomFields['server.type']];
 	var context = {};
 	context.reload = w.getValue("reload");
-	console.log("SET CON", context.reload);
 	context.host = window.url;
 	context.username = username;
 	context.password = password;

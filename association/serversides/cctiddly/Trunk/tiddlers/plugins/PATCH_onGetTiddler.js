@@ -10,7 +10,6 @@ config.macros.importTiddlers.onGetTiddler = function(context,wizard)
 	tiddler.fields['server.type'] = 'cctiddly';
 	tiddler.fields['server.host'] = window.url;
 	tiddler.fields['workspace']= window.workspace;
-console.log("here for "+tiddler.title);
 	store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, false, tiddler.created);// local 
 //	config.extensions.ServerSideSavingPlugin.saveTiddler(tiddler); // remote save. 
 	if(!wizard.getValue("sync")) {

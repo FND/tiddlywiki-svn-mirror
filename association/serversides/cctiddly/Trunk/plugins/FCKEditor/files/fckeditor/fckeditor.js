@@ -28,7 +28,6 @@
 // FCKeditor Class
 var FCKeditor = function( instanceName, width, height, toolbarSet, value )
 {
-	console.log("name "+instanceName);
 	// Properties
 	this.InstanceName	= instanceName ;
 	this.Width			= width			|| '100%' ;
@@ -132,7 +131,6 @@ FCKeditor.prototype.ReplaceTextarea = function()
 
 		if ( oTextarea.tabIndex )
 			this.TabIndex = oTextarea.tabIndex ;
-console.log("made this one");
 		this._InsertHtmlBefore( this._GetConfigHtml(), oTextarea ) ;
 		this._InsertHtmlBefore( this._GetIFrameHtml(), oTextarea ) ;
 	}

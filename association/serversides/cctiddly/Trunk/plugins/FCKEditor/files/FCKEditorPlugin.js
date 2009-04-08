@@ -47,10 +47,7 @@ config.macros.editHtml = {
 
 		}
 		else if (field) {
-
-			console.log("got to here");
-
-			var e = createTiddlyElement(null,"div");
+	var e = createTiddlyElement(null,"div");
 			var fckName = "FCKeditor"+ Math.random();
 			if(tiddler.isReadOnly())
 				e.setAttribute("readOnly","readOnly");
@@ -58,11 +55,9 @@ config.macros.editHtml = {
 			if (height) e.setAttribute("height",height);
 			e.setAttribute("fckName",fckName);
 			place.appendChild(e);
-			console.log("Creating editor");
 			FCKeditorAPI = null;
 			__FCKeditorNS = null;
 			var fck = new FCKeditor(fckName);
-			console.log("Created editor");
 			fck.BasePath = config.options.txtFCKeditorPath;
 			if (config.options.txtFCKCustomConfigScript) fck.Config["CustomConfigurationsPath"] = config.options.txtFCKCustomConfigScript ;
 			if (config.options.txtFCKToolbar) fck.ToolbarSet = config.options.txtFCKToolbar;
@@ -73,11 +68,7 @@ config.macros.editHtml = {
 			var value = (htmlValue && (htmlValue.length>0)) ? htmlValue[1] : fieldValue;
 			value=value.replace(/\[\[([^|\]]*)\|([^\]]*)]]/g,'<a href="#$2">$1</a>');
 			config.macros.editHtml.FCKvalues[fckName]=value;
-			
-			console.log("about to create html");
 			e.innerHTML = fck.CreateHtml();
-			
-			console.log("reached the end", fck);
 		}
 	},
         gather : function(e) {
@@ -96,9 +87,7 @@ config.macros.editHtml = {
 
 
 window.FCKeditor_OnComplete= function( editorInstance ) {
-	
-	console.log("Got to onComplete", editorInstance);
-        var name=editorInstance.Name;
+	var name=editorInstance.Name;
 	var value = config.macros.editHtml.FCKvalues[name];
 	delete config.macros.editHtml.FCKvalues[name];
 	oEditor = FCKeditorAPI.GetInstance(name);

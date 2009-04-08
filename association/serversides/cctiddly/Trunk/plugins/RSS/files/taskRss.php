@@ -19,7 +19,7 @@ $data = $tmp;
 //$siteUrl = isset($data['SiteUrl'])?htmlspecialchars($data['SiteUrl']['body']):"http://www.tiddlywiki.com/";
 $siteUrl = getUrl().$tiddlyCfg['workspace_name'];
 $result = '<?xml version="1.0"?><rss version="2.0"  xmlns:atom="http://www.w3.org/2005/Atom"><channel>
-<atom:link href="http://simonmcmanus.com/TiddlyDocsDemo/index.xml?user=josh" rel="self" type="application/rss+xml" />
+<atom:link href="http://simonmcmanus.com/TiddlyDocsDemo/index.xml?user=josh" type="application/rss+xml" />
 <title>'.(isset($data['SiteTitle'])?htmlspecialchars($data['SiteTitle']['body']):"My TiddlyWiki").'</title>
 <link>'.$siteUrl.'</link>
 <description>'.(isset($data['SiteSubtitle'])?htmlspecialchars($data['SiteSubtitle']['body']):"a reusable non-linear personal web notebook").'</description>
@@ -45,7 +45,7 @@ while( $d=db_fetch_assoc($data) )
 				<category>'.$t.'</category>';
 			}
 			$result .= '
-			<link>'.$siteUrl.'#'.htmlspecialchars(urlencode($d['title'])).'</link>
+			<link>'.$siteUrl.'#'.htmlspecialchars(urlencode("[[".$d['title']."]]")).'</link>
 			<pubDate>Wed, 02 Oct 2002 13:00:00 GMT</pubDate>
 			</item>';
 			$count++;
