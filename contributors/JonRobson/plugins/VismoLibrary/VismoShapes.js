@@ -124,11 +124,12 @@ VismoShape.prototype={
 		var resolution = this.currentResolution;
 		if(this.coordinates.projected) {
 			if(this.browser != 'ie' && resolution){
+				return this._simplifyCoordinates(resolution,this.coordinates.projected);
 				var opt=this.coordinates.optimisedandprojected;
 				if(!opt[resolution]) opt[resolution] =  this._simplifyCoordinates(resolution,this.coordinates.projected);
 				else return opt[resolution];
 			}		
-		return this.coordinates.projected;
+			return this.coordinates.projected;
 		}
 		else{
 			if(this.browser != 'ie' && resolution){
@@ -146,18 +147,18 @@ VismoShape.prototype={
 		if(!this.browser){
 			if(!canvas.getContext) {				
 						//this has been taken from Google ExplorerCanvas
-						if (!document.namespaces['easyShapeVml_']) {
-						        document.namespaces.add('easyShapeVml_', 'urn:schemas-microsoft-com:vml');
+						if (!document.namespaces['vismoShapeVml_']) {
+						        document.namespaces.add('vismoShapeVml_', 'urn:schemas-microsoft-com:vml');
 						}
 
 						  // Setup default CSS.  Only add one style sheet per document
-						 if (!document.styleSheets['easyShape']) {
+						 if (!document.styleSheets['vismoShape']) {
 						        var ss = document.createStyleSheet();
-						        ss.owningElement.id = 'easyShape';
+						        ss.owningElement.id = 'vismoShape';
 						        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
 						            // default size is 300x150 in Gecko and Opera
 						            'text-align:left;}' +
-						            'easyShapeVml_\\:*{behavior:url(#default#VML)}';
+						            'vismoShapeVml_\\:*{behavior:url(#default#VML)}';
 						}
 						this.browser = "ie";
 			}
@@ -180,11 +181,11 @@ VismoShape.prototype={
 		if(projection) this._applyProjection(projection,transformation);
 		
 		if(shapetype != 'point' && shapetype != 'path'){ //check if worth drawing				
-			if(VismoOptimisations.easyShapeIsTooSmall(this,transformation)) {
+			if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
 				return false;	
 			}
-			if(!VismoOptimisations.easyShapeIsInVisibleArea(this,canvas,transformation)){
+			if(!VismoOptimisations.vismoShapeIsInVisibleArea(this,canvas,transformation)){
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
 				return false;	
 			}	
@@ -193,6 +194,7 @@ VismoShape.prototype={
 	}
 
 	,_simplifyCoordinates: function(scaleFactor,coordinates){// **
+		
 		if(this.getProperty("shape") == 'path') return coordinates;
 		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
 		if(!coordinates) throw "give me some coordinates!";
@@ -226,6 +228,7 @@ VismoShape.prototype={
 				return;
 		}
 		if(!coords) coords = this.getCoordinates();
+		if(coords.length < 2) return;
 		this.grid.x1 = coords[0];
 		this.grid.y1 = coords[1];
 		this.grid.x2 = coords[0];
@@ -297,20 +300,20 @@ VismoShape.prototype={
 			var image = new Image();
 			image.src= src;
 			this.image = image;
-			var easyShape = this;
-			var w = easyShape.getProperty("width"); h=  easyShape.getProperty("height");
+			var vismoShape = this;
+			var w = vismoShape.getProperty("width"); h=  vismoShape.getProperty("height");
 			if(coordinates.length > 2){
 				w = coordinates[2]; h = coordinates[3];
 			}
 			image.onload = function(){
 				if(!w && !h){
-					easyShape.setDimensions(w,h);
-					easyShape.setCoordinates([coordinates[0],coordinates[1]]);
+					vismoShape.setDimensions(w,h);
+					vismoShape.setCoordinates([coordinates[0],coordinates[1]]);
 				}
 			};
 		
-			easyShape.setDimensions(w,h);
-			easyShape.setCoordinates([coordinates[0],coordinates[1]]);	
+			vismoShape.setDimensions(w,h);
+			vismoShape.setCoordinates([coordinates[0],coordinates[1]]);	
 			
 		}
 		else{
@@ -322,12 +325,12 @@ VismoShape.prototype={
 	,_canvasrender: function(canvas,transformation,projection,optimisations, pointsize){
 
 		var c;
-		var easyShape = this;
-		var shapetype =easyShape.getProperty("shape");
+		var vismoShape = this;
+		var shapetype =vismoShape.getProperty("shape");
 			var ctx = canvas.getContext('2d');
 			ctx.save();
-			if(easyShape.getProperty("lineWidth")){
-				ctx.lineWidth = easyShape.getProperty("lineWidth");
+			if(vismoShape.getProperty("lineWidth")){
+				ctx.lineWidth = vismoShape.getProperty("lineWidth");
 			}
 			if(transformation){
 				var o = transformation.origin;
@@ -341,12 +344,12 @@ VismoShape.prototype={
 				}
 				if(r && r.x)ctx.rotate(r.x);
 			}
-			VismoCanvasRenderer.renderShape(ctx,easyShape);
+			VismoCanvasRenderer.renderShape(ctx,vismoShape);
 			
-			if(!easyShape.getProperty("hidden")) {
-				ctx.strokeStyle = easyShape.getProperty("stroke")
-				if(typeof easyShape.getProperty("fill") == 'string') 
-					fill = easyShape.getProperty("fill");
+			if(!vismoShape.getProperty("hidden")) {
+				ctx.strokeStyle = vismoShape.getProperty("stroke")
+				if(typeof vismoShape.getProperty("fill") == 'string') 
+					fill = vismoShape.getProperty("fill");
 				else
 					fill = "#ffffff";
 
@@ -377,6 +380,7 @@ VismoShape.prototype={
 	,_applyProjection: function(projection,transformation){
 	
 		var c = this.getCoordinates('normal');
+	
 		if(!projection || !projection.xy) return c;
 	
 		if(projection.init) projection.init();
@@ -388,35 +392,38 @@ VismoShape.prototype={
 			}
 			var x = parseFloat(c[i]);
 			var y = parseFloat(c[i+1]);
-			
+			var newx,newy;
 			var projectedCoordinate = projection.xy(c[i],c[i+1],transformation);
-			newx= projectedCoordinate.x;
-			newy= projectedCoordinate.y;
+			if(projectedCoordinate.x && projectedCoordinate.y){
+				newx= projectedCoordinate.x;
+				newy= projectedCoordinate.y;
 			
-			if(projectedCoordinate.move){
-				moved  =true;
-			}
-			
-			cok = true;
-			//check we haven't wrapped around world (For flat projections sss)
-			if(!projection.nowrap){
-				var diff;
-				if(newx > x) diff = newx - x;
-				if(x > newx) diff = x - newx;
-				if(diff > 100) cok = false; //too extreme change
-			}
-			
-			if(cok){
-				if(typeof newx == 'number' && typeof newy =='number'){
-					if(moved){
-						newc.push("M");
-					}
-					newc.push(newx);
-					newc.push(newy);
+				if(projectedCoordinate.move){
+					moved  =true;
 				}
-	
+			
+				cok = true;
+				//check we haven't wrapped around world (For flat projections sss)
+				if(!projection.nowrap){
+					var diff;
+					if(newx > x) diff = newx - x;
+					if(x > newx) diff = x - newx;
+					if(diff > 100) cok = false; //too extreme change
+				}
+			
+				if(cok){
+					if(typeof newx == 'number' && typeof newy =='number'){
+						if(moved){
+							newc.push("M");
+						}
+						newc.push(newx);
+						newc.push(newy);
+					}
+
+				}
 			}	
 		}	
+		if(newc.length < 2) return;
 		this.setCoordinates(newc,"projected");
 		this._calculateBounds(newc);
 		return newc;
@@ -427,24 +434,24 @@ VismoShape.prototype={
 };
 
 var VismoCanvasRenderer = {
-	renderShape: function(ctx,easyShape){
-		var shapetype =easyShape.getProperty("shape");
+	renderShape: function(ctx,vismoShape){
+		var shapetype =vismoShape.getProperty("shape");
 		ctx.beginPath();
 		
 		if(shapetype == 'point' || shapetype =='circle'){
-			this.renderPoint(ctx,easyShape);
+			this.renderPoint(ctx,vismoShape);
 		}
 		else if(shapetype =='image'){
-			this.renderImage(ctx,easyShape);
+			this.renderImage(ctx,vismoShape);
 		}
 		else{		
-			this.renderPolygon(ctx,easyShape);	
+			this.renderPolygon(ctx,vismoShape);	
 		}
 		ctx.closePath();
 	}
-	,renderPolygon: function(ctx,easyShape){
+	,renderPolygon: function(ctx,vismoShape){
 		var move = true;
-		var c = easyShape.getCoordinates();
+		var c = vismoShape.getCoordinates();
 		for(var i=0; i < c.length-1; i+=2){
 			if(c[i]=== "M") {
 				i+= 1; 
@@ -464,31 +471,31 @@ var VismoCanvasRenderer = {
 				
 		}
 	}
-	,renderPoint: function(ctx,easyShape){
-		var bb =easyShape.getBoundingBox();
-		ctx.arc(bb.center.x, bb.center.y, easyShape.getRadius(), 0, Math.PI*2,true);
+	,renderPoint: function(ctx,vismoShape){
+		var bb =vismoShape.getBoundingBox();
+		ctx.arc(bb.center.x, bb.center.y, vismoShape.getRadius(), 0, Math.PI*2,true);
 	}
-	,renderImage: function(ctx,easyShape){
-		var c = easyShape.getCoordinates();
-		var bb = easyShape.getBoundingBox();
-		ctx.drawImage(easyShape.image,bb.x1,bb.y1,bb.width,bb.height);
+	,renderImage: function(ctx,vismoShape){
+		var c = vismoShape.getCoordinates();
+		var bb = vismoShape.getBoundingBox();
+		ctx.drawImage(vismoShape.image,bb.x1,bb.y1,bb.width,bb.height);
 	
 
 	}
 }
-var VismoVML = function(easyShape,canvas){
+var VismoVML = function(vismoShape,canvas){
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
-	this.easyShape=  easyShape;
-	var shapetype =easyShape.getShape();
+	this.vismoShape=  vismoShape;
+	var shapetype =vismoShape.getShape();
 
 	if(shapetype == 'point' || shapetype == 'circle'){
-		this._initArc(easyShape,canvas);
+		this._initArc(vismoShape,canvas);
 	}
 	else if(shapetype == 'image'){
-		this._initImage(easyShape,canvas);
+		this._initImage(vismoShape,canvas);
 	}
 	else{
-		this._initPoly(easyShape,canvas);
+		this._initPoly(vismoShape,canvas);
 	}
 	var xspace = parseInt(canvas.width);
 	xspace *=this._iemultiplier;
@@ -496,9 +503,9 @@ var VismoVML = function(easyShape,canvas){
 	yspace *= this._iemultiplier;
 	coordsize = xspace +"," + yspace;
 	this.el.coordsize = coordsize;
-	this.el.easyShape = this.easyShape;
-	var nclass= "easyShape";			
-	if(shapetype == 'path') nclass= "easyShapePath";
+	this.el.vismoShape = this.vismoShape;
+	var nclass= "vismoShape";			
+	if(shapetype == 'path') nclass= "vismoShapePath";
 	this.el.setAttribute("class", nclass);
 	this.style();
 				
@@ -507,20 +514,20 @@ var VismoVML = function(easyShape,canvas){
 };
 
 VismoVML.prototype = {
-	_initImage: function(easyShape,canvas){
+	_initImage: function(vismoShape,canvas){
 
 		var that = this;
-		var dim = easyShape.getDimensions();
+		var dim = vismoShape.getDimensions();
 		var setup = function(){
 			var shape = document.createElement("img");
 			that.el = shape;
-			shape.src = easyShape.getProperty("src");	
+			shape.src = vismoShape.getProperty("src");	
 			jQuery(shape).css({"height": dim.height, "width": dim.width,"position":"absolute","z-index":4});		
 
 		};
 
 		var image = new Image();
-		image.src = easyShape.getProperty("src");
+		image.src = vismoShape.getProperty("src");
 		image.onload = function(e){
 			setup();
 		};
@@ -529,18 +536,18 @@ VismoVML.prototype = {
 		}
 		
 	}
-	,_initArc: function(easyShape,canvas){
-		var shape = document.createElement("easyShapeVml_:arc");
+	,_initArc: function(vismoShape,canvas){
+		var shape = document.createElement("vismoShapeVml_:arc");
 		shape.startAngle = 0;
 		shape.endAngle = 360;
-		var radius =  easyShape.getRadius();
+		var radius =  vismoShape.getRadius();
 		this.el = shape;	
 		jQuery(this.el).css({"height": radius, "width": radius,"position":"absolute","z-index":4});			
 	}
-	,_initPoly: function(easyShape,canvas){
-		var shape = document.createElement("easyShapeVml_:shape");
+	,_initPoly: function(vismoShape,canvas){
+		var shape = document.createElement("vismoShapeVml_:shape");
 		this.el = shape;
-		this.el.setAttribute("name",easyShape.getProperty("name"));
+		this.el.setAttribute("name",vismoShape.getProperty("name"));
 		jQuery(this.el).css({"height": canvas.style.height,"width": canvas.style.width,"position":"absolute","z-index":1});
 	
 	}
@@ -555,10 +562,10 @@ VismoVML.prototype = {
 		var path;
 		
 		var buffer = [];
-		var c =this.easyShape.getCoordinates();
+		var c =this.vismoShape.getCoordinates();
 	
 		if(projection){
-			c = this.easyShape._applyProjection(projection,transformation);
+			c = this.vismoShape._applyProjection(projection,transformation);
 		}
 		
 		if(c.length < 2) return;
@@ -621,9 +628,9 @@ VismoVML.prototype = {
 		var o = transformation.origin, t = transformation.translate,s = transformation.scale;
 		var top,left,width,height;
 
-		var bb = this.easyShape.getBoundingBox();
+		var bb = this.vismoShape.getBoundingBox();
 	
-		if(this.easyShape.getShape() == 'image'){
+		if(this.vismoShape.getShape() == 'image'){
 			dx = bb.x1;
 			dy = bb.y1;
 		}
@@ -645,7 +652,7 @@ VismoVML.prototype = {
 			this._transformDomElement(transformation,projection);
 			return;
 		}
-		if(vml.tagName == 'shape' && (!vml.path || this.easyShape.getShape() =='point')) {
+		if(vml.tagName == 'shape' && (!vml.path || this.vismoShape.getShape() =='point')) {
 			//causes slow down..
 			this._createvmlpathstring(transformation,projection);	
 		}
@@ -715,27 +722,27 @@ VismoVML.prototype = {
 	}
 	,style: function(){
 
-		var shapetype = this.easyShape.getShape();
+		var shapetype = this.vismoShape.getShape();
 
 		var shape = this.el;
 		shape.stroked = "t";
 		shape.strokecolor = "#000000";
-		if(this.easyShape.getProperty("lineWidth")) {
-			shape.strokeweight = this.easyShape.getProperty("lineWidth") + "px";
+		if(this.vismoShape.getProperty("lineWidth")) {
+			shape.strokeweight = this.vismoShape.getProperty("lineWidth") + "px";
 		}
 		else {
 			shape.strokeweight = "1px";
 		}
 		
-		if(!this.easyShape.getProperty("fill") || shapetype == 'path'){
+		if(!this.vismoShape.getProperty("fill") || shapetype == 'path'){
 					return
 		}
-				var fill = this.easyShape.getProperty("fill");
+				var fill = this.vismoShape.getProperty("fill");
 
 				shape.filled = "t";
 					
 				if(!this.vmlfill){
-					this.vmlfill =document.createElement("easyShapeVml_:fill");
+					this.vmlfill =document.createElement("vismoShapeVml_:fill");
 					shape.appendChild(this.vmlfill); 
 				}	
 				//look for rgba fill for transparency

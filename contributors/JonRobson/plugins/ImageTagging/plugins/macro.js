@@ -228,7 +228,7 @@ config.macros.TagImage = {
 			//box.onclick = function(e){cancel();};
 			//box.onmouseup = function(e){cancel();box.style.display = "";};
 			//box.style.display = "none";
-			var onmousedown = function(e,s){ beginmoving = false;selectedshape = s; window.setTimeout(checkformouseup,100);};
+			var onmousedown = function(e,s){ beginmoving = false;selectedshape = s; window.setTimeout(checkformouseup,1000);};
 			var onmouseup = function(e,s){cancel(); window.setTimeout(cancel,200);};
 			el.appendChild(box);
 			clickablecanvas.setOnMouse(onmousedown,onmouseup,move,dblclick,key);

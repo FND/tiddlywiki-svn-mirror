@@ -14,7 +14,7 @@ var VismoGraphNode = function(json){
 	var w = properties.width / 2;
 	var h = properties.height /2;
 	
-	this.easyShape = new VismoShape(properties,[x-w,y-h,x+w,y-h, x+w,y+h,x-w,y+h]);
+	this.vismoShape = new VismoShape(properties,[x-w,y-h,x+w,y-h, x+w,y+h,x-w,y+h]);
 	return false;
 };
 
@@ -51,16 +51,16 @@ VismoGraphNode.prototype = {
 		return properties;
 	}
 	,getVismoShape: function(){
-		return this.easyShape;
+		return this.vismoShape;
 	}
 	,getProperty: function(name){
-		if(!this.easyShape.getProperty(name)) 
+		if(!this.vismoShape.getProperty(name)) 
 			return false;
 		else
-			return this.easyShape.getProperty(name);
+			return this.vismoShape.getProperty(name);
 	}
 	,setProperty: function(name,value){
-		this.easyShape.setProperty(name,value);
+		this.vismoShape.setProperty(name,value);
 	}
 	,getPosition: function(){
 		return this.getProperty("position");
@@ -74,7 +74,7 @@ VismoGraphNode.prototype = {
 		
 		w /=2;
 		h /= 2;
-		this.easyShape.setCoordinates([x-w,y-h,x+w,y-h, x+w,y+h,x-w,y+h]);
+		this.vismoShape.setCoordinates([x-w,y-h,x+w,y-h, x+w,y+h,x-w,y+h]);
 		
 	}
 };

@@ -12,10 +12,10 @@ var VismoGlobe=  function(eMap){
 
 VismoGlobe.prototype = {
 	setGlobeProjection: function(){
-		var easymap = this;
-		easymap._fittocanvas = false;
+		var vismomap = this;
+		vismomap._fittocanvas = false;
 		this.settings.beforeRender = function(t){
-				easymap._createGlobe(easymap.getProjection().getRadius(t.scale ));
+				vismomap._createGlobe(vismomap.getProjection().getRadius(t.scale ));
 		};
 		
 		this.settings.projection= {
@@ -35,7 +35,9 @@ VismoGlobe.prototype = {
 						return res;
 				}
 				,xy: function(x,y,t){
+					
 					var radius =this.getRadius(t.scale);
+					if(!radius || !x || !y || !t) return {x:x,y:y};
 					var res = VismoMapUtils._spherifycoordinate(x,y,t,radius);
 					/*
 					if(res.movedNorth && this.direction >= 0){
@@ -55,8 +57,8 @@ VismoGlobe.prototype = {
 				}
 		};
 		
-		var heightR = parseInt(easymap.wrapper.style.height)  /2;
-		var widthR= parseInt(easymap.wrapper.style.width) /2;
+		var heightR = parseInt(vismomap.wrapper.style.height)  /2;
+		var widthR= parseInt(vismomap.wrapper.style.width) /2;
 		if(widthR > heightR){
 			this.settings.projection.radius = heightR;
 		}
@@ -81,8 +83,8 @@ VismoGlobe.prototype = {
 		f();
 	}
 	,_createGlobe: function(radius){
-		if(!this.canvas.getContext) {return;}
-		var ctx = this.canvas.getContext('2d');
+		if(VismoUtils.browser.isIE) {return;}
+		var ctx = this.vismoClicking.canvas.getContext('2d');
 		if(!ctx) return;
 		var t =this.controller.transformation;
 		var tr =t.translate;
@@ -113,20 +115,20 @@ VismoGlobe.prototype = {
 
 
 
-var VismoSlippyMap = function(easyMap){	
-	easyMap.resize(256,256);
+var VismoSlippyMap = function(vismoMap){	
+	vismoMap.resize(256,256);
 	this.loadedurls = {};
-	this.setupSlippyStaticMapLayer(easyMap);
+	this.setupSlippyStaticMapLayer(vismoMap);
 
-	return easyMap;
+	return vismoMap;
 };
 
 VismoSlippyMap.prototype = {
 	
-	getGoogleMercatorProjection: function(easymap){
+	getGoogleMercatorProjection: function(vismomap){
 		
 		var p = {};
-		p.googleHack = 1/((2 * Math.PI * 6378137) / parseInt(easymap.wrapper.style.width));
+		p.googleHack = 1/((2 * Math.PI * 6378137) / parseInt(vismomap.wrapper.style.width));
 		p.source = new Proj4js.Proj('WGS84');//
 		p.dest = new Proj4js.Proj('GOOGLE');
 		p.resultCache = {};
@@ -139,10 +141,10 @@ VismoSlippyMap.prototype = {
 			return pointDest;
 		}
 
-		p.calculatescalefactor= function(easymapscale,res){
+		p.calculatescalefactor= function(vismomapscale,res){
 			
 			if(!res){ 
-				if(easymapscale <= 1){
+				if(vismomapscale <= 1){
 					return 0;
 				}
 				else{
@@ -150,11 +152,11 @@ VismoSlippyMap.prototype = {
 				}
 			}
 			
-			if(easymapscale <= 1){
+			if(vismomapscale <= 1){
 				return res;
 			}
 			else{
-				var news = easymapscale / 2;
+				var news = vismomapscale / 2;
 				res +=1 ;
 				return this.calculatescalefactor(news,res);
 			}

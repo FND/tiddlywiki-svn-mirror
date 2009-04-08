@@ -16,7 +16,7 @@ var VismoMap = function(wrapper){
 	else wrapper = wrapper;
 		
 	this.wrapper = wrapper;
-	wrapper.easyMap = this;
+	wrapper.vismoMap = this;
 	wrapper.style.position = "relative";
 	var that = this;
 	this.settings = {};
@@ -27,7 +27,7 @@ var VismoMap = function(wrapper){
 
 		
 		
-	this.easyClicking = new VismoClickableCanvas(wrapper);
+	this.vismoClicking = new VismoClickableCanvas(wrapper);
 	this._setupMouseHandlers();
 
 	this.controller = new VismoController(this,this.wrapper);
@@ -45,10 +45,10 @@ var VismoMap = function(wrapper){
 };  
 VismoMap.prototype = {
 	setTransparency: function(alpha){
-		this.easyClicking.setTransparency(alpha);
+		this.vismoClicking.setTransparency(alpha);
 	}
 	,getVismoShapes: function(){
-		return this.easyClicking.getMemory();
+		return this.vismoClicking.getMemory();
 	}
 	,resize: function(width,height){
 		this.wrapper.style.width = width+"px";
@@ -57,7 +57,7 @@ VismoMap.prototype = {
 		t.origin.x = width / 2;
 		t.origin.y = height / 2;
 		this.setTransformation(t);
-		this.easyClicking.resize(width,height);
+		this.vismoClicking.resize(width,height);
 
 		this.clear();
 
@@ -70,7 +70,7 @@ VismoMap.prototype = {
 
 	}
 	,clear: function(deleteMemory){ /* does this work in IE? */
-		this.easyClicking.clear(deleteMemory);
+		this.vismoClicking.clear(deleteMemory);
 	},
 	
 	drawFromGeojson: function(geojson,autosize){
@@ -188,7 +188,7 @@ VismoMap.prototype = {
 			
 		
 		
-		this.easyClicking.setTransformation(this.transformation);
+		this.vismoClicking.setTransformation(this.transformation);
 		this.redraw();
 
 	},
@@ -217,7 +217,7 @@ VismoMap.prototype = {
 		if(this.settings.beforeRender) {
 			this.settings.beforeRender(tran);
 		}
-		this.easyClicking.render(this.settings.projection);
+		this.vismoClicking.render(this.settings.projection);
 		if(this.settings.afterRender) {
 			this.settings.afterRender(tran);
 			
@@ -235,8 +235,8 @@ VismoMap.prototype = {
 		var s = feature.getVismoShapes();		
 		for(var i=0; i < s.length; i++){
 			
-			this.easyClicking.add(s[i]);
-			this.geofeatures[this.easyClicking.getMemoryID(s[i])] = feature;
+			this.vismoClicking.add(s[i]);
+			this.geofeatures[this.vismoClicking.getMemoryID(s[i])] = feature;
 		}	
 
 	},
@@ -251,19 +251,19 @@ VismoMap.prototype = {
 	}
 	,_setupMouseHandlers: function(e){
 		var eMap = this;
-		var _defaultClickHandler = function(e,shape,mousepos,ll,easymap){};	
+		var _defaultClickHandler = function(e,shape,mousepos,ll,vismomap){};	
 		
-		var _defaultMousemoveHandler = function(e,shape,mousepos,ll,feature,key,easymap){
+		var _defaultMousemoveHandler = function(e,shape,mousepos,ll,feature,key,vismomap){
 			if(mousepos){
-				var wid =easymap.wrapper.id+'_tooltip';
+				var wid =vismomap.wrapper.id+'_tooltip';
 				var tt =document.getElementById(wid);
 				if(!tt){
 					tt = document.createElement('div');
 					tt.style.position = "absolute";
 					tt.id = wid;
 					tt.style.zIndex = 4;
-					tt.setAttribute("class","easymaptooltip");
-					easymap.wrapper.appendChild(tt);
+					tt.setAttribute("class","vismomaptooltip");
+					vismomap.wrapper.appendChild(tt);
 				}
 
 				var text ="";
@@ -306,11 +306,11 @@ VismoMap.prototype = {
 			
 			
 			var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
-			if(t.getAttribute("class") == 'easyControl') return false;
-			var shape = eMap.easyClicking.getShapeAtClick(e);
+			if(t.getAttribute("class") == 'vismoControl') return false;
+			var shape = eMap.vismoClicking.getShapeAtClick(e);
 			if(shape) {
 				result.shape = shape;
-				result.feature = eMap.geofeatures[eMap.easyClicking.getMemoryID(shape)];
+				result.feature = eMap.geofeatures[eMap.vismoClicking.getMemoryID(shape)];
 			}
 		
 			
@@ -428,7 +428,7 @@ VismoMap.Feature.prototype = {
 		this.properties = feature.properties;
 		this.geometry = feature.geometry;
 		this.outers = [];
-		this.easyShapes = [];
+		this.vismoShapes = [];
 		var geometry = this.geometry;
 		var type =geometry.type.toLowerCase();
 
@@ -455,11 +455,11 @@ VismoMap.Feature.prototype = {
 	,getOuterVismoShapes: function(){
 		return this.outers;
 	}
-	,addVismoShape: function(easyShape){
-		this.easyShapes.push(easyShape);
+	,addVismoShape: function(vismoShape){
+		this.vismoShapes.push(vismoShape);
 	}
 	,getVismoShapes: function(){
-		return this.easyShapes;
+		return this.vismoShapes;
 	}
 	,_drawGeoJsonMultiPolygonFeature: function(coordinates,feature){
 		var outer;

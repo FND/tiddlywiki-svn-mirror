@@ -16,52 +16,52 @@ var VismoDrawingTools = function(wrapper){
 VismoDrawingTools.prototype = {
 
 	setupMouseHandlers: function(){
-		var easyDrawingTools = this;
+		var vismoDrawingTools = this;
 		var omm = this.wrapper.onmousemove;
 		var omd = this.wrapper.onmousedown;
 		this.wrapper.onmousemove = function(e){
 			if(omm) omm(e);
-			easyDrawingTools.setTooltip(e);
+			vismoDrawingTools.setTooltip(e);
 		};
 		
 		this.wrapper.onmousedown = function(e){
 			if(omd) omd(e);
 			if(!e) e = window.event;
 			if(e.button <= 1){//left mouse
-				var command = easyDrawingTools.getCurrentCommand();
+				var command = vismoDrawingTools.getCurrentCommand();
 				if(command && command.type){
 					if(command.type == 'drawEdge'){
 						if(!command.start){
-							var c = easyDrawingTools.getCommandAction("lineStart");
+							var c = vismoDrawingTools.getCommandAction("lineStart");
 							if(c){
 								var result = c(e,command);
 								command.start = result;
 							}	
 						}
 						else if(!command.end){
-							var c = easyDrawingTools.getCommandAction("lineEnd");
+							var c = vismoDrawingTools.getCommandAction("lineEnd");
 							if(c){
 								c(e,command);
 							}					
-							easyDrawingTools.setCurrentCommand(false);
+							vismoDrawingTools.setCurrentCommand(false);
 						}
 					}
 					else if(command.type == 'delete'){
-						//easyDrawingTools.wrapper.style.cursor = "crosshair";
-						var c = easyDrawingTools.getCommandAction("delete");
+						//vismoDrawingTools.wrapper.style.cursor = "crosshair";
+						var c = vismoDrawingTools.getCommandAction("delete");
 						if(c){c(e);}
 					
 					}
 					else if(command.type == 'newNode'){
-					//	easyDrawingTools.wrapper.style.cursor = "move";
+					//	vismoDrawingTools.wrapper.style.cursor = "move";
 							command.type = 'shapeEnd';
 					}
 					else if(command.type == 'shapeEnd'){
-						var c = easyDrawingTools.getCommandAction("shapeEnd");
+						var c = vismoDrawingTools.getCommandAction("shapeEnd");
 						if(c){
 							c(e,command);
 						}
-						easyDrawingTools.setCurrentCommand(false);
+						vismoDrawingTools.setCurrentCommand(false);
 					}
 					else{
 						//unrecognised command
@@ -71,17 +71,17 @@ VismoDrawingTools.prototype = {
 				
 				}
 				else{
-					var c = easyDrawingTools.getCommandAction("none");
+					var c = vismoDrawingTools.getCommandAction("none");
 					if(c){
 						c(e);
 					}
-					easyDrawingTools.wrapper.style.cursor = "hand";
+					vismoDrawingTools.wrapper.style.cursor = "hand";
 				}
 			
 			}
 			else{//right mouse
-				easyDrawingTools.toolCommand.start = false;
-				var c = easyDrawingTools.getCommandAction("rightmouse");
+				vismoDrawingTools.toolCommand.start = false;
+				var c = vismoDrawingTools.getCommandAction("rightmouse");
 				if(c){
 					c(e);
 				}
@@ -153,38 +153,38 @@ VismoDrawingTools.prototype = {
 		newCanvas.style.width = width;
 		newCanvas.style.height = height;
 		newCanvas.width = width;
-		newCanvas.className ="easyDrawingToolbar";
+		newCanvas.className ="vismoDrawingToolbar";
 		newCanvas.height = height;
 		newCanvas.style.position = "absolute";
 		newCanvas.style.left =this.wrapper.width;
 		newCanvas.style.top = 0;
 		newCanvas.style.zIndex = 3;
-		newCanvas.setAttribute("class","easyDrawingTools");
+		newCanvas.setAttribute("class","vismoDrawingTools");
 		this.wrapper.appendChild(newCanvas);
 
-		newCanvas.easyDrawingTools = this;
-		newCanvas.easyClicking = new VismoClickableCanvas(newCanvas);
+		newCanvas.vismoDrawingTools = this;
+		newCanvas.vismoClicking = new VismoClickableCanvas(newCanvas);
 		
-		var easyDrawingTools = this;
+		var vismoDrawingTools = this;
 		newCanvas.onmousedown = function(e){
 			
-			var s =this.easyClicking.getShapeAtClick(e);
+			var s =this.vismoClicking.getShapeAtClick(e);
 			if(s){
 		
 				switch(s.properties.action){
 					case "save":
-						var action = easyDrawingTools.getCommandAction("save");
+						var action = vismoDrawingTools.getCommandAction("save");
 						if(action) action();
 						break;
 					case "delete":
-						easyDrawingTools.setCurrentCommand({type: "delete"});
+						vismoDrawingTools.setCurrentCommand({type: "delete"});
 						break;
 					case "newLine":
-						easyDrawingTools.setCurrentCommand({type: "drawEdge",start: false, end: false});
+						vismoDrawingTools.setCurrentCommand({type: "drawEdge",start: false, end: false});
 						break;
 					case "newShape":
-						easyDrawingTools.setCurrentCommand({type: "newNode"});
-						var action = easyDrawingTools.getCommandAction("shapeStart");
+						vismoDrawingTools.setCurrentCommand({type: "newNode"});
+						var action = vismoDrawingTools.getCommandAction("shapeStart");
 						if(action) action();
 						break;
 					default:
@@ -218,41 +218,41 @@ VismoDrawingTools.prototype = {
 		var w = width / 2;
 	/*
 		if(p.label == 'line'){
-			p.easyShapeLabel =new VismoShape({shape:'path'}, [left+padding,top+w,left+width-padding,top+w]);			
+			p.vismoShapeLabel =new VismoShape({shape:'path'}, [left+padding,top+w,left+width-padding,top+w]);			
 		}
 		else if(p.label == 'box'){
-			p.easyShapeLabel =new VismoShape({shape:'image',src:'icons/poly.png',width:width,height:height}, [left,top]);			
+			p.vismoShapeLabel =new VismoShape({shape:'image',src:'icons/poly.png',width:width,height:height}, [left,top]);			
 		}
 		else if(p.label == 'save'){
-			p.easyShapeLabel =new VismoShape({shape:'image',src:'icons/save.png', alt:'save'}, [left,top,left+width,top,left+width,top+height,left,top+height]);
+			p.vismoShapeLabel =new VismoShape({shape:'image',src:'icons/save.png', alt:'save'}, [left,top,left+width,top,left+width,top+height,left,top+height]);
 												
 		}
 		else if(p.label == 'cross'){
-			p.easyShapeLabel =new VismoShape({shape:'path',stroke:'rgb(255,0,0)'}, [left+padding,top+height-padding,left+width-padding,top+padding,"M",left+padding,top+padding,left+width-padding,top+height-padding]);			
+			p.vismoShapeLabel =new VismoShape({shape:'path',stroke:'rgb(255,0,0)'}, [left+padding,top+height-padding,left+width-padding,top+padding,"M",left+padding,top+padding,left+width-padding,top+height-padding]);			
 		}
 		else if(p.label == 'dropdown'){
-			p.easyShapeLabel = new VismoShape({shape:'path'}, [left+padding,top+height - 5,left+w,top+height-padding,left+width-padding,top+height - 5]);
+			p.vismoShapeLabel = new VismoShape({shape:'path'}, [left+padding,top+height - 5,left+w,top+height-padding,left+width-padding,top+height - 5]);
 		}*/
 		
 		
 		var c = [left,top, left + width,top,left+width,top+height, left,top+height];
 		var s = new VismoShape(p,c);
 		s.render(canvas);
-		//if(p.easyShapeLabel) p.easyShapeLabel.render(canvas);
+		//if(p.vismoShapeLabel) p.vismoShapeLabel.render(canvas);
 		return s;
 	}
 	,_setup: function(wrapper){
 		var canvas = this._createclickablecanvas(50,parseInt(wrapper.style.height));
-		var easyClicking = canvas.easyClicking;
+		var vismoClicking = canvas.vismoClicking;
 		var width = 20;
 		var height = 20;
 		var padding = 5;
-		easyClicking.add(this._createButton(canvas,5,5,{action:"newShape",label:"box",title: "new node"}));
-		easyClicking.add(this._createButton(canvas,5+(height+padding),5,{action: "newLine", label:"line", title: "new edge"}));
-		easyClicking.add(this._createButton(canvas,5+height+padding,10+width,{action:"changeEdgeType",label:"dropdown2",width:10,height:10,padding:1, title: "edge options"}));
+		vismoClicking.add(this._createButton(canvas,5,5,{action:"newShape",label:"box",title: "new node"}));
+		vismoClicking.add(this._createButton(canvas,5+(height+padding),5,{action: "newLine", label:"line", title: "new edge"}));
+		vismoClicking.add(this._createButton(canvas,5+height+padding,10+width,{action:"changeEdgeType",label:"dropdown2",width:10,height:10,padding:1, title: "edge options"}));
 		
-		easyClicking.add(this._createButton(canvas,5+((height+padding)*2),5,{action: "delete", label:"cross",title: "delete node"}));
-		easyClicking.add(this._createButton(canvas,5+((height+padding) *3),5,{action: "save", label: "save",title: "save drawing"}));
+		vismoClicking.add(this._createButton(canvas,5+((height+padding)*2),5,{action: "delete", label:"cross",title: "delete node"}));
+		vismoClicking.add(this._createButton(canvas,5+((height+padding) *3),5,{action: "save", label: "save",title: "save drawing"}));
 				
 		var tooltip = document.createElement("div");
 		tooltip.style.position = "absolute";	

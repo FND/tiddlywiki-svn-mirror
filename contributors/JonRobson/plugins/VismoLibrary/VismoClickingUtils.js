@@ -55,7 +55,7 @@ var VismoClickingUtils = {
 	{
 		var node = VismoClickingUtils.resolveTarget(e);
 		var first = node;
-		while(node && !node.easyClicking){
+		while(node && !node.vismoClicking){
 			node = node.parentNode;
 		}
 		if(!node) node = first;
@@ -104,7 +104,7 @@ var VismoClickingUtils = {
 		else if(target.height)
 			h = parseInt(target.height);
 	
-		if(!w || !h) throw "target has no width or height (easymaputils)";
+		if(!w || !h) throw "target has no width or height (vismomaputils)";
 	
 		return this.getMouseFromEventRelativeTo(e,w/2,h/2);
 	}	

@@ -602,7 +602,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200904071741" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200904081536" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -618,7 +618,28 @@ Allows the adding of multiple level drop down menus and checkboxes to the edit t
 
 //{{{
 // Ensure that this Plugin is only installed once.
-var fooble;
+
+// create macro object
+(function($) { // set up alias
+
+config.macros.FileTree = { 
+ 
+  // Add a handler function to be invoked by &lt;&lt;listnav TiddlerTitle&gt;&gt; 
+  handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+ 	var el = document.createElement(&quot;div&quot;);
+	try{
+	var p = paramString.parseParams();
+	var connector= getParam(p,&quot;connector&quot;);
+	$(el).fileTree({ root: 'images/', script: connector }, function(file) { 
+				alert(file);
+			});
+	}
+	catch(e){
+		console.log(e);
+	}		
+	place.appendChild(el);
+  }
+};
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
 
@@ -641,7 +662,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		,advancedDropdown: function(){
 			
 		}
-		,handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+		,handler: function(place,macroName,p,wikifier,paramString,tiddler) {
 			var tiddlerDom = story.findContainingTiddler(place);
 			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
 			var ctrlType = getParam(params,&quot;type&quot;,null);
@@ -743,7 +764,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				};
 				var initialValue = &quot;&quot;;
 				initialValue = this.getMetaData(title,metaDataName);
-				var image = new config.macros.AdvancedEditTemplate.EditTemplateImage(place, initialValue,handler);
+				var image = new config.macros.AdvancedEditTemplate.EditTemplateImage(place, paramString,initialValue,handler);
 			}
 
 		}
@@ -1110,7 +1131,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		this.init(place,initial,handler);
 	};
 	config.macros.AdvancedEditTemplate.EditTemplateImage.prototype = {
-		init: function(place,initial,handler){
+		init: function(place,paramString,initial,handler){
 			var holder = document.createElement(&quot;div&quot;);
 			holder.className = &quot;AdvancedEditTemplateImage&quot;;
 			var input = document.createElement(&quot;input&quot;);
@@ -1119,31 +1140,44 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			image.src = initial;
 			var browser = document.createElement(&quot;div&quot;);
 			browser.className = &quot;filebrowser&quot;;
+			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
+                	
+			var root = getParam(params,&quot;root&quot;, null);
+			var connector = getParam(params,&quot;connector&quot;, null);
+		   
+			var home =  getParam(params,&quot;home&quot;, null);
 			
-			var home = &quot;http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/&quot;;
 			input.onchange = function(e){
 				var newsrc = this.value;
 				image.src=  &quot;&quot;;
 				image.src = newsrc;
-				handler(newsrc);
+				if(handler)handler(newsrc);
 			};
-			
+			//var root  ='images/'
+			//var connector = 
+			//var home = http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/
 
-				
+			//	var connector= &quot;http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php&quot;;	
 			holder.appendChild(image);
 			holder.appendChild(input);
 			holder.appendChild(browser);
-			jQuery(browser).fileTree({ root: 'images/', script: home + 'jqueryFileTree.php'}, function(file) { 
+			place.appendChild(holder);
+			var r;
+			if(!home) home = &quot;&quot;;
+			if(root) r =root; else r =&quot;&quot;;
+			$(browser).fileTree({ root: r, script: connector }, function(file) { 
 						input.value = home + file;
 						input.onchange();
-						handler(file);
+					
 			});
-			place.appendChild(holder);
+			
 		}
 	};
-}
+};
+
+
 //}}}
-document.styleSheets['easyColorSlider'] = {cssText: &quot;.easyColorSliderMixBox {border:solid 1px black;}&quot;};
+document.styleSheets['vismoColorSlider'] = {cssText: &quot;.vismoColorSliderMixBox {border:solid 1px black;}&quot;};
 
 var VismoColorSlider = function(wrapper,width,height,changefunction){	
 	wrapper.style.position = &quot;absolute&quot;;
@@ -1238,7 +1272,7 @@ VismoColorSlider.prototype = {
 	}
 	,_createMixBox: function(wrapper,width,height){
 		var s = document.createElement(&quot;div&quot;);
-		s.className = &quot;easyColorSliderMixBox&quot;;
+		s.className = &quot;vismoColorSliderMixBox&quot;;
 		s.style.position = &quot;absolute&quot;;
 		s.style.width = width + &quot;px&quot;;
 		s.style.height = height + &quot;px&quot;;	
@@ -1259,15 +1293,15 @@ VismoColorSlider.prototype = {
 		s.style.width = width + &quot;px&quot;;
 		s.style.height = height + &quot;px&quot;;	
 		s.style.background = color;
-		s.className = &quot;easyColorSlider&quot;;
-		var easycolorslider = this;
+		s.className = &quot;vismoColorSlider&quot;;
+		var vismocolorslider = this;
 		s.onmousedown = function(e){
 			var pos =VismoClickingUtils.getMouseFromEventRelativeToTarget(e,this);
 			var newleft =pos.x + this.style.left;
 			slidebar.style.left = newleft + &quot;px&quot;;
 			var percentage = (pos.x / width)
-			easycolorslider.rgb[color] = parseInt(percentage * 255);		
-			easycolorslider.mixColors();	
+			vismocolorslider.rgb[color] = parseInt(percentage * 255);		
+			vismocolorslider.mixColors();	
 		}
 		wrapper.appendChild(s);
 		wrapper.appendChild(slidebar);
@@ -1351,7 +1385,7 @@ var VismoClickingUtils = {
 	{
 		var node = VismoClickingUtils.resolveTarget(e);
 		var first = node;
-		while(node &amp;&amp; !node.easyClicking){
+		while(node &amp;&amp; !node.vismoClicking){
 			node = node.parentNode;
 		}
 		if(!node) node = first;
@@ -1400,7 +1434,7 @@ var VismoClickingUtils = {
 		else if(target.height)
 			h = parseInt(target.height);
 	
-		if(!w || !h) throw &quot;target has no width or height (easymaputils)&quot;;
+		if(!w || !h) throw &quot;target has no width or height (vismomaputils)&quot;;
 	
 		return this.getMouseFromEventRelativeTo(e,w/2,h/2);
 	}	
@@ -1408,29 +1442,7 @@ var VismoClickingUtils = {
 
 };
 
-</pre>
-</div>
-<div title="JQueryFileTreePlugin" created="200904071725" tags="systemConfig">
-<pre>// create macro object
-(function($) { // set up alias
-
-config.macros.FileTree = { 
- 
-  // Add a handler function to be invoked by &lt;&lt;listnav TiddlerTitle&gt;&gt; 
-  handler: function(place, macroName, params, wikifier, paramString, tiddler) {
- 	var el = document.createElement(&quot;div&quot;);
-	try{
-		
-	$(el).fileTree({ root: 'images/', script: 'http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php'}, function(file) { 
-				alert(file);
-			});
-	}
-	catch(e){
-		console.log(e);
-	}		
-	place.appendChild(el);
-  }
-};// jQuery File Tree Plugin
+// jQuery File Tree Plugin
 //
 // Version 1.01
 //
@@ -1487,7 +1499,8 @@ if(jQuery) (function($){
 					if(window.Components &amp;&amp; window.netscape &amp;&amp; window.netscape.security &amp;&amp; document.location.protocol.indexOf(&quot;http&quot;) == -1)
 						window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
 					
-					$.post(o.script, { dir: t }, function(data) {
+					//changed from post to get
+					$.get(o.script, { dir: t }, function(data) {
 						$(c).find('.start').html('');
 						$(c).removeClass('wait').append(data);
 						if( o.root == t ) $(c).find('UL:hidden').show(); else $(c).find('UL:hidden').slideDown({ duration: o.expandSpeed, easing: o.expandEasing });
@@ -1538,7 +1551,7 @@ if(jQuery) (function($){
 &lt;div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;
-Logo: &lt;span macro='AdvancedEditTemplate type:image metaDataName:logo'&gt;&lt;/span&gt;
+Logo: &lt;span macro=&quot;AdvancedEditTemplate type:image metaDataName:logo home:'http://localhost/ilga/' root:static/images/ connector:'http://localhost/ilga/uploads' &quot;&gt;&lt;/span&gt;
 
 assign this to:
 &lt;span macro='AdvancedEditTemplate type:dropdown metaDataName:assignee valuesSource:DropDownData'&gt;&lt;/span&gt;
@@ -1596,7 +1609,7 @@ For demo purposes: &lt;span macro='view abc'&gt;&lt;/span&gt;
 </div>
 <div title="GettingStarted" approved="true" color="rgb(0,255,0)" assignee="Team 3>Jon Robson:JDLR">
 <pre>
-AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together! &lt;&lt;FileTree&gt;&gt;
+AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together! &lt;&lt;FileTree connector:'http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php'&gt;&gt;
 </pre>
 </div>
 <div title="abcDefinition" tags="sorted">

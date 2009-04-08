@@ -4,7 +4,7 @@ var VismoGraph = function(positionCalculationFunction){
 	this.nodeParents = {};
 	this.nodeChildren = {};
 	
-	var easyGraph = this;
+	var vismoGraph = this;
 	if(!positionCalculationFunction){
 		this.positionCalculationFunction = function(node){
 			
@@ -16,11 +16,11 @@ var VismoGraph = function(positionCalculationFunction){
 			/*
 			var range = 200;
 			var nodepos = {};
-			var parents =easyGraph.getNodeParents(node.id);
-			var partners =VismoGraphUtils.getPartners(node.id,easyGraph);
-			var siblings = VismoGraphUtils.getSiblings(node.id,easyGraph);
+			var parents =vismoGraph.getNodeParents(node.id);
+			var partners =VismoGraphUtils.getPartners(node.id,vismoGraph);
+			var siblings = VismoGraphUtils.getSiblings(node.id,vismoGraph);
 			for(var i=0; i < siblings.length; i++){
-				var sib = easyGraph.getNode(siblings[i]);
+				var sib = vismoGraph.getNode(siblings[i]);
 				var pos = sib.getPosition();
 				if(pos.x){
 					nodepos.x = pos.x;
@@ -28,7 +28,7 @@ var VismoGraph = function(positionCalculationFunction){
 			}
 			
 			for(var i=0; i < partners.length; i++){
-				var partner = easyGraph.getNode(partners[i]);
+				var partner = vismoGraph.getNode(partners[i]);
 				var pos = partner.getPosition();
 				if(pos.x){
 					nodepos.x = pos.x;
@@ -37,7 +37,7 @@ var VismoGraph = function(positionCalculationFunction){
 			
 			for(var i=0; i < parents.length; i++){
 				var parentPos;
-				var parent =easyGraph.getNode(parents[i]);
+				var parent =vismoGraph.getNode(parents[i]);
 				parentPos = parent.getPosition();
 				if(parentPos.x){
 					if(nodepos.x){
@@ -52,7 +52,7 @@ var VismoGraph = function(positionCalculationFunction){
 			if(!nodepos.x) {
 				nodepos.x = 5;
 			}
-			var children =easyGraph.getNodeChildren(node.id); 
+			var children =vismoGraph.getNodeChildren(node.id); 
 			for(var i=0; i < children.length; i++){
 				
 			}

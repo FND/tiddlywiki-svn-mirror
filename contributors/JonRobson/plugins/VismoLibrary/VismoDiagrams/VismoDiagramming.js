@@ -1,13 +1,13 @@
-var VismoDiagram = function(wrapper,easyGraph,controller){
-	if(!easyGraph){
-		easyGraph = new VismoGraph();
+var VismoDiagram = function(wrapper,vismoGraph,controller){
+	if(!vismoGraph){
+		vismoGraph = new VismoGraph();
 	}
 	if(!controller){
 		controller = {
 			renderLabel: function(domElement,value){
 				domElement.innerHTML = value;
 			}
-			,saveHandler: function(easyDiagram,json){
+			,saveHandler: function(vismoDiagram,json){
 				alert(json);
 			}
 		};
@@ -15,7 +15,7 @@ var VismoDiagram = function(wrapper,easyGraph,controller){
 	this.wrapper = wrapper;
 	this.controller = controller;
 	this.tempshapes = {};
-	this.easyShapeToNode = {};
+	this.vismoShapeToNode = {};
 	this.labelContainer = document.createElement("div");
 	this.labelContainer.style.overflow = "hidden";
 	this.labelContainer.style.position = "absolute";
@@ -26,10 +26,10 @@ var VismoDiagram = function(wrapper,easyGraph,controller){
 	wrapper.appendChild(this.labelContainer);
 	
 	
-	this.easyGraph = easyGraph;
+	this.vismoGraph = vismoGraph;
 	this.resizing = {};	
 	wrapper.style.position = "relative";
-	wrapper.className = "easyDiagram";
+	wrapper.className = "vismoDiagram";
 	var width,height;
 	if(!wrapper.style.width){
 		width= 600;
@@ -52,16 +52,16 @@ var VismoDiagram = function(wrapper,easyGraph,controller){
 	this.canvas.style.border = "solid 1px black";
 	
 	this.wrapper.appendChild(this.canvas);
-	this.easyDrawingTools = new VismoDrawingTools(this.wrapper);
+	this.vismoDrawingTools = new VismoDrawingTools(this.wrapper);
 	
-	this.easyClicking = new VismoClickableCanvas(this.wrapper);
+	this.vismoClicking = new VismoClickableCanvas(this.wrapper);
 	this.setupMouseHandlers();
 		
-	this.easyController = new VismoController(this,this.wrapper);
-	this.easyController.addControl("pan");
-	this.easyController.addControl("mousepanning");
-	this.easyController.addControl("mousewheelzooming");
-	this.easyController.addControl("zoom");
+	this.vismoController = new VismoController(this,this.wrapper);
+	this.vismoController.addControl("pan");
+	this.vismoController.addControl("mousepanning");
+	this.vismoController.addControl("mousewheelzooming");
+	this.vismoController.addControl("zoom");
 	this.transform({});
 		
 	
@@ -74,88 +74,88 @@ VismoDiagram.prototype = {
 	_setDrawingCommands: function(){
 		/*helpers*/		
 		var getshape = function(e){
-			var s = easyDiagram.easyClicking.getShapeAtClick(e);
+			var s = vismoDiagram.vismoClicking.getShapeAtClick(e);
 			if(!s) return false;
 			if(s.getProperty("_temp")) return false;
 			var target = VismoClickingUtils.resolveTarget(e);
-			if(target.className == "easyControl") return false;
-			if(target.className == "easyDrawingTools") return false;
+			if(target.className == "vismoControl") return false;
+			if(target.className == "vismoDrawingTools") return false;
 			return s;
 		};
 		
 		/*saving */
-		var easyDiagram = this;
-		var easyGraph = this.getVismoGraph();
+		var vismoDiagram = this;
+		var vismoGraph = this.getVismoGraph();
 		var saveaction = function(){
-			easyDiagram.controller.saveHandler(easyDiagram,easyGraph.burntojson());
+			vismoDiagram.controller.saveHandler(vismoDiagram,vismoGraph.burntojson());
 		};
-		this.easyDrawingTools.setCommandAction("save",saveaction);
+		this.vismoDrawingTools.setCommandAction("save",saveaction);
 		
 		/* move around shapes */
 		var nocommand = function(e){
-			if(easyDiagram.resizing.onNode)return;
+			if(vismoDiagram.resizing.onNode)return;
 			var s = getshape(e);
-			if(s)easyDiagram.selectShape(s);
+			if(s)vismoDiagram.selectShape(s);
 		};
-		this.easyDrawingTools.setCommandAction("none",nocommand);
+		this.vismoDrawingTools.setCommandAction("none",nocommand);
 		
 		/*right click*/
 		var rightclick = function(e){
 		
-			easyDiagram.selectShape(false);
-			easyDiagram.deleteTemporaryShape("pathinprogress");	
+			vismoDiagram.selectShape(false);
+			vismoDiagram.deleteTemporaryShape("pathinprogress");	
 		};	
-		this.easyDrawingTools.setCommandAction("rightmouse",rightclick);
+		this.vismoDrawingTools.setCommandAction("rightmouse",rightclick);
 		
 		/*start line*/
 		var startLine = function(e){
 			var s = getshape(e);
 		
 			if(!s) return;
-			var t = easyDiagram.getTransformation();
+			var t = vismoDiagram.getTransformation();
 			var startpos =VismoClickingUtils.getRealXYFromMouse(e,t);
 			var p = new VismoShape({shape:"path",stroke: '#000000',lineWidth: '1'},[startpos.x,startpos.y,startpos.x,startpos.y]);
-			easyDiagram.addTemporaryShape("pathinprogress",p);
+			vismoDiagram.addTemporaryShape("pathinprogress",p);
 			
 			return s.properties.id;
 		};
-		this.easyDrawingTools.setCommandAction("lineStart",startLine);
+		this.vismoDrawingTools.setCommandAction("lineStart",startLine);
 		
 		/*end line */
 		var endLine = function(e,command){
 			var s = getshape(e); 
 			if(!s) return;
-			easyGraph.addEdge(command.start, s.properties.id);	
-			easyDiagram.deleteTemporaryShape("pathinprogress");
-			easyDiagram.render();
+			vismoGraph.addEdge(command.start, s.properties.id);	
+			vismoDiagram.deleteTemporaryShape("pathinprogress");
+			vismoDiagram.render();
 		}
-		this.easyDrawingTools.setCommandAction("lineEnd",endLine);
+		this.vismoDrawingTools.setCommandAction("lineEnd",endLine);
 		
 		/*shape Start */
 		var newnode = function(e){
 			var uniqueid = Math.random();
-			easyGraph.addNode({id:uniqueid,properties:{label: "new node",fill:"rgb(255,255,255)",shape:'polygon'}});
-			s = easyGraph.getNode(uniqueid).getVismoShape();	
-			easyDiagram.selectShape(s);
-			easyDiagram.render();
+			vismoGraph.addNode({id:uniqueid,properties:{label: "new node",fill:"rgb(255,255,255)",shape:'polygon'}});
+			s = vismoGraph.getNode(uniqueid).getVismoShape();	
+			vismoDiagram.selectShape(s);
+			vismoDiagram.render();
 		};
-		this.easyDrawingTools.setCommandAction("shapeStart",newnode);
+		this.vismoDrawingTools.setCommandAction("shapeStart",newnode);
 		
 		var laynode = function(e){
-			easyDiagram.selectShape(false);
+			vismoDiagram.selectShape(false);
 		}
-		this.easyDrawingTools.setCommandAction("shapeEnd",laynode);
+		this.vismoDrawingTools.setCommandAction("shapeEnd",laynode);
 		/*delete */
 		var deleteCommand = function(e){
 			var s = getshape(e);
-			if(s)easyDiagram.deleteShape(s);	
+			if(s)vismoDiagram.deleteShape(s);	
 		}
-		this.easyDrawingTools.setCommandAction("delete",deleteCommand);
+		this.vismoDrawingTools.setCommandAction("delete",deleteCommand);
 		
 		
 	}
 	,getVismoGraph: function(){
-		return this.easyGraph;
+		return this.vismoGraph;
 	}
 	,getTemporaryShape: function(name){
 		if(!this.tempshapes[name]) 
@@ -163,10 +163,10 @@ VismoDiagram.prototype = {
 		else
 			return this.tempshapes[name];
 	}
-	,addTemporaryShape: function(name,easyShape,clickable){
-		this.tempshapes[name] = easyShape;
+	,addTemporaryShape: function(name,vismoShape,clickable){
+		this.tempshapes[name] = vismoShape;
 		if(clickable){			
-			easyShape.setProperty("_clickable",true);
+			vismoShape.setProperty("_clickable",true);
 		}
 	
 	}
@@ -174,31 +174,31 @@ VismoDiagram.prototype = {
 		delete this.tempshapes[name];
 		
 	}
-	,getNodeFromShape: function(easyShape){
-		if(this.easyShapeToNode[easyShape.properties.id])
-			return this.easyShapeToNode[easyShape.properties.id]
+	,getNodeFromShape: function(vismoShape){
+		if(this.vismoShapeToNode[vismoShape.properties.id])
+			return this.vismoShapeToNode[vismoShape.properties.id]
 		else
 			return false;
 	}
 	,selectShape: function(s){
-		var command =this.easyDrawingTools.getCurrentCommand();
-		var easyDiagram = this;
-		if(s && !easyDiagram.selectedShape){//highlight with box?
+		var command =this.vismoDrawingTools.getCurrentCommand();
+		var vismoDiagram = this;
+		if(s && !vismoDiagram.selectedShape){//highlight with box?
 			if(command.type == 'editlabel' || command.type == 'drawEdge') return;
-			easyDiagram.selectedShape = s;
+			vismoDiagram.selectedShape = s;
 			s.setProperty("_oldcolor",s.getProperty("fill"));
-			easyDiagram.selectedShape.properties.fill = "rgb(255,255,255)";
+			vismoDiagram.selectedShape.properties.fill = "rgb(255,255,255)";
 		}
 		else{
 
-			if(easyDiagram.selectedShape){
-				easyDiagram.selectedShape.properties.fill = easyDiagram.selectedShape.getProperty("_oldcolor");
+			if(vismoDiagram.selectedShape){
+				vismoDiagram.selectedShape.properties.fill = vismoDiagram.selectedShape.getProperty("_oldcolor");
 			}
-			easyDiagram.selectedShape= false;
+			vismoDiagram.selectedShape= false;
 
 		}
 		
-		easyDiagram.render();
+		vismoDiagram.render();
 		
 	}
 
@@ -222,8 +222,8 @@ VismoDiagram.prototype = {
 		}
 
 	}
-	,deleteShape: function(easyShape){
-		var n = this.getNodeFromShape(easyShape);
+	,deleteShape: function(vismoShape){
+		var n = this.getNodeFromShape(vismoShape);
 		
 		if(n.properties.shape != 'path'){
 			var view =n.getProperty("_labelHolder");
@@ -234,28 +234,28 @@ VismoDiagram.prototype = {
 	}
 	
 	,setTransformation: function(t){
-		this.easyController.setTransformation(t);
+		this.vismoController.setTransformation(t);
 	}
 	,getTransformation: function(){
 		return this.tmatrix;
 	}
 	,setupMouseHandlers: function(){
-		var easyDiagram = this;
-		var easyGraph = this.easyGraph;
-		var easyDrawingTools = this.easyDrawingTools;
+		var vismoDiagram = this;
+		var vismoGraph = this.vismoGraph;
+		var vismoDrawingTools = this.vismoDrawingTools;
 		var omm = this.wrapper.onmousemove;
 		var omd = this.wrapper.onmousedown;
 		
 		this.wrapper.onmousemove = function(e){		
 			if(omm) omm(e);				
-			var t = easyDiagram.getTransformation();
+			var t = vismoDiagram.getTransformation();
 		
 			var newpos =VismoClickingUtils.getRealXYFromMouse(e,t);
-			easyDiagram.moveSelectedShapes(newpos.x,newpos.y);
-			easyDiagram.performResizing(e);
+			vismoDiagram.moveSelectedShapes(newpos.x,newpos.y);
+			vismoDiagram.performResizing(e);
 			
-			easyDiagram.drawTemporaryLines(newpos.x,newpos.y);
-			easyDiagram.render();
+			vismoDiagram.drawTemporaryLines(newpos.x,newpos.y);
+			vismoDiagram.render();
 		};
 		
 		var omd = this.wrapper.onmousedown;
@@ -268,15 +268,15 @@ VismoDiagram.prototype = {
 			}
 			
 			if(omd)omd(e);
-			if(easyDiagram.resizing.onNode){
-				easyDiagram.resizing = {};
-				easyDiagram.easyController.enable();
+			if(vismoDiagram.resizing.onNode){
+				vismoDiagram.resizing = {};
+				vismoDiagram.vismoController.enable();
 			}
 			else{
-				var s = easyDiagram.easyClicking.getShapeAtClick(e);
+				var s = vismoDiagram.vismoClicking.getShapeAtClick(e);
 				if(s){	
 					if(s.getProperty("_resizer")){
-						easyDiagram.startResizing(s);
+						vismoDiagram.startResizing(s);
 					}
 				}
 			}
@@ -294,15 +294,15 @@ VismoDiagram.prototype = {
 			var h = newcorner.y - this.resizing.bb.y1;
 			if(w > 0 && h > 0){
 				this.resizing.onNode.setDimensions(w,h);	
-				this.resizing.bb =this.resizing.onNode.easyShape.getBoundingBox();
+				this.resizing.bb =this.resizing.onNode.vismoShape.getBoundingBox();
 				var resizerpos = {x: this.resizing.bb.x2-1, y: this.resizing.bb.y2-1};
 				resizer.setCoordinates([resizerpos.x,resizerpos.y,resizerpos.x + 15,resizerpos.y, resizerpos.x + 15,resizerpos.y + 15,resizerpos.x, resizerpos.y + 15]);
 				
 			}
 		}		
 		var t = VismoClickingUtils.resolveTarget(e);
-		var s =this.easyClicking.getShapeAtClick(e);
-		if(s && !s.getProperty("_temp") && t.className != "easyDrawingTools"){
+		var s =this.vismoClicking.getShapeAtClick(e);
+		if(s && !s.getProperty("_temp") && t.className != "vismoDrawingTools"){
 			var bb = s.getBoundingBox();
 			var resizerpos = {x: bb.x2-2, y:bb.y2-2};
 			
@@ -315,25 +315,25 @@ VismoDiagram.prototype = {
 			resizer.actingOn = s;
 		}
 	}
-	,startResizing: function(easyShape){
+	,startResizing: function(vismoShape){
 		if(!this.resizing.onNode){
-			this.easyController.disable();
-			this.resizing.onNode = this.getNodeFromShape(easyShape.actingOn);	
-			this.resizing.bb =this.resizing.onNode.easyShape.getBoundingBox();
+			this.vismoController.disable();
+			this.resizing.onNode = this.getNodeFromShape(vismoShape.actingOn);	
+			this.resizing.bb =this.resizing.onNode.vismoShape.getBoundingBox();
 		}
 	}
 	,transform: function(matrix){
-		if(this.easyDrawingTools.getCurrentCommand().type == 'editlabel') return;
+		if(this.vismoDrawingTools.getCurrentCommand().type == 'editlabel') return;
 		var o1 = parseInt(this.wrapper.style.width) /2;
 		var o2 = parseInt(this.wrapper.style.height) /2;
 		this.tmatrix = VismoTransformations.clone(matrix);
 		this.tmatrix.origin={x:o1,y:o2};
-		this.easyClicking.setTransformation(this.tmatrix);
+		this.vismoClicking.setTransformation(this.tmatrix);
 		this.render();
 	}
 	
 	,render: function(){
-		this.easyClicking.clearMemory();
+		this.vismoClicking.clearMemory();
 
 		if(this.canvas.getContext){
 			var ctx =this.canvas.getContext('2d');
@@ -342,8 +342,8 @@ VismoDiagram.prototype = {
 		this._renderEdges();
 		
 		
-		for(i in this.easyGraph.nodes){
-			var node = this.easyGraph.nodes[i];
+		for(i in this.vismoGraph.nodes){
+			var node = this.vismoGraph.nodes[i];
 			this._renderNode(node);
 		}
 		this._renderTemporaryShapes();
@@ -355,14 +355,14 @@ VismoDiagram.prototype = {
 			shape =this.tempshapes[i];
 			shape.setProperty("_temp",true);
 			if(shape.getProperty("_clickable")){
-				this.easyClicking.add(shape);
+				this.vismoClicking.add(shape);
 			}
 			shape.render(this.canvas, this.getTransformation());
 		}
 	}
 	,isNodeVisible: function(node){
 		
-		var bb = node.easyShape.getBoundingBox();
+		var bb = node.vismoShape.getBoundingBox();
 		var topleft  =VismoTransformations.applyTransformation(bb.x1, bb.y1,this.tmatrix);
 		var bottomRight  =VismoTransformations.applyTransformation(bb.x2, bb.y2,this.tmatrix);
 		if((bottomRight.x < 0 || bottomRight.x > this.canvas.width || bottomRight.y >this.canvas.height || bottomRight.y < 0)&& (topleft.x < 0 || topleft.x > this.canvas.width || topleft.y >this.canvas.height || topleft.y < 0))
@@ -374,24 +374,24 @@ VismoDiagram.prototype = {
 /*these should be moved out */
 	,_renderEdges: function(directed){
 		var edgeCoords = [];
-		for(i in this.easyGraph.nodes){
+		for(i in this.vismoGraph.nodes){
 			try{
-				var node =this.easyGraph.nodes[i];
+				var node =this.vismoGraph.nodes[i];
 				var npos = node.getPosition();
 				if(!npos.x || !npos.y) {
-					this.easyGraph.calculateNodePositions();
+					this.vismoGraph.calculateNodePositions();
 					this.render();
 					return;
 				}				
 
 
-				var children = this.easyGraph.getNodeChildren(node.id);
+				var children = this.vismoGraph.getNodeChildren(node.id);
 				for(var j=0; j < children.length; j++){
-					var child = this.easyGraph.getNode(children[j]);
+					var child = this.vismoGraph.getNode(children[j]);
 					if(child){
 						var cpos = child.getPosition();
 						if(!cpos.x || !cpos.y) {
-							this.easyGraph.calculateNodePositions();
+							this.vismoGraph.calculateNodePositions();
 							this.render();
 							return;
 						}
@@ -452,8 +452,8 @@ VismoDiagram.prototype = {
 	,_renderNode: function(node){
 	
 		var npos = node.getPosition();
-		var shape = node.easyShape;
-		this.easyShapeToNode[shape.properties.id] = node;
+		var shape = node.vismoShape;
+		this.vismoShapeToNode[shape.properties.id] = node;
 
 		if(!node.getProperty("_labelHolder")){
 			var nodelabel = document.createElement("div");
@@ -463,9 +463,9 @@ VismoDiagram.prototype = {
 			this.labelContainer.appendChild(nodelabel);
 			//this.setLabelHolder(node.id,"label",nodelabel);
 			node.setProperty("_labelHolder",nodelabel);
-			var easyDiagram = this;
+			var vismoDiagram = this;
 			nodelabel.ondblclick = function(e){
-				easyDiagram.openNodeEditor(e,node);
+				vismoDiagram.openNodeEditor(e,node);
 			};
 		}
 		var bb = shape.getBoundingBox();
@@ -488,7 +488,7 @@ VismoDiagram.prototype = {
 				var h = node.getProperty("height") * t.scale.y;
 				viewlabel.style.width =  w+ "px";
 				viewlabel.style.height = h + "px";
-				this.easyClicking.add(shape);
+				this.vismoClicking.add(shape);
 				shape.render(this.canvas,this.getTransformation());
 			}
 			else{
@@ -500,12 +500,12 @@ VismoDiagram.prototype = {
 	,openNodeEditor: function(event,node){
 		this.editing = true;
 		this.selectedShape = false;
-		var easyDrawingTools = this.easyDrawingTools;
-		easyDrawingTools.setCurrentCommand({type:'editlabel'});
-		var easyDiagram = this;
+		var vismoDrawingTools = this.vismoDrawingTools;
+		vismoDrawingTools.setCurrentCommand({type:'editlabel'});
+		var vismoDiagram = this;
 		var changer = function(newcolor){
 			node.setProperty("fill",newcolor);
-			easyDiagram.render();
+			vismoDiagram.render();
 		};
 		
 		if(!this.editorWindow){
@@ -521,7 +521,7 @@ VismoDiagram.prototype = {
 			nodelabeledit.style.position = "relative";
 			this.editorWindow.appendChild(nodelabeledit);
 			this.editorLabel  =nodelabeledit;
-			this.editorColor.easyColorSlider =new VismoColorSlider(this.editorColor,100,20,changer);
+			this.editorColor.vismoColorSlider =new VismoColorSlider(this.editorColor,100,20,changer);
 			var savebutton = document.createElement("button");
 			savebutton.innerHTML = "Save";
 			this.editorSave = savebutton;
@@ -531,12 +531,12 @@ VismoDiagram.prototype = {
 		}
 		
 		this.editorSave.onclick = function(e){
-			easyDiagram.closeNodeEditor(e,node);
+			vismoDiagram.closeNodeEditor(e,node);
 		};
 		
 		this.editorLabel.value = node.getProperty("label");
-		this.editorColor.easyColorSlider.setChangeFunction(changer);
-		this.editorColor.easyColorSlider.setColor(node.getProperty("fill"));
+		this.editorColor.vismoColorSlider.setChangeFunction(changer);
+		this.editorColor.vismoColorSlider.setColor(node.getProperty("fill"));
 		var editorPos =node.getPosition();
 		editorPos = VismoTransformations.applyTransformation(editorPos.x,editorPos.y,this.getTransformation());
 		this.editorWindow.style.left = editorPos.x + "px";
@@ -546,8 +546,8 @@ VismoDiagram.prototype = {
 
 	}
 	,closeNodeEditor: function(event,node){
-		var easyDrawingTools = this.easyDrawingTools;
-		easyDrawingTools.setCurrentCommand(false);		
+		var vismoDrawingTools = this.vismoDrawingTools;
+		vismoDrawingTools.setCurrentCommand(false);		
 
 		this.editorWindow.style.display = "none";
 		

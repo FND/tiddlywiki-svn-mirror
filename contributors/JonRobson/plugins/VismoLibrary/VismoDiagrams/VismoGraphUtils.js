@@ -1,14 +1,14 @@
 var VismoGraphUtils = {
 
-	getPartners: function(id,easyGraph){
+	getPartners: function(id,vismoGraph){
 		var partners = [];
-		var childrenNodes = easyGraph.getNodeChildren(id);
+		var childrenNodes = vismoGraph.getNodeChildren(id);
 		var marked = {};
 		marked[id] = true;
 		
 		for(var i=0; i < childrenNodes.length; i++){
 			var child = childrenNodes[i];
-			var partnerNodes = easyGraph.getNodeParents(child);
+			var partnerNodes = vismoGraph.getNodeParents(child);
 			for(var j=0; j < partnerNodes.length; j++){
 				var partner = partnerNodes[j];
 				
@@ -24,9 +24,9 @@ var VismoGraphUtils = {
 		return partners;
 		
 	}
-	,getSiblings: function(id,easyGraph){
+	,getSiblings: function(id,vismoGraph){
 		
-		var parentnodes = easyGraph.getNodeParents(id);
+		var parentnodes = vismoGraph.getNodeParents(id);
 		
 		var siblings = [];
 		var marked = {};
@@ -34,7 +34,7 @@ var VismoGraphUtils = {
 		
 		for(var i=0; i < parentnodes.length; i++){
 			var parent = parentnodes[i];
-			var siblingNodes = easyGraph.getNodeChildren(parent);
+			var siblingNodes = vismoGraph.getNodeChildren(parent);
 			for(var j=0; j < siblingNodes.length; j++){
 				var sib = siblingNodes[j];
 				

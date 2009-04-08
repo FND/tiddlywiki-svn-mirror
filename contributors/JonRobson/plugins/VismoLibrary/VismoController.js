@@ -29,7 +29,7 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 		controlDiv.style.position = "absolute";
 		controlDiv.style.top = "0";
 		controlDiv.style.left = "0";
-		controlDiv.className = 'easyControls'
+		controlDiv.className = 'vismoControls'
 		this.wrapper.appendChild(controlDiv);
 		this.wrapper.controlDiv = controlDiv;
 	}
@@ -40,7 +40,7 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 	this.transformation.origin.y = parseInt(elem.style.height) / 2;
 	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
-	this.wrapper.easyController = this;
+	this.wrapper.vismoController = this;
 	this.enabled = true;
 	this.addControls(options);
 
@@ -55,7 +55,7 @@ VismoController.prototype = {
 		this.crosshair.pos = {x:0,y:0};
 		this.crosshair.el =document.createElement("div");
 		this.crosshair.el.style.position = "absolute";
-		this.crosshair.el.className = "easyController_crosshair";
+		this.crosshair.el.className = "vismoController_crosshair";
 		this.crosshair.el.appendChild(document.createTextNode("+"));
 		this.crosshair.el.style.zIndex = 3;
 		var t = this.getTransformation();
@@ -185,7 +185,7 @@ VismoController.prototype = {
 				return false;
 		}
 		
-		if(t.getAttribute("class") == "easyControl") return false;
+		if(t.getAttribute("class") == "vismoControl") return false;
 		
 		return true;
 		
@@ -240,13 +240,13 @@ VismoController.prototype = {
 			var target =  VismoClickingUtils.resolveTarget(e);
 			if(!target) return;
 
-			if(target.getAttribute("class") == "easyControl") return;
+			if(target.getAttribute("class") == "vismoControl") return;
 
 			var t = that.transformation.translate;
 			var sc =that.transformation.scale; 
 			var realpos = VismoClickingUtils.getMouseFromEvent(e);
 			if(!realpos) return;
-			this.easyController = that;
+			this.vismoController = that;
 			
 			var element = VismoClickingUtils.resolveTargetWithVismoClicking(e);
 			
@@ -322,7 +322,7 @@ VismoController.prototype = {
 		button.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:0,y:0}});
 		var label = this.createButtonLabel(r,properties.actiontype);
 		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r}});
-		canvas.easyClicking.add(button);
+		canvas.vismoClicking.add(button);
 		return button;
 	},	
 	addControls: function(list){
@@ -360,10 +360,10 @@ VismoController.prototype = {
 		jQuery(newCanvas).css({width: width, height:height,position:"absolute",left:0,top:0,'z-index': 15});
 		newCanvas.width = width;
 		newCanvas.height = height;
-		newCanvas.setAttribute("class","easyControl");
+		newCanvas.setAttribute("class","vismoControl");
 		this.wrapper.appendChild(newCanvas);
-		newCanvas.easyController = this;
-		newCanvas.easyClicking = new VismoClickableCanvas(newCanvas);
+		newCanvas.vismoController = this;
+		newCanvas.vismoClicking = new VismoClickableCanvas(newCanvas);
 		return newCanvas;
 	},
 	addPanningActions: function(controlDiv){
@@ -420,9 +420,9 @@ VismoController.prototype = {
 			e = window.event;
 		}
 		
-		var controller = this.easyController;
+		var controller = this.vismoController;
 	
-		var hit = this.easyClicking.getShapeAtClick(e);	
+		var hit = this.vismoClicking.getShapeAtClick(e);	
 		if(!hit) {
 			return false;
 		}

@@ -1,4 +1,4 @@
-document.styleSheets['easyColorSlider'] = {cssText: ".easyColorSliderMixBox {border:solid 1px black;}"};
+document.styleSheets['vismoColorSlider'] = {cssText: ".vismoColorSliderMixBox {border:solid 1px black;}"};
 
 var VismoColorSlider = function(wrapper,width,height,changefunction){	
 	wrapper.style.position = "absolute";
@@ -93,7 +93,7 @@ VismoColorSlider.prototype = {
 	}
 	,_createMixBox: function(wrapper,width,height){
 		var s = document.createElement("div");
-		s.className = "easyColorSliderMixBox";
+		s.className = "vismoColorSliderMixBox";
 		s.style.position = "absolute";
 		s.style.width = width + "px";
 		s.style.height = height + "px";	
@@ -114,15 +114,15 @@ VismoColorSlider.prototype = {
 		s.style.width = width + "px";
 		s.style.height = height + "px";	
 		s.style.background = color;
-		s.className = "easyColorSlider";
-		var easycolorslider = this;
+		s.className = "vismoColorSlider";
+		var vismocolorslider = this;
 		s.onmousedown = function(e){
 			var pos =VismoClickingUtils.getMouseFromEventRelativeToTarget(e,this);
 			var newleft =pos.x + this.style.left;
 			slidebar.style.left = newleft + "px";
 			var percentage = (pos.x / width)
-			easycolorslider.rgb[color] = parseInt(percentage * 255);		
-			easycolorslider.mixColors();	
+			vismocolorslider.rgb[color] = parseInt(percentage * 255);		
+			vismocolorslider.mixColors();	
 		}
 		wrapper.appendChild(s);
 		wrapper.appendChild(slidebar);

@@ -63,8 +63,7 @@ var VismoOptimisations = {
 		
 	}
   
-	,easyShapeIsInVisibleArea: function(easyShape,canvas,transformation){
-
+	,vismoShapeIsInVisibleArea: function(vismoShape,canvas,transformation){
 		var left = 0,top = 0;
 		var right =  parseInt(canvas.width) + left; 
 		var bottom = parseInt(canvas.height) + top;
@@ -75,7 +74,7 @@ var VismoOptimisations = {
 		frame.bottom = bottomright.y;
 		frame.right = bottomright.x;
 		frame.left = topleft.x;
-		var g = easyShape.getBoundingBox();
+		var g = vismoShape.getBoundingBox();
 		if(g.x2 < frame.left) {
 			return false;}
 		if(g.y2 < frame.top) {
@@ -90,9 +89,10 @@ var VismoOptimisations = {
 		return true;
 	}
 	
-	,easyShapeIsTooSmall: function(easyShape,transformation){
+	,vismoShapeIsTooSmall: function(vismoShape,transformation){
+	
 		if(!transformation ||!transformation.scale) return false;
-		var g = easyShape.getBoundingBox();
+		var g = vismoShape.getBoundingBox();
 		var s = transformation.scale;
 		var t1 = g.x2 -g.x1;
 		var t2 =g.y2- g.y1;

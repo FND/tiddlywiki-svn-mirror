@@ -149,12 +149,12 @@ var VismoMapUtils = {
 	
 		VismoFileUtils.loadRemoteFile(that.googlelocalsearchurl+query,fileloadedcallback);
 	}
-	,getLongLatFromMouse: function(x,y,easyMap){
-		var t =easyMap.controller.transformation;
+	,getLongLatFromMouse: function(x,y,vismoMap){
+		var t =vismoMap.controller.transformation;
 		var pos = VismoClickingUtils.undotransformation(x,y,t);	
 		
-		if(easyMap.settings.projection) {
-			pos = easyMap.settings.projection.inversexy(pos.x,pos.y,t);
+		if(vismoMap.settings.projection) {
+			pos = vismoMap.settings.projection.inversexy(pos.x,pos.y,t);
 		}
 
 		var lo = pos.x;

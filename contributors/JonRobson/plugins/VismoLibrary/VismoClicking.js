@@ -19,11 +19,11 @@ function findScrollY()
 /*
 Following to be renamed as VismoClickableCanvas
 */
-var VismoClickableCanvas = function(element,easyShapesList){
+var VismoClickableCanvas = function(element,vismoShapesList){
 	if(typeof element == 'string') element= document.getElementById(element);
 	if(!element) throw "Element doesn't exist!";
-	if(element.easyClicking) {
-		var update = element.easyClicking;
+	if(element.vismoClicking) {
+		var update = element.vismoClicking;
 		return update;
 	}
 	var wrapper = element;
@@ -40,11 +40,11 @@ var VismoClickableCanvas = function(element,easyShapesList){
 	this.settings.browser = !VismoUtils.browser.isIE ? 'good' : 'ie'
 	this.settings.globalAlpha = 1;
 	this.memory = [];
-	element.easyClicking = this;
+	element.vismoClicking = this;
 
-	if(easyShapesList) {
-		for(var i=0; i < easyShapesList.length; i++){
-			this.add(easyShapesList[i]);
+	if(vismoShapesList) {
+		for(var i=0; i < vismoShapesList.length; i++){
+			this.add(vismoShapesList[i]);
 		}
 	}
 	this.wrapper = wrapper;
@@ -84,7 +84,7 @@ VismoClickableCanvas.prototype = {
 	,_applyMouseBehaviours: function(el){
 		var newbehaviour = function(e){
 				var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
-				if(t.getAttribute("class") == 'easyControl') return false;
+				if(t.getAttribute("class") == 'vismoControl') return false;
 				var shape = that.getShapeAtClick(e);
 				return shape;
 			
@@ -256,10 +256,10 @@ VismoClickableCanvas.prototype = {
 	,setTransformation: function(transformation){
 		if(transformation) this.transformation = transformation;	
 	}
-	,add: function(easyShape){
+	,add: function(vismoShape){
 		if(!this.memory) this.memory = [];
-		this.memory.push(easyShape);
-		easyShape._easyClickingID = this.memory.length;
+		this.memory.push(vismoShape);
+		vismoShape._vismoClickingID = this.memory.length;
 	}
 	,transform: function(t){
 		this.setTransformation(t);
@@ -277,9 +277,9 @@ VismoClickableCanvas.prototype = {
 	getMemory: function(){
 		return this.memory;
 	}
-	,getMemoryID: function(easyShape){
-		if(easyShape && easyShape._easyClickingID)
-			return easyShape._easyClickingID;
+	,getMemoryID: function(vismoShape){
+		if(vismoShape && vismoShape._vismoClickingID)
+			return vismoShape._vismoClickingID;
 		else{
 			return false;
 		}
@@ -291,8 +291,8 @@ VismoClickableCanvas.prototype = {
 		
 		var node = VismoClickingUtils.resolveTarget(e);
 		//alert(node.tagName);
-		if(node.tagName.toUpperCase() == 'SHAPE') { //vml easyShape
-			return node.easyShape;
+		if(node.tagName.toUpperCase() == 'SHAPE') { //vml vismoShape
+			return node.vismoShape;
 		}
 		var target = VismoClickingUtils.resolveTargetWithVismoClicking(e);
 	
@@ -304,8 +304,8 @@ VismoClickableCanvas.prototype = {
 
 		if(this.memory.length > 0){
 			var shape = false;
-			if(target.easyClicking){
-			shape = target.easyClicking.getShapeAtPosition(x,y);
+			if(target.vismoClicking){
+			shape = target.vismoClicking.getShapeAtPosition(x,y);
 			}
 			return shape;
 		} else{
@@ -384,22 +384,22 @@ VismoClickableCanvas.prototype = {
 		}
 
 	}
-	,_inCircle: function(x,y,easyShape){
-		var bb = easyShape.getBoundingBox();
+	,_inCircle: function(x,y,vismoShape){
+		var bb = vismoShape.getBoundingBox();
 
 		var a =((x - bb.center.x)*(x - bb.center.x)) + ((y - bb.center.y)*(y - bb.center.y));
-		var b = easyShape.getRadius();
+		var b = vismoShape.getRadius();
 		b *= b;
 		if (a <= b) return true;
 		else return false;
 	
 	}
-	,_inPoly: function(x,y,easyShape) {
+	,_inPoly: function(x,y,vismoShape) {
 		/* _inPoly adapted from inpoly.c
 		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
 		http://www.visibone.com/inpoly/inpoly.c.txt */
 		var coords;
-		coords = easyShape.getCoordinates();
+		coords = vismoShape.getCoordinates();
 		
 		var npoints = coords.length;
 		if (npoints/2 < 3) {

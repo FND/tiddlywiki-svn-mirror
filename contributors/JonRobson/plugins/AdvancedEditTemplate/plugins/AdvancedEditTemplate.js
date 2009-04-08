@@ -1,19 +1,4 @@
-/***
-|''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
-|''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
-|''Version:''|0.4|
-|''Date:''|02 March 2009|
-|''Source:''|http://www.jonrobson.me.uk|
-|''Author:''|Jon Robson : based on the work by PhilHawksworth (phawksworth (at) gmail (dot) com)|
-|''License:''|[[BSD open source license]]|
-|''CoreVersion:''|2.3|
 
-Allows the adding of multiple level drop down menus and checkboxes to the edit template.
-***/
-
-//{{{
-// Ensure that this Plugin is only installed once.
-var fooble;
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
 
@@ -36,7 +21,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		,advancedDropdown: function(){
 			
 		}
-		,handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+		,handler: function(place,macroName,p,wikifier,paramString,tiddler) {
 			var tiddlerDom = story.findContainingTiddler(place);
 			var params = paramString.parseParams("anon",null,true,false,false);
 			var ctrlType = getParam(params,"type",null);
@@ -138,7 +123,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				};
 				var initialValue = "";
 				initialValue = this.getMetaData(title,metaDataName);
-				var image = new config.macros.AdvancedEditTemplate.EditTemplateImage(place, initialValue,handler);
+				var image = new config.macros.AdvancedEditTemplate.EditTemplateImage(place, paramString,initialValue,handler);
 			}
 
 		}
@@ -505,7 +490,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		this.init(place,initial,handler);
 	};
 	config.macros.AdvancedEditTemplate.EditTemplateImage.prototype = {
-		init: function(place,initial,handler){
+		init: function(place,paramString,initial,handler){
 			var holder = document.createElement("div");
 			holder.className = "AdvancedEditTemplateImage";
 			var input = document.createElement("input");
@@ -514,27 +499,40 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			image.src = initial;
 			var browser = document.createElement("div");
 			browser.className = "filebrowser";
+			var params = paramString.parseParams("anon",null,true,false,false);
+                	
+			var root = getParam(params,"root", null);
+			var connector = getParam(params,"connector", null);
+		   
+			var home =  getParam(params,"home", null);
 			
-			var home = "http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/";
 			input.onchange = function(e){
 				var newsrc = this.value;
 				image.src=  "";
 				image.src = newsrc;
-				handler(newsrc);
+				if(handler)handler(newsrc);
 			};
-			
+			//var root  ='images/'
+			//var connector = 
+			//var home = http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/
 
-				
+			//	var connector= "http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php";	
 			holder.appendChild(image);
 			holder.appendChild(input);
 			holder.appendChild(browser);
-			jQuery(browser).fileTree({ root: 'images/', script: home + 'jqueryFileTree.php'}, function(file) { 
+			place.appendChild(holder);
+			var r;
+			if(!home) home = "";
+			if(root) r =root; else r ="";
+			$(browser).fileTree({ root: r, script: connector }, function(file) { 
 						input.value = home + file;
 						input.onchange();
-						handler(file);
+					
 			});
-			place.appendChild(holder);
+			
 		}
 	};
-}
+};
+
+
 //}}}
