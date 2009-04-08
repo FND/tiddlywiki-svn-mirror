@@ -37,8 +37,7 @@ while( $d=db_fetch_assoc($data) )
 		if(!stristr($d['fields'], "tt_status='Complete") && stristr($d['fields'], "tt_user='".$_REQUEST['user']."'"))
 		{
 			$result .= '<item>
-			<title>'.htmlspecialchars($d['title']).'</title>
-			<description>'.htmlspecialchars($d['body']).'</description>';
+			<title>'.htmlspecialchars($d['title']).'</title>';
 			$tags = tiddler_breakTag($d['tags']);
 			foreach( $tags as $t ) {
 				$result .= '
