@@ -54,8 +54,9 @@ while( $d=db_fetch_assoc($data) )
 }
 $result .= '</channel>
 </rss>';
-//echo $result;
-print str_replace("\n","<br>\n",htmlspecialchars($result));
+echo $result;
+
+//print str_replace("\n","<br>\n",htmlspecialchars($result));
 
 exit;
 ?>
