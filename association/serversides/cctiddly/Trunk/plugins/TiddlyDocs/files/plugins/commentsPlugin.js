@@ -63,14 +63,12 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
   var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "");
   var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
 createTiddlyElement(newCommentArea, "br");
- var addCommentOnClick = function() {
+  var addCommentOnclick = function() {
     var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
     newCommentEl.value = "";
     cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
   };
-
-	createTiddlyButton(newCommentArea, "Add Comment", null, addCommentOnClick);
-
+createTiddlyButton(newCommentArea, "New Comment", "", addCommentOnclick);
 },
 
 makeTextArea: function(container, macroParams) {
@@ -231,15 +229,16 @@ openReplyLink: function(commentTiddler, commentEl, replyLink, macroParams) {
     replyLink.style.display = "block";
   };
 
+
   var replyText =  cmacro.makeTextArea(commentEl.replyEl, macroParams);
-  var submitOnclick = function() { 
+  var submitReplyOnclick = function() { 
     var newComment = cmacro.createComment(replyText.value, commentTiddler, macroParams);
     replyText.value = "";
     closeNewReply.onclick();
     cmacro.refreshComments(commentEl.commentsEl, newComment, macroParams);
   };
-createTiddlyElement(commentEl.replyEl, "br");
-	createTiddlyButton(commentEl.replyEl, "reply", null, submitOnclick);
+
+	createTiddlyButton(commentEl.replyEl, "reply", null, submitReplyOnclick);
 
 
   commentEl.insertBefore(commentEl.replyEl, commentEl.commentsEl);

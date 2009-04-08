@@ -81,12 +81,15 @@ tags: systemTheme
 		<p>
 			A document can take several people to write, so TiddlyDocs lets you break it into sections and spread the bits out across your team.
 		</p>
-	 
-		<img src='http://farm4.static.flickr.com/3461/3348345219_37d4d5ecd3.jpg' height="30px" /><br/><br/>
-		<img src='http://labs.bt.com/projects/agents/zeus/images/BT_200pix_pos.gif' height="40px" /><br/><br/>
-		<img src='http://www.projects.unamesa.org/space/showlogo/1234912128/logo.gif' height="56px" /><br /><br/>
+	 	<br />
+	 	<br />
+	<center>
+	<br />
+		<img src='plugins/TiddlyDocs/files/images/badge_osmosoft.png'/><br/><br/>
+		<img src='plugins/TiddlyDocs/files/images/badge_bt.png'/><br/><br/>
+		<img src='plugins/TiddlyDocs/files/images/badge_unamesa.png'/><br/><br/>
 		
-	
+	</center>
 		</div>
 
 		</div>
@@ -944,6 +947,10 @@ padding-top:0em;
 .providedBy img {
 	padding:2em;
 	padding-top:0em;
+}
+
+.newCommentArea  a.btn {
+	margin-top:0.5em;
 }
 <!--}}}-->
 

@@ -502,7 +502,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		else
 			var breaker = "";
 		var el = createTiddlyElement(document.body, "div", "ccTiddlyTMP", null, null, { "style.display": "none" });
-		el.style.display = "none";  // Just in case the above command is ignored!
+		el.style.display = "none";  // Just in case the above command is ignored
 		var formatter = new Formatter(config.formatters);
 		var wikifier = new Wikifier(tiddler.text,formatter,null,tiddler);
 			wikifier.isStatic = true;
