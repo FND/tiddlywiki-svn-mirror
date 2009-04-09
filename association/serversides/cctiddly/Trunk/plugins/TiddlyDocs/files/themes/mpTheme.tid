@@ -330,7 +330,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-
+html body a {
+	color:#fff;
+}
 .headerShadow {
 	padding:0px;
 }
@@ -564,12 +566,14 @@ width:98.5%;
 
 
 form.wizard, .wizard .wizardFooter{
-		background:#FFFFFF none repeat scroll 0 0 !important;
+		background:#444 none repeat scroll 0 0 !important;
 		border:0px;
+		color:#eee;
+		padding:1em;
 	}
 	div.wizardBody div.wizardStep {
-		border:1px solid #eee;
-		background:#fff;
+		border:1px solid #222;
+		background:#444;
 		padding:1em;
 	}
 		.wizard .button {
@@ -972,7 +976,7 @@ padding-top:0em;
 	
 	<div  style='z-index:2;' class='toolbar' ></div>
 	
-		<div class='wizardViewer' macro='view text wikified'></div>
+		<div class='wizardViewer'  style='background:#444; color:#fff; padding:1em' macro='view text wikified'></div>
 	</div>
 </div>
 <!--}}}-->
