@@ -36,6 +36,5 @@ config = {
         'auth_systems': ['google_user_challenger'],
         # where is a handy css file located
         'css_uri': '/static/tiddlyweb.css',
-        # what is the host and port of our server
         'server_host': server_host,
         }
