@@ -1,16 +1,16 @@
-/***
+﻿/***
 |''Name:''|KoreanTranslationPlugin|
 |''Description:''|Translation of TiddlyWiki into Korean|
 |''Author:''|Snooey(Seongsu Yoon) (tiddlywiki (at) snooey (dot) net)|
 |''Source:''|http://snooey.net/tiddlywiki/locale.ko.js |
 |'' ''|http://snooey.net/tiddlywiki/#KoreanTranslationPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/ko/locale.ko.js |
-|''Version:''|0.5.2|
-|''Date:''|Jan 9, 2009|
+|''Version:''|0.5.2 rev.2|
+|''Date:''|Jan 24, 2009|
 |''Comments:''|If you have suggestion about this translation, please make comments at http://blog.snooey.net/guestbook/ or mail to me |
 |'' ''|another suggestion, please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''~CoreVersion:''|2.4.1|
+|''~CoreVersion:''|2.4.3|
 ***/
 
 /***
@@ -20,12 +20,12 @@
 |''소스:''|http://snooey.net/tiddlywiki/locale.ko.js |
 |'' ''|http://snooey.net/tiddlywiki/#KoreanTranslationPlugin |
 |''코드 저장소:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/ko/locale.ko.js |
-|''버전:''|0.5.2|
+|''버전:''|0.5.2 rev.2|
 |''날짜:''|2009년 1월 9일|
 |''덧글:''|이 번역에 대한 제안이 있으신 경우, http://blog.snooey.net/guestbook/ 또는 제게 메일을 보내주십시요. |
 |'' ''|다른 제안은 http://groups.google.co.uk/group/TiddlyWikiDev으로 보내주십시요. |
 |''라이센스:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''코어 버전:''|2.4.1|
+|''코어 버전:''|2.4.3|
 ***/
 
 //{{{
@@ -38,7 +38,7 @@
 config.locale = "ko"; // W3C 언어 태그
 
 if (config.options.txtUserName == 'YourName') // 이 줄은 번역하지 마시고, 다음 줄부터 번역하십시요.
-	merge(config.options,{txtUserName: "[[이름이 지정되지 않음]]"});
+	merge(config.options,{txtUserName: "이름_지정_필요"});
 
 merge(config.tasks,{
 	save: {text: "저장", tooltip: "이 TiddlyWiki에 변경 사항을 저장합니다", action: saveChanges},
@@ -331,7 +331,7 @@ merge(config.macros.importTiddlers,{
 
 merge(config.macros.upgrade,{
 	wizardTitle: "TiddlyWiki 코어 코드 업그레이드",
-	step1Title: "이 TiddlyWiki를 최근 버전으로 업데이트하거나 수리합니다.",
+	step1Title: "이 TiddlyWiki를 최근 버전으로 업데이트하거나 고칩니다.",
 	step1Html: "새 버전의 TiddlyWiki 코어 코드로 업그레이드하려고 합니다. (위치: <a href='%0' class='externalLink' target='_blank'>%1</a>). 업그레이드되어도 내용은 보존될 것입니다.<br><br>코어 업그레이드가 기존 플러그인과 충돌을 일으킬 수 있음을 주의하십시오. 만약 업그레이드된 파일을 실행하는 데에 문게가 발생한다면, <a href='http://www.tiddlywiki.org/wiki/CoreUpgrades' class='externalLink' target='_blank'>http://www.tiddlywiki.org/wiki/CoreUpgrades</a>를 참고하십시요.",
 	errorCantUpgrade: "이 TiddlyWiki를 업그레이드할 수 없습니다. 로컬로 저장된 TiddlyWiki 파일만 업그레이드를 수행할 수 있습니다.",
 	errorNotSaved: "업그레이드를 수행하기 전에 변경 사항을 저장해야 합니다.",
@@ -463,7 +463,7 @@ merge(config.commands.fields,{
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[처음 사용자용 문서]]",
-	MainMenu: "[[처음 사용자용 문서]]\n\n\n^^~TiddlyWiki 버전 <<version>>\nⓒ 2008 [[UnaMesa|http://www.unamesa.org/]]^^",
+	MainMenu: "[[처음 사용자용 문서]]\n\n\n^^~TiddlyWiki 버전 <<version>>\nⓒ 2009 [[UnaMesa|http://www.unamesa.org/]]^^",
 	"처음 사용자용 문서": "이 빈 TiddlyWiki의 사용을 시작하려면 아래 티들러를 수정해야 합니다.\n* SiteTitle & SiteSubtitle: 상단에 보이는 이 사이트에 제목과 부제목입니다. (저장 후에는 브라우저 타이틀 바에도 보입니다.)\n* MainMenu: 메뉴(대개 왼쪽에 있음)\n* DefaultTiddlers: TiddlyWiki가 열렸을 때 띄울 티들러의 이름을 포함하고 있습니다.\n또한 편집한 티들러에 서명할 사용자 이름을 다음 칸에 해야 합니다. <<option txtUserName>>",
 	SiteTitle: "내 TiddlyWiki",
 	SiteSubtitle: "재사용 가능한 줄없는 개인 웹 공책",
