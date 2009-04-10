@@ -93,18 +93,22 @@ config.BlogLayout.recentTiddlersByTag = function(tagName,maxPosts)
 //this function taken and modified from the original "BlogWiki" plugin (by Anshul Nigham/Clint Checketts http://www.anshul.info/blogwiki.html)
 {
     story.closeAllTiddlers(); //clear screen ready for display
-    
-    var tiddlerNames = store.reverseLookup("tags","systemTiddlers",false,"created");
+    var tiddlerNames;
+	if (tagName)
+	{
+		tiddlerNames = store.reverseLookup("tags",tagName,true,"created");
+	}
+	else
+	{
+		tiddlerNames = store.reverseLookup("tags","systemTiddlers",false,"created");
+	}
     if ((tiddlerNames.length < maxPosts)||(maxPosts == 0))
     {
 		maxPosts = tiddlerNames.length;
     }
     for(var t = tiddlerNames.length-maxPosts;t<=tiddlerNames.length-1;t++)
     {
-        if (tagName == "" || tiddlerNames[t].isTagged(tagName))
-        {
-            story.displayTiddler("top",tiddlerNames[t].title,DEFAULT_VIEW_TEMPLATE,false,false);
-        }
+        story.displayTiddler("top",tiddlerNames[t].title,DEFAULT_VIEW_TEMPLATE,false,false);
     }
 }
 
@@ -139,7 +143,7 @@ config.macros.collapseThisTiddler ={
 config.BlogLayout.collapseRecentByTag = function(tagName,maxPosts,collapsePosts)
 {
     this.recentTiddlersByTag(tagName,maxPosts)
-    if (collapsePosts != "false")
+    if (collapsePosts)
     {
         this.collapseTiddlers();
     }
