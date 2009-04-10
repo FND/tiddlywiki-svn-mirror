@@ -332,7 +332,7 @@ merge(config.macros.importTiddlers,{
 merge(config.macros.upgrade,{
 	wizardTitle: "TiddlyWiki 코어 코드 업그레이드",
 	step1Title: "이 TiddlyWiki를 최근 버전으로 업데이트하거나 고칩니다.",
-	step1Html: "새 버전의 TiddlyWiki 코어 코드로 업그레이드하려고 합니다. (위치: <a href='%0' class='externalLink' target='_blank'>%1</a>). 업그레이드되어도 내용은 보존될 것입니다.<br><br>코어 업그레이드가 기존 플러그인과 충돌을 일으킬 수 있음을 주의하십시오. 만약 업그레이드된 파일을 실행하는 데에 문게가 발생한다면, <a href='http://www.tiddlywiki.org/wiki/CoreUpgrades' class='externalLink' target='_blank'>http://www.tiddlywiki.org/wiki/CoreUpgrades</a>를 참고하십시요.",
+	step1Html: "새 버전의 TiddlyWiki 코어 코드로 업그레이드하려고 합니다. (위치: <a href='%0' class='externalLink' target='_blank'>%1</a>). 업그레이드되어도 내용은 보존될 것입니다.<br><br>코어 업그레이드가 기존 플러그인과 충돌을 일으킬 수 있음을 주의하십시오. 만약 업그레이드된 파일을 실행하는 데에 문제가 발생한다면, <a href='http://www.tiddlywiki.org/wiki/CoreUpgrades' class='externalLink' target='_blank'>http://www.tiddlywiki.org/wiki/CoreUpgrades</a>를 참고하십시요.",
 	errorCantUpgrade: "이 TiddlyWiki를 업그레이드할 수 없습니다. 로컬로 저장된 TiddlyWiki 파일만 업그레이드를 수행할 수 있습니다.",
 	errorNotSaved: "업그레이드를 수행하기 전에 변경 사항을 저장해야 합니다.",
 	step2Title: "업그레이드 사항 확인",
