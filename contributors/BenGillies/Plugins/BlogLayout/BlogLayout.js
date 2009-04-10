@@ -160,14 +160,14 @@ config.macros.recentByTagLink ={
         var tagName, maxPosts, collapsePosts, linkName;
         tagName = params[1] || config.BlogLayout.POST_TAG_NAME;
         maxPosts = params[2] || config.BlogLayout.POST_DISPLAY_COUNT;
-        collpsePosts = params[3] || "true";
+        collapsePosts = params[3] || "true";
         
         linkName = params[0] || tagName;
         
         var tagLink = document.createElement("a");
         tagLink.href = "javascript:;";
         tagLink.onclick = function() {return config.BlogLayout.collapseRecentByTag(tagName,maxPosts,collapsePosts);};
-           tagLink.innerHTML = linkName;
+        tagLink.innerHTML = linkName;
 
         $(place).append(tagLink);
     }
