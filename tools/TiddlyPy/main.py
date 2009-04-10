@@ -28,7 +28,6 @@ TODO:
 * full CRUD functionality
 """
 
-
 import html5lib
 
 from datetime import datetime

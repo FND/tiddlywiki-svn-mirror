@@ -5,7 +5,6 @@ TODO:
 * support for tiddler sections
 """
 
-
 import re
 
 from datetime import datetime

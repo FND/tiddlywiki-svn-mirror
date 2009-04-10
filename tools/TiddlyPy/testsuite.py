@@ -14,7 +14,6 @@ TODO:
 * read modules from directory listing
 """
 
-
 import sys
 import unittest
 import coverage
