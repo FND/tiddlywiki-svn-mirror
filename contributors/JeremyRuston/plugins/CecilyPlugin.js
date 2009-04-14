@@ -439,7 +439,7 @@ function Cecily()
 
 Cecily.prototype.createDisplay = function() {
 	this.overlayMenu = document.getElementById("overlayMenu");
-	this.addEventHandler(this.overlayMenu,"mouseout",this.onMouseOutOverlay,false);
+	jQuery(this.overlayMenu).bind("mouseleave",this,this.onMouseLeaveOverlay);
 	this.loadMap(this.mapTitle);
 	this.container = document.getElementById(story.containerId());
 	this.frame = this.container.parentNode;
@@ -657,12 +657,12 @@ Cecily.prototype.showOverlayMenu = function(pos)
 	this.overlayMenu.style.opacity = "0.9";
 };
 
-Cecily.prototype.onMouseOutOverlay = function(ev)
+Cecily.prototype.onMouseLeaveOverlay = function(ev)
 {
-	if(findRelated(ev.toElement,"overlayMenu","id","parentNode") == null) {
-		this.overlayMenu.style.opacity = "0.0";
-		this.overlayMenu.style.display = "none";
-	}
+	var cecily = ev.data;
+	jQuery(cecily.overlayMenu).css({
+		'opacity' : '0.0',
+		'display' : 'none'});
 };
 
 // Display a given tiddler with a given template. If the tiddler is already displayed but with a different
