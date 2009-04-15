@@ -317,8 +317,11 @@ config.macros.importMediaWiki.showMessage = function(wizard, message) {
 		messageBar.style.paddingBottom = '0px';
 		messageBar.align = 'center';
 		messageBar.style.width = '300px';
+		messageBar.appendChild(document.createTextNode(message));
+	} else {
+		messageBar.replaceChild(document.createTextNode(message),
+		    messageBar.childNodes[0]);
 	}
-	messageBar.textContent = message;
 	return messageBar;
 }
 config.macros.importMediaWiki.showProgressMessage = function(wizard, message) {
@@ -500,19 +503,19 @@ config.macros.importMediaWiki.onDone = function (e)
 	config.macros.importMediaWiki.reinvoke(wizard);
 }
 
-config.macros.importMediaWiki.reinvoke = function(wizard) {
+config.macros.importMediaWiki.reinvoke = function(wizard)
+{
 	var macro = config.macros.importMediaWiki;
 	var main = wizard.formElem.parentNode;
 	main.removeChild(wizard.formElem);
 	var place = document.getElementById(macro.importedTiddlersMessageId);
 	if (place != null) {
-		parent = place.parentNode;
+		var parent = place.parentNode;
 		parent.removeChild(place);
 		macro.handler(parent);
 	} else {
 		macro.handler(main);
 	}
-
 }
 config.macros.importMediaWiki.onReset = function()
 {
