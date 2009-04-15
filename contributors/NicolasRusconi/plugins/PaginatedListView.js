@@ -21,6 +21,7 @@ PaginatedListView = function(place, table, listObject, columnCount)
 	containerCell.colSpan = 3;
 	containerCell.appendChild(table);
 	container.appendChild(this.getPageControlRow(table.tBodies[0], listObject, columnCount));
+	container.appendChild(this.getSelectionControlRow(table.tBodies[0], listObject, columnCount));
 	container.ondblclick = function(e){
 		e.cancelBubble = true;
 	};
@@ -74,11 +75,28 @@ PaginatedListView.prototype.getPageControlRow = function(table, listObject, colu
 	return paggingRow;
 };
 
-PaginatedListView.prototype.getLinks = function(linksSpec)
+PaginatedListView.prototype.getSelectionControlRow = function(table, listObject, columnCount)
+{
+	var selectionRow = createTiddlyElement(null, 'tr', null, PaginatedListView.pageControlStyle);
+	var cell = createTiddlyElement(null, 'td', null, PaginatedListView.selectionLinksSpec.style);
+	selectionRow.appendChild(cell);
+	cell.colSpan = 3;
+	cell.align = 'center';
+	cell.appendChild(document.createTextNode(PaginatedListView.select));
+	this.getLinks(PaginatedListView.selectionLinksSpec, cell);
+	return selectionRow;
+};
+
+PaginatedListView.prototype.getLinks = function(linksSpec, cell)
 {
 	var view = this;
 	var links = linksSpec.links;
-	var paggingItem = createTiddlyElement(null, 'td', null, linksSpec.style);
+	var paggingItem;
+	if (!cell) {
+		paggingItem = createTiddlyElement(null, 'td', null, linksSpec.style);
+	} else {
+		paggingItem = cell;
+	}
 	for (var i=0; i<links.length; i++) {
 		var element = links[i];
 		var link = createTiddlyElement(paggingItem, 'a', null, null, element.label);
@@ -182,7 +200,30 @@ PaginatedListView.prototype.getCheckboxes = function()
 
 PaginatedListView.prototype.forEachSelector = function(callback)
 {
-	var checkboxes = this.getCheckboxes();
+	return this.forEachCheckbox(this.getCheckboxes(), callback);
+};
+
+PaginatedListView.prototype.forEachSelectorInCurrentPage = function(callback)
+{
+	return this.forEachCheckbox(this.getCheckboxesInCurrentPage(), callback);
+};
+
+PaginatedListView.prototype.getCheckboxesInCurrentPage = function()
+{
+	var elementsPerPage = this.getElementsPerPage();
+	var startIndex = this.page * this.getElementsPerPage();
+	var checkboxes = [];
+	for (var i=startIndex; i< startIndex + elementsPerPage && i < this.elements.length; i++) {
+		var cbs = this.elements[i].getElementsByTagName('input');
+		for (var j = 0; j < cbs.length; j++) {
+			checkboxes.push(cbs[j]);
+		};
+	};
+	return checkboxes;
+};
+
+PaginatedListView.prototype.forEachCheckbox = function(checkboxes, callback)
+{
 	var hadOne = false;
 	for(var t=0; t<checkboxes.length; t++) {
 		var cb = checkboxes[t];
@@ -211,6 +252,7 @@ PaginatedListView.prototype.goToFirstPage = function()
 {
 	this.goToPage(0);
 };
+
 PaginatedListView.prototype.goToPreviousPage = function()
 {
 	this.goToPage(this.pageSelect.selectedIndex - 1);
@@ -232,6 +274,41 @@ PaginatedListView.prototype.goToPage = function(pageIndex)
 		this.pageSelect.selectedIndex = pageIndex;
 		this.pageSelect.onchange();
 	}
+};
+
+PaginatedListView.prototype.selectAll = function()
+{
+	this.forEachSelector(function(cb,rowName) {
+		cb.checked = true;
+	});
+};
+
+PaginatedListView.prototype.selectNone = function()
+{
+	this.forEachSelector(function(cb,rowName) {
+		cb.checked = false;
+	});
+};
+
+PaginatedListView.prototype.selectAllInPage = function()
+{
+	this.forEachSelectorInCurrentPage(function(cb){
+		cb.checked = true;
+	});
+};
+
+PaginatedListView.prototype.selectNoneInPage = function()
+{
+	this.forEachSelectorInCurrentPage(function(cb){
+		cb.checked = false;
+	});
+};
+
+PaginatedListView.prototype.invertSelection = function()
+{
+	this.forEachSelector(function(cb,rowName) {
+		cb.checked = !cb.checked;
+	});
 };
 
 PaginatedListView.prototype.elements = [];
@@ -257,7 +334,26 @@ PaginatedListView.previousLabel = 'previous';
 PaginatedListView.nextLabel = 'next';
 PaginatedListView.lastLabel = 'last';
 PaginatedListView.pageDescription = '"%0" to "%1"';
+PaginatedListView.select = 'Select: ';
+PaginatedListView.selectAll = 'All';
+PaginatedListView.selectNone = 'None';
+PaginatedListView.selectAllInPage = 'This page';
+PaginatedListView.selectNoneInPage = 'None in this page';
+PaginatedListView.invertSelection = 'Invert';
 
+PaginatedListView.selectionLinksSpec = {};
+PaginatedListView.selectionLinksSpec.links = [
+		{label:PaginatedListView.selectAll,
+		 func:'selectAll'},
+		{label: PaginatedListView.selectNone,
+		 func:'selectNone'},
+		 {label:PaginatedListView.selectAllInPage,
+		 func:'selectAllInPage'},
+		 {label:PaginatedListView.selectNoneInPage,
+		 func:'selectNoneInPage'},
+		 {label:PaginatedListView.invertSelection,
+		 func:'invertSelection'}];
+		 
 PaginatedListView.forwardLinksSpec = {};
 PaginatedListView.forwardLinksSpec.links = [
 		{label:PaginatedListView.nextLabel,
