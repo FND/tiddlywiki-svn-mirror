@@ -4,6 +4,8 @@ tiddler: ../../plugins/ImportMediaWikiWizard.js
 tiddler: ../../plugins/PaginatedListView.js
 tiddler: ../../plugins/MultiColumnListView.js
 tiddler: ../../adaptors/MediaWikiAdaptorWithTemplatePlugin.js
+tiddler: ../../tests/IntegrationTestRunner.js
+tiddler: ../../tests/MediaWikiIntegrationTests.js
 tiddler: settings.js
 tiddler: MediaWikiFeed.tiddler
 tiddler: SideBarOptions.tiddler
@@ -30,4 +32,3 @@ tiddler: ../../../MartinBudden/styles/wikipediaAbridged.Skins-1.5.monobook.main.
 tiddler: ../../../MartinBudden/styles/wikipediaStyle.js
 tiddler: ../../../MartinBudden/tiddlers/Configuration.tiddler
 tiddler: ../../../MartinBudden/tiddlers/Configuration.SideBarTabs.tiddler
-tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
