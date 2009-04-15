@@ -23,7 +23,7 @@ TestRunner.failedMessage = ' See errors below';
 TestRunner.notRunCountMessage = 'Not run:%0';
 TestRunner.notRunMessage = ' not run.';
 TestRunner.inconsistentTestCountMessage = ' Error running test total test count is %0 and there are %1 tests to run ';
-TestRunner.testDurationMessage = ' Finished after %0 seconds.';
+TestRunner.testDurationMessage = ' Finished after %0 seconds.(%1)';
 TestRunner.testDescriptionMessage = ' (%0 sec) ';
 TestRunner.testAbortedMessage = 'Test run aborted. ';
 TestRunner.saveTestStatusErrorMessage = 'Error running %0 : %1, try running this test alone.';
@@ -225,7 +225,7 @@ TestRunner.displayTestsResults = function() {
 	var startTime = TestRunner.getTestsStartTime();
 	var endTime = new Date();
 	var runningTime = (endTime.getTime() - startTime.getTime()) / 1000;
-	message += TestRunner.testDurationMessage.format([runningTime]);
+	message += TestRunner.testDurationMessage.format([runningTime, endTime]);
 
 	var panel = createTiddlyElement(story.getContainer(),'div','testsResults','tiddler');
 	var topCloseLink = createTiddlyElement(panel,'a','topCloseTestResults','button', 'close');
