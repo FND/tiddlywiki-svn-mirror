@@ -21,6 +21,9 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"announcements", 
 	"SkinnyTiddlers",
 	"seo",
+	"TiddlyDocs",
+	"LDAP",
+	"FCKEditor",
 	"WordpressMigration"
 );
 
@@ -80,6 +83,7 @@ array(	'wikipedia.org',
 		'agilecookbook.com',
 		'trac.tiddlywiki.org',
 		'www.myopenid.com',
+		'newsrss.bbc.co.uk', 
 		'tiddlywiki.abego-software.de',
 		'tiddlyhome.bidix.info',
 		'phiffer.org/projects/tiddly/',

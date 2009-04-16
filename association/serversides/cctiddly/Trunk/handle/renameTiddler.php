@@ -21,7 +21,6 @@ if(@$pluginsLoader->events['preRename'])
 	
 	foreach (@$pluginsLoader->events['preRename'] as $event)
 	{
-		error_log($event);
 		if(is_file($event)) {
 			include($event);
 		}	

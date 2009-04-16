@@ -396,7 +396,6 @@
 			$id = mysql_insert_id();
 			$result = db_tiddlers_backupInsert($tiddler,$stop);
 		}
-		error_log("here2".$id);
 		return $id;
 	}
 	

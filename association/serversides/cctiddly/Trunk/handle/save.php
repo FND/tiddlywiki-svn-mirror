@@ -43,21 +43,17 @@ if(db_tiddlers_mainSelectTitle($ntiddler['title']) || is_numeric($_POST['id']))
 	
 	if($tiddler['revision'] !== $_POST['revision']) {		//ask to reload if the tiddler has been edited it was last downloaded
 		debug($ccT_msg['debug']['reloadRequired'], "save");
-		error_log("!!! tidldler revision is ".$tiddler['revision']." and this was posted : ". $_POST['revision']." on tiddler ".$ntiddler['title']." with id ".$ntiddler['id']);
 		sendHeader(409);
 		exit;
 	}
 
 	if($ntiddler['title']!=$tiddler['title']) // The Tiddler is being renamed.THIS MAY BE REDUNDANT. 
 	{		
-		error_log("ITS A RENAME");
-		
 		if(@$pluginsLoader->events['preRename']) 
 		{
 
 			foreach (@$pluginsLoader->events['preRename'] as $event)
 			{
-				error_log($event);
 				if(is_file($event)) {
 					include($event);
 				}	
@@ -91,7 +87,6 @@ if(db_tiddlers_mainSelectTitle($ntiddler['title']) || is_numeric($_POST['id']))
 		$ntiddler['revision'] = $otiddler['revision']+1;
 		debug("Attempting to update server for tiddler...");
 		unset($ntiddler['workspace_name']); 	// hack to remove the workspace being set twice. 
-		error_log("sSSending SQL ids : ".$tiddler['id'] ." for ".$ntiddler['title']);
 		if(tiddler_update_new($tiddler['id'], $ntiddler)) {
 			sendHeader(201);
 		}
@@ -101,7 +96,6 @@ if(db_tiddlers_mainSelectTitle($ntiddler['title']) || is_numeric($_POST['id']))
 	}
 }else
 {	//This Tiddler does not exist in the database.
-	error_log("TIS IS A NEW ~TIDLER posted rev was :  ".$_POST['revision']." and title is : ".$ntiddler['title']);
 	if( user_insertPrivilege(user_tiddlerPrivilegeOfUser($user,$ntiddler['tags'])) ) 
 	{
 		debug("Inserting New Tiddler...", "save");

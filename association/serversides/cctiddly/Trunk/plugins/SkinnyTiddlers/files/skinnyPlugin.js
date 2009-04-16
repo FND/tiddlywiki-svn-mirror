@@ -65,7 +65,6 @@ Story.prototype.createTiddler = function(place, before, title, template, customF
 		defaultText = this.loadMissingTiddler(title, customFields, tiddlerElem);
 	} else if (store.isShadowTiddler(title)) {
 		// its already a shadow tiddler so we don't need to do anything
-	 	//	console.log("This be a shadow");
 	} 
 	else if(!tiddler.text) { // XXX: faulty check!?
 		defaultText = this.loadMissingTiddlerContents(tiddler);
