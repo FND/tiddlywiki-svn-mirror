@@ -2,7 +2,7 @@
 
 //{{{
 
-config.macros.ccLogin={sha1:true};
+config.macros.ccLogin={sha1:false};
 	
 function isLoggedIn() {
 	if(window.loggedIn)

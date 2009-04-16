@@ -93,7 +93,7 @@ class Plugin {
 			$this->phpEvents[$eventname] = array();
 		array_push($this->phpEvents[$eventname], $fileInclude); 
 	}
-     
+	     
 	public function run() {
 		global $pluginsLoader;  
 		foreach ($this->phpEvents as $eventnames=>$eventArray) {

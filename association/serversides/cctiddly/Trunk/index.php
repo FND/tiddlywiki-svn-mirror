@@ -23,12 +23,11 @@ include_once($cct_base."includes/header.php");
 
 include_once($cct_base."includes/login.php");
 
-
 if($pluginsLoader->events['afterIncludes'])
 {
 	foreach ($pluginsLoader->events['afterIncludes'] as $event)
 	{
-		if(is_file("plugins/".$event))
+			if(is_file("plugins/".$event))
 			include_once("plugins/".$event);	
 	}
 }

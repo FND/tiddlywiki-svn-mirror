@@ -6,7 +6,7 @@ $tiddlyCfg['db']['host'] = "127.0.0.1";		//sql host
 $tiddlyCfg['db']['login'] = "root";		//login name
 
 $tiddlyCfg['db']['pass'] = "";		//login password
-$tiddlyCfg['db']['name'] = "two";		//db name
+$tiddlyCfg['db']['name'] = "two";		//db name 
 $tiddlyCfg['db']['port'] = "3306"; // db port 
 $tiddlyCfg['db']['allow_override'] = true;
 
@@ -32,7 +32,7 @@ $tiddlyCfg['adminPassword'] = "";
 
 $tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 $tiddlyCfg['pref']['renew_session_on_each_request']  = 1; // if enabled will renew users session time on each save request
-$tiddlyCfg['users_required_in_db']=1; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
+$tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
 $tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an account 
 
 // Workspaces
@@ -45,13 +45,6 @@ $tiddlyCfg['use_mod_rewrite'] = 1;  // 1=using mod_rewrite, 0=pass parameter via
 
 $tiddlyCfg['GettingStartedText'] = "To get started with this workspace, you'll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the workspace is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the worksace is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] and [[Permissions]] tiddlers.<<ccEditWorkspace>>";
 
-//LDAP
-
-$tiddlyCfg['pref']['ldap_server'] = '127.0.0.1';	
-$tiddlyCfg['pref']['ldap_enabled'] = 0;	
-$tiddlyCfg['pref']['ldap_username']	= "CN=,OU=functional,OU=btplc,DC=iuser,DC=iroot,DC=adidom,DC=com";
-$tiddlyCfg['pref']['ldap_password'] = "";
-$tiddlyCfg['pref']['ldap_connection_string'] = "";
 $tiddlyCfg['pref']['language'] = "en"; // this is the default language which can be overridden. 
 
 //Deligated Session Managment 
