@@ -130,8 +130,8 @@ version.extensions.SplashScreenPlugin.setup = function()
 	store.setDirty(true);
 };
 
-version.extensions.SplashScreenPlugin.saveChanges = saveChanges;
-function saveChanges()
+version.extensions.SplashScreenPlugin.saveChanges = window.saveChanges;
+window.saveChanges = function()
 {
 	version.extensions.SplashScreenPlugin.setup();
 	version.extensions.SplashScreenPlugin.saveChanges();
