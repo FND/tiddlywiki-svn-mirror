@@ -10,5 +10,5 @@ tiddler: ../../adaptors/AdaptorCommandsPlugin.js
 tiddler: ../../adaptors/ConfluenceAdaptorPlugin.js tags="systemConfig"
 tiddler: ../../formatters/ConfluenceFormatterPlugin.js
 tiddler: ../../../EricShulman/plugins/SinglePageModePlugin.js tags="systemConfig excludeLists excludeSearch"
-tiddler: ../../../SaqImtiaz/verticals/Hesperian/PasswordPromptPlugin.js
+tiddler: ../../../SaqImtiaz/plugins/PasswordPromptPlugin.js
 
