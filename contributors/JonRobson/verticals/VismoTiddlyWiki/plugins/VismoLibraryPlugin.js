@@ -1,0 +1,7 @@
+/* VismoLibrary Plugin
+this plugin bundles together all of the visualisations that are made using the VismoLibrary by Jon Robson
+This includes
+GeoTiddlyWiki
+TagMindMap
+and ImageTaggingPlugin
+*/

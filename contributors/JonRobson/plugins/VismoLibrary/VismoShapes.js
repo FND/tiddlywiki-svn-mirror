@@ -64,6 +64,7 @@ var VismoShape = function(properties,coordinates){
 	this._construct(properties,coordinates);
 	this.browser =false;
 	this.currentResolution = false;
+	this.ready = false;
 };
 
 
@@ -89,8 +90,12 @@ VismoShape.prototype={
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
 		var st = this.getShape();
 		if(pointradius && st == 'point') this.setRadius(pointradius);
+		
 		if(this.getRenderMode(canvas) == 'ie'){
 			this._ierender(canvas,transformation,projection,optimisations); 
+		}
+		else if(st == 'svg'){
+		        this._ierender(canvas.parentNode,transformation,projection,optimisations); 
 		}
 		else{	
 			this._canvasrender(canvas,transformation,projection,optimisations);
@@ -218,7 +223,7 @@ VismoShape.prototype={
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
-		else if(st == 'point' || st == 'circle' | st == 'image'){
+		else if(st == 'point' || st == 'circle' | st == 'image' | st == 'svg'){
 				coords = this.getCoordinates();
 				var x = coords[0]; var y = coords[1]; 
 				var dim = this.getDimensions();
@@ -316,6 +321,33 @@ VismoShape.prototype={
 			vismoShape.setCoordinates([coordinates[0],coordinates[1]]);	
 			
 		}
+		else if(shapetype == 'svg'){
+			var src = this.getProperty("src");
+			if(!src) throw "all svg must carry a property src at minimum";
+                        
+
+			var vismoShape = this;
+			if(src){
+                                var callback = function(a,b,text){
+                                        
+                                        vismoShape.setProperty("_svgcode",text);
+                                        vismoShape.ready = true;
+                                       
+                                };
+                               
+                                VismoFileUtils.loadRemoteFile(src,callback);
+                              
+                        
+                        }
+			var w = vismoShape.getProperty("width"); h=  vismoShape.getProperty("height");
+			if(coordinates.length > 2){
+				w = coordinates[2]; h = coordinates[3];
+			}
+	
+			vismoShape.setDimensions(w,h);
+			vismoShape.setCoordinates([coordinates[0],coordinates[1]]);
+				        
+		}
 		else{
 			console.log("don't know how to construct basic shape " + properties.shape);
 		}			
@@ -344,7 +376,7 @@ VismoShape.prototype={
 				}
 				if(r && r.x)ctx.rotate(r.x);
 			}
-			VismoCanvasRenderer.renderShape(ctx,vismoShape);
+			VismoCanvasRenderer.renderShape(ctx,vismoShape,canvas);
 			
 			if(!vismoShape.getProperty("hidden")) {
 				ctx.strokeStyle = vismoShape.getProperty("stroke")
@@ -434,7 +466,7 @@ VismoShape.prototype={
 };
 
 var VismoCanvasRenderer = {
-	renderShape: function(ctx,vismoShape){
+	renderShape: function(ctx,vismoShape,canvas){
 		var shapetype =vismoShape.getProperty("shape");
 		ctx.beginPath();
 		
@@ -443,6 +475,10 @@ var VismoCanvasRenderer = {
 		}
 		else if(shapetype =='image'){
 			this.renderImage(ctx,vismoShape);
+		}
+		else if(shapetype == 'svg'){
+		        if(!vismoShape.ready) return;
+		        this.renderSVG(canvas,vismoShape);
 		}
 		else{		
 			this.renderPolygon(ctx,vismoShape);	
@@ -482,39 +518,88 @@ var VismoCanvasRenderer = {
 	
 
 	}
+        ,renderSVG: function(canvas,vismoShape){
+                if(!vismoShape.vml){
+                        vismoShape.vml = new VismoVML(vismoShape,canvas);
+                }
+                
+                vismoShape.vml.render(canvas);
+        }
 }
 var VismoVML = function(vismoShape,canvas){
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 	this.vismoShape=  vismoShape;
 	var shapetype =vismoShape.getShape();
-
+        
 	if(shapetype == 'point' || shapetype == 'circle'){
 		this._initArc(vismoShape,canvas);
+		vismoShape.ready = true;
 	}
 	else if(shapetype == 'image'){
 		this._initImage(vismoShape,canvas);
+                vismoShape.ready = true;
+	}
+	else if(shapetype == 'svg'){
+	        this._initSVG(vismoShape,canvas);
 	}
 	else{
 		this._initPoly(vismoShape,canvas);
+		vismoShape.ready = true;
 	}
-	var xspace = parseInt(canvas.width);
-	xspace *=this._iemultiplier;
-	var yspace =parseInt(canvas.height);
-	yspace *= this._iemultiplier;
-	coordsize = xspace +"," + yspace;
-	this.el.coordsize = coordsize;
-	this.el.vismoShape = this.vismoShape;
-	var nclass= "vismoShape";			
-	if(shapetype == 'path') nclass= "vismoShapePath";
-	this.el.setAttribute("class", nclass);
-	this.style();
+	
+	if(!vismoShape.ready) {
+                var that = this;
+                var f = function(){
+                        
+                	var xspace = parseInt(canvas.width);
+                	xspace *=this._iemultiplier;
+                	var yspace =parseInt(canvas.height);
+                	yspace *= this._iemultiplier;
+                	coordsize = xspace +"," + yspace;
+                	that.el.coordsize = coordsize;
+                	that.el.vismoShape = this.vismoShape;
+                	var nclass= "vismoShape";			
+                	if(shapetype == 'path') nclass= "vismoShapePath";
+                	that.el.setAttribute("class", nclass);
+                	that.style();
+                };
+                window.setTimeout(f,1000);
+                return;
+        }
+
 				
 		
 			
 };
 
 VismoVML.prototype = {
-	_initImage: function(vismoShape,canvas){
+        _initSVG: function(vismoShape,canvas){
+        	var that = this;
+		var dim = vismoShape.getDimensions();
+                var shape = document.createElement('object');
+                var waitTillLoaded = function(){
+                        if(!vismoShape.ready){
+                                window.setTimeout(waitTillLoaded,200);
+                                return;
+                        }
+                        else{
+                                shape.setAttribute('type', 'image/svg+xml');
+                                shape.setAttribute('name', 'svg');
+                                shape.setAttribute('codebase', 'http://www.adobe.com/svg/viewer/install/');
+                                //shape.setAttribute('classid', 'clsid:78156a80-c6a1-4bbf-8e6a-3cd390eeb4e2');
+                                var coords = vismoShape.getCoordinates();
+                                shape.setAttribute('style',"overflow:hidden;position:absolute;z-index:10;width:"+ dim.width+";height"+dim.height+";");
+                                var dataString = 'data:image/svg+xml,'+ vismoShape.getProperty("_svgcode");
+                                shape.setAttribute('data', dataString); // the "<svg>...</svg>" returned from Ajax call              
+                        }
+                };
+                
+                waitTillLoaded();
+                this.el = shape;
+                //console.log("init",shape.getAttribute("data"));
+
+        }
+	,_initImage: function(vismoShape,canvas){
 
 		var that = this;
 		var dim = vismoShape.getDimensions();
@@ -656,8 +741,10 @@ VismoVML.prototype = {
 			//causes slow down..
 			this._createvmlpathstring(transformation,projection);	
 		}
-		var o = transformation.origin, t = transformation.translate,s = transformation.scale;
-		
+	        if(!transformation) throw "all vector graphics need a transformation at time of rendering";
+
+	        var o = transformation.origin, t = transformation.translate,s = transformation.scale;
+
 		if(!this.initialStyle) {
 			var initTop = parseInt(vml.style.top);
 			if(!initTop) initTop = 0;
@@ -675,8 +762,7 @@ VismoVML.prototype = {
 			}
 
 		}
-		var initialStyle= this.initialStyle;
-		var style = this.el.style;			
+		var initialStyle= this.initialStyle;			
 		var newtop,newleft;
 		newtop = initialStyle.top;
 		newleft = initialStyle.left;
@@ -701,7 +787,14 @@ VismoVML.prototype = {
 		}
 		
 		jQuery(this.el).css({'left': left, 'top': top, 'width': width, 'height': height});
-		
+		if(this.el.tagName.toUpperCase() == 'OBJECT'){
+		        console.log(width,parseInt(initialStyle.width),newwidth,"hey");
+		        var scalex = width/parseInt(initialStyle.width);
+		        var scaley = height/parseInt(initialStyle.height);
+		        console.log(scalex,scaley);
+		        scalex = 0.1;scaley = 0.1;
+		        this.el.data = this.el.data.replace("<g%20id='transformation'>","<g%20id='transformation'%20transform='scale("+scalex+" "+scaley+")'>")
+		}
 		if(transformation.rotate && transformation.rotate.x)style.rotation = VismoMapUtils._radToDeg(transformation.rotate.x);
 		this._lastTransformation = {scale:{}};
 		this._lastTransformation.scale.x = s.x;
@@ -716,8 +809,9 @@ VismoVML.prototype = {
 			var shape = this.getVMLElement();
 			shape.style.display = "";
 			if(!appendTo){
-				appendTo = canvas;
+				appendTo = canvas.parentNode;
 			}
+		
 			appendTo.appendChild(shape);
 	}
 	,style: function(){

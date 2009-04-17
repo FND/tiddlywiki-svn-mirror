@@ -225,6 +225,7 @@ VismoClickableCanvas.prototype = {
 				 for(var i=0; i < mem.length; i++){
 				
 				 	if(mem[i].optimise(that.canvas,transformation,projection)){
+				 	        if(mem[i].getShape() == 'svg')tran = transformation;
 						mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
 					
 						if(mem[i].vmlfill && that.settings.globalAlpha) {

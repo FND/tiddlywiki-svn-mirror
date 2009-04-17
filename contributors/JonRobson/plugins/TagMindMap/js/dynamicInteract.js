@@ -40,7 +40,7 @@ var Tagmindmap = function(wrapper,settings){
 	
 
 	this._init_html_elements();
-	this.controlpanel =new VismoController(this,wrapper,["pan","zoom"]);
+	this.controlpanel =new VismoController(this,wrapper,["pan","zoom","mousepanning"]);
 	this.ready = false;
 	this.children = {};
 	this.parents = {};
@@ -51,9 +51,10 @@ var Tagmindmap = function(wrapper,settings){
 
 Tagmindmap.prototype = {
 	transform: function(t){
-		if(!this.ready) return false;
 		var compute = false;
 		if(this.settings.zoomLevel != t.scale.x) {
+		        t.translate.x = 0; t.translate.y = 0;
+		        if(this.lastclickednode) this.rgraph.root = this.lastclickednode;
 			if(t.scale.x > 0){			
 				this.settings.zoomLevel = parseFloat(t.scale.x);
 			}
@@ -71,7 +72,7 @@ Tagmindmap.prototype = {
 	_setup: function(settings){
 		
 		
-		this.settings = {'arrowheads':false,'maxNodeNameLength':99999,'breadcrumbs': true,'lineColor':'#ccddee','nodeColor':'#ccddee','zoomLevel':100, 'ignoreLoneNodes':false,'excludeNodeList': ['excludeLists']}; //put all default settings here
+		this.settings = {'animate':true,'arrowheads':false,'maxNodeNameLength':99999,'breadcrumbs': true,'lineColor':'#ccddee','nodeColor':'#ccddee','zoomLevel':100, 'ignoreLoneNodes':false,'excludeNodeList': ['excludeLists']}; //put all default settings here
 		this.settings.tagcloud = {'smallest': 0.8, 'largest': 1.4, 'upper':0, 'off': false}; //upper is the maximum sized node
 	
 		this.graph_showCirclesFlag = false; //shows circles in the mind map
@@ -400,35 +401,33 @@ Tagmindmap.prototype = {
 			,attachClickFunction: function(domElement,node){	
 				if(node.id == this.thehiddenbridge) return;
 				
+				var dblclickfunction = function(event){
+				       //alert("!");
+				        ttmm.callWhenClickOnNode(node,ttmm.wrapper.id,event);
+				};
 				var clickfunction = function(event){
-					
-					if(ttmm.rgraph.root == node.id){ //special case for when node is already centered
-						ttmm.callWhenClickOnNode(node,ttmm.wrapper.id,event);
-						return;	
-					} 
-					else{ //need to center first
-						var t = ttmm.controlpanel.transformation;
-						t.translate = {x:0,y:0};
-						ttmm.controlpanel.setTransformation(t);
-						ttmm.rgraph.onClick(node.id);
-						var todo = function(){
-
-							ttmm.callWhenClickOnNode(node,ttmm.wrapper.id,event);
-						};
-						ttmm._afterComputeFunction = todo;
-									
-
-					}
-					return false;
+						ttmm.createNodeFromJSON(ttmm.dynamicUpdateFunction(node.id));
+                                                if(ttmm.settings.animate){
+        						ttmm.centerOnNode(node.id);
+                                                }
+                                                else{
+                                                        ttmm.lastclickednode = node.id;
+                                                        //ttmm.computeThenPlot();
+                                                        
+                                                }
 				};
 				
 				if(domElement.addEvent){ //for ie
-					domElement.addEvent('click',clickfunction);
+				        //domElement.addEvent('click',clickfunction);
+				        //domElement.addEvent('dblclick',dblclickfunction);
 				}
 				else {
-					domElement.onclick = clickfunction;
+					
+					//domElement.onclick = clickfunction;
+					
 				}
-				
+				domElement.onmousedown = clickfunction;
+                                domElement.ondblclick = dblclickfunction;
 			}
 			,getMaxChildren: function(){
 				var max =0,num;
@@ -523,9 +522,15 @@ Tagmindmap.prototype = {
 						domElement.appendChild(nodeLabel);
 						
 					
-						if(node.data.nodeLabelSuffix) suffix =node.data.nodeLabelSuffix;
-						if(suffix){	
-							suffix.setAttribute("class","nodeLabelSuffix");																						 
+						
+						if(ttmm.settings.globalSuffix){
+						        suffix =ttmm.settings.globalSuffix(node);
+						        suffix.setAttribute("class","nodeLabelSuffix");																						 
+        						domElement.appendChild(suffix);  
+						}
+						if(node.data.nodeLabelSuffix) {
+						        suffix =node.data.nodeLabelSuffix;
+						        suffix.setAttribute("class","nodeLabelSuffix");																						 
 							domElement.appendChild(suffix);		
 						}
 						
@@ -611,7 +616,7 @@ Tagmindmap.prototype = {
   
 		return controller;
 
-},
+        },
 
 	_setupMapIfNeeded: function(lastOpenNode){
 		

@@ -1,0 +1,6 @@
+tiddler: FreeDisplay.js
+recipe: ../../../plugins/JQueryHandyTweaks/plugins/split.recipe
+recipe: ../../../plugins/VismoLibrary/split.recipe
+recipe: ../../../verticals/GeoTiddlyWiki/plugins/condensed.recipe
+recipe: ../../../plugins/TagMindMap/js/condensed.recipe
+recipe: ../../../plugins/ImageTagging/plugins/condensed.recipe

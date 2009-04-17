@@ -13,7 +13,7 @@
 |''Dependencies:''|This plugin requires a tiddler geojson containing geojson data eg.[[geojson]]|
 |''Usage:''|
 
-macro <<geo>>
+macro {{{<<geo>>}}}
 parameters are..
 source {false|<tiddlername containing geodata and tagged with format>}
 usetiddlermetadata {false|true}
@@ -21,7 +21,7 @@ geotagging {false|true}
 id {<identifier name of the map>}
 projection {google|googlestaticmap|globe|spinnyglobe} leave empty for normal projection
 
-macro <<geogoto {longitude} {latitude} {zoomLevel} {geo id}>>
+macro {{{<<geogoto {longitude} {latitude} {zoomLevel} {geo id}>>}}}
 
 |''To Do:''|
 easier navigation around map and searching in map (search bar)

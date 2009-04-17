@@ -53,8 +53,10 @@ VismoController.prototype = {
 		if(VismoUtils.browser.isIE) return;
 		this.crosshair = {lastdelta:false};
 		this.crosshair.pos = {x:0,y:0};
+		if(!this.crosshair.el){
 		this.crosshair.el =document.createElement("div");
-		this.crosshair.el.style.position = "absolute";
+		jQuery(this.crosshair.el).css({position:"absolute",display:"none"});
+		
 		this.crosshair.el.className = "vismoController_crosshair";
 		this.crosshair.el.appendChild(document.createTextNode("+"));
 		this.crosshair.el.style.zIndex = 3;
@@ -63,10 +65,10 @@ VismoController.prototype = {
 		this.crosshair.el.style.top = parseInt(t.origin.y-5) + "px";
 		this.crosshair.el.style.width = "10px";
 		this.crosshair.el.style.height = "10px";
-		this.crosshair.el.style.display = "table";
 		this.crosshair.el.style.verticalAlign = "middle";
 		this.crosshair.el.style.textAlign = "center";
 		this.wrapper.appendChild(this.crosshair.el);
+		}
 		var mw = this.wrapper.onmousewheel;
 		
 
@@ -263,8 +265,13 @@ VismoController.prototype = {
 		
 		jQuery(document).mousemove(function(e){
 			if(panning_status){
-				var t= VismoClickingUtils.resolveTargetWithVismoClicking(e);
-				if(t != that.wrapper)cancelPanning(e);
+			        var parent= e.target;
+			        while(parent.parentNode){
+			                parent = parent.parentNode;
+			                if(parent == that.wrapper) return;
+			        }
+				
+				if(parent != that.wrapper)cancelPanning(e);
 			}
 		});
 	

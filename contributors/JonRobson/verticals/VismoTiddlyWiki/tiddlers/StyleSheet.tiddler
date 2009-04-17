@@ -1,0 +1,17 @@
+<div title="StyleSheet">
+<pre>
+body {font-family:Lucida Grande;}
+.header {background: none;font-size:3em;}
+#sidebar {position:absolute; top: 20px; right:50px;}
+#contentWrapper {margin: 10px;width:1024px;}
+#displayArea {margin: 0em; top:0px;}
+.jQueryTab {border:solid 1px black;}
+.wrapper {border: none;}
+.jQueryTabLink {display:inline; padding-left:10px; padding-right:10px;}
+.moveable { background-color:white; width:700px; z-index:100; top:30px; left:100px;border: solid 1px black;position:absolute;}
+.viewer {overflow:auto;}
+.nodeLabelPrefix {float:left;}
+.nodeLabel {cursor:pointer; float: left;}
+.nodeLabelSuffix {float:left;}
+</pre>
+</div>

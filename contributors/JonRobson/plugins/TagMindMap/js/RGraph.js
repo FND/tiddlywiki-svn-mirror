@@ -1860,8 +1860,6 @@ RGraph.prototype = {
 			var obj = this.getNodeAndParentAngle(id);
 			this.root = id, that = this;
 			this.controller.onBeforeCompute(this.graph.getNode(id));
-
-			console.log("!");
 			var thetaDiff = obj.theta - obj._parent.endPos.theta;
 
 												GraphUtil.eachNode(this.graph, function(elem) {

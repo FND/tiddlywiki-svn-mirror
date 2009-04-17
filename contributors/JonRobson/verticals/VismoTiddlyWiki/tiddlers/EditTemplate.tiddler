@@ -1,0 +1,31 @@
+<div title="EditTemplate">
+<pre>
+<!--{{{-->
+<div class='resizable moveable'>
+	<div class='handler'>
+		<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<div class='title' macro='view title'></div>
+	</div>
+	<div class='editor' macro='edit title'></div>
+	<div macro='annotations'></div>
+
+	<div class='editor' macro='edit text'></div>
+	<div class='editor' macro='edit tags'></div>
+	<div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+	<div class='subtitle'>GeoTiddlyWiki Settings</div>
+	<div macro='edit latitude' class='editor'></div><div class='editorFooter' >latitude coordinate eg. for London put 51.507778</div>
+	<div macro='edit longitude' class='editor'></div><div class='editorFooter' >longitude coordinate eg. for London put -0.12</div>
+	<div macro='edit fill' class='editor'></div><div class='editorFooter'>fill colour for this tiddler</div>
+	<!--End GeoTiddlyWiki Settings-->
+	<div class='subtitle'>TiddlyTagMindMap Node Settings</div>
+	<div class='editor' macro='edit nodetooltip'></div><div class='editorFooter'>set the tooltip shown for this node</div>
+	<div class='editor' macro='edit nodeLabel'></div><div class='editorFooter'>set alternative label for node instead of node name (this will be wikified)</div>
+	<div class='editor' macro='edit nodeprefix'></div><div class='editorFooter'>this will appear wikified and before the node name on the label</div>
+	<div class='editor' macro='edit nodesuffix'></div><div class='editorFooter'>this will appear wikified and after the node name on the label</div>
+	<div class='editor' macro='edit nodeColor'></div><div class='editorFooter'>set color of this node</div>
+	<div class='editor' macro='edit parentColor'></div><div class='editorFooter'>set color of all parents of this node</div>
+	<div class='editor' macro='edit childrenColor'></div><div class='editorFooter'>set color of all children of this node</div>	
+</div>
+<!--}}}-->
+</pre>
+</div>

@@ -236,7 +236,13 @@ config.macros.TagImage = {
 		}
 		,handler: function(place,macroName,paramlist,wikifier,paramString,tiddler){
 			var tiddlerDom = story.findContainingTiddler(place);
-
+			var title;
+			if(tiddlerDom){
+			        title  = tiddlerDom.getAttribute("tiddler");
+			}
+			else{
+			        title = "PageTemplate";
+			} 
 			
 			var src,requestedwidth,requestedheight, maxwidth,maxheight;
 			var params = paramString.parseParams("anon",null,true,false,false);
@@ -254,7 +260,7 @@ config.macros.TagImage = {
 
 			
 			var id= parseInt(getParam(params,"id"));
-			var title = tiddlerDom.getAttribute("tiddler");
+
 			var newel = document.createElement("div");
 			//newel.style.overflow = "hidden";
 			newel.className = "TagImage";

@@ -6,16 +6,21 @@
 <script type='text/javascript' src='VismoOptimisations.js'></script>
 <script type='text/javascript' src='VismoClickingUtils.js'></script>
 <script type='text/javascript' src='VismoTransformations.js'></script>
+<script type='text/javascript' src='VismoFileUtils.js'></script>
 <script type='text/javascript' src='VismoController.js'></script>
 <script type='text/javascript'>
 
 function start(){
 var x = new VismoClickableCanvas('xbrowsercanvas');
 var c = new VismoController(x,'xbrowsercanvas');
+
 x.add(new VismoShape({shape:'polygon',fill:'rgb(255,0,0)'},[0,0,200,0,200,200,0,200]));
 x.add(new VismoShape({shape:'image',src:'test.jpg',width:20,height:20},[-50,20]));
 x.add(new VismoShape({shape:'point',fill:'rgb(0,255,0)'},[-50,-80]));
 x.add(new VismoShape({shape:'circle',fill:'rgb(0,0,255)',onmousedown: function(e,s){if(s)document.getElementById('shapetype').innerHTML = "special " + s.getProperty("shape");}},[-40,0,20]));
+var svg = new VismoShape({shape:'svg',src:'Compass.svg', width:100,height:100},[50,0]);
+console.log(svg);
+x.add(svg);
 
 var down = function(e,s){if(s)document.getElementById('shapetype').innerHTML = s.getProperty("shape");};
 var tags = 0;
@@ -37,7 +42,7 @@ x.render();
 </script>
 </head>
 <body>
-
+<div id='blah'></div>
 <div id='xbrowsercanvas' style='width:300px; height:300px; border:solid 1px black;'></div>
 you clicked on a <span id='shapetype'></span>
 <script>start()</script>

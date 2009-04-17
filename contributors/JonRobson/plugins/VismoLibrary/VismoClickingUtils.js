@@ -23,11 +23,12 @@ var VismoClickingUtils = {
 	}
 	
 	
-	,getMouseFromEvent : function(e){
+	,getMouseFromEvent : function(e,target){
 			if(!e) e = window.event;
-			var target = this.resolveTargetWithVismoClicking(e);
-			if(!target)return false;
-
+			if(!target){
+			        var target = this.resolveTargetWithVismoClicking(e);
+			        if(!target)return false;
+                        }
 			var offset = jQuery(target).offset();
 
 			

@@ -30,6 +30,9 @@ There are a variety of configuration options in the backstage area under tweak. 
 !!Parameters
 tiddlytagmindmap takes several (but all optional) parameters. Some examples can be seen below, note the order is irrelevant of these parameters.
 
+!!!Animation
+You can turn animation on/off by using animate:true or animate:false. By default it is on.
+
 !!!Nodes and Edges
 !!!!Directional edges 
 The directed parameter allows you to add arrowheads to your edges. usage: {{{<< tiddlytagmindmap directed:true>>}}}
@@ -41,10 +44,13 @@ notagcloud:true as a parameter will flatten the nodes to have the same size font
 
 !!!Dimensions
 {{{<<tiddlytagmindmap height:100 width:100>>}}} will set a tiddlytagmindmap with height and width 100.
-
+ 
 !!!Zooming
 A parameter zoom allows you to specify an integer representing the initial inflation of the mind map. The smaller it is - the closer the nodes will be together.
 {{{<<tiddlytagmindmap zoom:1000>>}}} will give you a very inflated TagMindMap!
+
+!!!Tiddler Pop ups
+You can now preview a tiddler by using popup:true
 
 !!!Breadcrumb trail
 You can turn visited nodes red when they are clicked on by using the {{{breadcrumb:true}}} parameter by default this is false.
@@ -64,6 +70,11 @@ The first two options are simple strings eg.
 {{{<<tiddlytagmindmap startState:empty>>}}} loads a blank tag mind map however {{{<<tiddlytagmindmap startState:all>>}}} loads all nodes excluding those in the exclude List.
 the latter is more interesting. Have a look at [[Example 2]]!
 !Revision History
+1.6
+  * can now preview tiddlers in place using popup:true
+  * can turn off animations using animate:false
+  * double click opens a node, single click reveals any new nodes and/or performs animations
+  * fixed mouse panning
 1.5 xx/xx 
 	*Ability to add arrow heads to show direction
 	*better performance

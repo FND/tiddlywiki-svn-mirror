@@ -168,10 +168,10 @@ config.macros.tiddlytagmindmap={
 		settings.tagcloud = {off:false};
 		settings.width = config.options.txtTTMM_canvasWidth;
 		settings.height =config.options.txtTTMM_canvasHeight;
-		settings.toolbar = "010";
+		settings.toolbar = "000";
 		settings.zoomLevel = parseInt(config.options.txtTTMM_inflation);
 		settings.breadcrumbs = config.options.chkTTMM_leaveRedBreadCrumbTrail;
-		
+		settings.animate = true;
 		var clickfunction = function(node,id,e){
 			//var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
 			story.displayTiddler(null, node.id,null,null,null,null,null,id);
@@ -196,7 +196,7 @@ config.macros.tiddlytagmindmap={
 			settings.ignoreLoneNodes = eval(getParam(prms, "ignoreLoneNodes"));
 			settings.arrowheads = eval(getParam(prms, "directed"));
 			settings.tagcloud.off = eval(getParam(prms, "notagcloud"));
-		
+		        if(getParam(prms,"animate")) settings.animate = eval(getParam(prms,"animate"));
 			if(getParam(prms, "id")) settings.id = getParam(prms, "id");	
 			if(getParam(prms, "width")) settings.width = getParam(prms, "width");
 			if(getParam(prms, "height"))settings.height = getParam(prms, "height");
@@ -209,19 +209,44 @@ config.macros.tiddlytagmindmap={
 				settings.emptyTiddlerColor =getParam(prms,"emptyTiddlerColor");
 			}
 			
-			if(getParam(prms, "click") == "none") {
-				settings.clickFunction = function(node,id){return;} ;	
+
+			var clickfunction;
+			if(!getParam(prms, "click")){
+			        
+			        clickfunction = function(node,id,e){
+			        	var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
+					story.displayTiddler(tiddlerElem, node.id,null,null,null,null,null,id);
+					return;
+                		};
+                                
 			}
 			else if(getParam(prms, "click") == "existing") {
-				settings.clickFunction = function(node,id,e){
+			       
+				clickfunction = function(node,id,e){
 					if(!node.data.emptyTiddler){
-						//var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
-						story.displayTiddler(null, node.id,null,null,null,null,null,id);
+						var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
+						story.displayTiddler(tiddlerElem, node.id,null,null,null,null,null,id);
 					}
+					
 					return;
-					} ;	
+				};
 			}
+			else if(getParam(prms,"click") == "none"){
+			        clickfunction = function(node,id,e){};
+			}
+			
+			settings.clickFunction = clickfunction;
 
+                        if(getParam(prms,"popup")) {
+                                settings.globalSuffix = function(node){
+                                        
+                                        var place = document.createElement("div");
+                                        var tiddler = store.getTiddler(node.id);
+                                        if(!tiddler) tiddler = config.shadowTiddlers[node.id];
+                                        if(tiddler)createTiddlyPopup(place,"",node.id,tiddler);
+                                        return place;
+                                };
+			}
 			var startState = getParam(prms, "startState");
 			if(startState){
 				if(startState == 'all')
@@ -523,7 +548,7 @@ story.displayTiddler = function(srcElement,tiddler,template,animate,unused,custo
 			}
 		}
 		catch(e){
-			console.log("exception in display tiddler for "+title+" in visualisation" + visualisationID +": " + e);
+			//console.log("exception in display tiddler for "+title+" in visualisation" + visualisationID +": " + e);
 		}
 	}
 	story.beforettmm_displayTiddler(srcElement,tiddler,template,animate,unused,customFields,toggle);

@@ -1,6 +1,8 @@
 <div title="StyleSheet" modifier="JonRobson" tags="[[Optional Code]]">
 <pre>
-.nodeLabel {cursor:pointer;}
+.nodeLabelPrefix {float:left;}
+.nodeLabel {cursor:pointer; float: left;}
+.nodeLabelSuffix {float:left;}
 .nodeLabel:hover {color:#ff0000;}
 .ttmm {border: solid;border_width : 1px;}
 .ttmm_toolbar {}
