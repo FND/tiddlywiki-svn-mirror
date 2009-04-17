@@ -208,7 +208,7 @@ label {
 	-moz-border-radius-topleft:2px;
 	-moz-border-radius-topright:2px;
 	background:#151515 url(http://tapbots.com/images-global/blog/bg_inputbox.png) repeat-x scroll 0 0;
-	border:1px solid #333333;
+	border:1px solid #555;
 	color:#AAAAAA;
 	font-family:helvetica,arial,sans-serif;
 	float:right;
@@ -296,11 +296,12 @@ h1 {
 
 h1, h2, h3, h4, h5, h6 {
 	background:transparent none repeat scroll 0 0;
-	color:#666;
+	color:#eee;
 }
 
 .wizard h1 {
 	line-height:1.1em;
+	color:#eee;
 }
 #headContainer{
 	position:relative;
@@ -381,7 +382,7 @@ body {
  .deleteHelper {
 	background-color:red;
 	border:2px dashed #777777;
-	color:white;
+	color:#333;
 }
 .left {
 	text-align: left;
@@ -408,16 +409,17 @@ body {
 	height:3px !important;
 	padding:0.6em;
 	*/
+	
 	border:2px dashed #777777;
 	}
 
 	.deleteZoneClass {
 		background: #3f3f3f url(plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat bottom right;
-		color:#eee;
 		text-align:left;
 		padding:0.5em 1em 1em;
 		margin:1em;
 		border:1px solid #555;
+		color:#eee;	
 	}
 
 	.deleteHelper {
@@ -425,6 +427,7 @@ body {
 		background-image : url(plugins/TiddlyDocs/files/images/bin_empty.png);
 		font-weight:bold;
 		border:1px solid red;
+		color:#222;
 	}
 	.sort-handle-edit {
 		border:1px solid #C7C7C7;

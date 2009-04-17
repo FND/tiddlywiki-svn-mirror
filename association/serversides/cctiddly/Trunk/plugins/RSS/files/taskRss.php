@@ -20,9 +20,9 @@ $data = $tmp;
 $siteUrl = getUrl().$tiddlyCfg['workspace_name'];
 $result = '<?xml version="1.0"?><rss version="2.0"  xmlns:atom="http://www.w3.org/2005/Atom"><channel>
 <atom:link href="http://simonmcmanus.com/TiddlyDocsDemo/index.xml?user=josh" type="application/rss+xml" />
-<title>'.(isset($data['SiteTitle'])?htmlspecialchars($data['SiteTitle']['body']):"My TiddlyWiki").'</title>
+<title>'.(isset($data['SiteTitle'])?htmlspecialchars($data['SiteTitle']['body']):"TiddlyDocs").'</title>
 <link>'.$siteUrl.'</link>
-<description>'.(isset($data['SiteSubtitle'])?htmlspecialchars($data['SiteSubtitle']['body']):"a reusable non-linear personal web notebook").'</description>
+<description>'.(isset($data['SiteSubtitle'])?htmlspecialchars($data['SiteSubtitle']['body']):"a list of the sections assigned to you.").'</description>
 <pubDate>Wed, 02 Oct 2002 13:00:00 GMT</pubDate>
 <lastBuildDate>Wed, 02 Oct 2002 13:00:00 GMT</lastBuildDate>
 <generator>ccTiddly '.$tiddlyCfg['version'].'</generator>';
