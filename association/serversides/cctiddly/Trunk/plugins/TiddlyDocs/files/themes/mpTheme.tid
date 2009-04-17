@@ -194,7 +194,7 @@ label {
 	-moz-border-radius-topleft:2px;
 	-moz-border-radius-topright:2px;
 	background:#444444 none repeat scroll 0 0;
-	border:1px solid #666666;
+	border:1px solid #777;
 	color:#FFFFFF;
 	font-size:0.8em;
 	line-height:1.5em;
@@ -208,8 +208,8 @@ label {
 	-moz-border-radius-topleft:2px;
 	-moz-border-radius-topright:2px;
 	background:#151515 url(http://tapbots.com/images-global/blog/bg_inputbox.png) repeat-x scroll 0 0;
-	border:1px solid #555;
-	color:#AAAAAA;
+	border:1px solid #777;
+	color:#777;
 	font-family:helvetica,arial,sans-serif;
 	float:right;
 	margin-bottom:0.7em;
@@ -490,13 +490,14 @@ background:#444444 none repeat scroll 0 0;
 
 
 	#buttonHolder {
-		background-color:#555555;
+		background-color:#777;
 		border-top:1px solid #333;
 		border-bottom:1px solid #333;
 		height:2em;
 	position:absolute;
 	width:100%;
 	}
+	
 
 	.completed {
 		border-right : 10px solid #248A22;
@@ -613,7 +614,7 @@ form.wizard, .wizard .wizardFooter{
 	
 
 		#buttonHolder {
-			background-color:#555555;
+			background-color:#777;
 			border-color:-moz-use-text-color -moz-use-text-color #333333;
 			border-style:none none solid;
 			float:right;
@@ -650,7 +651,7 @@ form.wizard, .wizard .wizardFooter{
 		
 		.toolbar {
 			padding:0.3em;
-			background-color:#555555;
+			background-color:#777;
 			border-top:1px solid #333;
 			border-bottom:1px solid #333;
 			height:2.1em;
@@ -805,10 +806,10 @@ a			padding:0.5em;
 	}
 	.portletContent{
 		clear:left;
-		border-left:1px solid #434343;
-		border-right:1px solid #434343;
+		border-left:1px solid #777;
+		border-right:1px solid #777;
 		background:#fff;
-		border-bottom:1px solid #434343;
+		border-bottom:1px solid #777;
 		margin:0 0 5px;
 	}
 	.portletBotLeft{
@@ -903,7 +904,7 @@ padding-top:2.2em;
 }
 
 #messageArea .messageBox {
-	border:1px solid black;
+	border:1px solid #777;
 	color:#fff;
 	background:#333;
 	padding:10px;

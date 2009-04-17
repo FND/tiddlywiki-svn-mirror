@@ -71,8 +71,8 @@ html:not([lang*=""]) button.btn {
 	background:#eee url(img/bg-button.gif) repeat-x 0 0;
 	margin:0;
 	padding:3px 0;
-	border-left:1px solid #bbb;
-	border-right:1px solid #aaa;
+	border-left:1px solid #333;
+	border-right:1px solid #444;
 }
 
 * html .btn span {
@@ -83,8 +83,8 @@ html:not([lang*=""]) button.btn {
 	position:relative;
 	padding:3px .4em;
 	border-width:0;
-	border-top:1px solid #bbb;
-	border-bottom:1px solid #aaa;
+	border-top:1px solid #333;
+	border-bottom:1px solid #444;
 	color:black;
 }
 
