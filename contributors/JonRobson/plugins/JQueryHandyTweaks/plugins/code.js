@@ -41,6 +41,7 @@ f=function(k){return parseInt(E.css(k))||false;};
 config.shadowTiddlers.StyleSheetJQueryClassHacks = ".jqHandle{background:red;height:15px}.jqDrag{width:100%;cursor:move}.jqResize{width:15px;position:absolute;bottom:0;right:0;cursor:se-resize}.jqDnR{z-index:3;position:relative;width:180px;font-size:0.77em;color:#618d5e;margin:5px 10px 10px 10px;padding:8px;background-color:#EEE;border:1px solid#CCC}";
 store.addNotification("StyleSheetJQueryClassHacks", refreshStyles);
 
+config.macros.jquerytoggles = {};
 config.macros.jquerytabs = {};
 function makecollapsables(){
 var collapsables = jQuery(".collapsable");
@@ -48,19 +49,14 @@ var collapsables = jQuery(".collapsable");
 for(var i=0; i < collapsables.length; i++){
   var element = collapsables[i];
   if(!element.isCollapsable){
-          var newplace=  document.createElement("div");
+         var newplace=  document.createElement("div");
+         newplace.collapses = element
          jQuery(newplace).click(function(e){
-                  if(!e) e = window.event;
-                  var target  =jQuery(e.target);
-                  var element = target.next().slideToggle();
+                  jQuery(this.collapses).slideToggle();
                  });
           newplace.className = "toggler";
           element.parentNode.insertBefore(newplace,element);
           createTiddlyButton(newplace, "toggle", "toggle content", function(e){
-                  if(!e) e = window.event;
-          
-                  var target  =jQuery(e.target);
-                  var element = target.parent().next().slideToggle();
                  }
           );
           element.isCollapsable = true; 
@@ -134,9 +130,9 @@ var tabs = jQuery(".jQueryTabs");
         }
 }
 var oldrd = refreshDisplay;
-var olddt = story.displayTiddler;
+story.handytweakdisplaytiddler = story.displayTiddler;
 refreshDisplay=  function(hint){oldrd(hint); makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();};
 story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID){
-        olddt(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID);
+        story.handytweakdisplaytiddler(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID);
         makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();
         }

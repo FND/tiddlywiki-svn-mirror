@@ -5,11 +5,11 @@ Mousewheel zooming currently not working as should - should center on location w
 Will be changed to take a handler parameter rather then a targetjs
  */
 
-var VismoController = function(targetjs,elem,options){ //elem must have style.width and style.height etM
+var VismoController = function(targetjs,elem,options){ //elem must have style.width and style.height etM                 
 	if(!options) options = ['pan','zoom','mousepanning','mousewheelzooming'];
 
 	if(typeof elem == 'string') elem= document.getElementById(elem);
-	this.setMaxScaling(99999999);
+	this.setLimits({});
 	if(!elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
@@ -29,8 +29,22 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 		controlDiv.style.position = "absolute";
 		controlDiv.style.top = "0";
 		controlDiv.style.left = "0";
-		controlDiv.className = 'vismoControls'
+		controlDiv.className = 'vismoControls';
+		jQuery(controlDiv).css({'z-index':30, height:"120px",width:"60px"});
 		this.wrapper.appendChild(controlDiv);
+		this.controlDiv = controlDiv;
+		this.controlCanvas = this._createcontrollercanvas(60,120);
+		this.controlDiv.vismoController = this;
+		var vismoController = this;
+		var preventDef = function(e){
+                //e.preventDefault();
+		  return false;      
+		};
+		var f = function(e,s){
+		        vismoController._panzoomClickHandler(e,s,vismoController);
+		        return preventDef(e);
+		};
+		this.controlCanvas.setOnMouse(preventDef,f);
 		this.wrapper.controlDiv = controlDiv;
 	}
 	
@@ -42,14 +56,78 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 	this.wrapper.vismoController = this;
 	this.enabled = true;
+	this.enabledControls = [];
 	this.addControls(options);
 
 };
 VismoController.prototype = {
-	getTransformation: function(){
+	setLimits: function(transformation){
+	        this.limits = transformation;
+	}
+	,getEnabledControls: function(){
+	        return this.enabledControls;
+	}
+	,_addEnabledControl: function(controlName){
+	        this.enabledControls.push(controlName);      
+	}
+	,applyLayer: function(){
+	        var that = this;
+	        this.controlCanvas.render();
+	        var hidebuttons = function(){
+	               var shapes = that.controlCanvas.getMemory();
+	                for(var i=0; i < shapes.length; i++){
+	                        shapes[i].setProperty("hidden",true);
+	                }
+
+	                that.controlCanvas.render();
+	        }
+	        var enabled = this.getEnabledControls();
+	        var pan,zoom;
+	        if(enabled.contains("pan")) pan = true;
+	        if(enabled.contains("zoom")) zoom = true;
+	        var img,svg;
+	        
+	        if(pan && zoom) {
+	                img="panzoomcontrols.png";
+	                svg = "panzoomcontrols.svg";
+	        }
+	        else if(pan) {
+	                img = "pancontrols.png";
+	                svg = "pancontrols.svg";
+	        }
+	        else if(zoom){
+	                img = "zoomcontrols.png";
+	                svg = "zoomcontrols.svg";
+	        }
+	        else {
+	                return;
+	        }
+	        var imgcallback = function(){
+	                jQuery(that.wrapper.controlDiv).css({"background-image":"url("+ img+")"});
+	                hidebuttons();
+	        };
+	        try{jQuery.get(img,imgcallback);}catch(e){}; // no image found
+                var callback = function(response){
+                        var shape = document.createElement('object');
+                        shape.setAttribute('type', 'image/svg+xml');
+                        shape.setAttribute('name', 'svg');
+                        shape.setAttribute('codebase', 'http://www.adobe.com/svg/viewer/install/');
+                        shape.setAttribute('style',"overflow:hidden;position:absolute;z-index:0;width:60px;height:120px;");
+                        var dataString = 'data:image/svg+xml,'+ response;
+                        shape.setAttribute('data', dataString); // the "<svg>...</svg>" returned from Ajax call                                      
+                        that.wrapper.controlDiv.appendChild(shape);
+                        jQuery(that.wrapper.controlDiv).css({"background-image":"none"});
+                        hidebuttons();
+                };
+        	try{jQuery.get(svg,callback);}catch(e){} //no svg file found;
+
+        	
+	}
+	,getTransformation: function(){
 		return this.transformation;
 	}
 	,addMouseWheelZooming: function(){ /*not supported for internet explorer*/
+	        this._addEnabledControl("mousewheelzooming");
 		if(VismoUtils.browser.isIE) return;
 		this.crosshair = {lastdelta:false};
 		this.crosshair.pos = {x:0,y:0};
@@ -193,6 +271,7 @@ VismoController.prototype = {
 		
 	}
 	,addMousePanning: function(){
+	        this._addEnabledControl("mousepanning");
 		var that = this;
 		var md = that.wrapper.onmousedown;
 		var mu = that.wrapper.onmouseup;	
@@ -284,7 +363,7 @@ VismoController.prototype = {
 		}
 		//console.log("transformation set to ",t);
 	},
-	createButtonLabel: function(r,type){
+	createButtonLabel: function(r,type,offset){
 		var properties=  {'shape':'path', stroke: '#000000',lineWidth: '1'};
 		properties.actiontype = type;
 		var coords=[];
@@ -306,10 +385,15 @@ VismoController.prototype = {
 		else if(type == 'out'){
 			coords = [-r,0,r,0];
 		}
-		
+		for(var i=0; i < coords.length; i+=2 ){
+		        if(coords[i] == "M") i+=1;
+		        coords[i] += offset.x;
+		        coords[i+1] += offset.y;
+		}
 		return new VismoShape(properties,coords);
 	},	
-	createButton: function(canvas,width,direction,offset,properties) {
+	createButton: function(width,direction,offset,properties) {
+	        var canvas = this.controlCanvas;
 		if(!width) width = 100;
 		var r = width/2;
 
@@ -326,12 +410,13 @@ VismoController.prototype = {
 		properties.shape = 'polygon';
 		properties.fill ='rgba(150,150,150,0.7)';
 		var button = new VismoShape(properties,coords);
-		button.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:0,y:0}});
-		var label = this.createButtonLabel(r,properties.actiontype);
-		label.render(canvas,{translate:{x:0,y:0}, scale:{x:1,y:1},origin:{x:offset.x + r,y:offset.y + r}});
-		canvas.vismoClicking.add(button);
+		var bb = button.getBoundingBox();
+		buttoncenter = {x:bb.center.x,y:bb.center.y}; 
+		var label = this.createButtonLabel(r,properties.actiontype,buttoncenter);
+	        canvas.add(label);
+		canvas.add(button);
 		return button;
-	},	
+	},
 	addControls: function(list){
 		for(var i= 0; i < list.length; i++){
 			this.addControl(list[i]);
@@ -363,88 +448,70 @@ VismoController.prototype = {
 	},
 	
 	_createcontrollercanvas: function(width,height){
-		var newCanvas = document.createElement('canvas');
-		jQuery(newCanvas).css({width: width, height:height,position:"absolute",left:0,top:0,'z-index': 15});
-		newCanvas.width = width;
-		newCanvas.height = height;
-		newCanvas.setAttribute("class","vismoControl");
-		this.wrapper.appendChild(newCanvas);
-		newCanvas.vismoController = this;
-		newCanvas.vismoClicking = new VismoClickableCanvas(newCanvas);
-		return newCanvas;
+		var cc= new VismoClickableCanvas(this.controlDiv);
+		return cc;
 	},
 	addPanningActions: function(controlDiv){
-		var panCanvas = this._createcontrollercanvas(44,44);		
-		this.createButton(panCanvas,10,180,{x:16,y:2},{'actiontype':'N','name':'pan north','buttonType': 'narrow'});
-		this.createButton(panCanvas,10,270,{x:30,y:16},{'actiontype':'E','name':'pan east','buttonType': 'earrow'});
-		this.createButton(panCanvas,10,90,{x:16,y:16},{'actiontype':'O','name':'re-center','buttonType': ''});
-		this.createButton(panCanvas,10,90,{x:2,y:16},{'actiontype':'W','name':'pan west','buttonType': 'warrow'});
-		this.createButton(panCanvas,10,0,{x:16,y:30},{'actiontype':'S','name':'pan south','buttonType': 'sarrow'});			
-		panCanvas.onmouseup = this._panzoomClickHandler;		
+	        this._addEnabledControl("pan");
+		this.createButton(10,180,{x:-6,y:-54},{'actiontype':'N','name':'pan north','buttonType': 'narrow'});
+		this.createButton(10,270,{x:10,y:-38},{'actiontype':'E','name':'pan east','buttonType': 'earrow'});
+		//this.createButton(10,90,{x:16,y:16},{'actiontype':'O','name':'re-center','buttonType': ''});
+		this.createButton(10,90,{x:-22,y:-38},{'actiontype':'W','name':'pan west','buttonType': 'warrow'});
+		this.createButton(10,0,{x:-6,y:-20},{'actiontype':'S','name':'pan south','buttonType': 'sarrow'});			
+		this.applyLayer();		
 
 	},
 	addRotatingActions: function(){
-		
-		var rotateCanvas = this._createcontrollercanvas(44,40);	
+		/*
+		var rotateCanvas = this.controlCanvas.getDomElement();
 		this.createButton(rotateCanvas,10,180,{x:16,y:2},{'actiontype':'rotatezup','name':'pan north','buttonType': 'narrow'});
 		this.createButton(rotateCanvas,10,0,{x:16,y:30},{'actiontype':'rotatezdown','name':'pan south','buttonType': 'sarrow'});			
 			
 		this.createButton(rotateCanvas,10,270,{x:30,y:16},{'actiontype':'rotatezright','name':'rotate to right','buttonType': 'earrow'});
 		this.createButton(rotateCanvas,10,90,{x:2,y:16},{'actiontype':'rotatezleft','name':'rotate to left','buttonType': 'warrow'});
-		rotateCanvas.onmouseup = this._panzoomClickHandler;
+		rotateCanvas.onmouseup = this._panzoomClickHandler;*/
 
 	},	
 	addZoomingActions: function(){
-		var zoomCanvas = this._createcontrollercanvas(20,30);
-
-		var left = 14;
-		var top = 50;
-		zoomCanvas.style.left = left +"px";
-		zoomCanvas.style.top = top + "px";
-		this.createButton(zoomCanvas,10,180,{x:2,y:2},{'actiontype':'in','name':'zoom in','buttonType': 'plus'});		
-		this.createButton(zoomCanvas,10,180,{x:2,y:16},{'actiontype':'out','name':'zoom out','buttonType': 'minus'});
-		zoomCanvas.onmouseup = this._panzoomClickHandler;	
-	},	
+	        this._addEnabledControl("zoom");
+		this.createButton(10,180,{x:-6,y:12},{'actiontype':'in','name':'zoom in','buttonType': 'plus'});		
+		this.createButton(10,180,{x:-6,y:42},{'actiontype':'out','name':'zoom out','buttonType': 'minus'});	
+	        this.applyLayer();
+	}	
 	
-	setMaxScaling: function(max){
-		this._maxscale = max;
-	}
+
 	,transform: function(){
 		if(this.enabled){
-			var t = this.transformation;
+			var t = this.getTransformation();
 			var s = t.scale;
 			var tr = t.translate;
 			if(s.x <= 0) s.x = 0.1125;
 			if(s.y <= 0) s.y = 0.1125;
 
-			this.targetjs.transform(this.transformation);
+                        var ok = true;
+                        var lim = this.limits;
+                        if(lim.scale){
+                                
+                                if(s.y > lim.scale.y) t.scale.y = lim.scale.y;
+                                if(s.x > lim.scale.x) t.scale.x = lim.scale.x;
+		        }
+		        
+		        this.targetjs.transform(this.transformation);
 
 		}
 	},
-	_panzoomClickHandler: function(e) {
-
-		if(!e) {
-			e = window.event;
-		}
-		
-		var controller = this.vismoController;
-	
-		var hit = this.vismoClicking.getShapeAtClick(e);	
-		if(!hit) {
-			return false;
-		}
-	
+	_panzoomClickHandler: function(e,hit,controller) {
 		var pan = {};
-		var t =controller.transformation;
-		//console.log(t.rotate,"hit");
-		var scale =t.scale;
-		pan.x = parseFloat(30 / scale.x);
-		pan.y = parseFloat(30 / scale.y);
-
+		var t =controller.getTransformation();
 		if(!t.scale) t.scale = {x:1,y:1};
 		if(!t.translate) t.translate = {x:0,y:0};
 		if(!t.rotate) t.rotate = {x:0,y:0,z:0};
-		switch(hit.properties.actiontype) {
+		
+		var scale =t.scale;
+		pan.x = parseFloat(30 / scale.x);
+		pan.y = parseFloat(30 / scale.y);
+		
+		switch(hit.getProperty("actiontype")) {
 			case "W":
 				t.translate.x += pan.x;
 				break;
@@ -494,7 +561,7 @@ VismoController.prototype = {
 				break;
 		}
 		controller.transform();
-
+                //console.log("done",controller);
 		return false;
 	}
 };

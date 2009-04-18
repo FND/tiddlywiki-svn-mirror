@@ -8,7 +8,11 @@ story.displayTiddler = function(srcElement,tiddler,template,animate,unused,custo
         story.beforedisplaytiddler(srcElement,tiddler,template,animate,unused,customFields,toggle);
         
         jQuery("div").mousedown(function(e){      
-                 lastclick = {x: e.pageX, y: e.pageY};      
+                 if(e.target.className.indexOf('button')== -1)
+                        lastclick = {x: e.pageX, y: e.pageY};  
+                else{
+                        lastclick = {x:0,y:0};
+                }    
         });
         jQuery("a").mousedown(function(e){      
                  lastclick = {x: e.pageX, y: e.pageY};      

@@ -180,7 +180,6 @@ VismoClickableCanvas.prototype = {
 	}
 	
 	,render: function(projection){
-		
 		this._setupCanvasEnvironment();
 		
 		var that = this;
@@ -223,7 +222,6 @@ VismoClickableCanvas.prototype = {
 					tran = transformation;
 				}
 				 for(var i=0; i < mem.length; i++){
-				
 				 	if(mem[i].optimise(that.canvas,transformation,projection)){
 				 	        if(mem[i].getShape() == 'svg')tran = transformation;
 						mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
