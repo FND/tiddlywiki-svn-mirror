@@ -5,14 +5,18 @@
 	<span refresh='content' tiddler='SiteTitle'></span>&nbsp;
 </div>
 <div class='jQueryTabs'>
+<div class='jQueryTab' title="Vismo Graph">
+	<div class='collapsable' macro='VismoGraph width:1022 height:600 fill:rgba(0,0,255,0.2)'></div>
+</div>
 	<div class='jQueryTab' title='TiddlyTagMindMap'>
 		<div class='collapsable' id='tagmindmap' parameters="width:1022 height:600 floating:true popup:true id:main startState:all zoom:130 exclude: {{['excludeLists']}} animate:false emptyTiddlerColor:#cccccc"></div>
 	</div>
-	<div class='jQueryTab' title="Geo View" >
+
+			<div class='jQueryTab' title="Geo View" >
 		<div class='collapsable' macro='geo id:geovis width:1022 height:600'></div>
 	</div>
 	<div class='jQueryTab' title="Image Tagging View">
-		<div class='collapsable' macro='TagImage src:blank.jpg width:1022 height:600'></div>
+		<div class='collapsable' macro='TagImage src:desk.jpg tiddlers:{{store.getTiddlers()}} editable:true width:1022 height:600 fill:rgba(0,0,255,0.2)'></div>
 	</div
 	
 </div>

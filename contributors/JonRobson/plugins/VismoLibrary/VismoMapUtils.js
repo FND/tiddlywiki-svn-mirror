@@ -15,23 +15,6 @@ if(!window.console) {
 	};
 }
 
-Array.prototype.contains = function(item)
-{
-	return this.indexOf(item) != -1;
-};
-
-if(!Array.indexOf) {
-	Array.prototype.indexOf = function(item,from)
-	{
-		if(!from)
-			from = 0;
-		for(var i=from; i<this.length; i++) {
-			if(this[i] === item)
-				return i;
-		}
-		return -1;
-	};
-}
 
 
 

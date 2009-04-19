@@ -398,7 +398,6 @@ VismoMap.prototype = {
 			
 		}
 		this.wrapper.ondblclick = function(e){
-		
 				var r = getParameters(e);
 				eMap.dblClickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
 		

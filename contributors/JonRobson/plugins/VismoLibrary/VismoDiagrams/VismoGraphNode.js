@@ -14,12 +14,15 @@ var VismoGraphNode = function(json){
 	var w = properties.width / 2;
 	var h = properties.height /2;
 	
-	this.vismoShape = new VismoShape(properties,[x-w,y-h,x+w,y-h, x+w,y+h,x-w,y+h]);
+	this.properties = properties;
 	return false;
 };
 
 VismoGraphNode.prototype = {
-	setDimensions: function(width,height){
+        getID: function(){
+                return this.id;
+        }
+	,setDimensions: function(width,height){
 		this.setProperty("width",width);
 		this.setProperty("height",height);
 		var p = this.getPosition();
@@ -54,27 +57,18 @@ VismoGraphNode.prototype = {
 		return this.vismoShape;
 	}
 	,getProperty: function(name){
-		if(!this.vismoShape.getProperty(name)) 
-			return false;
-		else
-			return this.vismoShape.getProperty(name);
+		return this.properties[name];
+	}
+	,getProperties: function(){
+	        return this.properties;
 	}
 	,setProperty: function(name,value){
-		this.vismoShape.setProperty(name,value);
+		this.properties[name] =value;
 	}
 	,getPosition: function(){
 		return this.getProperty("position");
 	}
 	,setPosition: function(x,y){
-		//setCoords();
-		var w = this.getProperty("width") ;
-		var h = this.getProperty("height") ;
-		//console.log(x,y);
 		this.setProperty("position",{x:x,y:y});
-		
-		w /=2;
-		h /= 2;
-		this.vismoShape.setCoordinates([x-w,y-h,x+w,y-h, x+w,y+h,x-w,y+h]);
-		
 	}
 };

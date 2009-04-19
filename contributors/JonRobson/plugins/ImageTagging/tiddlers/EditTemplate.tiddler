@@ -8,9 +8,8 @@
 <div class='editor' macro='edit text'></div>
 <div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser excludeLists'></span></div>
 <div>
-x: <span class='editor' macro='edit tagx'></span>
-y: <span class='editor' macro='edit tagy'></span>
-<div class='editorFooter'>edit the position of the comments on the corresponding image</span></div>
+x,y,radius: <span class='editor' macro='edit imagexyr'></span>
+<div class='editorFooter'>edit the position of the comments on the corresponding image x,y,radius all separated by commas.</span></div>
 fill: <span class='editor' macro='edit fill'></span>
 <div class='editorFooter'>edit the color of the tag for the comments on the corresponding image</span></div>
 

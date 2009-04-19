@@ -7,65 +7,13 @@ var VismoGraph = function(positionCalculationFunction){
 	var vismoGraph = this;
 	if(!positionCalculationFunction){
 		this.positionCalculationFunction = function(node){
-			
-		
-			var oldpos = node.getPosition();
+	                var oldpos = node.getPosition();
 			if(oldpos.x && oldpos.y) return oldpos;
-			
-			return {x:1,y:1};
-			/*
-			var range = 200;
-			var nodepos = {};
-			var parents =vismoGraph.getNodeParents(node.id);
-			var partners =VismoGraphUtils.getPartners(node.id,vismoGraph);
-			var siblings = VismoGraphUtils.getSiblings(node.id,vismoGraph);
-			for(var i=0; i < siblings.length; i++){
-				var sib = vismoGraph.getNode(siblings[i]);
-				var pos = sib.getPosition();
-				if(pos.x){
-					nodepos.x = pos.x;
-				}
-			}
-			
-			for(var i=0; i < partners.length; i++){
-				var partner = vismoGraph.getNode(partners[i]);
-				var pos = partner.getPosition();
-				if(pos.x){
-					nodepos.x = pos.x;
-				}
-			}
-			
-			for(var i=0; i < parents.length; i++){
-				var parentPos;
-				var parent =vismoGraph.getNode(parents[i]);
-				parentPos = parent.getPosition();
-				if(parentPos.x){
-					if(nodepos.x){
-						if(parentPos.x >= nodepos.x)
-							nodepos.x = parentPos.x + 200;
-					}
-					else{
-						nodepos.x = parentPos.x + 200;
-					}
-				}
-			}
-			if(!nodepos.x) {
-				nodepos.x = 5;
-			}
-			var children =vismoGraph.getNodeChildren(node.id); 
-			for(var i=0; i < children.length; i++){
-				
-			}
-		
-			nodepos.y = Math.random() * 400;
-			return nodepos;
-			*/
-			
-			
-			
-			
+			var x = Math.random() * 200;
+		        var y = Math.random()*200; return {x:x,y:y};		
 		};
 	}
+	else this.positionCalculationFunction = positionCalculationFunction;
 
 	return false;
 };
@@ -78,6 +26,9 @@ VismoGraph.prototype = {
 			return false;
 		else
 			return this.nodes[id];
+	}
+	,getNodes: function(){
+	        return this.nodes;
 	}	
 	,getNodeChildren: function(id){
 		//console.log(id, this.nodeChildren,"getch");
@@ -96,6 +47,7 @@ VismoGraph.prototype = {
 	/*manipulating */
 
 	,addNode: function(nodejson){
+	        if(this.getNode(nodejson.id)) return false;
 		this.nodes[nodejson.id] = new VismoGraphNode(nodejson);
 		return false;
 	}

@@ -13,5 +13,6 @@ body {font-family:Lucida Grande;}
 .nodeLabelPrefix {float:left;}
 .nodeLabel {cursor:pointer; float: left;}
 .nodeLabelSuffix {float:left;}
+.editor textarea {height:200px;}
 </pre>
 </div>

@@ -30,7 +30,21 @@
 	<div class='editor' macro='edit parentColor'></div><div class='editorFooter'>set color of all parents of this node</div>
 	<div class='editor' macro='edit childrenColor'></div><div class='editorFooter'>set color of all children of this node</div>	
 </div>
+
+<div class='jQueryTab' title=' ImageTagging '>
+	<div class='subtitle'>Image Tagging Settings</div>
+	<div class='editor' macro='edit imagexyr'></div><div class='editorFooter'>set x,y,radius</div>	
 </div>
+
+<div class='jQueryTab' title=' VismoGraph '>
+	<div class='subtitle'>VismoGraph Node Settings</div>
+	<div class='editor' macro='edit vismoxy'></div><div class='editorFooter'>set x,y of this node</div>	
+</div>
+
+</div>
+
+
+
 </div>
 <!--}}}-->
 </pre>

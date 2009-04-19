@@ -1,7 +1,25 @@
+Array.prototype.contains = function(item)
+{
+	return this.indexOf(item) != -1;
+};
+
+if(!Array.indexOf) {
+	Array.prototype.indexOf = function(item,from)
+	{
+		if(!from)
+			from = 0;
+		for(var i=from; i<this.length; i++) {
+			if(this[i] === item)
+				return i;
+		}
+		return -1;
+	};
+}
 var VismoUtils = {
 	userAgent: navigator.userAgent.toLowerCase(),
 	clone: function(obj){
 
+        if(obj.appendChild) return obj;
 	    if(obj == null || typeof(obj) != 'object')
 
 	        return obj;
@@ -26,7 +44,7 @@ var VismoUtils = {
 		return res;
 	}
 };
-
+VismoUtils.svgSupport =document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Shape", "1.0");
 VismoUtils.browser= {
 		isIE: VismoUtils.userAgent.indexOf("msie") != -1 && VismoUtils.userAgent.indexOf("opera") == -1,
 		isGecko: VismoUtils.userAgent.indexOf("gecko") != -1,
@@ -89,6 +107,12 @@ VismoShape.prototype={
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
 		var st = this.getShape();
 		if(pointradius && st == 'point') this.setRadius(pointradius);
+		if(st == 'domElement'){
+		        if(this.getProperty("hidden")){return;}
+		        if(!this.vml)this.vml = new VismoVector(this,canvas);
+		        this.vml.render(canvas,transformation,projection);
+		        return;
+		}
 		if(this.getRenderMode(canvas) == 'ie'){
 		        if(this.getProperty("hidden")) {this.vml.clear(); return;}
 			this._ierender(canvas,transformation,projection,optimisations); 
@@ -182,16 +206,18 @@ VismoShape.prototype={
 		var shapetype = this.getProperty("shape");
 		if(projection) this._applyProjection(projection,transformation);
 		
-		if(shapetype != 'point' && shapetype != 'path'){ //check if worth drawing				
+		if(shapetype != 'point' && shapetype != 'path' && shapetype !="domElement"){ //check if worth drawing				
 			if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
-				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
-				return false;	
-			}
-			if(!VismoOptimisations.vismoShapeIsInVisibleArea(this,canvas,transformation)){
 				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
 				return false;	
 			}	
 		}
+		
+		if(!VismoOptimisations.vismoShapeIsInVisibleArea(this,canvas,transformation)){
+			if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
+			return false;	
+		}
+		
 		return true;
 	}
 
@@ -296,6 +322,13 @@ VismoShape.prototype={
 		{
 			this.setCoordinates(coordinates);
 		}
+		else if(shapetype == 'domElement'){
+			this.setCoordinates(coordinates);		       
+		        var w = jQuery(this.getProperty("element")).width(); 
+		        var h = jQuery(this.getProperty("element")).height(); 
+		        this.setDimensions(w,h);
+
+		}
 		else if(shapetype == 'image'){
 			var src = this.getProperty("src");
 			if(!src) throw "all images must carry a property src at minimum";
@@ -348,7 +381,7 @@ VismoShape.prototype={
 				}
 				if(r && r.x)ctx.rotate(r.x);
 			}
-			VismoCanvasRenderer.renderShape(ctx,vismoShape);
+			VismoCanvasRenderer.renderShape(canvas,vismoShape);
 			
 			if(!vismoShape.getProperty("hidden")) {
 				ctx.strokeStyle = vismoShape.getProperty("stroke")
@@ -368,17 +401,11 @@ VismoShape.prototype={
 	}
 	
 	,_ierender: function(canvas,transformation,projection,optimisations,appendTo){
-		if(this.vml){
-			this.vml.clear();
-			this.vml.style();
-			this.vml._cssTransform(transformation,projection);
-			return;
+		if(!this.vml){
+                        this.vml = new VismoVector(this,canvas);
 		}
-		else{
-			this.vml = new VismoVML(this,canvas);
-			this.vml._cssTransform(transformation,projection);
-			this.vml.render(canvas,appendTo);
-		}	
+		this.vml.render(canvas,transformation,projection);
+		
 	}
 
 	,_applyProjection: function(projection,transformation){
