@@ -198,7 +198,8 @@ VismoSlippyMap.prototype = {
 		var eMap = eMap;
 		
 		eMap.settings.afterRender = function(transformation){
-			
+		        var origin = transformation.origin;
+			jQuery(that.tilesWrapper).css({top: origin.y, left: origin.x});
 			var zoomOut = false;
 			if(eMap.settings.lastScale > transformation.scale.x)
 				zoomOut = true;
@@ -215,8 +216,8 @@ VismoSlippyMap.prototype = {
 			var tile = tiles["main"];
 			var left = (scale.x * translate.x);
 			var top = (scale.y * translate.y);
-			top += (mapheight/2 - 128);
-			left += (mapwidth/2 - 128);
+			top += (origin.y - 128);
+			left += (origin.x - 128);
 			tile.style.top = top + "px";
 			tile.style.left = left + "px";
 			if(zoomL == 0){
@@ -235,8 +236,8 @@ VismoSlippyMap.prototype = {
 				var temp ={x: (translate.x),y:(translate.y)};
 				temp.x *= scale.x;
 				temp.y *= scale.y;				
-				temp.x += (mapwidth/2);
-				temp.y += (mapheight/2);
+				temp.x += (origin.x);
+				temp.y += (origin.y);
 				var brleft = temp.x;
 				var brtop =temp.y;
 				brtop = brtop%(256);
@@ -342,7 +343,7 @@ VismoSlippyMap.prototype = {
 		var res = {};
 		var tiles = document.createElement("div");
 		tiles.style.overflow = "hidden";
-		
+		tiles.className = "VismoTileWrapper"
 		tiles.style.position= "absolute";
 		tiles.style.width = eMap.wrapper.style.width;
 		tiles.style.height = eMap.wrapper.style.height;

@@ -76,9 +76,14 @@ VismoClickableCanvas.prototype = {
         		var newmove = function(e,shape){
  
         		        that.tooltip.innerHTML= "";     
-        		        var pos = VismoClickingUtils.getMouseFromEvent(e);
-        		        jQuery(that.tooltip).css({top:pos.y+10, left:pos.x+10});
-        		        if(that.tooltipAddContent && shape)that.tooltipAddContent(this.tooltip,shape);
+
+        		        if(that.tooltipAddContent && shape){
+        		                that.tooltipAddContent(that.tooltip,shape);
+        		        }
+        		        else{
+                		        var pos = VismoClickingUtils.getMouseFromEvent(e);
+                		        jQuery(that.tooltip).css({top:pos.y, left:pos.x});        		                
+        		        }
         		        move(e,shape);
         		        
         		};

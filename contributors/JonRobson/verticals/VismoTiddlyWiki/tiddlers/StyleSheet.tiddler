@@ -14,5 +14,8 @@ body {font-family:Lucida Grande;}
 .nodeLabel {cursor:pointer; float: left;}
 .nodeLabelSuffix {float:left;}
 .editor textarea {height:200px;}
+.editor textarea {height:200px;}
+.VismoClickableCanvas {overflow:hidden}
+#sidebar {z-index:50; background-color:white; opacity:0.8;}
 </pre>
 </div>

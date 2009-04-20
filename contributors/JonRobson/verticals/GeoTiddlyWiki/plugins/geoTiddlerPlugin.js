@@ -69,53 +69,72 @@ function getElementChild(el,tag){
 		getMap: function(id){
 			return geomaps[id];
 		}
+
+        	,addGeoTiddler: function(easyMap,name,ll,fill,text,tags){
+        		if(!tags) var tags = [];
+        		if(text) var text = "";
+        		var fields= {longitude:ll.longitude,latitude:ll.latitude,fill:"#000000"};
+        		if(fill) fields.fill = fill;
+
+        		store.saveTiddler(name,name,text,null,new Date(),tags,fields);
+
+        		var tag =GeoTag(ll.longitude,ll.latitude,{name: name,fill: fields.fill});
+        		easyMap.drawGeoJsonFeature(tag);
+        		easyMap.redraw();	
+        	}
 		,handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 					
 			 var prms = paramString.parseParams(null, null, true);
+			 var fill = getParam(prms,"fill");
 
+			var editable = eval(getParam(prms,"editable"));
+			var that = this;
+			var eMap = this.createNewVismoMap(place,prms);
+			var onmup = function(e,shape,mouse,longitude_latitude,feature){	
+			        							
+				if(shape &&shape.properties){
+					var shapeName = shape.properties.name;
+				}
+				else{
+				        //add new geotag
+				        var ll = longitude_latitude;
+				        if(ll)that.addGeoTiddler(eMap,"GeoTag (long:"+ ll.longitude + ",lat:" + ll.latitude+ ")",ll,fill,"",["geotagged"])
+					return;
+				}
+				if(!store.tiddlerExists(shapeName)) {
+					var tags = [];
+					var text = "";
+					var fields = {};
 
-				var onmup = function(e,shape,mouse,longitude_latitude,feature){								
-					if(shape &&shape.properties){
-						var shapeName = shape.properties.name;
-					}
-					else{
-						return;
-					}
-					if(!store.tiddlerExists(shapeName)) {
-						var tags = [];
-						var text = "";
-						var fields = {};
-
-					}
-					var tiddlerElem = null;
-					try{
-						tiddlerElem = story.findContainingTiddler(resolveTarget(e));	
-					}
-					catch(e){
-						
-					}
+				}
+				var tiddlerElem = null;
+				try{
+					tiddlerElem = story.findContainingTiddler(resolveTarget(e));	
+				}
+				catch(e){
 					
-					story.displayTiddler(tiddlerElem,shapeName);
-					return false;
-				};			
-				var eMap = this.createNewVismoMap(place,prms);
-				eMap.setMouseFunctions(false,false,false,false,onmup);
-
-				this.addVismoMapControls(eMap,prms);
-
-				var source = getParam(prms,"source");
-
-				var geodata = this.getGeoJson(source,eMap,prms);
-				if(geodata == 'svgfile'){
-					var callback = function(status,params,responseText,url,xhr){
-						var svg = responseText;
-						eMap.drawFromGeojson(VismoConversion.svgToGeoJson(svg,eMap.canvas));	
-					};
-					VismoFileUtils.loadRemoteFile(source,callback);	
 				}
-				else {	
-					eMap.drawFromGeojson(geodata);
-				}
+				
+				story.displayTiddler(tiddlerElem,shapeName);
+				return false;
+			};
+			eMap.setMouseFunctions(false,false,false,false,onmup);
+
+			this.addVismoMapControls(eMap,prms);
+
+			var source = getParam(prms,"source");
+
+			var geodata = this.getGeoJson(source,eMap,prms);
+			if(geodata == 'svgfile'){
+				var callback = function(status,params,responseText,url,xhr){
+					var svg = responseText;
+					eMap.drawFromGeojson(VismoConversion.svgToGeoJson(svg,eMap.canvas));	
+				};
+				VismoFileUtils.loadRemoteFile(source,callback);	
+			}
+			else {	
+				eMap.drawFromGeojson(geodata);
+			}
 
 
 			//}

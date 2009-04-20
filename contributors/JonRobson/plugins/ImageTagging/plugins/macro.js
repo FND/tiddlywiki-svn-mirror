@@ -226,9 +226,12 @@ config.macros.TagImage = {
 			};
 
 
-                        var move;
+                        var move,click;
 			if(editable){
+	
                 		move = function(e,s){
+                		        if(s) box.style.display = "none";
+			                else box.style.display = "";
                 			var pos = VismoClickingUtils.getMouseFromEvent(e);
                 			var radius = config.macros.TagImage.properties[src].radius;
 

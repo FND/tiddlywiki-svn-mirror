@@ -83,12 +83,13 @@ var VismoVector = function(vismoShape,canvas){
         	coordsize = xspace +"," + yspace;
         	this.el.coordsize = coordsize;
 	}
-        this.el.vismoShape = this.vismoShape;
-	var nclass= "vismoShape";			
-	if(shapetype == 'path') nclass= "vismoShapePath";
-	this.el.setAttribute("class", nclass);
-	this.style();
-				
+        if(this.vismoShape && this.el){
+                this.el.vismoShape = this.vismoShape;
+	        var nclass= "vismoShape";			
+	        if(shapetype == 'path') nclass= "vismoShapePath";
+	        this.el.setAttribute("class", nclass);
+	        this.style();
+	}			
 		
 			
 };
@@ -290,15 +291,23 @@ VismoVector.prototype = {
 	}
 	,clear: function(){
 			var el = this.getVMLElement();
-			if(el) el.style.display = '';
+			if(el) el.style.display = 'none';
 	}
 	,render: function(canvas,transformation,projection){
-	        this.clear();
+                var that = this;
+	        if(!this.el){
+	                var f= function(){
+	                        that.render(canvas,transformation);
+	                }
+	                window.setTimeout(f,10);
+	                return;
+	        }
 		this.style();
+		var shape = this.getVMLElement();
+		shape.style.display = "";
 		this._cssTransform(transformation,projection);
-		if(!this.getVMLElement().parentNode){
+		if(!this.haveAppended){
 			var shape = this.getVMLElement();
-			shape.style.display = "";
 			canvas.appendChild(shape);
 			this.haveAppended = true;
 		}

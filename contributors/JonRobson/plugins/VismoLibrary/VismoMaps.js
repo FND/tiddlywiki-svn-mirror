@@ -166,12 +166,12 @@ VismoMap.prototype = {
 		var s = transformation.scale;
 	
 		this.transformation = transformation;
-		if(!transformation.origin){
+		/*if(!transformation.origin){
 			this.transformation.origin = {};
 			var origin = this.transformation.origin;
 			origin.x =w / 2;
 			origin.y =h / 2;
-		}
+		}*/
 		
 		if(s.x < 1) s.x = 1;
 		if(s.y < 1) s.y = 1;

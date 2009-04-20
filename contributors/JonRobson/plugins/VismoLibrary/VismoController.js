@@ -14,7 +14,8 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 	if(!elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
-
+	this.defaultCursor = "";
+	this.wrapper.style.cursor = this.defaultCursor;
 	var md = elem.onmousedown;
 	var mu = elem.onmouseup;
 	var mm = elem.onmousemove;
@@ -41,7 +42,7 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
                         if (e && e.stopPropagation) //if stopPropagation method supported
                          e.stopPropagation()
                         else
-                         event.cancelBubble=true
+                         e.cancelBubble=true
                   return false;      
 		};
 		var f = function(e,s){
@@ -96,17 +97,27 @@ VismoController.prototype = {
 	                jQuery(that.wrapper.controlDiv).css({"background-image":"url("+ img+")"});
 	                hidebuttons();
 	        };
-
                 var callback = function(response){
                         if(!response)return;
-                        if(!VismoUtils.svgSupport)return;
-                        var shape = document.createElement('object');
-                        shape.setAttribute('codebase', 'http://www.adobe.com/svg/viewer/install/');
-                        //shape.setAttribute('classid', 'clsid:78156a80-c6a1-4bbf-8e6a-3cd390eeb4e2');
-                        shape.setAttribute('style',"overflow:hidden;position:absolute;z-index:0;width:60px;height:120px;");
-                        var dataString = 'data:image/svg+xml,'+ response;
-                        shape.setAttribute('data', dataString); // the "<svg>...</svg>" returned from Ajax call                                      
-                       
+                        if(!VismoUtils.svgSupport())return;
+                        
+                        var shape;
+                        if(false == true){
+                                //return;
+                                shape = document.createElement("div");
+                                shape.innerHTML = response;
+                        }
+                        else{
+                                shape = document.createElement('object');
+                                
+                                shape.setAttribute('codebase', 'http://www.adobe.com/svg/viewer/install/');
+                                if(VismoUtils.browser.isIE)shape.setAttribute('classid', '15');
+                                shape.setAttribute('style',"overflow:hidden;position:absolute;z-index:0;width:60px;height:120px;");
+                                shape.setAttribute('type',"image/svg+xml");
+                                var dataString = 'data:image/svg+xml,'+ response;
+                                shape.setAttribute('data', dataString); // the "<svg>...</svg>" returned from Ajax call                                      
+                                jQuery(shape).css({width:60,height:120})
+                        }
                         that.wrapper.controlDiv.appendChild(shape);
                         jQuery(that.wrapper.controlDiv).css({"background-image":"none"});
                         hidebuttons();
@@ -138,8 +149,11 @@ VismoController.prototype = {
 		return this.transformation;
 	}
 	,addMouseWheelZooming: function(){ /*not supported for internet explorer*/
+                var that = this;
+	        that.defaultCursor = "crosshair";
+	        this.wrapper.style.cursor = that.defaultCursor;
 	        this._addEnabledControl("mousewheelzooming");
-		if(VismoUtils.browser.isIE) return;
+	
 		this.crosshair = {lastdelta:false};
 		this.crosshair.pos = {x:0,y:0};
 		if(!this.crosshair.el){
@@ -166,18 +180,23 @@ VismoController.prototype = {
 		
 
 
-		var onmousewheel = function(e){
-	        	if (!e) return;/* For IE. */
-	                
-			e.preventDefault();		
-					
+		var onmousewheel = function(e){		
+				
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
-
-			if(!that.goodToTransform(e)) return;
-			var t = VismoClickingUtils.resolveTarget(e);
 			
-			if(t != that.wrapper && t.parentNode !=that.wrapper) return;
+                        if (e && e.stopPropagation) //if stopPropagation method supported
+                        e.stopPropagation();
+                        else
+                        e.cancelBubble=true;
+                        if(e.preventDefault)e.preventDefault();
+                        
+			if(!that.goodToTransform(e)) return false;
+			
+			var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+		        
+
+                       if(t != that.wrapper && t.parentNode !=that.wrapper) return false;
 	       	 	if (e.wheelDelta) { /* IE/Opera. */
 		                delta = e.wheelDelta/120;
 		                /** In Opera 9, delta differs in sign as compared to IE.
@@ -242,8 +261,25 @@ VismoController.prototype = {
 
 		
 		var element = this.wrapper;
-
-		if (element.addEventListener){
+                if(VismoUtils.browser.isIE) {
+		        document.onmousewheel = function(e){
+		                if(!e)e = window.event;
+		                var el =  e.srcElement;
+		                if(!el) return;
+		                while(el.parentNode){
+		                        
+		                        if(el == element) {
+		                                onmousewheel(e); 
+		                                
+		                                return false;    
+		                        }
+		                        el = el.parentNode;
+		                }
+		                return;
+		        };
+		        return;
+		}
+		else if (element.addEventListener){
 			element.onmousewheel = onmousewheel; //safari
 		        element.addEventListener('DOMMouseScroll', onmousewheel, false);/** DOMMouseScroll is for mozilla. */
 		
@@ -291,7 +327,7 @@ VismoController.prototype = {
 		
 		var cancelPanning = function(e){
 			panning_status = false;
-			that.wrapper.style.cursor= '';
+			that.wrapper.style.cursor= that.defaultCursor;
 			that.wrapper.onmousemove = mm;
 			return false;
 		};

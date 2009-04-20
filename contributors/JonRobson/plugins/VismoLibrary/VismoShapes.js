@@ -44,7 +44,7 @@ var VismoUtils = {
 		return res;
 	}
 };
-VismoUtils.svgSupport =document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Shape", "1.0");
+
 VismoUtils.browser= {
 		isIE: VismoUtils.userAgent.indexOf("msie") != -1 && VismoUtils.userAgent.indexOf("opera") == -1,
 		isGecko: VismoUtils.userAgent.indexOf("gecko") != -1,
@@ -58,6 +58,48 @@ VismoUtils.browser= {
 		isMac: VismoUtils.userAgent.indexOf("mac") != -1,
 		isWindows: VismoUtils.userAgent.indexOf("win") != -1
 	};
+
+if(VismoUtils.browser.isIE){
+	if (!document.namespaces['vismoShapeVml_']) {
+	        document.namespaces.add('vismoShapeVml_', 'urn:schemas-microsoft-com:vml');
+	        
+	}
+	document.namespaces.add('xmlns', 'http://www.w3.org/1999/xhtml');
+	document.namespaces.add('svg', 'http://www.w3.org/2000/svg');
+	document.namespaces.add('xlink', 'http://www.w3.org/1999/xlink');
+	var obj = document.createElement("object");
+	//obj.setAttribute("classID",15);
+	obj.setAttribute("id","AdobeSVG");
+        //document.body.appendChild(obj);
+	
+	
+	  // Setup default CSS.  Only add one style sheet per document
+	 if (!document.styleSheets['vismoShape']) {
+	        var ss = document.createStyleSheet();
+	        ss.owningElement.id = 'vismoShape';
+	        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
+	            // default size is 300x150 in Gecko and Opera
+	            'text-align:left;}' +
+	            'vismoShapeVml_\\:*{behavior:url(#default#VML)}';
+	}
+}
+VismoUtils.svgSupport = function(){
+        if(VismoUtils.browser.isIE){
+                try {
+                 var asv = new ActiveXObject("Adobe.SVGCtl");
+                 return true;
+                }
+                catch(e){ }
+        }
+        else if(document.implementation) {
+                if(VismoUtils.browser.isSafari) return true;
+                return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Shape", "1.0");
+        }
+
+
+
+        return true;
+};
 /* 
 Creates primitive shapes that can be rendered across most browsers
 I am not very happy with the code that follows. It is not of the best standard and needs much improvement
@@ -106,19 +148,21 @@ VismoShape.prototype={
 
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
 		var st = this.getShape();
+		if(this.getProperty("hidden")){
+		        if(this.vml)this.vml.clear();
+		        return;
+		}
 		if(pointradius && st == 'point') this.setRadius(pointradius);
 		if(st == 'domElement'){
-		        if(this.getProperty("hidden")){return;}
 		        if(!this.vml)this.vml = new VismoVector(this,canvas);
 		        this.vml.render(canvas,transformation,projection);
 		        return;
 		}
-		if(this.getRenderMode(canvas) == 'ie'){
-		        if(this.getProperty("hidden")) {this.vml.clear(); return;}
+		else if(this.getRenderMode(canvas) == 'ie'){
+                     
 			this._ierender(canvas,transformation,projection,optimisations); 
 		}
 		else{	
-		        if(this.getProperty("hidden")){return;}
 			this._canvasrender(canvas,transformation,projection,optimisations);
 		}
 			
@@ -153,7 +197,8 @@ VismoShape.prototype={
 				return this._simplifyCoordinates(resolution,this.coordinates.projected);
 				var opt=this.coordinates.optimisedandprojected;
 				if(!opt[resolution]) opt[resolution] =  this._simplifyCoordinates(resolution,this.coordinates.projected);
-				else return opt[resolution];
+				
+				return opt[resolution];
 			}		
 			return this.coordinates.projected;
 		}
@@ -161,7 +206,8 @@ VismoShape.prototype={
 			if(this.browser != 'ie' && resolution){
 				var opt=this.coordinates.optimised;
 				if(!opt[resolution]) opt[resolution] =  this._simplifyCoordinates(resolution,this.coordinates.normal);
-				else return opt[resolution];
+				
+				return opt[resolution];
 			}	
 			return this.coordinates.normal;
 		}
@@ -172,21 +218,7 @@ VismoShape.prototype={
 	,getRenderMode: function(canvas){
 		if(!this.browser){
 			if(!canvas.getContext) {				
-						//this has been taken from Google ExplorerCanvas
-						if (!document.namespaces['vismoShapeVml_']) {
-						        document.namespaces.add('vismoShapeVml_', 'urn:schemas-microsoft-com:vml');
-						}
-
-						  // Setup default CSS.  Only add one style sheet per document
-						 if (!document.styleSheets['vismoShape']) {
-						        var ss = document.createStyleSheet();
-						        ss.owningElement.id = 'vismoShape';
-						        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
-						            // default size is 300x150 in Gecko and Opera
-						            'text-align:left;}' +
-						            'vismoShapeVml_\\:*{behavior:url(#default#VML)}';
-						}
-						this.browser = "ie";
+		                this.browser = "ie";
 			}
 				
 			else 	this.browser = "good";
@@ -208,13 +240,15 @@ VismoShape.prototype={
 		
 		if(shapetype != 'point' && shapetype != 'path' && shapetype !="domElement"){ //check if worth drawing				
 			if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
-				if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
+				if(this.vml)this.vml.clear();
+				
 				return false;	
 			}	
 		}
 		
 		if(!VismoOptimisations.vismoShapeIsInVisibleArea(this,canvas,transformation)){
-			if(this.vml){var el = this.vml.getVMLElement(); el.style.display = "none";}
+			if(this.vml)this.vml.clear();
+			
 			return false;	
 		}
 		
@@ -227,7 +261,14 @@ VismoShape.prototype={
 		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
 		if(!coordinates) throw "give me some coordinates!";
 		var originals =coordinates;
-		var tolerance = 5 / scaleFactor;
+		var tolerance;
+		var bb = this.getBoundingBox();
+		
+		var d;
+		if(bb.width < bb.height) d = bb.width;
+		else d = bb.height;
+		tolerance = (d/4) / scaleFactor;
+		
 		coordinates = VismoOptimisations.packCoordinates(coordinates);
 		coordinates = VismoOptimisations.douglasPeucker(coordinates,tolerance);
 		
@@ -383,20 +424,20 @@ VismoShape.prototype={
 			}
 			VismoCanvasRenderer.renderShape(canvas,vismoShape);
 			
-			if(!vismoShape.getProperty("hidden")) {
-				ctx.strokeStyle = vismoShape.getProperty("stroke")
-				if(typeof vismoShape.getProperty("fill") == 'string') 
-					fill = vismoShape.getProperty("fill");
-				else
-					fill = "#ffffff";
+	
+			ctx.strokeStyle = vismoShape.getProperty("stroke")
+			if(typeof vismoShape.getProperty("fill") == 'string') 
+				fill = vismoShape.getProperty("fill");
+			else
+				fill = "#ffffff";
 
-				
-				ctx.stroke();
-				if(shapetype != 'path') {
-					ctx.fillStyle = fill;
-					ctx.fill();
-				}
+			
+			ctx.stroke();
+			if(shapetype != 'path') {
+				ctx.fillStyle = fill;
+				ctx.fill();
 			}
+			
 			ctx.restore();
 	}
 	
