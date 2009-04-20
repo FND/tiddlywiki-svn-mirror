@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+# report core commits to [twdev]
+
+SENDER="svn@tiddlywiki.org"
+RECIPIENT="TiddlyWikiDev@googlegroups.com"
+
+REPO="$1"
+REV="$2"
+
+MATCH=`svnlook dirs-changed -r $REV $REPO | grep Trunk/core`
+if [ "$MATCH" ]; then
+	MSG=`svnlook log -r $REV $REPO | head -n1`
+	INFO=`svnlook info -r $REV $REPO`
+	CHANGED=`svnlook changed -r $REV $REPO`
+	DIFF=`svnlook diff -r $REV --no-diff-deleted $REPO`
+	sendmail $RECIPIENT <<EOF
+From: $SENDER
+Subject: [commit #$REV] $MSG
+
+$INFO
+
+---------------
+
+$CHANGED
+
+---------------
+
+$DIFF
+EOF
+fi
