@@ -10,6 +10,7 @@ REV="$2"
 
 MATCH=`svnlook dirs-changed -r $REV $REPO | grep Trunk/core`
 if [ "$MATCH" ]; then
+	URL="http://trac.tiddlywiki.org/changeset/$REV"
 	MSG=`svnlook log -r $REV $REPO | head -n1`
 	INFO=`svnlook info -r $REV $REPO`
 	CHANGED=`svnlook changed -r $REV $REPO`
@@ -17,6 +18,8 @@ if [ "$MATCH" ]; then
 	sendmail $RECIPIENT <<EOF
 From: $SENDER
 Subject: [commit #$REV] $MSG
+
+$URL
 
 $INFO
 
