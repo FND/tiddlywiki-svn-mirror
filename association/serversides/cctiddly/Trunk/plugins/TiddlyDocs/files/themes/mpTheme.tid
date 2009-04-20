@@ -636,6 +636,8 @@ form.wizard, .wizard .wizardFooter{
 			padding-bottom:2em;
 			position:relative;
 			top:-4em;
+			border-left:1px solid #777;
+			border-right:1px solid #777;
 		}
 		.viewer th, .viewer thead td, .twtable th, .twtable thead td  {
 		 background:#5586B6 none repeat scroll 0 0;
