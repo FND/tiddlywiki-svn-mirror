@@ -81,7 +81,6 @@ VismoMap.prototype = {
 							
 			this._lastgeojson = geojson;
 			if(autosize){
-				
 			 	var t = VismoMapUtils.fitgeojsontocanvas(geojson,this.wrapper);
 
 				var p =this.getProjection();
@@ -199,11 +198,55 @@ VismoMap.prototype = {
 		
 	*/
 	setMouseFunctions: function(onmouseup,onmousemove,onrightclick,onkeypress,ondblClick){
-			if(onmousemove)this.moveHandler =onmousemove;
+	        var eMap = this;
+	        var getParameters = function(e){
+			var result = {};
+			var code;
+			if (e.which) code =e.which;
+			else if (e.keyCode) code = e.keyCode;
+			var character;
+			if(code) character = String.fromCharCode(code);	
+			var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+			if(t.getAttribute("class") == 'vismoControl') return false;
+			var shape = eMap.vismoClicking.getShapeAtClick(e);
+			if(shape) {
+				result.shape = shape;
+				result.feature = eMap.geofeatures[eMap.vismoClicking.getMemoryID(shape)];
+			}
+		
+			
+			var pos = VismoClickingUtils.getMouseFromEvent(e);
+			var x =pos.x;
+			var y = pos.y;
+			result.mouse = pos;
+			result.longitude_latitude = VismoMapUtils.getLongLatFromMouse(x,y,eMap);
+			result.event = e;
+			result.keypressed = character;
+			return result;
+			
+		};
+	        var mu = function(e,s){
+	                var r = getParameters(e);
+	                if(onmouseup) onmouseup(e,s,r.mouse,r.longitude_latitude,r.feature,r.key,eMap);
+	        };
+	        var mm = function(e,s){
+	                var r = getParameters(e);
+	                if(onmousemove) onmousemove(e,s,r.mouse,r.longitude_latitude,r.feature,r.key,eMap);	                
+	        };
+	        var dbl = function(e,s){
+	                var r = getParameters(e);
+        	        if(ondblClick) ondblClick(e,s,r.mouse,r.longitude_latitude,r.feature,r.key,eMap);
+	        };
+	        var key = function(e,s){
+	                var r = getParameters(e);
+                        if(onkeypress) onkeypress(e,s,r.mouse,r.longtitude_latitude,r.feature,r.key,eMap);
+	        }
+	        this.vismoClicking.setOnMouse(false,mu,mm,dbl,key);
+			/*if(onmousemove)this.moveHandler =onmousemove;
 			if(onmouseup)this.clickHandler = onmouseup;
 			if(onrightclick) this.rightclickHandler = onrightclick;
 			if(onkeypress) this.keyHandler = onkeypress;
-			if(ondblClick) this.dblClickHandler = ondblClick;
+			if(ondblClick) this.dblClickHandler = ondblClick;*/
 	}
 
 	
@@ -250,6 +293,7 @@ VismoMap.prototype = {
 
 	}
 	,_setupMouseHandlers: function(e){
+	        /*
 		var eMap = this;
 		var _defaultClickHandler = function(e,shape,mousepos,ll,vismomap){};	
 		
@@ -374,11 +418,7 @@ VismoMap.prototype = {
 			
 		};
 
-/*
-		var offset = jQuery(target).offset();
-		var centerWrapper = {}
-		centerWrapper.x = 
-		*/
+
 		var onkeypress = function(e){
 			var r = getParameters(e);
 			
@@ -394,9 +434,7 @@ VismoMap.prototype = {
 		var keypressed = function(event,shape,mouse,lola,feature,key){
 		};
 		
-		var dblClickHandler = function(event,shape,mouse,lola,feature,key){
-			
-		}
+		var dblClickHandler = function(event,shape,mouse,lola,feature,key){};
 		this.wrapper.ondblclick = function(e){
 				var r = getParameters(e);
 				eMap.dblClickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
@@ -411,9 +449,15 @@ VismoMap.prototype = {
 		document.onkeypress = onkeypress;
 		//this.wrapper.onmouseup = onmouseup;
 		this.wrapper.onmousemove = onmousemove;
-		this.setMouseFunctions(_defaultClickHandler,_defaultMousemoveHandler,false,keypressed,dblClickHandler);
-
 		
+		this.vismoClicking.setOnMouse(_defaultClickHandler,false,_defaultMousemoveHandler,dblClickHandler,keypressed)
+	
+		this.setMouseFunctions(_defaultClickHandler,_defaultMousemoveHandler,false,keypressed,dblClickHandler);
+                */
+		
+	}
+	,getVismoCanvas: function(){
+	        return this.vismoClicking;
 	}
 };
 

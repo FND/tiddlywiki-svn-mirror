@@ -2,15 +2,24 @@
 <pre>
 <!--{{{-->
 <div class='moveable resizable'>
-<div class='handler'>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='title' macro='view title'></div>
-<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)<span class="geo"><span class="latitude" macro='view latitude'></span>; <span class="longitude" macro='view longitude'></span></span><span class='button' macro='geogotobutton world'></span>)
-</div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged' macro='tags'></div>
-<div class='viewer' macro='view text wikified'></div>
-<div class='tagClear'></div>
+	<div class='handler'>
+		<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+		<div class='title' macro='view title'></div>
+		<div class='subtitle'>
+			<span macro='view modifier link'></span>, 
+			<span macro='view modified date'></span> 
+			(<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)
+			<span class="geo">
+				<span class="latitude" macro='view latitude'></span>;
+				<span class="longitude" macro='view longitude'></span>
+			</span>
+			<span class='button' macro='geogotobutton world'></span>
+		</div>
+	</div>
+	<div class='tagging' macro='tagging'></div>
+	<div class='tagged' macro='tags'></div>
+	<div class='viewer' macro='view text wikified'></div>
+	<div class='tagClear'></div>
 </div>
 <!--}}}-->
 </pre>

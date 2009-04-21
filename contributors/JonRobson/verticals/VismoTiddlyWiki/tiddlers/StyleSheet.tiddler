@@ -8,13 +8,15 @@ body {font-family:Lucida Grande;}
 .jQueryTab {border:solid 1px black;}
 .wrapper {border: none;}
 .jQueryTabLink {display:inline; padding-left:10px; padding-right:10px;}
-.moveable { background-color:white; width:700px; z-index:100; top:30px; left:100px;border: solid 1px black;position:absolute;}
+.moveable { padding:10px; background-color:rgb(240,240,240); width:700px; z-index:100; top:30px; left:100px;border: dashed 1px black;position:absolute;}
+.moveable .handler {cursor:move;}
 .viewer {overflow:auto;}
 .nodeLabelPrefix {float:left;}
 .nodeLabel {cursor:pointer; float: left;}
 .nodeLabelSuffix {float:left;}
 .editor textarea {height:200px;}
 .editor textarea {height:200px;}
+.popup {z-index:8000;}
 .VismoClickableCanvas {overflow:hidden}
 #sidebar {z-index:50; background-color:white; opacity:0.8;}
 </pre>

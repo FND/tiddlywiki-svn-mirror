@@ -73,17 +73,22 @@ VismoClickableCanvas.prototype = {
                 if(!this.tooltipAdded){
                         var move= this.onmousemove;
                         var that = this;
+                        var lastshape;
         		var newmove = function(e,shape){
  
         		        that.tooltip.innerHTML= "";     
-
+                                if(shape && lastshape != shape){
+                           	        var pos = VismoClickingUtils.getMouseFromEvent(e);
+                		        jQuery(that.tooltip).css({top:pos.y, left:pos.x});             
+                                }
         		        if(that.tooltipAddContent && shape){
         		                that.tooltipAddContent(that.tooltip,shape);
+        		                lastshape = shape;
+        		                jQuery(that.tooltip).css({display:""});
         		        }
         		        else{
-                		        var pos = VismoClickingUtils.getMouseFromEvent(e);
-                		        jQuery(that.tooltip).css({top:pos.y, left:pos.x});        		                
-        		        }
+     		                  jQuery(that.tooltip).css({display:"none"});
+        		        }     
         		        move(e,shape);
         		        
         		};
@@ -106,12 +111,12 @@ VismoClickableCanvas.prototype = {
 	}
 	,_setupMouse: function(){
 		var that = this;
-		this.onmousedown = function(e,s,pos){};
+		/*this.onmousedown = function(e,s,pos){};
 		this.onmouseup = function(e,s,pos){};
 		this.onmousemove = function(e,s,pos){};
 		this.ondblclick = function(e,s,pos){};
 		this.onkeypress = function(e){};
-		
+		*/
 
 		this._applyMouseBehaviours(this.wrapper);
 		for(var i =0; i < this.wrapper.childNodes.length; i++){
@@ -144,40 +149,81 @@ VismoClickableCanvas.prototype = {
 				        
 					that.keypressactive =  true;
 					window.onkeypress = that.onkeypress;
-					document.onkeypress = function(e){if(!e) e= window.event;if(that.initialKeyPress)that.initialKeyPress(e);if(!e) e= window.event;var s = newbehaviour(e); that.onkeypress(e,s)};
+					document.onkeypress = function(e){if(!e) e= window.event;if(that.initialKeyPress)that.initialKeyPress(e);if(!e) e= window.event;var s = newbehaviour(e); 
+					        if(that.onkeypress)that.onkeypress(e,s)
+					};
 				}
-		}
+		};
 		el.onmouseout = function(e){if(!e) e= window.event;that.keypressactive = false;};
 
 		el.onmousedown = function(e){
 			if(!e) e= window.event;
 			if(e.preventDefault)e.preventDefault(e);
 			var s = newbehaviour(e); 
-			//var pos = VismoTransformations.getXY(e,that.getTransformation());
 			if(s){
-				if(s.getProperty("onmousedown"))s.getProperty("onmousedown")(e,s);		
-				else that.onmousedown(e,s);
+				if(s.getProperty("onmousedown")){
+				        s.getProperty("onmousedown")(e,s);		
+				}else {
+				        if(that.onmousedown)that.onmousedown(e,s);
+			        }
 			}
-			else {if(down)down(e,s);}
+			else {
+			        if(down)down(e,s);
+			}
 			
 
 			return false;
-		}
+		};
 
-		el.ondblclick = function(e){
+        	el.ondblclick = function(e){
 			if(!e) e= window.event;
 			var s = newbehaviour(e); 				
 			if(s) {
-				if(s.getProperty("ondblclick"))s.getProperty("ondblclick")(e,s);
-				else {
-					that.ondblclick(e,s);
-				}
-			}
-			else {if(dblclick)dblclick(e,s);}
 		
+				if(s.getProperty("ondblclick")){
+				        s.getProperty("ondblclick")(e,s);
+				}
+				else if(that.ondblclick){
+        			        that.ondblclick(e,s);
+        			}
+        			else{
+        	       
+        			
+        			}
+			}
+			else {
+
+				if(dblclick){
+				        dblclick(e,s);
+                                }
+			}
 		};
-		el.onmouseup = function(e){ if(!e) e= window.event;var s = newbehaviour(e); if(s){if(s.getProperty("onmouseup"))s.getProperty("onmouseup")(e,s);else that.onmouseup(e,s);}else{if(up)up(e,s);}}
-		el.onmousemove = function(e){ if(!e) e= window.event;var s = newbehaviour(e);if(s){if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);} that.onmousemove(e,s); if(mv)mv(e,s);}
+                	el.onmouseup = function(e){ if(!e) e= window.event;var s = newbehaviour(e); 
+		        if(s){
+		                if(s.getProperty("onmouseup")){
+		                        s.getProperty("onmouseup")(e,s);
+		                }
+		                else {
+		                        if(that.onmouseup)that.onmouseup(e,s);
+		                }
+		        }
+		        else{
+		                if(up)up(e,s);
+		        }
+		};
+		var defaultCursor;
+		el.onmousemove = function(e){ if(!e) e= window.event;var s = newbehaviour(e);
+		        if(s){
+		                if(el.style.cursor != "pointer")defaultCursor = el.style.cursor;
+		                if(that.ondblclick || that.onmousedown || that.onmouseup) el.style.cursor = "pointer";
+		                if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);
+		        }
+		        else{
+		                el.style.cursor = defaultCursor;
+		        }
+		        if(that.onmousemove)that.onmousemove(e,s); 
+		        if(mv)mv(e,s);
+		};       	
 
 	}
 	,getDimensions: function(){

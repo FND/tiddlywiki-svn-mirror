@@ -113,6 +113,9 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					};				
 				
 			}
+			else if(ctrlType == 'date'){
+			        this.createDatePicker(place,title,metaDataName);
+			}
 			else if(ctrlType == 'color'){
 				this.createColorBar(place,title,metaDataName);
 			}
@@ -483,6 +486,14 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 		
 		}
+		,createDatePicker: function(place,title,metaDataName){
+		        
+		        var tiddler = store.getTiddler(title);
+		        var params = [metaDataName];
+		        config.macros.edit.handler(place,false,params,false,false,tiddler)
+                        
+		}
+		
 	};
 	
 	

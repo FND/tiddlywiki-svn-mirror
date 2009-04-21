@@ -403,6 +403,11 @@ VismoController.prototype = {
 	
 	},
 	setTransformation: function(t){
+	        if(!t.origin){
+	                var w = jQuery(this.wrapper).width();
+	                var h = jQuery(this.wrapper).height();
+	                t.origin = {x: w/2, y: h/2};
+	        }
 		if(this.enabled){
 			if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
 			this.transformation = t;
