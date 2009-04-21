@@ -59,7 +59,6 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	wikify("<<docPrint "+params[0]+">>", buttonHolder);
 	window.activeDocument = params[0];
 	createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
-//	btn.setAttribute("newTemplate","mpTheme##newEditTemplate");
 	var displaySettings= function () {
 		story.displayTiddler(null, "Settings");
 	};
@@ -211,8 +210,9 @@ config.macros.docPrint.handler=function(place,macroName,params,wikifier,paramStr
 			htmlStack.push("</body></html>")
 			var htmlString = htmlStack.join("\n");
 			newDate = new Date();
-			store.saveTiddler(params[0]+' Print Preview', params[0]+' Print Preview', htmlString, config.options.txtUserName, newDate,"",config.defaultCustomFields);
-			story.displayTiddler(null, params[0]+' Print Preview');
+			var name = "Please wait..";
+			store.saveTiddler(name, name, "Creating PDF file of "+params[0]+" for printing. You should be prompted to download a .pdf file shortly.", config.options.txtUserName, newDate,"",config.defaultCustomFields);
+			story.displayTiddler(null, name);
 		doHttp('POST',url+'plugins/TiddlyDocs/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(htmlString)+'&compositionTiddler='+params[0],null,null,null,config.macros.docPrint.saveCallback,params);		
 //displayMessage("made it to here1");
 

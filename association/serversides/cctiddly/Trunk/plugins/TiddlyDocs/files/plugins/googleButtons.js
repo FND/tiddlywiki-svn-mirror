@@ -68,7 +68,7 @@ html:not([lang*=""]) button.btn {
 }
 
 .btn span {
-	background:#eee url(img/bg-button.gif) repeat-x 0 0;
+	background:#aaa url(img/bg-button.gif) repeat-x 0 0;
 	margin:0;
 	padding:3px 0;
 }
@@ -81,14 +81,14 @@ html:not([lang*=""]) button.btn {
 	position:relative;
 	padding:1.5px .3em;
 	border-width:0;
-	color:#999;
+	color:#fff;
 	
-font-size:110%;	
+font-size:100%;	
 	font-family:Arial Black,Arial,Helvetica,sans-serif;
 	font-weight:bold;
 
 	height:auto !important;
-	letter-spacing:-1px;
+	letter-spacing:-0.1px;
 	line-height:14px;
 	text-decoration:none;
 	text-transform:uppercase;
