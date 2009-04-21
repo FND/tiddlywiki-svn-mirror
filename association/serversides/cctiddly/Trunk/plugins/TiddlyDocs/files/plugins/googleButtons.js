@@ -19,8 +19,8 @@ function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey,at
 		var span = createTiddlyElement(span, "span");
 		if(image) {
 			var img = createTiddlyElement(span, "img");
-			img.style.width = "10px";
-			img.style.height="10px";
+			img.style.width = "15px";
+			img.style.height="15px";
 			img.src = image;
 		}
 		span.appendChild(document.createTextNode(text));
@@ -71,8 +71,6 @@ html:not([lang*=""]) button.btn {
 	background:#eee url(img/bg-button.gif) repeat-x 0 0;
 	margin:0;
 	padding:3px 0;
-	border-left:1px solid #333;
-	border-right:1px solid #444;
 }
 
 * html .btn span {
@@ -81,11 +79,19 @@ html:not([lang*=""]) button.btn {
 
 .btn span span {
 	position:relative;
-	padding:3px .4em;
+	padding:1.5px .3em;
 	border-width:0;
-	border-top:1px solid #333;
-	border-bottom:1px solid #444;
-	color:black;
+	color:#999;
+	
+font-size:110%;	
+	font-family:Arial Black,Arial,Helvetica,sans-serif;
+	font-weight:bold;
+
+	height:auto !important;
+	letter-spacing:-1px;
+	line-height:14px;
+	text-decoration:none;
+	text-transform:uppercase;
 }
 
 .btn:focus, .btn:active {

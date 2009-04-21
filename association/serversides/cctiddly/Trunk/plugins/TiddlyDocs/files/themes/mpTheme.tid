@@ -326,7 +326,7 @@ h1, h2, h3, h4, h5, h6 {
 	top:-3.2em;
 }
 .editTaskControls {
-	margin-left:12em;
+	margin-left:15em;
 	top:-3.2em;
 }
 
