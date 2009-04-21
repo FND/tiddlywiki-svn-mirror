@@ -155,7 +155,7 @@ def _decode_legacy_text(text): # TODO: move into TiddlyWiki class
 		replace(r"\s", "\\").replace("\r", "")
 
 
-def create_tiddler_element(tiddler):
+def generate_tiddler_element(tiddler):
 	"""
 	create tiddler element from Tiddler instance
 
@@ -177,6 +177,6 @@ def create_tiddler_element(tiddler):
 	tags = " ".join(tiddler.tags) # TODO: generate bracketed list -- XXX: should be entirely optional!?
 	fields = ['%s="%s"' % (k, v) for k, v in tiddler.fields.items()]
 	fields = " ".join(fields) if fields else ""
-	text = tiddler.text or ""
+	text = tiddler.text or "" # TODO: escape chevrons, double quotes and ampersands
 	# TODO: escape double quotes!?
 	return template % (title, created, modified, modifier, tags, fields, text)
