@@ -1,4 +1,6 @@
 
+Development of this code has moved to http://github.com/tiddlyweb
+
 A version of paste's <http://pythonpaste.org/> gzipper middleware
 which takes an output stream and gzip's before sending it on to
 the browser.

@@ -1,3 +1,5 @@
+Development of this code has moved to http://github.com/tiddlyweb
+
 static.py is a simple plugin to deliver static content read from disk
 via the tiddlyweb code. This is only useful if you are using the 
 cherrypy webserver that ships with TiddlyWeb. If you are not, for 

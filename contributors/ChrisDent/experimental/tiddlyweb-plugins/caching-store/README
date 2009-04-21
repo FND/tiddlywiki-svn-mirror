@@ -1,4 +1,6 @@
 
+Development of this code has moved to http://github.com/tiddlyweb
+
 A memcached based cache for (eventually) any store
 used with tiddlyweb. Decorates an existing store.
 

@@ -1,3 +1,4 @@
+Development of this code has moved to http://github.com/tiddlyweb
 
 The module in this directory, atom.py, demonstrates a way
 to do a very simple Atom format syndication of a recipe, bag

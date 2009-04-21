@@ -1,4 +1,6 @@
 
+Development of this code has moved to http://github.com/tiddlyweb
+
 tiddlywebweb is a plugin for TiddlyWeb that allows the use
 of a different TiddlyWeb instance as its datastore.
 
