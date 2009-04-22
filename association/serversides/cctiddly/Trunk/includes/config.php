@@ -22,7 +22,6 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"SkinnyTiddlers",
 	"seo",
 	"LDAP",
-	"FCKEditor",
 	"WordpressMigration"
 );
 

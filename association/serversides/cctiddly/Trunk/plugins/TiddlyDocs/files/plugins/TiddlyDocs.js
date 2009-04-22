@@ -58,7 +58,12 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 		wikify("| [[Drawings]] | <<newDrawing>>  ", buttonHolder);
 	wikify("<<docPrint "+params[0]+">>", buttonHolder);
 	window.activeDocument = params[0];
-	createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
+	var btn = createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
+
+	btn.setAttribute("newTitle","New Section");
+	btn.setAttribute("newTemplate",getParam(params,"template","mpTheme##newEditTemplate"));
+	
+
 	var displaySettings= function () {
 		story.displayTiddler(null, "Settings");
 	};

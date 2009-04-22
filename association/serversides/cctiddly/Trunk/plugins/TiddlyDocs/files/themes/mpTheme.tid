@@ -17,6 +17,9 @@ tags: systemTheme
 |''~wizardViewTemplate:''|##wizardViewTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
 |''~EditTemplate:''|##EditTemplate|
+|''~newEditTemplate:''|##newEditTemplate|
+
+
 |''~taggingViewTemplate:''|##taggingViewTemplate|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
@@ -960,6 +963,11 @@ padding-top:0em;
 .newCommentArea  a.btn {
 	margin-top:0.5em;
 }
+
+html body .newSectionEditor {
+	top:0em;
+	width:100%;
+}
 <!--}}}-->
 
 
@@ -1014,12 +1022,15 @@ padding-top:0em;
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
+				<div style="width:100%" macro='edit title'></div>
 		</div>
+	
 	</div>
+
 	<div class="portletContent">
 
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='editor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+
+		<div  macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 		<!--
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
 		<div class='commentsArea' macro='comments'></div>

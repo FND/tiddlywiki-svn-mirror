@@ -409,6 +409,8 @@ editable: function(params) {
 
 // callers may replace this with their own ID generation algorithm
 createCommentTiddler: function() {
+	
+	console.log("got to create comment tiddler");
   if (!store.createGuidTiddler) return store.createTiddler("comment_"+((new Date()).getTime()));
   return store.createGuidTiddler("comment_");
 },
