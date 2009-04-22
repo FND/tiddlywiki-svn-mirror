@@ -205,7 +205,7 @@ label {
 	text-shadow:1px 1px 0 #444444;
 	vertical-align:top;
 }
-#searchform fieldset #s, .txtOptionInput, input {
+#searchform fieldset #s, .txtOptionInput {
 	-moz-border-radius-bottomleft:2px;
 	-moz-border-radius-bottomright:2px;
 	-moz-border-radius-topleft:2px;
@@ -905,6 +905,9 @@ padding-top:2.2em;
 	border:none;
 	background: transparent;
 }
+html body #messageArea a {
+color:#fff;
+}
 
 #messageArea .messageBox {
 	border:1px solid #777;
@@ -968,6 +971,14 @@ html body .newSectionEditor {
 	top:0em;
 	width:100%;
 }
+
+html .wizardViewer .tiddlyLink {
+color:#fff;
+}
+
+ .highlight, .marked {
+background:red none repeat scroll 0 0;
+}
 <!--}}}-->
 
 
@@ -1017,12 +1028,16 @@ html body .newSectionEditor {
 
 !newEditTemplate
 <!--{{{-->
+
+
+
+
 <div class="portletContainer">
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
-				<div style="width:100%" macro='edit title'></div>
+				<div  macro='edit title'></div><br/>
 		</div>
 	
 	</div>

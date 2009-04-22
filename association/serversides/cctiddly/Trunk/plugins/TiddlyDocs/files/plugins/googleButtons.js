@@ -22,6 +22,8 @@ function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey,at
 			img.style.width = "15px";
 			img.style.height="15px";
 			img.src = image;
+			img.style.position = "relative";
+			img.style.top = "0.3em";
 		}
 		span.appendChild(document.createTextNode(text));
 	}
@@ -73,6 +75,11 @@ html:not([lang*=""]) button.btn {
 	padding:3px 0;
 }
 
+.btn span:hover {
+	background:#fff;
+	color:#777;
+}
+
 * html .btn span {
 	padding-top:0;
 }
@@ -94,8 +101,11 @@ font-size:100%;
 	text-transform:uppercase;
 }
 
+
+
 .btn:focus, .btn:active {
 	outline:none; 
+	background:red;
 }
 
 .primary {

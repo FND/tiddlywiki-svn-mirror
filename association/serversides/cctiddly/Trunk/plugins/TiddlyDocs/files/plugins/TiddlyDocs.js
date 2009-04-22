@@ -60,7 +60,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 	window.activeDocument = params[0];
 	var btn = createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
 
-	btn.setAttribute("newTitle","New Section");
+	btn.setAttribute("newTitle","New Section Title");
 	btn.setAttribute("newTemplate",getParam(params,"template","mpTheme##newEditTemplate"));
 	
 
