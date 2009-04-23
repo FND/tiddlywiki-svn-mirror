@@ -1,0 +1,22 @@
+<div title="GettingStarted" longitude="139.76394653320315" latitude="35.67882880152405">
+<pre>
+Welcome to your very first VismoWiki.
+
+It's the same as a TiddlyWiki so just before you'll need to modify the following tiddlers:
+* SiteTitle & SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)
+* MainMenu: The menu (usually on the left)
+* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the TiddlyWiki is opened
+You'll also need to enter your username for signing your edits: <<option txtUserName>>
+
+However it comes with lots of extra special features to visualise your notes. Have a look at [[PageTemplate]] to see how the macros are setup.
+
+!A brief explanation:
+TiddlyTagMindMap lets you view tiddler/tag relationships. The node layout is fixed and cannot be played with. 
+
+VismoGraph gives an alternative way of doing exactly the same but it is much less mature so hasn't got as many features. In the future VismoGraph should be able to do everything TiddlyTagMindMap does but more. In VismoGraph you can move nodes by clicking, holding and dragging on a given shape.
+
+GeoTiddlyWiki allows you to see tiddlers on a map of the world. Simply add a longitude and latitude coordinate in any tiddler, save and reload the page and you will see it on the map.
+
+ImageTagging allows you to create tags on any given image (double click on a blank space to create a new one) and move nodes just as you do in VismoGraph. You can also increase the size of tags you place by clicking the + and - keys on your keyboard.
+</pre>
+</div>
