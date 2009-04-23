@@ -347,13 +347,16 @@ html body a {
 	font-size:1.5em;
 	font-weight:bold;
 	font-family:arial black;
+	position:relative;
+	top:-0.4em;
 }
 
 .siteSubtitle{
 	color:#ddd;
 	font-size:1em;
 	font-family:arial black;
-
+	position:relative;
+	top:-0.5em;
 }
 
 body {
