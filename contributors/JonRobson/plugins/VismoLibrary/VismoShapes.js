@@ -18,11 +18,9 @@ if(!Array.indexOf) {
 var VismoUtils = {
 	userAgent: navigator.userAgent.toLowerCase(),
 	clone: function(obj){
-
-        if(obj.appendChild) return obj;
-	    if(obj == null || typeof(obj) != 'object')
-
-	        return obj;
+                if(!obj) return;
+            if(obj.appendChild) return obj;
+	    if(obj == null || typeof(obj) != 'object')return obj;
 
 	    var temp = new obj.constructor(); // changed (twice)
 

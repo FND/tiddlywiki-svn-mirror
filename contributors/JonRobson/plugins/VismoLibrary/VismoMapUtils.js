@@ -1,23 +1,7 @@
 
 /*
 Some common utils used throughout package 
-Clone function courtesy of http://keithdevens.com/weblog/archive/2007/Jun/07/javascript.clone
 */
-
-if(!window.console) {
-	console = {
-		log:function(message) {
-			var d = document.getElementById('consolelogger');
-			if(d) {
-				d.innerHTML += message+"<<] ";
-			}
-		}
-	};
-}
-
-
-
-
 
 var VismoMapUtils = {
 	googlelocalsearchurl: "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="

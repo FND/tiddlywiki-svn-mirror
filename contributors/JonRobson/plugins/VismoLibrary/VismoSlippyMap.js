@@ -116,7 +116,7 @@ VismoGlobe.prototype = {
 
 
 var VismoSlippyMap = function(vismoMap){	
-	//vismoMap.resize(256,256);
+	vismoMap.resize(256,256);
 	this.loadedurls = {};
 	this.setupSlippyStaticMapLayer(vismoMap);
 

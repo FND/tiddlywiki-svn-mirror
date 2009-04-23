@@ -184,12 +184,7 @@ VismoController.prototype = {
 				
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
-			
-                        if (e && e.stopPropagation) //if stopPropagation method supported
-                        e.stopPropagation();
-                        else
-                        e.cancelBubble=true;
-                        if(e.preventDefault)e.preventDefault();
+
                         
 			if(!that.goodToTransform(e)) return false;
 			
@@ -210,7 +205,7 @@ VismoController.prototype = {
 		                delta = -e.detail/3;
 		        }
 	
-			var sensitivity = 0.8;
+			var sensitivity = 0.4;
 			var scale =that.transformation.scale;
 			var origin = that.transformation.origin;
 
@@ -229,9 +224,8 @@ VismoController.prototype = {
 			
 			that.crosshair.el.style.left = mousepos.x + "px";
 			that.crosshair.el.style.top = mousepos.y + "px";
-			if(!that.crosshair.lastdelta) {
-				that.crosshair.lastdelta = delta;
-			}
+	
+
 
 			if(delta > that.crosshair.lastdelta + sensitivity || delta < that.crosshair.lastdelta - sensitivity){	
 				var newx,newy;
@@ -251,8 +245,13 @@ VismoController.prototype = {
 				}
 
 			}
+			that.crosshair.lastdelta = delta;	
 			
-
+                        if (e && e.stopPropagation) //if stopPropagation method supported
+                        e.stopPropagation();
+                        else
+                        e.cancelBubble=true;
+                        if(e.preventDefault)e.preventDefault();
 
 			
 			return false;

@@ -192,7 +192,9 @@ VismoClickableCanvas.prototype = {
         			}
 			}
 			else {
-
+				if(that.ondblclick){
+        			        that.ondblclick(e,s);
+        			}
 				if(dblclick){
 				        dblclick(e,s);
                                 }
@@ -213,7 +215,7 @@ VismoClickableCanvas.prototype = {
 		};
 		var defaultCursor;
 		el.onmousemove = function(e){ if(!e) e= window.event;var s = newbehaviour(e);
-		        if(s){
+		        if(s && !s.getProperty("unclickable")){
 		                if(el.style.cursor != "pointer")defaultCursor = el.style.cursor;
 		                if(that.ondblclick || that.onmousedown || that.onmouseup) el.style.cursor = "pointer";
 		                if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);
@@ -575,6 +577,7 @@ VismoClickableCanvas.prototype = {
 		var moveit = function(){
 			var pos = curpos;
 			if(selectedshape){
+			        el.style.cursor = 'move';
 				s = selectedshape;
 				s.setCoordinates([pos.x,pos.y,s.getRadius()]); 
 				clickablecanvas.render();
@@ -602,13 +605,18 @@ VismoClickableCanvas.prototype = {
 			if(!cont) return;
 		};
 
-		var onmousedown = function(e,s){			if(el.vismoController)el.vismoController.disable(); beginmoving = false;selectedshape = s; if(s.getShape() != 'circle') cancel(); window.setTimeout(checkformouseup,700); };
+		var onmousedown = function(e,s){			if(el.vismoController)el.vismoController.disable(); beginmoving = false;selectedshape = s; if(s.getShape() != 'circle') cancel(); window.setTimeout(checkformouseup,200); };
 		var onmouseup = function(e,s){cancel(); window.setTimeout(cancel,200);};
 
                 var result = {};
                 this.onmouseup = function(e,s){onmouseup(e,s);if(up)up(e,s);};
                 this.onmousedown = function(e,s){onmousedown(e,s);if(down)down(e,s);};
-                this.onmousemove = function(e,s){onmousemove(e,s);if(move)move(e,s);};
+                this.onmousemove = function(e,s){onmousemove(e,s);if(move)move(e,s);
+                        var showitsmoveable = function(){
+                                el.style.cursor = 'move';
+                        };
+                        window.setTimeout(showitsmoveable,1000);
+                };
                 
         }
 };
