@@ -1,5 +1,5 @@
 <div title="The Map" tags="excludeLists excludeSearch">
 <pre>
-<<geoedit width:500 height:300 projection:slippystaticmap id:mytrip source:false>>
+<<geo width:500 height:300 projection:slippystaticmap id:mytrip source:false editable:true>>
 </pre>
 </div>

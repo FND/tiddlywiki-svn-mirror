@@ -91,11 +91,13 @@ function getElementChild(el,tag){
 			var that = this;
 			var eMap = this.createNewVismoMap(place,prms);
 			var onmup = function(e,shape,mouse,longitude_latitude,feature){	
-			        							
+			       					
 				if(shape &&shape.properties){
-					var shapeName = shape.properties.name;
+				   console.log("yey");	
+					var shapeName = shape.getProperty("name");
 				}
 				else{
+				
 				        //add new geotag
 				        var ll = longitude_latitude;
 				        if(ll)that.addGeoTiddler(eMap,"GeoTag (long:"+ ll.longitude + ",lat:" + ll.latitude+ ")",ll,fill,"",["geotagged"])
@@ -118,10 +120,11 @@ function getElementChild(el,tag){
 				story.displayTiddler(tiddlerElem,shapeName);
 				return false;
 			};
+	                		this.addVismoMapControls(eMap,prms);
+        
 			eMap.setMouseFunctions(false,false,false,false,onmup);
 
-			this.addVismoMapControls(eMap,prms);
-
+	
 			var source = getParam(prms,"source");
 
 			var geodata = this.getGeoJson(source,eMap,prms);

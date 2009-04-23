@@ -5,7 +5,9 @@ Mousewheel zooming currently not working as should - should center on location w
 Will be changed to take a handler parameter rather then a targetjs
  */
 
-var VismoController = function(targetjs,elem,options){ //elem must have style.width and style.height etM                 
+var VismoController = function(targetjs,elem,options){ //elem must have style.width and style.height etM   
+        if(elem.hasVismoController) throw "this already has a vismo controller!"
+        elem.hasVismoController = true;              
 	this.enabledControls = [];
 	if(!options) options = ['pan','zoom','mousepanning','mousewheelzooming'];
 
@@ -25,34 +27,33 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 		child.onmouseup = function(e){if(mu)mu(e);}
 		child.onmousemove = function(e){if(mm)mm(e);}
 	}
-	var controlDiv = this.wrapper.controlDiv;
-	if(!controlDiv) {
-		controlDiv = document.createElement('div');
-		controlDiv.style.position = "absolute";
-		controlDiv.style.top = "0";
-		controlDiv.style.left = "0";
-		controlDiv.className = 'vismoControls';
-		jQuery(controlDiv).css({'z-index':30, height:"120px",width:"60px"});
-		this.wrapper.appendChild(controlDiv);
-		this.controlDiv = controlDiv;
-		this.controlCanvas = this._createcontrollercanvas(60,120);
-		this.controlDiv.vismoController = this;
-		var vismoController = this;
-		var preventDef = function(e){
-                        if (e && e.stopPropagation) //if stopPropagation method supported
-                         e.stopPropagation()
-                        else
-                         e.cancelBubble=true
-                  return false;      
-		};
-		var f = function(e,s){
-		        vismoController._panzoomClickHandler(e,s,vismoController);
-		        return preventDef(e);
-		};
-		this.controlCanvas.setOnMouse(preventDef,f,preventDef,preventDef,preventDef);
-		this.wrapper.controlDiv = controlDiv;
-		this.wrapper.vismoController = this;
-	}
+        
+	controlDiv = document.createElement('div');
+	controlDiv.style.position = "absolute";
+	controlDiv.style.top = "0";
+	controlDiv.style.left = "0";
+	controlDiv.className = 'vismoControls';
+	jQuery(controlDiv).css({'z-index':30, height:"120px",width:"60px"});
+	this.wrapper.appendChild(controlDiv);
+	this.controlDiv = controlDiv;
+        this.controlCanvas = new VismoClickableCanvas(this.controlDiv);
+	this.controlDiv.vismoController = this;
+	var vismoController = this;
+	var preventDef = function(e){
+                if (e && e.stopPropagation) //if stopPropagation method supported
+                 e.stopPropagation()
+                else
+                 e.cancelBubble=true
+          return false;      
+	};
+	var f = function(e,s){
+	        vismoController._panzoomClickHandler(e,s,vismoController);
+	        return preventDef(e);
+	};
+	this.controlCanvas.setOnMouse(preventDef,f,preventDef,preventDef,preventDef);
+
+	this.wrapper.vismoController = this;
+	
 	
 	
 	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0},origin:{}};	
@@ -77,6 +78,7 @@ VismoController.prototype = {
 	        this.enabledControls.push(controlName);      
 	}
 	,applyLayer: function(){
+	        if(VismoUtils.browser.isIE) return;
 	        var that = this;
 	
 	        this.controlCanvas.render();
@@ -94,7 +96,7 @@ VismoController.prototype = {
 	        if(enabled.contains("zoom")) zoom = true;
 	        var img,svg;
 	        var imgcallback = function(){
-	                jQuery(that.wrapper.controlDiv).css({"background-image":"url("+ img+")"});
+	                jQuery(that.controlDiv).css({"background-image":"url("+ img+")"});
 	                hidebuttons();
 	        };
                 var callback = function(response){
@@ -118,8 +120,8 @@ VismoController.prototype = {
                                 shape.setAttribute('data', dataString); // the "<svg>...</svg>" returned from Ajax call                                      
                                 jQuery(shape).css({width:60,height:120})
                         }
-                        that.wrapper.controlDiv.appendChild(shape);
-                        jQuery(that.wrapper.controlDiv).css({"background-image":"none"});
+                        that.controlDiv.appendChild(shape);
+                        jQuery(that.controlDiv).css({"background-image":"none"});
                         hidebuttons();
                 };
                 	        
@@ -445,6 +447,7 @@ VismoController.prototype = {
 	},	
 	createButton: function(width,direction,offset,properties) {
 	        var canvas = this.controlCanvas;
+	        if(!canvas) throw "no canvas to create on..";
 		if(!width) width = 100;
 		var r = width/2;
 
@@ -498,10 +501,6 @@ VismoController.prototype = {
 	
 	},
 	
-	_createcontrollercanvas: function(width,height){
-		var cc= new VismoClickableCanvas(this.controlDiv);
-		return cc;
-	},
 	addPanningActions: function(controlDiv){
 	        this._addEnabledControl("pan");
 		this.createButton(10,180,{x:-6,y:-54},{'actiontype':'N','name':'pan north','buttonType': 'narrow'});

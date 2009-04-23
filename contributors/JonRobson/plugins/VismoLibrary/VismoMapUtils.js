@@ -117,7 +117,7 @@ var VismoMapUtils = {
 		VismoFileUtils.loadRemoteFile(that.googlelocalsearchurl+query,fileloadedcallback);
 	}
 	,getLongLatFromMouse: function(x,y,vismoMap){
-		var t =vismoMap.controller.transformation;
+		var t =vismoMap.getTransformation();
 		var pos = VismoClickingUtils.undotransformation(x,y,t);	
 		
 		if(vismoMap.settings.projection) {
@@ -128,11 +128,11 @@ var VismoMapUtils = {
 		var la = -pos.y;
 		
 		
-		if(la > 85.0511) la =85;
-		if(la < -85.0511) la = -85;
-		if(lo < -180) lo = -179;
-		if(lo > 180) lo=179;
-		
+		/*if(la > 85.0511) la = -la%85.0511;
+		if(la < -85.0511) la = -la%85.0511;
+		if(lo < -180) lo = -lo%180;
+		if(lo > 180) lo = - lo%180;
+		*/
 		return {latitude: la, longitude: lo};
 	}
 	,_radToDeg: function(rad){

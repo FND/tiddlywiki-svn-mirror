@@ -129,9 +129,17 @@ var tabs = jQuery(".jQueryTabs");
                 }
         }
 }
-var oldrd = refreshDisplay;
+
+var i;
+for(i in config.notifyTiddlers){
+        if(config.notifyTiddlers[i]){
+               var oldnotify =config.notifyTiddlers[i].notify;
+               config.notifyTiddlers[i] = function(){oldnotify();makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();};
+        }
+}
 story.handytweakdisplaytiddler = story.displayTiddler;
-refreshDisplay=  function(hint){oldrd(hint); makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();};
+var oldrd = refreshDisplay;
+//refreshDisplay=  function(hint){oldrd(hint); makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();};
 story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID){
         story.handytweakdisplaytiddler(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID);
         makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();

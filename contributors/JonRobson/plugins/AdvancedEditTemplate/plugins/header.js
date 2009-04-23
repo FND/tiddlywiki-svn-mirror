@@ -26,7 +26,7 @@ config.macros.FileTree = {
 	var p = paramString.parseParams();
 	var connector= getParam(p,"connector");
 	$(el).fileTree({ root: 'images/', script: connector }, function(file) { 
-				alert(file);
+				//alert(file);
 			});
 	}
 	catch(e){

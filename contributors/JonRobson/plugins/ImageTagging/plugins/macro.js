@@ -230,8 +230,11 @@ config.macros.TagImage = {
 			if(editable){
 	
                 		move = function(e,s){
-                		        if(s) box.style.display = "none";
-			                else box.style.display = "";
+                		        if(s && !s.getProperty("unclickable")) box.style.display = "none";
+			                else {
+			                        var unhide = function(){box.style.display = "";};
+			                        window.setTimeout(unhide,300);
+                			}
                 			var pos = VismoClickingUtils.getMouseFromEvent(e);
                 			var radius = config.macros.TagImage.properties[src].radius;
 
@@ -336,7 +339,7 @@ config.macros.TagImage = {
 					}
 					cc.resize(ewidth,eheight);
 
-					var imgproperties = {shape:'image',src:src,width:width,height:height};
+					var imgproperties = {unclickable: true,shape:'image',src:src,width:width,height:height};
 					cc.add(new VismoShape(imgproperties,[0,0]));					
 				}
 				else{

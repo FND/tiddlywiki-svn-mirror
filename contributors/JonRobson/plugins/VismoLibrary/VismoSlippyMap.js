@@ -116,7 +116,7 @@ VismoGlobe.prototype = {
 
 
 var VismoSlippyMap = function(vismoMap){	
-	vismoMap.resize(256,256);
+	//vismoMap.resize(512,512);
 	this.loadedurls = {};
 	this.setupSlippyStaticMapLayer(vismoMap);
 
@@ -128,14 +128,18 @@ var VismoSlippyMap = function(vismoMap){
 };
 
 VismoSlippyMap.prototype = {
-	
 	getGoogleMercatorProjection: function(vismomap){
 		
 		var p = {};
-		p.googleHack = 1/((2 * Math.PI * 6378137) / parseInt(vismomap.wrapper.style.width));
 		p.source = new Proj4js.Proj('WGS84');//
 		p.dest = new Proj4js.Proj('GOOGLE');
 		p.resultCache = {};
+		var that = this;
+		p.getTileServerUrl = function(){
+		        return that.tileserverurl;
+		}
+		p.tilesize = 256;
+		p.googleHack = 1/((2 * Math.PI * 6378137) /p.tilesize);
 		p.inversexy = function(x,y){
 			x /= this.googleHack;
 			y /= this.googleHack;
@@ -189,15 +193,14 @@ VismoSlippyMap.prototype = {
 		/*Filename(url) format is /zoom/x/y.png */
 		
 		var projection = this.getGoogleMercatorProjection(eMap);
+		//var projection = {};
 		eMap.setTransparency(0.7);
 		eMap.settings.projection = projection;
-		eMap._fittocanvas = false;
 		var that = this;
 		
-		//eMap.resize(512,512);
 		var mapheight =parseInt(eMap.wrapper.style.height);
 		var mapwidth =parseInt(eMap.wrapper.style.width);
-		var tileGridDimension = {x:mapwidth/256 + 1,y:(mapheight/256) + 1};
+		var tileGridDimension = {x:mapwidth/projection.tilesize + 1,y:(mapheight/projection.tilesize) + 1};
 		var tiles = this._createTiles(eMap,tileGridDimension.x,tileGridDimension.y);
 		var eMap = eMap;
 		
@@ -231,7 +234,7 @@ VismoSlippyMap.prototype = {
 				}
 				zoomL = 0;
 				tilex = 0;tiley=0;
-				var slippyurl ="http://tile.openstreetmap.org/"+zoomL +"/"+tilex+"/"+tiley+".png";
+				var slippyurl =projection.getTileServerUrl()+zoomL +"/"+tilex+"/"+tiley+".png";
 				that.renderTile(slippyurl,zoomL,tilex,tiley,tile);					
 			}
 			else{
@@ -242,54 +245,38 @@ VismoSlippyMap.prototype = {
 				temp.y *= scale.y;				
 				temp.x += (origin.x);
 				temp.y += (origin.y);
-				var brleft = temp.x;
-				var brtop =temp.y;
-				brtop = brtop%(256);
-				brleft= brleft %(256);	
-				var cap= {};
-				cap.top =(mapheight) -256;
-				cap.left =(mapwidth)- 256;
-				 
-				if(brtop < cap.top) {
-					brtop += mapheight;
-				}
-				if(brleft < cap.left) {
-					brleft += (mapwidth);
-				}
-		
-				var lola = VismoMapUtils.getLongLatAtXY(brleft+128,brtop+128,eMap);
-				var btilexy =VismoMapUtils.getSlippyTileNumber(lola.longitude,lola.latitude,zoomL,eMap);
+				var tlleft = temp.x;
+				var tltop =temp.y;
+				//brtop = brtop%(256);
+				tlleft= temp.x % 256;
+				tltop =  temp.y % 256;
+                                if(tltop > 0) tltop -= 256;
+                                if(tltop < -256) tltop += 256;
+                                if(tlleft < -256) tlleft += 256;
+		                if(tlleft > 0) tlleft -= 256;
+				var lola;
+				
+				lola = VismoMapUtils.getLongLatAtXY(tlleft+128,tltop+128,eMap);
+			
+				var tltilexy =VismoMapUtils.getSlippyTileNumber(lola.longitude,lola.latitude,zoomL,eMap);
 				
 				for(var idX=0; idX < tileGridDimension.x; idX++){
 					for(var idY=0; idY < tileGridDimension.y; idY++){
-						var leftShift = (tileGridDimension.x - idX - 1);
-						var upShift = (tileGridDimension.y - idY - 1);
+						var leftShift = idX;
+						var upShift = idY;
 						var index = idX + "|"+idY;
 						var tile = tiles[index];
-						var top = brtop - (256 * idY);
-						var left = brleft - (256 *idX);
-						var tilex = btilexy.x - idX;
-						var tiley = btilexy.y - idY;
+						var top = tltop + (256 * idY);
+						var left = tlleft + (256 *idX);
+						var tilex = tltilexy.x + idX;
+						var tiley = tltilexy.y + idY;
+
 						
 						var numtiles = Math.pow(2,zoomL);
-						/*console.log(numtiles,tiley);
-						
-						if(tilex < 0) {
-						
-							tilex = numtiles + tilex;
-						}
-						else if(tilex >= numtiles){
-							
-								tilex = tilex - numtiles + 1;
-						}
-						if(tiley < 0) {
-							
-							tiley = numtiles + tiley;
-						}
-						else if(tiley >= numtiles){
-						
-								tiley = tiley - numtiles + 1 ;
-						}*/
+						if(tilex <  0) tilex = numtiles + tilex;
+						if(tiley < 0) tiley = numtiles + tiley;
+						if(tilex >= numtiles) tilex -= numtiles;
+						if(tiley >= numtiles) tiley -= numtiles;
 					
 						tile.style.left = left +"px";
 						tile.style.top = top + "px";
@@ -360,13 +347,14 @@ VismoSlippyMap.prototype = {
 		for(var y = 0; y < numtilesy; y++){
 			for(var x = 0; x < numtilesx; x++){
 				var tile = document.createElement("div");
+				tile.className = "tile_"+x+ "_"+y;
 				tile.style.position = "absolute";
 				tile.style.width = "256px";
 				tile.style.height = "256px";
+				//if(x == 0 && y == 0) tile.style.border = "solid 1px black";
 				var index =x+"|"+y;
 				tiles.appendChild(tile);
 				res[index] = tile;
-				//tile.style.border = "solid 1px black";
 			}
 		}
 		

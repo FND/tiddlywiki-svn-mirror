@@ -37,8 +37,7 @@ var VismoMap = function(wrapper){
 	this.transform(this.controller.transformation); //set initial transformation
 	this._fittocanvas = true;
 	this.geofeatures = {};
-	
-		this.clear();
+	this.clear();
 	
 	
 

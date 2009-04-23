@@ -105,6 +105,7 @@ coordinates are a string consisting of floats and move commands (M)
 */
 
 var VismoShape = function(properties,coordinates){
+
 	this.coordinates = {
 		projected: false,
 		normal: [],
@@ -167,6 +168,15 @@ VismoShape.prototype={
 	}
 	
 	,setCoordinates: function(coordinates,type){
+	        
+	        var good = [];
+	        for(var i=0; i < coordinates.length; i++){
+	                if(typeof(coordinates[i]) == 'number' && (coordinates[i] +"" !='NaN' | coordinates[i] == "M")) good.push(coordinates[i]);
+	        }
+	        if(good.length < 2) throw "cannot set coordinates for VismoShape not enough good coordinates given (coordinates may contain non-number elements)";
+                coordinates = good;
+                
+                
 		if(type == 'projected'){ this.coordinates.projected = coordinates;
 		return;}
 		
@@ -404,6 +414,7 @@ VismoShape.prototype={
 		var vismoShape = this;
 		var shapetype =vismoShape.getProperty("shape");
 			var ctx = canvas.getContext('2d');
+			if(!ctx) return;
 			ctx.save();
 			if(vismoShape.getProperty("lineWidth")){
 				ctx.lineWidth = vismoShape.getProperty("lineWidth");

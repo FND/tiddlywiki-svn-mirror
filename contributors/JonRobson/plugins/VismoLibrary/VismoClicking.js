@@ -20,6 +20,7 @@ function findScrollY()
 Following to be renamed as VismoClickableCanvas
 */
 var VismoClickableCanvas = function(element,vismoShapesList){
+        
 	if(typeof element == 'string') element= document.getElementById(element);
 	if(!element) throw "Element doesn't exist!";
 	if(element.vismoClicking) {
