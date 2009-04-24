@@ -134,6 +134,9 @@ config.macros.TiddlyTweets = {
 		stepElem.style.padding = 0;
 		stepElem.style.paddingBottom = "2em";
 		w.setButtons([{
+			caption: ""
+		},
+		{
 			caption: "Save To CSV",
 			tooltip: "Save to CSV",
 			onClick: function() {
@@ -142,8 +145,8 @@ config.macros.TiddlyTweets = {
 			}
 		},
 		{
-			caption: "Go back",
-			tooltip: "Go back to start",
+			caption: "Do it again!",
+			tooltip: "Start again",
 			onClick: function() {
 				var w = new Wizard(this);
 				var place = w.clear();
@@ -154,6 +157,40 @@ config.macros.TiddlyTweets = {
 		self.progressBar = w.bodyElem.getElementsByTagName('span')[0];
 		self.dispatcher(params);
 	}
+};
+
+jQuery.getJSONP = function(s) {
+    s.dataType = 'jsonp';
+    jQuery.ajax(s);
+
+    var t = 0, cb = s.url.match(/callback=(\w+)/)[1], cbFn = window
+[cb];
+    var $script = jQuery('head script[src*='+cb+']');
+    if (!$script.length)
+        return; // same domain request
+
+    $script[0].onerror = function(e) {
+    	var text = $script;
+        //$script.remove();
+        jQuery.handleError(s, {}, "error", e);
+        clearTimeout(t);
+    };
+
+    if (!s.timeout)
+        return;
+
+    window[cb] = function(json) {
+        clearTimeout(t);
+        cbFn(json);
+        cbFn = null;
+    };
+
+    t = setTimeout(function() {
+        $script.remove();
+        jQuery.handleError(s, {}, "timeout");
+        if (cbFn)
+            window[cb] = function(){};
+    }, s.timeout);
 };
 
 // like the more ambitious TwitterWizard below, but only for your tweets
@@ -172,7 +209,7 @@ config.macros.TwitterBackupWizard = {
 			self.step2(w);
 			return false;
 		};
-		w.addStep("Type in your Twitter username and hit the button", "<input name='username'>");
+		w.addStep("Type in your Twitter username please", "<input name='username'>");
 		w.formElem.onsubmit = onClick;
 		w.setButtons([{
 			caption: "Let's go",
@@ -181,14 +218,14 @@ config.macros.TwitterBackupWizard = {
 		}]);
 	},
 
-	handleProfilePageToCountUpdates: function(status, context, responseText, uri, xhr) {
-		var tweetCount = status.statuses_count;
+	handleProfilePageToCountUpdates: function(person, textStatus) {
+		var tweetCount = person.statuses_count;
 		var w = this.wizard;
 		config.macros.TwitterBackupWizard.step3(w, tweetCount);
 	},
 
 	step2: function(w) {
-		w.addStep("Hello " + w.username + ", counting your tweets...", "<span>Hold your horses!</span>");
+		w.addStep("Hello " + w.username + ", counting your tweets", "<span>hold your horses!</span>");
 		w.setButtons([]);
 		var self = config.macros.TwitterBackupWizard;
 		var host = "http://www.twitter.com";
@@ -197,24 +234,31 @@ config.macros.TwitterBackupWizard = {
 			wizard: w
 		};
 		//var req = httpReq("GET", url, self.handleProfilePageToCountUpdates, context);
-		var req = jQuery.ajax({
+		try {
+		var opt = {
 			url: url,
+			//url: 'http://jquery.com/Test.php',
 			dataType: 'jsonp',
 			success: self.handleProfilePageToCountUpdates,
 			error: self.errorFunc,
-			errorMessage: "Problem getting to Twitter",
 			wizard: w
-		});
+		};
+		jQuery.getJSONP(opt);
+		} catch(e) {
+			console.log(e,e.message);
+			alert('error');
+		}
 	},
 
 	step3: function(w, tweetCount) {
-		var step3html = "This might take a moment...";
+		var step3html = "";
 		if(tweetCount > 3200) {
-			step3html += "<br/><img src='http://www.dvdplaza.fi/reviews/images/heman46_000.jpg' title='image from http://www.dvdplaza.fi/' />";
-			w.addStep("oh noes "+w.username+"!, you've got "+tweetCount+" tweets and I can only get the first 3200 tweets - we need the Power of Greyskull to get back further than that!", step3html);
+			step3html += "we need the Power of Greyskull to get back further than that! Let's do what we can...<p /><img src='http://www.dvdplaza.fi/reviews/images/heman46_000.jpg' title='image from http://www.dvdplaza.fi/' />";
+			w.addStep("oh noes "+w.username+"!, you've got "+tweetCount+" tweets and I can only get the first 3200 tweets", step3html);
 			tweetCount = 3200;
 		} else {
-			w.addStep(w.username+", you've got " + tweetCount + " tweets! Let's download them", step3html);
+			step3html = "This might take a moment...";
+			w.addStep(w.username+", you've got " + tweetCount + "tweets!", step3html);
 		}
 		w.tweetCount = tweetCount;
 		w.maxPages = Math.ceil(parseInt(tweetCount, 10) / 200);
@@ -234,13 +278,55 @@ config.macros.TwitterBackupWizard = {
 			}
 		}]);
 	},
-
+	
 	errorFunc: function(XMLHttpRequest, textStatus, errorThrown) {
-		var message = this.message;
-		var w = this.w;
-		w.addStep("There has been a wee problem...", "<span>"+message+". Status: "+textStatus+"</span>");
+		var w = this.wizard;
+		var addResetButton = function(wizard) {
+			wizard.setButtons([{
+				caption: "Start again!",
+				tooltip: "Start again!",
+				onClick: function() {
+					var w = new Wizard(wizard.formElem);
+					var place = w.clear();
+					config.macros.TwitterBackupWizard.restart(w);
+					return false;
+				}
+			}]);
+		};
+		if(!self.apiLimitChecked) {
+			w.addStep("Ah. There has been a wee problem... maybe we're hammering Twitter too much", "checking your API rate limit...");
+			var twitterAPICheckerCallback = function(limitObj) {
+				self.apiLimitChecked = false; // ensure future errors trigger limit check again
+				var limit = limitObj.hourly_limit;
+				var remaining = limitObj.remaining_hits;
+				var w = this.wizard;
+				var errorHTML = "";
+				if(remaining > 0) {
+					errorHTML = "you have "+remaining+" calls left from an hourly limit of "+limit+"<p/>best check the twitter account exists: <a href='http://twitter.com/"+w.username+"' target='_blank'>"+w.username+"</a>";
+				} else {
+					errorHTML = "you've run out of calls to the API; wait a while and try again";
+				}
+				w.addStep("Checked your rate limit",errorHTML);
+				addResetButton(w);
+			};
+			var opt = {
+				url: "http://twitter.com/account/rate_limit_status.json",
+				dataType: 'jsonp',
+				success: twitterAPICheckerCallback,
+				error: arguments.callee,
+				wizard: w
+			};
+			self.apiLimitChecked = true;
+			jQuery.getJSONP(opt);
+		} else {
+			self.apiLimitChecked = false; // ensure future errors trigger limit check again
+						w.addStep("Error checking rate limit","maybe Twitter is down?<br/><a href='http://istwitterdown.com' target='_blank'>istwitterdown.com</a>");
+			addResetButton(w);
+		}
 	}
 };
+
+/*** past here, code is not used in Twitter Archiver ***/
 
 // Twitter archiving wizard -- XXX: experimental, incomplete -- TODO: i18n
 config.macros.TwitterWizard = {
