@@ -208,8 +208,14 @@ config.macros.TwitterBackupWizard = {
 	},
 
 	step3: function(w, tweetCount) {
-		var step3html = "This might take a moment (isn't that &#0153; Microsoft?)";
-		w.addStep(w.username+", you've got " + tweetCount + " tweets! Let's download them", step3html);
+		var step3html = "This might take a moment...";
+		if(tweetCount > 3200) {
+			step3html += "<br/><img src='http://www.dvdplaza.fi/reviews/images/heman46_000.jpg' title='image from http://www.dvdplaza.fi/' />";
+			w.addStep("oh noes "+w.username+"!, you've got "+tweetCount+" tweets and I can only get the first 3200 tweets - we need the Power of Greyskull to get back further than that!", step3html);
+			tweetCount = 3200;
+		} else {
+			w.addStep(w.username+", you've got " + tweetCount + " tweets! Let's download them", step3html);
+		}
 		w.tweetCount = tweetCount;
 		w.maxPages = Math.ceil(parseInt(tweetCount, 10) / 200);
 		w.setButtons([{
