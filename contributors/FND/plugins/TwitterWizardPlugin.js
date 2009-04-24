@@ -129,7 +129,7 @@ config.macros.TiddlyTweets = {
 			w.maxPages,
 			200
 		];
-		w.addStep("Downloading...","<span class='progress'></span>");
+		w.addStep("Downloading","<span class='progress'></span>");
 		var stepElem = w.bodyElem.getElementsByTagName('div')[1];
 		stepElem.style.padding = 0;
 		stepElem.style.paddingBottom = "2em";
@@ -160,6 +160,7 @@ config.macros.TiddlyTweets = {
 };
 
 jQuery.getJSONP = function(s) {
+	console.log('getJSONP has been called in the Twitter Archiver wizard');
     s.dataType = 'jsonp';
     jQuery.ajax(s);
 
@@ -246,7 +247,6 @@ config.macros.TwitterBackupWizard = {
 		jQuery.getJSONP(opt);
 		} catch(e) {
 			console.log(e,e.message);
-			alert('error');
 		}
 	},
 
@@ -304,7 +304,10 @@ config.macros.TwitterBackupWizard = {
 				if(remaining > 0) {
 					errorHTML = "you have "+remaining+" calls left from an hourly limit of "+limit+"<p/>best check the twitter account exists: <a href='http://twitter.com/"+w.username+"' target='_blank'>"+w.username+"</a>";
 				} else {
-					errorHTML = "you've run out of calls to the API; wait a while and try again";
+					var resetTime = limitObj.reset_time_in_seconds*1000 - new Date().getTime();
+					resetTime = new Date().getTime() + resetTime;
+					resetTime = new Date(resetTime);
+					errorHTML = "you've run out of calls to the API; wait a while and try again<p/>your limit will reset in less than "+resetTime.getMinutes()+" minutes";
 				}
 				w.addStep("Checked your rate limit",errorHTML);
 				addResetButton(w);

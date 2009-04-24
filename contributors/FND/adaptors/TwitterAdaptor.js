@@ -114,6 +114,49 @@ adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	}
 	/*var req = httpReq("GET", uri, adaptor.getTiddlerListCallback,
 		context, null, null, { accept: adaptor.mimeType });*/
+	jQuery.getJSONP = function(s) {
+		console.log('getJSONP has been called in the Twitter adaptor');
+	    s.dataType = 'jsonp';
+	    jQuery.ajax(s);
+	
+	    var t = 0, cb = s.url.match(/callback=(\w+)/)[1], cbFn = window
+	[cb];
+	    var $script = jQuery('head script[src*='+cb+']');
+	    if (!$script.length)
+	        return; // same domain request
+	
+	    $script[0].onerror = function(e) {
+	    	var text = $script;
+	        //$script.remove();
+	        jQuery.handleError(s, {}, "error", e);
+	        clearTimeout(t);
+	    };
+	
+	    if (!s.timeout)
+	        return;
+	
+	    window[cb] = function(json) {
+	        clearTimeout(t);
+	        cbFn(json);
+	        cbFn = null;
+	    };
+	
+	    t = setTimeout(function() {
+	        $script.remove();
+	        jQuery.handleError(s, {}, "timeout");
+	        if (cbFn)
+	            window[cb] = function(){};
+	    }, s.timeout);
+	};
+	var opt = {
+		url: uri,
+		dataType: 'jsonp',
+		success: adaptor.getTiddlerListCallback,
+		error: adaptor.errorFunc,
+		context: context
+	};
+	jQuery.getJSONP(opt);
+	/*
 	var req = jQuery.ajax({
 		url: uri,
 		dataType: 'jsonp',
@@ -122,7 +165,7 @@ adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 		errorMessage: "Problem getting data from Twitter",
 		context: context
 	});
-	return typeof req == "string" ? req : true;
+	return typeof req == "string" ? req : true;*/
 };
 
 adaptor.getTiddlerListCallback = function(data, textStatus) {
