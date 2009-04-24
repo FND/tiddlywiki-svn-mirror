@@ -24,13 +24,24 @@ div.headerShadow {
 	color: #DF4141;
 }
 
+#displayArea,
+div.header {
+	margin-left: 17em;
+}
+
+div.logo {
+	padding: 12px;
+	padding-left: 15px;
+	float: left;
+}
+
 div.header,
 div.headerShadow {
 	background-color: #DF4141;
         -moz-border-radius-bottomleft: 5px;
         -moz-border-radius-bottomright: 5px;
-        -webkit-border-radius-bottomleft: 5px;
-        -webkit-border-radius-bottomright: 5px;
+        -webkit-border-bottom-left-radius: 5px;
+        -webkit-border-bottom-right-radius: 5px;
 }
 
 .headerForeground {
@@ -68,6 +79,7 @@ div.viewer {
         border:2px solid #888;
         -moz-border-radius:5px;
         -webkit-border-radius:5px;
+	padding: 2em;
 }
 
 .wizard > h1 {
@@ -94,12 +106,21 @@ div.viewer {
         -moz-border-radius:5px;
         -webkit-border-radius:5px;
 	border:none;
+        border-bottom: 1px solid #000;
+        border-right: 1px solid #000;
+}
+
+#tiddlerTwitterBackupWizard {
+	padding: 0em;
 }
 
 #tiddlerThemeSwitcher div.viewer .button {
 	font-size: 1.2em;
 	line-height: 1.6em;
 	padding: 5px;
+	border:none;
+        border-bottom: 1px solid #000;
+        border-right: 1px solid #000;
 }
 
 #tiddlerThemeSwitcher div.viewer .button:hover,
@@ -107,10 +128,14 @@ div.wizardFooter .button:hover {
 	background-color: #3875D7;
 	color: #fff;
 	border:none;
+        border-bottom: 1px solid #000;
+        border-right: 1px solid #000;
 }
 
 .wizardStep {
 	border-color:#4D294D;
+	padding: 1em;
+	margin-bottom: 1em;
 };
 
 .progress {
@@ -170,6 +195,7 @@ div.wizardFooter .button:hover {
 
 !PageTemplate
 <!--{{{-->
+<div class='logo'><img src="images/TwitterArchiverLogo.png"/></div>
 <div class='header'>
 <div class='headerShadow'>
 <span class='siteTitle'></span>&nbsp;
@@ -185,6 +211,7 @@ div.wizardFooter .button:hover {
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
 </div>
+<div id='footer' refresh='content' tiddler='SiteFooter'></div>
 <!--}}}-->
 </pre>
 </div>
