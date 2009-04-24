@@ -12,4 +12,5 @@ tiddler: $TW_ROOT/contributors/JonathanLister/plugins/ToggleThemePlugin.js
 tiddler: $TW_ROOT/contributors/JonathanLister/templates/RssItemTemplate.tiddler
 tiddler: $TW_ROOT/contributors/JonathanLister/templates/RssItemCategoryTemplate.tiddler
 tiddler: $TW_ROOT/contributors/MartinBudden/experimental/TemplateFormatterPlugin.js tags="systemConfig"
+tiddler: $TW_ROOT/contributors/UdoBorkowski/plugins/YourSearchPlugin.js
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.recipe

@@ -33,6 +33,10 @@ div.logo {
 	padding: 12px;
 	padding-left: 15px;
 	float: left;
+	position: absolute;
+	top: 20px;
+	left: 800px;
+	z-index: 2;
 }
 
 div.header,
@@ -136,7 +140,7 @@ div.wizardFooter .button:hover {
 	border-color:#4D294D;
 	padding: 1em;
 	margin-bottom: 1em;
-};
+}
 
 .progress {
 	background-color: #8A2BE2;
