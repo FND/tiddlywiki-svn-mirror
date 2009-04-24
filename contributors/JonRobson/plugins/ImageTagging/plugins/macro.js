@@ -78,15 +78,21 @@ config.macros.TagImage = {
 			radius *= w;
 			
 			var props = {'shape':'circle', 'id':id,'lineWidth':'2'};
+			var coords = [x,y,radius];
 			if(properties.fill) props.fill = properties.fill;
-			var point = new VismoShape(props,[x,y,radius]);
+			if(properties.shape == 'square') {
+			        props.shape = "polygon";
+			        coords = [x-radius,y-radius,x+radius,y-radius,x+radius,y+radius,x-radius,y+radius];
+			}
+			if(properties.shape && properties.shape != "square" && properties.shape != "circle") throw "Bad shape given! (" + properties.shape +") Use square or circle!"
+			var point = new VismoShape(props,coords);
 			
 			cc.add(point);
 			cc.render();
 			
 		}
 		
-		,loadTiddlers: function(canvas,tiddler,src,image,tids){
+		,loadTiddlers: function(canvas,tiddler,src,image,tids,tagshape){
 		
 			var dim = canvas.getDimensions();
 			var offsetleft = (dim.width * 0.5);
@@ -116,13 +122,13 @@ config.macros.TagImage = {
                                         
 
                                         var fill =c.fields.fill;
-					var args = {position:{x: x,y:y},fill:fill,radius:radius,image:image,canvas:canvas,id:c.title};
+					var args = {shape: tagshape,position:{x: x,y:y},fill:fill,radius:radius,image:image,canvas:canvas,id:c.title};
                                         this.addComment(args);				
 				}
 			}
 			
 		}
-		,loadComments: function(canvas,tiddler,src,image){
+		,loadComments: function(canvas,tiddler,src,image,tagshape){
 			var tid = store.getTiddler(tiddler);
 			var comments = store.getTiddlers();
 			for(var i=0; i < comments.length; i++){
@@ -172,7 +178,7 @@ config.macros.TagImage = {
 			}
   
                 }
-		,setupMouse: function(clickablecanvas,src,title,img,editable){
+		,setupMouse: function(clickablecanvas,src,title,img,editable,tagshape){
 			var cc = clickablecanvas;
 
 			var el = clickablecanvas.getDomElement();
@@ -189,9 +195,13 @@ config.macros.TagImage = {
 				if(s){
 					var tiddler = lookuptiddler(s.getProperty("id"));
 					if(tiddler){story.displayTiddler(resolveTarget(e),tiddler.title);return false;}
+				        if(editable && s && s.getShape() == 'image') config.macros.TagImage.addNewComment({event: e, canvas:cc,tiddler:title,src:src,image:img,shape:tagshape});
+                                
 				}
-				if(editable && s && s.getShape() != 'circle') config.macros.TagImage.addNewComment({event: e, canvas:cc,tiddler:title,src:src,image:img});
-
+				else{
+				        if(editable)config.macros.TagImage.addNewComment({event: e, canvas:cc,tiddler:title,src:src,image:img});
+				}
+			
 				
 			};
 			var box = document.createElement("span");
@@ -228,12 +238,15 @@ config.macros.TagImage = {
 
                         var move,click;
 			if(editable){
-	
+	                        var unhide = function(){box.style.display = "";};
                 		move = function(e,s){
-                		        if(s && !s.getProperty("unclickable")) box.style.display = "none";
-			                else {
-			                        var unhide = function(){box.style.display = "";};
-			                        window.setTimeout(unhide,300);
+                		        if(s && !s.getProperty("unclickable")) {
+                		                window.clearTimeout(unhide);
+                		                box.style.display = "none";
+			                }else {
+			                        
+			                        window.setTimeout(unhide,1000);
+			               
                 			}
                 			var pos = VismoClickingUtils.getMouseFromEvent(e);
                 			var radius = config.macros.TagImage.properties[src].radius;
@@ -356,12 +369,14 @@ config.macros.TagImage = {
 				cc.render();
 
 
-				
-				config.macros.TagImage.setupMouse(cc,src,title,img,editable);
+				var tagshape = getParam(params,"shape");
+				if(!tagshape) tagshape == "circle";
+			        
+				config.macros.TagImage.setupMouse(cc,src,title,img,editable,tagshape);
 				
 				
 				if(!filter)config.macros.TagImage.loadComments(cc,title,src,img);
-				else config.macros.TagImage.loadTiddlers(cc,title,src,img,filter);
+				else config.macros.TagImage.loadTiddlers(cc,title,src,img,filter,tagshape);
 			};
 	                place.appendChild(newel);
 			if(img.complete){
@@ -379,7 +394,7 @@ config.macros.TagImage = {
 
 store.oldSaveTiddler = store.saveTiddler;
 store.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created){
-	if(newTitle && title != newTitle)config.macros.TagImage.renamedTiddlers[title] = newTitle;
+	if(newTitle && title != newTitle)config.renamedTiddlers[title] = newTitle;
 	this.oldSaveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);
 
 };

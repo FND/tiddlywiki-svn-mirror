@@ -14,7 +14,7 @@ var VismoGraph = function(positionCalculationFunction){
 		};
 	}
 	else this.positionCalculationFunction = positionCalculationFunction;
-
+        this.activeNode = false;
 	return false;
 };
 
@@ -47,8 +47,11 @@ VismoGraph.prototype = {
 	/*manipulating */
 
 	,addNode: function(nodejson){
+	        
 	        if(this.getNode(nodejson.id)) return false;
-		this.nodes[nodejson.id] = new VismoGraphNode(nodejson);
+		var node = new VismoGraphNode(nodejson);
+		this.nodes[nodejson.id] = node;
+		if(!this.activeNode) this.activeNode = node;
 		return false;
 	}
 	,deleteNode: function(nodejson){
@@ -115,8 +118,11 @@ VismoGraph.prototype = {
 		return false;
 	}
 	,setFocusedNode: function(id){
-		console.log("not implemented yet");
+		this.activeNode = this.getNode(id);
 		return false;	
+	}
+	,getFocusedNode: function(){
+	        return this.activeNode;
 	}
 	,calculateNodePositions: function(){
 		for(i in this.nodes){

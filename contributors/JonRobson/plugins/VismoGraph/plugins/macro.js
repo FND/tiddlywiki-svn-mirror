@@ -1,10 +1,13 @@
+        story.vismographhijackeddisplaytiddler = story.displayTiddler;
+
 config.macros.VismoGraph = {
-        instances: {}
+        instances: []
         ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
                 
                 var prms = paramString.parseParams(null, null, true);
                 var w = parseInt(getParam(prms,"width"));
                 var h = parseInt(getParam(prms,"height"));
+                
                 var el = document.createElement("div");
                 jQuery(el).css({width:w,height:h});
                 place.appendChild(el);          
@@ -49,8 +52,9 @@ config.macros.VismoGraph = {
 	                savePosition(id,x,y);
         	        return {x:x,y:y};		
         	}
-        	
-                var g = new VismoGraph(positionCalculationFunction);
+               
+                 config.macros.VismoGraph.instances.push(new VismoGraph(positionCalculationFunction));
+                 var g = config.macros.VismoGraph.instances[config.macros.VismoGraph.instances.length-1];
                 this.addNodes(g);
 
                 var r= new VismoGraphRenderer(el,g,{controller:true});
@@ -63,10 +67,30 @@ config.macros.VismoGraph = {
                         var id=node.getID();
                         savePosition(id,coords[0],coords[1]);
                 };
-                var dbclick = function(e,s){if(s)story.displayTiddler(null,s.getProperty("name"));};
+
+                var dbclick = function(e,s){
+                        if(s)story.displayTiddler(null,s.getProperty("name"));
+                        else{
+                                var pos = VismoClickingUtils.getMouseFromEvent(e,r.getVismoController().getTransformation());
+                                var title = "Vismo " + Math.random();
+                                savePosition(title,0,0);
+                                g.addNode({id:title,properties:{name:title}});
+                                r.render();
+                                
+                        }
+                };
+                var singleclick = function(e,s){
+                        g.setFocusedNode(s.getProperty("name"));
+                
+                };
+
+
+
+
+                r.canvas.setOnMouse(singleclick,false,false,dbclick);
                 r.canvas.makeMoveable(finishmove);
                 r.canvas.addTooltip(function(el,s){el.appendChild(document.createTextNode(s.getProperty("name")));});
-                r.canvas.setOnMouse(false,false,false,dbclick);
+
                 r.render();
         }      
         ,addNodes: function(vismoGraph){
@@ -78,9 +102,17 @@ config.macros.VismoGraph = {
                         for(var j=0; j < tid.tags.length; j++)   {
                                 var tag = tid.tags[j];
                                 g.addNode({id:tag,properties:{name:tag}});
-                                g.addEdge(tid.title,tag);
+                                g.addEdge(tag,tid.title);
                         }                     
                 }
 
+        }
+};
+
+story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID){
+        story.vismographhijackeddisplaytiddler(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID);
+        for(var i=0; i< config.macros.VismoGraph.instances.length; i++){
+                var graph =config.macros.VismoGraph.instances[i];
+                graph.setFocusedNode(tiddler);
         }
 };

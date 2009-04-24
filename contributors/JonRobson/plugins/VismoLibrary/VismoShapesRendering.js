@@ -66,10 +66,12 @@ var VismoVector = function(vismoShape,canvas){
 		this._initImage(vismoShape,canvas);
 	}
 	else if(shapetype == 'domElement'){
+	        this.haveAppended = true;
 	        this.el = vismoShape.getProperty("element");
 	        this.el.style.position = "absolute";
 	        var c = vismoShape.getCoordinates();
 	        jQuery(this.el).css({position:"absolute",left:c[0],top:c[1]});
+	        return;
 	}
 	else{
 		this._initPoly(vismoShape,canvas);

@@ -1,7 +1,9 @@
 <div title="ViewTemplate">
 <pre>
 <!--{{{-->
+
 <div class='moveable resizable'>
+<div class='clicktofront'>
 	<div class='handler'>
 		<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 		<div class='title' macro='view title'></div>
@@ -19,8 +21,9 @@
 	<div class='tagging' macro='tagging'></div>
 	<div class='tagged' macro='tags'></div>
 	<div class='viewer' macro='view text wikified'></div>
-	<div class='tagClear'></div>
 </div>
+</div>
+
 <!--}}}-->
 </pre>
 </div>

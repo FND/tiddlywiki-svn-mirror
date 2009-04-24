@@ -43,6 +43,26 @@ store.addNotification("StyleSheetJQueryClassHacks", refreshStyles);
 
 config.macros.jquerytoggles = {};
 config.macros.jquerytabs = {};
+
+config.curZindex = 100;
+var jQueryEnhancers = {
+    clicktofront: function(){
+            var els = jQuery(".clicktofront");
+            for(var i=0; i < els.length; i++){
+                    var el = els[i];
+                    var old = el.onmousedown;
+      
+                    el.onmousedown = function(e){
+                                        config.curZindex += 1;
+                                        var newz = config.curZindex;
+                                        jQuery(this.parentNode).css({'z-index':newz});
+                                      
+                                        if(old)old(e);
+                                        
+                                };
+            }
+    }    
+};
 function makecollapsables(){
 var collapsables = jQuery(".collapsable");
 
@@ -131,16 +151,25 @@ var tabs = jQuery(".jQueryTabs");
 }
 
 var i;
+/*
 for(i in config.notifyTiddlers){
         if(config.notifyTiddlers[i]){
                var oldnotify =config.notifyTiddlers[i].notify;
-               config.notifyTiddlers[i] = function(){oldnotify();makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();};
+               config.notifyTiddlers[i] = function(){oldnotify();
+                       makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();
+                       var j; for(j in jQueryEnhancers){jQueryEnhancers[j]();}
+                };
         }
 }
 story.handytweakdisplaytiddler = story.displayTiddler;
-var oldrd = refreshDisplay;
+var oldrd = refreshDisplay;*/
 //refreshDisplay=  function(hint){oldrd(hint); makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();};
 story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID){
         story.handytweakdisplaytiddler(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID);
-        makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();
+               
+
+        makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();               
+                var j; for(j in jQueryEnhancers){jQueryEnhancers[j]();}
+        
+
         }

@@ -1,0 +1,2 @@
+|~ViewToolbar|closeTiddler +editTiddler > fields permalink|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|

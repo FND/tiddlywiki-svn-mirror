@@ -359,6 +359,7 @@ VismoClickableCanvas.prototype = {
 		vismoShape._vismoClickingID = this.memory.length;
 	}
 	,addLabel:function(domElement,x,y){
+	        
 	        this.labelHolder.appendChild(domElement);
 	        var properties = {element: domElement,shape:"domElement"};
 	        var coords = [];

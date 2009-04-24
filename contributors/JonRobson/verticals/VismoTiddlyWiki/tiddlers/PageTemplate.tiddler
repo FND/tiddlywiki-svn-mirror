@@ -2,8 +2,9 @@
 <pre>
 <!--{{{-->
 <div class='header'>
-	<span refresh='content' tiddler='SiteTitle'></span>&nbsp;
+	<span refresh='content' tiddler='SiteTitle'></span>&nbsp;	
 </div>
+
 <div class='jQueryTabs'>
 <div class='jQueryTab' title="Vismo Graph">
 	<div class='collapsable' macro='VismoGraph width:1022 height:600 fill:rgba(0,0,255,0.2)'></div>
@@ -17,7 +18,8 @@
 	</div>
 	<div class='jQueryTab' title="Image Tagging View">
 		<div class='collapsable' macro='TagImage src:tagimage.png tiddlers:{{store.getTiddlers()}} editable:true width:1022 height:600 fill:rgba(0,0,255,0.2)'></div>
-	</div
+	</div>
+
 	
 </div>
 
@@ -26,6 +28,7 @@
 <div id='tiddlerDisplay'></div>
 
 <div id='sidebar'>
+	<div macro='closeAll'></div>
 	<div class='collapsable'>
 	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
 	<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>

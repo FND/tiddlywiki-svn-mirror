@@ -1,6 +1,6 @@
 setStylesheet("",'freedisplay');
-var globalZindex = 300;
 var lastclick = {x:0, y:0};
+config.curZindex = 100;
 story.beforedisplaytiddler = story.displayTiddler;
 story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID)
 {
@@ -21,18 +21,19 @@ story.displayTiddler = function(srcElement,tiddler,template,animate,unused,custo
         });
         
         var el = document.getElementById('tiddler'+tiddler);
-
-        if(el) el.style.zIndex = globalZindex;
-
+        config.curZindex +=1;
+        if(el) el.style.zIndex = config.curZindex;
+        
         jQuery(el).css({position:'absolute', top:lastclick.y+"px", left: lastclick.x+"px"});
         
-        var myX = lastclick.x + 1000; maxX = jQuery(document).width();
-        
+        var myX = lastclick.x; 
+        var maxX = jQuery("#sidebar").offset().top + jQuery("#sidebar").width();
+
         if(myX > maxX){
-             jQuery(el).css({left:false,right: jQuery(document).width()-10});   
+             jQuery(el).css({right: 720,left:null});   
         }
 
-        globalZindex +=1;
+  
         
 }
 

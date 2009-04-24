@@ -11,7 +11,10 @@ var VismoGraphRenderer = function(wrapper,vismoGraph,options){
         this.edge = false;
 };
 VismoGraphRenderer.prototype = {
-        render: function(){
+        getVismoController: function(){
+                return this.controller;
+        }
+        ,render: function(){
                 this.canvas.clear();
                 this.renderEdges();
                 this.renderNodes();
@@ -86,24 +89,34 @@ VismoGraphRenderer.prototype = {
 	                        this.addedNodes[node.getID()] = s;
 	                }
 	        }
+	     
 	}
 	,renderNodeLabels: function(){
-	        var nodes = this.vismoGraph.getNodes();
-	        for(i in nodes){
-
-	                var node = nodes[i];
-	                var id =node.getID();
-	                var pos = node.getPosition();        
-	                if(!this.addedLabels[id]){
-                	        var label = document.createElement("div");
-                                label.innerHTML = node.getProperty("name");
-                                var s = this.canvas.addLabel(label,pos.x.valueOf(),pos.y.valueOf());
-                                this.addedLabels[id] = s;
-	                }
-	                else{
-	                        this.addedLabels[id].setCoordinates([pos.x,pos.y]);
-	                }
-	        }	        
+	        
+	        var node = this.vismoGraph.getFocusedNode();
+	        if(node){
+        	        var nodes =this.vismoGraph.getNodeChildren(node.getID());
+        	        var i;
+        	        //console.log(node,node.getID(),nodes);
+        	        nodes.push(node.getID());
+        	        for(var i=0; i < nodes.length; i++){
+                                
+        	                var node =this.vismoGraph.getNode(nodes[i]);
+        	                if(node){
+                	                var id =node.getID();
+                	                var pos = node.getPosition();        
+                	                if(!this.addedLabels[id]){
+                                	        var label = document.createElement("div");
+                                                label.innerHTML = node.getProperty("name");
+                                                var s = this.canvas.addLabel(label,pos.x.valueOf(),pos.y.valueOf());
+                                                this.addedLabels[id] = s;
+                	                }
+                	                else{
+                	                        this.addedLabels[id].setCoordinates([pos.x,pos.y]);
+                	                }
+        	                }
+        	        }	   
+	        }     
 
                 
 	}

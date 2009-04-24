@@ -5,3 +5,4 @@ recipe: ../../../verticals/GeoTiddlyWiki/plugins/condensed.recipe
 recipe: ../../../plugins/TagMindMap/js/condensed.recipe
 recipe: ../../../plugins/VismoGraph/plugins/condensed.recipe
 recipe: ../../../plugins/ImageTagging/plugins/condensed.recipe
+#tiddler: $TW_ROOT/contributors/BenGillies/Plugins/BlogLayout/BlogLayout.js
