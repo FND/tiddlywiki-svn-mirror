@@ -19,7 +19,7 @@ UserVoice.Tab.show({
   host: 'tiddlytweets.uservoice.com', 
   forum: 'general', 
   alignment: 'left', // 'left', 'right'
-  background_color:'#f00', 
+  background_color:'#DF4141', 
   text_color: 'white', // 'white', 'black'
   hover_color: '#06C',
   lang: 'en' // 'en', 'de', 'nl', 'es', 'fr'
