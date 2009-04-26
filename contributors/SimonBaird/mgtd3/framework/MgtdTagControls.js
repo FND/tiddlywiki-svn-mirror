@@ -87,16 +87,20 @@ merge(Tiddler.prototype,{
 			if (thisTiddler.hasTag('Done')) {
 				if (t.actionCanBecomeNext()) {
 					// we still have to check because it might have multiple dependencies
-					alert('Automatically setting dependent action "' + t.title + '" to a Next Action');
-					t.setTagFromGroup('ActionStatus','Next');
+					if (!t.hasTag('Next')) {
+						alert('Setting dependent action "' + t.title + '" to Next');
+						t.setTagFromGroup('ActionStatus','Next');
+					}
 				}
 			}
 			else {
 				// this is because what if we go in reverse, ie untick the done checkbox
 				// also why we need Future || Next in actionsDependantOnThisAction
 				// don't need to check anything because any one dependency is enough to trigger going back to Future
-				alert('Automatically setting dependent action "' + t.title + '" to a Future Action');
-				t.setTagFromGroup('ActionStatus','Future');
+				if (!t.hasTag('Future')) {
+					alert('Setting dependent action "' + t.title + '" to Future');
+					t.setTagFromGroup('ActionStatus','Future');
+				}
 			}
 		});
 	},
