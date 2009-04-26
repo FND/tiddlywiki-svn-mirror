@@ -614,7 +614,7 @@ TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag) {
 	// Thanks Carsten Thiele
 	var returnVal = this.setTiddlerTag_orig_SequencedActionPlugin_mgtd3(title,status,tag);
 	var tiddler = this.fetchTiddler(title);
-	if (tag == 'Done' && tiddler.hasTag('Action')) { // not doing ticklers yet...
+	if (tiddler && tag == 'Done' && tiddler.hasTag('Action')) { // not doing ticklers yet...
 		tiddler.autoNextAnyWaitingActions();
 	}
 	return returnVal;
