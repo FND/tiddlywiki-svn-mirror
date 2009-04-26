@@ -609,10 +609,10 @@ merge(config.macros,{
 
 });
 
-TiddlyWiki.prototype.setTiddlerTag_orig_SequencedActionPlugin = TiddlyWiki.prototype.setTiddlerTag;
+TiddlyWiki.prototype.setTiddlerTag_orig_SequencedActionPlugin_mgtd3 = TiddlyWiki.prototype.setTiddlerTag;
 TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag) {
 	// Thanks Carsten Thiele
-	var returnVal = this.setTiddlerTag_orig_SequencedActionPlugin(title,status,tag);
+	var returnVal = this.setTiddlerTag_orig_SequencedActionPlugin_mgtd3(title,status,tag);
 	var tiddler = this.fetchTiddler(title);
 	if (tag == 'Done' && tiddler.hasTag('Action')) { // not doing ticklers yet...
 		tiddler.autoNextAnyWaitingActions();
