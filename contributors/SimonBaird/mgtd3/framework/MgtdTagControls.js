@@ -349,6 +349,20 @@ merge(config.macros,{
 				filterComplete += "!tiddler.tags.contains('Complete')";
 			}
 
+			// Big thanks to Kralik and whoever wrote this: http://tiddlywiki.org/wiki/MonkeyGTD/Customization_Guide/Waiting_Actions
+			if (tag == "Action") {
+				// only want to see active actions; actions only show other actions in same project (or no project)
+				if (tiddler.hasParent('Project')) {
+					// XXX slightly broken for actions with multiple projects. But i can live with it..
+					// note: getParent returns an array
+					filterComplete += "(!tiddler.tags.contains('Done') && tiddler.tags.contains('"+tiddler.getParent('Project')[0]+"'))";
+				}
+				else {
+					filterComplete += "(!tiddler.tags.contains('Done') && !tiddler.hasParent('Project'))"; 
+				}
+
+			}
+
 			var filterExpr = "true";
 
 			if (filterRealm != "" && filterComplete != "") {
@@ -361,6 +375,9 @@ merge(config.macros,{
 				filterExpr = filterComplete;
 			}
 			// ...yuck
+
+			// exclude ourselves (needed now for action dependencies)
+			filterExpr = '((' + filterExpr + ') && (tiddler.title !=  "' + tiddler.title + '"))';
 
 			var currentVal = tiddler.getParent(tag)[0];
 			if (currentVal && currentVal != '') {
@@ -392,8 +409,20 @@ merge(config.macros,{
 					// if selectedItem is null this works to remove any
 					actOnTiddler.setTagFromGroup(tag,selectedItem);
 
+					// Once again, big thanks to Kralik and whoever wrote this: http://tiddlywiki.org/wiki/MonkeyGTD/Customization_Guide/Waiting_Actions
+					// automatically make dependent actions future
+					if (tag == "Action") {
+						if (selectedItem == null) {
+							actOnTiddler.setTagFromGroup("ActionStatus", "Next");
+						}
+						else {
+							actOnTiddler.setTagFromGroup("ActionStatus", "Future");
+						}
+					}
+
 					if (refresh == "page")
 						refreshPageTemplate();
+
 					return false;
 				},
 				selectOptions,
