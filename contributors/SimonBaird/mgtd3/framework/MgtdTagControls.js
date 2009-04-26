@@ -446,6 +446,8 @@ merge(config.macros,{
 				tags.push(config.macros.mgtdList.getRealm()); // make sure it's got a realm
 				if (tag == "Project")
 					tags.push("Active"); // if it's a project then make it active...
+				if (tag == "Action")
+					tags.push("Next"); // if it's an action then make it next...
 				store.saveTiddler(selectedItem,selectedItem,"",config.options.txtUserName,new Date(),tags);
 			}
 			return selectedItem;
