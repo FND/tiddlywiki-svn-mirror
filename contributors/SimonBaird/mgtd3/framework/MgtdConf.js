@@ -15,6 +15,7 @@ config.mGTD.specialTags = [
 		"Contact"
 ]
 config.mGTD.tagsToIndex = [
+		"Action",   // needed for action dependencies
 		"Project",
 		"Area",
 		"Realm",

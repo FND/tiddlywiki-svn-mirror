@@ -94,6 +94,11 @@ demo = [
   
   ['A project-less task',   "Action Next Personal"],
 
+  # see if dependencies are working
+  ['Test deps', "Project Personal Active"],
+  ['Action A', "Action [[Test deps]] Next"],
+  ['Action B depends on A', "Action [[Test deps]] Future [[Action A]]"], # depends on Action A
+
 ]
 
 

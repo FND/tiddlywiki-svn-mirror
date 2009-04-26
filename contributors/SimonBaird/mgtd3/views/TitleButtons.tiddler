@@ -61,6 +61,8 @@
    <span macro="else" class="label">Delegated to/waiting on:</span><br>
    <span macro="multiSelectTag Contact allowNone:on"></span><span macro="linkToParent Contact"></span>
   </div>
+  <br style="clear:left"/>
+  <div class="floatleft"><span class="label">Depends upon:</span><br/><span macro="multiSelectTag Action allowNone:on"></span><span macro="linkToParent Action"></span></div>
   <div class="clearboth"></div>
  </div>
 </div>

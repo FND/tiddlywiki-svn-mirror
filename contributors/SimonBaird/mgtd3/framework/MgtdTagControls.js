@@ -68,6 +68,59 @@ merge(Tiddler.prototype,{
 		return this.getGrandParent('Project','Area').contains(area);
 	},
 
+//-----------------------------------
+
+	// experimental. try action dependencies
+
+	actionsDependantOnThisAction: function() {
+		return fastTagged(this.title).filterByTagExpr("Action && (Future || Next) && !Done");
+	},
+
+	autoNextAnyWaitingActions: function() {
+		// XXX exactly what each am I using here?
+		// because it looks like this gets munged
+		// inside the each function. this makes me think
+		// i'm not using the each i think i'm using
+		// eek.
+		var thisTiddler = this;
+		this.actionsDependantOnThisAction().each(function(t){
+			if (thisTiddler.hasTag('Done')) {
+				if (t.actionCanBecomeNext()) {
+					// we still have to check because it might have multiple dependencies
+					alert('Automatically setting dependent action "' + t.title + '" to a Next Action');
+					t.setTagFromGroup('ActionStatus','Next');
+				}
+			}
+			else {
+				// this is because what if we go in reverse, ie untick the done checkbox
+				// also why we need Future || Next in actionsDependantOnThisAction
+				// don't need to check anything because any one dependency is enough to trigger going back to Future
+				alert('Automatically setting dependent action "' + t.title + '" to a Future Action');
+				t.setTagFromGroup('ActionStatus','Future');
+			}
+		});
+	},
+
+	actionGetDependencies: function() {
+		// an action with a parent action
+		// we will take to mean that the parent action
+		// must be done before this action
+		// can become a next action
+		return this.getParent('Action');
+	},
+
+	actionCanBecomeNext: function() {
+		this.actionGetDependencies().each(function(t){
+			if (!store.fetchTiddler(t).hasTag('Done')) {
+				// an action this action depends on is not done
+				return false;
+			}
+		});
+		return true;
+	},
+
+//-----------------------------------
+
 	hasParent: function(tag) {
 		return this.getParent(tag).length > 0;
 	},
@@ -404,23 +457,30 @@ merge(config.macros,{
 			if (tiddler.tags.contains('Tickler')) {
 
 				createTiddlyButton(place, "make action", "make this tickler into a next action", function(e) {
+						store.suspendNotifications();
 						tiddler.removeTag("Tickler");                      
 						tiddler.addTag("Action");                      
 						tiddler.removeTag("Done");                     
 						tiddler.setTagFromGroup("ActionStatus","Next"); 
+						store.resumeNotifications();
+						store.notify(tiddler.title,true);
 						return false;
 					});
 
 				createTiddlyButton(place, "make project", "make this tickler into an active project", function(e) {
+						store.suspendNotifications();
 						tiddler.removeTag("Tickler");                      
 						tiddler.addTag("Project");                       
 						tiddler.removeTag("Complete");                   
 						tiddler.setTagFromGroup("ProjectStatus",'Active');
+						store.resumeNotifications();
+						store.notify(tiddler.title,true);
 						return false;
 					});
 			}
 			if (tiddler.tags.containsAny(['Action','Project'])) {
 				createTiddlyButton(place, "make tickler", "make this item into a tickler", function(e) {
+						store.suspendNotifications();
 						if (tiddler.hasTag("Project")) {
 							// a little trick. it makes any actions associated with this project disappear from action lists
 							// thanks to Jorge A. Ramos M.
@@ -429,10 +489,12 @@ merge(config.macros,{
 						tiddler.removeTag("Action");
 						tiddler.removeTag("Project");
 						tiddler.addTag("Tickler");                          
-						if (!tiddler.tags.containsAny(['Daily','Weekly','Monthly'])) {
+						if (!tiddler.tags.containsAny(['Daily','Weekly','Monthly','Yearly'])) {
 							// thanks Kyle Baker
 							tiddler.addTag("Once");
 						}
+						store.resumeNotifications();
+						store.notify(tiddler.title,true);
 						return false;
 					});
 			}
@@ -444,6 +506,7 @@ merge(config.macros,{
 			if (tiddler.tags.contains('Action')) {
 
 				createTiddlyButton(place, "make project", "make this action into a project", function(e) {
+						store.suspendNotifications();
 						tiddler.removeTag("Action");                      
 						tiddler.removeTag("Next");                     
 						tiddler.removeTag("Future");                     
@@ -451,6 +514,8 @@ merge(config.macros,{
 						tiddler.removeTag("Done");                     
 						tiddler.addTag("Project");                      
 						tiddler.addTag("Active");                      
+						store.resumeNotifications();
+						store.notify(tiddler.title,true);
 						return false;
 					});
 
@@ -464,12 +529,15 @@ merge(config.macros,{
 			if (tiddler.tags.contains('Action')) {
 
 				createTiddlyButton(place, "make reference", "make this action into a reference item", function(e) {
+						store.suspendNotifications();
 						tiddler.removeTag("Action");                      
 						tiddler.removeTag("Next");                     
 						tiddler.removeTag("Future");                     
 						tiddler.removeTag("Waiting For");                     
 						tiddler.removeTag("Done");                     
 						tiddler.addTag("Reference");                      
+						store.resumeNotifications();
+						store.notify(tiddler.title,true);
 						return false;
 					});
 
@@ -511,6 +579,18 @@ merge(config.macros,{
 	}
 
 });
+
+TiddlyWiki.prototype.setTiddlerTag_orig_SequencedActionPlugin = TiddlyWiki.prototype.setTiddlerTag;
+TiddlyWiki.prototype.setTiddlerTag = function(title,status,tag) {
+	// Thanks Carsten Thiele
+	var returnVal = this.setTiddlerTag_orig_SequencedActionPlugin(title,status,tag);
+	var tiddler = this.fetchTiddler(title);
+	if (tag == 'Done' && tiddler.hasTag('Action')) { // not doing ticklers yet...
+		tiddler.autoNextAnyWaitingActions();
+	}
+	return returnVal;
+}
+
 
 setStylesheet(["",
 ".button.off {font-weight:bold;border-color:#eee;background:#fff;color:#ccc;margin:0px;font-size:100%}",
