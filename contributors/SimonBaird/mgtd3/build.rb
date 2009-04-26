@@ -6,9 +6,10 @@ Dir.chdir Pathname.new(File.dirname(__FILE__)).realpath
 #$LOAD_PATH.unshift("../r4tw") 
 require 'r4tw'
 
-$svn_ver = `svn info | grep Revision | cut  -d: -f2 | sed 's/ //g'`.chomp!
+#$svn_ver = `svn info | grep Revision | cut  -d: -f2 | sed 's/ //g'`.chomp
 
-
+# why is this so hard? help!
+$svn_ver = `find . -name '*.swp' -prune -o -name '.DS_Store' -prune -o -name '.svn' -prune -o -name empties -prune -o -name 'upload' -prune -o -exec svn info {} \\; | grep Revision | cut -d':' -f2 | sort -n | tail -1`.chomp.strip
 
 
 
@@ -98,6 +99,8 @@ demo = [
   ['Test deps', "Project Personal Active"],
   ['Action A', "Action [[Test deps]] Next"],
   ['Action B depends on A', "Action [[Test deps]] Future [[Action A]]"], # depends on Action A
+  ['Action C', "Action [[Test deps]] Next"],
+  ['Action D depends on C and A', "Action [[Test deps]] Future [[Action C]] [[Action A]]"], # depends on two actions...
 
 ]
 

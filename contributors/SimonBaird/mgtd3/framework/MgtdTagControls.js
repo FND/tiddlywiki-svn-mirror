@@ -110,13 +110,14 @@ merge(Tiddler.prototype,{
 	},
 
 	actionCanBecomeNext: function() {
+		var result = true;
 		this.actionGetDependencies().each(function(t){
 			if (!store.fetchTiddler(t).hasTag('Done')) {
 				// an action this action depends on is not done
-				return false;
+				result = false;
 			}
 		});
-		return true;
+		return result;
 	},
 
 //-----------------------------------
