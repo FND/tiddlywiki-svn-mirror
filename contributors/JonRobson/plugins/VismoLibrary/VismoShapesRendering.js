@@ -3,20 +3,25 @@ var VismoCanvasRenderer = {
 	renderShape: function(canvas,vismoShape){
 	        var ctx = canvas.getContext('2d');
 		var shapetype =vismoShape.getProperty("shape");
-		ctx.beginPath();
 		
+		ctx.beginPath();
 		if(shapetype == 'point' || shapetype =='circle'){
 			this.renderPoint(ctx,vismoShape);
 		}
 		else if(shapetype =='image'){
 			this.renderImage(ctx,vismoShape);
 		}
-		else{		
-			this.renderPolygon(ctx,vismoShape);	
+		else if(shapetype == "path"){
+		       
+		        this.renderPath(ctx,vismoShape);
 		}
-		ctx.closePath();
+		else{	
+			this.renderPath(ctx,vismoShape,true);	
+		        
+		}
+	        ctx.closePath();
 	}
-	,renderPolygon: function(ctx,vismoShape){
+	,renderPath: function(ctx,vismoShape,join){
 		var move = true;
 		var c = vismoShape.getCoordinates();
 		for(var i=0; i < c.length-1; i+=2){
@@ -29,14 +34,17 @@ var VismoCanvasRenderer = {
 			
 			if(move){
 				ctx.moveTo(x,y);
+			
 				move = false;
 			}
 			else{
+			       
 				ctx.lineTo(x,y);
 			}			
 				
 				
 		}
+		
 	}
 	,renderPoint: function(ctx,vismoShape){
 		var bb =vismoShape.getBoundingBox();
@@ -306,7 +314,7 @@ VismoVector.prototype = {
 	        }
 		this.style();
 		var shape = this.getVMLElement();
-		shape.style.display = "";
+		if(this.vismoShape.getShape()!="domElement")shape.style.display = "";
 		this._cssTransform(transformation,projection);
 		if(!this.haveAppended){
 			var shape = this.getVMLElement();

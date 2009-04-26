@@ -7,3 +7,5 @@ tiddler: ../../GeoTiddlyWiki/tiddlers/geojson.tiddler
 tiddler: London.tiddler
 tiddler: GettingStarted.tiddler
 tiddler: ToolbarCommands.tiddler
+tiddler: Default.tiddler
+tiddler: systemConfig.tiddler

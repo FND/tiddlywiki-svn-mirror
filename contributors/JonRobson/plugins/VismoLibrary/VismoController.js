@@ -150,7 +150,13 @@ VismoController.prototype = {
 	,getTransformation: function(){
 		return this.transformation;
 	}
-	,addMouseWheelZooming: function(){ /*not supported for internet explorer*/
+	,translate: function(x,y){
+	        var t= this.getTransformation();
+	        t.translate.x = x;
+	        t.translate.y = y;
+	        this.transform();
+	},
+	addMouseWheelZooming: function(){ /*not supported for internet explorer*/
                 var that = this;
 	        that.defaultCursor = "crosshair";
 	        this.wrapper.style.cursor = that.defaultCursor;

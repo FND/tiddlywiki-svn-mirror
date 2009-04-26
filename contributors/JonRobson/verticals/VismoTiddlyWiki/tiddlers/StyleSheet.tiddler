@@ -1,4 +1,4 @@
-<div title="StyleSheet">
+<div title="StyleSheet" tags="ShadowTiddler">
 <pre>
 body {font-family:Lucida Grande;}
 .header {background: none;font-size:3em;}

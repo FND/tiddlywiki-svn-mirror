@@ -161,9 +161,17 @@ for(i in config.notifyTiddlers){
                 };
         }
 }
+
+*/
+var oldrestart = restart;
+restart = function(){
+        oldrestart();
+        makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();               
+                var j; for(j in jQueryEnhancers){jQueryEnhancers[j]();}
+        
+        
+}
 story.handytweakdisplaytiddler = story.displayTiddler;
-var oldrd = refreshDisplay;*/
-//refreshDisplay=  function(hint){oldrd(hint); makecollapsables(); makemoveables(); makeresizeables();makejQueryTabs();};
 story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID){
         story.handytweakdisplaytiddler(srcElement,tiddler,template,animate,unused,customFields,toggle,visualisationID);
                

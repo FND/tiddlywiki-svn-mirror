@@ -25,8 +25,6 @@ VismoGraphNode.prototype = {
 	,setDimensions: function(width,height){
 		this.setProperty("width",width);
 		this.setProperty("height",height);
-		var p = this.getPosition();
-		this.setPosition(p.x,p.y);
 	}
 	,burntojson: function(){
 		var json = {};
@@ -65,10 +63,17 @@ VismoGraphNode.prototype = {
 	,setProperty: function(name,value){
 		this.properties[name] =value;
 	}
+	,setProperties: function(properties){
+	        var i;
+	        for(i in properties){
+	                this.setProperty(i,properties[i]);
+	        }
+	}
 	,getPosition: function(){
 		return this.getProperty("position");
 	}
 	,setPosition: function(x,y){
-		this.setProperty("position",{x:x,y:y});
+	        if(x === false) this.setProperty("position",false);
+		else this.setProperty("position",{x:x,y:y});
 	}
 };

@@ -357,6 +357,7 @@ VismoClickableCanvas.prototype = {
 		if(!this.memory) this.memory = [];
 		this.memory.push(vismoShape);
 		vismoShape._vismoClickingID = this.memory.length;
+		return vismoShape;
 	}
 	,addLabel:function(domElement,x,y){
 	        
@@ -367,9 +368,8 @@ VismoClickableCanvas.prototype = {
 	        coords.push(y);
 	        var shape = new VismoShape(properties,coords);
 	        this.add(shape);
-	        return shape;
+	        return {element: domElement ,vismoshape: shape};
 	}
-
 	,transform: function(t){
 		this.setTransformation(t);
 		this.render();

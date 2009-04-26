@@ -20,7 +20,6 @@ var VismoGraphUtils = {
 
 			}
 		}
-		console.log(id,"has partners", partners);
 		return partners;
 		
 	}
@@ -40,7 +39,7 @@ var VismoGraphUtils = {
 				
 				
 				if(!marked[sib]){
-					console.log("value is ",marked[sib]);
+				
 					siblings.push(sib);	
 					marked[sib] = true;				
 				}
@@ -51,4 +50,5 @@ var VismoGraphUtils = {
 		return siblings;
 		
 	}
+
 };
