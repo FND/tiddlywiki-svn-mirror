@@ -110,7 +110,7 @@ class generateTiddlerTestCase(TestCase):
 		tiddlerElements = main._get_tiddler_elements(doc)
 		tiddler = main._generate_tiddler(tiddlerElements[0])
 		actual = tiddler.text
-		expected = "lorem ipsum\n\ndolor sit\namet"
+		expected = u"l\xf6rem ips\xfcm\n\nd\xc5lor s\xe4t\n\xe6met"
 		self.assertEqual(actual, expected)
 
 	def testProvidesTiddlerCreated(self):
@@ -142,11 +142,11 @@ class generateTiddlerTestCase(TestCase):
 
 	def testProvidesTiddlerTags(self):
 		"""_generate_tiddler returns Tiddler's tags"""
-		doc = _getTiddlyWiki("legacy")
+		doc = _getTiddlyWiki("modern")
 		tiddlerElements = main._get_tiddler_elements(doc)
 		tiddler = main._generate_tiddler(tiddlerElements[0])
 		actual = tiddler.tags
-		expected = ["test", "tmp"]
+		expected = ["test", "tmp", u"x\xf6x"]
 		self.assertEqual(actual, expected)
 
 	def testProvidesTiddlerFields(self):
@@ -217,7 +217,7 @@ class getTextTestCase(TestCase):
 		doc = _getTiddlyWiki("modern")
 		tiddlers = main._get_tiddler_elements(doc)
 		actual = main._get_text(tiddlers[1])
-		expected = "consectetur adipisicing elit"
+		expected = u"consectetur adipisicing elit"
 		self.assertEqual(expected, actual)
 
 	def testSupportsModernStore(self):
@@ -225,7 +225,7 @@ class getTextTestCase(TestCase):
 		doc = _getTiddlyWiki("modern")
 		tiddlers = main._get_tiddler_elements(doc)
 		actual = main._get_text(tiddlers[0])
-		expected = "lorem ipsum\n\ndolor sit\namet"
+		expected = u"l\xf6rem ips\xfcm\n\nd\xc5lor s\xe4t\n\xe6met"
 		self.assertEqual(expected, actual)
 
 	def testSupportsLegacyStore(self):
@@ -233,7 +233,7 @@ class getTextTestCase(TestCase):
 		doc = _getTiddlyWiki("legacy")
 		tiddlers = main._get_tiddler_elements(doc)
 		actual = main._get_text(tiddlers[1])
-		expected = "consectetur adipisicing elit"
+		expected = u"consectetur adipisicing elit"
 		self.assertEqual(expected, actual)
 
 	def testDecodesLegacyTiddlers(self):
@@ -241,7 +241,7 @@ class getTextTestCase(TestCase):
 		doc = _getTiddlyWiki("legacy")
 		tiddlers = main._get_tiddler_elements(doc)
 		actual = main._get_text(tiddlers[0])
-		expected = "lorem ipsum\n\ndolor sit\namet"
+		expected = u"l\xf6rem ips\xfcm\n\nd\xc5lor s\xe4t\n\xe6met"
 		self.assertEqual(expected, actual)
 
 

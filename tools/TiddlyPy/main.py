@@ -137,9 +137,9 @@ def _get_text(tiddler): # TODO: move into TiddlyWiki class
 	@return: content string
 	"""
 	try: # modern format
-		return tiddler.find("pre").contents[0] # XXX: use .string!?
+		return tiddler.find("pre").decodeContents()
 	except AttributeError: # legacy format
-		return _decode_legacy_text(tiddler.contents[0]) # XXX: use .string!?
+		return _decode_legacy_text(tiddler.decodeContents())
 	except IndexError: # empty tiddler
 		return None
 
