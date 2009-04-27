@@ -98,8 +98,8 @@ TestRunner.getTotalTestsCount = function ()
 TestRunner.getNextTestIndex = function ()
 {
 	var value = parseInt(config.options.txtTestIndex);
-	if (value == 'NaN') {
-		return -1;
+	if (isNaN(value)) {
+		return null;
 	}
 	return value;
 };
