@@ -59,25 +59,28 @@ handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 //################################################################################
 
 buildCommentsArea: function(rootTiddler, place, macroParams) {
-  console.log("buildCommentsArea");
   var commentsArea = createTiddlyElement(place, "div", null, "comments");
   var heading = getParam(macroParams, "heading");
   if (heading) createTiddlyElement(commentsArea, "h1", null, null, heading);
   var comments = createTiddlyElement(commentsArea, "div", null, "");
   cmacro.log("comments", comments);
   place.commentsEl = comments;
+
   if (cmacro.editable(macroParams)) {
     var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
-    var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
-    var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
-    addComment.onclick = function() {
-      var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
-      newCommentEl.value = "";
-      cmacro.log("comments2", comments);
-      cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
-    };
+    cmacro.forceLoginIfRequired(params, newCommentArea, function() {
+      var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
+      var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
+      addComment.onclick = function() {
+        var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
+        newCommentEl.value = "";
+        cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
+      }
+    });
   }
+
 },
+
 
 makeTextArea: function(container, macroParams) {
   var textArea = createTiddlyElement(container, "textarea");
@@ -219,14 +222,17 @@ openReplyLink: function(commentTiddler, commentEl, replyLink, macroParams) {
     replyLink.style.display = "block";
   };
 
-  var replyText =  cmacro.makeTextArea(commentEl.replyEl, macroParams);
-  var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, "button", "Reply");
-  submitReply.onclick = function() { 
-    var newComment = cmacro.createComment(replyText.value, commentTiddler, macroParams);
-    replyText.value = "";
-    closeNewReply.onclick();
-    cmacro.refreshComments(commentEl.commentsEl, newComment, macroParams);
-  };
+  cmacro.forceLoginIfRequired(params, commentEl.replyEl, function() {
+    var replyText =  cmacro.makeTextArea(commentEl.replyEl, macroParams);
+      var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, "button", "Reply");
+
+    submitReply.onclick = function() { 
+        var newComment = cmacro.createComment(replyText.value, commentTiddler, macroParams);
+        replyText.value = "";
+        closeNewReply.onclick();
+        cmacro.refreshComments(commentEl.commentsEl, newComment, macroParams);
+      };
+  });
 
   commentEl.insertBefore(commentEl.replyEl, commentEl.commentsEl);
 },
@@ -274,7 +280,7 @@ createComment: function(text, daddy, macroParams) {
   newComment.fields.root = daddy.fields.root ? daddy.fields.root : daddy.title;
     // second case is the situation where daddy *is* root
 
-  store.saveTiddler(newComment.title);
+  cmacro.saveTiddler(newComment.title);
   autoSaveChanges(false);
   return newComment;
 },
@@ -321,7 +327,7 @@ deleteTiddlerAndDescendents: function(tiddler) {
   // used saved info
   if (next) {
     next.fields.prev = prev;
-    store.saveTiddler(next.title);
+    cmacro.saveTiddler(next.title);
   }
 
   autoSaveChanges(false);
@@ -374,16 +380,32 @@ editable: function(params) {
   return (!editable || editable!="false");
 },
 
+needsLogin: function(params) {
+  var loginCheck = getParam(params, "loginCheck");
+  return loginCheck && !window[loginCheck]();
+},
+
+forceLoginIfRequired: function(params, loginPromptContainer, authenticatedBlock) {
+  if (cmacro.needsLogin(params)) wikify("<<"+getParam(macroParams, "loginPrompt")+">>", loginPromptContainer);
+  else authenticatedBlock();
+},
+
 //##############################################################################
 //# GENERAL UTILS
 //##############################################################################
 
 // callers may replace this with their own ID generation algorithm
 createCommentTiddler: function() {
+  
+  console.log("got to create comment tiddler");
   if (!store.createGuidTiddler) return store.createTiddler("comment_"+((new Date()).getTime()));
   return store.createGuidTiddler("comment_");
 },
-
+saveTiddler: function(tiddler) {
+  var tiddler = (typeof(tiddler)=="string") ? store.getTiddler(tiddler) : tiddler; 
+  console.log("plugin.saveTiddler", tiddler);
+  store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, merge(config.defaultCustomFields, tiddler.fields), false, tiddler.created)
+},
 log: function() { if (console && console.firebug) console.log.apply(console, arguments); },
 assert: function() { if (console && console.firebug) console.assert.apply(console, arguments); },
 
@@ -403,7 +425,8 @@ config.macros.commentsCount = {
   handler: function(place,macroName,params,wikifier,paramString,tiddler) {
     var rootTiddler = paramString.length ? paramString : tiddler.title;
     var count = config.macros.comments.findCommentsFromRoot(store.getTiddler(rootTiddler)).length;
-    createTiddlyElement(place, "span", null, "commentCount", count);
+    createTiddlyText( place, count);
+//    createTiddlyElement(place, "span", null, "commentCount", count);
   }
 }
 
