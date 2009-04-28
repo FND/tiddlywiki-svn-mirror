@@ -19,6 +19,7 @@ PaginatedListView = function(place, table, listObject, columnCount)
 	var containerRow = createTiddlyElement(container,'tr');
 	var containerCell = createTiddlyElement(containerRow, 'td');
 	containerCell.colSpan = 3;
+	table.removeChild(table.tHead);
 	containerCell.appendChild(table);
 	container.appendChild(this.getPageControlRow(table.tBodies[0], listObject, columnCount));
 	container.appendChild(this.getSelectionControlRow(table.tBodies[0], listObject, columnCount));
