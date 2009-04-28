@@ -17,7 +17,7 @@ body {font-family:Lucida Grande;}
 .editor textarea {height:200px;}
 .editor textarea {height:200px;}
 .popup {z-index:8000;}
-.VismoClickableCanvas {overflow:hidden}
+.VismoCanvas {overflow:hidden}
 #sidebar {z-index:50; background-color:white; opacity:0.8;}
 </pre>
 </div>

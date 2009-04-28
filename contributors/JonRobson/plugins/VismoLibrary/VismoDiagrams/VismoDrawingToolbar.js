@@ -163,7 +163,7 @@ VismoDrawingTools.prototype = {
 		this.wrapper.appendChild(newCanvas);
 
 		newCanvas.vismoDrawingTools = this;
-		newCanvas.vismoClicking = new VismoClickableCanvas(newCanvas);
+		newCanvas.vismoClicking = new VismoCanvas(newCanvas);
 		
 		var vismoDrawingTools = this;
 		newCanvas.onmousedown = function(e){

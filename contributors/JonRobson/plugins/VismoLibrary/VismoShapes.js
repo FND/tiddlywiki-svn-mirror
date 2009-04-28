@@ -75,8 +75,7 @@ if(VismoUtils.browser.isIE){
 	 if (!document.styleSheets['vismoShape']) {
 	        var ss = document.createStyleSheet();
 	        ss.owningElement.id = 'vismoShape';
-	        ss.cssText = 'canvas{display:inline-block;overflow:hidden;' +
-	            // default size is 300x150 in Gecko and Opera
+	        ss.cssText = 'canvas{display:inline;overflow:hidden;' +
 	            'text-align:left;}' +
 	            'vismoShapeVml_\\:*{behavior:url(#default#VML)}';
 	}
@@ -175,7 +174,8 @@ VismoShape.prototype={
 	        for(var i=0; i < coordinates.length; i++){
 	                if(coordinates[i] +"" !='NaN')good.push(coordinates[i]);
 	        }
-	        if(good.length < 2) throw "cannot set coordinates for VismoShape not enough good coordinates given (coordinates may contain non-number elements)";
+	     
+	        if(good.length < 2) throw "cannot set coordinates for VismoShape not enough good coordinates given (coordinates may contain non-number elements)" + coordinates.toString();
                 coordinates = good;
                 
                 
@@ -244,6 +244,7 @@ VismoShape.prototype={
 	}
 
 	,optimise: function(canvas,transformation,projection){
+	        if(this.getShape() == "path") return true;
 		if(transformation && transformation.scale) this.currentResolution = Math.min(transformation.scale.x, transformation.scale.y);
 		var shapetype = this.getProperty("shape");
 		if(projection) this._applyProjection(projection,transformation);

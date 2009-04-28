@@ -94,7 +94,8 @@ config.macros.VismoGraph = {
                                if(node.getPosition()) return node.getPosition();
                          
                                 var depth = graph.getNodeDepth(node.getID());
-                                var atdepth =graph.getNodesAtDepth(depth);
+                      
+                                
                                 var spacing = 200;
                                 var x,y;
 
@@ -112,8 +113,29 @@ config.macros.VismoGraph = {
                                         }
                                 
                                 }              
+                                if(parents.length == 0){
+                                        
+                                        var atdepth =graph.getNodesAtDepth(0);
+                                        var totalLeaves = 0;
+                                        for(var i=0; i < atdepth.length; i++){
+                                                var id = atdepth[i];
+                                                var leaves = VismoGraphUtils.getNodeLeaves(id,graph);
+                                                totalLeaves += leaves.length;
+                                        }
+                                        
+                                        var y = -(totalLeaves * spacing) /2;
+                                        for(var i=0; i < atdepth.length; i++){
+                                                  var node = graph.getNode(atdepth[i]);
+                                                  y += spacing;
+                                                  //console.log(node,atdepth[i]);
+                                                  node.setPosition(x,y);
+                                        }
+                                        
+                                }
+                                else{
+                                        node.setPosition(x,y);
+                                }
                                 
-                                node.setPosition(x,y);
                                 
 
                                 
@@ -121,6 +143,7 @@ config.macros.VismoGraph = {
                                 
                                 for(var i=0; i < siblings.length; i++){                           
                                      var thisnode = graph.getNode(siblings[i]);                                
+                                    
                                      if(!thisnode.getPosition()){
                                              thisy += spacing;
                                              thisnode.setPosition(x,thisy);                                                 
@@ -128,28 +151,8 @@ config.macros.VismoGraph = {
                                              
                                 }
 
+         
                                 
-                                for(var i=0; i < atdepth.length; i++){
-                                
-                                     var thisnode = graph.getNode(atdepth[i]);
-                                     if(!thisnode.getPosition()){
-                                          
-                                             var parents = graph.getNodeParents(atdepth[i]);
-                                             var siblings = VismoGraphUtils.getSiblings(atdepth[i],graph);
-                                             
-                                             for(var j=0; j < parents.length; j++){
-                                                     var parent = graph.getNode(parents[j]);
-                                                     var depth = graph.getNodeDepth(parents[j]);
-                                                     parent.setPosition(depth * spacing,thisy + (spacing * (siblings.length+1/2)));
-                                             }
-                                             thisy += spacing;  
-                                             thisnode.setPosition(x,thisy);
-                                             
-                                                                                    
-                                     }
-                                             
-                                      
-                                }
                            
                                 return {x: x,y:y};
                         };

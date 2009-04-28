@@ -17,9 +17,10 @@ var VismoCanvasRenderer = {
 		}
 		else{	
 			this.renderPath(ctx,vismoShape,true);	
+			ctx.closePath();
 		        
 		}
-	        ctx.closePath();
+	        
 	}
 	,renderPath: function(ctx,vismoShape,join){
 		var move = true;
@@ -33,6 +34,7 @@ var VismoCanvasRenderer = {
 			var y = parseFloat(c[i+1]);	
 			
 			if(move){
+			    
 				ctx.moveTo(x,y);
 			
 				move = false;

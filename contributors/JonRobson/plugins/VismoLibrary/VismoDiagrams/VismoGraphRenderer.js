@@ -1,5 +1,5 @@
 var VismoGraphRenderer = function(wrapper,vismoGraph,options){
-        this.canvas = new VismoClickableCanvas(wrapper);
+        this.canvas = new VismoCanvas(wrapper);
         if(!options) options = {};
         this.vismoGraph = vismoGraph;
         if(options.controller) this.controller = new VismoController(this.canvas,wrapper);
@@ -68,7 +68,7 @@ VismoGraphRenderer.prototype = {
 							return;
 						}
 						edgeCoords.push("M");
-						
+					
 						edgeCoords.push(npos.x);
 						edgeCoords.push(npos.y);
 						edgeCoords.push(cpos.x);
@@ -108,6 +108,7 @@ VismoGraphRenderer.prototype = {
 		}
 	
                 if(!this.edge){
+                        //console.log(edgeCoords);
                         var newedge =  new VismoShape({shape:"path",stroke: '#000000',lineWidth: '1'},edgeCoords);
                         this.canvas.add(newedge);
                         this.edge = newedge;

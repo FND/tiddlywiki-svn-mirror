@@ -36,7 +36,7 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 	jQuery(controlDiv).css({'z-index':30, height:"120px",width:"60px"});
 	this.wrapper.appendChild(controlDiv);
 	this.controlDiv = controlDiv;
-        this.controlCanvas = new VismoClickableCanvas(this.controlDiv);
+        this.controlCanvas = new VismoCanvas(this.controlDiv);
 	this.controlDiv.vismoController = this;
 	var vismoController = this;
 	var preventDef = function(e){
@@ -78,10 +78,11 @@ VismoController.prototype = {
 	        this.enabledControls.push(controlName);      
 	}
 	,applyLayer: function(){
+	        this.controlCanvas.render();	       
 	        if(VismoUtils.browser.isIE) return;
 	        var that = this;
 	
-	        this.controlCanvas.render();
+
 	        var hidebuttons = function(){
 	               var shapes = that.controlCanvas.getMemory();
 	                for(var i=0; i < shapes.length; i++){

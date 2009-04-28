@@ -254,6 +254,7 @@ float:right;
 margin-bottom:1em;
 display:inline;
 width: 20em;
+z-index:300;
 top: 0px;
 background-color: white;
 }

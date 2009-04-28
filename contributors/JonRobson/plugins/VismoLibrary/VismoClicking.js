@@ -17,9 +17,10 @@ function findScrollY()
 
 /*Turn a dom element into one where you can find VismoShapes based on clicks */
 /*
-Following to be renamed as VismoClickableCanvas
+Following to be renamed as VismoCanvas
 */
-var VismoClickableCanvas = function(element,vismoShapesList){
+
+var VismoCanvas = function(element,vismoShapesList){
         
 	if(typeof element == 'string') element= document.getElementById(element);
 	if(!element) throw "Element doesn't exist!";
@@ -31,7 +32,7 @@ var VismoClickableCanvas = function(element,vismoShapesList){
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width);
 	canvas.height = parseInt(wrapper.style.height);
-	if(!element.className)element.className = "VismoClickableCanvas";
+	if(!element.className)element.className = "VismoCanvas";
 	jQuery(canvas).css({width:wrapper.style.width, height:wrapper.style.height,'z-index':1,position:'absolute'});        
 	element.appendChild(canvas);
 	var labels =  document.createElement("div");
@@ -57,7 +58,8 @@ var VismoClickableCanvas = function(element,vismoShapesList){
 	this.setOnMouse(false,false,false,false,false);
 };
 
-VismoClickableCanvas.prototype = {
+
+VismoCanvas.prototype = {
 	getDomElement: function(){
 		return this.wrapper;
 	}
@@ -216,9 +218,16 @@ VismoClickableCanvas.prototype = {
 		};
 		var defaultCursor;
 		el.onmousemove = function(e){ if(!e) e= window.event;var s = newbehaviour(e);
+		        
+		        if(jQuery(el).hasClass("overVismoShape")) {
+	                        jQuery(el).removeClass("overVismoShape");
+		        }
 		        if(s && !s.getProperty("unclickable")){
-		                if(el.style.cursor != "pointer")defaultCursor = el.style.cursor;
-		                if(that.ondblclick || that.onmousedown || that.onmouseup) el.style.cursor = "pointer";
+		  
+
+        		        if(that.ondblclick || that.onmousedown || that.onmouseup) jQuery(el).addClass("overVismoShape");
+        	
+                                
 		                if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);
 		        }
 		        else{
@@ -313,12 +322,19 @@ VismoClickableCanvas.prototype = {
 				else{
 					tran = transformation;
 				}
+				
+				var place =that.canvas; 
+		 	        /*if(that.settings.browser == 'ie') {
+		 	                place = document.createElement("div");
+		 	                var c =jQuery(that.canvas);
+		 	                jQuery(place).css({width:c.width(),height:c.height()});
+		 	        }*/
 				 for(var i=0; i < mem.length; i++){
 				         var st = mem[i].getShape();
 				 	if(mem[i].optimise(that.canvas,transformation,projection)){
 				 	        if(st == 'domElement')tran = transformation;
-						mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);
-					
+						mem[i].render(place,tran,projection,true,that.settings.browser,ps);
+					        
 						if(mem[i].vmlfill && that.settings.globalAlpha) {
 							mem[i].vmlfill.opacity =that.settings.globalAlpha;
 						}
@@ -326,6 +342,7 @@ VismoClickableCanvas.prototype = {
 
 				
 				}
+		 	        //if(that.settings.browser == 'ie') jQuery(that.canvas).append(jQuery(place).children());
 				/*	
 				if(!that.settings.browser == 'ie'){
 					that._fragment= newfragment.cloneNode(true);
@@ -347,6 +364,12 @@ VismoClickableCanvas.prototype = {
 	}
 	
 	,setTransformation: function(transformation){
+	        if(!transformation.origin){
+	                transformation.origin = {};
+	                transformation.origin.x = jQuery(this.wrapper).width() / 2;
+	                transformation.origin.y = jQuery(this.wrapper).height() / 2;
+	        }
+	      
 		if(transformation) this.transformation = transformation;	
 	}
 

@@ -11,7 +11,7 @@ jQuery(document).ready(function() {
 	el.parentNode.appendChild(newel);
 	el.parentNode.replaceChild(newel, el);
 	var imgproperties = {shape:'image',src:el.src,width:width,height:height};
-	var x = new VismoClickableCanvas(newel,[new VismoShape(imgproperties,[-width/2,-height/2])]);
+	var x = new VismoCanvas(newel,[new VismoShape(imgproperties,[-width/2,-height/2])]);
 	var c = new VismoController(x,newel);
 	x.render();
 	}
@@ -771,9 +771,9 @@ function findScrollY()
 
 /*Turn a dom element into one where you can find VismoShapes based on clicks */
 /*
-Following to be renamed as VismoClickableCanvas
+Following to be renamed as VismoCanvas
 */
-var VismoClickableCanvas = function(element,vismoShapesList){
+var VismoCanvas = function(element,vismoShapesList){
 	if(typeof element == 'string') element= document.getElementById(element);
 	if(!element) throw "Element doesn't exist!";
 	if(element.vismoClicking) {
@@ -786,7 +786,7 @@ var VismoClickableCanvas = function(element,vismoShapesList){
 	
 		canvas.width = parseInt(wrapper.style.width);
 		canvas.height = parseInt(wrapper.style.height);
-	if(!element.className)element.className = "VismoClickableCanvas";
+	if(!element.className)element.className = "VismoCanvas";
 	jQuery(canvas).css({width:wrapper.style.width, height:wrapper.style.height,'z-index':1,position:'absolute'});
 	element.appendChild(canvas);
 	this.canvas = canvas;
@@ -805,7 +805,7 @@ var VismoClickableCanvas = function(element,vismoShapesList){
 	this._setupMouse();
 };
 
-VismoClickableCanvas.prototype = {
+VismoCanvas.prototype = {
 	getXY: function(e){
 		return VismoTransformations.getXY(e,this.getTransformation());
 	}
@@ -1802,7 +1802,7 @@ VismoController.prototype = {
 		newCanvas.setAttribute("class","vismoControl");
 		this.wrapper.appendChild(newCanvas);
 		newCanvas.vismoController = this;
-		newCanvas.vismoClicking = new VismoClickableCanvas(newCanvas);
+		newCanvas.vismoClicking = new VismoCanvas(newCanvas);
 		return newCanvas;
 	},
 	addPanningActions: function(controlDiv){

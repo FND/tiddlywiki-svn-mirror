@@ -304,7 +304,7 @@ config.macros.TagImage = {
 			if(requestedheight)h = parseInt(requestedheight);
 			jQuery(newel).css({width: w, height: h,overflow:"hidden"});
 			
-			var cc = new VismoClickableCanvas(newel);
+			var cc = new VismoCanvas(newel);
 
 			if(id)newel.id = id;
 			var img = new Image();

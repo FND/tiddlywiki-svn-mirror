@@ -48,7 +48,6 @@ VismoGraph.prototype = {
 	        return this.nodes;
 	}	
 	,getNodeChildren: function(id){
-		//console.log(id, this.nodeChildren,"getch");
 		if(!this.nodeChildren[id]) {
 			return [];
 		}
@@ -56,14 +55,19 @@ VismoGraph.prototype = {
 			return this.nodeChildren[id];
 		}
 	}
-
 	,getNodeParents: function(id){                
 		if(!this.nodeParents[id]) return [];
 		return this.nodeParents[id];
 	}
 	/*manipulating */
 	,getNodesAtDepth: function(depth){
-	        return this.nodeDepths[depth];
+	        var i;
+	        var res = [];
+	        for(i in this.nodes){
+	                var d = this.nodes[i].getProperty("_depth");
+	                if(d == depth) res.push(this.nodes[i].getID());
+	        }
+	        return res;
 	}
         ,getNodeDepth: function(id){
                 var node;
@@ -78,53 +82,43 @@ VismoGraph.prototype = {
                 }
         }
         
-        ,setChildrenDepth: function(id,depth,done){
+        ,setChildrenDepth: function(id,done){
            var chidlers = this.getNodeChildren(id);
            for(var i=0; i < chidlers.length; i++){
-                var curdepth = this.getNodeDepth(chidlers[i]);
-                
-                var parents = this.getNodeParents(chidlers[i]);
-                for(var j=0; j < parents.length; j++){
-                        var pdepth =this.getNodeDepth(parents[j]);
-                       if(pdepth >= depth){
-                               depth = pdepth + 1;
-                       }
-                }
-                if(curdepth < depth) this.setNodeDepth(chidlers[i],depth,done);
+                this.setNodeDepth(chidlers[i],done);
            }
         }
-        ,setNodeDepth: function(id,depth,done){
-
-                
-                var node;
-                if(typeof id == 'string')node = this.getNode(id);
-                else node = id;
- 
-                if(!done) done = []; 
-                if(done.contains(node.getID())) return;
-                               
-                if(!node)return false;
+        ,setNodeDepth: function(id,done){ /*a node depth is how far it is from an orphan */
+                if(!done) done = [];
              
-                var oldDepth = node.getProperty("_depth");
+                if(done.contains(id)) return;        
+                var node = this.getNode(id);
+                var parents = this.getNodeParents(id);
+                var newdepth = 0;
+               
                 
-                if(typeof(oldDepth) == 'number'){
-                        if(oldDepth === depth) return; //do no more.. we're not changing anything
-                        var nodes = this.nodeDepths[oldDepth];
-                        var newnodes = [];
-                        for(var i=0; i < nodes.length; i++){
-                                if(nodes[i] != node.getID()){
-                                        newnodes.push(nodes[i]);
-                                }
+                for(var i=0; i < parents.length; i++){
+                        var parent = this.getNode(parents[i]);
+                     
+                        var parentDepth = parent.getProperty("_depth");
+                        if(!parentDepth){
+                                this.setNodeDepth(parents[i],done);
+                                
                         }
-                        this.nodeDepths[oldDepth] = newnodes;
+                        newdepth = parentDepth + 1;
                 }
                 
-                if(!this.nodeDepths[depth]) this.nodeDepths[depth] = [];
-                this.nodeDepths[depth].push(node.getID());
-                node.setProperty("_depth",depth);
+             
+                
+                var oldDepth = node.getProperty("_depth");
+                if(oldDepth != false){
+                        if(oldDepth > newdepth) return;
+                }                
+
+                node.setProperty("_depth",newdepth);
                 
                 done.push(node.getID());
-                this.setChildrenDepth(node.getID(),depth+1,done);
+                this.setChildrenDepth(node.getID(),done);
         }
 	,addNode: function(nodejson){
 	        
@@ -132,7 +126,7 @@ VismoGraph.prototype = {
 		var node = new VismoGraphNode(nodejson);
 		this.nodes[nodejson.id] = node;
 		if(!this.activeNode) this.activeNode = node;
-		this.setNodeDepth(node,-1);
+		this.setNodeDepth(node.getID());
 		return node;
 	}
 	,deleteNode: function(nodejson){
@@ -169,26 +163,7 @@ VismoGraph.prototype = {
 			json.properties = {};
 			this.addNode(json);
 		}
-		var to = this.getNode(id2);
-		var from = this.getNode(id1);
-		var depth = this.getNodeDepth(id1);
-		
-		var parents = this.getNodeParents(id2);
-		for(var j=0; j < parents.length; j++){
-		        var pdepth = this.getNodeDepth(parents[j]);
-		        if(pdepth >= depth) depth = pdepth;
-		}
-	
-		this.setNodeDepth(to,depth+1);
 
-                /*
-		var parents = this.getNodeParents(id2);
-		for(var j=0; j < parents.length; j++){
-		        var pdepth = this.getNodeDepth(parents[j]);
-		        if(pdepth >= depth) depth = pdepth;
-		}
-		this.setNodeDepth(to,depth+1);
-		*/
 		
 		if(!this.nodeChildren[id1])this.nodeChildren[id1] = [];
 		if(!this.nodeParents[id2]) this.nodeParents[id2] = [];
@@ -196,6 +171,9 @@ VismoGraph.prototype = {
 		
 		this.nodeChildren[id1].push(id2);
 		this.nodeParents[id2].push(id1);
+		
+		this.setNodeDepth(id1);
+		this.setNodeDepth(id2);
 		return false;	
 	}
 	,deleteEdge: function(id1,id2){		

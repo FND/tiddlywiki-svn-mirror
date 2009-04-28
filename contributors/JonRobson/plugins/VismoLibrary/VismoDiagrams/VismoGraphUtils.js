@@ -1,6 +1,28 @@
 var VismoGraphUtils = {
-
-	getPartners: function(id,vismoGraph){
+        getNodeDescendants: function(id,vismoGraph,descendants){
+               if(!descendants)descendants = [];
+                var children = vismoGraph.getNodeChildren(id);
+                
+                for(var i=0; i < children.length; i++){
+                        var child =children[i];
+                        descendants = this.getNodeDescendants(child,vismoGraph,descendants);
+                        if(!descendants.contains(child))descendants.push(child);
+                }
+                
+                return descendants;
+        }
+        ,getNodeLeaves: function(id,vismoGraph,leaves){
+                if(!leaves)leaves = [];
+                var children = vismoGraph.getNodeChildren(id);
+                if(children.length == 0)leaves.push(id);
+                 
+                for(var i=0; i < children.length; i++){
+                        var child = children[i];
+                        leaves = this.getNodeLeaves(child,vismoGraph,leaves);
+                }
+                return leaves;
+        }
+	,getPartners: function(id,vismoGraph){
 		var partners = [];
 		var childrenNodes = vismoGraph.getNodeChildren(id);
 		var marked = {};

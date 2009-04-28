@@ -5669,7 +5669,7 @@ VismoController.prototype = {
 		newCanvas.setAttribute(&quot;class&quot;,&quot;vismoControl&quot;);
 		this.wrapper.appendChild(newCanvas);
 		newCanvas.vismoController = this;
-		newCanvas.vismoClicking = new VismoClickableCanvas(newCanvas);
+		newCanvas.vismoClicking = new VismoCanvas(newCanvas);
 		return newCanvas;
 	},
 	addPanningActions: function(controlDiv){
@@ -6279,9 +6279,9 @@ function findScrollY()
 
 /*Turn a dom element into one where you can find VismoShapes based on clicks */
 /*
-Following to be renamed as VismoClickableCanvas
+Following to be renamed as VismoCanvas
 */
-var VismoClickableCanvas = function(element,vismoShapesList){
+var VismoCanvas = function(element,vismoShapesList){
 	if(typeof element == 'string') element= document.getElementById(element);
 	if(!element) throw &quot;Element doesn't exist!&quot;;
 	if(element.vismoClicking) {
@@ -6294,7 +6294,7 @@ var VismoClickableCanvas = function(element,vismoShapesList){
 	
 		canvas.width = parseInt(wrapper.style.width);
 		canvas.height = parseInt(wrapper.style.height);
-	if(!element.className)element.className = &quot;VismoClickableCanvas&quot;;
+	if(!element.className)element.className = &quot;VismoCanvas&quot;;
 	jQuery(canvas).css({width:wrapper.style.width, height:wrapper.style.height,'z-index':1,position:'absolute'});
 	element.appendChild(canvas);
 	this.canvas = canvas;
@@ -6313,7 +6313,7 @@ var VismoClickableCanvas = function(element,vismoShapesList){
 	this._setupMouse();
 };
 
-VismoClickableCanvas.prototype = {
+VismoCanvas.prototype = {
 	getDomElement: function(){
 		return this.wrapper;
 	}

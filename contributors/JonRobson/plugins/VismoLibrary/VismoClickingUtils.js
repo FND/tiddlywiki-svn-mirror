@@ -17,8 +17,11 @@ var VismoClickingUtils = {
 			obj = e.target;
 		else if(e.srcElement)
 			obj = e.srcElement;
-		if(obj.nodeType == 3) // defeat Safari bug
-			obj = obj.parentNode;
+	        else{
+	                return false;
+	        }
+		/*if(obj && obj.nodeType && obj.nodeType == 3) // defeat Safari bug
+			obj = obj.parentNode;*/
 		return obj;
 	}
 	

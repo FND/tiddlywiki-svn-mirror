@@ -54,7 +54,7 @@ var VismoDiagram = function(wrapper,vismoGraph,controller){
 	this.wrapper.appendChild(this.canvas);
 	this.vismoDrawingTools = new VismoDrawingTools(this.wrapper);
 	
-	this.vismoClicking = new VismoClickableCanvas(this.wrapper);
+	this.vismoClicking = new VismoCanvas(this.wrapper);
 	this.setupMouseHandlers();
 		
 	this.vismoController = new VismoController(this,this.wrapper);
