@@ -105,7 +105,7 @@ font-size:100%;
 
 .btn:focus, .btn:active {
 	outline:none; 
-	background:red;
+	background:white;
 }
 
 .primary {
