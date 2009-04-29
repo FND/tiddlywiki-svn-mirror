@@ -888,6 +888,10 @@ form.wizard, .wizard .wizardFooter{
 		position:relative;
 		top:-3.5em;
 	}
+	.newEditor {
+		top:0.5em;
+	}
+	
 	div.editor input {
 		width:98%;
 	}
@@ -1009,12 +1013,13 @@ padding-top:0em;
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
+			<div class='title' macro='edit title'></div>
 		</div>
 	</div>
 	<div class="portletContent">
 
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='editor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 		<!--
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
 		<div class='commentsArea' macro='comments'></div>
