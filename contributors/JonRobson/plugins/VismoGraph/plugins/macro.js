@@ -33,6 +33,7 @@ config.macros.VismoGraph = {
                 };
                 
                 var positionCalculationFunction = function(node,graph){ ///user-defined layout
+                
                                 var tiddler = store.getTiddler(node.getID());
                                 var x,y;
                                 if(tiddler){
@@ -45,7 +46,7 @@ config.macros.VismoGraph = {
                                         }
                                 }
                                 var oldpos = node.getPosition();
-                		if(oldpos.x && oldpos.y) return oldpos;
+                		if(oldpos) return oldpos;
         		
                 		x = Math.random() *(w/2);
                 	        y = Math.random()*(h/2);
@@ -90,74 +91,7 @@ config.macros.VismoGraph = {
                 var layout =getParam(prms,"layout");
                 if(layout == "tree"){
                         
-                        positionCalculationFunction = function(node,graph){     
-                               if(node.getPosition()) return node.getPosition();
-                         
-                                var depth = graph.getNodeDepth(node.getID());
-                      
-                                
-                                var spacing = 200;
-                                var x,y;
-
-                                
-                                var parents = graph.getNodeParents(node.getID());
-                                x = depth * spacing
-                                y = 0;
-                                
-                                var siblings = VismoGraphUtils.getSiblings(node.getID(),graph);                               
-                                for(var i=0; i < parents.length; i++){
-                                        var parent = graph.getNode(parents[i]);
-                                        var pos =parent.getPosition();
-                                        if(pos){
-                                                y = pos.y - (siblings.length/2 * spacing);
-                                        }
-                                
-                                }              
-                                if(parents.length == 0){
-                                        
-                                        var atdepth =graph.getNodesAtDepth(0);
-                                        var totalLeaves = 0;
-                                        for(var i=0; i < atdepth.length; i++){
-                                                var id = atdepth[i];
-                                                var leaves = VismoGraphUtils.getNodeLeaves(id,graph);
-                                                totalLeaves += leaves.length;
-                                        }
-                                        
-                                        var y = -(totalLeaves * spacing) /2;
-                                        for(var i=0; i < atdepth.length; i++){
-                                                  var node = graph.getNode(atdepth[i]);
-                                                  y += spacing;
-                                                  //console.log(node,atdepth[i]);
-                                                  node.setPosition(x,y);
-                                        }
-                                        
-                                }
-                                else{
-                                        node.setPosition(x,y);
-                                }
-                                
-                                
-
-                                
-                                var thisy = y;
-                                
-                                for(var i=0; i < siblings.length; i++){                           
-                                     var thisnode = graph.getNode(siblings[i]);                                
-                                    
-                                     if(!thisnode.getPosition()){
-                                             thisy += spacing;
-                                             thisnode.setPosition(x,thisy);                                                 
-                                     }
-                                             
-                                }
-
-         
-                                
-                           
-                                return {x: x,y:y};
-                        };
-                        
-                        g.setLayoutAlgorithm(positionCalculationFunction);
+                        g.setLayoutAlgorithm("tree");
                 }
                 
                 
@@ -175,16 +109,22 @@ config.macros.VismoGraph = {
                 var dbclick = function(e,s){
                         if(s)story.normalDisplayTiddler(null,s.getProperty("name"));
                         else{
-                                var pos = VismoClickingUtils.getMouseFromEvent(e,r.getVismoController().getTransformation());
-                                var title = "Vismo " + Math.random();
-                                savePosition(title,0,0);
-                                g.addNode({id:title,properties:{name:title}});
+                                var con = r.getVismoController();
+                                var t = con.getTransformation();
+                            
+                                var pos = VismoClickingUtils.getRealXYFromMouse(e,t);
+                      
+                                 var title = "abc";
+                                savePosition(title,pos.x,pos.y);
+                          
+                                var node =g.addNode({id:title,properties:{name:title}});
+                                node.setPosition(pos.x,pos.y);
                                 r.render();
                                 
                         }
                 };
                 var singleclick = function(e,s){
-                     
+                   
                         var name =s.getProperty("name");
                         g.setRootNode(name);
                         

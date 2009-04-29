@@ -35,6 +35,7 @@ VismoGraphRenderer.prototype = {
                 return this.controller;
         }
         ,render: function(){
+      
                 if(this.options.beforeRender) this.options.beforeRender(this);
                 this.canvas.clear();
                 this.renderEdges();
@@ -51,6 +52,7 @@ VismoGraphRenderer.prototype = {
 				var node =nodes[i];
 				var npos = node.getPosition();
 				if(!npos) {
+			
 					this.vismoGraph.calculateNodePositions();
 					this.render();
 					return;
@@ -63,6 +65,7 @@ VismoGraphRenderer.prototype = {
 					if(child){
 						var cpos = child.getPosition();
 						if(!cpos) {
+					
 							this.vismoGraph.calculateNodePositions();
 							this.render();
 							return;
@@ -122,6 +125,7 @@ VismoGraphRenderer.prototype = {
 	        var id = shape.getProperty("_nodeID");
 	        return this.vismoGraph.getNode(id);
 	}
+
 	,renderNodes: function(){
 	        var nodes = this.vismoGraph.getNodes();
 	        for(i in nodes){
@@ -132,13 +136,16 @@ VismoGraphRenderer.prototype = {
 	                properties.shape = 'circle';
 	                properties._nodeID = node.getID();
 	                
+
 	                if(!this.addedNodes[node.getID()]){
+	                       
 	                        var s = this.canvas.add(new VismoShape(properties,[pos.x,pos.y,10]));
 	                        this.addedNodes[node.getID()] = s;
 	                }
 	                else{
 	                        
 	                        this.addedNodes[node.getID()].setProperties(properties);
+	                        	          
 	                }
 	        }
 	     

@@ -55,10 +55,13 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 	this.wrapper.vismoController = this;
 	
 	
-	
+
 	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0},origin:{}};	
-	this.transformation.origin.x = parseInt(elem.style.width) / 2;
-	this.transformation.origin.y = parseInt(elem.style.height) / 2;
+	             
+	this.transformation.origin.x = jQuery(elem).width() / 2;
+	this.transformation.origin.y = jQuery(elem).height() / 2;
+        var t = this.transformation;
+
 	//looks for specifically named function in targetjs
 	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
 	this.wrapper.vismoController = this;
@@ -412,9 +415,11 @@ VismoController.prototype = {
 	},
 	setTransformation: function(t){
 	        if(!t.origin){
+	                
 	                var w = jQuery(this.wrapper).width();
 	                var h = jQuery(this.wrapper).height();
 	                t.origin = {x: w/2, y: h/2};
+	
 	        }
 		if(this.enabled){
 			if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");

@@ -28,14 +28,18 @@ var VismoClickingUtils = {
 	
 	,getMouseFromEvent : function(e,target){
 			if(!e) e = window.event;
+			
 			if(!target){
 			        var target = this.resolveTargetWithVismoClicking(e);
 			        if(!target)return false;
                         }
+                        
 			var offset = jQuery(target).offset();
-
-			
-			if(!offset.left) return false;
+               
+                        var i;
+          
+			if(typeof(offset.left) != 'number') return false;
+		
 			x = e.clientX + window.findScrollX() - offset.left;
 			y = e.clientY + window.findScrollY() - offset.top;
 			return {'x':x, 'y':y};		
@@ -59,7 +63,7 @@ var VismoClickingUtils = {
 	{
 		var node = VismoClickingUtils.resolveTarget(e);
 		var first = node;
-		while(node && !node.vismoClicking){
+		while(node && node.parentNode && !node.vismoClicking){
 			node = node.parentNode;
 		}
 		if(!node) node = first;

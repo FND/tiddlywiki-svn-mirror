@@ -78,9 +78,11 @@ VismoCanvas.prototype = {
                         var that = this;
                         var lastshape;
         		var newmove = function(e,shape){
- 
-        		        that.tooltip.innerHTML= "";     
+        		        if(!e) e = window.event;
+        		        if(!that.tooltip) return;     
+                               
                                 if(shape && lastshape != shape){
+                                       
                            	        var pos = VismoClickingUtils.getMouseFromEvent(e);
                 		        jQuery(that.tooltip).css({top:pos.y, left:pos.x});             
                                 }
@@ -92,7 +94,7 @@ VismoCanvas.prototype = {
         		        else{
      		                  jQuery(that.tooltip).css({display:"none"});
         		        }     
-        		        move(e,shape);
+        		        if(move)move(e,shape);
         		        
         		};
         		this.onmousemove = newmove;
@@ -567,7 +569,7 @@ VismoCanvas.prototype = {
 	}
 
 
-        ,makeMoveable: function(oncompletemove){
+        ,makeMoveable: function(oncompletemove,unmoveable){
                 if(this.madeMoveable) return;
                 if(oncompletemove)this.oncompletemove = oncompletemove;
                 this.madeMoveable = true;

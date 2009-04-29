@@ -65,12 +65,7 @@ if(VismoUtils.browser.isIE){
 	document.namespaces.add('xmlns', 'http://www.w3.org/1999/xhtml');
 	document.namespaces.add('svg', 'http://www.w3.org/2000/svg');
 	document.namespaces.add('xlink', 'http://www.w3.org/1999/xlink');
-	var obj = document.createElement("object");
-	//obj.setAttribute("classID",15);
-	obj.setAttribute("id","AdobeSVG");
-        //document.body.appendChild(obj);
-	
-	
+
 	  // Setup default CSS.  Only add one style sheet per document
 	 if (!document.styleSheets['vismoShape']) {
 	        var ss = document.createStyleSheet();
@@ -127,7 +122,12 @@ var VismoShape = function(properties,coordinates){
 
 
 VismoShape.prototype={
-	getShape: function(){
+        clone: function(){
+                var coords = this.getCoordinates("normal");
+                var props = this.getProperties();
+                return new VismoShape(props,coords);
+        }
+	,getShape: function(){
 		return this.getProperty("shape");
 	}
 	,setProperties: function(properties){

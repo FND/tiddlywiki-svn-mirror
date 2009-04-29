@@ -47,7 +47,7 @@ VismoGraphNode.prototype = {
 		if(!properties.shape)properties.shape = "polygon";
 		if(!properties.id) properties.id= this.id;
 		if(!properties.fill) properties.fill = "#ff0000";
-		if(!properties.position) properties.position = {x:0,y:0};
+		if(!properties.position) properties.position = false;
 		
 		return properties;
 	}
@@ -73,6 +73,8 @@ VismoGraphNode.prototype = {
 		return this.getProperty("position");
 	}
 	,setPosition: function(x,y){
+	        console.log("setting position",this.id,"to",x,y);
+	        
 	        if(x === false) this.setProperty("position",false);
 		else this.setProperty("position",{x:x,y:y});
 	}
