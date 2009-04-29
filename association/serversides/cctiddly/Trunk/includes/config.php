@@ -18,10 +18,11 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"OpenID",
 	"Portlet",
 	"lifestream",
-	"announcements", 
 	"SkinnyTiddlers",
+	"TiddlyDocs", 
 	"seo",
 	"LDAP",
+	"lifestream",
 	"WordpressMigration"
 );
 
@@ -136,6 +137,8 @@ $tiddlyCfg['max_file_size'] = 9933300000;
 $tiddlyCfg['only_workspace_admin_can_upload'] = 0; //if enabled only the workspace owner will be able to upload files. If disabled (0) any logged in user can upload files. 
 
 // Skins and Themes 
+
+
 
 $tiddlyCfg['workspace_skin'] = 'none'; // allows a workspace to be included when viewing every other workspace on the instance. Set to ='none' if you do not want to use skins
 $tiddlyCfg['txtTheme'] = 'purpleTheme';  // The default TiddlyWiki theme to use.
@@ -315,7 +318,7 @@ $tiddlyCfg['privilege']['anonymous']['comments'] = "AAAA";		//allow comments to 
 $tiddlyCfg['privilege']['non_admin']['comments'] = "AAAA";	
 // END OF PERMISSIONS 
 
-$tiddlyCfg['version']="1.8";	//set ccTiddly Version number
+$tiddlyCfg['version']="1.8.2";	//set ccTiddly Version number
 $tiddlyCfg['session_expire'] = ($tiddlyCfg['session_expire']==0?9999999:$tiddlyCfg['session_expire']);
 $tiddlyCfg['session_expire'] = $tiddlyCfg['session_expire'] * 60;  // Converts minutes to seconds to be added to an epoch value 
 

@@ -104,22 +104,17 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					var sectionClass = "completed";
 				else 
 					var sectionClass = "incomplete";
-				var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left ");
+				var section = createTiddlyElement(parent, "li", tiddlerTitle, "section  page-item1 left");
 				var assignment = store.getTiddler(tiddlerTitle).fields['tt_user'];
 				var sectionDiv = createTiddlyElement(section, "div", tiddlerTitle+"ViewContainer", "sort-handle " +sectionClass);
-				var heading = createTiddlyElement(sectionDiv, "div",  tiddlerTitle+"HeadingView", "sectionHeading heading"+level);		
+				var heading = createTiddlyElement(sectionDiv, "div",  tiddlerTitle+"HeadingView", "sectionHeading heading");		
 				createTiddlyText(heading, levelCount.join(".")+" : "+tiddlerTitle);
-//				createTiddlyText(heading, levelCount+ " - " +tiddlerTitle); // show number count 
-//				createTiddlyButton(heading,  "edit", "Click to edit this section", config.macros.docOutline.editClick, "button");	// show edit button		
 				var prevLevel = level;			
 				//  Make the lists sortable 
 				$("#sortableList").NestedSortable({
 					accept: 'page-item1',
 					opacity: .6,
 					helperclass: 'helper',
-					//onOut: function(a, b, c) {
-					//	console.log(arguments, this);
-					//}, 
 					onChange: function(serialized) {
 						var output = "";
 						$("li").each(function (i) {
@@ -190,6 +185,35 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 }	
 
 //}}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
