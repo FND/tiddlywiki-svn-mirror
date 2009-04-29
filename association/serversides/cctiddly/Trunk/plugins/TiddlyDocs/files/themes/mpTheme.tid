@@ -187,6 +187,10 @@ label {
 	text-align:right;
 	width:9em;
 }
+
+.siteSubtitle .tiddlyLink {
+	color:#fff;
+}
 .searchButton {
 	float:right;
 	-moz-border-radius-bottomleft:2px;
@@ -202,7 +206,7 @@ label {
 	text-shadow:1px 1px 0 #444444;
 	vertical-align:top;
 }
-#searchform fieldset #s, .txtOptionInput, input {
+#searchform fieldset #s, .txtOptionInput {
 	-moz-border-radius-bottomleft:2px;
 	-moz-border-radius-bottomright:2px;
 	-moz-border-radius-topleft:2px;
