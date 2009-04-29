@@ -1,6 +1,5 @@
 config.macros.search.onKeyPress = function(e)
 {
-	displayMessage(this.value);
 	params = {};
 	params.search = this.value;
 	var resp = doHttp("POST"," handle/search.php", "?instance=" + encodeURIComponent(workspace)+"&search="+encodeURIComponent(this.value),null,null,null,searchCallback);
