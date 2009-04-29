@@ -407,6 +407,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	};
 
 	ccTiddlyAdaptor.getTiddlerCallback = function(status,context,responseText,uri,xhr){
+		console.log("getTiddlerCallback", responseText);
 	        context.status = false;
 	        context.statusText = ccTiddlyAdaptor.errorInFunctionMessage.format(['getTiddlerCallback']);
 	        if(status){
@@ -422,6 +423,9 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	                context.tiddler.text = info['text'];
 					context.tiddler.tags = info['tags'].split(" ");
 	                context.tiddler.fields['server.page.revision'] = info['revision'];
+	
+					// WE SHOULD BE SETTING THE FIELDS PROPERLY HERE - ID and other fields are currently lost.	
+						
 				    context.tiddler.modifier = info['modifier'];
 	                context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(info['modified']);
 	                context.tiddler.created = Date.convertFromYYYYMMDDHHMM(info['created']);
@@ -495,7 +499,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		d.setTime(Date.parse(tiddler['modified']));
 		d = d.convertToYYYYMMDDHHMM();
 
-		// Freds SEO Code
+		//  SEO Code
 
 		if(workspace)
 		 	var breaker = "/";
@@ -519,7 +523,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		        }
 		    }
 		}	
-		// End Freds SEO Code 
+		// End SEO Code 
 
 		var fieldString = "";
 		for (var name in tiddler.fields){
@@ -537,6 +541,8 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 			var otitle = context.otitle;
 		var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+encodeURIComponent(tiddler.getTags())+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
 	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id']+"&"+postParams;
+		
+		console.log(payload);
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");
 		return typeof req == 'string' ? req : true;
 	};

@@ -2,7 +2,7 @@
 
 
 
-$autoLoad = array("skinnyPlugin"=>"", "SiteTitle"=>"", "SiteSubtitle"=>"", "MainMenu"=>"", "002_ccTiddlyPlugins"=>"", "ColorPalette"=>"", "GettingStarted"=>""); // set the tiddlers which will not be lazily loaded
+$autoLoad = array("skinnyPlugin"=>"", "SiteTitle"=>"", "SiteSubtitle"=>"", "MainMenu"=>"", "002_ccTiddlyPlugins"=>"", "ColorPalette"=>"", "GettingStarted"=>"", "serverSideSearchPlugin"=>""); // set the tiddlers which will not be lazily loaded
 
 
 $defaultTiddler = ($user['verified']) ? "DefaultTiddlers" : "AnonDefaultTiddlers"; // if the user is logged in get default tiddlers, if the are not logged in get the anonDefaultTiddler

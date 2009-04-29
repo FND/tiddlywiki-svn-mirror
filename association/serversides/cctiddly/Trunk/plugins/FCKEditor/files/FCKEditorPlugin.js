@@ -29,7 +29,7 @@ On the plugin [[homepage|http://visualtw.ouvaton.org/VisualTW.html]], see and ed
 !Code
 ***/
 //{{{
-config.options.txtFCKeditorPath = "plugins/FCKEditor/files/fckeditor/";
+	config.options.txtFCKeditorPath = config.options.txtFCKeditorPath ? config.options.txtFCKeditorPath : "plugins/FCKEditor/files/fckeditor/";
 config.options.txtFCKeditorPath = config.options.txtFCKeditorPath ? config.options.txtFCKeditorPath : "fckeditor/";
 config.options.txtFCKCustomConfigScript = config.options.txtFCKCustomConfigScript ? config.options.txtFCKCustomConfigScript : "";
 config.options.txtFCKToolbar = config.options.txtFCKToolbar ? config.options.txtFCKToolbar : "";
@@ -116,7 +116,7 @@ config.commands.editHtml={
 		clearMessage();
 		var tiddlerElem = document.getElementById(story.idPrefix + title);
 		var fields = tiddlerElem.getAttribute("tiddlyFields");
-		story.displayTiddler(null,title,"EditTemplate",false,null,fields);
+		story.displayTiddler(null,title,"EditHtmlTemplate",false,null,fields);
 //		story.displayTiddler(null,title,"EditHtmlTemplate",false,null,fields);
 		return false;
 	}

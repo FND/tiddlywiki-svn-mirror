@@ -44,7 +44,7 @@
 		$output .= '"created":"'.$tiddler['created'].'",';
 		$output .= '"modified":"'.$tiddler['modified'].'",';
 		$output .= '"tags":"'.$tiddler['tags'].'",';
-		$output .= '"fields":"'.$tiddler['fields'];
+		$output .= '"fields":"server.page.revision=\''.$tiddler['revision']."' ".$tiddler['fields'];
 		$output .= '"}';
 		return $output;
 	}

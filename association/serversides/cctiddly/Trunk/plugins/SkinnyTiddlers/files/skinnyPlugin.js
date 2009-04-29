@@ -27,6 +27,7 @@ Story.prototype.loadMissingTiddlerContents = function(tiddler) {
 
 		onGetTiddler: function(context) {
 			var tiddler = context.tiddler;
+			console.log("skinny tiddler is ", tiddler);
 			if(tiddler && tiddler.text) {
 				if(!tiddler.created) {
 					tiddler.created = new Date();
