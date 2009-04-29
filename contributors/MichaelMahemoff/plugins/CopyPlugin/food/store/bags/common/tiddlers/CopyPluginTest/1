@@ -1,0 +1,19 @@
+modifier: mike
+created: 
+modified: 20090403143050
+type: None
+tags: systemConfig
+
+/***
+  <<testCopy>>
+***/
+//{{{
+config.macros.testCopy = {
+  handler: function(place) {
+    console.log("testCopy fired");
+    createTiddlyButton(place, "Copy!", null, function() {
+      copyTiddler("toast", "lunch");
+    });
+  }
+}
+//}}}

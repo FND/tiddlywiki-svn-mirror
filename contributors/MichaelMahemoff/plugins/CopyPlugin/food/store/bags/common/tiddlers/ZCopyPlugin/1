@@ -1,0 +1,75 @@
+modifier: mike
+created: 
+modified: 20090403143050
+type: None
+tags: systemConfig
+
+function copyTiddler(tiddler, destBag) {
+  var tiddler = (typeof(tiddler)=="string") ? store.getTiddler(tiddler) : tiddler; 
+  // var sourceWorkspace = tiddler.fields["server.workspace"];
+  // var revisionIDInSource = tiddler.fields["server.page.revision"];
+  // tiddler.fields.revisionIDInSource = tiddler.fields["server.workspace"];
+  tiddler.fields.sourceWorkspace = tiddler.fields["server.workspace"];
+  tiddler.fields.revisionIDInSource = tiddler.fields["server.page.revision"];
+  console.log("hello plugin copying ", tiddler.title,  " - ", tiddler, " to ", destBag);
+  tiddler.fields["server.workspace"] = "bags/" + destBag;
+  store.saveTiddler(tiddler.title);
+  autoSaveChanges(false);
+}
+
+var plugin = config.extensions.ServerSideSavingPlugin;
+
+// hijack function to handle 412 edit conflict response
+config.extensions.ServerSideSavingPlugin.saveTiddlerCallback = function(context, userParams) {
+  var tiddler = context.tiddler;
+  if(context.status) {
+    handle204(context);
+  } else {
+    if(context.httpStatus == 412) {
+      // displayMessage(plugin.locale.saveConflict.format([tiddler.title]));
+      handle412(context);
+    } else {
+      displayMessage(plugin.locale.saveError.format([tiddler.title, context.statusText]));
+    }
+  }
+};
+
+function handle204(context) {
+  var tiddler = context.tiddler;
+  if(tiddler.fields.changecount == context.changecount) { //# check for changes since save was triggered
+    tiddler.clearChangeCount();
+  } else if(tiddler.fields.changecount > 0) {
+    tiddler.fields.changecount -= context.changecount;
+  }
+  displayMessage(plugin.locale.saved.format([tiddler.title]));
+  store.setDirty(false);
+  // from here is a custom bit for the copyPlugin; you'd want to handle via a custom 204 handler passed into the ServerSideSavingPlugin
+  if (tiddler.fields["sourceWorkspace"]) {
+    tiddler.fields["server.workspace"] = tiddler.fields["sourceWorkspace"];
+    tiddler.fields["server.page.revision"] = tiddler.fields["revisionIDInSource"];
+    delete tiddler.fields["sourceWorkspace"];
+    delete tiddler.fields["revisionIDInSource"];
+  }
+}
+
+function handle412(context) {
+  var tiddler = context.tiddler;
+  try {
+    var adaptor = plugin.getTiddlerServerAdaptor(tiddler);
+  } catch(ex) {
+    return false;
+  }
+  var context = {workspace: tiddler.fields["server.workspace"]};
+  var req = adaptor.getTiddler(tiddler.title, context, {}, onGetTiddler);
+  return req ? tiddler : false;
+}
+
+function onGetTiddler(context) {
+  var destTiddler = context.tiddler;
+  var sourceTiddler = store.getTiddler(destTiddler.title);
+  sourceTiddler.fields['server.page.revision'] = destTiddler.fields['server.page.revision'];
+  sourceTiddler.fields['server.workspace'] = destTiddler.fields['server.workspace'];
+  store.saveTiddler(sourceTiddler.title);
+  autoSaveChanges(false);
+  console.log("ongetTiddler", arguments);
+}
