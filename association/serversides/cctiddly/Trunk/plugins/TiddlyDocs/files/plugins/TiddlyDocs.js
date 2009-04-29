@@ -104,10 +104,10 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 					var sectionClass = "completed";
 				else 
 					var sectionClass = "incomplete";
-				var section = createTiddlyElement(parent, "li", tiddlerTitle, "section  page-item1 left");
+				var section = createTiddlyElement(parent, "li", tiddlerTitle, "section clear-element page-item1 left");
 				var assignment = store.getTiddler(tiddlerTitle).fields['tt_user'];
 				var sectionDiv = createTiddlyElement(section, "div", tiddlerTitle+"ViewContainer", "sort-handle " +sectionClass);
-				var heading = createTiddlyElement(sectionDiv, "div",  tiddlerTitle+"HeadingView", "sectionHeading heading");		
+				var heading = createTiddlyElement(sectionDiv, "div",  tiddlerTitle+"HeadingView", "sectionHeading heading"+level);		
 				createTiddlyText(heading, levelCount.join(".")+" : "+tiddlerTitle);
 				var prevLevel = level;			
 				//  Make the lists sortable 

@@ -722,6 +722,23 @@ form.wizard, .wizard .wizardFooter{
 	/*  END COMMENTS CSS */
 
 	/*  NESTED SORTABLE CSS */
+	
+	html body #messageArea a { 
+		 	color:#fff; 
+		}
+		html body .newSectionEditor { 
+		 	        top:0em; 
+		 	        width:100%; 
+		 	} 
+		 	 
+		 	html .wizardViewer .tiddlyLink { 
+		 	color:#fff; 
+		 	} 
+		 	 
+		 	 .highlight, .marked { 
+		 	background:red none repeat scroll 0 0; 
+		 	}
+	
 		div.sort-handle {
 			padding:0em;
 			margin:0em;
