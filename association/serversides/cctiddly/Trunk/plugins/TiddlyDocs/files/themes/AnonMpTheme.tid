@@ -61,21 +61,11 @@ tags: systemTheme
 		</div>
 		<div class="portletContent leftColumnItem">
 		
-		<div class='about-tiddlydocs'>
-		TiddlyDocs is designed to help you and your team collaborate on large documents.
-		<p>
-			A document can take several people to write, so TiddlyDocs lets you break it into sections and spread the bits out across your team.
-		</p>
-	 	<br />
-	 	<br />
-	<center>
-	<br />
-		<img src='plugins/TiddlyDocs/files/images/badge_osmosoft.png'/><br/><br/>
-		<img src='plugins/TiddlyDocs/files/images/badge_bt.png'/><br/><br/>
-		<img src='plugins/TiddlyDocs/files/images/badge_unamesa.png'/><br/><br/>
-		
-	</center>
-		</div>
+			<div class="portletContent leftColumnItem">
+		<div  refresh='content'  tiddler='aboutTiddlyDocs'></div>
+
+			</div>
+
 
 		</div>
 
@@ -96,6 +86,10 @@ tags: systemTheme
 
 
 !StyleSheet
+
+.about-tiddlydocs .tiddlyLink, .about-tiddlydocs .aboutLink {
+	color:white;
+}
 
 .about-tiddlydocs {
 	padding:1em;
