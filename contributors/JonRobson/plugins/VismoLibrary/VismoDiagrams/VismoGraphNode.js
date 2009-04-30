@@ -7,14 +7,9 @@ var VismoGraphNode = function(json){
 	var properties = json.properties;
 	this.id = id;		
 	properties = this.completeProperties(properties);
-	
-	var pos = properties.position;
-	var x = pos.x;
-	var y = pos.y;
-	var w = properties.width / 2;
-	var h = properties.height /2;
-	
 	this.properties = properties;
+	this.setPosition(false);
+	this.positionDefined = false;
 	return false;
 };
 
@@ -22,10 +17,7 @@ VismoGraphNode.prototype = {
         getID: function(){
                 return this.id;
         }
-	,setDimensions: function(width,height){
-		this.setProperty("width",width);
-		this.setProperty("height",height);
-	}
+
 	,burntojson: function(){
 		var json = {};
 		json.id = this.id;
@@ -42,9 +34,7 @@ VismoGraphNode.prototype = {
 		if(!properties){
 			properties = {};
 		}
-		if(!properties.width) properties.width = 100;
-		if(!properties.height) properties.height = 30;
-		if(!properties.shape)properties.shape = "polygon";
+		
 		if(!properties.id) properties.id= this.id;
 		if(!properties.fill) properties.fill = "#ff0000";
 		if(!properties.position) properties.position = false;
@@ -73,9 +63,9 @@ VismoGraphNode.prototype = {
 		return this.getProperty("position");
 	}
 	,setPosition: function(x,y){
-	        console.log("setting position",this.id,"to",x,y);
-	        
-	        if(x === false) this.setProperty("position",false);
-		else this.setProperty("position",{x:x,y:y});
+	        this.positionDefined = true;
+	        //console.log("Setting",this.id,"to",x,y);
+	        if(x=== false) this.setProperty("position",false);
+	        else this.setProperty("position",{"x":x,"y":y});
 	}
 };

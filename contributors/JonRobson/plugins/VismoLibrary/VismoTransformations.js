@@ -71,19 +71,18 @@ var VismoTransformations= {
 		var tr =t.translate;
 		var s = t.scale;
 		var o = t.origin;
-		if(!s || !o || !tr) return false;
+		if(s ===false || o ===false || tr ===false) return false;
 		
-		if(!x || !y) 
-			return false;
-		pos.x = x;
-		pos.y = y;
-		pos.x -= o.x;
-		pos.y -= o.y;
+		if(x ===false || y ===false)return false;
+		pos.x = x - o.x;
+		pos.y = y -o.y;
+		//pos.x -= x;
+		//pos.y += y;
 		
-		if(pos.x != 0)
+		if(pos.x !== 0)
 			pos.x /= s.x;
 		
-		if(pos.y != 0)
+		if(pos.y !== 0)
 			pos.y /= s.y;
 			
 		pos.x -= tr.x;

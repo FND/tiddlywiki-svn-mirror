@@ -109,17 +109,19 @@ config.macros.VismoGraph = {
                 var dbclick = function(e,s){
                         if(s)story.normalDisplayTiddler(null,s.getProperty("name"));
                         else{
-                                var con = r.getVismoController();
-                                var t = con.getTransformation();
                             
-                                var pos = VismoClickingUtils.getRealXYFromMouse(e,t);
-                      
+                                var pos = r.getVismoCanvas().getXY(e);
+                                
+                                var can =r.getVismoCanvas();
+                                can.add(new VismoShape({shape:'circle',fill:'rgb(0,0,0)'},[pos.x,pos.y,10]));
+                                can.render();
+                                
                                  var title = "abc";
                                 savePosition(title,pos.x,pos.y);
                           
-                                var node =g.addNode({id:title,properties:{name:title}});
+                                /*var node =g.addNode({id:title,properties:{name:title}});
                                 node.setPosition(pos.x,pos.y);
-                                r.render();
+                                r.render();*/
                                 
                         }
                 };

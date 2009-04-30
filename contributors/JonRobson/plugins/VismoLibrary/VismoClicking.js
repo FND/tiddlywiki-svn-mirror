@@ -58,7 +58,6 @@ var VismoCanvas = function(element,vismoShapesList){
 	this.setOnMouse(false,false,false,false,false);
 };
 
-
 VismoCanvas.prototype = {
 	getDomElement: function(){
 		return this.wrapper;
@@ -67,7 +66,7 @@ VismoCanvas.prototype = {
 	        if(addContent) this.tooltipAddContent = addContent;
 	        if(!this.tooltip){
 	                var tooltip =  document.createElement("div");
-                        jQuery(tooltip).css({position:"absolute","z-index":10});      
+                        jQuery(tooltip).css({position:"absolute","z-index":10,display:"none"});      
                         tooltip.className = "VismoTooltip";
                         this.wrapper.appendChild(tooltip);
                         this.tooltip = tooltip;
@@ -80,7 +79,7 @@ VismoCanvas.prototype = {
         		var newmove = function(e,shape){
         		        if(!e) e = window.event;
         		        if(!that.tooltip) return;     
-                               
+                                jQuery(that.tooltip).html("");
                                 if(shape && lastshape != shape){
                                        
                            	        var pos = VismoClickingUtils.getMouseFromEvent(e);
@@ -458,12 +457,15 @@ VismoCanvas.prototype = {
 		var hitShapes = [];
 		for(var i=0; i < shapes.length; i++){
 			var shape = shapes[i];
-			var st = shape.getShape();
+			if(!shape.getProperty("unclickable"))
+	                {		
+	                        var st = shape.getShape();
 				var g = shape.getBoundingBox();
 				
 				if(x >= g.x1 && x <= g.x2 && y >=  g.y1 && y <=g.y2){
 					hitShapes.push(shapes[i]);
 				}
+			}
 
 		}
 		var res = this._findNeedleInHaystack(x,y,hitShapes);
@@ -570,6 +572,7 @@ VismoCanvas.prototype = {
 
 
         ,makeMoveable: function(oncompletemove,unmoveable){
+                if(!unmoveable)unmoveable = [];
                 if(this.madeMoveable) return;
                 if(oncompletemove)this.oncompletemove = oncompletemove;
                 this.madeMoveable = true;
@@ -638,7 +641,10 @@ VismoCanvas.prototype = {
                 var result = {};
                 this.onmouseup = function(e,s){onmouseup(e,s);if(up)up(e,s);};
                 this.onmousedown = function(e,s){onmousedown(e,s);if(down)down(e,s);};
-                this.onmousemove = function(e,s){onmousemove(e,s);if(move)move(e,s);
+                this.onmousemove = function(e,s){
+                        if(move)move(e,s);
+                        if(unmoveable.contains(s)) return;
+                        onmousemove(e,s);
                         var showitsmoveable = function(){
                                 el.style.cursor = 'move';
                         };

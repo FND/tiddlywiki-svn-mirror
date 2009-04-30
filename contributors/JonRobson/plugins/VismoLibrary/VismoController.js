@@ -6,10 +6,10 @@ Will be changed to take a handler parameter rather then a targetjs
  */
 
 var VismoController = function(targetjs,elem,options){ //elem must have style.width and style.height etM   
+        
         if(elem.hasVismoController) throw "this already has a vismo controller!"
         elem.hasVismoController = true;              
 	this.enabledControls = [];
-	if(!options) options = ['pan','zoom','mousepanning','mousewheelzooming'];
 
 	if(typeof elem == 'string') elem= document.getElementById(elem);
 	this.setLimits({});
@@ -67,7 +67,12 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 	this.wrapper.vismoController = this;
 	this.enabled = true;
 
-	this.addControls(options);
+
+	if(!options) options = {};
+	if(!options.controls)options.controls =['pan','zoom','mousepanning','mousewheelzooming'];
+	this.options = options;
+	this.addControls(this.options.controls);
+
 
 };
 VismoController.prototype = {
@@ -81,11 +86,7 @@ VismoController.prototype = {
 	        this.enabledControls.push(controlName);      
 	}
 	,applyLayer: function(){
-	        this.controlCanvas.render();	       
-	        if(VismoUtils.browser.isIE) return;
 	        var that = this;
-	
-
 	        var hidebuttons = function(){
 	               var shapes = that.controlCanvas.getMemory();
 	                for(var i=0; i < shapes.length; i++){
@@ -93,16 +94,19 @@ VismoController.prototype = {
 	                }
 
 	                that.controlCanvas.render();
+	        };	        
+	        this.controlCanvas.render();
+	        if(this.options.hidebuttons){
+	                hidebuttons();
+	                return;
 	        }
+	        
+	       	       
+	        if(VismoUtils.browser.isIE) return;
 	        var enabled = this.getEnabledControls();
 	        var pan,zoom;
 	        if(enabled.contains("pan")) pan = true;
 	        if(enabled.contains("zoom")) zoom = true;
-	        var img,svg;
-	        var imgcallback = function(){
-	                jQuery(that.controlDiv).css({"background-image":"url("+ img+")"});
-	                hidebuttons();
-	        };
                 var callback = function(response){
                         if(!response)return;
                         if(!VismoUtils.svgSupport())return;
@@ -128,26 +132,7 @@ VismoController.prototype = {
                         jQuery(that.controlDiv).css({"background-image":"none"});
                         hidebuttons();
                 };
-                	        
-	        if(pan && zoom) {
-	                img="panzoomcontrols.png";
-	                svg = "panzoomcontrols.svg";
-	                callback(this.panzoomcontrolsSVG);
-	        }
-	        else if(pan) {
-	                img = "pancontrols.png";
-	                svg = "pancontrols.svg";
-	        }
-	        else if(zoom){
-	                img = "zoomcontrols.png";
-	                svg = "zoomcontrols.svg";
-	        }
-	        else {
-	                return;
-	        }
-
-	        //try{jQuery.get(img,imgcallback);}catch(e){}; // no image found
-        	//try{jQuery.get(svg,callback);}catch(e){} //no svg file found;
+	        if(pan && zoom) callback(this.panzoomcontrolsSVG);
 
         	
 	}

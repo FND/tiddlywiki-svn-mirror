@@ -175,7 +175,10 @@ VismoShape.prototype={
 	                if(coordinates[i] +"" !='NaN')good.push(coordinates[i]);
 	        }
 	     
-	        if(good.length < 2) throw "cannot set coordinates for VismoShape not enough good coordinates given (coordinates may contain non-number elements)" + coordinates.toString();
+	        if(good.length < 2) {
+	              
+	                throw "cannot set coordinates for VismoShape not enough good coordinates given (coordinates may contain non-number elements)" + coordinates.toString();
+                }
                 coordinates = good;
                 
                 
@@ -366,9 +369,11 @@ VismoShape.prototype={
 		if(!shapetype) shapetype = 'polygon';
 		if(shapetype == 'point' || shapetype == 'circle'){
 			var radius;
-			if(coordinates[2]) radius = coordinates[2]; else radius = 0.5;
-			this.setCoordinates([coordinates[0],coordinates[1]]);
+			if(coordinates[2]) radius = coordinates[2]; 
+			else radius = 0.5;
 			this.setRadius(radius);
+			this.setCoordinates([coordinates[0],coordinates[1]]);
+			
 		}
 		else if(shapetype == 'polygon' || shapetype == 'path')
 		{

@@ -204,11 +204,17 @@ VismoGraph.prototype = {
 	}
 
 	,calculateNodePositions: function(){
-	    
+	        var i;
+	        
 		for(i in this.nodes){
 		        
-			var newpos =this.positionCalculationFunction(this.nodes[i],this);
-			this.nodes[i].setPosition(newpos.x,newpos.y);
+			if(!this.nodes[i].getPosition()){
+
+			        var newpos =this.positionCalculationFunction(this.nodes[i],this);
+			        if(newpos){
+			        this.nodes[i].setPosition(newpos.x,newpos.y);
+			        }
+		        }
 		}
 		return false;
 	}
@@ -254,24 +260,34 @@ VismoGraph.prototype = {
 
 VismoGraph.prototype.layoutAlgorithms = {
         tree: function(node,graph){     
+                        
                      if(node.getPosition()) return node.getPosition();
+                     
+                      
                       var depth = graph.getNodeDepth(node.getID());
                       var spacing = 200;
                       var x,y;
                       var parents = graph.getNodeParents(node.getID());
                       x = depth * spacing
                       y = 0;
-
-                      var siblings = VismoGraphUtils.getSiblings(node.getID(),graph);                               
-                      for(var i=0; i < parents.length; i++){
-                              var parent = graph.getNode(parents[i]);
-                              var pos =parent.getPosition();
-                              if(pos){
-                                      y = pos.y - (siblings.length/2 * spacing);
-                              }
-
-                      }              
-                      if(parents.length == 0){
+                 
+                var calculateChildren = function(id,x){
+                        var children = graph.getNodeChildren(id);
+                        var pos = graph.getNode(id).getPosition();
+                        
+                        var starty = pos.y - (spacing*(children.length/2));
+                        for(var i=0; i < children.length; i++){
+                                var child = graph.getNode(children[i]);
+                                if(!child.getPosition()){
+                                    child.setPosition(x,starty);
+                                    starty += spacing;
+                                    calculateChildren(children[i],x+spacing);
+                                }
+                                
+                        }
+                        
+                };
+                      if(parents.length == 0){ //root node
 
                               var atdepth =graph.getNodesAtDepth(0);
                               var totalLeaves = 0;
@@ -281,29 +297,53 @@ VismoGraph.prototype.layoutAlgorithms = {
                                       totalLeaves += leaves.length;
                               }
 
-                              var y = -(totalLeaves * spacing) /2;
+                              var rooty = -(totalLeaves * spacing) /2;
                               for(var i=0; i < atdepth.length; i++){
-                                        var node = graph.getNode(atdepth[i]);
-                                        y += spacing;
+                                        var root = graph.getNode(atdepth[i]);
+                                        rooty += spacing;
+                                        
+                                      
                                         //console.log(node,atdepth[i]);
-                                        node.setPosition(x,y);
+                                        root.setPosition(x,rooty);
+                                        calculateChildren(atdepth[i],x+spacing);
                               }
 
                       }
+                      return false;
+                      /*
                       else{
-                              node.setPosition(x,y);
-                      }
-                      var thisy = y;
 
-                      for(var i=0; i < siblings.length; i++){                           
-                           var thisnode = graph.getNode(siblings[i]);                                
+                                    var siblings = VismoGraphUtils.getSiblings(node.getID(),graph);          
+                                    var firstParent,parentPos;                                                    
+                                    for(var i=0; i < parents.length; i++){
+                                            var parent = graph.getNode(parents[i]);
+                                            var pos =parent.getPosition();
+                                            if(pos){
+                                                    firstParent = parent;
+                                                    parentPos = pos;
+                                            }
+                                    }
 
-                           if(!thisnode.getPosition()){
-                                   thisy += spacing;
-                                   thisnode.setPosition(x,thisy);                                                 
-                           }
+                                    if(firstParent){
+                                            var siblings = graph.getNodeChildren(firstParent);
+                                            var parentNode = graph.getNode(firstParent);
 
-                      }
-                      return {x: x,y:y};
+                                            var parentY = -(parentPos/2);
+                                            node.setPosition(x,parentY);
+                                            for(var i=0; i < siblings.length; i++){
+                                                    parentY += spacing;
+                                                    var sib =siblings[i];
+                                                    sib.setPosition(x,parentY);
+                                            }
+                                    }
+
+
+
+                            }
+                            var thisy = y;
+
+
+
+                            //return {x: x,y:y};*/
               }
 };

@@ -11,7 +11,7 @@ var GeoTag = function(longitude,latitude,properties){
 	return geo;	
 };
 
-var VismoMap = function(wrapper){  
+var VismoMap = function(wrapper,options){  
 	if(typeof wrapper == 'string') wrapper = document.getElementById(wrapper);
 	else wrapper = wrapper;
 		
@@ -24,13 +24,12 @@ var VismoMap = function(wrapper){
 	if(!wrapper.style.height) wrapper.style.height= "200px";
 		
 	this.feature_reference = {};
-
-		
 		
 	this.vismoClicking = new VismoCanvas(wrapper);
 	this._setupMouseHandlers();
-
-	this.controller = new VismoController(this,this.wrapper);
+	
+	if(!options) options = {};
+	this.controller = new VismoController(this,this.wrapper,options.VismoController);
 
 		
 	//run stuff
