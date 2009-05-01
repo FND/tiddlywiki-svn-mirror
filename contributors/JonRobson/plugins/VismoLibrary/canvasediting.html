@@ -1,0 +1,84 @@
+<html>
+<head>
+
+<script type='text/javascript' src='jquery.js'></script>
+<script type='text/javascript' src='VismoShapes.js'></script>
+<script type='text/javascript' src='VismoShapesRendering.js'></script>
+<script type='text/javascript' src='VismoClicking.js'></script>
+<script type='text/javascript' src='VismoOptimisations.js'></script>
+<script type='text/javascript' src='VismoClickingUtils.js'></script>
+<script type='text/javascript' src='VismoTransformations.js'></script>
+<script type='text/javascript' src='VismoFileUtils.js'></script>
+<script type='text/javascript' src='VismoController.js'></script>
+<script type='text/javascript' src='VismoCanvasEditor.js'></script>
+
+<style type="text/css">
+.VismoCanvasToolbar{
+	float:right;
+}
+.button {
+	width:25px;
+	height:25px;
+}
+.brResizer {width:10;height:10; background-color:red;}
+.selectshape{
+	background-image:url(toolbar/select.png);
+	background-repeat:no-repeat;
+	height:25px	
+}
+.selected {border:solid 1px black;}
+.newshape{
+	background-image:url(toolbar/circle.jpg);
+	background-repeat:no-repeat;
+	height:25px
+}
+.newline{
+	background-image:url(toolbar/line.jpg);
+	background-repeat:no-repeat;
+	height:30px
+}
+.newfreeline{
+	background-image:url(toolbar/freehand.jpg);
+	background-repeat:no-repeat;
+	height:30px
+}
+
+</style>
+<script type='text/javascript'>
+
+function start(){
+	var down = function(e,s){if(s)document.getElementById('shapetype').innerHTML = s.getProperty("id");};
+	
+	var x = new VismoCanvas('xbrowsercanvas');
+
+	x.add(new VismoShape({shape:'polygon',id: 1, fill:'rgb(255,0,0)'},[-2,-2,200,0,200,20,0,20]));
+
+	x.add(new VismoShape({shape:'polygon',fill:'rgb(0,255,0)', id:2, transformation:{translate:{x:100,y:1}}},[-2,-2,200,0,200,20,0,20]));
+
+
+		x.add(new VismoShape({shape:'circle', id:"origi", fill:'rgb(0,0,0)'},[-40,-40,50]));
+		//x.add(new VismoShape({shape:'circle', id:"shouldbe", fill:'rgb(0,0,255)'},[60,-39,50]));
+		
+		x.add(new VismoShape({shape:'circle', id:"transformed", fill:'rgb(0,255,0)',transformation:{translate:{x:100,y:1},scale:{x:2,y:2}}},[-40,-40,50]));
+
+	x.setOnMouse(down);
+	
+	new VismoCanvasEditor(x);
+		new VismoController(x,x.getDomElement());
+	x.render();
+}
+
+</script>
+</head>
+<body>
+<div id='blah'></div>
+<div id='xbrowsercanvas' style='width:800px; height:400px; border:solid 1px black;'></div>
+you clicked on a <span id='shapetype'></span>
+
+<script>start()
+
+
+
+</script>
+</body>
+</html>

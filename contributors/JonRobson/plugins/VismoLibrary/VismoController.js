@@ -7,8 +7,8 @@ Will be changed to take a handler parameter rather then a targetjs
 
 var VismoController = function(targetjs,elem,options){ //elem must have style.width and style.height etM   
         
-        if(elem.hasVismoController) throw "this already has a vismo controller!"
-        elem.hasVismoController = true;              
+        if(elem.vismoController) throw "this already has a vismo controller!"
+        elem.vismoController = this;              
 	this.enabledControls = [];
 
 	if(typeof elem == 'string') elem= document.getElementById(elem);
@@ -17,7 +17,6 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
 	this.defaultCursor = "";
-	this.wrapper.style.cursor = this.defaultCursor;
 	var md = elem.onmousedown;
 	var mu = elem.onmouseup;
 	var mm = elem.onmousemove;
@@ -147,8 +146,6 @@ VismoController.prototype = {
 	},
 	addMouseWheelZooming: function(){ /*not supported for internet explorer*/
                 var that = this;
-	        that.defaultCursor = "crosshair";
-	        this.wrapper.style.cursor = that.defaultCursor;
 	        this._addEnabledControl("mousewheelzooming");
 	
 		this.crosshair = {lastdelta:false};
@@ -323,7 +320,8 @@ VismoController.prototype = {
 		
 		var cancelPanning = function(e){
 			panning_status = false;
-			that.wrapper.style.cursor= that.defaultCursor;
+			jQuery(that.wrapper).removeClass("panning");
+			//style.cursor= that.defaultCursor;
 			that.wrapper.onmousemove = mm;
 			return false;
 		};
@@ -376,7 +374,7 @@ VismoController.prototype = {
 			
 			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			that.wrapper.onmousemove = onmousemove;
-			that.wrapper.style.cursor= "move";	
+			jQuery(that.wrapper).addClass("panning");	
 		};
 		
 		this.wrapper.onmouseup = function(e){

@@ -18,11 +18,12 @@ var VismoClickingUtils = {
 		else if(e.srcElement)
 			obj = e.srcElement;
 	        else{
-	                return false;
+	                obj = false;
 	        }
+	        return obj;
 		/*if(obj && obj.nodeType && obj.nodeType == 3) // defeat Safari bug
 			obj = obj.parentNode;*/
-		return obj;
+		//return obj;
 	}
 	
 	
@@ -62,11 +63,18 @@ var VismoClickingUtils = {
 	,resolveTargetWithVismoClicking: function(e)
 	{
 		var node = VismoClickingUtils.resolveTarget(e);
-		var first = node;
-		while(node && node.parentNode && !node.vismoClicking){
-			node = node.parentNode;
+		if(!node)return false;
+		var hasVismoClicking = false;
+
+		while(!hasVismoClicking && node && node.parentNode){
+		        if(node.vismoClicking){
+		                hasVismoClicking = true;
+			}
+			else{
+			        node= node.parentNode;
+			}
 		}
-		if(!node) node = first;
+		if(!node) return false;
 		return node;
 	}
 	,getMouseFromEventRelativeToElement: function (e,x,y,target){

@@ -173,7 +173,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					
 					suggestions.innerHTML = "";
 					if(value.length < 3) return;
-					var list = document.createElement("ul");
+					var list = document.createElement("div");
 					list.className = "suggestion";
 					suggestions.style.display = "none";
 					var regexp = new RegExp(value,"i");
@@ -182,11 +182,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 						
 						var trythis =possibleSuggestions[i];
 						if(trythis.search(regexp) != -1){
-							var suggestion = document.createElement("li");
-							suggestion.innerHTML =possibleSuggestions[i];
+							var suggestion = document.createElement("span");
+							var text = possibleSuggestions[i];
+							suggestion.innerHTML =text+ "<br>";
 							suggestions.style.display = "";
 							suggestion.onmousedown = function(e){
-								selectValue(this.innerHTML,suggestions);
+								selectValue(text,suggestions);
 							}
 							list.appendChild(suggestion)
 

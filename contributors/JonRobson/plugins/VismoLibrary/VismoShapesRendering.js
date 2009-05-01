@@ -3,7 +3,12 @@ var VismoCanvasRenderer = {
 	renderShape: function(canvas,vismoShape){
 	        var ctx = canvas.getContext('2d');
 		var shapetype =vismoShape.getProperty("shape");
+		if(vismoShape.getProperty("lineWidth")){
+			ctx.lineWidth = vismoShape.getProperty("lineWidth");
+		}
 		
+		ctx.save();
+                
 		ctx.beginPath();
 		if(shapetype == 'point' || shapetype =='circle'){
 			this.renderPoint(ctx,vismoShape);
@@ -20,6 +25,22 @@ var VismoCanvasRenderer = {
 			ctx.closePath();
 		        
 		}
+		
+		ctx.strokeStyle = vismoShape.getProperty("stroke")
+		if(typeof vismoShape.getProperty("fill") == 'string') 
+			fill = vismoShape.getProperty("fill");
+		else
+			fill = "#ffffff";
+
+
+		ctx.stroke();
+		if(shapetype != 'path') {
+			ctx.fillStyle = fill;
+			ctx.fill();
+		}
+	        ctx.restore();
+                
+                
 	        
 	}
 	,renderPath: function(ctx,vismoShape,join){
@@ -49,8 +70,12 @@ var VismoCanvasRenderer = {
 		
 	}
 	,renderPoint: function(ctx,vismoShape){
+	        //ctx.restore();
 		var bb =vismoShape.getBoundingBox();
-		ctx.arc(bb.center.x, bb.center.y, vismoShape.getRadius(), 0, Math.PI*2,true);
+		var radius =vismoShape.getRadius();
+		var transform = vismoShape.getTransformation();
+		if(transform && transform.scale) radius*= transform.scale.x;
+		ctx.arc(bb.center.x, bb.center.y, radius, 0, Math.PI*2,true);
 	}
 	,renderImage: function(ctx,vismoShape){
 		var c = vismoShape.getCoordinates();
@@ -66,8 +91,11 @@ var VismoCanvasRenderer = {
 var VismoVector = function(vismoShape,canvas){
 	this._iemultiplier = 1000; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
 	this.vismoShape=  vismoShape;
+	this.el = false;
 	var shapetype =vismoShape.getShape();
         var isVML;
+        
+
 	if(shapetype == 'point' || shapetype == 'circle'){
 		this._initArc(vismoShape,canvas);
 		isVML = true;
@@ -141,7 +169,9 @@ VismoVector.prototype = {
 		var shape = document.createElement("vismoShapeVml_:shape");
 		this.el = shape;
 		this.el.setAttribute("name",vismoShape.getProperty("name"));
-		jQuery(this.el).css({"height": canvas.style.height,"width": canvas.style.width,"position":"absolute","z-index":1});
+		var w = jQuery(canvas).width();
+		var h = jQuery(canvas).height();
+		jQuery(this.el).css({"height": h,"width": w,"position":"absolute","z-index":1});
 	
 	}
 	,getVMLElement: function(){
@@ -303,7 +333,11 @@ VismoVector.prototype = {
 	}
 	,clear: function(){
 			var el = this.getVMLElement();
-			if(el) el.style.display = 'none';
+			
+			try{
+			        if(el)jQuery(el).css({display:"none"});
+			}catch(e){
+			};
 	}
 	,render: function(canvas,transformation,projection){
                 var that = this;
