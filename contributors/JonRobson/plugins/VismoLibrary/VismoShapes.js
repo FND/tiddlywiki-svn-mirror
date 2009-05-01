@@ -233,8 +233,8 @@ VismoShape.prototype={
 	}
 
 	,getCoordinates: function(type){
-		if(type == 'normal') return this.coordinates.normal.clone();
-		if(type == 'projected') return this.coordinates.projected.clone();
+		if(type == 'normal') return this.coordinates.normal;
+		if(type == 'projected') return this.coordinates.projected;
 		
 		var resolution = this.currentResolution;
 		if(this.coordinates.projected) {
@@ -254,7 +254,7 @@ VismoShape.prototype={
 				
 				return opt[resolution];
 			}	
-			return this.coordinates.normal.clone();
+			return this.coordinates.normal;
 		}
 	}
 	,getProperties: function(){
@@ -286,7 +286,7 @@ VismoShape.prototype={
 			return;
 		}
 		else if(st == 'point' || st == 'circle' | st == 'image'){
-				var coords = this.getCoordinates("normal").clone();
+				var coords = this.getCoordinates().clone();
 				var x = coords[0]; var y = coords[1]; 
 				var dim = this.getDimensions();
 				
@@ -450,7 +450,6 @@ VismoShape.prototype={
 
 
 	,_applyProjection: function(projection,transformation){
-	
 		var c = this.getCoordinates('normal');
 	
 		if(!projection || !projection.xy) return c;
