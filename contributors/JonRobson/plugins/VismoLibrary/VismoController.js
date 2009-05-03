@@ -182,7 +182,7 @@ VismoController.prototype = {
                         
 			if(!that.goodToTransform(e)) return false;
 			
-			var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+			var t = VismoClickingUtils.resolveTargetWithVismo(e);
 		        
 
                        if(t != that.wrapper && t.parentNode !=that.wrapper) return false;
@@ -200,8 +200,9 @@ VismoController.prototype = {
 		        }
 	
 			var sensitivity = 0.4;
-			var scale =that.transformation.scale;
-			var origin = that.transformation.origin;
+			var transform = that.getTransformation();
+			var scale =transform.scale;
+			var origin = transform.origin;
 
 
 			var mousepos = VismoClickingUtils.getMouseFromEvent(e);
@@ -209,9 +210,9 @@ VismoController.prototype = {
 			var w = parseInt(that.wrapper.style.width) / 2;
 			var h = parseInt(that.wrapper.style.height) / 2;
 			var translation =  VismoTransformations.undoTransformation(mousepos.x,mousepos.y,that.transformation);
-			that.transformation.translate= {x: -translation.x, y: -translation.y};
+			transform.translate= {x: -translation.x, y: -translation.y};
 			//{x: -mousepos.x + w,y: -mousepos.y + h};
-			that.transformation.origin = {
+			transform.origin = {
 											x: mousepos.x,
 											y: mousepos.y
 										};
@@ -235,7 +236,7 @@ VismoController.prototype = {
 				if(newx > 0 && newy > 0){
 					scale.x = newx;
 					scale.y = newy;
-					that.transform();					
+					that.setTransformation(transform);					
 				}
 
 			}
@@ -311,6 +312,7 @@ VismoController.prototype = {
 		
 	}
 	,addMousePanning: function(){
+	       
 	        this._addEnabledControl("mousepanning");
 		var that = this;
 		var md = that.wrapper.onmousedown;
@@ -320,7 +322,7 @@ VismoController.prototype = {
 		
 		var cancelPanning = function(e){
 			panning_status = false;
-			jQuery(that.wrapper).removeClass("panning");
+			//jQuery(that.wrapper).removeClass("panning");
 			//style.cursor= that.defaultCursor;
 			that.wrapper.onmousemove = mm;
 			return false;
@@ -336,7 +338,7 @@ VismoController.prototype = {
 			var pos =  VismoClickingUtils.getMouseFromEventRelativeToElement(e,panning_status.clickpos.x,panning_status.clickpos.y,panning_status.elem);		
 			if(!pos)return;
 			
-			var t = that.transformation;
+			var t = that.getTransformation();
 			//if(this.transformation) t = this.transformation;
 			var sc = t.scale;
 
@@ -346,13 +348,14 @@ VismoController.prototype = {
 			t.translate.x = panning_status.translate.x + xd;
 			t.translate.y =panning_status.translate.y +yd;
 
+                        that.setTransform
 			that.transform();
 			
 			if(pos.x > 5  || pos.y > 5) panning_status.isClick = false;
 			if(pos.x < 5|| pos.y < 5) panning_status.isClick = false;
 			return false;	
 		};
-	
+
 		this.wrapper.onmousedown = function(e){
 			if(panning_status){
 				return;
@@ -363,20 +366,21 @@ VismoController.prototype = {
 			if(!target) return;
 
 			if(target.getAttribute("class") == "vismoControl") return;
-
+			
 			var t = that.transformation.translate;
 			var sc =that.transformation.scale; 
+			
 			var realpos = VismoClickingUtils.getMouseFromEvent(e);
 			if(!realpos) return;
 			this.vismoController = that;
-			
-			var element = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+
+			var element = VismoClickingUtils.resolveTargetWithVismo(e);
 			
 			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			that.wrapper.onmousemove = onmousemove;
 			jQuery(that.wrapper).addClass("panning");	
 		};
-		
+			
 		this.wrapper.onmouseup = function(e){
 			if(panning_status.isClick && mu){mu(e);};
 			cancelPanning(e);
@@ -398,7 +402,6 @@ VismoController.prototype = {
 	},
 	setTransformation: function(t){
 	        if(!t.origin){
-	                
 	                var w = jQuery(this.wrapper).width();
 	                var h = jQuery(this.wrapper).height();
 	                t.origin = {x: w/2, y: h/2};

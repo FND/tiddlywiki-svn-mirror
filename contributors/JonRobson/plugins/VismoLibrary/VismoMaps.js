@@ -204,7 +204,7 @@ VismoMap.prototype = {
 			else if (e.keyCode) code = e.keyCode;
 			var character;
 			if(code) character = String.fromCharCode(code);	
-			var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+			var t = VismoClickingUtils.resolveTargetWithVismo(e);
 			if(t.getAttribute("class") == 'vismoControl') return false;
 			var shape = eMap.vismoClicking.getShapeAtClick(e);
 			if(shape) {
@@ -347,7 +347,7 @@ VismoMap.prototype = {
 			if(code) character = String.fromCharCode(code);
 			
 			
-			var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+			var t = VismoClickingUtils.resolveTargetWithVismo(e);
 			if(t.getAttribute("class") == 'vismoControl') return false;
 			var shape = eMap.vismoClicking.getShapeAtClick(e);
 			if(shape) {

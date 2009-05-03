@@ -31,7 +31,8 @@ var VismoClickingUtils = {
 			if(!e) e = window.event;
 			
 			if(!target){
-			        var target = this.resolveTargetWithVismoClicking(e);
+			       
+			        var target = this.resolveTargetWithVismo(e);
 			        if(!target)return false;
                         }
                         
@@ -60,15 +61,17 @@ var VismoClickingUtils = {
 			
 	}
 
-	,resolveTargetWithVismoClicking: function(e)
+	,resolveTargetWithVismo: function(e)
 	{
+	         
 		var node = VismoClickingUtils.resolveTarget(e);
-		if(!node)return false;
-		var hasVismoClicking = false;
 
-		while(!hasVismoClicking && node && node.parentNode){
-		        if(node.vismoClicking){
-		                hasVismoClicking = true;
+		if(!node)return false;
+		var hasVismo = false;
+		while(!hasVismo && node && node.parentNode && node.parentNode != document){
+		        
+		        if(node.vismoClicking || node.vismoController){
+		                hasVismo = true;
 			}
 			else{
 			        node= node.parentNode;
@@ -108,7 +111,7 @@ var VismoClickingUtils = {
 	}
 	,getMouseFromEventRelativeToElementCenter: function(e){ /*redundant?? */
 		var w,h;
-		var target = this.resolveTargetWithVismoClicking(e);
+		var target = this.resolveTargetWithVismo(e);
 		if(!target)return;
 		if(target.style.width)
 			w = parseInt(target.style.width);

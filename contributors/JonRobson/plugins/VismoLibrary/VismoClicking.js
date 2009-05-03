@@ -137,7 +137,7 @@ VismoCanvas.prototype = {
 	,_applyMouseBehaviours: function(el){
 	        var that = this;
 		var newbehaviour = function(e){
-				var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+				var t = VismoClickingUtils.resolveTargetWithVismo(e);
                                 
 				if(t && t.getAttribute("class") == 'vismoControl') return false;
 				var shape = that.getShapeAtClick(e);
@@ -172,7 +172,7 @@ VismoCanvas.prototype = {
 			if(s){
 				if(s.getProperty("onmousedown")){
 				        s.getProperty("onmousedown")(e,s);		
-				}else {
+				}else { 
 				        if(that.onmousedown)that.onmousedown(e,s);
 			        }
 			}
@@ -442,7 +442,7 @@ VismoCanvas.prototype = {
 		if(node.tagName.toUpperCase() == 'SHAPE') { //vml vismoShape
 			return node.vismoShape;
 		}
-		var target = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+		var target = VismoClickingUtils.resolveTargetWithVismo(e);
 	
 		if(!target) return;
 		var offset = jQuery(target).offset();

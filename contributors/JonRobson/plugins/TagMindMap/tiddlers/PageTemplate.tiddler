@@ -21,7 +21,7 @@
 
 
 <div id='displayArea'>
-<div id="tagmindmap" parameters="width:600 height:300 popup:true id:main startState:empty animate:true zoom:130 exclude: {{['excludeLists']}} click:existing emptyTiddlerColor:#cccccc"></div>
+<div  macro="tiddlytagmindmap width:600 height:300 popup:true id:main startState:all animate:true zoom:130 focus:TiddlyTagMindMapPlugin exclude: {{['excludeLists']}} click:existing emptyTiddlerColor:#cccccc"></div>
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
 </div>

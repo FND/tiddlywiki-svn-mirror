@@ -158,9 +158,6 @@ Tagmindmap.prototype = {
 	},
 
 	centerOnNode:function(id){
-		//var cur =this.getCurrentNodeID();
-		//if(cur == id) return;
-
 		this.rgraph.onClick(id);
 		
 	},
@@ -397,7 +394,20 @@ Tagmindmap.prototype = {
 		
 		  	onCreateLabel: function(domElement, node) {			
 			}
-
+                        ,onBeforeCompute: function(){
+                                var i;
+                                var nodes =ttmm.rgraph.graph.nodes;
+                                var total = 0;
+                                for(i in nodes){
+                                        var node = nodes[i];
+                                        if(node.data.weight){
+                                                var weight =node.data.weight;
+                                                
+                                                if(weight > ttmm.settings.tagcloud.upper)ttmm.settings.tagcloud.upper = weight;
+                                        }
+                                        
+                                }
+                        }
 			,attachClickFunction: function(domElement,node){	
 				if(node.id == this.thehiddenbridge) return;
 				

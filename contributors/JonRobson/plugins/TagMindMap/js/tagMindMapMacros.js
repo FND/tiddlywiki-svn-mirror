@@ -18,7 +18,12 @@ txtTTMM_canvasWidth: "TiddlyTagMindMapPlugin : Width of  visualisation. You will
 );
 
 /*MACROS*/
-
+config.macros.TagMindMapCenter = {
+        handler: function(place,macroName,params,wikifier,paramString,tiddler){
+		var ttmm = config.macros.tiddlytagmindmap.getAssociatedTiddlyTagMindMapObject(null,false);
+		ttmm.centerOnNode(params[0]);                
+        }
+};
 
 config.macros.TagMindMapEdge={ /* params: node1|commit node2 */
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
@@ -235,6 +240,7 @@ config.macros.tiddlytagmindmap={
 			        clickfunction = function(node,id,e){};
 			}
 			
+
 			settings.clickFunction = clickfunction;
 
                         if(getParam(prms,"popup")) {
@@ -248,6 +254,7 @@ config.macros.tiddlytagmindmap={
                                 };
 			}
 			var startState = getParam(prms, "startState");
+
 			if(startState){
 				if(startState == 'all')
 					startupFunction = function(id){
@@ -275,7 +282,20 @@ config.macros.tiddlytagmindmap={
 					}
 			
 				}
-				settings.startupFunction = startupFunction;
+				var focus = getParam(prms,"focus");
+				
+				var onstartup = function(id){
+        			    var ttmm = config.macros.tiddlytagmindmap.store[id];
+        			     startupFunction(id);  
+        			     
+        			     if(focus){
+        			             console.log("going to focus on",focus);
+        			             ttmm.centerOnNode(focus);
+        			     }
+        			}
+        			
+				settings.startupFunction = onstartup;
+
 			}
 		}
 		

@@ -3,5 +3,6 @@
 This demonstrates supports for filtering certain tiddlers and popping them into the visualisation. It will load all tiddlers tagged with 'Optional Code' however I'm sure you can imagine up many more ways of using this! It accepts lists of tiddler names or lists of tiddlers. [[this link|http://tiddlywiki.org/index.php?title=Dev:FilterTiddlers]] may be of interest. Try {{{startState:{{store.filterTiddlers(store.getTiddlerText("DefaultTiddlers"))}}}}} to show default tiddlers.
 
 <<tiddlytagmindmap width:600 height:200 id:example2 startState:{{store.filterTiddlers("[tag[Optional Code]]")}}>>
+
 </pre>
 </div>

@@ -19,6 +19,7 @@ This demonstrates how to customise exactly what we want to see in our visualisat
 <<TagMindMapEdge "Japan" "Matsumoto">>
 <<TagMindMapEdge "Japan" "Hiroshima">>
 <<TagMindMapEdge commit>>
+<<TagMindMapCenter "Asia">>
 
 
 </pre>

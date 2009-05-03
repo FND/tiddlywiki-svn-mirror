@@ -818,7 +818,7 @@ VismoCanvas.prototype = {
 	,_setupMouse: function(){
 		var that = this;
 		var newbehaviour = function(e){
-				var t = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+				var t = VismoClickingUtils.resolveTargetWithVismo(e);
 				if(t.getAttribute("class") == 'vismoControl') return false;
 				var shape = that.getShapeAtClick(e);
 				return shape;
@@ -997,7 +997,7 @@ VismoCanvas.prototype = {
 		if(node.tagName.toUpperCase() == 'SHAPE') { //vml vismoShape
 			return node.vismoShape;
 		}
-		var target = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+		var target = VismoClickingUtils.resolveTargetWithVismo(e);
 	
 		if(!target) return;
 		var offset = jQuery(target).offset();
@@ -1273,7 +1273,7 @@ var VismoClickingUtils = {
 	
 	,getMouseFromEvent : function(e){
 			if(!e) e = window.event;
-			var target = this.resolveTargetWithVismoClicking(e);
+			var target = this.resolveTargetWithVismo(e);
 			if(!target)return false;
 
 			var offset = jQuery(target).offset();
@@ -1299,7 +1299,7 @@ var VismoClickingUtils = {
 			
 	}
 
-	,resolveTargetWithVismoClicking: function(e)
+	,resolveTargetWithVismo: function(e)
 	{
 		var node = VismoClickingUtils.resolveTarget(e);
 		var first = node;
@@ -1340,7 +1340,7 @@ var VismoClickingUtils = {
 	}
 	,getMouseFromEventRelativeToElementCenter: function(e){ /*redundant?? */
 		var w,h;
-		var target = this.resolveTargetWithVismoClicking(e);
+		var target = this.resolveTargetWithVismo(e);
 		if(!target)return;
 		if(target.style.width)
 			w = parseInt(target.style.width);
@@ -1686,7 +1686,7 @@ VismoController.prototype = {
 			if(!realpos) return;
 			this.vismoController = that;
 			
-			var element = VismoClickingUtils.resolveTargetWithVismoClicking(e);
+			var element = VismoClickingUtils.resolveTargetWithVismo(e);
 			that.panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			
 			that.wrapper.onmousemove = onmousemove;

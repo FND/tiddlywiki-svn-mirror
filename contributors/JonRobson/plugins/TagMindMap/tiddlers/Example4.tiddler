@@ -1,7 +1,7 @@
-<div title="Example 4" modifier="JonRobson" tags="Examples [[parameter breadcrumb]]">
+<div title="Example 4" modifier="JonRobson" tags="Examples [[parameter breadcrumb]] [[parameter focus]]">
 <pre>
 You can flatten the tag mind map using the notagcloud parameter..
 You can also define the start state based on tiddler names and make visited nodes turn red.
-<<tiddlytagmindmap id:example4 width:400 height:400 toolbar:01011 startState:{{["systemConfig"]}} breadcrumb:true  notagcloud:true>>
+<<tiddlytagmindmap id:example4 width:400 height:400 toolbar:01011 startState:{{["systemConfig"]}} breadcrumb:true  notagcloud:true focus:TiddlyTagMindMapPlugin>>
 </pre>
 </div>
