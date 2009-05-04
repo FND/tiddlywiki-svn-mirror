@@ -158,6 +158,9 @@ Tagmindmap.prototype = {
 	},
 
 	centerOnNode:function(id){
+	        var t = this.getTransformation();
+	        t.translate=  {x:0,y:0};
+	        this.setTransformation(t);
 		this.rgraph.onClick(id);
 		
 	},
