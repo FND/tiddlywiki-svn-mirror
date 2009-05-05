@@ -277,7 +277,7 @@ createComment: function(text, daddy, macroParams) {
     // second case is the situation where daddy *is* root
 
 // SMM HACKS 
-store.saveTiddler(newComment.title, newComment.title, "comment body", config.options.txtUserName, new Date(), "", merge(newComment.fields,config.defaultCustomFields));
+store.saveTiddler(newComment.title, newComment.title, newComment.text, config.options.txtUserName, new Date(), "", merge(newComment.fields,config.defaultCustomFields));
 autoSaveChanges();
 // END SMM HACK
 
