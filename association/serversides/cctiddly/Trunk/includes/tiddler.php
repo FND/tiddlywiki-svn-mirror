@@ -34,6 +34,17 @@
 		return $tiddler;
 	}
 	
+	function tiddler_fieldsToJson($fieldString){
+		$out = $fieldString;
+		$fieldItem = explode(" ", $fieldString);
+		foreach($fieldItem as $i) {
+			$bv = explode("=", $i);
+			if($bv[0] && $bv[1])
+		 		$out = "'".$bv[0]."':".$bv[1].",";
+		}
+		return "{".substr($out, 0, -1)."}";
+	}
+	
 	function tiddler_toJson($tiddler)
 	{
 
@@ -44,7 +55,8 @@
 		$output .= '"created":"'.$tiddler['created'].'",';
 		$output .= '"modified":"'.$tiddler['modified'].'",';
 		$output .= '"tags":"'.$tiddler['tags'].'",';
-		$output .= '"fields":"server.page.revision=\''.$tiddler['revision']."' ".$tiddler['fields'];
+		$output .= '"fields":'.tiddler_fieldsToJson($tiddler['fields']).',';
+		$output .= '"server.page.revision":"'.$tiddler['revision'];
 		$output .= '"}';
 		return $output;
 	}
