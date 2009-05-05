@@ -49,6 +49,7 @@
 	{
 
 		$output = "{";
+		$output .=  '"id":"'.$tiddler['id'].'",';
 		$output .= '"title":"'.$tiddler['title'].'",';
 		$output .= '"text":"'.str_replace("\n", "\\n", $tiddler['body']).'",';
 		$output .= '"modifier":"'.$tiddler['modifier'].'",';

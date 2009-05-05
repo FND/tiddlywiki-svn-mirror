@@ -421,14 +421,9 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	                }
 	                context.tiddler.text = info['text'];
 					context.tiddler.tags = info['tags'].split(" ");
-	                context.tiddler.fields['server.page.revision'] = info['revision'];
-					console.log("fields are : ", info['fields']);
-					// hack to extract json from the fields string 
-					console.log(info['fields']);
-					var jsonFields = eval(info['fields']);
-					console.log(jsonFields);
-					// WE SHOULD BE SETTING THE FIELDS PROPERLY HERE - ID and other fields are currently lost.	
-					// OOO look the ID is not being passed...	
+	                context.tiddler.fields['server.page.revision'] = info['server.page.revision'];
+					context.tiddler.fields['server.id'] = info['id'];
+					context.tiddler.fields = merge(info['fields'], context.tiddler.fields);
 				    context.tiddler.modifier = info['modifier'];
 	                context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(info['modified']);
 	                context.tiddler.created = Date.convertFromYYYYMMDDHHMM(info['created']);
