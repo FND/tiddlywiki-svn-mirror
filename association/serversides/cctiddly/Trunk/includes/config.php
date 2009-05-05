@@ -20,6 +20,7 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"lifestream",
 	"SkinnyTiddlers", 
 	"announcements",  
+	"TiddlyDocs",
 	"seo",
 	"LDAP",
 	"lifestream",
@@ -116,7 +117,9 @@ array(	'wikipedia.org',
 		'mptw.tiddlyspot.com',
 		'plugins.tiddlywiki.org',
 		'tiddlywiki.abego-software.de',
-		'jonrobson.me.uk'
+		'jonrobson.me.uk',
+		'nfshost.com',
+		"0x2a.nfshost.com"
 );
 						
 // Allowed file upload types	
