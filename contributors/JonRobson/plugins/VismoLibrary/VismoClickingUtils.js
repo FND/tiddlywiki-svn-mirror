@@ -125,8 +125,8 @@ var VismoClickingUtils = {
 		if(!offset.left) return false;
 		
 		var scroll = this.scrollXY();
-		x = e.clientX + scroll.x - offset.left;
-		y = e.clientY + scroll.y - offset.top;
+		oldx = e.clientX + scroll.x - offset.left;
+		oldy = e.clientY + scroll.y - offset.top;
 		var pos = {'x':oldx, 'y':oldy};
 
 		if(!pos) return false;
