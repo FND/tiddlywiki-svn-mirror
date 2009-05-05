@@ -7,28 +7,14 @@ config.macros.search.onKeyPress = function(e)
 
 function searchCallback(status,params,responseText,xhr)
 {
-	var title='SearchReport';
-	var body="\n";
-	body+="The JSON string returned from the server was : "+responseText;
-
-	// create/update the tiddler
-	var tiddler=store.getTiddler(title); if (!tiddler) tiddler=new Tiddler();	
-	tiddler.set (title,body,config.options.txtUserName,(new Date()),"excludeLists excludeSearch temporary");
-	store.addTiddler(tiddler); story.closeTiddler(title);
-
-	// use alternate "search again" label in <<search>> macro
 	var oldprompt=config.macros.search.label;
-	config.macros.search.label="search again";
-
-	// render/refresh tiddler
-	story.displayTiddler(null,title,1);
-	store.notify(title,true);
 
 	// restore standard search label
 	config.macros.search.label=oldprompt;
 	var json = eval('(' + responseText + ')');
 
 	// Loop through the objects returned by JSON
+	story.closeAllTiddlers();
 	for(_obj in json)
 	{
 		story.displayTiddler(null,json[_obj],1);
