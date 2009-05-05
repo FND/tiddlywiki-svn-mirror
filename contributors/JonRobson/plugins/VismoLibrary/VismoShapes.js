@@ -401,7 +401,7 @@ VismoShape.prototype={
 			if(coordinates[3]) radiush= coordinates[3];
 			else radiush = radiusw;
 			
-			this.setDimensions(radiusw,radiush);
+			this.setDimensions(radiusw*2,radiush*2);
 			this.setCoordinates([coordinates[0],coordinates[1]]);
 			
 		}

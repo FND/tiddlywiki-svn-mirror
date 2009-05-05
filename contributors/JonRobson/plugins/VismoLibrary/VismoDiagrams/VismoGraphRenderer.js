@@ -23,7 +23,10 @@ var VismoGraphRenderer = function(wrapper,vismoGraph,options){
         
 };
 VismoGraphRenderer.prototype = {
-	getVismoCanvas: function(){
+	getVismoController: function(){
+	        return this.controller;
+	}
+	,getVismoCanvas: function(){
 	        return this.canvas;
 	}
 	,setRootNode: function(id){

@@ -1,6 +1,22 @@
-
 var VismoClickingUtils = {
-	getRealXYFromMouse: function(e,t){
+        scrollXY: function(){
+          var scrOfX = 0, scrOfY = 0;
+          if( typeof( window.pageYOffset ) == 'number' ) {
+            //Netscape compliant
+            scrOfY = window.pageYOffset;
+            scrOfX = window.pageXOffset;
+          } else if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) ) {
+            //DOM compliant
+            scrOfY = document.body.scrollTop;
+            scrOfX = document.body.scrollLeft;
+          } else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) {
+            //IE6 standards compliant mode
+            scrOfY = document.documentElement.scrollTop;
+            scrOfX = document.documentElement.scrollLeft;
+          }
+          return {x: scrOfX,y: scrOfY};
+        }
+	,getRealXYFromMouse: function(e,t){
 		var newpos =VismoClickingUtils.getMouseFromEvent(e);
 		newpos = VismoClickingUtils.undotransformation(newpos.x,newpos.y,t);
 		return newpos;
@@ -13,16 +29,28 @@ var VismoClickingUtils = {
 	{
 		if(!e) e = window.event;
 		var obj;
-		if(e.target)
-			obj = e.target;
-		else if(e.srcElement)
+		
+		if(e.srcElement)
 			obj = e.srcElement;
-	        else{
+	        else if(e.target)
+        	        obj = e.target;
+        	else{
 	                obj = false;
 	        }
+	        try{
+                        var x = obj.parentNode;
+                }catch(e){return false;}
+                /*
+		if(obj && obj.nodeType && obj.nodeType == 3) // defeat Safari bug
+			obj = obj.parentNode;
+			*/
+			
+			/*try{
+                                var x = obj.parentNode;
+                        }
+                        catch(e){return false;};*/
 	        return obj;
-		/*if(obj && obj.nodeType && obj.nodeType == 3) // defeat Safari bug
-			obj = obj.parentNode;*/
+
 		//return obj;
 	}
 	
@@ -42,8 +70,13 @@ var VismoClickingUtils = {
           
 			if(typeof(offset.left) != 'number') return false;
 		
-			x = e.clientX + window.findScrollX() - offset.left;
-			y = e.clientY + window.findScrollY() - offset.top;
+		        var scroll = this.scrollXY(e);
+			x = e.clientX + scroll.x;
+			y = e.clientY + scroll.y;
+			//alert(x +"/"+y);
+			x -= offset.left;
+			y-=  offset.top;
+			
 			return {'x':x, 'y':y};		
 			
 	}
@@ -55,28 +88,33 @@ var VismoClickingUtils = {
 
 			
 			if(!offset.left) return false;
-			x = e.clientX + window.findScrollX() - offset.left;
-			y = e.clientY + window.findScrollY() - offset.top;
+			var scroll = this.scrollXY();
+			x = e.clientX + scroll.x - offset.left;
+			y = e.clientY + scroll.y - offset.top;
 			return {'x':x, 'y':y};		
 			
 	}
 
 	,resolveTargetWithVismo: function(e)
 	{
-	         
 		var node = VismoClickingUtils.resolveTarget(e);
+                
 
+                
 		if(!node)return false;
 		var hasVismo = false;
-		while(!hasVismo && node && node.parentNode && node.parentNode != document){
+     
+                
+		while(!hasVismo && node != document && node.parentNode && node.parentNode != document){
 		        
-		        if(node.vismoClicking || node.vismoController){
+		        if(node.vismoCanvas || node.vismoController){
 		                hasVismo = true;
 			}
 			else{
 			        node= node.parentNode;
 			}
 		}
+		
 		if(!node) return false;
 		return node;
 	}
@@ -86,8 +124,9 @@ var VismoClickingUtils = {
 		var offset = jQuery(target).offset();
 		if(!offset.left) return false;
 		
-		oldx = e.clientX + window.findScrollX() - offset.left;
-		oldy = e.clientY + window.findScrollY() - offset.top;
+		var scroll = this.scrollXY();
+		x = e.clientX + scroll.x - offset.left;
+		y = e.clientY + scroll.y - offset.top;
 		var pos = {'x':oldx, 'y':oldy};
 
 		if(!pos) return false;

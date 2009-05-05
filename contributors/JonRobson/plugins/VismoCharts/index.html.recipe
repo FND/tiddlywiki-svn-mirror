@@ -1,0 +1,4 @@
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+tiddler: data.tiddler
+recipe: plugin.recipe
+tiddler: GettingStarted.tiddler

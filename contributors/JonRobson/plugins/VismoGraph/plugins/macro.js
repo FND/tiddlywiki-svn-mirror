@@ -1,7 +1,7 @@
 
 config.macros.VismoGraph = {
         instances: []
-        ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
+        ,handler: function(place,macroName,params,wikifier,paramString,tiddler,graphjson){
                 
                 var prms = paramString.parseParams(null, null, true);
                 var w = parseInt(getParam(prms,"width"));
@@ -32,7 +32,7 @@ config.macros.VismoGraph = {
                         //                        saveChanges();                
                 };
                 
-                var positionCalculationFunction = function(node,graph){ ///user-defined layout
+                var positionCalculationFunction = function(graph,node){ ///user-defined layout
                 
                                 var tiddler = store.getTiddler(node.getID());
                                 var x,y;
@@ -58,18 +58,26 @@ config.macros.VismoGraph = {
                 	
                };
 
+
+                
                 var g =new VismoGraph(positionCalculationFunction);
-
-                this.addNodes(g,exclude);
-
+                if(graphjson){
+                        g.loadfromjson(graphjson);
+                }
+                else{
+                        this.addNodes(g,exclude);
+                }
                 var labelwikify = function(place,node){
                         var name =node.getProperty("name");
-                                    
+                        
+                                   
                         var tiddler =store.getTiddler(name);
                         if(tiddler && tiddler.fields.nodeprefix){
                                 wikify(tiddler.fields.nodeprefix,place);
                         }
 
+                        var label = node.getProperty("nodelabel");
+                        if(label) wikify(label,place);
                         if(tiddler && tiddler.fields.nodelabel){
                                 wikify(tiddler.fields.nodelabel,place);
                         }          
@@ -126,9 +134,10 @@ config.macros.VismoGraph = {
                         }
                 };
                 var singleclick = function(e,s){
-                   
                         var name =s.getProperty("name");
                         g.setRootNode(name);
+                        var b = s.getBoundingBox();
+                        r.getVismoController().panTo(b.center.x,b.center.y);
                         
                         var tid = store.getTiddler(name);
                         var change = false;

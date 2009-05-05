@@ -73,7 +73,7 @@ Tagmindmap.prototype = {
 		
 		
 		this.settings = {'animate':true,'arrowheads':false,'maxNodeNameLength':99999,'breadcrumbs': true,'lineColor':'#ccddee','nodeColor':'#ccddee','zoomLevel':100, 'ignoreLoneNodes':false,'excludeNodeList': ['excludeLists']}; //put all default settings here
-		this.settings.tagcloud = {'smallest': 0.8, 'largest': 1.4, 'upper':0, 'off': false}; //upper is the maximum sized node
+		this.settings.tagcloud = {'smallest': 0.8, 'largest': 1.8, 'upper':0, 'off': false}; //upper is the maximum sized node
 	
 		this.graph_showCirclesFlag = false; //shows circles in the mind map
 		this.maxNodeNameLength = 0;
@@ -158,9 +158,9 @@ Tagmindmap.prototype = {
 	},
 
 	centerOnNode:function(id){
-	        var t = this.getTransformation();
+	        var t = this.controlpanel.getTransformation();
 	        t.translate=  {x:0,y:0};
-	        this.setTransformation(t);
+	        this.controlpanel.setTransformation(t);
 		this.rgraph.onClick(id);
 		
 	},

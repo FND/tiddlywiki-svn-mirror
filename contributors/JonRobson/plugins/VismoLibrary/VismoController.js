@@ -306,7 +306,7 @@ VismoController.prototype = {
 				return false;
 		}
 		
-		if(t.getAttribute("class") == "vismoControl") return false;
+		if(t && t.getAttribute("class") == "vismoControl") return false;
 		
 		return true;
 		
@@ -322,6 +322,7 @@ VismoController.prototype = {
 		
 		var cancelPanning = function(e){
 			panning_status = false;
+			
 			//jQuery(that.wrapper).removeClass("panning");
 			//style.cursor= that.defaultCursor;
 			that.wrapper.onmousemove = mm;
@@ -378,7 +379,7 @@ VismoController.prototype = {
 			
 			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			that.wrapper.onmousemove = onmousemove;
-			jQuery(that.wrapper).addClass("panning");	
+			//jQuery(that.wrapper).addClass("panning");	
 		};
 			
 		this.wrapper.onmouseup = function(e){
@@ -527,7 +528,73 @@ VismoController.prototype = {
 	        this.applyLayer();
 	}	
 	
+        ,panTo: function(x,y){
+                //if(!this.enabled) return;
+                var t = this.getTransformation();
+                
+                var finalX = -x;
+                var finalY = -y;
+                var thisx,thisy;
+                var direction = {};
+                var difference = {};
+                
+                thisx = t.translate.x;
+                thisy = t.translate.y;
+                
+                difference.x=  thisx - finalX;
+                difference.y = thisy - finalY;
+                
+                direction.x = -difference.x / 20;
+                direction.y = -difference.y / 20;
 
+                var change = true;
+                
+                var that = this;
+                var f = function(){
+                   
+                        change= {x: false,y:false};
+                        if(thisx > finalX && thisx + direction.x > finalX) {thisx += direction.x;change.x=true;}
+                        else if(thisx < finalX && thisx + direction.x < finalX) {thisx += direction.x;change.x=true;}
+                        else{
+                                t.translate.x = finalX;
+                        }
+                
+                        if(thisy > finalY && thisy + direction.y > finalY) {thisy += direction.y;change.y=true;}
+                        else if(thisy < finalY && thisy + direction.y < finalY) {thisy += direction.y;change.y=true;}
+                        else{
+                                change.x = true;
+                                t.translate.y =finalY;
+                        }
+                
+                        if(change.x){
+                                t.translate.x = thisx;
+                        }
+                        else{
+                                t.translate.x = finalX;
+                        }
+                        if(change.y){
+                                t.translate.y = thisy;
+                        }
+                        else{
+                                t.translate.y = finalY;
+                        }
+    
+                        if(t.translate.x != finalX && t.translate.y != finalY){
+                                that.setTransformation(t); 
+                                window.setTimeout(f,50);
+                        }
+                        else{
+                                that.setTransformation(t);
+                        }
+  
+                };
+                
+                f();
+                                       
+               
+
+                //window.setTimeout(pan,200);
+        }
 	,transform: function(){
 		if(this.enabled){
 			var t = this.getTransformation();

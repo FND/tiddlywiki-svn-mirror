@@ -205,7 +205,7 @@ VismoMap.prototype = {
 			var character;
 			if(code) character = String.fromCharCode(code);	
 			var t = VismoClickingUtils.resolveTargetWithVismo(e);
-			if(t.getAttribute("class") == 'vismoControl') return false;
+			if(t && t.getAttribute("class") == 'vismoControl') return false;
 			var shape = eMap.vismoClicking.getShapeAtClick(e);
 			if(shape) {
 				result.shape = shape;
