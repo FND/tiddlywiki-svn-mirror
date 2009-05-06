@@ -2,12 +2,10 @@
 
 // CustomTracker as a namespace for tracking related functions
 var CustomTracker = {
-	// Specify your account number here!
-	_uacct: "UA-8645534-1",
 	// store a reference to the original displayTiddler function
 	displayTiddler: story.displayTiddler,
-	// initialise the Google tracker
-	pageTracker: _gat._getTracker(this._uacct)
+	// initialise the Google tracker - specify your account number here!
+	pageTracker: _gat._getTracker("UA-8645534-1")
 };
 
 CustomTracker.track = function(path) {
