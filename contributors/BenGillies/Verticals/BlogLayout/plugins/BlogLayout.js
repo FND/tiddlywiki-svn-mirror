@@ -3,7 +3,7 @@
 |''Description:''|adds a blog like view and tiddler summary view to TiddlyWiki|
 |''Author''|BenGillies|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/plugins/BlogLayout.js |
-|''Version:''|0.9|
+|''Version:''|1.0|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.5|
@@ -58,15 +58,16 @@ config.macros.BlogLayout =
 	MAX_HEIGHT: 200, //max height of tiddler content in pixels (default value)
 	
 	//*******recentPosts variables*************//
-	POST_DISPLAY_COUNT: 7, //maximum number of posts to display (nb this does not work at present)
+	POST_DISPLAY_COUNT: 2, //maximum number of posts to display (nb this does not work at present)
 	POST_TAG_NAME: "blog" //all posts that you want displayed in date order need to be tagged with this.
 }
 
 config.macros.BlogLayout.collapseMe = function(tiddlerRoot,defaultHeight)
 //collapse tiddlerRoot
 {
-	customHeight = store.getTiddler($(tiddlerRoot).attr("tiddler")).fields["collapseHeight"] || defaultHeight || this.MAX_HEIGHT;
-
+	custHeight = store.getTiddler($(tiddlerRoot).attr("tiddler")).fields["collapseHeight"] || defaultHeight || this.MAX_HEIGHT;
+	customHeight = parseInt(custHeight);
+     
     //if the post is too big
     if (($(tiddlerRoot).children('.viewer').height() > customHeight)&&(customHeight != -1))
     {
@@ -87,7 +88,14 @@ config.macros.BlogLayout.collapseTiddlers = function(defaultHeight)
 {
     $(".tiddler").each(
         function() {
-            return config.macros.BlogLayout.collapseMe($(this),defaultHeight)
+			if(this.style.display == "none")
+			{
+				$(this).attr("collapseMeLater",(defaultHeight)?(defaultHeight+""):"null");
+			}
+			else
+			{
+            	return config.macros.BlogLayout.collapseMe($(this),defaultHeight)
+			}
         }
     )
 }
@@ -98,30 +106,69 @@ config.macros.BlogLayout.expandClick = function(tiddlerToExpand)
     $(tiddlerToExpand).children(".viewer").css('overflow','visible').css('height','');
 }
 
+config.macros.BlogLayout.showNextTiddlers = function(clickedLink)
+{
+	var divs = clickedLink.nextSibling;
+	$(clickedLink).hide();
+	$(clickedLink).remove();
+	var stopping = false;
+	while((!stopping)&&(divs))
+	{
+		$(divs).show();
+		if (divs.className == "showMorePosts")
+		{
+			stopping = true;
+			break;
+		}
+		else if ($(divs).attr("collapseMeLater"))
+		{
+			if ($(divs).attr("collapseMeLater") == "null")
+			{
+				this.collapseMe($(divs));
+			}
+			else
+			{
+				this.collapseMe($(divs),$(divs).attr("collapseMeLater"));
+			}
+			$(divs).removeAttr("collapseMeLater");
+		}
+		divs = divs.nextSibling;
+	}
+}
 
 config.macros.BlogLayout.recentTiddlersByTag = function(tagName,maxPosts)
 //view all tiddlers with tagName by date order
-//this function has been modified from "BlogWiki" plugin (by Anshul Nigham/Clint Checketts http://www.anshul.info/blogwiki.html)
 {
     story.closeAllTiddlers(); //clear screen ready for display
-    var tiddlerNames;
-	if (tagName)
+
+	tiddlers = store.filterTiddlers("[tag["+tagName+"]][sort[-created]]");
+	
+	var count = 0;
+	var currMax = maxPosts;
+	var justChanged = false;
+	
+	while (count < tiddlers.length)
 	{
-		tiddlerNames = store.reverseLookup("tags",tagName,true,"created");
-	}
-	else
-	{
-		tiddlerNames = store.reverseLookup("tags","systemTiddlers",false,"created");
+		if (count == currMax)
+		{
+			$("<div />").addClass("showMorePosts").text("More Posts...").css("display","none").click(function(){return config.macros.BlogLayout.showNextTiddlers(this);}).appendTo("#tiddlerDisplay");
+			currMax += maxPosts;
+		}
+
+		story.displayTiddler("bottom",tiddlers[count].title,DEFAULT_VIEW_TEMPLATE,false,false);
+		if (count >= maxPosts)
+		{
+			//hide the tiddler
+			$(story.getTiddler(tiddlers[count].title)).css("display","none");
+		}
+		count += 1;
 	}
 	
-    if ((tiddlerNames.length < maxPosts)||(maxPosts == 0))
-    {
-		maxPosts = tiddlerNames.length;
-    }
-    for(var t = tiddlerNames.length-maxPosts;t<=tiddlerNames.length-1;t++)
-    {
-        story.displayTiddler("top",tiddlerNames[t].title,DEFAULT_VIEW_TEMPLATE,false,false);
-    }
+	//hide all but the first More Posts...
+	if ($(".showMorePosts").length > 0)
+	{
+		$(".showMorePosts")[0].style.display = "block";
+	}
 }
 
 
@@ -160,7 +207,8 @@ config.macros.setCollapseHeightHere ={
 		}
 		else
 		{
-			tiddler.fields['collapseHeight'] = place.clientHeight - 5;
+			tiddler.fields['collapseHeight'] = (place.clientHeight > 0)?(place.clientHeight - 4):(place.offsetHeight - 4);
+                       tiddler.fields['collapseHeight'] += "";
 		}
 	}
 }
@@ -212,4 +260,9 @@ config.macros.recentByTagLink ={
 }
 
 })(jQuery)
-//}}} 
+
+config.shadowTiddlers.StylesheetBlogLayout = ".showMorePosts {margin: 5px 5px 20px 5px; cursor: pointer; width: 100%; text-align: center; border: 1px solid #c0c0c0; }\n" +
+".readMore {}\n" + 
+".readMore .button {}";
+store.addNotification("StylesheetBlogLayout",refreshStyles);
+//}}}

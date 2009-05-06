@@ -537,7 +537,7 @@ Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
 <div title="NewestReallyShortPost" modifier="BenGillies" created="200904230000" tags="blog">
 <pre>&lt;div title=&quot;NewestReallyShortPost&quot; modifier=&quot;BenGillies&quot; created=&quot;200904230000&quot; tags=&quot;blog&quot;&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nunc ipsum, pellentesque vel, accumsan vel, semper ac, lorem. Nulla volutpat dapibus lacus. Morbi sed libero ac dui semper luctus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum blandit nulla a erat. Nullam augue. Phasellus imperdiet accumsan dolor. Fusce eu libero mollis sem posuere eleifend. Nulla gravida eleifend est. Donec varius eros nec urna. Integer tristique elit ac nunc tincidunt blandit. Proin tristique felis at mauris. Phasellus et turpis eget nisl tristique molestie. Vestibulum mollis semper felis. Sed aliquet aliquam ligula. Duis odio dui, hendrerit in, euismod vitae, mattis ornare, mauris.&lt;/div&gt;</pre>
 </div>
-<div title="BlogLayout" modifier="bengillies" created="200905012059" tags="systemConfig blog">
+<div title="BlogLayout" modifier="bengillies" created="200905060946" tags="systemConfig blog">
 <pre>/***
 |''Name:''|BlogLayout|
 |''Description:''|adds a blog like view and tiddler summary view to TiddlyWiki|
@@ -598,15 +598,16 @@ config.macros.BlogLayout =
 	MAX_HEIGHT: 200, //max height of tiddler content in pixels (default value)
 	
 	//*******recentPosts variables*************//
-	POST_DISPLAY_COUNT: 7, //maximum number of posts to display (nb this does not work at present)
+	POST_DISPLAY_COUNT: 1, //maximum number of posts to display (nb this does not work at present)
 	POST_TAG_NAME: &quot;blog&quot; //all posts that you want displayed in date order need to be tagged with this.
 }
 
 config.macros.BlogLayout.collapseMe = function(tiddlerRoot,defaultHeight)
 //collapse tiddlerRoot
 {
-	customHeight = store.getTiddler($(tiddlerRoot).attr(&quot;tiddler&quot;)).fields[&quot;collapseHeight&quot;] || defaultHeight || this.MAX_HEIGHT;
-
+	custHeight = store.getTiddler($(tiddlerRoot).attr(&quot;tiddler&quot;)).fields[&quot;collapseHeight&quot;] || defaultHeight || this.MAX_HEIGHT;
+	customHeight = parseInt(custHeight);
+     
     //if the post is too big
     if (($(tiddlerRoot).children('.viewer').height() &gt; customHeight)&amp;&amp;(customHeight != -1))
     {
@@ -627,7 +628,14 @@ config.macros.BlogLayout.collapseTiddlers = function(defaultHeight)
 {
     $(&quot;.tiddler&quot;).each(
         function() {
-            return config.macros.BlogLayout.collapseMe($(this),defaultHeight)
+			if(this.style.display == &quot;none&quot;)
+			{
+				$(this).attr(&quot;collapseMeLater&quot;,(defaultHeight)?(defaultHeight+&quot;&quot;):&quot;null&quot;);
+			}
+			else
+			{
+            	return config.macros.BlogLayout.collapseMe($(this),defaultHeight)
+			}
         }
     )
 }
@@ -638,30 +646,66 @@ config.macros.BlogLayout.expandClick = function(tiddlerToExpand)
     $(tiddlerToExpand).children(&quot;.viewer&quot;).css('overflow','visible').css('height','');
 }
 
+config.macros.BlogLayout.showNextTiddlers = function(clickedLink)
+{
+	var divs = clickedLink.nextSibling;
+	$(clickedLink).hide();
+	$(clickedLink).remove();
+	var stopping = false;
+	while((!stopping)&amp;&amp;(divs))
+	{
+		$(divs).show();
+		if (divs.className == &quot;showMorePosts&quot;)
+		{
+			stopping = true;
+			break;
+		}
+		else if ($(divs).attr(&quot;collapseMeLater&quot;))
+		{
+			if ($(divs).attr(&quot;collapseMeLater&quot;) == &quot;null&quot;)
+			{
+				this.collapseMe($(divs));
+			}
+			else
+			{
+				this.collapseMe($(divs),$(divs).attr(&quot;collapseMeLater&quot;));
+			}
+			$(divs).removeAttr(&quot;collapseMeLater&quot;);
+		}
+		divs = divs.nextSibling;
+	}
+}
 
 config.macros.BlogLayout.recentTiddlersByTag = function(tagName,maxPosts)
 //view all tiddlers with tagName by date order
-//this function has been modified from &quot;BlogWiki&quot; plugin (by Anshul Nigham/Clint Checketts http://www.anshul.info/blogwiki.html)
 {
     story.closeAllTiddlers(); //clear screen ready for display
-    var tiddlerNames;
-	if (tagName)
+
+	tiddlers = store.filterTiddlers(&quot;[tag[&quot;+tagName+&quot;]][sort[-created]]&quot;);
+	
+	var count = 0;
+	var currMax = maxPosts;
+	var justChanged = false;
+	
+	while (count &lt; tiddlers.length)
 	{
-		tiddlerNames = store.reverseLookup(&quot;tags&quot;,tagName,true,&quot;created&quot;);
-	}
-	else
-	{
-		tiddlerNames = store.reverseLookup(&quot;tags&quot;,&quot;systemTiddlers&quot;,false,&quot;created&quot;);
+		if (count == currMax)
+		{
+			$(&quot;&lt;div /&gt;&quot;).addClass(&quot;showMorePosts&quot;).text(&quot;More Posts...&quot;).css(&quot;display&quot;,&quot;none&quot;).click(function(){return config.macros.BlogLayout.showNextTiddlers(this);}).appendTo(&quot;#tiddlerDisplay&quot;);
+			currMax += maxPosts;
+		}
+
+		story.displayTiddler(&quot;bottom&quot;,tiddlers[count].title,DEFAULT_VIEW_TEMPLATE,false,false);
+		if (count &gt;= maxPosts)
+		{
+			//hide the tiddler
+			$(story.getTiddler(tiddlers[count].title)).css(&quot;display&quot;,&quot;none&quot;);
+		}
+		count += 1;
 	}
 	
-    if ((tiddlerNames.length &lt; maxPosts)||(maxPosts == 0))
-    {
-		maxPosts = tiddlerNames.length;
-    }
-    for(var t = tiddlerNames.length-maxPosts;t&lt;=tiddlerNames.length-1;t++)
-    {
-        story.displayTiddler(&quot;top&quot;,tiddlerNames[t].title,DEFAULT_VIEW_TEMPLATE,false,false);
-    }
+	//hide all but the first More Posts...
+	$(&quot;.showMorePosts&quot;)[0].style.display = &quot;block&quot;;
 }
 
 
@@ -700,7 +744,8 @@ config.macros.setCollapseHeightHere ={
 		}
 		else
 		{
-			tiddler.fields['collapseHeight'] = place.clientHeight - 5;
+			tiddler.fields['collapseHeight'] = (place.clientHeight &gt; 0)?(place.clientHeight - 4):(place.offsetHeight - 4);
+                       tiddler.fields['collapseHeight'] += &quot;&quot;;
 		}
 	}
 }
@@ -752,7 +797,12 @@ config.macros.recentByTagLink ={
 }
 
 })(jQuery)
-//}}} </pre>
+
+config.shadowTiddlers.StylesheetBlogLayout = &quot;.showMorePosts {margin: 5px 5px 20px 5px; cursor: pointer; width: 100%; text-align: center; border: 1px solid #c0c0c0; }\n&quot; +
+&quot;.readMore {}\n&quot; + 
+&quot;.readMore .button {}&quot;;
+store.addNotification(&quot;StylesheetBlogLayout&quot;,refreshStyles);
+//}}}</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
