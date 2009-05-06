@@ -217,7 +217,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 
 //{{{
 
-	function isLoggedIn(){
+	window.isLoggedIn = function(){
 		return (window.loggedIn == '1') 
 	}
 
