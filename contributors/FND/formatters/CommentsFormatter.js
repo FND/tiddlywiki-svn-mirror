@@ -2,7 +2,7 @@
 |''Name''|CommentsFormatter|
 |''Description''|formatter adding comments syntax|
 |''Author:''|FND|
-|''Version''|0.1.1|
+|''Version''|0.1.2|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#CommentsFormatter|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -27,7 +27,7 @@ ipsum /# bar
 
 formatters.push({
 	name: "comment",
-	match: "\/#.*?\n",
+	match: "\/#.*?(\n|$)",
 	handler: function(w) {
 		createTiddlyElement(w.output, "span", null, "comment", w.matchText);
 		createTiddlyElement(w.output, "br");
