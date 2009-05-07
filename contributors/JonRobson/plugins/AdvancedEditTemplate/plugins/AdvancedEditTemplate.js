@@ -152,10 +152,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var suggestions = document.createElement("div");
 			suggestions.className = "suggestions"
 			suggestions.style.display = "none";
-			var possibleSuggestions = values;
+			var possibleSuggestions = {real:values,test:[]};
 			
-			for(var i=0; i < possibleSuggestions.length; i ++){
-				possibleSuggestions[i]=possibleSuggestions[i].replace(/[>|<]/ig, "");
+			for(var i=0; i < possibleSuggestions.real.length; i ++){
+			        possibleSuggestions.real[i] = possibleSuggestions.real[i].replace(/[\>|\<]/ig, "")
+				possibleSuggestions.test.push(possibleSuggestions.real[i].replace(/ /,""));
 			}
 			
 			var selectValue = function(val){
@@ -173,21 +174,23 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					
 					suggestions.innerHTML = "";
 					if(value.length < 3) return;
-					var list = document.createElement("div");
+					var list = document.createElement("ul");
 					list.className = "suggestion";
 					suggestions.style.display = "none";
+					value = value.replace(/ /ig,"");
 					var regexp = new RegExp(value,"i");
 					suggestions.style.display="none";
-					for(var i=0; i<possibleSuggestions.length; i++){
+					for(var i=0; i<possibleSuggestions.test.length; i++){
 						
-						var trythis =possibleSuggestions[i];
+						var trythis =possibleSuggestions.test[i];
 						if(trythis.search(regexp) != -1){
-							var suggestion = document.createElement("span");
-							var text = possibleSuggestions[i];
-							suggestion.innerHTML =text+ "<br>";
+							var suggestion = document.createElement("li");
+							var text = possibleSuggestions.real[i];
+							suggestion.innerHTML =text;
 							suggestions.style.display = "";
 							suggestion.onmousedown = function(e){
-								selectValue(text,suggestions);
+								selectValue(jQuery(this).text(),suggestions);
+								suggestions.style.display = "none";
 							}
 							list.appendChild(suggestion)
 
@@ -197,9 +200,9 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			};
 			
 			var old = window.onkeypress;
-			window.onkeypress = function(e){
+			window.onkeydown = function(e){
 				var t = VismoClickingUtils.resolveTarget(e);
-				if(t == input){
+				if(t && t == input){
 					makesuggestions(t.value);
 				}
 				if(old) old(e);

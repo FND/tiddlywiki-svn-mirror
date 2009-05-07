@@ -1,11 +1,3 @@
-/*
-VismoClicking adds the ability to associate a dom element with a collection of VismoShapes using addToMemory function
-The getShapeAtClick function allows click detection on this dom element when used in a dom mouse event handler
-*/
-
-/*Turn a dom element into one where you can find VismoShapes based on clicks */
-
-
 var VismoCanvas = function(element,vismoShapesList){
         
 	if(typeof element == 'string') element= document.getElementById(element);
@@ -14,7 +6,6 @@ var VismoCanvas = function(element,vismoShapesList){
 		var update = element.vismoClicking;
 		return update;
 	}
-	element.vismoCanvas = this;
 	var wrapper = element;
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width);
@@ -78,7 +69,7 @@ VismoCanvas.prototype = {
         		                jQuery(that.tooltip).css({display:""});
         		        }
         		        else{
-     		                     jQuery(that.tooltip).css({display:"none"});
+     		                  jQuery(that.tooltip).css({display:"none"});
         		        }     
         		        if(move)move(e,shape);
         		        
@@ -211,13 +202,14 @@ VismoCanvas.prototype = {
 		};
 		var defaultCursor;
 		el.onmousemove = function(e){ if(!e) e= window.event;var s = newbehaviour(e);
-                        /*
-		        if(jQuery(el).hasClass("overVismoShape")) {
-	                        jQuery(el).removeClass("overVismoShape");
+
+		        if(!VismoUtils.browser.isIE){
+		                if(jQuery(el).hasClass("overVismoShape")) jQuery(el).removeClass("overVismoShape");
 		        }
-		        if(jQuery(el).hasClass("overVismoPoint")) {
-	                        jQuery(el).removeClass("overVismoPoint");
-		        }*/
+		        if(!VismoUtils.browser.isIE){
+		                
+		                if(jQuery(el).hasClass("overVismoPoint"))jQuery(el).removeClass("overVismoPoint");
+		        }
 		        
 		        if(s && !s.getProperty("unclickable")){
 		  
@@ -226,14 +218,16 @@ VismoCanvas.prototype = {
         		                var sh;
                 		        if(s){
                 		               sh  = s.getShape();
-                		               //if(sh == "point") jQuery(el).addClass("overVismoPoint");
+                		               if(!VismoUtils.browser.isIE  &&sh == "point") jQuery(el).addClass("overVismoPoint");
                 		        }
-        		                //jQuery(el).addClass("overVismoShape");
+        		                if(!VismoUtils.browser.isIE)jQuery(el).addClass("overVismoShape");
         	                }
                                 
 		                if(s.getProperty("onmousemove"))s.getProperty("onmousemove")(e,s);
 		        }
-
+		        else{
+		                //el.style.cursor = defaultCursor;
+		        }
 		        if(that.onmousemove)that.onmousemove(e,s); 
 		        if(mv)mv(e,s);
 		};       	
@@ -423,25 +417,23 @@ VismoCanvas.prototype = {
 		}
 	
 		var node = VismoClickingUtils.resolveTarget(e);
-		try{
-		        t = node.tagName;
-		}
-		catch(e){
-		        alert(e);
-		}
-		if(node && node.tagName.toUpperCase() == 'SHAPE') { //vml vismoShape
+		//alert(node.tagName);
+		if(node.tagName.toUpperCase() == 'SHAPE') { //vml vismoShape
 			return node.vismoShape;
 		}
 		var target = VismoClickingUtils.resolveTargetWithVismo(e);
 	
 		if(!target) return;
 		var offset = jQuery(target).offset();
-                var xy = VismoClickingUtils.getMouseFromEvent(e);
+
+                var xy= VismoClickingUtils.scrollXY();
+		x = e.clientX + xy.x - offset.left;
+		y = e.clientY + xy.y - offset.top;
 
 		if(this.memory.length > 0){
 			var shape = false;
 			if(target.vismoClicking){
-			shape = target.vismoClicking.getShapeAtPosition(xy.x,xy.y);
+			shape = target.vismoClicking.getShapeAtPosition(x,y);
 			}
 			return shape;
 		} else{
@@ -669,4 +661,3 @@ VismoCanvas.prototype = {
                 
         }
 };
-

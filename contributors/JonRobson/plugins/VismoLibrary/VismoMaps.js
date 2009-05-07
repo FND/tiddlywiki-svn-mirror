@@ -36,6 +36,7 @@ var VismoMap = function(wrapper,options){
 	this.transform(this.controller.transformation); //set initial transformation
 	this._fittocanvas = true;
 	this.geofeatures = {};
+	this.features = [];
 	this.clear();
 	
 	
@@ -271,7 +272,11 @@ VismoMap.prototype = {
 	
 	},
 	
-	drawGeoJsonFeature: function(feature){
+	getFeatures: function(){
+	       return this.features;
+	}
+	,drawGeoJsonFeature: function(feature){
+	        this.features.push(feature);
 		var feature = new VismoMap.Feature(feature);		
 		var s = feature.getVismoShapes();		
 		for(var i=0; i < s.length; i++){

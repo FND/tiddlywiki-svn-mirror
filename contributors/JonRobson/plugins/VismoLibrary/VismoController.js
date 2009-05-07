@@ -323,7 +323,7 @@ VismoController.prototype = {
 		var cancelPanning = function(e){
 			panning_status = false;
 			
-			//jQuery(that.wrapper).removeClass("panning");
+			if(!VismoUtils.browser.isIE)jQuery(that.wrapper).removeClass("panning");
 			//style.cursor= that.defaultCursor;
 			that.wrapper.onmousemove = mm;
 			return false;
@@ -379,7 +379,7 @@ VismoController.prototype = {
 			
 			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			that.wrapper.onmousemove = onmousemove;
-			//jQuery(that.wrapper).addClass("panning");	
+			if(!VismoUtils.browser.isIE)jQuery(that.wrapper).addClass("panning");	
 		};
 			
 		this.wrapper.onmouseup = function(e){
