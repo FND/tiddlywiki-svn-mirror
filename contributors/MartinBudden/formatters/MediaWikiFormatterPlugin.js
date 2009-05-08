@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/MediaWikiFormatterPlugin.js |
-|''Version:''|0.5.13|
+|''Version:''|0.5.14|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -631,6 +631,14 @@ config.mediawiki.formatters = [
 				var link = lookaheadMatch[3];
 				var text = link;
 				link = link.substr(0,1).toUpperCase() + link.substring(1);
+				if(link.substr(0,1)=='/') {
+					link = w.tiddler.title + link;
+				} else if(link=='../') {
+					link = w.tiddler.title.substr(0,w.tiddler.title.lastIndexOf('/'));
+				} else if(link.substr(0,3)=='../') {
+					var pos = w.tiddler.title.lastIndexOf('/');
+					link = w.tiddler.title.substr(0,pos) + link.substr(2);
+				}
 				if(lookaheadMatch[4]) {
 					//# Simple bracketted link
 					if(lookaheadMatch[2]) {
