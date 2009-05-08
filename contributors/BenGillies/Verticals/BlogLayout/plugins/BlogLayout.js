@@ -65,7 +65,10 @@ config.macros.BlogLayout =
 config.macros.BlogLayout.collapseMe = function(tiddlerRoot,defaultHeight)
 //collapse tiddlerRoot
 {
-	custHeight = store.getTiddler($(tiddlerRoot).attr("tiddler")).fields["collapseHeight"] || defaultHeight || this.MAX_HEIGHT;
+    if (!store.getTiddler($(tiddlerRoot).attr("tiddler"))){
+	return;
+    }
+    custHeight = store.getTiddler($(tiddlerRoot).attr("tiddler")).fields["collapseHeight"] || defaultHeight || this.MAX_HEIGHT;
 	customHeight = parseInt(custHeight);
      
     //if the post is too big
@@ -140,6 +143,7 @@ config.macros.BlogLayout.recentTiddlersByTag = function(tagName,maxPosts)
 //view all tiddlers with tagName by date order
 {
     story.closeAllTiddlers(); //clear screen ready for display
+	$(".showMorePosts").remove();
 
 	tiddlers = store.filterTiddlers("[tag["+tagName+"]][sort[-created]]");
 	
@@ -190,7 +194,7 @@ window.restart = function()
 	{
 		config.macros.BlogLayout.autoRecentTiddlers(); //call this to ensure number of posts is limited
 	}
-    if (config.macros.BlogLayout.AUTO_SUMMARISE_FRONT_PAGE)
+    if ((config.macros.BlogLayout.AUTO_SUMMARISE_FRONT_PAGE)&&(!window.location.hash))
     {
         $(document).ready(function() {config.macros.BlogLayout.collapseTiddlers()});
     }
