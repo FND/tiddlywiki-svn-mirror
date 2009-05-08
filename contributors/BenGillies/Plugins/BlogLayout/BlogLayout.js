@@ -65,7 +65,10 @@ config.macros.BlogLayout =
 config.macros.BlogLayout.collapseMe = function(tiddlerRoot,defaultHeight)
 //collapse tiddlerRoot
 {
-	custHeight = store.getTiddler($(tiddlerRoot).attr("tiddler")).fields["collapseHeight"] || defaultHeight || this.MAX_HEIGHT;
+    if (!store.getTiddler($(tiddlerRoot).attr("tiddler"))){
+	return;
+    }
+    custHeight = store.getTiddler($(tiddlerRoot).attr("tiddler")).fields["collapseHeight"] || defaultHeight || this.MAX_HEIGHT;
 	customHeight = parseInt(custHeight);
      
     //if the post is too big
