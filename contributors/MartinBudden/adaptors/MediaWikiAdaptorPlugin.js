@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.9|
+|''Version:''|0.8.10|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -107,7 +107,7 @@ adaptor.anyChild = function(obj)
 //#    cookieprefix="enwiki"
 //#    sessionid="08nj1ioefhlvmdjfor5to3mvv5"
 //#  />
-//#</api
+//#</api>
 
 adaptor.prototype.complete = function(context,fn)
 {
@@ -338,6 +338,7 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 	var host = this.fullHostName(context.host);
 	if(!context.tiddlerLimit)
 		context.tiddlerLimit = !config.options.txtMediaWikiAdaptorLimit ? config.maxTiddlerImportCount : config.options.txtMediaWikiAdaptorLimit;
+    context.tiddlerLimit = parseInt(context.tiddlerLimit,10);
 	var limit = context.tiddlerLimit;
 	if(limit>500)
 		limit = 500;
@@ -386,8 +387,10 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 		uriTemplate = '%0/api.php?format=json&action=query&generator=allpages&gapfilterredir=nonredirects&gapfrom=%4&prop=info';
 		if(this.workspaceId != 0)
 			uriTemplate += '&gapnamespace=%1';
-		if(limit)
+		if(limit) {
 			uriTemplate += '&gaplimit=%2';
+            context.gaplimit = limit;
+        }
 		context.count = 0;
 		context.uri = uriTemplate.format([host,this.workspaceId,limit,filterParams,'%0']);
 		context.urifrom = 'gapfrom';
@@ -460,8 +463,8 @@ adaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 			if(info['query-continue']) {
 				if(info['query-continue'].allpages) {
 					c = info['query-continue'].allpages[context.urifrom];
-					context.count++;
-					if(context.count>10)
+					context.count += context.gaplimit;
+					if(context.count>=context.tiddlerLimit)
 						c = null;
 				}
 			}
