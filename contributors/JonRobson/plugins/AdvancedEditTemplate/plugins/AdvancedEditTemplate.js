@@ -192,11 +192,16 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 								selectValue(jQuery(this).text(),suggestions);
 								suggestions.style.display = "none";
 							}
-							list.appendChild(suggestion)
-
+							list.appendChild(suggestion);
 						}
+					        
 					}
+					
+				
+					jQuery(input).mouseover(function(e){ if(suggestions.innerHTML !="") suggestions.style.display = ""; return false;});
+					jQuery(suggestions).mouseleave(function(e){ this.style.display = "none"; return false;});
 					suggestions.appendChild(list);
+					
 			};
 			
 			var old = window.onkeypress;
