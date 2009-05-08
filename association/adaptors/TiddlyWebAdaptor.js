@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.7.0|
+|''Version''|0.7.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -486,9 +486,9 @@ adaptor.deleteTiddlerCallback = function(status, context, responseText, uri, xhr
 };
 
 // compare two revisions of a tiddler (requires TiddlyWeb differ plugin)
-//# context members: rev1, rev2, format
+//# if context.rev1 is not specified, the latest revision will be used for comparison
 //# if context.rev2 is not specified, the local revision will be sent for comparison
-//# format is a string as determined by the TiddlyWeb differ plugin
+//# context.format is a string as determined by the TiddlyWeb differ plugin
 adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 
@@ -525,7 +525,7 @@ adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback
 			fields: $.extend({}, tiddler.fields)
 		}; // XXX: missing attributes!?
 		payload = $.toJSON(payload);
-		req = httpReq("POST", uri, adaptor.putTiddlerDiffCallback, context,
+		req = httpReq("POST", uri, adaptor.getTiddlerDiffCallback, context,
 			null, payload, adaptor.mimeType);
 	}
 	return typeof req == "string" ? req : true;
