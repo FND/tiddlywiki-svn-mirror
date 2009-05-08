@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.6.2|
+|''Version''|0.7.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -48,7 +48,7 @@ adaptor.mimeType = "application/json";
 adaptor.parsingErrorMessage = "Error parsing result from server";
 adaptor.locationIDErrorMessage = "no bag or recipe specified for tiddler"; // TODO: rename
 
-// retrieve current status
+// retrieve current status (requires TiddlyWeb status plugin)
 adaptor.prototype.getStatus = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/status";
@@ -485,36 +485,58 @@ adaptor.deleteTiddlerCallback = function(status, context, responseText, uri, xhr
 	}
 };
 
-// retrieve a diff of tiddler revisions -- XXX: incomplete!?
+// compare two revisions of a tiddler (requires TiddlyWeb differ plugin)
+//# context members: rev1, rev2, format
+//# if context.rev2 is not specified, the local revision will be sent for comparison
+//# format is a string as determined by the TiddlyWeb differ plugin
 adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
+
 	var tiddler = store.getTiddler(title);
-	var uriTemplate = "%0/%1/%2/tiddlers/%3/diff";
-	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
 	try {
 		var workspace = adaptor.resolveWorkspace(tiddler.fields["server.workspace"]);
 	} catch(ex) {
 		return adaptor.locationIDErrorMessage;
 	}
-	var uri = uriTemplate.format([host, workspace.type + "s",
-		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title)]);
-	if(context.rev1) {
-		uri += "/" + context.rev1;
-		if(context.rev2) {
-			uri += "/" + context.rev2;
-		}
+	var tiddlerRef = [workspace.type + "s", workspace.name, tiddler.title].join("/");
+
+	var rev1 = context.rev1 ? [tiddlerRef, context.rev1].join("/") : tiddlerRef;
+	var rev2 = context.rev2 ? [tiddlerRef, context.rev2].join("/") : null;
+
+	var uriTemplate = "%0/diff?rev1=%1";
+	if(rev2) {
+		uriTemplate += "&rev2=%2";
 	}
-	var req = httpReq("GET", uri, adaptor.getTiddlerDiffCallback, context);
-	return typeof req == 'string' ? req : true;
+	if(context.format) {
+		uriTemplate += "&format=%3";
+	}
+	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
+	var uri = uriTemplate.format([host, adaptor.normalizeTitle(rev1),
+		adaptor.normalizeTitle(rev2), context.format]);
+
+	if(rev2) {
+		var req = httpReq("GET", uri, adaptor.getTiddlerDiffCallback, context);
+	} else {
+		var payload = {
+			title: tiddler.title,
+			text: tiddler.text,
+			modifier: tiddler.modifier,
+			tags: tiddler.tags,
+			fields: $.extend({}, tiddler.fields)
+		}; // XXX: missing attributes!?
+		payload = $.toJSON(payload);
+		req = httpReq("POST", uri, adaptor.putTiddlerDiffCallback, context,
+			null, payload, adaptor.mimeType);
+	}
+	return typeof req == "string" ? req : true;
 };
 
 adaptor.getTiddlerDiffCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
-	context.diff = [];
 	if(status) {
-		context.diff = responseText.split("\n");
+		context.diff = responseText;
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
