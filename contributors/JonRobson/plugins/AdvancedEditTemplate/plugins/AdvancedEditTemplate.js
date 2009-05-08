@@ -499,7 +499,25 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		        
 		        var tiddler = store.getTiddler(title);
 		        var params = [metaDataName];
-		        config.macros.edit.handler(place,false,params,false,false,tiddler)
+		        
+                        var div = document.createElement("div");
+                        div.className  = "datePicker";
+                        var input = document.createElement("input");
+                        input.className = "date-pick";
+                        jQuery(div).append(input);
+                        jQuery(place).append(div);
+                        $(function()
+                        {
+                                var start =config.macros.AdvancedEditTemplate.getMetaData(title,metaDataName);
+                                if(!start)start="";
+                        	$(input).datePicker({startDate:'01/01/1700'}).val(start).trigger('change');
+                        	$(input).change(function(e){
+                        	        config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,this.value);
+                        	
+                        	});
+                        });
+              
+		        //config.macros.edit.handler(place,false,params,false,false,tiddler)
                         
 		}
 		
