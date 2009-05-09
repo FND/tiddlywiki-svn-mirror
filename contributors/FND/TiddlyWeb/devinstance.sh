@@ -25,7 +25,7 @@ fi
 dir=`echo $1 | sed -e "s/\/$//"`
 
 # initialize configuration
-wget http://svn.tiddlywiki.org/Trunk/contributors/FND/TiddlyWeb/plugins/devtext.py
+wget http://github.com/FND/tiddlyweb-plugins/raw/master/devtext.py
 tiddlywebconfig='{\n	"server_store": ["devtext", { "store_root": "store" }]\n}'
 echo -e "config = $tiddlywebconfig" > tiddlywebconfig.py
 
