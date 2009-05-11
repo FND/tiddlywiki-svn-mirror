@@ -200,8 +200,12 @@ VismoShape.prototype={
 			
 	}
 	,getTransformation: function(){
+	       var t= this.getProperty("transformation");
+	       if(!t) t= {};
+	       if(!t.translate) t.translate = {x:0,y:0};
+	       if(!t.scale) t.scale = {x:1,y:1};
 	       
-	        return this.getProperty("transformation");
+	       return t;
 	}
 	
 	,setTransformation: function(transformation){
@@ -211,16 +215,16 @@ VismoShape.prototype={
 	}
 	,setCoordinates: function(coordinates,type){
 	        
-	        var good = [];
-	        for(var i=0; i < coordinates.length; i++){
-	                if(coordinates[i] +"" !='NaN')good.push(coordinates[i]);
-	        }
-	     
-	        if(good.length < 2) {
-	              
-	                throw "cannot set coordinates for VismoShape not enough good coordinates given (coordinates may contain non-number elements)" + coordinates.toString();
-                }
-                coordinates = good;
+        var good = [];
+        for(var i=0; i < coordinates.length; i++){
+            if(coordinates[i] +"" !='NaN')
+            {good.push(coordinates[i]);}
+        }
+     
+        if(good.length < 2) {
+                throw "cannot set coordinates for VismoShape not enough good coordinates given (coordinates may contain non-number elements)" + coordinates.toString();
+        }
+        coordinates = good;
                 
                 
 		if(type == 'projected'){ this.coordinates.projected = coordinates;
@@ -240,7 +244,6 @@ VismoShape.prototype={
 		this._calculateBounds();
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
-
 	,getCoordinates: function(type){
 		if(type == 'normal') return this.coordinates.normal;
 		if(type == 'projected') return this.coordinates.projected;
@@ -309,7 +312,7 @@ VismoShape.prototype={
 				
 				if(transform){
 				        if(transform.translate){
-				                var tran_x,tran_y;
+				                var tran_x =0,tran_y =0;
 				                 if(transform.translate.x)tran_x = transform.translate.x;
 				                if(transform.translate.y)tran_y =  transform.translate.y;
 				                /*if(transform.scale){
@@ -327,8 +330,6 @@ VismoShape.prototype={
 				}
 				var newx = this.grid.center.x;
 				var newy = this.grid.center.y;
-				this.grid.center.x = x;
-				this.grid.center.y = y;
 				var radiusw = dim.width / 2;
 				var radiush = dim.height / 2;
 				this.grid ={x1: newx -radiusw ,x2: newx + radiusw, y1: newy - radiush, y2: newy + radiush,center:{x:newx,y:newy},width: dim.width,height:dim.height};	

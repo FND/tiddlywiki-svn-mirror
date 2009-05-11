@@ -374,8 +374,10 @@ VismoCanvas.prototype = {
 	}
 	,add: function(vismoShape){
 		if(!this.memory) this.memory = [];
+		if(!vismoShape.getProperty("id"))vismoShape.setProperty("id",this.memory.length);
 		this.memory.push(vismoShape);
 		vismoShape._vismoClickingID = this.memory.length;
+
 		return vismoShape;
 	}
 	,addLabel:function(domElement,x,y){
@@ -413,6 +415,13 @@ VismoCanvas.prototype = {
 		else{
 			return false;
 		}
+	}
+	,getShapeWithID: function(id){
+	    var mem = this.getMemory();
+	    for(var i=0; i < mem.length; i++){
+	        if(mem[i].getProperty("id") == id) return mem[i];
+	    }
+	    return false;
 	}
 	,getShapeAtClick: function(e){
 		if(!e) {

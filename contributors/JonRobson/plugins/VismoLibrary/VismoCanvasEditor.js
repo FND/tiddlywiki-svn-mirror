@@ -7,74 +7,40 @@ var VismoCanvasEditor = function(vismoCanvas){
         
         this.init();
         var that = this;
-        var f = function(s){
-            
+        var f = function(s){    
             that._recalculateEdge(s);
             that.vismoCanvas.render();
         }
         this.manipulator = new VismoShapeManipulator(vismoCanvas,{movecomplete:f});
         
-        var centerMark = document.createElement("div");
-        centerMark.className = "centerMark";
-        centerMark.style.position ="absolute";
-        
-        this.el.appendChild(centerMark);
-        this.centerMark = centerMark;
+
         var nextID = 0;
 };
 
 VismoCanvasEditor.prototype = {
-        _getfromID: function(id){
-                var mem = this.vismoCanvas.getMemory();
-                
-                for(var i=0; i < mem.length; i++){
-                      if(mem[i].getProperty("id") == id){
-                        return mem[i];
-                      }
+        _recalculateEdge: function(movedShape){
+            if(!movedShape)return;
+            var movedID = movedShape.getProperty("id");
+            var memory = this.vismoCanvas.getMemory();
+            for(var i=0; i < memory.length; i++){
+                var edgeShape = memory[i];
+                if(edgeShape.getProperty("edge")){
+                    var from =edgeShape.getProperty("from");
+                    var to = edgeShape.getProperty("to");
+                    if(movedID == from  || movedID == to){
+                        var fromShape = this.vismoCanvas.getShapeWithID(from);
+                        var toShape = this.vismoCanvas.getShapeWithID(to);
+                        if(fromShape && toShape){
+                            var bb1 = fromShape.getBoundingBox();
+                            var bb2 = toShape.getBoundingBox();
+                            
+                            edgeShape.setCoordinates([bb1.center.x,bb1.center.y, bb2.center.x,bb2.center.y]);
+                        }
+                    } 
+                    
                 }
-                return false;
-        }
-        ,_getedges: function(shape){
-            var mem = this.vismoCanvas.getMemory();
-            var id =shape.getProperty("id");
-            var res = [];
-            for(var i=0;i  < mem.length; i++){
-                if(mem[i].getProperty("from") == id || mem[i].getProperty("to") == id){
-                    res.push(mem[i]);
-                }
-            }
-            return res;
-        }
-        ,_recalculateEdge: function(vismoShape){
-            var edges = this._getedges(vismoShape);
-            for(var i=0; i <edges.length; i++){
-                var shape = edges[i];
-                          if(shape.getProperty("edge")){
-                                  var fromID = shape.getProperty("from");
-                                  var toID = shape.getProperty("to");
-                                  var from = this._getfromID(fromID);
-                                  var to = this._getfromID(toID);
-                                  var c1 = from.getBoundingBox().center;
-                                  var c2 = to.getBoundingBox().center;
-                                
-                                  shape.setCoordinates([c1.x,c1.y,c2.x,c2.y]);
-                          }
-                
-            }
-              
+            }      
 
-      }
-      ,showCenterOf: function(vismoShape){
-              if(!vismoShape) return;
-              
-              var bb = vismoShape.getBoundingBox();
-              var x = bb.center.x;
-              var y = bb.center.y;
-              var pos = VismoTransformations.applyTransformation(bb.center.x,bb.center.y,this.vismoCanvas.getTransformation());
-              this.centerMark.node = vismoShape;
-              var w = jQuery(this.centerMark).width();
-              var h = jQuery(this.centerMark).height();
-              jQuery(this.centerMark).css({left: pos.x - w/2,top:pos.y - h/2});
       }
       ,init: function(){
               var that = this;
@@ -94,9 +60,7 @@ VismoCanvasEditor.prototype = {
               };
 
               this.tempLine = new VismoShape({shape:"path",hidden:true},[0,0,0,0]);
-              //this.tempShape = new VismoShape({shape:"circle",hidden:"true",fill:"rgb(200,0,0)",onmousedown:createNewShape},[0,0,40]);
               this.tempShape = new VismoShape({shape:"circle",hidden:"true",fill:"rgb(200,0,0)",onmousedown:createNewShape},[0,0,40]);
-              //this.vismoCanvas.makeMoveable(false,[this.tempLine,this.tempShape]);
                             
               this.vismoCanvas.add(this.tempShape);
               this.vismoCanvas.add(this.tempLine);
@@ -105,8 +69,7 @@ VismoCanvasEditor.prototype = {
               var mm = this.el.onmousemove;
               var mu = this.el.onmouseup;
               var ready;
-              that.el.onmousemove = function(e){
-                      
+              that.el.onmousemove = function(e){                     
                       var tool = that.getSelectedTool();
                       if(!that._vismoController && that.el.vismoController) {
                               that._vismoController = that.el.vismoController;
@@ -114,7 +77,6 @@ VismoCanvasEditor.prototype = {
                         
                       if(tool == "line"){
                               that.doLineDrawing(e);
-                              that.showCenterOf(that.vismoCanvas.getShapeAtClick(e));
                         }
                       else if(tool == "freeline")that.doFreeLineDrawing(e);
                       else if(tool == "shape")that.doShapeDrawing(e);
@@ -141,8 +103,11 @@ VismoCanvasEditor.prototype = {
                                var s = that.vismoCanvas.getShapeAtClick(e);
 
                               //if(!s && e.button == 2)that.manipulator.selectShape(false);
-                              if(tool == "select" && s){
+                              if(tool == "select"){
+                                    if(s)
                                       that.manipulator.selectShape(s);
+                                    else
+                                        that.manipulator.selectShape(false);
                               }
                               else if(tool == "line" || tool == 'freeline')that._startCompleteLineDrawing(e);   
                               that.vismoCanvas.render();
@@ -235,8 +200,10 @@ VismoCanvasEditor.prototype = {
                       else cancelButton = 0; 
                      
               }
-              if(e.target == this.centerMark){
-                      var current =this.centerMark.node.getProperty("id");
+              var hoveringOver =this.getManipulator().overCenter(e);
+              if(hoveringOver){
+                      var current =hoveringOver.getProperty("id");
+                      
                       if(!this.tempLine.getProperty("from"))this.tempLine.setProperty("from",current);
                       else if(this.tempLine.getProperty("from") != current){
                         this.tempLine.setProperty("to",current);
@@ -300,6 +267,9 @@ VismoCanvasEditor.prototype = {
                 }              
               this.selectedTool = id;
       }
+      ,getManipulator: function(){
+          return this.manipulator;
+      }
 };
 
 var VismoShapeManipulator = function(vismoCanvas,options){
@@ -307,7 +277,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
         this.options = options;
         var element  = vismoCanvas.getDomElement();
         this.vismoCanvas = vismoCanvas;
-        jQuery(element).append("<div class='VismoShapeManipulator' style='position:absolute; z-index:1000;border:solid 1px black;'></div><div class='brResizer' style='display:none;position:absolute;z-index:1000;'></div>");
+        jQuery(element).append("<div class='VismoShapeManipulator' style='position:absolute;border:solid 1px black;'></div><div class='brResizer' style='display:none;position:absolute;z-index:1000;'></div>");
         this.el = jQuery(".VismoShapeManipulator",element);
         this.parentCanvas = element;
         this.brResizer =jQuery(".brResizer",element);
@@ -315,32 +285,61 @@ var VismoShapeManipulator = function(vismoCanvas,options){
 
         this.brResizer.mousedown(function(e){that.toggleResizing();});
         this.brResizer.mouseup(function(e){that.toggleResizing();});
+        var centerMark = document.createElement("div");
+        centerMark.className = "centerMark";
+        centerMark.style.position ="absolute";
         
+        element.appendChild(centerMark);
+        this.centerMark = centerMark;        
         this.elementCenters = {};
-        window.onmousemove = function(e){
+        jQuery(document).mousemove(function(e){
                 if(!that.vismoController && that.parentCanvas.vismoController) that.vismoController = that.parentCanvas.vismoController;
                 if(that.isResizing){
                         that._resizeFromBottomRight(e);
                 }
-                
+                jQuery(that.centerMark).css({display:"none"});
                if(that._moveshape){
                        var pos = that.vismoCanvas.getXY(e);
+                       
                        var t = that._moveshape.getTransformation();
                        if(!t) t = {};
-                       t.translate = {x: pos.x,y:pos.y};
+                       var bb = that._moveshape.getBoundingBox();
+                       var center = bb.center;
+                       
+                       var change_x = t.translate.x +(pos.x-center.x);
+                       var change_y = t.translate.y +(pos.y - center.y);
+                       t.translate = {x: change_x,y:change_y};
                        that._moveshape.setTransformation(t);
                        if(that.vismoController)that.vismoController.disable();
+                       
                  }
-            };
+                 else{
+                     var vismoShape = that.vismoCanvas.getShapeAtClick(e);
+                     if(vismoShape){
+                         if(vismoShape == this.tempShape) {
+                             jQuery(that.centerMark).css({display:"none"});
+                             return;
+                         }
+                         var bb = vismoShape.getBoundingBox();
+                         var x = bb.center.x;
+                         var y = bb.center.y;
+                         var pos = VismoTransformations.applyTransformation(bb.center.x,bb.center.y,that.vismoCanvas.getTransformation());
+                         that.centerMark.node = vismoShape;
+                         var w = jQuery(that.centerMark).width();
+                         var h = jQuery(that.centerMark).height();
+                         jQuery(that.centerMark).css({left: pos.x - w/2,display:"",top:pos.y - h/2});
+                    }
+
+                }
+                 
+                 
+            });
 };
 VismoShapeManipulator.prototype = {
-        showCenters: function(vismoCanvas){
-               var shapes = vismoCanvas.getMemory();
-               for(var i=0; i < shapes.length; i++){
-                       if(VismoClickingUtils.inVisibleArea(vismoCanvas,vismoShape)){
-                               
-                       }
-               }
+        overCenter: function(e){
+            console.log(e.target);
+               if(jQuery(e.target).hasClass("centerMark")) return this.vismoCanvas.getShapeAtClick(e);
+               else return false;
         }
         ,toggleResizing: function(){
                 var that = this;
@@ -387,15 +386,22 @@ VismoShapeManipulator.prototype = {
                 this._moveshape = vismoShape;
         }
         ,selectShape: function(vismoShape){
-                var st=vismoShape.getShape();
-                if(st != "circle" &&  st != 'point') return;
-                this.lastSelected =vismoShape;
-                var hasController = false;
+
 
                 if(!vismoShape){
                         this.el.css({display:"none"});
                         this.brResizer.css({display:"none"});
+                        
+                        this.stopmoving(this.lastSelected);
+                        this.lastSelected = false;
+                        if(this.vismoController)this.vismoController.enable();
                         return;
+                }
+                else{
+                    var st=vismoShape.getShape();
+                    if(st != "circle" &&  st != 'point') return;
+                    this.lastSelected =vismoShape;
+                    var hasController = false;
                 }
                 var that = this;
                 
@@ -403,8 +409,8 @@ VismoShapeManipulator.prototype = {
 
                 var t = this.vismoCanvas.getTransformation();
                 var bb = vismoShape.getBoundingBox();
-                vismoShape.setProperty("onmousedown",function(e){that.startmoving(vismoShape,e);});
-                vismoShape.setProperty("onmouseup",function(e){that.stopmoving(vismoShape,e);});
+                vismoShape.setProperty("onmousedown",function(e){that.startmoving(vismoShape);});
+                vismoShape.setProperty("onmouseup",function(e){that.stopmoving(vismoShape);});
               
                 var tl = VismoTransformations.applyTransformation(bb.x1,bb.y1,t);
                 var br = VismoTransformations.applyTransformation(bb.x2,bb.y2,t);
