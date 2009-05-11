@@ -74,7 +74,7 @@ Tagmindmap.prototype = {
 		
 		this.settings = {'animate':true,'arrowheads':false,'maxNodeNameLength':99999,'breadcrumbs': true,'lineColor':'#ccddee','nodeColor':'#ccddee','zoomLevel':100, 'ignoreLoneNodes':false,'excludeNodeList': ['excludeLists']}; //put all default settings here
 		this.settings.tagcloud = {'smallest': 0.8, 'largest': 1.8, 'upper':0, 'off': false}; //upper is the maximum sized node
-	
+	    this.settings.labeldepth = false;
 		this.graph_showCirclesFlag = false; //shows circles in the mind map
 		this.maxNodeNameLength = 0;
 		this.displacement = {'x':0, 'y':0};
@@ -161,7 +161,17 @@ Tagmindmap.prototype = {
 	        var t = this.controlpanel.getTransformation();
 	        t.translate=  {x:0,y:0};
 	        this.controlpanel.setTransformation(t);
+	        try{
 		this.rgraph.onClick(id);
+		console.log("good");
+		}
+		catch(e){
+		    var ttmm = this;
+		    var f  = function(){
+		        ttmm.centerOnNode(id);
+		    };
+		    window.setTimeout(f,100);
+		}
 		
 	},
 
@@ -325,6 +335,11 @@ Tagmindmap.prototype = {
 		  this.rgraph.plot(); 
 		}
 		catch(e){
+		    var ttmm = this;
+		    var f = function(){
+		        ttmm.computeThenPlot();
+		    };
+		    window.setTimeout(f,100);
 			console.log(e+"in computeThenPlot");
 		}
 	},
@@ -395,52 +410,42 @@ Tagmindmap.prototype = {
 		  		}
 		  	},	
 		
-		  	onCreateLabel: function(domElement, node) {			
+		  	onCreateLabel: function(domElement, node) {	
+		  	    var depth = node._depth;
+		  	    if(!ttmm.rgraph || !ttmm.rgraph.graph || !ttmm.rgraph.graph.root) return;
+		  	    
+		  	    var depth2 = ttmm.rgraph.graph.root._depth;
 			}
-                        ,onBeforeCompute: function(){
-                                var i;
-                                var nodes =ttmm.rgraph.graph.nodes;
-                                var total = 0;
-                                for(i in nodes){
-                                        var node = nodes[i];
-                                        if(node.data.weight){
-                                                var weight =node.data.weight;
-                                                
-                                                if(weight > ttmm.settings.tagcloud.upper)ttmm.settings.tagcloud.upper = weight;
-                                        }
-                                        
-                                }
-                        }
+            ,onBeforeCompute: function(){
+                    var i;
+                    var nodes =ttmm.rgraph.graph.nodes;
+                    var total = 0;
+                    for(i in nodes){
+                            var node = nodes[i];
+                            if(node.data.weight){
+                                    var weight =node.data.weight;
+                                    
+                                    if(weight > ttmm.settings.tagcloud.upper)ttmm.settings.tagcloud.upper = weight;
+                            }
+                            
+                    }
+            }
 			,attachClickFunction: function(domElement,node){	
 				if(node.id == this.thehiddenbridge) return;
 				
 				var dblclickfunction = function(event){
-				       //alert("!");
 				        ttmm.callWhenClickOnNode(node,ttmm.wrapper.id,event);
 				};
 				var clickfunction = function(event){
+				        if(ttmm.rgraph.getRoot() == node) {
+				            dblclickfunction(event); return;}
+				            
 						ttmm.createNodeFromJSON(ttmm.dynamicUpdateFunction(node.id));
-                                                if(ttmm.settings.animate){
-        						ttmm.centerOnNode(node.id);
-                                                }
-                                                else{
-                                                        ttmm.lastclickednode = node.id;
-                                                        //ttmm.computeThenPlot();
-                                                        
-                                                }
+                        ttmm.centerOnNode(node.id);
+                        
 				};
-				
-				if(domElement.addEvent){ //for ie
-				        //domElement.addEvent('click',clickfunction);
-				        //domElement.addEvent('dblclick',dblclickfunction);
-				}
-				else {
-					
-					//domElement.onclick = clickfunction;
-					
-				}
-				domElement.onmousedown = clickfunction;
-                                domElement.ondblclick = dblclickfunction;
+
+				jQuery(domElement).click(clickfunction);
 			}
 			,getMaxChildren: function(){
 				var max =0,num;
@@ -490,7 +495,13 @@ Tagmindmap.prototype = {
 				return fontsize;
 			},
 			onPlaceLabel: function(domElement, node) {
+		  	    if(ttmm.settings.labeldepth && ttmm.rgraph && node._depth){
+    		  	  
+    		  	    if(node._depth > ttmm.settings.labeldepth) return;
+		  	    }
+            		  	    
 				domElement.innerHTML = ""; //quick and dirty flush
+
  				if(node.id != ttmm.thehiddenbridge){
 						if(node.data.color) domElement.style.color = node.data.color;
 							
@@ -528,7 +539,12 @@ Tagmindmap.prototype = {
 							
 						}
 					
-						nodeLabel.setAttribute("class","nodeLabel");
+					    var classdef ="nodeLabel";
+						if(ttmm.rgraph.getRoot() == node){
+        				    classdef += " active";
+        				}
+        			
+						nodeLabel.setAttribute("class",classdef);
 				
 						this.attachClickFunction(nodeLabel,node);
 

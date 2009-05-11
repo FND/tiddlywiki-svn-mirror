@@ -544,8 +544,8 @@ VismoController.prototype = {
                 difference.x=  thisx - finalX;
                 difference.y = thisy - finalY;
                 
-                direction.x = -difference.x / 20;
-                direction.y = -difference.y / 20;
+                direction.x = -difference.x / 5;
+                direction.y = -difference.y / 5;
 
                 var change = true;
                 
@@ -581,7 +581,7 @@ VismoController.prototype = {
     
                         if(t.translate.x != finalX && t.translate.y != finalY){
                                 that.setTransformation(t); 
-                                window.setTimeout(f,50);
+                                window.setTimeout(f,5);
                         }
                         else{
                                 that.setTransformation(t);

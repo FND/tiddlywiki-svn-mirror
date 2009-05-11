@@ -16,6 +16,12 @@
 .VismoCanvasToolbar{
 	float:right;
 }
+.centerMark {
+	width:10px;
+	height:10px;
+	background-color:Purple;
+	z-index:100;
+}
 .button {
 	width:25px;
 	height:25px;
@@ -50,17 +56,18 @@ function start(){
 	var down = function(e,s){if(s)document.getElementById('shapetype').innerHTML = s.getProperty("id");};
 	
 	var x = new VismoCanvas('xbrowsercanvas');
-
+/*
 	x.add(new VismoShape({shape:'polygon',id: 1, fill:'rgb(255,0,0)'},[-2,-2,200,0,200,20,0,20]));
 
-	x.add(new VismoShape({shape:'polygon',fill:'rgb(0,255,0)', id:2, transformation:{translate:{x:100,y:1}}},[-2,-2,200,0,200,20,0,20]));
+	x.add(new VismoShape({shape:'polygon',fill:'rgb(0,255,0)', id:2, transformation:{translate:{x:0,y:100},scale:{x:0.5,y:0.5}}},[-2,-2,200,0,200,20,0,20]));
+*/
 
-
-		x.add(new VismoShape({shape:'circle', id:"origi", fill:'rgb(0,0,0)'},[-40,-40,50]));
+		x.add(new VismoShape({shape:'circle', id:"1", fill:'rgb(255,0,0)'},[-40,-40,50]));
 		//x.add(new VismoShape({shape:'circle', id:"shouldbe", fill:'rgb(0,0,255)'},[60,-39,50]));
-		
-		x.add(new VismoShape({shape:'circle', id:"transformed", fill:'rgb(0,255,0)',transformation:{translate:{x:100,y:1},scale:{x:2,y:2}}},[-40,-40,50]));
-
+		x.add(new VismoShape({shape:"path",id:"3",edge:true,from:"1", to:"2"},[0,0,100,100]));
+		x.add(new VismoShape({shape:'circle', id:"2", fill:'rgb(0,255,0)',transformation:{translate:{x:300,y:1},scale:{x:2,y:2}}},[-40,-40,50]));
+		x.add(new VismoShape({shape:"path",id:"3",edge:true,from:"1", to:"2"},[100,350,"q",-150,-300,300,0]));
+		x.add(new VismoShape({shape:"path",id:"3",edge:true,from:"1", to:"2"},[-100,-350,"c",150,300,-300,0,200,200]));
 	x.setOnMouse(down);
 	
 	new VismoCanvasEditor(x);

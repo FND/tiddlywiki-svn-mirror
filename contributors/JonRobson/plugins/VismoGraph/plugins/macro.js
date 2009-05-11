@@ -118,6 +118,12 @@ config.macros.VismoGraph = {
                         if(s)story.normalDisplayTiddler(null,s.getProperty("name"));
                         else{
                             
+                                var xy = r.getVismoCanvas().getXY(e);
+
+                                r.getVismoController().panTo(xy.x,xy.y);
+                                return;
+                            
+                            /*
                                 var pos = r.getVismoCanvas().getXY(e);
                                 
                                 var can =r.getVismoCanvas();
@@ -137,8 +143,6 @@ config.macros.VismoGraph = {
                         var name =s.getProperty("name");
                         g.setRootNode(name);
                         var b = s.getBoundingBox();
-                        r.getVismoController().panTo(b.center.x,b.center.y);
-                        
                         var tid = store.getTiddler(name);
                         var change = false;
                         if(tid){
@@ -163,14 +167,14 @@ config.macros.VismoGraph = {
                                 }
                                 
                         }
-                        if(change)r.render();
+                        r.render();
                 };
 
 
 
 
                 r.canvas.setOnMouse(singleclick,false,false,dbclick);
-                r.canvas.makeMoveable(finishmove);
+                //r.canvas.makeMoveable(finishmove);
                 r.canvas.addTooltip(function(el,s){el.appendChild(document.createTextNode(s.getProperty("name")));});
 
                 r.render();

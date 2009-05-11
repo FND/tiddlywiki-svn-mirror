@@ -1,9 +1,13 @@
 <div title="GettingStarted">
 <pre>
-Image commenting has arrived!! Double Click on the map to add a tag!
+Image commenting has arrived!! Double Click on the map to add a tag!  Use the + and - keyboard keys to increase/decrease the size of the circle.
 
-<<TagImage blank.jpg fill:rgb(255,0,0) tiddlers:{{store.getTiddlers()}} width:400 height:200 editable:true>>
-<<TagImage src:osmo.jpg height:300 maxwidth:400px>>
+Note: if you are seeing black images, please wait as the image is still loading...
+
+<<TagImage src:osmo.jpg height:300 maxwidth:400px editable:true>>
+
+Note: You can use squares instead of circles but currently you can't move these!
+<<TagImage blank.jpg fill:rgb(255,0,0) tiddlers:{{store.getTiddlers()}} shape:square width:400 height:200 editable:true>>
 
 </pre>
 </div>

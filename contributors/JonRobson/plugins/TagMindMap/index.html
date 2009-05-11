@@ -1331,7 +1331,9 @@ config.macros.tiddlytagmindmap={
 		settings.dynamicUpdateFunction = this.createJSON;
 	
 		if(paramString){
+		    
 			var prms = paramString.parseParams(null, null, true);
+		    settings.labeldepth = parseInt(getParam(prms, &quot;labeldepth&quot;));
 			settings.breadcrumbs = eval(getParam(prms, &quot;breadcrumbs&quot;));
 			settings.ignoreLoneNodes = eval(getParam(prms, &quot;ignoreLoneNodes&quot;));
 			settings.arrowheads = eval(getParam(prms, &quot;directed&quot;));
@@ -1785,8 +1787,8 @@ Tagmindmap.prototype = {
 		
 		
 		this.settings = {'animate':true,'arrowheads':false,'maxNodeNameLength':99999,'breadcrumbs': true,'lineColor':'#ccddee','nodeColor':'#ccddee','zoomLevel':100, 'ignoreLoneNodes':false,'excludeNodeList': ['excludeLists']}; //put all default settings here
-		this.settings.tagcloud = {'smallest': 0.8, 'largest': 1.4, 'upper':0, 'off': false}; //upper is the maximum sized node
-	
+		this.settings.tagcloud = {'smallest': 0.8, 'largest': 1.8, 'upper':0, 'off': false}; //upper is the maximum sized node
+	    this.settings.labeldepth = false;
 		this.graph_showCirclesFlag = false; //shows circles in the mind map
 		this.maxNodeNameLength = 0;
 		this.displacement = {'x':0, 'y':0};
@@ -2107,52 +2109,41 @@ Tagmindmap.prototype = {
 		  		}
 		  	},	
 		
-		  	onCreateLabel: function(domElement, node) {			
+		  	onCreateLabel: function(domElement, node) {	
+		  	    var depth = node._depth;
+		  	    if(!ttmm.rgraph || !ttmm.rgraph.graph || !ttmm.rgraph.graph.root) return;
+		  	    
+		  	    var depth2 = ttmm.rgraph.graph.root._depth;
 			}
-                        ,onBeforeCompute: function(){
-                                var i;
-                                var nodes =ttmm.rgraph.graph.nodes;
-                                var total = 0;
-                                for(i in nodes){
-                                        var node = nodes[i];
-                                        if(node.data.weight){
-                                                var weight =node.data.weight;
-                                                
-                                                if(weight &gt; ttmm.settings.tagcloud.upper)ttmm.settings.tagcloud.upper = weight;
-                                        }
-                                        
-                                }
-                        }
+            ,onBeforeCompute: function(){
+                    var i;
+                    var nodes =ttmm.rgraph.graph.nodes;
+                    var total = 0;
+                    for(i in nodes){
+                            var node = nodes[i];
+                            if(node.data.weight){
+                                    var weight =node.data.weight;
+                                    
+                                    if(weight &gt; ttmm.settings.tagcloud.upper)ttmm.settings.tagcloud.upper = weight;
+                            }
+                            
+                    }
+            }
 			,attachClickFunction: function(domElement,node){	
 				if(node.id == this.thehiddenbridge) return;
 				
 				var dblclickfunction = function(event){
-				       //alert(&quot;!&quot;);
 				        ttmm.callWhenClickOnNode(node,ttmm.wrapper.id,event);
 				};
 				var clickfunction = function(event){
+				        if(ttmm.rgraph.getRoot() == node) {
+				            dblclickfunction(event); return}
 						ttmm.createNodeFromJSON(ttmm.dynamicUpdateFunction(node.id));
-                                                if(ttmm.settings.animate){
-        						ttmm.centerOnNode(node.id);
-                                                }
-                                                else{
-                                                        ttmm.lastclickednode = node.id;
-                                                        //ttmm.computeThenPlot();
-                                                        
-                                                }
+                        ttmm.centerOnNode(node.id);
+                        
 				};
-				
-				if(domElement.addEvent){ //for ie
-				        //domElement.addEvent('click',clickfunction);
-				        //domElement.addEvent('dblclick',dblclickfunction);
-				}
-				else {
-					
-					//domElement.onclick = clickfunction;
-					
-				}
-				domElement.onmousedown = clickfunction;
-                                domElement.ondblclick = dblclickfunction;
+
+				jQuery(domElement).click(clickfunction);
 			}
 			,getMaxChildren: function(){
 				var max =0,num;
@@ -2202,7 +2193,13 @@ Tagmindmap.prototype = {
 				return fontsize;
 			},
 			onPlaceLabel: function(domElement, node) {
+		  	    if(ttmm.settings.labeldepth &amp;&amp; ttmm.rgraph &amp;&amp; ttmm.node._depth){
+    		  	  
+    		  	    if(node._depth &gt; ttmm.settings.labeldepth) return;
+		  	    }
+            		  	    
 				domElement.innerHTML = &quot;&quot;; //quick and dirty flush
+
  				if(node.id != ttmm.thehiddenbridge){
 						if(node.data.color) domElement.style.color = node.data.color;
 							
@@ -2240,7 +2237,12 @@ Tagmindmap.prototype = {
 							
 						}
 					
-						nodeLabel.setAttribute(&quot;class&quot;,&quot;nodeLabel&quot;);
+					    var classdef =&quot;nodeLabel&quot;;
+						if(ttmm.rgraph.getRoot() == node){
+        				    classdef += &quot; active&quot;;
+        				}
+        			
+						nodeLabel.setAttribute(&quot;class&quot;,classdef);
 				
 						this.attachClickFunction(nodeLabel,node);
 
@@ -5147,7 +5149,7 @@ VismoShape.prototype={
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
-		else if(st == 'point' || st == 'circle' | st == 'image'){
+		else if(st == 'point' || st == 'circle' | st == 'image' | st == 'domElement'){
 				var coords = this.getCoordinates().clone();
 				var x = coords[0]; var y = coords[1]; 
 				var dim = this.getDimensions();
@@ -5162,8 +5164,16 @@ VismoShape.prototype={
 				
 				if(transform){
 				        if(transform.translate){
-				                 if(transform.translate.x)this.grid.center.x += transform.translate.x;
-				                if(transform.translate.y)this.grid.center.y += transform.translate.y;
+				                var tran_x,tran_y;
+				                 if(transform.translate.x)tran_x = transform.translate.x;
+				                if(transform.translate.y)tran_y =  transform.translate.y;
+				                /*if(transform.scale){
+				                        if(transform.scale.x) tran_x *= transform.scale.x;
+				                        if(transform.scale.y) tran_y *= transform.scale.y;
+				                }*/
+				                
+				                this.grid.center.x += tran_x;
+				                this.grid.center.y += tran_y;
 				        }
 				        if(transform.scale){
 				                dim.width *= transform.scale.x;
@@ -5172,12 +5182,14 @@ VismoShape.prototype={
 				}
 				var newx = this.grid.center.x;
 				var newy = this.grid.center.y;
+				this.grid.center.x = x;
+				this.grid.center.y = y;
 				var radiusw = dim.width / 2;
 				var radiush = dim.height / 2;
 				this.grid ={x1: newx -radiusw ,x2: newx + radiusw, y1: newy - radiush, y2: newy + radiush,center:{x:newx,y:newy},width: dim.width,height:dim.height};	
 
 				
-				
+				//console.log(this.grid.center.x,this.coordinates.normal,this.properties.transformation);
 				return;
 		}
 		if(!coords) coords = this.getCoordinates();
@@ -5263,7 +5275,7 @@ VismoShape.prototype={
 			if(coordinates[3]) radiush= coordinates[3];
 			else radiush = radiusw;
 			
-			this.setDimensions(radiusw,radiush);
+			this.setDimensions(radiusw*2,radiush*2);
 			this.setCoordinates([coordinates[0],coordinates[1]]);
 			
 		}
@@ -5272,10 +5284,11 @@ VismoShape.prototype={
 			this.setCoordinates(coordinates);
 		}
 		else if(shapetype == 'domElement'){
-			this.setCoordinates(coordinates);		       
+					       
 		        var w = jQuery(this.getProperty(&quot;element&quot;)).width(); 
 		        var h = jQuery(this.getProperty(&quot;element&quot;)).height(); 
 		        this.setDimensions(w,h);
+		        this.setCoordinates(coordinates);
 
 		}
 		else if(shapetype == 'image'){
@@ -6227,7 +6240,7 @@ VismoController.prototype = {
 				return false;
 		}
 		
-		if(t.getAttribute(&quot;class&quot;) == &quot;vismoControl&quot;) return false;
+		if(t &amp;&amp; t.getAttribute(&quot;class&quot;) == &quot;vismoControl&quot;) return false;
 		
 		return true;
 		
@@ -6243,7 +6256,8 @@ VismoController.prototype = {
 		
 		var cancelPanning = function(e){
 			panning_status = false;
-			//jQuery(that.wrapper).removeClass(&quot;panning&quot;);
+			
+			if(!VismoUtils.browser.isIE)jQuery(that.wrapper).removeClass(&quot;panning&quot;);
 			//style.cursor= that.defaultCursor;
 			that.wrapper.onmousemove = mm;
 			return false;
@@ -6299,7 +6313,7 @@ VismoController.prototype = {
 			
 			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			that.wrapper.onmousemove = onmousemove;
-			jQuery(that.wrapper).addClass(&quot;panning&quot;);	
+			if(!VismoUtils.browser.isIE)jQuery(that.wrapper).addClass(&quot;panning&quot;);	
 		};
 			
 		this.wrapper.onmouseup = function(e){
@@ -6448,7 +6462,73 @@ VismoController.prototype = {
 	        this.applyLayer();
 	}	
 	
+        ,panTo: function(x,y){
+                //if(!this.enabled) return;
+                var t = this.getTransformation();
+                
+                var finalX = -x;
+                var finalY = -y;
+                var thisx,thisy;
+                var direction = {};
+                var difference = {};
+                
+                thisx = t.translate.x;
+                thisy = t.translate.y;
+                
+                difference.x=  thisx - finalX;
+                difference.y = thisy - finalY;
+                
+                direction.x = -difference.x / 20;
+                direction.y = -difference.y / 20;
 
+                var change = true;
+                
+                var that = this;
+                var f = function(){
+                   
+                        change= {x: false,y:false};
+                        if(thisx &gt; finalX &amp;&amp; thisx + direction.x &gt; finalX) {thisx += direction.x;change.x=true;}
+                        else if(thisx &lt; finalX &amp;&amp; thisx + direction.x &lt; finalX) {thisx += direction.x;change.x=true;}
+                        else{
+                                t.translate.x = finalX;
+                        }
+                
+                        if(thisy &gt; finalY &amp;&amp; thisy + direction.y &gt; finalY) {thisy += direction.y;change.y=true;}
+                        else if(thisy &lt; finalY &amp;&amp; thisy + direction.y &lt; finalY) {thisy += direction.y;change.y=true;}
+                        else{
+                                change.x = true;
+                                t.translate.y =finalY;
+                        }
+                
+                        if(change.x){
+                                t.translate.x = thisx;
+                        }
+                        else{
+                                t.translate.x = finalX;
+                        }
+                        if(change.y){
+                                t.translate.y = thisy;
+                        }
+                        else{
+                                t.translate.y = finalY;
+                        }
+    
+                        if(t.translate.x != finalX &amp;&amp; t.translate.y != finalY){
+                                that.setTransformation(t); 
+                                window.setTimeout(f,50);
+                        }
+                        else{
+                                that.setTransformation(t);
+                        }
+  
+                };
+                
+                f();
+                                       
+               
+
+                //window.setTimeout(pan,200);
+        }
 	,transform: function(){
 		if(this.enabled){
 			var t = this.getTransformation();
@@ -6964,29 +7044,7 @@ var VismoMapUtils = {
 		return res;
 	}
 
-};/*
-VismoClicking adds the ability to associate a dom element with a collection of VismoShapes using addToMemory function
-The getShapeAtClick function allows click detection on this dom element when used in a dom mouse event handler
-*/
-
-// Depends on JQuery for offset function
-// Get the current horizontal page scroll position
-function findScrollX()
-{
-	return window.scrollX || document.documentElement.scrollLeft;
-}
-// Get the current vertical page scroll position
-function findScrollY()
-{
-	return window.scrollY || document.documentElement.scrollTop;
-}
-
-/*Turn a dom element into one where you can find VismoShapes based on clicks */
-/*
-Following to be renamed as VismoCanvas
-*/
-
-var VismoCanvas = function(element,vismoShapesList){
+};var VismoCanvas = function(element,vismoShapesList){
         
 	if(typeof element == 'string') element= document.getElementById(element);
 	if(!element) throw &quot;Element doesn't exist!&quot;;
@@ -7191,11 +7249,12 @@ VismoCanvas.prototype = {
 		var defaultCursor;
 		el.onmousemove = function(e){ if(!e) e= window.event;var s = newbehaviour(e);
 
-		        if(jQuery(el).hasClass(&quot;overVismoShape&quot;)) {
-	                        jQuery(el).removeClass(&quot;overVismoShape&quot;);
+		        if(!VismoUtils.browser.isIE){
+		                if(jQuery(el).hasClass(&quot;overVismoShape&quot;)) jQuery(el).removeClass(&quot;overVismoShape&quot;);
 		        }
-		        if(jQuery(el).hasClass(&quot;overVismoPoint&quot;)) {
-	                        jQuery(el).removeClass(&quot;overVismoPoint&quot;);
+		        if(!VismoUtils.browser.isIE){
+		                
+		                if(jQuery(el).hasClass(&quot;overVismoPoint&quot;))jQuery(el).removeClass(&quot;overVismoPoint&quot;);
 		        }
 		        
 		        if(s &amp;&amp; !s.getProperty(&quot;unclickable&quot;)){
@@ -7205,15 +7264,15 @@ VismoCanvas.prototype = {
         		                var sh;
                 		        if(s){
                 		               sh  = s.getShape();
-                		               if(sh == &quot;point&quot;) jQuery(el).addClass(&quot;overVismoPoint&quot;);
+                		               if(!VismoUtils.browser.isIE  &amp;&amp;sh == &quot;point&quot;) jQuery(el).addClass(&quot;overVismoPoint&quot;);
                 		        }
-        		                jQuery(el).addClass(&quot;overVismoShape&quot;);
+        		                if(!VismoUtils.browser.isIE)jQuery(el).addClass(&quot;overVismoShape&quot;);
         	                }
                                 
 		                if(s.getProperty(&quot;onmousemove&quot;))s.getProperty(&quot;onmousemove&quot;)(e,s);
 		        }
 		        else{
-		                el.style.cursor = defaultCursor;
+		                //el.style.cursor = defaultCursor;
 		        }
 		        if(that.onmousemove)that.onmousemove(e,s); 
 		        if(mv)mv(e,s);
@@ -7368,11 +7427,13 @@ VismoCanvas.prototype = {
 	        
 	        this.labelHolder.appendChild(domElement);
 	        var properties = {element: domElement,shape:&quot;domElement&quot;};
+	  
 	        var coords = [];
 	        coords.push(x);
 	        coords.push(y);
 	        var shape = new VismoShape(properties,coords);
 	        this.add(shape);
+	              //console.log(shape);
 	        return {element: domElement ,vismoshape: shape};
 	}
 	,transform: function(t){
@@ -7413,8 +7474,9 @@ VismoCanvas.prototype = {
 		if(!target) return;
 		var offset = jQuery(target).offset();
 
-		x = e.clientX + window.findScrollX() - offset.left;
-		y = e.clientY + window.findScrollY() - offset.top;
+                var xy= VismoClickingUtils.scrollXY();
+		x = e.clientX + xy.x - offset.left;
+		y = e.clientY + xy.y - offset.top;
 
 		if(this.memory.length &gt; 0){
 			var shape = false;
@@ -7647,10 +7709,30 @@ VismoCanvas.prototype = {
                 
         }
 };
-
-
 var VismoClickingUtils = {
-	getRealXYFromMouse: function(e,t){
+        //to be implemented..
+        inVisibleArea: function(vismoCanvas,vismoShape){
+                var bb = vismoShape.getBoundingBox();
+                return true;
+        }
+        ,scrollXY: function(){
+          var scrOfX = 0, scrOfY = 0;
+          if( typeof( window.pageYOffset ) == 'number' ) {
+            //Netscape compliant
+            scrOfY = window.pageYOffset;
+            scrOfX = window.pageXOffset;
+          } else if( document.body &amp;&amp; ( document.body.scrollLeft || document.body.scrollTop ) ) {
+            //DOM compliant
+            scrOfY = document.body.scrollTop;
+            scrOfX = document.body.scrollLeft;
+          } else if( document.documentElement &amp;&amp; ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) {
+            //IE6 standards compliant mode
+            scrOfY = document.documentElement.scrollTop;
+            scrOfX = document.documentElement.scrollLeft;
+          }
+          return {x: scrOfX,y: scrOfY};
+        }
+	,getRealXYFromMouse: function(e,t){
 		var newpos =VismoClickingUtils.getMouseFromEvent(e);
 		newpos = VismoClickingUtils.undotransformation(newpos.x,newpos.y,t);
 		return newpos;
@@ -7663,16 +7745,28 @@ var VismoClickingUtils = {
 	{
 		if(!e) e = window.event;
 		var obj;
-		if(e.target)
-			obj = e.target;
-		else if(e.srcElement)
+		
+		if(e.srcElement)
 			obj = e.srcElement;
-	        else{
+	        else if(e.target)
+        	        obj = e.target;
+        	else{
 	                obj = false;
 	        }
+	        try{
+                        var x = obj.parentNode;
+                }catch(e){return false;}
+                /*
+		if(obj &amp;&amp; obj.nodeType &amp;&amp; obj.nodeType == 3) // defeat Safari bug
+			obj = obj.parentNode;
+			*/
+			
+			/*try{
+                                var x = obj.parentNode;
+                        }
+                        catch(e){return false;};*/
 	        return obj;
-		/*if(obj &amp;&amp; obj.nodeType &amp;&amp; obj.nodeType == 3) // defeat Safari bug
-			obj = obj.parentNode;*/
+
 		//return obj;
 	}
 	
@@ -7692,8 +7786,13 @@ var VismoClickingUtils = {
           
 			if(typeof(offset.left) != 'number') return false;
 		
-			x = e.clientX + window.findScrollX() - offset.left;
-			y = e.clientY + window.findScrollY() - offset.top;
+		        var scroll = this.scrollXY(e);
+			x = e.clientX + scroll.x;
+			y = e.clientY + scroll.y;
+			//alert(x +&quot;/&quot;+y);
+			x -= offset.left;
+			y-=  offset.top;
+			
 			return {'x':x, 'y':y};		
 			
 	}
@@ -7705,28 +7804,33 @@ var VismoClickingUtils = {
 
 			
 			if(!offset.left) return false;
-			x = e.clientX + window.findScrollX() - offset.left;
-			y = e.clientY + window.findScrollY() - offset.top;
+			var scroll = this.scrollXY();
+			x = e.clientX + scroll.x - offset.left;
+			y = e.clientY + scroll.y - offset.top;
 			return {'x':x, 'y':y};		
 			
 	}
 
 	,resolveTargetWithVismo: function(e)
 	{
-	         
 		var node = VismoClickingUtils.resolveTarget(e);
+                
 
+                
 		if(!node)return false;
 		var hasVismo = false;
-		while(!hasVismo &amp;&amp; node &amp;&amp; node.parentNode &amp;&amp; node.parentNode != document){
+     
+                
+		while(!hasVismo &amp;&amp; node != document &amp;&amp; node.parentNode &amp;&amp; node.parentNode != document){
 		        
-		        if(node.vismoClicking || node.vismoController){
+		        if(node.vismoCanvas || node.vismoController){
 		                hasVismo = true;
 			}
 			else{
 			        node= node.parentNode;
 			}
 		}
+		
 		if(!node) return false;
 		return node;
 	}
@@ -7736,8 +7840,9 @@ var VismoClickingUtils = {
 		var offset = jQuery(target).offset();
 		if(!offset.left) return false;
 		
-		oldx = e.clientX + window.findScrollX() - offset.left;
-		oldy = e.clientY + window.findScrollY() - offset.top;
+		var scroll = this.scrollXY();
+		oldx = e.clientX + scroll.x - offset.left;
+		oldy = e.clientY + scroll.y - offset.top;
 		var pos = {'x':oldx, 'y':oldy};
 
 		if(!pos) return false;

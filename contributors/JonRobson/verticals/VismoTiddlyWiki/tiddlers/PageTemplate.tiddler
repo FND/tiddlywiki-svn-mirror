@@ -6,15 +6,16 @@
 </div>
 
 <div class='jQueryTabs'>
+<div class='jQueryTab' title='TiddlyTagMindMap'>
+	<div class='collapsable' macro="tiddlytagmindmap focus:'Welcome to VismoWiki' labeldepth:1 width:1022 height:600 floating:true popup:true id:main startState:all zoom:130 exclude: {{['excludeLists']}} animate:false emptyTiddlerColor:#cccccc"></div>
+</div>
 <div class='jQueryTab' title="Vismo Tree">
 	<div class='collapsable' macro='VismoGraph width:1022 height:600 fill:rgba(0,0,255,0.2) layout:tree'></div>
 </div>
 <div class='jQueryTab' title="Vismo Free Graph">
 	<div class='collapsable' macro='VismoGraph width:1022 height:600 fill:rgba(0,0,255,0.2) '></div>
 </div>
-	<div class='jQueryTab' title='TiddlyTagMindMap'>
-		<div class='collapsable' id='tagmindmap' parameters="width:1022 height:600 floating:true popup:true id:main startState:all zoom:130 exclude: {{['excludeLists']}} animate:false emptyTiddlerColor:#cccccc"></div>
-	</div>
+
 
 			<div class='jQueryTab' title="Geo View" >
 		<div class='collapsable' macro='geo id:geovis width:1022 height:600 source:false editable:true projection:slippystaticmap'></div>

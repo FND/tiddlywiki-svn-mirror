@@ -50,7 +50,7 @@ VismoGraphRenderer.prototype = {
                 
                 
                 this.renderNodes();
-                //this.renderNodeLabels();
+                this.renderNodeLabels();
                 this.canvas.render();
                 //if(this.options.afterRender) this.options.afterRender(this);
         }
@@ -160,6 +160,7 @@ VismoGraphRenderer.prototype = {
                 	                if(pos){    
                         	                if(!this.addedLabels[id]){
                                         	        var label = document.createElement("div");
+                                        	        label.className = "nodeLabel";
                                         	        this.options.renderLabel(label,node);
 
                                                         var s = this.canvas.addLabel(label,pos.x,pos.y);

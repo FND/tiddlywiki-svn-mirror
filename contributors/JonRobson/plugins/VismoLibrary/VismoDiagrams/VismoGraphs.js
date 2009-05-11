@@ -338,7 +338,20 @@ var VismoGraphLayoutAlgorithms = {
                         
                         for(var i=0; i < children.length; i++){
                                 var myparents = graph.getNodeParents(children[i]);
-     
+                                var max_x= 0;
+                                for(var j=0; j < myparents.length; j++){
+                                         var parent = graph.getNode(myparents[j]);
+                                         var pos = parent.getPosition();
+                                         if(pos && pos.x > max_x) max_x = pos.x;
+                                }
+                                for(var j=0; j < myparents.length; j++){
+                                         var parent = graph.getNode(myparents[j]);
+                                         var pos = parent.getPosition();
+                                         
+                                         if(!pos.y) y = 0;
+                                         else y = pos.y;
+                                         parent.setPosition(max_x,y);
+                                }
                                 
                                 var child = graph.getNode(children[i]);
                                 if(!child.getPosition()){
@@ -379,4 +392,76 @@ var VismoGraphLayoutAlgorithms = {
               return false;
 
               }
+              ,quitegoodtree: function(graph,node){     
+
+                    if(node.getPosition()) return node.getPosition();
+
+
+                     var depth = graph.getNodeDepth(node.getID());
+                     var spacing = {y:20, x:100};
+
+                     var x,y;
+                     x = depth * spacing.x;
+                     y = 0;
+                       var visited = {};
+
+                     var calculateChildren = function(id,x){
+                             if(visited[id] && visited[id] > x) {
+                             console.log("forget it/"+id+""+ x +"/"+visited[id])        
+                                     return;
+                             }
+                             visited[id]= x;
+                               var children = graph.getNodeChildren(id);
+                               var pos = graph.getNode(id).getPosition();
+
+                               var starty = pos.y - (spacing.y*(children.length/2));
+                               if(children.length % 2 != 0){
+                                       starty += (spacing.y/2);
+                               }
+
+
+                               for(var i=0; i < children.length; i++){
+                                       var myparents = graph.getNodeParents(children[i]);
+
+
+                                       var child = graph.getNode(children[i]);
+                                       if(!child.getPosition()){
+                                               child.setPosition(x,starty);
+                                               starty += spacing.y;
+                                               calculateChildren(children[i],x+spacing.x);
+                                       }
+
+                               }
+
+
+
+                       };
+
+
+                     var atdepth =graph.getNodesAtDepth(0);
+                     var totalLeaves = 0;
+                     for(var i=0; i < atdepth.length; i++){
+                             var id = atdepth[i];
+                             var leaves = VismoGraphUtils.getNodeLeaves(id,graph);
+                             totalLeaves += leaves.length;
+                     }
+
+                     var rooty = -(totalLeaves/2) * spacing.y;
+                     var parentspacing = (totalLeaves * spacing.y) / atdepth.length;
+
+                     for(var i=0; i < atdepth.length; i++){
+                               var root = graph.getNode(atdepth[i]);
+                               rooty += parentspacing;
+                               root.setPosition(x,rooty);
+
+                     }
+                     for(var i=0; i < atdepth.length; i++){
+                             calculateChildren(atdepth[i],x+spacing.x);
+                     }
+
+
+                     return false;
+
+                     }
+
 };

@@ -5,5 +5,6 @@ jQuery(document).ready(function() {
 });
 
 jQuery().bind("startup", function() {
+
 	start();
 });

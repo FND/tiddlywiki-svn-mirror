@@ -155,6 +155,7 @@ VismoCanvas.prototype = {
 			        }
 			}
 			else {
+			        //if(that.onmousedown)that.onmousedown(e,s);
 			        if(down)down(e,s);
 			}
 			
@@ -381,11 +382,13 @@ VismoCanvas.prototype = {
 	        
 	        this.labelHolder.appendChild(domElement);
 	        var properties = {element: domElement,shape:"domElement"};
+	  
 	        var coords = [];
 	        coords.push(x);
 	        coords.push(y);
 	        var shape = new VismoShape(properties,coords);
 	        this.add(shape);
+	              //console.log(shape);
 	        return {element: domElement ,vismoshape: shape};
 	}
 	,transform: function(t){

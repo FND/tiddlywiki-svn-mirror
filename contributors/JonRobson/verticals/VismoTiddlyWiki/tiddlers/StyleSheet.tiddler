@@ -19,5 +19,6 @@ body {font-family:Lucida Grande;}
 .popup {z-index:8000;}
 .VismoCanvas {overflow:hidden}
 #sidebar {z-index:50; background-color:white; opacity:0.8;}
+.active {text-decoration:underline;}
 </pre>
 </div>

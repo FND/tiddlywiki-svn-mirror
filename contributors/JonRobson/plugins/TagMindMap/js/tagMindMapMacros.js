@@ -126,7 +126,7 @@ config.macros.ToggleTagMindMap={
 		}
 	}
 
-};
+}; 
 
 config.macros.tiddlytagmindmap={
 	store: {}, //a library of created ttmm objects
@@ -196,7 +196,9 @@ config.macros.tiddlytagmindmap={
 		settings.dynamicUpdateFunction = this.createJSON;
 	
 		if(paramString){
+		    
 			var prms = paramString.parseParams(null, null, true);
+		    settings.labeldepth = parseInt(getParam(prms, "labeldepth"));
 			settings.breadcrumbs = eval(getParam(prms, "breadcrumbs"));
 			settings.ignoreLoneNodes = eval(getParam(prms, "ignoreLoneNodes"));
 			settings.arrowheads = eval(getParam(prms, "directed"));
@@ -289,7 +291,6 @@ config.macros.tiddlytagmindmap={
         			     startupFunction(id);  
         			     
         			     if(focus){
-        			             console.log("going to focus on",focus);
         			             ttmm.centerOnNode(focus);
         			     }
         			}

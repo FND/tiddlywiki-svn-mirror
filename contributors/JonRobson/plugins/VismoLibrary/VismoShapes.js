@@ -16,6 +16,15 @@ if(!Array.indexOf) {
 		return -1;
 	};
 }
+
+var VismoShapeUtils ={
+    _isCoordinate: function(c){
+        if(c == "M" || c == "q" || c== 'c') return false;
+        else {
+            if(typeof(c)== 'number') return true;
+        }
+    }
+};
 var VismoUtils = {
 	userAgent: navigator.userAgent.toLowerCase(),
 	clone: function(obj){
@@ -285,7 +294,7 @@ VismoShape.prototype={
 			this.grid = {x1:0,x2:1,y1:0,y2:1};
 			return;
 		}
-		else if(st == 'point' || st == 'circle' | st == 'image'){
+		else if(st == 'point' || st == 'circle' | st == 'image' | st == 'domElement'){
 				var coords = this.getCoordinates().clone();
 				var x = coords[0]; var y = coords[1]; 
 				var dim = this.getDimensions();
@@ -300,8 +309,16 @@ VismoShape.prototype={
 				
 				if(transform){
 				        if(transform.translate){
-				                 if(transform.translate.x)this.grid.center.x += transform.translate.x;
-				                if(transform.translate.y)this.grid.center.y += transform.translate.y;
+				                var tran_x,tran_y;
+				                 if(transform.translate.x)tran_x = transform.translate.x;
+				                if(transform.translate.y)tran_y =  transform.translate.y;
+				                /*if(transform.scale){
+				                        if(transform.scale.x) tran_x *= transform.scale.x;
+				                        if(transform.scale.y) tran_y *= transform.scale.y;
+				                }*/
+				                
+				                this.grid.center.x += tran_x;
+				                this.grid.center.y += tran_y;
 				        }
 				        if(transform.scale){
 				                dim.width *= transform.scale.x;
@@ -310,12 +327,14 @@ VismoShape.prototype={
 				}
 				var newx = this.grid.center.x;
 				var newy = this.grid.center.y;
+				this.grid.center.x = x;
+				this.grid.center.y = y;
 				var radiusw = dim.width / 2;
 				var radiush = dim.height / 2;
 				this.grid ={x1: newx -radiusw ,x2: newx + radiusw, y1: newy - radiush, y2: newy + radiush,center:{x:newx,y:newy},width: dim.width,height:dim.height};	
 
 				
-				
+				//console.log(this.grid.center.x,this.coordinates.normal,this.properties.transformation);
 				return;
 		}
 		if(!coords) coords = this.getCoordinates();
@@ -410,10 +429,11 @@ VismoShape.prototype={
 			this.setCoordinates(coordinates);
 		}
 		else if(shapetype == 'domElement'){
-			this.setCoordinates(coordinates);		       
+					       
 		        var w = jQuery(this.getProperty("element")).width(); 
 		        var h = jQuery(this.getProperty("element")).height(); 
 		        this.setDimensions(w,h);
+		        this.setCoordinates(coordinates);
 
 		}
 		else if(shapetype == 'image'){
@@ -446,9 +466,6 @@ VismoShape.prototype={
 		
 	}	
 
-
-
-
 	,_applyProjection: function(projection,transformation){
 		var c = this.getCoordinates('normal');
 	
@@ -458,7 +475,7 @@ VismoShape.prototype={
 		var newc = [];
 		for(var i=0; i < c.length-1; i+=2){
 			var moved = false;
-			if(c[i] == "M"){
+			if(!VismoShapeUtils._isCoordinate(c[i])){
 				i+= 1;
 			}
 			var x = parseFloat(c[i]);
@@ -483,7 +500,7 @@ VismoShape.prototype={
 				}
 			
 				if(cok){
-					if(typeof newx == 'number' && typeof newy =='number'){
+					if(VismoShapeUtils._isCoordinate(x) && VismoShapeUtils._isCoordinate(y)){
 						if(moved){
 							newc.push("M");
 						}

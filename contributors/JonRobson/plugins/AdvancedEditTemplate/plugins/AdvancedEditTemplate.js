@@ -33,6 +33,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			// build a drop down control
 			var valueSource = getParam(params,"valuesSource", null);
 			if(!valueSource) valueSource = metaDataName + "Definition";
+			
 			if(ctrlType == 'dropdown') {
 				if(!valueSource) {
 					displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
@@ -81,36 +82,9 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					this.createSearchBox(place,metaDataName,values,selected,handler);
 				}
 			}
-			else if(ctrlType == 'checkbox'){					
-					var c = createTiddlyElement(place,"input");
-					c.type = 'checkbox';
-					c.value = true;
-	
-					var selected =this.getMetaData(title,metaDataName);
-					if(!selected){
-						var qsvalue =this.getVariableFromQueryString(metaDataName);
-						if(qsvalue) selected = qsvalue;
-					}
-					
-					if(selected){
-						c.checked = true;
-					}
-					else{
-						c.checked = false;
-					}
-					
-					var that = this;
-					c.onchange =function(e){
-						var taskTiddler = story.findContainingTiddler(place);
-						var title = taskTiddler.getAttribute("tiddler");
-						
-						if(this.checked){
-							that.setMetaData(title,metaDataName,"true");
-						}
-						else{
-							that.setMetaData(title,metaDataName,null);
-						}
-					};				
+			else if(ctrlType == 'checkbox'){
+			        					
+				this.createCheckBox(place,title,metaDataName);
 				
 			}
 			else if(ctrlType == 'date'){
@@ -521,6 +495,47 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
                         
 		}
 		
+		,createCheckBox: function(place,title,metaDataName){
+		         
+		        		var c = document.createElement("input");
+		        		
+					c.setAttribute("type","checkbox");
+					c.value = "false";
+					   //    alert("!");
+	                               place.appendChild(c);
+					var selected =this.getMetaData(title,metaDataName);
+				
+					if(!selected){
+						var qsvalue =this.getVariableFromQueryString(metaDataName);
+						if(qsvalue) selected = qsvalue;
+					}
+				
+					if(selected){
+					        alert("hereeee");
+					        c.value = selected;
+					        c.checked = true;
+					  
+					        
+					}
+			
+					var that = this;
+					
+					jQuery(c).click(function(e){
+					     
+						var taskTiddler = story.findContainingTiddler(place);
+						var title = taskTiddler.getAttribute("tiddler");
+						
+						if(this.checked){
+							that.setMetaData(title,metaDataName,"true");
+						}
+						else{
+						  
+							that.setMetaData(title,metaDataName,null);
+						}
+					});
+						
+					
+		}
 	};
 	
 	

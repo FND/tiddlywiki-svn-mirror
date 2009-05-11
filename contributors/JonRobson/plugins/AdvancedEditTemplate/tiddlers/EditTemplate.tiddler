@@ -9,10 +9,11 @@ Logo: <span macro="AdvancedEditTemplate type:image metaDataName:logo home:'http:
 assign this to:
 <span macro='AdvancedEditTemplate type:dropdown metaDataName:assignee valuesSource:DropDownData'></span>
 <div>
-assigned by:
+assigned by (search for a name from our list):
 <span macro='AdvancedEditTemplate type:search metaDataName:assignby valuesSource:DropDownData'></span>
 </div>
-
+get done by:
+<div macro='AdvancedEditTemplate type:date metaDataName:doneby'></div>
 For demo purposes: <span macro='AdvancedEditTemplate type:dropdown metaDataName:abc'></span>
 <div macro='annotations'></div>
 <div class='editor' macro='edit text'></div>

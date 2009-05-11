@@ -1,3 +1,4 @@
 jshead: AdvancedEditTemplate.js
 jshead: VismoShape.js
 jshead: VismoClickableCanvas.js
+jshead: VismoShapesUtils.js

@@ -44,21 +44,45 @@ var VismoCanvasRenderer = {
 	        
 	}
 	,renderPath: function(ctx,vismoShape,join){
-		var move = true;
+		var move = true,quadraticCurve = false,bezierCurve = false;
 		var c = vismoShape.getCoordinates();
 		for(var i=0; i < c.length-1; i+=2){
-			if(c[i]=== "M") {
-				i+= 1; 
-				move=true;
+            var isCoord =VismoShapeUtils._isCoordinate(c[i]);
+			if(!isCoord){
+
+				if(c[i] == "M"){
+				    move=true;
+			    }
+			    else if(c[i] == "q"){
+			        quadraticCurve = true;
+			    }
+			    else if(c[i] == "c"){
+			        bezierCurve = true;
+			    }
+			    i+=1;
 			}
 			var x = parseFloat(c[i]);
 			var y = parseFloat(c[i+1]);	
 			
-			if(move){
-			    
+			if(move){ 
 				ctx.moveTo(x,y);
 			
 				move = false;
+			}
+			else if(quadraticCurve){
+			    var x2 = parseFloat(c[i+2]);
+			    var y2 = parseFloat(c[i+3]);
+
+			    i+= 2;
+			    ctx.quadraticCurveTo(x,y,x2,y2);
+			}
+			else if(bezierCurve){
+			    var x2 = parseFloat(c[i+2]);
+			    var y2 = parseFloat(c[i+3]);
+                var x3 = parseFloat(c[i+4]);
+                var y3 = parseFloat(c[i+5]);
+			    i+= 4;
+			    ctx.bezierCurveTo(x,y,x2,y2,x3,y3);			    
 			}
 			else{
 			       
@@ -171,7 +195,7 @@ VismoVector.prototype = {
 		this.el.setAttribute("name",vismoShape.getProperty("name"));
 		var w = jQuery(canvas).width();
 		var h = jQuery(canvas).height();
-		jQuery(this.el).css({"height": h,"width": w,"position":"absolute","z-index":1});
+		jQuery(this.el).css({"height": h,"width": w,"position":"absolute","z-index":4});
 	
 	}
 	,getVMLElement: function(){
@@ -205,14 +229,22 @@ VismoVector.prototype = {
 		//path = "M";
 		buffer.push("M");
 		//path+= x + "," +y + " L";
-		buffer.push([x,",",y," L"].join(""))
-		var lineTo = true;
+		buffer.push([x,",",y].join(""))
+		var lineTo = false,quadraticCurveTo = false,bezierCurveTo = false;
 		for(var i =2; i < c.length; i+=2){
 			if(c[i] == 'M') {
 				//path += " M";
 				buffer.push(" M");
 				lineTo = false;
 				i+=1;
+			}
+			else if(c[i] == "q"){
+			    quadraticCurveTo = true;
+			    i += 1;
+			}
+			else if(c[i] == "c"){
+			    bezierCurveTo = true;
+			    i+=1;
 			}
 			else if(!lineTo) {
 				//path += " L";
@@ -223,24 +255,40 @@ VismoVector.prototype = {
 				//path += " ";
 				buffer.push(" ");
 			}
-			var x =c[i];
-			var y =c[i+1];
-			x *= this._iemultiplier;
-			y *= this._iemultiplier;
-			x = parseInt(x);
-			y = parseInt(y);
-			buffer.push([x,",",y].join(""));
+			var x =parseInt(c[i] * this._iemultiplier);
+			var y =parseInt(c[i+1] * this._iemultiplier);
+
+			
+			if(quadraticCurveTo){
+			    var x2 =parseInt(c[i+2] * this._iemultiplier);
+    			var y2 =parseInt(c[i+3] * this._iemultiplier);
+			    buffer.push([" c ",x,",",y,",",x2,",",y2,",",x2,",",y2,""].join(""));
+			    i += 2;
+			    quadraticCurveTo = false;
+			}
+			else if(bezierCurveTo){
+			    var x2 =parseInt(c[i+2] * this._iemultiplier);
+    			var y2 =parseInt(c[i+3] * this._iemultiplier);
+    			var x3 = parseInt(c[i+4] * this._iemultiplier);
+    			var y3 = parseInt(c[i+5] * this._iemultiplier);
+			    buffer.push([" c ",x,",",y,",",x2,",",y2,",",x3,",",y3,""].join(""));
+			    i += 4;
+			    bezierCurveTo = false;
+			}
+			else{
+			    buffer.push([x,",",y].join(""));
+			}
 			//path += x +"," + y;
 			
 			//if(i < c.length - 2) path += "";
 		}
 		//path += " XE";	
-		buffer.push(" XE");
+		if(this.vismoShape.getShape() != "path")buffer.push(" XE");
 		//console.log(buffer.join(""));
 
 	path = buffer.join("");
 	//if(path != vml.getAttribute("path")){
-		
+        //if(this.vismoShape.getShape() == "path")alert(path);
 		vml.setAttribute("path", path);	
 //	}
 	
@@ -373,7 +421,8 @@ VismoVector.prototype = {
 		}
 		
 		if(!this.vismoShape.getProperty("fill") || shapetype == 'path'){
-					return
+		    shape.filled = "f";
+					return;
 		}
 				var fill = this.vismoShape.getProperty("fill");
 

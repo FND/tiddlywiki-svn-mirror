@@ -1,5 +1,10 @@
 var VismoClickingUtils = {
-        scrollXY: function(){
+        //to be implemented..
+        inVisibleArea: function(vismoCanvas,vismoShape){
+                var bb = vismoShape.getBoundingBox();
+                return true;
+        }
+        ,scrollXY: function(){
           var scrOfX = 0, scrOfY = 0;
           if( typeof( window.pageYOffset ) == 'number' ) {
             //Netscape compliant
