@@ -474,6 +474,7 @@ VismoCanvas.prototype = {
 			}
 
 		}
+
 		if(hitShapes.length > 1){
 		        var res = this._findNeedleInHaystack(x,y,hitShapes);
 			return res;
@@ -493,6 +494,9 @@ VismoCanvas.prototype = {
 			var itsahit = false;
 			if(st == 'polygon'){
 				itsahit = this._inPoly(x,y,shapes[i]);
+			}
+			else if(st == 'path'){
+			    itsahit = this._onPath(x,y,shapes[i]);
 			}
 			else if(st == 'image'){
 				itsahit = true;
@@ -542,6 +546,23 @@ VismoCanvas.prototype = {
 		if (a <= b) return true;
 		else return false;
 	
+	}
+	,_onPath: function(x,y,vismoShape){
+	    var c = vismoShape.getCoordinates();
+	    x = parseInt(x);
+	    y = parseInt(y);
+	    var tolerance =2;
+	    for(var i=0; i < c.length; i++){
+	        if(!VismoShapeUtils._isCoordinate(c[i])) i +=1;
+	        var sx = parseInt(c[i]);
+	        var sy = parseInt(c[i+1]);
+	        
+	        //check to see if sx and sy are on the line between 2 points
+	        if(sx > x- tolerance && sx < x + tolerance){ //matches on the x
+	            
+	        }
+	    }
+	    return false;
 	}
 	,_inPoly: function(x,y,vismoShape) {
 		/* _inPoly adapted from inpoly.c

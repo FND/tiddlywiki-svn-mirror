@@ -294,8 +294,8 @@ VismoShape.prototype={
 	        var that = this;
 		var st = this.getShape();
 		if(st == 'path'){
-			this.grid = {x1:0,x2:1,y1:0,y2:1};
-			return;
+			//this.grid = {x1:0,x2:1,y1:0,y2:1};
+			//return;
 		}
 		else if(st == 'point' || st == 'circle' | st == 'image' | st == 'domElement'){
 				var coords = this.getCoordinates().clone();
@@ -393,6 +393,7 @@ VismoShape.prototype={
 		this.grid.x2 = this.grid.center.x + (this.grid.width /2);
 		this.grid.y1 = this.grid.center.y - (this.grid.height/2);
 		this.grid.y2 = this.grid.center.y +(this.grid.height/2);
+		//if(st == 'path') console.log(this,this.grid);
 	}
 
 	,setRadius: function(r){
