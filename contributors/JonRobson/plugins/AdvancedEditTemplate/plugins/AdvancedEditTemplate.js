@@ -462,7 +462,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 			var tiddler =  store.getTiddler(title);
 			if(!tiddler) {
-				store.saveTiddler(title,title,null,true,null,[],{},null);
+				store.saveTiddler(title,title,null,true,null,[],config.defaultCustomFields,null);
 				tiddler =  store.getTiddler(title);
 			}
 			store.setValue(tiddler,extField,extFieldVal);	
@@ -511,7 +511,6 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					}
 				
 					if(selected){
-					        alert("hereeee");
 					        c.value = selected;
 					        c.checked = true;
 					  
@@ -546,7 +545,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		init: function(place,paramString,initial,handler){
 			var holder = document.createElement("div");
 			holder.className = "AdvancedEditTemplateImage";
+			var form = document.createElement("form");
 			var input = document.createElement("input");
+			var submit = document.createElement("submit");
+			form.appendChild(submit);
+			input.type = "file";
 			if(initial)input.value = initial;
 			var image = document.createElement("img");
 			image.src = initial;
@@ -571,7 +574,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 			//	var connector= "http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php";	
 			holder.appendChild(image);
-			holder.appendChild(input);
+			form.appendChild(input);
+			holder.appendChild(form);
 			holder.appendChild(browser);
 			place.appendChild(holder);
 			var r;
