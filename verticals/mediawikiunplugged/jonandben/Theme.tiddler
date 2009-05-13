@@ -41,7 +41,7 @@ div.header {
 div.logo {
 	position: absolute;
 	top: 15px;
-	right: 30px;
+	right: 35px;
 	z-index: 2;
 }
 .headerForeground {
