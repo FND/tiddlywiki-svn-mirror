@@ -44,3 +44,4 @@ tiddler: $TW_ROOT/verticals/tiddlywiki.com/plugins/DownloadTiddlyWikiPlugin.js t
 tiddler: ../../contributors/MartinBudden/plugins/SplashScreenPlugin.js
 recipe: shadows/split.recipe
 recipe: feeds/split.recipe
+recipe: jonandben/split.recipe

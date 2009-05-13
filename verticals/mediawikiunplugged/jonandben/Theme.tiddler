@@ -1,0 +1,220 @@
+<div title="ThemeUnplugged" tags="systemTheme">
+<pre>
+|''Name:''|TiddlyTweetsTheme|
+|''Description:''|Simple theme for TiddlyTweets|
+|''Author:''|Jonathan Lister (jnthnlstr (at) googlemail (dot) com)|
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonathanLister/verticals/FNDTiddlyTweets/content/TiddlyTweetsTheme.tiddler |
+|''Version:''|0.5|
+|''Date:''|Mar 4, 2009|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.4.0|
+
+|''~StyleSheet:''|##StyleSheet|
+|''~PageTemplate:''|##PageTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+
+
+!StyleSheet
+/*{{{*/
+div.header {
+	margin:0em 17em 0 14em;
+}
+
+div.headerShadow { 
+	color: #DF4141;
+}
+
+#displayArea,
+div.header {
+	margin-left: 17em;
+}
+
+div.logo {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	z-index: 2;
+}
+.chunkyButton {
+float:right;
+}
+.headerForeground {
+	padding-top: 2em;
+}
+
+#displayArea{
+margin-left: 1em;
+background-color:#EEEEEE ;
+      border:2px solid #888;
+      -moz-border-radius:5px;
+      -webkit-border-radius:5px;
+padding: 2em;
+}
+
+#tiddlerDisplay {
+background-color: white;
+      border:2px solid #888;
+      -moz-border-radius:5px;
+      -webkit-border-radius:5px;
+}
+div.viewer {
+	font-size: 1.2em;
+	line-height: 1.6em;
+}
+
+.viewer pre {
+background:#C8C8FF none repeat scroll 0 0;
+border:1px solid black;
+}
+
+#backstageButton {
+	display:none;
+}
+
+.wizard {
+	background-color:#eeeeee;
+        border:2px solid #888;
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+	padding: 2em;
+}
+
+.mediawikiwizard {
+position:absolute;
+right: 10px;
+top: 100px;
+}
+.wizard > h1 {
+	display: none;
+}
+
+.wizardBody h2 {
+	line-height: 2em;
+}
+.wizardBody h2:after {
+	content: ":";
+}
+
+.wizardFooter {
+	background-color:#eeeeee;
+        border:none;
+}
+
+.wizardFooter .button,
+.button,.toolbar a {
+	background-color: rgb(2,72,196);
+	color: #fff;
+	padding: 5px;
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+	border:none;
+        border-bottom: 1px solid #000;
+        border-right: 1px solid #000;
+}
+
+#tiddlerTwitterBackupWizard {
+	padding: 0em;
+}
+
+#tiddlerThemeSwitcher div.viewer .button {
+	font-size: 1.2em;
+	line-height: 1.6em;
+	padding: 5px;
+	border:none;
+        border-bottom: 1px solid #000;
+        border-right: 1px solid #000;
+}
+
+#tiddlerThemeSwitcher div.viewer .button:hover,.toolbar a:hover
+div.wizardFooter .button:hover {
+	background-color: #3875D7;
+	color: #fff;
+	border:none;
+        border-bottom: 1px solid #000;
+        border-right: 1px solid #000;
+}
+
+.wizardStep {
+	border-color:#4D294D;
+	padding: 1em;
+	margin-bottom: 1em;
+}
+
+.progress {
+	background-color: #8A2BE2;
+	display: block;
+	height: 2em;
+	margin-bottom: -2em;
+	width: 0%;
+}
+
+/* GrowlStyle Message Area */
+#messageArea {
+        border:none;
+        background: transparent;
+}
+
+#messageArea .messageBox {
+        border:2px solid #888;
+        color: #000;
+	background-color:#eeeeee;
+        width:20em;
+        padding:10px;
+        margin-top:5px;
+        margin-bottom:5px;
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+        filter:alpha(opacity=80);
+}
+
+#messageArea .messageText {
+        display:block;
+        width:15em;
+        margin:0;
+        padding:0;
+}
+
+#messageArea .messageClear {
+        display:block;
+        float:right;
+        width:1em;
+}
+
+#messageArea .messageClear a {
+        text-decoration:none;
+        background-color: transparent;
+        color:[[ColorPalette::Foreground]];
+}
+.title {color:black;}
+.SideBar {background-color:#0248C4; margin-top: 10px;
+      border:2px solid #888;
+      -moz-border-radius:5px;
+      -webkit-border-radius:5px;}
+.tabset {float:right;}
+/*}}}*/
+
+!ViewTemplate
+<!--{{{--->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+<!--}}}-->
+
+!PageTemplate
+<!--{{{-->
+<div class='logo'><img src="images/logo.png"/></div>
+<div class='mediawikiwizard'><div macro="tiddler 'Get MediaWiki Content'"></div>
+<div class='SideBar' macro='tiddler SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+	<div id='messageArea'></div>
+	<div id='tiddlerDisplay'></div>
+</div>
+<div id='footer' refresh='content' tiddler='SiteFooter'></div>
+<!--}}}-->
+
+
+</pre>
+</div>
