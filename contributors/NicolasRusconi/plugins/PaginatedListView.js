@@ -69,10 +69,10 @@ PaginatedListView.prototype.getPageControlRow = function(table, listObject, colu
 	var paggingRow = createTiddlyElement(null, 'tr', null, PaginatedListView.pageControlStyle);
 	//add Backward Links
 	paggingRow.appendChild(this.getLinks(PaginatedListView.backwardLinksSpec));
-	//add page selector
-	paggingRow.appendChild(this.addPageSelector(listObject, columnCount));
 	//add Forward Links
 	paggingRow.appendChild(this.getLinks(PaginatedListView.forwardLinksSpec));
+	//add page selector
+	paggingRow.appendChild(this.addPageSelector(listObject, columnCount));
 	return paggingRow;
 };
 
