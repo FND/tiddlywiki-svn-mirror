@@ -18,7 +18,7 @@ config.options.chkDisableWikiLinks = true;
 config.maxTiddlerImportCount = 500;
 config.options.chkSinglePageMode = false;
 config.options.chkTopOfPageMode = false;
-
+config.options.txtTheme = "ThemeUnplugged";
 merge(config.defaultCustomFields,{
 	wikiformat:'mediawiki'
 });
