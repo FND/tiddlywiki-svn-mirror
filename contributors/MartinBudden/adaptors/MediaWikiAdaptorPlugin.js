@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.10|
+|''Version:''|0.8.11|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -350,8 +350,10 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 			var filterParams = adaptor.normalizedTitle(match[2]);
 			switch(match[1]) {
 			case 'tag':
-				context.responseType = 'pages';
-				var uriTemplate = '%0/query.php?format=json&what=category&cpnamespace=%1&cplimit=%2&cptitle=%3';
+				//#context.responseType = 'pages';
+				//#var uriTemplate = '%0/query.php?format=json&what=category&cpnamespace=%1&cplimit=%2&cptitle=%3';
+				context.responseType = 'query.categorymembers';
+				var uriTemplate = '%0/api.php?format=json&action=query&list=categorymembers&cmnamespace=%1&cmlimit=%2&cmtitle=Category:%3';
 				break;
 			case 'template':
 				context.responseType = 'query.embeddedin';
@@ -389,8 +391,8 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 			uriTemplate += '&gapnamespace=%1';
 		if(limit) {
 			uriTemplate += '&gaplimit=%2';
-            context.gaplimit = limit;
-        }
+			context.gaplimit = limit;
+		}
 		context.count = 0;
 		context.uri = uriTemplate.format([host,this.workspaceId,limit,filterParams,'%0']);
 		context.urifrom = 'gapfrom';
@@ -453,6 +455,8 @@ adaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 			var pages;
 			if(context.responseType == 'query.embeddedin')
 				pages = info.query.embeddedin;
+			else if(context.responseType == 'query.categorymembers')
+				pages = info.query.categorymembers;
 			else if(context.responseType == 'query.allpages')
 				pages = info.query.allpages;
 			else if(context.responseType == 'query.pages')
