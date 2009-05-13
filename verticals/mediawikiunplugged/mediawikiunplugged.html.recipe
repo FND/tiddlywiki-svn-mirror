@@ -8,8 +8,6 @@ tiddler: $TW_ROOT/contributors/NicolasRusconi/tests/IntegrationTestRunner.js
 tiddler: $TW_ROOT/contributors/NicolasRusconi/tests/MediaWikiIntegrationTests.js
 tiddler: settings.js
 tiddler: mediaWikiPage.tiddler
-tiddler: $TW_ROOT/contributors/MartinBudden/verticals/MediaWikiContent/DownloadThisTiddlyWiki.tiddler
-tiddler: $TW_ROOT/contributors/MartinBudden/verticals/MediaWikiContent/MediaWikiWalkthrough.tiddler
 tiddler: $TW_ROOT/contributors/MartinBudden/verticals/tiddlypedia/OptionsPanel.tiddler
 tiddler: ../../contributors/MartinBudden/verticals/tiddlypedia/PageTemplateWithLogo.tiddler
 tiddler: $TW_ROOT/contributors/MartinBudden/verticals/tiddlypedia/SideBarTabs.tiddler
