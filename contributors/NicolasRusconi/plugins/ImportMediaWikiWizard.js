@@ -542,8 +542,19 @@ config.macros.importMediaWiki.getResetButton = function()
 
 config.macros.importMediaWiki.restart = function(wizard)
 {
+
+	
 	var macro = config.macros.importMediaWiki;
 	wizard.addStep(macro.step1Title, macro.step1Html);
+	s = wizard.getElement("selFeeds");
+	var feeds = config.macros.importTiddlers.getFeeds();
+	for(t in feeds) {
+		e = createTiddlyElement(s,"option",null,null,t);
+		e.value = t;
+	}
+	wizard.setValue("feeds",feeds);
+	s.onchange = config.macros.importMediaWiki.onFeedChange;
+
 	wizard.setButtons([macro.getResetButton(),
 					   {caption: macro.next,
 						tooltip: macro.nextTooltip,
@@ -968,6 +979,28 @@ merge(config.macros.importMediaWiki,{
 		 + "<input type='hidden' name='" + config.macros.importMediaWiki.markListName + "'><br>"
 		 + "<input type='checkbox' checked='true' name='" + config.macros.importMediaWiki.chkSyncFieldName + "'>Keep these tiddlers linked to this server so that you can synchronise subsequent changes</input><br>",
  	step1Title: "Locate the server ",
-	step1Html: "Enter the wiki server or page URL here: <input type='text' size=50 name='" + config.macros.importMediaWiki.hostInputName + "' ><br>"
+	step1Html: " Specify the type of the server:  Enter the wiki server or page URL here: <input type='text' size=50 name='" + config.macros.importMediaWiki.hostInputName + "' > <br/> or select a pre-defined feed: <select name='selFeeds'><option value=''>Choose...</option></select><br>"
 	});
+	
+	config.macros.importMediaWiki.onFeedChange = function(e)
+	{
+		var wizard = new Wizard(this);
+		var fileInput = wizard.getElement("txtWikiHost");
+		var feeds = wizard.getValue("feeds");
+		var f = feeds[this.value];
+		if(f) {
+		//	selTypes.value = "mediawiki";
+			fileInput.value = f.url;
+			wizard.setValue("feedName","mediawiki");
+			wizard.setValue("feedHost",f.url);
+			wizard.setValue("feedWorkspace",f.workspace);
+			wizard.setValue("feedWorkspaceList",f.workspaceList);
+			wizard.setValue("feedTiddlerFilter",f.tiddlerFilter);
+		}
+		return false;
+	};
+	
+	
+	
+	
 /*}}}*/
