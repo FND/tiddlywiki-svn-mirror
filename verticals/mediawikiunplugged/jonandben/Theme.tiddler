@@ -33,7 +33,7 @@ div.header {
 div.logo {
 	position: absolute;
 	top: 15px;
-	right: 15px;
+	right: 30px;
 	z-index: 2;
 }
 .chunkyButton {
@@ -194,7 +194,7 @@ div.wizardFooter .button:hover {
 
 	position: absolute;
 	right: 0px;
-	top: 110px;
+	top: 130px;
 }
 .tabset {float:right;}
 
