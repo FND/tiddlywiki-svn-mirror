@@ -192,6 +192,10 @@ div.wizardFooter .button:hover {
       -moz-border-radius:5px;
       -webkit-border-radius:5px;}
 .tabset {float:right;}
+
+.wizardMessageBar {
+background-image:
+}
 /*}}}*/
 
 !ViewTemplate
@@ -205,7 +209,7 @@ div.wizardFooter .button:hover {
 !PageTemplate
 <!--{{{-->
 <div class='logo'><img src="images/logo.png"/></div>
-<div class='mediawikiwizard'><div macro="tiddler 'Get MediaWiki Content'"></div>
+<div class='mediawikiwizard'><div macro="importMediaWiki"></div>
 <div class='SideBar' macro='tiddler SideBarTabs'></div>
 </div>
 <div id='displayArea'>
