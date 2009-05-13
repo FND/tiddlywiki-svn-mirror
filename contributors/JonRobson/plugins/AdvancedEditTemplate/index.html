@@ -650,6 +650,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			// build a drop down control
 			var valueSource = getParam(params,&quot;valuesSource&quot;, null);
 			if(!valueSource) valueSource = metaDataName + &quot;Definition&quot;;
+			
 			if(ctrlType == 'dropdown') {
 				if(!valueSource) {
 					displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
@@ -698,36 +699,9 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					this.createSearchBox(place,metaDataName,values,selected,handler);
 				}
 			}
-			else if(ctrlType == 'checkbox'){					
-					var c = createTiddlyElement(place,&quot;input&quot;);
-					c.type = 'checkbox';
-					c.value = true;
-	
-					var selected =this.getMetaData(title,metaDataName);
-					if(!selected){
-						var qsvalue =this.getVariableFromQueryString(metaDataName);
-						if(qsvalue) selected = qsvalue;
-					}
-					
-					if(selected){
-						c.checked = true;
-					}
-					else{
-						c.checked = false;
-					}
-					
-					var that = this;
-					c.onchange =function(e){
-						var taskTiddler = story.findContainingTiddler(place);
-						var title = taskTiddler.getAttribute(&quot;tiddler&quot;);
-						
-						if(this.checked){
-							that.setMetaData(title,metaDataName,&quot;true&quot;);
-						}
-						else{
-							that.setMetaData(title,metaDataName,null);
-						}
-					};				
+			else if(ctrlType == 'checkbox'){
+			        					
+				this.createCheckBox(place,title,metaDataName);
 				
 			}
 			else if(ctrlType == 'date'){
@@ -1105,7 +1079,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 			var tiddler =  store.getTiddler(title);
 			if(!tiddler) {
-				store.saveTiddler(title,title,null,true,null,[],{},null);
+				store.saveTiddler(title,title,null,true,null,[],config.defaultCustomFields,null);
 				tiddler =  store.getTiddler(title);
 			}
 			store.setValue(tiddler,extField,extFieldVal);	
@@ -1117,14 +1091,16 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		        var tiddler = store.getTiddler(title);
 		        var params = [metaDataName];
 		        
-                
-                        
-                        jQuery(place).html(&quot;&lt;input class='date-pick'/&gt;&quot;);
-                        var input = jQuery(&quot;input&quot;,place);
+                        var div = document.createElement(&quot;div&quot;);
+                        div.className  = &quot;datePicker&quot;;
+                        var input = document.createElement(&quot;input&quot;);
+                        input.className = &quot;date-pick&quot;;
+                        jQuery(div).append(input);
+                        jQuery(place).append(div);
                         $(function()
                         {
                                 var start =config.macros.AdvancedEditTemplate.getMetaData(title,metaDataName);
-                                if(!start)start=new Date().asString();
+                                if(!start)start=&quot;&quot;;
                         	$(input).datePicker({startDate:'01/01/1700'}).val(start).trigger('change');
                         	$(input).change(function(e){
                         	        config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,this.value);
@@ -1136,20 +1112,65 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
                         
 		}
 		
+		,createCheckBox: function(place,title,metaDataName){
+		         
+		        		var c = document.createElement(&quot;input&quot;);
+		        		
+					c.setAttribute(&quot;type&quot;,&quot;checkbox&quot;);
+					c.value = &quot;false&quot;;
+					   //    alert(&quot;!&quot;);
+	                               place.appendChild(c);
+					var selected =this.getMetaData(title,metaDataName);
+				
+					if(!selected){
+						var qsvalue =this.getVariableFromQueryString(metaDataName);
+						if(qsvalue) selected = qsvalue;
+					}
+				
+					if(selected){
+					        c.value = selected;
+					        c.checked = true;
+					  
+					        
+					}
+			
+					var that = this;
+					
+					jQuery(c).click(function(e){
+					     
+						var taskTiddler = story.findContainingTiddler(place);
+						var title = taskTiddler.getAttribute(&quot;tiddler&quot;);
+						
+						if(this.checked){
+							that.setMetaData(title,metaDataName,&quot;true&quot;);
+						}
+						else{
+						  
+							that.setMetaData(title,metaDataName,null);
+						}
+					});
+						
+					
+		}
 	};
 	
 	
-	config.macros.AdvancedEditTemplate.EditTemplateImage = function(place,initial,handler){
-		this.init(place,initial,handler);
+	config.macros.AdvancedEditTemplate.EditTemplateImage = function(place,paramString,initial,handler){
+		this.init(place,paramString,initial,handler);
 	};
 	config.macros.AdvancedEditTemplate.EditTemplateImage.prototype = {
 		init: function(place,paramString,initial,handler){
 			var holder = document.createElement(&quot;div&quot;);
 			holder.className = &quot;AdvancedEditTemplateImage&quot;;
+			var form = document.createElement(&quot;form&quot;);
 			var input = document.createElement(&quot;input&quot;);
-			if(initial)input.value = initial;
+			var submit = document.createElement(&quot;submit&quot;);
+			form.appendChild(submit);
+			input.type = &quot;file&quot;;
+
 			var image = document.createElement(&quot;img&quot;);
 			image.src = initial;
+			image.alt = &quot;currently selected image&quot;;
 			var browser = document.createElement(&quot;div&quot;);
 			browser.className = &quot;filebrowser&quot;;
 			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
@@ -1159,28 +1180,37 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		   
 			var home =  getParam(params,&quot;home&quot;, null);
 			
-			input.onchange = function(e){
-				var newsrc = this.value;
-				image.src=  &quot;&quot;;
-				image.src = newsrc;
-				if(handler)handler(newsrc);
-			};
+
 			//var root  ='images/'
 			//var connector = 
 			//var home = http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/
 
 			//	var connector= &quot;http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php&quot;;	
+			jQuery(holder).append(&quot;&lt;div class='tip'&gt;The image currently selected is shown below if selected&lt;/div&gt;&quot;);
 			holder.appendChild(image);
-			holder.appendChild(input);
+			jQuery(holder).append(&quot;&lt;div class='tip'&gt;Please select a file from your local machine to upload.&lt;/div&gt;&quot;);
+			form.appendChild(input);
+			holder.appendChild(form);
+			jQuery(holder).append(&quot;&lt;div class='tip'&gt;Please select a file from the server (listed below) to use as the image.&lt;/div&gt;&quot;);
 			holder.appendChild(browser);
 			place.appendChild(holder);
+			var imageurl = document.createElement(&quot;input&quot;);
+			imageurl.onchange = function(e){
+				var newsrc = this.value;
+				image.src=  &quot;&quot;;
+				image.src = newsrc;
+				if(handler)handler(newsrc);
+			};
+			if(initial)imageurl.value = initial;			
+			imageurl.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
+			holder.appendChild(imageurl);
 			var r;
 			if(!home) home = &quot;&quot;;
 			if(root) r =root; else r =&quot;&quot;;
+			
 			$(browser).fileTree({ root: r, script: connector }, function(file) { 
-						input.value = home + file;
-						input.onchange();
-					
+						imageurl.value = home + file;
+						imageurl.onchange();
 			});
 			
 		}
@@ -1341,7 +1371,12 @@ VismoColorSlider.prototype = {
 	}
 	
 };var VismoClickingUtils = {
-        scrollXY: function(){
+        //to be implemented..
+        inVisibleArea: function(vismoCanvas,vismoShape){
+                var bb = vismoShape.getBoundingBox();
+                return true;
+        }
+        ,scrollXY: function(){
           var scrOfX = 0, scrOfY = 0;
           if( typeof( window.pageYOffset ) == 'number' ) {
             //Netscape compliant
@@ -1570,7 +1605,7 @@ if(jQuery) (function($){
 						window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
 					
 					//changed from post to get
-					$.get(o.script, { dir: t }, function(data) {
+					$.post(o.script, { dir: t }, function(data) {
 						$(c).find('.start').html('');
 						$(c).removeClass('wait').append(data);
 						if( o.root == t ) $(c).find('UL:hidden').show(); else $(c).find('UL:hidden').slideDown({ duration: o.expandSpeed, easing: o.expandEasing });
@@ -1611,10 +1646,7 @@ if(jQuery) (function($){
 		}
 	});
 	
-})(jQuery);
-config.shadowTiddlers.jQueryDatePlugin = &quot;.dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}&quot;;
-store.addNotification(&quot;jQueryDatePlugin&quot;, refreshStyles);
-/*
+})(jQuery);/*
  * Date prototype extensions. Doesn't depend on any
  * other code. Doens't overwrite existing methods.
  *
@@ -3311,7 +3343,7 @@ Date.fullYearStart = '20';
 &lt;div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;
-Logo: &lt;span macro=&quot;AdvancedEditTemplate type:image metaDataName:logo home:'http://localhost/ilga/' root:static/images/ connector:'http://localhost/ilga/uploads' &quot;&gt;&lt;/span&gt;
+Logo: &lt;span macro=&quot;AdvancedEditTemplate type:image metaDataName:logo home:'http://localhost/ilga/' root:static/images/uploads/image connector:'http://localhost/ilga/browse' &quot;&gt;&lt;/span&gt;
 
 assign this to:
 &lt;span macro='AdvancedEditTemplate type:dropdown metaDataName:assignee valuesSource:DropDownData'&gt;&lt;/span&gt;
@@ -3321,8 +3353,10 @@ assigned by (search for a name from our list):
 &lt;/div&gt;
 get done by:
 &lt;div macro='AdvancedEditTemplate type:date metaDataName:doneby'&gt;&lt;/div&gt;
-For demo purposes: &lt;span macro='AdvancedEditTemplate type:dropdown metaDataName:abc'&gt;&lt;/span&gt;
+For demo purposes (dropdown): &lt;span macro='AdvancedEditTemplate type:dropdown metaDataName:abc'&gt;&lt;/span&gt;
 &lt;div macro='annotations'&gt;&lt;/div&gt;
+&lt;div class='editor' macro='edit myvariable'&gt;&lt;/div&gt;
+
 &lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser excludeLists'&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;span macro='AdvancedEditTemplate type:checkbox metaDataName:approved'&gt;&lt;/span&gt;
@@ -3370,7 +3404,9 @@ For demo purposes: &lt;span macro='view abc'&gt;&lt;/span&gt;
 </div>
 <div title="GettingStarted" approved="true" color="rgb(0,255,0)" assignee="Team 3>Jon Robson:JDLR">
 <pre>
-AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together! &lt;&lt;FileTree connector:'http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php'&gt;&gt;
+AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together!
+&lt;&lt;AdvancedEditTemplate type:image metaDataName:logo home:'http://localhost/ilga/' root:static/images/ connector:'http://localhost/ilga/browse' &gt;&gt;
+
 </pre>
 </div>
 <div title="abcDefinition" tags="sorted">
@@ -3380,6 +3416,14 @@ Monkey&lt;
 Reptiles&gt;
 Snake
 Lizard
+</pre>
+</div>
+<div title="StyleSheet">
+<pre>
+.tip {font-style:italic;font-weight:bold;}
+.dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}
+
+
 </pre>
 </div>
 </div>

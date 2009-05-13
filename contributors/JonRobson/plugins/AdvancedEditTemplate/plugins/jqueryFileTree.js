@@ -56,7 +56,7 @@ if(jQuery) (function($){
 						window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
 					
 					//changed from post to get
-					$.get(o.script, { dir: t }, function(data) {
+					$.post(o.script, { dir: t }, function(data) {
 						$(c).find('.start').html('');
 						$(c).removeClass('wait').append(data);
 						if( o.root == t ) $(c).find('UL:hidden').show(); else $(c).find('UL:hidden').slideDown({ duration: o.expandSpeed, easing: o.expandEasing });

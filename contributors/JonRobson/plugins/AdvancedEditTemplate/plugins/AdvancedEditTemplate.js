@@ -538,8 +538,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 	};
 	
 	
-	config.macros.AdvancedEditTemplate.EditTemplateImage = function(place,initial,handler){
-		this.init(place,initial,handler);
+	config.macros.AdvancedEditTemplate.EditTemplateImage = function(place,paramString,initial,handler){
+		this.init(place,paramString,initial,handler);
 	};
 	config.macros.AdvancedEditTemplate.EditTemplateImage.prototype = {
 		init: function(place,paramString,initial,handler){
@@ -550,9 +550,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var submit = document.createElement("submit");
 			form.appendChild(submit);
 			input.type = "file";
-			if(initial)input.value = initial;
+
 			var image = document.createElement("img");
 			image.src = initial;
+			image.alt = "currently selected image";
 			var browser = document.createElement("div");
 			browser.className = "filebrowser";
 			var params = paramString.parseParams("anon",null,true,false,false);
@@ -562,29 +563,37 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		   
 			var home =  getParam(params,"home", null);
 			
-			input.onchange = function(e){
-				var newsrc = this.value;
-				image.src=  "";
-				image.src = newsrc;
-				if(handler)handler(newsrc);
-			};
+
 			//var root  ='images/'
 			//var connector = 
 			//var home = http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/
 
 			//	var connector= "http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php";	
+			jQuery(holder).append("<div class='tip'>The image currently selected is shown below if selected</div>");
 			holder.appendChild(image);
+			jQuery(holder).append("<div class='tip'>Please select a file from your local machine to upload.</div>");
 			form.appendChild(input);
 			holder.appendChild(form);
+			jQuery(holder).append("<div class='tip'>Please select a file from the server (listed below) to use as the image.</div>");
 			holder.appendChild(browser);
 			place.appendChild(holder);
+			var imageurl = document.createElement("input");
+			imageurl.onchange = function(e){
+				var newsrc = this.value;
+				image.src=  "";
+				image.src = newsrc;
+				if(handler)handler(newsrc);
+			};
+			if(initial)imageurl.value = initial;			
+			imageurl.setAttribute("type","hidden");
+			holder.appendChild(imageurl);
 			var r;
 			if(!home) home = "";
 			if(root) r =root; else r ="";
+			
 			$(browser).fileTree({ root: r, script: connector }, function(file) { 
-						input.value = home + file;
-						input.onchange();
-					
+						imageurl.value = home + file;
+						imageurl.onchange();
 			});
 			
 		}

@@ -4,7 +4,7 @@
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 <div class='title' macro='view title'></div>
 <div class='editor' macro='edit title'></div>
-Logo: <span macro="AdvancedEditTemplate type:image metaDataName:logo home:'http://localhost/ilga/' root:static/images/ connector:'http://localhost/ilga/uploads' "></span>
+Logo: <span macro="AdvancedEditTemplate type:image metaDataName:logo home:'http://localhost/ilga/' root:static/images/uploads/image connector:'http://localhost/ilga/browse' "></span>
 
 assign this to:
 <span macro='AdvancedEditTemplate type:dropdown metaDataName:assignee valuesSource:DropDownData'></span>
@@ -14,8 +14,10 @@ assigned by (search for a name from our list):
 </div>
 get done by:
 <div macro='AdvancedEditTemplate type:date metaDataName:doneby'></div>
-For demo purposes: <span macro='AdvancedEditTemplate type:dropdown metaDataName:abc'></span>
+For demo purposes (dropdown): <span macro='AdvancedEditTemplate type:dropdown metaDataName:abc'></span>
 <div macro='annotations'></div>
+<div class='editor' macro='edit myvariable'></div>
+
 <div class='editor' macro='edit text'></div>
 <div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser excludeLists'></span></div>
 <span macro='AdvancedEditTemplate type:checkbox metaDataName:approved'></span>
