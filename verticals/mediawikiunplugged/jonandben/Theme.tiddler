@@ -196,6 +196,12 @@ div.wizardFooter .button:hover {
 .wizardMessageBar {
 background-image:
 }
+
+.toggler {
+	#position: fixed !important;
+	#position: absolute;
+	display: block;
+}
 /*}}}*/
 
 !ViewTemplate
@@ -209,9 +215,9 @@ background-image:
 !PageTemplate
 <!--{{{-->
 <div class='logo'><img src="images/logo.png"/></div>
-<div class='mediawikiwizard'><div macro="importMediaWiki"></div>
+<!--<div class='mediawikiwizard'><div class="importer" macro="importMediaWiki"></div><a class="toggler" macro="slideInOut">Hide</a>
 <div class='SideBar' macro='tiddler SideBarTabs'></div>
-</div>
+</div>-->
 <div id='displayArea'>
 	<div id='messageArea'></div>
 	<div id='tiddlerDisplay'></div>
