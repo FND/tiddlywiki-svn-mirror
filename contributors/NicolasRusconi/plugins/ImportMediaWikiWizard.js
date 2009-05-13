@@ -1,4 +1,4 @@
- /***
+/***
 |''Name:''|ImportMediaWikiWizard|
 |''Description:''|Macro that displays a wizard to import content from a MediaWiki or the Alreay imported content|
 |''Author:''|Nicolas Rusconi (nicolas.rusconi (at) globant (dot) com)|
@@ -254,6 +254,7 @@ config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callba
 		return;
 	}
 	var adaptor = wizard.getValue(macro.adaptorField);
+	var ret = adaptor.getTiddlerList(context,wizard,config.macros.importTiddlers.onGetTiddlerList,wizard.getValue("feedTiddlerFilter"));
 	macro.showProgressMessage(wizard, macro.statusGetTiddlerList);
 	wizard.setButtons([macro.getResetButton()]);
 	handleAdaptorReturn(adaptor.getTiddlerList(context, wizard, macro.onGetTiddlerList));
@@ -979,7 +980,7 @@ merge(config.macros.importMediaWiki,{
 		 + "<input type='hidden' name='" + config.macros.importMediaWiki.markListName + "'><br>"
 		 + "<input type='checkbox' checked='true' name='" + config.macros.importMediaWiki.chkSyncFieldName + "'>Keep these tiddlers linked to this server so that you can synchronise subsequent changes</input><br>",
  	step1Title: "Locate the server ",
-	step1Html: "Type the URL of the MediaWiki server you want to import from: <input type='text' size=50 name='" + config.macros.importMediaWiki.hostInputName + "' > <br/> or select one of these examples: <select name='selFeeds'><option value=''>Choose...</option></select><br>"
+	step1Html: " Specify the type of the server:  Enter the wiki server or page URL here: <input type='text' size=50 name='" + config.macros.importMediaWiki.hostInputName + "' > <br/> or select a pre-defined feed: <select name='selFeeds'><option value=''>Choose...</option></select><br>"
 	});
 	
 	config.macros.importMediaWiki.onFeedChange = function(e)
@@ -999,7 +1000,6 @@ merge(config.macros.importMediaWiki,{
 		}
 		return false;
 	};
-	
 	
 	
 	
