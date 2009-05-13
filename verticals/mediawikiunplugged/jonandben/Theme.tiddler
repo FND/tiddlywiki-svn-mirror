@@ -17,6 +17,12 @@
 
 !StyleSheet
 /*{{{*/
+#title {
+	font-variant: small-caps;
+	font-size: 4em;
+	margin-top: 0;
+	border-bottom: 0;
+}
 div.header {
 	margin:0em 17em 0 14em;
 }
@@ -210,7 +216,7 @@ background-image:
 .chunkyButton {
 	display: block;
 	padding: 0;
-	margin: 0;
+	margin: 0 4em;
 	border: solid 2px #000;
 }
 .chunkyButton a, .chunkyButton a:active {
@@ -245,6 +251,7 @@ background-image:
 
 !PageTemplate
 <!--{{{-->
+<h1 id="title">MediaWiki Unplugged</h1>
 <div class='logo'><img src="images/logo.png"/></div>
 <!--<div class='mediawikiwizard'><div class="importer" macro="importMediaWiki"></div><a class="toggler" macro="slideInOut">Hide</a>
 <div class='SideBar' macro='tiddler SideBarTabs'></div>
