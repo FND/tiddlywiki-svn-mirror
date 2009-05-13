@@ -19,6 +19,8 @@ config.maxTiddlerImportCount = 500;
 config.options.chkSinglePageMode = false;
 config.options.chkTopOfPageMode = false;
 config.options.txtTheme = "ThemeUnplugged";
+config.options.chkBackstage = false;
+config.options.chkSliderOptionsPanel = false;
 merge(config.defaultCustomFields,{
 	wikiformat:'mediawiki'
 });
