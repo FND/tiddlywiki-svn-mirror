@@ -1,3 +1,6 @@
-tiddler: SideBarOptions.tiddler
 tiddler: DefaultTiddlers.tiddler
-shadow: StyleSheet.tiddler
+tiddler: GettingStarted.tiddler
+tiddler: SideBarOptions.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: StyleSheet.tiddler
