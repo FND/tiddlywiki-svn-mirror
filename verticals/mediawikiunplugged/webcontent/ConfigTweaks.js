@@ -1,0 +1,3 @@
+/*{{{*/
+config.options.chkGenerateAnRssFeed = true;
+/*}}}*/
