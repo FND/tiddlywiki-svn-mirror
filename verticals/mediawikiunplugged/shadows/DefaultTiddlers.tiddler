@@ -1,5 +1,5 @@
-<div title="DefaultTiddlers" modifier="MartinBudden" tags="excludeLists excludeSearch">
+<div title="DefaultTiddlers" modifier="FND" tags="excludeLists excludeSearch">
 <pre>
-[[Get MediaWiki Content]]
+[[Get MediaWiki Content]] [tag[blog]] [sort[created]]
 </pre>
 </div>
