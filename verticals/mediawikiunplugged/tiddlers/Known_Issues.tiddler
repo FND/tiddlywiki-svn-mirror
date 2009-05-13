@@ -1,0 +1,5 @@
+<div title="Known Issues" modifier="Osmosoft">
+<pre>This is an early release. There are some situations in which it won't work as you expect. Be aware of the following:
+# Selecting "All" when choosing pages to download can cause large amounts of browser-stall
+# Long page titles will cause the table of pages to spill beyond its container</pre>
+</div>
