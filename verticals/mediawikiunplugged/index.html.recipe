@@ -43,3 +43,4 @@ tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Inte
 tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Opera_on_Mac_OS_X.tiddler
 tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Safari_on_Mac_OS_X.tiddler
 tiddler: $TW_ROOT/verticals/tiddlywiki.com/plugins/DownloadTiddlyWikiPlugin.js tags="systemConfig excludeLists"
+tiddler: ../../contributors/MartinBudden/plugins/SplashScreenPlugin.js
