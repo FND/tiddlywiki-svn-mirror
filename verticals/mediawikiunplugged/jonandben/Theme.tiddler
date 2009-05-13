@@ -208,30 +208,30 @@ background-image:
 }
 
 .chunkyButton {
-		display: block;
-		padding: 0;
-		margin: 0;
-		border: solid 2px #000;
-	}
-	.chunkyButton a, .chunkyButton a:active {
-		white-space: nowrap;
-		font-weight: bold;
-		font-size:1.8em;
-		color: #fff;
-		background-color: #04b;
-		text-align: center;
-		padding: 1em 3em;
-		margin: 0;
-		border-style: none;
-		border-top: solid 1px #fff;
-		display: block;
-	}
-	.chunkyButton a:hover {
-		background-color: #014;
-		border-style: none;
-		color: #fff;
-		border-top: solid 1px #8cf;
-	}
+	display: block;
+	padding: 0;
+	margin: 0;
+	border: solid 2px #000;
+}
+.chunkyButton a, .chunkyButton a:active {
+	white-space: nowrap;
+	font-weight: bold;
+	font-size:1.8em;
+	color: #fff;
+	background-color: #04b;
+	text-align: center;
+	padding: 1em 3em;
+	margin: 0;
+	border-style: none;
+	border-top: solid 1px #fff;
+	display: block;
+}
+.chunkyButton a:hover {
+	background-color: #014;
+	border-style: none;
+	color: #fff;
+	border-top: solid 1px #8cf;
+}
 
 /*}}}*/
 
