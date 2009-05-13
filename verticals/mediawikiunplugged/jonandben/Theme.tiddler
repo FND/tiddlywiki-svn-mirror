@@ -48,6 +48,17 @@ div.logo {
 
 #displayArea{
 margin-left: 1em;
+#background-color:#EEEEEE ;
+#      #border:2px solid #888;
+	border: 0px;
+#      -moz-border-radius:5px;
+#      -webkit-border-radius:5px;
+padding: 2em;
+}
+
+.tiddler {
+margin-left: 1em;
+margin-bottom: 1em;
 background-color:#EEEEEE ;
       border:2px solid #888;
       -moz-border-radius:5px;
@@ -57,7 +68,7 @@ padding: 2em;
 
 #tiddlerDisplay {
 background-color: white;
-      border:2px solid #888;
+    #  border:2px solid #888;
       -moz-border-radius:5px;
       -webkit-border-radius:5px;
 }
@@ -194,7 +205,7 @@ div.wizardFooter .button:hover {
       border:2px solid #888;
       -moz-border-radius:5px;
       -webkit-border-radius:5px;
-
+	margin-right: 3em;
 	position: absolute;
 	right: 0px;
 	top: 130px;
@@ -251,11 +262,12 @@ background-image:
 
 !PageTemplate
 <!--{{{-->
+<<<<<<< .mine
+<h1>MediaWiki Unplugged</h1>
+=======
 <h1 id="title">MediaWiki Unplugged</h1>
+>>>>>>> .r9697
 <div class='logo'><img src="images/logo.png"/></div>
-<!--<div class='mediawikiwizard'><div class="importer" macro="importMediaWiki"></div><a class="toggler" macro="slideInOut">Hide</a>
-<div class='SideBar' macro='tiddler SideBarTabs'></div>
-</div>-->
 <div id='sidebar' class='SideBar'>
 <div id='sidebarOptions' macro='tiddler SideBarOptions'></div>
 <div id='sidebarTabs' macro='tiddler SideBarTabs'></div>
