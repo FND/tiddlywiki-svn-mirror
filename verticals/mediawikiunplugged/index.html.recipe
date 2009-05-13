@@ -33,4 +33,14 @@ tiddler: $TW_ROOT/contributors/MartinBudden/styles/wikipediaStyle.js
 tiddler: $TW_ROOT/contributors/MartinBudden/tiddlers/Configuration.tiddler
 tiddler: $TW_ROOT/contributors/MartinBudden/tiddlers/Configuration.SideBarTabs.tiddler
 tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation.tiddler
+tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Firefox_on_Mac_OS_X.tiddler
+tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Firefox_on_Ubuntu.tiddler
+tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Firefox_on_Windows.tiddler
+tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Firefox_on_Windows_Vista.tiddler
+tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Firefox_on_Windows_XP.tiddler
+tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Internet_Explorer_on_Windows.tiddler
+tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Internet_Explorer_on_Windows_Vista.tiddler
+tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Internet_Explorer_on_Windows_XP.tiddler
+tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Opera_on_Mac_OS_X.tiddler
+tiddler: $TW_ROOT/verticals/tiddlywiki.com/content/Installation_guidelines__Safari_on_Mac_OS_X.tiddler
 tiddler: $TW_ROOT/verticals/tiddlywiki.com/plugins/DownloadTiddlyWikiPlugin.js tags="systemConfig excludeLists"
