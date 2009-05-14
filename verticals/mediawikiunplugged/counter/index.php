@@ -6,6 +6,7 @@
         text-align: center;
         width: 60%;
         font-size: 20em;
+        font-weight: bolder;
         color: #fff;
         background-color: #0248C4;
         margin: 20px auto 0 auto;
