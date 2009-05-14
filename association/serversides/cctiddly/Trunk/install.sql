@@ -1,77 +1,24 @@
--- phpMyAdmin SQL Dump
--- version 2.10.1
--- http://www.phpmyadmin.net
--- 
--- Host: localhost
--- Generation Time: Feb 18, 2008 at 05:23 PM
--- Server version: 5.0.41
--- PHP Version: 5.2.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET NAMES 'utf8' COLLATE 'utf8_unicode_ci';
--- 
--- Database: `cctw_public2`
--- 
-
-
--- create database if NOT exists cctiddly17;
--- use cctiddly17;
--- --------------------------------------------------------
-
--- 
--- Table structure for table `admin_of_workspace`
--- 
 
 CREATE TABLE `admin_of_workspace` (
   `username` varchar(255) NOT NULL,
   `workspace_name` varchar(100) NOT NULL
 ) ENGINE=MyISAM;
 
--- 
--- Dumping data for table `admin_of_workspace`
--- 
-
 INSERT INTO `admin_of_workspace` (`username`, `workspace_name`) VALUES 
 ('admin', '');
-
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `group`
--- 
 
 CREATE TABLE `group` (
   `name` varchar(50) NOT NULL,
   `desc` mediumtext NOT NULL
 ) ENGINE=MyISAM;
 
--- 
--- Dumping data for table `group`
--- 
-
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `group_membership`
--- 
-
 CREATE TABLE `group_membership` (
   `user_id` varchar(255) NOT NULL,
   `group_name` varchar(50) NOT NULL
 ) ENGINE=MyISAM;
-
--- 
--- Dumping data for table `group_membership`
--- 
-
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `login_session`
--- 
 
 CREATE TABLE `login_session` (
   `user_id` varchar(255) NOT NULL,
@@ -79,16 +26,6 @@ CREATE TABLE `login_session` (
   `expire` varchar(16) NOT NULL,
   `ip` varchar(15) NOT NULL
 ) ENGINE=MyISAM;
-
--- 
--- Dumping data for table `login_session`
--- 
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `permissions`
--- 
 
 CREATE TABLE `permissions` (
   `read` int(1) NOT NULL,
@@ -98,17 +35,6 @@ CREATE TABLE `permissions` (
   `group_name` varchar(50) NOT NULL,
   `workspace_name` varchar(100) NOT NULL
 ) ENGINE=MyISAM;
-
--- 
--- Dumping data for table `permissions`
--- 
-
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `tiddler`
--- 
 
 CREATE TABLE `tiddler` (
   `id` int(11) NOT NULL auto_increment,
@@ -125,22 +51,10 @@ CREATE TABLE `tiddler` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=133 ;
 
--- 
--- Dumping data for table `tiddler`
--- 
-
 INSERT INTO `tiddler` (`id`, `workspace_name`, `title`, `body`, `fields`, `tags`, `modifier`, `creator`, `modified`, `created`, `revision`) VALUES 
 (6, '', 'GettingStarted', 'To get started with this workspace, you''ll need to modify the following tiddlers:\n* SiteTitle &amp; SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the workspace is opened when a user is logged in.\n* AnonDefaultTiddlers: Contains the names of the tiddlers that you want to appear when the worksace is opened when a user who is not logged in.  This should contain  the login tiddler. [[Login]]\n* You can change the permission of this workspace at anytime by opening the [[Manage Users]] and [[Permissions]] tiddlers.<<ccEditWorkspace>>', '', '', 'ccTiddly', 'ccTiddly', '200802151654', '200712281715', 11),
 (40, '', 'SiteTitle', 'ccTiddly', '', '', 'ccTiddly', 'ccTiddly', '200802151311', '200802151311', 0),
 (42, '', 'SiteSubtitle', 'Provided by [[Osmosoft]] using TiddlyWiki', '', '', 'ccTiddly', 'ccTiddly', '200802151311', '200802151311', 0);
-
-
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `tiddler_revisions`
--- 
 
 CREATE TABLE `tiddler_revisions` (
   `id` int(11) NOT NULL auto_increment,
@@ -155,16 +69,6 @@ CREATE TABLE `tiddler_revisions` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  AUTO_INCREMENT=37 ;
 
--- 
--- Dumping data for table `tiddler_revisions`
--- 
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `user`
--- 
-
 CREATE TABLE `user` (
   `username` varchar(255) NOT NULL,
   `password` varchar(50) NOT NULL,
@@ -173,21 +77,11 @@ CREATE TABLE `user` (
   PRIMARY KEY  (`username`)
 ) ENGINE=MyISAM;
 
--- 
--- Dumping data for table `user`
--- 
-
 INSERT INTO `user` (`username`, `password`, `short_name`, `long_name`) VALUES 
 ('admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '', ''),
 ('username', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '', ''),
 ('simon', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '', ''),
 ('http://simonmcmanus.myopenid.com/', '', '', '');
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `workspace`
--- 
 
 CREATE TABLE `workspace` (
   `name` varchar(100) NOT NULL,
@@ -207,19 +101,8 @@ CREATE TABLE `workspace` (
   PRIMARY KEY  (`name`)
 ) ENGINE=MyISAM;
 
--- 
--- Dumping data for table `workspace`
--- 
-
 INSERT INTO `workspace` (`name`, `twLanguage`, `keep_revision`, `require_login`, `session_expire`, `tag_tiddler_with_modifier`, `char_set`, `hashseed`, `status`, `tiddlywiki_type`, `default_anonymous_perm`, `default_user_perm`, `rss_group`, `markup_group`) VALUES 
 ('', 'en', 1, 0, 0, 0, 'utf8', '118229952', '', 'tiddlywiki', 'AUUU', 'AAAA', '', '');
-
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `workspace_view`
--- 
 
 CREATE TABLE `workspace_view` (
   `id` int(50) NOT NULL auto_increment,
@@ -228,11 +111,6 @@ CREATE TABLE `workspace_view` (
   `time` datetime NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  AUTO_INCREMENT=82 ;
-
--- 
--- Dumping data for table `workspace_view`
--- 
-
 
 CREATE TABLE `instance_history` (
 	`id` VARCHAR( 20 ) NOT NULL ,
