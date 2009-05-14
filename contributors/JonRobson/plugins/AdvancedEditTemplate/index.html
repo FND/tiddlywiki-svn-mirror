@@ -1163,9 +1163,14 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var holder = document.createElement(&quot;div&quot;);
 			holder.className = &quot;AdvancedEditTemplateImage&quot;;
 			var form = document.createElement(&quot;form&quot;);
+			form.setAttribute(&quot;enctype&quot;,&quot;multipart/form-data&quot;);
+			form.setAttribute(&quot;action&quot;,&quot;http://localhost/ilga/upload&quot;);
+			form.setAttribute(&quot;method&quot;,&quot;POST&quot;);
+			form.setAttribute(&quot;target&quot;,&quot;_blank&quot;);
 			var input = document.createElement(&quot;input&quot;);
-			var submit = document.createElement(&quot;submit&quot;);
-			form.appendChild(submit);
+			var submit = document.createElement(&quot;input&quot;);
+			submit.type = &quot;submit&quot;;
+
 			input.type = &quot;file&quot;;
 
 			var image = document.createElement(&quot;img&quot;);
@@ -1190,11 +1195,20 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			holder.appendChild(image);
 			jQuery(holder).append(&quot;&lt;div class='tip'&gt;Please select a file from your local machine to upload.&lt;/div&gt;&quot;);
 			form.appendChild(input);
+			input.name = &quot;mysexyfile&quot;;
+			form.appendChild(submit);			
 			holder.appendChild(form);
 			jQuery(holder).append(&quot;&lt;div class='tip'&gt;Please select a file from the server (listed below) to use as the image.&lt;/div&gt;&quot;);
 			holder.appendChild(browser);
 			place.appendChild(holder);
+			var filename = document.createElement(&quot;input&quot;);
+			filename.type = &quot;hidden&quot;;
+			form.appendChild(filename);
 			var imageurl = document.createElement(&quot;input&quot;);
+			input.onchange = function(e){
+			    filename.value = input.value;
+			}
+			
 			imageurl.onchange = function(e){
 				var newsrc = this.value;
 				image.src=  &quot;&quot;;

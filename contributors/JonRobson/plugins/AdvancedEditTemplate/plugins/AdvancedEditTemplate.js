@@ -546,16 +546,20 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var holder = document.createElement("div");
 			holder.className = "AdvancedEditTemplateImage";
 			var form = document.createElement("form");
+			form.setAttribute("enctype","multipart/form-data");
+			form.setAttribute("action","http://localhost/ilga/upload");
+			form.setAttribute("method","POST");
+			form.setAttribute("target","_blank");
 			var input = document.createElement("input");
-			var submit = document.createElement("submit");
-			form.appendChild(submit);
+			var submit = document.createElement("input");
+			submit.type = "button";
+
 			input.type = "file";
 
 			var image = document.createElement("img");
 			image.src = initial;
 			image.alt = "currently selected image";
-			var browser = document.createElement("div");
-			browser.className = "filebrowser";
+
 			var params = paramString.parseParams("anon",null,true,false,false);
                 	
 			var root = getParam(params,"root", null);
@@ -571,29 +575,46 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			//	var connector= "http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php";	
 			jQuery(holder).append("<div class='tip'>The image currently selected is shown below if selected</div>");
 			holder.appendChild(image);
-			jQuery(holder).append("<div class='tip'>Please select a file from your local machine to upload.</div>");
-			form.appendChild(input);
+			//jQuery(holder).append("<div class='tip'>Please select a file from your local machine to upload.</div>");
+			//form.appendChild(input);
+			//input.name = "mysexyfile";
+			//form.appendChild(submit);			
 			holder.appendChild(form);
-			jQuery(holder).append("<div class='tip'>Please select a file from the server (listed below) to use as the image.</div>");
-			holder.appendChild(browser);
+			jQuery(holder).append("<div class='tip'>Please select a file from the server (listed below) to use as the image or enter the path to that filename.</div>");
+
 			place.appendChild(holder);
-			var imageurl = document.createElement("input");
-			imageurl.onchange = function(e){
+
+
+            
+			var filename = document.createElement("input");
+			
+			filename.onchange = function(e){
 				var newsrc = this.value;
 				image.src=  "";
 				image.src = newsrc;
 				if(handler)handler(newsrc);
 			};
-			if(initial)imageurl.value = initial;			
-			imageurl.setAttribute("type","hidden");
-			holder.appendChild(imageurl);
+			if(initial)filename.value = initial;			
+			//filename.setAttribute("type","hidden");
+			holder.appendChild(filename);
+			jQuery(holder).append("<div class='browserarea' style='position:relative;'><input type='button' class='browsebutton' value='browse'><div class='filebrowser' style='position:absolute;display:none;'></div></div>");
+			var bb = jQuery(".browsebutton",holder);
+			bb.click(function(e){
+			    var browser =$(".filebrowser",$(this).parent());
+			    browser.toggle();
+		
+			    browser.css({left:$(this).position().left});    
+			})
+			
+			
+			var browser = jQuery(".filebrowser");
+
 			var r;
 			if(!home) home = "";
 			if(root) r =root; else r ="";
-			
-			$(browser).fileTree({ root: r, script: connector }, function(file) { 
-						imageurl.value = home + file;
-						imageurl.onchange();
+			browser.fileTree({ root: r, script: connector }, function(file) { 
+						filename.value = home +file;
+						filename.onchange();
 			});
 			
 		}
