@@ -1,3 +1,4 @@
 recipe: mediawikiunplugged.html.recipe
 recipe: webcontent/split.recipe
 tiddler: ../../contributors/MartinBudden/plugins/SplashScreenPlugin.js
+tiddler: ../../contributors/BidiX/plugins/GenerateRssByTagPlugin.js

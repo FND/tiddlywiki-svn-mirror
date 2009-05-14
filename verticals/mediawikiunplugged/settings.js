@@ -21,6 +21,7 @@ config.options.chkTopOfPageMode = false;
 config.options.txtTheme = "ThemeUnplugged";
 config.options.chkBackstage = false;
 config.options.chkSliderOptionsPanel = false;
+config.options.txtRssTag = "toRSS";
 merge(config.defaultCustomFields,{
 	wikiformat:'mediawiki'
 });
