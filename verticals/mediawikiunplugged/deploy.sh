@@ -15,8 +15,8 @@ dir=/home/pauldowney/mediawikiunplugged.com
 scp index.html index.xml $host:$dir
 scp MediaWikiUnplugged.zip $host:$dir
 
-ssh $host mkdir -p $dir/images
-scp images/* $host:$dir/images
+#ssh $host mkdir -p $dir/images
+#scp images/* $host:$dir/images
 
-ssh $host mkdir -p $dir/counter
+#ssh $host mkdir -p $dir/counter
 scp counter/index.php $host:$dir/counter

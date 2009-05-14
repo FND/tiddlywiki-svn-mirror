@@ -1,5 +1,5 @@
-tiddler: DefaultTiddlers.tiddler
-tiddler: SideBarOptions.tiddler
-tiddler: SiteSubtitle.tiddler
-tiddler: SiteTitle.tiddler
-tiddler: StyleSheet.tiddler
+tiddler: DefaultTiddlers.tiddler tags="excludeLists"
+tiddler: SideBarOptions.tiddler tags="excludeLists"
+tiddler: SiteSubtitle.tiddler tags="excludeLists"
+tiddler: SiteTitle.tiddler tags="excludeLists"
+tiddler: StyleSheet.tiddler tags="excludeLists"
