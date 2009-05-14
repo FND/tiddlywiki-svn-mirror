@@ -1,5 +1,6 @@
-var VismoCanvas = function(element,vismoShapesList){
-        
+var VismoCanvas = function(element,options){
+    this.className = "VismoCanvas";
+    if(!options) options = {};
 	if(typeof element == 'string') element= document.getElementById(element);
 	if(!element) throw "Element doesn't exist!";
 	if(element.vismoClicking) {
@@ -26,14 +27,21 @@ var VismoCanvas = function(element,vismoShapesList){
 	this.memory = [];
 	element.vismoClicking = this;
 
-	if(vismoShapesList) {
-		for(var i=0; i < vismoShapesList.length; i++){
-			this.add(vismoShapesList[i]);
+	if(options.shapes) {
+		for(var i=0; i < options.shapes.length; i++){
+			this.add(options.shapes[i]);
 		}
 	}
 	this.wrapper = wrapper;
+
 	this._setupMouse();
-	this.setOnMouse(false,false,false,false,false);
+/*
+	if(options.panzoom){
+	    new VismoController(this,this.getDomElement());
+	}*/
+	this.setOnMouse(options.mousedown,options.mouseup,options.move,options.dblclick,options.keypress);
+
+
 };
 
 VismoCanvas.prototype = {
@@ -272,8 +280,6 @@ VismoCanvas.prototype = {
 		var ctx = this.canvas.getContext('2d');
 		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);		
 		
-			
-		
 	}
 	
 	,render: function(projection){
@@ -283,6 +289,7 @@ VismoCanvas.prototype = {
 		var transformation = this.getTransformation();
 	
 		if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
+		//determine point size
 		var ps = 5 / parseFloat(sc);
 		var smallest = 1 / this._iemultiplier;
 		var largest = 2.5 * sc;
@@ -370,7 +377,14 @@ VismoCanvas.prototype = {
 	}
 
 	,remove: function(vismoShape){
-	        
+	       var shapes = this.getMemory();
+	       
+	     
+	       for(var i=0; i < shapes.length; i++){
+	            if(shapes[i] == vismoShape){
+	                this.memory.splice(i,1);
+	            }
+	       }
 	}
 	,add: function(vismoShape){
 		if(!this.memory) this.memory = [];
@@ -419,7 +433,9 @@ VismoCanvas.prototype = {
 	,getShapeWithID: function(id){
 	    var mem = this.getMemory();
 	    for(var i=0; i < mem.length; i++){
-	        if(mem[i].getProperty("id") == id) return mem[i];
+	        if(mem[i].getProperty("id") == id) {
+	            return mem[i];
+	        }
 	    }
 	    return false;
 	}

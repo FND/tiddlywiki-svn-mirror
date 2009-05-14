@@ -20,6 +20,8 @@ var c = new VismoController(x,'xbrowsercanvas');
 x.add(new VismoShape({shape:'polygon',fill:'rgb(255,0,0)'},[0,0,200,0,200,200,0,200]));
 x.add(new VismoShape({shape:'image',src:'test.jpg',width:20,height:20},[-50,20]));
 x.add(new VismoShape({shape:'point',fill:'rgb(0,255,0)'},[-50,-80]));
+x.add(new VismoShape({shape:"path",id:"4",edge:true,coordinates:[100,350,"q",-150,-300,300,0]}));
+x.add(new VismoShape({shape:"path",id:"5",edge:true,coordinates:[-100,-350,"c",150,300,-300,0,200,200]}));
 x.add(new VismoShape({shape:'circle',fill:'rgb(0,0,255)',onmousedown: function(e,s){if(s)document.getElementById('shapetype').innerHTML = "special " + s.getProperty("shape");}},[-40,0,20]));
 //var svg = new VismoShape({shape:'svg',src:'Compass.svg', width:100,height:100},[50,0]);
 //console.log(svg);
