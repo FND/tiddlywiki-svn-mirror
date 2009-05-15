@@ -620,14 +620,15 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		context = this.setContext(context,userParams,callback);
 		context.title = title;
 		title = encodeURIComponent(title);
-		var uri = tiddler.fields['server.host']+'/handle/delete.php';
-		var data = "?workspace='"+context.workspace+"'&title="+title;
+		var uri = tiddler.fields['server.host']+'/handle/delete.php'
+		var data = "workspace="+workspace+"&title="+title;
+		
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.deleteTiddlerCallback,context, null, data);
 		return typeof req == 'string' ? req : true;
 	};
 
 	ccTiddlyAdaptor.deleteTiddlerCallback = function(status,context,responseText,uri,xhr){
-		
+		console.log(responseText);
 		if(status){
 			context.status = true;
 		}else{
