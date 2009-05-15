@@ -194,6 +194,9 @@ function getSkinTiddlers($skin="")
 	global $tiddlyCfg;
 	global $user;
 	$return_tiddlers = array();
+	$real_workspace_name = $tiddlyCfg['workspace_name'];
+	$tiddlyCfg['workspace_name'] = $skin;
+	$tiddlers = db_tiddlers_mainSelectAll();
 	if($tiddlers)
 	{
 		while($t = db_fetch_assoc($tiddlers))
@@ -202,6 +205,8 @@ function getSkinTiddlers($skin="")
 				$return_tiddlers[$t['title']] = $t;
 		}
 	}
+	
+	$tiddlyCfg['workspace_name'] = $real_workspace_name;
 	return $return_tiddlers;
 }
 

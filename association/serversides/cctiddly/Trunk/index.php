@@ -68,7 +68,9 @@ elseif(isset($_GET['tags']))
 	$tiddlers = getAllTiddlers();
 	if (isset($_REQUEST['skin']))
 	{
+		echo $_REQUEST['skin'];
 		$skin_tiddlers = getSkinTiddlers($_REQUEST['skin']); 
+print_r($skin_tiddlers);
 		$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
 	}
 }
