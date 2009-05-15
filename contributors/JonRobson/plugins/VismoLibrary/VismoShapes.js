@@ -11,7 +11,7 @@ if(!Array.indexOf) {
 			from = 0;
 		for(var i=from; i<this.length; i++) {
 			if(this[i] === item)
-				return i;
+				return i; 
 		}
 		return -1;
 	};
@@ -24,6 +24,23 @@ var VismoShapeUtils ={
             if(typeof(c)== 'number') return true;
         }
     }
+    ,toRgb: function(hex,opacity){
+        var rgb = {};
+        if(hex.indexOf("#") == 0 && hex.indexOf(",") == -1){ //hex code argument
+			var hexcode = hex.substring(1);
+			rgb.red = this._hexToR(hexcode);
+			rgb.blue = this._hexToB(hexcode);
+			rgb.green = this._hexToG(hexcode);
+		}
+		if(!opacity) opacity = "1.0";
+		return "rgba("+rgb.red+","+ rgb.green +","+ rgb.blue+"," + opacity+")";
+    }
+	/* thank you http://www.javascripter.net/faq/hextorgb.htm*/
+	,_cutHex: function(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
+	,_hexToR:function(h){return parseInt((this._cutHex(h)).substring(0,2),16)}
+	,_hexToG: function (h) {return parseInt((this._cutHex(h)).substring(2,4),16)}
+	,_hexToB:function(h) {return parseInt((this._cutHex(h)).substring(4,6),16)}
+
 };
 var VismoUtils = {
 	userAgent: navigator.userAgent.toLowerCase(),
@@ -405,7 +422,12 @@ VismoShape.prototype={
 		this._calculateBounds();
 	}
 	,getRadius: function(){
-		return this.width / 2;
+		if(this.width) return this.width /2;
+	    else{
+	        var bb = this.getBoundingBox();
+		    return bb.width / 2;
+		}
+		
 	}
 	,setDimensions: function(width,height){
 		this.width = width;

@@ -1,0 +1,1 @@
+cat VismoCanvasEditor.js VismoClicking.js VismoClickingUtils.js VismoController.js VismoCanvasEditor.js VismoClicking.js VismoClickingUtils.js VismoConversion.js VismoFileUtils.js VismoMaps.js VismoMapUtils.js VismoOptimisations.js VismoShapes.js VismoShapesRendering.js VismoTransformations.js > Vismo.js

@@ -39,7 +39,7 @@ var VismoCanvas = function(element,options){
 	if(options.panzoom){
 	    new VismoController(this,this.getDomElement());
 	}*/
-	this.setOnMouse(options.mousedown,options.mouseup,options.move,options.dblclick,options.keypress);
+	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
 
 
 };
@@ -94,24 +94,33 @@ VismoCanvas.prototype = {
 	,getXY: function(e){
 		return VismoTransformations.getXY(e,this.getTransformation());
 	}
-	,setOnMouse: function(down,up,move,dblclick,keypress){
-		if(down)this.onmousedown = down;
-		if(up)this.onmouseup = up;
-		if(move)this.onmousemove=  move;
-		if(dblclick) this.ondblclick = dblclick;
-		if(keypress) this.onkeypress = keypress;
-		
-		if(this.madeMoveable) this.makeMoveable();
-		if(this.tooltipAdded) this.addTooltip();
+	,mouse: function(args){
+	    if(!args){
+	        return {up: this.onmouseup, down: this.onmousedown, move: this.onmousemove, dblclick: this.ondblclick,keypress:this.onkeypress};
+	    }
+	    else{
+	        
+	        if(args.down)this.onmousedown = args.down;
+    		if(args.up)this.onmouseup = args.up;
+    		if(args.move)this.onmousemove=  args.move;
+    		if(args.dblclick) this.ondblclick = args.dblclick;
+    		if(args.keypress) this.onkeypress = args.keypress;
+
+    		//if(this.madeMoveable) this.makeMoveable();
+    		//if(this.tooltipAdded) this.addTooltip();	        
+	    }
+	}
+	,setOnMouse: function(down,up,move,dblclick,keypress){ /*kept for historic reasons please use mouse instead*/
+        this.mouse({up:up,down:down,move:move,dblclick:dblclick, keypress: keypress});
 	}
 	,_setupMouse: function(){
 		var that = this;
-		/*this.onmousedown = function(e,s,pos){};
+		this.onmousedown = function(e,s,pos){};
 		this.onmouseup = function(e,s,pos){};
 		this.onmousemove = function(e,s,pos){};
 		this.ondblclick = function(e,s,pos){};
 		this.onkeypress = function(e){};
-		*/
+	
 
 		this._applyMouseBehaviours(this.wrapper);
 		for(var i =0; i < this.wrapper.childNodes.length; i++){
@@ -143,35 +152,33 @@ VismoCanvas.prototype = {
 				if(!that.keypressactive) {
 				        
 					that.keypressactive =  true;
-					window.onkeypress = that.onkeypress;
+					/*window.onkeypress = that.onkeypress;
 					document.onkeypress = function(e){if(!e) e= window.event;if(that.initialKeyPress)that.initialKeyPress(e);if(!e) e= window.event;var s = newbehaviour(e); 
 					        if(that.onkeypress)that.onkeypress(e,s)
-					};
+					};*/
 				}
 		};
 		el.onmouseout = function(e){if(!e) e= window.event;that.keypressactive = false;};
 
-		el.onmousedown = function(e){
-			if(!e) e= window.event;
-			if(e.preventDefault)e.preventDefault(e);
+		jQuery(el).mousedown(function(e){
 			var s = newbehaviour(e); 
 			if(s){
 				if(s.getProperty("onmousedown")){
-				        s.getProperty("onmousedown")(e,s);		
-				}else { 
 				        if(that.onmousedown)that.onmousedown(e,s);
-			        }
+				        s.getProperty("onmousedown")(e,s);	
+				}
+				else{
+				    if(that.onmousedown)that.onmousedown(e,s);
+				}
 			}
 			else {
-			        //if(that.onmousedown)that.onmousedown(e,s);
+			        if(that.onmousedown)that.onmousedown(e,s);
 			        if(down)down(e,s);
 			}
 			
+		});
 
-			return false;
-		};
-
-        	el.ondblclick = function(e){
+        jQuery(el).dblclick(function(e){
 			if(!e) e= window.event;
 			var s = newbehaviour(e); 				
 			if(s) {
@@ -195,22 +202,27 @@ VismoCanvas.prototype = {
 				        dblclick(e,s);
                                 }
 			}
-		};
-                	el.onmouseup = function(e){ if(!e) e= window.event;var s = newbehaviour(e); 
+		});
+        jQuery(el).mouseup(function(e){ 
+                var s = newbehaviour(e); 
 		        if(s){
 		                if(s.getProperty("onmouseup")){
+		                        if(that.onmouseup)that.onmouseup(e,s);
 		                        s.getProperty("onmouseup")(e,s);
 		                }
-		                else {
-		                        if(that.onmouseup)that.onmouseup(e,s);
+		                else{
+		                    if(that.onmouseup)that.onmouseup(e,s);
 		                }
+		                
+		                
 		        }
 		        else{
+		                if(that.onmouseup)that.onmouseup(e,s);
 		                if(up)up(e,s);
 		        }
-		};
+		});
 		var defaultCursor;
-		el.onmousemove = function(e){ if(!e) e= window.event;var s = newbehaviour(e);
+		jQuery(el).mousemove(function(e){ if(!e) e= window.event;var s = newbehaviour(e);
 
 		        if(!VismoUtils.browser.isIE){
 		                if(jQuery(el).hasClass("overVismoShape")) jQuery(el).removeClass("overVismoShape");
@@ -239,7 +251,7 @@ VismoCanvas.prototype = {
 		        }
 		        if(that.onmousemove)that.onmousemove(e,s); 
 		        if(mv)mv(e,s);
-		};       	
+		});       	
 
 	}
 	,getDimensions: function(){
@@ -421,7 +433,22 @@ VismoCanvas.prototype = {
 
 	},
 	getMemory: function(){
-		return this.memory;
+	    /*return this.memory.sort(function(a,b){
+	        var z1 = a.getProperty("z-index");
+	        var z2 =b.getProperty("z-index");
+	        if(z1 || z2){
+	            if(z2 && z1 && z1 > z2){
+	                return 0;
+	            }
+	            else
+	            return 1;
+	        } 
+	        else{
+	            return 1;
+	        }
+	        });
+	        */
+	        return this.memory;
 	}
 	,getMemoryID: function(vismoShape){
 		if(vismoShape && vismoShape._vismoClickingID)
@@ -446,7 +473,7 @@ VismoCanvas.prototype = {
 	
 		var node = VismoClickingUtils.resolveTarget(e);
 		//alert(node.tagName);
-		if(node.tagName.toUpperCase() == 'SHAPE') { //vml vismoShape
+		if(node && node.tagName && node.tagName.toUpperCase() == 'SHAPE') { //vml vismoShape
 			return node.vismoShape;
 		}
 		var target = VismoClickingUtils.resolveTargetWithVismo(e);

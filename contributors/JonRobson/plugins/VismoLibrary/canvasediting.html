@@ -2,16 +2,8 @@
 <head>
 
 <script type='text/javascript' src='jquery.js'></script>
-<script type='text/javascript' src='VismoClickingUtils.js'></script>
-<script type='text/javascript' src='VismoShapes.js'></script>
-<script type='text/javascript' src='VismoShapesRendering.js'></script>
-<script type='text/javascript' src='VismoClicking.js'></script>
-<script type='text/javascript' src='VismoOptimisations.js'></script>
-
-<script type='text/javascript' src='VismoTransformations.js'></script>
-<script type='text/javascript' src='VismoFileUtils.js'></script>
-<script type='text/javascript' src='VismoController.js'></script>
-<script type='text/javascript' src='VismoCanvasEditor.js'></script>
+<script type='text/javascript' src='Vismo.js'></script>
+<script type='text/javascript' src='farbtastic.js'></script>
 
 <style type="text/css">
 .VismoCanvasToolbar{
@@ -27,32 +19,83 @@ textarea {
 	background-color:Purple;
 	z-index:11;
 }
-.button {
+.button { 
 	width:25px;
 	height:25px;
+	float:right;
 }
 .brResizer {width:10;height:10; background-color:red;}
 .selectshape{
-	background-image:url(toolbar/select.png);
+	background-image:url(Vismo/select.png);
 	background-repeat:no-repeat;
 	height:25px	
 }
 .selected {border:solid 1px black;z-index:10;}
 .newcircle{
-	background-image:url(toolbar/circle.png);
+	background-image:url(Vismo/circle.png);
 	background-repeat:no-repeat;
 	height:25px
 }
+.fillshape{
+	background-image:url(Vismo/fill.png);
+	background-repeat:no-repeat;
+	height:25px
+}
+
 .newline{
-	background-image:url(toolbar/line.png);
+	background-image:url(Vismo/line.png);
 	background-repeat:no-repeat;
 	height:30px
 }
 .newfreeline{
-	background-image:url(toolbar/freehand.jpg);
+	background-image:url(Vismo/freehand.jpg);
 	background-repeat:no-repeat;
 	height:30px
+	
 }
+.VismoToolSettings {
+	position:absolute;
+	background-color:white;
+	bottom: 0px;
+	left: 0px;
+}
+
+.farbtastic {
+  position: relative;
+}
+.farbtastic * {
+  position: absolute;
+  cursor: crosshair;
+}
+.farbtastic, .farbtastic .wheel {
+  width: 195px;
+  height: 195px;
+}
+.farbtastic .color, .farbtastic .overlay {
+  top: 47px;
+  left: 47px;
+  width: 101px;
+  height: 101px;
+}
+.farbtastic .wheel {
+  background: url(Vismo/wheel.png) no-repeat;
+  width: 195px;
+  height: 195px;
+}
+.farbtastic .overlay {
+  background: url(Vismo/mask.png) no-repeat;
+}
+.farbtastic .marker {
+  width: 17px;
+  height: 17px;
+  margin: -8px 0 0 -8px;
+  overflow: hidden; 
+  background: url(Vismo/marker.png) no-repeat;
+}
+.VismoToolSettings {background-color:rgb(245,245,245);border:solid 1px black;}
+.VismoToolFillColor {width:100px;}
+.VismoToolFillOpacity {width:50px;}
+.previewcolor {border:solid 1px black;width:20px;height:20px;display:block;}
 
 </style>
 <script type='text/javascript'>
@@ -62,8 +105,19 @@ jQuery(document).ready(function(){
 		panzoom:true,
 		tools: ["selectshape","newcircle","newline","fillshape","save"],
 		save: function(textContent){$("#data").text(textContent);},
-		dblclick:function(e,s){alert(s.getProperty("id"));}
+		dblclick:function(e,s){if(!s) return;alert(s.getProperty("id"));},
+		mouseup: function(e,s){
+			if(!s) return;
+			var color = s.getProperty("fill");
+			s.setProperty("fill","rgb(0,0,0)");
+			var f = function(){
+				s.setProperty("fill",color);
+			}
+			window.setTimeout(f,100);
+			
+		}
 	});
+
 	loadData();
 });
 
@@ -74,15 +128,13 @@ function loadData(){
 </script>
 </head>
 <body>
-<div id='blah'></div>
 <div id='xbrowsercanvas' style='width:800px; height:400px; border:solid 1px black;'></div>
-
+<!-- 	{shape: 'polygon', id:'7', fill: 'rgb(0,0,255)', transformation:{translate:{x:100,y:0}}, coordinates: [-200,-200, -50,-200,-50,-50,-200,-50]}, -->
 <textarea id='data'>
 [
 	{shape:'circle', id:"1", fill:'rgb(255,0,0)',coordinates:[-40,-40,50]},
-	{shape:"path",id:"3",edge:true,from:"1", to:"2",coordinates:[0,0,100,100]},
-	{shape:'circle', id:"2", fill:'rgb(0,255,0)',transformation:{translate:{x:300,y:1},scale:{x:2,y:2}},coordinates:[-40,-40,50]}
-	
+	{shape:'circle', id:"2", fill:'rgb(0,255,0)',transformation:{translate:{x:300,y:1},scale:{x:2,y:2}},coordinates:[-40,-40,50]},
+		{shape:"path",id:"3",edge:"true",from:"1", to:"2",coordinates:[0,0,100,100]}
 ]
 </textarea>
 delete with backspace or "d" key.
