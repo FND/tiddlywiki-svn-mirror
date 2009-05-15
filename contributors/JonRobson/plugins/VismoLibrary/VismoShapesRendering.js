@@ -420,13 +420,19 @@ VismoVector.prototype = {
 
 		var shape = this.el;
 		shape.stroked = "t";
-		shape.strokecolor = "#000000";
+		
+
+		
+		if(this.vismoShape.getProperty("z-index")){
+		    shape.style.zIndex = this.vismoShape.getProperty("z-index");
+		}
 		if(this.vismoShape.getProperty("lineWidth")) {
 			shape.strokeweight = this.vismoShape.getProperty("lineWidth") + "px";
 		}
 		else {
 			shape.strokeweight = "1px";
 		}
+	
 		
 		if(!this.vismoShape.getProperty("fill") || shapetype == 'path'){
 		    shape.filled = "f";
@@ -440,6 +446,34 @@ VismoVector.prototype = {
 					this.vmlfill =document.createElement("vismoShapeVml_:fill");
 					shape.appendChild(this.vmlfill); 
 				}	
+				
+				if(!this.vmlstroke){
+					this.vmlstroke =document.createElement("vismoShapeVml_:stroke");
+					shape.appendChild(this.vmlstroke); 
+				}
+				
+				var strokergba = this.vismoShape.getProperty("stroke");
+            		if(strokergba){
+            		    var stroke;
+            		    if(strokergba.indexOf("rgba") != -1 &&strokergba.match(/rgba\([0-9]*,[0-9]*,[0-9]*,(.*)\)/)){
+            		        var match =strokergba.match(/(rgb)a(\([0-9]*,[0-9]*,[0-9]*),(.*)\)/);
+
+        					if(match[3]){
+        						stroke = match[1] + match[2] +")";
+        						this.vmlstroke.opacity = match[3];
+        					}
+            		    }
+            		    else{
+            		        stroke = strokergba;
+            		    }
+            		    this.vmlstroke.color = stroke;
+            		}
+            		else{
+            		    this.vmlstroke.color = "rgb(0,0,0)";
+            		}
+    		    
+        		
+				
 				//look for rgba fill for transparency
 				if(fill.indexOf("rgba") != -1 &&fill.match(/rgba\([0-9]*,[0-9]*,[0-9]*,(.*)\)/)){
 					

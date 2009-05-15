@@ -173,9 +173,9 @@ VismoController.prototype = {
 		var mm = this.wrapper.onmousemove;
 		
 
-
-		var onmousewheel = function(e){		
-				
+        var doingmw = false;
+        var domw = function(e){
+            
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
 
@@ -242,13 +242,24 @@ VismoController.prototype = {
 			}
 			that.crosshair.lastdelta = delta;	
 			
-                        if (e && e.stopPropagation) //if stopPropagation method supported
-                        e.stopPropagation();
-                        else
-                        e.cancelBubble=true;
-                        if(e.preventDefault)e.preventDefault();
 
-			
+            doingmw = false;
+        };
+		var onmousewheel = function(e){		
+			if(!doingmw) {
+			    var event = e;
+			    var f = function(){
+			        domw(event);
+			    }
+			    window.setTimeout(f,50);
+			    doingmw = true;
+            }
+            
+			if (e && e.stopPropagation) //if stopPropagation method supported
+            e.stopPropagation();
+            else
+            e.cancelBubble=true;
+            if(e.preventDefault)e.preventDefault();
 			return false;
 
 		};

@@ -220,7 +220,9 @@ VismoShape.prototype={
 		for(i in newprops){
 		        this.setProperty(i,newprops[i]);
 		}
-		
+		if(!newprops["z-index"]){
+		    this.setProperty("z-index","0");
+		}
 		if(!newprops.stroke){
 			this.setProperty("stroke",'#000000');		
 		}

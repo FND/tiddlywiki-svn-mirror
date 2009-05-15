@@ -487,9 +487,9 @@ VismoCanvasEditor.prototype = {
             var memory = this.vismoCanvas.getMemory();
             for(var i=0; i < memory.length; i++){
                 var edgeShape = memory[i];
-                if(edgeShape.getProperty("edge")){
                     var from =edgeShape.getProperty("from");
                     var to = edgeShape.getProperty("to");
+                if(from && to){
                     if(movedID == from  || movedID == to){
                         var fromShape = this.vismoCanvas.getShapeWithID(from);
                         var toShape = this.vismoCanvas.getShapeWithID(to);
@@ -530,7 +530,8 @@ VismoCanvasEditor.prototype = {
                       
                         
                       if(tool == "newline"){
-                              that.doLineDrawing(e);
+                            that.manipulator.showCenter(s)
+                             that.doLineDrawing(e);
                         }
                       else if(tool == "newfreeline")that.doFreeLineDrawing(e);
                       else if(tool == "newcircle")that.doShapeDrawing(e);
@@ -881,8 +882,10 @@ VismoCanvasEditor.prototype = {
                         
                         var type = typeof(properties[j]);
                         if(type != 'object' && type != "function" && type != "boolean") {
-                            buffer.push(",")
-                            buffer.push(["'"+j+"':'"+properties[j] +"'"]);
+                            if(properties[j]){
+                                buffer.push(",")
+                                buffer.push(["'"+j+"':'"+properties[j] +"'"]);
+                            }
                         }
                         else{
                             if(j == 'transformation'){
@@ -921,6 +924,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
         var centerMark = document.createElement("div");
         centerMark.className = "centerMark";
         centerMark.style.position ="absolute";
+        centerMark.style.display = "none"; 
         
         element.appendChild(centerMark);
         this.centerMark = centerMark;        
@@ -931,8 +935,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
                 if(that.isResizing){
                         that._resizeFromBottomRight(e);
                 }
-                 
-                jQuery(that.centerMark).css({display:"none"});
+      
                if(that._moveshape){
                        var pos = that.vismoCanvas.getXY(e);
                        
@@ -958,10 +961,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
                          that.centerMark.node = vismoShape;
                          var w = jQuery(that.centerMark).width();
                          var h = jQuery(that.centerMark).height();
-                         jQuery(that.centerMark).css({left: pos.x - w/2,display:"",top:pos.y - h/2});
-                    }
-                    else{
-                        jQuery(that.centerMark).css({display:"none"});
+                         jQuery(that.centerMark).css({left: pos.x - w/2,top:pos.y - h/2});
                     }
 
                 }
@@ -991,6 +991,15 @@ var VismoShapeManipulator = function(vismoCanvas,options){
 VismoShapeManipulator.prototype = {
         getSelectedShape: function(){
             return this.lastSelected;
+         }
+         ,showCenter: function(shape){
+             
+             if(shape)
+               {
+                   jQuery(this.centerMark).css({display:""});}
+              else{
+                  jQuery(this.centerMark).css({display:"none"});
+              }
          }   
         ,overCenter: function(e){
                if(jQuery(e.target).hasClass("centerMark")) return this.vismoCanvas.getShapeAtClick(e);
@@ -1513,22 +1522,20 @@ VismoCanvas.prototype = {
 
 	},
 	getMemory: function(){
-	    /*return this.memory.sort(function(a,b){
+
+	    this.memory.sort(function(a,b){
 	        var z1 = a.getProperty("z-index");
 	        var z2 =b.getProperty("z-index");
-	        if(z1 || z2){
-	            if(z2 && z1 && z1 > z2){
-	                return 0;
-	            }
-	            else
-	            return 1;
-	        } 
+	        if(z1 < z2) return -1;
+	        else if(z1 == z2){
+	            return 0;
+	        }
 	        else{
 	            return 1;
 	        }
 	        });
-	        */
-	        return this.memory;
+	        
+	    return this.memory;
 	}
 	,getMemoryID: function(vismoShape){
 		if(vismoShape && vismoShape._vismoClickingID)
@@ -1671,21 +1678,7 @@ VismoCanvas.prototype = {
 	
 	}
 	,_onPath: function(x,y,vismoShape){
-	    var c = vismoShape.getCoordinates();
-	    x = parseInt(x);
-	    y = parseInt(y);
-	    var tolerance =2;
-	    for(var i=0; i < c.length; i++){
-	        if(!VismoShapeUtils._isCoordinate(c[i])) i +=1;
-	        var sx = parseInt(c[i]);
-	        var sy = parseInt(c[i+1]);
-	        
-	        //check to see if sx and sy are on the line between 2 points
-	        if(sx > x- tolerance && sx < x + tolerance){ //matches on the x
-	            
-	        }
-	    }
-	    return false;
+	    return true;
 	}
 	,_inPoly: function(x,y,vismoShape) {
 		/* _inPoly adapted from inpoly.c
@@ -2169,9 +2162,9 @@ VismoController.prototype = {
 		var mm = this.wrapper.onmousemove;
 		
 
-
-		var onmousewheel = function(e){		
-				
+        var doingmw = false;
+        var domw = function(e){
+            
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
 
@@ -2238,13 +2231,24 @@ VismoController.prototype = {
 			}
 			that.crosshair.lastdelta = delta;	
 			
-                        if (e && e.stopPropagation) //if stopPropagation method supported
-                        e.stopPropagation();
-                        else
-                        e.cancelBubble=true;
-                        if(e.preventDefault)e.preventDefault();
 
-			
+            doingmw = false;
+        };
+		var onmousewheel = function(e){		
+			if(!doingmw) {
+			    var event = e;
+			    var f = function(){
+			        domw(event);
+			    }
+			    window.setTimeout(f,50);
+			    doingmw = true;
+            }
+            
+			if (e && e.stopPropagation) //if stopPropagation method supported
+            e.stopPropagation();
+            else
+            e.cancelBubble=true;
+            if(e.preventDefault)e.preventDefault();
 			return false;
 
 		};
@@ -2837,9 +2841,9 @@ VismoCanvasEditor.prototype = {
             var memory = this.vismoCanvas.getMemory();
             for(var i=0; i < memory.length; i++){
                 var edgeShape = memory[i];
-                if(edgeShape.getProperty("edge")){
                     var from =edgeShape.getProperty("from");
                     var to = edgeShape.getProperty("to");
+                if(from && to){
                     if(movedID == from  || movedID == to){
                         var fromShape = this.vismoCanvas.getShapeWithID(from);
                         var toShape = this.vismoCanvas.getShapeWithID(to);
@@ -2880,7 +2884,8 @@ VismoCanvasEditor.prototype = {
                       
                         
                       if(tool == "newline"){
-                              that.doLineDrawing(e);
+                            that.manipulator.showCenter(s)
+                             that.doLineDrawing(e);
                         }
                       else if(tool == "newfreeline")that.doFreeLineDrawing(e);
                       else if(tool == "newcircle")that.doShapeDrawing(e);
@@ -3231,8 +3236,10 @@ VismoCanvasEditor.prototype = {
                         
                         var type = typeof(properties[j]);
                         if(type != 'object' && type != "function" && type != "boolean") {
-                            buffer.push(",")
-                            buffer.push(["'"+j+"':'"+properties[j] +"'"]);
+                            if(properties[j]){
+                                buffer.push(",")
+                                buffer.push(["'"+j+"':'"+properties[j] +"'"]);
+                            }
                         }
                         else{
                             if(j == 'transformation'){
@@ -3271,6 +3278,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
         var centerMark = document.createElement("div");
         centerMark.className = "centerMark";
         centerMark.style.position ="absolute";
+        centerMark.style.display = "none"; 
         
         element.appendChild(centerMark);
         this.centerMark = centerMark;        
@@ -3281,8 +3289,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
                 if(that.isResizing){
                         that._resizeFromBottomRight(e);
                 }
-                 
-                jQuery(that.centerMark).css({display:"none"});
+      
                if(that._moveshape){
                        var pos = that.vismoCanvas.getXY(e);
                        
@@ -3308,10 +3315,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
                          that.centerMark.node = vismoShape;
                          var w = jQuery(that.centerMark).width();
                          var h = jQuery(that.centerMark).height();
-                         jQuery(that.centerMark).css({left: pos.x - w/2,display:"",top:pos.y - h/2});
-                    }
-                    else{
-                        jQuery(that.centerMark).css({display:"none"});
+                         jQuery(that.centerMark).css({left: pos.x - w/2,top:pos.y - h/2});
                     }
 
                 }
@@ -3341,6 +3345,15 @@ var VismoShapeManipulator = function(vismoCanvas,options){
 VismoShapeManipulator.prototype = {
         getSelectedShape: function(){
             return this.lastSelected;
+         }
+         ,showCenter: function(shape){
+             
+             if(shape)
+               {
+                   jQuery(this.centerMark).css({display:""});}
+              else{
+                  jQuery(this.centerMark).css({display:"none"});
+              }
          }   
         ,overCenter: function(e){
                if(jQuery(e.target).hasClass("centerMark")) return this.vismoCanvas.getShapeAtClick(e);
@@ -3863,22 +3876,20 @@ VismoCanvas.prototype = {
 
 	},
 	getMemory: function(){
-	    /*return this.memory.sort(function(a,b){
+
+	    this.memory.sort(function(a,b){
 	        var z1 = a.getProperty("z-index");
 	        var z2 =b.getProperty("z-index");
-	        if(z1 || z2){
-	            if(z2 && z1 && z1 > z2){
-	                return 0;
-	            }
-	            else
-	            return 1;
-	        } 
+	        if(z1 < z2) return -1;
+	        else if(z1 == z2){
+	            return 0;
+	        }
 	        else{
 	            return 1;
 	        }
 	        });
-	        */
-	        return this.memory;
+	        
+	    return this.memory;
 	}
 	,getMemoryID: function(vismoShape){
 		if(vismoShape && vismoShape._vismoClickingID)
@@ -4021,21 +4032,7 @@ VismoCanvas.prototype = {
 	
 	}
 	,_onPath: function(x,y,vismoShape){
-	    var c = vismoShape.getCoordinates();
-	    x = parseInt(x);
-	    y = parseInt(y);
-	    var tolerance =2;
-	    for(var i=0; i < c.length; i++){
-	        if(!VismoShapeUtils._isCoordinate(c[i])) i +=1;
-	        var sx = parseInt(c[i]);
-	        var sy = parseInt(c[i+1]);
-	        
-	        //check to see if sx and sy are on the line between 2 points
-	        if(sx > x- tolerance && sx < x + tolerance){ //matches on the x
-	            
-	        }
-	    }
-	    return false;
+	    return true;
 	}
 	,_inPoly: function(x,y,vismoShape) {
 		/* _inPoly adapted from inpoly.c
@@ -6020,7 +6017,9 @@ VismoShape.prototype={
 		for(i in newprops){
 		        this.setProperty(i,newprops[i]);
 		}
-		
+		if(!newprops["z-index"]){
+		    this.setProperty("z-index","0");
+		}
 		if(!newprops.stroke){
 			this.setProperty("stroke",'#000000');		
 		}
@@ -6871,13 +6870,19 @@ VismoVector.prototype = {
 
 		var shape = this.el;
 		shape.stroked = "t";
-		shape.strokecolor = "#000000";
+		
+
+		
+		if(this.vismoShape.getProperty("z-index")){
+		    shape.style.zIndex = this.vismoShape.getProperty("z-index");
+		}
 		if(this.vismoShape.getProperty("lineWidth")) {
 			shape.strokeweight = this.vismoShape.getProperty("lineWidth") + "px";
 		}
 		else {
 			shape.strokeweight = "1px";
 		}
+	
 		
 		if(!this.vismoShape.getProperty("fill") || shapetype == 'path'){
 		    shape.filled = "f";
@@ -6891,6 +6896,34 @@ VismoVector.prototype = {
 					this.vmlfill =document.createElement("vismoShapeVml_:fill");
 					shape.appendChild(this.vmlfill); 
 				}	
+				
+				if(!this.vmlstroke){
+					this.vmlstroke =document.createElement("vismoShapeVml_:stroke");
+					shape.appendChild(this.vmlstroke); 
+				}
+				
+				var strokergba = this.vismoShape.getProperty("stroke");
+            		if(strokergba){
+            		    var stroke;
+            		    if(strokergba.indexOf("rgba") != -1 &&strokergba.match(/rgba\([0-9]*,[0-9]*,[0-9]*,(.*)\)/)){
+            		        var match =strokergba.match(/(rgb)a(\([0-9]*,[0-9]*,[0-9]*),(.*)\)/);
+
+        					if(match[3]){
+        						stroke = match[1] + match[2] +")";
+        						this.vmlstroke.opacity = match[3];
+        					}
+            		    }
+            		    else{
+            		        stroke = strokergba;
+            		    }
+            		    this.vmlstroke.color = stroke;
+            		}
+            		else{
+            		    this.vmlstroke.color = "rgb(0,0,0)";
+            		}
+    		    
+        		
+				
 				//look for rgba fill for transparency
 				if(fill.indexOf("rgba") != -1 &&fill.match(/rgba\([0-9]*,[0-9]*,[0-9]*,(.*)\)/)){
 					

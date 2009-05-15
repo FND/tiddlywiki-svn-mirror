@@ -434,22 +434,20 @@ VismoCanvas.prototype = {
 
 	},
 	getMemory: function(){
-	    /*return this.memory.sort(function(a,b){
+
+	    this.memory.sort(function(a,b){
 	        var z1 = a.getProperty("z-index");
 	        var z2 =b.getProperty("z-index");
-	        if(z1 || z2){
-	            if(z2 && z1 && z1 > z2){
-	                return 0;
-	            }
-	            else
-	            return 1;
-	        } 
+	        if(z1 < z2) return -1;
+	        else if(z1 == z2){
+	            return 0;
+	        }
 	        else{
 	            return 1;
 	        }
 	        });
-	        */
-	        return this.memory;
+	        
+	    return this.memory;
 	}
 	,getMemoryID: function(vismoShape){
 		if(vismoShape && vismoShape._vismoClickingID)
@@ -592,21 +590,7 @@ VismoCanvas.prototype = {
 	
 	}
 	,_onPath: function(x,y,vismoShape){
-	    var c = vismoShape.getCoordinates();
-	    x = parseInt(x);
-	    y = parseInt(y);
-	    var tolerance =2;
-	    for(var i=0; i < c.length; i++){
-	        if(!VismoShapeUtils._isCoordinate(c[i])) i +=1;
-	        var sx = parseInt(c[i]);
-	        var sy = parseInt(c[i+1]);
-	        
-	        //check to see if sx and sy are on the line between 2 points
-	        if(sx > x- tolerance && sx < x + tolerance){ //matches on the x
-	            
-	        }
-	    }
-	    return false;
+	    return true;
 	}
 	,_inPoly: function(x,y,vismoShape) {
 		/* _inPoly adapted from inpoly.c

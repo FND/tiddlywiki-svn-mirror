@@ -158,9 +158,9 @@ VismoCanvasEditor.prototype = {
             var memory = this.vismoCanvas.getMemory();
             for(var i=0; i < memory.length; i++){
                 var edgeShape = memory[i];
-                if(edgeShape.getProperty("edge")){
                     var from =edgeShape.getProperty("from");
                     var to = edgeShape.getProperty("to");
+                if(from && to){
                     if(movedID == from  || movedID == to){
                         var fromShape = this.vismoCanvas.getShapeWithID(from);
                         var toShape = this.vismoCanvas.getShapeWithID(to);
@@ -201,7 +201,8 @@ VismoCanvasEditor.prototype = {
                       
                         
                       if(tool == "newline"){
-                              that.doLineDrawing(e);
+                            that.manipulator.showCenter(s)
+                             that.doLineDrawing(e);
                         }
                       else if(tool == "newfreeline")that.doFreeLineDrawing(e);
                       else if(tool == "newcircle")that.doShapeDrawing(e);
@@ -552,8 +553,10 @@ VismoCanvasEditor.prototype = {
                         
                         var type = typeof(properties[j]);
                         if(type != 'object' && type != "function" && type != "boolean") {
-                            buffer.push(",")
-                            buffer.push(["'"+j+"':'"+properties[j] +"'"]);
+                            if(properties[j]){
+                                buffer.push(",")
+                                buffer.push(["'"+j+"':'"+properties[j] +"'"]);
+                            }
                         }
                         else{
                             if(j == 'transformation'){
@@ -592,6 +595,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
         var centerMark = document.createElement("div");
         centerMark.className = "centerMark";
         centerMark.style.position ="absolute";
+        centerMark.style.display = "none"; 
         
         element.appendChild(centerMark);
         this.centerMark = centerMark;        
@@ -602,8 +606,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
                 if(that.isResizing){
                         that._resizeFromBottomRight(e);
                 }
-                 
-                jQuery(that.centerMark).css({display:"none"});
+      
                if(that._moveshape){
                        var pos = that.vismoCanvas.getXY(e);
                        
@@ -629,10 +632,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
                          that.centerMark.node = vismoShape;
                          var w = jQuery(that.centerMark).width();
                          var h = jQuery(that.centerMark).height();
-                         jQuery(that.centerMark).css({left: pos.x - w/2,display:"",top:pos.y - h/2});
-                    }
-                    else{
-                        jQuery(that.centerMark).css({display:"none"});
+                         jQuery(that.centerMark).css({left: pos.x - w/2,top:pos.y - h/2});
                     }
 
                 }
@@ -662,6 +662,15 @@ var VismoShapeManipulator = function(vismoCanvas,options){
 VismoShapeManipulator.prototype = {
         getSelectedShape: function(){
             return this.lastSelected;
+         }
+         ,showCenter: function(shape){
+             
+             if(shape)
+               {
+                   jQuery(this.centerMark).css({display:""});}
+              else{
+                  jQuery(this.centerMark).css({display:"none"});
+              }
          }   
         ,overCenter: function(e){
                if(jQuery(e.target).hasClass("centerMark")) return this.vismoCanvas.getShapeAtClick(e);
