@@ -12,12 +12,23 @@ if(!in_array($url['host'], $tiddlyCfg['allowed_proxy_list']))
 }
 $url = $feed;
 
+
 // Attempt different proxy methods. 
 
 if(curl_version())
 {
+	
 	$ch = curl_init($_REQUEST['feed']);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($ch, CURLOPT_MAXREDIRS, 10); /* Max redirection to follow */
 	curl_exec($ch);
+	 $info = curl_getinfo($ch);
+	//print_r($info);
+	// HANDLE 301 redirects
+	if($info['http_code']==301)
+	{
+		echo $info['url'];
+	}
 	curl_close($ch);
 	exit;
 	
@@ -35,6 +46,7 @@ if(curl_version())
 	echo $response = stream_get_contents($fp);
 	
 }
+
 
 // in some situtations this needs to replace the above line. 
 //echo $response = readExternalFile($feed);

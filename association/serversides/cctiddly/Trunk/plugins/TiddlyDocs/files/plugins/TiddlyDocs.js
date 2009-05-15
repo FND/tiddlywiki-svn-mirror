@@ -82,7 +82,7 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 		var parent = createTiddlyElement(place, "ul","sortableList", "page-list");
 		var levelCount = [1];
   		for(var i = 0; i < sections.length; i++) {
-			var matches = sections[i].match(/^(\*+) (.*)/)
+			var matches = sections[i].match(/^(\*+) (.*)/);
 			if (matches) {
 				var level = matches[1].length;
 				var tiddlerTitle = matches[2];

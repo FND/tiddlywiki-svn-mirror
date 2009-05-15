@@ -18,11 +18,13 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"OpenID",
 	"Portlet",
 	"lifestream",
-	"announcements",  
-	"TiddlyDocs",
-	"FCKEditor",
+	"announcements",
 	"seo",
 	"LDAP",
+	"TiddlyDocs",
+	"FCKEditor",
+	"RSS",
+	"SkinnyTiddlers",
 	"lifestream",
 	"WordpressMigration"
 );
@@ -119,7 +121,8 @@ array(	'wikipedia.org',
 		'tiddlywiki.abego-software.de',
 		'jonrobson.me.uk',
 		'nfshost.com',
-		"0x2a.nfshost.com"
+		"0x2a.nfshost.com",
+		"cct.dev"
 );
 						
 // Allowed file upload types	
