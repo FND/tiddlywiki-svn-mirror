@@ -1,6 +1,6 @@
 var VismoCanvasEditor = function(vismoCanvas,options){
         //var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:400;'><div class='selectshape button'>&nbsp;</div><div class='newshape button'>&nbsp;</div><div class='newline button'>&nbsp;</div><div class='newfreeline button'>&nbsp;</div></div>";
-        var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:999999;'><div class='togglemode button editor'>EDIT MODE</div></div><div class='VismoToolSettings' style='z-index:999999;></div>";
+        var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:999999;'><div class='togglemode button editor'>EDIT MODE</div></div><div class='VismoToolSettings' style='z-index:999999;'></div>";
         if(!options) options = {};
         if(!options.tools) options.tools = ["selectshape","newcircle","newline","fillshape","save"];
         if(vismoCanvas instanceof jQuery){
@@ -56,7 +56,10 @@ VismoCanvasEditor.prototype = {
             
             /*color wheel */
             var applyTo = "fill";
-            jQuery(".VismoToolSettings",this.el).append("<div>color:<input type='text' name='color' value='#ffffff' class='VismoToolFillColor'>opacity:<input type='text' value='1.0' class='VismoToolFillOpacity'><div class='VismoToolFillPicker'></div></div><div class='toggler'><div class='VismoToolFill'>fill<div class='previewcolor VismoToolFillPreview'></div></div><div class='VismoToolStroke'>stroke<div class='previewcolor VismoToolStrokePreview' style='background-color:black;'></div></div>");
+            var colorpicker = "<div class='VismoCanvasColor'><div>color:<input type='text' name='color' value='#ffffff' class='VismoToolFillColor'>opacity:<input type='text' value='1.0' class='VismoToolFillOpacity'/></div><div class='VismoToolFillPicker'></div><span class='hider'>hide</span></div>";
+            var buttons  ="<div class='toggler'><div class='VismoToolFill'>fill<div class='previewcolor VismoToolFillPreview'></div></div><div class='VismoToolStroke'>stroke<input class='lineWidth' type='text' value='1.0'/>px <div class='previewcolor VismoToolStrokePreview' style='background-color:black;'></div></div>";
+            jQuery(".VismoToolSettings",this.el).append(colorpicker+buttons);
+            
             jQuery(".VismoToolFillPicker",this.el).farbtastic(function(hex){   
                 jQuery(".VismoToolFillColor").val(hex);
                 
@@ -64,57 +67,93 @@ VismoCanvasEditor.prototype = {
                 var opacity = jQuery(".VismoToolFillOpacity",that.el);               
                 if(applyTo == 'fill'){                    
                     var fill =that.fill(color.val(),opacity.val());
-                    var p = jQuery(".VismoToolFillPreview",that.el).css({'background-color':fill});    
+                    var rgbCode = VismoShapeUtils.toRgb(fill);
+                    
+                    jQuery(".VismoToolFillPreview",that.el).css({'background-color':rgbCode.rgb,'opacity':rgbCode.opacity});    
                     that.tempShape.setProperty("fill",fill);
                     var s= that.manipulator.getSelectedShape();
                     if(s) s.setProperty("fill",fill);
+
                 }
                 else{
                     
                     var stroke =that.stroke(color.val(),opacity.val());
-                    var p = jQuery(".VismoToolStrokePreview",that.el).css({'background-color':stroke});    
+                    var rgbCode = VismoShapeUtils.toRgb(stroke);
+                    
+                    jQuery(".VismoToolStrokePreview",that.el).css({'background-color':rgbCode.rgb,'opacity':rgbCode.opacity});      
                     that.tempShape.setProperty("stroke",stroke);
                     that.tempLine.setProperty("stroke",stroke);
                     var s= that.manipulator.getSelectedShape();
                     if(s) s.setProperty("stroke",stroke);
                 }
             });
+            
+            jQuery(".hider",".VismoCanvasColor").click(function(e){
+                jQuery(this).parent().hide();
+            });
+            jQuery(".VismoCanvasColor").hide();
+            jQuery(".lineWidth").change(function(e){
+                var strokew = parseFloat(this.value);
+                if(!strokew) return;
+                that.tempShape.setProperty("lineWidth",strokew);
+                that.tempLine.setProperty("lineWidth",strokew);
+                var s= that.manipulator.getSelectedShape();
+                if(s) s.setProperty("lineWidth",strokew);
+                that.vismoCanvas.render();
+            });
         
+            var farb = jQuery(".VismoToolFillPicker",this.el)[0];
             jQuery(".VismoToolStroke").click(function(e){
-               
+                jQuery(".VismoCanvasColor").show();
                if(applyTo== 'stroke'){
-                    jQuery(".VismoToolStrokeColor").val(that.stroke());
+
                    e.stopPropagation();
                }
                else{
                    applyTo = "stroke"; 
+                               
                  //  jQuery(this).parent().siblings().show();
                } 
+               var opacity = jQuery(".VismoToolFillOpacity",that.el);
+               opacity.val(VismoShapeUtils.opacityFrom(that.stroke()));
                
-               
+               var hexcode = VismoShapeUtils.toHex(that.stroke());
+               if(hexcode)farb.farbtastic.setColor(hexcode);
+
+
             });
             jQuery(".VismoToolFill").click(function(e){
-                
+                 jQuery(".VismoCanvasColor").show();
                 if(applyTo== 'fill'){
-                     jQuery(".VismoToolFillColor").val(that.fill());
+
                     e.stopPropagation();
 
                 }else{
                    applyTo = "fill"; 
+                  
                     //jQuery(this).parent().siblings().show();
                 }
+                var opacity = jQuery(".VismoToolFillOpacity",that.el);
+                opacity.val(VismoShapeUtils.opacityFrom(that.fill()));
+                
+                var hexcode = VismoShapeUtils.toHex(that.fill());
+                 if(hexcode)farb.farbtastic.setColor(hexcode);
+
             });
-                    
+            this.fillColor = "rgb(255,0,0)";
+            this.strokeColor = "#000000";
+            farb.farbtastic.setColor("#ff0000");
             
             
             
-            this.strokeElement = jQuery(".VismoToolStrokeColor",this.el);
+
 
             
             
         }
         ,_recalculateEdge: function(movedShape){
             if(!movedShape)return;
+
             var movedID = movedShape.getProperty("id");
             var memory = this.vismoCanvas.getMemory();
             for(var i=0; i < memory.length; i++){
@@ -152,7 +191,7 @@ VismoCanvasEditor.prototype = {
               var donowt =  function(e){};
 
               
-              var vceMove = function(e){   
+              var vceMove = function(e,s){   
                     if(that.enabled){         
                      
                       var tool = that.getSelectedTool();
@@ -201,7 +240,7 @@ VismoCanvasEditor.prototype = {
                   
               };
               
-              var vceUp = function(e){
+              var vceUp = function(e,s){
                   
                   if(that.enabled){
                       var tool = that.getSelectedTool();
@@ -264,34 +303,12 @@ VismoCanvasEditor.prototype = {
               }
               jQuery("."+this.options.tools[0]).click();
    }
-   ,getStroke: function(){
-       var rgborhex = this.strokeTool.val();
-       if(rgborhex.indexOf("rgb") == -1){ //its hex
-           
-           color = VismoShapeUtils.toRgb(rgborhex);
-       }
-       else if(rgborhex.indexOf("rgba") == -1){
-           color = rgborhex;
-       }
-       else if(rgborhex.indexOf("rgb") == -1){
-           //do something with opacity its rgb
-           color = rgborhex;
-           
-       }
-       else{
-           return false;
-       }
-       
-      var p = jQuery(".VismoToolStrokePreview",this.el).css({'background-color':color});
-
-       return color;
-   }
-
         ,stroke: function(rgborhex,opacity){   
+            var color;
             if(!rgborhex) return this.strokeColor;       
             if(rgborhex.indexOf("rgb") == -1){ //its hex
 
-                color = VismoShapeUtils.toRgb(rgborhex,opacity);
+                color = VismoShapeUtils.toRgba(rgborhex,opacity);
             }
             else if(rgborhex.indexOf("rgba") == -1){
                 color = rgborhex;
@@ -309,10 +326,11 @@ VismoCanvasEditor.prototype = {
         }
         
        ,fill: function(rgborhex,opacity){
+           var color; 
            if(!rgborhex) return this.fillColor;
            if(rgborhex.indexOf("rgb") == -1){ //its hex
            
-               color = VismoShapeUtils.toRgb(rgborhex,opacity);
+               color = VismoShapeUtils.toRgba(rgborhex,opacity);
            }
            else if(rgborhex.indexOf("rgba") == -1){
                color = rgborhex;
@@ -478,6 +496,7 @@ VismoCanvasEditor.prototype = {
                           that.tempShape.setProperty("hidden",true);
                           
                           var clone = that.tempShape.clone();
+                          clone.setProperty("z-index",false);
                           clone.setProperty("onmousedown",false);
                           clone.setProperty("unclickable",false);
                           clone.setProperty("id",that.nextID);
@@ -506,10 +525,12 @@ VismoCanvasEditor.prototype = {
           }
           
           this.clear();
+          if(list){
           for(var i=0; i < list.length; i++){
               var props = list[i];
               var s =new VismoShape(props);
               this.vismoCanvas.add(s);
+          }
           }
           this.vismoCanvas.render();
       }
@@ -528,16 +549,16 @@ VismoCanvasEditor.prototype = {
                   buffer.push(["coordinates: ["+ coords.toString()+"]"]);
                   var j;
                   for(j in properties){
-                   
+                        
                         var type = typeof(properties[j]);
-                        if(type != 'object' && type != "function") {
+                        if(type != 'object' && type != "function" && type != "boolean") {
                             buffer.push(",")
-                            buffer.push([j+":'"+properties[j] +"'"]);
+                            buffer.push(["'"+j+"':'"+properties[j] +"'"]);
                         }
                         else{
                             if(j == 'transformation'){
                                 var t = properties[j];
-                                buffer.push([",transformation:"+"{translate:{x:"+t.translate.x+",y:"+t.translate.y+"},scale:{x:"+t.scale.x+",y:"+t.scale.y+"}"]);
+                                buffer.push([",transformation:"+"{translate:{x:"+t.translate.x+",y:"+t.translate.y+"},scale:{x:"+t.scale.x+",y:"+t.scale.y+"}}"]);
                             }
                         }
                   }
@@ -549,7 +570,7 @@ VismoCanvasEditor.prototype = {
               
               
           }
-
+          buffer.push("]");
         res = buffer.join("");
           return res;
       }
@@ -620,14 +641,15 @@ var VismoShapeManipulator = function(vismoCanvas,options){
             });
 
             jQuery(document).keypress(function(e){
-
+                if(e.target == 'INPUT') return;
                 var keycode = (e.keyCode ? e.keyCode : e.which);
+                
                 var backspaceKey = 8;
-                var dKey = 100;
                 var deleteKey = -1;
-                if(keycode == backspaceKey || keycode ==dKey || keycode == deleteKey){
+                if(keycode == backspaceKey && e.shiftKey || keycode == deleteKey){
                     var s = that.getSelectedShape();
                     if(s){
+                        alert("delete");
                         that.vismoCanvas.remove(s);
                         that.vismoCanvas.render();
                     }

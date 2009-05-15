@@ -24,7 +24,60 @@ var VismoShapeUtils ={
             if(typeof(c)== 'number') return true;
         }
     }
-    ,toRgb: function(hex,opacity){
+    
+    ,toHex: function(rgba){
+        if(rgba.indexOf("rgba") == 0){
+            rgba = rgba.replace("rgba(","");
+            rgba = rgba.replace(")","");
+        }
+        else if(rgba.indexOf("rgb")==0){
+             rgba = rgba.replace("rgb(","");
+        }
+        
+        rgba = rgba.replace(")","");
+        rgba = rgba.split(",");
+        return "#"+this._tohexadecimal(rgba[0])+this._tohexadecimal(rgba[1]) +this._tohexadecimal(rgba[2]);
+    }
+    ,_tohexadecimal: function(N){
+        if (N==null) return "00";
+        N=parseInt(N); if (N==0 || isNaN(N)) return "00";
+        N=Math.max(0,N); N=Math.min(N,255); N=Math.round(N);
+        return "0123456789ABCDEF".charAt((N-N%16)/16)
+             + "0123456789ABCDEF".charAt(N%16);
+        
+    }
+    ,opacityFrom: function(rgba){
+ 
+        var rgbcode = rgba.replace("rgba(","");
+	    rgbcode = rgbcode.replace(")","");
+	    rgbcode = rgbcode.split(",");
+	    var opvalue = 0;
+	    if(rgbcode.length < 4) opvalue = 1;
+	    else opvalue =rgbcode[3];
+	    
+	    return opvalue;
+    }
+    ,toRgb: function(hex_rgba,opacity){
+        var rgb = {};
+        if(hex_rgba.indexOf("#") == 0 && hex_rgba.indexOf(",") == -1){ //hex code argument
+            var hex = hex_rgba;
+			var hexcode = hex.substring(1);
+			rgb.red = this._hexToR(hexcode);
+			rgb.blue = this._hexToB(hexcode);
+			rgb.green = this._hexToG(hexcode);
+		}
+		else if(hex_rgba.indexOf("rgba") != -1){
+		    var rgbcode = hex_rgba.replace("rgba(","");
+		    rgbcode = rgbcode.replace(")","");
+		    rgbcode = rgbcode.split(",");
+		    rgb.red =rgbcode[0];
+		    rgb.green =rgbcode[1];
+		    rgb.blue =rgbcode[2];
+		    opacity = rgbcode[3];
+		}
+		return {rgb:"rgb("+rgb.red+","+ rgb.green +","+ rgb.blue+")",opacity:opacity};
+	}    
+    ,toRgba: function(hex,opacity){
         var rgb = {};
         if(hex.indexOf("#") == 0 && hex.indexOf(",") == -1){ //hex code argument
 			var hexcode = hex.substring(1);
@@ -449,7 +502,7 @@ VismoShape.prototype={
 			else radiush = radiusw;
 			
 			this.setDimensions(radiusw*2,radiush*2);
-			this.setCoordinates([coordinates[0],coordinates[1]]);
+			this.setCoordinates([coordinates[0],coordinates[1],coordinates[2]]);
 			
 		}
 		else if(shapetype == 'polygon' || shapetype == 'path')

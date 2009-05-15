@@ -162,7 +162,12 @@ var VismoVector = function(vismoShape,canvas){
 };
 
 VismoVector.prototype = {
-	_initImage: function(vismoShape,canvas){
+	scrub: function(){
+	    if(this.el){
+	    this.el.parentNode.removeChild(this.el);
+	    }
+	}
+	,_initImage: function(vismoShape,canvas){
 
 		var that = this;
 		var dim = vismoShape.getDimensions();

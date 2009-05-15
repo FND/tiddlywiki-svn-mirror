@@ -397,10 +397,11 @@ VismoCanvas.prototype = {
 	                this.memory.splice(i,1);
 	            }
 	       }
+	       if(vismoShape.vml)vismoShape.vml.scrub();
 	}
 	,add: function(vismoShape){
 		if(!this.memory) this.memory = [];
-		if(!vismoShape.getProperty("id"))vismoShape.setProperty("id",this.memory.length);
+		if(!vismoShape.getProperty("id"))vismoShape.setProperty("id",this.memory.length +"_" + Math.random());
 		this.memory.push(vismoShape);
 		vismoShape._vismoClickingID = this.memory.length;
 
@@ -426,7 +427,7 @@ VismoCanvas.prototype = {
 	,clearMemory: function(){
 		for(var i=0; i < this.memory.length; i++){
 			if(this.memory[i].vml){
-				this.memory[i].vml.parentNode.removeChild(this.memory[i].vml);
+				this.memory[i].vml.scrub();
 			}
 		}
 		this.memory = [];
@@ -655,7 +656,7 @@ VismoCanvas.prototype = {
 	}
 
 
-        ,makeMoveable: function(oncompletemove,unmoveable){
+        ,makeMoveable: function(oncompletemove,unmoveable){ /*DONT USE ME! i'm naughty and soon to be deleted */
                 if(!unmoveable)unmoveable = [];
                 if(this.madeMoveable) return;
                 if(oncompletemove)this.oncompletemove = oncompletemove;
