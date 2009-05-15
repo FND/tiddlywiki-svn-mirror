@@ -59,7 +59,7 @@ VismoCanvasEditor.prototype = {
             jQuery(".VismoToolSettings",this.el).append("<div>color:<input type='text' name='color' value='#ffffff' class='VismoToolFillColor'>opacity:<input type='text' value='1.0' class='VismoToolFillOpacity'><div class='VismoToolFillPicker'></div></div><div class='toggler'><div class='VismoToolFill'>fill<div class='previewcolor VismoToolFillPreview'></div></div><div class='VismoToolStroke'>stroke<div class='previewcolor VismoToolStrokePreview' style='background-color:black;'></div></div>");
             jQuery(".VismoToolFillPicker",this.el).farbtastic(function(hex){   
                 jQuery(".VismoToolFillColor").val(hex);
-
+                
                 var color = jQuery(".VismoToolFillColor",that.el);
                 var opacity = jQuery(".VismoToolFillOpacity",that.el);               
                 if(applyTo == 'fill'){                    
@@ -83,8 +83,8 @@ VismoCanvasEditor.prototype = {
             jQuery(".VismoToolStroke").click(function(e){
                
                if(applyTo== 'stroke'){
+                    jQuery(".VismoToolStrokeColor").val(that.stroke());
                    e.stopPropagation();
-               //jQuery(this).parent().siblings().hide();
                }
                else{
                    applyTo = "stroke"; 
@@ -96,19 +96,15 @@ VismoCanvasEditor.prototype = {
             jQuery(".VismoToolFill").click(function(e){
                 
                 if(applyTo== 'fill'){
+                     jQuery(".VismoToolFillColor").val(that.fill());
                     e.stopPropagation();
-                    //jQuery(this).parent().siblings().hide();
+
                 }else{
                    applyTo = "fill"; 
                     //jQuery(this).parent().siblings().show();
                 }
             });
                     
-            jQuery(".toggler").click(function(){
-                //var me =jQuery(this);
-                //me.siblings().toggle();
-                
-            });
             
             
             
