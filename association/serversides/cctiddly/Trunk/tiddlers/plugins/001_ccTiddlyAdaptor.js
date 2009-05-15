@@ -628,7 +628,6 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	};
 
 	ccTiddlyAdaptor.deleteTiddlerCallback = function(status,context,responseText,uri,xhr){
-		console.log(responseText);
 		if(status){
 			context.status = true;
 		}else{
