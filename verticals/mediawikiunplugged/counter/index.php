@@ -19,7 +19,7 @@
 <?php
 
 $logdir='/home/pauldowney/logs/mediawikiunplugged.com/http/';
-system('cat '.$logdir.'access.log '.$logdir.'access.log.20* | awk \'$7 == "/MediaWikiUnplugged.zip" { print $9 }\' | grep 200 | wc -l');
+system('( cat '.$logdir.'access.log '.$logdir.'access.log.20*[0-9]  ; gzip -dc '.$logdir.'access.log.20*gz ) | awk \'$7 == "/MediaWikiUnplugged.zip" { print $9 }\' | grep 200 | wc -l');
 
 ?>
 <div>
