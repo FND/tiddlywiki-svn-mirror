@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Title..</title>
+	<meta name = "viewport" content = "initial-scale = 1.0">
+	<style type="text/css" media="screen">
+		<!--@@style@@-->
+	</style>
+</head>
+<body>
+	
+	<div id='banner'>
+		<div class='banner_top'></div>
+		<div class='banner_bottom'></div>
+	</div>
+	<div id='header'>
+		<h1 class='tiddlerName'>JigglyWiki</h1>
+		<h3>a web-visible, jquery supported tiddlywiki experiment</h3>
+	</div>
+	
+	<div id='sidebar'>
+		<div class='search'>
+			<input type='text' class='search' value='search' />
+			<div class='search_results'></div>
+		</div>
+		<div class='controls'>
+			<a class='control' href='#'>close all</a>
+			<a class='control' href='#'>save</a>
+			<a class='control' href='#'>permalink</a>
+			<a class='action' href='#'>test action menu anim</a>
+		</div>
+		<div class='controls'>
+			<a class="tiddlerLink" href="#tiddler:help">help</a>
+			<a class="tiddlerLink" href="#tiddler:JigglyWiki">JigglyWiki</a>
+		</div>		
+	</div>
+	
+	<div id='story1' class='story'></div>
+	<!--@@contents@@-->
+	</div>	
+
+	<div id="footer">
+		<a href="http://jigglywiki.com">jigglywiki.com</a> | 
+		<a href="http://tiddlywiki.com">tiddlywiki.com</a> | 
+		<a href="http://osmosoft.com">osmosoft.com</a>
+	</div>
+</body>
+</html>
