@@ -1,5 +1,0 @@
-ID          INFO
-------------------------------
-{% for id in forms -%}
-{{id}}           {{forms[id]}}
-{% endfor %}

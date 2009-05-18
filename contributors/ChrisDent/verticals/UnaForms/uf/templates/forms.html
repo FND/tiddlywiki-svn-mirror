@@ -1,5 +1,11 @@
 <ul>
 {% for form in forms %}
-<li><a href="/forms/{{ form }}">{{ form }}:{{ forms[form] }}</a></li>
+<li><form action="/forms" method="POST">{{ form.name }} <input type="submit" name="submit" value="{{ form.name }}" /></form></li>
+<ul>
+{% for bag in bags[form.name] %}
+    <li>{{ bag.name }}</li>
+{% endfor %}
+</ul>
+</li>
 {% endfor %}
 </ul>
