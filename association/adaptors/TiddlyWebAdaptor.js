@@ -54,7 +54,7 @@ adaptor.prototype.getStatus = function(context, userParams, callback) {
 	var uriTemplate = "%0/status";
 	var uri = uriTemplate.format([context.host]);
 	var req = httpReq("GET", uri, adaptor.getStatusCallback, context,
-		null, null, null, null, null, false);
+		null, null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -76,7 +76,7 @@ adaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	var uriTemplate = "%0/recipes"; // XXX: bags?
 	var uri = uriTemplate.format([context.host]);
 	var req = httpReq("GET", uri, adaptor.getWorkspaceListCallback,
-		context, { accept: adaptor.mimeType }, null, null, null, null, false);
+		context, { accept: adaptor.mimeType }, null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -111,7 +111,7 @@ adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name), params]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerListCallback,
-		context, { accept: adaptor.mimeType }, null, null, null, null, false);
+		context, { accept: adaptor.mimeType }, null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -152,7 +152,7 @@ adaptor.prototype.getSearchResults = function(context, userParams, callback) {
 	var filterString = context.filters ? ";filter=" + context.filters : "";
 	var uri = uriTemplate.format([context.host, context.query, filterString]); // XXX: parameters need escaping?
 	var req = httpReq("GET", uri, adaptor.getSearchResultsCallback,
-		context, { accept: adaptor.mimeType }, null, null, null, null, false);
+		context, { accept: adaptor.mimeType }, null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -168,7 +168,7 @@ adaptor.prototype.getTiddlerRevisionList = function(title, limit, context, userP
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title)]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerRevisionListCallback,
-		context, { accept: adaptor.mimeType }, null, null, null, null, false);
+		context, { accept: adaptor.mimeType }, null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -236,7 +236,7 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title),
 		context.revision]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerCallback, context,
-		{ accept: adaptor.mimeType }, null, null, null, null, false);
+		{ accept: adaptor.mimeType }, null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -275,7 +275,7 @@ adaptor.prototype.getTiddlerChronicle = function(title, context, userParams, cal
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title)]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerChronicleCallback,
-		context, { accept: adaptor.mimeType }, null, null, null, null, false);
+		context, { accept: adaptor.mimeType }, null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -324,7 +324,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	delete payload.fields.changecount;
 	payload = $.toJSON(payload);
 	var req = httpReq("PUT", uri, adaptor.putTiddlerCallback,
-		context, headers, payload, adaptor.mimeType, null, null, false);
+		context, headers, payload, adaptor.mimeType, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -359,7 +359,7 @@ adaptor.prototype.putTiddlerChronicle = function(revisions, context, userParams,
 	}
 	var payload = $.toJSON(revisions);
 	var req = httpReq("POST", uri, adaptor.putTiddlerChronicleCallback,
-		context, headers, payload, adaptor.mimeType, null, null, false);
+		context, headers, payload, adaptor.mimeType, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -384,7 +384,7 @@ adaptor.prototype.putTiddlerStore = function(store, context, userParams, callbac
 	var uri = uriTemplate.format([host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name)]);
 	var req = httpReq("POST", uri, adaptor.putTiddlerStoreCallback,
-		context, null, store, "text/x-tiddlywiki", null, null, false);
+		context, null, store, "text/x-tiddlywiki", null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -474,7 +474,7 @@ adaptor.prototype.deleteTiddler = function(tiddler, context, userParams, callbac
 	var etag = adaptor.generateETag(workspace, tiddler);
 	var headers = etag ? { "If-Match": etag } : null;
 	var req = httpReq("DELETE", uri, adaptor.deleteTiddlerCallback, context, headers,
-		null, null, null, null, false);
+		null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -518,7 +518,7 @@ adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback
 
 	if(rev2) {
 		var req = httpReq("GET", uri, adaptor.getTiddlerDiffCallback, context, null,
-			null, null, null, null, false);
+			null, null, null, null, true);
 	} else {
 		var payload = {
 			title: tiddler.title,
@@ -529,7 +529,7 @@ adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback
 		}; // XXX: missing attributes!?
 		payload = $.toJSON(payload);
 		req = httpReq("POST", uri, adaptor.getTiddlerDiffCallback, context,
-			null, payload, adaptor.mimeType, null, null, false);
+			null, payload, adaptor.mimeType, null, null, true);
 	}
 	return typeof req == "string" ? req : true;
 };
