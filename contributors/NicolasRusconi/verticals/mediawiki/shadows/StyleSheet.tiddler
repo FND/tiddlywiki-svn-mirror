@@ -20,6 +20,11 @@ table.paginated {width:98%}
 .pageControl a {cursor:pointer;cursor:hand; padding:0px 5px 0px 5px;}
 .backwardsLinks {align: right; text-align: right;}
 .pageSelect {width: 10%}
+.pageSelect {width: 10%}
+.cellTiddler {width: 33%}
+.cellTiddler tr, .cellTiddler td {white-space:nowrap; width: 33%}
+.selectorCellTiddler {width: 5px}
+.selectorCellTiddler tr, .selectorCellTiddler td {white-space:nowrap; width: 5px}
 /*}}}*/
 </pre>
 </div>

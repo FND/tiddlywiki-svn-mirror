@@ -132,7 +132,7 @@ config.macros.importMediaWiki.onGetWorkspaceList = function(context, wizard)
 			if (context.statusCode == 503) {
 				message = macro.errorLookingForWikiHost;
 			} else if (context.statusCode == 404) {
-				message = macro.errorLookingForWikiApi;
+				message = macro.errorLookingForWikiApi +  macro.mediawikiAbout;
 			}
 			macro.showErrorMessage(wizard,message);
 			wizard.setButtons([macro.getResetButton(),
@@ -926,7 +926,8 @@ merge(config.macros.importMediaWiki, {
 	//User messages
 	errorLookingForWiki:"Unable to connect to the wiki server. Unknown error (id:%0)",
 	errorLookingForWikiHost: "Unable to connect to the wiki server, please check you are connected to the network and there is no typo.",
-	errorLookingForWikiApi: "Error connecting to the wiki server, please make sure the wiki supports mediawiki api",
+	errorLookingForWikiApi: "Error connecting to the wiki server, please make sure the wiki supports mediawiki api.",
+	mediawikiAbout: "Mediawiki API is the entry point of mediawikiUnplugged. For more information visit http://www.mediawiki.org/wiki/API",
 	errorGettingTiddler: "Error in importMediaWiki.onGetTiddler: ",
 	importMoreTiddlersButtonLabel : "Import more tiddlers...",
 	importMoreTiddlersButtonTooltip : "click here to import more tiddlers",
@@ -964,8 +965,8 @@ merge(config.macros.importMediaWiki, {
 	mediaWikiTiddlersTag: "mediaWikiPage",
 	listViewTemplate: {
 		columns: [
-			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'}
+				{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector', className: 'selectorCellTiddler'},
+				{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler', className: 'cellTiddler'}
 			],
 		rowClasses: []}
 	});
