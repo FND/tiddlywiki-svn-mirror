@@ -26,6 +26,8 @@ This plugin includes [[jQuery JSON|http://code.google.com/p/jquery-json/]].
 !!v0.6 (2009-03-15)
 * refactored to take advantage of jQuery
 * replaced JSON serialization with jQuery JSON plugin
+!!v0.7 (2009-05-08)
+* added support for TiddlyWeb differ plugin
 !To Do
 * createWorkspace
 * document custom/optional context attributes (e.g. filters, query, revision) and tiddler fields (e.g. server.title, origin)
