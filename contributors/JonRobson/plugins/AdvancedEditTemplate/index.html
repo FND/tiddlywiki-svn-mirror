@@ -53,7 +53,57 @@ DAMAGE.
 #storeArea div {padding:0.5em; margin:1em 0em 0em 0em; border-color:#fff #666 #444 #ddd; border-style:solid; border-width:2px; overflow:auto;}
 #shadowArea {display:none;}
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
-/*JQUERYCSS */
+/*JQUERY plugins CSS goes here */
+.ac_results {
+	padding: 0px;
+	border: 1px solid black;
+	background-color: white;
+	overflow: hidden;
+	z-index: 99999;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_results li {
+	margin: 0px;
+	padding: 2px 5px;
+	cursor: default;
+	display: block;
+	/* 
+	if width will be 100% horizontal scrollbar will apear 
+	when scroll mode will be used
+	*/
+	/*width: 100%;*/
+	font: menu;
+	font-size: 12px;
+	/* 
+	it is very important, if line-height not setted or setted 
+	in relative units scroll will be broken in firefox
+	*/
+	line-height: 16px;
+	overflow: hidden;
+}
+
+.ac_loading {
+	background: white url('indicator.gif') right center no-repeat;
+}
+
+.ac_odd {
+	background-color: #eee;
+}
+
+.ac_over {
+	background-color: #0A246A;
+	color: white;
+}
+
+
 UL.jqueryFileTree{font-family:Verdana,sans-serif;font-size:11px;line-height:18px;padding:0px;margin:0px;}
 UL.jqueryFileTree LI{list-style:none;padding:0px;padding-left:20px;margin:0px;white-space:nowrap;}
 UL.jqueryFileTree A{color:#333;text-decoration:none;display:block;padding:0px 2px;} 
@@ -578,7 +628,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200904231311" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200905141209" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -616,6 +666,527 @@ config.macros.FileTree = {
 	place.appendChild(el);
   }
 };
+
+/**
+ * Ajax upload
+ * Project page - http://valums.com/ajax-upload/
+ * Copyright (c) 2008 Andris Valums, http://valums.com
+ * Licensed under the MIT license (http://valums.com/mit-license/)
+ * Version 3.1 (24.04.2009)
+ */
+
+/**
+ * Changes from the previous version:
+ * 1. Fixed Safari 4 (Mac) upload problem
+ * Special thanks to Lauren Russell, Mike, Steffen for finding what caused this bug
+ * 2. Improved compatability with jquery ui.
+ * Thanks to Vladimir Shushkov
+ * 3. Fixed problems with Opera, but you can't use false as a response now.
+ * 
+ * For the full changelog please visit: 
+ * http://valums.com/ajax-upload-changelog/
+ */
+
+(function(){
+	
+var d = document, w = window;
+
+/**
+ * Get element by id
+ */	
+function get(element){
+	if (typeof element == &quot;string&quot;)
+		element = d.getElementById(element);
+	return element;
+}
+
+/**
+ * Attaches event to a dom element
+ */
+function addEvent(el, type, fn){
+	if (w.addEventListener){
+		el.addEventListener(type, fn, false);
+	} else if (w.attachEvent){
+		var f = function(){
+		  fn.call(el, w.event);
+		};			
+		el.attachEvent('on' + type, f)
+	}
+}
+
+
+/**
+ * Creates and returns element from html chunk
+ */
+var toElement = function(){
+	var div = d.createElement('div');
+	return function(html){
+		div.innerHTML = html;
+		var el = div.childNodes[0];
+		div.removeChild(el);
+		return el;
+	}
+}();
+
+function hasClass(ele,cls){
+	return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+}
+function addClass(ele,cls) {
+	if (!hasClass(ele,cls)) ele.className += &quot; &quot;+cls;
+}
+function removeClass(ele,cls) {
+	var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+	ele.className=ele.className.replace(reg,' ');
+}
+
+// getOffset function copied from jQuery lib (http://jquery.com/)
+if (document.documentElement[&quot;getBoundingClientRect&quot;]){
+	// Get Offset using getBoundingClientRect
+	// http://ejohn.org/blog/getboundingclientrect-is-awesome/
+	var getOffset = function(el){
+		var box = el.getBoundingClientRect(),
+		doc = el.ownerDocument,
+		body = doc.body,
+		docElem = doc.documentElement,
+		
+		// for ie 
+		clientTop = docElem.clientTop || body.clientTop || 0,
+		clientLeft = docElem.clientLeft || body.clientLeft || 0,
+		
+		// In Internet Explorer 7 getBoundingClientRect property is treated as physical,
+		// while others are logical. Make all logical, like in IE8.
+		
+		
+		zoom = 1;
+		if (body.getBoundingClientRect) {
+			var bound = body.getBoundingClientRect();
+			zoom = (bound.right - bound.left)/body.clientWidth;
+		}
+		if (zoom &gt; 1){
+			clientTop = 0;
+			clientLeft = 0;
+		}
+		var top = box.top/zoom + (window.pageYOffset || docElem &amp;&amp; docElem.scrollTop/zoom || body.scrollTop/zoom) - clientTop,
+		left = box.left/zoom + (window.pageXOffset|| docElem &amp;&amp; docElem.scrollLeft/zoom || body.scrollLeft/zoom) - clientLeft;
+				
+		return {
+			top: top,
+			left: left
+		};
+	}
+	
+} else {
+	// Get offset adding all offsets 
+	var getOffset = function(el){
+		if (w.jQuery){
+			return jQuery(el).offset();
+		}		
+			
+		var top = 0, left = 0;
+		do {
+			top += el.offsetTop || 0;
+			left += el.offsetLeft || 0;
+		}
+		while (el = el.offsetParent);
+		
+		return {
+			left: left,
+			top: top
+		};
+	}
+}
+
+function getBox(el){
+	var left, right, top, bottom;	
+	var offset = getOffset(el);
+	left = offset.left;
+	top = offset.top;
+						
+	right = left + el.offsetWidth;
+	bottom = top + el.offsetHeight;		
+		
+	return {
+		left: left,
+		right: right,
+		top: top,
+		bottom: bottom
+	};
+}
+
+/**
+ * Crossbrowser mouse coordinates
+ */
+function getMouseCoords(e){		
+	// pageX/Y is not supported in IE
+	// http://www.quirksmode.org/dom/w3c_cssom.html			
+	if (!e.pageX &amp;&amp; e.clientX){
+		// In Internet Explorer 7 some properties (mouse coordinates) are treated as physical,
+		// while others are logical (offset).
+		var zoom = 1;	
+		var body = document.body;
+		
+		if (body.getBoundingClientRect) {
+			var bound = body.getBoundingClientRect();
+			zoom = (bound.right - bound.left)/body.clientWidth;
+		}
+
+		return {
+			x: e.clientX / zoom + d.body.scrollLeft + d.documentElement.scrollLeft,
+			y: e.clientY / zoom + d.body.scrollTop + d.documentElement.scrollTop
+		};
+	}
+	
+	return {
+		x: e.pageX,
+		y: e.pageY
+	};		
+
+}
+/**
+ * Function generates unique id
+ */		
+var getUID = function(){
+	var id = 0;
+	return function(){
+		return 'ValumsAjaxUpload' + id++;
+	}
+}();
+
+function fileFromPath(file){
+	return file.replace(/.*(\/|\\)/, &quot;&quot;);			
+}
+
+function getExt(file){
+	return (/[.]/.exec(file)) ? /[^.]+$/.exec(file.toLowerCase()) : '';
+}			
+
+// Please use AjaxUpload , Ajax_upload will be removed in the next version
+Ajax_upload = AjaxUpload = function(button, options){
+	if (button.jquery){
+		// jquery object was passed
+		button = button[0];
+	} else if (typeof button == &quot;string&quot; &amp;&amp; /^#.*/.test(button)){					
+		button = button.slice(1);				
+	}
+	button = get(button);	
+	
+	this._input = null;
+	this._button = button;
+	this._disabled = false;
+	this._submitting = false;
+	// Variable changes to true if the button was clicked
+	// 3 seconds ago (requred to fix Safari on Mac error)
+	this._justClicked = false;
+	this._parentDialog = d.body;
+			
+	if (window.jQuery &amp;&amp; jQuery.ui &amp;&amp; jQuery.ui.dialog){
+		var parentDialog = jQuery(self._button).parents('.ui-dialog-content');
+		if (parentDialog.length){
+			this._parentDialog = parentDialog[0];
+		}
+	}
+					
+	this._settings = {
+		// Location of the server-side upload script
+		action: 'upload.php',			
+		// File upload name
+		name: 'userfile',
+		// Additional data to send
+		data: {},
+		// Submit file as soon as it's selected
+		autoSubmit: true,
+		// The type of data that you're expecting back from the server.
+		// Html and xml are detected automatically.
+		// Only useful when you are using json data as a response.
+		// Set to &quot;json&quot; in that case. 
+		responseType: false,
+		// When user selects a file, useful with autoSubmit disabled			
+		onChange: function(file, extension){},					
+		// Callback to fire before file is uploaded
+		// You can return false to cancel upload
+		onSubmit: function(file, extension){},
+		// Fired when file upload is completed
+		onComplete: function(file, response) {}
+	};
+
+	// Merge the users options with our defaults
+	for (var i in options) {
+		this._settings[i] = options[i];
+	}
+	
+	this._createInput();
+	this._rerouteClicks();
+}
+			
+// assigning methods to our class
+AjaxUpload.prototype = {
+	setData : function(data){
+		this._settings.data = data;
+	},
+	disable : function(){
+		this._disabled = true;
+	},
+	enable : function(){
+		this._disabled = false;
+	},
+	// removes ajaxupload
+	destroy : function(){
+		if(this._input){
+			if(this._input.parentNode){
+				this._input.parentNode.removeChild(this._input);
+			}
+			this._input = null;
+		}
+	},				
+	/**
+	 * Creates invisible file input above the button 
+	 */
+	_createInput : function(){
+		var self = this;
+		var input = d.createElement(&quot;input&quot;);
+		input.setAttribute('type', 'file');
+		input.setAttribute('name', this._settings.name);
+		var styles = {
+			'position' : 'absolute'
+			,'margin': '-5px 0 0 -175px'
+			,'padding': 0
+			,'width': '220px'
+			,'height': '30px'								
+			,'opacity': 0
+			,'cursor': 'pointer'
+			,'display' : 'none'
+			,'zIndex' :  2147483583 //Max zIndex supported by Opera 9.0-9.2x 
+			// Strange, I expected 2147483647					
+		};
+		for (var i in styles){
+			input.style[i] = styles[i];
+		}
+		
+		// Make sure that element opacity exists
+		// (IE uses filter instead)
+		if ( ! (input.style.opacity === &quot;0&quot;)){
+			input.style.filter = &quot;alpha(opacity=0)&quot;;
+		}
+							
+		this._parentDialog.appendChild(input);
+
+		addEvent(input, 'change', function(){
+			// get filename from input
+			var file = fileFromPath(this.value);	
+			if(self._settings.onChange.call(self, file, getExt(file)) == false ){
+				return;				
+			}														
+			// Submit form when value is changed
+			if (self._settings.autoSubmit){
+				self.submit();						
+			}						
+		});
+		
+		// Fixing problem with Safari
+		// The problem is that if you leave input before the file select dialog opens
+		// it does not upload the file.
+		// As dialog opens slowly (it is a sheet dialog which takes some time to open)
+		// there is some time while you can leave the button.
+		// So we should not change display to none immediately
+		addEvent(input, 'click', function(){
+			self.justClicked = true;
+			setTimeout(function(){
+				// we will wait 3 seconds for dialog to open
+				self.justClicked = false;
+			}, 3000);			
+		});		
+		
+		this._input = input;
+	},
+	_rerouteClicks : function (){
+		var self = this;
+	
+		// IE displays 'access denied' error when using this method
+		// other browsers just ignore click()
+		// addEvent(this._button, 'click', function(e){
+		//   self._input.click();
+		// });
+				
+		var box, dialogOffset = {top:0, left:0}, over = false;							
+		addEvent(self._button, 'mouseover', function(e){
+			if (!self._input || over) return;
+			over = true;
+			box = getBox(self._button);
+					
+			if (self._parentDialog != d.body){
+				dialogOffset = getOffset(self._parentDialog);
+			}	
+		});
+		
+	
+		// we can't use mouseout on the button,
+		// because invisible input is over it
+		addEvent(document, 'mousemove', function(e){
+			var input = self._input;			
+			if (!input || !over) return;
+			
+			if (self._disabled){
+				removeClass(self._button, 'hover');
+				input.style.display = 'none';
+				return;
+			}	
+										
+			var c = getMouseCoords(e);
+
+			if ((c.x &gt;= box.left) &amp;&amp; (c.x &lt;= box.right) &amp;&amp; 
+			(c.y &gt;= box.top) &amp;&amp; (c.y &lt;= box.bottom)){			
+				input.style.top = c.y - dialogOffset.top + 'px';
+				input.style.left = c.x - dialogOffset.left + 'px';
+				input.style.display = 'block';
+				addClass(self._button, 'hover');				
+			} else {		
+				// mouse left the button
+				over = false;
+				if (!self.justClicked){
+					input.style.display = 'none';
+				}
+				removeClass(self._button, 'hover');
+			}			
+		});			
+			
+	},
+	/**
+	 * Creates iframe with unique name
+	 */
+	_createIframe : function(){
+		// unique name
+		// We cannot use getTime, because it sometimes return
+		// same value in safari :(
+		var id = getUID();
+		
+		// Remove ie6 &quot;This page contains both secure and nonsecure items&quot; prompt 
+		// http://tinyurl.com/77w9wh
+		var iframe = toElement('&lt;iframe src=&quot;javascript:false;&quot; name=&quot;' + id + '&quot; /&gt;');
+		iframe.id = id;
+		iframe.style.display = 'none';
+		d.body.appendChild(iframe);			
+		return iframe;						
+	},
+	/**
+	 * Upload file without refreshing the page
+	 */
+	submit : function(){
+		var self = this, settings = this._settings;	
+					
+		if (this._input.value === ''){
+			// there is no file
+			return;
+		}
+										
+		// get filename from input
+		var file = fileFromPath(this._input.value);			
+
+		// execute user event
+		if (! (settings.onSubmit.call(this, file, getExt(file)) == false)) {
+			// Create new iframe for this submission
+			var iframe = this._createIframe();
+			
+			// Do not submit if user function returns false										
+			var form = this._createForm(iframe);
+			form.appendChild(this._input);
+			
+			form.submit();
+			
+			d.body.removeChild(form);				
+			form = null;
+			this._input = null;
+			
+			// create new input
+			this._createInput();
+			
+			var toDeleteFlag = false;
+			
+			addEvent(iframe, 'load', function(e){
+				if (iframe.src == &quot;about:blank&quot;){						
+					// First time around, do not delete.
+					if( toDeleteFlag ){
+						// Fix busy state in FF3
+						setTimeout( function() {
+							d.body.removeChild(iframe);
+						}, 0);
+					}
+					return;
+				}				
+				
+				var doc = iframe.contentDocument ? iframe.contentDocument : frames[iframe.id].document;
+
+				// fixing Opera 9.26
+				if (doc.readyState &amp;&amp; doc.readyState != 'complete'){
+					// Opera fires load event multiple times
+					// Even when the DOM is not ready yet
+					// this fix should not affect other browsers
+					return;
+				}
+				
+				// fixing Opera 9.64
+				if (doc.body &amp;&amp; doc.body.innerHTML == &quot;false&quot;){
+					// In Opera 9.64 event was fired second time
+					// when body.innerHTML changed from false 
+					// to server response approx. after 1 sec
+					return;				
+				}
+				
+				var response;
+									
+				if (doc.XMLDocument){
+					// response is a xml document IE property
+					response = doc.XMLDocument;
+				} else if (doc.body){
+					// response is html document or plain text
+					response = doc.body.innerHTML;
+					if (settings.responseType == 'json'){
+						response = window[&quot;eval&quot;](&quot;(&quot; + response + &quot;)&quot;);
+					}
+				} else {
+					// response is a xml document
+					var response = doc;
+				}
+																			
+				settings.onComplete.call(self, file, response);
+						
+				// Reload blank page, so that reloading main page
+				// does not re-submit the post. Also, remember to
+				// delete the frame
+				toDeleteFlag = true;				
+				iframe.src = &quot;about:blank&quot;; //load event fired				 								
+			});
+	
+		} else {
+			// clear input to allow user to select same file
+			this._input.value = '';						
+		}
+	},		
+	/**
+	 * Creates form, that will be submitted to iframe
+	 */
+	_createForm : function(iframe){
+		var settings = this._settings;
+		
+		// method, enctype must be specified here
+		// because changing this attr on the fly is not allowed in IE 6/7		
+		var form = toElement('&lt;form method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;&lt;/form&gt;');
+		form.style.display = 'none';
+		form.action = settings.action;
+		form.target = iframe.name;
+		d.body.appendChild(form);
+		
+		// Create hidden input element for each data key
+		for (var prop in settings.data){
+			var el = d.createElement(&quot;input&quot;);
+			el.type = 'hidden';
+			el.name = prop;
+			el.value = settings.data[prop];
+			form.appendChild(el);
+		}			
+		return form;
+	}	
+};
+})();
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
 
@@ -735,81 +1306,30 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			slider.setColor(curValue);
 		}
 		,createSearchBox: function(place,fieldName,values,initialValue,action){
-			var holder = document.createElement(&quot;div&quot;);
-			holder.style.position = &quot;relative&quot;;
-			var input = document.createElement(&quot;input&quot;);
-			input.style.position = &quot;relative&quot;;
-			if(initialValue) input.value = initialValue;
-			var suggestions = document.createElement(&quot;div&quot;);
-			suggestions.className = &quot;suggestions&quot;
-			suggestions.style.display = &quot;none&quot;;
-			var possibleSuggestions = {real:values,test:[]};
-			
-			for(var i=0; i &lt; possibleSuggestions.real.length; i ++){
-			        possibleSuggestions.real[i] = possibleSuggestions.real[i].replace(/[\&gt;|\&lt;]/ig, &quot;&quot;)
-				possibleSuggestions.test.push(possibleSuggestions.real[i].replace(/ /,&quot;&quot;));
+		    
+		    var whatyousee=[];
+			var whatyousave = {};
+			for(var i=0; i &lt; values.length; i ++){
+			    var name_value = values[i].split(&quot;:&quot;);
+			    var name = name_value[0];
+			    var value = name_value[1];
+			    if(!value) value = name;
+			    
+			    name = name.replace(/[\&gt;|\&lt;]/ig, &quot;&quot;);
+			    value = value.replace(/[\&gt;|\&lt;]/ig, &quot;&quot;);
+			    whatyousee.push(name);
+			    whatyousave[name] = value;
+			    if(initialValue == value) initialValue = name;
 			}
-			
-			var selectValue = function(val){
-				if(val){
-					input.value = val;
-				}
-				suggestions.innerHTML = &quot;&quot;;
-				if(action){
-					action(val);
-				}
-			}
-
-			
-			var makesuggestions = function(value){
-					
-					suggestions.innerHTML = &quot;&quot;;
-					if(value.length &lt; 3) return;
-					var list = document.createElement(&quot;ul&quot;);
-					list.className = &quot;suggestion&quot;;
-					suggestions.style.display = &quot;none&quot;;
-					value = value.replace(/ /ig,&quot;&quot;);
-					var regexp = new RegExp(value,&quot;i&quot;);
-					suggestions.style.display=&quot;none&quot;;
-					for(var i=0; i&lt;possibleSuggestions.test.length; i++){
-						
-						var trythis =possibleSuggestions.test[i];
-						if(trythis.search(regexp) != -1){
-							var suggestion = document.createElement(&quot;li&quot;);
-							var text = possibleSuggestions.real[i];
-							suggestion.innerHTML =text;
-							suggestions.style.display = &quot;&quot;;
-							suggestion.onmousedown = function(e){
-								selectValue(jQuery(this).text(),suggestions);
-								suggestions.style.display = &quot;none&quot;;
-							}
-							list.appendChild(suggestion);
-						}
-					        
-					}
-					
-				
-					jQuery(input).mouseover(function(e){ if(suggestions.innerHTML !=&quot;&quot;) suggestions.style.display = &quot;&quot;; return false;});
-					jQuery(suggestions).mouseleave(function(e){ this.style.display = &quot;none&quot;; return false;});
-					suggestions.appendChild(list);
-					
+			var handler = function(event,targets){
+			    if(targets.length == 0) return;
+			    var name = targets[0]
+			    var save_this = whatyousave[name];
+			    action(save_this);
 			};
 			
-			var old = window.onkeypress;
-			window.onkeydown = function(e){
-				var t = VismoClickingUtils.resolveTarget(e);
-				if(t &amp;&amp; t == input){
-					makesuggestions(t.value);
-				}
-				if(old) old(e);
-			};
-			input.onchange = function(e){
-				makesuggestions(this.value);
-			}
-			holder.appendChild(input);
-			holder.appendChild(suggestions);
-		
-			place.appendChild(holder);
+			if(!initialValue) initialValue = &quot;&quot;;
+		    jQuery(&quot;&lt;input type='text' value=\&quot;&quot;+initialValue +&quot;\&quot;/&gt;&quot;).autocomplete(whatyousee).result(handler).appendTo(place);
 		}
 
 		,_createMenus: function(menutextrepresentation){
@@ -1169,15 +1689,14 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			form.setAttribute(&quot;target&quot;,&quot;_blank&quot;);
 			var input = document.createElement(&quot;input&quot;);
 			var submit = document.createElement(&quot;input&quot;);
-			submit.type = &quot;submit&quot;;
+			submit.type = &quot;button&quot;;
 
 			input.type = &quot;file&quot;;
 
 			var image = document.createElement(&quot;img&quot;);
 			image.src = initial;
 			image.alt = &quot;currently selected image&quot;;
-			var browser = document.createElement(&quot;div&quot;);
-			browser.className = &quot;filebrowser&quot;;
+
 			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
                 	
 			var root = getParam(params,&quot;root&quot;, null);
@@ -1193,38 +1712,46 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			//	var connector= &quot;http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php&quot;;	
 			jQuery(holder).append(&quot;&lt;div class='tip'&gt;The image currently selected is shown below if selected&lt;/div&gt;&quot;);
 			holder.appendChild(image);
-			jQuery(holder).append(&quot;&lt;div class='tip'&gt;Please select a file from your local machine to upload.&lt;/div&gt;&quot;);
-			form.appendChild(input);
-			input.name = &quot;mysexyfile&quot;;
-			form.appendChild(submit);			
+			//jQuery(holder).append(&quot;&lt;div class='tip'&gt;Please select a file from your local machine to upload.&lt;/div&gt;&quot;);
+			//form.appendChild(input);
+			//input.name = &quot;mysexyfile&quot;;
+			//form.appendChild(submit);			
 			holder.appendChild(form);
-			jQuery(holder).append(&quot;&lt;div class='tip'&gt;Please select a file from the server (listed below) to use as the image.&lt;/div&gt;&quot;);
-			holder.appendChild(browser);
+			jQuery(holder).append(&quot;&lt;div class='tip'&gt;Please select a file from the server (listed below) to use as the image or enter the path to that filename.&lt;/div&gt;&quot;);
+
 			place.appendChild(holder);
+
+
+            
 			var filename = document.createElement(&quot;input&quot;);
-			filename.type = &quot;hidden&quot;;
-			form.appendChild(filename);
-			var imageurl = document.createElement(&quot;input&quot;);
-			input.onchange = function(e){
-			    filename.value = input.value;
-			}
 			
-			imageurl.onchange = function(e){
+			filename.onchange = function(e){
 				var newsrc = this.value;
 				image.src=  &quot;&quot;;
 				image.src = newsrc;
 				if(handler)handler(newsrc);
 			};
-			if(initial)imageurl.value = initial;			
-			imageurl.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
-			holder.appendChild(imageurl);
+			if(initial)filename.value = initial;			
+			//filename.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
+			holder.appendChild(filename);
+			jQuery(holder).append(&quot;&lt;div class='browserarea' style='position:relative;'&gt;&lt;input type='button' class='browsebutton' value='browse'&gt;&lt;div class='filebrowser' style='position:absolute;display:none;'&gt;&lt;/div&gt;&lt;/div&gt;&quot;);
+			var bb = jQuery(&quot;.browsebutton&quot;,holder);
+			bb.click(function(e){
+			    var browser =$(&quot;.filebrowser&quot;,$(this).parent());
+			    browser.toggle();
+		
+			    browser.css({left:$(this).position().left});    
+			})
+			
+			
+			var browser = jQuery(&quot;.filebrowser&quot;);
+
 			var r;
 			if(!home) home = &quot;&quot;;
 			if(root) r =root; else r =&quot;&quot;;
-			
-			$(browser).fileTree({ root: r, script: connector }, function(file) { 
-						imageurl.value = home + file;
-						imageurl.onchange();
+			browser.fileTree({ root: r, script: connector }, function(file) { 
+						filename.value = home +file;
+						filename.onchange();
 			});
 			
 		}
@@ -1561,106 +2088,9 @@ VismoColorSlider.prototype = {
 
 };
 
-// jQuery File Tree Plugin
-//
-// Version 1.01
-//
-// Cory S.N. LaViska
-// A Beautiful Site (http://abeautifulsite.net/)
-// 24 March 2008
-//
-// Visit http://abeautifulsite.net/notebook.php?article=58 for more information
-//
-// Usage: $('.fileTreeDemo').fileTree( options, callback )
-//
-// Options:  root           - root folder to display; default = /
-//           script         - location of the serverside AJAX file to use; default = jqueryFileTree.php
-//           folderEvent    - event to trigger expand/collapse; default = click
-//           expandSpeed    - default = 500 (ms); use -1 for no animation
-//           collapseSpeed  - default = 500 (ms); use -1 for no animation
-//           expandEasing   - easing function to use on expand (optional)
-//           collapseEasing - easing function to use on collapse (optional)
-//           multiFolder    - whether or not to limit the browser to one subfolder at a time
-//           loadMessage    - Message to display while initial tree loads (can be HTML)
-//
-// History:
-//
-// 1.01 - updated to work with foreign characters in directory/file names (12 April 2008)
-// 1.00 - released (24 March 2008)
-//
-// TERMS OF USE
-// 
-// This plugin is dual-licensed under the GNU General Public License and the MIT License and
-// is copyright 2008 A Beautiful Site, LLC. 
-//
-if(jQuery) (function($){
-	
-	$.extend($.fn, {
-		fileTree: function(o, h) {
-			// Defaults
-			if( !o ) var o = {};
-			if( o.root == undefined ) o.root = '/';
-			if( o.script == undefined ) o.script = 'jqueryFileTree.php';
-			if( o.folderEvent == undefined ) o.folderEvent = 'click';
-			if( o.expandSpeed == undefined ) o.expandSpeed= 500;
-			if( o.collapseSpeed == undefined ) o.collapseSpeed= 500;
-			if( o.expandEasing == undefined ) o.expandEasing = null;
-			if( o.collapseEasing == undefined ) o.collapseEasing = null;
-			if( o.multiFolder == undefined ) o.multiFolder = true;
-			if( o.loadMessage == undefined ) o.loadMessage = 'Loading...';
-			
-			$(this).each( function() {
-				
-				function showTree(c, t) {
-					$(c).addClass('wait');
-					$(&quot;.jqueryFileTree.start&quot;).remove();
-					
-					if(window.Components &amp;&amp; window.netscape &amp;&amp; window.netscape.security &amp;&amp; document.location.protocol.indexOf(&quot;http&quot;) == -1)
-						window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
-					
-					//changed from post to get
-					$.post(o.script, { dir: t }, function(data) {
-						$(c).find('.start').html('');
-						$(c).removeClass('wait').append(data);
-						if( o.root == t ) $(c).find('UL:hidden').show(); else $(c).find('UL:hidden').slideDown({ duration: o.expandSpeed, easing: o.expandEasing });
-						bindTree(c);
-					});
-				}
-				
-				function bindTree(t) {
-					$(t).find('LI A').bind(o.folderEvent, function() {
-						if( $(this).parent().hasClass('directory') ) {
-							if( $(this).parent().hasClass('collapsed') ) {
-								// Expand
-								if( !o.multiFolder ) {
-									$(this).parent().parent().find('UL').slideUp({ duration: o.collapseSpeed, easing: o.collapseEasing });
-									$(this).parent().parent().find('LI.directory').removeClass('expanded').addClass('collapsed');
-								}
-								$(this).parent().find('UL').remove(); // cleanup
-								showTree( $(this).parent(), escape($(this).attr('rel').match( /.*\// )) );
-								$(this).parent().removeClass('collapsed').addClass('expanded');
-							} else {
-								// Collapse
-								$(this).parent().find('UL').slideUp({ duration: o.collapseSpeed, easing: o.collapseEasing });
-								$(this).parent().removeClass('expanded').addClass('collapsed');
-							}
-						} else {
-							h($(this).attr('rel'));
-						}
-						return false;
-					});
-					// Prevent A from triggering the # on non-click events
-					if( o.folderEvent.toLowerCase != 'click' ) $(t).find('LI A').bind('click', function() { return false; });
-				}
-				// Loading message
-				$(this).html('&lt;ul class=&quot;jqueryFileTree start&quot;&gt;&lt;li class=&quot;wait&quot;&gt;' + o.loadMessage + '&lt;li&gt;&lt;/ul&gt;');
-				// Get the initial file list
-				showTree( $(this), escape(o.root) );
-			});
-		}
-	});
-	
-})(jQuery);/*
+/* JQUERY PLUGINS GO HERE! */
+
+/*
  * Date prototype extensions. Doesn't depend on any
  * other code. Doens't overwrite existing methods.
  *
@@ -3349,6 +3779,134 @@ Date.fullYearStart = '20';
 })(jQuery);
 
 
+// jQuery File Tree Plugin
+//
+// Version 1.01
+//
+// Cory S.N. LaViska
+// A Beautiful Site (http://abeautifulsite.net/)
+// 24 March 2008
+//
+// Visit http://abeautifulsite.net/notebook.php?article=58 for more information
+//
+// Usage: $('.fileTreeDemo').fileTree( options, callback )
+//
+// Options:  root           - root folder to display; default = /
+//           script         - location of the serverside AJAX file to use; default = jqueryFileTree.php
+//           folderEvent    - event to trigger expand/collapse; default = click
+//           expandSpeed    - default = 500 (ms); use -1 for no animation
+//           collapseSpeed  - default = 500 (ms); use -1 for no animation
+//           expandEasing   - easing function to use on expand (optional)
+//           collapseEasing - easing function to use on collapse (optional)
+//           multiFolder    - whether or not to limit the browser to one subfolder at a time
+//           loadMessage    - Message to display while initial tree loads (can be HTML)
+//
+// History:
+//
+// 1.01 - updated to work with foreign characters in directory/file names (12 April 2008)
+// 1.00 - released (24 March 2008)
+//
+// TERMS OF USE
+// 
+// This plugin is dual-licensed under the GNU General Public License and the MIT License and
+// is copyright 2008 A Beautiful Site, LLC. 
+//
+if(jQuery) (function($){
+	
+	$.extend($.fn, {
+		fileTree: function(o, h) {
+			// Defaults
+			if( !o ) var o = {};
+			if( o.root == undefined ) o.root = '/';
+			if( o.script == undefined ) o.script = 'jqueryFileTree.php';
+			if( o.folderEvent == undefined ) o.folderEvent = 'click';
+			if( o.expandSpeed == undefined ) o.expandSpeed= 500;
+			if( o.collapseSpeed == undefined ) o.collapseSpeed= 500;
+			if( o.expandEasing == undefined ) o.expandEasing = null;
+			if( o.collapseEasing == undefined ) o.collapseEasing = null;
+			if( o.multiFolder == undefined ) o.multiFolder = true;
+			if( o.loadMessage == undefined ) o.loadMessage = 'Loading...';
+			
+			$(this).each( function() {
+				
+				function showTree(c, t) {
+					$(c).addClass('wait');
+					$(&quot;.jqueryFileTree.start&quot;).remove();
+					
+					if(window.Components &amp;&amp; window.netscape &amp;&amp; window.netscape.security &amp;&amp; document.location.protocol.indexOf(&quot;http&quot;) == -1)
+						window.netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
+					
+					//changed from post to get
+					$.post(o.script, { dir: t }, function(data) {
+						$(c).find('.start').html('');
+						$(c).removeClass('wait').append(data);
+						if( o.root == t ) $(c).find('UL:hidden').show(); else $(c).find('UL:hidden').slideDown({ duration: o.expandSpeed, easing: o.expandEasing });
+						bindTree(c);
+					});
+				}
+				
+				function bindTree(t) {
+					$(t).find('LI A').bind(o.folderEvent, function() {
+						if( $(this).parent().hasClass('directory') ) {
+							if( $(this).parent().hasClass('collapsed') ) {
+								// Expand
+								if( !o.multiFolder ) {
+									$(this).parent().parent().find('UL').slideUp({ duration: o.collapseSpeed, easing: o.collapseEasing });
+									$(this).parent().parent().find('LI.directory').removeClass('expanded').addClass('collapsed');
+								}
+								$(this).parent().find('UL').remove(); // cleanup
+								showTree( $(this).parent(), escape($(this).attr('rel').match( /.*\// )) );
+								$(this).parent().removeClass('collapsed').addClass('expanded');
+							} else {
+								// Collapse
+								$(this).parent().find('UL').slideUp({ duration: o.collapseSpeed, easing: o.collapseEasing });
+								$(this).parent().removeClass('expanded').addClass('collapsed');
+							}
+						} else {
+							h($(this).attr('rel'));
+						}
+						return false;
+					});
+					// Prevent A from triggering the # on non-click events
+					if( o.folderEvent.toLowerCase != 'click' ) $(t).find('LI A').bind('click', function() { return false; });
+				}
+				// Loading message
+				$(this).html('&lt;ul class=&quot;jqueryFileTree start&quot;&gt;&lt;li class=&quot;wait&quot;&gt;' + o.loadMessage + '&lt;li&gt;&lt;/ul&gt;');
+				// Get the initial file list
+				showTree( $(this), escape(o.root) );
+			});
+		}
+	});
+	
+})(jQuery);
+
+
+/*
+ * Autocomplete - jQuery plugin 1.0.2
+ *
+ * Copyright (c) 2007 Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Jörn Zaefferer
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ *
+ * Revision: $Id: jquery.autocomplete.js 5747 2008-06-25 18:30:55Z joern.zaefferer $
+ *
+ */
+ /* Copyright (c) 2006 Brandon Aaron (http://brandonaaron.net)
+  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) 
+  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
+  *
+  * $LastChangedDate: 2007-07-22 01:45:56 +0200 (Son, 22 Jul 2007) $
+  * $Rev: 2447 $
+  *
+  * Version 2.1.1
+  */
+ (function($){$.fn.bgIframe=$.fn.bgiframe=function(s){if($.browser.msie&amp;&amp;/6.0/.test(navigator.userAgent)){s=$.extend({top:'auto',left:'auto',width:'auto',height:'auto',opacity:true,src:'javascript:false;'},s||{});var prop=function(n){return n&amp;&amp;n.constructor==Number?n+'px':n;},html='&lt;iframe class=&quot;bgiframe&quot;frameborder=&quot;0&quot;tabindex=&quot;-1&quot;src=&quot;'+s.src+'&quot;'+'style=&quot;display:block;position:absolute;z-index:-1;'+(s.opacity!==false?'filter:Alpha(Opacity=\'0\');':'')+'top:'+(s.top=='auto'?'expression(((parseInt(this.parentNode.currentStyle.borderTopWidth)||0)*-1)+\'px\')':prop(s.top))+';'+'left:'+(s.left=='auto'?'expression(((parseInt(this.parentNode.currentStyle.borderLeftWidth)||0)*-1)+\'px\')':prop(s.left))+';'+'width:'+(s.width=='auto'?'expression(this.parentNode.offsetWidth+\'px\')':prop(s.width))+';'+'height:'+(s.height=='auto'?'expression(this.parentNode.offsetHeight+\'px\')':prop(s.height))+';'+'&quot;/&gt;';return this.each(function(){if($('&gt; iframe.bgiframe',this).length==0)this.insertBefore(document.createElement(html),this.firstChild);});}return this;};})(jQuery);
+ 
+ 
+eval(function(p,a,c,k,e,r){e=function(c){return(c&lt;a?'':e(parseInt(c/a)))+((c=c%a)&gt;35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}(';(3($){$.31.1o({12:3(b,d){5 c=Y b==&quot;1w&quot;;d=$.1o({},$.D.1L,{11:c?b:14,w:c?14:b,1D:c?$.D.1L.1D:10,Z:d&amp;&amp;!d.1x?10:3U},d);d.1t=d.1t||3(a){6 a};d.1q=d.1q||d.1K;6 I.K(3(){1E $.D(I,d)})},M:3(a){6 I.X(&quot;M&quot;,a)},1y:3(a){6 I.15(&quot;1y&quot;,[a])},20:3(){6 I.15(&quot;20&quot;)},1Y:3(a){6 I.15(&quot;1Y&quot;,[a])},1X:3(){6 I.15(&quot;1X&quot;)}});$.D=3(o,r){5 t={2N:38,2I:40,2D:46,2x:9,2v:13,2q:27,2d:3x,2j:33,2o:34,2e:8};5 u=$(o).3f(&quot;12&quot;,&quot;3c&quot;).P(r.24);5 p;5 m=&quot;&quot;;5 n=$.D.2W(r);5 s=0;5 k;5 h={1z:B};5 l=$.D.2Q(r,o,1U,h);5 j;$.1T.2L&amp;&amp;$(o.2K).X(&quot;3S.12&quot;,3(){4(j){j=B;6 B}});u.X(($.1T.2L?&quot;3Q&quot;:&quot;3N&quot;)+&quot;.12&quot;,3(a){k=a.2F;3L(a.2F){Q t.2N:a.1d();4(l.L()){l.2y()}A{W(0,C)}N;Q t.2I:a.1d();4(l.L()){l.2u()}A{W(0,C)}N;Q t.2j:a.1d();4(l.L()){l.2t()}A{W(0,C)}N;Q t.2o:a.1d();4(l.L()){l.2s()}A{W(0,C)}N;Q r.19&amp;&amp;$.1p(r.R)==&quot;,&quot;&amp;&amp;t.2d:Q t.2x:Q t.2v:4(1U()){a.1d();j=C;6 B}N;Q t.2q:l.U();N;3A:1I(p);p=1H(W,r.1D);N}}).1G(3(){s++}).3v(3(){s=0;4(!h.1z){2k()}}).2i(3(){4(s++&gt;1&amp;&amp;!l.L()){W(0,C)}}).X(&quot;1y&quot;,3(){5 c=(1n.7&gt;1)?1n[1]:14;3 23(q,a){5 b;4(a&amp;&amp;a.7){16(5 i=0;i&lt;a.7;i++){4(a[i].M.O()==q.O()){b=a[i];N}}}4(Y c==&quot;3&quot;)c(b);A u.15(&quot;M&quot;,b&amp;&amp;[b.w,b.H])}$.K(1g(u.J()),3(i,a){1R(a,23,23)})}).X(&quot;20&quot;,3(){n.18()}).X(&quot;1Y&quot;,3(){$.1o(r,1n[1]);4(&quot;w&quot;2G 1n[1])n.1f()}).X(&quot;1X&quot;,3(){l.1u();u.1u();$(o.2K).1u(&quot;.12&quot;)});3 1U(){5 b=l.26();4(!b)6 B;5 v=b.M;m=v;4(r.19){5 a=1g(u.J());4(a.7&gt;1){v=a.17(0,a.7-1).2Z(r.R)+r.R+v}v+=r.R}u.J(v);1l();u.15(&quot;M&quot;,[b.w,b.H]);6 C}3 W(b,c){4(k==t.2D){l.U();6}5 a=u.J();4(!c&amp;&amp;a==m)6;m=a;a=1k(a);4(a.7&gt;=r.22){u.P(r.21);4(!r.1C)a=a.O();1R(a,2V,1l)}A{1B();l.U()}};3 1g(b){4(!b){6[&quot;&quot;]}5 d=b.1Z(r.R);5 c=[];$.K(d,3(i,a){4($.1p(a))c[i]=$.1p(a)});6 c}3 1k(a){4(!r.19)6 a;5 b=1g(a);6 b[b.7-1]}3 1A(q,a){4(r.1A&amp;&amp;(1k(u.J()).O()==q.O())&amp;&amp;k!=t.2e){u.J(u.J()+a.48(1k(m).7));$.D.1N(o,m.7,m.7+a.7)}};3 2k(){1I(p);p=1H(1l,47)};3 1l(){5 c=l.L();l.U();1I(p);1B();4(r.2U){u.1y(3(a){4(!a){4(r.19){5 b=1g(u.J()).17(0,-1);u.J(b.2Z(r.R)+(b.7?r.R:&quot;&quot;))}A u.J(&quot;&quot;)}})}4(c)$.D.1N(o,o.H.7,o.H.7)};3 2V(q,a){4(a&amp;&amp;a.7&amp;&amp;s){1B();l.2T(a,q);1A(q,a[0].H);l.1W()}A{1l()}};3 1R(f,d,g){4(!r.1C)f=f.O();5 e=n.2S(f);4(e&amp;&amp;e.7){d(f,e)}A 4((Y r.11==&quot;1w&quot;)&amp;&amp;(r.11.7&gt;0)){5 c={45:+1E 44()};$.K(r.2R,3(a,b){c[a]=Y b==&quot;3&quot;?b():b});$.43({42:&quot;41&quot;,3Z:&quot;12&quot;+o.3Y,2M:r.2M,11:r.11,w:$.1o({q:1k(f),3X:r.Z},c),3W:3(a){5 b=r.1r&amp;&amp;r.1r(a)||1r(a);n.1h(f,b);d(f,b)}})}A{l.2J();g(f)}};3 1r(c){5 d=[];5 b=c.1Z(&quot;\\n&quot;);16(5 i=0;i&lt;b.7;i++){5 a=$.1p(b[i]);4(a){a=a.1Z(&quot;|&quot;);d[d.7]={w:a,H:a[0],M:r.1v&amp;&amp;r.1v(a,a[0])||a[0]}}}6 d};3 1B(){u.1e(r.21)}};$.D.1L={24:&quot;3R&quot;,2H:&quot;3P&quot;,21:&quot;3O&quot;,22:1,1D:3M,1C:B,1a:C,1V:B,1j:10,Z:3K,2U:B,2R:{},1S:C,1K:3(a){6 a[0]},1q:14,1A:B,E:0,19:B,R:&quot;, &quot;,1t:3(b,a){6 b.2C(1E 3J(&quot;(?![^&amp;;]+;)(?!&lt;[^&lt;&gt;]*)(&quot;+a.2C(/([\\^\\$\\(\\)\\[\\]\\{\\}\\*\\.\\+\\?\\|\\\\])/2A,&quot;\\\\$1&quot;)+&quot;)(?![^&lt;&gt;]*&gt;)(?![^&amp;;]+;)&quot;,&quot;2A&quot;),&quot;&lt;2z&gt;$1&lt;/2z&gt;&quot;)},1x:C,1s:3I};$.D.2W=3(g){5 h={};5 j=0;3 1a(s,a){4(!g.1C)s=s.O();5 i=s.3H(a);4(i==-1)6 B;6 i==0||g.1V};3 1h(q,a){4(j&gt;g.1j){18()}4(!h[q]){j++}h[q]=a}3 1f(){4(!g.w)6 B;5 f={},2w=0;4(!g.11)g.1j=1;f[&quot;&quot;]=[];16(5 i=0,30=g.w.7;i&lt;30;i++){5 c=g.w[i];c=(Y c==&quot;1w&quot;)?[c]:c;5 d=g.1q(c,i+1,g.w.7);4(d===B)1P;5 e=d.3G(0).O();4(!f[e])f[e]=[];5 b={H:d,w:c,M:g.1v&amp;&amp;g.1v(c)||d};f[e].1O(b);4(2w++&lt;g.Z){f[&quot;&quot;].1O(b)}};$.K(f,3(i,a){g.1j++;1h(i,a)})}1H(1f,25);3 18(){h={};j=0}6{18:18,1h:1h,1f:1f,2S:3(q){4(!g.1j||!j)6 14;4(!g.11&amp;&amp;g.1V){5 a=[];16(5 k 2G h){4(k.7&gt;0){5 c=h[k];$.K(c,3(i,x){4(1a(x.H,q)){a.1O(x)}})}}6 a}A 4(h[q]){6 h[q]}A 4(g.1a){16(5 i=q.7-1;i&gt;=g.22;i--){5 c=h[q.3F(0,i)];4(c){5 a=[];$.K(c,3(i,x){4(1a(x.H,q)){a[a.7]=x}});6 a}}}6 14}}};$.D.2Q=3(e,g,f,k){5 h={G:&quot;3E&quot;};5 j,y=-1,w,1m=&quot;&quot;,1M=C,F,z;3 2r(){4(!1M)6;F=$(&quot;&lt;3D/&gt;&quot;).U().P(e.2H).T(&quot;3C&quot;,&quot;3B&quot;).1J(2p.2n);z=$(&quot;&lt;3z/&gt;&quot;).1J(F).3y(3(a){4(V(a).2m&amp;&amp;V(a).2m.3w()==\'2l\'){y=$(&quot;1F&quot;,z).1e(h.G).3u(V(a));$(V(a)).P(h.G)}}).2i(3(a){$(V(a)).P(h.G);f();g.1G();6 B}).3t(3(){k.1z=C}).3s(3(){k.1z=B});4(e.E&gt;0)F.T(&quot;E&quot;,e.E);1M=B}3 V(a){5 b=a.V;3r(b&amp;&amp;b.3q!=&quot;2l&quot;)b=b.3p;4(!b)6[];6 b}3 S(b){j.17(y,y+1).1e(h.G);2h(b);5 a=j.17(y,y+1).P(h.G);4(e.1x){5 c=0;j.17(0,y).K(3(){c+=I.1i});4((c+a[0].1i-z.1c())&gt;z[0].3o){z.1c(c+a[0].1i-z.3n())}A 4(c&lt;z.1c()){z.1c(c)}}};3 2h(a){y+=a;4(y&lt;0){y=j.1b()-1}A 4(y&gt;=j.1b()){y=0}}3 2g(a){6 e.Z&amp;&amp;e.Z&lt;a?e.Z:a}3 2f(){z.2B();5 b=2g(w.7);16(5 i=0;i&lt;b;i++){4(!w[i])1P;5 a=e.1K(w[i].w,i+1,b,w[i].H,1m);4(a===B)1P;5 c=$(&quot;&lt;1F/&gt;&quot;).3m(e.1t(a,1m)).P(i%2==0?&quot;3l&quot;:&quot;3k&quot;).1J(z)[0];$.w(c,&quot;2c&quot;,w[i])}j=z.3j(&quot;1F&quot;);4(e.1S){j.17(0,1).P(h.G);y=0}4($.31.2b)z.2b()}6{2T:3(d,q){2r();w=d;1m=q;2f()},2u:3(){S(1)},2y:3(){S(-1)},2t:3(){4(y!=0&amp;&amp;y-8&lt;0){S(-y)}A{S(-8)}},2s:3(){4(y!=j.1b()-1&amp;&amp;y+8&gt;j.1b()){S(j.1b()-1-y)}A{S(8)}},U:3(){F&amp;&amp;F.U();j&amp;&amp;j.1e(h.G);y=-1},L:3(){6 F&amp;&amp;F.3i(&quot;:L&quot;)},3h:3(){6 I.L()&amp;&amp;(j.2a(&quot;.&quot;+h.G)[0]||e.1S&amp;&amp;j[0])},1W:3(){5 a=$(g).3g();F.T({E:Y e.E==&quot;1w&quot;||e.E&gt;0?e.E:$(g).E(),2E:a.2E+g.1i,1Q:a.1Q}).1W();4(e.1x){z.1c(0);z.T({29:e.1s,3e:\'3d\'});4($.1T.3b&amp;&amp;Y 2p.2n.3T.29===&quot;3a&quot;){5 c=0;j.K(3(){c+=I.1i});5 b=c&gt;e.1s;z.T(\'3V\',b?e.1s:c);4(!b){j.E(z.E()-28(j.T(&quot;32-1Q&quot;))-28(j.T(&quot;32-39&quot;)))}}}},26:3(){5 a=j&amp;&amp;j.2a(&quot;.&quot;+h.G).1e(h.G);6 a&amp;&amp;a.7&amp;&amp;$.w(a[0],&quot;2c&quot;)},2J:3(){z&amp;&amp;z.2B()},1u:3(){F&amp;&amp;F.37()}}};$.D.1N=3(b,a,c){4(b.2O){5 d=b.2O();d.36(C);d.35(&quot;2P&quot;,a);d.4c(&quot;2P&quot;,c);d.4b()}A 4(b.2Y){b.2Y(a,c)}A{4(b.2X){b.2X=a;b.4a=c}}b.1G()}})(49);',62,261,'|||function|if|var|return|length|||||||||||||||||||||||||data||active|list|else|false|true|Autocompleter|width|element|ACTIVE|value|this|val|each|visible|result|break|toLowerCase|addClass|case|multipleSeparator|moveSelect|css|hide|target|onChange|bind|typeof|max||url|autocomplete||null|trigger|for|slice|flush|multiple|matchSubset|size|scrollTop|preventDefault|removeClass|populate|trimWords|add|offsetHeight|cacheLength|lastWord|hideResultsNow|term|arguments|extend|trim|formatMatch|parse|scrollHeight|highlight|unbind|formatResult|string|scroll|search|mouseDownOnSelect|autoFill|stopLoading|matchCase|delay|new|li|focus|setTimeout|clearTimeout|appendTo|formatItem|defaults|needsInit|Selection|push|continue|left|request|selectFirst|browser|selectCurrent|matchContains|show|unautocomplete|setOptions|split|flushCache|loadingClass|minChars|findValueCallback|inputClass||selected||parseInt|maxHeight|filter|bgiframe|ac_data|COMMA|BACKSPACE|fillList|limitNumberOfItems|movePosition|click|PAGEUP|hideResults|LI|nodeName|body|PAGEDOWN|document|ESC|init|pageDown|pageUp|next|RETURN|nullData|TAB|prev|strong|gi|empty|replace|DEL|top|keyCode|in|resultsClass|DOWN|emptyList|form|opera|dataType|UP|createTextRange|character|Select|extraParams|load|display|mustMatch|receiveData|Cache|selectionStart|setSelectionRange|join|ol|fn|padding|||moveStart|collapse|remove||right|undefined|msie|off|auto|overflow|attr|offset|current|is|find|ac_odd|ac_even|html|innerHeight|clientHeight|parentNode|tagName|while|mouseup|mousedown|index|blur|toUpperCase|188|mouseover|ul|default|absolute|position|div|ac_over|substr|charAt|indexOf|180|RegExp|100|switch|400|keydown|ac_loading|ac_results|keypress|ac_input|submit|style|150|height|success|limit|name|port||abort|mode|ajax|Date|timestamp||200|substring|jQuery|selectionEnd|select|moveEnd'.split('|'),0,{}))
+
 })(jQuery); //end alias</pre>
 </div>
 <div title="EditTemplate">
@@ -3416,9 +3974,12 @@ For demo purposes: &lt;span macro='view abc'&gt;&lt;/span&gt;
 &lt;!--}}}--&gt;
 </pre>
 </div>
-<div title="GettingStarted" approved="true" color="rgb(0,255,0)" assignee="Team 3>Jon Robson:JDLR">
+<div title="GettingStarted" approved="true" color="rgb(0,255,0)" assignee="JDLR" assignby="MM">
 <pre>
 AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together!
+
+&lt;&lt;AdvancedEditTemplate type:search metaDataName:assignby valuesSource:DropDownData&gt;&gt;
+
 &lt;&lt;AdvancedEditTemplate type:image metaDataName:logo home:'http://localhost/ilga/' root:static/images/ connector:'http://localhost/ilga/browse' &gt;&gt;
 
 </pre>
@@ -11540,40 +12101,6 @@ function insertSpacer(place)
 	return e;
 }
 
-// Add a stylesheet, replacing any previous custom stylesheet
-function setStylesheet(s,id,doc)
-{
-	if(!id)
-		id = "customStyleSheet";
-	if(!doc)
-		doc = document;
-	var n = doc.getElementById(id);
-	if(doc.createStyleSheet) {
-		// Test for IE's non-standard createStyleSheet method
-		if(n)
-			n.parentNode.removeChild(n);
-		// This failed without the &nbsp;
-		doc.getElementsByTagName("head")[0].insertAdjacentHTML("beforeEnd","&nbsp;<style id='" + id + "'>" + s + "</style>");
-	} else {
-		if(n) {
-			n.replaceChild(doc.createTextNode(s),n.firstChild);
-		} else {
-			n = doc.createElement("style");
-			n.type = "text/css";
-			n.id = id;
-			n.appendChild(doc.createTextNode(s));
-			doc.getElementsByTagName("head")[0].appendChild(n);
-		}
-	}
-}
-
-function removeStyleSheet(id)
-{
-	var e = document.getElementById(id);
-	if(e)
-		e.parentNode.removeChild(e);
-}
-
 // Force the browser to do a document reflow when needed to workaround browser bugs
 function forceReflow()
 {
@@ -11847,6 +12374,65 @@ TW21Saver.prototype.externalizeTiddler = function(store,tiddler)
 <script id="jsdeprecatedArea" type="text/javascript">
 //<![CDATA[
 //--
+//-- Deprecated Crypto functions and associated conversion routines.
+//-- Use the jQuery.encoding functions directly instead.
+//--
+
+// Crypto 'namespace'
+function Crypto() {}
+
+// Convert a string to an array of big-endian 32-bit words
+Crypto.strToBe32s = function(str)
+{
+	return jQuery.encoding.strToBe32s(str);
+};
+
+// Convert an array of big-endian 32-bit words to a string
+Crypto.be32sToStr = function(be)
+{
+	return jQuery.encoding.be32sToStr(be);
+};
+
+// Convert an array of big-endian 32-bit words to a hex string
+Crypto.be32sToHex = function(be)
+{
+	return jQuery.encoding.be32sToHex(be);
+};
+
+// Return, in hex, the SHA-1 hash of a string
+Crypto.hexSha1Str = function(str)
+{
+	return jQuery.encoding.digests.hexSha1Str(str);
+};
+
+// Return the SHA-1 hash of a string
+Crypto.sha1Str = function(str)
+{
+	return jQuery.encoding.digests.sha1Str(str);
+};
+
+// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
+Crypto.sha1 = function(x,blen)
+{
+	return jQuery.encoding.digests.sha1(x,blen);
+};
+
+//--
+//-- Deprecated DOM utilities
+//--
+
+// @Deprecated: Use jQuery.stylesheet instead
+function setStylesheet(s,id,doc)
+{
+	jQuery.stylesheet(s,{ id: id, doc: doc });
+}
+
+// @Deprecated: Use jQuery.stylesheet.remove instead
+function removeStyleSheet(id)
+{
+	jQuery.stylesheet.remove({ id: id });
+}
+//--
 //-- Deprecated Filesystem code
 //-- Use the jQuery.file functions directly instead
 //--
@@ -11865,28 +12451,6 @@ function copyFile(dest,source)
 {
 	return jQuery.file.copy(dest,source);
 }
-
-//--
-//-- Deprecated Tiddler code
-//--
-
-// @Deprecated: Use tiddlerToRssItem(tiddler,uri) instead
-Tiddler.prototype.toRssItem = function(uri)
-{
-	return tiddlerToRssItem(this,uri);
-};
-
-// @Deprecated: Use "<item>\n" + tiddlerToRssItem(tiddler,uri)  + "\n</item>" instead
-Tiddler.prototype.saveToRss = function(uri)
-{
-	return "<item>\n" + tiddlerToRssItem(this,uri) + "\n</item>";
-};
-
-// @Deprecated: Use jQuery.encoding.digests.hexSha1Str instead
-Tiddler.prototype.generateFingerprint = function()
-{
-	return "0x" + Crypto.hexSha1Str(this.text);
-};
 
 //--
 //-- Deprecated HTTP request code
@@ -11938,47 +12502,25 @@ function httpReq(type,url,callback,params,headers,data,contentType,username,pass
 }
 
 //--
-//-- Deprecated Crypto functions and associated conversion routines.
-//-- Use the jQuery.encoding functions directly instead.
+//-- Deprecated Tiddler code
 //--
 
-// Crypto 'namespace'
-function Crypto() {}
-
-// Convert a string to an array of big-endian 32-bit words
-Crypto.strToBe32s = function(str)
+// @Deprecated: Use tiddlerToRssItem(tiddler,uri) instead
+Tiddler.prototype.toRssItem = function(uri)
 {
-	return jQuery.encoding.strToBe32s(str);
+	return tiddlerToRssItem(this,uri);
 };
 
-// Convert an array of big-endian 32-bit words to a string
-Crypto.be32sToStr = function(be)
+// @Deprecated: Use "<item>\n" + tiddlerToRssItem(tiddler,uri)  + "\n</item>" instead
+Tiddler.prototype.saveToRss = function(uri)
 {
-	return jQuery.encoding.be32sToStr(be);
+	return "<item>\n" + tiddlerToRssItem(this,uri) + "\n</item>";
 };
 
-// Convert an array of big-endian 32-bit words to a hex string
-Crypto.be32sToHex = function(be)
+// @Deprecated: Use jQuery.encoding.digests.hexSha1Str instead
+Tiddler.prototype.generateFingerprint = function()
 {
-	return jQuery.encoding.be32sToHex(be);
-};
-
-// Return, in hex, the SHA-1 hash of a string
-Crypto.hexSha1Str = function(str)
-{
-	return jQuery.encoding.digests.hexSha1Str(str);
-};
-
-// Return the SHA-1 hash of a string
-Crypto.sha1Str = function(str)
-{
-	return jQuery.encoding.digests.sha1Str(str);
-};
-
-// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
-Crypto.sha1 = function(x,blen)
-{
-	return jQuery.encoding.digests.sha1(x,blen);
+	return "0x" + Crypto.hexSha1Str(this.text);
 };
 
 //]]>
@@ -12008,6 +12550,159 @@ Crypto.sha1 = function(x,blen)
 </script>
 <script id="jqueryArea" type="text/javascript">
 //<![CDATA[
+/*
+jquery.encoding.digests.sha1.js
+
+SHA-1 digest and associated utility functions
+
+Copyright (c) UnaMesa Association 2009
+
+Dual licensed under the MIT and GPL licenses:
+  http://www.opensource.org/licenses/mit-license.php
+  http://www.gnu.org/licenses/gpl.html
+*/
+
+(function($) {
+
+if(!$.encoding)
+	$.encoding = {};
+	$.extend($.encoding,{
+		strToBe32s: function(str) {
+			// Convert a string to an array of big-endian 32-bit words
+			var be=[];
+			var len=Math.floor(str.length/4);
+			var i, j;
+			for(i=0, j=0; i<len; i++, j+=4) {
+				be[i]=((str.charCodeAt(j)&0xff) << 24)|((str.charCodeAt(j+1)&0xff) << 16)|((str.charCodeAt(j+2)&0xff) << 8)|(str.charCodeAt(j+3)&0xff);
+			}
+			while(j<str.length) {
+				be[j>>2] |= (str.charCodeAt(j)&0xff)<<(24-(j*8)%32);
+				j++;
+			}
+			return be;
+		},
+		be32sToStr: function(be) {
+			// Convert an array of big-endian 32-bit words to a string
+			var str='';
+			for(var i=0;i<be.length*32;i+=8) {
+				str += String.fromCharCode((be[i>>5]>>>(24-i%32)) & 0xff);
+			}
+			return str;
+		},
+		be32sToHex: function(be) {
+			// Convert an array of big-endian 32-bit words to a hex string
+			var hex='0123456789ABCDEF';
+			var str='';
+			for(var i=0;i<be.length*4;i++) {
+				str += hex.charAt((be[i>>2]>>((3-i%4)*8+4))&0xF) + hex.charAt((be[i>>2]>>((3-i%4)*8))&0xF);
+			}
+			return str;
+		}
+	});
+})(jQuery);
+
+
+(function($) {
+
+if(!$.encoding.digests)
+	$.encoding.digests = {};
+	$.extend($.encoding.digests,{
+		hexSha1Str: function(str) {
+			// Return, in hex, the SHA-1 hash of a string
+			return $.encoding.be32sToHex($.encoding.digests.sha1Str(str));
+		},
+		sha1Str: function(str) {
+			// Return the SHA-1 hash of a string
+			return sha1($.encoding.strToBe32s(str),str.length);
+		},
+		sha1: function(x,blen) {
+			// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
+			return sha1($.encoding.strToBe32s(str),str.length);
+		}
+	});
+
+	// Private functions.
+	function sha1(x,blen) {
+		// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
+		function add32(a,b) {
+			// Add 32-bit integers, wrapping at 32 bits
+			// Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
+			var lsw=(a&0xFFFF)+(b&0xFFFF);
+			var msw=(a>>16)+(b>>16)+(lsw>>16);
+			return (msw<<16)|(lsw&0xFFFF);
+		}
+		function AA(a,b,c,d,e) {
+			// Cryptographic round helper function. Add five 32-bit integers, wrapping at 32 bits, second parameter is rotated left 5 bits before the addition
+			// Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
+			b=(b>>>27)|(b<<5);
+			var lsw=(a&0xFFFF)+(b&0xFFFF)+(c&0xFFFF)+(d&0xFFFF)+(e&0xFFFF);
+			var msw=(a>>16)+(b>>16)+(c>>16)+(d>>16)+(e>>16)+(lsw>>16);
+			return (msw<<16)|(lsw&0xFFFF);
+		}
+		function RR(w,j) {
+			// Cryptographic round helper function.
+			var n=w[j-3]^w[j-8]^w[j-14]^w[j-16];
+			return (n>>>31)|(n<<1);
+		}
+	
+		var len=blen*8;
+		x[len>>5] |= 0x80 << (24-len%32);
+		x[((len+64>>9)<<4)+15]=len;
+		var w=new Array(80);
+	
+		var k1=0x5A827999;
+		var k2=0x6ED9EBA1;
+		var k3=0x8F1BBCDC;
+		var k4=0xCA62C1D6;
+
+		var h0=0x67452301;
+		var h1=0xEFCDAB89;
+		var h2=0x98BADCFE;
+		var h3=0x10325476;
+		var h4=0xC3D2E1F0;
+
+		for(var i=0;i<x.length;i+=16) {
+			var j=0;
+			var t;
+			var a=h0;
+			var b=h1;
+			var c=h2;
+			var d=h3;
+			var e=h4;
+			while(j<16) {
+				w[j]=x[i+j];
+				t=AA(e,a,d^(b&(c^d)),w[j],k1);
+				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
+			}
+			while(j<20) {
+				w[j]=RR(w,j);
+				t=AA(e,a,d^(b&(c^d)),w[j],k1);
+				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
+			}
+			while(j<40) {
+				w[j]=RR(w,j);
+				t=AA(e,a,b^c^d,w[j],k2);
+				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
+			}
+			while(j<60) {
+				w[j]=RR(w,j);
+				t=AA(e,a,(b&c)|(d&(b|c)),w[j],k3);
+				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
+			}
+			while(j<80) {
+				w[j]=RR(w,j);
+				t=AA(e,a,b^c^d,w[j],k4);
+				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
+			}
+			h0=add32(h0,a);
+			h1=add32(h1,b);
+			h2=add32(h2,c);
+			h3=add32(h3,d);
+			h4=add32(h4,e);
+		}
+		return [h0,h1,h2,h3,h4];
+	}
+})(jQuery);
 /*
 jquery.file.js
 
@@ -12259,157 +12954,68 @@ Dual licensed under the MIT and GPL licenses:
 
 })(jQuery);
 /*
-jquery.encoding.digests.sha1.js
+jquery.stylesheet.js
 
-SHA-1 digest and associated utility functions
+jQuery plugin to dynamically insert CSS rules into a document
+
+Usage:
+  jQuery.stylesheet applies style definitions
+  jQuery.stylesheet.remove neutralizes style definitions
 
 Copyright (c) UnaMesa Association 2009
 
-Dual licensed under the MIT and GPL licenses:
+Triple licensed under the BSD, MIT and GPL licenses:
+  http://www.opensource.org/licenses/bsd-license.php
   http://www.opensource.org/licenses/mit-license.php
   http://www.gnu.org/licenses/gpl.html
 */
 
 (function($) {
 
-if(!$.encoding)
-	$.encoding = {};
-	$.extend($.encoding,{
-		strToBe32s: function(str) {
-			// Convert a string to an array of big-endian 32-bit words
-			var be=[];
-			var len=Math.floor(str.length/4);
-			var i, j;
-			for(i=0, j=0; i<len; i++, j+=4) {
-				be[i]=((str.charCodeAt(j)&0xff) << 24)|((str.charCodeAt(j+1)&0xff) << 16)|((str.charCodeAt(j+2)&0xff) << 8)|(str.charCodeAt(j+3)&0xff);
-			}
-			while(j<str.length) {
-				be[j>>2] |= (str.charCodeAt(j)&0xff)<<(24-(j*8)%32);
-				j++;
-			}
-			return be;
-		},
-		be32sToStr: function(be) {
-			// Convert an array of big-endian 32-bit words to a string
-			var str='';
-			for(var i=0;i<be.length*32;i+=8) {
-				str += String.fromCharCode((be[i>>5]>>>(24-i%32)) & 0xff);
-			}
-			return str;
-		},
-		be32sToHex: function(be) {
-			// Convert an array of big-endian 32-bit words to a hex string
-			var hex='0123456789ABCDEF';
-			var str='';
-			for(var i=0;i<be.length*4;i++) {
-				str += hex.charAt((be[i>>2]>>((3-i%4)*8+4))&0xF) + hex.charAt((be[i>>2]>>((3-i%4)*8))&0xF);
-			}
-			return str;
-		}
-	});
-})(jQuery);
+var defaultId = "customStyleSheet"; // XXX: rename to dynamicStyleSheet?
 
-
-(function($) {
-
-if(!$.encoding.digests)
-	$.encoding.digests = {};
-	$.extend($.encoding.digests,{
-		hexSha1Str: function(str) {
-			// Return, in hex, the SHA-1 hash of a string
-			return $.encoding.be32sToHex($.encoding.digests.sha1Str(str));
-		},
-		sha1Str: function(str) {
-			// Return the SHA-1 hash of a string
-			return sha1($.encoding.strToBe32s(str),str.length);
-		},
-		sha1: function(x,blen) {
-			// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
-			return sha1($.encoding.strToBe32s(str),str.length);
+// Add or replace a style sheet
+// css argument is a string of CSS rule sets
+// options.id is an optional name identifying the style sheet
+// options.doc is an optional document reference
+// N.B.: Uses DOM methods instead of jQuery to ensure cross-browser comaptibility.
+$.stylesheet = function(css, options) {
+	options = options || {};
+	var id = options.id || defaultId;
+	var doc = options.doc || document;
+	var el = doc.getElementById(id);
+	if(doc.createStyleSheet) { // IE-specific handling
+		if(el) {
+			el.parentNode.removeChild(el);
 		}
-	});
-
-	// Private functions.
-	function sha1(x,blen) {
-		// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
-		function add32(a,b) {
-			// Add 32-bit integers, wrapping at 32 bits
-			// Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
-			var lsw=(a&0xFFFF)+(b&0xFFFF);
-			var msw=(a>>16)+(b>>16)+(lsw>>16);
-			return (msw<<16)|(lsw&0xFFFF);
+		doc.getElementsByTagName("head")[0].insertAdjacentHTML("beforeEnd",
+			"&nbsp;<style id='" + id + "'>" + css + "</style>"); // fails without &nbsp;
+	} else { // modern browsers
+		if(el) {
+			el.replaceChild(doc.createTextNode(css), el.firstChild);
+		} else {
+			el = doc.createElement("style");
+			el.type = "text/css";
+			el.id = id;
+			el.appendChild(doc.createTextNode(css));
+			doc.getElementsByTagName("head")[0].appendChild(el);
 		}
-		function AA(a,b,c,d,e) {
-			// Cryptographic round helper function. Add five 32-bit integers, wrapping at 32 bits, second parameter is rotated left 5 bits before the addition
-			// Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
-			b=(b>>>27)|(b<<5);
-			var lsw=(a&0xFFFF)+(b&0xFFFF)+(c&0xFFFF)+(d&0xFFFF)+(e&0xFFFF);
-			var msw=(a>>16)+(b>>16)+(c>>16)+(d>>16)+(e>>16)+(lsw>>16);
-			return (msw<<16)|(lsw&0xFFFF);
-		}
-		function RR(w,j) {
-			// Cryptographic round helper function.
-			var n=w[j-3]^w[j-8]^w[j-14]^w[j-16];
-			return (n>>>31)|(n<<1);
-		}
-	
-		var len=blen*8;
-		x[len>>5] |= 0x80 << (24-len%32);
-		x[((len+64>>9)<<4)+15]=len;
-		var w=new Array(80);
-	
-		var k1=0x5A827999;
-		var k2=0x6ED9EBA1;
-		var k3=0x8F1BBCDC;
-		var k4=0xCA62C1D6;
-
-		var h0=0x67452301;
-		var h1=0xEFCDAB89;
-		var h2=0x98BADCFE;
-		var h3=0x10325476;
-		var h4=0xC3D2E1F0;
-
-		for(var i=0;i<x.length;i+=16) {
-			var j=0;
-			var t;
-			var a=h0;
-			var b=h1;
-			var c=h2;
-			var d=h3;
-			var e=h4;
-			while(j<16) {
-				w[j]=x[i+j];
-				t=AA(e,a,d^(b&(c^d)),w[j],k1);
-				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
-			}
-			while(j<20) {
-				w[j]=RR(w,j);
-				t=AA(e,a,d^(b&(c^d)),w[j],k1);
-				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
-			}
-			while(j<40) {
-				w[j]=RR(w,j);
-				t=AA(e,a,b^c^d,w[j],k2);
-				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
-			}
-			while(j<60) {
-				w[j]=RR(w,j);
-				t=AA(e,a,(b&c)|(d&(b|c)),w[j],k3);
-				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
-			}
-			while(j<80) {
-				w[j]=RR(w,j);
-				t=AA(e,a,b^c^d,w[j],k4);
-				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
-			}
-			h0=add32(h0,a);
-			h1=add32(h1,b);
-			h2=add32(h2,c);
-			h3=add32(h3,d);
-			h4=add32(h4,e);
-		}
-		return [h0,h1,h2,h3,h4];
 	}
+};
+
+// Remove existing style sheet
+// options.id is an optional name identifying the style sheet
+// options.doc is an optional document reference
+$.stylesheet.remove = function(options) {
+	options = options || {};
+	var id = options.id || defaultId;
+	var doc = options.doc || document;
+	var el = doc.getElementById(id);
+	if(el) {
+		el.parentNode.removeChild(el);
+	}
+};
+
 })(jQuery);
 //]]>
 </script>

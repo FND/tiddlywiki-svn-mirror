@@ -1,3 +1,2 @@
-tiddler: header.js AdvancedEditTemplate.js ../../VismoLibrary/VismoDiagrams/VismoColorSlider.js ../../VismoLibrary/VismoClickingUtils.js jqueryFileTree.js dateplugin.js footer.js
-#tiddler: header.js jqueryFileTree.js footer.js
+tiddler: header.js AdvancedEditTemplate.js ../../VismoLibrary/VismoDiagrams/VismoColorSlider.js ../../VismoLibrary/VismoClickingUtils.js jquery_plugins.js footer.js
 style: jqueryFileTree.css 

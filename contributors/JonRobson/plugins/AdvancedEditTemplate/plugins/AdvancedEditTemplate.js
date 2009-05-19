@@ -118,81 +118,34 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			slider.setColor(curValue);
 		}
 		,createSearchBox: function(place,fieldName,values,initialValue,action){
-			var holder = document.createElement("div");
-			holder.style.position = "relative";
-			var input = document.createElement("input");
-			input.style.position = "relative";
-			if(initialValue) input.value = initialValue;
-			var suggestions = document.createElement("div");
-			suggestions.className = "suggestions"
-			suggestions.style.display = "none";
-			var possibleSuggestions = {real:values,test:[]};
-			
-			for(var i=0; i < possibleSuggestions.real.length; i ++){
-			        possibleSuggestions.real[i] = possibleSuggestions.real[i].replace(/[\>|\<]/ig, "")
-				possibleSuggestions.test.push(possibleSuggestions.real[i].replace(/ /,""));
+		    var whatyousee=[];
+			var whatyousave = {};
+			for(var i=0; i < values.length; i ++){
+			    if(values[i] != ""){
+    			    var name_value = values[i].split(":");
+    			    var name = name_value[0];
+    			    var value = name_value[1];
+    			    if(!value) value = name;
+			    
+    			    name = name.replace(/[\>|\<]/ig, "");
+    			    value = value.replace(/[\>|\<]/ig, "");
+    			    whatyousee.push(name);
+    			    whatyousave[name] = value;
+    			    if(initialValue == value) initialValue = name;
+			    }
 			}
-			
-			var selectValue = function(val){
-				if(val){
-					input.value = val;
-				}
-				suggestions.innerHTML = "";
-				if(action){
-					action(val);
-				}
-			}
-
-			
-			var makesuggestions = function(value){
-					
-					suggestions.innerHTML = "";
-					if(value.length < 3) return;
-					var list = document.createElement("ul");
-					list.className = "suggestion";
-					suggestions.style.display = "none";
-					value = value.replace(/ /ig,"");
-					var regexp = new RegExp(value,"i");
-					suggestions.style.display="none";
-					for(var i=0; i<possibleSuggestions.test.length; i++){
-						
-						var trythis =possibleSuggestions.test[i];
-						if(trythis.search(regexp) != -1){
-							var suggestion = document.createElement("li");
-							var text = possibleSuggestions.real[i];
-							suggestion.innerHTML =text;
-							suggestions.style.display = "";
-							suggestion.onmousedown = function(e){
-								selectValue(jQuery(this).text(),suggestions);
-								suggestions.style.display = "none";
-							}
-							list.appendChild(suggestion);
-						}
-					        
-					}
-					
-				
-					jQuery(input).mouseover(function(e){ if(suggestions.innerHTML !="") suggestions.style.display = ""; return false;});
-					jQuery(suggestions).mouseleave(function(e){ this.style.display = "none"; return false;});
-					suggestions.appendChild(list);
-					
+			var handler = function(event,targets){
+			    
+			    if(targets.length == 0) return;
+			    var name = targets[0]
+			    var save_this = whatyousave[name];
+			    if(action)action(save_this);
 			};
 			
-			var old = window.onkeypress;
-			window.onkeydown = function(e){
-				var t = VismoClickingUtils.resolveTarget(e);
-				if(t && t == input){
-					makesuggestions(t.value);
-				}
-				if(old) old(e);
-			};
-			input.onchange = function(e){
-				makesuggestions(this.value);
-			}
-			holder.appendChild(input);
-			holder.appendChild(suggestions);
+			if(!initialValue) initialValue = "";
+			var options = {matchContains: true};
+		    jQuery("<input type='text' value=\""+initialValue +"\"/>").autocomplete(whatyousee,options).result(handler).appendTo(place);
 		
-			place.appendChild(holder);
 		}
 
 		,_createMenus: function(menutextrepresentation){
