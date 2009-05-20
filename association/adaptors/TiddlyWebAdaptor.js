@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.7.2|
+|''Version''|0.7.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -401,7 +401,7 @@ adaptor.putTiddlerStoreCallback = function(status, context, responseText, uri, x
 
 // rename an individual tiddler or move it to a different workspace -- TODO: make (from|to).title optional
 //# @param {Object} from source tiddler; members title and workspace (optional)
-//# @param {Object} to target tiddler; members title and workspace (optional)
+//# @param {Object} to target tiddler; members title and workspace (optional) -- N.B.: workspace must be a bag
 adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters (old/new)?
 	var _this = this;
 	var newTiddler = store.getTiddler(from.title) || store.getTiddler(to.title); //# local rename might already have occurred
@@ -437,6 +437,8 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		revisions.unshift(rev);
 		if(to.workspace) {
 			context.workspace = to.workspace;
+		} else if(context.workspace.substring(0, 4) != "bags") { // N.B.: target workspace must be a bag
+			context.workspace = "bags/" + rev.bag;
 		}
 		var subCallback = function(context, userparams) {
 			var rev = "server.page.revision";
