@@ -3,10 +3,9 @@ tiddler: $TW_ROOT/contributors/MartinBudden/mystyle/Styles_HorizontalMainMenu.ti
 tiddler: $TW_ROOT/contributors/NicolasRusconi/plugins/ImportMediaWikiWizard.js
 tiddler: $TW_ROOT/contributors/NicolasRusconi/plugins/PaginatedListView.js
 tiddler: $TW_ROOT/contributors/NicolasRusconi/plugins/MultiColumnListView.js
-tiddler: $TW_ROOT/contributors/NicolasRusconi/adaptors/MediaWikiAdaptorWithTemplatePlugin.js
-tiddler: $TW_ROOT/contributors/NicolasRusconi/tests/IntegrationTestRunner.js
-tiddler: $TW_ROOT/contributors/NicolasRusconi/tests/MediaWikiIntegrationTests.js
-tiddler: settings.js
+#tiddler: $TW_ROOT/contributors/NicolasRusconi/adaptors/MediaWikiAdaptorWithTemplatePlugin.js
+#tiddler: $TW_ROOT/contributors/NicolasRusconi/tests/IntegrationTestRunner.js
+#tiddler: $TW_ROOT/contributors/NicolasRusconi/tests/MediaWikiIntegrationTests.js
 tiddler: mediaWikiPage.tiddler
 tiddler: $TW_ROOT/contributors/MartinBudden/verticals/tiddlypedia/OptionsPanel.tiddler
 tiddler: ../../contributors/MartinBudden/verticals/tiddlypedia/PageTemplateWithLogo.tiddler
@@ -24,8 +23,9 @@ tiddler: $TW_ROOT/contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
 tiddler: $TW_ROOT/contributors/MartinBudden/styles/wikipedia.MediaWiki.Common.css.js
 tiddler: $TW_ROOT/contributors/MartinBudden/styles/wikipediaAbridged.Skins-1.5.monobook.main.css.js
 tiddler: $TW_ROOT/contributors/MartinBudden/styles/wikipediaStyle.js
-tiddler: $TW_ROOT/contributors/MartinBudden/tiddlers/Configuration.tiddler
-tiddler: $TW_ROOT/contributors/MartinBudden/tiddlers/Configuration.SideBarTabs.tiddler
+#tiddler: $TW_ROOT/contributors/MartinBudden/tiddlers/Configuration.tiddler
+#tiddler: $TW_ROOT/contributors/MartinBudden/tiddlers/Configuration.SideBarTabs.tiddler
+recipe: plugins/split.recipe
 recipe: shadows/split.recipe
 recipe: tiddlers/split.recipe
 recipe: feeds/split.recipe
