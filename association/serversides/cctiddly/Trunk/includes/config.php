@@ -14,17 +14,15 @@ $tiddlyCfg['db']['allow_override'] = true;
 // These plugins are DISABLED
 // Allows you to disable a plugin in your /plugins/ directory. 
 $tiddlyCfg['plugins_disabled'] = array(
-	"createPackages",
-	"OpenID",
-	"Portlet",
-	"lifestream",
+    "createPackages",
+    "Portlet",
+    "lifestream",
+    "SkinnyTiddlers",
+    "FCKEditor",
+	"LDAP",
 	"announcements",
 	"seo",
-	"LDAP",
-	"RSS",
-	"SkinnyTiddlers",
-	"lifestream",
-	"WordpressMigration"
+    "WordpressMigration"
 );
 
 // By default the RSS plugin is enabled. 

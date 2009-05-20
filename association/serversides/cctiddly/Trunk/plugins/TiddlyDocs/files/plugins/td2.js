@@ -29,12 +29,11 @@ config.macros.tdoc2Outline.handler=function(place,macroName,params,wikifier,para
 
 
 config.macros.tdoc2Outline.renderSpec = function(place, spec) {
-	
-	console.log(ulCount);
-
 	var ul = createTiddlyElement(place, "ul", "ul"+(window.ulCount++), "page-list");
-    var li = createTiddlyElement(ul, "li", "li"+window.liCount++, "clear-element toc-item left");
-	createTiddlyElement(li, "div", "div"+window.divCount++, "sort-handle", spec.title);
+   	var li = createTiddlyElement(ul, "li", "li"+window.liCount++, "clear-element page-item1 left");
+	var sectionDiv = createTiddlyElement(li, "div", "div"+window.divCount++, "sort-handle");	
+	var heading = createTiddlyElement(sectionDiv, "div",  config.macros.tdoc2Outline.strip(spec.title)+"HeadingView", "sectionHeading");		
+	createTiddlyText(heading, spec.title);
 	$.each(spec.children, function() {
 		config.macros.tdoc2Outline.renderSpec(li, this);
 	});
@@ -47,16 +46,26 @@ config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,para
 	window.divCount=0;
 	config.macros.tdoc2Outline.renderSpec(place, testSpec);
 	
+	
 		$("#ul0").NestedSortable({
-			accept: 'toc-item',
-			opacity: .6,
-			helperclass: 'helper',
+			accept: 'page-item1',
+					helperclass: 'helper',
+			handle: '.sort-handle ',
 			onChange: function(serialized) {
-				alert("changed");
-			},
-			autoScroll: true,
-			handle: '.sort-handle '
+				console.log(serialized, this)
+			}
 		});
+		$(".sectionHeading").hover(
+			function() {
+				$(this).addClass("draggableOn");
+			}, 
+			function() {
+				
+					console.log(this);
+				$(this).removeClass("draggableOn");
+				$("#sortHelper").remove();
+			}
+		);
 }	
 
 //}}}
