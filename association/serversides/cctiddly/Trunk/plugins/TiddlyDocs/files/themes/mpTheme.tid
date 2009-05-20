@@ -447,13 +447,10 @@ body {
 /* tiddlerTree CSS */
 
 
-li.page-item1 {
+li.toc-item {
 list-style:none;
-
 }
 
-ul.page-list {
-}
 
 #backstageArea, #backstageArea a {
 background:#444444 none repeat scroll 0 0;
@@ -739,16 +736,16 @@ form.wizard, .wizard .wizardFooter{
 		 	background:red none repeat scroll 0 0; 
 		 	}
 	
-		div.sort-handle {
+		div.toc-sort-handle {
 			padding:0em;
 			margin:0em;
 			padding-top:0px;
 			color:white;
 		}
-		div.sort-handle div{
+		div.toc-sort-handle div{
 			margin:0em;
 		}
-		div.sort-handle:hover {
+		div.toc-sort-handle:hover {
 			background-color:#555;
 		}
 	// END NESTED SORTABLE CSS
