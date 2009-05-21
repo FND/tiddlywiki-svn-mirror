@@ -4,7 +4,7 @@ $p->addEvent("postSetLoginPerm", getcwd().'/plugins/OpenID/files/openid/common.p
 $data['tags'] = 'systemConfig';
 $p->addTiddler($data, getcwd().'/plugins/OpenID/files/OpenIDPlugin.js');
 $data1['tags'] = 'loginBox';
-$p->addTiddler($data1, getcwd().'/plugins/OpenID/files/OpenID.tiddler');
+$p->addTiddler($data1, getcwd().'/plugins/OpenID/files/OpenID.tid');
 
 
 ?>

@@ -41,6 +41,7 @@ config.macros.tdoc2Outline.renderSpec = function(place, spec) {
 	var heading = createTiddlyElement(sectionDiv, "div",  config.macros.tdoc2Outline.strip(spec.title)+"HeadingView", "sectionHeading");		
 	createTiddlyText(heading, spec.title);
 	$.each(spec.children, function() {
+		console.log("pah");
 		config.macros.tdoc2Outline.renderSpec(li, this);
 	});
 }

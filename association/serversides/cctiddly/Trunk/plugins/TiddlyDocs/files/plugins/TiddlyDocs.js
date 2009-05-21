@@ -62,7 +62,6 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 
 	btn.setAttribute("newTitle","New Section Title");
 	btn.setAttribute("newTemplate",getParam(params,"template","mpTheme##newEditTemplate"));
-	
 
 	var displaySettings= function () {
 		story.displayTiddler(null, "Settings");
