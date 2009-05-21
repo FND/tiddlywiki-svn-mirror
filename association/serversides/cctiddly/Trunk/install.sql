@@ -79,9 +79,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`username`, `password`, `short_name`, `long_name`) VALUES 
 ('admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '', ''),
-('username', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '', ''),
-('simon', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '', ''),
-('http://simonmcmanus.myopenid.com/', '', '', '');
+('username', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '', '') ;
 
 CREATE TABLE `workspace` (
   `name` varchar(100) NOT NULL,
