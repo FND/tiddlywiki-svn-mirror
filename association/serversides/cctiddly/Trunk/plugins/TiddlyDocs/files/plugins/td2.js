@@ -61,12 +61,10 @@ config.macros.tdoc2Outline.handler=function(place,macroName,params,wikifier,para
 */
 
 config.macros.tdoc2Outline.renderSpec = function(place, spec, label) {
-	console.log("args", arguments, "label", label, "tl", typeof(label));
 	var childCount=1;
+	label=label.concat([0])
 	$.each(spec, function() {
-		label=label.concat([childCount++])
-		console.log("label", label, "this (current sn)", this);
-
+		label[label.length-1]++;
 		var ul = createTiddlyElement(place, "ul", "ul"+(window.ulCount++), "toc");
 	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
 
@@ -134,19 +132,36 @@ config.macros.deleteZone.handler = function() {
 		hoverclass : "deleteHelper",
 		accept:"toc-item",
 			ondrop:	function (drag) {
-				config.macros.deleteZone.delete(drag.id, testSpec);
+				console.log("found ", config.macros.deleteZone.find(drag.id, testSpec));
 			}
 	});
 };
+/*
+config.macros.deleteZone.delete = function(unwantedTitle, spec) {
+    var unwantedSpec = config.macros.deleteZone.find(unwantedTitle, spec);
+    if (unwantedSpec) config.macros.deleteZone.deleteRecursively(unwantedSpec);
+})
 
-config.macros.deleteZone.delete = function(id, spec) {
-	if(spec.title == id) {
-		console.log("delete me ", id);		
-	}
-	console.log(spec.children, id);
-	if(spec.children != undefined)	
-		config.macros.deleteZone.delete(id, spec.children);
-};
+config.macros.deleteZone.deleteRecursively = function(unwantedSpec) {
+	// get parent and use parent.children.splice() to prune the spec
+})
+*/
+
+// inefficient implementation
+config.macros.deleteZone.find = function(wantedTitle, spec) {
+	var wantedSpec;
+	console.log("spec", wantedTitle, "---", spec)
+	$.each(spec, function() {
+		if(this.title == wantedTitle)
+		  // SHOULD DO THIS TO GET PARENT FOR DELETE RECURSIVELY wantedSpec = { wanted: this, wantedParent: spec };
+		  wantedSpec = this;
+		else
+		  wantedSpec = config.macros.deleteZone.find(wantedTitle, this.children);
+		log("wanted", wantedSpec)
+		if (wantedSpec) return false; // break
+	})
+	return wantedSpec;
+}
 //}}}
 
 function log() { if (console) console.log.apply(console, arguments); };
