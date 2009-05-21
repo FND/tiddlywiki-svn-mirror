@@ -1,13 +1,32 @@
-var testSpec = {title:'Creation', children:
-					[{title:'Growth', children: 
-						[{title:'Language', children: []}]
-					 },
-					 {title:'Mowth', children: []},
-					 {title:'Jowth', children: []}
-					]
-				}
-			 
 
+
+
+
+				var testSpec = [{title:'Creation', children:[
+									{title:'Middl1e', children: []}
+								]},
+								{title:'Middle', children: [
+											{title:'Middl2e', children: [
+													{title:'Middl2.1e', children: []}
+											]}
+								]},
+								{title:'Fin', children:[
+											{title:'Middl3e', children: []}
+								]}];
+								
+								
+								var testSpec = [{title:'Creation', children:
+													[{title:'Growth', children: 
+														[{title:'Language', children: []}]
+													 },
+													 {title:'Mowth', children: []},
+													 {title:'Jowth', children: []}
+													]},
+												{title:'Middle', children: []},
+												{title:'Fin', children:
+												    [{title:'Epilogue', children: []}]
+												}];							
+								
 //tdoc2Outline //
 
 //{{{
@@ -18,6 +37,7 @@ config.macros.tdoc2Outline.editClick=function(){
 }
 
 config.macros.tdoc2Outline.strip=function(s) {
+	console.log("here");
 	return s.replace(" ",  "");
 }
 
@@ -25,9 +45,8 @@ config.macros.tdoc2Outline.handler=function(place,macroName,params,wikifier,para
 	config.macros.tdoc2Outline.refresh(place,macroName,params,wikifier,paramString,tiddler);
 };
 
-config.macros.tdoc2Outline.renderSpec = function(place, spec) {
-	var ul = createTiddlyElement(place, "ul", "ul"+(window.ulCount++), "toc");
-   	var li = createTiddlyElement(ul, "li", spec.title, "clear-element toc-item left");
+
+/*
 	if(store.getTiddler(spec.title)==null){
 			store.saveTiddler(spec.title, spec.title, "", config.options.txtUserName, new Date(),"task" );
 			autoSaveChanges(false, spec.title);
@@ -37,12 +56,24 @@ config.macros.tdoc2Outline.renderSpec = function(place, spec) {
 		else 
 			var sectionClass = "incomplete";
 	}
-	var sectionDiv = createTiddlyElement(li, "div", "div"+window.divCount++, "toc-sort-handle "+sectionClass);	
-	var heading = createTiddlyElement(sectionDiv, "div",  config.macros.tdoc2Outline.strip(spec.title)+"HeadingView", "sectionHeading");		
-	createTiddlyText(heading, spec.title);
-	$.each(spec.children, function() {
-		console.log("pah");
-		config.macros.tdoc2Outline.renderSpec(li, this);
+	var sectionDiv = createTiddlyElement(li, "div", spec.title+"HeadingView", "sectionHeading toc-sort-handle "+sectionClass);	
+	
+*/
+
+config.macros.tdoc2Outline.renderSpec = function(place, spec, label) {
+	console.log("args", arguments, "label", label, "tl", typeof(label));
+	var childCount=1;
+	$.each(spec, function() {
+		label=label.concat([childCount++])
+		console.log("label", label, "this (current sn)", this);
+
+		var ul = createTiddlyElement(place, "ul", "ul"+(window.ulCount++), "toc");
+	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
+
+	    var sectionDiv = createTiddlyElement(li, "div", this.title+"HeadingView", "sectionHeading toc-sort-handle ");	
+		// createTiddlyText(sectionDiv, (sectionLabel++)+"  :  "+spec.title);
+		createTiddlyText(sectionDiv, label+"  :  "+this.title);
+		config.macros.tdoc2Outline.renderSpec(li, this.children, label);
 	});
 }
 
@@ -50,7 +81,10 @@ config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,para
 	window.ulCount=0;
 	window.liCount=0;
 	window.divCount=0;
-	config.macros.tdoc2Outline.renderSpec(place, testSpec);	
+	window.sectionCount = 1;
+	
+	config.macros.tdoc2Outline.renderSpec(place, testSpec, []);
+	
 	$("#ul0").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
