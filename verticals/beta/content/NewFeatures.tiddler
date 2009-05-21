@@ -1,5 +1,16 @@
 <div title="NewFeatures" modifier="FND" created="200704141410" modified="200901140000">
-<pre>Release 2.5.0 of TiddlyWiki is identical to version 2.4.3, except that it includes the [[jQuery|http://jquery.com]] JavaScript library.
-This allows plugin authors to take advantage of jQuery's advanced features and provides the basis for future core optimisations.
+<pre>Release 2.5.1 of TiddlyWiki contains a variety of usability enhancements and bug fixes. These include:
+* Improvements to the tiddler Toolbar command
+* Added version info to the PluginManager
+* Fixed the handling of excludeLists tags
+* Fixed saving of extended tiddler fields
+Additionally some core TiddlyWiki functionality has been refactored into generic jQuery plugins:
+* File-system code
+* Cryptographic code
+* Dynamic style-sheet handling
+
+For the full 2.5.1 release notes see:
+http://trac.tiddlywiki.org/wiki/History
+
 </pre>
 </div>
