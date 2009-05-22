@@ -27,6 +27,7 @@
 												    [{title:'Epilogue', children: []}]
 												}];							
 								
+								
 //tdoc2Outline //
 
 //{{{
@@ -75,6 +76,17 @@ config.macros.tdoc2Outline.renderSpec = function(place, spec, label) {
 	});
 }
 
+config.macros.tdoc2Outline.serialize=function(item, spec){
+//	console.log(item.id);
+	spec = {title:item.id, children:[]};
+		$(item).children().each(function() {
+//			console.log("has child of: ", this);
+//			config.macros.tdoc2Outline.serialize(item, "");
+		});
+		
+};
+
+
 config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	window.ulCount=0;
 	window.liCount=0;
@@ -92,7 +104,23 @@ config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,para
 			$(".helper").remove();
 		},
 		onChange: function(serialized) {
-			displayMessage("saving");
+			console.log(serialized);
+			var newSpec = [];
+			
+			$("li").children().each(function() {
+//				console.log("c: ", this);
+			});
+			$("li").each(function() {
+
+				config.macros.tdoc2Outline.serialize(this);
+
+	//			console.log("parent", $(this).parents(".toc"));
+	//			newSpec.push({title:this.id});
+	//			console.log("Children : ", this);
+	//			console.log('new spec is :', newSpec, this.id);								
+	
+			})
+	//		console.log(serialized);
 			$('#left-to-right-ser').html("This can be passed as parameter to a GET or POST request: "+ serialized[0].hash);
 		},
 		autoScroll: true,
