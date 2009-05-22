@@ -4,7 +4,9 @@
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 <div class='title' macro='view title'></div>
 <div class='editor' macro='edit title'></div>
-Logo: <span macro="AdvancedEditTemplate type:image metaDataName:logo home:'http://localhost/ilga/' root:static/images/uploads/image connector:'http://localhost/ilga/browse' "></span>
+Associated File: <span macro="AdvancedEditTemplate type:file metaDataName:file root:static/images/public browser:'http://localhost/ilga/browse' uploader:'http://localhost/ilga/upload'"></span>
+
+Logo: <span macro="AdvancedEditTemplate type:image metaDataName:logo root:static/images/public browser:'http://localhost/ilga/browse' uploader:'http://localhost/ilga/upload'"></span>
 
 assign this to:
 <span macro='AdvancedEditTemplate type:dropdown metaDataName:assignee valuesSource:DropDownData'></span>

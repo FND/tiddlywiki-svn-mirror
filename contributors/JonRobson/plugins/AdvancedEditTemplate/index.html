@@ -1288,9 +1288,17 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				};
 				var initialValue = &quot;&quot;;
 				initialValue = this.getMetaData(title,metaDataName);
-				var image = new config.macros.AdvancedEditTemplate.EditTemplateImage(place, paramString,initialValue,handler);
+				var image = new config.macros.AdvancedEditTemplate.EditTemplateFile(place, paramString,initialValue,handler,true);
 			}
-
+			else if(ctrlType == 'file'){
+				var that = this;
+				var handler = function(value){
+					that.setMetaData(title,metaDataName,value);
+				};
+				var initialValue = &quot;&quot;;
+				initialValue = this.getMetaData(title,metaDataName);
+				var image = new config.macros.AdvancedEditTemplate.EditTemplateFile(place, paramString,initialValue,handler,false);
+			}
 		}
 		,createColorBar: function(place,tiddlerTitle,metaDataName){
 
@@ -1306,30 +1314,34 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			slider.setColor(curValue);
 		}
 		,createSearchBox: function(place,fieldName,values,initialValue,action){
-		    
 		    var whatyousee=[];
 			var whatyousave = {};
 			for(var i=0; i &lt; values.length; i ++){
-			    var name_value = values[i].split(&quot;:&quot;);
-			    var name = name_value[0];
-			    var value = name_value[1];
-			    if(!value) value = name;
+			    if(values[i] != &quot;&quot;){
+    			    var name_value = values[i].split(&quot;:&quot;);
+    			    var name = name_value[0];
+    			    var value = name_value[1];
+    			    if(!value) value = name;
 			    
-			    name = name.replace(/[\&gt;|\&lt;]/ig, &quot;&quot;);
-			    value = value.replace(/[\&gt;|\&lt;]/ig, &quot;&quot;);
-			    whatyousee.push(name);
-			    whatyousave[name] = value;
-			    if(initialValue == value) initialValue = name;
+    			    name = name.replace(/[\&gt;|\&lt;]/ig, &quot;&quot;);
+    			    value = value.replace(/[\&gt;|\&lt;]/ig, &quot;&quot;);
+    			    whatyousee.push(name);
+    			    whatyousave[name] = value;
+    			    if(initialValue == value) initialValue = name;
+			    }
 			}
 			var handler = function(event,targets){
+			    
 			    if(targets.length == 0) return;
 			    var name = targets[0]
 			    var save_this = whatyousave[name];
-			    action(save_this);
+			    if(action)action(save_this);
 			};
 			
 			if(!initialValue) initialValue = &quot;&quot;;
-		    jQuery(&quot;&lt;input type='text' value=\&quot;&quot;+initialValue +&quot;\&quot;/&gt;&quot;).autocomplete(whatyousee).result(handler).appendTo(place);
+			var options = {matchContains: true};
+		    jQuery(&quot;&lt;input type='text' value=\&quot;&quot;+initialValue +&quot;\&quot;/&gt;&quot;).autocomplete(whatyousee,options).result(handler).appendTo(place);
+		
 		}
 
 		,_createMenus: function(menutextrepresentation){
@@ -1675,24 +1687,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 	};
 	
 	
-	config.macros.AdvancedEditTemplate.EditTemplateImage = function(place,paramString,initial,handler){
-		this.init(place,paramString,initial,handler);
+	config.macros.AdvancedEditTemplate.EditTemplateFile = function(place,paramString,initial,handler,preview){
+		this.init(place,paramString,initial,handler,preview);
 	};
-	config.macros.AdvancedEditTemplate.EditTemplateImage.prototype = {
-		init: function(place,paramString,initial,handler){
+	config.macros.AdvancedEditTemplate.EditTemplateFile.prototype = {
+		init: function(place,paramString,initial,handler,preview){
 			var holder = document.createElement(&quot;div&quot;);
 			holder.className = &quot;AdvancedEditTemplateImage&quot;;
-			var form = document.createElement(&quot;form&quot;);
-			form.setAttribute(&quot;enctype&quot;,&quot;multipart/form-data&quot;);
-			form.setAttribute(&quot;action&quot;,&quot;http://localhost/ilga/upload&quot;);
-			form.setAttribute(&quot;method&quot;,&quot;POST&quot;);
-			form.setAttribute(&quot;target&quot;,&quot;_blank&quot;);
-			var input = document.createElement(&quot;input&quot;);
-			var submit = document.createElement(&quot;input&quot;);
-			submit.type = &quot;button&quot;;
-
-			input.type = &quot;file&quot;;
-
 			var image = document.createElement(&quot;img&quot;);
 			image.src = initial;
 			image.alt = &quot;currently selected image&quot;;
@@ -1700,30 +1701,37 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
                 	
 			var root = getParam(params,&quot;root&quot;, null);
-			var connector = getParam(params,&quot;connector&quot;, null);
-		   
-			var home =  getParam(params,&quot;home&quot;, null);
+			var connector = getParam(params,&quot;browser&quot;, null);
+			var uploader =getParam(params,&quot;uploader&quot;,null);
+			//var home =  getParam(params,&quot;home&quot;, null);	
+
 			
-
-			//var root  ='images/'
-			//var connector = 
-			//var home = http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/
-
-			//	var connector= &quot;http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php&quot;;	
-			jQuery(holder).append(&quot;&lt;div class='tip'&gt;The image currently selected is shown below if selected&lt;/div&gt;&quot;);
-			holder.appendChild(image);
-			//jQuery(holder).append(&quot;&lt;div class='tip'&gt;Please select a file from your local machine to upload.&lt;/div&gt;&quot;);
-			//form.appendChild(input);
-			//input.name = &quot;mysexyfile&quot;;
-			//form.appendChild(submit);			
-			holder.appendChild(form);
-			jQuery(holder).append(&quot;&lt;div class='tip'&gt;Please select a file from the server (listed below) to use as the image or enter the path to that filename.&lt;/div&gt;&quot;);
+			
+			if(preview){
+			    jQuery(holder).append(&quot;&lt;div class='tip'&gt;PREVIEW:&lt;/div&gt;&quot;);
+			    holder.appendChild(image);			
+			}
 
 			place.appendChild(holder);
 
+			var filename = document.createElement(&quot;input&quot;); //this is what is saved back to tiddler
+			filename.id = &quot;filename_&quot; + Math.random();	
+			
+			var form = document.createElement(&quot;form&quot;);
+			form.setAttribute(&quot;enctype&quot;,&quot;multipart/form-data&quot;);
+			form.setAttribute(&quot;method&quot;,&quot;POST&quot;);
+			form.setAttribute(&quot;target&quot;,&quot;about:blank&quot;);
+            jQuery(form).append(&quot;&lt;div class='tip'&gt;Upload a local file:&lt;/div&gt;&lt;input type='hidden' class='filename' name='NewFilename' value='foo.jpg'&gt;&lt;input class='file' type='file' name='NewFile'/&gt;&lt;input type='submit' value='Send'/&gt;&quot;);
 
-            
-			var filename = document.createElement(&quot;input&quot;);
+			jQuery(&quot;.file&quot;,form).change(function(e){
+			   jQuery(&quot;.filename&quot;,form).val(this.value); 
+			});
+			holder.appendChild(form);
+			form.setAttribute(&quot;action&quot;,uploader+&quot;?postbackto=&quot;+filename.id);
+			
+	
+			jQuery(holder).append(&quot;&lt;div class='tip'&gt;OR select a file from the server (listed below) to use as the image or enter the path to that filename.&lt;/div&gt;&quot;);
+			
 			
 			filename.onchange = function(e){
 				var newsrc = this.value;
@@ -1732,7 +1740,6 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				if(handler)handler(newsrc);
 			};
 			if(initial)filename.value = initial;			
-			//filename.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
 			holder.appendChild(filename);
 			jQuery(holder).append(&quot;&lt;div class='browserarea' style='position:relative;'&gt;&lt;input type='button' class='browsebutton' value='browse'&gt;&lt;div class='filebrowser' style='position:absolute;display:none;'&gt;&lt;/div&gt;&lt;/div&gt;&quot;);
 			var bb = jQuery(&quot;.browsebutton&quot;,holder);
@@ -1750,7 +1757,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			if(!home) home = &quot;&quot;;
 			if(root) r =root; else r =&quot;&quot;;
 			browser.fileTree({ root: r, script: connector }, function(file) { 
-						filename.value = home +file;
+						filename.value = file;
 						filename.onchange();
 			});
 			
@@ -3915,7 +3922,9 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c&lt;a?'':e(parseInt(c/a)))+((c=
 &lt;div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;
-Logo: &lt;span macro=&quot;AdvancedEditTemplate type:image metaDataName:logo home:'http://localhost/ilga/' root:static/images/uploads/image connector:'http://localhost/ilga/browse' &quot;&gt;&lt;/span&gt;
+Associated File: &lt;span macro=&quot;AdvancedEditTemplate type:file metaDataName:file root:static/images/public browser:'http://localhost/ilga/browse' uploader:'http://localhost/ilga/upload'&quot;&gt;&lt;/span&gt;
+
+Logo: &lt;span macro=&quot;AdvancedEditTemplate type:image metaDataName:logo root:static/images/public browser:'http://localhost/ilga/browse' uploader:'http://localhost/ilga/upload'&quot;&gt;&lt;/span&gt;
 
 assign this to:
 &lt;span macro='AdvancedEditTemplate type:dropdown metaDataName:assignee valuesSource:DropDownData'&gt;&lt;/span&gt;
@@ -3997,6 +4006,8 @@ Lizard
 <pre>
 .tip {font-style:italic;font-weight:bold;}
 .dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}
+
+.filebrowser{background-color:white; border:solid 1px black;}
 
 
 </pre>

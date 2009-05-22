@@ -27,7 +27,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var ctrlType = getParam(params,"type",null);
 
 			var title = tiddlerDom.getAttribute("tiddler");
-			var tiddler = store.getTiddler(title);
+			var tiddlerobj = store.getTiddler(title);
 			var metaDataName = getParam(params,"metaDataName", null);
 			
 			// build a drop down control
@@ -50,16 +50,16 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					fields = [metaDataName];
 				}
 				
-				var selected = store.getValue(tiddler,fields[fields.length -1]);
+				var selected = store.getValue(tiddlerobj,fields[fields.length -1]);
 				if(!selected){
 					var qsvalue =this.getVariableFromQueryString(fields[fields.length-1]);
 					if(qsvalue) selected = qsvalue;
 				}
-				var tiddler =store.getTiddler(valueSource);
+				var tiddlerobj =store.getTiddler(valueSource);
 				
-				if(tiddler){
-					var values = tiddler.text.split('\n');
-					var sorted = tiddler.tags.contains("sorted");
+				if(tiddlerobj){
+					var values = tiddlerobj.text.split('\n');
+					var sorted = tiddlerobj.tags.contains("sorted");
 					this.createDropDownMenu(place,fields,values,false,this.setDropDownMetaData,selected,sorted);
 				}
 			}
@@ -68,14 +68,14 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
 					return;
 				}
-				var selected = store.getValue(tiddler,metaDataName);
+				var selected = store.getValue(tiddlerobj,metaDataName);
 				if(!selected){
 					var qsvalue =this.getVariableFromQueryString(metaDataName);
 					if(qsvalue) selected = qsvalue;
 				}
-				var tiddler =store.getTiddler(valueSource);
-				if(tiddler){
-					var values = tiddler.text.split('\n');
+				var tiddlerobj =store.getTiddler(valueSource);
+				if(tiddlerobj){
+					var values = tiddlerobj.text.split('\n');
 					var handler= function(value){
 						config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
 					}
@@ -100,9 +100,25 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				};
 				var initialValue = "";
 				initialValue = this.getMetaData(title,metaDataName);
-				var image = new config.macros.AdvancedEditTemplate.EditTemplateImage(place, paramString,initialValue,handler);
+				var image = new config.macros.AdvancedEditTemplate.EditTemplateFile(place, paramString,initialValue,handler,true);
 			}
-
+			else if(ctrlType == 'text'){
+			    var maxlength = getParam(params,"maxlength", null);
+			    params = [metaDataName];
+			    paramString ="";
+			    var e = config.macros.edit.handler(place,macroName,params,wikifier,paramString,tiddler);
+			    console.log(e,maxlength,"cool");
+			    if(maxlength) e.setAttribute("maxlength",maxlength); 
+			}
+			else if(ctrlType == 'file'){
+				var that = this;
+				var handler = function(value){
+					that.setMetaData(title,metaDataName,value);
+				};
+				var initialValue = "";
+				initialValue = this.getMetaData(title,metaDataName);
+				var image = new config.macros.AdvancedEditTemplate.EditTemplateFile(place, paramString,initialValue,handler,false);
+			}
 		}
 		,createColorBar: function(place,tiddlerTitle,metaDataName){
 
@@ -491,24 +507,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 	};
 	
 	
-	config.macros.AdvancedEditTemplate.EditTemplateImage = function(place,paramString,initial,handler){
-		this.init(place,paramString,initial,handler);
+	config.macros.AdvancedEditTemplate.EditTemplateFile = function(place,paramString,initial,handler,preview){
+		this.init(place,paramString,initial,handler,preview);
 	};
-	config.macros.AdvancedEditTemplate.EditTemplateImage.prototype = {
-		init: function(place,paramString,initial,handler){
+	config.macros.AdvancedEditTemplate.EditTemplateFile.prototype = {
+		init: function(place,paramString,initial,handler,preview){
 			var holder = document.createElement("div");
 			holder.className = "AdvancedEditTemplateImage";
-			var form = document.createElement("form");
-			form.setAttribute("enctype","multipart/form-data");
-			form.setAttribute("action","http://localhost/ilga/upload");
-			form.setAttribute("method","POST");
-			form.setAttribute("target","_blank");
-			var input = document.createElement("input");
-			var submit = document.createElement("input");
-			submit.type = "button";
-
-			input.type = "file";
-
 			var image = document.createElement("img");
 			image.src = initial;
 			image.alt = "currently selected image";
@@ -516,30 +521,37 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var params = paramString.parseParams("anon",null,true,false,false);
                 	
 			var root = getParam(params,"root", null);
-			var connector = getParam(params,"connector", null);
-		   
-			var home =  getParam(params,"home", null);
+			var connector = getParam(params,"browser", null);
+			var uploader =getParam(params,"uploader",null);
+			//var home =  getParam(params,"home", null);	
+
 			
-
-			//var root  ='images/'
-			//var connector = 
-			//var home = http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/
-
-			//	var connector= "http://www.jonrobson.me.uk/projects/AdvancedEditTemplate/connectors/jqueryFileTree.php";	
-			jQuery(holder).append("<div class='tip'>The image currently selected is shown below if selected</div>");
-			holder.appendChild(image);
-			//jQuery(holder).append("<div class='tip'>Please select a file from your local machine to upload.</div>");
-			//form.appendChild(input);
-			//input.name = "mysexyfile";
-			//form.appendChild(submit);			
-			holder.appendChild(form);
-			jQuery(holder).append("<div class='tip'>Please select a file from the server (listed below) to use as the image or enter the path to that filename.</div>");
+			
+			if(preview){
+			    jQuery(holder).append("<div class='tip'>PREVIEW:</div>");
+			    holder.appendChild(image);			
+			}
 
 			place.appendChild(holder);
 
+			var filename = document.createElement("input"); //this is what is saved back to tiddler
+			filename.id = "filename_" + Math.random();	
+			
+			var form = document.createElement("form");
+			form.setAttribute("enctype","multipart/form-data");
+			form.setAttribute("method","POST");
+			form.setAttribute("target","about:blank");
+            jQuery(form).append("<div class='tip'>Upload a local file:</div><input type='hidden' class='filename' name='NewFilename' value='foo.jpg'><input class='file' type='file' name='NewFile'/><input type='submit' value='Send'/>");
 
-            
-			var filename = document.createElement("input");
+			jQuery(".file",form).change(function(e){
+			   jQuery(".filename",form).val(this.value); 
+			});
+			holder.appendChild(form);
+			form.setAttribute("action",uploader+"?postbackto="+filename.id);
+			
+	
+			jQuery(holder).append("<div class='tip'>OR select a file from the server (listed below) to use as the image or enter the path to that filename.</div>");
+			
 			
 			filename.onchange = function(e){
 				var newsrc = this.value;
@@ -548,7 +560,6 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				if(handler)handler(newsrc);
 			};
 			if(initial)filename.value = initial;			
-			//filename.setAttribute("type","hidden");
 			holder.appendChild(filename);
 			jQuery(holder).append("<div class='browserarea' style='position:relative;'><input type='button' class='browsebutton' value='browse'><div class='filebrowser' style='position:absolute;display:none;'></div></div>");
 			var bb = jQuery(".browsebutton",holder);
@@ -566,7 +577,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			if(!home) home = "";
 			if(root) r =root; else r ="";
 			browser.fileTree({ root: r, script: connector }, function(file) { 
-						filename.value = home +file;
+						filename.value = file;
 						filename.onchange();
 			});
 			
