@@ -83,7 +83,7 @@ config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,para
 	
 	config.macros.tdoc2Outline.renderSpec(place, testSpec, []);
 	
-	$("#ul0").NestedSortable({
+	$("ul.toc").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
 		helperclass: 'helper',
