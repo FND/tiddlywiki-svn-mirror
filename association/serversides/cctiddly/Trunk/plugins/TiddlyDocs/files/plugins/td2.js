@@ -70,7 +70,7 @@ config.macros.tdoc2Outline.renderSpec = function(place, spec, label) {
 
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"HeadingView", "sectionHeading toc-sort-handle ");	
 		// createTiddlyText(sectionDiv, (sectionLabel++)+"  :  "+spec.title);
-		createTiddlyText(sectionDiv, label+"  :  "+this.title);
+		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
 		config.macros.tdoc2Outline.renderSpec(li, this.children, label);
 	});
 }
