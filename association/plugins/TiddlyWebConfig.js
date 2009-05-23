@@ -44,7 +44,7 @@ config.defaultCustomFields = {
 	"server.workspace": workspace
 };
 
-// set username
+// retrieve server info
 var statusCallback = function(context, userParams) {
 	if(context.serverStatus) {
 		// set username
