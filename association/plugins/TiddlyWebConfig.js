@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWeb|
 |''Author''|FND|
-|''Version''|0.3.3|
+|''Version''|0.4.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -15,6 +15,8 @@
 * removed obsolete dependencies
 !!v0.3 (2009-03-16)
 * sync username with server
+!!v0.4 (2009-05-23)
+* cache list of available login challengers
 !Code
 ***/
 //{{{
@@ -44,9 +46,16 @@ config.defaultCustomFields = {
 
 // set username
 var statusCallback = function(context, userParams) {
-	if(context.serverStatus && context.serverStatus.username) {
- 		config.macros.option.propagateOption("txtUserName",
-			"value", context.serverStatus.username, "input");
+	if(context.serverStatus) {
+		// set username
+		if(context.serverStatus.username) {
+			config.macros.option.propagateOption("txtUserName",
+				"value", context.serverStatus.username, "input");
+		}
+		// retrieve challengers
+		if(context.serverStatus.challengers) {
+			config.adaptors.tiddlyweb.challengers = context.serverStatus.challengers;
+		}
 	}
 };
 adaptor.getStatus({ host: host }, null, statusCallback);
