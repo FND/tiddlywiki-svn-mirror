@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.7.3|
+|''Version''|0.8.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -315,7 +315,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		adaptor.normalizeTitle(workspace.name),
 		adaptor.normalizeTitle(tiddler.title)]);
 	var etag = adaptor.generateETag(workspace, tiddler);
-	var headers = etag ? { "If-Match": etag } : null;
+	var headers = etag ? { "If-Match": '"' + etag + '"' } : null;
 	var payload = {
 		title: tiddler.title,
 		text: tiddler.text,
@@ -336,6 +336,7 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.httpStatus = xhr.status;
 	if(status) {
 		var etag = xhr.getResponseHeader("Etag");
+		etag = etag.substr(1, etag.length - 2); // strip enclosing quotes
 		context.tiddler.fields["server.page.revision"] = etag.split("/").pop();
 	}
 	if(context.callback) {
@@ -354,10 +355,10 @@ adaptor.prototype.putTiddlerChronicle = function(revisions, context, userParams,
 	var uri = uriTemplate.format([host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name),
 		adaptor.normalizeTitle(context.title)]);
-	if(workspace.type == "bag") { // generat ETag
+	if(workspace.type == "bag") { // generate ETag
 		var etag = [adaptor.normalizeTitle(workspace.name),
 			adaptor.normalizeTitle(context.title), 0].join("/"); //# zero-revision prevents overwriting existing contents
-		headers = { "If-Match": etag };
+		headers = { "If-Match": '"' + etag + '"' };
 	}
 	var payload = $.toJSON(revisions);
 	var req = httpReq("POST", uri, adaptor.putTiddlerChronicleCallback,
@@ -369,9 +370,6 @@ adaptor.putTiddlerChronicleCallback = function(status, context, responseText, ur
 	context.status = xhr.status === 204;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
-	if(status) {
-		var etag = xhr.getResponseHeader("Etag");
-	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
 	}
@@ -476,7 +474,7 @@ adaptor.prototype.deleteTiddler = function(tiddler, context, userParams, callbac
 		adaptor.normalizeTitle(workspace.name),
 		adaptor.normalizeTitle(tiddler.title)]);
 	var etag = adaptor.generateETag(workspace, tiddler);
-	var headers = etag ? { "If-Match": etag } : null;
+	var headers = etag ? { "If-Match": '"' + etag + '"' } : null;
 	var req = httpReq("DELETE", uri, adaptor.deleteTiddlerCallback, context, headers,
 		null, null, null, null, true);
 	return typeof req == "string" ? req : true;
