@@ -1,0 +1,10 @@
+<div title="ViewTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
+<pre>
+<!--{{{-->
+<div class="page">
+<div class='toolbar' macro='toolbar +editTiddler'></div>
+<div class='inner' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+</pre>
+</div>

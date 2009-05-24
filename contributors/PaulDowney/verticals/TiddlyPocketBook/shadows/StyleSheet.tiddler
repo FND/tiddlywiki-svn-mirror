@@ -1,0 +1,211 @@
+<div title="StyleSheet" modifier="Paul Downey" created="200709041741" tags="excludeLists">
+<pre>/*{{{*/
+
+body {
+	background-color: [[ColorPalette::BodyBackground]];	
+	color: [[ColorPalette::TextColor]];
+	font-size: 100%;
+	font-family: Georgia, serif;
+}
+
+#controlBar {
+	background-color: [[ColorPalette::MenuBackground]];
+	border-bottom: solid 1px [[ColorPalette::MenuBorder]];
+	color: [[ColorPalette::MenuText]];
+	font-size: 0.8em;
+	padding-left: 1em;
+	padding-bottom: 0.2em;
+}
+
+#controlBar a {
+	color: [[ColorPalette::MenuText]];
+	border-style: none;
+	margin-right: 2em;
+}
+
+#controlBar a:hover {
+	color: [[ColorPalette::MenuTextHover]];
+	background-color: [[ColorPalette::MenuBackground]];
+}
+
+#controlBar div.sliderPanel {
+	color: [[ColorPalette:MenuText]];
+	margin: 2em 2em;
+}
+
+#controlBar div.sliderPanel a {
+	margin-right: 0;
+}
+
+#backstageButton a {
+	color: [[ColorPalette:MenuText]];
+}
+
+#messageArea {
+	border:none;
+	background: transparent;
+	padding-top: 20px;
+}
+
+#messageArea .messageBox {
+	font-family: Helvetica, Arial, sans-serif;
+	border:1px solid [[ColorPalette::MessageBoxBorder]];
+	background:[[ColorPalette::MessageBoxBackground]]; 
+	width:12em;
+	padding:10px;
+	margin-top:5px;
+	margin-bottom:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	filter:alpha(opacity=90%);
+}
+
+#messageArea .messageText {
+	display:block;
+	width:12em;
+	margin:0;
+	padding:0;
+	color:[[ColorPalette::MessageBoxForeground]];
+}
+
+#messageArea .messageText a {
+	text-decoration:none;
+	color:[[ColorPalette::MessageBoxForeground]];
+}
+
+#messageArea .messageClear {
+	display:none;
+}
+
+#mainMenu {
+	display: none;
+}
+
+#header {
+	padding: 0px;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 1em;
+}
+
+#footer {
+	clear: both;
+	padding: 1em;
+}
+
+.siteTitle {
+	display: block;
+	color: [[ColorPalette::SiteTitle]];
+	background-color: [[ColorPalette::HeaderBackground]];
+	padding: 20px 0px 20px 0px;
+	font-size: 3em;
+	font-weight: bold;
+	font-style: italic;
+	letter-spacing: 2px;
+	text-align: center;
+}
+
+#mainArea {
+	width: 66em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#displayArea {
+	display: inline-block; /* IE bugfix: give layout (hasLayout = true) */
+}
+
+#displayArea {
+	display: block; /* restore proper behavior (see IE bugfix above) */
+	background-color: [[ColorPalette::PaperShadow]];
+	margin: 0.5em auto 0.5em auto;
+}
+
+.tiddler div.toolbar {
+	margin: 0;
+	padding: 0 0 0 0;
+	height: 1em;
+	display: block;
+	float: right;
+}
+
+.tiddler {
+	padding: 0 0 0 0;
+}
+
+.selected div.toolbar,
+.editor div.toolbar {
+	visibility: visible;
+}
+
+.editor > .tags {
+	display: none;
+}
+
+.editor {
+	border: thin solid [[ColorPalette::EditorBorder]];
+	padding: 1em;
+}
+
+.profile  > .title {
+	display: none;
+}
+
+.hint {
+	color: [[ColorPalette::MenuText]];
+	font-size: 0.8em;
+}
+
+.label {
+	padding-top: 1em;
+}
+
+.label:after {
+	content: ":";
+}
+
+li.selected a {
+	font-weight: bold;
+}
+
+textarea {
+	width: 99%;
+	height: 300px;
+	display: block;
+	margin-top: 2em;
+}
+
+#book {
+	margin: 10px;
+	width: 100%;
+}
+
+.page {
+	background: [[ColorPalette::PageBackground]];
+	width: 241px;
+	height: 370px;
+	overflow: hidden;
+	outline: 1px solid #C7C7C7;
+	float: left;
+	margin: 10px;
+}
+
+.page div.title {
+	width: 2em;
+	display: inline;
+}
+
+
+.inner {
+	margin: 15px;
+}
+
+hr {
+	border: none;
+	border-bottom: 2px dotted [[ColorPalette::TertiaryLight]];
+	height: 2px;
+}
+
+/*}}}*/</pre>
+</div>

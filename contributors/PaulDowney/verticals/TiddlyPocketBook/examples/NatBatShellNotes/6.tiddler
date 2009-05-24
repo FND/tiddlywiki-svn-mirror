@@ -1,0 +1,14 @@
+<div title="6" modifier="PaulDowney" created="20090522163357" modified="20090522163357" changecount="1" tags="page">
+<pre>!!subversion {{amp{&amp;}}} download
+{{micro{is this directory checked out from svn? and where?}}}{{{svn info}}}
+
+{{micro{show everything that has changed}}}{{{svn diff}}}
+
+{{micro{show what has changed in one file}}}{{{svn diff filename}}}
+
+{{micro{open text editor in order to specify which files to ignore from svn}}}{{{svn propedit svn:ignore .}}}
+
+{{micro{download a file to the current directory}}}{{{wget URL}}}
+
+{{micro{show the contents of a file in the terminal}}}{{{curl URL}}}</pre>
+</div>

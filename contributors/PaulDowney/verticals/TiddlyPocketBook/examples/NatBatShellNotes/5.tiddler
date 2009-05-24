@@ -1,0 +1,18 @@
+<div title="5" modifier="PaulDowney" created="20090522163357" modified="20090522163357" changecount="1" tags="page">
+<pre>!!subversion
+{{micro{check out a repository to the current directory}}}{{{svn co URL .}}}
+
+{{micro{update local directory from repository}}}{{{svn up}}}
+
+{{micro{are there new or modified files?}}}{{{svn status}}}
+
+{{micro{add new files to the repository}}}{{{svn add filename}}}
+
+{{micro{remove a file from subversion}}}{{{svn remove filename}}}
+
+{{micro{mark a previously conflicted file as resolved}}}{{{svn resolved filename}}}
+
+{{micro{who changed what line number of this file}}}{{{svn blame filename}}}
+
+{{micro{commit all changes in this directory}}}{{{svn commit -m "commit msg"}}}</pre>
+</div>

@@ -1,0 +1,5 @@
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+recipe: content/split.recipe
+recipe: shadows/split.recipe
+recipe: plugins/split.recipe
+recipe: themes/split.recipe

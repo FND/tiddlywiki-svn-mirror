@@ -1,0 +1,14 @@
+<div title="4" modifier="PaulDowney" created="20090522163357" modified="20090522163357" changecount="1" tags="page">
+<pre>!!move, remove {{amp{&amp;}}} copy
+{{micro{move or rename a file or directory}}}{{{mv oldname newname}}}
+
+{{micro{remove a file}}}{{{rm filename}}}
+
+{{micro{remove a directory and all its contents. ''BE VERY CAREFUL!'' you could easily delete everything!}}}{{{rm -rf dirname}}}
+
+{{micro{copy a file}}}{{{cp oldfilename newfilename}}}
+
+{{micro{copy a directory and everything in it}}}{{{cp -r olddirname newdirname}}}
+
+{{micro{securely copy a file to / on a remote server}}}{{{scp file user@domain.com:}}}{{micro{you can also copy a directory using {{{scp -r}}}}}}</pre>
+</div>

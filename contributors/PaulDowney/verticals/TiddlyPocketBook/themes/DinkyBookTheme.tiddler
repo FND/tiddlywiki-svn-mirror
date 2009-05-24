@@ -1,0 +1,106 @@
+<div title="DinkyBookTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch">
+<pre>
+|''~StyleSheet''|##StyleSheet|
+
+!StyleSheet
+/*{{{*/
+[[StyleSheet]]
+
+/* 
+ *  Theme based on Natalie Downe's Dinky Pocket Books, the inspiration for TiddlyPocketBook:
+ *
+ *  git clone git://github.com/natbat/pocketbook.git
+ */
+
+#mainArea {
+	width: 76em;
+}
+
+#book {
+	font-family: "helvetica neue", arial, helvetica, sans-serif;	
+	font-size: 14px;
+	width: 99%;
+}
+
+.inner {
+	line-height: 0.1em;
+}
+
+pre, code, kbd, tt, samp, tt {
+	font-family: "andale mono", monospace;
+	line-height: 1.5em;
+	font-color: #333;
+}
+
+pre {
+	white-space: pre;
+	width: 100%;
+	font-size: 0.7em;
+	overflow: hidden;
+	border-top: 3px double #C7C7C7;
+	border-bottom: 3px double #C7C7C7;
+	padding: 0.5em 0;
+}
+
+p, ul, ol, dl, address, table, pre, form, fieldset {
+	font-size: 1em /* 14px */;
+	margin-bottom: 0.5em; 
+}
+
+h1 {
+	font-size: 2.571em /* 36px */;
+	line-height:1em /* 36px */;
+	margin-top:0.1667em /* 6px */;
+	margin-bottom:0.5833em /* 21px */;
+	color: #000;
+}
+
+h1 span {
+	font-size: 0.5em;
+	line-height: 1em;
+	color: #999;
+	display: block;
+	margin-bottom: 0.3em;
+}
+
+h2, h3 {
+	font-size:1.143em /* 16px */;
+	margin-top:0;
+	padding-bottom: 0.5em;
+	margin-bottom:0.5em /* 8px */; 
+	text-align: center;
+	border-bottom: 1px solid #999;
+	color: #000;
+}
+
+.amp {
+	font-family: "Bell MT", "Adobe Caslon Pro", "Goudy Old Style";
+	font-style: italic;
+	font-size: 1.3em;
+	line-height: 0.7;
+	margin: 0 0.2em 0 0.1em;
+}
+
+.micro p,
+.micro h3,
+.micro h4,
+.micro h5,
+.micro h6,
+h3.micro,
+h4.micro,
+h5.micro,
+h6.micro,
+p.micro,
+span.micro {
+	font-size: 0.7em;
+	line-height: 1.5em;
+	display: block;
+}
+
+.lines hr {
+	padding-bottom: 0.5em;
+}
+
+/*}}}*/
+</pre>
+</div>

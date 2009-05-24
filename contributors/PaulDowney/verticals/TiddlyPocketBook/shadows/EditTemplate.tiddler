@@ -1,0 +1,10 @@
+<div title="EditTemplate" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
+<pre>
+<!--{{{-->
+<div class="page">
+<div class='toolbar' macro='toolbar +saveTiddler -cancelTiddler'></div>
+<div class='inner' macro='edit text 20'></div>
+</div>
+<!--}}}-->
+</pre>
+</div>

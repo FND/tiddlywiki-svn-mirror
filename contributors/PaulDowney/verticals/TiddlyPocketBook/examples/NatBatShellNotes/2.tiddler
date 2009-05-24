@@ -1,0 +1,15 @@
+<div title="2" modifier="PaulDowney" created="20090522163357" modified="20090522163357" changecount="1" tags="page">
+<pre>!!navigate the file tree
+{{micro{changing directory to {{{dirname}}}}}}{{{cd dirname}}}
+
+{{micro{move up a directory in the tree}}}{{{cd ..}}}{{micro{dont forget you can drag a folder in from the finder to get a path to that directory}}}
+{{micro{go back to the last directory I was in}}}{{{cd -}}}
+
+{{micro{where am I? (present working directory)}}}{{{pwd}}}
+
+{{micro{list what's in this directory}}}{{{ls}}}
+
+{{micro{now give me more information in the listing}}}{{{ls -lah}}}
+
+{{micro{ssh to server}}}{{{ssh user@domain.com}}}</pre>
+</div>

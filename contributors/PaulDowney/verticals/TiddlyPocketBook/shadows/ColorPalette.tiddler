@@ -1,0 +1,47 @@
+<div title="ColorPalette" modifier="Paul Downey" created="200709041746" tags="excludeLists">
+<pre>{{{
+
+BodyBackground: #FFF
+HeaderBackground: #111
+PageBackground: #FFF
+
+SiteTitle: #FFF
+
+MenuText: #888
+MenuBorder: #333
+MenuTextHover: #FFF
+MenuBackground: #000
+
+PaperBackground: #FFF
+PaperBorder: #222
+PaperShadow: #EEE
+PaperColor: #000
+
+EditorBackground: #888
+EditorBorder: #222
+
+MessageBoxBorder: #222
+MessageBoxBackground: #222
+MessageBoxForeground: #FFF
+MessageBoxClose: #FFF
+
+TextColor: #000
+
+Background: #fff
+Foreground: #000
+PrimaryPale: #EEE
+PrimaryLight: #18f
+PrimaryMid: #444
+PrimaryDark: #014
+SecondaryPale: #ffc
+SecondaryLight: #fe8
+SecondaryMid: #db4
+SecondaryDark: #841
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #999
+TertiaryDark: #666
+Error: #f88
+
+}}}</pre>
+</div>

@@ -1,0 +1,16 @@
+<div title="3" modifier="PaulDowney" created="20090522163357" modified="20090522163357" changecount="1" tags="page">
+<pre>!!find {{amp{&amp;}}} open
+{{micro{list all files recursively in subdomains}}}{{{find .}}}
+
+{{micro{find all files with '{{{.css}}}' in the name}}}{{{find . | grep .css}}}
+
+{{micro{find the string '{{{prose}}}' in the contents of all the files in this directory}}}{{{grep -r "prose" .}}}
+
+{{micro{open a file as if you had double clicked it in the finder (mac only)}}}{{{open filename}}}
+
+{{micro{open the current directory in the finder}}}{{{open .}}}
+
+{{micro{make a directory called {{{dirname}}}}}}{{{mkdir dirname}}}
+
+{{micro{create a file called {{{filename}}} if it doesnt exist or update last modified date if it does}}}{{{touch filename}}}</pre>
+</div>

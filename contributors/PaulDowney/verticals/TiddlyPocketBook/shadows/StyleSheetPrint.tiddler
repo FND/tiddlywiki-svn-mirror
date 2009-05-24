@@ -1,0 +1,100 @@
+<div title="StyleSheetPrint" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
+<pre>
+/*{{{*/
+@media print {
+body { 
+	background-color: #FFF;
+}
+
+#header,
+#controlBar,
+#mainMenu,
+#sidebar,
+#messageArea,
+.toolbar,
+#backstageButton,
+#backstageArea { 
+	display: none ! important; 
+}
+
+#displayArea {
+	border: none;
+}
+
+#book {
+	position: relative;
+	height: 969px;
+	width: 743px;
+	margin: 0;
+	border: 1px solid #C7C7C7;
+	background-color: #FFF;
+}
+
+.tiddler, .page {
+	position: absolute;
+	float: none;
+	margin: 0;
+	padding: 0;
+	background-color: #F00;
+
+	background: #FFF;
+	width: 241px;
+	height: 370px;
+	overflow: hidden;
+	outline: 1px solid #C7C7C7;
+}
+
+/* rotated left */
+#tiddler1,
+#tiddler8,
+#tiddler7,
+#tiddler6 {
+	-webkit-transform: translate(64.5px, -64.5px) rotate(-90deg);
+	/*-webkit-transform:rotate(90deg) scale(0.6) skew(-23deg);*/
+}
+
+/* rotated right */
+#tiddler2,
+#tiddler3,
+#tiddler4,
+#tiddler5 {
+	-webkit-transform: translate(-64.5px, -64.5px) rotate(90deg);
+}	
+/* cover */
+#tiddler1 {
+	top: 1px;
+	left: 2px;
+}
+#tiddler2 {
+	top: 0;
+	right: 1px;
+}
+#tiddler3 {
+	top: 242px;
+	right: 1px;
+}
+#tiddler4 {
+	top: 484px;
+	right: 1px;
+}
+#tiddler5 {
+	top: 726px;
+	right: 1px;
+}
+#tiddler6 {
+	top: 727px;
+	left: 2px;
+}
+#tiddler7 {
+	top: 485px;
+	left: 2px;
+}
+/* back page */
+#tiddler8 {
+	top: 243px;
+	left: 2px;
+}
+}
+/*}}}*/
+</pre>
+</div>

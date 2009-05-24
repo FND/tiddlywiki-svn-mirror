@@ -1,0 +1,16 @@
+<div title="7" modifier="PaulDowney" created="20090522163357" modified="20090522163357" changecount="1" tags="page">
+<pre>!!help {{amp{&amp;}}} information
+{{micro{run any command as root}}}{{{sudo your-command-here}}}
+
+{{micro{get help for any command, eg {{{svn}}}}}}{{{svn --help}}}
+
+{{micro{how long has this computer been on?}}}{{{uptime}}}
+
+{{micro{what is the size of the current directory and all the contents}}}{{{du -h}}}
+
+{{micro{cancel the command you were currently typing}}}{{{ctrl + c}}}
+
+{{micro{go to the beginning of the line in the terminal}}}{{{ctrl + a}}}
+
+{{micro{go to the end of the line in the terminal}}}{{{ctrl + e}}}</pre>
+</div>

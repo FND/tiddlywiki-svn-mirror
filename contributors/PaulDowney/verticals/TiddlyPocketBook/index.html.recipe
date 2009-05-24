@@ -1,0 +1,7 @@
+recipe: TiddlyPocketBook.recipe
+
+#empty
+#recipe: pages/split.recipe
+
+#example
+recipe: examples/NatBatShellNotes/split.recipe
