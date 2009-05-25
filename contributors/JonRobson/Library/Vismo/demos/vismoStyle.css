@@ -19,6 +19,7 @@ textarea {
 	overflow:hidden;
 	margin-bottom:2px;
 	border:solid 1px gray;
+	text-indent: 200000px;
 }
 .brResizer {width:10;height:10; background-color:red;}
 .selectshape{
