@@ -2,6 +2,7 @@
 <pre>These interface options for customising TiddlyPocketBook are saved in your browser:
 
 <<option chkAnimate>> EnableAnimations
+<<option chkSaveBackups>> SaveBackupCopies
 
 </pre>
 </div>

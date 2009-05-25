@@ -1,3 +1,5 @@
 <div title="TiddlyPocketBook" modifier="Paul Downey" created="200811021615" tags="">
-<pre>Hello! This is a [[TiddlyWiki|http://tiddlywiki.com]] to create ~PocketBooks, small dinky booklets made from a single piece of paper.</pre>
+<pre>Hello! This is a [[TiddlyWiki|http://tiddlywiki.com]] to create ~PocketBooks, small [[dinky booklets|http://natbat.net/2009/May/21/pocketbooks/]] which are made from a single piece of paper. 
+
+This version has a few //issues//, notably printing only works in modern browsers which support CSS transforms, such as Safari and Firefox 3.5 beta.</pre>
 </div>
