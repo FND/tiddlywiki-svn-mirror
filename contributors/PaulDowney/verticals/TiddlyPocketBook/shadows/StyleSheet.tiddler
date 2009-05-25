@@ -8,6 +8,16 @@ body {
 	font-family: Georgia, serif;
 }
 
+#caveat {
+	font-family: Helvetica, Arial, sans-serif;
+	background-color: #F88;
+	color: #FFF;
+	padding: 0.5em;
+	text-align: center;
+	border-top: 1px #FFF solid;
+	border-bottom: 1px #FFF solid;
+}
+
 #controlBar {
 	background-color: [[ColorPalette::MenuBackground]];
 	border-bottom: solid 1px [[ColorPalette::MenuBorder]];

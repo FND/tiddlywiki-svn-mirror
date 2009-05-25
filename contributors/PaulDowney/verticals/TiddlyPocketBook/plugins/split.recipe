@@ -10,8 +10,5 @@ tiddler: $TW_ROOT/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js
 # force refresh on theme switch
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
 
-# reasserts the DefaultTiddlers whenever a tiddler is saved
-recipe: $TW_ROOT/contributors/PaulDowney/plugins/FixedDisplayPlugin/FixedDisplayPlugin.recipe
-
 # saves current story as HTML for a splash-screen
 #tiddler: $TW_ROOT/contributors/MartinBudden/plugins/SplashScreenPlugin.js
