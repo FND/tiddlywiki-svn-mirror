@@ -1,0 +1,1 @@
+document.write "<div>blah blah</div>";

@@ -1,0 +1,29 @@
+<html>
+<head>
+<script type='text/javascript' src='jquery.js'></script>
+<script type='text/javascript' src='Vismo.js'></script>
+<script type='text/javascript'>
+jQuery(document).ready(function() {
+	var g = new VismoGraph();
+	g.addNode({id:"a",properties:{name:'a'}});
+	g.addNode({id:"b",properties:{name:'b'}});
+	g.addNode({id:"c",properties:{name:'c'}});
+	g.addNode({id:"d",properties:{name:'d'}});
+	g.addNode({id:"e",properties:{name:'e'}});
+	g.addEdge("a","b");
+	g.addEdge("c","d");
+	g.addEdge("c","a");
+	var r= new VismoGraphRenderer(document.getElementById("xbrowsercanvas"),g,{controller:true});
+	r.render();
+	var el = document.createElement("div");
+	el.innerHTML = ":):)"
+	r.canvas.addLabel(el,0,0);
+});
+
+</script>
+</head>
+<body>
+abc
+<div id='xbrowsercanvas' style='width:800px; height:600px; border:solid 1px black;'></div>
+</body>
+</html>

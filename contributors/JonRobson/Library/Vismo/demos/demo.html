@@ -1,22 +1,13 @@
 <html>
 <head>
 
-<script type='text/javascript' src='jquery.js'></script>
-<script type='text/javascript' src='VismoShapes.js'></script>
-<script type='text/javascript' src='VismoShapesRendering.js'></script>
-<script type='text/javascript' src='VismoClicking.js'></script>
-<script type='text/javascript' src='VismoOptimisations.js'></script>
-<script type='text/javascript' src='VismoClickingUtils.js'></script>
-<script type='text/javascript' src='VismoTransformations.js'></script>
-<script type='text/javascript' src='VismoFileUtils.js'></script>
-<script type='text/javascript' src='VismoController.js'></script>
+	<script type='text/javascript' src='jquery.js'></script>
+	<script type='text/javascript' src='Vismo.js'></script>
 <script type='text/javascript'>
 
-function start(){
-	
+jQuery(document).ready(function(){
 var x = new VismoCanvas('xbrowsercanvas');
 var c = new VismoController(x,'xbrowsercanvas');
-
 x.add(new VismoShape({shape:'polygon',fill:'rgb(255,0,0)'},[0,0,200,0,200,200,0,200]));
 x.add(new VismoShape({shape:'image',src:'test.jpg',width:20,height:20},[-50,20]));
 x.add(new VismoShape({shape:'point',fill:'rgb(0,255,0)'},[-50,-80]));
@@ -42,7 +33,7 @@ var dblclick = function(e,s){
 x.setOnMouse(down,false,false,dblclick);
 
 x.render();
-}
+});
 
 </script>
 </head>
@@ -51,10 +42,5 @@ x.render();
 <div id='xbrowsercanvas' style='width:300px; height:300px; border:solid 1px black;'></div>
 you clicked on a <span id='shapetype'></span>
 
-<script>start()
-
-
-
-</script>
 </body>
 </html>
