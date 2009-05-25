@@ -329,7 +329,7 @@ jQuery._farbtastic = function (container, callback) {
 };
 var VismoCanvasEditor = function(vismoCanvas,options){
         //var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:400;'><div class='selectshape button'>&nbsp;</div><div class='newshape button'>&nbsp;</div><div class='newline button'>&nbsp;</div><div class='newfreeline button'>&nbsp;</div></div>";
-        var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:999999;'><div class='togglemode button editor'>EDIT MODE</div></div><div class='VismoToolSettings' style='z-index:999999;'></div>";
+        var toolbar = "<div class='RightMenu' style='position:absolute; z-index:99999;'><div class='content'>node:</div><div class='closer'>close me</div></div><div class='VismoCanvasToolbar' style='position:relative;z-index:999999;'><div class='togglemode button editor'>EDIT MODE</div></div><div class='VismoToolSettings' style='z-index:999999;'></div>";
         if(!options) options = {};
         if(!options.tools) options.tools = ["selectshape","newcircle","newline","fillshape","save"];
         if(vismoCanvas instanceof jQuery){
@@ -359,7 +359,13 @@ var VismoCanvasEditor = function(vismoCanvas,options){
         this.el = vismoCanvas.getDomElement();
         jQuery(this.el).prepend(toolbar);
         var that = this;
-        
+        var rmenu =jQuery(".RightMenu",this.el);
+        rmenu.hide()
+        jQuery(".closer",rmenu).click(function(e){
+            
+            jQuery(this).parent().hide();
+            e.stopPropogation();
+        });
 
 
         this.vismoCanvas = vismoCanvas;
@@ -576,12 +582,37 @@ VismoCanvasEditor.prototype = {
                       var tool = that.getSelectedTool();
                     
                       if(!jQuery(e.target).hasClass("button")){
-                               var s = that.vismoCanvas.getShapeAtClick(e);
 
                               //if(!s && e.button == 2)that.manipulator.selectShape(false);
                               if(tool == "selectshape"){
-                                    if(s)
+                                    if(s){
+                                      
+                                      if(e.button == 2){
+                                          var rmenu =jQuery(".RightMenu",that.el);
+                                          rmenu.show();
+                                          var p = that.vismoCanvas.getXYWindow(e);
+                                          rmenu.css({top:p.y,left:p.x});
+                                          
+                                          var sProps  = jQuery(".content",rmenu);
+                                          sProps.html("");
+                                          var props = s.getProperties();
+                                          var i;
+                                          for(i in props){
+                                              if(typeof(props[i]) =='string'){
+                                                  sProps.append("<br>"+i + ": ");
+                                                  var input = jQuery("<input type='text' name='"+i+"' value='"+props[i]+"'/>");
+                                                  //console.log(input);
+                                                  input.change(function(e){s.setProperty(this.name,this.value);});
+                                                  sProps.append(input);
+                                              }
+                                          }
+                                      }
+                                      else{
+                                          rmenu.hide();
+                                      }
                                       that.manipulator.selectShape(s);
+                                      
+                                     }
                                     else{
                                         if(e.target == that.el || e.target.tagName == "CANVAS"){
                                             that.manipulator.selectShape(false);
@@ -1081,10 +1112,6 @@ VismoShapeManipulator.prototype = {
                 this.brResizer.css({display:"",top:br.y,left:br.x});
                 this.el.css({display:"",width:bb.width * t.scale.x,height:bb.height * t.scale.y,left:tl.x,top:tl.y});
         
-        }
-
-        ,openRightMenu: function(){
-            
         }
 };var VismoCanvas = function(element,options){
     this.className = "VismoCanvas";
@@ -1626,7 +1653,8 @@ VismoCanvas.prototype = {
 				itsahit = this._inPoly(x,y,shapes[i]);
 			}
 			else if(st == 'path'){
-			    itsahit = this._onPath(x,y,shapes[i]);
+			    //itsahit = this._onPath(x,y,shapes[i]);
+			    itsahit = false;
 			}
 			else if(st == 'image'){
 				itsahit = true;
@@ -2233,17 +2261,23 @@ VismoController.prototype = {
 			
 
             doingmw = false;
+            return false;
         };
 		var onmousewheel = function(e){		
 			if(!doingmw) {
-			    var event = e;
 			    var f = function(){
-			        domw(event);
-			    }
+			        domw(e);
+			        if (e && e.stopPropagation) //if stopPropagation method supported
+                    e.stopPropagation();
+                    else
+                    e.cancelBubble=true;
+                    if(e.preventDefault)e.preventDefault();
+                    return false;
+			    };
 			    window.setTimeout(f,50);
 			    doingmw = true;
             }
-            
+
 			if (e && e.stopPropagation) //if stopPropagation method supported
             e.stopPropagation();
             else
@@ -2683,7 +2717,7 @@ VismoController.prototype = {
 VismoController.prototype.panzoomcontrolsSVG ="<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!-- Created with Inkscape (http://www.inkscape.org/) --><svg   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"   xmlns:cc=\"http://creativecommons.org/ns#\"   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"   xmlns:svg=\"http://www.w3.org/2000/svg\"   xmlns=\"http://www.w3.org/2000/svg\"   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"   width=\"60px\"   height=\"120px\"   id=\"svg3820\"   sodipodi:version=\"0.32\"   inkscape:version=\"0.46\"   sodipodi:docname=\"panzoomcontrols.svg\"   inkscape:output_extension=\"org.inkscape.output.svg.inkscape\">  <defs     id=\"defs3\">    <linearGradient       id=\"linearGradient3735\">      <stop         style=\"stop-color:#ffffff;stop-opacity:1;\"         offset=\"0\"         id=\"stop3737\" />      <stop         style=\"stop-color:#0000f0;stop-opacity:1;\"         offset=\"1\"         id=\"stop3739\" />    </linearGradient>    <linearGradient       id=\"linearGradient3745\">      <stop         style=\"stop-color:#000000;stop-opacity:1;\"         offset=\"0\"         id=\"stop3747\" />      <stop         style=\"stop-color:#ffffef;stop-opacity:0;\"         offset=\"1\"         id=\"stop3749\" />    </linearGradient>    <inkscape:perspective       sodipodi:type=\"inkscape:persp3d\"       inkscape:vp_x=\"0 : 526.18109 : 1\"       inkscape:vp_y=\"6.123234e-14 : 1000 : 0\"       inkscape:vp_z=\"744.09448 : 526.18109 : 1\"       inkscape:persp3d-origin=\"372.04724 : 350.78739 : 1\"       id=\"perspective3826\" />  </defs>  <sodipodi:namedview     inkscape:document-units=\"mm\"     id=\"base\"     pagecolor=\"#ffffff\"     bordercolor=\"#666666\"     borderopacity=\"1.0\"     inkscape:pageopacity=\"0.0\"     inkscape:pageshadow=\"2\"     inkscape:zoom=\"4\"     inkscape:cx=\"14.379355\"     inkscape:cy=\"60.049799\"     inkscape:current-layer=\"layer1\"     showgrid=\"true\"     inkscape:window-width=\"1440\"     inkscape:window-height=\"776\"     inkscape:window-x=\"-84\"     inkscape:window-y=\"22\" />  <metadata     id=\"metadata4\">    <rdf:RDF>      <cc:Work         rdf:about=\"\">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label=\"Layer 1\"     inkscape:groupmode=\"layer\"     id=\"layer1\">    <rect       style=\"opacity:1;fill:#fafafa;fill-opacity:1;stroke:#000000;stroke-width:1.25095212000000000;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\"       id=\"rect4374\"       width=\"3.036346\"       height=\"29.855259\"       x=\"26.456741\"       y=\"77.110023\" />    <path       sodipodi:type=\"arc\"       style=\"opacity:0;fill:#ffc100;fill-opacity:0.18999999;fill-rule:evenodd;stroke:#00d300;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.98500001\"       id=\"path2811\"       sodipodi:cx=\"36.681629\"       sodipodi:cy=\"40.457794\"       sodipodi:rx=\"22.848825\"       sodipodi:ry=\"23.466362\"       d=\"M 59.530455,40.457794 A 22.848825,23.466362 0 1 1 13.832804,40.457794 A 22.848825,23.466362 0 1 1 59.530455,40.457794 z\"       transform=\"translate(-10.077156,-13.286926)\" />    <path       sodipodi:type=\"star\"       style=\"fill:#ffffff\"       id=\"path2817\"       sodipodi:sides=\"5\"       sodipodi:cx=\"21.984276\"       sodipodi:cy=\"13.286215\"       sodipodi:r1=\"0.34933102\"       sodipodi:r2=\"0.17466551\"       sodipodi:arg1=\"-0.78539816\"       sodipodi:arg2=\"-0.15707963\"       inkscape:flatsided=\"false\"       inkscape:rounded=\"0\"       inkscape:randomized=\"0\"       d=\"M 22.23129,13.0392 L 22.156791,13.258891 L 22.295532,13.444808 L 22.063572,13.441843 L 21.929628,13.631245 L 21.860769,13.409722 L 21.639246,13.340862 L 21.828648,13.206918 L 21.825683,12.974959 L 22.0116,13.1137 L 22.23129,13.0392 z\"       transform=\"translate(-2.9137398,-0.9362086)\" />    <path       sodipodi:type=\"arc\"       style=\"fill:#fafafa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.99893030000000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;opacity:1\"       id=\"path3847\"       sodipodi:cx=\"113.64216\"       sodipodi:cy=\"108.12209\"       sodipodi:rx=\"23.233507\"       sodipodi:ry=\"20.960665\"       d=\"M 136.87567,108.12209 A 23.233507,20.960665 0 1 1 90.408651,108.12209 A 23.233507,20.960665 0 1 1 136.87567,108.12209 z\"       transform=\"matrix(0.9778731,0,0,-1.0598112,-84.661617,141.94941)\" />    <path       style=\"fill:#dcdcdc;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"       d=\"M 39.621219,21.031683 L 47.389849,26.975113 L 39.969679,33.117243 L 41.484209,27.164163 L 39.621219,21.031683 z\"       id=\"north\"       inkscape:label=\"north\"       sodipodi:nodetypes=\"ccccc\" />    <path       style=\"fill:#dcdcdc;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"       d=\"M 20.231889,13.770245 L 26.175319,6.0016174 L 32.317449,13.421792 L 26.364359,11.907259 L 20.231889,13.770245 z\"       id=\"path3757\"       inkscape:label=\"north\"       sodipodi:nodetypes=\"ccccc\" />    <path       style=\"fill:#dcdcdc;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"       d=\"M 20.048989,40.437803 L 25.992419,48.206433 L 32.134549,40.786253 L 26.181459,42.300793 L 20.048989,40.437803 z\"       id=\"path3761\"       inkscape:label=\"north\"       sodipodi:nodetypes=\"ccccc\" />    <path       style=\"fill:#dcdcdc;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"       d=\"M 12.629649,33.160653 L 4.8610222,27.217223 L 12.281197,21.075093 L 10.766664,27.028173 L 12.629649,33.160653 z\"       id=\"path3765\"       inkscape:label=\"north\"       sodipodi:nodetypes=\"ccccc\" />    <path       sodipodi:type=\"arc\"       style=\"fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"       id=\"path3849\"       sodipodi:cx=\"114.65231\"       sodipodi:cy=\"133.62845\"       sodipodi:rx=\"0\"       sodipodi:ry=\"2.5253813\"       d=\"M 114.65231,133.62845 A 0,2.5253813 0 1 1 114.65231,133.62845 A 0,2.5253813 0 1 1 114.65231,133.62845 z\" />    <path       sodipodi:type=\"arc\"       style=\"fill:#fafafa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.29227274000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;opacity:1\"       id=\"path4600\"       sodipodi:cx=\"113.64216\"       sodipodi:cy=\"108.12209\"       sodipodi:rx=\"23.233507\"       sodipodi:ry=\"20.960665\"       d=\"M 136.87567,108.12209 A 23.233507,20.960665 0 1 1 90.408651,108.12209 A 23.233507,20.960665 0 1 1 136.87567,108.12209 z\"       transform=\"matrix(0.3044572,0,0,-0.3133744,-6.349179,108.99488)\" />    <path       sodipodi:type=\"arc\"       style=\"fill:#fafafa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.29227274000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;opacity:1\"       id=\"path4602\"       sodipodi:cx=\"113.64216\"       sodipodi:cy=\"108.12209\"       sodipodi:rx=\"23.233507\"       sodipodi:ry=\"20.960665\"       d=\"M 136.87567,108.12209 A 23.233507,20.960665 0 1 1 90.408651,108.12209 A 23.233507,20.960665 0 1 1 136.87567,108.12209 z\"       transform=\"matrix(0.3044572,0,0,-0.3133744,-6.5991733,140.49488)\" />    <path       style=\"fill:#dcdcdc;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1\"       d=\"M 29.344931,79.34136 L 26.693281,79.164583 L 26.870057,76.336156 L 22.804193,76.159379 L 23.157747,73.330952 L 26.870057,73.507729 L 26.870057,70.856078 L 29.875261,71.032855 L 29.875261,73.684505 L 33.587572,74.038059 L 33.587572,76.512933 L 29.521708,76.336156 L 29.344931,79.34136 z\"       id=\"path3299\" />    <path       style=\"fill:#dcdcdc;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1\"       d=\"M 26.781669,107.80241 L 22.715805,107.62563 L 23.069359,104.79721 L 26.781669,104.97398 L 29.786873,105.15076 L 33.499184,105.50431 L 33.499184,107.97919 L 29.43332,107.80241 L 26.781669,107.80241 z\"       id=\"path3301\"       sodipodi:nodetypes=\"ccccccccc\" />  </g></svg>";
 var VismoCanvasEditor = function(vismoCanvas,options){
         //var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:400;'><div class='selectshape button'>&nbsp;</div><div class='newshape button'>&nbsp;</div><div class='newline button'>&nbsp;</div><div class='newfreeline button'>&nbsp;</div></div>";
-        var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:999999;'><div class='togglemode button editor'>EDIT MODE</div></div><div class='VismoToolSettings' style='z-index:999999;'></div>";
+        var toolbar = "<div class='RightMenu' style='position:absolute; z-index:99999;'><div class='content'>node:</div><div class='closer'>close me</div></div><div class='VismoCanvasToolbar' style='position:relative;z-index:999999;'><div class='togglemode button editor'>EDIT MODE</div></div><div class='VismoToolSettings' style='z-index:999999;'></div>";
         if(!options) options = {};
         if(!options.tools) options.tools = ["selectshape","newcircle","newline","fillshape","save"];
         if(vismoCanvas instanceof jQuery){
@@ -2713,7 +2747,13 @@ var VismoCanvasEditor = function(vismoCanvas,options){
         this.el = vismoCanvas.getDomElement();
         jQuery(this.el).prepend(toolbar);
         var that = this;
-        
+        var rmenu =jQuery(".RightMenu",this.el);
+        rmenu.hide()
+        jQuery(".closer",rmenu).click(function(e){
+            
+            jQuery(this).parent().hide();
+            e.stopPropogation();
+        });
 
 
         this.vismoCanvas = vismoCanvas;
@@ -2930,12 +2970,37 @@ VismoCanvasEditor.prototype = {
                       var tool = that.getSelectedTool();
                     
                       if(!jQuery(e.target).hasClass("button")){
-                               var s = that.vismoCanvas.getShapeAtClick(e);
 
                               //if(!s && e.button == 2)that.manipulator.selectShape(false);
                               if(tool == "selectshape"){
-                                    if(s)
+                                    if(s){
+                                      
+                                      if(e.button == 2){
+                                          var rmenu =jQuery(".RightMenu",that.el);
+                                          rmenu.show();
+                                          var p = that.vismoCanvas.getXYWindow(e);
+                                          rmenu.css({top:p.y,left:p.x});
+                                          
+                                          var sProps  = jQuery(".content",rmenu);
+                                          sProps.html("");
+                                          var props = s.getProperties();
+                                          var i;
+                                          for(i in props){
+                                              if(typeof(props[i]) =='string'){
+                                                  sProps.append("<br>"+i + ": ");
+                                                  var input = jQuery("<input type='text' name='"+i+"' value='"+props[i]+"'/>");
+                                                  //console.log(input);
+                                                  input.change(function(e){s.setProperty(this.name,this.value);});
+                                                  sProps.append(input);
+                                              }
+                                          }
+                                      }
+                                      else{
+                                          rmenu.hide();
+                                      }
                                       that.manipulator.selectShape(s);
+                                      
+                                     }
                                     else{
                                         if(e.target == that.el || e.target.tagName == "CANVAS"){
                                             that.manipulator.selectShape(false);
@@ -3435,10 +3500,6 @@ VismoShapeManipulator.prototype = {
                 this.brResizer.css({display:"",top:br.y,left:br.x});
                 this.el.css({display:"",width:bb.width * t.scale.x,height:bb.height * t.scale.y,left:tl.x,top:tl.y});
         
-        }
-
-        ,openRightMenu: function(){
-            
         }
 };var VismoCanvas = function(element,options){
     this.className = "VismoCanvas";
@@ -3980,7 +4041,8 @@ VismoCanvas.prototype = {
 				itsahit = this._inPoly(x,y,shapes[i]);
 			}
 			else if(st == 'path'){
-			    itsahit = this._onPath(x,y,shapes[i]);
+			    //itsahit = this._onPath(x,y,shapes[i]);
+			    itsahit = false;
 			}
 			else if(st == 'image'){
 				itsahit = true;

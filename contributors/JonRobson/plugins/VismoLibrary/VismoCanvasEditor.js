@@ -1,6 +1,8 @@
 var VismoCanvasEditor = function(vismoCanvas,options){
         //var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:400;'><div class='selectshape button'>&nbsp;</div><div class='newshape button'>&nbsp;</div><div class='newline button'>&nbsp;</div><div class='newfreeline button'>&nbsp;</div></div>";
-        var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:999999;'><div class='togglemode button editor'>EDIT MODE</div></div><div class='VismoToolSettings' style='z-index:999999;'></div>";
+        var rightmenu = "<div class='RightMenu' style='position:absolute; z-index:99999;'><div class='content'>node:</div><div class='closer'>close me</div></div>";
+        var toolbar = "<div class='VismoCanvasToolbar' style='position: absolute; right:0;z-index:999999;'><div class='togglemode button editor'>EDIT MODE</div></div>";
+        var toolsettings = "<div class='VismoToolSettings' style='position:absolute;bottom:0;z-index:999999;'></div>";
         if(!options) options = {};
         if(!options.tools) options.tools = ["selectshape","newcircle","newline","fillshape","save"];
         if(vismoCanvas instanceof jQuery){
@@ -28,23 +30,33 @@ var VismoCanvasEditor = function(vismoCanvas,options){
         this.vismoCanvasMouse = vismoCanvas.mouse();
         this.options = options;
         this.el = vismoCanvas.getDomElement();
-        jQuery(this.el).prepend(toolbar);
+        jQuery(this.el).prepend(toolbar+rightmenu+toolsettings);
         var that = this;
-        
+        var rmenu =jQuery(".RightMenu",this.el);
+        rmenu.hide()
+        jQuery(".closer",rmenu).click(function(e){
+            
+            jQuery(this).parent().hide();
+            e.stopPropogation();
+        });
 
 
         this.vismoCanvas = vismoCanvas;
 
+        
         var f = function(s){    
+            if(options.onmovecomplete) options.onmovecomplete(s);
             that._recalculateEdge(s);
+
             that.vismoCanvas.render();
         }
-        this.manipulator = new VismoShapeManipulator(vismoCanvas,{movecomplete:f});
+        this.manipulator = new VismoShapeManipulator(vismoCanvas,{onmovecomplete:f});
         
         
         var nextID = 0;
         
         if(options.panzoom)new VismoController(vismoCanvas,vismoCanvas.getDomElement());
+        
         this.enabled = true;
         this.init();
         this.init_toolsettings();
@@ -57,11 +69,11 @@ VismoCanvasEditor.prototype = {
             /*color wheel */
             var applyTo = "fill";
             var colorpicker = "<div class='VismoCanvasColor'><div>color:<input type='text' name='color' value='#ffffff' class='VismoToolFillColor'>opacity:<input type='text' value='1.0' class='VismoToolFillOpacity'/></div><div class='VismoToolFillPicker'></div><span class='hider'>hide</span></div>";
-            var buttons  ="<div class='toggler'><div class='VismoToolFill'>fill<div class='previewcolor VismoToolFillPreview'></div></div><div class='VismoToolStroke'>stroke<input class='lineWidth' type='text' value='1.0'/>px <div class='previewcolor VismoToolStrokePreview' style='background-color:black;'></div></div>";
+            var buttons  ="<div><div class='VismoToolFill'>fill<div class='previewcolor VismoToolFillPreview'></div></div><div class='VismoToolStroke'>stroke<input class='lineWidth' type='text' value='1.0'/>px <div class='previewcolor VismoToolStrokePreview' style='background-color:black;'></div></div>";
             jQuery(".VismoToolSettings",this.el).append(colorpicker+buttons);
             
             jQuery(".VismoToolFillPicker",this.el).farbtastic(function(hex){   
-                jQuery(".VismoToolFillColor").val(hex);
+                jQuery(".VismoToolFillColor",that.el).val(hex);
                 
                 var color = jQuery(".VismoToolFillColor",that.el);
                 var opacity = jQuery(".VismoToolFillOpacity",that.el);               
@@ -88,11 +100,11 @@ VismoCanvasEditor.prototype = {
                 }
             });
             
-            jQuery(".hider",".VismoCanvasColor").click(function(e){
+            jQuery(".hider",jQuery(".VismoCanvasColor",that.el)).click(function(e){
                 jQuery(this).parent().hide();
             });
-            jQuery(".VismoCanvasColor").hide();
-            jQuery(".lineWidth").change(function(e){
+            jQuery(".VismoCanvasColor",that.el).hide();
+            jQuery(".lineWidth",that.el).change(function(e){
                 var strokew = parseFloat(this.value);
                 if(!strokew) return;
                 that.tempShape.setProperty("lineWidth",strokew);
@@ -103,7 +115,7 @@ VismoCanvasEditor.prototype = {
             });
         
             var farb = jQuery(".VismoToolFillPicker",this.el)[0];
-            jQuery(".VismoToolStroke").click(function(e){
+            jQuery(".VismoToolStroke",this.el).click(function(e){
                 jQuery(".VismoCanvasColor").show();
                if(applyTo== 'stroke'){
 
@@ -122,8 +134,8 @@ VismoCanvasEditor.prototype = {
 
 
             });
-            jQuery(".VismoToolFill").click(function(e){
-                 jQuery(".VismoCanvasColor").show();
+            jQuery(".VismoToolFill",that.el).click(function(e){
+                 jQuery(".VismoCanvasColor",that.el).show();
                 if(applyTo== 'fill'){
 
                     e.stopPropagation();
@@ -247,12 +259,40 @@ VismoCanvasEditor.prototype = {
                       var tool = that.getSelectedTool();
                     
                       if(!jQuery(e.target).hasClass("button")){
-                               var s = that.vismoCanvas.getShapeAtClick(e);
 
                               //if(!s && e.button == 2)that.manipulator.selectShape(false);
                               if(tool == "selectshape"){
-                                    if(s)
+              
+                                    if(s){
+                                      var rmenu =jQuery(".RightMenu",that.el);
+                                      if(e.button == 2){
+                                          
+                                          rmenu.show();
+                                          var p = that.vismoCanvas.getXYWindow(e);
+                                          rmenu.css({top:p.y,left:p.x});
+                                          
+                                          var sProps  = jQuery(".content",rmenu);
+                                          sProps.html("");
+                                          var props = s.getProperties();
+                                          var i;
+                                          for(i in props){
+                                              if(typeof(props[i]) =='string'){
+                                                  sProps.append("<br>"+i + ": ");
+                                                  var input = jQuery("<input type='text' name='"+i+"' value='"+props[i]+"'/>");
+                                                  //console.log(input);
+                                                  input.change(function(e){s.setProperty(this.name,this.value);});
+                                                  sProps.append(input);
+                                              }
+                                          }
+                                      }
+                                      else{
+                             
+                                          rmenu.hide();
+                                      }
+          
                                       that.manipulator.selectShape(s);
+                                      
+                                     }
                                     else{
                                         if(e.target == that.el || e.target.tagName == "CANVAS"){
                                             that.manipulator.selectShape(false);
@@ -291,18 +331,18 @@ VismoCanvasEditor.prototype = {
               
               for(var i=0; i < this.options.tools.length; i++){
                   var toolname = this.options.tools[i];
-                  toolbar.append("<div class='"+toolname + " button'>&nbsp;</div>");
+                  toolbar.append("<div class='"+toolname + " button'>"+toolname+"</div>");
                   
                   var button = jQuery("."+toolname,this.el);
                   button.attr("_vismotoolname",toolname);
                   button.click(function(e){
                       e.stopPropagation();
                       that.setSelectedTool(jQuery(this).attr("_vismotoolname"));
-                      jQuery(".button").removeClass("selected");
+                      jQuery(".button",that.el).removeClass("selected");
                       jQuery(this).addClass("selected");
                   });
               }
-              jQuery("."+this.options.tools[0]).click();
+              jQuery("."+this.options.tools[0],that.el).click();
    }
         ,stroke: function(rgborhex,opacity){   
             var color;
@@ -714,8 +754,8 @@ VismoShapeManipulator.prototype = {
         }
         
         ,stopmoving: function(vismoShape){
+                if(this.options.onmovecomplete)this.options.onmovecomplete(vismoShape);
                 this._moveshape = false;
-                if(this.options.movecomplete)this.options.movecomplete(vismoShape);
         }
         ,startmoving: function(vismoShape){
                 this._moveshape = vismoShape;
@@ -752,9 +792,5 @@ VismoShapeManipulator.prototype = {
                 this.brResizer.css({display:"",top:br.y,left:br.x});
                 this.el.css({display:"",width:bb.width * t.scale.x,height:bb.height * t.scale.y,left:tl.x,top:tl.y});
         
-        }
-
-        ,openRightMenu: function(){
-            
         }
 };

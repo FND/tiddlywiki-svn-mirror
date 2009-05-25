@@ -1,4 +1,3 @@
-
 config.macros.VismoGraph = {
         instances: []
         ,handler: function(place,macroName,params,wikifier,paramString,tiddler,graphjson){
@@ -94,13 +93,6 @@ config.macros.VismoGraph = {
                 var afterRender = function(renderer){
 
                 }
-                var r= new VismoGraphRenderer(el,g,{controller:true,renderLabel: labelwikify,afterRender: afterRender});
-                
-                var layout =getParam(prms,"layout");
-                if(layout == "tree"){
-                        
-                        g.setLayoutAlgorithm("tree");
-                }
                 
                 
                 config.macros.VismoGraph.instances.push(r);
@@ -108,10 +100,21 @@ config.macros.VismoGraph = {
                         if(!shape) return;
                         var coords = shape.getCoordinates();
                         var node = r.getNodeFromShape(shape);
-                        if(node && coords)node.setPosition(coords[0],coords[1]);
+                        if(node && coords){
+                                var newx =coords[0];
+                                var newy = coords[1];
+                                 var trans = shape.getProperty("transformation");
+                                if(trans && trans.translate){
+                                    newx += trans.translate.x;
+                                    newy += trans.translate.y;
+                                }
+                                node.setPosition(newx,newy);
+                                var id=node.getID();
+                                 savePosition(id,[newx,newy]);
+                                  
+                        }
                         r.render();
-                        var id=node.getID();
-                        savePosition(id,coords[0],coords[1]);
+  
                 };
 
                 var dbclick = function(e,s){
@@ -169,11 +172,20 @@ config.macros.VismoGraph = {
                         }
                         r.render();
                 };
+                
+                var r= new VismoGraphRenderer(el,g,{startdisabled: true,onmovecomplete: finishmove,mouseup: singleclick,dblclick:dbclick,panzoom:true,renderLabel: labelwikify,afterRender: afterRender});
+                
+                var layout =getParam(prms,"layout");
+                if(layout == "tree"){
+                        
+                        g.setLayoutAlgorithm("tree");
+                }
+                
 
 
 
 
-                r.canvas.setOnMouse(singleclick,false,false,dbclick);
+                //r.canvas.mouse();
                 //r.canvas.makeMoveable(finishmove);
                 r.canvas.addTooltip(function(el,s){el.appendChild(document.createTextNode(s.getProperty("name")));});
 
@@ -231,7 +243,7 @@ config.macros.VismoGraph = {
         }
 };
 
-
+/*
 story.normalDisplayTiddler = story.displayTiddler;
 story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle){
 
@@ -278,4 +290,4 @@ story.saveTiddler = function(title,minorUpdate){
                 
         
         return this.normalSaveTiddler(title,minorUpdate);
-};
+};*/

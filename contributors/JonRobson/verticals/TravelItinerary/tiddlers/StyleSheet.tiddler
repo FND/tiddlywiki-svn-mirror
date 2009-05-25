@@ -1,6 +1,9 @@
 <div title="StyleSheet" tags="excludeSearch excludeLists">
 <pre>
 
+#yourSearchResult {
+z-index:9999999999;
+}
 #block1 {
 position:absolute;
 top:0px;

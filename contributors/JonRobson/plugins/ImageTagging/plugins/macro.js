@@ -305,6 +305,8 @@ config.macros.TagImage = {
 			jQuery(newel).css({width: w, height: h,overflow:"hidden"});
 			
 			var cc = new VismoCanvas(newel);
+			
+
 
 			if(id)newel.id = id;
 			var img = new Image();
@@ -377,6 +379,12 @@ config.macros.TagImage = {
 				
 				if(!filter)config.macros.TagImage.loadComments(cc,title,src,img);
 				else config.macros.TagImage.loadTiddlers(cc,title,src,img,filter,tagshape);
+				
+				
+				/*if(editable){
+    			    var cceditor = new VismoCanvasEditor(cc);
+    			}
+    			*/
 			};
 	                place.appendChild(newel);
 			if(img.complete){

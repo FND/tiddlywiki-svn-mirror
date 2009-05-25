@@ -71,6 +71,8 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 	if(!options.controls)options.controls =['pan','zoom','mousepanning','mousewheelzooming'];
 	this.options = options;
 	this.addControls(this.options.controls);
+	this.limits = {};
+	if(this.options.maxZoom) this.limits.scale = {x:this.options.maxZoom,y:this.options.maxZoom};
 
 
 };
@@ -174,8 +176,14 @@ VismoController.prototype = {
 		
 
         var doingmw = false;
+        var mwactive = false;
+        
+        jQuery(this.wrapper).mousedown(function(e){mwactive = true;
+            this.style.cursor = "crosshair";
+        });
+        jQuery(this.wrapper).mouseout(function(e){mwactive = false;this.style.cursor = "";});
         var domw = function(e){
-            
+
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
 
@@ -244,17 +252,24 @@ VismoController.prototype = {
 			
 
             doingmw = false;
+            return false;
         };
 		var onmousewheel = function(e){		
+		    if(!mwactive) return;
 			if(!doingmw) {
-			    var event = e;
 			    var f = function(){
-			        domw(event);
-			    }
+			        domw(e);
+			        if (e && e.stopPropagation) //if stopPropagation method supported
+                    e.stopPropagation();
+                    else
+                    e.cancelBubble=true;
+                    if(e.preventDefault)e.preventDefault();
+                    return false;
+			    };
 			    window.setTimeout(f,50);
 			    doingmw = true;
             }
-            
+
 			if (e && e.stopPropagation) //if stopPropagation method supported
             e.stopPropagation();
             else
@@ -413,12 +428,16 @@ VismoController.prototype = {
 	
 	},
 	setTransformation: function(t){
-	        if(!t.origin){
-	                var w = jQuery(this.wrapper).width();
-	                var h = jQuery(this.wrapper).height();
-	                t.origin = {x: w/2, y: h/2};
-	
-	        }
+        if(this.limits && this.limits.scale){
+            if(t.scale.x > this.limits.scale.x) t.scale.x = this.limits.scale.x;
+            if(t.scale.y > this.limits.scale.y) t.scale.y = this.limits.scale.y;            
+        }
+        if(!t.origin){
+                var w = jQuery(this.wrapper).width();
+                var h = jQuery(this.wrapper).height();
+                t.origin = {x: w/2, y: h/2};
+
+        }
 		if(this.enabled){
 			if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
 			this.transformation = t;
@@ -627,6 +646,7 @@ VismoController.prototype = {
 		}
 	},
 	_panzoomClickHandler: function(e,hit,controller) {
+	    	if(!hit) return;
 		var pan = {};
 		var t =controller.getTransformation();
 		if(!t.scale) t.scale = {x:1,y:1};
@@ -636,7 +656,7 @@ VismoController.prototype = {
 		var scale =t.scale;
 		pan.x = parseFloat(30 / scale.x);
 		pan.y = parseFloat(30 / scale.y);
-		
+	
 		switch(hit.getProperty("actiontype")) {
 			case "W":
 				t.translate.x += pan.x;

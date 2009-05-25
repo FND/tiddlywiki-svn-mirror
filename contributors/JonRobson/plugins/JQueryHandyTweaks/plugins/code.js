@@ -39,7 +39,7 @@ f=function(k){return parseInt(E.css(k))||false;};
 
 
 config.shadowTiddlers.StyleSheetJQueryClassHacks = ".jqHandle{background:red;height:15px}.jqDrag{width:100%;cursor:move}.jqResize{width:15px;position:absolute;bottom:0;right:0;cursor:se-resize}.jqDnR{z-index:3;position:relative;width:180px;font-size:0.77em;color:#618d5e;margin:5px 10px 10px 10px;padding:8px;background-color:#EEE;border:1px solid#CCC}";
-store.addNotification("StyleSheetJQueryClassHacks", refreshStyles);
+//store.addNotification("StyleSheetJQueryClassHacks", refreshStyles);
 
 config.macros.jquerytoggles = {};
 config.macros.jquerytabs = {};

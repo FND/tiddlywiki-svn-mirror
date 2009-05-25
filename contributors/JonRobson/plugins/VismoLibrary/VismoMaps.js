@@ -275,16 +275,15 @@ VismoMap.prototype = {
 	getFeatures: function(){
 	       return this.features;
 	}
-	,drawGeoJsonFeature: function(feature){
-	        this.features.push(feature);
-		var feature = new VismoMap.Feature(feature);		
+	,drawGeoJsonFeature: function(featuredata){
+	   
+		var feature = new VismoMap.Feature(featuredata);		
 		var s = feature.getVismoShapes();		
 		for(var i=0; i < s.length; i++){
-			
 			this.vismoClicking.add(s[i]);
 			this.geofeatures[this.vismoClicking.getMemoryID(s[i])] = feature;
 		}	
-
+         this.features.push(feature);
 	},
 	drawGeoJsonFeatures: function(features){
 			var avg1 = 0;
@@ -538,5 +537,10 @@ VismoMap.Feature.prototype = {
 		var s = new VismoShape(p,coordinates);
 		this.addVismoShape(s);
 	}
-	
+	,setProperty: function(id,val){
+	    var shapes = this.getVismoShapes();
+	    for(var i=0; i < shapes.length;i++){
+	        shapes[i].setProperty(id,val);
+	    }
+	}
 };

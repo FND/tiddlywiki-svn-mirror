@@ -1,3 +1,4 @@
+store.addNotification("VismoStyleSheet", refreshStyles);
 setStylesheet("",'freedisplay');
 var lastclick = {x:0, y:0};
 config.curZindex = 100;

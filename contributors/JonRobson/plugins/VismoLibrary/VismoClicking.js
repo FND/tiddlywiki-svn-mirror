@@ -68,8 +68,10 @@ VismoCanvas.prototype = {
                                 jQuery(that.tooltip).html("");
                                 if(shape && lastshape != shape){
                                        
-                           	        var pos = VismoClickingUtils.getMouseFromEvent(e);
-                		        jQuery(that.tooltip).css({top:pos.y, left:pos.x});             
+                           	    var pos = VismoClickingUtils.getMouseFromEvent(e);
+                		        
+                		        //var pos= {x: bb.center.x, y:bb.center.y};
+                		        jQuery(that.tooltip).css({top:pos.y-20, left:pos.x-10});             
                                 }
         		        if(that.tooltipAddContent && shape){
         		                that.tooltipAddContent(that.tooltip,shape);
@@ -146,7 +148,7 @@ VismoCanvas.prototype = {
 		var mv = el.onmousemove;
 		var dblclick =el.ondblclick;
 		this.initialKeyPress = window.onkeypress;
-		el.oncontextmenu=function() {  return false}; 		
+		//el.oncontextmenu=function() {  return false}; 		
 		el.onmouseover = function(e){
 		        
 				if(!that.keypressactive) {
@@ -164,8 +166,9 @@ VismoCanvas.prototype = {
 			var s = newbehaviour(e); 
 			if(s){
 				if(s.getProperty("onmousedown")){
-				        if(that.onmousedown)that.onmousedown(e,s);
 				        s.getProperty("onmousedown")(e,s);	
+				        if(that.onmousedown)that.onmousedown(e,s);
+				        
 				}
 				else{
 				    if(that.onmousedown)that.onmousedown(e,s);
@@ -204,11 +207,12 @@ VismoCanvas.prototype = {
 			}
 		});
         jQuery(el).mouseup(function(e){ 
-                var s = newbehaviour(e); 
+                var s = newbehaviour(e)
 		        if(s){
 		                if(s.getProperty("onmouseup")){
-		                        if(that.onmouseup)that.onmouseup(e,s);
 		                        s.getProperty("onmouseup")(e,s);
+		                        if(that.onmouseup)that.onmouseup(e,s);
+		                        
 		                }
 		                else{
 		                    if(that.onmouseup)that.onmouseup(e,s);
@@ -538,7 +542,8 @@ VismoCanvas.prototype = {
 				itsahit = this._inPoly(x,y,shapes[i]);
 			}
 			else if(st == 'path'){
-			    itsahit = this._onPath(x,y,shapes[i]);
+			    //itsahit = this._onPath(x,y,shapes[i]);
+			    itsahit = false;
 			}
 			else if(st == 'image'){
 				itsahit = true;

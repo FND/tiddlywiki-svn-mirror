@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="drawingbuttons.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/toolbar/fill.png"
+   inkscape:export-xdpi="2.6666718"
+   inkscape:export-ydpi="2.6666718">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3322">
+      <stop
+         style="stop-color:#680000;stop-opacity:1;"
+         offset="0"
+         id="stop3324" />
+      <stop
+         style="stop-color:#ff0000;stop-opacity:0.68032789;"
+         offset="1"
+         id="stop3326" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3292">
+      <stop
+         style="stop-color:#aa0000;stop-opacity:1;"
+         offset="0"
+         id="stop3294" />
+      <stop
+         style="stop-color:#aa0000;stop-opacity:0;"
+         offset="1"
+         id="stop3296" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3201">
+      <stop
+         style="stop-color:#800000;stop-opacity:0.38524589;"
+         offset="0"
+         id="stop3203" />
+      <stop
+         style="stop-color:#800000;stop-opacity:1;"
+         offset="1"
+         id="stop3205" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3181">
+      <stop
+         style="stop-color:#0044aa;stop-opacity:0.57377046;"
+         offset="0"
+         id="stop3183" />
+      <stop
+         style="stop-color:#0044aa;stop-opacity:1;"
+         offset="1"
+         id="stop3185" />
+    </linearGradient>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lstart"
+       style="overflow:visible">
+      <path
+         id="path3290"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <filter
+       inkscape:collect="always"
+       id="filter3271"
+       x="-0.72466628"
+       width="2.4493326"
+       y="-0.13289361"
+       height="1.2657872">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="11.082918"
+         id="feGaussianBlur3273" />
+    </filter>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3201"
+       id="radialGradient3209"
+       cx="343.45187"
+       cy="527.08289"
+       fx="343.45187"
+       fy="527.08289"
+       r="74.23098"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3201"
+       id="radialGradient2508"
+       gradientUnits="userSpaceOnUse"
+       cx="343.45187"
+       cy="527.08289"
+       fx="343.45187"
+       fy="527.08289"
+       r="74.23098" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3292"
+       id="linearGradient3298"
+       x1="507.99774"
+       y1="759.38663"
+       x2="668.95564"
+       y2="759.38663"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(9.5682055e-2,0,0,0.103492,520.57698,472.43119)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3292"
+       id="linearGradient3306"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.7250151,0,0,0.7842433,191.28813,119.22293)"
+       x1="507.99774"
+       y1="759.38663"
+       x2="668.95564"
+       y2="759.38663" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6568543"
+     inkscape:cx="527.55978"
+     inkscape:cy="446.21389"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="787"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="opacity:1;fill:#5599ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 124.24876,645.27071 L 128.28937,449.30111 C 128.28937,449.30111 158.59395,379.60059 183.84776,451.32142 L 184.85792,644.26055 C 184.85792,644.26055 150.51273,577.59049 124.24876,645.27071 z"
+       id="path2389"
+       sodipodi:nodetypes="ccs" />
+    <path
+       style="opacity:1;fill:#f4eed7;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.16933881999999989;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 124.78879,641.83774 L 152.2222,723.32973 L 184.47588,644.82989 C 184.47588,644.82989 150.90191,581.99462 124.78879,641.83774 z"
+       id="path2387"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="opacity:1;fill:#004bb4;fill-opacity:0.88461536;fill-rule:evenodd;stroke:none;stroke-width:0.73326838000000005;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;filter:url(#filter3271);enable-background:accumulate"
+       d="M 136.23721,623.22242 L 140.69967,427.67224 C 140.69967,427.67224 171.12613,417.05173 171.24875,431.48983 L 172.86945,622.32376 C 174.15798,630.91393 158.2334,603.82803 136.23721,623.22242 z"
+       id="path2411"
+       sodipodi:nodetypes="ccscc"
+       transform="matrix(1,0,0,0.9495309,0,21.394265)" />
+    <path
+       style="opacity:1;fill:#e9ddaf;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.80508458999999999;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 136.64949,624.94646 L 151.87774,722.35371 L 171.44702,624.86199 C 171.44702,624.86199 145.18116,603.40229 136.64949,624.94646 z"
+       id="path3275"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.40172741;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3189"
+       width="27.839731"
+       height="23.445353"
+       x="453.40515"
+       y="622.32336" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.40172741;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3191"
+       width="27.839731"
+       height="23.445353"
+       x="452.26883"
+       y="621.164" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:1;fill:url(#radialGradient3209);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:5.7883215;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4.0999999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path2403"
+       sodipodi:cx="343.45187"
+       sodipodi:cy="527.08289"
+       sodipodi:rx="72.73098"
+       sodipodi:ry="72.73098"
+       d="M 416.18285,527.08289 A 72.73098,72.73098 0 1 1 270.72089,527.08289 A 72.73098,72.73098 0 1 1 416.18285,527.08289 z"
+       transform="matrix(0.1234304,0,0,0.108401,424.20816,575.41795)" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.36258802;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3213"
+       width="23.659683"
+       height="22.473816"
+       x="476.35611"
+       y="544.21393" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.36258802;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3215"
+       width="23.659683"
+       height="22.473816"
+       x="475.39041"
+       y="543.10254" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.19197452;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 483.22243,557.81707 L 477.44002,545.00979 L 490.15796,550.23964 L 487.51271,552.29582 L 497.56944,559.77625 L 494.85971,562.88499 L 485.18211,555.11316 L 483.22243,557.81707 z"
+       id="path3221"
+       sodipodi:nodetypes="cccccccc" />
+    <path
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.16014268;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 483.26057,557.24608 L 478.40313,545.98223 L 489.39335,550.37941 L 486.65513,552.39021 L 497.11253,559.98123 L 494.76689,562.27001 L 485.13373,554.54416 L 483.26057,557.24608 z"
+       id="path3223"
+       sodipodi:nodetypes="cccccccc" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.40172741;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3225"
+       width="27.839731"
+       height="23.445353"
+       x="453.55255"
+       y="648.59796" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.40172741;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3227"
+       width="27.839731"
+       height="23.445353"
+       x="452.41626"
+       y="647.4386" />
+    <path
+       style="opacity:1;fill:#5599ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.66954571;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 462.84361,660.09224 L 471.72514,649.23887 C 471.72514,649.23887 476.82928,646.43517 475.3802,651.38566 L 466.97214,662.25375 C 466.97214,662.25375 467.58671,657.25407 462.84361,660.09224 z"
+       id="path3229"
+       sodipodi:nodetypes="ccs" />
+    <path
+       style="opacity:1;fill:#f4eed7;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.66954571;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 463.03082,659.91929 L 461.29934,665.49806 L 466.92139,662.27173 C 466.92139,662.27173 467.41946,657.51555 463.03082,659.91929 z"
+       id="path3231"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="opacity:1;fill:#175fc8;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:9.35845375;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;filter:url(#filter3271);enable-background:accumulate"
+       d="M 136.23721,623.22242 L 140.69967,427.67224 C 140.69967,427.67224 171.12613,417.05173 171.24875,431.48983 L 172.86945,622.32376 C 174.15798,630.91393 158.2334,603.82803 136.23721,623.22242 z"
+       id="path3233"
+       sodipodi:nodetypes="ccscc"
+       transform="matrix(6.7385135e-2,3.659875e-2,-4.1714425e-2,5.3304286e-2,481.87899,620.52202)" />
+    <path
+       style="opacity:1;fill:#e9ddaf;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.66954571;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 464.57211,659.40514 L 461.31901,665.43067 L 466.92065,660.67394 C 466.92065,660.67394 466.09349,658.50795 464.57211,659.40514 z"
+       id="path3235"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#8b0000;stroke-width:0.66954571;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 460.51183,665.75322 C 459.96083,665.87683 457.92716,665.9098 456.72371,666.18267 C 455.41391,666.47964 456.00055,668.11752 453.64585,668.54463 C 451.26616,668.97629 454.11436,669.02662 454.82964,669.1888 C 456.00152,669.4545 457.63429,669.1888 458.85452,669.1888 C 462.23273,669.1888 465.33891,669.57656 468.08807,668.3299 C 469.53289,667.67472 470.16814,667.94648 471.16593,667.04157 C 471.93301,666.34585 473.2491,666.82684 474.48053,666.82684 C 475.65305,666.82684 476.40705,667.78574 477.79513,667.471 C 478.89135,667.22246 477.88386,665.18952 477.08487,664.46487 C 475.7033,663.21189 474.62015,664.97139 474.00702,662.74709 C 473.67304,661.53548 475.35882,661.27863 475.66431,660.1704 C 475.95015,659.13345 476.4338,658.74781 476.84811,657.80843"
+       id="path3239" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.3959049;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2502"
+       width="26.129229"
+       height="24.261301"
+       x="564.57452"
+       y="540.49066" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.3959049;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2504"
+       width="26.129229"
+       height="24.261301"
+       x="563.508"
+       y="539.29095" />
+    <rect
+       style="opacity:1;fill:url(#linearGradient3298);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.59706253;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2512"
+       width="15.305104"
+       height="14.637533"
+       x="569.23114"
+       y="543.70282"
+       ry="0" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.42936066;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3300"
+       width="27.149628"
+       height="27.462465"
+       x="516.41437"
+       y="625.94623"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.42936066;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3302"
+       width="27.149628"
+       height="27.462465"
+       x="515.30627"
+       y="624.5882"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:1;fill:#2b73db;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:9.41840553;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3308"
+       sodipodi:cx="618.78455"
+       sodipodi:cy="746.75842"
+       sodipodi:rx="53.038673"
+       sodipodi:ry="39.568535"
+       d="M 671.82322,746.75842 A 53.038673,39.568535 0 1 1 565.74587,746.75842 A 53.038673,39.568535 0 1 1 671.82322,746.75842 z"
+       transform="matrix(6.652197e-2,0.1253339,-0.117545,2.9770364e-3,569.19879,560.2918)"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       style="opacity:1;fill:#3d83eb;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.11153388;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 518.61528,633.62394 C 521.87745,631.79151 533.89562,626.01495 533.89562,626.01495 C 533.89562,626.01495 543.05155,624.83893 540.97193,637.44294 C 540.97193,637.44294 534.40957,643.01656 527.92772,646.32774 C 530.70979,641.85709 526.36213,633.51957 518.61528,633.62394 z"
+       id="path3310"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:1;fill:#ececec;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3312"
+       sodipodi:cx="614.64899"
+       sodipodi:cy="697.86005"
+       sodipodi:rx="3.2741592"
+       sodipodi:ry="3.2741592"
+       d="M 617.92315,697.86005 A 3.2741592,3.2741592 0 1 1 611.37483,697.86005 A 3.2741592,3.2741592 0 1 1 617.92315,697.86005 z"
+       transform="matrix(0.211089,4.6327471e-2,-4.9599853e-2,0.2400842,435.6775,439.66903)"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.04603345;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 530.73174,635.74699 C 530.74159,635.69934 530.75143,635.6517 530.73174,635.74699 z"
+       id="path3316"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.04603345;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 530.6356,635.57648 C 530.59372,635.56728 530.55183,635.5581 530.6356,635.57648 z"
+       id="path3318"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.15083611;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 521.41014,631.90835 C 521.41014,631.90835 531.25085,614.79513 530.48042,635.69184"
+       id="path3320"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.04603345;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 524.41982,637.05098 C 524.37794,637.04177 524.33605,637.03259 524.41982,637.05098 z"
+       id="path3346"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:1;fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3350"
+       sodipodi:cx="518.49512"
+       sodipodi:cy="653.25671"
+       sodipodi:rx="11.36543"
+       sodipodi:ry="2.7887397"
+       d="M 529.86055,653.25671 A 11.36543,2.7887397 0 1 1 507.12969,653.25671 A 11.36543,2.7887397 0 1 1 529.86055,653.25671 z"
+       transform="matrix(1.0590811,0,0,1.0801297,-21.664606,-56.594832)"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:1;fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3352"
+       sodipodi:cx="518.49512"
+       sodipodi:cy="653.25671"
+       sodipodi:rx="11.36543"
+       sodipodi:ry="2.7887397"
+       d="M 529.86055,653.25671 A 11.36543,2.7887397 0 1 1 507.12969,653.25671 A 11.36543,2.7887397 0 1 1 529.86055,653.25671 z"
+       transform="matrix(0.3920845,2.3666803e-2,-7.1187732e-3,1.3035092,325.14236,-217.40449)"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/fill.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.42936066;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3354"
+       width="27.149628"
+       height="27.462465"
+       x="551.98846"
+       y="624.57697"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/save.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.42936066;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3356"
+       width="27.149628"
+       height="27.462465"
+       x="550.88037"
+       y="623.21893"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/save.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.04439926;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 559.68479,636.97191 C 559.64479,636.96294 559.60478,636.954 559.68479,636.97191 z"
+       id="path3370"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/save.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <rect
+       style="opacity:1;fill:#3d83eb;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.53195548;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3378"
+       width="23.698929"
+       height="24.332396"
+       x="552.69849"
+       y="624.79877"
+       ry="4.2803617"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/save.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <rect
+       style="opacity:1;fill:#e3dedb;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.72184277;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3380"
+       width="14.893131"
+       height="8.5964756"
+       x="557.17584"
+       y="639.24945"
+       ry="1.5122238"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/save.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <rect
+       style="opacity:1;fill:#3d83eb;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.15901124;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3382"
+       width="4.4888158"
+       height="4.9165883"
+       x="559.6228"
+       y="641.04053"
+       ry="2.3289106"
+       rx="0.4987573"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/save.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <rect
+       style="opacity:1;fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.88872331;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3384"
+       width="18.719366"
+       height="10.367242"
+       x="555.0636"
+       y="626.80011"
+       ry="1.8237228"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/save.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 552.32877,619.37588 C 568.43835,618.38958 547.9452,618.93753 547.9452,618.93753"
+       id="path3386" />
+    <path
+       style="opacity:1;fill:#b3b3b3;fill-opacity:1;fill-rule:evenodd;stroke:#bdbdbd;stroke-width:0.67826009;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 556.3808,628.74903 L 572.34103,628.74903 L 572.21634,628.74903"
+       id="path3388"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/save.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <path
+       style="opacity:1;fill:#b3b3b3;fill-opacity:1;fill-rule:evenodd;stroke:#bdbdbd;stroke-width:0.67826009;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 556.53665,630.59276 L 572.49689,630.59276 L 572.3722,630.59276"
+       id="path3390"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/save.png"
+       inkscape:export-xdpi="76.923401"
+       inkscape:export-ydpi="76.923401" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.42554855;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3285"
+       width="26.990993"
+       height="27.135527"
+       x="511.23914"
+       y="587.2262"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/line.png"
+       inkscape:export-xdpi="76.919998"
+       inkscape:export-ydpi="76.919998" />
+    <rect
+       style="opacity:1;fill:#eae6cd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.42554855;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4582"
+       width="26.990993"
+       height="27.135527"
+       x="510.13745"
+       y="585.88434"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/line.png"
+       inkscape:export-xdpi="76.919998"
+       inkscape:export-ydpi="76.919998" />
+    <path
+       style="opacity:1;fill:#5599ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 520.7252,601.32062 L 531.74158,587.58784 C 531.74158,587.58784 538.07257,584.04031 536.27517,590.30419 L 525.8461,604.0556 C 525.8461,604.0556 526.6084,597.72949 520.7252,601.32062 z"
+       id="path3277"
+       sodipodi:nodetypes="ccs"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/line.png"
+       inkscape:export-xdpi="76.919998"
+       inkscape:export-ydpi="76.919998" />
+    <path
+       style="opacity:1;fill:#f4eed7;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.83878845;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 520.78063,601.98567 L 518.63297,609.04451 L 525.60637,604.9622 C 525.60637,604.9622 526.22415,598.9442 520.78063,601.98567 z"
+       id="path3279"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/line.png"
+       inkscape:export-xdpi="76.919998"
+       inkscape:export-ydpi="76.919998" />
+    <path
+       style="opacity:1;fill:#004bb4;fill-opacity:0.88461537;fill-rule:evenodd;stroke:none;stroke-width:9.35845375;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;filter:url(#filter3271);enable-background:accumulate"
+       d="M 136.23721,623.22242 L 140.69967,427.67224 C 140.69967,427.67224 171.12613,417.05173 171.24875,431.48983 L 172.86945,622.32376 C 174.15798,630.91393 158.2334,603.82803 136.23721,623.22242 z"
+       id="path3281"
+       sodipodi:nodetypes="ccscc"
+       transform="matrix(8.3582278e-2,4.6308469e-2,-5.1741198e-2,6.7446018e-2,544.33607,551.25236)"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/line.png"
+       inkscape:export-xdpi="76.919998"
+       inkscape:export-ydpi="76.919998" />
+    <path
+       style="opacity:1;fill:#e9ddaf;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.83878845;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 522.69239,601.33512 L 518.65736,608.95925 L 525.60547,602.94053 C 525.60547,602.94053 524.57946,600.19991 522.69239,601.33512 z"
+       id="path3283"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/line.png"
+       inkscape:export-xdpi="76.919998"
+       inkscape:export-ydpi="76.919998" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#a80000;stroke-width:0.79725981;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 518.70599,608.35033 L 510.39921,611.3861 L 535.62721,611.72339 L 528.55106,606.32651 L 535.0119,604.30265 L 533.16594,601.60421 L 536.55018,598.23114"
+       id="path3211"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/plugins/VismoLibrary/Vismo/line.png"
+       inkscape:export-xdpi="76.919998"
+       inkscape:export-ydpi="76.919998" />
+  </g>
+</svg>

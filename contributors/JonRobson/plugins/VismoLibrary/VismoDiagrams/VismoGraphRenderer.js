@@ -1,10 +1,9 @@
 var VismoGraphRenderer = function(wrapper,vismoGraph,options){
-        this.canvas = new VismoCanvas(wrapper);
-        if(options.moveableNodes) this.canvas.makeMoveable(options.oncompletemove);
+        this.canvas = new VismoCanvas(wrapper,options);
+        this.editor = new VismoCanvasEditor(this.canvas,options);
+        //if(options.moveableNodes) this.canvas.makeMoveable(options.oncompletemove);
         if(!options) options = {};
         this.vismoGraph = vismoGraph;
-        if(options.controller) this.controller = new VismoController(this.canvas,wrapper);
-
         this.labelHolder = document.createElement("div");
         wrapper.appendChild(this.labelHolder);
         this.addedNodes = {};
@@ -50,7 +49,7 @@ VismoGraphRenderer.prototype = {
                 
                 
                 this.renderNodes();
-                this.renderNodeLabels();
+                //this.renderNodeLabels();
                 this.canvas.render();
                 //if(this.options.afterRender) this.options.afterRender(this);
         }

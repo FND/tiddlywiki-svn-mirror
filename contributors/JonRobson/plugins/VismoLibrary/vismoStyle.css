@@ -55,6 +55,8 @@ textarea {
 	height:30px
 	
 }
+.RightMenu {background-color:white;padding:10px;}
+.RightMenu .closer {background-color:gray;}
 .VismoToolSettings {
 	position:absolute;
 	background-color:white;

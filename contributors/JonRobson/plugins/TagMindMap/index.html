@@ -41,10 +41,9 @@ DAMAGE.
 <!--{{{-->
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' />
 <!--}}}-->
-<!--PRE-HEAD-END-->
-<title>
 
-</title>
+<!--PRE-HEAD-END-->
+<title> My TiddlyWiki - a reusable non-linear personal web notebook </title>
 <style id="styleArea" type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -55,10 +54,12 @@ DAMAGE.
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
+
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.unload) unload();">
 <!--PRE-BODY-START-->
+
 <!--PRE-BODY-END-->
 <div id="copyright">
 Welcome to TiddlyWiki created by Jeremy Ruston, Copyright &copy; 2007 UnaMesa Association
@@ -510,71 +511,27 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="PageTemplate" modifier="JonRobson" tags="[[Optional Code]]">
-<pre>
-&lt;div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'&gt;
-&lt;div class='headerShadow'&gt;
-&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;div class='headerForeground'&gt;
-&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
-&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
-
-&lt;div id='sidebar'&gt;
-
-&lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
-&lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;div id='displayArea'&gt;
-&lt;div  macro=&quot;tiddlytagmindmap width:600 height:300 popup:true id:main startState:all animate:true zoom:130 focus:TiddlyTagMindMapPlugin exclude: {{['excludeLists']}} click:existing emptyTiddlerColor:#cccccc&quot;&gt;&lt;/div&gt;
-&lt;div id='messageArea'&gt;&lt;/div&gt;
-&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-</pre>
-</div>
-<div title="StyleSheet" modifier="JonRobson" tags="[[Optional Code]]">
-<pre>
-.nodeLabelPrefix {float:left;}
-.nodeLabel {cursor:pointer; float: left;}
-.nodeLabelSuffix {float:left;}
-.nodeLabel:hover {color:#ff0000;}
-.ttmm {border: solid;border_width : 1px;}
-.ttmm_toolbar {}
-</pre>
-</div>
 <div title="Example 2" modifier="JonRobson" tags="Examples [[parameter: startState]]">
-<pre>
-This demonstrates supports for filtering certain tiddlers and popping them into the visualisation. It will load all tiddlers tagged with 'Optional Code' however I'm sure you can imagine up many more ways of using this! It accepts lists of tiddler names or lists of tiddlers. [[this link|http://tiddlywiki.org/index.php?title=Dev:FilterTiddlers]] may be of interest. Try {{{startState:{{store.filterTiddlers(store.getTiddlerText(&quot;DefaultTiddlers&quot;))}}}}} to show default tiddlers.
+<pre>This demonstrates supports for filtering certain tiddlers and popping them into the visualisation. It will load all tiddlers tagged with 'Optional Code' however I'm sure you can imagine up many more ways of using this! It accepts lists of tiddler names or lists of tiddlers. [[this link|http://tiddlywiki.org/index.php?title=Dev:FilterTiddlers]] may be of interest. Try {{{startState:{{store.filterTiddlers(store.getTiddlerText(&quot;DefaultTiddlers&quot;))}}}}} to show default tiddlers.
 
 &lt;&lt;tiddlytagmindmap width:600 height:200 id:example2 startState:{{store.filterTiddlers(&quot;[tag[Optional Code]]&quot;)}}&gt;&gt;
 
 </pre>
 </div>
 <div title="Example 3" modifier="JonRobson" tags="Examples [[parameter exclude]] [[parameter notagcloud]] [[parameter ignoreLoneNodes]]">
-<pre>
-This visualisation example shows how you can exclude certain elements. This particular one will show ALL tiddlers EXCEPT those which are or are tagged 'Examples' or 'Optional Code' (set in the parameter exclude). These tags and any of their children therefore do not appear in the visualisation.
+<pre>This visualisation example shows how you can exclude certain elements. This particular one will show ALL tiddlers EXCEPT those which are or are tagged 'Examples' or 'Optional Code' (set in the parameter exclude). These tags and any of their children therefore do not appear in the visualisation.
 
 &lt;&lt;tiddlytagmindmap id:example3 width:400 height:400 toolbar:01011 startState:all exclude:{{['Examples','Optional Code']}} ignoreLoneNodes:false notagcloud:true&gt;&gt;
 </pre>
 </div>
 <div title="Example 4" modifier="JonRobson" tags="Examples [[parameter breadcrumb]] [[parameter focus]]">
-<pre>
-You can flatten the tag mind map using the notagcloud parameter..
+<pre>You can flatten the tag mind map using the notagcloud parameter..
 You can also define the start state based on tiddler names and make visited nodes turn red.
 &lt;&lt;tiddlytagmindmap id:example4 width:400 height:400 toolbar:01011 startState:{{[&quot;systemConfig&quot;]}} breadcrumb:true  notagcloud:true focus:TiddlyTagMindMapPlugin&gt;&gt;
 </pre>
 </div>
 <div title="Example 5" modifier="JonRobson" tags="Examples [[macro TagMindMapEdge]] [[macro ToggleTagMindMap]] [[macro LoadMindMap]]">
-<pre>
-This example creates the toggle button where you want it to be instead of as part of the TagMindMap. This is done by associating the tag mind map with an id (id is 'example5' in this case) and using this id in the macro {{{ToggleTagMindMap}}}
+<pre>This example creates the toggle button where you want it to be instead of as part of the TagMindMap. This is done by associating the tag mind map with an id (id is 'example5' in this case) and using this id in the macro {{{ToggleTagMindMap}}}
 
 
 click &lt;&lt;ToggleTagMindMap example5&gt;&gt; to turn off the map. You can click &lt;&lt;LoadMindMap example5&gt;&gt; and all the tiddlers into the tiddlywiki will be spat into it.
@@ -973,6 +930,44 @@ The other thing this example demonstrates is how you can define edges with more 
 &lt;&lt;TagMindMapEdge commit&gt;&gt;
 </pre>
 </div>
+<div title="PageTemplate" modifier="JonRobson" tags="[[Optional Code]]">
+<pre>&lt;div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryMid]]'&gt;
+&lt;div class='headerShadow'&gt;
+&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class='headerForeground'&gt;
+&lt;span class='siteTitle' refresh='content' tiddler='SiteTitle'&gt;&lt;/span&gt;&amp;nbsp;
+&lt;span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id='mainMenu' refresh='content' tiddler='MainMenu'&gt;&lt;/div&gt;
+
+&lt;div id='sidebar'&gt;
+
+&lt;div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'&gt;&lt;/div&gt;
+&lt;div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id='displayArea'&gt;
+&lt;div  macro=&quot;tiddlytagmindmap width:600 height:300 popup:true id:main startState:all animate:true zoom:130 focus:TiddlyTagMindMapPlugin exclude: {{['excludeLists']}} click:existing emptyTiddlerColor:#cccccc&quot;&gt;&lt;/div&gt;
+&lt;div id='messageArea'&gt;&lt;/div&gt;
+&lt;div id='tiddlerDisplay'&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+</pre>
+</div>
+<div title="StyleSheet" modifier="JonRobson" tags="[[Optional Code]]">
+<pre>.nodeLabelPrefix {float:left;}
+.nodeLabel {cursor:pointer; float: left;}
+.nodeLabelSuffix {float:left;}
+.nodeLabel:hover {color:#ff0000;}
+.ttmm {border: solid;border_width : 1px;}
+.ttmm_toolbar {}
+</pre>
+</div>
 <div title="TiddlyTagMindMapCommands" modifier="JonRobson" created="200811092123" tags="systemConfig [[Optional Code]]">
 <pre>config.commands.newChild ={text: &quot;add child&quot;,tooltip: &quot;Add child tiddler&quot;};
 config.commands.newChild.handler = function(event,src,title){
@@ -1261,7 +1256,7 @@ config.macros.ToggleTagMindMap={
 		}
 	}
 
-};
+}; 
 
 config.macros.tiddlytagmindmap={
 	store: {}, //a library of created ttmm objects
@@ -1426,7 +1421,6 @@ config.macros.tiddlytagmindmap={
         			     startupFunction(id);  
         			     
         			     if(focus){
-        			             console.log(&quot;going to focus on&quot;,focus);
         			             ttmm.centerOnNode(focus);
         			     }
         			}
@@ -1875,7 +1869,17 @@ Tagmindmap.prototype = {
 	        var t = this.controlpanel.getTransformation();
 	        t.translate=  {x:0,y:0};
 	        this.controlpanel.setTransformation(t);
+	        try{
 		this.rgraph.onClick(id);
+		console.log(&quot;good&quot;);
+		}
+		catch(e){
+		    var ttmm = this;
+		    var f  = function(){
+		        ttmm.centerOnNode(id);
+		    };
+		    window.setTimeout(f,100);
+		}
 		
 	},
 
@@ -2039,6 +2043,11 @@ Tagmindmap.prototype = {
 		  this.rgraph.plot(); 
 		}
 		catch(e){
+		    var ttmm = this;
+		    var f = function(){
+		        ttmm.computeThenPlot();
+		    };
+		    window.setTimeout(f,100);
 			console.log(e+&quot;in computeThenPlot&quot;);
 		}
 	},
@@ -2137,7 +2146,8 @@ Tagmindmap.prototype = {
 				};
 				var clickfunction = function(event){
 				        if(ttmm.rgraph.getRoot() == node) {
-				            dblclickfunction(event); return}
+				            dblclickfunction(event); return;}
+				            
 						ttmm.createNodeFromJSON(ttmm.dynamicUpdateFunction(node.id));
                         ttmm.centerOnNode(node.id);
                         
@@ -2193,7 +2203,7 @@ Tagmindmap.prototype = {
 				return fontsize;
 			},
 			onPlaceLabel: function(domElement, node) {
-		  	    if(ttmm.settings.labeldepth &amp;&amp; ttmm.rgraph &amp;&amp; ttmm.node._depth){
+		  	    if(ttmm.settings.labeldepth &amp;&amp; ttmm.rgraph &amp;&amp; node._depth){
     		  	  
     		  	    if(node._depth &gt; ttmm.settings.labeldepth) return;
 		  	    }
@@ -4875,11 +4885,90 @@ if(!Array.indexOf) {
 			from = 0;
 		for(var i=from; i&lt;this.length; i++) {
 			if(this[i] === item)
-				return i;
+				return i; 
 		}
 		return -1;
 	};
 }
+
+var VismoShapeUtils ={
+    _isCoordinate: function(c){
+        if(c == &quot;M&quot; || c == &quot;q&quot; || c== 'c') return false;
+        else {
+            if(typeof(c)== 'number') return true;
+        }
+    }
+    
+    ,toHex: function(rgba){
+        if(rgba.indexOf(&quot;rgba&quot;) == 0){
+            rgba = rgba.replace(&quot;rgba(&quot;,&quot;&quot;);
+            rgba = rgba.replace(&quot;)&quot;,&quot;&quot;);
+        }
+        else if(rgba.indexOf(&quot;rgb&quot;)==0){
+             rgba = rgba.replace(&quot;rgb(&quot;,&quot;&quot;);
+        }
+        
+        rgba = rgba.replace(&quot;)&quot;,&quot;&quot;);
+        rgba = rgba.split(&quot;,&quot;);
+        return &quot;#&quot;+this._tohexadecimal(rgba[0])+this._tohexadecimal(rgba[1]) +this._tohexadecimal(rgba[2]);
+    }
+    ,_tohexadecimal: function(N){
+        if (N==null) return &quot;00&quot;;
+        N=parseInt(N); if (N==0 || isNaN(N)) return &quot;00&quot;;
+        N=Math.max(0,N); N=Math.min(N,255); N=Math.round(N);
+        return &quot;0123456789ABCDEF&quot;.charAt((N-N%16)/16)
+             + &quot;0123456789ABCDEF&quot;.charAt(N%16);
+        
+    }
+    ,opacityFrom: function(rgba){
+ 
+        var rgbcode = rgba.replace(&quot;rgba(&quot;,&quot;&quot;);
+	    rgbcode = rgbcode.replace(&quot;)&quot;,&quot;&quot;);
+	    rgbcode = rgbcode.split(&quot;,&quot;);
+	    var opvalue = 0;
+	    if(rgbcode.length &lt; 4) opvalue = 1;
+	    else opvalue =rgbcode[3];
+	    
+	    return opvalue;
+    }
+    ,toRgb: function(hex_rgba,opacity){
+        var rgb = {};
+        if(hex_rgba.indexOf(&quot;#&quot;) == 0 &amp;&amp; hex_rgba.indexOf(&quot;,&quot;) == -1){ //hex code argument
+            var hex = hex_rgba;
+			var hexcode = hex.substring(1);
+			rgb.red = this._hexToR(hexcode);
+			rgb.blue = this._hexToB(hexcode);
+			rgb.green = this._hexToG(hexcode);
+		}
+		else if(hex_rgba.indexOf(&quot;rgba&quot;) != -1){
+		    var rgbcode = hex_rgba.replace(&quot;rgba(&quot;,&quot;&quot;);
+		    rgbcode = rgbcode.replace(&quot;)&quot;,&quot;&quot;);
+		    rgbcode = rgbcode.split(&quot;,&quot;);
+		    rgb.red =rgbcode[0];
+		    rgb.green =rgbcode[1];
+		    rgb.blue =rgbcode[2];
+		    opacity = rgbcode[3];
+		}
+		return {rgb:&quot;rgb(&quot;+rgb.red+&quot;,&quot;+ rgb.green +&quot;,&quot;+ rgb.blue+&quot;)&quot;,opacity:opacity};
+	}    
+    ,toRgba: function(hex,opacity){
+        var rgb = {};
+        if(hex.indexOf(&quot;#&quot;) == 0 &amp;&amp; hex.indexOf(&quot;,&quot;) == -1){ //hex code argument
+			var hexcode = hex.substring(1);
+			rgb.red = this._hexToR(hexcode);
+			rgb.blue = this._hexToB(hexcode);
+			rgb.green = this._hexToG(hexcode);
+		}
+		if(!opacity) opacity = &quot;1.0&quot;;
+		return &quot;rgba(&quot;+rgb.red+&quot;,&quot;+ rgb.green +&quot;,&quot;+ rgb.blue+&quot;,&quot; + opacity+&quot;)&quot;;
+    }
+	/* thank you http://www.javascripter.net/faq/hextorgb.htm*/
+	,_cutHex: function(h) {return (h.charAt(0)==&quot;#&quot;) ? h.substring(1,7):h}
+	,_hexToR:function(h){return parseInt((this._cutHex(h)).substring(0,2),16)}
+	,_hexToG: function (h) {return parseInt((this._cutHex(h)).substring(2,4),16)}
+	,_hexToB:function(h) {return parseInt((this._cutHex(h)).substring(4,6),16)}
+
+};
 var VismoUtils = {
 	userAgent: navigator.userAgent.toLowerCase(),
 	clone: function(obj){
@@ -4964,7 +5053,11 @@ coordinates are a string consisting of floats and move commands (M)
 */
 
 var VismoShape = function(properties,coordinates){
-
+    if(!coordinates) {
+        coordinates = properties.coordinates;
+        delete properties[&quot;coordinates&quot;];
+    }
+    
 	this.coordinates = {
 		projected: false,
 		normal: [],
@@ -5001,7 +5094,9 @@ VismoShape.prototype={
 		for(i in newprops){
 		        this.setProperty(i,newprops[i]);
 		}
-		
+		if(!newprops[&quot;z-index&quot;]){
+		    this.setProperty(&quot;z-index&quot;,&quot;0&quot;);
+		}
 		if(!newprops.stroke){
 			this.setProperty(&quot;stroke&quot;,'#000000');		
 		}
@@ -5055,8 +5150,12 @@ VismoShape.prototype={
 			
 	}
 	,getTransformation: function(){
+	       var t= this.getProperty(&quot;transformation&quot;);
+	       if(!t) t= {};
+	       if(!t.translate) t.translate = {x:0,y:0};
+	       if(!t.scale) t.scale = {x:1,y:1};
 	       
-	        return this.getProperty(&quot;transformation&quot;);
+	       return t;
 	}
 	
 	,setTransformation: function(transformation){
@@ -5066,16 +5165,16 @@ VismoShape.prototype={
 	}
 	,setCoordinates: function(coordinates,type){
 	        
-	        var good = [];
-	        for(var i=0; i &lt; coordinates.length; i++){
-	                if(coordinates[i] +&quot;&quot; !='NaN')good.push(coordinates[i]);
-	        }
-	     
-	        if(good.length &lt; 2) {
-	              
-	                throw &quot;cannot set coordinates for VismoShape not enough good coordinates given (coordinates may contain non-number elements)&quot; + coordinates.toString();
-                }
-                coordinates = good;
+        var good = [];
+        for(var i=0; i &lt; coordinates.length; i++){
+            if(coordinates[i] +&quot;&quot; !='NaN')
+            {good.push(coordinates[i]);}
+        }
+     
+        if(good.length &lt; 2) {
+                throw &quot;cannot set coordinates for VismoShape not enough good coordinates given (coordinates may contain non-number elements)&quot; + coordinates.toString();
+        }
+        coordinates = good;
                 
                 
 		if(type == 'projected'){ this.coordinates.projected = coordinates;
@@ -5095,7 +5194,6 @@ VismoShape.prototype={
 		this._calculateBounds();
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 	}
-
 	,getCoordinates: function(type){
 		if(type == 'normal') return this.coordinates.normal;
 		if(type == 'projected') return this.coordinates.projected;
@@ -5146,8 +5244,8 @@ VismoShape.prototype={
 	        var that = this;
 		var st = this.getShape();
 		if(st == 'path'){
-			this.grid = {x1:0,x2:1,y1:0,y2:1};
-			return;
+			//this.grid = {x1:0,x2:1,y1:0,y2:1};
+			//return;
 		}
 		else if(st == 'point' || st == 'circle' | st == 'image' | st == 'domElement'){
 				var coords = this.getCoordinates().clone();
@@ -5164,7 +5262,7 @@ VismoShape.prototype={
 				
 				if(transform){
 				        if(transform.translate){
-				                var tran_x,tran_y;
+				                var tran_x =0,tran_y =0;
 				                 if(transform.translate.x)tran_x = transform.translate.x;
 				                if(transform.translate.y)tran_y =  transform.translate.y;
 				                /*if(transform.scale){
@@ -5182,8 +5280,6 @@ VismoShape.prototype={
 				}
 				var newx = this.grid.center.x;
 				var newy = this.grid.center.y;
-				this.grid.center.x = x;
-				this.grid.center.y = y;
 				var radiusw = dim.width / 2;
 				var radiush = dim.height / 2;
 				this.grid ={x1: newx -radiusw ,x2: newx + radiusw, y1: newy - radiush, y2: newy + radiush,center:{x:newx,y:newy},width: dim.width,height:dim.height};	
@@ -5247,6 +5343,7 @@ VismoShape.prototype={
 		this.grid.x2 = this.grid.center.x + (this.grid.width /2);
 		this.grid.y1 = this.grid.center.y - (this.grid.height/2);
 		this.grid.y2 = this.grid.center.y +(this.grid.height/2);
+		//if(st == 'path') console.log(this,this.grid);
 	}
 
 	,setRadius: function(r){
@@ -5254,7 +5351,12 @@ VismoShape.prototype={
 		this._calculateBounds();
 	}
 	,getRadius: function(){
-		return this.width / 2;
+		if(this.width) return this.width /2;
+	    else{
+	        var bb = this.getBoundingBox();
+		    return bb.width / 2;
+		}
+		
 	}
 	,setDimensions: function(width,height){
 		this.width = width;
@@ -5276,7 +5378,7 @@ VismoShape.prototype={
 			else radiush = radiusw;
 			
 			this.setDimensions(radiusw*2,radiush*2);
-			this.setCoordinates([coordinates[0],coordinates[1]]);
+			this.setCoordinates([coordinates[0],coordinates[1],coordinates[2]]);
 			
 		}
 		else if(shapetype == 'polygon' || shapetype == 'path')
@@ -5321,9 +5423,6 @@ VismoShape.prototype={
 		
 	}	
 
-
-
-
 	,_applyProjection: function(projection,transformation){
 		var c = this.getCoordinates('normal');
 	
@@ -5333,7 +5432,7 @@ VismoShape.prototype={
 		var newc = [];
 		for(var i=0; i &lt; c.length-1; i+=2){
 			var moved = false;
-			if(c[i] == &quot;M&quot;){
+			if(!VismoShapeUtils._isCoordinate(c[i])){
 				i+= 1;
 			}
 			var x = parseFloat(c[i]);
@@ -5358,7 +5457,7 @@ VismoShape.prototype={
 				}
 			
 				if(cok){
-					if(typeof newx == 'number' &amp;&amp; typeof newy =='number'){
+					if(VismoShapeUtils._isCoordinate(x) &amp;&amp; VismoShapeUtils._isCoordinate(y)){
 						if(moved){
 							newc.push(&quot;M&quot;);
 						}
@@ -5472,21 +5571,49 @@ var VismoCanvasRenderer = {
 	        
 	}
 	,renderPath: function(ctx,vismoShape,join){
-		var move = true;
+		var move = true,quadraticCurve = false,bezierCurve = false;
 		var c = vismoShape.getCoordinates();
+		var t =vismoShape.getProperty(&quot;transformation&quot;);
+		var t= {}
+		if(!t) t= {};
+		
 		for(var i=0; i &lt; c.length-1; i+=2){
-			if(c[i]=== &quot;M&quot;) {
-				i+= 1; 
-				move=true;
+            var isCoord =VismoShapeUtils._isCoordinate(c[i]);
+			if(!isCoord){
+
+				if(c[i] == &quot;M&quot;){
+				    move=true;
+			    }
+			    else if(c[i] == &quot;q&quot;){
+			        quadraticCurve = true;
+			    }
+			    else if(c[i] == &quot;c&quot;){
+			        bezierCurve = true;
+			    }
+			    i+=1;
 			}
 			var x = parseFloat(c[i]);
 			var y = parseFloat(c[i+1]);	
 			
-			if(move){
-			    
+			if(move){ 
 				ctx.moveTo(x,y);
 			
 				move = false;
+			}
+			else if(quadraticCurve){
+			    var x2 = parseFloat(c[i+2]);
+			    var y2 = parseFloat(c[i+3]);
+
+			    i+= 2;
+			    ctx.quadraticCurveTo(x,y,x2,y2);
+			}
+			else if(bezierCurve){
+			    var x2 = parseFloat(c[i+2]);
+			    var y2 = parseFloat(c[i+3]);
+                var x3 = parseFloat(c[i+4]);
+                var y3 = parseFloat(c[i+5]);
+			    i+= 4;
+			    ctx.bezierCurveTo(x,y,x2,y2,x3,y3);			    
 			}
 			else{
 			       
@@ -5495,7 +5622,6 @@ var VismoCanvasRenderer = {
 				
 				
 		}
-		
 	}
 	,renderPoint: function(ctx,vismoShape){
 	        //ctx.restore();
@@ -5563,7 +5689,12 @@ var VismoVector = function(vismoShape,canvas){
 };
 
 VismoVector.prototype = {
-	_initImage: function(vismoShape,canvas){
+	scrub: function(){
+	    if(this.el){
+	    this.el.parentNode.removeChild(this.el);
+	    }
+	}
+	,_initImage: function(vismoShape,canvas){
 
 		var that = this;
 		var dim = vismoShape.getDimensions();
@@ -5599,7 +5730,7 @@ VismoVector.prototype = {
 		this.el.setAttribute(&quot;name&quot;,vismoShape.getProperty(&quot;name&quot;));
 		var w = jQuery(canvas).width();
 		var h = jQuery(canvas).height();
-		jQuery(this.el).css({&quot;height&quot;: h,&quot;width&quot;: w,&quot;position&quot;:&quot;absolute&quot;,&quot;z-index&quot;:1});
+		jQuery(this.el).css({&quot;height&quot;: h,&quot;width&quot;: w,&quot;position&quot;:&quot;absolute&quot;,&quot;z-index&quot;:4});
 	
 	}
 	,getVMLElement: function(){
@@ -5633,14 +5764,22 @@ VismoVector.prototype = {
 		//path = &quot;M&quot;;
 		buffer.push(&quot;M&quot;);
 		//path+= x + &quot;,&quot; +y + &quot; L&quot;;
-		buffer.push([x,&quot;,&quot;,y,&quot; L&quot;].join(&quot;&quot;))
-		var lineTo = true;
+		buffer.push([x,&quot;,&quot;,y].join(&quot;&quot;))
+		var lineTo = false,quadraticCurveTo = false,bezierCurveTo = false;
 		for(var i =2; i &lt; c.length; i+=2){
 			if(c[i] == 'M') {
 				//path += &quot; M&quot;;
 				buffer.push(&quot; M&quot;);
 				lineTo = false;
 				i+=1;
+			}
+			else if(c[i] == &quot;q&quot;){
+			    quadraticCurveTo = true;
+			    i += 1;
+			}
+			else if(c[i] == &quot;c&quot;){
+			    bezierCurveTo = true;
+			    i+=1;
 			}
 			else if(!lineTo) {
 				//path += &quot; L&quot;;
@@ -5651,24 +5790,40 @@ VismoVector.prototype = {
 				//path += &quot; &quot;;
 				buffer.push(&quot; &quot;);
 			}
-			var x =c[i];
-			var y =c[i+1];
-			x *= this._iemultiplier;
-			y *= this._iemultiplier;
-			x = parseInt(x);
-			y = parseInt(y);
-			buffer.push([x,&quot;,&quot;,y].join(&quot;&quot;));
+			var x =parseInt(c[i] * this._iemultiplier);
+			var y =parseInt(c[i+1] * this._iemultiplier);
+
+			
+			if(quadraticCurveTo){
+			    var x2 =parseInt(c[i+2] * this._iemultiplier);
+    			var y2 =parseInt(c[i+3] * this._iemultiplier);
+			    buffer.push([&quot; c &quot;,x,&quot;,&quot;,y,&quot;,&quot;,x2,&quot;,&quot;,y2,&quot;,&quot;,x2,&quot;,&quot;,y2,&quot;&quot;].join(&quot;&quot;));
+			    i += 2;
+			    quadraticCurveTo = false;
+			}
+			else if(bezierCurveTo){
+			    var x2 =parseInt(c[i+2] * this._iemultiplier);
+    			var y2 =parseInt(c[i+3] * this._iemultiplier);
+    			var x3 = parseInt(c[i+4] * this._iemultiplier);
+    			var y3 = parseInt(c[i+5] * this._iemultiplier);
+			    buffer.push([&quot; c &quot;,x,&quot;,&quot;,y,&quot;,&quot;,x2,&quot;,&quot;,y2,&quot;,&quot;,x3,&quot;,&quot;,y3,&quot;&quot;].join(&quot;&quot;));
+			    i += 4;
+			    bezierCurveTo = false;
+			}
+			else{
+			    buffer.push([x,&quot;,&quot;,y].join(&quot;&quot;));
+			}
 			//path += x +&quot;,&quot; + y;
 			
 			//if(i &lt; c.length - 2) path += &quot;&quot;;
 		}
 		//path += &quot; XE&quot;;	
-		buffer.push(&quot; XE&quot;);
+		if(this.vismoShape.getShape() != &quot;path&quot;)buffer.push(&quot; XE&quot;);
 		//console.log(buffer.join(&quot;&quot;));
 
 	path = buffer.join(&quot;&quot;);
 	//if(path != vml.getAttribute(&quot;path&quot;)){
-		
+        //if(this.vismoShape.getShape() == &quot;path&quot;)alert(path);
 		vml.setAttribute(&quot;path&quot;, path);	
 //	}
 	
@@ -5792,16 +5947,23 @@ VismoVector.prototype = {
 
 		var shape = this.el;
 		shape.stroked = &quot;t&quot;;
-		shape.strokecolor = &quot;#000000&quot;;
+		
+
+		
+		if(this.vismoShape.getProperty(&quot;z-index&quot;)){
+		    shape.style.zIndex = this.vismoShape.getProperty(&quot;z-index&quot;);
+		}
 		if(this.vismoShape.getProperty(&quot;lineWidth&quot;)) {
 			shape.strokeweight = this.vismoShape.getProperty(&quot;lineWidth&quot;) + &quot;px&quot;;
 		}
 		else {
 			shape.strokeweight = &quot;1px&quot;;
 		}
+	
 		
 		if(!this.vismoShape.getProperty(&quot;fill&quot;) || shapetype == 'path'){
-					return
+		    shape.filled = &quot;f&quot;;
+					return;
 		}
 				var fill = this.vismoShape.getProperty(&quot;fill&quot;);
 
@@ -5811,6 +5973,34 @@ VismoVector.prototype = {
 					this.vmlfill =document.createElement(&quot;vismoShapeVml_:fill&quot;);
 					shape.appendChild(this.vmlfill); 
 				}	
+				
+				if(!this.vmlstroke){
+					this.vmlstroke =document.createElement(&quot;vismoShapeVml_:stroke&quot;);
+					shape.appendChild(this.vmlstroke); 
+				}
+				
+				var strokergba = this.vismoShape.getProperty(&quot;stroke&quot;);
+            		if(strokergba){
+            		    var stroke;
+            		    if(strokergba.indexOf(&quot;rgba&quot;) != -1 &amp;&amp;strokergba.match(/rgba\([0-9]*,[0-9]*,[0-9]*,(.*)\)/)){
+            		        var match =strokergba.match(/(rgb)a(\([0-9]*,[0-9]*,[0-9]*),(.*)\)/);
+
+        					if(match[3]){
+        						stroke = match[1] + match[2] +&quot;)&quot;;
+        						this.vmlstroke.opacity = match[3];
+        					}
+            		    }
+            		    else{
+            		        stroke = strokergba;
+            		    }
+            		    this.vmlstroke.color = stroke;
+            		}
+            		else{
+            		    this.vmlstroke.color = &quot;rgb(0,0,0)&quot;;
+            		}
+    		    
+        		
+				
 				//look for rgba fill for transparency
 				if(fill.indexOf(&quot;rgba&quot;) != -1 &amp;&amp;fill.match(/rgba\([0-9]*,[0-9]*,[0-9]*,(.*)\)/)){
 					
@@ -6107,9 +6297,9 @@ VismoController.prototype = {
 		var mm = this.wrapper.onmousemove;
 		
 
-
-		var onmousewheel = function(e){		
-				
+        var doingmw = false;
+        var domw = function(e){
+            
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
 
@@ -6176,13 +6366,30 @@ VismoController.prototype = {
 			}
 			that.crosshair.lastdelta = delta;	
 			
-                        if (e &amp;&amp; e.stopPropagation) //if stopPropagation method supported
-                        e.stopPropagation();
-                        else
-                        e.cancelBubble=true;
-                        if(e.preventDefault)e.preventDefault();
 
-			
+            doingmw = false;
+            return false;
+        };
+		var onmousewheel = function(e){		
+			if(!doingmw) {
+			    var f = function(){
+			        domw(e);
+			        if (e &amp;&amp; e.stopPropagation) //if stopPropagation method supported
+                    e.stopPropagation();
+                    else
+                    e.cancelBubble=true;
+                    if(e.preventDefault)e.preventDefault();
+                    return false;
+			    };
+			    window.setTimeout(f,50);
+			    doingmw = true;
+            }
+
+			if (e &amp;&amp; e.stopPropagation) //if stopPropagation method supported
+            e.stopPropagation();
+            else
+            e.cancelBubble=true;
+            if(e.preventDefault)e.preventDefault();
 			return false;
 
 		};
@@ -6478,8 +6685,8 @@ VismoController.prototype = {
                 difference.x=  thisx - finalX;
                 difference.y = thisy - finalY;
                 
-                direction.x = -difference.x / 20;
-                direction.y = -difference.y / 20;
+                direction.x = -difference.x / 5;
+                direction.y = -difference.y / 5;
 
                 var change = true;
                 
@@ -6515,7 +6722,7 @@ VismoController.prototype = {
     
                         if(t.translate.x != finalX &amp;&amp; t.translate.y != finalY){
                                 that.setTransformation(t); 
-                                window.setTimeout(f,50);
+                                window.setTimeout(f,5);
                         }
                         else{
                                 that.setTransformation(t);
@@ -7044,8 +7251,9 @@ var VismoMapUtils = {
 		return res;
 	}
 
-};var VismoCanvas = function(element,vismoShapesList){
-        
+};var VismoCanvas = function(element,options){
+    this.className = &quot;VismoCanvas&quot;;
+    if(!options) options = {};
 	if(typeof element == 'string') element= document.getElementById(element);
 	if(!element) throw &quot;Element doesn't exist!&quot;;
 	if(element.vismoClicking) {
@@ -7072,14 +7280,21 @@ var VismoMapUtils = {
 	this.memory = [];
 	element.vismoClicking = this;
 
-	if(vismoShapesList) {
-		for(var i=0; i &lt; vismoShapesList.length; i++){
-			this.add(vismoShapesList[i]);
+	if(options.shapes) {
+		for(var i=0; i &lt; options.shapes.length; i++){
+			this.add(options.shapes[i]);
 		}
 	}
 	this.wrapper = wrapper;
+
 	this._setupMouse();
-	this.setOnMouse(false,false,false,false,false);
+/*
+	if(options.panzoom){
+	    new VismoController(this,this.getDomElement());
+	}*/
+	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
+
+
 };
 
 VismoCanvas.prototype = {
@@ -7132,24 +7347,33 @@ VismoCanvas.prototype = {
 	,getXY: function(e){
 		return VismoTransformations.getXY(e,this.getTransformation());
 	}
-	,setOnMouse: function(down,up,move,dblclick,keypress){
-		if(down)this.onmousedown = down;
-		if(up)this.onmouseup = up;
-		if(move)this.onmousemove=  move;
-		if(dblclick) this.ondblclick = dblclick;
-		if(keypress) this.onkeypress = keypress;
-		
-		if(this.madeMoveable) this.makeMoveable();
-		if(this.tooltipAdded) this.addTooltip();
+	,mouse: function(args){
+	    if(!args){
+	        return {up: this.onmouseup, down: this.onmousedown, move: this.onmousemove, dblclick: this.ondblclick,keypress:this.onkeypress};
+	    }
+	    else{
+	        
+	        if(args.down)this.onmousedown = args.down;
+    		if(args.up)this.onmouseup = args.up;
+    		if(args.move)this.onmousemove=  args.move;
+    		if(args.dblclick) this.ondblclick = args.dblclick;
+    		if(args.keypress) this.onkeypress = args.keypress;
+
+    		//if(this.madeMoveable) this.makeMoveable();
+    		//if(this.tooltipAdded) this.addTooltip();	        
+	    }
+	}
+	,setOnMouse: function(down,up,move,dblclick,keypress){ /*kept for historic reasons please use mouse instead*/
+        this.mouse({up:up,down:down,move:move,dblclick:dblclick, keypress: keypress});
 	}
 	,_setupMouse: function(){
 		var that = this;
-		/*this.onmousedown = function(e,s,pos){};
+		this.onmousedown = function(e,s,pos){};
 		this.onmouseup = function(e,s,pos){};
 		this.onmousemove = function(e,s,pos){};
 		this.ondblclick = function(e,s,pos){};
 		this.onkeypress = function(e){};
-		*/
+	
 
 		this._applyMouseBehaviours(this.wrapper);
 		for(var i =0; i &lt; this.wrapper.childNodes.length; i++){
@@ -7181,34 +7405,33 @@ VismoCanvas.prototype = {
 				if(!that.keypressactive) {
 				        
 					that.keypressactive =  true;
-					window.onkeypress = that.onkeypress;
+					/*window.onkeypress = that.onkeypress;
 					document.onkeypress = function(e){if(!e) e= window.event;if(that.initialKeyPress)that.initialKeyPress(e);if(!e) e= window.event;var s = newbehaviour(e); 
 					        if(that.onkeypress)that.onkeypress(e,s)
-					};
+					};*/
 				}
 		};
 		el.onmouseout = function(e){if(!e) e= window.event;that.keypressactive = false;};
 
-		el.onmousedown = function(e){
-			if(!e) e= window.event;
-			if(e.preventDefault)e.preventDefault(e);
+		jQuery(el).mousedown(function(e){
 			var s = newbehaviour(e); 
 			if(s){
 				if(s.getProperty(&quot;onmousedown&quot;)){
-				        s.getProperty(&quot;onmousedown&quot;)(e,s);		
-				}else { 
 				        if(that.onmousedown)that.onmousedown(e,s);
-			        }
+				        s.getProperty(&quot;onmousedown&quot;)(e,s);	
+				}
+				else{
+				    if(that.onmousedown)that.onmousedown(e,s);
+				}
 			}
 			else {
+			        if(that.onmousedown)that.onmousedown(e,s);
 			        if(down)down(e,s);
 			}
 			
+		});
 
-			return false;
-		};
-
-        	el.ondblclick = function(e){
+        jQuery(el).dblclick(function(e){
 			if(!e) e= window.event;
 			var s = newbehaviour(e); 				
 			if(s) {
@@ -7232,22 +7455,27 @@ VismoCanvas.prototype = {
 				        dblclick(e,s);
                                 }
 			}
-		};
-                	el.onmouseup = function(e){ if(!e) e= window.event;var s = newbehaviour(e); 
+		});
+        jQuery(el).mouseup(function(e){ 
+                var s = newbehaviour(e); 
 		        if(s){
 		                if(s.getProperty(&quot;onmouseup&quot;)){
+		                        if(that.onmouseup)that.onmouseup(e,s);
 		                        s.getProperty(&quot;onmouseup&quot;)(e,s);
 		                }
-		                else {
-		                        if(that.onmouseup)that.onmouseup(e,s);
+		                else{
+		                    if(that.onmouseup)that.onmouseup(e,s);
 		                }
+		                
+		                
 		        }
 		        else{
+		                if(that.onmouseup)that.onmouseup(e,s);
 		                if(up)up(e,s);
 		        }
-		};
+		});
 		var defaultCursor;
-		el.onmousemove = function(e){ if(!e) e= window.event;var s = newbehaviour(e);
+		jQuery(el).mousemove(function(e){ if(!e) e= window.event;var s = newbehaviour(e);
 
 		        if(!VismoUtils.browser.isIE){
 		                if(jQuery(el).hasClass(&quot;overVismoShape&quot;)) jQuery(el).removeClass(&quot;overVismoShape&quot;);
@@ -7276,7 +7504,7 @@ VismoCanvas.prototype = {
 		        }
 		        if(that.onmousemove)that.onmousemove(e,s); 
 		        if(mv)mv(e,s);
-		};       	
+		});       	
 
 	}
 	,getDimensions: function(){
@@ -7317,8 +7545,6 @@ VismoCanvas.prototype = {
 		var ctx = this.canvas.getContext('2d');
 		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);		
 		
-			
-		
 	}
 	
 	,render: function(projection){
@@ -7328,6 +7554,7 @@ VismoCanvas.prototype = {
 		var transformation = this.getTransformation();
 	
 		if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
+		//determine point size
 		var ps = 5 / parseFloat(sc);
 		var smallest = 1 / this._iemultiplier;
 		var largest = 2.5 * sc;
@@ -7415,12 +7642,22 @@ VismoCanvas.prototype = {
 	}
 
 	,remove: function(vismoShape){
-	        
+	       var shapes = this.getMemory();
+	       
+	     
+	       for(var i=0; i &lt; shapes.length; i++){
+	            if(shapes[i] == vismoShape){
+	                this.memory.splice(i,1);
+	            }
+	       }
+	       if(vismoShape.vml)vismoShape.vml.scrub();
 	}
 	,add: function(vismoShape){
 		if(!this.memory) this.memory = [];
+		if(!vismoShape.getProperty(&quot;id&quot;))vismoShape.setProperty(&quot;id&quot;,this.memory.length +&quot;_&quot; + Math.random());
 		this.memory.push(vismoShape);
 		vismoShape._vismoClickingID = this.memory.length;
+
 		return vismoShape;
 	}
 	,addLabel:function(domElement,x,y){
@@ -7443,14 +7680,27 @@ VismoCanvas.prototype = {
 	,clearMemory: function(){
 		for(var i=0; i &lt; this.memory.length; i++){
 			if(this.memory[i].vml){
-				this.memory[i].vml.parentNode.removeChild(this.memory[i].vml);
+				this.memory[i].vml.scrub();
 			}
 		}
 		this.memory = [];
 
 	},
 	getMemory: function(){
-		return this.memory;
+
+	    this.memory.sort(function(a,b){
+	        var z1 = a.getProperty(&quot;z-index&quot;);
+	        var z2 =b.getProperty(&quot;z-index&quot;);
+	        if(z1 &lt; z2) return -1;
+	        else if(z1 == z2){
+	            return 0;
+	        }
+	        else{
+	            return 1;
+	        }
+	        });
+	        
+	    return this.memory;
 	}
 	,getMemoryID: function(vismoShape){
 		if(vismoShape &amp;&amp; vismoShape._vismoClickingID)
@@ -7459,6 +7709,15 @@ VismoCanvas.prototype = {
 			return false;
 		}
 	}
+	,getShapeWithID: function(id){
+	    var mem = this.getMemory();
+	    for(var i=0; i &lt; mem.length; i++){
+	        if(mem[i].getProperty(&quot;id&quot;) == id) {
+	            return mem[i];
+	        }
+	    }
+	    return false;
+	}
 	,getShapeAtClick: function(e){
 		if(!e) {
 			e = window.event;
@@ -7466,7 +7725,7 @@ VismoCanvas.prototype = {
 	
 		var node = VismoClickingUtils.resolveTarget(e);
 		//alert(node.tagName);
-		if(node.tagName.toUpperCase() == 'SHAPE') { //vml vismoShape
+		if(node &amp;&amp; node.tagName &amp;&amp; node.tagName.toUpperCase() == 'SHAPE') { //vml vismoShape
 			return node.vismoShape;
 		}
 		var target = VismoClickingUtils.resolveTargetWithVismo(e);
@@ -7510,6 +7769,7 @@ VismoCanvas.prototype = {
 			}
 
 		}
+
 		if(hitShapes.length &gt; 1){
 		        var res = this._findNeedleInHaystack(x,y,hitShapes);
 			return res;
@@ -7529,6 +7789,10 @@ VismoCanvas.prototype = {
 			var itsahit = false;
 			if(st == 'polygon'){
 				itsahit = this._inPoly(x,y,shapes[i]);
+			}
+			else if(st == 'path'){
+			    //itsahit = this._onPath(x,y,shapes[i]);
+			    itsahit = false;
 			}
 			else if(st == 'image'){
 				itsahit = true;
@@ -7579,6 +7843,9 @@ VismoCanvas.prototype = {
 		else return false;
 	
 	}
+	,_onPath: function(x,y,vismoShape){
+	    return true;
+	}
 	,_inPoly: function(x,y,vismoShape) {
 		/* _inPoly adapted from inpoly.c
 		Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
@@ -7627,7 +7894,7 @@ VismoCanvas.prototype = {
 	}
 
 
-        ,makeMoveable: function(oncompletemove,unmoveable){
+        ,makeMoveable: function(oncompletemove,unmoveable){ /*DONT USE ME! i'm naughty and soon to be deleted */
                 if(!unmoveable)unmoveable = [];
                 if(this.madeMoveable) return;
                 if(oncompletemove)this.oncompletemove = oncompletemove;
@@ -16026,40 +16293,6 @@ function insertSpacer(place)
 	return e;
 }
 
-// Add a stylesheet, replacing any previous custom stylesheet
-function setStylesheet(s,id,doc)
-{
-	if(!id)
-		id = "customStyleSheet";
-	if(!doc)
-		doc = document;
-	var n = doc.getElementById(id);
-	if(doc.createStyleSheet) {
-		// Test for IE's non-standard createStyleSheet method
-		if(n)
-			n.parentNode.removeChild(n);
-		// This failed without the &nbsp;
-		doc.getElementsByTagName("head")[0].insertAdjacentHTML("beforeEnd","&nbsp;<style id='" + id + "'>" + s + "</style>");
-	} else {
-		if(n) {
-			n.replaceChild(doc.createTextNode(s),n.firstChild);
-		} else {
-			n = doc.createElement("style");
-			n.type = "text/css";
-			n.id = id;
-			n.appendChild(doc.createTextNode(s));
-			doc.getElementsByTagName("head")[0].appendChild(n);
-		}
-	}
-}
-
-function removeStyleSheet(id)
-{
-	var e = document.getElementById(id);
-	if(e)
-		e.parentNode.removeChild(e);
-}
-
 // Force the browser to do a document reflow when needed to workaround browser bugs
 function forceReflow()
 {
@@ -16333,6 +16566,65 @@ TW21Saver.prototype.externalizeTiddler = function(store,tiddler)
 <script id="jsdeprecatedArea" type="text/javascript">
 //<![CDATA[
 //--
+//-- Deprecated Crypto functions and associated conversion routines.
+//-- Use the jQuery.encoding functions directly instead.
+//--
+
+// Crypto 'namespace'
+function Crypto() {}
+
+// Convert a string to an array of big-endian 32-bit words
+Crypto.strToBe32s = function(str)
+{
+	return jQuery.encoding.strToBe32s(str);
+};
+
+// Convert an array of big-endian 32-bit words to a string
+Crypto.be32sToStr = function(be)
+{
+	return jQuery.encoding.be32sToStr(be);
+};
+
+// Convert an array of big-endian 32-bit words to a hex string
+Crypto.be32sToHex = function(be)
+{
+	return jQuery.encoding.be32sToHex(be);
+};
+
+// Return, in hex, the SHA-1 hash of a string
+Crypto.hexSha1Str = function(str)
+{
+	return jQuery.encoding.digests.hexSha1Str(str);
+};
+
+// Return the SHA-1 hash of a string
+Crypto.sha1Str = function(str)
+{
+	return jQuery.encoding.digests.sha1Str(str);
+};
+
+// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
+Crypto.sha1 = function(x,blen)
+{
+	return jQuery.encoding.digests.sha1(x,blen);
+};
+
+//--
+//-- Deprecated DOM utilities
+//--
+
+// @Deprecated: Use jQuery.stylesheet instead
+function setStylesheet(s,id,doc)
+{
+	jQuery.stylesheet(s,{ id: id, doc: doc });
+}
+
+// @Deprecated: Use jQuery.stylesheet.remove instead
+function removeStyleSheet(id)
+{
+	jQuery.stylesheet.remove({ id: id });
+}
+//--
 //-- Deprecated Filesystem code
 //-- Use the jQuery.file functions directly instead
 //--
@@ -16351,28 +16643,6 @@ function copyFile(dest,source)
 {
 	return jQuery.file.copy(dest,source);
 }
-
-//--
-//-- Deprecated Tiddler code
-//--
-
-// @Deprecated: Use tiddlerToRssItem(tiddler,uri) instead
-Tiddler.prototype.toRssItem = function(uri)
-{
-	return tiddlerToRssItem(this,uri);
-};
-
-// @Deprecated: Use "<item>\n" + tiddlerToRssItem(tiddler,uri)  + "\n</item>" instead
-Tiddler.prototype.saveToRss = function(uri)
-{
-	return "<item>\n" + tiddlerToRssItem(this,uri) + "\n</item>";
-};
-
-// @Deprecated: Use jQuery.encoding.digests.hexSha1Str instead
-Tiddler.prototype.generateFingerprint = function()
-{
-	return "0x" + Crypto.hexSha1Str(this.text);
-};
 
 //--
 //-- Deprecated HTTP request code
@@ -16424,47 +16694,25 @@ function httpReq(type,url,callback,params,headers,data,contentType,username,pass
 }
 
 //--
-//-- Deprecated Crypto functions and associated conversion routines.
-//-- Use the jQuery.encoding functions directly instead.
+//-- Deprecated Tiddler code
 //--
 
-// Crypto 'namespace'
-function Crypto() {}
-
-// Convert a string to an array of big-endian 32-bit words
-Crypto.strToBe32s = function(str)
+// @Deprecated: Use tiddlerToRssItem(tiddler,uri) instead
+Tiddler.prototype.toRssItem = function(uri)
 {
-	return jQuery.encoding.strToBe32s(str);
+	return tiddlerToRssItem(this,uri);
 };
 
-// Convert an array of big-endian 32-bit words to a string
-Crypto.be32sToStr = function(be)
+// @Deprecated: Use "<item>\n" + tiddlerToRssItem(tiddler,uri)  + "\n</item>" instead
+Tiddler.prototype.saveToRss = function(uri)
 {
-	return jQuery.encoding.be32sToStr(be);
+	return "<item>\n" + tiddlerToRssItem(this,uri) + "\n</item>";
 };
 
-// Convert an array of big-endian 32-bit words to a hex string
-Crypto.be32sToHex = function(be)
+// @Deprecated: Use jQuery.encoding.digests.hexSha1Str instead
+Tiddler.prototype.generateFingerprint = function()
 {
-	return jQuery.encoding.be32sToHex(be);
-};
-
-// Return, in hex, the SHA-1 hash of a string
-Crypto.hexSha1Str = function(str)
-{
-	return jQuery.encoding.digests.hexSha1Str(str);
-};
-
-// Return the SHA-1 hash of a string
-Crypto.sha1Str = function(str)
-{
-	return jQuery.encoding.digests.sha1Str(str);
-};
-
-// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
-Crypto.sha1 = function(x,blen)
-{
-	return jQuery.encoding.digests.sha1(x,blen);
+	return "0x" + Crypto.hexSha1Str(this.text);
 };
 
 //]]>
@@ -16494,6 +16742,159 @@ Crypto.sha1 = function(x,blen)
 </script>
 <script id="jqueryArea" type="text/javascript">
 //<![CDATA[
+/*
+jquery.encoding.digests.sha1.js
+
+SHA-1 digest and associated utility functions
+
+Copyright (c) UnaMesa Association 2009
+
+Dual licensed under the MIT and GPL licenses:
+  http://www.opensource.org/licenses/mit-license.php
+  http://www.gnu.org/licenses/gpl.html
+*/
+
+(function($) {
+
+if(!$.encoding)
+	$.encoding = {};
+	$.extend($.encoding,{
+		strToBe32s: function(str) {
+			// Convert a string to an array of big-endian 32-bit words
+			var be=[];
+			var len=Math.floor(str.length/4);
+			var i, j;
+			for(i=0, j=0; i<len; i++, j+=4) {
+				be[i]=((str.charCodeAt(j)&0xff) << 24)|((str.charCodeAt(j+1)&0xff) << 16)|((str.charCodeAt(j+2)&0xff) << 8)|(str.charCodeAt(j+3)&0xff);
+			}
+			while(j<str.length) {
+				be[j>>2] |= (str.charCodeAt(j)&0xff)<<(24-(j*8)%32);
+				j++;
+			}
+			return be;
+		},
+		be32sToStr: function(be) {
+			// Convert an array of big-endian 32-bit words to a string
+			var str='';
+			for(var i=0;i<be.length*32;i+=8) {
+				str += String.fromCharCode((be[i>>5]>>>(24-i%32)) & 0xff);
+			}
+			return str;
+		},
+		be32sToHex: function(be) {
+			// Convert an array of big-endian 32-bit words to a hex string
+			var hex='0123456789ABCDEF';
+			var str='';
+			for(var i=0;i<be.length*4;i++) {
+				str += hex.charAt((be[i>>2]>>((3-i%4)*8+4))&0xF) + hex.charAt((be[i>>2]>>((3-i%4)*8))&0xF);
+			}
+			return str;
+		}
+	});
+})(jQuery);
+
+
+(function($) {
+
+if(!$.encoding.digests)
+	$.encoding.digests = {};
+	$.extend($.encoding.digests,{
+		hexSha1Str: function(str) {
+			// Return, in hex, the SHA-1 hash of a string
+			return $.encoding.be32sToHex($.encoding.digests.sha1Str(str));
+		},
+		sha1Str: function(str) {
+			// Return the SHA-1 hash of a string
+			return sha1($.encoding.strToBe32s(str),str.length);
+		},
+		sha1: function(x,blen) {
+			// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
+			return sha1($.encoding.strToBe32s(str),str.length);
+		}
+	});
+
+	// Private functions.
+	function sha1(x,blen) {
+		// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
+		function add32(a,b) {
+			// Add 32-bit integers, wrapping at 32 bits
+			// Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
+			var lsw=(a&0xFFFF)+(b&0xFFFF);
+			var msw=(a>>16)+(b>>16)+(lsw>>16);
+			return (msw<<16)|(lsw&0xFFFF);
+		}
+		function AA(a,b,c,d,e) {
+			// Cryptographic round helper function. Add five 32-bit integers, wrapping at 32 bits, second parameter is rotated left 5 bits before the addition
+			// Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
+			b=(b>>>27)|(b<<5);
+			var lsw=(a&0xFFFF)+(b&0xFFFF)+(c&0xFFFF)+(d&0xFFFF)+(e&0xFFFF);
+			var msw=(a>>16)+(b>>16)+(c>>16)+(d>>16)+(e>>16)+(lsw>>16);
+			return (msw<<16)|(lsw&0xFFFF);
+		}
+		function RR(w,j) {
+			// Cryptographic round helper function.
+			var n=w[j-3]^w[j-8]^w[j-14]^w[j-16];
+			return (n>>>31)|(n<<1);
+		}
+	
+		var len=blen*8;
+		x[len>>5] |= 0x80 << (24-len%32);
+		x[((len+64>>9)<<4)+15]=len;
+		var w=new Array(80);
+	
+		var k1=0x5A827999;
+		var k2=0x6ED9EBA1;
+		var k3=0x8F1BBCDC;
+		var k4=0xCA62C1D6;
+
+		var h0=0x67452301;
+		var h1=0xEFCDAB89;
+		var h2=0x98BADCFE;
+		var h3=0x10325476;
+		var h4=0xC3D2E1F0;
+
+		for(var i=0;i<x.length;i+=16) {
+			var j=0;
+			var t;
+			var a=h0;
+			var b=h1;
+			var c=h2;
+			var d=h3;
+			var e=h4;
+			while(j<16) {
+				w[j]=x[i+j];
+				t=AA(e,a,d^(b&(c^d)),w[j],k1);
+				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
+			}
+			while(j<20) {
+				w[j]=RR(w,j);
+				t=AA(e,a,d^(b&(c^d)),w[j],k1);
+				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
+			}
+			while(j<40) {
+				w[j]=RR(w,j);
+				t=AA(e,a,b^c^d,w[j],k2);
+				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
+			}
+			while(j<60) {
+				w[j]=RR(w,j);
+				t=AA(e,a,(b&c)|(d&(b|c)),w[j],k3);
+				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
+			}
+			while(j<80) {
+				w[j]=RR(w,j);
+				t=AA(e,a,b^c^d,w[j],k4);
+				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
+			}
+			h0=add32(h0,a);
+			h1=add32(h1,b);
+			h2=add32(h2,c);
+			h3=add32(h3,d);
+			h4=add32(h4,e);
+		}
+		return [h0,h1,h2,h3,h4];
+	}
+})(jQuery);
 /*
 jquery.file.js
 
@@ -16745,161 +17146,73 @@ Dual licensed under the MIT and GPL licenses:
 
 })(jQuery);
 /*
-jquery.encoding.digests.sha1.js
+jquery.stylesheet.js
 
-SHA-1 digest and associated utility functions
+jQuery plugin to dynamically insert CSS rules into a document
+
+Usage:
+  jQuery.stylesheet applies style definitions
+  jQuery.stylesheet.remove neutralizes style definitions
 
 Copyright (c) UnaMesa Association 2009
 
-Dual licensed under the MIT and GPL licenses:
+Triple licensed under the BSD, MIT and GPL licenses:
+  http://www.opensource.org/licenses/bsd-license.php
   http://www.opensource.org/licenses/mit-license.php
   http://www.gnu.org/licenses/gpl.html
 */
 
 (function($) {
 
-if(!$.encoding)
-	$.encoding = {};
-	$.extend($.encoding,{
-		strToBe32s: function(str) {
-			// Convert a string to an array of big-endian 32-bit words
-			var be=[];
-			var len=Math.floor(str.length/4);
-			var i, j;
-			for(i=0, j=0; i<len; i++, j+=4) {
-				be[i]=((str.charCodeAt(j)&0xff) << 24)|((str.charCodeAt(j+1)&0xff) << 16)|((str.charCodeAt(j+2)&0xff) << 8)|(str.charCodeAt(j+3)&0xff);
-			}
-			while(j<str.length) {
-				be[j>>2] |= (str.charCodeAt(j)&0xff)<<(24-(j*8)%32);
-				j++;
-			}
-			return be;
-		},
-		be32sToStr: function(be) {
-			// Convert an array of big-endian 32-bit words to a string
-			var str='';
-			for(var i=0;i<be.length*32;i+=8) {
-				str += String.fromCharCode((be[i>>5]>>>(24-i%32)) & 0xff);
-			}
-			return str;
-		},
-		be32sToHex: function(be) {
-			// Convert an array of big-endian 32-bit words to a hex string
-			var hex='0123456789ABCDEF';
-			var str='';
-			for(var i=0;i<be.length*4;i++) {
-				str += hex.charAt((be[i>>2]>>((3-i%4)*8+4))&0xF) + hex.charAt((be[i>>2]>>((3-i%4)*8))&0xF);
-			}
-			return str;
-		}
-	});
-})(jQuery);
+var defaultId = "customStyleSheet"; // XXX: rename to dynamicStyleSheet?
 
-
-(function($) {
-
-if(!$.encoding.digests)
-	$.encoding.digests = {};
-	$.extend($.encoding.digests,{
-		hexSha1Str: function(str) {
-			// Return, in hex, the SHA-1 hash of a string
-			return $.encoding.be32sToHex($.encoding.digests.sha1Str(str));
-		},
-		sha1Str: function(str) {
-			// Return the SHA-1 hash of a string
-			return sha1($.encoding.strToBe32s(str),str.length);
-		},
-		sha1: function(x,blen) {
-			// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
-			return sha1($.encoding.strToBe32s(str),str.length);
+// Add or replace a style sheet
+// css argument is a string of CSS rule sets
+// options.id is an optional name identifying the style sheet
+// options.doc is an optional document reference
+// N.B.: Uses DOM methods instead of jQuery to ensure cross-browser comaptibility.
+$.stylesheet = function(css, options) {
+	options = options || {};
+	var id = options.id || defaultId;
+	var doc = options.doc || document;
+	var el = doc.getElementById(id);
+	if(doc.createStyleSheet) { // IE-specific handling
+		if(el) {
+			el.parentNode.removeChild(el);
 		}
-	});
-
-	// Private functions.
-	function sha1(x,blen) {
-		// Calculate the SHA-1 hash of an array of blen bytes of big-endian 32-bit words
-		function add32(a,b) {
-			// Add 32-bit integers, wrapping at 32 bits
-			// Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
-			var lsw=(a&0xFFFF)+(b&0xFFFF);
-			var msw=(a>>16)+(b>>16)+(lsw>>16);
-			return (msw<<16)|(lsw&0xFFFF);
+		doc.getElementsByTagName("head")[0].insertAdjacentHTML("beforeEnd",
+			"&nbsp;<style id='" + id + "'>" + css + "</style>"); // fails without &nbsp;
+	} else { // modern browsers
+		if(el) {
+			el.replaceChild(doc.createTextNode(css), el.firstChild);
+		} else {
+			el = doc.createElement("style");
+			el.type = "text/css";
+			el.id = id;
+			el.appendChild(doc.createTextNode(css));
+			doc.getElementsByTagName("head")[0].appendChild(el);
 		}
-		function AA(a,b,c,d,e) {
-			// Cryptographic round helper function. Add five 32-bit integers, wrapping at 32 bits, second parameter is rotated left 5 bits before the addition
-			// Uses 16-bit operations internally to work around bugs in some JavaScript interpreters.
-			b=(b>>>27)|(b<<5);
-			var lsw=(a&0xFFFF)+(b&0xFFFF)+(c&0xFFFF)+(d&0xFFFF)+(e&0xFFFF);
-			var msw=(a>>16)+(b>>16)+(c>>16)+(d>>16)+(e>>16)+(lsw>>16);
-			return (msw<<16)|(lsw&0xFFFF);
-		}
-		function RR(w,j) {
-			// Cryptographic round helper function.
-			var n=w[j-3]^w[j-8]^w[j-14]^w[j-16];
-			return (n>>>31)|(n<<1);
-		}
-	
-		var len=blen*8;
-		x[len>>5] |= 0x80 << (24-len%32);
-		x[((len+64>>9)<<4)+15]=len;
-		var w=new Array(80);
-	
-		var k1=0x5A827999;
-		var k2=0x6ED9EBA1;
-		var k3=0x8F1BBCDC;
-		var k4=0xCA62C1D6;
-
-		var h0=0x67452301;
-		var h1=0xEFCDAB89;
-		var h2=0x98BADCFE;
-		var h3=0x10325476;
-		var h4=0xC3D2E1F0;
-
-		for(var i=0;i<x.length;i+=16) {
-			var j=0;
-			var t;
-			var a=h0;
-			var b=h1;
-			var c=h2;
-			var d=h3;
-			var e=h4;
-			while(j<16) {
-				w[j]=x[i+j];
-				t=AA(e,a,d^(b&(c^d)),w[j],k1);
-				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
-			}
-			while(j<20) {
-				w[j]=RR(w,j);
-				t=AA(e,a,d^(b&(c^d)),w[j],k1);
-				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
-			}
-			while(j<40) {
-				w[j]=RR(w,j);
-				t=AA(e,a,b^c^d,w[j],k2);
-				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
-			}
-			while(j<60) {
-				w[j]=RR(w,j);
-				t=AA(e,a,(b&c)|(d&(b|c)),w[j],k3);
-				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
-			}
-			while(j<80) {
-				w[j]=RR(w,j);
-				t=AA(e,a,b^c^d,w[j],k4);
-				e=d; d=c; c=(b>>>2)|(b<<30); b=a; a=t; j++;
-			}
-			h0=add32(h0,a);
-			h1=add32(h1,b);
-			h2=add32(h2,c);
-			h3=add32(h3,d);
-			h4=add32(h4,e);
-		}
-		return [h0,h1,h2,h3,h4];
 	}
+};
+
+// Remove existing style sheet
+// options.id is an optional name identifying the style sheet
+// options.doc is an optional document reference
+$.stylesheet.remove = function(options) {
+	options = options || {};
+	var id = options.id || defaultId;
+	var doc = options.doc || document;
+	var el = doc.getElementById(id);
+	if(el) {
+		el.parentNode.removeChild(el);
+	}
+};
+
 })(jQuery);
 //]]>
 </script>
 <!--POST-SCRIPT-START-->
+
 <!--POST-SCRIPT-END-->
 </body>
 </html>

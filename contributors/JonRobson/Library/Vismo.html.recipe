@@ -1,0 +1,3 @@
+template: vismo.template
+recipe: VismoLibrarySource/split.recipe
+copy: Vismo.html Vismo.js
