@@ -1,0 +1,106 @@
+<div title="VismoStyleSheet">
+<pre>
+.VismoCanvasToolbar{
+	float:right;
+}
+.hider {float:right;}
+#rightBar {float:left;padding:10px; width:400px;}
+textarea {
+	width:400px;
+	height:100px;
+}
+.centerMark {
+	width:20px;
+	height:20px;
+	background-color:Purple;
+	z-index:11;
+}
+.VismoCanvas .button { 
+	width:25px;
+	height:25px;
+	overflow:hidden;
+	margin-bottom:2px;
+	border:solid 1px gray;
+}
+.brResizer {width:10;height:10; background-color:red;}
+.selectshape{
+	background-image:url(Vismo/select.png);
+	background-repeat:no-repeat;
+	height:25px	
+}
+.save{
+	background-image:url(Vismo/save.png);
+	background-repeat:no-repeat;
+	height:25px	
+}
+
+.selected {border:solid 1px black;z-index:10;}
+.newcircle{
+	background-image:url(Vismo/circle.png);
+	background-repeat:no-repeat;
+	height:25px
+}
+.fillshape{
+	background-image:url(Vismo/fill.png);
+	background-repeat:no-repeat;
+	height:25px
+}
+
+.newline{
+	background-image:url(Vismo/line.png);
+	background-repeat:no-repeat;
+	height:30px
+}
+.newfreeline{
+	background-image:url(Vismo/freehand.jpg);
+	background-repeat:no-repeat;
+	height:30px
+	
+}
+.RightMenu {background-color:white;padding:10px;}
+.RightMenu .closer {background-color:gray;}
+.VismoToolSettings {
+	position:absolute;
+	background-color:white;
+	bottom: 0px;
+	left: 0px;
+}
+.farbtastic {
+  position: relative;
+}
+.farbtastic * {
+  position: absolute;
+  cursor: crosshair;
+}
+.farbtastic, .farbtastic .wheel {
+  width: 195px;
+  height: 195px;
+}
+.farbtastic .color, .farbtastic .overlay {
+  top: 47px;
+  left: 47px;
+  width: 101px;
+  height: 101px;
+}
+.farbtastic .wheel {
+  background: url(Vismo/wheel.png) no-repeat;
+  width: 195px;
+  height: 195px;
+}
+.farbtastic .overlay {
+  background: url(Vismo/mask.png) no-repeat;
+}
+.farbtastic .marker {
+  width: 17px;
+  height: 17px;
+  margin: -8px 0 0 -8px;
+  overflow: hidden; 
+  background: url(Vismo/marker.png) no-repeat;
+}
+.lineWidth {width:30px;}
+.VismoToolSettings {background-color:rgb(245,245,245);border:solid 1px black;}
+.VismoToolFillColor {width:80px;}
+.VismoToolFillOpacity {width:50px;}
+.previewcolor {border:solid 1px black;width:20px;height:20px;display:block;}
+</pre>
+</div>

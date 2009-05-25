@@ -1,1 +1,2 @@
-tiddler: macro.js ../../VismoLibrary/VismoShapes.js ../../VismoLibrary/VismoClicking.js ../../VismoLibrary/VismoOptimisations.js ../../VismoLibrary/VismoClickingUtils.js ../../VismoLibrary/VismoTransformations.js ../../VismoLibrary/VismoController.js ../../VismoLibrary/VismoShapesRendering.js
+tiddler: macro.js
+recipe: ../../VismoLibrary/split.recipe

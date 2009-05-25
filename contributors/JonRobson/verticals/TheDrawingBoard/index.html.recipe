@@ -1,5 +1,0 @@
-recipe: ../../../../core/tiddlywiki.html.recipe
-recipe: ../../plugins/TiddlyDiagrams/plugins/split.recipe
-tiddler: ../../plugins/TiddlyDiagrams/tiddlers/EditTemplate.tiddler
-recipe: plugins/split.recipe
-recipe: tiddlers/split.recipe

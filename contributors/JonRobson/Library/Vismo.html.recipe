@@ -1,3 +1,4 @@
+#Use this if you want to use Vismo outside of tiddlywiki
 template: vismo.template
 recipe: VismoLibrarySource/split.recipe
-copy: Vismo.html Vismo.js
+move: Vismo.html Vismo.js

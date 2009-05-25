@@ -1215,7 +1215,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var ctrlType = getParam(params,&quot;type&quot;,null);
 
 			var title = tiddlerDom.getAttribute(&quot;tiddler&quot;);
-			var tiddler = store.getTiddler(title);
+			var tiddlerobj = store.getTiddler(title);
 			var metaDataName = getParam(params,&quot;metaDataName&quot;, null);
 			
 			// build a drop down control
@@ -1238,16 +1238,16 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					fields = [metaDataName];
 				}
 				
-				var selected = store.getValue(tiddler,fields[fields.length -1]);
+				var selected = store.getValue(tiddlerobj,fields[fields.length -1]);
 				if(!selected){
 					var qsvalue =this.getVariableFromQueryString(fields[fields.length-1]);
 					if(qsvalue) selected = qsvalue;
 				}
-				var tiddler =store.getTiddler(valueSource);
+				var tiddlerobj =store.getTiddler(valueSource);
 				
-				if(tiddler){
-					var values = tiddler.text.split('\n');
-					var sorted = tiddler.tags.contains(&quot;sorted&quot;);
+				if(tiddlerobj){
+					var values = tiddlerobj.text.split('\n');
+					var sorted = tiddlerobj.tags.contains(&quot;sorted&quot;);
 					this.createDropDownMenu(place,fields,values,false,this.setDropDownMetaData,selected,sorted);
 				}
 			}
@@ -1256,14 +1256,14 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
 					return;
 				}
-				var selected = store.getValue(tiddler,metaDataName);
+				var selected = store.getValue(tiddlerobj,metaDataName);
 				if(!selected){
 					var qsvalue =this.getVariableFromQueryString(metaDataName);
 					if(qsvalue) selected = qsvalue;
 				}
-				var tiddler =store.getTiddler(valueSource);
-				if(tiddler){
-					var values = tiddler.text.split('\n');
+				var tiddlerobj =store.getTiddler(valueSource);
+				if(tiddlerobj){
+					var values = tiddlerobj.text.split('\n');
 					var handler= function(value){
 						config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
 					}
@@ -1289,6 +1289,14 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				var initialValue = &quot;&quot;;
 				initialValue = this.getMetaData(title,metaDataName);
 				var image = new config.macros.AdvancedEditTemplate.EditTemplateFile(place, paramString,initialValue,handler,true);
+			}
+			else if(ctrlType == 'text'){
+			    var maxlength = getParam(params,&quot;maxlength&quot;, null);
+			    params = [metaDataName];
+			    paramString =&quot;&quot;;
+			    var e = config.macros.edit.handler(place,macroName,params,wikifier,paramString,tiddler);
+			    console.log(e,maxlength,&quot;cool&quot;);
+			    if(maxlength) e.setAttribute(&quot;maxlength&quot;,maxlength); 
 			}
 			else if(ctrlType == 'file'){
 				var that = this;

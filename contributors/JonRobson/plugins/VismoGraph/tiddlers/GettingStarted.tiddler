@@ -1,0 +1,6 @@
+<div title="GettingStarted">
+<pre>
+I'm a VismoGraph!
+<<VismoGraph width:800 height:600 fill:rgba(0,0,255,0.2)>>
+</pre>
+</div>

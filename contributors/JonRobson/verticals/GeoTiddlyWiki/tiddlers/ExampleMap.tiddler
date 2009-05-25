@@ -1,7 +1,7 @@
 <div title="The Map" latitude="51.642283" longitude="0.422812">
 <pre>
 !What is GeoTiddlyWiki
-<<geo id:world height:700 width:700 projection:slippystaticmap>>
+<<geo id:world height:700 width:700 source:geojson>>
 
 Welcome to GeoTiddlyWiki. This page is designed to give you a quick outline of what GeoTiddlyWiki can do for you. Essentially GeoTiddlyWiki allows you (or could allow you in future :)) to do pretty much any thing related to visualising geographical data. By installing GeoTiddlyWiki your tiddlers become geotiddlers allowing you to associate them with countries, cities, your favourite pubs.. anything you can think of. If you are interested in creating coloured maps of data, or planning a travel itinerary or simply creating a map of ''YOUR'' world I suggest you read on and find out what this plugin can.
 

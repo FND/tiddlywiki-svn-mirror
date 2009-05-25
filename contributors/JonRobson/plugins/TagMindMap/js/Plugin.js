@@ -10,6 +10,7 @@
 |''CoreVersion''|<...>|
 |''Documentation''|<...>|
 |''Keywords''|data visualisation, mindmap, The Brain, Mind Manager, FreeMind,tag relationships,graph|
+|''Dependencies''|Requires the VismoLibraryPlugin tiddler to work|
 !Description
 Bring your TiddlyWiki to life!
 !Notes

@@ -1,6 +1,7 @@
 tiddler: flickrPlugin.js DopplrPlugin.js
 //tiddler: countries.js
-tiddler: geoTiddlerPlugin.js ../../../plugins/VismoLibrary/VismoOptimisations.js ../../../plugins/VismoLibrary/VismoShapes.js ../../../plugins/VismoLibrary/VismoShapesRendering.js ../../../plugins/VismoLibrary/VismoMaps.js ../../../plugins/VismoLibrary/VismoSlippyMap.js ../../../plugins/VismoLibrary/VismoController.js ../../../plugins/VismoLibrary/VismoMapUtils.js ../../../plugins/VismoLibrary/VismoMapSVGUtils.js ../../../plugins/VismoLibrary/VismoFileUtils.js ../../../plugins/VismoLibrary/VismoConversion.js ../../../plugins/VismoLibrary/VismoClickingUtils.js ../../../plugins/VismoLibrary/VismoTransformations.js ../../../plugins/VismoLibrary/VismoClicking.js ../Proj4js/proj4js-combined.js
+tiddler: geoTiddlerPlugin.js ../Proj4js/proj4js-combined.js
+recipe: ../../../plugins/VismoLibrary/split.recipe
 tiddler: geoEditorPlugin.js
 recipe: ../../../../PaulDowney/plugins/GeoRSSPlugin/GeoRSSPlugin.recipe
 #tiddler: DHTMLColorPickr.js
