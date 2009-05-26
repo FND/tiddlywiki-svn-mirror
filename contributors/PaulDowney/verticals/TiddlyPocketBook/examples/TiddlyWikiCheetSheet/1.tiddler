@@ -1,0 +1,17 @@
+<div title="1" modifier="PaulDowney" created="200905221633" modified="200905250043" tags="page">
+<pre>!{{sub{~TiddlyPocketBook}}} ~TiddlyWiki
+
+{{{''Bold text''}}}
+{{{//Italic text//}}}
+<html><code>{{{Monospaced text}}}</code></html>
+{{{__Underlined text__}}}
+{{{--Strikethrough text--}}}
+{{{~~Subscripted text~~}}}
+{{{^^Superscripted text^^}}}
+
+{{{@@Highlighted text@@}}}
+{{{@@color(red):Red text@@}}}
+{{{@@color(blue):Blue text@@}}}
+{{{@@color(#4B0082):Indigo text@@}}}
+</pre>
+</div>

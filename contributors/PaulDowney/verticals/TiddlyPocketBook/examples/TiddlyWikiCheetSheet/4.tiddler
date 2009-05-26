@@ -1,0 +1,21 @@
+<div title="4" modifier="PaulDowney" created="200905221633" tags="page">
+<pre>!!Tables
+{{{|Table caption|c}}}
+{{{|!Heading 1|!Heading 2|}}}
+{{{| Centered |cell|}}}
+{{{|Left-Aligned |cell|}}}
+{{{| Right-Aligned|cell|}}}
+{{{|>|Colspan|}}}
+{{{|Rowspan|cell|}}}
+{{{|~|text|}}}
+{{{|bgcolor(blue):Coloured|cell|}}}
+!!Blockquotes
+{{{<<<}}}
+{{{blockquoted text}}}
+{{{<<<}}}
+
+{{{>Blockquote Level 1}}}
+{{{>>Blockquote Level 2}}}
+{{{>>>Blockquote Level 3}}}
+</pre>
+</div>
