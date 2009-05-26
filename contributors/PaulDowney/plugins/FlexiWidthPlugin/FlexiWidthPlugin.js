@@ -26,7 +26,7 @@ version.extensions.FlexiWidthPlugin = {installed:true};
 	config.options.txtFlexiWidthContainer = '#displayArea';
 
 	config.optionsDesc.txtFlexiWidthBox = 'selector for contained boxes, to be centered inside the containg div';
-	config.options.txtFlexiWidthBox = '#displayArea > .page;
+	config.options.txtFlexiWidthBox = '#displayArea > .page';
 
 	config.optionsDesc.txtFlexiWidthMinBoxes = 'minimum number of tiddlers on a row';
 	config.options.txtFlexiWidthMinBoxes = '1';
