@@ -54,7 +54,6 @@ version.extensions.FlexiWidthPlugin = {installed:true};
 			(nBoxes < minBoxes) ? minBoxes : 
 			nBoxes;
 
-		displayMessage("boxWidth: "+boxWidth+" nBoxes: "+nBoxes);
 		return container.width(nBoxes*boxWidth + 1);
 	};
 
