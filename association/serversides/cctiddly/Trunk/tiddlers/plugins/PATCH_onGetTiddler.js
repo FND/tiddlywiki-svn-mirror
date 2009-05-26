@@ -3,9 +3,14 @@
 // Import Override - ensures imported tiddlers have cctiddly server type. 
 config.macros.importTiddlers.onGetTiddler = function(context,wizard)
 {
+	
 	if(!context.status)
 		displayMessage("Error in importTiddlers.onGetTiddler: " + context.statusText);
 	var tiddler = context.tiddler;
+	if(store.tiddlerExists(tiddler.title)) {
+		var t = store.getTiddler(tiddler.title);
+		tiddler.fields = t.fields;
+	}
 	store.suspendNotifications();
 	tiddler.fields['server.type'] = 'cctiddly';
 	tiddler.fields['server.host'] = window.url;
