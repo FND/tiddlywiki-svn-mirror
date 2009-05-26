@@ -12,3 +12,6 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeS
 
 # saves current story as HTML for a splash-screen
 #tiddler: $TW_ROOT/contributors/MartinBudden/plugins/SplashScreenPlugin.js
+
+# Flexible centred, floating, tiddlers
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/FlexiWidthPlugin/FlexiWidthPlugin.recipe

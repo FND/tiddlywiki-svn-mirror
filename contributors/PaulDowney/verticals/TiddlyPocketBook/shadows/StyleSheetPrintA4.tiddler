@@ -1,0 +1,78 @@
+<div title="StyleSheetPrintA4" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
+<pre>
+body { 
+	background-color: #FFF;
+}
+
+#book {
+	position: relative;
+	height: 296mm;
+	width: 210mm;
+	margin: 0;
+	/*border: 5px solid #C7C7C7;*/
+}
+
+.tiddler, .page {
+	position: absolute;
+	float: none;
+	margin: 0 ! important; 
+	padding: 0 ! important;
+	width: 74mm;
+	height: 105mm;
+	overflow: hidden;
+	outline: 1px solid #C7C7C7;
+}
+
+/* rotated left */
+#tiddler1,
+#tiddler8,
+#tiddler7,
+#tiddler6 {
+	-webkit-transform: translate(15.5mm, -15.5mm) rotate(-90deg);
+}
+
+/* rotated right */
+#tiddler2,
+#tiddler3,
+#tiddler4,
+#tiddler5 {
+	-webkit-transform: translate(-15.5mm, -15.5mm) rotate(90deg);
+}	
+/* cover */
+#tiddler1 {
+	top: 0.1mm;
+	left: 0.1m;
+}
+#tiddler2 {
+	top: 0.1mm;
+	right: 0.1mm;
+}
+#tiddler3 {
+	top: 74.3mm;
+	right: 0mm;
+}
+#tiddler4 {
+	top: 148.6mm;
+	right: 0mm;
+}
+#tiddler5 {
+	top: 222.9mm;
+	right: 0mm;
+}
+#tiddler6 {
+	top: 222.9mm;
+	left: 0mm;
+}
+#tiddler7 {
+	top: 148.6mm;
+	left: 0mm;
+}
+/* back page */
+#tiddler8 {
+	top: 74.3mm;
+	left: 0mm;
+}
+
+/*}}}*/
+</pre>
+</div>

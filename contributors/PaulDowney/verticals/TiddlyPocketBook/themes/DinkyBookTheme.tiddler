@@ -12,14 +12,9 @@
  *  git clone git://github.com/natbat/pocketbook.git
  */
 
-#mainArea {
-	width: 76em;
-}
-
 #book {
 	font-family: "helvetica neue", arial, helvetica, sans-serif;	
 	font-size: 14px;
-	width: 99%;
 }
 
 .inner {
