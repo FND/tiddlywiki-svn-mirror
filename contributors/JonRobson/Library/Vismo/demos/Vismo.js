@@ -939,7 +939,7 @@ VismoCanvas.prototype = {
 	
 	}
 	,_onPath: function(x,y,vismoShape){
-	    return true;
+	    return false;
 	}
 	,_inPoly: function(x,y,vismoShape) {
 		/* _inPoly adapted from inpoly.c
@@ -989,87 +989,7 @@ VismoCanvas.prototype = {
 	}
 
 
-        ,makeMoveable: function(oncompletemove,unmoveable){ /*DONT USE ME! i'm naughty and soon to be deleted */
-                if(!unmoveable)unmoveable = [];
-                if(this.madeMoveable) return;
-                if(oncompletemove)this.oncompletemove = oncompletemove;
-                this.madeMoveable = true;
-		var down = this.onmousedown;
-		var up = this.onmouseup;
-		var move= this.onmousemove;
-		
-		                
-                var el = this.getDomElement();
-                var clickablecanvas = this;
-  		var selectedshape = false,beginmoving = false,curpos;
-  		this.selectedShapes = [selectedshape];
-		var beginmoving = false;
-		var checkformouseup= function(){
-			if(!selectedshape) return;
-			if(selectedshape.getShape() != 'circle') return;
-			beginmoving = true;
-			el.style.cursor = 'move';
 
-		};
-
-		var cancel = function(){
-			if(el.vismoController)el.vismoController.enable();
-			//autoSaveChanges();
-			if(clickablecanvas.oncompletemove){
-			        clickablecanvas.oncompletemove(selectedshape);
-			        beginmoving = false;selectedshape = false;
-                        }
-		};
-		var oldclick = el.onclick;
-		el.onclick = function(e){cancel();if(oldclick)oldclick(e);};
-		var moveit = function(){
-			var pos = curpos;
-			if(selectedshape){
-			        el.style.cursor = 'move';
-				s = selectedshape;
-				s.setCoordinates([pos.x,pos.y,s.getRadius()]); 
-				clickablecanvas.render();
-				/*
-				var x = pos.x/ img.width;
-					var y = pos.y / img.height;
-				var tid = store.getTiddler(s.getProperty("id"));
-				tid.fields.tagx = x+"";
-				tid.fields.tagy = y+"";*/
-
-			}
-		};
-		var movethoseshapes = function(e,s,pos){
-			if(!beginmoving) {return true;}
-		
-			curpos = VismoTransformations.undoTransformation(pos.x,pos.y,clickablecanvas.getTransformation());
-			window.setTimeout(moveit,10);
-			return false;
-		};
-
-
-		var onmousemove = function(e,s){
-			var pos = VismoClickingUtils.getMouseFromEvent(e);
-			var cont = movethoseshapes(e,s,pos);
-			if(!cont) return;
-		};
-
-		var onmousedown = function(e,s){			if(el.vismoController)el.vismoController.disable(); beginmoving = false;selectedshape = s; if(s.getShape() != 'circle') cancel(); window.setTimeout(checkformouseup,200); };
-		var onmouseup = function(e,s){cancel(); window.setTimeout(cancel,200);};
-
-                var result = {};
-                this.onmouseup = function(e,s){onmouseup(e,s);if(up)up(e,s);};
-                this.onmousedown = function(e,s){onmousedown(e,s);if(down)down(e,s);};
-                this.onmousemove = function(e,s){
-                        if(move)move(e,s);
-                        if(unmoveable.contains(s)) return;
-                        onmousemove(e,s);
-                        var showitsmoveable = function(){
-                                el.style.cursor = 'move';
-                        };
-                        window.setTimeout(showitsmoveable,1000);
-                };
-                
-        }
 };
 var VismoCanvasEditor = function(vismoCanvas,options){
         //var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:400;'><div class='selectshape button'>&nbsp;</div><div class='newshape button'>&nbsp;</div><div class='newline button'>&nbsp;</div><div class='newfreeline button'>&nbsp;</div></div>";
@@ -1100,9 +1020,11 @@ var VismoCanvasEditor = function(vismoCanvas,options){
         else{
             throw "what the heck have you given me?! I can deal with Elements, string ids and jquery objects but not much else!";
         }
+        this.VismoCanvas = vismoCanvas;
         this.vismoCanvasMouse = vismoCanvas.mouse();
         this.options = options;
         this.el = vismoCanvas.getDomElement();
+        this.el.oncontextmenu=function() {  return false}; 
         jQuery(this.el).prepend(toolbar+rightmenu+toolsettings);
         var that = this;
         var rmenu =jQuery(".RightMenu",this.el);
@@ -1129,144 +1051,196 @@ var VismoCanvasEditor = function(vismoCanvas,options){
         var nextID = 0;
         
         if(options.panzoom)new VismoController(vismoCanvas,vismoCanvas.getDomElement());
-        
-        this.enabled = true;
+    
         this.init();
         this.init_toolsettings();
+        
+        if(!options.startdisabled) editOn = true;
+        else editOn = false;
+        this.setEditMode(editOn);
+
+
 };
 
 VismoCanvasEditor.prototype = {
-        init_toolsettings: function(){
-            var that = this;
-            
-            /*color wheel */
-            var applyTo = "fill";
-            var colorpicker = "<div class='VismoCanvasColor'><div>color:<input type='text' name='color' value='#ffffff' class='VismoToolFillColor'>opacity:<input type='text' value='1.0' class='VismoToolFillOpacity'/></div><div class='VismoToolFillPicker'></div><span class='hider'>hide</span></div>";
-            var buttons  ="<div><div class='VismoToolFill'>fill<div class='previewcolor VismoToolFillPreview'></div></div><div class='VismoToolStroke'>stroke<input class='lineWidth' type='text' value='1.0'/>px <div class='previewcolor VismoToolStrokePreview' style='background-color:black;'></div></div>";
-            jQuery(".VismoToolSettings",this.el).append(colorpicker+buttons);
-            
-            jQuery(".VismoToolFillPicker",this.el).farbtastic(function(hex){   
-                jQuery(".VismoToolFillColor",that.el).val(hex);
-                
-                var color = jQuery(".VismoToolFillColor",that.el);
-                var opacity = jQuery(".VismoToolFillOpacity",that.el);               
-                if(applyTo == 'fill'){                    
-                    var fill =that.fill(color.val(),opacity.val());
-                    var rgbCode = VismoShapeUtils.toRgb(fill);
-                    
-                    jQuery(".VismoToolFillPreview",that.el).css({'background-color':rgbCode.rgb,'opacity':rgbCode.opacity});    
-                    that.tempShape.setProperty("fill",fill);
-                    var s= that.manipulator.getSelectedShape();
-                    if(s) s.setProperty("fill",fill);
-
-                }
-                else{
-                    
-                    var stroke =that.stroke(color.val(),opacity.val());
-                    var rgbCode = VismoShapeUtils.toRgb(stroke);
-                    
-                    jQuery(".VismoToolStrokePreview",that.el).css({'background-color':rgbCode.rgb,'opacity':rgbCode.opacity});      
-                    that.tempShape.setProperty("stroke",stroke);
-                    that.tempLine.setProperty("stroke",stroke);
-                    var s= that.manipulator.getSelectedShape();
-                    if(s) s.setProperty("stroke",stroke);
-                }
-            });
-            
-            jQuery(".hider",jQuery(".VismoCanvasColor",that.el)).click(function(e){
-                jQuery(this).parent().hide();
-            });
-            jQuery(".VismoCanvasColor",that.el).hide();
-            jQuery(".lineWidth",that.el).change(function(e){
-                var strokew = parseFloat(this.value);
-                if(!strokew) return;
-                that.tempShape.setProperty("lineWidth",strokew);
-                that.tempLine.setProperty("lineWidth",strokew);
-                var s= that.manipulator.getSelectedShape();
-                if(s) s.setProperty("lineWidth",strokew);
-                that.vismoCanvas.render();
-            });
+init_toolsettings: function(){
+    var that = this;
+    
+    /*color wheel */
+    var applyTo = "fill";
+    var colorpicker = "<div class='VismoCanvasColor'><div>color:<input type='text' name='color' value='#ffffff' class='VismoToolFillColor'>opacity:<input type='text' value='1.0' class='VismoToolFillOpacity'/></div><div class='VismoToolFillPicker'></div><span class='hider'>hide</span></div>";
+    var buttons  ="<div><div class='VismoToolFill'>fill<div class='previewcolor VismoToolFillPreview'></div></div><div class='VismoToolStroke'>stroke<input class='lineWidth' type='text' value='1.0'/>px <div class='previewcolor VismoToolStrokePreview' style='background-color:black;'></div></div>";
+    jQuery(".VismoToolSettings",this.el).append(colorpicker+buttons);
+    
+    jQuery(".VismoToolFillPicker",this.el).farbtastic(function(hex){   
+        jQuery(".VismoToolFillColor",that.el).val(hex);
         
-            var farb = jQuery(".VismoToolFillPicker",this.el)[0];
-            jQuery(".VismoToolStroke",this.el).click(function(e){
-                jQuery(".VismoCanvasColor").show();
-               if(applyTo== 'stroke'){
+        var color = jQuery(".VismoToolFillColor",that.el);
+        var opacity = jQuery(".VismoToolFillOpacity",that.el);               
+        if(applyTo == 'fill'){                    
+            var fill =that.fill(color.val(),opacity.val());
+            var rgbCode = VismoShapeUtils.toRgb(fill);
+            
+            jQuery(".VismoToolFillPreview",that.el).css({'background-color':rgbCode.rgb,'opacity':rgbCode.opacity});    
+            that.tempShape.setProperty("fill",fill);
+            var s= that.manipulator.getSelectedShape();
+            if(s) s.setProperty("fill",fill);
 
-                   e.stopPropagation();
-               }
-               else{
-                   applyTo = "stroke"; 
-                               
-                 //  jQuery(this).parent().siblings().show();
-               } 
-               var opacity = jQuery(".VismoToolFillOpacity",that.el);
-               opacity.val(VismoShapeUtils.opacityFrom(that.stroke()));
-               
-               var hexcode = VismoShapeUtils.toHex(that.stroke());
-               if(hexcode)farb.farbtastic.setColor(hexcode);
+        }
+        else{
+            
+            var stroke =that.stroke(color.val(),opacity.val());
+            var rgbCode = VismoShapeUtils.toRgb(stroke);
+            
+            jQuery(".VismoToolStrokePreview",that.el).css({'background-color':rgbCode.rgb,'opacity':rgbCode.opacity});      
+            that.tempShape.setProperty("stroke",stroke);
+            that.tempLine.setProperty("stroke",stroke);
+            var s= that.manipulator.getSelectedShape();
+            if(s) s.setProperty("stroke",stroke);
+        }
+    });
+    
+    jQuery(".hider",jQuery(".VismoCanvasColor",that.el)).click(function(e){
+        jQuery(this).parent().hide();
+    });
+    jQuery(".VismoCanvasColor",that.el).hide();
+    jQuery(".lineWidth",that.el).change(function(e){
+        var strokew = parseFloat(this.value);
+        if(!strokew) return;
+        that.tempShape.setProperty("lineWidth",strokew);
+        that.tempLine.setProperty("lineWidth",strokew);
+        var s= that.manipulator.getSelectedShape();
+        if(s) s.setProperty("lineWidth",strokew);
+        that.vismoCanvas.render();
+    });
+
+    var farb = jQuery(".VismoToolFillPicker",this.el)[0];
+    jQuery(".VismoToolStroke",this.el).click(function(e){
+        jQuery(".VismoCanvasColor").show();
+       if(applyTo== 'stroke'){
+
+           e.stopPropagation();
+       }
+       else{
+           applyTo = "stroke"; 
+                       
+         //  jQuery(this).parent().siblings().show();
+       } 
+       var opacity = jQuery(".VismoToolFillOpacity",that.el);
+       opacity.val(VismoShapeUtils.opacityFrom(that.stroke()));
+       
+       var hexcode = VismoShapeUtils.toHex(that.stroke());
+       if(hexcode)farb.farbtastic.setColor(hexcode);
 
 
-            });
-            jQuery(".VismoToolFill",that.el).click(function(e){
-                 jQuery(".VismoCanvasColor",that.el).show();
-                if(applyTo== 'fill'){
+    });
+    jQuery(".VismoToolFill",that.el).click(function(e){
+         jQuery(".VismoCanvasColor",that.el).show();
+        if(applyTo== 'fill'){
 
-                    e.stopPropagation();
+            e.stopPropagation();
 
-                }else{
-                   applyTo = "fill"; 
-                  
-                    //jQuery(this).parent().siblings().show();
+        }else{
+           applyTo = "fill"; 
+          
+            //jQuery(this).parent().siblings().show();
+        }
+        var opacity = jQuery(".VismoToolFillOpacity",that.el);
+        opacity.val(VismoShapeUtils.opacityFrom(that.fill()));
+        
+        var hexcode = VismoShapeUtils.toHex(that.fill());
+         if(hexcode)farb.farbtastic.setColor(hexcode);
+
+    });
+    this.fillColor = "rgb(255,0,0)";
+    this.strokeColor = "#000000";
+    farb.farbtastic.setColor("#ff0000");
+    
+    
+    
+
+
+    
+    
+}
+,_recalculateEdge: function(movedShape){
+    if(!movedShape)return;
+
+    var movedID = movedShape.getProperty("id");
+    var memory = this.vismoCanvas.getMemory();
+    for(var i=0; i < memory.length; i++){
+        var edgeShape = memory[i];
+            var from =edgeShape.getProperty("from");
+            var to = edgeShape.getProperty("to");
+        if(from && to){
+            if(movedID == from  || movedID == to){
+                var fromShape = this.vismoCanvas.getShapeWithID(from);
+                var toShape = this.vismoCanvas.getShapeWithID(to);
+                if(fromShape && toShape){
+                    var bb1 = fromShape.getBoundingBox();
+                    var bb2 = toShape.getBoundingBox();
+                    
+                    edgeShape.setCoordinates([bb1.center.x,bb1.center.y, bb2.center.x,bb2.center.y]);
                 }
-                var opacity = jQuery(".VismoToolFillOpacity",that.el);
-                opacity.val(VismoShapeUtils.opacityFrom(that.fill()));
-                
-                var hexcode = VismoShapeUtils.toHex(that.fill());
-                 if(hexcode)farb.farbtastic.setColor(hexcode);
-
-            });
-            this.fillColor = "rgb(255,0,0)";
-            this.strokeColor = "#000000";
-            farb.farbtastic.setColor("#ff0000");
-            
-            
-            
-
-
-            
+            } 
             
         }
-        ,_recalculateEdge: function(movedShape){
-            if(!movedShape)return;
-
-            var movedID = movedShape.getProperty("id");
-            var memory = this.vismoCanvas.getMemory();
-            for(var i=0; i < memory.length; i++){
-                var edgeShape = memory[i];
-                    var from =edgeShape.getProperty("from");
-                    var to = edgeShape.getProperty("to");
-                if(from && to){
-                    if(movedID == from  || movedID == to){
-                        var fromShape = this.vismoCanvas.getShapeWithID(from);
-                        var toShape = this.vismoCanvas.getShapeWithID(to);
-                        if(fromShape && toShape){
-                            var bb1 = fromShape.getBoundingBox();
-                            var bb2 = toShape.getBoundingBox();
-                            
-                            edgeShape.setCoordinates([bb1.center.x,bb1.center.y, bb2.center.x,bb2.center.y]);
-                        }
-                    } 
-                    
-                }
-            }      
-
+    }      
+}
+,setEditMode: function(editOn,el){
+  if(!el) el=jQuery(".togglemode",this.el);
+  else{
+        el = jQuery(el);
+      
+  }
+               
+  if(editOn){
+      this.enabled = true;
+      if(el){
+          el.addClass("editor");
+          el.removeClass("viewer");
+          el.text("EDIT MODE");
+          el.siblings().show();
       }
-      ,toggleMode: function(){
-          if(this.enabled) this.enabled = false;
-          else this.enabled = true;
+      
+      if(this._vismoController){
+          this._vismoController.disable();
+
+          
       }
-      ,init: function(){
+      
+  }
+  else{
+      
+      if(el){
+         el.removeClass("editor");
+         el.addClass("viewer");
+         el.text("VIEW MODE");
+         el.siblings().hide();
+      }
+      
+      
+      if(this._vismoController){
+          this._vismoController.enable();                  
+      }
+      this.enabled = false;
+  }
+
+}
+,toggleMode: function(el){
+  if(this.enabled) {
+      this.setEditMode(false,el);
+  }
+  else {
+      this.setEditMode(true,el);
+  }
+}
+,init: function(){
+          
               var that = this;
+              if(!that._vismoController && that.el.vismoController) {
+                      that._vismoController = that.el.vismoController;
+                }
               this.clear();
               
               var mm = this.el.onmousemove;
@@ -1280,9 +1254,6 @@ VismoCanvasEditor.prototype = {
                     if(that.enabled){         
                      
                       var tool = that.getSelectedTool();
-                      if(!that._vismoController && that.el.vismoController) {
-                              that._vismoController = that.el.vismoController;
-                        }
                       
                         
                       if(tool == "newline"){
@@ -1291,8 +1262,7 @@ VismoCanvasEditor.prototype = {
                         }
                       else if(tool == "newfreeline")that.doFreeLineDrawing(e);
                       else if(tool == "newcircle")that.doShapeDrawing(e);
-                              
-                      
+
                       that.vismoCanvas.render();
                      }
                      else{
@@ -1302,9 +1272,12 @@ VismoCanvasEditor.prototype = {
                      // if(mm) mm(e);
               };
               var vceDown = function(e,s){
+                  
                   if(that.enabled){
+                      
                       var tool = that.getSelectedTool();
                       if(tool =='newfreeline')that._startCompleteLineDrawing(e);   
+                      else if(tool == "newcircle")that.startCompleteShapeDrawing(e);
                       var r = Math.random(), g= Math.random(),b = Math.random(), a= Math.random();
                       var color = that.fill();
                       var s = that.vismoCanvas.getShapeAtClick(e);
@@ -1373,7 +1346,7 @@ VismoCanvasEditor.prototype = {
                                     }
                               }
                               else if(tool == "newline" || tool == 'newfreeline')that._startCompleteLineDrawing(e);
-                                 
+       
                               that.vismoCanvas.render();
                       }
                      }
@@ -1385,23 +1358,12 @@ VismoCanvasEditor.prototype = {
               //this.vismoCanvas.mouse({dblclick:vceDblclick});
               this.vismoCanvas.mouse({move:vceMove,up:vceUp,down:vceDown,dblclick:vceDblclick});  //reset
               var toolbar =jQuery(".VismoCanvasToolbar",this.el);
-              jQuery(".togglemode",toolbar).click(function(e){
-                  var me =jQuery(this);
-                  if(me.hasClass("editor")){
-                     me.removeClass("editor");
-                     me.addClass("viewer");
-                     me.text("VIEW MODE");
-                  }
-                  else{
-                       me.addClass("editor");
-                       me.removeClass("viewer");
-                       me.text("EDIT MODE");
-                  }
-                  toolbar.children().toggle(); 
-                  jQuery(this).show();
-                  that.toggleMode();
-                  });
               
+              var toggler =jQuery(".togglemode",toolbar);
+              toggler.click(function(e){
+                  that.toggleMode(this);
+              });
+
               for(var i=0; i < this.options.tools.length; i++){
                   var toolname = this.options.tools[i];
                   toolbar.append("<div class='"+toolname + " button'>"+toolname+"</div>");
@@ -1416,8 +1378,8 @@ VismoCanvasEditor.prototype = {
                   });
               }
               jQuery("."+this.options.tools[0],that.el).click();
-   }
-        ,stroke: function(rgborhex,opacity){   
+}
+,stroke: function(rgborhex,opacity){   
             var color;
             if(!rgborhex) return this.strokeColor;       
             if(rgborhex.indexOf("rgb") == -1){ //its hex
@@ -1437,259 +1399,274 @@ VismoCanvasEditor.prototype = {
             }
             this.strokeColor = color;
             return color;            
-        }
+}
         
-       ,fill: function(rgborhex,opacity){
-           var color; 
-           if(!rgborhex) return this.fillColor;
-           if(rgborhex.indexOf("rgb") == -1){ //its hex
-           
-               color = VismoShapeUtils.toRgba(rgborhex,opacity);
-           }
-           else if(rgborhex.indexOf("rgba") == -1){
-               color = rgborhex;
-           }
-           else if(rgborhex.indexOf("rgb") == -1){
-               //do something with opacity its rgb
-               color = rgborhex;
-           
-           }
-           else{
-               color = false;
-           }
-           this.fillColor = color;
-           return color;
-       }
-      ,doShapeDrawing: function(e){
-              var xy = this.vismoCanvas.getXY(e);
-              this.tempShape.setCoordinates([xy.x,xy.y,40]);
-              
-      }
-      ,doFreeLineDrawing: function(e){
-              if(this._vismoController)this._vismoController.disable();
-              if(!this._startAt) return;
-              var that = this;
+,fill: function(rgborhex,opacity){
+   var color; 
+   if(!rgborhex) return this.fillColor;
+   if(rgborhex.indexOf("rgb") == -1){ //its hex
    
-              var xy = that.vismoCanvas.getXY(e);
-              var c= that.tempLine.getCoordinates();
-              
+       color = VismoShapeUtils.toRgba(rgborhex,opacity);
+   }
+   else if(rgborhex.indexOf("rgba") == -1){
+       color = rgborhex;
+   }
+   else if(rgborhex.indexOf("rgb") == -1){
+       //do something with opacity its rgb
+       color = rgborhex;
+   
+   }
+   else{
+       color = false;
+   }
+   this.fillColor = color;
+   return color;
+}
+
+,startCompleteShapeDrawing: function(e){
+    var that = this;
+    if(!that.startXY){
+         this.tempShape.setProperty("hidden",false);
+        this.startXY = this.vismoCanvas.getXY(e);     
+        that.tempShape.setCoordinates([this.startXY.x,this.startXY.y,1,1]);   
+    }
+    else{
+
+        if(!that.tempShape.getProperty("hidden")){
+                that.tempShape.setProperty("hidden",true);
+            
+                var clone = that.tempShape.clone();
+                clone.setProperty("z-index",false);
+                clone.setProperty("onmousedown",false);
+                clone.setProperty("unclickable",false);
+                clone.setProperty("id",that.nextID);
+                clone.setProperty("hidden",false);
+                that.vismoCanvas.add(clone);
+                that.vismoCanvas.render();
+                that.nextID +=1;
+          }
+        that.startXY = false;
+      }
+}
+,doShapeDrawing: function(e){
+    if(!this.startXY) return;
+      var xy = this.vismoCanvas.getXY(e);
+      var spans ={};
+      spans.x = parseInt(xy.x - this.startXY.x);
+      spans.y = parseInt(xy.y - this.startXY.y);
+      
+      spans.x /= 2;
+      spans.y /=2;
+      this.tempShape.setCoordinates([this.startXY.x+spans.x,this.startXY.y + spans.y,spans.x,spans.y]);
+}
+,doFreeLineDrawing: function(e){
+      //if(this._vismoController)this._vismoController.disable();
+      if(!this._startAt) return;
+      var that = this;
+
+      var xy = that.vismoCanvas.getXY(e);
+      var c= that.tempLine.getCoordinates();
+      
+      c.push(xy.x);
+      c.push(xy.y);
+      that.tempLine.setCoordinates(c);      
+      
+}
+,doLineDrawing: function(e){
+      if(!this._startAt) return;
+                      
+      var that = this;
+      var xy = that.vismoCanvas.getXY(e);
+      var c= this.tempLine.getCoordinates();
+      this._addToLine(xy,c.length-2);
+}
+,_addToLine: function(xy,where){
+      var c= this.tempLine.getCoordinates();
+      if(where){
+      c[where] = xy.x;
+      c[where+1] = xy.y;
+      }
+      else{
               c.push(xy.x);
               c.push(xy.y);
-              that.tempLine.setCoordinates(c);      
+      }
+      this.tempLine.setCoordinates(c);
+      
+}
+,_resetLine: function(){
+      this._startAt = false;
+      this.tempLine.setCoordinates([0,0,0,0]); 
+      this.tempLine.setProperty("edge",false);
+      this.tempLine.setProperty("start",false);
+      this.tempLine.setProperty("end",false);
+}
+,_setupLine: function(){
+      var xy = this._startAt;
+      this.tempLine.setCoordinates([xy.x,xy.y,xy.x,xy.y]);
+}
+,_startCompleteLineDrawing: function(e,terminate){
+           
+      var xy = VismoClickingUtils.getRealXYFromMouse(e,this.vismoCanvas.getTransformation());
+      var tool = this.getSelectedTool();
+      var cancelButton;
+      if(tool == 'newline') {
+              cancelButton = 2;
+      }
+      if(tool == 'newfreeline') { //cancel with the left
+              if(VismoUtils.browser.isIE) cancelButton =1;
+              else cancelButton = 0; 
+             
+      }
+      var hoveringOver =this.getManipulator().overCenter(e);
+      if(hoveringOver){
+              var current =hoveringOver.getProperty("id");
               
+              if(!this.tempLine.getProperty("from"))this.tempLine.setProperty("from",current);
+              else if(this.tempLine.getProperty("from") != current){
+                this.tempLine.setProperty("to",current);
+                this._addToLine(xy);
+                terminate = true;      
+              } 
+              this.tempLine.setProperty("edge",true);
       }
-      ,doLineDrawing: function(e){
-              if(!this._startAt) return;
-                              
-              var that = this;
-              var xy = that.vismoCanvas.getXY(e);
-              var c= this.tempLine.getCoordinates();
-              this._addToLine(xy,c.length-2);
-      }
-      ,_addToLine: function(xy,where){
-              var c= this.tempLine.getCoordinates();
-              if(where){
-              c[where] = xy.x;
-              c[where+1] = xy.y;
+      else{
+              if(this.tempLine.getProperty("edge") && !terminate && !cancelButton == e.button){
+                      return; //not connected to owt
               }
-              else{
-                      c.push(xy.x);
-                      c.push(xy.y);
-              }
-              this.tempLine.setCoordinates(c);
-              
       }
-      ,_resetLine: function(){
-              this._startAt = false;
-              this.tempLine.setCoordinates([0,0,0,0]); 
-              this.tempLine.setProperty("edge",false);
-              this.tempLine.setProperty("start",false);
-              this.tempLine.setProperty("end",false);
-      }
-      ,_setupLine: function(){
-              var xy = this._startAt;
-              this.tempLine.setCoordinates([xy.x,xy.y,xy.x,xy.y]);
-      }
-      ,_startCompleteLineDrawing: function(e,terminate){
-                   
-              var xy = VismoClickingUtils.getRealXYFromMouse(e,this.vismoCanvas.getTransformation());
-              var tool = this.getSelectedTool();
-              var cancelButton;
-              if(tool == 'newline') {
-                      cancelButton = 2;
-              }
-              if(tool == 'newfreeline') { //cancel with the left
-                      if(VismoUtils.browser.isIE) cancelButton =1;
-                      else cancelButton = 0; 
-                     
-              }
-              var hoveringOver =this.getManipulator().overCenter(e);
-              if(hoveringOver){
-                      var current =hoveringOver.getProperty("id");
+
+      
+      if(this._startAt && e.button == cancelButton || terminate){ //right mouse  
+              //if(this._vismoController)this._vismoController.enable();
+                        if(tool == 'newline'){
+                                var c = this.tempLine.getCoordinates();   
+                                this.tempLine.setCoordinates(c.slice(0,c.length-2));       
+                        } 
+                      this.vismoCanvas.add(this.tempLine.clone());
+                      this.tempLine.setProperty("from",false);
+                      this.tempLine.setProperty("to",false);
+                      this.tempLine.setProperty("edge",false);
                       
-                      if(!this.tempLine.getProperty("from"))this.tempLine.setProperty("from",current);
-                      else if(this.tempLine.getProperty("from") != current){
-                        this.tempLine.setProperty("to",current);
+                      this._startAt = false;
+                      this._resetLine();
+                      ///this.tempLine.setProperty("hidden",true);
+              
+      }
+      else{ //left mouse
+        
+              if(!this._startAt){
+                   this._startAt =xy;
+                   this._setupLine();
+                   this.tempLine.setProperty("hidden",false);   
+                }
+                else{
+ 
                         this._addToLine(xy);
-                        terminate = true;      
-                      } 
-                      this.tempLine.setProperty("edge",true);
-              }
-              else{
-                      if(this.tempLine.getProperty("edge") && !terminate && !cancelButton == e.button){
-                              return; //not connected to owt
-                      }
-              }
+                        
+                }
+      }
+      
 
-              
-              if(this._startAt && e.button == cancelButton || terminate){ //right mouse  
-                      if(this._vismoController)this._vismoController.enable();
-                                if(tool == 'newline'){
-                                        var c = this.tempLine.getCoordinates();   
-                                        this.tempLine.setCoordinates(c.slice(0,c.length-2));       
-                                } 
-                              this.vismoCanvas.add(this.tempLine.clone());
-                              this.tempLine.setProperty("from",false);
-                              this.tempLine.setProperty("to",false);
-                              this.tempLine.setProperty("edge",false);
-                              
-                              this._startAt = false;
-                              this._resetLine();
-                              ///this.tempLine.setProperty("hidden",true);
-                      
-              }
-              else{ //left mouse
+
+}
+,getSelectedTool: function(){
+      return this.selectedTool;
+}
+,setSelectedTool: function(id){
+      this.tempShape.setProperty("hidden",true);
+      this.tempLine.setProperty("hidden",true);
+      
+      this.getManipulator().selectShape(false);
+      this.el.style.cursor = "";
+      if(id == 'newcircle'){
+                this.el.style.cursor = "crosshair";
+      }
+      else if(id == 'newline'){
+              this.tempLine.setProperty("hidden",false);
+              this.el.style.cursor = "crosshair";
+        }     
+    else if(id == 'save'){
+        this.options.save(this.burn());
+    }         
+      this.selectedTool = id;
+}
+,getManipulator: function(){
+  return this.manipulator;
+}
+
+,clear: function(){
+  this.vismoCanvas.clear(true);
+  var that = this;
+
+  this.tempLine = new VismoShape({shape:"path","z-index":999999,hidden:true,coordinates:[0,0,0,0]});
+  this.tempShape = new VismoShape({shape:"circle","z-index":999999,hidden:true,fill:"rgb(200,0,0)",coordinates:[0,0,40]});
                 
-                      if(!this._startAt){
-                           this._startAt =xy;
-                           this._setupLine();
-                           this.tempLine.setProperty("hidden",false);   
-                        }
-                        else{
-         
-                                this._addToLine(xy);
-                                
-                        }
-              }
-              
-
-
-      }
-      ,getSelectedTool: function(){
-              return this.selectedTool;
-      }
-      ,setSelectedTool: function(id){
-              this.tempShape.setProperty("hidden",true);
-              this.tempLine.setProperty("hidden",true);
-              
-              this.getManipulator().selectShape(false);
-              this.el.style.cursor = "";
-              if(id == 'newcircle'){
-                      this.tempShape.setProperty("hidden",false);
-                        this.el.style.cursor = "crosshair";
-              }
-              else if(id == 'newline'){
-                      this.tempLine.setProperty("hidden",false);
-                      this.el.style.cursor = "crosshair";
-                }     
-            else if(id == 'save'){
-                this.options.save(this.burn());
-            }         
-              this.selectedTool = id;
-      }
-      ,getManipulator: function(){
-          return this.manipulator;
-      }
-
-      ,clear: function(){
-          this.vismoCanvas.clear(true);
-          var that = this;
-          var createNewShape = function(e){
-              if(e.button == 2) return;
-                  if(!that.tempShape.getProperty("hidden")){
-                          that.tempShape.setProperty("hidden",true);
-                          
-                          var clone = that.tempShape.clone();
-                          clone.setProperty("z-index",false);
-                          clone.setProperty("onmousedown",false);
-                          clone.setProperty("unclickable",false);
-                          clone.setProperty("id",that.nextID);
-                          clone.setProperty("hidden",false);
-                          that.vismoCanvas.add(clone);
-                          that.vismoCanvas.render();
-                          that.nextID +=1;
+               
+               
+  this.vismoCanvas.add(this.tempShape);
+  this.vismoCanvas.add(this.tempLine);
+  this.vismoCanvas.render();
+}
+,load: function(textContent){
+  try{
+      var list = eval(textContent);
+  }
+  catch(e){
+      alert("bad data provided (" + e +") should be a list of properties eg. [{},...,{}]");
+  }
+  
+  this.clear();
+  if(list){
+  for(var i=0; i < list.length; i++){
+      var props = list[i];
+      var s =new VismoShape(props);
+      this.vismoCanvas.add(s);
+  }
+  }
+  this.vismoCanvas.render();
+}
+,burn: function(){
+  var shapes = this.vismoCanvas.getMemory();
+  var buffer = ["["];
+  var added = 0;
+  for(var i=0; i < shapes.length; i++){
+      var shape = shapes[i];
+      
+      if(shape != this.tempShape && shape != this.tempLine){
+          if(added > 0) buffer.push(",");
+          buffer.push("{");
+          var properties = shapes[i].getProperties();
+          var coords = shapes[i].getCoordinates();
+          buffer.push(["coordinates: ["+ coords.toString()+"]"]);
+          var j;
+          for(j in properties){
+                
+                var type = typeof(properties[j]);
+                if(type != 'object' && type != "function" && type != "boolean") {
+                    if(properties[j]){
+                        buffer.push(",")
+                        buffer.push(["'"+j+"':'"+properties[j] +"'"]);
                     }
-          };
-
-          this.tempLine = new VismoShape({shape:"path","z-index":999999,hidden:true,coordinates:[0,0,0,0]});
-          this.tempShape = new VismoShape({shape:"circle","z-index":999999,hidden:true,fill:"rgb(200,0,0)",onmousedown:createNewShape,coordinates:[0,0,40]});
-                        
-                       
-                       
-          this.vismoCanvas.add(this.tempShape);
-          this.vismoCanvas.add(this.tempLine);
-          this.vismoCanvas.render();
+                }
+                else{
+                    if(j == 'transformation'){
+                        var t = properties[j];
+                        buffer.push([",transformation:"+"{translate:{x:"+t.translate.x+",y:"+t.translate.y+"},scale:{x:"+t.scale.x+",y:"+t.scale.y+"}}"]);
+                    }
+                }
+          }
+           buffer.push("}");
+           added +=1;
       }
-      ,load: function(textContent){
-          try{
-              var list = eval(textContent);
-          }
-          catch(e){
-              alert("bad data provided (" + e +") should be a list of properties eg. [{},...,{}]");
-          }
-          
-          this.clear();
-          if(list){
-          for(var i=0; i < list.length; i++){
-              var props = list[i];
-              var s =new VismoShape(props);
-              this.vismoCanvas.add(s);
-          }
-          }
-          this.vismoCanvas.render();
-      }
-      ,burn: function(){
-          var shapes = this.vismoCanvas.getMemory();
-          var buffer = ["["];
-          var added = 0;
-          for(var i=0; i < shapes.length; i++){
-              var shape = shapes[i];
-              
-              if(shape != this.tempShape && shape != this.tempLine){
-                  if(added > 0) buffer.push(",");
-                  buffer.push("{");
-                  var properties = shapes[i].getProperties();
-                  var coords = shapes[i].getCoordinates();
-                  buffer.push(["coordinates: ["+ coords.toString()+"]"]);
-                  var j;
-                  for(j in properties){
-                        
-                        var type = typeof(properties[j]);
-                        if(type != 'object' && type != "function" && type != "boolean") {
-                            if(properties[j]){
-                                buffer.push(",")
-                                buffer.push(["'"+j+"':'"+properties[j] +"'"]);
-                            }
-                        }
-                        else{
-                            if(j == 'transformation'){
-                                var t = properties[j];
-                                buffer.push([",transformation:"+"{translate:{x:"+t.translate.x+",y:"+t.translate.y+"},scale:{x:"+t.scale.x+",y:"+t.scale.y+"}}"]);
-                            }
-                        }
-                  }
-                   buffer.push("}");
-                   added +=1;
-              }
-              
-            
-              
-              
-          }
-          buffer.push("]");
-        res = buffer.join("");
-          return res;
-      }
+      
+    
+      
+      
+  }
+  buffer.push("]");
+res = buffer.join("");
+  return res;
+}
 };
 
 var VismoShapeManipulator = function(vismoCanvas,options){
@@ -1704,7 +1681,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
         var that = this;
 
         this.brResizer.mousedown(function(e){that.toggleResizing();});
-        this.brResizer.mouseup(function(e){that.toggleResizing();});
+        this.brResizer.mouseup(function(e){});
         var centerMark = document.createElement("div");
         centerMark.className = "centerMark";
         centerMark.style.position ="absolute";
@@ -1732,7 +1709,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
                        var change_y = t.translate.y +(pos.y - center.y);
                        t.translate = {x: change_x,y:change_y};
                        that._moveshape.setTransformation(t);
-                       if(that.vismoController)that.vismoController.disable();
+                       //if(that.vismoController)that.vismoController.disable();
                        
                  }
                  else{
@@ -1794,17 +1771,12 @@ VismoShapeManipulator.prototype = {
                 
 
                if(this.isResizing) {
-                       if(this.vismoController) {
-                               this.vismoController.enable();
-                       }
+
                        
                        this.isResizing = false;
                        
                }
                else{
-                       if(this.vismoController) {
-                               this.vismoController.disable();
-                       }
                        this.isResizing = true;
         
                }
@@ -1815,6 +1787,7 @@ VismoShapeManipulator.prototype = {
               
               if(this.lastSelected){
                       var bb = this.lastSelected.getBoundingBox();
+                      
                       var newscale = (br_canvas.x - bb.center.x) / this.lastSelected.getRadius();
                       var t=  this.lastSelected.getTransformation();
                       if(!t) t = {};
@@ -1842,7 +1815,7 @@ VismoShapeManipulator.prototype = {
                         
                         this.stopmoving(this.lastSelected);
                         this.lastSelected = false;
-                        if(this.vismoController)this.vismoController.enable();
+                       
                         return;
                 }
                 else{
@@ -2463,7 +2436,7 @@ VismoCanvas.prototype = {
 	
 	}
 	,_onPath: function(x,y,vismoShape){
-	    return true;
+	    return false;
 	}
 	,_inPoly: function(x,y,vismoShape) {
 		/* _inPoly adapted from inpoly.c
@@ -2513,87 +2486,7 @@ VismoCanvas.prototype = {
 	}
 
 
-        ,makeMoveable: function(oncompletemove,unmoveable){ /*DONT USE ME! i'm naughty and soon to be deleted */
-                if(!unmoveable)unmoveable = [];
-                if(this.madeMoveable) return;
-                if(oncompletemove)this.oncompletemove = oncompletemove;
-                this.madeMoveable = true;
-		var down = this.onmousedown;
-		var up = this.onmouseup;
-		var move= this.onmousemove;
-		
-		                
-                var el = this.getDomElement();
-                var clickablecanvas = this;
-  		var selectedshape = false,beginmoving = false,curpos;
-  		this.selectedShapes = [selectedshape];
-		var beginmoving = false;
-		var checkformouseup= function(){
-			if(!selectedshape) return;
-			if(selectedshape.getShape() != 'circle') return;
-			beginmoving = true;
-			el.style.cursor = 'move';
 
-		};
-
-		var cancel = function(){
-			if(el.vismoController)el.vismoController.enable();
-			//autoSaveChanges();
-			if(clickablecanvas.oncompletemove){
-			        clickablecanvas.oncompletemove(selectedshape);
-			        beginmoving = false;selectedshape = false;
-                        }
-		};
-		var oldclick = el.onclick;
-		el.onclick = function(e){cancel();if(oldclick)oldclick(e);};
-		var moveit = function(){
-			var pos = curpos;
-			if(selectedshape){
-			        el.style.cursor = 'move';
-				s = selectedshape;
-				s.setCoordinates([pos.x,pos.y,s.getRadius()]); 
-				clickablecanvas.render();
-				/*
-				var x = pos.x/ img.width;
-					var y = pos.y / img.height;
-				var tid = store.getTiddler(s.getProperty("id"));
-				tid.fields.tagx = x+"";
-				tid.fields.tagy = y+"";*/
-
-			}
-		};
-		var movethoseshapes = function(e,s,pos){
-			if(!beginmoving) {return true;}
-		
-			curpos = VismoTransformations.undoTransformation(pos.x,pos.y,clickablecanvas.getTransformation());
-			window.setTimeout(moveit,10);
-			return false;
-		};
-
-
-		var onmousemove = function(e,s){
-			var pos = VismoClickingUtils.getMouseFromEvent(e);
-			var cont = movethoseshapes(e,s,pos);
-			if(!cont) return;
-		};
-
-		var onmousedown = function(e,s){			if(el.vismoController)el.vismoController.disable(); beginmoving = false;selectedshape = s; if(s.getShape() != 'circle') cancel(); window.setTimeout(checkformouseup,200); };
-		var onmouseup = function(e,s){cancel(); window.setTimeout(cancel,200);};
-
-                var result = {};
-                this.onmouseup = function(e,s){onmouseup(e,s);if(up)up(e,s);};
-                this.onmousedown = function(e,s){onmousedown(e,s);if(down)down(e,s);};
-                this.onmousemove = function(e,s){
-                        if(move)move(e,s);
-                        if(unmoveable.contains(s)) return;
-                        onmousemove(e,s);
-                        var showitsmoveable = function(){
-                                el.style.cursor = 'move';
-                        };
-                        window.setTimeout(showitsmoveable,1000);
-                };
-                
-        }
 };
 var VismoClickingUtils = {
         //to be implemented..
@@ -2957,7 +2850,7 @@ VismoController.prototype = {
         });
         jQuery(this.wrapper).mouseout(function(e){mwactive = false;this.style.cursor = "";});
         var domw = function(e){
-
+            if(!that.enabled) return;
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
 
@@ -3088,10 +2981,12 @@ VismoController.prototype = {
 		
 	}
 	,disable: function(){
+        jQuery(".vismoControls",this.wrapper).css({display:"none"});	    
 		this.enabled = false;
 	}
 	,enable: function(){
 		this.enabled = true;
+		jQuery(".vismoControls",this.wrapper).css({display:""});
 	}
 	
 	,goodToTransform: function(e){
@@ -3515,9 +3410,11 @@ var VismoCanvasEditor = function(vismoCanvas,options){
         else{
             throw "what the heck have you given me?! I can deal with Elements, string ids and jquery objects but not much else!";
         }
+        this.VismoCanvas = vismoCanvas;
         this.vismoCanvasMouse = vismoCanvas.mouse();
         this.options = options;
         this.el = vismoCanvas.getDomElement();
+        this.el.oncontextmenu=function() {  return false}; 
         jQuery(this.el).prepend(toolbar+rightmenu+toolsettings);
         var that = this;
         var rmenu =jQuery(".RightMenu",this.el);
@@ -3544,144 +3441,196 @@ var VismoCanvasEditor = function(vismoCanvas,options){
         var nextID = 0;
         
         if(options.panzoom)new VismoController(vismoCanvas,vismoCanvas.getDomElement());
-        
-        this.enabled = true;
+    
         this.init();
         this.init_toolsettings();
+        
+        if(!options.startdisabled) editOn = true;
+        else editOn = false;
+        this.setEditMode(editOn);
+
+
 };
 
 VismoCanvasEditor.prototype = {
-        init_toolsettings: function(){
-            var that = this;
-            
-            /*color wheel */
-            var applyTo = "fill";
-            var colorpicker = "<div class='VismoCanvasColor'><div>color:<input type='text' name='color' value='#ffffff' class='VismoToolFillColor'>opacity:<input type='text' value='1.0' class='VismoToolFillOpacity'/></div><div class='VismoToolFillPicker'></div><span class='hider'>hide</span></div>";
-            var buttons  ="<div><div class='VismoToolFill'>fill<div class='previewcolor VismoToolFillPreview'></div></div><div class='VismoToolStroke'>stroke<input class='lineWidth' type='text' value='1.0'/>px <div class='previewcolor VismoToolStrokePreview' style='background-color:black;'></div></div>";
-            jQuery(".VismoToolSettings",this.el).append(colorpicker+buttons);
-            
-            jQuery(".VismoToolFillPicker",this.el).farbtastic(function(hex){   
-                jQuery(".VismoToolFillColor",that.el).val(hex);
-                
-                var color = jQuery(".VismoToolFillColor",that.el);
-                var opacity = jQuery(".VismoToolFillOpacity",that.el);               
-                if(applyTo == 'fill'){                    
-                    var fill =that.fill(color.val(),opacity.val());
-                    var rgbCode = VismoShapeUtils.toRgb(fill);
-                    
-                    jQuery(".VismoToolFillPreview",that.el).css({'background-color':rgbCode.rgb,'opacity':rgbCode.opacity});    
-                    that.tempShape.setProperty("fill",fill);
-                    var s= that.manipulator.getSelectedShape();
-                    if(s) s.setProperty("fill",fill);
-
-                }
-                else{
-                    
-                    var stroke =that.stroke(color.val(),opacity.val());
-                    var rgbCode = VismoShapeUtils.toRgb(stroke);
-                    
-                    jQuery(".VismoToolStrokePreview",that.el).css({'background-color':rgbCode.rgb,'opacity':rgbCode.opacity});      
-                    that.tempShape.setProperty("stroke",stroke);
-                    that.tempLine.setProperty("stroke",stroke);
-                    var s= that.manipulator.getSelectedShape();
-                    if(s) s.setProperty("stroke",stroke);
-                }
-            });
-            
-            jQuery(".hider",jQuery(".VismoCanvasColor",that.el)).click(function(e){
-                jQuery(this).parent().hide();
-            });
-            jQuery(".VismoCanvasColor",that.el).hide();
-            jQuery(".lineWidth",that.el).change(function(e){
-                var strokew = parseFloat(this.value);
-                if(!strokew) return;
-                that.tempShape.setProperty("lineWidth",strokew);
-                that.tempLine.setProperty("lineWidth",strokew);
-                var s= that.manipulator.getSelectedShape();
-                if(s) s.setProperty("lineWidth",strokew);
-                that.vismoCanvas.render();
-            });
+init_toolsettings: function(){
+    var that = this;
+    
+    /*color wheel */
+    var applyTo = "fill";
+    var colorpicker = "<div class='VismoCanvasColor'><div>color:<input type='text' name='color' value='#ffffff' class='VismoToolFillColor'>opacity:<input type='text' value='1.0' class='VismoToolFillOpacity'/></div><div class='VismoToolFillPicker'></div><span class='hider'>hide</span></div>";
+    var buttons  ="<div><div class='VismoToolFill'>fill<div class='previewcolor VismoToolFillPreview'></div></div><div class='VismoToolStroke'>stroke<input class='lineWidth' type='text' value='1.0'/>px <div class='previewcolor VismoToolStrokePreview' style='background-color:black;'></div></div>";
+    jQuery(".VismoToolSettings",this.el).append(colorpicker+buttons);
+    
+    jQuery(".VismoToolFillPicker",this.el).farbtastic(function(hex){   
+        jQuery(".VismoToolFillColor",that.el).val(hex);
         
-            var farb = jQuery(".VismoToolFillPicker",this.el)[0];
-            jQuery(".VismoToolStroke",this.el).click(function(e){
-                jQuery(".VismoCanvasColor").show();
-               if(applyTo== 'stroke'){
+        var color = jQuery(".VismoToolFillColor",that.el);
+        var opacity = jQuery(".VismoToolFillOpacity",that.el);               
+        if(applyTo == 'fill'){                    
+            var fill =that.fill(color.val(),opacity.val());
+            var rgbCode = VismoShapeUtils.toRgb(fill);
+            
+            jQuery(".VismoToolFillPreview",that.el).css({'background-color':rgbCode.rgb,'opacity':rgbCode.opacity});    
+            that.tempShape.setProperty("fill",fill);
+            var s= that.manipulator.getSelectedShape();
+            if(s) s.setProperty("fill",fill);
 
-                   e.stopPropagation();
-               }
-               else{
-                   applyTo = "stroke"; 
-                               
-                 //  jQuery(this).parent().siblings().show();
-               } 
-               var opacity = jQuery(".VismoToolFillOpacity",that.el);
-               opacity.val(VismoShapeUtils.opacityFrom(that.stroke()));
-               
-               var hexcode = VismoShapeUtils.toHex(that.stroke());
-               if(hexcode)farb.farbtastic.setColor(hexcode);
+        }
+        else{
+            
+            var stroke =that.stroke(color.val(),opacity.val());
+            var rgbCode = VismoShapeUtils.toRgb(stroke);
+            
+            jQuery(".VismoToolStrokePreview",that.el).css({'background-color':rgbCode.rgb,'opacity':rgbCode.opacity});      
+            that.tempShape.setProperty("stroke",stroke);
+            that.tempLine.setProperty("stroke",stroke);
+            var s= that.manipulator.getSelectedShape();
+            if(s) s.setProperty("stroke",stroke);
+        }
+    });
+    
+    jQuery(".hider",jQuery(".VismoCanvasColor",that.el)).click(function(e){
+        jQuery(this).parent().hide();
+    });
+    jQuery(".VismoCanvasColor",that.el).hide();
+    jQuery(".lineWidth",that.el).change(function(e){
+        var strokew = parseFloat(this.value);
+        if(!strokew) return;
+        that.tempShape.setProperty("lineWidth",strokew);
+        that.tempLine.setProperty("lineWidth",strokew);
+        var s= that.manipulator.getSelectedShape();
+        if(s) s.setProperty("lineWidth",strokew);
+        that.vismoCanvas.render();
+    });
+
+    var farb = jQuery(".VismoToolFillPicker",this.el)[0];
+    jQuery(".VismoToolStroke",this.el).click(function(e){
+        jQuery(".VismoCanvasColor").show();
+       if(applyTo== 'stroke'){
+
+           e.stopPropagation();
+       }
+       else{
+           applyTo = "stroke"; 
+                       
+         //  jQuery(this).parent().siblings().show();
+       } 
+       var opacity = jQuery(".VismoToolFillOpacity",that.el);
+       opacity.val(VismoShapeUtils.opacityFrom(that.stroke()));
+       
+       var hexcode = VismoShapeUtils.toHex(that.stroke());
+       if(hexcode)farb.farbtastic.setColor(hexcode);
 
 
-            });
-            jQuery(".VismoToolFill",that.el).click(function(e){
-                 jQuery(".VismoCanvasColor",that.el).show();
-                if(applyTo== 'fill'){
+    });
+    jQuery(".VismoToolFill",that.el).click(function(e){
+         jQuery(".VismoCanvasColor",that.el).show();
+        if(applyTo== 'fill'){
 
-                    e.stopPropagation();
+            e.stopPropagation();
 
-                }else{
-                   applyTo = "fill"; 
-                  
-                    //jQuery(this).parent().siblings().show();
+        }else{
+           applyTo = "fill"; 
+          
+            //jQuery(this).parent().siblings().show();
+        }
+        var opacity = jQuery(".VismoToolFillOpacity",that.el);
+        opacity.val(VismoShapeUtils.opacityFrom(that.fill()));
+        
+        var hexcode = VismoShapeUtils.toHex(that.fill());
+         if(hexcode)farb.farbtastic.setColor(hexcode);
+
+    });
+    this.fillColor = "rgb(255,0,0)";
+    this.strokeColor = "#000000";
+    farb.farbtastic.setColor("#ff0000");
+    
+    
+    
+
+
+    
+    
+}
+,_recalculateEdge: function(movedShape){
+    if(!movedShape)return;
+
+    var movedID = movedShape.getProperty("id");
+    var memory = this.vismoCanvas.getMemory();
+    for(var i=0; i < memory.length; i++){
+        var edgeShape = memory[i];
+            var from =edgeShape.getProperty("from");
+            var to = edgeShape.getProperty("to");
+        if(from && to){
+            if(movedID == from  || movedID == to){
+                var fromShape = this.vismoCanvas.getShapeWithID(from);
+                var toShape = this.vismoCanvas.getShapeWithID(to);
+                if(fromShape && toShape){
+                    var bb1 = fromShape.getBoundingBox();
+                    var bb2 = toShape.getBoundingBox();
+                    
+                    edgeShape.setCoordinates([bb1.center.x,bb1.center.y, bb2.center.x,bb2.center.y]);
                 }
-                var opacity = jQuery(".VismoToolFillOpacity",that.el);
-                opacity.val(VismoShapeUtils.opacityFrom(that.fill()));
-                
-                var hexcode = VismoShapeUtils.toHex(that.fill());
-                 if(hexcode)farb.farbtastic.setColor(hexcode);
-
-            });
-            this.fillColor = "rgb(255,0,0)";
-            this.strokeColor = "#000000";
-            farb.farbtastic.setColor("#ff0000");
-            
-            
-            
-
-
-            
+            } 
             
         }
-        ,_recalculateEdge: function(movedShape){
-            if(!movedShape)return;
-
-            var movedID = movedShape.getProperty("id");
-            var memory = this.vismoCanvas.getMemory();
-            for(var i=0; i < memory.length; i++){
-                var edgeShape = memory[i];
-                    var from =edgeShape.getProperty("from");
-                    var to = edgeShape.getProperty("to");
-                if(from && to){
-                    if(movedID == from  || movedID == to){
-                        var fromShape = this.vismoCanvas.getShapeWithID(from);
-                        var toShape = this.vismoCanvas.getShapeWithID(to);
-                        if(fromShape && toShape){
-                            var bb1 = fromShape.getBoundingBox();
-                            var bb2 = toShape.getBoundingBox();
-                            
-                            edgeShape.setCoordinates([bb1.center.x,bb1.center.y, bb2.center.x,bb2.center.y]);
-                        }
-                    } 
-                    
-                }
-            }      
-
+    }      
+}
+,setEditMode: function(editOn,el){
+  if(!el) el=jQuery(".togglemode",this.el);
+  else{
+        el = jQuery(el);
+      
+  }
+               
+  if(editOn){
+      this.enabled = true;
+      if(el){
+          el.addClass("editor");
+          el.removeClass("viewer");
+          el.text("EDIT MODE");
+          el.siblings().show();
       }
-      ,toggleMode: function(){
-          if(this.enabled) this.enabled = false;
-          else this.enabled = true;
+      
+      if(this._vismoController){
+          this._vismoController.disable();
+
+          
       }
-      ,init: function(){
+      
+  }
+  else{
+      
+      if(el){
+         el.removeClass("editor");
+         el.addClass("viewer");
+         el.text("VIEW MODE");
+         el.siblings().hide();
+      }
+      
+      
+      if(this._vismoController){
+          this._vismoController.enable();                  
+      }
+      this.enabled = false;
+  }
+
+}
+,toggleMode: function(el){
+  if(this.enabled) {
+      this.setEditMode(false,el);
+  }
+  else {
+      this.setEditMode(true,el);
+  }
+}
+,init: function(){
+          
               var that = this;
+              if(!that._vismoController && that.el.vismoController) {
+                      that._vismoController = that.el.vismoController;
+                }
               this.clear();
               
               var mm = this.el.onmousemove;
@@ -3695,9 +3644,6 @@ VismoCanvasEditor.prototype = {
                     if(that.enabled){         
                      
                       var tool = that.getSelectedTool();
-                      if(!that._vismoController && that.el.vismoController) {
-                              that._vismoController = that.el.vismoController;
-                        }
                       
                         
                       if(tool == "newline"){
@@ -3706,8 +3652,7 @@ VismoCanvasEditor.prototype = {
                         }
                       else if(tool == "newfreeline")that.doFreeLineDrawing(e);
                       else if(tool == "newcircle")that.doShapeDrawing(e);
-                              
-                      
+
                       that.vismoCanvas.render();
                      }
                      else{
@@ -3717,9 +3662,12 @@ VismoCanvasEditor.prototype = {
                      // if(mm) mm(e);
               };
               var vceDown = function(e,s){
+                  
                   if(that.enabled){
+                      
                       var tool = that.getSelectedTool();
                       if(tool =='newfreeline')that._startCompleteLineDrawing(e);   
+                      else if(tool == "newcircle")that.startCompleteShapeDrawing(e);
                       var r = Math.random(), g= Math.random(),b = Math.random(), a= Math.random();
                       var color = that.fill();
                       var s = that.vismoCanvas.getShapeAtClick(e);
@@ -3788,7 +3736,7 @@ VismoCanvasEditor.prototype = {
                                     }
                               }
                               else if(tool == "newline" || tool == 'newfreeline')that._startCompleteLineDrawing(e);
-                                 
+       
                               that.vismoCanvas.render();
                       }
                      }
@@ -3800,23 +3748,12 @@ VismoCanvasEditor.prototype = {
               //this.vismoCanvas.mouse({dblclick:vceDblclick});
               this.vismoCanvas.mouse({move:vceMove,up:vceUp,down:vceDown,dblclick:vceDblclick});  //reset
               var toolbar =jQuery(".VismoCanvasToolbar",this.el);
-              jQuery(".togglemode",toolbar).click(function(e){
-                  var me =jQuery(this);
-                  if(me.hasClass("editor")){
-                     me.removeClass("editor");
-                     me.addClass("viewer");
-                     me.text("VIEW MODE");
-                  }
-                  else{
-                       me.addClass("editor");
-                       me.removeClass("viewer");
-                       me.text("EDIT MODE");
-                  }
-                  toolbar.children().toggle(); 
-                  jQuery(this).show();
-                  that.toggleMode();
-                  });
               
+              var toggler =jQuery(".togglemode",toolbar);
+              toggler.click(function(e){
+                  that.toggleMode(this);
+              });
+
               for(var i=0; i < this.options.tools.length; i++){
                   var toolname = this.options.tools[i];
                   toolbar.append("<div class='"+toolname + " button'>"+toolname+"</div>");
@@ -3831,8 +3768,8 @@ VismoCanvasEditor.prototype = {
                   });
               }
               jQuery("."+this.options.tools[0],that.el).click();
-   }
-        ,stroke: function(rgborhex,opacity){   
+}
+,stroke: function(rgborhex,opacity){   
             var color;
             if(!rgborhex) return this.strokeColor;       
             if(rgborhex.indexOf("rgb") == -1){ //its hex
@@ -3852,259 +3789,274 @@ VismoCanvasEditor.prototype = {
             }
             this.strokeColor = color;
             return color;            
-        }
+}
         
-       ,fill: function(rgborhex,opacity){
-           var color; 
-           if(!rgborhex) return this.fillColor;
-           if(rgborhex.indexOf("rgb") == -1){ //its hex
-           
-               color = VismoShapeUtils.toRgba(rgborhex,opacity);
-           }
-           else if(rgborhex.indexOf("rgba") == -1){
-               color = rgborhex;
-           }
-           else if(rgborhex.indexOf("rgb") == -1){
-               //do something with opacity its rgb
-               color = rgborhex;
-           
-           }
-           else{
-               color = false;
-           }
-           this.fillColor = color;
-           return color;
-       }
-      ,doShapeDrawing: function(e){
-              var xy = this.vismoCanvas.getXY(e);
-              this.tempShape.setCoordinates([xy.x,xy.y,40]);
-              
-      }
-      ,doFreeLineDrawing: function(e){
-              if(this._vismoController)this._vismoController.disable();
-              if(!this._startAt) return;
-              var that = this;
+,fill: function(rgborhex,opacity){
+   var color; 
+   if(!rgborhex) return this.fillColor;
+   if(rgborhex.indexOf("rgb") == -1){ //its hex
    
-              var xy = that.vismoCanvas.getXY(e);
-              var c= that.tempLine.getCoordinates();
-              
+       color = VismoShapeUtils.toRgba(rgborhex,opacity);
+   }
+   else if(rgborhex.indexOf("rgba") == -1){
+       color = rgborhex;
+   }
+   else if(rgborhex.indexOf("rgb") == -1){
+       //do something with opacity its rgb
+       color = rgborhex;
+   
+   }
+   else{
+       color = false;
+   }
+   this.fillColor = color;
+   return color;
+}
+
+,startCompleteShapeDrawing: function(e){
+    var that = this;
+    if(!that.startXY){
+         this.tempShape.setProperty("hidden",false);
+        this.startXY = this.vismoCanvas.getXY(e);     
+        that.tempShape.setCoordinates([this.startXY.x,this.startXY.y,1,1]);   
+    }
+    else{
+
+        if(!that.tempShape.getProperty("hidden")){
+                that.tempShape.setProperty("hidden",true);
+            
+                var clone = that.tempShape.clone();
+                clone.setProperty("z-index",false);
+                clone.setProperty("onmousedown",false);
+                clone.setProperty("unclickable",false);
+                clone.setProperty("id",that.nextID);
+                clone.setProperty("hidden",false);
+                that.vismoCanvas.add(clone);
+                that.vismoCanvas.render();
+                that.nextID +=1;
+          }
+        that.startXY = false;
+      }
+}
+,doShapeDrawing: function(e){
+    if(!this.startXY) return;
+      var xy = this.vismoCanvas.getXY(e);
+      var spans ={};
+      spans.x = parseInt(xy.x - this.startXY.x);
+      spans.y = parseInt(xy.y - this.startXY.y);
+      
+      spans.x /= 2;
+      spans.y /=2;
+      this.tempShape.setCoordinates([this.startXY.x+spans.x,this.startXY.y + spans.y,spans.x,spans.y]);
+}
+,doFreeLineDrawing: function(e){
+      //if(this._vismoController)this._vismoController.disable();
+      if(!this._startAt) return;
+      var that = this;
+
+      var xy = that.vismoCanvas.getXY(e);
+      var c= that.tempLine.getCoordinates();
+      
+      c.push(xy.x);
+      c.push(xy.y);
+      that.tempLine.setCoordinates(c);      
+      
+}
+,doLineDrawing: function(e){
+      if(!this._startAt) return;
+                      
+      var that = this;
+      var xy = that.vismoCanvas.getXY(e);
+      var c= this.tempLine.getCoordinates();
+      this._addToLine(xy,c.length-2);
+}
+,_addToLine: function(xy,where){
+      var c= this.tempLine.getCoordinates();
+      if(where){
+      c[where] = xy.x;
+      c[where+1] = xy.y;
+      }
+      else{
               c.push(xy.x);
               c.push(xy.y);
-              that.tempLine.setCoordinates(c);      
+      }
+      this.tempLine.setCoordinates(c);
+      
+}
+,_resetLine: function(){
+      this._startAt = false;
+      this.tempLine.setCoordinates([0,0,0,0]); 
+      this.tempLine.setProperty("edge",false);
+      this.tempLine.setProperty("start",false);
+      this.tempLine.setProperty("end",false);
+}
+,_setupLine: function(){
+      var xy = this._startAt;
+      this.tempLine.setCoordinates([xy.x,xy.y,xy.x,xy.y]);
+}
+,_startCompleteLineDrawing: function(e,terminate){
+           
+      var xy = VismoClickingUtils.getRealXYFromMouse(e,this.vismoCanvas.getTransformation());
+      var tool = this.getSelectedTool();
+      var cancelButton;
+      if(tool == 'newline') {
+              cancelButton = 2;
+      }
+      if(tool == 'newfreeline') { //cancel with the left
+              if(VismoUtils.browser.isIE) cancelButton =1;
+              else cancelButton = 0; 
+             
+      }
+      var hoveringOver =this.getManipulator().overCenter(e);
+      if(hoveringOver){
+              var current =hoveringOver.getProperty("id");
               
+              if(!this.tempLine.getProperty("from"))this.tempLine.setProperty("from",current);
+              else if(this.tempLine.getProperty("from") != current){
+                this.tempLine.setProperty("to",current);
+                this._addToLine(xy);
+                terminate = true;      
+              } 
+              this.tempLine.setProperty("edge",true);
       }
-      ,doLineDrawing: function(e){
-              if(!this._startAt) return;
-                              
-              var that = this;
-              var xy = that.vismoCanvas.getXY(e);
-              var c= this.tempLine.getCoordinates();
-              this._addToLine(xy,c.length-2);
-      }
-      ,_addToLine: function(xy,where){
-              var c= this.tempLine.getCoordinates();
-              if(where){
-              c[where] = xy.x;
-              c[where+1] = xy.y;
+      else{
+              if(this.tempLine.getProperty("edge") && !terminate && !cancelButton == e.button){
+                      return; //not connected to owt
               }
-              else{
-                      c.push(xy.x);
-                      c.push(xy.y);
-              }
-              this.tempLine.setCoordinates(c);
-              
       }
-      ,_resetLine: function(){
-              this._startAt = false;
-              this.tempLine.setCoordinates([0,0,0,0]); 
-              this.tempLine.setProperty("edge",false);
-              this.tempLine.setProperty("start",false);
-              this.tempLine.setProperty("end",false);
-      }
-      ,_setupLine: function(){
-              var xy = this._startAt;
-              this.tempLine.setCoordinates([xy.x,xy.y,xy.x,xy.y]);
-      }
-      ,_startCompleteLineDrawing: function(e,terminate){
-                   
-              var xy = VismoClickingUtils.getRealXYFromMouse(e,this.vismoCanvas.getTransformation());
-              var tool = this.getSelectedTool();
-              var cancelButton;
-              if(tool == 'newline') {
-                      cancelButton = 2;
-              }
-              if(tool == 'newfreeline') { //cancel with the left
-                      if(VismoUtils.browser.isIE) cancelButton =1;
-                      else cancelButton = 0; 
-                     
-              }
-              var hoveringOver =this.getManipulator().overCenter(e);
-              if(hoveringOver){
-                      var current =hoveringOver.getProperty("id");
+
+      
+      if(this._startAt && e.button == cancelButton || terminate){ //right mouse  
+              //if(this._vismoController)this._vismoController.enable();
+                        if(tool == 'newline'){
+                                var c = this.tempLine.getCoordinates();   
+                                this.tempLine.setCoordinates(c.slice(0,c.length-2));       
+                        } 
+                      this.vismoCanvas.add(this.tempLine.clone());
+                      this.tempLine.setProperty("from",false);
+                      this.tempLine.setProperty("to",false);
+                      this.tempLine.setProperty("edge",false);
                       
-                      if(!this.tempLine.getProperty("from"))this.tempLine.setProperty("from",current);
-                      else if(this.tempLine.getProperty("from") != current){
-                        this.tempLine.setProperty("to",current);
+                      this._startAt = false;
+                      this._resetLine();
+                      ///this.tempLine.setProperty("hidden",true);
+              
+      }
+      else{ //left mouse
+        
+              if(!this._startAt){
+                   this._startAt =xy;
+                   this._setupLine();
+                   this.tempLine.setProperty("hidden",false);   
+                }
+                else{
+ 
                         this._addToLine(xy);
-                        terminate = true;      
-                      } 
-                      this.tempLine.setProperty("edge",true);
-              }
-              else{
-                      if(this.tempLine.getProperty("edge") && !terminate && !cancelButton == e.button){
-                              return; //not connected to owt
-                      }
-              }
+                        
+                }
+      }
+      
 
-              
-              if(this._startAt && e.button == cancelButton || terminate){ //right mouse  
-                      if(this._vismoController)this._vismoController.enable();
-                                if(tool == 'newline'){
-                                        var c = this.tempLine.getCoordinates();   
-                                        this.tempLine.setCoordinates(c.slice(0,c.length-2));       
-                                } 
-                              this.vismoCanvas.add(this.tempLine.clone());
-                              this.tempLine.setProperty("from",false);
-                              this.tempLine.setProperty("to",false);
-                              this.tempLine.setProperty("edge",false);
-                              
-                              this._startAt = false;
-                              this._resetLine();
-                              ///this.tempLine.setProperty("hidden",true);
-                      
-              }
-              else{ //left mouse
+
+}
+,getSelectedTool: function(){
+      return this.selectedTool;
+}
+,setSelectedTool: function(id){
+      this.tempShape.setProperty("hidden",true);
+      this.tempLine.setProperty("hidden",true);
+      
+      this.getManipulator().selectShape(false);
+      this.el.style.cursor = "";
+      if(id == 'newcircle'){
+                this.el.style.cursor = "crosshair";
+      }
+      else if(id == 'newline'){
+              this.tempLine.setProperty("hidden",false);
+              this.el.style.cursor = "crosshair";
+        }     
+    else if(id == 'save'){
+        this.options.save(this.burn());
+    }         
+      this.selectedTool = id;
+}
+,getManipulator: function(){
+  return this.manipulator;
+}
+
+,clear: function(){
+  this.vismoCanvas.clear(true);
+  var that = this;
+
+  this.tempLine = new VismoShape({shape:"path","z-index":999999,hidden:true,coordinates:[0,0,0,0]});
+  this.tempShape = new VismoShape({shape:"circle","z-index":999999,hidden:true,fill:"rgb(200,0,0)",coordinates:[0,0,40]});
                 
-                      if(!this._startAt){
-                           this._startAt =xy;
-                           this._setupLine();
-                           this.tempLine.setProperty("hidden",false);   
-                        }
-                        else{
-         
-                                this._addToLine(xy);
-                                
-                        }
-              }
-              
-
-
-      }
-      ,getSelectedTool: function(){
-              return this.selectedTool;
-      }
-      ,setSelectedTool: function(id){
-              this.tempShape.setProperty("hidden",true);
-              this.tempLine.setProperty("hidden",true);
-              
-              this.getManipulator().selectShape(false);
-              this.el.style.cursor = "";
-              if(id == 'newcircle'){
-                      this.tempShape.setProperty("hidden",false);
-                        this.el.style.cursor = "crosshair";
-              }
-              else if(id == 'newline'){
-                      this.tempLine.setProperty("hidden",false);
-                      this.el.style.cursor = "crosshair";
-                }     
-            else if(id == 'save'){
-                this.options.save(this.burn());
-            }         
-              this.selectedTool = id;
-      }
-      ,getManipulator: function(){
-          return this.manipulator;
-      }
-
-      ,clear: function(){
-          this.vismoCanvas.clear(true);
-          var that = this;
-          var createNewShape = function(e){
-              if(e.button == 2) return;
-                  if(!that.tempShape.getProperty("hidden")){
-                          that.tempShape.setProperty("hidden",true);
-                          
-                          var clone = that.tempShape.clone();
-                          clone.setProperty("z-index",false);
-                          clone.setProperty("onmousedown",false);
-                          clone.setProperty("unclickable",false);
-                          clone.setProperty("id",that.nextID);
-                          clone.setProperty("hidden",false);
-                          that.vismoCanvas.add(clone);
-                          that.vismoCanvas.render();
-                          that.nextID +=1;
+               
+               
+  this.vismoCanvas.add(this.tempShape);
+  this.vismoCanvas.add(this.tempLine);
+  this.vismoCanvas.render();
+}
+,load: function(textContent){
+  try{
+      var list = eval(textContent);
+  }
+  catch(e){
+      alert("bad data provided (" + e +") should be a list of properties eg. [{},...,{}]");
+  }
+  
+  this.clear();
+  if(list){
+  for(var i=0; i < list.length; i++){
+      var props = list[i];
+      var s =new VismoShape(props);
+      this.vismoCanvas.add(s);
+  }
+  }
+  this.vismoCanvas.render();
+}
+,burn: function(){
+  var shapes = this.vismoCanvas.getMemory();
+  var buffer = ["["];
+  var added = 0;
+  for(var i=0; i < shapes.length; i++){
+      var shape = shapes[i];
+      
+      if(shape != this.tempShape && shape != this.tempLine){
+          if(added > 0) buffer.push(",");
+          buffer.push("{");
+          var properties = shapes[i].getProperties();
+          var coords = shapes[i].getCoordinates();
+          buffer.push(["coordinates: ["+ coords.toString()+"]"]);
+          var j;
+          for(j in properties){
+                
+                var type = typeof(properties[j]);
+                if(type != 'object' && type != "function" && type != "boolean") {
+                    if(properties[j]){
+                        buffer.push(",")
+                        buffer.push(["'"+j+"':'"+properties[j] +"'"]);
                     }
-          };
-
-          this.tempLine = new VismoShape({shape:"path","z-index":999999,hidden:true,coordinates:[0,0,0,0]});
-          this.tempShape = new VismoShape({shape:"circle","z-index":999999,hidden:true,fill:"rgb(200,0,0)",onmousedown:createNewShape,coordinates:[0,0,40]});
-                        
-                       
-                       
-          this.vismoCanvas.add(this.tempShape);
-          this.vismoCanvas.add(this.tempLine);
-          this.vismoCanvas.render();
+                }
+                else{
+                    if(j == 'transformation'){
+                        var t = properties[j];
+                        buffer.push([",transformation:"+"{translate:{x:"+t.translate.x+",y:"+t.translate.y+"},scale:{x:"+t.scale.x+",y:"+t.scale.y+"}}"]);
+                    }
+                }
+          }
+           buffer.push("}");
+           added +=1;
       }
-      ,load: function(textContent){
-          try{
-              var list = eval(textContent);
-          }
-          catch(e){
-              alert("bad data provided (" + e +") should be a list of properties eg. [{},...,{}]");
-          }
-          
-          this.clear();
-          if(list){
-          for(var i=0; i < list.length; i++){
-              var props = list[i];
-              var s =new VismoShape(props);
-              this.vismoCanvas.add(s);
-          }
-          }
-          this.vismoCanvas.render();
-      }
-      ,burn: function(){
-          var shapes = this.vismoCanvas.getMemory();
-          var buffer = ["["];
-          var added = 0;
-          for(var i=0; i < shapes.length; i++){
-              var shape = shapes[i];
-              
-              if(shape != this.tempShape && shape != this.tempLine){
-                  if(added > 0) buffer.push(",");
-                  buffer.push("{");
-                  var properties = shapes[i].getProperties();
-                  var coords = shapes[i].getCoordinates();
-                  buffer.push(["coordinates: ["+ coords.toString()+"]"]);
-                  var j;
-                  for(j in properties){
-                        
-                        var type = typeof(properties[j]);
-                        if(type != 'object' && type != "function" && type != "boolean") {
-                            if(properties[j]){
-                                buffer.push(",")
-                                buffer.push(["'"+j+"':'"+properties[j] +"'"]);
-                            }
-                        }
-                        else{
-                            if(j == 'transformation'){
-                                var t = properties[j];
-                                buffer.push([",transformation:"+"{translate:{x:"+t.translate.x+",y:"+t.translate.y+"},scale:{x:"+t.scale.x+",y:"+t.scale.y+"}}"]);
-                            }
-                        }
-                  }
-                   buffer.push("}");
-                   added +=1;
-              }
-              
-            
-              
-              
-          }
-          buffer.push("]");
-        res = buffer.join("");
-          return res;
-      }
+      
+    
+      
+      
+  }
+  buffer.push("]");
+res = buffer.join("");
+  return res;
+}
 };
 
 var VismoShapeManipulator = function(vismoCanvas,options){
@@ -4119,7 +4071,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
         var that = this;
 
         this.brResizer.mousedown(function(e){that.toggleResizing();});
-        this.brResizer.mouseup(function(e){that.toggleResizing();});
+        this.brResizer.mouseup(function(e){});
         var centerMark = document.createElement("div");
         centerMark.className = "centerMark";
         centerMark.style.position ="absolute";
@@ -4147,7 +4099,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
                        var change_y = t.translate.y +(pos.y - center.y);
                        t.translate = {x: change_x,y:change_y};
                        that._moveshape.setTransformation(t);
-                       if(that.vismoController)that.vismoController.disable();
+                       //if(that.vismoController)that.vismoController.disable();
                        
                  }
                  else{
@@ -4209,17 +4161,12 @@ VismoShapeManipulator.prototype = {
                 
 
                if(this.isResizing) {
-                       if(this.vismoController) {
-                               this.vismoController.enable();
-                       }
+
                        
                        this.isResizing = false;
                        
                }
                else{
-                       if(this.vismoController) {
-                               this.vismoController.disable();
-                       }
                        this.isResizing = true;
         
                }
@@ -4230,6 +4177,7 @@ VismoShapeManipulator.prototype = {
               
               if(this.lastSelected){
                       var bb = this.lastSelected.getBoundingBox();
+                      
                       var newscale = (br_canvas.x - bb.center.x) / this.lastSelected.getRadius();
                       var t=  this.lastSelected.getTransformation();
                       if(!t) t = {};
@@ -4257,7 +4205,7 @@ VismoShapeManipulator.prototype = {
                         
                         this.stopmoving(this.lastSelected);
                         this.lastSelected = false;
-                        if(this.vismoController)this.vismoController.enable();
+                       
                         return;
                 }
                 else{
@@ -4878,7 +4826,7 @@ VismoCanvas.prototype = {
 	
 	}
 	,_onPath: function(x,y,vismoShape){
-	    return true;
+	    return false;
 	}
 	,_inPoly: function(x,y,vismoShape) {
 		/* _inPoly adapted from inpoly.c
@@ -4928,87 +4876,7 @@ VismoCanvas.prototype = {
 	}
 
 
-        ,makeMoveable: function(oncompletemove,unmoveable){ /*DONT USE ME! i'm naughty and soon to be deleted */
-                if(!unmoveable)unmoveable = [];
-                if(this.madeMoveable) return;
-                if(oncompletemove)this.oncompletemove = oncompletemove;
-                this.madeMoveable = true;
-		var down = this.onmousedown;
-		var up = this.onmouseup;
-		var move= this.onmousemove;
-		
-		                
-                var el = this.getDomElement();
-                var clickablecanvas = this;
-  		var selectedshape = false,beginmoving = false,curpos;
-  		this.selectedShapes = [selectedshape];
-		var beginmoving = false;
-		var checkformouseup= function(){
-			if(!selectedshape) return;
-			if(selectedshape.getShape() != 'circle') return;
-			beginmoving = true;
-			el.style.cursor = 'move';
 
-		};
-
-		var cancel = function(){
-			if(el.vismoController)el.vismoController.enable();
-			//autoSaveChanges();
-			if(clickablecanvas.oncompletemove){
-			        clickablecanvas.oncompletemove(selectedshape);
-			        beginmoving = false;selectedshape = false;
-                        }
-		};
-		var oldclick = el.onclick;
-		el.onclick = function(e){cancel();if(oldclick)oldclick(e);};
-		var moveit = function(){
-			var pos = curpos;
-			if(selectedshape){
-			        el.style.cursor = 'move';
-				s = selectedshape;
-				s.setCoordinates([pos.x,pos.y,s.getRadius()]); 
-				clickablecanvas.render();
-				/*
-				var x = pos.x/ img.width;
-					var y = pos.y / img.height;
-				var tid = store.getTiddler(s.getProperty("id"));
-				tid.fields.tagx = x+"";
-				tid.fields.tagy = y+"";*/
-
-			}
-		};
-		var movethoseshapes = function(e,s,pos){
-			if(!beginmoving) {return true;}
-		
-			curpos = VismoTransformations.undoTransformation(pos.x,pos.y,clickablecanvas.getTransformation());
-			window.setTimeout(moveit,10);
-			return false;
-		};
-
-
-		var onmousemove = function(e,s){
-			var pos = VismoClickingUtils.getMouseFromEvent(e);
-			var cont = movethoseshapes(e,s,pos);
-			if(!cont) return;
-		};
-
-		var onmousedown = function(e,s){			if(el.vismoController)el.vismoController.disable(); beginmoving = false;selectedshape = s; if(s.getShape() != 'circle') cancel(); window.setTimeout(checkformouseup,200); };
-		var onmouseup = function(e,s){cancel(); window.setTimeout(cancel,200);};
-
-                var result = {};
-                this.onmouseup = function(e,s){onmouseup(e,s);if(up)up(e,s);};
-                this.onmousedown = function(e,s){onmousedown(e,s);if(down)down(e,s);};
-                this.onmousemove = function(e,s){
-                        if(move)move(e,s);
-                        if(unmoveable.contains(s)) return;
-                        onmousemove(e,s);
-                        var showitsmoveable = function(){
-                                el.style.cursor = 'move';
-                        };
-                        window.setTimeout(showitsmoveable,1000);
-                };
-                
-        }
 };
 var VismoClickingUtils = {
         //to be implemented..
@@ -6963,6 +6831,9 @@ VismoShape.prototype={
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
+		if(this.getShape() == 'circle' || this.getShape() == 'point'){
+		    if(coordinates[2] && coordinates[3]) this.setRadius(coordinates[2],coordinates[3]);
+		}
 	}
 	,getCoordinates: function(type){
 		if(type == 'normal') return this.coordinates.normal;
@@ -7116,9 +6987,9 @@ VismoShape.prototype={
 		//if(st == 'path') console.log(this,this.grid);
 	}
 
-	,setRadius: function(r){
-		this.setDimensions(r*2,r*2);
-		this._calculateBounds();
+	,setRadius: function(rx,ry){
+	    if(!ry) ry = rx;
+		this.setDimensions(rx*2,ry*2);
 	}
 	,getRadius: function(){
 		if(this.width) return this.width /2;
@@ -7131,6 +7002,7 @@ VismoShape.prototype={
 	,setDimensions: function(width,height){
 		this.width = width;
 		this.height = height;
+		this._calculateBounds();
 	}
 	,getDimensions: function(){
 		return {width: this.width, height: this.height};
@@ -7298,7 +7170,7 @@ VismoShape.prototype={
 };
 var VismoCanvasRenderer = {
 	renderShape: function(canvas,vismoShape){
-	        var ctx = canvas.getContext('2d');
+	    var ctx = canvas.getContext('2d');
 		var shapetype =vismoShape.getProperty("shape");
 		if(vismoShape.getProperty("lineWidth")){
 			ctx.lineWidth = vismoShape.getProperty("lineWidth");
@@ -7396,10 +7268,14 @@ var VismoCanvasRenderer = {
 	,renderPoint: function(ctx,vismoShape){
 	        //ctx.restore();
 		var bb =vismoShape.getBoundingBox();
-		var radius =vismoShape.getRadius();
+		var dim =vismoShape.getDimensions();
+		var radiusx = dim.width / 2;
+		var radiusy = dim.height/2;
 		var transform = vismoShape.getTransformation();
-		if(transform && transform.scale) radius*= transform.scale.x;
-		ctx.arc(bb.center.x, bb.center.y, radius, 0, Math.PI*2,true);
+		if(transform && transform.scale) radiusx*= transform.scale.x;
+		
+		
+		ctx.arc(bb.center.x, bb.center.y, radiusx, 0, Math.PI*2,true);
 	}
 	,renderImage: function(ctx,vismoShape){
 		var c = vismoShape.getCoordinates();
@@ -8419,8 +8295,10 @@ VismoGraphNode.prototype = {
 	}
 };
 var VismoGraphRenderer = function(wrapper,vismoGraph,options){
-        this.canvas = new VismoCanvas(wrapper,options);
-        this.editor = new VismoCanvasEditor(this.canvas,options);
+        //this.canvas = new VismoCanvas(wrapper,options);
+        options.tools = ['selectshape'];
+        this.editor = new VismoCanvasEditor(wrapper,options);        
+        this.canvas = this.editor.VismoCanvas;
         //if(options.moveableNodes) this.canvas.makeMoveable(options.oncompletemove);
         if(!options) options = {};
         this.vismoGraph = vismoGraph;
@@ -8438,7 +8316,8 @@ var VismoGraphRenderer = function(wrapper,vismoGraph,options){
                 };
         }
         this.options = options;
-        
+
+
         
 };
 VismoGraphRenderer.prototype = {

@@ -1,6 +1,8 @@
 var VismoGraphRenderer = function(wrapper,vismoGraph,options){
-        this.canvas = new VismoCanvas(wrapper,options);
-        this.editor = new VismoCanvasEditor(this.canvas,options);
+        //this.canvas = new VismoCanvas(wrapper,options);
+        options.tools = ['selectshape'];
+        this.editor = new VismoCanvasEditor(wrapper,options);        
+        this.canvas = this.editor.VismoCanvas;
         //if(options.moveableNodes) this.canvas.makeMoveable(options.oncompletemove);
         if(!options) options = {};
         this.vismoGraph = vismoGraph;
@@ -18,7 +20,8 @@ var VismoGraphRenderer = function(wrapper,vismoGraph,options){
                 };
         }
         this.options = options;
-        
+
+
         
 };
 VismoGraphRenderer.prototype = {

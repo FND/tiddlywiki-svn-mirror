@@ -183,7 +183,7 @@ VismoController.prototype = {
         });
         jQuery(this.wrapper).mouseout(function(e){mwactive = false;this.style.cursor = "";});
         var domw = function(e){
-
+            if(!that.enabled) return;
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
 
@@ -314,10 +314,12 @@ VismoController.prototype = {
 		
 	}
 	,disable: function(){
+        jQuery(".vismoControls",this.wrapper).css({display:"none"});	    
 		this.enabled = false;
 	}
 	,enable: function(){
 		this.enabled = true;
+		jQuery(".vismoControls",this.wrapper).css({display:""});
 	}
 	
 	,goodToTransform: function(e){

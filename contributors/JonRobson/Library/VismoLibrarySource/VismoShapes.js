@@ -319,6 +319,9 @@ VismoShape.prototype={
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
+		if(this.getShape() == 'circle' || this.getShape() == 'point'){
+		    if(coordinates[2] && coordinates[3]) this.setRadius(coordinates[2],coordinates[3]);
+		}
 	}
 	,getCoordinates: function(type){
 		if(type == 'normal') return this.coordinates.normal;
@@ -472,9 +475,9 @@ VismoShape.prototype={
 		//if(st == 'path') console.log(this,this.grid);
 	}
 
-	,setRadius: function(r){
-		this.setDimensions(r*2,r*2);
-		this._calculateBounds();
+	,setRadius: function(rx,ry){
+	    if(!ry) ry = rx;
+		this.setDimensions(rx*2,ry*2);
 	}
 	,getRadius: function(){
 		if(this.width) return this.width /2;
@@ -487,6 +490,7 @@ VismoShape.prototype={
 	,setDimensions: function(width,height){
 		this.width = width;
 		this.height = height;
+		this._calculateBounds();
 	}
 	,getDimensions: function(){
 		return {width: this.width, height: this.height};

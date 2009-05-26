@@ -1,7 +1,7 @@
 
 var VismoCanvasRenderer = {
 	renderShape: function(canvas,vismoShape){
-	        var ctx = canvas.getContext('2d');
+	    var ctx = canvas.getContext('2d');
 		var shapetype =vismoShape.getProperty("shape");
 		if(vismoShape.getProperty("lineWidth")){
 			ctx.lineWidth = vismoShape.getProperty("lineWidth");
@@ -99,10 +99,14 @@ var VismoCanvasRenderer = {
 	,renderPoint: function(ctx,vismoShape){
 	        //ctx.restore();
 		var bb =vismoShape.getBoundingBox();
-		var radius =vismoShape.getRadius();
+		var dim =vismoShape.getDimensions();
+		var radiusx = dim.width / 2;
+		var radiusy = dim.height/2;
 		var transform = vismoShape.getTransformation();
-		if(transform && transform.scale) radius*= transform.scale.x;
-		ctx.arc(bb.center.x, bb.center.y, radius, 0, Math.PI*2,true);
+		if(transform && transform.scale) radiusx*= transform.scale.x;
+		
+		
+		ctx.arc(bb.center.x, bb.center.y, radiusx, 0, Math.PI*2,true);
 	}
 	,renderImage: function(ctx,vismoShape){
 		var c = vismoShape.getCoordinates();

@@ -595,7 +595,7 @@ VismoCanvas.prototype = {
 	
 	}
 	,_onPath: function(x,y,vismoShape){
-	    return true;
+	    return false;
 	}
 	,_inPoly: function(x,y,vismoShape) {
 		/* _inPoly adapted from inpoly.c
@@ -645,85 +645,5 @@ VismoCanvas.prototype = {
 	}
 
 
-        ,makeMoveable: function(oncompletemove,unmoveable){ /*DONT USE ME! i'm naughty and soon to be deleted */
-                if(!unmoveable)unmoveable = [];
-                if(this.madeMoveable) return;
-                if(oncompletemove)this.oncompletemove = oncompletemove;
-                this.madeMoveable = true;
-		var down = this.onmousedown;
-		var up = this.onmouseup;
-		var move= this.onmousemove;
-		
-		                
-                var el = this.getDomElement();
-                var clickablecanvas = this;
-  		var selectedshape = false,beginmoving = false,curpos;
-  		this.selectedShapes = [selectedshape];
-		var beginmoving = false;
-		var checkformouseup= function(){
-			if(!selectedshape) return;
-			if(selectedshape.getShape() != 'circle') return;
-			beginmoving = true;
-			el.style.cursor = 'move';
 
-		};
-
-		var cancel = function(){
-			if(el.vismoController)el.vismoController.enable();
-			//autoSaveChanges();
-			if(clickablecanvas.oncompletemove){
-			        clickablecanvas.oncompletemove(selectedshape);
-			        beginmoving = false;selectedshape = false;
-                        }
-		};
-		var oldclick = el.onclick;
-		el.onclick = function(e){cancel();if(oldclick)oldclick(e);};
-		var moveit = function(){
-			var pos = curpos;
-			if(selectedshape){
-			        el.style.cursor = 'move';
-				s = selectedshape;
-				s.setCoordinates([pos.x,pos.y,s.getRadius()]); 
-				clickablecanvas.render();
-				/*
-				var x = pos.x/ img.width;
-					var y = pos.y / img.height;
-				var tid = store.getTiddler(s.getProperty("id"));
-				tid.fields.tagx = x+"";
-				tid.fields.tagy = y+"";*/
-
-			}
-		};
-		var movethoseshapes = function(e,s,pos){
-			if(!beginmoving) {return true;}
-		
-			curpos = VismoTransformations.undoTransformation(pos.x,pos.y,clickablecanvas.getTransformation());
-			window.setTimeout(moveit,10);
-			return false;
-		};
-
-
-		var onmousemove = function(e,s){
-			var pos = VismoClickingUtils.getMouseFromEvent(e);
-			var cont = movethoseshapes(e,s,pos);
-			if(!cont) return;
-		};
-
-		var onmousedown = function(e,s){			if(el.vismoController)el.vismoController.disable(); beginmoving = false;selectedshape = s; if(s.getShape() != 'circle') cancel(); window.setTimeout(checkformouseup,200); };
-		var onmouseup = function(e,s){cancel(); window.setTimeout(cancel,200);};
-
-                var result = {};
-                this.onmouseup = function(e,s){onmouseup(e,s);if(up)up(e,s);};
-                this.onmousedown = function(e,s){onmousedown(e,s);if(down)down(e,s);};
-                this.onmousemove = function(e,s){
-                        if(move)move(e,s);
-                        if(unmoveable.contains(s)) return;
-                        onmousemove(e,s);
-                        var showitsmoveable = function(){
-                                el.style.cursor = 'move';
-                        };
-                        window.setTimeout(showitsmoveable,1000);
-                };
-                
-        }
 };
