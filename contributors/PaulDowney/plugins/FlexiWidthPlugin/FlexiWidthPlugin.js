@@ -60,11 +60,20 @@ version.extensions.FlexiWidthPlugin = {installed:true};
 	/*
 	 *  on TiddlyWiki ready
 	 */
-	window.config.extensions.FlexiWidth.__restart = window.restart;
+	config.extensions.FlexiWidth.__restart = window.restart;
 	window.restart = function(){
 		window.config.extensions.FlexiWidth.__restart();
 		config.extensions.FlexiWidth.setWidth();
 		jQuery(window).resize(config.extensions.FlexiWidth.setWidth);
+	}
+
+	/*
+	 * on TiddlyWiki refresh
+	 */
+	config.extensions.FlexiWidth.__refreshAll = refreshAll;
+	refreshAll = function(){
+		config.extensions.FlexiWidth.__refreshAll();
+		config.extensions.FlexiWidth.setWidth();
 	}
 }
 //}}}
