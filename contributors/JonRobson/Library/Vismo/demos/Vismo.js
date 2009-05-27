@@ -1254,20 +1254,24 @@ init_toolsettings: function(){
               var donowt =  function(e){};
 
               
+              var inprogress = false;
               var vceMove = function(e,s){   
-                    if(that.enabled){         
-                     
-                      var tool = that.getSelectedTool();
-                      
-                        
-                      if(tool == "newline"){
+                    if(that.enabled){
+                        var tool = that.getSelectedTool();         
+                        if(tool == "newline"){
                             that.manipulator.showCenter(s)
-                             that.doLineDrawing(e);
-                        }
-                      else if(tool == "newfreeline")that.doFreeLineDrawing(e);
-                      else if(tool == "newcircle" || tool =='newrectangle')that.doShapeDrawing(e);
-
-                      that.vismoCanvas.render();
+                        }          
+                        var dothemagic = function(){
+                            if(tool == "newline")that.doLineDrawing(e);
+                            else if(tool == "newfreeline")that.doFreeLineDrawing(e);
+                            else if(tool == "newcircle" || tool =='newrectangle')that.doShapeDrawing(e);
+                            that.vismoCanvas.render();
+                            inprogress = false;
+                      };
+                      if(!inprogress){
+                          inprogress =true;
+                          window.setTimeout(dothemagic,200);
+                      }
                      }
                      else{
                          that.vismoCanvasMouse.move(e,s);
@@ -1828,20 +1832,25 @@ VismoShapeManipulator.prototype = {
               
               if(this.lastSelected){
                       var bb = this.lastSelected.getBoundingBox();
+
                       var st = this.lastSelected.getShape();
                       var t=  this.lastSelected.getTransformation();
                       var oldvalue = t;       
                       
-                      var origWRadius = (bb.x2 - bb.center.x);   
-                      if(st == 'circle'){                      
-                          var newscale = (br_canvas.x - bb.center.x) / this.lastSelected.getRadius();
 
+                    if(st =='polygon'){
+                        br_canvas.x -= this.initialDimensions.width/2;
+                        br_canvas.y += this.initialDimensions.height/2;
+                    }
+                          var newscalex = (br_canvas.x - this.initialDimensions.center.x) /(this.initialDimensions.width/2);
+                            var newscaley =  (br_canvas.y - this.initialDimensions.center.y)/(this.initialDimensions.height /2);
                           if(!t) t = {};
                           if(!t.scale) t.scale = {};
-                          t.scale.x = newscale;
-                          t.scale.y = newscale;
+  
+                          t.scale.x = newscalex;
+                          t.scale.y = newscaley;
                           this.lastSelected.setTransformation(t);
-                      }
+                      
                 
                       if(this.options.onshapechange)this.options.onshapechange(this.lastSelected,"transformation",oldvalue);
                       
@@ -1865,13 +1874,17 @@ VismoShapeManipulator.prototype = {
                         
                         this.stopmoving(this.lastSelected);
                         this.lastSelected = false;
-                       
+                       this.initialDimensions = false;
                         return;
                 }
                 else{
                     var st=vismoShape.getShape();
                     //if(st != "circle" &&  st != 'point') return;
                     this.lastSelected =vismoShape;
+                    var bb = vismoShape.getBoundingBox();
+                    var t = vismoShape.getTransformation();
+                    
+                    this.initialDimensions = {center:{x: bb.center.x,y: bb.center.y},height:bb.width / t.scale.x,width:bb.height/t.scale.y };
                     var hasController = false;
                 }
                 var that = this;
@@ -3696,20 +3709,24 @@ init_toolsettings: function(){
               var donowt =  function(e){};
 
               
+              var inprogress = false;
               var vceMove = function(e,s){   
-                    if(that.enabled){         
-                     
-                      var tool = that.getSelectedTool();
-                      
-                        
-                      if(tool == "newline"){
+                    if(that.enabled){
+                        var tool = that.getSelectedTool();         
+                        if(tool == "newline"){
                             that.manipulator.showCenter(s)
-                             that.doLineDrawing(e);
-                        }
-                      else if(tool == "newfreeline")that.doFreeLineDrawing(e);
-                      else if(tool == "newcircle" || tool =='newrectangle')that.doShapeDrawing(e);
-
-                      that.vismoCanvas.render();
+                        }          
+                        var dothemagic = function(){
+                            if(tool == "newline")that.doLineDrawing(e);
+                            else if(tool == "newfreeline")that.doFreeLineDrawing(e);
+                            else if(tool == "newcircle" || tool =='newrectangle')that.doShapeDrawing(e);
+                            that.vismoCanvas.render();
+                            inprogress = false;
+                      };
+                      if(!inprogress){
+                          inprogress =true;
+                          window.setTimeout(dothemagic,200);
+                      }
                      }
                      else{
                          that.vismoCanvasMouse.move(e,s);
@@ -4270,20 +4287,25 @@ VismoShapeManipulator.prototype = {
               
               if(this.lastSelected){
                       var bb = this.lastSelected.getBoundingBox();
+
                       var st = this.lastSelected.getShape();
                       var t=  this.lastSelected.getTransformation();
                       var oldvalue = t;       
                       
-                      var origWRadius = (bb.x2 - bb.center.x);   
-                      if(st == 'circle'){                      
-                          var newscale = (br_canvas.x - bb.center.x) / this.lastSelected.getRadius();
 
+                    if(st =='polygon'){
+                        br_canvas.x -= this.initialDimensions.width/2;
+                        br_canvas.y += this.initialDimensions.height/2;
+                    }
+                          var newscalex = (br_canvas.x - this.initialDimensions.center.x) /(this.initialDimensions.width/2);
+                            var newscaley =  (br_canvas.y - this.initialDimensions.center.y)/(this.initialDimensions.height /2);
                           if(!t) t = {};
                           if(!t.scale) t.scale = {};
-                          t.scale.x = newscale;
-                          t.scale.y = newscale;
+  
+                          t.scale.x = newscalex;
+                          t.scale.y = newscaley;
                           this.lastSelected.setTransformation(t);
-                      }
+                      
                 
                       if(this.options.onshapechange)this.options.onshapechange(this.lastSelected,"transformation",oldvalue);
                       
@@ -4307,13 +4329,17 @@ VismoShapeManipulator.prototype = {
                         
                         this.stopmoving(this.lastSelected);
                         this.lastSelected = false;
-                       
+                       this.initialDimensions = false;
                         return;
                 }
                 else{
                     var st=vismoShape.getShape();
                     //if(st != "circle" &&  st != 'point') return;
                     this.lastSelected =vismoShape;
+                    var bb = vismoShape.getBoundingBox();
+                    var t = vismoShape.getTransformation();
+                    
+                    this.initialDimensions = {center:{x: bb.center.x,y: bb.center.y},height:bb.width / t.scale.x,width:bb.height/t.scale.y };
                     var hasController = false;
                 }
                 var that = this;
