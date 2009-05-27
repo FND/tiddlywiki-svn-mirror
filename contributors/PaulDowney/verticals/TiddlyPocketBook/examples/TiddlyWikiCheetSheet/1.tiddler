@@ -1,17 +1,11 @@
-<div title="1" modifier="PaulDowney" created="200905221633" modified="200905250043" tags="page">
+<div title="1" modifier="PaulDowney" created="200905221633" modified="200905271105" tags="page">
 <pre>!{{sub{~TiddlyPocketBook}}} ~TiddlyWiki
 
-{{{''Bold text''}}}
-{{{//Italic text//}}}
-<html><code>{{{Monospaced text}}}</code></html>
-{{{__Underlined text__}}}
-{{{--Strikethrough text--}}}
-{{{~~Subscripted text~~}}}
-{{{^^Superscripted text^^}}}
-
-{{{@@Highlighted text@@}}}
-{{{@@color(red):Red text@@}}}
-{{{@@color(blue):Blue text@@}}}
-{{{@@color(#4B0082):Indigo text@@}}}
-</pre>
+//TiddlyWiki// is a wiki in a single HTML document containing all of the content along with the ability to edit and save changes, tag and search. It's easily to tailor using templates, style-sheets, macros and plugins. As single file, //TiddlyWiki// is very portable -- you can run it from your netbook, the Web, Email attachment or memory stick.
+|Download| tiddlywiki.com|
+|Community| tiddlywiki.org|
+|Developers| trac.tiddlywiki.org|
+|Discussion| tiddlywiki.org/wiki/Groups|
+|Chat| freenode #~TiddlyWiki|
+|<html><a rel="license" href="http://creativecommons.org/licenses/by/2.0/uk/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/2.0/uk/80x15.png" /></a></html>| 2009  osmosoft.com|</pre>
 </div>

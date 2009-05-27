@@ -3,9 +3,9 @@
 /*
  *  Theme
  */
-//config.options.txtTheme = "PocketBookTheme";
+config.options.txtTheme = "PocketBookTheme";
 //config.options.txtTheme = "DinkyBookTheme";
-config.options.txtTheme = "PrintTheme";
+//config.options.txtTheme = "PrintTheme";
 
 /*              
  *  Faster fading messages!

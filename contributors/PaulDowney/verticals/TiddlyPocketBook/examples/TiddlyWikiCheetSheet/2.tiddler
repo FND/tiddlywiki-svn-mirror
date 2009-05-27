@@ -1,4 +1,4 @@
-<div title="2" modifier="PaulDowney" created="200905221633" modified="200905250049" tags="page">
+<div title="2" modifier="PaulDowney" created="200905221633" modified="200905262236" tags="page">
 <pre>!!Linking {{amp{&amp;}}} Embedding
 {{{WikiWord}}}
 {{{~EscapedWikiWord}}}
@@ -6,5 +6,19 @@
 {{{[[display text|WikiWord]]}}}
 {{{[[display text|URL]]}}}
 {{{[img[title text|URL]]}}}
+!!Formatting
+{{{''Bold text''}}}
+{{{//Italic text//}}}
+<html><code>{{{Monospaced text}}}</code></html>
+{{{__Underlined text__}}}
+{{{--Strikethrough text--}}}
+{{{~~Subscripted text~~}}}
+{{{^^Superscripted text^^}}}
+
+{{{@@Highlighted text@@}}}
+{{{@@color(red):Red text@@}}}
+{{{@@color(blue):Blue text@@}}}
+{{{@@color(#4B0082):Indigo text@@}}}
+
 </pre>
 </div>

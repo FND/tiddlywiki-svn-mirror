@@ -1,15 +1,17 @@
-<div title="4" modifier="PaulDowney" created="200905221633" tags="page">
+<div title="4" modifier="PaulDowney" created="200905221633" modified="200905271046" tags="page">
 <pre>!!Tables
 {{{|Table caption|c}}}
+{{{|Heading 1|Heading 2|h}}}
+{{{|Table|Footer|f}}}
 {{{|!Heading 1|!Heading 2|}}}
 {{{| Centered |cell|}}}
 {{{|Left-Aligned |cell|}}}
 {{{| Right-Aligned|cell|}}}
-{{{|>|Colspan|}}}
-{{{|Rowspan|cell|}}}
-{{{|~|text|}}}
 {{{|bgcolor(blue):Coloured|cell|}}}
-!!Blockquotes
+{{{|>|Colspan cell|}}}
+{{{|Rowspan|cells|}}}
+{{{|~|~|}}}
+!!Block Quotations
 {{{<<<}}}
 {{{blockquoted text}}}
 {{{<<<}}}

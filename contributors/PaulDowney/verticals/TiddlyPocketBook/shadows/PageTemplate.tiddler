@@ -2,7 +2,6 @@
 <pre>
 <!--{{{-->
 <div>
-	<div id="caveat" tiddler='Caveat' refresh='content'></div>
         <div id='controlBar' tiddler='MainMenu' refresh='content'></div>
         <div id='header'><span class='siteTitle' refresh='content' tiddler='SiteTitle'></span></div>
         <div id='messageArea'></div>

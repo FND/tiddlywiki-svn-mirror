@@ -4,4 +4,5 @@ recipe: TiddlyPocketBook.recipe
 #recipe: pages/split.recipe
 
 #example
-recipe: examples/NatBatShellNotes/split.recipe
+#recipe: examples/NatBatShellNotes/split.recipe
+recipe: examples/TiddlyWikiCheetSheet/split.recipe

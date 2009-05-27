@@ -49,28 +49,28 @@ body {
 }
 #tiddler3 {
 	top: 74.3mm;
-	right: 0mm;
+	right: 0.1mm;
 }
 #tiddler4 {
 	top: 148.6mm;
-	right: 0mm;
+	right: 0.1mm;
 }
 #tiddler5 {
 	top: 222.9mm;
-	right: 0mm;
+	right: 0.1mm;
 }
 #tiddler6 {
 	top: 222.9mm;
-	left: 0mm;
+	left: 0.1mm;
 }
 #tiddler7 {
 	top: 148.6mm;
-	left: 0mm;
+	left: 0.1mm;
 }
 /* back page */
 #tiddler8 {
 	top: 74.3mm;
-	left: 0mm;
+	left: 0.1mm;
 }
 
 /*}}}*/

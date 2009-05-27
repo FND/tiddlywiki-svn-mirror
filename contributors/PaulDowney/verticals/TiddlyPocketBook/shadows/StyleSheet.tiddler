@@ -220,12 +220,38 @@ hr {
 	margin: 0 0.2em 0 0.1em;
 }
 
+.tiddler h1 {
+	font-size: 1.5em;
+}
+
 h1 span {
-	font-size: 0.7em;
+	font-size: 0.6em;
 	line-height: 1em;
 	color: #999;
 	display: block;
 	margin-bottom: 0.3em;
+}
+
+table.twtable {
+	width: 100%;
+	border-top: 1px solid #888;
+	border-bottom: 1px solid #888;
+	border-left: none;
+	border-right: none;
+	margin-left: 0mm;
+}
+
+.twtable tr,
+.twtable td {
+	border: none;
+}
+
+.twtable .evenRow {
+	background-color: #e8e8e8;
+}
+
+.twtable .oddRow {
+	background-color: #f8f8f8;
 }
 
 /*}}}*/</pre>

@@ -1,5 +1,14 @@
-<div title="5" modifier="PaulDowney" created="200905221633" tags="page">
-<pre>!!Keyboard Shortcuts
+<div title="5" modifier="PaulDowney" created="200905221633" modified="200905270945" tags="page">
+<pre>!!Markup {{amp{&amp;}}} Escaping
+{{{/%Hidden text%/}}}
+{{{"""Escaped text"""}}}
 
-</pre>
+{{{&amp; HTML entity}}}
+{{{&#171; Character entity}}}
+
+<html><code>{{CSS-class{styled text}}}</code></html>
+{{{<}}}{{{html}}}{{{>HTML markup</}}}{{{html}}}{{{>}}}
+!!Keyboard Shortcuts
+
+ /%commented out text%/</pre>
 </div>
