@@ -1,14 +1,20 @@
 <div title="5" modifier="PaulDowney" created="200905221633" modified="200905270945" tags="page">
-<pre>!!Markup {{amp{&amp;}}} Escaping
-{{{/%Hidden text%/}}}
+<pre>!!Escaping 
 {{{"""Escaped text"""}}}
-
+{{{/%Hidden text%/}}}
+!!Markup{{amp{&amp;}}} Styling
 {{{&amp; HTML entity}}}
 {{{&#171; Character entity}}}
-
-<html><code>{{CSS-class{styled text}}}</code></html>
+{{{<}}}br{{{>}}} Line break
 {{{<}}}{{{html}}}{{{>HTML markup</}}}{{{html}}}{{{>}}}
-!!Keyboard Shortcuts
 
- /%commented out text%/</pre>
+{{{@@css:value;css:value:text@@}}}
+{{{{{cssClassName{styled text}}}}}}
+!!Macros
+{{{<<today [format]>>}}}
+{{{<<version>>}}}
+{{{<<tiddler }}}//WikiWord//{{{>}}}
+{{{<<tabs }}}//id//{{{ }}}//label//{{{ }}}//tip//{{{ }}}//WikiWord// &#x2026;{{{>>}}}
+{{{<<slider }}}//id//{{{ }}}//WikiWord//{{{ }}}//label//{{{ }}}//tip//{{{>>}}}
+ </pre>
 </div>

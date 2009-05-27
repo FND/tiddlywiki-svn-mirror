@@ -1,8 +1,25 @@
-<div title="7" modifier="PaulDowney" created="200905221633" modified="200905271044" tags="page">
-<pre>!!Further Information
-
-|test|c
-|line|ione|
-|line|two|f
-|line|ss|</pre>
+<div title="7" modifier="PaulDowney" created="200905221633" tags="page">
+<pre>!!Date Format
+{{{DDD}}} -- full day of week
+{{{ddd}}} -- short day of week
+{{{DD}}} -- day of month
+{{{0DD}}} -- adds leading zero
+{{{DDth}}} -- adds suffix
+{{{WW}}} -- ~ISO-8601 week number
+{{{MMM}}} -- full month
+{{{mmm}}} -- short month 
+{{{MM}}} -- month number
+{{{0MM}}} -- leading zero
+{{{YYYY}}} -- full year
+{{{YY}}} -- two digit year
+{{{wYY}}} with week number
+{{{hh}}} -- hours
+{{{0hh}}} -- leading zero
+{{{hh12}}} -- hours in 12 hour clock
+{{{mm}}} -- minutes
+{{{0mm}}} -- leading zero
+{{{ss}}} -- seconds
+{{{0ss}}} -- leading zero
+{{{am}}} or {{{pm}}} or {{{AM}}} or {{{PM}}} -- indicator
+</pre>
 </div>

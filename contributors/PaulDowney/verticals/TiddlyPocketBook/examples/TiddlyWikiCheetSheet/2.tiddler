@@ -9,16 +9,15 @@
 !!Formatting
 {{{''Bold text''}}}
 {{{//Italic text//}}}
-<html><code>{{{Monospaced text}}}</code></html>
 {{{__Underlined text__}}}
 {{{--Strikethrough text--}}}
 {{{~~Subscripted text~~}}}
 {{{^^Superscripted text^^}}}
-
 {{{@@Highlighted text@@}}}
-{{{@@color(red):Red text@@}}}
-{{{@@color(blue):Blue text@@}}}
-{{{@@color(#4B0082):Indigo text@@}}}
+<html><code>{{{Monospaced text}}}</code></html>
 
+"""{{{"""
+{{{Preformatted text}}}
+"""}}}"""
 </pre>
 </div>

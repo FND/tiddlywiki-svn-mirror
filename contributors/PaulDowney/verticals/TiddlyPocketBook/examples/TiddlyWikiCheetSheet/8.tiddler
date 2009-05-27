@@ -1,32 +1,19 @@
-<div title="8" modifier="PaulDowney" created="200905221633" tags="page">
-<pre>{{lines{----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----
-----}}}
+<div title="8" modifier="PaulDowney" created="200905221633" modified="200905271044" tags="page">
+<pre>!!Startup Parameters
+{{{#open:}}}//WikiWord//
+{{{#start:safe}}}
+{{{#search:}}}//text//
+{{{#tag:}}}//text//
+{{{#newTiddler:}}}//WikiWord//
+{{{#newJournal:}}}//format//
+!!Keyboard Shortcuts
+|!Function |!PC |!Mac |
+|Search|//~Alt-F//|&#x2303;F|
+|New Tiddler|//~Alt-N//|&#x2303;N|
+|New Journal|//~Alt-J//|&#x2303;J|
+|Save Edit|//~Shift-Ctrl-Enter//|&#x21E7;&#x2303;&#x21A9;|
+|Done Edit|//~Ctrl-Enter//|&#x2303;&#x21A9;|
+|Cancel Edit|//Escape//|&#x238B;|
+|Save Changes|//~Alt-S//|&#x2303;S|
 </pre>
 </div>
