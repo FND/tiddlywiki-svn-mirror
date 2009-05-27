@@ -42,7 +42,7 @@ version.extensions.FlexiWidthPlugin = {installed:true};
 		var maxBoxes = config.options.txtFlexiWidthMaxBoxes;
 
 		// may be simplified with outerWidth when provided by TiddlyWiki jQuery core
-		var boxWidth = box.width()
+		var boxWidth = 1 + box.width()
 			+ parseInt(box.css("padding-left"),10) 
 			+ parseInt(box.css("padding-right"),10)
 			+ parseInt(box.css("margin-left"),10)
@@ -54,7 +54,7 @@ version.extensions.FlexiWidthPlugin = {installed:true};
 			(nBoxes < minBoxes) ? minBoxes : 
 			nBoxes;
 
-		return container.width(nBoxes*boxWidth + 1);
+		return container.width(nBoxes*boxWidth);
 	};
 
 	/*
