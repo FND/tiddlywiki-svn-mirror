@@ -14,13 +14,7 @@ jQuery(document).ready(function(){
 		save: function(textContent){jQuery("#data").val(textContent);},
 		dblclick:function(e,s){if(!s) return;alert(s.getProperty("id"));},
 		mouseup: function(e,s){
-			if(!s) return;
-			var color = s.getProperty("fill");
-			s.setProperty("fill","rgb(0,0,0)");
-			var f = function(){
-				s.setProperty("fill",color);
-			}
-			window.setTimeout(f,100);
+
 			
 		}
 	});
@@ -47,10 +41,14 @@ I use native vml and canvas to do my magic (ie. no googlecanvas).
 If you're using Firefox you should be able to delete elements by right clicking on one and clicking shift+backspace.</p>
 <h2>Save and send</h2>
 <textarea id='data'>
-[{coordinates: [28,-103,173,-103,173,-14,28,-14],'shape':'polygon','fill':'rgba(0,255,0,0.2)','stroke':'#000000','id':'rect',transformation:{translate:{x:-50,y:1},scale:{x:1,y:2}}},
-{coordinates: [28,-103,173,-103,173,-14,28,-14],'shape':'polygon','fill':'rgba(0,255,0,0.2)','stroke':'#000000','id':'rect2'}
+
+[{coordinates: [28,-103,173,-103,173,-14,28,-14],'shape':'polygon','fill':'rgba(0,0,255,0.2)','stroke':'#000000','id':'trect',transformation:{scale:{x:2,y:2}},'z-index':'0'},{coordinates: [28,-103,173,-103,173,-14,28,-14],'shape':'polygon','fill':'rgba(0,255,0,0.2)','stroke':'#000000','id':'rect','z-index':'0'},{coordinates: [28,-103,173,-103,173,-14,28,-14],'shape':'polygon','fill':'rgba(0,255,0,0.2)','stroke':'#000000','id':'rect_smallest','z-index':'0',transformation:{scale:{x:0.5,y:0.5}}},{coordinates: [-143.5,-120.5,29.5],'shape':'circle','fill':'rgba(0,255,0,0.2)','stroke':'#000000','id':'circle414405'},
+{coordinates: [-143.5,-120.5,29.5],'shape':'circle','fill':'rgba(0,0,255,0.2)',transformation:{scale:{x:2,y:2}},'stroke'
+:'#000000','id':'tcircle'},{coordinates:
+[-143.5,-120.5,29.5],'shape':'circle','fill':'rgba(0,0,255,0.2)',transformation:{scale:{x:0.5,y:0.5}},'stroke':'#000000','id':'tcircle_smallest'}
 
 ]
+
 </textarea><input type="button" onclick="javascript:loadData()" value='Load drawing'/>
 </div>
 </body>

@@ -835,15 +835,21 @@ VismoShapeManipulator.prototype = {
               
               if(this.lastSelected){
                       var bb = this.lastSelected.getBoundingBox();
-                      
-                      var newscale = (br_canvas.x - bb.center.x) / this.lastSelected.getRadius();
+                      var st = this.lastSelected.getShape();
                       var t=  this.lastSelected.getTransformation();
-                      var oldvalue = t;
-                      if(!t) t = {};
-                      if(!t.scale) t.scale = {};
-                      t.scale.x = newscale;
-                      t.scale.y = newscale;
-                      this.lastSelected.setTransformation(t);
+                      var oldvalue = t;       
+                      
+                      var origWRadius = (bb.x2 - bb.center.x);   
+                      if(st == 'circle'){                      
+                          var newscale = (br_canvas.x - bb.center.x) / this.lastSelected.getRadius();
+
+                          if(!t) t = {};
+                          if(!t.scale) t.scale = {};
+                          t.scale.x = newscale;
+                          t.scale.y = newscale;
+                          this.lastSelected.setTransformation(t);
+                      }
+                
                       if(this.options.onshapechange)this.options.onshapechange(this.lastSelected,"transformation",oldvalue);
                       
               }

@@ -276,12 +276,17 @@ VismoShape.prototype={
 			
 	}
 	,getTransformation: function(){
-	       var t= this.getProperty("transformation");
-	       if(!t) t= {};
-	       if(!t.translate) t.translate = {x:0,y:0};
-	       if(!t.scale) t.scale = {x:1,y:1};
+	       var transform= this.getProperty("transformation");
 	       
-	       return t;
+	       if(!transform) transform = {translate:false,scale:false};
+   		if(!transform.translate)transform.translate = {x:0,y:0};
+   		if(!transform.translate.x)transform.translate.x = 0;
+   		if(!transform.translate.y)transform.translate.y = 0;
+   		if(!transform.scale)transform.scale= {x:1,y:1};
+   		if(!transform.scale.x)transform.scale.x = 1;
+   		if(!transform.scale.y)transform.scale.y = 1;
+	       
+	       return transform;
 	}
 	
 	,setTransformation: function(transformation){
@@ -307,6 +312,7 @@ VismoShape.prototype={
 		return;}
 		
 		this.coordinates.normal = coordinates;
+		if(this.vml)this.vml.coordinatesHaveChanged();
 		this.coordinates.projected= false;
 		var i;
 		for(i in this.coordinates.optimised){
@@ -372,32 +378,25 @@ VismoShape.prototype={
 	,_calculateBounds: function(coords){
 	        var that = this;
 		var st = this.getShape();
+		var transform = this.getTransformation();
+
+        
 		if(st == 'path'){
-			//this.grid = {x1:0,x2:1,y1:0,y2:1};
-			//return;
+			this.grid = {x1:0,x2:1,y1:0,y2:1,center:{x:0,y:0}};
+			return;
 		}
 		else if(st == 'point' || st == 'circle' | st == 'image' | st == 'domElement'){
 				var coords = this.getCoordinates().clone();
 				var x = coords[0]; var y = coords[1]; 
 				var dim = this.getDimensions();
-				
-				var transform = this.getTransformation();
-
-
-				
 				this.grid.center = {};
 				this.grid.center.x = x;
 				this.grid.center.y = y;
 				
 				if(transform){
 				        if(transform.translate){
-				                var tran_x =0,tran_y =0;
-				                 if(transform.translate.x)tran_x = transform.translate.x;
-				                if(transform.translate.y)tran_y =  transform.translate.y;
-				                /*if(transform.scale){
-				                        if(transform.scale.x) tran_x *= transform.scale.x;
-				                        if(transform.scale.y) tran_y *= transform.scale.y;
-				                }*/
+				                var tran_x = transform.translate.x;
+				                var tran_y =  transform.translate.y;
 				                
 				                this.grid.center.x += tran_x;
 				                this.grid.center.y += tran_y;
@@ -417,6 +416,7 @@ VismoShape.prototype={
 				//console.log(this.grid.center.x,this.coordinates.normal,this.properties.transformation);
 				return;
 		}
+		
 		if(!coords) coords = this.getCoordinates();
 		if(coords.length < 2) return;
 		this.grid.x1 = coords[0];
@@ -449,8 +449,11 @@ VismoShape.prototype={
 			lastX = xPos;
 			lastY = yPos;
 		}
-		this.grid.width = this.grid.x2 - this.grid.x1;
-		this.grid.height = this.grid.y2 - this.grid.y1;
+		
+		//this.grid.x2 *= transform.scale.x;
+		//this.grid.y2 *= transform.scale.y;
+		this.grid.width = (this.grid.x2 - this.grid.x1);
+		this.grid.height = (this.grid.y2 - this.grid.y1);
 		/*var transform = this.getTransformation();
 		if(transform && transform.scale){
 		        var scale = transform.scale;
@@ -461,6 +464,19 @@ VismoShape.prototype={
 		this.grid.center = {};
 		this.grid.center.x = (this.grid.x2 - this.grid.x1) / 2 + this.grid.x1;
 		this.grid.center.y = (this.grid.y2 - this.grid.y1) / 2 + this.grid.y1;
+		
+		//recalculate based on scaling
+		this.grid.width *= transform.scale.x;
+		this.grid.height *= transform.scale.y;
+		this.grid.center.x += transform.translate.x;
+		this.grid.center.y += transform.translate.y;
+		
+		var halfw = this.grid.width / 2;
+		var halfh = this.grid.height /2;
+		this.grid.x1 = this.grid.center.x - halfw;
+		this.grid.x2 = this.grid.center.x + halfw;
+		this.grid.y1 = this.grid.center.y - halfh;
+		this.grid.y2 = this.grid.center.y + halfh;
 		
 /*		if(transform && transform.translate){
 		        var trans = transform.translate;
