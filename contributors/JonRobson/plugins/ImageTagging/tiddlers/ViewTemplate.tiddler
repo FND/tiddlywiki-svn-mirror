@@ -1,4 +1,4 @@
-<div title="EditTemplate">
+<div title="ViewTemplate" imagexyr="-330.1000061035157,-125.30000305175781,12.5,1022,600">
 <pre>
 <!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>

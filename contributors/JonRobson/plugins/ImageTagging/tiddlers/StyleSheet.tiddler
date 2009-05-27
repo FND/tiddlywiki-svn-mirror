@@ -1,5 +1,9 @@
 <div title="StyleSheet">
 <pre>
 .TagImage {border:solid 1px black; background-color: black;}
+.RightMenu {background-color:white;}
+.brResizer {width:6px;height:6px; background-color:red;border:solid 1px black;}
+.overVismoShape {cursor: pointer;}
+
 </pre>
 </div>

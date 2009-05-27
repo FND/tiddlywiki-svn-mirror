@@ -57,6 +57,8 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
 
 	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0},origin:{}};	
 	             
+	             
+	
 	this.transformation.origin.x = jQuery(elem).width() / 2;
 	this.transformation.origin.y = jQuery(elem).height() / 2;
         var t = this.transformation;

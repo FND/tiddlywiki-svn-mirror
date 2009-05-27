@@ -1,6 +1,4 @@
-<div title="VismoStyleSheet">
-<pre>
-<div title="VismoStyleSheet">
+<div title="VismoStyleSheet" imagexyr="-328.1000061035157,-116.30000305175781,12.5,1022,600">
 <pre>
 .VismoCanvasToolbar{
 	float:right;
@@ -36,7 +34,7 @@ textarea {
 	height:25px	
 }
 
-.selected {border:solid 1px black;z-index:10;}
+.selected {border:solid 1px black;z-index:10;background:red;}
 .newcircle{
 	background-image:url(Vismo/circle.png);
 	background-repeat:no-repeat;
@@ -105,7 +103,5 @@ textarea {
 .VismoToolFillColor {width:80px;}
 .VismoToolFillOpacity {width:50px;}
 .previewcolor {border:solid 1px black;width:20px;height:20px;display:block;}
-</pre>
-</div>
 </pre>
 </div>

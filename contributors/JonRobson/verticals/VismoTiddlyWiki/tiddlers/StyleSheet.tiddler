@@ -1,4 +1,4 @@
-<div title="StyleSheet" tags="ShadowTiddler">
+<div title="StyleSheet" tags="ShadowTiddler" imagexyr="-310.1000061035157,-100.30000305175781,12.5,1022,600">
 <pre>
 body {font-family:Lucida Grande;}
 .header {background: none;font-size:3em;}
@@ -21,5 +21,6 @@ body {font-family:Lucida Grande;}
 #sidebar {z-index:50; background-color:white; opacity:0.8;}
 .active {text-decoration:underline;}
 .brResizer {width:20px;height:20px;}
+.button {}
 </pre>
 </div>

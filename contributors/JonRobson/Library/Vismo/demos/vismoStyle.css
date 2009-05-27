@@ -21,7 +21,7 @@ textarea {
 	border:solid 1px gray;
 	text-indent: 200000px;
 }
-.brResizer {width:10;height:10; background-color:red;}
+.brResizer {width:6;height:6; background-color:red;border:solid 1px black;}
 .selectshape{
 	background-image:url(images/select.png);
 	background-repeat:no-repeat;

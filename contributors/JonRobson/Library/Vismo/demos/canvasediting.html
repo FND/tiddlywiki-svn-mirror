@@ -9,7 +9,8 @@ var vismoCanvasEditor;
 jQuery(document).ready(function(){
 	vismoCanvasEditor = new VismoCanvasEditor('xbrowsercanvas',{
 		panzoom:true,
-		tools: ["selectshape","newcircle","newline","fillshape","save"],
+		defaultfill: "rgba(0,255,0,0.2)",
+		tools: ["selectshape","newcircle","newrectangle","newline","fillshape","save"],
 		save: function(textContent){jQuery("#data").val(textContent);},
 		dblclick:function(e,s){if(!s) return;alert(s.getProperty("id"));},
 		mouseup: function(e,s){
@@ -46,7 +47,10 @@ I use native vml and canvas to do my magic (ie. no googlecanvas).
 If you're using Firefox you should be able to delete elements by right clicking on one and clicking shift+backspace.</p>
 <h2>Save and send</h2>
 <textarea id='data'>
+[{coordinates: [28,-103,173,-103,173,-14,28,-14],'shape':'polygon','fill':'rgba(0,255,0,0.2)','stroke':'#000000','id':'rect',transformation:{translate:{x:-50,y:1},scale:{x:1,y:2}}},
+{coordinates: [28,-103,173,-103,173,-14,28,-14],'shape':'polygon','fill':'rgba(0,255,0,0.2)','stroke':'#000000','id':'rect2'}
 
+]
 </textarea><input type="button" onclick="javascript:loadData()" value='Load drawing'/>
 </div>
 </body>

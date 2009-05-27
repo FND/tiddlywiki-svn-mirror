@@ -1,6 +1,17 @@
-var VismoGraphRenderer = function(wrapper,vismoGraph,options){
+var VismoGraphRenderer = function(wrapper,options){
+
         //this.canvas = new VismoCanvas(wrapper,options);
-        options.tools = ['selectshape'];
+        if(!options) options = {};
+    
+        options.tools = ['selectshape','newcircle','newline','fillshape'];
+        options.graphmode = true;
+
+        if(!options.graph){
+            options.graph = new VismoGraph();
+        }
+        vismoGraph = options.graph;
+        
+        
         this.editor = new VismoCanvasEditor(wrapper,options);        
         this.canvas = this.editor.VismoCanvas;
         //if(options.moveableNodes) this.canvas.makeMoveable(options.oncompletemove);
@@ -13,9 +24,8 @@ var VismoGraphRenderer = function(wrapper,vismoGraph,options){
         this.edge = false;
         options.directed = true;
         if(!options.renderLabel){
-                options.renderLabel = function(label,node){
-                        
-                        label.innerHTML = node.getProperty("name");
+                options.renderLabel = function(label,node){ 
+                        label.innerHTML = node.getProperty("id");
          
                 };
         }
@@ -105,7 +115,7 @@ VismoGraphRenderer.prototype = {
 	        
 	}
 	,getNodeFromShape: function(shape){
-	        var id = shape.getProperty("_nodeID");
+	        var id = shape.getProperty("id");
 	        return this.vismoGraph.getNode(id);
 	}
 
@@ -118,15 +128,15 @@ VismoGraphRenderer.prototype = {
 	                if(pos){
         	                var properties = node.getProperties();
         	                properties.shape = 'circle';
-        	                properties._nodeID = node.getID();
 	                
 
         	                if(!this.addedNodes[node.getID()]){
         	                       
                                         var x = pos.x;
                                         var y= pos.y;
-                                       
-                                        var s = new VismoShape(properties,[x,y,10]);
+                                        var radius = node.getProperty("width")/ 2;
+                                        if(!radius) radius = 10;
+                                        var s = new VismoShape(properties,[x,y,radius]);
         	                      
         	                        this.canvas.add(s);
         	                        this.addedNodes[node.getID()] = s;

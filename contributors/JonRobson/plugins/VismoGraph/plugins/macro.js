@@ -1,3 +1,4 @@
+config.renamedTiddlers = {};
 config.macros.VismoGraph = {
         instances: []
         ,handler: function(place,macroName,params,wikifier,paramString,tiddler,graphjson){
@@ -34,14 +35,15 @@ config.macros.VismoGraph = {
                 var positionCalculationFunction = function(graph,node){ ///user-defined layout
                 
                                 var tiddler = store.getTiddler(node.getID());
-                                var x,y;
+                                var x,y,radius;
                                 if(tiddler){
                                         if(tiddler.fields.vismoxy){
                                                 var xy = tiddler.fields.vismoxy.split(",");
                                                 x = parseFloat(xy[0]);
                                                 y = parseFloat(xy[1]);
-                       
-                                                return {x:x,y:y};
+                                                radius = parseFloat(xy[2]);
+                                                node.setProperty("width", radius*2);
+                                                return {x:x,y:y,radius:radius};
                                         }
                                 }
                                 var oldpos = node.getPosition();
@@ -117,29 +119,14 @@ config.macros.VismoGraph = {
   
                 };
 
-                var dbclick = function(e,s){
-                        if(s)story.normalDisplayTiddler(null,s.getProperty("name"));
+                var dblclick = function(e,s){
+               
+                        if(s)story.normalDisplayTiddler(null,s.getProperty("id"));
                         else{
-                            
+                            //wont work yet as r defined later..
                                 var xy = r.getVismoCanvas().getXY(e);
-
                                 r.getVismoController().panTo(xy.x,xy.y);
-                                return;
-                            
-                            /*
-                                var pos = r.getVismoCanvas().getXY(e);
-                                
-                                var can =r.getVismoCanvas();
-                                can.add(new VismoShape({shape:'circle',fill:'rgb(0,0,0)'},[pos.x,pos.y,10]));
-                                can.render();
-                                
-                                 var title = "abc";
-                                savePosition(title,pos.x,pos.y);
-                          
-                                /*var node =g.addNode({id:title,properties:{name:title}});
-                                node.setPosition(pos.x,pos.y);
-                                r.render();*/
-                                
+                                return;                       
                         }
                 };
                 var singleclick = function(e,s){
@@ -172,22 +159,63 @@ config.macros.VismoGraph = {
                         }
                         r.render();
                 };
-                
-                var r= new VismoGraphRenderer(el,g,{startdisabled: true,onmovecomplete: finishmove,mouseup: singleclick,dblclick:dbclick,panzoom:true,renderLabel: labelwikify,afterRender: afterRender});
+                            
+                var saveEdge = function(s){
+    
+                    var from = s.getProperty("from");
+                    var to = s.getProperty("to");
+                    
+                    var tiddler = store.getTiddler(to);
+                    if(tiddler){
+                        var newtags = tiddler.tags;
+                        newtags.push(from);
+                        store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,newtags,tiddler.fields,true,tiddler.created);
+                    }
+                    else{
+                        throw "error tiddler with title "+ to+ " doesnt exist?!";
+                    }
+                }
+                var saveNode = function(s){
+                    var title = "Thought #"+s.getProperty("id");
+                    s.setProperty("id",title);
+                    var coords = s.getCoordinates("normal");
+                    var xyr = coords[0]+","+coords[1]+","+coords[2];
+                    
+                    var fields = merge({vismoxy: xyr}, config.defaultCustomFields);
+
+                    store.saveTiddler(title,title,"created by vismograph","VismoGraph",new Date(),[],fields,true,new Date());
+
+                    
+                }
+
+                var adjustNode = function(s,propertyname,oldvalue){
+                  if(propertyname == 'id'){
+                      var tiddler = store.getTiddler(oldvalue);
+                      var newtitle = s.getProperty("id");
+                      try{
+                          store.saveTiddler(tiddler.title,newtitle,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+                        }catch(e){
+                            console.log("owch",e);
+                        }
+                  }
+                  else{
+                      console.log(propertyname,"changed");
+                      var tiddler = store.getTiddler(oldvalue);
+                      var newfields = tiddler.fields;
+                      newfields[propertyname] = s.getProperty(propertyname);
+                      store.saveTiddler(tiddler.title,newtitle,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,newfields,true,tiddler.created);
+                      
+                  }
+                };
+     
+                var r= new VismoGraphRenderer(el,{onlinecomplete:saveEdge, onshapechange: adjustNode, onshapecomplete: saveNode,graph:g,startdisabled: true,onmovecomplete: finishmove,mouseup: singleclick,dblclick:dblclick,panzoom:true,renderLabel: labelwikify,afterRender: afterRender});
                 
                 var layout =getParam(prms,"layout");
                 if(layout == "tree"){
                         
                         g.setLayoutAlgorithm("tree");
                 }
-                
-
-
-
-
-                //r.canvas.mouse();
-                //r.canvas.makeMoveable(finishmove);
-                r.canvas.addTooltip(function(el,s){el.appendChild(document.createTextNode(s.getProperty("name")));});
+                r.canvas.addTooltip(function(el,s){el.appendChild(document.createTextNode(s.getProperty("id")));});
 
                 r.render();
         }
@@ -231,7 +259,7 @@ config.macros.VismoGraph = {
                                         }
                                         var parent = this.addNode(vismoGraph,tagtiddler);
                                         if(tid.fields.parentcolor){
-                                                //parent.setProperty("fill",tid.fields.parentcolor);
+                                                parent.setProperty("fill",tid.fields.parentcolor);
                                         }
                                 
                                         g.addEdge(tag,tid.title);
@@ -243,12 +271,12 @@ config.macros.VismoGraph = {
         }
 };
 
-/*
 story.normalDisplayTiddler = story.displayTiddler;
 story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle){
 
         for(var i=0; i < config.macros.VismoGraph.instances.length; i++){
                 var renderer = config.macros.VismoGraph.instances[i];
+                if(renderer){
                 renderer.setRootNode(tiddler);
                 var node = renderer.getRootNode();
                 //console.log(node);
@@ -258,6 +286,7 @@ story.displayTiddler = function(srcElement,tiddler,template,animate,unused,custo
                         controller.translate(-t.x,-t.y);
                 }
                 renderer.render();
+                }
                
         }
         
@@ -290,4 +319,4 @@ story.saveTiddler = function(title,minorUpdate){
                 
         
         return this.normalSaveTiddler(title,minorUpdate);
-};*/
+};

@@ -491,7 +491,7 @@ VismoCanvas.prototype = {
 		if(this.memory.length > 0){
 			var shape = false;
 			if(target.vismoClicking){
-			shape = target.vismoClicking.getShapeAtPosition(x,y);
+			    shape = target.vismoClicking.getShapeAtPosition(x,y);
 			}
 			return shape;
 		} else{

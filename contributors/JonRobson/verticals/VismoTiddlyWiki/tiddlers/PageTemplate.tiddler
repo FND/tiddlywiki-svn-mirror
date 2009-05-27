@@ -1,29 +1,29 @@
-<div title="PageTemplate">
+<div title="PageTemplate" imagexyr="	-251.10000610351562,-120.30000305175781,12.5,1022,600">
 <pre>
 <!--{{{-->
 <div class='header'>
-	<span refresh='content' tiddler='SiteTitle'></span>&nbsp;	
+	<span  tiddler='SiteTitle' refresh='content'></span>&nbsp;	
 </div>
 
 <div class='jQueryTabs'>
-	<div class='jQueryTab' title="Vismo Free Graph">
-		<div class='collapsable' macro='VismoGraph width:1022 height:600 fill:rgba(0,0,255,0.2) '></div>
-	</div>
-	<div class='jQueryTab' title='TiddlyTagMindMap'>
-		<div refresh='content' class='collapsable' id="tagmindmap" parameters="focus:'Welcome to VismoWiki' labeldepth:1 width:1022 height:600 floating:true popup:true id:main startState:all zoom:130 exclude: {{['excludeLists']}} animate:false emptyTiddlerColor:#cccccc"></div>
-	</div>
 
+	<div class='jQueryTab' title='TiddlyTagMindMap'>
+		<div  macro="tiddlytagmindmap focus:'Welcome to VismoWiki' labeldepth:1 width:1022 height:600 floating:true popup:true id:main startState:all zoom:130 exclude: {{['excludeLists']}} animate:false emptyTiddlerColor:#cccccc"></div>
+	</div>
+	<div class='jQueryTab' title="Vismo Free Graph">
+		<div macro='VismoGraph width:1022 height:600 fill:rgba(0,0,255,0.2) '></div>
+	</div>
 
 
 	<div class='jQueryTab' title="Geo View" >
-			<div class='collapsable' macro='geo id:geovis width:1022 height:600 source:false editable:true projection:slippystaticmap'></div>
+			<div macro='geo id:geovis width:1022 height:600 source:false editable:true projection:slippystaticmap'></div>
 	</div>
 
 	<div class='jQueryTab' title="Image Tagging View">
-			<div class='collapsable' macro='TagImage src:tagimage.png tiddlers:{{store.getTiddlers()}} editable:true width:1022 height:600 fill:rgba(0,0,255,0.2)'></div>
+			<div macro='TagImage src:organiser.png tiddlers:{{store.getTiddlers()}} editable:true width:1022 height:600 fill:rgba(0,0,255,0.2)'></div>
 	</div>
 
-	
+
 </div>
 
 <div id='displayArea'>
@@ -33,8 +33,8 @@
 <div id='sidebar'>
 	<div macro='closeAll'></div>
 	<div class='collapsable'>
-	<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
-	<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+	<div id='sidebarOptions'  tiddler='SideBarOptions' refresh='content'></div>
+	<div id='sidebarTabs'  force='true' tiddler='SideBarTabs' refresh='content'></div>
 	</div>
 </div>
 

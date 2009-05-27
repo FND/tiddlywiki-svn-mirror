@@ -67,5 +67,6 @@ VismoGraphNode.prototype = {
 	        //console.log("Setting",this.id,"to",x,y);
 	        if(x=== false) this.setProperty("position",false);
 	        else this.setProperty("position",{"x":x,"y":y});
+	        
 	}
 };

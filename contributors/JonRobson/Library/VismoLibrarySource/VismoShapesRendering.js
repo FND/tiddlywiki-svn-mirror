@@ -47,9 +47,15 @@ var VismoCanvasRenderer = {
 		var move = true,quadraticCurve = false,bezierCurve = false;
 		var c = vismoShape.getCoordinates();
 		var t =vismoShape.getProperty("transformation");
-		var t= {}
 		if(!t) t= {};
-		
+		ctx.save();
+		//ctx.setTransform(1, 1, 1, 1, 1, 1);
+		if(!t.translate)t.translate = {x:0,y:0};
+		if(!t.scale) t.scale = {x:1,y:1};
+		    
+
+		//ctx.scale(t.scale.x,t.scale.y);
+		ctx.translate(t.translate.x,t.translate.y);		
 		for(var i=0; i < c.length-1; i+=2){
             var isCoord =VismoShapeUtils._isCoordinate(c[i]);
 			if(!isCoord){
@@ -95,6 +101,7 @@ var VismoCanvasRenderer = {
 				
 				
 		}
+		ctx.restore();
 	}
 	,renderPoint: function(ctx,vismoShape){
 	        //ctx.restore();

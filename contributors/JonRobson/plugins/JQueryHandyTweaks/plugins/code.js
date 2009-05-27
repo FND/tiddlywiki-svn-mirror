@@ -49,6 +49,7 @@ var jQueryEnhancers = {
     clicktofront: function(){
             var els = jQuery(".clicktofront");
             for(var i=0; i < els.length; i++){
+                
                     var el = els[i];
                     var old = el.onmousedown;
       
@@ -64,35 +65,39 @@ var jQueryEnhancers = {
     }    
 };
 function makecollapsables(){
-var collapsables = jQuery(".collapsable");
+    var collapsables = jQuery(".collapsable");
 
-for(var i=0; i < collapsables.length; i++){
-  var element = collapsables[i];
-  if(!element.isCollapsable){
-         var newplace=  document.createElement("div");
-         newplace.collapses = element
-         jQuery(newplace).click(function(e){
-                  jQuery(this.collapses).slideToggle();
-                 });
-          newplace.className = "toggler";
-          element.parentNode.insertBefore(newplace,element);
-          createTiddlyButton(newplace, "toggle", "toggle content", function(e){
-                 }
-          );
-          element.isCollapsable = true; 
-          }
+    for(var i=0; i < collapsables.length; i++){
+      var element = collapsables[i];
+      if(!element.isCollapsable){
+             var newplace=  document.createElement("div");
+             newplace.collapses = element
+             jQuery(newplace).click(function(e){
+                      jQuery(this.collapses).slideToggle();
+                     });
+              newplace.className = "toggler";
+              element.parentNode.insertBefore(newplace,element);
+              createTiddlyButton(newplace, "toggle", "toggle content", function(e){
+                     }
+              );
+              element.isCollapsable = true; 
+              }
 
-}
+    }
 };
 
 function  makeresizeables(){
         var els = jQuery(".resizable");
         for(var i=0; i < els.length; i++){
                 var element = els[i];
+                
+                if(!element.isResizeable){
                 var newdiv = document.createElement("div");
                 newdiv.className = "jqHandle jqResize";
                 element.appendChild(newdiv);
+                element.isResizeable = true;
                 jQuery(element).jqResize('.jqResize');
+                }
         }
                 
         
