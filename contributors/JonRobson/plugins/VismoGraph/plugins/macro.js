@@ -294,10 +294,8 @@ story.displayTiddler = function(srcElement,tiddler,template,animate,unused,custo
         
 };
 
+/*
 story.normalSaveTiddler = story.saveTiddler;
-
-
-
 story.saveTiddler = function(title,minorUpdate){
       
         
@@ -320,3 +318,4 @@ story.saveTiddler = function(title,minorUpdate){
         
         return this.normalSaveTiddler(title,minorUpdate);
 };
+*/
