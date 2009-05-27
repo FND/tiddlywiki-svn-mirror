@@ -1,17 +1,13 @@
 <div title="NewFeatures" modifier="FND" created="200704141410" modified="200901140000">
-<pre>Release 2.5.1 of TiddlyWiki contains several usability enhancements
-and bug fixes. These include:
+<pre>Release 2.5.1 of TiddlyWiki contains several usability enhancements and bug fixes.
+These include:
 * Improved separators and "more/less" extenders for toolbars
 * Added plugin version information to the PluginManager
-* Fixed <<tags>> macro to respect the excludeLists tag
+* Fixed //Tags// macro to respect the //excludeLists// tag
 * Fixed problem with saving of extended tiddler fields
-
-It also starts the process of refactoring useful parts of TiddlyWiki's
-functionality into generic jQuery plugins that can be reused in other
-projects:
-* jQuery.twFile - Access to the local filing system for HTML files
-loaded from a file:// URL
-* jQuery.twStylesheet - Dynamic style-sheet handling
-* jQuery.encoding.digests.sha1 - Cryptographic signing code
+It also starts the process of refactoring useful parts of TiddlyWiki's functionality into generic jQuery plugins that can be reused in other projects:
+* //jQuery.twFile// - Access to the local filing system for HTML files loaded from a file:// URL
+* //jQuery.twStylesheet// - Dynamic style-sheet handling
+* //jQuery.encoding.digests.sha1// - Cryptographic signing code
 </pre>
 </div>
