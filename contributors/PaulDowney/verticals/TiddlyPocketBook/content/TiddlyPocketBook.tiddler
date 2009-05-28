@@ -1,5 +1,6 @@
 <div title="TiddlyPocketBook" modifier="Paul Downey" created="200811021615" tags="">
 <pre>Hello! This is a [[TiddlyWiki|http://tiddlywiki.com]] to create ~PocketBooks, small [[dinky booklets|http://natbat.net/2009/May/21/pocketbooks/]] which are made from a single piece of paper. 
 
-This version has a few //issues//, notably printing only works in modern browsers which support CSS transforms, such as Safari and Firefox 3.5 beta.</pre>
+This version has a few //issues//, notably printing only works in modern browsers which support CSS transforms, such as Safari and Firefox 3.5 beta, for other people, there's a [[PDF|/books/psd/TiddlyWikiPocketBook.pdf]] version of this page to download and instructions on how to fold pocketbooks on [[pocketmod.com|http://pocketmod.com]].
+</pre>
 </div>
