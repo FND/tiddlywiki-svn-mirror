@@ -9,7 +9,7 @@ body {
 	height: 296mm;
 	width: 210mm;
 	margin: 0;
-	/*border: 5px solid #C7C7C7;*/
+	margin-left: 1mm;
 }
 
 .tiddler, .page {
