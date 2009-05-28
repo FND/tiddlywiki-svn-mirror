@@ -1,7 +1,7 @@
 <div title="3" modifier="PaulDowney" created="200905221633" modified="200905270946" tags="page">
 <pre>!!Dashes {{amp{&amp;}}} Rules
-{{{-- Em dash}}} 
-{{{---- Horizontal rule}}}
+{{{--}}}  Em dash
+{{{----}}} Horizontal rule
 !!Headings
 {{{!Heading Level 1}}}
 {{{!!Heading Level 2}}}

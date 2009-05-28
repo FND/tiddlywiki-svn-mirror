@@ -3,18 +3,18 @@
 {{{"""Escaped text"""}}}
 {{{/%Hidden text%/}}}
 !!Markup{{amp{&amp;}}} Styling
-{{{&amp; HTML entity}}}
-{{{&#171; Character entity}}}
-{{{<}}}br{{{>}}} Line break
+{{{&amp;}}} -- HTML entity
+{{{&#171;}}} -- Character entity
+{{{<br>}}} -- Line break
 {{{<}}}{{{html}}}{{{>HTML markup</}}}{{{html}}}{{{>}}}
 
-{{{@@css:value;css:value:text@@}}}
-{{{{{cssClassName{styled text}}}}}}
+{{{@@}}}//css//{{{:}}}//value//{{{;}}}//css//{{{:}}}//value//{{{:}}}//text//{{{@@}}}
+{{{{{{}}}//class//{{{{styled text}}}}}}
 !!Macros
-{{{<<today [format]>>}}}
+{{{<<today [}}}//format//{{{]>>}}}
 {{{<<version>>}}}
-{{{<<tiddler }}}//WikiWord//{{{>}}}
-{{{<<tabs }}}//id//{{{ }}}//label//{{{ }}}//tip//{{{ }}}//WikiWord// &#x2026;{{{>>}}}
-{{{<<slider }}}//id//{{{ }}}//WikiWord//{{{ }}}//label//{{{ }}}//tip//{{{>>}}}
+{{{<<tiddler }}}//~WikiWord//{{{>}}}
+{{{<<tabs }}}//id label tip ~WikiWord// &#x2026;{{{>>}}}
+{{{<<slider }}}//id ~WikiWord label tip//{{{>>}}}
  </pre>
 </div>

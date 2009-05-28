@@ -1,9 +1,8 @@
 <div title="1" modifier="PaulDowney" created="200905221633" modified="200905271105" tags="page">
 <pre>!{{sub{~TiddlyPocketBook}}} ~TiddlyWiki
-TiddlyWiki is a wiki in a single HTML document containing all of the content along with the ability to edit and save changes, tag and search. Open Source, it's readily tailored using templates, style-sheets, macros and plugins. 
+TiddlyWiki is a wiki in a single HTML document containing all of the content along with the ability to edit,  save changes, tag and search. Open Source, it's readily tailored using templates, style-sheets, macros and plugins. 
 
 TiddlyWiki is very portable -- running offline as well as from the Web, and easily passed via Email and USB sticks.
-
 |Download| tiddlywiki.com|
 |Community| tiddlywiki.org|
 |Developers| trac.tiddlywiki.org|

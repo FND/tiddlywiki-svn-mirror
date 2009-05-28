@@ -1,6 +1,7 @@
 <div title="8" modifier="PaulDowney" created="200905221633" modified="200905271044" tags="page">
 <pre>!!Startup Parameters
-{{{#open:}}}//WikiWord//
+{{{#[open:]}}}//WikiWord//
+{{{#[open:]}}}//WikiWord//{{{%20}}}//WikiWord//&#x2026;
 {{{#start:safe}}}
 {{{#search:}}}//text//
 {{{#tag:}}}//text//
