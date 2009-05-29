@@ -135,11 +135,17 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 		label[label.length-1]++;
 		var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
 	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
-
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"HeadingView", "sectionHeading toc-sort-handle ");	
 		// createTiddlyText(sectionDiv, (sectionLabel++)+"  :  "+spec.title);
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
 		config.macros.tdoc2Outline._renderSpec(li, this.children, label);
+		var a = createTiddlyElement(li, "a", null, null, "del");
+		a.onclick = function() {
+			$(testSpec).remove("#Growth");
+//			$(testSpec).each(function());
+			console.log(arguments);
+	//		alert("pony");
+		}
 	});
 }
 
@@ -178,29 +184,12 @@ config.macros.deleteZone.handler = function() {
 		hoverclass : "deleteHelper",
 		accept:"toc-item",
 			ondrop:	function (drag) {
-				var unwanted = config.macros.deleteZone.find(drag.id, testSpec)
-				/*
-				for (var i=0; i<unwanted.containerSpec.length; i++) {
-					if (unwanted.containerSpec[i]==unwanted.found) {
-						unwanted.containerSpec.splice(i,1);
-						console.log("spec after splice", testSpec);
-						console.log("1", ($(drag).parents(".specView").get())[0]);
-						config.macros.tdoc2Outline.renderSpec(($(drag).parents(".specView").get())[0], testSpec, []);	
-						console.log("2", ($(drag).parents(".specView").get())[0]);
-						break;
-					}
-					console.log("end of check");
-				}
-				*/
-				if (unwanted) {
-					unwanted.containerSpec.splice(unwanted.index, 1);
-					console.log("unwanted", unwanted, "spliced", testSpec)
-					config.macros.tdoc2Outline.renderSpec(($(drag).parents(".specView").get())[0], testSpec, []);	
-				} else {
-					console.log("ERROR - no unwanted found");
-				}
-				console.log("ondrop  done");
-				return false; // probably does nothing - remove?
+				console.log(arguments, this);
+			//	$(".helper").remove();
+			$(testSpec).each().remove(drag);
+
+
+
 			}
 	});
 };
