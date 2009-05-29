@@ -43,6 +43,7 @@ config.macros.tdoc2Outline.strip=function(s) {
 }
 
 config.macros.tdoc2Outline.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	console.log("handler");
 	config.macros.tdoc2Outline.refresh(place,macroName,params,wikifier,paramString,tiddler);
 };
 
@@ -61,18 +62,84 @@ config.macros.tdoc2Outline.handler=function(place,macroName,params,wikifier,para
 	
 */
 
-config.macros.tdoc2Outline.renderSpec = function(place, spec, label) {
+config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
+	
+	window.ulCount=0;
+	window.liCount=0;
+	window.divCount=0;
+	window.sectionCount = 1;
+	
+	
+	console.log("render", specView);
+	$(specView).empty();	
+	config.macros.tdoc2Outline._renderSpec(specView, spec, []);
+	console.log("done rendering");
+
+		$("ul.toc").NestedSortable({
+			accept: 'toc-item',
+			noNestingClass: "no-nesting",
+			helperclass: 'helper',
+			onStop: function() {
+				// HACK TO REMOVE THE HELPER CLASS WHICH SHOULD REMOVE ITSELF
+				$(".helper").remove();
+			},
+			onChange: function(serialized) {
+				console.log("args", arguments);
+				var newSpec = [];
+
+				$("li").children().each(function() {
+	//				console.log("c: ", this);
+				});
+				$("li").each(function() {
+
+					config.macros.tdoc2Outline.serialize(this);
+
+		//			console.log("parent", $(this).parents(".toc"));
+		//			newSpec.push({title:this.id});
+		//			console.log("Children : ", this);
+		//			console.log('new spec is :', newSpec, this.id);								
+
+				})
+		//		console.log(serialized);
+				$('#left-to-right-ser').html("This can be passed as parameter to a GET or POST request: "+ serialized[0].hash);
+			},
+			autoScroll: true,
+			handle: '.toc-sort-handle'
+		});
+	console.log("done nestedsorrtable");
+		$("#ul0 li").mouseup(function() {
+			if(config.options.chkOpenEditView==true)
+				story.displayTiddler(null, this.id, DEFAULT_EDIT_TEMPLATE);
+			else
+				story.displayTiddler(null, this.id);
+		});
+		console.log("done mousepu");
+
+		$(".sectionHeading").hover(
+			function() {
+				$(this).addClass("draggableOn");
+			}, 
+			function() {
+				$(this).removeClass("draggableOn");
+			}
+		);
+		console.log("done hover");
+			
+}
+
+config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
+	console.log("_renderSpec", arguments);
 	var childCount=1;
 	label=label.concat([0])
 	$.each(spec, function() {
 		label[label.length-1]++;
-		var ul = createTiddlyElement(place, "ul", "ul"+(window.ulCount++), "toc");
+		var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
 	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
 
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"HeadingView", "sectionHeading toc-sort-handle ");	
 		// createTiddlyText(sectionDiv, (sectionLabel++)+"  :  "+spec.title);
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
-		config.macros.tdoc2Outline.renderSpec(li, this.children, label);
+		config.macros.tdoc2Outline._renderSpec(li, this.children, label);
 	});
 }
 
@@ -88,60 +155,11 @@ config.macros.tdoc2Outline.serialize=function(item, spec){
 
 
 config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
-	window.ulCount=0;
-	window.liCount=0;
-	window.divCount=0;
-	window.sectionCount = 1;
-	
-	config.macros.tdoc2Outline.renderSpec(place, testSpec, []);
-	
-	$("ul.toc").NestedSortable({
-		accept: 'toc-item',
-		noNestingClass: "no-nesting",
-		helperclass: 'helper',
-		onStop: function() {
-			// HACK TO REMOVE THE HELPER CLASS WHICH SHOULD REMOVE ITSELF
-			$(".helper").remove();
-		},
-		onChange: function(serialized) {
-			console.log(serialized);
-			var newSpec = [];
-			
-			$("li").children().each(function() {
-//				console.log("c: ", this);
-			});
-			$("li").each(function() {
 
-				config.macros.tdoc2Outline.serialize(this);
+	
+	var specView = createTiddlyElement(place, "div", "", "specView");	
+	config.macros.tdoc2Outline.renderSpec(specView, testSpec);
 
-	//			console.log("parent", $(this).parents(".toc"));
-	//			newSpec.push({title:this.id});
-	//			console.log("Children : ", this);
-	//			console.log('new spec is :', newSpec, this.id);								
-	
-			})
-	//		console.log(serialized);
-			$('#left-to-right-ser').html("This can be passed as parameter to a GET or POST request: "+ serialized[0].hash);
-		},
-		autoScroll: true,
-		handle: '.toc-sort-handle'
-	});
-	
-	$("#ul0 li").mouseup(function() {
-		if(config.options.chkOpenEditView==true)
-			story.displayTiddler(null, this.id, DEFAULT_EDIT_TEMPLATE);
-		else
-			story.displayTiddler(null, this.id);
-	});
-	
-	$(".sectionHeading").hover(
-		function() {
-			$(this).addClass("draggableOn");
-		}, 
-		function() {
-			$(this).removeClass("draggableOn");
-		}
-	);		
 }	
 
 // DELETE ZONE
@@ -160,7 +178,29 @@ config.macros.deleteZone.handler = function() {
 		hoverclass : "deleteHelper",
 		accept:"toc-item",
 			ondrop:	function (drag) {
-				console.log("found ", config.macros.deleteZone.find(drag.id, testSpec));
+				var unwanted = config.macros.deleteZone.find(drag.id, testSpec)
+				/*
+				for (var i=0; i<unwanted.containerSpec.length; i++) {
+					if (unwanted.containerSpec[i]==unwanted.found) {
+						unwanted.containerSpec.splice(i,1);
+						console.log("spec after splice", testSpec);
+						console.log("1", ($(drag).parents(".specView").get())[0]);
+						config.macros.tdoc2Outline.renderSpec(($(drag).parents(".specView").get())[0], testSpec, []);	
+						console.log("2", ($(drag).parents(".specView").get())[0]);
+						break;
+					}
+					console.log("end of check");
+				}
+				*/
+				if (unwanted) {
+					unwanted.containerSpec.splice(unwanted.index, 1);
+					console.log("unwanted", unwanted, "spliced", testSpec)
+					config.macros.tdoc2Outline.renderSpec(($(drag).parents(".specView").get())[0], testSpec, []);	
+				} else {
+					console.log("ERROR - no unwanted found");
+				}
+				console.log("ondrop  done");
+				return false; // probably does nothing - remove?
 			}
 	});
 };
@@ -178,15 +218,16 @@ config.macros.deleteZone.deleteRecursively = function(unwantedSpec) {
 // inefficient implementation
 config.macros.deleteZone.find = function(wantedTitle, spec) {
 	var wantedSpec;
-	console.log("spec", wantedTitle, "---", spec)
+	console.log("spec", wantedTitle, "---", spec);
+	var count=0;
 	$.each(spec, function() {
 		if(this.title == wantedTitle)
-		  // SHOULD DO THIS TO GET PARENT FOR DELETE RECURSIVELY wantedSpec = { wanted: this, wantedParent: spec };
-		  wantedSpec = this;
+		  wantedSpec = { found: this, containerSpec: spec, index: count };
 		else
 		  wantedSpec = config.macros.deleteZone.find(wantedTitle, this.children);
 		log("wanted", wantedSpec)
 		if (wantedSpec) return false; // break
+		count++;
 	})
 	return wantedSpec;
 }
