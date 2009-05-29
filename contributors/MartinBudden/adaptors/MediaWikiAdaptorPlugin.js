@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.12|
+|''Version:''|0.8.13|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -472,7 +472,7 @@ adaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 			var c = null;
 			if(info['query-continue']) {
 				if(info['query-continue'].allpages) {
-					c = info['query-continue'].allpages[context.urifrom];
+					c = adaptor.normalizedTitle(info['query-continue'].allpages[context.urifrom]);
 					context.count += context.gaplimit;
 					if(context.count>=context.tiddlerLimit)
 						c = null;
@@ -506,7 +506,6 @@ adaptor.getTiddlerListCallback = function(status,context,responseText,uri,xhr)
 	}
 	if(context.uri && c) {
 		var u = context.uri.format([c]);
-//#console.log('u: '+u);
 		var req = adaptor.doHttpGET(u,adaptor.getTiddlerListCallback,context);
 	} else {
 		if(context.callback)
