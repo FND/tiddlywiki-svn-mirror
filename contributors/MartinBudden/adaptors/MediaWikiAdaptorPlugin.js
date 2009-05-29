@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.11|
+|''Version:''|0.8.12|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -338,11 +338,17 @@ adaptor.prototype.getTiddlerList = function(context,userParams,callback,filter)
 	var host = this.fullHostName(context.host);
 	if(!context.tiddlerLimit)
 		context.tiddlerLimit = !config.options.txtMediaWikiAdaptorLimit ? config.maxTiddlerImportCount : config.options.txtMediaWikiAdaptorLimit;
-    context.tiddlerLimit = parseInt(context.tiddlerLimit,10);
+	context.tiddlerLimit = parseInt(context.tiddlerLimit,10);
 	var limit = context.tiddlerLimit;
 	if(limit>500)
 		limit = 500;
 	filter = context.filter;
+	if(host.indexOf('wikipedia.org')!=-1) {
+		//# if from wikipedia and no filter, then filter on featured articles
+		if(!filter) {
+			filter = '[template[Featured_article]]';
+		}
+	}
 	if(filter) {
 		var re = /\[(\w+)\[([ \w\.\:]+)\]\]/;
 		var match = re.exec(filter);
