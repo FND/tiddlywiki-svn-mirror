@@ -350,7 +350,7 @@ merge(config.macros,{
 			//the extra || condition below should take care of contexts now. so actually you can have realm specific contexts if you want
 			if (thisRealm && tag != "Realm") { // && tag != "Context") {
 				// only want to see things in my realm (or things that don't have a realm...)
-				filterRealm += "(tiddler.tags.contains('"+thisRealm.replace(/'/,"\\'")+"') || !tiddler.hasParent('Realm'))";
+				filterRealm += "(tiddler.tags.contains('"+thisRealm.replace(/'/g,"\\'")+"') || !tiddler.hasParent('Realm'))";
 			}
 
 			if (tag == "Project") {
@@ -364,7 +364,7 @@ merge(config.macros,{
 				if (tiddler.hasParent('Project')) {
 					// XXX slightly broken for actions with multiple projects. But i can live with it..
 					// note: getParent returns an array
-					filterComplete += "(!tiddler.tags.contains('Done') && tiddler.tags.contains('"+tiddler.getParent('Project')[0].replace(/'/,"\\'")+"'))";
+					filterComplete += "(!tiddler.tags.contains('Done') && tiddler.tags.contains('"+tiddler.getParent('Project')[0].replace(/'/g,"\\'")+"'))";
 				}
 				else {
 					filterComplete += "(!tiddler.tags.contains('Done') && !tiddler.hasParent('Project'))"; 
@@ -386,18 +386,18 @@ merge(config.macros,{
 			// ...yuck
 
 			// exclude ourselves (needed now for action dependencies)
-			filterExpr = '((' + filterExpr + ') && (tiddler.title !=  "' + tiddler.title.replace(/'/,"\\'") + '"))';
+			filterExpr = '((' + filterExpr + ') && (tiddler.title !=  "' + tiddler.title.replace(/'/g,"\\'") + '"))';
 
 			var currentVal = tiddler.getParent(tag)[0];
 			if (currentVal && currentVal != '') {
 				// prevent weirdness if the current value isn't in the list
 				// eg an action in a completed project
-				filterExpr = "(" + filterExpr + ") || tiddler.title == '" + currentVal.replace(/'/,"\\'") + "'";
+				filterExpr = "(" + filterExpr + ") || tiddler.title == '" + currentVal.replace(/'/g,"\\'") + "'";
 
 			}
 			if (tag == "Project" && tiddler.hasTag('Project')) {
 				// special case: don't let a project be a subproject of itself
-				filterExpr = "(" + filterExpr + ") && tiddler.title != '" + tiddler.title.replace(/'/,"\\'") + "'";
+				filterExpr = "(" + filterExpr + ") && tiddler.title != '" + tiddler.title.replace(/'/g,"\\'") + "'";
 			}
 
 			// okay now do the filtering
