@@ -6,7 +6,8 @@ merge(Tiddler.prototype,{
 		var hourToActivate = config.mGTD.getOptTxt('tickleractivatehour') || defaultHourToActivate;
 		var nowTime = new Date();
 		nowTime.setHours(nowTime.getHours() - hourToActivate); // i'm confused because of UTC versus local. I think mgtd_date is UTC. But has hh:mm:ss is 00:00:00 in local time
-		return (this.fields.mgtd_date && nowTime.convertToYYYYMMDDHHMM() >= this.fields.mgtd_date );
+		// a tickler without a date is active now. so please add a date to your ticklers. thanks Arkady Grudzinsky
+		return (!this.fields.mgtd_date || nowTime.convertToYYYYMMDDHHMM() >= this.fields.mgtd_date );
 		
 	}
 

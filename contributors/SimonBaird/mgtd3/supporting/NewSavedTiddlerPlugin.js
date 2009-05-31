@@ -67,7 +67,8 @@ config.macros.newSavedTiddler.onClick = function(e) {
                 // http://groups.google.com/group/TiddlyWikiDev/browse_thread/thread/edff49f9a9e9f47b/e02cb3c4ba88f819?pli=1
                 merge(fields, config.defaultCustomFields, true); 
 
-		store.saveTiddler(title,title,text,config.options.txtUserName,new Date(),tags,fields);
+		var tiddler = store.saveTiddler(title,title,text,config.options.txtUserName,new Date(),tags,fields);
+		autoSaveChanges(null,[tiddler]);
 		story.displayTiddler(this,title);
 	}
 	return false;

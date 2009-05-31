@@ -14,10 +14,6 @@
 		newButtonTags:'Action Next'
 		"></div>
 
-	<!-- was this:
-		group:Context
-		gView:Context
-	-->
 	<div macro="mgtdList title:'Waiting Actions by Person' tags:'Action && [(Waiting For)] && !Done' view:Action
 		ignoreRealm:yes
 		group:Contact

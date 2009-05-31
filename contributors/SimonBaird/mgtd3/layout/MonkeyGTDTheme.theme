@@ -10,7 +10,6 @@
 <div macro="showWhen tiddler.tags.containsAny(config.mGTD.specialTags)">
 	[[MonkeyGTDTheme##ViewTemplateToolbar]]
 	<div class='titleContainer viewer'>[[TitleButtonsSelector]]</div>
-	[[MonkeyGTDTheme##Panel]]
 	<div macro="showWhenTaggedAny Reference View">
 		<!--- just make it look like a normal tiddler --->
 		<div class='viewer' macro='view text wikified'></div>
@@ -46,34 +45,15 @@
 </div>
 <!--}}}-->
 
-!Panel
-<!--{{{-->
-<!--- nothing as yet? --->
-<!--}}}-->
-
-!Dashboard
-<!-- check if is this obsolete now then delete it. I think it is. ??? -->
-<!--{{{-->
-<div macro="showWhenTagged Project" class="viewer"          >[[Dashboards##Project]]</div>
-<div macro="showWhenTagged Area" class="viewer"             >[[Dashboards##Area]]</div>
-<div macro="showWhenTagged Realm" class="viewer"            >[[Dashboards##Realm]]</div>
-<div macro="showWhenTagged Context" class="viewer"          >[[Dashboards##Context]]</div>
-
-<div macro="showWhenTitleIs 'Action Dashboard'"             >[[Dashboards##Action Dashboard]]</div>
-<div macro="showWhenTitleIs 'Action Dashboard by Context'"  >[[Dashboards##Action Dashboard by Context]]</div>
-<div macro="showWhenTitleIs 'Just Next Actions'"            >[[Dashboards##Just Next Actions]]</div>
-<div macro="showWhenTitleIs 'Just Next Actions by Context'" >[[Dashboards##Just Next Actions by Context]]</div>
-<div macro="showWhenTitleIs 'Projects'"                     >[[Dashboards##Projects]]</div>
-<!--- many more. but fix DRY issues --->
-<!--}}}-->
-
 !Subtitle
+<!--{{{-->
 <span class='subtitle'>
 	Updated
 	<span macro='view modified date {{config.mptwDateFormat?config.mptwDateFormat:"MM/0DD/YY"}}'></span>
 	(<span macro='message views.wikified.createdPrompt'></span>
 	<span macro='view created date {{config.mptwDateFormat?config.mptwDateFormat:"MM/0DD/YY"}}'></span>)
 </span>
+<!--}}}-->
 
 !PageTemplate
 <!--{{{-->
@@ -97,6 +77,7 @@
 		<span macro="saveChanges"></span>
 		<span macro="closeAll"></span>
 		<span macro="showWhen store.tiddlerExists('TspotSidebar')||store.isShadowTiddler('TspotSidebar')"><span refresh='content' tiddler='TspotSidebar'></span></span>
+		<span macro="showWhen store.tiddlerExists('MgtdSidebarExtra')"><span refresh='content' tiddler='MgtdSidebarExtra'></span></span>
 	</div>
 	<div id='sidebarTabs' refresh='content' force='true' tiddler='MGTDSidebar'></div>
 </div>

@@ -88,7 +88,9 @@ merge(Tiddler.prototype,{
 				if (t.actionCanBecomeNext()) {
 					// we still have to check because it might have multiple dependencies
 					if (!t.hasTag('Next')) {
-						alert('Setting dependent action "' + t.title + '" to Next');
+						if (config.mGTD.getOptChk('AlertForDependentActions')) {
+							alert('Setting dependent action "' + t.title + '" to Next');
+						}
 						t.setTagFromGroup('ActionStatus','Next');
 					}
 				}
@@ -98,7 +100,9 @@ merge(Tiddler.prototype,{
 				// also why we need Future || Next in actionsDependantOnThisAction
 				// don't need to check anything because any one dependency is enough to trigger going back to Future
 				if (!t.hasTag('Future')) {
-					alert('Setting dependent action "' + t.title + '" to Future');
+					if (config.mGTD.getOptChk('AlertForDependentActions')) {
+						alert('Setting dependent action "' + t.title + '" to Future');
+					}
 					t.setTagFromGroup('ActionStatus','Future');
 				}
 			}
@@ -360,7 +364,7 @@ merge(config.macros,{
 				if (tiddler.hasParent('Project')) {
 					// XXX slightly broken for actions with multiple projects. But i can live with it..
 					// note: getParent returns an array
-					filterComplete += "(!tiddler.tags.contains('Done') && tiddler.tags.contains('"+tiddler.getParent('Project')[0]+"'))";
+					filterComplete += "(!tiddler.tags.contains('Done') && tiddler.tags.contains('"+tiddler.getParent('Project')[0].replace(/'/,"\\'")+"'))";
 				}
 				else {
 					filterComplete += "(!tiddler.tags.contains('Done') && !tiddler.hasParent('Project'))"; 
@@ -382,7 +386,7 @@ merge(config.macros,{
 			// ...yuck
 
 			// exclude ourselves (needed now for action dependencies)
-			filterExpr = '((' + filterExpr + ') && (tiddler.title !=  "' + tiddler.title + '"))';
+			filterExpr = '((' + filterExpr + ') && (tiddler.title !=  "' + tiddler.title.replace(/'/,"\\'") + '"))';
 
 			var currentVal = tiddler.getParent(tag)[0];
 			if (currentVal && currentVal != '') {
