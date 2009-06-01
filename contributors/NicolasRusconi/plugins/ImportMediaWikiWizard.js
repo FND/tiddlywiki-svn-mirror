@@ -2,7 +2,7 @@
 |''Name:''|ImportMediaWikiWizard|
 |''Description:''|Macro that displays a wizard to import content from a MediaWiki or the Alreay imported content|
 |''Author:''|Nicolas Rusconi (nicolas.rusconi (at) globant (dot) com)|
-|''Version:''|1.0.0|
+|''Version:''|1.0.1|
 |''Date:''|Feb 4, 2009|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -102,14 +102,23 @@ config.macros.importMediaWiki.openHost = function()
 config.macros.importMediaWiki.onOpen = function(context, wizard)
 {
 	var macro = config.macros.importMediaWiki;
+	var adaptor = wizard.getValue(macro.adaptorField);
+	var url = wizard.getValue(macro.originalUrlField);
+	var pos = url.indexOf('/wiki/');
+	if(pos!=-1) {
+		//# if the URL of a page rather than a wiki is specified, then get the page directly
+		title = url.substr(pos+6);
+		wizard.setValue(macro.hostField,context.host);
+		wizard.setValue(macro.contextField,context);
+		macro.doImport(wizard,[title]);
+		return;
+	}
 	if(context.status !== true) {
 		macro.showErrorMessage(wizard,macro.errorOpeningHost);
 		return;
 	}
 	macro.showMessage(wizard, macro.lookingUpPages);
-	wizard.setButtons([macro.getResetButton()]);
-	handleAdaptorReturn(wizard.getValue(macro.adaptorField)
-		.getWorkspaceList(context, wizard, macro.onGetWorkspaceList));
+	handleAdaptorReturn(adaptor.getWorkspaceList(context, wizard, macro.onGetWorkspaceList));
 }
 
 config.macros.importMediaWiki.tryNextFolder = function (context, wizard)
@@ -254,10 +263,10 @@ config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callba
 		return;
 	}
 	var adaptor = wizard.getValue(macro.adaptorField);
-	var ret = adaptor.getTiddlerList(context,wizard,config.macros.importTiddlers.onGetTiddlerList,wizard.getValue("feedTiddlerFilter"));
 	macro.showProgressMessage(wizard, macro.statusGetTiddlerList);
 	wizard.setButtons([macro.getResetButton()]);
-	handleAdaptorReturn(adaptor.getTiddlerList(context, wizard, macro.onGetTiddlerList));
+	var ret = adaptor.getTiddlerList(context,wizard,macro.onGetTiddlerList,wizard.getValue("feedTiddlerFilter"));
+	handleAdaptorReturn(ret);
 }
 
 config.macros.importMediaWiki.onGetTiddlerList = function(context, wizard)
@@ -394,9 +403,7 @@ config.macros.importMediaWiki.doImport = function(wizard, tiddlerNames, selected
 	}
 	config.macros.importMediaWiki.doImportWithWizard(wizard, tiddlerNames);
 	// set the default host(used for new tiddlers)
-	merge(config.defaultCustomFields, {
-        'server.host': wizard.getValue(macro.hostField)
-    });
+	merge(config.defaultCustomFields, {'server.host': wizard.getValue(macro.hostField) });
 };
 
 config.macros.importMediaWiki.doImportWithWizard = function(wizard, rowNames)
@@ -412,10 +419,10 @@ config.macros.importMediaWiki.doImportWithWizard = function(wizard, rowNames)
 		}
 	}
 	macro.showProgressMessage(wizard, macro.importingTiddlers);
-	wizard.setButtons([{caption: macro.cancelLabel,
-						tooltip: macro.cancelPrompt,
-			 			onClick: macro.onCancel}
-		    		  ]);
+	wizard.setButtons([{caption: config.macros.importTiddlers.cancelLabel,
+						tooltip: config.macros.importTiddlers.cancelPrompt,
+						onClick: macro.onCancel}
+					  ]);
 	var wizardContext = wizard.getValue(macro.contextField);
 	wizardContext[macro.keepTiddlersSyncField] = wizard.getValue(macro.keepTiddlersSyncField);
 	var callback = function() {
