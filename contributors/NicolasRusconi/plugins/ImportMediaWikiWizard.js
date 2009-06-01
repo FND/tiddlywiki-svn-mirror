@@ -263,9 +263,9 @@ config.macros.importMediaWiki.onOpenWorkspace = function(context, wizard, callba
 		return;
 	}
 	var adaptor = wizard.getValue(macro.adaptorField);
+	var ret = adaptor.getTiddlerList(context,wizard,macro.onGetTiddlerList,wizard.getValue("feedTiddlerFilter"));
 	macro.showProgressMessage(wizard, macro.statusGetTiddlerList);
 	wizard.setButtons([macro.getResetButton()]);
-	var ret = adaptor.getTiddlerList(context,wizard,macro.onGetTiddlerList,wizard.getValue("feedTiddlerFilter"));
 	handleAdaptorReturn(ret);
 }
 
@@ -309,18 +309,31 @@ config.macros.importMediaWiki.doImportSelectedPages = function(e)
 		macro.showErrorMessage(wizard, macro.noPageSelected);
 		return;
 	}
+	if (tiddlerNames.length > macro.getMaxTiddlerImport() ) {
+		macro.showErrorMessage(wizard, macro.maxImportsExceded);
+		return;
+	}
 	wizard.setValue(macro.keepTiddlersSyncField,
 					wizard.getElement(macro.chkSyncFieldName).checked);
 	macro.doImport(wizard, tiddlerNames, true);
 }
 
-config.macros.importMediaWiki.showMessage = function(wizard, message) {
+config.macros.importMediaWiki.showMessage = function(wizard, message, containerBarId) {
 	var macro = config.macros.importMediaWiki;
-	var messageBar = document.getElementById(macro.wizardMessageBarId);
+	if (!containerBarId) {
+		var messageBar = document.getElementById(macro.wizardMessageBarId);	
+	} else {
+		var messageBar = document.getElementById(containerBarId);
+	}
+	
 	if (!messageBar) {
 		var container = createTiddlyElement(null,'div');
 		container.align = 'center';
-		messageBar = createTiddlyElement(container,'div',macro.wizardMessageBarId,'tiddler');
+		if (!containerBarId) {
+			messageBar = createTiddlyElement(container,'div',macro.wizardMessageBarId,'tiddler');			
+		} else {
+			messageBar = createTiddlyElement(container,'div',containerBarId,'tiddler');			
+		}
 		wizard.bodyElem.firstChild.insertBefore(container,wizard.bodyElem.firstChild.firstChild);
 		messageBar.style.background ='#FFEE88 none repeat scroll';
 		messageBar.style.paddingTop = '0px';
@@ -344,9 +357,27 @@ config.macros.importMediaWiki.removeProgressMessage = function(wizard) {
 	config.macros.importMediaWiki.removeMessage(wizard);
 }
 
-config.macros.importMediaWiki.removeMessage = function(wizard)
+config.macros.importMediaWiki.showRemainingMessage = function(wizard, message) {
+	var macro = config.macros.importMediaWiki;
+	if (message) {
+		var messageFormated = macro.remainingBarTitle.format(message);
+		var messageBar = macro.showMessage(wizard, messageFormated, macro.countdownBarId);
+		config.macros.importMediaWiki.remainingImportsAnimation.show(messageBar);
+	}
+}
+config.macros.importMediaWiki.removeRemainingMessage = function(wizard) {
+	var macro = config.macros.importMediaWiki;
+	macro.remainingImportsAnimation.stop();
+	macro.removeMessage(wizard, macro.countdownBarId);
+}
+
+config.macros.importMediaWiki.removeMessage = function(wizard, containerBarId)
 {
-	var messageBar = document.getElementById(config.macros.importMediaWiki.wizardMessageBarId);
+	if (!containerBarId) {
+		var messageBar = document.getElementById(config.macros.importMediaWiki.wizardMessageBarId);		
+	} else {
+		var messageBar = document.getElementById(containerBarId);		
+	}
 	if (messageBar) {
 		messageBar.parentNode.removeChild(messageBar);
 	}
@@ -397,6 +428,11 @@ config.macros.importMediaWiki.doImport = function(wizard, tiddlerNames, selected
 		html = macro.lastStepHtml;
 	}
 	wizard.addStep(macro.lastStepTitle.format([tiddlerNames.length]), html);
+	if(!macro.remainingImports){
+		macro.remainingImports = tiddlerNames.length;
+	}
+	macro.remainingImportsAnimation.chars(macro.remainingImports);
+
 	var servetName = wizard.getElement(macro.serverTiddlerNameTxtField);
 	if (servetName) {
 		servetName.value = generatedServerName;
@@ -428,6 +464,7 @@ config.macros.importMediaWiki.doImportWithWizard = function(wizard, rowNames)
 	var callback = function() {
 		config.macros.importMediaWiki.progressAnimation.stop();
 		config.macros.importMediaWiki.showMessage(wizard, macro.statusDoneImport);
+		macro.removeRemainingMessage(wizard);
 		wizard.setButtons([{caption: macro.doneLabel,
 							tooltip: macro.donePrompt,
 							onClick: wizard.getValue(macro.importCompletedHandlerField)
@@ -453,6 +490,7 @@ config.macros.importMediaWiki.doImportTiddlers = function (adaptor, importContex
 		}
 	}
 	importContext[macro.remainingImports] = tiddlersNames.length;
+	macro.remainingImportsCount++;
 	var tiddlers = importContext && importContext.tiddlers ? importContext.tiddlers : [];
 	importContext.callback = callback;
 	for(t=0; t<tiddlersNames.length; t++) {
@@ -493,6 +531,8 @@ config.macros.importMediaWiki.onGetTiddler = function(tiddlerContext, importCont
 		}
 		autoSaveChanges();
 		importContext.callback();
+	} else {
+		macro.lastStepTitle.format(remainingImports);
 	}
 };
 
@@ -853,13 +893,58 @@ config.macros.importMediaWiki.saveServerTiddlerWithDetails = function(txtSaveTid
 	store.saveTiddler(txtSaveTiddler,txtSaveTiddler,text,macro.serverSaveModifier,new Date(),tags);
 };
 
-config.macros.importMediaWiki.progressAnimation = {};
+config.macros.importMediaWiki.remainingImportsAnimation = {};
+config.macros.importMediaWiki.remainingImportsAnimation.stopFlag = false;
+config.macros.importMediaWiki.remainingImportsAnimation.content;
+config.macros.importMediaWiki.remainingImportsAnimation.place;
+config.macros.importMediaWiki.remainingImportsAnimation.currentChar = 0;
+config.macros.importMediaWiki.remainingImportsAnimation.remainingAnimator;
+config.macros.importMediaWiki.remainingImportsAnimation.chars = function(tiddlerSize) {
+	var macro = config.macros.importMediaWiki.remainingImportsAnimation;
+	macro.remainingAnimator = [];
+	for (var i = tiddlerSize; i = 0; i--) {
+		macro.remainingAnimator[i] = i;
+	}
+	macro.stopFlag = false;
+}
 
+config.macros.importMediaWiki.remainingImportsAnimation.nextChar = function() {
+	var macro = config.macros.importMediaWiki.remainingImportsAnimation;
+	if (macro.stopFlag == true) {
+		return;
+	}
+	
+	var nextChar = macro.remainingAnimator[config.macros.importMediaWiki.remainingImports];
+	macro.place.textContent = nextChar;
+	
+	if (!macro.stopFlag) {
+		window.setTimeout(config.macros.importMediaWiki.remainingImportsAnimation.nextChar,300);
+	}
+	if (nextChar == 0) {
+		macro.stopFlag = true;
+	}
+}
+config.macros.importMediaWiki.remainingImportsAnimation.show = function(place) {
+	this.content = place.textContent;
+	this.place = place;
+	config.macros.importMediaWiki.remainingImportsAnimation.stopFlag = false;
+	window.setTimeout(config.macros.importMediaWiki.remainingImportsAnimation.nextChar,0);
+}
+
+config.macros.importMediaWiki.remainingImportsAnimation.stop = function() {
+	var macro = config.macros.importMediaWiki.remainingImportsAnimation;
+	macro.stopFlag = true;
+	macro.place = null;
+	macro.content = null;
+}
+
+config.macros.importMediaWiki.progressAnimation = {};
 config.macros.importMediaWiki.progressAnimation.chars = ['•···','·•··','··•·','···•','··•·','·•··']
 config.macros.importMediaWiki.progressAnimation.content;
 config.macros.importMediaWiki.progressAnimation.place;
 config.macros.importMediaWiki.progressAnimation.stopFlag = false;
 config.macros.importMediaWiki.progressAnimation.currentChar = 0;
+
 config.macros.importMediaWiki.progressAnimation.show = function(place) {
 	this.content = place.textContent;
 	this.place = place;
@@ -898,7 +983,17 @@ function handleAdaptorReturn(returnValue) {
 	}
 }
 
+config.macros.importMediaWiki.getMaxTiddlerImport = function() {
+	return parseInt(config.options.txtMaxTiddlerImport);
+};
+
+//Default Properties
+if (!config.options.txtMaxTiddlerImport) {
+	config.options.txtMaxTiddlerImport = '10';
+}
+
 merge(config.macros.importMediaWiki, {
+	remainingImportsCount: 0,
 	//fields in the wizard
 	adaptorField: "adaptor",
 	hostField: "host",
@@ -926,6 +1021,7 @@ merge(config.macros.importMediaWiki, {
 	importedTiddlersMessageId : "importedTiddlersMessage",
 	importeMoreTiddlersButtonId : "importeMoreTiddlersButton" ,
 	wizardMessageBarId : "wizardMessageBar",
+	countdownBarId: "countdownBarId",
 	serverSaveTemplate: "|''Description:''|%0|\n|''Type:''|%1|\n|''URL:''|%2|\n|''Workspace:''|%3|\n\nThis tiddler was automatically created to record the details of this server",
 	URLSlice : "URL",
 	serverTiddlerNameTxtField:"serverTiddlerNameTxtField",
@@ -945,6 +1041,7 @@ merge(config.macros.importMediaWiki, {
 	openingHost: "Opening host...",
 	errorOpeningHost: "Error opening host",
 	noTiddlerToImport: "No tiddler to import in this workspace.",
+	recommendedMaxImports: "Max imports (100 recommended):",
 	filteredTiddlers: "(%0 tiddlers were filtered because they are already imported)",
 	next: "next",
 	nextTootltip: "click to go to the next step",
@@ -977,9 +1074,11 @@ merge(config.macros.importMediaWiki, {
 			],
 		rowClasses: []}
 	});
-
+	
 merge(config.macros.importMediaWiki,{
+	maxImportsExceded: "<span>The number of imports must be less than " + config.maxTiddlerImportCount + "</span> To increase the number of max Imports chage the property MaxTiddlerImportCount",
 	lastStepTitle: "Importing %0 tiddler(s)",
+	remainingBarTitle: "%0 tiddler(s) remaining.",
 	lastStepHtml: "<br/><input type='hidden' name='" + config.macros.importMediaWiki.markReportFieldName + "'></input><br/><br/>",
 	serverTiddlerInputHtml: "<input type='checkbox' checked='true' name='" + config.macros.importMediaWiki.chkSaveName + "'>Save the details of this wiki server for future operations, alias:</input>"
 		 + "<input type='text' size=25 name='" + config.macros.importMediaWiki.serverTiddlerNameTxtField + "'>", // DO NOT TRANSLATE
@@ -1008,7 +1107,5 @@ merge(config.macros.importMediaWiki,{
 		}
 		return false;
 	};
-	
-	
-	
+
 /*}}}*/

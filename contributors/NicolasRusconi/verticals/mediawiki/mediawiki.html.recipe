@@ -12,6 +12,7 @@ tiddler: SideBarOptions.tiddler
 tiddler: mediaWikiPage.tiddler
 tiddler: shadows/DefaultTiddlers.tiddler
 shadow: shadows/StyleSheet.tiddler
+shadow: shadows/ImportMediaWikiWizardConfig.tiddler
 tiddler: ../../../MartinBudden/verticals/MediaWikiContent/DownloadThisTiddlyWiki.tiddler
 tiddler: ../../../MartinBudden/verticals/MediaWikiContent/MediaWikiWalkthrough.tiddler
 tiddler: ../../../MartinBudden/verticals/tiddlypedia/OptionsPanel.tiddler

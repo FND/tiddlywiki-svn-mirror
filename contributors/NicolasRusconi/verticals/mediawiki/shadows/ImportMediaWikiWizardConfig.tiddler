@@ -1,0 +1,12 @@
+<div title="ImportMediaWikiWizardConfig" modifier="LucasRudi" tags="excludeLists excludeSearch">
+<pre>
+Specify the max number of imports: <<option txtMaxTiddlerImport>>
+</pre>
+</div>
+
+if (field || field > 0) {
+	config.options.txtMaxTiddlerImport = '20';
+}
+if (!config.options.txtMaxTiddlerImport) {
+	config.options.txtMaxTiddlerImport = '10';
+}
