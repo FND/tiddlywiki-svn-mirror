@@ -1,6 +1,6 @@
 //{{{
 	
-var testSpec = [{title:'Creation', children:
+	var testSpec = [{title:'Creation', children:
 			[{title:'Growth', children: 
 				[{title:'Language', children: []}]
 			 },
@@ -12,7 +12,7 @@ var testSpec = [{title:'Creation', children:
 		    [{title:'Epilogue', children: []}]
 		}];							
 	
-window.activeDocument = 'tiddlydocs_sp2c';
+window.activeDocument = 'tid2dlydocs_sp32c';
 
 if(store.tiddlerExists(window.activeDocument)) {
 	var testSpec = $.parseJSON(store.getTiddlerText(window.activeDocument));	 
@@ -114,87 +114,6 @@ config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,para
 	var specView = createTiddlyElement(place, "div", "", "specView");	
 	config.macros.tdoc2Outline.renderSpec(specView, testSpec);
 }	
-
-// DELETE ZONE
-
-config.macros.deleteZone = {};
-config.macros.deleteZone.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var div = createTiddlyElement(place, "div","deleteZone", "deleteZoneClass");
-	var binContents = store.getTiddlerText(window.activeDocument+"Bin");
-	if(binContents)
-		wikify("Bin \n"+binContents, div);
-	else
-		div.innerHTML = "<b>Recycle Bin</b><br /><br /> You have an empty bin.";
-	div.style.height = "auto";
-	$("#deleteZone").Droppable(
-	{
-		hoverclass : "deleteHelper",
-		accept:"toc-item",
-			ondrop:	function (drag) {
-				
-				var unwanted = config.macros.deleteZone.find(drag.id, testSpec)
-				if (unwanted) {
-					unwanted.containerSpec.splice(unwanted.index, 1);
-					var dummy=$("<div id='"+$(unwanted.found).id+"'>");
-					$("body").append(dummy);
-					config.macros.tdoc2Outline.renderSpec(($(drag).parents(".specView").get())[0], testSpec, []);	
-				}
-				if(store.tiddlerExists(window.activeDocument)) {
-					var specTiddler = store.getTiddler(window.activeDocument);
-					var fields = merge(specTiddler.fields, config.defaultCustomFields);
-				} else {
-					var fields = config.defaultCustomFields;
-				}
-				store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
-				autoSaveChanges(window.activeDocument, true);
-				return false; // probably does nothing - remove?
-			}
-	});
-};
-
-config.macros.deleteZone.find = function(wantedTitle, spec) {
-	var wantedSpec;
-	var count=0;
-	$.each(spec, function() {
-		if(this.title == wantedTitle)
-		  wantedSpec = { found: this, containerSpec: spec, index: count };
-		else
-		  wantedSpec = config.macros.deleteZone.find(wantedTitle, this.children);
-		log("wanted", wantedSpec)
-		if (wantedSpec) return false; // break
-		count++;
-	})
-	return wantedSpec;
-}
-
-// Buttons 
-
-config.macros.tdButtons = {};
-config.macros.tdButtons.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
-	if(config.options.chkDrawings)
-		wikify("| [[Drawings]] | <<newDrawing>>  ", buttonHolder);
-		//	window.activeDocument = params[0];
-	wikify("<<docPrint "+window.activeDocuement+">>", buttonHolder);
-	var btn = createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
-
-	btn.setAttribute("newTitle","New Section Title");
-	btn.setAttribute("newTemplate",getParam(params,"template","mpTheme##newEditTemplate"));
-
-	var displaySettings= function () {
-		story.displayTiddler(null, "Settings");
-	};
-	createTiddlyButton(buttonHolder, "settings", "Personalise TiddlyDocs", displaySettings, null, null, null, null, "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png");
-	var logout = function() {
-		if (window.fullUrl.indexOf('?') > 0)
-			window.location = window.fullUrl+'&logout=1';
-		else
-			window.location = window.fullUrl+'?logout=1';
-	};
-	createTiddlyButton(buttonHolder, "logout", "Logout of TiddlyDocs", logout, null, null, null, null, "http://ftpvweb.com/file_transfer/skins/blue/images/actions/exit.png");
-	createTiddlyElement(place, "br");
-	console.log("do buttons");
-}
 
 
 
