@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.13|
+|''Version:''|0.8.14|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -541,7 +541,7 @@ adaptor.prototype.getTiddler = function(title,context,userParams,callback)
 {
 	context = this.setContext(context,userParams,callback);
 	context.title = title;
-//#console.log('adaptor.getTiddler:'+context.title+" revision:"+context.revision+" workspace:"+context.workspace);
+//# console.log('adaptor.getTiddler:'+context.title+" revision:"+context.revision+" workspace:"+context.workspace);
 //# http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Elongation&rvprop=content
 //# http://meta.wikimedia.org/w/api.php?format=jsonfm&action=query&prop=revisions&titles=Main%20Page&rvprop=content|timestamp|user
 //# http://www.tiddlywiki.org/api.php?action=query&prop=revisions&titles=Main%20Page&rvprop=content
@@ -554,6 +554,7 @@ adaptor.prototype.getTiddler = function(title,context,userParams,callback)
 //#console.log('uri: '+uri);
 	context.tiddler = new Tiddler(context.title);
 	context.tiddler.fields.wikiformat = 'mediawiki';
+	context.tiddler.fields['server'] = null;
 	context.tiddler.fields['server.host'] = adaptor.minHostName(host);
 	var req = adaptor.doHttpGET(uri,adaptor.getTiddlerCallback,context);
 //#console.log('req:'+req);
