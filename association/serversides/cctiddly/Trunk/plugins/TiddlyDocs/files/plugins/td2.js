@@ -2,41 +2,37 @@
 
 
 
-				var testSpec = [{title:'Creation', children:[
-									{title:'Middl1e', children: []}
-								]},
-								{title:'Middle', children: [
-											{title:'Middl2e', children: [
-													{title:'Middl2.1e', children: []}
-											]}
-								]},
-								{title:'Fin', children:[
-											{title:'Middl3e', children: []}
-								]}];
+var testSpec = [{title:'Creation', children:[
+					{title:'Middl1e', children: []}
+				]},
+				{title:'Middle', children: [
+							{title:'Middl2e', children: [
+									{title:'Middl2.1e', children: []}
+							]}
+				]},
+				{title:'Fin', children:[
+							{title:'Middl3e', children: []}
+				]}];
 								
 								
-								var testSpec = [{title:'Creation', children:
-													[{title:'Growth', children: 
-														[{title:'Language', children: []}]
-													 },
-													 {title:'Mowth', children: []},
-													 {title:'Jowth', children: []}
-													]},
-												{title:'Middle', children: []},
-												{title:'Fin', children:
-												    [{title:'Epilogue', children: []}]
-												}];							
+var testSpec = [{title:'Creation', children:
+			[{title:'Growth', children: 
+				[{title:'Language', children: []}]
+			 },
+			 {title:'Mowth', children: []},
+			 {title:'Jowth', children: []}
+			]},
+		{title:'Middle', children: []},
+		{title:'Fin', children:
+		    [{title:'Epilogue', children: []}]
+		}];							
 	
-	
-	window.activeDocument = 'tiddlydocs_spec';
-	
-	
-	if(store.tiddlerExists(window.activeDocument)) {
-		var testSpec = $.parseJSON(store.getTiddlerText(window.activeDocument));	 
-	}
-	
-								
-								
+window.activeDocument = 'tiddlydocs_spec';
+
+if(store.tiddlerExists(window.activeDocument)) {
+	var testSpec = $.parseJSON(store.getTiddlerText(window.activeDocument));	 
+}
+		
 //tdoc2Outline //
 
 //{{{
@@ -70,10 +66,12 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 			$(".helper").remove();
 		},
 		onChange: function(serialized) {
-			$("li").each(function() {
-				config.macros.tdoc2Outline.serialize(this);
-			})
-
+			// $("li").each(function() {
+				// config.macros.tdoc2Outline.serialize(this);
+				
+			// })
+			var spec = config.macros.tdocs2Outline._buildSpec($("#ul0"));
+			console.log("THE SPEC IS ", spec);
 		},
 		autoScroll: true,
 		handle: '.toc-sort-handle'
@@ -93,6 +91,43 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 		}
 	);
 }
+/*
+config.macros.tdoc2Outline.__buildSpec = function (liList) {
+  var spec = [];
+  liList.each(function() {
+	// var li = $(this).children()[0];
+	var li = $(this);
+	console.log("this", $(this));
+	var node = {
+		title: li.id
+	};
+	node.children = config.macros.tdoc2Outline._buildSpec($(li).children("li"));
+	spec.push(node);
+  });
+  return spec;
+}
+*/
+
+config.macros.tdoc2Outline.buildSpec = function() {
+  return config.macros.tdoc2Outline._buildSpec($(".specView > ul > li"));
+}
+
+
+config.macros.tdoc2Outline._buildSpec = function (liList) {
+  console.log("liList", liList)
+  var spec = [];
+  liList.each(function() {
+	// var li = $(this).children()[0];
+	var li=this;
+	console.log("this", $(this));
+	var node = {
+		title: li.id
+	};
+	node.children = config.macros.tdoc2Outline._buildSpec($(li).children("ul").children("li"));
+	spec.push(node);
+  });
+  return spec;
+}
 
 config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 	var childCount=1;
@@ -108,6 +143,12 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 }
 
 config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
+	var a = createTiddlyElement(place, "button", "", "", "MAKE SPEC");
+	a.onclick = function() {	
+		// var spec = config.macros.tdoc2Outline._buildSpec($(".specView"));
+		 var spec = config.macros.tdoc2Outline.buildSpec();
+		console.log("THE SPEC IS ", spec);
+	}
 	var specView = createTiddlyElement(place, "div", "", "specView");	
 	config.macros.tdoc2Outline.renderSpec(specView, testSpec);
 }	
@@ -135,16 +176,12 @@ config.macros.deleteZone.handler = function() {
 					$("body").append(dummy);
 					config.macros.tdoc2Outline.renderSpec(($(drag).parents(".specView").get())[0], testSpec, []);	
 				}
-				
-				
 				if(store.tiddlerExists(window.activeDocument)) {
 					var specTiddler = store.getTiddler(window.activeDocument);
 					var fields = merge(specTiddler.fields, config.defaultCustomFields);
 				} else {
 					var fields = config.defaultCustomFields;
 				}
-				
-
 				store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
 				autoSaveChanges(window.activeDocument, true);
 				return false; // probably does nothing - remove?
