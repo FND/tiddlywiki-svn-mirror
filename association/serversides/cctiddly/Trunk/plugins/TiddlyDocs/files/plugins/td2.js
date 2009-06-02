@@ -1,3 +1,5 @@
+//{{{
+	
 var testSpec = [{title:'Creation', children:
 			[{title:'Growth', children: 
 				[{title:'Language', children: []}]
@@ -82,7 +84,6 @@ config.macros.tdoc2Outline.buildSpec = function() {
   return config.macros.tdoc2Outline._buildSpec($(".specView > ul > li"));
 }
 
-
 config.macros.tdoc2Outline._buildSpec = function (liList) {
 	var spec = [];
 	liList.each(function() {
@@ -110,11 +111,6 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 }
 
 config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
-	var a = createTiddlyElement(place, "button", "", "", "MAKE SPEC");
-	a.onclick = function() {	
-		// var spec = config.macros.tdoc2Outline._buildSpec($(".specView"));
-		 var spec = config.macros.tdoc2Outline.buildSpec();
-	}
 	var specView = createTiddlyElement(place, "div", "", "specView");	
 	config.macros.tdoc2Outline.renderSpec(specView, testSpec);
 }	
@@ -122,7 +118,7 @@ config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,para
 // DELETE ZONE
 
 config.macros.deleteZone = {};
-config.macros.deleteZone.handler = function() {
+config.macros.deleteZone.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var div = createTiddlyElement(place, "div","deleteZone", "deleteZoneClass");
 	var binContents = store.getTiddlerText(window.activeDocument+"Bin");
 	if(binContents)
@@ -170,7 +166,37 @@ config.macros.deleteZone.find = function(wantedTitle, spec) {
 	})
 	return wantedSpec;
 }
-//}}}
+
+// Buttons 
+
+config.macros.tdButtons = {};
+config.macros.tdButtons.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	var buttonHolder = createTiddlyElement(place, "div", "buttonHolder");
+	if(config.options.chkDrawings)
+		wikify("| [[Drawings]] | <<newDrawing>>  ", buttonHolder);
+		//	window.activeDocument = params[0];
+	wikify("<<docPrint "+window.activeDocuement+">>", buttonHolder);
+	var btn = createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
+
+	btn.setAttribute("newTitle","New Section Title");
+	btn.setAttribute("newTemplate",getParam(params,"template","mpTheme##newEditTemplate"));
+
+	var displaySettings= function () {
+		story.displayTiddler(null, "Settings");
+	};
+	createTiddlyButton(buttonHolder, "settings", "Personalise TiddlyDocs", displaySettings, null, null, null, null, "http://dryicons.com/images/icon_sets/aesthetica_version_2/png/128x128/community_users.png");
+	var logout = function() {
+		if (window.fullUrl.indexOf('?') > 0)
+			window.location = window.fullUrl+'&logout=1';
+		else
+			window.location = window.fullUrl+'?logout=1';
+	};
+	createTiddlyButton(buttonHolder, "logout", "Logout of TiddlyDocs", logout, null, null, null, null, "http://ftpvweb.com/file_transfer/skins/blue/images/actions/exit.png");
+	createTiddlyElement(place, "br");
+	console.log("do buttons");
+}
+
+
 
 function log() { if (console) console.log.apply(console, arguments); };
 
