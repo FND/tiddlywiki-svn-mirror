@@ -15,23 +15,18 @@ config.commands.saveSection.handler = function(event,src,title)
 		if(!store.tiddlerExists(newTitle))
 			newTitle = newTitle.trim();
 	}
-/*	if(!store.tiddlerExists(newTitle)) {
-		var spec = "* "+newTitle+"\n"+store.getTiddlerText(window.activeDocument);
-	}
 	
-*/
-
 	var node = {
 		title: newTitle,
 		children:[]
 	};
-	testSpec.push(node);
+	testSpec.unshift(node);
 	
 	
 	console.log(testSpec);
 	
 	store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
-	autoSaveChanges(window.activeDocument, true);
+	autoSaveChanges(true, window.activeDocument);
 	story.closeTiddler(title);
 	story.displayTiddler(null, newTitle);
 	return false;

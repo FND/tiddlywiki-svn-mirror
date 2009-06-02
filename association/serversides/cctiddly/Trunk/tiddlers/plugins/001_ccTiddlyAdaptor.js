@@ -551,6 +551,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 			context.status = true;
 			if(responseText!="") {
 				context.tiddler.fields['server.id'] = responseText;
+				console.log("rs", context.tiddler.title, context.tiddler.fields['server.id'], responseText);
 			}
 			context.tiddler.fields['server.page.revision'] = context.revision + 1;
 		}

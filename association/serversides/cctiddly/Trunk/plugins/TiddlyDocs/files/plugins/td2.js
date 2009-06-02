@@ -12,7 +12,7 @@
 		    [{title:'Epilogue', children: []}]
 		}];							
 	
-window.activeDocument = 'tid2dlydocs_sp32c';
+window.activeDocument = 'tid2dasdsalydocssp32c';
 
 if(store.tiddlerExists(window.activeDocument)) {
 	var testSpec = $.parseJSON(store.getTiddlerText(window.activeDocument));	 
@@ -58,8 +58,9 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 				} else {
 					var fields = config.defaultCustomFields;
 				}
+				console.log(fields);
 			store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(window.testSpec), null, null, null, fields);
-			autoSaveChanges(window.activeDocument, true);
+			autoSaveChanges(true, window.activeDocument);
 		},
 		autoScroll: true,
 		handle: '.toc-sort-handle'
