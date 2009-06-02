@@ -32,7 +32,7 @@
 	
 	
 	if(store.tiddlerExists(window.activeDocument)) {
-		var testSpec = eval(store.getTiddlerText(window.activeDocument));	 
+		var testSpec = $.parseJSON(store.getTiddlerText(window.activeDocument));	 
 	}
 	
 								
@@ -135,8 +135,17 @@ config.macros.deleteZone.handler = function() {
 					$("body").append(dummy);
 					config.macros.tdoc2Outline.renderSpec(($(drag).parents(".specView").get())[0], testSpec, []);	
 				}
-				var specTiddler = store.getTiddler(window.activeDocument);
-				store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, config.defaultCustomFields);
+				
+				
+				if(store.tiddlerExists(window.activeDocument)) {
+					var specTiddler = store.getTiddler(window.activeDocument);
+					var fields = merge(specTiddler.fields, config.defaultCustomFields);
+				} else {
+					var fields = config.defaultCustomFields;
+				}
+				
+
+				store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
 				autoSaveChanges(window.activeDocument, true);
 				return false; // probably does nothing - remove?
 			}
