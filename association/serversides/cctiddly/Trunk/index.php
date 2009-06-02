@@ -27,11 +27,11 @@ if($pluginsLoader->events['afterIncludes'])
 {
 	foreach ($pluginsLoader->events['afterIncludes'] as $event)
 	{
+
 			if(is_file("plugins/".$event))
 			include_once("plugins/".$event);	
 	}
 }
-
 
 if($db_number < '17') {
 	echo "<h1>ccTiddly Upgrade</h1>";
