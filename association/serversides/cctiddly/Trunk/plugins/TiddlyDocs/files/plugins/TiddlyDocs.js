@@ -209,13 +209,6 @@ config.macros.docOutline.refresh=function(place,macroName,params,wikifier,paramS
 
 
 
-
-
-
-
-
-
-
 // docPrint //
 config.macros.docPrint={};
 
