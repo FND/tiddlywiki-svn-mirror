@@ -66,11 +66,23 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 			$(".helper").remove();
 		},
 		onChange: function(serialized) {
+			console.log("phasd");
 			// $("li").each(function() {
 				// config.macros.tdoc2Outline.serialize(this);
 				
 			// })
-			var spec = config.macros.tdocs2Outline._buildSpec($("#ul0"));
+//			var spec = config.macros.tdocs2Outline._buildSpec($("#ul0"));
+			 window.testSpec = config.macros.tdoc2Outline.buildSpec();
+				if(store.tiddlerExists(window.activeDocument)) {
+					var specTiddler = store.getTiddler(window.activeDocument);
+					var fields = merge(specTiddler.fields, config.defaultCustomFields);
+				} else {
+					var fields = config.defaultCustomFields;
+				}
+				store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(window.testSpec), null, null, null, fields);
+				autoSaveChanges(window.activeDocument, true);
+			
+			
 			console.log("THE SPEC IS ", spec);
 		},
 		autoScroll: true,
@@ -205,11 +217,14 @@ config.macros.deleteZone.find = function(wantedTitle, spec) {
 }
 //}}}
 
-
+/*
 // This function was previously relying on list item which we are now deleting. 
 jQuery.iNestedSortable.serialize = function() {
 	return "";
 }
+
+
+*/
 
 function log() { if (console) console.log.apply(console, arguments); };
 
