@@ -142,20 +142,34 @@ config.taggly = {
 	},
 
 	setTagglyOpt: function(title,opt,value) {
-		if (!store.tiddlerExists(title))
-			// create it silently
+		// create it silently if it doesn't exist
+		if (!store.tiddlerExists(title)) {
 			store.saveTiddler(title,title,config.views.editor.defaultText.format([title]),config.options.txtUserName,new Date(),"");
+
+			// <<tagglyTagging expr:"...">> creates a tiddler to store its display settings
+			// Make those tiddlers less noticeable by tagging as excludeSearch and excludeLists
+			// Because we don't want to hide real tags, check that they aren't actually tags before doing so
+			// Also tag them as tagglyExpression for manageability
+			// (contributed by RA)
+			if (!store.getTaggedTiddlers(title).length) {
+				store.setTiddlerTag(title,true,"excludeSearch");
+				store.setTiddlerTag(title,true,"excludeLists");
+				store.setTiddlerTag(title,true,"tagglyExpression");
+			}
+		}
+
 		// if value is default then remove it to save space
-		return store.setValue(title,
-			this.config.valuePrefix+opt,
-			value == this.config.listOpts[opt][0] ? null : value);
+		return store.setValue(title, this.config.valuePrefix+opt, value == this.config.listOpts[opt][0] ? null : value);
 	},
 
 	getNextValue: function(title,opt) {
 		var current = this.getTagglyOpt(title,opt);
 		var pos = this.config.listOpts[opt].indexOf(current);
-		// a little usability enhancement. actually it doesn't work right for grouped or sitemap
-		var limit = (opt == "numCols" ? store.getTiddlersByTagExpr(title).length : this.config.listOpts[opt].length);
+		// supposed to automagically don't let cols cycle up past the number of items
+		// currently broken in some situations, eg when using an expression
+		// lets fix it later when we rewrite for jquery
+		// the columns thing should be jquery table manipulation probably
+		var limit = (opt == "numCols" ? store.getTaggedTiddlers(title).length : this.config.listOpts[opt].length);
 		var newPos = (pos + 1) % limit;
 		return this.config.listOpts[opt][newPos];
 	},

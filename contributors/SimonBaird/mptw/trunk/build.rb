@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 
 #$LOAD_PATH.unshift("../r4tw") 
 require 'r4tw'
