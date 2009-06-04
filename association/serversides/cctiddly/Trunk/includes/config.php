@@ -320,7 +320,7 @@ $tiddlyCfg['privilege']['anonymous']['comments'] = "AAAA";		//allow comments to 
 $tiddlyCfg['privilege']['non_admin']['comments'] = "AAAA";	
 // END OF PERMISSIONS 
 
-$tiddlyCfg['version']="1.8.2";	//set ccTiddly Version number
+$tiddlyCfg['version']="1.8.5";	//set ccTiddly Version number
 $tiddlyCfg['session_expire'] = ($tiddlyCfg['session_expire']==0?9999999:$tiddlyCfg['session_expire']);
 $tiddlyCfg['session_expire'] = $tiddlyCfg['session_expire'] * 60;  // Converts minutes to seconds to be added to an epoch value 
 
