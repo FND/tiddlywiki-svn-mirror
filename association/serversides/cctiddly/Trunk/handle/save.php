@@ -1,5 +1,5 @@
 <?php
-
+error_log("save request has been saved");
 $cct_base = "../";
 include_once($cct_base."includes/header.php");
 debug($_SERVER['PHP_SELF'], "handle");	

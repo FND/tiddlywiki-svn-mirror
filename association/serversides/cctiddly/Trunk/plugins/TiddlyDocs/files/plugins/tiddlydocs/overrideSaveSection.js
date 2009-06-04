@@ -6,7 +6,6 @@ merge(config.commands.saveSection,{
 
 config.commands.saveSection.handler = function(event,src,title)
 {
-	console.log("save serction booo");
 	var tiddlerElem = story.getTiddler(title);
 	if(tiddlerElem) {
 		var fields = {};
@@ -14,19 +13,18 @@ config.commands.saveSection.handler = function(event,src,title)
 		var newTitle = fields.title || title;
 		if(!store.tiddlerExists(newTitle))
 			newTitle = newTitle.trim();
+		var specTiddler = store.getTiddler(window.activeDocument);
+		var fields = merge(specTiddler.fields, config.defaultCustomFields);
+	} else {
+		var fields = config.defaultCustomFields;
 	}
-	
 	var node = {
 		title: newTitle,
 		children:[]
 	};
 	testSpec.unshift(node);
-	
-	
-	console.log(testSpec);
-	
 	store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
-	autoSaveChanges(true, window.activeDocument);
+	autoSaveChanges();
 	story.closeTiddler(title);
 	story.displayTiddler(null, newTitle);
 	return false;
