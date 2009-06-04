@@ -8,7 +8,7 @@ config.macros.deleteZone.handler = function(place,macroName,params,wikifier,para
 	if(binContents)
 		wikify("Bin \n"+binContents, div);
 	else
-		div.innerHTML = "<ul id='noo'><li class='toc-item'>s</li></ul><b>Recycle Bin</b><br /><br /> You have an empty bin.";
+		div.innerHTML = "<ul id='noo'><li class='toc-item>s</li></ul><b>Recycle Bin</b><br /><br /> You have an empty bin.";
 	div.style.height = "auto";
 	
 	

@@ -152,10 +152,12 @@ jQuery.iNestedSortable = {
 		console.log("s is : ", s);
 		if(jQuery('#' + s).get(0).isNestedSortable){
 			//A brand new NestedSortable serialization
-			return jQuery.iNestedSortable.newSerialize(s);
+			//return jQuery.iNestedSortable.newSerialize(s);
+			return "";
 		} else {
 			//The legacy serialization
-			return jQuery.iNestedSortable.oldSerialize(s);
+			//return jQuery.iNestedSortable.oldSerialize(s);
+			return "";
 		}
 	},
 	oldSerialize: jQuery.iSort.serialize,
