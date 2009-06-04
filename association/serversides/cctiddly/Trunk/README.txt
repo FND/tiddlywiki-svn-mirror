@@ -46,8 +46,7 @@ http://groups.google.com/group/ccTiddly
 The SQL creates three users for you. 
 
 1 .. username
-2 .. simon 
-3 .. admin
+2 .. admin
 
 each has a password of password.
 
