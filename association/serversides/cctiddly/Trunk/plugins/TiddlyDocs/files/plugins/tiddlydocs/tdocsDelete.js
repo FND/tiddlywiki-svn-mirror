@@ -8,13 +8,17 @@ config.macros.deleteZone.handler = function(place,macroName,params,wikifier,para
 	if(binContents)
 		wikify("Bin \n"+binContents, div);
 	else
-		div.innerHTML = "<ul id='noo'><li class='toc-item>s</li></ul><b>Recycle Bin</b><br /><br /> You have an empty bin.";
+		div.innerHTML = "<span id='noo'><li class='toc-item'>&nbsp;</li></span><b>Recycle Bin</b><br /><br /> You have an empty bin.";
 	div.style.height = "auto";
 	
 	
 	$("#noo").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
+		onStop : function() {
+			alert("boo");
+			console.log("change");
+		},
 		helperclass: 'helper',
 		autoScroll: true,
 		handle: '.toc-sort-handle'
