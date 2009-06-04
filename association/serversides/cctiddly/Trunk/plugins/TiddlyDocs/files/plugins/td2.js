@@ -12,7 +12,7 @@
 		    [{title:'Epilogue', children: []}]
 		}];							
 	
-window.activeDocument = 'tid2dasdsalydocssp32c';
+window.activeDocument = 't2c';
 
 if(store.tiddlerExists(window.activeDocument)) {
 	var testSpec = $.parseJSON(store.getTiddlerText(window.activeDocument));	 

@@ -8,19 +8,19 @@ config.macros.deleteZone.handler = function(place,macroName,params,wikifier,para
 	if(binContents)
 		wikify("Bin \n"+binContents, div);
 	else
-		div.innerHTML = "<ul style='height:50px; background:orange;' id='noo'><li>sdfsdf</li></ul><b>Recycle Bin</b><br /><br /> You have an empty bin.";
+		div.innerHTML = "<ul id='noo'><li class='toc-item'>s</li></ul><b>Recycle Bin</b><br /><br /> You have an empty bin.";
 	div.style.height = "auto";
-	$("#noo").Droppable(
-	{
-		hoverclass : "deleteHelper",
-		accept:"toc-item",
-			ondrop:	function (drag) {
-				
-				console.log("on drop ");
-				
-
-			}
+	
+	
+	$("#noo").NestedSortable({
+		accept: 'toc-item',
+		noNestingClass: "no-nesting",
+		helperclass: 'helper',
+		autoScroll: true,
+		handle: '.toc-sort-handle'
 	});
+
+	
 };
 
 config.macros.deleteZone.find = function(wantedTitle, spec) {
