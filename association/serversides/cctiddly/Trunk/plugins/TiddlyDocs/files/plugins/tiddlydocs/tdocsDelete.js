@@ -8,30 +8,17 @@ config.macros.deleteZone.handler = function(place,macroName,params,wikifier,para
 	if(binContents)
 		wikify("Bin \n"+binContents, div);
 	else
-		div.innerHTML = "<b>Recycle Bin</b><br /><br /> You have an empty bin.";
+		div.innerHTML = "<ul style='height:50px; background:orange;' id='noo'><li>sdfsdf</li></ul><b>Recycle Bin</b><br /><br /> You have an empty bin.";
 	div.style.height = "auto";
-	$("#deleteZone").Droppable(
+	$("#noo").Droppable(
 	{
 		hoverclass : "deleteHelper",
 		accept:"toc-item",
 			ondrop:	function (drag) {
 				
-				var unwanted = config.macros.deleteZone.find(drag.id, testSpec)
-				if (unwanted) {
-					unwanted.containerSpec.splice(unwanted.index, 1);
-					var dummy=$("<div id='"+$(unwanted.found).id+"'>");
-					$("body").append(dummy);
-					config.macros.tdoc2Outline.renderSpec(($(drag).parents(".specView").get())[0], testSpec, []);	
-				}
-				if(store.tiddlerExists(window.activeDocument)) {
-					var specTiddler = store.getTiddler(window.activeDocument);
-					var fields = merge(specTiddler.fields, config.defaultCustomFields);
-				} else {
-					var fields = config.defaultCustomFields;
-				}
-				store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
-				autoSaveChanges(window.activeDocument, true);
-				return false; // probably does nothing - remove?
+				console.log("on drop ");
+				
+
 			}
 	});
 };

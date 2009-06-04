@@ -51,6 +51,8 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 			$(".helper").remove();
 		},
 		onChange: function(serialized) {
+			
+			console.log("on changes");
 			 window.testSpec = config.macros.tdoc2Outline.buildSpec();
 				if(store.tiddlerExists(window.activeDocument)) {
 					var specTiddler = store.getTiddler(window.activeDocument);
@@ -58,7 +60,6 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 				} else {
 					var fields = config.defaultCustomFields;
 				}
-				console.log(fields);
 			store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(window.testSpec), null, null, null, fields);
 			autoSaveChanges(true, window.activeDocument);
 		},
