@@ -1,27 +1,36 @@
 modifier: Simon McManus
+tags: document
 
-* Terminology
-* History
-** Creation
-** Growth
-** University students appreciation and contributions
-* Todays Internet
-** Internet protocols
-** Internet structure
-** ICANN
-** Language
-** Internet and the workplace
-** The Internet viewed on mobile devices
-* Common uses
-** E-mail
-** The World Wide Web
-** Remote access
-** Collaboration
-** File sharing
-** Streaming media
-** Internet Telephony (VoIP)
-* Internet access
-* Social impact
-** Political organization and censorship
-** Leisure activities
-* Conclusions
+[
+{title:'Terminology', children: [] },
+{title:'History', children: [
+	{title:'Creation', children: []},
+	{title:'Growth', children: []},
+	{title:'University students appreciation and contributions', children: []}
+	
+	
+]},
+{title:'Todays Internet', children: [
+	{title:'Internet protocols', children : []},
+	{title:'Internet structure', children : []},
+	{title:'ICANN', children : []},
+	{title:'Language', children : []},
+	{title:'Internet and the workplace', children : []},
+	{title:'The Internet viewed on mobile devices', children : []},
+]},
+{title:'Common uses', children: [
+	{title:'E-mail', children : []},
+	{title:'The World Wide Web', children : []},
+	{title:'Remote access', children : []},
+	{title:'Collaboration', children : []},
+	{title:'File sharing', children : []},
+	{title:'Streaming media', children : []},
+	{title:'Internet Telephony (VoIP)', children : []}
+	]},
+{title:'Internet access', children : []},
+{title:'Social impact', children : [
+	{title:'Political organization and censorship', children: []},
+	{title:'Leisure activities', children: []},
+]}, 
+{title:'Conclusions', children : []}
+]
