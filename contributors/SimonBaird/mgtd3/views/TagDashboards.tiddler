@@ -183,6 +183,14 @@
 		"></div>
 </div>
 <div class="col">
+	<div macro="mgtdList title:'Actions (without a project)'
+		tags:'Action && !Done'
+		view:Action
+		newButtonTags:'Action' 
+		group:ActionStatus
+		gView:bold
+		ignoreRealm:yes
+		"></div>
 	<div macro="mgtdList title:'Completed Projects' tags:'Project && Complete' view:ProjectComplete newButtonTags:'Project Someday/Maybe' 
 		ignoreRealm:yes
 		"></div>

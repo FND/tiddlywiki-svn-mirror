@@ -25,7 +25,8 @@ merge(Tiddler.prototype,{
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		' &nbsp;[[%0]] '+
 		'<<deleteTiddler [[%0]]>>'+
-		'}}}',
+		'}}}'+
+		'{{notesLink{<<showNotesIcon [[%0]]>>}}}',
 		[
 			this.title
 		]
@@ -50,7 +51,8 @@ merge(Tiddler.prototype,{
 		'<<dateChooser [[%0]]>>'+
 		'&nbsp;[[%0]]'+
 		'<<deleteTiddler [[%0]]>>'+
-		'}}}',
+		'}}}'+
+		'{{notesLink{<<showNotesIcon [[%0]]>>}}}',
 		[
 			this.title,
             doneControl.format([this.title])
@@ -65,6 +67,7 @@ merge(Tiddler.prototype,{
 		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		' &nbsp;[[%0]] }}}'+
+		'{{notesLink{<<showNotesIcon [[%0]]>>}}}'+
 		"{{projLink{<<linkToParent Project '[P]' [[%0]]>>}}}"+
 		"{{projLink{<<linkToParent Contact '[C]' [[%0]]>>}}}"+
 		"",
@@ -82,7 +85,8 @@ merge(Tiddler.prototype,{
 		//'<<multiSelectTag tag:Project title:[[%0]]>>'+
 		//'<<multiCheckboxTag tag:ActionStatus title:[[%0]]>>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-		' &nbsp;[[%0]] }}} %1'+
+		' &nbsp;[[%0]] }}}'+
+		'{{notesLink{<<showNotesIcon [[%0]]>>}}}'+
 		"{{projLink{<<linkToParent Area    '[A]' [[%0]]>>}}}"+
 		"{{projLink{<<linkToParent Project '[P]' [[%0]]>>}}}"+
 		"{{projLink{<<linkToParent Contact '[C]' [[%0]]>>}}}"+
@@ -97,7 +101,8 @@ merge(Tiddler.prototype,{
 	render_ProjectBare: function() { return this.renderUtil(
 		'{{project{'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-		'&nbsp;[[%0]] }}}',
+		'&nbsp;[[%0]] }}}'+
+		'{{notesLink{<<showNotesIcon [[%0]]>>}}}',
 		[
 			this.title
 		]
@@ -107,7 +112,8 @@ merge(Tiddler.prototype,{
 		'{{project{'+
 		'<<toggleTag Complete [[%0]] ->>'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-		'&nbsp;[[%0]] }}}',
+		'&nbsp;[[%0]] }}}'+
+		'{{notesLink{<<showNotesIcon [[%0]]>>}}}',
 		[
 			this.title
 		]
@@ -141,7 +147,9 @@ merge(Tiddler.prototype,{
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		' &nbsp;[[%0]]'+
 		'<<deleteTiddler [[%0]]>>'+
-		'}}} %1',
+		'}}}'+
+		'{{notesLink{<<showNotesIcon [[%0]]>>}}}'+
+		' %1',
 		[
 			this.title,
 			pLink
@@ -154,7 +162,8 @@ merge(Tiddler.prototype,{
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
 		' [[%0]] '+
 		'<<deleteTiddler [[%0]]>>'+
-		'}}}',
+		'}}}'+
+		'{{notesLink{<<showNotesIcon [[%0]]>>}}}',
 		[
 			this.title
 		]
@@ -189,7 +198,8 @@ merge(Tiddler.prototype,{
 	render_star: function() { return this.renderUtil(
 		'{{plain{'+
 		'<<singleToggleTag tag:Starred title:[[%0]]>>'+
-        '[[%0]]}}}',
+		'[[%0]]}}}'+
+		'{{notesLink{<<showNotesIcon [[%0]]>>}}}',
 		[
 			this.title
 		]

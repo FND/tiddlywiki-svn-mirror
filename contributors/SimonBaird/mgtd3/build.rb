@@ -94,6 +94,7 @@ demo = [
   ['Ring ticket office and book places', "Action Future Personal [[Go to theatre with Sue]] Call"],
   
   ['A project-less task',   "Action Next Personal"],
+  ['A project-less task with an Area',   "Action Next Personal Research"],
 
   # see if dependencies are working
   ['Test deps', "Project Personal Active"],
@@ -230,4 +231,6 @@ http://previous.townsville.qld.gov.au/theatre/TheatreSeason.asp
   to_file                "upload/demo3.html"
 }
 
+
+`cp upload/upgrade3.html ~/GTD`
 

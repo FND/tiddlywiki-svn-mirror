@@ -742,6 +742,11 @@ with brs in non-mgtdlist content. .normal might help */
 	font-size:80%;  /* lazy */
 }
 
+/* make the icon fit in a bit better */
+.showNotesIcon img {
+	vertical-align:middle;
+	margin-right: 1px;
+}
 
 /* for user styles */
 [[StyleSheet]]

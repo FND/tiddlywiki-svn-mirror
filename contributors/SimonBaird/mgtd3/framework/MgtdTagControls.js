@@ -616,6 +616,23 @@ merge(config.macros,{
 				},'deleteTiddlerButton');
 			}
 		}
+	},
+
+	// contributed by ByteDoc
+	showNotesIcon: {
+
+		imageData: "data:image/gif;base64,R0lGODlhDgAOAKU3AHJcM21cQnFhRYBkLXVlSHdoS3hpTH5sQXxtUYpvNMeKCcuRD9CZBdKbGuCbAM+iEtWkHtmmELiqgb+tgeSsPMCwgt6wLMOyhMa1hd22O+m2OM68iuK/QOy8UdHBjOzEKdfGk/XJKujJVPbNZP7RNezRdvTTZf3SbP/Zc/HejPXkfP/jfvfln//ogv7uiPjvsv/1j/v1x///mf//qv/72v//xP//zP///////////////////////////////////yH5BAEKAD8ALAAAAAAOAA4AAAZ6QJBw6PFsNheJEkSz1Z7QKAIUm1mv2BkC85J5v2CZ4cKCmc9omKGScrnfcFdhUmrZ7/hWQdJRrf6AgQQSGRwZFg8mgX+DIgwhHwwcKyiVlQISIxYRJCENlpaYJ5oLDg4WKCeWARKqJxoQEAoQFB22rAe5CQkDvb0AwEEAOw==",
+
+		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+			var useTiddler = params[0] ? store.fetchTiddler(params[0]) : tiddler;
+			if (useTiddler.text != "") {
+				var output = (config.browser.isie ? // presume IE still can't do data urls
+					"(n)".format([useTiddler.title]) :
+					"{{showNotesIcon{[img[%0|%1]]}}}".format([wikifyPlain(useTiddler.title),config.macros.showNotesIcon.imageData])
+				);
+				wikify(output,place,null,useTiddler);
+			}
+		}
 	}
 
 });
