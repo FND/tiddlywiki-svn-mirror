@@ -46,10 +46,6 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
 		helperclass: 'helper',
-		onStop: function() {
-			// HACK TO REMOVE THE HELPER CLASS WHICH SHOULD REMOVE ITSELF
-			$(".helper").remove();
-		},
 		onChange: function(serialized) {
 			
 			console.log("on changes");
@@ -102,9 +98,10 @@ config.macros.tdoc2Outline._buildSpec = function (liList) {
 config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 	var childCount=1;
 	label=label.concat([0])
+	var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
 	$.each(spec, function() {
 		label[label.length-1]++;
-		var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
+		console.log("ul is :", ul.firstChild);
 	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"HeadingView", "sectionHeading toc-sort-handle ");	
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);

@@ -149,7 +149,6 @@ jQuery.iNestedSortable = {
 	 * of the item order.
 	 */
 	serialize: function(s) {
-		console.log("s is : ", s);
 		if(jQuery('#' + s).get(0).isNestedSortable){
 			//A brand new NestedSortable serialization
 			//return jQuery.iNestedSortable.newSerialize(s);
