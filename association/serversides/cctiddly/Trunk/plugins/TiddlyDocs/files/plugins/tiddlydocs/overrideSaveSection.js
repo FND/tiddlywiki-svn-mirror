@@ -6,6 +6,7 @@ merge(config.commands.saveSection,{
 
 config.commands.saveSection.handler = function(event,src,title)
 {
+	var testSpec  = $.parseJSON(store.getTiddlerText(window.activeDocument));
 	var tiddlerElem = story.getTiddler(title);
 	if(tiddlerElem) {
 		var fields = {};

@@ -55,6 +55,7 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 				story.displayTiddler(null, this.id, DEFAULT_EDIT_TEMPLATE);
 			else
 				story.displayTiddler(null, this.id);
+				
 	});
 	$(".sectionHeading").hover(
 		function() {
@@ -89,7 +90,6 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 	var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
 	$.each(spec, function() {
 		label[label.length-1]++;
-		console.log("ul is :", ul.firstChild);
 	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"HeadingView", "sectionHeading toc-sort-handle ");	
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
