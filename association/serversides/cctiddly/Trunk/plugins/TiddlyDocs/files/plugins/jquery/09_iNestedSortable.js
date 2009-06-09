@@ -149,14 +149,15 @@ jQuery.iNestedSortable = {
 	 * of the item order.
 	 */
 	serialize: function(s) {
+		console.log("ppp");
 		if(jQuery('#' + s).get(0).isNestedSortable){
 			//A brand new NestedSortable serialization
-			//return jQuery.iNestedSortable.newSerialize(s);
-			return "";
+			return jQuery.iNestedSortable.newSerialize(s);
+			//return "a";
 		} else {
 			//The legacy serialization
-			//return jQuery.iNestedSortable.oldSerialize(s);
-			return "";
+			return jQuery.iNestedSortable.oldSerialize(s);
+			//return "a";
 		}
 	},
 	oldSerialize: jQuery.iSort.serialize,

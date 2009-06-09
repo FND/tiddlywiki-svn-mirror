@@ -42,6 +42,8 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 	window.sectionCount = 1;
 	$(specView).empty();	
 	config.macros.tdoc2Outline._renderSpec(specView, spec, []);
+	
+	
 	$("#ul0").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
@@ -62,6 +64,9 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 		autoScroll: true,
 		handle: '.toc-sort-handle'
 	});
+
+	
+	
 	$("#ul0 li").mouseup(function() {
 			if(config.options.chkOpenEditView==true)
 				story.displayTiddler(null, this.id, DEFAULT_EDIT_TEMPLATE);
