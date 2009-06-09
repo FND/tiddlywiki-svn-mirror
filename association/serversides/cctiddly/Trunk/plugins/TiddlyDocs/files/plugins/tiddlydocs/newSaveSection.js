@@ -24,10 +24,7 @@ config.commands.saveNewSection.handler = function(event,src,title)
 		children:[]
 	};
 	testSpec.unshift(node);
-	
-	console.log("tiddler elem is : ", tiddlerElem.value);
-
-	// only do this if the spec has changed.
+// only do this if the spec has changed.
 	store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
 	
 	if(!store.tiddlerExists(newTitle))

@@ -19,6 +19,5 @@ config.macros.docSwitcher.setDropDownMetaData = function(ev) {
 	var title = this.name;
 	var option = this[this.selectedIndex].value;
 	window.activeDocument = option;
-	console.log("opt is : ", option);
 	refreshAll();
 }

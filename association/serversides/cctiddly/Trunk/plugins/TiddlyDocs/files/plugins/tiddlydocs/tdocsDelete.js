@@ -16,8 +16,6 @@ config.macros.deleteZone.handler = function(place,macroName,params,wikifier,para
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
 		onStop : function() {
-			alert("boo");
-			console.log("change");
 		},
 		helperclass: 'helper',
 		autoScroll: true,

@@ -25,5 +25,4 @@ config.macros.tdButtons.handler=function(place,macroName,params,wikifier,paramSt
 	};
 	createTiddlyButton(buttonHolder, "logout", "Logout of TiddlyDocs", logout, null, null, null, null, "http://ftpvweb.com/file_transfer/skins/blue/images/actions/exit.png");
 	createTiddlyElement(place, "br");
-	console.log("do buttons");
 }

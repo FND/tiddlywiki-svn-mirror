@@ -32,8 +32,6 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 		noNestingClass: "no-nesting",
 		helperclass: 'helper',
 		onChange: function(serialized) {
-			
-			console.log("on changes");
 			 window.testSpec = config.macros.tdoc2Outline.buildSpec();
 				if(store.tiddlerExists(window.activeDocument)) {
 					var specTiddler = store.getTiddler(window.activeDocument);
