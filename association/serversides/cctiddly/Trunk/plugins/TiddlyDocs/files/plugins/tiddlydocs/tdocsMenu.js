@@ -1,26 +1,10 @@
 //{{{
-	
-	var testSpec = [{title:'Creation', children:
-			[{title:'Growth', children: 
-				[{title:'Language', children: []}]
-			 },
-			 {title:'Mowth', children: []},
-			 {title:'Jowth', children: []}
-			]},
-		{title:'Middle', children: []},
-		{title:'Fin', children:
-		    [{title:'Epilogue', children: []}]
-		}];							
-	
-window.activeDocument = 't2cd';
 
-if(store.tiddlerExists(window.activeDocument)) {
-	var testSpec = $.parseJSON(store.getTiddlerText(window.activeDocument));	 
-}
-		
 //tdoc2Outline //
 
 //{{{
+	
+window.activeDocument ="Beagles";
 config.macros.tdoc2Outline={};
 
 config.macros.tdoc2Outline.editClick=function(){
@@ -57,7 +41,7 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 				} else {
 					var fields = config.defaultCustomFields;
 				}
-			store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(window.testSpec), null, null, null, fields);
+			store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(window.testSpec), null, null, "document", fields);
 			autoSaveChanges(true, window.activeDocument);
 		},
 		autoScroll: true,
@@ -114,6 +98,9 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 }
 
 config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
+	if(store.tiddlerExists(window.activeDocument)) {
+		var testSpec = $.parseJSON(store.getTiddlerText(window.activeDocument));	 
+	}
 	var specView = createTiddlyElement(place, "div", "", "specView");	
 	config.macros.tdoc2Outline.renderSpec(specView, testSpec);
 }	
