@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.8.0|
+|''Version''|0.8.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -331,7 +331,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 };
 
 adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
-	context.status = xhr.status === 204;
+	context.status = [204, 1223].contains(xhr.status);
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(status) {
@@ -367,7 +367,7 @@ adaptor.prototype.putTiddlerChronicle = function(revisions, context, userParams,
 };
 
 adaptor.putTiddlerChronicleCallback = function(status, context, responseText, uri, xhr) {
-	context.status = xhr.status === 204;
+	context.status = [204, 1223].contains(xhr.status);
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(context.callback) {
@@ -389,7 +389,7 @@ adaptor.prototype.putTiddlerStore = function(store, context, userParams, callbac
 };
 
 adaptor.putTiddlerStoreCallback = function(status, context, responseText, uri, xhr) {
-	context.status = xhr.status === 204;
+	context.status = [204, 1223].contains(xhr.status);
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(context.callback) {
@@ -481,7 +481,7 @@ adaptor.prototype.deleteTiddler = function(tiddler, context, userParams, callbac
 };
 
 adaptor.deleteTiddlerCallback = function(status, context, responseText, uri, xhr) {
-	context.status = xhr.status === 204;
+	context.status = [204, 1223].contains(xhr.status);
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(context.callback) {
