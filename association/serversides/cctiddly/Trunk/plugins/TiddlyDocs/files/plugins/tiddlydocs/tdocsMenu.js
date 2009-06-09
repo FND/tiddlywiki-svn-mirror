@@ -42,8 +42,7 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 	window.sectionCount = 1;
 	$(specView).empty();	
 	config.macros.tdoc2Outline._renderSpec(specView, spec, []);
-	
-	
+
 	$("#ul0").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",

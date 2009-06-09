@@ -1,28 +1,23 @@
 Modifier: Simon McManus
 
+
+[[Feedback]]
+
+[[Issues]]
+
+[[Michael Mahemoff]]
+
+[[Simon McManus]]
 <html>
 	<div class='about-tiddlydocs'>
 		TiddlyDocs is designed to help you and your team collaborate on large documents.
 	<p>
 		A document can take several people to write, so TiddlyDocs lets you break it into sections and spread the bits out across your team.
 	</p>
-<center>
-
-	<img src='plugins/TiddlyDocs/files/images/badge_osmosoft.png'/><br/><br/>
-	<img src='plugins/TiddlyDocs/files/images/badge_bt.png'/><br/><br/>
-	<img src='plugins/TiddlyDocs/files/images/badge_unamesa.png'/><br/><br/>
-	
-</center>
-
-
-More information can be found below : 
-
-
-<a class='aboutLink' target='_new' href='http://simonmcmanus.wordpress.com/2009/02/06/tiddlydocs-collaborating-on-large-documents/'>from Simon McManus</a>
-<a class='aboutLink'  target='_new' href='http://softwareas.com/tag/tiddlydocs'>from Michael Mahemoff</a>
-
-
-
+	<center>
+		<img src='plugins/TiddlyDocs/files/images/badge_osmosoft.png' width='100px'/><br/><br/>
+		<img src='plugins/TiddlyDocs/files/images/badge_bt.png' width='100px'/><br/><br/>
+		<img src='plugins/TiddlyDocs/files/images/badge_unamesa.png' width='100px'/>
+	</center>
 	</div>
-	
 	</html>
