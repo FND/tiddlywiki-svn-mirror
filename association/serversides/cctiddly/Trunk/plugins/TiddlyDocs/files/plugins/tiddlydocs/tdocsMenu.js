@@ -51,6 +51,11 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 	
 	
 	$("#ul0 li").mouseup(function() {
+/*		
+	store.saveTiddler(this.id, this.id, config.views.wikified.defaultText, null, null, "task", config.defaultCustomFields);
+	autoSaveChanges(true, this.id);
+*/	
+	
 			if(config.options.chkOpenEditView==true)
 				story.displayTiddler(null, this.id, DEFAULT_EDIT_TEMPLATE);
 			else

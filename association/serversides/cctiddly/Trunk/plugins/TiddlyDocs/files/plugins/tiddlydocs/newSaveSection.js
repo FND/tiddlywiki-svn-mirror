@@ -1,10 +1,10 @@
-config.commands.saveSection = {};
+config.commands.saveNewSection = {};
 
-merge(config.commands.saveSection,{
+merge(config.commands.saveNewSection,{
 	text: "save section",
 	tooltip: "Save changes to this section"});
 
-config.commands.saveSection.handler = function(event,src,title)
+config.commands.saveNewSection.handler = function(event,src,title)
 {
 	var testSpec  = $.parseJSON(store.getTiddlerText(window.activeDocument));
 	var tiddlerElem = story.getTiddler(title);
@@ -24,7 +24,15 @@ config.commands.saveSection.handler = function(event,src,title)
 		children:[]
 	};
 	testSpec.unshift(node);
+	
+	console.log("tiddler elem is : ", tiddlerElem.value);
+
+	// only do this if the spec has changed.
 	store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
+	
+	if(!store.tiddlerExists(newTitle))
+		store.saveTiddler(newTitle, newTitle, config.views.wikified.defaultText, config.options.txtUserName, new Date(), "task", config.defaultCustomFields);
+	
 	autoSaveChanges();
 	story.closeTiddler(title);
 	story.displayTiddler(null, newTitle);

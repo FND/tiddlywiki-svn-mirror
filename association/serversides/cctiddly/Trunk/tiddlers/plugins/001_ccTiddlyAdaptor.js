@@ -27,7 +27,7 @@ config.extensions.ServerSideSavingPlugin = {
 		done: "Revision downloaded",
 		revisionTooltip: "View this revision",
 		popupNone: "No revisions",
-		revisionTemplate: "%0 r:%1 m:%2",
+		revisionTemplate: "%1: %2 at %0",
 		dateFormat:"YYYY mmm 0DD 0hh:0mm"	
 	});
 

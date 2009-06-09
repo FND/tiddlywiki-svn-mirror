@@ -314,14 +314,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .taskControls {
 	color:white;
-	left:4em;
+	left:7em;
 	margin:0;
 	padding:0;
 	position:relative;
 	top:-3em;
 }
 .editTaskControls {
-	margin-left:15em;
+	margin-left:10em;
 	top:-3.2em;
 }
 
@@ -632,7 +632,7 @@ form.wizard, .wizard .wizardFooter{
 			padding-top:0em;
 			padding-bottom:2em;
 			position:relative;
-			top:-4em;
+			top:-3.2em;
 		}
 		.viewer th, .viewer thead td, .twtable th, .twtable thead td  {
 		 background:#5586B6 none repeat scroll 0 0;
@@ -1041,7 +1041,7 @@ padding-top:0em;
 	</div>
 	<div class="portletContent">
 
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
 		<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 		<!--
 		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
