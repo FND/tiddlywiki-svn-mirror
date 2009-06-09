@@ -22,5 +22,9 @@ config.commands.editHtml={
 
 config.views.wikified.defaultText= "The section has not been edited yet.";
 
+// FCKEditor textarea height
+ config.options.txtFCKheight = "250px";
+
+
 //}}}
 

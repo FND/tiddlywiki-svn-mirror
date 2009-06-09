@@ -4,7 +4,7 @@
 
 //{{{
 	
-window.activeDocument ="Beagles";
+window.activeDocument ="The Internet";
 config.macros.tdoc2Outline={};
 
 config.macros.tdoc2Outline.editClick=function(){
