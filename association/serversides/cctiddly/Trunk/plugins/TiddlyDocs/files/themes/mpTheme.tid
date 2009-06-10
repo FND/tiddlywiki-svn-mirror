@@ -156,7 +156,13 @@ tags: systemTheme
 
 
 
-
+div.portletTitle  div.title  input {
+	background:transparent none repeat scroll 0 0;
+	border:0 none;
+	color:#FFFFFF;
+	position:relative;
+	top:-0.2em;
+}
 
 
 

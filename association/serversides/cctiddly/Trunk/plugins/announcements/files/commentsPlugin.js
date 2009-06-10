@@ -406,7 +406,7 @@ createCommentTiddler: function() {
 },
 saveTiddler: function(tiddler) {
   var tiddler = (typeof(tiddler)=="string") ? store.getTiddler(tiddler) : tiddler; 
-  console.log("plugin.saveTiddler", tiddler);
+//  console.log("plugin.saveTiddler", tiddler);
 
 //  store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, merge(config.defaultCustomFields, tiddler.fields), false, tiddler.created);
 },
