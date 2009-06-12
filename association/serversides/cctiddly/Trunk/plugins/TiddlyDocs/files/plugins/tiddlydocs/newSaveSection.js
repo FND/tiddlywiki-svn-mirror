@@ -25,6 +25,7 @@ config.commands.saveNewSection.handler = function(event,src,title)
 	};
 	testSpec.unshift(node);
 // only do this if the spec has changed.
+console.log("has changed");
 	store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
 	if(!store.tiddlerExists(newTitle))
 		store.saveTiddler(newTitle, newTitle, config.views.wikified.defaultText, config.options.txtUserName, new Date(), "task", config.defaultCustomFields);

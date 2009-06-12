@@ -94,7 +94,7 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	},null, null, null,  {tabindex:'3'});
 
-	if(config.macros.register!==undefined){		
+	if(config.macros.register!==undefined && window.canRegister==0){		
 		var li_register = createTiddlyElement(w.footElem, "li");
 		createTiddlyButton(li_register,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
 				config.macros.register.displayRegister(place, w, this);

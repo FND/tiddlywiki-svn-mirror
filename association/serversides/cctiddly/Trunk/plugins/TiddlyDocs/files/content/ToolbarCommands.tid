@@ -4,6 +4,6 @@ modified: 200708091500
 
 |~ViewToolbar|+editHtml|
 |~newEditToolbar| +saveNewSection -cancelTiddler |
-|~EditToolbar| +saveTiddler -cancelTiddler revisions deleteTiddlerHosted |
+|~EditToolbar| +saveNewSection -cancelTiddler revisions deleteTiddlerHosted |
 |~taskViewToolbar|+editTiddler revisions|
 |~drawingEditToolbar| +saveTiddler -cancelTiddler deleteTiddlerHosted|

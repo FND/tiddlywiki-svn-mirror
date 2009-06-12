@@ -62,6 +62,16 @@ if($tiddlyCfg['use_mod_rewrite'] == 1)
 window.useModRewrite = 1;
 <?php
 }
+
+
+if($tiddlyCfg['can_create_account']==1)
+{
+?>
+window.canRegister = 1;
+
+<?php
+}
+
 ?>
 //if (config.options.txtTheme == "")
 //config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
