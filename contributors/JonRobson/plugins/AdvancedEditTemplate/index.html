@@ -1333,7 +1333,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			    
     			    name = name.replace(/[\&gt;|\&lt;]/ig, &quot;&quot;);
     			    value = value.replace(/[\&gt;|\&lt;]/ig, &quot;&quot;);
-    			    whatyousee.push(name);
+    			    whatyousee.push(decodeURI(name));
     			    whatyousave[name] = value;
     			    if(initialValue == value) initialValue = name;
 			    }
@@ -1734,11 +1734,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			jQuery(&quot;.file&quot;,form).change(function(e){
 			   jQuery(&quot;.filename&quot;,form).val(this.value); 
 			});
-			holder.appendChild(form);
+			
+			jQuery(holder).append(&quot;&lt;table&gt;&lt;tr&gt;&lt;td class='leftcol'&gt;&lt;/td&gt;&lt;td class='rightcol'&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot;);
+			jQuery(&quot;.leftcol&quot;,holder).append(form);
 			form.setAttribute(&quot;action&quot;,uploader+&quot;?postbackto=&quot;+filename.id);
 			
 	
-			jQuery(holder).append(&quot;&lt;div class='tip'&gt;OR select a file from the server (listed below) to use as the image or enter the path to that filename.&lt;/div&gt;&quot;);
+			jQuery(&quot;.rightcol&quot;,holder).append(&quot;&lt;div class='tip'&gt;OR select a file from the server (listed below) to use as the image or enter the path to that filename.&lt;/div&gt;&quot;);
 			
 			
 			filename.onchange = function(e){
@@ -1748,8 +1750,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				if(handler)handler(newsrc);
 			};
 			if(initial)filename.value = initial;			
-			holder.appendChild(filename);
-			jQuery(holder).append(&quot;&lt;div class='browserarea' style='position:relative;'&gt;&lt;input type='button' class='browsebutton' value='browse'&gt;&lt;div class='filebrowser' style='position:absolute;display:none;'&gt;&lt;/div&gt;&lt;/div&gt;&quot;);
+			jQuery(&quot;.rightcol&quot;,holder).append(filename);
+			jQuery(&quot;.rightcol&quot;,holder).append(&quot;&lt;div class='browserarea' style='position:relative;'&gt;&lt;input type='button' class='browsebutton' value='browse'&gt;&lt;div class='filebrowser' style='position:absolute;display:none;z-index:200'&gt;&lt;/div&gt;&lt;/div&gt;&quot;);
 			var bb = jQuery(&quot;.browsebutton&quot;,holder);
 			bb.click(function(e){
 			    var browser =$(&quot;.filebrowser&quot;,$(this).parent());

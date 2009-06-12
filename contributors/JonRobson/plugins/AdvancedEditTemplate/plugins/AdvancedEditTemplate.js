@@ -1,3 +1,26 @@
+if(config.macros.view){
+    if(!config.macros.view.views)config.macros.view.views={};
+    config.macros.view.views.image = function(value,place,params,wikifier,paramString,tiddler) {
+    var classname="";
+    if(params[2]) classname = params[2];
+			jQuery(place).append("<img class='"+ classname+"' src='"+value+"'/>");
+    };
+    
+    config.macros.view.views.linklist = function(value,place,params,wikifier,paramString,tiddler) {
+        var classname="";
+        var values = value.split("\n");
+        for(var i=0; i < values.length;i++){
+            wikify("[["+values[i]+"]]\n",place);
+        }
+        
+    };
+        
+    config.macros.view.views.hiddeninput = function(value,place,params,wikifier,paramString,tiddler) {
+        var classname="";
+        if(params[2]) classname = params[2];
+	    jQuery(place).append("<input type='hidden' value='"+value+"'/>");
+    };
+}
 
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
@@ -145,7 +168,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			    
     			    name = name.replace(/[\>|\<]/ig, "");
     			    value = value.replace(/[\>|\<]/ig, "");
-    			    whatyousee.push(name);
+    			    whatyousee.push(decodeURI(name));
     			    whatyousave[name] = value;
     			    if(initialValue == value) initialValue = name;
 			    }
@@ -516,7 +539,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			holder.className = "AdvancedEditTemplateImage";
 			var image = document.createElement("img");
 			image.src = initial;
-			image.alt = "currently selected image";
+			image.alt = "a preview of currently selected image will be shown here";
 
 			var params = paramString.parseParams("anon",null,true,false,false);
                 	
@@ -526,9 +549,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			//var home =  getParam(params,"home", null);	
 
 			
-			
+			var home = "";
 			if(preview){
-			    jQuery(holder).append("<div class='tip'>PREVIEW:</div>");
 			    holder.appendChild(image);			
 			}
 
@@ -546,11 +568,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			jQuery(".file",form).change(function(e){
 			   jQuery(".filename",form).val(this.value); 
 			});
-			holder.appendChild(form);
+			
+			jQuery(holder).append("<div class='leftcol'></div><div class='rightcol'></div>");
+			jQuery(".leftcol",holder).append(form);
 			form.setAttribute("action",uploader+"?postbackto="+filename.id);
 			
 	
-			jQuery(holder).append("<div class='tip'>OR select a file from the server (listed below) to use as the image or enter the path to that filename.</div>");
+			//jQuery(".rightcol",holder).append("<div class='tip'>OR browse and select a file from the server</div>");
 			
 			
 			filename.onchange = function(e){
@@ -560,8 +584,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				if(handler)handler(newsrc);
 			};
 			if(initial)filename.value = initial;			
-			holder.appendChild(filename);
-			jQuery(holder).append("<div class='browserarea' style='position:relative;'><input type='button' class='browsebutton' value='browse'><div class='filebrowser' style='position:absolute;display:none;'></div></div>");
+			jQuery(".rightcol",holder).append(filename);
+			jQuery(".rightcol",holder).append("<div class='browserarea' style='position:relative;'><input type='button' class='browsebutton' value='browse'><div class='filebrowser' style='position:absolute;display:none;z-index:200'></div></div>");
 			var bb = jQuery(".browsebutton",holder);
 			bb.click(function(e){
 			    var browser =$(".filebrowser",$(this).parent());
