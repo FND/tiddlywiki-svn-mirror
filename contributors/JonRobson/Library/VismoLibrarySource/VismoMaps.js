@@ -24,11 +24,18 @@ var VismoMap = function(wrapper,options){
 	if(!wrapper.style.height) wrapper.style.height= "200px";
 		
 	this.feature_reference = {};
-		
-	this.vismoClicking = new VismoCanvas(wrapper);
+	if(!options) options = {};
+	if(options.tooltip){
+	    
+	    options.tooltipfunction = function(el,s){
+	        if(s){
+	        el.innerHTML = s.getProperty("name");
+            }
+	    }
+	}
+	this.vismoClicking = new VismoCanvas(wrapper,options);
 	this._setupMouseHandlers();
 	
-	if(!options) options = {};
 	this.controller = new VismoController(this,this.wrapper,options.VismoController);
 
 		
@@ -38,8 +45,6 @@ var VismoMap = function(wrapper,options){
 	this.geofeatures = {};
 	this.features = [];
 	this.clear();
-	
-	
 
 };  
 VismoMap.prototype = {
@@ -257,7 +262,7 @@ VismoMap.prototype = {
 
 
 		if(this.settings.beforeRender) {
-			this.settings.beforeRender(tran);
+			this.vismoClicking.options.beforeRender = this.settings.beforeRender;
 		}
 		this.vismoClicking.render(this.settings.projection);
 		if(this.settings.afterRender) {

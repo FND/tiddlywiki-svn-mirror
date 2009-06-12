@@ -93,7 +93,7 @@ function getElementChild(el,tag){
 			var onmup = function(e,shape,mouse,longitude_latitude,feature){	
 			       					
 				if(shape &&shape.properties){
-				   console.log("yey");	
+
 					var shapeName = shape.getProperty("name");
 				}
 				else{

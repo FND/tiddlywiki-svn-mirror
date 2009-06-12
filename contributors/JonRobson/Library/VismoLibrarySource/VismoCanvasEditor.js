@@ -726,7 +726,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
         this.vismoCanvas = vismoCanvas;
         jQuery(element).append("<div class='VismoShapeManipulator' style='position:absolute;border:solid 1px black;z-index:400;'></div><div class='brResizer' style='display:none;position:absolute;z-index:1000;'></div>");
         this.el = jQuery(".VismoShapeManipulator",element);
-        jQuery(element).mousedown(function(e){e.preventDefault(); return false;}); //stops default drag behaviour
+        //jQuery(element).mousedown(function(e){e.preventDefault(); return false;}); //stops default drag behaviour
         
         this.parentCanvas = element;
         this.brResizer =jQuery(".brResizer",element);

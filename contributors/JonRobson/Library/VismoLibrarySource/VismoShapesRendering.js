@@ -48,8 +48,7 @@ var VismoCanvasRenderer = {
 		var c = vismoShape.getCoordinates();
 		var t =vismoShape.getProperty("transformation");
 		if(!t) t= {};
-		ctx.save();
-		//ctx.setTransform(1, 1, 1, 1, 1, 1);
+		//ctx.save(); //issue with this in safari..
 		if(!t.translate)t.translate = {x:0,y:0};
 		if(!t.scale) t.scale = {x:1,y:1};
 		    
@@ -112,7 +111,8 @@ var VismoCanvasRenderer = {
 				
 				
 		}
-		ctx.restore();
+	
+		//ctx.restore(); //issue with this in safari..
 	}
 	,renderPoint: function(ctx,vismoShape){
 	        //ctx.restore();

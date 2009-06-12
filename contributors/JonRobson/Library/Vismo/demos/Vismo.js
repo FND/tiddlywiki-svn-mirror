@@ -351,6 +351,7 @@ jQuery._farbtastic = function (container, callback) {
 		var update = element.vismoClicking;
 		return update;
 	}
+	this.options = options;
 	var wrapper = element;
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width);
@@ -384,6 +385,19 @@ jQuery._farbtastic = function (container, callback) {
 	    new VismoController(this,this.getDomElement());
 	}*/
 	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
+	var tooltipfunction;
+	if(options.tooltipfunction){
+	    if(typeof options.tooltipfunction == 'boolean'){
+	        tooltipfunction = function(el,s){
+	            if(s){
+	                el.innerHTML = "cool"+s.getProperty("id");}
+	            }
+	    }
+	    else{
+	        tooltipfunction = options.tooltipfunction;
+	    }
+	    this.addTooltip(tooltipfunction)
+	}
 
 
 };
@@ -644,10 +658,10 @@ VismoCanvas.prototype = {
 	
 	,render: function(projection){
 		this._setupCanvasEnvironment();
-		
+
 		var that = this;
 		var transformation = this.getTransformation();
-	
+		if(this.options.beforeRender) this.options.beforeRender(transformation);	
 		if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
 		//determine point size
 		var ps = 5 / parseFloat(sc);
@@ -1719,7 +1733,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
         this.vismoCanvas = vismoCanvas;
         jQuery(element).append("<div class='VismoShapeManipulator' style='position:absolute;border:solid 1px black;z-index:400;'></div><div class='brResizer' style='display:none;position:absolute;z-index:1000;'></div>");
         this.el = jQuery(".VismoShapeManipulator",element);
-        jQuery(element).mousedown(function(e){e.preventDefault(); return false;}); //stops default drag behaviour
+        //jQuery(element).mousedown(function(e){e.preventDefault(); return false;}); //stops default drag behaviour
         
         this.parentCanvas = element;
         this.brResizer =jQuery(".brResizer",element);
@@ -1911,6 +1925,7 @@ VismoShapeManipulator.prototype = {
 		var update = element.vismoClicking;
 		return update;
 	}
+	this.options = options;
 	var wrapper = element;
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width);
@@ -1944,6 +1959,19 @@ VismoShapeManipulator.prototype = {
 	    new VismoController(this,this.getDomElement());
 	}*/
 	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
+	var tooltipfunction;
+	if(options.tooltipfunction){
+	    if(typeof options.tooltipfunction == 'boolean'){
+	        tooltipfunction = function(el,s){
+	            if(s){
+	                el.innerHTML = "cool"+s.getProperty("id");}
+	            }
+	    }
+	    else{
+	        tooltipfunction = options.tooltipfunction;
+	    }
+	    this.addTooltip(tooltipfunction)
+	}
 
 
 };
@@ -2204,10 +2232,10 @@ VismoCanvas.prototype = {
 	
 	,render: function(projection){
 		this._setupCanvasEnvironment();
-		
+
 		var that = this;
 		var transformation = this.getTransformation();
-	
+		if(this.options.beforeRender) this.options.beforeRender(transformation);	
 		if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
 		//determine point size
 		var ps = 5 / parseFloat(sc);
@@ -4174,7 +4202,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
         this.vismoCanvas = vismoCanvas;
         jQuery(element).append("<div class='VismoShapeManipulator' style='position:absolute;border:solid 1px black;z-index:400;'></div><div class='brResizer' style='display:none;position:absolute;z-index:1000;'></div>");
         this.el = jQuery(".VismoShapeManipulator",element);
-        jQuery(element).mousedown(function(e){e.preventDefault(); return false;}); //stops default drag behaviour
+        //jQuery(element).mousedown(function(e){e.preventDefault(); return false;}); //stops default drag behaviour
         
         this.parentCanvas = element;
         this.brResizer =jQuery(".brResizer",element);
@@ -4366,6 +4394,7 @@ VismoShapeManipulator.prototype = {
 		var update = element.vismoClicking;
 		return update;
 	}
+	this.options = options;
 	var wrapper = element;
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width);
@@ -4399,6 +4428,19 @@ VismoShapeManipulator.prototype = {
 	    new VismoController(this,this.getDomElement());
 	}*/
 	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
+	var tooltipfunction;
+	if(options.tooltipfunction){
+	    if(typeof options.tooltipfunction == 'boolean'){
+	        tooltipfunction = function(el,s){
+	            if(s){
+	                el.innerHTML = "cool"+s.getProperty("id");}
+	            }
+	    }
+	    else{
+	        tooltipfunction = options.tooltipfunction;
+	    }
+	    this.addTooltip(tooltipfunction)
+	}
 
 
 };
@@ -4659,10 +4701,10 @@ VismoCanvas.prototype = {
 	
 	,render: function(projection){
 		this._setupCanvasEnvironment();
-		
+
 		var that = this;
 		var transformation = this.getTransformation();
-	
+		if(this.options.beforeRender) this.options.beforeRender(transformation);	
 		if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
 		//determine point size
 		var ps = 5 / parseFloat(sc);
@@ -5526,7 +5568,7 @@ var VismoFileUtils= {
 				if(dothiswhenloadedfromweb){
 					dothiswhenloadedfromweb(url);
 				}
-				console.log("VismoFileUtil.saveFile doesnt work for iamges it might seem",savePath);
+				//console.log("VismoFileUtil.saveFile doesnt work for iamges it might seem",savePath);
 				VismoFileUtils.saveFile(savePath,responseText);
 		
 			}
@@ -5677,11 +5719,18 @@ var VismoMap = function(wrapper,options){
 	if(!wrapper.style.height) wrapper.style.height= "200px";
 		
 	this.feature_reference = {};
-		
-	this.vismoClicking = new VismoCanvas(wrapper);
+	if(!options) options = {};
+	if(options.tooltip){
+	    
+	    options.tooltipfunction = function(el,s){
+	        if(s){
+	        el.innerHTML = s.getProperty("name");
+            }
+	    }
+	}
+	this.vismoClicking = new VismoCanvas(wrapper,options);
 	this._setupMouseHandlers();
 	
-	if(!options) options = {};
 	this.controller = new VismoController(this,this.wrapper,options.VismoController);
 
 		
@@ -5691,8 +5740,6 @@ var VismoMap = function(wrapper,options){
 	this.geofeatures = {};
 	this.features = [];
 	this.clear();
-	
-	
 
 };  
 VismoMap.prototype = {
@@ -5910,7 +5957,7 @@ VismoMap.prototype = {
 
 
 		if(this.settings.beforeRender) {
-			this.settings.beforeRender(tran);
+			this.vismoClicking.options.beforeRender = this.settings.beforeRender;
 		}
 		this.vismoClicking.render(this.settings.projection);
 		if(this.settings.afterRender) {

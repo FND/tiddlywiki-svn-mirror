@@ -15,7 +15,7 @@ VismoGlobe.prototype = {
 		var vismomap = this;
 		vismomap._fittocanvas = false;
 		this.settings.beforeRender = function(t){
-				vismomap._createGlobe(vismomap.getProjection().getRadius(t.scale ));
+				vismomap._createGlobe(vismomap.getProjection().getRadius(t.scale));
 		};
 		
 		this.settings.projection= {
@@ -99,9 +99,9 @@ VismoGlobe.prototype = {
 		var radgrad = ctx.createRadialGradient(0,0,10,0,0,radius);
 
 		radgrad.addColorStop(0,"#AFDCEC");
-		//radgrad.addColorStop(0.5, '#00C9FF');
+		radgrad.addColorStop(0.5, '#00C9FF');
 		radgrad.addColorStop(1, '#00B5E2');
-		//radgrad.addColorStop(1, 'rgba(0,201,255,0)');
+		radgrad.addColorStop(1, 'rgba(0,201,255,0)');
 
 		ctx.beginPath();
 		ctx.arc(0, 0, radius, 0, Math.PI*2, true);
@@ -124,6 +124,7 @@ var VismoSlippyMap = function(vismoMap){
          vismoMap.drawFromGeojson = function(geojson,autosize){
                 vismoMap.oldDrawFromGeojson(geojson,false);
         };
+        
 	return vismoMap;
 };
 

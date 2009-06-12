@@ -107,7 +107,7 @@ var VismoFileUtils= {
 				if(dothiswhenloadedfromweb){
 					dothiswhenloadedfromweb(url);
 				}
-				console.log("VismoFileUtil.saveFile doesnt work for iamges it might seem",savePath);
+				//console.log("VismoFileUtil.saveFile doesnt work for iamges it might seem",savePath);
 				VismoFileUtils.saveFile(savePath,responseText);
 		
 			}

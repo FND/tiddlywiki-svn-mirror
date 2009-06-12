@@ -7,6 +7,7 @@ var VismoCanvas = function(element,options){
 		var update = element.vismoClicking;
 		return update;
 	}
+	this.options = options;
 	var wrapper = element;
 	var canvas = document.createElement('canvas');
 	canvas.width = parseInt(wrapper.style.width);
@@ -40,6 +41,19 @@ var VismoCanvas = function(element,options){
 	    new VismoController(this,this.getDomElement());
 	}*/
 	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
+	var tooltipfunction;
+	if(options.tooltipfunction){
+	    if(typeof options.tooltipfunction == 'boolean'){
+	        tooltipfunction = function(el,s){
+	            if(s){
+	                el.innerHTML = "cool"+s.getProperty("id");}
+	            }
+	    }
+	    else{
+	        tooltipfunction = options.tooltipfunction;
+	    }
+	    this.addTooltip(tooltipfunction)
+	}
 
 
 };
@@ -300,10 +314,10 @@ VismoCanvas.prototype = {
 	
 	,render: function(projection){
 		this._setupCanvasEnvironment();
-		
+
 		var that = this;
 		var transformation = this.getTransformation();
-	
+		if(this.options.beforeRender) this.options.beforeRender(transformation);	
 		if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
 		//determine point size
 		var ps = 5 / parseFloat(sc);
@@ -535,6 +549,8 @@ VismoCanvas.prototype = {
 	},
 	_findNeedleInHaystack: function(x,y,shapes){
 		var hits = [];
+		var bestZindex = 0;
+		
 		for(var i=0; i < shapes.length; i++){
 			var st = shapes[i].getShape();
 			var itsahit = false;
@@ -563,12 +579,24 @@ VismoCanvas.prototype = {
 		else if(hits.length == 1) 
 			return hits[0];
 		else {//the click is in a polygon which is inside another polygon
-			var g = hits[0].getBoundingBox();
+		    var bestZindex = {s:[],z:0};
+		    for(var i=0; i < hits.length; i++){
+		        var zin = hits[i].getProperty("z-index"); 
+		        if(zin > bestZindex.z){
+		            bestZindex.s = [hits[i]];
+		            bestZindex.z = zin;
+		        }  
+		        else if(zin == bestZindex.z){
+		            bestZindex.s.push(hits[i]);
+		        }
+	        }
+	        if(bestZindex.s.length == 1) return bestZindex.s[0];
+		    
+			var g = bestZindex.s[0].getBoundingBox();
 			var mindist = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
-		
 			var closerEdge = {id:0, closeness:mindist};
-			for(var i=1; i < hits.length; i++){
-				var g = hits[i].getBoundingBox();
+			for(var i=1; i < bestZindex.s.length; i++){
+				var g = bestZindex.s.getBoundingBox();
 				var mindist = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
 			
 				if(closerEdge.closeness > mindist) {
@@ -576,7 +604,7 @@ VismoCanvas.prototype = {
 				}
 				
 			}
-			return hits[closerEdge.id];
+			return bestZindex.s[closerEdge.id];
 		
 		}
 
