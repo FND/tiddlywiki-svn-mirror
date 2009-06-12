@@ -11,12 +11,16 @@ config.macros.newDocument.handler = function(place,macroName,params,wikifier,par
 
 config.macros.newDocument.createDocumentOnClick = function(e, w) {
 	var docName = w.formElem.documentName.value;
+
 		if(store.tiddlerExists(docName)) {
 			alert(docName+"Already Exists");
 		}else{
 			store.saveTiddler(docName, docName, "[]", null, null, "document", config.defaultCustomFields);
-			autoSaveChanges(true, docName);
+			autoSaveChanges();
 		}
+
+		
+		
 		window.activeDocument = docName;
 		refreshAll();
 }
