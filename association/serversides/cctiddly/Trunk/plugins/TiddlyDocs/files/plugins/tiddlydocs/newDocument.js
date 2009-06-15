@@ -19,7 +19,6 @@ config.macros.newDocument.createDocumentOnClick = function(e, w) {
 			autoSaveChanges(null, [tiddler]);
 		}
 		window.activeDocument = docName;
-	//	refreshAll();
-	console.log("d");
-	window.location.href = window.location.href.split("#")[0]+'#'+docName;
+		refreshAll();
+//	window.location.href = window.location.href.split("#")[0]+'#'+docName;
 }

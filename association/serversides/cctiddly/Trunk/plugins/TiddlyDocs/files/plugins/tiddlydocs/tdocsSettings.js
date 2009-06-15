@@ -27,7 +27,9 @@ config.views.wikified.defaultText= "The section has not been edited yet.";
 
 
 // set the document from the hash
-window.activeDocument = window.location.hash.substring(1);
+var hash =  window.location.hash.substring(1);
+if(hash!="")
+	window.activeDocument = window.location.hash.substring(1);
 
 
 //}}}
