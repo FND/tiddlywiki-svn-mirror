@@ -23,13 +23,27 @@ config.commands.saveNewSection.handler = function(event,src,title)
 		title: newTitle,
 		children:[]
 	};
-	testSpec.unshift(node);
-// only do this if the spec has changed.
-console.log("has changed");
-	store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
-	if(!store.tiddlerExists(newTitle))
+	
+	if(!config.commands.saveNewSection.find(newTitle, testSpec)){
+		testSpec.unshift(node);
+		store.saveTiddler(window.activeDocument, window.activeDocument, $.toJSON(testSpec), null, null, null, fields);
+	}else{
+		alert("document already contains item of this name");
+	}
+	if(!store.tiddlerExists(newTitle)){
 		store.saveTiddler(newTitle, newTitle, config.views.wikified.defaultText, config.options.txtUserName, new Date(), "task", config.defaultCustomFields);
+	}
 	story.closeTiddler(title);
 	story.displayTiddler(null, newTitle);
 	return false;
 };
+
+config.commands.saveNewSection.find = function(needle, haystack) {
+	for(var t=0; t < haystack.length; t++) {
+		if(haystack[t].title==needle) {
+			return true;
+		}
+		config.commands.saveNewSection.find(needle, haystack[t].children);
+	}
+	return false;
+}
