@@ -20,7 +20,6 @@ $tiddlyCfg['plugins_disabled'] = array(
     "SkinnyTiddlers",
 	"OpenID",
 	"LDAP",
-	"TiddlyDocs",
 	"announcements",
 	"seo",
     "WordpressMigration"
@@ -294,8 +293,8 @@ Notes :
 */
 
 //default privileges
-$tiddlyCfg['privilege_misc']['undefined_privilege'] = "A";		//defined what should undefined (U) be treated as
-$tiddlyCfg['privilege_misc']['default_privilege'] = "AAAA";		//default privilege for all group and tags
+$tiddlyCfg['privilege_misc']['undefined_privilege'] = "D";		//defined what should undefined (U) be treated as
+$tiddlyCfg['privilege_misc']['default_privilege'] = "AUUU";		//default privilege for all group and tags
 //default privileges for certain groups, applied after default_privilege
 //		it is in the form: $tiddlyCfg['privilege_misc']['group_default_privilege']['<group name>']
 $tiddlyCfg['privilege_misc']['group_default_privilege']['anonymous'] = $tiddlyCfg['default_anonymous_perm'];
@@ -312,14 +311,13 @@ $tiddlyCfg['privilege_misc']['group_default_privilege']['user'] = $tiddlyCfg['de
 */
 
 $tiddlyCfg['privilege']['admin']['systemConfig'] = "AAAA";
-$tiddlyCfg['privilege']['non_admin']['task'] = "AAAA";
+$tiddlyCfg['privilege']['non_admin']['systemConfig'] = "ADDD";
 $tiddlyCfg['privilege']['anonymous']['task'] = "DDDD";
 $tiddlyCfg['privilege']['admin']['task'] = "AAAA";
 //The following privilege are for blog
 
 $tiddlyCfg['privilege']['anonymous']['private'] = "DDDD";
 $tiddlyCfg['privilege']['anonymous']['comments'] = "AAAA";		//allow comments to be post anonymously
-$tiddlyCfg['privilege']['non_admin']['comments'] = "AAAA";	
 // END OF PERMISSIONS 
 
 $tiddlyCfg['version']="1.8.5";	//set ccTiddly Version number
