@@ -1,11 +1,9 @@
 config.commands.saveNewSection = {};
 
 config.commands.saveNewSection.find = function(needle, haystack) {
-	console.log("h is :", haystack);
 	for(var t=0; t < haystack.length; t++) {
-		if(haystack[t].title==needle) {
+		if(haystack[t].title==needle)
 			return true;
-		}
 		if(haystack[t].children != undefined)
 			config.commands.saveNewSection.find(needle, haystack[t].children);
 	}
@@ -22,7 +20,10 @@ window.addToToc = function(sectionTitle, docTitle) {
 		};
 		documentSpec.unshift(node);
 		var docFields = store.getTiddler(docTitle).fields;
-		store.saveTiddler(docTitle, docTitle, $.toJSON(documentSpec), null, null, null, merge(docFields, config.defaultCustomFields));
+		console.log("fileds are : ", merge(docFields, config.defaultCustomFields));
+		
+		var tiddler = store.saveTiddler(docTitle, docTitle, $.toJSON(documentSpec), null, null, null, merge(docFields, config.defaultCustomFields));
+
 	}
 }
 
@@ -56,11 +57,11 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 				extendedFields[n] = fields[n];
 		}
 		var tiddler = store.saveTiddler(title,newTitle,fields.text,minorUpdate ? undefined : config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags,extendedFields);
-		autoSaveChanges(null,[tiddler]);
+
 		
 		
 		window.addToToc(newTitle, window.activeDocument);
-		
+				autoSaveChanges(null,[tiddler]);
 		
 		return newTitle;
 	}
