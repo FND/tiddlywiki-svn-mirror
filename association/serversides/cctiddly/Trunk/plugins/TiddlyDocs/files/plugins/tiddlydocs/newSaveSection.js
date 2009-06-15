@@ -20,8 +20,6 @@ window.addToToc = function(sectionTitle, docTitle) {
 		};
 		documentSpec.unshift(node);
 		var docFields = store.getTiddler(docTitle).fields;
-		console.log("fileds are : ", merge(docFields, config.defaultCustomFields));
-		
 		var tiddler = store.saveTiddler(docTitle, docTitle, $.toJSON(documentSpec), null, null, null, merge(docFields, config.defaultCustomFields));
 
 	}
@@ -57,12 +55,8 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 				extendedFields[n] = fields[n];
 		}
 		var tiddler = store.saveTiddler(title,newTitle,fields.text,minorUpdate ? undefined : config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags,extendedFields);
-
-		
-		
 		window.addToToc(newTitle, window.activeDocument);
-				autoSaveChanges(null,[tiddler]);
-		
+		autoSaveChanges(null,[tiddler]);
 		return newTitle;
 	}
 	return null;

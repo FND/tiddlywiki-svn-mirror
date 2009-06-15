@@ -15,12 +15,11 @@ config.macros.newDocument.createDocumentOnClick = function(e, w) {
 		if(store.tiddlerExists(docName)) {
 			alert(docName+"Already Exists");
 		}else{
-			store.saveTiddler(docName, docName, "[]", null, null, "document", config.defaultCustomFields);
-			autoSaveChanges();
+			var tiddler = store.saveTiddler(docName, docName, "[]", null, null, "document", config.defaultCustomFields);
+			autoSaveChanges(null, [tiddler]);
 		}
-
-		
-		
 		window.activeDocument = docName;
-		refreshAll();
+	//	refreshAll();
+	console.log("d");
+	window.location.href = window.location.href.split("#")[0]+'#'+docName;
 }
