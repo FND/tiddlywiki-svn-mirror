@@ -77,7 +77,7 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 		
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle ");	
 		sectionDiv.onclick = function() {
-			story.displayTiddler(null, this.id.replace("_div", ""));
+			story.displayTiddler(DEFAULT_EDIT_TEMPLATE, this.id.replace("_div", ""));
 		}
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
 		config.macros.tdoc2Outline._renderSpec(li, this.children, label);
