@@ -290,15 +290,52 @@ label {
 	z-index:1;
 }
 
-h1 {
-	border-bottom:1px solid #EEEEEE;
-	font-size:1.2em;
-}
-
 h1, h2, h3, h4, h5, h6 {
 	background:transparent none repeat scroll 0 0;
-	color:#eee;
+	color:#111;
 }
+
+
+h1 {
+margin-left:0em;
+}
+
+h2 {
+margin-left:1em;
+}
+
+h3 {
+margin-left:2em;
+}
+
+h4 {
+margin-left:2em;
+}
+
+h5 {
+margin-left:3em;
+}
+
+h6 {
+margin-left:4em;
+}
+
+h7 {
+margin-left:5em;
+}
+
+h8 {
+margin-left:6em;
+}
+
+h9 {
+margin-left:7em;
+}
+
+h10 {
+margin-left:8em;
+}
+
 
 .wizard h1 {
 	line-height:1.1em;
