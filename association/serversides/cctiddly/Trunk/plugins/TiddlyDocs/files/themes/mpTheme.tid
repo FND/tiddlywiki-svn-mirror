@@ -290,9 +290,10 @@ label {
 	z-index:1;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, h7, h8, h9, h10 {
 	background:transparent none repeat scroll 0 0;
-	color:#111;
+	color:#222;
+	border-bottom:1px solid #ccc;
 }
 
 

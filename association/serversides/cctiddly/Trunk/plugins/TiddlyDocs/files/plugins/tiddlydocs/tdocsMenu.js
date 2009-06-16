@@ -4,12 +4,7 @@
 
 //{{{
 	
-window.activeDocument ="The Internet";
 config.macros.tdoc2Outline={};
-
-config.macros.tdoc2Outline.editClick=function(){
-	story.displayTiddler(null, this.parentNode.id.replace("HeadingView", ""));
-}
 
 config.macros.tdoc2Outline.strip=function(s) {
 	return s.replace(" ",  "");
@@ -26,7 +21,7 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 	window.sectionCount = 1;
 	$(specView).empty();	
 	config.macros.tdoc2Outline._renderSpec(specView, spec, []);
-
+	
 	$("#ul0").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
@@ -44,21 +39,6 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 		},
 		autoScroll: true,
 		handle: '.toc-sort-handle'
-	});
-
-	
-	
-	$("#ul0 li").mouseup(function() {
-/*		
-	store.saveTiddler(this.id, this.id, config.views.wikified.defaultText, null, null, "task", config.defaultCustomFields);
-	autoSaveChanges(true, this.id);
-*/	
-	
-			if(config.options.chkOpenEditView==true)
-				story.displayTiddler(null, this.id, DEFAULT_EDIT_TEMPLATE);
-			else
-				story.displayTiddler(null, this.id);
-				
 	});
 	$(".sectionHeading").hover(
 		function() {
@@ -94,7 +74,11 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 	$.each(spec, function() {
 		label[label.length-1]++;
 	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
-	    var sectionDiv = createTiddlyElement(li, "div", this.title+"HeadingView", "sectionHeading toc-sort-handle ");	
+		
+	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle ");	
+		sectionDiv.onclick = function() {
+			story.displayTiddler(null, this.id.replace("_div", ""));
+		}
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
 		config.macros.tdoc2Outline._renderSpec(li, this.children, label);
 	});
