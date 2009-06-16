@@ -967,6 +967,11 @@ color:#eee;
 	color:white;
 }
 
+
+.viewer  > a:link, a:visited {
+color:black;
+}
+
 .providedBy {
 text-align:center;
  background-color:white;
