@@ -13,16 +13,8 @@ config.macros.docPreview.recurse = function(place, item, level, label) {
 			label[level] = 1;
 		else
 			label[level] ++;
-			
-	while(label.length > level+1)	
-		label.splice(level+1);
-
-
-		console.log(item[e].title, "lable cound", label.length, "lavel ", level);
-
-/*	if(label.length != level+1)
-	label[level]
-*/
+		while(label.length > level+1)	
+			label.splice(level+1);
 		var title = createTiddlyElement(place,"h"+level, null, null, label.join(".").substr(1)+" : "+item[e].title);
 		wikify(store.getTiddlerText(item[e].title), place);
 		if(typeof item[e].children == "object") {
