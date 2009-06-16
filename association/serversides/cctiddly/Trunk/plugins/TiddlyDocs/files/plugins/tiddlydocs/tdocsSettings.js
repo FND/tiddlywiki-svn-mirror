@@ -32,7 +32,8 @@ config.options.txtFCKeditorPath = 'plugins/FCKEditor/files/fckeditor/';
 var hash =  window.location.hash.substring(1);
 if(hash!="")
 	window.activeDocument = window.location.hash.substring(1);
-	
+else
+	window.activeDocument = 'Dog Breeds';	
 	
 
 
