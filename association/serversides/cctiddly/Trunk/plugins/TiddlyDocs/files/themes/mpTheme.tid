@@ -968,7 +968,7 @@ color:#eee;
 }
 
 
-.viewer  > a:link, a:visited {
+.viewer   a:link, .viewer a:visited {
 color:black;
 }
 
