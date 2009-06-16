@@ -1119,9 +1119,10 @@ padding-top:0em;
 			
 			
 				
-		<div  style='z-index:2;' class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>	<div class='taskControls' 
+macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
-		<div  style='z-index:2;' class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>
+		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>
 		<div class='commentsArea' macro='comments'></div>
 	</div>
 
@@ -1189,4 +1190,5 @@ padding-top:0em;
 
 </div>
 <!--}}}-->
+
 

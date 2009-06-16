@@ -2,7 +2,7 @@ modifier: Simon McManus
 created: 
 modified: 200708091500
 
-|~ViewToolbar|+editHtml|
+|~viewToolbar|+editTiddler|
 |~newEditToolbar| +saveTiddler -cancelTiddler |
 |~EditToolbar| +saveTiddler -cancelTiddler revisions deleteTiddlerHosted |
 |~taskViewToolbar|+editTiddler revisions|
