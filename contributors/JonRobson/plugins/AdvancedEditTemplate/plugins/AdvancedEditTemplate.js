@@ -26,8 +26,24 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 {
 
 	version.extensions.AdvancedEditTemplatePlugin = {installed:true};
+	config.macros.aet_setcolor = {
+	    	handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+	    	    var color =config.macros.AdvancedEditTemplate.getMetaData(tiddler.title,params[0]);
+	    	    place.style.backgroundColor = color;
+    	    }
+	};
+	
 	config.macros.AdvancedEditTemplate = {
-		getVariableFromQueryString:function(varName){
+	    lingo:{
+	        "aet_upload":"Upload a local file:",
+	        "aet_imgpreview":"a preview of currently selected image will be shown here",
+	        "aet_select":"Please select.."
+	    }
+	    ,translate: function(id){
+	        if(!config.macros.aet.lingo[id]) return id;
+	        return config.macros.aet.lingo[id];
+	    }
+		,getVariableFromQueryString:function(varName){
 			var qs = window.location.search.substring(1);
 			var atts = qs.split("&");
 
@@ -105,8 +121,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					this.createSearchBox(place,metaDataName,values,selected,handler);
 				}
 			}
-			else if(ctrlType == 'checkbox'){
-			        					
+			else if(ctrlType == 'checkbox'){      					
 				this.createCheckBox(place,title,metaDataName);
 				
 			}
@@ -130,7 +145,6 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			    params = [metaDataName];
 			    paramString ="";
 			    var e = config.macros.edit.handler(place,macroName,params,wikifier,paramString,tiddler);
-			    console.log(e,maxlength,"cool");
 			    if(maxlength) e.setAttribute("maxlength",maxlength); 
 			}
 			else if(ctrlType == 'file'){
@@ -256,7 +270,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				
 				if(!selected) selected = "";
 				if(!initialValue){
-					initialValue = "Please select.. ";
+					initialValue = "aet_select";
 				}
 				var menus = this._createMenus(values);
 				
@@ -264,6 +278,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				var allMenus = [];
 				var selectedItem = false;
 				var nowtselected = true;
+			
 				
 				
 				for(var j=menus.length-1; j >-1; j--){
@@ -282,12 +297,18 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					newMenu.name = fields[fieldid];
 					newMenu.associatedFields = fields;
 					var menuoptions = menus[j].options;
+    				for(var k=0; k<menus[j].options.length;k++){
+					    var translation = config.macros.aet.translate(menus[j].options[k].caption);
+					    if(translation) menus[j].options[k].caption=translation;
+					}
 					
 					if(sort){		 
 						var sorter = function(a,b){if(a.caption < b.caption){ return -1; }else return 1;};
 						sorter =menuoptions.sort(sorter);
 					}
-					var topitem = [{'caption': initialValue, 'value': 'null', 'name': null}];
+					var firstCaption= config.macros.aet.translate(initialValue);
+					if(!firstCaption)firstCaption = initialValue;
+					var topitem = [{'caption': firstCaption, 'value': 'null', 'name': null}];
 					menuoptions = topitem.concat(menuoptions);
 					
 					for(var k=0; k <menuoptions.length; k++){
@@ -539,7 +560,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			holder.className = "AdvancedEditTemplateImage";
 			var image = document.createElement("img");
 			image.src = initial;
-			image.alt = "a preview of currently selected image will be shown here";
+			image.alt = config.macros.aet.translate("aet_imgpreview");
 
 			var params = paramString.parseParams("anon",null,true,false,false);
                 	
@@ -563,7 +584,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			form.setAttribute("enctype","multipart/form-data");
 			form.setAttribute("method","POST");
 			form.setAttribute("target","about:blank");
-            jQuery(form).append("<div class='tip'>Upload a local file:</div><input type='hidden' class='filename' name='NewFilename' value='foo.jpg'><input class='file' type='file' name='NewFile'/><input type='submit' value='Send'/>");
+            jQuery(form).append("<div class='tip'>"+config.macros.aet.translate("aet_upload")+"</div><input type='hidden' class='filename' name='NewFilename' value='foo.jpg'><input class='file' type='file' name='NewFile'/><input type='submit' value='Send'/>");
 
 			jQuery(".file",form).change(function(e){
 			   jQuery(".filename",form).val(this.value); 
@@ -608,6 +629,6 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		}
 	};
 };
-
+config.macros.aet = config.macros.AdvancedEditTemplate;
 
 //}}}

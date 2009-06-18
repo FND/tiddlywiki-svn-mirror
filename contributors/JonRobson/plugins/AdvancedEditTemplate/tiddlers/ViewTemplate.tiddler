@@ -1,6 +1,7 @@
 <div title="ViewTemplate">
 <pre>
 <!--{{{-->
+<div macro='aet_setcolor color'>Status</div>
 
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 <div class='title' macro='view title'></div>
@@ -14,6 +15,7 @@ For demo purposes: <span macro='view abc'></span>
 <div class='tagged' macro='tags'></div>
 <div class='viewer' macro='view text wikified'></div>
 <div class='tagClear'></div>
+
 
 <!--}}}-->
 </pre>
