@@ -18,7 +18,7 @@ if (DatePicker){
 						if (typeof config.macros.newTiddler.getName == "function")  {
 							title = config.macros.newTiddler.getName(title); // from NewMeansNewPlugin
 						}
-						store.saveTiddler(title,title,"",config.options.txtUserName,new Date(),"Tickler Once",{'mgtd_date':objDate.convertToYYYYMMDDHHMM()});
+						store.saveTiddler(title,title,"",config.options.txtUserName,new Date(),"Tickler Once "+config.macros.mgtdList.getRealm(),{'mgtd_date':objDate.convertToYYYYMMDDHHMM()});
 						story.displayTiddler(this,title);
 					}
 				});

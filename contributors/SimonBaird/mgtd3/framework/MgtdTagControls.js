@@ -626,7 +626,7 @@ merge(config.macros,{
 		handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 			var useTiddler = params[0] ? store.fetchTiddler(params[0]) : tiddler;
 			if (useTiddler.text != "") {
-				var output = (config.browser.isie ? // presume IE still can't do data urls
+				var output = (config.browser.isIE ? // presume IE still can't do data urls
 					"(n)".format([useTiddler.title]) :
 					"{{showNotesIcon{[img[%0|%1]]}}}".format([wikifyPlain(useTiddler.title),config.macros.showNotesIcon.imageData])
 				);
