@@ -1,7 +1,13 @@
 <div title="NewFeatures" modifier="Osmosoft" created="200903090000">
-<pre>Release 2.5.0 of TiddlyWiki is the first to include the [[jQuery|http://jquery.com/]] library.
-There are no changes to the core other than the inclusion of the jQuery library: the intention is that release 2.5.0 is a baseline from which we can both refactor and add functionality based on jQuery.
-
-See [[jQuery roadmap|http://tiddlywiki.org/wiki/Dev:Roadmap]] for details about how we are planning to use jQuery in the future.
+<pre>Release 2.5.1 of TiddlyWiki contains several usability enhancements and bug fixes.
+These include:
+* Improved separators and "more/less" extenders for toolbars
+* Added plugin version information to the PluginManager
+* Fixed //Tags// macro to respect the //excludeLists// tag
+* Fixed problem with saving of extended tiddler fields
+It also starts the process of refactoring useful parts of TiddlyWiki's functionality into generic jQuery plugins that can be reused in other projects:
+* [[jQuery.twFile|http://jquery.tiddlywiki.org/twFile.html]] - Access to the local filing system for HTML files loaded from a file:// URL
+* [[jQuery.twStylesheet|http://jquery.tiddlywiki.org/twStylesheet.html]] - Dynamic style-sheet handling
+* [[jQuery.encoding.digests.sha1|http://jquery.tiddlywiki.org/encoding.digests.sha1.html]] - Cryptographic signing code
 </pre>
 </div>
