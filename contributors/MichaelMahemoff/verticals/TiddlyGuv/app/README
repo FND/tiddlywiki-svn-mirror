@@ -1,0 +1,7 @@
+To run:
+
+- Update repository (svn update ...)
+- run build.sh from this directory to clean and pull in extra tiddlers
+- run server.sh from this directory to run server  (I'll assume here you're leaving the default at 0.0.0.0 on port 9090)
+- to view UI, point to http://0.0.0.0:9090/challenge/ldap?tiddlyweb_redirect=%2Frecipes%2Fportal%2Ftiddlers.wiki
+- to log in, click "Log In", or point to http://0.0.0.0:9090/challenge/ldap?tiddlyweb_redirect=%2Frecipes%2Fportal%2Ftiddlers.wiki
