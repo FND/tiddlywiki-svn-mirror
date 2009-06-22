@@ -1,0 +1,15 @@
+tags: simple
+
+
+!New User
+<<register>>
+
+!New Issue
+<<newTiddler>>
+
+!New Document
+<<newDocument>>
+
+!Stats
+
+<<ccStats>>

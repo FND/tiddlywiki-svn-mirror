@@ -5,7 +5,7 @@
 config.macros.register={};	
 	
 config.macros.register.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	//config.macros.login.refresh(place);
+	config.macros.register.displayRegister(place);
 };
 
 config.macros.register.displayRegister=function(place, w, item){
@@ -17,7 +17,7 @@ config.macros.register.displayRegister=function(place, w, item){
 		{caption: me.buttonRegister, tooltip: me.buttonRegisterToolTip, onClick:function() { me.doRegister(place, w)}},
 		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() { config.macros.ccLogin.refresh(place)}}
 	]);
-	var h1 = createTiddlyElement(null, "h1", null, null, "hahahaha");
+//	var h1 = createTiddlyElement(null, "h1", null, null, "hahahaha");
 	//	w.footElem.appendChild(h1, w.footElem);
 	w.footElem.firstChild.parentNode.appendChild(h1, w.footElem);
 	//w.footElem.firstChild.insertBefore(h1, w.footElem);

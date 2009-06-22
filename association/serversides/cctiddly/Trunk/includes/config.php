@@ -19,6 +19,10 @@ $tiddlyCfg['plugins_disabled'] = array(
     "lifestream",
     "SkinnyTiddlers",
 	"OpenID",
+	"Portlet",
+	"lifestream",
+	"announcements",  
+	"seo",
 	"LDAP",
 	"announcements",
 	"seo",
@@ -67,7 +71,7 @@ array(	"themes/smmTheme",
 		"taggedTemplateTweak"
 	);
 
-$tiddlyCfg['pref']['offline']['js'] = array("plugins/ccTiddlyAdaptor");
+$tiddlyCfg['pref']['offline']['js'] = array("plugins/001_ccTiddlyAdaptor", "plugins/002_ccLoginStatus");
 
 //Proxy Allowed Servers
 
