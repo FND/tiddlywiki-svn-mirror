@@ -2,8 +2,8 @@
 DEFAULT_RELEASE=2.5.1
 RELEASE=${1:-$DEFAULT_RELEASE}
 DEST=$PWD/../../../cooked/tiddlywiki.com
-mkdir $PWD/../../../cooked
-mkdir $PWD/../../../cooked/tiddlywiki.com
+mkdir -p $PWD/../../../cooked
+mkdir -p $PWD/../../../cooked/tiddlywiki.com
 RECIPE=$PWD/recipes/index.$RELEASE.html.recipe
 ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
 RECIPE=$PWD/recipes/empty.$RELEASE.html.recipe
