@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hant/locale.zh-Hant.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.5.1|
-|''Date:''|Apr 08, 2009|
+|''Date:''|Jun 22, 2009|
 |''Comments:''|Please make comments at http://groups.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.4.1|
@@ -263,8 +263,12 @@ merge(config.macros.plugins,{
 	});
 
 merge(config.macros.toolbar,{
-	moreLabel: "其他",
-	morePrompt: "顯示更多工具命令"});
+	moreLabel: "+",
+	morePrompt: "顯示更多工具列命令",
+	lessLabel: "-",
+	lessPrompt: "隱藏部份工具列命令",
+	separator: "|"
+	});
 	
 merge(config.macros.refreshDisplay,{
 	label: "刷新",
@@ -451,7 +455,7 @@ merge(config.commands.fields,{
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[GettingStarted]]",
 	GettingStarted: "使用此 TiddlyWiki 的空白範本之前，請先修改以下預設文章：\n* SiteTitle 及 SiteSubtitle：網站的標題和副標題，顯示於頁面上方<br />（在儲存變更後，將顯示於瀏覽器視窗的標題列）。\n* MainMenu：主選單（通常在頁面左側）。\n* DefaultTiddlers：內含一些文章的標題，可於載入TiddlyWiki 後的預設開啟。\n請輸入您的大名，作為所建立/ 編輯的文章署名：<<option txtUserName>>",
-	MainMenu: "[[使用說明|GettingStarted]]\n\n\n^^~TiddlyWiki 版本：<<version>>",
+	MainMenu: "[[使用說明|GettingStarted]]\n\n\n版本：<<version>>",
 	OptionsPanel: "這些設定將暫存於瀏覽器\n請簽名<<option txtUserName>>\n (範例：WikiWord)\n\n <<option chkSaveBackups>> 儲存備份\n <<option chkAutoSave>> 自動儲存\n <<option chkRegExpSearch>> 正規式搜尋\n <<option chkCaseSensitiveSearch>> 區分大小寫搜尋\n <<option chkAnimate>> 使用動畫顯示\n----\n [[進階選項|AdvancedOptions]]",
 	SiteTitle: "我的 TiddlyWiki",
 	SiteSubtitle: "一個可重複使用的個人網頁式筆記本",
