@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hant/locale.zh-Hant.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.5.1|
-|''Date:''|Mar 26, 2009|
+|''Date:''|Apr 08, 2009|
 |''Comments:''|Please make comments at http://groups.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.4.1|
@@ -51,6 +51,7 @@ merge(config.optionsDesc,{
 	chkInsertTabs: "使用 tab 鍵插入定位字元，而非跳至下一個欄位",
 	txtBackupFolder: "存放備份檔案的資料夾",
 	txtMaxEditRows: "編輯模式中顯示列數",
+	txtTheme: "使用的佈景名稱",
 	txtFileSystemCharSet: "指定儲存文件所在之檔案系統之字集 (僅適用於 Firefox/Mozilla only)"});
 
 // Messages

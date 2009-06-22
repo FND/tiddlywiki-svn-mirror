@@ -5,7 +5,7 @@
 |''Subversion:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/zh-Hans/locale.zh-Hans.js|
 |''Author:''|BramChen (bram.chen (at) gmail (dot) com)|
 |''Version:''|2.5.1|
-|''Date:''|Mar 26, 2009|
+|''Date:''|Apr 08, 2009|
 |''Comments:''|Please make comments at http://groups.google.com/group/TiddlyWiki-zh/|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.4.1|
@@ -51,6 +51,7 @@ merge(config.optionsDesc,{
 	chkInsertTabs: "使用 tab 键插入定位字符，而非跳至下一个栏位",
 	txtBackupFolder: "存放备份文件的资料夹",
 	txtMaxEditRows: "编辑模式中显示列数",
+	txtTheme: "使用的布景名称",
 	txtFileSystemCharSet: "指定保存文件所在之档案系统之字符集 (仅适用于 Firefox/Mozilla only)"});
 
 // Messages
@@ -349,7 +350,7 @@ merge(config.macros.sync,{
 			{name: 'Server Host', field: 'serverHost', title: "服务器主机", type: 'String'},
 			{name: 'Server Workspace', field: 'serverWorkspace', title: "服务器工作区", type: 'String'},
 			{name: 'Status', field: 'status', title: "同步情形", type: 'String'},
-			{name: 'Server URL', field: 'serverUrl', title: "服务器网址", text: "檢視", type: 'Link'}
+			{name: 'Server URL', field: 'serverUrl', title: "服务器网址", text: "检视", type: 'Link'}
 			],
 		rowClasses: [
 			],
@@ -447,7 +448,7 @@ merge(config.commands.fields,{
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "GettingStarted",
 	GettingStarted: "使用此 TiddlyWiki 的空白模版之前，请先修改以下默认文章：\n* SiteTitle 及 SiteSubtitle：网站的标题和副标题，显示于页面上方<br />（在保存变更后，将显示于浏览器视窗的标题列）。\n* MainMenu：主菜单（通常在页面左侧）。\n* DefaultTiddlers：包含一些文章的标题，可于进入TiddlyWiki 后开启。\n请输入您的大名，作为所创建/ 编辑文章的署名：<<option txtUserName>>",
-	MainMenu: "[[使用说明|GettingStarted]]\n\n\n^^~TiddlyWiki 版本：<<version>>\n© 2008 [[UnaMesa|http://www.unamesa.org/]]^^",
+	MainMenu: "[[使用说明|GettingStarted]]\n\n\n^^~TiddlyWiki 版本：<<version>>^^",
 	OptionsPanel: "这些设置将缓存于浏览器\n请签名<<option txtUserName>>\n(范例：WikiWord)\n\n<<option chkSaveBackups>> 保存备份\n<<option chkAutoSave>> 自动保存\n<<option chkRegExpSearch>> 正则式搜索\n<<option chkCaseSensitiveSearch>> 区分大小写搜索\n<<option chkAnimate>> 使用动画显示\n----\n[[进阶选项|AdvancedOptions]]",
 	SiteTitle: "我的 TiddlyWiki",
 	SiteSubtitle: "一个可重复使用的个人网页式笔记本",
