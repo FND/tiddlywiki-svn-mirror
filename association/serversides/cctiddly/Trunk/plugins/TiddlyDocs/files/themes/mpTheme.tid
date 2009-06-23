@@ -149,7 +149,7 @@ tags: systemTheme
 		padding:0;
 		width:70%;
 		position:relative;
-		top:-2.6em;
+		top:-2.9em;
 		overflow:hidden;
 	}
 
@@ -362,11 +362,11 @@ margin-left:8em;
 	margin:0;
 	padding:0;
 	position:relative;
-	top:-3.4em;
+	top:-3.3em;
 }
 .editTaskControls {
 	margin-left:10em;
-	top:-3.4em;
+	top:-3.3em;
 }
 
 
@@ -661,7 +661,7 @@ form.wizard, .wizard .wizardFooter{
 			float:right;
 			padding:0em;
 			text-align:right;
-			top:-1.5em;
+			top:-1.9em;
 			width:100%;
 			}
 
