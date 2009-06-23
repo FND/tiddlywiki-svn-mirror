@@ -175,6 +175,7 @@ merge(config.macros.ccOptions, {
 	options:"options »"	
 });
 
+config.macros.register = {};
 merge(config.macros.register,{
 	usernameRequest:"username",
 	passwordRequest:"password",
