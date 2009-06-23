@@ -68,10 +68,15 @@ if($tiddlyCfg['can_create_account']==1)
 {
 ?>
 window.canRegister = 1;
-
 <?php
 }
 
+if($tiddlyCfg['show_register_on_login']==1)
+{
+?>
+window.displayRegisterOnLogin  = 1;
+<?php
+}
 ?>
 //if (config.options.txtTheme == "")
 //config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';

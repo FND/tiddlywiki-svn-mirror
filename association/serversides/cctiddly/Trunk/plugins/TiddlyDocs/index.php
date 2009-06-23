@@ -15,6 +15,9 @@ $tiddlyCfg['privilege']['non_admin']['systemConfig'] = "ADDD";
 $tiddlyCfg['privilege']['admin']['document'] = "AAAA";
 $tiddlyCfg['privilege']['non_admin']['document'] = "AUAA";
 
+
+$tiddlyCfg['show_register_on_login'] = false;
+
 $p = new Plugin('Tiddler Tree','0.1','simonmcmanus.com');
 $p->addTiddlersFolder(getcwd().'/plugins/TiddlyDocs/files');
 ?>
