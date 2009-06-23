@@ -6,7 +6,7 @@ tags: simple
 <<register>>
 
 !New Issue
-<<newTiddler>>
+<<newTiddler  title:'New Issue' tag:issue>>
 
 !New Document
 <<newDocument>>
