@@ -1,0 +1,11 @@
+recipe: ../../../../Tags/core/REL-2.5.1_Final/tiddlywikinonoscript.html.recipe
+tiddler: ../../../contributors/MartinBudden/plugins/SplashScreenPlugin.js
+tiddler: ../../../contributors/FND/plugins/SimpleSearchPlugin.js
+recipe: ../plugins/split.recipe
+recipe: ../feeds/split.recipe
+recipe: ../content/split.recipe
+recipe: ../blog/split.recipe
+recipe: ../shadows/split.recipe
+recipe: ../images.recipe
+copy: ../attachments/firstversion.html
+copy: ../attachments/secondversion.html
