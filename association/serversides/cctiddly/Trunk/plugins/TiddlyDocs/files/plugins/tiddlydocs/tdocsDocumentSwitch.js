@@ -5,7 +5,7 @@ config.macros.docSwitcher.handler = function(place,macroName,params,wikifier,par
 	for (var i=0; i < values.length; i++) {
 		options.push({'caption': values[i].title, 'name': values[i].title});				
 	}
-	options.push({'caption': 'add new', 'name': 'new'});
+//	options.push({'caption': 'add new', 'name': 'new'});
 	var dropDown = createTiddlyDropDown(place,this.setDropDownMetaData,options,window.activeDocument);
 }
 

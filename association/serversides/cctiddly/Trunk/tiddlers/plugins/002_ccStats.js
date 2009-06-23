@@ -81,8 +81,8 @@ config.macros.ccStats.switchWorkspace = function(params){
 config.macros.ccStats.refresh = function(params){
 	var me = config.macros.ccStats;
 	var select = params.w.formElem.workspaces;
-	if(select[select.selectedIndex].value!="")
-		workspace = select[select.selectedIndex].value;
+//	if(select[select.selectedIndex].value!="" && select.selectedIndex.value!=undefined )
+//		workspace = select[select.selectedIndex].value;
 	params ={ container: params.container, url: window.url+"/handle/stats.php?graph=minute&workspace="+workspace,title:me.graph20MinsTitle, desc:me.graph20MinsDesc};
 	doHttp('GET',params.url,null, null, null, null, config.macros.ccStats.dataCallback,params);
 	params ={ container:params.container, url:  window.url+"/handle/stats.php?graph=hour&workspace="+workspace,title:me.graph24HourTitle, desc:me.graph24HourDesc};
