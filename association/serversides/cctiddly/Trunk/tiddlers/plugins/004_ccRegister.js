@@ -2,8 +2,7 @@
 // ccRegister //
 
 //{{{
-	
-	
+		
 config.macros.register.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	var w = new Wizard();
 	w.createWizard(place,config.macros.register.stepRegisterTitle);
@@ -12,23 +11,12 @@ config.macros.register.handler=function(place,macroName,params,wikifier,paramStr
 
 config.macros.register.displayRegister=function(place, w){
 	var me = config.macros.register;
-//	var w = new Wizard(item);
-
-console.log("debug : ", w);
-	w.addStep(me.stepRegisterTitle, me.stepRegisterHtml);
-console.log("boo1", w.formElem);
+	w.addStep(me.stepRegisterIntroText, me.stepRegisterHtml);
 	w.formElem["reg_username"].onkeyup=function() {me.isUsernameAvailable(w);};
-
-console.log("boo3");
 	w.setButtons([
 		{caption: me.buttonRegister, tooltip: me.buttonRegisterToolTip, onClick:function() { me.doRegister(place, w)}},
 		{caption: me.buttonCancel, tooltip: me.buttonCancelToolTip, onClick: function() { config.macros.ccLogin.refresh(place)}}
 	]);
-//	var h1 = createTiddlyElement(null, "h1", null, null, "hahahaha");
-	//	w.footElem.appendChild(h1, w.footElem);
-//	w.footElem.firstChild.parentNode.appendChild(h1, w.footElem);
-	//w.footElem.firstChild.insertBefore(h1, w.footElem);
-console.log("boo three");
 }
 
 config.macros.register.setStatus=function(w, element, text){
