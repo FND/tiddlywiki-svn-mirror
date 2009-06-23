@@ -1,5 +1,8 @@
 <div title="HelloThere" modifier="JeremyRuston" created="200511221854" modified="200812151635" tags="welcome">
-<pre>Welcome to version <<version>> of TiddlyWiki, a reusable non-linear personal web notebook (see the [[main site|http://www.tiddlywiki.com/]] for more details). This is a beta of the next official release that is being made available for testing and feedback.
+<pre>Welcome to version <<version>> of TiddlyWiki, a reusable non-linear personal web notebook (see the [[main site|http://www.tiddlywiki.com/]] for more details).
+
+This is a beta of the next official release that is being made available for testing and feedback.
+Please install the [[BetaUpgradePlugin|http://tiddlywiki.com/beta/BetaUpgradePlugin.html]] before upgrading any testing documents.
 
 If you've any comments or questions, please join the discussion in the [[TiddlyWikiDev Google group|http://groups.google.com/group/TiddlyWikiDev]].</pre>
 </div>
