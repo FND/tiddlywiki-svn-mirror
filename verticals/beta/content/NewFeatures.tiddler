@@ -1,5 +1,7 @@
-<div title="NewFeatures" modifier="FND" created="200704141410" modified="200901140000">
-<pre>Release 2.5.1 of TiddlyWiki contains several usability enhancements and bug fixes.
+<div title="NewFeatures" modifier="FND" created="200704141410">
+<pre>Release 2.5.2 is a bugfix release, restoring the upgrade functionality on Mozilla-based browsers.
+
+Release 2.5.1 of TiddlyWiki contained several usability enhancements and bug fixes.
 These include:
 * Improved separators and "more/less" extenders for toolbars
 * Added plugin version information to the PluginManager
