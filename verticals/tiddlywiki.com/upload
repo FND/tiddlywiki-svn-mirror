@@ -1,10 +1,10 @@
-#!/bin/bash
-#
+#!/usr/bin/env bash
+
 # Usage:
 #  upload [release] [user] [cleanup]
 
 # default values
-DEFAULT_RELEASE="2.5.1"
+DEFAULT_RELEASE="2.5.2"
 RELEASE=${1:-$DEFAULT_RELEASE}
 REMOTE_USER=${2:-$USER}
 DEST=$PWD/../../../cooked/tiddlywiki.com

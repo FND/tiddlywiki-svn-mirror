@@ -1,5 +1,6 @@
-#!/bin/bash
-DEFAULT_RELEASE=2.5.1
+#!/usr/bin/env bash
+
+DEFAULT_RELEASE="2.5.2"
 RELEASE=${1:-$DEFAULT_RELEASE}
 DEST=$PWD/../../../cooked/tiddlywiki.com
 mkdir -p $PWD/../../../cooked

@@ -1,10 +1,10 @@
-#!/bin/bash
-#
+#!/usr/bin/env bash
+
 # Usage:
 #  uploadbeta [release] [cleanup]
 
 # default values
-DEFAULT_RELEASE="2.5.1"
+DEFAULT_RELEASE="2.5.2"
 RELEASE=${1:-$DEFAULT_RELEASE}
 HOST="webdav.tiddlywiki.com"
 USER="releasemanager"
