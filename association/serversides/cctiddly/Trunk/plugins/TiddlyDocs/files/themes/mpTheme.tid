@@ -82,6 +82,24 @@ tags: systemTheme
 
 	</div>
 	
+	
+	
+	<div class="portletContainer  ">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+		<div class='title'>TiddlyDocs Links</div>
+			</div>
+		</div>
+		<div class="portletContent leftColumnItem">
+	<div  refresh='content'  tiddler='TiddlyDocsLinks'></div>
+
+		</div>
+
+	</div>
+	
+	
 
 </div>
 <br />
@@ -959,8 +977,10 @@ form.wizard, .wizard .wizardFooter{
 
 
 #messageHeading, #messageHeading a {
-	background-color:#eee;
+	background-color:yellow;
 	color:red;
+	padding:0.2em;
+	text-decoration:none;
 }
 
 #messageArea {

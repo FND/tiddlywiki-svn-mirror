@@ -19,10 +19,6 @@ $tiddlyCfg['plugins_disabled'] = array(
     "lifestream",
     "SkinnyTiddlers",
 	"OpenID",
-	"Portlet",
-	"lifestream",
-	"announcements",  
-	"seo",
 	"LDAP",
 	"announcements",
 	"seo",
@@ -72,7 +68,7 @@ array(	"themes/smmTheme",
 		"taggedTemplateTweak"
 	);
 
-$tiddlyCfg['pref']['offline']['js'] = array("plugins/001_ccTiddlyAdaptor", "plugins/002_ccLoginStatus");
+$tiddlyCfg['pref']['offline']['js'] = array("plugins/ccTiddlyAdaptor");
 
 //Proxy Allowed Servers
 
@@ -93,6 +89,7 @@ array(	'wikipedia.org',
 		'monkeygtd.tiddlyspot.com',
 		'jonrobson.me.uk',
 		'api.flickr.com',
+		'tiddlydocs.com',
 		'feeds.delicious.com',
 		'google.com',
 		'phiffer.org',
