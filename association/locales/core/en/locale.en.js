@@ -4,11 +4,11 @@
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''Source:''|www.example.com |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Version:''|0.3.7|
+|''Version:''|0.4.0|
 |''Date:''|Jul 6, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''~CoreVersion:''|2.4|
+|''~CoreVersion:''|2.5.2|
 ***/
 
 //{{{
@@ -51,6 +51,7 @@ merge(config.optionsDesc,{
 	chkInsertTabs: "Use the tab key to insert tab characters instead of moving between fields",
 	txtBackupFolder: "Name of folder to use for backups",
 	txtMaxEditRows: "Maximum number of rows in edit boxes",
+	txtTheme: "Name of the theme to use",
 	txtFileSystemCharSet: "Default character set for saving changes (Firefox/Mozilla only)"});
 
 merge(config.messages,{
@@ -60,7 +61,7 @@ merge(config.messages,{
 	pluginForced: "Executed because forced via 'systemConfigForce' tag",
 	pluginVersionError: "Not executed because this plugin needs a newer version of TiddlyWiki",
 	nothingSelected: "Nothing is selected. You must select one or more items first",
-	savedSnapshotError: "It appears that this TiddlyWiki has been incorrectly saved. Please see http://www.tiddlywiki.com/#DownloadSoftware for details",
+	savedSnapshotError: "It appears that this TiddlyWiki has been incorrectly saved. Please see http://www.tiddlywiki.com/#Download for details",
 	subtitleUnknown: "(unknown)",
 	undefinedTiddlerToolTip: "The tiddler '%0' doesn't yet exist",
 	shadowedTiddlerToolTip: "The tiddler '%0' doesn't yet exist, but has a pre-defined shadow value",
@@ -242,6 +243,8 @@ merge(config.macros.plugins,{
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
+			{name: 'Description', field: 'Description', title: "Description", type: 'String'},
+			{name: 'Version', field: 'Version', title: "Version", type: 'String'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "Size", type: 'Size'},
 			{name: 'Forced', field: 'forced', title: "Forced", tag: 'systemConfigForce', type: 'TagCheckbox'},
 			{name: 'Disabled', field: 'disabled', title: "Disabled", tag: 'systemConfigDisable', type: 'TagCheckbox'},
@@ -258,7 +261,10 @@ merge(config.macros.plugins,{
 
 merge(config.macros.toolbar,{
 	moreLabel: "more",
-	morePrompt: "Reveal further commands"
+	morePrompt: "Show additional commands",
+	lessLabel: "less",
+	lessPrompt: "Hide additional commands",
+	separator: "|"
 	});
 
 merge(config.macros.refreshDisplay,{
@@ -362,13 +368,13 @@ merge(config.macros.sync,{
 	hasChanged: "Changed while unplugged",
 	hasNotChanged: "Unchanged while unplugged",
 	syncStatusList: {
-		none: {text: "...", color: "transparent", display:null},
-		changedServer: {text: "Changed on server", color: '#8080ff', display:null},
-		changedLocally: {text: "Changed while unplugged", color: '#80ff80', display:null},
-		changedBoth: {text: "Changed while unplugged and on server", color: '#ff8080', display:null},
-		notFound: {text: "Not found on server", color: '#ffff80', display:null},
-		putToServer: {text: "Saved update on server", color: '#ff80ff', display:null},
-		gotFromServer: {text: "Retrieved update from server", color: '#80ffff', display:null}
+		none: {text: "...", display:null, className:'notChanged'},
+		changedServer: {text: "Changed on server", display:null, className:'changedServer'},
+		changedLocally: {text: "Changed while unplugged", display:null, className:'changedLocally'},
+		changedBoth: {text: "Changed while unplugged and on server", display:null, className:'changedBoth'},
+		notFound: {text: "Not found on server", display:null, className:'notFound'},
+		putToServer: {text: "Saved update on server", display:null, className:'putToServer'},
+		gotFromServer: {text: "Retrieved update from server", display:null, className:'gotFromServer'}
 		}
 	});
 
