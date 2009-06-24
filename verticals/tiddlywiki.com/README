@@ -17,7 +17,7 @@ In preparation for a release, the following steps need to be taken:
   verticals/tiddlywiki.com/shadows/MainMenu.tiddler)
 * update build and upload scripts to use the respective version number
 * update tiddlywiki.com vertical's recipes
-* update tiddlywiki.com vertical's NewFeatures tiddler
+* update tiddlywiki.com vertical's NewFeatures tiddler (including modified date)
 * tag release to Tags/core/:
   svn copy http://svn.tiddlywiki.org/Trunk/core http://svn.tiddlywiki.org/Tags/core/REL-2.4.2_Final
 
