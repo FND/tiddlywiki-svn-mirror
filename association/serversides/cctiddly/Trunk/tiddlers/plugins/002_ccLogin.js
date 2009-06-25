@@ -88,7 +88,7 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 		}
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	});
-	if(w.formElem.username.value=='username')
+	if(w.formElem.username.value=='')
 		w.formElem.username.value = config.macros.ccLogin.defaults.username;
 
 	if(w.formElem.txtPassword.value=='') {

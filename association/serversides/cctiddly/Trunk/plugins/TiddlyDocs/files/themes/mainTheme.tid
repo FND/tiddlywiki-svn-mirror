@@ -91,7 +91,7 @@ tags: systemTheme
 		<div class='title'>TiddlyDocs Links</div>
 			</div>
 		</div>
-		<div class="portletContent leftColumnItem">
+		<div class="portletContent leftColumnItem tiddlyDocsLinks">
 	<div  refresh='content'  tiddler='TiddlyDocsLinks'></div>
 
 		</div>

@@ -953,4 +953,8 @@ padding-top:0em;
 	margin-top:0.5em;
 }
 
+.tiddlyDocsLinks {
+	padding:0.5em;
+}
+
 <!--}}}-->
