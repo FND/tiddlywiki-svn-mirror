@@ -57,7 +57,7 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 		this.stepLoginTitle=error;	
 	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
 	txtPassword = w.formElem.txtPassword;
-//	w.formElem.password.style.display="none";
+	w.formElem.password.style.display="none";
 	txtPassword.onkeyup = function() {
 		if(me.sha1 == true){
 			w.formElem.password.value = Crypto.hexSha1Str(w.formElem.txtPassword.value);
