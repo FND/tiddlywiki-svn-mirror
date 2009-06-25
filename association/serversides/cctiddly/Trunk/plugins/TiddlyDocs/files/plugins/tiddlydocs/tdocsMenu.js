@@ -21,8 +21,6 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 	window.sectionCount = 1;
 	$(specView).empty();	
 	config.macros.tdoc2Outline._renderSpec(specView, spec, []);
-
-	story.displayTiddler(DEFAULT_EDIT_TEMPLATE, $("#ul0 :first-child")[0].id);
 	
 	$("#ul0").NestedSortable({
 		accept: 'toc-item',
