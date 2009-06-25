@@ -8,6 +8,13 @@ config.macros.tdButtons.handler=function(place,macroName,params,wikifier,paramSt
 		wikify("| [[Drawings]] | <<newDrawing>>  ", buttonHolder);
 		//	window.activeDocument = params[0];
 	wikify("<<docPrint "+window.activeDocuement+">>", buttonHolder);
+
+	var previewClick = function(place) {
+		story.displayTiddler(null, "Current Document Preview");
+	}
+	
+	var btn = createTiddlyButton(buttonHolder, "preview", "preview current document", previewClick, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
+	
 	var btn = createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
 
 	btn.setAttribute("newTitle","New Section Title");
