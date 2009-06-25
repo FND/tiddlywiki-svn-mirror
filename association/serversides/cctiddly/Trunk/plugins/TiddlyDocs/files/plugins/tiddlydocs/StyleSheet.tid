@@ -861,12 +861,20 @@ form.wizard, .wizard .wizardFooter{
 	}
 
 
-#messageHeading, #messageHeading a {
-	background-color:yellow;
+#messageHeading{
+	background:#FFEE88 none repeat scroll 0 0;
+	border:2px solid #DDBB44;
 	color:red;
+	margin:1em;
 	padding:0.2em;
 	text-decoration:none;
 }
+
+#messageHeading a{
+	color:red;
+	border-bottom:0px;
+}
+
 
 #messageArea {
 padding-top:2.2em;
