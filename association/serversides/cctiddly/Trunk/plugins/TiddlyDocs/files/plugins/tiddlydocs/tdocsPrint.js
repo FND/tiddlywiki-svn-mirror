@@ -9,7 +9,7 @@ config.macros.docPrint.handler =  function(place, macroName, params, wikifier, p
 config.macros.docPrint.onClickPrint = function() {
     var spec = $.parseJSON(store.getTiddlerText(window.activeDocument));
 	var html  = "<html><body>"+config.macros.docPrint.recurse([], spec,  0, []).join("\n")+"</body></html>";
-	doHttp('POST',url+'plugins/TiddlyDocs/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(html)+'&compositionTiddler='+window.activeDocument,null,null,null,config.macros.docPrint.saveCallback,params);		
+	doHttp('POST',url+'plugins/TiddlyDocs/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(html)+'&compositionTiddler='+encodeURIComponent(window.activeDocument),null,null,null,config.macros.docPrint.saveCallback,params);		
 };
 
 config.macros.docPrint.recurse = function(html, item, level, label) {
@@ -30,5 +30,5 @@ config.macros.docPrint.recurse = function(html, item, level, label) {
 };
 
 config.macros.docPrint.saveCallback=function(status,context,responseText,uri,xhr) {
-	window.open("http://osmosoft.com/~psd/html2pdf/?uri="+responseText,'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
+	window.open("http://osmosoft.com/~psd/html2pdf/?uri="+encodeURI(responseText),'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
 }
