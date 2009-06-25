@@ -6,7 +6,6 @@ config.macros.docPreview.handler = function(place,macroName,params,wikifier,para
 	var html = config.macros.docPrint.recurse([], spec,  0, []).join("\n");
 	var x = window.open('', '', 'scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
 	x.document.write(html);
-	console.log(html);
 }
 
 config.macros.docPreview.recurse = function(html, item, level, label) {
