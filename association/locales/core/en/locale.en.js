@@ -5,7 +5,7 @@
 |''Source:''|www.example.com |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
 |''Version:''|0.4.0|
-|''Date:''|Jul 6, 2007|
+|''Date:''|Jun 25, 2009|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.5.2|
@@ -447,7 +447,7 @@ merge(config.commands.fields,{
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[TranslatedGettingStarted]]",
-	MainMenu: "[[TranslatedGettingStarted]]\n\n\n^^~TiddlyWiki version <<version>>\nÂ© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
+	MainMenu: "[[TranslatedGettingStarted]]\n\n\n^^~TiddlyWiki version <<version>>\n© 2009 [[UnaMesa|http://www.unamesa.org/]]^^",
 	TranslatedGettingStarted: "To get started with this blank TiddlyWiki, you'll need to modify the following tiddlers:\n* SiteTitle & SiteSubtitle: The title and subtitle of the site, as shown above (after saving, they will also appear in the browser title bar)\n* MainMenu: The menu (usually on the left)\n* DefaultTiddlers: Contains the names of the tiddlers that you want to appear when the TiddlyWiki is opened\nYou'll also need to enter your username for signing your edits: <<option txtUserName>>",
 	SiteTitle: "My TiddlyWiki",
 	SiteSubtitle: "a reusable non-linear personal web notebook",
