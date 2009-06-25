@@ -37,5 +37,10 @@ else
 	
 
 
+config.macros.ccLogin.defaults.username = 'username';
+config.macros.ccLogin.defaults.password = 'password';
+
+
+
 //}}}
 

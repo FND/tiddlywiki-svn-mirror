@@ -2,7 +2,7 @@
 
 //{{{
 
-config.macros.ccLogin={sha1:true};
+config.macros.ccLogin={sha1:true, defaults: {username:null, password:null}};
 	
 function isLoggedIn() {
 	if(window.loggedIn)
@@ -57,7 +57,7 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 		this.stepLoginTitle=error;	
 	w.addStep(this.stepLoginTitle,me.stepLoginIntroTextHtml);
 	txtPassword = w.formElem.txtPassword;
-	w.formElem.password.style.display="none";
+//	w.formElem.password.style.display="none";
 	txtPassword.onkeyup = function() {
 		if(me.sha1 == true){
 			w.formElem.password.value = Crypto.hexSha1Str(w.formElem.txtPassword.value);
@@ -88,7 +88,14 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 		}
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	});
-	
+	if(w.formElem.username.value=='username')
+		w.formElem.username.value = config.macros.ccLogin.defaults.username;
+
+	if(w.formElem.txtPassword.value=='') {
+		w.formElem.txtPassword.value = config.macros.ccLogin.defaults.password;
+		w.formElem.password.value = Crypto.hexSha1Str(config.macros.ccLogin.defaults.password);
+	}
+		
 	
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
