@@ -21,6 +21,8 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 	window.sectionCount = 1;
 	$(specView).empty();	
 	config.macros.tdoc2Outline._renderSpec(specView, spec, []);
+
+	story.displayTiddler(DEFAULT_EDIT_TEMPLATE, $("#ul0 :first-child")[0].id);
 	
 	$("#ul0").NestedSortable({
 		accept: 'toc-item',
@@ -74,26 +76,17 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 	$.each(spec, function() {
 		label[label.length-1]++;
 	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
-	
-	
-	
-	
-			if(store.getTiddler(this.title)==null){
-					store.saveTiddler(this.title, this.title, "", config.options.txtUserName, new Date(),"section");
-					autoSaveChanges(false, this.title);
-			}else{
-				if(store.getTiddler(this.title).fields.tt_status == "Complete"){
-					var sectionClass = "completed"; 
-				}else{ 
-					var sectionClass = "incomplete";
-				}
+		if(store.getTiddler(this.title)==null){
+			// these two lines should not be necessary
+				store.saveTiddler(this.title, this.title, config.views.wikified.defaultText, config.options.txtUserName, new Date(),"section");
+				autoSaveChanges(false, this.title);
+		}else{
+			if(store.getTiddler(this.title).fields.tt_status == "Complete"){
+				var sectionClass = "completed"; 
+			}else{ 
+				var sectionClass = "incomplete";
 			}
-		
-		
-		
-		
-		
-		
+		}
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass);	
 		sectionDiv.onclick = function() {
 			story.displayTiddler(DEFAULT_EDIT_TEMPLATE, this.id.replace("_div", ""));
