@@ -8,9 +8,9 @@ config.options.chkSaveBackups = false;
 //config.options.txtTheme = "TreeTheme";
 
 if(isLoggedIn())
-	config.options.txtTheme = "mpTheme";
+	config.options.txtTheme = "mainTheme";
 else
-	config.options.txtTheme = "AnonMpTheme";
+	config.options.txtTheme = "loginTheme";
 
 config.options.chkBackstage = false;
 
@@ -39,6 +39,9 @@ else
 
 config.macros.ccLogin.defaults.username = 'username';
 config.macros.ccLogin.defaults.password = 'password';
+
+if(window.workspace=="")
+	config.options.txtTheme = 'sandboxTheme';
 
 
 
