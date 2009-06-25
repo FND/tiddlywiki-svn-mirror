@@ -689,7 +689,7 @@ class TiddlyWiki
   # writes just the store area to a file
   # the file can be used with ImportTiddlers to save download bandwidth
   def store_to_file(file_name)
-    File.open(file_name,"w") { |f| f << "<div id=\"storeArea\">\n#{store_to_s}</div>" }
+    File.open(file_name,"w") { |f| f << "<div id=\"storeArea\">\n#{store_to_s}</div>\n" }
     puts "Wrote store only to '#{file_name}'"
   end
 
