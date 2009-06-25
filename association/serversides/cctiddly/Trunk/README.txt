@@ -22,7 +22,6 @@ STEPS FOR INSTALLATION :
 
 http://127.0.0.1/cctiddly
 
-
 Serverside Plugins (NEW to version 1.8)
 
 By default all the serverside plugins are disabled. To enable a plugin you need edit config.php and REMOVE the plugin name from the $tiddlyCfg['plugins_disabled'] array.  It can be found at aproximately line 19.
@@ -58,4 +57,7 @@ Configuring Uploading
 2 .. Ensure the folder is owned by the same user that apache is running under. 
 
 3 .. Ensure that the folder can be written by its owner. 
+
+
+
 

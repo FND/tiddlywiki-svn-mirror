@@ -1,6 +1,4 @@
 
-
-
 config.macros.feedbackPlugin = {};
 config.macros.feedbackPlugin.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var uri = config.defaultCustomFields['server.host']+'handle/proxy.php?feed=http://tiddlydocs.com/handle/listTiddlers.php?workspace=feedback';

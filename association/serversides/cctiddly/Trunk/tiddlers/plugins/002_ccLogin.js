@@ -88,14 +88,13 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 		}
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	});
-	if(w.formElem.username.value=='')
+	if(w.formElem.username.value==''){
 		w.formElem.username.value = config.macros.ccLogin.defaults.username;
-
-	if(w.formElem.txtPassword.value=='') {
-		w.formElem.txtPassword.value = config.macros.ccLogin.defaults.password;
-		w.formElem.password.value = Crypto.hexSha1Str(config.macros.ccLogin.defaults.password);
-	}
-		
+		if(w.formElem.txtPassword.value=='') {
+			w.formElem.txtPassword.value = config.macros.ccLogin.defaults.password;
+			w.formElem.password.value = Crypto.hexSha1Str(config.macros.ccLogin.defaults.password);
+		}
+	}	
 	
 	createTiddlyButton(w.footElem,this.buttonLogin,this.buttonLoginToolTip,function() {
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
@@ -107,10 +106,12 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 				config.macros.register.displayRegister(place, w, this);
 		},"nobox", null, null,  {tabindex:4});
 	}
-	var li_forgotten = createTiddlyElement(w.footElem, "li");
+
+/*	var li_forgotten = createTiddlyElement(w.footElem, "li");
 	createTiddlyButton(li_forgotten,this.buttonForgottenPassword,this.buttonForgottenPasswordToolTip,function() {
 		config.macros.ccLogin.displayForgottenPassword(this, place);
 	},"nobox", null, null,  {tabindex:5});
+*/
 
 };
 

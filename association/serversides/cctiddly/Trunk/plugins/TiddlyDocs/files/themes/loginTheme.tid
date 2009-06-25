@@ -3,7 +3,7 @@ modified: 200708091500
 tags: systemTheme
 
 /***
-|''Name:''|loginTheme|
+|''Name:''|mainTheme|
 |''Description:''|The basic TeamTasks theme |
 |''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
@@ -13,25 +13,25 @@ tags: systemTheme
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
-|''~StyleSheet:''|##StyleSheet|
 |''~wizardViewTemplate:''|##wizardViewTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
 |''~EditTemplate:''|##EditTemplate|
-|''~newEditTemplate:''|##newEditTemplate|
-
-
 |''~taggingViewTemplate:''|##taggingViewTemplate|
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
-
+|''~documentViewTemplate:''|##documentViewTemplate|
 
 ***/
 
 !PageTemplate
 <!--{{{-->
+<div id='messageHeading' refresh='content' force='true' tiddler='messageHeading'</div>
 <div id="header">
 		<div class="banner-left"></div>
 		<div class="banner-right"></div>
+		<div class="banner-search">	
+			<div  class="searchPosition" macro='search'></div>
+		</div>
 
 		<div class='banner-title'>
 			<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
@@ -51,6 +51,21 @@ tags: systemTheme
 
 <div class='leftColumn'>
 
+	<div class="portletContainer leftColumnItem">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+		<div class='title'>Table of Content</div>
+			</div>
+		</div>
+		<div class="portletContent leftColumnItem">
+		<br />
+		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
+
+		</div>
+
+	</div>
 	<div class="portletContainer  ">
 		<div class="portletToolbar">
 			<div class="portletCornerLeft"></div>
@@ -60,16 +75,29 @@ tags: systemTheme
 			</div>
 		</div>
 		<div class="portletContent leftColumnItem">
-		
-			<div class="portletContent leftColumnItem">
-		<div  refresh='content'  tiddler='aboutTiddlyDocs'></div>
-
-			</div>
-
+	<div  refresh='content'  tiddler='aboutTiddlyDocs'></div>
 
 		</div>
 
 	</div>
+	
+	
+	
+	<div class="portletContainer  ">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+		<div class='title'>TiddlyDocs Links</div>
+			</div>
+		</div>
+		<div class="portletContent leftColumnItem tiddlyDocsLinks">
+	<div  refresh='content'  tiddler='TiddlyDocsLinks'></div>
+
+		</div>
+
+	</div>
+	
 	
 
 </div>
@@ -78,887 +106,6 @@ tags: systemTheme
 
 <!--}}}-->
 
-
-
-
-
-
-
-
-!StyleSheet
-
-.about-tiddlydocs .tiddlyLink, .about-tiddlydocs .aboutLink {
-	color:white;
-}
-
-.about-tiddlydocs {
-	padding:1em;
-	font-size:0.8em;
-}
-
-#header {
-	overflow:auto;
-	padding:1em;
-}
-
-.banner-left {
-	float:left;
-	background:transparent url(plugins/TiddlyDocs/files/images/banner-top-left.png) repeat-x scroll 0 0;
-	width:8px;
-	height:47px;	
-}
-
-.banner-right {
-	width:8px;
-	height:47px;
-	background:transparent url(plugins/TiddlyDocs/files/images/banner-top-right.png) repeat-x scroll 0 0;
-}
-
-.banner-search, .banner-right {
-	float:right;
-}
-
-.banner-title, .banner-search {
-	height:47px;
-	padding-top:1.1em;
-	padding:1em;
-}
-
-.banner-title {
-	margin: 0 8px;
-	background:transparent url(plugins/TiddlyDocs/files/images/banner-top.png) repeat-x scroll 0 0;
-}
-
-#tiddlerDisplay {
-		float:right;
-		height:100%;
-		margin:0;
-		padding:0;
-		width:70%;
-		position:relative;
-		top:-2.5em;
-		overflow:hidden;
-	}
-
-
-
-
-
-
-
-
-
-html body .leftColumnItem {
- 	background-color:#444;
-	color:white;
-}
-
-
-.searchPosition {
-	float:right;
-}
-
-label {
-	float:left;
-	font-size:1.1em;
-	margin:0 -2px 0 0;
-	padding:3px;
-	text-align:right;
-	width:9em;
-}
-.searchButton {
-	float:right;
-	-moz-border-radius-bottomleft:2px;
-	-moz-border-radius-bottomright:2px;
-	-moz-border-radius-topleft:2px;
-	-moz-border-radius-topright:2px;
-	background:#444444 none repeat scroll 0 0;
-	border:1px solid #777;
-	color:#FFFFFF;
-	font-size:0.8em;
-	line-height:1.5em;
-	padding:2px 4px;
-	text-shadow:1px 1px 0 #444444;
-	vertical-align:top;
-}
-#searchform fieldset #s, .txtOptionInput {
-	-moz-border-radius-bottomleft:2px;
-	-moz-border-radius-bottomright:2px;
-	-moz-border-radius-topleft:2px;
-	-moz-border-radius-topright:2px;
-	background:#151515 url(http://tapbots.com/images-global/blog/bg_inputbox.png) repeat-x scroll 0 0;
-	border:1px solid #777;
-	color:#777;
-	font-family:helvetica,arial,sans-serif;
-	float:right;
-	margin-bottom:0.7em;
-	margin-right:5px;
-	padding:4px;
-	text-shadow:1px 1px 0 #151515;
-	width:113px;
-}
-
-#searchform fieldset {
-	background:transparent url(http://tapbots.com/images-global/blog/bg_search_top.png) no-repeat scroll 0 top;
-	padding:7px 13px 2px;
-	position:relative;
-	top:-3px;
-	float:right;
-	border:0px;
-}
-
-
-
-#searchform fieldset #searchsubmit:hover {
-	background:#555555 none repeat scroll 0 0;
-	border:2px solid #777777;
-}
-#searchform fieldset #searchsubmit {
-	-moz-border-radius-bottomleft:2px;
-	-moz-border-radius-bottomright:2px;
-	-moz-border-radius-topleft:2px;
-	-moz-border-radius-topright:2px;
-	background:#444444 none repeat scroll 0 0;
-	border:2px solid #666666;
-	color:#FFFFFF;
-	font-weight:bold;
-	line-height:1.5em;
-	padding:3px 6px;
-	text-shadow:1px 1px 0 #444444;
-	vertical-align:top;
-}
-
-
-
-
-
-#searchform fieldset #searchsubmit:hover {
-	background:#555555 none repeat scroll 0 0;
-	border:2px solid #777777;
-}
-#searchform fieldset #searchsubmit {
-	-moz-border-radius-bottomleft:2px;
-	-moz-border-radius-bottomright:2px;
-	-moz-border-radius-topleft:2px;
-	-moz-border-radius-topright:2px;
-	background:#444444 none repeat scroll 0 0;
-	border:2px solid #666666;
-	color:#FFFFFF;
-	font-weight:bold;
-	line-height:1.5em;
-	padding:3px 6px;
-	text-shadow:1px 1px 0 #444444;
-	vertical-align:top;
-}
-
-
-
-
-
-
-
-.head-applinks {
-	background:transparent url(plugins/TiddlyDocs/files/images/top-banner-short.png) repeat-x scroll 0 0;
-	float:left;
-	height:50px;
-	left:1em;
-	position:relative;
-	top:-4em;
-	width:100%;
-	z-index:1;
-}
-
-h1 {
-	border-bottom:1px solid #EEEEEE;
-	font-size:1.2em;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	background:transparent none repeat scroll 0 0;
-	color:#eee;
-}
-
-.wizard h1 {
-	line-height:1.1em;
-	color:#eee;
-}
-#headContainer{
-	position:relative;
-}
-
-
-#searchRight {
-	float:right;
-	z-index:19;
-	position:relative;
-	text-align:right;
-	top:-3.2em;
-	font-size:0.8em;
-}
-
-.taskControls {
-	color:white;
-	left:4em;
-	margin:0;
-	padding:0;
-	position:relative;
-	top:-3.2em;
-}
-.editTaskControls {
-	margin-left:15em;
-	top:-3.2em;
-}
-
-
-html body a {
-	color:#333;
-}
-.headerShadow {
-	padding:0px;
-}
-
-
-.siteTitle {
-	color:#EEEEEE;
-	font-size:1.5em;
-	font-weight:bold;
-	font-family:arial black;
-	position:relative;
-	top:-0.4em;
-}
-
-.siteSubtitle{
-	color:#ddd;
-	font-size:1em;
-	font-family:arial black;
-	position:relative;
-	top:-0.5em;
-}
-
-body {
-	font-family:Arial;
-	background:#090909 url(http://tapbots.com/images-global/ui/bg_body2.jpg) repeat-x scroll 50% 0;
-	color:#333;
-	font-family:helvetica,arial,sans-serif;
-	font-size:12px;	
-	
-}
-
-.topBanner {
-	background:#ddd none repeat scroll 0 0;
-	padding:1em;
-	margin-bottom:0.5em;
-	position:absolute;
-	text-align:right;
-	width:96%;
-}
-
-#layoutContainer {
-	background-color:#ccc;
-}
-
-.editor input, .editor textarea {
-	border:1px solid #C7C7C7;
-	margin:0.5em;
-}
-
-
- .deleteHelper {
-	background-color:red;
-	border:2px dashed #777777;
-	color:#333;
-}
-.left {
-	text-align: left;
-}
-
-/* nestedSortable CSS */
-	.sectionHeading a{
-		/*	display:none;
-		visibility:hidden;
-		*/
-	}
-	.sectionHeading a:hover {
-	/*	display:inline;
-		visibility:visible;
-		border: 1px solid #ddd;
-	 */
-	}
-	.current-nesting {
-		background-color: yellow;
-	}
-	.helper {
-	/*	margin-left:1em !important;
-	border-bottom:2px solid #777777;
-	height:3px !important;
-	padding:0.6em;
-	*/
-	
-	border:2px dashed #777777;
-	}
-
-	.deleteZoneClass {
-		background: #3f3f3f url(plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat bottom right;
-		text-align:left;
-		padding:0.5em 1em 1em;
-		margin:1em;
-		border:1px solid #555;
-		color:#eee;	
-	}
-
-	.deleteHelper {
-		background-color:#eee;
-		background-image : url(plugins/TiddlyDocs/files/images/bin_empty.png);
-		font-weight:bold;
-		border:1px solid red;
-		color:#222;
-	}
-	.sort-handle-edit {
-		border:1px solid #C7C7C7;
-		background:white;
-		padding:1em;
-		margin-bottom:1em;
-	}
-	.sort-handle-edit .button {
-		border:1px solid #C7C7C7;
-		background:white !important;
-		color:black !important;
-	}
-	.draggableOn {
-		cursor:move;
-		/*	background-color:#eee !important; */
-	}
-
-/* END nestedSortable CSS */
-
-/* tiddlerTree CSS */
-
-
-li.page-item1 {
-list-style:none;
-
-}
-
-ul.page-list {
-}
-
-#backstageArea, #backstageArea a {
-background:#444444 none repeat scroll 0 0;
-}
-
-#backstageArea {
-	border-bottom:1px solid #777;
-}
-	#mainMenu {
-		padding:0px;
-		border:0px solid white;
-		font-size:0.9em;
-		height:95%;
-		position:relative;
-		color:#333;
-	}
-	div.title {
-		padding :1em;
-	}
-
-	div.subtitle {
-		font-size:0.7em;
-		padding:0.5em;
-	}
-	div.title {
-		font-size:1em;
-		font-weight:none;
-		padding:0.2em 0.5em 0 0.2em;
-		color:#eee;
-	}
-
-
-	#buttonHolder {
-		background-color:#777;
-		border-top:0px solid #333;
-		border-bottom:0px solid #333;
-		height:2.5em;
-	position:absolute;
-	width:100%;
-	}
-	
-
-	.completed {
-		border-right : 10px solid #248A22;
-		padding:1em;
-	}
-
-	.incomplete {
-		border-right : 0px solid #d3bebe;
-	}
-
-	li {
-		/*		style:none;*/
-	}
-
-	ul {
-		padding-left:0px;
-		margin:0em !important;
-		padding-left:1em;
-		padding-right:1em;
-	}
-
-
-/* END tiddlerTree CSS */
-
-/* TIDDLYWIKI CSS */
-
-.editor textarea {
-background-color:#fff;
-width:98.5%;
-}
-
-
-	#mainMenu {
-		top:0.5em;
-		font-size:0.9em;
-		height:100%;
-		position:relative;
-		width:100%;
-	}
-	
-	/*
-	#tiddlerDisplay {
-		float:right;
-		height:100%;
-		margin:0;
-		padding:0;
-		position:relative;
-		top:-3em;
-		width:68.5%;
-	}
-	
-	
-	*/
-	.toolbar a, .toolbar:hover{
-	color:white;
-	}
-	#displayArea {
-		margin:0px;
-	}
-	div.tiddler {
-		background-color:transparent;
-		border:0px;
-		padding:0em;
-		margin-right:1em;
-	}
-	div.tiddler .tab {
-		background-color:#ddd;
-	}
-	 /*WIZARD*/
-
-
-form.wizard, .wizard .wizardFooter{
-		background:#444 none repeat scroll 0 0 !important;
-		border:0px;
-		color:#eee;
-		padding:1em;
-	}
-	div.wizardBody div.wizardStep {
-		border:1px solid #222;
-		background:#444;
-		padding:1em;
-	}
-		.wizard .button {
-			background:#5586B6 none repeat scroll 0 0 !important;
-			color:white !important;
-			padding:0.2em;
-			padding-left:0.4em !important;
-			padding-right:0.4em !important;
-			font-weight:bold;
-
-		}
-
-
-		div.wizardFooter {
-			margin-left :9.2em;
-		}
-	/*ENDWIZARD*/
-
-
-
-
-
-
-
-
-		.clear { /* generic container (i.e. div) for floating buttons */
-		    overflow: hidden;
-		    width: 100%;
-		}
-	
-	 
-	
-	    
-	
-
-		#buttonHolder {
-			background-color:#777;
-			border-color:-moz-use-text-color -moz-use-text-color #333333;
-			border-style:none none solid;
-			float:right;
-			padding:0em;
-			text-align:right;
-			top:-1.5em;
-			width:100%;
-			}
-
-
-
-
-		#backstageButton {
-			display:none !important;
-		}
-		.viewer {
-			padding:0.5em;
-			padding-top:0em;
-			padding-bottom:2em;
-			position:relative;
-			top:-4em;
-		}
-		.viewer th, .viewer thead td, .twtable th, .twtable thead td  {
-		 background:#5586B6 none repeat scroll 0 0;
-		}
-
-		.viewer th, .viewer thead td, .twtable th, .twtable thead td {
-			border:1px solid #5586B6;
-		}
-		
-		
-		
-		
-		
-		.toolbar {
-			padding:0.3em 0em 0em;
-			background-color:#777;
-			height:2.4em;
-		}
-
-
-
-		.toolbar  > a {
-		top:1px;
-		position:relative;
-		}
-	/* END TIDDLYWIKI CS */
-
-	/*  TEAK TASKS CSS */
-	.viewer table, table.twtable, .viewer td, .viewer tr, .twtable td, .twtable tr {
-		border:0px !important;
-	}
-	/*  END TEAM TASKS CSS */
-
-	/*  COMMENTS CSS */
-
-	.commentsArea {
-	
-		padding:2em;
-		text-align:center;
-		background:#333;
-	}
-
-	.comment .heading {
-	background:#777 none repeat scroll 0 0 !important;
-	padding:0.5em;
-	background:transparent;
-	border-bottom:1px solid #222 !important;
-	}
-	
-	.replyLink {
-		padding:1em;
-	}
-	.comment .reply {
-		width:95%;
-	}
-	
-	.commentTitle {
-		color:white;
-	}
-	.deleteComment {
-		display:none;
-	}
-	.comment {
-	border:1px solid #777;
-	}
-		.comments {
-			padding:0.5em;
-			text-align:left;
-		}
-		.comments .newCommentArea {
-			text-align:center;
-			padding-top:2em;
-		}
-		.commentText {
-			padding:1em !important;
-			background-color:transparent;
-			color:#eee
-		}
-
-		.tiddler .button {
-			margin:0.1em  1em;
-			padding:0.2em 0.3em;
-		}
-
-
-
-	/*  END COMMENTS CSS */
-
-	/*  NESTED SORTABLE CSS */
-		div.sort-handle {
-			padding:0em;
-			margin:0em;
-			padding-top:0px;
-			color:white;
-		}
-		div.sort-handle div{
-			margin:0em;
-		}
-		div.sort-handle:hover {
-			background-color:#555;
-		}
-	// END NESTED SORTABLE CSS
-
-
-	body, td{
-		margin:0;
-		font-size:0.8em;
-	}
-	#myBTPageBody{
-		background-color:#e8e1f1;
-		width:100%;
-		padding:0;
-		margin:0;
-		text-align:center;
-	}
-	#myfaceheadercontainer{
-		width:100%;
-		height:65px;
-	}
-	#myfaceheadercontainer #logo{
-		margin:10px 0px 10px 20px;
-	}
-	#myfaceheadercontainer #logo-right{
-		margin:15px 30px 0 0;
-	}
-
-	#footer{
-		border-top:1px solid #51268a;
-		clear:both;
-		padding:10px 20px;
-		text-align:center;
-	}
-
-	.portletContainer{
-		background-color:#ffffff;
-		margin-bottom:1em;
-	}
-	.portletToolbar{
-		background-image:url("plugins/TiddlyDocs/files/images/top.png");
-		width:100%;
-		height:25px;
-		background-repeat:repeat-x;
-	}
-	.portletCornerLeft{
-		background-image:url("plugins/TiddlyDocs/files/images/corner_top_left.png");
-		clear:left;
-		float:left;
-		width:8px;
-		height:25px;
-		background-repeat:no-repeat;
-	}
-	.portletCornerRight{
-		float:right;
-		width:8px;
-		height:25px;
-		position:relative;
-		background-repeat:no-repeat;
-		margin:0;
-		padding:0;
-			background-image:url("plugins/TiddlyDocs/files/images/corner_top_right.png");
-	}
-	.portletTitle{
-		float:left;
-		padding:4px 0 0 0;
-		font-weight:bold;
-	}
-	.portletContent{
-		clear:left;
-		border-left:1px solid #777;
-		border-right:1px solid #777;
-		background:#fff;
-		border-bottom:1px solid #777;
-		margin:0 0 5px;
-	}
-	.portletBotLeft{
-		clear:left;
-		float:left;
-		width:6px;
-		height:6px;
-		background-image:url("http://farm4.static.flickr.com/3563/3302865501_7b1e814cd1_m.jpg");
-
-		<!-- background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-left.gif.png");-->
-		background-repeat:no-repeat;
-		background-position:bottom left;
-	}
-	.portletBotRight{
-		float:right;
-		width:6px;
-		height:6px;
-<!--		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-right.jpg");-->
-		background-image:url("http://farm4.static.flickr.com/3406/3302865427_ac45364db5_m.jpg");
-		background-repeat:no-repeat;
-		background-position:bottom right;
-	}
-	.leftColumn{
-		padding:0em;
-		margin:0em;
-		text-align:left;
-		width:30%;
-		float:left;
-		text-align:left;
-		position:relative;
-		top:-2.5em;
-	}
-	
-	.leftColumn > .portletContainer {
-		margin-left:1em;
-		margin-right:1em;
-		margin-top:1em;
-		
-	}
-	
-	
-	
-	
-	.middleColumn{
-		margin:0 auto;
-		text-align:left
-	}
-	.paddedBox{
-		padding:10px;
-	}
-	.fixedHeightBox{
-		height:150px;
-	}
-	.sizedPortlet{
-		width:350px;
-	}
-	.blankSpace{
-		clear:both;
-		height:20px;
-	}
-	.legalNoticeHeader{
-		font-weight:bold;
-		padding:5px 10px 10px 10px;
-	}
-	.legalNoticeMessage{
-		color:red;
-		padding:5px 10px 10px 10px;
-	}
-	.inputField{
-	}
-	.loginfield{
-	}
-	.statusTitle{
-	}
-	.statusMessageGood{
-	}
-	.dropzoneactive { background: pink; }
-	.dropzonehover { background: orange; }
-
-	.editor {
-		position:relative;
-		top:-3.5em;
-	}
-	div.editor input {
-		width:98%;
-	}
-
-#messageArea {
-padding-top:2.2em;
-	border:none;
-	background: transparent;
-}
-html body #messageArea a {
-color:#fff;
-}
-
-#messageArea .messageBox {
-	border:1px solid #777;
-	color:#fff;
-	background:#333;
-	padding:10px;
-	margin-top:5px;
-	margin-bottom:5px;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	filter:alpha(opacity=80);
-	width:16em;
-}
-
-#messageArea .messageText {
-	display:block;
-	width:5em;
-	margin:0;
-	padding:0;
-}
-
-#errorBox .button {
-	line-height:2em;
-	font-size:1.3em;
-
-}
-
-#messageArea .messageClear {
-	display:block;
-	float:right;
-	width:1em;
-}
-
-#messageArea .messageClear a {
-	text-decoration:none;
-	background-color: transparent;
-	color:white;
-}
-
-.providedBy {
-text-align:center;
- background-color:white;
-border:1px solid #C7C7C7;
-padding:0.5em;
-padding-top:0em;
-}
-
-.providedBy h5 {
-	text-align:left;
-}
-.providedBy img {
-	padding:2em;
-	padding-top:0em;
-}
-
-.newCommentArea  a.btn {
-	margin-top:0.5em;
-}
-
-html body .newSectionEditor {
-	top:0em;
-	width:100%;
-}
-
-html .wizardViewer .tiddlyLink {
-color:#fff;
-}
-
- .highlight, .marked {
-background:red none repeat scroll 0 0;
-}
-<!--}}}-->
 
 
 
@@ -992,104 +139,6 @@ background:red none repeat scroll 0 0;
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
-		</div>
-	<div class="portletContent">
-
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
-		<div class='editor' macro='editHtml text' ></div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
-		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-
-	</div>
-</div>
-
-<!--}}}-->
-
-!newEditTemplate
-<!--{{{-->
-
-
-
-
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-				<div  macro='edit title'></div><br/>
-		</div>
-	
-	</div>
-
-	<div class="portletContent">
-
-
-		<div  macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<!--
-		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
-		<div class='commentsArea' macro='comments'></div>
-	</div>
-</div>
-<!--}}}-->
-
-
-!ViewTemplate
-<!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
-		</div>
-	</div>
-	<div class="portletContent">
-	
-
-	
-		</div>
-		<div class='viewer' macro='view text wikified'></div>
-
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></a></div>
-<!--		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-	-->
-	</div>
-</div>
-<!--}}}-->
-
-
-
-!taskViewTemplate
-<!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
-		</div>
-	</div>
-	<div class="portletContent">
-			
-			
-				
-		<div  style='z-index:2;' class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
-		<div class='viewer' macro='view text wikified'></div>
-		<div  style='z-index:2;' class='toolbar left' macro='toolbar [[ToolbarCommands::taskViewToolbar]]'></div>
-		<div class='commentsArea' macro='comments'></div>
-	</div>
-
-</div>
-<!--}}}-->
-
-
-!taskEditTemplate
-<!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
 			<div class='title' macro='view title'>Editing Section : </div>
 		</div>
 	</div>
@@ -1103,4 +152,114 @@ background:red none repeat scroll 0 0;
 	</div>
 </div>
 <!--}}}-->
+
+!newEditTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='edit title'></div>
+		</div>
+	</div>
+	<div class="portletContent">
+
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
+		<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<!--
+		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>-->
+		<div class='commentsArea' macro='comments'></div>
+	</div>
+</div>
+<!--}}}-->
+
+
+!ViewTemplate
+<!--{{{-->
+
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'></div>
+		</div>
+	</div>
+	<div class="portletContent">
+			
+			
+				
+		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>	<div class='taskControls' 
+macro='tiddler TaskTiddlerControls'></div>
+		<div class='viewer' macro='view text wikified'></div>
+		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>
+		<div class='commentsArea' macro='comments'></div>
+	</div>
+
+</div>
+<!--}}}-->
+
+
+
+!simpleViewTemplate
+<!--{{{-->
+
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'></div>
+		</div>
+	</div>
+	<div class="portletContent simpleTiddler">
+		<div class='viewer' macro='view text wikified'></div>
+	</div>
+</div>
+
+<!--}}}-->
+
+
+!simpleEditTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+		</div>
+	<div class="portletContent">
+
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
+		<div class='editor' macro='editHtml text' ></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
+		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+
+	</div>
+</div>
+<!--}}}-->
+
+
+
+
+!documentViewTemplate
+<!--{{{-->
+
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'>Previewing Document : </div>
+		</div>
+	</div>
+	<div class="portletContent">
+			
+		<div class='viewer' macro='docPreview The Internet'></div>
+	</div>
+
+</div>
+<!--}}}-->
+
 
