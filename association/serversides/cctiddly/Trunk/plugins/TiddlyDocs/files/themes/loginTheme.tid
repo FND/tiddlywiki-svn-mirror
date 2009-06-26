@@ -25,7 +25,6 @@ tags: systemTheme
 
 !PageTemplate
 <!--{{{-->
-<div id='messageHeading' refresh='content' force='true' tiddler='messageHeading'</div>
 <div id="header">
 		<div class="banner-left"></div>
 		<div class="banner-right"></div>
