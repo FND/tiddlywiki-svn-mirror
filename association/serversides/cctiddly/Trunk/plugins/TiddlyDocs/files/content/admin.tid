@@ -15,7 +15,7 @@ Here are the existing <<tag 'document'>>
 <<register>>
 
 !New Issue
-<<newTiddler  title:'New Issue' tag:issue>>
+<<newTiddler  title:'New Issue' tag:issue, template:"mainTheme##newEditTemplate">>
 
 !New Document
 <<newDocument>>
