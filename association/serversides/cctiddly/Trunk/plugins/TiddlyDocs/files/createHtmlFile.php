@@ -11,7 +11,7 @@ $myFile = $dir."/".$_REQUEST['compositionTiddler'].".html";
 $fh = @fopen($myFile, 'w+');
 
 if(@fwrite($fh, $html)){
-	echo dirname(dirname(dirname(getUrl())))."/uploads/documents/".$_REQUEST['compositionTiddler'].".html";	
+	echo urlencode(dirname(dirname(dirname(getUrl())))."/uploads/documents/".$_REQUEST['compositionTiddler'].".html");	
 }
 @fclose($fh);
 ?>
