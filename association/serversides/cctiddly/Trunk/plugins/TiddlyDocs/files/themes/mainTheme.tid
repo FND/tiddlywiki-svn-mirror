@@ -152,8 +152,8 @@ tags: systemTheme
 		<div class="portletTitle">
 			<div class='title' macro='view title'></div>
 		</div>
-	</div>
-	<div class="portletContent">
+	</div>as
+	<div class="portletContent">asdfasdfasfasdfasdf
 		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
 		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>
@@ -215,3 +215,44 @@ tags: systemTheme
 		</div>
 	</div>
 <!--}}}-->
+
+
+!issueEditTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='edit title'></div>
+		</div>
+	</div>
+	<div class="portletContent">
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
+		<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<div class='commentsArea' macro='comments'></div>
+	</div>
+</div>
+<!--}}}-->
+
+!issueViewTemplate
+<!--{{{-->
+	<div class="portletContainer">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+				<div class='title' macro='view title'></div>
+			</div>
+		</div>
+		<div class="portletContent simpleTiddler">
+				<div class='' macro='toolbar [[ToolbarCommands::adminToolbar]]'></a></div>
+				</br>
+				</br>
+				</br>
+			<div class='viewer2' macro='view text wikified'></div>
+		</div>
+	</div>
+<!--}}}-->
+
+

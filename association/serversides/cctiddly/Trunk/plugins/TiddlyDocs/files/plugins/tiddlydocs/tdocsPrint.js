@@ -30,5 +30,5 @@ config.macros.docPrint.recurse = function(html, item, level, label) {
 };
 
 config.macros.docPrint.saveCallback=function(status,context,responseText,uri,xhr) {
-	window.open("http://osmosoft.com/~psd/html2pdf/?uri="+responseText,'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
+	window.open("http://osmosoft.com/~psd/html2pdf/?uri="+encodeURI(encodeURI(responseText)),'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
 }
