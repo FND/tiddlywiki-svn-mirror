@@ -3,6 +3,7 @@
 // also requires overide of restart. 
 
 Story.prototype.displayDefaultTiddlers = function(){
+	
  	var tiddlers="";
 	if(isLoggedIn()){        
 		var url = window.location;        

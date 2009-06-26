@@ -40,8 +40,8 @@ else
 config.macros.ccLogin.defaults.username = 'username';
 config.macros.ccLogin.defaults.password = 'password';
 
-if(window.workspace=="")
-	config.options.txtTheme = 'sandboxTheme';
+//if(window.workspace=="")
+//	config.options.txtTheme = 'sandboxTheme';
 
 
 
