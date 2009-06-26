@@ -152,8 +152,8 @@ tags: systemTheme
 		<div class="portletTitle">
 			<div class='title' macro='view title'></div>
 		</div>
-	</div>as
-	<div class="portletContent">asdfasdfasfasdfasdf
+	</div>
+	<div class="portletContent">
 		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
 		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>
@@ -254,5 +254,3 @@ tags: systemTheme
 		</div>
 	</div>
 <!--}}}-->
-
-
