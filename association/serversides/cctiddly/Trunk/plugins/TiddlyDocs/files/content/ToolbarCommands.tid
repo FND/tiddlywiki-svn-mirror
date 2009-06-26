@@ -7,3 +7,4 @@ modified: 200708091500
 |~EditToolbar| +saveTiddler -cancelTiddler revisions deleteTiddlerHosted |
 |~taskViewToolbar|+editTiddler revisions|
 |~drawingEditToolbar| +saveTiddler -cancelTiddler deleteTiddlerHosted|
+|~adminToolbar| deleteTiddlerHosted|
