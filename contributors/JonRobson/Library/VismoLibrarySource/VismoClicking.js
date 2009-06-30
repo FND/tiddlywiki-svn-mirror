@@ -30,6 +30,7 @@ var VismoCanvas = function(element,options){
 
 	if(options.shapes) {
 		for(var i=0; i < options.shapes.length; i++){
+	
 			this.add(options.shapes[i]);
 		}
 	}
@@ -68,7 +69,7 @@ VismoCanvas.prototype = {
 	                var tooltip =  document.createElement("div");
                         jQuery(tooltip).css({position:"absolute","z-index":10,display:"none"});      
                         tooltip.className = "VismoTooltip";
-                        this.wrapper.appendChild(tooltip);
+                        jQuery(this.wrapper).append(tooltip);
                         this.tooltip = tooltip;
         		                       
                 }
@@ -418,6 +419,9 @@ VismoCanvas.prototype = {
 	       if(vismoShape.vml)vismoShape.vml.scrub();
 	}
 	,add: function(vismoShape){
+	    if(!vismoShape._isVismoShape){
+	        vismoShape = new VismoShape(vismoShape);
+	    }
 		if(!this.memory) this.memory = [];
 		if(!vismoShape.getProperty("id"))vismoShape.setProperty("id",this.memory.length +"_" + Math.random());
 		this.memory.push(vismoShape);
@@ -549,7 +553,6 @@ VismoCanvas.prototype = {
 	},
 	_findNeedleInHaystack: function(x,y,shapes){
 		var hits = [];
-		var bestZindex = 0;
 		
 		for(var i=0; i < shapes.length; i++){
 			var st = shapes[i].getShape();
@@ -559,7 +562,7 @@ VismoCanvas.prototype = {
 			}
 			else if(st == 'path'){
 			    //itsahit = this._onPath(x,y,shapes[i]);
-			    itsahit = false;
+			    itsahit = false; 
 			}
 			else if(st == 'image'){
 				itsahit = true;
@@ -596,7 +599,7 @@ VismoCanvas.prototype = {
 			var mindist = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
 			var closerEdge = {id:0, closeness:mindist};
 			for(var i=1; i < bestZindex.s.length; i++){
-				var g = bestZindex.s.getBoundingBox();
+				var g = bestZindex.s[i].getBoundingBox();
 				var mindist = Math.min(g.x2 - x,x - g.x1,g.y2 - y,y - g.y1);
 			
 				if(closerEdge.closeness > mindist) {

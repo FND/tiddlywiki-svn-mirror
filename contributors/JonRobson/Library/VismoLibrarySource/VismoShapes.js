@@ -179,6 +179,7 @@ coordinates are a string consisting of floats and move commands (M)
 */
 
 var VismoShape = function(properties,coordinates){
+    this._isVismoShape = true;
     if(!coordinates) {
         coordinates = properties.coordinates;
         delete properties["coordinates"];

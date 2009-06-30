@@ -176,8 +176,8 @@ VismoMap.prototype = {
 			origin.y =h / 2;
 		}*/
 		
-		if(s.x < 1) s.x = 1;
-		if(s.y < 1) s.y = 1;
+		if(s.x < 0.5) s.x = 0.5;
+		if(s.y < 0.5) s.y = 0.5;
 		
 		if(t.x > 180) t.x = 180; //t.x=Math.min(t.x, 180)
 		if(t.x < -180) t.x = -180;

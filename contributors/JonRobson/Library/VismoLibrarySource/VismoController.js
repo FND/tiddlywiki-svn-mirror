@@ -5,6 +5,7 @@ Mousewheel zooming currently not working as should - should center on location w
 Will be changed to take a handler parameter rather then a targetjs
  */
 
+
 var VismoController = function(targetjs,elem,options){ //elem must have style.width and style.height etM   
         
         if(elem.vismoController) throw "this already has a vismo controller!"
@@ -180,18 +181,30 @@ VismoController.prototype = {
         var doingmw = false;
         var mwactive = false;
         
-        jQuery(this.wrapper).mousedown(function(e){mwactive = true;
+        jQuery(this.wrapper).mousedown(function(e){
+            mwactive = true;
             this.style.cursor = "crosshair";
         });
-        jQuery(this.wrapper).mouseout(function(e){mwactive = false;this.style.cursor = "";});
+        jQuery(this.wrapper).mouseout(function(e){
+            var newTarget;
+            
+            if(e.toElement) newTarget = e.toElement;
+            else newTarget = e.relatedTarget;
+            
+            if(jQuery(newTarget,that.wrapper).length == 0){ //if not a child turn off
+                mwactive = false;this.style.cursor = "";
+            }
+        });
         var domw = function(e){
             if(!that.enabled) return;
 			/* thanks to http://adomas.org/javascript-mouse-wheel */
 			var delta = 0;
 
                         
-			if(!that.goodToTransform(e)) return false;
-			
+			if(!that.goodToTransform(e)) {
+			    doingmw = false;
+			    return false;
+			}
 			var t = VismoClickingUtils.resolveTargetWithVismo(e);
 		        
 
@@ -257,26 +270,24 @@ VismoController.prototype = {
             return false;
         };
 		var onmousewheel = function(e){		
-		    if(!mwactive) return;
+		    if(e.preventDefault)e.preventDefault();
+		    if (e && e.stopPropagation) //if stopPropagation method supported
+            e.stopPropagation();
+           
+            
+            e.cancelBubble=true;
+            
+		    if(!mwactive) return false;
 			if(!doingmw) {
 			    var f = function(){
 			        domw(e);
-			        if (e && e.stopPropagation) //if stopPropagation method supported
-                    e.stopPropagation();
-                    else
-                    e.cancelBubble=true;
-                    if(e.preventDefault)e.preventDefault();
                     return false;
 			    };
 			    window.setTimeout(f,50);
 			    doingmw = true;
             }
 
-			if (e && e.stopPropagation) //if stopPropagation method supported
-            e.stopPropagation();
-            else
-            e.cancelBubble=true;
-            if(e.preventDefault)e.preventDefault();
+
 			return false;
 
 		};
@@ -303,7 +314,7 @@ VismoController.prototype = {
 		}
 		else if (element.addEventListener){
 			element.onmousewheel = onmousewheel; //safari
-		        element.addEventListener('DOMMouseScroll', onmousewheel, false);/** DOMMouseScroll is for mozilla. */
+		    element.addEventListener('DOMMouseScroll', onmousewheel, false);/** DOMMouseScroll is for mozilla. */
 		
 		}
 		else if(element.attachEvent){ 	
@@ -426,7 +437,7 @@ VismoController.prototype = {
 			                if(parent == that.wrapper) return;
 			        }
 				
-				if(parent != that.wrapper)cancelPanning(e);
+				//if(parent != that.wrapper)cancelPanning(e); (not a good idea for tooltips)
 			}
 		});
 	
