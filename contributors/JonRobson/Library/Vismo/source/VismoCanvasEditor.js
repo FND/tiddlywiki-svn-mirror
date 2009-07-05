@@ -54,8 +54,10 @@ var VismoCanvasEditor = function(vismoCanvas,options){
         
         
         var nextID = 0;
-        
-        if(options.panzoom)new VismoController(vismoCanvas,vismoCanvas.getDomElement());
+        var handler = function(t){
+            vismoCanvas.transform(t);
+        }
+        if(options.panzoom)new VismoController(vismoCanvas.getDomElement(),{handler:handler});
     
         this.init();
         this.init_toolsettings();

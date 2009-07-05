@@ -36,7 +36,13 @@ var VismoMap = function(wrapper,options){
 	this.vismoClicking = new VismoCanvas(wrapper,options);
 	this._setupMouseHandlers();
 	
-	this.controller = new VismoController(this,this.wrapper,options.VismoController);
+	var that = this;
+	var handler = function(t){
+	    that.transform(t);
+	}
+	if(!options.VismoController) options.VismoController = {};
+	options.VismoController.handler = handler;
+	this.controller = new VismoController(this.wrapper,options.VismoController);
 
 		
 	//run stuff

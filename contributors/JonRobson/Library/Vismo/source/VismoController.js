@@ -6,17 +6,17 @@ Will be changed to take a handler parameter rather then a targetjs
  */
 
 
-var VismoController = function(targetjs,elem,options){ //elem must have style.width and style.height etM   
-        
+var VismoController = function(elem,options){ //elem must have style.width and style.height etM   
+    if(!options)options = {};
         if(elem.vismoController) throw "this already has a vismo controller!"
         elem.vismoController = this;              
 	this.enabledControls = [];
 
 	if(typeof elem == 'string') elem= document.getElementById(elem);
 	this.setLimits({});
-	if(!elem.style.position) elem.style.position = "relative";
+	if(!elem.style || !elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions
-	this.targetjs = targetjs; //a js object to run actions on (with pan and zoom functions)	
+	this.handler = options.handler; //a js object to run actions on (with pan and zoom functions)	
 	this.defaultCursor = "";
 	var md = elem.onmousedown;
 	var mu = elem.onmouseup;
@@ -65,7 +65,7 @@ var VismoController = function(targetjs,elem,options){ //elem must have style.wi
         var t = this.transformation;
 
 	//looks for specifically named function in targetjs
-	if(!this.targetjs.transform) alert("no transform function defined in " + targetjs+"!");
+	if(!this.handler) alert("no transform handler function defined");
 	this.wrapper.vismoController = this;
 	this.enabled = true;
 
@@ -456,7 +456,7 @@ VismoController.prototype = {
 		if(this.enabled){
 			if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
 			this.transformation = t;
-			this.targetjs.transform(t);
+			this.handler(t);
 		}
 		//console.log("transformation set to ",t);
 	},
@@ -656,7 +656,7 @@ VismoController.prototype = {
                                 if(s.x > lim.scale.x) t.scale.x = lim.scale.x;
 		        }
 		        
-		        this.targetjs.transform(this.transformation);
+		        this.handler(this.transformation);
 
 		}
 	},
