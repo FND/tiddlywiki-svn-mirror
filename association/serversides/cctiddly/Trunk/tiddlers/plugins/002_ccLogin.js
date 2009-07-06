@@ -91,7 +91,7 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 
 	if(w.formElem.username.value=='' || w.formElem.username.value == config.macros.ccLogin.defaults.username){
 		w.formElem.username.value = config.macros.ccLogin.defaults.username;
-		if(w.formElem.txtPassword.value=='') {
+		if(w.formElem.txtPassword.value=='' &&  config.macros.ccLogin.defaults.password!=null) {
 			w.formElem.txtPassword.value = config.macros.ccLogin.defaults.password;
 			w.formElem.password.value = Crypto.hexSha1Str(config.macros.ccLogin.defaults.password);
 		}
