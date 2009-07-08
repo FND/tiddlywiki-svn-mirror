@@ -11,6 +11,7 @@
 |''~CoreVersion:''|2.1.0|
 !Description
 Enables [[MediaWiki|http://www.mediawiki.org]]'s table markup in TiddlyWiki, allowing for multi-line contents within table cells.
+(Note that all TiddlyWiki markup still applies.)
 !Usage
 Detailed documentation available at [[MediaWiki.org|http://www.mediawiki.org/wiki/Help:Tables]].
 !!Examples
