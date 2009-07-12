@@ -94,12 +94,10 @@ var VismoOptimisations = {
 		if(!transformation ||!transformation.scale) return false;
 		var g = vismoShape.getBoundingBox();
 		var s = transformation.scale;
-		var t1 = g.x2 -g.x1;
-		var t2 =g.y2- g.y1;
-		var delta = {x:t1,y:t2};
-		delta.x *= s.x;
-		delta.y *= s.y;
-		if(delta.x < 5 && delta.y < 5) 
+		var t1 = (g.x2 -g.x1) * s.x;
+		var t2 =(g.y2- g.y1) * s.y;
+
+		if(t2 < 5 && t1 < 5) 
 			{return true;}//too small
 		else
 			return false;

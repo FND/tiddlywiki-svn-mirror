@@ -1,3 +1,27 @@
+var VismoPurger = function(node){
+	var children = node.childNodes;
+	var res = 0;
+	
+	for(var i=0; i < children.length; i++){
+		res += VismoPurger(children[i]);
+	}
+	res += 1;
+	var name;
+	if(node.attributes){
+	for(var j=0; j < node.attributes.length; j++){
+		name = node.attributes[j].name;
+		if(typeof node[j] === 'function'){
+		node[j] = null;
+
+		}
+	}
+}
+jQuery(node).html("");
+node = null;
+
+return res;
+
+};
 Array.prototype.contains = function(item)
 {
 	return this.indexOf(item) != -1;
@@ -120,6 +144,20 @@ var VismoUtils = {
 			res.push([x,-y]);
 		}
 		return res;
+	},
+	
+	mergejsons: function(prop1,prop2){
+	    
+	    var res = {};
+	    var i;
+	    for(i in prop1){
+	        res[i] = prop1[i];
+	    }
+	    for(i in prop2){
+	        res[i] = prop1[i];
+	    }
+	    return res;
+	    
 	}
 };
 
@@ -206,11 +244,17 @@ var VismoShape = function(properties,coordinates){
 };
 
 
+
 VismoShape.prototype={
         clone: function(){
                 var coords = this.getCoordinates("normal");
                 var props = this.getProperties();
-                return new VismoShape(props,coords);
+                try{
+                    return new VismoShape(props,coords);
+                }
+                finally{
+                    return false;
+                }
         }
 	,getShape: function(){
 		return this.getProperty("shape");
@@ -234,7 +278,8 @@ VismoShape.prototype={
 	}
 
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
-		var st = this.getShape();
+	    var t1 = new Date();
+	    var st = this.getShape();
 		if(this.getProperty("hidden")){
 		        if(this.vml)this.vml.clear();
 		        return;
@@ -274,6 +319,8 @@ VismoShape.prototype={
 			VismoCanvasRenderer.renderShape(canvas,vismoShape);
 			ctx.restore();
 		}
+		var t2= new Date();
+		VismoTimer["VismoShape_render"] += (t2-t1);
 			
 	}
 	,getTransformation: function(){
@@ -623,10 +670,13 @@ VismoShape.prototype={
 
 
 	,optimise: function(canvas,transformation,projection){
-	        if(this.getShape() == "path") return true;
-		if(transformation && transformation.scale) this.currentResolution = Math.min(transformation.scale.x, transformation.scale.y);
-		var shapetype = this.getProperty("shape");
-		if(projection) this._applyProjection(projection,transformation);
+	    var t1 = new Date();
+	    var shapetype = this.properties.shape;
+	    if(shapetype == "path") return true;
+		if(transformation && transformation.scale) {
+		    this.currentResolution = Math.min(transformation.scale.x, transformation.scale.y);
+		}
+		if(projection) {this._applyProjection(projection,transformation);}
 		
 		if(shapetype != 'point' && shapetype != 'path' && shapetype !="domElement"){ //check if worth drawing				
 			if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
@@ -641,10 +691,24 @@ VismoShape.prototype={
 			
 			return false;	
 		}
-		
+		var t2 = new Date();
+		VismoTimer.optimise += (t2 -t1);
 		return true;
 	}
-
+	,optimise_ie: function(canvas,transformation,projection){	
+		if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
+				if(this.vml)this.vml.clear();
+				
+				return false;		
+		}
+		
+		if(!VismoOptimisations.vismoShapeIsInVisibleArea(this,canvas,transformation)){
+			if(this.vml)this.vml.clear();	
+			return false;	
+		}
+		return true;
+	}
+	
 	,_simplifyCoordinates: function(scaleFactor,coordinates){// **
 		
 		if(this.getProperty("shape") == 'path') return coordinates;

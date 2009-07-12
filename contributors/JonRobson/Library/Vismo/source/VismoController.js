@@ -9,7 +9,7 @@ Will be changed to take a handler parameter rather then a targetjs
 var VismoController = function(elem,options){ //elem must have style.width and style.height etM   
     if(!options)options = {};
         if(elem.vismoController) throw "this already has a vismo controller!"
-        elem.vismoController = this;              
+        elem.vismoController = true;// this;              
 	this.enabledControls = [];
 
 	if(typeof elem == 'string') elem= document.getElementById(elem);
@@ -23,9 +23,14 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 	var mm = elem.onmousemove;
 	for(var i=0; i < elem.childNodes.length; i++){
 		var child = elem.childNodes[i];
+	    try{
 		child.onmousedown = function(e){if(md)md(e);}
 		child.onmouseup = function(e){if(mu)mu(e);}
 		child.onmousemove = function(e){if(mm)mm(e);}
+		}
+		catch(e){
+		    
+		}
 	}
         
 	controlDiv = document.createElement('div');
@@ -37,7 +42,7 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 	this.wrapper.appendChild(controlDiv);
 	this.controlDiv = controlDiv;
         this.controlCanvas = new VismoCanvas(this.controlDiv);
-	this.controlDiv.vismoController = this;
+	//this.controlDiv.vismoController = this;
 	var vismoController = this;
 	var preventDef = function(e){
                 if (e && e.stopPropagation) //if stopPropagation method supported
@@ -52,7 +57,7 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 	};
 	this.controlCanvas.setOnMouse(preventDef,f,preventDef,preventDef,preventDef);
 
-	this.wrapper.vismoController = this;
+	//this.wrapper.vismoController = this;
 	
 	
 
@@ -66,7 +71,7 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 
 	//looks for specifically named function in targetjs
 	if(!this.handler) alert("no transform handler function defined");
-	this.wrapper.vismoController = this;
+	//this.wrapper.vismoController = this;
 	this.enabled = true;
 
 
@@ -74,8 +79,16 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 	if(!options.controls)options.controls =['pan','zoom','mousepanning','mousewheelzooming'];
 	this.options = options;
 	this.addControls(this.options.controls);
-	this.limits = {};
-	if(this.options.maxZoom) this.limits.scale = {x:this.options.maxZoom,y:this.options.maxZoom};
+	this.limits = {scale:{}};
+	if(this.options.maxZoom) {
+	    this.limits.scale.x =this.options.maxZoom;
+	    this.limits.scale.y = this.options.maxZoom;
+    }
+    if(this.options.minZoom){
+        
+        this.limits.scale.minx =this.options.minZoom;
+         this.limits.scale.miny =this.options.minZoom;
+    }
 
 
 };
@@ -140,7 +153,7 @@ VismoController.prototype = {
 
         	
 	}
-	,getTransformation: function(){
+	,getTransformation: function(){ 
 		return this.transformation;
 	}
 	,translate: function(x,y){
@@ -155,22 +168,9 @@ VismoController.prototype = {
 	
 		this.crosshair = {lastdelta:false};
 		this.crosshair.pos = {x:0,y:0};
-		if(!this.crosshair.el){
-		this.crosshair.el =document.createElement("div");
-		jQuery(this.crosshair.el).css({position:"absolute",display:"none"});
-		
-		this.crosshair.el.className = "vismoController_crosshair";
-		this.crosshair.el.appendChild(document.createTextNode("+"));
-		this.crosshair.el.style.zIndex = 3;
+
 		var t = this.getTransformation();
-		this.crosshair.el.style.left = parseInt(t.origin.x-5) + "px";
-		this.crosshair.el.style.top = parseInt(t.origin.y-5) + "px";
-		this.crosshair.el.style.width = "10px";
-		this.crosshair.el.style.height = "10px";
-		this.crosshair.el.style.verticalAlign = "middle";
-		this.crosshair.el.style.textAlign = "center";
-		this.wrapper.appendChild(this.crosshair.el);
-		}
+
 		var mw = this.wrapper.onmousewheel;
 		
 
@@ -240,9 +240,7 @@ VismoController.prototype = {
 											y: mousepos.y
 										};
 			
-			that.crosshair.el.style.left = mousepos.x + "px";
-			that.crosshair.el.style.top = mousepos.y + "px";
-	
+
 
 
 			if(delta > that.crosshair.lastdelta + sensitivity || delta < that.crosshair.lastdelta - sensitivity){	
@@ -269,13 +267,13 @@ VismoController.prototype = {
             doingmw = false;
             return false;
         };
-		var onmousewheel = function(e){		
-		    if(e.preventDefault)e.preventDefault();
-		    if (e && e.stopPropagation) //if stopPropagation method supported
-            e.stopPropagation();
-           
-            
-            e.cancelBubble=true;
+		var onmousewheel = function(e){	
+		    	
+		    if(e.preventDefault){e.preventDefault();}
+		    if (e && e.stopPropagation) {
+                e.stopPropagation();
+            }
+             e.cancelBubble=true;
             
 		    if(!mwactive) return false;
 			if(!doingmw) {
@@ -294,7 +292,7 @@ VismoController.prototype = {
 
 		
 		var element = this.wrapper;
-                if(VismoUtils.browser.isIE) {
+            if(VismoUtils.browser.isIE) {
 		        document.onmousewheel = function(e){
 		                if(!e)e = window.event;
 		                var el =  e.srcElement;
@@ -313,6 +311,7 @@ VismoController.prototype = {
 		        return;
 		}
 		else if (element.addEventListener){
+
 			element.onmousewheel = onmousewheel; //safari
 		    element.addEventListener('DOMMouseScroll', onmousewheel, false);/** DOMMouseScroll is for mozilla. */
 		
@@ -363,22 +362,22 @@ VismoController.prototype = {
 		
 		var cancelPanning = function(e){
 			panning_status = false;
-			
-			if(!VismoUtils.browser.isIE)jQuery(that.wrapper).removeClass("panning");
+			that.transform();
+			if(!VismoUtils.browser.isIE){jQuery(that.wrapper).removeClass("panning");}
 			//style.cursor= that.defaultCursor;
 			that.wrapper.onmousemove = mm;
 			return false;
 		};
 		var onmousemove = function(e){
-
-			if(mm)mm(e);
-			if(!that.enabled) return;
+            if(e && e.shiftKey) {return false;}
+			if(mm){mm(e);}
+			if(!that.enabled) {return;}
 			if(!panning_status) {
 				return;
 			}
-			if(!that.goodToTransform(e)) return;
+			if(!that.goodToTransform(e)) {return;}
 			var pos =  VismoClickingUtils.getMouseFromEventRelativeToElement(e,panning_status.clickpos.x,panning_status.clickpos.y,panning_status.elem);		
-			if(!pos)return;
+			if(!pos){return;}
 			
 			var t = that.getTransformation();
 			//if(this.transformation) t = this.transformation;
@@ -389,9 +388,10 @@ VismoController.prototype = {
 			var yd = parseFloat(pos.y / sc.y);
 			t.translate.x = panning_status.translate.x + xd;
 			t.translate.y =panning_status.translate.y +yd;
-
-                        that.setTransform
-			that.transform();
+            if(!VismoUtils.browser.isIE){
+                that.transform();
+            }
+			//that.transform();
 			
 			if(pos.x > 5  || pos.y > 5) panning_status.isClick = false;
 			if(pos.x < 5|| pos.y < 5) panning_status.isClick = false;
@@ -414,7 +414,7 @@ VismoController.prototype = {
 			
 			var realpos = VismoClickingUtils.getMouseFromEvent(e);
 			if(!realpos) return;
-			this.vismoController = that;
+			//this.vismoController = that;
 
 			var element = VismoClickingUtils.resolveTargetWithVismo(e);
 			
@@ -431,6 +431,7 @@ VismoController.prototype = {
 		
 		jQuery(document).mousemove(function(e){
 			if(panning_status){
+			        onmousemove(e);
 			        var parent= e.target;
 			        while(parent.parentNode){
 			                parent = parent.parentNode;
@@ -443,9 +444,14 @@ VismoController.prototype = {
 	
 	},
 	setTransformation: function(t){
-        if(this.limits && this.limits.scale){
-            if(t.scale.x > this.limits.scale.x) t.scale.x = this.limits.scale.x;
-            if(t.scale.y > this.limits.scale.y) t.scale.y = this.limits.scale.y;            
+        if(this.limits){
+            if(this.limits.scale){
+            if(t.scale.x > this.limits.scale.x){ t.scale.x = this.limits.scale.x;}
+            if(t.scale.y > this.limits.scale.y){ t.scale.y = this.limits.scale.y; }
+            
+            if(t.scale.x < this.limits.scale.minx){ t.scale.x = this.limits.scale.minx;}
+            if(t.scale.y < this.limits.scale.miny){ t.scale.y = this.limits.scale.miny;}     
+            }    
         }
         if(!t.origin){
                 var w = jQuery(this.wrapper).width();
@@ -651,11 +657,15 @@ VismoController.prototype = {
                         var ok = true;
                         var lim = this.limits;
                         if(lim.scale){
+                                if(s.y < lim.scale.miny) t.scale.y = lim.scale.miny;
+                                if(s.x < lim.scale.minx) t.scale.x = lim.scale.minx;
                                 
                                 if(s.y > lim.scale.y) t.scale.y = lim.scale.y;
                                 if(s.x > lim.scale.x) t.scale.x = lim.scale.x;
 		        }
-		        
+		        //remove origin?
+		        //var translatex = t.origin.x+ (t.translate.x * t.scale.x);
+                //var translatey = t.origin.y+ (t.translate.y *t.scale.y);
 		        this.handler(this.transformation);
 
 		}

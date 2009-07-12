@@ -16,13 +16,14 @@ var VismoMap = function(wrapper,options){
 	else wrapper = wrapper;
 		
 	this.wrapper = wrapper;
-	wrapper.vismoMap = this;
+	//wrapper.vismoMap = this;
 	wrapper.style.position = "relative";
 	var that = this;
 	this.settings = {};
-	if(!wrapper.style.width) wrapper.style.width = "600px";
-	if(!wrapper.style.height) wrapper.style.height= "200px";
-		
+	var w= jQuery(wrapper).width();
+	var h= jQuery(wrapper).height();
+	jQuery(wrapper).css({width:w,height:h});
+	
 	this.feature_reference = {};
 	if(!options) options = {};
 	if(options.tooltip){
@@ -84,7 +85,10 @@ VismoMap.prototype = {
 	},
 	
 	drawFromGeojson: function(geojson,autosize){
-
+            //if ie 6
+            //geojson =VismoMapUtils.optimiseForIE6(geojson);
+            
+            
 			if(typeof geojson == 'string'){
 				geojson = eval('(' +geojson+ ')');
 			}
@@ -165,6 +169,9 @@ VismoMap.prototype = {
 
 	,redraw: function(){
 		this.render();	
+
+	    //alert("average VML render"+ VismoVector.rstats);
+	    //alert("total average VML render time"+ VismoVector.rstats * VismoVector.rnum);
 	},
 		
 	transform: function(transformation){
@@ -196,9 +203,12 @@ VismoMap.prototype = {
 		}
 			
 		
-		
-		this.vismoClicking.setTransformation(this.transformation);
-		this.redraw();
+		var that = this;
+		var f = function(){
+		    that.vismoClicking.setTransformation(that.transformation);
+		    that.redraw();
+		}
+		window.setTimeout(f,0);
 
 	},
 

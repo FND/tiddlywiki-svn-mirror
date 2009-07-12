@@ -591,7 +591,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			});
 			
 			jQuery(holder).append("<div class='leftcol'></div><div class='rightcol'></div>");
-			jQuery(".leftcol",holder).append(form);
+			
 			form.setAttribute("action",uploader+"?postbackto="+filename.id);
 			
 	
@@ -604,8 +604,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				image.src = newsrc;
 				if(handler)handler(newsrc);
 			};
-			if(initial)filename.value = initial;			
-			jQuery(".rightcol",holder).append(filename);
+			if(initial)filename.value = initial;	
+			jQuery(".rightcol",holder).append(form);
+			jQuery(".leftcol",holder).append("File url:")		
+			jQuery(".leftcol",holder).append(filename);
 			jQuery(".rightcol",holder).append("<div class='browserarea' style='position:relative;'><input type='button' class='browsebutton' value='browse'><div class='filebrowser' style='position:absolute;display:none;z-index:200'></div></div>");
 			var bb = jQuery(".browsebutton",holder);
 			bb.click(function(e){

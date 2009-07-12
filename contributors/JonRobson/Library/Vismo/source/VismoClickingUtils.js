@@ -35,7 +35,7 @@ var VismoClickingUtils = {
 		if(!e) e = window.event;
 		var obj;
 		
-		if(e.srcElement)
+		if(e && e.srcElement)
 			obj = e.srcElement;
 	        else if(e.target)
         	        obj = e.target;

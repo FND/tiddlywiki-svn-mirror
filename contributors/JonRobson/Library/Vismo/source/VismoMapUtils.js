@@ -2,9 +2,44 @@
 /*
 Some common utils used throughout package 
 */
-
 var VismoMapUtils = {
 	googlelocalsearchurl: "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="
+	
+	,optimiseForIE6: function(geojson){
+      	var newf = [];
+        for(var i=0; i < geojson.features.length;i++){
+            var f = geojson.features[i];
+            var coordinates = f.geometry.coordinates;
+
+
+            var newc = [];
+            
+            var good = false;
+            
+            if(coordinates.length <2){
+                good = true;
+            }
+            for(var j=0; j < coordinates.length; j++){
+                var c1 = coordinates[j];
+                
+            }
+            
+            var bb = f.geometry.bbox;
+            if(bb){
+                var dx = bb[2] - bb[0]; var dy= bb[3]- bb[1]; if(dy<0)dy =-dy;if(dx<0)dx =-dx;
+                if(dx < 1 || dy < 1){
+                    good =false;
+                }
+            }
+            
+            if(good){
+                newf.push(f);
+            }
+        }
+        geojson.features= newf;
+        return geojson;
+	
+	}
 	,addBoundingBoxes: function(geojson){ //currently MultiPolygon only..
 		var geojsonbb = geojson;
 		for(var i=0; i < geojson.features.length; i++){
