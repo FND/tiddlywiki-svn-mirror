@@ -1,0 +1,71 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-weight:normal;font-style:normal;text-align:left;font-family:inherit;}table{border-collapse:collapse;border-spacing:0;}ol,ul{list-style:none;}q:before,q:after,blockquote:before,blockquote:after{content:"";}
+body { font-family: sans-serif; }
+/*
+textarea { display: block; margin: 1em 0; padding: 0.5em; width: 90%; }
+.commentsContainer { padding: 1em; }
+.standaloneCommentsContainer { margin: 1em; }
+.embeddedCommentsContainer .pageInfo { display: none; }
+.commentsArea .pageInfo { margin-bottom: 1.5em; }
+.commentsArea .replyLink, .commentsArea .closeNewReply { color: #008; text-decoration: underline; cursor: pointer; }
+.commentsArea .reply { margin-top: 0.4em; }
+.commentsArea h2 { margin-bottom: 0.2em; }
+.commentsArea h3 { margin-bottom: 0.8em; }
+.commentsArea h3 a { font-size: 0.5em; }
+.comments { margin: 1em 0 1em 1em; }
+.comment { padding: 0.5em; width: 90%; }
+/* .comment { border: 1px solid black; } */
+
+/*
+body { background: #ddd; }
+.embeddedCommentsContainer { background: #ddd; padding: 1em; font-size: 16px; height: 100%; }
+.embeddedCommentsContainer .allComments { background: #eff; }
+.embeddedCommentsContainer .newCommentContainer { width: 100%; overflow-x: hidden; }
+.embeddedCommentsContainer textarea { border: 0; padding: 0.5em; width: 100%; }
+
+*/
+
+.commentsArea { }
+
+.comments h1 { margin-bottom: 0; padding-bottom: 0; }
+.comments { padding: 0; }
+.comment .comments { margin-left: 2em; }
+
+.comment { padding: 0; margin: 1em 0 0; }
+.comment .comment { margin 0; }
+.comment .toolbar .button { border: 0; color: #9a4; }
+.comment .heading { background: #8cf; color: #014; border-bottom: 1px solid #18f; border-right: 1px solid #18f; padding: 0.5em 0.5em 0.25em; height: 1.3em; 
+                    font-size: small; }
+.commenterMessage { float: left; }
+.permalink { float: left; margin-right: 0.5em; }
+.permalink:hover { text-decoration: underline; cursor: pointer; }
+.commentText { clear: both; padding: 1em 1em; }
+.deleteComment { float: right; cursor: pointer; text-decoration:none; color:#841; padding-right: 0.3em; }
+.comment .reply { margin-left: 1em; }
+.comment .replyLink { color:#841; font-style: italic; font-size: small;
+                     cursor: pointer; text-decoration: underline; width: 1em; margin: 0 auto 0 1em; }
+.comment .created { }
+.comment .newReply { color:#841; margin-top: 1em; }
+.commentsArea td { text-align: right; padding: 0.3em; }
+
+.newReplyLabel { float: left; }
+.closeNewReply { cursor: pointer; float: right; text-decoration: underline; }
+.commentsArea .commentWrapper { margin: 5px 0; padding: 3px; border: 1px solid #999; background: white; }
+.commentsArea textarea { width: 100%; border: 0; }
+.commentsArea button { margin-top: 0.3em; margin-left: 0; }
+.newCommentArea { margin-top: 1em; }
+.newCommentLink { font-size: x-small; }
+
+.commentsLoginArea { margin: 0.5em 0; }
+
+.clearance { clear: both; height: 1px; }
+a,a:visited { color: #00b; }
+
+.standaloneCommentsContainer { padding: 1em 10%; }
+
+.embeddedCommentsContainer { padding: 1em 0.7em; }
+.embeddedCommentsContainer .comment .comments { margin-left: 1em; }
+.embeddedCommentsContainer .pageInfo { display: none; }
+
+.pseudoLink { color: #00b; cursor: pointer; }
+
+h2 a { font-size: x-small; }

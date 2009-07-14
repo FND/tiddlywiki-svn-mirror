@@ -1,0 +1,18 @@
+Sorry, this is brief right now.
+
+PREREQUISITES
+
+Install tiddlyweb. Probably the simplest path is "easy_install -U tiddlyweb". See http://tiddlyweb.peermore.com/wiki/ for the gory details of TiddlyWeb installation and deployment.
+
+INSTALLING SCRUMPTIOUS
+
+* Follow general instructions for installing a tiddlyweb app, using wsgi and apache.py (that's how I did it anyway; I also got a CGI setup working at one stage, which is nice if you don't have root access, but if you do, WSGI will make your life easier right now.) You will want settings like the following if you are using the preferred WSGI approach.
+
+  WSGIDaemonProcess scrumptious.softwareas.com user=software processes=2 threads=15
+  WSGIProcessGroup scrumptious.softwareas.com
+  WSGIScriptAlias /comments /path/to/scrumptious/apache.py
+
+  (/path/to/scrumptious is the directory containing apache.py, tiddlywebconfig.py, store/ directory, etc.; ie it's the scrumptious/ directory that comes out when you explode the tarball)
+
+* Edit tiddlywebconfig.py - you will need to change server_host, and optionally server_prefix. server_prefix should match up with the setting you used in apache's httpd.conf setup, and if you do change the prefix, you must also change the ROOT parameter in static/js/comments.js to be the same as the server_prefix.
+* Point your browser at http://scrumptious.softwareas.com/static/comments/index.html . This is the distribution URL for scrumptious. Or you can link to a CGI parameter for comments about a specific URL http://scrumptous.softwareas.com/static/comments/index.html?pageURL=http://google.com
