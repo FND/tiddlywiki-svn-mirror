@@ -1,0 +1,11 @@
+modifier: mike
+created: 
+modified: 20090622174752
+type: None
+tags: licenseDimension
+license: GPL 3.0
+dimension: usage
+stage: public
+
+* The products team have used the GPL 3.0 licensed AbsolutelyAmazingDB.
+* The front-end team released their painting toolkit under GPL 3.0.

@@ -87,19 +87,20 @@ class Challenger(ChallengerInterface):
           store.delete(private_recipe)
       except NoRecipeError:
           # dont care
-          print "dont care"
+          x=1
+          # print "dont care"
       portal_recipe = Recipe("portal")
       store.get(portal_recipe)
-      print "PORTAL RECIPE"
-      print portal_recipe
+      # print "PORTAL RECIPE"
+      # print portal_recipe
       private_recipe_list = portal_recipe.get_recipe()
-      print "THE LIST"
-      print private_recipe_list
+      # print "THE LIST"
+      # print private_recipe_list
       private_recipe_list.append(['private-'+username, ""])
       private_recipe_list.append(['protected-'+username, ""])
       # private_recipe_list.append(['public-'+username, ""])
-      print "THE LIST"
-      print private_recipe_list
+      # print "THE LIST"
+      # print private_recipe_list
       private_recipe.set_recipe(private_recipe_list)
       store.put(private_recipe)
 
@@ -148,8 +149,8 @@ h1 { margin: 0; }
                 import re
                 uri = re.sub("/recipes/portal(-.*)?/", "/recipes/portal-"+username+"/", uri)
                 # uri = uri.replace("/recipes/portal/",
-                print "USERNAME" + username
-                print "URI" + uri
+                # print "USERNAME" + username
+                # print "URI" + uri
                 cookie = Cookie.SimpleCookie()
                 secret_string = sha('%s%s' % (user.usersign, secret)).hexdigest()
                 cookie['tiddlyweb_user'] = '%s:%s' % (user.usersign, secret_string)

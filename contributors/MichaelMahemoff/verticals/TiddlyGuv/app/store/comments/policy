@@ -1,1 +1,1 @@
-{"read": [], "create": [], "manage": ["NONE"], "write": ["admin", "bob"], "owner": null, "delete": ["admin", "bob"]}
+{"read": [], "create": [], "manage": ["bob"], "write": ["admin", "bob"], "owner": null, "delete": ["admin", "bob"]}

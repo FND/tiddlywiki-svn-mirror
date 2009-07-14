@@ -1,0 +1,1468 @@
+2009-07-06 16:23:43,641 DEBUG    TiddlyWeb starting up as /usr/local/bin/twanager
+2009-07-06 16:23:43,707 DEBUG    attempting to import twanager plugin tiddlyweb.fromsvn
+2009-07-06 16:23:44,183 DEBUG    attempting to import twanager plugin tiddlyweb.instancer
+2009-07-06 16:23:44,184 DEBUG    running command server with ['tiddlyguv.dev', '9090']
+2009-07-06 16:23:44,381 DEBUG    attempt to import system plugin methodhack
+2009-07-06 16:23:44,381 DEBUG    wrapping app with <class 'tiddlyweb.web.negotiate.Negotiate'>
+2009-07-06 16:23:44,381 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.Header'>
+2009-07-06 16:23:44,381 DEBUG    wrapping app with <class 'tiddlyweb.web.extractor.UserExtract'>
+2009-07-06 16:23:44,381 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.StoreSet'>
+2009-07-06 16:23:44,382 DEBUG    wrapping app with <class 'methodhack.MethodHack'>
+2009-07-06 16:23:44,382 DEBUG    wrapping app with <class 'tiddlyweb.web.query.Query'>
+2009-07-06 16:23:44,382 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Environator'>
+2009-07-06 16:23:44,382 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Configurator'>
+2009-07-06 16:23:44,382 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.HTMLPresenter'>
+2009-07-06 16:23:44,382 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.PermissionsExceptor'>
+2009-07-06 16:23:44,382 DEBUG    wrapping app with <class 'tiddlyweb.web.http.HTTPExceptor'>
+2009-07-06 16:23:44,382 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.EncodeUTF8'>
+2009-07-06 16:23:44,382 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.SimpleLog'>
+2009-07-06 16:23:44,383 DEBUG    starting cherrypy at tiddlyguv.dev:9090
+2009-07-06 16:23:46,810 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-06 16:23:46,811 DEBUG    overriding GET method to GET
+2009-07-06 16:23:46,937 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-06 16:23:46,937 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-06 16:23:46,937 INFO     ::1 - GUEST [06/Jul/2009:16:23:46 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-06 16:23:50,075 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes" and query ""
+2009-07-06 16:23:50,076 DEBUG    overriding GET method to GET
+2009-07-06 16:23:50,076 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-06 16:23:50,076 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-06 16:23:50,079 INFO     ::1 - GUEST [06/Jul/2009:16:23:50 ] "GET /recipes HTTP/1.1" 200 - "http://tiddlyguv.dev:9090/" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-06 16:23:51,869 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/portal-mike" and query ""
+2009-07-06 16:23:51,869 DEBUG    overriding GET method to GET
+2009-07-06 16:23:51,869 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-06 16:23:51,870 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-06 16:23:51,871 INFO     ::1 - GUEST [06/Jul/2009:16:23:51 ] "GET /recipes/portal-mike HTTP/1.1" 200 - "http://tiddlyguv.dev:9090/recipes" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-06 16:23:54,111 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/portal-mike/tiddlers" and query ""
+2009-07-06 16:23:54,111 DEBUG    overriding GET method to GET
+2009-07-06 16:23:54,112 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-06 16:23:54,112 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-06 16:23:54,549 INFO     ::1 - GUEST [06/Jul/2009:16:23:54 ] "GET /recipes/portal-mike/tiddlers HTTP/1.1" 200 - "http://tiddlyguv.dev:9090/recipes/portal-mike" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-06 16:23:56,448 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/portal-mike/tiddlers.wiki" and query ""
+2009-07-06 16:23:56,449 DEBUG    overriding GET method to GET
+2009-07-06 16:23:56,449 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-06 16:23:56,449 DEBUG    negotiating for accept and extensions ['text/x-tiddlywiki', 'text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-06 16:23:57,523 INFO     ::1 - GUEST [06/Jul/2009:16:23:57 ] "GET /recipes/portal-mike/tiddlers.wiki HTTP/1.1" 200 - "http://tiddlyguv.dev:9090/recipes/portal-mike/tiddlers" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-06 16:24:03,522 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/challenge" and query "tiddlyweb_redirect=/recipes/portal/tiddlers.wiki"
+2009-07-06 16:24:03,522 DEBUG    overriding GET method to GET
+2009-07-06 16:24:03,523 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-06 16:24:03,523 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-06 16:24:03,523 INFO     ::1 - GUEST [06/Jul/2009:16:24:03 ] "GET /challenge?tiddlyweb_redirect=/recipes/portal/tiddlers.wiki HTTP/1.1" 302 - "http://tiddlyguv.dev:9090/recipes/portal-mike/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-06 16:24:03,706 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/challenge/ldap" and query "tiddlyweb_redirect=%2Frecipes%2Fportal%2Ftiddlers.wiki"
+2009-07-06 16:24:03,706 DEBUG    overriding GET method to GET
+2009-07-06 16:24:03,706 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-06 16:24:03,707 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-06 16:24:03,801 INFO     ::1 - GUEST [06/Jul/2009:16:24:03 ] "GET /challenge/ldap?tiddlyweb_redirect=%2Frecipes%2Fportal%2Ftiddlers.wiki HTTP/1.1" 200 - "http://tiddlyguv.dev:9090/recipes/portal-mike/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-06 16:24:07,895 DEBUG    starting "POST" request with uri "None", script_name "", path_info "/challenge/ldap" and query "tiddlyweb_redirect=%2Frecipes%2Fportal%2Ftiddlers.wiki"
+2009-07-06 16:24:07,895 DEBUG    overriding POST method to POST
+2009-07-06 16:24:07,895 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-06 16:24:07,895 DEBUG    negotiating for content-type application/x-www-form-urlencoded
+2009-07-06 16:24:07,896 INFO     ::1 - GUEST [06/Jul/2009:16:24:07 ] "POST /challenge/ldap?tiddlyweb_redirect=%2Frecipes%2Fportal%2Ftiddlers.wiki HTTP/1.1" 303 - "http://tiddlyguv.dev:9090/challenge/ldap?tiddlyweb_redirect=%2Frecipes%2Fportal%2Ftiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-06 16:24:07,918 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/portal-mike/tiddlers.wiki" and query ""
+2009-07-06 16:24:07,918 DEBUG    overriding GET method to GET
+2009-07-06 16:24:07,918 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false; tiddlyweb_user="mike:713b9e83b2ff7528259c38f59b29462a7f545f36"
+2009-07-06 16:24:07,919 DEBUG    UserExtract:simple_cookie found {'name': u'mike', 'roles': []}
+2009-07-06 16:24:07,919 DEBUG    negotiating for accept and extensions ['text/x-tiddlywiki', 'text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-06 16:24:07,981 INFO     ::1 - mike [06/Jul/2009:16:24:07 ] "GET /recipes/portal-mike/tiddlers.wiki HTTP/1.1" 304 - "http://tiddlyguv.dev:9090/challenge/ldap?tiddlyweb_redirect=%2Frecipes%2Fportal%2Ftiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-06 16:28:54,775 DEBUG    TiddlyWeb starting up as /usr/local/bin/twanager
+2009-07-06 16:28:54,781 DEBUG    attempting to import twanager plugin tiddlyweb.fromsvn
+2009-07-06 16:28:54,898 DEBUG    attempting to import twanager plugin tiddlyweb.instancer
+2009-07-06 16:28:54,898 DEBUG    running command server with ['tiddlyguv.dev', '9090']
+2009-07-06 16:28:54,929 DEBUG    attempt to import system plugin methodhack
+2009-07-06 16:28:54,930 DEBUG    wrapping app with <class 'tiddlyweb.web.negotiate.Negotiate'>
+2009-07-06 16:28:54,930 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.Header'>
+2009-07-06 16:28:54,930 DEBUG    wrapping app with <class 'tiddlyweb.web.extractor.UserExtract'>
+2009-07-06 16:28:54,930 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.StoreSet'>
+2009-07-06 16:28:54,930 DEBUG    wrapping app with <class 'methodhack.MethodHack'>
+2009-07-06 16:28:54,930 DEBUG    wrapping app with <class 'tiddlyweb.web.query.Query'>
+2009-07-06 16:28:54,930 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Environator'>
+2009-07-06 16:28:54,931 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Configurator'>
+2009-07-06 16:28:54,931 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.HTMLPresenter'>
+2009-07-06 16:28:54,931 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.PermissionsExceptor'>
+2009-07-06 16:28:54,931 DEBUG    wrapping app with <class 'tiddlyweb.web.http.HTTPExceptor'>
+2009-07-06 16:28:54,931 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.EncodeUTF8'>
+2009-07-06 16:28:54,931 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.SimpleLog'>
+2009-07-06 16:28:54,931 DEBUG    starting cherrypy at tiddlyguv.dev:9090
+2009-07-06 16:28:59,693 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/portal-mike/tiddlers.wiki" and query ""
+2009-07-06 16:28:59,693 DEBUG    overriding GET method to GET
+2009-07-06 16:28:59,711 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false; tiddlyweb_user="mike:713b9e83b2ff7528259c38f59b29462a7f545f36"
+2009-07-06 16:28:59,712 DEBUG    UserExtract:simple_cookie found {'name': u'mike', 'roles': []}
+2009-07-06 16:28:59,712 DEBUG    negotiating for accept and extensions ['text/x-tiddlywiki', 'text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-06 16:28:59,882 INFO     ::1 - mike [06/Jul/2009:16:28:59 ] "GET /recipes/portal-mike/tiddlers.wiki HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:20:18,056 DEBUG    TiddlyWeb starting up as /usr/local/bin/twanager
+2009-07-07 22:20:18,209 DEBUG    attempting to import twanager plugin tiddlyweb.fromsvn
+2009-07-07 22:20:18,903 DEBUG    attempting to import twanager plugin tiddlyweb.instancer
+2009-07-07 22:20:18,905 DEBUG    running command server with ['tiddlyguv.dev', '9090']
+2009-07-07 22:20:19,180 DEBUG    attempt to import system plugin methodhack
+2009-07-07 22:20:19,190 DEBUG    wrapping app with <class 'tiddlyweb.web.negotiate.Negotiate'>
+2009-07-07 22:20:19,190 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.Header'>
+2009-07-07 22:20:19,191 DEBUG    wrapping app with <class 'tiddlyweb.web.extractor.UserExtract'>
+2009-07-07 22:20:19,191 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.StoreSet'>
+2009-07-07 22:20:19,191 DEBUG    wrapping app with <class 'methodhack.MethodHack'>
+2009-07-07 22:20:19,191 DEBUG    wrapping app with <class 'tiddlyweb.web.query.Query'>
+2009-07-07 22:20:19,191 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Environator'>
+2009-07-07 22:20:19,191 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Configurator'>
+2009-07-07 22:20:19,192 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.HTMLPresenter'>
+2009-07-07 22:20:19,192 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.PermissionsExceptor'>
+2009-07-07 22:20:19,192 DEBUG    wrapping app with <class 'tiddlyweb.web.http.HTTPExceptor'>
+2009-07-07 22:20:19,192 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.EncodeUTF8'>
+2009-07-07 22:20:19,192 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.SimpleLog'>
+2009-07-07 22:20:19,193 DEBUG    starting cherrypy at tiddlyguv.dev:9090
+2009-07-07 22:20:28,095 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:20:28,095 DEBUG    overriding GET method to GET
+2009-07-07 22:20:28,320 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:20:28,321 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:20:28,321 INFO     ::1 - GUEST [07/Jul/2009:22:20:28 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:20:33,578 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:20:33,578 DEBUG    overriding GET method to GET
+2009-07-07 22:20:33,578 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:20:33,579 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:20:33,579 INFO     ::1 - GUEST [07/Jul/2009:22:20:33 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:20:38,827 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:20:38,828 DEBUG    overriding GET method to GET
+2009-07-07 22:20:38,828 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:20:38,828 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:20:38,829 INFO     ::1 - GUEST [07/Jul/2009:22:20:38 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:20:44,874 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:20:44,874 DEBUG    overriding GET method to GET
+2009-07-07 22:20:44,874 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:20:44,875 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:20:44,875 INFO     ::1 - GUEST [07/Jul/2009:22:20:44 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:20:50,426 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:20:50,427 DEBUG    overriding GET method to GET
+2009-07-07 22:20:50,427 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:20:50,427 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:20:50,428 INFO     ::1 - GUEST [07/Jul/2009:22:20:50 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:20:56,006 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:20:56,007 DEBUG    overriding GET method to GET
+2009-07-07 22:20:56,007 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:20:56,007 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:20:56,007 INFO     ::1 - GUEST [07/Jul/2009:22:20:56 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:21:01,558 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:21:01,558 DEBUG    overriding GET method to GET
+2009-07-07 22:21:01,558 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:21:01,559 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:21:01,559 INFO     ::1 - GUEST [07/Jul/2009:22:21:01 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:21:07,143 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:21:07,143 DEBUG    overriding GET method to GET
+2009-07-07 22:21:07,144 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:21:07,144 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:21:07,144 INFO     ::1 - GUEST [07/Jul/2009:22:21:07 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:21:12,701 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:21:12,701 DEBUG    overriding GET method to GET
+2009-07-07 22:21:12,701 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:21:12,702 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:21:12,702 INFO     ::1 - GUEST [07/Jul/2009:22:21:12 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:21:18,257 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:21:18,257 DEBUG    overriding GET method to GET
+2009-07-07 22:21:18,258 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:21:18,258 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:21:18,258 INFO     ::1 - GUEST [07/Jul/2009:22:21:18 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-07 22:23:06,402 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-07 22:23:06,402 DEBUG    overriding GET method to GET
+2009-07-07 22:23:06,402 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-07 22:23:06,403 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-07 22:23:06,403 INFO     ::1 - GUEST [07/Jul/2009:22:23:06 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:15:42,022 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:15:42,022 DEBUG    overriding GET method to GET
+2009-07-08 00:15:42,022 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:15:42,023 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:15:42,023 INFO     ::1 - GUEST [08/Jul/2009:00:15:42 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:15:47,781 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:15:47,781 DEBUG    overriding GET method to GET
+2009-07-08 00:15:47,781 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:15:47,782 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:15:47,782 INFO     ::1 - GUEST [08/Jul/2009:00:15:47 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:15:53,013 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:15:53,014 DEBUG    overriding GET method to GET
+2009-07-08 00:15:53,014 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:15:53,015 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:15:53,015 INFO     ::1 - GUEST [08/Jul/2009:00:15:53 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:15:58,980 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:15:58,980 DEBUG    overriding GET method to GET
+2009-07-08 00:15:58,980 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:15:58,980 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:15:58,981 INFO     ::1 - GUEST [08/Jul/2009:00:15:58 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:16:04,500 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:16:04,500 DEBUG    overriding GET method to GET
+2009-07-08 00:16:04,500 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:16:04,501 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:16:04,501 INFO     ::1 - GUEST [08/Jul/2009:00:16:04 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:16:10,019 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:16:10,019 DEBUG    overriding GET method to GET
+2009-07-08 00:16:10,019 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:16:10,020 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:16:10,020 INFO     ::1 - GUEST [08/Jul/2009:00:16:10 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:16:15,543 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:16:15,543 DEBUG    overriding GET method to GET
+2009-07-08 00:16:15,543 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:16:15,544 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:16:15,544 INFO     ::1 - GUEST [08/Jul/2009:00:16:15 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:16:21,070 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:16:21,071 DEBUG    overriding GET method to GET
+2009-07-08 00:16:21,072 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:16:21,072 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:16:21,072 INFO     ::1 - GUEST [08/Jul/2009:00:16:21 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:16:26,597 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:16:26,598 DEBUG    overriding GET method to GET
+2009-07-08 00:16:26,599 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:16:26,599 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:16:26,599 INFO     ::1 - GUEST [08/Jul/2009:00:16:26 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:16:32,127 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:16:32,128 DEBUG    overriding GET method to GET
+2009-07-08 00:16:32,128 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:16:32,128 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:16:32,128 INFO     ::1 - GUEST [08/Jul/2009:00:16:32 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:18:45,821 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:18:45,821 DEBUG    overriding GET method to GET
+2009-07-08 00:18:45,821 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:18:45,822 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:18:45,822 INFO     ::1 - GUEST [08/Jul/2009:00:18:45 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:21:37,773 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:21:37,773 DEBUG    overriding GET method to GET
+2009-07-08 00:21:37,773 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:21:37,773 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:21:37,774 INFO     ::1 - GUEST [08/Jul/2009:00:21:37 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:21:43,843 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:21:43,844 DEBUG    overriding GET method to GET
+2009-07-08 00:21:43,844 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:21:43,844 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:21:43,844 INFO     ::1 - GUEST [08/Jul/2009:00:21:43 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:21:49,089 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:21:49,089 DEBUG    overriding GET method to GET
+2009-07-08 00:21:49,089 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:21:49,089 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:21:49,090 INFO     ::1 - GUEST [08/Jul/2009:00:21:49 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:21:54,714 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:21:54,714 DEBUG    overriding GET method to GET
+2009-07-08 00:21:54,714 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:21:54,715 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:21:54,715 INFO     ::1 - GUEST [08/Jul/2009:00:21:54 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:00,108 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:22:00,108 DEBUG    overriding GET method to GET
+2009-07-08 00:22:00,109 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:00,109 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:22:00,110 INFO     ::1 - GUEST [08/Jul/2009:00:22:00 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:00,205 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/favicon.ico" and query ""
+2009-07-08 00:22:00,205 DEBUG    overriding GET method to GET
+2009-07-08 00:22:00,205 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:00,206 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-07-08 00:22:00,206 INFO     ::1 - GUEST [08/Jul/2009:00:22:00 ] "GET /favicon.ico HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:00,417 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:22:00,417 DEBUG    overriding GET method to GET
+2009-07-08 00:22:00,418 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:00,418 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:22:00,418 INFO     ::1 - GUEST [08/Jul/2009:00:22:00 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:03,234 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/favicon.ico" and query ""
+2009-07-08 00:22:03,234 DEBUG    overriding GET method to GET
+2009-07-08 00:22:03,235 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:03,235 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:22:03,235 INFO     ::1 - GUEST [08/Jul/2009:00:22:03 ] "GET /favicon.ico HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:05,682 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:22:05,682 DEBUG    overriding GET method to GET
+2009-07-08 00:22:05,683 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:05,683 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:22:05,685 INFO     ::1 - GUEST [08/Jul/2009:00:22:05 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:11,460 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:22:11,460 DEBUG    overriding GET method to GET
+2009-07-08 00:22:11,460 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:11,461 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:22:11,461 INFO     ::1 - GUEST [08/Jul/2009:00:22:11 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:16,705 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:22:16,706 DEBUG    overriding GET method to GET
+2009-07-08 00:22:16,706 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:16,706 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:22:16,706 INFO     ::1 - GUEST [08/Jul/2009:00:22:16 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:22,440 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:22:22,441 DEBUG    overriding GET method to GET
+2009-07-08 00:22:22,441 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:22,441 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:22:22,442 INFO     ::1 - GUEST [08/Jul/2009:00:22:22 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:27,974 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:22:27,974 DEBUG    overriding GET method to GET
+2009-07-08 00:22:27,974 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:27,975 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:22:27,975 INFO     ::1 - GUEST [08/Jul/2009:00:22:27 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:44,417 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:22:44,417 DEBUG    overriding GET method to GET
+2009-07-08 00:22:44,418 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:44,418 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:22:44,418 INFO     ::1 - GUEST [08/Jul/2009:00:22:44 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:22:55,231 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:22:55,231 DEBUG    overriding GET method to GET
+2009-07-08 00:22:55,232 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:22:55,232 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:22:55,232 INFO     ::1 - GUEST [08/Jul/2009:00:22:55 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:23:00,977 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:23:00,977 DEBUG    overriding GET method to GET
+2009-07-08 00:23:00,977 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:23:00,978 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:23:00,978 INFO     ::1 - GUEST [08/Jul/2009:00:23:00 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:23:06,222 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:23:06,222 DEBUG    overriding GET method to GET
+2009-07-08 00:23:06,223 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:23:06,223 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:23:06,223 INFO     ::1 - GUEST [08/Jul/2009:00:23:06 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:23:11,912 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:23:11,913 DEBUG    overriding GET method to GET
+2009-07-08 00:23:11,913 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:23:11,913 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:23:11,913 INFO     ::1 - GUEST [08/Jul/2009:00:23:11 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:23:17,461 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:23:17,461 DEBUG    overriding GET method to GET
+2009-07-08 00:23:17,461 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:23:17,461 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:23:17,462 INFO     ::1 - GUEST [08/Jul/2009:00:23:17 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:23:23,012 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:23:23,013 DEBUG    overriding GET method to GET
+2009-07-08 00:23:23,013 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:23:23,013 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:23:23,014 INFO     ::1 - GUEST [08/Jul/2009:00:23:23 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:23:28,254 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:23:28,254 DEBUG    overriding GET method to GET
+2009-07-08 00:23:28,255 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:23:28,255 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:23:28,255 INFO     ::1 - GUEST [08/Jul/2009:00:23:28 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:23:33,937 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:23:33,937 DEBUG    overriding GET method to GET
+2009-07-08 00:23:33,937 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:23:33,938 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:23:33,938 INFO     ::1 - GUEST [08/Jul/2009:00:23:33 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:23:39,184 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:23:39,184 DEBUG    overriding GET method to GET
+2009-07-08 00:23:39,184 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:23:39,185 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:23:39,185 INFO     ::1 - GUEST [08/Jul/2009:00:23:39 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:23:44,455 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:23:44,455 DEBUG    overriding GET method to GET
+2009-07-08 00:23:44,456 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:23:44,456 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:23:44,456 INFO     ::1 - GUEST [08/Jul/2009:00:23:44 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:28:51,610 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:28:51,610 DEBUG    overriding GET method to GET
+2009-07-08 00:28:51,611 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:28:51,611 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:28:51,611 INFO     ::1 - GUEST [08/Jul/2009:00:28:51 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:28:52,878 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:28:52,878 DEBUG    overriding GET method to GET
+2009-07-08 00:28:52,879 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:28:52,879 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:28:52,879 INFO     ::1 - GUEST [08/Jul/2009:00:28:52 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:28:59,549 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:28:59,550 DEBUG    overriding GET method to GET
+2009-07-08 00:28:59,550 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:28:59,551 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:28:59,551 INFO     ::1 - GUEST [08/Jul/2009:00:28:59 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:29:04,798 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:29:04,798 DEBUG    overriding GET method to GET
+2009-07-08 00:29:04,799 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:29:04,799 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:29:04,799 INFO     ::1 - GUEST [08/Jul/2009:00:29:04 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:29:10,593 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:29:10,594 DEBUG    overriding GET method to GET
+2009-07-08 00:29:10,594 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:29:10,595 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:29:10,595 INFO     ::1 - GUEST [08/Jul/2009:00:29:10 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:29:16,271 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:29:16,271 DEBUG    overriding GET method to GET
+2009-07-08 00:29:16,272 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:29:16,272 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:29:16,272 INFO     ::1 - GUEST [08/Jul/2009:00:29:16 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:29:21,524 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:29:21,524 DEBUG    overriding GET method to GET
+2009-07-08 00:29:21,524 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:29:21,525 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:29:21,525 INFO     ::1 - GUEST [08/Jul/2009:00:29:21 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:29:27,170 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:29:27,170 DEBUG    overriding GET method to GET
+2009-07-08 00:29:27,170 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:29:27,171 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:29:27,171 INFO     ::1 - GUEST [08/Jul/2009:00:29:27 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:29:32,423 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:29:32,424 DEBUG    overriding GET method to GET
+2009-07-08 00:29:32,424 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:29:32,424 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:29:32,425 INFO     ::1 - GUEST [08/Jul/2009:00:29:32 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:29:37,671 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:29:37,672 DEBUG    overriding GET method to GET
+2009-07-08 00:29:37,672 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:29:37,672 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:29:37,673 INFO     ::1 - GUEST [08/Jul/2009:00:29:37 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:29:43,272 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:29:43,272 DEBUG    overriding GET method to GET
+2009-07-08 00:29:43,273 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:29:43,273 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:29:43,274 INFO     ::1 - GUEST [08/Jul/2009:00:29:43 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:34:07,729 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:34:07,729 DEBUG    overriding GET method to GET
+2009-07-08 00:34:07,729 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:34:07,730 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:34:07,730 INFO     ::1 - GUEST [08/Jul/2009:00:34:07 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:34:15,001 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:34:15,002 DEBUG    overriding GET method to GET
+2009-07-08 00:34:15,002 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:34:15,002 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:34:15,002 INFO     ::1 - GUEST [08/Jul/2009:00:34:15 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:34:20,258 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:34:20,258 DEBUG    overriding GET method to GET
+2009-07-08 00:34:20,259 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:34:20,260 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:34:20,260 INFO     ::1 - GUEST [08/Jul/2009:00:34:20 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:34:26,004 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:34:26,004 DEBUG    overriding GET method to GET
+2009-07-08 00:34:26,004 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:34:26,004 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:34:26,005 INFO     ::1 - GUEST [08/Jul/2009:00:34:26 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:34:31,251 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:34:31,251 DEBUG    overriding GET method to GET
+2009-07-08 00:34:31,251 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:34:31,252 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:34:31,252 INFO     ::1 - GUEST [08/Jul/2009:00:34:31 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:34:32,291 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:34:32,292 DEBUG    overriding GET method to GET
+2009-07-08 00:34:32,292 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:34:32,292 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:34:32,292 INFO     ::1 - GUEST [08/Jul/2009:00:34:32 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:35:25,494 DEBUG    TiddlyWeb starting up as /usr/local/bin/twanager
+2009-07-08 00:35:25,499 DEBUG    attempting to import twanager plugin tiddlyweb.fromsvn
+2009-07-08 00:35:25,615 DEBUG    attempting to import twanager plugin tiddlyweb.instancer
+2009-07-08 00:35:25,616 DEBUG    running command server with ['tiddlyguv.dev', '9090']
+2009-07-08 00:35:25,649 DEBUG    attempt to import system plugin methodhack
+2009-07-08 00:35:25,649 DEBUG    wrapping app with <class 'tiddlyweb.web.negotiate.Negotiate'>
+2009-07-08 00:35:25,649 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.Header'>
+2009-07-08 00:35:25,649 DEBUG    wrapping app with <class 'tiddlyweb.web.extractor.UserExtract'>
+2009-07-08 00:35:25,649 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.StoreSet'>
+2009-07-08 00:35:25,650 DEBUG    wrapping app with <class 'methodhack.MethodHack'>
+2009-07-08 00:35:25,650 DEBUG    wrapping app with <class 'tiddlyweb.web.query.Query'>
+2009-07-08 00:35:25,650 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Environator'>
+2009-07-08 00:35:25,650 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Configurator'>
+2009-07-08 00:35:25,650 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.HTMLPresenter'>
+2009-07-08 00:35:25,650 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.PermissionsExceptor'>
+2009-07-08 00:35:25,650 DEBUG    wrapping app with <class 'tiddlyweb.web.http.HTTPExceptor'>
+2009-07-08 00:35:25,650 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.EncodeUTF8'>
+2009-07-08 00:35:25,650 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.SimpleLog'>
+2009-07-08 00:35:25,651 DEBUG    starting cherrypy at tiddlyguv.dev:9090
+2009-07-08 00:36:15,546 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:15,546 DEBUG    overriding GET method to GET
+2009-07-08 00:36:15,565 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:15,566 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:15,566 INFO     ::1 - GUEST [08/Jul/2009:00:36:15 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:20,809 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:20,809 DEBUG    overriding GET method to GET
+2009-07-08 00:36:20,809 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:20,810 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:20,810 INFO     ::1 - GUEST [08/Jul/2009:00:36:20 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:22,050 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:22,050 DEBUG    overriding GET method to GET
+2009-07-08 00:36:22,050 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:22,051 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:22,051 INFO     ::1 - GUEST [08/Jul/2009:00:36:22 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:23,300 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:23,301 DEBUG    overriding GET method to GET
+2009-07-08 00:36:23,301 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:23,302 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:23,302 INFO     ::1 - GUEST [08/Jul/2009:00:36:23 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:24,550 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:24,550 DEBUG    overriding GET method to GET
+2009-07-08 00:36:24,551 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:24,551 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:24,552 INFO     ::1 - GUEST [08/Jul/2009:00:36:24 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:26,257 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:26,257 DEBUG    overriding GET method to GET
+2009-07-08 00:36:26,257 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:26,258 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:26,258 INFO     ::1 - GUEST [08/Jul/2009:00:36:26 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:27,512 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:27,513 DEBUG    overriding GET method to GET
+2009-07-08 00:36:27,513 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:27,513 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:27,513 INFO     ::1 - GUEST [08/Jul/2009:00:36:27 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:28,758 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:28,759 DEBUG    overriding GET method to GET
+2009-07-08 00:36:28,759 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:28,759 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:28,759 INFO     ::1 - GUEST [08/Jul/2009:00:36:28 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:30,015 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:30,016 DEBUG    overriding GET method to GET
+2009-07-08 00:36:30,016 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:30,016 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:30,016 INFO     ::1 - GUEST [08/Jul/2009:00:36:30 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:31,267 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:31,267 DEBUG    overriding GET method to GET
+2009-07-08 00:36:31,267 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:31,267 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:31,268 INFO     ::1 - GUEST [08/Jul/2009:00:36:31 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:32,514 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:32,514 DEBUG    overriding GET method to GET
+2009-07-08 00:36:32,514 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:32,515 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:32,515 INFO     ::1 - GUEST [08/Jul/2009:00:36:32 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:33,767 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:33,767 DEBUG    overriding GET method to GET
+2009-07-08 00:36:33,767 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:33,768 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:33,768 INFO     ::1 - GUEST [08/Jul/2009:00:36:33 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:35,015 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:35,016 DEBUG    overriding GET method to GET
+2009-07-08 00:36:35,016 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:35,017 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:35,017 INFO     ::1 - GUEST [08/Jul/2009:00:36:35 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:36,624 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:36,624 DEBUG    overriding GET method to GET
+2009-07-08 00:36:36,624 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:36,625 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:36,625 INFO     ::1 - GUEST [08/Jul/2009:00:36:36 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:37,865 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:37,866 DEBUG    overriding GET method to GET
+2009-07-08 00:36:37,866 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:37,866 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:37,866 INFO     ::1 - GUEST [08/Jul/2009:00:36:37 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:39,121 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:39,121 DEBUG    overriding GET method to GET
+2009-07-08 00:36:39,121 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:39,121 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:39,122 INFO     ::1 - GUEST [08/Jul/2009:00:36:39 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:40,365 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:40,365 DEBUG    overriding GET method to GET
+2009-07-08 00:36:40,366 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:40,366 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:40,366 INFO     ::1 - GUEST [08/Jul/2009:00:36:40 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:41,618 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:41,618 DEBUG    overriding GET method to GET
+2009-07-08 00:36:41,618 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:41,618 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:41,619 INFO     ::1 - GUEST [08/Jul/2009:00:36:41 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:42,868 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:42,868 DEBUG    overriding GET method to GET
+2009-07-08 00:36:42,868 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:42,869 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:42,869 INFO     ::1 - GUEST [08/Jul/2009:00:36:42 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:44,121 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:44,121 DEBUG    overriding GET method to GET
+2009-07-08 00:36:44,122 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:44,122 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:44,123 INFO     ::1 - GUEST [08/Jul/2009:00:36:44 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:45,371 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:45,372 DEBUG    overriding GET method to GET
+2009-07-08 00:36:45,372 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:45,372 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:45,373 INFO     ::1 - GUEST [08/Jul/2009:00:36:45 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:47,021 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:47,022 DEBUG    overriding GET method to GET
+2009-07-08 00:36:47,022 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:47,022 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:47,022 INFO     ::1 - GUEST [08/Jul/2009:00:36:47 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:48,268 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:48,268 DEBUG    overriding GET method to GET
+2009-07-08 00:36:48,269 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:48,269 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:48,269 INFO     ::1 - GUEST [08/Jul/2009:00:36:48 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:49,819 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:49,820 DEBUG    overriding GET method to GET
+2009-07-08 00:36:49,820 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:49,821 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:49,821 INFO     ::1 - GUEST [08/Jul/2009:00:36:49 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:51,073 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:51,073 DEBUG    overriding GET method to GET
+2009-07-08 00:36:51,074 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:51,074 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:51,074 INFO     ::1 - GUEST [08/Jul/2009:00:36:51 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:36:53,010 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:36:53,010 DEBUG    overriding GET method to GET
+2009-07-08 00:36:53,010 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:36:53,011 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:36:53,011 INFO     ::1 - GUEST [08/Jul/2009:00:36:53 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:37:01,089 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:37:01,090 DEBUG    overriding GET method to GET
+2009-07-08 00:37:01,090 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:37:01,090 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:37:01,090 INFO     ::1 - GUEST [08/Jul/2009:00:37:01 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:37:02,336 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:37:02,337 DEBUG    overriding GET method to GET
+2009-07-08 00:37:02,337 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:37:02,337 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:37:02,338 INFO     ::1 - GUEST [08/Jul/2009:00:37:02 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:37:03,586 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:37:03,586 DEBUG    overriding GET method to GET
+2009-07-08 00:37:03,586 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:37:03,586 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:37:03,587 INFO     ::1 - GUEST [08/Jul/2009:00:37:03 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:37:04,837 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:37:04,837 DEBUG    overriding GET method to GET
+2009-07-08 00:37:04,837 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:37:04,838 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:37:04,838 INFO     ::1 - GUEST [08/Jul/2009:00:37:04 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 00:37:06,589 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 00:37:06,590 DEBUG    overriding GET method to GET
+2009-07-08 00:37:06,590 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 00:37:06,591 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 00:37:06,591 INFO     ::1 - GUEST [08/Jul/2009:00:37:06 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:08:20,115 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:08:20,115 DEBUG    overriding GET method to GET
+2009-07-08 01:08:20,115 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:08:20,116 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:08:20,116 INFO     ::1 - GUEST [08/Jul/2009:01:08:20 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:08:26,393 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:08:26,393 DEBUG    overriding GET method to GET
+2009-07-08 01:08:26,394 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:08:26,394 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:08:26,394 INFO     ::1 - GUEST [08/Jul/2009:01:08:26 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:08:32,263 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:08:32,263 DEBUG    overriding GET method to GET
+2009-07-08 01:08:32,263 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:08:32,264 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:08:32,264 INFO     ::1 - GUEST [08/Jul/2009:01:08:32 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:08:38,095 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:08:38,095 DEBUG    overriding GET method to GET
+2009-07-08 01:08:38,096 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:08:38,096 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:08:38,096 INFO     ::1 - GUEST [08/Jul/2009:01:08:38 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:08:43,948 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:08:43,948 DEBUG    overriding GET method to GET
+2009-07-08 01:08:43,948 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:08:43,949 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:08:43,949 INFO     ::1 - GUEST [08/Jul/2009:01:08:43 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:08:50,051 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:08:50,051 DEBUG    overriding GET method to GET
+2009-07-08 01:08:50,051 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:08:50,052 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:08:50,052 INFO     ::1 - GUEST [08/Jul/2009:01:08:50 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:08:55,877 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:08:55,877 DEBUG    overriding GET method to GET
+2009-07-08 01:08:55,877 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:08:55,877 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:08:55,878 INFO     ::1 - GUEST [08/Jul/2009:01:08:55 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:09:01,423 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:09:01,423 DEBUG    overriding GET method to GET
+2009-07-08 01:09:01,423 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:09:01,424 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:09:01,424 INFO     ::1 - GUEST [08/Jul/2009:01:09:01 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:09:06,899 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:09:06,899 DEBUG    overriding GET method to GET
+2009-07-08 01:09:06,899 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:09:06,899 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:09:06,899 INFO     ::1 - GUEST [08/Jul/2009:01:09:06 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:09:12,816 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:09:12,817 DEBUG    overriding GET method to GET
+2009-07-08 01:09:12,817 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:09:12,817 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:09:12,817 INFO     ::1 - GUEST [08/Jul/2009:01:09:12 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:10:34,850 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:10:34,851 DEBUG    overriding GET method to GET
+2009-07-08 01:10:34,851 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:10:34,851 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:10:34,852 INFO     ::1 - GUEST [08/Jul/2009:01:10:34 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:10:51,147 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:10:51,147 DEBUG    overriding GET method to GET
+2009-07-08 01:10:51,148 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:10:51,148 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:10:51,149 INFO     ::1 - GUEST [08/Jul/2009:01:10:51 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:10:56,697 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:10:56,697 DEBUG    overriding GET method to GET
+2009-07-08 01:10:56,697 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:10:56,697 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:10:56,698 INFO     ::1 - GUEST [08/Jul/2009:01:10:56 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:11:02,960 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:11:02,961 DEBUG    overriding GET method to GET
+2009-07-08 01:11:02,961 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:11:02,961 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:11:02,961 INFO     ::1 - GUEST [08/Jul/2009:01:11:02 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:11:08,207 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:11:08,207 DEBUG    overriding GET method to GET
+2009-07-08 01:11:08,207 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:11:08,207 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:11:08,208 INFO     ::1 - GUEST [08/Jul/2009:01:11:08 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:11:14,119 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:11:14,119 DEBUG    overriding GET method to GET
+2009-07-08 01:11:14,119 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:11:14,120 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:11:14,120 INFO     ::1 - GUEST [08/Jul/2009:01:11:14 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:11:19,860 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:11:19,861 DEBUG    overriding GET method to GET
+2009-07-08 01:11:19,861 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:11:19,861 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:11:19,861 INFO     ::1 - GUEST [08/Jul/2009:01:11:19 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:11:25,685 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:11:25,685 DEBUG    overriding GET method to GET
+2009-07-08 01:11:25,686 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:11:25,686 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:11:25,686 INFO     ::1 - GUEST [08/Jul/2009:01:11:25 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:11:31,787 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:11:31,788 DEBUG    overriding GET method to GET
+2009-07-08 01:11:31,788 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:11:31,788 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:11:31,789 INFO     ::1 - GUEST [08/Jul/2009:01:11:31 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:11:37,859 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:11:37,859 DEBUG    overriding GET method to GET
+2009-07-08 01:11:37,859 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:11:37,859 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:11:37,860 INFO     ::1 - GUEST [08/Jul/2009:01:11:37 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:11:41,960 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:11:41,960 DEBUG    overriding GET method to GET
+2009-07-08 01:11:41,960 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:11:41,961 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:11:41,961 INFO     ::1 - GUEST [08/Jul/2009:01:11:41 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:12:56,128 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:12:56,128 DEBUG    overriding GET method to GET
+2009-07-08 01:12:56,129 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:12:56,129 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:12:56,129 INFO     ::1 - GUEST [08/Jul/2009:01:12:56 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:01,411 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:01,412 DEBUG    overriding GET method to GET
+2009-07-08 01:13:01,412 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:01,412 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:01,412 INFO     ::1 - GUEST [08/Jul/2009:01:13:01 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:07,695 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:07,696 DEBUG    overriding GET method to GET
+2009-07-08 01:13:07,696 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:07,696 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:07,697 INFO     ::1 - GUEST [08/Jul/2009:01:13:07 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:19,523 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:19,523 DEBUG    overriding GET method to GET
+2009-07-08 01:13:19,523 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:19,523 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:19,524 INFO     ::1 - GUEST [08/Jul/2009:01:13:19 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:20,990 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:20,991 DEBUG    overriding GET method to GET
+2009-07-08 01:13:20,991 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:20,991 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:20,991 INFO     ::1 - GUEST [08/Jul/2009:01:13:20 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:22,245 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:22,245 DEBUG    overriding GET method to GET
+2009-07-08 01:13:22,245 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:22,246 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:22,246 INFO     ::1 - GUEST [08/Jul/2009:01:13:22 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:23,518 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:23,518 DEBUG    overriding GET method to GET
+2009-07-08 01:13:23,519 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:23,519 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:23,519 INFO     ::1 - GUEST [08/Jul/2009:01:13:23 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:26,027 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:26,027 DEBUG    overriding GET method to GET
+2009-07-08 01:13:26,028 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:26,028 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:26,028 INFO     ::1 - GUEST [08/Jul/2009:01:13:26 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:27,419 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:27,420 DEBUG    overriding GET method to GET
+2009-07-08 01:13:27,420 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:27,420 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:27,420 INFO     ::1 - GUEST [08/Jul/2009:01:13:27 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:28,713 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:28,714 DEBUG    overriding GET method to GET
+2009-07-08 01:13:28,715 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:28,715 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:28,716 INFO     ::1 - GUEST [08/Jul/2009:01:13:28 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:29,964 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:29,965 DEBUG    overriding GET method to GET
+2009-07-08 01:13:29,965 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:29,966 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:29,966 INFO     ::1 - GUEST [08/Jul/2009:01:13:29 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:31,204 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:31,204 DEBUG    overriding GET method to GET
+2009-07-08 01:13:31,204 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:31,205 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:31,205 INFO     ::1 - GUEST [08/Jul/2009:01:13:31 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:32,451 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:32,451 DEBUG    overriding GET method to GET
+2009-07-08 01:13:32,451 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:32,452 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:32,452 INFO     ::1 - GUEST [08/Jul/2009:01:13:32 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:33,710 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:33,710 DEBUG    overriding GET method to GET
+2009-07-08 01:13:33,711 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:33,711 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:33,711 INFO     ::1 - GUEST [08/Jul/2009:01:13:33 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:34,955 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:34,956 DEBUG    overriding GET method to GET
+2009-07-08 01:13:34,956 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:34,956 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:34,956 INFO     ::1 - GUEST [08/Jul/2009:01:13:34 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:36,788 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:36,788 DEBUG    overriding GET method to GET
+2009-07-08 01:13:36,789 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:36,789 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:36,789 INFO     ::1 - GUEST [08/Jul/2009:01:13:36 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:38,073 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:38,074 DEBUG    overriding GET method to GET
+2009-07-08 01:13:38,074 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:38,075 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:38,075 INFO     ::1 - GUEST [08/Jul/2009:01:13:38 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:39,766 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:39,766 DEBUG    overriding GET method to GET
+2009-07-08 01:13:39,766 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:39,767 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:39,767 INFO     ::1 - GUEST [08/Jul/2009:01:13:39 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:41,257 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:41,257 DEBUG    overriding GET method to GET
+2009-07-08 01:13:41,258 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:41,258 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:41,258 INFO     ::1 - GUEST [08/Jul/2009:01:13:41 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:42,998 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:42,998 DEBUG    overriding GET method to GET
+2009-07-08 01:13:42,998 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:42,999 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:42,999 INFO     ::1 - GUEST [08/Jul/2009:01:13:42 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:44,240 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:44,240 DEBUG    overriding GET method to GET
+2009-07-08 01:13:44,240 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:44,241 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:44,241 INFO     ::1 - GUEST [08/Jul/2009:01:13:44 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:45,498 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:45,499 DEBUG    overriding GET method to GET
+2009-07-08 01:13:45,499 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:45,499 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:45,499 INFO     ::1 - GUEST [08/Jul/2009:01:13:45 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:13:46,751 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:13:46,751 DEBUG    overriding GET method to GET
+2009-07-08 01:13:46,752 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:13:46,752 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:13:46,752 INFO     ::1 - GUEST [08/Jul/2009:01:13:46 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:15,612 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:15,612 DEBUG    overriding GET method to GET
+2009-07-08 01:15:15,612 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:15,612 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:15,613 INFO     ::1 - GUEST [08/Jul/2009:01:15:15 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:24,009 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:24,010 DEBUG    overriding GET method to GET
+2009-07-08 01:15:24,010 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:24,010 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:24,011 INFO     ::1 - GUEST [08/Jul/2009:01:15:24 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:25,498 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:25,498 DEBUG    overriding GET method to GET
+2009-07-08 01:15:25,499 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:25,499 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:25,499 INFO     ::1 - GUEST [08/Jul/2009:01:15:25 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:27,000 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:27,001 DEBUG    overriding GET method to GET
+2009-07-08 01:15:27,001 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:27,002 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:27,002 INFO     ::1 - GUEST [08/Jul/2009:01:15:27 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:28,243 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:28,243 DEBUG    overriding GET method to GET
+2009-07-08 01:15:28,243 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:28,243 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:28,243 INFO     ::1 - GUEST [08/Jul/2009:01:15:28 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:30,430 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:30,430 DEBUG    overriding GET method to GET
+2009-07-08 01:15:30,431 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:30,431 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:30,431 INFO     ::1 - GUEST [08/Jul/2009:01:15:30 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:31,681 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:31,681 DEBUG    overriding GET method to GET
+2009-07-08 01:15:31,681 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:31,681 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:31,682 INFO     ::1 - GUEST [08/Jul/2009:01:15:31 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:32,799 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:32,799 DEBUG    overriding GET method to GET
+2009-07-08 01:15:32,799 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:32,800 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:32,800 INFO     ::1 - GUEST [08/Jul/2009:01:15:32 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:34,191 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:34,192 DEBUG    overriding GET method to GET
+2009-07-08 01:15:34,192 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:34,192 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:34,192 INFO     ::1 - GUEST [08/Jul/2009:01:15:34 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:35,435 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:35,435 DEBUG    overriding GET method to GET
+2009-07-08 01:15:35,435 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:35,436 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:35,436 INFO     ::1 - GUEST [08/Jul/2009:01:15:35 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:36,704 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:36,704 DEBUG    overriding GET method to GET
+2009-07-08 01:15:36,704 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:36,705 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:36,705 INFO     ::1 - GUEST [08/Jul/2009:01:15:36 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:38,184 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:38,185 DEBUG    overriding GET method to GET
+2009-07-08 01:15:38,185 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:38,185 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:38,186 INFO     ::1 - GUEST [08/Jul/2009:01:15:38 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:39,432 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:39,432 DEBUG    overriding GET method to GET
+2009-07-08 01:15:39,433 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:39,433 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:39,434 INFO     ::1 - GUEST [08/Jul/2009:01:15:39 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:41,533 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:41,533 DEBUG    overriding GET method to GET
+2009-07-08 01:15:41,533 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:41,533 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:41,533 INFO     ::1 - GUEST [08/Jul/2009:01:15:41 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:43,012 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:43,012 DEBUG    overriding GET method to GET
+2009-07-08 01:15:43,013 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:43,013 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:43,013 INFO     ::1 - GUEST [08/Jul/2009:01:15:43 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:44,507 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:44,507 DEBUG    overriding GET method to GET
+2009-07-08 01:15:44,507 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:44,507 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:44,508 INFO     ::1 - GUEST [08/Jul/2009:01:15:44 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:45,760 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:45,760 DEBUG    overriding GET method to GET
+2009-07-08 01:15:45,760 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:45,761 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:45,761 INFO     ::1 - GUEST [08/Jul/2009:01:15:45 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:47,035 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:47,035 DEBUG    overriding GET method to GET
+2009-07-08 01:15:47,035 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:47,036 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:47,036 INFO     ::1 - GUEST [08/Jul/2009:01:15:47 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:48,256 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:48,256 DEBUG    overriding GET method to GET
+2009-07-08 01:15:48,257 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:48,257 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:48,257 INFO     ::1 - GUEST [08/Jul/2009:01:15:48 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:49,762 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:49,762 DEBUG    overriding GET method to GET
+2009-07-08 01:15:49,762 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:49,762 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:49,762 INFO     ::1 - GUEST [08/Jul/2009:01:15:49 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:15:51,064 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:15:51,064 DEBUG    overriding GET method to GET
+2009-07-08 01:15:51,065 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:15:51,068 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:15:51,068 INFO     ::1 - GUEST [08/Jul/2009:01:15:51 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:10,329 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:10,330 DEBUG    overriding GET method to GET
+2009-07-08 01:16:10,330 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:10,330 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:10,330 INFO     ::1 - GUEST [08/Jul/2009:01:16:10 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:11,823 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:11,824 DEBUG    overriding GET method to GET
+2009-07-08 01:16:11,824 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:11,824 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:11,824 INFO     ::1 - GUEST [08/Jul/2009:01:16:11 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:13,078 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:13,078 DEBUG    overriding GET method to GET
+2009-07-08 01:16:13,079 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:13,079 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:13,080 INFO     ::1 - GUEST [08/Jul/2009:01:16:13 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:14,327 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:14,327 DEBUG    overriding GET method to GET
+2009-07-08 01:16:14,328 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:14,328 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:14,329 INFO     ::1 - GUEST [08/Jul/2009:01:16:14 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:15,917 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:15,918 DEBUG    overriding GET method to GET
+2009-07-08 01:16:15,918 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:15,918 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:15,918 INFO     ::1 - GUEST [08/Jul/2009:01:16:15 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:27,516 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:27,516 DEBUG    overriding GET method to GET
+2009-07-08 01:16:27,517 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:27,517 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:27,517 INFO     ::1 - GUEST [08/Jul/2009:01:16:27 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:33,576 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:33,576 DEBUG    overriding GET method to GET
+2009-07-08 01:16:33,577 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:33,577 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:33,577 INFO     ::1 - GUEST [08/Jul/2009:01:16:33 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:39,064 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:39,064 DEBUG    overriding GET method to GET
+2009-07-08 01:16:39,065 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:39,065 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:39,065 INFO     ::1 - GUEST [08/Jul/2009:01:16:39 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:45,338 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:45,338 DEBUG    overriding GET method to GET
+2009-07-08 01:16:45,339 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:45,339 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:45,339 INFO     ::1 - GUEST [08/Jul/2009:01:16:45 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:51,183 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:51,183 DEBUG    overriding GET method to GET
+2009-07-08 01:16:51,183 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:51,184 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:51,184 INFO     ::1 - GUEST [08/Jul/2009:01:16:51 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:16:57,019 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:16:57,019 DEBUG    overriding GET method to GET
+2009-07-08 01:16:57,020 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:16:57,020 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:16:57,020 INFO     ::1 - GUEST [08/Jul/2009:01:16:57 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:17:03,107 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:17:03,108 DEBUG    overriding GET method to GET
+2009-07-08 01:17:03,108 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:17:03,108 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:17:03,109 INFO     ::1 - GUEST [08/Jul/2009:01:17:03 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:17:08,942 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:17:08,942 DEBUG    overriding GET method to GET
+2009-07-08 01:17:08,942 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:17:08,943 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:17:08,943 INFO     ::1 - GUEST [08/Jul/2009:01:17:08 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:17:14,739 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:17:14,739 DEBUG    overriding GET method to GET
+2009-07-08 01:17:14,739 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:17:14,739 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:17:14,739 INFO     ::1 - GUEST [08/Jul/2009:01:17:14 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:17:20,837 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:17:20,837 DEBUG    overriding GET method to GET
+2009-07-08 01:17:20,837 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:17:20,838 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:17:20,838 INFO     ::1 - GUEST [08/Jul/2009:01:17:20 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:17:26,178 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:17:26,179 DEBUG    overriding GET method to GET
+2009-07-08 01:17:26,179 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:17:26,179 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:17:26,179 INFO     ::1 - GUEST [08/Jul/2009:01:17:26 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:17:36,190 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:17:36,191 DEBUG    overriding GET method to GET
+2009-07-08 01:17:36,191 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:17:36,191 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:17:36,191 INFO     ::1 - GUEST [08/Jul/2009:01:17:36 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:17:42,658 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:17:42,658 DEBUG    overriding GET method to GET
+2009-07-08 01:17:42,659 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:17:42,659 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:17:42,660 INFO     ::1 - GUEST [08/Jul/2009:01:17:42 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:17:48,903 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:17:48,906 DEBUG    overriding GET method to GET
+2009-07-08 01:17:48,906 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:17:48,906 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:17:48,906 INFO     ::1 - GUEST [08/Jul/2009:01:17:48 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:17:55,338 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:17:55,338 DEBUG    overriding GET method to GET
+2009-07-08 01:17:55,339 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:17:55,339 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:17:55,340 INFO     ::1 - GUEST [08/Jul/2009:01:17:55 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:18:01,444 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:18:01,444 DEBUG    overriding GET method to GET
+2009-07-08 01:18:01,444 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:18:01,445 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:18:01,445 INFO     ::1 - GUEST [08/Jul/2009:01:18:01 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:18:06,052 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:18:06,052 DEBUG    overriding GET method to GET
+2009-07-08 01:18:06,052 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:18:06,053 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:18:06,053 INFO     ::1 - GUEST [08/Jul/2009:01:18:06 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:18:14,559 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:18:14,560 DEBUG    overriding GET method to GET
+2009-07-08 01:18:14,560 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:18:14,560 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:18:14,560 INFO     ::1 - GUEST [08/Jul/2009:01:18:14 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:18:19,834 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:18:19,834 DEBUG    overriding GET method to GET
+2009-07-08 01:18:19,834 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:18:19,835 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:18:19,835 INFO     ::1 - GUEST [08/Jul/2009:01:18:19 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:18:26,535 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:18:26,535 DEBUG    overriding GET method to GET
+2009-07-08 01:18:26,535 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:18:26,535 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:18:26,536 INFO     ::1 - GUEST [08/Jul/2009:01:18:26 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:18:32,011 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:18:32,011 DEBUG    overriding GET method to GET
+2009-07-08 01:18:32,011 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:18:32,012 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:18:32,012 INFO     ::1 - GUEST [08/Jul/2009:01:18:32 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:18:38,212 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:18:38,212 DEBUG    overriding GET method to GET
+2009-07-08 01:18:38,212 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:18:38,213 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:18:38,213 INFO     ::1 - GUEST [08/Jul/2009:01:18:38 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:18:44,360 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:18:44,360 DEBUG    overriding GET method to GET
+2009-07-08 01:18:44,360 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:18:44,361 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:18:44,361 INFO     ::1 - GUEST [08/Jul/2009:01:18:44 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:18:49,862 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:18:49,862 DEBUG    overriding GET method to GET
+2009-07-08 01:18:49,863 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:18:49,863 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:18:49,863 INFO     ::1 - GUEST [08/Jul/2009:01:18:49 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:18:55,358 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:18:55,358 DEBUG    overriding GET method to GET
+2009-07-08 01:18:55,359 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:18:55,359 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:18:55,359 INFO     ::1 - GUEST [08/Jul/2009:01:18:55 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:01,494 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:01,494 DEBUG    overriding GET method to GET
+2009-07-08 01:19:01,494 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:01,494 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:01,495 INFO     ::1 - GUEST [08/Jul/2009:01:19:01 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:06,993 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:06,994 DEBUG    overriding GET method to GET
+2009-07-08 01:19:06,994 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:06,995 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:06,995 INFO     ::1 - GUEST [08/Jul/2009:01:19:06 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:07,486 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:07,486 DEBUG    overriding GET method to GET
+2009-07-08 01:19:07,486 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:07,486 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:07,487 INFO     ::1 - GUEST [08/Jul/2009:01:19:07 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:13,698 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:13,698 DEBUG    overriding GET method to GET
+2009-07-08 01:19:13,698 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:13,699 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:13,699 INFO     ::1 - GUEST [08/Jul/2009:01:19:13 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:19,180 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:19,180 DEBUG    overriding GET method to GET
+2009-07-08 01:19:19,181 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:19,181 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:19,182 INFO     ::1 - GUEST [08/Jul/2009:01:19:19 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:25,402 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:25,402 DEBUG    overriding GET method to GET
+2009-07-08 01:19:25,402 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:25,403 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:25,403 INFO     ::1 - GUEST [08/Jul/2009:01:19:25 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:31,403 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:31,403 DEBUG    overriding GET method to GET
+2009-07-08 01:19:31,404 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:31,404 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:31,404 INFO     ::1 - GUEST [08/Jul/2009:01:19:31 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:37,369 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:37,369 DEBUG    overriding GET method to GET
+2009-07-08 01:19:37,369 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:37,369 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:37,369 INFO     ::1 - GUEST [08/Jul/2009:01:19:37 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:42,969 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:42,969 DEBUG    overriding GET method to GET
+2009-07-08 01:19:42,970 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:42,970 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:42,970 INFO     ::1 - GUEST [08/Jul/2009:01:19:42 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:49,205 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:49,205 DEBUG    overriding GET method to GET
+2009-07-08 01:19:49,205 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:49,206 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:49,206 INFO     ::1 - GUEST [08/Jul/2009:01:19:49 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:19:54,790 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:19:54,791 DEBUG    overriding GET method to GET
+2009-07-08 01:19:54,791 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:19:54,791 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:19:54,792 INFO     ::1 - GUEST [08/Jul/2009:01:19:54 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:20:00,624 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:20:00,624 DEBUG    overriding GET method to GET
+2009-07-08 01:20:00,625 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:20:00,625 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:20:00,625 INFO     ::1 - GUEST [08/Jul/2009:01:20:00 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:21:48,775 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:21:48,775 DEBUG    overriding GET method to GET
+2009-07-08 01:21:48,775 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:21:48,775 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:21:48,776 INFO     ::1 - GUEST [08/Jul/2009:01:21:48 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:25:38,108 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:25:38,108 DEBUG    overriding GET method to GET
+2009-07-08 01:25:38,108 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:25:38,108 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:25:38,109 INFO     ::1 - GUEST [08/Jul/2009:01:25:38 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:25:44,892 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:25:44,893 DEBUG    overriding GET method to GET
+2009-07-08 01:25:44,893 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:25:44,893 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:25:44,893 INFO     ::1 - GUEST [08/Jul/2009:01:25:44 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:25:50,130 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:25:50,131 DEBUG    overriding GET method to GET
+2009-07-08 01:25:50,131 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:25:50,131 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:25:50,132 INFO     ::1 - GUEST [08/Jul/2009:01:25:50 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:25:56,038 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:25:56,039 DEBUG    overriding GET method to GET
+2009-07-08 01:25:56,039 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:25:56,039 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:25:56,039 INFO     ::1 - GUEST [08/Jul/2009:01:25:56 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:26:01,544 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:26:01,545 DEBUG    overriding GET method to GET
+2009-07-08 01:26:01,545 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:26:01,546 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:26:01,546 INFO     ::1 - GUEST [08/Jul/2009:01:26:01 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:26:07,983 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:26:07,983 DEBUG    overriding GET method to GET
+2009-07-08 01:26:07,983 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:26:07,984 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:26:07,984 INFO     ::1 - GUEST [08/Jul/2009:01:26:07 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:26:14,161 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:26:14,161 DEBUG    overriding GET method to GET
+2009-07-08 01:26:14,161 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:26:14,161 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:26:14,162 INFO     ::1 - GUEST [08/Jul/2009:01:26:14 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:26:20,041 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:26:20,041 DEBUG    overriding GET method to GET
+2009-07-08 01:26:20,041 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:26:20,042 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:26:20,042 INFO     ::1 - GUEST [08/Jul/2009:01:26:20 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:26:25,894 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:26:25,894 DEBUG    overriding GET method to GET
+2009-07-08 01:26:25,895 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:26:25,895 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:26:25,895 INFO     ::1 - GUEST [08/Jul/2009:01:26:25 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:26:32,020 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:26:32,021 DEBUG    overriding GET method to GET
+2009-07-08 01:26:32,021 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:26:32,022 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:26:32,022 INFO     ::1 - GUEST [08/Jul/2009:01:26:32 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:26:59,399 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:26:59,399 DEBUG    overriding GET method to GET
+2009-07-08 01:26:59,399 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:26:59,400 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:26:59,400 INFO     ::1 - GUEST [08/Jul/2009:01:26:59 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:27:04,659 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:27:04,659 DEBUG    overriding GET method to GET
+2009-07-08 01:27:04,660 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:27:04,660 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:27:04,660 INFO     ::1 - GUEST [08/Jul/2009:01:27:04 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:27:10,921 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:27:10,921 DEBUG    overriding GET method to GET
+2009-07-08 01:27:10,921 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:27:10,922 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:27:10,922 INFO     ::1 - GUEST [08/Jul/2009:01:27:10 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:27:16,357 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:27:16,357 DEBUG    overriding GET method to GET
+2009-07-08 01:27:16,357 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:27:16,357 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:27:16,358 INFO     ::1 - GUEST [08/Jul/2009:01:27:16 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:27:22,394 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:27:22,395 DEBUG    overriding GET method to GET
+2009-07-08 01:27:22,395 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:27:22,395 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:27:22,395 INFO     ::1 - GUEST [08/Jul/2009:01:27:22 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:27:27,906 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:27:27,906 DEBUG    overriding GET method to GET
+2009-07-08 01:27:27,906 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:27:27,907 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:27:27,907 INFO     ::1 - GUEST [08/Jul/2009:01:27:27 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:27:34,160 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:27:34,160 DEBUG    overriding GET method to GET
+2009-07-08 01:27:34,160 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:27:34,161 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:27:34,161 INFO     ::1 - GUEST [08/Jul/2009:01:27:34 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:27:39,654 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:27:39,655 DEBUG    overriding GET method to GET
+2009-07-08 01:27:39,655 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:27:39,656 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:27:39,656 INFO     ::1 - GUEST [08/Jul/2009:01:27:39 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:27:45,570 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:27:45,570 DEBUG    overriding GET method to GET
+2009-07-08 01:27:45,571 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:27:45,571 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:27:45,571 INFO     ::1 - GUEST [08/Jul/2009:01:27:45 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:27:51,476 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:27:51,477 DEBUG    overriding GET method to GET
+2009-07-08 01:27:51,477 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:27:51,477 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:27:51,478 INFO     ::1 - GUEST [08/Jul/2009:01:27:51 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:28:07,864 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:28:07,864 DEBUG    overriding GET method to GET
+2009-07-08 01:28:07,864 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:28:07,865 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:28:07,865 INFO     ::1 - GUEST [08/Jul/2009:01:28:07 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:28:14,394 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:28:14,394 DEBUG    overriding GET method to GET
+2009-07-08 01:28:14,394 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:28:14,395 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:28:14,395 INFO     ::1 - GUEST [08/Jul/2009:01:28:14 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:28:19,874 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:28:19,875 DEBUG    overriding GET method to GET
+2009-07-08 01:28:19,875 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:28:19,875 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:28:19,876 INFO     ::1 - GUEST [08/Jul/2009:01:28:19 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:28:25,879 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:28:25,880 DEBUG    overriding GET method to GET
+2009-07-08 01:28:25,880 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:28:25,880 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:28:25,880 INFO     ::1 - GUEST [08/Jul/2009:01:28:25 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:28:31,135 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:28:31,135 DEBUG    overriding GET method to GET
+2009-07-08 01:28:31,135 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:28:31,136 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:28:31,136 INFO     ::1 - GUEST [08/Jul/2009:01:28:31 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:28:36,820 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:28:36,820 DEBUG    overriding GET method to GET
+2009-07-08 01:28:36,820 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:28:36,820 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:28:36,821 INFO     ::1 - GUEST [08/Jul/2009:01:28:36 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:28:59,296 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:28:59,297 DEBUG    overriding GET method to GET
+2009-07-08 01:28:59,297 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:28:59,297 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:28:59,298 INFO     ::1 - GUEST [08/Jul/2009:01:28:59 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:29:04,555 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:29:04,555 DEBUG    overriding GET method to GET
+2009-07-08 01:29:04,555 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:29:04,556 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:29:04,556 INFO     ::1 - GUEST [08/Jul/2009:01:29:04 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:29:10,961 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:29:10,961 DEBUG    overriding GET method to GET
+2009-07-08 01:29:10,962 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:29:10,962 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:29:10,962 INFO     ::1 - GUEST [08/Jul/2009:01:29:10 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:29:16,467 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:29:16,467 DEBUG    overriding GET method to GET
+2009-07-08 01:29:16,467 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:29:16,468 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:29:16,468 INFO     ::1 - GUEST [08/Jul/2009:01:29:16 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:29:23,286 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:29:23,286 DEBUG    overriding GET method to GET
+2009-07-08 01:29:23,286 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:29:23,286 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:29:23,287 INFO     ::1 - GUEST [08/Jul/2009:01:29:23 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:29:29,796 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:29:29,796 DEBUG    overriding GET method to GET
+2009-07-08 01:29:29,796 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:29:29,797 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:29:29,797 INFO     ::1 - GUEST [08/Jul/2009:01:29:29 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:29:35,047 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:29:35,047 DEBUG    overriding GET method to GET
+2009-07-08 01:29:35,047 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:29:35,048 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:29:35,048 INFO     ::1 - GUEST [08/Jul/2009:01:29:35 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:29:41,254 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:29:41,254 DEBUG    overriding GET method to GET
+2009-07-08 01:29:41,255 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:29:41,255 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:29:41,255 INFO     ::1 - GUEST [08/Jul/2009:01:29:41 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:29:47,375 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:29:47,376 DEBUG    overriding GET method to GET
+2009-07-08 01:29:47,376 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:29:47,376 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:29:47,376 INFO     ::1 - GUEST [08/Jul/2009:01:29:47 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:29:53,510 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:29:53,510 DEBUG    overriding GET method to GET
+2009-07-08 01:29:53,511 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:29:53,511 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:29:53,511 INFO     ::1 - GUEST [08/Jul/2009:01:29:53 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:30:21,317 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:30:21,317 DEBUG    overriding GET method to GET
+2009-07-08 01:30:21,317 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:30:21,318 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:30:21,318 INFO     ::1 - GUEST [08/Jul/2009:01:30:21 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:31:27,977 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:31:27,978 DEBUG    overriding GET method to GET
+2009-07-08 01:31:27,978 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:31:27,978 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:31:27,978 INFO     ::1 - GUEST [08/Jul/2009:01:31:27 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:31:33,474 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:31:33,474 DEBUG    overriding GET method to GET
+2009-07-08 01:31:33,474 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:31:33,475 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:31:33,475 INFO     ::1 - GUEST [08/Jul/2009:01:31:33 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:31:39,793 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:31:39,793 DEBUG    overriding GET method to GET
+2009-07-08 01:31:39,794 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:31:39,794 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:31:39,795 INFO     ::1 - GUEST [08/Jul/2009:01:31:39 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:31:45,290 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:31:45,290 DEBUG    overriding GET method to GET
+2009-07-08 01:31:45,290 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:31:45,291 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:31:45,291 INFO     ::1 - GUEST [08/Jul/2009:01:31:45 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:31:51,681 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:31:51,681 DEBUG    overriding GET method to GET
+2009-07-08 01:31:51,682 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:31:51,682 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:31:51,682 INFO     ::1 - GUEST [08/Jul/2009:01:31:51 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:31:57,779 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:31:57,779 DEBUG    overriding GET method to GET
+2009-07-08 01:31:57,780 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:31:57,780 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:31:57,780 INFO     ::1 - GUEST [08/Jul/2009:01:31:57 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:32:03,673 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:32:03,673 DEBUG    overriding GET method to GET
+2009-07-08 01:32:03,674 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:32:03,674 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:32:03,674 INFO     ::1 - GUEST [08/Jul/2009:01:32:03 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:32:08,944 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:32:08,945 DEBUG    overriding GET method to GET
+2009-07-08 01:32:08,945 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:32:08,945 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:32:08,946 INFO     ::1 - GUEST [08/Jul/2009:01:32:08 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:32:14,934 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:32:14,934 DEBUG    overriding GET method to GET
+2009-07-08 01:32:14,934 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:32:14,935 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:32:14,935 INFO     ::1 - GUEST [08/Jul/2009:01:32:14 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:32:20,173 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:32:20,174 DEBUG    overriding GET method to GET
+2009-07-08 01:32:20,174 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:32:20,174 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:32:20,174 INFO     ::1 - GUEST [08/Jul/2009:01:32:20 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:00,525 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:00,525 DEBUG    overriding GET method to GET
+2009-07-08 01:33:00,526 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:00,526 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:00,527 INFO     ::1 - GUEST [08/Jul/2009:01:33:00 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:05,765 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:05,765 DEBUG    overriding GET method to GET
+2009-07-08 01:33:05,765 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:05,766 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:05,766 INFO     ::1 - GUEST [08/Jul/2009:01:33:05 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:11,266 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:11,266 DEBUG    overriding GET method to GET
+2009-07-08 01:33:11,266 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:11,267 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:11,267 INFO     ::1 - GUEST [08/Jul/2009:01:33:11 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:16,517 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:16,517 DEBUG    overriding GET method to GET
+2009-07-08 01:33:16,518 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:16,518 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:16,518 INFO     ::1 - GUEST [08/Jul/2009:01:33:16 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:20,602 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:20,602 DEBUG    overriding GET method to GET
+2009-07-08 01:33:20,603 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:20,603 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:20,604 INFO     ::1 - GUEST [08/Jul/2009:01:33:20 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:27,677 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:27,678 DEBUG    overriding GET method to GET
+2009-07-08 01:33:27,678 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:27,679 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:27,679 INFO     ::1 - GUEST [08/Jul/2009:01:33:27 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:32,908 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:32,910 DEBUG    overriding GET method to GET
+2009-07-08 01:33:32,911 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:32,911 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:32,911 INFO     ::1 - GUEST [08/Jul/2009:01:33:32 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:38,177 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:38,178 DEBUG    overriding GET method to GET
+2009-07-08 01:33:38,178 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:38,179 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:38,179 INFO     ::1 - GUEST [08/Jul/2009:01:33:38 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:43,425 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:43,425 DEBUG    overriding GET method to GET
+2009-07-08 01:33:43,425 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:43,426 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:43,426 INFO     ::1 - GUEST [08/Jul/2009:01:33:43 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:51,238 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:51,238 DEBUG    overriding GET method to GET
+2009-07-08 01:33:51,238 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:51,239 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:51,239 INFO     ::1 - GUEST [08/Jul/2009:01:33:51 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:33:56,600 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:33:56,600 DEBUG    overriding GET method to GET
+2009-07-08 01:33:56,600 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:33:56,601 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:33:56,601 INFO     ::1 - GUEST [08/Jul/2009:01:33:56 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:34:01,815 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:34:01,815 DEBUG    overriding GET method to GET
+2009-07-08 01:34:01,815 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:34:01,815 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:34:01,816 INFO     ::1 - GUEST [08/Jul/2009:01:34:01 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:34:07,228 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:34:07,228 DEBUG    overriding GET method to GET
+2009-07-08 01:34:07,229 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:34:07,229 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:34:07,229 INFO     ::1 - GUEST [08/Jul/2009:01:34:07 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:34:12,790 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:34:12,790 DEBUG    overriding GET method to GET
+2009-07-08 01:34:12,791 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:34:12,791 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:34:12,791 INFO     ::1 - GUEST [08/Jul/2009:01:34:12 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:34:18,026 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:34:18,026 DEBUG    overriding GET method to GET
+2009-07-08 01:34:18,027 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:34:18,027 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:34:18,027 INFO     ::1 - GUEST [08/Jul/2009:01:34:18 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:34:23,290 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:34:23,291 DEBUG    overriding GET method to GET
+2009-07-08 01:34:23,291 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:34:23,291 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:34:23,291 INFO     ::1 - GUEST [08/Jul/2009:01:34:23 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:34:28,546 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:34:28,547 DEBUG    overriding GET method to GET
+2009-07-08 01:34:28,549 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:34:28,550 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:34:28,550 INFO     ::1 - GUEST [08/Jul/2009:01:34:28 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:34:33,776 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:34:33,777 DEBUG    overriding GET method to GET
+2009-07-08 01:34:33,777 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:34:33,777 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:34:33,777 INFO     ::1 - GUEST [08/Jul/2009:01:34:33 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"
+2009-07-08 01:34:39,028 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-07-08 01:34:39,029 DEBUG    overriding GET method to GET
+2009-07-08 01:34:39,029 DEBUG    simple_cookie looking at cookie string: txtMainTab=Timeline; chkBackstage=false
+2009-07-08 01:34:39,029 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-07-08 01:34:39,030 INFO     ::1 - GUEST [08/Jul/2009:01:34:39 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"

@@ -1,0 +1,14 @@
+desc: 
+policy: {"read": [], "create": [], "manage": [], "write": [], "owner": null, "delete": []}
+
+/bags/CommonPlugins/tiddlers
+/bags/CommonShadows/tiddlers
+/bags/DocumentPlugins/tiddlers
+/bags/LicenseContent/tiddlers
+/bags/LicensePlugins/tiddlers
+/bags/documents/tiddlers
+/bags/licenses/tiddlers
+/bags/comments/tiddlers
+/bags/protected-admin/tiddlers
+/bags/private-mike/tiddlers
+/bags/protected-mike/tiddlers

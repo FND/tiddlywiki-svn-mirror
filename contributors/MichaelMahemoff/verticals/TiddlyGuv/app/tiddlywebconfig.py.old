@@ -6,8 +6,8 @@ from tiddlyweb.model.recipe import Recipe
 
 # tiddlyweb_root = os.environ["TIDDLYWEB_ROOT"] + "/tiddlyweb"
 config = {
+  ##### 'hostname': 'tiddlyguv',
   # 'server_store': ['text', {'store_root': 'store'}],
-  'hostname': '0.0.0.0',
   'server_prefix': '',
   'server_store': ['simpletext', {'store_root': 'store'}],
   # 'urls_map': tiddlyweb_root + "/urls.map", 
@@ -28,6 +28,7 @@ def info(v):
   for name, val in vars(obj):
     return 'INFO  .%s: %r' % (name, val)
 
+# probably not used!
 # orig_determine_recipe = tiddlyweb.web.handler.recipe._determine_recipe
 def my_determine_recipe(environ):
 
