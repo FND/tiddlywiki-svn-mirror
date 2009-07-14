@@ -26,6 +26,7 @@ if(!version.extensions.CommentsPlugin) {
   version.extensions.CommentsPlugin = {installed:true};
 
   (function(plugin) {
+
   var cmacro = config.macros.comments = {
 
 //##############################################################################
@@ -42,13 +43,23 @@ init: function() {
     config.shadowTiddlers["StyleSheetCommentsPlugin"] = stylesheet;
     store.addNotification("StyleSheetCommentsPlugin", refreshStyles);
   }
+  cmacro.enhanceViewTemplate();
+},
+
+enhanceViewTemplate: function() {
+  var template = store.getTiddlerText("ViewTemplate");
+  if ((/commentBreadcrumb/g).test(template)) return; // already enhanced
+  var TITLE_DIV = "<div class='title' macro='view title'></div>";
+  var commentsDiv = "<div class='commentBreadcrumb' macro='commentBreadcrumb'></div>";
+  template = template.replace(TITLE_DIV,commentsDiv+"\n"+TITLE_DIV);
+  store.saveTiddler("ViewTemplate","ViewTemplate",template,config.options.txtUserName,new Date());
+  autoSaveChanges(false);
 },
 
 handler: function(place,macroName,params,wikifier,paramString,tiddler) {
   var macroParams = paramString.parseParams();
   var tiddlerParam = getParam(macroParams, "tiddler");
   tiddler = tiddlerParam ? store.getTiddler(tiddlerParam) : tiddler;
-  log("COMMENTS FOR ", tiddler);
   cmacro.buildCommentsArea(tiddler, place, macroParams);
   // cmacro.refreshCommentsFromRoot(story.getTiddler(tiddler.title).commentsEl, tiddler, macroParams);
   cmacro.refreshCommentsFromRoot(place.commentsEl, tiddler, macroParams);
@@ -63,7 +74,6 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
   var heading = getParam(macroParams, "heading");
   if (heading) createTiddlyElement(commentsArea, "h1", null, null, heading);
   var comments = createTiddlyElement(commentsArea, "div", null, "");
-  cmacro.log("comments", comments);
   place.commentsEl = comments;
 
   if (cmacro.editable(macroParams)) {
@@ -91,7 +101,6 @@ makeTextArea: function(container, macroParams) {
 },
 
 refreshCommentsFromRoot: function(rootCommentsEl, rootTiddler, macroParams) {
-  cmacro.log("refresh root comments", rootCommentsEl);
   cmacro.treeifyComments(rootTiddler);
   cmacro.refreshComments(rootCommentsEl, rootTiddler, macroParams);
 },
@@ -157,8 +166,6 @@ findChildren: function(daddyTiddler) {
 },
 
 buildCommentEl: function(daddyCommentsEl, comment, macroParams) {
-
-  log("buildCommentEl", arguments);
 
   // COMMENT ELEMENT
   var commentEl = document.createElement("div");
@@ -396,14 +403,11 @@ forceLoginIfRequired: function(params, loginPromptContainer, authenticatedBlock)
 
 // callers may replace this with their own ID generation algorithm
 createCommentTiddler: function() {
-  
-  console.log("got to create comment tiddler");
   if (!store.createGuidTiddler) return store.createTiddler("comment_"+((new Date()).getTime()));
   return store.createGuidTiddler("comment_");
 },
 saveTiddler: function(tiddler) {
   var tiddler = (typeof(tiddler)=="string") ? store.getTiddler(tiddler) : tiddler; 
-  console.log("plugin.saveTiddler", tiddler);
   store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, merge(config.defaultCustomFields, tiddler.fields), false, tiddler.created)
 },
 log: function() { if (console && console.firebug) console.log.apply(console, arguments); },
@@ -427,6 +431,28 @@ config.macros.commentsCount = {
     var count = config.macros.comments.findCommentsFromRoot(store.getTiddler(rootTiddler)).length;
     createTiddlyText( place, count);
 //    createTiddlyElement(place, "span", null, "commentCount", count);
+  }
+},
+
+config.macros.commentBreadcrumb = {
+  handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+    if (!tiddler.fields.root) return;
+    var rootLink = createTiddlyElement(place, "span", null, null);
+    createTiddlyLink(rootLink, tiddler.fields.root, true);
+
+    var rootIsParent = tiddler.fields.daddy==tiddler.fields.root;
+    var rootIsGrandparent = (store.getTiddler(tiddler.fields.daddy)).fields.daddy==tiddler.fields.root;
+
+    if (!rootIsParent) {
+      if (!rootIsGrandparent) createTiddlyElement(place, "span", null, null, " > ... ");
+      createTiddlyElement(place, "span", null, null, " > ");
+      var daddyLink = createTiddlyElement(place, "span", null, null);
+      createTiddlyLink(daddyLink, tiddler.fields.daddy, true);
+    }
+
+    createTiddlyElement(place, "span", null, null, " > ");
+
+    // place.appendChild(createTiddlyLink(tiddler.fields.root));
   }
 }
 

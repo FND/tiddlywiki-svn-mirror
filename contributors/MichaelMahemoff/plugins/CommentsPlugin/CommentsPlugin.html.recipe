@@ -3,7 +3,7 @@ recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
 # Comments plugin
 tiddler: CommentsPlugin.js
-tiddler: CommentsPlugin.js.meta
+# tiddler: CommentsPlugin.js.meta
 tiddler: CommentsPluginInfo.tiddler
 
 # Demo
