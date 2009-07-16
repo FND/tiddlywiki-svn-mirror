@@ -27,6 +27,73 @@
 		<span class="country-name">{{ tiddler.fields.op_country }}</span>
 	</div>
 
+    <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAA11dNcXC-qUdM5BISJawFyhTbbVxH4cdi4A1u1COHI2Jg8QsSIxTM20z_6W3I4_t9dctn0ofoAQcDHQ"
+      type="text/javascript"></script>
+    <script type="text/javascript">
+ 
+    //<![CDATA[
+ 
+   var geocoder;
+   var map;
+   var company;
+ 
+   var reg_company = "Company, Registered Address";
+   var reg_address = "{{ tiddler.fields.reg_address_1 }}, {{ tiddler.fields.reg_post_code }}";
+ 
+   var op_company = "Company, Operating Address";
+   var op_address = "{{ tiddler.fields.op_address_1 }}, {{ tiddler.fields.op_post_code }}";
+  
+   function load()
+   {
+      // Create new map object
+      map = new GMap2(document.getElementById("map"));
+      map.addControl(new GSmallMapControl());
+      map.addControl(new GMapTypeControl());
+ 
+      // Create new geocoding object
+      geocoder = new GClientGeocoder();
+ 
+      // Retrieve location information, pass it to addToMap()
+              company = reg_company;
+      geocoder.getLocations(reg_address, addToMap);
+             
+              // Retrieve location information, pass it to addToMap()
+              company = op_company;
+      geocoder.getLocations(op_address, addToMap);
+   }
+ 
+   function addToMap(response)
+   {
+      // Retrieve the object
+      place = response.Placemark[0];
+ 
+      // Retrieve the latitude and longitude
+      point = new GLatLng(place.Point.coordinates[1],
+                          place.Point.coordinates[0]);
+ 
+      // Center the map on this point
+      map.setCenter(point, 5);
+ 
+      // Create a marker
+      marker = new GMarker(point);
+ 
+      // Add the marker to map
+      map.addOverlay(marker);
+ 
+      // Add address information to marker
+      marker.openInfoWindowHtml(company);
+   }
+  
+    //]]>
+	</script>
+	<script type="text/javascript">
+		// Google maps ..
+	$(function() {
+		load();
+	});
+	</script>
+	<div id="map" style="width: 400px; height: 300px"></div>
+
 	<span class="agent">{{ tiddler.fields.reg_agent_name }}</span>
 
 	<div class="tel">
@@ -40,7 +107,7 @@
 	</div>
     </div>
 
-    <div id="comments-container"><div>
+    <div id="comments-container"></div>
 
     <span class="trading">{{ tiddler.fields.trading_status }}</span>
 
