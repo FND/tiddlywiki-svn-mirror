@@ -1,11 +1,59 @@
 <html>
+<head>
+</head>
 <body>
-<h1>hi mum</h1>
-{{ tiddler.title }}
-{{ tiddler.modifier }}
 
 
+<div class="company">
+   <div class="vcard">
+	<h1 class="fn org company-name">{{ tiddler.fields.legal_name }}</h1>
+	<h1 class="avid">{{ tiddler.fields.avid }}</h1>
 
-end
+	<span class="inc_number">{{ tiddler.fields.reg_inc_number }}</span>/<span class="inc_country_code">{{ tiddler.fields.inc_country_code }}</span>
+
+	<div class="adr">
+		<span class="type">Registered</span>
+		<div class="street-address">{{ tiddler.fields.reg_address_1 }}</div>
+		<span class="street-address"{{ tiddler.fields.reg_address_2 }}
+		<span class="locality">{{ tiddler.fields.reg_city }}</span>
+		<span class="region">{{ tiddler.fields.reg_state }}</span>
+		<span class="postal-code>{{ tiddler.fields.reg_post_code }}</span>
+		<span class="country-name">{{ tiddler.fields.reg_country }}</span>
+	</div>
+
+	<div class="adr">
+		<span class="type">Registered</span>
+		<div class="street-address">{{ tiddler.fields.reg_address_1 }}</div>
+		<span class="street-address"{{ tiddler.fields.reg_address_2 }}
+		<span class="locality">{{ tiddler.fields.reg_city }}</span>
+		<span class="region">{{ tiddler.fields.reg_state }}</span>
+		<span class="postal-code>{{ tiddler.fields.reg_post_code }}</span>
+		<span class="country-name">{{ tiddler.fields.reg_country }}</span>
+	</div>
+	<div class="tel">
+		<span class="">{{ tiddler.fields.reg_agent_name }}</span>
+	</div>
+
+	<div class="tel">
+		<span class="type">Work</span> {{ tiddler.fields.tel_numnber }}
+	</div>
+	<div class="tel">
+		<span class="type">Fax</span> {{ tiddler.fields.fax_number }}
+	</div>
+	<div>Email: 
+		<span class="email">{{ tiddler.fields.email }}</span>
+	</div>
+</div>
+
+<div id="comments"> .. comments ..  </div>
+
+<span class="trading">{{ tiddler.fields.trading_status }}</span>
+
+<span class="modified">Modified By: {{ tiddler.modifier }}</span>
+<div class="alt-buttons">
+	<a href="{{ tiddler.fields.avox }}.json">JSON</a> 
+</div>
+
+</div>
 </body>
 </html>
