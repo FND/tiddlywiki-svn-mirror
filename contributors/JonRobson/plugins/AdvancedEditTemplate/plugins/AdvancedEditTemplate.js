@@ -1,11 +1,86 @@
+config.macros.viewimage ={    
+     handler: function(place,macroName,params,wikifier,paramString,tiddler){
+
+        var params = paramString.parseParams("anon",null,true,false,false);
+
+    	var classname = getParam(params,"class");
+        if(!classname) classname = "";
+
+        var src = getParam(params,"src");
+        //alert("here");
+        var fieldname = getParam(params,"field");
+        if(fieldname) src= tiddler.fields[fieldname];
+
+        var maxw = getParam(params,"maxwidth");
+        var maxh = getParam(params,"maxheight");
+        
+        var imagew,imageh;
+        
+        var html = "<img class='"+ classname+"' src='"+src+"'";
+        if(maxw || maxh){
+           
+            var image = new Image();
+            image.src = src;
+            image.onload = function(){
+               
+                var ratio =   image.height/image.width;
+                
+                var largerW, largerH;
+                
+                if(image.height > image.width){
+                    largerH = true;
+                }
+                else {
+                    largerW = true;
+                }
+                console.log("maxw,maxh",maxw,maxh);
+                if(largerW && image.width > maxw){
+                    imagew = maxw;
+                    imageh = parseInt(imagew * ratio);
+                }
+                else if(image.height > maxh){
+                    imageh = maxh;
+                    imagew = parseInt(imageh / ratio);
+                }
+                	if(imagew) html += " width='"+imagew+"'";
+                	if(imageh) html += " height='"+imageh+"'";
+                
+                html += "/>";
+                //alert(html)
+                jQuery(place).append(html);
+                	
+            };
+        }
+        else{
+            html += "/>";
+            //alert(html)
+            jQuery(place).append(html);
+        }
+
+    
+    	
+   
+	
+    }
+};
+
+
+
+
 if(config.macros.view){
     if(!config.macros.view.views)config.macros.view.views={};
     config.macros.view.views.image = function(value,place,params,wikifier,paramString,tiddler) {
     var classname="";
-    if(params[2]) classname = params[2];
+    var params = paramString.parseParams("anon",null,true,false,false);
+	
+    if(params[2]) classname = getParam(params,"class");
 			jQuery(place).append("<img class='"+ classname+"' src='"+value+"'/>");
+    
+    
+    
     };
     
+
     config.macros.view.views.linklist = function(value,place,params,wikifier,paramString,tiddler) {
         var classname="";
         var values = value.split("\n");
@@ -558,56 +633,51 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		init: function(place,paramString,initial,handler,preview){
 			var holder = document.createElement("div");
 			holder.className = "AdvancedEditTemplateImage";
-			var image = document.createElement("img");
-			image.src = initial;
-			image.alt = config.macros.aet.translate("aet_imgpreview");
+			//JON
+			
+			var imageholder = document.createElement("div");
+			imageholder.className = "aet_ImageHolder";
+			config.macros.viewimage.handler(imageholder,false,false,false,"maxwidth:200 maxheight:200 src:"+initial);
+			//image.src = initial;
+			//image.alt = config.macros.aet.translate("aet_imgpreview");
 
 			var params = paramString.parseParams("anon",null,true,false,false);
                 	
 			var root = getParam(params,"root", null);
 			var connector = getParam(params,"browser", null);
 			var uploader =getParam(params,"uploader",null);
-			//var home =  getParam(params,"home", null);	
-
-			
 			var home = "";
 			if(preview){
-			    holder.appendChild(image);			
+			    holder.appendChild(imageholder);			
 			}
 
 			place.appendChild(holder);
 
-			var filename = document.createElement("input"); //this is what is saved back to tiddler
-			filename.id = "filename_" + Math.random();	
 			
-			var form = document.createElement("form");
-			form.setAttribute("enctype","multipart/form-data");
-			form.setAttribute("method","POST");
-			form.setAttribute("target","about:blank");
-            jQuery(form).append("<div class='tip'>"+config.macros.aet.translate("aet_upload")+"</div><input type='hidden' class='filename' name='NewFilename' value='foo.jpg'><input class='file' type='file' name='NewFile'/><input type='submit' value='Send'/>");
-
-			jQuery(".file",form).change(function(e){
-			   jQuery(".filename",form).val(this.value); 
+			var form = document.createElement("div");
+			holder.appendChild(form);
+			var filenameid = "filename_"+ Math.random();
+            form.innerHTML = "<form target='about:blank' action='"+uploader+"?postbackto="+ filenameid +"' id='submitter' enctype='multipart/form-data' name='mysexyform' action='/ilga/upload/image' method='POST'>"+config.macros.aet.translate("aet_upload")+"url:<input type='text' id='"+filenameid+"' name='NewFilename' class='filename' value=''/><input type='file' class='file' id='NewFile' name='NewFile'/><input type='submit' value='Send'></form>";
+            
+            var jqFile = jQuery(".file",form);
+			jqFile.change(function(e){
+			    var newvalue = jQuery(e.target).val();
+			    
+			   jQuery(".filename",form).val(newvalue); 
 			});
 			
 			jQuery(holder).append("<div class='leftcol'></div><div class='rightcol'></div>");
-			
-			form.setAttribute("action",uploader+"?postbackto="+filename.id);
-			
-	
-			//jQuery(".rightcol",holder).append("<div class='tip'>OR browse and select a file from the server</div>");
-			
-			
+
+			var filename = jQuery(".filename",form)[0];		
 			filename.onchange = function(e){
 				var newsrc = this.value;
-				image.src=  "";
-				image.src = newsrc;
+				//image.src=  "";
+				//image.src = newsrc;
+				jQuery(imageholder).html("");
+				config.macros.viewimage.handler(imageholder,false,false,false,"maxwidth:200 maxheight:200 src:"+newsrc);
 				if(handler)handler(newsrc);
 			};
 			if(initial)filename.value = initial;	
-			jQuery(".rightcol",holder).append(form);
-			jQuery(".leftcol",holder).append("File url:")		
-			jQuery(".leftcol",holder).append(filename);
 			jQuery(".rightcol",holder).append("<div class='browserarea' style='position:relative;'><input type='button' class='browsebutton' value='browse'><div class='filebrowser' style='position:absolute;display:none;z-index:200'></div></div>");
 			var bb = jQuery(".browsebutton",holder);
 			bb.click(function(e){
@@ -623,10 +693,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var r;
 			if(!home) home = "";
 			if(root) r =root; else r ="";
-			browser.fileTree({ root: r, script: connector }, function(file) { 
+			/*browser.fileTree({ root: r, script: connector }, function(file) { 
 						filename.value = file;
 						filename.onchange();
-			});
+			});*/
 			
 		}
 	};
