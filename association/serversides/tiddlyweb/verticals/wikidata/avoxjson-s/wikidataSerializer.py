@@ -6,8 +6,8 @@ import jinja2
 from jinja2 import Environment, FunctionLoader
 
 from tiddlyweb.serializations import SerializationInterface
+from tiddlyweb.serializations.html import Serialization as HTML_Serializer
 from tiddlyweb.model.bag import Bag
-
 
 
 EXTENSION_TYPES = { 'wd': 'text/html' }
@@ -23,7 +23,7 @@ def init(config):
     config['serializers'].update(SERIALIZERS)
 
 
-class Serialization(SerializationInterface):
+class Serialization(HTML_Serializer):
 
     def __init__(self, environ=None):
         if environ is None:
