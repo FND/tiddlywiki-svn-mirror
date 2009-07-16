@@ -3,17 +3,24 @@ import logging
 
 import jinja2
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FunctionLoader
 
 from tiddlyweb.serializations import SerializationInterface
 from tiddlyweb.model.bag import Bag
-from tiddlyweb.web.util import encode_name
+
 
 
 EXTENSION_TYPES = { 'wd': 'text/x-wd-html' }
 SERIALIZERS = {
     'text/x-wd-html': ['wikidataSerializer', 'text/html; charset=UTF-8']
 }
+
+templates_dir = 'templates'
+
+
+def init(config):
+    config['extension_types'].update(EXTENSION_TYPES)
+    config['serializers'].update(SERIALIZERS)
 
 
 class Serialization(SerializationInterface):
@@ -22,25 +29,29 @@ class Serialization(SerializationInterface):
         if environ is None:
             environ = {}
         self.environ = environ
-        self._init()
-
-    def _init(self):
-        template_env = Environment(loader=FileSystemLoader('templates'))
-        self.template = template_env.get_template('collection.html')
+        self.template_env = Environment(loader=FunctionLoader(_generate_template))
 
     def list_tiddlers(self, bag):
         tiddlers = bag.list_tiddlers()
-        print tiddlers[0].fields
-        return self.template.render(tiddlers=tiddlers)
+        template = self.template_env.get_template("header.html::collection.html")
+        return template.render(tiddlers=tiddlers)
 
     def tiddler_as(self, tiddler):
-        template_env = Environment(loader=FileSystemLoader('templates'))
-        self.template = template_env.get_template('company.html')
         bag = Bag('tmpbag', tmpbag=True)
         bag.add_tiddler(tiddler)
-        return self.template.render(tiddler=tiddler)
+        template = self.template_env.get_template("header.html::company.html")
+        return template.render(tiddler=tiddler)
 
 
-def init(config):
-    config['extension_types'].update(EXTENSION_TYPES)
-    config['serializers'].update(SERIALIZERS)
+def _generate_template(components):
+    components = components.split("::") # XXX: hacky workaround
+    return "%s\n%s" % (_get_template(components[0]),
+        _get_template(components[1]))
+
+
+def _get_template(name):
+    filepath = "%s/%s" % (templates_dir, name)
+    f = open(filepath)
+    contents = f.read()
+    f.close() # XXX: not required?
+    return contents
