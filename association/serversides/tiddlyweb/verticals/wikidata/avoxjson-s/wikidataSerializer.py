@@ -10,9 +10,9 @@ from tiddlyweb.model.bag import Bag
 
 
 
-EXTENSION_TYPES = { 'wd': 'text/x-wd-html' }
+EXTENSION_TYPES = { 'wd': 'text/html' }
 SERIALIZERS = {
-    'text/x-wd-html': ['wikidataSerializer', 'text/html; charset=UTF-8']
+    'text/html': ['wikidataSerializer', 'text/html; charset=UTF-8']
 }
 
 templates_dir = 'templates'
