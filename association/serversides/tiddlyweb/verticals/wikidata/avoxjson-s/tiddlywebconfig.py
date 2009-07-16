@@ -1,6 +1,7 @@
 config = {
         'css_uri': 'http://peermore.com/tiddlyweb.css',
         'secret': 'the bees are in the what',
+        'system_plugins': ['status', 'static'],
         #'server_host': {
         #    'scheme': 'http',
         #    'host': 'avoxjson-s.peermore.com',
