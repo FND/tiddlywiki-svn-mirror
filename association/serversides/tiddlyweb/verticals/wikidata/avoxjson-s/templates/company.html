@@ -8,7 +8,8 @@
 	<div class="adr">
 		<span class="type">Registered</span>
 		<div class="street-address">{{ tiddler.fields.reg_address_1 }}</div>
-		<span class="street-address"{{ tiddler.fields.reg_address_2 }}
+		<span class="street-address-2"{{ tiddler.fields.reg_address_2 }}</span>
+		<span class="street-address-3"{{ tiddler.fields.reg_address_3 }}</span>
 		<span class="locality">{{ tiddler.fields.reg_city }}</span>
 		<span class="region">{{ tiddler.fields.reg_state }}</span>
 		<span class="postal-code>{{ tiddler.fields.reg_post_code }}</span>
@@ -16,17 +17,17 @@
 	</div>
 
 	<div class="adr">
-		<span class="type">Registered</span>
-		<div class="street-address">{{ tiddler.fields.reg_address_1 }}</div>
-		<span class="street-address"{{ tiddler.fields.reg_address_2 }}
-		<span class="locality">{{ tiddler.fields.reg_city }}</span>
-		<span class="region">{{ tiddler.fields.reg_state }}</span>
-		<span class="postal-code>{{ tiddler.fields.reg_post_code }}</span>
-		<span class="country-name">{{ tiddler.fields.reg_country }}</span>
+		<span class="type">Operational</span>
+		<div class="street-address">{{ tiddler.fields.op_address_1 }}</div>
+		<span class="street-address-2"{{ tiddler.fields.op_address_2 }}</span>
+		<span class="street-address-3"{{ tiddler.fields.op_address_3 }}</span>
+		<span class="locality">{{ tiddler.fields.op_city }}</span>
+		<span class="region">{{ tiddler.fields.op_state }}</span>
+		<span class="postal-code>{{ tiddler.fields.op_post_code }}</span>
+		<span class="country-name">{{ tiddler.fields.op_country }}</span>
 	</div>
-	<div class="tel">
-		<span class="">{{ tiddler.fields.reg_agent_name }}</span>
-	</div>
+
+	<span class="agent">{{ tiddler.fields.reg_agent_name }}</span>
 
 	<div class="tel">
 		<span class="type">Work</span> {{ tiddler.fields.tel_numnber }}
