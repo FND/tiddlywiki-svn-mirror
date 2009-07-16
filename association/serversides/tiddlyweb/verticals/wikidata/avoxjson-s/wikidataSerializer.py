@@ -22,19 +22,12 @@ class Serialization(SerializationInterface):
  
     def _init(self):
         template_env = Environment(loader=FileSystemLoader('templates'))
-        self.template = template_env.get_template('html.html')
+        self.template = template_env.get_template('collection.html')
  
  
     def list_tiddlers(self, bag):
         tiddlers = bag.list_tiddlers()
-        slides = {}
-        slide_order = None
-        original_slide_order = []
-        for tiddler in tiddlers:
-            slides[tiddler.title] = tiddler
-            original_slide_order.append(tiddler.title)
-            tiddler.html =tiddler.text
-        return self.template.render()
+        return self.template.render(tiddlers=tiddlers)
 
 
 
