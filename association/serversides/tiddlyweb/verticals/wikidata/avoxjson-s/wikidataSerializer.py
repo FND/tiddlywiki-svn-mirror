@@ -40,7 +40,7 @@ class Serialization(HTML_Serializer):
         bag = Bag('tmpbag', tmpbag=True)
         bag.add_tiddler(tiddler)
         template = self.template_env.get_template("company.html")
-        return template.render(tiddler=tiddler)
+        return template.render(tiddler=tiddler, maps_api_key = self.environ['tiddlyweb.config']['maps_api_key'])
 
 
 def _generate_template(name):
