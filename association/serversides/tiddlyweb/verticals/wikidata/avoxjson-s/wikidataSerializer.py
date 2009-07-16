@@ -27,6 +27,7 @@ class Serialization(SerializationInterface):
  
     def list_tiddlers(self, bag):
         tiddlers = bag.list_tiddlers()
+        print tiddlers[0].fields
         return self.template.render(tiddlers=tiddlers)
 
 

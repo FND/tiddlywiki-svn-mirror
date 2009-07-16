@@ -1,8 +1,70 @@
+<div class="breadcrumb"><div style="float:right;padding-right:20px">We found <b>186</b> results that matched your search. Displaying 0 - 50.</div>Conduct a new search: <input type="text"/> <input type="submit" value="search"> .. Advanced Search</div>
+
+<div class="textArea">
+<div style="float:right;padding-right:100px">Page ( <b>1</b> | 2 | 3 | 4 | 5 | Next )</div>Click on the column titles to sort by that element.</div>
+
+<table style="background-color: #E2E1EF; margin-top:10px;" cellspacing="0" cellpadding="0" width="95%" border="0"><tr><td style="margin:0;padding:0;">
+<table cellspacing="1" cellpadding="0" width="100%" border="0">
+<tr>
+	<th title="The Legal Name is captured as it appears on the electronic company registry or company registration document.   Any punctuation or abbreviations that occur at these sources will be reflected in the Avox Legal Name.">
+<div style='float: left;'>Legal Name</div>
+	</th>
+	<th title="ISO standard country names are used.">
+<a href="javascript:document.searchForm.sort1.value='Incorporation';document.searchForm.sortOrder.value='ASC';document.searchForm.page.value='1';document.searchForm.submit()">Country of<br />Incorporation</a>	
+	</th>
+	<th title="ISO standard country names are used.">
+
+<a href="javascript:document.searchForm.sort1.value='Operation';document.searchForm.sortOrder.value='ASC';document.searchForm.page.value='1';document.searchForm.submit()">Country of<br />Operation</a>	</th>
+	<th title="ISO state names are used for states in the USA, provinces and territories in Canada and states and territories in Australia, where the population of this field is mandatory if the city field is populated.  Elsewhere state/province/region information is only captured where appropriate and will be stored without abbreviation.">State/Province/Region<br />of Operation</th>
+	<th title="Stored in the anglicised form.">City<br />of Operation</th>
+	<th>Street</th>
+	<th>Postcode</th>
+
+	<th title="The Avox ID is a unique identifier for a business entity. The entity may be a distinct legal entity. Alternatively it may not have its own distinct legal status but does have a relationship to an entity which does. The AVID is assigned when a record has been created and checked by the Avox Quality Assurance team. It is a numeric value not exceeding 10 digits. AVIDs are not re-used.">
+<a href="javascript:document.searchForm.sort1.value='AVID';document.searchForm.page.value='1';document.searchForm.submit()">AVID</a>	</th>
+	<th title="Send us a correction if the data is not correct">Challenge</th>
+	<th title="Request more details about this record">Request more<br />Info</th>
+</tr>
+
 {% for tiddler in tiddlers %}
+<tr id='tableStripe'>
+
+
  
  
-{{ tiddler.title }}
-{{ tiddler.modifier }} 
+
+
  
- 
+
+
+
+
+
+
+<td>{{ tiddler.fields.legal_name }}  ({{ tiddler.title }})</td>
+<td>{{ tiddler.fields.inc_country_code }}</td>
+
+<td>{{ tiddler.fields.op_country }}</td>
+<td>{{ tiddler.fields.op_state }}</td>
+<td>{{ tiddler.fields.op_city }}</td>
+<td>{{ tiddler.fields.op_address_1 }}, {{ tiddler.fields.op_city }}, </td>
+<td>EX78HA</td>
+<td>6248680</td>
+<td style='text-align: center;'>link</td>
+<td style='text-align: center;'>(checkbox?)</td>
+</tr>
+<tr id='tableWhite'>
+
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style='text-align: center;'</td>
+<td style='text-align: center;'></td>
+</tr>
 {% endfor %}
+</tr>
+</table>
+</div>
