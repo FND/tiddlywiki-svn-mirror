@@ -15,9 +15,8 @@ function formSubmit(a) {
 	$.each(document.searchForm, function() {
 		if(this.value != '' && this.value  != 'get searching')
 			q.push(this.id + ":" +this.value+';');
-    });
-	console.log(q.join(''));
-window.location = '../bags/avid/tiddlers'+q.join('');
+	});
+	window.location = '../bags/avid/tiddlers'+q.join('');
 
 	return false;
 }
