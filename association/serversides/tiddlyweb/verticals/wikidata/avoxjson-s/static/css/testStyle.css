@@ -1,0 +1,8 @@
+/* http://www.colourlovers.com/palette/867235/LoversInJapan */
+body { font-family: sans-serif; margin: 0; }
+h1 { padding: 20px; background: #e94e77; color: white; }
+#nav { padding: 20px; }
+#nav li { display: inline; padding: 0.3em; margin-right: 1em; cursor: pointer; background: #f4ead5; color: #c6a49a; }
+#nav li:hover { background: #e94e77; color: white; }
+#nav .selected { background: #e94e77; color: white; }
+#commentsContainer { padding: 20px; }
