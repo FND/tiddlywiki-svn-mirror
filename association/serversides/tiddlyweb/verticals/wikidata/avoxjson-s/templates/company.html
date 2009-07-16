@@ -37,10 +37,10 @@
    var map;
    var company;
  
-   var reg_company = "Company, Registered Address";
+   var reg_company = "{{ tiddler.fields.legal_name }},<br/> Registered Address";
    var reg_address = "{{ tiddler.fields.reg_address_1 }}, {{ tiddler.fields.reg_post_code }}";
  
-   var op_company = "Company, Operating Address";
+   var op_company = "{{ tiddler.fields.legal_name }},<br/> Operating Address";
    var op_address = "{{ tiddler.fields.op_address_1 }}, {{ tiddler.fields.op_post_code }}";
   
    function load()
@@ -72,7 +72,7 @@
                           place.Point.coordinates[0]);
  
       // Center the map on this point
-      map.setCenter(point, 5);
+      map.setCenter(point, 3);
  
       // Create a marker
       marker = new GMarker(point);
@@ -92,7 +92,7 @@
 		load();
 	});
 	</script>
-	<div id="map" style="width: 400px; height: 300px"></div>
+	<div id="map" style="width: 350px; height: 300px"></div>
 
 	<span class="agent">{{ tiddler.fields.reg_agent_name }}</span>
 
