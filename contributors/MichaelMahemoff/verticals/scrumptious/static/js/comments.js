@@ -5,20 +5,18 @@
   //################################################################################
 
   var plugin;
-  // var ROOT = "..";
-  var ROOT = "/comments"; // must be absolute for cookies; but could still calculate from doc URL
+  var PATH = "/comments"; // must be absolute for cookies; but could still calculate this from doc URL
 
   //################################################################################
   //# PUBLIC INTERFACE
   //################################################################################
 
-  plugin = $.fn.comments = function(options) {
+  plugin = $.fn.comments = function(commentSet, options) {
     options = options || {};
-    // options.pageURL = "http://project.mahemoff.com/guid0/";
-    options.pageID = $.fn.comments.getPageTitle(options.pageURL);
     context = {
       container: $(this),
-      options: options
+      options: options,
+      commentSet: commentSet||"___defaultComments___"
     }
     // container = $(this);
     $.fn.comments.buildUI(context, context);
@@ -34,45 +32,26 @@
 
   plugin.loadData = function(context) {
     context.store = {}
-    plugin.loadPage(context);
-  }
-
-  plugin.loadPage = function(context) {
-    var title = context.options.pageID;
-    $.ajax({
-      url: ROOT + "/bags/pages/tiddlers/" + encodeURIComponent(title) + ".json",
-      success: function(json) {
-        context.store[title] = context.root = $.parseJSON(json, true);
-        context.root.title = plugin.getPageTitle(title); // As tiddlyweb sends it decoded
-      },
-      error: function(xhr) {
-        if (xhr.status!=404) return;
-        context.store[title] = context.root = {
-            title: title,
-            text: "",
-            tags: ["url"],
-            fields: {
-              name: context.options.pageID,
-              url: decodeURIComponent(context.options.pageID),
-              "server.workspace": "bags/pages",
-              "server.host": ROOT,
-              "server.type": "tiddlyweb",
-              "server.title": title
-            }
-        };
-        plugin.putTiddler(context.root);
-      },
-      complete: function() {
-        plugin.updatePageInfo(context);
-        plugin.loadComments(context);
+    context.store[context.commentSet] = context.root = {
+      title: context.commentSet,
+      text: "",
+      tags: ["url"],
+      fields: {
+        name: context.commentSet,
+        url: decodeURIComponent(context.commentSet),
+        "server.workspace": "bags/pages",
+        "server.host": PATH,
+        "server.type": "tiddlyweb",
+        "server.title": context.commentSet
       }
-    });
+    };
+    plugin.loadComments(context);
   }
 
   plugin.loadComments = function(context) {
     var commentsList;
       $.ajax({
-        url: ROOT + "/bags/comments/tiddlers.json?fat=1&select=root:"+(encodeURIComponent(context.root.title)),
+        url: PATH + "/bags/comments/tiddlers.json?fat=1&select=commentSet:"+(encodeURIComponent(context.root.title)),
         success: function(json) {
         commentsList = $.parseJSON(json);
       },
@@ -95,14 +74,11 @@
   //################################################################################
 
   plugin.buildUI = function(context) {
-    var container = context.container;
+    var container = context.container.empty();
     var ui = context.ui = {};
     ui.area =
       $("<div class='commentsArea'></div>")
-        .append($("<span class='pageInfo'>")
-          .append(ui.pageURL=$("<a></a>"))
-          .append(" - Comments")
-         )
+        .append("<h3>Comments</h3>")
         .append(ui.loginArea=$("<div class='commentsLoginArea'></div>"))
         // .append("<a class='newCommentLink' href='#newCommentArea'>Jump to New Comment</a>")
         .append(ui.comments=$("<div class='allComments'></div>"))
@@ -155,7 +131,7 @@
              .append(" ")
              .append($("<span class='pseudoLink' id='logout'>Logout</span>").click(plugin.logout));
     } else {
-      content = $("<a target='scrumptiousLogin' href='"+ROOT+"/challenge/openid?tiddlyweb_redirect="+encodeURIComponent(ROOT+"/static/afterLogin.html'")+">Login (optional)</a>");
+      content = $("<a target='scrumptiousLogin' href='"+PATH+"/challenge/openid?tiddlyweb_redirect="+encodeURIComponent(PATH+"/static/afterLogin.html'")+">Login (optional)</a>");
     }
     $(".commentsLoginArea").html(content);
 
@@ -163,21 +139,16 @@
 
   plugin.wireEvents = function(context) {
       context.ui.addComment.click(function() {
-        var rootTiddler = context.store[context.options.pageID];
+        var rootTiddler = context.store[context.commentSet];
         var customFields = {
           bioName: context.ui.bioName.val(),
           bioHomepage: context.ui.bioHomepage.val()
         };
         var comment = plugin.createComment(context, context.ui.newComment.val(), customFields, rootTiddler);
-        context.ui.newComment.find("input,textarea").val("");
+        context.ui.newComment.val("");
         plugin.treeify(context);
         plugin.refreshComments(context.ui.comments, rootTiddler, comment.title);
     });
-  }
-
-  plugin.updatePageInfo = function(context) {
-    context.ui.pageURL.attr("href", context.root.fields.url);
-    context.ui.pageURL.html(decodeURIComponent(context.root.fields.name));
   }
 
   //################################################################################
@@ -331,7 +302,7 @@
   }
 
   plugin.createComment = function(context, text, customFields, daddy) {
-
+    log("daddy", daddy);
     var title = "comment_"+plugin.makeGUID();
 
     var modifier = plugin.findUserID() || "GUEST";
@@ -344,11 +315,11 @@
       tags: ["comment"],
       fields: {
         "server.workspace": "bags/comments",
-        "server.host": ROOT,
+        "server.host": PATH,
         "server.type": "tiddlyweb",
         "server.title": title,
       daddy: daddy.title,
-      root: daddy.fields.root ? daddy.fields.root : daddy.title
+      commentSet: daddy.fields.commentSet ? daddy.fields.commentSet : daddy.title
       }
     }
 
@@ -391,12 +362,13 @@
   plugin.makeGUID = function() { return ""+(new Date()).getTime(); }
 
   plugin.putTiddler = function(tiddler) {
+    log("put tiddler", tiddler);
     $.ajax({type:"POST",
-    url: ROOT+"/"+tiddler.fields["server.workspace"]+"/tiddlers/"+encodeURIComponent(tiddler.title)
+    url: PATH+"/"+tiddler.fields["server.workspace"]+"/tiddlers/"+encodeURIComponent(tiddler.title)
          + "?http_method=PUT",
 /*
     $.ajax({type:"PUT",
-    url: ROOT+"/"+tiddler.fields["server.workspace"]+"/tiddlers/"+tiddler.title,
+    url: PATH+"/"+tiddler.fields["server.workspace"]+"/tiddlers/"+tiddler.title,
 */
     data: $.toJSON(tiddler),
     contentType: "application/json; charset=UTF-8"
@@ -419,11 +391,9 @@
     return false;
   }
 
-  /*
   function log() {
     if (console) console.log.apply(console, arguments);
   }
-  */
 
 })(jQuery);
 
