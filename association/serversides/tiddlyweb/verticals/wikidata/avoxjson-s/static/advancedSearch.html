@@ -1,0 +1,141 @@
+<html>
+<body>
+<title>Avid Search </title>
+<h1>Search </h1>
+
+<script type="text/javascript" src="http://jqueryui.com/latest/jquery-1.3.2.js"></script>
+  <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.core.js"></script>
+
+
+<script>
+
+function formSubmit(a) {
+	var q = [];
+	q.push('?select=');
+	$.each(document.searchForm, function() {
+		if(this.value != '' && this.value  != 'get searching')
+			q.push(this.id + ":" +this.value+';');
+    });
+	console.log(q.join(''));
+window.location = '../bags/avid/tiddlers'+q.join('');
+
+	return false;
+}
+
+</script>
+<form name='searchForm' onSubmit='return formSubmit()'>
+
+<table>
+	<tr>
+		<th>avid : 
+		</th>
+		<td>
+			<input id=avid />
+		</td>
+	</tr>
+	<tr>
+
+		<th>inc_country_code	: 
+		</th>
+		<td>
+			<input id=inc_country_code />
+		</td>
+	</tr>
+	<tr>
+			<th>legal_name : 
+		</th>
+		<td>
+
+			<input id=legal_name />
+		</td>
+	</tr>
+	<tr>
+		<th>op_address_1: 
+		</th>
+		<td>
+			<input id=op_address_1 />
+		</td>
+
+	</tr>
+	<tr>
+		<th>op_city : 
+		</th>
+		<td>
+			<input id=op_city />
+		</td>
+	</tr>
+	
+	<tr>
+
+		<th>op_country : 
+		</th>
+		<td>
+			<input id=op_country />
+		</td>
+	</tr>
+	
+	<tr>
+		<th>op_post_code : 
+		</th>
+		<td>
+
+			<input id=op_post_code />
+		</td>
+	</tr>
+	
+	
+	<tr>
+		<th>op_state : 
+		</th>
+		<td>
+			<input id=op_state />
+		</td>
+
+	</tr>
+	
+	<tr>
+		<th>reg_city : 
+		</th>
+		<td>
+			<input id=reg_city />
+		</td>
+	</tr>
+	
+	<tr>
+
+		<th>reg_inc_number : 
+		</th>
+		<td>
+			<input id=reg_inc_number />
+		</td>
+	</tr>
+	
+	<tr>
+		<th>reg_post_code : 
+		</th>
+		<td>
+
+			<input id=reg_post_code />
+		</td>
+	</tr>
+	
+	<tr>
+		<th>reg_state : 
+		</th>
+		<td>
+			<input id=reg_state />
+		</td>
+
+	</tr>
+	<tr>
+		<th>trading_status : 
+		</th>
+		<td>
+			<input id=trading_status />
+		</td>
+	</tr>
+</table>
+
+<input type='submit' value='get searching'>
+</body>
+</html>
