@@ -4,73 +4,6 @@
 	<title>Avox</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link href="css/style.css" type="text/css" rel="stylesheet" />
-	
-	<script>
-	function formSubmit() {
-
-		var tiddler = {
-			title: $("#avid").text(),
-			fields: {}
-		};
-
-		$(".textArea input").each(function(i) {
-		    tiddler[this.name] = this.value;
-		});
-
-		var callback = function(foo, bar, baz) {
-			console.log("in user callback", arguments);
-		};
-		putTiddler(tiddler, null, callback);
-
-		return false;
-	}
-
-	// store an individual tiddler
-	var putTiddler = function(tiddler, userParams, callback) {
-		context = {
-			tiddler: tiddler,
-			userParams: userParams,
-			callback: callback
-		};
-
-		host = ""; // XXX: hardcoded
-		bag = "avid"; // XXX: hardcoded
-		var uri = host + "/bags/" + bag + "/tiddlers/" + avid;
-
-		var payload = {
-			title: tiddler.title,
-			modifier: tiddler.modifier,
-			fields: $.extend({}, tiddler.fields)
-		};
-
-		$.ajax({
-			type: "PUT",
-			url: uri,
-			dataType: "json",
-			success: successCallback,
-			error: errorCallback
-		});
-	};
-
-	var putTiddlerCallback = function(status, context, responseText, uri, xhr) {
-		context.status = [204, 1223].contains(xhr.status);
-		context.statusText = xhr.statusText;
-		context.httpStatus = xhr.status;
-		if(status) {
-			var etag = xhr.getResponseHeader("Etag");
-			etag = etag.substr(1, etag.length - 2); // strip enclosing quotes
-			context.tiddler.fields["server.page.revision"] = etag.split("/").pop();
-		}
-		if(context.callback) {
-			context.callback(context, context.userParams);
-		}
-	};
-
-
-
-	</script>
-
-
 </head>
 
 <body>
@@ -80,7 +13,7 @@
 <div class="info">Edit company information:</div>
 
 <div class="textArea">
-	<form name='editForm' onSubmit='return formSubmit()'>
+	<form name='editForm' action='/submit'>
 		<table>
 			<tr><td align="right"><b>Avid</b></td><td id="avid">{{ tiddler.fields.avid }}</td><td align="right"><b>Extended Information</b></td><td></td></tr>
 			<tr><td align="right">Legal Name</td><td><input style="width:320px" name="legal_name" value="{{ tiddler.fields.legal_name }}"/></td><td align="right">NAICS code</td><td><input style="width:320px" name="legal_name" value="{{ tiddler.fields.legal_name }}"/></td></tr>
@@ -118,6 +51,7 @@
 		</table>
 		<br/>
 		<input type="submit" value="Save Changes"/>
+		<input type='hidden' name='avid' value='{{ tiddler.title }}'/>
 	</form>
 </div>
 
