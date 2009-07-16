@@ -26,7 +26,7 @@
 .newReplyLabel { float: left; }
 .closeNewReply { cursor: pointer; float: right; text-decoration: underline; }
 .commentsArea .commentWrapper { margin: 5px 0; padding: 3px; border: 1px solid #999; background: white; }
-.commentsArea textarea { width: 100%; border: 0; }
+.commentsArea textarea { width: 30em; border: 0; }
 .commentsArea button { margin-top: 0.3em; margin-left: 0; }
 .newCommentArea { margin-top: 1em; }
 .newCommentLink { font-size: x-small; }

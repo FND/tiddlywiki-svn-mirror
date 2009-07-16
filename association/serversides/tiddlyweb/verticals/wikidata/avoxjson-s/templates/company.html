@@ -1,3 +1,14 @@
+<script type="text/javascript" src="/static/js/tiddly.js"></script>
+<script type="text/javascript" src="/static/js/jquery.scrollTo-min.js"></script>
+<script type="text/javascript" src="/static/js/comments.js"></script>
+<script type="text/javascript" src="/static/js/jquery.color.js"></script>
+<link id="stylesheet" rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" charset="utf-8"/>
+<script type="text/javascript">
+  $(function() {
+    $("#comments-container").comments({{tiddler.fields.avid}});
+  });
+</script>
+
 <div class="company">
    <div class="vcard">
 	<h1 class="fn org company-name">{{ tiddler.fields.legal_name }}</h1>
@@ -12,7 +23,7 @@
 		<span class="street-address-3"{{ tiddler.fields.reg_address_3 }}</span>
 		<span class="locality">{{ tiddler.fields.reg_city }}</span>
 		<span class="region">{{ tiddler.fields.reg_state }}</span>
-		<span class="postal-code>{{ tiddler.fields.reg_post_code }}</span>
+		<span class="postal-code">{{ tiddler.fields.reg_post_code }}</span>
 		<span class="country-name">{{ tiddler.fields.reg_country }}</span>
 	</div>
 
@@ -23,7 +34,7 @@
 		<span class="street-address-3"{{ tiddler.fields.op_address_3 }}</span>
 		<span class="locality">{{ tiddler.fields.op_city }}</span>
 		<span class="region">{{ tiddler.fields.op_state }}</span>
-		<span class="postal-code>{{ tiddler.fields.op_post_code }}</span>
+		<span class="postal-code">{{ tiddler.fields.op_post_code }}</span>
 		<span class="country-name">{{ tiddler.fields.op_country }}</span>
 	</div>
 
