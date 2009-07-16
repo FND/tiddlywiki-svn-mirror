@@ -1,9 +1,3 @@
-<html>
-<head>
-</head>
-<body>
-
-
 <div class="company">
    <div class="vcard">
 	<h1 class="fn org company-name">{{ tiddler.fields.legal_name }}</h1>
@@ -43,17 +37,16 @@
 	<div>Email: 
 		<span class="email">{{ tiddler.fields.email }}</span>
 	</div>
+    </div>
+
+    <div id="comments-container"><div>
+
+    <span class="trading">{{ tiddler.fields.trading_status }}</span>
+
+    <span class="modified">Modified By: {{ tiddler.modifier }}</span>
+    <div class="alt-buttons">
+	<a href="{{ tiddler.fields.avid }}.json">json</a> |
+	<a href="{{ tiddler.fields.txt }}.txt">text</a> 
+    </div>
+
 </div>
-
-<div id="comments"> .. comments ..  </div>
-
-<span class="trading">{{ tiddler.fields.trading_status }}</span>
-
-<span class="modified">Modified By: {{ tiddler.modifier }}</span>
-<div class="alt-buttons">
-	<a href="{{ tiddler.fields.avox }}.json">JSON</a> 
-</div>
-
-</div>
-</body>
-</html>
