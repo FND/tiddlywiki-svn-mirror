@@ -1,6 +1,13 @@
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
+	
+	
+	<script type="text/javascript">
+	var doSearch = function(search) {
+		window.location = "/search?q="+search
+	}
+	</script>
 	<title>Avox</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<style>
@@ -117,4 +124,5 @@
 <body>
 <div class="topNavText"><a href="http://www.deutsche-boerse.com"><img src="http://www.avox.info/images/DB_home.gif" border="0" width="203" height="15" alt="Deutsche B&ouml;erse Group Homepage" /></a></div>
 <div class="banner"><img src="http://www.avox.info/images/logo.gif" border="0" width="192" height="64" alt="Avox"/></div>
-Conduct a new search: <input type="text"/> <input type="submit" value="search"> .. Advanced Search</div>
+Conduct a new search: <form name='searchForm' onSubmit='doSearch(document.searchForm.firstChild.value); return false;'><input type="text" name='searchValue'/> <input type="submit" onclick='doSearch(document.searchForm.firstChild.value); return false;' value="search"> .. <a href='/static/advancedSearch.html'>Advanced Search</a></div>
+<div style="margin-left:160px">

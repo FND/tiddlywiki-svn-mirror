@@ -33,7 +33,7 @@ class Serialization(SerializationInterface):
 
     def list_tiddlers(self, bag):
         tiddlers = bag.list_tiddlers()
-        template = self.template_env.get_template("header.html::collection.html")
+        template = self.template_env.get_template("header.html::collection.html::footer.html")
         return template.render(tiddlers=tiddlers)
 
     def tiddler_as(self, tiddler):
