@@ -10,9 +10,9 @@ from tiddlyweb.model.bag import Bag
 
 
 
-EXTENSION_TYPES = { 'wd': 'text/html' }
+EXTENSION_TYPES = { 'wd': 'text/x-wd-html' }
 SERIALIZERS = {
-    'text/html': ['wikidataSerializer', 'text/html; charset=UTF-8']
+    'text/x-wd-html': ['wikidataSerializer', 'text/html; charset=UTF-8']
 }
 
 templates_dir = 'templates'
@@ -33,20 +33,19 @@ class Serialization(SerializationInterface):
 
     def list_tiddlers(self, bag):
         tiddlers = bag.list_tiddlers()
-        template = self.template_env.get_template("header.html::collection.html::footer.html")
+        template = self.template_env.get_template("collection.html")
         return template.render(tiddlers=tiddlers)
 
     def tiddler_as(self, tiddler):
         bag = Bag('tmpbag', tmpbag=True)
         bag.add_tiddler(tiddler)
-        template = self.template_env.get_template("header.html::company.html")
+        template = self.template_env.get_template("company.html")
         return template.render(tiddler=tiddler)
 
 
-def _generate_template(components):
-    components = components.split("::") # XXX: hacky workaround
-    return "%s\n%s" % (_get_template(components[0]),
-        _get_template(components[1]))
+def _generate_template(name):
+    components = ["header.html", name, "footer.html"]
+    return "%s\n%s\n%s" % tuple(_get_template(name) for name in components)
 
 
 def _get_template(name):
