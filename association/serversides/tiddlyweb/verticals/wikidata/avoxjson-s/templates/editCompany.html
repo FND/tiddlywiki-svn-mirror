@@ -2,7 +2,7 @@
 <div class="info">Edit company information:</div>
 
 <div class="textArea">
-	<form name='editForm' action='/submit'>
+	<form name='editForm' action='/submit' method='POST'>
 		<table>
 			<tr><td align="right"><b>Avid</b></td><td id="avid">{{ tiddler.fields.avid }}</td><td align="right"><b>Extended Information</b></td><td></td></tr>
 			<tr><td align="right">Legal Name</td><td><input style="width:320px" name="legal_name" value="{{ tiddler.fields.legal_name }}"/></td><td align="right">NAICS code</td><td><input style="width:320px" name="legal_name" value="{{ tiddler.fields.legal_name }}"/></td></tr>
