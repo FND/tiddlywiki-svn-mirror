@@ -9,10 +9,33 @@
   });
 </script>
 
+<style>
+.vcard {
+  background-color: #eeeeff;
+  padding: 1em 2em;
+  width: 80%;
+}
+h1 { margin: 0 0 0 0; }
+h1.avid .label { font-size: 0.4em; padding-bottom: -2px; }
+h1.avid span.value {
+  font-size: 0.6em;
+  color:#ffffff;
+  background-color: #000099;
+  padding: 2px;
+}
+h1.avid {
+  margin-bottom: 8px;
+}
+.company-name {
+  color: #000099;
+}
+#map { margin: 1em 0; }
+</style>
+
 <div class="company">
    <div class="vcard">
 	<h1 class="fn org company-name">{{ tiddler.fields.legal_name }}</h1>
-	<h1 class="avid">{{ tiddler.fields.avid }}</h1>
+	<h1 class="avid"><span class="label">Avox ID:</span> <span class='value'>{{ tiddler.fields.avid }}</span></h1>
 
 	<span class="inc_number">{{ tiddler.fields.reg_inc_number }}</span>/<span class="inc_country_code">{{ tiddler.fields.inc_country_code }}</span>
 
@@ -103,7 +126,6 @@
 		load();
 	});
 	</script>
-	<div id="map" style="width: 350px; height: 300px"></div>
 
 	<span class="agent">{{ tiddler.fields.reg_agent_name }}</span>
 
@@ -116,6 +138,9 @@
 	<div>Email: 
 		<span class="email">{{ tiddler.fields.email }}</span>
 	</div>
+
+      <div id="map" style="width: 350px; height: 300px"></div>
+
     </div>
 
     <div id="comments-container"></div>
