@@ -43,7 +43,7 @@ class Serialization(SerializationInterface):
         self.template = template_env.get_template('company.html')
         bag = Bag('tmpbag', tmpbag=True)
         bag.add_tiddler(tiddler)
-        return self.list_tiddlers(bag)
+        return self.template.render(tiddler=tiddler)
  
  
 def init(config):
