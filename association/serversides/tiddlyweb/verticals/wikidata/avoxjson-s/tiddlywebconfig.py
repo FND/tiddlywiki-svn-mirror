@@ -14,5 +14,6 @@ config = {
             'text/x-json': 'jsonhtml',
             },
         'maps_api_key': 'ABQIAAAAwvFhEUtSIa3VRWVU970fZRTFoq1F38kgVdr6NeB-ovQyAo_s0RT9mvrcXyHbFG--L-Mkekf4hbw0hQ',
+        'log_level': 'DEBUG'
         }
 
