@@ -16,13 +16,17 @@ config.macros.viewimage ={
         
         var imagew,imageh;
         
-        var html = "<img class='"+ classname+"' src='"+src+"'";
+        var html = "<img";
+        if(classname)html+=" class='"+ classname+"' ";
+        
+        html += " src='"+src+"'";
+        
         if(maxw || maxh){
            
             var image = new Image();
-            image.src = src;
+
             image.onload = function(){
-               
+           
                 var ratio =   image.height/image.width;
                 
                 var largerW, largerH;
@@ -33,7 +37,7 @@ config.macros.viewimage ={
                 else {
                     largerW = true;
                 }
-                console.log("maxw,maxh",maxw,maxh);
+                //console.log("maxw,maxh",maxw,maxh);
                 if(largerW && image.width > maxw){
                     imagew = maxw;
                     imageh = parseInt(imagew * ratio);
@@ -46,10 +50,12 @@ config.macros.viewimage ={
                 	if(imageh) html += " height='"+imageh+"'";
                 
                 html += "/>";
-                //alert(html)
+                //alert(html)\
+               
                 jQuery(place).append(html);
                 	
             };
+            image.src = src; //this must come after defining the onload event
         }
         else{
             html += "/>";
@@ -637,7 +643,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			var imageholder = document.createElement("div");
 			imageholder.className = "aet_ImageHolder";
-			config.macros.viewimage.handler(imageholder,false,false,false,"maxwidth:200 maxheight:200 src:"+initial);
+
 			//image.src = initial;
 			//image.alt = config.macros.aet.translate("aet_imgpreview");
 
@@ -647,11 +653,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var connector = getParam(params,"browser", null);
 			var uploader =getParam(params,"uploader",null);
 			var home = "";
+			place.appendChild(holder);
 			if(preview){
 			    holder.appendChild(imageholder);			
+			    config.macros.viewimage.handler(imageholder,false,false,false,"maxwidth:200 maxheight:200 src:"+initial,tiddler);
 			}
 
-			place.appendChild(holder);
+			
 
 			
 			var form = document.createElement("div");
@@ -674,7 +682,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				//image.src=  "";
 				//image.src = newsrc;
 				jQuery(imageholder).html("");
-				config.macros.viewimage.handler(imageholder,false,false,false,"maxwidth:200 maxheight:200 src:"+newsrc);
+				config.macros.viewimage.handler(imageholder,false,false,false,"maxwidth:200 maxheight:200 src:"+newsrc,tiddler);
 				if(handler)handler(newsrc);
 			};
 			if(initial)filename.value = initial;	
