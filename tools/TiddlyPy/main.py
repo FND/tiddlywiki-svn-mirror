@@ -66,8 +66,11 @@ def convert_tiddler_timestamp(t): # TODO: rename? move into TiddlyWiki class? --
 	@param t: tiddler timestamp (YYYYMMDDhhmm format)
 	@return: datetime object
 	"""
-	return datetime(int(t[0:4]), int(t[4:6]), int(t[6:8]),
-		int(t[8:10]), int(t[10:12])) # TODO: use strptime?
+	try:
+		return datetime(int(t[0:4]), int(t[4:6]), int(t[6:8]),
+			int(t[8:10]), int(t[10:12])) # TODO: use strptime?
+	except ValueError: # invalid timestamp
+		return None
 
 
 def read_bracketed_list(string): # TODO: move into TiddlyWiki class? -- XXX: private?
