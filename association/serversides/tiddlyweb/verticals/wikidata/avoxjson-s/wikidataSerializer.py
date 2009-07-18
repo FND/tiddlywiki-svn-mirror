@@ -1,11 +1,8 @@
 import urllib
 import logging
 
-import jinja2
+from jinja2 import Environment as templating
 
-from jinja2 import Environment, FunctionLoader
-
-from tiddlyweb.serializations import SerializationInterface
 from tiddlyweb.serializations.html import Serialization as HTML_Serializer
 from tiddlyweb.model.bag import Bag
 
@@ -25,27 +22,25 @@ def init(config):
 
 class Serialization(HTML_Serializer):
 
-    def __init__(self, environ=None):
-        if environ is None:
-            environ = {}
-        self.environ = environ
-        self.template_env = Environment(loader=FunctionLoader(_generate_template))
+    def __init__(self, environ):
+        self.maps_api_key = environ['tiddlyweb.config']['maps_api_key']
 
     def list_tiddlers(self, bag):
         tiddlers = bag.list_tiddlers()
-        template = self.template_env.get_template("collection.html")
+        template = _generate_template("collection.html")
         return template.render(tiddlers=tiddlers)
 
     def tiddler_as(self, tiddler):
         bag = Bag('tmpbag', tmpbag=True)
         bag.add_tiddler(tiddler)
-        template = self.template_env.get_template("company.html")
-        return template.render(tiddler=tiddler, maps_api_key = self.environ['tiddlyweb.config']['maps_api_key'])
+        template = _generate_template("company.html")
+        return template.render(tiddler=tiddler, maps_api_key=self.maps_api_key)
 
 
 def _generate_template(name):
     components = ["header.html", name, "footer.html"]
-    return "%s\n%s\n%s" % tuple(_get_template(name) for name in components)
+    template = "%s\n%s\n%s" % tuple(_get_template(name) for name in components)
+    return templating().from_string(template)
 
 
 def _get_template(name):

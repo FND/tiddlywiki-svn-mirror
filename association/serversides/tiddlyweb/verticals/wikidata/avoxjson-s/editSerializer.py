@@ -1,13 +1,12 @@
 import urllib
 import logging
 
-import jinja2
-
-from jinja2 import Environment, FunctionLoader
+from jinja2 import Environment as templating
 
 from tiddlyweb.serializations import SerializationInterface
-from tiddlyweb.serializations.html import Serialization as HTML_Serializer
 from tiddlyweb.model.bag import Bag
+
+from wikidataSerializer import _generate_template
 
 
 EXTENSION_TYPES = { 'edit': 'text/x-edit-html' }
@@ -23,29 +22,10 @@ def init(config):
     config['serializers'].update(SERIALIZERS)
 
 
-class Serialization(HTML_Serializer):
-
-    def __init__(self, environ=None):
-        if environ is None:
-            environ = {}
-        self.environ = environ
-        self.template_env = Environment(loader=FunctionLoader(_generate_template))
+class Serialization(SerializationInterface):
 
     def tiddler_as(self, tiddler):
         bag = Bag('tmpbag', tmpbag=True)
         bag.add_tiddler(tiddler)
-        template = self.template_env.get_template("editCompany.html")
+        template = _generate_template("editCompany.html")
         return template.render(tiddler=tiddler)
-
-
-def _generate_template(name):
-    components = ["header.html", name, "footer.html"]
-    return "%s\n%s\n%s" % tuple(_get_template(name) for name in components)
-
-
-def _get_template(name):
-    filepath = "%s/%s" % (templates_dir, name)
-    f = open(filepath)
-    contents = f.read()
-    f.close() # XXX: not required?
-    return contents
