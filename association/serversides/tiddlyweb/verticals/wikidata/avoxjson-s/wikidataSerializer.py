@@ -23,6 +23,7 @@ def init(config):
 class Serialization(HTML_Serializer):
 
     def __init__(self, environ=None):
+        self.environ = environ
         try:
             self.maps_api_key = environ['tiddlyweb.config']['maps_api_key']
         except TypeError, KeyError:

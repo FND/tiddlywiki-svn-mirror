@@ -1,0 +1,5 @@
+desc: 
+policy: {"read": [], "create": [], "manage": [], "write": [], "owner": null, "delete": []}
+
+/bags/comments/tiddlers
+/bags/avid/tiddlers
