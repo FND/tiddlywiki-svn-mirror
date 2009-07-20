@@ -4,9 +4,9 @@
 |''Author:''|Jeremy Ruston (jeremy (at) osmosoft (dot) com)|
 |''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/CecilyPlugin.js|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JeremyRuston/plugins/CecilyPlugin.js|
-|''Version:''|0.1.1|
+|''Version:''|0.1.2|
 |''Status:''|Under Development|
-|''Date:''|Apr 1, 2009|
+|''Date:''|July 20, 2009|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev|
 |''License:''|BSD|
 |''~CoreVersion:''|2.5.0|
@@ -563,11 +563,11 @@ Cecily.draggers.tiddlerDragger = {
 		tiddler.parentNode.insertBefore(tiddler,null);
 		cecily.drag.tiddler = tiddler;
 		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
-		cecily.drag.lastPoint = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
+		cecily.drag.lastPoint = new Point(ev.pageX,ev.pageY);
 		addClass(tiddler,"drag");
 	},
 	dragMove: function(cecily,target,ev) {
-		var dragThis = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
+		var dragThis = new Point(ev.pageX,ev.pageY);
 		if(dragThis) {
 			var s = cecily.frame.offsetWidth/cecily.viewer.viewBounds.w;
 			var pos = new Rect(cecily.drag.tiddler.cecilyTransform.bounds.x + (dragThis.x - cecily.drag.lastPoint.x) / s,
@@ -592,13 +592,13 @@ Cecily.draggers.tiddlerResizer = {
 		tiddler.parentNode.insertBefore(tiddler,null);
 		cecily.drag.tiddler = tiddler;
 		cecily.drag.tiddlerTitle = tiddler.getAttribute("tiddler");
-		cecily.drag.startPoint = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
+		cecily.drag.startPoint = new Point(ev.pageX,ev.pageY);
 		cecily.drag.startWidth = tiddler.cecilyTransform.bounds.w;
 		addClass(tiddler,"drag");
 	},
 	dragMove: function(cecily,target,ev) {
 		var s = cecily.frame.offsetWidth/cecily.viewer.viewBounds.w;
-		var dragThis = normalisePoint(cecily.frame,target,new Point(ev.offsetX,ev.offsetY));
+		var dragThis = new Point(ev.pageX,ev.pageY);
 		if(dragThis) {
 			var pos = new Rect(cecily.drag.tiddler.cecilyTransform.bounds);
 			pos.w = cecily.drag.startWidth + (dragThis.x - cecily.drag.startPoint.x) / s;
@@ -618,14 +618,14 @@ Cecily.draggers.backgroundDragger = {
 		return target === cecily.viewer.canvasElement;
 	},
 	dragDown: function(cecily,target,ev) {
-		cecily.drag.lastPoint = {x: ev.offsetX, y: ev.offsetY};
+		cecily.drag.lastPoint = {x: ev.pageX, y: ev.pageY};
 	},
 	dragMove: function(cecily,target,ev) {
 		var s = cecily.frame.offsetWidth/cecily.viewer.viewBounds.w;
 		var newView = new Rect(cecily.viewer.viewBounds);
-		newView.x -= (ev.offsetX - cecily.drag.lastPoint.x)/s;
-		newView.y -= (ev.offsetY - cecily.drag.lastPoint.y)/s;
-		cecily.drag.lastPoint = {x: ev.offsetX, y: ev.offsetY};
+		newView.x -= (ev.pageX - cecily.drag.lastPoint.x)/s;
+		newView.y -= (ev.pageY - cecily.drag.lastPoint.y)/s;
+		cecily.drag.lastPoint = {x: ev.pageX, y: ev.pageY};
 		cecily.viewer.setView(newView);
 	},
 	dragUp: function(cecily,target,ev) {
