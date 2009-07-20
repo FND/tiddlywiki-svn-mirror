@@ -1,0 +1,7 @@
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+recipe: tiddlers/split.recipe
+recipe: shadows/split.recipe
+recipe: plugins/split.recipe
+
+prehead: shadows/MarkupPreHead.tiddler
