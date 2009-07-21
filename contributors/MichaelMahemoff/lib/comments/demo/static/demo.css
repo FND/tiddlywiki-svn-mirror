@@ -1,0 +1,10 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-weight:normal;font-style:normal;text-align:left;font-family:inherit;}table{border-collapse:collapse;border-spacing:0;}ol,ul{list-style:none;}q:before,q:after,blockquote:before,blockquote:after{content:"";}
+
+/* http://www.colourlovers.com/palette/867235/LoversInJapan */
+body { font-family: sans-serif; margin: 0; }
+h1 { padding: 20px; background: #e94e77; color: white; }
+#nav { padding: 20px; }
+#nav li { display: inline; padding: 0.3em; margin-right: 1em; cursor: pointer; background: #f4ead5; color: #c6a49a; }
+#nav li:hover { background: #e94e77; color: white; }
+#nav .selected { background: #e94e77; color: white; }
+#commentsContainer { padding: 20px; }

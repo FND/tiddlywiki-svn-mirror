@@ -1,0 +1,9 @@
+The demo includes all plugins and an example of putting them together.
+
+The explanation below assumes TiddlyWeb knowledge - please consult http://tiddlyweb.com for background info.
+
+To use this plugin:
+* On the server, install tiddlyweb and create a "comments" bag. Permissions are up to you, but the policy in the demo app is pretty typical - allows admin to do everything and users to read and create, but not edit.
+* Introduce methodhack and pathinfohack plugins to your tiddlyweb instance
+* In your HTML, include all of the Javascript files in static/js and all of the CSS files in static/css. You'll find the boilerlpate to do this in static/index.html.
+* In your own application Javascript, use a command like $("#forum").comments("topic") to add the comments, where "topic" is the topic all of the comments refer to (it's optional, but you'll need it if you have more than one set of comments on your site, e.g. a blog would have a different topic against each article). You can also pass options - .comments("topic", { ...});.You may need to pass in a "path" option indicating tiddlyweb root and a "cookiePath" option indicating the path where tiddlyweb sets cookies after open ID login - this is for open ID support.
