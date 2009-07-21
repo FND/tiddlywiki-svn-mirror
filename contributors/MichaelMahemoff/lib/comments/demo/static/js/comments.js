@@ -22,6 +22,8 @@
     // regular web page, this should be updated
     options.path =
       options.path || window.location.href.replace(/(.*)\/static\/.*/, "$1");
+    options.afterLoginPath =
+      options.afterLoginPath || window.location.href.replace(/(.*\/static)\/.*/, "$1/afterLogin.html");
     options.cookiePath =
       options.cookiePath || window.location.pathname.replace(/(.*\/)static\/.*/, "$1");
 
@@ -119,9 +121,10 @@
         )
   }
 
-  plugin.updateLoginUI = function(context) {
+  plugin.updateLoginUI = function(context, fadeEffect) {
 
     var userID = plugin.findUserID();
+    log("fe", fadeEffect);
 
     if (userID) {
       $(".userIDArea").show();
@@ -136,11 +139,12 @@
     if (userID) {
       content.append($("<span>Logged in as: "+userID+"</span>"))
              .append(" ")
-             .append($("<span class='pseudoLink' id='logout'>Logout</span>").click(plugin.logout));
+             .append($("<span class='pseudoLink' id='logout'>Logout</span>").click(plugin.logout, true));
     } else {
-      content = $("<a target='scrumptiousLogin' href='"+context.options.path+"/challenge/openid?tiddlyweb_redirect="+encodeURIComponent(context.options.path+"/static/afterLogin.html'")+">Login (optional)</a>");
+      content = $("<a target='scrumptiousLogin' href='"+context.options.path+"/challenge/openid?tiddlyweb_redirect="+encodeURIComponent(context.options.afterLoginPath)+"'>Login (optional)</a>");
     }
-    $(".commentsLoginArea").html(content);
+    var delay = fadeEffect ? 0 : delay;
+    $(".commentsLoginArea").fadeOut(delay, function() { $(".commentsLoginArea").html(content) }).fadeIn(delay);
 
   }
 
@@ -170,7 +174,7 @@
   plugin.logout = function() {
     $.cookie("tiddlyweb_user", null, { path: context.options.cookiePath });
     // eraseCookie("tiddlyweb_user");
-    plugin.updateLoginUI(context);
+    plugin.updateLoginUI(context, true);
   }
 
   //################################################################################
