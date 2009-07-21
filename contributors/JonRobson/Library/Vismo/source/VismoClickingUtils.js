@@ -35,8 +35,9 @@ var VismoClickingUtils = {
 		if(!e) e = window.event;
 		var obj;
 		
-		if(e && e.srcElement)
+		if(e && e.srcElement){
 			obj = e.srcElement;
+		}
 	        else if(e.target)
         	        obj = e.target;
         	else{
@@ -112,7 +113,7 @@ var VismoClickingUtils = {
                 
 		while(!hasVismo && node != document && node.parentNode && node.parentNode != document){
 		        
-		        if(node.vismoCanvas || node.vismoController){
+		        if(node.vismoCanvas || node.vismoController || node.vismoClicking){
 		                hasVismo = true;
 			}
 			else{

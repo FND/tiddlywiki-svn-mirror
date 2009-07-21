@@ -11,7 +11,16 @@ var GeoTag = function(longitude,latitude,properties){
 	return geo;	
 };
 
-var VismoMap = function(wrapper,options){  
+var VismoMap = function(wrapper,options){ 
+    if(wrapper.length){ //for jquery
+        var result = [];
+        for(var i=0; i < wrapper.length; i++){
+            var x = new VismoCanvas(wrapper[i],options);
+            result.push(x);
+        }
+        return x;
+    }
+    
 	if(typeof wrapper == 'string') wrapper = document.getElementById(wrapper);
 	else wrapper = wrapper;
 		

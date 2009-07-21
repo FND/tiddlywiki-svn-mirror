@@ -17,8 +17,7 @@ var VismoCanvasRenderer = {
 			this.renderImage(ctx,vismoShape);
 		}
 		else if(shapetype == "path"){
-		       
-		        this.renderPath(ctx,vismoShape);
+            this.renderPath(ctx,vismoShape);
 		}
 		else{	
 			this.renderPath(ctx,vismoShape,true);	
@@ -144,6 +143,7 @@ var VismoVector = function(vismoShape,canvas){
 	this.cache = {};
 	this.maxResolution_id_x = 1;
 	this.initShape(vismoShape,canvas);
+    
 	
 			
 };
@@ -354,20 +354,19 @@ VismoVector.prototype = {
 
 		var bb = this.vismoShape.getBoundingBox();
 	
-		if(this.vismoShape.getShape() == 'image'){
-			dx = bb.x1;
-			dy = bb.y1;
-		}
-		else{
-			dy = bb.center.y;
-			dx = bb.center.x;
-		}
-		var top = o.y + ((dy + t.y) * s.y);
-		var left = o.x + ((dx + t.x) * s.x);
+
+			
+		dx = bb.x1;
+		dy = bb.y1;
 		width = bb.width * s.x;
-		height = bb.height * s.y;
+		height = bb.height * s.y;		
+	    var top = o.y - dy - height +((t.y) * s.y);
+		var left = o.x - dx -width +((t.x) * s.x);
+        
+
 		
-		this.el.style.setAttribute('cssText',"top:"+top+";left:"+left+";width"+width+";top:"+top+";",0);
+/*	this.el.style.setAttribute('cssText',"position:absolute;top:"+top+";left:"+left+";width:"+width+";height:"+height+";",0);*/
+	jQuery(this.el).css({position:"absolute",width:width,height:height,top:top,left:left});
 
 	}
 	
@@ -515,6 +514,7 @@ VismoVector.prototype = {
                 window.setTimeout(f,10);
                 return;
         }
+        this.el._vismoClickingID = this.vismoShape.properties.id;
 		this.style();
 		var shape = this.getVMLElement();	
 		if(this.initialshapetype != this.vismoShape.properties.shape){ //shape type has changed force restart
@@ -551,43 +551,8 @@ VismoVector.prototype = {
 			shape.strokeweight = "1px";
 		}
 	
-		
-		if(!this.vismoShape.properties["fill"] || shapetype == 'path'){
-		    shape.filled = "f";
-					return;
-		}
-		
-				var fill = this.vismoShape.properties["fill"];
-
-				shape.filled = "t";
-			
-				var strokergba = this.vismoShape.properties.stroke;
-				
-				
-				if(fill.indexOf("#") == 0 || fill.indexOf("rgb(") == 0){
-			        shape.fillcolor = this.vismoShape.properties.fill;
-			   
-			    }
-			    else{
-			        if(!this.vmlfill){
-    					this.vmlfill =document.createElement("vismoShapeVml_:fill");
-    					shape.appendChild(this.vmlfill); 
-    			}	
-    				//look for rgba fill for transparency
-    				if(fill.indexOf("rgba") != -1 &&fill.match(/rgba\([0-9]*,[0-9]*,[0-9]*,(.*)\)/)){
-
-    					var match =fill.match(/(rgb)a(\([0-9]*,[0-9]*,[0-9]*),(.*)\)/);
-
-    					if(match[3]){
-    						fill = match[1] + match[2] +")";
-    						this.vmlfill.opacity = match[3];
-    					}
-    				}
-    				this.vmlfill.color = fill;
-    				
-			        
-			    }
-
+	
+	    var strokergba = this.vismoShape.properties.stroke;
         if(strokergba.indexOf("#") == 0 || strokergba.indexOf("rgb(") == 0){
 		            shape.strokecolor = strokergba;
 				}
@@ -616,6 +581,40 @@ VismoVector.prototype = {
             		    this.vmlstroke.color = "rgb(0,0,0)";
             		}
     		    }
+    		    	
+		if(!this.vismoShape.properties["fill"] || shapetype == 'path'){
+		    shape.filled = "f";
+
+					return;
+		}
+	
+		
+		var fill = this.vismoShape.properties["fill"];
+		shape.filled = "t";
+		if(fill.indexOf("#") == 0 || fill.indexOf("rgb(") == 0){
+	        shape.fillcolor = this.vismoShape.properties.fill;
+	   
+	    }
+	    else{
+	        if(!this.vmlfill && shape){
+				this.vmlfill =document.createElement("vismoShapeVml_:fill");
+				shape.appendChild(this.vmlfill); 
+		    }	
+			//look for rgba fill for transparency
+			if(fill.indexOf("rgba") != -1 &&fill.match(/rgba\([0-9]*,[0-9]*,[0-9]*,(.*)\)/)){
+
+				var match =fill.match(/(rgb)a(\([0-9]*,[0-9]*,[0-9]*),(.*)\)/);
+
+				if(match[3]){
+					fill = match[1] + match[2] +")";
+					this.vmlfill.opacity = match[3];
+				}
+			}
+			this.vmlfill.color = fill;
+			
+	        
+	    }
+
         		
 				
 

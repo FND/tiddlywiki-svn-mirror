@@ -175,9 +175,14 @@ VismoUtils.browser= {
 		isWindows: VismoUtils.userAgent.indexOf("win") != -1
 	};
 
+if(VismoUtils.browser.isIE && VismoUtils.browser.ieVersion[1] == "6.0"){
+VismoUtils.browser.isIE6 = true;
+
+}
+
 if(VismoUtils.browser.isIE){
 	if (!document.namespaces['vismoShapeVml_']) {
-	        document.namespaces.add('vismoShapeVml_', 'urn:schemas-microsoft-com:vml');
+	        document.namespaces.add('vismoShapeVml_', 'urn:schemas-microsoft-com:vml'/*,"#default#VML"*/);
 	        
 	}
 	document.namespaces.add('xmlns', 'http://www.w3.org/1999/xhtml');
@@ -190,7 +195,7 @@ if(VismoUtils.browser.isIE){
 	        ss.owningElement.id = 'vismoShape';
 	        ss.cssText = 'canvas{display:inline;overflow:hidden;' +
 	            'text-align:left;}' +
-	            'vismoShapeVml_\\:*{behavior:url(#default#VML)}';
+	            'vismoShapeVml_\\: * {behavior:url(#default#VML);}';
 	}
 }
 VismoUtils.svgSupport = function(){
@@ -696,6 +701,7 @@ VismoShape.prototype={
 		return true;
 	}
 	,optimise_ie: function(canvas,transformation,projection){	
+		if(this.properties.shape == 'path') return true;
 		if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
 				if(this.vml)this.vml.clear();
 				
@@ -706,6 +712,7 @@ VismoShape.prototype={
 			if(this.vml)this.vml.clear();	
 			return false;	
 		}
+
 		return true;
 	}
 	
