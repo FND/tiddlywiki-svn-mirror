@@ -3,7 +3,7 @@
 |''Description:''|Provides a splash screen that consists of the rendered default tiddlers|
 |''Author:''|Martin Budden|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SplashScreenPlugin.js |
-|''Version:''|0.1.4|
+|''Version:''|0.1.5|
 |''Date:''|April 17, 2008|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -35,45 +35,22 @@ version.extensions.SplashScreenPlugin.setup = function()
 	text += "#contentWrapper {display:none;}\n";
 	text += "#splashScreen {display:block;}\n";
 
-	var cp = "ColorPalette";
-	var bg = store.getTiddlerSlice(cp,"Background");
-	var fg = store.getTiddlerSlice(cp,"Foreground");
-	var pp = store.getTiddlerSlice(cp,"PrimaryPale");
-	var pl = store.getTiddlerSlice(cp,"PrimaryLight");
-	var pm = store.getTiddlerSlice(cp,"PrimaryMid");
-	var pd = store.getTiddlerSlice(cp,"PrimaryDark");
-	var sp = store.getTiddlerSlice(cp,"SecondaryPale");
-	var sl = store.getTiddlerSlice(cp,"SecondaryLight");
-	var sm = store.getTiddlerSlice(cp,"SecondaryMid");
-	var sd = store.getTiddlerSlice(cp,"SecondaryDark");
-	var tp = store.getTiddlerSlice(cp,"TertiaryPale");
-	var tl = store.getTiddlerSlice(cp,"TertiaryLight");
-	var tm = store.getTiddlerSlice(cp,"TertiaryMid");
-	var td = store.getTiddlerSlice(cp,"TertiaryDark");
-	var er = store.getTiddlerSlice(cp,"Error");
-
 	var sc = store.getTiddlerText("StyleSheetColors");
 	sc += "\n" + store.getTiddlerText("StyleSheetLayout") + "\n";
 	sc += "\n#splashScreen {display:block;}\n";
-
 	sc += "\n" + store.getTiddlerText("StyleSheet") + "\n";
 	sc = sc.replace(/#/mg,"#s_");
-	sc = sc.replace("[[ColorPalette::Background]]",bg);
-	sc = sc.replace("[[ColorPalette::Foreground]]",fg);
-	sc = sc.replace("[[ColorPalette::PrimaryPale]]",pp);
-	sc = sc.replace("[[ColorPalette::PrimaryLight]]",pl);
-	sc = sc.replace("[[ColorPalette::PrimaryMid]]",pm);
-	sc = sc.replace("[[ColorPalette::PrimaryDark]]",pd);
-	sc = sc.replace("[[ColorPalette::SecondaryPale]]",sp);
-	sc = sc.replace("[[ColorPalette::SecondaryLight]]",sl);
-	sc = sc.replace("[[ColorPalette::SecondaryMid]]",sm);
-	sc = sc.replace("[[ColorPalette::SecondaryDark]]",sd);
-	sc = sc.replace("[[ColorPalette::TertiaryPale]]",tp);
-	sc = sc.replace("[[ColorPalette::TertiaryLight]]",tl);
-	sc = sc.replace("[[ColorPalette::TertiaryMid]]",tm);
-	sc = sc.replace("[[ColorPalette::TertiaryDark]]",td);
-	sc = sc.replace("[[ColorPalette::Error]]",er);
-	
+
+	var slices = ["Background","Foreground",
+		"PrimaryPale","PrimaryLight","PrimaryMid","PrimaryDark",
+		"SecondaryPale","SecondaryLight","SecondaryMid","SecondaryDark",
+		"TertiaryPale","TertiaryLight","TertiaryMid","TertiaryDark",
+		"Error"];
+	for(var i in slices) {
+		s = store.getTiddlerSlice("ColorPalette",i);
+		sc = sc.replace("[[ColorPalette::"+i+"]]",s);
+	}
+
 	text += sc;
 	text += "#s_messageArea {display:none;}\n";
 	text += "\n</style>\n";
