@@ -43,7 +43,7 @@ init: function() {
     config.shadowTiddlers["StyleSheetCommentsPlugin"] = stylesheet;
     store.addNotification("StyleSheetCommentsPlugin", refreshStyles);
   }
-  cmacro.enhanceViewTemplate();
+  if (!version.extensions.CommentsPlugin.retainViewTemplate) cmacro.enhanceViewTemplate();
 },
 
 enhanceViewTemplate: function() {
