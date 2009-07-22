@@ -1,0 +1,52 @@
+<html>
+
+<head>
+  <script type='text/javascript' src='jquery.js'></script>
+  <script type='text/javascript' src='Vismo.js'></script>
+<style type="text/css">
+#pannyzoomy {width:400px; height:400px;border:solid 1px black;overflow:hidden;}
+.pannabletext {position:absolute;width:200px;height:200px;}
+</style>
+</head>
+<body>
+
+<div id='pannyzoomy'>
+  <div class='pannabletext' style="font-size:0.3em;">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pellentesque felis fermentum lorem adipiscing fringilla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sollicitudin lacinia erat a egestas. Donec at dolor vel eros fermentum cursus quis non urna. In iaculis dolor vel turpis sodales vitae commodo libero fermentum. Curabitur vitae nunc rutrum odio condimentum bibendum et eu dolor. Proin quam ante, pharetra in accumsan id, consectetur et dolor. Ut interdum rhoncus libero eget hendrerit. Proin gravida blandit semper. Duis risus eros, molestie sollicitudin ultricies vitae, vulputate id sem. Nullam pulvinar condimentum purus, quis aliquet justo dictum ut. Ut ac ultrices nunc. Vivamus auctor nulla ac magna semper nec porttitor dolor sodales. In at erat dolor.
+
+    In hac habitasse platea dictumst. Donec at libero at ante tempus porta. Suspendisse mauris libero, dignissim hendrerit sollicitudin id, imperdiet eu dui. Nulla et diam sit amet diam porttitor viverra ut eleifend ligula. Vestibulum iaculis nibh a quam varius eu congue nisl aliquam. Donec metus felis, ultrices vel vehicula vitae, accumsan fermentum erat. Vestibulum ut nisi leo, at commodo tellus. Nullam non augue neque, in sagittis ipsum. Proin eleifend lobortis tellus, at laoreet lectus gravida vel. Duis lacus est, faucibus ac convallis nec, cursus sed augue. Nunc pulvinar arcu quis sapien varius porta. Morbi porta elementum elit posuere mattis. Duis posuere tortor eget enim mattis tempus. Suspendisse consectetur, mi quis congue bibendum, purus magna sodales dolor, vel pellentesque justo lacus at nibh. Ut nisl augue, sodales at aliquet quis, vehicula a purus. Duis eleifend elementum velit eget porttitor. Nunc sed massa eu nulla laoreet mollis. Proin neque est, molestie eu sagittis non, vehicula egestas nisl. Morbi euismod nisi a sapien elementum fermentum nec sit amet tortor.
+
+    Donec adipiscing eros eget risus pulvinar quis consequat ante rhoncus. Ut vitae enim purus, at imperdiet est. Integer id urna lectus, ultricies ornare quam. In luctus adipiscing nisi nec tristique. Duis tristique, erat vitae vulputate rutrum, justo est pellentesque nisi, a vulputate libero dui id eros. Cras ut nulla lectus. Aenean aliquet pulvinar convallis. Aliquam ultricies nisi ac augue euismod placerat. Nunc tempus consequat commodo. Curabitur posuere, libero vel faucibus ornare, sem erat semper arcu, vel semper tortor neque vitae dui. Quisque tempus aliquet nisl in pharetra. Aliquam imperdiet, justo at consequat posuere, sem est dignissim nisl, eu laoreet odio neque at risus. Morbi mollis, leo ac semper malesuada, dolor velit tincidunt massa, sit amet consectetur justo dui quis augue. Etiam dictum felis vel tortor sollicitudin aliquet. Ut orci odio, luctus eu volutpat tristique, cursus pretium dui. Aenean luctus, est sit amet pulvinar hendrerit, mi augue congue risus, ac porta purus neque eget massa. Nullam bibendum nisi nec risus sagittis quis ullamcorper velit consequat. Curabitur et libero elementum lorem posuere porttitor at id nibh. Sed scelerisque gravida scelerisque. Cras vitae magna sit amet dui iaculis gravida.
+
+    Integer eu odio vel metus dapibus posuere. In hac habitasse platea dictumst. Sed nec pretium felis. In sit amet sem turpis. Nullam blandit purus sit amet mauris elementum nec faucibus risus volutpat. Sed non felis vel leo condimentum dignissim ut at diam. Nam rutrum volutpat egestas. Donec nec quam eros. Aliquam gravida pulvinar ligula, in congue purus condimentum eget. Ut pretium augue viverra turpis laoreet euismod. Cras ornare vehicula gravida. Donec rhoncus diam eu risus auctor varius.
+
+    Aliquam nec commodo sapien. Etiam vitae sem ut elit porta adipiscing sed porttitor mi. Phasellus aliquet adipiscing ipsum, in dapibus metus eleifend ac. Morbi aliquet, velit scelerisque pellentesque placerat, est est bibendum elit, a placerat tortor mi at lectus. Sed tempor ipsum tellus, ac sollicitudin tortor. Proin pellentesque massa ut erat viverra consequat vel eget elit. Sed tristique aliquet tortor, id tempor nulla mollis id. Vivamus a velit magna, id hendrerit purus. Ut euismod venenatis magna ut suscipit. Sed consequat varius purus blandit mollis. Morbi vitae arcu dui, ac rutrum tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum aliquam felis non diam feugiat ac eleifend nisl malesuada. Integer non elementum purus. Fusce orci dolor, auctor in luctus a, dictum id mauris. Curabitur elit mauris, malesuada ac tempus et, iaculis eu massa.
+  </div>
+</div>
+
+<script type='text/javascript'>
+
+  var el = document.getElementById("pannyzoomy");
+  var startFontSize = 0.3;
+  new VismoController(el,{
+    controls:["pan","zoom","mousewheelzooming","mousepanning"],
+    handler: function(t){
+      var el = jQuery(".pannabletext");
+      var initialLeft = 0;
+      var initialTop = 0;
+      var initialWidth = 200;
+      var initialHeight = 200;
+      var width = t.scale.x * 200;
+      var height= t.scale.x * 200;
+      var translatex = t.origin.x+ (t.translate.x * t.scale.x);
+      var translatey = t.origin.y+ (t.translate.y *t.scale.y);
+      var newfontsize = startFontSize * t.scale.x;
+      el.css({width:width,height:height,"font-size":newfontsize +"em",left:initialLeft + translatex,top: initialTop + translatey});
+    }
+    
+  });  
+
+</script>
+<a href='http://www.jonrobson.me.uk/Vismo'><img src='../Vismo.png'/></a>
+</body>
+</html>

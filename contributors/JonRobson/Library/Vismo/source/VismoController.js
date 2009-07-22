@@ -66,7 +66,7 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 	        vismoController._panzoomClickHandler(e,s,vismoController);
 	        return preventDef(e);
 	};
-	this.controlCanvas.mouse({up:preventDef,down:f});
+	this.controlCanvas.mouse({up:preventDef,down:f,dblclick:preventDef});
 
 	//this.wrapper.vismoController = this;
 	
@@ -433,9 +433,10 @@ VismoController.prototype = {
 			if(pos.x < 5|| pos.y < 5) panning_status.isClick = false;
 			return false;	
 		};
-
-		this.wrapper.onmousedown = function(e){
-		   
+     
+		jQuery(this.wrapper).mousedown(function(e){
+		    var jqw = jQuery(that.wrapper);
+	        
 			if(panning_status){
 				return;
 			}
@@ -443,12 +444,11 @@ VismoController.prototype = {
 			if(md) {md(e);}
 			if(!that.enabled) return;
 			if(!VismoUtils.browser.isIE6){
-			    jQuery(that.wrapper).addClass("panning");
+			    jqw.addClass("panning");
 			}
 			var target =  VismoClickingUtils.resolveTarget(e);
 			if(!target) return;
 
-			if(target.getAttribute("class") == "vismoControl") return;
 			
 			var t = that.transformation.translate;
 			var sc =that.transformation.scale; 
@@ -462,7 +462,7 @@ VismoController.prototype = {
 			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			that.wrapper.onmousemove = onmousemove;
 				
-		};
+		});
 			
 		jQuery(document).mouseup(function(e){
 			if(panning_status.isClick && mu){mu(e);};

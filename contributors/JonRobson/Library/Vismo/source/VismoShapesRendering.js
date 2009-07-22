@@ -164,7 +164,7 @@ VismoVector.prototype = {
         
 		if(shapetype == 'point' || shapetype == 'circle'){
     		this._initArc(vismoShape,canvas);
-    		isVML = true;
+    		isVML = false;
     	}
     	else if(shapetype == 'image'){
     		this._initImage(vismoShape,canvas);
@@ -360,8 +360,8 @@ VismoVector.prototype = {
 		dy = bb.y1;
 		width = bb.width * s.x;
 		height = bb.height * s.y;		
-	    var top = o.y - dy - height +((t.y) * s.y);
-		var left = o.x - dx -width +((t.x) * s.x);
+	    var top = o.y +((dy+t.y) * s.y);
+		var left = o.x + ((dx +t.x) * s.x);
         
 
 		

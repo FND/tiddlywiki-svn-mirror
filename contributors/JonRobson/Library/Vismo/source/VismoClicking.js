@@ -68,13 +68,13 @@ var VismoCanvas = function(element,options){
 	this._setupMouse();
 
     var vc = this;
-	if(options.controller){
-	    if(!options.controller.handler){
-	        options.controller.handler = function(t){
+	if(options.vismoController){
+	    if(!options.vismoController.handler){
+	        options.vismoController.handler = function(t){
 	            vc.transform(t);
 	        }
 	    }
-	    new VismoController(this.getDomElement(),options.controller);
+	    this.vismoController = new VismoController(this.getDomElement(),options.vismoController);
 	}
 	
 	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});

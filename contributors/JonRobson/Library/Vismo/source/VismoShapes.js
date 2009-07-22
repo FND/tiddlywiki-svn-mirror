@@ -701,7 +701,7 @@ VismoShape.prototype={
 		return true;
 	}
 	,optimise_ie: function(canvas,transformation,projection){	
-		if(this.properties.shape == 'path') return true;
+		if(this.properties.shape == 'path' || this.properties.shape == 'point') return true;
 		if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
 				if(this.vml)this.vml.clear();
 				

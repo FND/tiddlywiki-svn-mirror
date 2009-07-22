@@ -412,13 +412,13 @@ jQuery._farbtastic = function (container, callback) {
 	this._setupMouse();
 
     var vc = this;
-	if(options.controller){
-	    if(!options.controller.handler){
-	        options.controller.handler = function(t){
+	if(options.vismoController){
+	    if(!options.vismoController.handler){
+	        options.vismoController.handler = function(t){
 	            vc.transform(t);
 	        }
 	    }
-	    new VismoController(this.getDomElement(),options.controller);
+	    this.vismoController = new VismoController(this.getDomElement(),options.vismoController);
 	}
 	
 	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
@@ -2122,13 +2122,13 @@ VismoShapeManipulator.prototype = {
 	this._setupMouse();
 
     var vc = this;
-	if(options.controller){
-	    if(!options.controller.handler){
-	        options.controller.handler = function(t){
+	if(options.vismoController){
+	    if(!options.vismoController.handler){
+	        options.vismoController.handler = function(t){
 	            vc.transform(t);
 	        }
 	    }
-	    new VismoController(this.getDomElement(),options.controller);
+	    this.vismoController = new VismoController(this.getDomElement(),options.vismoController);
 	}
 	
 	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
@@ -3095,7 +3095,7 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 	        vismoController._panzoomClickHandler(e,s,vismoController);
 	        return preventDef(e);
 	};
-	this.controlCanvas.mouse({up:preventDef,down:f});
+	this.controlCanvas.mouse({up:preventDef,down:f,dblclick:preventDef});
 
 	//this.wrapper.vismoController = this;
 	
@@ -3424,7 +3424,7 @@ VismoController.prototype = {
 		var cancelPanning = function(e){
 			panning_status = false;
 			that.transform();
-			if(!VismoUtils.browser.isIE){jQuery(that.wrapper).removeClass("panning");}
+			if(!VismoUtils.browser.isIE6){jQuery(that.wrapper).removeClass("panning");}
 			//style.cursor= that.defaultCursor;
 			that.wrapper.onmousemove = mm;
 			return false;
@@ -3462,9 +3462,10 @@ VismoController.prototype = {
 			if(pos.x < 5|| pos.y < 5) panning_status.isClick = false;
 			return false;	
 		};
-
-		this.wrapper.onmousedown = function(e){
-		   
+     
+		jQuery(this.wrapper).mousedown(function(e){
+		    var jqw = jQuery(that.wrapper);
+	        
 			if(panning_status){
 				return;
 			}
@@ -3472,12 +3473,11 @@ VismoController.prototype = {
 			if(md) {md(e);}
 			if(!that.enabled) return;
 			if(!VismoUtils.browser.isIE6){
-			    jQuery(that.wrapper).addClass("panning");
+			    jqw.addClass("panning");
 			}
 			var target =  VismoClickingUtils.resolveTarget(e);
 			if(!target) return;
 
-			if(target.getAttribute("class") == "vismoControl") return;
 			
 			var t = that.transformation.translate;
 			var sc =that.transformation.scale; 
@@ -3491,7 +3491,7 @@ VismoController.prototype = {
 			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			that.wrapper.onmousemove = onmousemove;
 				
-		};
+		});
 			
 		jQuery(document).mouseup(function(e){
 			if(panning_status.isClick && mu){mu(e);};
@@ -4793,13 +4793,13 @@ VismoShapeManipulator.prototype = {
 	this._setupMouse();
 
     var vc = this;
-	if(options.controller){
-	    if(!options.controller.handler){
-	        options.controller.handler = function(t){
+	if(options.vismoController){
+	    if(!options.vismoController.handler){
+	        options.vismoController.handler = function(t){
 	            vc.transform(t);
 	        }
 	    }
-	    new VismoController(this.getDomElement(),options.controller);
+	    this.vismoController = new VismoController(this.getDomElement(),options.vismoController);
 	}
 	
 	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
@@ -6183,7 +6183,7 @@ var VismoMap = function(wrapper,options){
     if(wrapper.length){ //for jquery
         var result = [];
         for(var i=0; i < wrapper.length; i++){
-            var x = new VismoCanvas(wrapper[i],options);
+            var x = new VismoMap(wrapper[i],options);
             result.push(x);
         }
         return x;
@@ -6212,14 +6212,23 @@ var VismoMap = function(wrapper,options){
 	    }
 	}
 	this.vismoClicking = new VismoCanvas(wrapper,options);
+
 	this._setupMouseHandlers();
 	
-	var that = this;
-	var handler = function(t){
-	    that.transform(t);
+
+	if(!options.VismoController){
+
+	    options.VismoController = {};
+	    
+	} 
+	
+	if(!options.VismoController.handler){
+	    var that = this;
+    	var handler = function(t){
+    	    that.transform(t);
+    	};
+	    options.VismoController.handler = handler;
 	}
-	if(!options.VismoController) options.VismoController = {};
-	options.VismoController.handler = handler;
 	this.controller = new VismoController(this.wrapper,options.VismoController);
 
 		
@@ -6229,6 +6238,11 @@ var VismoMap = function(wrapper,options){
 	this.geofeatures = {};
 	this.features = [];
 	this.clear();
+	
+	if(options.geojson){
+	    
+	    this.drawFromGeojson(options.geojson,options.fullscreen);
+	}
 
 };  
 VismoMap.prototype = {
@@ -7919,7 +7933,7 @@ VismoShape.prototype={
 		return true;
 	}
 	,optimise_ie: function(canvas,transformation,projection){	
-		if(this.properties.shape == 'path') return true;
+		if(this.properties.shape == 'path' || this.properties.shape == 'point') return true;
 		if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
 				if(this.vml)this.vml.clear();
 				
@@ -8127,7 +8141,7 @@ VismoVector.prototype = {
         
 		if(shapetype == 'point' || shapetype == 'circle'){
     		this._initArc(vismoShape,canvas);
-    		isVML = true;
+    		isVML = false;
     	}
     	else if(shapetype == 'image'){
     		this._initImage(vismoShape,canvas);
@@ -8323,8 +8337,8 @@ VismoVector.prototype = {
 		dy = bb.y1;
 		width = bb.width * s.x;
 		height = bb.height * s.y;		
-	    var top = o.y - dy - height +((t.y) * s.y);
-		var left = o.x - dx -width +((t.x) * s.x);
+	    var top = o.y +((dy+t.y) * s.y);
+		var left = o.x + ((dx +t.x) * s.x);
         
 
 		

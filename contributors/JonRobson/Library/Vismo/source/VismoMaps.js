@@ -15,7 +15,7 @@ var VismoMap = function(wrapper,options){
     if(wrapper.length){ //for jquery
         var result = [];
         for(var i=0; i < wrapper.length; i++){
-            var x = new VismoCanvas(wrapper[i],options);
+            var x = new VismoMap(wrapper[i],options);
             result.push(x);
         }
         return x;
@@ -44,14 +44,23 @@ var VismoMap = function(wrapper,options){
 	    }
 	}
 	this.vismoClicking = new VismoCanvas(wrapper,options);
+
 	this._setupMouseHandlers();
 	
-	var that = this;
-	var handler = function(t){
-	    that.transform(t);
+
+	if(!options.VismoController){
+
+	    options.VismoController = {};
+	    
+	} 
+	
+	if(!options.VismoController.handler){
+	    var that = this;
+    	var handler = function(t){
+    	    that.transform(t);
+    	};
+	    options.VismoController.handler = handler;
 	}
-	if(!options.VismoController) options.VismoController = {};
-	options.VismoController.handler = handler;
 	this.controller = new VismoController(this.wrapper,options.VismoController);
 
 		
@@ -61,6 +70,11 @@ var VismoMap = function(wrapper,options){
 	this.geofeatures = {};
 	this.features = [];
 	this.clear();
+	
+	if(options.geojson){
+	    
+	    this.drawFromGeojson(options.geojson,options.fullscreen);
+	}
 
 };  
 VismoMap.prototype = {
