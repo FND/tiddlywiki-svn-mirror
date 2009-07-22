@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Scrumptious Trails</title>
+	<script type="text/javascript" src="/static/js/jquery-1.2.6.min.js"></script>
+	<link rel="stylesheet" href="/static/css/trails.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+</head>
+
+<body>
+
+<p><a href="/trails/{{ tiddler.owner }}/{{ trail.name }}.editor">Edit</a></p>
+
+<div id="trail">
+{% for resource in trail.resources %}
+  <li> <a href="{{ resource }}" target="resourceView">{{resource}}</a>
+{% endfor %}
+</div>
+
+<iframe name="resourceView" id="resourceView" src="http://ajaxify.com"></iframe>
+
+<div id="footer">
+</div>
+
+</body>
+</html>
