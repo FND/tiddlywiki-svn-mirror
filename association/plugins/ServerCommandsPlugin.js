@@ -2,7 +2,7 @@
 |''Name''|ServerCommandsPlugin|
 |''Description''|provides access to server-specific commands|
 |''Author''|FND|
-|''Version''|0.1.1|
+|''Version''|0.1.2|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#ServerCommandsPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -29,7 +29,6 @@
 !To Do
 * strip server.* fields from revision tiddlers
 * resolve naming conflicts
-* placeholder message while loading
 * i18n, l10n
 * code sanitizing
 * documentation
@@ -47,12 +46,19 @@ cmd = config.commands.revisions = {
 	type: "popup",
 	text: "revisions",
 	tooltip: "display tiddler revisions",
+	loadLabel: "loading...",
+	loadTooltip: "loading revision list",
 	revLabel: "#%2 %1: %0 (%3)",
 	revTooltip: "tooltip",
 	revSuffix: " [rev. #%0]",
 	dateFormat: "YYYY-0MM-0DD 0hh:0mm",
 
 	handlePopup: function(popup, title) {
+		// remove revSuffix from title if it exists
+		var i = cmd.revSuffix.indexOf('%0');
+		i = title.indexOf(cmd.revSuffix.substr(0,i));
+		if(i!=-1)
+			title = title.substr(0,i);
 		var tiddler = store.getTiddler(title);
 		var type = this._getField("server.type", tiddler);
 		var adaptor = new config.adaptors[type]();
@@ -61,11 +67,13 @@ cmd = config.commands.revisions = {
 			host: this._getField("server.host", tiddler),
 			workspace: this._getField("server.workspace", tiddler)
 		};
-		adaptor.getTiddlerRevisionList(title, limit, context, { popup: popup }, this.displayRevisions);
+		var loading = createTiddlyButton(popup, cmd.loadLabel, cmd.loadTooltip);
+		adaptor.getTiddlerRevisionList(title, limit, context, { popup: popup, loading:loading }, this.displayRevisions);
 	},
 
 	displayRevisions: function(context, userParams) {
-		var list = userParams.popup; // XXX: popup already is an OL!?
+		var list = userParams.popup;
+		removeNode(userParams.loading);
 		var callback = function(ev) {
 			var e = ev || window.event;
 			var revision = resolveTarget(e).getAttribute("revision");
