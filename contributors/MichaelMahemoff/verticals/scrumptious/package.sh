@@ -29,7 +29,7 @@ if [ -d $tmpdir ] ; then
   exit 1
 fi
 mkdir -p $tmpdir/scrumptious
-cp -R updateSettings.sh docs/INSTALL docs/CREDITS docs/LICENSE *.py store static $tmpdir/scrumptious
+cp -R updateSettings.sh templates/* docs/INSTALL docs/CREDITS docs/LICENSE *.py store static $tmpdir/scrumptious
 echo 'COPIED****************'
 # sed -i '' -e "s|comments.boz|$SCRUMPTIOUS_DOMAIN|g" $tmpdir/scrumptious/tiddlywebconfig.py
 # sed -i '' -e "s|8080|$SCRUMPTIOUS_PORT|g" $tmpdir/scrumptious/tiddlywebconfig.py

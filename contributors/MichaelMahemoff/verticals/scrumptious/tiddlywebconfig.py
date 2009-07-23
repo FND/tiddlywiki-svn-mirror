@@ -7,7 +7,7 @@ config = {
     'twanager_plugins': ['wserver'],
     'server_store': ['simpletext', {'store_root': 'store'}],
     'static_dir': 'static',
-    'server_prefix': '',
+    'server_prefix': '/comments',
     'server_host':{
         'scheme': 'http',
         'host': 'comments.boz',

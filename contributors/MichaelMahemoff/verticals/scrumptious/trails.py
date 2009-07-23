@@ -44,14 +44,12 @@ def trail_editor(environ, start_response):
 
 def trail_updater(environ, start_response):
   # http://is.gd/1GTCG
-  print 'hello'
   tiddler = make_trail_tiddler(environ)
   trail = dict()
-  print 'trail'
   print 'name', environ['tiddlyweb.query']['name']
   trail['name'] = environ['tiddlyweb.query']['name'][0]
   # trail['resources'] = environ['tiddlyweb.query']['resources'][0].split(whitespace)
-  trail['resources'] = re.split('\s+',environ['tiddlyweb.query']['resources'][0])
+  trail['resources'] = re.split('\s+',environ['tiddlyweb.query']['resources'][0].strip())
   print 'trail json', json.dumps(trail)
   # edit_url=environ['HTTP_HOST']+'/trails/'+ environ['wsgiorg.routing_args']['owner']+ '/'+ trail['name']
 
