@@ -1,31 +1,20 @@
 /***
-|''Name''|ServerCommandsPlugin|
-|''Description''|provides access to server-specific commands|
+|''Name''|RevisionsCommandPlugin|
+|''Description''|provides access to tiddler revisions|
 |''Author''|FND|
+|''Contributors''|Martin Budden|
 |''Version''|0.1.3|
-|''Status''|@@experimental@@|
-|''Source''|http://devpad.tiddlyspot.com/#ServerCommandsPlugin|
-|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
+|''Status''|@@beta@@|
+|''Source''|http://devpad.tiddlyspot.com/#RevisionsCommandPlugin|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/plugins/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''CoreVersion''|2.4.2|
 |''Keywords''|serverSide|
-!Description
-<...>
-!Notes
-<...>
 !Usage
-{{{
-<<...>>
-}}}
-!!Parameters
-<...>
-!!Examples
-<<...>>
-!Configuration Options
-<...>
+Extend [[ToolbarCommands]] with {{{revisions}}}.
 !Revision History
-!!v0.1 (2009-02-26)
-* initial release
+!!v0.1 (2009-07-23)
+* initial release (renamed from experimental ServerCommandsPlugin)
 !To Do
 * strip server.* fields from revision tiddlers
 * resolve naming conflicts
@@ -36,7 +25,7 @@
 !Code
 ***/
 //{{{
-(function() { //# set up local scope
+(function() {
 
 if(!version.extensions.ServerCommandsPlugin) { //# ensure that the plugin is only installed once
 version.extensions.ServerCommandsPlugin = { installed: true };
@@ -114,5 +103,5 @@ cmd = config.commands.revisions = {
 
 } //# end of "install only once"
 
-})(); //# end of local scope
+})();
 //}}}
