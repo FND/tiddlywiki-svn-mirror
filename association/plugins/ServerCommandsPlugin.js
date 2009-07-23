@@ -2,7 +2,7 @@
 |''Name''|ServerCommandsPlugin|
 |''Description''|provides access to server-specific commands|
 |''Author''|FND|
-|''Version''|0.1.2|
+|''Version''|0.1.3|
 |''Status''|@@experimental@@|
 |''Source''|http://devpad.tiddlyspot.com/#ServerCommandsPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -44,21 +44,23 @@ version.extensions.ServerCommandsPlugin = { installed: true };
 var cmd; //# alias
 cmd = config.commands.revisions = {
 	type: "popup",
+	hideShadow: true,
 	text: "revisions",
 	tooltip: "display tiddler revisions",
+	revLabel: "#%2 %1: %0 (%3)",
+	revTooltip: "", // TODO: populate dynamically?
 	loadLabel: "loading...",
 	loadTooltip: "loading revision list",
-	revLabel: "#%2 %1: %0 (%3)",
-	revTooltip: "tooltip",
 	revSuffix: " [rev. #%0]",
 	dateFormat: "YYYY-0MM-0DD 0hh:0mm",
 
 	handlePopup: function(popup, title) {
 		// remove revSuffix from title if it exists
-		var i = cmd.revSuffix.indexOf('%0');
-		i = title.indexOf(cmd.revSuffix.substr(0,i));
-		if(i!=-1)
-			title = title.substr(0,i);
+		var i = cmd.revSuffix.indexOf("%0");
+		i = title.indexOf(cmd.revSuffix.substr(0, i));
+		if(i != -1) {
+			title = title.substr(0, i);
+		}
 		var tiddler = store.getTiddler(title);
 		var type = this._getField("server.type", tiddler);
 		var adaptor = new config.adaptors[type]();
@@ -68,7 +70,8 @@ cmd = config.commands.revisions = {
 			workspace: this._getField("server.workspace", tiddler)
 		};
 		var loading = createTiddlyButton(popup, cmd.loadLabel, cmd.loadTooltip);
-		adaptor.getTiddlerRevisionList(title, limit, context, { popup: popup, loading:loading }, this.displayRevisions);
+		var params = { popup: popup, loading: loading, origin: title }
+		adaptor.getTiddlerRevisionList(title, limit, context, params, this.displayRevisions);
 	},
 
 	displayRevisions: function(context, userParams) {
@@ -95,7 +98,7 @@ cmd = config.commands.revisions = {
 
 	displayTiddlerRevision: function(context, userParams) {
 		var tiddler = context.tiddler;
-		var src = null; // TODO: pass through via userParams
+		var src = story.getTiddler(userParams.origin);
 		tiddler.fields.doNotSave = "true"; // XXX: correct?
 		tiddler.title += cmd.revSuffix.format([tiddler.fields["server.page.revision"]]);
 		if(!store.getTiddler(tiddler.title)) {
