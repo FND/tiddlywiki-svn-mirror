@@ -1,4 +1,5 @@
 var VismoOptimisations = {
+    minradius:5,
 	packCoordinates: function(coordlist){
 		var res = [];
 		for(var i=0; i < coordlist.length-1; i+=2){
@@ -97,7 +98,7 @@ var VismoOptimisations = {
 		var t1 = (g.x2 -g.x1) * s.x;
 		var t2 =(g.y2- g.y1) * s.y;
 
-		if(t2 < 5 && t1 < 5) 
+		if(t2 < this.minradius&& t1 < this.minradius) 
 			{return true;}//too small
 		else
 			return false;

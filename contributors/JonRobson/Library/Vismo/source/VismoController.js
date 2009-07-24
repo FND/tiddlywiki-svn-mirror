@@ -103,6 +103,11 @@ var VismoController = function(elem,options){ //elem must have style.width and s
          this.limits.scale.miny =this.options.minZoom;
     }
 
+    this.pansensitivity =100;
+    if(this.options.pansensitivity){
+        this.pansensitivity =this.options.pansensitivity;
+    }
+
 
 };
 VismoController.prototype = {
@@ -723,8 +728,9 @@ VismoController.prototype = {
 		if(!t.rotate) t.rotate = {x:0,y:0,z:0};
 		
 		var scale =t.scale;
-		pan.x = parseFloat(30 / scale.x);
-		pan.y = parseFloat(30 / scale.y);
+		
+		pan.x = parseFloat(this.pansensitivity / scale.x);
+		pan.y = parseFloat(this.pansensitivity / scale.y);
 	
 		switch(hit.getProperty("actiontype")) {
 			case "W":

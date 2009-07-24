@@ -61,7 +61,7 @@ var VismoCanvas = function(element,options){
 	
 	element.vismoClicking = true;//this;//true;//this
          jQuery(canvas).mousedown(function(e){e.preventDefault();});
-         jQuery(wrapper).mousedown(function(e){e.preventDefault();});
+         jQuery(this.wrapper).mousedown(function(e){e.preventDefault();});
 
 	this.wrapper = wrapper;
 
@@ -369,6 +369,7 @@ VismoCanvas.prototype = {
 	
 	,ie_render: function(projection){
 	    var t1 = new Date();
+	    this.render = this.ie_render;
 	    var that = this;
 		var transformation = this.getTransformation();
 		if(this.options.beforeRender) this.options.beforeRender(transformation);	
@@ -381,7 +382,7 @@ VismoCanvas.prototype = {
 		if(ps > largest) ps = largest;	
 			
 		tran = transformation;
-		var mem =that.getMemory();
+		var mem =that.memory;
 
         
         var t1b = new Date();
@@ -405,6 +406,7 @@ VismoCanvas.prototype = {
         
 	}
 	,canvas_render: function(projection){
+	    this.render = this.canvas_render;
 	    var that = this;
 		var transformation = this.getTransformation();
 		if(this.options.beforeRender) this.options.beforeRender(transformation);	
@@ -601,7 +603,7 @@ VismoCanvas.prototype = {
 		    if(node.tagName.toUpperCase() == 'SHAPE'){
 		        if(node._vismoClickingID){
 		            
-		            var shape = this.getMemoryID(node._vismoClickingID);
+		            var shape = this.getShapeWithID(node._vismoClickingID);
 		            if(shape) return shape;
 		        }
 		        
