@@ -408,7 +408,7 @@ createCommentTiddler: function() {
 },
 saveTiddler: function(tiddler) {
   var tiddler = (typeof(tiddler)=="string") ? store.getTiddler(tiddler) : tiddler; 
-  store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, merge(config.defaultCustomFields, tiddler.fields), false, tiddler.created)
+  store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, merge(tiddler.fields, config.defaultCustomFields), false, tiddler.created)
 },
 log: function() { if (console && console.firebug) console.log.apply(console, arguments); },
 assert: function() { if (console && console.firebug) console.assert.apply(console, arguments); },
