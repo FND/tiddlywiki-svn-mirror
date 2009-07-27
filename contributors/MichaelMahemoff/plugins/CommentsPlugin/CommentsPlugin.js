@@ -270,7 +270,9 @@ openReplyLink: function(commentTiddler, commentEl, replyLink, macroParams) {
 
 createComment: function(text, daddy, macroParams) {
 
-  var newComment = cmacro.createCommentTiddler();// store.createTiddler(macro.generateCommentID());
+  var rootTitle = daddy.fields.root ? daddy.fields.root : daddy.title;
+    // second case is the situation where daddy *is* root
+  var newComment = cmacro.createCommentTiddler(macroParams, rootTitle);
   var fieldsParam = getParam(macroParams, "fields") || "";
   var fields = fieldsParam.decodeHashMap();
   var inheritedFields = (getParam(macroParams, "inheritedFields") || "").split(",");
@@ -284,8 +286,7 @@ createComment: function(text, daddy, macroParams) {
   var youngestSibling = cmacro.findYoungestChild(daddy)
   if (youngestSibling) newComment.fields.prev = youngestSibling.title;
   newComment.fields.daddy = daddy.title;
-  newComment.fields.root = daddy.fields.root ? daddy.fields.root : daddy.title;
-    // second case is the situation where daddy *is* root
+  newComment.fields.root = rootTitle;
 
   cmacro.saveTiddler(newComment.title);
   autoSaveChanges(false);
@@ -402,9 +403,11 @@ forceLoginIfRequired: function(params, loginPromptContainer, authenticatedBlock)
 //##############################################################################
 
 // callers may replace this with their own ID generation algorithm
-createCommentTiddler: function() {
-  if (!store.createGuidTiddler) return store.createTiddler("comment_"+((new Date()).getTime()));
-  return store.createGuidTiddler("comment_");
+createCommentTiddler: function(macroParams, rootTitle) {
+  // var titleFormat = getParam(macroParams, "titleFormat") || "%root%Comment"; 
+  var prefix = rootTitle+"Comment"; // was "_comment"
+  if (!store.createGuidTiddler) return store.createTiddler(prefix+((new Date()).getTime()));
+  return store.createGuidTiddler(prefix);
 },
 saveTiddler: function(tiddler) {
   var tiddler = (typeof(tiddler)=="string") ? store.getTiddler(tiddler) : tiddler; 
