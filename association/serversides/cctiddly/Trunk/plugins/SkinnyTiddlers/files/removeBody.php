@@ -1,9 +1,18 @@
 <?php
-
-echo $t['title'];
-echo "auto load title is : ".$autoLoad[$t['title']]."\n";
-
-if(!isset($autoLoad[$t['title']])) // using isset instead of in_array to speed things up.
+echo 'AUTO LOAD IS : ';
+print_r($autoLoad);
+if(isset($autoLoad[$t['title']])) {
+ 	echo 'LOAD ME : ';
+} else {
+	echo 'LOAD ME SKINNILY';
 	$t['body'] = "";
+	
+}
 
+/*
+if($autoLoad[$t['title']] != '') {
+	$t['body'] = "";
+}
+
+*/
 ?>

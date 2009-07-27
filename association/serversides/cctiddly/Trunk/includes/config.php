@@ -17,7 +17,6 @@ $tiddlyCfg['plugins_disabled'] = array(
     "createPackages",
     "Portlet",
     "lifestream",
-    "SkinnyTiddlers",
 	"OpenID",
 "TiddlyDocs",
 	"LDAP",

@@ -12,13 +12,17 @@ foreach(explode(" ", $defaultTiddlers['body']) as $tiddler)
 // GET systemConfig tags
 $systemConfigTiddlers = getTiddlersWithTags(array('systemConfig'), array());
 
+
+/*
 foreach($systemConfigTiddlers as $sysTiddler)
 {
-	echo $sysTiddler['title']."<br />";
-	$autoLoad[$sysTiddler['title']] = "those magic numbers";	
+	$autoLoad[$sysTiddler['title']] = "";	
 }
+
+*/
 
 ///  SPLIT CODE HERE ////
 
 $autoLoad = array_merge($defaults, $autoLoad);
+
 ?>
