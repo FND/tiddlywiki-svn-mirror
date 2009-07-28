@@ -2,12 +2,12 @@ config.macros.toolbar.isCommandEnabled=function(command,tiddler){
 	var title=tiddler.title;
 	if (workspace_delete=="D"){
 		// REMOVE OPTION TO DELETE TIDDLERS 
-		if (command.text=='delete')
+		if (command.text==config.commands.deleteTiddler.text)
 			return false;
 	}
 	if (workspace_udate=="D"){
 		// REMOVE EDIT LINK FROM TIDDLERS 
-		if (command.text=='edit')
+		if (command.text==config.commands.editTiddler.text)
 			return false;
 	}
 	var ro=tiddler.isReadOnly();
