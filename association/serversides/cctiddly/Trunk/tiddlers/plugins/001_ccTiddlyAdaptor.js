@@ -376,7 +376,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		var bag = tiddler.fields['server.bag']
 		var workspace = tiddler.fields['server.workspace']
 		var uriTemplate = '%0/%1/#%2';
-		info.uri = uriTemplate.format([host,workspace,tiddler.title]);
+		info.uri = uriTe  .format([host,workspace,tiddler.title]);
 		return info;
 	};
 
@@ -533,10 +533,20 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		else
 			tiddler.fields['server.page.revision'] = parseInt(tiddler.fields['server.page.revision'],10);
 		context.revision = tiddler.fields['server.page.revision'];
+		
+		
+
+		
+		
 		if(!context.otitle)
 			var otitle = tiddler.title;
 		else
 			var otitle = context.otitle;
+			
+			//  
+			
+			console.log('o is : ', otitle, 'n is :', tiddler.title);
+			
 		var payload = "workspace="+window.workspace+"&otitle="+encodeURIComponent(otitle)+"&title="+encodeURIComponent(tiddler.title) + "&modified="+tiddler.modified.convertToYYYYMMDDHHMM()+"&modifier="+tiddler.modifier + "&tags="+encodeURIComponent(tiddler.getTags())+"&revision="+encodeURIComponent(tiddler.fields['server.page.revision']) + "&fields="+encodeURIComponent(fieldString)+
 	"&body="+encodeURIComponent(tiddler.text)+"&wikifiedBody="+encodeURIComponent(el.innerHTML)+"&id="+tiddler.fields['server.id']+"&"+postParams;
 		var req = httpReq('POST', uri,ccTiddlyAdaptor.putTiddlerCallback,context,{'Content-type':'application/x-www-form-urlencoded', "Content-length": payload.length},payload,"application/x-www-form-urlencoded");

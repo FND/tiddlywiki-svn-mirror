@@ -11,6 +11,7 @@ config.macros.importTiddlers.onGetTiddler = function(context,wizard)
 		tiddler.fields = t.fields; 
 	}
 	store.suspendNotifications();
+	tiddler.fields['server.id'] = ""; // remove the original id (if one exists)
 	tiddler.fields['server.type'] = 'cctiddly';
 	tiddler.fields['server.host'] = window.url;
 	tiddler.fields['workspace']= window.workspace;

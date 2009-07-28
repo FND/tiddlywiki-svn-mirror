@@ -29,17 +29,26 @@ Story.prototype.loadMissingTiddlerContents = function(tiddler) {
 			var tiddler = context.tiddler;
 			console.log("skinny tiddler is ", tiddler);
 			if(tiddler && tiddler.text) {
+
+				console.log('here 0.1');
+
 				if(!tiddler.created) {
 					tiddler.created = new Date();
+					console.log('here 0.2');
 				}
 				if(!tiddler.modified) {
+					console.log('here 0.3');
+					
 					tiddler.modified = tiddler.created;
 				}
+				console.log('here 0.4');
 				store.saveTiddler(tiddler.title, tiddler.title,
 					tiddler.text, tiddler.modifier, tiddler.modified,
 					tiddler.tags, tiddler.fields, true, tiddler.created);
 				autoSaveChanges();
 			}
+			console.log('here 0.5');
+			
 			delete this;
 			return true;
 		},
