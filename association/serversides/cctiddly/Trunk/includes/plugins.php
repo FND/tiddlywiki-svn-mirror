@@ -88,31 +88,40 @@ class Plugin {
 		}
 	}
 
-	public function addRecipe($path) {
+	public function getContentFromRecipeItem($path) {
 		$path = trim($path);
 		$TW_ROOT = '/home/user/tiddlywikicore/';
 		$path = str_replace('$TW_ROOT/', $TW_ROOT, $path);
-		$fh = fopen($path, 'r');
-		echo $file = fread($fh, filesize($path)); 
-		$this->parseRecipe($file);	
+		$fh = @fopen($path, 'r');
+		return $file = @fread($fh, @filesize($path)); 
+	
 	}
 
-	public function parseRecipe($string) {
+	public function addRecipe($path) {
+		$file = $this->getContentFromRecipeItem($path);
+		$this->parseRecipe($file, dirname($path));	
+	}
+
+	public function parseRecipe($string, $recipePath) {
 		$lines = explode('\n', $string);
 		foreach($lines as $line) {
-			$this->parseRecipeLine($line);
+			$this->parseRecipeLine($line, $recipePath);
 		}
 	}
 	
-	public function parseRecipeLine($line) {
+	public function parseRecipeLine($line, $recipePath) {
 		$ext = trim(end(explode(".", $line)));
 		switch ($ext) {
 			case 'recipe':
 				$this->addRecipe(str_replace('recipe: ', '', $line));
 			case 'tiddler':
 			case 'js':
-				echo 'tiddler'.$line; 
-			default:
+				$tiddler['title'] = basename(str_replace('tiddler: ', '', $line));
+				$tiddler['tags'] = 'systemConfig';
+				echo $tiddler['body'] = $this->getContentFromRecipeItem(str_replace('tiddler: ', '', $recipePath.'/'.$line)); 
+				$this->tiddlers[$tiddler['title']] = $tiddler;
+			break;
+			default: 
 			    break;
 		}			
 	}
