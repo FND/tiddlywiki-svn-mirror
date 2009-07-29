@@ -87,6 +87,35 @@ class Plugin {
 			}
 		}
 	}
+
+	public function addRecipe($path) {
+		$path = trim($path);
+		$TW_ROOT = '/home/user/tiddlywikicore/';
+		$path = str_replace('$TW_ROOT/', $TW_ROOT, $path);
+		$fh = fopen($path, 'r');
+		echo $file = fread($fh, filesize($path)); 
+		$this->parseRecipe($file);	
+	}
+
+	public function parseRecipe($string) {
+		$lines = explode('\n', $string);
+		foreach($lines as $line) {
+			$this->parseRecipeLine($line);
+		}
+	}
+	
+	public function parseRecipeLine($line) {
+		$ext = trim(end(explode(".", $line)));
+		switch ($ext) {
+			case 'recipe':
+				$this->addRecipe(str_replace('recipe: ', '', $line));
+			case 'tiddler':
+			case 'js':
+				echo 'tiddler'.$line; 
+			default:
+			    break;
+		}			
+	}
       
 	public function addEvent($eventname, $fileInclude) {
 		if (!isset($this->phpEvents[$eventname]))

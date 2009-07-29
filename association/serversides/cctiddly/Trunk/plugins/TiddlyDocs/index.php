@@ -19,5 +19,6 @@ $tiddlyCfg['privilege']['non_admin']['document'] = "AUAA";
 $tiddlyCfg['show_register_on_login'] = false;
 
 $p = new Plugin('Tiddler Tree','0.1','simonmcmanus.com');
-$p->addTiddlersFolder(getcwd().'/plugins/TiddlyDocs/files');
+//$p->addTiddlersFolder(getcwd().'/plugins/TiddlyDocs/files');
+$p->addRecipe(getcwd().'/plugins/TiddlyDocs/files/tiddlydocs.recipe');
 ?>
