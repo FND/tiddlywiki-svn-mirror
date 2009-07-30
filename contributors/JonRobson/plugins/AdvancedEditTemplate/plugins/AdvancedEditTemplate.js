@@ -138,23 +138,52 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			return false;
 
 		}
-		,advancedDropdown: function(){
-			
+		,setupRadioboxes: function(place,tiddlerobj,metaDataName,valueSource){
+		    var source = store.getTiddler(valueSource);
+		    var lines = source.text.split("\n");
+		    
+		    var radioHtml = "";
+		    var currentValue = tiddlerobj.fields[metaDataName];
+		    var selected;
+		    for(var i=0; i < lines.length; i++){
+		        var val = lines[i];
+		        if(val != ""){
+    		        if(val == currentValue){
+    		            selected = "checked=true";
+    		        }
+    		        else{
+    		            selected = "";
+    		        }
+    		        radioHtml += "<input class='aet_radiobutton' "+selected+" type='radio' value=\""+val+"\" name='"+metaDataName+"'/>"+val;
+		        }
+		    }
+		    jQuery(place).append("<div class='aet_radioboxes'>"+radioHtml+"</div>");
+		    var aet = this;
+		    jQuery("input",place).click(function(e){
+		        var newval = this.value;
+		        aet.setMetaData(tiddlerobj.title,metaDataName,newval);
+		    });
 		}
-		,handler: function(place,macroName,p,wikifier,paramString,tiddler) {
-			var tiddlerDom = story.findContainingTiddler(place);
-			var params = paramString.parseParams("anon",null,true,false,false);
-			var ctrlType = getParam(params,"type",null);
-
-			var title = tiddlerDom.getAttribute("tiddler");
-			var tiddlerobj = store.getTiddler(title);
-			var metaDataName = getParam(params,"metaDataName", null);
-			
-			// build a drop down control
-			var valueSource = getParam(params,"valuesSource", null);
-			if(!valueSource) valueSource = metaDataName + "Definition";
-			
-			if(ctrlType == 'dropdown') {
+		,setupSearchbox: function(place,tiddlerobj,metaDataName,valueSource){
+		    if(!valueSource) {
+				displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
+				return;
+			}
+			var selected = store.getValue(tiddlerobj,metaDataName);
+			if(!selected){
+				var qsvalue =this.getVariableFromQueryString(metaDataName);
+				if(qsvalue) selected = qsvalue;
+			}
+			var tiddlerobj =store.getTiddler(valueSource);
+			if(tiddlerobj){
+				var values = tiddlerobj.text.split('\n');
+				var handler= function(value){
+					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
+				}
+				this.createSearchBox(place,metaDataName,values,selected,handler);
+			}
+		}
+		,setupDropdown: function(place,tiddlerobj,metaDataName,valueSource){
 				if(!valueSource) {
 					displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
 					return;
@@ -182,29 +211,32 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					var sorted = tiddlerobj.tags.contains("sorted");
 					this.createDropDownMenu(place,fields,values,false,this.setDropDownMetaData,selected,sorted);
 				}
+		}
+		,handler: function(place,macroName,p,wikifier,paramString,tiddler) {
+			var tiddlerDom = story.findContainingTiddler(place);
+			var params = paramString.parseParams("anon",null,true,false,false);
+			var ctrlType = getParam(params,"type",null);
+
+			var title = tiddlerDom.getAttribute("tiddler");
+			var tiddlerobj = store.getTiddler(title);
+			var metaDataName = getParam(params,"metaDataName", null);
+			
+			// build a drop down control
+			var valueSource = getParam(params,"valuesSource", null);
+			if(!valueSource) valueSource = metaDataName + "Definition";
+			
+			if(ctrlType == 'dropdown') {
+			    this.setupDropdown(place,tiddlerobj,metaDataName,valueSource);
 			}
 			else if(ctrlType == 'search'){
-				if(!valueSource) {
-					displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
-					return;
-				}
-				var selected = store.getValue(tiddlerobj,metaDataName);
-				if(!selected){
-					var qsvalue =this.getVariableFromQueryString(metaDataName);
-					if(qsvalue) selected = qsvalue;
-				}
-				var tiddlerobj =store.getTiddler(valueSource);
-				if(tiddlerobj){
-					var values = tiddlerobj.text.split('\n');
-					var handler= function(value){
-						config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
-					}
-					this.createSearchBox(place,metaDataName,values,selected,handler);
-				}
+				this.setupSearchbox(place,tiddlerobj,metaDataName,valueSource);
 			}
 			else if(ctrlType == 'checkbox'){      					
 				this.createCheckBox(place,title,metaDataName);
 				
+			}
+			else if(ctrlType == 'radio'){
+			    this.setupRadioboxes(place,tiddlerobj,metaDataName,valueSource);
 			}
 			else if(ctrlType == 'date'){
 			        this.createDatePicker(place,title,metaDataName);
@@ -223,7 +255,9 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 			else if(ctrlType == 'text'){
 			    var maxlength = getParam(params,"maxlength", null);
+			    var rows = getParam(params,"rows", null);
 			    params = [metaDataName];
+			    if(rows) params.push(rows);
 			    paramString ="";
 			    var e = config.macros.edit.handler(place,macroName,params,wikifier,paramString,tiddler);
 			    if(maxlength) e.setAttribute("maxlength",maxlength); 

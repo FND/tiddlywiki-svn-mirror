@@ -4,27 +4,48 @@
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 <div class='title' macro='view title'></div>
 <div class='editor' macro='edit title'></div>
-Associated File: <span macro="AdvancedEditTemplate type:file metaDataName:file root:static/images/public browser:'http://localhost/ilga/browse' uploader:'http://localhost/ilga/upload'"></span>
 
-Logo: <span macro="AdvancedEditTemplate type:image metaDataName:logo root:static/images/public browser:'http://localhost/ilga/browse' uploader:'http://localhost/ilga/upload'"></span>
-
+<h2>Simple dropdown</h2>
+<p>
 assign this to:
-<span macro='AdvancedEditTemplate type:dropdown metaDataName:assignee valuesSource:DropDownData'></span>
-<div>
+<span macro='aet type:dropdown metaDataName:assignee valuesSource:DropDownData'></span>
+</p>
+
+<h2>Search for suggestions</h2>
+<p>
 assigned by (search for a name from our list):
-<span macro='AdvancedEditTemplate type:search metaDataName:assignby valuesSource:DropDownData'></span>
-</div>
+<span macro='aet type:search metaDataName:assignby valuesSource:DropDownData'></span>
+</p>
+
+<h2>Radio boxes</h2>
+<p>
+rate
+<div macro='aet type:radio metaDataName:rating valuesSource:ratings'></div>
+</p>
+
+<h2>Dates using a calendar</h2>
+<p>
 get done by:
-<div macro='AdvancedEditTemplate type:date metaDataName:doneby'></div>
-For demo purposes (dropdown): <span macro='AdvancedEditTemplate type:dropdown metaDataName:abc'></span>
-<div macro='annotations'></div>
-<div class='editor' macro='edit myvariable'></div>
+<div macro='aet type:date metaDataName:doneby'></div>
+</p>
+
+<p>&nbsp;</p>
+
+<h2>Advanced Text</h2>
+Give feedback (maximum 19 characters)
+<div macro='aet type:text metaDataName:feedback maxlength:19'></div>
 
 <div class='editor' macro='edit text'></div>
 <div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser excludeLists'></span></div>
-<span macro='AdvancedEditTemplate type:checkbox metaDataName:approved'></span>
+<h2>Checkboxes</h2>
+<p>
+<span macro='aet type:checkbox metaDataName:approved'></span>
 Approve tiddler
-color: <div macro='AdvancedEditTemplate type:color metaDataName:color'></div>
+</p>
+<h2>Adding colors</h2>
+<p>
+color: <div macro='aet type:color metaDataName:color'></div>
+</p>
 <!--}}}-->
 
 </pre>

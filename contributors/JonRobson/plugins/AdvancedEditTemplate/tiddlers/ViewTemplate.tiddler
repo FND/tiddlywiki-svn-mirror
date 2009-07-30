@@ -9,8 +9,7 @@
 <div>assigned to: <span macro='view assignee'></span></div>
 <div>assigned by: <span macro='view assignby'></span></div>
 <div>approved?: <span macro='view approved'></span></div>
-<div>color:<span macro='view color'></span></div>
-For demo purposes: <span macro='view abc'></span>
+Favourite animal: <span macro='view animal'></span>
 <div class='tagging' macro='tagging'></div>
 <div class='tagged' macro='tags'></div>
 <div class='viewer' macro='view text wikified'></div>

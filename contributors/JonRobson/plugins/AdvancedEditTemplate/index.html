@@ -3,7 +3,7 @@
 <head>
 <script id="versionArea" type="text/javascript">
 //<![CDATA[
-var version = {title: "TiddlyWiki", major: 2, minor: 5, revision: 1, alpha: 1, date: new Date("Mar 9, 2009"), extensions: {}};
+var version = {title: "TiddlyWiki", major: 2, minor: 5, revision: 3, alpha: 1, date: new Date("June 24, 2009"), extensions: {}};
 //]]>
 </script>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -628,7 +628,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200905141209" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200907301341" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -648,551 +648,133 @@ Allows the adding of multiple level drop down menus and checkboxes to the edit t
 // create macro object
 (function($) { // set up alias
 
-config.macros.FileTree = { 
- 
-  // Add a handler function to be invoked by &lt;&lt;listnav TiddlerTitle&gt;&gt; 
-  handler: function(place, macroName, params, wikifier, paramString, tiddler) {
- 	var el = document.createElement(&quot;div&quot;);
-	try{
-	var p = paramString.parseParams();
-	var connector= getParam(p,&quot;connector&quot;);
-	$(el).fileTree({ root: 'images/', script: connector }, function(file) { 
-				//alert(file);
-			});
-	}
-	catch(e){
-		console.log(e);
-	}		
-	place.appendChild(el);
-  }
+config.macros.viewimage ={    
+     handler: function(place,macroName,params,wikifier,paramString,tiddler){
+
+        var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
+
+    	var classname = getParam(params,&quot;class&quot;);
+        if(!classname) classname = &quot;&quot;;
+
+        var src = getParam(params,&quot;src&quot;);
+        //alert(&quot;here&quot;);
+        var fieldname = getParam(params,&quot;field&quot;);
+        if(fieldname) src= tiddler.fields[fieldname];
+
+        var maxw = getParam(params,&quot;maxwidth&quot;);
+        var maxh = getParam(params,&quot;maxheight&quot;);
+        
+        var imagew,imageh;
+        
+        var html = &quot;&lt;img&quot;;
+        if(classname)html+=&quot; class='&quot;+ classname+&quot;' &quot;;
+        
+        html += &quot; src='&quot;+src+&quot;'&quot;;
+        
+        if(maxw || maxh){
+           
+            var image = new Image();
+
+            image.onload = function(){
+           
+                var ratio =   image.height/image.width;
+                
+                var largerW, largerH;
+                
+                if(image.height &gt; image.width){
+                    largerH = true;
+                }
+                else {
+                    largerW = true;
+                }
+                //console.log(&quot;maxw,maxh&quot;,maxw,maxh);
+                if(largerW &amp;&amp; image.width &gt; maxw){
+                    imagew = maxw;
+                    imageh = parseInt(imagew * ratio);
+                }
+                else if(image.height &gt; maxh){
+                    imageh = maxh;
+                    imagew = parseInt(imageh / ratio);
+                }
+                	if(imagew) html += &quot; width='&quot;+imagew+&quot;'&quot;;
+                	if(imageh) html += &quot; height='&quot;+imageh+&quot;'&quot;;
+                
+                html += &quot;/&gt;&quot;;
+                //alert(html)\
+               
+                jQuery(place).append(html);
+                	
+            };
+            image.src = src; //this must come after defining the onload event
+        }
+        else{
+            html += &quot;/&gt;&quot;;
+            //alert(html)
+            jQuery(place).append(html);
+        }
+
+    
+    	
+   
+	
+    }
 };
 
-/**
- * Ajax upload
- * Project page - http://valums.com/ajax-upload/
- * Copyright (c) 2008 Andris Valums, http://valums.com
- * Licensed under the MIT license (http://valums.com/mit-license/)
- * Version 3.1 (24.04.2009)
- */
 
-/**
- * Changes from the previous version:
- * 1. Fixed Safari 4 (Mac) upload problem
- * Special thanks to Lauren Russell, Mike, Steffen for finding what caused this bug
- * 2. Improved compatability with jquery ui.
- * Thanks to Vladimir Shushkov
- * 3. Fixed problems with Opera, but you can't use false as a response now.
- * 
- * For the full changelog please visit: 
- * http://valums.com/ajax-upload-changelog/
- */
 
-(function(){
+
+if(config.macros.view){
+    if(!config.macros.view.views)config.macros.view.views={};
+    config.macros.view.views.image = function(value,place,params,wikifier,paramString,tiddler) {
+    var classname=&quot;&quot;;
+    var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
 	
-var d = document, w = window;
+    if(params[2]) classname = getParam(params,&quot;class&quot;);
+			jQuery(place).append(&quot;&lt;img class='&quot;+ classname+&quot;' src='&quot;+value+&quot;'/&gt;&quot;);
+    
+    
+    
+    };
+    
 
-/**
- * Get element by id
- */	
-function get(element){
-	if (typeof element == &quot;string&quot;)
-		element = d.getElementById(element);
-	return element;
+    config.macros.view.views.linklist = function(value,place,params,wikifier,paramString,tiddler) {
+        var classname=&quot;&quot;;
+        var values = value.split(&quot;\n&quot;);
+        for(var i=0; i &lt; values.length;i++){
+            wikify(&quot;[[&quot;+values[i]+&quot;]]\n&quot;,place);
+        }
+        
+    };
+        
+    config.macros.view.views.hiddeninput = function(value,place,params,wikifier,paramString,tiddler) {
+        var classname=&quot;&quot;;
+        if(params[2]) classname = params[2];
+	    jQuery(place).append(&quot;&lt;input type='hidden' value='&quot;+value+&quot;'/&gt;&quot;);
+    };
 }
 
-/**
- * Attaches event to a dom element
- */
-function addEvent(el, type, fn){
-	if (w.addEventListener){
-		el.addEventListener(type, fn, false);
-	} else if (w.attachEvent){
-		var f = function(){
-		  fn.call(el, w.event);
-		};			
-		el.attachEvent('on' + type, f)
-	}
-}
-
-
-/**
- * Creates and returns element from html chunk
- */
-var toElement = function(){
-	var div = d.createElement('div');
-	return function(html){
-		div.innerHTML = html;
-		var el = div.childNodes[0];
-		div.removeChild(el);
-		return el;
-	}
-}();
-
-function hasClass(ele,cls){
-	return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
-}
-function addClass(ele,cls) {
-	if (!hasClass(ele,cls)) ele.className += &quot; &quot;+cls;
-}
-function removeClass(ele,cls) {
-	var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
-	ele.className=ele.className.replace(reg,' ');
-}
-
-// getOffset function copied from jQuery lib (http://jquery.com/)
-if (document.documentElement[&quot;getBoundingClientRect&quot;]){
-	// Get Offset using getBoundingClientRect
-	// http://ejohn.org/blog/getboundingclientrect-is-awesome/
-	var getOffset = function(el){
-		var box = el.getBoundingClientRect(),
-		doc = el.ownerDocument,
-		body = doc.body,
-		docElem = doc.documentElement,
-		
-		// for ie 
-		clientTop = docElem.clientTop || body.clientTop || 0,
-		clientLeft = docElem.clientLeft || body.clientLeft || 0,
-		
-		// In Internet Explorer 7 getBoundingClientRect property is treated as physical,
-		// while others are logical. Make all logical, like in IE8.
-		
-		
-		zoom = 1;
-		if (body.getBoundingClientRect) {
-			var bound = body.getBoundingClientRect();
-			zoom = (bound.right - bound.left)/body.clientWidth;
-		}
-		if (zoom &gt; 1){
-			clientTop = 0;
-			clientLeft = 0;
-		}
-		var top = box.top/zoom + (window.pageYOffset || docElem &amp;&amp; docElem.scrollTop/zoom || body.scrollTop/zoom) - clientTop,
-		left = box.left/zoom + (window.pageXOffset|| docElem &amp;&amp; docElem.scrollLeft/zoom || body.scrollLeft/zoom) - clientLeft;
-				
-		return {
-			top: top,
-			left: left
-		};
-	}
-	
-} else {
-	// Get offset adding all offsets 
-	var getOffset = function(el){
-		if (w.jQuery){
-			return jQuery(el).offset();
-		}		
-			
-		var top = 0, left = 0;
-		do {
-			top += el.offsetTop || 0;
-			left += el.offsetLeft || 0;
-		}
-		while (el = el.offsetParent);
-		
-		return {
-			left: left,
-			top: top
-		};
-	}
-}
-
-function getBox(el){
-	var left, right, top, bottom;	
-	var offset = getOffset(el);
-	left = offset.left;
-	top = offset.top;
-						
-	right = left + el.offsetWidth;
-	bottom = top + el.offsetHeight;		
-		
-	return {
-		left: left,
-		right: right,
-		top: top,
-		bottom: bottom
-	};
-}
-
-/**
- * Crossbrowser mouse coordinates
- */
-function getMouseCoords(e){		
-	// pageX/Y is not supported in IE
-	// http://www.quirksmode.org/dom/w3c_cssom.html			
-	if (!e.pageX &amp;&amp; e.clientX){
-		// In Internet Explorer 7 some properties (mouse coordinates) are treated as physical,
-		// while others are logical (offset).
-		var zoom = 1;	
-		var body = document.body;
-		
-		if (body.getBoundingClientRect) {
-			var bound = body.getBoundingClientRect();
-			zoom = (bound.right - bound.left)/body.clientWidth;
-		}
-
-		return {
-			x: e.clientX / zoom + d.body.scrollLeft + d.documentElement.scrollLeft,
-			y: e.clientY / zoom + d.body.scrollTop + d.documentElement.scrollTop
-		};
-	}
-	
-	return {
-		x: e.pageX,
-		y: e.pageY
-	};		
-
-}
-/**
- * Function generates unique id
- */		
-var getUID = function(){
-	var id = 0;
-	return function(){
-		return 'ValumsAjaxUpload' + id++;
-	}
-}();
-
-function fileFromPath(file){
-	return file.replace(/.*(\/|\\)/, &quot;&quot;);			
-}
-
-function getExt(file){
-	return (/[.]/.exec(file)) ? /[^.]+$/.exec(file.toLowerCase()) : '';
-}			
-
-// Please use AjaxUpload , Ajax_upload will be removed in the next version
-Ajax_upload = AjaxUpload = function(button, options){
-	if (button.jquery){
-		// jquery object was passed
-		button = button[0];
-	} else if (typeof button == &quot;string&quot; &amp;&amp; /^#.*/.test(button)){					
-		button = button.slice(1);				
-	}
-	button = get(button);	
-	
-	this._input = null;
-	this._button = button;
-	this._disabled = false;
-	this._submitting = false;
-	// Variable changes to true if the button was clicked
-	// 3 seconds ago (requred to fix Safari on Mac error)
-	this._justClicked = false;
-	this._parentDialog = d.body;
-			
-	if (window.jQuery &amp;&amp; jQuery.ui &amp;&amp; jQuery.ui.dialog){
-		var parentDialog = jQuery(self._button).parents('.ui-dialog-content');
-		if (parentDialog.length){
-			this._parentDialog = parentDialog[0];
-		}
-	}
-					
-	this._settings = {
-		// Location of the server-side upload script
-		action: 'upload.php',			
-		// File upload name
-		name: 'userfile',
-		// Additional data to send
-		data: {},
-		// Submit file as soon as it's selected
-		autoSubmit: true,
-		// The type of data that you're expecting back from the server.
-		// Html and xml are detected automatically.
-		// Only useful when you are using json data as a response.
-		// Set to &quot;json&quot; in that case. 
-		responseType: false,
-		// When user selects a file, useful with autoSubmit disabled			
-		onChange: function(file, extension){},					
-		// Callback to fire before file is uploaded
-		// You can return false to cancel upload
-		onSubmit: function(file, extension){},
-		// Fired when file upload is completed
-		onComplete: function(file, response) {}
-	};
-
-	// Merge the users options with our defaults
-	for (var i in options) {
-		this._settings[i] = options[i];
-	}
-	
-	this._createInput();
-	this._rerouteClicks();
-}
-			
-// assigning methods to our class
-AjaxUpload.prototype = {
-	setData : function(data){
-		this._settings.data = data;
-	},
-	disable : function(){
-		this._disabled = true;
-	},
-	enable : function(){
-		this._disabled = false;
-	},
-	// removes ajaxupload
-	destroy : function(){
-		if(this._input){
-			if(this._input.parentNode){
-				this._input.parentNode.removeChild(this._input);
-			}
-			this._input = null;
-		}
-	},				
-	/**
-	 * Creates invisible file input above the button 
-	 */
-	_createInput : function(){
-		var self = this;
-		var input = d.createElement(&quot;input&quot;);
-		input.setAttribute('type', 'file');
-		input.setAttribute('name', this._settings.name);
-		var styles = {
-			'position' : 'absolute'
-			,'margin': '-5px 0 0 -175px'
-			,'padding': 0
-			,'width': '220px'
-			,'height': '30px'								
-			,'opacity': 0
-			,'cursor': 'pointer'
-			,'display' : 'none'
-			,'zIndex' :  2147483583 //Max zIndex supported by Opera 9.0-9.2x 
-			// Strange, I expected 2147483647					
-		};
-		for (var i in styles){
-			input.style[i] = styles[i];
-		}
-		
-		// Make sure that element opacity exists
-		// (IE uses filter instead)
-		if ( ! (input.style.opacity === &quot;0&quot;)){
-			input.style.filter = &quot;alpha(opacity=0)&quot;;
-		}
-							
-		this._parentDialog.appendChild(input);
-
-		addEvent(input, 'change', function(){
-			// get filename from input
-			var file = fileFromPath(this.value);	
-			if(self._settings.onChange.call(self, file, getExt(file)) == false ){
-				return;				
-			}														
-			// Submit form when value is changed
-			if (self._settings.autoSubmit){
-				self.submit();						
-			}						
-		});
-		
-		// Fixing problem with Safari
-		// The problem is that if you leave input before the file select dialog opens
-		// it does not upload the file.
-		// As dialog opens slowly (it is a sheet dialog which takes some time to open)
-		// there is some time while you can leave the button.
-		// So we should not change display to none immediately
-		addEvent(input, 'click', function(){
-			self.justClicked = true;
-			setTimeout(function(){
-				// we will wait 3 seconds for dialog to open
-				self.justClicked = false;
-			}, 3000);			
-		});		
-		
-		this._input = input;
-	},
-	_rerouteClicks : function (){
-		var self = this;
-	
-		// IE displays 'access denied' error when using this method
-		// other browsers just ignore click()
-		// addEvent(this._button, 'click', function(e){
-		//   self._input.click();
-		// });
-				
-		var box, dialogOffset = {top:0, left:0}, over = false;							
-		addEvent(self._button, 'mouseover', function(e){
-			if (!self._input || over) return;
-			over = true;
-			box = getBox(self._button);
-					
-			if (self._parentDialog != d.body){
-				dialogOffset = getOffset(self._parentDialog);
-			}	
-		});
-		
-	
-		// we can't use mouseout on the button,
-		// because invisible input is over it
-		addEvent(document, 'mousemove', function(e){
-			var input = self._input;			
-			if (!input || !over) return;
-			
-			if (self._disabled){
-				removeClass(self._button, 'hover');
-				input.style.display = 'none';
-				return;
-			}	
-										
-			var c = getMouseCoords(e);
-
-			if ((c.x &gt;= box.left) &amp;&amp; (c.x &lt;= box.right) &amp;&amp; 
-			(c.y &gt;= box.top) &amp;&amp; (c.y &lt;= box.bottom)){			
-				input.style.top = c.y - dialogOffset.top + 'px';
-				input.style.left = c.x - dialogOffset.left + 'px';
-				input.style.display = 'block';
-				addClass(self._button, 'hover');				
-			} else {		
-				// mouse left the button
-				over = false;
-				if (!self.justClicked){
-					input.style.display = 'none';
-				}
-				removeClass(self._button, 'hover');
-			}			
-		});			
-			
-	},
-	/**
-	 * Creates iframe with unique name
-	 */
-	_createIframe : function(){
-		// unique name
-		// We cannot use getTime, because it sometimes return
-		// same value in safari :(
-		var id = getUID();
-		
-		// Remove ie6 &quot;This page contains both secure and nonsecure items&quot; prompt 
-		// http://tinyurl.com/77w9wh
-		var iframe = toElement('&lt;iframe src=&quot;javascript:false;&quot; name=&quot;' + id + '&quot; /&gt;');
-		iframe.id = id;
-		iframe.style.display = 'none';
-		d.body.appendChild(iframe);			
-		return iframe;						
-	},
-	/**
-	 * Upload file without refreshing the page
-	 */
-	submit : function(){
-		var self = this, settings = this._settings;	
-					
-		if (this._input.value === ''){
-			// there is no file
-			return;
-		}
-										
-		// get filename from input
-		var file = fileFromPath(this._input.value);			
-
-		// execute user event
-		if (! (settings.onSubmit.call(this, file, getExt(file)) == false)) {
-			// Create new iframe for this submission
-			var iframe = this._createIframe();
-			
-			// Do not submit if user function returns false										
-			var form = this._createForm(iframe);
-			form.appendChild(this._input);
-			
-			form.submit();
-			
-			d.body.removeChild(form);				
-			form = null;
-			this._input = null;
-			
-			// create new input
-			this._createInput();
-			
-			var toDeleteFlag = false;
-			
-			addEvent(iframe, 'load', function(e){
-				if (iframe.src == &quot;about:blank&quot;){						
-					// First time around, do not delete.
-					if( toDeleteFlag ){
-						// Fix busy state in FF3
-						setTimeout( function() {
-							d.body.removeChild(iframe);
-						}, 0);
-					}
-					return;
-				}				
-				
-				var doc = iframe.contentDocument ? iframe.contentDocument : frames[iframe.id].document;
-
-				// fixing Opera 9.26
-				if (doc.readyState &amp;&amp; doc.readyState != 'complete'){
-					// Opera fires load event multiple times
-					// Even when the DOM is not ready yet
-					// this fix should not affect other browsers
-					return;
-				}
-				
-				// fixing Opera 9.64
-				if (doc.body &amp;&amp; doc.body.innerHTML == &quot;false&quot;){
-					// In Opera 9.64 event was fired second time
-					// when body.innerHTML changed from false 
-					// to server response approx. after 1 sec
-					return;				
-				}
-				
-				var response;
-									
-				if (doc.XMLDocument){
-					// response is a xml document IE property
-					response = doc.XMLDocument;
-				} else if (doc.body){
-					// response is html document or plain text
-					response = doc.body.innerHTML;
-					if (settings.responseType == 'json'){
-						response = window[&quot;eval&quot;](&quot;(&quot; + response + &quot;)&quot;);
-					}
-				} else {
-					// response is a xml document
-					var response = doc;
-				}
-																			
-				settings.onComplete.call(self, file, response);
-						
-				// Reload blank page, so that reloading main page
-				// does not re-submit the post. Also, remember to
-				// delete the frame
-				toDeleteFlag = true;				
-				iframe.src = &quot;about:blank&quot;; //load event fired				 								
-			});
-	
-		} else {
-			// clear input to allow user to select same file
-			this._input.value = '';						
-		}
-	},		
-	/**
-	 * Creates form, that will be submitted to iframe
-	 */
-	_createForm : function(iframe){
-		var settings = this._settings;
-		
-		// method, enctype must be specified here
-		// because changing this attr on the fly is not allowed in IE 6/7		
-		var form = toElement('&lt;form method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;&lt;/form&gt;');
-		form.style.display = 'none';
-		form.action = settings.action;
-		form.target = iframe.name;
-		d.body.appendChild(form);
-		
-		// Create hidden input element for each data key
-		for (var prop in settings.data){
-			var el = d.createElement(&quot;input&quot;);
-			el.type = 'hidden';
-			el.name = prop;
-			el.value = settings.data[prop];
-			form.appendChild(el);
-		}			
-		return form;
-	}	
-};
-})();
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
 
 	version.extensions.AdvancedEditTemplatePlugin = {installed:true};
+	config.macros.aet_setcolor = {
+	    	handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+	    	    var color =config.macros.AdvancedEditTemplate.getMetaData(tiddler.title,params[0]);
+	    	    place.style.backgroundColor = color;
+    	    }
+	};
+	
 	config.macros.AdvancedEditTemplate = {
-		getVariableFromQueryString:function(varName){
+	    lingo:{
+	        &quot;aet_upload&quot;:&quot;Upload a local file:&quot;,
+	        &quot;aet_imgpreview&quot;:&quot;a preview of currently selected image will be shown here&quot;,
+	        &quot;aet_select&quot;:&quot;Please select..&quot;
+	    }
+	    ,translate: function(id){
+	        if(!config.macros.aet.lingo[id]) return id;
+	        return config.macros.aet.lingo[id];
+	    }
+		,getVariableFromQueryString:function(varName){
 			var qs = window.location.search.substring(1);
 			var atts = qs.split(&quot;&amp;&quot;);
 
@@ -1206,23 +788,52 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			return false;
 
 		}
-		,advancedDropdown: function(){
-			
+		,setupRadioboxes: function(place,tiddlerobj,metaDataName,valueSource){
+		    var source = store.getTiddler(valueSource);
+		    var lines = source.text.split(&quot;\n&quot;);
+		    
+		    var radioHtml = &quot;&quot;;
+		    var currentValue = tiddlerobj.fields[metaDataName];
+		    var selected;
+		    for(var i=0; i &lt; lines.length; i++){
+		        var val = lines[i];
+		        if(val != &quot;&quot;){
+    		        if(val == currentValue){
+    		            selected = &quot;checked=true&quot;;
+    		        }
+    		        else{
+    		            selected = &quot;&quot;;
+    		        }
+    		        radioHtml += &quot;&lt;input class='aet_radiobutton' &quot;+selected+&quot; type='radio' value=\&quot;&quot;+val+&quot;\&quot; name='&quot;+metaDataName+&quot;'/&gt;&quot;+val;
+		        }
+		    }
+		    jQuery(place).append(&quot;&lt;div class='aet_radioboxes'&gt;&quot;+radioHtml+&quot;&lt;/div&gt;&quot;);
+		    var aet = this;
+		    jQuery(&quot;input&quot;,place).click(function(e){
+		        var newval = this.value;
+		        aet.setMetaData(tiddlerobj.title,metaDataName,newval);
+		    });
 		}
-		,handler: function(place,macroName,p,wikifier,paramString,tiddler) {
-			var tiddlerDom = story.findContainingTiddler(place);
-			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
-			var ctrlType = getParam(params,&quot;type&quot;,null);
-
-			var title = tiddlerDom.getAttribute(&quot;tiddler&quot;);
-			var tiddlerobj = store.getTiddler(title);
-			var metaDataName = getParam(params,&quot;metaDataName&quot;, null);
-			
-			// build a drop down control
-			var valueSource = getParam(params,&quot;valuesSource&quot;, null);
-			if(!valueSource) valueSource = metaDataName + &quot;Definition&quot;;
-			
-			if(ctrlType == 'dropdown') {
+		,setupSearchbox: function(place,tiddlerobj,metaDataName,valueSource){
+		    if(!valueSource) {
+				displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
+				return;
+			}
+			var selected = store.getValue(tiddlerobj,metaDataName);
+			if(!selected){
+				var qsvalue =this.getVariableFromQueryString(metaDataName);
+				if(qsvalue) selected = qsvalue;
+			}
+			var tiddlerobj =store.getTiddler(valueSource);
+			if(tiddlerobj){
+				var values = tiddlerobj.text.split('\n');
+				var handler= function(value){
+					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
+				}
+				this.createSearchBox(place,metaDataName,values,selected,handler);
+			}
+		}
+		,setupDropdown: function(place,tiddlerobj,metaDataName,valueSource){
 				if(!valueSource) {
 					displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
 					return;
@@ -1250,30 +861,32 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					var sorted = tiddlerobj.tags.contains(&quot;sorted&quot;);
 					this.createDropDownMenu(place,fields,values,false,this.setDropDownMetaData,selected,sorted);
 				}
+		}
+		,handler: function(place,macroName,p,wikifier,paramString,tiddler) {
+			var tiddlerDom = story.findContainingTiddler(place);
+			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
+			var ctrlType = getParam(params,&quot;type&quot;,null);
+
+			var title = tiddlerDom.getAttribute(&quot;tiddler&quot;);
+			var tiddlerobj = store.getTiddler(title);
+			var metaDataName = getParam(params,&quot;metaDataName&quot;, null);
+			
+			// build a drop down control
+			var valueSource = getParam(params,&quot;valuesSource&quot;, null);
+			if(!valueSource) valueSource = metaDataName + &quot;Definition&quot;;
+			
+			if(ctrlType == 'dropdown') {
+			    this.setupDropdown(place,tiddlerobj,metaDataName,valueSource);
 			}
 			else if(ctrlType == 'search'){
-				if(!valueSource) {
-					displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
-					return;
-				}
-				var selected = store.getValue(tiddlerobj,metaDataName);
-				if(!selected){
-					var qsvalue =this.getVariableFromQueryString(metaDataName);
-					if(qsvalue) selected = qsvalue;
-				}
-				var tiddlerobj =store.getTiddler(valueSource);
-				if(tiddlerobj){
-					var values = tiddlerobj.text.split('\n');
-					var handler= function(value){
-						config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
-					}
-					this.createSearchBox(place,metaDataName,values,selected,handler);
-				}
+				this.setupSearchbox(place,tiddlerobj,metaDataName,valueSource);
 			}
-			else if(ctrlType == 'checkbox'){
-			        					
+			else if(ctrlType == 'checkbox'){      					
 				this.createCheckBox(place,title,metaDataName);
 				
+			}
+			else if(ctrlType == 'radio'){
+			    this.setupRadioboxes(place,tiddlerobj,metaDataName,valueSource);
 			}
 			else if(ctrlType == 'date'){
 			        this.createDatePicker(place,title,metaDataName);
@@ -1292,10 +905,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 			else if(ctrlType == 'text'){
 			    var maxlength = getParam(params,&quot;maxlength&quot;, null);
+			    var rows = getParam(params,&quot;rows&quot;, null);
 			    params = [metaDataName];
+			    if(rows) params.push(rows);
 			    paramString =&quot;&quot;;
 			    var e = config.macros.edit.handler(place,macroName,params,wikifier,paramString,tiddler);
-			    console.log(e,maxlength,&quot;cool&quot;);
 			    if(maxlength) e.setAttribute(&quot;maxlength&quot;,maxlength); 
 			}
 			else if(ctrlType == 'file'){
@@ -1421,7 +1035,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				
 				if(!selected) selected = &quot;&quot;;
 				if(!initialValue){
-					initialValue = &quot;Please select.. &quot;;
+					initialValue = &quot;aet_select&quot;;
 				}
 				var menus = this._createMenus(values);
 				
@@ -1429,6 +1043,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				var allMenus = [];
 				var selectedItem = false;
 				var nowtselected = true;
+			
 				
 				
 				for(var j=menus.length-1; j &gt;-1; j--){
@@ -1447,12 +1062,18 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					newMenu.name = fields[fieldid];
 					newMenu.associatedFields = fields;
 					var menuoptions = menus[j].options;
+    				for(var k=0; k&lt;menus[j].options.length;k++){
+					    var translation = config.macros.aet.translate(menus[j].options[k].caption);
+					    if(translation) menus[j].options[k].caption=translation;
+					}
 					
 					if(sort){		 
 						var sorter = function(a,b){if(a.caption &lt; b.caption){ return -1; }else return 1;};
 						sorter =menuoptions.sort(sorter);
 					}
-					var topitem = [{'caption': initialValue, 'value': 'null', 'name': null}];
+					var firstCaption= config.macros.aet.translate(initialValue);
+					if(!firstCaption)firstCaption = initialValue;
+					var topitem = [{'caption': firstCaption, 'value': 'null', 'name': null}];
 					menuoptions = topitem.concat(menuoptions);
 					
 					for(var k=0; k &lt;menuoptions.length; k++){
@@ -1702,55 +1323,53 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		init: function(place,paramString,initial,handler,preview){
 			var holder = document.createElement(&quot;div&quot;);
 			holder.className = &quot;AdvancedEditTemplateImage&quot;;
-			var image = document.createElement(&quot;img&quot;);
-			image.src = initial;
-			image.alt = &quot;currently selected image&quot;;
+			//JON
+			
+			var imageholder = document.createElement(&quot;div&quot;);
+			imageholder.className = &quot;aet_ImageHolder&quot;;
+
+			//image.src = initial;
+			//image.alt = config.macros.aet.translate(&quot;aet_imgpreview&quot;);
 
 			var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
                 	
 			var root = getParam(params,&quot;root&quot;, null);
 			var connector = getParam(params,&quot;browser&quot;, null);
 			var uploader =getParam(params,&quot;uploader&quot;,null);
-			//var home =  getParam(params,&quot;home&quot;, null);	
-
-			
-			
+			var home = &quot;&quot;;
+			place.appendChild(holder);
 			if(preview){
-			    jQuery(holder).append(&quot;&lt;div class='tip'&gt;PREVIEW:&lt;/div&gt;&quot;);
-			    holder.appendChild(image);			
+			    holder.appendChild(imageholder);			
+			    config.macros.viewimage.handler(imageholder,false,false,false,&quot;maxwidth:200 maxheight:200 src:&quot;+initial,tiddler);
 			}
 
-			place.appendChild(holder);
-
-			var filename = document.createElement(&quot;input&quot;); //this is what is saved back to tiddler
-			filename.id = &quot;filename_&quot; + Math.random();	
 			
-			var form = document.createElement(&quot;form&quot;);
-			form.setAttribute(&quot;enctype&quot;,&quot;multipart/form-data&quot;);
-			form.setAttribute(&quot;method&quot;,&quot;POST&quot;);
-			form.setAttribute(&quot;target&quot;,&quot;about:blank&quot;);
-            jQuery(form).append(&quot;&lt;div class='tip'&gt;Upload a local file:&lt;/div&gt;&lt;input type='hidden' class='filename' name='NewFilename' value='foo.jpg'&gt;&lt;input class='file' type='file' name='NewFile'/&gt;&lt;input type='submit' value='Send'/&gt;&quot;);
 
-			jQuery(&quot;.file&quot;,form).change(function(e){
-			   jQuery(&quot;.filename&quot;,form).val(this.value); 
+			
+			var form = document.createElement(&quot;div&quot;);
+			holder.appendChild(form);
+			var filenameid = &quot;filename_&quot;+ Math.random();
+            form.innerHTML = &quot;&lt;form target='about:blank' action='&quot;+uploader+&quot;?postbackto=&quot;+ filenameid +&quot;' id='submitter' enctype='multipart/form-data' name='mysexyform' action='/ilga/upload/image' method='POST'&gt;&quot;+config.macros.aet.translate(&quot;aet_upload&quot;)+&quot;url:&lt;input type='text' id='&quot;+filenameid+&quot;' name='NewFilename' class='filename' value=''/&gt;&lt;input type='file' class='file' id='NewFile' name='NewFile'/&gt;&lt;input type='submit' value='Send'&gt;&lt;/form&gt;&quot;;
+            
+            var jqFile = jQuery(&quot;.file&quot;,form);
+			jqFile.change(function(e){
+			    var newvalue = jQuery(e.target).val();
+			    
+			   jQuery(&quot;.filename&quot;,form).val(newvalue); 
 			});
 			
-			jQuery(holder).append(&quot;&lt;table&gt;&lt;tr&gt;&lt;td class='leftcol'&gt;&lt;/td&gt;&lt;td class='rightcol'&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot;);
-			jQuery(&quot;.leftcol&quot;,holder).append(form);
-			form.setAttribute(&quot;action&quot;,uploader+&quot;?postbackto=&quot;+filename.id);
-			
-	
-			jQuery(&quot;.rightcol&quot;,holder).append(&quot;&lt;div class='tip'&gt;OR select a file from the server (listed below) to use as the image or enter the path to that filename.&lt;/div&gt;&quot;);
-			
-			
+			jQuery(holder).append(&quot;&lt;div class='leftcol'&gt;&lt;/div&gt;&lt;div class='rightcol'&gt;&lt;/div&gt;&quot;);
+
+			var filename = jQuery(&quot;.filename&quot;,form)[0];		
 			filename.onchange = function(e){
 				var newsrc = this.value;
-				image.src=  &quot;&quot;;
-				image.src = newsrc;
+				//image.src=  &quot;&quot;;
+				//image.src = newsrc;
+				jQuery(imageholder).html(&quot;&quot;);
+				config.macros.viewimage.handler(imageholder,false,false,false,&quot;maxwidth:200 maxheight:200 src:&quot;+newsrc,tiddler);
 				if(handler)handler(newsrc);
 			};
-			if(initial)filename.value = initial;			
-			jQuery(&quot;.rightcol&quot;,holder).append(filename);
+			if(initial)filename.value = initial;	
 			jQuery(&quot;.rightcol&quot;,holder).append(&quot;&lt;div class='browserarea' style='position:relative;'&gt;&lt;input type='button' class='browsebutton' value='browse'&gt;&lt;div class='filebrowser' style='position:absolute;display:none;z-index:200'&gt;&lt;/div&gt;&lt;/div&gt;&quot;);
 			var bb = jQuery(&quot;.browsebutton&quot;,holder);
 			bb.click(function(e){
@@ -1766,15 +1385,15 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var r;
 			if(!home) home = &quot;&quot;;
 			if(root) r =root; else r =&quot;&quot;;
-			browser.fileTree({ root: r, script: connector }, function(file) { 
+			/*browser.fileTree({ root: r, script: connector }, function(file) { 
 						filename.value = file;
 						filename.onchange();
-			});
+			});*/
 			
 		}
 	};
 };
-
+config.macros.aet = config.macros.AdvancedEditTemplate;
 
 //}}}
 document.styleSheets['vismoColorSlider'] = {cssText: &quot;.vismoColorSliderMixBox {border:solid 1px black;}&quot;};
@@ -1965,8 +1584,9 @@ VismoColorSlider.prototype = {
 		if(!e) e = window.event;
 		var obj;
 		
-		if(e.srcElement)
+		if(e &amp;&amp; e.srcElement){
 			obj = e.srcElement;
+		}
 	        else if(e.target)
         	        obj = e.target;
         	else{
@@ -2042,7 +1662,7 @@ VismoColorSlider.prototype = {
                 
 		while(!hasVismo &amp;&amp; node != document &amp;&amp; node.parentNode &amp;&amp; node.parentNode != document){
 		        
-		        if(node.vismoCanvas || node.vismoController){
+		        if(node.vismoCanvas || node.vismoController || node.vismoClicking){
 		                hasVismo = true;
 			}
 			else{
@@ -3932,27 +3552,48 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c&lt;a?'':e(parseInt(c/a)))+((c=
 &lt;div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;
-Associated File: &lt;span macro=&quot;AdvancedEditTemplate type:file metaDataName:file root:static/images/public browser:'http://localhost/ilga/browse' uploader:'http://localhost/ilga/upload'&quot;&gt;&lt;/span&gt;
 
-Logo: &lt;span macro=&quot;AdvancedEditTemplate type:image metaDataName:logo root:static/images/public browser:'http://localhost/ilga/browse' uploader:'http://localhost/ilga/upload'&quot;&gt;&lt;/span&gt;
-
+&lt;h2&gt;Simple dropdown&lt;/h2&gt;
+&lt;p&gt;
 assign this to:
-&lt;span macro='AdvancedEditTemplate type:dropdown metaDataName:assignee valuesSource:DropDownData'&gt;&lt;/span&gt;
-&lt;div&gt;
+&lt;span macro='aet type:dropdown metaDataName:assignee valuesSource:DropDownData'&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;Search for suggestions&lt;/h2&gt;
+&lt;p&gt;
 assigned by (search for a name from our list):
-&lt;span macro='AdvancedEditTemplate type:search metaDataName:assignby valuesSource:DropDownData'&gt;&lt;/span&gt;
-&lt;/div&gt;
+&lt;span macro='aet type:search metaDataName:assignby valuesSource:DropDownData'&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;Radio boxes&lt;/h2&gt;
+&lt;p&gt;
+rate
+&lt;div macro='aet type:radio metaDataName:rating valuesSource:ratings'&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;Dates using a calendar&lt;/h2&gt;
+&lt;p&gt;
 get done by:
-&lt;div macro='AdvancedEditTemplate type:date metaDataName:doneby'&gt;&lt;/div&gt;
-For demo purposes (dropdown): &lt;span macro='AdvancedEditTemplate type:dropdown metaDataName:abc'&gt;&lt;/span&gt;
-&lt;div macro='annotations'&gt;&lt;/div&gt;
-&lt;div class='editor' macro='edit myvariable'&gt;&lt;/div&gt;
+&lt;div macro='aet type:date metaDataName:doneby'&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;h2&gt;Advanced Text&lt;/h2&gt;
+Give feedback (maximum 19 characters)
+&lt;div macro='aet type:text metaDataName:feedback maxlength:19'&gt;&lt;/div&gt;
 
 &lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
 &lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser excludeLists'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;span macro='AdvancedEditTemplate type:checkbox metaDataName:approved'&gt;&lt;/span&gt;
+&lt;h2&gt;Checkboxes&lt;/h2&gt;
+&lt;p&gt;
+&lt;span macro='aet type:checkbox metaDataName:approved'&gt;&lt;/span&gt;
 Approve tiddler
-color: &lt;div macro='AdvancedEditTemplate type:color metaDataName:color'&gt;&lt;/div&gt;
+&lt;/p&gt;
+&lt;h2&gt;Adding colors&lt;/h2&gt;
+&lt;p&gt;
+color: &lt;div macro='aet type:color metaDataName:color'&gt;&lt;/div&gt;
+&lt;/p&gt;
 &lt;!--}}}--&gt;
 
 </pre>
@@ -3976,6 +3617,7 @@ Paul Downey:PD&lt;
 <div title="ViewTemplate">
 <pre>
 &lt;!--{{{--&gt;
+&lt;div macro='aet_setcolor color'&gt;Status&lt;/div&gt;
 
 &lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'&gt;&lt;/div&gt;
 &lt;div class='title' macro='view title'&gt;&lt;/div&gt;
@@ -3983,23 +3625,19 @@ Paul Downey:PD&lt;
 &lt;div&gt;assigned to: &lt;span macro='view assignee'&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;assigned by: &lt;span macro='view assignby'&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;approved?: &lt;span macro='view approved'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;color:&lt;span macro='view color'&gt;&lt;/span&gt;&lt;/div&gt;
-For demo purposes: &lt;span macro='view abc'&gt;&lt;/span&gt;
+Favourite animal: &lt;span macro='view animal'&gt;&lt;/span&gt;
 &lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
 &lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
 &lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
 &lt;div class='tagClear'&gt;&lt;/div&gt;
 
+
 &lt;!--}}}--&gt;
 </pre>
 </div>
-<div title="GettingStarted" approved="true" color="rgb(0,255,0)" assignee="JDLR" assignby="MM">
+<div title="Advanced Edit Template" rating="4" approved="true" color="rgb(0,255,0)" assignee="JDLR" feedback="not enough characte" assignby="MM">
 <pre>
 AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together!
-
-&lt;&lt;AdvancedEditTemplate type:search metaDataName:assignby valuesSource:DropDownData&gt;&gt;
-
-&lt;&lt;AdvancedEditTemplate type:image metaDataName:logo home:'http://localhost/ilga/' root:static/images/ connector:'http://localhost/ilga/browse' &gt;&gt;
 
 </pre>
 </div>
@@ -4020,6 +3658,20 @@ Lizard
 .filebrowser{background-color:white; border:solid 1px black;}
 
 
+</pre>
+</div>
+<div title="DefaultTiddlers">
+<pre>
+[[Advanced Edit Template]]
+</pre>
+</div>
+<div title="ratings">
+<pre>
+1
+2
+3
+4
+5
 </pre>
 </div>
 </div>
@@ -5707,7 +5359,7 @@ config.formatters = [
 
 {
 	name: "rawText",
-	match: "\\\"{3}|<nowiki>",
+	match: "\"{3}|<nowiki>",
 	lookaheadRegExp: /(?:\"{3}|<nowiki>)((?:.|\n)*?)(?:\"{3}|<\/nowiki>)/mg,
 	handler: function(w)
 	{
@@ -9138,8 +8790,6 @@ function upgradeFrom(path)
 {
 	var importStore = new TiddlyWiki();
 	var tw = loadFile(path);
-	if(window.netscape !== undefined)
-		tw = convertUTF8ToUnicode(tw);
 	importStore.importTiddlyWiki(tw);
 	importStore.forEachTiddler(function(title,tiddler) {
 		if(!store.getTiddler(title)) {
@@ -12445,13 +12095,13 @@ Crypto.sha1 = function(x,blen)
 // @Deprecated: Use jQuery.stylesheet instead
 function setStylesheet(s,id,doc)
 {
-	jQuery.stylesheet(s,{ id: id, doc: doc });
+	jQuery.twStylesheet(s,{ id: id, doc: doc });
 }
 
 // @Deprecated: Use jQuery.stylesheet.remove instead
 function removeStyleSheet(id)
 {
-	jQuery.stylesheet.remove({ id: id });
+	jQuery.twStylesheet.remove({ id: id });
 }
 //--
 //-- Deprecated Filesystem code
@@ -12460,17 +12110,17 @@ function removeStyleSheet(id)
 
 function saveFile(filePath,content)
 {
-	return jQuery.file.save(filePath,content);
+	return jQuery.twFile.save(filePath,content);
 }
 
 function loadFile(filePath)
 {
-	return jQuery.file.load(filePath);
+	return jQuery.twFile.load(filePath);
 }
 
 function copyFile(dest,source)
 {
-	return jQuery.file.copy(dest,source);
+	return jQuery.twFile.copy(dest,source);
 }
 
 //--
@@ -12572,7 +12222,7 @@ Tiddler.prototype.generateFingerprint = function()
 <script id="jqueryArea" type="text/javascript">
 //<![CDATA[
 /*
-jquery.encoding.digests.sha1.js
+jQuery.encoding.digests.sha1.js
 
 SHA-1 digest and associated utility functions
 
@@ -12665,12 +12315,12 @@ if(!$.encoding.digests)
 			var n=w[j-3]^w[j-8]^w[j-14]^w[j-16];
 			return (n>>>31)|(n<<1);
 		}
-	
+
 		var len=blen*8;
 		x[len>>5] |= 0x80 << (24-len%32);
 		x[((len+64>>9)<<4)+15]=len;
 		var w=new Array(80);
-	
+
 		var k1=0x5A827999;
 		var k2=0x6ED9EBA1;
 		var k3=0x8F1BBCDC;
@@ -12725,35 +12375,27 @@ if(!$.encoding.digests)
 	}
 })(jQuery);
 /*
-jquery.file.js
+jQuery.twFile.js
 
 jQuery plugin for loading a file and saving data to a file
 
 Copyright (c) UnaMesa Association 2009
 
-Dual licensed under the MIT and GPL licenses:
+Triple licensed under the BSD, MIT and GPL licenses:
+  http://www.opensource.org/licenses/bsd-license.php
   http://www.opensource.org/licenses/mit-license.php
   http://www.gnu.org/licenses/gpl.html
 */
 
 (function($) {
-	if(!$.file) {
-		$.file = {};
+	if(!$.twFile) {
+		$.twFile = {};
 	}
 
-	$.extend($.file,{
+	$.extend($.twFile,{
 		currentDriver: null,
 		driverList: ["activeX", "mozilla", "tiddlySaver", "javaLiveConnect"],
-		
-		getDriver: function() {
-			if(this.currentDriver === null) {
-				for(var t=0; t<this.driverList.length; t++) {
-					if(this.currentDriver === null && drivers[this.driverList[t]].isAvailable && drivers[this.driverList[t]].isAvailable())
-						this.currentDriver = drivers[this.driverList[t]];
-				}
-			}
-			return this.currentDriver;
-		},
+
 		load: function(filePath) {
 			return this.getDriver().loadFile(filePath);
 		},
@@ -12765,13 +12407,32 @@ Dual licensed under the MIT and GPL licenses:
 				return this.currentDriver.copyFile(dest,source);
 			else
 				return false;
+		},
+		getDriver: function() {
+			if(this.currentDriver === null) {
+				for(var t=0; t<this.driverList.length; t++) {
+					if(this.currentDriver === null && drivers[this.driverList[t]].isAvailable && drivers[this.driverList[t]].isAvailable())
+						this.currentDriver = drivers[this.driverList[t]];
+				}
+			}
+			return this.currentDriver;
 		}
 	});
 
-	// Private implementations for each browser
-	
+	// Deferred initialisation for any drivers that need it
+	$(function() {
+		for(var t in drivers) {
+			if(drivers[t].deferredInit)
+				drivers[t].deferredInit();
+		}
+	});
+
+	// Private driver implementations for each browser
+
 	var drivers = {};
-	
+
+	// Internet Explorer driver
+
 	drivers.activeX = {
 		name: "activeX",
 		isAvailable: function() {
@@ -12841,6 +12502,8 @@ Dual licensed under the MIT and GPL licenses:
 		}
 	};
 
+	// Mozilla driver
+
 	drivers.mozilla = {
 		name: "mozilla",
 		isAvailable: function() {
@@ -12898,15 +12561,13 @@ Dual licensed under the MIT and GPL licenses:
 			return null;
 		}
 	};
-	
-	$(function() {
-		drivers.tiddlySaver.loadApplet();
-	});
+
+	// TiddlySaver driver
 
 	drivers.tiddlySaver = {
 		name: "tiddlySaver",
-		loadApplet: function() {
-			if(!document.applets["TiddlySaver"] && !$.browser.mozilla && !$.browser.msie) {
+		deferredInit: function() {
+			if(!document.applets["TiddlySaver"] && !$.browser.mozilla && !$.browser.msie && document.location.toString().substr(0,5) == "file:") {
 				$(document.body).append("<applet style='position:absolute;left:-1px' name='TiddlySaver' code='TiddlySaver.class' archive='TiddlySaver.jar' width='1'height='1'></applet>");
 			}
 		},
@@ -12933,6 +12594,8 @@ Dual licensed under the MIT and GPL licenses:
 			return null;
 		}
 	}
+
+	// Java LiveConnect driver
 
 	drivers.javaLiveConnect = {
 		name: "javaLiveConnect",
@@ -12965,6 +12628,8 @@ Dual licensed under the MIT and GPL licenses:
 		}
 	}
 
+	// Private utilities
+
 	function javaUrlToFilename(url) {
 		var f = "//localhost";
 		if(url.indexOf(f) == 0)
@@ -12975,13 +12640,13 @@ Dual licensed under the MIT and GPL licenses:
 
 })(jQuery);
 /*
-jquery.stylesheet.js
+jQuery.twStylesheet.js
 
 jQuery plugin to dynamically insert CSS rules into a document
 
 Usage:
-  jQuery.stylesheet applies style definitions
-  jQuery.stylesheet.remove neutralizes style definitions
+  jQuery.twStylesheet applies style definitions
+  jQuery.twStylesheet.remove neutralizes style definitions
 
 Copyright (c) UnaMesa Association 2009
 
@@ -13000,7 +12665,7 @@ var defaultId = "customStyleSheet"; // XXX: rename to dynamicStyleSheet?
 // options.id is an optional name identifying the style sheet
 // options.doc is an optional document reference
 // N.B.: Uses DOM methods instead of jQuery to ensure cross-browser comaptibility.
-$.stylesheet = function(css, options) {
+$.twStylesheet = function(css, options) {
 	options = options || {};
 	var id = options.id || defaultId;
 	var doc = options.doc || document;
@@ -13027,7 +12692,7 @@ $.stylesheet = function(css, options) {
 // Remove existing style sheet
 // options.id is an optional name identifying the style sheet
 // options.doc is an optional document reference
-$.stylesheet.remove = function(options) {
+$.twStylesheet.remove = function(options) {
 	options = options || {};
 	var id = options.id || defaultId;
 	var doc = options.doc || document;
