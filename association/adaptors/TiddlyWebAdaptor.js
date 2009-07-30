@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.8.1|
+|''Version''|0.8.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -75,6 +75,7 @@ adaptor.getStatusCallback = function(status, context, responseText, uri, xhr) {
 // retrieve a list of workspaces
 adaptor.prototype.getWorkspaceList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
+	context.workspaces = [];
 	var uriTemplate = "%0/recipes"; // XXX: bags?
 	var uri = uriTemplate.format([context.host]);
 	var req = httpReq("GET", uri, adaptor.getWorkspaceListCallback,
@@ -495,6 +496,7 @@ adaptor.deleteTiddlerCallback = function(status, context, responseText, uri, xhr
 //# context.format is a string as determined by the TiddlyWeb differ plugin
 adaptor.prototype.getTiddlerDiff = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
+	context.title = title;
 
 	var tiddler = store.getTiddler(title);
 	try {
@@ -565,7 +567,7 @@ adaptor.resolveWorkspace = function(workspace) {
 	var components = workspace.split("/");
 	return {
 		type: components[0] == "bags" ? "bag" : "recipe",
-		name: components[1]
+		name: components[1]||components[0]
 	};
 };
 
