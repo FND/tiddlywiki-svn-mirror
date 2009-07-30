@@ -567,7 +567,7 @@ adaptor.resolveWorkspace = function(workspace) {
 	var components = workspace.split("/");
 	return {
 		type: components[0] == "bags" ? "bag" : "recipe",
-		name: components[1]||components[0]
+		name: components[1] || components[0]
 	};
 };
 
