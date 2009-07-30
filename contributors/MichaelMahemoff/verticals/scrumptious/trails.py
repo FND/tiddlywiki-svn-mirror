@@ -27,9 +27,8 @@ def trail_player(environ, start_response):
   if (not tiddler):
     return ['no tiddlers']
   trail = json.loads(tiddler.text)
-  print 'playing trail', trail
   template = Environment(loader=FileSystemLoader('templates')).get_template("player.html")
-  return template.generate(tiddler=tiddler, trail=trail)
+  return template.generate(tiddler=tiddler, trail=trail, server_prefix=environ['tiddlyweb.config']['server_prefix'])
   # TODO say there are no bags
 
 
@@ -40,17 +39,15 @@ def trail_editor(environ, start_response):
     tiddler = Tiddler(title=environ['wsgiorg.routing_args'][1]['trail_id'], text='{"resources": []}')
   trail = json.loads(tiddler.text)
   template = Environment(loader=FileSystemLoader('templates')).get_template("editor.html")
-  return template.generate(tiddler=tiddler, trail=trail)
+  return template.generate(tiddler=tiddler, trail=trail, server_prefix=environ['tiddlyweb.config']['server_prefix'])
 
 def trail_updater(environ, start_response):
   # http://is.gd/1GTCG
   tiddler = make_trail_tiddler(environ)
   trail = dict()
-  print 'name', environ['tiddlyweb.query']['name']
   trail['name'] = environ['tiddlyweb.query']['name'][0]
   # trail['resources'] = environ['tiddlyweb.query']['resources'][0].split(whitespace)
   trail['resources'] = re.split('\s+',environ['tiddlyweb.query']['resources'][0].strip())
-  print 'trail json', json.dumps(trail)
   # edit_url=environ['HTTP_HOST']+'/trails/'+ environ['wsgiorg.routing_args']['owner']+ '/'+ trail['name']
 
   tiddler = make_trail_tiddler(environ)
@@ -58,8 +55,7 @@ def trail_updater(environ, start_response):
 
   environ['tiddlyweb.store'].put(tiddler)
 
-  edit_url="http://"+environ['HTTP_HOST']+"/trails/"+environ['wsgiorg.routing_args'][1]['trail_owner']+'/'+trail['name']+'.editor'
-  print 'EDIT', edit_url
+  edit_url="http://"+environ['HTTP_HOST']+environ['tiddlyweb.config']['server_prefix']+"/trails/"+environ['wsgiorg.routing_args'][1]['trail_owner']+'/'+trail['name']+'.editor'
   start_response("303 See Other", [('Location', edit_url)]);
   return ['---']
 
