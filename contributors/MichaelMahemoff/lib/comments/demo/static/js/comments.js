@@ -323,7 +323,7 @@
       text: text,
       modifier: modifier,
       modified: $.tiddly.composeDateString(new Date()),
-      tags: ["comment"],
+      tags: ["comment", "systemConfig", "awesome"],
       fields: {
         "server.workspace": "bags/comments",
         "server.host": context.options.path,
