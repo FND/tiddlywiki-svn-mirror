@@ -1,10 +1,13 @@
 from tiddlyweb.model.bag import Bag
 from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.store import NoUserError, NoRecipeError, NoBagError, NoTiddlerError
+from tiddlyweb.serializer import Serializer
+from tiddlyweb.model.tiddler import Tiddler
 from tiddlywebplugins import do_html, entitle
 from jinja2 import Environment, FileSystemLoader
 from urllib import unquote_plus
 from string import whitespace
+from trail import Serialization as TrailSerialization
 import re
 
 import simplejson as json
@@ -59,8 +62,16 @@ def trail_updater(environ, start_response):
   start_response("303 See Other", [('Location', edit_url)]);
   return ['---']
 
+@do_html()
+def serialize_trail(environ, start_response):
+  tiddler = make_trail_tiddler(environ)
+  return [TrailSerialization(environ).tiddler_as(tiddler)]
+
 def init(config):
-  config['selector'].add('/trails/{trail_owner}/{trail_id}.player', GET=trail_player)
+  # config['selector'].add('/trails/{trail_owner}/{trail_id}.player', GET=trail_player)
   config['selector'].add('/trails/{trail_owner}/{trail_id}.editor', GET=trail_editor)
   config['selector'].add('/trails/{trail_owner}/{trail_id}', PUT=trail_updater)
   # config['selector'].add('/trails/{trail_id}.player', GET=trail_player)
+  config['selector'].add('/trails/{trail_owner}/{trail_id}.trail', GET=serialize_trail)
+
+
