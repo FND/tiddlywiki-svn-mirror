@@ -1,13 +1,31 @@
+from tiddlyweb.model.bag import Bag
+from tiddlyweb.model.tiddler import Tiddler
+from tiddlyweb.store import NoUserError, NoRecipeError, NoBagError, NoTiddlerError
+from tiddlywebplugins import do_html, entitle
+from jinja2 import Environment, FileSystemLoader
+from urllib import unquote_plus
+from string import whitespace
+import re
+import simplejson as json
+
 from tiddlyweb.serializations.html import Serialization as HTMLSerialization
 # from tiddlyweb.model.tiddler import Tiddler
 
 class Serialization(HTMLSerialization):
 
   def __init__(self, environ=None):
-    print "hi"
+    self.environ = environ
+
+  # def as_tiddler(self, tiddler):
 
   def tiddler_as(self, tiddler):
-    return "woohoo " + tiddler.title
+    trail = json.loads(tiddler.text)
+    print "tiddler as ", tiddler, "trail", trail
+    template = Environment(loader=FileSystemLoader('templates')).get_template("trail.html")
+    print "tempalte as ", template
+    return template.render(tiddler=tiddler, trail=trail, server_prefix=self.environ['tiddlyweb.config']['server_prefix'])
+
+  # def list_tiddlers(self, tiddler):
 
 def init(config):
   config['extension_types']['trail'] = 'application/trail'
