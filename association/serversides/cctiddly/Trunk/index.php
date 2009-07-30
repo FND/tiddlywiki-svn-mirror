@@ -73,6 +73,8 @@ elseif(isset($_GET['tags']))
 	}
 }
 $tiddlers = array_merge($pluginsLoader->tiddlers, $tiddlers);
+
+
 recordTime_float("get all tiddlers");
 	
 // log the workspace viewing : 

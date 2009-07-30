@@ -114,16 +114,14 @@ class Plugin {
 		switch ($ext) {
 			case 'recipe':
 				$this->addRecipe(str_replace('recipe: ', '', $line));
-			case 'tiddler':
-			case 'js':
-				$tiddler['title'] = basename(str_replace('tiddler: ', '', $line));
-				$tiddler['tags'] = 'systemConfig';
-				echo $tiddler['body'] = $this->getContentFromRecipeItem(str_replace('tiddler: ', '', $recipePath.'/'.$line)); 
-				$this->tiddlers[$tiddler['title']] = $tiddler;
-			break;
 			default: 
-			    break;
-		}			
+			 $tiddler['title'] = basename(str_replace('tiddler: ', '', $line));
+				$tiddler['body'] = $this->getContentFromRecipeItem(str_replace('tiddler: ', '', $recipePath.'/'.$line));
+echo 'add tiddler '.$tiddler['title'].'<hr />';
+						$this->addTiddler($tiddler);		
+		
+		break;
+		}		
 	}
       
 	public function addEvent($eventname, $fileInclude) {
