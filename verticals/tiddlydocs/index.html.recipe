@@ -2,16 +2,16 @@ tiddler: themes/loginTheme.tid
 tiddler: themes/mainTheme.tid
 tiddler: themes/StyleSheet.tid
 
-tiddler: plugins/QATCH_displayDefaultTiddlers.js
-tiddler: plugins/newDocument.js
-tiddler: plugins/saveNewSection.js
-tiddler: plugins/tdocsButtons.js
-tiddler: plugins/tdocsDelete.js
-tiddler: plugins/tdocsDocumentSwitch.js
-tiddler: plugins/tdocsMenu.js
-tiddler: plugins/tdocsPreview.js
-tiddler: plugins/tdocsPrint.js
-tiddler: plugins/tdocsSettings.js
+tiddler: Plugins/QATCH_displayDefaultTiddlers.js
+tiddler: Plugins/newDocument.js
+tiddler: Plugins/saveNewSection.js
+tiddler: Plugins/tdocsButtons.js
+tiddler: Plugins/tdocsDelete.js
+tiddler: Plugins/tdocsDocumentSwitch.js
+tiddler: Plugins/tdocsMenu.js
+tiddler: Plugins/tdocsPreview.js
+tiddler: Plugins/tdocsPrint.js
+tiddler: Plugins/tdocsSettings.js
 
 tiddler: jQueryIncludes/01_jQuery.js
 tiddler: jQueryIncludes/09_iNestedSortable.js
