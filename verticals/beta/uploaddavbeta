@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Usage:
 #  uploadbeta [release] [cleanup]
+
+# deprecated
+echo "ERROR: DAV uploading deprecated - use SSH upload script instead."
+exit 1
 
 # default values
 DEFAULT_RELEASE="2.5.2.B1"

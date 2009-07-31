@@ -32,8 +32,6 @@ server as follows:
     nobeta.html      => http://www.tiddlywiki.com/beta/index.html
 The script "upload" can be used to upload the index and empty documents onto
 the tiddlywiki.com server (you will be prompted for username and password twice).
-Alternatively, the script "uploaddav" can be used, which only requires a single
-password prompt.
 
 Immediately after a release, the version number should be increased and marked
 as alpha.
