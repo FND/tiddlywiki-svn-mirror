@@ -1,6 +1,6 @@
 
 
-if(config.adaptors.tiddlyweb) {
+if(!isLoggedIn) {
 	var isLoggedIn = function() {
 		return true;
 	}
