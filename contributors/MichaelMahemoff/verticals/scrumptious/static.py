@@ -59,6 +59,7 @@ def static(environ, start_response):
 
 
 def init(config):
-    # config['selector'].add('/%s/{static_file:any}' % config['static_dir'], GET=static)
+    config['selector'].add('/%s/{static_file:any}' % config['static_dir'], GET=static)
     # fix from chris via IRC
-    config['selector'].add('/static/{static_file:any}', GET=static)
+    # config['selector'].add('/static/{static_file:any}', GET=static)
+    # config['selector'].mappings.insert(0, ('/static/{static_file:any}', dict(GET=static)))

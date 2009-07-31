@@ -20,9 +20,7 @@ class Serialization(HTMLSerialization):
 
   def tiddler_as(self, tiddler):
     trail = json.loads(tiddler.text)
-    print "tiddler as ", tiddler, "trail", trail
     template = Environment(loader=FileSystemLoader('templates')).get_template("trail.html")
-    print "tempalte as ", template
     return template.render(tiddler=tiddler, trail=trail, server_prefix=self.environ['tiddlyweb.config']['server_prefix'])
 
   # def list_tiddlers(self, tiddler):

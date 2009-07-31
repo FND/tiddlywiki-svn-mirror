@@ -1,5 +1,5 @@
-<p><a href="/trails/{{ tiddler.owner }}/{{ trail.name }}.player">Play</a></p>
-<form method="post" action="/trails/{{ tiddler.owner }}/{{ trail.name }}?http_method=PUT">
+<p><a href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ trail.name }}.player">Play</a></p>
+<form method="post" action="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ trail.name }}?http_method=PUT">
 
 <p>
 Name (hidden - need to separate from ID)<br/>
