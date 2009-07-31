@@ -18,7 +18,7 @@ Modifier: SimonMcManus
 
 .banner-left {
 	float:left;
-	background:transparent url(plugins/TiddlyDocs/files/images/banner-top-left.png) repeat-x scroll 0 0;
+	background:transparent url(http://lh6.ggpht.com/_lNMnLtbxT5Y/SnMj7n1Q-9I/AAAAAAAABq0/QA_aPNXw8SY/banner-top-left.png) repeat-x scroll 0 0;
 	width:8px;
 	height:47px;	
 }
@@ -26,7 +26,7 @@ Modifier: SimonMcManus
 .banner-right {
 	width:8px;
 	height:47px;
-	background:transparent url(plugins/TiddlyDocs/files/images/banner-top-right.png) repeat-x scroll 0 0;
+	background:transparent url(http://lh6.ggpht.com/_lNMnLtbxT5Y/SnMj7m4055I/AAAAAAAABq4/wS7lZc3OyYw/banner-top-right.png) repeat-x scroll 0 0;
 }
 
 .banner-search, .banner-right {
@@ -41,7 +41,7 @@ Modifier: SimonMcManus
 
 .banner-title {
 	margin: 0 8px;
-	background:transparent url(plugins/TiddlyDocs/files/images/banner-top.png) repeat-x scroll 0 0;
+	background:transparent url(http://lh4.ggpht.com/_lNMnLtbxT5Y/SnMj7dQn9iI/AAAAAAAABqw/R1VObhBc5Zg/banner-top.png) repeat-x scroll 0 0;
 }
 
 #tiddlerDisplay {
@@ -756,7 +756,7 @@ form.wizard, .wizard .wizardFooter{
 		background-repeat:no-repeat;
 		margin:0;
 		padding:0;
-			background-image:url("plugins/TiddlyDocs/files/images/corner_top_right.png");
+			background-image:url("http://lh4.ggpht.com/_lNMnLtbxT5Y/SnMkTUQnJFI/AAAAAAAABrU/4UHaeQNr8Yo/corner_top_right.png");
 	}
 	.portletTitle{
 		float:left;
