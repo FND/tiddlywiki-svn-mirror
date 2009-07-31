@@ -1,7 +1,19 @@
 tiddler: themes/loginTheme.tid
 tiddler: themes/mainTheme.tid
-tiddler: plugins/editDefinitions.js
+tiddler: themes/StyleSheet.tid
 
+tiddler: plugins/QATCH_displayDefaultTiddlers.js
+tiddler: plugins/newDocument.js
+tiddler: plugins/saveNewSection.js
+tiddler: plugins/tdocsButtons.js
+tiddler: plugins/tdocsDelete.js
+tiddler: plugins/tdocsDocumentSwitch.js
+tiddler: plugins/tdocsMenu.js
+tiddler: plugins/tdocsPreview.js
+tiddler: plugins/tdocsPrint.js
+tiddler: plugins/tdocsSettings.js
+
+tiddler: jQueryIncludes/01_jQuery.js
 tiddler: jQueryIncludes/09_iNestedSortable.js
 
 tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
@@ -9,6 +21,6 @@ tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMe
 tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
 tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../contributors/SimonMcManus/plugins/googleButtons.js
-
-
-
+tiddler: ../../contributors/SimonMcManus/plugins/editDefinitions.js
+tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js
+tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
