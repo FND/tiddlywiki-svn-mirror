@@ -126,11 +126,14 @@ error_log('parseRecipeLine, line :  : '.$line);
 				$this->addRecipe(str_replace('recipe: ', '', $line));
 				
 			break;
+
+			case 'js' :
+				$tiddler['title'] = basename(str_replace('tiddler: ', '', $line));
+				$tiddler['tags'] = 'systemConfig';
+				$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));				$this->addTiddler($tiddler);		
+			break;
 			case 'tid' :
-
-echo			$path = $this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line));
-
-$tiddler['title'] = basename(str_replace('tiddler: ', '', $line));
+				$tiddler['title'] = basename(str_replace('tiddler: ', '', $line));
 				$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));				$this->addTiddler($tiddler);		
 			break;
 			default: 
