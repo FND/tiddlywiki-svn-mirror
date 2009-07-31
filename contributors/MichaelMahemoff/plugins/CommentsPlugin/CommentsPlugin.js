@@ -403,11 +403,9 @@ forceLoginIfRequired: function(params, loginPromptContainer, authenticatedBlock)
 //##############################################################################
 
 mergeReadOnly: function(first, second) {
-  console.log("f", first, "s", second);
   var merged = {};
   for (var field in first) { merged[field] = first[field]; }
   for (var field in second) { merged[field] = second[field]; }
-  console.log(merged)
   return merged;
 },
 

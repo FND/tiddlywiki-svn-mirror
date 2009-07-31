@@ -8,6 +8,8 @@ There are various options available, and all are optional. All the options are u
 
 You may only include a single &lt;&lt;comments&gt;&gt; macro per tiddler. If you wish to include more than one, you could create new container tiddlers, each with a &lt;&lt;comments&gt;&gt; tag, and then collect them in a single tiddler using &lt;&lt;tiddler&gt;&gt; tags. (Note that this is an intrinsic limitation of the manner in which comments refer to the tiddler in which they are contained, and vice-versa. The only way to get around it would be to require the caller to include a unique ID for each comments block, and this would be virtually the same thing as the workaround mentioned here.)
 
+The plugin also manipulates the ViewTemplate so that comments show a breacrumb (it uses a regexp to inject a breadcrumb macro that processes anything if this is a comment). To retain the original template instead, create a tiddler titled "_Tweaks", tag it "SystemConfig", and add the line: "version.extensions.CommentsPlugin.retainViewTemplate=true".
+
 There is also a commentCount macro. Usage:
 &lt;&lt;commentsCount&gt;&gt;
 
@@ -17,7 +19,7 @@ It simply outputs the number of comments in the current tiddler. To show the num
 
 There's a special additional macro included for TiddlyWeb developers:
 
-&lt;&lt;tiddlywebComments&gt;&gt; 
+&lt;&lt;tiddlyWebComments&gt;&gt; 
 
 which does the right thing, as long as you are happy to put all comments into a bag you have made called "comments". It effectively does the following:
 
