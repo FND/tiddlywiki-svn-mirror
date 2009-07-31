@@ -13,8 +13,8 @@ tiddler: Plugins/tdocsPreview.js
 tiddler: Plugins/tdocsPrint.js
 tiddler: Plugins/tdocsSettings.js
 
-tiddler: jQueryIncludes/01_jQuery.js
-tiddler: jQueryIncludes/09_iNestedSortable.js
+tiddler: jquery/01_jQuery.js
+tiddler: jquery/09_iNestedSortable.js
 
 tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
 tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
