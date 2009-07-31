@@ -51,9 +51,8 @@ class Plugin {
 		$tiddler['modifier'] = "ccTiddly";
 		$tiddler['creator'] = epochToTiddlyTime(mktime());
 		$ext = substr($file, strrpos($file, '.') + 1);
-		echo $tiddler['title'] = substr($file, strrpos($file, '/')+1, -strlen($ext)-1); 
+		$tiddler['title'] = substr($file, strrpos($file, '/')+1, -strlen($ext)-1); 
 		if($ext=='tiddler') {
-echo 'bogoff';
 			$tiddler['body'] = $this->getContentFromFile($file);	
 			$tiddler['tags'] = "";
 		} elseif($ext=='js') {
@@ -128,8 +127,11 @@ echo 'bogoff';
 				$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));				$this->addTiddler($tiddler);		
 			break;
 			case 'tid' :
+ $this->addTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));
+/*
 				$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
 				$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));				$this->addTiddler($tiddler);		
+*/
 			break;
 			default: 
 		break;
