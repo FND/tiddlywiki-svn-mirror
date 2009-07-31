@@ -17,7 +17,7 @@ tiddler: Plugins/tdocsSettings.js
 
 tiddler: jquery/01_jQuery.js
 tiddler: jquery/09_iNestedSortable.js
-
+tiddler: jquery/JSON.js
 
 tiddler: content/aboutTiddlyDocs.tid       
 tiddler: content/MainMenu.tid           
