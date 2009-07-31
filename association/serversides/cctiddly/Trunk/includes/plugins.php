@@ -109,7 +109,6 @@ echo 'bogoff';
 	}
 
 	public function parseRecipe($string, $recipePath) {
-error_log('string is : '.$string);
 		$lines = explode("\n", $string);
 		foreach($lines as $line) {
 			error_log('line : '.$line);
@@ -118,28 +117,23 @@ error_log('string is : '.$string);
 	}
 	
 	public function parseRecipeLine($line, $recipePath) {
-error_log('parseRecipeLine');
-error_log('parseRecipeLine, line :  : '.$line);
 		$ext = trim(end(explode(".", $line)));
 		switch ($ext) {
 			case 'recipe':
 				$this->addRecipe(str_replace('recipe: ', '', $line));
-				
 			break;
-
 			case 'js' :
-				$tiddler['title'] = basename(str_replace('tiddler: ', '', $line));
+				$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
 				$tiddler['tags'] = 'systemConfig';
 				$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));				$this->addTiddler($tiddler);		
 			break;
 			case 'tid' :
-				$tiddler['title'] = basename(str_replace('tiddler: ', '', $line));
+				$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
 				$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));				$this->addTiddler($tiddler);		
 			break;
 			default: 
 		break;
-		}	
-	
+		}		
 	}
       
 	public function addEvent($eventname, $fileInclude) {
