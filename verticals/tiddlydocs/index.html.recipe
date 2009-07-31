@@ -1,7 +1,7 @@
 tiddler: themes/loginTheme.tid
 tiddler: themes/mainTheme.tid
 tiddler: themes/StyleSheet.tid
-tiddler: Plugins/tiddlywebSpecifics.js
+tiddler: Plugins/A_tiddlywebSpecifics.js
 
 
 tiddler: Plugins/QATCH_displayDefaultTiddlers.js
