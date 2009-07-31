@@ -734,13 +734,14 @@ form.wizard, .wizard .wizardFooter{
 		margin-bottom:1em;
 	}
 	.portletToolbar{
-		background-image:url("plugins/TiddlyDocs/files/images/top.png");
+
+		background-image:url("http://lh3.ggpht.com/_lNMnLtbxT5Y/SnMkThHp4xI/AAAAAAAABrk/I27yR7q_ln8/top.png");
 		width:100%;
 		height:25px;
 		background-repeat:repeat-x;
 	}
 	.portletCornerLeft{
-		background-image:url("plugins/TiddlyDocs/files/images/corner_top_left.png");
+		background-image:url("http://lh4.ggpht.com/_lNMnLtbxT5Y/SnMkION0aNI/AAAAAAAABrQ/htlkdRVaLQk/corner_top_left.png");
 		clear:left;
 		float:left;
 		width:8px;
