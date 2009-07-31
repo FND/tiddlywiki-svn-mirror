@@ -51,9 +51,10 @@ class Plugin {
 		$tiddler['modifier'] = "ccTiddly";
 		$tiddler['creator'] = epochToTiddlyTime(mktime());
 		$ext = substr($file, strrpos($file, '.') + 1);
-		$tiddler['title'] = substr($file, strrpos($file, '/')+1, -strlen($ext)-1); 
+		echo $tiddler['title'] = substr($file, strrpos($file, '/')+1, -strlen($ext)-1); 
 		if($ext=='tiddler') {
-			$tiddler['body'] = file_get_contents($file);	
+echo 'bogoff';
+			$tiddler['body'] = $this->getContentFromFile($file);	
 			$tiddler['tags'] = "";
 		} elseif($ext=='js') {
 			$tiddler['body'] = file_get_contents($file);	
@@ -88,56 +89,54 @@ class Plugin {
 		}
 	}
 
-	public function getContentFromRecipeItem($path) {
+	public function preparePath($path) {
 		$path = trim($path);
-		$TW_ROOT = '/Applications/xampp/htdocs/tiddlywikicore/';
-		$path = str_replace('$TW_ROOT/', $TW_ROOT, $path);
-	
-	
-	echo '<br /><b>'.$path.'</b><br />';
-		$fh = @fopen($path, 'r');
-		return $file = @fread($fh, @filesize($path)); 
-	
+//		$TW_ROOT = '/Applications/xampp/htdocs/tiddlywikicore/';
+		$TW_ROOT = '/home/user/tiddlywikicore/';
+		return str_replace('$TW_ROOT/', $TW_ROOT, $path);
+		
+	}
+	public function getContentFromFile($path) {
+		$path = $this->preparePath($path);	
+		$fh = fopen($path, 'r');
+		return $file = @fread($fh, @filesize($path)); 	
 	}
 
 	public function addRecipe($path) {
-		$file = $this->getContentFromRecipeItem($path);
+//		error_log('adding recipe : '.$path);
+		$file = $this->getContentFromFile($path);
 		$this->parseRecipe($file, dirname($path));	
 	}
 
 	public function parseRecipe($string, $recipePath) {
-		$lines = explode('\n', $string);
+error_log('string is : '.$string);
+		$lines = explode("\n", $string);
 		foreach($lines as $line) {
+			error_log('line : '.$line);
 			$this->parseRecipeLine($line, $recipePath);
 		}
 	}
 	
 	public function parseRecipeLine($line, $recipePath) {
-		$a['title'] = 'a';
-		$b['title'] = 'b';
-		
-				$this->addTiddler($a);	
-				
-						$this->addTiddler($b);
-							$ext = trim(end(explode(".", $line)));
-		if($ext == 'tid') {
-		 	$tiddler['title'] = basename(str_replace('tiddler: ', '', $line));
-			$tiddler['body'] = $this->getContentFromRecipeItem(str_replace('tiddler: ', '', $recipePath.'/'.$line));
-			$this->addTiddler($tiddler);		
-		
-		}
-		
-	
+error_log('parseRecipeLine');
+error_log('parseRecipeLine, line :  : '.$line);
+		$ext = trim(end(explode(".", $line)));
 		switch ($ext) {
 			case 'recipe':
 				$this->addRecipe(str_replace('recipe: ', '', $line));
+				
 			break;
 			case 'tid' :
 
+echo			$path = $this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line));
+
+$tiddler['title'] = basename(str_replace('tiddler: ', '', $line));
+				$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));				$this->addTiddler($tiddler);		
 			break;
 			default: 
 		break;
-		}		
+		}	
+	
 	}
       
 	public function addEvent($eventname, $fileInclude) {
