@@ -18,6 +18,32 @@ tiddler: Plugins/tdocsSettings.js
 tiddler: jquery/01_jQuery.js
 tiddler: jquery/09_iNestedSortable.js
 
+
+tiddler: content/aboutTiddlyDocs.tid       
+tiddler: content/MainMenu.tid           
+tiddler: content/SiteTitle.tid
+tiddler: content/admin.tid                 
+tiddler: content/MarkupPreHead.tid      
+tiddler: content/StatusDefinitions.tid
+tiddler: content/AnonDefaultTiddlers.tid   
+tiddler: content/messageHeading.tid     
+tiddler: content/TaskTiddlerControls.tid
+tiddler: content/Create New Document.tid   
+tiddler: content/Michael Mahemoff.tid   
+tiddler: content/TiddlyDocs Introduction.tid
+tiddler: content/DefaultTiddlers.tid       
+tiddler: content/Settings.tid           
+tiddler: content/TiddlyDocsLinks.tid
+tiddler: content/feedback.tid              
+tiddler: content/Simon McManus.tid      
+tiddler: content/ToolbarCommands.tid
+tiddler: content/issues.tid                
+tiddler: content/SiteSubtitle.tid       
+tiddler: content/UserDefinitions.tid
+
+
+
+
 tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
 tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
 tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
