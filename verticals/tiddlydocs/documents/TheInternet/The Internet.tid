@@ -1,0 +1,36 @@
+modifier: Simon McManus
+tags: document
+
+[
+{title:'Terminology', children: [] },
+{title:'History', children: [
+	{title:'Creation', children: []},
+	{title:'Growth', children: []},
+	{title:'University students appreciation and contributions', children: []}
+	
+	
+]},
+{title:'Todays Internet', children: [
+	{title:'Internet protocols', children : []},
+	{title:'Internet structure', children : []},
+	{title:'ICANN', children : []},
+	{title:'Language', children : []},
+	{title:'Internet and the workplace', children : []},
+	{title:'The Internet viewed on mobile devices', children : []},
+]},
+{title:'Common uses', children: [
+	{title:'E-mail', children : []},
+	{title:'The World Wide Web', children : []},
+	{title:'Remote access', children : []},
+	{title:'Collaboration', children : []},
+	{title:'File sharing', children : []},
+	{title:'Streaming media', children : []},
+	{title:'Internet Telephony (VoIP)', children : []}
+	]},
+{title:'Internet access', children : []},
+{title:'Social impact', children : [
+	{title:'Political organization and censorship', children: []},
+	{title:'Leisure activities', children: []},
+]}, 
+{title:'Conclusions', children : []}
+]
