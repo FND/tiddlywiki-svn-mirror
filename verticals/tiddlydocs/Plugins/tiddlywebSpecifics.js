@@ -1,5 +1,7 @@
 
-if(version.extensions.TiddlyWebConfig) { //# ensure that the plugin is only installed once
 
-	alert('tiddlyweb');
+if(config.adaptors.tiddlyweb) {
+	var isLoggedIn = function() {
+		return true;
+	}
 }
