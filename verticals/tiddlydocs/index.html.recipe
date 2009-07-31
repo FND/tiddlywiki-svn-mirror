@@ -1,2 +1,14 @@
 tiddler: themes/loginTheme.tid
 tiddler: themes/mainTheme.tid
+tiddler: plugins/editDefinitions.js
+
+tiddler: jQueryIncludes/09_iNestedSortable.js
+
+tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
+tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
+tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
+tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
+tiddler: ../../contributors/SimonMcManus/plugins/googleButtons.js
+
+
+
