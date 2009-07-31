@@ -1,6 +1,8 @@
 tiddler: themes/loginTheme.tid
 tiddler: themes/mainTheme.tid
 tiddler: themes/StyleSheet.tid
+tiddler: Plugins/tiddlywebSpecifics.js
+
 
 tiddler: Plugins/QATCH_displayDefaultTiddlers.js
 tiddler: Plugins/newDocument.js
@@ -24,3 +26,5 @@ tiddler: ../../contributors/SimonMcManus/plugins/googleButtons.js
 tiddler: ../../contributors/SimonMcManus/plugins/editDefinitions.js
 tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js
 tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
+
+
