@@ -46,10 +46,30 @@ VismoVector.prototype = {
     		this._initPoly(vismoShape,canvas);
     		isVML = true;
     	}
-    	if(isVML){
-            	var xspace = parseInt(canvas.width);
+    	if(isVML && canvas){
+    	    var w,h;
+    	    if(!canvas){
+    	        throw " i need a canvas to do my magic!";
+    	    }
+    	    if(canvas.width){
+    	        w= canvas.width;
+    	    } 
+    	    else{
+    	        w = jQuery(canvas).width();
+    	        canvas.width = w;
+    	    }
+    	    if(canvas.height){
+    	        h= canvas.height;
+    	    } 
+    	    else{
+    	        h = jQuery(canvas).height();
+    	        canvas.height= h;
+    	    }
+            
+    	    
+            	var xspace = parseInt(w);
             	xspace *=this._iemultiplier;
-            	var yspace =parseInt(canvas.height);
+            	var yspace =parseInt(h);
             	yspace *= this._iemultiplier;
             	coordsize = xspace +"," + yspace;
             	this.el.coordsize = coordsize;
@@ -57,7 +77,7 @@ VismoVector.prototype = {
             if(this.vismoShape && this.el){
                 //this.el.vismoShape = this.vismoShape;
     	        var nclass= "vismoShape";			
-    	        if(shapetype == 'path') nclass= "vismoShapePath";
+    	        if(shapetype == 'path'){ nclass= "vismoShapePath";}
     	        this.el.setAttribute("class", nclass);
     	        this.style();
     	}

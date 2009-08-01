@@ -11,21 +11,12 @@ var GeoTag = function(longitude,latitude,properties){
 	return geo;	
 };
 
-var VismoMap = function(wrapper,options){ 
-    if(wrapper.length){ //for jquery
-        var result = [];
-        for(var i=0; i < wrapper.length; i++){
-            var x = new VismoMap(wrapper[i],options);
-            result.push(x);
-        }
-        return x;
-    }
-    
+var VismoMap = function(wrapper,options){  
 	if(typeof wrapper == 'string') wrapper = document.getElementById(wrapper);
 	else wrapper = wrapper;
 		
 	this.wrapper = wrapper;
-	//wrapper.vismoMap = this;
+	wrapper.vismoMap = this;
 	wrapper.style.position = "relative";
 	var that = this;
 	this.settings = {};
@@ -35,32 +26,16 @@ var VismoMap = function(wrapper,options){
 	
 	this.feature_reference = {};
 	if(!options) options = {};
-	if(options.tooltip){
-	    
-	    options.tooltipfunction = function(el,s){
-	        if(s){
-	        el.innerHTML = s.getProperty("name");
-            }
-	    }
-	}
-	this.vismoClicking = new VismoCanvas(wrapper,options);
 
+	this.vismoClicking = new VismoCanvas(wrapper,options);
 	this._setupMouseHandlers();
 	
-
-	if(!options.VismoController){
-
-	    options.VismoController = {};
-	    
-	} 
-	
-	if(!options.VismoController.handler){
-	    var that = this;
-    	var handler = function(t){
-    	    that.transform(t);
-    	};
-	    options.VismoController.handler = handler;
+	var that = this;
+	var handler = function(t){
+	    that.transform(t);
 	}
+	if(!options.VismoController) options.VismoController = {};
+	options.VismoController.handler = handler;
 	this.controller = new VismoController(this.wrapper,options.VismoController);
 
 		
@@ -71,11 +46,37 @@ var VismoMap = function(wrapper,options){
 	this.features = [];
 	this.clear();
 	
-	if(options.geojson){
+	var proj = options.projection;
+	var eMap = this;
+	this._hijackMouseFunctions();
+	if(options.tooltip){
 	    
-	    this.drawFromGeojson(options.geojson,options.fullscreen);
+	    this.vismoClicking.addTooltip(function(el,s){
+	        if(s){
+	        el.innerHTML = s.getProperty("name");
+            }
+	    });
+	    
 	}
-
+	    	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
+	    	
+	
+	if(proj){
+		if(proj == 'globe' || proj == 'spinnyglobe'){
+			eMap = new VismoGlobe(this);
+			if(proj == 'spinnyglobe'){
+				eMap.toggleSpin();
+			}
+		}
+		if(proj == 'google'){
+			eMap.settings.projection = VismoSlippyMap.prototype.getGoogleMercatorProjection();
+		}
+		else if(proj == 'slippystaticmap'){
+			eMap = new VismoSlippyMap(this);					
+		}
+		return eMap;
+	}
+	
 };  
 VismoMap.prototype = {
 	setTransparency: function(alpha){
@@ -108,10 +109,7 @@ VismoMap.prototype = {
 	},
 	
 	drawFromGeojson: function(geojson,autosize){
-            //if ie 6
-            //geojson =VismoMapUtils.optimiseForIE6(geojson);
-            
-            
+
 			if(typeof geojson == 'string'){
 				geojson = eval('(' +geojson+ ')');
 			}
@@ -240,7 +238,16 @@ VismoMap.prototype = {
 		e,shape,mouse,longitude_latitude,feature
 		
 	*/
-	setMouseFunctions: function(onmouseup,onmousemove,onrightclick,onkeypress,ondblClick){
+	mouse: function(args){
+
+			if(args.move)this.onmousemove =args.move;
+			if(args.up)this.onmouseup = args.up;
+			if(args.down)this.onmouseup = args.down;
+			if(args.keypress) this.onkeypress = args.keypress;
+			if(args.dblclick) this.ondblClick = args.dblclick;
+	}
+
+	,_hijackMouseFunctions: function(){
 	        var eMap = this;
 	        var getParameters = function(e){
 			var result = {};
@@ -268,31 +275,31 @@ VismoMap.prototype = {
 			return result;
 			
 		};
+		
+		 var md = function(e,s){
+	                var r = getParameters(e);
+	                if(eMap.onmousedown) eMap.onmousedown(e,s,r.mouse,r.longitude_latitude,r.feature,r.key,eMap);
+	        };
+	        
 	        var mu = function(e,s){
 	                var r = getParameters(e);
-	                if(onmouseup) onmouseup(e,s,r.mouse,r.longitude_latitude,r.feature,r.key,eMap);
+	                if(eMap.onmouseup) eMap.onmouseup(e,s,r.mouse,r.longitude_latitude,r.feature,r.key,eMap);
 	        };
 	        var mm = function(e,s){
+	            
 	                var r = getParameters(e);
-	                if(onmousemove) onmousemove(e,s,r.mouse,r.longitude_latitude,r.feature,r.key,eMap);	                
+	                if(eMap.onmousemove) eMap.onmousemove(e,s,r.mouse,r.longitude_latitude,r.feature,r.key,eMap);	                
 	        };
 	        var dbl = function(e,s){
 	                var r = getParameters(e);
-        	        if(ondblClick) ondblClick(e,s,r.mouse,r.longitude_latitude,r.feature,r.key,eMap);
+        	        if(eMap.ondblClick) eMap.ondblClick(e,s,r.mouse,r.longitude_latitude,r.feature,r.key,eMap);
 	        };
 	        var key = function(e,s){
 	                var r = getParameters(e);
-                        if(onkeypress) onkeypress(e,s,r.mouse,r.longtitude_latitude,r.feature,r.key,eMap);
+                        if(eMap.onkeypress) eMap.onkeypress(e,s,r.mouse,r.longtitude_latitude,r.feature,r.key,eMap);
 	        }
-	        this.vismoClicking.setOnMouse(false,mu,mm,dbl,key);
-			/*if(onmousemove)this.moveHandler =onmousemove;
-			if(onmouseup)this.clickHandler = onmouseup;
-			if(onrightclick) this.rightclickHandler = onrightclick;
-			if(onkeypress) this.keyHandler = onkeypress;
-			if(ondblClick) this.dblClickHandler = ondblClick;*/
+	        this.vismoClicking.setOnMouse(md,mu,mm,dbl,key);
 	}
-
-	
 
 	,render: function(flag){
 		var tran =this.transformation;
@@ -554,11 +561,12 @@ VismoMap.Feature.prototype = {
 		var outer;
 		
 		for(var i=0; i < coordinates.length; i++){ //it's a list of polygons!
-			this._drawGeoJsonPolygonFeature(coordinates[i],feature);
+			var s = this._drawGeoJsonPolygonFeature(coordinates[i],feature,i);
+			
 		}
 		
 	},	
-	_drawGeoJsonPolygonFeature: function(coordinates,feature){
+	_drawGeoJsonPolygonFeature: function(coordinates,feature,featureid){
 
 		var p = feature.properties;
 		p.shape = 'polygon';
@@ -569,6 +577,8 @@ VismoMap.Feature.prototype = {
 			var coords =coordinates[j];	
 			coords = VismoUtils.invertYCoordinates(coords);
 			var s = new VismoShape(p,coords);
+			s.properties.geometryid = featureid;
+			s.properties.geometryid2 = j;
 			this.addVismoShape(s);
 		}
 		return outer;		

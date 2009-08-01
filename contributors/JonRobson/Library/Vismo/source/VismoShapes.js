@@ -251,7 +251,7 @@ var VismoShape = function(properties,coordinates){
 
 
 VismoShape.prototype={
-        clone: function(){
+    clone: function(){
                 var coords = this.getCoordinates("normal");
                 var props = this.getProperties();
                 try{
@@ -260,12 +260,12 @@ VismoShape.prototype={
                 finally{
                     return false;
                 }
-        }
+    }
 	,getShape: function(){
 		return this.getProperty("shape");
-	}
+    }
 	,setProperties: function(properties){
-		var newprops = VismoUtils.clone(properties);
+	    var newprops = VismoUtils.clone(properties);
 		var i;
 		for(i in newprops){
 		        this.setProperty(i,newprops[i]);
@@ -279,9 +279,8 @@ VismoShape.prototype={
 		
 	}
 	,getBoundingBox: function(){ /* returns untransformed bounding box */
-		return this.grid;
+	    return this.grid;
 	}
-
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
 	    var t1 = new Date();
 	    var st = this.getShape();
@@ -329,9 +328,9 @@ VismoShape.prototype={
 			
 	}
 	,getTransformation: function(){
-	       var transform= this.getProperty("transformation");
-	       
-	       if(!transform) transform = {translate:false,scale:false};
+	    var transform= this.getProperty("transformation");
+	   
+	    if(!transform) transform = {translate:false,scale:false};
    		if(!transform.translate)transform.translate = {x:0,y:0};
    		if(!transform.translate.x)transform.translate.x = 0;
    		if(!transform.translate.y)transform.translate.y = 0;
@@ -342,13 +341,11 @@ VismoShape.prototype={
 	       return transform;
 	}
 	
-	,setTransformation: function(transformation){
-	        this.setProperty("transformation",transformation);
-	        this._calculateBounds();
-	        
+    ,setTransformation: function(transformation){
+	    this.setProperty("transformation",transformation);
+	    this._calculateBounds();
 	}
-	,setCoordinates: function(coordinates,type){
-	        
+	,setCoordinates: function(coordinates,type){	        
         var good = [];
         for(var i=0; i < coordinates.length; i++){
             if(coordinates[i] +"" !='NaN')
@@ -384,7 +381,7 @@ VismoShape.prototype={
 	}
 	,getCoordinates: function(type){
 		if(type == 'normal') return this.coordinates.normal;
-		if(type == 'projected') return this.coordinates.projected;
+	    if(type == 'projected') return this.coordinates.projected;
 		
 		var resolution = this.currentResolution;
 		if(this.coordinates.projected) {
@@ -408,11 +405,11 @@ VismoShape.prototype={
 		}
 	}
 	,getProperties: function(){
-		return this.properties;
+	    return this.properties;
 	}
 	,getRenderMode: function(canvas){
-		if(!this.browser){
-			if(!canvas.getContext) {				
+	    if(!this.browser){
+		    if(!canvas.getContext) {				
 		                this.browser = "ie";
 			}
 				
@@ -701,7 +698,7 @@ VismoShape.prototype={
 		return true;
 	}
 	,optimise_ie: function(canvas,transformation,projection){	
-	    VismoOptimisations.minradius = 10;
+	    VismoOptimisations.minradius = 6;
 		if(this.properties.shape == 'path' || this.properties.shape == 'point') return true;
 		if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
 				if(this.vml)this.vml.clear();

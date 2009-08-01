@@ -159,7 +159,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		    }
 		    jQuery(place).append("<div class='aet_radioboxes'>"+radioHtml+"</div>");
 		    var aet = this;
-		    jQuery("input",place).click(function(e){
+		    jQuery(".aet_radiobutton",place).click(function(e){
 		        var newval = this.value;
 		        aet.setMetaData(tiddlerobj.title,metaDataName,newval);
 		    });

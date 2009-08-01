@@ -60,8 +60,8 @@ var VismoCanvas = function(element,options){
 	this.memory = [];
 	
 	element.vismoClicking = true;//this;//true;//this
-         jQuery(canvas).mousedown(function(e){e.preventDefault();});
-         jQuery(this.wrapper).mousedown(function(e){e.preventDefault();});
+    jQuery(canvas).mousedown(function(e){e.preventDefault();});
+         //jQuery(this.wrapper).mousedown(function(e){e.preventDefault();});
 
 	this.wrapper = wrapper;
 

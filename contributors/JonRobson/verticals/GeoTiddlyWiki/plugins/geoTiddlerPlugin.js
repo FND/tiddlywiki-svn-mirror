@@ -10,7 +10,7 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4|
-|''Dependencies:''|This plugin requires a tiddler geojson containing geojson data eg.[[geojson]]|
+|''Dependencies:''|This plugin requires a tiddler geojson containing geojson data eg.[[geojson]] and [[the VismoLibraryPlugin]]|
 |''Usage:''|
 
 macro {{{<<geo>>}}}
@@ -90,40 +90,7 @@ function getElementChild(el,tag){
 			var editable = eval(getParam(prms,"editable"));
 			var that = this;
 			var eMap = this.createNewVismoMap(place,prms);
-			var onmup = function(e,shape,mouse,longitude_latitude,feature){	
-			       					
-				if(shape &&shape.properties){
-
-					var shapeName = shape.getProperty("name");
-				}
-				else{
-				
-				        //add new geotag
-				        var ll = longitude_latitude;
-				        if(ll)that.addGeoTiddler(eMap,"GeoTag (long:"+ ll.longitude + ",lat:" + ll.latitude+ ")",ll,fill,"",["geotagged"])
-					return;
-				}
-				if(!store.tiddlerExists(shapeName)) {
-					var tags = [];
-					var text = "";
-					var fields = {};
-
-				}
-				var tiddlerElem = null;
-				try{
-					tiddlerElem = story.findContainingTiddler(resolveTarget(e));	
-				}
-				catch(e){
-					
-				}
-				
-				story.displayTiddler(tiddlerElem,shapeName);
-				return false;
-			};
-	                		this.addVismoMapControls(eMap,prms);
-        
-			eMap.setMouseFunctions(false,false,false,false,onmup);
-
+		
 	
 			var source = getParam(prms,"source");
 
@@ -142,67 +109,6 @@ function getElementChild(el,tag){
 
 			//}
 		}	
-
-		
-		,setupGoogleStaticMapLayer: function(eMap){
-			var that = this;
-		
-			eMap.settings.projection = this.getGoogleMercatorProjection(eMap);
-			eMap._fittocanvas = false;
-			var useLocalImage = function(dest){
-				eMap.attachBackground(dest);
-			};
-			eMap.settings.beforeRender = function(transformation){
-				
-
-				//eMap.attachBackground("none");
-				var x =0,y =0, t= transformation.translate,scale= transformation.scale;
-			
-				var okScales = [1,2,4,8,16,32,64,128,256,512,1024,2048, 4096, 8192,16384,32768];
-				
-				//if(!okScales.contains(scale.x)){ //cant work under these conditions!!!
-					eMap.settings.backgroundimg = "none";
-					eMap.wrapper.style.backgroundImage = "none";
-				
-					//return;
-				//}
-				var res = eMap.settings.projection.inversexy(t.x,t.y);
-				x = -res.x;
-				y = res.y;
-
-
-				var zoomL = eMap.settings.projection.calculatescalefactor(scale.x);
-				var w = parseInt(eMap.wrapper.style.width);
-				var h = parseInt(eMap.wrapper.style.height);
-				var gsmPath ="gsm/"+w+"X"+h+"_"+zoomL+"_"+y+"_"+x+".gif";
-				var gsmURL ="http://maps.google.com/staticmap?center="+y+","+x+"&zoom="+zoomL+"&size="+w+"x"+h+"&key=YOUR_KEY_HERE";
-				
-
-				
-				try{
-					VismoFileUtils.saveImageLocally(gsmURL,gsmPath,useLocalImage);
-				}
-				catch(e){
-					console.log("unable to cache static image for this map view. ("+e+")")
-				}
-
-			
-			
-			};
-
-			var w = parseInt(eMap.wrapper.style.width);
-			var h = parseInt(eMap.wrapper.style.height);
-			
-	
-			try{
-				VismoFileUtils.saveImageLocally("http://maps.google.com/staticmap?center=0,0&zoom=0&size="+w+"X"+h+"&key=YOUR_KEY_HERE","gsm/"+w+"x"+h+"_0_0_0.gif",useLocalImage);
-			}
-			catch(e){
-				console.log("unable to cache static image for this map view. ("+e+")")
-			}
-			
-		
-		}
 
 		,getGeoJson: function(sourceTiddlerName,easyMap,parameters){
 			if(sourceTiddlerName == undefined) sourceTiddlerName ='geojson';
@@ -341,26 +247,7 @@ function getElementChild(el,tag){
 			return data;
 		}
 		
-	
-		,addVismoMapControls: function(eMap,prms){
-			var proj = getParam(prms,"projection");
-			if(proj == 'globe' || proj == 'spinnyglobe') {			
-				eMap.controller.addControl("rotation");
 
-			 }
-			else{
-				eMap.controller.addControl('pan');
-			}
-
-			eMap.controller.addControl('zoom');
-			eMap.controller.addControl("mousepanning");
-			eMap.controller.addControl("mousewheelzooming");
-		}
-		,addVismoMapClickFunction: function(easyMap,clickFunction){
-		
-			easyMap.wrapper.onmouseup = clickFunction;
-		
-		}
 		,createNewVismoMap: function(place,prms){
 			var geoid = getParam(prms,"id");
 			if(!geoid) geoid = "default" + numgeomaps;
@@ -390,40 +277,43 @@ function getElementChild(el,tag){
 			var statustext = createTiddlyElement(wrapper,"div",id+"_statustext");
 			createTiddlyText(statustext,"loading... please wait a little while!");
 			var caption = createTiddlyElement(place,"div","caption","caption");
+				var onmup = function(e,shape,mouse,longitude_latitude,feature){	
 
-			var eMap = new VismoMap(wrapper);
+    				if(shape &&shape.properties){
 
-			if(proj){
-				if(proj == 'globe' || proj == 'spinnyglobe'){
-					eMap = new VismoGlobe(eMap);
-					if(proj == 'spinnyglobe'){
-						eMap.toggleSpin();
-					}
-				}
-				if(proj == 'google'){
-					eMap.settings.projection = this.getGoogleMercatorProjection();
-				}
-				else if(proj == 'slippystaticmap'){
-					eMap = new VismoSlippyMap(eMap);					
-				}
-				else if(proj == 'googlestaticmap'){
-					if(parseInt(wrapper.style.width)  > 640|| parseInt(wrapper.style.height) > 640){
-						throw "Max resolution for using google static maps is 640 by 640 - your width or height is too big";
-					}
-					else{
-						this.setupGoogleStaticMapLayer(eMap);
-					}
-				}
-			}
-			
+    					var shapeName = shape.getProperty("name");
+    				}
+    				else{
+
+    				        //add new geotag
+    				        var ll = longitude_latitude;
+    				        if(ll)that.addGeoTiddler(eMap,"GeoTag (long:"+ ll.longitude + ",lat:" + ll.latitude+ ")",ll,fill,"",["geotagged"])
+    					return;
+    				}
+    				if(!store.tiddlerExists(shapeName)) {
+    					var tags = [];
+    					var text = "";
+    					var fields = {};
+
+    				}
+    				var tiddlerElem = null;
+    				try{
+    					tiddlerElem = story.findContainingTiddler(resolveTarget(e));	
+    				}
+    				catch(e){
+
+    				}
+
+    				story.displayTiddler(tiddlerElem,shapeName);
+    				return false;
+    			};
+
+      
+                
+			var eMap = new VismoMap(wrapper,{dblclick:onmup,projection:proj,tooltip:true});			
 			geomaps[geoid] = eMap;
-
-
-
 			var that = eMap;
 			var myElement = document.getElementById('caption');
-
-
 			return eMap;
 		}
 	};

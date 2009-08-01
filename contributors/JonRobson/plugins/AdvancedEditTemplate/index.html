@@ -809,7 +809,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		    }
 		    jQuery(place).append(&quot;&lt;div class='aet_radioboxes'&gt;&quot;+radioHtml+&quot;&lt;/div&gt;&quot;);
 		    var aet = this;
-		    jQuery(&quot;input&quot;,place).click(function(e){
+		    jQuery(&quot;.aet_radiobutton&quot;,place).click(function(e){
 		        var newval = this.value;
 		        aet.setMetaData(tiddlerobj.title,metaDataName,newval);
 		    });

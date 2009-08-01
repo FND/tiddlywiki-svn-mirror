@@ -7,6 +7,7 @@ Will be changed to take a handler parameter rather then a targetjs
 
 
 var VismoController = function(elem,options){ //elem must have style.width and style.height etM  
+   
     if(elem.length){ //for jquery
         var result = [];
         for(var i=0; i < elem.length; i++){
@@ -405,6 +406,9 @@ VismoController.prototype = {
 			that.wrapper.onmousemove = mm;
 			return false;
 		};
+		jQuery(that.controlDiv).mousedown(function(e){
+		    cancelPanning();
+		});
 		var onmousemove = function(e){
             if(e && e.shiftKey) {return false;}
 			if(mm){mm(e);}
