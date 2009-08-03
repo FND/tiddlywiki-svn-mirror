@@ -65,6 +65,7 @@ var VismoOptimisations = {
 	}
   
 	,vismoShapeIsInVisibleArea: function(vismoShape,canvas,transformation){
+	    var t1= new Date();
 		var left = 0,top = 0;
 		var right =  parseInt(canvas.width) + left; 
 		var bottom = parseInt(canvas.height) + top;
@@ -76,6 +77,9 @@ var VismoOptimisations = {
 		frame.right = bottomright.x;
 		frame.left = topleft.x;
 		var g = vismoShape.getBoundingBox();
+		var t2 = new Date();
+        VismoTimer["shape_visiblearea"] += (t2-t1);
+           
 		if(g.x2 < frame.left) {
 			return false;}
 		if(g.y2 < frame.top) {
@@ -91,13 +95,20 @@ var VismoOptimisations = {
 	}
 	
 	,vismoShapeIsTooSmall: function(vismoShape,transformation){
-	
-		if(!transformation ||!transformation.scale) return false;
+	    var d1 = new Date();
+
+		if(!transformation ||!transformation.scale) {
+		    var d2 = new Date();
+            VismoTimer["opt_vismoShapeIsTooSmall"] += (d2-d1);
+		    return false;
+		}
 		var g = vismoShape.getBoundingBox();
 		var s = transformation.scale;
 		var t1 = (g.x2 -g.x1) * s.x;
 		var t2 =(g.y2- g.y1) * s.y;
 
+        var d2 = new Date();
+        VismoTimer["opt_vismoShapeIsTooSmall"] += (d2-d1);
 		if(t2 < this.minradius&& t1 < this.minradius) 
 			{return true;}//too small
 		else

@@ -12,6 +12,15 @@ var GeoTag = function(longitude,latitude,properties){
 };
 
 var VismoMap = function(wrapper,options){  
+    if(wrapper.length){ //for jquery
+        var result = [];
+        for(var i=0; i < wrapper.length; i++){
+            var x = new VismoMap(wrapper[i],options);
+            result.push(x);
+        }
+        return x;
+    }
+    
 	if(typeof wrapper == 'string') wrapper = document.getElementById(wrapper);
 	else wrapper = wrapper;
 		
@@ -27,20 +36,19 @@ var VismoMap = function(wrapper,options){
 	this.feature_reference = {};
 	if(!options) options = {};
 
-	this.vismoClicking = new VismoCanvas(wrapper,options);
-	this._setupMouseHandlers();
-	
+
 	var that = this;
 	var handler = function(t){
 	    that.transform(t);
 	}
-	if(!options.VismoController) options.VismoController = {};
-	options.VismoController.handler = handler;
-	this.controller = new VismoController(this.wrapper,options.VismoController);
+	if(!options.vismoController) options.vismoController = {};
+	options.vismoController.handler = handler;
 
-		
+	this.vismoCanvas = new VismoCanvas(wrapper,options);
+	this.controller = this.vismoCanvas.vismoController;
+	
 	//run stuff
-	this.transform(this.controller.transformation); //set initial transformation
+	if(this.controller)this.transform(this.controller.transformation); //set initial transformation
 	this._fittocanvas = true;
 	this.geofeatures = {};
 	this.features = [];
@@ -50,17 +58,16 @@ var VismoMap = function(wrapper,options){
 	var eMap = this;
 	this._hijackMouseFunctions();
 	if(options.tooltip){
-	    
-	    this.vismoClicking.addTooltip(function(el,s){
+	    this.vismoCanvas.addTooltip(function(el,s){
 	        if(s){
 	        el.innerHTML = s.getProperty("name");
             }
 	    });
 	    
 	}
-	    	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
-	    	
+		this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
 	
+	var eMap = this;
 	if(proj){
 		if(proj == 'globe' || proj == 'spinnyglobe'){
 			eMap = new VismoGlobe(this);
@@ -74,42 +81,52 @@ var VismoMap = function(wrapper,options){
 		else if(proj == 'slippystaticmap'){
 			eMap = new VismoSlippyMap(this);					
 		}
-		return eMap;
+		
 	}
 	
+	if(options.geojson){
+	    this.drawFromGeojson(options.geojson,options.fullscreen);
+	}
+	return eMap;
 };  
 VismoMap.prototype = {
-	setTransparency: function(alpha){
-		this.vismoClicking.setTransparency(alpha);
+	setTransparency: function(args){
+	    var alpha = arguments[0];
+		this.vismoCanvas.setTransparency(alpha);
 	}
-	,getVismoShapes: function(){
-		return this.vismoClicking.getMemory();
+	,getVismoShapes: function(args){
+		return this.vismoCanvas.getMemory();
 	}
-	,resize: function(width,height){
+	,resize: function(args){
+	    var width = arguments[0];
+	    var height = arguments[1];
 		this.wrapper.style.width = width+"px";
 		this.wrapper.style.height = height +"px";
 		var  t=this.getTransformation();
 		t.origin.x = width / 2;
 		t.origin.y = height / 2;
 		this.setTransformation(t);
-		this.vismoClicking.resize(width,height);
+		this.vismoCanvas.resize(width,height);
 
 		this.clear();
 
 	}
-	,getProjection: function(){
+	,getProjection: function(args){
 		return this.settings.projection;
 	}
-	,setProjection: function(projection){
+	,setProjection: function(args){
+	    var projection = arguments[0];
 		this.settings.projection = projection;
 
 	}
-	,clear: function(deleteMemory){ /* does this work in IE? */
-		this.vismoClicking.clear(deleteMemory);
+	,clear: function(args){ /* does this work in IE? */
+		var deleteMemory = arguments[0];
+		this.vismoCanvas.clear(deleteMemory);
 	},
 	
-	drawFromGeojson: function(geojson,autosize){
-
+	drawFromGeojson: function(args){
+        var geojson = arguments[0];
+        var autosize = arguments[1];
 			if(typeof geojson == 'string'){
 				geojson = eval('(' +geojson+ ')');
 			}
@@ -140,7 +157,8 @@ VismoMap.prototype = {
 			this.render();
 			
 	},
-	drawFromGeojsonFile: function(file){
+	drawFromGeojsonFile: function(args){
+	    var file = arguments[0];
 		var that = this;
 		var callback = function(status,params,responseText,url,xhr){
 		
@@ -149,20 +167,24 @@ VismoMap.prototype = {
 		VismoFileUtils.loadRemoteFile(file,callback);
 	}
 
-	,getTransformation: function(){
+	,getTransformation: function(args){
 		if(!this.transformation){
 			return false;
 		}
 		else
 			return this.transformation;
 	}
-	,setTransformation: function(transformation){
+	,setTransformation: function(args){
+	    var transformation = arguments[0];
 		if(typeof transformation.translate.x != 'number'||typeof transformation.translate.y != 'number') throw "bad transformation translate given ";
 		if(typeof transformation.scale.x != 'number'||typeof transformation.scale.y != 'number') throw "bad transformation scale given ";
 		
 		this.controller.setTransformation(transformation);
 	}
-	,moveTo: function(longitude,latitude,zoom){
+	,moveTo: function(args){
+	    var longitude= arguments[0];
+	    var latitude = arguments[1];
+	    var zoom = arguments[2];
 		var newt = {translate:{},scale:{}};
 		var transformation =this.getTransformation();
 		
@@ -188,14 +210,15 @@ VismoMap.prototype = {
 		
 	}
 
-	,redraw: function(){
+	,redraw: function(args){
 		this.render();	
 
 	    //alert("average VML render"+ VismoVector.rstats);
 	    //alert("total average VML render time"+ VismoVector.rstats * VismoVector.rnum);
 	},
 		
-	transform: function(transformation){
+	transform: function(args){
+	    var transformation = arguments[0];
 		//console.log(arguments);
 		var w =parseInt(this.wrapper.style.width);
 		var h = parseInt(this.wrapper.style.height);
@@ -225,8 +248,8 @@ VismoMap.prototype = {
 			
 		
 		var that = this;
-		var f = function(){
-		    that.vismoClicking.setTransformation(that.transformation);
+		var f = function(args){
+		    that.vismoCanvas.setTransformation(that.transformation);
 		    that.redraw();
 		}
 		window.setTimeout(f,0);
@@ -247,7 +270,7 @@ VismoMap.prototype = {
 			if(args.dblclick) this.ondblClick = args.dblclick;
 	}
 
-	,_hijackMouseFunctions: function(){
+	,_hijackMouseFunctions: function(args){
 	        var eMap = this;
 	        var getParameters = function(e){
 			var result = {};
@@ -258,10 +281,10 @@ VismoMap.prototype = {
 			if(code) character = String.fromCharCode(code);	
 			var t = VismoClickingUtils.resolveTargetWithVismo(e);
 			if(t && t.getAttribute("class") == 'vismoControl') return false;
-			var shape = eMap.vismoClicking.getShapeAtClick(e);
+			var shape = eMap.vismoCanvas.getShapeAtClick(e);
 			if(shape) {
 				result.shape = shape;
-				result.feature = eMap.geofeatures[eMap.vismoClicking.getMemoryID(shape)];
+				result.feature = eMap.geofeatures[eMap.vismoCanvas.getMemoryID(shape)];
 			}
 		
 			
@@ -298,19 +321,21 @@ VismoMap.prototype = {
 	                var r = getParameters(e);
                         if(eMap.onkeypress) eMap.onkeypress(e,s,r.mouse,r.longtitude_latitude,r.feature,r.key,eMap);
 	        }
-	        this.vismoClicking.setOnMouse(md,mu,mm,dbl,key);
+	        this.vismoCanvas.mouse({mousedown:md,mouseup:mu,mousemove:mm,dblclick:dbl,keypress:key});
 	}
 
-	,render: function(flag){
+	,render: function(args){
+	    var d1 = new Date();
+	    var flag = arguments[0];
 		var tran =this.transformation;
 
 		var that = this;
 
 
 		if(this.settings.beforeRender) {
-			this.vismoClicking.options.beforeRender = this.settings.beforeRender;
+			this.vismoCanvas.options.beforeRender = this.settings.beforeRender;
 		}
-		this.vismoClicking.render(this.settings.projection);
+		this.vismoCanvas.render(this.settings.projection);
 		if(this.settings.afterRender) {
 			this.settings.afterRender(tran);
 			
@@ -319,24 +344,31 @@ VismoMap.prototype = {
 		if(t) {
 			t.parentNode.removeChild(t);	
 		}
+		var d2 = new Date();
+		var id="mapRender";
+		if(!VismoTimer[id]) VismoTimer[id] = 0;
+		VismoTimer[id] += (d2 - d1);
+		
+		
 		
 	
 	},
 	
-	getFeatures: function(){
+	getFeatures: function(args){
 	       return this.features;
 	}
-	,drawGeoJsonFeature: function(featuredata){
-	   
+	,drawGeoJsonFeature: function(args){
+	    var featuredata = arguments[0];
 		var feature = new VismoMap.Feature(featuredata);		
 		var s = feature.getVismoShapes();		
 		for(var i=0; i < s.length; i++){
-			this.vismoClicking.add(s[i]);
-			this.geofeatures[this.vismoClicking.getMemoryID(s[i])] = feature;
+			this.vismoCanvas.add(s[i]);
+			//this.geofeatures[this.vismoCanvas.getMemoryID(s[i])] = feature;
 		}	
-         this.features.push(feature);
+         //this.features.push(feature);
 	},
-	drawGeoJsonFeatures: function(features){
+	drawGeoJsonFeatures: function(args){
+	    var features = arguments[0];
 			var avg1 = 0;
 				
 			for(var i=0; i < features.length; i++){
@@ -345,172 +377,8 @@ VismoMap.prototype = {
 			}
 
 	}
-	,_setupMouseHandlers: function(e){
-	        /*
-		var eMap = this;
-		var _defaultClickHandler = function(e,shape,mousepos,ll,vismomap){};	
-		
-		var _defaultMousemoveHandler = function(e,shape,mousepos,ll,feature,key,vismomap){
-			if(mousepos){
-				var wid =vismomap.wrapper.id+'_tooltip';
-				var tt =document.getElementById(wid);
-				if(!tt){
-					tt = document.createElement('div');
-					tt.style.position = "absolute";
-					tt.id = wid;
-					tt.style.zIndex = 4;
-					tt.setAttribute("class","vismomaptooltip");
-					vismomap.wrapper.appendChild(tt);
-				}
-
-				var text ="";
-				if(shape){
-					text =shape.properties.name +"<br>";
-				}	
-				else{	
-					//tt.style.display = "none";
-				}
-				if(ll){
-					var geocoords = "(long:"+ll.longitude+",lat:"+ll.latitude+")";
-					tt.innerHTML = text;// +geocoords;
-				}
-			
-				var x = mousepos.x + 10;
-				var y = mousepos.y + 10;
-			
-				tt.style.left = x + "px";
-				tt.style.top = y +"px";
-				tt.style.display = "";
-				tt.style["z-index"] = 2;
-			}
-		};
-		
-		var getParameters = function(e){
-			var result = {};
-			if(!e) {
-				e = window.event;
-			}
-			
-			var code;
-			//console.log(e.keyCode,e.which);
-			if (e.which) code =e.which;
-			else if (e.keyCode) code = e.keyCode;
-			
-			
-		
-			var character;
-			if(code) character = String.fromCharCode(code);
-			
-			
-			var t = VismoClickingUtils.resolveTargetWithVismo(e);
-			if(t.getAttribute("class") == 'vismoControl') return false;
-			var shape = eMap.vismoClicking.getShapeAtClick(e);
-			if(shape) {
-				result.shape = shape;
-				result.feature = eMap.geofeatures[eMap.vismoClicking.getMemoryID(shape)];
-			}
-		
-			
-			var pos = VismoClickingUtils.getMouseFromEvent(e);
-			var x =pos.x;
-			var y = pos.y;
-			result.mouse = pos;
-			result.longitude_latitude = VismoMapUtils.getLongLatFromMouse(x,y,eMap);
-			
-			result.event = e;
-			result.keypressed = character;
-			return result;
-			
-		};
-		var onmousemove = function(e){
-		
-			var pos = VismoClickingUtils.getMouseFromEvent(e);
-			var x =pos.x;
-			var y = pos.y;
-			if(!x || !y ) return;
-			var sensitivity = 1;
-			if(this.lastMouseMove && x < this.lastMouseMove.x + sensitivity && x > this.lastMouseMove.x -sensitivity) {return;}
-			if(this.lastMouseMove &&  y < this.lastMouseMove.y + sensitivity && y > this.lastMouseMove.y -sensitivity) {return;}
-			this.lastMouseMove = {};
-			this.lastMouseMove.x = x;this.lastMouseMove.y = y;
-			
-			var r = getParameters(e);
-			try{
-			eMap.moveHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed, eMap);
-			}
-			catch(e){};
-		};
-		
-		var onmouseup = function(e){
-	
-			var r = getParameters(e);
-			
-			e = r.event;
-			var button =1;
-			if(e && e.button){
-				button = e.button;	
-			}
-			if(!button || button <= 1){ //left click
-		
-				try{
-					eMap.clickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
-				}
-				catch(e){
-					
-				}
-			}
-			else if(button == 2){ //right click
-		
-				if(eMap.rightclickHandler){
-					var r = getParameters(e);
-					try{eMap.rightclickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
-					}
-					catch(e){};
-				}	
-			}
-			
-		};
-
-
-		var onkeypress = function(e){
-			var r = getParameters(e);
-			
-			//find center of wrapper
-			//console.log(eMap.settings.wrapper.center);
-			if(eMap.keyHandler){
-				try{
-					eMap.keyHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
-				}
-				catch(e){};
-			}
-		};
-		var keypressed = function(event,shape,mouse,lola,feature,key){
-		};
-		
-		var dblClickHandler = function(event,shape,mouse,lola,feature,key){};
-		this.wrapper.ondblclick = function(e){
-				var r = getParameters(e);
-				eMap.dblClickHandler(r.event,r.shape,r.mouse,r.longitude_latitude,r.feature,r.keypressed,eMap);
-		
-		};
-		
-		this.wrapper.onmouseup= onmouseup;
-		
-
-		
-		
-		document.onkeypress = onkeypress;
-		//this.wrapper.onmouseup = onmouseup;
-		this.wrapper.onmousemove = onmousemove;
-		
-		this.vismoClicking.setOnMouse(_defaultClickHandler,false,_defaultMousemoveHandler,dblClickHandler,keypressed)
-	
-		this.setMouseFunctions(_defaultClickHandler,_defaultMousemoveHandler,false,keypressed,dblClickHandler);
-                */
-		
-	}
-	,getVismoCanvas: function(){
-	        return this.vismoClicking;
+	,getVismoCanvas: function(args){
+	        return this.vismoCanvas;
 	}
 };
 
@@ -520,7 +388,8 @@ VismoMap.Feature = function(feature){
 };
 
 VismoMap.Feature.prototype = {
-	init: function(feature){
+	init: function(args){
+	    var feature = arguments[0];
 		this.properties = feature.properties;
 		this.geometry = feature.geometry;
 		this.outers = [];
@@ -544,20 +413,25 @@ VismoMap.Feature.prototype = {
 		else {	
 			console.log("unsupported geojson geometry type " + geometry.type);
 		}		
+
 	}
-	,addOuterVismoShape: function(shape){
+	,addOuterVismoShape: function(args){
+		var shape = arguments[0];
 		this.outers.push(shape);
 	}
-	,getOuterVismoShapes: function(){
+	,getOuterVismoShapes: function(args){
 		return this.outers;
 	}
-	,addVismoShape: function(vismoShape){
+	,addVismoShape: function(args){
+	    var vismoShape = arguments[0];
 		this.vismoShapes.push(vismoShape);
 	}
-	,getVismoShapes: function(){
+	,getVismoShapes: function(args){
 		return this.vismoShapes;
 	}
-	,_drawGeoJsonMultiPolygonFeature: function(coordinates,feature){
+	,_drawGeoJsonMultiPolygonFeature: function(args){
+	    var coordinates=  arguments[0];
+	    var feature = arguments[1];
 		var outer;
 		
 		for(var i=0; i < coordinates.length; i++){ //it's a list of polygons!
@@ -566,8 +440,10 @@ VismoMap.Feature.prototype = {
 		}
 		
 	},	
-	_drawGeoJsonPolygonFeature: function(coordinates,feature,featureid){
-
+	_drawGeoJsonPolygonFeature: function(args){
+        var coordinates=  arguments[0];
+	    var feature = arguments[1];
+	    var featureid = arguments[2];
 		var p = feature.properties;
 		p.shape = 'polygon';
 		//console.log(coordinates[0]);
@@ -584,14 +460,19 @@ VismoMap.Feature.prototype = {
 		return outer;		
 		
 	},
-	_drawGeoJsonPointFeature: function(coordinates,feature){
+	_drawGeoJsonPointFeature: function(args){
+	    var coordinates=  arguments[0];
+	    var feature = arguments[1];
+
 		var p = feature.properties;
 		p.shape = 'point';
 		coordinates[1] = -coordinates[1];
 		var s = new VismoShape(p,coordinates);
 		this.addVismoShape(s);
 	}
-	,setProperty: function(id,val){
+	,setProperty: function(args){
+	    var id = arguments[0];
+	    var val = arguments[1];
 	    var shapes = this.getVismoShapes();
 	    for(var i=0; i < shapes.length;i++){
 	        shapes[i].setProperty(id,val);
