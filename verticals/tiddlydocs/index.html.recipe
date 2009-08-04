@@ -1,4 +1,3 @@
-recipe: ../ckeditor/split.recipe
 
 tiddler: themes/loginTheme.tid
 tiddler: themes/mainTheme.tid
@@ -81,4 +80,6 @@ tiddler: ../../contributors/SimonMcManus/plugins/editDefinitions.js
 tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js
 tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
 
+
+recipe: $TW_ROOT/verticals/ckeditor/split.recipe
 
