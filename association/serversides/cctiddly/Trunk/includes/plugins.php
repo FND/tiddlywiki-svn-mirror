@@ -97,7 +97,7 @@ class Plugin {
 	}
 	public function getContentFromFile($path) {
 		$path = $this->preparePath($path);	
-		$fh = fopen($path, 'r');
+		$fh = @fopen($path, 'r');
 		return $file = @fread($fh, @filesize($path)); 	
 	}
 
@@ -128,10 +128,6 @@ class Plugin {
 			break;
 			case 'tid' :
  $this->addTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));
-/*
-				$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
-				$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));				$this->addTiddler($tiddler);		
-*/
 			break;
 			default: 
 		break;
