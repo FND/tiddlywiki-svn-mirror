@@ -15,6 +15,16 @@ img {border:0;}
 <div id='mycanvas' style="position:relative;float:left;">
 </div>
 <script type='text/javascript'>
+
+function randomColor(){
+  var r = parseInt(Math.random() * 255);
+  var g = parseInt(Math.random() * 255);
+  var b = parseInt(Math.random() * 255);
+ return "rgb("+r+","+g+","+b+")"; 
+}
+for(var i=0; i < geojson.features.length; i++){
+ geojson.features[i].properties.fill = randomColor(); 
+}
 var cc = new VismoMap(jQuery("#mycanvas"),{geojson:geojson,vismoController:{}});
 </script>
 
