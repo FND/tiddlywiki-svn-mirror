@@ -21,7 +21,8 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 			var wrapper2 = createTiddlyElement(wrapper1,"div");
 			e = createTiddlyElement(wrapper2,"textarea", '', 'ckeditor');
 			e.name = 'tiddler';
-			if(tiddler.isReadOnly())
+			CKEDITOR.replace('tiddler');
+				if(tiddler.isReadOnly())
 				e.setAttribute("readOnly","readOnly");
 			e.value = v = store.getValue(tiddler,field) || defVal;
 			rows = rows || 10;
