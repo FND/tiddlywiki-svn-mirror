@@ -34,7 +34,7 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 			e.setAttribute("edit",field);
 			place.appendChild(wrapper1);
 		}
-CKEDITOR.replace('tiddler');
+CKEDITOR.replace();
 			
 		return e;
 	}
