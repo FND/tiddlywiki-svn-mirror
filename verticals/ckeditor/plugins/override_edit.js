@@ -15,13 +15,15 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 			e.value = store.getValue(tiddler,field) || defVal;
 			e.setAttribute("size","40");
 			e.setAttribute("autocomplete","off");
+			e.onLoad = function() {
+				alert('dd');			
+			};
 			place.appendChild(e);
 		} else {
 			var wrapper1 = createTiddlyElement(null,"fieldset",null,"fieldsetFix");
 			var wrapper2 = createTiddlyElement(wrapper1,"div");
 			e = createTiddlyElement(wrapper2,"textarea", '', 'ckeditor');
 			e.name = 'tiddler';
-			CKEDITOR.replace('tiddler');
 				if(tiddler.isReadOnly())
 				e.setAttribute("readOnly","readOnly");
 			e.value = v = store.getValue(tiddler,field) || defVal;
