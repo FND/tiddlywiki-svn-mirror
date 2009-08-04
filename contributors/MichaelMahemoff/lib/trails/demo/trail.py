@@ -17,11 +17,21 @@ class Serialization(HTMLSerialization):
     self.environ = environ
 
   # def as_tiddler(self, tiddler):
+  def as_tiddler(self, tiddler, input_string):
+    print "input"
+    print input_string
 
   def tiddler_as(self, tiddler):
     trail = json.loads(tiddler.text)
     template = Environment(loader=FileSystemLoader('templates')).get_template("trail.html")
     return template.render(tiddler=tiddler, trail=trail, server_prefix=self.environ['tiddlyweb.config']['server_prefix'])
+
+  def as_tiddler(self, tiddler, input_string):
+    print "AS TIDDLER"
+    print "input"
+    print tiddler
+    print input_string
+    return tiddler
 
   # def list_tiddlers(self, tiddler):
 
