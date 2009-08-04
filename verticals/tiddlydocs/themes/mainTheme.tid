@@ -119,7 +119,7 @@ tags: systemTheme
 	</div>
 	<div class="portletContent">
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>	<div class='taskControls editTaskControls' macro='tiddler TaskTiddlerControls'></div>
-		<div class='editor' macro='ckeditor text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<div class='editor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 		<div class='commentsArea' macro='comments'></div>
 	</div>
 </div>
