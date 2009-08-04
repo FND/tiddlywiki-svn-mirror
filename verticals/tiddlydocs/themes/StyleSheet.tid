@@ -111,7 +111,7 @@ label {
 	-moz-border-radius-bottomright:2px;
 	-moz-border-radius-topleft:2px;
 	-moz-border-radius-topright:2px;
-	background:#151515 url(http://tapbots.com/images-global/blog/bg_inputbox.png) repeat-x scroll 0 0;
+	background:#151515 repeat-x scroll 0 0;
 	border:1px solid #777;
 	color:#777;
 	font-family:helvetica,arial,sans-serif;
@@ -123,7 +123,7 @@ label {
 }
 
 #searchform fieldset {
-	background:transparent url(http://tapbots.com/images-global/blog/bg_search_top.png) no-repeat scroll 0 top;
+	background:transparent ;
 	padding:7px 13px 2px;
 	position:relative;
 	top:-3px;
@@ -296,7 +296,7 @@ html body a {
 
 body {
 	font-family:Arial;
-	background:#090909 url(http://tapbots.com/images-global/ui/bg_body2.jpg) repeat-x scroll 50% 0;
+	background:#090909;
 	color:#333;
 	font-family:helvetica,arial,sans-serif;
 	font-size:12px;	

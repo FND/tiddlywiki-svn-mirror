@@ -40,8 +40,6 @@ config.macros.editHtml = {
 	FCKeditorUnavailable : "FCKeditor was unavailable. Check plugin configuration and reload."
 }
 
-
-
 Story.prototype.previousGatherSaveEditHtml = Story.prototype.previousGatherSaveEditHtml ? Story.prototype.previousGatherSaveEditHtml : Story.prototype.gatherSaveFields; // to avoid looping if this line is called several times
 Story.prototype.gatherSaveFields = function(e,fields){
 	if(e && e.getAttribute) {
