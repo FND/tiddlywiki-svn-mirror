@@ -7040,6 +7040,7 @@ var VismoMapUtils = {
 };window.onbeforeunload =function(){
     try{
         VismoUtils.scrubNodes(window.documentElement);
+        
         if (window.CollectGarbage) {
     	    window.CollectGarbage();
         }

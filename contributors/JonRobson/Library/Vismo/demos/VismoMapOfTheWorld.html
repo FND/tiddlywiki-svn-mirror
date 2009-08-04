@@ -1,0 +1,23 @@
+<html>
+
+<head>
+<script type='text/javascript' src='jquery.js'></script>
+<script type='text/javascript' src='data/worldjson.json'></script>
+<script type='text/javascript' src='../Vismo.js'></script>
+<style type="text/css">
+#mycanvas {position:relative;width:400px; height:400px;border:solid 1px black;overflow:hidden;}
+.stats {width:400px; height:200px;}
+img {border:0;}
+</style>
+</head>
+<body>
+<h1>VismoMap of the world</h1>
+<div id='mycanvas' style="position:relative;float:left;">
+</div>
+<script type='text/javascript'>
+var cc = new VismoMap(jQuery("#mycanvas"),{geojson:geojson,vismoController:{}});
+</script>
+
+
+</body>
+</html>

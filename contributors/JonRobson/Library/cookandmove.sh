@@ -1,1 +1,1 @@
-cook Vismo; mv Vismo.html Vismo/demos/Vismo.js
+cook Vismo; mv Vismo.html Vismo/Vismo.js
