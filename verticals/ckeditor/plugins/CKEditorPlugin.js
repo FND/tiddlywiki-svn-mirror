@@ -21,7 +21,12 @@ config.macros.editHtml = {
 			config.macros.edit.handler(place,macroName,params,wikifier,paramString,tiddler);
 		}
 		else if (field) {
-			var ta = createTiddlyElement(place, 'textarea', '', 'fckeditor');
+			var re = /^<html>(.*)<\/html>$/m;
+			var fieldValue=store.getValue(tiddler,field);
+			var htmlValue = re.exec(fieldValue);
+			var value = (htmlValue && (htmlValue.length>0)) ? htmlValue[1] : fieldValue;
+			value=value.replace(/\[\[([^|\]]*)\|([^\]]*)]]/g,'<a href="#$2">$1</a>');
+			var ta = createTiddlyElement(place, 'textarea', '', 'fckeditor', value);
 			var ckName = "CKeditor123";			
 			ta.name = ckName;
 			ta.setAttribute("editHtml",field);

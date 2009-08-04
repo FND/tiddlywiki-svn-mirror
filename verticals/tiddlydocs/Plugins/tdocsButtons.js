@@ -14,7 +14,7 @@ config.macros.tdButtons.handler=function(place,macroName,params,wikifier,paramSt
 	
 	var btn = createTiddlyButton(buttonHolder, "preview", "preview current document", previewClick, null, null, null, null, "plugins/TiddlyDocs/files/images/print_preview.png");
 	
-	var btn = createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://www.iconspedia.com/uploads/578075880.png");
+	var btn = createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://tiddlydocs.com/files/images/icon/new.png");
 
 	btn.setAttribute("newTitle","New Section Title");
 	btn.setAttribute("newTemplate",getParam(params,"template","mainTheme##newEditTemplate"));
