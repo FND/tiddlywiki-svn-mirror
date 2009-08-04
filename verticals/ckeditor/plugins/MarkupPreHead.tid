@@ -2,5 +2,3 @@ modifier: Simon McManus
 
 
 <script type="text/javascript" src="http://127.0.0.1:88/static/ckeditor/ckeditor.js"></script>
-<script src="http://127.0.0.1:88/static/ckeditor/_samples/sample.js" type="text/javascript"></script>
-

@@ -15,9 +15,6 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 			e.value = store.getValue(tiddler,field) || defVal;
 			e.setAttribute("size","40");
 			e.setAttribute("autocomplete","off");
-			e.onLoad = function() {
-				alert('dd');			
-			};
 			place.appendChild(e);
 		} else {
 			var wrapper1 = createTiddlyElement(null,"fieldset",null,"fieldsetFix");
@@ -37,6 +34,8 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 			e.setAttribute("edit",field);
 			place.appendChild(wrapper1);
 		}
+CKEDITOR.replace('tiddler');
+			
 		return e;
 	}
 };
