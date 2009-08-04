@@ -1,8 +1,9 @@
+recipe: ../ckeditor/split.recipe
+
 tiddler: themes/loginTheme.tid
 tiddler: themes/mainTheme.tid
 tiddler: themes/StyleSheet.tid
 tiddler: Plugins/A_tiddlywebSpecifics.js
-
 
 tiddler: Plugins/QATCH_displayDefaultTiddlers.js
 tiddler: Plugins/newDocument.js
