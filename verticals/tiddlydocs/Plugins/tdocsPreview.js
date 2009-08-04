@@ -1,6 +1,6 @@
 config.macros.docPreview = {};
 config.macros.docPreview.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var spec = $.parseJSON(store.getTiddlerText(window.activeDocument));
+	var spec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument));
 	createTiddlyElement(place, "br");
 	createTiddlyElement(place, "br");
 	var html = config.macros.docPrint.recurse([], spec,  0, []).join("\n");

@@ -12,7 +12,7 @@ config.commands.saveNewSection.find = function(needle, haystack) {
 
 
 window.addToToc = function(sectionTitle, docTitle) {
-	var documentSpec = $.parseJSON(store.getTiddlerText(docTitle));
+	var documentSpec = jQuery.parseJSON(store.getTiddlerText(docTitle));
 	if(!config.commands.saveNewSection.find(sectionTitle, documentSpec)){
 		var node = {
 			title: sectionTitle,
@@ -20,7 +20,7 @@ window.addToToc = function(sectionTitle, docTitle) {
 		};
 		documentSpec.unshift(node);
 		var docFields = store.getTiddler(docTitle).fields;
-		var tiddler = store.saveTiddler(docTitle, docTitle, $.toJSON(documentSpec), null, null, null, merge(docFields, config.defaultCustomFields));
+		var tiddler = store.saveTiddler(docTitle, docTitle, jQuery.toJSON(documentSpec), null, null, null, merge(docFields, config.defaultCustomFields));
 
 	}
 }

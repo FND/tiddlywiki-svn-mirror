@@ -7,7 +7,7 @@ config.macros.docPrint.handler =  function(place, macroName, params, wikifier, p
 }
 
 config.macros.docPrint.onClickPrint = function() {
-    var spec = $.parseJSON(store.getTiddlerText(window.activeDocument));
+    var spec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument));
 	var html  = "<html><body>"+config.macros.docPrint.recurse([], spec,  0, []).join("\n")+"</body></html>";
 	doHttp('POST',url+'plugins/TiddlyDocs/files/createHtmlFile.php','workspace_name='+workspace+'&html='+encodeURIComponent(html)+'&compositionTiddler='+encodeURIComponent(window.activeDocument),null,null,null,config.macros.docPrint.saveCallback,params);		
 };

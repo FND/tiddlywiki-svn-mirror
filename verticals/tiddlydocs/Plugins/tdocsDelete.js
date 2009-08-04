@@ -11,7 +11,7 @@ config.macros.deleteZone.handler = function(place,macroName,params,wikifier,para
 	div.style.height = "auto";
 	
 	
-	$("#bin").NestedSortable({
+	jQuery("#bin").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
 		onStop : function() {
@@ -27,7 +27,7 @@ config.macros.deleteZone.handler = function(place,macroName,params,wikifier,para
 config.macros.deleteZone.find = function(wantedTitle, spec) {
 	var wantedSpec;
 	var count=0;
-	$.each(spec, function() {
+	jQuery.each(spec, function() {
 		if(this.title == wantedTitle)
 		  wantedSpec = { found: this, containerSpec: spec, index: count };
 		else
