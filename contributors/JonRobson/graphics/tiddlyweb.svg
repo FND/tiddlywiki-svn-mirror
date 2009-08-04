@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2548"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="tiddlyweb.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs3">
+    <linearGradient
+       id="linearGradient4513">
+      <stop
+         style="stop-color:#999999;stop-opacity:1;"
+         offset="0"
+         id="stop4515" />
+      <stop
+         style="stop-color:#eaffed;stop-opacity:1;"
+         offset="1"
+         id="stop4517" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4555">
+      <stop
+         style="stop-color:#f2f2f2;stop-opacity:1;"
+         offset="0"
+         id="stop4557" />
+      <stop
+         style="stop-color:#f2f1c9;stop-opacity:1;"
+         offset="1"
+         id="stop4559" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4547">
+      <stop
+         style="stop-color:#b3b3b3;stop-opacity:1;"
+         offset="0"
+         id="stop4549" />
+      <stop
+         style="stop-color:#fbffd8;stop-opacity:1;"
+         offset="1"
+         id="stop4551" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4521">
+      <stop
+         style="stop-color:#b3b3b3;stop-opacity:1;"
+         offset="0"
+         id="stop4523" />
+      <stop
+         style="stop-color:#ebffed;stop-opacity:1;"
+         offset="1"
+         id="stop4525" />
+    </linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective2554" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:document-units="mm"
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="587.68553"
+     inkscape:cy="582.80839"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1088"
+     inkscape:window-height="749"
+     inkscape:window-x="10"
+     inkscape:window-y="0"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:9.02094746;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3430"
+       width="977.7287"
+       height="610.76245"
+       x="-69.109444"
+       y="120.67493"
+       rx="3829.5083"
+       ry="146.18089"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8.40450191;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3428"
+       width="924.67133"
+       height="560.56097"
+       x="-44.009838"
+       y="142.16315"
+       rx="3621.6963"
+       ry="134.16557"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:8.04378796;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 660.24254,251.09986 C 660.24254,251.09986 775.91733,333.54312 753.80428,338.65679 L 561.16392,404.50991 L 544.03177,421.12933 L 568.56936,422.40774 L 561.23644,437.5604 L 581.15333,419.28043 C 581.15333,419.28043 851.25292,365.75756 841.74998,274.85793 L 795.58953,258.99348 C 795.58953,258.99348 807.86846,287.42362 771.83876,307.87829 C 771.83876,307.87829 707.55232,240.87252 688.25929,248.54303 L 660.24254,251.09986 z"
+       id="path3376"
+       sodipodi:nodetypes="cccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:7.47414923;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 333.12095,398.87858 C 333.12095,398.87858 414.85171,385.54095 519.58658,429.26248 C 597.57654,442.2625 548.03902,505.12469 469.91848,533.56299 C 469.91848,533.56299 653.17076,512.67658 623.96501,569.93486 C 598.18876,613.64887 547.62449,644.96639 492.91601,651.07922 C 492.91601,651.07922 311.34182,415.38828 333.12095,398.87858 z"
+       id="path3386"
+       sodipodi:nodetypes="cccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:1.08211339;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 413.91335,443.35995 C 419.05339,443.03091 424.62041,443.61647 429.81908,444.29863 C 444.88344,446.45605 458.40546,451.0173 468.37584,456.51948 C 476.90091,461.34994 483.06972,467.36787 481.55571,473.10467 C 480.60265,476.8369 475.38426,480.26739 466.97772,481.29894 C 455.58821,482.77686 442.45086,480.46267 432.56188,477.11665 C 420.8157,473.17941 411.76282,467.75027 406.05096,461.96524 C 401.71012,457.19662 399.41918,451.75708 403.88944,447.31251 C 405.95505,445.53472 409.25457,443.88009 413.91335,443.35995 z"
+       id="path4625"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:9.1341238;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M -0.56110278,273.99196 L 3.8633521,353.89647 L 92.465074,293.45295 L 48.410217,464.20199 L 114.49252,420.42018 L 133.76651,282.5075 L 187.45927,249.85312 L 155.20534,189.83783 L -0.56110278,273.99196 z"
+       id="path2588"
+       sodipodi:nodetypes="ccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:8.40829182;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 312.33767,189.46532 L 312.33767,317.15759 C 312.33767,317.15759 437.41615,317.15758 418.53637,245.7365 C 418.53637,245.7365 404.37656,144.01554 312.33767,189.46532 z"
+       id="path2592"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:7.77823544;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 435.16118,190.43365 L 435.16118,307.42226 C 435.16118,307.42226 551.99004,307.42225 534.3555,241.98796 C 534.3555,241.98796 521.12959,148.79364 435.16118,190.43365 z"
+       id="path3368"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:0.12895781;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 553.39815,177.85161 C 553.39815,179.75071 553.39815,179.75071 553.39815,177.85161 z"
+       id="path3372"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:7.02825642;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 604.55432,212.04382 C 605.68183,247.67241 521.66379,287.48844 537.52697,324.87243 C 542.54819,336.70571 563.29453,329.21291 587.79748,327.37973 C 591.82532,327.0784 595.77693,326.54397 599.76665,326.12608 C 618.33295,324.18145 650.03716,327.0665 650.03716,316.09687 C 650.03716,297.5491 656.1601,296.03845 621.31117,296.03845 C 582.99191,296.03845 589.06491,294.04719 602.1605,273.47273 C 614.60521,253.92083 641.53561,224.01798 662.00634,213.29747 C 671.59828,208.27416 634.87622,213.29747 621.31117,213.29747 C 614.15694,213.29747 612.53745,213.08901 604.55432,212.04382 z"
+       id="path3374"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:0.14062473;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 288.32373,491.21557 C 286.70629,493.0184 286.70629,493.0184 288.32373,491.21557 z"
+       id="path3378"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:7.27412319;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 316.75558,396.70312 C 316.75558,396.70312 188.59144,419.56243 172.41805,438.68563 C 171.27713,499.00459 303.67804,641.39782 303.67804,641.39782 L 421.98216,606.78387 C 401.75583,558.83646 311.5654,601.72238 311.5654,601.72238 L 269.02046,551.55318 C 296.14081,545.45457 360.48749,552.1517 340.26909,527.84432 L 311.30027,491.61217 C 295.13122,501.42339 253.78043,540.0559 237.85124,509.92077 C 235.82956,506.09613 212.02474,467.37815 212.02474,467.37815 C 236.31493,431.01265 301.25509,444.6877 301.25509,444.6877 L 316.75558,396.70312 z"
+       id="path3382"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574"
+       sodipodi:nodetypes="cccccccccccc" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:7.47414923;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 133.24033,450.34006 L 269.40436,637.42444 L 152.93502,634.06156 L 131.81575,667.4385 L -9.9114379,541.82585 L 17.372175,474.99854 L 128.57077,627.10592 L 139.74173,587.89947 L 189.80775,601.43186 L 98.299815,474.43071 L 133.24033,450.34006 z"
+       id="path3384"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574"
+       sodipodi:nodetypes="ccccccccccc" />
+    <g
+       id="g3456"
+       transform="matrix(0.898122,0,0,0.9054337,36.531196,38.661499)"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574">
+      <g
+         id="g3452">
+        <path
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:6.13169241;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           d="M 743.5976,486.64596 C 774.69892,499.26376 790.20537,452.98406 790.20537,452.98406 C 702.57432,366.69301 554.83729,336.20214 554.83729,336.20214 C 505.41119,336.83283 485.79217,350.92588 485.79217,350.92588 L 485.79217,350.92588"
+           id="path4457"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+           inkscape:export-xdpi="16.167574"
+           inkscape:export-ydpi="16.167574" />
+        <path
+           sodipodi:type="arc"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:11.10376263;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           id="path4459"
+           sodipodi:cx="510.64081"
+           sodipodi:cy="681.73578"
+           sodipodi:rx="119.42406"
+           sodipodi:ry="94.715637"
+           d="M 630.06487,681.73578 A 119.42406,94.715637 0 1 1 391.21675,681.73578 A 119.42406,94.715637 0 1 1 630.06487,681.73578 z"
+           transform="matrix(-1.1165859,-0.5872568,0.479031,-0.1700328,859.05371,836.04294)"
+           inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+           inkscape:export-xdpi="16.167574"
+           inkscape:export-ydpi="16.167574" />
+      </g>
+      <path
+         inkscape:export-ydpi="16.167574"
+         inkscape:export-xdpi="16.167574"
+         inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+         transform="matrix(-0.9952467,-0.5425375,0.4217447,-0.1179709,820.90402,786.42948)"
+         d="M 632.09731,681.73578 A 121.4565,64.880028 0 1 1 389.18431,681.73578 A 121.4565,64.880028 0 1 1 632.09731,681.73578 z"
+         sodipodi:ry="64.880028"
+         sodipodi:rx="121.4565"
+         sodipodi:cy="681.73578"
+         sodipodi:cx="510.64081"
+         id="path4463"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:14.93008518;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       id="g3466"
+       transform="matrix(1,0,0,0.8898508,0,47.986784)"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574">
+      <path
+         inkscape:export-ydpi="16.167574"
+         inkscape:export-xdpi="16.167574"
+         inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+         sodipodi:nodetypes="ccccc"
+         id="path4615"
+         d="M 568.15231,535.22351 L 625.11034,446.30132 C 625.11034,446.30132 609.32137,433.23117 585.36535,445.99284 L 535.25094,524.47792 C 516.01939,545.49971 568.15231,535.22351 568.15231,535.22351 z"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:9.49448967;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         inkscape:export-ydpi="16.167574"
+         inkscape:export-xdpi="16.167574"
+         inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+         transform="matrix(0.7437035,0.4250116,0.9432566,-0.5792981,-313.92371,677.78772)"
+         d="M 467.40107,565.40027 A 22.649391,9.3004208 0 1 1 422.10229,565.40027 A 22.649391,9.3004208 0 1 1 467.40107,565.40027 z"
+         sodipodi:ry="9.3004208"
+         sodipodi:rx="22.649391"
+         sodipodi:cy="565.40027"
+         sodipodi:cx="444.75168"
+         id="path4619"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:4.53569984;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       id="g3462"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574">
+      <path
+         inkscape:export-ydpi="16.167574"
+         inkscape:export-xdpi="16.167574"
+         inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+         sodipodi:nodetypes="ccccc"
+         id="path3408"
+         d="M 475.34792,467.72602 L 537.69452,400.1975 C 537.69452,400.1975 524.43962,387.40622 500.84818,395.22572 L 445.96627,454.84693 C 425.8766,470.12718 475.34792,467.72602 475.34792,467.72602 z"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:8.42721558;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         inkscape:export-ydpi="16.167574"
+         inkscape:export-xdpi="16.167574"
+         inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+         transform="matrix(0.7437035,0.4250116,0.9432566,-0.5792981,-407.89176,603.06093)"
+         d="M 467.40107,565.40027 A 22.649391,9.3004208 0 1 1 422.10229,565.40027 A 22.649391,9.3004208 0 1 1 467.40107,565.40027 z"
+         sodipodi:ry="9.3004208"
+         sodipodi:rx="22.649391"
+         sodipodi:cy="565.40027"
+         sodipodi:cx="444.75168"
+         id="path3410"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:4.53569984;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         sodipodi:type="arc" />
+    </g>
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:7.47414923;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 224.75429,259.05513 L 222.09927,379.13913 L 283.16494,363.93862 L 267.23475,227.13407 L 224.75429,259.05513 z"
+       id="path3414"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:6.76468801;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 452.21932,214.94184 L 452.21932,273.91653 C 452.21932,273.91653 519.85223,273.91653 509.64347,240.93069 C 509.64347,240.93069 501.98693,193.95084 452.21932,214.94184 z"
+       id="path3426"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:6.76468801;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 337.64884,219.50199 L 337.64884,278.47669 C 337.64884,278.47669 405.28174,278.47669 395.07298,245.49084 C 395.07298,245.49084 387.41645,198.511 337.64884,219.50199 z"
+       id="path3432"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:3.47649741;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 196.25839,206.12018 L 226.87811,229.79033 C 226.87811,229.79033 301.36895,198.20533 272.99878,189.73365 C 272.99878,189.73365 240.17387,174.45343 196.25839,206.12018 z"
+       id="path3434"
+       sodipodi:nodetypes="cccc"
+       inkscape:transform-center-y="-13.501787"
+       inkscape:transform-center-x="-14.118553"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#828282;stroke-width:1.08211339;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 505.86047,546.06947 C 511.00051,545.74043 516.56753,546.32599 521.7662,547.00815 C 536.83056,549.16557 550.35258,553.72682 560.32296,559.229 C 568.84803,564.05946 575.01684,570.07739 573.50283,575.81419 C 572.54977,579.54642 567.33138,582.97691 558.92484,584.00846 C 547.53533,585.48638 534.39798,583.17219 524.509,579.82617 C 512.76282,575.88893 503.70994,570.45979 497.99808,564.67476 C 493.65724,559.90614 491.3663,554.4666 495.83656,550.02203 C 497.90217,548.24424 501.20169,546.58961 505.86047,546.06947 z"
+       id="path3470"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.34225681;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 634.61245,643.11738 C 632.83824,641.23949 615.21368,559.21033 615.21368,559.21033 L 689.90314,618.42816 L 742.01544,581.15761 L 729.94925,647.58025 L 811.76311,692.26449 L 713.55721,699.11651 L 705.47255,783.50616 L 654.1588,694.1607 L 562.1866,683.88797 L 634.61245,643.11738 z"
+       id="path3472"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.24886954;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 395.08425,674.70245 C 393.30869,674.3465 349.48624,632.07812 349.48624,632.07812 L 416.03642,634.93938 L 429.99952,588.9054 L 450.64484,634.8853 L 515.20434,625.6848 L 462.70217,673.69758 L 493.01429,728.88152 L 427.18707,697.17571 L 371.12177,731.94059 L 395.08425,674.70245 z"
+       id="path3474"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.17434338;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 356.37056,371.67093 C 355.157,371.41534 325.20532,341.06536 325.20532,341.06536 L 370.69091,343.11983 L 380.23438,310.06604 L 394.34501,343.081 L 438.47001,336.47476 L 402.58593,370.9494 L 423.3036,410.57315 L 378.31213,387.80741 L 339.99273,412.76965 L 356.37056,371.67093 z"
+       id="path3476"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.24886954;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 748.49249,517.2287 C 747.39466,515.78853 742.41841,455.1069 742.41841,455.1069 L 790.48968,501.21836 L 831.38255,475.88322 L 816.5071,524.04027 L 871.05195,559.78149 L 799.91933,561.14308 L 786.22086,622.59587 L 757.74719,555.30742 L 692.69123,544.36952 L 748.49249,517.2287 z"
+       id="path3478"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 371.44147,547.052 C 370.89794,546.93193 357.48301,532.67363 357.48301,532.67363 L 377.85535,533.63881 L 382.12973,518.11027 L 388.44967,533.62057 L 408.21262,530.51699 L 392.14066,546.71303 L 401.4198,565.32811 L 381.26878,554.63286 L 364.10608,566.36002 L 371.44147,547.052 z"
+       id="path3480"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 620.94915,511.69666 C 620.40562,511.57659 606.99069,497.31829 606.99069,497.31829 L 627.36303,498.28347 L 631.63741,482.75493 L 637.95735,498.26523 L 657.7203,495.16165 L 641.64834,511.35769 L 650.92748,529.97277 L 630.77646,519.27752 L 613.61376,531.00468 L 620.94915,511.69666 z"
+       id="path3482"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.11582386;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 856.8349,657.55277 C 856.07553,657.37252 837.33236,635.96723 837.33236,635.96723 L 865.79634,637.41621 L 871.76849,614.10397 L 880.5986,637.38883 L 908.21127,632.72957 L 885.75563,657.0439 L 898.72044,684.9898 L 870.56551,668.93355 L 846.58595,686.53896 L 856.8349,657.55277 z"
+       id="path3484"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.13043898;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 949.06936,592.49592 C 948.18039,592.30063 926.23844,569.11026 926.23844,569.11026 L 959.5602,570.68007 L 966.55158,545.42373 L 976.88866,570.65041 L 1009.2139,565.6026 L 982.92581,591.9446 L 998.10328,622.22104 L 965.14329,604.82578 L 937.07129,623.89938 L 949.06936,592.49592 z"
+       id="path3486"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.15568392;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 1056.7582,546.83239 C 1055.6096,546.61707 1027.2601,521.0483 1027.2601,521.0483 L 1070.3127,522.77911 L 1079.3457,494.93249 L 1092.7014,522.74641 L 1134.4664,517.1809 L 1100.5015,546.22452 L 1120.1112,579.6061 L 1077.5261,560.4268 L 1041.2564,581.45658 L 1056.7582,546.83239 z"
+       id="path3488"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 1029.0507,604.6307 C 1028.5072,604.51063 1015.0923,590.25233 1015.0923,590.25233 L 1035.4646,591.21751 L 1039.739,575.68897 L 1046.0589,591.19927 L 1065.8219,588.09569 L 1049.7499,604.29173 L 1059.0291,622.90681 L 1038.878,612.21156 L 1021.7153,623.93872 L 1029.0507,604.6307 z"
+       id="path3490"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.12613502;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 930.53424,667.25028 C 929.58035,667.08009 906.03593,646.87078 906.03593,646.87078 L 941.79124,648.2388 L 949.29322,626.22908 L 960.38524,648.21294 L 995.07117,643.81402 L 966.86329,666.76983 L 983.14916,693.15432 L 947.78208,677.99517 L 917.65992,694.61692 L 930.53424,667.25028 z"
+       id="path3492"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 780.55319,636.95558 C 780.00969,636.83551 766.59479,622.57721 766.59479,622.57721 L 786.96709,623.54239 L 791.24149,608.01385 L 797.56139,623.52415 L 817.32439,620.42057 L 801.25239,636.61661 L 810.53159,655.23169 L 790.38049,644.53644 L 773.21779,656.2636 L 780.55319,636.95558 z"
+       id="path3494"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 1004.8071,495.53422 C 1004.2636,495.41415 990.8487,481.15585 990.8487,481.15585 L 1011.221,482.12103 L 1015.4954,466.59249 L 1021.8153,482.10279 L 1041.5783,478.99921 L 1025.5063,495.19525 L 1034.7855,513.81033 L 1014.6344,503.11508 L 997.4717,514.84224 L 1004.8071,495.53422 z"
+       id="path3496"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 1142.1878,467.24996 C 1141.6443,467.12989 1128.2294,452.87159 1128.2294,452.87159 L 1148.6017,453.83677 L 1152.8761,438.30823 L 1159.196,453.81853 L 1178.959,450.71495 L 1162.887,466.91099 L 1172.1662,485.52607 L 1152.0151,474.83082 L 1134.8524,486.55798 L 1142.1878,467.24996 z"
+       id="path3498"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 1220.9797,544.02154 C 1220.4362,543.90147 1207.0213,529.64317 1207.0213,529.64317 L 1227.3936,530.60835 L 1231.668,515.07981 L 1237.9879,530.59011 L 1257.7509,527.48653 L 1241.6789,543.68257 L 1250.9581,562.29765 L 1230.807,551.6024 L 1213.6443,563.32956 L 1220.9797,544.02154 z"
+       id="path3500"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 1303.8122,426.84385 C 1303.2687,426.72378 1289.8538,412.46548 1289.8538,412.46548 L 1310.2261,413.43066 L 1314.5005,397.90212 L 1320.8204,413.41242 L 1340.5834,410.30884 L 1324.5114,426.50488 L 1333.7906,445.11996 L 1313.6395,434.42471 L 1296.4768,446.15187 L 1303.8122,426.84385 z"
+       id="path3502"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 1481.5991,376.80404 C 1481.0556,376.92411 1467.6407,391.18241 1467.6407,391.18241 L 1488.013,390.21723 L 1492.2874,405.74577 L 1498.6073,390.23547 L 1518.3703,393.33905 L 1502.2983,377.14301 L 1511.5775,358.52793 L 1491.4264,369.22318 L 1474.2637,357.49602 L 1481.5991,376.80404 z"
+       id="path3504"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 1414.929,556.14338 C 1414.3855,556.02331 1400.9706,541.76501 1400.9706,541.76501 L 1421.3429,542.73019 L 1425.6173,527.20165 L 1431.9372,542.71195 L 1451.7002,539.60837 L 1435.6282,555.80441 L 1444.9074,574.41949 L 1424.7563,563.72424 L 1407.5936,575.4514 L 1414.929,556.14338 z"
+       id="path3506"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 441.142,513.71697 C 440.59847,513.5969 427.18354,499.3386 427.18354,499.3386 L 447.55588,500.30378 L 451.83026,484.77524 L 458.1502,500.28554 L 477.91315,497.18196 L 461.84119,513.378 L 471.12033,531.99308 L 450.96931,521.29783 L 433.80661,533.02499 L 441.142,513.71697 z"
+       id="path3508"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+    <path
+       style="opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.07997303;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 536.09633,616.75253 C 535.5528,616.63246 522.13787,602.37416 522.13787,602.37416 L 542.51021,603.33934 L 546.78459,587.8108 L 553.10453,603.3211 L 572.86748,600.21752 L 556.79552,616.41356 L 566.07466,635.02864 L 545.92364,624.33339 L 528.76094,636.06055 L 536.09633,616.75253 z"
+       id="path3510"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/tiddlyweb.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574" />
+  </g>
+</svg>
