@@ -24,7 +24,6 @@ tiddler: content/aboutTiddlyDocs.tid
 tiddler: content/MainMenu.tid           
 tiddler: content/SiteTitle.tid
 tiddler: content/admin.tid                 
-tiddler: content/MarkupPreHead.tid      
 tiddler: content/StatusDefinitions.tid
 tiddler: content/AnonDefaultTiddlers.tid   
 tiddler: content/messageHeading.tid     
