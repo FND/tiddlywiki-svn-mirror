@@ -1,0 +1,19 @@
+<p><a href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ trail.name }}.player">Play</a></p>
+<form method="post" action="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ trail.name }}?http_method=PUT">
+
+<p>
+Name (hidden - need to separate from ID)<br/>
+<input type="hidden" id="name" name="name" value="{{trail.name}}"></input>
+</p>
+
+<p>
+Resources:<br/>
+<textarea rows="20" cols="80" id="resources" name="resources">
+{% for resource in trail.resources %}{{ resource }}
+{% endfor %}
+</textarea>
+</p>
+
+<input type="submit" value="Update!"></input>
+
+</form>
