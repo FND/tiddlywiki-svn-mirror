@@ -1,0 +1,27 @@
+
+<div id='header'>
+</div>
+<div id='topLinks' refresh='content' tiddler='TopLinks'>{% include 'nojs/TopLinks.html' %}</div>
+
+   <div refresh='content' tiddler='TopRight' class='TopRightMenu'>{% include 'nojs/TopRight.html' %}</div>
+<div id='middle' >
+<div class='content'></div>
+</div>
+
+
+<div id='sidebar'>
+<div refresh='content' tiddler='AboutBox' class='aboutbox'>{% include 'nojs/AboutBox.html' %}</div>
+</div>
+
+<div id='displayArea'>
+
+<div id='messageArea'></div>
+
+
+<div id='tiddlerDisplay'> {% for tiddler in tiddlers %}<div class='tiddler' id="tiddler{{tiddler.title|escape}}">{% include 'nojs/ViewTemplate.html' with context %}</div>{% endfor %}</div>
+<div id='myblogbar'>
+<div class='previous'><< newer posts</div>
+<div class='next'>older posts >></div>
+</div>
+</div>
+
