@@ -26,13 +26,6 @@ class Serialization(HTMLSerialization):
     template = Environment(loader=FileSystemLoader('templates')).get_template("trail.html")
     return template.render(tiddler=tiddler, trail=trail, server_prefix=self.environ['tiddlyweb.config']['server_prefix'])
 
-  def as_tiddler(self, tiddler, input_string):
-    print "AS TIDDLER"
-    print "input"
-    print tiddler
-    print input_string
-    return tiddler
-
   # def list_tiddlers(self, tiddler):
 
 def init(config):

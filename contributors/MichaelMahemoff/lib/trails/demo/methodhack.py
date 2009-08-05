@@ -35,6 +35,7 @@ does NOT tunnel.
 """
  
 import logging
+import cgi;
  
 from tiddlyweb.web.query import Query
  
@@ -54,8 +55,11 @@ provided in a header.
         return self.application(environ, start_response)
  
     def _munge_request_method(self, environ):
+
         header = environ.get('HTTP_X_HTTP_METHOD', None)
-        param = environ['tiddlyweb.query'].get('http_method', [None])[0]
+        # param = environ['tiddlyweb.query'].get('http_method', [None])[0]
+        query_dict = cgi.parse_qs(environ['QUERY_STRING']);
+        param = query_dict.get('http_method', [None])[0]
         real_method = environ['REQUEST_METHOD']
         tunnel_method = header or param or real_method
  
@@ -69,5 +73,5 @@ provided in a header.
  
 def init(config):
     config['server_request_filters'].insert(
-            config['server_request_filters'].index(Query) + 1, MethodHack)
+            config['server_request_filters'].index(Query), MethodHack)
  
