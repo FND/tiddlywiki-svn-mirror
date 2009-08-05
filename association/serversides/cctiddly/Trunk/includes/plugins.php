@@ -49,7 +49,7 @@ class Plugin {
 		$tiddler['created'] = epochToTiddlyTime(mktime());
 		$tiddler['modified'] = epochToTiddlyTime(mktime());
 		$tiddler['modifier'] = "ccTiddly";
-		$tiddler['creator'] = epochToTiddlyTime(mktime());
+		$tiddler['creator'] = "ccTiddly";
 		$ext = substr($file, strrpos($file, '.') + 1);
 		$tiddler['title'] = substr($file, strrpos($file, '/')+1, -strlen($ext)-1); 
 		if($ext=='tiddler') {
@@ -61,6 +61,7 @@ class Plugin {
 		} elseif($ext=='tid') {
 			$tiddler = tiddler_parse_tid_file($file);
 		}
+		$tiddler['tags'] .= $tiddlyCfg['plugins_tags'];		
 		return $tiddler;
 	}
 	
