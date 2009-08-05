@@ -81,5 +81,5 @@ tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js
 tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
 
 
-recipe: $TW_ROOT/verticals/ckeditor/split.recipe
+recipe: ../ckeditor/split.recipe
 
