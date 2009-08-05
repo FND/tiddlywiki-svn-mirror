@@ -90,45 +90,53 @@ class Plugin {
 	}
 
 	public function preparePath($path) {
+		
+//		echo dirname(dirname(dirname(dirname(getcwd()))));
+
 		$path = trim($path);
-//		$TW_ROOT = '/Applications/xampp/htdocs/tiddlywikicore/';
-		$TW_ROOT = '/home/user/tiddlywikicore/';
+		$TW_ROOT = '/Applications/xampp/htdocs/tiddlywikicore/';
+//		$TW_ROOT = '/home/user/tiddlywikicore/';
 		return str_replace('$TW_ROOT/', $TW_ROOT, $path);
 		
 	}
 	public function getContentFromFile($path) {
+		
 		$path = $this->preparePath($path);	
-		$fh = @fopen($path, 'r');
+		$fh = fopen($path, 'r');
 		return $file = @fread($fh, @filesize($path)); 	
 	}
 
 	public function addRecipe($path) {
-//		error_log('adding recipe : '.$path);
-		$file = $this->getContentFromFile($path);
+		echo 'recipe path is : ', dirname($path).'<br />';
+		echo $path.'<br />';
+		$file = $this->getContentFromFile($this->preparePath($path));
 		$this->parseRecipe($file, dirname($path));	
-	}
+	} 
 
 	public function parseRecipe($string, $recipePath) {
 		$lines = explode("\n", $string);
 		foreach($lines as $line) {
-			error_log('line : '.$line);
 			$this->parseRecipeLine($line, $recipePath);
 		}
 	}
 	
 	public function parseRecipeLine($line, $recipePath) {
+		
+
 		$ext = trim(end(explode(".", $line)));
 		switch ($ext) {
 			case 'recipe':
-				$this->addRecipe(str_replace('recipe: ', '', $line));
+					$this->addRecipe(str_replace('recipe: ', '', $recipePath.'/'.$line));
+				
 			break;
 			case 'js' :
 				$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
 				$tiddler['tags'] = 'systemConfig';
-				$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));				$this->addTiddler($tiddler);		
+				$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));
+				$this->addTiddler($tiddler);		
 			break;
 			case 'tid' :
- $this->addTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));
+ 				$this->addTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));
 			break;
 			default: 
 		break;
