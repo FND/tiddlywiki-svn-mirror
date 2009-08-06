@@ -25,9 +25,11 @@
     <div id="metaInfo"><span id="title">{{ trail.name }}</span><br/><a href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ trail.name }}.editor">Edit</a></div>
 
     <ul id="resources" class="jcarousel-skin-tango">
+      <li><a href="{{ server_prefix }}/static/trail-start.html" target="resourceView"></a></li>
       {% for resource in trail.resources %}
         <li><a href="{{ resource }}" target="resourceView">{{resource}}</a></li>
       {% endfor %}
+      <li><a href="{{ server_prefix }}/static/trail-end.html" target="resourceView"></a></li>
     </ul>
 
     <!--
