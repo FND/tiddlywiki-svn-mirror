@@ -34,7 +34,11 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 				} else {
 					var fields = config.defaultCustomFields;
 				}
-			store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(window.testSpec), null, null, "document", fields);
+				
+	//		var specFormat = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).format;
+	//		console.log('format is : ', specFormat);
+			var spec = { format: { name: "TiddlyDocsSpec" , majorVersion:'0', minorVersion:'1' }, content: jQuery.toJSON(window.testSpec)} 
+			store.saveTiddler(window.activeDocument, window.activeDocument, spec, null, null, "document", fields);
 			autoSaveChanges(true, window.activeDocument);
 		},
 		autoScroll: true,
@@ -96,7 +100,7 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 
 config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	if(store.tiddlerExists(window.activeDocument)) {
-		var testSpec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).content;	
+		var testSpec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).content;
 		console.log(testSpec); 
 	}
 	var specView = createTiddlyElement(place, "div", "", "specView");	
