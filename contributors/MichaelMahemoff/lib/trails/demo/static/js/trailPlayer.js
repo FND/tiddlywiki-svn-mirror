@@ -1,10 +1,19 @@
-var currentSlotIndex = 0;
+// var currentSlotIndex = 0;
 $(function() {
-  $("#closer").click(function() { document.location.href = $("resourceView").attr("src"); });
+  $('#resources').jcarousel({visible: 3});
+  $("#closer").click(function() { document.location.href = $(".selected").attr("href"); });
+  $('#resources a').click(function() {
+    console.log("hello click");
+    $('#resourceView').attr("src", $(this).attr("href"));
+    $('#resources a').removeClass("selected");
+    $(this).addClass("selected");
+  });
+  var links = $('#resources a');
+  if (links.length) $(links[0]).click();
+  /*
   setupSlots();
-  // resources = snake.find(".resource");
-  // $("#snakeWrapper").empty().append(snake);
   selectResource(0);
+  */
 });
 
 function setupSlots() {

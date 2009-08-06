@@ -73,5 +73,5 @@ provided in a header.
  
 def init(config):
     config['server_request_filters'].insert(
-            config['server_request_filters'].index(Query), MethodHack)
+            config['server_request_filters'].index(Query)+1, MethodHack)
  
