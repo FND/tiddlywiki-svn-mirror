@@ -15,6 +15,9 @@ tiddler: Plugins/tdocsPreview.js
 tiddler: Plugins/tdocsPrint.js
 tiddler: Plugins/tdocsSettings.js
 
+#tiddler: Plugins/COPIED_commentsPlugin.js
+
+
 tiddler: jquery/01_jQuery.js
 tiddler: jquery/09_iNestedSortable.js
 tiddler: jquery/JSON.js
@@ -74,7 +77,7 @@ tiddler: documents/TheInternet/University students' appreciation and contributio
 tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
 tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
 tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
-#tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
+tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../contributors/SimonMcManus/plugins/googleButtons.js
 tiddler: ../../contributors/SimonMcManus/plugins/editDefinitions.js
 tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js
