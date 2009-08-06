@@ -33,5 +33,5 @@ server as follows:
 The script "upload" can be used to upload the index and empty documents onto
 the tiddlywiki.com server (you will be prompted for username and password twice).
 
-Immediately after a release, the version number should be increased and marked
+Immediately after a release, the version number should be incremented and marked
 as alpha.

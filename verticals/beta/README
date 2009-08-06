@@ -4,26 +4,29 @@ This directory contains what is required to build a beta version of TiddlyWiki.
 There are two recipes:
     index.2.4.0.B2.html.recipe
     empty.2.4.0.B2.html.recipe
+(This document assumes the release is version 2.4.0 beta 2.)
 
-The above recipes are named assuming the 2.4.0 Beta 2 release, and change
-according to the release.
-
-These recipes are used to build the content of www.tiddlywiki.com/beta and an
-empty tiddlywiki.
+These recipes are used to build the content of tiddlywiki.com/beta and an empty
+TiddlyWiki document.
 The script "bldbeta" can be used to cook these recipes.
 
-For 2.4 these need to be cooked and the resultant TiddlyWikis copied onto the
+In preparation for a release, the following steps need to be taken:
+* set version number in Trunk/core/js/Version.js
+* update build and upload scripts to use the respective version number
+* update beta vertical's recipes
+* update beta vertical's NewFeatures tiddler (including modified date)
+* tag release to Tags/core/:
+  svn copy http://svn.tiddlywiki.org/Trunk/core http://svn.tiddlywiki.org/Tags/core/REL-2.4.0_Beta2
+
+After building, the "index" document needs to be saved in the browser once to
+set the title and generate the RSS feed.
+
+For 2.4.0 beta 2 these need to be cooked and the resultant TiddlyWikis copied onto the
 server as follows:
     index.2.4.0.B2.html => http://www.tiddlywiki.com/beta/index.html
     empty.2.4.0.B2.html => http://www.tiddlywiki.com/beta/empty.html
     empty.2.4.0.B2.html => http://www.tiddlywiki.com/upgrade/index.html
+The script "uploadbeta" can be used to upload the index and empty documents onto
+the tiddlywiki.com server (you will be prompted for username and password twice).
 
-The script "uploadbeta" can be used to upload the index and empty html files
-onto the tiddlywiki.com server (you will be prompted for your username and
-password twice).
-
-Because 2.4.0 is the first version of TiddlyWiki to have an upgrade mechanism it
-is fine to copy the beta empty file to
-    http://www.tiddlywiki.com/upgrade/index.html
-Beta releases after 2.4.0 need to copy this empty file to
-    http://www.tiddlywiki.com/beta/upgrade/index.html
+Immediately after a release, the beta version number should be incremented.
