@@ -1,7 +1,8 @@
 <div title="NewFeatures" modifier="FND" created="200704141410" modified="200908060000">
 <pre>Release 2.5.3 is primarily a bugfix release, but also contains usability enhancements:
-* added confirmation prompt when canceling editing on new and shadow tiddlers
-* improved feedback on dynamic loading of tiddlers
+* Reverted changes to the file system code that were made in 2.5.2
+* Fixed problem with lack of confirmation prompt when cancelling editing on new and shadow tiddlers
+* Improved feedback on dynamic loading of tiddlers
 
 For the full release notes see:
 http://trac.tiddlywiki.org/wiki/History
