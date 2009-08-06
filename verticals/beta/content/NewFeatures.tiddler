@@ -1,15 +1,9 @@
-<div title="NewFeatures" modifier="FND" created="200704141410">
-<pre>Release 2.5.2 is a bugfix release, restoring the upgrade functionality on Mozilla-based browsers.
+<div title="NewFeatures" modifier="FND" created="200704141410" modified="200908060000">
+<pre>Release 2.5.3 is primarily a bugfix release, but also contains usability enhancements:
+* added confirmation prompt when canceling editing on new and shadow tiddlers
+* improved feedback on dynamic loading of tiddlers
 
-Release 2.5.1 of TiddlyWiki contained several usability enhancements and bug fixes.
-These include:
-* Improved separators and "more/less" extenders for toolbars
-* Added plugin version information to the PluginManager
-* Fixed //Tags// macro to respect the //excludeLists// tag
-* Fixed problem with saving of extended tiddler fields
-It also starts the process of refactoring useful parts of TiddlyWiki's functionality into generic jQuery plugins that can be reused in other projects:
-* //jQuery.twFile// - Access to the local filing system for HTML files loaded from a file:// URL
-* //jQuery.twStylesheet// - Dynamic style-sheet handling
-* //jQuery.encoding.digests.sha1// - Cryptographic signing code
+For the full release notes see:
+http://trac.tiddlywiki.org/wiki/History
 </pre>
 </div>

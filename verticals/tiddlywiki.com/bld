@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Usage:
+#  bld [release]
+
 DEFAULT_RELEASE="2.5.2"
 RELEASE=${1:-$DEFAULT_RELEASE}
 DEST=$PWD/../../../cooked/tiddlywiki.com

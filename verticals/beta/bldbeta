@@ -1,5 +1,9 @@
-#!/bin/bash
-DEFAULT_RELEASE=2.5.2.B1
+#!/usr/bin/env bash
+
+# Usage:
+#  bldbeta [release]
+
+DEFAULT_RELEASE=2.5.3.B1
 RELEASE=${1:-$DEFAULT_RELEASE}
 DEST=$PWD
 RECIPE=$PWD/recipes/index.$RELEASE.html.recipe

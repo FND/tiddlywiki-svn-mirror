@@ -11,5 +11,8 @@ It also starts the process of refactoring useful parts of TiddlyWiki's functiona
 * [[jQuery.twFile|http://jquery.tiddlywiki.org/twFile.html]] - Access to the local filing system for HTML files loaded from a file:// URL
 * [[jQuery.twStylesheet|http://jquery.tiddlywiki.org/twStylesheet.html]] - Dynamic style-sheet handling
 * [[jQuery.encoding.digests.sha1|http://jquery.tiddlywiki.org/encoding.digests.sha1.html]] - Cryptographic signing code
+
+For the full release notes see:
+http://trac.tiddlywiki.org/wiki/History
 </pre>
 </div>
