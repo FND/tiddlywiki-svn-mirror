@@ -1,0 +1,14 @@
+modifier: None
+created: 
+modified: 20090806170235
+type: None
+tags: systemConfig
+
+
+
+
+if(!isLoggedIn) {
+	var isLoggedIn = function() {
+		return true;
+	}
+}

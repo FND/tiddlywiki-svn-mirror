@@ -1,0 +1,203 @@
+modifier: Simon McManus
+created: 
+modified: 200708091500
+type: None
+tags: systemTheme
+
+
+/***
+|''Name:''|mainTheme|
+|''Description:''|The basic TeamTasks theme |
+|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
+|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
+|''Version:''|0.4|
+|''Date:''|March 28th, 2008|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~wizardViewTemplate:''|##wizardViewTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~taggingViewTemplate:''|##taggingViewTemplate|
+|''~taskViewTemplate:''|##taskViewTemplate|
+|''~taskEditTemplate:''|##taskEditTemplate|
+|''~documentViewTemplate:''|##documentViewTemplate|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+<div id="header">
+		<div class="banner-left"></div>
+		<div class="banner-right"></div>
+		<div class="banner-search">	
+			<div  class="searchPosition" macro='search'></div>
+		</div>
+		<div class='banner-title'>
+			<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+			<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+		</div>
+</div>
+
+<div id='displayArea'>
+<div id='messageArea'></div>
+</div>
+<div id="headContainer">
+	<div class="left">
+	</div>
+</div>
+
+<div class='leftColumn'>
+	<div class="portletContainer  ">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+		<div class='title'>About TiddlyDocs</div>
+			</div>
+		</div>
+		<div class="portletContent leftColumnItem">
+	<div  refresh='content'  tiddler='aboutTiddlyDocs'></div>
+		</div>
+	</div>
+	<div class="portletContainer  ">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+		<div class='title'>TiddlyDocs Links</div>
+			</div>
+		</div>
+		<div class="portletContent leftColumnItem tiddlyDocsLinks">
+			<div  refresh='content'  tiddler='TiddlyDocsLinks'></div>
+		</div>
+	</div>
+</div>
+<br />
+<div id='tiddlerDisplay'></div>
+
+<!--}}}-->
+
+!wizardViewTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'> </div>
+		</div>
+	</div>
+	<div class="portletContent">
+	<div  style='z-index:2;' class='toolbar' ></div>
+		<div class='wizardViewer'  style='background:#444; color:#fff; padding:1em' macro='view text wikified'></div>
+	</div>
+</div>
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'>Editing Section : </div>
+		</div>
+	</div>
+	<div class="portletContent">
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>	<div class='taskControls editTaskControls' macro='tiddler TaskTiddlerControls'></div>
+		<div class='editor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<div class='commentsArea' macro='comments'></div>
+	</div>
+</div>
+<!--}}}-->
+
+!newEditTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='edit title'></div>
+		</div>
+	</div>
+	<div class="portletContent">
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
+		<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<div class='commentsArea' macro='comments'></div>
+	</div>
+</div>
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'></div>
+		</div>
+	</div>
+	<div class="portletContent">
+		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+		<div class='viewer' macro='view text wikified'></div>
+		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>
+		<div class='commentsArea' macro='comments'></div>
+	</div>
+</div>
+<!--}}}-->
+
+!simpleViewTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'></div>
+		</div>
+	</div>
+	<div class="portletContent simpleTiddler">
+		<div class='viewer' macro='view text wikified'></div>
+	</div>
+</div>
+
+<!--}}}-->
+
+!simpleEditTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+		</div>
+	<div class="portletContent">
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
+		<div class='editor' macro='editHtml text' ></div>
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
+		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+	</div>
+</div>
+<!--}}}-->
+
+!documentViewTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle">
+			<div class='title' macro='view title'></div>
+				<div class='toolbar left' macro='toolbar [[ToolbarCommands::adminToolbar]]'>
+		</div>
+	</div>
+	<div class="portletContent">	
+
+	</div>
+</div>
+<!--}}}-->

@@ -1,0 +1,12 @@
+modifier: Simon McManus
+created: 
+modified: 200708091500
+type: None
+tags: 
+
+|~viewToolbar|+editTiddler|
+|~newEditToolbar| +saveTiddler -cancelTiddler |
+|~EditToolbar| +saveTiddler -cancelTiddler revisions deleteTiddlerHosted |
+|~taskViewToolbar|+editTiddler revisions|
+|~drawingEditToolbar| +saveTiddler -cancelTiddler deleteTiddlerHosted|
+|~adminToolbar| deleteTiddlerHosted|
