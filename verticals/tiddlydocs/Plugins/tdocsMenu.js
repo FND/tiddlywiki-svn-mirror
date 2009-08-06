@@ -66,7 +66,7 @@ config.macros.tdoc2Outline._buildSpec = function (liList) {
  	});
   return spec;
 }
-
+ 
 config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 	var childCount=1;
 	label=label.concat([0])
@@ -96,7 +96,8 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 
 config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	if(store.tiddlerExists(window.activeDocument)) {
-		var testSpec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument));	 
+		var testSpec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument));	
+		console.log(testSpec); 
 	}
 	var specView = createTiddlyElement(place, "div", "", "specView");	
 	config.macros.tdoc2Outline.renderSpec(specView, testSpec);
