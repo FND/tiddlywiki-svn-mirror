@@ -1,22 +1,20 @@
-from tiddlyweb.wikitext import render_wikitext
-# The templating system, chosing because it is
-# django like without requiring the rest of django.
+global templates, viewtemplates
+global template_sub_path
 from jinja2 import Environment, FileSystemLoader,TemplateNotFound
+template_sub_path = "nojs/"
+templates= ["PageTemplate","MarkupPreHead","StyleSheet","SiteTitle","StyleSheetLayout","StyleSheetColors"]
+viewtemplates = ["ViewTemplate","myblogViewTemplate","rssfeedsViewTemplate"]
+template_env = Environment(loader=FileSystemLoader('templates/'))
 
-import re
-import datetime
+from tiddlyweb.wikitext import render_wikitext
 
-from twplugins import do_html, entitle, require_any_user #should say please install tiddlyweb-plugins not twplugins
-
-# make_command is a decorator that creates a 
-# command for twanager, the command line tool
 from tiddlyweb.manage import make_command
-
+import logging
 # Data entities
 from tiddlyweb.model.bag import Bag
 from tiddlyweb.model.recipe import Recipe
 from tiddlyweb.model.tiddler import Tiddler
-
+from twplugins import replace_handler
 # Data storage system
 from tiddlyweb.store import Store, NoBagError,NoTiddlerError
 
@@ -34,35 +32,41 @@ from tiddlyweb.web.wsgi import HTMLPresenter
 # function to handle figuring out which bag tiddlers are in given a recipe
 from tiddlyweb import control
 
-# TiddlyWeb has built in logging. See pydoc logging.
-import logging
 
 # Set a template environment that describes where to
 # load template files from.
 
 
-template_env = Environment(loader=FileSystemLoader('./templates/'))
+
 
 
 import os
 import re
 
-def define_index():
-  create_file_if_new("index.html")
-  text = "<html><head>{% include 'nojs/MarkupPreHead.html' %}"+\
-  "<title>{% include 'nojs/SiteTitle.html' %}</title>"+\
+def define_js_redirect(location):
+  text = "<script type='text/javascript'>\nvar links = document.getElementsByTagName(\"a\");\n\nfor(var i=0; i < links.length; i++){\n  links[i].onclick = function(e){\n    var link = this.href;\n    if(link.indexOf(\"/tiddlers/\") != -1){\n      link = link.replace(/\/tiddlers\/([^/]*)/,\"/tiddlers.wiki#[[$1]]\");\n    }\n    this.href= link;\n   window.location = link;\n  };\n}\n</script>"
+  fileObj = open(nojspath+"%sjs.html"%location,"w") #open for write
+  fileObj.write(text)
+  fileObj.close()      
+
+def define_index(location):
+  pathname = template_sub_path+ location
+  create_file_if_new("%sindex.html"%location)
+  text = "<html><head>{%% include '%sMarkupPreHead.html' %%}"%pathname+\
+  "<title>{%% include '%sSiteTitle.html' %%}</title>"%pathname+\
   "<style type='text/css'>.hide_nojavascript {display:none;}"+\
-  "{% include 'nojs/StyleSheetColors.html'%}"+\
-  "{% include 'nojs/StyleSheetLayout.html'%}{% include 'nojs/StyleSheet.html' %}"+\
+  "{%% include '%sStyleSheetColors.html'%%}"%pathname+\
+  "{%% include '%sStyleSheetLayout.html'%%}{%% include '%sStyleSheet.html' %%}"%(pathname,pathname)+\
   "#saveTest {display:none;}\n#messageArea {display:none;}\n#copyright {display:none;}\n#storeArea {display:none;}\n#storeArea div {padding:0.5em; margin:1em 0em 0em 0em; border-color:#fff #666 #444 #ddd; border-style:solid; border-width:2px; overflow:auto;}\n#shadowArea {display:none;}\n#javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}</style>"+\
   "</head>"+\
-  "<body><div id='contentWrapper' class='backstageVisible'>{% include 'nojs/PageTemplate.html' %}</div></body></html>"
-  fileObj = open(nojspath+"index.html","w") #open for write
+  "<body><div id='contentWrapper' class='backstageVisible'>{%% include '%sPageTemplate.html' %%}</div>{%% include '%sjs.html' %%}</body></html>"%(pathname,pathname)
+  fileObj = open(nojspath+"%sindex.html"%location,"w") #open for write
   fileObj.write(text)
-  fileObj.close()
-  
-def define_default_templates():
-  define_index()
+  fileObj.close() 
+
+def define_default_templates(location):  
+  define_index(location)
+  define_js_redirect(location)
 def create_file_if_new(filename):
   d = os.path.dirname(nojspath+filename)
   if not os.path.exists(d):
@@ -78,23 +82,24 @@ def cleanup_text(text):
 
 global tiddlers_in_memory
 tiddlers_in_memory = {}
-def templatify(text,environ): 
-
+def templatify(text,location,environ): 
+  
   def import_tiddler(m):
     tiddler_name = m.group(2)
-    create_tiddler(tiddler_name,environ)
-    newtext = "%s%s%s>{%% include 'nojs/%s.html' %%}"%(m.group(1),m.group(2),m.group(3),m.group(2))
+    create_tiddler(tiddler_name,location,environ)
+    newtext = "%s%s%s>{%% include '%s%s%s.html' %%}"%(m.group(1),m.group(2),m.group(3),template_sub_path,location,m.group(2))
     return newtext
   text = re.sub("(tiddler=[\'\"])([^\'\"]*)([\'\"][^>]*)>",import_tiddler,text)
   
   def override_tiddler_display(m):
-    return "%s {%% for tiddler in tiddlers %%}<div class='tiddler' id=\"tiddler{{tiddler.title|escape}}\">{%% include 'nojs/ViewTemplate.html' with context %%}</div>{%% endfor %%}"%(m.group(0))
+    pathname = template_sub_path + location
+    return "%s {%% for tiddler in tiddlers %%}<div class='tiddler' id=\"tiddler{{tiddler.title|escape}}\">{%% set templates_choices = tiddler.tags %%}\n{%% set res = templates_choices.append(\"\") %%}\n{%% set found = False %%}\n{%% for tag in templates_choices %%}\n{%% if tag+\"ViewTemplate\" in global_viewtemplates and not found%%}\n{%% include '%s'+tag+'ViewTemplate.html' with context %%}\n{%% set found = True %%}\n{%% endif %%}\n{%% endfor %%}</div>{%% endfor %%}"%(m.group(0),pathname)
     
   def override_view_macro_with_wikifying(m):
     fieldname = m.group(1)
     if fieldname not in ["text","title"]:
       fieldname = "fields[\"%s\"]"%fieldname
-    return "%s{{tiddler.%s|wikified}}"%(m.group(2),fieldname)
+    return "%s{{tiddler.%s|wikified(tiddler.title)}}"%(m.group(2),fieldname)
     
   def override_view_macro_without_wikifying(m):
     fieldname = m.group(1)
@@ -140,14 +145,14 @@ def templatify(text,environ):
   return text
   
   
-def create_tiddler(tiddler_name,environ):
+def create_tiddler(tiddler_name,location,environ):
   store = environ['tiddlyweb.store']
   try:
     tiddler = store.get(Tiddler(tiddler_name,get_bag(tiddler_name,environ)))
     text = render_wikitext(tiddler, environ)
   except NoTiddlerError:
     text = ""
-  create_jinja_template_file(tiddler_name,"%s"%(text))
+  create_jinja_template_file("%s%s"%(location,tiddler_name),"%s"%(text))
 
 def get_shadowed_text(tiddler_name):
   try:
@@ -157,7 +162,7 @@ def get_shadowed_text(tiddler_name):
     text = ""
   return text
     
-def create_template(template_name,environ):
+def create_template(template_name,location,environ):
   store = environ['tiddlyweb.store']
   bag = get_bag(template_name,environ)  
   try:
@@ -166,20 +171,20 @@ def create_template(template_name,environ):
   except NoTiddlerError:
     text = get_shadowed_text(template_name)
 
-  text =templatify(cleanup_text(text),environ)
-  create_jinja_template_file(template_name,text)
+  text =templatify(cleanup_text(text),location,environ)
+  create_jinja_template_file("%s%s"%(location,template_name),text)
 
 
 def create_jinja_template_file(template_name,text):
   create_file_if_new(template_name)
-  path="templates/nojs/%s.html"%template_name
+  path="templates/%s%s.html"%(template_sub_path,template_name)
   
   fileObj = open(path,"w")
   fileObj.write(text)
   fileObj.close()
       
 def generate_template(template,tiddlers,environ):
-    return template.generate(environ=environ,tiddlers=tiddlers)
+    return template.render(environ=environ,tiddlers=tiddlers,global_viewtemplates=viewtemplates)
 
 def get_bag(tiddler_name,environ):
   try:
@@ -193,54 +198,75 @@ def get_bag(tiddler_name,environ):
     except NoBagError:
       bag = ""
   return bag
-def generate_without_js(environ,start_response):
 
-  def wikifier(str):
-      tiddler = Tiddler("foo")
-      tiddler.text = str
-      return render_wikitext(tiddler,environ)
-      
-  def linkifier(str):
-    return "<a href='%s'>%s</a>"%(str,str)
-  template_env.filters['wikified'] =wikifier
-  template_env.filters['tiddlerlink'] = linkifier
+def merge(list1, list2):
+  newlist = list1
+  for i in list2:
+    newlist.append(i)
+    
+  return newlist
+def generate_without_js(environ,tiddler_name):
   try:
-    fileObj = open("%s/index.html"%nojspath,"r") #open for write
+    location ="bags/"+environ['selector.vars']['bag_name']+"/"
+  except KeyError:
+    location = "recipes/"+environ['selector.vars']['recipe_name']+"/"
+  try:
+    generatedindex = open("%s%sindex.html"%(nojspath,location),"r")
   except IOError:
-    define_default_templates()
+    define_default_templates(location)
   
-  templates= ["PageTemplate","MarkupPreHead","ViewTemplate","StyleSheet","SiteTitle","StyleSheetLayout","StyleSheetColors"]
-  for template_name in templates:
+
+  for template_name in merge(templates,viewtemplates):
     try:
-      fileObj = open("%s%s.html"%(nojspath,template_name),"r") #open for write
+      fileObj = open("%s%s%s.html"%(nojspath,location,template_name),"r") #open for write
     except IOError:
-      create_template(template_name,environ)
+      create_template(template_name,location,environ)
     
   
-  template = template_env.get_template('nojs/index.html')  
-  start_response('200 OK', [
-      ('Content-Type', 'text/html; charset=utf-8')
-  ])
+  template = template_env.get_template('%s%sindex.html'%(template_sub_path,location))    
   
-  
-  try:
-    tiddler_name = environ['selector.vars']['tiddler_name']
+  if tiddler_name:
     store = environ['tiddlyweb.store']
-    tiddlers = [store.get(Tiddler(tiddler_name,get_bag(tiddler_name,environ)))]
-  except KeyError,NoTiddlerError:
+    try:
+      tiddlertoview = store.get(Tiddler(tiddler_name,get_bag(tiddler_name,environ)))
+    except NoTiddlerError:
+      tiddlertoview = Tiddler(tiddler_name)
+      tiddlertoview.text = ""
+    tiddlers = [tiddlertoview]
+  else:
     tiddlers = []
   return generate_template(template,tiddlers,environ)
 
-from tiddlywebplugins import replace_handler
+EXTENSION_TYPES = {'nojswiki': 'nojs'}
+SERIALIZERS = {
+        'nojs': ['nojs', 'text/html; charset=UTF-8'],
+}
+        
+from tiddlyweb.serializations.html import Serialization as HTMLSerialization
+
+class Serialization(HTMLSerialization):
+    
+    def __init__(self, environ={}):
+        def wikifier(mystr,title):
+            tiddler = Tiddler("foo",get_bag(title,environ))
+            tiddler.text = mystr
+            return render_wikitext(tiddler,environ)
+        def linkifier(str):
+          return "<a href='%s'>%s</a>"%(str,str)
+        template_env.filters['wikified'] =wikifier
+        template_env.filters['tiddlerlink'] = linkifier
+        self.environ = environ
+        
+    def tiddler_as(self, tiddler):
+        return generate_without_js(self.environ,tiddler.title)
+
 def init(config_in):
     global config
-
     global nojspath 
-    nojspath = "templates/nojs/"
+    
+    nojspath = "templates/"+template_sub_path
     config = config_in
+    config['extension_types'].update(EXTENSION_TYPES)    
+    config['serializers'].update(SERIALIZERS)
     
-    
-    logging.debug('going to add /jinx to selector')
-    replace_handler(config['selector'],"/recipes/{recipe:segment}/tiddlers/{tiddler:segment}",dict(GET=generate_without_js))
-    replace_handler(config['selector'],"/bags/{bag:segment}/tiddlers/{tiddler:segment}",dict(GET=generate_without_js))
-    config["selector"].add("/nojs",GET=generate_without_js)
+    config['serializers']['default'] =['nojs', 'text/html; charset=UTF-8']

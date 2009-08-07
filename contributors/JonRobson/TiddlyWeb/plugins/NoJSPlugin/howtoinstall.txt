@@ -1,0 +1,7 @@
+This plugin allows viewers to see your TiddlyWiki in non-js form. It takes into account your custom PageTemplate, ViewTemplate and Stylesheets to provide a familiar view which resorts to javascript where possible. Why? search engine optimisation and maintain the same experience for both non-js and js users.
+
+Simply add the templates folder to your TiddlyWeb root directory (where your config file is)
+Put the nojs.py in the same folder
+then edit your config file so it has "nojs" in system_plugins
+eg.'system_plugins': ["nojs",...]
+Access a tiddlers bag and nojs will be the default viewing mechanism.
