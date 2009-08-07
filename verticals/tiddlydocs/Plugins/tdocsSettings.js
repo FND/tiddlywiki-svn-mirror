@@ -5,7 +5,7 @@ config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
 
 if(isLoggedIn())
-	config.options.txtTheme = "mainTheme";
+	config.options.txtTheme = "myPageTheme";
 else
 	config.options.txtTheme = "loginTheme";
 
