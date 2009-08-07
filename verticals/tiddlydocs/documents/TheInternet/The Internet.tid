@@ -2,9 +2,12 @@ modifier: Simon McManus
 tags: document
 
 {
-	format: {name: 'TiddlyDocsSpec',  majorVersion:'0',minorVersion:'1'},
+	title: 'The Internet - Initial Draft',
+	header: 'InternetHeader',
+	footer: 'BTFooter',
 	content:[
 				{title:'Terminology', children: []},
+				{title:'Contents', children: []},
 				{title:'History', children: [
 					{title:'Creation', children: []},
 					{title:'Growth', children: []},
@@ -13,6 +16,7 @@ tags: document
 				{title:'Todays Internet', children: [
 					{title:'Internet protocols', children : []},
 					{title:'Internet structure', children : []},
+					{title:'PageSkip', children: []},
 					{title:'ICANN', children : []},
 					{title:'Language', children : []},
 					{title:'Internet and the workplace', children : []},
