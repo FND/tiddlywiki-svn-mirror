@@ -6,11 +6,14 @@ $Plugins = array();
 	// takes a path to a .tid file and returns a tiddler object.
 	function tiddler_parse_tid_file($file)
 	{
-		$tiddly_body = file_get_contents($file);		
+			echo $file."<hr />";
+		$fh = @fopen($file, 'r');
+		$tiddly_body = @fread($fh, filesize($file));		
+//		$tiddly_body = file_get_contents($file);		
 		$position = strpos($tiddly_body, "\n\n");
 		$top = substr($tiddly_body, 0, $position);
 	 	$file_slash_position = strrpos($file, "/");
-		$tiddler['title'] = substr($file,$file_slash_position+1,-4);
+	echo 	$tiddler['title'] = substr($file,$file_slash_position+1,-4);
 		$tiddler['body'] = substr($tiddly_body, $position+1);
 		$fields = explode("\n", $top);
 		foreach($fields as $field)
@@ -90,28 +93,17 @@ class Plugin {
 	}
 
 	public function preparePath($path) {
-		
-//		echo dirname(dirname(dirname(dirname(getcwd()))));
-
-		$path = trim($path);
-		$TW_ROOT = '/Applications/xampp/htdocs/tiddlywikicore/';
-//		$TW_ROOT = '/home/user/tiddlywikicore/';
-		return str_replace('$TW_ROOT/', $TW_ROOT, $path);
-		
+		return $path;
 	}
 	public function getContentFromFile($path) {
-		
-		$path = $this->preparePath($path);	
-		$fh = fopen($path, 'r');
-		return $file = @fread($fh, @filesize($path)); 	
+		$file = file_get_contents($path);
+		return $file;
 	}
 
 	public function addRecipe($path) {
-		echo 'recipe path is : ', dirname($path).'<br />';
-		echo $path.'<br />';
 		$file = $this->getContentFromFile($this->preparePath($path));
 		$this->parseRecipe($file, dirname($path));	
-	} 
+	}
 
 	public function parseRecipe($string, $recipePath) {
 		$lines = explode("\n", $string);
@@ -121,13 +113,11 @@ class Plugin {
 	}
 	
 	public function parseRecipeLine($line, $recipePath) {
-		
-
 		$ext = trim(end(explode(".", $line)));
 		switch ($ext) {
 			case 'recipe':
-					$this->addRecipe(str_replace('recipe: ', '', $recipePath.'/'.$line));
-				
+				$path = $recipePath.'/'.str_replace('recipe: ', '', $line);
+				$this->addRecipe($path);
 			break;
 			case 'js' :
 				$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);

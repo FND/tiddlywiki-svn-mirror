@@ -41,10 +41,7 @@ tiddler: content/issues.tid
 tiddler: content/SiteSubtitle.tid       
 tiddler: content/UserDefinitions.tid
 
-
-
-
-tiddler: documents/TheInternet/split.recipe
+recipe: documents/TheInternet/split.recipe
 
 
 tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
