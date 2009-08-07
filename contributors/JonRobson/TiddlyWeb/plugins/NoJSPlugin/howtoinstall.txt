@@ -1,3 +1,6 @@
+You'll need Jinja2 installed.
+easy_install jinja2 should do it. If you have issues it might be to do with speedups- go google that and you'll find answers. 
+You also need tiddlywebplugins installed. I need some wikifier functions to do this.
 This plugin allows viewers to see your TiddlyWiki in non-js form. It takes into account your custom PageTemplate, ViewTemplate and Stylesheets to provide a familiar view which resorts to javascript where possible. Why? search engine optimisation and maintain the same experience for both non-js and js users.
 
 Simply add the templates folder to your TiddlyWeb root directory (where your config file is)
