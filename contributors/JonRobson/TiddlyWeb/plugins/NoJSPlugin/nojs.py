@@ -7,6 +7,7 @@ viewtemplates = ["ViewTemplate","myblogViewTemplate","rssfeedsViewTemplate"]
 template_env = Environment(loader=FileSystemLoader('templates/'))
 
 from tiddlyweb.wikitext import render_wikitext
+from wikklytextrender import wikitext_to_wikklyhtml
 
 from tiddlyweb.manage import make_command
 import logging
@@ -42,9 +43,18 @@ from tiddlyweb import control
 
 import os
 import re
-
+import shutil
+@make_command()
+def refreshnojstemplates(args):
+  """clears all template files used by nojs forcing any changes to PageTemplate etc to be picked up"""
+  try:
+    shutil.rmtree('templates/nojs')
+  except IOError:
+    pass
+    
+    
 def define_js_redirect(location):
-  text = "<script type='text/javascript'>\nvar links = document.getElementsByTagName(\"a\");\n\nfor(var i=0; i < links.length; i++){\n  links[i].onclick = function(e){\n    var link = this.href;\n    if(link.indexOf(\"/tiddlers/\") != -1){\n      link = link.replace(/\/tiddlers\/([^/]*)/,\"/tiddlers.wiki#[[$1]]\");\n    }\n    this.href= link;\n   window.location = link;\n  };\n}\n</script>"
+  text = "<script type='text/javascript'>{% if tiddlers and tiddlers|length == 1 %}\nwindow.location = \"{{environ[\"nojs_base\"]}}{{environ[\"nojs_path\"]}}.wiki#[[{{tiddlers[0].title|escape}}]]\";\n{% endif %}\nvar links = document.getElementsByTagName(\"a\");\n\nfor(var i=0; i < links.length; i++){\n  var link = links[i].href;\n    if(link.indexOf(\"/tiddlers/\") != -1){\n      link = link.replace(/\/tiddlers\/([^/]*)/,\"/tiddlers.wiki#[[$1]]\");\n    }\n    links[i].href= link;\n}\n</script>"
   fileObj = open(nojspath+"%sjs.html"%location,"w") #open for write
   fileObj.write(text)
   fileObj.close()      
@@ -99,7 +109,7 @@ def templatify(text,location,environ):
     fieldname = m.group(1)
     if fieldname not in ["text","title"]:
       fieldname = "fields[\"%s\"]"%fieldname
-    return "%s{{tiddler.%s|wikified(tiddler.title)}}"%(m.group(2),fieldname)
+    return "%s{{tiddler.%s|wikified}}"%(m.group(2),fieldname)
     
   def override_view_macro_without_wikifying(m):
     fieldname = m.group(1)
@@ -149,7 +159,7 @@ def create_tiddler(tiddler_name,location,environ):
   store = environ['tiddlyweb.store']
   try:
     tiddler = store.get(Tiddler(tiddler_name,get_bag(tiddler_name,environ)))
-    text = render_wikitext(tiddler, environ)
+    text = wikitext_to_wikklyhtml(environ["nojs_base"], environ["nojs_path"], tiddler.text)
   except NoTiddlerError:
     text = ""
   create_jinja_template_file("%s%s"%(location,tiddler_name),"%s"%(text))
@@ -205,23 +215,61 @@ def merge(list1, list2):
     newlist.append(i)
     
   return newlist
-def generate_without_js(environ,tiddler_name):
+  
+  
+def get_location(environ):
   try:
     location ="bags/"+environ['selector.vars']['bag_name']+"/"
   except KeyError:
     location = "recipes/"+environ['selector.vars']['recipe_name']+"/"
+  return location
+    
+def setup_filters(environ):
+  environ["nojs_base"] = environ["tiddlyweb.config"]['server_prefix']+"/"
+  try:
+     bag = environ['selector.vars']['bag_name']
+     environ["nojs_path"] = "bags/%s/tiddlers"%(bag)
+  except KeyError:
+    recipe = environ['selector.vars']['recipe_name']
+    environ["nojs_path"] = "recipes/%s/tiddlers"%(recipe)
+  def wikifier(text):
+    if "<html>" in text and "</html>" in text:
+      return text
+    else:
+      text =re.sub("\<\<([^\>]*)\>\>","= !macroerror! =",text)
+      text= wikitext_to_wikklyhtml(environ["nojs_base"], environ["nojs_path"], text)
+      text = re.sub("= !macroerror! =","<a class='errorButton'>Error in macro - javascript is required!</a>",text)
+      return text
+  def linkifier(str):
+    try:
+      linkto = environ["tiddlyweb.store"].get(Tiddler(str,get_bag(str,environ)))
+    except NoTiddlerError:
+      linkto = False
+    if linkto:
+      return "<a href='%s%s/%s'>%s</a>"%(environ["nojs_base"], environ["nojs_path"],str,str)
+    else:
+      return str
+  template_env.filters['wikified'] =wikifier
+  template_env.filters['tiddlerlink'] = linkifier
+  
+def setup_templates(environ):
+  location = get_location(environ)
   try:
     generatedindex = open("%s%sindex.html"%(nojspath,location),"r")
   except IOError:
     define_default_templates(location)
-  
-
+    
   for template_name in merge(templates,viewtemplates):
     try:
       fileObj = open("%s%s%s.html"%(nojspath,location,template_name),"r") #open for write
     except IOError:
       create_template(template_name,location,environ)
-    
+  
+def generate_without_js(environ,tiddler_name):
+  setup_filters(environ)
+  setup_templates(environ)
+
+  location = get_location(environ)  
   
   template = template_env.get_template('%s%sindex.html'%(template_sub_path,location))    
   
@@ -237,9 +285,32 @@ def generate_without_js(environ,tiddler_name):
     tiddlers = []
   return generate_template(template,tiddlers,environ)
 
-EXTENSION_TYPES = {'nojswiki': 'nojs'}
+
+def generate_index(environ,bag):
+  setup_filters(environ)
+  setup_templates(environ)
+  tiddlers = bag.list_tiddlers()
+  store = environ['tiddlyweb.store']  
+  try:
+    sitetitle_tiddler = store.get(Tiddler("SiteTitle",get_bag("SiteTitle",environ)))
+    sitetitle = "%s (index)"%sitetitle_tiddler.text
+  except NoTiddlerError:
+    sitetitle = "%s (index)"%get_location(environ)
+  indextiddler = Tiddler(sitetitle)
+  indextext = ""
+  for tiddler in tiddlers:
+    indextext += "[[%s]]\n"%(tiddler.title)
+
+  indextiddler.text = indextext
+  location = get_location(environ)
+  template = template_env.get_template('%s%sindex.html'%(template_sub_path,location))    
+  return generate_template(template,[indextiddler],environ)
+
+EXTENSION_TYPES = {'nojswiki': 'text/html',
+'html': 'text/html+x'}
 SERIALIZERS = {
-        'nojs': ['nojs', 'text/html; charset=UTF-8'],
+		'text/html+x':['html','text/html; charset=UTF-8'],
+        'text/html': ['nojs', 'text/html; charset=UTF-8']
 }
         
 from tiddlyweb.serializations.html import Serialization as HTMLSerialization
@@ -247,16 +318,11 @@ from tiddlyweb.serializations.html import Serialization as HTMLSerialization
 class Serialization(HTMLSerialization):
     
     def __init__(self, environ={}):
-        def wikifier(mystr,title):
-            tiddler = Tiddler("foo",get_bag(title,environ))
-            tiddler.text = mystr
-            return render_wikitext(tiddler,environ)
-        def linkifier(str):
-          return "<a href='%s'>%s</a>"%(str,str)
-        template_env.filters['wikified'] =wikifier
-        template_env.filters['tiddlerlink'] = linkifier
         self.environ = environ
-        
+    
+    def list_tiddlers(self, bag):
+        return generate_index(self.environ,bag)
+  
     def tiddler_as(self, tiddler):
         return generate_without_js(self.environ,tiddler.title)
 
@@ -268,5 +334,5 @@ def init(config_in):
     config = config_in
     config['extension_types'].update(EXTENSION_TYPES)    
     config['serializers'].update(SERIALIZERS)
-    
-    config['serializers']['default'] =['nojs', 'text/html; charset=UTF-8']
+    config['serializers']['default'] =['nojs', 'text/html;charset=UTF-8']
+  
