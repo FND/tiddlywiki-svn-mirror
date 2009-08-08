@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.8.2|
+|''Version''|0.8.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -34,10 +34,7 @@ This plugin includes [[jQuery JSON|http://code.google.com/p/jquery-json/]].
 !Code
 ***/
 //{{{
-if(!version.extensions.TiddlyWebAdaptorPlugin) { //# ensure that the plugin is only installed once
-version.extensions.TiddlyWebAdaptorPlugin = { installed: true };
-
-(function($) { //# set up local scope
+(function($) {
 
 var adaptor;
 adaptor = config.adaptors.tiddlyweb = function() {}; //# set up alias
@@ -588,7 +585,7 @@ adaptor.normalizeTitle = function(title) {
 	return encodeURIComponent(title);
 };
 
-})(jQuery); //# end of local scope
+})(jQuery);
 
 
 /*
@@ -633,6 +630,4 @@ return"{"+ret.join(", ")+"}";};$.compactJSON=function(o)
 {var filtered=src;filtered=filtered.replace(/\\["\\\/bfnrtu]/g,'@');filtered=filtered.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']');filtered=filtered.replace(/(?:^|:|,)(?:\s*\[)+/g,'');if(/^[\],:{}\s]*$/.test(filtered))
 return eval("("+src+")");else
 throw new SyntaxError("Error parsing JSON, source is not valid.");};})(jQuery);
-
-} //# end of "install only once"
 //}}}

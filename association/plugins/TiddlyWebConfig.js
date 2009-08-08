@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWeb|
 |''Author''|FND|
-|''Version''|0.5.0|
+|''Version''|0.5.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -22,14 +22,11 @@
 !Code
 ***/
 //{{{
-if(!version.extensions.TiddlyWebConfig) { //# ensure that the plugin is only installed once
-version.extensions.TiddlyWebConfig = { installed: true };
-
 if(!config.adaptors.tiddlyweb) {
         throw "Missing dependency: TiddlyWebAdaptor";
 }
 
-(function() { //# set up local scope
+(function() {
 
 if(window.location.protocol != "file:") {
 	config.options.chkAutoSave = true;
@@ -81,7 +78,5 @@ var statusCallback = function(context, userParams) {
 };
 adaptor.getStatus({ host: host }, null, statusCallback);
 
-})(); //# end of local scope
-
-} //# end of "install only once"
+})();
 //}}}
