@@ -1,6 +1,7 @@
 modifier: Simon McManus 
 
 
+
 html body .body .sections {
 	background: #F3F3F3;
 }
@@ -95,13 +96,13 @@ html body .leftColumnItem {
 	float:right;
 }
 
-label {
-	float:left;
-	font-size:1.1em;
-	margin:0 -2px 0 0;
-	padding:3px;
+.title-right {
+	float:right;
+	position:relative;
+	right:-2em;
 	text-align:right;
-	width:9em;
+	top:1.8em;
+	width:100%;
 }
 
 .siteSubtitle .tiddlyLink {
@@ -439,16 +440,18 @@ background:#444444 none repeat scroll 0 0;
 		font-weight:none;
 		padding:0.2em 0.5em 0 0.2em;
 		color:#666;
+		position:relative;
+		top:-2em;
 	}
 
 
 	#buttonHolder {
-		background-color:#fff;
-		border-top:0px solid #333;
-		border-bottom:0px solid #333;
-		height:2.5em;
-	position:absolute;
-	width:100%;
+float:right;
+margin:1em 0.3em 1em 1em;
+position:relative;
+text-align:right;
+top:-1.9em;
+width:90%;
 	}
 	
 
@@ -502,7 +505,7 @@ width:98.5%;
 	padding:0;
 	position:relative;
 	top:2em;
-	width:65%;
+	width:67%;
 }
 
 
@@ -515,8 +518,8 @@ width:98.5%;
 	div.tiddler {
 		background-color:transparent;
 		border:0px;
-		padding:0em;
 		margin-right:1em;
+		padding:0 0 3em;
 	}
 	div.tiddler .tab {
 		background-color:#ddd;
@@ -571,17 +574,6 @@ form.wizard, .wizard{
 	 
 	
 	    
-	
-
-		#buttonHolder {
-			border-color:-moz-use-text-color -moz-use-text-color #333333;
-			border-style:none none solid;
-			float:right;
-			padding:0em;
-			text-align:right;
-			top:-1.9em;
-			width:100%;
-			}
 
 
 
@@ -611,6 +603,7 @@ form.wizard, .wizard{
 		.toolbar {
 			height:2.2em;
 			padding:0.5em 0 0;
+			font-size:1.2em;
 		}
 
 
@@ -637,10 +630,11 @@ form.wizard, .wizard{
 	}
 
 	.comment .heading {
-	background:#777 none repeat scroll 0 0 !important;
+	background:#F3F3F3 none repeat scroll 0 0 !important;
 	padding:0.5em;
 	background:transparent;
-	border-bottom:1px solid #222 !important;
+	border-bottom:1px solid #F3F3F3 !important;
+	border-right 0px;
 	}
 	
 	.replyLink {
@@ -651,13 +645,13 @@ form.wizard, .wizard{
 	}
 	
 	.commentTitle {
-		color:white;
+		color:#666;
 	}
 	.deleteComment {
 		display:none;
 	}
 	.comment {
-	border:1px solid #777;
+	border:1px solid #F3F3F3;
 	}
 		.comments {
 			padding:0.5em;

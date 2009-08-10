@@ -132,38 +132,12 @@ tags: systemTheme
       </div>
     </div>
     <div id="logoHolder" class="right">
+<img height="55" width="565" title="MyPage" src="https://www.btwholesale.com/pages/media/logo/BTW_blank.jpg" class="bannerLogo"/>
     </div>
   </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div macro='docTabs'>
-</div>
+<div macro='docTabs'></div>
     
     
   
@@ -310,7 +284,12 @@ tags: systemTheme
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
+			<div class='title' macro='view title'><div class='title-right'>
+
+<img src='http://www.sheffieldhealthyschools.co.uk/images/icons/link_icon.png' height='15px' />
+<img src='http://www.acdivoca.org/852571DC00681414/Lookup/RSS-feed-small-PNG/$file/RSS-feed-small-PNG.png' height='15px' />
+
+</div></div>
 		</div>
 	</div>
 	<div class="portletContent">
