@@ -35,6 +35,10 @@ html body #search_bar {
 	font-size:0.8em;
 }
 
+
+.header {
+	background-color:#fff;
+}
 #header {
 	overflow:auto;
 	padding:1em;
@@ -146,7 +150,7 @@ label {
 
 
 #searchform fieldset #searchsubmit:hover {
-	background:#555555 none repeat scroll 0 0;
+	background:#eee none repeat scroll 0 0;
 	border:2px solid #777777;
 }
 #searchform fieldset #searchsubmit {
@@ -311,7 +315,6 @@ body {
 	background:#eee;
 	color:#333;
 	font-family:helvetica,arial,sans-serif;
-	font-size:12px;	
 	
 }
 
@@ -707,14 +710,13 @@ form.wizard, .wizard{
 			margin:0em;
 		}
 		div.toc-sort-handle:hover {
-			background-color:#555;
+			background-color:#eee;
 		}
 	// END NESTED SORTABLE CSS
 
 
 	body, td{
 		margin:0;
-		font-size:0.8em;
 	}
 	#myBTPageBody{
 		background-color:#e8e1f1;
