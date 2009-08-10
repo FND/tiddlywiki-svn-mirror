@@ -27,11 +27,11 @@ if($pluginsLoader->events['afterIncludes'])
 {
 	foreach ($pluginsLoader->events['afterIncludes'] as $event)
 	{
-
 			if(is_file("plugins/".$event))
 			include_once("plugins/".$event);	
 	}
 }
+
 
 if($db_number < '17') {
 	echo "<h1>ccTiddly Upgrade</h1>";
@@ -72,6 +72,7 @@ elseif(isset($_GET['tags']))
 		$tiddlers = array_merge($skin_tiddlers, $tiddlers); 
 	}
 }
+
 $tiddlers = array_merge($pluginsLoader->tiddlers, $tiddlers);
 
 
@@ -83,6 +84,8 @@ $data1['workspace'] = $tiddlyCfg['workspace_name'];
 
 $data1['time'] = date( 'Y-m-d H:i:s', mktime());
 db_record_insert($tiddlyCfg['table']['workspace_view'],$data1);
+
+
 ?>
 
 
