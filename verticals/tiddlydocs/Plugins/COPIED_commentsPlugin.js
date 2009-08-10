@@ -47,14 +47,14 @@ init: function() {
 },
 
 enhanceViewTemplate: function() {
-  var template = store.getTiddlerText("ViewTemplate");
+/*  var template = store.getTiddlerText("ViewTemplate");
   if ((/commentBreadcrumb/g).test(template)) return; // already enhanced
   var TITLE_DIV = "<div class='title' macro='view title'></div>";
   var commentsDiv = "<div class='commentBreadcrumb' macro='commentBreadcrumb'></div>";
   template = template.replace(TITLE_DIV,commentsDiv+"\n"+TITLE_DIV);
   store.saveTiddler("ViewTemplate","ViewTemplate",template,config.options.txtUserName,new Date(), "", config.defaultCustomFields);
-  autoSaveChanges(true, ['ViewTemplate']);
-
+  autoSaveChanges(false, ['ViewTemplate']);
+*/
 },
 
 handler: function(place,macroName,params,wikifier,paramString,tiddler) {

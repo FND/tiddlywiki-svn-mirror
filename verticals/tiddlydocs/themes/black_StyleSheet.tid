@@ -1,28 +1,4 @@
-modifier: Simon McManus 
-
-
-
-
-#tab_wrapper ul li {
-
-border:medium none;
-list-style-image:none;
-list-style-position:outside;
-list-style-type:none;
-margin:0;
-padding:0;
-}
-
-
- #container {
-	background:#F3F3F3;
-}
-
-html body #search_bar {
-	background:#FFFFFF none repeat scroll 0 0;
-	display:block;
-	height:auto;
-}
+Modifier: SimonMcManus
 
 
 
@@ -69,6 +45,18 @@ html body #search_bar {
 	background:transparent url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/top.png) repeat-x scroll 0 0;
 }
 
+#tiddlerDisplay {
+		float:right;
+		height:100%;
+		margin:0;
+		padding:0;
+		width:70%;
+		position:relative;
+		top:-2.9em;
+		overflow:hidden;
+	}
+
+
 
 
 
@@ -83,7 +71,7 @@ div.portletTitle  div.title  input {
 
 
 html body .leftColumnItem {
- 	background-color:#fff;
+ 	background-color:#444;
 	color:white;
 }
 
@@ -255,7 +243,7 @@ margin-left:8em;
 
 .wizard h1 {
 	line-height:1.1em;
-	color:#555;
+	color:#eee;
 }
 #headContainer{
 	position:relative;
@@ -373,8 +361,9 @@ body {
 		background: #3f3f3f url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat bottom right;
 		text-align:left;
 		padding:0.5em 1em 1em;
-		margin:25em 4em 4em;
+		margin:1em;
 		border:1px solid #555;
+		color:#eee;	
 	}
 
 	.deleteHelper {
@@ -420,6 +409,7 @@ background:#444444 none repeat scroll 0 0;
 	#mainMenu {
 		padding:0px;
 		border:0px solid white;
+		font-size:0.9em;
 		height:95%;
 		position:relative;
 		color:#333;
@@ -436,12 +426,12 @@ background:#444444 none repeat scroll 0 0;
 		font-size:1em;
 		font-weight:none;
 		padding:0.2em 0.5em 0 0.2em;
-		color:#666;
+		color:#eee;
 	}
 
 
 	#buttonHolder {
-		background-color:#fff;
+		background-color:#777;
 		border-top:0px solid #333;
 		border-bottom:0px solid #333;
 		height:2.5em;
@@ -485,25 +475,26 @@ width:98.5%;
 }
 
 
-#mainMenu {
-	top:0.5em;
-	height:100%;
-	position:relative;
-	width:100%;
-}
-
-#tiddlerDisplay {
-	float:right;
-	height:100%;
-	margin:0 2em 0 0;
-	overflow:hidden;
-	padding:0;
-	position:relative;
-	top:2em;
-	width:65%;
-}
-
-
+	#mainMenu {
+		top:0.5em;
+		font-size:0.9em;
+		height:100%;
+		position:relative;
+		width:100%;
+	}
+	
+	/*
+	#tiddlerDisplay {
+		float:right;
+		height:100%;
+		margin:0;
+		padding:0;
+		position:relative;
+		width:68.5%;
+	}
+	
+	
+	*/
 	.toolbar a, .toolbar:hover{
 	color:white;
 	}
@@ -522,20 +513,15 @@ width:98.5%;
 	 /*WIZARD*/
 
 
-form.wizard, .wizard{
-		background:#eee none repeat scroll 0 0 !important;
-		border:1px solid #555;
-		color:#555;
+form.wizard, .wizard .wizardFooter{
+		background:#444 none repeat scroll 0 0 !important;
+		border:0px;
+		color:#eee;
 		padding:1em;
 	}
-
- .wizardFooter {
-	border:0px;
-	background:transparent;
-}
 	div.wizardBody div.wizardStep {
 		border:1px solid #222;
-		background:#fff;
+		background:#444;
 		padding:1em;
 	}
 		.wizard .button {
@@ -572,6 +558,7 @@ form.wizard, .wizard{
 	
 
 		#buttonHolder {
+			background-color:#777;
 			border-color:-moz-use-text-color -moz-use-text-color #333333;
 			border-style:none none solid;
 			float:right;
@@ -632,7 +619,7 @@ form.wizard, .wizard{
 	
 		padding:2em;
 		text-align:center;
-		background:#fff;
+		background:#333;
 	}
 
 	.comment .heading {
@@ -703,7 +690,7 @@ form.wizard, .wizard{
 			padding:0em;
 			margin:0em;
 			padding-top:0px;
-			color:#555;
+			color:white;
 		}
 		div.toc-sort-handle div{
 			margin:0em;
@@ -749,13 +736,13 @@ form.wizard, .wizard{
 	}
 	.portletToolbar{
 
-		background-image:url("http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/background-portlet-header-center.jpg");
+		background-image:url("http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/top.png");
 		width:100%;
 		height:25px;
 		background-repeat:repeat-x;
 	}
 	.portletCornerLeft{
-		background-image:url("http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/background-portlet-header-left.jpg");
+		background-image:url("http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/corner_top_left.png");
 		clear:left;
 		float:left;
 		width:8px;
@@ -770,7 +757,7 @@ form.wizard, .wizard{
 		background-repeat:no-repeat;
 		margin:0;
 		padding:0;
-			background-image:url("http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/background-portlet-header-right.jpg");
+			background-image:url("http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/corner_top_right.png");
 	}
 	.portletTitle{
 		float:left;
@@ -791,6 +778,8 @@ form.wizard, .wizard{
 		width:6px;
 		height:6px;
 		background-image:url("http://farm4.static.flickr.com/3563/3302865501_7b1e814cd1_m.jpg");
+
+		<!-- background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-left.gif.png");-->
 		background-repeat:no-repeat;
 		background-position:bottom left;
 	}
@@ -798,6 +787,7 @@ form.wizard, .wizard{
 		float:right;
 		width:6px;
 		height:6px;
+<!--		background-image:url("plugins/TiddlyDocs/files/images/background-portlet-footer-right.jpg");-->
 		background-image:url("http://farm4.static.flickr.com/3406/3302865427_ac45364db5_m.jpg");
 		background-repeat:no-repeat;
 		background-position:bottom right;
@@ -810,7 +800,7 @@ form.wizard, .wizard{
 		float:left;
 		text-align:left;
 		position:relative;
-		top:1em;
+		top:-2.5em;
 	}
 	
 	.leftColumn > .portletContainer {
@@ -969,6 +959,3 @@ padding-top:0em;
 }
 
 <!--}}}-->
-
-
-

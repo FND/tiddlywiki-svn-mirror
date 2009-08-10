@@ -2,7 +2,6 @@ modifier: Simon McManus
 modified: 200708091500
 tags: systemTheme
 
-
 /***
 |''Name:''|mainTheme|
 |''Description:''|The basic TeamTasks theme |
@@ -26,6 +25,7 @@ tags: systemTheme
 
 !PageTemplate
 <!--{{{-->
+<div id='messageHeading' refresh='content' force='true' tiddler='messageHeading'</div>
 <div id="header">
 		<div class="banner-left"></div>
 		<div class="banner-right"></div>
@@ -47,7 +47,20 @@ tags: systemTheme
 </div>
 
 <div class='leftColumn'>
-	<div class="portletContainer  ">
+	<div class="portletContainer leftColumnItem">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+		<div class='title'>Table of Content</div>
+			</div>
+		</div>
+		<div class="portletContent leftColumnItem">
+		<br />
+		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
+		</div>
+	</div>
+	<div class="portletContainer">
 		<div class="portletToolbar">
 			<div class="portletCornerLeft"></div>
 			<div class="portletCornerRight"></div>
@@ -59,7 +72,7 @@ tags: systemTheme
 	<div  refresh='content'  tiddler='aboutTiddlyDocs'></div>
 		</div>
 	</div>
-	<div class="portletContainer  ">
+	<div class="portletContainer">
 		<div class="portletToolbar">
 			<div class="portletCornerLeft"></div>
 			<div class="portletCornerRight"></div>
@@ -185,17 +198,59 @@ tags: systemTheme
 
 !documentViewTemplate
 <!--{{{-->
+	<div class="portletContainer">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+				<div class='title' macro='view title'></div>
+			</div>
+		</div>
+		<div class="portletContent simpleTiddler">
+				<div class='' macro='toolbar [[ToolbarCommands::adminToolbar]]'></a></div>
+				</br>
+				</br>
+				</br>
+			<div class='viewer2' macro='view text wikified'></div>
+		</div>
+	</div>
+<!--}}}-->
+
+
+!issueEditTemplate
+<!--{{{-->
 <div class="portletContainer">
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
-				<div class='toolbar left' macro='toolbar [[ToolbarCommands::adminToolbar]]'>
+			<div class='title' macro='edit title'></div>
 		</div>
 	</div>
-	<div class="portletContent">	
-
+	<div class="portletContent">
+		<div class='toolbar left' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
+		<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+		<div class='commentsArea' macro='comments'></div>
 	</div>
 </div>
+<!--}}}-->
+
+!issueViewTemplate
+<!--{{{-->
+	<div class="portletContainer">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+				<div class='title' macro='view title'></div>
+			</div>
+		</div>
+		<div class="portletContent simpleTiddler">
+				<div class='' macro='toolbar [[ToolbarCommands::adminToolbar]]'></a></div>
+				</br>
+				</br>
+				</br>
+			<div class='viewer2' macro='view text wikified'></div>
+		</div>
+	</div>
 <!--}}}-->

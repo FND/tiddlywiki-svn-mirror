@@ -1,6 +1,8 @@
 
 tiddler: themes/loginTheme.tid
 tiddler: themes/mainTheme.tid
+tiddler: themes/myPageTheme.tid
+
 tiddler: themes/StyleSheet.tid
 tiddler: Plugins/A_tiddlywebSpecifics.js
 
@@ -15,8 +17,6 @@ tiddler: Plugins/tdocsPreview.js
 tiddler: Plugins/tdocsPrint.js
 tiddler: Plugins/tdocsSettings.js
 tiddler: Plugins/COPIED_commentsPlugin.js
-
-
 
 tiddler: jquery/01_jQuery.js
 tiddler: jquery/09_iNestedSortable.js

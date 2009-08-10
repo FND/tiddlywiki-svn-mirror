@@ -1,15 +1,7 @@
-modifier: Simon McManus
-modified: 200708091500
 tags: systemTheme
 
 /***
-|''Name:''|mainTheme|
-|''Description:''|The basic TeamTasks theme |
-|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
-|''Version:''|0.4|
-|''Date:''|March 28th, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''Name:''|myPageTheme|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
@@ -20,31 +12,224 @@ tags: systemTheme
 |''~taskViewTemplate:''|##taskViewTemplate|
 |''~taskEditTemplate:''|##taskEditTemplate|
 |''~documentViewTemplate:''|##documentViewTemplate|
-
 ***/
 
 !PageTemplate
 <!--{{{-->
-<div id='messageHeading' refresh='content' force='true' tiddler='messageHeading'</div>
-<div id="header">
-		<div class="banner-left"></div>
-		<div class="banner-right"></div>
-		<div class="banner-search">	
-			<div  class="searchPosition" macro='search'></div>
-		</div>
-		<div class='banner-title'>
-			<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-			<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-		</div>
-</div>
 
-<div id='displayArea'>
-<div id='messageArea'></div>
+
+<link rel="stylesheet" href="http://www.btwholesale.com/container/static/wa/jarrita/css/container.opt.css" type="text/css" />
+
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/login.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/gadgets.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/container.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/simple.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/3rd/thickbox.css" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="https://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/css/override.css" />
+
+<div id="customCssHolder"></div>
+
+<!--[if lt IE 7]>
+  
+  <link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/IE6Fixes.css" type="text/css" />
+<![endif]-->
+
+
+    <div id="yuiproxy"></div>
+    <div class="body">
+      <div class="sections">
+
+        <div id="menu">
+        </div>
+        <div class="header">
+<div id="wholesale_search_wrapper">
+  <div id="search_bar">
+    <div id="header1">
+      <div id="h1left">
+      <a tabindex="2" href="/pages/static/homepage_logout.html" class="hlink" title="Home page">Homepage</a><span class="hgrey">|</span><a tabindex="3"
+            title="Products" class="hlink"
+            href="/pages/static/Products.html"
+        >Products</a><span class="hgrey">|</span><a tabindex="4"
+            title="Applications" class="hlink"
+            href="/pages/static/Applications.html"
+        >Applications</a><span class="hgrey">|</span><a tabindex="5"
+            accesskey="2" title="Customer Zone" class="hlink"
+            href="/pages/static/customerzone_logout.html"
+        >Customer zone</a><span class="hgrey">|</span><a tabindex="6"
+            title="Network Info" class="hlink"
+            href="/pages/static/Network_Info.html"
+        >Network info</a><span class="hgrey">|</span><a tabindex="7"
+            accesskey="7" title="News & Briefings" class="hlink"
+            href="/pages/static/News_and_Briefings.html"
+        >News & briefings</a><span class="hgrey">|</span><a tabindex="8"
+            title="Pricing & Contracts" class="hlink"
+            href="/pages/static/Pricing_and_Contracts.html"
+        >Pricing & contracts</a>
+
+      </div>
+      <div id="h1right">
+        <a tabindex="9" accesskey="3" title="Sitemap" class="hlink"
+            href="/pages/static/help/help_hub/site_map.html"
+        > SITEMAP</a>
+      </div>
+    </div>
+    <div id="header2">
+      <div id="flr_h2left1">
+        <a tabindex="10"
+            href="/pages/static/Community/Broadband_Community.html"
+            class="flr_h2link" title="Broadband"
+        >BROADBAND</a><span class="hgrey1">|</span><a tabindex="11"
+            href="/pages/static/Community/21_Century_Network_Community.html"
+            class="flr_h2link" title="21CN"
+        >21CN &amp; CONSULT 21</a><span class="hgrey1">|</span><a tabindex="12"
+            href="/pages/static/Community/Reseller_Community.html"
+            class="flr_h2link" title="Reseller">RESELLER</a>
+
+      </div>
+      <div id="flr_h2left">
+	    <div id="flr_h2leftb">
+          <form id="searchForm" method="get"
+            action="http://search.btwholesale.com/search" class="formMargin">
+          <fieldset class="inline">
+            <input name="site" value="default_collection" type="hidden">
+            <input name="client" value="btw_frontend" type="hidden">
+            <input name="proxystylesheet" value="btw_frontend" type="hidden">
+            <input name="output" value="xml_no_dtd" type="hidden">
+
+            <input tabindex="15" class="inputsearch" id="q" name="q" title="Search"
+                value="Search..." onfocus="return clearText()"
+                onblur="return putText()" type="text">
+            <input tabindex="16" class="greebutton" title="Search" value="GO" accesskey="4"
+                id="flr_h2leftbSpan" style="cursor: pointer;" type="submit">
+          </fieldset>
+          </form>
+        </div>
+        <div id="flr_h2lefta">
+          <div id="show_logout">
+          
+          <a tabindex="13"
+              href="/siteminderagent/forms/logout.fcc"
+          >Logout</a><span class="hgrey1">|</span><a
+               tabindex="14" class="plink"
+              href="/portalzone/editProfile/editProfile.do"
+              class="plink" title="Profile">Profile</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="portal-header">
+    <div id="logoSpacer" class="left">
+      <img alt="MyPage" title="MyPage"
+          src="https://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/Customized-portal-logo.gif"/>
+    </div>
+    <div id="ajaxMessageHolder" class="middle">
+
+      <div id="ajax_message_wrapper">
+        <div id="ajax_message">
+        </div>
+      </div>
+    </div>
+    <div id="logoHolder" class="right">
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="tab_wrapper" style="background-color: rgb(128, 128, 128);">
+    <ul class="tabs" id="tab_bar" style="visibility: visible;">
+      
+        <li class="tab spacer"/><li class="tab tab_l tab_l_selected"/><li class="tab selectedtab" id="tab_6801"><div class="tabsDiv"><span id="tab_name_6801">Home</span><a onclick="return container.toggleTabMoreFunctions('6801','Home','1')" href="#"><img src="http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/tab_dropdown_normal.png" class="moreTabFunctionsImg moreFunctionsImg" title="More functions" alt="More"/></a> <a onclick="return container.handleDeleteTab(6801);" href="#" class="clostTab_mis" id="CloseTab"><img src="static/wa/jarrita/skins/wholesale/images/icons/close_normal.png" class="moreTabFunctionsImg moreFunctionsImg" title="Remove this tab" alt="Remove"/></a></div></li><li class="tab tab_r tab_r_selected"/>
+
+<li class="tab spacer"/><li class="tab tab_l tab_l_add" id="add_tab_l">
+        </li>
+
+
+<li class="tab tab_add tabalignment2 tabalignment2OP" id="add_tab">
+          <div>
+
+            <a title="Click here to add more pages" class="thickbox mis" href="addTabForm.do?TB_iframe=true&amp;height=80&amp;width=195&amp;modal=true" id="AddTabDialogue">
+              <img src="static/wa/jarrita/skins/wholesale/images/icons/add_tab_normal.png" class="moreFunctionsImg addTabImg"/> Add a Tab
+            </a>
+
+
+          </div>
+        </li>
+        <li class="tab tab_r tab_r_add">
+      
+      
+      
+        </li><li class="tab tabalignment3OP tabalignment3" id="add_gadget">
+          <a title="Click to add gadgets from the catalogue" alt="Click to add gadgets from the catalogue" class="thickbox mis addFromCatalogue" href="/container/catalogue/index.do?target=http://www.btwholesale.com:80/container/jsp/tiles/container.jsp?null&amp;TB_iframe=true&amp;height=495&amp;width=800&amp;modal=true" id="AddFromCatalogueDialogue">
+            <img style="border: medium none ;" src="static/wa/jarrita/skins/wholesale/images/buttons/add_gadgets_normal.gif" class="addGadgetCatImg"/>
+          </a> 
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+  
 </div>
-<div id="headContainer">
-	<div class="left">
-	</div>
-</div>
+        </div>
+	
+        <div id="container">
+
+
+
+
+
+
+
+
 
 <div class='leftColumn'>
 	<div class="portletContainer leftColumnItem">
@@ -60,7 +245,7 @@ tags: systemTheme
 		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
 		</div>
 	</div>
-	<div class="portletContainer  ">
+	<div class="portletContainer">
 		<div class="portletToolbar">
 			<div class="portletCornerLeft"></div>
 			<div class="portletCornerRight"></div>
@@ -72,7 +257,7 @@ tags: systemTheme
 	<div  refresh='content'  tiddler='aboutTiddlyDocs'></div>
 		</div>
 	</div>
-	<div class="portletContainer  ">
+	<div class="portletContainer">
 		<div class="portletToolbar">
 			<div class="portletCornerLeft"></div>
 			<div class="portletCornerRight"></div>
@@ -85,9 +270,35 @@ tags: systemTheme
 		</div>
 	</div>
 </div>
-<br />
-<div id='tiddlerDisplay'></div>
 
+
+
+      </div>
+
+<div id='tiddlerDisplay'></div>
+    </div>
+    <div class="footer">
+
+<div>
+  <div id="footerleft" class="inline floatleft">
+    <a href="/pages/static/mp/disclaimer.html" class="footlink" title="Disclaimer">BT Wholesale is not responsible for the content of external internet sites</a>
+  </div>
+  <div id="footerright" class="inline floatright">
+    <a title="About BTW" class="footlink" href="/pages/static/Footer/About_BTW.html">About BTW</a>
+    <span class="hgrey1">|</span>
+
+    <a accesskey="9" title="Contact " class="footlink" href="/pages/cmsjsps/Footer/Contact.jsp">Contact </a>
+    <span class="hgrey1">|</span>
+    <a accesskey="0" title="Accessibility" class="footlink" href="/pages/static/Footer/Accessibility.html">Accessibility</a>
+    <span class="hgrey1">|</span>
+    <a title="Help" class="footlink" href="/pages/static/Footer/Help.html">Help</a>
+    <span class="hgrey1">|</span>
+
+    <a accesskey="8" title="Terms and conditions" class="footlink" href="/pages/static/Footer/Terms_and_Conditions.html">Terms and conditions</a>
+  </div>
+</div>
+
+    </div>
 <!--}}}-->
 
 !wizardViewTemplate
@@ -102,7 +313,7 @@ tags: systemTheme
 	</div>
 	<div class="portletContent">
 	<div  style='z-index:2;' class='toolbar' ></div>
-		<div class='wizardViewer'  style='background:#444; color:#fff; padding:1em' macro='view text wikified'></div>
+		<div class='wizardViewer'  style='background:padding:1em' macro='view text wikified'></div>
 	</div>
 </div>
 <!--}}}-->
@@ -253,4 +464,7 @@ tags: systemTheme
 			<div class='viewer2' macro='view text wikified'></div>
 		</div>
 	</div>
+
+
 <!--}}}-->
+
