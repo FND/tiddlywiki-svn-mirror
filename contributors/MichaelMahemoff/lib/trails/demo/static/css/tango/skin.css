@@ -19,7 +19,7 @@
 .jcarousel-skin-tango .jcarousel-clip-horizontal {
     width:  245px;
     height: 25px;
-    top: 10px;
+    top: /*10*/6px;
 }
 
 .jcarousel-skin-tango .jcarousel-clip-vertical {
@@ -50,7 +50,7 @@
  */
 .jcarousel-skin-tango .jcarousel-next-horizontal {
     position: absolute;
-    top: /*4*/3px;
+    top: /*43*/ /*3*/ 0px;
     right: 5px;
     width: 32px;
     height: 32px;
@@ -75,7 +75,7 @@
 
 .jcarousel-skin-tango .jcarousel-prev-horizontal {
     position: absolute;
-    top: /*4*/3px;
+    top: /*43*/ /*3px;*/ 0px;
     left: 5px;
     width: 32px;
     height: 32px;
