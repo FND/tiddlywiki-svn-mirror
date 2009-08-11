@@ -283,11 +283,9 @@ tags: systemTheme
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'><div class='title-right'>
+		<div class="portletTitle iconShift">
+			<div class='title' macro='view title'><div class='title-right'><div macro='docSectionButtons'></div>
 
-<img src='http://www.sheffieldhealthyschools.co.uk/images/icons/link_icon.png' height='15px' />
-<img src='http://www.acdivoca.org/852571DC00681414/Lookup/RSS-feed-small-PNG/$file/RSS-feed-small-PNG.png' height='15px' />
 
 </div></div>
 		</div>

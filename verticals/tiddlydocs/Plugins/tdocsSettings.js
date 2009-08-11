@@ -9,7 +9,7 @@ if(isLoggedIn())
 else
 	config.options.txtTheme = "loginTheme";
 
-config.options.chkBackstage = false;
+//config.options.chkBackstage = false;
 
 
 config.commands.editHtml={

@@ -14,6 +14,7 @@ tiddler: Plugins/tdocsDelete.js
 tiddler: Plugins/tdocsDocumentSwitch.js
 tiddler: Plugins/tdocsDocumentTabs.js
 tiddler: Plugins/tdocsMenu.js
+tiddler: Plugins/tdocsSectionButtons.js
 tiddler: Plugins/tdocsPreview.js
 tiddler: Plugins/tdocsPrint.js
 tiddler: Plugins/tdocsSettings.js
