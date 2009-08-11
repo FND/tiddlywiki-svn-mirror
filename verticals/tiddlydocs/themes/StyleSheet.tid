@@ -33,7 +33,6 @@ html body #search_bar {
 
 .about-tiddlydocs {
 	padding:1em;
-	font-size:0.8em;
 }
 
 
@@ -115,7 +114,6 @@ html body .leftColumnItem {
 	background:#444444 none repeat scroll 0 0;
 	border:1px solid #777;
 	color:#FFFFFF;
-	font-size:0.8em;
 	line-height:1.5em;
 	padding:2px 4px;
 	text-shadow:1px 1px 0 #444444;
@@ -270,7 +268,6 @@ margin-left:8em;
 	position:relative;
 	text-align:right;
 	top:-3.2em;
-	font-size:0.8em;
 }
 
 .taskControls {
@@ -434,7 +431,6 @@ background:#444444 none repeat scroll 0 0;
 		padding:0.5em;
 	}
 	div.title {
-		font-size:1em;
 		font-weight:none;
 		padding:0.2em 0.5em 0 0.2em;
 		color:#666;
@@ -594,8 +590,7 @@ form.wizard, .wizard{
 		.toolbar {
 			height:2.2em;
 			padding:0.5em 0 0;
-			font-size:1.2em;
-		}
+				}
 
 
 
@@ -734,9 +729,9 @@ form.wizard, .wizard{
 	}
 	.portletToolbar{
 
-		background-image:url("http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/background-portlet-header-center.jpg");
+		background-image:url("http://www.btwholesale.com/container/static/wa/jarrita/images/gadgets_chrome.png");
 		width:100%;
-		height:20px;
+		height:24px;
 		background-repeat:repeat-x;
 	}
 	.portletCornerLeft{
@@ -744,7 +739,7 @@ form.wizard, .wizard{
 		clear:left;
 		float:left;
 		width:8px;
-		height:20px;
+		height:25px;
 		background-repeat:no-repeat;
 	}
 	.portletCornerRight{
@@ -755,7 +750,7 @@ form.wizard, .wizard{
 		background-repeat:no-repeat;
 		margin:0;
 		padding:0;
-			background-image:url("http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/background-portlet-header-right.jpg");
+			background-image:url("http://www.btwholesale.com/container/static/wa/jarrita/skins/shared/images/tabs/tab_right_active.gif");
 	}
 	.portletTitle{
 		float:left;
@@ -765,7 +760,7 @@ form.wizard, .wizard{
 
 	.iconShift {
 		position:relative;
-		top:-2em;
+		top:-0.4em;
 		width:97%;
 	}
 
@@ -780,6 +775,7 @@ form.wizard, .wizard{
 		background:#fff;
 		border-bottom:1px solid #C4C4C4;
 		margin:0 0 5px;
+		font-size:1.3em;
 	}
 	.portletBotLeft{
 		clear:left;
@@ -915,7 +911,6 @@ color:#eee;
 }
 #errorBox .button {
 	line-height:2em;
-	font-size:1.3em;
 
 }
 

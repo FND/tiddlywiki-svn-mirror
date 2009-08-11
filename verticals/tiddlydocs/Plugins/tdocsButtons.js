@@ -22,14 +22,17 @@ config.macros.tdButtons.handler=function(place,macroName,params,wikifier,paramSt
 	var displaySettings= function () {
 		story.displayTiddler(null, "Settings");
 	};
-	createTiddlyButton(buttonHolder, "settings", "Personalise TiddlyDocs", displaySettings, null, null, null, null, "http://tiddlydocs.com/files/images/icon/settings.png");
+/*	createTiddlyButton(buttonHolder, "settings", "Personalise TiddlyDocs", displaySettings, null, null, null, null, "http://tiddlydocs.com/files/images/icon/settings.png");
+
 	var logout = function() {
 		if (window.fullUrl.indexOf('?') > 0)
 			window.location = window.fullUrl+'&logout=1';
 		else
 			window.location = window.fullUrl+'?logout=1';
 	};
-	createTiddlyButton(buttonHolder, "logout", "Logout of TiddlyDocs", logout, null, null, null, null, "http://ftpvweb.com/file_transfer/skins/blue/images/actions/exit.png");
+	createTiddlyButton(buttonHolder, "logout", "Logout of TiddlyDocs", logout, null, null, null, null, "");
 	createTiddlyElement(place, "br");
-}
 
+
+	*/
+}

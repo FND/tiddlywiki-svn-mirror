@@ -273,7 +273,7 @@ tags: systemTheme
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
-			<div class='title' macro='view title'><div class='title-right'><div macro='docSectionButtons'></div>
+			<div class='title' macro='view title'><img src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/><div class='title-right'><div macro='docSectionButtons'></div>
 
 
 </div></div>
@@ -285,6 +285,7 @@ tags: systemTheme
 		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>
 		<div class='commentsArea' macro='comments'></div>
 	</div>
+	<a href=''>Permalink</a> | <a href=''>RSS</a>
 </div>
 <!--}}}-->
 
