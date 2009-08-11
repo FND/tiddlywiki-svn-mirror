@@ -168,18 +168,7 @@ tags: systemTheme
 		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
 		</div>
 	</div>
-	<div class="portletContainer">
-		<div class="portletToolbar">
-			<div class="portletCornerLeft"></div>
-			<div class="portletCornerRight"></div>
-			<div class="portletTitle">
-		<div class='title'>About TiddlyDocs</div>
-			</div>
-		</div>
-		<div class="portletContent leftColumnItem">
-	<div  refresh='content'  tiddler='aboutTiddlyDocs'></div>
-		</div>
-	</div>
+
 	<div class="portletContainer">
 		<div class="portletToolbar">
 			<div class="portletCornerLeft"></div>
