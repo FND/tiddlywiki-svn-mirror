@@ -290,7 +290,7 @@ tags: systemTheme
 </div></div>
 		</div>
 	</div>
-	<div class="portletContent">
+	<div class="portletContent portletContentIconShift">
 		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
 		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>

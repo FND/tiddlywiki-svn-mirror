@@ -442,12 +442,12 @@ background:#444444 none repeat scroll 0 0;
 
 
 	#buttonHolder {
-float:right;
-margin:1em 0.3em 1em 1em;
-position:relative;
-text-align:right;
-top:-1.9em;
-width:90%;
+		float:right;
+		margin:1em 0.3em 0 0;
+		position:relative;
+		text-align:right;
+		top:-2.6em;
+		width:100%;
 	}
 	
 
@@ -575,9 +575,7 @@ form.wizard, .wizard{
 
 
 		.viewer {
-			padding:0.5em;
-			padding-top:0em;
-			padding-bottom:2em;
+			padding:1.5em;
 			position:relative;
 			top:-3.2em;
 		}
@@ -768,6 +766,12 @@ form.wizard, .wizard{
 	.iconShift {
 		position:relative;
 		top:-2em;
+		width:97%;
+	}
+
+	.portletContentIconShift {
+		position:relative;
+		top:-1.8em;
 	}
 	.portletContent{
 		clear:left;
