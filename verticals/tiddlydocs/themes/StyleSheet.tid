@@ -109,15 +109,6 @@ h10 {
 	top:-3.2em;
 }
 
-.taskControls {
-	position:relative;
-	top:-0.8em;
-}
-.editTaskControls {
-	margin-left:10em;
-	top:-3.3em;
-}
-
 .siteTitle {
 	color:#EEEEEE;
 	font-size:1.5em;
@@ -218,11 +209,9 @@ h10 {
 
 	#buttonHolder {
 		float:right;
-		margin:1em 0.3em 0 0;
+		margin:0.7em 0.5em 0 0;
 		position:relative;
-		text-align:right;
 		top:-2.6em;
-		width:100%;
 	}
 	
 
@@ -316,7 +305,8 @@ h10 {
 	}
 
 	.viewer {
-		padding:0em 1.5em 0em 1.5em;
+		padding:1.5em 1.5em 0 
+;
 		position:relative;
 		top:-3.2em;
 	}
@@ -338,6 +328,11 @@ h10 {
 		position:relative;
 	}
 
+	.commentStretch {
+		border-top: 1px solid #C4C4C4;
+		background:#eee;
+		width:100%;	
+	}
 /* END TIDDLYWIKI CS */
 
 /*  TEAK TASKS CSS */

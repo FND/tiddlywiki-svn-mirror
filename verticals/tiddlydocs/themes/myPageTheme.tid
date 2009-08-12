@@ -8,9 +8,6 @@ tags: systemTheme
 |''~wizardViewTemplate:''|##wizardViewTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
 |''~EditTemplate:''|##EditTemplate|
-|''~taggingViewTemplate:''|##taggingViewTemplate|
-|''~taskViewTemplate:''|##taskViewTemplate|
-|''~taskEditTemplate:''|##taskEditTemplate|
 |''~documentViewTemplate:''|##documentViewTemplate|
 ***/
 
@@ -145,15 +142,6 @@ tags: systemTheme
         </div>
 	
         <div id="container">
-
-
-
-
-
-
-
-
-
 <div class='leftColumn'>
 	<div class="portletContainer leftColumnItem">
 		<div class="portletToolbar">
@@ -164,7 +152,6 @@ tags: systemTheme
 			</div>
 		</div>
 		<div class="portletContent leftColumnItem">
-		<br />
 		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
 		</div>
 	</div>
@@ -293,42 +280,7 @@ tags: systemTheme
 	<div class="portletContent portletContentIconShift">
 			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
-		<!--<div class='commentsArea' macro='comments'></div>-->
 <div macro='commentSlider'></div>
-	</div>
-</div>
-<!--}}}-->
-
-!simpleViewTemplate
-<!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
-		</div>
-	</div>
-	<div class="portletContent simpleTiddler">
-		<div class='viewer' macro='view text wikified'></div>
-	</div>
-</div>
-
-<!--}}}-->
-
-!simpleEditTemplate
-<!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-		</div>
-	<div class="portletContent">
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
-		<div class='editor' macro='editHtml text' ></div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
-		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	</div>
 </div>
 <!--}}}-->
@@ -353,44 +305,4 @@ tags: systemTheme
 	</div>
 <!--}}}-->
 
-
-!issueEditTemplate
-<!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='edit title'></div>
-		</div>
-	</div>
-	<div class="portletContent">
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
-		<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='commentsArea' macro='comments'></div>
-	</div>
-</div>
-<!--}}}-->
-
-!issueViewTemplate
-<!--{{{-->
-	<div class="portletContainer">
-		<div class="portletToolbar">
-			<div class="portletCornerLeft"></div>
-			<div class="portletCornerRight"></div>
-			<div class="portletTitle">
-				<div class='title' macro='view title'></div>
-			</div>
-		</div>
-		<div class="portletContent simpleTiddler">
-				<div class='' macro='toolbar [[ToolbarCommands::adminToolbar]]'></a></div>
-				</br>
-				</br>
-				</br>
-			<div class='viewer2' macro='view text wikified'></div>
-		</div>
-	</div>
-
-
-<!--}}}-->
 
