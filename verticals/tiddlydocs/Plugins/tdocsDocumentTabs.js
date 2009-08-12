@@ -8,6 +8,10 @@ config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramSt
 }
 
 
+config.macros.docTabs.switchDoc = function (title) {
+	window.activeDocument = title;
+	refreshAll();
+}
 
 config.macros.docTabs.refresh = function() {
 	var html = '<li class="tab tab_l tab_l_selected"/>';
@@ -19,7 +23,7 @@ var values = store.getTaggedTiddlers('document');
 		if(values[i].title == window.activeDocument){
 			selectedHtml += '<li class="tab selectedtab" id="tab_6801"><div class="tabsDiv"><span 		id="tab_name_6801">'+values[i].title+'</span></div></li><li class="tab tab_r tab_r_selected"/>';
 		} else {
-			selectedHtml +=  '<li class="tab tab_l tab_l_add" id="add_tab_l"></li><li class="tab tab_add tabalignment2 tabalignment2OP" id="add_tab"><div><a title="Click here to add more pages" class="thickbox mis"  id="AddTabDialogue"><img src="static/wa/jarrita/skins/wholesale/images/icons/add_tab_normal.png" class="moreFunctionsImg addTabImg"/>'+values[i].title+'</a></div></li><li class="tab tab_r tab_r_add"></li>';
+			selectedHtml +=  '<li class="tab tab_l tab_l_add" id="add_tab_l"></li><li class="tab tab_add tabalignment2 tabalignment2OP" id="add_tab"><div><a title="Click here to add more pages" class="thickbox mis"  id="AddTabDialogue" onclick="config.macros.docTabs.switchDoc(\''+values[i].title+'\');"><img src="static/wa/jarrita/skins/wholesale/images/icons/add_tab_normal.png" class="moreFunctionsImg addTabImg"/>'+values[i].title+'</a></div></li><li class="tab tab_r tab_r_add"></li>';
 	
 		}
 	selectedHtml += '<li class="tab spacer"/>';

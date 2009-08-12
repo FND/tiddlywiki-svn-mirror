@@ -20,6 +20,4 @@ config.macros.newDocument.createDocumentOnClick = function(e, w) {
 		}
 		window.activeDocument = docName;
 		refreshAll();
-		alert("PLEASE RELOAD THE PAGE BEFORE YOU CONTINUE");
-//	window.location.href = window.location.href.split("#")[0]+'#'+docName;
 }
