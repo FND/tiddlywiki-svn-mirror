@@ -5,7 +5,6 @@ type: None
 tags: news mainstream
 
 {
-  "name": "News",
   "resources": [
     {"name": "BBC News",    "url": "http://bbc.co.uk",       "note": "One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! " },
     {"name": "Google News", "url": "http://news.google.com", "note": "If robots made news. Wait, they do!" },
