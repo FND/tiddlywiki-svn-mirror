@@ -33,14 +33,6 @@ from tiddlyweb.web.wsgi import HTMLPresenter
 # function to handle figuring out which bag tiddlers are in given a recipe
 from tiddlyweb import control
 
-
-# Set a template environment that describes where to
-# load template files from.
-
-
-
-
-
 import os
 import re
 import shutil
@@ -54,7 +46,7 @@ def refreshnojstemplates(args):
     
     
 def define_js_redirect(location):
-  text = "<script type='text/javascript'>{% if tiddlers and tiddlers|length == 1 %}\nwindow.location = \"{{environ[\"nojs_base\"]}}{{environ[\"nojs_path\"]}}.wiki#[[{{tiddlers[0].title|escape}}]]\";\n{% endif %}\nvar links = document.getElementsByTagName(\"a\");\n\nfor(var i=0; i < links.length; i++){\n  var link = links[i].href;\n    if(link.indexOf(\"/tiddlers/\") != -1){\n      link = link.replace(/\/tiddlers\/([^/]*)/,\"/tiddlers.wiki#[[$1]]\");\n    }\n    links[i].href= link;\n}\n</script>"
+  text = "<script type='text/javascript'>window.location= window.location;</script>"
   fileObj = open(nojspath+"%sjs.html"%location,"w") #open for write
   fileObj.write(text)
   fileObj.close()      
@@ -69,7 +61,7 @@ def define_index(location):
   "{%% include '%sStyleSheetLayout.html'%%}{%% include '%sStyleSheet.html' %%}"%(pathname,pathname)+\
   "#saveTest {display:none;}\n#messageArea {display:none;}\n#copyright {display:none;}\n#storeArea {display:none;}\n#storeArea div {padding:0.5em; margin:1em 0em 0em 0em; border-color:#fff #666 #444 #ddd; border-style:solid; border-width:2px; overflow:auto;}\n#shadowArea {display:none;}\n#javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}</style>"+\
   "</head>"+\
-  "<body><div id='contentWrapper' class='backstageVisible'>{%% include '%sPageTemplate.html' %%}</div>{%% include '%sjs.html' %%}</body></html>"%(pathname,pathname)
+  "<body><noscript><div id='contentWrapper' class='backstageVisible'>{%% include '%sPageTemplate.html' %%}</div></noscript>{%% include '%sjs.html' %%}</body></html>"%(pathname,pathname)
   fileObj = open(nojspath+"%sindex.html"%location,"w") #open for write
   fileObj.write(text)
   fileObj.close() 
@@ -314,17 +306,65 @@ SERIALIZERS = {
 }
         
 from tiddlyweb.serializations.html import Serialization as HTMLSerialization
-
+from tiddlyweb.serializer import Serializer
 class Serialization(HTMLSerialization):
     
     def __init__(self, environ={}):
         self.environ = environ
     
     def list_tiddlers(self, bag):
-        return generate_index(self.environ,bag)
+        try:
+          if self.environ["HTTP_REFERER"] == "http://%s%s"%(self.environ['HTTP_HOST'],self.environ['REQUEST_URI']):
+            js = True
+          else:
+            js = False
+        except KeyError:
+          js = False
+        if js:
+          s = Serializer("tiddlywebwiki.serialization",self.environ)
+          return s.list_tiddlers(bag)
+        else:
+          return generate_index(self.environ,bag)
   
     def tiddler_as(self, tiddler):
-        return generate_without_js(self.environ,tiddler.title)
+        store = self.environ['tiddlyweb.store'] 
+        try:
+            if self.environ["HTTP_REFERER"] == "http://%s%s"%(self.environ['HTTP_HOST'],self.environ['REQUEST_URI']):
+              js = True
+            else:
+              js = False
+        except KeyError:
+            js = False
+        if js:
+            s = Serializer("tiddlywebwiki.serialization",self.environ)
+            #s.object = tiddler
+            if tiddler.recipe: 
+                recipe_name = tiddler.recipe
+                recipe = store.get(Recipe(recipe_name))
+                list_tiddlers = control.get_tiddlers_from_recipe(recipe)
+                
+                tiddlers = []
+                for tid in list_tiddlers:
+                    try:
+                      bag= control.determine_tiddler_bag_from_recipe(recipe, tid)
+                      tid.bag = bag.name
+                      tiddlers.append(store.get(tid))
+                    except NoBagError:
+                      pass
+                tempbag = Bag("tempbag",tmpbag=True)
+                
+                tempbag.add_tiddlers(list_tiddlers)
+                return s.list_tiddlers(tempbag)
+            else:
+                tempbag = Bag(tiddler.bag)   
+                tempbag = store.get(tempbag)         
+                return s.list_tiddlers(tempbag)
+           
+        else:
+            return generate_without_js(self.environ,tiddler.title)
+         
+           
+        
 
 def init(config_in):
     global config
