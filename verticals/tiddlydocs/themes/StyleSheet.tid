@@ -141,6 +141,9 @@ h1 {
 		border:1px solid red;
 		color:#222;
 	}
+	.sectionHeading {
+		width:100%;
+	}
 	.sort-handle-edit {
 		border:1px solid #C7C7C7;
 		background:white;
@@ -315,7 +318,9 @@ h1 {
 		border-top: 1px solid #C4C4C4;
 		background:#eee;
 		width:100%;	
+		min-height:1.9em;
 	}
+
 /* END TIDDLYWIKI CS */
 
 /*  TEAK TASKS CSS */

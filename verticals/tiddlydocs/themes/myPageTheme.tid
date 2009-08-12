@@ -286,7 +286,11 @@ tags: systemTheme
 	<div class="portletContent portletContentIconShift">
 			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
-<div macro='commentSlider'></div>
+<div macro='commentSlider'>
+	<div class='right'>
+		RSS | Permalink
+	</div>
+</div>
 	</div>
 </div>
 <!--}}}-->

@@ -11,6 +11,8 @@ config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramSt
 config.macros.docTabs.switchDoc = function (title) {
 	window.activeDocument = title;
 	refreshAll();
+	var firstItem = jQuery.parseJSON(store.getTiddlerText(title)).content[0].title;
+	story.displayTiddler(null, firstItem);
 }
 
 config.macros.docTabs.refresh = function() {
