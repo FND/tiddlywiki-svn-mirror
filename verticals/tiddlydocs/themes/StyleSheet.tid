@@ -310,74 +310,113 @@ h10 {
 
 /*ENDWIZARD*/
 
+	.clear { /* generic container (i.e. div) for floating buttons */
+	    overflow: hidden;
+	    width: 100%;
+	}
 
-		.clear { /* generic container (i.e. div) for floating buttons */
-		    overflow: hidden;
-		    width: 100%;
-		}
-	
-	 
-	
-	    
+	.viewer {
+		padding:0em 1.5em 0em 1.5em;
+		position:relative;
+		top:-3.2em;
+	}
 
-
-
-
-		.viewer {
-			padding:0em 1.5em 0em 1.5em;
-			position:relative;
-			top:-3.2em;
-		}
-		.viewer th, .viewer thead td, .twtable th, .twtable thead td  {
+	.viewer th, .viewer thead td, .twtable th, .twtable thead td  {
 		 background:#5586B6 none repeat scroll 0 0;
-		}
+	}
 
-		.viewer th, .viewer thead td, .twtable th, .twtable thead td {
-			border:1px solid #5586B6;
-		}
-		
-		
-		
-		
-		
-		.toolbar {
-			font-size:0.6em;		
-		}
+	.viewer th, .viewer thead td, .twtable th, .twtable thead td {
+		border:1px solid #5586B6;
+	}
 
+	.toolbar {
+		font-size:0.6em;		
+	}
 
-
-		.toolbar  > a {
+	.toolbar  > a {
 		top:1px;
 		position:relative;
-		}
-	/* END TIDDLYWIKI CS */
+	}
 
-	/*  TEAK TASKS CSS */
+	.editor {
+		position:relative;
+		top:-3.5em;
+	}
+	.newEditor {
+		top:0.5em;
+	}
+	
+	div.editor input {
+		width:98%;
+	}
+
+	#messageArea {
+		padding-top:2.2em;
+		border:none;
+		background: transparent;
+	}
+
+	#messageArea .messageBox {
+		border:1px solid #777;
+		color:#fff;
+		background:#333;
+		padding:10px;
+		margin-top:5px;
+		margin-bottom:5px;
+		-moz-border-radius:5px;
+		-webkit-border-radius:5px;
+		filter:alpha(opacity=80);
+		width:16em;
+	}
+
+	#messageArea .messageText {
+		display:block;
+		width:5em;
+		margin:0;
+		padding:0;
+	}
+
+	#messageArea .messageClear {
+		display:block;
+		float:right;
+		width:1em;
+	}
+
+	#messageArea .messageClear a {
+		text-decoration:none;
+		background-color: transparent;
+		color:white;
+	}
+/* END TIDDLYWIKI CS */
+
+/*  TEAK TASKS CSS */
+
 	.viewer table, table.twtable, .viewer td, .viewer tr, .twtable td, .twtable tr {
 		border:0px !important;
 	}
-	/*  END TEAM TASKS CSS */
 
-	/*  COMMENTS CSS */
+/*  END TEAM TASKS CSS */
+
+/*  COMMENTS CSS */
 
 	.commentsArea {
-	
 		padding:2em;
 		text-align:center;
 		background:#fff;
 	}
 
 	.comment .heading {
-	background:#F3F3F3 none repeat scroll 0 0 !important;
-	padding:0.5em;
-	background:transparent;
-	border-bottom:1px solid #F3F3F3 !important;
-	border-right 0px;
+		background:#F3F3F3 none repeat scroll 0 0 !important;
+		padding:0.5em;
+		background:transparent;
+		border-bottom:1px solid #F3F3F3 !important;
+		border-right 0px;
 	}
 	
 	.replyLink {
 		padding:1em;
 	}
+
 	.comment .reply {
 		width:95%;
 	}
@@ -391,7 +430,7 @@ h10 {
 	}
 
 	.comment {
-	border:1px solid #F3F3F3;
+		border:1px solid #F3F3F3;
 	}
 
 	.comments {
@@ -442,14 +481,17 @@ h10 {
 		padding-top:0px;
 		color:#555;
 	}
+
 	div.toc-sort-handle div{
 		margin:0em;
 	}
+
 	div.toc-sort-handle:hover {
 		background-color:#eee;
 	}
 
 // END NESTED SORTABLE CSS
+
 
 	.portletContainer{
 		background-color:#ffffff;
@@ -462,6 +504,7 @@ h10 {
 		height:27px;
 		background-repeat:repeat-x;
 	}
+
 	.portletCornerLeft{
 		background-image:url("http://farm3.static.flickr.com/2557/3811711040_63f5c19255.jpg");
 		clear:left;
@@ -470,6 +513,7 @@ h10 {
 		height:27px;
 		background-repeat:no-repeat;
 	}
+
 	.portletCornerRight{
 		float:right;
 		width:4px;
@@ -480,6 +524,7 @@ h10 {
 		padding:0;
 		background-image:url("http://farm3.static.flickr.com/2495/3810897123_5e73acc925.jpg");
 	}
+
 	.portletTitle{
 		float:left;
 		padding:4px 0 0 0;
@@ -503,23 +548,7 @@ h10 {
 		margin:0 0 5px;
 		font-size:1.3em;
 	}
-	.portletBotLeft{
-		clear:left;
-		float:left;
-		width:6px;
-		height:6px;
-		background-image:url("http://farm4.static.flickr.com/3563/3302865501_7b1e814cd1_m.jpg");
-		background-repeat:no-repeat;
-		background-position:bottom left;
-	}
-	.portletBotRight{
-		float:right;
-		width:6px;
-		height:6px;
-		background-image:url("http://farm4.static.flickr.com/3406/3302865427_ac45364db5_m.jpg");
-		background-repeat:no-repeat;
-		background-position:bottom right;
-	}
+
 	.leftColumn{
 		padding:0em;
 		margin:0em;
@@ -538,136 +567,9 @@ h10 {
 		
 	}
 	
-	.middleColumn{
-		margin:0 auto;
-		text-align:left
+
+	.hideIcon {
+		padding:7px 6px 0px 5px;
 	}
-	.paddedBox{
-		padding:10px;
-	}
-	.fixedHeightBox{
-		height:150px;
-	}
-	.sizedPortlet{
-		width:350px;
-	}
-	.blankSpace{
-		clear:both;
-		height:20px;
-	}
-	.legalNoticeHeader{
-		font-weight:bold;
-		padding:5px 10px 10px 10px;
-	}
-	.legalNoticeMessage{
-		color:red;
-		padding:5px 10px 10px 10px;
-	}
-	.inputField{
-	}
-	.loginfield{
-	}
-	.statusTitle{
-	}
-	.statusMessageGood{
-	}
-	.dropzoneactive { background: pink; }
-	.dropzonehover { background: orange; }
-
-	.editor {
-		position:relative;
-		top:-3.5em;
-	}
-	.newEditor {
-		top:0.5em;
-	}
-	
-	div.editor input {
-		width:98%;
-	}
-
-
-#messageHeading{
-	background:#FFEE88 none repeat scroll 0 0;
-	border:2px solid #DDBB44;
-	color:red;
-	margin:1em;
-	padding:0.2em;
-	text-decoration:none;
-}
-
-#messageHeading a{
-	color:red;
-	border-bottom:0px;
-}
-
-
-#messageArea {
-padding-top:2.2em;
-	border:none;
-	background: transparent;
-}
-
-#messageArea .messageBox {
-	border:1px solid #777;
-	color:#fff;
-	background:#333;
-	padding:10px;
-	margin-top:5px;
-	margin-bottom:5px;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	filter:alpha(opacity=80);
-	width:16em;
-}
-
-#messageArea .messageText {
-	display:block;
-	width:5em;
-	margin:0;
-	padding:0;
-}
-
-#messageArea .messageClear {
-	display:block;
-	float:right;
-	width:1em;
-}
-
-#messageArea .messageClear a {
-	text-decoration:none;
-	background-color: transparent;
-	color:white;
-}
-
-
-.viewer   a:link, .viewer a:visited {
-color:black;
-}
-
-.viewer h1, .viewer h2, .viewer h3 {
-color:black
-}
-
-.providedBy h5 {
-	text-align:left;
-}
-.providedBy img {
-	padding:2em;
-	padding-top:0em;
-}
-
-.newCommentArea  a.btn {
-	margin-top:0.5em;
-}
-
-
-
-.hideIcon {
-	padding:7px 6px 0px 5px;
-}
 
 <!--}}}-->
-
-
-
