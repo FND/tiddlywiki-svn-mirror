@@ -32,6 +32,7 @@ modifier: Simon McManus
 	#tab_bar {
 		visibility: visible;
 	}
+	
 /* END MyPage Specifics */
 
 
@@ -152,7 +153,7 @@ h1 {
 		color:black !important;
 	}
 	.draggableOn {
-		cursor:move;s
+		cursor:move;
 	}
 
 /* END nestedSortable CSS */
