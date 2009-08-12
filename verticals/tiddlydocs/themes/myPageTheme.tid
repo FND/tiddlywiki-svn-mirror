@@ -219,11 +219,18 @@ tags: systemTheme
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'> </div>
+	<div class="portletTitle iconShift">
+
+			<div class='title titleToolbar' macro='view title'><img class='hideIcon' src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>
+
+<div class='title-right'>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
+
+</div>
+</div>
 		</div>
 	</div>
-	<div class="portletContent">
+	<div class="portletContent portletContentIconShift">
 	<div  style='z-index:2;' class='toolbar' ></div>
 		<div class='wizardViewer'  style='background:padding:1em' macro='view text wikified'></div>
 	</div>
@@ -273,19 +280,22 @@ tags: systemTheme
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
-			<div class='title' macro='view title'><img src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/><div class='title-right'><div macro='docSectionButtons'></div>
 
+			<div class='title titleToolbar' macro='view title'><img class='hideIcon' src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>
 
-</div></div>
+<div class='title-right'>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
+
+</div>
+</div>
 		</div>
 	</div>
 	<div class="portletContent portletContentIconShift">
-		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
-		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>
-		<div class='commentsArea' macro='comments'></div>
+		<!--<div class='commentsArea' macro='comments'></div>-->
+<div macro='commentSlider'></div>
 	</div>
-	<a href=''>Permalink</a> | <a href=''>RSS</a>
 </div>
 <!--}}}-->
 

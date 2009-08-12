@@ -67,7 +67,7 @@ store.addNotification("StyleSheetGoogleButton", refreshStyles);
   }
 
 .btn span {
-  background:#aaa;
+  background:#F3F3F3;
   z-index:1;
   margin:0;
   padding:3px 0;
@@ -78,7 +78,7 @@ store.addNotification("StyleSheetGoogleButton", refreshStyles);
   padding-top:0;
   }
 .btn span span {
-  color:#fff;
+  color:#666;
   background:none;
   position:relative;
   padding:3px .4em;
@@ -108,7 +108,7 @@ store.addNotification("StyleSheetGoogleButton", refreshStyles);
 
 .btn:hover span, .btn:hover span span {
   cursor:pointer;
-  border-color:white!important;
+  border-color:#777 !important;
   }
 
 .primary {

@@ -2,75 +2,28 @@ modifier: Simon McManus
 
 
 
-html body .body .sections {
-	background: #F3F3F3;
-}
+/* MyPage Specifics */
 
-#tab_wrapper ul li {
+	html body .body .sections {
+		background: #F3F3F3;
+	}
 
-border:medium none;
-list-style-image:none;
-list-style-position:outside;
-list-style-type:none;
-margin:0;
-padding:0;
-}
+	#tab_wrapper ul li {
+		border:medium none; 
+		list-style-image:none;
+		list-style-position:outside;
+		list-style-type:none;
+		margin:0;
+		padding:0;
+	}
 
+	html body #search_bar {
+		background:#FFFFFF none repeat scroll 0 0;
+		display:block;
+		height:auto;
+	}
 
-
-html body #search_bar {
-	background:#FFFFFF none repeat scroll 0 0;
-	display:block;
-	height:auto;
-}
-
-
-
-.about-tiddlydocs .tiddlyLink, .about-tiddlydocs .aboutLink {
-	color:white;
-}
-
-
-.about-tiddlydocs {
-	padding:1em;
-}
-
-
-.header {
-	background-color:#fff;
-}
-#header {
-	overflow:auto;
-	padding:1em;
-}
-
-.banner-left {
-	float:left;
-	background:transparent url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/banner-top-left.png) repeat-x scroll 0 0;
-	width:8px;
-	height:47px;	
-}
-
-.banner-right {
-	width:8px;
-	height:47px;
-	background:transparent url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/banner-top-right.png) repeat-x scroll 0 0;
-}
-
-.banner-search, .banner-right {
-	float:right;
-}
-
-.banner-title, .banner-search {
-	height:47px;
-	padding-top:1.1em;
-	padding:1em;
-}
-
-.banner-title {
-	margin: 0 8px;
-	background:transparent url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/top.png) repeat-x scroll 0 0;
-}
+/* END MyPage Specifics */
 
 
 
@@ -81,13 +34,10 @@ div.portletTitle  div.title  input {
 	color:#FFFFFF;
 }
 
-
-
 html body .leftColumnItem {
  	background-color:#fff;
 	color:white;
 }
-
 
 .searchPosition {
 	float:right;
@@ -95,163 +45,53 @@ html body .leftColumnItem {
 
 .title-right {
 	float:right;
+	height:20px;
 	position:relative;
-	right:-2em;
+	right:-1em;
 	text-align:right;
-	top:1.8em;
+	top:-1.3em;
 	width:100%;
 }
-
-.siteSubtitle .tiddlyLink {
-	color:#fff;
-}
-.searchButton {
-	float:right;
-	-moz-border-radius-bottomleft:2px;
-	-moz-border-radius-bottomright:2px;
-	-moz-border-radius-topleft:2px;
-	-moz-border-radius-topright:2px;
-	background:#444444 none repeat scroll 0 0;
-	border:1px solid #777;
-	color:#FFFFFF;
-	line-height:1.5em;
-	padding:2px 4px;
-	text-shadow:1px 1px 0 #444444;
-	vertical-align:top;
-}
-#searchform fieldset #s, .txtOptionInput {
-	-moz-border-radius-bottomleft:2px;
-	-moz-border-radius-bottomright:2px;
-	-moz-border-radius-topleft:2px;
-	-moz-border-radius-topright:2px;
-	background:#151515 repeat-x scroll 0 0;
-	border:1px solid #777;
-	color:#777;
-	font-family:helvetica,arial,sans-serif;
-	float:right;
-	margin-bottom:0.7em;
-	margin-right:5px;
-	text-shadow:1px 1px 0 #151515;
-	width:113px;
-}
-
-#searchform fieldset {
-	background:transparent ;
-	padding:7px 13px 2px;
-	position:relative;
-	top:-3px;
-	float:right;
-	border:0px;
-}
-
-
-
-#searchform fieldset #searchsubmit:hover {
-	background:#eee none repeat scroll 0 0;
-	border:2px solid #777777;
-}
-#searchform fieldset #searchsubmit {
-	-moz-border-radius-bottomleft:2px;
-	-moz-border-radius-bottomright:2px;
-	-moz-border-radius-topleft:2px;
-	-moz-border-radius-topright:2px;
-	background:#444444 none repeat scroll 0 0;
-	border:2px solid #666666;
-	color:#FFFFFF;
-	font-weight:bold;
-	line-height:1.5em;
-	padding:3px 6px;
-	text-shadow:1px 1px 0 #444444;
-	vertical-align:top;
-}
-
-
-
-
-
-#searchform fieldset #searchsubmit:hover {
-	background:#555555 none repeat scroll 0 0;
-	border:2px solid #777777;
-}
-#searchform fieldset #searchsubmit {
-	-moz-border-radius-bottomleft:2px;
-	-moz-border-radius-bottomright:2px;
-	-moz-border-radius-topleft:2px;
-	-moz-border-radius-topright:2px;
-	background:#444444 none repeat scroll 0 0;
-	border:2px solid #666666;
-	color:#FFFFFF;
-	font-weight:bold;
-	line-height:1.5em;
-	padding:3px 6px;
-	text-shadow:1px 1px 0 #444444;
-	vertical-align:top;
-}
-
-
-
-
-
-
-
-.head-applinks {
-	background:transparent url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/top-banner-short.png) repeat-x scroll 0 0;
-	float:left;
-	height:50px;
-	left:1em;
-	position:relative;
-	top:-4em;
-	width:100%;
-	z-index:1;
-}
-
-h1, h2, h3, h4, h5, h6, h7, h8, h9, h10 {
-	background:transparent none repeat scroll 0 0;
-	color:#222;
-	border-bottom:1px solid #ccc;
-}
-
 
 h1 {
-margin-left:0em;
+	margin-left:0em;
 }
 
 h2 {
-margin-left:1em;
+	margin-left:1em;
 }
 
 h3 {
-margin-left:2em;
+	margin-left:2em;
 }
 
 h4 {
-margin-left:2em;
+	margin-left:2em;
 }
 
 h5 {
-margin-left:3em;
+	margin-left:3em;
 }
 
 h6 {
-margin-left:4em;
+	margin-left:4em;
 }
 
 h7 {
-margin-left:5em;
+	margin-left:5em;
 }
 
 h8 {
-margin-left:6em;
+	margin-left:6em;
 }
 
 h9 {
-margin-left:7em;
+	margin-left:7em;
 }
 
 h10 {
-margin-left:8em;
+	margin-left:8em;
 }
-
 
 .wizard h1 {
 	line-height:1.1em;
@@ -260,7 +100,6 @@ margin-left:8em;
 #headContainer{
 	position:relative;
 }
-
 
 #searchRight {
 	float:right;
@@ -271,10 +110,6 @@ margin-left:8em;
 }
 
 .taskControls {
-	color:white;
-	left:7em;
-	margin:0;
-	padding:0;
 	position:relative;
 	top:-0.8em;
 }
@@ -282,15 +117,6 @@ margin-left:8em;
 	margin-left:10em;
 	top:-3.3em;
 }
-
-
-html body a {
-	color:#333;
-}
-.headerShadow {
-	padding:0px;
-}
-
 
 .siteTitle {
 	color:#EEEEEE;
@@ -306,32 +132,10 @@ html body a {
 
 }
 
-body {
-	font-family:Arial;
-	background:#eee;
-	color:#333;
-	font-family:helvetica,arial,sans-serif;
-	
-}
-
-.topBanner {
-	background:#ddd none repeat scroll 0 0;
-	padding:1em;
-	margin-bottom:0.5em;
-	position:absolute;
-	text-align:right;
-	width:96%;
-}
-
-#layoutContainer {
-	background-color:#ccc;
-}
-
 .editor input, .editor textarea {
 	border:1px solid #C7C7C7;
 	margin:0.5em;
 }
-
 
  .deleteHelper {
 	background-color:red;
@@ -343,32 +147,15 @@ body {
 }
 
 /* nestedSortable CSS */
-	.sectionHeading a{
-		/*	display:none;
-		visibility:hidden;
-		*/
-	}
-	.sectionHeading a:hover {
-	/*	display:inline;
-		visibility:visible;
-		border: 1px solid #ddd;
-	 */
-	}
 	.current-nesting {
 		background-color: yellow;
 	}
-	.helper {
-	/*	margin-left:1em !important;
-	border-bottom:2px solid #777777;
-	height:3px !important;
-	padding:0.6em;
-	*/
-	
-	border:2px dashed #777777;
+	.helper {		
+		border:2px dashed #777777;
 	}
 
 	.deleteZoneClass {
-		background: #3f3f3f url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat bottom right;
+		background: #eee url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat bottom right;
 		text-align:left;
 		padding:0.5em 1em 1em;
 		margin:25em 4em 4em;
@@ -394,36 +181,28 @@ body {
 		color:black !important;
 	}
 	.draggableOn {
-		cursor:move;
-		/*	background-color:#eee !important; */
+		cursor:move;s
 	}
 
 /* END nestedSortable CSS */
 
 /* tiddlerTree CSS */
 
-
-li.toc-item {
-list-style:none;
-}
-
-
-#backstageArea, #backstageArea a {
-background:#444444 none repeat scroll 0 0;
-}
-
-#backstageArea {
-	border-bottom:1px solid #777;
-}
-	#mainMenu {
-		padding:0px;
-		border:0px solid white;
-		height:95%;
-		position:relative;
-		color:#333;
+	li.toc-item {
+		list-style:none;
 	}
-	div.title {
-		padding :1em;
+
+
+	#backstageArea, #backstageArea a {
+		background:#444444 none repeat scroll 0 0;
+	}
+
+	#backstageArea {
+		border-bottom:1px solid #777;
+	}
+
+	titleToolbar {
+		font-size:0.8em;	
 	}
 
 	div.subtitle {
@@ -432,7 +211,7 @@ background:#444444 none repeat scroll 0 0;
 	}
 	div.title {
 		font-weight:none;
-		padding:0.2em 0.5em 0 0.2em;
+		padding:0em 0.5em 0 0.2em;
 		color:#666;
 	}
 
@@ -456,19 +235,9 @@ background:#444444 none repeat scroll 0 0;
 		border-right : 0px solid #d3bebe;
 	}
 
-	li {
-		/*		style:none;*/
-	}
 
 	ul {
-		padding-left:0px;
-		margin:0em !important;
-		padding-left:1em;
-		padding-right:1em;
-	}
-	
-	a:link, a:visited {
-		color:white;
+		margin:0em;
 	}
 
 
@@ -476,86 +245,70 @@ background:#444444 none repeat scroll 0 0;
 
 /* TIDDLYWIKI CSS */
 
-.editor textarea {
-background-color:#fff;
-width:98.5%;
-}
-
-
-#mainMenu {
-	top:0.5em;
-	height:100%;
-	position:relative;
-	width:100%;
-}
-
-#tiddlerDisplay {
-	float:right;
-	height:100%;
-	margin:0 2em 0 0;
-	overflow:hidden;
-	padding:0;
-	position:relative;
-	top:2em;
-	width:67%;
-}
-
-
-	.toolbar a, .toolbar:hover{
-	color:white;
+	.editor textarea {
+		background-color:#fff;
+		width:98.5%;
 	}
-	#displayArea {
-		margin:0px;
+
+	#mainMenu {
+		top:0.5em;
+		height:100%;
+		position:relative;
+		width:100%;
 	}
+
+	#tiddlerDisplay {
+		float:right;
+		height:100%;
+		margin:0 2em 0 0;
+		overflow:hidden;
+		padding:0;
+		position:relative;
+		top:2em;
+		width:67%;
+	}
+
 	div.tiddler {
 		background-color:transparent;
 		border:0px;
 		margin-right:1em;
 		padding:0 0 3em;
 	}
-	div.tiddler .tab {
-		background-color:#ddd;
-	}
-	 /*WIZARD*/
 
+/*WIZARD*/
 
-form.wizard, .wizard{
+	form.wizard, .wizard{
 		background:#eee none repeat scroll 0 0 !important;
 		border:1px solid #555;
 		color:#555;
 		padding:1em;
 	}
 
- .wizardFooter {
-	border:0px;
-	background:transparent;
-}
+	 .wizardFooter {
+		border:0px;
+		background:transparent;
+	}
+
 	div.wizardBody div.wizardStep {
 		border:1px solid #222;
 		background:#fff;
 		padding:1em;
 	}
-		.wizard .button {
-			background:#5586B6 none repeat scroll 0 0 !important;
-			color:white !important;
-			padding:0.2em;
-			padding-left:0.4em !important;
-			padding-right:0.4em !important;
-			font-weight:bold;
 
-		}
+	.wizard .button {
+		background:#5586B6 none repeat scroll 0 0 !important;
+		color:white !important;
+		padding:0.2em;
+		padding-left:0.4em !important;
+		padding-right:0.4em !important;
+		font-weight:bold;
+	}
 
+	div.wizardFooter {
+		margin-left :9.2em;
+	}
 
-		div.wizardFooter {
-			margin-left :9.2em;
-		}
-	/*ENDWIZARD*/
-
-
-
-
-
-
+/*ENDWIZARD*/
 
 
 		.clear { /* generic container (i.e. div) for floating buttons */
@@ -571,7 +324,7 @@ form.wizard, .wizard{
 
 
 		.viewer {
-			padding:1.5em;
+			padding:0em 1.5em 0em 1.5em;
 			position:relative;
 			top:-3.2em;
 		}
@@ -588,9 +341,8 @@ form.wizard, .wizard{
 		
 		
 		.toolbar {
-			height:2.2em;
-			padding:0.5em 0 0;
-				}
+			font-size:0.6em;		
+		}
 
 
 
@@ -633,95 +385,71 @@ form.wizard, .wizard{
 	.commentTitle {
 		color:#666;
 	}
+
 	.deleteComment {
 		display:none;
 	}
+
 	.comment {
 	border:1px solid #F3F3F3;
 	}
-		.comments {
-			padding:0.5em;
-			text-align:left;
-		}
-		.comments .newCommentArea {
-			text-align:center;
-			padding-top:2em;
-		}
-		.commentText {
-			padding:1em !important;
-			background-color:transparent;
-			color:#eee
-		}
 
-		.tiddler .button {
-			margin:0.1em  1em;
-			padding:0.2em 0.3em;
-		}
+	.comments {
+		padding:0.5em;
+		text-align:left;
+	}
 
+	.comments .newCommentArea {
+		text-align:center;
+		padding-top:2em;
+	}
 
+	.commentText {
+		padding:1em !important;
+		background-color:transparent;
+		color:#eee
+	}
 
-	/*  END COMMENTS CSS */
+	.tiddler .button {
+		margin:0.1em  1em;
+		padding:0.2em 0.3em;
+	}
 
-	/*  NESTED SORTABLE CSS */
+/*  END COMMENTS CSS */
+
+/*  NESTED SORTABLE CSS */
 	
 	html body #messageArea a { 
-		 	color:#fff; 
-		}
-		html body .newSectionEditor { 
-		 	        top:0em; 
-		 	        width:100%; 
-		 	} 
-		 	 
-		 	html .wizardViewer .tiddlyLink { 
-		 	color:#fff; 
-		 	} 
-		 	 
-		 	 .highlight, .marked { 
-		 	background:red none repeat scroll 0 0; 
-		 	}
+		color:#fff; 
+	}
 	
-		div.toc-sort-handle {
-			padding:0em;
-			margin:0em;
-			padding-top:0px;
-			color:#555;
-		}
-		div.toc-sort-handle div{
-			margin:0em;
-		}
-		div.toc-sort-handle:hover {
-			background-color:#eee;
-		}
-	// END NESTED SORTABLE CSS
-
-
-	body, td{
-		margin:0;
+	html body .newSectionEditor { 
+		top:0em; 
+		width:100%; 
+	} 
+		 	 
+ 	html .wizardViewer .tiddlyLink { 
+ 		color:#fff; 
+ 	} 
+ 	 
+ 	.highlight, .marked { 
+ 		background:red none repeat scroll 0 0; 
+ 	}
+	
+	div.toc-sort-handle {
+		padding:0em;
+		margin:0em;
+		padding-top:0px;
+		color:#555;
 	}
-	#myBTPageBody{
-		background-color:#e8e1f1;
-		width:100%;
-		padding:0;
-		margin:0;
-		text-align:center;
+	div.toc-sort-handle div{
+		margin:0em;
 	}
-	#myfaceheadercontainer{
-		width:100%;
-		height:65px;
-	}
-	#myfaceheadercontainer #logo{
-		margin:10px 0px 10px 20px;
-	}
-	#myfaceheadercontainer #logo-right{
-		margin:15px 30px 0 0;
+	div.toc-sort-handle:hover {
+		background-color:#eee;
 	}
 
-	#footer{
-		border-top:1px solid #51268a;
-		clear:both;
-		padding:10px 20px;
-		text-align:center;
-	}
+// END NESTED SORTABLE CSS
 
 	.portletContainer{
 		background-color:#ffffff;
@@ -731,7 +459,7 @@ form.wizard, .wizard{
 
 		background-image:url("http://farm3.static.flickr.com/2171/3810893283_113ae55b48.jpg");
 		width:100%;
-		height:23px;
+		height:27px;
 		background-repeat:repeat-x;
 	}
 	.portletCornerLeft{
@@ -739,13 +467,13 @@ form.wizard, .wizard{
 		clear:left;
 		float:left;
 		width:4px;
-		height:23px;
+		height:27px;
 		background-repeat:no-repeat;
 	}
 	.portletCornerRight{
 		float:right;
 		width:4px;
-		height:23px;
+		height:27px;
 		position:relative;
 		background-repeat:no-repeat;
 		margin:0;
@@ -770,10 +498,8 @@ form.wizard, .wizard{
 	}
 	.portletContent{
 		clear:left;
-		border-left:1px solid #C4C4C4;
-		border-right:1px solid #C4C4C4;
+		border:1px solid #C4C4C4;
 		background:#fff;
-		border-bottom:1px solid #C4C4C4;
 		margin:0 0 5px;
 		font-size:1.3em;
 	}
@@ -902,15 +628,6 @@ padding-top:2.2em;
 	padding:0;
 }
 
-.simpleTiddler {
-background-color:#333;
-color:#eee;
-}
-#errorBox .button {
-	line-height:2em;
-
-}
-
 #messageArea .messageClear {
 	display:block;
 	float:right;
@@ -932,14 +649,6 @@ color:black;
 color:black
 }
 
-.providedBy {
-text-align:center;
- background-color:white;
-border:1px solid #C7C7C7;
-padding:0.5em;
-padding-top:0em;
-}
-
 .providedBy h5 {
 	text-align:left;
 }
@@ -952,8 +661,10 @@ padding-top:0em;
 	margin-top:0.5em;
 }
 
-.tiddlyDocsLinks {
-	padding:0.5em;
+
+
+.hideIcon {
+	padding:7px 6px 0px 5px;
 }
 
 <!--}}}-->
