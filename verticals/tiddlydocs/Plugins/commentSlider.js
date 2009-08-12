@@ -1,7 +1,15 @@
-/*
+
 config.macros.commentSlider = {};
 config.macros.commentSlider.handler = function(place,macroName,params)
 {
+	var commentCount = wikifyStatic("<<commentsCount "+arguments[5].title+">>")
+	var holder = createTiddlyElement(place, "div", "", "", " ");
+	var slider = config.macros.slider.createSlider(holder, "chkSlider"+arguments[5].title, "comments("+commentCount+")");
+	wikify("<<comments>>", slider);
+
+
+}
+/*
 //"comments('<<commentsCount '+tiddlers[t].title+'>>')+")");
 	var context = {};
 	context.callback = function() {
