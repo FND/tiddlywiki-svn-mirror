@@ -4,6 +4,10 @@ modifier: Simon McManus
 
 /* MyPage Specifics */
 
+	html body .body div.header {
+		background:#fff none repeat scroll 0 0 !important;
+	}
+
 	html body .body .sections {
 		background: #F3F3F3;
 	}
@@ -29,7 +33,6 @@ modifier: Simon McManus
 		visibility: visible;
 	}
 /* END MyPage Specifics */
-
 
 
 
