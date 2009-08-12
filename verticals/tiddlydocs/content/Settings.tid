@@ -7,6 +7,4 @@ tags: wizard
 !Definitions
 |<<editDefinitions UserDefinitions>>||<<editDefinitions StatusDefinitions>>|
 
-!Experimental Configuration Options 
-| <<option txtFCKToolbar>>|''Toolbar type'' | //Enter Default or Basic to change the type of toolbar which is used.// |
-
+<<options>>

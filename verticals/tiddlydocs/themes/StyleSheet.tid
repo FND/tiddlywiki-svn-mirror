@@ -22,7 +22,12 @@ modifier: Simon McManus
 		display:block;
 		height:auto;
 	}
-
+	html body #tab_wrapper {
+		background-color: rgb(128, 128, 128);
+	}
+	#tab_bar {
+		visibility: visible;
+	}
 /* END MyPage Specifics */
 
 
@@ -43,6 +48,10 @@ html body .leftColumnItem {
 	float:right;
 }
 
+html body .title {
+	font-size:10pt;
+}
+
 .title-right {
 	float:right;
 	height:20px;
@@ -54,44 +63,10 @@ html body .leftColumnItem {
 }
 
 h1 {
-	margin-left:0em;
+	border-bottom:1px solid #F3F3F3;
+	color:#AAAAAA;
 }
 
-h2 {
-	margin-left:1em;
-}
-
-h3 {
-	margin-left:2em;
-}
-
-h4 {
-	margin-left:2em;
-}
-
-h5 {
-	margin-left:3em;
-}
-
-h6 {
-	margin-left:4em;
-}
-
-h7 {
-	margin-left:5em;
-}
-
-h8 {
-	margin-left:6em;
-}
-
-h9 {
-	margin-left:7em;
-}
-
-h10 {
-	margin-left:8em;
-}
 
 .wizard h1 {
 	line-height:1.1em;
@@ -261,16 +236,15 @@ h10 {
 		background-color:transparent;
 		border:0px;
 		margin-right:1em;
-		padding:0 0 3em;
+		padding:0em;
 	}
 
 /*WIZARD*/
 
 	form.wizard, .wizard{
-		background:#eee none repeat scroll 0 0 !important;
-		border:1px solid #555;
+		background:#F3F3F3 none repeat scroll 0 0 !important;
+		border:1px solid #eee;
 		color:#555;
-		padding:1em;
 	}
 
 	 .wizardFooter {
@@ -279,8 +253,8 @@ h10 {
 	}
 
 	div.wizardBody div.wizardStep {
-		border:1px solid #222;
-		background:#fff;
+		border:1px solid #eee;
+		background:##F3F3F3;
 		padding:1em;
 	}
 
@@ -309,6 +283,9 @@ h10 {
 ;
 		position:relative;
 		top:-3.2em;
+	}
+	.wizardViewer {
+		padding:1em;
 	}
 
 	.viewer th, .viewer thead td, .twtable th, .twtable thead td  {
@@ -377,6 +354,7 @@ h10 {
 
 	.comment {
 		border:1px solid #F3F3F3;
+		padding:1em;
 	}
 
 	.comments {
@@ -496,6 +474,7 @@ h10 {
 
 	.leftColumn{
 		padding:0em;
+		padding-left:1em;
 		margin:0em;
 		text-align:left;
 		width:30%;

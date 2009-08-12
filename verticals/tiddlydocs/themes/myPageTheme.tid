@@ -133,7 +133,6 @@ tags: systemTheme
     </div>
   </div>
 
-
 <div macro='docTabs'></div>
     
     
@@ -237,7 +236,7 @@ tags: systemTheme
 	<div class="portletContent">
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>	<div class='taskControls editTaskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='editor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='commentsArea' macro='comments'></div>
+		<div class='commentsArea'  refresh='content' force='true' macro='comments'></div>
 	</div>
 </div>
 <!--}}}-->
@@ -255,7 +254,7 @@ tags: systemTheme
 	<div class="portletContent">
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
 		<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='commentsArea' macro='comments'></div>
+		<div class='commentsArea'  refresh='content' force='true' macro='comments'></div>
 	</div>
 </div>
 <!--}}}-->
