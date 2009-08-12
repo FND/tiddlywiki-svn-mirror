@@ -17,15 +17,19 @@ def init(config):
 from tiddlyweb.serializations import SerializationInterface
 from tiddlyweb.model.policy import Policy
 
-
 class RTFDocument():
-    size = {'h1':'44'}
+    """
+    Help generate RTF document strings
+    """
+    size = {'h1':'44','h2':'32'}
 
     def prolog(self):
         return "{\\rtf1\\ansi\n"
 
-    def h1(self, title):
-	return "{\\pard \\fs"+self.size['h1']+" "+title+"\\par}\\line\n"
+    def heading(self, title, level='h1'):
+        if not title:
+	    return ''
+	return "{\\pard \\fs"+self.size[level]+" "+title+"\\par}\\line\n"
 
     def end(self):
         return "}\n"
@@ -38,55 +42,47 @@ class Serialization(SerializationInterface):
     by the text Store.
     """
 
+    def __init__(self, type):
+        if hasattr(SerializationInterface, '__init__'):
+            SerializationInterface.__init__(self, type)
+	self.doc = RTFDocument()
+
     def list_recipes(self, recipes):
         """
         Return a linefeed separated list of recipe names.
         """
-	doc = RTFDocument()
-        return doc.prolog() + "\n".join([recipe.name for recipe in recipes]) + doc.end()
+        return self.list_items('Recipes', recipes)
 
     def list_bags(self, bags):
         """
         Return a linefeed separated list of recipe names.
         """
-	doc = RTFDocument()
-        return doc.prolog() + doc.h1('Bags') + "\line\n".join([bag.name for bag in bags]) + doc.end()
+        return self.list_items('Bags', bags)
 
     def list_tiddlers(self, bag):
         """
         List the tiddlers in a bag as text.
         """
-	doc = RTFDocument()
         if bag.revbag:
-	    list = " \line\n".join(
+	    list = "\\line\n".join(
                     ["%s:%s" % (tiddler.title, tiddler.revision)
                         for tiddler in bag.gen_tiddlers()])
         else:
-            list = " \line\n".join([
+            list = "\\line\n".join([
                 tiddler.title for tiddler in bag.gen_tiddlers()])
-	return doc.prolog() + list + doc.end()
+	return self.doc.prolog() + list + self.doc.end()
+
+    def list_items(self, name, items):
+        return self.doc.prolog() + self.doc.heading(name,'h1') + "\\line\n".join([item.name for item in items]) + self.doc.end()
 
     def tiddler_as(self, tiddler):
         """
         Represent a tiddler as a text string: headers, blank line, text.
         """
-        if not tiddler.text:
-            tiddler.text = ''
-        return ('modifier: %s\ncreated: %s\nmodified: %s\ntype: '
-                '%s\ntags: %s%s\n%s\n' %
-                (tiddler.modifier, tiddler.created, tiddler.modified,
-                    tiddler.type,
-                    self.tags_as(tiddler.tags).replace('\n', '\\n'),
-                    self.fields_as(tiddler), tiddler.text))
+        return self.doc.prolog() + self.doc.heading(tiddler.title) + self.html_to_rtf(tiddler.text) + self.doc.end()
 
-    def fields_as(self, tiddler):
-        """
-        Turn tiddler fields into strings in
-        sort of a RFC 822 header form.
-        """
-        info = '\n'
-        for key in tiddler.fields:
-            if not key.startswith('server.'):
-                value = unicode(tiddler.fields[key])
-                info += '%s: %s\n' % (key, value.replace('\n', '\\n'))
-        return info
+    def html_to_rtf(self, text):
+	if not text:
+		return ''
+	return text
+

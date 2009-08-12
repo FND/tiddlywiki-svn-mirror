@@ -1,8 +1,12 @@
-A TiddlyWeb plugin to serialize bags, recipes and tiddlers as
-Rich Text Format (RTF) documents.
+A TiddlyWeb plugin to serialize bags, recipes and tiddlers as Rich Text Format (RTF) documents.
 
 Issues:
-
+    - needs to understand TiddlyDocs 'document' tiddler, containing document order. 
+    - TiddlyDocs 'document' tiddler to be standardized across trails, s5 etc plugins
+    - table of contents (possibly by including the 'document' tiddler)
+    - document style parameters such as fonts and sizes to be take from config/tiddler
+    - document header, footer to come from tiddlers
+    - RTF meta-data section such as author, date published, copyright etc to come from config/tiddler 
 
 Paul Downey (psd)
 http://blog.whatfettle.com
