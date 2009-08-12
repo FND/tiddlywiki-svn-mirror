@@ -20,7 +20,7 @@ window.addToToc = function(sectionTitle, docTitle) {
 		};
 		documentSpec.unshift(node);
 		var docFields = store.getTiddler(docTitle).fields;
-		var tiddler = store.saveTiddler(docTitle, docTitle, {content:jQuery.toJSON(documentSpec)}, null, null, null, merge(docFields, config.defaultCustomFields));
+		var tiddler = store.saveTiddler(docTitle, docTitle, '{content:'+jQuery.toJSON(documentSpec)+'}', null, null, null, merge(docFields, config.defaultCustomFields));
 
 	}
 }
