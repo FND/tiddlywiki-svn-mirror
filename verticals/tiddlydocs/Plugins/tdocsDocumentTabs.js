@@ -32,11 +32,11 @@ var values = store.getTaggedTiddlers('document');
 
 	var newdoc = '<li class="tab tabalignment3OP tabalignment3" id="add_gadget"><a  class="thickbox mis addFromCatalogue"  id="AddFromCatalogueDialogue"><img style="border: medium none ;" src="http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/buttons/add_gadgets_normal.gif" class="addGadgetCatImg"/></a>';
 html = selectedHtml  + newdoc;
-	$('#tab_bar:first-child').html(html);
+	jQuery('#tab_bar:first-child').html(html);
 	var addClick = function() {
 			story.displayTiddler(null, "Create New Document");
 	}
-	$('#AddFromCatalogueDialogue').click(addClick);
+	jQuery('#AddFromCatalogueDialogue').click(addClick);
 }
 
 
