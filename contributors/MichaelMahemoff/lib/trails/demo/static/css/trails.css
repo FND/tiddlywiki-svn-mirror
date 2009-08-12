@@ -20,7 +20,7 @@ body { font-family: gill sans; }
 .scripted #trail li { margin-right: 5px; }
 /* .scripted #trail #resources { display: none; } */
 .scripted #trail #resourceSwitcherWrapper { padding: 12px 0; font-size: 16px; }
-.scripted #closer { font-size: 14px; float: right; margin-top: 13px; padding-right: 10px; cursor: pointer; width: 16px; height: 16px; float: right; }
+.scripted #closer { font-size: 14px; float: right; padding: 16px 10px; cursor: pointer; width: 16px; height: 46px; background: #aaa; text-align: center; float: right; border-left: 1px solid #666; }
 
 .unscripted #trail { padding: 30px 10px 10px; }
 .unscripted #metaInfo { font-weight: bold; margin: 0.3em 0; }
@@ -43,10 +43,12 @@ a, a:visited { text-decoration: none; color: #00b; }
 #chooser { width: 300px; float: left; }
 /* #resources { background: orange; } */
 
-#resources li { overflow: hidden; background: #ccc; text-align: center; }
-#resources a { font-size: small; opacity: 0.5; overflow: hidden; width: 100%; }
-#resources a.selected { font-weight: bold; opacity: 1; }
+#resources li { overflow: hidden; /* background: #ccc; */ text-align: center; }
+#resources a { color: brown; font-size: 10px; opacity: 0.5; overflow: hidden; width: 100%; }
+#resources a.selected { color: brown; font-size: 14px; opacity: 1; }
 
-#note { background: #bbc9bb; line-height: 1em; overflow: hidden; height: 1em; padding: 3px 5px; text-align: center; text-align: center; }
+#note { color: brown; overflow: hidden; height: 1em; padding: 3px 40px; text-align: center; text-align: center; clear: left; position: relative; }
 #note .name { font-weight: bold; margin-right: 5px; }
-#note .more { display: inline; font-size: small; color: #00b; margin-left: 5px; float: right; cursor: pointer; } 
+#note .text { font-style: italic; }
+/* #note .more { display: inline; font-size: small; text-decoration: underline; margin-left: 5px; float: right; cursor: pointer; font-size: small; }  */
+#note .more { display: inline; font-size: small; text-decoration: underline; margin-left: 5px; position: absolute; right: 0; cursor: pointer; font-size: small; } 

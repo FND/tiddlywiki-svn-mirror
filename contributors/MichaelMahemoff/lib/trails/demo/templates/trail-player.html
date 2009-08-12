@@ -31,7 +31,7 @@
       <ul id="resources" class="jcarousel-skin-tango">
         <li><a href="{{ server_prefix }}/static/trail-start.html" target="resourceView"></a></li>
         {% for resource in trail.resources %}
-          <li><a href="{{ resource.url }}" target="resourceView" note="{{resource.note}}">{{resource.name.replace(" ","&nbsp;")}}</a></li>
+          <li><a href="{{ resource.url }}" target="resourceView" title="{{resource.name}}" note="{{resource.note}}">{{resource.name.replace(" ","&nbsp;")}}</a></li>
         {% endfor %}
         <li><a href="{{ server_prefix }}/static/trail-end.html" target="resourceView"></a></li>
       </ul>

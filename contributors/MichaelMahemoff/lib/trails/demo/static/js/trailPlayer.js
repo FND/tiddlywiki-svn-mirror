@@ -29,7 +29,7 @@ function renderNote(resource) {
     .end()
 */
     .create("<div class='more'/>")
-      .text("(expand)")
+      .text("expand")
       .click(showFullNote)
     .end()
     .create("<span class='text' />")
@@ -38,7 +38,9 @@ function renderNote(resource) {
 }
 
 function showFullNote() {
-  var message = selected().attr("note");
+  var message = $("<div/>")
+    .append("<h1>"+selected().html()+"</h1>")
+    .append(selected().attr("note"));
   $.nyroModalManual({
     bgColor: '#bbb',
     content: message
