@@ -13,7 +13,7 @@
     document.documentElement.className = 'scripted';
   </script>
 
-  <p><a href="{{ server_prefix }}/bags/{{ tiddler.bag }}/tiddlers/{{ trail.name }}.player">Play</a></p>
+  <p><a href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ trail.name }}.player">Play Trail</a></p>
 
   <form method="post" action="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ trail.name }}">
 
@@ -25,7 +25,7 @@
     <p>
       Resources:<br/>
       <textarea rows="20" cols="80" id="resources" name="resources">
-{% for resource in trail.resources %}{{ resource }}
+{% for resource in trail.resources %}{{ resource.url }}|{{ resource.name }}|{{ resource.note }}
 {% endfor %}
       </textarea>
     </p>

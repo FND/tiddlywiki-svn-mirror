@@ -44,6 +44,13 @@ def trail_editor(environ, start_response):
   template = Environment(loader=FileSystemLoader('templates')).get_template("trail-editor.html")
   return template.generate(tiddler=tiddler, trail=trail, server_prefix=environ['tiddlyweb.config']['server_prefix'])
 
+
+
+def make_resource(line):
+  parts = line.split('|')
+  print "parts", parts
+  return {"url": parts[0], "name": parts[1], "note": parts[2]}
+
 def trail_updater(environ, start_response):
   # http://is.gd/1GTCG
   tiddler = make_trail_tiddler(environ)
@@ -51,8 +58,7 @@ def trail_updater(environ, start_response):
   print '*** query', environ['tiddlyweb.query']
   trail['name'] = environ['tiddlyweb.query']['name'][0]
   # trail['resources'] = environ['tiddlyweb.query']['resources'][0].split(whitespace)
-  trail['resources'] = re.split('\s+',environ['tiddlyweb.query']['resources'][0].strip())
-  # edit_url=environ['HTTP_HOST']+'/trails/'+ environ['wsgiorg.routing_args']['owner']+ '/'+ trail['name']
+  trail['resources'] = map(make_resource, environ['tiddlyweb.query']['resources'][0].strip().splitlines())
 
   tiddler = make_trail_tiddler(environ)
   tiddler.text = json.dumps(trail)
