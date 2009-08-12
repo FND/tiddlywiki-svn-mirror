@@ -36,7 +36,8 @@ modifier: Simon McManus
 div.portletTitle  div.title  input {
 	background:transparent none repeat scroll 0 0;
 	border:0 none;
-	color:#FFFFFF;
+	color:#555;
+	z-index:33;
 }
 
 html body .leftColumnItem {
@@ -60,6 +61,7 @@ html body .title {
 	text-align:right;
 	top:-1.3em;
 	width:100%;
+	z-index:1;
 }
 
 h1 {

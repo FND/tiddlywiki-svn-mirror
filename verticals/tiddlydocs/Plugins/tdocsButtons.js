@@ -17,7 +17,7 @@ config.macros.tdButtons.handler=function(place,macroName,params,wikifier,paramSt
 	var btn = createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "http://tiddlydocs.com/files/images/icon/new.png");
 
 	btn.setAttribute("newTitle","New Section Title");
-	btn.setAttribute("newTemplate",getParam(params,"template","mainTheme##newEditTemplate"));
+	btn.setAttribute("newTemplate",getParam(params,"template","myPageTheme##newEditTemplate"));
 
 	var displaySettings= function () {
 		story.displayTiddler(null, "Settings");
