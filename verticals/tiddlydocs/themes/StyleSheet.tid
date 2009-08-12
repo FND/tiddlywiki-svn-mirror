@@ -328,18 +328,26 @@ h1 {
 
 /*  COMMENTS CSS */
 
+	html body .comments textarea {
+		width:98%;	
+	}
 	.commentsArea {
 		padding:2em;
 		text-align:center;
 		background:#fff;
 	}
-
-	.comment .heading {
+	html body .comment .replyLink {
+		color:black;
+	}
+	html body .commentText {
+		color:#555;
+	}
+	 .comment .heading {
 		background:#F3F3F3 none repeat scroll 0 0 !important;
 		padding:0.5em;
 		background:transparent;
 		border-bottom:1px solid #F3F3F3 !important;
-		border-right 0px;
+		border-right : 0px none #fff !important;
 	}
 	
 	.replyLink {
