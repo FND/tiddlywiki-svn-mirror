@@ -4,7 +4,7 @@ Depends on html5lib for parsing HTML output by the TiddlyWeb renderer
 Also depends on with Safe=False
 
 Task list:
-    - HTML tag support is currentlu very limited, need tables, etc
+    - HTML tag support is currently very limited (actually none!), need to support tables, images, etc
     - Unicode tests and mapping
     - needs to understand TiddlyDocs 'document' tiddler, containing document order. 
     - TiddlyDocs 'document' tiddler to be standardized across trails, s5 etc plugins
