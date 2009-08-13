@@ -17,6 +17,10 @@ def init(config):
 from tiddlyweb.serializations import SerializationInterface
 from tiddlyweb.model.policy import Policy
 
+import html5lib
+from html5lib import treebuilders, treewalkers, serializer
+from html5lib.filters import sanitizer
+
 class RTFDocument():
     """
     Help generate RTF document strings
@@ -28,11 +32,30 @@ class RTFDocument():
 
     def heading(self, title, level='h1'):
         if not title:
-	    return ''
-	return "{\\pard \\fs"+self.size[level]+" "+title+"\\par}\\line\n"
+            return ''
+        return "{\\pard \\fs"+self.size[level]+" "+title+"\\par}\\line\n"
 
     def end(self):
         return "}\n"
+
+    def from_html(self, text):
+        """
+        Convert HTML to RTF string.
+        """
+        if not text:
+                return ''
+
+        p = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("dom"))
+        dom_tree = p.parse(text)
+        walker = treewalkers.getTreeWalker("dom")
+        stream = walker(dom_tree)
+        s = serializer.htmlserializer.HTMLSerializer(omit_optional_tags=False)
+        output_generator = s.serialize(stream)
+        rtf = ""
+        for item in output_generator:
+                rtf = rtf + "\n\\line : " + item
+        
+        return rtf
 
 
 class Serialization(SerializationInterface):
@@ -45,7 +68,7 @@ class Serialization(SerializationInterface):
     def __init__(self, type):
         if hasattr(SerializationInterface, '__init__'):
             SerializationInterface.__init__(self, type)
-	self.doc = RTFDocument()
+        self.doc = RTFDocument()
 
     def list_recipes(self, recipes):
         """
@@ -63,26 +86,19 @@ class Serialization(SerializationInterface):
         """
         List the tiddlers in a bag as text.
         """
-        if bag.revbag:
-	    list = "\\line\n".join(
-                    ["%s:%s" % (tiddler.title, tiddler.revision)
-                        for tiddler in bag.gen_tiddlers()])
-        else:
-            list = "\\line\n".join([
-                tiddler.title for tiddler in bag.gen_tiddlers()])
-	return self.doc.prolog() + list + self.doc.end()
+        title = "Tiddlers in Bag " + bag.name
+        return self.doc.prolog() + self.doc.heading(title,'h1') + "".join(
+                    ["{\\listtext \\'95} %s%s\\\n" % (item.title, ('',' Revision:'+"%d"%(item.revision))[bag.revbag]) 
+                        for item in bag.gen_tiddlers()]
+                ) + self.doc.end()
 
-    def list_items(self, name, items):
-        return self.doc.prolog() + self.doc.heading(name,'h1') + "\\line\n".join([item.name for item in items]) + self.doc.end()
+    def list_items(self, title, items):
+        return self.doc.prolog() + self.doc.heading(title,'h1') + "".join(
+                    ["{\\listtext \\'95} %s\\\n" % (item.name) for item in items]
+                ) + self.doc.end()
 
     def tiddler_as(self, tiddler):
         """
         Represent a tiddler as a text string: headers, blank line, text.
         """
-        return self.doc.prolog() + self.doc.heading(tiddler.title) + self.html_to_rtf(tiddler.text) + self.doc.end()
-
-    def html_to_rtf(self, text):
-	if not text:
-		return ''
-	return text
-
+        return self.doc.prolog() + self.doc.heading(tiddler.title) + self.doc.from_html(tiddler.text) + self.doc.end()

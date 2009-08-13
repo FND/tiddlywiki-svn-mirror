@@ -1,12 +1,30 @@
 A TiddlyWeb plugin to serialize bags, recipes and tiddlers as Rich Text Format (RTF) documents.
 
-Issues:
+Depends on html5lib for parsing HTML output by the TiddlyWeb renderer
+Also depends on with Safe=False
+
+Task list:
+    - HTML tag support is currentlu very limited, need tables, etc
+    - Unicode tests and mapping
     - needs to understand TiddlyDocs 'document' tiddler, containing document order. 
     - TiddlyDocs 'document' tiddler to be standardized across trails, s5 etc plugins
     - table of contents (possibly by including the 'document' tiddler)
     - document style parameters such as fonts and sizes to be take from config/tiddler
     - document header, footer to come from tiddlers
     - RTF meta-data section such as author, date published, copyright etc to come from config/tiddler 
+    - move RTF into separate library
 
+RTF info:
+
+    Python libraries
+    http://pyrtf.sourceforge.net/
+    http://code.google.com/p/pyrtf-ng/ 
+
+    Good book:
+    http://interglacial.com/rtf/
+
+    Cutting and pasting HTML into Mac TextEdit and saving as RTF is very instructional.
+
+--
 Paul Downey (psd)
 http://blog.whatfettle.com
