@@ -1,6 +1,8 @@
 modifier: Simon McManus 
 
 
+[[myPageCSSOverride]]
+
 
 /* MyPage Specifics */
 
@@ -193,9 +195,10 @@ h1 {
 
 	#buttonHolder {
 		float:right;
-		margin:0.7em 0.5em 0 0;
+		font-size:0.7em;
+		margin:0.7em 1em 0 0;
 		position:relative;
-		top:-2.6em;
+		top:-6.6em;
 	}
 	
 

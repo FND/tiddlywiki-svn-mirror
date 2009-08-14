@@ -1,0 +1,667 @@
+modifier: Simon McManus
+
+.body {
+  background-color: #003366;
+  margin: 0pt;
+  padding: 0pt;
+  width: 100%;
+}
+#footer{
+padding-top:15px;
+padding-bottom:47px;
+padding-left:15px;
+background-color:#000;
+clear:both;
+font-size:0.9em;
+}
+.body {
+  color: #000000;
+  font-family: Arial,Verdana,Tahoma,Helvetica,sans-serif;
+  font-size: 75%;
+}
+
+.sections {
+  background-color:#FFFFFF;
+  margin: 0pt 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 98%;
+}
+
+#header1 {
+  background-color: #666666;
+  height: 22px;
+  padding: 7px 10px 0pt 14px;
+  text-transform: uppercase;
+}
+
+#h1left {
+  float: left;
+}
+
+.activelink {
+  color: #CCFF00;
+  text-decoration: none;
+}
+
+.hgrey {
+  color: #7F7F7F;
+  font-size: 1em;
+  padding: 0pt 5px;
+}
+
+#h1right {
+  text-align: right;
+}
+
+#header2 {
+  background-color: #E6E6E6;
+  border-bottom: 1px solid #CCCCCC;
+  border-top: 1px solid #FFFFFF;
+  height: 32px;
+  padding-top: 3px;
+  width: 100%;
+}
+
+#flr_h2left1 {
+  float: left;
+  padding: 7px 0pt 0pt 14px;
+  text-transform: uppercase;
+}
+
+#header2 img {
+  margin-top: 1px;
+}
+
+.flr_h2link:link {
+  color: #666666;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+#logotop {
+  margin: 0pt;
+  padding-left: 15px;
+  padding-top: 40px;
+  width: 177px;
+}
+
+.footer {
+  background-color: #003366;
+  clear: both;
+  padding-bottom: 50px;
+  padding-left: 15px;
+  padding-top: 17px;
+  margin-bottom: 0px;
+}
+
+#footerright {
+  left: 25px;
+  margin: 0pt;
+  padding-right: 15px;
+  padding-top: 10px;
+  text-align: right;
+}
+
+#footerleft{
+margin:0;
+padding-top:10px;
+text-align:left;
+padding-right:15px;
+left:25px;
+}
+
+
+#logofooter {
+  left: 25px;
+  margin-left: 10px;
+  padding-bottom: 50px;
+}
+
+.footer a {
+  text-decoration: none;
+}
+
+.footlink:link {
+  color: #fff;
+  font-size: 1em;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.footlink:hover {
+  color: #CCFF00;
+  font-size: 1em;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.footlink:visited {
+  color: #fff;
+  font-size: 1em;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.footlink:active{
+  color: #CCFF00;
+  font-size: 1em;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.footlink:visited:hover{
+  color: #CCFF00;
+  font-size: 1em;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.hgrey1 {
+  color: #7F7F7F;
+  font-size: 0.8em;
+  padding-left: 9px;
+  padding-right: 9px;
+}
+
+.plink:hover {
+  color: #003399;
+  font-weight: normal !important;
+  text-decoration: underline;
+}
+
+.plink:link, .plink:visited {
+  color: #003399;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+#flr_h2left {
+  padding-right: 10px;
+  padding-top: 4px;
+  text-align: right;
+}
+
+#flr_h2lefta {
+  float: right;
+  margin: 3px 5px 0pt 0px;
+  padding: 0pt;
+}
+
+#flr_h2leftb {
+  float: right;
+  margin: 0pt;
+  padding: 0pt;
+}
+
+.inputsearch {
+  color: #000000;
+  font-size: 1.1em;
+  margin-bottom: 4px;
+  margin-left: 4px;
+  margin-right: 6px;
+  width: 180px;
+}
+
+#flr_h2leftbSpan {
+  margin: 0pt 0pt 5px;
+}
+.greebutton {
+  background: #003366 none repeat scroll 0%;
+  border: medium none;
+  color: #fff;
+  cursor: pointer;
+  font-family: Arial,Verdana,Tahoma,Helvetica,sans-serif;
+  font-size: 10px;
+  height: 18px;
+  margin-left: 5px;
+  overflow: visible;
+  padding: 2px 5px 2px 3px;
+  width: auto;
+}
+
+textarea, input, select {
+  color: black;
+  font-family: Arial,verdana;
+  font-size: 1em;
+  padding: 0pt;
+}
+
+fieldset {
+  border: 0px solid white;
+  margin: 0pt;
+  padding: 0pt;
+}
+
+.floatleft {
+  float: left;
+}
+
+.floatright {
+  float: right;
+}
+
+.hgrey1 {
+  color: #7F7F7F;
+  font-size: 0.8em;
+  padding-left: 9px;
+  padding-right: 9px;
+}
+
+.strap {
+  display: none;
+  visibility: hidden;
+}
+
+.anon_message {
+  display: none;
+}
+
+#h1right .hlink:hover {
+  color: #CCCCCC;
+  text-decoration: none;
+}
+
+#h1right .hlink:hover {
+  color: #CCCCCC !important;
+  text-decoration: none;
+}
+
+#h1right .hlink:link {
+  color: #CCCCCC;
+  text-decoration: none;
+}
+a:hover {
+  color: #003399;
+  text-decoration: underline;
+}
+
+a:link {
+  color: #003399;
+  font-size: 1em;
+  line-height: 1.35em;
+  text-decoration: none;
+}
+
+.hlink:link {
+color:#ffffff;
+  text-decoration: none;
+}
+
+.hlink:visited {
+color:#ffffff !important;
+  text-decoration: none;
+}
+
+.hlink:visited:hover{
+color:#CCFF00 !important;
+text-decoration:none;
+}
+
+.hlink:hover {
+  color: #ccff00;
+  text-decoration: none;
+}
+
+.hlink:active{
+color:#CCFF00;
+  text-decoration: none;
+}
+
+.flr_h2link:hover {
+  color: #003399;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+label {
+  font-size: 75%;
+}
+
+.gadgets-gadget-title-bar span a:link {
+  color: #606060;
+}
+
+.gadgets-gadget-title a:link, .gadgets-gadget-title {
+
+}
+
+.setup_div {
+  background-color: #CC0000;
+  margin: 0pt 12px 10px 4px;
+}
+
+.portal-header {
+  float: right;
+  text-align: right;
+}
+
+.portal-header {
+  background: #FFFFFF none repeat scroll 0%;
+  color: #FFFFFF;
+  padding-bottom: 12px;
+  width: 100%;
+  margin-top: 6px;
+}
+
+#two-column-banner-right {
+  padding-top: 4pt;
+}
+
+ #two-column-banner-right img {
+     border: 1px solid #fff;
+}
+
+#tab_wrapper {
+  clear: both;
+  visibility: visible;
+  height:auto;
+  float:right;
+  background: transparent url(/container/static/wa/jarrita/skins/wholesale/images/cp_colour_customisation.png) repeat-x scroll left top;
+}
+
+div.rounded-box {
+  position: relative;
+  margin: 3px;
+}
+
+div.top-left-corner,  div.top-right-corner {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: #99CC01;
+  overflow: hidden;
+}
+
+div.top-left-inside, div.top-right-inside {
+  position: relative;
+}
+
+/********************
+SPECIFIC ATTRIBUTES
+*********************/
+
+div.top-left-corner {
+  top: 0px;
+  left: 0px;
+}
+
+div.top-right-corner {
+  top: 0px;
+  right: 0px;
+}
+
+div.top-left-inside {
+  left: -8px;
+}
+
+div.top-right-inside {
+  left: -25px;
+}
+
+div.box-contents {
+  position: relative;
+  padding: 8px;
+  color: #000;
+}
+
+#search_bar {
+  display: block;
+  height: 299px;
+}
+
+.tab.space {
+  width: 3px;
+}
+
+#add_gadget a, #add_tab a, #add_gadget_url a {
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.tab div a:link {
+   color:#454545;
+}
+
+.gadgets-gadget-title-bar {
+  color:#FFFFFF;
+}
+
+.unselectedtab div {
+  padding-right: 8px;
+}
+
+
+.selectedtab div {
+  padding-right:8px;
+  color:#606060;
+}
+
+.tab {
+  padding-right: 0px;
+}
+
+.btnww {
+  border-right: 1px solid #004D5A;
+  border-left: 1px solid #004D5A;
+  border-top: 1px solid #004D5A;
+  border-bottom: 1px solid #004D5A;
+  background-color: #fff;
+  color: #004D5A;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.divbtnalign{
+  position: absolute;
+  width: 50px;
+  margin: 0 5px 0 -90px;
+  float: left;
+  padding: 0px 0px 0 7px;
+  min-height: 30px;
+  _height: 30px; /*changed for VVN 729*/
+}
+
+.leftpading23 {
+  margin-left: 20px;
+}
+
+.inline{
+  display: inline;
+}
+
+.divcover{
+  margin: 72px 5px 0 -650px;
+  position: absolute;
+  width: 746px;
+  z-index: 1;
+  float: left;
+  border: 2px solid #fff;
+  height: 25px;
+}
+
+.gadgets-gadget-title-button-bar a:hover {
+  color: #000000;
+  text-decoration: underline;
+  font-size: 10px;
+}
+
+.gadgets-gadget-title-button-bar a:link {
+  color: #000000;
+  font-size: 10px;
+  text-decoration: underline;
+}
+.gadgets-gadget-title-button-bar a:visited {
+  color: #000000;
+  text-decoration: underline;
+  font-size: 10px;
+}
+
+.clear {
+  clear:both;
+  height:5px;
+}
+
+.field {
+  width: 100px;
+} 
+
+.gadgets-gadget-chrome {
+  width: 95%;
+  border:none;
+}
+
+.gadgets-gadget-content {
+	width: 99.94%;
+}
+
+.selectedtab div.tabFunctions {
+  background: #DFDDDD;
+  margin-left: -5px;
+  padding-left: 8px;
+}
+
+.tabFunctions {
+  background-image:url(/container/static/wa/jarrita/images/cp_colour_customisation.png);
+  background-position:left 17px;
+  background-repeat:repeat-x;
+  line-height: 24px;  
+  font-size: small;
+  font-weight: bold
+}
+
+#logoSpacer {
+margin-top: 0px; 
+width: 20% !important;
+}
+
+#logoHolder {
+  width: 58% !important;
+  margin-top: 0px; 
+}
+
+#ajaxMessageHolder {
+  display: none;
+}
+
+.mainbanner{
+text-align:right;
+margin-left: 34%;
+_margin-left: 33.7%;
+margin-right: 4%;
+cursor:hand;
+border:0 !important;
+}
+
+.bannerImage{
+width: 480px; 
+height: 80px; 
+border:0 !important;
+}
+
+/*.mainbanner{
+border:#4C89C2 2px solid; 
+background:#4C89C2;
+height:66px;
+width: 95%px;
+*margin-left:37%;
+margin-left: 33%;
+cursor:hand;
+text-decoration:none;
+}
+
+.mainbannertxt1{
+font-weight:bold;
+font-size:20px;
+color:#fff;
+font-style:italic;
+font-family:Arial, Helvetica, sans-serif;
+text-transform:uppercase;
+margin:0 0 0 10px}
+
+.mainbannertxt2{
+font-weight:normal;
+font-size:15px;
+color:#fff;
+font-style:italic;
+font-family:Arial, Helvetica, sans-serif;
+text-transform:uppercase;
+margin:15px 0 4px 10px}
+
+.mainbannertxt3{
+font-weight:bold;
+font-size:16px;
+color:#fff;
+font-style:italic;
+font-family:Arial, Helvetica, sans-serif;
+text-transform:uppercase;
+margin:0 0 -5px 110px}
+
+*/
+.border0{border:0px !important;}
+#base{
+background-color:#003366;
+padding-left:10px;
+padding-right:10px;
+margin:0;
+padding:0;
+}
+
+.listedGadget {
+  margin: 8px;
+  width: 250px;
+  float: left;
+}
+
+#main {
+  padding-left: 0px !important;
+  padding-top: 1px;
+  _padding-left: 0px !important;
+  #padding-left: 0px !important;
+
+}
+
+.layout-3-column-3rd {
+  width: 32%;
+}
+
+.layout-3-column {
+  width: 32%;
+}
+
+.moreTabFunctionsImg { 
+  /* border-color:#fff; */
+}
+
+.tabalignment2
+{
+padding-top:5px;
+margin:0px !important;
+margin-bottom:-5px !important;
+padding-bottom:-10px !important;
+}
+
+@media all and (min-width: 0) { 
+/* Hack Used for add additional height to Select Box in Opera brower */
+.tabalignment2 {
+margin-top:5px;
+}
+}
+
+.gadgets-gadget-user-prefs-dialog table th {
+  font-weight: normal;
+}
+
+#banner-wrapper{
+clear:both;height:110px;padding-bottom:10px;
+}
+
+.bannerAlternateText{
+font-family:Arial;
+font-style:Regular;
+font-size:12pt;
+padding-left:255px;
+padding-top:13px;
+color:#666666 !important;
+}

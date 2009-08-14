@@ -2,6 +2,7 @@
 tiddler: themes/loginTheme.tid
 tiddler: themes/mainTheme.tid
 tiddler: themes/myPageTheme.tid
+tiddler: themes/myPageCSSOverride.tid
 
 tiddler: themes/StyleSheet.tid
 tiddler: Plugins/A_tiddlywebSpecifics.js
