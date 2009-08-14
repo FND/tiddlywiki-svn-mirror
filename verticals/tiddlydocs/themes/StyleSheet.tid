@@ -59,6 +59,7 @@ html body .title {
 }
 
 .title-right {
+	font-size:1.1em;
 	float:right;
 	height:20px;
 	position:relative;
@@ -197,11 +198,11 @@ h1 {
 		height:100%;
 		left:1.8em;
 		position:relative;
-		top:-1.4em;
+		top:0.4em;
 		width:100%;
 	}
 	
-	html body .btn span span {
+	html body t.btn span span {
 		background:#FFFFFF none repeat scroll 0 0;
 		border-bottom:1px solid #BBBBBB;
 		border-top:1px solid #CCCCCC;
@@ -239,7 +240,7 @@ h1 {
 		height:100%;
 		left:-2em;
 		position:relative;
-		top:-2.5em;
+		top:-4em;
 		width:100%;
 	}
 

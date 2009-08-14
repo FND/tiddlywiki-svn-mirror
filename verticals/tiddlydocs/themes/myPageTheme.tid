@@ -232,16 +232,29 @@ tags: systemTheme
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'>Editing Section : </div>
+		<div class="portletTitle iconShift">
+			<div class='title titleToolbar' macro='view title'><img class='hideIcon' src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>Editing Section :
+
+<div class='title-right'>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+
+</div>
+</div>
 		</div>
 	</div>
-	<div class="portletContent">
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>	<div class='taskControls editTaskControls' macro='tiddler TaskTiddlerControls'></div>
-		<div class='editor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='commentsArea'  refresh='content' force='true' macro='comments'></div>
+	<div class="portletContent portletContentIconShift">
+			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+		<div class='editor' macro='editHtml text'></div>
+<div macro='commentSlider'>
+	<div class='right'>
+		RSS | Permalink
 	</div>
 </div>
+	</div>
+</div>
+
+
+
 <!--}}}-->
 
 !newEditTemplate

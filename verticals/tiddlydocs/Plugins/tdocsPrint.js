@@ -3,7 +3,7 @@
 config.macros.docPrint = {};
 
 config.macros.docPrint.handler =  function(place, macroName, params, wikifier, paramString, tiddler) {		
-	createTiddlyButton(place, "print", "Download a printable PDF version of the document.", config.macros.docPrint.onClickPrint, null, null, null, null, "http://tiddlydocs.com/files/images/icon/print_icon.png");
+	createTiddlyButton(place, "print", "Download a printable PDF version of the document.", config.macros.docPrint.onClickPrint, null, null, null, null, "static/tiddlydocs_images/icons/Print_24.png");
 }
 
 config.macros.docPrint.onClickPrint = function() {
