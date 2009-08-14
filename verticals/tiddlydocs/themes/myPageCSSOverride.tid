@@ -1,4 +1,5 @@
-modifier: Simon McManus
+modifier: Simon 
+
 
 .body {
   background-color: #003366;
@@ -233,13 +234,6 @@ fieldset {
   padding: 0pt;
 }
 
-.floatleft {
-  float: left;
-}
-
-.floatright {
-  float: right;
-}
 
 .hgrey1 {
   color: #7F7F7F;
@@ -329,6 +323,13 @@ label {
 .setup_div {
   background-color: #CC0000;
   margin: 0pt 12px 10px 4px;
+}
+
+.floatleft {
+	float:left;
+}
+.right {
+  float: right;
 }
 
 .portal-header {

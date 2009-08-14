@@ -1,7 +1,6 @@
 modifier: Simon McManus 
 
 
-[[myPageCSSOverride]]
 
 
 /* MyPage Specifics */
@@ -194,11 +193,11 @@ h1 {
 
 
 	#buttonHolder {
-		float:right;
-		font-size:0.7em;
-		margin:0.7em 1em 0 0;
+		height:100%;
+		left:-2em;
 		position:relative;
-		top:-6.6em;
+		top:-2.5em;
+		width:100%;
 	}
 	
 
@@ -227,9 +226,10 @@ h1 {
 	}
 
 	#mainMenu {
-		top:0.5em;
 		height:100%;
+		left:-2em;
 		position:relative;
+		top:-2.5em;
 		width:100%;
 	}
 
