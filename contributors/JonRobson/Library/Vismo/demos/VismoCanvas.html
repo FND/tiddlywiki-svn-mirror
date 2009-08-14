@@ -14,15 +14,21 @@ img {border:0;}
 </div>
 
 <script type='text/javascript'>
+var el = document.createElement("div");
+el.className = "label";
+el.innerHTML = "foo!";
+
 var shapes = [
 {shape:"path",id:"4",edge:true,coordinates:[100,350,"q",-150,-300,300,0]},
 {shape:"path",id:"5",edge:true,coordinates:[-100,-350,"c",150,300,-300,0,200,200]},
 {shape:'polygon',"z-index":20,fill:'rgba(255,0,0,0.2)',coordinates:[50,50,180,0,180,180,0,180]},
 {shape:'point',fill:'rgb(0,255,0)',coordinates:[-50,-80]},
-{shape:"circle", coordinates:[-200,0,10], fill:"#ff0000"}
+{shape:"circle", coordinates:[-200,0,10], fill:"#ff0000"},
+
+{shape:"domElement", element: el,coordinates:[-100,0], fill:"#ff0000"}
 ];
-
-
+//{shape:"circle", coordinates:[-100,0,10,25], fill:"#ff0000"},
+//vismoController:{},
 var cc = new VismoCanvas(jQuery("#mycanvas"),{shapes:shapes});
 
 </script>

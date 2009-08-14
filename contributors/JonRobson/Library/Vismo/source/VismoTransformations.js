@@ -93,4 +93,17 @@ var VismoTransformations= {
 		var pos =VismoClickingUtils.getMouseFromEvent(e);
 		return this.undoTransformation(pos.x,pos.y,t);
 	}
+	,create: function(options){
+	    var transformation= {};
+	    var i;
+	    for(i in options){
+	        transformation[i] = options[i];
+	    }
+	    var s = transformation.scale;
+	    var t = transformation.translate;
+	    transformation["cache"] = {id1:[s.x,",",s.y].join(""),id2:[t.x,",",t.y].join("")};
+	    
+	    return transformation;
+	    
+	}
 };

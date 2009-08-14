@@ -21,7 +21,7 @@ var VismoCanvas = function(element,options){
 		return update;
 	}
 	
-	
+
 	this.options = options;
 	var wrapper = element;
 	
@@ -131,6 +131,7 @@ VismoCanvas.prototype = {
 	}
 	,addTooltip: function(args){
 	    var addContent = arguments[0];
+	    var wrapper = this.wrapper;
 	        if(addContent) this.tooltipAddContent = addContent;
 	        if(!this.tooltip){
 	                var tooltip =  document.createElement("div");
@@ -404,11 +405,11 @@ VismoCanvas.prototype = {
 	
 	,ie_render: function(args){
 	    var projection= arguments[0];
-	    var t1 = new Date();
-	    this.render = this.ie_render;
+	    VismoTimer.start("VismoCanvas.ie_render");
+	    //this.render = this.ie_render;
 	    var that = this;
 		var transformation = this.getTransformation();
-		if(this.options.beforeRender) this.options.beforeRender(transformation);	
+		if(this.options.beforeRender) this.options.beforeRender(this);	
 		if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
 		
 		//determine point size
@@ -421,11 +422,9 @@ VismoCanvas.prototype = {
 		tran = transformation;
         //apply translation
         var o = tran.origin,t = tran.translate, s = tran.scale;
-        //var w =	jQuery(this.wrapper).width() * s.x;
-        //var h =	jQuery(this.wrapper).height() * s.y;
-        jQuery(this.canvas).css({left:o.x+(t.x*s.x),top:o.y +(s.y*t.y)});
+        jQuery(this.canvas).css({left:o.x+(t.x*s.x),top:o.y +(s.y*t.y),zoom:s.x});
+        
 		var mem =that.memory;
-        var t1b = new Date();
         var firstTime = false;
 	    var appendTo;
 	    if(jQuery(that.canvas).children().length == 0){
@@ -435,33 +434,41 @@ VismoCanvas.prototype = {
 	    else{
 	        appendTo = that.canvas;
 	    }
-	    var s = tran.scale;
 	    var lastT = this._lastTransformation.scale;
 	    var shapes = this._lastTransformation.shapes;
 	    if(lastT.x  ===s.x && lastT.y === s.y && this.memory.length == shapes){
 	        tran = false; //stop a transformation from being applied we've covered it here
 	    }
-		for(var i=0; i < mem.length; i++){
 
-		    var st = mem[i].properties.shape
-	        if(mem[i].optimise_ie(appendTo,transformation,projection)){
-		
+	    var globalAlpha =that.settings.globalAlpha; 
+		for(var i=0; i < mem.length; i++){
+            var vs =mem[i];
+		    var st = vs.properties.shape
+	        if(vs.optimise(appendTo,transformation,projection)){
+		        
 			    if(st == 'domElement')tran = transformation;
-				mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);        
-				if(mem[i].vmlfill && that.settings.globalAlpha) {
-					mem[i].vmlfill.opacity =that.settings.globalAlpha;
+				vs.render(that.canvas,tran,projection,true,that.settings.browser,ps);        
+				if(vs.vmlfill && !vs.vmlfill.opacity && globalAlpha) {
+					vs.vmlfill.opacity =globalAlpha;
 				}
 			
 				
 			}
+			var lookahead = function(){
+			    var newtransformation = VismoUtils.clone(transformation);
+			    newtransformation.scale.x *=2;
+			    newtransformation.scale.y *= 2;
+			    vs.optimise(appendTo,VismoTransformations.create(newtransformation),projection,true);
+			};
+			window.setTimeout(lookahead,1000);
 		}
-		
+	    
 		this._lastTransformation = {scale:{x:s.x,y:s.y},shapes:this.memory.length};
 		if(firstTime){
 		    that.canvas.appendChild(appendTo.cloneNode(true));
 		}
-	    var t2 = new Date();
-        VismoTimer.canvasIerender += (t2-t1);
+		VismoTimer.end("VismoCanvas.ie_render");
+	    
         
 	}
 	,canvas_render: function(args){
@@ -469,7 +476,7 @@ VismoCanvas.prototype = {
 	    this.render = this.canvas_render;
 	    var that = this;
 		var transformation = this.getTransformation();
-		if(this.options.beforeRender) this.options.beforeRender(transformation);	
+		if(this.options.beforeRender) this.options.beforeRender(this);	
 		if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
 		//determine point size
 		var ps = 5 / parseFloat(sc);

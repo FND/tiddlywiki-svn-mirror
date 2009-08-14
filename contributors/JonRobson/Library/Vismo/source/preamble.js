@@ -1,9 +1,9 @@
 /***
-|''Name:''|VismoLibrary|
+|''Name:''|Jon Robson's VismoLibrary|
 |''Description:''|An opensource library of javascript code designed to create clickable graphics in canvas with VML alternative for Internet Explorer browsers. The purpose of this is to provide hackable, extendable graphics based plugins without being locked in to consumer products such as Flash.|
 |''Author:''|JonRobson (http://www.jonrobson.me.uk/Vismo)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/Library/Vismo/source/|
-|''Version:''|0.8 |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/Library/Vismo/|
+|''Version:''|0.9 |
 |''Dependencies:''| Requires jQuery|
 |''Comments:''|Please raise questions and make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |

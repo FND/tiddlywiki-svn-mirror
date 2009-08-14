@@ -174,10 +174,10 @@ var VismoConversion ={
 	
 		return geojson;
 	}
+	
 	,geoRssToGeoJson : function (georss){
 	
 		var geojson = {type:"FeatureCollection", features:[]};
-		
 		var xml =VismoFileUtils._getXML(georss);
 		var items = xml.getElementsByTagName("item");
 		

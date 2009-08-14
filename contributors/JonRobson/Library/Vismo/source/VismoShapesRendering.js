@@ -115,15 +115,25 @@ var VismoCanvasRenderer = {
 	}
 	,renderPoint: function(ctx,vismoShape){
 	        //ctx.restore();
+		//ctx.save();
 		var bb =vismoShape.getBoundingBox();
 		var dim =vismoShape.getDimensions();
 		var radiusx = dim.width / 2;
 		var radiusy = dim.height/2;
+		
 		var transform = vismoShape.getTransformation();
 		if(transform && transform.scale) radiusx*= transform.scale.x;
-		
-		
+		//ctx.save();
+		if(radiusx > radiusy) {
+		    //ctx.scale(radiusx/radiusy,1)
+		}
+		else if(radiusy > radiusx){
+		    //
+		    //ctx.scale(1,radiusy/radiusx)
+		    //ctx.restore();
+		}
 		ctx.arc(bb.center.x, bb.center.y, radiusx, 0, Math.PI*2,true);
+	    
 	}
 	,renderImage: function(ctx,vismoShape){
 		var c = vismoShape.getCoordinates();

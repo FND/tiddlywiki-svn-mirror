@@ -436,7 +436,7 @@ VismoController.prototype = {
                 jQuery(that.wrapper).removeClass("zooming");
                 that.transform();
             }
-			//that.transform();
+			that.transform();
 			
 			if(pos.x > 5  || pos.y > 5) panning_status.isClick = false;
 			if(pos.x < 5|| pos.y < 5) panning_status.isClick = false;
@@ -476,8 +476,9 @@ VismoController.prototype = {
 		jQuery(document).mouseup(function(e){
 			if(panning_status.isClick && mu){mu(e);};
 			
-			cancelPanning(e);
-     
+			if(panning_status){
+			    cancelPanning(e);
+            }
 		});
 		
 		jQuery(document).mousemove(function(e){

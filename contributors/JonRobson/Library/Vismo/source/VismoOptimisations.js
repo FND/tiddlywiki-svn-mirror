@@ -95,24 +95,27 @@ var VismoOptimisations = {
 	}
 	
 	,vismoShapeIsTooSmall: function(vismoShape,transformation){
-	    var d1 = new Date();
+	    VismoTimer.start("VismoOptimisations.vismoShapeIsTooSmall");
 
 		if(!transformation ||!transformation.scale) {
-		    var d2 = new Date();
-            VismoTimer["opt_vismoShapeIsTooSmall"] += (d2-d1);
+		    VismoTimer.end("VismoOptimisations.vismoShapeIsTooSmall");
 		    return false;
 		}
 		var g = vismoShape.getBoundingBox();
 		var s = transformation.scale;
-		var t1 = (g.x2 -g.x1) * s.x;
-		var t2 =(g.y2- g.y1) * s.y;
+		var t1 = (g.width) * s.x;
+		var t2 =(g.height) * s.y;
 
-        var d2 = new Date();
-        VismoTimer["opt_vismoShapeIsTooSmall"] += (d2-d1);
+       
 		if(t2 < this.minradius&& t1 < this.minradius) 
-			{return true;}//too small
-		else
+			{
+			  VismoTimer.end("VismoOptimisations.vismoShapeIsTooSmall");
+                    return true;}//too small
+		else{
+		   VismoTimer.end("VismoOptimisations.vismoShapeIsTooSmall");
 			return false;
+		}
+		VismoTimer.end("VismoOptimisations.vismoShapeIsTooSmall");
 	}
 
 };

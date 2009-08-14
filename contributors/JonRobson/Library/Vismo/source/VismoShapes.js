@@ -238,6 +238,7 @@ var VismoShape = function(properties,coordinates){
         coordinates = properties.coordinates;
         delete properties["coordinates"];
     }
+    this._optimise_cache = {};
     
 	this.coordinates = {
 		projected: false,
@@ -257,6 +258,8 @@ var VismoShape = function(properties,coordinates){
 	this._construct(properties,coordinates);
 	this.browser =false;
 	this.currentResolution = false;
+	this.vml = false;
+	this.unique_id = Math.random() + "_" + this.properties.id;
 };
 
 
@@ -293,30 +296,43 @@ VismoShape.prototype={
 	    return this.grid;
 	}
 	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
-	    var t1 = new Date();
-	    var st = this.getShape();
-		if(this.getProperty("hidden")){
+	    
+	    VismoTimer.start("VismoShape.render");
+	    var properties = this.properties;
+	    var st = properties.shape;
+		if(properties.hidden){
 		        if(this.vml)this.vml.clear();
 		        return;
 		}
-		if(pointradius && st == 'point') {
+		if(st == 'point' && pointradius) {
 		    this.setRadius(pointradius);
 		}
+		 
 		if(st == 'domElement' || this.getRenderMode(canvas) == 'ie'){
 		     this.render_ie(canvas,transformation,projection,optimisations, browser,pointradius);
+		     
 		}
 		else{	
 	        this.render_canvas(canvas,transformation,projection,optimisations, browser,pointradius);
+	        //this.render = this.render_canvas;
 		}
-		var t2= new Date();
-		VismoTimer["VismoShape_render"] += (t2-t1);
+		 VismoTimer.end("VismoShape.render");
 			
 	}
 	,render_ie: function(canvas,transformation,projection,optimisations, browser,pointradius){
-	    if(!this.vml){
+	    
+	    VismoTimer.start("VismoShape.render_ie");
+	    if(this.vml===false){ //not created
+	        if(this.donevml)jQuery("#log").append("why?"+this.properties.name+"/"+this.vml);
             this.vml = new VismoVector(this,canvas);
+            this.donevml = true;
+            
         }
-        this.vml.render(canvas,transformation,projection);
+        
+           
+
+		this.vml.render(canvas,transformation,projection);
+        VismoTimer.end("VismoShape.render_ie");
         return;
 	}
 	,render_canvas: function(canvas,transformation,projection,optimisations, browser,pointradius){
@@ -337,6 +353,7 @@ VismoShape.prototype={
 			}
 			if(r && r.x)ctx.rotate(r.x);
 		}
+
 		VismoCanvasRenderer.renderShape(canvas,vismoShape);
 		ctx.restore();
 	}
@@ -587,7 +604,7 @@ VismoShape.prototype={
 			else radiush = radiusw;
 			
 			this.setDimensions(radiusw*2,radiush*2);
-			this.setCoordinates([coordinates[0],coordinates[1],coordinates[2]]);
+			this.setCoordinates([coordinates[0],coordinates[1],radiusw,radiush]);
 			
 		}
 		else if(shapetype == 'polygon' || shapetype == 'path')
@@ -684,10 +701,24 @@ VismoShape.prototype={
 	}
 
 
-	,optimise: function(canvas,transformation,projection){
-	    var t1 = new Date();
+	
+	,optimise: function(canvas,transformation,projection,justcompute){
+	    VismoTimer.start("VismoShapes.optimise");
+	    var ocache = this._optimise_cache;
+	    var cid = transformation["cache"]["id1"];
+	    var cid2 =transformation["cache"]["id2"]; 
+	    if(!ocache[cid]) ocache[cid] = {};
+	    
+        if(typeof(ocache[cid][cid2]) != "undefined"){
+	        return ocache[cid][cid2];
+        }
+	    
 	    var shapetype = this.properties.shape;
-	    if(shapetype == "path") return true;
+	    if(shapetype == "path") {
+	        ocache[cid][cid2] = true;
+	        VismoTimer.end("VismoShapes.optimise");
+	        return true;
+		}
 		if(transformation && transformation.scale) {
 		    this.currentResolution = Math.min(transformation.scale.x, transformation.scale.y);
 		}
@@ -695,43 +726,45 @@ VismoShape.prototype={
 		
 		if(shapetype != 'point' && shapetype != 'path' && shapetype !="domElement"){ //check if worth drawing				
 			if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
-				if(this.vml)this.vml.clear();
-				
+				if(!justcompute && this.vml)this.vml.clear();
+				ocache[cid][cid2] = false;
+				VismoTimer.end("VismoShapes.optimise");
 				return false;	
 			}	
 		}
 		
 		if(!VismoOptimisations.vismoShapeIsInVisibleArea(this,canvas,transformation)){
-			if(this.vml)this.vml.clear();
-			
+			if(!justcompute && this.vml)this.vml.clear();
+			ocache[cid][cid2] = false;
+			VismoTimer.end("VismoShapes.optimise");
 			return false;	
 		}
-		var t2 = new Date();
-		VismoTimer["optimise"] += (t2 -t1);
+		ocache[cid][cid2] = true;
+		VismoTimer.end("VismoShapes.optimise");
 		return true;
 	}
 	,optimise_ie: function(canvas,transformation,projection){	
-	    var t1 = new Date();
-	    VismoOptimisations.minradius = 6;
-		if(this.properties.shape == 'path' || this.properties.shape == 'point') return true;
-		var t2 = new Date();
-           VismoTimer["shape_optimise_ie"] += (t2-t1);
+	    VismoTimer.start("VismoShape.optimise_ie");
+	    var ocache = this._optimise_cache;
+	    var cid = transformation["cache"]["id1"];
+        if(typeof(ocache[cid]) != "undefined"){
+	        return ocache[cid];
+        }
+        VismoOptimisations.minradius = 6;
+	    var sh = this.properties.shape;
+		if(sh == 'path' || sh == 'point') {
+		        ocache[cid] =true;
+               return true;
+        }
+        
 		if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {
 				if(this.vml)this.vml.clear();
-				var t2 = new Date();
-                   VismoTimer["shape_optimise_ie"] += (t2-t1);
+                VismoTimer.end("VismoShape.optimise_ie");
+				ocache[cid] =false;
 				return false;		
 		}
-		/*
-		if(!VismoOptimisations.vismoShapeIsInVisibleArea(this,canvas,transformation)){
-			if(this.vml)this.vml.clear();	
-			var t2 = new Date();
-               VismoTimer["shape_optimise_ie"] += (t2-t1);
-			return false;	
-		}*/
-
-        var t2 = new Date();
-           VismoTimer["shape_optimise_ie"] += (t2-t1);
+        ocache[cid] =true;
+        VismoTimer.end("VismoShape.optimise_ie");
 		return true;
 	}
 	

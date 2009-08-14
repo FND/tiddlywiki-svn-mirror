@@ -32,8 +32,8 @@
     controls:["pan","zoom","mousewheelzooming","mousepanning"],
     handler: function(t){
       var el = jQuery(".pannabletext");
-      var initialLeft = 0;
-      var initialTop = 0;
+      var initialLeft = -200;
+      var initialTop = -200; //note the center of a VismoCanvas in 0,0 and our text is in the top left
       var initialWidth = 200;
       var initialHeight = 200;
       var width = t.scale.x * 200;
@@ -47,6 +47,8 @@
   });  
 
 </script>
+Hold shift to stop panning and select the text.
+<br>
 <a href='http://www.jonrobson.me.uk/Vismo'><img src='../Vismo.png'/></a>
 </body>
 </html>

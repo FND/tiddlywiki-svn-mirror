@@ -17,12 +17,15 @@ img {border:0;}
 var shapes = [
 {shape:"path",id:"4",edge:true,coordinates:[100,350,"q",-150,-300,300,0]},
 {shape:"path",id:"5",edge:true,coordinates:[-100,-350,"c",150,300,-300,0,200,200]},
-{shape:'polygon',"z-index":20,fill:'rgba(255,0,0,0.2)',coordinates:[50,50,180,0,180,180,0,180]},
-{shape:"circle", coordinates:[0,0,50], fill:"#ff0000"}
+{shape:'polygon',"z-index":20,stroke:"rgb(0,255,0)",lineWidth:2,fill:'rgba(255,0,0,0.2)',coordinates:[50,50,180,0,180,180,0,180]},
+{shape:"circle", id:"2",coordinates:[0,0,50], fill:"#ff0000"}
 ];
 
 
-var vc = new VismoCanvas(jQuery("#mycanvas"),{shapes:shapes,dblclick:function(e,s){alert(s.properties.id);},vismoController:{controls:["pan","zoom","mousewheelzooming","mousepanning"]}});
+var vc = new VismoCanvas(jQuery("#mycanvas"),{shapes:shapes,beforeRender:function(c){var r,g,b;
+  r= parseInt(Math.random() * 255);b= parseInt(Math.random() * 255);g= parseInt(Math.random() * 255);
+  c.getShapeWithID("2").setProperty("fill","rgb("+r+","+g+","+b+")");
+},dblclick:function(e,s){alert(s.properties.id);},vismoController:{controls:["pan","zoom","mousewheelzooming","mousepanning"]}});
 </script>
 <a href='http://www.jonrobson.me.uk/Vismo'><img src='../Vismo.png'/></a>
 

@@ -12,6 +12,7 @@ var GeoTag = function(longitude,latitude,properties){
 };
 
 var VismoMap = function(wrapper,options){  
+    
     if(wrapper.length){ //for jquery
         var result = [];
         for(var i=0; i < wrapper.length; i++){
@@ -86,6 +87,12 @@ var VismoMap = function(wrapper,options){
 	
 	if(options.geojson){
 	    this.drawFromGeojson(options.geojson,options.fullscreen);
+	}
+	else if(options.georss){
+	    this.drawFromGeojson(VismoConversion.geoRssToGeoJson(options.georss),options.fullscreen);
+	}
+	else if(options.kml){
+	    this.drawFromGeojson(VismoConversion.kmlToGeoJson(options.kml),options.fullscreen);
 	}
 	return eMap;
 };  
@@ -331,10 +338,6 @@ VismoMap.prototype = {
 
 		var that = this;
 
-
-		if(this.settings.beforeRender) {
-			this.vismoCanvas.options.beforeRender = this.settings.beforeRender;
-		}
 		this.vismoCanvas.render(this.settings.projection);
 		if(this.settings.afterRender) {
 			this.settings.afterRender(tran);
