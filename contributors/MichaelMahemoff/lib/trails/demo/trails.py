@@ -56,7 +56,6 @@ def trail_updater(environ, start_response):
   tiddler = make_trail_tiddler(environ)
   trail = dict()
   print '*** query', environ['tiddlyweb.query']
-  trail['name'] = environ['tiddlyweb.query']['name'][0]
   # trail['resources'] = environ['tiddlyweb.query']['resources'][0].split(whitespace)
   trail['resources'] = map(make_resource, environ['tiddlyweb.query']['resources'][0].strip().splitlines())
 
@@ -65,7 +64,7 @@ def trail_updater(environ, start_response):
 
   environ['tiddlyweb.store'].put(tiddler)
 
-  edit_url="http://"+environ['HTTP_HOST']+environ['tiddlyweb.config']['server_prefix']+"/trails/"+environ['wsgiorg.routing_args'][1]['trail_owner']+'/'+trail['name']+'.editor'
+  edit_url="http://"+environ['HTTP_HOST']+environ['tiddlyweb.config']['server_prefix']+"/trails/"+environ['wsgiorg.routing_args'][1]['trail_owner']+'/'+tiddler.title+'.editor'
   start_response("303 See Other", [('Location', edit_url)]);
   return ['---']
 

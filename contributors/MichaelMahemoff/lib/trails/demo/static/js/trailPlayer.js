@@ -10,7 +10,8 @@ var selectedSlot = 2;
 function selectNewResource(na,na,index,action) {
   selectedSlot=index+1;
   var resource = $($("#resources a")[selectedSlot-1]); // element 1 is a dummy
-  $('#resourceView').attr("src", resource.attr("href"));
+  $('#resourceView').attr("src", "/static/trail-page-loader.html?"+resource.attr("href"));
+  console.log($('#resourceView').attr("src", "/static/trail-page-loader.html?"+resource.attr("href")));
   $('#resources a').removeClass("selected");
   resource.addClass("selected");
   renderNote(resource);
