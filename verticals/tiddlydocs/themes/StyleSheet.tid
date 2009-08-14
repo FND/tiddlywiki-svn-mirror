@@ -193,13 +193,23 @@ h1 {
 
 
 	#buttonHolder {
+		font-size:0.8em;
 		height:100%;
-		left:-2em;
+		left:1.8em;
 		position:relative;
-		top:-2.5em;
+		top:-1.4em;
 		width:100%;
 	}
 	
+	html body .btn span span {
+		background:#FFFFFF none repeat scroll 0 0;
+		border-bottom:1px solid #BBBBBB;
+		border-top:1px solid #CCCCCC;
+		border-width:1px 0;
+		color:#003366;
+		padding:3px 0.4em;
+		position:relative;
+	}
 
 	.completed {
 		border-right : 10px solid #248A22;
