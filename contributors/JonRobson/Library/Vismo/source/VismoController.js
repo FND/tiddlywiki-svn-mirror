@@ -495,6 +495,7 @@ VismoController.prototype = {
 		});
 	
 	},
+
 	setTransformation: function(t){
         if(this.limits){
             if(this.limits.scale){
@@ -630,7 +631,13 @@ VismoController.prototype = {
 		this.createButton(10,180,{x:-6,y:42},{'actiontype':'out','name':'zoom out','buttonType': 'minus'});	
 	        this.applyLayer();
 	}	
-	
+	    ,zoom: function(x,y){
+	         var t = this.getTransformation();
+	         t.scale.x = x;
+	         if(!y) y=  x;
+	         t.scale.y = y;
+	         this.setTransformation(t);
+	    }
         ,panTo: function(x,y){
                 //if(!this.enabled) return;
                 var t = this.getTransformation();

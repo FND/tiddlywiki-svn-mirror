@@ -234,6 +234,7 @@ coordinates are a string consisting of floats and move commands (M)
 
 var VismoShape = function(properties,coordinates){
     this._isVismoShape = true;
+    this.options = {pointsize:5};
     if(!coordinates) {
         coordinates = properties.coordinates;
         delete properties["coordinates"];
@@ -295,8 +296,8 @@ VismoShape.prototype={
 	,getBoundingBox: function(){ /* returns untransformed bounding box */
 	    return this.grid;
 	}
-	,render: function(canvas,transformation,projection,optimisations, browser,pointradius){
-	    
+	,render: function(canvas,transformation,projection,optimisations, browser,pointsize){
+	     
 	    VismoTimer.start("VismoShape.render");
 	    var properties = this.properties;
 	    var st = properties.shape;
@@ -304,22 +305,24 @@ VismoShape.prototype={
 		        if(this.vml)this.vml.clear();
 		        return;
 		}
-		if(st == 'point' && pointradius) {
-		    this.setRadius(pointradius);
+		if(st == 'point' && pointsize) {
+		    this.options.pointsize = pointsize;
+		    var bb= this.getBoundingBox();
+		    this.setCoordinates([bb.center.x,bb.center.y,pointsize/2,pointsize/2]);
 		}
 		 
 		if(st == 'domElement' || this.getRenderMode(canvas) == 'ie'){
-		     this.render_ie(canvas,transformation,projection,optimisations, browser,pointradius);
+		     this.render_ie(canvas,transformation,projection,optimisations, browser);
 		     
 		}
 		else{	
-	        this.render_canvas(canvas,transformation,projection,optimisations, browser,pointradius);
+	        this.render_canvas(canvas,transformation,projection,optimisations, browser);
 	        //this.render = this.render_canvas;
 		}
 		 VismoTimer.end("VismoShape.render");
 			
 	}
-	,render_ie: function(canvas,transformation,projection,optimisations, browser,pointradius){
+	,render_ie: function(canvas,transformation,projection,optimisations, browser){
 	    
 	    VismoTimer.start("VismoShape.render_ie");
 	    if(this.vml===false){ //not created
@@ -335,7 +338,7 @@ VismoShape.prototype={
         VismoTimer.end("VismoShape.render_ie");
         return;
 	}
-	,render_canvas: function(canvas,transformation,projection,optimisations, browser,pointradius){
+	,render_canvas: function(canvas,transformation,projection,optimisations, browser){
 		var c;
     	var vismoShape = this;
     	var ctx = canvas.getContext('2d');
@@ -405,8 +408,11 @@ VismoShape.prototype={
 		this.grid = {}; //an enclosing grid
 		this._calculateBounds();
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
-		if(this.getShape() == 'circle' || this.getShape() == 'point'){
+		var st = this.getShape();
+		if(st== 'circle' || st == 'point'){
+		    
 		    if(coordinates[2] && coordinates[3]) this.setRadius(coordinates[2],coordinates[3]);
+		    else this.setDimensions(this.options.pointsize,this.options.pointsize);
 		}
 	}
 	,getCoordinates: function(type){
@@ -450,13 +456,19 @@ VismoShape.prototype={
 	
 	,setProperty: function(name,value){
 		this.properties[name] = value;
+		 //console.log("Reset",name,this);
+		 if(this.vml) {
+		    this.vml.nochange = false;
+	       
+	    }
 	}
 	,getProperty: function(name){
 		return this.properties[name];
 	}
 
 	,_calculateBounds: function(coords){
-	        var that = this;
+	    VismoTimer.start("VismoShapes._calculateBounds");
+	    var that = this;
 		var st = this.getShape();
 		var transform = this.getTransformation();
 
@@ -568,6 +580,8 @@ VismoShape.prototype={
 		this.grid.x2 = this.grid.center.x + (this.grid.width /2);
 		this.grid.y1 = this.grid.center.y - (this.grid.height/2);
 		this.grid.y2 = this.grid.center.y +(this.grid.height/2);
+		
+		VismoTimer.end("VismoShapes._calculateBounds");
 		//if(st == 'path') console.log(this,this.grid);
 	}
 
@@ -586,19 +600,24 @@ VismoShape.prototype={
 	,setDimensions: function(width,height){
 		this.width = width;
 		this.height = height;
+		if(this.properties.shape == 'point'){
+		    this.options.pointsize = width;
+		}
 		this._calculateBounds();
+	    
 	}
 	,getDimensions: function(){
 		return {width: this.width, height: this.height};
 	}
 	
 	,_construct: function(properties, coordinates){
+	    VismoTimer.start("VismoShapes._construct");
 		var shapetype =properties.shape; 
 		if(!shapetype) shapetype = 'polygon';
 		if(shapetype == 'point' || shapetype == 'circle'){
 			var radiusw,radiush;
 			if(coordinates[2]) radiusw = coordinates[2];
-			else radiusw = 0.5;
+			else radiusw = this.options.pointsize/2;
 			
 			if(coordinates[3]) radiush= coordinates[3];
 			else radiush = radiusw;
@@ -645,11 +664,13 @@ VismoShape.prototype={
 		}
 		else{
 			console.log("don't know how to construct basic shape " + properties.shape);
-		}			
+		}		
+		VismoTimer.end("VismoShapes._construct");	
 		
 	}	
 
 	,_applyProjection: function(projection,transformation){
+	    VismoTimer.start("VismoShapes._applyProjection");
 		var c = this.getCoordinates('normal');
 	
 		if(!projection || !projection.xy) return c;
@@ -697,6 +718,7 @@ VismoShape.prototype={
 		if(newc.length < 2) return;
 		this.setCoordinates(newc,"projected");
 		this._calculateBounds(newc);
+		VismoTimer.end("VismoShapes._applyProjection");
 		return newc;
 	}
 
@@ -769,7 +791,7 @@ VismoShape.prototype={
 	}
 	
 	,_simplifyCoordinates: function(scaleFactor,coordinates){// **
-		
+		VismoTimer.start("VismoShapes._simplifyCoordinates");
 		if(this.getProperty("shape") == 'path') return coordinates;
 		/*will use http://www.jarno.demon.nl/polygon.htm#ref2 */
 		if(!coordinates) throw "give me some coordinates!";
@@ -789,6 +811,7 @@ VismoShape.prototype={
 		
 		var diff = originals.length - coordinates.length;
 		
+		VismoTimer.end("VismoShapes._simplifyCoordinates");
 		if(diff < 10) return originals;
 		else 
 		return coordinates;	
