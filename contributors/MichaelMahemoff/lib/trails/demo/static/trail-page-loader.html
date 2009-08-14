@@ -1,0 +1,12 @@
+<style>
+  body { padding: 100px; text-align: center; background: #ddd; font-family: Gill Sans, sans-serif; }
+</style>
+<script type="text/javascript">
+  var url = document.location.search.substr(1) + document.location.hash;
+</script>
+<body>
+<script type="text/javascript">
+  document.writeln("Loading <em>" + url + "</em><br/>");
+  document.location.href = url;
+</script>
+</body>
