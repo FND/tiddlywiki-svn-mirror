@@ -529,4 +529,11 @@ h1 {
 		padding:6px 0 0;
 	}
 
+/* CKEditor */
+	html body span.cke_skin_kama {
+		position:relative;
+		top:-1.5em;
+	}
+
+/* END CKEditor*/
 <!--}}}-->

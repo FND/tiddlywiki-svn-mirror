@@ -1,3 +1,4 @@
 tiddler: plugins/MarkupPreHead.tid
 tiddler: plugins/CKEditorPlugin.js
 tiddler: plugins/override_edit.js
+tiddler: plugins/CKEditorSettings.js

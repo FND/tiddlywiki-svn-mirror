@@ -21,13 +21,14 @@ config.macros.editHtml = {
 			config.macros.edit.handler(place,macroName,params,wikifier,paramString,tiddler);
 		}
 		else if (field) {
+			if (config.options.txtFCKCustomConfigScript) CKEDITOR.config.customConfig = config.options.txtFCKCustomConfigScript ;
 			var re = /^<html>(.*)<\/html>$/m;
 			var fieldValue=store.getValue(tiddler,field);
 			var htmlValue = re.exec(fieldValue);
 			var value = (htmlValue && (htmlValue.length>0)) ? htmlValue[1] : fieldValue;
 			value=value.replace(/\[\[([^|\]]*)\|([^\]]*)]]/g,'<a href="#$2">$1</a>');
 			var ta = createTiddlyElement(place, 'textarea', '', 'fckeditor', value);
-			var ckName = "CKeditor123";			
+			var ckName = "CKeditor"+Math.random();
 			ta.name = ckName;
 			ta.setAttribute("editHtml",field);
 			ta.setAttribute("ckName",ckName);
