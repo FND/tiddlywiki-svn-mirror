@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWeb|
 |''Author''|FND|
-|''Version''|0.5.1|
+|''Version''|0.6.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -19,6 +19,8 @@
 * cache list of available login challengers
 !!v0.5 (2009-07-10)
 * disabled save and delete toolbar commands for unauthorized users
+!!v0.6 (2009-08-15)
+* disabled edit toolbar command for unauthorized users
 !Code
 ***/
 //{{{
@@ -51,6 +53,13 @@ config.commands.saveTiddler.isEnabled = function(tiddler) {
 
 config.commands.deleteTiddler.isEnabled = function(tiddler) {
 	return hasPermission("delete", tiddler);
+};
+
+// hijack Tiddler.prototype.isReadOnly to use permissions
+var original = Tiddler.prototype.isReadOnly;
+Tiddler.prototype.isReadOnly = function() {
+	var readOnly = original.apply(this, arguments); // global read-only mode
+	return readOnly || !hasPermission("write", this);
 };
 
 var hasPermission = function(type, tiddler) {
