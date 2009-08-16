@@ -37,8 +37,9 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 				
 	//		var specFormat = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).format;
 	//		console.log('format is : ', specFormat);
-			var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: jQuery.toJSON(window.testSpec)};
-			store.saveTiddler(window.activeDocument, window.activeDocument, spec, null, null, "document", fields);
+			var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.testSpec};
+console.log("Spec is : ", spec);
+			store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields);
 			autoSaveChanges(true, window.activeDocument);
 		},
 		autoScroll: true,

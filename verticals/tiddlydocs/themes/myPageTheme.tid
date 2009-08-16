@@ -157,19 +157,6 @@ tags: systemTheme
 		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
 		</div>
 	</div>
-
-	<div class="portletContainer">
-		<div class="portletToolbar">
-			<div class="portletCornerLeft"></div>
-			<div class="portletCornerRight"></div>
-			<div class="portletTitle">
-		<div class='title'>TiddlyDocs Links</div>
-			</div>
-		</div>
-		<div class="portletContent leftColumnItem tiddlyDocsLinks">
-			<div  refresh='content'  tiddler='TiddlyDocsLinks'></div>
-		</div>
-	</div>
 </div>
 
 
@@ -246,7 +233,7 @@ tags: systemTheme
 			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='editor' macro='editHtml text'></div>
 <div macro='commentSlider'>
-	<div class='right'>
+	<div class='right links'>
 		RSS | Permalink
 	</div>
 </div>
@@ -302,7 +289,7 @@ tags: systemTheme
 			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
 <div macro='commentSlider'>
-	<div class='right'>
+	<div class='right links'>
 		RSS | Permalink
 	</div>
 </div>

@@ -37,6 +37,9 @@ modifier: Simon McManus
 /* END MyPage Specifics */
 
 
+.links {
+	padding:0.2em 0.5em;
+}
 
 div.portletTitle  div.title  input {
 	background:transparent none repeat scroll 0 0;
@@ -129,11 +132,13 @@ h1 {
 	}
 
 	.deleteZoneClass {
-		background: #eee url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat bottom right;
-		text-align:left;
-		padding:0.5em 1em 1em;
-		margin:25em 4em 4em;
-		border:1px solid #555;
+	background:#EEEEEE url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat scroll right bottom;
+	border:1px solid #555555;
+	left:2em;
+	margin:1em;
+	padding:0.5em 1em 1em;
+	position:relative;
+	text-align:left;
 	}
 
 	.deleteHelper {
@@ -168,7 +173,9 @@ h1 {
 	li.toc-item {
 		list-style:none;
 	}
-
+	#backstageButton {
+		right:1em;
+	}
 
 	#backstageArea, #backstageArea a {
 		background:#444444 none repeat scroll 0 0;
@@ -196,13 +203,13 @@ h1 {
 	#buttonHolder {
 		font-size:0.8em;
 		height:100%;
-		left:1.8em;
+		left:2.4em;
 		position:relative;
-		top:0.4em;
+		top:-0.2em;
 		width:100%;
 	}
 	
-	html body t.btn span span {
+	html body .btn span span {
 		background:#FFFFFF none repeat scroll 0 0;
 		border-bottom:1px solid #BBBBBB;
 		border-top:1px solid #CCCCCC;
@@ -239,8 +246,10 @@ h1 {
 	#mainMenu {
 		height:100%;
 		left:-2em;
+		margin:0;
+		padding:0;
 		position:relative;
-		top:-4em;
+		top:-2em;
 		width:100%;
 	}
 
