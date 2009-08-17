@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.8.3|
+|''Version''|0.9.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -28,6 +28,10 @@ This plugin includes [[jQuery JSON|http://code.google.com/p/jquery-json/]].
 * replaced JSON serialization with jQuery JSON plugin
 !!v0.7 (2009-05-08)
 * added support for TiddlyWeb differ plugin
+!!v0.8 (2009-05-23)
+* fixed ETag format
+!!v0.9 (2009-08-17)
+* fixed ETag handling for new tiddlers
 !To Do
 * createWorkspace
 * document custom/optional context attributes (e.g. filters, query, revision) and tiddler fields (e.g. server.title, origin)
@@ -570,11 +574,8 @@ adaptor.resolveWorkspace = function(workspace) {
 
 adaptor.generateETag = function(workspace, tiddler) {
 	var etag = null;
-	if(workspace.type == "bag") { // XXX: what about recipes?
-		var revision = tiddler.fields["server.page.revision"];
-		if(typeof revision == "undefined") {
-			revision = 1;
-		}
+	var revision = tiddler.fields["server.page.revision"];
+	if(workspace.type == "bag" && typeof revision != "undefined") {
 		etag = [adaptor.normalizeTitle(workspace.name),
 			adaptor.normalizeTitle(tiddler.title), revision].join("/");
 	}
