@@ -1,0 +1,2 @@
+cook recipes_tinier/tinytiddlywiki
+cook recipes_tinier/core -cr -Cr -Dr; mv core.html core.js

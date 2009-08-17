@@ -1,0 +1,4 @@
+template: ../templates/tiniertiddlywiki.template.html
+copyright: $TW_ROOT/core/html/copyright.txt
+style: $TW_ROOT/core/html/style.txt
+noscript: $TW_ROOT/core/html/noscript.txt
