@@ -1,0 +1,44 @@
+{% extends "spa-template.html" %}
+{% block title %}JQuery SPA demo{% endblock %}
+{% block css %}
+  html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-weight:normal;font-style:normal;text-align:left;font-family:inherit;}table{border-collapse:collapse;border-spacing:0;}ol,ul{list-style:none;}q:before,q:after,blockquote:before,blockquote:after{content:"";}
+
+  body { background: black; padding: 0; margin: 0; font-family: Gill Sans, sans-serif; }
+  h1 { background: white; color: black; padding: 10px 10px 0; margin: 0; height: 52px; }
+  h1 img { float: left; width: 32px; height: 32px; }
+  h1 #title { float: left; font-size: 32px; line-height: 32px; padding: 0 10px; }
+  h1, h2, h3, h4 { font-weight: normal; margin-bottom: 0; }
+  div#main { padding: 10px 52px; clear: both; color: #ddd; width: 400px; }
+  a, a:visited { color: #99f; text-decoration: none; }
+  p { margin: 5px 0; }
+  ol { list-style-type: decimal; padding: 0; margin: 1em; }
+  li { margin: 10px 0; }
+{% endblock %}
+{% block html %}
+  <h1>
+  <img id="logo" src="data:image/jpeg,%FF%D8%FF%E0%00%10JFIF%00%01%01%00%00%01%00%01%00%00%FF%DB%00C%00%09%06%07%08%07%06%09%08%07%08%0A%0A%09%0B%0D%16%0F%0D%0C%0C%0D%1B%14%15%10%16%20%1D%22%22%20%1D%1F%1F%24(4%2C%24%261'%1F%1F-%3D-157%3A%3A%3A%23%2B%3FD%3F8C49%3A7%FF%DB%00C%01%0A%0A%0A%0D%0C%0D%1A%0F%0F%1A7%25%1F%2577777777777777777777777777777777777777777777777777%FF%C0%00%11%08%00%40%00%40%03%01%22%00%02%11%01%03%11%01%FF%C4%00%1B%00%00%01%05%01%01%00%00%00%00%00%00%00%00%00%00%00%03%00%01%04%05%06%02%07%FF%C4%006%10%00%01%03%02%03%05%06%04%04%07%00%00%00%00%00%00%01%02%03%11%00%04%05%12!%061AQq%13%22a%81%91%B1%07%23%A1%F0%14R%82%C1%242BTd%92%D1%FF%C4%00%1A%01%00%02%03%01%01%00%00%00%00%00%00%00%00%00%00%00%00%04%01%03%06%02%05%FF%C4%00%2C%11%00%01%04%01%03%02%04%05%05%00%00%00%00%00%00%00%01%00%02%04%11%03%12!1Aq%05%06%81%B12b%A1%C1%F0%14%233Q%91%FF%DA%00%0C%03%01%00%02%11%03%11%00%3F%00%AA%A5OJ%B2%AB%B4%D4%A9M%3D%08M%14%A9S%D0%84%D4%A9%E9%A8BS%15a%86%E0%F7%B8%8Be%D6%90%96%ED%93%FC%D7%0F%2B%22%07%9F%1F*%91%B2XKX%B5%FB%8A%B9%3F%C2Z%A48%E8%FC%D3%B9%3D4'%CA%A7%3A%F3%FBD%F0q%C1%D9Z%20%81n%C00%94%A7%81%23%9CzU%B1cf%99%9C%E1%C3%B5Qq%3C%0B%E3n%A4%A8s%9A%C6%EAr%88l0f%3B%AB%BC%BC%BD_%F8m%04%20~%A5L%8F%1A%ED%A4%E1%A4%0C%B8%13%8B%07r%9E%BEZg%FDDU%E5%9E%1C%86%89%08%40IN%A4%A4h%7D*%C1%2C%25%B4.%00%93%BFA%A7%FC%AD%13%3C%BB%19%A2%B2ds%8Fz%F6J%99N%E8%02%C9%B80%E1%01%7B%3E%E24%99f%F9%C5G%A8%8A%10%B4%C1%1F%84%A6%EE%FA%C1%C3%FD%DBA%C4z%A6%23%CE%B6*a%B0%DC%26u%99O%0E%95%1E%E7%0Dm%C6R%03B%0E%BD%D1%24xP%FF%00%2FF%23%F6%DE%E6%9E%F7%EFh%12%9D%D4%05%8F%C40K%DB%16%BF%11%0D%DCZ%1DE%CD%B2%B3%A3%CF%97%B5V%CF%A5i%82%EE0%1B%85%5C%D8fSS%F3Y%CD)X%E3%23%9F%8DD%DA%DC6%DA%C5%FB%5B%DC%3Ce%B3%BEGh%84%8D%C9%3A%1D9%02%0C%C7Z%CFK%8B%9E%0Ea%8B6%E1%DC%11%D6%B9%04t)%A69%AFn%A6%AE%BE%1C%E2%0C5%7D%7Dir%40E%CA%1BH%93%C4f%11%E7%3E%D5%7Cl%15%85%01l%E237%10%87x(p%07M%F5%E5%2B%B9v%C2%E9%17-%C2%80%EE%AD'r%92w%83%5B%CD%9F%DB7%16%C0l%04%DF6%06%B6%EE%A8%25%E4%0E%40%9D%16)%AC%26O%87%3B%F5%B8%1B%AF%1B%E8%3CqDl7%E9%B6%E2%F6%3Cr%15%87%03d04%7CC%F3%D5km%CA%94%D2%0AU%99d%C7uZ%8F%3D%3E%FAR%0E%04%F7%5B%08%04hS%13%3FsU%ADc%7B%3A%FA%BEe%C3%B8s%A4%C9C%C0%A3_%09%D3%D2%A7%A1%18s%CD%93o%8B%5B%92%A2Nl%E9%3F%BDz%AC%F3%24%03%FC%BA%99%DD%A7%EDi'C%CA%D3T%BAR%C2%86%99R%A0%08%D3q%04%F2%E1%AF*%1B%EANP%A0%B5%07%17%AER%60%0Db%BBR%2CYL%BD%8A%DB%A4o%25%25)%9F%ADB%7B%1A%D9%D64%17%8E%5E%ACD6%C0%2B3%FAG%BDK%BC%C9%E1%E0%5E%3DO%EC%D3%F7%A5%0D%89%95%C6%A9%05%CB'1%15v%16%ED%94%A9fT%E92%1B%EB%E3%CB%EE*%3E%22%5D%5B0%DE%1B%85%DA(%14%DA%82%9C%B31%09%00%0F!%EFE%C6%B6%CD%C6%AD%FB4!8s%24BP%08S%CB%F0%00h%9E%B5%E7%CB%BCs%12%BB%2F%A99%5BH%CA%DAA%98%1Cu%E3%D6%BC%AC%CF%93%E2%8E%12%F37F%2Cw%A4sd%ED%CFS%5B%ED%B0%AF%EC%EE%F0%C0%230%87%7CG%F3%D1I%7D%AC%C2%08%E1T%EFY8%D2%A5%88%20j%12LGC%C2%B4E%13%A7%D7%9D%09mL%027%D71'f%8A%EDX%8D_%F8%7B%8E%0A%AC%B4%15T%C6%D0bV%89%C8%B7%DC%CA%3F%A6%E5%BC%E9%F5%14A%B4M%AFW0%FC%25%D3%CC%8C%A7%DA%A6*%D9%24%EB%40U%8BD%EA%DAO%95%3E'A%C8o%2CV%DF%CAK~%80%D2%B4H%90%D1A%E7%D6%8F%BA%19%DA%16%91%AA0%EC%25%B3%CE3~%D47%B6%8F%11%B9Of%D3%E5)%FC%B6%ADe%1E%A6%A4%26%C5%A4D6%91%3E%02%8A%8Bp%20G%D2%836%06%3D%F1Em%FC%C4%BB%E8vA%91%20%8A%2F%3E%94%3D%95KV%8F%3E%A2%A7%C9L%EF%19%89*%EA%AA%B6a%90%84%A5%20Dp%E5GK%40p%1AQ%12%90%20%FB%D22%E7%E6%94A%C8x%E0p%07a%C0U%06%80%BF%FF%D9"/>
+    <span id="title">JQuery-SPA Demo</span>
+  </h1>
+
+  <div id="main">
+
+    <ol>
+      <li>Type your message: <input id="message" value="change me"></input></li>
+
+      <li>Save this page: <input id="saveButton" value="Save" type="button"></li>
+
+      <li>Hit shift-reload to perform a clean reload the page and observe that your message has been saved.</li>
+    </ol>
+
+    <h3>What is this?</h3>
+
+    <p>This is a demo of an experimental Single Page Application I am building atop <a href="http://jquery.tiddlywiki.org/twFile.html">jQuery.twFile</a>, the file saving plugin extracted from TiddlyWiki. Forked from <a href="http://jquery.tiddlywiki.org/twFileDemo.html">this twFile Demo</a>.  </p>
+
+  </div>
+{% endblock %}
+{% block javascript %}
+    $.spa.save = function(text) {
+      return text.replace(/<input id="message".*?><\/input>/,
+              '<input id="message" value="'+$("#message").val()+'"></input>');
+    }
+{% endblock %}
