@@ -1,5 +1,0 @@
-cook recipes/tinytiddlywiki
-cook recipes/jsArea -cr -Cr -Dr; mv jsArea.html jsArea.js
-cook recipes/jqueryArea -cr -Cr -Dr; mv jqueryArea.html jqueryArea.js
-cook recipes/jsdeprecatedArea -cr -Cr -Dr; mv jsdeprecatedArea.html jsdeprecatedArea.js
-cook recipes/jslibArea -cr -Cr -Dr; mv jslibArea.html jslibArea.js

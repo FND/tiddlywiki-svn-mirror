@@ -1,0 +1,6 @@
+cook recipes_tinier/tinytiddlywiki
+cook recipes_tinier/core -cryo -Cryo -Dryo; mv core.html core.js
+tar -cvvf tinytiddly.tar core.js tinytiddlywiki.html
+rm tinytiddlywiki.html
+rm core.js
+cd $TW_TRUNKDIR/core/; cook tiddlywiki -cry -Cry -Dry;mv tiddlywiki.html $TW_TRUNKDIR/contributors/JonRobson/verticals/TinyTiddlyTemplate/tinytiddlywiki.html
