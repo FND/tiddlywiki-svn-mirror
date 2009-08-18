@@ -13,10 +13,19 @@ var VismoTests = {
             var kids = jQuery("#mockArea").children();
             return kids[kids.length-1];
         },
-        canvas: function(options){
+        transformation: function(){
+            return {scale:{x:1,y:1},translate:{x:0,y:0},origin:{x:100,y:100}};
+        }
+        ,canvas: function(options){
             var el = this.div();
             var cc = new VismoCanvas(el,options);
             return cc;
+        },
+        vector: function(shape,dom){
+            if(!shape)shape= new VismoShape({coordinates:[0,0,0,100,100,100,100,0],fill:originalFill});
+            if(!dom) dom = VismoTests.Mocks.div();
+            var vector = new VismoVector(shape,dom);
+            return vector;
         }
     },
     assertAllEqual: function(list){
@@ -36,15 +45,22 @@ var VismoTests = {
         if(typeof(x) == 'undefined' && y) return [false,"x is undefined but y is"];
         if(typeof(y) == 'undefined'&& x) return [false,"x is undefined but y is"];
         if(typeof x == 'object'){
-            
             var end = true;
             var i;
+            var error = "";
+            if(x.length){
+                error = "length of lists not same, "+x.toString() + "!=" + y.toString();
+                if(x.length != y.length) return [false,error];
+            }
             for(i in x){
                 if(x[i] !== y[i]){
                     end = false;
+                    error = x.toString() + "!=" + y.toString();
                 }
+                if(!end)break;
             }
-            return end;
+          
+            return [end,error];
         }
         //console.log("is x == y?",x,y);
         if(x === y){

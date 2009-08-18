@@ -1,0 +1,66 @@
+<html>
+
+<head>
+<script type='text/javascript' src='jquery.js'></script>
+<script type='text/javascript' src='../Vismo.js'></script>
+<style type="text/css">
+#mycanvas {position:relative;width:400px; height:400px;border:solid 1px black;overflow:hidden;}
+img {border:0;}
+</style>
+</head>
+<body>
+<h1>VismoCanvas bouncing balls demo</h1>
+<div id='mycanvas' style="position:relative;">
+</div>
+
+<script type='text/javascript'>
+var shapes = [];
+
+function dophysics(cc){
+  var shapes = cc.getMemory();
+  for(var i=0; i < shapes.length; i++){
+    var s = shapes[i];
+    var p = s.getProperties();
+    var vx = s.getProperty("velocityX");
+    var vy = s.getProperty("velocityY")
+    
+    var bb = s.getBoundingBox();
+    var newx = bb.center.x +vx;
+    var newy =bb.center.y + vy;
+    if(newy > 200 || newy < -200) {
+      //vy /=2;
+       s.setProperty("velocityY",-vy);
+     
+    }
+    if(newx > 200 || newx < -200){
+      s.setProperty("velocityX",-vx);
+    }
+    
+    s.moveTo(newx,newy);
+  }
+}
+var cc = new VismoCanvas(jQuery("#mycanvas"),{shapes:shapes,beforeRender: dophysics});
+
+var maxballs = 300;
+function createshape(){
+  var vx = Math.random() * 20;
+  var vy = Math.random() * 20;
+  var shape = {shape:"circle", coordinates:[0,-200,20], velocityX: vx, velocityY:vy, fill:VismoShapeUtils.randomColor()};
+  cc.add(shape);
+  cc.render();
+  if(cc.memory.length < maxballs)window.setTimeout(createshape,400);
+}
+
+var render = function(){
+  cc.render();
+  window.setTimeout(render,100);
+};
+function setup(){
+  render();
+  createshape();
+}
+setup();
+</script>
+<a href='http://www.jonrobson.me.uk/Vismo'><img src='../Vismo.png'/></a>
+</body>
+</html>
