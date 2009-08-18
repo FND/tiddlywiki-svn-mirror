@@ -35,3 +35,5 @@ the tiddlywiki.com server (you will be prompted for username and password twice)
 
 Immediately after a release, the version number should be incremented and marked
 as alpha.
+In addition, the changelog should be updated with the release date:
+    http://trac.tiddlywiki.org/wiki/History
