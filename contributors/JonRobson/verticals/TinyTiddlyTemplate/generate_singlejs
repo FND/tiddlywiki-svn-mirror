@@ -1,2 +1,5 @@
 cook recipes_tinier/tinytiddlywiki
 cook recipes_tinier/core -cr -Cr -Dr; mv core.html core.js
+mkdir output
+mv core.js output/
+mv tinytiddlywiki.html output; tar -cvvf tinytiddly.tar output/*
