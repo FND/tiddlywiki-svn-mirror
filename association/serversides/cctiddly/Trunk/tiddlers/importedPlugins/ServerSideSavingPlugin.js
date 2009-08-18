@@ -66,7 +66,6 @@ plugin = {
 		};
 		context.workspace = tiddler.fields["server.workspace"];
 		var req = adaptor.putTiddler(tiddler, context, {}, this.saveTiddlerCallback);
-	//	config.extensions.saveTiddlerRequestSent();
 		return req ? tiddler : false;
 	},
 
@@ -78,20 +77,19 @@ plugin = {
 			} else if(tiddler.fields.changecount > 0) {
 				tiddler.fields.changecount -= context.changecount;
 			}
-			displayMessage(plugin.locale.saved.format([tiddler.title]));
+			plugin.reportSuccess(tiddler, context);
 			store.setDirty(false);
 		} else {
-			displayMessage(plugin.locale.saveError.format([tiddler.title, context.statusText]));
+			plugin.reportFailed(tiddler, context);
 		}
-//		config.extensions.saveTiddlerResponseReceived();
+	},
+	reportSuccess: function(tiddler, context) {
+		displayMessage(plugin.locale.saved.format([tiddler.title]));
+	},
+	reportFailed: function(tiddler, context){
+		displayMessage(plugin.locale.saveError.format([tiddler.title, context.statusText]));
 	},
 
-	saveTiddlerRequestSent : function() {
-	},
-
-	saveTiddlerResponseReceived : function() {
-	},
-	
 	removeTiddler: function(tiddler) {
 		var adaptor = new this.adaptor();
 		context = { tiddler: tiddler };

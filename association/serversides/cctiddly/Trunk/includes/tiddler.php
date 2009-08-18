@@ -128,7 +128,7 @@
 		{
 		    if ($dh = opendir($dir)) 
 			{
-				echo "powerpape".$file;
+//				echo "powerpape".$file;
 		       while (($file = readdir($dh)) !== false) 
 				{
 					$full  = $_SERVER['DOCUMENT_ROOT'].$tiddlyCfg['pref']['base_folder']."/".$dir."/".$file;

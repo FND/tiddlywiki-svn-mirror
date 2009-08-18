@@ -34,7 +34,6 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 				} else {
 					var fields = config.defaultCustomFields;
 				}
-
 			var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.testSpec};
 			store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields);
 			autoSaveChanges(true, window.activeDocument);
