@@ -52,7 +52,7 @@ version.extensions.WikifiedMessagesPlugin = {installed:true};
 		{
 			var e = getMessageDiv();
 			if(!e) {
-				alert(wikifyPlain(text));
+//				alert(wikifyPlain(text));
 				return null;
 			}
 			if(linkText) {

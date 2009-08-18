@@ -29,7 +29,7 @@ config.macros.editHtml = {
 			value=value.replace(/\[\[([^|\]]*)\|([^\]]*)]]/g,'<a href="#$2">$1</a>');
 			var ta = createTiddlyElement(place, 'textarea', '', 'fckeditor', value);
 			var ckName = "CKeditor"+Math.random();
-			ta.name = ckName;
+			ta.id = ckName;
 			ta.setAttribute("editHtml",field);
 			ta.setAttribute("ckName",ckName);
 			CKEDITOR.replace(ckName);

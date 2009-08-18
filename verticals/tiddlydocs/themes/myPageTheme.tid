@@ -42,6 +42,8 @@ tags: systemTheme
 
         <div id="menu">
         </div>
+
+<div macro='saveNotification'></div>
         <div class="header">
 <div id="wholesale_search_wrapper">
   <div id="search_bar">

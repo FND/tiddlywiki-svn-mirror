@@ -50,11 +50,8 @@ tiddler: content/UserDefinitions.tid
 
 recipe: documents/TheInternet/split.recipe
 
-
-
-
-tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
-tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
+#tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
+#tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
 tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
 #tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../contributors/SimonMcManus/plugins/googleButtons.js

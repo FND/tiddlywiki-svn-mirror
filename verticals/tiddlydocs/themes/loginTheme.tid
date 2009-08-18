@@ -1,93 +1,173 @@
-modifier: Simon McManus
-modified: 200708091500
 tags: systemTheme
 
 /***
-|''Name:''|mainTheme|
-|''Description:''|The basic TeamTasks theme |
-|''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
-|''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
-|''Version:''|0.4|
-|''Date:''|March 28th, 2008|
-|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''Name:''|myPageTheme|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
 |''~wizardViewTemplate:''|##wizardViewTemplate|
+|''~newEditTemplate:''|##newEditTemplate|
 |''~ViewTemplate:''|##ViewTemplate|
 |''~EditTemplate:''|##EditTemplate|
-|''~taggingViewTemplate:''|##taggingViewTemplate|
-|''~taskViewTemplate:''|##taskViewTemplate|
-|''~taskEditTemplate:''|##taskEditTemplate|
 |''~documentViewTemplate:''|##documentViewTemplate|
-
 ***/
 
 !PageTemplate
 <!--{{{-->
-<div id='messageHeading' refresh='content' force='true' tiddler='messageHeading'</div>
-<div id="header">
-		<div class="banner-left"></div>
-		<div class="banner-right"></div>
-		<div class="banner-search">	
-			<div  class="searchPosition" macro='search'></div>
-		</div>
-		<div class='banner-title'>
-			<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-			<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-		</div>
-</div>
 
-<div id='displayArea'>
-<div id='messageArea'></div>
-</div>
-<div id="headContainer">
-	<div class="left">
-	</div>
-</div>
 
-<div class='leftColumn'>
-	<div class="portletContainer leftColumnItem">
-		<div class="portletToolbar">
-			<div class="portletCornerLeft"></div>
-			<div class="portletCornerRight"></div>
-			<div class="portletTitle">
-		<div class='title'>Table of Content</div>
-			</div>
-		</div>
-		<div class="portletContent leftColumnItem">
-		<br />
-		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
-		</div>
-	</div>
-	<div class="portletContainer">
-		<div class="portletToolbar">
-			<div class="portletCornerLeft"></div>
-			<div class="portletCornerRight"></div>
-			<div class="portletTitle">
-		<div class='title'>About TiddlyDocs</div>
-			</div>
-		</div>
-		<div class="portletContent leftColumnItem">
-	<div  refresh='content'  tiddler='aboutTiddlyDocs'></div>
-		</div>
-	</div>
-	<div class="portletContainer">
-		<div class="portletToolbar">
-			<div class="portletCornerLeft"></div>
-			<div class="portletCornerRight"></div>
-			<div class="portletTitle">
-		<div class='title'>TiddlyDocs Links</div>
-			</div>
-		</div>
-		<div class="portletContent leftColumnItem tiddlyDocsLinks">
-			<div  refresh='content'  tiddler='TiddlyDocsLinks'></div>
-		</div>
-	</div>
+<link rel="stylesheet" href="http://www.btwholesale.com/container/static/wa/jarrita/css/container.opt.css" type="text/css" />
+
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/login.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/gadgets.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/container.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/simple.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/3rd/thickbox.css" type="text/css" />
+
+
+<style type="text/css">
+[[myPageCSSOverride]]
+
+</style>
+
+<!--[if lt IE 7]>
+  
+  <link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/IE6Fixes.css" type="text/css" />
+<![endif]-->
+
+
+    <div id="yuiproxy"></div>
+    <div class="body">
+      <div class="sections">
+
+        <div id="menu">
+        </div>
+        <div class="header">
+<div id="wholesale_search_wrapper">
+  <div id="search_bar">
+    <div id="header1">
+      <div id="h1left">
+      <a tabindex="2" href="/pages/static/homepage_logout.html" class="hlink" title="Home page">Homepage</a><span class="hgrey">|</span><a tabindex="3"
+            title="Products" class="hlink"
+            href="/pages/static/Products.html"
+        >Products</a><span class="hgrey">|</span><a tabindex="4"
+            title="Applications" class="hlink"
+            href="/pages/static/Applications.html"
+        >Applications</a><span class="hgrey">|</span><a tabindex="5"
+            accesskey="2" title="Customer Zone" class="hlink"
+            href="/pages/static/customerzone_logout.html"
+        >Customer zone</a><span class="hgrey">|</span><a tabindex="6"
+            title="Network Info" class="hlink"
+            href="/pages/static/Network_Info.html"
+        >Network info</a><span class="hgrey">|</span><a tabindex="7"
+            accesskey="7" title="News & Briefings" class="hlink"
+            href="/pages/static/News_and_Briefings.html"
+        >News & briefings</a><span class="hgrey">|</span><a tabindex="8"
+            title="Pricing & Contracts" class="hlink"
+            href="/pages/static/Pricing_and_Contracts.html"
+        >Pricing & contracts</a>
+
+      </div>
+      <div id="h1right">
+        <a tabindex="9" accesskey="3" title="Sitemap" class="hlink"
+            href="/pages/static/help/help_hub/site_map.html"
+        > SITEMAP</a>
+      </div>
+    </div>
+    <div id="header2">
+      <div id="flr_h2left1">
+        <a tabindex="10"
+            href="/pages/static/Community/Broadband_Community.html"
+            class="flr_h2link" title="Broadband"
+        >BROADBAND</a><span class="hgrey1">|</span><a tabindex="11"
+            href="/pages/static/Community/21_Century_Network_Community.html"
+            class="flr_h2link" title="21CN"
+        >21CN &amp; CONSULT 21</a><span class="hgrey1">|</span><a tabindex="12"
+            href="/pages/static/Community/Reseller_Community.html"
+            class="flr_h2link" title="Reseller">RESELLER</a>
+
+      </div>
+      <div id="flr_h2left">
+	    <div id="flr_h2leftb">
+          <form id="searchForm" method="get"
+            action="http://search.btwholesale.com/search" class="formMargin">
+          <fieldset class="inline">
+            <input name="site" value="default_collection" type="hidden">
+            <input name="client" value="btw_frontend" type="hidden">
+            <input name="proxystylesheet" value="btw_frontend" type="hidden">
+            <input name="output" value="xml_no_dtd" type="hidden">
+
+            <input tabindex="15" class="inputsearch" id="q" name="q" title="Search"
+                value="Search..." onfocus="return clearText()"
+                onblur="return putText()" type="text">
+            <input tabindex="16" class="greebutton" title="Search" value="GO" accesskey="4"
+                id="flr_h2leftbSpan" style="cursor: pointer;" type="submit">
+          </fieldset>
+          </form>
+        </div>
+        <div id="flr_h2lefta">
+          <div id="show_logout">
+          
+          <a tabindex="13"
+              href="/siteminderagent/forms/logout.fcc"
+          >Logout</a><span class="hgrey1">|</span><a
+               tabindex="14" class="plink"
+              href="/portalzone/editProfile/editProfile.do"
+              class="plink" title="Profile">Profile</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="portal-header">
+    <div id="logoSpacer" class="floatleft">
+      <img alt="MyPage" title="MyPage"
+          src="https://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/Customized-portal-logo.gif"/>
+    </div>
+    <div id="ajaxMessageHolder" class="middle">
+
+      <div id="ajax_message_wrapper">
+        <div id="ajax_message">
+        </div>
+      </div>
+    </div>
+    <div id="logoHolder" class="right">
+<img height="55" width="565" title="MyPage" src="https://www.btwholesale.com/pages/media/logo/BTW_blank.jpg" class="bannerLogo"/>
+    </div>
+  </div>
+
+    
+  
 </div>
-<br />
+        </div>
+
+
+<div macro='ccLogin'> </div>
+<<ccLogin>>
 <div id='tiddlerDisplay'></div>
+    </div>
+    <div class="footer">
 
+<div>
+  <div id="footerleft" class="inline floatleft">
+    <a href="/pages/static/mp/disclaimer.html" class="footlink" title="Disclaimer">BT Wholesale is not responsible for the content of external internet sites</a>
+  </div>
+  <div id="footerright" class="inline floatright">
+    <a title="About BTW" class="footlink" href="/pages/static/Footer/About_BTW.html">About BTW</a>
+    <span class="hgrey1">|</span>
+
+    <a accesskey="9" title="Contact " class="footlink" href="/pages/cmsjsps/Footer/Contact.jsp">Contact </a>
+    <span class="hgrey1">|</span>
+    <a accesskey="0" title="Accessibility" class="footlink" href="/pages/static/Footer/Accessibility.html">Accessibility</a>
+    <span class="hgrey1">|</span>
+    <a title="Help" class="footlink" href="/pages/static/Footer/Help.html">Help</a>
+    <span class="hgrey1">|</span>
+
+    <a accesskey="8" title="Terms and conditions" class="footlink" href="/pages/static/Footer/Terms_and_Conditions.html">Terms and conditions</a>
+  </div>
+</div>
+
+    </div>
 <!--}}}-->
 
 !wizardViewTemplate
@@ -96,13 +176,20 @@ tags: systemTheme
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'> </div>
+	<div class="portletTitle iconShift">
+
+			<div class='title titleToolbar' macro='view title'><img class='hideIcon'  src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>
+
+<div class='title-right'>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
+
+</div>
+</div>
 		</div>
 	</div>
-	<div class="portletContent">
+	<div class="portletContent portletContentIconShift">
 	<div  style='z-index:2;' class='toolbar' ></div>
-		<div class='wizardViewer'  style='background:#444; color:#fff; padding:1em' macro='view text wikified'></div>
+		<div class='wizardViewer'  style='background:padding:1em' macro='view text wikified'></div>
 	</div>
 </div>
 <!--}}}-->
@@ -113,34 +200,53 @@ tags: systemTheme
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'>Editing Section : </div>
+		<div class="portletTitle iconShift">
+			<div class='title titleToolbar' macro='view title'><img class='hideIcon' src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>Editing Section :
+
+<div class='title-right'>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+
+</div>
+</div>
 		</div>
 	</div>
-	<div class="portletContent">
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>	<div class='taskControls editTaskControls' macro='tiddler TaskTiddlerControls'></div>
-		<div class='editor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='commentsArea' macro='comments'></div>
+	<div class="portletContent portletContentIconShift">
+			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+		<div class='editor' macro='editHtml text'></div>
+<div macro='commentSlider'>
+	<div class='right links'>
+		RSS | Permalink
 	</div>
 </div>
+	</div>
+</div>
+
+
+
 <!--}}}-->
 
 !newEditTemplate
 <!--{{{-->
+
 <div class="portletContainer">
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='edit title'></div>
+		<div class="portletTitle iconShift">
+						<div  style='z-index:3;' class='title titleToolbar' macro='edit title'>
+<img class='hideIcon' src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>
+				<div class='title-right'>
+					<div class='toolbar right' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="portletContent">
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
-		<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='commentsArea' macro='comments'></div>
+	<div class="portletContent portletContentIconShift">
+			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>	
+		<div class='editor newEditor' macro='editHtml text'>
 	</div>
 </div>
+
 <!--}}}-->
 
 !ViewTemplate
@@ -149,49 +255,25 @@ tags: systemTheme
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
+		<div class="portletTitle iconShift">
+
+			<div class='title titleToolbar' macro='view title'><img class='hideIcon' src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>
+
+<div class='title-right'>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
+
+</div>
+</div>
 		</div>
 	</div>
-	<div class="portletContent">
-		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+	<div class="portletContent portletContentIconShift">
+			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
-		<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>
-		<div class='commentsArea' macro='comments'></div>
+<div macro='commentSlider'>
+	<div class='right links'>
+		RSS | Permalink
 	</div>
 </div>
-<!--}}}-->
-
-!simpleViewTemplate
-<!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='view title'></div>
-		</div>
-	</div>
-	<div class="portletContent simpleTiddler">
-		<div class='viewer' macro='view text wikified'></div>
-	</div>
-</div>
-
-<!--}}}-->
-
-!simpleEditTemplate
-<!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-		</div>
-	<div class="portletContent">
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
-		<div class='editor' macro='editHtml text' ></div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></a></div>
-		<div class='subtitle'><br /> Last edited by: <span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
 	</div>
 </div>
 <!--}}}-->
@@ -217,40 +299,3 @@ tags: systemTheme
 <!--}}}-->
 
 
-!issueEditTemplate
-<!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle">
-			<div class='title' macro='edit title'></div>
-		</div>
-	</div>
-	<div class="portletContent">
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
-		<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-		<div class='commentsArea' macro='comments'></div>
-	</div>
-</div>
-<!--}}}-->
-
-!issueViewTemplate
-<!--{{{-->
-	<div class="portletContainer">
-		<div class="portletToolbar">
-			<div class="portletCornerLeft"></div>
-			<div class="portletCornerRight"></div>
-			<div class="portletTitle">
-				<div class='title' macro='view title'></div>
-			</div>
-		</div>
-		<div class="portletContent simpleTiddler">
-				<div class='' macro='toolbar [[ToolbarCommands::adminToolbar]]'></a></div>
-				</br>
-				</br>
-				</br>
-			<div class='viewer2' macro='view text wikified'></div>
-		</div>
-	</div>
-<!--}}}-->

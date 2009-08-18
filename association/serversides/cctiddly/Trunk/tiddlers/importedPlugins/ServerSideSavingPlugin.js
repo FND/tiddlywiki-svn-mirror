@@ -20,7 +20,7 @@ The specific nature of this plugins depends on the respective server.
 * added Save to Web macro for manual synchronization
 !To Do
 * conflict detection/resolution
-* rename to ServerLinkPlugin?
+* rena  to ServerLinkPlugin?
 * attempt to determine default adaptor (and defaultCustomFields) from systemServer tiddlers
 * handle deleting/renaming (e.g. by hijacking the respective commands and creating a log)
 !Code
@@ -66,6 +66,7 @@ plugin = {
 		};
 		context.workspace = tiddler.fields["server.workspace"];
 		var req = adaptor.putTiddler(tiddler, context, {}, this.saveTiddlerCallback);
+	//	config.extensions.saveTiddlerRequestSent();
 		return req ? tiddler : false;
 	},
 
@@ -82,8 +83,15 @@ plugin = {
 		} else {
 			displayMessage(plugin.locale.saveError.format([tiddler.title, context.statusText]));
 		}
+//		config.extensions.saveTiddlerResponseReceived();
 	},
 
+	saveTiddlerRequestSent : function() {
+	},
+
+	saveTiddlerResponseReceived : function() {
+	},
+	
 	removeTiddler: function(tiddler) {
 		var adaptor = new this.adaptor();
 		context = { tiddler: tiddler };
