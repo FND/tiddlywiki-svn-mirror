@@ -12,10 +12,6 @@ merge(ccTiddlyAdaptor,{
 });
 
 
-if(!config.extensions) { config.extensions = {}; } //# obsolete from v2.4.2
-config.extensions.ServerSideSavingPlugin = {
-	adaptor: config.adaptors.cctiddly
-};
 
 //{{{
 	
@@ -641,6 +637,11 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	};
 
 	config.adaptors[ccTiddlyAdaptor.serverType] = ccTiddlyAdaptor;
+
+
+	config.extensions.ServerSideSavingPlugin.adaptor = config.adaptors.cctiddly; // this should be moved into a config tiddler
+	
+	
 //}}}
 
 
