@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.9.0|
+|''Version''|0.9.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -336,10 +336,11 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.status = [204, 1223].contains(xhr.status);
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
-	if(status) {
-		var etag = xhr.getResponseHeader("Etag");
-		etag = etag.substr(1, etag.length - 2); // strip enclosing quotes
-		context.tiddler.fields["server.page.revision"] = etag.split("/").pop();
+	if(context.status) {
+		var etag = xhr.getResponseHeader("Etag"); // XXX: using ETag is hacky - use getTiddler instead
+		etag = etag.substr(1, etag.length - 2).split("/"); // strips enclosing quotes
+		context.tiddler.fields["server.page.revision"] = etag.pop();
+		context.tiddler.fields["server.workspace"] =  "bags/" + etag[0]; // recipe is not suitable
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
