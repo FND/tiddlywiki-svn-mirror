@@ -585,7 +585,7 @@ VismoCanvas.prototype = {
         }
 		if(!this.memory) this.memory = [];
 		
-		
+		vismoShape.vismoCanvas = this;
 		if(!vismoShape.getProperty("id")){
 		    var newid  = this.memory.length +"_" + Math.random();
 		    vismoShape.setProperty("id",newid);

@@ -639,6 +639,9 @@ VismoShape.prototype={
 		//if(st == 'path') console.log(this,this.grid);
 	}
 
+    ,getCanvas: function(){
+        return this.vismoCanvas;
+    }
 	,setRadius: function(rx,ry){
 	    if(!ry) ry = rx;
 		this.setDimensions(rx*2,ry*2);

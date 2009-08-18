@@ -39,7 +39,11 @@ function dophysics(cc){
     s.moveTo(newx,newy);
   }
 }
-var cc = new VismoCanvas(jQuery("#mycanvas"),{shapes:shapes,beforeRender: dophysics});
+var pop = function(e,s){
+  s.getVismoCanvas().remove(s);
+  
+};
+var cc = new VismoCanvas(jQuery("#mycanvas"),{shapes:shapes,beforeRender: dophysics,mousedown: pop});
 
 var maxballs = 300;
 function createshape(){
