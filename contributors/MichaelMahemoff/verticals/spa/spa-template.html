@@ -347,19 +347,16 @@
     (function($) {
       if ($.spa) return;
       $.spa = {
-        save: function(text) { return text; }
-      }
-      $(function() {
-        $('#saveButton').click(function() {
+        save: function(serializeFn) {
           var filepath = document.location.href; // Get the current file
           filepath = $.twFile.convertUriToLocalPath(filepath); // Convert the path to a readable format
           var text = $.twFile.load(filepath); // Load the file
           if(text) {
-            $.twFile.save(filepath, $.spa.save(text));
+            $.twFile.save(filepath, serializeFn(text));
             window.location.reload();
           }
-        })
-      });
+        }
+      }
     })(jQuery);
   </script>
 	<!-- demo app -->

@@ -23,6 +23,8 @@
   <div id="main">
 
     <ol>
+      <li>Save this file to your local file system and open your local copy in the browser (using a file:/// URI). The browser might ask for special permission for this document, and you will need to grant it.</li>
+
       <li>Type your message: <input id="message" value="change me"></input></li>
 
       <li>Save this page: <input id="saveButton" value="Save" type="button"></li>
@@ -32,13 +34,15 @@
 
     <h3>What is this?</h3>
 
-    <p>This is a demo of an experimental Single Page Application I am building atop <a href="http://jquery.tiddlywiki.org/twFile.html">jQuery.twFile</a>, the file saving plugin extracted from TiddlyWiki. Forked from <a href="http://jquery.tiddlywiki.org/twFileDemo.html">this twFile Demo</a>.  </p>
+    <p>This is a demo of an experimental Single Page Application I am building atop <a href="http://jquery.tiddlywiki.org/twFile.html">jQuery.twFile</a>, the file saving plugin extracted from TiddlyWiki. Forked from <a href="http://jquery.tiddlywiki.org/twFileDemo.html">this twFile Demo</a>. Only tested on Firefox for now.</p>
 
   </div>
 {% endblock %}
 {% block javascript %}
-    $.spa.save = function(text) {
-      return text.replace(/<input id="message".*?><\/input>/,
-              '<input id="message" value="'+$("#message").val()+'"></input>');
-    }
+    $("#saveButton").click(function() {
+      $.spa.save(function(text) {
+        return text.replace(/<input id="message".*?><\/input>/,
+                '<input id="message" value="'+$("#message").val()+'"></input>');
+      });
+    });
 {% endblock %}
