@@ -77,10 +77,10 @@ plugin = {
 			} else if(tiddler.fields.changecount > 0) {
 				tiddler.fields.changecount -= context.changecount;
 			}
-			plugin.reportSuccess(tiddler, context);
+			config.extensions.ServerSideSavingPlugin.reportSuccess(tiddler, context);
 			store.setDirty(false);
 		} else {
-			plugin.reportFailed(tiddler, context);
+			config.extensions.ServerSideSavingPlugin.reportFailed(tiddler, context);
 		}
 	},
 	reportSuccess: function(tiddler, context) {
