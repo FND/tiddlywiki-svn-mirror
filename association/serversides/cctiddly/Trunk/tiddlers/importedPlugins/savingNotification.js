@@ -2,8 +2,6 @@
 config.extensions.ServerSideSavingPlugin.reportSuccess = function() {
 }
 
-
-
 config.extensions.ServerSideSavingPlugin.reportFailed = function(tiddler, context){
 	alert('Your changes were not saved');
 }

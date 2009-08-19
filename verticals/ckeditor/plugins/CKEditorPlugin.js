@@ -29,7 +29,7 @@ config.macros.editHtml = {
 			value=value.replace(/\[\[([^|\]]*)\|([^\]]*)]]/g,'<a href="#$2">$1</a>');
 			var ta = createTiddlyElement(place, 'textarea', '', 'fckeditor', value);
 			var ckName = "CKeditor"+Math.random();
-			ta.id = ckName;
+			ta.name = ckName;
 			ta.setAttribute("editHtml",field);
 			ta.setAttribute("ckName",ckName);
 			CKEDITOR.replace(ckName);
@@ -37,7 +37,10 @@ config.macros.editHtml = {
 	},
         gather : function(e) {
             var name = e.getAttribute("ckName");
-            var html = CKEDITOR.instances.CKeditor123.getData();
+console.log("name is : ", name);
+console.log("instances are  : ", CKEDITOR.instances);
+
+            var html = CKEDITOR.instances[name].getData();
 		if (html!=null) 
            	       return "<html>"+html.replace(/<a href="#([^>]*)">([^<]*)<\/a>/gi,"[[$2|$1]]")+"</html>"; 
            
