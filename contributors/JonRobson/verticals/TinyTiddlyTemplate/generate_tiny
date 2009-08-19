@@ -1,6 +1,18 @@
-cook recipes_tinier/tinytiddlywiki
-cook recipes_tinier/core -cryo -Cryo -Dryo; mv core.html core.js
-tar -cvvf tinytiddly.tar core.js tinytiddlywiki.html
-rm tinytiddlywiki.html
-rm core.js
-cd $TW_TRUNKDIR/core/; cook tiddlywiki -cry -Cry -Dry;mv tiddlywiki.html $TW_TRUNKDIR/contributors/JonRobson/verticals/TinyTiddlyTemplate/tinytiddlywiki.html
+mkdir temp; cp -r $TW_TRUNKDIR/core/shadows temp/shadows;
+cp -r $TW_TRUNKDIR/core/html temp/html;
+#copy over shadow tiddlers and compress css
+for file in temp/shadows/*.tiddler
+do
+  java -jar $TW_TRUNKDIR/tools/cooker/yuicompressor-2.4.2.jar $file --type css -o $file;
+done;
+java -jar $TW_TRUNKDIR/tools/cooker/yuicompressor-2.4.2.jar temp/html/style.txt --type css -o temp/html/style.txt;
+
+
+#ColorPalette cannot be condensed, needs new lines to work so revert to old version
+cp $TW_TRUNKDIR/core/shadows/ColorPalette.tiddler temp/shadows/ColorPalette.tiddler;
+cook recipes_tinier/tinytiddlywiki  -cry -Cry -Dry;
+cook recipes_tinier/core -cry -Cry -Dry; mv core.html core.js;
+tar -cvvf tinytiddly.tar core.js tinytiddlywiki.html;
+rm tinytiddlywiki.html;
+rm core.js;
+cook recipes_standalone/tiddlywiki_standalone -cry -Cry -Dry;

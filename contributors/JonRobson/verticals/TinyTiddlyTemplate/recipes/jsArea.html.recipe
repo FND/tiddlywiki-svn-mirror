@@ -1,5 +1,0 @@
-template: ../templates/jsArea.html
-recipe: $TW_ROOT/core/shadows/split.recipe
-recipe: $TW_ROOT/core/js/split.recipe
-recipe: $TW_ROOT/core/deprecated/split.recipe
-recipe: $TW_ROOT/core/jquery/split.recipe
