@@ -4,6 +4,7 @@ config.macros.docPreview.handler = function(place,macroName,params,wikifier,para
 	createTiddlyElement(place, "br");
 	createTiddlyElement(place, "br");
 	var html = config.macros.docPrint.recurse([], spec,  0, []).join("\n");
+console.log('html is ', html);
 	var x = window.open('', '', 'scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
 	x.document.write(html);
 }
