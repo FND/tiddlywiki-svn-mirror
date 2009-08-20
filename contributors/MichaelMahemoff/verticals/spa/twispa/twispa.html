@@ -11,12 +11,12 @@
   div#main { padding: 20px; clear: both; color: #ddd; margin: 0 auto; }
   a, a:visited { color: #99f; text-decoration: none; }
   p { margin: 5px 0; }
-  table { border-collapse: collapse; }
-  table th { text-align: center; }
-  table td, table th { text-align: center; padding: 5px 5px 0 0; }
-  td button { margin: 10px; }
+  { border-collapse: collapse; }
+  th { text-align: center; }
+  td, th { text-align: center; padding: 0 5px 2px; }
+  tr.control td { padding-bottom: 10px; }
   #toggleSettings { font-size: x-small; }
-  #settingsWrapper { background: #900; padding: 10px 20px 20px; -moz-border-radius: 10px; margin-top: 20px; float: right; width: 350px; position: relative; }
+  #settingsWrapper { background: #900; padding: 10px 20px 20px; -moz-border-radius: 10px; margin-top: 20px; float: right; width: 350px; position: relative; text-align: center; }
   #settings { clear: right; margin: 10px auto 0; }
   #save { margin-top: 10px; }
   .pseudolink { color: #f00; cursor: pointer; }
@@ -47,11 +47,11 @@
         <table>
           <tr><td>&nbsp;</td><td><button id="save">Save Settings</button></td></tr>
           <tr><th>Username</th><th>Password</th></tr>
-          <tr><td><input class="username" id="username0"/></td><td><input class="password" id="password0"/></td></tr>
+          <tr><td><input class="username" id="username0" value="ijijioj"/></td><td><input class="password" id="password0" value="joojo"/></td></tr>
           <tr><th>Username</th><th>Password</th></tr>
-          <tr><td><input class="username" id="username1"/></td><td><input class="password" id="password1"/></td></tr>
+          <tr><td><input class="username" id="username1" value="webwait"/></td><td><input class="password" id="password1" value="T1ckT0ckD0c"/></td></tr>
           <tr><th>Username</th><th>Password</th></tr>
-          <tr><td><input class="username" id="username2"/></td><td><input class="password" id="password2"/></td></tr>
+          <tr><td><input class="username" id="username2" value=""/></td><td><input class="password" id="password2" value=""/></td></tr>
         </table>
       </div>
     </div>
@@ -59,16 +59,16 @@
     <div id="tweetPromptWrapper">
       <table id="tweetPrompt">
         <tr><th>Who are you?</th><th>&nbsp;</th></tr>
-        <tr><td><select id="account"></select></td><td>&nbsp;</td></tr>
-        <tr><th><span id="greeting">Hello<span></span>. </span>What's going on?</span></span></th><th>&nbsp;</th></tr>
-        <tr><td><input id="status" maxlength="140" size="60"/></td><td><button id="tweet">Tweet It!</button></td></tr>
+        <tr class="control"><td><select id="account"></select></td><td>&nbsp;</td></tr>
+        <tr><th><span id="greeting">Hello<span></span>. What's going on?</span></th><th>&nbsp;</th></tr>
+        <tr class="control"><td><input id="status" maxlength="140" size="60"/></td><td><button id="tweet">Tweet It!</button></td></tr>
       </table>
     </div>
 
       <div id="tweetStatus">
         <div id="tweetPending">Sending Tweet ...</div>
         <div id="tweetSuccess">Success! <a href="#">Your tweet</a> was successfully posted.</div>
-        <div id="tweetFailure"><span class="main">Error! Your tweet could not be posted.</span><span>Twitter said: "<span class="reason"></span>"</div></div>
+        <div id="tweetFailure"><span class="main">Error! Your tweet could not be posted.</span><span>Twitter said: "<span class="reason"></span>"</div>
       </div>
 
   </div>
@@ -443,10 +443,6 @@
         }
       }
     })(jQuery);
-  </script>
-	<!-- demo app -->
-	<script type="text/javascript">
-  
     $("#toggleSettings").click(function() {
       if ($(this).html().match(/Hide/)) {
         $(this).html("&raquo;Show");
@@ -481,7 +477,8 @@
       var selected = $("option:selected");
       if (selected.html().length) {
         var accountIndex = selected.attr("accountIndex");
-        netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead');
+        if (window["netscape"]!="undefined")
+          netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead');
         showTweetStatus("tweetPending");
         xhr = $.ajax({
           type: "POST",
