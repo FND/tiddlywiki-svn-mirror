@@ -1,0 +1,173 @@
+{% extends "spa-template.html" %}
+{% block title %}Twispa demo{% endblock %}
+{% block css %}
+  html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-weight:normal;font-style:normal;text-align:left;font-family:inherit;}table{border-collapse:collapse;border-spacing:0;}ol,ul{list-style:none;}q:before,q:after,blockquote:before,blockquote:after{content:"";}
+  body { background: black; padding: 0; margin: 0; font-family: Gill Sans, sans-serif; text-align: center; }
+  h1 { background: white; color: black; padding: 10px 20px 0; margin: 0; height: 52px; text-align: center; }
+  h1 #title { float: left; font-size: 32px; line-height: 32px; }
+  div#main { padding: 20px; clear: both; color: #ddd; margin: 0 auto; }
+  a, a:visited { color: #99f; text-decoration: none; }
+  p { margin: 5px 0; }
+  table { border-collapse: collapse; }
+  table th { text-align: center; }
+  table td, table th { text-align: center; padding: 5px 5px 0 0; }
+  td button { margin: 10px; }
+  #toggleSettings { font-size: x-small; }
+  #settingsWrapper { background: #900; padding: 10px 20px 20px; -moz-border-radius: 10px; margin-top: 20px; float: right; width: 350px; position: relative; }
+  #settings { clear: right; margin: 10px auto 0; }
+  #save { margin-top: 10px; }
+  .pseudolink { color: #f00; cursor: pointer; }
+  #legend { position: absolute; top: -0.5em; left: 20px; background: black; border: 3px solid #900; padding: 3px 5px; }
+  #tweetStatus { margin-top: 20px; }
+  #tweetStatus div { display: none; }
+  #tweetStatus #tweetFailure span.main { color: #f00; }
+  #tweetStatus #tweetFailure span { display: block; }
+  #tweetStatus #tweetFailure span.reason { display: inline; }
+  #greeting { display: none; }
+{% endblock %}
+{% block html %}
+
+  <h1>
+    <span id="title">Twispa</span>
+  </h1>
+
+  <div id="main">
+
+    <div id="settingsWrapper">
+      <div id="legend">
+        <span class="title">Accounts</span>
+        <span id="toggleSettings" class="pseudolink">&laquo;Hide</span>
+      </div>
+      <div id="settings">
+        <table>
+          <tr><td>&nbsp;</td><td><button id="save">Save Settings</button></td></tr>
+          <tr><th>Username</th><th>Password</th></tr>
+          <tr><td><input class="username" id="username0"/></td><td><input class="password" id="password0"/></td></tr>
+          <tr><th>Username</th><th>Password</th></tr>
+          <tr><td><input class="username" id="username1"/></td><td><input class="password" id="password1"/></td></tr>
+          <tr><th>Username</th><th>Password</th></tr>
+          <tr><td><input class="username" id="username2"/></td><td><input class="password" id="password2"/></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="tweetPromptWrapper">
+      <table id="tweetPrompt">
+        <tr><th>Who are you?</th><th>&nbsp;</th></tr>
+        <tr><td><select id="account"></select></td><td>&nbsp;</td></tr>
+        <tr><th><span id="greeting">Hello<span></span>. </span>What's going on?</span></span></th><th>&nbsp;</th></tr>
+        <tr><td><input id="status" maxlength="140" size="60"/></td><td><button id="tweet">Tweet It!</button></td></tr>
+      </table>
+    </div>
+
+      <div id="tweetStatus">
+        <div id="tweetPending">Sending Tweet ...</div>
+        <div id="tweetSuccess">Success! <a href="#">Your tweet</a> was successfully posted.</div>
+        <div id="tweetFailure"><span class="main">Error! Your tweet could not be posted.</span><span>Twitter said: "<span class="reason"></span>"</div></div>
+      </div>
+
+  </div>
+
+{% endblock %}
+{% block javascript %}
+    (function($) {
+      if ($.spa) return;
+      $.spa = {
+        save: function(serializeFn) {
+          var filepath = document.location.href; // Get the current file
+          filepath = $.twFile.convertUriToLocalPath(filepath); // Convert the path to a readable format
+          var text = $.twFile.load(filepath); // Load the file
+          if(text) {
+            $.twFile.save(filepath, serializeFn(text));
+            // window.location.reload();
+          }
+        }
+      }
+    })(jQuery);
+  </script>
+	<!-- demo app -->
+	<script type="text/javascript">
+  
+    $("#toggleSettings").click(function() {
+      if ($(this).html().match(/Hide/)) {
+        $(this).html("&raquo;Show");
+        $("#settings").slideUp();
+      } else {
+        $(this).html("&laquo;Hide");
+        $("#settings").slideDown();
+      }
+    });
+    
+    $("#settings input.username").each(function(index) {
+      var username = $(this).val();
+      if (! username.match(/^ *$/))
+        $("select").append($("<option accountIndex='"+index+"'/>").html($(this).val()));
+    });
+
+    $("select").change(function() { $("#greeting").show().find("span").html(" "+$(this).val()) });
+    if ($("option").length) $("select").change();
+
+    $("#save").click(function() {
+      $.spa.save(function(text) {
+        $("#settings input").each(function() {
+          var elementID=$(this).attr("id");
+          text = text.replace(new RegExp('<input class="'+this.className+'" id="'+elementID+'"( value=".*?")?/>'),
+                  '<input class="'+this.className+'" id="'+elementID+'" value="'+$("#"+elementID).val()+'"/>');
+        });
+        return text;
+      });
+    });
+
+    $("#tweet").click(function() {
+      var selected = $("option:selected");
+      if (selected.html().length) {
+        var accountIndex = selected.attr("accountIndex");
+        netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead');
+        showTweetStatus("tweetPending");
+        xhr = $.ajax({
+          type: "POST",
+          url: "http://twitter.com/statuses/update.json",
+          data: "status="+$("#status").val(),
+          success: function(tweetJSON) { 
+            var tweet = $.parseJSON(tweetJSON);
+            showTweetStatus("tweetSuccess");
+            $("#tweetSuccess a").attr("href", "http://twitter.com/"+tweet.user.name+"/status/"+tweet.id);
+          },
+          error: function(xhr, errorStatus) {
+            showTweetStatus("tweetFailure");
+            var errorMessage = $.parseJSON(xhr.responseText).error;
+            $("#tweetFailure .reason").html(errorMessage);
+          },
+          username: $("#username"+accountIndex).val(),
+          password: $("#password"+accountIndex).val()
+        });
+      }
+    });
+
+    function showTweetStatus(id) {
+      $("#tweetStatus div").hide();
+      $("#"+id).show();
+    }
+
+    function log() {
+      if (console) console.log.apply(console, arguments);
+    }
+
+//################################################################################
+// http://jollytoad.googlepages.com/json.js
+//################################################################################
+
+(function($){var m={'\b':'\\b','\t':'\\t','\n':'\\n','\f':'\\f','\r':'\\r','"':'\\"','\\':'\\\\'},s={'array':function(x){var a=['['],b,f,i,l=x.length,v;for(i=0;i<l;i+=1){v=x[i];f=s[typeof v];if(f){v=f(v);if(typeof v=='string'){if(b){a[a.length]=',';}
+a[a.length]=v;b=true;}}}
+a[a.length]=']';return a.join('');},'boolean':function(x){return String(x);},'null':function(x){return"null";},'number':function(x){return isFinite(x)?String(x):'null';},'object':function(x){if(x){if(x instanceof Array){return s.array(x);}
+var a=['{'],b,f,i,v;for(i in x){v=x[i];f=s[typeof v];if(f){v=f(v);if(typeof v=='string'){if(b){a[a.length]=',';}
+a.push(s.string(i),':',v);b=true;}}}
+a[a.length]='}';return a.join('');}
+return'null';},'string':function(x){if(/["\\\x00-\x1f]/.test(x)){x=x.replace(/([\x00-\x1f\\"])/g,function(a,b){var c=m[b];if(c){return c;}
+c=b.charCodeAt();return'\\u00'+
+Math.floor(c/16).toString(16)+
+(c%16).toString(16);});}
+return'"'+x+'"';}};$.toJSON=function(v){var f=isNaN(v)?s[typeof v]:s['number'];if(f)return f(v);};$.parseJSON=function(v,safe){if(safe===undefined)safe=$.parseJSON.safe;if(safe&&!/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/.test(v))
+return undefined;return eval('('+v+')');};$.parseJSON.safe=false;})(jQuery);
+
+{% endblock %}
