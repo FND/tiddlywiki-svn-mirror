@@ -6,23 +6,27 @@ config.extensions.ServerSideSavingPlugin.reportFailed = function(tiddler, contex
 	alert('Your changes were not saved');
 }
 
-	ccTiddlyAdaptor.center  = function(el){
+	config.macros.lightboxError = {};
+	config.macros.lightboxError.hander = function(place,macroName,params,wikifier,paramString,tiddler) {	
+	}
+
+	config.macros.lightboxError.center  = function(el){
 		var size = this.getsize(el);
 		el.style.left = (Math.round(findWindowWidth()/2) - (size.width /2) + findScrollX())+'px';
 		el.style.top = (Math.round(findWindowHeight()/2) - (size.height /2) + findScrollY())+'px';
 	}
 
-	ccTiddlyAdaptor.getsize = function (el){
+	config.macros.lightboxError.getsize = function (el){
 		var x ={};
 		x.width = el.offsetWidth || el.style.pixelWidth;
 		x.height = el.offsetHeight || el.style.pixelHeight;
 		return x;
 	}
 
-	ccTiddlyAdaptor.showCloak = function(){
+	config.macros.lightboxError.showCloak = function(){
 		var cloak = document.getElementById('backstageCloak');
 		if (config.browser.isIE){
-			cloak.style.height = Math.max(document.documentElement.scrollHeight,document.documentElement.offsetHeight);
+			cloak.style.height = Math.max(document.documentElement.scrollHeight,document.documen`tElement.offsetHeight);
 			cloak.style.width = document.documentElement.scrollWidth;
 		}
 		cloak.style.display = "block";
@@ -68,13 +72,6 @@ ccTiddlyAdaptor.handleError = function(error_code){
 	}
 
 
-
-
-
-config.macros.saveNotification = {};
-config.macros.saveNotification.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	createTiddlyElement(place, "div", "", "savingNotificationsDiv", "STATUS IS : ");
-}
 
 
 

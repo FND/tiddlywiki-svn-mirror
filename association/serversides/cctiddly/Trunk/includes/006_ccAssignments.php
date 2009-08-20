@@ -78,8 +78,8 @@ window.displayRegisterOnLogin  = 1;
 <?php
 }
 ?>
-//if (config.options.txtTheme == "")
-//config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
+if (config.options.txtTheme == "")
+	config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
 <?php
 if(isset($error404) && $error404 == true)
 {

@@ -116,7 +116,6 @@ tags: systemTheme
                tabindex="14" class="plink"
               href="/portalzone/editProfile/editProfile.do"
               class="plink" title="Profile">Profile</a>
-
           </div>
         </div>
       </div>
@@ -124,7 +123,7 @@ tags: systemTheme
     <div class="portal-header">
     <div id="logoSpacer" class="floatleft">
       <img alt="MyPage" title="MyPage"
-          src="https://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/Customized-portal-logo.gif"/>
+          src="static/tiddlydocs_images/MyDocs.png" height='60px'/>
     </div>
     <div id="ajaxMessageHolder" class="middle">
 

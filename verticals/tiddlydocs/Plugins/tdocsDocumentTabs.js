@@ -30,9 +30,7 @@ var values = store.getTaggedTiddlers('document');
 	selectedHtml += '<li class="tab spacer"/>';
 	}
 
-
-
-	var newdoc = '<li class="tab tabalignment3OP tabalignment3" id="add_gadget"><a  class="thickbox mis addFromCatalogue"  id="AddFromCatalogueDialogue"><img style="border: medium none ;" src="http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/buttons/add_gadgets_normal.gif" class="addGadgetCatImg"/></a>';
+	var newdoc = '<li class="tab tabalignment3OP tabalignment3" id="add_gadget"><a  class="thickbox mis addFromCatalogue"  id="AddFromCatalogueDialogue" href="#"><img style="border: medium none ;" src="static/tiddlydocs_images/NewDocuments.png" class="addGadgetCatImg"/></a>';
 html = selectedHtml  + newdoc;
 	jQuery('#tab_bar:first-child').html(html);
 	var addClick = function() {
