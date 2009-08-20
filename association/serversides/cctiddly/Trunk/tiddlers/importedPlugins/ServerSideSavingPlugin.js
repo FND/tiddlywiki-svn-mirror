@@ -77,9 +77,11 @@ plugin = {
 			} else if(tiddler.fields.changecount > 0) {
 				tiddler.fields.changecount -= context.changecount;
 			}
+			// should use plugin.reportSuccess
 			config.extensions.ServerSideSavingPlugin.reportSuccess(tiddler, context);
 			store.setDirty(false);
 		} else {
+			// should use plugin.reportSuccess
 			config.extensions.ServerSideSavingPlugin.reportFailed(tiddler, context);
 		}
 	},

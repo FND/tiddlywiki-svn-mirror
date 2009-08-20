@@ -69,12 +69,27 @@ ccTiddlyAdaptor.handleError = function(error_code){
 
 
 
+console.log("hijack");
+var original = TiddlyWiki.prototype.setDirty;
+TiddlyWiki.prototype.setDirty = function(dirty) {
+	original.apply(arguments);
+	displayStatus(dirty);
+};
 
+var displayStatus = function(dirty) {
+	console.log("displaying", dirty);
+	if(dirty) {
+			$('.savingNotificationsDiv').css('background', 'red');
+	} else {
+			$('.savingNotificationsDiv').css('background', 'green');
+	}
+};
 
 config.macros.saveNotification = {};
 config.macros.saveNotification.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	console.log("init", store.isDirty());
 	createTiddlyElement(place, "div", "", "savingNotificationsDiv", "STATUS IS : ");
-}
-
+	displayStatus(store.isDirty());
+};
 
 

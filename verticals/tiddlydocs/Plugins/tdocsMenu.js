@@ -77,8 +77,8 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
 		if(store.getTiddler(this.title)==null){
 			// these two lines should not be necessary
-				store.saveTiddler(this.title, this.title, config.views.wikified.defaultText, config.options.txtUserName, new Date(),"section");
-				autoSaveChanges(false, this.title);
+			//	store.saveTiddler(this.title, this.title, config.views.wikified.defaultText, config.options.txtUserName, new Date(),"section");
+			//	autoSaveChanges(null, [this.title]);
 		}else{
 			if(store.getTiddler(this.title).fields.tt_status == "Complete"){
 				var sectionClass = "completed"; 

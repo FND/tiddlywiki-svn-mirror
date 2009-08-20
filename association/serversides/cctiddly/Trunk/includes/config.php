@@ -19,12 +19,6 @@ $tiddlyCfg['plugins_disabled'] = array(
  	"lifestream",
  	"ckeditor",
  	"LDAP",
-"FCKEditor",
-	"announcements",
-	"seo",
-	"lifestream",
- 	"ckeditor",
- 	"LDAP",
 	"FCKEditor",
 	"announcements",
 	"seo",
@@ -32,7 +26,6 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"FCKEditor",
 	"announcements",
 	"seo",
-"TiddlyDocs",
 	"SkinnyTiddlers",
 	"WordpressMigration"
 );
