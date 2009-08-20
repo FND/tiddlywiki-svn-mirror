@@ -6,40 +6,59 @@ config.extensions.ServerSideSavingPlugin.reportFailed = function(tiddler, contex
 	alert('Your changes were not saved');
 }
 
-	ccTiddlyAdaptor.center  = function(el){
-		var size = this.getsize(el);
-		el.style.left = (Math.round(findWindowWidth()/2) - (size.width /2) + findScrollX())+'px';
-		el.style.top = (Math.round(findWindowHeight()/2) - (size.height /2) + findScrollY())+'px';
+
+
+
+var original = TiddlyWiki.prototype.setDirty;
+TiddlyWiki.prototype.setDirty = function(dirty) {
+	original.apply(arguments);
+	config.macros.saveNotification.displayStatus(dirty);
+};
+
+config.macros.saveNotification = {};
+config.macros.saveNotification.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	createTiddlyElement(place, "div", "", "savingNotificationsDiv", "STATUS IS : ");
+	config.macros.saveNotification.displayStatus(store.isDirty());
+};
+
+config.macros.saveNotification.displayStatus = function(dirty) {
+	if(dirty) {
+			$('.savingNotificationsDiv').css('background', 'red');
+	} else {
+			$('.savingNotificationsDiv').css('background', 'green');
 	}
+};
 
-	ccTiddlyAdaptor.getsize = function (el){
-		var x ={};
-		x.width = el.offsetWidth || el.style.pixelWidth;
-		x.height = el.offsetHeight || el.style.pixelHeight;
-		return x;
+
+config.macros.saveNotification.center  = function(el){
+	var size = this.getsize(el);
+	el.style.left = (Math.round(findWindowWidth()/2) - (size.width /2) + findScrollX())+'px';
+	el.style.top = (Math.round(findWindowHeight()/2) - (size.height /2) + findScrollY())+'px';
+}
+
+config.macros.saveNotification.getsize = function (el){
+	var x ={};
+	x.width = el.offsetWidth || el.style.pixelWidth;
+	x.height = el.offsetHeight || el.style.pixelHeight;
+	return x;
+}
+
+config.macros.saveNotification.showCloak = function(){
+	var cloak = document.getElementById('backstageCloak');
+	if (config.browser.isIE){
+		cloak.style.height = Math.max(document.documentElement.scrollHeight,document.documentElement.offsetHeight);
+		cloak.style.width = document.documentElement.scrollWidth;
 	}
+	cloak.style.display = "block";
+}
 
-	ccTiddlyAdaptor.showCloak = function(){
-		var cloak = document.getElementById('backstageCloak');
-		if (config.browser.isIE){
-			cloak.style.height = Math.max(document.documentElement.scrollHeight,document.documentElement.offsetHeight);
-			cloak.style.width = document.documentElement.scrollWidth;
-		}
-		cloak.style.display = "block";
-	}
+config.macros.saveNotification.hideError = function(){
+	var box = document.getElementById('errorBox');
+	box.parentNode.removeChild(box);
+	document.getElementById('backstageCloak').style.display = "";
+}
 
-	ccTiddlyAdaptor.hideError = function(){
-		var box = document.getElementById('errorBox');
-		box.parentNode.removeChild(box);
-		document.getElementById('backstageCloak').style.display = "";
-	}
-
-	
-
-
-
-
-ccTiddlyAdaptor.handleError = function(error_code){
+config.macros.saveNotification.handleError = function(error_code){
 		setStylesheet(
 		"#errorBox .button{padding:0.5em 1em; border:1px solid #222; background-color:#ccc; color:black; margin-right:1em;}\n"+
 		"html > body > #backstageCloak{height:100%;}"+
@@ -65,31 +84,6 @@ ccTiddlyAdaptor.handleError = function(error_code){
 		box.style.position = 'absolute';
 		ccTiddlyAdaptor.center(box);
 		ccTiddlyAdaptor.showCloak();
-	}
-
-
-
-console.log("hijack");
-var original = TiddlyWiki.prototype.setDirty;
-TiddlyWiki.prototype.setDirty = function(dirty) {
-	original.apply(arguments);
-	displayStatus(dirty);
-};
-
-var displayStatus = function(dirty) {
-	console.log("displaying", dirty);
-	if(dirty) {
-			$('.savingNotificationsDiv').css('background', 'red');
-	} else {
-			$('.savingNotificationsDiv').css('background', 'green');
-	}
-};
-
-config.macros.saveNotification = {};
-config.macros.saveNotification.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	console.log("init", store.isDirty());
-	createTiddlyElement(place, "div", "", "savingNotificationsDiv", "STATUS IS : ");
-	displayStatus(store.isDirty());
-};
+}
 
 
