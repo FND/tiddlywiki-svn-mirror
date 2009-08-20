@@ -118,8 +118,7 @@
       var selected = $("option:selected");
       if (selected.html().length) {
         var accountIndex = selected.attr("accountIndex");
-        if (window["netscape"]!="undefined")
-          netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead');
+        try { netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead'); } catch(e) {}
         showTweetStatus("tweetPending");
         xhr = $.ajax({
           type: "POST",
