@@ -6,21 +6,7 @@ config.extensions.ServerSideSavingPlugin.reportFailed = function(tiddler, contex
 	alert('Your changes were not saved');
 }
 
-
-
-
-var original = TiddlyWiki.prototype.setDirty;
-TiddlyWiki.prototype.setDirty = function(dirty) {
-	original.apply(arguments);
-	config.macros.saveNotification.displayStatus(dirty);
-};
-
-config.macros.saveNotification = {};
-config.macros.saveNotification.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	createTiddlyElement(place, "div", "", "savingNotificationsDiv", "STATUS IS : ");
-	config.macros.saveNotification.displayStatus(store.isDirty());
-};
-
+/*
 config.macros.saveNotification.displayStatus = function(dirty) {
 	if(dirty) {
 			$('.savingNotificationsDiv').css('background', 'red');
@@ -29,6 +15,23 @@ config.macros.saveNotification.displayStatus = function(dirty) {
 	}
 };
 
+
+config.macros.saveNotification = {};
+config.macros.saveNotification.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	createTiddlyElement(place, "div", "", "savingNotificationsDiv", "STATUS IS : ");
+	config.macros.saveNotification.displayStatus(store.isDirty());
+};
+
+
+
+*/
+
+
+var original = TiddlyWiki.prototype.setDirty;
+TiddlyWiki.prototype.setDirty = function(dirty) {
+	original.apply(arguments);
+	config.macros.saveNotification.displayStatus(dirty);
+};
 
 config.macros.saveNotification.center  = function(el){
 	var size = this.getsize(el);
