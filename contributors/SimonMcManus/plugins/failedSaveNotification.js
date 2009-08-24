@@ -24,7 +24,6 @@ config.macros.saveNotification.handler = function(place,macroName,params,wikifie
 
 
 
-*/
 
 
 var original = TiddlyWiki.prototype.setDirty;
@@ -89,4 +88,5 @@ config.macros.saveNotification.handleError = function(error_code){
 		ccTiddlyAdaptor.showCloak();
 }
 
+*/
 
