@@ -105,7 +105,8 @@ if(config.macros.view){
 
 if(!version.extensions.AdvancedEditTemplatePlugin) 
 {
-
+  jQuery("#storeArea").append("<iframe id='aet_iframe' name='aet_post_to' src='' style='display:none;'></iframe>"); 
+  
 	version.extensions.AdvancedEditTemplatePlugin = {installed:true};
 	config.macros.aet_setcolor = {
 	    	handler: function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -138,12 +139,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			return false;
 
 		}
-		,setupRadioboxes: function(place,tiddlerobj,metaDataName,valueSource){
-		    var source = store.getTiddler(valueSource);
-		    var lines = source.text.split("\n");
-		    
+		,setupRadioboxes: function(place,source,selected,handler){
+	
+		    var lines = source.split("\n");
+		    var radiogroupname = "radiogroup"+Math.random();
 		    var radioHtml = "";
-		    var currentValue = tiddlerobj.fields[metaDataName];
+		     var currentValue = selected;
 		    var selected;
 		    for(var i=0; i < lines.length; i++){
 		        var val = lines[i];
@@ -154,15 +155,20 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
     		        else{
     		            selected = "";
     		        }
-    		        radioHtml += "<input class='aet_radiobutton' "+selected+" type='radio' value=\""+val+"\" name='"+metaDataName+"'/>"+val;
+    		        var label;
+    		        var spl = val.split(":");
+    		        if(spl[0] && spl[1]){
+    		            label = spl[0];
+    		            val = spl[1];
+    		        }
+    		        else{
+    		            label = val;
+    		        }
+    		        radioHtml += "<input class='aet_radiobutton' "+selected+" type='radio' value=\""+val+"\" name='"+radiogroupname+"'/>"+label;
 		        }
 		    }
 		    jQuery(place).append("<div class='aet_radioboxes'>"+radioHtml+"</div>");
-		    var aet = this;
-		    jQuery(".aet_radiobutton",place).click(function(e){
-		        var newval = this.value;
-		        aet.setMetaData(tiddlerobj.title,metaDataName,newval);
-		    });
+		    jQuery(".aet_radiobutton",place).click(handler);
 		}
 		,setupSearchbox: function(place,tiddlerobj,metaDataName,valueSource){
 		    if(!valueSource) {
@@ -212,9 +218,50 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 					this.createDropDownMenu(place,fields,values,false,this.setDropDownMetaData,selected,sorted);
 				}
 		}
+		
+		,doifstatement: function(place,stmt,tiddler){
+		    var params = stmt.split("&");
+            var finalEval = true;
+            for(var i=0; i < params.length; i++){
+                 var evaluatesTo = true;
+                var arg = params[i];
+
+
+                if(arg.indexOf("!") == 0){
+                    var x = tiddler.fields[arg.substr(1)];
+                    console.log("cool");
+                    if(x){
+                        evaluatesTo = false;
+                    }
+                    else{
+                        evaluatesTo = true;
+                    }
+                }
+                else{
+                    var x = tiddler.fields[arg];
+                    if(!x){
+                        evaluatesTo = false;
+                    }
+                }
+                finalEval = evaluatesTo && finalEval;
+                console.log(arg,evaluatesTo,finalEval);
+                
+            }
+            
+            if(!finalEval){
+                place.innerHTML = "";
+             }
+		    
+		}
 		,handler: function(place,macroName,p,wikifier,paramString,tiddler) {
 			var tiddlerDom = story.findContainingTiddler(place);
 			var params = paramString.parseParams("anon",null,true,false,false);
+			var ifstmt = getParam(params,"if",null);
+			if(ifstmt){
+                config.macros.aet.doifstatement(place,ifstmt,tiddler);
+			    //place.appendChild(newdiv);
+			    return;
+			}
 			var ctrlType = getParam(params,"type",null);
 
 			var title = tiddlerDom.getAttribute("tiddler");
@@ -228,6 +275,9 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			if(ctrlType == 'dropdown') {
 			    this.setupDropdown(place,tiddlerobj,metaDataName,valueSource);
 			}
+			else if(ctrlType == 'embedvideo'){
+			    this.setupEmbeddedVideo(place,tiddlerobj,metaDataName,valueSource);
+			}
 			else if(ctrlType == 'search'){
 				this.setupSearchbox(place,tiddlerobj,metaDataName,valueSource);
 			}
@@ -236,7 +286,17 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				
 			}
 			else if(ctrlType == 'radio'){
-			    this.setupRadioboxes(place,tiddlerobj,metaDataName,valueSource);
+			    var source = store.getTiddler(valueSource);
+			    if(!source) source = "";
+			    else source = source.text;
+			    
+	    	    var aet = this;
+                var handler = function(e){
+		            var newval = this.value;
+    		        aet.setMetaData(tiddlerobj.title,metaDataName,newval);
+		        }
+            	var selected = tiddlerobj.fields[metaDataName];
+			    this.setupRadioboxes(place,source,selected,handler);
 			}
 			else if(ctrlType == 'date'){
 			        this.createDatePicker(place,title,metaDataName);
@@ -622,7 +682,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		        //config.macros.edit.handler(place,false,params,false,false,tiddler)
                         
 		}
-		
+		,setupEmbeddedVideo: function(place){
+		    place.append("video url:<input type='text' class='videoinput'/>");
+		    jQuery(".videoinput",place).change(function(){
+		        alert("cool");
+		    });
+		    
+		}
 		,createCheckBox: function(place,title,metaDataName){
 		         
 		        		var c = document.createElement("input");
@@ -699,7 +765,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var form = document.createElement("div");
 			holder.appendChild(form);
 			var filenameid = "filename_"+ Math.random();
-            form.innerHTML = "<form target='about:blank' action='"+uploader+"?postbackto="+ filenameid +"' id='submitter' enctype='multipart/form-data' name='mysexyform' action='/ilga/upload/image' method='POST'>"+config.macros.aet.translate("aet_upload")+"url:<input type='text' id='"+filenameid+"' name='NewFilename' class='filename' value=''/><input type='file' class='file' id='NewFile' name='NewFile'/><input type='submit' value='Send'></form>";
+            form.innerHTML = "<form target='aet_post_to' action='"+uploader+"?postbackto="+ filenameid +"' id='submitter' enctype='multipart/form-data' name='mysexyform' action='/ilga/upload/image' method='POST'>"+config.macros.aet.translate("aet_upload")+"url:<input type='text' id='"+filenameid+"' name='NewFilename' class='filename' value=''/><input type='file' class='file' id='NewFile' name='NewFile'/><input type='submit' value='Send'></form>";
+         
             
             var jqFile = jQuery(".file",form);
 			jqFile.change(function(e){
@@ -707,7 +774,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			    
 			   jQuery(".filename",form).val(newvalue); 
 			});
-			
+			  
+                
 			jQuery(holder).append("<div class='leftcol'></div><div class='rightcol'></div>");
 
 			var filename = jQuery(".filename",form)[0];		

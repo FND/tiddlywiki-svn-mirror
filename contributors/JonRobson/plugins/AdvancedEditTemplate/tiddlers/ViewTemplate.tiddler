@@ -10,6 +10,11 @@
 <div>assigned by: <span macro='view assignby'></span></div>
 <div>approved?: <span macro='view approved'></span></div>
 Favourite animal: <span macro='view animal'></span>
+
+<div macro='aet if:animal&assignee'>
+<span macro='view assignee'></span>'s favourite animal is <span macro='view animal'></span>. You will only be able to see this if an animal and assignee fields are set.
+</div>
+
 <div class='tagging' macro='tagging'></div>
 <div class='tagged' macro='tags'></div>
 <div class='viewer' macro='view text wikified'></div>
