@@ -1,5 +1,5 @@
 {% extends "spa-template.html" %}
-{% block title %}Twispa demo{% endblock %}
+{% block title %}Twispa - Tweet from Multiple Accounts{% endblock %}
 {% block css %}
   html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-weight:normal;font-style:normal;text-align:left;font-family:inherit;}table{border-collapse:collapse;border-spacing:0;}ol,ul{list-style:none;}q:before,q:after,blockquote:before,blockquote:after{content:"";}
   body { background: black; padding: 0; margin: 0; font-family: Gill Sans, sans-serif; text-align: center; }
@@ -12,10 +12,16 @@
   th { text-align: center; }
   td, th { text-align: center; padding: 0 5px 2px; }
   tr.control td { padding-bottom: 10px; }
+  td.deleteWrapper { width: 15px; }
   #toggleSettings { font-size: x-small; }
   #settingsWrapper { background: #900; padding: 10px 20px 20px; -moz-border-radius: 10px; margin-top: 20px; float: right; width: 350px; position: relative; text-align: center; }
   #settings { clear: right; margin: 10px auto 0; }
-  #save { margin-top: 10px; }
+  #settings .clearance { height: 1px; clear: both; }
+  #settings p { float: right; }
+  #settings table { clear: right; }
+  #settings #addWrapper { margin: 10px; }
+  #settings #add { background: #900; border: 0; color: #f00; text-decoration: underline; cursor: pointer; }
+  #settings #save { float: right; background: #f00; color: #ddd; margin-right: 15px; margin-bottom: 20px; visibility: hidden; }
   .pseudolink { color: #f00; cursor: pointer; }
   #legend { position: absolute; top: -0.5em; left: 20px; background: black; border: 3px solid #900; padding: 3px 5px; }
   #tweetStatus { margin-top: 20px; }
@@ -24,6 +30,11 @@
   #tweetStatus #tweetFailure span { display: block; }
   #tweetStatus #tweetFailure span.reason { display: inline; }
   #greeting { display: none; }
+  .deleteWrapper, .delete { color: #f00; cursor: pointer; font-size: small; }
+  select { width: 16em; }
+  .tweetWrapper { vertical-align: bottom; }
+  textarea { padding: 5px; font-size: 120%; color: #300; }
+  #charCountWrapper { visibility: hidden; }
 {% endblock %}
 {% block html %}
 
@@ -38,16 +49,12 @@
         <span class="title">Accounts</span>
         <span id="toggleSettings" class="pseudolink">&laquo;Hide</span>
       </div>
+      <div class="clearance">&nbsp;</div>
       <div id="settings">
-        <table>
-          <tr><td>&nbsp;</td><td><button id="save">Save Settings</button></td></tr>
-          <tr><th>Username</th><th>Password</th></tr>
-          <tr><td><input class="username" id="username0"/></td><td><input class="password" id="password0"/></td></tr>
-          <tr><th>Username</th><th>Password</th></tr>
-          <tr><td><input class="username" id="username1"/></td><td><input class="password" id="password1"/></td></tr>
-          <tr><th>Username</th><th>Password</th></tr>
-          <tr><td><input class="username" id="username2"/></td><td><input class="password" id="password2"/></td></tr>
-        </table>
+        <table id="settingsTable"></table>
+        <div id="addWrapper">
+        <button id="save">Save</button>
+        <span id="add">+&nbsp;Add&nbsp;Account</span></div>
       </div>
     </div>
 
@@ -56,7 +63,7 @@
         <tr><th>Who are you?</th><th>&nbsp;</th></tr>
         <tr class="control"><td><select id="account"></select></td><td>&nbsp;</td></tr>
         <tr><th><span id="greeting">Hello<span></span>. What's going on?</span></th><th>&nbsp;</th></tr>
-        <tr class="control"><td><input id="status" maxlength="140" size="60"/></td><td><button id="tweet">Tweet It!</button></td></tr>
+        <tr class="control"><td><textarea id="status" rows="3" cols="47"></textarea></td><td class="tweetWrapper"><div id="charCountWrapper"><span id="charCount"></span>/140</div><button id="tweet">Tweet It!</button></td></tr>
       </table>
     </div>
 
@@ -70,20 +77,9 @@
 
 {% endblock %}
 {% block javascript %}
-    (function($) {
-      if ($.spa) return;
-      $.spa = {
-        save: function(serializeFn) {
-          var filepath = document.location.href; // Get the current file
-          filepath = $.twFile.convertUriToLocalPath(filepath); // Convert the path to a readable format
-          var text = $.twFile.load(filepath); // Load the file
-          if(text) {
-            $.twFile.save(filepath, serializeFn(text));
-            // window.location.reload();
-          }
-        }
-      }
-    })(jQuery);
+
+    $.spa.debug = true;
+
     $("#toggleSettings").click(function() {
       if ($(this).html().match(/Hide/)) {
         $(this).html("&raquo;Show");
@@ -94,30 +90,76 @@
       }
     });
     
-    $("#settings input.username").each(function(index) {
-      var username = $(this).val();
-      if (! username.match(/^ *$/))
-        $("select").append($("<option accountIndex='"+index+"'/>").html($(this).val()));
-    });
-
     $("select").change(function() { $("#greeting").show().find("span").html(" "+$(this).val()) });
     if ($("option").length) $("select").change();
 
+    $("#add").click(function() {
+      var maxAccountIndex = -1;
+      $("#settingsTable").children("tr").each(function() {
+        var accountIndex = parseInt($(this).attr("id").replace("account",""));
+        if (accountIndex > maxAccountIndex) accountIndex=maxAccountIndex;
+      });
+      $("#settingsTable")
+        .append(makeAccountRow("account"+(maxAccountIndex+1), "", ""))
+        .find(".username:last").focus();
+    });
+
+    $(".delete").live("click", function() {
+      log("x");
+      log(this);
+      var row = $(this).parents("tr");
+      log("ee");
+      log("r", row);
+      if (confirm("Delete " + row.find(".username").val() + "?"));
+      row.prev().andSelf().remove();
+    });
+
+    function makeAccountRow(rowID, username, password) {
+      return "<tr class='heading'><th>Username</th><th>Password</th><th>&nbsp;</th><tr class='account' id='"+rowID+"'><td><input class='username' value='"+username+"'/></td><td><input class='password' value='"+password+"'/></td><td class='deleteWrapper'><span class='delete'>X</span></td></tr>";
+    }
+
+    $("#add,.delete").click(onAccountsChanged);
+    $("input").live("keyup", onAccountsChanged);
+
     $("#save").click(function() {
       $.spa.save(function(text) {
-        $("#settings input").each(function() {
-          var elementID=$(this).attr("id");
-          text = text.replace(new RegExp('<input class="'+this.className+'" id="'+elementID+'"( value=".*?")?/>'),
-                  '<input class="'+this.className+'" id="'+elementID+'" value="'+$("#"+elementID).val()+'"/>');
+
+        var html="";
+        $("#settings tr.account").each(function() {
+          if ($(this).find(".username").val().match(/\S+/))
+            html+=makeAccountRow($(this).attr("id"), $(this).find(".username").val(), $(this).find(".password").val());
         });
+        text = text.replace(/(<table id="settingsTable">)[\s\S]*?(<\/table>)/gim,"$1"+html+"$2");
+
+        html = $("select").html();
+        selectedValue = $("select").val() || "";
+        html = html.replace(new RegExp("(<option)(.*?)(>"+selectedValue+".*?</option>)", "i"), "$1 selected='true'"+"$2$3");
+        console.log(html);
+        text = text.replace(/(<select id="account">)[\s\S]*?(<\/select>)/gim,"$1"+html+"$2");
+        // text = text.replace(/(<select id="account">)/,"hee");
+
         return text;
       });
     });
 
+    $("#status").change(updateCharCount);
+    $("#status").keyup(updateCharCount);
+
+    function updateCharCount() {
+      var charCount = $("#status").val().length;
+      $("#charCount").reveal();
+      $("#charCount").html(charCount);
+      charCount ? $("#charCountWrapper").reveal() : $("#charCountWrapper").cloak();
+    }
+
     $("#tweet").click(function() {
       var selected = $("option:selected");
+      console.log(selected);
       if (selected.html().length) {
-        var accountIndex = selected.attr("accountIndex");
+        var accountRow = $("#"+selected.attr("rowid"));
+        console.log("u", accountRow.find(".username").val());
+        console.log("p", accountRow.find(".password").val());
+        // return;
         try { netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead'); } catch(e) {}
         showTweetStatus("tweetPending");
         xhr = $.ajax({
@@ -134,11 +176,29 @@
             var errorMessage = $.parseJSON(xhr.responseText).error;
             $("#tweetFailure .reason").html(errorMessage);
           },
-          username: $("#username"+accountIndex).val(),
-          password: $("#password"+accountIndex).val()
+          username: accountRow.find(".username").val(),
+          password: accountRow.find(".password").val()
         });
       }
     });
+
+    function updateDropdown() {
+      var selectedUsername = $("select").val();
+      $("select").empty();
+      $("#settings tr.account").each(function() {
+        var username = $(this).find(".username").val();
+        if (username.match(/\S+/))
+          $("select").append($("<option rowID='"+$(this).attr("id")+"'/>").html(username));
+      });
+      $("select").val(selectedUsername);
+    }
+
+    function onAccountsChanged() {
+      $("#save").reveal();
+      updateDropdown();
+    }
+
+    // updateDropdown();
 
     function showTweetStatus(id) {
       $("#tweetStatus div").hide();
@@ -165,5 +225,9 @@ Math.floor(c/16).toString(16)+
 (c%16).toString(16);});}
 return'"'+x+'"';}};$.toJSON=function(v){var f=isNaN(v)?s[typeof v]:s['number'];if(f)return f(v);};$.parseJSON=function(v,safe){if(safe===undefined)safe=$.parseJSON.safe;if(safe&&!/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/.test(v))
 return undefined;return eval('('+v+')');};$.parseJSON.safe=false;})(jQuery);
+
+(function($) { $.fn.reveal = function() { $(this).css("visibility", "visible"); } })(jQuery);
+(function($) { $.fn.cloak = function() { $(this).css("visibility", "visible"); } })(jQuery);
+// $.fn.reveal = function() { $(this).css("visibility", "visible"); }
 
 {% endblock %}

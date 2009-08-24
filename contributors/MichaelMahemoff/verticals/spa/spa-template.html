@@ -353,7 +353,8 @@
           var text = $.twFile.load(filepath); // Load the file
           if(text) {
             $.twFile.save(filepath, serializeFn(text));
-            window.location.reload();
+            // if (! $.spa.debug) window.location.reload();
+            if (! $.spa.debug) window.location.reload();
           }
         }
       }
