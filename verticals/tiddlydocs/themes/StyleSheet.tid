@@ -541,7 +541,7 @@ h1 {
 /* CKEditor */
 	html body span.cke_skin_kama {
 		position:relative;
-		top:-1.5em;
+		top:0em;
 	}
 
 /* END CKEditor*/

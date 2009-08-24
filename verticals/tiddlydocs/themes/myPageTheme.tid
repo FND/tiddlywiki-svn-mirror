@@ -122,7 +122,7 @@ tags: systemTheme
     <div class="portal-header">
     <div id="logoSpacer" class="floatleft">
       <img alt="MyPage" title="MyPage"
-          src="static/tiddlydocs_images/MyDocs.png" height='60px'/>
+          src="/static/tiddlydocs_images/MyDocs.png" height='60px'/>
     </div>
     <div id="ajaxMessageHolder" class="middle">
 
