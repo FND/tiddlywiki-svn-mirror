@@ -1,2 +1,2 @@
 #!/bin/bash
-../make.py demo-spec.html demo.html
+../make.py spa-josh-spec.html spa-josh.html
