@@ -581,4 +581,14 @@ if(!function_exists("strripos"))
     }
 }
 
+
+if (!function_exists('mime_content_type')) {
+   function mime_content_type($f) {
+       $f = escapeshellarg($f);
+       return trim( `file -bi $f` );
+   }
+}
+
+
+
 ?>
