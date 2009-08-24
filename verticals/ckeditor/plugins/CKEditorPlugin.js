@@ -37,9 +37,6 @@ config.macros.editHtml = {
 	},
         gather : function(e) {
             var name = e.getAttribute("ckName");
-console.log("name is : ", name);
-console.log("instances are  : ", CKEDITOR.instances);
-
             var html = CKEDITOR.instances[name].getData();
 		if (html!=null) 
            	       return "<html>"+html.replace(/<a href="#([^>]*)">([^<]*)<\/a>/gi,"[[$2|$1]]")+"</html>"; 
