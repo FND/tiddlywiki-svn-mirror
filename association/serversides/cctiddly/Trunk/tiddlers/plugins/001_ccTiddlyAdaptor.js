@@ -544,7 +544,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 	};
 
 	ccTiddlyAdaptor.putTiddlerCallback = function(status,context,responseText,uri,xhr){
-		if(xhr.status = 201){
+		if(xhr.status == 201){
 			context.status = true;
 			if(responseText!="") {
 				context.tiddler.fields['server.id'] = responseText;
