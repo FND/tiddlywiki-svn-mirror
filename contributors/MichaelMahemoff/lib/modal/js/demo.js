@@ -1,7 +1,7 @@
 $(function() {
 
   $("#clickable").click(function() { $.modal.show("You clicked the thingo."); });
-  $("#clickable").click();
+  $("#check").click(function() { if ($("#answer").val()=="10") $.modal.show("Correct!"); });
 
 });
 
