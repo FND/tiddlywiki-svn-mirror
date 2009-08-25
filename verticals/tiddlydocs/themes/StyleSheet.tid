@@ -65,11 +65,11 @@ html body .title {
 
 .title-right {
 	float:right;
-	font-size:1.5em;
+	font-size:1.3em;
 	left:1.2em;
 	position:relative;
 	text-align:right;
-	top:-1.02em;
+	top:-1.5em;
 	z-index:1;
 }
 

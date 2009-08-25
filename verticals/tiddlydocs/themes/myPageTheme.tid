@@ -77,7 +77,7 @@ tags: systemTheme
     </div>
     <div id="header2">
       <div id="flr_h2left1">
-        <a tabindex="10"
+	<a tabindex="10"
             href="/pages/static/Community/Broadband_Community.html"
             class="flr_h2link" title="Broadband"
         >BROADBAND</a><span class="hgrey1">|</span><a tabindex="11"
@@ -89,29 +89,15 @@ tags: systemTheme
 
       </div>
       <div id="flr_h2left">
+
 	    <div id="flr_h2leftb">
-
 		<div macro='search'></div>
-
-          <form id="searchForm" method="get"
-            action="http://search.btwholesale.com/search" class="formMargin">
-          <fieldset class="inline">
-            <input name="site" value="default_collection" type="hidden">
-            <input name="client" value="btw_frontend" type="hidden">
-            <input name="proxystylesheet" value="btw_frontend" type="hidden">
-            <input name="output" value="xml_no_dtd" type="hidden">
-
-            <input tabindex="15" class="inputsearch" id="q" name="q" title="Search"
-                value="Search..." onfocus="return clearText()"
-                onblur="return putText()" type="text">
-            <input tabindex="16" class="greebutton" title="Search" value="GO" accesskey="4"
-                id="flr_h2leftbSpan" style="cursor: pointer;" type="submit">
-          </fieldset>
-          </form>
         </div>
         <div id="flr_h2lefta">
+
           <div id="show_logout">
-          
+		<a href='#' onClick="story.displayTiddler(null, 'Settings'); return true;">Settings</a>
+          <span class="hgrey1">|</span>
           <a tabindex="13"
               href="/siteminderagent/forms/logout.fcc"
           >Logout</a><span class="hgrey1">|</span><a
