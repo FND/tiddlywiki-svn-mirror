@@ -79,12 +79,12 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
     var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
     cmacro.forceLoginIfRequired(params, newCommentArea, function() {
       var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
-      var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
-      addComment.onclick = function() {
+      // var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
+      var addComment = createTiddlyButton(newCommentArea, "Add Comment", null, function() {
         var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
         newCommentEl.value = "";
         cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
-      }
+      }, "addComment button");
     });
   }
 
@@ -230,14 +230,12 @@ openReplyLink: function(commentTiddler, commentEl, replyLink, macroParams) {
 
   cmacro.forceLoginIfRequired(params, commentEl.replyEl, function() {
     var replyText =  cmacro.makeTextArea(commentEl.replyEl, macroParams);
-      var submitReply =  createTiddlyElement(commentEl.replyEl, "button", null, "button", "Reply");
-
-    submitReply.onclick = function() { 
+      var submitReply = createTiddlyButton(commentEl.replyEl, "Reply", null, function() {
         var newComment = cmacro.createComment(replyText.value, commentTiddler, macroParams);
         replyText.value = "";
         closeNewReply.onclick();
         cmacro.refreshComments(commentEl.commentsEl, newComment, macroParams);
-      };
+      });
   });
 
   commentEl.insertBefore(commentEl.replyEl, commentEl.commentsEl);
@@ -502,8 +500,7 @@ function log() { if (console && console.firebug) console.log.apply(console, argu
 .comment .newReply { color:[[ColorPalette::SecondaryDark]]; margin-top: 1em; }
 .newReplyLabel { float: left; }
 .closeNewReply { cursor: pointer; float: right; text-decoration: underline; }
-.comments textarea { width: 100%; padding: 0.3em; }
-.comments .button { margin-top: 0.3em; margin-left: 0; }
+.comments textarea { width: 100%; padding: 0.3em; margin-bottom: 0.6em; }
 .newCommentArea { margin-top: 0.5em; }
 
 .clearance { clear: both; }
