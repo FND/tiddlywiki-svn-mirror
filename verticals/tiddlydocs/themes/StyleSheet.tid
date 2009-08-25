@@ -59,18 +59,17 @@ html body .leftColumnItem {
 
 html body .title {
 	font-size:10pt;
-	padding:0.5em;
+	position:relative;
+	top:0.6em;
 }
 
 .title-right {
-	font-size:1.1em;
 	float:right;
-	height:20px;
+	font-size:1.5em;
+	left:1.2em;
 	position:relative;
-	right:-1.7em;
 	text-align:right;
-	top:-1.3em;
-	width:100%;
+	top:-1.02em;
 	z-index:1;
 }
 
@@ -202,11 +201,11 @@ h1 {
 
 
 	#buttonHolder {
-		font-size:0.8em;
+		font-size:0.9em;
 		height:100%;
-		left:18.6em;
+		left:14.2em;
 		position:relative;
-		top:-2.3em;
+		top:-0.3em;
 		width:100%;
 	}
 	
@@ -250,7 +249,6 @@ h1 {
 		margin:0;
 		padding:0;
 		position:relative;
-		top:-2em;
 		width:100%;
 	}
 
@@ -470,20 +468,24 @@ h1 {
 		height:60px;
 		background-repeat:repeat-x;
 	}
+	
+	.portletToolbarLeft {
+		height:32px;
+	}
 
 	.portletCornerLeft{
 		background-image:url("http://farm3.static.flickr.com/2557/3811711040_63f5c19255.jpg");
 		clear:left;
 		float:left;
 		width:4px;
-		height:30px;
+		height:31px;
 		background-repeat:no-repeat;
 	}
 
 	.portletCornerRight{
 		float:right;
 		width:4px;
-		height:30px;
+		height:31px;
 		position:relative;
 		background-repeat:no-repeat;
 		margin:0;
@@ -495,6 +497,7 @@ h1 {
 		float:left;
 		padding:4px 0 0 0;
 		font-weight:bold;
+		height:26px;
 	}
 
 	.iconShift {

@@ -146,14 +146,16 @@ tags: systemTheme
         <div id="container">
 <div class='leftColumn'>
 	<div class="portletContainer leftColumnItem">
-		<div class="portletToolbar">
+		<div class="portletToolbar portletToolbarLeft">
 			<div class="portletCornerLeft"></div>
 			<div class="portletCornerRight"></div>
 			<div class="portletTitle">
-		<div class='title'>Table of Content <div macro='tdButtons'></div></div>
+				<div class='title'>Table of Content</div>
+				<div macro='tdButtons' class='title-right'></div>	
 			</div>
+
 		</div>
-		<div class="portletContent leftColumnItem">
+		<div class="portletContent">
 		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
 		</div>
 	</div>
