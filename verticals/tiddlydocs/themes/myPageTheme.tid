@@ -104,6 +104,8 @@ tags: systemTheme
                tabindex="14" class="plink"
               href="/portalzone/editProfile/editProfile.do"
               class="plink" title="Profile">Profile</a>
+	<span class="hgrey1">|</span>
+
           </div>
         </div>
       </div>

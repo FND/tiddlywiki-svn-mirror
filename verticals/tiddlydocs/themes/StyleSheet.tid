@@ -417,6 +417,8 @@ h1 {
 	.tiddler .button {
 		margin:0.1em  1em;
 		padding:0.2em 0.3em;
+		background-color:white;
+		border:1px solid #777;
 	}
 
 /*  END COMMENTS CSS */
