@@ -8,7 +8,6 @@ tiddler: themes/myPageCSSOverride.tid
 tiddler: themes/StyleSheet.tid
 tiddler: Plugins/A_tiddlywebSpecifics.js
 
-tiddler: Plugins/QATCH_displayDefaultTiddlers.js
 tiddler: Plugins/newDocument.js
 tiddler: Plugins/saveNewSection.js
 tiddler: Plugins/tdocsButtons.js
@@ -38,7 +37,7 @@ tiddler: content/messageHeading.tid
 tiddler: content/TaskTiddlerControls.tid
 tiddler: content/Create New Document.tid
 tiddler: content/Michael Mahemoff.tid
-tiddler: content/TiddlyDocs Introduction.tid
+tiddler: content/TiddlyDocs Introductionq.tid
 tiddler: content/DefaultTiddlers.tid
 tiddler: content/Settings.tid
 tiddler: content/TiddlyDocsLinks.tid
