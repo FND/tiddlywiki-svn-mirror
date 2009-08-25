@@ -77,11 +77,11 @@ plugin.saveTiddlerCallback = function(context, userParams) {
 		} else if(tiddler.fields.changecount > 0) {
 			tiddler.fields.changecount -= context.changecount;
 		}
-		displayMessage(plugin.locale.saved.format([tiddler.title]));
+			plugin.reportSuccess(tiddler, context);
 		store.setDirty(false);
 	} else {
 		if(context.httpStatus == 412) {
-			plugin.reportSuccess(tiddler, context);
+			plugin.reportFailed(tiddler, context);
 		} else {
 			plugin.reportFailed(tiddler, context);
 		}
