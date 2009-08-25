@@ -1,6 +1,6 @@
 config.macros.docSectionButtons = {};
 config.macros.docSectionButtons.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-
+console.log('args', tiddler.fields);
 	if(tiddler.fields.server != undefined) {
 		var a = createTiddlyElement(place, "a", null, null);
 		a.href = tiddler.fields.server['host']+tiddler.fields.server['workspace']+'/'+tiddler.title;
