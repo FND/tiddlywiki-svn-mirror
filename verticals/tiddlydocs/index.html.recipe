@@ -22,7 +22,7 @@ tiddler: Plugins/tdocsPrint.js
 tiddler: Plugins/tdocsSettings.js
 tiddler: Plugins/commentSlider.js
 
-tiddler: Plugins/COPIED_commentsPlugin.js
+#tiddler: Plugins/COPIED_commentsPlugin.js
 
 tiddler: jquery/01_jQuery.js
 tiddler: jquery/09_iNestedSortable.js
@@ -44,7 +44,7 @@ tiddler: content/Settings.tid
 tiddler: content/TiddlyDocsLinks.tid
 tiddler: content/feedback.tid
 tiddler: content/Simon McManus.tid      
-tiddler: content/ToolbarCommands.tid
+tiddler: content/ToolbarCommands.tidcomm
 tiddler: content/issues.tid  
 tiddler: content/SiteSubtitle.tid
 tiddler: content/UserDefinitions.tid
@@ -52,7 +52,7 @@ tiddler: content/UserDefinitions.tid
 recipe: documents/TheInternet/split.recipe
 
 tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
-#tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
+tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../contributors/MichaelMahemoff/lib/modal/js/modal.js
 
 tiddler: ../../contributors/SimonMcManus/plugins/googleButtons.js
