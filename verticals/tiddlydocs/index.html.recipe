@@ -47,7 +47,6 @@ tiddler: content/ToolbarCommands.tid
 tiddler: content/issues.tid  
 tiddler: content/SiteSubtitle.tid
 tiddler: content/UserDefinitions.tid
-
 recipe: documents/TheInternet/split.recipe
 
 tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
