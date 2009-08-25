@@ -150,7 +150,7 @@ tags: systemTheme
 			<div class="portletCornerLeft"></div>
 			<div class="portletCornerRight"></div>
 			<div class="portletTitle">
-		<div class='title'>Table of Content</div>
+		<div class='title'>Table of Content <div macro='tdButtons'></div></div>
 			</div>
 		</div>
 		<div class="portletContent leftColumnItem">
@@ -194,7 +194,7 @@ tags: systemTheme
 		<div class="portletCornerRight"></div>
 	<div class="portletTitle iconShift">
 
-			<div class='title titleToolbar' macro='view title'><img class='hideIcon'  src='/static/tiddlydocs_images/mypageTheme/minimise_normal.png'/>
+			<div class='title titleToolbar' macro='view title'>
 
 <div class='title-right'>
 <div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
@@ -217,7 +217,7 @@ tags: systemTheme
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
-			<div class='title titleToolbar' macro='view title'><img class='hideIcon' src='/static/tiddlydocs_images/mypageTheme/minimise_normal.png'/>Editing Section :
+			<div class='title titleToolbar' macro='view title'>Editing Section :
 
 <div class='title-right'>
 <div class='toolbar right' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
@@ -230,8 +230,7 @@ tags: systemTheme
 			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='editor' macro='editHtml text'></div>
 <div macro='commentSlider'>
-	<div class='right links'>
-		RSS | Permalink
+	<div class='right links' macro='docSectionButtons'>
 	</div>
 </div>
 	</div>
@@ -250,7 +249,6 @@ tags: systemTheme
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
 						<div  style='z-index:3;' class='title titleToolbar' macro='edit title'>
-<img class='hideIcon' src='/static/tiddlydocs_images/mypageTheme/minimise_normal.png'/>
 				<div class='title-right'>
 					<div class='toolbar right' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
 				</div>
@@ -273,7 +271,7 @@ tags: systemTheme
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
 
-			<div class='title titleToolbar' macro='view title'><img class='hideIcon' src='/static/tiddlydocs_images/mypageTheme/minimise_normal.png'/>
+			<div class='title titleToolbar' macro='view title'>
 
 <div class='title-right'>
 <div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
@@ -286,8 +284,7 @@ tags: systemTheme
 			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
 <div macro='commentSlider'>
-	<div class='right links'>
-		RSS | Permalink
+	<div class='right links' macro='docSectionButtons'>
 	</div>
 </div>
 	</div>
