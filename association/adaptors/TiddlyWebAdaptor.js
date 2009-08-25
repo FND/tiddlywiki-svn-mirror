@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.9.1|
+|''Version''|0.9.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -197,6 +197,8 @@ adaptor.getTiddlerRevisionListCallback = function(status, context, responseText,
 			var tiddler = new Tiddler(t.title);
 			tiddler.assign(t.title, null, t.modifier, Date.convertFromYYYYMMDDHHMM(t.modified),
 				t.tags, Date.convertFromYYYYMMDDHHMM(t.created), t.fields);
+			tiddler.fields["server.type"] = adaptor.serverType;
+			tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
 			tiddler.fields["server.page.revision"] = t.revision;
 			tiddler.fields["server.workspace"] = "bags/" + t.bag;
 			context.revisions.push(tiddler);
