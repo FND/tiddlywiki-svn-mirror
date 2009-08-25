@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.5.0|
+|''Version''|0.5.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -50,7 +50,8 @@ plugin.sync = function() {
 	store.forEachTiddler(function(title, tiddler) {
 		if(tiddler.fields.deleted === "true") {
 			plugin.removeTiddler(tiddler);
-		} else if(tiddler.isTouched() && !tiddler.doNotSave() && tiddler.getServerType() && tiddler.fields["server.host"]) {
+		} else if(tiddler.isTouched() && !tiddler.doNotSave() &&
+			tiddler.getServerType() && tiddler.fields["server.host"]) {
 			plugin.saveTiddler(tiddler);
 		}
 	});
@@ -79,13 +80,13 @@ plugin.saveTiddlerCallback = function(context, userParams) {
 		} else if(tiddler.fields.changecount > 0) {
 			tiddler.fields.changecount -= context.changecount;
 		}
-		displayMessage(plugin.locale.saved.format([tiddler.title]));
+		plugin.reportSuccess("saved", tiddler);
 		store.setDirty(false);
 	} else {
 		if(context.httpStatus == 412) {
-			displayMessage(plugin.locale.saveConflict.format([tiddler.title]));
+			reportFailure("saveConflict", tiddler);
 		} else {
-			displayMessage(plugin.locale.saveError.format([tiddler.title, context.statusText]));
+			reportFailure("saveError", tiddler, context);
 		}
 	}
 };
@@ -108,18 +109,27 @@ plugin.removeTiddlerCallback = function(context, userParams) {
 		if(tiddler.fields.deleted === "true") {
 			store.deleteTiddler(tiddler.title);
 		} else {
-			displayMessage(plugin.locale.deleteError.format([tiddler.title]));
+			plugin.reportFailure("deleteLocalError", tiddler);
 		}
-		displayMessage(plugin.locale.deleted.format([tiddler.title]));
+		plugin.reportSuccess("deleted", tiddler);
 		store.setDirty(false);
 	} else {
-		displayMessage(plugin.locale.deleteLocalError.format([tiddler.title, context.statusText]));
+		plugin.reportFailure("deleteError", tiddler, context);
 	}
 };
 
 plugin.getTiddlerServerAdaptor = function(tiddler) { // XXX: rename?
 	var type = tiddler.fields["server.type"] || config.defaultCustomFields["server.type"];
 	return new config.adaptors[type]();
+};
+
+plugin.reportSuccess = function(msg, tiddler) {
+	displayMessage(plugin.locale[msg].format([tiddler.title]));
+};
+
+plugin.reportFailure = function(msg, tiddler, context) {
+	context = context || {};
+	displayMessage(plugin.locale[msg].format([tiddler.title, context.statusText]));
 };
 
 config.macros.saveToWeb = { // XXX: hijack existing sync macro?
