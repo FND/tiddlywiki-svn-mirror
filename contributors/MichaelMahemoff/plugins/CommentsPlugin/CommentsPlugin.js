@@ -47,19 +47,18 @@ init: function() {
 },
 
 enhanceViewTemplate: function() {
-  var template = store.getTiddlerText("ViewTemplate");
+  var template = config.shadowTiddlers.ViewTemplate;
   if ((/commentBreadcrumb/g).test(template)) return; // already enhanced
   var TITLE_DIV = "<div class='title' macro='view title'></div>";
   var commentsDiv = "<div class='commentBreadcrumb' macro='commentBreadcrumb'></div>";
-  template = template.replace(TITLE_DIV,commentsDiv+"\n"+TITLE_DIV);
-  store.saveTiddler("ViewTemplate","ViewTemplate",template,config.options.txtUserName,new Date());
-  autoSaveChanges(false);
+  config.shadowTiddlers.ViewTemplate = template.replace(TITLE_DIV,commentsDiv+"\n"+TITLE_DIV);
 },
 
 handler: function(place,macroName,params,wikifier,paramString,tiddler) {
   var macroParams = paramString.parseParams();
   var tiddlerParam = getParam(macroParams, "tiddler");
   tiddler = tiddlerParam ? store.getTiddler(tiddlerParam) : tiddler;
+  if (!tiddler || !store.getTiddler(tiddler.title)) return;
   cmacro.buildCommentsArea(tiddler, place, macroParams);
   // cmacro.refreshCommentsFromRoot(story.getTiddler(tiddler.title).commentsEl, tiddler, macroParams);
   cmacro.refreshCommentsFromRoot(place.commentsEl, tiddler, macroParams);
