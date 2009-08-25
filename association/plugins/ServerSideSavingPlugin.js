@@ -2,15 +2,15 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.4.10|
+|''Version''|0.5.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''CoreVersion''|2.5.0|
+|''CoreVersion''|2.5.3|
 |''Keywords''|serverSide|
 !Notes
 This plugin relies on a dedicated adaptor to be present.
-The specific nature of this plugins depends on the respective server.
+The specific nature of this plugin depends on the respective server.
 !Revision History
 !!v0.1 (2008-11-24)
 * initial release
@@ -20,6 +20,8 @@ The specific nature of this plugins depends on the respective server.
 * added Save to Web macro for manual synchronization
 !!v0.4 (2009-01-15)
 * removed ServerConfig dependency by detecting server type from the respective tiddlers
+!!v0.5 (2009-08-25)
+* raised CoreVersion to 2.5.3 to take advantage of core fixes
 !To Do
 * conflict detection/resolution
 * rename to ServerLinkPlugin?
@@ -154,50 +156,6 @@ TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override d
 		this.notify(title, true);
 		this.setDirty(true);
 	}
-};
-
-// override saveTiddler to fix core bug (ticket #912) -- XXX: temporary
-Story.prototype.saveTiddler = function(title,minorUpdate)
-{
-	var tiddlerElem = this.getTiddler(title);
-	if(tiddlerElem) {
-		var fields = {};
-		this.gatherSaveFields(tiddlerElem,fields);
-		var newTitle = fields.title || title;
-		if(!store.tiddlerExists(newTitle))
-			newTitle = newTitle.trim();
-		var rename = false;
-		if(newTitle != title) {
-			rename = true;
-			if(store.tiddlerExists(newTitle)) {
-				if(!confirm(config.messages.overwriteWarning.format([newTitle.toString()])))
-					return null;
-			}
-			this.closeTiddler(newTitle,false);
-		}
-		tiddlerElem.id = this.tiddlerId(newTitle);
-		tiddlerElem.setAttribute("tiddler",newTitle);
-		tiddlerElem.setAttribute("template",DEFAULT_VIEW_TEMPLATE);
-		tiddlerElem.setAttribute("dirty","false");
-		if(config.options.chkForceMinorUpdate)
-			minorUpdate = !minorUpdate;
-		if(!store.tiddlerExists(newTitle))
-			minorUpdate = false;
-		var newDate = new Date();
-		if(store.tiddlerExists(newTitle) && !rename) {
-			var extendedFields = store.fetchTiddler(newTitle).fields
-		} else {
-			extendedFields = rename && store.tiddlerExists(title) ? store.fetchTiddler(title).fields : $.extend({},config.defaultCustomFields)
-		}
-		for(var n in fields) {
-			if(!TiddlyWiki.isStandardField(n))
-				extendedFields[n] = fields[n];
-		}
-		var tiddler = store.saveTiddler(title,newTitle,fields.text,minorUpdate ? undefined : config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags,extendedFields);
-		autoSaveChanges(null,[tiddler]);
-		return newTitle;
-	}
-	return null;
 };
 
 })(jQuery);
