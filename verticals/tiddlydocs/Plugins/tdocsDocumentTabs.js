@@ -34,7 +34,7 @@ var values = store.getTaggedTiddlers('document');
 html = selectedHtml  + newdoc;
 	jQuery('#tab_bar:first-child').html(html);
 	var addClick = function() {
-			story.displayTiddler(null, "Create New Document");
+			story.displayTiddler(null, "Create New Document", 'myPageTheme##wizardViewTemplate');
 	}
 	jQuery('#AddFromCatalogueDialogue').click(addClick);
 }
