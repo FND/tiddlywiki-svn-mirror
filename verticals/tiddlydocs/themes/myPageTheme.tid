@@ -90,6 +90,9 @@ tags: systemTheme
       </div>
       <div id="flr_h2left">
 	    <div id="flr_h2leftb">
+
+		<div macro='search'></div>
+
           <form id="searchForm" method="get"
             action="http://search.btwholesale.com/search" class="formMargin">
           <fieldset class="inline">
