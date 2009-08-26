@@ -59,6 +59,7 @@ tiddler: ../../contributors/SimonMcManus/plugins/failedSaveNotification.js
 
 
 tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
+tiddler: ../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 
 
 recipe: ../ckeditor/split.recipe
