@@ -257,7 +257,7 @@ h1 {
 		padding:0;
 		position:relative;
 		top:2em;
-		width:67%;
+		width:66%;
 	}
 
 	div.tiddler {
@@ -412,10 +412,10 @@ h1 {
 	}
 
 	.tiddler .button {
-		margin:0.1em  1em;
-		padding:0.2em 0.3em;
 		background-color:white;
-		border:1px solid #777;
+		border:1px solid #DDDDDD;
+		margin:6.1em 0.2em;
+		padding:0.2em 1.3em;
 	}
 
 /*  END COMMENTS CSS */
@@ -503,11 +503,11 @@ h1 {
 		left:2.2em;
 		position:relative;
 		top:-0.8em;
-		width:97%;
+		width:94%;
 	}
 	
 	.editToolbar {
-		position:relative;*
+		position:relative;
 		top:-1.7em;
 	}
 
