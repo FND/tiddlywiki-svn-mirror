@@ -3,7 +3,7 @@
 |''Description''|provides access to tiddler revisions|
 |''Author''|FND|
 |''Contributors''|Martin Budden|
-|''Version''|0.1.5|
+|''Version''|0.1.6|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#RevisionsCommandPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/plugins/|
@@ -39,27 +39,26 @@ cmd = config.commands.revisions = {
 	revTooltip: "", // TODO: populate dynamically?
 	loadLabel: "loading...",
 	loadTooltip: "loading revision list",
+	selectLabel: "select",
+	selectTooltip: "select revision for comparison",
+	selectedLabel: "selected",
+	compareLabel: "compare",
 	revSuffix: " [rev. #%0]",
 	diffSuffix: " [diff: #%0 #%1]",
 	dateFormat: "YYYY-0MM-0DD 0hh:0mm",
-	select: "select",
-	selectTip: "select tip",
-	selected: "selected",
-	compare: "compare",
 
 	handlePopup: function(popup, title) {
-		// remove revSuffix from title if it exists
-		var i = cmd.revSuffix.indexOf("%0");
-		i = title.indexOf(cmd.revSuffix.substr(0, i));
-		if(i != -1) {
-			title = title.substr(0, i);
-		}
-		// remove diffSuffix from title if it exists
-		i = cmd.diffSuffix.indexOf("%0");
-		i = title.indexOf(cmd.diffSuffix.substr(0, i));
-		if(i != -1) {
-			title = title.substr(0, i);
-		}
+		stripSuffix = function(type, title) {
+			var str = cmd[type + "Suffix"];
+			var i = str.indexOf("%0");
+			i = title.indexOf(str.substr(0, i));
+			if(i != -1) {
+				title = title.substr(0, i);
+			}
+			return title;
+		};
+		title = stripSuffix("rev", title);
+		title = stripSuffix("diff", title);
 		var tiddler = store.getTiddler(title);
 		var type = this._getField("server.type", tiddler);
 		var adaptor = new config.adaptors[type]();
@@ -77,22 +76,25 @@ cmd = config.commands.revisions = {
 		var callback = function(ev) {
 			var e = ev || window.event;
 			var revision = resolveTarget(e).getAttribute("revision");
-			context.adaptor.getTiddlerRevision(tiddler.title, revision, context, userParams, cmd.displayTiddlerRevision);
+			context.adaptor.getTiddlerRevision(tiddler.title, revision, context,
+				userParams, cmd.displayTiddlerRevision);
 		};
 		removeNode(userParams.loading);
-		var table = createTiddlyElement(userParams.popup,'table');
+		var table = createTiddlyElement(userParams.popup, "table");
 		for(var i = 0; i < context.revisions.length; i++) {
 			var tiddler = context.revisions[i];
-			var row = createTiddlyElement(table,'tr');
+			var row = createTiddlyElement(table, "tr");
 			var timestamp = tiddler.modified.formatString(cmd.dateFormat);
 			var revision = tiddler.fields["server.page.revision"];
-			var cell = createTiddlyElement(row,'td');
-			createTiddlyButton(cell, timestamp, cmd.revTooltip, callback, null, null, null, { revision: revision });
-			cell = createTiddlyElement(row,'td');
-			createTiddlyText(cell,tiddler.modifier);
-			cell = createTiddlyElement(row,'td');
-			createTiddlyButton(cell, cmd.select, cmd.selectTip, cmd.revisionSelected, null, null, null, { index:i, revision: revision, col: 2 });
-			cmd.context = context;
+			var cell = createTiddlyElement(row, "td");
+			createTiddlyButton(cell, timestamp, cmd.revTooltip, callback, null,
+				null, null, { revision: revision });
+			cell = createTiddlyElement(row, "td", null, null, tiddler.modifier);
+			cell = createTiddlyElement(row, "td");
+			createTiddlyButton(cell, cmd.selectLabel, cmd.selectTooltip,
+				cmd.revisionSelected, null, null, null,
+				{ index:i, revision: revision, col: 2 });
+			cmd.context = context; // XXX: unsafe (singleton)!?
 		}
 	},
 
@@ -101,23 +103,25 @@ cmd = config.commands.revisions = {
 		e.cancelBubble = true;
 		if(e.stopPropagation) e.stopPropagation();
 		var n = resolveTarget(e);
-		var index = n.getAttribute('index');
-		var col = n.getAttribute('col');
+		var index = n.getAttribute("index");
+		var col = n.getAttribute("col");
 		cmd.revision = n.getAttribute("revision");
 		var table = n.parentNode.parentNode.parentNode;
 		var rows = table.childNodes;
-		for(var i=0;i<rows.length;i++) {
+		for(var i = 0; i < rows.length; i++) {
 			var c = rows[i].childNodes[col].firstChild;
-			if(i==index) {
-				if(c.textContent)
-					c.textContent = cmd.selected;
-				else
-					c.text = cmd.selected;
+			if(i == index) {
+				if(c.textContent) {
+					c.textContent = cmd.selectedLabel;
+				} else {
+					c.text = cmd.selectedLabel;
+				}
 			} else {
-				if(c.textContent)
-					c.textContent = cmd.compare;
-				else
-					c.text = cmd.compare;
+				if(c.textContent) {
+					c.textContent = cmd.compareLabel;
+				} else {
+					c.text = cmd.compareLabel;
+				}
 				c.onclick = cmd.compareSelected;
 			}
 		}
@@ -129,13 +133,14 @@ cmd = config.commands.revisions = {
 		var context = cmd.context;
 		context.rev1 = n.getAttribute("revision");
 		context.rev2 = cmd.revision;
-		context.tiddler = context.revisions[n.getAttribute('index')];
-		context.adaptor.getTiddlerDiff(context.tiddler.title, context, context.userParams, cmd.displayTiddlerDiffs);
+		context.tiddler = context.revisions[n.getAttribute("index")];
+		context.adaptor.getTiddlerDiff(context.tiddler.title, context,
+			context.userParams, cmd.displayTiddlerDiffs);
 	},
 
 	displayTiddlerDiffs: function(context, userParams) {
 		var tiddler = context.tiddler;
-		tiddler.title += cmd.diffSuffix.format([context.rev1,context.rev2]);
+		tiddler.title += cmd.diffSuffix.format([context.rev1, context.rev2]);
 		tiddler.text = context.diff;
 		tiddler.fields.doNotSave = "true"; // XXX: correct?
 		if(!store.getTiddler(tiddler.title)) {
