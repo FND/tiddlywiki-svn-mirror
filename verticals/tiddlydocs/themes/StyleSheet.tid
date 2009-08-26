@@ -58,9 +58,10 @@ html body .leftColumnItem {
 }
 
 html body .title {
-	font-size:10pt;
+	ont-size:10pt;
+	left:-0.5em;
 	position:relative;
-	top:0.6em;
+	top:0.68em;
 }
 
 .title-right {
@@ -69,7 +70,6 @@ html body .title {
 	left:1.2em;
 	position:relative;
 	text-align:right;
-	top:-1.5em;
 	z-index:1;
 }
 
@@ -185,10 +185,7 @@ h1 {
 		border-bottom:1px solid #777;
 	}
 
-	titleToolbar {
-		font-size:0.8em;	
-	}
-
+	
 	div.subtitle {
 		font-size:0.7em;
 		padding:0.5em;
@@ -246,7 +243,7 @@ h1 {
 	#mainMenu {
 		height:100%;
 		left:-2em;
-		margin:0;
+		margin:1em;
 		padding:0;
 		position:relative;
 		width:100%;
@@ -503,10 +500,17 @@ h1 {
 	}
 
 	.iconShift {
+		left:2.2em;
 		position:relative;
-		top:-0.4em;
+		top:-0.8em;
 		width:97%;
 	}
+	
+	.editToolbar {
+		position:relative;
+		top:-1.7em;
+	}
+
 
 	.portletContentIconShift {
 		position:relative;
@@ -539,11 +543,6 @@ h1 {
 		
 	}
 	
-
-	.hideIcon {
-		padding:6px 0 0;
-	}
-
 /* CKEditor */
 	html body span.cke_skin_kama {
 		position:relative;

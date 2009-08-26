@@ -187,7 +187,7 @@ tags: systemTheme
 		<div class="portletCornerRight"></div>
 	<div class="portletTitle iconShift">
 
-			<div class='title titleToolbar' macro='view title'>
+			<div class='title ' macro='view title'>
 
 <div class='title-right'>
 <div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
@@ -210,10 +210,10 @@ tags: systemTheme
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
-			<div class='title titleToolbar' macro='view title'>Editing Section :
+			<div class='title' macro='view title'>Editing Section :
 
 <div class='title-right'>
-<div class='toolbar right' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='toolbar editToolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 
 </div>
 </div>
@@ -241,7 +241,7 @@ tags: systemTheme
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
-						<div  style='z-index:3;' class='title titleToolbar' macro='edit title'>
+						<div  style='z-index:3;' class='title' macro='edit title'>
 				<div class='title-right'>
 					<div class='toolbar right' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
 				</div>
@@ -264,7 +264,7 @@ tags: systemTheme
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
 
-			<div class='title titleToolbar' macro='view title'>
+			<div class='title' macro='view title'>
 
 <div class='title-right'>
 <div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
