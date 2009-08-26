@@ -200,9 +200,9 @@ h1 {
 	#buttonHolder {
 		font-size:0.9em;
 		height:100%;
-		left:14.2em;
+		left:-2.4em;
 		position:relative;
-		top:-0.3em;
+		top:-1.2em;
 		width:100%;
 	}
 	
@@ -507,7 +507,7 @@ h1 {
 	}
 	
 	.editToolbar {
-		position:relative;
+		position:relative;*
 		top:-1.7em;
 	}
 

@@ -140,7 +140,7 @@ tags: systemTheme
 		<div class="portletToolbar portletToolbarLeft">
 			<div class="portletCornerLeft"></div>
 			<div class="portletCornerRight"></div>
-			<div class="portletTitle">
+			<div class="portletTitle iconShift">
 				<div class='title'>Table of Content</div>
 				<div macro='tdButtons' class='title-right'></div>	
 			</div>
