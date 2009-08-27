@@ -4,11 +4,6 @@
 config.options.chkAnimate = true;
 config.options.chkSaveBackups = false;
 
-if(isLoggedIn())
-	config.options.txtTheme = "MyDocsTheme";
-else
-	config.options.txtTheme = "loginTheme";
-
 //config.options.chkBackstage = false;
 
 
