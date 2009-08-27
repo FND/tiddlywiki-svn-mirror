@@ -7,10 +7,10 @@ twanager --load tiddlywebwiki.config instance tiddlydocs
 cd tiddlydocs
 
 wget http://github.com/tiddlyweb/tiddlyweb/raw/master/apache.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/e7cdc9d91a7fe9e8483933f3e1275139718e321d/atom/atom.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/e7cdc9d91a7fe9e8483933f3e1275139718e321d/atom/atomplugin.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/e7cdc9d91a7fe9e8483933f3e1275139718e321d/atom/htmlatom.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/e7cdc9d91a7fe9e8483933f3e1275139718e321d/twstatic/static.py
+wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atom.py
+wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atomplugin.py
+wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/htmlatom.py
+wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/twstatic/static.py
 
 wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py
 
