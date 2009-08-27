@@ -30,3 +30,4 @@ wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlyd
 
 chown apache  *  -R
 
+/sbin/service httpd restart
