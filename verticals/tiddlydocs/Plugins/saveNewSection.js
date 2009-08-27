@@ -53,7 +53,7 @@ Story.prototype.saveTiddler = function(title,minorUpdate)
 			if(!TiddlyWiki.isStandardField(n))
 				extendedFields[n] = fields[n];
 		}
-		var tiddler = store.saveTiddler(title,newTitle,fields.text,minorUpdate ? undefined : config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags+'[[doc_'+window.activeDocument+']]',extendedFields);
+		var tiddler = store.saveTiddler(title,newTitle,fields.text,minorUpdate ? undefined : config.options.txtUserName,minorUpdate ? undefined : newDate,fields.tags+'[[doc_'+window.activeDocument+']]',extendedFields, false, newDate);
 		window.addToToc(newTitle, window.activeDocument);
 		autoSaveChanges(null,[tiddler, window.activeDocument]);
 		return newTitle;
