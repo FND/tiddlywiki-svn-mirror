@@ -6,126 +6,98 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>Modal Plugin Demo</title>
 	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
-	<script type="text/javascript" src="js/modal.js"></script>
+	<script type="text/javascript" src="js/modal.jquery.js"></script>
 	<script type="text/javascript" src="js/demo.js"></script>
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8"/>
 </head>
 
 <body>
-	<h1>Modal Demo</h1>
+	<h1>JQuery Modal Dialog Plugin</h1>
 </body>
 
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
+  <div id="info">
+    <a id="download" href="js/modal.jquery.js">Download<div id="filename">modal.jquery.js</div></a>
+    This is a "yet another modal dialog JQuery plugin with lightbox effects", created by <a href="http://softwareas.com">Michael Mahemoff</a> at <a href="http://osmosoft.com">Osmosoft</a> with the following aims:</p>
+    <ul id="aims">
+      <li>Progammatic invocation. This isn't one of those magic genie libraries that inspects the DOM on load and makes everything clickable if its class is "lightbox"; it requires code to trigger the modal dialog appearance. (Few libraries sadly offer such functionality.)</li>
+      <li>Small in size (1.8KB last I checked; compressed to 1.3KB).</li>
+      <li>One file to install - all styling in Javascript by default. (Maybe stylesheet support later, but for now, I just want to ensure it's easy to get it up and running by including a single JS file.)</li>
+      <li>Easy to use: <tt>$.modal.show("message");</tt></li>
+      <li>Dismiss the dialog with keyboard shortcut or by clicking outside the dialog.</li>
+    </ul>
+  </div>
+
+    <p>It was initally built for <a href="http://tiddlydocs.com">TiddlyDocs</a>, but could be used in any JQuery app.
+  </p>
+
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
   <p id="clickable"><span>Click here to leap out the modal dialog.</span></p>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
 
   <p id="challenge"> 
     What's 5+5? <input id="answer"> <button id="check">Check</button> (will only show dialog if correct)
   </p>
 
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
-  Lorem Ipsum<br/>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
+  <div class="lorem">Lorem Ipsum</div>
 
 </html>

@@ -39,7 +39,7 @@
       })
       .push("<div/>")
         .css({
-          margin: "10px",
+          margin: "10px"
         })
         .html(message)
       .end()
