@@ -24,5 +24,9 @@ twanager from_svn tdocs http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/ind
 ## get recipe files 
 wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs > store/recipes/tiddlydocs
 
+
+## TEMP - update permissions on system bag
+wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/bags/system/policy > store/bags/system/policy
+
 chown apache  *  -R
 
