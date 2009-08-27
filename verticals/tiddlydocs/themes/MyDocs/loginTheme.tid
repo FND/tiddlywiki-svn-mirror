@@ -1,0 +1,301 @@
+tags: systemTheme
+
+/***
+|''Name:''|myPageTheme|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~wizardViewTemplate:''|##wizardViewTemplate|
+|''~newEditTemplate:''|##newEditTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~documentViewTemplate:''|##documentViewTemplate|
+***/
+
+!PageTemplate
+<!--{{{-->
+
+
+<link rel="stylesheet" href="http://www.btwholesale.com/container/static/wa/jarrita/css/container.opt.css" type="text/css" />
+
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/login.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/gadgets.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/container.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/simple.opt.css" type="text/css" />
+<link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/3rd/thickbox.css" type="text/css" />
+
+
+<style type="text/css">
+[[myPageCSSOverride]]
+
+</style>
+
+<!--[if lt IE 7]>
+  
+  <link rel="stylesheet" href="https://www.btwholesale.com/static/wa/jarrita/css/IE6Fixes.css" type="text/css" />
+<![endif]-->
+
+
+    <div id="yuiproxy"></div>
+    <div class="body">
+      <div class="sections">
+
+        <div id="menu">
+        </div>
+        <div class="header">
+<div id="wholesale_search_wrapper">
+  <div id="search_bar">
+    <div id="header1">
+      <div id="h1left">
+      <a tabindex="2" href="/pages/static/homepage_logout.html" class="hlink" title="Home page">Homepage</a><span class="hgrey">|</span><a tabindex="3"
+            title="Products" class="hlink"
+            href="/pages/static/Products.html"
+        >Products</a><span class="hgrey">|</span><a tabindex="4"
+            title="Applications" class="hlink"
+            href="/pages/static/Applications.html"
+        >Applications</a><span class="hgrey">|</span><a tabindex="5"
+            accesskey="2" title="Customer Zone" class="hlink"
+            href="/pages/static/customerzone_logout.html"
+        >Customer zone</a><span class="hgrey">|</span><a tabindex="6"
+            title="Network Info" class="hlink"
+            href="/pages/static/Network_Info.html"
+        >Network info</a><span class="hgrey">|</span><a tabindex="7"
+            accesskey="7" title="News & Briefings" class="hlink"
+            href="/pages/static/News_and_Briefings.html"
+        >News & briefings</a><span class="hgrey">|</span><a tabindex="8"
+            title="Pricing & Contracts" class="hlink"
+            href="/pages/static/Pricing_and_Contracts.html"
+        >Pricing & contracts</a>
+
+      </div>
+      <div id="h1right">
+        <a tabindex="9" accesskey="3" title="Sitemap" class="hlink"
+            href="/pages/static/help/help_hub/site_map.html"
+        > SITEMAP</a>
+      </div>
+    </div>
+    <div id="header2">
+      <div id="flr_h2left1">
+        <a tabindex="10"
+            href="/pages/static/Community/Broadband_Community.html"
+            class="flr_h2link" title="Broadband"
+        >BROADBAND</a><span class="hgrey1">|</span><a tabindex="11"
+            href="/pages/static/Community/21_Century_Network_Community.html"
+            class="flr_h2link" title="21CN"
+        >21CN &amp; CONSULT 21</a><span class="hgrey1">|</span><a tabindex="12"
+            href="/pages/static/Community/Reseller_Community.html"
+            class="flr_h2link" title="Reseller">RESELLER</a>
+
+      </div>
+      <div id="flr_h2left">
+	    <div id="flr_h2leftb">
+          <form id="searchForm" method="get"
+            action="http://search.btwholesale.com/search" class="formMargin">
+          <fieldset class="inline">
+            <input name="site" value="default_collection" type="hidden">
+            <input name="client" value="btw_frontend" type="hidden">
+            <input name="proxystylesheet" value="btw_frontend" type="hidden">
+            <input name="output" value="xml_no_dtd" type="hidden">
+
+            <input tabindex="15" class="inputsearch" id="q" name="q" title="Search"
+                value="Search..." onfocus="return clearText()"
+                onblur="return putText()" type="text">
+            <input tabindex="16" class="greebutton" title="Search" value="GO" accesskey="4"
+                id="flr_h2leftbSpan" style="cursor: pointer;" type="submit">
+          </fieldset>
+          </form>
+        </div>
+        <div id="flr_h2lefta">
+          <div id="show_logout">
+          
+          <a tabindex="13"
+              href="/siteminderagent/forms/logout.fcc"
+          >Logout</a><span class="hgrey1">|</span><a
+               tabindex="14" class="plink"
+              href="/portalzone/editProfile/editProfile.do"
+              class="plink" title="Profile">Profile</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="portal-header">
+    <div id="logoSpacer" class="floatleft">
+      <img alt="MyPage" title="MyPage"
+          src="https://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/Customized-portal-logo.gif"/>
+    </div>
+    <div id="ajaxMessageHolder" class="middle">
+
+      <div id="ajax_message_wrapper">
+        <div id="ajax_message">
+        </div>
+      </div>
+    </div>
+    <div id="logoHolder" class="right">
+<img height="55" width="565" title="MyPage" src="https://www.btwholesale.com/pages/media/logo/BTW_blank.jpg" class="bannerLogo"/>
+    </div>
+  </div>
+
+    
+  
+</div>
+        </div>
+
+
+<div macro='ccLogin'> </div>
+<<ccLogin>>
+<div id='tiddlerDisplay'></div>
+    </div>
+    <div class="footer">
+
+<div>
+  <div id="footerleft" class="inline floatleft">
+    <a href="/pages/static/mp/disclaimer.html" class="footlink" title="Disclaimer">BT Wholesale is not responsible for the content of external internet sites</a>
+  </div>
+  <div id="footerright" class="inline floatright">
+    <a title="About BTW" class="footlink" href="/pages/static/Footer/About_BTW.html">About BTW</a>
+    <span class="hgrey1">|</span>
+
+    <a accesskey="9" title="Contact " class="footlink" href="/pages/cmsjsps/Footer/Contact.jsp">Contact </a>
+    <span class="hgrey1">|</span>
+    <a accesskey="0" title="Accessibility" class="footlink" href="/pages/static/Footer/Accessibility.html">Accessibility</a>
+    <span class="hgrey1">|</span>
+    <a title="Help" class="footlink" href="/pages/static/Footer/Help.html">Help</a>
+    <span class="hgrey1">|</span>
+
+    <a accesskey="8" title="Terms and conditions" class="footlink" href="/pages/static/Footer/Terms_and_Conditions.html">Terms and conditions</a>
+  </div>
+</div>
+
+    </div>
+<!--}}}-->
+
+!wizardViewTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+	<div class="portletTitle iconShift">
+
+			<div class='title titleToolbar' macro='view title'><img class='hideIcon'  src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>
+
+<div class='title-right'>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
+
+</div>
+</div>
+		</div>
+	</div>
+	<div class="portletContent portletContentIconShift">
+	<div  style='z-index:2;' class='toolbar' ></div>
+		<div class='wizardViewer'  style='background:padding:1em' macro='view text wikified'></div>
+	</div>
+</div>
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle iconShift">
+			<div class='title titleToolbar' macro='view title'><img class='hideIcon' src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>Editing Section :
+
+<div class='title-right'>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+
+</div>
+</div>
+		</div>
+	</div>
+	<div class="portletContent portletContentIconShift">
+			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+		<div class='editor' macro='editHtml text'></div>
+<div macro='commentSlider'>
+	<div class='right links'>
+		RSS | Permalink
+	</div>
+</div>
+	</div>
+</div>
+
+
+
+<!--}}}-->
+
+!newEditTemplate
+<!--{{{-->
+
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle iconShift">
+						<div  style='z-index:3;' class='title titleToolbar' macro='edit title'>
+<img class='hideIcon' src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>
+				<div class='title-right'>
+					<div class='toolbar right' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="portletContent portletContentIconShift">
+			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>	
+		<div class='editor newEditor' macro='editHtml text'>
+	</div>
+</div>
+
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle iconShift">
+
+			<div class='title titleToolbar' macro='view title'><img class='hideIcon' src='http://www.btwholesale.com/container/static/wa/jarrita/skins/wholesale/images/icons/minimise_normal.png'/>
+
+<div class='title-right'>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
+
+</div>
+</div>
+		</div>
+	</div>
+	<div class="portletContent portletContentIconShift">
+			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+		<div class='viewer' macro='view text wikified'></div>
+<div macro='commentSlider'>
+	<div class='right links'>
+		RSS | Permalink
+	</div>
+</div>
+	</div>
+</div>
+<!--}}}-->
+
+!documentViewTemplate
+<!--{{{-->
+	<div class="portletContainer">
+		<div class="portletToolbar">
+			<div class="portletCornerLeft"></div>
+			<div class="portletCornerRight"></div>
+			<div class="portletTitle">
+				<div class='title' macro='view title'></div>
+			</div>
+		</div>
+		<div class="portletContent simpleTiddler">
+				<div class='' macro='toolbar [[ToolbarCommands::adminToolbar]]'></a></div>
+				</br>
+				</br>
+				</br>
+			<div class='viewer2' macro='view text wikified'></div>
+		</div>
+	</div>
+<!--}}}-->
+
+

@@ -1,11 +1,5 @@
+recipe: themes/MyDocs/split.recipe
 
-tiddler: themes/loginTheme.tid
-tiddler: themes/mainTheme.tid
-tiddler: themes/myPageTheme.tid
-tiddler: themes/myPageCSSOverride.tid
-#tiddler: themes/myPageContainer.tid
-
-tiddler: themes/StyleSheet.tid
 tiddler: Plugins/A_tiddlywebSpecifics.js
 
 tiddler: Plugins/newDocument.js
