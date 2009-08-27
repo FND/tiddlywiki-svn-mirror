@@ -1,5 +1,4 @@
 modifier: Simon McManus
-created: 
 
 |~viewToolbar|+editTiddler closeTiddler|
 |~newEditToolbar| +saveTiddler -cancelTiddler |
