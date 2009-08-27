@@ -10,7 +10,7 @@ config.macros.tdButtons.handler=function(place,macroName,params,wikifier,paramSt
 	var btn = createTiddlyButton(buttonHolder, "preview", "preview current document", previewClick, null, null, null, null, "/static/tiddlydocs_images/icons/Menu_24.png");
 	var btn = createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "/static/tiddlydocs_images/icons/Invitation_24.png");
 	btn.setAttribute("newTitle","New Section Title");
-	btn.setAttribute("newTemplate", "myPageTheme##newEditTemplate");
+	btn.setAttribute("newTemplate", config.options.txtTheme+"##newEditTemplate");
 	var displaySettings= function () {
 		story.displayTiddler(null, "Settings");
 	};
