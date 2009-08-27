@@ -1,6 +1,5 @@
 modifier: Simon McManus
 created: 
-modified: 200708091500
 
 |~viewToolbar|+editTiddler closeTiddler|
 |~newEditToolbar| +saveTiddler -cancelTiddler |

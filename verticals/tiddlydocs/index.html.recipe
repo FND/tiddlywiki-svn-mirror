@@ -15,8 +15,6 @@ tiddler: Plugins/tdocsPrint.js
 tiddler: Plugins/tdocsSettings.js
 tiddler: Plugins/commentSlider.js
 
-#tiddler: Plugins/COPIED_commentsPlugin.js
-
 tiddler: jquery/01_jQuery.js
 tiddler: jquery/09_iNestedSortable.js
 tiddler: jquery/JSON.js
