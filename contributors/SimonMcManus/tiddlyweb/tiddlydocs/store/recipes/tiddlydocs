@@ -3,3 +3,4 @@ policy: {"read": [], "create": [], "manage": [], "accept": [], "write": [], "own
 
 /bags/system/tiddlers
 /bags/tdocs/tiddlers
+/bags/documents/tiddlers
