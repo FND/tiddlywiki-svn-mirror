@@ -1,0 +1,99 @@
+/* main */
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+	font-size: 75%;
+}
+#wrapper {
+	width: 100%;
+}
+/* header */
+#header {
+	width: 960px;
+	margin: auto;
+	text-align: center;
+	padding-bottom: 4px;
+}
+h1 {
+	padding: 0;
+	margin: 0;
+	font-family: "Lucida Grande",Arial,sans-serif;
+	font-size: 24px;
+}
+/* search */
+#search {
+	width: 960px;
+	margin: auto;
+	text-align: center;
+	padding-bottom: 7px;
+}
+#search span {
+	font-size: smaller;
+}
+#advancedSearch {
+	display: block;
+}
+.js #advancedSearch {
+	display: none;
+}
+/* records table */
+#recordsTableContainer {
+	background-color: #77571f;
+	width: 900px;
+	padding: 2px;
+	margin: auto;
+}
+table {
+	border-collapse: collapse;
+}
+#filter {
+	margin: 0 0 2px 2px;
+	vertical-align: middle;
+}
+#filter input {
+	color: #cccccc;
+	font-style: italic;
+}
+.center {
+	text-align: center;
+}
+th {
+	text-align: left;
+	padding: 5px;
+	cursor: pointer;
+}
+tr.odd {
+	background-color: #f9ba85 
+}
+tr, tr.even {
+	background-color: #fbcda4;
+}
+td {
+	padding: 5px;
+	font-size: smaller;
+}
+tfoot th {
+	font-size: smaller;
+	font-weight: normal;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables sorting
+ */
+
+.sorting_asc {
+	background: url('../images/sort_asc.jpg') no-repeat center right;
+}
+
+.sorting_desc {
+	background: url('../images/sort_desc.jpg') no-repeat center right;
+}
+
+.sorting {
+	background: url('../images/sort_both.jpg') no-repeat center right;
+}
+/* footer */
+#footer {
+	height: 200px;
+	background-color: #999999;
+}
