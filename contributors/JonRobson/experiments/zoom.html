@@ -1,0 +1,83 @@
+<html>
+
+<head>
+<script type='text/javascript' src='../Library/Vismo/demos/jquery.js'></script>
+<script type='text/javascript' src='../Library/Vismo/demos/data/worldjson.json'></script>
+<script type='text/javascript' src='../Library/Vismo/Vismo.js'></script>
+<style type="text/css">
+.container{position:relative;width:400px; height:400px;border:solid 1px black;}
+#mycanvas {position:absolute;width:400px; height:400px;}
+.overlay {position:absolute;width:400px; height:400px;z-index:4;}
+
+.stats {width:400px; height:200px;}
+img {border:0;}
+</style>
+</head>
+<body>
+<h1>VismoMap of the world</h1>
+
+<div class='container'>
+<div class='overlay'></div>
+<div id='mycanvas'></div>
+</div>
+<script type='text/javascript'>
+/* setup our map and overlay */
+var overlay = new VismoCanvas(jQuery(".overlay"),{vismoController:{},dblclick:function(e,s){alert(s.properties.name);}});
+var map = new VismoMap(jQuery("#mycanvas"),{geojson:geojson});
+
+var zoom = 2;
+/* override the handler for the controls on the overlay to also handle the map */
+var mapcanvas = map.getVismoCanvas();
+var controller = overlay.vismoController;
+var handler = controller.getHandler();
+var newhandler = function(t){
+  map.transform(t);
+  map.render();  
+  var newt= VismoUtils.clone(t);
+  newt.scale.x *=zoom;
+  newt.scale.y *=zoom;
+  handler(newt);
+  controller.transformation = t;
+  
+};
+controller.setHandler(newhandler);
+
+/* set mouse move so that on hover we create a larger version of that shape */
+var activename=false;
+var mousemove = function(e,s){
+    s = mapcanvas.getShapeAtClick(e,mapcanvas.getDomElement());
+    if(!s) return;
+  
+  var name = s.getProperty("name");
+  var featureid = s.getProperty("featureid");
+  if(name != activename){
+    activename = name;
+    var f = map.getFeatures(featureid);
+    var t = map.getTransformation();
+    if(!f) return;
+    var shapes = f.getVismoShapes();
+    var bb = s.getBoundingBox();
+    /* clear everything currently on overlay */
+    overlay.clear(true);
+    
+    for(var i=0; i < shapes.length; i++){
+      var shape =shapes[i].clone();  
+      shape.translate((-bb.center.x-t.translate.x)/zoom,(-bb.center.y-t.translate.y)/zoom);
+    
+      shape.setProperty("stroke","#ff0000")
+      overlay.add(shape);
+    }
+
+
+
+    overlay.render();
+  }
+};
+overlay.mouse({move:mousemove});
+
+
+</script>
+
+
+</body>
+</html>
