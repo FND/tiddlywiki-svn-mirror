@@ -39,20 +39,29 @@ function dophysics(cc){
     s.moveTo(newx,newy);
   }
 }
-var pop = function(e,s){
-  s.getVismoCanvas().remove(s);
-  
+var gunstatus = false;
+var startgun = function(){
+  gunstatus=  true;
 };
-var cc = new VismoCanvas(jQuery("#mycanvas"),{shapes:shapes,beforeRender: dophysics,mousedown: pop});
+var dogun = function(e,s){
+  if(gunstatus){
+    if(s)s.getCanvas().remove(s);
+  }
+};
+var endgun= function(){
+  gunstatus = false;
+};
 
-var maxballs = 300;
+var cc = new VismoCanvas(jQuery("#mycanvas"),{shapes:shapes,beforeRender: dophysics,mousedown: startgun, mouseup:endgun, move: dogun});
+
+var maxballs = 100;
 function createshape(){
   var vx = Math.random() * 20;
   var vy = Math.random() * 20;
   var shape = {shape:"circle", coordinates:[0,-200,20], velocityX: vx, velocityY:vy, fill:VismoShapeUtils.randomColor()};
   cc.add(shape);
   cc.render();
-  if(cc.memory.length < maxballs)window.setTimeout(createshape,400);
+  if(cc.memory.length < maxballs)window.setTimeout(createshape,100);
 }
 
 var render = function(){

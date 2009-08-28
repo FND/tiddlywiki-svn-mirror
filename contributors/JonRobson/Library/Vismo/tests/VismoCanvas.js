@@ -78,10 +78,10 @@ VismoTests.add("VismoCanvas", {
                 
         }
         ,getShapeAtPositionTriangle: function(){
-            var tri = new VismoShape({id:"tri",coordinates:[0,0,200,0,200,200], shape:"polygon"})
+            var tri = new VismoShape({id:"tri",coordinates:[0,0,200,0,200,200], shape:"polygon"});
             var cc = VismoTests.Mocks.canvas({shapes:[tri]});
              var val = cc.getShapeAtPosition(20,190);
-             var val2 = cc.getShapeAtPosition(190,190);
+             var val2 = cc.getShapeAtPosition(199,190);
              return VismoTests.assertAllEqual([[val,false],[val2.getProperty("id"),"tri"]]);
         }
         ,getShapeAtPositionZoomedIn:  function(){
@@ -130,7 +130,15 @@ VismoTests.add("VismoCanvas", {
              return VismoTests.assertEqual(val.getProperty("id"),"small");          
         }
         
-        
+        /*,isOverlap: function(){
+            var shape1=  new VismoShape({id:"tri1",coordinates:[0,0,200,0,200,200], shape:"polygon"});
+            var shape2=  new VismoShape({id:"tri2",coordinates:[50,0,300,0,300,300], shape:"polygon"});
+            var shape3=  new VismoShape({id:"tri3",coordinates:[0,300,300,300,600,600], shape:"polygon"});
+            
+            var cc = VismoTests.Mocks.canvas({shapes:[shape1,shape2,shape3]});
+            var res1 = cc.isOverlap(shape1,shape2);
+            var res2 =  cc.isOverlap(shape1,shape3);
+        }*/
         
 
     }

@@ -120,16 +120,18 @@ var VismoShapeUtils ={
 var VismoUtils = {
 	userAgent: navigator.userAgent.toLowerCase(),
 	clone: function(obj){
-                if(!obj) return;
-            if(obj.appendChild) return obj;
+
+        if(!obj) return obj;
+        if(obj.appendChild) return obj;
 	    if(obj == null || typeof(obj) != 'object')return obj;
 
 	    var temp = new obj.constructor(); // changed (twice)
 
 	    for(var key in obj){
+	        //console.log(key);
 	        temp[key] = VismoUtils.clone(obj[key]);
+	        //console.log(temp[key])
 	    }
-
 
 	    return temp;
 
@@ -270,6 +272,7 @@ var VismoShape = function(properties,coordinates){
 	this.currentResolution = false;
 	this.vml = false;
 	this.unique_id = Math.random() + "_" + this.properties.id;
+    this.scale = {x:1,y:1};
 };
 
 
@@ -286,22 +289,85 @@ VismoShape.prototype={
     ,clone: function(){
                 var coords = this.getCoordinates("normal");
                 var props = this.getProperties();
+                var p = VismoUtils.clone(props);
+                p.coordinates = coords;
                 try{
-                    return new VismoShape(props,coords);
+                    //console.log(p);
+                    return new VismoShape(p);
                 }
-                finally{
-                    return false;
+                catch(e){
+                    throw e;
                 }
     }
+    ,translate: function(x,y){
+  	    var c = this.getCoordinates("normal");
+
+  	    var newc = [];
+  	    for(var i=0; i < c.length; i+=2){
+  	         if(this.isCommand(c[i])) i+=1;
+  	         var newx,newy;
+
+  	        newx = c[i] + x;
+  	        newy = c[i+1] + y;
+  	        newc.push(newx);
+  	        newc.push(newy);
+  	    }
+
+  	    this.setCoordinates(newc);
+      }
+
+  	,scale: function(x,y){
+  	    this._scale.x = x;
+  	    this._scale.y = y;
+  	    var c = this.getCoordinates("normal");
+
+  	    var newc = [];
+  	    for(var i=0; i < c.length; i+=2){
+  	        if(this.isCommand(c[i])) i+=1;
+  	        var newx,newy;
+
+  	        newx = c[i] * x;
+  	        newy = c[i+1] * y;
+  	        newc.push(newx);
+  	        newc.push(newy);
+  	    }
+
+  	    this.setCoordinates(newc);
+  	    return true;
+  	}
+	,resize: function(x,y){
+	    var bb = this.getBoundingBox();
+	    var newWidth = x *bb.width;
+	    var newHeight = y * bb.height;
+	    var offsetx = (bb.center.x * x) - bb.center.x;
+	    var offsety = (bb.center.y * y)- bb.center.y;
+	    this.scale.x = x;
+	    this.scale.y = y;
+	    var c = this.getCoordinates("normal");
+
+	    var newc = [];
+	    for(var i=0; i < c.length; i+=2){
+	        var newx,newy;
+	        
+	        newx = c[i] * x;
+	        newy = c[i+1] * y;
+	        newx -= offsetx;
+	        newy -= offsety;
+	        newc.push(newx);
+	        newc.push(newy);
+	    }
+	  
+	    this.setCoordinates(newc);
+	    return true;
+	}
 	,moveTo: function(x,y){
 	    var st = this.properties.shape;
 	    var dim = this.getDimensions();
 	 
 	    if(st == "point" || st == 'circle'){
 	        this.setCoordinates([x,y,dim.width/2, dim.height/2]);
-	       
 	    }
-	    else if(st == 'polygon'){
+	    else if(st == 'polygon' ||st == 'path'){
 	        var bb = this.getBoundingBox();
 	        var movex = x - bb.center.x;
 	        var movey = y - bb.center.y;
@@ -382,6 +448,9 @@ VismoShape.prototype={
 	,render_canvas: function(canvas,transformation,projection,optimisations, browser){
 		VismoTimer.start("VismoShape.render_canvas");
 		var c;
+		if(this.properties.hidden) {
+		    return;
+    	}
     	var vismoShape = this;
     	var ctx = canvas.getContext('2d');
 		if(!ctx) return;
@@ -784,8 +853,17 @@ VismoShape.prototype={
 	,optimise: function(canvas,transformation,projection,justcompute){
 	    VismoTimer.start("VismoShapes.optimise");
 	    var ocache = this._optimise_cache;
+
+	    
 	    var cid = transformation["cache"]["id1"];
-	    var cid2 =transformation["cache"]["id2"]; 
+	    var cid2 =transformation["cache"]["id2"];
+	    
+	    if(this.scale.x > 1){
+	        var newx,newy;
+	        newx = this.scale.x  * transformation.scale.x;
+	        newy = this.scale.y  * transformation.scale.y;
+	        cid = newx + ","+newy;
+	    }
 	    if(!ocache[cid]) ocache[cid] = {};
 	    
         if(typeof(ocache[cid][cid2]) != "undefined"){

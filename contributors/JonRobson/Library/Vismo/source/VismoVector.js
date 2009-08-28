@@ -148,9 +148,17 @@ VismoVector.prototype = {
 	,_createvmlpathstring: function(transformation,projection){ //mr bottleneck
 	    VismoTimer.start("VismoVector.createvmlpathstring");
 		var vml = this.el;
-		var o = transformation.origin;
-		var t = transformation.translate;
-		var s = transformation.scale;
+		var o,t,s;
+		if(transformation){
+		    o = transformation.origin;
+		    t = transformation.translate;
+		    s = transformation.scale;
+		}
+		else{
+		    o = {x:0,y:0};
+		    t = {x:0,y:0};
+		    s = {x:1,y:1};
+		}
 		var cindex;
 		if(!s || (!s.x && !s.y)){
 		    cindex = "1,1";
@@ -310,6 +318,7 @@ VismoVector.prototype = {
 			VismoTimer.end("VismoVector._cssTransform");
 			return;
 		}
+		if(!transformation) return;
 		var ckey_1, ckey_2;
 		if(transformation.cache){
 		    ckey_1 = transformation.cache.id1;
@@ -364,7 +373,7 @@ VismoVector.prototype = {
 			
 		}
 		
-		this.style();
+		
 			
 		var shtype= this.vismoShapeProperties.shape;
 		if(this.initialshapetype != shtype){ //shape type has changed force restart
@@ -387,12 +396,19 @@ VismoVector.prototype = {
 			}
 			this.haveAppended = true;
 		}
+		this.style();
         VismoTimer.end("VismoVector.render");
 	}
 	,style: function(){
         
         VismoTimer.start("VismoVector.style");
-        if(this.nochange){
+        if(!this.vismoShapeProperties){
+             this.vismoShapeProperties = this.vismoShape.properties;
+         }
+        if(this.vismoShapeProperties.hidden){
+            jQuery(this.el).css({display:"none"});
+        }
+         if(this.nochange){
 	       
 	     	VismoTimer.end("VismoVector.style");
 	        return;
@@ -402,9 +418,7 @@ VismoVector.prototype = {
 	    //if(this.el.className =='label')alert("!");
         
         
-        if(!this.vismoShapeProperties){
-            this.vismoShapeProperties = this.vismoShape.properties;
-        }
+ 
 
 	    if(this.el.style.display == 'none') this.el.style.display =""
 	    

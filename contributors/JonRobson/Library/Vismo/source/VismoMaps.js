@@ -27,7 +27,7 @@ var VismoMap = function(wrapper,options){
 		
 	this.wrapper = wrapper;
 	wrapper.vismoMap = this;
-	wrapper.style.position = "relative";
+	//wrapper.style.position = "relative";
 	var that = this;
 	this.settings = {};
 	var w= jQuery(wrapper).width();
@@ -42,8 +42,8 @@ var VismoMap = function(wrapper,options){
 	var handler = function(t){
 	    that.transform(t);
 	}
-	if(!options.vismoController) options.vismoController = {};
-	options.vismoController.handler = handler;
+	//if(!options.vismoController) options.vismoController = {};
+	if(options.vismoController)options.vismoController.handler = handler;
 
 	this.vismoCanvas = new VismoCanvas(wrapper,options);
 	this.controller = this.vismoCanvas.vismoController;
@@ -269,7 +269,9 @@ VismoMap.prototype = {
 		
 	*/
 	mouse: function(args){
-
+ 	    if(!args){
+	        return {up: this.onmouseup, down: this.onmousedown, move: this.onmousemove, dblclick: this.ondblclick,keypress:this.onkeypress};
+	    }
 			if(args.move)this.onmousemove =args.move;
 			if(args.up)this.onmouseup = args.up;
 			if(args.down)this.onmouseup = args.down;
@@ -358,17 +360,19 @@ VismoMap.prototype = {
 	},
 	
 	getFeatures: function(args){
+	       if(arguments[0] && this.features[arguments[0]]) return this.features[arguments[0]];
 	       return this.features;
 	}
 	,drawGeoJsonFeature: function(args){
 	    var featuredata = arguments[0];
-		var feature = new VismoMap.Feature(featuredata);		
+	    var props = arguments[1];
+		var feature = new VismoMap.Feature(featuredata,props);		
 		var s = feature.getVismoShapes();		
 		for(var i=0; i < s.length; i++){
 			this.vismoCanvas.add(s[i]);
 			//this.geofeatures[this.vismoCanvas.getMemoryID(s[i])] = feature;
 		}	
-         //this.features.push(feature);
+         this.features.push(feature);
 	},
 	drawGeoJsonFeatures: function(args){
 	    var features = arguments[0];
@@ -376,7 +380,7 @@ VismoMap.prototype = {
 				
 			for(var i=0; i < features.length; i++){
 			
-				this.drawGeoJsonFeature(features[i]);
+				this.drawGeoJsonFeature(features[i],{featureid:i});
 			}
 
 	}
@@ -386,13 +390,15 @@ VismoMap.prototype = {
 };
 
 
-VismoMap.Feature = function(feature){
-	this.init(feature);
+VismoMap.Feature = function(feature,props){
+	this.init(feature,props);
 };
 
 VismoMap.Feature.prototype = {
 	init: function(args){
 	    var feature = arguments[0];
+	    if(arguments[1])extra_properties = arguments[1];
+	    else extra_properties = {};
 		this.properties = feature.properties;
 		this.geometry = feature.geometry;
 		this.outers = [];
@@ -416,7 +422,15 @@ VismoMap.Feature.prototype = {
 		else {	
 			console.log("unsupported geojson geometry type " + geometry.type);
 		}		
-
+        var x = this.getVismoShapes();
+        var f;
+  
+        for(f in extra_properties){
+    
+             for(var i=0; i < x.length; i++){
+                x[i].setProperty(f,extra_properties[f]);
+            }
+        }
 	}
 	,addOuterVismoShape: function(args){
 		var shape = arguments[0];

@@ -24,7 +24,9 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 
 	if(typeof elem == 'string') elem= document.getElementById(elem);
 	this.setLimits({});
-	if(!elem.style || !elem.style.position) elem.style.position = "relative";
+	
+	//jQuery(elem).css()
+	//if(!elem.style || !elem.style.position) elem.style.position = "relative";
 	this.wrapper = elem; //a dom element to detect mouse actions
 	this.handler = options.handler; //a js object to run actions on (with pan and zoom functions)	
 	this.defaultCursor = "";
@@ -114,6 +116,13 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 VismoController.prototype = {
 	setLimits: function(transformation){
 	        this.limits = transformation;
+	}
+	,getHandler: function(){
+	    return this.handler;
+	}
+	,setHandler: function(handler){
+	    this.handler = handler;
+	    handler(this.transformation);
 	}
 	,getEnabledControls: function(){
 	        return this.enabledControls;
@@ -237,7 +246,7 @@ VismoController.prototype = {
 			    return false;
 			}
 			var t = VismoClickingUtils.resolveTargetWithVismo(e);
-		        
+		        t= el;
 
                        if(t != that.wrapper && t.parentNode !=that.wrapper) return false;
 	       	 	if (e.wheelDelta) { /* IE/Opera. */
@@ -392,9 +401,11 @@ VismoController.prototype = {
 	       
 	    this._addEnabledControl("mousepanning");
 		var that = this;
-		var md = that.wrapper.onmousedown;
-		var mu = that.wrapper.onmouseup;	
-		var mm = that.wrapper.onmousemove;
+		
+		var el = that.wrapper;
+		var md = el.onmousedown;
+		var mu = el.onmouseup;	
+		var mm = el.onmousemove;
 		var panning_status = false;	
 		//alert('here');
 		//jQuery(document).mouseup(function(e){alert("cool");}); //doesn't work?!
@@ -407,9 +418,11 @@ VismoController.prototype = {
 			return false;
 		};
 		jQuery(that.controlDiv).mousedown(function(e){
+
 		    cancelPanning();
 		});
 		var onmousemove = function(e){
+		    console.log("cool");
             if(e && e.shiftKey) {return false;}
 			if(mm){mm(e);}
 			if(!that.enabled) {return;}
@@ -445,7 +458,6 @@ VismoController.prototype = {
      
 		jQuery(this.wrapper).mousedown(function(e){
 		    var jqw = jQuery(that.wrapper);
-	        
 			if(panning_status){
 				return;
 			}
@@ -456,6 +468,7 @@ VismoController.prototype = {
 			    jqw.addClass("panning");
 			}
 			var target =  VismoClickingUtils.resolveTarget(e);
+			target = el;
 			if(!target) return;
 
 			
@@ -467,7 +480,7 @@ VismoController.prototype = {
 			//this.vismoController = that;
 
 			var element = VismoClickingUtils.resolveTargetWithVismo(e);
-			
+			element = el;
 			panning_status =  {clickpos: realpos, translate:{x: t.x,y:t.y},elem: element,isClick:true};
 			that.wrapper.onmousemove = onmousemove;
 				
@@ -515,6 +528,7 @@ VismoController.prototype = {
 		if(this.enabled){
 			if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
 			this.transformation = t;
+			
 			this.handler(t);
 		}
 		//console.log("transformation set to ",t);

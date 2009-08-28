@@ -25,6 +25,15 @@ function randomColor(){
 for(var i=0; i < geojson.features.length; i++){
  geojson.features[i].properties.fill = randomColor(); 
 }
+var activename=false;
+var mousemove = function(e,s){
+  var name = s.getProperty("name");
+  if(name != activename){
+    activename = name;
+    cc.memory[0] = s.clone();
+    
+  }
+}
 var cc = new VismoMap(jQuery("#mycanvas"),{geojson:geojson,vismoController:{}});
 </script>
 
