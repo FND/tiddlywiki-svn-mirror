@@ -30,7 +30,7 @@ var values = store.getTaggedTiddlers('document');
 	selectedHtml += '<li class="tab spacer"/>';
 	}
 
-	var newdoc = '<li class="tab tabalignment3OP tabalignment3" id="add_gadget"><a  class="thickbox mis addFromCatalogue"  id="AddFromCatalogueDialogue" href="#"><img style="border: medium none ;" src="/static/tiddlydocs_images/NewDocuments.png" class="addGadgetCatImg"/></a>';
+	var newdoc = '<li class="tab tabalignment3OP tabalignment3" id="add_gadget"><a  class="thickbox mis addFromCatalogue"  id="AddFromCatalogueDialogue" href="#"><img style="border: medium none ;" src="/static/mydocs_images/new_document.jpg" class="addGadgetCatImg"/></a>';
 html = selectedHtml  + newdoc;
 	jQuery('#tab_bar:first-child').html(html);
 	var addClick = function() {
