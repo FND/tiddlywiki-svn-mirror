@@ -37,8 +37,8 @@ mkdir static
 cd static 
 mkdir ckeditor 
 wget http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.0/ckeditor_3.0.tar.gz
-unzip ckeditor_3.0.zip
-rm cheditor_3.0.zip
+tar xvf ckeditor_3.0.tar.gz
+rm ckeditor_3.0.tar.gz
 
 svn co http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/static/mypage_images/ mydocs_images
 

@@ -133,11 +133,16 @@ h1 {
 	.deleteZoneClass {
 		color:#333;
 		background:#fff url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat scroll right bottom;
-		border:1px solid #555555;
+		border:1px solid #ddd;
 		left:2em;
 		position:relative;
 		text-align:left;
 		width:91%;
+	}
+	
+	.deleteZoneClass b {
+		padding:1em;
+		color:#ddd;
 	}
 
 	.deleteHelper {
