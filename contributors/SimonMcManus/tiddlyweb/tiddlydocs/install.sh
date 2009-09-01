@@ -40,7 +40,7 @@ wget http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.0/ckeditor_3.0.
 unzip ckeditor_3.0.zip
 rm cheditor_3.0.zip
 
-svn co http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/static/mypage_images/ mypage_images
+svn co http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/static/mypage_images/ mydocs_images
 
 
 ## TEMP - update permissions on system bag
