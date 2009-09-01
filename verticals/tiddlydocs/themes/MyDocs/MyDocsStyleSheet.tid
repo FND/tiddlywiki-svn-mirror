@@ -433,14 +433,15 @@ h1 {
 		top:0em; 
 		width:100%; 
 	} 
-		 	 
- 	html .wizardViewer .tiddlyLink { 
- 		color:#fff; 
- 	} 
- 	 
+		 	 	 
  	.highlight, .marked { 
  		background:red none repeat scroll 0 0; 
  	}
+	
+	.right .links a.button {
+		text decoration: underline;
+		padding:0.2em;
+	}
 	
 	div.toc-sort-handle {
 		padding:0em;
