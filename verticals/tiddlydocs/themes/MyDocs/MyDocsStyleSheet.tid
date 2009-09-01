@@ -66,7 +66,7 @@ html body .title {
 .title-right {
 	float:right;
 	font-size:1.3em;
-	left:1.2em;
+	left:2em;
 	position:relative;
 	text-align:right;
 	z-index:1;
@@ -199,7 +199,7 @@ h1 {
 	#buttonHolder {
 		font-size:0.9em;
 		height:100%;
-		left:-2.4em;
+		left:-3.1em;
 		position:relative;
 		top:-1.2em;
 		width:100%;

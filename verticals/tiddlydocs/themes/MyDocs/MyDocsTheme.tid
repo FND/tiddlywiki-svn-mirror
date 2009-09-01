@@ -165,17 +165,6 @@ tags: systemTheme
     <a href="/pages/static/mp/disclaimer.html" class="footlink" title="Disclaimer">BT Wholesale is not responsible for the content of external internet sites</a>
   </div>
   <div id="footerright" class="inline floatright">
-    <a title="About BTW" class="footlink" href="/pages/static/Footer/About_BTW.html">About BTW</a>
-    <span class="hgrey1">|</span>
-
-    <a accesskey="9" title="Contact " class="footlink" href="/pages/cmsjsps/Footer/Contact.jsp">Contact </a>
-    <span class="hgrey1">|</span>
-    <a accesskey="0" title="Accessibility" class="footlink" href="/pages/static/Footer/Accessibility.html">Accessibility</a>
-    <span class="hgrey1">|</span>
-    <a title="Help" class="footlink" href="/pages/static/Footer/Help.html">Help</a>
-    <span class="hgrey1">|</span>
-
-    <a accesskey="8" title="Terms and conditions" class="footlink" href="/pages/static/Footer/Terms_and_Conditions.html">Terms and conditions</a>
   </div>
 </div>
 
