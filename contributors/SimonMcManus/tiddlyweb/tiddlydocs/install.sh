@@ -32,6 +32,22 @@ cd store/recipes
 wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs 
 cd ../../
 
+
+mkdir static 
+cd static 
+mkdir ckeditor 
+wget http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.0/ckeditor_3.0.zip
+unzip ckeditor_3.0.zip
+rm cheditor_3.0.zip
+
+cd ../
+mkdir mypage_images
+cd mypage_images
+
+
+
+
+
 ## TEMP - update permissions on system bag
 #wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/bags/system/policy > store/bags/system/policy
 
