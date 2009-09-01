@@ -460,7 +460,7 @@ h1 {
 	}
 	.portletToolbar{
 
-		background-image:url("http://farm3.static.flickr.com/2171/3810893283_113ae55b48.jpg");
+		background-image:url("/static/mydocs_images/title_middle.jpg");
 		width:100%;
 		height:60px;
 		background-repeat:repeat-x;
@@ -471,7 +471,7 @@ h1 {
 	}
 
 	.portletCornerLeft{
-		background-image:url("http://farm3.static.flickr.com/2557/3811711040_63f5c19255.jpg");
+		background-image:url("/static/mydocs_images/title_left_corner.jpg");
 		clear:left;
 		float:left;
 		width:4px;
@@ -487,7 +487,7 @@ h1 {
 		background-repeat:no-repeat;
 		margin:0;
 		padding:0;
-		background-image:url("http://farm3.static.flickr.com/2495/3810897123_5e73acc925.jpg");
+		background-image:url("/static/mydocs_images/title_right_corner.jpg");
 	}
 
 	.portletTitle{
