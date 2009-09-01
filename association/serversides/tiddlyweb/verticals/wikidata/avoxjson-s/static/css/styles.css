@@ -3,57 +3,108 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: "Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
-	font-size: 75%;
+	font-size: 14px;
+	background-color: #fffef0;
 }
 #wrapper {
-	width: 100%;
+	width: 960px;
+	margin: auto;
+	margin-top: 20px;
+}
+.right {
+	float: right;
+}
+a, a:visited, a:hover, a:active {
+	color: #999999;
+}
+.small {
+	font-size: 11px;
+}
+strong {
+	font-weight: bold;
 }
 /* header */
 #header {
-	width: 960px;
-	margin: auto;
-	text-align: center;
-	padding-bottom: 4px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+#header div {
+	display: inline-block;
+	width: 690px;
+	height: 100px;
+	vertical-align: top;
+	padding: 0px;
+	margin: 0px;
+	border-top: 7px solid #000000;
+	border-bottom: 7px solid #000000;
+}
+#header h1 {
+	width: 152px;
+	height: 93px;
+	margin: 4px;
+	text-indent: -9999px;
+	overflow: hidden;
+	background: url('../images/WikiDataLogo.gif') no-repeat top left;
+}
+#header div.right {
+	margin-left: 20px;
+	width: 240px;
+}
+#header div.right p {
+	padding: 17px;
+	line-height: 17px;
+}
+.definition {
+	letter-spacing: 2px;
 }
 h1 {
 	padding: 0;
 	margin: 0;
+	display: inline-block;
 	font-family: "Lucida Grande",Arial,sans-serif;
 	font-size: 24px;
 }
 /* search */
 #search {
-	width: 960px;
-	margin: auto;
-	text-align: center;
-	padding-bottom: 7px;
+	width: 680px;
+	background-color: #000000;
+	padding: 5px;
+	margin-bottom: 20px;
 }
-#search span {
-	font-size: smaller;
+#search a, #search a:visited, #search a:hover, #search a:active {
+	color: #999999;
+}
+#search input.interior_text {
+	font-style: italic;
+	font-family: "Times New Roman", serif;
+	color: #777777;
 }
 #advancedSearch {
 	display: block;
+}
+#advancedSearch .advSearchLine {
+	padding-top: 5px;
 }
 .js #advancedSearch {
 	display: none;
 }
 /* records table */
 #recordsTableContainer {
-	background-color: #77571f;
-	width: 900px;
-	padding: 2px;
-	margin: auto;
+	width: 100%;
+	border: 1px solid #000000;
+}
+#results {
+	background-color: #000000;
+	padding: 5px;
+	color: #777777;
 }
 table {
 	border-collapse: collapse;
+	background-color: #d5d5d5;
+	font-family: "Georgia", serif;
 }
-#filter {
-	margin: 0 0 2px 2px;
-	vertical-align: middle;
-}
-#filter input {
-	color: #cccccc;
-	font-style: italic;
+table a, table a:active, table a:hover, table a:visited {
+	color: #777777;
 }
 .center {
 	text-align: center;
@@ -62,19 +113,23 @@ th {
 	text-align: left;
 	padding: 5px;
 	cursor: pointer;
+	font-family: "Tahoma", sans-serif;
+	font-size: 12px;
 }
 tr.odd {
-	background-color: #f9ba85 
+	background-color: #c6c6c6;
 }
 tr, tr.even {
-	background-color: #fbcda4;
+	background-color: #d6d6d6;
 }
 td {
 	padding: 5px;
 	font-size: smaller;
 }
+tfoot.dark th {
+	background-color: #b6b6b6;
+}
 tfoot th {
-	font-size: smaller;
 	font-weight: normal;
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -82,18 +137,17 @@ tfoot th {
  */
 
 .sorting_asc {
-	background: url('../images/sort_asc.jpg') no-repeat center right;
+	/*background: url('../images/sort_asc.jpg') no-repeat center right;*/
 }
 
 .sorting_desc {
-	background: url('../images/sort_desc.jpg') no-repeat center right;
+	/*background: url('../images/sort_desc.jpg') no-repeat center right;*/
 }
 
 .sorting {
-	background: url('../images/sort_both.jpg') no-repeat center right;
+	/*background: url('../images/sort_both.jpg') no-repeat center right;*/
 }
 /* footer */
 #footer {
-	height: 200px;
-	background-color: #999999;
+	
 }

@@ -8,11 +8,17 @@ $(document).ready(function() {
 		if(end!==-1) {
 			q = q.substring(0,end);
 		}
-		$('#search :text').val(q.substring(start));
+		$('#search .interior_text').val(q.substring(start));
 	}
 	// set advanced search on a slider
-	$('#search a.advanced').click(function() {
+	function revealAdvancedSearch() {
 		$('#advancedSearch').slideToggle(250);
+	}
+	$('#search a.advanced').click(function() {
+		revealAdvancedSearch();
+	});
+	$('#results .filter a').click(function() {
+		revealAdvancedSearch();
 	});
 	// set up records table
 	function hideColumn(col) {
@@ -34,12 +40,13 @@ $(document).ready(function() {
 		hideColumn(pos);
 		return false;
 	});
-	$("#filter input").click(function() {
-		this.value = "";
+	$('#search input:text').click(function() {
+		this.value="";
+		$(this).unbind();
 	});
-	$("#filter input").keyup(function() {
+	/*$("#filter input").keyup(function() {
 		oTable.fnFilter(this.value);
-	});
+	});*/
 	$('table').show();
 	oTable = $('#recordsTable').dataTable({
 		bPaginate: false,

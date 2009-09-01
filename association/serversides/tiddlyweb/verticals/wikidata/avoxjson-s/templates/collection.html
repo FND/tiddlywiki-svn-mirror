@@ -1,40 +1,37 @@
 <div id="recordsTableContainer">
-	<div id="results"></div>
-	<div id="filter">
-		<form>
-			<input type="text" size="30" value="filter" />
-		</form>
+	<div id="results">
+		<p class="small">Showing results 1-10 of 2000 - <span class="filter"><a href="javascript:;">filter results</a>?</span></p>
 	</div>
-	<table class="draggable forget-ordering" id="recordsTable">
+	<div id="recordsTable_wrapper" class="dataTables_wrapper"><table class="draggable forget-ordering" id="recordsTable">
 		<thead>
 			<tr>
-				<th title="The Legal Name is captured as it appears on the electronic company registry or company registration document.   Any punctuation or abbreviations that occur at these sources will be reflected in the Avox Legal Name.">Legal Name</th>
-				<th title="ISO standard country names are used.">Country of Incorporation</th>
-				<th title="ISO standard country names are used.">Country of Operation</th>
-				<th title="ISO state names are used for states in the USA, provinces and territories in Canada and states and territories in Australia, where the population of this field is mandatory if the city field is populated.  Elsewhere state/province/region information is only captured where appropriate and will be stored without abbreviation.">State / Province / Region of Operation</th>
-				<th title="Stored in the anglicised form.">City of Operation</th>
-				<th>Street</th>
-				<th>Postcode</th>
-				<th title="The Avox ID is a unique identifier for a business entity. The entity may be a distinct legal entity. Alternatively it may not have its own distinct legal status but does have a relationship to an entity which does. The AVID is assigned when a record has been created and checked by the Avox Quality Assurance team. It is a numeric value not exceeding 10 digits. AVIDs are not re-used.">AVID</th>
-				<th title="Send us a correction if the data is not correct">Challenge</th>
-				<th title="Request more details about this record">Request more<br />Info</th>
+				<th class="sorting_asc" title="The Legal Name is captured as it appears on the electronic company registry or company registration document.   Any punctuation or abbreviations that occur at these sources will be reflected in the Avox Legal Name.">Legal Name</th>
+				<th class="sorting" title="ISO standard country names are used.">Country of Incorporation</th>
+				<th class="sorting" title="ISO standard country names are used.">Country of Operation</th>
+				<th class="sorting" title="ISO state names are used for states in the USA, provinces and territories in Canada and states and territories in Australia, where the population of this field is mandatory if the city field is populated.  Elsewhere state/province/region information is only captured where appropriate and will be stored without abbreviation.">State / Province / Region of Operation</th>
+				<th class="sorting" title="Stored in the anglicised form.">City of Operation</th>
+				<th class="sorting">Street</th>
+				<th class="sorting">Postcode</th>
+				<th class="sorting" title="The Avox ID is a unique identifier for a business entity. The entity may be a distinct legal entity. Alternatively it may not have its own distinct legal status but does have a relationship to an entity which does. The AVID is assigned when a record has been created and checked by the Avox Quality Assurance team. It is a numeric value not exceeding 10 digits. AVIDs are not re-used.">AVID</th>
+				<th class="sorting" title="Send us a correction if the data is not correct">Challenge</th>
+				<th class="sorting" title="Request more details about this record">Request more<br>Info</th>
 			</tr>
 		</thead>
-		<tfoot>
+		<tfoot class="dark">
 			<tr>
-				<th><a href="javascript:;">hide column</a></th>
-				<th><a href="javascript:;">hide column</a></th>
-				<th><a href="javascript:;">hide column</a></th>
-				<th><a href="javascript:;">hide column</a></th>
-				<th><a href="javascript:;">hide column</a></th>
-				<th><a href="javascript:;">hide column</a></th>
-				<th><a href="javascript:;">hide column</a></th>
-				<th><a href="javascript:;">hide column</a></th>
-				<th><a href="javascript:;">hide column</a></th>
-				<th><a href="javascript:;">hide column</a></th>
+				<th><a href="javascript:;">hide</a></th>
+				<th><a href="javascript:;">hide</a></th>
+				<th><a href="javascript:;">hide</a></th>
+				<th><a href="javascript:;">hide</a></th>
+				<th><a href="javascript:;">hide</a></th>
+				<th><a href="javascript:;">hide</a></th>
+				<th><a href="javascript:;">hide</a></th>
+				<th><a href="javascript:;">hide</a></th>
+				<th><a href="javascript:;">hide</a></th>
+				<th><a href="javascript:;">hide</a></th>
 			</tr>
 		</tfoot>
-		<tbody>
+		<tbody>	
 			{% for tiddler in tiddlers %}
 			<tr>
 				<td><a href='tiddlers/{{ tiddler.title }}'>{{ tiddler.fields.legal_name }} </a></td>
@@ -51,6 +48,6 @@
 			</tr>
 			{% endfor %}
 		</tbody>
-	</table>
+	</table></div>
 </div>
 <script type="text/javascript" src="/static/js/records.js"></script>
