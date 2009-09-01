@@ -46,6 +46,8 @@ svn co http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddl
 ## TEMP - update permissions on system bag
 #wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/bags/system/policy > store/bags/system/policy
 
+
+cd ../
 chown apache  *  -R
 
 /sbin/service httpd restart
