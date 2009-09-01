@@ -19,9 +19,10 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 	window.liCount=0;
 	window.divCount=0;
 	window.sectionCount = 1;
-	jQuery(specView).empty();	
+	jQuery(specView).empty();
+	console.log('0');	
 	config.macros.tdoc2Outline._renderSpec(specView, spec, []);
-	
+	console.log('1');
 	jQuery("#ul0").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",

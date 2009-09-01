@@ -114,7 +114,7 @@ tags: systemTheme
     <div class="portal-header">
     <div id="logoSpacer" class="floatleft">
       <img alt="MyPage" title="MyPage"
-          src="/static/tiddlydocs_images/MyDocs.png" height='60px'/>
+          src="/static/mydocs_images/MyDocs.png" height='60px'/>
     </div>
     <div id="ajaxMessageHolder" class="middle">
 
@@ -124,7 +124,7 @@ tags: systemTheme
       </div>
     </div>
     <div id="logoHolder" class="right">
-<img height="55" width="565" title="MyPage" src="/static/tiddlydocs_images/mypageTheme/BTW_blank.jpg" class="bannerLogo"/>
+<img height="55" width="565" title="MyPage" src="/static/mydocs_images/BTW_blank.jpg" class="bannerLogo"/>
     </div>
   </div>
 
