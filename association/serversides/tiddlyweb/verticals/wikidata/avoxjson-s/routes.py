@@ -68,3 +68,4 @@ def init(config):
     config['selector'].add('/pages/{template_file:segment}', GET=template_route)
     config['selector'].add('/index.html', GET=index)
     config['selector'].add('/verify', POST=verify)
+    config['selector'].add('/env', GET=env)

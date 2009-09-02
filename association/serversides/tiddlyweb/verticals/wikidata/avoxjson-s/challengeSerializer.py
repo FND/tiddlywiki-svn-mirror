@@ -21,4 +21,18 @@ class Serialization(SerializationInterface):
         bag = Bag('tmpbag', tmpbag=True)
         bag.add_tiddler(tiddler)
         template = templating.generate_template(["challenge.html"])
-        return template.render(tiddler=tiddler)
+        try:
+            query = self.environ['tiddlyweb.query']
+            captcha = {}
+            success = query['success'][0]
+            if success == '1':
+                captcha['success'] = True
+            elif success == '0':
+                captcha['failure'] = True
+                try:
+                   captcha['error'] = query['error'][0]
+                except:
+                   captcha['error'] = "Error not supplied"
+        except:
+            pass
+        return template.render(tiddler=tiddler,captcha=captcha)

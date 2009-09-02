@@ -179,3 +179,6 @@ table.challenge label {
 table.challenge td span {
 	font-size: medium;
 }
+.captcha_error {
+	color: #ff0000;
+}

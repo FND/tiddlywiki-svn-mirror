@@ -15,6 +15,11 @@
 ('reg_post_code', 'Postcode (registration)'),
 ('reg_state', 'State / Province / Region of Registration'),
 ('avid', 'AVID')] %}
+{% if captcha.success %}
+<div>
+<p>Thanks! We'll be in touch shortly.</p>
+</div>
+{% else %}
 <form id="challenge" action="/verify" method="post">
 	<div class="left">
 		<p>Please correct any information by adding to the right-hand column</p>
@@ -39,6 +44,12 @@
 			<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
 			<input type='hidden' name='recaptcha_response_field' value='manual_challenge' />
 		</noscript>
+		{% if captcha.failure %}
+		<div class="captcha_error">
+			<p>Whoops! I think you made a mistake with the CAPTCHA - {{captcha.error}}</p>
+		</div>
+		{% endif %}
 		<input type="submit" value="Submit challenge" />
 	</div>
 </form>
+{% endif %}
