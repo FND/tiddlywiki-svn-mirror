@@ -23,6 +23,19 @@ a, a:visited, a:hover, a:active {
 strong {
 	font-weight: bold;
 }
+p {
+	padding-bottom: 4px;
+}
+h1 {
+	padding: 0;
+	margin: 0;
+	display: inline-block;
+	font-family: "Lucida Grande",Arial,sans-serif;
+	font-size: 24px;
+}
+h2 {
+	font-size: 20px;
+}
 /* header */
 #header {
 	width: 100%;
@@ -56,13 +69,6 @@ strong {
 }
 .definition {
 	letter-spacing: 2px;
-}
-h1 {
-	padding: 0;
-	margin: 0;
-	display: inline-block;
-	font-family: "Lucida Grande",Arial,sans-serif;
-	font-size: 24px;
 }
 /* search */
 #search {
@@ -150,4 +156,26 @@ tfoot th {
 /* footer */
 #footer {
 	
+}
+
+/* challenge table */
+#challenge div.left {
+	width: 500px;
+	display: inline-block;
+}
+#challenge div.right {
+	width: 300px;
+	padding-right: 20px;
+}
+table.challenge td {
+	vertical-align: middle;
+}
+table.challenge label {
+	color: #777777;
+}
+#challenge label {
+	display: block;
+}
+table.challenge td span {
+	font-size: medium;
 }

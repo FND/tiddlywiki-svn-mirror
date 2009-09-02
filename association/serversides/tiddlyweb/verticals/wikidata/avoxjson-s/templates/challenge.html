@@ -1,1 +1,38 @@
-Placeholder for challenge page
+{% set labels = [('legal_name', 'Legal Name'),
+('inc_country_code', 'Country of Incorporation'),
+('op_country', 'Country of Operation'),
+('trading_status', 'Trading Status'),
+('reg_agent_name', 'Registered Agent Name'),
+('op_address_1', 'Street (operating)'),
+('op_address_2', 'Address line 2 (operating)'),
+('op_post_code', 'Postcode (operating)'),
+('op_city', 'City (operating)'),
+('op_state', 'State / Province / Region of Operation'),
+('reg_inc_number', 'Registration Number'),
+('reg_building', 'Building (registration)'),
+('reg_address_1', 'Street (registration)'),
+('reg_city', 'City (registration)'),
+('reg_post_code', 'Postcode (registration)'),
+('reg_state', 'State / Province / Region of Registration'),
+('avid', 'AVID')] %}
+<form id="challenge">
+	<div class="left">
+		<p>Please correct any information by adding to the right-hand column</p>
+		<table class="challenge">
+			{% for field, label in labels %}
+			<tr>
+				<td><label for="{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
+				<td><input type="text" size="35" name="{{field}}" /></td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div class="right">
+		<h2>Your information</h2>
+		<label for="name">Your name</label>
+		<input type="text" size="35" name="name" />
+		<label for="source">What is your source for this? (Please include URL and/or sources used) We will use this to validate your challenge.</label>
+		<textarea cols="35" rows="5" name="source"></textarea>
+		<input type="submit" value="Submit challenge" />
+	</div>
+</form>
