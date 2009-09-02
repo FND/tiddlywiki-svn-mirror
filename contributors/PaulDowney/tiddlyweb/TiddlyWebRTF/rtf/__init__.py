@@ -21,7 +21,7 @@ import html5lib
 from html5lib import treebuilders, treewalkers, serializer
 from html5lib.filters import sanitizer
 
-class RTFDocument():
+class RTFDocument:
     """
     Help generate RTF document strings
     """
