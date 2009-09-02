@@ -18,7 +18,7 @@ window.addToToc = function(sectionTitle, docTitle) {
 			title: sectionTitle,
 			children:[]
 		};
-		documentSpec.unshift(node);
+		documentSpec.push(node);
 		var docFields = store.getTiddler(docTitle).fields;
 		var tiddler = store.saveTiddler(docTitle, docTitle, '{content:'+jQuery.toJSON(documentSpec)+'}', null, null, null, merge(docFields, config.defaultCustomFields));
 	}
