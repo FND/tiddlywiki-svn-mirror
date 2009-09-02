@@ -43,7 +43,7 @@
 				<td>{{ tiddler.fields.op_address_1 }}, {{ tiddler.fields.op_city }}</td>
 				<td>{{ tiddler.fields.op_post_code }}</td>
 				<td>{{ tiddler.fields.avid }}</td>
-				<td><a href="/pages/challenge?avid={{ tiddler.fields.avid }}">go</a></td>
+				<td><a href="tiddlers/{{ tiddler.title }}.challenge">go</a></td>
 				<td><a href="/pages/request?avid={{ tiddler.fields.avid }}">go</a></td>
 			</tr>
 			{% endfor %}

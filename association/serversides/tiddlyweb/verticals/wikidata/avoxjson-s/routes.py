@@ -1,4 +1,5 @@
 import templating
+import logging
 
 from tiddlyweb.web.http import HTTP404
 
@@ -34,27 +35,31 @@ def test(environ, start_response):
 
     start_response('200 OK', [('Content-Type', 'text/plain')])
     return [pformat(environ)]
-
-    public_key = "6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29"
-    private_key = "6Ld8HAgAAAAAAAyOgYXbOtqAD1yuTaOuwP8lpzX0"
-    
-    start_response('200 OK', [
-        ('Content-Type', 'text/html')
-        ])
-        
-    return response
     
 def verify(environ, start_response):
     from captcha import submit
 
-    response_field = environ['wsgiorg.routing_args'][1]['recaptcha_response_field']
-    challenge_field = environ['wsgiorg.routing_args'][1]['recaptcha_challenge_field']
+    try:
+        redirect = environ['tiddlyweb.query']['recaptcha_redirect']
+    except:
+       redirect = "/"
+    challenge_field = environ['tiddlyweb.query']['recaptcha_challenge_field']
+    response_field = environ['tiddlyweb.query']['recaptcha_response_field']
+    private_key = "6Ld8HAgAAAAAAAyOgYXbOtqAD1yuTaOuwP8lpzX0"
+    ip_addr = environ['REMOTE_ADDR']
+    logging.debug('ip_addr: '+ip_addr)
 
-    start_response('200 OK', [
-        ('Content-Type', 'text/html')
-        ])
+    resp = submit(challenge_field, response_field, private_key, ip_addr)
+    logging.debug('resp.error_code: '+resp.error_code)
+    if not resp.is_valid:
+        redirect = '/validation_failed'
+
+    start_response('302 Found', [
+            ('Content-Type', 'text/html'),
+            ('Location', redirect)
+            ])
     
-    return 'hi'
+    return resp.error_code
 
 def init(config):
     config['selector'].add('/pages/{template_file:segment}', GET=template_route)

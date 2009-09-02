@@ -15,7 +15,7 @@
 ('reg_post_code', 'Postcode (registration)'),
 ('reg_state', 'State / Province / Region of Registration'),
 ('avid', 'AVID')] %}
-<form id="challenge">
+<form id="challenge" action="/verify" method="post">
 	<div class="left">
 		<p>Please correct any information by adding to the right-hand column</p>
 		<table class="challenge">
@@ -33,6 +33,13 @@
 		<input type="text" size="35" name="name" />
 		<label for="source">What is your source for this? (Please include URL and/or sources used) We will use this to validate your challenge.</label>
 		<textarea cols="35" rows="5" name="source"></textarea>
+		<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29"></script>
+		<noscript>
+			<iframe src="http://api.recaptcha.net/noscript?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29" height="300" width="500" frameborder="0"></iframe><br />
+			<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+			<input type='hidden' name='recaptcha_response_field' value='manual_challenge' />
+		</noscript>
+		<input type="hidden" value="/challenge?success=1" name="recaptcha_redirect" />
 		<input type="submit" value="Submit challenge" />
 	</div>
 </form>
