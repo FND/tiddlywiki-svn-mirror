@@ -41,9 +41,10 @@ modifier: Simon McManus
 }
 
 div.portletTitle  div.title  input {
-	background:transparent none repeat scroll 0 0;
-	border:0 none;
-	color:#555;
+	background:white none repeat scroll 0 0;
+	border:1px dotted blue;
+	color:#555555;
+	font-weight:bold;
 	z-index:33;
 }
 
