@@ -32,7 +32,7 @@ cd store/recipes
 wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs 
 cd ../../
 
-
+## Get CKEditor 
 mkdir static 
 cd static 
 mkdir ckeditor 

@@ -16,7 +16,6 @@ function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey,at
 		btn.setAttribute("title",tooltip);
 	if(text){
 		var span = createTiddlyElement(btn, "span");
-		var span = createTiddlyElement(span, "span");
 		if(image) {
 			var img = createTiddlyElement(span, "img");
 			img.style.width = "15px";
@@ -25,6 +24,8 @@ function createTiddlyButton(parent,text,tooltip,action,className,id,accessKey,at
 			img.style.position = "relative";
 			img.style.top = "0.3em";
 		}
+
+		var span = createTiddlyElement(span, "span");
 		span.appendChild(document.createTextNode(text));
 	}
 	btn.className = className || "btn";
