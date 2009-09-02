@@ -16,9 +16,8 @@ tags: systemTheme
 <!--{{{-->
 
 
-<link rel="stylesheet" href="http://www.btwholesale.com/container/static/wa/jarrita/css/container.opt.css" type="text/css" />
+<link rel="stylesheet" href="/static/mypage_css/override.css" type="text/css" />
 <style type="text/css">
-[[myPageCSSOverride]]
 
 </style>
 
