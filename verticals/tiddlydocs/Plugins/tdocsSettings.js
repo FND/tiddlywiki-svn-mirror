@@ -12,7 +12,7 @@ config.commands.editHtml={
 	tooltip: "Edit this section"
 }
 
-config.views.wikified.defaultText= "The section has not been edited yet.";
+config.views.wikified.defaultText= "Enter section text here.";
 
 // FCKEditor textarea height
  config.options.txtFCKheight = "250px";
