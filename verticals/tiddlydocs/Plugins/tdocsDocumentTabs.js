@@ -22,7 +22,7 @@ var values = store.getTaggedTiddlers('document');
 	var selectedHtml = '';
 	for (var i=0; i < values.length; i++) {
 		if(values[i].title == window.activeDocument){
-			selectedHtml += '<li class="tab tab_l tab_l_selected"/><li class="tab selectedtab" id="tab_6801"><div class="tabsDiv"><span id="tab_name_6801"><img src="/static/tiddlydocs_images/icons/"/>'+values[i].title+'</span></div></li><li class="tab tab_r tab_r_selected"/>';
+			selectedHtml += '<li class="tab tab_l tab_l_selected"/><li class="tab selectedtab" id="tab_6801"><div class="tabsDiv"><span id="tab_name_6801">'+values[i].title+'</span></div></li><li class="tab tab_r tab_r_selected"/>';
 		} else {
 			selectedHtml +=  '<li class="tab tab_l tab_l_add" id="add_tab_l"></li><li class="tab tab_add tabalignment2 tabalignment2OP" id="add_tab"  onclick="config.macros.docTabs.switchDoc(\''+values[i].title+'\');"><div><a class="thickbox mis" href="#"><img src="/static/wa/jarrita/skins/wholesale/images/icons/add_tab_normal.png" class="moreFunctionsImg addTabImg"/>'+values[i].title+'</a></div></li><li class="tab tab_r tab_r_add"></li>';
 	

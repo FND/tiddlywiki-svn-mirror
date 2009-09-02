@@ -438,9 +438,9 @@ h1 {
  		background:red none repeat scroll 0 0; 
  	}
 	
-	.right .links a.button {
+	.sectionLink {
 		text decoration: underline;
-		padding:0.2em;
+		padding:0.2em
 	}
 	
 	div.toc-sort-handle {
