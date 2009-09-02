@@ -559,5 +559,8 @@ h1 {
 		top:0em;
 	}
 
+	.cke_skin_kama .cke_path{
+		display:none;
+	}
 /* END CKEditor*/
 <!--}}}-->

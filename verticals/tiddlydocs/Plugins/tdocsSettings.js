@@ -32,7 +32,7 @@ CKEDITOR.config.toolbar_Basic =
     ['TextColor','BGColor'],
 ];
 
-
+CKEDITOR.config.disableNativeSpellChecker = false;
 
 
 
