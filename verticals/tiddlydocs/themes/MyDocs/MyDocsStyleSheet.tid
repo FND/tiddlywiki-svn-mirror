@@ -311,7 +311,8 @@ h1 {
 	}
 
 	.viewer {
-		padding:1.2em;
+		padding:1.5em 1.5em 0;
+		top:top:-1.8em; 
 		z-index:1;	
 ;
 		position:relative;
