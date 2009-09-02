@@ -312,7 +312,7 @@ h1 {
 
 	.viewer {
 		padding:1.5em 1.5em 0 
-		z-index:1;
+		z-index:1;	
 ;
 		position:relative;
 		top:-3.2em;
@@ -353,7 +353,7 @@ h1 {
 		border:0px !important;
 	}
 	
-	.taskControls {
+	.taskControls, .TaskTiddlerControls {
 		z-index:3;
 	}
 
