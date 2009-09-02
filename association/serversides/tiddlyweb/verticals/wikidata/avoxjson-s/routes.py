@@ -29,7 +29,7 @@ def template_route(environ, start_response):
     
     return template.render()
     
-def test(environ, start_response):
+def env(environ, start_response):
 
     from pprint import pformat
 
@@ -40,28 +40,31 @@ def verify(environ, start_response):
     from captcha import submit
 
     try:
-        redirect = environ['tiddlyweb.query']['recaptcha_redirect']
+        redirect = environ['tiddlyweb.query']['recaptcha_redirect'][0]
     except:
-       redirect = "/"
-    challenge_field = environ['tiddlyweb.query']['recaptcha_challenge_field']
-    response_field = environ['tiddlyweb.query']['recaptcha_response_field']
+       redirect = environ['HTTP_REFERER']
+    challenge_field = environ['tiddlyweb.query']['recaptcha_challenge_field'][0]
+    logging.debug('challenge_field: '+challenge_field)
+    response_field = environ['tiddlyweb.query']['recaptcha_response_field'][0]
+    logging.debug('response_field: '+response_field)
     private_key = "6Ld8HAgAAAAAAAyOgYXbOtqAD1yuTaOuwP8lpzX0"
     ip_addr = environ['REMOTE_ADDR']
     logging.debug('ip_addr: '+ip_addr)
 
     resp = submit(challenge_field, response_field, private_key, ip_addr)
-    logging.debug('resp.error_code: '+resp.error_code)
-    if not resp.is_valid:
-        redirect = '/validation_failed'
+    if resp.is_valid:
+        redirect = redirect + '?success=1'
+    else:
+        redirect = redirect + '?success=0&error=' + resp.error_code
 
     start_response('302 Found', [
             ('Content-Type', 'text/html'),
             ('Location', redirect)
             ])
     
-    return resp.error_code
+    return ""
 
 def init(config):
     config['selector'].add('/pages/{template_file:segment}', GET=template_route)
     config['selector'].add('/index.html', GET=index)
-    config['selector'].add('/verify', GET=test, POST=verify)
+    config['selector'].add('/verify', POST=verify)
