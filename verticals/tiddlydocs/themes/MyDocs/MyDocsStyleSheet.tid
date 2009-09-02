@@ -312,6 +312,7 @@ h1 {
 
 	.viewer {
 		padding:1.5em 1.5em 0 
+		z-index:1;
 ;
 		position:relative;
 		top:-3.2em;
@@ -350,6 +351,10 @@ h1 {
 
 	.viewer table, table.twtable, .viewer td, .viewer tr, .twtable td, .twtable tr {
 		border:0px !important;
+	}
+	
+	.taskControls {
+		z-index:3;
 	}
 
 /*  END TEAM TASKS CSS */
