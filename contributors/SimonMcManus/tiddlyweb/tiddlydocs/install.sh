@@ -41,6 +41,7 @@ tar xvf ckeditor_3.0.tar.gz
 rm ckeditor_3.0.tar.gz
 
 svn co http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/static/mypage_images/ mydocs_images
+svn co http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/static/mypage_images/ mypage_css
 
 
 ## TEMP - update permissions on system bag
