@@ -20,6 +20,24 @@ config.views.wikified.defaultText= "The section has not been edited yet.";
 config.options.txtFCKeditorPath = 'plugins/FCKEditor/files/fckeditor/';
 
 
+config.toolbar_Basic =
+[
+    ['Cut','Copy','Paste', 'SpellChecker'],
+    ['Undo','Redo','-','Find','Replace'],
+    '/',
+    ['Bold','Italic','Underline','Strike'],
+    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+    ['Image', 'Table','HorizontalRule','SpecialChar'],
+    '/',
+    ['Styles','Format','Font','FontSize'],
+    ['TextColor','BGColor'],
+];
+
+
+
+
+
 // set the document from the hash
 var hash =  window.location.hash.substring(1);
 if(hash!="")
