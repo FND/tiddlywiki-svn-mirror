@@ -8,6 +8,7 @@ config = {
         'server_host': {
             'scheme': 'http',
             'host': '217.9.192.9',
+            #'host': '0.0.0.0',
             'port': '8080',
             },
         'wikitext_render_map': {
