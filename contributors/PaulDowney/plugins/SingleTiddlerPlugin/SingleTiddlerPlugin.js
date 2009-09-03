@@ -17,10 +17,10 @@ if(!version.extensions.SingleTiddlerPlugin) {
 version.extensions.SingleTiddlerPlugin = {installed:true};
 
 	Story.prototype._displayTiddler = Story.prototype.displayTiddler;
-	Story.prototype.displayTiddler = function(srcElement,title,template,animate,slowly)
+	Story.prototype.displayTiddler = function()
 	{
 		story.closeAllTiddlers();
-		this._displayTiddler(null,title,template,animate,slowly);
+		this._displayTiddler.apply(this, arguments);
 	}
 }
 //}}}
