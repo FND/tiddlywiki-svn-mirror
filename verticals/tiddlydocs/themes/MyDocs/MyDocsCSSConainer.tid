@@ -15,7 +15,7 @@ modifier: Simon McManus
 .column-33-left{float:left;width:33%;}
 .container{text-align:center;}
 .container-row{clear:both;}
-#container{margin:0;background-color:#F3F3F3;clear:both;}
+#container{margin:0;background-color:#F3F3F3;clear:both;width:30%}
 #container-column-0{margin-left:8px;}
 .strap{background-color:#F3F3F3;}
 #default_search_wrapper{background:transparent url(../images/jarrita-default.jpg) no-repeat scroll center top;height:175px;}
