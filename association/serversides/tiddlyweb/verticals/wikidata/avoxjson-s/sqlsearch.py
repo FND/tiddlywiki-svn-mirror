@@ -1,1 +1,0 @@
-/home/avox/src/sqlsearch/sqlsearch.py

@@ -1,5 +1,5 @@
 config = {
-        'server_store': ['sqlsearch', {'db_config': 'sqlite:///store.db'}],
+        'server_store': ['sql', {'db_config': 'sqlite:///store.db'}],
         'css_uri': 'http://peermore.com/tiddlyweb.css',
         'secret': 'the bees are in the what',
         'system_plugins': ['status', 'static', 'wikidataSerializer', 'editSerializer', 'challengeSerializer', 'methodhack', 'pathinfohack', 'formreader', 'routes'],
