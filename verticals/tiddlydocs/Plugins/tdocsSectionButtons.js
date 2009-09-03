@@ -1,6 +1,7 @@
 config.macros.docSectionButtons = {};
 config.macros.docSectionButtons.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	if(typeof(tiddler.fields['server.host']) === "string") {
+		return;
 		var a = createTiddlyElement(place, "a", null, 'button');
 		a.href = tiddler.fields['server.host']+tiddler.fields['server.workspace']+'/tiddlers/'+tiddler.title+'.wiki';
 		var img = createTiddlyElement(a, 'img', '', '', '', {'height':'12px'});	
