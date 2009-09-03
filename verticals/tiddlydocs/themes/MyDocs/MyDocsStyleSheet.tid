@@ -262,7 +262,7 @@ h1 {
 		padding:0;
 		position:relative;
 		top:2em;
-		width:56%;
+		width:66%;
 	}
 
 	div.tiddler {
