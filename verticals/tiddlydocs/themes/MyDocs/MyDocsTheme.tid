@@ -20,11 +20,9 @@ tags: systemTheme
 
 <b style='display:none'>&nbsp;<!-- IE FIX - requires linked styles not to be the first thing defined--></b>
 
-
-<link href="http://www.btwholesale.com/container/static/wa/jarrita/css/container.opt.css" type="text/css" />
-
-
 <style type="text/css">
+
+[[MyDocsCSSConainer]]
 [[MyDocsCSSOverride]]
 
 </style>
