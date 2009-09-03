@@ -267,7 +267,7 @@ tags: systemTheme
 		</div>
 	</div>
 	<div class="portletContent portletContentIconShift">
-			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+			<div style='z-index:22' class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='viewer' macro='view text wikified'></div>
 <div macro='commentSlider'>
 	<div class='right links' macro='docSectionButtons'>
