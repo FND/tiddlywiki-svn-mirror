@@ -155,9 +155,19 @@ tfoot th {
 }
 /* footer */
 #footer {
-	
+	margin-top: 20px;
+	padding: 7px;
+	background-color: #999999;
+	color: #CCCCCC;
+	font-size: smaller;
 }
-
+#footer li {
+	list-style: none;
+	display: inline;
+}
+#footer a {
+	color: #CCCCCC;
+}
 /* challenge table */
 #challenge div.left {
 	width: 500px;
