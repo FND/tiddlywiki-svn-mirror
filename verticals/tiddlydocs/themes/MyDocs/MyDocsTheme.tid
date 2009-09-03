@@ -16,7 +16,10 @@ tags: systemTheme
 !PageTemplate
 <!--{{{-->
 
-<p> hi </p>
+<!-- IE FIX - requires linked styles not to be the first thing defined -->
+
+<p>&nbsp;</p>
+
 <link href="http://www.btwholesale.com/container/static/wa/jarrita/css/container.opt.css" type="text/css" />
 
 
