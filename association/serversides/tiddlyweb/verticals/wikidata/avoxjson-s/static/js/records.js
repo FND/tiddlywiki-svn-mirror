@@ -1,25 +1,5 @@
 var oTable;
 $(document).ready(function() {
-	// fill in search box with current query
-	var q = window.location.search;
-	if(q) {
-		var start = q.indexOf("q=")+2;
-		var end = q.indexOf("&",start);
-		if(end!==-1) {
-			q = q.substring(0,end);
-		}
-		$('#search .interior_text').val(q.substring(start));
-	}
-	// set advanced search on a slider
-	function revealAdvancedSearch() {
-		$('#advancedSearch').slideToggle(250);
-	}
-	$('#search a.advanced').click(function() {
-		revealAdvancedSearch();
-	});
-	$('#results .filter a').click(function() {
-		revealAdvancedSearch();
-	});
 	// set up records table
 	function hideColumn(col) {
 		var visible = [];
@@ -40,13 +20,6 @@ $(document).ready(function() {
 		hideColumn(pos);
 		return false;
 	});
-	$('#search input:text').click(function() {
-		this.value="";
-		$(this).unbind();
-	});
-	/*$("#filter input").keyup(function() {
-		oTable.fnFilter(this.value);
-	});*/
 	$('table').show();
 	oTable = $('#recordsTable').dataTable({
 		bPaginate: false,

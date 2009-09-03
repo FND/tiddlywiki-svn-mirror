@@ -51,6 +51,9 @@ h2 {
 	border-top: 7px solid #000000;
 	border-bottom: 7px solid #000000;
 }
+#header a {
+	text-decoration: none;
+}
 #header h1 {
 	width: 152px;
 	height: 93px;
@@ -70,6 +73,10 @@ h2 {
 .definition {
 	letter-spacing: 2px;
 }
+/* index page */
+div.intro {
+	padding-bottom: 20px;
+}
 /* search */
 #search {
 	width: 680px;
@@ -79,6 +86,9 @@ h2 {
 }
 #search a, #search a:visited, #search a:hover, #search a:active {
 	color: #999999;
+}
+#search a.advanced {
+	text-decoration: none;
 }
 #search input.interior_text {
 	font-style: italic;
@@ -191,4 +201,14 @@ table.challenge td span {
 }
 .captcha_error {
 	color: #ff0000;
+}
+/* terms of use */
+#terms_of_use {
+	line-height: 150%;
+}
+#terms_of_use ol {
+	margin-left: 50px;
+}
+#terms_of_use ol.sub_list {
+	list-style-type: lower-roman;
 }

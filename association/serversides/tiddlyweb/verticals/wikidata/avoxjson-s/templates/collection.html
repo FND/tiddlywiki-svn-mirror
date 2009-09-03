@@ -1,7 +1,7 @@
 {% from 'labels.html' import labels %}
 <div id="recordsTableContainer">
 	<div id="results">
-		<p class="small">Showing results 1-10 of 2000 - <span class="filter"><a href="javascript:;">filter results</a>?</span></p>
+		<p class="small">Showing results 1-10 of {{tiddlers|count}} - <span class="filter"><a href="javascript:;">filter results</a>?</span></p>
 	</div>
 	<div id="recordsTable_wrapper" class="dataTables_wrapper"><table class="draggable forget-ordering" id="recordsTable">
 		<thead>

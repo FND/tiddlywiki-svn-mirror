@@ -16,7 +16,7 @@ def template_route(environ, start_response):
     template_name = environ['wsgiorg.routing_args'][1]['template_file']
     
     if '../' in template_name:
-        raise HTTP404('%s inavlid' % template_name)
+        raise HTTP404('%s invalid' % template_name)
     
     if '.html' not in template_name:
        template_name = template_name + '.html'
