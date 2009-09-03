@@ -18,17 +18,14 @@ tags: systemTheme
 
 
 
-<style type="text/css">
+<b style='display:none'>&nbsp;<!-- IE FIX - requires linked styles not to be the first thing defined--></b>
 
+<style type="text/css">
 [[MyDocsCSSConainer]]
 [[MyDocsCSSOverride]]
-
 </style>
 
 
-
-
-    <div id="yuiproxy"></div>
     <div class="body">
       <div class="sections">
 
