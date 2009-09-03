@@ -18,12 +18,6 @@ tags: systemTheme
 
 
 
-<b style='display:none'>&nbsp;<!-- IE FIX - requires linked styles not to be the first thing defined--></b>
-
-<style type="text/css">
-[[MyDocsCSSConainer]]
-[[MyDocsCSSOverride]]
-</style>
 
 
     <div class="body">
@@ -285,5 +279,7 @@ tags: systemTheme
 <!--}}}-->
 
 !StyleSheet
+[[MyDocsCSSConainer]]
+[[MyDocsCSSOverride]]
 [[MyDocsStyleSheet]]
 
