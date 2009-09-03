@@ -113,8 +113,8 @@ a.skip{position:absolute;top:-100em;}
 .share-container .label{margin:3px .5em 3px 0;}
 .share-container input{margin:3px 0;}
 .tab_add{background:transparent url(/static/mydocs_images/tab_middle_active.gif) repeat-x scroll left top;}
-.tab_l_selected{background:transparent url(/container/static/wa/jarrita/skins/shared/images/tabs/tab_left_active.gif) no-repeat scroll left top;width:9px;}
-.tab_r_selected{background:transparent url(/container/static/wa/jarrita/skins/shared/images/tabs/tab_right_active.gif) no-repeat scroll left top;width:9px;}
+.tab_l_selected{background:transparent url(/static/mydocs_images/tab_left_active.gif) no-repeat scroll left top;width:9px;}
+.tab_r_selected{background:transparent url(/static/mydocs_images/tab_right_active.gif) no-repeat scroll left top;width:9px;}
 .tab_l_unselected{background:transparent url(/container/static/wa/jarrita/skins/shared/images/tabs/inactive_tab_left.png) no-repeat scroll left top;width:6px;}
 .tab_r_unselected{background:transparent url(/container/static/wa/jarrita/skins/shared/images/tabs/inactive_tab_right.png) no-repeat scroll left top;width:6px;}
 .tab_l_add{background:transparent url(/container/static/wa/jarrita/skins/shared/images/tabs/add_tab_left.png) no-repeat scroll left top;width:6px;}
