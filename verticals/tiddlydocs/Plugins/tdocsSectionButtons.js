@@ -13,6 +13,8 @@ config.macros.docSectionButtons.handler = function(place,macroName,params,wikifi
                 a2.setAttribute('href',  tiddler.fields['server.host']+tiddler.fields['server.workspace']+'/tiddlers/'+tiddler.title+'.atom');
                 var img = document.createElement('img');
                 img.src = '/static/mydocs_images/icon_rss.png';
+				img.height = '15';
+				img.width = '15';
                 a2.appendChild(img);
                 createTiddlyText(a2, 'RSS');
         }
