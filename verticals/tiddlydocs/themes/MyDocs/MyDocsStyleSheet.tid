@@ -564,14 +564,4 @@ h1 {
 	}
 /* END CKEditor*/
 
-<!--[if IE 6]>
-html body {
-	background:red !important;
-}
-
-<![endif]-->
-
-
-
-
 <!--}}}-->
