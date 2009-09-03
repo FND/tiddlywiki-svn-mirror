@@ -153,7 +153,11 @@ config.macros.tiddlytagmindmap={
 			if(settings.startupFunction){
 				settings.startupFunction(elem.id);
 			}
-		
+			console.log(settings);
+			        if(settings.display){
+			alert(":D");
+			            jQuery(".ttmm",place).css({"display":settings.display}); //new
+		}
 		}
 		catch(e){console.log("exception thrown during tiddlytagmindmap creation:"+e);}
 	},
@@ -199,6 +203,7 @@ config.macros.tiddlytagmindmap={
 		    
 			var prms = paramString.parseParams(null, null, true);
 		    settings.labeldepth = parseInt(getParam(prms, "labeldepth"));
+		    settings.display = getParam(prms,"display"); //new
 			settings.breadcrumbs = eval(getParam(prms, "breadcrumbs"));
 			settings.ignoreLoneNodes = eval(getParam(prms, "ignoreLoneNodes"));
 			settings.arrowheads = eval(getParam(prms, "directed"));
@@ -316,7 +321,7 @@ config.macros.tiddlytagmindmap={
 	
 
 	
-	
+	    
 		return settings;
 	}
 	,setup_ttmm_html: function(place,settings){

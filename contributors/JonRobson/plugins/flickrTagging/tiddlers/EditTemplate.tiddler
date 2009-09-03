@@ -1,0 +1,13 @@
+<div title="EditTemplate">
+<pre>
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div macro='aet type:search metaDataName:assignby valuesSource:Suggestions'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edittags valuesSource:Suggestions'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser excludeLists'></span></div>
+<!--}}}-->
+</pre>
+</div>

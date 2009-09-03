@@ -628,6 +628,112 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
+<div title="EditTemplate">
+<pre>
+&lt;!--{{{--&gt;
+&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'&gt;&lt;/div&gt;
+&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
+&lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;
+&lt;div macro='annotations'&gt;&lt;/div&gt;
+&lt;div macro='aet type:search metaDataName:assignby valuesSource:Suggestions'&gt;&lt;/div&gt;
+&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
+&lt;div class='editor' macro='edittags valuesSource:Suggestions'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser excludeLists'&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;!--}}}--&gt;
+</pre>
+</div>
+<div title="GettingStarted" tags="foo bar cricket [[james brown]]">
+<pre>
+I make tagging those tiddlers easier!
+</pre>
+</div>
+<div title="Suggestions">
+<pre>
+cricket
+tennis
+foo
+bar
+james brown
+van morrison
+</pre>
+</div>
+<div title="macro" created="200909031743" tags="systemConfig">
+<pre>config.macros.edittags = {
+    refreshTagDisplay: function(place,tiddler){
+        jQuery(place).html(&quot;&quot;);
+        var tags = tiddler.tags;
+        for(var t=0; t &lt; tags.length; t++){
+            var tag = tags[t];
+            jQuery(place).append(&quot; &quot;+tag+&quot; &lt;span class='deleter' deletes='&quot;+tag+&quot;'&gt;x&lt;/span&gt;&quot;);
+        }
+        
+        jQuery(&quot;.deleter&quot;,place).click(function(e){
+            var todelete = jQuery(this).attr(&quot;deletes&quot;);
+            var newtags = [];
+            for(var i=0; i &lt; tags.length; i++){
+                if(tags[i] != todelete){
+                   newtags.push(tags[i]);
+                }
+            }
+            tiddler.tags = newtags;
+            store.saveTiddler(tiddler.title,null,null,null,null,tiddler.tags,null,null,null);
+            
+            config.macros.edittags.refreshTagDisplay(place,tiddler);
+        });
+    }
+    ,handler: function(place,macroName,paramlist,wikifier,paramString,tiddler){
+        var displayer = document.createElement(&quot;div&quot;);
+        place.appendChild(displayer);
+        config.macros.edittags.refreshTagDisplay(displayer,tiddler);
+        
+        var tagplace = document.createElement(&quot;div&quot;);
+
+        place.appendChild(tagplace);
+
+        var saveNewTag= function(value){
+            tiddler.tags.push(value);
+            config.macros.edittags.refreshTagDisplay(displayer,tiddler);
+            adder.value = &quot;&quot;;
+            store.saveTiddler(tiddler.title,null,null,null,null,tiddler.tags,null,null,null);     
+        };
+        var adder;
+        if(config.macros.AdvancedEditTemplate){
+            //config.macros.AdvancedEditTemplate.handler(tagplace,null,null,null,&quot;aet type:search metaDataName:assignby valuesSource:Suggestions&quot;);
+             var params = paramString.parseParams(&quot;anon&quot;,null,true,false,false);
+
+            var srcTiddler = getParam(params,&quot;valuesSource&quot;);
+            var suggestions = [];
+            if(srcTiddler){
+                var text = store.getTiddler(srcTiddler).text;
+                var tempdiv = document.createElement(&quot;div&quot;);
+                wikify(text,tempdiv);
+                suggestions = jQuery(tempdiv).html().split(&quot;&lt;br&gt;&quot;);
+            }
+            
+           config.macros.AdvancedEditTemplate.createSearchBox(tagplace,&quot;tags&quot;,suggestions,&quot;&quot;,function(v){saveNewTag(v);jQuery(&quot;input&quot;,tagplace).val(&quot;&quot;);})
+            adder = jQuery(&quot;input&quot;,tagplace)[0];
+        }
+        else{
+            adder = document.createElement(&quot;input&quot;);
+
+            tagplace.appendChild(adder);
+            
+        }
+        var addbutton = document.createElement(&quot;button&quot;);
+        addbutton.innerHTML = &quot;add&quot;;
+        tagplace.appendChild(addbutton);
+        
+
+        jQuery(addbutton).click(function(e){
+            var val = adder.value;
+            saveNewTag(val);
+        });
+        
+        
+        
+    }
+    
+};</pre>
+</div>
 <div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200907301341" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
@@ -3622,139 +3728,6 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c&lt;a?'':e(parseInt(c/a)))+((c=
 .filebrowser{background-color:white; border:solid 1px black;}
 
 
-</pre>
-</div>
-<div title="EditTemplate">
-<pre>
-&lt;!--{{{--&gt;
-&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='editor' macro='edit title'&gt;&lt;/div&gt;
-
-&lt;h2&gt;Simple dropdown&lt;/h2&gt;
-&lt;p&gt;
-assign this to:
-&lt;span macro='aet type:dropdown metaDataName:assignee valuesSource:DropDownData'&gt;&lt;/span&gt;
-&lt;/p&gt;
-
-&lt;h2&gt;Search for suggestions&lt;/h2&gt;
-&lt;p&gt;
-assigned by (search for a name from our list):
-&lt;span macro='aet type:search metaDataName:assignby valuesSource:DropDownData'&gt;&lt;/span&gt;
-&lt;/p&gt;
-
-&lt;h2&gt;Radio boxes&lt;/h2&gt;
-&lt;p&gt;
-rate
-&lt;div macro='aet type:radio metaDataName:rating valuesSource:ratings'&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;h2&gt;Dates using a calendar&lt;/h2&gt;
-&lt;p&gt;
-get done by:
-&lt;div macro='aet type:date metaDataName:doneby'&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-
-&lt;h2&gt;Advanced Text&lt;/h2&gt;
-Give feedback (maximum 19 characters)
-&lt;div macro='aet type:text metaDataName:feedback maxlength:19'&gt;&lt;/div&gt;
-
-&lt;div class='editor' macro='edit text'&gt;&lt;/div&gt;
-&lt;div class='editor' macro='edit tags'&gt;&lt;/div&gt;&lt;div class='editorFooter'&gt;&lt;span macro='message views.editor.tagPrompt'&gt;&lt;/span&gt;&lt;span macro='tagChooser excludeLists'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;h2&gt;Checkboxes&lt;/h2&gt;
-&lt;p&gt;
-&lt;span macro='aet type:checkbox metaDataName:approved'&gt;&lt;/span&gt;
-Approve tiddler
-&lt;/p&gt;
-&lt;h2&gt;Adding colors&lt;/h2&gt;
-&lt;p&gt;
-color: &lt;div macro='aet type:color metaDataName:color'&gt;&lt;/div&gt;
-&lt;/p&gt;
-&lt;!--}}}--&gt;
-
-</pre>
-</div>
-<div title="DropDownData" tags="sorted">
-<pre>
-Team 1&gt;
-Andrew Back:AB
-Michael Mahemoff:MM&lt;
-Team 2&gt;
-Phil Hawksworth:PH
-Jeremy Ruston:JR&lt;
-Team 3&gt;
-Jon Robson:JDLR
-Jon Lister:JRL
-Resources&gt;
-Simon McManus:SM
-Paul Downey:PD&lt;
-</pre>
-</div>
-<div title="ViewTemplate">
-<pre>
-&lt;!--{{{--&gt;
-&lt;div macro='aet_setcolor color'&gt;Status&lt;/div&gt;
-
-&lt;div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'&gt;&lt;/div&gt;
-&lt;div class='title' macro='view title'&gt;&lt;/div&gt;
-&lt;div class='subtitle'&gt;&lt;span macro='view modifier link'&gt;&lt;/span&gt;, &lt;span macro='view modified date'&gt;&lt;/span&gt; (&lt;span macro='message views.wikified.createdPrompt'&gt;&lt;/span&gt; &lt;span macro='view created date'&gt;&lt;/span&gt;)&lt;/div&gt;
-&lt;div&gt;assigned to: &lt;span macro='view assignee'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;assigned by: &lt;span macro='view assignby'&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;approved?: &lt;span macro='view approved'&gt;&lt;/span&gt;&lt;/div&gt;
-Favourite animal: &lt;span macro='view animal'&gt;&lt;/span&gt;
-
-&lt;div macro='aet if:animal&amp;assignee'&gt;
-&lt;span macro='view assignee'&gt;&lt;/span&gt;'s favourite animal is &lt;span macro='view animal'&gt;&lt;/span&gt;. You will only be able to see this if an animal and assignee fields are set.
-&lt;/div&gt;
-
-&lt;div class='tagging' macro='tagging'&gt;&lt;/div&gt;
-&lt;div class='tagged' macro='tags'&gt;&lt;/div&gt;
-&lt;div class='viewer' macro='view text wikified'&gt;&lt;/div&gt;
-&lt;div class='tagClear'&gt;&lt;/div&gt;
-
-
-&lt;!--}}}--&gt;
-</pre>
-</div>
-<div title="Advanced EditTemplate" rating="4" approved="true" color="rgb(0,255,0)" assignee="JDLR" feedback="not enough characte" animal="frog" assignby="MM">
-<pre>
-AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together!
-
-</pre>
-</div>
-<div title="abcDefinition" tags="sorted">
-<pre>
-Mammals&gt;
-Monkey&lt;
-Reptiles&gt;
-Snake
-Lizard
-</pre>
-</div>
-<div title="StyleSheet">
-<pre>
-.tip {font-style:italic;font-weight:bold;}
-.dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}
-
-.filebrowser{background-color:white; border:solid 1px black;}
-
-
-</pre>
-</div>
-<div title="DefaultTiddlers">
-<pre>
-[[Advanced EditTemplate]]
-</pre>
-</div>
-<div title="ratings">
-<pre>
-1
-2
-3
-4
-5
 </pre>
 </div>
 </div>
