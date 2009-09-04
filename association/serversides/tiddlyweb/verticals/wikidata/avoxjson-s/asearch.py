@@ -24,12 +24,32 @@ def search(environ, start_response):
 
 def query_dict_to_search_string(query_dict):
     terms = []
-    for key, values in query_dict.items():
+    while query_dict:
+        keys = query_dict.keys()
+        key = keys.pop()
+        values = query_dict[key]
+        del query_dict[key]
         if key in IGNORE_PARAMS:
             continue
+
         if key == 'q':
             terms.extend(values)
         else:
+            if key.endswith('_field'):
+                prefix = key.rsplit('_', 1)[0]
+                value_key = '%s_value' % prefix
+                key = values[0]
+                values = query_dict[value_key]
+                del query_dict[value_key]
+            elif key.endswith('_value'):
+                prefix = key.rsplit('_', 1)[0]
+                field_key = '%s_field' % prefix
+                key = query_dict[field_key][0]
+                del query_dict[field_key]
+
+            if key == 'avid' and not values[0].isdigit():
+                continue
+
             for value in values:
                 if ' ' in key or ' ' in value:
                     terms.append('"%s:%s"' % (key, value))
@@ -39,8 +59,9 @@ def query_dict_to_search_string(query_dict):
 
 
 def test():
-    d = dict(q=['"hey monkey" fight:harder'], ace=['trollop'])
-    result = query_dict_to_search_string(d)
+    e = dict(q=['ace'], avid=['57'], adv_1_field=['Country of incorporation'],
+            adv_1_value=['GBR'])
+    result = query_dict_to_search_string(e)
     print result
 
 
