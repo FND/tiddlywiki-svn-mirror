@@ -22,7 +22,7 @@ $(document).ready(function() {
 	}
 	function addAdvSearchLine() {
 		var i = countAdvSearchLines() + 1;
-		var s = '<div class="advSearchLine">\n<select name="adv_'+i+'_field">\n<option>Choose field...</option>\n<option>Legal name</option>\n<option>Country of incorporation</option>\n<option>Operating address</option>\n</select>\n<input name="adv_'+i+'_value" size="35" type="text" />\n<a href="javascript:;" class="advanced" id="adv_'+i+'"><img src="/static/images/plus_small.gif" /></a>\n</div>';
+		var s = '<div class="advSearchLine">\n<select name="adv_'+i+'_field">\n<option>Legal Name</option>\n<option>Previous Name(s)</option>\n<option>Trades As Name(s)</option>\n<option>Trading Status</option>\n<option>Company Website</option>\n<option>Operational PO Box</option>\n<option>Operational Floor</option>\n<option>Operational Building</option>\n<option>Operational Street 1</option>\n<option>Operational Street 2</option>\n<option>Operational Street 3</option>\n<option>Operational City</option>\n<option>Operational State</option>\n<option>Operational Country</option>\n<option>Operational Postcode</option>\n</select>\n<input name="adv_'+i+'_value" size="35" type="text" />\n<a href="javascript:;" class="advanced" id="adv_'+i+'"><img src="/static/images/plus_small.gif" /></a>\n</div>';
 		$('#advancedSearch').append(s);
 		$('#adv_'+i).click(function() {
 			addAdvSearchLine();
