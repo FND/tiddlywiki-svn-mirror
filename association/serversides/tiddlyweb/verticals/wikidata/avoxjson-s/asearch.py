@@ -35,9 +35,6 @@ def search(environ, start_response):
         logging.debug('search query is %s' % search_query)
         tiddlers = store.search(search_query)
         logging.debug('got search results from store')
-    else:
-        # XXX HACK! This is to avoid a 404 deeper in the code
-        tmp_bag.add_tiddler(Tiddler('no results', 'avox'))
 
     for tiddler in tiddlers:
         try:
@@ -58,6 +55,9 @@ def search(environ, start_response):
         tiddlers = control.filter_tiddlers_from_bag(tmp_bag, filters)
         tmp_bag = Bag('tmp_bag', tmpbag=True, searchbag=True)
         tmp_bag.add_tiddlers(tiddlers)
+
+    # XXX hack to ensure at least one tiddler
+    tmp_bag.add_tiddler(Tiddler('stub', 'avox'))
 
     return send_tiddlers(environ, start_response, tmp_bag)
 
