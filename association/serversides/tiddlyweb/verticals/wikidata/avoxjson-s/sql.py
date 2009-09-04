@@ -390,6 +390,7 @@ class Store(StorageInterface):
         """
         terms = _query_parse(search_query)
         query = self.session.query(sTiddler).join(sTiddler.revisions)
+        field_aliases = {}
 
         for term in terms:
             if ':' in term:
@@ -398,8 +399,13 @@ class Store(StorageInterface):
                     query = query.filter(
                             text("%s = :value" % field).params(value=value))
                 else:
-                    sfield_alias = aliased(sField)
-                    query = query.join(sfield_alias).filter(
+                    try:
+                        sfield_alias = field_aliases[field]
+                    except KeyError:
+                        sfield_alias = aliased(sField)
+                        field_aliases[field] = sfield_alias
+                        query = query.join(sfield_alias)
+                    query = query.filter(
                             sfield_alias.name==field).filter(
                                     sfield_alias.value==value)
             else:
@@ -408,9 +414,13 @@ class Store(StorageInterface):
                         'sqlsearch.main_fields', ['revisions.text',
                             'tiddlers.title', 'revisions.tags']):
                     if search_field.startswith('fields:'):
-                        id, field = search_field.split(':', 1)
-                        sfield_alias = aliased(sField)
-                        query = query.join(sfield_alias)
+                        throwaway, field = search_field.split(':', 1)
+                        try:
+                            sfield_alias = field_aliases[field]
+                        except KeyError:
+                            sfield_alias = aliased(sField)
+                            field_aliases[field] = sfield_alias
+                            query = query.join(sfield_alias)
                         likes.append(and_(
                             sfield_alias.name==field,
                             sfield_alias.value.like("%%%s%%" % term)))
