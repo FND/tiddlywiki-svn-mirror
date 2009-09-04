@@ -90,10 +90,11 @@ div.intro {
 #search a.advanced {
 	text-decoration: none;
 }
-#search input.interior_text {
+#search label {
 	font-style: italic;
 	font-family: "Times New Roman", serif;
 	color: #777777;
+	padding-right: 5px;
 }
 #advancedSearch {
 	display: block;

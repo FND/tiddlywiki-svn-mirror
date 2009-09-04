@@ -1,5 +1,6 @@
 $('html').addClass('js');
 $(document).ready(function() {
+/* commented out whilst using labels for search boxes, not interior text
 	// fill in company search box with current query
 	var q = window.location.search;
 	if(q) {
@@ -15,6 +16,7 @@ $(document).ready(function() {
 		this.value="";
 		$(this).unbind();
 	});
+*/
 	function countAdvSearchLines() {
 		return $('.advSearchLine').length;
 	}
