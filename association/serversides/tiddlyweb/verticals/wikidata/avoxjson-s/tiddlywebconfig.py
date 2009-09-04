@@ -18,7 +18,7 @@ config = {
         'maps_api_key': 'ABQIAAAAwvFhEUtSIa3VRWVU970fZRTFoq1F38kgVdr6NeB-ovQyAo_s0RT9mvrcXyHbFG--L-Mkekf4hbw0hQ', # localhost
         #'maps_api_key': 'ABQIAAAA3nIPLQx3D1xrrdHGgda7eBTFoq1F38kgVdr6NeB-ovQyAo_s0RRiw7M5J8BxIGm9ZTfWZcn0iKrB0Q', # http://avoxjson-s.peermore.com/
         'log_level': 'DEBUG',
-    'sqlsearch.main_fields': ['fields:legal_name', 'fields:trades_as_name(s)', 'fields:previous_name(s)'],
+    'sqlsearch.main_fields': [u'fields:legal_name', u'fields:trades_as_name(s)', u'fields:previous_name(s)'],
 
         }
 
