@@ -428,6 +428,10 @@ class Store(StorageInterface):
                         likes.append(text(
                             '%s like "%%%s%%"' % (search_field, term)))
                 query = query.filter(or_(*likes))
+        # XXX limit should from config or environ vars
+        # and order_by should be done for the limit to be
+        # correct, but how???
+        query = query.limit(50)
         logging.debug('query is %s' % query)
         return (Tiddler(stiddler.title, stiddler.bag_name)
                 for stiddler in query.all())
