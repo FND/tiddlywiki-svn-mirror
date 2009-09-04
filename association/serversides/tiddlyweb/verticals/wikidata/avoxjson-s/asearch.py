@@ -5,8 +5,13 @@ a few different things
 
 import logging
 
-from tiddlyweb.web.handler.search import get
 from tiddlywebplugins import replace_handler
+
+from tiddlyweb import control
+from tiddlyweb.model.bag import Bag
+from tiddlyweb.model.tiddler import Tiddler
+from tiddlyweb.model.policy import ForbiddenError, UserRequiredError
+from tiddlyweb.web.sendtiddlers import send_tiddlers
 
 IGNORE_PARAMS = []
 
@@ -15,11 +20,46 @@ def init(config):
 
 
 def search(environ, start_response):
-    search_string = query_dict_to_search_string(
+    search_query = query_dict_to_search_string(
             environ['tiddlyweb.query']) or ''
-    logging.debug('search string is %s' % search_string)
-    environ['tiddlyweb.query']['q'] = [search_string]
-    return get(environ, start_response)
+
+    filters = environ['tiddlyweb.filters']
+    store = environ['tiddlyweb.store']
+    usersign = environ['tiddlyweb.usersign']
+
+    tmp_bag = Bag('tmp_bag', tmpbag=True, searchbag=True)
+    bag_readable = {}
+
+    tiddlers = []
+    if search_query:
+        logging.debug('search query is %s' % search_query)
+        tiddlers = store.search(search_query)
+        logging.debug('got search results from store')
+    else:
+        # XXX HACK! This is to avoid a 404 deeper in the code
+        tmp_bag.add_tiddler(Tiddler('no results', 'avox'))
+
+    for tiddler in tiddlers:
+        try:
+            if bag_readable[tiddler.bag]:
+                tmp_bag.add_tiddler(store.get(tiddler))
+        except KeyError:
+            bag = Bag(tiddler.bag)
+            bag.skinny = True
+            bag = store.get(bag)
+            try:
+                bag.policy.allows(usersign, 'read')
+                tmp_bag.add_tiddler(store.get(tiddler))
+                bag_readable[tiddler.bag] = True
+            except(ForbiddenError, UserRequiredError):
+                bag_readable[tiddler.bag] = False
+
+    if len(filters):
+        tiddlers = control.filter_tiddlers_from_bag(tmp_bag, filters)
+        tmp_bag = Bag('tmp_bag', tmpbag=True, searchbag=True)
+        tmp_bag.add_tiddlers(tiddlers)
+
+    return send_tiddlers(environ, start_response, tmp_bag)
 
 
 def query_dict_to_search_string(query_dict):
