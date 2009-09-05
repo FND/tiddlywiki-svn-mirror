@@ -42,21 +42,26 @@ EMPTY_TIDDLER = Tiddler('empty')
 Base = declarative_base()
 Session = sessionmaker()
 
-class sField(object):
+
+class sFieldName(Base):
+    __tablename__ = 'field_names'
+    id = Column('id', Integer, primary_key=True)
+    name = Column('name', Unicode(256), index=True)
+
+
+class sField(Base):
     """
     Mapper class for a single tiddler extended field.
     """
-    pass
+    __tablename__ = 'field_values'
+    field_name_id = Column(Integer, ForeignKey('field_names.id'),
+            primary_key=True, index=True)
+    revision_id = Column(String(50), ForeignKey('revisions.id'),
+            primary_key=True, index=True)
+    value = Column(Unicode(1024), index=True)
 
-# Scheme for the fields table.
-fields = Table('fields', Base.metadata,
-    Column('name', Unicode(256), primary_key=True, index=True),
-    Column('revision_id', String(50), ForeignKey('revisions.id'), primary_key=True, index=True),
-    Column('value', Unicode(1024), index=True),
-    mysql_charset='utf8'
-    )
-# map the sField class to the fields table
-mapper(sField, fields)
+    name = relation(sFieldName)
+
 
 class sRevision(Base):
     """
@@ -389,25 +394,32 @@ class Store(StorageInterface):
         Search in the store for tiddlers that match search_query.
         """
         terms = _query_parse(search_query)
-        query = self.session.query(sTiddler).join(sTiddler.revisions)
-        field_aliases = {}
+        query = self.session.query(sTiddler).join(sRevision)
+
+        like_field_value_aliases = {}
+        like_field_name_aliases = {}
+        field_value_aliases = {}
+        field_name_aliases = {}
 
         for term in terms:
             if ':' in term:
                 field, value = term.split(':', 1)
                 if hasattr(EMPTY_TIDDLER, field):
-                    query = query.filter(
-                            text("%s = :value" % field).params(value=value))
+                    if field == 'bag':
+                        field = 'bag_name'
+                    query = query.filter(text("tiddlers.%s = :value" % field).params(value=value))
                 else:
-                    try:
-                        sfield_alias = field_aliases[field]
-                    except KeyError:
-                        sfield_alias = aliased(sField)
-                        field_aliases[field] = sfield_alias
-                        query = query.join(sfield_alias)
-                    query = query.filter(
-                            sfield_alias.name==field).filter(
-                                    sfield_alias.value==value)
+                    sfield_value_alias = aliased(sField)
+                    sfield_name_alias = aliased(sFieldName)
+                    query = query.join((sfield_value_alias,
+                        and_(sfield_name_alias.id==sfield_value_alias.field_name_id,
+                            sfield_value_alias.revision_id==sRevision.id)))
+                    query = query.join((sfield_name_alias,
+                        and_(sfield_name_alias.id==sfield_value_alias.field_name_id,
+                            sfield_value_alias.revision_id==sRevision.id)))
+                    query = query.filter(and_(
+                            sfield_name_alias.name==field,
+                            sfield_value_alias.value==value))
             else:
                 likes = []
                 for search_field in self.environ['tiddlyweb.config'].get(
@@ -415,19 +427,23 @@ class Store(StorageInterface):
                             'tiddlers.title', 'revisions.tags']):
                     if search_field.startswith('fields:'):
                         throwaway, field = search_field.split(':', 1)
-                        try:
-                            sfield_alias = field_aliases[field]
-                        except KeyError:
-                            sfield_alias = aliased(sField)
-                            field_aliases[field] = sfield_alias
-                            query = query.join(sfield_alias)
+                        sfield_value_alias = aliased(sField)
+                        sfield_name_alias = aliased(sFieldName)
+                        query = query.join((sfield_value_alias,
+                            and_(sfield_name_alias.id==sfield_value_alias.field_name_id,
+                                sfield_value_alias.revision_id==sRevision.id)))
+                        query = query.join((sfield_name_alias,
+                            and_(sfield_name_alias.id==sfield_value_alias.field_name_id,
+                                sfield_value_alias.revision_id==sRevision.id)))
                         likes.append(and_(
-                            sfield_alias.name==field,
-                            sfield_alias.value.like("%%%s%%" % term)))
+                            sfield_name_alias.name==field,
+                            sfield_value_alias.value.like("%%%s%%" % term)
+                            ))
                     else:
                         likes.append(text(
                             '%s like "%%%s%%"' % (search_field, term)))
                 query = query.filter(or_(*likes))
+
         # XXX limit should from config or environ vars
         # and order_by should be as well, but that's hard for fields
         query = query.group_by(sTiddler.title).order_by(sTiddler.title).limit(50)
@@ -544,7 +560,12 @@ class Store(StorageInterface):
             if field.startswith('server.'):
                 continue
             sfield = sField()
-            sfield.name = field
+            try:
+                sfield.name = self.session.query(sFieldName).filter(sFieldName.name == field).one()
+            except NoResultFound:
+                name = sFieldName(name=field)
+                self.session.add(name)
+                sfield.name = name
             sfield.value = tiddler.fields[field]
             sfield.revision_id = srevision.id
             self.session.add(sfield)
@@ -572,7 +593,7 @@ class Store(StorageInterface):
             tiddler.tags = self._map_tags(revision.tags)
 
             for sfield in revision.fields:
-                tiddler.fields[sfield.name] = sfield.value
+                tiddler.fields[sfield.name.name] = sfield.value
 
             tiddler.created = stiddler.created()
 
@@ -599,4 +620,10 @@ def _query_parse(search_query):
             stack.append(token)
         else:
             terms.append(token)
-    return terms
+    def has_colon(x, y):
+        if ':' in x:
+            return 1
+        if ':' in y:
+            return -1
+        return 0
+    return sorted(terms, cmp=has_colon, reverse=True)
