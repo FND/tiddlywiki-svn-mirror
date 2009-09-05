@@ -396,10 +396,7 @@ class Store(StorageInterface):
         terms = _query_parse(search_query)
         query = self.session.query(sTiddler).join(sRevision)
 
-        like_field_value_aliases = {}
-        like_field_name_aliases = {}
-        field_value_aliases = {}
-        field_name_aliases = {}
+        order_rule = sTiddler.title
 
         for term in terms:
             if ':' in term:
@@ -411,6 +408,10 @@ class Store(StorageInterface):
                 else:
                     sfield_value_alias = aliased(sField)
                     sfield_name_alias = aliased(sFieldName)
+                    search_field = 'field:%s' % field
+                    if search_field == self.environ['tiddlyweb.config'].get(
+                            'sqlsearch.order_field', None):
+                        order_rule = sfield_value_alias.value
                     query = query.join((sfield_value_alias,
                         and_(sfield_name_alias.id==sfield_value_alias.field_name_id,
                             sfield_value_alias.revision_id==sRevision.id)))
@@ -429,6 +430,11 @@ class Store(StorageInterface):
                         throwaway, field = search_field.split(':', 1)
                         sfield_value_alias = aliased(sField)
                         sfield_name_alias = aliased(sFieldName)
+                        if search_field == self.environ['tiddlyweb.config'].get(
+                                'sqlsearch.order_field', None):
+                            order_rule = sfield_value_alias.value
+
+
                         query = query.join((sfield_value_alias,
                             and_(sfield_name_alias.id==sfield_value_alias.field_name_id,
                                 sfield_value_alias.revision_id==sRevision.id)))
@@ -446,7 +452,7 @@ class Store(StorageInterface):
 
         # XXX limit should from config or environ vars
         # and order_by should be as well, but that's hard for fields
-        query = query.group_by(sTiddler.title).order_by(sTiddler.title).limit(50)
+        query = query.group_by(sTiddler.title).order_by(order_rule).limit(50)
         logging.debug('query is %s' % query)
         return (Tiddler(stiddler.title, stiddler.bag_name)
                 for stiddler in query.all())
