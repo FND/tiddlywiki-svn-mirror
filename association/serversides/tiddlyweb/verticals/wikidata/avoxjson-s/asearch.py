@@ -78,14 +78,24 @@ def query_dict_to_search_string(query_dict):
             if key.endswith('_field'):
                 prefix = key.rsplit('_', 1)[0]
                 value_key = '%s_value' % prefix
-                key = values[0]
-                values = query_dict[value_key]
-                del query_dict[value_key]
+                key = values[0].lower().replace(' ', '_')
+                try:
+                    values = query_dict[value_key]
+                    del query_dict[value_key]
+                except KeyError:
+                    values = []
+                if not values:
+                    continue
             elif key.endswith('_value'):
                 prefix = key.rsplit('_', 1)[0]
                 field_key = '%s_field' % prefix
-                key = query_dict[field_key][0]
-                del query_dict[field_key]
+                try:
+                    key = query_dict[field_key][0].lower().replace(' ', '_')
+                    del query_dict[field_key]
+                except KeyError:
+                    key = ''
+                if not key:
+                    continue
 
             if key == 'avid' and not values[0].isdigit():
                 continue
