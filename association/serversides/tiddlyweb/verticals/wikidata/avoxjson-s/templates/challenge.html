@@ -7,7 +7,7 @@
 <form id="challenge" action="/verify" method="post">
 	<div class="left">
 		<p>Please correct any information by adding to the right-hand column</p>
-		<table class="challenge">
+		<table class="fields">
 			{% for field, label in labels %}
 			<tr>
 				<td><label for="{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
@@ -20,8 +20,11 @@
 		<h2>Your information</h2>
 		<label for="name">Your name</label>
 		<input type="text" size="35" name="name" />
-		<label for="source">What is your source for this? (Please include URL and/or sources used) We will use this to validate your challenge.</label>
+		<label for="email">Your email address</label>
+		<input type="text" size="35" name="email" />
+		<label for="source">(Optional.) What is your source for this? Please include URL and/or sources used. We will use this to validate your challenge.</label>
 		<textarea cols="35" rows="5" name="source"></textarea>
+		<div>Are you human?</div>
 		<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29"></script>
 		<noscript>
 			<iframe src="http://api.recaptcha.net/noscript?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29" height="300" width="500" frameborder="0"></iframe><br />

@@ -8,127 +8,67 @@
     $("#comments-container").comments({{tiddler.fields.avid}});
   });
 </script>
-
 <style>
 .vcard {
-  background-color: #eeeeff;
-  padding: 1em 2em;
-  width: 80%;
-}
-h1 { margin: 0 0 0 0; }
-h1.avid .label { font-size: 0.4em; padding-bottom: -2px; }
-h1.avid span.value {
-  font-size: 0.6em;
-  color:#ffffff;
-  background-color: #000099;
-  padding: 2px;
-}
-h1.avid {
-  margin-bottom: 8px;
+	background-color: #eeeeff;
+	padding: 10px 20px;
+	width: 650px;
+	font-family: "Times New Roman", serif;
 }
 .company-name {
-  color: #000099;
+	color: #000099;
 }
-#map { margin: 1em 0; }
+.adr {
+	padding-top:10px;
+}
+#map {
+	margin: 1em 0;
+}
 </style>
-
 <div class="company">
-   <div class="vcard">
-	<h1 class="fn org company-name">{{ tiddler.fields.legal_name }}</h1>
-	<h1 class="avid"><span class="label">Avox ID:</span> <span class='value'>{{ tiddler.fields.avid }}</span></h1>
-
-	<span class="inc_number">{{ tiddler.fields.reg_inc_number }}</span>/<span class="inc_country_code">{{ tiddler.fields.inc_country_code }}</span>
-
-	<div class="adr">
-		<span class="type">Registered</span>
-		<div class="street-address">{{ tiddler.fields.reg_address_1 }}</div>
-		<span class="street-address-2"{{ tiddler.fields.reg_address_2 }}</span>
-		<span class="street-address-3"{{ tiddler.fields.reg_address_3 }}</span>
-		<span class="locality">{{ tiddler.fields.reg_city }}</span>
-		<span class="region">{{ tiddler.fields.reg_state }}</span>
-		<span class="postal-code">{{ tiddler.fields.reg_post_code }}</span>
-		<span class="country-name">{{ tiddler.fields.reg_country }}</span>
+	<div class="vcard">
+		<h1 class="fn org company-name">{{ tiddler.fields.legal_name }}</a></h1>
+		{% if tiddler.fields.company_website %}
+		<div><a href="{{ tiddler.fields.company_website }}">{{ tiddler.fields.company_website }}</div>
+		{% endif %}
+		<div>Trading status: <span class="trading">{{ tiddler.fields.trading_status }}</span></div>
+		{% if tiddler.fields['trades_as_name(s)'] %}
+		<div>Trades as: <span class="nickname">{{ tiddler.fields['trades_as_name(s)'] }}</span></div>
+		{% endif %}
+		{% if tiddler.fields['previous_name(s)'] %}
+		<div>Previous name(s): {{ tiddler.fields['previous_name(s)'] }}</div>
+		{% endif %}
+		<h2 class="avid">Avox ID: {{ tiddler.fields.avid }}</h1>
+	
+		<!--<span class="inc_number">{{ tiddler.fields.reg_inc_number }}</span>/<span class="inc_country_code">{{ tiddler.fields.inc_country_code }}</span>-->
+	
+		<div class="adr">
+			<h2 class="type">Operational Address</h2>
+			{% if tiddler.fields.operational_po_box %}
+			<div class="post-office-box">{{ tiddler.fields.operational_po_box }}</div>
+			{% endif %}
+			{% if tiddler.fields.operational_floor or tiddler.fields.operational_building %}
+			<div class="extended-address">{% if tiddler.fields.operational_floor %}{{ tiddler.fields.operational_floor }} {% endif %}{% if tiddler.fields.operational_building %}{{ tiddler.fields.operational_building }}{% endif %}</div>
+			{% endif %}
+			<div class="street-address">{{ tiddler.fields.operational_street_1 }}{% if tiddler.fields.operational_street_2 %}, {{ tiddler.fields.operational_street_2 }}{% endif %}{% if tiddler.fields.operational_street_3 %}, {{ tiddler.fields.operational_street_3 }}{% endif %}</div>
+			<div>
+				{% if tiddler.fields.operational_city %}
+				<span class="locality">{{ tiddler.fields.operational_city }}</span>
+				{% endif %}
+				{% if tiddler.fields.operational_state %}
+				<span class="region">{{ tiddler.fields.operational_state }}</span>
+				{% endif %}
+				{% if tiddler.fields.operational_country %}
+				<span class="country-name">{{ tiddler.fields.operational_country }}</span>
+				{% endif %}
+				{% if tiddler.fields.operational_post_code %}
+				<span class="postal-code">{{ tiddler.fields.operational_post_code }}</span>
+				{% endif %}
+			</div>
+		</div>
 	</div>
-
-	<div class="adr">
-		<span class="type">Operational</span>
-		<div class="street-address">{{ tiddler.fields.op_address_1 }}</div>
-		<span class="street-address-2"{{ tiddler.fields.op_address_2 }}</span>
-		<span class="street-address-3"{{ tiddler.fields.op_address_3 }}</span>
-		<span class="locality">{{ tiddler.fields.op_city }}</span>
-		<span class="region">{{ tiddler.fields.op_state }}</span>
-		<span class="postal-code">{{ tiddler.fields.op_post_code }}</span>
-		<span class="country-name">{{ tiddler.fields.op_country }}</span>
-	</div>
-
-        <script src="http://maps.google.com/maps?file=api&v=2&key={{ maps_api_key }}"
-      type="text/javascript"></script>
-    <script type="text/javascript">
- 
-    //<![CDATA[
- 
-   var geocoder;
-   var map;
-   var company;
- 
-   var reg_company = "{{ tiddler.fields.legal_name }},<br/> Registered Address";
-   var reg_address = "{{ tiddler.fields.reg_address_1 }}, {{ tiddler.fields.reg_post_code }}";
- 
-   var op_company = "{{ tiddler.fields.legal_name }},<br/> Operating Address";
-   var op_address = "{{ tiddler.fields.op_address_1 }}, {{ tiddler.fields.op_post_code }}";
-  
-   function load()
-   {
-      // Create new map object
-      map = new GMap2(document.getElementById("map"));
-      map.addControl(new GSmallMapControl());
-      map.addControl(new GMapTypeControl());
- 
-      // Create new geocoding object
-      geocoder = new GClientGeocoder();
- 
-      // Retrieve location information, pass it to addToMap()
-              company = reg_company;
-      geocoder.getLocations(reg_address, addToMap);
-             
-              // Retrieve location information, pass it to addToMap()
-              company = op_company;
-      geocoder.getLocations(op_address, addToMap);
-   }
- 
-   function addToMap(response)
-   {
-      // Retrieve the object
-      place = response.Placemark[0];
- 
-      // Retrieve the latitude and longitude
-      point = new GLatLng(place.Point.coordinates[1],
-                          place.Point.coordinates[0]);
- 
-      // Center the map on this point
-      map.setCenter(point, 3);
- 
-      // Create a marker
-      marker = new GMarker(point);
- 
-      // Add the marker to map
-      map.addOverlay(marker);
- 
-      // Add address information to marker
-      marker.openInfoWindowHtml(company);
-   }
-  
-    //]]>
-	</script>
-	<script type="text/javascript">
-		// Google maps ..
-	$(function() {
-		load();
-	});
-	</script>
-
-	<span class="agent">{{ tiddler.fields.reg_agent_name }}</span>
-
+	<!--<span class="agent">{{ tiddler.fields.reg_agent_name }}</span>
+	
 	<div class="tel">
 		<span class="type">Work</span> {{ tiddler.fields.tel_numnber }}
 	</div>
@@ -137,21 +77,72 @@ h1.avid {
 	</div>
 	<div>Email: 
 		<span class="email">{{ tiddler.fields.email }}</span>
-	</div>
-
-      <div id="map" style="width: 350px; height: 300px"></div>
-
-    </div>
-
-    <div id="comments-container"></div>
-
-    <span class="trading">{{ tiddler.fields.trading_status }}</span>
-
-    <span class="modified">Modified By: {{ tiddler.modifier }}</span>
-    <div class="alt-buttons">
+	</div>-->
+	
+	<div id="map" style="width:690px; height:400px"></div>
+	<div id="comments-container"></div>
+	<span class="modified">Modified By: {{ tiddler.modifier }}</span>
+	<div class="alt-buttons">
 	<a href="{{ tiddler.fields.avid }}.json">json</a> |
 	<a href="{{ tiddler.fields.avid }}.txt">text</a> |
 	<a href="{{ tiddler.fields.avid }}.edit">edit</a>
-    </div>
-
+	</div>
 </div>
+<script src="http://maps.google.com/maps?file=api&v=2&key={{ maps_api_key }}"
+  type="text/javascript"></script>
+<script type="text/javascript">
+	//<![CDATA[
+	
+	var geocoder;
+	var map;
+	var company;
+	
+	var op_company = "{{ tiddler.fields.legal_name }}";
+	var op_address = "{{ tiddler.fields.operational_street_1 }}{% if tiddler.fields.operational_street_2 %}, {{ tiddler.fields.operational_street_2 }}{% endif %}{% if tiddler.fields.operational_street_3 %}, {{ tiddler.fields.operational_street_3 }}{% endif %}{% if tiddler.fields.operational_city %}, {{ tiddler.fields.operational_city }}{% endif %}{% if tiddler.fields.operational_state %}, {{ tiddler.fields.operational_state }}{% endif %}{% if tiddler.fields.operational_post_code %}, {{ tiddler.fields.operational_post_code }}{% endif %}";	
+	console.log(op_address);
+	function load()
+	{
+		// Create new map object
+		map = new GMap2(document.getElementById("map"));
+		map.addControl(new GSmallMapControl());
+		map.addControl(new GMapTypeControl());
+		
+		// Create new geocoding object
+		geocoder = new GClientGeocoder();
+		
+		// Retrieve location information, pass it to addToMap()
+		company = op_company + "<br/>"+ op_address;
+		geocoder.getLocations(op_address, addToMap);
+	
+	}
+	
+	function addToMap(response)
+	{
+		// Retrieve the object
+		place = response.Placemark[0];
+		
+		// Retrieve the latitude and longitude
+		point = new GLatLng(place.Point.coordinates[1],
+		                  place.Point.coordinates[0]);
+		
+		// Center the map on this point
+		map.setCenter(point, 3);
+		map.setZoom(14);
+		
+		// Create a marker
+		marker = new GMarker(point);
+		
+		// Add the marker to map
+		map.addOverlay(marker);
+		
+		// Add address information to marker
+		marker.openInfoWindowHtml(company);
+	}
+//]]>
+</script>
+<script type="text/javascript">
+	// Google maps ..
+	$(document).ready(function() {
+		load();
+	});
+</script>

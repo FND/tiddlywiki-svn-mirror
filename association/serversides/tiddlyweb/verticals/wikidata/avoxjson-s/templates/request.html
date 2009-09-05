@@ -1,1 +1,68 @@
-Placeholder for request page
+{% set labels = [
+	'SWIFT BIC',
+	'REGISTRATION NUMBER (JURISDICTION)',
+	'DATE OF REGISTRATION',
+	'DATE OF DISSOLUTION',
+	'ISSUER FLAG',
+	'PRIMARY LISTING EXCHANGE',
+	'TICKER CODE',
+	'REGISTERED AGENT NAME',
+	'REGISTERED PO BOX',
+	'REGISTERED FLOOR',
+	'REGISTERED BUILDING',
+	'REGISTERED STREET 1',
+	'REGISTERED STREET 2',
+	'REGISTERED STREET 3',
+	'REGISTERED CITY',
+	'REGISTERED STATE',
+	'REGISTERED COUNTRY',
+	'REGISTERED POSTCODE',
+	'NAICS CODE',
+	'NAICS DESCRIPTION',
+	'US SIC CODE',
+	'US SIC DESCRIPTION',
+	'ENTITY TYPE',
+	'IMMEDIATE PARENT AVID',
+	'IMMEDIATE PARENT NAME',
+	'ULTIMATE PARENT AVID',
+	'ULTIMATE PARENT NAME'
+] %}
+{% if captcha.success %}
+<div>
+<p>Thanks! We'll be in touch shortly.</p>
+</div>
+{% else %}
+<form id="request" action="/verify" method="post">
+	<div class="left">
+		<p>Please check the boxes next to the fields you would like to request for AVID {{tiddler.fields.avid}}</p>
+		<table class="request">
+			{% for label in labels %}
+			<tr>
+				<td><input type="checkbox" name="label" /></td>
+				<td>{{label}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div class="right">
+		<h2>Your information</h2>
+		<label for="name">Your name</label>
+		<input type="text" size="35" name="name" />
+		<label for="email">Your email address</label>
+		<input type="text" size="35" name="email" />
+		<div>Are you human?</div>
+		<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29"></script>
+		<noscript>
+			<iframe src="http://api.recaptcha.net/noscript?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29" height="300" width="500" frameborder="0"></iframe><br />
+			<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+			<input type='hidden' name='recaptcha_response_field' value='manual_challenge' />
+		</noscript>
+		{% if captcha.failure %}
+		<div class="captcha_error">
+			<p>Whoops! I think you made a mistake with the CAPTCHA - {{captcha.error}}</p>
+		</div>
+		{% endif %}
+		<input type="submit" value="Submit request" />
+	</div>
+</form>
+{% endif %}

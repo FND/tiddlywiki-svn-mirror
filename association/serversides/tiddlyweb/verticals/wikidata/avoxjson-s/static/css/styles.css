@@ -36,6 +36,9 @@ h1 {
 h2 {
 	font-size: 20px;
 }
+button {
+	cursor: pointer;
+}
 /* header */
 #header {
 	width: 100%;
@@ -76,6 +79,12 @@ h2 {
 /* index page */
 div.intro {
 	padding-bottom: 20px;
+	width: 690px;
+}
+div.notice {
+	padding: 20px;
+	background-color: #000000;
+	color: #cccccc;
 }
 /* search */
 #search {
@@ -179,25 +188,28 @@ tfoot th {
 #footer a {
 	color: #CCCCCC;
 }
-/* challenge table */
-#challenge div.left {
+/* challenge, request and suggest_new tables */
+#challenge div.left, #request div.left, #suggest_new div.left {
 	width: 500px;
 	display: inline-block;
 }
-#challenge div.right {
+#challenge div.right, #request div.right, #suggest_new div.right {
 	width: 300px;
 	padding-right: 20px;
 }
-table.challenge td {
+#request td {
+	padding: 2px 5px 2px 3px;
+}
+table.fields td {
 	vertical-align: middle;
 }
-table.challenge label {
+table.fields label {
 	color: #777777;
 }
 #challenge label {
 	display: block;
 }
-table.challenge td span {
+table.fields td span {
 	font-size: medium;
 }
 .captcha_error {

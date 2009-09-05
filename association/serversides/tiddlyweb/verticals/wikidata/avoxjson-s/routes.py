@@ -23,11 +23,26 @@ def template_route(environ, start_response):
        
     template = templating.generate_template([template_name])
     
+    try:
+        query = environ['tiddlyweb.query']
+        captcha = {}
+        success = query['success'][0]
+        if success == '1':
+            captcha['success'] = True
+        elif success == '0':
+            captcha['failure'] = True
+            try:
+               captcha['error'] = query['error'][0]
+            except:
+               captcha['error'] = "Error not supplied"
+    except:
+        pass
+    
     start_response('200 OK', [
         ('Content-Type', 'text/html')
         ])
     
-    return template.render()
+    return template.render(captcha=captcha)
     
 def env(environ, start_response):
 

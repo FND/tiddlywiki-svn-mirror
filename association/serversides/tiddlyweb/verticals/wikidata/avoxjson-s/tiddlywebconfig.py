@@ -2,7 +2,7 @@ config = {
         'server_store': ['sql', {'db_config': 'sqlite:///store.db'}],
         'css_uri': 'http://peermore.com/tiddlyweb.css',
         'secret': 'the bees are in the what',
-        'system_plugins': ['status', 'static', 'wikidataSerializer', 'editSerializer', 'challengeSerializer', 'methodhack', 'pathinfohack', 'formreader', 'routes', 'asearch'],
+        'system_plugins': ['status', 'static', 'wikidataSerializer', 'editSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'formreader', 'routes', 'asearch'],
         'static_url_dir': 'static',
         'static_file_dir': 'static',
         'server_host': {

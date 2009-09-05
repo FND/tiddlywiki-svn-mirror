@@ -1,7 +1,15 @@
 {% from 'labels.html' import labels %}
 <div id="recordsTableContainer">
 	<div id="results">
-		<p class="small">Showing results 1-10 of {{tiddlers|count}} - <span class="filter"><a href="javascript:;">filter results</a>?</span></p>
+		{# Taking 1 off the count is a temporary hack until we don't return a 'stub' tiddler #}
+		{% set count = tiddlers|count - 1 %}
+		<p class="small">
+		{% if count == 0 %}
+			There are no results - <span class="filter"><a href="javascript:;">try using advanced search to include other fields</a></span>
+		{% else %}
+			There are {{count}} results - <span class="filter"><a href="javascript:;">add a filter</a>?</span>
+		{% endif %}
+			</p>
 	</div>
 	<div id="recordsTable_wrapper" class="dataTables_wrapper"><table class="draggable forget-ordering" id="recordsTable">
 		<thead>
@@ -24,13 +32,20 @@
 		</tfoot>
 		<tbody>	
 		{% for tiddler in tiddlers %}
+		{# this if clause is a temporary hack until we don't supply a 'stub' tiddler #}
+		{% if not (tiddler.title == 'stub') %}
 			<tr>
 			{% for field, label in labels %}
+				{% if field == 'avid' %}
+				<td><a href="/bags/avox/tiddlers/{{tiddler.fields[field]}}.html">{{tiddler.fields[field]}}</a></td>
+				{% else %}
 				<td>{{tiddler.fields[field]}}</td>
+				{% endif %}
 			{% endfor %}
-				<td><a href="/recipes/default/tiddlers/{{ tiddler.title }}.challenge">go</a></td>
-				<td><a href="/pages/request?avid={{ tiddler.fields.avid }}">go</a></td>
+				<td><a href="/bags/avox/tiddlers/{{ tiddler.title }}.challenge">go</a></td>
+				<td><a href="/bags/avox/tiddlers/{{ tiddler.title }}.request">go</a></td>
 			</tr>
+		{% endif %}
 		{% endfor %}
 		</tbody>
 	</table></div>
