@@ -206,7 +206,7 @@ table.fields td {
 table.fields label {
 	color: #777777;
 }
-#challenge label {
+#challenge label, #request label, #suggest_new label {
 	display: block;
 }
 table.fields td span {
