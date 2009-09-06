@@ -24,7 +24,7 @@ modifier: Simon McManus
 .tab{float:left;height:40px;white-space:nowrap;padding-right:5px;}
 .tab.spacer{width:8px;}
 .tab_l,.tab_r{width:2px;padding-right:0;}
-#add_tab{padding:0;height:40px;}
+#add_tab{padding:0;height:40px; background:transparent url(/static/mydocs_images/add_tab_middle.png) no-repeat;}
 #add_gadget{text-align:right;float:none;font-weight:bold;}
 #add_gadget_url{text-align:right;float:right;font-weight:bold;}
 #add_gadget a,#add_tab a,#add_gadget_url a{color:#FFF;text-decoration:none;display:inline;}
@@ -101,7 +101,7 @@ a.skip{position:absolute;top:-100em;}
 .unselectedtab .selectedtab{padding-left:6px;}
 .unselectedtab div{margin-top:16px;}
 .selectedtab div{margin-top:17px;}
-#add_tab div{margin-top:16px; background:transparent url(/static/mydocs_images/add_tab_middle.png) no-repeat;}
+#add_tab div{margin-top:16px; }
 .addTabImg{vertical-align:middle;padding-top:0;}
 .addGadgetCatImg{padding-top:8px;}
 .addShared-container{padding:3px;}
