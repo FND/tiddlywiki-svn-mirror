@@ -101,7 +101,7 @@ a.skip{position:absolute;top:-100em;}
 .unselectedtab .selectedtab{padding-left:6px;}
 .unselectedtab div{margin-top:16px;}
 .selectedtab div{margin-top:17px;}
-#add_tab div{margin-top:16px;}
+#add_tab div{margin-top:16px; background:transparent url(/static/mydocs_images/add_tab_middle.png) no-repeat;}
 .addTabImg{vertical-align:middle;padding-top:0;}
 .addGadgetCatImg{padding-top:8px;}
 .addShared-container{padding:3px;}
@@ -115,7 +115,7 @@ a.skip{position:absolute;top:-100em;}
 .tab_l_selected{background:transparent url(/static/mydocs_images/tab_left_active.gif) no-repeat scroll left top;width:9px;}
 .tab_r_selected{background:transparent url(/static/mydocs_images/tab_right_active.gif) no-repeat scroll left top;width:9px;}
 
-.tab_add {red url(/static/mydocs_images/tab_middle_active.gif) repeat-x scroll left top}
+
 .tab_l_add{background:transparent url(/static/mydocs_images/add_tab_left.png) no-repeat scroll left top;width:6px;}
 .tab_r_add{background:transparent url(/static/mydocs_images/add_tab_right.png) no-repeat scroll left top;width:6px;}
 .unselectedtab{background-color:#99CC01;background:transparent url(/static/mydocs_images/tab_middle_active.gif) repeat-x scroll left top;color:#fff;font-weight:bold;font-size:12px;}
