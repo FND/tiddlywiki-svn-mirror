@@ -3,3 +3,5 @@ uploading pictures
 rename tdoc2outline to a better name 
 
 remove 01_jquery
+
+failed save plugin needs to notify on fail 

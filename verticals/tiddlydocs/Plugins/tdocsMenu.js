@@ -1,32 +1,28 @@
 //{{{
-
-//tdoc2Outline //
-
-//{{{
 	
-config.macros.tdoc2Outline={};
+config.macros.docMenu={};
 
-config.macros.tdoc2Outline.strip=function(s) {
+config.macros.docMenu.strip=function(s) {
 	return s.replace(" ",  "");
 }
 
-config.macros.tdoc2Outline.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	config.macros.tdoc2Outline.refresh(place,macroName,params,wikifier,paramString,tiddler);
+config.macros.docMenu.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	config.macros.docMenu.refresh(place,macroName,params,wikifier,paramString,tiddler);
 };
 
-config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
+config.macros.docMenu.renderSpec = function(specView, spec) {
 	window.ulCount=0;
 	window.liCount=0;
 	window.divCount=0;
 	window.sectionCount = 1;
 	jQuery(specView).empty();
-	config.macros.tdoc2Outline._renderSpec(specView, spec, []);
+	config.macros.docMenu._renderSpec(specView, spec, []);
 	jQuery("#ul0").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
 		helperclass: 'helper',
 		onChange: function(serialized) {
-			 window.testSpec = config.macros.tdoc2Outline.buildSpec();
+			 window.testSpec = config.macros.docMenu.buildSpec();
 				if(store.tiddlerExists(window.activeDocument)) {
 					var specTiddler = store.getTiddler(window.activeDocument);
 					var fields = merge(specTiddler.fields, config.defaultCustomFields);
@@ -50,24 +46,24 @@ config.macros.tdoc2Outline.renderSpec = function(specView, spec) {
 	);
 }
 
-config.macros.tdoc2Outline.buildSpec = function() {
-  return config.macros.tdoc2Outline._buildSpec(jQuery(".specView > ul > li"));
+config.macros.docMenu.buildSpec = function() {
+  return config.macros.docMenu._buildSpec(jQuery(".specView > ul > li"));
 }
 
-config.macros.tdoc2Outline._buildSpec = function (liList) {
+config.macros.docMenu._buildSpec = function (liList) {
 	var spec = [];
 	liList.each(function() {
 		var li=this;
 		var node = {
 			title: li.id
 		};
-		node.children = config.macros.tdoc2Outline._buildSpec(jQuery(li).children("ul").children("li"));
+		node.children = config.macros.docMenu._buildSpec(jQuery(li).children("ul").children("li"));
 		spec.push(node);
  	});
   return spec;
 }
  
-config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
+config.macros.docMenu._renderSpec = function(specView, spec, label) {
 	var childCount=1;
 	label=label.concat([0])
 	var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
@@ -90,16 +86,16 @@ config.macros.tdoc2Outline._renderSpec = function(specView, spec, label) {
 			story.displayTiddler(this.id, this.id.replace("_div", ""), DEFAULT_EDIT_TEMPLATE);
 		}
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
-		config.macros.tdoc2Outline._renderSpec(li, this.children, label);
+		config.macros.docMenu._renderSpec(li, this.children, label);
 	});
 }
 
-config.macros.tdoc2Outline.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
+config.macros.docMenu.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	if(store.tiddlerExists(window.activeDocument)) {
 		var testSpec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).content;
 	}
 	var specView = createTiddlyElement(place, "div", "", "specView");	
-	config.macros.tdoc2Outline.renderSpec(specView, testSpec);
+	config.macros.docMenu.renderSpec(specView, testSpec);
 }	
 
 
