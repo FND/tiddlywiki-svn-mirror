@@ -33,7 +33,6 @@ tags: document
 				{title:'Social impact', children : [
 					{title:'Political organization and censorship', children: []},
 					{title:'Leisure activities', children: []},
-				]}, 
-				{title:'Conclusions', children : []}
+				]}
 			]
 }
