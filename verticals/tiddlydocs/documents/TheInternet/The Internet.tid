@@ -7,7 +7,6 @@ tags: document
 	footer: 'BTFooter',
 	content:[
 				{title:'Terminology', children: []},
-				{title:'Contents', children: []},
 				{title:'History', children: [
 					{title:'Creation', children: []},
 					{title:'Growth', children: []},
@@ -16,7 +15,6 @@ tags: document
 				{title:'Todays Internet', children: [
 					{title:'Internet protocols', children : []},
 					{title:'Internet structure', children : []},
-					{title:'PageSkip', children: []},
 					{title:'ICANN', children : []},
 					{title:'Language', children : []},
 					{title:'Internet and the workplace', children : []},
