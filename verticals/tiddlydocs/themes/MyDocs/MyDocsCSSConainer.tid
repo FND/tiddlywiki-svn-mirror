@@ -24,7 +24,7 @@ modifier: Simon McManus
 .tab{float:left;height:40px;white-space:nowrap;padding-right:5px;}
 .tab.spacer{width:8px;}
 .tab_l,.tab_r{width:2px;padding-right:0;}
-#add_tab{padding:0;height:40px; background:transparent url(/static/mydocs_images/add_tab_middle.png) no-repeat;}
+#add_tab{padding:0;height:40px;}
 #add_gadget{text-align:right;float:none;font-weight:bold;}
 #add_gadget_url{text-align:right;float:right;font-weight:bold;}
 #add_gadget a,#add_tab a,#add_gadget_url a{color:#FFF;text-decoration:none;display:inline;}
@@ -115,7 +115,7 @@ a.skip{position:absolute;top:-100em;}
 .tab_l_selected{background:transparent url(/static/mydocs_images/tab_left_active.gif) no-repeat scroll left top;width:9px;}
 .tab_r_selected{background:transparent url(/static/mydocs_images/tab_right_active.gif) no-repeat scroll left top;width:9px;}
 
-
+#add_tab { background:transparent url(/static/mydocs_images/add_tab_middle.png) no-repeat;}
 .tab_l_add{background:transparent url(/static/mydocs_images/add_tab_left.png) no-repeat scroll left top;width:6px;}
 .tab_r_add{background:transparent url(/static/mydocs_images/add_tab_right.png) no-repeat scroll left top;width:6px;}
 .unselectedtab{background-color:#99CC01;background:transparent url(/static/mydocs_images/tab_middle_active.gif) repeat-x scroll left top;color:#fff;font-weight:bold;font-size:12px;}
