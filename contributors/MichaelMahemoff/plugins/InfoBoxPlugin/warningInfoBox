@@ -1,0 +1,11 @@
+modifier:mahemoff
+
+|background|#fdd|
+|borderColor|#f66|
+|headingColor|#800|
+|heading|Danger, Will Robinson!!!|
+|messageFontStyle|normal|
+|messageColor|#900|
+|message|Please follow these instructions carefully.|
+|iconURL|icons##stop|
+|iconWidth|40|

@@ -1,0 +1,22 @@
+modifier:mahemoff
+
+<<infoBox>>wickid>>
+
+Greetings. This is an InfoBox plugin, with similar functionality to mediawiki's "InfoBox" concept. The examples here make it obvious what I mean by that. Please hit "edit" (or "view") on this tiddler's (faded, top-right) toolbar to see how the InfoBox macro is used.
+
+<<infoBox note>>This is an info box with a type param.>>
+<<infoBox tip>>This is an info box with a type param, where the type has a corresponding definition tiddler.>>
+The following InfoBox also has a type param with corresponding definition tiddler, [[warningInfoBox]]. In this case, the definition tiddler provides the text. So the macro invocation need not include any text.
+
+<<infoBox warning>>>>
+
+... and another, with the iconWidth set in the [[cautionInfoBox]] definition. (default is 40px, as above, but you can vary it)
+
+<<infoBox caution>>>>
+
+Let's go again. In this case, the definition [[disputedInfoBox]] has an icon that is simply a URL. (A relative one to a file in this directory, but it could equally be a http://example.com/static/icon.png). Just for fun, there's no "imageWidth" in the definition, so there's no padding and hence it appears in the thick of things, directly behind the text.
+
+<<infoBox disputed>>>>
+
+icon credits: stop - from woothemes http://www.iconfinder.net/icondetails/15243/128/?q=hand
+caution (!) - http://www.iconfinder.net/icondetails/10375/48/?q=caution question (?) - from Gakuseisean http://www.iconfinder.net/icondetails/31214/128

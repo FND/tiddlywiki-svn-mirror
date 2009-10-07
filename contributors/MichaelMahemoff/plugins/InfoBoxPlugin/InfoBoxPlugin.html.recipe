@@ -1,0 +1,18 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# The plugin
+tiddler: InfoBoxPlugin.js
+
+# Demo
+tiddler: DefaultTiddlers.tiddler
+tiddler: demo
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: warningInfoBox
+tiddler: tipInfoBox
+tiddler: stopIcon
+tiddler: cautionInfoBox
+tiddler: cautionIcon
+tiddler: icons
+tiddler: disputedInfoBox
