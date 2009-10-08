@@ -20,7 +20,7 @@ config.macros.editDefinitions.refresh = function(place, paramString){
 	var select = createTiddlyElement(null, "select");
 	select.setAttribute('name', 'definitions');
 	select.setAttribute('size', '7');
-	select.setAttribute('sytle.width', '14.5em');
+	select.setAttribute('style.width', '14.5em');
 	for(var i=0; i<items.length; i++) {
 		createTiddlyElement(select, "option", null, null, items[i]);
 	}
