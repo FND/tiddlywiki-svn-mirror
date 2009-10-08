@@ -20,6 +20,8 @@ ask jeremy/fred about a better way to escape the slashes in document names/
 
 // get urls working for sections - 
 
+ Hide backstage button
+
 
  7.  Comments count not working i.e after saving comment still showing Comments (0)
 
