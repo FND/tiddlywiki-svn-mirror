@@ -7,38 +7,36 @@
 |''template3ViewTemplate''|##template3ViewTemplate|
 |''backgroundViewTemplate''|##backgroundViewTemplate|
 |''contentViewTemplate''|##contentViewTemplate|
+|''GettysbergTemplate''|##GettysbergTemplate|
 
 
 !PageTemplate
 
 <div title="PageTemplate" modifier="PhilHawksworth" created="200709041656" modified="200709111157" tags="excludeLists">
-
-<div id='pres'>
-	<div id='pres_header'>
-		<h1 id='pres_title'>title</h1>
-	</div>
-	<div id='pres_body'>
-		<div id='tiddlerDisplay'> display</div>
-	</div>
-	<div id='pres_footer'>
-		<div id='pres_controls'>
-			<ul class='buttons'>
-				<li><a href='#'>Main Menu</a></li>
-			</ul>
+	<div id='pres'>
+		<div id='pres_header'>
+			<h1 id='pres_title'>title</h1>
 		</div>
-		<div id='pres_nav'>
-			<ul class='buttons'>
-				<li macro='firstSlide'></span></li>
-				<li macro='prevSlide'></span></li>
-				<li macro="toggleThemeButton Done" class="SlideShowButton" ></span></li>
-				<li macro='nextSlide'></span></li>
-				<li macro='lastSlide'></span></li>
-			</ul>
-
+		<div id='pres_body'>
+			<div id='tiddlerDisplay'> display</div>
+		</div>
+		<div id='pres_footer'>
+			<div id='pres_controls'>
+				<ul class='buttons'>
+					<li><a href='#'>Main Menu</a></li>
+				</ul>
+			</div>
+			<div id='pres_nav'>
+				<ul class='buttons'>
+					<li macro='firstSlide'></li>
+					<li macro='prevSlide'></li>
+					<li macro="toggleThemeButton Done" class="SlideShowButton" ></li>
+					<li macro='nextSlide'></li>
+					<li macro='lastSlide'></li>
+				</ul>
+			</div>
 		</div>
 	</div>
-</div>
-
 </div>
 
 
@@ -151,7 +149,7 @@ ul.buttons li a:hover, ul.buttons li a:focus {
 }
 
 
-
+/*  Slide templates. */
 
 
 	.template1 .viewer {text-align:center;}
@@ -204,6 +202,46 @@ ul.buttons li a:hover, ul.buttons li a:focus {
 	.template3  {
 		color:green;
 	}
+	
+	
+	/* gettysberg theme */
+	.slide {
+		position: relative;
+	}
+
+	#container {
+		position: absolute;
+		background-color:#CC6666;
+		color:#FFCCCC;
+		min-height: 0;
+		height: 400px;
+		width: 95%;
+		margin: 2em;
+		left:0;
+		top:2em;
+	}
+	
+	#contentpagetitle {
+		position: absolute;
+		text-align: left;
+		right: 300px;
+		bottom: 150px;
+		width: 30%;
+		font-size: 6em;
+		font-weight: 700;
+		line-height: 92px;
+		color: #ffcccc;
+	}
+	
+	#contentpagesubtitle {
+		position: relative;
+		text-align: left;
+		font-size: 0.2em;
+		line-height: 15px;
+		width: 150%;
+		font-weight: 400;
+		color: #ffcccc;
+	}
 
 /*}}}*/
 
@@ -244,5 +282,17 @@ ul.buttons li a:hover, ul.buttons li a:focus {
 <div class='viewer' macro='view text wikified'></div>
 </div>
 <!--}}}-->
+
+
+!template_gettyViewTemplate
+<!--{{{-->
+<div class='template_getty slide'>
+	<div id="container">
+		<div id="contentpagetitle">The Gettysburg Address<div id="contentpagesubtitle">By Abraham Lincoln</div></div>
+	</div>
+</div>
+<!--}}}-->
+
+
 </pre>
 </div>
