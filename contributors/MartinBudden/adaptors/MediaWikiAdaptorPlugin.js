@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#MediaWikiAdaptorPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/MediaWikiAdaptorPlugin.js |
-|''Version:''|0.8.14|
+|''Version:''|0.8.15|
 |''Date:''|Jul 27, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -526,7 +526,7 @@ adaptor.prototype.generateTiddlerInfo = function(tiddler)
 	} else {
 		uriTemplate = '%0/index.php?title=%2';
 	}
-	info.uri = uriTemplate.format([host,this.workspace,tiddler.title]);
+	info.uri = uriTemplate.format([host,this.workspace,adaptor.normalizedTitle(tiddler.title)]);
 	return info;
 };
 
