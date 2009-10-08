@@ -162,6 +162,7 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 		
 		/* Copy the widths across - apparently a clone isn't good enough for this */
 		$("thead:eq(0)>tr th", _oSettings.nTable).each( function (i) {
+			alert(i);
 			$("thead:eq(0)>tr th:eq("+i+")", _nCTable)[0].style.width = 
 				parseInt($(this).css('width'))+"px";
 		} );
