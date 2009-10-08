@@ -2,15 +2,7 @@ uploading pictures
 
 remove 01_jquery
 
-failed save plugin needs to notify on fail 
-
-section comments rss
-
-// ask jeremy about style sheets not working in safari
-
-support dodgy formatting (charactors in document names)
-
-talk to mike about occasional errors in comments plugin.
+support dodgy formatting (characters in document names)
 
 ask jeremy about the alert which pops up when creating a new document in IE7.
 
@@ -19,8 +11,6 @@ FOCUS ERROR IN IE - when adding a new section to a toc there is a focus errror
 ask jeremy/fred about a better way to escape the slashes in document names/
 
 does that hash in the uri break drag n drop in ie?
-
-
 
 when no items are returned in the .atom rss feed it returns a 404. 
 

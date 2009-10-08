@@ -9,6 +9,7 @@ if($URI[1] == 'static'){
 	if(file_exists($path))
 	{	
 		header("Content-type: ".mime_content_type($path));
+		sendHeader(200);
 		echo file_get_contents($path);
 		exit;
 	}
