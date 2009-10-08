@@ -1,20 +1,27 @@
+#
+#	Requires 
+#	
+#		tiddlyweb, tiddlywebwiki, curl, svn
+#
+#
 
-
-rm tiddlydocs -R -f
-
+rm builds -R -f
+mkdir builds
+cd builds
 twanager --load tiddlywebwiki.config instance tiddlydocs
+
 
 cd tiddlydocs
 
-wget http://github.com/tiddlyweb/tiddlyweb/raw/master/apache.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atom.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atomplugin.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/htmlatom.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/twstatic/static.py
-wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlyeditor_plus.py
+curl http://github.com/tiddlyweb/tiddlyweb/raw/master/apache.py >apache.py
+curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atom.py > atom.py
+curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atomplugin.py > atomplugin.py
+curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/htmlatom.py > htmlatom.py
+curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/twstatic/static.py > static.py
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlyeditor_plus.py > tiddlyeditor_plus.py
 
 rm tiddlywebconfig.py
-wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py > tiddlywebconfig.py
 
 twanager bag tdocs < /dev/null
 twanager bag documents < /dev/null
@@ -37,13 +44,13 @@ curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_scr
 #wget http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/form/form.py
 
 ## get recipe files 
-curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs store/recipes/tiddlydocs
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs > store/recipes/tiddlydocs
 
 ## Get CKEditor 
 mkdir static 
 cd static 
 mkdir ckeditor 
-curl http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.0/ckeditor_3.0.tar.gz ckeditor_3.0.tar.gz
+curl http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.0/ckeditor_3.0.tar.gz > ckeditor_3.0.tar.gz
 tar xvf ckeditor_3.0.tar.gz
 rm ckeditor_3.0.tar.gz
 
@@ -53,9 +60,7 @@ cd ../
 
 ## TEMP - update permissions on system bag
 rm store/bags/system/policy
-curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/bags/system/policy store/bags/system/policy
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/bags/system/policy > store/bags/system/policy
 
 cd ../
-chown apache  *  -R
 
-/sbin/service httpd restart
