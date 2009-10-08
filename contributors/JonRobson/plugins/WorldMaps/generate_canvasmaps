@@ -1,3 +1,0 @@
-cat  ../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoShapes.js ../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoController.js ../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoMapUtils.js ../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoMapSVGUtils.js ../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoFileUtils.js ../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoConversion.js  ../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoClickingUtils.js ../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoClicking.js ../../verticals/GeoTiddlyWiki/VismoThingsLib/VismoMaps.js   > canvasMaps3D.js
-
-
