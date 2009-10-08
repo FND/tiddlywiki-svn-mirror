@@ -6,12 +6,13 @@ twanager --load tiddlywebwiki.config instance tiddlydocs
 
 cd tiddlydocs
 
-wget http://github.com/tiddlyweb/tiddlyweb/raw/master/apache.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atom.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atomplugin.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/htmlatom.py
-wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/twstatic/static.py
-wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlyeditor_plus.py
+curl http://github.com/tiddlyweb/tiddlyweb/raw/master/apache.py > apache.py
+curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atom.py > atom.py
+curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atomplugin.py > atomplugin.py
+curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/htmlatom.py > htmlatom.py
+curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/twstatic/static.py > static.py
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlyeditor_plus.py > tiddlyeditor_plus.py
+curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/gadget.py > gadget.py
 
 rm tiddlywebconfig.py
 wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py
