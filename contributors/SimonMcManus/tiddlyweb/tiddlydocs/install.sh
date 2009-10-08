@@ -11,6 +11,7 @@ wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atom.py
 wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atomplugin.py
 wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/htmlatom.py
 wget http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/twstatic/static.py
+wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlyeditor_plus.py
 
 rm tiddlywebconfig.py
 wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py
