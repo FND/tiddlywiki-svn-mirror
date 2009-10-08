@@ -4,9 +4,6 @@
 #
 # Usage:
 #  $ ./devinstance.sh targetDir
-#
-# TODO:
-# * make devtext store optional
 
 instance="dev"
 
@@ -30,8 +27,8 @@ tiddlywebconfig='{\n	"server_store": ["devtext", { "store_root": "store" }]\n}'
 echo -e "config = $tiddlywebconfig" > tiddlywebconfig.py
 
 #  create instance
-twanager instance $instance &&
-	rm tiddlywebconfig.py tiddlyweb.log *.pyc &&
+twanager --load tiddlywebwiki.config instance $instance &&
+	rm tiddlywebconfig.py *.pyc &&
 	cd $instance ||
 	quit "failed to create instance"
 
@@ -46,6 +43,6 @@ echo -e "tags: tmp test\n\nlorem ipsum dolor sit amet" | twanager tiddler lipsum
 twanager bag plugins < /dev/null
 echo -e 'alert("Hello world!");' > store/plugins/helloworld.js
 # create sample recipe
-echo -e "/bags/system/tiddlers\n/bags/plugins/tiddlers\n/bags/content/tiddlers" | twanager recipe sample
+echo -e "/bags/system/tiddlers\n/bags/plugins/tiddlers\n/bags/content/tiddlers" | twanager recipe dev
 
 echo -e "\ninstance created; run \"twanager server\" from $dir/$instance to start server"
