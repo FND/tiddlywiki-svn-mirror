@@ -182,6 +182,7 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 			} catch(ex) {
 				alert('two');
 				alert(ex.message);
+				return;
 			}
 		} );
 		
