@@ -45,7 +45,7 @@ var VismoGraphUtils = {
 		return partners;
 		
 	}
-	,getSiblings: function(id,vismoGraph){
+	,getSiblings: function(id,vismoGraph){ /* returns list of sibling ids */
 		
 		var parentnodes = vismoGraph.getNodeParents(id);
 		

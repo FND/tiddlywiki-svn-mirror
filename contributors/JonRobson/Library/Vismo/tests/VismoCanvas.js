@@ -5,8 +5,8 @@ VismoTests.add("VismoCanvas", {
               var val = cc._inPoly(20,20,poly);
                 return VismoTests.assertEqual(val,true);
                 return true;
-        },
-        _inPolyZoomedIn: function(){
+        }
+        ,_inPolyZoomedIn: function(){
           var poly = new VismoShape({coordinates:[0,0,100,0,100,100,0,100],shape:"polygon",id:"big"});
             
               var cc = VismoTests.Mocks.canvas({shapes:[poly],vismoController:{}});
@@ -149,6 +149,25 @@ VismoTests.add("VismoCanvas", {
           var firstdrawntwo = mem[0].getProperty("id");
            return VismoTests.assertAllEqual([[firstdrawn,"small"],[firstdrawntwo,"big"]]);
                 
+        }
+        ,getShapeWithID: function(){
+            var s1 = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"a","z-index":"0"});
+            var s2 = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"b","z-index":"0"});
+            var cc = VismoTests.Mocks.canvas({shapes:[s1,s2]});
+            
+            var theshape = cc.getShapeWithID("b");
+            return VismoTests.assertEqual(theshape,s2);
+        }
+        ,clear: function(){
+            var s1 = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"a","z-index":"0"});
+            var s2 = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"b","z-index":"0"});
+            var cc = VismoTests.Mocks.canvas({shapes:[s1,s2]});
+            
+            var theshape = cc.getShapeWithID("b");
+            
+            cc.clear(true);
+            var theshapeafter = cc.getShapeWithID("b");
+            return VismoTests.assertAllEqual([[theshape,s2],[theshapeafter,false]]);
         }
         
         /*,isOverlap: function(){

@@ -1,10 +1,8 @@
 js: preamble.js
 js: VismoClicking.js
-js: VismoCanvasEditor.js
 js: VismoClicking.js
 js: VismoClickingUtils.js
 js: VismoController.js
-js: VismoCanvasEditor.js
 js: VismoClicking.js
 js: VismoClickingUtils.js
 js: VismoConversion.js 
@@ -16,7 +14,5 @@ js: VismoShapes.js
 js: VismoShapesRendering.js 
 js: VismoTransformations.js
 js: VismoGraphs.js
-js: VismoGraphNode.js
 js: VismoGraphRenderer.js
 js: VismoVector.js
-#js: farbtastic.js

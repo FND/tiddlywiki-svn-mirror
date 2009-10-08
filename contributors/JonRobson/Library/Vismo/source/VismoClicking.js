@@ -382,7 +382,13 @@ VismoCanvas.prototype = {
 
 	}
 	,getDimensions: function(args){
-		return {width: parseInt(this.canvas.style.width), height: parseInt(this.canvas.style.height)};
+		return {width: this.width() , height: this.height()};
+	}
+	,height: function(){
+	    return parseInt(this.canvas.style.height);
+	},
+	width: function(){
+	    return parseInt(this.canvas.style.width);
 	}
 	,resize: function(args){
 		var width = arguments[0]; var height=arguments[1];
@@ -414,7 +420,7 @@ VismoCanvas.prototype = {
 		}
 		this._maxX = 0;
 		this._maxY = 0;
-
+        
 		
 		if(!this.canvas.getContext) {
 			return;
@@ -561,6 +567,7 @@ VismoCanvas.prototype = {
 	
 	,setTransformation: function(args){
 	    var transformation = arguments[0];
+	        console.log(transformation.origin.x,transformation.translate.x,transformation.translate.y);
 	        if(!transformation.origin){
 	                transformation.origin = {};
 	                transformation.origin.x = jQuery(this.wrapper).width() / 2;
@@ -573,6 +580,19 @@ VismoCanvas.prototype = {
 	    
 	}
 
+    ,centerOn: function(x,y){
+        
+        var t=  this.getTransformation();
+        t.translate.x = -x;
+        t.translate.y = -y;
+        if(this.vismoController){
+            this.vismoController.setTransformation(t);
+        }
+        else{
+            this.setTransformation(t);
+        }
+        this.render();
+    }
 	,remove: function(args){
         var vismoShape = arguments[0];
        var shapes = this.getMemory();
@@ -645,6 +665,7 @@ VismoCanvas.prototype = {
 				this.memory[i].vml.scrub();
 			}
 		}
+		this._idtoshapemap = {};
 		this.memory = [];
 
 	},

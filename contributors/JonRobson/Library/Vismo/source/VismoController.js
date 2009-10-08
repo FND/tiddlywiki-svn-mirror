@@ -422,8 +422,7 @@ VismoController.prototype = {
 		    cancelPanning();
 		});
 		var onmousemove = function(e){
-		    console.log("cool");
-            if(e && e.shiftKey) {return false;}
+		    if(e && e.shiftKey) {return false;}
 			if(mm){mm(e);}
 			if(!that.enabled) {return;}
 			if(!panning_status) {
