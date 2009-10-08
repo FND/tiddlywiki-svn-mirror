@@ -135,7 +135,7 @@ h1 {
 		color:#333;
 		background:#fff url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat scroll right bottom;
 		border:1px solid #ddd;
-		left:0em;
+		left:3em;
 		position:relative;
 		text-align:left;
 		width:91%;
