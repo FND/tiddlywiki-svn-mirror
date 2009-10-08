@@ -1,0 +1,31 @@
+tags: systemTheme  excludeLists excludeSearch
+
+/***
+|''Name:''|docuwebTheme|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~StyleSheet:''|##StyleSheet|
+***/
+
+!PageTemplate
+<!--{{{-->
+    <div id='messageArea'><div class='messageBox'></div></div>
+<div id='tiddlerDisplay'></div>
+<!--}}}-->
+
+
+!ViewTemplate
+<!--{{{-->
+			<div class='title' macro='view title'>
+
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
+
+</div>
+		<div class='viewer' macro='view text wikified'></div>
+<!--}}}-->
+
+
+!StyleSheet
+[[MyDocsCSSConainer]]
