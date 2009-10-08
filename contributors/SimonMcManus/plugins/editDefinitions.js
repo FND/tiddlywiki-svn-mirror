@@ -15,32 +15,26 @@ config.macros.editDefinitions.refresh = function(place, paramString){
 	var defList = store.getTiddlerText(paramString);
 	var items = defList.split("\n");
 	w.setValue("defList", defList);
-	w.addStep(null, "<input name='definitionsListMarker'></input>");
+	w.addStep(null, "<input name='definitionsListMarker' type='hidden'></input>");
 	var listMarker = w.getElement("definitionsListMarker");
 	var select = createTiddlyElement(null, "select");
-	select.name = "definitions";
-	select.size = "7";
-	select.style.width = "14.5em";
+	select.setAttribute('name', 'definitons');
+	select.setAttribute('size', '7');
+	select.setAttribute('sytle.width', '14.5em');
 	for(var i=0; i<items.length; i++) {
 		createTiddlyElement(select, "option", null, null, items[i]);
 	}
 	var newDef = createTiddlyElement(null, "input");
-	newDef.name = "newName";
+	newDef.setAttribute('name', 'newName');
 	var newButton = createTiddlyButton(null, "add", "click to add ", function() { config.macros.editDefinitions.add(w); }); 
-
 	var table = createTiddlyElement(listMarker.parentNode, "table", "", "definitionsTable");
 	var tr = createTiddlyElement(table, "tr");
 	var td = createTiddlyElement(tr, "td");
 	td.appendChild(newDef);
 	var td = createTiddlyElement(tr, "td");
 	td.appendChild(newButton);
-
-	
 	listMarker.parentNode.appendChild(createTiddlyElement(null, "br"));
 	var button = createTiddlyButton(null, "remove", "click to remove", function() { config.macros.editDefinitions.remove(w); });
-	
-
-
 	var tr = createTiddlyElement(table, "tr");
 	var td = createTiddlyElement(tr, "td");
 	td.appendChild(select);
