@@ -30,6 +30,12 @@ tags:  excludeLists excludeSearch
 		background: transparent url(/doccollab/static/mydocs_images/tabs_bg.png) repeat-x scroll left top;
 	}
 	
+	html body #header2 {
+		padding-right:11em;
+		position:relative;
+		right:11em;
+	}
+	
 	
 	#tab_bar {
 		visibility: visible;

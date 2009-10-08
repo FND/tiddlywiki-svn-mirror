@@ -27,14 +27,6 @@ tags: systemTheme  excludeLists excludeSearch
         <div class="header">
 <div id="wholesale_search_wrapper">
   <div id="search_bar">
-    <div id="header1">
-      <div id="h1left">
-		<!--TOP LINKS LEFT -->
-      </div>
-      <div id="h1right">
-		<!--TOP LINKS RIGHT -->
-      </div>
-    </div>
     <div id="header2">
       <div id="flr_h2left1">
 		<div macro='saveNotification'></div>
