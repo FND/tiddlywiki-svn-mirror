@@ -37,13 +37,13 @@ curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_scr
 #wget http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/form/form.py
 
 ## get recipe files 
-curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs store/recipes/tiddlydocs
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs > store/recipes/tiddlydocs
 
 ## Get CKEditor 
 mkdir static 
 cd static 
 mkdir ckeditor 
-curl http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.0/ckeditor_3.0.tar.gz ckeditor_3.0.tar.gz
+curl http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.0/ckeditor_3.0.tar.gz > ckeditor_3.0.tar.gz
 tar xvf ckeditor_3.0.tar.gz
 rm ckeditor_3.0.tar.gz
 
@@ -53,7 +53,7 @@ cd ../
 
 ## TEMP - update permissions on system bag
 rm store/bags/system/policy
-curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/bags/system/policy store/bags/system/policy
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/bags/system/policy > store/bags/system/policy
 
 cd ../
 chown apache  *  -R
