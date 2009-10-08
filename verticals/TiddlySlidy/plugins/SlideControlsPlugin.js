@@ -28,7 +28,7 @@
 !!v<#.#> (<yyyy-mm-dd>)
 * <...>
 !To Do
-<...>
+* refactor code to provide only a single macro, direction controlled via parameters
 !Code
 ***/
 //{{{
@@ -36,29 +36,39 @@
 
 config.macros.prevSlide = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-		var btn = createTiddlyButton(place, "prev", "previous", function(ev) {
-			changeSlide(-1, place);
+		createTiddlyButton(place, "prev", "previous", function(ev) {
+			changeSlide(-1);
 		});
-		
+
 	}
 };
 
 config.macros.nextSlide = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-		var btn = createTiddlyButton(place, "next", "next", function(ev) {
-			changeSlide(1, place);
+		createTiddlyButton(place, "next", "next", function(ev) {
+			changeSlide(1);
 		});
 	}
 };
 
-var changeSlide = function(delta, place) {
-	
-	console.log('foo');
-	
+config.macros.firstSlide = {
+	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+		createTiddlyButton(place, "start", "first", function(ev) {
+			changeSlide(-999);
+		});
+	}
+};
+
+config.macros.lastSlide = {
+	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+		createTiddlyButton(place, "end", "last", function(ev) {
+			changeSlide(999);
+		});
+	}
+};
+
+var changeSlide = function(delta, ev) {
 	var slides = version.extensions.InclusifierPlugin.getTiddlersForShow("Outline");
-	
-	console.log('slides:', slides);
-	
 	// XXX: DEBUG'd
 	//var currentSlide = story.findContainingTiddler(place);
 	//var title = currentSlide ? currentSlide.getAttribute("tiddler") : slides[0];

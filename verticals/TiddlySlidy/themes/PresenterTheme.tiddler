@@ -28,9 +28,11 @@
 		</div>
 		<div id='pres_nav'>
 			<ul class='buttons'>
+				<li macro='firstSlide'></span></li>
 				<li macro='prevSlide'></span></li>
 				<li macro="toggleThemeButton Done" class="SlideShowButton" ></span></li>
 				<li macro='nextSlide'></span></li>
+				<li macro='lastSlide'></span></li>
 			</ul>
 
 		</div>
