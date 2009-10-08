@@ -28,7 +28,8 @@ body { font-family: gill sans; }
 .unscripted a { font-weight: normal; }
 .unscripted .closer { display: none; }
 
-iframe#resourceView { width: 100%; height: 100%; }
+div#resourceView { width: 100%; height: 100%; position: relative; }
+div#resourceView iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
 a, a:visited { text-decoration: none; color: #00b; }
 
