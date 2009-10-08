@@ -156,6 +156,9 @@ tags: systemTheme  excludeLists excludeSearch
 #mainMenu {
 left : 0em;
 }
+html body .title {
+	top:-0.68em;
+}
 
 .deleteZoneClass {
 	width:80%;
