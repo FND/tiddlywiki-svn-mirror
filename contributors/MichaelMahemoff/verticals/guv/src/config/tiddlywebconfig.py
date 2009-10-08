@@ -4,8 +4,10 @@ config = {
   'auth_systems': [
       'ldap'
   ],
+  'twanager_plugins': ['migrate'],
   'system_plugins': ['methodhack', 'tiddlywebwiki', 'atomplugin'], #, 'status'],
   'log_level': 'DEBUG',
+  'target_store': ['text', {'store_root': 'textstore'}, 'migrate']
   # 'server_prefix': '/guv'
   # 'server_host':{
       # 'scheme': 'http',

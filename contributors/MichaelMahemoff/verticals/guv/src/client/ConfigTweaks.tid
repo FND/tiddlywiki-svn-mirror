@@ -28,3 +28,5 @@ config.defaultCustomFields = {
   "server.host": 'http://tiddlyguv.dev:9090/',
   "server.type": 'tiddlyweb'
 }
+
+config.adaptors.tiddlyweb.generateETag = function() { return null; }

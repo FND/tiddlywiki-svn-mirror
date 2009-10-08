@@ -1,0 +1,10 @@
+modifier: mike
+created: 
+modified: 20090930131322
+type: None
+tags: licenseDimension
+license: GPL 3.0
+dimension: usage
+stage: public
+
+The XYZ diagnosis tool uses mediawiki, which is GPL-licensed.

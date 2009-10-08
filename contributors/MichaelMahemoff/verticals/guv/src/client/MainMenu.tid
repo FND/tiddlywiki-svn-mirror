@@ -13,10 +13,20 @@ tags:
 
 <<search>>
 
+!!News Feeds
+<html>
+<!-- tiddlyWebLink bag:comments message:"Recent Comments" -->
+</html>
+<html><a href="/bags/comments/tiddlers.atom">Comments Feed</a></html>
+<html><a href="/bags/licenses/tiddlers.atom">Licenses Feed</a></html>
+<html><a href="/bags/content/tiddlers.atom?filter=[tag[document]]">Documents Feed</a></html>
+
 !!Admin
 [[Edit Menu|DocumentsMenu]]
 <<newTiddler label:"New Document" text:{{"Document content goes here. You can retain the comments section below if you wish to support comments.\n\n!Comments" + "\n<" + "<tiddlyWebComments>"+">";}} fields:{{"server.workspace:bags/private-"+config.options.txtUserName + " server.type:tiddlyweb stage:new"}} title:{{"Document " + (new Guid({chars:Guid.constants.numbers})).generate()}}" template:documentEditTemplate tag:document>>
 
-!!News Feeds
+!!Advanced
+<<newTiddler>>
+<<saveChanges>>
+<<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">>
 
-<<tiddlyWebLink bag:comments message:"Recent Comments">>

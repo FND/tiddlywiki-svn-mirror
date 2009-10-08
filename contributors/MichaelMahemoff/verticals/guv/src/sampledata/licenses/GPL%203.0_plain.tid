@@ -1,0 +1,10 @@
+modifier: mike
+created: 
+modified: 20090930131322
+type: None
+tags: licenseDimension
+license: GPL 3.0
+dimension: plain
+stage: public
+
+A "restrictive" license. The most important thing to know is the "share-alike" property (sometimes referred to as "viral" by detractors of this license). It says that if you are publishing code which uses GPL-licenced code, you must publish your own code as well.

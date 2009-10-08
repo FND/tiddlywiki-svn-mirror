@@ -52,7 +52,7 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
         log("promoting", id, dimensionTiddler);
         if (dimensionTiddler)
           changeBag(dimensionTiddler,
-            dimension.adminOnly ? "content" : "licenses", ["licenseDimension"]);
+            dimension.adminOnly ? "protected" : "licenses", ["licenseDimension"]);
       }
       story.displayTiddler("top", publicLicense);
 
@@ -85,7 +85,7 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
             if (tiddler.fields["stage"]=="new") {
               fields["server.workspace"] = "bags/private-"+config.options.txtUserName;
             } else if (dimension.adminOnly) {
-              fields["server.workspace"] = "bags/content";
+              fields["server.workspace"] = "bags/protected";
             }
             dimensionTiddler.set(null, "", config.options.txtUserName, now, ["licenseDimension"], now, fields);
             store.saveTiddler(dimensionTitle);
@@ -96,7 +96,7 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
   }
 
     (function(licenseDimensionTiddler, wrapper) {
-      var contentEl = createTiddlyElement(wrapper, "div");
+      var contentEl = createTiddlyElement(wrapper, "div", null, "licenseSection");
       var textEl;
       if (licenseDimensionTiddler) {
 
@@ -127,6 +127,10 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
 
     })(licenseDimensionTiddler, wrapper);
 
+  }
+
+  function wordCount(s) {
+    return s.split(/\s+/).length;
   }
 
   function toggleVisibility(expandLink, textEl, wordCount, forcedVisibility) {
@@ -163,11 +167,29 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
       story.closeTiddler(title);
       story.displayTiddler("top", tiddler.fields.license);
       var heading = document.getElementById("heading_" + title);
-      heading.className = "recentlyEdited";
+      jQuery(heading).addClass("recentlyEdited").blink();
+      jQuery.scrollTo(heading);
+      // heading.className = "recentlyEdited";
       // scroll not working due to race cond
       // window.scrollTo(heading.offsetLeft, heading.offsetTop);
     }
 
+  }
+
+  jQuery.fn.blink = function() {
+    var DELAY=125;
+    var $this=jQuery(this);
+    $this.css({opacity:0.01});
+    $this.animate({opacity:1}, DELAY, function() {
+      $this.animate({opacity:0.01}, DELAY, function() {
+        $this.animate({opacity:1}, DELAY, function() {
+          $this.animate({opacity:0.01}, DELAY, function() {
+            $this.animate({opacity:1}, DELAY); 
+          });
+        });
+      });
+    });
+    return $this;
   }
 
   var origChooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler;

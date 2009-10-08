@@ -1,0 +1,12 @@
+modifier: mike
+created: 
+modified: 20090930093438
+type: None
+tags: licenseDimension
+license: BSD
+dimension: usage
+stage: public
+
+We are using the BSD-licensed YUI on the XYZ product catalogue.
+
+We are using TiddlyDocs, which is based on the BSD-licensed TiddlyWiki and TiddlyWeb and is itself BSD-licensed on the ABC bid documents system.

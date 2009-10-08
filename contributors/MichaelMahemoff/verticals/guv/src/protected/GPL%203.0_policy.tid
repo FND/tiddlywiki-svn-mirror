@@ -1,0 +1,10 @@
+modifier: mike
+created: 
+modified: 20090930131322
+type: None
+tags: licenseDimension
+license: GPL 3.0
+dimension: policy
+stage: public
+
+If you are using any GPL code, you must have it signed off by the compliance team prior to publishing your code or putting it into production.
