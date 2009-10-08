@@ -29,7 +29,6 @@ Story.prototype.saveTiddler = function(title, minorUpdate) {
 	var autosave = config.options.chkAutoSave;
 	config.options.chkAutoSave = false;
 	var _title = _saveTiddler.apply(this, arguments);
-	console.log("foo", title, _title);
 	config.options.chkAutoSave = autosave;
 
 	addToToc(_title, window.activeDocument);
