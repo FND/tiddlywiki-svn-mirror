@@ -20,14 +20,17 @@ ask jeremy/fred about a better way to escape the slashes in document names/
 
 // get urls working for sections - 
 
-// get js working for section view.
 
-// look at garget updates
+ 7.  Comments count not working i.e after saving comment still showing Comments (0)
 
-release 0.1
+// decide if sections should use the default_view_template or not
 
-/ get revisions selection (diff) working
 
+// add .meta files for tiddlers in backstage. 
+
+ When saving comments within section – getting dialog box saying ‘Your changes where not saved’
+ 
+ 
 / sort out links from the original template
 
 / check for .meta files
