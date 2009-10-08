@@ -5,10 +5,19 @@ if (!version.extensions.InclusifierPlugin) {
   var plugin = version.extensions.InclusifierPlugin = {installed:true};
 
   plugin.getTiddlersForShow = function(trailTiddler) {
-    return ["Introduction", "Background", "The Gettysburg Address"];
-    var trailText = store.getTiddlerText(trailTiddler);
-    var resources = version.extensions.TrailsPlugin.flattenTree(trailText);
-    return resources;
+    // var trailText = store.getTiddlerText(trailTiddler);
+    // console.log("trailText", trailText);
+    var showTiddlers = [];
+    $.each(version.extensions.TrailsPlugin.flattenTreeByTiddler(trailTiddler),
+           function(i,resource) {
+      console.log(resource);
+      var tiddlerTitle = resource.substr(1);
+      var tiddler = store.getTiddler(tiddlerTitle);
+      if (tiddler && !tiddler.isTagged("noShow")) {
+        showTiddlers.push(tiddler.title);
+      }
+    });
+    return showTiddlers;
   }
 
   var stylesheet = store.getTiddlerText(tiddler.title + "##InclusifierStyleSheet");
@@ -30,7 +39,9 @@ if (!version.extensions.InclusifierPlugin) {
           $("<input type='checkbox' />")
           .attr("checked", !tiddler.isTagged("noShow"))
           .change(function() {
-            // store.setTiddlerTag(tiddler.title,! $(this).attr("checked"),"noShow");
+            console.log(tiddler, "--> tags", tiddler.tags)
+            store.setTiddlerTag(tiddler.title,! $(this).attr("checked"),"noShow");
+            console.log(tiddler, "--> 2tags", tiddler.tags)
             saveTiddler(tiddler);
           })
           .insertBefore($(this));
@@ -60,4 +71,3 @@ if (!version.extensions.InclusifierPlugin) {
 }
 
 })();
-
