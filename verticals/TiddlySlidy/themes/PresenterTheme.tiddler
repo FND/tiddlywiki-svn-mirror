@@ -114,8 +114,106 @@ div#pres_footer {
 
 
 
+	/*Template 1*/
+
+	.template1 .viewer {text-align:center;}
+
+
+	/*Template 2*/
+	.template2 img {margin-left:20px;float:right;}
+
+	/* Content template */
+	.template_content .viewer {text-align:left;}
+	.template_content {
+		font-family: Helvetica, Arial, Sans-serif;
+		color: #ffcccc;
+		font-size: 18px; 
+		line-height: 1.4;
+		margin: 2em 3em;
+		position:relative;
+	}
+
+	.template_content h1 {
+	border: none;
+		font-size: 108px;
+		font-weight: 700;
+		color: #cc6666;
+		margin-bottom:auto;
+		margin-top:auto;
+		padding-bottom:auto;
+	}
+
+	.template_content .container {
+		position: absolute;
+		width:92.5%;
+		height: auto;
+		top: 70px;
+		background-color:#cc6666;
+		color: #ffcccc;
+		margin:0 auto;
+		clear:left;
+	}
+
+	.template_content .contentpagebullets {
+		font-size: 24px;
+		font-weight: 400;
+		color: #ffcccc;
+		margin: 2em;
+	}
 
 /*}}}*/
 
+!template1ViewTemplate
+<!--{{{-->
+<div class='template1'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='tagClear'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
+
+!template2ViewTemplate
+<!--{{{-->
+<div class='template2'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='tagClear'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
+
+!backgroundViewTemplate
+<!--{{{-->
+<div class='template3'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='tagClear'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
+
+!template3ViewTemplate
+<!--{{{-->
+<div class='template3'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='tagClear'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
+!contentViewTemplate
+<!--{{{-->
+<div class='template_content'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='tagClear'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
 </pre>
 </div>
