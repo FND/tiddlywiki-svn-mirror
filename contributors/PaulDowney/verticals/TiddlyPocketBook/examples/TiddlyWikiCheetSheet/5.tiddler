@@ -9,7 +9,7 @@
 {{{<}}}{{{html}}}{{{>HTML markup</}}}{{{html}}}{{{>}}}
 
 {{{@@}}}//css//{{{:}}}//value//{{{;}}}//css//{{{:}}}//value//{{{:}}}//text//{{{@@}}}
-{{{{{{}}}//class//{{{{styled text}}}}}}
+{{{{{}}}//class//{{{{styled text}}}}}}
 !!Macros
 {{{<<today [}}}//format//{{{]>>}}}
 {{{<<version>>}}}
