@@ -1,0 +1,14 @@
+title: template1
+tags: slideTheme
+
+!StyleSheet
+.template1 .viewer {text-align:center;}
+
+!ViewTemplate
+<!--{{{-->
+<div class='template1'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
