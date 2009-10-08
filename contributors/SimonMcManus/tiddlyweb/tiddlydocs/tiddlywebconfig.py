@@ -1,7 +1,7 @@
 config = {
-    'system_plugins': ['tiddlywebwiki.plugin', 'static', 'atomplugin', 'rtf'],
+    'system_plugins': ['tiddlywebwiki', 'static', 'atomplugin', 'rtf'],
     'secret': '7d72e845d6ba23821a76c6ff3d7d3be17220a409',
-    'twanager_plugins': ['tiddlywebwiki.plugin'],
+    'twanager_plugins': ['tiddlywebwiki'],
     'log_level':'DEBUG',
     'wikklytext.safe_mode': False,
     'server_host' : {

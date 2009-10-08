@@ -6,7 +6,6 @@ config.options.chkSaveBackups = false;
 config.options.chkInsertTabs = true;
 //config.options.chkBackstage = false;
 
-
 config.commands.editHtml={
 	text: "edit",
 	tooltip: "Edit this section"
@@ -30,8 +29,6 @@ CKEDITOR.config.toolbar_Basic =
 ];
 
 CKEDITOR.config.disableNativeSpellChecker = false;
-
-
 
 // set the document from the hash
 var hash =  window.location.hash.substring(1);
