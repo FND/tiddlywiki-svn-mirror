@@ -4,8 +4,7 @@ config.macros.docPrint.handler =  function(place, macroName, params, wikifier, p
 }
 
 config.macros.docPrint.onClickPrint = function() {
-	var newLoc = window.location.toString();	
-	newLoc = newLoc.replace('.wiki', '')+'.rtf';
+	var newLoc = '/bags/documents/tiddlers/'+window.activeDocument+'.rtf';	
 	window.open(newLoc,'','scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
 };
 
