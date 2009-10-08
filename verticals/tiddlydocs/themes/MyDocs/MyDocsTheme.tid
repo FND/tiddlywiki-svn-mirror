@@ -156,7 +156,10 @@ tags: systemTheme  excludeLists excludeSearch
 background:red !important;
 }
 #mainMenu {
-left : -2em;
+left : 0em;
+}
+html body .title {
+	top:-0.68em;
 }
 </style>
 <![endif]-->
