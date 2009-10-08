@@ -6,6 +6,7 @@ fi
 mkdir cache
 cd cache
 
+echo 'download packages ...'
 curl -O http://github.com/FND/tiddlyweb-plugins/raw/master/devtext.py
 curl -O http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/methodhack/methodhack.py
 curl -O http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/migrate/migrate.py

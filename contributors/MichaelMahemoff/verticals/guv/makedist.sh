@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# TODO
-# - switch out "trunk" for TW_ROOT (or whatever the standard is)
-# - derive "mahemoff" from that
+if [ "$TW_ROOT" == "" ] ; then
+  echo 'Please set TW_ROOT to the directory of TiddlyWiki SVN root'
+  exit 1
+fi
 
 cd `dirname $0`
 top=`pwd`
@@ -39,19 +40,18 @@ ln -s $top/src/recipes/* $top/src/users/* $top/src/client $top/src/content $top/
 # Client External
 mkdir clientExternal
 cp client/policy clientExternal
-trunk=$HOME/tw/Trunk
-mahemoff=$HOME/tw/Trunk/contributors/MichaelMahemoff
+mahemoff=$TW_ROOT/contributors/MichaelMahemoff
 for f in \
   $mahemoff/plugins/CommentsPlugin/CommentsPlugin.js\
   $mahemoff/plugins/GuidPlugin/GuidPlugin.js\
-  $trunk/association/plugins/ServerSideSavingPlugin.js\
-  $trunk/contributors/EricShulman/plugins/SinglePageModePlugin.js\
-  $trunk/contributors/EricShulman/plugins/TaggedTemplateTweak.js\
+  $TW_ROOT/association/plugins/ServerSideSavingPlugin.js\
+  $TW_ROOT/contributors/EricShulman/plugins/SinglePageModePlugin.js\
+  $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js\
   $mahemoff/plugins/TiddlerTableMacro/TiddlerTableMacro.js\
-  $trunk/association/adaptors/TiddlyWebAdaptor.js\
+  $TW_ROOT/association/adaptors/TiddlyWebAdaptor.js\
   $mahemoff/plugins/TiddlyWebLinkPlugin/TiddlyWebLinkPlugin.js\
-  $trunk/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js\
-  $trunk/contributors/MichaelMahemoff/plugins/SimpleMessagePlugin/SimpleMessagePlugin.js\
+  $TW_ROOT/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js\
+  $TW_ROOT/contributors/MichaelMahemoff/plugins/SimpleMessagePlugin/SimpleMessagePlugin.js\
   `find $top/cache -name '*.js'`\
   ; do
     ln -s $f $f.meta clientExternal
