@@ -167,6 +167,9 @@ html body .title {
 .sectionHeading {
 	width:85%;
 }
+.iconShift {
+top:1em;
+}
 </style>
 <![endif]-->
 
