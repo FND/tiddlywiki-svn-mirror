@@ -44,7 +44,9 @@ var Tagmindmap = function(wrapper,settings){
 	var handler = function(t){
 	    that.transform(t);
 	}
-	this.controlpanel =new VismoController(wrapper,{handler:handler,controls:["pan","zoom","mousepanning"]});
+    var controls = ["pan","zoom"];
+    if(!config.browser.isIE) controls.push("mousepanning");
+	this.controlpanel =new VismoController(wrapper,{handler:handler,controls:controls});//
 	this.ready = false;
 	this.children = {};
 	this.parents = {};
@@ -131,11 +133,12 @@ Tagmindmap.prototype = {
 	
 
 	createNodeFromJSON: function(json){
-
-		if(json == {}) return;
+        //console.log("ici");
+		if(!json || json == {}) return;
 		var temp = false;
 		var res = false;
 		var node1= json['node'];
+		
 		if(json['parents']){ 
 			for(var i=0; i < json['parents'].length; i++){
 				var parent = json['parents'][i];
@@ -143,7 +146,7 @@ Tagmindmap.prototype = {
 				res = temp | res;
 			}
 		 }
-
+		 
 		if(json['children']){
 			for(var i=0; i < json['children'].length; i++){
 			   	var child = json['children'][i];
@@ -157,7 +160,7 @@ Tagmindmap.prototype = {
 		   temp = this.drawEdge(this.thehiddenbridge, node1['id'],null,node1['name'],null,node1['data']);
 		res = temp | res;
 		 }
-		
+		//console.log("done");
 		return res;
 	},
 
@@ -167,7 +170,7 @@ Tagmindmap.prototype = {
 	        this.controlpanel.setTransformation(t);
 	        try{
 		this.rgraph.onClick(id);
-		console.log("good");
+		//console.log("good");
 		}
 		catch(e){
 		    var ttmm = this;
@@ -233,6 +236,7 @@ Tagmindmap.prototype = {
 		if(this._nodeInExcludeList(id_a) || this._nodeInExcludeList(id_b)) return false;
 		plotNeeded=false;
 
+        
 		if(id_a != "" && id_b != ""){
 
 		  plotNeeded = this._make_connection(id_a,id_b);
@@ -248,7 +252,9 @@ Tagmindmap.prototype = {
 	},
 
 	_make_connection: function(a,b){
+
 	  	  var drawn = this._setupMapIfNeeded(a);
+	  	  //console.log("ici mc");
 		  var node1, node2; 
 		  node1 = this.controller.getNode(a);
 		  node2 = this.controller.getNode(b);
@@ -280,10 +286,11 @@ Tagmindmap.prototype = {
 				if(!this.parents[b]) this.parents[b] = [];
 				this.children[a].push(b);
 				this.parents[b].push(a);
-
+ //console.log("made connection");
 				return true;
 			 }
 		 }
+		 
 	},
 	deleteNode: function(id){
 		var node = this.rgraph.controller.getNode(id);
@@ -344,7 +351,7 @@ Tagmindmap.prototype = {
 		        ttmm.computeThenPlot();
 		    };
 		    window.setTimeout(f,100);
-			console.log(e+"in computeThenPlot");
+			//console.log(e+"in computeThenPlot");
 		}
 	},
 
@@ -436,20 +443,23 @@ Tagmindmap.prototype = {
             }
 			,attachClickFunction: function(domElement,node){	
 				if(node.id == this.thehiddenbridge) return;
-				
+			
 				var dblclickfunction = function(event){
+				        
 				        ttmm.callWhenClickOnNode(node,ttmm.wrapper.id,event);
 				};
 				var clickfunction = function(event){
+				    
 				        if(ttmm.rgraph.getRoot() == node) {
-				            dblclickfunction(event); return;}
+				            dblclickfunction(event); 
+				            return;}
 				            
 						ttmm.createNodeFromJSON(ttmm.dynamicUpdateFunction(node.id));
                         ttmm.centerOnNode(node.id);
                         
 				};
 
-				jQuery(domElement).click(clickfunction);
+				jQuery(domElement).mouseup(clickfunction);
 			}
 			,getMaxChildren: function(){
 				var max =0,num;
@@ -652,7 +662,7 @@ Tagmindmap.prototype = {
         },
 
 	_setupMapIfNeeded: function(lastOpenNode){
-		
+			    //console.log("Trying to setup map");
 		if(!this.canvas){
 			this._init_html_elements();
 		}
@@ -669,8 +679,10 @@ Tagmindmap.prototype = {
 		
 		json.data = {};
 		json.data.nodraw=true;
-	    	this.canvas= new Canvas(this.canvas.id, this.settings.nodeColor, this.settings.lineColor); 
+	    this.canvas= new Canvas(this.canvas.id, this.settings.nodeColor, this.settings.lineColor); 
+	      
 		controller = this._getController();	
+		
 		this.rgraph= new RGraph(this.canvas, controller,this.labelContainer);
   
 
@@ -684,7 +696,7 @@ Tagmindmap.prototype = {
 		this.centerOnNode(lastOpenNode);
 		//this.rgraph.graph.root = this.controller.getNode(lastOpenNode);	
 
-	  		
+	  		    
 				  //if(!this.rgraph.graph.root) this.rgraph.graph.root =this.controller.getNode(this._firstNode);
 		return true;
 	

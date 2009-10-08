@@ -1,0 +1,8 @@
+recipe: $TW_TRUNKDIR/core/html/split.recipe
+recipe: $TW_TRUNKDIR/core/shadows/split.recipe
+recipe: $TW_TRUNKDIR/core/js/split.recipe
+recipe: $TW_TRUNKDIR/core/deprecated/split.recipe
+recipe: $TW_TRUNKDIR/core/jquery/split.recipe
+recipe: ../../plugins/VismoLibrary/split.recipe
+recipe: tiddlers/split.recipe
+recipe: plugins/split.recipe

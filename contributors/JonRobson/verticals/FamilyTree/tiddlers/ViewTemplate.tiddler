@@ -1,15 +1,20 @@
 <div title="ViewTemplate" tags="excludeTree">
 <pre>
 <!--{{{-->
-<div macro='tiddlerGender'></div>
+<div macro='tiddlerGender'>
 <div class='tiddlerContainer'>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div><span class='title' macro='view title'></span>&nbsp;<span macro='makeRootLink'></span></div>(<span macro='view dob'></span>-<span macro='view dod'></span>)
+<div><span class='title' macro='view title'></span>&nbsp;<span macro='makeRootLink'></span></div>
+<span macro='aet if:dob|dod'>(<span macro='view dob'></span><span macro='aet if:dod'>-</span><span macro='view dod'></span>)</span>
 
-<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='subtitle'>Child of <span macro='view mother link'></span> and <span macro='view father link'></span> 
+<div class='subtitle'>last modified <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='subtitle'>
+<span macro='aet if:mother&father'>Child of</span>
+<span macro='view father link'></span>
+<span macro='aet if:father&mother'>and</span>
+<span macro='view mother link'></span> 
 <br/>
-Spouse of <span macro='ftview spouse'></span>
+<span macro='aet if:spouse'>Spouse(s):</span><span macro='ftview spouse'></span>
 
 </div>
 <h3>Children of <span macro='view title'></span></h3>
@@ -17,16 +22,26 @@ Spouse of <span macro='ftview spouse'></span>
 <div class='tagging' macro='tagging'></div>
 <div class='tagged' macro='tags'></div>
 
+<h3>Facts</h3>
 <div class='factbox'>
-<div>born <span macro='view dob'></span> in <span macro='view placeofbirth'></span></div>
+<div>
+<span macro='aet if:!dob&!placeofbirth&!occupation&!dod&!placeofdeath'>No facts.</span>
+  <span macro='aet if:dob'>
+  born <span macro='view dob'></span> </span>
+  <span macro='aet if:placeofbirth'>in </span><span macro='view placeofbirth'></span></div>
 
-<div>occupation <span macro='view occupation'></span></div>
-<div>died <span macro='view dod'></span> in <span macro='view placeofdeath'></span></div>
+<div><span macro='aet if:occupation'>occupation </span><span macro='view occupation'></span></div>
+<div>
+<span macro='aet if:dod'>died </span><span macro='view dod'></span>
+<span macro='aet if:placeofdeath'> in</span><span macro='view placeofdeath'></span>
+</div>
 </div>
 
+<h3>Further Information</h3>
 <div class='viewer' macro='view text wikified'></div>
 
 <div class='tagClear'></div>
+</div>
 </div>
 <!--}}}-->
 </pre></div>

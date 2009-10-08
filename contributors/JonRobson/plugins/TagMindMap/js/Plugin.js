@@ -3,7 +3,7 @@
 |''Description''|Bring your tiddlers to life in a radial graph which displays all your tiddlywiki tiddlers and the relationships between them. (A bit like The Brain)|
 |''Author''|Jon Robson|
 |''Contributors''|Nicolas Garcia Belmonte|
-|''Version''|1.5 in progress|
+|''Version''|1.7|
 |''Date''|Nov 2008|
 |''Status''|@@experimental@@;|
 |''License''|BSD|
@@ -63,6 +63,12 @@ The digits preceding the first digit represent these buttons in this order..
 toggle, loadall
 
 {{{<<tiddlytagmindmap toolbar:101>>}}} would give you a vertical toolbar with a loadall button
+
+!!!display
+display:none
+
+!!!click
+click:existing
 
 !!!The Start State
 A parameter can be used to specify how the map looks on start up. 

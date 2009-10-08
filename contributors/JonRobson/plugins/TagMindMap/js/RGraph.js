@@ -1492,11 +1492,13 @@ var GraphPlot = {
 			x: Math.round(pos.x + cpos.x + radius.x/2 - size /2),
 			y: Math.round(pos.y + cpos.y + radius.y/2 - size /2)
 		};
+		if(tag.style && size){
 		tag.style.width = size + 'px';
 		tag.style.height = size + 'px';
 		tag.style.left = labelPos.x + 'px';
 		tag.style.top = labelPos.y  + 'px';
 		tag.style.display = this.fitsInCanvas(labelPos, canvas)? '' : 'none';
+		}
 		controller.onPlaceLabel(tag, node);
 	},
 	

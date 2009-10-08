@@ -10,6 +10,9 @@ config.macros.FamilyTree = {
         var n = [];
         var edges = [];
         var tempnodes = {};
+        var femaleNodeColor ="rgb(255,105,180)";
+        var maleNodeColor = "#71B4FF";
+        
         for(var i=0; i< nodes.length; i++){
             var node = nodes[i];
             var id1 = node.title;
@@ -21,11 +24,11 @@ config.macros.FamilyTree = {
               if(node.fields.sex){
                   if(node.fields.sex == 'M'){
                       properties.sex= "M";
-                      properties.fill = "rgb(0,0,200)";
+                      properties.fill = maleNodeColor;
                   }
                   else if(node.fields.sex =='F'){
                       properties.sex = "F";
-                      properties.fill = "rgb(255,105,180)";
+                      properties.fill = femaleNodeColor;
                   }
               }
               properties.name = id1;
@@ -69,7 +72,7 @@ config.macros.FamilyTree = {
         jQuery(tooltip).css({position:"relative",border:"red"});
 
         var orphans = graph.getOrphans().sort();
-        var str = "<select class='changeroot' style=''>";
+        var str = "<select class='changeroot' style=''><option>select a root</option>";
         for(var i=0; i < orphans.length;i++){
             var p=orphans[i];
             var node = graph.getNode(p);
@@ -88,11 +91,12 @@ config.macros.FamilyTree = {
            that.vgr.compute(this.value);
         });
         
-        var options = {graph:graph,algorithm:FT_algorithm,nodeWidth:20,nodeHeight:10};
+        var options = {graph:graph,algorithm:FT_algorithm,nodeWidth:20,nodeHeight:10,defaultNodeColor:"rgb(200,200,200)",lineColor:"rgb(255,255,255)",lineWidth:"8"};
         
         if(rootid) options.root=rootid;
         var that = this;
         jQuery(tooltip).css({position:"absolute",display:"none"});
+        options.vismoController = {controlFill:"rgb(255,255,255)",controlShape: "circle",controlStroke:"#39AC1B"};
         options.move = function(e,s){ jQuery(tooltip).css({display:"none"});if(s){var bb = s.getBoundingBox();jQuery(tooltip).text(s.getProperty("name"));jQuery(tooltip).css({top:e.screenY - e.clientY,left:0,display:""});}};
         options.dblclick = function(e,s){story.displayTiddler(null,s.properties.name);};
         this.vgr = new VismoGraphRenderer(div,options);

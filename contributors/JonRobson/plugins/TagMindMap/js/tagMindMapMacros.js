@@ -91,10 +91,14 @@ config.macros.LoadMindMap={
 	,onClick: function(e,id)
 	{
 		var ttmm;
-		if(id) 
+		if(id){
+		
 			ttmm = config.macros.tiddlytagmindmap.store[id];
-		else
+			}
+		else{
 			ttmm = config.macros.tiddlytagmindmap.getAssociatedTiddlyTagMindMapObject(this.wrapperID,true); 
+		}
+		if(ttmm){
 		var list = store.getTiddlers();
 		for (var t=0; t<list.length; t++) { 
 
@@ -102,6 +106,7 @@ config.macros.LoadMindMap={
 		}
 
 		ttmm.computeThenPlot();
+		}
 
 
 	}
@@ -139,7 +144,11 @@ config.macros.tiddlytagmindmap={
 		}
 		
 		var settings = this.get_ttmm_settings(paramString);
-
+        if(settings.display){
+          
+            settings.toolbar = '010'; //turn toggle button on
+       
+        }
 		var elem = this.setup_ttmm_html(place,settings);
 
 			try{
@@ -153,11 +162,12 @@ config.macros.tiddlytagmindmap={
 			if(settings.startupFunction){
 				settings.startupFunction(elem.id);
 			}
-			console.log(settings);
+		
 			        if(settings.display){
-			alert(":D");
+			//alert(":D");
 			            jQuery(".ttmm",place).css({"display":settings.display}); //new
-		}
+			            
+		            }
 		}
 		catch(e){console.log("exception thrown during tiddlytagmindmap creation:"+e);}
 	},
@@ -183,6 +193,7 @@ config.macros.tiddlytagmindmap={
 		settings.animate = true;
 		var clickfunction = function(node,id,e){
 			//var tiddlerElem = story.findContainingTiddler(resolveTarget(e));
+		
 			story.displayTiddler(null, node.id,null,null,null,null,null,id);
 		};
 		settings.clickFunction = clickfunction;
@@ -265,6 +276,7 @@ config.macros.tiddlytagmindmap={
 			if(startState){
 				if(startState == 'all')
 					startupFunction = function(id){
+					    
 						config.macros.LoadMindMap.onClick(null,id);
 					}
 				else if(startState == 'empty'){

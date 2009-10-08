@@ -262,34 +262,51 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				}
 		}
 		
-		,doifstatement: function(place,stmt,tiddler){
-		    var params = stmt.split("&");
-            var finalEval = true;
-            for(var i=0; i < params.length; i++){
-                 var evaluatesTo = true;
-                var arg = params[i];
+		,_doStatement: function(stmt,tiddler,or){
+		        var delimiter = "&";
+		        if(or){
+		            delimiter = "|";
+		        }
+		       var params = stmt.split(delimiter);
+                var finalEval = true;
+                if(or) finalEval = false;
+                for(var i=0; i < params.length; i++){
+                     var evaluatesTo = true;
+                    var arg = params[i];
 
 
-                if(arg.indexOf("!") == 0){
-                    var x = tiddler.fields[arg.substr(1)];
-                    //console.log("cool");
-                    if(x){
-                        evaluatesTo = false;
+                    if(arg.indexOf("!") == 0){
+                        var x = tiddler.fields[arg.substr(1)];
+                        //console.log("cool");
+                        if(x){
+                            evaluatesTo = false;
+                        }
+                        else{
+                            evaluatesTo = true;
+                        }
                     }
                     else{
-                        evaluatesTo = true;
+                        var x = tiddler.fields[arg];
+                        if(!x){
+                            evaluatesTo = false;
+                        }
                     }
-                }
-                else{
-                    var x = tiddler.fields[arg];
-                    if(!x){
-                        evaluatesTo = false;
+                    if(or){
+                        finalEval = evaluatesTo || finalEval;
                     }
+                    else{
+                        finalEval = evaluatesTo && finalEval;
+                    }//console.log(arg,evaluatesTo,finalEval);
+
                 }
-                finalEval = evaluatesTo && finalEval;
-                //console.log(arg,evaluatesTo,finalEval);
-                
-            }
+                return finalEval;
+		}
+		,doifstatement: function(place,stmt,tiddler){
+		    var or = false;
+		    if(stmt.indexOf("|") > -1){
+		        or= true;
+		    }
+		    var finalEval = config.macros.aet._doStatement(stmt,tiddler,or);
             
             if(!finalEval){
                 place.innerHTML = "";
@@ -343,7 +360,9 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		            console.log(title,metaDataName,newval);
     		        aet.setMetaData(title,metaDataName,newval);
 		        }
-            	var selected = tiddlerobj.fields[metaDataName];
+		        
+            	var selected;
+            	if(tiddlerobj)selected= tiddlerobj.fields[metaDataName];
 			    this.setupRadioboxes(place,source,selected,handler);
 			}
 			else if(ctrlType == 'date'){

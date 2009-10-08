@@ -1,8 +1,12 @@
+/* Requires AdvancedEditTemplate plugin and TiddlyWeb stats plugin */
+
+
 config.macros.ratemytiddler = {
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
         var newplace = document.createElement("div");
         var handler = function(e){
-            jQuery.get(config.defaultCustomFields["server.host"]+"/stats/AVERAGE?field=rating&tiddler="+tiddler.title+"&value="+ this.value);
+			var host = config.defaultCustomFields["server.host"];
+            jQuery.get(host+"/stats/AVERAGE?field=rating&tiddler="+tiddler.title+"&value="+ this.value);
             jQuery(newplace).html("Thanks for the feedback!");
         };
         
@@ -12,3 +16,17 @@ config.macros.ratemytiddler = {
     }
     
 };
+
+config.macros.viewfloat= {
+	 handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+	 	var field = params[0];
+	 	var pre = params[1];
+	 	var val;
+	 	if(tiddler.fields[field])val= parseFloat(tiddler.fields[field]).toFixed(pre);
+	 	else val = "?"
+	 	wikify(val,place);
+	 }
+};
+
+var host = config.defaultCustomFields["server.host"];       
+if(!host) alert("make sure you have included the system bag to allow saving!");

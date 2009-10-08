@@ -150,17 +150,34 @@ var VismoGraphRenderer = function(place,options){
     if(!options.algorithm){
         throw "GraphRenderer requires an option called algorithm which is a function. This will take two parameters graph and root and should set XPosition and YPosition on every node.";
     }
+    if(!options.lineColor){
+        options.lineColor = "rgb(0,0,0)";
+    }
+    if(!options.defaultNodeColor){
+        options.defaultNodeColor = "#ffffff";
+    }
+    if(!options.lineWidth){
+        options.lineWidth = "2";
+    }
     
     this.algorithm = options.algorithm; 
     if(!options.nodeWidth) options.nodeWidth= 5;
     if(!options.nodeHeight) options.nodeHeight = 5; 
+    
     this.options = options;
     this._edgeShapeCoordinates = [];
     this._graph = options.graph;
-
- 
     
-    var canvasopts = {vismoController:{}};
+    var canvasopts;
+    if(!options.vismoCanvas) canvasopts = {};
+    else canvasopts = options.vismoCanvas;
+    
+    if(!options.vismoController){
+        canvasopts.vismoController = {};
+    } 
+    else{
+        canvasopts.vismoController = options.vismoController;
+    }
     if(options.move)canvasopts.move = options.move;
     if(options.dblclick)canvasopts.dblclick = options.dblclick;
     this._canvas = new VismoCanvas(place,canvasopts);
@@ -185,7 +202,7 @@ VismoGraphRenderer.prototype = {
         
         this.plot(root);
         if(this._edgeShapeCoordinates.length > 0){
-            this._canvas.add(new VismoShape({shape:"path",coordinates:this._edgeShapeCoordinates}));
+            this._canvas.add(new VismoShape({"z-index":"-1",shape:"path",stroke:this.options.lineColor,lineWidth:this.options.lineWidth,coordinates:this._edgeShapeCoordinates}));
         }
         this._canvas.render();
 
@@ -223,6 +240,7 @@ VismoGraphRenderer.prototype = {
             var node= this._graph.getNode(id);
             node.properties.shape = st;
             node.properties.coordinates = coords;
+            if(!node.properties.fill)node.properties.fill = this.options.defaultNodeColor;
             var shape= new VismoShape(node.properties);
             this._canvas.add(shape);          
         }

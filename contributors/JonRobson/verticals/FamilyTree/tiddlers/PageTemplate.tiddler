@@ -1,9 +1,9 @@
-<div title="PageTemplate" tags="excludeTree">
+<div title="PageTemplate" tags="excludeTree excludeLists">
 <pre>
 <!--{{{-->
 <div class='ftTitle' refresh='content' force='true' tiddler='SiteTitle'></div>
 <div macro="FamilyTree">
-<div class='ftHideCorner'></div>
+
 </div>
 
 <div class='ftContainer'>
@@ -14,10 +14,12 @@
 	</div>
 	
 	<div id='displayArea'>
-		
+		<div class='ftHideCorner'></div>
 		<div id='messageArea'></div>
 		<div id='tiddlerDisplay'></div>
+		
 	</div>
+
 </div>
 <!--}}}-->
 </pre></div>

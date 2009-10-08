@@ -15,9 +15,9 @@ import logging
 from tiddlyweb.model.bag import Bag
 from tiddlyweb.model.recipe import Recipe
 from tiddlyweb.model.tiddler import Tiddler
-from twplugins import replace_handler
+from tiddlywebplugins import replace_handler
 # Data storage system
-from tiddlyweb.store import Store, NoBagError,NoTiddlerError
+from tiddlyweb.store import Store, NoBagError,NoTiddlerError,NoRecipeError
 
 # The put method from the tiddler web handler
 # is used to allow us to put a tiddler, via a
@@ -46,7 +46,7 @@ def refreshnojstemplates(args):
     
     
 def define_js_redirect(location):
-  text = "<script type='text/javascript'>window.location= window.location;</script>"
+  text = "<script type='text/javascript'>window.location= window.location+'?j=y';</script>"
   fileObj = open(nojspath+"%sjs.html"%location,"w") #open for write
   fileObj.write(text)
   fileObj.close()      
@@ -55,13 +55,13 @@ def define_index(location):
   pathname = template_sub_path+ location
   create_file_if_new("%sindex.html"%location)
   text = "<html><head>{%% include '%sMarkupPreHead.html' %%}"%pathname+\
-  "<title>{%% include '%sSiteTitle.html' %%}</title>"%pathname+\
+  "<title>{%% if tiddlers|length == 1 %%}{{tiddlers[0].title}} - {%% endif%%}{%% include '%sSiteTitle.html' %%}</title>"%pathname+\
   "<style type='text/css'>.hide_nojavascript {display:none;}"+\
   "{%% include '%sStyleSheetColors.html'%%}"%pathname+\
   "{%% include '%sStyleSheetLayout.html'%%}{%% include '%sStyleSheet.html' %%}"%(pathname,pathname)+\
   "#saveTest {display:none;}\n#messageArea {display:none;}\n#copyright {display:none;}\n#storeArea {display:none;}\n#storeArea div {padding:0.5em; margin:1em 0em 0em 0em; border-color:#fff #666 #444 #ddd; border-style:solid; border-width:2px; overflow:auto;}\n#shadowArea {display:none;}\n#javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}</style>"+\
   "</head>"+\
-  "<body><noscript><div id='contentWrapper' class='backstageVisible'>{%% include '%sPageTemplate.html' %%}</div></noscript>{%% include '%sjs.html' %%}</body></html>"%(pathname,pathname)
+  "<body><noscript><div class='nojsplugin_indexheader'><a href='{{environ['nojs_index']}}.nojswiki'>index</a></div><div id='contentWrapper' class='backstageVisible'>{%% include '%sPageTemplate.html' %%}</div></noscript>{%% include '%sjs.html' %%}</body></html>"%(pathname,pathname)
   fileObj = open(nojspath+"%sindex.html"%location,"w") #open for write
   fileObj.write(text)
   fileObj.close() 
@@ -193,7 +193,11 @@ def get_bag(tiddler_name,environ):
     bag = environ['selector.vars']['bag_name']
   except KeyError:
     store=environ['tiddlyweb.store']
-    recipe = store.get(Recipe(environ['selector.vars']['recipe_name']))
+    recipe_name = environ['selector.vars']['recipe_name']
+    try:
+      recipe = store.get(Recipe("beefcaked_"+recipe_name))
+    except NoRecipeError:
+      recipe = store.get(Recipe(recipe_name))
     try:
       bagobj = control.determine_tiddler_bag_from_recipe(recipe, Tiddler(tiddler_name))
       bag = bagobj.name
@@ -221,9 +225,21 @@ def setup_filters(environ):
   try:
      bag = environ['selector.vars']['bag_name']
      environ["nojs_path"] = "bags/%s/tiddlers"%(bag)
+     environ["nojs_path_nobeefcake"] = environ["nojs_path"]
+     environ["nojs_index"] = environ["nojs_base"]+environ["nojs_path"]
   except KeyError:
-    recipe = environ['selector.vars']['recipe_name']
-    environ["nojs_path"] = "recipes/%s/tiddlers"%(recipe)
+    recipe_name = environ['selector.vars']['recipe_name']
+    environ["nojs_path"] = "recipes/%s/tiddlers"%(recipe_name)
+    environ["nojs_path_nobeefcake"] = environ["nojs_path"]
+    environ["nojs_index"] = environ["nojs_base"]+environ["nojs_path"]
+    store = environ['tiddlyweb.store'] 
+    try:
+      recipe = store.get(Recipe("beefcaked_"+recipe_name))
+      
+      environ["nojs_path"] ="beefcaked/%s"%environ["nojs_path"]
+    except NoRecipeError:
+      pass
+      
   def wikifier(text):
     if "<html>" in text and "</html>" in text:
       return text
@@ -268,7 +284,8 @@ def generate_without_js(environ,tiddler_name):
   if tiddler_name:
     store = environ['tiddlyweb.store']
     try:
-      tiddlertoview = store.get(Tiddler(tiddler_name,get_bag(tiddler_name,environ)))
+      bag_name = get_bag(tiddler_name,environ)
+      tiddlertoview = store.get(Tiddler(tiddler_name,bag_name))
     except NoTiddlerError:
       tiddlertoview = Tiddler(tiddler_name)
       tiddlertoview.text = ""
@@ -279,6 +296,7 @@ def generate_without_js(environ,tiddler_name):
 
 
 def generate_index(environ,bag):
+  
   setup_filters(environ)
   setup_templates(environ)
   tiddlers = bag.list_tiddlers()
@@ -290,6 +308,7 @@ def generate_index(environ,bag):
     sitetitle = "%s (index)"%get_location(environ)
   indextiddler = Tiddler(sitetitle)
   indextext = ""
+  tiddlers.sort(lambda x, y: cmp(x.title, y.title))
   for tiddler in tiddlers:
     indextext += "[[%s]]\n"%(tiddler.title)
 
@@ -314,46 +333,76 @@ class Serialization(HTMLSerialization):
     
     def list_tiddlers(self, bag):
         try:
-          if self.environ["HTTP_REFERER"] == "http://%s%s"%(self.environ['HTTP_HOST'],self.environ['REQUEST_URI']):
-            js = True
-          else:
-            js = False
+          qs = self.environ["tiddlyweb.query"]["j"][0]
+          js = True
         except KeyError:
           js = False
+        
+        if not js:
+          try:
+            host = "http://"+self.environ['HTTP_HOST']
+
+            refer = self.environ["HTTP_REFERER"]
+            if refer == host or refer == "%s%s"%(host,self.environ['REQUEST_URI']):
+              js = True
+            else:
+              js = False
+          except KeyError:
+            js = False
         if js:
           s = Serializer("tiddlywebwiki.serialization",self.environ)
           return s.list_tiddlers(bag)
         else:
-          return generate_index(self.environ,bag)
-  
+          if bag.tiddlers[0] and bag.tiddlers[0].recipe:            
+            try:
+              beefcaked_recipe ="beefcaked_"+bag.tiddlers[0].recipe
+              store = self.environ['tiddlyweb.store'] 
+              recipe = store.get(Recipe(beefcaked_recipe))
+              return generate_index(self.environ,self.get_tiddlers_bag_for_recipe(beefcaked_recipe))
+            except NoRecipeError:
+              return generate_index(self.environ,bag)
+          else:
+            return generate_index(self.environ,bag)
+
+    def get_tiddlers_bag_for_recipe(self,recipe_name):
+        store = self.environ['tiddlyweb.store'] 
+        recipe = store.get(Recipe(recipe_name))
+        list_tiddlers = control.get_tiddlers_from_recipe(recipe)
+    
+        tiddlers = []
+
+        tempbag = Bag("tempbag",tmpbag=True)
+    
+        tempbag.add_tiddlers(list_tiddlers)
+        return tempbag
     def tiddler_as(self, tiddler):
         store = self.environ['tiddlyweb.store'] 
         try:
-            if self.environ["HTTP_REFERER"] == "http://%s%s"%(self.environ['HTTP_HOST'],self.environ['REQUEST_URI']):
+          qs = self.environ["tiddlyweb.query"]["j"][0]
+          js = True
+        except KeyError:
+          js = False
+        
+        if not js:  
+          try:
+            host = "http://"+self.environ['HTTP_HOST']
+            refer = self.environ["HTTP_REFERER"]
+            if refer == host or refer == "%s%s"%(host,self.environ['REQUEST_URI']):
               js = True
             else:
               js = False
-        except KeyError:
+          except KeyError:
             js = False
+            
         if js:
             s = Serializer("tiddlywebwiki.serialization",self.environ)
             #s.object = tiddler
             if tiddler.recipe: 
                 recipe_name = tiddler.recipe
-                recipe = store.get(Recipe(recipe_name))
-                list_tiddlers = control.get_tiddlers_from_recipe(recipe)
-                
-                tiddlers = []
-                for tid in list_tiddlers:
-                    try:
-                      bag= control.determine_tiddler_bag_from_recipe(recipe, tid)
-                      tid.bag = bag.name
-                      tiddlers.append(store.get(tid))
-                    except NoBagError:
-                      pass
-                tempbag = Bag("tempbag",tmpbag=True)
-                
-                tempbag.add_tiddlers(list_tiddlers)
+                tempbag = self.get_tiddlers_bag_for_recipe(recipe_name)
+                defaultTiddler = Tiddler("DefaultTiddlers")
+                defaultTiddler.text = "[["+tiddler.title +"]]"
+                tempbag.add_tiddlers([defaultTiddler])
                 return s.list_tiddlers(tempbag)
             else:
                 tempbag = Bag(tiddler.bag)   
@@ -366,13 +415,37 @@ class Serialization(HTMLSerialization):
            
         
 
-def init(config_in):
-    global config
-    global nojspath 
+def getBeefcakedTiddler(environ,start_response):
+    store = environ['tiddlyweb.store']  
+     
+    start_response('200 OK', [
+        ('Content-Type', 'text/html; charset=utf-8')
+        ])
     
+    tiddler_name = environ['wsgiorg.routing_args'][1]['tiddler']
+    tiddler =Tiddler(tiddler_name)
+    try:
+      initial_recipe_name = environ['wsgiorg.routing_args'][1]['recipe'] 
+      recipe_name = "beefcaked_"+initial_recipe_name
+      environ['selector.vars']['recipe_name'] = environ['wsgiorg.routing_args'][1]['recipe'] 
+      recipe = store.get(Recipe(recipe_name))
+      bag = control.determine_tiddler_bag_from_recipe(recipe, Tiddler(tiddler_name))
+      bag_name = bag.name
+      tiddler.recipe = initial_recipe_name
+    except KeyError:
+      bag_name = environ['wsgiorg.routing_args'][1]['bag']
+      environ['selector.vars']['bag_name'] = bag_name
+    tiddler.bag = bag_name
+    
+    s = Serialization(environ)
+    return s.tiddler_as(store.get(tiddler))
+    
+def init(config):
+    global nojspath
     nojspath = "templates/"+template_sub_path
-    config = config_in
+    config['selector'].add('/beefcaked/test', GET=getBeefcakedTiddler)
+    config['selector'].add('/beefcaked/recipes/{recipe:segment}/tiddlers/{tiddler:segment}', GET=getBeefcakedTiddler)
+    config['selector'].add('/beefcaked/bags/{recipe:segment}/tiddlers/{tiddler:segment}', GET=getBeefcakedTiddler)
     config['extension_types'].update(EXTENSION_TYPES)    
     config['serializers'].update(SERIALIZERS)
     config['serializers']['default'] =['nojs', 'text/html;charset=UTF-8']
-  

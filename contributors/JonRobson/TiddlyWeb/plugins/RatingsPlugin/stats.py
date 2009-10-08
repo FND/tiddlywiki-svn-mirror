@@ -7,13 +7,20 @@ from tiddlyweb.model.tiddler import Tiddler
 #Data storage system
 from tiddlyweb.store import Store, NoBagError,NoTiddlerError
 
+def get_tiddler_title_for_stats(environ):
+  try:
+    title = environ['tiddlyweb.config']['stats']['tiddler']
+  except KeyError:
+    try:
+      title= environ['tiddlyweb.query']['tiddler'][0]
+    except KeyError:
+      title = False
+  return title
+  
 def stat_average(environ):
   logging.debug("in statadd")
   success = False
-  try:
-    title= environ['tiddlyweb.query']['tiddler'][0]
-  except KeyError:
-    title = False
+  title = get_tiddler_title_for_stats(environ)
   
   try:
     value= environ['tiddlyweb.query']['value'][0]
@@ -22,22 +29,31 @@ def stat_average(environ):
   
 
   try:
-    field= environ['tiddlyweb.query']['field'][0]
+    field= environ['tiddlyweb.query']['field'][0].lower()
   except KeyError:
     field = False  
+  statsconfig =environ["tiddlyweb.config"]["stats"]
+  avgconfig = statsconfig["average"]
+  if title == statsconfig["tiddler"]:
+    allowed = True
+  elif field in avgconfig["fields"]:
+    allowed = False
+  else:
+    allowed = False
   
-    
-  avgconfig = environ["tiddlyweb.config"]["stats"]["average"]
-  if title and value and field and field in avgconfig["fields"] and int(value) <= avgconfig["max"] and int(value) > avgconfig["min"]:
+  if title and value and field and allowed and int(value) <= avgconfig["max"] and int(value) >= avgconfig["min"]:
     store = environ['tiddlyweb.store']
-    tid =Tiddler(title, "stats")
+    tid =Tiddler(title, environ['tiddlyweb.config']['stats']['bag'])
     count = 0
     lastvalue = 0
     try:
       tiddler = store.get(tid)
-      count = int(tiddler.fields[field+"_count"])
-      lastvalue =  int(tiddler.fields[field+"_lastvalue"])
-      store.delete(tiddler)
+      try:
+        count = int(tiddler.fields[field+"_count"])
+        lastvalue =  int(tiddler.fields[field+"_lastvalue"])
+        store.delete(tiddler)
+      except KeyError:
+        pass
     except NoTiddlerError:
       pass
 
@@ -58,10 +74,7 @@ def stat_average(environ):
     return False
         
 def stat_increment(environ,start_response):
-  try:
-    title= environ['tiddlyweb.query']['tiddler'][0]
-  except KeyError:
-    title = False
+  title = get_tiddler_title_for_stats(environ)
     	
   try:
     field= environ['tiddlyweb.query']['field'][0]
@@ -88,7 +101,6 @@ def operate_on_stats(environ,start_response):
   action = environ['wsgiorg.routing_args'][1]['action']
   
   success = True
-  logging.debug("allgoodsofar")
   if action == 'AVERAGE':
     success = stat_average(environ)
   elif action == 'INCREMENT':

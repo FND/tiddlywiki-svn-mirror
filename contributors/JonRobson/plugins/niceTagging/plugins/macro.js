@@ -10,6 +10,17 @@
 |''Dependencies:''|AdvancedEditTemplatePlugin|
 ***/
 
+if(store){
+  config.shadowTiddlers.NiceTaggingStyle = "/*{{{*/\n" +
+  ".tip {font-style:italic;font-weight:bold;}\n"+
+  ".dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}\n"+
+  ".niceTagger input {width:200px; float:left;}\n"+
+  ".deleter {color:red; font-weight:bold; padding:2px; cursor:pointer;}\n"+
+  "/*}}}*/";
+store.addNotification("NiceTaggingStyle", refreshStyles);
+}
+
+
 config.macros.niceTagger = {
 	lingo:{
 		add: "add"

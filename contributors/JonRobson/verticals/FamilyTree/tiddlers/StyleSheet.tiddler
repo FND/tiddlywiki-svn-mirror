@@ -1,6 +1,6 @@
 <div title="StyleSheet" tags="excludeTree">
 <pre>
-a,.tabSelected {color:#008500;}
+a,.tabSelected,#sidebarOptions .sliderPanel a{color:#008500;}
 .button {background-color:white;border:1px solid #FFFFFF;color:green;margin-right:2px;padding:20px;}
 #topToolbar {margin-top:10px;margin-left:-12px;}
 #messageArea {background:#39ac1b;border:1px solid white;}
@@ -9,25 +9,29 @@ a,.tabSelected {color:#008500;}
 color:black;
 font-weight:bold;
 padding:10px;}
+.subtitle {padding-top:5px;}
 
-.ftHideCorner {position:absolute;}
 #sidebarOptions input,.tagging, .tagged {
 background-color:none;
 border:1px dashed #024E02;
 }
-.sexMale {background-color:#00665E;height:20px;width:100%;}
-.sexFemale {background-color:#FD7279;height:20px;width:100%;}
+.tagsection input {width:150px;}
+.button:hover {background-color:rgb(110,220,90);color:white;border:solid 1px black;}
+.tiddler .button {padding:1.2em 2em;}
+.sexMale .title {border-bottom:solid 5px #71B4FF;}
+.sexFemale .title{border-bottom:solid 5px #ed00f5;}
 .yourSearchResult {z-index:99999;}
 .tiddler {background-color:white;margin-top:10px;padding:0 0 20px;}
 #displayArea {margin:1em 17em 0 1em;padding:0px;}
 body {font-family: Helvetica, Arial, Sans-serif;color:#024E02;}
 h1,h2,h3,h4,h5,.title{color:#39ac1b;}
+.title {font-size:3em;}
 .ftTitle {color:#39ac1b;font-size:108px;left:10px;position:relative;font-weight:700;}
-.ftContainer {background-color:#39ac1b;padding:20px;position:relative;top:-26px;width:97%;left:10px;}
-#sidebarOptions .sliderPanel {background-color:#39ac1b;}
+.ftContainer {background-color:#39ac1b;padding:20px;position:relative;top:-26px;margin-right:17px;left:10px;}
+#sidebarOptions .sliderPanel {background-color:#EEEEEE;}
 .ftTitleBG {color:white;z-index:2;}
 .ftContainer #displayArea {background-color:auto;}
-.ftContainer #sidebar {background-color:white;margin-top:110px;}
+.ftContainer #sidebar {background-color:white;margin-top:110px;margin-right:40px;}
 .ft_tooltip {background-color:white;padding:10px;color:#39ac1b;z-index:40; font-weight:bold;}
 #tiddlerDisplay {margin-top:100px;}
 .FamilyTree {left:600px;right:7px;height:200px;position:absolute;background-color:#39AC1B;top:0;}
@@ -41,13 +45,13 @@ color:black;
 color:black;
 }
 
-.ftHideCorner {border-color:white white #39AC1B #39AC1B;
+.ftHideCorner {border-color:#39AC1B #39AC1B white white;
 border-style:solid;
-border-width:20px 380px 70px 100px;
+border-width:20px 20px 10px 10px;
 position:absolute;
-right:0;
-top:0;
-z-index:10;
+left:0;
+bottom:0;
+z-index:1;
 }
 .VismoCanvas {z-index:11;}
 .changeroot {margin-left:50%;width:200px;right:100px;z-index:4000;position:relative;}

@@ -1,4 +1,4 @@
-<div title="EditTemplate" tags="excludeTree">
+<div title="EditTemplate" tags="excludeTree excludeLists">
 <pre>
 <!--{{{-->
 <div class='tiddlerContainer'>
@@ -7,8 +7,9 @@
 <div class='editor' macro='edit title'></div>
 <div macro='annotations'></div>
 <div class='editor' macro='edit text'></div>
-<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
-
+<div class='tagsection'>
+tags:<span class='editor' macro='niceTagger'></span>
+</div>
 <h1>Family Tree Specific</h1>
 sex (M or F): <div class='editor' macro='AdvancedEditTemplate metaDataName:sex type:radio valuesSource:sexDefinition'></div>
 date of birth:<div class='editor' macro='edit dob'></div>

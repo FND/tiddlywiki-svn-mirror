@@ -1,7 +1,7 @@
 TiddlyWiki.prototype.familytree_saveTiddler = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created)
 {
-    
+    if(!newTitle) newTitle = title;
     //clean up children    
     if(newTitle &&newTitle != title){
         var tiddlers = store.getTiddlers();
@@ -14,9 +14,48 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
                 tid.fields.father = newTitle;
             }
             
+            var spouses = tid.fields.spouse.split(",");
+            
+            var update = spouses.indexOf(title);
+            if(update !=-1){
+                spouses[update]= newTitle;
+                tid.fields.spouse = spouses.join(",");
+            }
         }
         //do spouses
+
     }
+    var spouseField = store.getTiddler(newTitle).fields.spouse;
+    console.log("spouses used to be ",spouseField);
+    var newSpouseField =fields.spouse;
+    var oldSpouses=spouseField.split(",");
+    var tiddlerSpouses;
+    if(newSpouseField.length > 0){
+        tiddlerSpouses = newSpouseField.split(",");
+    }
+    else{
+        tiddlerSpouses = [];
+    }
+    
+    
+    //add the new spouses
+       
+        for(var i=0; i < tiddlerSpouses.length; i++){
+            var spouse = tiddlerSpouses[i];
+            //console.log("spouse",i,spouse);
+            var spouseTiddler = store.getTiddler(spouse);
+            if(spouseTiddler){
+            if(!spouseTiddler.fields.spouse)spouseTiddler.fields.spouse = "";
+            var spouseSpouses = spouseTiddler.fields.spouse.split(",");
+            //console.log(spouseSpouses,newTitle);
+            if(spouseSpouses.indexOf(newTitle) == -1){
+                spouseSpouses.push(newTitle);
+                spouseTiddler.fields.spouse = spouseSpouses.join(",");
+                //console.log("save");
+            }
+            }
+        }
+    
     this.familytree_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);
 
 };
@@ -45,7 +84,7 @@ config.macros.familytreelist = {
 };
 config.macros.makeRootLink = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler){
-        jQuery(place).html("<a class='makeRoot' href=\"#[["+tiddler.title+"]]\" name=\""+escape(tiddler.title)+"\">make root</a>");
+        jQuery(place).html("<a class='button makeRoot' href=\"#[["+tiddler.title+"]]\" name=\""+escape(tiddler.title)+"\">make root</a>");
         jQuery(".makeRoot",place).click(function(e){
             config.activeTree.compute(unescape(jQuery(this).attr("name")));
         })
@@ -108,10 +147,15 @@ config.macros.ftview = {
         if(field == 'spouse'){
             var sp = tiddler.fields["spouse"].split(",");
             var str = "";
+            
             for(var i=0; i < sp.length;i++){
-                str += "[["+sp[i] + "]]";
-                if(i < sp.length) str += " and ";
+                var thisSpouse = sp[i];
+                if(thisSpouse){
+                    str += "[["+thisSpouse + "]]";
+                    if(i < sp.length-1) str += " and ";
+                }
             }
+            
             wikify(str,place);
         }
 
