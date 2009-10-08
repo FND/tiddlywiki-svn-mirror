@@ -68,9 +68,8 @@ if(!version.extensions.TrailsPlugin) {
   };
 
   plugin.parseTrailTiddler = function(trailText) {
-    console.log("hello parse");
     // var matches = trailText.match(/^(\*)+\s*(\s\S)*?/g)
-    console.log(trailText);
+    // console.log(trailText);
     var trail = {url:"#", resources:[]};
     // var lines = trailText.match(/^\s*\*+ .+$/gm)
     var lines = trailText.match(/^\s*\*+\s*.*$/gm);
@@ -89,7 +88,7 @@ if(!version.extensions.TrailsPlugin) {
       daddy.resources.push(lastResource = {url: "#"+tiddlerTitle, daddy: daddy, resources: [], level:level});
       lastLevel = level;
     });
-    console.log("trail", trail);
+    // console.log("trail", trail);
     return trail;
   }
 
@@ -114,7 +113,7 @@ if(!version.extensions.TrailsPlugin) {
   };
 
   plugin.flattenTree = function(trail) {
-    console.log("flatten", arguments);
+    // console.log("flatten", arguments);
     var resource = trail; // better internal name
     var resourcesSoFar = arguments[1] || []; // hide it from signature
     resourcesSoFar.push(resource.url);
