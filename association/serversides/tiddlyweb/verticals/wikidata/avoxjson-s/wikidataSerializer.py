@@ -7,7 +7,8 @@ from tiddlyweb.model.bag import Bag
 
 EXTENSION_TYPES = { 'wd': 'text/html' }
 SERIALIZERS = {
-    'text/html': ['wikidataSerializer', 'text/html; charset=UTF-8']
+    'text/html': ['wikidataSerializer', 'text/html; charset=UTF-8'],
+    'default': ['wikidataSerializer', 'text/html; charset=UTF-8']
 }
 
 
