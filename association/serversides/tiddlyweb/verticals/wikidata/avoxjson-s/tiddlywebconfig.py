@@ -43,6 +43,7 @@ config = {
             'operational_city': TEXT,
             'operational_state': TEXT,
             'operational_country': ID,
+            'country_of_registration': ID,
             'operational_postcode': TEXT,
         },
         'wsearch.default_fields': [
