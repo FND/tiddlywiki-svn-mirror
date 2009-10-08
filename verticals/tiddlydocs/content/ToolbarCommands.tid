@@ -4,6 +4,5 @@ modifier: Simon McManus
 |~newEditToolbar| +saveTiddler -cancelTiddler |
 |~EditToolbar| +saveTiddler revisions -cancelTiddler deleteTiddlerHosted |
 |~taskViewToolbar|+editTiddler revisions|
-|~drawingEditToolbar| +saveTiddler -cancelTiddler deleteTiddlerHosted|
 |~adminToolbar| deleteTiddlerHosted|
 

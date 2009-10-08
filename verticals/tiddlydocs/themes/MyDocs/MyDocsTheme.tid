@@ -18,6 +18,7 @@ tags: systemTheme  excludeLists excludeSearch
 
     <div class="body">
       <div class="sections">
+	<div id='messageArea'><div class='messageBox'></div></div>
 
         <div id="menu">
         </div>
