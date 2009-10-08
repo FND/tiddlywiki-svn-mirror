@@ -43,9 +43,9 @@ button {
 #header {
 	width: 100%;
 	margin-bottom: 20px;
+	position: relative;
 }
 #header div {
-	display: inline-block;
 	width: 690px;
 	height: 100px;
 	vertical-align: top;
@@ -68,6 +68,9 @@ button {
 #header div.right {
 	margin-left: 20px;
 	width: 240px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
 }
 #header div.right p {
 	padding: 17px;
