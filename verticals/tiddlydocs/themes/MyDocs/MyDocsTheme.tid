@@ -28,7 +28,6 @@ tags: systemTheme  excludeLists excludeSearch
   <div id="search_bar">
     <div id="header1">
       <div id="h1left">
-	<div macro='saveNotification'></div>
 		<!--TOP LINKS LEFT -->
       </div>
       <div id="h1right">
@@ -37,6 +36,7 @@ tags: systemTheme  excludeLists excludeSearch
     </div>
     <div id="header2">
       <div id="flr_h2left1">
+		<div macro='saveNotification'></div>
 		<!--TOP2 LINKS LEFT -->
 
       </div>
