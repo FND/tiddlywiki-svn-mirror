@@ -6,6 +6,7 @@ $(document).ready(function() {
 		oTable = $table.dataTable({
 			bAutoWidth: false,
 			bPaginate: false,
+			bSortClasses: false,
 			bInfo: false,
 			aoColumns: [
 				null, // AVID
@@ -29,7 +30,8 @@ $(document).ready(function() {
 			],
 			sDom: 't'
 		});
-		$table.show();
+		$table.css('visibility',"visible")
+		$.fn.dataTableExt.FixedHeader(oTable);
 		var columns = oTable.fnSettings().aoColumns;
 		var titles = [];
 		for(var i=0;i<columns.length;i++) {

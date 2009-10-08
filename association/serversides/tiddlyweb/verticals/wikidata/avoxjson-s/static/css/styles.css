@@ -95,6 +95,7 @@ div.notice {
 	background-color: #000000;
 	padding: 5px;
 	margin-bottom: 20px;
+	color: #777777;
 }
 #search a, #search a:visited, #search a:hover, #search a:active {
 	color: #999999;
@@ -105,16 +106,18 @@ div.notice {
 #search label {
 	font-style: italic;
 	font-family: "Times New Roman", serif;
-	color: #777777;
 	padding-right: 5px;
 }
-#advancedSearch {
+#advancedSearchContainer {
 	display: block;
 }
-#advancedSearch .advSearchLine {
+#advancedSearchContainer .label {
 	padding-top: 5px;
 }
-.js #advancedSearch {
+#advancedSearchContainer .advSearchLine {
+	padding-top: 5px;
+}
+.js #advancedSearchContainer {
 	display: none;
 }
 /* records table */
@@ -170,12 +173,13 @@ div.notice {
 	display: block;
 }
 .js table {
-	display: none;
+	visibility: hidden;
 }
 table {
 	border-collapse: collapse;
 	background-color: #d5d5d5;
 	font-family: "Georgia", serif;
+	width: 100%;
 }
 table a, table a:active, table a:hover, table a:visited {
 	color: #777777;

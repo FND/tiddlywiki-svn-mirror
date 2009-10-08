@@ -1,13 +1,17 @@
 {% from 'labels.html' import labels %}
 <div id="recordsTableContainer">
 	<div id="results">
-		{# Taking 1 off the count is a temporary hack until we don't return a 'stub' tiddler #}
-		{% set count = tiddlers|count - 1 %}
+		{% set count = tiddlers|count %}
 		<p class="small">
 		{% if count == 0 %}
-			There are no results - <span class="filter"><a href="javascript:;">try using advanced search to include other fields</a></span>
+			There are no results - <span class="filter"><a href="javascript:;">try adding a filter to include other fields in the search</a></span>
 		{% else %}
-			There are {{count}} results - <span class="filter"><a href="javascript:;">add a filter</a>?</span>
+			{% if count == 1 %}
+				There is {{count}} result
+			{% else %}
+				There are {{count}} results
+			{% endif %}
+		 - <span class="filter"><a href="javascript:;">add a filter</a>?</span>
 		{% endif %}
 		</p>
 		<div class="right small" id="columnPicker">
@@ -63,4 +67,5 @@
 </div>
 <script type="text/javascript" src="/static/js/dragtable.js"></script>
 <script type="text/javascript" src="/static/js/dataTables-1.5/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/static/js/FixedHeader.js"></script>
 <script type="text/javascript" src="/static/js/records.js"></script>
