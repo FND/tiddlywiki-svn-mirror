@@ -628,7 +628,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200909071633" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200909091028" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -647,6 +647,23 @@ Allows the adding of multiple level drop down menus and checkboxes to the edit t
 
 // create macro object
 (function($) { // set up alias
+
+config.shadowTiddlers.AdvancedEditTemplateStyle = &quot;/*{{{*/\n&quot; +
+  &quot;.clearboth {clear:both;}\n&quot;+
+  &quot;.aet_radioboxes label {width:auto;float:left;}\n&quot;+
+  &quot;.aet_radioboxes input {width:auto;float:left;}\n&quot;+
+  &quot;.tip {font-style:italic;font-weight:bold;}\n&quot;+
+  &quot;.dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}\n&quot;+
+  &quot;.filebrowser{background-color:white; border:solid 1px black;}\n&quot;+
+  &quot;a.dp-choose-date {border:solid 1px black;}\n&quot;+
+  &quot;.dp-nav-prev {float:left;}\n&quot;+
+  &quot;.dp-nav-next {float:right;}\n&quot;+
+  &quot;.dp-calendar {clear:both;}\n&quot;+
+  &quot;.dp-popup {padding:10px;border:solid 1px black;}\n&quot;+
+  &quot;.jCalendar .selected {background-color:gray;}\n&quot;+
+  &quot;/*}}}*/&quot;
+store.addNotification(&quot;AdvancedEditTemplateStyle&quot;, refreshStyles);
+
 
 config.macros.viewimage ={    
      handler: function(place,macroName,params,wikifier,paramString,tiddler){
@@ -814,13 +831,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
     		        else{
     		            label = val;
     		        }
-    		        radioHtml += &quot;&lt;input class='aet_radiobutton' &quot;+selected+&quot; type='radio' value=\&quot;&quot;+val+&quot;\&quot; name='&quot;+radiogroupname+&quot;'/&gt;&quot;+label;
+    		        radioHtml += &quot;&lt;input class='aet_radiobutton' &quot;+selected+&quot; type='radio' value=\&quot;&quot;+val+&quot;\&quot; name='&quot;+radiogroupname+&quot;'/&gt;&lt;label&gt;&quot;+label+&quot;&lt;/label&gt;&quot;;
 		        }
 		    }
-		    jQuery(place).append(&quot;&lt;div class='aet_radioboxes'&gt;&quot;+radioHtml+&quot;&lt;/div&gt;&quot;);
+		    jQuery(place).append(&quot;&lt;div class='aet_radioboxes'&gt;&quot;+radioHtml+&quot;&lt;/div&gt;&lt;div class='clearboth'&gt;&lt;/div&gt;&quot;);
 		    jQuery(&quot;.aet_radiobutton&quot;,place).click(handler);
 		}
-		,setupSearchbox: function(place,tiddlerobj,metaDataName,valueSource){
+		,setupSearchbox: function(place,tiddlerobj,metaDataName,valueSource,handler,needsWikify){
 		    if(!valueSource) {
 				displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
 				return;
@@ -831,17 +848,37 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				if(qsvalue) selected = qsvalue;
 			}
 			var tiddlerobj =store.getTiddler(valueSource);
-			/*
-			var div = document.createElement(&quot;div&quot;);
-			wikify(tiddlerobj.text,div);
-			vare*/
 			
+			var contents;
+			if(needsWikify){
+			    var div = document.createElement(&quot;div&quot;);
+			    var source = tiddlerobj.text;
+			    wikify(source,div,false,tiddlerobj);
+			    var contents = div.innerHTML;
+		
+			    contents = contents.replace(/\&lt;br\/?\&gt;/gi,&quot;\n&quot;);
+		    }
+		    else{
+		        contents = tiddlerobj.text;
+		    }
+		    
 			if(tiddlerobj){
 				var values = contents.split('\n');
-				var handler= function(value){
-					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
-				}
+
 				this.createSearchBox(place,metaDataName,values,selected,handler);
+				jQuery(&quot;input&quot;,place).keypress(function (e) {
+				    
+        			if(e.which == 13){
+        				var results = jQuery(&quot;.ac_over&quot;,&quot;.ac_results&quot;); //is anything highlighted in autocomplete plugin
+        				if(results.length ==0)
+
+        					handler(this.value);
+        			}
+        		});
+        		jQuery(&quot;input&quot;,place).blur(function(e){
+        		    handler(this.value);
+        		});
+			
 			}
 		}
 		,setupDropdown: function(place,tiddlerobj,metaDataName,valueSource){
@@ -884,7 +921,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
                 if(arg.indexOf(&quot;!&quot;) == 0){
                     var x = tiddler.fields[arg.substr(1)];
-                    console.log(&quot;cool&quot;);
+                    //console.log(&quot;cool&quot;);
                     if(x){
                         evaluatesTo = false;
                     }
@@ -899,7 +936,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
                     }
                 }
                 finalEval = evaluatesTo &amp;&amp; finalEval;
-                console.log(arg,evaluatesTo,finalEval);
+                //console.log(arg,evaluatesTo,finalEval);
                 
             }
             
@@ -922,7 +959,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var title = tiddlerDom.getAttribute(&quot;tiddler&quot;);
 			var tiddlerobj = store.getTiddler(title);
 			var metaDataName = getParam(params,&quot;metaDataName&quot;, null);
-			
+			var needsWikify = getParam(params,&quot;wikify&quot;, null);
 			// build a drop down control
 			var valueSource = getParam(params,&quot;valuesSource&quot;, null);
 			if(!valueSource) valueSource = metaDataName + &quot;Definition&quot;;
@@ -934,7 +971,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			    this.setupEmbeddedVideo(place,tiddlerobj,metaDataName,valueSource);
 			}
 			else if(ctrlType == 'search'){
-				this.setupSearchbox(place,tiddlerobj,metaDataName,valueSource);
+			    var handler= function(value){
+				
+					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
+				};
+				this.setupSearchbox(place,tiddlerobj,metaDataName,valueSource,handler,needsWikify);
 			}
 			else if(ctrlType == 'checkbox'){      					
 				this.createCheckBox(place,title,metaDataName);
@@ -948,7 +989,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 	    	    var aet = this;
                 var handler = function(e){
 		            var newval = this.value;
-    		        aet.setMetaData(tiddlerobj.title,metaDataName,newval);
+		            console.log(title,metaDataName,newval);
+    		        aet.setMetaData(title,metaDataName,newval);
 		        }
             	var selected = tiddlerobj.fields[metaDataName];
 			    this.setupRadioboxes(place,source,selected,handler);
@@ -1247,7 +1289,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 		// Ensure that changes to a dropdown field are stored as an extended field.
 		,setDropDownMetaData: function(ev,el) {
-			
+      
 			var e = ev ? ev : window.event;
 			var taskTiddler = story.findContainingTiddler(el);
 			
@@ -1299,6 +1341,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		}
 		
 		,setMetaData: function(title,extField,extFieldVal){
+		   
+		    console.log(&quot;saving&quot;,title,extField,extFieldVal);
 			extField = extField.toLowerCase();
 			if(extFieldVal == &quot;null&quot;) {
 				extFieldVal = &quot;&quot;;
@@ -1322,12 +1366,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
                         var input = document.createElement(&quot;input&quot;);
                         input.className = &quot;date-pick&quot;;
                         jQuery(div).append(input);
+                        jQuery(div).append(&quot;&lt;div class='clearboth'&gt;&lt;/div&gt;&quot;);
                         jQuery(place).append(div);
                         $(function()
                         {
                                 var start =config.macros.AdvancedEditTemplate.getMetaData(title,metaDataName);
                                 if(!start)start=&quot;&quot;;
-                        	$(input).datePicker({startDate:'01/01/1700'}).val(start).trigger('change');
+                        	$(input).datePicker({yearRange: '2000:2010'}).val(start).trigger('change');
                         	$(input).change(function(e){
                         	        config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,this.value);
                         	
@@ -3713,7 +3758,7 @@ Favourite animal: &lt;span macro='view animal'&gt;&lt;/span&gt;
 &lt;!--}}}--&gt;
 </pre>
 </div>
-<div title="Advanced EditTemplate" rating="4" color="rgb(0,255,0)" approved="true" assignee="JDLR" feedback="not enough characte" assignby="MM" animal="frog">
+<div title="Advanced EditTemplate" rating="4" approved="true" color="rgb(0,255,0)" assignee="JDLR" feedback="not enough characte" animal="frog" assignby="MM">
 <pre>
 AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together!
 
@@ -3730,10 +3775,6 @@ Lizard
 </div>
 <div title="StyleSheet">
 <pre>
-.tip {font-style:italic;font-weight:bold;}
-.dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}
-
-.filebrowser{background-color:white; border:solid 1px black;}
 
 
 </pre>
@@ -3754,10 +3795,6 @@ Lizard
 </div>
 <div title="StyleSheet">
 <pre>
-.tip {font-style:italic;font-weight:bold;}
-.dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}
-
-.filebrowser{background-color:white; border:solid 1px black;}
 
 
 </pre>

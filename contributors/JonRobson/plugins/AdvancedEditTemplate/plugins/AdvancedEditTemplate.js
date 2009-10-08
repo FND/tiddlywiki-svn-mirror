@@ -1,3 +1,20 @@
+config.shadowTiddlers.AdvancedEditTemplateStyle = "/*{{{*/\n" +
+  ".clearboth {clear:both;}\n"+
+  ".aet_radioboxes label {width:auto;float:left;}\n"+
+  ".aet_radioboxes input {width:auto;float:left;}\n"+
+  ".tip {font-style:italic;font-weight:bold;}\n"+
+  ".dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}\n"+
+  ".filebrowser{background-color:white; border:solid 1px black;}\n"+
+  "a.dp-choose-date {border:solid 1px black;}\n"+
+  ".dp-nav-prev {float:left;}\n"+
+  ".dp-nav-next {float:right;}\n"+
+  ".dp-calendar {clear:both;}\n"+
+  ".dp-popup {padding:10px;border:solid 1px black;}\n"+
+  ".jCalendar .selected {background-color:gray;}\n"+
+  "/*}}}*/"
+store.addNotification("AdvancedEditTemplateStyle", refreshStyles);
+
+
 config.macros.viewimage ={    
      handler: function(place,macroName,params,wikifier,paramString,tiddler){
 
@@ -164,10 +181,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
     		        else{
     		            label = val;
     		        }
-    		        radioHtml += "<input class='aet_radiobutton' "+selected+" type='radio' value=\""+val+"\" name='"+radiogroupname+"'/>"+label;
+    		        radioHtml += "<input class='aet_radiobutton' "+selected+" type='radio' value=\""+val+"\" name='"+radiogroupname+"'/><label>"+label+"</label>";
 		        }
 		    }
-		    jQuery(place).append("<div class='aet_radioboxes'>"+radioHtml+"</div>");
+		    jQuery(place).append("<div class='aet_radioboxes'>"+radioHtml+"</div><div class='clearboth'></div>");
 		    jQuery(".aet_radiobutton",place).click(handler);
 		}
 		,setupSearchbox: function(place,tiddlerobj,metaDataName,valueSource,handler,needsWikify){
@@ -322,7 +339,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 	    	    var aet = this;
                 var handler = function(e){
 		            var newval = this.value;
-    		        aet.setMetaData(tiddlerobj.title,metaDataName,newval);
+		            console.log(title,metaDataName,newval);
+    		        aet.setMetaData(title,metaDataName,newval);
 		        }
             	var selected = tiddlerobj.fields[metaDataName];
 			    this.setupRadioboxes(place,source,selected,handler);
@@ -698,12 +716,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
                         var input = document.createElement("input");
                         input.className = "date-pick";
                         jQuery(div).append(input);
+                        jQuery(div).append("<div class='clearboth'></div>");
                         jQuery(place).append(div);
                         $(function()
                         {
                                 var start =config.macros.AdvancedEditTemplate.getMetaData(title,metaDataName);
                                 if(!start)start="";
-                        	$(input).datePicker({startDate:'01/01/1700'}).val(start).trigger('change');
+                        	$(input).datePicker({yearRange: '2000:2010'}).val(start).trigger('change');
                         	$(input).change(function(e){
                         	        config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,this.value);
                         	
