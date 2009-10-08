@@ -1,0 +1,11 @@
+title: ThemeThree
+tags: systemTheme excludeSearch
+
+!StyleSheet
+[[StyleSheet]]
+/*{{{*/
+    #displayArea {
+        background-color: #88FF88;
+    }
+
+/*}}}*/

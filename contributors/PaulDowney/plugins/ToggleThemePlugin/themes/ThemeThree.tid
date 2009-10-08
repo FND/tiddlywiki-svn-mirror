@@ -1,0 +1,11 @@
+title: ThemeTwo
+tags: systemTheme excludeSearch
+
+!StyleSheet
+[[StyleSheet]]
+/*{{{*/
+    #displayArea {
+        background-color: #FFFFFF;
+    }
+
+/*}}}*/
