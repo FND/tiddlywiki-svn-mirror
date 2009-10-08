@@ -1,6 +1,7 @@
 title: template1
 tags: slideTheme
 
+/* This is how we would like to do theming (not functional)*/
 !StyleSheet
 .template1 .viewer {text-align:center;}
 

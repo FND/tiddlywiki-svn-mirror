@@ -10,7 +10,37 @@
 	padding: 2em;
 }
 
+/*Template 1*/
+
+.template1 .viewer {text-align:center;}
+
+
+/*Template 2*/
+
+.template2 img {margin-left:20px;float:right;}
 /*}}}*/
+
+
+!template1ViewTemplate
+<!--{{{-->
+<div class='template1'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='tagClear'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
+
+!template2ViewTemplate
+<!--{{{-->
+<div class='template2'>
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='tagClear'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
 
 </pre>
 </div>
