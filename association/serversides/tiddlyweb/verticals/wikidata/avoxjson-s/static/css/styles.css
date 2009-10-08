@@ -171,6 +171,9 @@ div.notice {
 .js #columnPicker {
 	display: block;
 }
+.js #recordsTableContainer {
+	overflow: hidden;
+}
 .js #recordsTable {
 	visibility: hidden;
 }
@@ -178,6 +181,7 @@ table {
 	border-collapse: collapse;
 	background-color: #d5d5d5;
 	width: 100%;
+	overflow: hidden;
 }
 table a, table a:active, table a:hover, table a:visited {
 	color: #777777;

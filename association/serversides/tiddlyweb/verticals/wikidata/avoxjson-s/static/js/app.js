@@ -3,6 +3,7 @@ function parseQueryString(q) {
 	if(q.charAt(0)==="?") {
 		q=q.substring(1);
 	}
+	q=decodeURIComponent(q);
 	q=q.replace(/\+/g," ");
 	var pairs = q.split("&");
 	var pair, key, value;
@@ -57,8 +58,6 @@ function addAdvSearchLine() {
 	}
 	return $advSearchLine;
 }
-
-$('html').addClass('js');
 $(document).ready(function() {
 	// set advanced search on a slider
 	$('#search a.advanced').click(function() {
