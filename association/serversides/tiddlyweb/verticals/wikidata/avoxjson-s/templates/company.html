@@ -3,33 +3,17 @@
 <script type="text/javascript" src="/static/js/comments.js"></script>
 <script type="text/javascript" src="/static/js/jquery.color.js"></script>
 <link id="stylesheet" rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" charset="utf-8"/>
-<script type="text/javascript">
+<!-- JRL: disabling all comments code until the whole thing works -->
+<!-- <script type="text/javascript">
   $(function() {
     $("#comments-container").comments({{tiddler.fields.avid}});
   });
-</script>
-<style>
-.vcard {
-	background-color: #eeeeff;
-	padding: 10px 20px;
-	width: 650px;
-	font-family: "Times New Roman", serif;
-}
-.company-name {
-	color: #000099;
-}
-.adr {
-	padding-top:10px;
-}
-#map {
-	margin: 1em 0;
-}
-</style>
+</script>-->
 <div class="company">
 	<div class="vcard">
-		<h1 class="fn org company-name">{{ tiddler.fields.legal_name }}</a></h1>
+		<h1 class="fn org company-name">{{ tiddler.fields.legal_name }}</h1>
 		{% if tiddler.fields.company_website %}
-		<div><a href="{{ tiddler.fields.company_website }}">{{ tiddler.fields.company_website }}</div>
+		<div><a href="http://{{ tiddler.fields.company_website }}">{{ tiddler.fields.company_website }}</a></div>
 		{% endif %}
 		<div>Trading status: <span class="trading">{{ tiddler.fields.trading_status }}</span></div>
 		{% if tiddler.fields['trades_as_name(s)'] %}
@@ -81,11 +65,11 @@
 	
 	<div id="map" style="width:690px; height:400px"></div>
 	<div id="comments-container"></div>
-	<span class="modified">Modified By: {{ tiddler.modifier }}</span>
-	<div class="alt-buttons">
+	<div class="alt-buttons small">
+	<span class="label">other formats:&nbsp;</span>
 	<a href="{{ tiddler.fields.avid }}.json">json</a> |
-	<a href="{{ tiddler.fields.avid }}.txt">text</a> |
-	<a href="{{ tiddler.fields.avid }}.edit">edit</a>
+	<a href="{{ tiddler.fields.avid }}.txt">text</a>
+	<!--<a href="{{ tiddler.fields.avid }}.edit">edit</a>-->
 	</div>
 </div>
 <script src="http://maps.google.com/maps?file=api&v=2&key={{ maps_api_key }}"
@@ -98,9 +82,8 @@
 	var company;
 	
 	var op_company = "{{ tiddler.fields.legal_name }}";
-	var op_address = "{{ tiddler.fields.operational_street_1 }}{% if tiddler.fields.operational_street_2 %}, {{ tiddler.fields.operational_street_2 }}{% endif %}{% if tiddler.fields.operational_street_3 %}, {{ tiddler.fields.operational_street_3 }}{% endif %}{% if tiddler.fields.operational_city %}, {{ tiddler.fields.operational_city }}{% endif %}{% if tiddler.fields.operational_state %}, {{ tiddler.fields.operational_state }}{% endif %}{% if tiddler.fields.operational_post_code %}, {{ tiddler.fields.operational_post_code }}{% endif %}";	
-	console.log(op_address);
-	function load()
+	var op_address = "{{ tiddler.fields.operational_street_1 }}{% if tiddler.fields.operational_street_2 %}, {{ tiddler.fields.operational_street_2 }}{% endif %}{% if tiddler.fields.operational_street_3 %}, {{ tiddler.fields.operational_street_3 }}{% endif %}{% if tiddler.fields.operational_city %}, {{ tiddler.fields.operational_city }}{% endif %}{% if tiddler.fields.operational_state %}, {{ tiddler.fields.operational_state }}{% endif %}{% if tiddler.fields.operational_post_code %}, {{ tiddler.fields.operational_post_code }}{% endif %}";
+	function loadGMap()
 	{
 		// Create new map object
 		map = new GMap2(document.getElementById("map"));
@@ -143,6 +126,6 @@
 <script type="text/javascript">
 	// Google maps ..
 	$(document).ready(function() {
-		load();
+		loadGMap();
 	});
 </script>

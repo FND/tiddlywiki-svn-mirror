@@ -20,7 +20,8 @@ def handler(environ, start_response):
     tiddler = Tiddler(avid, 'avid') # XXX is this the bag you want?
     tiddler.fields = input
 
-    store.put(tiddler)
+    #don't do this until it's safe
+    #store.put(tiddler)
 
     url = '/' # XXX replace with real url
     raise HTTP302(url) 

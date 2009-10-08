@@ -244,6 +244,21 @@ tfoot th {
 #footer a {
 	color: #CCCCCC;
 }
+/* company page */
+.company .vcard {
+	background-color: #eeeeff;
+	padding: 10px 20px;
+	width: 650px;
+}
+.comapny .company-name {
+	color: #000099;
+}
+.company .adr {
+	padding-top:10px;
+}
+#map {
+	margin: 1em 0;
+}
 /* challenge, request and suggest_new tables */
 #challenge div.left, #request div.left, #suggest_new div.left {
 	width: 500px;
