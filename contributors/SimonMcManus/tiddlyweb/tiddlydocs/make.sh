@@ -40,8 +40,6 @@ select i in $OPTIONS; do
 		curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/gadget.py > gadget.py
 		curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_script.py > room_script.py
 
-		rm tiddlywebconfig.py
-		curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py > tiddlywebconfig.py
 
 		
 		twanager from_svn documents http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/documents/TheInternet/split.recipe
@@ -53,6 +51,10 @@ select i in $OPTIONS; do
 		twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/DiffFormatterPlugin.js
 		curl http://github.com/FND/tiddlyweb-plugins/raw/master/differ.py > differ.py
 
+		rm tiddlywebconfig.py
+		curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py > tiddlywebconfig.py
+		
+		
 		# get RDF plugin
 		mkdir rtf
 		curl http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/tiddlyweb/TiddlyWebRTF/rtf/__init__.py > rtf/__init__.py
