@@ -10,6 +10,6 @@ config = {
         'port' : '80'
    },
 	'tiddlyeditor_recipe':[
-	        ['tdocs','']
+	        ['tdocs','system']
 	]
 }
