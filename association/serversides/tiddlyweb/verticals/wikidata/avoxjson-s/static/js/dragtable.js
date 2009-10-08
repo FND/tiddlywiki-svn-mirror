@@ -375,40 +375,21 @@ dragtable = {
     
     // JRL: we also update a DataTables object named 'oTable'
     if(oTable && oTable.fnSettings) {
-    	var columns = oTable.fnSettings().aoColumns;
-    	var visible = [];
-    	var columnsToJump = fIdx - sIdx;
-    	// count the invisible columns after our start index to make sure
-    	// we swap the correct columns in aoColumns
-    	for(var i=sIdx; i<columns.length; i++) {
-			if(columns[i].bVisible===true) {
-				visible.push(i);
+	    var updateDataTable = function(fromCol,toCol) {
+		    var columns = oTable.fnSettings().aoColumns;
+	    	var visible = [];
+	    	// count the visible columns to make sure we swap the correct columns in aoColumns
+	    	for(var i=0; i<columns.length; i++) {
+				if(columns[i].bVisible===true) {
+					visible.push(i);
+				}
 			}
-		}
-		fIdx = visible[columnsToJump];
-    	// extract c = columns[sIdx], so the rest is pushed to the left
-    	// push c into the array at columns[fIdx]
-    	var arrayShuffle = function(array,from,to) {
-    		if(from>to) {
-    			return array;
-    		}
-    		var tmpArray = [];
-    		var c = array[from];
-    		for(var i=0;i<from;i++) {
-    			tmpArray.push(array[i]);
-    		}
-    		for(i=from+1;i<=to;i++) {
-    			tmpArray.push(array[i]);
-    		}
-    		tmpArray.push(c);
-    		for(i=to+1;i<array.length;i++) {
-    			tmpArray.push(array[i]);
-    		}
-    		for(i=0;i<array.length;i++) {
-    			array[i] = tmpArray[i];
-    		}
-    	};
-    	arrayShuffle(columns,sIdx,fIdx);
+			fromCol = visible[fromCol];
+			toCol = visible[toCol];
+			var col = columns.splice(fromCol,1);
+			columns.splice(toCol,0,col[0]);
+	    };
+    	updateDataTable(sIdx,fIdx);
     }
   },
 

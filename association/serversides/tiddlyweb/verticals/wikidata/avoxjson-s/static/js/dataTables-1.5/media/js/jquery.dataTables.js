@@ -3087,7 +3087,6 @@
 				{
 					aaSort = oSettings.aaSorting.slice();
 				}
-				
 				if ( !window.runtime )
 				{
 					var fnLocalSorting;
@@ -3097,13 +3096,17 @@
 					for ( i=0 ; i<aaSort.length-1 ; i++ )
 					{
 						iDataSort = oSettings.aoColumns[ aaSort[i][0] ].iDataSort;
-						iDataType = oSettings.aoColumns[ iDataSort ].sType;
+						// JRL:  replacing commented line below with same lookup as for iDataSort - can't see why iDataSort would be different from the column index
+						iDataType = oSettings.aoColumns[ aaSort[i][0] ].sType;
+						//iDataType = oSettings.aoColumns[ iDataSort ].sType;
 						sDynamicSort += "iTest = oSort['"+iDataType+"-"+aaSort[i][1]+"']"+
 							"( aoData[a]._aData["+iDataSort+"], aoData[b]._aData["+iDataSort+"] ); if ( iTest === 0 )";
 					}
 					
 					iDataSort = oSettings.aoColumns[ aaSort[aaSort.length-1][0] ].iDataSort;
-					iDataType = oSettings.aoColumns[ iDataSort ].sType;
+					// JRL: as above
+					iDataType = oSettings.aoColumns[ aaSort[i][0] ].sType;
+					//iDataType = oSettings.aoColumns[ iDataSort ].sType;
 					sDynamicSort += "iTest = oSort['"+iDataType+"-"+aaSort[aaSort.length-1][1]+"']"+
 						"( aoData[a]._aData["+iDataSort+"], aoData[b]._aData["+iDataSort+"] ); return iTest;}";
 					
