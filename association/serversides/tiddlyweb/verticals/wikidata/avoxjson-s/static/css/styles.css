@@ -2,7 +2,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: "Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+	font-family: "Lucida Grande",Arial,sans-serif;
 	font-size: 14px;
 	background-color: #fffef0;
 }
@@ -30,7 +30,6 @@ h1 {
 	padding: 0;
 	margin: 0;
 	display: inline-block;
-	font-family: "Lucida Grande",Arial,sans-serif;
 	font-size: 24px;
 }
 h2 {
@@ -105,7 +104,6 @@ div.notice {
 }
 #search label {
 	font-style: italic;
-	font-family: "Times New Roman", serif;
 	padding-right: 5px;
 }
 #advancedSearchContainer {
@@ -173,13 +171,12 @@ div.notice {
 .js #columnPicker {
 	display: block;
 }
-.js table {
+.js #recordsTable {
 	visibility: hidden;
 }
 table {
 	border-collapse: collapse;
 	background-color: #d5d5d5;
-	font-family: "Georgia", serif;
 	width: 100%;
 }
 table a, table a:active, table a:hover, table a:visited {
@@ -192,7 +189,6 @@ th {
 	text-align: left;
 	padding: 5px;
 	cursor: pointer;
-	font-family: "Tahoma", sans-serif;
 	font-size: 12px;
 }
 tr.odd {
@@ -249,6 +245,10 @@ tfoot th {
 #challenge div.right, #request div.right, #suggest_new div.right {
 	width: 300px;
 	padding-right: 20px;
+	line-height: 16px;
+}
+#challenge div.right label, #request div.right label, #suggest_new div.right label {
+	margin-top: 5px;
 }
 #request td {
 	padding: 2px 5px 2px 3px;

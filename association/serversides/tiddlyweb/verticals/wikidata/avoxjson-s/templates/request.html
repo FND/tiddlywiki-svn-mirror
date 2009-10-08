@@ -27,6 +27,7 @@
 	'ULTIMATE PARENT AVID',
 	'ULTIMATE PARENT NAME'
 ] %}
+{% from 'countries.html' import countries %}
 {% if captcha.success %}
 <div>
 <p>Thanks! We'll be in touch shortly.</p>
@@ -46,10 +47,19 @@
 	</div>
 	<div class="right">
 		<h2>Your information</h2>
+		<h3>(we'd like to know you are)</h3>
 		<label for="name">Your name</label>
 		<input type="text" size="35" name="name" />
 		<label for="email">Your email address</label>
 		<input type="text" size="35" name="email" />
+		<label for="country">Your country</label>
+		<select name="country">
+			{% for country in countries %}
+			<option value="{{country}}">{{country}}</option>
+			{% endfor %}
+		</select>
+		<label for="country">(Optional) Your company</label>
+		<input type="text" size="35" name="company" />
 		<div>Are you human?</div>
 		<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29"></script>
 		<noscript>
