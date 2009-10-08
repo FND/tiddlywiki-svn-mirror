@@ -34,4 +34,12 @@ release 0.1
 
 style messageBox
 
+// talk to jonR about his tiddlyeditor_plus plugin
+
+
+
+Things to test : 
+
+// value switch plugin causes an error on a tiddler which has just been impored with from_svn
+
 

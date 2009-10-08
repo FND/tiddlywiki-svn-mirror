@@ -347,6 +347,14 @@ h1 {
 		width:100%;	
 		min-height:1.9em;
 	}
+	
+	div.commentStretch  a.btn  span, div.commentStretch  a.btn  span span { 
+	background:transparent;
+	border:0px;
+	top:0.3em;
+		}
+	
+	
 
 /* END TIDDLYWIKI CS */
 
