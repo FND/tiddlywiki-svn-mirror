@@ -9,7 +9,10 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
 !!Documentation
+&lt;&lt;toggleThemButton&gt;&gt;
 <<toggleThemeButton>>
+
+&lt;&lt;toggleThemButton "SlideShow" "toggle slide show"&gt;*gt;
 <<toggleThemeButton "SlideShow" "toggle slide show">>
 !!Options
 !!!Initial Theme:
@@ -19,40 +22,39 @@
 !!Code
 ***/
 //{{{
-if(!version.extensions.ToggleThemePlugin) {
-version.extensions.ToggleThemePlugin = {installed:true};
+/*jslint browser: true, onevar: false, plusplus: false */
+/*global config, version, store, story, createTiddlyButton */
 
-config.macros.toggleThemeButton = {
-	label: "Toggle Theme",
-	prompt: "toggle theme"
-};
+if (!version.extensions.ToggleThemePlugin) {
+    version.extensions.ToggleThemePlugin = { installed: true };
 
-config.macros.toggleThemeButton.handler = function(place,macroName,params)
-{
-	createTiddlyButton(place, params[0]||this.label,params[1]||this.prompt,this.onClick);
-};
+    config.macros.toggleThemeButton = {
+        label: "Toggle Theme",
+        prompt: "toggle theme"
+    };
 
-config.macros.toggleThemeButton.onClick = function(ev)
-{
-	var e = ev ? ev : window.event;
+    config.macros.toggleThemeButton.handler = function (place, macroName, params) {
+        createTiddlyButton(place, params[0] || this.label, params[1] || this.prompt, this.onClick);
+    };
 
-	var themes = store.getTaggedTiddlers('systemTheme');
-    var len = themes.length;
-    if (!len) { 
-        return false;
-    }
-    for (var i=0; i<len; i++) {
-        if(themes[i].title == config.options.txtTheme) {
-            i++;
-            break;
+    config.macros.toggleThemeButton.onClick = function (ev)
+    {
+        var themes = store.getTaggedTiddlers('systemTheme');
+        var len = themes.length;
+        if (!len) { 
+            return false;
         }
-    }
-    if (i >= len) {
-        i = 0;
-    }
-	story.switchTheme(themes[i].title);
-    return false;
-};
-
+        for (var i = 0; i < len; i++) {
+            if (themes[i].title === config.options.txtTheme) {
+                i++;
+                break;
+            }
+        }
+        if (i >= len) {
+            i = 0;
+        }
+        story.switchTheme(themes[i].title);
+        return false;
+    };
 }
 //}}}
