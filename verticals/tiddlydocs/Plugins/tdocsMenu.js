@@ -83,7 +83,10 @@ config.macros.docMenu._renderSpec = function(specView, spec, label) {
 		}
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass);	
 		sectionDiv.onclick = function() {
-			story.displayTiddler(this.id, this.id.replace("_div", ""), DEFAULT_EDIT_TEMPLATE);
+			if(config.options.chkOpenEditView == true)
+				story.displayTiddler(this.id, this.id.replace("_div", ""), DEFAULT_EDIT_TEMPLATE);
+			else
+				story.displayTiddler(this.id, this.id.replace("_div", ""), DEFAULT_VIEW_TEMPLATE);
 		}
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
 		config.macros.docMenu._renderSpec(li, this.children, label);
