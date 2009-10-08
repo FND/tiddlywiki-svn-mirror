@@ -3,7 +3,7 @@
 |''Description''|provides access to tiddler revisions|
 |''Author''|FND|
 |''Contributors''|Martin Budden|
-|''Version''|0.1.7|
+|''Version''|0.1.8|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#RevisionsCommandPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/plugins/|
@@ -105,6 +105,11 @@ cmd = config.commands.revisions = {
 		var n = resolveTarget(e);
 		var index = n.getAttribute("index");
 		var col = n.getAttribute("col");
+		while(!index || !col) {
+			n = n.parentNode;
+			index = n.getAttribute("index");
+			col = n.getAttribute("col");
+		}
 		cmd.revision = n.getAttribute("revision");
 		var table = n.parentNode.parentNode.parentNode;
 		var rows = table.childNodes;
