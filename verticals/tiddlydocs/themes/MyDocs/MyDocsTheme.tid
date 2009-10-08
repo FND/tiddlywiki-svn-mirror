@@ -174,7 +174,7 @@ top:1em;
 <![endif]-->
 
 
-<!--[if IE6]>
+<!--[if IE 6]>
 <style type="text/css">
 background:red;
 </style>
