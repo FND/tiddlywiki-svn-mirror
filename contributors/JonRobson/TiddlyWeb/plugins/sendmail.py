@@ -20,10 +20,6 @@ def sendmail(args):
   email= args[0]
   bag = args[1]
   title = args[2]
-  p = os.popen("%s -t" % SENDMAIL, "w")
-  p.write("To: "+args[0]+"\n")
-  p.write("Subject: %s/tiddlers/%s\n"%(bag,title))
-  p.write("\n")
   store = get_store(config)
   tiddler = Tiddler(title,bag)
   tiddler = store.get(tiddler)
@@ -34,14 +30,20 @@ def sendmail(args):
     
   for field in tiddler.fields:
     fieldString += "%s: %s\n"%(field,tiddler.fields[field])
-  p.write("tags: %s\n"%tagString) # blank line separating headers from body
-  p.write("%s"%fieldString) # blank line separating headers from body
-  p.write("%s\n\n"%tiddler.text)
+    
+  msgbody = "tags: %s\n%s\n\n%s"%(tagString,fieldString,tiddler.text)
+  subject = "%s/tiddlers/%s\n"%(bag,title)
+  sendit(email,subject,msgbody)
+
+def sendit(to,subject,body):
+  p = os.popen("%s -t" % SENDMAIL, "w")
+  p.write("To: "+to+"\n")
+  p.write("Subject: %s"%subject)
+  p.write("\n")
+  p.write("%s"%body)
   sts = p.close()
-
   print "Mail sent!"
-
-
+    
 def init(config_in):
     global config
     config = config_in
