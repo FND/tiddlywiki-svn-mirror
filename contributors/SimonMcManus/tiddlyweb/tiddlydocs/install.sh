@@ -27,11 +27,16 @@ twanager from_svn system http://svn.tiddlywiki.org/Trunk/association/plugins/Rev
 twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/DiffFormatterPlugin.js
 
 wget http://github.com/FND/tiddlyweb-plugins/raw/master/differ.py 
+
 # get RDF plugin
 mkdir rtf
 cd rtf
 wget http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/tiddlyweb/TiddlyWebRTF/rtf/__init__.py
 cd ../
+
+
+wget http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_script.py
+
 
 ## get recipe files 
 cd store/recipes
