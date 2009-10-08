@@ -15,7 +15,7 @@ curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlyd
 curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/gadget.py > gadget.py
 
 rm tiddlywebconfig.py
-wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py >tiddlywebconfig.py
 
 twanager bag tdocs < /dev/null
 twanager bag documents < /dev/null
@@ -35,7 +35,7 @@ curl http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/tiddlyweb/TiddlyWeb
 
 curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_script.py > room_script.py
 
-#wget http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/form/form.py
+#curl http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/form/form.py > form.py
 
 ## get recipe files 
 curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs > store/recipes/tiddlydocs
