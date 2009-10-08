@@ -25,7 +25,7 @@ config.macros.saveNotification.displayStatus = function(dirty) {
 };
 
 config.macros.saveNotification.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var div = createTiddlyElement(place, "div", "", "savingNotificationsDiv", "STATUS IS : ");
+	var div = createTiddlyElement(place, "div", "", "savingNotificationsDiv", "");
 	config.macros.saveNotification.displayStatus(store.isDirty());
 };
 

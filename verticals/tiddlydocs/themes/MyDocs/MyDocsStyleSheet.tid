@@ -568,8 +568,9 @@ h1 {
 	
 	
 	.savingNotificationsDiv{
-		background:#fff url(/static/mydocs_images/ajax-loading.gif) no-repeat scroll right bottom;
-		
+		background:#fff url(/static/mydocs_images/ajax-loader.gif) no-repeat scroll right bottom;
+		width:200px;
+		height:100px;
 	}
 	
 /* CKEditor */
