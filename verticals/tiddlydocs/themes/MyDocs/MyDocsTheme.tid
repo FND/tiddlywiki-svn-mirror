@@ -43,9 +43,7 @@ tags: systemTheme  excludeLists excludeSearch
           <div id="show_logout">
 		<a href='#' onClick="story.displayTiddler(null, 'Settings'); return true;">Settings</a>
           <span class="hgrey1">|</span>
-          <a tabindex="13"
-              href="/siteminderagent/forms/logout.fcc"
-          >Logout</a><span class="hgrey1">|</span><a
+    	<a
                tabindex="14" class="plink"
               href="/portalzone/editProfile/editProfile.do"
               class="plink" title="Profile">Profile</a>
