@@ -157,7 +157,7 @@ tags: systemTheme  excludeLists excludeSearch
 left : 0em;
 }
 html body .title {
-	top:-0.68em;
+	top:-1em;
 }
 
 .deleteZoneClass {
