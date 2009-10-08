@@ -35,7 +35,6 @@ if(!version.extensions.TiddlerTableMacro) {
         var tiddler = tiddlers[rowCount];
         for (var colCount=0; colCount<headings.length; colCount++) {
           var cell = createTiddlyElement(row, "td", null, null);
-          log("boom", cell, tiddler, window.summary[colCount]+"");
           // cell.innerHTML = wikify(window.summary[colCount](tiddler)+"", cell);
           wikify(window.summary[colCount](tiddler)+"", cell);
         }
