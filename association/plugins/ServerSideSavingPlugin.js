@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.5.1|
+|''Version''|0.5.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -84,9 +84,9 @@ plugin.saveTiddlerCallback = function(context, userParams) {
 		store.setDirty(false);
 	} else {
 		if(context.httpStatus == 412) {
-			reportFailure("saveConflict", tiddler);
+			plugin.reportFailure("saveConflict", tiddler);
 		} else {
-			reportFailure("saveError", tiddler, context);
+			plugin.reportFailure("saveError", tiddler, context);
 		}
 	}
 };
