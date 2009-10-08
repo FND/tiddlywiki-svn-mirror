@@ -1,0 +1,22 @@
+modifier: MichaelMahemoff
+created: 200508181151
+modified: 200609101232
+tags: 
+
+!!Tiddlyguv
+<<login>>
+
+[[Home]]
+[[Licenses|LicensesPortal]]
+<<tiddler DocumentsMenu>>
+[[All Documents|DocumentsIndex]]
+
+<<search>>
+
+!!Admin
+[[Edit Menu|DocumentsMenu]]
+<<newTiddler label:"New Document" text:{{"Document content goes here. You can retain the comments section below if you wish to support comments.\n\n!Comments" + "\n<" + "<tiddlyWebComments>"+">";}} fields:{{"server.workspace:bags/private-"+config.options.txtUserName + " server.type:tiddlyweb stage:new"}} title:{{"Document " + (new Guid({chars:Guid.constants.numbers})).generate()}}" template:documentEditTemplate tag:document>>
+
+!!News Feeds
+
+<<tiddlyWebLink bag:comments message:"Recent Comments">>
