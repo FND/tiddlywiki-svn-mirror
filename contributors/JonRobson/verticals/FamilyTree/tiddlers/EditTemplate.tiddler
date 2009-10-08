@@ -1,0 +1,29 @@
+<div title="EditTemplate" tags="excludeTree">
+<pre>
+<!--{{{-->
+
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
+
+<h1>Family Tree Specific</h1>
+sex (M or F): <div class='editor' macro='AdvancedEditTemplate metaDataName:sex type:dropdown'></div>
+date of birth:<div class='editor' macro='edit dob'></div>
+place of birth:<div class='editor' macro='edit placeofbirth'></div>latitude:<div class='editor' macro='edit latitude'></div>longitude:<div class='editor' macro='edit longitude'></div>
+
+mother:<div class='editor' macro='edit mother'></div>
+father:<div class='editor' macro='edit father'></div>
+spouse:<div class='editor' macro='edit spouse'></div>
+date of marriage: <div class='editor' macro='edit dom'></div>
+where did they get married: <div class='editor' macro='edit placeofmarriage'></div>
+
+occupation:<div class='editor' macro='edit occupation'></div>
+date of death:<div class='editor' macro='edit dod'></div>
+What did he/she die of?<div class='editor' macro='edit causeofdeath'></div>
+where did they die?<div class='editor' macro='edit placeofdeath'></div>
+
+<!--}}}-->
+</pre></div>

@@ -1,0 +1,15 @@
+<div title="PageTemplate" tags="excludeTree">
+<pre>
+<!--{{{-->
+<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id='sidebar'>
+<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
+<div id='displayArea'>
+<div macro="FamilyTree root:'Robert Robson'"></div>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+<!--}}}-->
+</pre></div>

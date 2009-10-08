@@ -1,0 +1,10 @@
+<div title="StyleSheet" tags="excludeTree">
+<pre>
+.nodeLabel {width:200px; overflow:hidden;}
+.VismoCanvas {border:solid 1px black;}
+.factbox {border:solid 1px black; background-color: gray;}
+.sexMale {background-color:#0B61A4;height:20px;width:100%;}
+.sexFemale {background-color:#F66F89;height:20px;width:100%;}
+.yourSearchResult {z-index:99999;}
+</pre>
+</div>
