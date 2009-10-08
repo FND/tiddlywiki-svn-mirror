@@ -52,7 +52,13 @@ config.macros.nextSlide = {
 };
 
 var changeSlide = function(delta, place) {
+	
+	console.log('foo');
+	
 	var slides = version.extensions.InclusifierPlugin.getTiddlersForShow("Outline");
+	
+	console.log('slides:', slides);
+	
 	// XXX: DEBUG'd
 	//var currentSlide = story.findContainingTiddler(place);
 	//var title = currentSlide ? currentSlide.getAttribute("tiddler") : slides[0];

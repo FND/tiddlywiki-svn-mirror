@@ -8,6 +8,9 @@ if (!version.extensions.InclusifierPlugin) {
   plugin.getTiddlersForShow = function(trailTiddler) {
     // var trailText = store.getTiddlerText(trailTiddler);
     // console.log("trailText", trailText);
+
+	console.log('trail');
+
     var showTiddlers = [];
     $.each(version.extensions.TrailsPlugin.flattenTreeByTiddler(trailTiddler),
            function(i,resource) {
@@ -19,7 +22,7 @@ if (!version.extensions.InclusifierPlugin) {
       }
     });
     return showTiddlers;
-  }
+  };
 
   var stylesheet = store.getTiddlerText(tiddler.title + "##InclusifierStyleSheet");
   if (stylesheet) { // check necessary because it happens more than once for some reason
@@ -40,9 +43,9 @@ if (!version.extensions.InclusifierPlugin) {
           $("<input type='checkbox' />")
           .attr("checked", !tiddler.isTagged("noShow"))
           .change(function() {
-            console.log(tiddler, "--> tags", tiddler.tags)
+            console.log(tiddler, "--> tags", tiddler.tags);
             store.setTiddlerTag(tiddler.title,! $(this).attr("checked"),"noShow");
-            console.log(tiddler, "--> 2tags", tiddler.tags)
+            console.log(tiddler, "--> 2tags", tiddler.tags);
             saveTiddler(tiddler);
           })
           .insertBefore($(this));
@@ -53,15 +56,15 @@ if (!version.extensions.InclusifierPlugin) {
 
   function saveTiddler(tiddler) {
     var tiddler = (typeof(tiddler)=="string") ? store.getTiddler(tiddler) : tiddler; 
-    store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, mergeReadOnly(config.defaultCustomFields, tiddler.fields), false, tiddler.created)
-  }
+    store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, mergeReadOnly(config.defaultCustomFields, tiddler.fields), false, tiddler.created);
+  };
 
   function mergeReadOnly(first, second) {
     var merged = {};
     for (var field in first) { merged[field] = first[field]; }
     for (var field in second) { merged[field] = second[field]; }
     return merged;
-  }
+  };
 
 /***
 !InclusifierStyleSheet

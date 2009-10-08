@@ -2,6 +2,12 @@
 <pre>
 |''PageTemplate''|##PageTemplate|
 |''StyleSheet''|##StyleSheet|
+|''template1ViewTemplate''|##template1ViewTemplate|
+|''template2ViewTemplate''|##template2ViewTemplate|
+|''template3ViewTemplate''|##template3ViewTemplate|
+|''backgroundViewTemplate''|##backgroundViewTemplate|
+|''contentViewTemplate''|##contentViewTemplate|
+
 
 !PageTemplate
 
@@ -16,11 +22,17 @@
 	</div>
 	<div id='pres_footer'>
 		<div id='pres_controls'>
-			pres_controls
+			<ul class='buttons'>
+				<li><a href='#'>Main Menu</a></li>
+			</ul>
 		</div>
 		<div id='pres_nav'>
-			<span macro='prevSlide'></span>
-			<span macro='nextSlide'></span>
+			<ul class='buttons'>
+				<li><span macro='prevSlide'></span></li>
+				<li><span class="SlideShowButton" macro="toggleThemeButton Done"></span></li>
+				<li><span macro='nextSlide'></span></li>
+			</ul>
+
 		</div>
 	</div>
 </div>
@@ -91,29 +103,45 @@ div#pres_footer {
 		position:absolute;
 		bottom:0;
 		right:0;
-		height:65px;
 		padding-right:20px;
-		background:#fff url(./images/footer_controls_right.png) no-repeat bottom right;
+		height:75px;
+		background:transparent url(./images/footer_controls_right.png) no-repeat bottom right;
 	}
 	div#pres_controls {
 		position:absolute;
 		bottom:0px;
 		left:0px;
-		height:65px;
-		padding-left:20px;
-		background:#fff url(./images/footer_controls_left.png) no-repeat bottom left;
+		height:75px;
+		background:transparent url(./images/footer_controls_left.png) no-repeat bottom left;
 	}
 
+ul.buttons {
+	list-style:none;
+}
+
+ul.buttons li {
+	display:inline;
+	float:left;
+	background:transparent url(./images/button_right.gif) no-repeat top right;
+	height:40px;
+}
+
+ul.buttons li a:link, ul.buttons li a:visited {
+	display:block;
+	background:transparent url(./images/button_left.gif) no-repeat top left;
+	line-height:40px;
+	margin:0;
+	padding:0 30px;
+	font-weight:bold;
+}
+
+ul.buttons li a:hover, ul.buttons li a:focus {
+	color:#2C2B63;
+}
 
 
 
 
-
-
-
-
-
-	/*Template 1*/
 
 	.template1 .viewer {text-align:center;}
 
