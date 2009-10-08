@@ -389,6 +389,7 @@ dragtable = {
 			var col = columns.splice(fromCol,1);
 			columns.splice(toCol,0,col[0]);
 	    };
+	    console.log('going to update DataTables',sIdx,fIdx);
     	updateDataTable(sIdx,fIdx);
     }
   },

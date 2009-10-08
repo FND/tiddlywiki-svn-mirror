@@ -39,12 +39,13 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 	 *   fnSetColumnVis() to change the number of visible columns.
 	 */
 	 
+	 // JRL: moved this here so it was available to fnUpdate
 	 /* The starting x-position of the table on the document */
 	var _iStart;
 	 
 	this.fnUpdate = function ()
 	{
-		_iStart = $(_oSettings.nTable).offset().top;
+		_iStart = $(_oSettings.nTable).offset().top; // JRL: added this line to check for changes in position of table e.g. due to DOM changes
 		_fnCloneThead();
 	}
 	
@@ -177,6 +178,22 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 			$('thead th:eq('+iTrigger+')', _oSettings.nTable).click();
 			_fnCloneThead();
 		} );
+		
+		$('thead th', _nCTable).mousedown( function (event) {
+			/* Pass event through to original table header so dragtable.js can pick it up */
+			var iTrigger = $('thead th', _nCTable).index(this);
+			var th = $('thead th:eq('+iTrigger+')', _oSettings.nTable)[0];
+			if (window.event && window.event.srcElement) {
+				window.event.srcElement = th;
+			} else {
+				event.target = th;
+			}
+			$(document).bind("mouseup", function() {
+				oTable.fixedHeader.fnUpdate();
+				$(document).unbind("mouseup",arguments.callee);
+			});
+			th.onmousedown(event);
+		});
 	}
 	
 	
