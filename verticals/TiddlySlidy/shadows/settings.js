@@ -3,7 +3,7 @@
 /*
  *  Theme
  */
-config.options.txtTheme = "DefaultTheme";
+config.options.txtTheme = "PresenterTheme";
 
 /*
  *  Faster fading messages!
