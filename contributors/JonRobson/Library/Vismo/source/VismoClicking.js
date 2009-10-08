@@ -1,4 +1,7 @@
+var Vismo = {store:{Canvas:{}}};
 var VismoCanvas = function(element,options){
+    this._referenceid = Math.random();
+    Vismo.store.Canvas[this._referenceid] = this;
     this._lastTransformation = {scale:{}};
 
     if(element.length){ //for jquery
@@ -591,7 +594,7 @@ VismoCanvas.prototype = {
 	    this.needsSort = true;
 	    if(!vismoShape._isVismoShape){
 	        vismoShape = new VismoShape(vismoShape);
-	        
+	    
 	    }
 	    if(vismoShape.properties.shape =='point'){
 	        
@@ -604,12 +607,14 @@ VismoCanvas.prototype = {
 		    var newid  = this.memory.length +"_" + Math.random();
 		    vismoShape.setProperty("id",newid);
 		}
+		vismoShape._canvasref = this._referenceid;
 		var id = vismoShape.properties.id;
 		this.memory.push(vismoShape);
 		
 		
 		this._idtoshapemap[id] = vismoShape;
 		vismoShape._vismoClickingID = id;
+
 
 		return vismoShape;
 	}
@@ -645,6 +650,7 @@ VismoCanvas.prototype = {
 	},
 	getMemory: function(args){
         if(this.needsSort){
+          
     	    this.memory =this.memory.sort(function(a,b){
     	        var z1 = a.getProperty("z-index");
     	        var z2 =b.getProperty("z-index");
@@ -825,7 +831,7 @@ VismoCanvas.prototype = {
 	    var x= arguments[0];
 	    var y=  arguments[1];
 	    var vismoShape = arguments[2];
-		var bb = vismoShape.getBoundingBox();
+		  var bb = vismoShape.getBoundingBox();
         var transform = vismoShape.getTransformation();
 
 		if(transform){

@@ -14,7 +14,10 @@ GeoTiddlyWiki (http://www.jonrobson.me.uk/workspaces/tiddlers/GeoTiddlyWiki/), I
 !Wouldn't have been possible without..
 http://spatialreference.org/ref/sr-org/google-projection/ for help with google projection hack
 ***/
+var Vismo = {store:{Canvas:{}}};
 var VismoCanvas = function(element,options){
+    this._referenceid = Math.random();
+    Vismo.store.Canvas[this._referenceid] = this;
     this._lastTransformation = {scale:{}};
 
     if(element.length){ //for jquery
@@ -607,7 +610,7 @@ VismoCanvas.prototype = {
 	    this.needsSort = true;
 	    if(!vismoShape._isVismoShape){
 	        vismoShape = new VismoShape(vismoShape);
-	        
+	    
 	    }
 	    if(vismoShape.properties.shape =='point'){
 	        
@@ -620,12 +623,14 @@ VismoCanvas.prototype = {
 		    var newid  = this.memory.length +"_" + Math.random();
 		    vismoShape.setProperty("id",newid);
 		}
+		vismoShape._canvasref = this._referenceid;
 		var id = vismoShape.properties.id;
 		this.memory.push(vismoShape);
 		
 		
 		this._idtoshapemap[id] = vismoShape;
 		vismoShape._vismoClickingID = id;
+
 
 		return vismoShape;
 	}
@@ -1853,7 +1858,10 @@ VismoShapeManipulator.prototype = {
                 this.el.css({display:"",width:bb.width * t.scale.x,height:bb.height * t.scale.y,left:tl.x,top:tl.y});
         
         }
-};var VismoCanvas = function(element,options){
+};var Vismo = {store:{Canvas:{}}};
+var VismoCanvas = function(element,options){
+    this._referenceid = Math.random();
+    Vismo.store.Canvas[this._referenceid] = this;
     this._lastTransformation = {scale:{}};
 
     if(element.length){ //for jquery
@@ -2446,7 +2454,7 @@ VismoCanvas.prototype = {
 	    this.needsSort = true;
 	    if(!vismoShape._isVismoShape){
 	        vismoShape = new VismoShape(vismoShape);
-	        
+	    
 	    }
 	    if(vismoShape.properties.shape =='point'){
 	        
@@ -2459,12 +2467,14 @@ VismoCanvas.prototype = {
 		    var newid  = this.memory.length +"_" + Math.random();
 		    vismoShape.setProperty("id",newid);
 		}
+		vismoShape._canvasref = this._referenceid;
 		var id = vismoShape.properties.id;
 		this.memory.push(vismoShape);
 		
 		
 		this._idtoshapemap[id] = vismoShape;
 		vismoShape._vismoClickingID = id;
+
 
 		return vismoShape;
 	}
@@ -4685,7 +4695,10 @@ VismoShapeManipulator.prototype = {
                 this.el.css({display:"",width:bb.width * t.scale.x,height:bb.height * t.scale.y,left:tl.x,top:tl.y});
         
         }
-};var VismoCanvas = function(element,options){
+};var Vismo = {store:{Canvas:{}}};
+var VismoCanvas = function(element,options){
+    this._referenceid = Math.random();
+    Vismo.store.Canvas[this._referenceid] = this;
     this._lastTransformation = {scale:{}};
 
     if(element.length){ //for jquery
@@ -5278,7 +5291,7 @@ VismoCanvas.prototype = {
 	    this.needsSort = true;
 	    if(!vismoShape._isVismoShape){
 	        vismoShape = new VismoShape(vismoShape);
-	        
+	    
 	    }
 	    if(vismoShape.properties.shape =='point'){
 	        
@@ -5291,12 +5304,14 @@ VismoCanvas.prototype = {
 		    var newid  = this.memory.length +"_" + Math.random();
 		    vismoShape.setProperty("id",newid);
 		}
+		vismoShape._canvasref = this._referenceid;
 		var id = vismoShape.properties.id;
 		this.memory.push(vismoShape);
 		
 		
 		this._idtoshapemap[id] = vismoShape;
 		vismoShape._vismoClickingID = id;
+
 
 		return vismoShape;
 	}
@@ -7829,6 +7844,11 @@ VismoShape.prototype={
 		 if(this.vml) {
 		    this.vml.nochange = false;
 	       
+	    }
+	    if(name == 'z-index'){ //organise a re-sort for the z-index property to kick in
+	      if(Vismo.store.Canvas[this._canvasref]){
+	        Vismo.store.Canvas[this._canvasref].needsSort = true;
+	      }
 	    }
 	}
 	,getProperty: function(name){

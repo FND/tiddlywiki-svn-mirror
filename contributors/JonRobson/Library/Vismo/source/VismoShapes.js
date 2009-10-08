@@ -584,6 +584,11 @@ VismoShape.prototype={
 		    this.vml.nochange = false;
 	       
 	    }
+	    if(name == 'z-index'){ //organise a re-sort for the z-index property to kick in
+	      if(Vismo.store.Canvas[this._canvasref]){
+	        Vismo.store.Canvas[this._canvasref].needsSort = true;
+	      }
+	    }
 	}
 	,getProperty: function(name){
 		return this.properties[name];

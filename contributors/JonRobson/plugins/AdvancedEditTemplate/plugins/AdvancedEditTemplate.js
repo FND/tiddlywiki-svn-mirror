@@ -229,7 +229,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
                 if(arg.indexOf("!") == 0){
                     var x = tiddler.fields[arg.substr(1)];
-                    console.log("cool");
+                    //console.log("cool");
                     if(x){
                         evaluatesTo = false;
                     }
@@ -244,7 +244,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
                     }
                 }
                 finalEval = evaluatesTo && finalEval;
-                console.log(arg,evaluatesTo,finalEval);
+                //console.log(arg,evaluatesTo,finalEval);
                 
             }
             

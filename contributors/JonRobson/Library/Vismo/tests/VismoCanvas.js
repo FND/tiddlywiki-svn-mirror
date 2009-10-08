@@ -128,6 +128,27 @@ VismoTests.add("VismoCanvas", {
              var val = cc.getShapeAtPosition(50,50);
 
              return VismoTests.assertEqual(val.getProperty("id"),"small");          
+        },
+        zIndexChanging: function(){
+           var smallshape = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"small","z-index":"0"});
+           var bigshape = new VismoShape({coordinates:[0,0,100,0,100,100,0,100],shape:"polygon",id:"big","z-index":"2"});
+            var cc = VismoTests.Mocks.canvas({shapes:[smallshape,bigshape]});
+            
+            //run
+            cc.render();
+           var mem = cc.getMemory();
+           var firstdrawn = mem[0].getProperty("id");
+         
+           //change z-indexes
+           mem[0].setProperty("z-index","500");
+           
+           //run again
+           cc.render();
+
+           mem = cc.getMemory();
+          var firstdrawntwo = mem[0].getProperty("id");
+           return VismoTests.assertAllEqual([[firstdrawn,"small"],[firstdrawntwo,"big"]]);
+                
         }
         
         /*,isOverlap: function(){
