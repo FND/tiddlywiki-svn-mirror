@@ -570,7 +570,9 @@ h1 {
 	.savingNotificationsDiv{
 		background:transparent url(/doccollab/static/mydocs_images/ajax-loader.gif) no-repeat scroll right bottom;
 		width:20px;
-		position:absolute;
+		position:fixed;
+		top:2em;
+		left:0em;
 		height:8px;
 	}
 	
