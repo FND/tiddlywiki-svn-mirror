@@ -164,6 +164,9 @@ div.notice {
 .js #columnPicker {
 	display: block;
 }
+.js table {
+	display: none;
+}
 table {
 	border-collapse: collapse;
 	background-color: #d5d5d5;

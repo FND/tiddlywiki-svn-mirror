@@ -1,34 +1,35 @@
 var oTable;
 $(document).ready(function() {
 	// set up records table
-	$('table').show();
 	var $table = $('#recordsTable');
 	if($table.length!==0) {
 		oTable = $table.dataTable({
+			bAutoWidth: false,
 			bPaginate: false,
 			bInfo: false,
 			aoColumns: [
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
+				null, // AVID
+				null, // Legal Name
+				{ bVisible: false }, // Previous Names(s)
+				{ bVisible: false }, // Trades As Name(s)
+				null, // Trading Status
+				{ bVisible: false }, // Company Website
+				{ bVisible: false }, // Operational PO Box
+				{ bVisible: false }, // Operational Floor
+				{ bVisible: false }, // Operational Buidling
+				null, // Operational Street 1
+				{ bVisible: false }, // Operational Street 2
+				{ bVisible: false }, // Operational Street 3
+				null, // Operational City
+				null, // Operational State
+				null, // Operational Country
+				null, // Operational Postcode
 				{ sClass: "center" },
 				{ sClass: "center" }
 			],
 			sDom: 't'
 		});
+		$table.show();
 		var columns = oTable.fnSettings().aoColumns;
 		var titles = [];
 		for(var i=0;i<columns.length;i++) {
