@@ -1,4 +1,5 @@
-config.shadowTiddlers.AdvancedEditTemplateStyle = "/*{{{*/\n" +
+if(store){
+  config.shadowTiddlers.AdvancedEditTemplateStyle = "/*{{{*/\n" +
   ".clearboth {clear:both;}\n"+
   ".aet_radioboxes label {width:auto;float:left;}\n"+
   ".aet_radioboxes input {width:auto;float:left;}\n"+
@@ -13,7 +14,7 @@ config.shadowTiddlers.AdvancedEditTemplateStyle = "/*{{{*/\n" +
   ".jCalendar .selected {background-color:gray;}\n"+
   "/*}}}*/"
 store.addNotification("AdvancedEditTemplateStyle", refreshStyles);
-
+}
 
 config.macros.viewimage ={    
      handler: function(place,macroName,params,wikifier,paramString,tiddler){
@@ -720,11 +721,27 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
                         jQuery(place).append(div);
                         $(function()
                         {
-                                var start =config.macros.AdvancedEditTemplate.getMetaData(title,metaDataName);
-                                if(!start)start="";
-                        	$(input).datePicker({yearRange: '2000:2010'}).val(start).trigger('change');
+                          var start =config.macros.AdvancedEditTemplate.getMetaData(title,metaDataName);
+                          if(!start)start="";
+                          else {
+                            var y =start.substr(0,4);
+                            var m = start.substr(4,2);
+                            var d = start.substr(6,2)
+                            start = d+"/"+m+"/"+y;
+                          }
+                          
+                        	$(input).datePicker({startDate: '01/01/1600'}).val(start).trigger('change');
                         	$(input).change(function(e){
-                        	        config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,this.value);
+                        	    console.log(this.value,"before");
+                        	    var dmy = this.value.split("/");
+                        	    console.log(dmy,"after");
+                        	    var d = dmy[0];
+                        	    var m = dmy[1];
+                        	    var y = dmy[2];
+                        	    if(d.length == 1) d= "0"+d;
+                        	    if(m.length == 1) m= "0"+m;
+                        	    console.log(y,m,d,"togo");
+                        	    config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,y+m+d+"0000");
                         	
                         	});
                         });
