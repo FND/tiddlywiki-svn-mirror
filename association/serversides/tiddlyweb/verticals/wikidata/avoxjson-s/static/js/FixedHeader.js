@@ -180,7 +180,7 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 		} );
 		
 		$('thead th', _nCTable).mousedown( function (event) {
-			/* Pass event through to original table header so dragtable.js can pick it up */
+			/* JRL: Pass event through to original table header so dragtable.js can pick it up */
 			var iTrigger = $('thead th', _nCTable).index(this);
 			var th = $('thead th:eq('+iTrigger+')', _oSettings.nTable)[0];
 			if (window.event && window.event.srcElement) {
