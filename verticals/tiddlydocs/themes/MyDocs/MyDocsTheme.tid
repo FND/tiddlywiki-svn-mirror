@@ -34,9 +34,9 @@ tags: systemTheme  excludeLists excludeSearch
 
       </div>
       <div id="flr_h2left">
-<div macro='secretBackstage'></div>
 	    <div id="flr_h2leftb">
 		<div macro='search'></div>
+		<div macro='secretBackstage'></div>
         </div>
         <div id="flr_h2lefta">
 

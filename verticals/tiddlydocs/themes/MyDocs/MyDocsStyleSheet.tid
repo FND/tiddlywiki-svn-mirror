@@ -31,9 +31,7 @@ tags:  excludeLists excludeSearch
 	}
 	
 	html body #header2 {
-		padding-right:11em;
 		position:relative;
-		right:11em;
 	}
 	
 	
@@ -190,7 +188,14 @@ h1 {
 		right:1em;
 		display:none !important;
 	}
+	
+	.secretBackstage {
+		background:#E6E6E6;
+	}
 
+	a.secretBackstage {
+		color:#E6E6E6;		
+	}
 	#backstageArea, #backstageArea a {
 		background:#444444 none repeat scroll 0 0;
 	}
