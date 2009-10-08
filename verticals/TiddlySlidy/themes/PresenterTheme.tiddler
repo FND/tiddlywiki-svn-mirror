@@ -1,0 +1,119 @@
+<div title="PresenterTheme" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TiddlySlidyTheme">
+<pre>
+|''PageTemplate''|##PageTemplate|
+|''StyleSheet''|##StyleSheet|
+
+!PageTemplate
+
+<div title="PageTemplate" modifier="PhilHawksworth" created="200709041656" modified="200709111157" tags="excludeLists">
+
+<div id='pres'>
+	<div id='pres_header'>
+		<h1 id='pres_title'>title</h1>
+	</div>
+	<div id='pres_body'>
+		<div id='tiddlerDisplay'> display</div>
+	</div>
+	<div id='pres_footer'>
+		<div id='pres_controls'>
+			pres_controls
+		</div>
+		<div id='pres_nav'>
+			<a href='#'>previous </a><a href='#'>next </a>
+		</div>
+	</div>
+</div>
+
+</div>
+
+
+
+!StyleSheet
+/*{{{*/
+	
+
+body {
+	font: normal 1em/1.5em Arial, sans-serif;
+	color:#333;
+	padding:20px 0;
+	margin:0;
+}
+
+div#mainArea {
+	text-align:center;
+	padding:0;
+	margin:0;
+}
+
+div#pres {
+	width:900px;
+	margin:0 auto;
+	padding:0;
+	text-align:center;
+	background:transparent url(./images/header_left.png) no-repeat top left;
+}
+
+
+div#pres_header {
+	text-align:center;
+	margin:0;
+	padding:0;
+	height:65px;
+	background:transparent url(./images/header_right.png) no-repeat top right;
+}
+	div#pres_header h1 {
+		font-size:1.4em;
+		color:#333;
+		padding:20px;
+		border-style:none;
+	}
+
+div#pres_body {
+	background:transparent url(./images/border_left.png) repeat-y top left;
+}
+
+	div#tiddlerDisplay {
+		background:transparent url(./images/border_right.png) repeat-y top right;
+		height:450px;
+		padding:20px;
+	}
+
+
+div#pres_footer {
+	position:relative;
+	margin:0;
+	padding:0;
+	height:65px;
+	background:#fff url(./images/footer_controls_bottom.png) repeat-x bottom left;
+}
+	div#pres_nav {
+		position:absolute;
+		bottom:0;
+		right:0;
+		height:65px;
+		padding-right:20px;
+		background:#fff url(./images/footer_controls_right.png) no-repeat bottom right;
+	}
+	div#pres_controls {
+		position:absolute;
+		bottom:0px;
+		left:0px;
+		height:65px;
+		padding-left:20px;
+		background:#fff url(./images/footer_controls_left.png) no-repeat bottom left;
+	}
+
+
+
+
+
+
+
+
+
+
+
+/*}}}*/
+
+</pre>
+</div>
