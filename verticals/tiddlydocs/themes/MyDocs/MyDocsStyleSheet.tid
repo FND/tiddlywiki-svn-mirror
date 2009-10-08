@@ -186,8 +186,9 @@ h1 {
 	li.toc-item {
 		list-style:none;
 	}
-	#backstageButton {
+	html body #backstageShow {
 		right:1em;
+		display:none !important;
 	}
 
 	#backstageArea, #backstageArea a {

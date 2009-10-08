@@ -16,7 +16,7 @@ tags: systemTheme  excludeLists excludeSearch
 
 !PageTemplate
 <!--{{{-->
-
+	
     <div class="body">
       <div class="sections">
 	<div id='messageArea'><div class='messageBox'></div></div>
@@ -34,7 +34,7 @@ tags: systemTheme  excludeLists excludeSearch
 
       </div>
       <div id="flr_h2left">
-
+<div macro='secretBackstage'></div>
 	    <div id="flr_h2leftb">
 		<div macro='search'></div>
         </div>
