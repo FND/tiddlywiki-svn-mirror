@@ -37,6 +37,9 @@ cd ../
 
 wget http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_script.py
 
+wget http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/form/form.py
+
+
 
 ## get recipe files 
 cd store/recipes
