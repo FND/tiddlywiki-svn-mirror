@@ -3,43 +3,43 @@ modifier: mahemoff
 
 {
   name: "Diet",
-  url: "#",
+  url: "xx",
   resources: [
     {
-      url: "#breakfast",
+      url: "xxbreakfast",
       resources: []
     },
     {
-      url: "#lunch",
+      url: "xxlunch",
       resources: [
         {
-          url: "#appetisers",
+          url: "xxappetisers",
           resources: [
             {
-              url: "#dimsum",
+              url: "xxdimsum",
               resources: []
             },
             {
-              url: "#chips",
+              url: "xxchips",
               resources: []
             }
           ]
         },
         {
-          url: "#burger",
+          url: "xxburger",
           resources: []
         },
         {
-          url: "#cake",
+          url: "xxcake",
           resources: []
         },
       ]
     },
     {
-      url: "#dinner",
+      url: "xxdinner",
       resources: [
         {
-          url: "#egg",
+          url: "xxegg",
           resources: []
         }
       ]

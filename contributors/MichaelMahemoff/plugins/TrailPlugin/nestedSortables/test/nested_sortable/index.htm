@@ -1,0 +1,323 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+    <head>
+        <meta name="generator" content="HTML Tidy, see www.w3.org">
+        <meta http-equiv="Content-Type" content=
+        "text/html; charset=iso-8859-1">
+		
+<!--jQuery-->
+<!--development-->
+<!--<script type="text/javascript" src="../../externals/jquery-src/jquery/jquery.js"></script>
+<script type="text/javascript" src="../../externals/jquery-src/selector/selector.js"></script>
+<script type="text/javascript" src="../../externals/jquery-src/event/event.js"></script>
+<script type="text/javascript" src="../../externals/jquery-src/fx/fx.js"></script>-->
+<!--stable-->
+<script type="text/javascript" src="../../externals/released-externals/jquery-1.1.4.js"></script>
+
+<!--Interface-->
+<!--development-->
+<!--<script type="text/javascript" src="../../externals/interface/iutil.js"></script>
+<script type="text/javascript" src="../../externals/interface/idrag.js"></script>
+<script type="text/javascript" src="../../externals/interface/idrop.js"></script>
+<script type="text/javascript" src="../../externals/interface/isortables.js"></script>-->
+<!--stable-->
+<script type="text/javascript" src="../../externals/released-externals/interface-1.2.js"></script>
+
+<!--Nested Sortables-->
+<script type="text/javascript" src="../../compressed/nested_sortable/inestedsortable.js"></script>
+
+		<style type="text/css">
+			div.wrap {
+				border:1px solid #BBBBBB;
+				padding: 1em 1em 1em 1em;
+			}
+			
+			.page-list {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: block;
+			}
+			
+			.clear-element {
+				clear: both;
+			}
+			
+			.page-item1 > div,
+			.page-item2 > div,
+			.page-item3 > div,
+			.page-item4 > div {
+				background: #f8f8f8;
+				margin: 0.25em 0 0 0;
+			}
+
+			.left {
+				text-align: left;
+			}
+			
+			.right {
+				text-align: right;
+			}
+
+			.sort-handle {
+				cursor:move;
+			}
+			
+			.helper {
+			border:2px dashed #777777;
+			}
+			
+			.current-nesting {
+				background-color: yellow;
+			}
+			
+			.bold {
+				color: red;
+				font-weight: bold;
+			}
+			
+		</style>
+		
+
+
+        <title>Nested Sortables Demo</title>
+    </head>
+
+    <body>
+
+        <h3>Left to Right nesting showing serialization and noNestingClass.</h3>
+
+<pre>
+//Code:
+$('#left-to-right').NestedSortable(
+	{
+		accept: 'page-item1',
+		noNestingClass: "no-nesting",
+		opacity: .8,
+		helperclass: 'helper',
+		onChange: function(serialized) {
+			$('#left-to-right-ser')
+			.html("This can be passed as parameter 
+				to a GET or POST request: " 
+				+ serialized[0].hash);
+		},
+		autoScroll: true,
+		handle: '.sort-handle'
+	}
+);
+</pre>
+
+        <div class="wrap">
+            <ul id="left-to-right" class="page-list">
+                <li id="ele-1" class="clear-element page-item1 left no-nesting">
+                    <div class='sort-handle'><img src="file.gif" align="left"/>File 1</div>
+                </li>
+                <li id="ele-2" class="clear-element page-item1 left no-nesting">
+                    <div class='sort-handle'><img src="file.gif" align="left"/>File 2</div>
+                </li>
+                <li id="ele-3" class="clear-element page-item1 left">
+                    <div class='sort-handle'><img src="folder.gif" align="left"/>Folder 1</div>
+                </li>
+                 <li id="ele-4" class="clear-element page-item1 left">
+                    <div class='sort-handle'><img src="folder.gif" align="left"/>Folder 2</div>
+					<ul class="page-list">
+		                <li id="ele-5" class="clear-element page-item1 left">
+		                 	<div class='sort-handle'><img src="folder.gif" align="left"/>Folder 3</div>
+							<ul  class="page-list" >
+				                <li id="ele-6" class="clear-element page-item1 left no-nesting">
+	                            	<div class='sort-handle'><img src="file.gif" align="left"/>File 3</div>
+				                </li>
+							</ul>
+						</li>
+					</ul>
+                </li>
+            </ul>
+        </div>
+		<br/>
+		<div id='left-to-right-ser' class="wrap">
+			Change the order of the above NestedSortable and the serialized output will be shown here.
+		</div>
+		
+        <h3>Right to Left nesting.</h3>
+
+<pre>
+//Code:
+$('#right-to-left').NestedSortable(
+	{
+	accept: 'page-item2',
+	opacity: .8,
+	helperclass: 'helper',
+	rightToLeft: true,
+	nestingPxSpace: '60', 
+	currentNestingClass: 'current-nesting'
+	}
+);
+</pre>
+
+        <div class="wrap">
+            <ul id="right-to-left" class="page-list">
+                <li class="clear-element page-item2 sort-handle right">
+                    <div>Element 1</div>
+                </li>
+                <li class="clear-element page-item2 sort-handle right">
+                    <div>Element 2</div>
+                </li>
+                <li class="clear-element page-item2 sort-handle right">
+                    <div>Element 3</div>
+                </li>
+                 <li class="clear-element page-item2 sort-handle right">
+                    <div>Element 4</div>
+					<ul class="page-list">
+		                <li class="clear-element page-item2 sort-handle right">
+		                 	<div>Element 5</div>
+		           
+							<ul  class="page-list" >
+				                <li class="clear-element page-item2 sort-handle right">
+	                            	<div>Element 6</div>
+				                </li>
+							</ul>
+						</li>
+					</ul>
+                </li>
+            </ul>
+        </div>
+		
+        <h3>Spans and Divs</h3>
+
+<pre>
+//Code:
+$('#spans-divs').NestedSortable(
+	{
+	accept: 'page-item3',
+	opacity: 0.8,
+	helperclass: 'helper',
+	nestingPxSpace: 20,
+	currentNestingClass: 'current-nesting',
+	fx:400,
+	revert: true,
+	autoScroll: false
+	}
+);
+</pre>
+		
+        <div class="wrap">
+            <span id="spans-divs" class="page-list">
+                <div class="clear-element page-item3 sort-handle left">
+                    <div>Element 1</div>
+                </div>
+                <div class="clear-element page-item3 sort-handle left">
+                    <div>Element 2</div>
+                </div>
+                <div class="clear-element page-item3 sort-handle left">
+                    <div>Element 3</div>
+                </div>
+                <div class="clear-element page-item3 sort-handle left">
+                    <div>Element 4</div>
+					<span class="page-list">
+		                <div class="clear-element page-item3 sort-handle left">
+		                    <div>Element 5</div>
+							<span class="page-list">
+				                <div class="clear-element page-item3 sort-handle left">
+				                    <div>Element 6</div>
+				                </div>
+							</span>
+						</div>
+					</span>
+                </div>
+            </span>
+        </div>
+		
+        <h3>Regular Sortable</h3>
+
+<pre>
+//Code:
+$('#spans-divs-regular').Sortable(
+	{
+	accept: 'page-item4',
+	opacity: .8,
+	helperclass: 'helper'
+	}
+);
+</pre>
+		
+        <div class="wrap">
+            <span id="spans-divs-regular" class="page-list">
+                <div class="clear-element page-item4 sort-handle left">
+                    <div>Element 1</div>
+                </div>
+                <div class="clear-element page-item4 sort-handle left">
+                    <div>Element 2</div>
+                </div>
+                <div class="clear-element page-item4 sort-handle left">
+                    <div>Element 3</div>
+                </div>
+                <div class="clear-element page-item4 sort-handle left">
+                	<div>Element 4</div>
+				</div>
+                <div class="clear-element page-item4 sort-handle left">
+                    <div>Element 5</div>
+                </div>
+                <div class="clear-element page-item4 sort-handle left">
+                    <div>Element 6</div>
+                </div>
+            </span>
+        </div>
+		
+<script type="text/javascript">
+jQuery( function($) {
+
+$('#left-to-right').NestedSortable(
+	{
+		accept: 'page-item1',
+		noNestingClass: "no-nesting",
+		opacity: 0.8,
+		helperclass: 'helper',
+		onChange: function(serialized) {
+			$('#left-to-right-ser')
+			.html("This can be passed as parameter to a GET or POST request: <br/>" + serialized[0].hash);
+		},
+		autoScroll: true,
+		handle: '.sort-handle'
+	}
+);
+
+$('#right-to-left').NestedSortable(
+	{
+	accept: 'page-item2',
+	opacity: 0.8,
+	helperclass: 'helper',
+	rightToLeft: true,
+	nestingPxSpace: '60', 
+	currentNestingClass: 'current-nesting'
+	}
+);
+
+$('#spans-divs').NestedSortable(
+	{
+	accept: 'page-item3',
+	opacity: 0.8,
+	helperclass: 'helper',
+	nestingPxSpace: 20,
+	currentNestingClass: 'current-nesting',
+	fx:400,
+	revert: true,
+	autoScroll: false
+	}
+);
+
+$('#spans-divs-regular').Sortable(
+	{
+	accept: 'page-item4',
+	opacity: 0.8,
+	helperclass: 'helper'
+	}
+);
+	
+});
+</script>
+		
+    </body>
+</html>
+
