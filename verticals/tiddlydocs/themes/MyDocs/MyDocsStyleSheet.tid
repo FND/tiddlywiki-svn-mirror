@@ -600,16 +600,16 @@ h1 {
 		display:none;
 	}
 
-	<!--[if IE]>
-	<style type="text/css">
-	.body {
-	background:blue;
-	}
-
-	</style>
-	<![endif]-->
-
 	
 /* END CKEditor*/
+/*  REVISIONS */
+
+a:link {
+	white-space:nowrap;
+
+}
+
+/* END REVISIONS */
+
 
 <!--}}}-->

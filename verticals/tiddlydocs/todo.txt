@@ -14,29 +14,16 @@ ask jeremy/fred about a better way to escape the slashes in document names/
 //  createTiddlyButton
 
 
-// Sort out permssions 
-
 // SiteMinder Integration 
 
 // get urls working for sections - 
 
-<<<<<<< .mine
-/ get revisions selection (diff) working
-=======
- Hide backstage button
->>>>>>> .r10765
 
 
-<<<<<<< .mine
-// images 
-=======
+
  7.  Comments count not working i.e after saving comment still showing Comments (0)
->>>>>>> .r10765
 
-<<<<<<< .mine
-=======
 // decide if sections should use the default_view_template or not
->>>>>>> .r10765
 
 
 // add .meta files for tiddlers in backstage. 
@@ -58,4 +45,6 @@ Things to test :
 
 // value switch plugin causes an error on a tiddler which has just been impored with from_svn
 
+// auto select a document from the url
 
+// When you save a section that is a subitem of another item it is added again to the bottom of the toc. 
