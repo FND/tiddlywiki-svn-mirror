@@ -4,6 +4,7 @@ config = {
     'twanager_plugins': ['tiddlywebwiki'],
     'log_level':'DEBUG',
     'wikklytext.safe_mode': False,
+ 	'static_url_dir': 'doccollab/static',
     'server_host' : {
        'scheme' : 'http',
         'host' : 'gnawer.osmosoft.com',

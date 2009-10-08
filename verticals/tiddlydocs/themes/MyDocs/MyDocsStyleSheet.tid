@@ -482,7 +482,7 @@ h1 {
 	}
 	.portletToolbar{
 
-		background-image:url("/static/mydocs_images/title_middle.jpg");
+		background-image:url("/doccollab/static/mydocs_images/title_middle.jpg");
 		width:100%;
 		height:60px;
 		background-repeat:repeat-x;
@@ -493,7 +493,7 @@ h1 {
 	}
 
 	.portletCornerLeft{
-		background-image:url("/static/mydocs_images/title_left_corner.jpg");
+		background-image:url("/doccollab/static/mydocs_images/title_left_corner.jpg");
 		clear:left;
 		float:left;
 		width:4px;
@@ -509,7 +509,7 @@ h1 {
 		background-repeat:no-repeat;
 		margin:0;
 		padding:0;
-		background-image:url("/static/mydocs_images/title_right_corner.jpg");
+		background-image:url("/doccollab/static/mydocs_images/title_right_corner.jpg");
 	}
 
 	.portletTitle{
@@ -568,7 +568,7 @@ h1 {
 	
 	
 	.savingNotificationsDiv{
-		background:transparent url(/static/mydocs_images/ajax-loader.gif) no-repeat scroll right bottom;
+		background:transparent url(/doccollab/static/mydocs_images/ajax-loader.gif) no-repeat scroll right bottom;
 		width:20px;
 		height:8px;
 	}
