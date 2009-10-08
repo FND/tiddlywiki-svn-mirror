@@ -8,7 +8,10 @@
 #
 
 cook mediawikiunplugged
-cook index
+
+#cook index
+##### hand-crafted version .. ####
+cp mwu.html mediawikiunplugged.html
 
 cd ..
 (
