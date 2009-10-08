@@ -170,7 +170,9 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 			alert(!!style.width);
 			//style.width = parseInt($(this).css('width'))+"px";
 			var width = $(this).css('width');
-			alert(width);
+			var width2 = $(this).width();
+			alert('width '+width);
+			alert('width2 '+width2);
 			width = parseInt(width);
 			alert('width '+width);
 			try {
