@@ -4,7 +4,7 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#AdaptorCommandsPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/adaptors/AdaptorCommandsPlugin.js |
-|''Version:''|0.5.15|
+|''Version:''|0.5.16|
 |''Date:''|Aug 23, 2007|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
@@ -68,6 +68,41 @@ function isAdaptorFunctionSupported(fnName,fields)
 	var fn = config.adaptors[serverType].prototype[fnName];
 	return fn ? true : false;
 }
+
+//# tiddlerSource command definition
+config.commands.tiddlerSource = {};
+merge(config.commands.tiddlerSource,{
+	text: "source",
+	tooltip:"View original source of tiddler",
+	readOnlyText: "source",
+	readOnlyTooltip: "View original source of tiddler"
+	});
+
+config.commands.tiddlerSource.isEnabled = function(tiddler)
+{
+	return true;
+};
+
+config.commands.tiddlerSource.handler = function(event,src,title)
+{
+//#console.log("config.commands.getTiddler.handler:"+title);
+	var tiddler = store.fetchTiddler(title);
+	if(tiddler) {
+		var fields = tiddler.fields;
+	} else {
+		fields = String(document.getElementById(story.idPrefix + title).getAttribute("tiddlyFields"));
+		fields = fields ? fields.decodeHashMap() : null;
+	}
+	var serverType = getServerType(fields);
+	if(!serverType)
+		return null;
+	var adaptor = new config.adaptors[serverType];
+	if(!adaptor)
+		return false;
+	var info = adaptor.generateTiddlerInfo(tiddler);
+	window.open(info.uri);
+	return true;
+};
 
 //# getTiddler command definition
 config.commands.getTiddler = {};
