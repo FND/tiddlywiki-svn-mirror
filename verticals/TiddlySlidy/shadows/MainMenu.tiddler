@@ -1,3 +1,5 @@
 <div title="MainMenu" modifier="Paul Downey" created="200709041658" modified="200709111156" tags="excludeLists">
-<pre><<saveChanges>><<selectTheme>><<slider chkSliderOptionsPanel OptionsPanel 'options»' 'Change TiddlyResume options'>><<slider chkSliderTiddlyResumePanel TiddlyResume 'help»' 'TiddlyResume help'>></pre>
+<pre>
+<<toggleThemeButton "Slide Show" "switch to slide show mode">>
+</pre>
 </div>
