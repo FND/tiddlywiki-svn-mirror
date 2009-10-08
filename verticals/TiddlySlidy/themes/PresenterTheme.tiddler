@@ -153,7 +153,9 @@ ul.buttons li a:hover, ul.buttons li a:focus {
 
 
 	.template1 .viewer {text-align:center;}
-
+	.template1  {
+		color:red;
+	}
 
 	/*Template 2*/
 	.template2 img {margin-left:20px;float:right;}
@@ -196,16 +198,17 @@ ul.buttons li a:hover, ul.buttons li a:focus {
 		color: #ffcccc;
 		margin: 2em;
 	}
+	
+	.template3  {
+		color:green;
+	}
 
 /*}}}*/
 
 !template1ViewTemplate
 <!--{{{-->
 <div class='template1'>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='tagClear'></div>
 <div class='viewer' macro='view text wikified'></div>
-<div class='tagClear'></div>
 </div>
 <!--}}}-->
 
@@ -213,10 +216,7 @@ ul.buttons li a:hover, ul.buttons li a:focus {
 !template2ViewTemplate
 <!--{{{-->
 <div class='template2'>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='tagClear'></div>
 <div class='viewer' macro='view text wikified'></div>
-<div class='tagClear'></div>
 </div>
 <!--}}}-->
 
@@ -224,10 +224,7 @@ ul.buttons li a:hover, ul.buttons li a:focus {
 !backgroundViewTemplate
 <!--{{{-->
 <div class='template3'>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='tagClear'></div>
 <div class='viewer' macro='view text wikified'></div>
-<div class='tagClear'></div>
 </div>
 <!--}}}-->
 
@@ -235,20 +232,14 @@ ul.buttons li a:hover, ul.buttons li a:focus {
 !template3ViewTemplate
 <!--{{{-->
 <div class='template3'>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='tagClear'></div>
 <div class='viewer' macro='view text wikified'></div>
-<div class='tagClear'></div>
 </div>
 <!--}}}-->
 
 !contentViewTemplate
 <!--{{{-->
 <div class='template_content'>
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='tagClear'></div>
 <div class='viewer' macro='view text wikified'></div>
-<div class='tagClear'></div>
 </div>
 <!--}}}-->
 </pre>
