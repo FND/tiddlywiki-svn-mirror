@@ -12,7 +12,7 @@
 &lt;&lt;toggleThemButton&gt;&gt;
 <<toggleThemeButton>>
 
-&lt;&lt;toggleThemButton "SlideShow" "toggle slide show"&gt;*gt;
+&lt;&lt;toggleThemButton "SlideShow" "toggle slide show"&gt;&gt;
 <<toggleThemeButton "SlideShow" "toggle slide show">>
 !!Options
 !!!Initial Theme:
@@ -37,8 +37,7 @@ if (!version.extensions.ToggleThemePlugin) {
         createTiddlyButton(place, params[0] || this.label, params[1] || this.prompt, this.onClick);
     };
 
-    config.macros.toggleThemeButton.onClick = function (ev)
-    {
+    config.macros.toggleThemeButton.onClick = function (ev) {
         var themes = store.getTaggedTiddlers('systemTheme');
         var len = themes.length;
         if (!len) { 
