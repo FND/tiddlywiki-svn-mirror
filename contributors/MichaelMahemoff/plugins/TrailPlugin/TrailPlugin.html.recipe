@@ -1,0 +1,21 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# The plugin
+tiddler: TrailPlugin.js
+
+# Demo
+tiddler: DefaultTiddlers.tiddler
+tiddler: cake.tiddler
+tiddler: burger.tiddler
+tiddler: breakfast.tiddler
+tiddler: lunch.tiddler
+tiddler: appetisers.tiddler
+tiddler: dimsum.tiddler
+tiddler: chips.tiddler
+tiddler: dinner.tiddler
+tiddler: egg.tiddler
+tiddler: MainMenu.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: diet

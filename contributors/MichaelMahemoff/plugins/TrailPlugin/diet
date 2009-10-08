@@ -1,0 +1,48 @@
+title: diet
+modifier: mahemoff
+
+{
+  name: "Diet",
+  url: "#",
+  resources: [
+    {
+      url: "#breakfast",
+      resources: []
+    },
+    {
+      url: "#lunch",
+      resources: [
+        {
+          url: "#appetisers",
+          resources: [
+            {
+              url: "#dimsum",
+              resources: []
+            },
+            {
+              url: "#chips",
+              resources: []
+            }
+          ]
+        },
+        {
+          url: "#burger",
+          resources: []
+        },
+        {
+          url: "#cake",
+          resources: []
+        },
+      ]
+    },
+    {
+      url: "#dinner",
+      resources: [
+        {
+          url: "#egg",
+          resources: []
+        }
+      ]
+    }
+  ]
+}
