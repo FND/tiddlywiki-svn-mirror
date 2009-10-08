@@ -165,7 +165,7 @@ html body .title {
 	left:1em;
 }
 .sectionHeading {
-	width:70%;
+	width:85%;
 }
 </style>
 <![endif]-->
