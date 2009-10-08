@@ -13,7 +13,7 @@ config.extensions.ServerSideSavingPlugin.reportFailure = function(tiddler, conte
 	jQuery.modal.show("Your changes were not saved.");
 }
 
-/*
+
 config.macros.saveNotification.displayStatus = function(dirty) {
 	if(dirty) {
 			$('.savingNotificationsDiv').css('background', 'red');
@@ -34,7 +34,6 @@ TiddlyWiki.prototype.setDirty = function(dirty) {
 	config.macros.saveNotification.displayStatus(dirty);
 };
 
-*/
 
 
 //}}}
