@@ -5,7 +5,7 @@
 |''Version''|0.5.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
-|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''CoreVersion''|2.5.3|
 |''Keywords''|serverSide|
 !Notes

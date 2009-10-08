@@ -5,7 +5,7 @@
 |''Version''|0.7.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
-|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Requires''|TiddlyWebAdaptor|
 |''Keywords''|serverSide TiddlyWeb|
 !Revision History
