@@ -168,7 +168,9 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 			var style = th[0].style;
 			alert(!!style);
 			alert(!!style.width);
-			style.width = parseInt($(this).css('width'))+"px";
+			//style.width = parseInt($(this).css('width'))+"px";
+			var width = parseInt($(this).css('width'))+"px";
+			$(th).css({'width', width});
 		} );
 		
 		$("thead:eq(0)>tr td", _oSettings.nTable).each( function (i) {
