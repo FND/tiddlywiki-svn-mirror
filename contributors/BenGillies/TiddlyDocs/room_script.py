@@ -5,7 +5,7 @@ creates a set of bags, and a recipe for specified company.
 
 Requires a role of ADMIN
 
-todo - include room specific tiddlers in GROUP_config bag.
+for more information, see blog post by Michael Mahemoff at http://softwareas.com/tiddlydocs-user-authentication-generic-design-and-custom-features
 """
 from tiddlyweb.web.http import HTTP403
 from cgi import FieldStorage
