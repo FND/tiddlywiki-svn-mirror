@@ -192,7 +192,7 @@ background:red !important;
 		<div class="portletTitle iconShift">
 			<div class='title' macro='view title'>Editing Section :
 
-<div class='title-right'>
+<div class='title-right editIconShift'>
 <div class='toolbar editToolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 
 </div>

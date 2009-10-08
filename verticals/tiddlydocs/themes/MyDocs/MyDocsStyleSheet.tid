@@ -205,9 +205,9 @@ h1 {
 	#buttonHolder {
 		font-size:0.9em;
 		height:100%;
-		left:-6.7em;
+		left:-6.9em;
 		position:relative;
-		top:-1.2em;
+		top:-1em;
 		width:140%;
 	}
 	
@@ -247,7 +247,7 @@ h1 {
 
 	#mainMenu {
 		height:100%;
-		left:0em;
+		left:-3em;
 		margin:1em;
 		padding:0;
 		position:relative;
@@ -515,6 +515,9 @@ h1 {
 		position:relative;
 		top:-0.8em;
 		width:94%;
+	}
+	.editIconShift{
+		top:1em;
 	}
 	
 	.editToolbar {
