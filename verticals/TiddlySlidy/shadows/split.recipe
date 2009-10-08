@@ -8,6 +8,6 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: Stylesheet.tiddler
 tiddler: PageTemplate.tiddler
 
-
 tiddler: settings.js
+tiddler: Custom
 
