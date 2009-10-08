@@ -152,9 +152,7 @@ tags: systemTheme  excludeLists excludeSearch
 
 <!--[if IE]>
 <style type="text/css">
-.body {
-background:red !important;
-}
+
 #mainMenu {
 left : 0em;
 }
@@ -165,6 +163,9 @@ html body .title {
 .deleteZoneClass {
 	width:80%;
 	left:1em;
+}
+.sectionHeading {
+	width:70%;
 }
 </style>
 <![endif]-->
