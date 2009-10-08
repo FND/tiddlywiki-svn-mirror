@@ -37,9 +37,6 @@ def get(environ, start_response):
         tiddler_name = environ['tiddlyweb.query'].get('tiddler', [''])[0]
         recipe_name = environ['tiddlyweb.query'].get('recipe', [''])[0]
         bag_name = environ['tiddlyweb.query'].get('bag', [''])[0]
-        #tiddler_name = unicode(urllib.unquote(tiddler_name), 'utf-8')
-        #bag_name = unicode(urllib.unquote(bag_name), 'utf-8')
-        #recipe_name = unicode(urllib.unquote(recipe_name), 'utf-8')
     except (KeyError, IndexError):
         raise HTTP400('tiddler, recipe and bag query strings required')
 
@@ -82,11 +79,7 @@ def get(environ, start_response):
         tiddler.tags = ['excludeLists']
         bag.add_tiddler(tiddler)
 
-    add_magic_tiddler(output_bag, 'MainMenu', '[[Back to TiddlyWeb|%s]]' % tiddler_url(environ, tiddler))
     add_magic_tiddler(output_bag, 'DefaultTiddlers', '[[%s]]' % tiddler_name)
-    add_magic_tiddler(output_bag, 'SiteTitle', 'Editor f or %s' % tiddler_name)
-    add_magic_tiddler(output_bag, 'SiteSubtitle', '')
-    add_magic_tiddler(output_bag, 'SideBarOptions', '')
 
     try:
       rule =environ['tiddlyweb.config']['tiddlyeditor_recipe']
@@ -101,10 +94,8 @@ def get(environ, start_response):
           if 'excludeLists' not in r_tiddler.tags:
               r_tiddler.tags.append('excludeLists')
           output_bag.add_tiddler(r_tiddler)
-            
     environ['tiddlyweb.type'] = 'text/x-tiddlywiki'
     return send_tiddlers(environ, start_response, output_bag)
-
 
 original_footer_extra = HTMLPresenter.footer_extra
 
