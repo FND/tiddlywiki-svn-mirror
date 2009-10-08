@@ -17,6 +17,8 @@ cd ..
 (
     echo mediawikiunplugged/mediawikiunplugged.html
     echo mediawikiunplugged/images/logo.png
+    echo mediawikiunplugged/images/background-top.png
+    echo mediawikiunplugged/images/background.png
     echo mediawikiunplugged/TiddlySaver.jar
 ) | zip -@ mediawikiunplugged/MediaWikiUnplugged.zip
 
