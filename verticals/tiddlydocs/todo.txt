@@ -10,7 +10,4 @@ FOCUS ERROR IN IE - when adding a new section to a toc there is a focus errror
 
 ask jeremy/fred about a better way to escape the slashes in document names/
 
-does that hash in the uri break drag n drop in ie?
-
-when no items are returned in the .atom rss feed it returns a 404. 
 
