@@ -6,7 +6,9 @@ TiddlyWiki-based editor for a single tiddler.
 add recipe to your tiddlywebconfig file
 'tiddlyeditor_recipe':[
         ['system',''],
-        ['tdocs','']
+        ['ILGA',''],
+        ['admin',''],
+        ['questions','select=title:!EditTemplate;select=title:!ViewTemplate']
 ],
 
 """
@@ -82,7 +84,7 @@ def get(environ, start_response):
 
     add_magic_tiddler(output_bag, 'MainMenu', '[[Back to TiddlyWeb|%s]]' % tiddler_url(environ, tiddler))
     add_magic_tiddler(output_bag, 'DefaultTiddlers', '[[%s]]' % tiddler_name)
-    add_magic_tiddler(output_bag, 'SiteTitle', 'Editor for %s' % tiddler_name)
+    add_magic_tiddler(output_bag, 'SiteTitle', 'Editor f or %s' % tiddler_name)
     add_magic_tiddler(output_bag, 'SiteSubtitle', '')
     add_magic_tiddler(output_bag, 'SideBarOptions', '')
 
@@ -128,5 +130,5 @@ def get_from_uri(environ,start_response):
   environ['tiddlyweb.query']['tiddler']= [environ['wsgiorg.routing_args'][1]['tiddler']]
   return get(environ,start_response)
 def init(config):
-    config['selector'].add("/room/{tiddler:segment}",GET=get_from_uri)
+    config['selector'].add("/room/{recipe:segment}/section/{tiddler:segment}",GET=get_from_uri)
     config['selector'].add('/tiddlyeditor', GET=get)
