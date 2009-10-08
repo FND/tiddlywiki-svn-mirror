@@ -1,2 +1,6 @@
 tiddler: docuwebTheme.tid
 tiddler: setDocuwebTheme.js
+tiddler: SiteTitle.tid
+tiddler: tagsTreePlugin.js
+tiddler: content/FAQ.tid
+tiddler: content/MainMenu.tid

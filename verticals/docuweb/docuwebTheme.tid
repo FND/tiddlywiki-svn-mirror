@@ -11,8 +11,22 @@ tags: systemTheme  excludeLists excludeSearch
 
 !PageTemplate
 <!--{{{-->
-    <div id='messageArea'><div class='messageBox'></div></div>
-<div id='tiddlerDisplay'></div>
+<br/>
+	<div id="container">
+	<div id="top">
+		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>		
+	</div>
+	<div id="leftnav">
+		<div id='mainMenu' refresh='content' macro='tagsTree'></div>
+	</div>
+	<div id="content">
+		<div id='tiddlerDisplay'></div>
+	</div>
+	<div id="footer">
+	Footer
+	</div>
+	</div>
 <!--}}}-->
 
 
@@ -28,4 +42,70 @@ tags: systemTheme  excludeLists excludeSearch
 
 
 !StyleSheet
-[[MyDocsCSSConainer]]
+
+body {
+	background:#aaa;
+}
+
+.siteTitle {
+	font-size:2em;
+}
+
+#container
+{
+width: 90%;
+margin: 10px auto;
+background-color: #fff;
+color: #333;
+border: 1px solid gray;
+line-height: 130%;
+}
+
+#top
+{
+padding: .5em;
+background-color: #ddd;
+border-bottom: 1px solid gray;
+}
+
+#top h1
+{
+padding: 0;
+margin: 0;
+}
+
+#leftnav
+{
+float: left;
+width: 160px;
+margin: 0;
+padding: 1em;
+}
+
+#content
+{
+margin-left: 200px;
+border-left: 1px solid gray;
+padding: 1em;
+max-width: 36em;
+}
+
+#footer
+{
+clear: both;
+margin: 0;
+padding: .5em;
+color: #333;
+background-color: #ddd;
+border-top: 1px solid gray;
+}
+
+#leftnav p { margin: 0 0 1em 0; }
+#content h2 { margin: 0 0 .5em 0; }
+
+#mainMenu {
+		position:relative;
+		padding:0em;
+		text-align:left;
+	
+}
