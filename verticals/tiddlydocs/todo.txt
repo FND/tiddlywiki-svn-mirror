@@ -35,3 +35,22 @@ release 0.1
 // diagram of each of the servers 
 
 // put message area back into the mydocs theme
+
+
+
+SNAPSHOT ISSUES 
+
+- copy of the install file?
+- copy of the svn repo?
+
+
+
+
+
+Release of Tiddlydocs 
+
+run make.sh which create a TiddlyWeb instance containing all the 
+copy 
+
+
+
