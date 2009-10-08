@@ -16,16 +16,6 @@ tags: systemTheme  excludeLists excludeSearch
 !PageTemplate
 <!--{{{-->
 
-
-<!--[if IE]>
-<style type="text/css">
-.body {
-background:red !important;
-}
-</style>
-<![endif]-->
-
-
     <div class="body">
       <div class="sections">
 
@@ -157,6 +147,18 @@ background:red !important;
 </div>
 
     </div>
+
+
+
+<!--[if IE]>
+<style type="text/css">
+.body {
+background:red !important;
+}
+</style>
+<![endif]-->
+
+
 <!--}}}-->
 
 !wizardViewTemplate
