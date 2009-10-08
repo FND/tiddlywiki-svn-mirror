@@ -28,44 +28,15 @@ tags: systemTheme  excludeLists excludeSearch
   <div id="search_bar">
     <div id="header1">
       <div id="h1left">
-      <a tabindex="2" href="/pages/static/homepage_logout.html" class="hlink" title="Home page">Homepage</a><span class="hgrey">|</span><a tabindex="3"
-            title="Products" class="hlink"
-            href="/pages/static/Products.html"
-        >Products</a><span class="hgrey">|</span><a tabindex="4"
-            title="Applications" class="hlink"
-            href="/pages/static/Applications.html"
-        >Applications</a><span class="hgrey">|</span><a tabindex="5"
-            accesskey="2" title="Customer Zone" class="hlink"
-            href="/pages/static/customerzone_logout.html"
-        >Customer zone</a><span class="hgrey">|</span><a tabindex="6"
-            title="Network Info" class="hlink"
-            href="/pages/static/Network_Info.html"
-        >Network info</a><span class="hgrey">|</span><a tabindex="7"
-            accesskey="7" title="News & Briefings" class="hlink"
-            href="/pages/static/News_and_Briefings.html"
-        >News & briefings</a><span class="hgrey">|</span><a tabindex="8"
-            title="Pricing & Contracts" class="hlink"
-            href="/pages/static/Pricing_and_Contracts.html"
-        >Pricing & contracts</a>
-
+		<!--TOP LINKS LEFT -->
       </div>
       <div id="h1right">
-        <a tabindex="9" accesskey="3" title="Sitemap" class="hlink"
-            href="/pages/static/help/help_hub/site_map.html"
-        > SITEMAP</a>
+		<!--TOP LINKS RIGHT -->
       </div>
     </div>
     <div id="header2">
       <div id="flr_h2left1">
-	<a tabindex="10"
-            href="/pages/static/Community/Broadband_Community.html"
-            class="flr_h2link" title="Broadband"
-        >BROADBAND</a><span class="hgrey1">|</span><a tabindex="11"
-            href="/pages/static/Community/21_Century_Network_Community.html"
-            class="flr_h2link" title="21CN"
-        >21CN &amp; CONSULT 21</a><span class="hgrey1">|</span><a tabindex="12"
-            href="/pages/static/Community/Reseller_Community.html"
-            class="flr_h2link" title="Reseller">RESELLER</a>
+		<!--TOP2 LINKS LEFT -->
 
       </div>
       <div id="flr_h2left">
