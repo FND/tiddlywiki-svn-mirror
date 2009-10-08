@@ -1,11 +1,13 @@
 title: ThemeTwo
 tags: systemTheme excludeSearch
 
+|''~StyleSheet''|##StyleSheet|
+
 !StyleSheet
 [[StyleSheet]]
 /*{{{*/
     #displayArea {
-        background-color: #FFFFFF;
+        background-color: #888888;
     }
 
 /*}}}*/

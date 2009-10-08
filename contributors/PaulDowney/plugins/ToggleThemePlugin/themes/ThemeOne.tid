@@ -1,11 +1,13 @@
 title: ThemeOne
 tags: systemTheme excludeSearch
 
+|''~StyleSheet''|##StyleSheet|
+
 !StyleSheet
 [[StyleSheet]]
 /*{{{*/
     #displayArea {
-        background-color: #FF88FF;
+        background-color: #FFFFFF;
     }
 
 /*}}}*/
