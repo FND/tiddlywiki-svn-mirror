@@ -15,6 +15,17 @@ tags: systemTheme  excludeLists excludeSearch
 
 !PageTemplate
 <!--{{{-->
+
+
+<!--[if IE]>
+<style type="text/css">
+.body {
+background:red !important;
+}
+</style>
+<![endif]-->
+
+
     <div class="body">
       <div class="sections">
 
@@ -274,7 +285,6 @@ tags: systemTheme  excludeLists excludeSearch
 <!--}}}-->
 
 !StyleSheet
-
 	[[MyDocsCSSConainer]]
 [[MyDocsCSSOverride]]
 [[MyDocsStyleSheet]]

@@ -685,8 +685,8 @@ background:#444444 none repeat scroll 0 0;
 		border-top:0px solid #333;
 		border-bottom:0px solid #333;
 		height:2.5em;
-	position:absolute;
-	width:100%;
+		position:absolute;
+		width:100%;
 	}
 	
 

@@ -51,7 +51,6 @@ store.addNotification("StyleSheetGoogleButton", refreshStyles);
 
 
 .btn {
-  display:inline-block;
   background:none;
   margin:0;
   padding:3px 0;

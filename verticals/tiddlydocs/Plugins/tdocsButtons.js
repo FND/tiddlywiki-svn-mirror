@@ -5,7 +5,7 @@ config.macros.tdButtons.handler=function(place,macroName,params,wikifier,paramSt
 	var previewClick = function(place) {
 		story.displayTiddler(null, "Current Document Preview");
 	}
-	var btn = createTiddlyButton(buttonHolder, "preview", "preview current document", previewClick, null, null, null, null, "/static/mydocs_images/icon_preview.jpg");
+//	var btn = createTiddlyButton(buttonHolder, "preview", "preview current document", previewClick, null, null, null, null, "/static/mydocs_images/icon_preview.jpg");
 	var btn = createTiddlyButton(buttonHolder, "new", "New Section", config.macros.newTiddler.onClickNewTiddler, null, null, null, null, "/static/mydocs_images/icon_new.jpg");
 	btn.setAttribute("newTitle","enter here...");
 	btn.setAttribute("newTemplate", config.options.txtTheme+"##newEditTemplate");

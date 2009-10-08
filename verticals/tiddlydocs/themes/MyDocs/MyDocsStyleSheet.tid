@@ -205,10 +205,10 @@ h1 {
 	#buttonHolder {
 		font-size:0.9em;
 		height:100%;
-		left:-3.1em;
+		left:-6.7em;
 		position:relative;
 		top:-1.2em;
-		width:100%;
+		width:140%;
 	}
 	
 	html body .btn span span {
@@ -563,6 +563,16 @@ h1 {
 	.cke_skin_kama .cke_path{
 		display:none;
 	}
+
+	<!--[if IE]>
+	<style type="text/css">
+	.body {
+	background:blue;
+	}
+	</style>
+	<![endif]-->
+
+	
 /* END CKEditor*/
 
 <!--}}}-->
