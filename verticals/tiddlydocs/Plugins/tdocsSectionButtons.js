@@ -3,6 +3,7 @@ config.macros.docSectionButtons.handler = function(place,macroName,params,wikifi
         if(typeof(tiddler.fields['server.host']) === "string") {
                 var a = createTiddlyElement(place, "a", null, 'button');
                 a.setAttribute('href', tiddler.fields['server.host']+tiddler.fields['server.workspace']+'/tiddlers/'+tiddler.title+'.wiki');
+				a.setAttribute('target', 'tiddlydocs_link');
                 var img = document.createElement('img');
                 img.src = '/static/mydocs_images/icon_link.png';
 				img.height = '9';
@@ -11,6 +12,7 @@ config.macros.docSectionButtons.handler = function(place,macroName,params,wikifi
                 createTiddlyText(a, ' Permalink');
                 var a2 = createTiddlyElement(place, "a", null, 'button');
                 a2.setAttribute('href',  tiddler.fields['server.host']+tiddler.fields['server.workspace']+'/tiddlers/'+tiddler.title+'.atom');
+				a2.setAttribute('target', 'tiddlydocs_link');
                 var img = document.createElement('img');
                 img.src = '/static/mydocs_images/icon_rss.png';
 				img.height = '9';
@@ -19,7 +21,8 @@ config.macros.docSectionButtons.handler = function(place,macroName,params,wikifi
                 createTiddlyText(a2, ' RSS');
                 var a3 = createTiddlyElement(place, "a", null, 'button');
                 a3.setAttribute('href',  tiddler.fields['server.host']+'recipes/'+tiddler.fields['server.	recipe']+'/tiddlers.atom?select=root:'+tiddler.title);
-                var img = document.createElement('img');
+        		a3.setAttribute('target', 'tiddlydocs_link');
+        		var img = document.createElement('img');
                 img.src = '/static/mydocs_images/icon_rss.png';
 				img.height = '9';
 				img.width = '9';
