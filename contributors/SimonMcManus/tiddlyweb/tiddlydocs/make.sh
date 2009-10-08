@@ -27,6 +27,9 @@ select i in $OPTIONS; do
 
 
 		cd tiddlydocs-$1
+		
+		twanager bag tdocs < /dev/null
+		twanager bag documents < /dev/null
 
 		curl http://github.com/tiddlyweb/tiddlyweb/raw/master/apache.py >apache.py
 		curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atom.py > atom.py
@@ -40,9 +43,7 @@ select i in $OPTIONS; do
 		rm tiddlywebconfig.py
 		curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py > tiddlywebconfig.py
 
-		twanager bag tdocs < /dev/null
-		twanager bag documents < /dev/null
-
+		
 		twanager from_svn documents http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/documents/TheInternet/split.recipe
 		twanager from_svn tdocs http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/index.html.recipe
 		twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/ServerSideSavingPlugin.js
