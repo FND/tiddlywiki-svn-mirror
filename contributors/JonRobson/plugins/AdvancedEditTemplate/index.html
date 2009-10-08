@@ -628,7 +628,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200907301341" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200909071633" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -831,8 +831,13 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				if(qsvalue) selected = qsvalue;
 			}
 			var tiddlerobj =store.getTiddler(valueSource);
+			/*
+			var div = document.createElement(&quot;div&quot;);
+			wikify(tiddlerobj.text,div);
+			vare*/
+			
 			if(tiddlerobj){
-				var values = tiddlerobj.text.split('\n');
+				var values = contents.split('\n');
 				var handler= function(value){
 					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
 				}
@@ -1021,7 +1026,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			};
 			
 			if(!initialValue) initialValue = &quot;&quot;;
-			var options = {matchContains: true};
+			var options = {matchContains: true,selectFirst:false};
 		    jQuery(&quot;&lt;input type='text' value=\&quot;&quot;+initialValue +&quot;\&quot;/&gt;&quot;).autocomplete(whatyousee,options).result(handler).appendTo(place);
 		
 		}
@@ -3614,16 +3619,6 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c&lt;a?'':e(parseInt(c/a)))+((c=
 
 })(jQuery); //end alias</pre>
 </div>
-<div title="StyleSheet">
-<pre>
-.tip {font-style:italic;font-weight:bold;}
-.dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}
-
-.filebrowser{background-color:white; border:solid 1px black;}
-
-
-</pre>
-</div>
 <div title="EditTemplate">
 <pre>
 &lt;!--{{{--&gt;
@@ -3718,7 +3713,7 @@ Favourite animal: &lt;span macro='view animal'&gt;&lt;/span&gt;
 &lt;!--}}}--&gt;
 </pre>
 </div>
-<div title="Advanced EditTemplate" rating="4" approved="true" color="rgb(0,255,0)" assignee="JDLR" feedback="not enough characte" animal="frog" assignby="MM">
+<div title="Advanced EditTemplate" rating="4" color="rgb(0,255,0)" approved="true" assignee="JDLR" feedback="not enough characte" assignby="MM" animal="frog">
 <pre>
 AdvancedEditTemplatePlugin allows you to add special non-text fields to your edit template. Click edit and do some edits to see it in action, then have a look at the [[EditTemplate]] and [[ViewTemplate]] to see how it comes together!
 
@@ -3755,6 +3750,16 @@ Lizard
 3
 4
 5
+</pre>
+</div>
+<div title="StyleSheet">
+<pre>
+.tip {font-style:italic;font-weight:bold;}
+.dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}
+
+.filebrowser{background-color:white; border:solid 1px black;}
+
+
 </pre>
 </div>
 </div>
@@ -12421,7 +12426,7 @@ function httpReq(type,url,callback,params,headers,data,contentType,username,pass
 		options.password = password;
 	if(window.Components && window.netscape && window.netscape.security && document.location.protocol.indexOf("http") == -1)
 		window.netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-	jQuery.ajax(options);
+	return jQuery.ajax(options);
 }
 
 //--

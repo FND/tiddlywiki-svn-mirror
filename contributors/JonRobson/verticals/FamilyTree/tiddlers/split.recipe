@@ -1,4 +1,8 @@
 tiddler: PageTemplate.tiddler
 tiddler: ViewTemplate.tiddler
+tiddler: EditTemplate.tiddler
 tiddler: excludeTreeViewTemplate.tiddler
 tiddler: StyleSheet.tiddler
+tiddler: ListOfMen.tiddler
+tiddler: ListOfWomen.tiddler
+tiddler: Sex.tiddler

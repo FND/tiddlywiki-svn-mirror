@@ -170,7 +170,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		    jQuery(place).append("<div class='aet_radioboxes'>"+radioHtml+"</div>");
 		    jQuery(".aet_radiobutton",place).click(handler);
 		}
-		,setupSearchbox: function(place,tiddlerobj,metaDataName,valueSource){
+		,setupSearchbox: function(place,tiddlerobj,metaDataName,valueSource,handler,needsWikify){
 		    if(!valueSource) {
 				displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
 				return;
@@ -181,12 +181,37 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				if(qsvalue) selected = qsvalue;
 			}
 			var tiddlerobj =store.getTiddler(valueSource);
+			
+			var contents;
+			if(needsWikify){
+			    var div = document.createElement("div");
+			    var source = tiddlerobj.text;
+			    wikify(source,div,false,tiddlerobj);
+			    var contents = div.innerHTML;
+		
+			    contents = contents.replace(/\<br\/?\>/gi,"\n");
+		    }
+		    else{
+		        contents = tiddlerobj.text;
+		    }
+		    
 			if(tiddlerobj){
-				var values = tiddlerobj.text.split('\n');
-				var handler= function(value){
-					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
-				}
+				var values = contents.split('\n');
+
 				this.createSearchBox(place,metaDataName,values,selected,handler);
+				jQuery("input",place).keypress(function (e) {
+				    
+        			if(e.which == 13){
+        				var results = jQuery(".ac_over",".ac_results"); //is anything highlighted in autocomplete plugin
+        				if(results.length ==0)
+
+        					handler(this.value);
+        			}
+        		});
+        		jQuery("input",place).blur(function(e){
+        		    handler(this.value);
+        		});
+			
 			}
 		}
 		,setupDropdown: function(place,tiddlerobj,metaDataName,valueSource){
@@ -267,7 +292,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			var title = tiddlerDom.getAttribute("tiddler");
 			var tiddlerobj = store.getTiddler(title);
 			var metaDataName = getParam(params,"metaDataName", null);
-			
+			var needsWikify = getParam(params,"wikify", null);
 			// build a drop down control
 			var valueSource = getParam(params,"valuesSource", null);
 			if(!valueSource) valueSource = metaDataName + "Definition";
@@ -279,7 +304,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			    this.setupEmbeddedVideo(place,tiddlerobj,metaDataName,valueSource);
 			}
 			else if(ctrlType == 'search'){
-				this.setupSearchbox(place,tiddlerobj,metaDataName,valueSource);
+			    var handler= function(value){
+				
+					config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,value);
+				};
+				this.setupSearchbox(place,tiddlerobj,metaDataName,valueSource,handler,needsWikify);
 			}
 			else if(ctrlType == 'checkbox'){      					
 				this.createCheckBox(place,title,metaDataName);
@@ -592,7 +621,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 
 		// Ensure that changes to a dropdown field are stored as an extended field.
 		,setDropDownMetaData: function(ev,el) {
-			
+      
 			var e = ev ? ev : window.event;
 			var taskTiddler = story.findContainingTiddler(el);
 			
@@ -644,6 +673,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		}
 		
 		,setMetaData: function(title,extField,extFieldVal){
+		   
+		    console.log("saving",title,extField,extFieldVal);
 			extField = extField.toLowerCase();
 			if(extFieldVal == "null") {
 				extFieldVal = "";

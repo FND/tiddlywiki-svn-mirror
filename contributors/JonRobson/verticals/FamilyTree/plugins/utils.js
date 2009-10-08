@@ -1,3 +1,47 @@
+TiddlyWiki.prototype.familytree_saveTiddler = TiddlyWiki.prototype.saveTiddler;
+TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created)
+{
+    this.familytree_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);
+    //clean up children    
+    if(newTitle &&newTitle != title){
+        var tiddlers = store.getTiddlers();
+        for(var i=0; i < tiddlers.length; i++){
+            var tid = tiddlers[i];
+            if(tid.fields.mother ==title){
+                tid.fields.mother = newTitle;
+            }
+            if(tid.fields.father ==title){
+                tid.fields.father = newTitle;
+            }
+            
+        }
+        //do spouses
+    }
+
+};
+config.macros.familytreelist = {
+    handler: function(place, macroName, params, wikifier, paramString, tiddler){
+        var param = paramString.parseParams();
+    	var sex= getParam(param,"sex");
+    	
+    	var print ="";
+    	var tiddlers = store.getTiddlers();
+    	for(var i=0; i < tiddlers.length;i++){
+    	    var tid = tiddlers[i];
+    	    var good = false;
+    	    if(tid.fields.sex && tid.fields.sex == sex){
+    	        good = true;
+    	    }
+    	    if("excludeTree" in tiddler.tags){
+    	        good = false;
+    	    }
+    	    if(good){
+    	        print += tid.title+"\n";
+    	    }
+    	}
+    	wikify(print,place);
+    }
+};
 config.macros.makeRootLink = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler){
         jQuery(place).html("<a class='makeRoot' href=\"#[["+tiddler.title+"]]\" name=\""+escape(tiddler.title)+"\">make root</a>");

@@ -179,6 +179,7 @@ VismoGraphRenderer.prototype = {
 
     ,compute: function(root){
         var graph = this._graph;
+        if(this.options.root != root) this.clear();
         if(root)this.options.root = root;
         this.algorithm.compute(graph,this.options);
         
