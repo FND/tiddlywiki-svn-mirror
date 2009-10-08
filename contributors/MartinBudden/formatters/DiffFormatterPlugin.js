@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden (mjbudden (at) gmail (dot) com)|
 |''Source:''|http://www.martinswiki.com/#DiffFormatterPlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/DiffFormatterPlugin.js |
-|''Version:''|0.0.2|
-|''Date:''|Sep 2, 2009|
+|''Version:''|0.0.3|
+|''Date:''|Sep 11, 2009|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.1.0|
@@ -19,11 +19,14 @@ tagged: instead the Diff format adds formatting that augments TiddlyWiki's forma
 The Diff formatter adds the following:
 # ^+ for added
 # ^- for removed
+# ^"""@@ """, """--- """ and """+++ """ for special markers
 
 Please report any defects you find at http://groups.google.co.uk/group/TiddlyWikiDev
-
+!StyleSheet
+.viewer .removed { background: #fdd; }
+.viewer .added { background: #dfd; }
+!Code
 ***/
-
 //{{{
 // Ensure that the DiffFormatterPlugin is only installed once.
 if(!version.extensions.DiffFormatterPlugin) {
@@ -45,7 +48,7 @@ diffFormatter.init = function() {
 
 diffFormatter.added = {
 	name: 'diffAdded',
-	match: '^\\+ ',
+	match: '^\\+',
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
@@ -57,7 +60,7 @@ diffFormatter.added = {
 
 diffFormatter.removed = {
 	name: 'diffRemoved',
-	match: '^- ',
+	match: '^-',
 	termRegExp: /(\n)/mg,
 	handler: function(w)
 	{
@@ -69,14 +72,15 @@ diffFormatter.removed = {
 
 diffFormatter.charDiff = {
 	name: 'diffChars',
-	match: '^\\?',
-	lookaheadRegExp: /^\? *[\+-].*\n?/mg,
+	match: '^(?:@@|[+-]{3}) ',
+	lookaheadRegExp: /^(?:@@|[+-]{3}) .*\n/mg,
 	handler: function(w)
 	{
 		this.lookaheadRegExp.lastIndex = w.matchStart;
 		var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
-		if(lookaheadMatch && lookaheadMatch.index == w.matchStart)
+		if(lookaheadMatch && lookaheadMatch.index == w.matchStart) {
 			w.nextMatch = this.lookaheadRegExp.lastIndex;
+		}
 	}
 };
 
@@ -84,29 +88,17 @@ diffFormatter.charDiff = {
 diffFormatter.init();
 config.formatters.push(diffFormatter.added);
 config.formatters.push(diffFormatter.removed);
-config.formatters.push(diffFormatter.charDiff);
 
-/***
-!StyleSheet
-
-.viewer .removed {
- background: #fdd;
- border-color: #c00;
- border-style: solid;
- border-width: 0 1px 0 1px;
-}
-.viewer .added {
- background: #dfd;
- border-color: #0a0;
- border-style: solid;
- border-width: 0 1px 0 1px;
-}
-
-
-!(end of StyleSheet)
-
-***/
-
+diffFormatter.replaceFormatter = function()
+{
+	for(var i=0; i<config.formatters.length; i++) {
+		if(config.formatters[i].name == 'characterFormat') {
+			config.formatters.splice(i,0,diffFormatter.charDiff);
+			break;
+		}
+	}
+};
+diffFormatter.replaceFormatter();
 
 }// end of 'install only once'
 //}}}
