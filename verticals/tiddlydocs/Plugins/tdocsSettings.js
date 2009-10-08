@@ -22,9 +22,9 @@ CKEDITOR.config.toolbar_Basic =
     ['Undo','Redo','-','Find','Replace'],
     ['Bold','Italic','Underline','Strike'],
     ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
-	'/',
     ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
-    ['Image', 'Table','HorizontalRule','SpecialChar'],
+	'/',    
+	['Image', 'Table','HorizontalRule','SpecialChar'],
     ['Styles','Format','Font','FontSize'],
     ['TextColor','BGColor'],
 ];
