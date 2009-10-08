@@ -138,6 +138,7 @@ div.notice {
 	right: 5px;
 	display: none;
 	line-height: 12px;
+	z-index: 1;
 }
 #columnPicker div {
 	margin: 2px;

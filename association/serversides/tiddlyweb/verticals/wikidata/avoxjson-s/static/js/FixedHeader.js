@@ -38,8 +38,13 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 	 * Notes:    This would be used when the DataTables state is changed. For example using 
 	 *   fnSetColumnVis() to change the number of visible columns.
 	 */
+	 
+	 /* The starting x-position of the table on the document */
+	var _iStart;
+	 
 	this.fnUpdate = function ()
 	{
+		_iStart = $(_oSettings.nTable).offset().top;
 		_fnCloneThead();
 	}
 	
@@ -59,8 +64,7 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 	/* The cloned table node */
 	var _nCTable;
 	
-	/* The starting x-position of the table on the document */
-	var _iStart;
+	
 	
 	/* The starting x-position of the table relative to it's parent */
 	var _iOffset;

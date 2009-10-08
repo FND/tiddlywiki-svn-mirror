@@ -52,6 +52,12 @@ function revealAdvancedSearch() {
 		addAdvSearchLine();
 	}
 	$('#advancedSearchContainer').slideToggle(250);
+	if(oTable) {
+		/* have to put this here until FixedHeader can cope with the page changing length after it's been initialised - it's after a timeout because the revealAdvancedSearch function takes that long to complete */
+		window.setTimeout(function() {
+			oTable.fixedHeader.fnUpdate();
+		} ,300);
+	}
 }
 
 $('html').addClass('js');

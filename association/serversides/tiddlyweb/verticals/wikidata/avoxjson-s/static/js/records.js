@@ -30,8 +30,8 @@ $(document).ready(function() {
 			],
 			sDom: 't'
 		});
-		$table.css('visibility',"visible")
-		$.fn.dataTableExt.FixedHeader(oTable);
+		$table.css('visibility',"visible");
+		oTable.fixedHeader = new $.fn.dataTableExt.FixedHeader(oTable);
 		var columns = oTable.fnSettings().aoColumns;
 		var titles = [];
 		for(var i=0;i<columns.length;i++) {
@@ -41,11 +41,13 @@ $(document).ready(function() {
 			if(columns[col].bVisible) {
 				oTable.fnSetColumnVis(col, false);
 			}
+			oTable.fixedHeader.fnUpdate();
 		}
 		function showColumn(col) {
 			if(!columns[col].bVisible) {
 				oTable.fnSetColumnVis(col, true);
 			}
+			oTable.fixedHeader.fnUpdate();
 		}
 		$('#recordsTable tfoot th').click(function() {
 			var i = $('#recordsTable tfoot th').index(this);
