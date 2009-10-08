@@ -71,12 +71,10 @@ var FT_algorithm={
         var firstchild = graph.getNode(children[0]);
         var lastchild = graph.getNode(children[children.length-1]);
         ////////////console.log("kids are",firstchild,lastchild);
-        return firstchild.prelim + ((lastchild.prelim - firstchild.prelim) + this._getNodeSize(lastchild)) / 2;	
+        return firstchild.prelim + ((lastchild.prelim - firstchild.prelim) + this.nodeWidth) / 2;	
     },
     
-    _getNodeSize: function (node) {
-        return  this.nodeWidth;
-    },
+
     _firstWalk: function (graph, node, level) {
     		////console.log("walking",node);
     		var leftSibling = null;
@@ -101,9 +99,9 @@ var FT_algorithm={
      
                 leftSibling = this._getLeftSibling(node);
                 if(leftSibling != null){
-                     ////////console.log("left sibling prelim",leftSibling.prelim,"size",this._getNodeSize(leftSibling));
+                     ////////console.log("left sibling prelim",leftSibling.prelim,"size",this.nodeWidth(leftSibling));
                     
-                    node.prelim = leftSibling.prelim + this._getNodeSize(leftSibling) + 40;
+                    node.prelim = leftSibling.prelim + this.nodeWidth + 40;
                 }
                 else
                     node.prelim = 0;
@@ -119,13 +117,13 @@ var FT_algorithm={
                     this._firstWalk(graph, iChild, level + 1);
                 }
                 var midPoint = this._getChildrenCenter(graph,node);
-                midPoint -= this._getNodeSize(node) / 2;
+                midPoint -= this.nodeWidth / 2;
                 leftSibling = this._getLeftSibling(node);
                 ////////////console.log("have leftSibling",leftSibling,"of ",node);
                 if(leftSibling != null)
                 {
-                    ////////console.log("prelim",leftSibling.prelim,"size",this._getNodeSize(leftSibling));
-                    node.prelim = leftSibling.prelim + this._getNodeSize(leftSibling) + 40;
+                    ////////console.log("prelim",leftSibling.prelim,"size",this.nodeWidth(leftSibling));
+                    node.prelim = leftSibling.prelim + this.nodeWidth + 40;
                     node.modifier = node.prelim - midPoint;
                     //////console.log("y",node.YPosition);
                     if(node.YPosition.toString() =='NaN') throw "bad modifier";
@@ -161,7 +159,7 @@ var FT_algorithm={
   
                 }
                 ////console.log("the node is",node,"left ancestor is",leftAncestor,"right is ",rightAncestor);
-                var totalGap = (firstChildLeftNeighbor.prelim + modifierSumLeft + this._getNodeSize(graph,firstChildLeftNeighbor) + 30) - (firstChild.prelim + modifierSumRight);
+                var totalGap = (firstChildLeftNeighbor.prelim + modifierSumLeft + this.nodeWidth + 30) - (firstChild.prelim + modifierSumRight);
                 if(totalGap > 0)
                 {
                     var subtreeAux = node;

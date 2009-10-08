@@ -1,23 +1,28 @@
 <div title="StyleSheet" tags="excludeTree">
 <pre>
+a {color:#008500;}
+.button {background-color:white;border:1px solid #FFFFFF;color:green;margin-right:2px;padding:20px;}
+#topToolbar {margin-top:10px;margin-left:-12px;}
+#messageArea {background:#39ac1b;border:1px solid white;}
 .nodeLabel {width:200px; overflow:hidden;}
-.VismoCanvas {border:solid 1px black;}
-.factbox {border:solid 1px black; background-color: gray;}
-.sexMale {background-color:#0B61A4;height:20px;width:100%;}
-.sexFemale {background-color:#F66F89;height:20px;width:100%;}
+.factbox {background-color:#A64800;color:white;padding:10px;}
+.sexMale {background-color:#00665E;height:20px;width:100%;}
+.sexFemale {background-color:#FD7279;height:20px;width:100%;}
 .yourSearchResult {z-index:99999;}
-
-#displayArea {margin:1em 17em 0 1em;padding:20px;}
-body {font-family: Helvetica, Arial, Sans-serif;}
+.tiddler {padding:0px;}
+#displayArea {margin:1em 17em 0 1em;padding:0px;}
+body {font-family: Helvetica, Arial, Sans-serif;color:#024E02;}
 h1,h2,h3,h4,h5,.title{color:#39ac1b;}
-.ftTitle {color:#39ac1b;font-size:108px;font-weight:700;}
-.ftContainer {background-color:#39ac1b;
-padding:20px;
-position:relative;
-top:-26px;
-width:97%;left:0px;}
+.ftTitle {color:#39ac1b;font-size:108px;left:10px;position:relative;font-weight:700;}
+.ftContainer {background-color:#39ac1b;padding:20px;position:relative;top:-26px;width:97%;left:10px;}
+#sidebarOptions .sliderPanel {background-color:#39ac1b;}
 .ftTitleBG {color:white;z-index:2;}
 .ftContainer #displayArea {background-color:white;}
-.ftContainer #sidebar {background-color:white;}
+.ftContainer #sidebar {background-color:white;margin-top:110px;}
+.ft_tooltip {background-color:white;padding:10px;color:#39ac1b;z-index:40; font-weight:bold;}
+#tiddlerDisplay {margin-top:100px;}
+.FamilyTree {left:600px;right:0px;height:200px;position:absolute;background-color:#39AC1B;top:0;}
+.tiddlerContainer {margin-left:10px;margin-right:10px;}
+.toolbar {margin-top:10px;}
 </pre>
 </div>

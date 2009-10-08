@@ -1,7 +1,7 @@
 TiddlyWiki.prototype.familytree_saveTiddler = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created)
 {
-    this.familytree_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);
+    
     //clean up children    
     if(newTitle &&newTitle != title){
         var tiddlers = store.getTiddlers();
@@ -17,6 +17,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
         }
         //do spouses
     }
+    this.familytree_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);
 
 };
 config.macros.familytreelist = {

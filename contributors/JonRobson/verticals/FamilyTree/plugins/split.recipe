@@ -1,3 +1,4 @@
-tiddler: plugin.js algorithm.js utils.js
+tiddler: plugin.js algorithm.js utils.js tweaks.js
+recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/VismoLibrary/split.recipe
 recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/AdvancedEditTemplate/plugins/split.recipe
 tiddler: $TW_TRUNKDIR/contributors/EricShulman/plugins/TaggedTemplateTweak.js

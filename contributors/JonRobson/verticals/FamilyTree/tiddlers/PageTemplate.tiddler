@@ -1,15 +1,17 @@
 <div title="PageTemplate" tags="excludeTree">
 <pre>
 <!--{{{-->
-<div class='ftTitleBG ftTitle' refresh='content' force='true' tiddler='SiteTitle'></div>
 <div class='ftTitle' refresh='content' force='true' tiddler='SiteTitle'></div>
+<div macro="FamilyTree"></div>
 <div class='ftContainer'>
+	<div id='topToolbar' tiddler='topToolbar' refresh='content'></div>
 	<div id='sidebar'>
 		<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
 		<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
 	</div>
+	
 	<div id='displayArea'>
-		<div macro="FamilyTree root:'Robert Robson'"></div>
+		
 		<div id='messageArea'></div>
 		<div id='tiddlerDisplay'></div>
 	</div>

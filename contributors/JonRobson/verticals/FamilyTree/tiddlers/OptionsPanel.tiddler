@@ -1,0 +1,9 @@
+<div title="OptionsPanel" tags="excludeTree">
+<pre>
+These options for customising your family tree are saved in your browser.
+
+<<option chkSaveBackups>> [[SaveBackups]]
+<<option chkAutoSave>> [[AutoSave]]
+
+</pre>
+</div>

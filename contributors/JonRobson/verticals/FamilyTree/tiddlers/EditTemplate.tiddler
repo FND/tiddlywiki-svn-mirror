@@ -1,7 +1,7 @@
 <div title="EditTemplate" tags="excludeTree">
 <pre>
 <!--{{{-->
-
+<div class='tiddlerContainer'>
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 <div class='title' macro='view title'></div>
 <div class='editor' macro='edit title'></div>
@@ -23,6 +23,6 @@ occupation:<div class='editor' macro='edit occupation'></div>
 date of death:<div class='editor' macro='edit dod'></div>
 What did he/she die of?<div class='editor' macro='edit causeofdeath'></div>
 where did they die?<div class='editor' macro='edit placeofdeath'></div>
-
+</div>
 <!--}}}-->
 </pre></div>

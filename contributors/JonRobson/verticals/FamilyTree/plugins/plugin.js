@@ -42,6 +42,7 @@ config.macros.FamilyTree = {
         }
         var graph = new VismoGraph({nodes:n,edges:edges});
         var div = document.createElement("div");
+        place.className = "FamilyTree"
         place.appendChild(div);
         
         var w = jQuery(place).width();
@@ -49,14 +50,25 @@ config.macros.FamilyTree = {
         if(!w) w = 700;
         if(!h) h= 300;
         jQuery(div).css({width:w,height:h,"position":"relative"});
-        
-        var root = store.getTiddler(getParam(namedprms,"root"));
+        var rootid;
+        if(getParam(namedprms,"root")){
+            rootid = getParam(namedprms,"root");
+        }
+         else{
+                var tiddlers = store.getTaggedTiddlers("rootTree");
+                if(tiddlers.length >0){
+                    rootid = tiddlers[0].title;
+                }
+
+            }
+    
+        var root = store.getTiddler(rootid);
         var tooltip = document.createElement("div");
+        tooltip.className = "ft_tooltip";
         place.appendChild(tooltip);
         jQuery(tooltip).css({position:"relative",border:"red"});
 
         var orphans = graph.getOrphans().sort();
-        var rootid = root.title;
         var str = "<select class='changeroot' style='z-index:4000;float:right;position:relative;'>";
         for(var i=0; i < orphans.length;i++){
             var p=orphans[i];
@@ -76,10 +88,12 @@ config.macros.FamilyTree = {
            that.vgr.compute(this.value);
         });
         
-        var options = {graph:graph,root:rootid,algorithm:FT_algorithm,nodeWidth:20,nodeHeight:10};
+        var options = {graph:graph,algorithm:FT_algorithm,nodeWidth:20,nodeHeight:10};
+        
+        if(rootid) options.root=rootid;
         var that = this;
-
-        options.move = function(e,s){if(s){jQuery(tooltip).text(s.getProperty("name"));}};
+        jQuery(tooltip).css({position:"absolute",display:"none"});
+        options.move = function(e,s){ jQuery(tooltip).css({display:"none"});if(s){var bb = s.getBoundingBox();jQuery(tooltip).text(s.getProperty("name"));jQuery(tooltip).css({top:e.screenY - e.clientY,left:0,display:""});}};
         options.dblclick = function(e,s){story.displayTiddler(null,s.properties.name);};
         this.vgr = new VismoGraphRenderer(div,options);
         config.activeTree = this.vgr;

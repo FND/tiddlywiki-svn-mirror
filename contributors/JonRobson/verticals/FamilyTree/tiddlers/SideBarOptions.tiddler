@@ -1,0 +1,6 @@
+<div title="SideBarOptions" tags="excludeTree">
+<pre>
+<<search>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">>
+
+</pre>
+</div>
