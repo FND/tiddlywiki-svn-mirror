@@ -74,6 +74,8 @@ def get_room_add(environ, start_response):
     	</form>""" % environ['tiddlyweb.config']['server_prefix']
     else:
         raise HTTP403('You are not allowed to access this page')
+        
+    return html
 
 def init(config):
     selector = config['selector']
