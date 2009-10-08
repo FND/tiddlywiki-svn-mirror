@@ -12,7 +12,7 @@ def get_gadget(environ, start_response):
         gadget_links = ['<a href="%s/recipes/%s/tiddlers.wiki" target="_blank">%s Docs</a>' % (environ['tiddlyweb.config']['server_prefix'], role, role) for role in environ['tiddlyweb.usersign']['roles']]
         gadget_page = '''<html>
         <head><title>MyDocs</title></head>
-        <body>
+        <body style="color:#333333;font-family:Arial,Verdana,Helvetica,sans-serif;font-size:12px;">
         %s
         </body>
         </html>''' % '\n'.join(gadget_links)
