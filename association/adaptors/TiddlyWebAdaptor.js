@@ -222,6 +222,8 @@ adaptor.prototype.getTiddlerRevision = function(title, revision, context, userPa
 };
 
 // retrieve an individual tiddler
+//# context is an object with members host and workspace
+//# callback is passed the new context and userParams
 adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = title;
@@ -402,9 +404,9 @@ adaptor.putTiddlerStoreCallback = function(status, context, responseText, uri, x
 	}
 };
 
-// rename an individual tiddler or move it to a different workspace -- TODO: make (from|to).title optional
-//# @param {Object} from source tiddler; members title and workspace (optional)
-//# @param {Object} to target tiddler; members title and workspace (optional) -- N.B.: workspace must be a bag
+// rename an individual tiddler or move it to a different workspace -- TODO: make {from|to}.title optional
+//# from and to are objects with members title and workspace (bag; optional),
+//# representing source and target tiddler, respectively
 adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters (old/new)?
 	var _this = this;
 	var newTiddler = store.getTiddler(from.title) || store.getTiddler(to.title); //# local rename might already have occurred
