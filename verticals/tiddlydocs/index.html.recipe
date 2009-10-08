@@ -43,7 +43,7 @@ tiddler: content/issues.tid
 tiddler: content/SiteSubtitle.tid
 tiddler: content/UserDefinitions.tid
 
-tiddler: content/MarkupPreHead.tid
+
 
 tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
 tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
@@ -62,4 +62,6 @@ tiddler: ../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 
 
 recipe: ../ckeditor/split.recipe
+
+tiddler: content/MarkupPreHead.tid
 
