@@ -3,7 +3,7 @@
 |''Description''|provides access to tiddler revisions|
 |''Author''|FND|
 |''Contributors''|Martin Budden|
-|''Version''|0.1.6|
+|''Version''|0.1.7|
 |''Status''|@@beta@@|
 |''Source''|http://devpad.tiddlyspot.com/#RevisionsCommandPlugin|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/plugins/|
@@ -134,6 +134,7 @@ cmd = config.commands.revisions = {
 		context.rev1 = n.getAttribute("revision");
 		context.rev2 = cmd.revision;
 		context.tiddler = context.revisions[n.getAttribute("index")];
+		context.format = "unified";
 		context.adaptor.getTiddlerDiff(context.tiddler.title, context,
 			context.userParams, cmd.displayTiddlerDiffs);
 	},
