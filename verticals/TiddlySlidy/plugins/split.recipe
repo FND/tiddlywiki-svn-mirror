@@ -17,3 +17,4 @@ tiddler: AutoSavePlugin.js
 
 tiddler: $TW_ROOT/contributors/MichaelMahemoff/plugins/TrailPlugin/TrailPlugin.js
 tiddler: Inclusifier.js
+tiddler: SlideControlsPlugin.js

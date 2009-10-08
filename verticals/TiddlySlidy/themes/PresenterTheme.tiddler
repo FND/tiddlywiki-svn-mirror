@@ -19,9 +19,8 @@
 			pres_controls
 		</div>
 		<div id='pres_nav'>
-			<a href='#'>previous </a>
-            <span class="SlideShowButton" macro="toggleThemeButton Done"></span>
-            <a href='#'>next </a>
+			<span macro='prevSlide'></span>
+			<span macro='nextSlide'></span>
 		</div>
 	</div>
 </div>
