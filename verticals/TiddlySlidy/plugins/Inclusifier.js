@@ -10,7 +10,7 @@ if (!version.extensions.InclusifierPlugin) {
     var showTiddlers = [];
     $.each(version.extensions.TrailsPlugin.flattenTreeByTiddler(trailTiddler),
            function(i,resource) {
-      console.log(resource);
+      // console.log(resource);
       var tiddlerTitle = resource.substr(1);
       var tiddler = store.getTiddler(tiddlerTitle);
       if (tiddler && !tiddler.isTagged("noShow")) {
