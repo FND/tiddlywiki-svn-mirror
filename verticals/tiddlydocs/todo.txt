@@ -11,3 +11,13 @@ FOCUS ERROR IN IE - when adding a new section to a toc there is a focus errror
 ask jeremy/fred about a better way to escape the slashes in document names/
 
 
+//  createTiddlyButton
+
+
+// Sort out permssions 
+
+// SiteMinder Integration 
+
+// get urls working for sections - 
+
+// get js working for section view.
