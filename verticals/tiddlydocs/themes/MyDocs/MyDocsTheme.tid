@@ -162,7 +162,7 @@ html body .title {
 
 .deleteZoneClass {
 	width:80%;
-	left:1em;
+	left:-2em;
 }
 .sectionHeading {
 	width:85%;
