@@ -2,7 +2,7 @@
 |''Name''|ListNavMacro|
 |''Description''|dynamic list filtering|
 |''Author''|FND|
-|''Version''|0.3.3|
+|''Version''|0.4.0|
 |''Status''|@@experimental@@|
 |''Source''|<...>|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -13,7 +13,7 @@
 Heavily relies on [[jquery.listnav|http://www.ihwy.com/Labs/jquery-listnav-plugin.aspx]].
 !Usage
 {{{
-<<listnav [items] [source:title] [filter:expression] [links:true] [wikified:true]>>
+<<listnav [items] [source:title] [filter:expression] [wikified:true]>>
 }}}
 !!Parameters
 <...>
@@ -28,11 +28,12 @@ Heavily relies on [[jquery.listnav|http://www.ihwy.com/Labs/jquery-listnav-plugi
 * refactored to be more generic (apply to any preceding list)
 !!v0.3 (2009-03-12)
 * refactored to operate on items/references passed into the macro call
+!!v0.4 (2009-09-14)
+* added support for optional wikification
 !To Do
 * documentation (esp. parameters)
 * support multiple source and filter parameters
 * support transclusion and macros within source tiddler
-* support linkification and wikification
 * support listing tags
 !Code
 ***/
@@ -60,7 +61,6 @@ config.macros.listnav = {
 		}
 		// generate list from items
 		this.generateList(items, place, {
-			links: getParam(prms, "links") == "true" ? true : false,
 			wikified: getParam(prms, "wikified") == "true" ? true : false
 		});
 	},
@@ -73,7 +73,12 @@ config.macros.listnav = {
 		// generate list
 		var list = $("<ul />").attr("id", id).appendTo(container);
 		$.each(items, function(i, itm) {
-			$("<li />").text(itm).appendTo(list); // TODO: optional linkification or wikification
+			var el = $("<li />").appendTo(list);
+			if(options.wikified) {
+				wikify(itm, el[0]);
+			} else {
+				el.text(itm);
+			}
 		});
 		// apply listnav
 		list.attr("id", id).listnav();
@@ -102,7 +107,7 @@ config.shadowTiddlers.StyleSheetListNav = "/*{{{*/\n" +
 	".ln-letters a.ln-last { border-right: 1px solid #eee; }\n" +
 	".ln-letters a:hover, .ln-letters a.ln-selected { background-color: #eaeaea; }\n" +
 	".ln-letters a.ln-disabled { color: #ccc; }\n" +
-	".ln-letter-count { text-align: center; font-size: 0.8em; line-height: 1; margin-bottom: 3px; color: #336699; }\n" +
+	".ln-letter-count { text-align: center; font-size: 0.8em; line-height: 1em; margin-bottom: 3px; color: #336699; }\n" +
 	"/*}}}*/";
 store.addNotification("StyleSheetListNav", refreshStyles);
 
