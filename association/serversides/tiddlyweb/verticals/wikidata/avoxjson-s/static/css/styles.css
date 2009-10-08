@@ -35,6 +35,9 @@ h1 {
 h2 {
 	font-size: 20px;
 }
+h3 {
+	font-size: 16px;
+}
 button {
 	cursor: pointer;
 }
@@ -171,7 +174,7 @@ div.notice {
 .js #columnPicker {
 	display: block;
 }
-.js #recordsTableContainer {
+.js #recordsTable_wrapper {
 	overflow: hidden;
 }
 .js #recordsTable {
@@ -272,8 +275,8 @@ table.fields td span {
 .captcha_error {
 	color: #ff0000;
 }
-/* terms of use */
-#terms_of_use {
+/* terms of use, about, partners */
+#terms_of_use, #about, #partners {
 	line-height: 150%;
 }
 #terms_of_use ol {
@@ -281,4 +284,7 @@ table.fields td span {
 }
 #terms_of_use ol.sub_list {
 	list-style-type: lower-roman;
+}
+#partners ul {
+	margin-left: 50px;
 }
