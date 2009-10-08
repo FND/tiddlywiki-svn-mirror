@@ -126,9 +126,9 @@ HTMLPresenter.footer_extra = edit_link
 
 
 def get_from_uri(environ,start_response):
-  environ['tiddlyweb.query']['bag'] =[environ['wsgiorg.routing_args'][1]['bag']]
+  environ['tiddlyweb.query']['bag'] = ["documents"]
   environ['tiddlyweb.query']['tiddler']= [environ['wsgiorg.routing_args'][1]['tiddler']]
   return get(environ,start_response)
 def init(config):
-    config['selector'].add("/tiddlyedit/{bag:segment}/{tiddler:segment}",GET=get_from_uri)
+    config['selector'].add("/room/{tiddler:segment}",GET=get_from_uri)
     config['selector'].add('/tiddlyeditor', GET=get)
