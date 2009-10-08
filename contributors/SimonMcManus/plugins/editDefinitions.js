@@ -18,7 +18,7 @@ config.macros.editDefinitions.refresh = function(place, paramString){
 	w.addStep(null, "<input name='definitionsListMarker' type='hidden'></input>");
 	var listMarker = w.getElement("definitionsListMarker");
 	var select = createTiddlyElement(null, "select");
-	select.setAttribute('name', 'definitons');
+	select.setAttribute('name', 'definitions');
 	select.setAttribute('size', '7');
 	select.setAttribute('sytle.width', '14.5em');
 	for(var i=0; i<items.length; i++) {
