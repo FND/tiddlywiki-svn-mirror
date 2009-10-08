@@ -11,6 +11,7 @@ config.extensions.ServerSideSavingPlugin.reportSuccess = function() {
 
 config.extensions.ServerSideSavingPlugin.reportFailure = function(tiddler, context){
 	jQuery.modal.show("Your changes were not saved.");
+	jQuery('.savingNotificationsDiv').html('Some changes were not saved. Please refresh the page.');
 }
 
 
