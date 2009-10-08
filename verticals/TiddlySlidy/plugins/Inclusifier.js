@@ -1,3 +1,4 @@
+/*{{{*/
 (function() {
 
 if (!version.extensions.InclusifierPlugin) {
@@ -71,3 +72,4 @@ if (!version.extensions.InclusifierPlugin) {
 }
 
 })();
+/*}}}*/

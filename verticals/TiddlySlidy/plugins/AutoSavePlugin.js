@@ -1,4 +1,4 @@
-
+/*{{{*/
 config.macros.autoSave = {
 
   getMetaData: function(title,extField){
@@ -40,4 +40,4 @@ config.macros.autoSave = {
   }
 
 }
-
+/*}}}*/
