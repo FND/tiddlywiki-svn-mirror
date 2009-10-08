@@ -1,0 +1,13 @@
+tags: content
+
+<html>
+<h1>Content</h1>
+<div class="container">
+	<div class="contentpagebullets">
+		<ul>
+			<li>test item one</li>
+			<li>test item two</li>
+
+		</ul>
+</div>
+</html>
