@@ -13,10 +13,12 @@
 |~CoreVersion|2.2|
 ***/
 
+var $ = jQuery;
+
 /*{{{*/
 (function() {
 if(!version.extensions.TrailsPlugin) {
-  version.extensions.TrailsPlugin = {installed:true};
+  var plugin = version.extensions.TrailsPlugin = {installed:true};
 
   var $ = jQuery;
   jQuery.fn.attach = function(html) { return this.append(html).children(":last"); };
@@ -30,37 +32,90 @@ if(!version.extensions.TrailsPlugin) {
   var macro = config.macros.trail = {
 
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-      console.log(store.getTiddler(params[0]));
-      var trail = eval("(" + store.getTiddler(params[0]).text + ")");
+      // var trail = eval("(" + store.getTiddler(params[0]).text + ")");
+      var trail = parseTrailTiddler(store.getTiddlerText(params[0]));
       
       var container = $("<div id='trailContainer'/>").appendTo(place);
       resourcesEl = $("<ul id='trail' class='trail' />").appendTo(container);
 
       renderResources(resourcesEl, trail.resources, 1);
+      setTimeout(function() {
       resourcesEl.NestedSortable({
         accept: "resource",
         opacity: 0.8,
         autoScroll: true,
+        helperclass: 'helper', 
+        handle: '.resourceLabel',
         noNestingClass: "no-nesting",
-        onChange: function(serialized) { }
+        // noNestingClass: "no-nesting",
+        // onChange: function(serialized) { console.log("done", serialized); }
+        onChange: function(serialized) { alert("done"); }
       });
+      }, 3000);
+
+      $(".resourceLabel").hover(
+        function() {
+          $(this).addClass("draggableOn");
+        }, 
+        function() {
+          $(this).removeClass("draggableOn");
+        }
+      );
+
     }
 
   };
 
+  function parseTrailTiddler(trailText) {
+    // var matches = trailText.match(/^(\*)+\s*(\s\S)*?/g)
+    console.log(trailText);
+    var trail = {url:"#", resources:[]};
+    // var lines = trailText.match(/^\s*\*+ .+$/gm)
+    var lines = trailText.match(/^\s*\*+\s*.*$/gm);
+    var lastLevel = 0;
+    var lastResource = trail;
+    $.each(lines, function(i,line) {
+      var line = line.replace(/[\[\]]/g, "");
+      var matches = line.match(/^\s*(\*+) (.*?)\s*$/);
+      var level = matches[1].length;
+      var tiddlerTitle = matches[2];
+      var daddy;
+      if (level<lastLevel) daddy = lastResource.daddy.daddy;
+      else if (level==lastLevel) daddy = lastResource.daddy;
+      else if (level>lastLevel) daddy = lastResource;
+      // if (!daddy.resources) daddy.resources = [];
+      daddy.resources.push(lastResource = {url: "#"+tiddlerTitle, daddy: daddy, resources: []});
+      lastLevel = level;
+    });
+    return trail;
+  }
+
   var count=0;
   function renderResources(resourcesEl, resources, level) {
     if (!resources.length) return;
-    var ul = $("<ul/>").appendTo(resourcesEl);
+    var ul = $("<ul id=ul'"+(count++)+"'>").appendTo(resourcesEl);
     $.each(resources, function(i, resource) {
-      console.log("resourcesEl", resourcesEl);
       var resourceEl = $("<li id=resource"+(count++) + " class='resource'/>")
-        .append("<span class='handle'>handle</span>")
-        .append(renderResource(resource))
+        // .append("<span class='handle'>handle</span>")
+        .append($("<div class='resourceLabel' />").append(renderResource(resource)))
         .appendTo(ul);
       renderResources(resourceEl, resource.resources, level+1);
     });
   }
+
+  plugin.flattenTreeByTiddler = function(trailTiddler) {
+    var trail = eval("("+store.getTiddlerText(trailTiddler)+")");
+    return plugin.flattenTree(trail);
+  };
+
+  plugin.flattenTree = function(trail) {
+    var resource = trail; // better internal name
+    var resourcesSoFar = arguments[1] || []; // hide it from signature
+    resourcesSoFar.push(resource.url);
+    $.each(resource.resources, function(i, child) {
+      resourcesSoFar=resourcesSoFar.concat(plugin.flattenTree(child));
+    });
+  };
 
   function renderResource(resource) {
     var label = resource.title || resource.url.replace(/^#/, "");
