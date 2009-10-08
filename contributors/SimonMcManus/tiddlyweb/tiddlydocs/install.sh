@@ -26,7 +26,6 @@ twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/SimonMcMan
 # Revisions 
 twanager from_svn system http://svn.tiddlywiki.org/Trunk/association/plugins/RevisionsCommandPlugin.js
 twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/DiffFormatterPlugin.js
-
 wget http://github.com/FND/tiddlyweb-plugins/raw/master/differ.py 
 
 # get RDF plugin
