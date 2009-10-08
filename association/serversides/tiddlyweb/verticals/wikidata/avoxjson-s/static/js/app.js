@@ -19,11 +19,9 @@ function parseQueryString(q) {
 	}
 	return params;
 }
-function countAdvSearchLines() {
-	return $('.advSearchLine').length;
-}
 function addAdvSearchLine() {
-	var i = countAdvSearchLines() + 1;
+	var lines = $('.advSearchLine').length;
+	var i = lines + 1;
 	/* keeping this "Any Field" option back until we can support it in search
 	<option>Any Field</option>\n
 	*/
@@ -41,33 +39,33 @@ function addAdvSearchLine() {
 			oTable.fnFilter(this.value,selectedIndex);
 		}*/
 		oTable.fnFilter(this.value,selectedIndex+1);
+		oTable.fixedHeader.fnUpdate();
 	});
 	$('#add_new_adv_'+i).click(function() {
 		addAdvSearchLine();
 	});
+	// reveal if not shown
+	var $container = $('#advancedSearchContainer');
+	if($container.css('display')==="none") {
+		$container.slideDown(250);
+		if(oTable) {
+			/* have to put this here until FixedHeader can cope with the page changing length after it's been initialised - it's after a timeout because the revealAdvancedSearch function takes that long to complete */
+			window.setTimeout(function() {
+				oTable.fixedHeader.fnUpdate();
+			} ,300);
+		}
+	}
 	return $advSearchLine;
-}
-function revealAdvancedSearch() {
-	if(countAdvSearchLines()===0) {
-		addAdvSearchLine();
-	}
-	$('#advancedSearchContainer').slideToggle(250);
-	if(oTable) {
-		/* have to put this here until FixedHeader can cope with the page changing length after it's been initialised - it's after a timeout because the revealAdvancedSearch function takes that long to complete */
-		window.setTimeout(function() {
-			oTable.fixedHeader.fnUpdate();
-		} ,300);
-	}
 }
 
 $('html').addClass('js');
 $(document).ready(function() {
 	// set advanced search on a slider
 	$('#search a.advanced').click(function() {
-		revealAdvancedSearch();
+		addAdvSearchLine();
 	});
 	$('#results .filter a').click(function() {
-		revealAdvancedSearch();
+		addAdvSearchLine();
 	});
 	// fill in search box and filters with current query
 	var q = window.location.search;
@@ -92,7 +90,6 @@ $(document).ready(function() {
 					}
 				}
 			}
-			revealAdvancedSearch();
 		}
 	}
 });
