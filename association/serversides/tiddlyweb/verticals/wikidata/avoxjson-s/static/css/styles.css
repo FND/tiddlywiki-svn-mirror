@@ -126,6 +126,43 @@ div.notice {
 	background-color: #000000;
 	padding: 5px;
 	color: #777777;
+	position: relative;
+}
+#columnPicker {
+	background-color: #EEEEEE;
+	position: absolute;
+	top: 3px;
+	right: 5px;
+	display: none;
+}
+#columnPicker div {
+	margin: 2px;
+}
+#columnPicker .label {
+	font-style: italic;
+	text-align: right;
+	margin-bottom: 2px;
+}
+#columnPicker .columns {
+	display: none;
+}
+#columnPicker .controls {
+	float: right;
+}
+#columnPicker .hideControl {
+	font-weight: bold;
+	cursor: pointer;
+}
+#columnPicker .invisible .hideControl {
+	font-weight: normal;
+	cursor: text;
+}
+#columnPicker .invisible .showControl {
+	font-weight: bold;
+	cursor: pointer;
+}
+.js #columnPicker {
+	display: block;
 }
 table {
 	border-collapse: collapse;

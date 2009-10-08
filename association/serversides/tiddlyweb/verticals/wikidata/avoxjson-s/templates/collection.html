@@ -9,7 +9,18 @@
 		{% else %}
 			There are {{count}} results - <span class="filter"><a href="javascript:;">add a filter</a>?</span>
 		{% endif %}
-			</p>
+		</p>
+		<div class="right small" id="columnPicker">
+			<div class="label">hide/show columns</div>
+			{% for field, label in labels %}
+			<div class="columns">
+				<span class="label">{{label}}</span>
+				<span class="controls">
+					<span class="hideControl">hide</span>|<span class="showControl">show</span>
+				</span>
+			</div>
+			{% endfor %}
+		</div>
 	</div>
 	<div id="recordsTable_wrapper" class="dataTables_wrapper"><table class="draggable forget-ordering" id="recordsTable">
 		<thead>
