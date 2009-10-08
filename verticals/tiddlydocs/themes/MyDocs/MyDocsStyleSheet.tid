@@ -566,6 +566,12 @@ h1 {
 		
 	}
 	
+	
+	.savingNotificationsDiv{
+		background:#fff url(/static/mydocs_images/ajax-loading.gif) no-repeat scroll right bottom;
+		
+	}
+	
 /* CKEditor */
 	html body span.cke_skin_kama {
 		position:relative;
@@ -581,6 +587,7 @@ h1 {
 	.body {
 	background:blue;
 	}
+
 	</style>
 	<![endif]-->
 

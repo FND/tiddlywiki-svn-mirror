@@ -18,14 +18,14 @@ config.macros.saveNotification = {};
 
 config.macros.saveNotification.displayStatus = function(dirty) {
 	if(dirty) {
-			jQuery('.savingNotificationsDiv').css('background', 'red');
+//			jQuery('.savingNotificationsDiv').css('background', 'red');
 	} else {
-			jQuery('.savingNotificationsDiv').css('background', 'green');
+//			jQuery('.savingNotificationsDiv').css('background', 'green');
 	}
 };
 
 config.macros.saveNotification.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	createTiddlyElement(place, "div", "", "savingNotificationsDiv", "STATUS IS : ");
+	var div = createTiddlyElement(place, "div", "", "savingNotificationsDiv", "STATUS IS : ");
 	config.macros.saveNotification.displayStatus(store.isDirty());
 };
 
