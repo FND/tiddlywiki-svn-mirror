@@ -6,9 +6,7 @@ TiddlyWiki-based editor for a single tiddler.
 add recipe to your tiddlywebconfig file
 'tiddlyeditor_recipe':[
         ['system',''],
-        ['ILGA',''],
-        ['admin',''],
-        ['questions','select=title:!EditTemplate;select=title:!ViewTemplate']
+        ['tdocs','']
 ],
 
 """
