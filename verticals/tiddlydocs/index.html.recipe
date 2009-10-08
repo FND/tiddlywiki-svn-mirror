@@ -58,6 +58,7 @@ tiddler: Plugins/SinglePageModePlugin_DOS2UNIX.js
 #tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
 tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
 tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
+tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/tiddlers/GrowlStyle.tiddler
 tiddler: ../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 
 
