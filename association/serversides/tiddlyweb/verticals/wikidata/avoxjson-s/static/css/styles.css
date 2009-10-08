@@ -134,6 +134,7 @@ div.notice {
 	top: 3px;
 	right: 5px;
 	display: none;
+	line-height: 12px;
 }
 #columnPicker div {
 	margin: 2px;
@@ -141,7 +142,11 @@ div.notice {
 #columnPicker .label {
 	font-style: italic;
 	text-align: right;
-	margin-bottom: 2px;
+	margin: 0 5px 2px 0;
+}
+#columnPicker div.label {
+	margin-top: 2px;
+	margin-left: 5px;
 }
 #columnPicker .columns {
 	display: none;

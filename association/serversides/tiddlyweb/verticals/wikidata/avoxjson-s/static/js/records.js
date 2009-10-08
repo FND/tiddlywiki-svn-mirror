@@ -46,7 +46,10 @@ $(document).ready(function() {
 			}
 		}
 		$('#recordsTable tfoot th').click(function() {
-			var pos = $("#recordsTable tfoot th").index(this);
+			var i = $('#recordsTable tfoot th').index(this);
+			var head = $('#recordsTable thead th')[i];
+			var title = head.innerHTML;
+			var pos = $.inArray(title, titles);
 			hideColumn(pos);
 			return false;
 		});
