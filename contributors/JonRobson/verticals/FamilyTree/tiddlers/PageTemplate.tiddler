@@ -2,7 +2,10 @@
 <pre>
 <!--{{{-->
 <div class='ftTitle' refresh='content' force='true' tiddler='SiteTitle'></div>
-<div macro="FamilyTree"></div>
+<div macro="FamilyTree">
+<div class='ftHideCorner'></div>
+</div>
+
 <div class='ftContainer'>
 	<div id='topToolbar' tiddler='topToolbar' refresh='content'></div>
 	<div id='sidebar'>

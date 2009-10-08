@@ -1,15 +1,24 @@
 <div title="StyleSheet" tags="excludeTree">
 <pre>
-a {color:#008500;}
+a,.tabSelected {color:#008500;}
 .button {background-color:white;border:1px solid #FFFFFF;color:green;margin-right:2px;padding:20px;}
 #topToolbar {margin-top:10px;margin-left:-12px;}
 #messageArea {background:#39ac1b;border:1px solid white;}
 .nodeLabel {width:200px; overflow:hidden;}
-.factbox {background-color:#A64800;color:white;padding:10px;}
+.factbox {border:1px dashed #024E02;
+color:black;
+font-weight:bold;
+padding:10px;}
+
+.ftHideCorner {position:absolute;}
+#sidebarOptions input,.tagging, .tagged {
+background-color:none;
+border:1px dashed #024E02;
+}
 .sexMale {background-color:#00665E;height:20px;width:100%;}
 .sexFemale {background-color:#FD7279;height:20px;width:100%;}
 .yourSearchResult {z-index:99999;}
-.tiddler {padding:0px;}
+.tiddler {background-color:white;margin-top:10px;padding:0 0 20px;}
 #displayArea {margin:1em 17em 0 1em;padding:0px;}
 body {font-family: Helvetica, Arial, Sans-serif;color:#024E02;}
 h1,h2,h3,h4,h5,.title{color:#39ac1b;}
@@ -17,12 +26,30 @@ h1,h2,h3,h4,h5,.title{color:#39ac1b;}
 .ftContainer {background-color:#39ac1b;padding:20px;position:relative;top:-26px;width:97%;left:10px;}
 #sidebarOptions .sliderPanel {background-color:#39ac1b;}
 .ftTitleBG {color:white;z-index:2;}
-.ftContainer #displayArea {background-color:white;}
+.ftContainer #displayArea {background-color:auto;}
 .ftContainer #sidebar {background-color:white;margin-top:110px;}
 .ft_tooltip {background-color:white;padding:10px;color:#39ac1b;z-index:40; font-weight:bold;}
 #tiddlerDisplay {margin-top:100px;}
-.FamilyTree {left:600px;right:0px;height:200px;position:absolute;background-color:#39AC1B;top:0;}
+.FamilyTree {left:600px;right:7px;height:200px;position:absolute;background-color:#39AC1B;top:0;}
 .tiddlerContainer {margin-left:10px;margin-right:10px;}
 .toolbar {margin-top:10px;}
+
+.tabContents {
+color:black;
+}
+.tagging .listTitle, .tagged .listTitle {
+color:black;
+}
+
+.ftHideCorner {border-color:white white #39AC1B #39AC1B;
+border-style:solid;
+border-width:20px 380px 70px 100px;
+position:absolute;
+right:0;
+top:0;
+z-index:10;
+}
+.VismoCanvas {z-index:11;}
+.changeroot {margin-left:50%;width:200px;right:100px;z-index:4000;position:relative;}
 </pre>
 </div>

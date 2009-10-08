@@ -69,7 +69,7 @@ config.macros.FamilyTree = {
         jQuery(tooltip).css({position:"relative",border:"red"});
 
         var orphans = graph.getOrphans().sort();
-        var str = "<select class='changeroot' style='z-index:4000;float:right;position:relative;'>";
+        var str = "<select class='changeroot' style=''>";
         for(var i=0; i < orphans.length;i++){
             var p=orphans[i];
             var node = graph.getNode(p);
