@@ -182,7 +182,8 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 				alert(ex.message);
 			}
 			try {
-				$th.css("width", width);
+				//$th.css("width", width);
+				$th.width(width2);
 			} catch(ex) {
 				alert('two');
 				alert(ex.message);
