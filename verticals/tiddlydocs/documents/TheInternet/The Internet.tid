@@ -18,7 +18,7 @@ tags: document
 					{title:'ICANN', children : []},
 					{title:'Language', children : []},
 					{title:'Internet and the workplace', children : []},
-					{title:'The Internet viewed on mobile devices', children : []},
+					{title:'The Internet viewed on mobile devices', children : []}
 				]},
 				{title:'Common uses', children: [
 					{title:'E-mail', children : []},
@@ -32,7 +32,7 @@ tags: document
 				{title:'Internet access', children : []},
 				{title:'Social impact', children : [
 					{title:'Political organization and censorship', children: []},
-					{title:'Leisure activities', children: []},
+					{title:'Leisure activities', children: []}
 				]}
 			]
 }
