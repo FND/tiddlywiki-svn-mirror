@@ -18,9 +18,9 @@ config.macros.saveNotification = {};
 
 config.macros.saveNotification.displayStatus = function(dirty) {
 	if(dirty) {
-			$('.savingNotificationsDiv').css('background', 'red');
+			jQuery('.savingNotificationsDiv').css('background', 'red');
 	} else {
-			$('.savingNotificationsDiv').css('background', 'green');
+			jQuery('.savingNotificationsDiv').css('background', 'green');
 	}
 };
 
