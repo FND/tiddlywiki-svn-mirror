@@ -48,8 +48,10 @@
 				{% if tiddler.fields.operational_country %}
 				<span class="country-name">{{ tiddler.fields.operational_country }}</span>
 				{% endif %}
-				{% if tiddler.fields.operational_post_code %}
-				<span class="postal-code">{{ tiddler.fields.operational_post_code }}</span>
+			</div>
+			<div>
+				{% if tiddler.fields.operational_postcode %}
+				<span class="postal-code">{{ tiddler.fields.operational_postcode }}</span>
 				{% endif %}
 			</div>
 		</div>

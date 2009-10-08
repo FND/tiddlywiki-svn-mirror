@@ -66,6 +66,7 @@ button {
 	text-indent: -9999px;
 	overflow: hidden;
 	background: url('../images/WikiDataLogo.gif') no-repeat top left;
+	cursor: pointer;
 }
 #header div.right {
 	margin-left: 20px;

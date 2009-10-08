@@ -164,7 +164,8 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 		$("thead:eq(0)>tr th", _oSettings.nTable).each( function (i) {
 			var width = $(this).width();
 			// JRL: replacing this line as it breaks IE
-			//style.width = parseInt($(this).css('width'))+"px";
+			//$("thead:eq(0)>tr th:eq("+i+")", _nCTable)[0].style.width =
+			//	parseInt($(this).css('width'))+"px";
 			$("thead:eq(0)>tr th:eq("+i+")", _nCTable).width(width);
 		} );
 		
