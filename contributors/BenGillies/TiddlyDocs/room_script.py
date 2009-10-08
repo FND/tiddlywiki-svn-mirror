@@ -26,7 +26,8 @@ RECIPE='{"policy":{"read": ["R:GROUP", "R:ADMIN"], "create": ["R:GROUP", "R:ADMI
 def create_room_elements(room_name):
     recipe_content = [
         ['system',''],
-        ['tdocs','']
+        ['tdocs',''],
+        ['documents','']
         ]
     
     for bag_type, policy in BAGS:
