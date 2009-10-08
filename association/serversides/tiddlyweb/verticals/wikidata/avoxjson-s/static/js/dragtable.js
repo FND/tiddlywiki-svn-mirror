@@ -334,6 +334,10 @@ dragtable = {
         dragtable.rememberDrag(dragObj.table.id, dragObj.startCol, targetCol);
       }
     }
+    // JRL: making sure fixedHeader redraws after a column move
+    if(oTable && oTable.fixedHeader) {
+	    oTable.fixedHeader.fnUpdate();
+    }
   },
 
   // Which column does the x value fall inside of? x should include scrollLeft.

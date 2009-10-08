@@ -177,6 +177,7 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 			var iTrigger = $('thead th', _nCTable).index(this);
 			$('thead th:eq('+iTrigger+')', _oSettings.nTable).click();
 			_fnCloneThead();
+			return true;
 		} );
 		
 		$('thead th', _nCTable).mousedown( function (event) {
@@ -188,10 +189,6 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 			} else {
 				event.target = th;
 			}
-			$(document).bind("mouseup", function() {
-				oTable.fixedHeader.fnUpdate();
-				$(document).unbind("mouseup",arguments.callee);
-			});
 			th.onmousedown(event);
 		});
 	}
