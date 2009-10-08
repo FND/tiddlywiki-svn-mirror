@@ -29,7 +29,7 @@ function pub() {
 }
 
 makepub
-pub GuidPlugin CommentsPlugin DrawingPlugin TiddlerTableMacro PreferenceMacros
+pub GuidPlugin CommentsPlugin DrawingPlugin TiddlerTableMacro PreferenceMacros QuizPlugin
 cd $pub
 ls -latr 
 echo $MAHEMOFF_TIDDLYWIKI

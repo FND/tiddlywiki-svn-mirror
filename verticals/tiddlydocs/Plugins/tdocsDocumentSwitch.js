@@ -18,6 +18,5 @@ config.macros.docSwitcher.setDropDownMetaData = function(ev) {
 	var option = this[this.selectedIndex].value;
 	window.activeDocument = option;
 	refreshAll();
-//	story.displayTiddler(null, option);
 }
 

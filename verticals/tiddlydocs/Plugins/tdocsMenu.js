@@ -98,8 +98,6 @@ config.macros.docMenu.refresh=function(place,macroName,params,wikifier,paramStri
 	config.macros.docMenu.renderSpec(specView, testSpec);
 }	
 
-
-
 function log() { if (console) console.log.apply(console, arguments); };
 
 //}}}

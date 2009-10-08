@@ -1,4 +1,4 @@
-tags: systemTheme
+tags: systemTheme  excludeLists excludeSearch
 
 /***
 |''Name:''|MyDocsTheme|
@@ -275,7 +275,6 @@ tags: systemTheme
 
 !StyleSheet
 
-[[MyDocsCSSConainer]]
+	[[MyDocsCSSConainer]]
 [[MyDocsCSSOverride]]
 [[MyDocsStyleSheet]]
-

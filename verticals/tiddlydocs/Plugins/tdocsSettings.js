@@ -15,10 +15,6 @@ config.commands.editHtml={
 config.views.wikified.defaultText= "Enter section text here.";
 
 // FCKEditor textarea height
- config.options.txtFCKheight = "250px";
-
-config.options.txtFCKeditorPath = 'plugins/FCKEditor/files/fckeditor/';
-
 
 CKEDITOR.config.toolbar_Basic =
 [
@@ -43,16 +39,6 @@ if(hash!="")
 else
 	window.activeDocument = 'The Internet';	
 	
-
-
 //config.macros.ccLogin.defaults.username = 'username';	
 //config.macros.ccLogin.defaults.password = 'password';
-
-//if(window.workspace=="")
-//	config.options.txtTheme = 'sandboxTheme';
-
-
-
 //}}}
-
-

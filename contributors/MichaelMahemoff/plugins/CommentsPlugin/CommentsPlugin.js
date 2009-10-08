@@ -434,10 +434,12 @@ copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
 
 config.macros.commentsCount = {
   handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-    var rootTiddler = paramString.length ? paramString : tiddler.title;
-    var count = config.macros.comments.findCommentsFromRoot(store.getTiddler(rootTiddler)).length;
-    createTiddlyText( place, count);
-//    createTiddlyElement(place, "span", null, "commentCount", count);
+    var count = 0;
+    if (tiddler && store.getTiddler(tiddler.title)) {
+      var rootTiddler = paramString.length ? paramString : tiddler.title;
+      count = config.macros.comments.findCommentsFromRoot(store.getTiddler(rootTiddler)).length;
+    }
+    createTiddlyText(place, count);
   }
 },
 

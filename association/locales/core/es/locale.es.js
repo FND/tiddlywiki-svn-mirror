@@ -1,15 +1,15 @@
-﻿/***
+/***
 |''Nombre:''|ComplementoTraducciónEspañol|
 |''Descripción:''|Traducción de TiddlyWiki al español|
 |''Autores:''|Sergio González y Pedro Domínguez (sgm214 (at) gmail (dot) com / alpedro (at) hotmail (dot) com)|
 |''Correcciónes:''|Dave Gifford y Ton van Rooijen (giff (at) giffmex (dot) org / tonsweb (at) xs4all (dot) nl)|
-|''Fuente:''|http://www.ton-van-rooijen.nl/TW/locale037.es.js |
+|''Fuente:''|http://www.ton-van-rooijen.nl/TW/locale040.es.js |
 |''Código:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Versión:''|0.3.7|
-|''Fecha:''|Dic 29, 2008|
+|''Versión:''|0.4.0|
+|''Fecha:''|Septiembre 8, 2009|
 |''Comentarios:''|Por favor deje sus comentarios en http://groups.google.co.uk/group/TiddlyWikiDev |
 |''Licencia:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''~VersiónNúcleo:''|2.4|
+|''~VersiónNúcleo:''|2.5.2|
 ***/
 
 //{{{
@@ -52,6 +52,7 @@ merge(config.optionsDesc,{
 	chkInsertTabs: "Usar el tabulador para crear texto en columnas en vez de servir para moverse entre apartados",
 	txtBackupFolder: "Nombre del directorio en que se guardan las copias de seguridad",
 	txtMaxEditRows: "Número máximo de filas en los recuadros de edición",
+	txtTheme: "Nombre de tema para utilizar",
 	txtFileSystemCharSet: "Juego de caracteres por defecto para guardar los cambios (sólo Firefox/Mozilla)"});
 
 merge(config.messages,{
@@ -61,7 +62,7 @@ merge(config.messages,{
 	pluginForced: "Ejecutado porque lo fuerza la etiqueta 'systemConfigForce'",
 	pluginVersionError: "No ejecutado porque este complemento necesita una versión más moderna de TiddlyWiki",
 	nothingSelected: "No hay nada seleccionado. Debe marcar uno o más primero",
-	savedSnapshotError: "Parece que este TiddlyWiki se ha guardado incorrectamente. Por favor mire http://www.tiddlywiki.com/#DownloadSoftware para más detalles",
+	savedSnapshotError: "Parece que este TiddlyWiki se ha guardado incorrectamente. Por favor mire http://www.tiddlywiki.com/#Download para más detalles",
 	subtitleUnknown: "(desconocido)",
 	undefinedTiddlerToolTip: "El tiddler '%0' no existe todavía",
 	shadowedTiddlerToolTip: "El tiddler '%0' no existe todavía, pero tiene un valor oculto definido previamente",
@@ -243,6 +244,8 @@ merge(config.macros.plugins,{
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
+			{name: 'Description', field: 'Description', title: "Descripción", type: 'String'},
+			{name: 'Version', field: 'Version', title: "Versión", type: 'String'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "Tamaño", type: 'Size'},
 			{name: 'Forced', field: 'forced', title: "Forzado", tag: 'systemConfigForce', type: 'TagCheckbox'},
 			{name: 'Disabled', field: 'disabled', title: "Deshabilitado", tag: 'systemConfigDisable', type: 'TagCheckbox'},
@@ -259,7 +262,10 @@ merge(config.macros.plugins,{
 
 merge(config.macros.toolbar,{
 	moreLabel: "más",
-	morePrompt: "Mostrar más comandos"
+	morePrompt: "Mostrar más comandos",
+	lessLabel: "menos",
+	lessPrompt: "Ocultar comandos adicionales",
+	separator: "|"
 	});
 
 merge(config.macros.refreshDisplay,{
@@ -363,13 +369,13 @@ merge(config.macros.sync,{
 	hasChanged: "Modificado mientras no estaba desconectado",
 	hasNotChanged: "Sin cambios mientras estaba desconectado",
 	syncStatusList: {
-		none: {text: "...", color: "transparent", display:null},
-		changedServer: {text: "Modificado en el servidor", color: '#8080ff', display:null},
-		changedLocally: {text: "Modificado mientras estaba desconectado", color: '#80ff80', display:null},
-		changedBoth: {text: "Modificado mientras estaba desconectado y también en el servidor", color: '#ff8080', display:null},
-		notFound: {text: "No está en el servidor", color: '#ffff80', display:null},
-		putToServer: {text: "Guardada la actualización en el servidor", color: '#ff80ff', display:null},
-		gotFromServer: {text: "Actualización obtenida del servidor", color: '#80ffff', display:null}
+		none: {text: "...", display:null, className:'notChanged'},
+		changedServer: {text: "Modificado en el servidor", display:null, className:'changedServer'},
+		changedLocally: {text: "Modificado mientras estaba desconectado", display:null, className:'changedLocally'},
+		changedBoth: {text: "Modificado mientras estaba desconectado y también en el servidor", display:null, className:'changedBoth'},
+		notFound: {text: "No está en el servidor", display:null, className:'notFound'},
+		putToServer: {text: "Guardada la actualización en el servidor", display:null, className:'putToServer'},
+		gotFromServer: {text: "Actualización obtenida del servidor", display:null, className:'gotFromServer'}
 		}
 	});
 
@@ -442,7 +448,7 @@ merge(config.commands.fields,{
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[ParaEmpezar]]",
-	MainMenu: "[[ParaEmpezar]]\n\n\n^^~TiddlyWiki versión <<version>>\n© 2008 [[UnaMesa|http://www.unamesa.org/]]^^",
+	MainMenu: "[[ParaEmpezar]]\n\n\n^^~TiddlyWiki versión <<version>>\n© 2009 [[UnaMesa|http://www.unamesa.org/]]^^",
 	ParaEmpezar: "Para empezar con este archivo TiddlyWiki vacío, necesitará modificar los siguientes tiddlers (en este contexto podemos entender que un tiddler es un artículo):\n* SiteTitle & SiteSubtitle: El título y subtítulo del sitio, como se muestra arriba (tras guardalo, también aparecerá en el título de la ventana del navegador)\n* MainMenu: El menú (normalmente a la izquierda)\n* DefaultTiddlers: Contiene los nombres de los tiddlers que por defecto quiere que se muestren cuando TiddlyWiki se abre\nTambién debería cambiar el nombre de usuario con el que firmará sus escritos: <<option txtUserName>>",
 	SiteTitle: "Mi TiddlyWiki",
 	SiteSubtitle: "un diario web personal, reutilizable y no lineal",

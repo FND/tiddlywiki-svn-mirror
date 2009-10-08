@@ -1,19 +1,13 @@
 /*
-  TiddlyWiki Comments Plugin - Online demo at http://tiddlyguv.org/CommentsPlugin.html
-
-  TODO:
-  - Support Cascade comment delete when the top-level tiddler is deleted
-  - Support more than one <<comments>> per tiddler. This will probably entail creating an invisible root tiddler to
-    hold all the comments for a macro together. The user will need to provide an ID for this tiddler.
-  - Don't use global "macro" var (use "macro" param a la jquery)
+  Tiddler Table Macro
 
 */
 
 /***
-|Name|CommentsPlugin|
-|Description|Macro for nested comments, where each comment is a separate tiddler.|
-|Source|http://tiddlyguv.org/CommentsPlugin.html#CommentsPlugin|
-|Documentation|http://tiddlyguv.org/CommentsPlugin.html#CommentsPluginInfo|
+|Name|TiddlerTableMacro|
+|Description||
+|Source||
+|Documentation||
 |Version|0.1|
 |Author|Michael Mahemoff, Osmosoft|
 |''License:''|[[BSD open source license]]|
@@ -21,9 +15,9 @@
 ***/
 
 /*{{{*/
-if(!version.extensions.CommentsPlugin) {
+if(!version.extensions.TiddlerTableMacro) {
 
-  version.extensions.CommentsPlugin = {installed:true};
+  version.extensions.TiddlerTableMacro = {installed:true};
 
   var macro = config.macros.comments = {
 
@@ -37,8 +31,8 @@ if(!version.extensions.CommentsPlugin) {
 
 init: function() {
   var stylesheet = store.getTiddlerText(tiddler.title + "##StyleSheet");
-  config.shadowTiddlers["StyleSheetCommentsPlugin"] = stylesheet;
-  store.addNotification("StyleSheetCommentsPlugin", refreshStyles);
+  config.shadowTiddlers["StyleSheetTiddlerTableMacro"] = stylesheet;
+  store.addNotification("StyleSheetTiddlerTableMacro", refreshStyles);
 },
 
 handler: function(place,macroName,params,wikifier,paramString,tiddler) {

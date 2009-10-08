@@ -1,5 +1,3 @@
-// DELETE ZONE
-
 config.macros.deleteZone = {};
 config.macros.deleteZone.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var div = createTiddlyElement(place, "div","deleteZone", "deleteZoneClass");
@@ -10,7 +8,6 @@ config.macros.deleteZone.handler = function(place,macroName,params,wikifier,para
 		div.innerHTML = "<b>Bin</b><br /><br /> <span id='bin'><li class='toc-item'>&nbsp;</li></span>";
 	div.style.height = "auto";
 	
-	
 	jQuery("#bin").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
@@ -20,8 +17,6 @@ config.macros.deleteZone.handler = function(place,macroName,params,wikifier,para
 		autoScroll: true,
 		handle: '.toc-sort-handle'
 	});
-
-	
 };
 
 config.macros.deleteZone.find = function(wantedTitle, spec) {

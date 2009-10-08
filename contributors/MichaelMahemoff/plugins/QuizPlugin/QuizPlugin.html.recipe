@@ -1,0 +1,15 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# The plugin
+tiddler: QuizPlugin.js
+
+# Demo
+tiddler: DefaultTiddlers.tiddler
+tiddler: quiz.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+
+tiddler: planet.tiddler
+tiddler: country.tiddler
+tiddler: animal.tiddler

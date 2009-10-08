@@ -1,5 +1,4 @@
 config.commands.saveNewSection = {};
-
 config.commands.saveNewSection.find = function(needle, haystack) {
 	for(var t=0; t < haystack.length; t++) {
 		if(haystack[t].title==needle)
@@ -9,7 +8,6 @@ config.commands.saveNewSection.find = function(needle, haystack) {
 	}
 	return false;
 }
-
 
 window.addToToc = function(sectionTitle, docTitle) {
 	var documentSpec = jQuery.parseJSON(store.getTiddlerText(docTitle)).content;

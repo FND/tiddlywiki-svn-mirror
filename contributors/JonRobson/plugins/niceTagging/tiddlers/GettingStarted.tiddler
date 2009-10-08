@@ -1,0 +1,12 @@
+<div title="Alice in Wonderland" tags="[[Alice]] [[Mad Hatter]] [[Queen of Hearts]]">
+<pre>
+Tagging in TiddlyWiki is fun isn't it, but lets me honest it could be more fun. That's why I created niceTagging!
+It makes tagging... well... nicer.
+
+
+NiceTaggingPlugin takes out the complicated bits and even makes some suggestions for you.
+So now no need to know TiddlyWiki tagging syntax. No longer being expected to know that to tag two words you have to create a tag {{{[two words]]}}} and if you want tags two words and three words you have to write {{{[[two words]] [[three words]] }}} rather than {{{two words, three words}}}.
+
+Click edit and see for yourself.
+</pre>
+</div>

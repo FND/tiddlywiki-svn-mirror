@@ -20,6 +20,7 @@ twanager bag documents < /dev/null
 
 twanager from_svn documents http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/documents/TheInternet/split.recipe
 twanager from_svn tdocs http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/index.html.recipe
+twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/ServerSideSavingPlugin.js
 
 # get RDF plugin
 mkdir rtf
@@ -42,11 +43,13 @@ rm ckeditor_3.0.tar.gz
 
 svn co http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/static/mypage_images/ mydocs_images
 svn co http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/static/mypage_css/ mypage_css
-
+cd ../
 
 ## TEMP - update permissions on system bag
-#wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/bags/system/policy > store/bags/system/policy
-
+cd store/bags/system/
+rm policy
+wget http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/bags/system/policy 
+cd ../../../
 
 cd ../
 chown apache  *  -R

@@ -17,6 +17,14 @@ config.macros.docSectionButtons.handler = function(place,macroName,params,wikifi
 				img.width = '15';
                 a2.appendChild(img);
                 createTiddlyText(a2, 'RSS');
+                var a3 = createTiddlyElement(place, "a", null, 'button');
+                a3.setAttribute('href',  tiddler.fields['server.host']+'recipes/'+tiddler.fields['server.	recipe']+'/tiddlers.atom?select=root:'+tiddler.title);
+                var img = document.createElement('img');
+                img.src = '/static/mydocs_images/icon_rss.png';
+				img.height = '15';
+				img.width = '15';
+                a3.appendChild(img);
+                createTiddlyText(a3, 'Comments RSS');
         }
 };
 

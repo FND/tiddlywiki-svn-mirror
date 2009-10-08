@@ -1,22 +1,23 @@
-﻿/***
+/***
 |''Name:''|DutchTranslationPlugin|
 |''Description:''|Translation of TiddlyWiki translateable strings into Dutch|
 |''Author:''|Ton van Rooijen (tonsweb (at) xs4all (dot) nl)|
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/nl/locale.nl.js|
-|''Version:''|0.2.6|
-|''Date:''|August 02, 2008|
+|''Version:''|0.3.0|
+|''Date:''|Sept 8, 2009|
 |''Version history:''|This version is applicable to all ~TiddlyWikis as of version 2.4.0 until further notice.|
 | June 20, 2007 v0.2.0: |First draft translation in Dutch based on Core-version 2.2 of "locale.en.js" (v0.3.3/v0.3.5).|
-| June 24, 2007 v0.2.1: |Workaround implemented for the translation problem as described in Ticket #217. Translations for shadow-tiddlers "GettingStarted" (HierBeginnen)  and "OptionsPanel" added for this translation.|
+| June 24, 2007 v0.2.1: |Workaround implemented for the translation problem as described in Ticket #217. Translations for shadow-tiddlers "~GettingStarted" (~HierBeginnen)  and "~OptionsPanel" added for this translation.|
 | July 1, 2007 v0.2.2: |Translation of the year string YYYY in date-formats (in Dutch it should be JJJJ) doesn't work; so I had to undo that. Extra comments added with all date-strings. Several miscellaneous improvements and corrections applied.||
-| July 4, 2007 v0.2.3: |According to ISO 639-1 the language-identification code should be "nl" instead of "du". So I changed the config.locale and the filename of this file accordingly. TW version and Copyright in MainMenu. Misc. corrections.||
+| July 4, 2007 v0.2.3: |According to ISO 639-1 the language-identification code should be "nl" instead of "du". So I changed the config.locale and the filename of this file accordingly. TW version and Copyright in ~MainMenu. Misc. corrections.||
 | July 6, 2007 v0.2.4: |~CoreVersion was mistakenly documented as "2.1.3" and so it was assumed to be applicable as of TW 2.1.3. Testing proved otherwise: applicability is only for all 2.2-versions. Synced with new "locale.en.js" (v0.3.6)||
 | July 11, 2007 v0.2.5: |The original translation of "backstage" changed from "redactiescherm" to "managementmenu" which better covers the functionality.||
-| August 02, 2008 v0.2.6: |tweak->opties; tiddler opslaan->bewaar (opslaan is alleen de complete TW); onbedoelde ~WikiWords in dit documentatieblok ge"~"ed; all 2.4.0-changes (from "locale.en.js" (v0.3.7).||
+| August 02, 2008 v0.2.6: |tweak->opties; tiddler opslaan->bewaar (opslaan is alleen de complete TW); onbedoelde ~WikiWords in dit documentatieblok ge"~"ed; all 2.4.0-changes (from "locale.en.js" v0.3.7).||
+| September 8, 2009 v0.3.0: |All 2.5.2-changes (from "locale.en.js" v0.4.0) for TW version 2.5.0 and up.||
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev, or directly to the author.|
-|''Acknowledgements:''|Special thanks to "Lourens van Quadsk8.nl" who created the very first Dutch translation, back in midst 2005 for versions 1.2 and up to 2.0, parts of which were gratefully reused in here.|
+|''Acknowledgements:''|Special thanks to "Lourens van Quadsk8.nl" who created the very first Dutch translation, back in midst 2005 for versions 1.2 and up to 2.0, many parts of which were gratefully reused in here.|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
-|''~CoreVersion:''|2.4|
+|''~CoreVersion:''|2.5.2|
 ***/
 
 //{{{
@@ -59,6 +60,7 @@ merge(config.optionsDesc,{
 	chkInsertTabs: "Tab-key voegt tabs in in plaats van naar het volgende veld te springen",
 	txtBackupFolder: "Mapnaam om backups in op te slaan",
 	txtMaxEditRows: "Maximum aantal regels in het wijzigingsvenster",
+	txtTheme: "Naam van het te gebruiken thema",
 	txtFileSystemCharSet: "Default characterset bij het opslaan (alleen voor Firefox/Mozilla)"});
 
 merge(config.messages,{
@@ -68,7 +70,7 @@ merge(config.messages,{
 	pluginForced: "Uitgevoerd, want geforceerd middels het 'systemConfigForce' label",
 	pluginVersionError: "Niet uitgevoerd want deze plugin is voor een jongere versie van TiddlyWiki",
 	nothingSelected: "Niets geselecteerd. Je moet eerst een of meerdere items selecteren",
-	savedSnapshotError: "Blijkbaar is deze TiddlyWiki eerder foutief opgeslagen. Kijk op http://www.tiddlywiki.com/#DownloadSoftware voor details",
+	savedSnapshotError: "Blijkbaar is deze TiddlyWiki eerder foutief opgeslagen. Kijk op http://www.tiddlywiki.com/#Download voor details",
 	subtitleUnknown: "(onbekend)",
 	undefinedTiddlerToolTip: "De tiddler '%0' bestaat nog niet",
 	shadowedTiddlerToolTip: "De tiddler '%0' bestaat nog niet, maar er is wel een voorgedefinieerde schaduw-versie",
@@ -250,6 +252,8 @@ merge(config.macros.plugins,{
 		columns: [
 			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
+			{name: 'Description', field: 'Description', title: "Beschrijving", type: 'String'},
+			{name: 'Version', field: 'Version', title: "Versie", type: 'String'},
 			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "Grootte", type: 'Size'},
 			{name: 'Forced', field: 'forced', title: "Verplicht", tag: 'systemConfigForce', type: 'TagCheckbox'},
 			{name: 'Disabled', field: 'disabled', title: "Uitgeschakeld", tag: 'systemConfigDisable', type: 'TagCheckbox'},
@@ -266,7 +270,10 @@ merge(config.macros.plugins,{
 
 merge(config.macros.toolbar,{
 	moreLabel: "meer",
-	morePrompt: "Laat nog meer commando's zien"
+	morePrompt: "Laat extra commando's zien",
+	lessLabel: "minder",
+	lessPrompt: "Verberg extra commando's",
+	separator: "|"
 	});
 
 merge(config.macros.refreshDisplay,{
@@ -370,13 +377,13 @@ merge(config.macros.sync,{
 	hasChanged: "Gewijzigd zonder verbinding",
 	hasNotChanged: "Ongewijzigd zonder verbinding",
 	syncStatusList: {
-		none: {text: "...", color: "transparant", display:null},
-		changedServer: {text: "Gewijzigd op de server", color: '#8080ff', display:null},
-		changedLocally: {text: "Gewijzigd zonder verbinding", color: '#80ff80', display:null},
-		changedBoth: {text: "Gewijzigd op de server zonder verbinding", color: '#ff8080', display:null},
-		notFound: {text: "Niet gevonden op de server", color: '#ffff80', display:null},
-		putToServer: {text: "Wijziging opgeslagen op de server", color: '#ff80ff', display:null},
-		gotFromServer: {text: "Wijziging van de server opgehaald", color: '#80ffff', display:null}
+		none: {text: "...", display:null, className:'notChanged'},
+		changedServer: {text: "Gewijzigd op de server", display:null, className:'changedServer'},
+		changedLocally: {text: "Gewijzigd zonder verbinding", display:null, className:'changedLocally'},
+		changedBoth: {text: "Gewijzigd op de server zonder verbinding", display:null, className:'changedBoth'},
+		notFound: {text: "Niet gevonden op de server", display:null, className:'notFound'},
+		putToServer: {text: "Wijziging opgeslagen op de server", display:null, className:'putToServer'},
+		gotFromServer: {text: "Wijziging van de server opgehaald", display:null, className:'gotFromServer'}
 		}
 	});
 
@@ -449,7 +456,7 @@ merge(config.commands.fields,{
 
 merge(config.shadowTiddlers,{
 	DefaultTiddlers: "[[HierBeginnen]]",
-	MainMenu: "[[HierBeginnen]]\n\n\n^^~TiddlyWiki versie <<version>>\n© 2007 [[UnaMesa|http://www.unamesa.org/]]^^",
+	MainMenu: "[[HierBeginnen]]\n\n\n^^~TiddlyWiki versie <<version>>\n© 2009 [[UnaMesa|http://www.unamesa.org/]]^^",
 	HierBeginnen: "Om te beginnen met deze blanco TiddlyWiki, vul je hierachter je naam in, zodat vanaf dat moment al jouw wijzigingen daarmee zullen worden gesigneerd: <<option txtUserName>>\n\nVervolgens kun je de onderstaande tiddlers gaan aanpassen:\n* SiteTitle & SiteSubtitle: De naam en ondertitel van de site, zoals hierboven wordt weergegeven (na het bewaren, zullen ze ook in de titelbalk van de browser verschijnen)\n* MainMenu: Het hoofdmenu (gebruikelijk aan de linkerkant)\n* DefaultTiddlers: Bevat de namen van alle tiddlers die je wilt laten verschijnen zodra deze TiddlyWiki wordt geopend.\n\nNatuurlijk kun je bovenstaande tiddlers ook later nog steeds aanpassen.\n\nEn nu ben je klaar om je eigen inhoud aan deze website te gaan geven.\nKlik bijvoorbeeld maar eens in de rechter kolom op ''nieuwe tiddler'' en typ een eigen stukje tekst in het venster dat wordt geopend.\nKlik vervolgens op ''bewaar'' daar vlak boven, en kijk, je eerste hoofdstukje (tiddler) is gemaakt (compleet met jouw naam en de datum)!\n\nZo simpel is nou het werken met TiddlyWiki.",
 	SiteTitle: "Mijn TiddlyWiki",
 	SiteSubtitle: "een herbruikbaar niet lineair persoonlijk notitieboek voor het web",

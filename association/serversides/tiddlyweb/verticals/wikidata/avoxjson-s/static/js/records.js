@@ -21,29 +21,32 @@ $(document).ready(function() {
 		return false;
 	});
 	$('table').show();
-	oTable = $('#recordsTable').dataTable({
-		bPaginate: false,
-		bInfo: false,
-		aoColumns: [
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			{ sClass: "center" },
-			{ sClass: "center" }
-		],
-		sDom: 't'
-	});
+	var $table = $('#recordsTable');
+	if($table.length!==0) {
+		oTable = $table.dataTable({
+			bPaginate: false,
+			bInfo: false,
+			aoColumns: [
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				{ sClass: "center" },
+				{ sClass: "center" }
+			],
+			sDom: 't'
+		});
+	}
 });

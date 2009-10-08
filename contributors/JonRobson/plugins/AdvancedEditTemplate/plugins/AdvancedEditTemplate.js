@@ -371,7 +371,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			};
 			
 			if(!initialValue) initialValue = "";
-			var options = {matchContains: true};
+			var options = {matchContains: true,selectFirst:false};
 		    jQuery("<input type='text' value=\""+initialValue +"\"/>").autocomplete(whatyousee,options).result(handler).appendTo(place);
 		
 		}

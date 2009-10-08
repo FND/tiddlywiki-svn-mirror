@@ -1,0 +1,13 @@
+<div title="EditTemplate">
+<pre>
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor niceTagger' macro='niceTagger valuesSource:Suggestions'></div>
+<div class='editorFooter'>Now instead of using the TiddlyWiki interface type words in here matching with existing words in the Suggestions tiddler - hit enter to add the tag and hit the crosses next to existing tags to delete them.</div>
+<!--}}}-->
+</pre>
+</div>

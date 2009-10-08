@@ -2,7 +2,7 @@ title: CommentsPlugin
 modifier: Mahemoff
 created: 200601031639
 modified: 200809181408
-tags: systemConfig
+tags: systemConfig excludeSearch excludeLists
 server.host: osmosoft.com
 creator: Michael Mahemoff, Osmosoft 
 server.page.revision: 200809181408
