@@ -1,15 +1,18 @@
 modifier: mahemoff
 
+!Choose Slides
+<<inclusifier Outline>>
+
 !Organisation Name
 <<edit organisation_name>>
 
 !Organisation Address
 <<edit organisation_address 3>>
 
-Contact
+!Contact
 <<edit contact>>
 
-Job Title
+!Job Title
 <<edit job_title>>
 
 <<autoSave>>

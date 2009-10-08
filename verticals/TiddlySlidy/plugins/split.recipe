@@ -14,3 +14,6 @@ tiddler: $TW_ROOT/contributors/MartinBudden/plugins/ThemeSwitcherPlugin.js
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
 
 tiddler: AutoSavePlugin.js
+
+tiddler: $TW_ROOT/contributors/MichaelMahemoff/plugins/TrailPlugin/TrailPlugin.js
+tiddler: Inclusifier.js
