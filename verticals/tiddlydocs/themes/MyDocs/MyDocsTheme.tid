@@ -173,11 +173,12 @@ top:1em;
 </style>
 <![endif]-->
 
-
+<!--[if IE 6]>
 <!--[if IE 6]>
 <style type="text/css">
-background:red;
-</style>
+body {
+background:red !important;
+}</style>
 <![endif]-->
 
 
