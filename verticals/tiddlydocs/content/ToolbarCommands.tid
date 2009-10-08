@@ -1,8 +1,8 @@
 modifier: Simon McManus
 
-|~viewToolbar|+editTiddler revisions closeTiddler|
+|~viewToolbar|+editTiddler  revisionsFlip closeTiddler|
 |~newEditToolbar| +saveTiddler -cancelTiddler |
-|~EditToolbar| +saveTiddler -cancelTiddler revisions deleteTiddlerHosted |
+|~EditToolbar| +saveTiddler -cancelTiddler revisionsFlip deleteTiddlerHosted |
 |~taskViewToolbar|+editTiddler revisions|
 |~drawingEditToolbar| +saveTiddler -cancelTiddler deleteTiddlerHosted|
 |~adminToolbar| deleteTiddlerHosted|
