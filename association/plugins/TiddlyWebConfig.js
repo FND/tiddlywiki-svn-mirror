@@ -1,8 +1,8 @@
 /***
 |''Name''|TiddlyWebConfig|
-|''Description''|configuration settings for TiddlyWeb|
+|''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|0.6.0|
+|''Version''|0.7.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -21,11 +21,13 @@
 * disabled save and delete toolbar commands for unauthorized users
 !!v0.6 (2009-08-15)
 * disabled edit toolbar command for unauthorized users
+!!v0.7 (2009-09-11)
+* added revisions toolbar command
 !Code
 ***/
 //{{{
 if(!config.adaptors.tiddlyweb) {
-        throw "Missing dependency: TiddlyWebAdaptor";
+	throw "Missing dependency: TiddlyWebAdaptor";
 }
 
 (function() {
@@ -45,7 +47,10 @@ config.defaultCustomFields = {
 	"server.workspace": workspace
 };
 
-// disable selected toolbar commands for unauthorized users
+// modify toolbar commands
+
+config.shadowTiddlers.ToolbarCommands = config.shadowTiddlers.ToolbarCommands.
+	replace("closeTiddler ", "revisions closeTiddler ");
 
 config.commands.saveTiddler.isEnabled = function(tiddler) {
 	return hasPermission("write", tiddler);
