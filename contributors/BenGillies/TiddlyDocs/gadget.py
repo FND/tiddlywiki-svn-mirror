@@ -8,8 +8,8 @@ def get_gadget(environ, start_response):
     """
     return a simple page for gadget testing
     """
-    if getattr(environ['tiddlyweb.usersign'], 'roles', None):
-        gadget_links = ['<a href="/%s/recipes/%s/tiddlers.wiki" target="_blank">%s Docs</a>' % (environ['tiddlyweb.config']['server_prefix'], role, role) for role in environ['tiddlyweb.usersign'].roles]
+    if environ['tiddlyweb.usersign'].get('roles'):
+        gadget_links = ['<a href="/%s/recipes/%s/tiddlers.wiki" target="_blank">%s Docs</a>' % (environ['tiddlyweb.config']['server_prefix'], role, role) for role in environ['tiddlyweb.usersign']['roles']]
         gadget_page = '''<html>
         <head><title>MyDocs</title></head>
         <body>
