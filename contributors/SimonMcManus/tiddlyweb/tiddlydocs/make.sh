@@ -1,11 +1,12 @@
+#	create a tar.gz achieve for tiddlydocs deployments 
 #
 #	Requires 
-#	
+#		
 #		tiddlyweb, tiddlywebwiki, curl, svn
 #
 #
 
-rm builds -R -f
+rm -R -f  builds
 mkdir builds
 cd builds
 twanager --load tiddlywebwiki.config instance tiddlydocs
@@ -19,6 +20,7 @@ curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atomplugin.py
 curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/htmlatom.py > htmlatom.py
 curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/twstatic/static.py > static.py
 curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlyeditor_plus.py > tiddlyeditor_plus.py
+curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/gadget.py > gadget.py
 
 rm tiddlywebconfig.py
 curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py > tiddlywebconfig.py
@@ -63,4 +65,6 @@ rm store/bags/system/policy
 curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/bags/system/policy > store/bags/system/policy
 
 cd ../
+
+tar -pczf tiddlydocs.tar.gz tiddlydocs
 
