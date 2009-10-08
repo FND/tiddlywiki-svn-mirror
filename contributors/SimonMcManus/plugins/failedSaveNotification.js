@@ -14,6 +14,8 @@ config.extensions.ServerSideSavingPlugin.reportFailure = function(tiddler, conte
 }
 
 
+config.macros.saveNotification = {};
+
 config.macros.saveNotification.displayStatus = function(dirty) {
 	if(dirty) {
 			$('.savingNotificationsDiv').css('background', 'red');
@@ -22,7 +24,6 @@ config.macros.saveNotification.displayStatus = function(dirty) {
 	}
 };
 
-config.macros.saveNotification = {};
 config.macros.saveNotification.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	createTiddlyElement(place, "div", "", "savingNotificationsDiv", "STATUS IS : ");
 	config.macros.saveNotification.displayStatus(store.isDirty());
