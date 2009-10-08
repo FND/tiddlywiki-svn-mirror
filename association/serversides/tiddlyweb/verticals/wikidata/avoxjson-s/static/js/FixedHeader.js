@@ -162,33 +162,10 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 		
 		/* Copy the widths across - apparently a clone isn't good enough for this */
 		$("thead:eq(0)>tr th", _oSettings.nTable).each( function (i) {
-			alert(i);
-			var th = $("thead:eq(0)>tr th:eq("+i+")", _nCTable);
-			alert(th.length);
-			var style = th[0].style;
-			alert(!!style);
-			alert(!!style.width);
+			var width = $(this).width();
+			// JRL: replacing this line as it breaks IE
 			//style.width = parseInt($(this).css('width'))+"px";
-			var width = $(this).css('width');
-			var width2 = $(this).width();
-			alert('width '+width);
-			alert('width2 '+width2);
-			width = parseInt(width);
-			alert('width '+width);
-			try {
-				var $th = $(th);
-			} catch(ex) {
-				alert('one');
-				alert(ex.message);
-			}
-			try {
-				//$th.css("width", width);
-				$th.width(width2);
-			} catch(ex) {
-				alert('two');
-				alert(ex.message);
-				exit(1);
-			}
+			$("thead:eq(0)>tr th:eq("+i+")", _nCTable).width(width);
 		} );
 		
 		$("thead:eq(0)>tr td", _oSettings.nTable).each( function (i) {
