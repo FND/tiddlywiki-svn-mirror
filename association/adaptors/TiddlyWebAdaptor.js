@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.9.4|
+|''Version''|0.10.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -32,6 +32,8 @@ This plugin includes [[jQuery JSON|http://code.google.com/p/jquery-json/]].
 * fixed ETag format
 !!v0.9 (2009-08-17)
 * fixed ETag handling for new tiddlers
+!!v0.10 (2009-10-08)
+* added static method for checking tiddler permissions
 !To Do
 * createWorkspace
 * document custom/optional context attributes (e.g. filters, query, revision) and tiddler fields (e.g. server.title, origin)
@@ -50,6 +52,16 @@ adaptor.mimeType = "application/json";
 
 adaptor.parsingErrorMessage = "Error parsing result from server";
 adaptor.locationIDErrorMessage = "no bag or recipe specified for tiddler"; // TODO: rename
+
+// check tiddler permissions
+adaptor.hasPermission = function(constraint, tiddler) {
+	var perms = tiddler.fields["server.permissions"];
+	if(perms) {
+		return perms.split(", ").contains(constraint);
+	} else {
+		return true;
+	}
+};
 
 // retrieve current status (requires TiddlyWeb status plugin)
 adaptor.prototype.getStatus = function(context, userParams, callback) {
