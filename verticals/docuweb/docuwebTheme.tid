@@ -88,7 +88,6 @@ padding: 1em;
 margin-left: 200px;
 border-left: 1px solid gray;
 padding: 1em;
-max-width: 36em;
 }
 
 #footer
@@ -109,4 +108,11 @@ border-top: 1px solid gray;
 		padding:0em;
 		text-align:left;
 	
+}
+
+.tiddler {
+	background: #eee;
+	margin: 1em;
+	padding:1em;
+	width:90%;
 }
