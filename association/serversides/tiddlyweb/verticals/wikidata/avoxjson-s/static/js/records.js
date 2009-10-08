@@ -15,6 +15,7 @@ $(document).ready(function() {
 				{ bVisible: false }, // Trades As Name(s)
 				null, // Trading Status
 				{ bVisible: false }, // Company Website
+				null, // Country of Registration
 				{ bVisible: false }, // Operational PO Box
 				{ bVisible: false }, // Operational Floor
 				{ bVisible: false }, // Operational Buidling

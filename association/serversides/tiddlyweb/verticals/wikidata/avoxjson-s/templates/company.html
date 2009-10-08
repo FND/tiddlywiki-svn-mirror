@@ -22,7 +22,10 @@
 		{% if tiddler.fields['previous_name(s)'] %}
 		<div>Previous name(s): {{ tiddler.fields['previous_name(s)'] }}</div>
 		{% endif %}
-		<h2 class="avid">AVID: {{ tiddler.fields.avid }}</h1>
+		{% if tiddler.fields['country_of_registration'] %}
+		<div>Country of Registration: {{ tiddler.fields['country_of_registration'] }}</div>
+		{% endif %}
+		<h2 class="avid">AVID: {{ tiddler.fields.avid }}</h2>
 	
 		<!--<span class="inc_number">{{ tiddler.fields.reg_inc_number }}</span>/<span class="inc_country_code">{{ tiddler.fields.inc_country_code }}</span>-->
 	
