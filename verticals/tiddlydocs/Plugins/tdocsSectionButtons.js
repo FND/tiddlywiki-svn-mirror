@@ -11,7 +11,7 @@ config.macros.docSectionButtons.handler = function(place,macroName,params,wikifi
                 a.appendChild(img);
                 createTiddlyText(a, ' Permalink');
                 var a2 = createTiddlyElement(place, "a", null, 'button');
-                a2.setAttribute('href',  tiddler.fields['server.host']"/"+tiddler.fields['server.workspace']+'/tiddlers/'+encodeURIComponent(tiddler.title)+'.atom');
+                a2.setAttribute('href',  tiddler.fields['server.host']+"/"+tiddler.fields['server.workspace']+'/tiddlers/'+encodeURIComponent(tiddler.title)+'.atom');
 				a2.setAttribute('target', 'tiddlydocs_link');
                 var img = document.createElement('img');
                 img.src = '/doccollab/static/mydocs_images/icon_rss.png';
