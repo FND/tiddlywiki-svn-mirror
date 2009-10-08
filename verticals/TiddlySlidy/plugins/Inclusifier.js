@@ -1,4 +1,3 @@
-/*{{{*/
 (function() {
 
 if (!version.extensions.InclusifierPlugin) {
@@ -8,9 +7,6 @@ if (!version.extensions.InclusifierPlugin) {
   plugin.getTiddlersForShow = function(trailTiddler) {
     // var trailText = store.getTiddlerText(trailTiddler);
     // console.log("trailText", trailText);
-
-	console.log('trail');
-
     var showTiddlers = [];
     $.each(version.extensions.TrailsPlugin.flattenTreeByTiddler(trailTiddler),
            function(i,resource) {
@@ -22,7 +18,7 @@ if (!version.extensions.InclusifierPlugin) {
       }
     });
     return showTiddlers;
-  };
+  }
 
   var stylesheet = store.getTiddlerText(tiddler.title + "##InclusifierStyleSheet");
   if (stylesheet) { // check necessary because it happens more than once for some reason
@@ -38,15 +34,17 @@ if (!version.extensions.InclusifierPlugin) {
       trailEl = $("<ul class='inclusifier'/>").appendTo(place);
       version.extensions.TrailsPlugin.renderResources(trailEl, trail.resources);
       $("a", trailEl).each(function() {
-        var tiddler = store.getTiddler($(this).attr("tiddlylink"));
+        var tiddlerTitle = $(this).attr("tiddlylink")
+        var tiddler = store.getTiddler(tiddlerTitle);
         var checkbox = 
           $("<input type='checkbox' />")
-          .attr("checked", !tiddler.isTagged("noShow"))
+          .attr("checked", tiddler && !tiddler.isTagged("noShow"))
           .change(function() {
-            console.log(tiddler, "--> tags", tiddler.tags);
-            store.setTiddlerTag(tiddler.title,! $(this).attr("checked"),"noShow");
-            console.log(tiddler, "--> 2tags", tiddler.tags);
-            saveTiddler(tiddler);
+            var tiddler = store.getTiddler(tiddlerTitle); // load again in case changed
+            if (tiddler) {
+              store.setTiddlerTag(tiddler.title,! $(this).attr("checked"),"noShow");
+              saveTiddler(tiddler);
+            }
           })
           .insertBefore($(this));
       });
@@ -56,18 +54,19 @@ if (!version.extensions.InclusifierPlugin) {
 
   function saveTiddler(tiddler) {
     var tiddler = (typeof(tiddler)=="string") ? store.getTiddler(tiddler) : tiddler; 
-    store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, mergeReadOnly(config.defaultCustomFields, tiddler.fields), false, tiddler.created);
-  };
+    store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, mergeReadOnly(config.defaultCustomFields, tiddler.fields), false, tiddler.created)
+  }
 
   function mergeReadOnly(first, second) {
     var merged = {};
     for (var field in first) { merged[field] = first[field]; }
     for (var field in second) { merged[field] = second[field]; }
     return merged;
-  };
+  }
 
 /***
 !InclusifierStyleSheet
+.inclusifier { text-align: left; }
 .inclusifier li { list-style-type: none; }
 !(end of StyleSheet)
 ***/
@@ -75,4 +74,3 @@ if (!version.extensions.InclusifierPlugin) {
 }
 
 })();
-/*}}}*/
