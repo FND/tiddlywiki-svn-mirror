@@ -15,7 +15,7 @@ config.macros.editDefinitions.refresh = function(place, paramString){
 	var defList = store.getTiddlerText(paramString);
 	var items = defList.split("\n");
 	w.setValue("defList", defList);
-	w.addStep(null, "<input name='definitionsListMarker' type='hidden'></input>");
+	w.addStep(null, "<input name='definitionsListMarker'></input>");
 	var listMarker = w.getElement("definitionsListMarker");
 	var select = createTiddlyElement(null, "select");
 	select.name = "definitions";
