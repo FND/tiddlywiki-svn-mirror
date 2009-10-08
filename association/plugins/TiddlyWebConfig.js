@@ -64,7 +64,7 @@ config.commands.deleteTiddler.isEnabled = function(tiddler) {
 var original = Tiddler.prototype.isReadOnly;
 Tiddler.prototype.isReadOnly = function() {
 	var readOnly = original.apply(this, arguments); // global read-only mode
-	return readOnly || !hasPermission("write", this);
+	return readOnly || !this.getAdaptor().hasPermission("write", this);
 };
 
 // retrieve server info
