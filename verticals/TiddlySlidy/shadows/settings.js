@@ -10,4 +10,14 @@ config.options.txtTheme = "PresenterTheme";
  */
 config.options.txtFadingMessagesTimeout = 1;
 
+/*
+ *  Lingo
+ */
+merge(config.macros.newTiddler,{
+    label: "new slide",
+    prompt: "Create a new slide",
+    title: "New Slide",
+    accessKey: "N"});
+
+
 //}}}

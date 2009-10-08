@@ -1,5 +1,9 @@
 <div title="MainMenu" modifier="Paul Downey" created="200709041658" modified="200709111156" tags="excludeLists">
 <pre>
+[[Outline]]
+[[Custom]]
 <<toggleThemeButton "Slide Show" "switch to slide show mode">>
+<<newTiddler "new slide" "slide">>
+<<saveChanges>>
 </pre>
 </div>
