@@ -10,13 +10,13 @@
 <div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser'></span></div>
 
 <h1>Family Tree Specific</h1>
-sex (M or F): <div class='editor' macro='AdvancedEditTemplate metaDataName:sex type:dropdown valuesSource:sexDefinition'></div>
+sex (M or F): <div class='editor' macro='AdvancedEditTemplate metaDataName:sex type:radio valuesSource:sexDefinition'></div>
 date of birth:<div class='editor' macro='edit dob'></div>
 place of birth:<div class='editor' macro='edit placeofbirth'></div>
 mother:<div class='editor' macro='aet type:search metaDataName:mother valuesSource:ListOfWomen wikify:yes'></div>
 father:<div class='editor' macro='aet type:search metaDataName:father valuesSource:ListOfMen wikify:yes'></div>
 spouse:<div class='editor' macro='edit spouse'></div>
-date of marriage: <div class='editor' macro='edit dom'></div>
+date of marriage: <div class='editor' macro='aet type:date metaDataName:dom'></div>
 where did they get married: <div class='editor' macro='edit placeofmarriage'></div>
 
 occupation:<div class='editor' macro='edit occupation'></div>

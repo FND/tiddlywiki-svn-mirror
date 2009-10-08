@@ -25,7 +25,7 @@ img {border:0;}
 var overlay = new VismoCanvas(jQuery(".overlay"),{vismoController:{},dblclick:function(e,s){alert(s.properties.name);}});
 var map = new VismoMap(jQuery("#mycanvas"),{geojson:geojson});
 
-var zoom = 2;
+var zoom = 1.05;
 /* override the handler for the controls on the overlay to also handle the map */
 var mapcanvas = map.getVismoCanvas();
 var controller = overlay.vismoController;
@@ -54,17 +54,21 @@ var mousemove = function(e,s){
     activename = name;
     var f = map.getFeatures(featureid);
     var t = map.getTransformation();
-    if(!f) return;
-    var shapes = f.getVismoShapes();
-    var bb = s.getBoundingBox();
+    if(f){
+    	var shapes = f.getVismoShapes();
+    }
+	else{
+		return;
+	}
     /* clear everything currently on overlay */
     overlay.clear(true);
     
     for(var i=0; i < shapes.length; i++){
       var shape =shapes[i].clone();  
-      shape.translate((-bb.center.x-t.translate.x)/zoom,(-bb.center.y-t.translate.y)/zoom);
-    
-      shape.setProperty("stroke","#ff0000")
+		var bb = shapes[i].getBoundingBox();
+      //shape.translate((-bb.center.x),(-bb.center.y));
+    	shape.moveTo(bb.center.x,bb.center.y);
+      shape.setProperty("stroke","#ff0000");
       overlay.add(shape);
     }
 

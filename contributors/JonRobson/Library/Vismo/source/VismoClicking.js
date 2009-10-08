@@ -567,7 +567,7 @@ VismoCanvas.prototype = {
 	
 	,setTransformation: function(args){
 	    var transformation = arguments[0];
-	        console.log(transformation.origin.x,transformation.translate.x,transformation.translate.y);
+	        //console.log(transformation.origin.x,transformation.translate.x,transformation.translate.y);
 	        if(!transformation.origin){
 	                transformation.origin = {};
 	                transformation.origin.x = jQuery(this.wrapper).width() / 2;

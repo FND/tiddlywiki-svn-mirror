@@ -6,5 +6,18 @@
 .sexMale {background-color:#0B61A4;height:20px;width:100%;}
 .sexFemale {background-color:#F66F89;height:20px;width:100%;}
 .yourSearchResult {z-index:99999;}
+
+#displayArea {margin:1em 17em 0 1em;padding:20px;}
+body {font-family: Helvetica, Arial, Sans-serif;}
+h1,h2,h3,h4,h5,.title{color:#39ac1b;}
+.ftTitle {color:#39ac1b;font-size:108px;font-weight:700;}
+.ftContainer {background-color:#39ac1b;
+padding:20px;
+position:relative;
+top:-26px;
+width:97%;left:0px;}
+.ftTitleBG {color:white;z-index:2;}
+.ftContainer #displayArea {background-color:white;}
+.ftContainer #sidebar {background-color:white;}
 </pre>
 </div>

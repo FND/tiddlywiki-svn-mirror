@@ -43,7 +43,12 @@ config.macros.FamilyTree = {
         var graph = new VismoGraph({nodes:n,edges:edges});
         var div = document.createElement("div");
         place.appendChild(div);
-        jQuery(div).css({width:700,height:300,"position":"relative"});
+        
+        var w = jQuery(place).width();
+        var h = jQuery(place).height();
+        if(!w) w = 700;
+        if(!h) h= 300;
+        jQuery(div).css({width:w,height:h,"position":"relative"});
         
         var root = store.getTiddler(getParam(namedprms,"root"));
         var tooltip = document.createElement("div");
