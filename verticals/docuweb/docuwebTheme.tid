@@ -18,7 +18,7 @@ tags: systemTheme  excludeLists excludeSearch
 		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>		
 	</div>
 	<div id="leftnav">
-		<div id='mainMenu' refresh='content' macro='tagsTree'></div>
+		<div  macro='tagsTree menu'></div>
 	</div>
 	<div id="content">
 		<div id='tiddlerDisplay'></div>
@@ -38,6 +38,7 @@ tags: systemTheme  excludeLists excludeSearch
 
 </div>
 		<div class='viewer' macro='view text wikified'></div>
+		<div macro='comments'></div>
 <!--}}}-->
 
 
