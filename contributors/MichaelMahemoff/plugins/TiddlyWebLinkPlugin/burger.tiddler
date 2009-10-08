@@ -1,0 +1,9 @@
+<div title="burger" modifier="Mahemoff" created="200809181254" modified="200809191620" tags="" changecount="19" food="meal">
+<pre>Burgers. They rock. Do you like them too?
+
+!More TiddlyWebLinkPlugin
+
+</pre>
+
+<<TiddlyWebLinkPlugin param1:value1 param2:value2>>
+</pre>

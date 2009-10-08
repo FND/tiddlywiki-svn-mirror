@@ -1,0 +1,12 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# The plugin
+tiddler: TiddlyWebLinkPlugin.js
+
+# Demo
+tiddler: DefaultTiddlers.tiddler
+tiddler: demo.tiddler
+tiddler: burger.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
