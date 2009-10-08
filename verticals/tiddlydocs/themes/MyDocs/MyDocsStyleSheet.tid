@@ -27,7 +27,7 @@ tags:  excludeLists excludeSearch
 		height:auto;
 	}
 	html body #tab_wrapper {
-		background-color: transparent url(/container/static/wa/jarrita/skins/wholesale/images/cp_colour_customisation.png) repeat-x scroll left top;
+		background: transparent url(/doccollab/static/mydocs_images/tabs_bg.png) repeat-x scroll left top;
 	}
 	
 	
