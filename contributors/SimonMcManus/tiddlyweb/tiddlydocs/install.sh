@@ -22,6 +22,11 @@ twanager from_svn documents http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs
 twanager from_svn tdocs http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/index.html.recipe
 twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/ServerSideSavingPlugin.js
 
+# Revisions 
+twanager from_svn system http://svn.tiddlywiki.org/Trunk/association/plugins/RevisionsCommandPlugin.js
+twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/DiffFormatterPlugin.js
+
+wget http://github.com/FND/tiddlyweb-plugins/raw/master/differ.py 
 # get RDF plugin
 mkdir rtf
 cd rtf
