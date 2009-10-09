@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|0.7.1|
+|''Version''|0.7.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -53,18 +53,23 @@ config.shadowTiddlers.ToolbarCommands = config.shadowTiddlers.ToolbarCommands.
 	replace("closeTiddler ", "revisions closeTiddler ");
 
 config.commands.saveTiddler.isEnabled = function(tiddler) {
-	return tiddler.getAdaptor().hasPermission("write", tiddler);
+	var adaptor = tiddler.getAdaptor();
+	return adaptor && adaptor.hasPermission("write", tiddler);
 };
 
 config.commands.deleteTiddler.isEnabled = function(tiddler) {
-	return tiddler.getAdaptor().hasPermission("delete", tiddler);
+	var adaptor = tiddler.getAdaptor();
+	return adaptor && adaptor.hasPermission("delete", tiddler);
 };
+
+AdaptorBase.prototype.hasPermission = function() { return true; };
 
 // hijack Tiddler.prototype.isReadOnly to use permissions
 var original = Tiddler.prototype.isReadOnly;
 Tiddler.prototype.isReadOnly = function() {
 	var readOnly = original.apply(this, arguments); // global read-only mode
-	return readOnly || !this.getAdaptor().hasPermission("write", this);
+	var adaptor = this.getAdaptor();
+	return readOnly || !(adaptor && adaptor.hasPermission("write", this));
 };
 
 // retrieve server info
