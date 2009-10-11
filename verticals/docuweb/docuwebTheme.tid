@@ -64,9 +64,8 @@ line-height: 130%;
 
 #top
 {
-padding: .5em;
-background-color: #ddd;
-border-bottom: 1px solid gray;
+padding: 1.4em;
+background-color: #fff;
 }
 
 #top h1
@@ -86,7 +85,6 @@ padding: 1em;
 #content
 {
 margin-left: 200px;
-border-left: 1px solid gray;
 padding: 1em;
 }
 
@@ -97,11 +95,13 @@ margin: 0;
 padding: .5em;
 color: #333;
 background-color: #ddd;
-border-top: 1px solid gray;
 }
 
 #leftnav p { margin: 0 0 1em 0; }
 #content h2 { margin: 0 0 .5em 0; }
+
+
+/* TiddlyWiki CSS */
 
 #mainMenu {
 		position:relative;
@@ -111,8 +111,41 @@ border-top: 1px solid gray;
 }
 
 .tiddler {
-	background: #eee;
 	margin: 1em;
-	padding:1em;
-	width:90%;
+	padding:2em;
+	padding-top:1.4em;
+	background:#EEEEEE none repeat scroll 0 0;
+	border:1px solid #DDDDDD;
 }
+
+.title {
+	color:#666;
+	padding-bottom:.3em;
+	padding-top:0em;
+}
+
+.siteTitle, .siteSubtitle {
+	font-family:tahoma;
+}
+
+/* END TiddlWiki CSS */
+
+/* Comments CSS */
+
+
+
+html body .comment .heading {
+	border:0px;
+	background-color:#ddd;
+}
+html body .comment {
+	border:1px solid #ddd;
+	margin:1em 1em 1em 0em;
+}
+
+
+html body .comment .reply {
+	padding-right:2em;
+}
+
+/* END Comments CSS */

@@ -13,6 +13,9 @@ curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/htmlatom.py >
 curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/twstatic/static.py > static.py
 curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlyeditor_plus.py > tiddlyeditor_plus.py
 curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/gadget.py > gadget.py
+curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_script.py > room_script.py
+curl http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/validators/html_validator.py > html_validator.py
+curl http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/validators/tiddlywiki_validator.py > tiddlywiki_validator.py
 
 rm tiddlywebconfig.py
 curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py >tiddlywebconfig.py

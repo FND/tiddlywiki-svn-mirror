@@ -1,3 +1,22 @@
 tags: Installation
 
 This is how to install TiddlyDocs on TiddlyWeb
+
+! Using Apache
+ Install mod_python, mod_wsgi or mod_cgi
+{{{
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/install.sh >install.sh
+sudo sh install.sh
+}}}
+
+! Using ~CherryPie 
+{{{
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/install.sh >install.sh
+sudo sh install.sh
+cd tiddlydocs
+twanager server 127.0.0.1 8080
+}}}
+In your browsers then goto :
+
+http://127.0.0.1:8080/recipes/tiddlydocs/tiddlers.wiki
+

@@ -39,8 +39,8 @@ select i in $OPTIONS; do
 		curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlyeditor_plus.py > tiddlyeditor_plus.py
 		curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/gadget.py > gadget.py
 		curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_script.py > room_script.py
-
-
+		curl http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/validators/html_validator.py > html_validator.py
+		curl http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/validators/tiddlywiki_validator.py > tiddlywiki_validator.py
 		
 		twanager from_svn documents http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/documents/TheInternet/split.recipe
 		twanager from_svn tdocs http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/index.html.recipe
@@ -58,7 +58,6 @@ select i in $OPTIONS; do
 		# get RDF plugin
 		mkdir rtf
 		curl http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/tiddlyweb/TiddlyWebRTF/rtf/__init__.py > rtf/__init__.py
-
 
 		#wget http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/form/form.py
 
