@@ -14,7 +14,7 @@ filename="split.recipe"
 
 function quit {
 	echo "aborting: $1"
-	exit
+	exit 1
 }
 
 if [ $# -gt 0 ]; then
