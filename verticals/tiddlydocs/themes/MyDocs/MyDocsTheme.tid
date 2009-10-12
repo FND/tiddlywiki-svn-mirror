@@ -119,15 +119,26 @@ tags: systemTheme  excludeLists excludeSearch
 <!--[if IE]>
 <style type="text/css">
 
-#mainMenu {
-left : 0em;
+html body .toc-title {
+	position:relative;
+	margin-top:1.3em;
 }
+
+.title-right {
+	top:0.7em;
+	right:0em;
+}	
+
+#mainMenu {
+	left : 0em;
+}
+
 html body .title {
-	top:-1em;
+	top:-1.4em;
 }
 
 #buttonHolder {
-	top:-2.4em;
+	top:-5.4em;
 	padding-right:1em;
 }
 
@@ -141,15 +152,6 @@ html body .title {
 .iconShift {
 top:1em;
 }
-</style>
-<![endif]-->
-
-<!--[if IE 6]>
-<style type="text/css">
-#tiddlerDisplay {
-	width:50% !important;
-}
-
 </style>
 <![endif]-->
 
