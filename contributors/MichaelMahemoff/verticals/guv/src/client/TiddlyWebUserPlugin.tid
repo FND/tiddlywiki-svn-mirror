@@ -52,7 +52,7 @@ if (!version.extensions.tiddlyWebUserPlugin) {
           if (bag=="private-"+username) privacyP = "xprivate";
           else if (bag=="protected") privacyP = "xprotected";
           else if (bag=="content") privacyP = "xpublic";
-          createTiddlyElement(place, "div", "bagChoice"+tiddler.title.replace(" ",""), "bagChoiceView", messages[privacyP]);
+          createTiddlyElement(place, "div", "bagChoice"+tiddler.title.replace(" ",""), null, messages[privacyP]);
         }
       };
 
