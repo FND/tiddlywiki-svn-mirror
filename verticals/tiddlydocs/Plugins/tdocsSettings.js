@@ -32,7 +32,7 @@ CKEDITOR.config.disableNativeSpellChecker = false;
 
 // set the document from the hash
 var hash =  window.location.hash.substring(1);
-if(hash!="")
+if(hash!="" && hash!="#")
 	window.activeDocument = window.location.hash.substring(1);
 else
 	window.activeDocument = 'The Internet';	

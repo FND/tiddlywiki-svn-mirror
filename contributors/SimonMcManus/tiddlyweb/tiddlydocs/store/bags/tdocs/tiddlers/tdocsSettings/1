@@ -34,6 +34,7 @@ config.options.txtFCKeditorPath = 'plugins/FCKEditor/files/fckeditor/';
 
 // set the document from the hash
 var hash =  window.location.hash.substring(1);
+alert(hash);
 if(hash!="")
 	window.activeDocument = window.location.hash.substring(1);
 else
