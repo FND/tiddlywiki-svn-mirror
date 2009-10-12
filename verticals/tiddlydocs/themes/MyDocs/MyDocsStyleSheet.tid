@@ -499,7 +499,9 @@ h1 {
 		height:60px;
 		background-repeat:repeat-x;
 	}
-	
+	html body .title-right {
+		background:blue !important;
+	}
 	.portletToolbarLeft {
 		height:32px;
 	}
