@@ -126,6 +126,11 @@ html body .title {
 	top:-1em;
 }
 
+#buttonHolder {
+	top:-2.4em;
+	padding-right:1em;
+}
+
 .deleteZoneClass {
 	width:80%;
 	left:-2em;
