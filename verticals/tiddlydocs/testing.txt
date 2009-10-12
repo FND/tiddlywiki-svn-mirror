@@ -1,0 +1,29 @@
+1 .. create new document 
+IE7 PASS
+
+2 .. create new section 
+IE7 PASS
+
+3 .. drag section to move
+IE7 PASS
+
+4 .. drag section to delete 
+IE7 PASS
+
+5 .. Create new assigned status 
+IE7 FAIL 
+ 
+6 .. Assign status to section
+IE7 PASS
+
+7 .. set section status to complete
+IE7 PASS
+
+8 .. make save fail and confirm error message is visible 
+IE7 FAIL 
+
+9 .. css ok
+IE7 FAIL
+
+10 .. edit section text 
+IE7 - works but with errors
