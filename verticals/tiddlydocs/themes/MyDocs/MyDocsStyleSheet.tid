@@ -219,10 +219,9 @@ h1 {
 	#buttonHolder {
 		font-size:0.9em;
 		height:100%;
-		left:-6.9em;
+		left:-3em;
 		position:relative;
-		top:-1em;
-		width:140%;
+		top:-0.7em;
 	}
 	
 	html body .btn span span {

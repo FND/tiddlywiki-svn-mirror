@@ -85,7 +85,9 @@ tags: systemTheme  excludeLists excludeSearch
 			<div class="portletCornerRight"></div>
 			<div class="portletTitle iconShift">
 				<div class='title'>Table of Content</div>
-				<div macro='newTiddler label:"new section" title:"enter here..." template:{{config.options.txtTheme + "##newEditTemplate"}}' class='title-right'></div>	
+				<div id='buttonHolder'>
+					<div macro='newTiddler label:"new section" title:"enter here..." template:{{config.options.txtTheme + "##newEditTemplate"}}' class='title-right'></div>	
+				</div>
 			</div>
 
 		</div>
