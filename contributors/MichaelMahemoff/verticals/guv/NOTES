@@ -1,0 +1,7 @@
+#####################################
+# MIGRATE STORE
+#####################################
+# cd ..
+# pwd
+# twanager migrate
+# sed -i bak "s/'devtext', {'store_root': 'store'}/'text', {'store_root': 'textstore'}/g" tiddlywebconfig.py

@@ -51,7 +51,7 @@ if (!version.extensions.tiddlyWebUserPlugin) {
           var bag = tiddler.fields["server.workspace"].replace("bags/", "");
           if (bag=="private-"+username) privacyP = "xprivate";
           else if (bag=="protected") privacyP = "xprotected";
-          else if (bag=="content") privacyP = "xpublic";
+          else if (bag=="common") privacyP = "xpublic";
           createTiddlyElement(place, "div", "bagChoice"+tiddler.title.replace(" ",""), null, messages[privacyP]);
         }
       };
@@ -66,12 +66,12 @@ if (!version.extensions.tiddlyWebUserPlugin) {
           if (isAdmin()) {
             createTiddlyElement(select, "option", null, "backChoiceOption", messages.xprotected, {bag:"protected"} );
           }
-          createTiddlyElement(select, "option", null, "backChoiceOption", messages.xpublic, {bag:"content"} );
+          createTiddlyElement(select, "option", null, "backChoiceOption", messages.xpublic, {bag:"common"} );
           if (tiddler.fields["server.workspace"]) {
             var selectedBag = tiddler.fields["server.workspace"].replace("bags/","");
             if (selectedBag=="private-"+username) select.selectedIndex = 0;
             else if (selectedBag=="protected") select.selectedIndex = 1;
-            else if (selectedBag=="content") select.selectedIndex = select.options.length-1;
+            else if (selectedBag=="common") select.selectedIndex = select.options.length-1;
             else displayMessage("unknown selectedBag", selectedBag);
           }
 

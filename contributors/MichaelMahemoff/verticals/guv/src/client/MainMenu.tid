@@ -14,12 +14,10 @@ tags:
 <<search>>
 
 !!News Feeds
-<html>
-<!-- tiddlyWebLink bag:comments message:"Recent Comments" -->
-</html>
 <html><a href="/bags/comments/tiddlers.atom">Comments Feed</a></html>
 <html><a href="/bags/licenses/tiddlers.atom">Licenses Feed</a></html>
-<html><a href="/bags/content/tiddlers.atom?filter=[tag[document]]">Documents Feed</a></html>
+<html><a href="/bags/common/tiddlers.atom?filter=[tag[document]]">Documents Feed</a></html>
+<html><!-- tiddlyWebLink bag:comments message:"Recent Comments" --></html>
 
 !!Admin
 [[Edit Menu|DocumentsMenu]]
