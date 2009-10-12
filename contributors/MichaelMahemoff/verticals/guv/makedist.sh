@@ -11,7 +11,15 @@ top=`pwd`
 if [ -d dist ] ; then
   mv dist /tmp/dist.$$
 fi
+
+#####################################
+# GET TIDDLYWEB WIKI, USING DEV STORE
+#####################################
+echo "config = { 'server_store': ['devtext', {'store_root': 'store'}] }" > tiddlywebconfig.py
+cp cache/devtext.py .
 twanager --load tiddlywebwiki.config instance dist
+rm tiddlywebconfig.py{,c}
+rm devtext.py
 
 cd dist
 
@@ -20,7 +28,8 @@ cd dist
 #####################################
 cp -R $top/cache/*.py .
 
-ln -s $top/src/server/* .
+# ln -s $top/src/server/* .
+cp $top/src/server/* .
 
 rm tiddlywebconfig.py
 # ln -s $top/src/config/tiddlywebconfig.py .
@@ -30,12 +39,17 @@ cp $top/src/config/tiddlywebconfig.py .
 # STORE
 #####################################
 
-rm -fr store
-mkdir store
+# rm -fr store
+# mkdir store
 cd store
 
-# Recipes and Users config; tiddlers for client and content
-ln -s $top/src/recipes/* $top/src/users/* $top/src/client $top/src/content $top/src/protected .
+# Copy bags etc from src to dist
+cp $top/src/recipes/* $top/src/users/* .
+for bag in client content protected ; do
+  echo "copying $bag"
+  mkdir $bag
+  cp $top/src/$bag/* ./$bag
+done
 
 # Client External
 mkdir clientExternal
@@ -54,7 +68,7 @@ for f in \
   $TW_ROOT/contributors/MichaelMahemoff/plugins/SimpleMessagePlugin/SimpleMessagePlugin.js\
   `find $top/cache -name '*.js'`\
   ; do
-    ln -s $f $f.meta clientExternal
+    cp $f $f.meta clientExternal
   done
 
 # Content bags. Would use "twanager bag" but it's broke?
