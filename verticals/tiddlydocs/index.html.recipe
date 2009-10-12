@@ -55,7 +55,7 @@ tiddler: ../../contributors/SimonMcManus/plugins/secretBackstage.js
 tiddler: ../../contributors/SimonMcManus/plugins/failedSaveNotification.js
 
 # using local version with unix line breaks
-tiddler: Plugins/SinglePageModePlugin_DOS2UNIX.js
+#tiddler: Plugins/SinglePageModePlugin_DOS2UNIX.js
 #tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
 tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
 tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
