@@ -1,8 +1,3 @@
-modifier: MichaelMahemoff
-created: 200508181151
-modified: 200609101232
-tags: systemConfig
-
 /***
 |''Name''|ConfigTweaks|
 |''Requires''|[[TiddlyWebAdaptor]]|
@@ -24,7 +19,12 @@ config.shadowTiddlers["StyleSheetLicensePortal"] =
 ".expandLink:hover { background: #bbf; }";
 store.addNotification("StyleSheetLicensePortal", refreshStyles);
 
+/*
 config.defaultCustomFields = {
   "server.host": 'http://tiddlyguv.dev:9090/',
   "server.type": 'tiddlyweb'
 }
+*/
+
+// Temporary etag fix
+config.adaptors.tiddlyweb.generateETag = function() { return null; }

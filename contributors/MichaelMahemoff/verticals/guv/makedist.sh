@@ -15,11 +15,12 @@ fi
 #####################################
 # GET TIDDLYWEB WIKI, USING DEV STORE
 #####################################
-echo "config = { 'server_store': ['devtext', {'store_root': 'store'}] }" > tiddlywebconfig.py
+# echo "config = { 'server_store': ['devtext', {'store_root': 'store'}] }" > tiddlywebconfig.py
 cp cache/devtext.py .
-twanager --load tiddlywebwiki.config instance dist
-rm tiddlywebconfig.py{,c}
+twanager --load tiddlyguvconfig instance dist
+rm tiddlyguvconfig.pyc
 rm devtext.py
+# rm tiddlywebconfig.py{,c}
 
 cd dist
 

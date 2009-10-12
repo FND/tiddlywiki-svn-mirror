@@ -1,7 +1,3 @@
-modifier: MichaelMahemoff
-created: 200508181151
-modified: 200609101232
-
 // Fix for http://trac.tiddlywiki.org/ticket/820
 config.macros.newTiddler.onClickNewTiddler = function()
 {

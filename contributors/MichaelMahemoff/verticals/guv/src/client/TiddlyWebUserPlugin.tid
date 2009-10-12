@@ -72,7 +72,7 @@ if (!version.extensions.tiddlyWebUserPlugin) {
             if (selectedBag=="private-"+username) select.selectedIndex = 0;
             else if (selectedBag=="protected") select.selectedIndex = 1;
             else if (selectedBag=="content") select.selectedIndex = select.options.length-1;
-            else console.log("unknown selectedBag", selectedBag);
+            else displayMessage("unknown selectedBag", selectedBag);
           }
 
         }
@@ -99,9 +99,7 @@ if (!version.extensions.tiddlyWebUserPlugin) {
 
         var select = document.getElementById("bagChoice"+title.replace(" ", ""));
         if (select) {
-          console.log("select", select);
           var wantedBag = select.options[select.selectedIndex].getAttribute("bag");
-          console.log("NEW BAG", wantedBag, "title", title, "tiddler", store.getTiddler(title));
         }
 
         // copied from original handler, so we can retain the title
@@ -113,7 +111,6 @@ if (!version.extensions.tiddlyWebUserPlugin) {
         var newTiddler = store.getTiddler(newTitle);
         if (!select || !newTiddler) return;
         var newBag = newTiddler.fields["server.workspace"].replace("bags/", "");
-        console.log("cyecking", "title", newTitle, "saved", newTiddler, "new bag", newBag, "wanted bag", wantedBag);
         if (newTiddler && newBag!=wantedBag) {
             changeBag(newTiddler, wantedBag, newTiddler.tags);
         }
@@ -171,7 +168,6 @@ function isAdmin() { return version.extensions.tiddlyWebUserPlugin.isAdmin(); }
 // quick fix until FND implements rename
 // tags param necessary because "remove" will tag as exclude etc
 function changeBag(tiddler, bag, tags) {
-  console.log("changinng tiddler " + tiddler.title + " to bag " + bag);
 
   var tiddlerText = tiddler.text;
   store.removeTiddler(tiddler.title);
@@ -181,9 +177,7 @@ function changeBag(tiddler, bag, tags) {
   var newTiddler = store.createTiddler(tiddler.title);
   // newFields is a _copy_ of server.* fields overlayed on existing fields
   var newFields = merge({ "server.host": tiddler.fields["server.host"], "server.type": "tiddlyweb", "server.workspace": "bags/"+bag, stage: "public" }, tiddler.fields, true);
-  log("newFields", newFields);
   delete newFields.deleted; // TODO change when fred updates
-  log("existing tags", tiddler, tiddler.tags);
   newTiddler.set(null, tiddlerText, config.options.txtUserName, now, tags, now, newFields);
   store.saveTiddler(newTiddler.title);
   autoSaveChanges(false);

@@ -49,7 +49,6 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
       for (var id in config.macros.license.dimensions) {
         var dimension = config.macros.license.dimensions[id];
         var dimensionTiddler = store.getTiddler(license + "_" + id);
-        log("promoting", id, dimensionTiddler);
         if (dimensionTiddler)
           changeBag(dimensionTiddler,
             dimension.adminOnly ? "protected" : "licenses", ["licenseDimension"]);
@@ -65,7 +64,6 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
     var dimension = config.macros.license.dimensions[id];
     var dimensionTitle = license + "_" + dimension.id;
     var licenseDimensionTiddler = store.getTiddler(dimensionTitle);
-    console.log("dim", dimensionTitle, licenseDimensionTiddler);
     var wrapper = createTiddlyElement(place, "div", null, "license");
     // var heading = createTiddlyElement(wrapper, "h2", null, null, dimension.name);
     var heading = createTiddlyElement(wrapper, "h2", "heading_"+dimensionTitle, null);
@@ -134,12 +132,9 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
   }
 
   function toggleVisibility(expandLink, textEl, wordCount, forcedVisibility) {
-    console.log("toggle", arguments);
     if (arguments.length==4) visible = forcedVisibility;
     else visible = (textEl.style.display=="none");
-    console.log("visible", visible);
     textEl.style.display = visible ? "block" : "none";
-    console.log("displ", textEl.style.display, "content", textEl.innerHTML.substr(0,100));
     expandLink.innerHTML = visible ? "« Hide this" : "Show all " + (wordCount + " words »"); 
   }
 
@@ -155,7 +150,6 @@ config.macros.license.handler = function(place,macroName,params,wikifier,paramSt
 
   var origSaveTiddler = config.commands.saveTiddler.handler;
   config.commands.saveTiddler.handler = function(event,src,title) {
-    console.log("This is updated saveTiddler");
     origSaveTiddler.apply(this, arguments);
 
     var tiddler = store.getTiddler(title);
