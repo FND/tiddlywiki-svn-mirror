@@ -29,7 +29,7 @@ class Serialization(HTML_Serializer):
     def list_tiddlers(self, bag):
         logging.debug('in list_tiddlers')
         tiddlers = bag.list_tiddlers()
-        template = templating.generate_template(["search.html", "collection.html"])
+        template = templating.generate_template(["collection.html"])
         return template.render(tiddlers=tiddlers)
 
     def tiddler_as(self, tiddler):

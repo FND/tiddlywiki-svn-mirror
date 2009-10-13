@@ -5864,7 +5864,7 @@ $(document).ready(function() {
 							str = 'There is 1 result';
 							// deliberate fall-through
 						case 51:
-							str = 'There are more than 50 results, only showing the first 50'+default_end;
+							str = 'There are more than 50 results, only showing the first 50';
 							// deliberate fall-through
 						default:
 							str += ' - <span class="filter"><a href="javascript:;">add a filter</a>?</span>';
