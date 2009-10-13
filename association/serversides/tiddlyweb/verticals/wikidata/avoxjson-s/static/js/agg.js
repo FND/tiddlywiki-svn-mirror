@@ -5834,7 +5834,7 @@ $(document).ready(function() {
 						tiddler = json[i];
 						fields = tiddler.fields;
 						mapped.aaData.push([
-							fields["avid"] || "",
+							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.html">'+tiddler.title+'</a>',
 							fields["legal_name"] || "",
 							fields["previous_name(s)"] || "",
 							fields["trades_as_name(s)"] || "",
