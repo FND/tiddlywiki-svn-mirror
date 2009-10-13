@@ -1,3 +1,4 @@
+/* records.js */
 var oTable;
 $(document).ready(function() {
 	// set up records table

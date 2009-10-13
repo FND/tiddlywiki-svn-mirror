@@ -1,3 +1,4 @@
+/* app.js */
 // override search links to use ajax_search as soon as possible
 $('a[href^="/search"]').each(function() {
 	var href = $(this).attr('href');
