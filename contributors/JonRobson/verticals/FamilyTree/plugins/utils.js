@@ -13,7 +13,7 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
             if(tid.fields.father ==title){
                 tid.fields.father = newTitle;
             }
-            
+            if(tid.fields.spouse){
             var spouses = tid.fields.spouse.split(",");
             
             var update = spouses.indexOf(title);
@@ -21,21 +21,25 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
                 spouses[update]= newTitle;
                 tid.fields.spouse = spouses.join(",");
             }
+}
         }
         //do spouses
 
     }
-    var spouseField = store.getTiddler(newTitle).fields.spouse;
-    console.log("spouses used to be ",spouseField);
-    var newSpouseField =fields.spouse;
-    var oldSpouses=spouseField.split(",");
-    var tiddlerSpouses;
-    if(newSpouseField.length > 0){
-        tiddlerSpouses = newSpouseField.split(",");
+    var newSpouseField, tiddlerSpouses;
+    if(fields){
+        newSpouseField =fields.spouse;
+        if(newSpouseField && newSpouseField.length > 0){
+            tiddlerSpouses = newSpouseField.split(",");
+        }
+        else{
+            tiddlerSpouses = [];
+        }
     }
     else{
         tiddlerSpouses = [];
     }
+
     
     
     //add the new spouses
@@ -84,7 +88,7 @@ config.macros.familytreelist = {
 };
 config.macros.makeRootLink = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler){
-        jQuery(place).html("<a class='button makeRoot' href=\"#[["+tiddler.title+"]]\" name=\""+escape(tiddler.title)+"\">make root</a>");
+        jQuery(place).html("<a class='button makeRoot' href=\"#[["+tiddler.title+"]]\" name=\""+escape(tiddler.title)+"\">"+tiddler.title +" as root</a>");
         jQuery(".makeRoot",place).click(function(e){
             config.activeTree.compute(unescape(jQuery(this).attr("name")));
         })

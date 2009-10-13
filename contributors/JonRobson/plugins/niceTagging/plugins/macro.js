@@ -25,6 +25,13 @@ config.macros.niceTagger = {
 	lingo:{
 		add: "add"
 	}
+	,init: function(){
+	    var x= store.getTiddlers();
+        for(var i=0; i < x.length; i ++){
+        	var y = x[i].tags;
+        	config.macros.niceTagger.twtags = config.macros.niceTagger.twtags.concat(y);
+        };
+	}
     ,saveTags: function(title,tags){
 		var tiddler =  store.getTiddler(title);
 		if(!tiddler) {
@@ -140,9 +147,4 @@ config.macros.niceTagger = {
 	twtags:[]
     
 };
-
-var x= store.getTiddlers();
-for(var i=0; i < x.length; i ++){
-	var y = x[i].tags;
-	config.macros.niceTagger.twtags = config.macros.niceTagger.twtags.concat(y);
-};
+config.macros.niceTagger.init();

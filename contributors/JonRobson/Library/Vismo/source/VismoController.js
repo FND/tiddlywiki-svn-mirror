@@ -254,8 +254,8 @@ VismoController.prototype = {
 			    return false;
 			}
 			var t = VismoClickingUtils.resolveTargetWithVismo(e);
-		        t= el;
-
+		        
+                
                        if(t != that.wrapper && t.parentNode !=that.wrapper) return false;
 	       	 	if (e.wheelDelta) { /* IE/Opera. */
 		                delta = e.wheelDelta/120;

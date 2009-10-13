@@ -1,0 +1,17 @@
+<div title="About" tags="excludeTree">
+<pre>
+Vismo Tree is a Family Tree vertical for [[TiddlyWiki|http://www.tiddlywiki.org]] created by Jon Robson.
+It was first released October 2009. Read the corresponding blog post [[here|http://www.jonrobson.me.uk/posts/Finally a Family Tree Vertical]]
+If you want your own copy simply right click [[this link and select save target as|http://www.jonrobson.me.uk/development/familytree/index.html]]
+
+!Instructions
+!!Example
+See [[Jon Robson's Family Tree|http://www.jonrobson.me.uk/FamilyTree]]
+!!Tagging
+Tagging a tiddler with rootTree will make them appear on startup.
+Tagging a tiddler with excludeTree will stop it from appearing in the family tree visualisation.
+
+!Feedback
+I would love to hear your feedback - please post it [[here|http://groups.google.com/group/TiddlyWiki/topics]] or contact me through [[one of these mediums|http://www.jonrobson.me.uk/posts/AboutMe%20and%20Contact%20Me]]
+</pre>
+</div>

@@ -1,5 +1,5 @@
 <div title="topToolbar" tags="excludeTree">
 <pre>
-<<closeAll>><<permaview>><<newTiddler>><<saveChanges>>
+<<closeAll>><<permaview>><<newTiddler>><<saveChanges>>{{button{[[About]]}}}
 </pre>
 </div>

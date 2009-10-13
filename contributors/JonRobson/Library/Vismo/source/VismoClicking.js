@@ -42,7 +42,9 @@ var VismoCanvas = function(element,options){
 	if(this.settings.browser =='good'){
 	    canvas = document.createElement('canvas');
 	    canvas.className = "VismoCanvasRenderer";
-	    hideoverflow = canvas;
+	    //hideoverflow = canvas;
+	    hideoverflow = document.createElement("div");
+	    hideoverflow.appendChild(canvas);
 	}    
 	else
 	{
@@ -71,7 +73,7 @@ var VismoCanvas = function(element,options){
 	var labels =  document.createElement("div");
     jQuery(labels).css({position:"absolute","z-index":9});      
     labels.className = "VismoLabels";
-    wrapper.appendChild(labels);
+    hideoverflow.appendChild(labels);
     this.labelHolder = labels;
     this.labels = [];
 	this.canvas = canvas;
@@ -385,10 +387,18 @@ VismoCanvas.prototype = {
 		return {width: this.width() , height: this.height()};
 	}
 	,height: function(){
-	    return parseInt(this.canvas.style.height);
+	    var c = this.canvas;
+	    if(!c) return -1;
+	    var h = parseInt(c.style.height);
+	    if(h) return h;
+	    else return -1;
 	},
 	width: function(){
-	    return parseInt(this.canvas.style.width);
+	    var c = this.canvas;
+	    if(!c) return -1;
+	    var w = parseInt(c.style.width);
+	    if(w) return w;
+        else return -1;
 	}
 	,resize: function(args){
 		var width = arguments[0]; var height=arguments[1];
@@ -567,19 +577,42 @@ VismoCanvas.prototype = {
 	
 	,setTransformation: function(args){
 	    var transformation = arguments[0];
-	        //console.log(transformation.origin.x,transformation.translate.x,transformation.translate.y);
-	        if(!transformation.origin){
-	                transformation.origin = {};
-	                transformation.origin.x = jQuery(this.wrapper).width() / 2;
-	                transformation.origin.y = jQuery(this.wrapper).height() / 2;
-	        }
-	      
+        //console.log(transformation.origin.x,transformation.translate.x,transformation.translate.y);
+        if(!transformation.origin){
+                transformation.origin = {};
+                transformation.origin.x = jQuery(this.wrapper).width() / 2;
+                transformation.origin.y = jQuery(this.wrapper).height() / 2;
+        }
+      
 		if(transformation) this.transformation = transformation;
 		var t = transformation.translate, s = transformation.scale;	
 	    transformation.cache = {id1:[s.x,",",s.y].join(""),id2:[t.x,",",t.y].join("")};
-	    
+	  
+	    this._transformLabels(args);
 	}
-
+    ,_transformLabels: function(){
+        var transformation = arguments[0];
+        var translate = transformation.translate;
+        var scale = transformation.scale;
+        var o = {x:this.width()/2,y:this.height()/2};
+        console.log("labels",translate.x,translate.y,scale.x,scale.y);
+        this._eachLabel(function(label){
+            var jql = jQuery(label);
+            
+            var x = parseInt(jql.attr("v_x"));
+            var y =  parseInt(jql.attr("v_y"));
+            var w = parseFloat(jql.attr("v_w")) * scale.x;
+            var h = parseFloat(jql.attr("v_h")) * scale.y;
+            jql.css({top:o.y+(y*scale.y),left: o.x + (x * scale.x)});
+        });
+        jQuery(this.labelHolder).css({top:translate.y*scale.y,left:translate.x *scale.x})
+    }
+    ,_eachLabel: function(f){
+        var labels = jQuery("*",this.labelHolder);
+        for(var i=0 ; i < labels.length; i++){
+            f(labels[i]);
+        }
+    }
     ,centerOn: function(x,y){
         
         var t=  this.getTransformation();
@@ -642,16 +675,18 @@ VismoCanvas.prototype = {
 	    var domElement = arguments[0];
 	    var x=  arguments[1];
 	    var y = arguments[2];
-	        this.labelHolder.appendChild(domElement);
-	        var properties = {element: domElement,shape:"domElement"};
-	  
-	        var coords = [];
-	        coords.push(x);
-	        coords.push(y);
-	        var shape = new VismoShape(properties,coords);
-	        this.add(shape);
-	              //console.log(shape);
-	        return {element: domElement ,vismoshape: shape};
+	    this.labelHolder.appendChild(domElement);
+	    
+	    var top, left;
+	    left = x+ (this.width() /2);
+	    top = (this.height()/2) + y;
+	    jQuery(domElement).attr("v_x",x);
+	    jQuery(domElement).attr("v_y",y);
+	    var h = jQuery(domElement).height();
+	    var w= jQuery(domElement).width(); 
+	    jQuery(domElement).attr("v_w",w);
+	    jQuery(domElement).attr("v_h",h);
+	    jQuery(domElement).css({position:"absolute",top:top,left:left});
 	}
 	,transform: function(args){
 	    var t = arguments[0];

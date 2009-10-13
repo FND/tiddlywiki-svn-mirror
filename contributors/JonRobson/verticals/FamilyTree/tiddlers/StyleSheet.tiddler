@@ -1,7 +1,24 @@
 <div title="StyleSheet" tags="excludeTree">
 <pre>
+.ac_results {	padding: 0px;	border: 1px solid black;	background-color: white;	overflow: hidden;	z-index: 99999;}
+.ac_results ul {	width: 100%;	list-style-position: outside;	list-style: none;	padding: 0;	margin: 0;}
+.ac_results li {	margin: 0px;	padding: 2px 5px;	cursor: default;	display: block;	/* 
+	if width will be 100% horizontal scrollbar will apear 
+	when scroll mode will be used
+	*/
+	/*width: 100%;*/
+	font: menu;	font-size: 12px;	/* 
+	it is very important, if line-height not setted or setted 
+	in relative units scroll will be broken in firefox
+	*/
+	line-height: 16px;	overflow: hidden;}
+.ac_loading {	background: white url('indicator.gif') right center no-repeat;}
+.ac_odd {	background-color: #eee;}
+.ac_over {background-color:#4DA6C9;color: white;}
+
+
 a,.tabSelected,#sidebarOptions .sliderPanel a{color:#008500;}
-.button {background-color:white;border:1px solid #FFFFFF;color:green;margin-right:2px;padding:20px;}
+.button {background-color:white;border:1px solid #FFFFFF;color:green;margin-right:2px;padding:10px;}
 #topToolbar {margin-top:10px;margin-left:-12px;}
 #messageArea {background:#39ac1b;border:1px solid white;}
 .nodeLabel {width:200px; overflow:hidden;}
@@ -10,31 +27,36 @@ color:black;
 font-weight:bold;
 padding:10px;}
 .subtitle {padding-top:5px;}
-
+.ftSubTitle {color:white;font-size:1.2em;left:20px;position:absolute;top:110px;z-index:3;}
+.ftSubTitle a {color:white;}
 #sidebarOptions input,.tagging, .tagged {
 background-color:none;
 border:1px dashed #024E02;
 }
+
+
+
 .tagsection input {width:150px;}
-.button:hover {background-color:rgb(110,220,90);color:white;border:solid 1px black;}
-.tiddler .button {padding:1.2em 2em;}
-.sexMale .title {border-bottom:solid 5px #71B4FF;}
-.sexFemale .title{border-bottom:solid 5px #ed00f5;}
+.button:hover {background-color:rgb(110,220,90);color:white;border-left:solid 1px black;border-right:solid 1px black;border-top:solid 1px black;}
+.tiddler .button {padding:0.4em 1.2em;} 
+
+.sexMale .title,.command_addFather, .sexFemale .command_addSpouse {border-bottom:solid 5px #71B4FF;}
+.sexFemale .title,.command_addMother,.sexMale .command_addSpouse{border-bottom:solid 5px #ed00f5;}
 .yourSearchResult {z-index:99999;}
-.tiddler {background-color:white;margin-top:10px;padding:0 0 20px;}
+.tiddler {background-color:white;margin-top:10px;padding:0 10px 20px;}
 #displayArea {margin:1em 17em 0 1em;padding:0px;}
 body {font-family: Helvetica, Arial, Sans-serif;color:#024E02;}
 h1,h2,h3,h4,h5,.title{color:#39ac1b;}
 .title {font-size:3em;}
-.ftTitle {color:#39ac1b;font-size:108px;left:10px;position:relative;font-weight:700;}
-.ftContainer {background-color:#39ac1b;padding:20px;position:relative;top:-26px;margin-right:17px;left:10px;}
+.ftTitle {color:#39ac1b;font-size:52px;left:10px;position:relative;font-weight:700;}
+.ftContainer {background-color:#39ac1b;padding:20px;position:relative;top:-12px;margin-right:17px;left:10px;z-index:2;}
 #sidebarOptions .sliderPanel {background-color:#EEEEEE;}
 .ftTitleBG {color:white;z-index:2;}
 .ftContainer #displayArea {background-color:auto;}
 .ftContainer #sidebar {background-color:white;margin-top:110px;margin-right:40px;}
 .ft_tooltip {background-color:white;padding:10px;color:#39ac1b;z-index:40; font-weight:bold;}
-#tiddlerDisplay {margin-top:100px;}
-.FamilyTree {left:600px;right:7px;height:200px;position:absolute;background-color:#39AC1B;top:0;}
+#tiddlerDisplay {margin-top:150px;}
+.FamilyTree {left:420px;right:7px;border-bottom:solid 2px white;border-left:solid 2px white;height:220px;position:absolute;background-color:#39AC1B;top:0;z-index:3;}
 .tiddlerContainer {margin-left:10px;margin-right:10px;}
 .toolbar {margin-top:10px;}
 
@@ -53,7 +75,15 @@ left:0;
 bottom:0;
 z-index:1;
 }
-.VismoCanvas {z-index:11;}
+.zooming {cursor:crosshair;}
+.panning {cursor:move;}
+.VismoCanvas {z-index:11;margin-left:10px;}
 .changeroot {margin-left:50%;width:200px;right:100px;z-index:4000;position:relative;}
+
+.yourSearchNaviBar .currentPage {color:#39AC1B;}
+
+#yourSearchResult {background-color:#EEEEEE;background:#EEEEEE none repeat scroll 0 0;}
+.yourSearchResult .button {padding:0px;}
+
 </pre>
 </div>

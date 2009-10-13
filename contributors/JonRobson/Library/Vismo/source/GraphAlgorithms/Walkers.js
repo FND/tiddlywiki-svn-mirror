@@ -1,8 +1,4 @@
-/*
-Algorithm hacked together from 
-http://www.codeproject.com/KB/scripting/graphic_javascript_tree.aspx
-*/
-var FT_algorithm={   
+VismoGraphAlgorithms.walkers ={   
     _MaxDepth: 100,
     reset: function(graph){
        var nodes = graph.getNodes();

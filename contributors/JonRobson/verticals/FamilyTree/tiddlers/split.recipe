@@ -6,6 +6,7 @@ tiddler: StyleSheet.tiddler
 tiddler: ListOfMen.tiddler
 tiddler: ListOfWomen.tiddler
 tiddler: Sex.tiddler
+tiddler: SubTitle.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: OptionsPanel.tiddler
 tiddler: SideBarOptions.tiddler
@@ -14,3 +15,6 @@ tiddler: topToolbar.tiddler
 tiddler: You.tiddler
 tiddler: Dad.tiddler
 tiddler: Mum.tiddler
+tiddler: about.tiddler
+tiddler: Sibling.tiddler
+tiddler: ToolbarCommands.tiddler

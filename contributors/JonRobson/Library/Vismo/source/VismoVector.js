@@ -179,6 +179,7 @@ VismoVector.prototype = {
     		else{
     		    c =this.vismoShape.getCoordinates("normal");
 	        }
+	 
     		if(projection){
     			c = this.vismoShape._applyProjection(projection,transformation);
     		}
@@ -186,19 +187,26 @@ VismoVector.prototype = {
     		if(c.length < 2) return;
 
     		var x,y;
-    		x = c[0];
-    		y =c[1];		
+    		var startAtIndex = 0;
+    		if(this.vismoShape.isCommand(c[0])){
+    		    startAtIndex = 1;
+    		}
+    		x = c[startAtIndex];
+    		y =c[startAtIndex+1];
+
+    				
     		x *=this._iemultiplier;
     		y *= this._iemultiplier;
     		x = parseInt(x);
     		y = parseInt(y);
-
+ 
     		//path = "M";
     		buffer.push("M");
     		//path+= x + "," +y + " L";
     		buffer.push([x,",",y].join(""))
     		var lineTo = false,quadraticCurveTo = false,bezierCurveTo = false;
-    		for(var i =2; i < c.length; i+=2){
+    		for(var i =startAtIndex+2; i < c.length; i+=2){
+    		    
     			if(c[i] == 'M') {
     				//path += " M";
     				buffer.push(" M");
@@ -368,7 +376,10 @@ VismoVector.prototype = {
 	
 		if(this.coordinatesChanged) {
 		    this._cssTransform(transformation,projection);
+		    
 			shape.path = this._createvmlpathstring(transformation,projection);//causes slow down..	
+			
+            
 			this.coordinatesChanged = false;
 			
 		}

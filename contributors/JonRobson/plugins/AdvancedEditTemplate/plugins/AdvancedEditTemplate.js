@@ -1,4 +1,4 @@
-if(store){
+try{
   config.shadowTiddlers.AdvancedEditTemplateStyle = "/*{{{*/\n" +
   ".clearboth {clear:both;}\n"+
   ".aet_radioboxes label {width:auto;float:left;}\n"+
@@ -14,7 +14,7 @@ if(store){
   ".jCalendar .selected {background-color:gray;}\n"+
   "/*}}}*/"
 store.addNotification("AdvancedEditTemplateStyle", refreshStyles);
-}
+}catch(e){};
 
 config.macros.viewimage ={    
      handler: function(place,macroName,params,wikifier,paramString,tiddler){

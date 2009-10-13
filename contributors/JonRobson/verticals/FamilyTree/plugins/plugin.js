@@ -1,3 +1,16 @@
+/***
+|''Name:''|FamilyTreePlugin|
+|''Description:''|Creates basic graphical representation of a family tree in TiddlyWiki |
+|''Version:''|0.1|
+|''Date:''|October 09|
+|''Source:''|http://www.jonrobson.me.uk|
+|''Author:''|Jon Robson |
+|''Contributors:''|uses code from ECO Tree http://www.codeproject.com/KB/scripting/graphic_javascript_tree.aspx#quick|
+|''License:''|[[BSD open source license]]|
+|''CoreVersion:''|2.3|
+
+Allows the adding of multiple level drop down menus and checkboxes to the edit template.
+***/
 
 var FamilyTreeInstance;
 config.macros.FamilyTree = {
@@ -19,7 +32,7 @@ config.macros.FamilyTree = {
 
             var tags = node.tags;
             if(tags.indexOf("systemConfig") == -1 && tags.indexOf("excludeTree") == -1 && tags.indexOf("excludeLists") == -1){ 
-              var json={id:nodes[i].title,properties:{}};
+              var json={id:nodes[i].title,properties:{label:nodes[i].title}};
               var properties = json.properties;
               if(node.fields.sex){
                   if(node.fields.sex == 'M'){
@@ -72,7 +85,7 @@ config.macros.FamilyTree = {
         jQuery(tooltip).css({position:"relative",border:"red"});
 
         var orphans = graph.getOrphans().sort();
-        var str = "<select class='changeroot' style=''><option>select a root</option>";
+        var str = "<select class='changeroot' style=''><option value='-1'>select a root</option>";
         for(var i=0; i < orphans.length;i++){
             var p=orphans[i];
             var node = graph.getNode(p);
@@ -87,16 +100,25 @@ config.macros.FamilyTree = {
         str += "</select>";
         jQuery(div).append(str);
         jQuery(".changeroot",div).change(function(e){
+            if(this.value == "-1") return;
            that.vgr.clear();
            that.vgr.compute(this.value);
         });
         
-        var options = {graph:graph,algorithm:FT_algorithm,nodeWidth:20,nodeHeight:10,defaultNodeColor:"rgb(200,200,200)",lineColor:"rgb(255,255,255)",lineWidth:"8"};
+        var requested_alg = getParam(namedprms,"algorithm");
+        if(!requested_alg){
+            alg='walkers';
+        }
+        else{
+            alg = requested_alg;
+            
+        }
+        var options = {graph:graph,"algorithm_name":alg,nodeWidth:20,nodeHeight:10,defaultNodeColor:"rgb(200,200,200)",lineColor:"rgb(255,255,255)",lineWidth:"4"};
         
         if(rootid) options.root=rootid;
         var that = this;
         jQuery(tooltip).css({position:"absolute",display:"none"});
-        options.vismoController = {controlFill:"rgb(255,255,255)",controlShape: "circle",controlStroke:"#39AC1B"};
+        options.vismoController = {labels:true,controlFill:"rgb(255,255,255)",controlShape: "circle",controlStroke:"#39AC1B"};
         options.move = function(e,s){ jQuery(tooltip).css({display:"none"});if(s){var bb = s.getBoundingBox();jQuery(tooltip).text(s.getProperty("name"));jQuery(tooltip).css({top:e.screenY - e.clientY,left:0,display:""});}};
         options.dblclick = function(e,s){story.displayTiddler(null,s.properties.name);};
         this.vgr = new VismoGraphRenderer(div,options);

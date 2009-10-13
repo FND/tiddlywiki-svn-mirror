@@ -20,7 +20,23 @@ var VismoGraph = function(properties){
 };
 
 VismoGraph.prototype = {
-    getNode: function(id){
+    eachEdge: function(node,f){
+        var edges = this.getEdges(node.id);
+        for(var i=0; i < edges.length; i++){
+            f(edges[i]);
+        }
+    }
+	
+    ,eachNode: function(f){
+        var nodes = this.getNodes();
+
+        for(var i=0; i < nodes.length;i++){
+     
+                f(nodes[i]);
+            
+        }
+    }
+    ,getNode: function(id){
         return this._nodes[id];
     }
     ,depth: function(id,depthsofar){
@@ -65,6 +81,23 @@ VismoGraph.prototype = {
             nodes.push(this._nodes[i]);
         }
         return nodes;
+    }
+    /* returns  a list of edges (parents and children) containing id [fromNode,toNode]*/
+    ,getEdges: function(id){
+        var c = this.getChildren(id);
+        var p = this.getParents(id);
+        
+        var edges = [];
+        var node = this.getNode(id);
+        
+        for(var i=0; i < c.length; i++){
+            edges.push([node,this.getNode(c[i])]);
+        }
+        for(var i=0; i < p.length; i++){
+            edges.push([this.getNode(p[i]),node]);
+        }
+        return edges;    
+        
     }
     ,getChildren: function(id){
         if(typeof(id) != 'string'){
@@ -134,6 +167,15 @@ VismoGraph.prototype = {
         this._orphans[id] = true;
     }
     ,addEdge: function(a,b){
+        //not working properly with new lines
+        a = a.replace(/\n/,"");
+        b= b.replace(/\n/,"");
+        
+        if(!a || !b ||(a && a.length == 0) || (b && b.length==0)) {
+        
+            return;
+        
+        }
         if(!this._children[a]) this._children[a] = [];
         if(!this._parents[b]) this._parents[b] = [];
         
@@ -147,9 +189,7 @@ VismoGraph.prototype = {
 };
 
 var VismoGraphRenderer = function(place,options){
-    if(!options.algorithm){
-        throw "GraphRenderer requires an option called algorithm which is a function. This will take two parameters graph and root and should set XPosition and YPosition on every node.";
-    }
+
     if(!options.lineColor){
         options.lineColor = "rgb(0,0,0)";
     }
@@ -159,8 +199,18 @@ var VismoGraphRenderer = function(place,options){
     if(!options.lineWidth){
         options.lineWidth = "2";
     }
+    if(!options.lineType){
+        options.lineType = 'normal';
+    }
+    if(options["algorithm_name"]){
+        options.algorithm = VismoGraphAlgorithms[options["algorithm_name"]];
+    }
     
+    if(!options.algorithm){
+        throw "GraphRenderer requires an option called algorithm which is a function. This will take two parameters graph and root and should set XPosition and YPosition on every node.";
+    }
     this.algorithm = options.algorithm; 
+    
     if(!options.nodeWidth) options.nodeWidth= 5;
     if(!options.nodeHeight) options.nodeHeight = 5; 
     
@@ -181,9 +231,10 @@ var VismoGraphRenderer = function(place,options){
     if(options.move)canvasopts.move = options.move;
     if(options.dblclick)canvasopts.dblclick = options.dblclick;
     this._canvas = new VismoCanvas(place,canvasopts);
-
+    this.options.canvas_width = this._canvas.width();
+    this.options.canvas_height = this._canvas.height(); 
     if(options.root){
-        this.compute(options.root);  
+        this.compute(options.root,this.options);  
     }
      
 };
@@ -201,8 +252,10 @@ VismoGraphRenderer.prototype = {
         this.algorithm.compute(graph,this.options);
         
         this.plot(root);
+        
         if(this._edgeShapeCoordinates.length > 0){
-            this._canvas.add(new VismoShape({"z-index":"-1",shape:"path",stroke:this.options.lineColor,lineWidth:this.options.lineWidth,coordinates:this._edgeShapeCoordinates}));
+            var edge = new VismoShape({"z-index":"-1",shape:"path",stroke:this.options.lineColor,lineWidth:this.options.lineWidth,coordinates:this._edgeShapeCoordinates});
+            this._canvas.add(edge);
         }
         this._canvas.render();
 
@@ -212,6 +265,7 @@ VismoGraphRenderer.prototype = {
 
     }
     ,plot: function(id){
+        var lineType = this.options.lineType;
         var node = this._graph.getNode(id);
         var y = -node.YPosition;
         var x = node.XPosition;
@@ -222,7 +276,12 @@ VismoGraphRenderer.prototype = {
             var ch =children[i];
             var childxy = this.plot(ch);
             if(parentpos && childxy){
-                this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(["M",parentpos.x,parentpos.y,childxy.x,childxy.y]);
+                if(lineType == 'quadratic'){
+                    this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(["M",parentpos.x,parentpos.y,"q",childxy.x,parentpos.y,childxy.x,childxy.y]);                    
+                }
+                else if(lineType == 'normal'){
+                    this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(["M",parentpos.x,parentpos.y,childxy.x,childxy.y]);                    
+                }
             }
         }
         return {x: x,y:y};
@@ -248,8 +307,14 @@ VismoGraphRenderer.prototype = {
             var b = exists.getBoundingBox();
             pos = b.center;
         } 
+        this.plotLabel(node);
         return pos;
         
     }
 
+    ,plotLabel: function(node){
+        var el = document.createElement("div");
+        el.innerHTML = node.properties.label;
+        this._canvas.addLabel(el,node.XPosition,node.YPosition);
+    }
  };

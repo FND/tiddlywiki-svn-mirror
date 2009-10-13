@@ -2,7 +2,8 @@
 <pre>
 <!--{{{-->
 <div class='ftTitle' refresh='content' force='true' tiddler='SiteTitle'></div>
-<div macro="FamilyTree">
+<div class='ftSubTitle' refresh='content' force='true' tiddler='SiteSubtitle'></div>
+<div macro="FamilyTree algorithm:hyperbolic">
 
 </div>
 
@@ -10,7 +11,7 @@
 	<div id='topToolbar' tiddler='topToolbar' refresh='content'></div>
 	<div id='sidebar'>
 		<div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
-		<div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+
 	</div>
 	
 	<div id='displayArea'>
