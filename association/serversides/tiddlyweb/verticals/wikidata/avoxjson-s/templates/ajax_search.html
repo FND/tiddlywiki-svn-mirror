@@ -4,9 +4,7 @@
 {% from 'labels.html' import labels %}
 <div id="recordsTableContainer">
 	<div id="results">
-		<p class="small">
-			There are x results - <span class="filter"><a href="javascript:;">add a filter</a>?</span>
-		</p>
+		<p class="small" id="results_count"></p>
 		<div class="right small" id="columnPicker">
 			<div class="label">hide/show columns</div>
 			{% for field, label in labels %}

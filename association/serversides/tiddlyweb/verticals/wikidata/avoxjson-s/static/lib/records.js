@@ -118,7 +118,8 @@ $(document).ready(function() {
 				var mapToDataTables = function(json) {
 					var mapped = {"aaData":[]};
 					var tiddler, fields;
-					for(var i=0; i<json.length; i++) {
+					var count = json.length;
+					for(var i=0; i<count; i++) {
 						tiddler = json[i];
 						fields = tiddler.fields;
 						mapped.aaData.push([
@@ -143,6 +144,22 @@ $(document).ready(function() {
 							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.request">go</a>'
 						]);
 					}
+					var str = 'There are '+count+' results';
+					switch(count) {
+						case 0:
+							str = 'There are no results - <span class="filter"><a href="javascript:;">try adding a filter to include other fields in the search</a></span>';
+							break;
+						case 1:
+							str = 'There is 1 result';
+							// deliberate fall-through
+						case 51:
+							str = 'There are more than 50 results, only showing the first 50'+default_end;
+							// deliberate fall-through
+						default:
+							str += ' - <span class="filter"><a href="javascript:;">add a filter</a>?</span>';
+							break;
+					}
+					$('#results_count').html(str);
 					callback(mapped);
 				};
 				$.getJSON(url, data, mapToDataTables);
