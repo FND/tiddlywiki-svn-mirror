@@ -116,44 +116,48 @@ tags: systemTheme  excludeLists excludeSearch
 
 
 
-<!--[if IE]>
-<style type="text/css">
+	<!--[if IE]>
+	<style type="text/css">
 
-html body .toc-title {
-	position:relative;
-	margin-top:1.3em;
-}
+	html body #tiddlerDisplay {
+		top:1em;
+	}
+	html body .toc-title {
+		position:relative;
+		margin-top:1.3em;
+	}
 
-.title-right {
-	top:0.7em;
-	right:0em;
-}	
+	.title-right {
+		top:0.7em;
+		right:0em;
+	}	
 
-#mainMenu {
-	left : 0em;
-}
+	#mainMenu {
+		left : 0em;
+	}
 
-html body .title {
-	top:-1.4em;
-}
+	html body .title {
+		top:-1.4em;
+	}
 
-#buttonHolder {
-	top:-5.4em;
-	padding-right:1em;
-}
+	#buttonHolder {
+		top:-5.4em;
+		padding-right:1em;
+	}
 
-.deleteZoneClass {
-	width:80%;
-	left:-2em;
-}
-.sectionHeading {
-	width:85%;
-}
-.iconShift {
-top:1em;
-}
-</style>
-<![endif]-->
+	.deleteZoneClass {
+		width:80%;
+		left:-2em;
+	}
+	.sectionHeading {
+		width:85%;
+	}
+	.iconShift {
+	top:1em;
+	}
+	</style>
+	<![endif]-->
+
 
 
 <!--}}}-->
