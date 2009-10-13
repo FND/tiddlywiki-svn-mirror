@@ -52,14 +52,17 @@ def whoosh_search(environ):
     Handle incoming /search?q=<query> and
     return the found tiddlers.
     """
+    logging.debug('start whoosh_search')
     search_query = query_dict_to_search_string(
             environ['tiddlyweb.query']) or ''
     results = search(environ['tiddlyweb.config'], search_query)
+    logging.debug('end search')
     tiddlers = []
     for result in results:
         bag, title = result['id'].split(':', 1)
         tiddler = Tiddler(title, bag)
         tiddlers.append(tiddler)
+    logging.debug('ending whoosh_search')
     return tiddlers
 
 tiddlyweb.web.handler.search.get_tiddlers = whoosh_search
@@ -70,6 +73,7 @@ def wsearch(args):
     """Search the whoosh index for provided terms."""
     query = ' '.join(args)
     ids = search(config, query)
+    logging.debug('search done')
     for result in ids:
         bag, title = result['id'].split(':')
         print "%s:%s" % (bag, title)
@@ -148,9 +152,10 @@ def search(config, query):
     set.
     """
     searcher = get_searcher(config)
+    limit = config.get('wsearch.results_limit', 51)
     query = query_parse(config, unicode(query))
     logging.debug('query parsed to %s' % query)
-    return searcher.search(query, limit=50) # XXX get limit from config
+    return searcher.search(query, limit=51)
 
 
 def index_tiddler(tiddler, schema, writer):
@@ -208,6 +213,8 @@ def query_dict_to_search_string(query_dict):
         if key == 'q':
             terms.extend([value.lower() for value in values])
         else:
+            if key.startswith('_ignore_'):
+                continue
             if key.endswith('_field'):
                 prefix = key.rsplit('_', 1)[0]
                 value_key = '%s_value' % prefix
