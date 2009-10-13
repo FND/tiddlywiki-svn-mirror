@@ -43,9 +43,10 @@ function makeAppBags {
 
 function populateAppBagsFromSrc {
   cp $top/src/recipes/* $top/src/users/* store
+  # import $top/src/recipes/* $top/src/users/* store
   for bag in client protected ; do
-    echo cp $top/src/$bag/* store/$bag
-    cp $top/src/$bag/* store/$bag
+    # import $top/src/$bag/* $bag
+    cp $top/src/recipes/* $top/src/users/* store/$bag
   done
 }
 
@@ -66,6 +67,16 @@ function populateAppBagsFromCache {
     ; do
       cp $f $f.meta store/client
     done
+}
+
+# http://is.gd/4g2dK (StackOverflow)
+function import {
+  args=("$@")
+  bag=${!#}
+  unset args[${#args[@]}-1]
+  for src in "${args[@]}"; do
+    echo twanager from_svn $bag 'file://'"$src"
+  done
 }
 
 #*******************************************************************************
