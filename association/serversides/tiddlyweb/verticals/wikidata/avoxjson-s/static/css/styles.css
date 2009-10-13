@@ -46,6 +46,7 @@ q:before, q:after {
 blockquote, q {
 	quotes: "" "";
 }
+/* wiki-data styles */
 /* main */
 body {
 	margin: 0;
@@ -299,7 +300,7 @@ tfoot th {
 	display: inline;
 }
 #footer a {
-	color: #CCCCCC;
+	color: #EEEEEE;
 }
 /* company page */
 .company .vcard {
