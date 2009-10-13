@@ -5855,7 +5855,7 @@ $(document).ready(function() {
 							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.request">go</a>'
 						]);
 					}
-					var str = 'There are '+count+'results';
+					var str = 'There are '+count+' results';
 					switch(count) {
 						case 0:
 							str = 'There are no results - <span class="filter"><a href="javascript:;">try adding a filter to include other fields in the search</a></span>';
