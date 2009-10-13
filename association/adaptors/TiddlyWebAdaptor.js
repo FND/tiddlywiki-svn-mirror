@@ -7,7 +7,7 @@
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
-|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''CoreVersion''|2.5|
 |''Keywords''|serverSide TiddlyWeb|
 !Notes
