@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|0.7.2|
+|''Version''|0.7.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -53,23 +53,27 @@ config.shadowTiddlers.ToolbarCommands = config.shadowTiddlers.ToolbarCommands.
 	replace("closeTiddler ", "revisions closeTiddler ");
 
 config.commands.saveTiddler.isEnabled = function(tiddler) {
-	var adaptor = tiddler.getAdaptor();
-	return adaptor && adaptor.hasPermission("write", tiddler);
+	return hasPermission("write", tiddler);
 };
 
 config.commands.deleteTiddler.isEnabled = function(tiddler) {
-	var adaptor = tiddler.getAdaptor();
-	return adaptor && adaptor.hasPermission("delete", tiddler);
+	return hasPermission("delete", tiddler);
 };
-
-AdaptorBase.prototype.hasPermission = function() { return true; };
 
 // hijack Tiddler.prototype.isReadOnly to use permissions
 var original = Tiddler.prototype.isReadOnly;
 Tiddler.prototype.isReadOnly = function() {
 	var readOnly = original.apply(this, arguments); // global read-only mode
-	var adaptor = this.getAdaptor();
-	return readOnly || !(adaptor && adaptor.hasPermission("write", this));
+	return readOnly || !hasPermission("write", this);
+};
+
+var hasPermission = function(type, tiddler) {
+	var perms = tiddler.fields["server.permissions"];
+	if(perms) {
+		return perms.split(", ").contains(type);
+	} else {
+		return true;
+	}
 };
 
 // retrieve server info
