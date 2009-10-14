@@ -127,13 +127,13 @@ $(document).ready(function() {
 		var advCount = 0;
 		for(var i in params) {
 			if(i.match(/adv_\d{1,2}_field/)) {
-				var val = params[i.replace('_field', '_value')][0];
-				if(val) {
+				var val = params[i.replace('_field', '_value')];
+				if(val && val[0]) {
 					addAdvSearchLine()
 						.find('select')
 						.val(params[i].join(" "))
 						.next()
-						.val(val)
+						.val(val[0])
 						.end()
 						.change();
 				}
