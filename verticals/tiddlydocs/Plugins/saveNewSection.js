@@ -22,10 +22,25 @@ window.addToToc = function(sectionTitle, docTitle) {
 	}
 }
 
+
+merge(config.commands.saveNewSection,{
+	text: "Add",
+	tooltip: "Add this section to the active document."});
+
+
+config.commands.saveNewSection.handler = function(event,src,title)
+{
+	var newTitle = story.saveNewSection(title,event.shiftKey);
+	if(newTitle)
+		story.displayTiddler(null,newTitle);
+	return false;
+};
+	
+
 //(function() {
 
 var _saveTiddler = Story.prototype.saveTiddler;
-Story.prototype.saveTiddler = function(title, minorUpdate) {
+Story.prototype.saveNewSection = function(title, minorUpdate) {
 	var autosave = config.options.chkAutoSave;
 	config.options.chkAutoSave = false;
 	var _title = _saveTiddler.apply(this, arguments);

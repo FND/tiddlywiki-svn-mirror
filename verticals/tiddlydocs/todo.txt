@@ -13,38 +13,24 @@ ask jeremy/fred about a better way to escape the slashes in document names/
 
 //  createTiddlyButton
 
-
-// SiteMinder Integration 
-
 // get urls working for sections - 
 
-
-
-
  7.  Comments count not working i.e after saving comment still showing Comments (0)
-
-// decide if sections should use the default_view_template or not
-
 
 // add .meta files for tiddlers in backstage. 
 
  When saving comments within section – getting dialog box saying ‘Your changes where not saved’
  
- 
 / sort out links from the original template
-
-/ check for .meta files
 
 style messageBox
 
-// talk to jonR about his tiddlyeditor_plus plugin
 
+// EDIT DEFINITIONS in IE.
 
 
 Things to test : 
 
 // value switch plugin causes an error on a tiddler which has just been impored with from_svn
-
-// auto select a document from the url
 
 // When you save a section that is a subitem of another item it is added again to the bottom of the toc. 

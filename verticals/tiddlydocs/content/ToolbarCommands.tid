@@ -1,7 +1,7 @@
 modifier: Simon McManus
 
 |~viewToolbar| +editTiddler revisions closeTiddler |
-|~newEditToolbar| +saveTiddler -cancelTiddler |
+|~newEditToolbar| +saveNewSection -cancelTiddler |
 |~EditToolbar| +saveTiddler revisions  -cancelTiddler deleteTiddlerHosted |
 |~taskViewToolbar|+editTiddler revisions|
 |~adminToolbar| deleteTiddlerHosted|
