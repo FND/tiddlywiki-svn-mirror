@@ -5920,11 +5920,6 @@ var gMapsHost = window.gMaps ? "http://www.google.com/jsapi?key="+window.gMaps.a
 			});
 		};
 		gMapsHost += "&callback=mapsInitialize";
-		/* "http://maps.google.com/maps?file=api&v=2.x&key=PUT-YOUR-KEY-HERE&async=2&callback=loadMap";*/
-		/*var gMapsHost = window.gMaps ? "http://maps.google.com/maps?file=api&v=2&key="+window.gMaps.apiKey : "";*/
-		/*var callback = function() {
-			window.setTimeout(initialize, 100); // Safari 2 and earlier cannot call created functions synchronously
-		}; */
 		$.getScript(gMapsHost);
 	}
 });/* Google Analytics */
