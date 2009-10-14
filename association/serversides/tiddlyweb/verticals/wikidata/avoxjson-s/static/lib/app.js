@@ -51,8 +51,10 @@ function addAdvSearchLine() {
 			// filter on columns assuming the select input doesn't include the AVID field
 			oTable.fnFilter(this.value,selectedIndex);
 		}*/
-		oTable.fnFilter(elem ? elem.value : "",selectedIndex+1);
-		oTable.fixedHeader.fnUpdate();
+		if(oTable) {
+			oTable.fnFilter(elem ? elem.value : "",selectedIndex+1);
+			oTable.fixedHeader.fnUpdate();
+		}
 	};
 	$advSearchLine.find('select').change(function() {
 		if(this.mapped) {
