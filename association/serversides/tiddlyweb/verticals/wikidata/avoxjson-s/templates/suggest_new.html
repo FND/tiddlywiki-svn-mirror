@@ -66,6 +66,15 @@
 					<option value="Ultimate Parent">Ultimate Parent</option>
 				</select></td>
 			</tr>
+			{% elif field == 'registered_country' %}
+			<tr>
+				<td>Registered Country</td>
+				<td><select name="registered_country">
+					{% for country in countries %}
+					<option value="{{country}}">{{country}}</option>
+					{% endfor %}
+					</select></td>
+			</tr>
 			{% else %}
 			<tr>
 				<td>{{label}}</td>
