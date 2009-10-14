@@ -2,6 +2,7 @@ import templating
 import logging
 
 from tiddlyweb.web.http import HTTP404
+from tiddlywebplugins import replace_handler
 
 def index(environ, start_response):
     template = templating.generate_template(["index.html","search.html"])
@@ -84,3 +85,4 @@ def init(config):
     config['selector'].add('/index.html', GET=index)
     config['selector'].add('/verify', POST=verify)
     config['selector'].add('/env', GET=env)
+    replace_handler(config['selector'], '/', dict(GET=index))
