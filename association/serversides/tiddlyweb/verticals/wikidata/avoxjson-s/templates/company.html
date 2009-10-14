@@ -1,8 +1,3 @@
-<script type="text/javascript" src="/static/js/tiddly.js"></script>
-<script type="text/javascript" src="/static/js/jquery.scrollTo-min.js"></script>
-<script type="text/javascript" src="/static/js/comments.js"></script>
-<script type="text/javascript" src="/static/js/jquery.color.js"></script>
-<link id="stylesheet" rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" charset="utf-8"/>
 <!-- JRL: disabling all comments code until the whole thing works -->
 <!-- <script type="text/javascript">
   $(function() {
@@ -67,7 +62,13 @@
 	<div>Email: 
 		<span class="email">{{ tiddler.fields.email }}</span>
 	</div>-->
-	
+	<script type="text/javascript">
+		window.gMaps = {
+			apiKey: "{{ maps_api_key }}",
+			op_company: "{{ tiddler.fields.legal_name }}",
+			op_address: "{{ tiddler.fields.operational_street_1 }}{% if tiddler.fields.operational_street_2 %}, {{ tiddler.fields.operational_street_2 }}{% endif %}{% if tiddler.fields.operational_street_3 %}, {{ tiddler.fields.operational_street_3 }}{% endif %}{% if tiddler.fields.operational_city %}, {{ tiddler.fields.operational_city }}{% endif %}{% if tiddler.fields.operational_state %}, {{ tiddler.fields.operational_state }}{% endif %}{% if tiddler.fields.operational_post_code %}, {{ tiddler.fields.operational_post_code }}{% endif %}"
+		};
+	</script>
 	<div id="map" style="width:690px; height:400px"></div>
 	<div id="comments-container"></div>
 	<div class="alt-buttons small">
@@ -77,60 +78,3 @@
 	<!--<a href="{{ tiddler.fields.avid }}.edit">edit</a>-->
 	</div>
 </div>
-<script src="http://maps.google.com/maps?file=api&v=2&key={{ maps_api_key }}"
-  type="text/javascript"></script>
-<script type="text/javascript">
-	//<![CDATA[
-	
-	var geocoder;
-	var map;
-	var company;
-	
-	var op_company = "{{ tiddler.fields.legal_name }}";
-	var op_address = "{{ tiddler.fields.operational_street_1 }}{% if tiddler.fields.operational_street_2 %}, {{ tiddler.fields.operational_street_2 }}{% endif %}{% if tiddler.fields.operational_street_3 %}, {{ tiddler.fields.operational_street_3 }}{% endif %}{% if tiddler.fields.operational_city %}, {{ tiddler.fields.operational_city }}{% endif %}{% if tiddler.fields.operational_state %}, {{ tiddler.fields.operational_state }}{% endif %}{% if tiddler.fields.operational_post_code %}, {{ tiddler.fields.operational_post_code }}{% endif %}";
-	function loadGMap()
-	{
-		// Create new map object
-		map = new GMap2(document.getElementById("map"));
-		map.addControl(new GSmallMapControl());
-		map.addControl(new GMapTypeControl());
-		
-		// Create new geocoding object
-		geocoder = new GClientGeocoder();
-		
-		// Retrieve location information, pass it to addToMap()
-		company = op_company + "<br/>"+ op_address;
-		geocoder.getLocations(op_address, addToMap);
-	
-	}
-	
-	function addToMap(response)
-	{
-		// Retrieve the object
-		place = response.Placemark[0];
-		
-		// Retrieve the latitude and longitude
-		point = new GLatLng(place.Point.coordinates[1],
-		                  place.Point.coordinates[0]);
-		
-		// Center the map on this point
-		map.setCenter(point, 3);
-		map.setZoom(14);
-		
-		// Create a marker
-		marker = new GMarker(point);
-		
-		// Add the marker to map
-		map.addOverlay(marker);
-		
-		// Add address information to marker
-		marker.openInfoWindowHtml(company);
-	}
-//]]>
-</script>
-<script type="text/javascript">
-	// Google maps ..
-	$(document).ready(function() {
-		loadGMap();
-	});
-</script>
