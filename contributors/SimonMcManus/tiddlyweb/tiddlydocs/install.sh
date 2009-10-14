@@ -27,7 +27,7 @@ EOF
 
 #twanager bag documents < /dev/null
 twanager bag documents<<EOF
-{"policy": {“accept”: [“NONE”]}}
+{"policy": {"accept": ["NONE"]}}
 EOF
 
 twanager from_svn documents http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/documents/TheInternet/split.recipe
