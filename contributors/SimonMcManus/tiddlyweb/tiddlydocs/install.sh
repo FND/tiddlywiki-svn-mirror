@@ -20,12 +20,10 @@ curl http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/validators/tiddly
 rm tiddlywebconfig.py
 curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py >tiddlywebconfig.py
 
-#twanager bag tdocs < /dev/null
 twanager bag tdocs<<EOF
 {"policy": {"write": ["ADMIN"]}}
 EOF
 
-#twanager bag documents < /dev/null
 twanager bag documents<<EOF
 {"policy": {"accept": ["NONE"]}}
 EOF

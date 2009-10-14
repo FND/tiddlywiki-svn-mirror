@@ -26,10 +26,13 @@ select i in $OPTIONS; do
 		twanager --load tiddlywebwiki.config instance tiddlydocs-$1
 
 
-		cd tiddlydocs-$1
-		
-		twanager bag tdocs < /dev/null
-		twanager bag documents < /dev/null
+twanager bag tdocs<<EOF
+{"policy": {"write": ["ADMIN"]}}
+EOF
+
+twanager bag documents<<EOF
+{"policy": {"accept": ["NONE"]}}
+EOF
 
 		curl http://github.com/tiddlyweb/tiddlyweb/raw/master/apache.py >apache.py
 		curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atom.py > atom.py
@@ -60,8 +63,11 @@ select i in $OPTIONS; do
 
 		#wget http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/form/form.py
 
-		## get recipe files 
-		curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs > store/recipes/tiddlydocs
+twanager recipe tiddlydocs<<EOF
+/bags/system/tiddlers
+/bags/tdocs/tiddlers
+/bags/documents/tiddlers
+EOF
 
 		## Get CKEditor 
 		mkdir static 
