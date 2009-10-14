@@ -24,8 +24,8 @@ select i in $OPTIONS; do
 		mkdir builds
 		cd builds
 		twanager --load tiddlywebwiki.config instance tiddlydocs-$1
-
-
+		cd tiddlydocs-$1
+		
 twanager bag tdocs<<EOF
 {"policy": {"write": ["ADMIN"]}}
 EOF

@@ -24,6 +24,10 @@ twanager bag tdocs<<EOF
 {"policy": {"write": ["ADMIN"]}}
 EOF
 
+twanager bag system<<EOF
+{"policy": {"write": ["ADMIN"]}}
+EOF
+
 twanager bag documents<<EOF
 {"policy": {"accept": ["NONE"]}}
 EOF
@@ -51,7 +55,6 @@ twanager recipe tiddlydocs<<EOF
 /bags/tdocs/tiddlers
 /bags/documents/tiddlers
 EOF
-
 
 ## Get CKEditor 
 mkdir static 

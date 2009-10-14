@@ -21,16 +21,13 @@ ask jeremy/fred about a better way to escape the slashes in document names/
 
  When saving comments within section – getting dialog box saying ‘Your changes where not saved’
  
-/ sort out links from the original template
+// sort out links from the original template
 
 style messageBox
 
-
 // EDIT DEFINITIONS in IE.
-
 
 Things to test : 
 
 // value switch plugin causes an error on a tiddler which has just been impored with from_svn
 
-// When you save a section that is a subitem of another item it is added again to the bottom of the toc. 
