@@ -36,6 +36,8 @@ twanager from_svn system http://svn.tiddlywiki.org/Trunk/association/plugins/Rev
 twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/DiffFormatterPlugin.js
 curl http://github.com/FND/tiddlyweb-plugins/raw/master/differ.py > differ.py
 
+twanager from_svn system http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js
+
 # get RDF plugin
 mkdir rtf
 curl http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/tiddlyweb/TiddlyWebRTF/rtf/__init__.py > rtf/__init__.py
