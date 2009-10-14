@@ -9,6 +9,7 @@ $(document).ready(function() {
 			bPaginate: false,
 			bSortClasses: false,
 			bInfo: false,
+			aaSorting: [[1, 'asc']],
 			aoColumns: [
 				null, // AVID
 				null, // Legal Name

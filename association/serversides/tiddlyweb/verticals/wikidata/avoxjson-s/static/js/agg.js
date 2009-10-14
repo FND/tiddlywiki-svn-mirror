@@ -720,7 +720,6 @@ function addAdvSearchLine() {
 	var t ='<input name="adv_'+i+'_value" id="adv_'+i+'_value" size="35" type="text" />';
 	var u ='<a href="javascript:;" class="advanced" id="add_new_adv_'+i+'"><button onclick="return false;">+</button><!--<img src="/static/images/plus_small.gif" />--></a>';
 	var $advSearchLine = $(s).appendTo($('#advancedSearchLines')).append(t).append(u);
-	//$advSearchLine.append(t).append(u);
 	var filterOnChange = function(elem,selectedIndex) {
 		selectedIndex = selectedIndex || $advSearchLine.find('select')[0].selectedIndex;
 		/* restore these lines when we can support "Any Field"
@@ -735,14 +734,14 @@ function addAdvSearchLine() {
 			oTable.fixedHeader.fnUpdate();
 		}
 	};
-	var fieldsToMap = [
+	var countryFieldsToMap = [
 		'Registered Country',
-		'Operational Country',
-		'Operational State'
+		'Operational Country'
 	];
 	$advSearchLine.find('select').change(function() {
+		var field = $(this).val();
 		if(this.mapped) {
-			if(fieldsToMap.indexOf($(this).val())===-1) {
+			if(countryFieldsToMap.indexOf(field)===-1) {
 				filterOnChange(null,this.mapped);
 				$(this).next().replaceWith(t);
 				$(this).next().keyup(function() {
@@ -752,7 +751,7 @@ function addAdvSearchLine() {
 				this.mapped = null;
 			}
 		} else {
-			if(fieldsToMap.indexOf($(this).val())!==-1) {
+			if(countryFieldsToMap.indexOf(field)!==-1) {
 				var $select = $('<select></select>');
 				for(var i in ISO_3166.countries.name2iso) {
 					$select.append('<option>'+i+'</option>');
@@ -5890,6 +5889,7 @@ $(document).ready(function() {
 			bPaginate: false,
 			bSortClasses: false,
 			bInfo: false,
+			aaSorting: [[1, 'asc']],
 			aoColumns: [
 				null, // AVID
 				null, // Legal Name
