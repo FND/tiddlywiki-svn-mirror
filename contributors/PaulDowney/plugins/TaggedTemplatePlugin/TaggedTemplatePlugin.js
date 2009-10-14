@@ -3,7 +3,7 @@
 |''Description:''|Apply a view/edit template based on a tag |
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TaggedTemplatePlugin |
-|''Version:''|1.0|
+|''Version:''|1.1|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -15,9 +15,6 @@ The priority of searching for duplicate templates has been designed to allow par
 # in the current theme by tag:
 ##[[CurrentTheme]]##barViewTemplate
 ##[[CurrentTheme]]##fooViewTemplate
-# in a theme for the tag:
-##[[barTheme]]#ViewTemplate
-##[[foobar]]#ViewTemplate
 # in a template for the tag:
 ##[[barViewTemplate]]
 ##[[fooViewTemplate]]
@@ -35,13 +32,13 @@ if (!version.extensions.TaggedTemplatePlugin) {
     version.extensions.TaggedTemplatePlugin = {installed: true};
 
     Story.prototype._chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler;
-    Story.prototype.chooseTemplateForTiddler = function (title, template)
+    Story.prototype.chooseTemplateForTiddler = function (title, n)
     {
         var slice, i, tags = [], tagTiddler;
         var tiddler = store.getTiddler(title);
 
         // translate number into template name
-        template = ["ViewTemplate", "EditTemplate"][template ? template - 1 : 0];
+        var template = ["ViewTemplate", "EditTemplate"][n ? n - 1 : 0];
 
         // canonicalise tags
         if (tiddler) {
@@ -77,8 +74,7 @@ if (!version.extensions.TaggedTemplatePlugin) {
             }
         }
 
-        // default template
-        return template;
+        return this._chooseTemplateForTiddler.apply(this, arguments);
     };
 }
 //}}}
