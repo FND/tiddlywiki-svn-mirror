@@ -246,6 +246,7 @@ VismoGraphRenderer.prototype = {
     }
 
     ,compute: function(root){
+        if(!root) root = this.options.root;
         var graph = this._graph;
         if(this.options.root != root) this.clear();
         if(root)this.options.root = root;
@@ -270,6 +271,7 @@ VismoGraphRenderer.prototype = {
         var y = -node.YPosition;
         var x = node.XPosition;
         this.plotNode(id,{x:x,y:y});
+        this.plotLabel(node,{x:x,y:y});
         var children = this._graph.getChildren(id);
         for(var i=0; i < children.length; i++){
             var parentpos = {x:x,y:y};
@@ -307,14 +309,14 @@ VismoGraphRenderer.prototype = {
             var b = exists.getBoundingBox();
             pos = b.center;
         } 
-        this.plotLabel(node);
+        
         return pos;
         
     }
 
-    ,plotLabel: function(node){
+    ,plotLabel: function(node,pos){
         var el = document.createElement("div");
         el.innerHTML = node.properties.label;
-        this._canvas.addLabel(el,node.XPosition,node.YPosition);
+        this._canvas.addLabel(el,pos.x,pos.y);
     }
  };

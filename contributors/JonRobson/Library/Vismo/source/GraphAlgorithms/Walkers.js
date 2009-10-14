@@ -1,5 +1,6 @@
 VismoGraphAlgorithms.walkers ={   
-    _MaxDepth: 100,
+    name: "Walkers"
+    ,_MaxDepth: 100,
     reset: function(graph){
        var nodes = graph.getNodes();
        for(var i=0; i < nodes.length; i++){

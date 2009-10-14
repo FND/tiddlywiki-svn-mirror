@@ -64,14 +64,16 @@ var VismoCanvas = function(element,options){
 	var height =parseInt(wrapper.style.height);
 	canvas.width = width;
 	canvas.height = height;
-	
+
 	this.setTransformation({translate:{x:0,y:0},scale:{x:1,y:1},origin:{x:canvaswidth/2, y:canvasheight/2}});
+	
 	if(!element.className)element.className = "VismoCanvas";
 	jQuery(canvas).css({width:width, height:height,'z-index':1,position:'absolute'});        
 	element.appendChild(hideoverflow);
+	
 	jQuery(hideoverflow).css({width:width, height:height,position:"absolute",overflow:"hidden",left:"0px",top:"0px"});
 	var labels =  document.createElement("div");
-    jQuery(labels).css({position:"absolute","z-index":9});      
+    jQuery(labels).css({position:"absolute",width:"100%",height:"100%","z-index":9});      
     labels.className = "VismoLabels";
     hideoverflow.appendChild(labels);
     this.labelHolder = labels;
@@ -577,6 +579,7 @@ VismoCanvas.prototype = {
 	
 	,setTransformation: function(args){
 	    var transformation = arguments[0];
+	    
         //console.log(transformation.origin.x,transformation.translate.x,transformation.translate.y);
         if(!transformation.origin){
                 transformation.origin = {};
@@ -591,19 +594,33 @@ VismoCanvas.prototype = {
 	    this._transformLabels(args);
 	}
     ,_transformLabels: function(){
+        
         var transformation = arguments[0];
         var translate = transformation.translate;
         var scale = transformation.scale;
         var o = {x:this.width()/2,y:this.height()/2};
-        console.log("labels",translate.x,translate.y,scale.x,scale.y);
+        
+        //console.log("labels",translate.x,translate.y,scale.x,scale.y);
         this._eachLabel(function(label){
+            
             var jql = jQuery(label);
             
-            var x = parseInt(jql.attr("v_x"));
-            var y =  parseInt(jql.attr("v_y"));
+            var x = jql.attr("v_x");
+            var y = jql.attr("v_y");
+            if(!x || !y){
+                return;
+            }
+            else{
+                x =parseInt(x);
+                y =parseInt(y);
+            }
             var w = parseFloat(jql.attr("v_w")) * scale.x;
             var h = parseFloat(jql.attr("v_h")) * scale.y;
-            jql.css({top:o.y+(y*scale.y),left: o.x + (x * scale.x)});
+          
+            var cssStr = {top:o.y+(y*scale.y),left: o.x + (x * scale.x)};
+            
+            jql.css(cssStr);
+            
         });
         jQuery(this.labelHolder).css({top:translate.y*scale.y,left:translate.x *scale.x})
     }
@@ -671,19 +688,23 @@ VismoCanvas.prototype = {
 
 		return vismoShape;
 	}
+    ,clearLabels: function(){
+        jQuery(this.labelHolder).html("");
+    }
 	,addLabel:function(args){
 	    var domElement = arguments[0];
 	    var x=  arguments[1];
 	    var y = arguments[2];
+	    jQuery(domElement).addClass("canvasLabel");
 	    this.labelHolder.appendChild(domElement);
-	    
+	    var h = jQuery(domElement).height();
+	    var w= jQuery(domElement).width();	    
 	    var top, left;
-	    left = x+ (this.width() /2);
-	    top = (this.height()/2) + y;
+	    left = x+ (this.width() /2) + w/2;
+	    top = (this.height()/2) + y + h/2 ;
 	    jQuery(domElement).attr("v_x",x);
 	    jQuery(domElement).attr("v_y",y);
-	    var h = jQuery(domElement).height();
-	    var w= jQuery(domElement).width(); 
+
 	    jQuery(domElement).attr("v_w",w);
 	    jQuery(domElement).attr("v_h",h);
 	    jQuery(domElement).css({position:"absolute",top:top,left:left});
@@ -702,6 +723,7 @@ VismoCanvas.prototype = {
 		}
 		this._idtoshapemap = {};
 		this.memory = [];
+		this.clearLabels();
 
 	},
 	getMemory: function(args){

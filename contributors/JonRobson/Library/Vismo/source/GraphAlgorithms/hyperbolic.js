@@ -1,5 +1,6 @@
 VismoGraphAlgorithms.hyperbolic ={   
     size: {width:400,height:400}
+    ,name: "Hyperbolic"
     ,reset: function(graph){
        var nodes = graph.getNodes();
        for(var i=0; i < nodes.length; i++){

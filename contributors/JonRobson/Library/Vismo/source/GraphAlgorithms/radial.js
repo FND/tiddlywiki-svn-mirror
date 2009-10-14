@@ -38,11 +38,12 @@ http://thejit.org/
  */
 
 VismoGraphAlgorithms._utils ={   
-    labelContainer: 'label_container',
+    name: "Radial"
+    ,labelContainer: 'label_container'
 
     //Property: drawConcentricCircles
     //show/hide concentricCircles
-    drawConcentricCircles: 4,
+    ,drawConcentricCircles: 4,
 
     //Property: concentricCirclesColor
     //The color of the concentric circles

@@ -78,8 +78,8 @@ z-index:1;
 .zooming {cursor:crosshair;}
 .panning {cursor:move;}
 .VismoCanvas {z-index:11;margin-left:10px;}
-.changeroot {margin-left:50%;width:200px;right:100px;z-index:4000;position:relative;}
-
+.changeroot {margin-left:50%;width:200px;right:100px;z-index:10;position:relative;}
+.changeAlgorithm {z-index:10;position:absolute;right:70px;bottom:0px;}
 .yourSearchNaviBar .currentPage {color:#39AC1B;}
 
 #yourSearchResult {background-color:#EEEEEE;background:#EEEEEE none repeat scroll 0 0;}

@@ -99,10 +99,25 @@ config.macros.FamilyTree = {
         }
         str += "</select>";
         jQuery(div).append(str);
+        var algorithmStr = "<select class='changeAlgorithm'><option value='-1'>change layout algorithm</option>";
+        var algs =VismoGraphAlgorithms.available();
+        for(var i=0;i < algs.length; i++){
+            var alg = algs[i];
+            algorithmStr += "<option value='"+i+"'>"+alg.name+"</option>";
+        }
+        algorithmStr += "</select>";
+        
+        jQuery(div).append(algorithmStr);
         jQuery(".changeroot",div).change(function(e){
             if(this.value == "-1") return;
            that.vgr.clear();
-           that.vgr.compute(this.value);
+           that.vgr.compute();
+        });
+        jQuery(".changeAlgorithm",div).change(function(e){
+           if(this.value == "-1") return;
+           config.activeTree.options.algorithm = this.value;
+            that.vgr.clear();
+              that.vgr.compute(this.value);
         });
         
         var requested_alg = getParam(namedprms,"algorithm");

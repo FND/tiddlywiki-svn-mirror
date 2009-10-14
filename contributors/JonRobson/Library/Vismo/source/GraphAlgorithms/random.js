@@ -1,5 +1,6 @@
-VismoGraphAlgorithms.random ={   
-    reset: function(graph){
+VismoGraphAlgorithms.random ={  
+     name: "Random"
+    ,reset: function(graph){
        var nodes = graph.getNodes();
        for(var i=0; i < nodes.length; i++){
            var node = nodes[i];
