@@ -30,8 +30,6 @@ twanager bag documents<<EOF
 {"policy": {“accept”: [“NONE”]}}
 EOF
 
-
-
 twanager from_svn documents http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/documents/TheInternet/split.recipe
 twanager from_svn tdocs http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/index.html.recipe
 
@@ -47,9 +45,6 @@ curl http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/tiddlyweb/TiddlyWeb
 curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_script.py > room_script.py
 
 #curl http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/form/form.py > form.py
-
-## get recipe files 
-#curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs > store/recipes/tiddlydocs
 
 twanager recipe tiddlydocs<<EOF
 /bags/system/tiddlers
