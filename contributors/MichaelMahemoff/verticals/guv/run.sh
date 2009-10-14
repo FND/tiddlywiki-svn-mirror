@@ -1,6 +1,5 @@
 #!/bin/bash
 # This is for everyday developing and debugging
-./makedist.sh
-./makesampledata.sh
+./make.sh
 cd dist
 ./server.sh
