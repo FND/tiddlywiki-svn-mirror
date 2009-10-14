@@ -55,8 +55,8 @@
 		<h2>Additional fields</h2>
 		<table class="fields">
 			{% for field, label in labels %}
-			{% if field == 'entity_type' %}
 			<tr>
+				{% if field == 'entity_type' %}
 				<td>{{label}}</td>
 				<td><select name="{{field}}">
 					<option value="Null">Null</option>
@@ -65,22 +65,18 @@
 					<option value="Subsidiary">Subsidiary</option>
 					<option value="Ultimate Parent">Ultimate Parent</option>
 				</select></td>
-			</tr>
-			{% elif field == 'registered_country' %}
-			<tr>
+				{% elif field == 'registered_country' %}
 				<td>Registered Country</td>
 				<td><select name="registered_country">
 					{% for country in countries %}
 					<option value="{{country}}">{{country}}</option>
 					{% endfor %}
 					</select></td>
-			</tr>
-			{% else %}
-			<tr>
+				{% else %}
 				<td>{{label}}</td>
 				<td><input type="text" size="35" name="{{field}}" /></td>
+				{% endif %}
 			</tr>
-			{% endif %}
 			{% endfor %}
 		</table>
 	</div>

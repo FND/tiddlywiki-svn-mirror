@@ -11,8 +11,17 @@
 		<table class="fields">
 			{% for field, label in labels %}
 			<tr>
+				{% if field == 'operational_country' %}
+				<td><label for="{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
+				<td><select name="operational_country">
+					{% for country in countries %}
+					<option value="{{country}}">{{country}}</option>
+					{% endfor %}
+					</select></td>
+				{% else %}
 				<td><label for="{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
 				<td><input type="text" size="35" name="{{field}}" /></td>
+				{% endif %}
 			</tr>
 			{% endfor %}
 		</table>
