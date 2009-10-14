@@ -9,7 +9,7 @@
 config.extensions.ServerSideSavingPlugin.reportSuccess = function() {
 }
 
-config.extensions.ServerSideSavingPlugin.reportFailure = function(tiddler, context){
+config.extensions.ServerSideSavingPlugin.reportFailure = function(msg, tiddler, context){
 	if(context.httpStatus == 403)
 		jQuery.modal.show("Your changes were not saved. Your session may have expired. Please try logging in again.");
 	else 
