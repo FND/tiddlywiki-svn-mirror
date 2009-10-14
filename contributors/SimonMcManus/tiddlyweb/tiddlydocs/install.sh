@@ -20,12 +20,20 @@ curl http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/validators/tiddly
 rm tiddlywebconfig.py
 curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py >tiddlywebconfig.py
 
-twanager bag tdocs < /dev/null
-twanager bag documents < /dev/null
+#twanager bag tdocs < /dev/null
+twanager bag tdocs<<EOF
+{"policy": {"write": ["ADMIN"]}}
+EOF
+
+#twanager bag documents < /dev/null
+twanager bag documents<<EOF
+{"policy": {“accept”: [“NONE”]}}
+EOF
+
+
 
 twanager from_svn documents http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/documents/TheInternet/split.recipe
 twanager from_svn tdocs http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/index.html.recipe
-twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/ServerSideSavingPlugin.js
 
 # Revisions 
 twanager from_svn system http://svn.tiddlywiki.org/Trunk/association/plugins/RevisionsCommandPlugin.js
@@ -42,6 +50,11 @@ curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_scr
 
 ## get recipe files 
 curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs > store/recipes/tiddlydocs
+
+sudo twanager recipe tosh1 "asdfsdf"
+
+
+
 
 ## Get CKEditor 
 mkdir static 
