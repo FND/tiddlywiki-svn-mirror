@@ -24,7 +24,7 @@ window.addToToc = function(sectionTitle, docTitle) {
 
 
 merge(config.commands.saveNewSection,{
-	text: "Add",
+	text: "add",
 	tooltip: "Add this section to the active document."});
 
 

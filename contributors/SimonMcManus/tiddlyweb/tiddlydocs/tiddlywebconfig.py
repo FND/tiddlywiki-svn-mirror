@@ -7,8 +7,8 @@ config = {
  	'static_url_dir': 'doccollab/static',
     'server_host' : {
        'scheme' : 'http',
-        'host' : 'gnawer.osmosoft.com',
-        'port' : '80'
+        'host' : '127.0.0.1',
+        'port' : '8081'
    },
 	'tiddlyeditor_recipe':[
 	        ['tdocs',''],
