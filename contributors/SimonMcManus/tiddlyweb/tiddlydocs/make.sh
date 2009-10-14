@@ -53,6 +53,8 @@ EOF
 		twanager from_svn system http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/formatters/DiffFormatterPlugin.js
 		curl http://github.com/FND/tiddlyweb-plugins/raw/master/differ.py > differ.py
 
+		twanager from_svn system http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js
+
 		rm tiddlywebconfig.py
 		curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlywebconfig.py > tiddlywebconfig.py
 		
