@@ -1,0 +1,3 @@
+0.1 : initial release (21/09/09)
+0.2 : included missing tdocs and documents bags (21/09/09)
+0.4 : images support for mydocs (22/09/09)

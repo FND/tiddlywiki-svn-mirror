@@ -49,11 +49,13 @@ curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_scr
 #curl http://github.com/bengillies/TiddlyWeb-Plugins/raw/master/form/form.py > form.py
 
 ## get recipe files 
-curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs > store/recipes/tiddlydocs
+#curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/store/recipes/tiddlydocs > store/recipes/tiddlydocs
 
-sudo twanager recipe tosh1 "asdfsdf"
-
-
+twanager recipe tiddlydocs<<EOF
+/bags/system/tiddlers
+/bags/tdocs/tiddlers
+/bags/documents/tiddlers
+EOF
 
 
 ## Get CKEditor 

@@ -25,5 +25,8 @@ IE7 FAIL
 9 .. css ok
 IE7 FAIL
 
+css ok - edit template
+css ok - view template
+
 10 .. edit section text 
 IE7 - works but with errors
