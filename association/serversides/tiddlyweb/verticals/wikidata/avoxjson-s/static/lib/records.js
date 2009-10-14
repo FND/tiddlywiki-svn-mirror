@@ -18,7 +18,7 @@ $(document).ready(function() {
 				{ bVisible: false }, // Company Website
 				{ fnRender: function(data) {
 					return iso2name[data.aData[data.iDataColumn]] || null;
-				} }, // Country of Registration
+				} }, // Registered Country
 				{ bVisible: false }, // Operational PO Box
 				{ bVisible: false }, // Operational Floor
 				{ bVisible: false }, // Operational Buidling
