@@ -1,3 +1,5 @@
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 recipe: TaggedTemplatePlugin.recipe
+recipe: shadows/split.recipe
 recipe: tiddlers/split.recipe
+recipe: test/split.recipe

@@ -3,6 +3,6 @@
 /*
  *  Theme
  */
-config.options.txtTheme = "BasicTheme";
+config.options.txtTheme = "TestTheme";
 
 //}}}
