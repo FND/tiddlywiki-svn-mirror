@@ -17,7 +17,7 @@ $(document).ready(function() {
 				null, // Trading Status
 				{ bVisible: false }, // Company Website
 				{ fnRender: function(data) {
-					return iso2name[data.aData[data.iDataColumn]] || null;
+					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || null;
 				} }, // Registered Country
 				{ bVisible: false }, // Operational PO Box
 				{ bVisible: false }, // Operational Floor
@@ -28,7 +28,7 @@ $(document).ready(function() {
 				null, // Operational City
 				null, // Operational State
 				{ fnRender: function(data) {
-					return iso2name[data.aData[data.iDataColumn]] || null;
+					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || null;
 				} }, // Operational Country
 				null, // Operational Postcode
 				{ sClass: "center" },
