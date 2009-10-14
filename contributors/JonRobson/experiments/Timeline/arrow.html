@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <style type='text/css'>
+    .arrow_start {
+      background-color:maroon;
+      float:left;
+      height:30px;
+      position:relative;
+      margin-top:15px;
+ 
+      width:200px;
+    }
+    .arrow_head {
+      border-color:white white white maroon;
+      border-style:solid;
+      border-width:30px 0 30px 60px;
+      float:left;
+      height:0;
+       position:relative;
+      width:50px;
+      z-index:1;
+    }
+    .shadow {border-bottom:solid 5px black;}
+
+    .inner_arrow_start {
+      background-color:red;
+      height:20px;
+      margin-left:5px;
+      margin-right:5px;
+      margin-top:5px;
+      position:absolute;
+      width:190px;
+      z-index:2;
+    }
+
+    .transparency {opacity:0.5;}
+    .text {clear:both;}  
+    .curved {-moz-border-radius-bottomleft:10px;
+
+    -moz-border-radius-topleft:10px;}
+    </style>
+  </head>
+  <body>
+    <div class='arrow_start'></div>
+    <div class='arrow_head'></div>
+<div class='text'>with shadow</div>
+    <div class='arrow_start shadow'></div>
+    <div class='arrow_head'></div>
+
+    <div class='text'>with transparent overlay</div>
+        <div class='transparency'>
+          <div class='arrow_start'>
+          </div>
+          <div class='arrow_head'>          
+          </div>
+        </div>
+        
+        <div class='text'>with curved start (mozilla only)</div>
+           
+              <div class='arrow_start curved'>
+              </div>
+              <div class='arrow_head '>          
+              </div>
+       
+  </body>
+</html>
