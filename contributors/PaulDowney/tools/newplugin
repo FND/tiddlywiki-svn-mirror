@@ -52,8 +52,10 @@ template "$plugin.js" <<!
 !!Code
 ***/
 //{{{
-if(!version.extensions.$plugin) {
-version.extensions.$plugin = {installed:true};
+/*jslint onevar: false nomen: false plusplus: false */
+/*global config */
+if (!version.extensions.$plugin) {
+    version.extensions.$plugin = {installed: true};
 
 	// stuff
 
@@ -74,6 +76,7 @@ recipe: \$TW_ROOT/core/tiddlywiki.html.recipe
 recipe: $plugin.recipe
 recipe: tiddlers/split.recipe
 recipe: shadows/split.recipe
+recipe: test/split.recipe
 !
 
 template "$plugin.recipe" <<!
@@ -164,6 +167,22 @@ template "shadows/SiteUrl.tiddler" <<!
 </div>
 !
 
+[ ! -d "test" ]&&mkdir test
+template "test/split.recipe" <<!
+recipe: \$TW_ROOT/core/test/qunit/split.recipe
+recipe: \$TW_ROOT/core/test/html/split.recipe
+
+jquery: ${plugin}Tests.js
+!
+
+template "test/${plugin}Tests.js" <<!
+/*global story, jQuery, document, module, test, same */
+
+jQuery(document).ready(function () {
+    module("$plugin");
+
+});
+!
 
 chmod +x deploy.sh go
 exit
