@@ -209,7 +209,7 @@ var VismoGraphRenderer = function(place,options){
     if(!options.algorithm){
         throw "GraphRenderer requires an option called algorithm which is a function. This will take two parameters graph and root and should set XPosition and YPosition on every node.";
     }
-    this.algorithm = options.algorithm; 
+
     
     if(!options.nodeWidth) options.nodeWidth= 5;
     if(!options.nodeHeight) options.nodeHeight = 5; 
@@ -240,18 +240,40 @@ var VismoGraphRenderer = function(place,options){
 };
 
 VismoGraphRenderer.prototype = {
-    clear: function(){
+    algorithm: function(id){
+        if(id){
+            var newalg = VismoGraphAlgorithms[id];
+            if(newalg){
+                this.options.algorithm = newalg;
+            }
+            else{
+                throw "algorithm "+ id + " does not exist!";
+            }
+            
+        }
+    }
+    ,clear: function(){
         this._canvas.clear(true);
         this._edgeShapeCoordinates = [];
     }
+    ,reset: function(){
+        var nodes = this._graph.getNodes();
+        for(var i=0; i < nodes.length;i++){
+            var node = nodes[i];
+            node.XPosition = false;
+            node.YPosition = false;
+        }
+    }
 
     ,compute: function(root){
+        this.reset();
         if(!root) root = this.options.root;
         var graph = this._graph;
         if(this.options.root != root) this.clear();
         if(root)this.options.root = root;
-        this.algorithm.compute(graph,this.options);
-        
+        //console.log("aboute to compute",this.options);
+        this.options.algorithm.compute(graph,this.options);
+        //console.log("dome compute");
         this.plot(root);
         
         if(this._edgeShapeCoordinates.length > 0){
@@ -316,7 +338,21 @@ VismoGraphRenderer.prototype = {
 
     ,plotLabel: function(node,pos){
         var el = document.createElement("div");
-        el.innerHTML = node.properties.label;
+        var props = node.properties;
+        if(props.hover){
+            jQuery(el).hover(function(e){this.innerHTML = props.hover;},function(e){this.innerHTML = props.label;});
+           
+        }
+        
+        if(props.label){
+            el.innerHTML = props.label;
+        }
+        if(node._depth){
+            var fromroot = node._depth;
+            if(fromroot < 0) fromroot = - fromroot;
+            jQuery(el).addClass("fromRoot"+fromroot);
+        }
+        jQuery(el).hover(function(e){jQuery(this).addClass("hoverNode");},function(e){jQuery(this).removeClass("hoverNode");});
         this._canvas.addLabel(el,pos.x,pos.y);
     }
  };

@@ -15,8 +15,8 @@ VismoGraphAlgorithms.walkers ={
     }
     ,compute: function (graph,options) {	
         var root = options.root;
-        this.nodeWidth = options.nodeWidth | 10;
-        this.nodeHeight = options.nodeHeight | 10;
+        this.nodeWidth = options.nodeWidth | 40;
+        this.nodeHeight = options.nodeHeight | 40;
         ////////////console.log(" lets _positiongraph (magic here)");
         this.nodeWidth +=5;
         this.nodeHeight += 5;

@@ -1,5 +1,15 @@
 <div title="StyleSheet" tags="excludeTree">
 <pre>
+
+
+.canvasLabel {position:absolute; font-size:0.6em;}
+.fromRoot0 {font-size:1.2em;}
+.fromRoot1 {font-size:1em;}
+.fromRoot2 {font-size:0.9em;}
+.fromRoot3 {font-size:0.8em;}
+.fromRoot1 {font-size:0.7em;}
+.hoverNode {background-color:white;font-weight:bold;z-index:2;font-size:1.2em;}
+
 .ac_results {	padding: 0px;	border: 1px solid black;	background-color: white;	overflow: hidden;	z-index: 99999;}
 .ac_results ul {	width: 100%;	list-style-position: outside;	list-style: none;	padding: 0;	margin: 0;}
 .ac_results li {	margin: 0px;	padding: 2px 5px;	cursor: default;	display: block;	/* 

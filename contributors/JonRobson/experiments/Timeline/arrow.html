@@ -1,65 +1,134 @@
 <html>
   <head>
+    <title>CSS Arrows using only two dom elements and no images!</title>
     <style type='text/css'>
-    .arrow_start {
+    .arrow_tail_horizontal {
       background-color:maroon;
       float:left;
       height:30px;
       position:relative;
       margin-top:15px;
- 
+      color:white;
       width:200px;
     }
-    .arrow_head {
+    .arrow_head_horizontal_right {
       border-color:white white white maroon;
       border-style:solid;
-      border-width:30px 0 30px 60px;
+      border-width:30px 0px 30px 30px;
       float:left;
-      height:0;
+      width:0px;
+      height:0px;
        position:relative;
-      width:50px;
+    }
+    
+    .arrow_head_horizontal_left {
+      border-color:white maroon white;
+      border-style:solid;
+      border-width:30px 30px 30px 0px;
+      float:left;
+      width:0px;
+      height:0px;
+       position:relative;
+   
+    }
+    
+    .arrow_tail_vertical {
+      background-color:maroon;
+      width:30px;
+      position:relative;
+      margin-left:15px;
+      height:200px;
+      float:top;
+    }
+    .arrow_head_vertical_up {
+      border-color:maroon white;
+      border-style:solid;
+      border-width:0px 30px 30px;
+      height:0px;
+      position:relative;
+      width:0;
+      float:bottom;
+    }
+    .arrow_head_vertical_down {
+      border-color:maroon white;
+      border-style:solid;
+      border-width:30px 30px 0;
+      height:0px;
+      position:relative;
+      width:0;
       z-index:1;
+      float:bottom;
     }
+    
+    /* extra stuff for the purpose of this tutorial */
+    h2 {clear:both;}
     .shadow {border-bottom:solid 5px black;}
-
-    .inner_arrow_start {
-      background-color:red;
-      height:20px;
-      margin-left:5px;
-      margin-right:5px;
-      margin-top:5px;
-      position:absolute;
-      width:190px;
-      z-index:2;
-    }
-
+    .show_how_it_works {border-color:red blue green purple;}
     .transparency {opacity:0.5;}
     .text {clear:both;}  
-    .curved {-moz-border-radius-bottomleft:10px;
-
-    -moz-border-radius-topleft:10px;}
+    .curved {-moz-border-radius-bottomleft:10px;-webkit-border-radius-bottomleft:10px;-webkit-border-radius-topleft:10px;-moz-border-radius-topleft:10px;}
     </style>
+    <!--[if IE]>
+    <style type='text/css'>
+    .arrow_tail_horizontal {margin-top:25px;}
+
+    </style>
+    <![endif]-->
   </head>
   <body>
-    <div class='arrow_start'></div>
-    <div class='arrow_head'></div>
+    <h1>Basic Arrows</h1>
+      <div>
+        Creating a simple arrow in css is dead easy. All your need is a css stylesheet, two dom elements and you are ready to go. No blooming images! None of this CSS 3 magic. This makes use of the slanted borders technique which you can read up on <a href='http://www.infimum.dk/HTML/slantinfo.html'>here</a>.
+        Annoyingly IE (like usual) isn't playing ball. The resulting horizontal arrows when rendered in IE will not be pointed and the pointy bit will instead be flat. I'm not sure why but I'm sure there is a fix out there for this though I just haven't found it yet. Please let me know on <a href='http://www.jonrobson.me.uk/posts/Pointy css arrows without images'>the blog post which accompanies this experiment</a>.
+      </div>
+    
+    <h2>Horizontal Arrows</h2>
+<div class='text'>We construct an arrow from just 2 dom elements and head and a tail</div>    
+    <div class='arrow_tail_horizontal'>arrow tail element</div>
+    <div class='arrow_head_horizontal_right'></div>
+
+<div class='text'>How did that work? Well we just have 4 borders of different widths and different colours. The arrow head element itself has no width/height. In the following example I've made the arrow borders different colours to explain this clearer. By careful selection of colours you can change the below to give the illusion of an arrow.</div>
+    <div class='arrow_tail_horizontal'></div>
+    <div class='arrow_head_horizontal_right show_how_it_works'></div>
+
+    <div class='text'>To switch the direction of the arrow just fiddle with which border has width 0px and the colours and place the arrow head dom element before the arrow tail dom element.</div>
+    
+    <div class='arrow_head_horizontal_left'></div>
+    <div class='arrow_tail_horizontal'></div>
+
+    <div class='text'>The left border (purple one) now has no width and instead the right border (blue one) has the big width</div>
+
+    <div class='arrow_head_horizontal_left show_how_it_works'></div>
+    <div class='arrow_tail_horizontal'></div>
+    
+    <h2>Vertical Arrows</h2>
+    <div class='text'>These are now pretty simple to do. Now the tail becomes a div with margin-left instead of margin-top and a big height rather than big width.</div>
+    <div class='arrow_tail_vertical'></div>
+    <div class='arrow_head_vertical_down'></div>
+
+    <div class='arrow_head_vertical_up'></div>
+    <div class='arrow_tail_vertical'></div>
+
+    
+   <h2>Further fun and games</h2>
+   
 <div class='text'>with shadow</div>
-    <div class='arrow_start shadow'></div>
-    <div class='arrow_head'></div>
+    <div class='arrow_tail_horizontal shadow'></div>
+    <div class='arrow_head_horizontal_right'></div>
 
     <div class='text'>with transparent overlay</div>
         <div class='transparency'>
-          <div class='arrow_start'>
+          <div class='arrow_tail_horizontal'>
           </div>
-          <div class='arrow_head'>          
+          <div class='arrow_head_horizontal_right'>          
           </div>
         </div>
         
         <div class='text'>with curved start (mozilla only)</div>
            
-              <div class='arrow_start curved'>
+              <div class='arrow_tail_horizontal curved'>
               </div>
-              <div class='arrow_head '>          
+              <div class='arrow_head_horizontal_right '>          
               </div>
        
   </body>

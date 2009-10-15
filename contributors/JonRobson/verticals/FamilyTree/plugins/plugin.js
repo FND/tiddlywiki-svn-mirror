@@ -19,6 +19,7 @@ config.macros.FamilyTree = {
     }
     ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
         var namedprms = paramString.parseParams(null, null, true);
+
         var nodes = store.getTiddlers();
         var n = [];
         var edges = [];
@@ -32,7 +33,13 @@ config.macros.FamilyTree = {
 
             var tags = node.tags;
             if(tags.indexOf("systemConfig") == -1 && tags.indexOf("excludeTree") == -1 && tags.indexOf("excludeLists") == -1){ 
-              var json={id:nodes[i].title,properties:{label:nodes[i].title}};
+              var name_parts = id1.split(" ");
+              var initials = "";
+              for(var j=0; j < name_parts.length; j++){
+                  var part = name_parts[j];
+                  initials += part.charAt(0)+".";
+              }
+              var json={id:nodes[i].title,properties:{label:initials,hover:nodes[i].title}};
               var properties = json.properties;
               if(node.fields.sex){
                   if(node.fields.sex == 'M'){
@@ -101,9 +108,13 @@ config.macros.FamilyTree = {
         jQuery(div).append(str);
         var algorithmStr = "<select class='changeAlgorithm'><option value='-1'>change layout algorithm</option>";
         var algs =VismoGraphAlgorithms.available();
+       
         for(var i=0;i < algs.length; i++){
-            var alg = algs[i];
-            algorithmStr += "<option value='"+i+"'>"+alg.name+"</option>";
+            var alg_id = algs[i];
+            var alg = VismoGraphAlgorithms[alg_id];
+            if(alg.name){
+                algorithmStr += "<option value='"+alg_id+"'>"+alg.name+"</option>";
+            }
         }
         algorithmStr += "</select>";
         
@@ -111,13 +122,14 @@ config.macros.FamilyTree = {
         jQuery(".changeroot",div).change(function(e){
             if(this.value == "-1") return;
            that.vgr.clear();
-           that.vgr.compute();
+           that.vgr.compute(this.value);
         });
         jQuery(".changeAlgorithm",div).change(function(e){
            if(this.value == "-1") return;
-           config.activeTree.options.algorithm = this.value;
+           
+           that.vgr.algorithm(this.value);
             that.vgr.clear();
-              that.vgr.compute(this.value);
+            that.vgr.compute();
         });
         
         var requested_alg = getParam(namedprms,"algorithm");
@@ -129,7 +141,11 @@ config.macros.FamilyTree = {
             
         }
         var options = {graph:graph,"algorithm_name":alg,nodeWidth:20,nodeHeight:10,defaultNodeColor:"rgb(200,200,200)",lineColor:"rgb(255,255,255)",lineWidth:"4"};
-        
+     
+        for(var i=0; i < namedprms.length;i++){
+            var nameval = namedprms[i];
+            options[nameval.name] = nameval.value;
+        }
         if(rootid) options.root=rootid;
         var that = this;
         jQuery(tooltip).css({position:"absolute",display:"none"});

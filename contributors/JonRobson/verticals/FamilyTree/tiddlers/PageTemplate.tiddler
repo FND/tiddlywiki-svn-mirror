@@ -3,7 +3,7 @@
 <!--{{{-->
 <div class='ftTitle' refresh='content' force='true' tiddler='SiteTitle'></div>
 <div class='ftSubTitle' refresh='content' force='true' tiddler='SiteSubtitle'></div>
-<div macro="FamilyTree algorithm:hyperbolic">
+<div macro="FamilyTree algorithm:walkers lineType:quadratic">
 
 </div>
 

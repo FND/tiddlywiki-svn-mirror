@@ -38,8 +38,8 @@ http://thejit.org/
  */
 
 VismoGraphAlgorithms._utils ={   
-    name: "Radial"
-    ,labelContainer: 'label_container'
+
+    labelContainer: 'label_container'
 
     //Property: drawConcentricCircles
     //show/hide concentricCircles
@@ -258,7 +258,8 @@ VismoGraphAlgorithms._utils ={
  };
  
 VismoGraphAlgorithms.radial = {
-    reset: function(graph){
+        name: "Radial"
+    ,reset: function(graph){
         var nodes = graph.getNodes();
         for(var i=0; i < nodes.length; i++){
             var node = nodes[i];
