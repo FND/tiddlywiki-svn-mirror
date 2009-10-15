@@ -1,0 +1,12 @@
+<div title="ContentsSlideTheme" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
+<pre>
+/*{{{*/
+|''StyleSheet''|##Stylesheet|
+
+!StyleSheet
+.ContentsSlide {
+    background-color: rgb(12, 34, 56);
+}
+/*}}}*/
+</pre>
+</div>

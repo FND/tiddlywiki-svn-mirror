@@ -1,0 +1,3 @@
+<div title="TiddlerWithDefaultTemplate" modifier="Paul Downey" created="200801300000" tags="some random tags test">
+<pre>A Tiddler intended to pick the ViewTemplate slice from the [[TestTheme]] theme and the EditTemplate from the [[EditTemplate]] tiddler.</pre>
+</div>

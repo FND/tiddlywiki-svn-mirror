@@ -1,0 +1,16 @@
+<div title="TestTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch">
+<pre>
+/*{{{*/
+|''ViewTemplate''|##ViewTemplate|
+|''StyleSheet''|##StyleSheet|
+
+!ViewTemplate
+[[ViewTemplate]]
+
+!StyleSheet
+.TitleSlide {
+    background-color: rgb(128, 128, 128);
+}
+/*}}}*/
+</pre>
+</div>

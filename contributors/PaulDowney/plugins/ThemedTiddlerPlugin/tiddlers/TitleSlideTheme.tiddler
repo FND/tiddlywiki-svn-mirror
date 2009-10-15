@@ -1,0 +1,24 @@
+<div title="TitleSlideTheme" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
+<pre>
+/*{{{*/
+|''ViewTemplate''|##ViewTemplate|
+|''EditTemplate''|##EditTemplate|
+|''StyleSheet''|##StyleSheet|
+
+!ViewTemplate
+<div class="TitleSlide">
+[[ViewTemplate]]
+</div>
+
+!EditTemplate
+<div class="TitleSlide">
+[[EditTemplate]]
+</div>
+
+!StyleSheet
+.TitleSlide {
+    background-color: rgb(12, 34, 56);
+}
+/*}}}*/
+</pre>
+</div>
