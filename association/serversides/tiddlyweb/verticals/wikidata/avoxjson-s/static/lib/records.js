@@ -27,7 +27,26 @@ $(document).ready(function() {
 				{ bVisible: false }, // Operational Street 2
 				{ bVisible: false }, // Operational Street 3
 				null, // Operational City
-				null, // Operational State
+				{ fnRender: function(data) {
+					var country = ISO_3166.countries.iso2name[data.aData[15]];
+					var mapping;
+					switch(country) {
+						case "Australia":
+							mapping = ISO_3166["2:AU"];
+							break;
+						case "Canada":
+							mapping = ISO_3166["2:CA"];
+							break;
+						case "United States":
+							mapping = ISO_3166.usa;
+							break;
+						default:
+							// nothing
+							break;
+					}
+					var state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : "";
+					return state || null;
+				} }, // Operational State
 				{ fnRender: function(data) {
 					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || null;
 				} }, // Operational Country

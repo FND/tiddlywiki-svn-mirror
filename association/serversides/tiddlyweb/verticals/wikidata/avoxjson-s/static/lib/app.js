@@ -32,7 +32,7 @@ function addAdvSearchLine() {
 	/* keeping this "Any Field" option back until we can support it in search
 	<option>Any Field</option>\n
 	*/
-	var s = '<div class="advSearchLine">\n<select name="adv_'+i+'_field">\n<option>Legal Name</option>\n<option>Previous Name(s)</option>\n<option>Trades As Name(s)</option>\n<option>Trading Status</option>\n<option>Company Website</option>\n<option>Country of Registration</option>\n<option>Operational PO Box</option>\n<option>Operational Floor</option>\n<option>Operational Building</option>\n<option>Operational Street 1</option>\n<option>Operational Street 2</option>\n<option>Operational Street 3</option>\n<option>Operational City</option>\n<option>Operational State</option>\n<option>Operational Country</option>\n<option>Operational Postcode</option>\n</select></div>';
+	var s = '<div class="advSearchLine">\n<select class="field" name="adv_'+i+'_field">\n<option>Legal Name</option>\n<option>Previous Name(s)</option>\n<option>Trades As Name(s)</option>\n<option>Trading Status</option>\n<option>Company Website</option>\n<option>Country of Registration</option>\n<option>Operational PO Box</option>\n<option>Operational Floor</option>\n<option>Operational Building</option>\n<option>Operational Street 1</option>\n<option>Operational Street 2</option>\n<option>Operational Street 3</option>\n<option>Operational City</option>\n<option>Operational State</option>\n<option>Operational Country</option>\n<option>Operational Postcode</option>\n</select></div>';
 	var t ='<input name="adv_'+i+'_value" id="adv_'+i+'_value" size="35" type="text" />';
 	var u ='<a href="javascript:;" class="advanced" id="add_new_adv_'+i+'"><button onclick="return false;">+</button><!--<img src="/static/images/plus_small.gif" />--></a>';
 	var $advSearchLine = $(s).appendTo($('#advancedSearchLines')).append(t).append(u);
@@ -50,48 +50,118 @@ function addAdvSearchLine() {
 			oTable.fixedHeader.fnUpdate();
 		}
 	};
-	var countryFieldsToMap = [
-		//'Registered Country',
-		'Country of Registration',
-		'Operational Country'
+	/****** trying new way of handling events on filter box *****/
+	var countryFields = [
+		"Operational Country",
+		"Country of Registration"
 	];
-	$advSearchLine.find('select').change(function() {
-		var field = $(this).val();
-		if(this.mapped) {
-			if(countryFieldsToMap.indexOf(field)===-1) {
-				filterOnChange(null,this.mapped);
-				$(this).next().replaceWith(t);
-				$(this).next().keyup(function() {
-					filterOnChange(this);
+	var stateFields = [
+		"Operational State"
+	];
+	var dependencies = {
+		"Operational Country": [
+			"Operational State"
+		]
+	};
+	var statesForCountries = {
+		"Australia": ISO_3166["2:AU"],
+		"Canada": ISO_3166["2:CA"],
+		"United States": ISO_3166.usa
+	};
+	var countryDropDown = "<select>";
+	for(var n in ISO_3166.countries.name2iso) {
+		countryDropDown += "<option>"+n+"</option>";
+	}
+	countryDropDown += "</select>";
+	$advSearchLine.change(function(event) { try {
+		var $target = $(event.target);
+		var selected = $target.val();
+		var $value;
+		var currVal;
+		var name = 'adv_'+i+'_value';
+		var hiddenInputField;
+		if($target.hasClass('field')) {
+			if($.inArray(selected,countryFields)!==-1) {
+				$value = $target.next();
+				// $removed is a drop-down or an input
+				var $removed = $value.replaceWith($(countryDropDown));
+				$target.next().attr('name', '_ignore_'+name);
+				// throw away any hidden inputs as we've changed field
+				var $hidden = $target.parent().find('input:hidden').remove();
+				// take the pre-existing field value and see if we can set the new drop-down with it
+				currVal = $removed.val();
+				var newVal = ISO_3166.countries.iso2name[currVal];
+				if(newVal) {
+					$target.next().val(newVal);
+				}
+				// add in a hidden input field to store the code
+				hiddenInputField = '<input type="hidden" name="'+name+'" id="'+name+'" />';
+				$target.next().after(hiddenInputField).next().val(currVal);
+				// setup a list of fields that need to know about this field
+				var dependentFields = dependencies[selected];
+				$target[0].pendingDependencies = dependentFields;
+				// JRL - can we trigger dependents at this point?
+			} else if($.inArray(selected,stateFields)!==-1) {
+				// look for dependencies
+				$advSearchLine.parent().find('select.field').each(function() {
+					if(this.pendingDependencies) {
+						for(var i=0;i<this.pendingDependencies.length;i++) {
+							if($target.val()===this.pendingDependencies[i]) {
+								$target[0].isDependentOn = $(this).next().val();
+							}
+						}
+					}
 				});
-				$advSearchLine.find('input:hidden').remove();
-				this.mapped = null;
-			}
-		} else {
-			if(countryFieldsToMap.indexOf(field)!==-1) {
-				var $select = $('<select></select>');
-				for(var i in ISO_3166.countries.name2iso) {
-					$select.append('<option>'+i+'</option>');
+				if($target[0].isDependentOn && statesForCountries[$target[0].isDependentOn]) {
+					$value = $target.next();
+					currVal = $value.val();
+					var states = statesForCountries[$target[0].isDependentOn];
+					var stateDropDown = "<select>";
+					for(var s in states.name2iso) {
+						stateDropDown += "<option>"+s+"</option>";
+					}
+					stateDropDown += "</select>";
+					$value.replaceWith($(stateDropDown));
+					$target.next().attr('name','_ignore_'+name).val(states.iso2name[currVal]);
+					hiddenInputField = '<input type="hidden" name="'+name+'" id="'+name+'" />';
+					$target.next().after(hiddenInputField);
+					//$target.next().change();
+				} else {
+					if($target.next().is("select")) {
+						$target.parent().find('input:hidden').remove();
+						$target.next().replaceWith(t);
+					}
 				}
-				var $input = $advSearchLine.find('input');
-				var value = $input.val();
-				if(value) {
-					$select.val(ISO_3166.countries.iso2name[value]);
+			} else { // normal field
+				if($target.next().is("select")) {
+					$target.parent().find('input:hidden').remove();
+					$target.next().replaceWith(t);
+					filterOnChange(null,$target[0].index);
 				}
-				var name = $input.replaceWith($select)[0].name;
-				$advSearchLine.append($('<input type="hidden" name="'+name+'" id="'+name+'" />'));
-				$select
-					.attr('name', '_ignore_'+name)
-					.change(function() {
-						$('#'+name).val(ISO_3166.countries.name2iso[this.value]);
-						filterOnChange(this);
-					});
-				this.mapped = $advSearchLine.find('select')[0].selectedIndex;
 			}
+			$target[0].index = $target[0].selectedIndex;
+		} else { // it's a field value
+			if($target.is("select")) {
+				// figure out which mapping to use to update the display and the hidden input
+				var field = $target.prev().val();
+				var mapping;
+				if($.inArray(field,countryFields)!==-1) {
+					mapping = ISO_3166.countries.name2iso;
+				} else {
+					mapping = statesForCountries[$target.prev()[0].isDependentOn].name2iso;
+				}
+				currVal = $target.val();
+				$target.next().val(mapping[currVal]);
+			} else {
+				// it is an input box, no hidden input to update
+			}
+			filterOnChange(event.target);
 		}
-	});
-	$advSearchLine.find('input').keyup(function() {
-		filterOnChange(this);
+	} catch(ex) { console.log(ex); } });
+	$advSearchLine.keyup(function(event) {
+		if($(event.target).is("input")) {
+			filterOnChange(event.target);
+		}
 	});
 	$('#add_new_adv_'+i).click(function() {
 		addAdvSearchLine();
@@ -109,7 +179,7 @@ function addAdvSearchLine() {
 	}
 	return $advSearchLine;
 }
-$(document).ready(function() {
+$(document).ready(function() { try {
 	// set advanced search on a slider
 	$('#search a.advanced').click(function() {
 		addAdvSearchLine();
@@ -124,7 +194,6 @@ $(document).ready(function() {
 		if(params.q) {
 			$('#company_search_box').val(params.q.join(" "));
 		}
-		var advCount = 0;
 		for(var i in params) {
 			if(i.match(/adv_\d{1,2}_field/)) {
 				var val = params[i.replace('_field', '_value')];
@@ -140,4 +209,4 @@ $(document).ready(function() {
 			}
 		}
 	}
-});
+} catch(ex) { console.log(ex); } });
