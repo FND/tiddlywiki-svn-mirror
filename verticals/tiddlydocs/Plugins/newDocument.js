@@ -20,4 +20,5 @@ config.macros.newDocument.createDocumentOnClick = function(e, w) {
 		}
 		window.activeDocument = docName;
 		refreshAll();
+		return false;
 }
