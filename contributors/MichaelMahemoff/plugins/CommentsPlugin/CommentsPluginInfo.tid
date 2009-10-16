@@ -1,4 +1,5 @@
-<div title="CommentsPluginInfo" modifier="Mahemoff" created="200809101652" modified="200809191228" changecount="15">
+modifier:mahemoff
+
 !Usage
 <pre>This plugin provides a comments macro. Usage:
 &lt;&lt;comments&gt;&gt;
@@ -26,5 +27,3 @@ which does the right thing, as long as you are happy to put all comments into a 
 &lt;&lt;comments fields:"server.workspace:bag/comments" inheritedFields:"server.host,server.type"&gt;&gt;
 
 A typical tiddlyweb setup would be for the comments bag's policy to be set with all users having only "create" permissions. All other permissions should be admin-only. This is how comments typically work on a public website - users can append, but not edit or delete.
-
-</pre>

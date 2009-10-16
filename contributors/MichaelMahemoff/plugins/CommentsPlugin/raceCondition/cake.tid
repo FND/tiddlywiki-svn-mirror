@@ -1,0 +1,6 @@
+modifier:mahemoff
+
+This extended demo simulates a race condition, where two people open up a tiddlywiki at the same time and submit comments.
+
+!Comments with default options (<<commentsCount>> comments)
+<<comments editable>></pre>

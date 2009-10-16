@@ -1,0 +1,4 @@
+modifier:mahemoff
+
+|~ViewToolbar|closeTiddler closeOthers +editTiddler deleteTiddler fields >  syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|

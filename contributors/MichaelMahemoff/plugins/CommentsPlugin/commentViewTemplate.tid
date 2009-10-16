@@ -1,5 +1,6 @@
-<div title="commentViewTemplate" modifier="Mahemoff" created="200809101650" modified="200809181029" changecount="9">
-<pre><div class="comment">
+modifier:mahemoff
+
+<div class="comment">
   <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 
   <div class='title'>
@@ -9,5 +10,4 @@
 
   <div class='viewer' macro='view text wikified'></div>
   <div class='tagClear'></div>
-</div></pre>
 </div>
