@@ -1,5 +1,4 @@
 /*
- *
   TiddlyWiki Comments Plugin - Online demo at http://tiddlyguv.org/CommentsPlugin.html
 
   TODO:
@@ -56,6 +55,7 @@ enhanceViewTemplate: function() {
 },
 
 handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+  cmacro.treeifyComments(store.getTiddler("cake"));
   var macroParams = paramString.parseParams();
   var tiddlerParam = getParam(macroParams, "tiddler");
   tiddler = tiddlerParam ? store.getTiddler(tiddlerParam) : tiddler;
@@ -106,9 +106,6 @@ refreshCommentsFromRoot: function(rootCommentsEl, rootTiddler, macroParams) {
 },
 
 refreshComments: function(daddyCommentsEl, tiddler, macroParams) {
-  // cmacro.log("refreshComments - root", rootCommentsEl, "daddy", daddyCommentsEl,
-    // "tiddler ", tiddler, "macroParams ", macroParams);
-  // cmacro.log("refreshComments", arguments);
 
   var commentsEl;
   if (tiddler.fields.daddy) {
@@ -129,17 +126,42 @@ refreshComments: function(daddyCommentsEl, tiddler, macroParams) {
 
 treeifyComments: function(rootTiddler) {
 
+  // First, clear the tree data
   var comments = cmacro.findCommentsFromRoot(rootTiddler);
+  var nodes=comments.concat(rootTiddler);
+  for (var i=0; i<nodes.length; i++) {
+    delete nodes[i]["firstChild"];
+    delete nodes[i]["next"];
+  }
 
+  // Now walk through each comment
   cmacro.forEach(comments, function(comment) {
     var prev = comment.fields.prev;
     var daddy = comment.fields.daddy;
     if (prev) {
-      store.getTiddler(prev).next = comment;
+      var prevTiddler = store.getTiddler(prev);
+      if (prevTiddler.next) {
+        for (var lastChild=prevTiddler.next; lastChild.next; lastChild=lastChild.next)
+          ;
+        lastChild.next = comment;
+      // } else {
+      } else {
+        prevTiddler.next = comment;
+      }
     } else {
-      store.getTiddler(daddy).firstChild = comment;
+      var daddyTiddler = store.getTiddler(daddy);
+      if (daddyTiddler.firstChild) {
+        for (var lastChild=daddyTiddler.firstChild; lastChild.next; lastChild=lastChild.next)
+          ;
+        lastChild.next = comment;
+      } else {
+        daddyTiddler.firstChild = comment;
+      }
     }
   });
+  for (var i=0; i<comments.length; i++) {
+    var c=comments.sort()[i];
+  }
 
 },
 
