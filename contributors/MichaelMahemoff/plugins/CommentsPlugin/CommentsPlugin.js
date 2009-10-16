@@ -1,4 +1,5 @@
 /*
+ *
   TiddlyWiki Comments Plugin - Online demo at http://tiddlyguv.org/CommentsPlugin.html
 
   TODO:
