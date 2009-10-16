@@ -43,7 +43,7 @@ jQuery(document).ready(function () {
         same(story.chooseTemplateForTiddler("TitleSlide", DEFAULT_EDIT_TEMPLATE), "TitleSlideTheme##EditTemplate",
             "should use EditTemplate from TitleSlideTheme");
 
-        same(jQuery("#tiddlerTitleSlide .TitleSlide").css('background-color'), "rgb(12, 34, 56)",
+        same(jQuery("#tiddlerTitleSlide").css('background-color'), "rgb(12, 34, 56)",
             "should use StyleSheet slice from TitleSlideTheme");
     });
 
@@ -52,5 +52,7 @@ jQuery(document).ready(function () {
         same(story.chooseTemplateForTiddler("ContentsSlide", DEFAULT_EDIT_TEMPLATE), "EditTemplate",
             "should use default EditTemplate ");
 
+        same(jQuery("#tiddlerContentsSlide").css('background-color'), "rgb(78, 90, 123)",
+            "should use StyleSheet slice from ContentSlideSlideTheme");
     });
 });

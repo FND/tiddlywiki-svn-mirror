@@ -4,8 +4,8 @@
 |''StyleSheet''|##Stylesheet|
 
 !StyleSheet
-.ContentsSlide {
-    background-color: rgb(12, 34, 56);
+.ContentsSlideTheme {
+    background-color: rgb(78, 90, 123);
 }
 /*}}}*/
 </pre>

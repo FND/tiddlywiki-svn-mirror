@@ -1,0 +1,12 @@
+<div title="SlideTheme" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
+<pre>
+/*{{{*/
+|''StyleSheet''|##Stylesheet|
+
+!StyleSheet
+.SlideTheme {
+    background-color: rgb(200, 200, 200);
+}
+/*}}}*/
+</pre>
+</div>

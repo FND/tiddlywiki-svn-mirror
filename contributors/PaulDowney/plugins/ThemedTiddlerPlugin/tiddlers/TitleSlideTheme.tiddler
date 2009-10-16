@@ -6,17 +6,13 @@
 |''StyleSheet''|##StyleSheet|
 
 !ViewTemplate
-<div class="TitleSlide">
 [[ViewTemplate]]
-</div>
 
 !EditTemplate
-<div class="TitleSlide">
 [[EditTemplate]]
-</div>
 
 !StyleSheet
-.TitleSlide {
+.TitleSlideTheme {
     background-color: rgb(12, 34, 56);
 }
 /*}}}*/

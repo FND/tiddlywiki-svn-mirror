@@ -1,6 +1,6 @@
 /***
-|''Name:''|ThemedTiddlerPlugin|
-|''Description:''| Per-Tiddler Mini-Themes |
+|''Name:''|ThemedTiddlerPlugin |
+|''Description:''|Per-Tiddler Mini-Themes |
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/ThemedTiddlerPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/ThemedTiddlerPlugin/ |
@@ -9,13 +9,16 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
 !!Documentation
-The extended field "theme" maybe used to reference a tiddler containing a mini-theme containing a [[ViewTemplate]], [[EditTemplate]] and [[StyleSheet]] sections which may be, applied when the tiddler is displayed. Additionally a class of the "theme" name is added to the tiddler which may be useful 
-See the [[TitleSlide]], [[TitleSlideTheme]], [[ContentsSlide]] and [[ContentsSlideTheme]] tiddlers for examples of how this may be used.
+The extended field "theme" is used to reference a tiddler containing a "mini-theme"
+
+A mini-theme is a tiddler containing a [[ViewTemplate]], [[EditTemplate]] and [[StyleSheet]] sections which are applied when the tiddler is displayed. 
+
+In addition, a CSS class of the theme name is added to the tiddler which may be useful when writing a mini-theme [[StyleSheet]]. 
 !!Code
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global Story, store */
+/*global Story, store, setStylesheet, addClass */
 if (!version.extensions.ThemedTiddlerPlugin) {
     version.extensions.ThemedTiddlerPlugin = {installed: true};
 
