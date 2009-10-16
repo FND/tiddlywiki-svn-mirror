@@ -124,10 +124,28 @@ refreshComments: function(daddyCommentsEl, tiddler, macroParams) {
 
 },
 
+// This has become more complex due to "confused comments" - multiple comments
+// pointing back to the same daddy (which implies they all think they're the first
+// child) or a single "2nd-last" sibling (which implies they all think they're the
+// last sibling). This happens in the typical "atomic transaction 101" scenario -
+// user A opens wiki, user B opens wiki, one of the users submits a comment, 
+// the other user submits a comment.
+//
+// Normally, each comment says "make my daddy's first child be me", or "make my prev
+// sibling's next sibling be me". That's how the tree gets built. But to deal
+// with confused comments, we now have to check if daddy/prev is already pointing
+// to something. If so, we will have to walk through the list to find the right place
+// for the new item.
+//
+// We begin by sorting by date; if we can assume we are walking through the comments by date, 
+// the confused comments will appear in the right order.
 treeifyComments: function(rootTiddler) {
 
   // First, clear the tree data
-  var comments = cmacro.findCommentsFromRoot(rootTiddler);
+  // We sort the comments to ensure "confused" comments
+  var comments = cmacro.findCommentsFromRoot(rootTiddler).sort(function(a,b) {
+    return a.modified > b.modified;
+  });
   var nodes=comments.concat(rootTiddler);
   for (var i=0; i<nodes.length; i++) {
     delete nodes[i]["firstChild"];
