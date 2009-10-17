@@ -1,4 +1,4 @@
-<div title="DefaultTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch TiddlyResumeTheme">
+<div title="DefaultTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch">
 <pre>
 |''StyleSheet''|##StyleSheet|
 
@@ -6,15 +6,6 @@
 [[StyleSheet]]
 /*{{{*/
 
-.hresume {
-	padding: 2em;
-}
-
-
-
 /*}}}*/
-
-
-
 </pre>
 </div>
