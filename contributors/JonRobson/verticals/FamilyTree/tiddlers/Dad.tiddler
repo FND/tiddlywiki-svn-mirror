@@ -1,5 +1,6 @@
-<div title="Dad" tags="rootTree" spouse="Mum" sex="M">
+<div title="Dad" tags="rootTree teacher" spouse="Mum" sex="M" >
 <pre>
 Enter some details about your dad here.
+< <VGraph algorithm:hyperbolic parentFields:{{['tags']}} root:teacher> >
 </pre>
 </div>

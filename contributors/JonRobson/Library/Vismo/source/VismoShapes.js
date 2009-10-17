@@ -279,7 +279,7 @@ var VismoShape = function(properties,coordinates){
 
 VismoShape.prototype={
     isCommand: function(i){
-        if(i == 'M' || i =='b' || i =='q'){
+        if(i == 'M' || i =='c' || i =='q'){
             return true;
         }
         else{

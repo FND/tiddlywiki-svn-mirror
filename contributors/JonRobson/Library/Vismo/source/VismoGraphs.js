@@ -160,6 +160,7 @@ VismoGraph.prototype = {
     } 
     ,addNode: function(nodejson){
         var id = nodejson.id;
+     
         if(!nodejson.properties){
             nodejson.properties = {};
         }
@@ -168,6 +169,7 @@ VismoGraph.prototype = {
     }
     ,addEdge: function(a,b){
         //not working properly with new lines
+        if(typeof(a) !="string"||typeof(b) != "string") return;
         a = a.replace(/\n/,"");
         b= b.replace(/\n/,"");
         
@@ -176,6 +178,11 @@ VismoGraph.prototype = {
             return;
         
         }
+        var p = this.getNode(a);
+        var c = this.getNode(b);
+        if(!p) this.addNode({id:a,properties:{name:a}});
+        if(!c) this.addNode({id:b,properties:{name:b}});
+
         if(!this._children[a]) this._children[a] = [];
         if(!this._parents[b]) this._parents[b] = [];
         
@@ -188,6 +195,10 @@ VismoGraph.prototype = {
     }
 };
 
+/* options 
+algorithm: name of an algorithm defined in VismoGraphAlgorithms
+
+*/
 var VismoGraphRenderer = function(place,options){
 
     if(!options.lineColor){
@@ -202,8 +213,8 @@ var VismoGraphRenderer = function(place,options){
     if(!options.lineType){
         options.lineType = 'normal';
     }
-    if(options["algorithm_name"]){
-        options.algorithm = VismoGraphAlgorithms[options["algorithm_name"]];
+    if(options["algorithm"]){
+        options.algorithm = VismoGraphAlgorithms[options["algorithm"]];
     }
     
     if(!options.algorithm){
@@ -264,7 +275,9 @@ VismoGraphRenderer.prototype = {
             node.YPosition = false;
         }
     }
-
+    ,graph: function(){
+        return this._graph;
+    }
     ,compute: function(root){
         this.reset();
         if(!root) root = this.options.root;
@@ -293,7 +306,7 @@ VismoGraphRenderer.prototype = {
         var y = -node.YPosition;
         var x = node.XPosition;
         this.plotNode(id,{x:x,y:y});
-        this.plotLabel(node,{x:x,y:y});
+        
         var children = this._graph.getChildren(id);
         for(var i=0; i < children.length; i++){
             var parentpos = {x:x,y:y};
@@ -306,8 +319,25 @@ VismoGraphRenderer.prototype = {
                 else if(lineType == 'normal'){
                     this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(["M",parentpos.x,parentpos.y,childxy.x,childxy.y]);                    
                 }
+                else if(lineType =='bezier'){
+                    var hdistance = parentpos.x - childxy.x;
+                    var vdistance = parentpos.y - childxy.y;
+                    var b1,b2;
+                    b2 = -vdistance/2;
+                    b1 = -hdistance/10;
+                   
+                    if(hdistance == 0){
+                        b1 = 0;
+                        b2 = 0;
+                    }
+                    
+                    
+                    var coords = ["M",parentpos.x,parentpos.y,"c",parentpos.x +b1, parentpos.y, childxy.x, childxy.y-b2,childxy.x,childxy.y];
+                    this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(coords);
+                }
             }
         }
+        
         return {x: x,y:y};
     }
     
@@ -325,18 +355,20 @@ VismoGraphRenderer.prototype = {
             node.properties.coordinates = coords;
             if(!node.properties.fill)node.properties.fill = this.options.defaultNodeColor;
             var shape= new VismoShape(node.properties);
-            this._canvas.add(shape);          
+            this._canvas.add(shape);   
+             this.plotLabel(node,{x:pos.x,y:pos.y},shape);       
         }
         else{
             var b = exists.getBoundingBox();
             pos = b.center;
         } 
-        
+       
         return pos;
         
     }
 
-    ,plotLabel: function(node,pos){
+    ,plotLabel: function(node,pos,vismoShape){
+   
         var el = document.createElement("div");
         var props = node.properties;
         if(props.hover){
@@ -347,12 +379,12 @@ VismoGraphRenderer.prototype = {
         if(props.label){
             el.innerHTML = props.label;
         }
-        if(node._depth){
+        if(typeof("node._depth") != 'undefined'){
             var fromroot = node._depth;
             if(fromroot < 0) fromroot = - fromroot;
             jQuery(el).addClass("fromRoot"+fromroot);
         }
         jQuery(el).hover(function(e){jQuery(this).addClass("hoverNode");},function(e){jQuery(this).removeClass("hoverNode");});
-        this._canvas.addLabel(el,pos.x,pos.y);
+        this._canvas.addLabel(el,pos.x,pos.y,vismoShape);
     }
  };

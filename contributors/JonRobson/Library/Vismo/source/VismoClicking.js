@@ -695,6 +695,7 @@ VismoCanvas.prototype = {
 	    var domElement = arguments[0];
 	    var x=  arguments[1];
 	    var y = arguments[2];
+	    var shape = arguments[3]
 	    jQuery(domElement).addClass("canvasLabel");
 	    this.labelHolder.appendChild(domElement);
 	    var h = jQuery(domElement).height();
@@ -708,6 +709,11 @@ VismoCanvas.prototype = {
 	    jQuery(domElement).attr("v_w",w);
 	    jQuery(domElement).attr("v_h",h);
 	    jQuery(domElement).css({position:"absolute",top:top,left:left});
+	    var that = this;
+	
+	    jQuery(domElement).dblclick(function(e){that.ondblclick(e,shape);});
+	    jQuery(domElement).mouseup(function(e){that.onmouseup(e,shape);});
+	    jQuery(domElement).mousedown(function(e){that.onmousedown(e,shape);});
 	}
 	,transform: function(args){
 	    var t = arguments[0];

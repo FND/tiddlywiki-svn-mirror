@@ -79,7 +79,7 @@ VismoGraphAlgorithms.walkers ={
     _firstWalk: function (graph, node, level) {
     		////console.log("walking",node);
     		var leftSibling = null;
-		
+		    node._depth = level;
             node.XPosition = 0;
             node.YPosition = 0;
             
