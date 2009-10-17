@@ -1,3 +1,18 @@
+/***
+|''Name:''|Inclusifier|
+|''Description:''|@@@Description@@@|
+|''Author:''|Michael Mahemoff (mahemoff (at) osmosoft (dot) com) |
+|''Source:''| |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/verticals/TiddlySlidy/plugins/Inclusifier.js |
+|''Version:''|0.1|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.4|
+!!Documentation
+
+!!Code
+***/
+//{{{
 (function() {
 
 if (!version.extensions.InclusifierPlugin) {
@@ -74,3 +89,4 @@ if (!version.extensions.InclusifierPlugin) {
 }
 
 })();
+//}}}
