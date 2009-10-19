@@ -210,10 +210,14 @@ div.notice {
 }
 #columnPicker .columns {
 	display: none;
+	position: relative;
 	width: 200px;
 }
 #columnPicker .controls {
 	float: right;
+	position: absolute;
+	top: 0px;
+	right: 0px;
 }
 #columnPicker .hideControl {
 	font-weight: bold;
