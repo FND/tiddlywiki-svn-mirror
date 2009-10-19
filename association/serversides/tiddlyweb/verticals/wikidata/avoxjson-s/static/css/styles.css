@@ -324,6 +324,9 @@ tfoot th {
 	margin: 1em 0;
 }
 /* challenge, request and suggest_new tables */
+#challenge {
+	position: relative;
+}
 #challenge div.left, #request div.left, #suggest_new div.left {
 	width: 500px;
 	display: inline-block;
@@ -332,6 +335,9 @@ tfoot th {
 	width: 300px;
 	padding-right: 20px;
 	line-height: 16px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
 }
 #challenge div.right label, #request div.right label, #suggest_new div.right label {
 	margin-top: 5px;
