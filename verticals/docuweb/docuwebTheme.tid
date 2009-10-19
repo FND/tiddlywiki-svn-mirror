@@ -38,7 +38,9 @@ tags: systemTheme  excludeLists excludeSearch
 
 </div>
 		<div class='viewer' macro='view text wikified'></div>
-		<div macro='comments'></div>
+		<div macro='commentSlider'>
+		
+		</div>
 <!--}}}-->
 
 
