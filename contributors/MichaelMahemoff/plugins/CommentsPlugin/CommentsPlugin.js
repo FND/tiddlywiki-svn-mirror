@@ -55,7 +55,6 @@ enhanceViewTemplate: function() {
 },
 
 handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-  cmacro.treeifyComments(store.getTiddler("cake"));
   var macroParams = paramString.parseParams();
   var tiddlerParam = getParam(macroParams, "tiddler");
   tiddler = tiddlerParam ? store.getTiddler(tiddlerParam) : tiddler;
