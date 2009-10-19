@@ -16,6 +16,8 @@ tags: systemTheme  excludeLists excludeSearch
 	<div id="top">
 		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>		
+		
+		<div macro='search' class='float-right'></div>
 	</div>
 	<div id="leftnav">
 		<div div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
@@ -42,7 +44,7 @@ tags: systemTheme  excludeLists excludeSearch
 !StyleSheet
 
 body {
-	background:#aaa;ter
+	background:#aaa;
 }
 
 .siteTitle {
@@ -107,6 +109,10 @@ background-color: #ddd;
 	
 }
 
+.toolbar {
+	position:relative;
+	top:-2em;
+}
 .tiddler {
 	margin: 1em;
 	padding:2em;
@@ -143,6 +149,11 @@ html body .comment {
 
 html body .comment .reply {
 	padding-right:2em;
+}
+
+
+.float-right, .right {
+	float:right;
 }
 
 /* END Comments CSS */
