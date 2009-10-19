@@ -310,7 +310,7 @@ function getElementChild(el,tag){
 
       
                 
-			var eMap = new VismoMap(wrapper,{dblclick:onmup,projection:proj,tooltip:true});			
+			var eMap = new VismoMap(wrapper,{vismoController:{},dblclick:onmup,projection:proj,tooltip:true});			
 			geomaps[geoid] = eMap;
 			var that = eMap;
 			var myElement = document.getElementById('caption');

@@ -1,4 +1,5 @@
 recipe: $TW_TRUNKDIR/contributors/JonRobson/Library/Vismo/source/GraphAlgorithms/split.recipe
+tiddler: $TW_TRUNKDIR/contributors/JonRobson/plugins/VGraph/plugins/VGraph.tid
 tiddler: plugin.js utils.js tweaks.js
 recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/VismoLibrary/split.recipe
 recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/AdvancedEditTemplate/plugins/split.recipe

@@ -14,5 +14,4 @@ js: VismoShapes.js
 js: VismoShapesRendering.js 
 js: VismoTransformations.js
 js: VismoGraphs.js
-js: VismoGraphRenderer.js
 js: VismoVector.js

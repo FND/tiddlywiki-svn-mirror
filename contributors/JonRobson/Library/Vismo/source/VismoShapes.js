@@ -263,6 +263,7 @@ var VismoShape = function(properties,coordinates){
 	this.height =0;
 	this.properties = {};
 	this.setProperties(properties);
+	//if(!this.properties.lineWidth)this.properties.lineWidth = "0.2";
 	if(coordinates[0] && coordinates[0].length == 2){
 		coordinates = VismoOptimisations.unpackCoordinates(coordinates);	
 	}
@@ -415,6 +416,10 @@ VismoShape.prototype={
 	}
 	,render: function(canvas,transformation,projection,optimisations, browser,pointsize){
 	    VismoTimer.start("VismoShape.render");
+        var lw = this.properties.lineWidth;
+        if(lw && transformation && transformation.scale && transformation.scale.x){
+            this.properties.lineWidth = lw / transformation.scale.x;
+        }
         this.setPointSize(pointsize); 
 		var mode = this.getRenderMode(canvas);
 		if(mode == 'ie'){
@@ -424,7 +429,8 @@ VismoShape.prototype={
 	        this.render_canvas(canvas,transformation,projection,optimisations, browser);
 	        //this.render = this.render_canvas;
 		}
-		 VismoTimer.end("VismoShape.render");	
+		this.properties.lineWidth = lw;
+		VismoTimer.end("VismoShape.render");	
 	}
 	,render_ie: function(canvas,transformation,projection,optimisations, browser){
 	    

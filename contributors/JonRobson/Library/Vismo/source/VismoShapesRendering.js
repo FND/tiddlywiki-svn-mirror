@@ -5,6 +5,7 @@ var VismoCanvasRenderer = {
 		var shapetype =vismoShape.properties.shape;
 		if(vismoShape.properties["lineWidth"]){
 			ctx.lineWidth = vismoShape.getProperty("lineWidth");
+			
 		}
 		
 		ctx.save();
@@ -43,6 +44,7 @@ var VismoCanvasRenderer = {
 	        
 	}
 	,renderPath: function(ctx,vismoShape,join){
+	    
 		var move = true,quadraticCurve = false,bezierCurve = false;
 		var c = vismoShape.getCoordinates();
 		var t =vismoShape.getProperty("transformation");

@@ -579,7 +579,7 @@ VismoCanvas.prototype = {
 	
 	,setTransformation: function(args){
 	    var transformation = arguments[0];
-	    
+	    this._transformLabels(transformation);
         //console.log(transformation.origin.x,transformation.translate.x,transformation.translate.y);
         if(!transformation.origin){
                 transformation.origin = {};
@@ -591,14 +591,15 @@ VismoCanvas.prototype = {
 		var t = transformation.translate, s = transformation.scale;	
 	    transformation.cache = {id1:[s.x,",",s.y].join(""),id2:[t.x,",",t.y].join("")};
 	  
-	    this._transformLabels(args);
+	    
 	}
-    ,_transformLabels: function(){
+    ,_transformLabels: function(transformation){
+        //console.log("in transformLabels");
         
-        var transformation = arguments[0];
         var translate = transformation.translate;
         var scale = transformation.scale;
         var o = {x:this.width()/2,y:this.height()/2};
+         jQuery(this.labelHolder).css({top:parseInt(translate.y*scale.y),left:parseInt(translate.x *scale.x)});
         
         //console.log("labels",translate.x,translate.y,scale.x,scale.y);
         this._eachLabel(function(label){
@@ -617,12 +618,14 @@ VismoCanvas.prototype = {
             var w = parseFloat(jql.attr("v_w")) * scale.x;
             var h = parseFloat(jql.attr("v_h")) * scale.y;
           
-            var cssStr = {top:o.y+(y*scale.y),left: o.x + (x * scale.x)};
+          var l =o.x + (x * scale.x);
+          var t = o.y+(y*scale.y);
+          
+            var cssStr = {top:t,left: l};
             
             jql.css(cssStr);
             
         });
-        jQuery(this.labelHolder).css({top:translate.y*scale.y,left:translate.x *scale.x})
     }
     ,_eachLabel: function(f){
         var labels = jQuery("*",this.labelHolder);
@@ -631,7 +634,7 @@ VismoCanvas.prototype = {
         }
     }
     ,centerOn: function(x,y){
-        
+       
         var t=  this.getTransformation();
         t.translate.x = -x;
         t.translate.y = -y;
@@ -711,6 +714,7 @@ VismoCanvas.prototype = {
 	    jQuery(domElement).css({position:"absolute",top:top,left:left});
 	    var that = this;
 	
+	    
 	    jQuery(domElement).dblclick(function(e){that.ondblclick(e,shape);});
 	    jQuery(domElement).mouseup(function(e){that.onmouseup(e,shape);});
 	    jQuery(domElement).mousedown(function(e){that.onmousedown(e,shape);});

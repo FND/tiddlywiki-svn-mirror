@@ -7,7 +7,11 @@
 |''Dependencies:''| Requires jQuery|
 |''Comments:''|Please raise questions and make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
-|''Usage:''|
+|''Contributors:''"|
+Graph algorithms for VismoGraphs come from uses code from ECO Tree http://www.codeproject.com/KB/scripting/graphic_javascript_tree.aspx#quick|
+and Nicolas Belmonte's JIT library (http://thejit.org/)
+|
+"|''Usage:''|
 Not much good on it's own - it provides some nice functions to create graphicsy plugins.
 Currently provides horsepower to the following plugins amongst others:
 GeoTiddlyWiki (http://www.jonrobson.me.uk/workspaces/tiddlers/GeoTiddlyWiki/), ImageTaggingPlugin, TiddlyTagMindMap (http://tiddlytagmindmap.tiddlyspot.com)

@@ -63,7 +63,23 @@ var VismoOptimisations = {
 		}
 		
 	}
-  
+    ,inVisibleArea: function(el,x,y,transformation){
+        	var left = 0,top = 0;
+        	
+        	var right =  jQuery(el).width(); 
+    		var bottom = jQuery(el).height();
+    	
+    		var topleft =  VismoClickingUtils.undotransformation(left,top,transformation);
+    		var bottomright =  VismoClickingUtils.undotransformation(right,bottom,transformation);				
+            if(x < bottomright.x && x > topleft.x && y < bottomright.y && y > topleft.y){
+                
+                return true;
+            }
+            else{
+                console.log("bad",el,x,y,transformation,topleft,bottomright);
+                return false;
+            }
+    }
 	,vismoShapeIsInVisibleArea: function(vismoShape,canvas,transformation){
 	    var t1= new Date();
 		var left = 0,top = 0;

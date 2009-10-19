@@ -49,7 +49,7 @@ VismoGraphAlgorithms.hyperbolic ={
         var md = utils.getMaximumDepth();
         this.size.width = options.canvas_width *  (md);
         this.size.height = options.canvas_height * (md);
-        console.log(utils,md,this.size.width,this.size.height);
+        //console.log(utils,md,this.size.width,this.size.height);
         
         utils.computeAngularWidths(graph); 
         
