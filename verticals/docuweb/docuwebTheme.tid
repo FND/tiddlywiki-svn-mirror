@@ -18,7 +18,7 @@ tags: systemTheme  excludeLists excludeSearch
 		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>		
 	</div>
 	<div id="leftnav">
-		<div  macro='tagsTree menu'></div>
+		<div  tiddler='MainMenu' id='MainMenu'></div>
 	</div>
 	<div id="content">
 		<div id='tiddlerDisplay'></div>
@@ -45,7 +45,7 @@ tags: systemTheme  excludeLists excludeSearch
 !StyleSheet
 
 body {
-	background:#aaa;
+	background:#aaa;ter
 }
 
 .siteTitle {
