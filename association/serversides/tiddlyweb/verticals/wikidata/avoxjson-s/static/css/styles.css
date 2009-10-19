@@ -179,6 +179,7 @@ div.notice {
 #recordsTableContainer {
 	width: 100%;
 	border: 1px solid #000000;
+	overflow: hidden;
 }
 #results {
 	background-color: #000000;
