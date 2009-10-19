@@ -13,7 +13,6 @@ tiddler: Plugins/tdocsSectionButtons.js
 tiddler: Plugins/tdocsPreview.js
 tiddler: Plugins/tdocsPrint.js
 tiddler: Plugins/tdocsSettings.js
-tiddler: Plugins/commentSlider.js
 tiddler: Plugins/HIJACK_saveOptionCookie.js
 
 tiddler: jquery/01_jQuery.js
@@ -53,6 +52,8 @@ tiddler: ../../contributors/SimonMcManus/plugins/googleButtons.js
 tiddler: ../../contributors/SimonMcManus/plugins/editDefinitions.js
 tiddler: ../../contributors/SimonMcManus/plugins/secretBackstage.js
 tiddler: ../../contributors/SimonMcManus/plugins/failedSaveNotification.js
+tiddler: ../../contributors/SimonMcManus/plugins/commentSlider.js
+
 
 # using local version with unix line breaks
 #tiddler: Plugins/SinglePageModePlugin_DOS2UNIX.js
