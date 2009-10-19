@@ -265,30 +265,11 @@ tags: systemTheme  excludeLists excludeSearch
 
 !ViewTemplate
 <!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle iconShift">
 
-			<div class='title' macro='view title'>
-
-<div class='title-right'>
+<div class='title' macro='view title'></div>
 <div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
-
-</div>
-</div>
-		</div>
-	</div>
-	<div class="portletContent portletContentIconShift">
-			<div style='z-index:22' class='taskControls' macro='tiddler TaskTiddlerControls'></div>
-		<div class='viewer' macro='view text wikified'></div>
-<div macro='commentSlider'>
-	<div class='right links' macro='docSectionButtons'>
-	</div>
-</div>
-	</div>
-</div>
+<div class='viewer' macro='view text wikified'></div>
+<div macro='commentSlider'></div>
 <!--}}}-->
 
 !documentViewTemplate

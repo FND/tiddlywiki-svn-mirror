@@ -18,7 +18,7 @@ tags: systemTheme  excludeLists excludeSearch
 		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>		
 	</div>
 	<div id="leftnav">
-		<div  tiddler='MainMenu' id='MainMenu'></div>
+		<div div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 	</div>
 	<div id="content">
 		<div id='tiddlerDisplay'></div>
@@ -32,15 +32,10 @@ tags: systemTheme  excludeLists excludeSearch
 
 !ViewTemplate
 <!--{{{-->
-			<div class='title' macro='view title'>
-
+<div class='title' macro='view title'></div>
 <div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
-
-</div>
-		<div class='viewer' macro='view text wikified'></div>
-		<div macro='commentSlider'>
-		
-		</div>
+<div class='viewer' macro='view text wikified'></div>
+<div macro='commentSlider'></div>
 <!--}}}-->
 
 
