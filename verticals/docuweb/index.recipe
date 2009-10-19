@@ -1,13 +1,5 @@
 tiddler: docuwebTheme.tid
 tiddler: setDocuwebTheme.js
-tiddler: SiteTitle.tid
-tiddler: content/FAQ.tid
-tiddler: content/Printing.tid
-tiddler: content/Installation.tid
-tiddler: content/TiddlyWeb.tid
-tiddler: content/TiddlyWiki.tid
-tiddler: content/Help.tid
-tiddler: content/Issues.tid
 tiddler: content/ToolbarCommands.tid
 tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../contributors/SimonMcManus/plugins/commentSlider.js
