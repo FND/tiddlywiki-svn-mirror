@@ -1,0 +1,15 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# The plugin
+tiddler: StructurePlugin.js
+
+# Demo
+tiddler: DefaultTiddlers
+tiddler: elephant
+tiddler: elephant_Title
+tiddler: elephant_Author
+tiddler: SiteTitle
+tiddler: SiteSubtitle
+tiddler: bookStructure
+tiddler: PopularitySection
