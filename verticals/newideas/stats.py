@@ -162,6 +162,10 @@ def operate_on_stats(environ,start_response):
   start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8'),('Location',environ.get('HTTP_REFERER', '/'))])
   action = environ['wsgiorg.routing_args'][1]['action']
   success = True
+  try:
+    title = environ['tiddlyweb.query']['tiddler'][0]
+  except KeyError:
+    title = False
   if action == 'INCREMENT':
   	success = stat_increment(environ)
   elif action == 'DO':
@@ -185,9 +189,9 @@ def operate_on_stats(environ,start_response):
       votedon = False
     
     if not votedon:
-      votedon = username
+      votedon = title
     else:
-      votedon += ",%s"%username
+      votedon += ",%s"%title
       
     tiddler.fields["votes"] = votedon
     store.put(tiddler)
