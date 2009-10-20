@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <title>CSS Timeline</title>
+    <script type='text/javascript' src='timeline.js'></script>
+    <script type='text/javascript' src='../../Library/jquery.js'></script>
+    <style type='text/css'>
+    .clear_arrow {clear:both;}
+    .arrow_tail {background-color:maroon;position:relative;color:white;}
+    .holder {position:relative;}
+    .arrow {}
+    .arrow_head {cursor:pointer;border-color:white white white maroon;border-style:solid;width:0px;height:0px;position:relative;}
+    .timeSpanner {position:absolute;background-color:black;color:white;overflow:hidden;height:20px;}
+    .timelineContainer {overflow-x:scroll;overflow-y:hidden;position:relative;}
+    .unit {border-left:solid 1px white;float:left;position:relative;}
+    .timelineContainer .start {position:absolute;width:10px;background-color:black;height:500px;}
+    .nowPoint {top:0px;margin-left:10px;width:2px;z-index:2;background-color:red;position:absolute;height:100%;}
+    /* extra stuff for the purpose of this tutorial */
+    
+    </style>
+    <!--[if IE]>
+    <style type='text/css'>
+    .arrow_tail_horizontal {margin-top:25px;}
+
+    </style>
+    <![deliveryif]-->
+  </head>
+  <body>
+    <h1>Timeline</h1>
+    <div class='holder'>
+      
+    </div>
+    <div class='timelinetooltip'></div>
+    <script type='text/javascript'>
+    var defs = [{label:"Get out of bed",t1:2,t2:6,t3:32},{label:"Have shower",t1:6,t2:8,t3:32,t4:34},{label:"Get dressed",t1:8,t2:9,t3:32},{label:"Eat breakfast",t1:9,t2:12,t3:12},{label:"Brush teeth",t1:13,t2:20,t3:32},{label:"Get early train",t1:20,t2:30,t3:32},{label:"Arrive at work",t1:30,t2:32,t3:32}];
+
+    var move = function(e,p){
+      if(!p) return;
+      var i,text=""; 
+      for(i in p){
+        var property = p[i];
+        var typ =typeof(property);
+        if(typ== 'string' | typ == 'number'){
+          text += i + " : "+property + "<br/>";
+        }
+        
+      }
+        jQuery(".timelinetooltip").html(text);
+    
+    };
+    var options = {now:"10",range:["0"],definition:defs,move: move,click: function(e,t){alert(t.label);}};
+    
+    var timeline = new CSSTimeline(".holder",options);
+    
+    </script>
+    
+  </body>
+</html>
