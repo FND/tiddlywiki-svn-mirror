@@ -115,10 +115,11 @@ def get_profile(environ,start_response):
   bag = store.get(bag)
   idea_tiddlers = control.get_tiddlers_from_bag(bag)
   for t in idea_tiddlers:
-    all_tiddlers.append(t)
+    if t.modifier==user_id:
+      all_tiddlers.append(t)
   template = template_env.get_template('profile.html')
   return generate_template(template,all_tiddlers,environ)
- 
+
 def init(config_in):
     global config
     config = config_in

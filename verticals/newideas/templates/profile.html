@@ -1,11 +1,12 @@
 {%- extends "master/page.html"-%}
 {% set profile=tiddlers[0] %}
 {% block body %}
+{{inbag}}
 <h1>{{ profile.title }}</h1>
 <p>{{profile.text}}</p>
 tagged with: {% for tag in profile.tags %}{{tag}}{% endfor %}{% if profile.tags|length == 0%}no tags{%endif%}
-<h1>Ideas</h1>
+<h1>Ideas({{inbag['ideas']|length}})</h1>
 <ul>
-{% for idea in tiddlers %}{%if idea.modifier==profile.title%}<li>{{idea.title}}</li>{%endif%}{% endfor %}{% if tiddlers|length == 1%}no ideas{%endif%}
+{% for idea in inbag['ideas'] %}<li>{{idea.title}}</li>{% endfor %}{% if inbag['ideas']|length == 0%}no ideas{%endif%}
 </ul>
 {% endblock %}
