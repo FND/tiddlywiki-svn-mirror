@@ -1,6 +1,16 @@
 {%- extends "master/page.html"-%}
 {% set idea=tiddlers[0] %}
 {% block body %}
+
+<div class='points'>
+  <div class='number'>{{idea.fields.points}}</div>
+  <form action='/ideas/stats/INCREMENT?tiddler=AcronymBabelfish&bag=ideas&field=points&value=1' method='post'>
+  <input type='submit' value='VOTE UP'/>
+  </form>
+</div>
 <h1>{{ idea.title }}</h1>
 <p>{{idea.text}}</p>
+
+oih oih
+{{"/ideas/tags/ideas"|load_from_url}}
 {% endblock %}

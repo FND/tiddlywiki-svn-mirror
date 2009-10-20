@@ -7,14 +7,14 @@ config = {
           "allowed":["ideas/*/points"]
         }
     },
-    'system_plugins': ['static','tiddlywebwiki','stats','ideas_staticpages', 'tagCloud', 'form'],
+    'system_plugins': ['static','jinjaFilters','tiddlywebwiki','stats','ideas_staticpages', 'tagCloud', 'form'],
     'twanager_plugins': ['get_mail','static','tiddlywebwiki'],
     'static_dir': 'static',
     'server_prefix': '/ideas',
     'server_host': {
         'scheme': 'http',
         'host': 'localhost',
-        'port': '80'
+        'port': '8080'
     },
     'css_uri':'/ilga/static/css/main_stylesheet.css'
 
