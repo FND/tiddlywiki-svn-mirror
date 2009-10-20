@@ -32,12 +32,20 @@
     $.fn.comments.updateLoginUI(context);
     $.fn.comments.wireEvents(context);
     $.fn.comments.loadData(context);
+    $.fn.comments.jumpToFragmentID(context);
     return $(this);
   }
 
   //################################################################################
   //# SERVER INTERACTION
   //################################################################################
+  //
+  plugin.jumpToFragmentID = function(context) {
+    var hash = document.location.hash;
+    if (hash.length<1) return;
+    document.location.hash = "#_"; // dummy
+    setTimeout(function() { document.location.hash = hash; }, 100);
+  }
 
   plugin.loadData = function(context) {
     context.store = {}
@@ -124,7 +132,6 @@
   plugin.updateLoginUI = function(context, fadeEffect) {
 
     var userID = plugin.findUserID();
-    log("fe", fadeEffect);
 
     if (userID) {
       $(".userIDArea").show();
@@ -200,7 +207,6 @@
     if (!highlightedEl.length) return;
     highlightedEl.css("backgroundColor", "yellow").animate({backgroundColor: "white"}, 2500);
     // document.location.hash = "#"+$(highlightedEl).attr("id");
-    // console.log(highlightedEl.id());
     $.scrollTo( highlightedEl, 800 );
     // $.scrollTo( commentEl, 800, {easing:'swing'} );
     // commentEl.hide().css("backgroundColor", "yellow").fadeIn(3000, function() { commentEl.css("backgroundColor", "")});
@@ -213,7 +219,6 @@
     if (plugin.isComment(tiddler)) { // not root
       var commentEl = plugin.buildCommentEl(daddyCommentsEl, tiddler);
       $(daddyCommentsEl).append(commentEl);
-      // console.log(tiddler.title, "|||", highlightedTitle);
       // if (tiddler.title==highlightedTitle) console.log("highil " , tiddler);
       // $("body").append(commentEl);
       commentsEl = commentEl.commentsEl;
@@ -263,7 +268,8 @@
         message="guest";
       }
     } else {
-      message = "<a href='http://"+comment.modifier+"'>"+comment.modifier+"</a>";
+      // href is a "new ideas hackathon hack!
+      message = "<a href='/ideas/profile/"+comment.modifier+"'>"+comment.modifier+"</a>";
     }
     return message;
   }
