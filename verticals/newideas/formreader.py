@@ -34,6 +34,11 @@ def create_tag_list(input_string):
 def handler(environ, start_response):
     try:
         redirect = environ['tiddlyweb.query'].pop('redirect')[0]
+        if '?' in redirect[0] and not redirect[0].endswith('?'):
+            redirect += '&'
+        else:
+            redirect += '?'
+        redirect += '.no-cache=%s' % uuid4()
     except KeyError:
         redirect = None
     input = environ['tiddlyweb.query']
