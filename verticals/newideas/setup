@@ -1,0 +1,4 @@
+easy_install -U tiddlyweb tiddlywebwiki jinja2;
+echo ""
+echo "now run sudo twanager server 0.0.0.0 80";
+echo "then open in your browser http://0.0.0.0/ideas/"
