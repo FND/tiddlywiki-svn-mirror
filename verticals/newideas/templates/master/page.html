@@ -8,29 +8,36 @@
 <body>
 	
   {% include "header.html" %}
+<div id="navBar">
+{% include 'loginbox.html' with context %}
   {% include "nav.html" with context %}
   {% block head %}
   {% endblock %}
-	<h3> left side bar </h3>
+</div>
 
+<div id="leftColumn">
   {% block leftNav %}
   {% endblock %}
   {% block topIdeas %}
   {% endblock %}
-<hr />
-  {% block body %}
-  {% endblock %}
-  {% block stream %}
-  {% endblock %}
-<hr />
-<h3> right side bar </h3>
+</div>
 
+<div id="rightColumn">
   {% block submitIdeaButton %}
   {% endblock %}
   {% block tags %}
   {% endblock %}
   {% block topContributors %}
   {% endblock %}
+</div>
+
+<div id="bodyColumn">
+  {% block body %}
+  {% endblock %}
+  {% block stream %}
+  {% endblock %}
+</div>
+
 </body>
 </html>
 

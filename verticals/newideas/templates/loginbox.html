@@ -1,4 +1,4 @@
-<div class='loginbox'>
+<div id='loginBox'>
 {% if 'tiddlyweb.usersign' in environ and environ['tiddlyweb.usersign'].name !='GUEST'%}
 logged in as <a href='/ideas/profile/'>{{environ['tiddlyweb.usersign'].name}}</a> <a href='/ideas/logout'>logout</a>
 {% else%}

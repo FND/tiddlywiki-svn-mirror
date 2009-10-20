@@ -8,6 +8,51 @@ textarea {width:600px;height:200px;}
     border:1px solid #ddd;
     background:#eee;
     background-image: url(/ideas/static/img/star_icon.png);
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;   
+}
+
+body {
+    font-family: Helvetica, sans serif, Arial;
+    font-size: 1em;
     
+}
+
+img {
+    border: 0;
+}
+
+#loginBox {
+    float: right;
+}
+
+#navBar {
+    background: #000;
+    color: #fff;
+    padding: 0.3em;
+}
+
+#navBar a {
+    color: #fff;
+    background: #a00;
+}
+
+#navBar a:hover {
+    color: #000;
+    background: #faa;
+}
+
+#leftColumn {
+    width: 200px;
+    float: left;
+}
+
+#rightColumn {
+    width: 200px;
+    float: right;
+}
+
+#bodyColumn {
+    margin-left: 220px;
+    margin-right: 220px;
+    padding: 1em;
 }
