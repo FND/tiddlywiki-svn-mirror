@@ -23,11 +23,14 @@ Badges : <br/> {% for tag in profile.tags %}<span class='badge'>{{tag}}</span>{%
 <ul>
 {% for idea in inbag['ideas'] %}<li><a href="/ideas/idea/{{idea.title}}">{{idea.title}}</a></li>{% endfor %}{% if inbag['ideas']|length == 0%}no ideas{%endif%}
 </ul>
+{% if profile.fields.votes%}
+{% set votes=profile.fields.votes.split(',') %}
 
-<h1>Votes({{profile.votes|length}})</h1>
+<h1>Votes({{votes|length}})</h1>
 <ul>
-{% for vote in profile.votes %}<li><a href="/ideas/idea/vote">{{vote}}</a></li>{% endfor %}{% if profile.votes|length == 0%}no votes{%endif%}
+{% for vote in votes %}<li><a href="/ideas/idea/vote">{{vote}}</a></li>{% endfor %}
 </ul>
+{% endif %}
 
 
 {% endblock %}
