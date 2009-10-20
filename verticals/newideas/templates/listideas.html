@@ -3,6 +3,7 @@
 
   {% for idea in tiddlers|sort()%}
 <h2><a href='/ideas/idea/{{idea.title}}'>{{idea.title}}</a></h2>
+<div class='points'><div class='number'>{{idea.fields.points}}</div></div>
 tagged with: {% for tag in idea.tags %}{{tag}}{% endfor %}{% if idea.tags|length == 0%}no tags{%endif%}
 <p>{{idea.text}}</p>
 {% endfor %}
