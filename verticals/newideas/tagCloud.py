@@ -32,12 +32,16 @@ def get_tags_from_bag(environ,start_response):
             except KeyError:
                 tags[tag] = 1
     tagList = []
-    for key, value in tags.items():
+    tags = [(key, value) for key, value in tags.items()]
+    def sort_func(x, y):
+        return x[1]-y[1]
+    tags.sort(sort_func)
+    for key, value in tags:
         view = environ['tiddlyweb.query'].get("view", None) or ['list']
         if  view[0]== "cloud":
             tagList.append(key+' '+str(value))
         else:
-	        tagList.append(key+' ('+str(value)+')<br/>')
+            tagList.append(key+' ('+str(value)+')<br/>')
             
         
     tagList = list(set(tagList))
@@ -56,6 +60,6 @@ def create_dynamic_recipe(environ,recipeDefinition):
     recipe.store = environ['tiddlyweb.store']
     return recipe
 
-	
+    
 def init(config):
-	config["selector"].add("/tags/{bagName:segment}",GET=get_tags_from_bag)
+    config["selector"].add("/tags/{bagName:segment}",GET=get_tags_from_bag)
