@@ -1,0 +1,6 @@
+{%- extends "master/page.html"-%}
+{% set idea=tiddlers[0] %}
+{% block body %}
+<h1>{{ idea.title }}</h1>
+<p>{{idea.text}}</p>
+{% endblock %}
