@@ -97,7 +97,7 @@ def getmail(args):
       import sendmail
       sendmail.sendit(from_email,"Thanks for using TiddlyWeb getmail plugin","Your tiddler has been created and you can view it at %s/bags/%s/tiddlers/%s.txt"%(url,bag,title))
     #delete the email
-    #session.dele(i)
+    session.dele(i)
   session.quit()
   
   
