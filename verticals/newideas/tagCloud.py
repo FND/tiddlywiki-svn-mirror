@@ -12,11 +12,11 @@ def get_tags_from_bag(environ,start_response):
     
     bagfilter = ""
     try:
-      bagfilter = "select="+environ['tiddlyweb.query']['select'][0] +";"
-    except KeyError:
+      bagfilter = "select="+environ['tiddlyweb.query']['filter'][0] +";"
+    except KeyError:   
       bagfilter = ""
     recipe = create_dynamic_recipe(environ,[[bagName, bagfilter]])
-    logging.debug("owch %s")
+    logging.debug("owch %s"%bagfilter)
     bag = Bag("tempbag",tmpbag=True)
       
     bag.add_tiddlers(control.get_tiddlers_from_recipe(recipe))

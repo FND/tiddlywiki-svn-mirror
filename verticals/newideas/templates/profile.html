@@ -3,10 +3,19 @@
 {% block body %}
 {{inbag}}
 <h1>{{ profile.title }}</h1>
+
+
+<img src='{{ profile.fields.avatar }}'/>
+
 <p>{{profile.text}}</p>
 tagged with: {% for tag in profile.tags %}{{tag}}{% endfor %}{% if profile.tags|length == 0%}no tags{%endif%}
 <h1>Ideas({{inbag['ideas']|length}})</h1>
 <ul>
 {% for idea in inbag['ideas'] %}<li><a href="/ideas/idea/{{idea.title}}">{{idea.title}}</a></li>{% endfor %}{% if inbag['ideas']|length == 0%}no ideas{%endif%}
 </ul>
+
+
+<p>tags:</p>
+{{"/ideas/tags/ideas"|load_from_url(qs='filter=modifier:'+profile.title)}}
+
 {% endblock %}
