@@ -1,3 +1,8 @@
 textarea {width:600px;height:200px;}
 .points {float:right;}
 .points .number {font-size:40px;}
+.badge {
+    padding:1em;
+    margin:1em;
+    background:#eee;
+}
