@@ -1,4 +1,21 @@
 {%- extends "master/page.html"-%}
+
+{% block leftNav %}
+
+<hr />
+
+LEFT SIDE BAR
+<ul>
+	<li><a href='l1'>link 1</a></li>
+	<li><a href='l2'>link 2</a></li>
+	<li><a href='l3'>link 3</a></li>
+	<li><a href='l4'>link 4</a></li>
+</ul>
+<hr />
+
+{% endblock %}
+
+
 {% block body %}
 
 Submit your idea using this form.
@@ -8,4 +25,8 @@ Submit your idea using this form.
   <textarea name='text'></textarea>
   <input type="submit" value="POST MY IDEA" title="post my idea"/>
 </form>
+
+
+
+
 {% endblock %}

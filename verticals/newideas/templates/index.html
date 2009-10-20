@@ -1,10 +1,15 @@
 {%- extends "master/page.html"-%}
 {% block body %}
 
-<div class='tags'>
-<p>tags:</p>
-{{"/ideas/tags/ideas"|load_from_url}}
-</div>
+
+<hr />
+
+LEFT SIDE BAR 
+
+
+
+<hr/>
+
 <p>Every 15 minutes integration will occur on 
 
   <a href='http://bruce.osmosoft.com:8080'>this url if you are greenside</a> or 
@@ -22,6 +27,15 @@
 
 <p>send an e-mail to myidea@jonrobson.me.uk
 user stories can be found here on <a href='http://osnet.osmosoft.com/recipes/ideas/tiddlers.wiki'>osnet</a>
+
+
+
+<hr/>
+RIGHT SIDE BAR 
+<div class='tags'>
+<p>tags:</p>
+{{"/ideas/tags/ideas"|load_from_url}}
+</div>
 
 
 {% endblock %}
