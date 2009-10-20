@@ -1,7 +1,6 @@
 {%- extends "master/page.html"-%}
 {% set profile=tiddlers[0] %}
 {% block body %}
-{{inbag}}
 <h1>{{ profile.title }}</h1>
 
 
@@ -15,7 +14,18 @@ tagged with: {% for tag in profile.tags %}{{tag}}{% endfor %}{% if profile.tags|
 </ul>
 
 
+
+{% endblock %}
+
+
+
+{% block submitIdeaButton %}
+{%include "submitIdeaButton.html" %}
+{% endblock %}
+{% block tags %}
 <p>tags:</p>
 {{"/ideas/tags/ideas"|load_from_url(qs='filter=modifier:'+profile.title)}}
 
+{% endblock %}
+{% block topContributors %}
 {% endblock %}
