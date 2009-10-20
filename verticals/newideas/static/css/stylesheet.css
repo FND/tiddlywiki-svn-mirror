@@ -2,7 +2,12 @@ textarea {width:600px;height:200px;}
 .points {float:right;}
 .points .number {font-size:40px;}
 .badge {
-    padding:1em;
-    margin:1em;
+    padding:.5em;
+    margin:0.5em, 1em ;
+    padding-left:2.2em;
+    border:1px solid #ddd;
     background:#eee;
+    background-image: url(http://tuxpaint.org/stamps/stamps/symbols/shapes/star.png);
+    	background-repeat: no-repeat;
+    
 }
