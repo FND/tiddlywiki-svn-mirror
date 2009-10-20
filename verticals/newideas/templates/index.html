@@ -2,14 +2,6 @@
 {% block body %}
 
 
-<hr />
-
-LEFT SIDE BAR 
-
-
-
-<hr/>
-
 <p>Every 15 minutes integration will occur on 
 
   <a href='http://bruce.osmosoft.com:8080'>this url if you are greenside</a> or 
@@ -28,11 +20,15 @@ LEFT SIDE BAR
 <p>send an e-mail to myidea@jonrobson.me.uk
 user stories can be found here on <a href='http://osnet.osmosoft.com/recipes/ideas/tiddlers.wiki'>osnet</a>
 
-<hr/>
-RIGHT SIDE BAR 
 
 
+{% endblock %}
 
+{% block stream %}
+
+<div class='stream'>
+{{"/ideas/list"|load_from_url}}
+</div>
 {% endblock %}
 
 

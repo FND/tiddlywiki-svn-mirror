@@ -4,16 +4,23 @@
   <link rel="stylesheet" href="/ideas/static/css/stylesheet.css" type="text/css"></link>
 </head>
 <body>
+	
   {% include "header.html" %}
   {% include "nav.html" %}
+	<h3> left side bar </h3>
+
   {% block leftNav %}
   {% endblock %}
   {% block topIdeas %}
   {% endblock %}
+<hr />
   {% block body %}
   {% endblock %}
   {% block stream %}
   {% endblock %}
+<hr />
+<h3> right side bar </h3>
+
   {% block submitIdeaButton %}
   {% endblock %}
   {% block tags %}

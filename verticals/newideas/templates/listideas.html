@@ -1,5 +1,3 @@
-{%- extends "master/page.html"-%} 
-{% block body %}
 
   {% for idea in tiddlers|sort()%}
 <h2><a href='/ideas/idea/{{idea.title}}'>{{idea.title}}</a></h2>
@@ -11,4 +9,4 @@ tagged with: {% for tag in idea.tags %}{{tag}}{% endfor %}{% if idea.tags|length
 <a href='/ideas/index'>index</a>
 <a href='/ideas/submit'>submit an idea</a>
 <a href='/ideas/bags/ideas/tiddlers.wiki'>as a tiddlywiki</a>
-{% endblock%}
+
