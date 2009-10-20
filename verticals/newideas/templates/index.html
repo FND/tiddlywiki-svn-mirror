@@ -28,14 +28,22 @@ LEFT SIDE BAR
 <p>send an e-mail to myidea@jonrobson.me.uk
 user stories can be found here on <a href='http://osnet.osmosoft.com/recipes/ideas/tiddlers.wiki'>osnet</a>
 
-
-
 <hr/>
 RIGHT SIDE BAR 
+
+
+
+{% endblock %}
+
+
+{% block submitIdeaButton %}
+{%include "submitIdeaButton.html" %}
+{% endblock %}
+
+{% block tags %}
+
 <div class='tags'>
 <p>tags:</p>
 {{"/ideas/tags/ideas"|load_from_url}}
 </div>
-
-
 {% endblock %}
