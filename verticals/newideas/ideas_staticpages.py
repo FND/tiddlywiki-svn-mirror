@@ -124,8 +124,13 @@ def get_profile(environ,start_response):
   start_response('200 OK', [
       ('Content-Type', 'text/html; charset=utf-8')
       ])
-
-  user_id = environ['wsgiorg.routing_args'][1]['id']
+  try:  
+    user_id = environ['wsgiorg.routing_args'][1]['id']
+  except KeyError:
+    try:
+      user_id = environ['tiddlyweb.usersign']["name"]
+    except KeyError:
+      return do_login(environ,start_response)
   store = environ['tiddlyweb.store']
   bag = Bag("profiles")
   bag = store.get(bag)
