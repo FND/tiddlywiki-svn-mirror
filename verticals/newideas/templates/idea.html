@@ -11,6 +11,9 @@
 <h1>{{ idea.title }}</h1>
 <p>{{idea.text}}</p>
 
-oih oih
-{{"/ideas/tags/ideas"|load_from_url}}
+<p>tags</p>
+{% for tag in idea.tags %}
+{{tag}}<br/>
+{% endfor %}
+
 {% endblock %}

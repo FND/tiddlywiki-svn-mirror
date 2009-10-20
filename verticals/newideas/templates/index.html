@@ -1,6 +1,10 @@
 {%- extends "master/page.html"-%}
 {% block body %}
 
+<div class='tags'>
+<p>tags:</p>
+{{"/ideas/tags/ideas"|load_from_url}}
+</div>
 <p>Every 15 minutes integration will occur on 
 
   <a href='http://bruce.osmosoft.com:8080'>this url if you are greenside</a> or 
