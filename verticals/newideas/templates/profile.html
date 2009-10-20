@@ -28,7 +28,7 @@ Badges : <br/> {% for tag in profile.tags %}<span class='badge'>{{tag}}</span>{%
 
 <h1>Votes({{votes|length}})</h1>
 <ul>
-{% for vote in votes %}<li><a href="/ideas/idea/vote">{{vote}}</a></li>{% endfor %}
+{% for vote in votes %}<li><a href="/ideas/idea/{{vote}}">{{vote}}</a></li>{% endfor %}
 </ul>
 {% endif %}
 
