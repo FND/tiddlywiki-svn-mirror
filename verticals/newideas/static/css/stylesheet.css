@@ -7,7 +7,7 @@ textarea {width:600px;height:200px;}
     padding-left:2.2em;
     border:1px solid #ddd;
     background:#eee;
-    background-image: url(http://tuxpaint.org/stamps/stamps/symbols/shapes/star.png);
+    background-image: url(/ideas/static/img/star_icon.png);
     	background-repeat: no-repeat;
     
 }
