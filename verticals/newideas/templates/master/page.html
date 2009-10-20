@@ -16,24 +16,36 @@
 </div>
 
 <div id="leftColumn">
+	<div class="box">
   {% block leftNav %}
   {% endblock %}
+</div>
+<div class="box">
   {% block topIdeas %}
   {% endblock %}
 </div>
+</div>
 
 <div id="rightColumn">
+<div class="box">
   {% block submitIdeaButton %}
   {% endblock %}
+</div>
+<div class="box">
   {% block tags %}
   {% endblock %}
+</div>
+<div class="box">
   {% block topContributors %}
   {% endblock %}
 </div>
+</div>
 
 <div id="bodyColumn">
+<div class="box">
   {% block body %}
   {% endblock %}
+</div>
   {% block stream %}
   {% endblock %}
 </div>
