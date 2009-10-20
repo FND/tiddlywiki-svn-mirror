@@ -30,7 +30,25 @@ if(!config.adaptors.tiddlyweb) {
 	throw "Missing dependency: TiddlyWebAdaptor";
 }
 
-(function() {
+function updateToolbar() {
+//	var t = story.getTiddler(tiddler.title);
+	var t = story.getTiddler("GettingStarted");
+	//console.log(t);
+	var nodes = t.childNodes;
+	for(var i=0; i<nodes.length; i++) {
+		if(hasClass(nodes[i],'toolbar')) {
+			var n = nodes[i].childNodes;
+			for(var j=0; j<n.length; j++) {
+				if(hasClass(n[j],'command_editTiddler')) {
+					var e = n[j];
+					e.title = "hello";
+				}
+			}
+		}
+	}
+
+}
+/*(function() {
 
 if(window.location.protocol != "file:") {
 	config.options.chkAutoSave = true;
@@ -48,6 +66,7 @@ config.defaultCustomFields = {
 };
 
 // modify toolbar commands
+
 
 config.shadowTiddlers.ToolbarCommands = config.shadowTiddlers.ToolbarCommands.
 	replace("closeTiddler ", "revisions closeTiddler ");
@@ -92,5 +111,5 @@ var statusCallback = function(context, userParams) {
 };
 adaptor.getStatus({ host: host }, null, statusCallback);
 
-})();
+})();*/
 //}}}
