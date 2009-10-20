@@ -4,3 +4,8 @@ run sudo ./setup
 now run sudo twanager server 0.0.0.0 80
 then open in your browser http://0.0.0.0/ideas/
 If you see a page you have done it!
+
+Prerequisites:
+run easy_install -U tiddlywebwiki jinja2 httplib2
+
+Sample users - all have password "pass"
