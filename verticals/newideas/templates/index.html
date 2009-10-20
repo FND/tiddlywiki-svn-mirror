@@ -1,6 +1,6 @@
 {%- extends "master/page.html"-%}
 {% block body %}
-<p>Every 15 minutes integration will occur on 
+<p>Every 15 minutes integration will occur on
   <a href='http://bruce.osmosoft.com:8080'>this url if you are greenside</a> or 
   
   <a href='http://10.10.1.10:8080'>if you are on the osmosoft network.</a></p>
@@ -13,4 +13,8 @@
 send an e-mail to myidea@jonrobson.me.uk
 user stories can be found here on <a href='http://osnet.osmosoft.com/recipes/ideas/tiddlers.wiki'>osnet</a>
 
+digg button:
+<form action='/ideas/stats/INCREMENT?tiddler=AcronymBabelfish&bag=ideas&field=points&value=1' method='post'>
+<input type='submit' value='UP'/>
+</form>
 {% endblock %}
