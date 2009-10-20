@@ -98,14 +98,35 @@ def get_idea(environ,start_response):
   template = template_env.get_template('idea.html')
   return generate_template(template,tiddlers,environ)
 
+def do_login(environ,start_response):
+  start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8'),('Location','/ideas/challenge/cookie_form?tiddlyweb_redirect='+environ['REQUEST_URI'])])
+  return ""
 def get_profile(environ,start_response):
-  start_response('200 OK', [
-      ('Content-Type', 'text/html; charset=utf-8')
-      ])          
+  try:
+    username = environ['tiddlyweb.usersign']["name"]
+    if username == 'GUEST':
+      return do_login(environ,start_response)
+  except KeyError:
+    return do_login(environ,start_response)
+       
   store = environ['tiddlyweb.store']
   bag = Bag("profiles")
   bag = store.get(bag)
-  user_id = environ['wsgiorg.routing_args'][1]['id']
+  try:
+    user_id = environ['wsgiorg.routing_args'][1]['id']
+  except KeyError:
+    try:
+      user_id = environ['tiddlyweb.usersign']["name"]
+    except KeyError:
+      start_response('404 Not Found', [
+          ('Content-Type', 'text/html; charset=utf-8')
+          ])
+      return "404 :("
+      
+  start_response('200 OK', [
+      ('Content-Type', 'text/html; charset=utf-8')
+      ])
+
   user_tiddlers = [store.get(Tiddler(user_id, "profiles"))]
   all_tiddlers = []
   for t in user_tiddlers:
@@ -128,5 +149,6 @@ def init(config_in):
     config["selector"].add("/list",GET=list_ideas)
     config["selector"].add("/submit",GET=submit_idea)
     config["selector"].add("/idea/{id:segment}",GET=get_idea)
+    config["selector"].add("/profile/",GET=get_profile)
     config["selector"].add("/profile/{id:segment}",GET=get_profile)
     config["selector"].add("/test",GET=test)
