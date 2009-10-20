@@ -1,0 +1,7 @@
+{%- extends "master/page.html"-%}
+{% set profile=tiddlers[0] %}
+{% block body %}
+<h1>{{ profile.title }}</h1>
+<p>{{profile.text}}</p>
+tagged with: {% for tag in profile.tags %}{{tag}}{% endfor %}{% if profile.tags|length == 0%}no tags{%endif%}
+{% endblock %}

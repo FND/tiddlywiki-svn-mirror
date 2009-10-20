@@ -76,6 +76,28 @@ def get_index(environ,start_response):
   # load up the template from disk
   template = template_env.get_template('index.html')
   return generate_template(template,[],environ)
+
+def test(environ,start_response):
+  start_response('200 OK', [
+      ('Content-Type', 'text/html; charset=utf-8')
+      ])          
+  return "ok"
+
+def get_profile(environ,start_response):
+  start_response('200 OK', [
+      ('Content-Type', 'text/html; charset=utf-8')
+      ])          
+  user_id = environ['wsgiorg.routing_args'][1]['id']
+  # load up the template from disk
+  bag = Bag("profiles")
+  store = environ['tiddlyweb.store']
+  bag =store.get(bag)
+  # tiddlers = control.get_tiddlers_from_bag(bag)
+  user_id = environ['wsgiorg.routing_args'][1]['id']
+  tiddlers = [store.get(Tiddler(user_id, "profiles"))]
+  template = template_env.get_template('profile.html')
+  return generate_template(template,tiddlers,environ)
+ 
 def init(config_in):
     global config
     config = config_in
@@ -83,3 +105,5 @@ def init(config_in):
     config["selector"].add("",GET=get_index)
     config["selector"].add("/list",GET=list_ideas)
     config["selector"].add("/submit",GET=submit_idea)
+    config["selector"].add("/profile/{id:segment}",GET=get_profile)
+    config["selector"].add("/test",GET=test)
