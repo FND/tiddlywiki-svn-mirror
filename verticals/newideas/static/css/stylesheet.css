@@ -3,11 +3,11 @@ textarea {width:600px;height:200px;}
 .points .number {font-size:40px;}
 .badge {
     padding:.5em;
-    margin:0.5em, 1em ;
     padding-left:2.2em;
+    margin:3em ;
     border:1px solid #ddd;
     background:#eee;
     background-image: url(/ideas/static/img/star_icon.png);
-    	background-repeat: no-repeat;
+    background-repeat: no-repeat;
     
 }

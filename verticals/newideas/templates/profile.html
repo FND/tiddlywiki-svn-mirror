@@ -4,8 +4,12 @@
 
 
 {% block leftNav %}
+<!--<img src='{{ profile.fields.avatar }}'/>-->
 
-Badges : {% for tag in profile.tags %}<span class='badge'>{{tag}}</span>{% endfor %}{% if profile.tags|length == 0%}no tags{%endif%}
+<img src='http://farm3.static.flickr.com/2556/3911191653_cc03221856_m.jpg' />
+
+<br />
+Badges : <br/> {% for tag in profile.tags %}<span class='badge'>{{tag}}</span>{% endfor %}{% if profile.tags|length == 0%}no tags{%endif%}
 
 {% endblock %}
 
@@ -13,9 +17,7 @@ Badges : {% for tag in profile.tags %}<span class='badge'>{{tag}}</span>{% endfo
 <h1>{{ profile.title }}</h1>
 
 
-<!--<img src='{{ profile.fields.avatar }}'/>-->
 
-<img src='http://farm3.static.flickr.com/2556/3911191653_cc03221856_m.jpg' />
 <p>{{profile.text}}</p>
 <h1>Ideas({{inbag['ideas']|length}})</h1>
 <ul>
