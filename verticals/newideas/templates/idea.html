@@ -4,7 +4,7 @@
 
 <div class='points'>
   <div class='number'>{{idea.fields.points}}</div>
-  <form action='/ideas/stats/INCREMENT?tiddler=AcronymBabelfish&bag=ideas&field=points&value=1' method='post'>
+  <form action='/ideas/stats/INCREMENT?tiddler={{idea.title}}&bag=ideas&field=points&value=1' method='post'>
   <input type='submit' value='VOTE UP'/>
   </form>
 </div>
