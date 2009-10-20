@@ -125,6 +125,7 @@ def get_profile(environ,start_response):
       ('Content-Type', 'text/html; charset=utf-8')
       ])
 
+  user_id = environ['wsgiorg.routing_args'][1]['id']
   store = environ['tiddlyweb.store']
   bag = Bag("profiles")
   bag = store.get(bag)
