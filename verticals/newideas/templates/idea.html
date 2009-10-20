@@ -10,12 +10,20 @@
 <h1>{{ idea.title }}</h1>
 <p class='subtitle'>from the brain of <a href='/ideas/profile/{{idea.modifier}}'>{{idea.modifier}}</a></p>
 <p>{{idea.text}}</p>
-<div class='commentArea'>
-
-</div>
 <p>tags</p>
 {% for tag in idea.tags %}
 {{tag}}<br/>
+<div id="commentsContainer">----</div>
 {% endfor %}
 
+{% endblock %}
+
+{% block head %}
+  <link id="stylesheet" rel="stylesheet" href="/ideas/static/css/comments.css" type="text/css" media="screen" charset="utf-8"/>
+  <script type="text/javascript" src="/ideas/static/js/jquery-1.2.6.min.js"></script>
+  <script type="text/javascript" src="/ideas/static/js/tiddly.js"></script>
+  <script type="text/javascript" src="/ideas/static/js/jquery.scrollTo-min.js"></script>
+  <script type="text/javascript" src="/ideas/static/js/comments.js"></script>
+  <script type="text/javascript" src="/ideas/static/js/jquery.color.js"></script>
+  <script type="text/javascript" src="/ideas/static/js/idea.js"></script>
 {% endblock %}
