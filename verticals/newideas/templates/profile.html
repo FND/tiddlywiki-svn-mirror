@@ -4,8 +4,9 @@
 <h1>{{ profile.title }}</h1>
 
 
-<img src='{{ profile.fields.avatar }}'/>
+<!--<img src='{{ profile.fields.avatar }}'/>-->
 
+<img src='http://farm3.static.flickr.com/2556/3911191653_cc03221856_m.jpg' />
 <p>{{profile.text}}</p>
 tagged with: {% for tag in profile.tags %}{{tag}}{% endfor %}{% if profile.tags|length == 0%}no tags{%endif%}
 <h1>Ideas({{inbag['ideas']|length}})</h1>
