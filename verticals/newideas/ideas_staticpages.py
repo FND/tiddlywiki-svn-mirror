@@ -102,16 +102,14 @@ def do_login(environ,start_response):
   start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8'),('Location','/ideas/challenge/cookie_form?tiddlyweb_redirect='+environ['SCRIPT_NAME'])])
   return ""
 def get_profile(environ,start_response):
+  '''
   try:
     username = environ['tiddlyweb.usersign']["name"]
     if username == 'GUEST':
       return do_login(environ,start_response)
   except KeyError:
     return do_login(environ,start_response)
-       
-  store = environ['tiddlyweb.store']
-  bag = Bag("profiles")
-  bag = store.get(bag)
+      
   try:
     user_id = environ['wsgiorg.routing_args'][1]['id']
   except KeyError:
@@ -122,11 +120,14 @@ def get_profile(environ,start_response):
           ('Content-Type', 'text/html; charset=utf-8')
           ])
       return "404 :("
-      
+  '''    
   start_response('200 OK', [
       ('Content-Type', 'text/html; charset=utf-8')
       ])
 
+  store = environ['tiddlyweb.store']
+  bag = Bag("profiles")
+  bag = store.get(bag)
   user_tiddlers = [store.get(Tiddler(user_id, "profiles"))]
   all_tiddlers = []
   for t in user_tiddlers:

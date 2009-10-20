@@ -1,7 +1,3 @@
 <a href='/ideas'>Home</a>
-<a href='/ideas/submit'>submit</a>
-<a href='/ideas/profile/'>Profile</a>
-<a href='/ideas/idea/ItsGoodToWoofWithBT'>Idea</a>
-<a href='/ideas/bags'>bags</a>
-<a href='/ideas/bags/ideas/tiddlers.wiki'>ideas TiddlyWiki</a>
-
+<a href='/ideas/submit'>Submit Idea</a>
+{% if 'tiddlyweb.usersign' in environ and environ['tiddlyweb.usersign'].name !='GUEST'%}<a href='/ideas/profile/'>Your Profile</a>{% endif%}
