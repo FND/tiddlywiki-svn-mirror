@@ -1,7 +1,6 @@
 {%- extends "master/page.html"-%}
 {% set idea=tiddlers[0] %}
 {% block body %}
-
 <div class='points'>
   <div class='number'>{% if not idea.fields.points %}0{%else%}{{idea.fields.points}}{% endif%}</div>
   <form action='/ideas/stats/INCREMENT?tiddler={{idea.title}}&bag=ideas&field=points&value=1' method='post'>
@@ -14,7 +13,6 @@
 <div class='commentArea'>
 
 </div>
-
 <p>tags</p>
 {% for tag in idea.tags %}
 {{tag}}<br/>

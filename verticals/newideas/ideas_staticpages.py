@@ -46,7 +46,7 @@ def get_nice_references_to_tiddlers(tiddlers,sort=False):
 
 def generate_template(template,tiddlers,environ):
     result = get_nice_references_to_tiddlers(tiddlers)
-    return template.generate(config=config,tiddlers=result['tiddlers'],twquery=environ['tiddlyweb.query'],inbag=result['bag'],twconfig=environ['tiddlyweb.config'],withfield = result["fields"],withtitle=result["titles"],withtag=result["tags"])
+    return template.generate(config=config,environ=environ,tiddlers=result['tiddlers'],twquery=environ['tiddlyweb.query'],inbag=result['bag'],twconfig=environ['tiddlyweb.config'],withfield = result["fields"],withtitle=result["titles"],withtag=result["tags"])
 
 def list_ideas(environ,start_response):
   start_response('200 OK', [

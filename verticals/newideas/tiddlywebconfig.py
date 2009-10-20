@@ -7,7 +7,7 @@ config = {
           "allowed":["ideas/*/points"]
         }
     },
-    'system_plugins': ['static','jinjaFilters','tiddlywebwiki','stats','ideas_staticpages', 'tagCloud', 'form'],
+    'system_plugins': ['atomplugin','static','jinjaFilters','tiddlywebwiki','logout','stats','ideas_staticpages', 'tagCloud', 'form'],
     'twanager_plugins': ['get_mail','static','tiddlywebwiki'],
     'static_dir': 'static',
     'server_prefix': '/ideas',

@@ -1,4 +1,8 @@
-{%- extends "master/page.html"-%}
+{%- extends "master/page.html" -%}
+{% block rss %}
+<link href="/ideas/bags/ideas/tiddlers.atom" rel="alternate" type="application/rss+xml" title="RSS"/>
+{% endblock %}
+
 {% block body %}
 
 

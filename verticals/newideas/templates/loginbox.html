@@ -1,0 +1,7 @@
+<div class='loginbox'>
+{% if 'tiddlyweb.usersign' in environ and environ['tiddlyweb.usersign'].name !='GUEST'%}
+logged in as {{environ['tiddlyweb.usersign'].name}} <a href='/ideas/logout'>logout</a>
+{% else%}
+<a href='/ideas/challenge/cookie_form?tiddlyweb_redirect={{environ['REQUEST_URI']|e}}'>login here</a>
+{% endif %}
+</div>
