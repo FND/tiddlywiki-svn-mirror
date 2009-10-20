@@ -1,20 +1,26 @@
 {%- extends "master/page.html"-%}
 {% block body %}
-<p>Every 15 minutes integration will occur on
+
+<p>Every 15 minutes integration will occur on 
+
   <a href='http://bruce.osmosoft.com:8080'>this url if you are greenside</a> or 
-  
   <a href='http://10.10.1.10:8080'>if you are on the osmosoft network.</a></p>
 
-<a href='/ideas/list'>list of ideas</a>
-<a href='/ideas/submit'>submit an idea</a>
-<a href='/ideas/bags'>tiddlyweb bags</a>
-<a href='/ideas/recipes'>tiddlyweb recipes</a>
-<a href='/ideas/bags/ideas/tiddlers.wiki'>ideas in a tiddlywiki</a>
-send an e-mail to myidea@jonrobson.me.uk
+<ul>
+  <li><a href='/ideas/list'>list of ideas</a></li>
+  <li><a href='/ideas/submit'>submit an idea</a></li>
+  <li><a href='/ideas/profile/mahemoff'>sample profile</a></li>
+  <li><a href='/ideas/bags'>tiddlyweb bags</a></li>
+  <li><a href='/ideas/recipes'>tiddlyweb recipes</a></li>
+  <li><a href='/ideas/bags/ideas/tiddlers.wiki'>ideas in a tiddlywiki</a></li>
+</ul>
+
+<p>send an e-mail to myidea@jonrobson.me.uk
 user stories can be found here on <a href='http://osnet.osmosoft.com/recipes/ideas/tiddlers.wiki'>osnet</a>
 
-digg button:
+<p>digg button:
 <form action='/ideas/stats/INCREMENT?tiddler=AcronymBabelfish&bag=ideas&field=points&value=1' method='post'>
 <input type='submit' value='UP'/>
 </form>
+</p>
 {% endblock %}
