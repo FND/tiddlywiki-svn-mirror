@@ -1,172 +1,157 @@
-Adam Mickiewicz
-Albert Bigelow Paine
-Albert Vandal
-Amy Brooks
-Andrew Murray
-Angela Brazil
-Anna Chapin Ray
-Annie Eliot Trumbull
+AdamMickiewicz
+AlbertBigelowPaine
+AlbertVandal
+AmyBrooks
+AndrewMurray
+AngelaBrazil
+AnnaChapinRay
+AnnieEliotTrumbull
 Anonymous
-Anton Giulio Barrili
-Arthur Morrison
-Aubrey De Vere
-Augusta de Wit
-Auguste Callet
-Aunt Fanny
-Benjamin Constant
-Bertha Thomas
-Blythe Harding
-Bryce Walton
-Camilo Ferreira Botelho Castelo Branco
-Carley Dawson
-Cecil Goodrich Julius Dolmage
-Charles Annesley
-Charles Carleton Coffin
-Charles Dudley Warner
-Charles George Douglas Roberts
-Charles Henry Eden
-Charles James Lever
-Charles Meymott Tidy
-Charles Montblanc
-Charles Morris
-Charles Wesley Naylor
-Charles Willard Diffin
-Charlotte Hapai
-Clarence Hamilton Poe
-Clyde Fitch
-Cyrus MacMillan
-Daniel Carter Beard
-Daniel Defoe
-Daniel Errico
-Daniel Stern
-Daniel Turner Holmes
-David Wendel Yandell
-Denis Diderot
-Edmond Hamilton
-Edmondo De Amicis
-Edward Allen Bell
-Edward Bulwer Lytton Lytton
-Edward Sylvester Ellis
-Elinore Pruitt Stewart
-Elizabeth Wilson Grierson
-Ellen Key
-Emerson Hough
-Emmi Haapanen
-Eustace Hale Ball
-Evelyn Raymond
-Filippo Tommaso Marinetti
-Florence Finch Kelly
-Francisco Guerrero
-Frank Belknap Long
-Frank Sidgwick
-Frederik van Eeden
-Friedrich Wilhelm Nietzsche
-Fritz Leiber
-Gabriel Monod
-George Gordon Byron Byron
-George Henry Borrow
-George Hodges
-George MacDonald
-George Meredith
-George Smith
-Gerhart Hauptmann
-Giambattista della Porta
-Gino Bertolini
-Giorgio Vasari
-Giovanni Battista Cerruti
-Gordon Home
-Guy de Maupassant
-Hamlin Garland
-Harold Bindloss
-Helen Campbell
-Helen Fuller Orton
-Henri de Crignelle
-Herbert George Jenkins
-Houghton Townley
-Hugh Smith
-Human Genome Project
-Ian Maclaren
-Ida SaintElme
-Isaac Massey Haldeman
-Israel Zangwill
-Jack Sharkey
-Jack Williamson
-Jacob Bigelow
-James De Mille
-James Johonnot
-JeanClaude Defrance
-John Dewey
-John Dos Passos
-John Galsworthy
-John Morley
-Joseph Pohle
-Juliet Corson
-Justus Liebig
-Kathleen Thompson Norris
-Laura Jean Libbey
-Leigh Hunt
-Leopold von Ranke
-Lilian Whiting
-Louis Becke
-Louis Keene
-Louisa May Alcott
-Lucy Fitch Perkins
-Mabel QuillerCouch
-Madeleine Black
-Marcelino Mesquita
-Margaret Williamson
-Marguerite Bryant
-Marietta Holley
-Mark Twain
-Martin Luther King
-Mary Schell Hoke Bacon
-Mathew Joseph Holt
-Maturin Murray Ballou
-Maurice Clouard
-Maurice Henry Hewlett
-Maximilien Robespierre
-May Sinclair
-Miguel de Cervantes Saavedra
-Oliveira Lima
-Otto Ernst Schmidt
-Otto Hermann Kahn
+AntonGiulioBarrili
+ArthurMorrison
+AubreyDeVere
+AugustadeWit
+AugusteCallet
+AuntFanny
+BenjaminConstant
+BerthaThomas
+BlytheHarding
+BryceWalton
+CamiloFerreiraBotelhoCasteloBranco
+CarleyDawson
+CecilGoodrichJuliusDolmage
+CharlesAnnesley
+CharlesCarletonCoffin
+CharlesDudleyWarner
+CharlesGeorgeDouglasRoberts
+CharlesHenryEden
+CharlesJamesLever
+CharlesMeymottTidy
+CharlesMontblanc
+CharlesMorris
+CharlesWesleyNaylor
+CharlesWillardDiffin
+CharlotteHapai
+ClarenceHamiltonPoe
+ClydeFitch
+CyrusMacMillan
+DanielCarterBeard
+DanielDefoe
+DanielErrico
+DanielStern
+DanielTurnerHolmes
+DavidWendelYandell
+DenisDiderot
+EdmondHamilton
+EdmondoDeAmicis
+EdwardAllenBell
+EdwardBulwerLyttonLytton
+EdwardSylvesterEllis
+ElinorePruittStewart
+ElizabethWilsonGrierson
+EllenKey
+EmersonHough
+EmmiHaapanen
+EustaceHaleBall
+EvelynRaymond
+FilippoTommasoMarinetti
+FlorenceFinchKelly
+FranciscoGuerrero
+FrankBelknapLong
+FrankSidgwick
+FrederikvanEeden
+FriedrichWilhelmNietzsche
+FritzLeiber
+GabrielMonod
+GeorgeGordonByronByron
+GeorgeHenryBorrow
+GeorgeHodges
+GeorgeMacDonald
+GeorgeMeredith
+GeorgeOrwell
+GeorgeSmith
+GerhartHauptmann
+GiambattistadellaPorta
+GinoBertolini
+GiorgioVasari
+GiovanniBattistaCerruti
+GordonHome
+GuydeMaupassant
+HamlinGarland
+HaroldBindloss
+HelenCampbell
+HelenFullerOrton
+HenrideCrignelle
+HerbertGeorgeJenkins
+HoughtonTownley
+HughSmith
+HumanGenomeProject
+IanMaclaren
+IdaSaintElme
+IsaacMasseyHaldeman
+IsraelZangwill
+JackSharkey
+JackWilliamson
+JacobBigelow
+JamesDeMille
+JamesJohonnot
+JeanClaudeDefrance
+JohnDewey
+JohnDosPassos
+JohnGalsworthy
+JohnMorley
+JosephPohle
+JulietCorson
+JustusLiebig
+KathleenThompsonNorris
+LauraJeanLibbey
+LeighHunt
+LeopoldvonRanke
+LilianWhiting
+LouisBecke
+LouisKeene
+LouisaMayAlcott
+LucyFitchPerkins
+MabelQuillerCouch
+MadeleineBlack
+MarcelinoMesquita
+MargaretWilliamson
+MargueriteBryant
+MariettaHolley
+MarkTwain
+MartinLutherKing
+MarySchellHokeBacon
+MathewJosephHolt
+MaturinMurrayBallou
+MauriceClouard
+MauriceHenryHewlett
+MaximilienRobespierre
+MaySinclair
+MigueldeCervantesSaavedra
+OliveiraLima
+OttoErnstSchmidt
+OttoHermannKahn
 Ouida
-Owen Seaman
-Paul Bourget
-Paul Cameron Brown
-Paul Ernst
-Poul William Anderson
-Ralph Waldo Trine
-Raphael Holinshed
-Richard Jefferies
-Richard Sternbach
-Robert Schumann
-Robert Shea
-Roy Norton
-Ruth Putnam
-Rutherford George Montgomery
-Samuel Adams
-Samuel Merwin
-Samuel Rawson Gardiner
-Samuel Vaknin
-Sewell Peaslee Wright
-Sigmund Freud
-Susanna Moodie
-Teixeira Bastos
-Thomas Crofton Croker
-Thomas Jefferson Wertenbaker
-Thomas Taylor
-Tickner Edwardes
-Walter Rauschenbusch
-Wenfang Xin
-William Andrews
-William Bingley
-William Carew Hazlitt
-William Dean Howells
-William Duthie
-William Larrabee
-William Shakespeare
-Winston Churchill
-Work Projects Administration
-Zane Grey
-ju ren  Wuseshizhuren
+OwenSeaman
+PaulBourget
+PaulCameronBrown
+PaulErnst
+PoulWilliamAnderson
+RalphWaldoTrine
+RaphaelHolinshed
+RichardJefferies
+RichardSternbach
+RobertSchumann
+RobertShea
+RoyNorton
+RuthPutnam
+RutherfordGeorgeMontgomery
+SamuelAdams
+SamuelMerwin
+SamuelRawsonGardiner
+SamuelVaknin
+SewellPeasleeWright
+SigmundFreud
+SusannaMoodie
+TeixeiraBastos
+ThomasCroftonCroker
