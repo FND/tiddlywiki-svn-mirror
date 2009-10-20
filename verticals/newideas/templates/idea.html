@@ -3,7 +3,7 @@
 {% block body %}
 
 <div class='points'>
-  <div class='number'>{{idea.fields.points}}</div>
+  <div class='number'>{% if not idea.fields.points %}0{%else%}{{idea.fields.points}}{% endif%}</div>
   <form action='/ideas/stats/INCREMENT?tiddler={{idea.title}}&bag=ideas&field=points&value=1' method='post'>
   <input type='submit' value='VOTE UP'/>
   </form>

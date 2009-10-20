@@ -159,7 +159,7 @@ def stat_increment(environ):
     return False
 
 def operate_on_stats(environ,start_response):
-  start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8')])
+  start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8'),('Location',environ.get('HTTP_REFERER', '/'))])
   action = environ['wsgiorg.routing_args'][1]['action']
   
   success = True
@@ -228,7 +228,7 @@ def sort_parse(attribute):
 
 from tiddlyweb.model import policy
 def do_reset(environ,start_response):
-  start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8')])
+  start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8'),('Location',environ.get('HTTP_REFERER', '/'))])
   title = get_tiddler_title_for_stats(environ)
   try:
     bagname = environ["tiddlyweb.query"]["bag"][0]
