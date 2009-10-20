@@ -1,0 +1,11 @@
+{%- extends "master/page.html"-%}
+{% block body %}
+
+Submit your idea using this form.
+<form  action="/ideas/bags/ideas/tiddlers?redirect=/ideas/list" method="post">
+  <input type='hidden' name='tags' value='new' />
+  <p>What is your idea?</p>
+  <textarea name='text'></textarea>
+  <input type="submit" value="POST MY IDEA" title="post my idea"/>
+</form>
+{% endblock %}

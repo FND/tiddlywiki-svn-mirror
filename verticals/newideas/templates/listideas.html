@@ -1,0 +1,13 @@
+{% block body %}
+
+  {% for idea in tiddlers|sort()%}
+<h2>{{idea.title}}</h2>
+tagged with: {% for tag in idea.tags %}{{tag}}{% endfor %}{% if idea.tags|length == 0%}no tags{%endif%}
+<p>{{idea.text}}</p>
+{% endfor %}
+
+<a href='/ideas/index'>index</a>
+<a href='/ideas/submit'>submit an idea</a>
+<a href='/ideas/bags/ideas/tiddlers.wiki'>as a tiddlywiki</a>
+user stories can be found here on <a href='http://osnet.osmosoft.com/recipes/ideas/tiddlers.wiki'>osnet</a>
+{% endblock%}
