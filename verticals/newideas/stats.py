@@ -161,7 +161,6 @@ def stat_increment(environ):
 def operate_on_stats(environ,start_response):
   start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8'),('Location',environ.get('HTTP_REFERER', '/'))])
   action = environ['wsgiorg.routing_args'][1]['action']
-  
   success = True
   if action == 'INCREMENT':
   	success = stat_increment(environ)
@@ -169,7 +168,29 @@ def operate_on_stats(environ,start_response):
   	success = stat_mode(environ)
   else:
     success = False
+    
+    
+  try:
+    username = environ['tiddlyweb.usersign']["name"]
+    if username =='GUEST':
+      success = False
+  except KeyError:
+    success = False
   if success:
+    store = environ['tiddlyweb.store']
+    tiddler = store.get(Tiddler(username,"profiles"))
+    try:
+      votedon = tiddler.fields["votes"]
+    except KeyError:
+      votedon = False
+    
+    if not votedon:
+      votedon = username
+    else:
+      votedon += ",%s"%username
+      
+    tiddler.fields["votes"] = votedon
+    store.put(tiddler)
     return "OK"
   else:
     return "FAIL"
