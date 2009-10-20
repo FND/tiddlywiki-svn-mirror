@@ -4,4 +4,8 @@
 <h1>{{ profile.title }}</h1>
 <p>{{profile.text}}</p>
 tagged with: {% for tag in profile.tags %}{{tag}}{% endfor %}{% if profile.tags|length == 0%}no tags{%endif%}
+<h1>Ideas</h1>
+<ul>
+{% for idea in tiddlers %}{%if idea.modifier==profile.title%}<li>{{idea.title}}</li>{%endif%}{% endfor %}{% if tiddlers|length == 1%}no ideas{%endif%}
+</ul>
 {% endblock %}

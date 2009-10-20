@@ -46,7 +46,7 @@ def get_nice_references_to_tiddlers(tiddlers,sort=False):
 
 def generate_template(template,tiddlers,environ):
     result = get_nice_references_to_tiddlers(tiddlers)
-    return template.generate(config=config,tiddlers=result['tiddlers'],twquery=environ['tiddlyweb.query'],twconfig=environ['tiddlyweb.config'],withfield = result["fields"],withtitle=result["titles"],withtag=result["tags"])
+    return template.generate(config=config,tiddlers=result['tiddlers'],twquery=environ['tiddlyweb.query'],inbag=result['bag'],twconfig=environ['tiddlyweb.config'],withfield = result["fields"],withtitle=result["titles"],withtag=result["tags"])
 
 def list_ideas(environ,start_response):
   start_response('200 OK', [
@@ -55,7 +55,7 @@ def list_ideas(environ,start_response):
   # load up the template from disk
   bag = Bag("ideas")
   store = environ['tiddlyweb.store']
-  bag =store.get(bag)
+  bag = store.get(bag)
   tiddlers = control.get_tiddlers_from_bag(bag)
   
   template = template_env.get_template('listideas.html')
@@ -102,16 +102,22 @@ def get_profile(environ,start_response):
   start_response('200 OK', [
       ('Content-Type', 'text/html; charset=utf-8')
       ])          
-  user_id = environ['wsgiorg.routing_args'][1]['id']
-  # load up the template from disk
-  bag = Bag("profiles")
   store = environ['tiddlyweb.store']
-  bag =store.get(bag)
-  # tiddlers = control.get_tiddlers_from_bag(bag)
+  bag = Bag("profiles")
+  bag = store.get(bag)
   user_id = environ['wsgiorg.routing_args'][1]['id']
-  tiddlers = [store.get(Tiddler(user_id, "profiles"))]
+  user_tiddlers = [store.get(Tiddler(user_id, "profiles"))]
+  all_tiddlers = []
+  for t in user_tiddlers:
+    all_tiddlers.append(t)
+
+  bag = Bag("ideas")
+  bag = store.get(bag)
+  idea_tiddlers = control.get_tiddlers_from_bag(bag)
+  for t in idea_tiddlers:
+    all_tiddlers.append(t)
   template = template_env.get_template('profile.html')
-  return generate_template(template,tiddlers,environ)
+  return generate_template(template,all_tiddlers,environ)
  
 def init(config_in):
     global config
