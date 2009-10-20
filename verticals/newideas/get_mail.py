@@ -64,21 +64,40 @@ def getmail(args):
     text = body
     #process the email
     store = get_store(config)
-    import uuid
-    title = "%s"%uuid.uuid1()
-    tiddler = Tiddler(title,bag)
+   
+    title = "%s"%subject
+    x = 0
+    try:
+      tiddler = store.get(Tiddler(title,bag))
+      while tiddler:
+        newtiddler = tiddler
+        try:
+          
+          newtitle = "%s_%s"%(title,x)
+          print "trying %s"%newtitle
+          newtiddler = store.get(Tiddler(newtitle,bag))
+        except NoTiddlerError:
+          tiddler = False
+        x += 1
+      tiddler = newtiddler
+      tiddler.title = newtitle
+    except NoTiddlerError:
+      tiddler = Tiddler(title,bag)
+      pass
+      
     tiddler.text = text
     tiddler.fields["from"] = masked_email
     tiddler.fields["subject"] = subject
     
     
+    print "putting to %s"%tiddler.title
     tiddler = store.put(tiddler)
     if len(args) > 1:
       url = "%s://%s%s"%(config['server_host']['scheme'],config['server_host']['host'],config['server_prefix'])
       import sendmail
       sendmail.sendit(from_email,"Thanks for using TiddlyWeb getmail plugin","Your tiddler has been created and you can view it at %s/bags/%s/tiddlers/%s.txt"%(url,bag,title))
     #delete the email
-    session.dele(i)
+    #session.dele(i)
   session.quit()
   
   
