@@ -32,6 +32,10 @@ Badges : <br/> {% for tag in profile.tags %}<span class='badge'>{{tag}}</span>{%
 </ul>
 {% endif %}
 
+<h1>Comments</h1>
+<ul>
+{% for comment in inbag['comments'] %}<li><a href="/ideas/idea/{{comment.fields.topic}}#{{comment.title}}">{{comment.fields.topic}}</a><br/>"{{comment.text}}"</li>{% endfor %}{% if inbag['comments']|length == 0%}no comments{%endif%}
+</ul>
 
 {% endblock %}
 

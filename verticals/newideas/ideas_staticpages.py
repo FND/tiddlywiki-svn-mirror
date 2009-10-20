@@ -140,6 +140,14 @@ def get_profile(environ,start_response):
   for t in idea_tiddlers:
     if t.modifier==user_id:
       all_tiddlers.append(t)
+
+  bag = Bag("comments")
+  bag = store.get(bag)
+  comment_tiddlers = control.get_tiddlers_from_bag(bag)
+  for t in comment_tiddlers:
+    if t.modifier==user_id:
+      all_tiddlers.append(t)
+
   template = template_env.get_template('profile.html')
   return generate_template(template,all_tiddlers,environ)
 
