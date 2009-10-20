@@ -99,7 +99,7 @@ def get_idea(environ,start_response):
   return generate_template(template,tiddlers,environ)
 
 def do_login(environ,start_response):
-  start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8'),('Location','/ideas/challenge/cookie_form?tiddlyweb_redirect='+environ['REQUEST_URI'])])
+  start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8'),('Location','/ideas/challenge/cookie_form?tiddlyweb_redirect='+environ['SCRIPT_NAME'])])
   return ""
 def get_profile(environ,start_response):
   try:
