@@ -111,25 +111,31 @@ CSSTimeline.prototype = {
         jQuery(this.holder).prepend("<div class='timeSpanner'></div><div class='clear_arrow'></div>");
         
         var w = jQuery(".timSpanner",this.holder).width();
-        console.log(this._range);
+        //console.log(this._range);
         for(var u = this._range.start; u < this._range.end; u++){
             var label = this.unit_to_label(u);
             jQuery(".timeSpanner",this.holder).append("<div class='unit'>"+label+"</div>");
         }
         
-        jQuery(".unit").css({"width":this.perunit});
+        jQuery(".unit").css({"width":this.perunit-1});
     }
     ,date_to_pixel: function(time){
         return (parseInt(time) - parseInt(this._range.start)) * this.perunit;
     }
     ,make_arrow: function(start,end,properties){
+        console.log("from",start,end,this.arrow_head_width);
+
+              
+        start = this.date_to_pixel(start);
+        end = this.date_to_pixel(end);
+        console.log("   ",start,end,this.perunit);
         var arrow_tail_width = (end-start) - this.arrow_head_width;
         var arrow_head_start = arrow_tail_width;
         if(arrow_tail_width < 0){
             arrow_tail_width = 0;
         }
 
-        jQuery(this.place).append("<div class='arrow'><div class='arrow_tail' style='width:"+arrow_tail_width+";'>"+properties.label+"</div><div class='arrow_head'></div></div>");
+        jQuery(this.place).append("<div class='arrow'><div class='arrow_tail'>"+properties.label+"</div><div class='arrow_head'></div></div>");
         
         var arrowheads =jQuery(".arrow_head",this.place);
         var arrows = jQuery(".arrow",this.place);
@@ -140,7 +146,7 @@ CSSTimeline.prototype = {
         
         this_arrowhead.css({left:arrow_head_start,top:-this.arrow_height*3/4});
         //console.log(properties.label,start,end,arrow_tail_width,this.arrow_tail_height);
-        this_arrow.css({left:start});
+        this_arrow.css({left:start,width:arrow_tail_width});
         
         jQuery(this_arrowhead).click(function(e){options.click(e,properties);});
         jQuery(this_arrowhead).mousemove(function(e){options.move(e,properties);});
@@ -160,21 +166,20 @@ CSSTimeline.prototype = {
                 
             }
             if(start_t && end_t){
-                console.log("make arrow from ", t,"to",t+1);
+                //console.log("make arrow from ", t,"to",t+1);
                 //console.log("make arrow from",start_t,end_t,t)
-                   var start = this.date_to_pixel(start_t);
-                    var end = this.date_to_pixel(end_t);
-                    this.make_arrow(start,end,properties);
+      
+                    this.make_arrow(start_t,end_t,properties);
             }
             else{
-                console.log("nothing to make from t",(t-1),t);
+                //console.log("nothing to make from t",(t-1),t);
             }
             start_t = end_t;
             
             t += 1;
-            console.log("t now",t)
+            //console.log("t now",t)
         }
-        console.log("exit loop");
+        //console.log("exit loop");
      
 
         jQuery(this.place).append("<div class='clear_arrow'></div>");

@@ -1,0 +1,9 @@
+modifier: None
+created: 20091020224758
+modified: 20091020224758
+type: None
+tags: Shadow
+title: GettingStarted
+
+
+<<VGraph parentFields:{{['tags']}} algorithm:radial lineWidth:0.4 excludeTags:{{['myblog','comment','minified','jonrobson','rssfeeds','excludelists','excludeLists','imagetag']}} ignoreLoneNodes:true>>

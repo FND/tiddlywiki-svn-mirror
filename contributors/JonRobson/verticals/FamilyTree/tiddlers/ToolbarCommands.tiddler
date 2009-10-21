@@ -1,0 +1,6 @@
+<div title="ToolbarCommands">
+<pre>
+|~ViewToolbar|closeTiddler addFather addMother addSpouse addChild +editTiddler > fields permalink|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|
+</pre>
+</div>

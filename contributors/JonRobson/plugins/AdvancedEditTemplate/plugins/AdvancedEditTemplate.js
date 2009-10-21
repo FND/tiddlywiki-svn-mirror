@@ -357,7 +357,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 	    	    var aet = this;
                 var handler = function(e){
 		            var newval = this.value;
-		            console.log(title,metaDataName,newval);
+		            //console.log(title,metaDataName,newval);
     		        aet.setMetaData(title,metaDataName,newval);
 		        }
 		        
@@ -712,7 +712,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		
 		,setMetaData: function(title,extField,extFieldVal){
 		   
-		    console.log("saving",title,extField,extFieldVal);
+		    //console.log("saving",title,extField,extFieldVal);
 			extField = extField.toLowerCase();
 			if(extFieldVal == "null") {
 				extFieldVal = "";
@@ -751,15 +751,15 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
                           
                         	$(input).datePicker({startDate: '01/01/1600'}).val(start).trigger('change');
                         	$(input).change(function(e){
-                        	    console.log(this.value,"before");
+                        	    //console.log(this.value,"before");
                         	    var dmy = this.value.split("/");
-                        	    console.log(dmy,"after");
+                        	    //console.log(dmy,"after");
                         	    var d = dmy[0];
                         	    var m = dmy[1];
                         	    var y = dmy[2];
                         	    if(d.length == 1) d= "0"+d;
                         	    if(m.length == 1) m= "0"+m;
-                        	    console.log(y,m,d,"togo");
+                        	    //console.log(y,m,d,"togo");
                         	    config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,y+m+d+"0000");
                         	
                         	});

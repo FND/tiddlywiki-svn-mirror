@@ -1,0 +1,3 @@
+tiddler: VGraph.tid
+recipe: $TW_TRUNKDIR/contributors/JonRobson/Library/Vismo/source/GraphAlgorithms/split.recipe
+recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/VismoLibrary/split.recipe

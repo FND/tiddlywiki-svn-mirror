@@ -394,7 +394,7 @@ VismoGraphRenderer.prototype = {
 
     ,plotLabel: function(node,pos,vismoShape){
         
-        if(!VismoOptimisations.inVisibleArea(this._canvas.getDomElement(),pos.x,pos.y,this._canvas.transformation)) return;
+        //if(!VismoOptimisations.inVisibleArea(this._canvas.getDomElement(),pos.x,pos.y,this._canvas.transformation)) return;
         
         var el = document.createElement("div");
         var props = node.properties;
